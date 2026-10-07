@@ -39,8 +39,14 @@
   },
   "output": null,
   "errors": {
+    "app_not_owned_by_manager_app": {
+      "desc": "The specified app is not managed by the calling manager app. A manager app can only set icons for apps that it originally created via apps.manifest.create."
+    },
     "error_bad_format": {
       "desc": "Icon must be a valid image file."
+    },
+    "internal_error": {
+      "desc": "Internal error."
     },
     "icon_not_accessible": {
       "desc": "The icon URL is not accessible or returned an error (e.g. 404 Not Found). Please verify the URL is publicly reachable and returns a valid image."

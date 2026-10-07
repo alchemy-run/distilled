@@ -1509,11 +1509,7 @@ export const ListAutoscalingV1HorizontalPodAutoscalerForAllNamespacesRequest =
       timeoutSeconds: S.optional(S.Number.pipe(T.Query())),
       watch: S.optional(S.Boolean.pipe(T.Query())),
     }).pipe(
-      T.Http({
-        method: "GET",
-        uri: "/apis/autoscaling/v1/horizontalpodautoscalers",
-        code: 200,
-      }),
+      T.Http({ method: "GET", uri: "/apis/autoscaling/v1/horizontalpodautoscalers", code: 200 }),
     ),
   ).annotate({
     identifier: "ListAutoscalingV1HorizontalPodAutoscalerForAllNamespacesRequest",
@@ -1645,11 +1641,7 @@ export const ListAutoscalingV2HorizontalPodAutoscalerForAllNamespacesRequest =
       timeoutSeconds: S.optional(S.Number.pipe(T.Query())),
       watch: S.optional(S.Boolean.pipe(T.Query())),
     }).pipe(
-      T.Http({
-        method: "GET",
-        uri: "/apis/autoscaling/v2/horizontalpodautoscalers",
-        code: 200,
-      }),
+      T.Http({ method: "GET", uri: "/apis/autoscaling/v2/horizontalpodautoscalers", code: 200 }),
     ),
   ).annotate({
     identifier: "ListAutoscalingV2HorizontalPodAutoscalerForAllNamespacesRequest",

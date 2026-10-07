@@ -43,9 +43,7 @@ export const CheckIsStarredRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     gist_id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/gists/{gist_id}/star", code: 200 })),
-).annotate({
-  identifier: "CheckIsStarredRequest",
-}) as any as S.Schema<CheckIsStarredRequest>;
+).annotate({ identifier: "CheckIsStarredRequest" }) as any as S.Schema<CheckIsStarredRequest>;
 
 export interface CheckIsStarredResponse {}
 export const CheckIsStarredResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -60,14 +58,10 @@ export const CreateRequestFilesValue = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     content: S.String,
   }),
-).annotate({
-  identifier: "CreateRequestFilesValue",
-}) as any as S.Schema<CreateRequestFilesValue>;
+).annotate({ identifier: "CreateRequestFilesValue" }) as any as S.Schema<CreateRequestFilesValue>;
 
 /** Names and content for the files that make up the gist */
-export type CreateRequestFilesMap = {
-  [key: string]: CreateRequestFilesValue | undefined;
-};
+export type CreateRequestFilesMap = { [key: string]: CreateRequestFilesValue | undefined };
 export const CreateRequestFilesMap = /*@__PURE__*/ S.Record(
   S.String,
   CreateRequestFilesValue,
@@ -212,9 +206,7 @@ export const GistSimpleForksItem = /*@__PURE__*/ S.suspend(() =>
     created_at: S.optional(S.String),
     updated_at: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GistSimpleForksItem",
-}) as any as S.Schema<GistSimpleForksItem>;
+).annotate({ identifier: "GistSimpleForksItem" }) as any as S.Schema<GistSimpleForksItem>;
 
 export type GistSimpleForksList = Array<GistSimpleForksItem>;
 export const GistSimpleForksList = /*@__PURE__*/ S.Array(
@@ -271,9 +263,7 @@ export const NullableSimpleUser = /*@__PURE__*/ S.suspend(() =>
     starred_at: S.optional(S.String),
     user_view_type: S.optional(S.String),
   }),
-).annotate({
-  identifier: "NullableSimpleUser",
-}) as any as S.Schema<NullableSimpleUser>;
+).annotate({ identifier: "NullableSimpleUser" }) as any as S.Schema<NullableSimpleUser>;
 
 export interface GistHistoryChangeStatus {
   total?: number;
@@ -286,9 +276,7 @@ export const GistHistoryChangeStatus = /*@__PURE__*/ S.suspend(() =>
     additions: S.optional(S.Number),
     deletions: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "GistHistoryChangeStatus",
-}) as any as S.Schema<GistHistoryChangeStatus>;
+).annotate({ identifier: "GistHistoryChangeStatus" }) as any as S.Schema<GistHistoryChangeStatus>;
 
 /** Gist History */
 export interface GistHistory {
@@ -332,9 +320,7 @@ export const GistSimpleForkOfFilesValue = /*@__PURE__*/ S.suspend(() =>
   identifier: "GistSimpleForkOfFilesValue",
 }) as any as S.Schema<GistSimpleForkOfFilesValue>;
 
-export type GistSimpleForkOfFilesMap = {
-  [key: string]: GistSimpleForkOfFilesValue | undefined;
-};
+export type GistSimpleForkOfFilesMap = { [key: string]: GistSimpleForkOfFilesValue | undefined };
 export const GistSimpleForkOfFilesMap = /*@__PURE__*/ S.Record(
   S.String,
   GistSimpleForkOfFilesValue,
@@ -398,9 +384,7 @@ export const GistSimpleForkOf = /*@__PURE__*/ S.suspend(() =>
     forks: S.optional(GistSimpleForkOfForksList),
     history: S.optional(GistSimpleForkOfHistoryList),
   }),
-).annotate({
-  identifier: "GistSimpleForkOf",
-}) as any as S.Schema<GistSimpleForkOf>;
+).annotate({ identifier: "GistSimpleForkOf" }) as any as S.Schema<GistSimpleForkOf>;
 
 export interface GistSimpleFilesValue {
   filename?: string;
@@ -424,13 +408,9 @@ export const GistSimpleFilesValue = /*@__PURE__*/ S.suspend(() =>
     content: S.optional(S.String),
     encoding: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GistSimpleFilesValue",
-}) as any as S.Schema<GistSimpleFilesValue>;
+).annotate({ identifier: "GistSimpleFilesValue" }) as any as S.Schema<GistSimpleFilesValue>;
 
-export type GistSimpleFilesMap = {
-  [key: string]: GistSimpleFilesValue | null | undefined;
-};
+export type GistSimpleFilesMap = { [key: string]: GistSimpleFilesValue | null | undefined };
 export const GistSimpleFilesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.NullOr(GistSimpleFilesValue),
@@ -504,9 +484,7 @@ export const CreateCommentRequest = /*@__PURE__*/ S.suspend(() =>
     gist_id: S.String.pipe(T.Label()),
     body: S.String,
   }).pipe(T.Http({ method: "POST", uri: "/gists/{gist_id}/comments", code: 200 })),
-).annotate({
-  identifier: "CreateCommentRequest",
-}) as any as S.Schema<CreateCommentRequest>;
+).annotate({ identifier: "CreateCommentRequest" }) as any as S.Schema<CreateCommentRequest>;
 
 /** How the author is associated with the repository. */
 export type AuthorAssociation =
@@ -570,16 +548,8 @@ export const DeleteCommentRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     gist_id: S.String.pipe(T.Label()),
     comment_id: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/gists/{gist_id}/comments/{comment_id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "DeleteCommentRequest",
-}) as any as S.Schema<DeleteCommentRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/gists/{gist_id}/comments/{comment_id}", code: 200 })),
+).annotate({ identifier: "DeleteCommentRequest" }) as any as S.Schema<DeleteCommentRequest>;
 
 export interface DeleteCommentResponse {}
 export const DeleteCommentResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -614,13 +584,9 @@ export const BaseGistFilesValue = /*@__PURE__*/ S.suspend(() =>
     size: S.optional(S.Number),
     encoding: S.optional(S.String),
   }),
-).annotate({
-  identifier: "BaseGistFilesValue",
-}) as any as S.Schema<BaseGistFilesValue>;
+).annotate({ identifier: "BaseGistFilesValue" }) as any as S.Schema<BaseGistFilesValue>;
 
-export type BaseGistFilesMap = {
-  [key: string]: BaseGistFilesValue | undefined;
-};
+export type BaseGistFilesMap = { [key: string]: BaseGistFilesValue | undefined };
 export const BaseGistFilesMap = /*@__PURE__*/ S.Record(
   S.String,
   BaseGistFilesValue,
@@ -706,16 +672,8 @@ export const GetCommentRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     gist_id: S.String.pipe(T.Label()),
     comment_id: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/gists/{gist_id}/comments/{comment_id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetCommentRequest",
-}) as any as S.Schema<GetCommentRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/gists/{gist_id}/comments/{comment_id}", code: 200 })),
+).annotate({ identifier: "GetCommentRequest" }) as any as S.Schema<GetCommentRequest>;
 
 export interface GetRevisionRequest {
   /** The unique identifier of the gist. */
@@ -727,9 +685,7 @@ export const GetRevisionRequest = /*@__PURE__*/ S.suspend(() =>
     gist_id: S.String.pipe(T.Label()),
     sha: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/gists/{gist_id}/{sha}", code: 200 })),
-).annotate({
-  identifier: "GetRevisionRequest",
-}) as any as S.Schema<GetRevisionRequest>;
+).annotate({ identifier: "GetRevisionRequest" }) as any as S.Schema<GetRevisionRequest>;
 
 export interface ListRequest {
   /** Only show results that were last updated after the given time. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
@@ -771,9 +727,7 @@ export const ListCommentsRequest = /*@__PURE__*/ S.suspend(() =>
     per_page: S.optional(S.Number.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/gists/{gist_id}/comments", code: 200 })),
-).annotate({
-  identifier: "ListCommentsRequest",
-}) as any as S.Schema<ListCommentsRequest>;
+).annotate({ identifier: "ListCommentsRequest" }) as any as S.Schema<ListCommentsRequest>;
 
 export type ListCommentsResponseBodyList = Array<GistComment>;
 export const ListCommentsResponseBodyList = /*@__PURE__*/ S.Array(
@@ -783,9 +737,7 @@ export const ListCommentsResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListCommentsResponse = ListCommentsResponseBodyList;
 export const ListCommentsResponse = /*@__PURE__*/ S.suspend(() =>
   ListCommentsResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListCommentsResponse",
-}) as any as S.Schema<ListCommentsResponse>;
+).annotate({ identifier: "ListCommentsResponse" }) as any as S.Schema<ListCommentsResponse>;
 
 export interface ListCommitsRequest {
   /** The unique identifier of the gist. */
@@ -801,9 +753,7 @@ export const ListCommitsRequest = /*@__PURE__*/ S.suspend(() =>
     per_page: S.optional(S.Number.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/gists/{gist_id}/commits", code: 200 })),
-).annotate({
-  identifier: "ListCommitsRequest",
-}) as any as S.Schema<ListCommitsRequest>;
+).annotate({ identifier: "ListCommitsRequest" }) as any as S.Schema<ListCommitsRequest>;
 
 export type GistCommitChangeStatus = GistHistoryChangeStatus;
 export const GistCommitChangeStatus = GistHistoryChangeStatus;
@@ -834,9 +784,7 @@ export const ListCommitsResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListCommitsResponse = ListCommitsResponseBodyList;
 export const ListCommitsResponse = /*@__PURE__*/ S.suspend(() =>
   ListCommitsResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListCommitsResponse",
-}) as any as S.Schema<ListCommitsResponse>;
+).annotate({ identifier: "ListCommitsResponse" }) as any as S.Schema<ListCommitsResponse>;
 
 export interface ListForksRequest {
   /** The unique identifier of the gist. */
@@ -852,9 +800,7 @@ export const ListForksRequest = /*@__PURE__*/ S.suspend(() =>
     per_page: S.optional(S.Number.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/gists/{gist_id}/forks", code: 200 })),
-).annotate({
-  identifier: "ListForksRequest",
-}) as any as S.Schema<ListForksRequest>;
+).annotate({ identifier: "ListForksRequest" }) as any as S.Schema<ListForksRequest>;
 
 export type ListForksResponseBodyList = Array<GistSimple>;
 export const ListForksResponseBodyList = /*@__PURE__*/ S.Array(
@@ -864,9 +810,7 @@ export const ListForksResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListForksResponse = ListForksResponseBodyList;
 export const ListForksResponse = /*@__PURE__*/ S.suspend(() =>
   ListForksResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListForksResponse",
-}) as any as S.Schema<ListForksResponse>;
+).annotate({ identifier: "ListForksResponse" }) as any as S.Schema<ListForksResponse>;
 
 export interface ListForUserRequest {
   /** The handle for the GitHub user account. */
@@ -885,9 +829,7 @@ export const ListForUserRequest = /*@__PURE__*/ S.suspend(() =>
     per_page: S.optional(S.Number.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/users/{username}/gists", code: 200 })),
-).annotate({
-  identifier: "ListForUserRequest",
-}) as any as S.Schema<ListForUserRequest>;
+).annotate({ identifier: "ListForUserRequest" }) as any as S.Schema<ListForUserRequest>;
 
 export type ListForUserResponseBodyList = Array<BaseGist>;
 export const ListForUserResponseBodyList = /*@__PURE__*/ S.Array(
@@ -897,9 +839,7 @@ export const ListForUserResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListForUserResponse = ListForUserResponseBodyList;
 export const ListForUserResponse = /*@__PURE__*/ S.suspend(() =>
   ListForUserResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListForUserResponse",
-}) as any as S.Schema<ListForUserResponse>;
+).annotate({ identifier: "ListForUserResponse" }) as any as S.Schema<ListForUserResponse>;
 
 export interface ListPublicRequest {
   /** Only show results that were last updated after the given time. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
@@ -915,9 +855,7 @@ export const ListPublicRequest = /*@__PURE__*/ S.suspend(() =>
     per_page: S.optional(S.Number.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/gists/public", code: 200 })),
-).annotate({
-  identifier: "ListPublicRequest",
-}) as any as S.Schema<ListPublicRequest>;
+).annotate({ identifier: "ListPublicRequest" }) as any as S.Schema<ListPublicRequest>;
 
 export type ListPublicResponseBodyList = Array<BaseGist>;
 export const ListPublicResponseBodyList = /*@__PURE__*/ S.Array(
@@ -927,9 +865,7 @@ export const ListPublicResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListPublicResponse = ListPublicResponseBodyList;
 export const ListPublicResponse = /*@__PURE__*/ S.suspend(() =>
   ListPublicResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListPublicResponse",
-}) as any as S.Schema<ListPublicResponse>;
+).annotate({ identifier: "ListPublicResponse" }) as any as S.Schema<ListPublicResponse>;
 
 export interface ListStarredRequest {
   /** Only show results that were last updated after the given time. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
@@ -945,9 +881,7 @@ export const ListStarredRequest = /*@__PURE__*/ S.suspend(() =>
     per_page: S.optional(S.Number.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/gists/starred", code: 200 })),
-).annotate({
-  identifier: "ListStarredRequest",
-}) as any as S.Schema<ListStarredRequest>;
+).annotate({ identifier: "ListStarredRequest" }) as any as S.Schema<ListStarredRequest>;
 
 export type ListStarredResponseBodyList = Array<BaseGist>;
 export const ListStarredResponseBodyList = /*@__PURE__*/ S.Array(
@@ -957,9 +891,7 @@ export const ListStarredResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListStarredResponse = ListStarredResponseBodyList;
 export const ListStarredResponse = /*@__PURE__*/ S.suspend(() =>
   ListStarredResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListStarredResponse",
-}) as any as S.Schema<ListStarredResponse>;
+).annotate({ identifier: "ListStarredResponse" }) as any as S.Schema<ListStarredResponse>;
 
 export interface StarRequest {
   /** The unique identifier of the gist. */
@@ -1002,14 +934,10 @@ export const UpdateRequestFilesValue = /*@__PURE__*/ S.suspend(() =>
     content: S.optional(S.String),
     filename: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "UpdateRequestFilesValue",
-}) as any as S.Schema<UpdateRequestFilesValue>;
+).annotate({ identifier: "UpdateRequestFilesValue" }) as any as S.Schema<UpdateRequestFilesValue>;
 
 /** The gist files to be updated, renamed, or deleted. Each `key` must match the current filename (including extension) of the targeted gist file. For example: `hello.py`. To delete a file, set the whole file to null. For example: `hello.py : null`. The file will also be deleted if the specified object does not contain at least one of `content` or `filename`. */
-export type UpdateRequestFilesMap = {
-  [key: string]: UpdateRequestFilesValue | null | undefined;
-};
+export type UpdateRequestFilesMap = { [key: string]: UpdateRequestFilesValue | null | undefined };
 export const UpdateRequestFilesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.NullOr(UpdateRequestFilesValue),
@@ -1044,16 +972,8 @@ export const UpdateCommentRequest = /*@__PURE__*/ S.suspend(() =>
     gist_id: S.String.pipe(T.Label()),
     comment_id: S.Number.pipe(T.Label()),
     body: S.String,
-  }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/gists/{gist_id}/comments/{comment_id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "UpdateCommentRequest",
-}) as any as S.Schema<UpdateCommentRequest>;
+  }).pipe(T.Http({ method: "PATCH", uri: "/gists/{gist_id}/comments/{comment_id}", code: 200 })),
+).annotate({ identifier: "UpdateCommentRequest" }) as any as S.Schema<UpdateCommentRequest>;
 
 export type CheckIsStarredError = Forbidden | NotFound | GithubOpError;
 /** Check if a gist is starred */

@@ -127,11 +127,7 @@ export const CheckPermissionsForDevcontainerRequest = /*@__PURE__*/ S.suspend(()
     ref: S.String.pipe(T.Query()),
     devcontainer_path: S.String.pipe(T.Query()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/codespaces/permissions_check",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/codespaces/permissions_check", code: 200 }),
   ),
 ).annotate({
   identifier: "CheckPermissionsForDevcontainerRequest",
@@ -157,13 +153,7 @@ export interface CodespaceMachinesForAuthenticatedUserRequest {
 export const CodespaceMachinesForAuthenticatedUserRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     codespace_name: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/user/codespaces/{codespace_name}/machines",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/user/codespaces/{codespace_name}/machines", code: 200 })),
 ).annotate({
   identifier: "CodespaceMachinesForAuthenticatedUserRequest",
 }) as any as S.Schema<CodespaceMachinesForAuthenticatedUserRequest>;
@@ -199,9 +189,7 @@ export const CodespaceMachine = /*@__PURE__*/ S.suspend(() =>
     cpus: S.Number,
     prebuild_availability: S.NullOr(CodespaceMachinePrebuildAvailability),
   }),
-).annotate({
-  identifier: "CodespaceMachine",
-}) as any as S.Schema<CodespaceMachine>;
+).annotate({ identifier: "CodespaceMachine" }) as any as S.Schema<CodespaceMachine>;
 
 export type CodespaceMachinesForAuthenticatedUserResponseMachinesList = Array<CodespaceMachine>;
 export const CodespaceMachinesForAuthenticatedUserResponseMachinesList = /*@__PURE__*/ S.Array(
@@ -458,9 +446,7 @@ export const MinimalRepositoryLicense = /*@__PURE__*/ S.suspend(() =>
     url: S.optional(S.NullOr(S.String)),
     node_id: S.optional(S.String),
   }),
-).annotate({
-  identifier: "MinimalRepositoryLicense",
-}) as any as S.Schema<MinimalRepositoryLicense>;
+).annotate({ identifier: "MinimalRepositoryLicense" }) as any as S.Schema<MinimalRepositoryLicense>;
 
 export type SecurityAndAnalysisAdvancedSecurityStatus = "enabled" | "disabled";
 export const SecurityAndAnalysisAdvancedSecurityStatus = S.String;
@@ -679,14 +665,10 @@ export const SecurityAndAnalysis = /*@__PURE__*/ S.suspend(() =>
       SecurityAndAnalysisSecretScanningDelegatedBypassOptions,
     ),
   }),
-).annotate({
-  identifier: "SecurityAndAnalysis",
-}) as any as S.Schema<SecurityAndAnalysis>;
+).annotate({ identifier: "SecurityAndAnalysis" }) as any as S.Schema<SecurityAndAnalysis>;
 
 /** The custom properties that were defined for the repository. The keys are the custom property names, and the values are the corresponding custom property values. */
-export type MinimalRepositoryCustomPropertiesMap = {
-  [key: string]: unknown | undefined;
-};
+export type MinimalRepositoryCustomPropertiesMap = { [key: string]: unknown | undefined };
 export const MinimalRepositoryCustomPropertiesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -881,9 +863,7 @@ export const MinimalRepository = /*@__PURE__*/ S.suspend(() =>
     security_and_analysis: S.optional(S.NullOr(SecurityAndAnalysis)),
     custom_properties: S.optional(MinimalRepositoryCustomPropertiesMap),
   }),
-).annotate({
-  identifier: "MinimalRepository",
-}) as any as S.Schema<MinimalRepository>;
+).annotate({ identifier: "MinimalRepository" }) as any as S.Schema<MinimalRepository>;
 
 /** Whether a prebuild is currently available when creating a codespace for this machine and repository. If a branch was not specified as a ref, the default branch will be assumed. Value will be "null" if prebuilds are not supported or prebuild availability could not be determined. Value will be "none" if no prebuild is available. Latest values "ready" and "in_progress" indicate the prebuild availability status. */
 export type NullableCodespaceMachinePrebuildAvailability = "none" | "ready" | "in_progress";
@@ -916,9 +896,7 @@ export const NullableCodespaceMachine = /*@__PURE__*/ S.suspend(() =>
     cpus: S.Number,
     prebuild_availability: S.NullOr(NullableCodespaceMachinePrebuildAvailability),
   }),
-).annotate({
-  identifier: "NullableCodespaceMachine",
-}) as any as S.Schema<NullableCodespaceMachine>;
+).annotate({ identifier: "NullableCodespaceMachine" }) as any as S.Schema<NullableCodespaceMachine>;
 
 /** State of this codespace. */
 export type CodespaceState =
@@ -962,9 +940,7 @@ export const CodespaceGitStatus = /*@__PURE__*/ S.suspend(() =>
     has_uncommitted_changes: S.optional(S.Boolean),
     ref: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CodespaceGitStatus",
-}) as any as S.Schema<CodespaceGitStatus>;
+).annotate({ identifier: "CodespaceGitStatus" }) as any as S.Schema<CodespaceGitStatus>;
 
 /** The initally assigned location of a new codespace. */
 export type CodespaceLocation = "EastUs" | "SouthEastAsia" | "WestEurope" | "WestUs2";
@@ -1123,11 +1099,7 @@ export const CreateOrUpdateOrgSecretRequest = /*@__PURE__*/ S.suspend(() =>
     visibility: CreateOrUpdateOrgSecretRequestVisibility,
     selected_repository_ids: S.optional(CreateOrUpdateOrgSecretRequestSelectedRepositoryIdsList),
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/orgs/{org}/codespaces/secrets/{secret_name}",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/orgs/{org}/codespaces/secrets/{secret_name}", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateOrUpdateOrgSecretRequest",
@@ -1209,13 +1181,7 @@ export const CreateOrUpdateSecretForAuthenticatedUserRequest = /*@__PURE__*/ S.s
     selected_repository_ids: S.optional(
       CreateOrUpdateSecretForAuthenticatedUserRequestSelectedRepositoryIdsList,
     ),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/user/codespaces/secrets/{secret_name}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/user/codespaces/secrets/{secret_name}", code: 200 })),
 ).annotate({
   identifier: "CreateOrUpdateSecretForAuthenticatedUserRequest",
 }) as any as S.Schema<CreateOrUpdateSecretForAuthenticatedUserRequest>;
@@ -1340,13 +1306,7 @@ export const CreateWithRepoForAuthenticatedUserRequest = /*@__PURE__*/ S.suspend
     idle_timeout_minutes: S.optional(S.Number),
     display_name: S.optional(S.String),
     retention_period_minutes: S.optional(S.Number),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/repos/{owner}/{repo}/codespaces",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/repos/{owner}/{repo}/codespaces", code: 200 })),
 ).annotate({
   identifier: "CreateWithRepoForAuthenticatedUserRequest",
 }) as any as S.Schema<CreateWithRepoForAuthenticatedUserRequest>;
@@ -1358,13 +1318,7 @@ export interface DeleteForAuthenticatedUserRequest {
 export const DeleteForAuthenticatedUserRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     codespace_name: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/user/codespaces/{codespace_name}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/user/codespaces/{codespace_name}", code: 200 })),
 ).annotate({
   identifier: "DeleteForAuthenticatedUserRequest",
 }) as any as S.Schema<DeleteForAuthenticatedUserRequest>;
@@ -1416,15 +1370,9 @@ export const DeleteOrgSecretRequest = /*@__PURE__*/ S.suspend(() =>
     org: S.String.pipe(T.Label()),
     secret_name: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/orgs/{org}/codespaces/secrets/{secret_name}",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/orgs/{org}/codespaces/secrets/{secret_name}", code: 200 }),
   ),
-).annotate({
-  identifier: "DeleteOrgSecretRequest",
-}) as any as S.Schema<DeleteOrgSecretRequest>;
+).annotate({ identifier: "DeleteOrgSecretRequest" }) as any as S.Schema<DeleteOrgSecretRequest>;
 
 export interface DeleteOrgSecretResponse {}
 export const DeleteOrgSecretResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1451,9 +1399,7 @@ export const DeleteRepoSecretRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "DeleteRepoSecretRequest",
-}) as any as S.Schema<DeleteRepoSecretRequest>;
+).annotate({ identifier: "DeleteRepoSecretRequest" }) as any as S.Schema<DeleteRepoSecretRequest>;
 
 export interface DeleteRepoSecretResponse {}
 export const DeleteRepoSecretResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1467,13 +1413,7 @@ export interface DeleteSecretForAuthenticatedUserRequest {
 export const DeleteSecretForAuthenticatedUserRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     secret_name: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/user/codespaces/secrets/{secret_name}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/user/codespaces/secrets/{secret_name}", code: 200 })),
 ).annotate({
   identifier: "DeleteSecretForAuthenticatedUserRequest",
 }) as any as S.Schema<DeleteSecretForAuthenticatedUserRequest>;
@@ -1492,13 +1432,7 @@ export interface ExportForAuthenticatedUserRequest {
 export const ExportForAuthenticatedUserRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     codespace_name: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/user/codespaces/{codespace_name}/exports",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/user/codespaces/{codespace_name}/exports", code: 200 })),
 ).annotate({
   identifier: "ExportForAuthenticatedUserRequest",
 }) as any as S.Schema<ExportForAuthenticatedUserRequest>;
@@ -1526,13 +1460,7 @@ export const GetCodespacesForUserInOrgRequest = /*@__PURE__*/ S.suspend(() =>
     username: S.String.pipe(T.Label()),
     per_page: S.optional(S.Number.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/orgs/{org}/members/{username}/codespaces",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/orgs/{org}/members/{username}/codespaces", code: 200 })),
 ).annotate({
   identifier: "GetCodespacesForUserInOrgRequest",
 }) as any as S.Schema<GetCodespacesForUserInOrgRequest>;
@@ -1603,9 +1531,7 @@ export const CodespaceExportDetails = /*@__PURE__*/ S.suspend(() =>
     export_url: S.optional(S.String),
     html_url: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "CodespaceExportDetails",
-}) as any as S.Schema<CodespaceExportDetails>;
+).annotate({ identifier: "CodespaceExportDetails" }) as any as S.Schema<CodespaceExportDetails>;
 
 export interface GetForAuthenticatedUserRequest {
   /** The name of the codespace. */
@@ -1614,13 +1540,7 @@ export interface GetForAuthenticatedUserRequest {
 export const GetForAuthenticatedUserRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     codespace_name: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/user/codespaces/{codespace_name}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/user/codespaces/{codespace_name}", code: 200 })),
 ).annotate({
   identifier: "GetForAuthenticatedUserRequest",
 }) as any as S.Schema<GetForAuthenticatedUserRequest>;
@@ -1632,16 +1552,8 @@ export interface GetOrgPublicKeyRequest {
 export const GetOrgPublicKeyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     org: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/orgs/{org}/codespaces/secrets/public-key",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetOrgPublicKeyRequest",
-}) as any as S.Schema<GetOrgPublicKeyRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/orgs/{org}/codespaces/secrets/public-key", code: 200 })),
+).annotate({ identifier: "GetOrgPublicKeyRequest" }) as any as S.Schema<GetOrgPublicKeyRequest>;
 
 /** The public key used for setting Codespaces secrets. */
 export interface CodespacesPublicKey {
@@ -1663,9 +1575,7 @@ export const CodespacesPublicKey = /*@__PURE__*/ S.suspend(() =>
     title: S.optional(S.String),
     created_at: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CodespacesPublicKey",
-}) as any as S.Schema<CodespacesPublicKey>;
+).annotate({ identifier: "CodespacesPublicKey" }) as any as S.Schema<CodespacesPublicKey>;
 
 export interface GetOrgSecretRequest {
   /** The organization name. The name is not case sensitive. */
@@ -1678,15 +1588,9 @@ export const GetOrgSecretRequest = /*@__PURE__*/ S.suspend(() =>
     org: S.String.pipe(T.Label()),
     secret_name: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/orgs/{org}/codespaces/secrets/{secret_name}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/orgs/{org}/codespaces/secrets/{secret_name}", code: 200 }),
   ),
-).annotate({
-  identifier: "GetOrgSecretRequest",
-}) as any as S.Schema<GetOrgSecretRequest>;
+).annotate({ identifier: "GetOrgSecretRequest" }) as any as S.Schema<GetOrgSecretRequest>;
 
 /** The type of repositories in the organization that the secret is visible to */
 export type CodespacesOrgSecretVisibility = "all" | "private" | "selected";
@@ -1713,18 +1617,12 @@ export const CodespacesOrgSecret = /*@__PURE__*/ S.suspend(() =>
     visibility: CodespacesOrgSecretVisibility,
     selected_repositories_url: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CodespacesOrgSecret",
-}) as any as S.Schema<CodespacesOrgSecret>;
+).annotate({ identifier: "CodespacesOrgSecret" }) as any as S.Schema<CodespacesOrgSecret>;
 
 export interface GetPublicKeyForAuthenticatedUserRequest {}
 export const GetPublicKeyForAuthenticatedUserRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/user/codespaces/secrets/public-key",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/user/codespaces/secrets/public-key", code: 200 }),
   ),
 ).annotate({
   identifier: "GetPublicKeyForAuthenticatedUserRequest",
@@ -1742,9 +1640,7 @@ export const CodespacesUserPublicKey = /*@__PURE__*/ S.suspend(() =>
     key_id: S.String,
     key: S.String,
   }),
-).annotate({
-  identifier: "CodespacesUserPublicKey",
-}) as any as S.Schema<CodespacesUserPublicKey>;
+).annotate({ identifier: "CodespacesUserPublicKey" }) as any as S.Schema<CodespacesUserPublicKey>;
 
 export interface GetRepoPublicKeyRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -1763,9 +1659,7 @@ export const GetRepoPublicKeyRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetRepoPublicKeyRequest",
-}) as any as S.Schema<GetRepoPublicKeyRequest>;
+).annotate({ identifier: "GetRepoPublicKeyRequest" }) as any as S.Schema<GetRepoPublicKeyRequest>;
 
 export interface GetRepoSecretRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -1787,9 +1681,7 @@ export const GetRepoSecretRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetRepoSecretRequest",
-}) as any as S.Schema<GetRepoSecretRequest>;
+).annotate({ identifier: "GetRepoSecretRequest" }) as any as S.Schema<GetRepoSecretRequest>;
 
 /** Set repository secrets for GitHub Codespaces. */
 export interface RepoCodespacesSecret {
@@ -1804,9 +1696,7 @@ export const RepoCodespacesSecret = /*@__PURE__*/ S.suspend(() =>
     created_at: S.String,
     updated_at: S.String,
   }),
-).annotate({
-  identifier: "RepoCodespacesSecret",
-}) as any as S.Schema<RepoCodespacesSecret>;
+).annotate({ identifier: "RepoCodespacesSecret" }) as any as S.Schema<RepoCodespacesSecret>;
 
 export interface GetSecretForAuthenticatedUserRequest {
   /** The name of the secret. */
@@ -1815,13 +1705,7 @@ export interface GetSecretForAuthenticatedUserRequest {
 export const GetSecretForAuthenticatedUserRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     secret_name: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/user/codespaces/secrets/{secret_name}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/user/codespaces/secrets/{secret_name}", code: 200 })),
 ).annotate({
   identifier: "GetSecretForAuthenticatedUserRequest",
 }) as any as S.Schema<GetSecretForAuthenticatedUserRequest>;
@@ -1851,9 +1735,7 @@ export const CodespacesSecret = /*@__PURE__*/ S.suspend(() =>
     visibility: CodespacesSecretVisibility,
     selected_repositories_url: S.String,
   }),
-).annotate({
-  identifier: "CodespacesSecret",
-}) as any as S.Schema<CodespacesSecret>;
+).annotate({ identifier: "CodespacesSecret" }) as any as S.Schema<CodespacesSecret>;
 
 export interface ListDevcontainersInRepositoryForAuthenticatedUserRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -1873,11 +1755,7 @@ export const ListDevcontainersInRepositoryForAuthenticatedUserRequest = /*@__PUR
       per_page: S.optional(S.Number.pipe(T.Query())),
       page: S.optional(S.Number.pipe(T.Query())),
     }).pipe(
-      T.Http({
-        method: "GET",
-        uri: "/repos/{owner}/{repo}/codespaces/devcontainers",
-        code: 200,
-      }),
+      T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/codespaces/devcontainers", code: 200 }),
     ),
 ).annotate({
   identifier: "ListDevcontainersInRepositoryForAuthenticatedUserRequest",
@@ -2008,13 +1886,7 @@ export const ListInRepositoryForAuthenticatedUserRequest = /*@__PURE__*/ S.suspe
     repo: S.String.pipe(T.Label()),
     per_page: S.optional(S.Number.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/codespaces",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/codespaces", code: 200 })),
 ).annotate({
   identifier: "ListInRepositoryForAuthenticatedUserRequest",
 }) as any as S.Schema<ListInRepositoryForAuthenticatedUserRequest>;
@@ -2051,9 +1923,7 @@ export const ListOrgSecretsRequest = /*@__PURE__*/ S.suspend(() =>
     per_page: S.optional(S.Number.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/orgs/{org}/codespaces/secrets", code: 200 })),
-).annotate({
-  identifier: "ListOrgSecretsRequest",
-}) as any as S.Schema<ListOrgSecretsRequest>;
+).annotate({ identifier: "ListOrgSecretsRequest" }) as any as S.Schema<ListOrgSecretsRequest>;
 
 export type ListOrgSecretsResponseSecretsList = Array<CodespacesOrgSecret>;
 export const ListOrgSecretsResponseSecretsList = /*@__PURE__*/ S.Array(
@@ -2069,9 +1939,7 @@ export const ListOrgSecretsResponse = /*@__PURE__*/ S.suspend(() =>
     total_count: S.Number,
     secrets: ListOrgSecretsResponseSecretsList,
   }),
-).annotate({
-  identifier: "ListOrgSecretsResponse",
-}) as any as S.Schema<ListOrgSecretsResponse>;
+).annotate({ identifier: "ListOrgSecretsResponse" }) as any as S.Schema<ListOrgSecretsResponse>;
 
 export interface ListRepoSecretsRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -2089,16 +1957,8 @@ export const ListRepoSecretsRequest = /*@__PURE__*/ S.suspend(() =>
     repo: S.String.pipe(T.Label()),
     per_page: S.optional(S.Number.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/codespaces/secrets",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ListRepoSecretsRequest",
-}) as any as S.Schema<ListRepoSecretsRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/codespaces/secrets", code: 200 })),
+).annotate({ identifier: "ListRepoSecretsRequest" }) as any as S.Schema<ListRepoSecretsRequest>;
 
 export type ListRepoSecretsResponseSecretsList = Array<RepoCodespacesSecret>;
 export const ListRepoSecretsResponseSecretsList = /*@__PURE__*/ S.Array(
@@ -2114,9 +1974,7 @@ export const ListRepoSecretsResponse = /*@__PURE__*/ S.suspend(() =>
     total_count: S.Number,
     secrets: ListRepoSecretsResponseSecretsList,
   }),
-).annotate({
-  identifier: "ListRepoSecretsResponse",
-}) as any as S.Schema<ListRepoSecretsResponse>;
+).annotate({ identifier: "ListRepoSecretsResponse" }) as any as S.Schema<ListRepoSecretsResponse>;
 
 export interface ListRepositoriesForSecretForAuthenticatedUserRequest {
   /** The name of the secret. */
@@ -2250,13 +2108,7 @@ export const PreFlightWithRepoForAuthenticatedUserRequest = /*@__PURE__*/ S.susp
     repo: S.String.pipe(T.Label()),
     ref: S.optional(S.String.pipe(T.Query())),
     client_ip: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/codespaces/new",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/codespaces/new", code: 200 })),
 ).annotate({
   identifier: "PreFlightWithRepoForAuthenticatedUserRequest",
 }) as any as S.Schema<PreFlightWithRepoForAuthenticatedUserRequest>;
@@ -2300,13 +2152,7 @@ export const PublishForAuthenticatedUserRequest = /*@__PURE__*/ S.suspend(() =>
     codespace_name: S.String.pipe(T.Label()),
     name: S.optional(S.String),
     private: S.optional(S.Boolean),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/user/codespaces/{codespace_name}/publish",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/user/codespaces/{codespace_name}/publish", code: 200 })),
 ).annotate({
   identifier: "PublishForAuthenticatedUserRequest",
 }) as any as S.Schema<PublishForAuthenticatedUserRequest>;
@@ -2357,9 +2203,7 @@ export const NullableLicenseSimple = /*@__PURE__*/ S.suspend(() =>
     node_id: S.String,
     html_url: S.optional(S.String),
   }),
-).annotate({
-  identifier: "NullableLicenseSimple",
-}) as any as S.Schema<NullableLicenseSimple>;
+).annotate({ identifier: "NullableLicenseSimple" }) as any as S.Schema<NullableLicenseSimple>;
 
 export interface NullableRepositoryPermissions {
   admin: boolean;
@@ -2652,9 +2496,7 @@ export const NullableRepository = /*@__PURE__*/ S.suspend(() =>
     anonymous_access_enabled: S.optional(S.Boolean),
     code_search_index_status: S.optional(NullableRepositoryCodeSearchIndexStatus),
   }),
-).annotate({
-  identifier: "NullableRepository",
-}) as any as S.Schema<NullableRepository>;
+).annotate({ identifier: "NullableRepository" }) as any as S.Schema<NullableRepository>;
 
 /** The default value for a squash merge commit title: - `PR_TITLE` - default to the pull request's title. - `COMMIT_OR_PR_TITLE` - default to the commit's title (if only one commit) or the pull request's title (when more than one commit). */
 export type FullRepositorySquashMergeCommitTitle = "PR_TITLE" | "COMMIT_OR_PR_TITLE";
@@ -2957,14 +2799,10 @@ export const CodeOfConductSimple = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     html_url: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "CodeOfConductSimple",
-}) as any as S.Schema<CodeOfConductSimple>;
+).annotate({ identifier: "CodeOfConductSimple" }) as any as S.Schema<CodeOfConductSimple>;
 
 /** The custom properties that were defined for the repository. The keys are the custom property names, and the values are the corresponding custom property values. */
-export type FullRepositoryCustomPropertiesMap = {
-  [key: string]: unknown | undefined;
-};
+export type FullRepositoryCustomPropertiesMap = { [key: string]: unknown | undefined };
 export const FullRepositoryCustomPropertiesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -3428,13 +3266,7 @@ export const RepoMachinesForAuthenticatedUserRequest = /*@__PURE__*/ S.suspend((
     location: S.optional(S.String.pipe(T.Query())),
     client_ip: S.optional(S.String.pipe(T.Query())),
     ref: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/codespaces/machines",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/codespaces/machines", code: 200 })),
 ).annotate({
   identifier: "RepoMachinesForAuthenticatedUserRequest",
 }) as any as S.Schema<RepoMachinesForAuthenticatedUserRequest>;
@@ -3538,13 +3370,7 @@ export interface StartForAuthenticatedUserRequest {
 export const StartForAuthenticatedUserRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     codespace_name: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/user/codespaces/{codespace_name}/start",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/user/codespaces/{codespace_name}/start", code: 200 })),
 ).annotate({
   identifier: "StartForAuthenticatedUserRequest",
 }) as any as S.Schema<StartForAuthenticatedUserRequest>;
@@ -3556,13 +3382,7 @@ export interface StopForAuthenticatedUserRequest {
 export const StopForAuthenticatedUserRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     codespace_name: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/user/codespaces/{codespace_name}/stop",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/user/codespaces/{codespace_name}/stop", code: 200 })),
 ).annotate({
   identifier: "StopForAuthenticatedUserRequest",
 }) as any as S.Schema<StopForAuthenticatedUserRequest>;
@@ -3613,13 +3433,7 @@ export const UpdateForAuthenticatedUserRequest = /*@__PURE__*/ S.suspend(() =>
     machine: S.optional(S.String),
     display_name: S.optional(S.String),
     recent_folders: S.optional(UpdateForAuthenticatedUserRequestRecentFoldersList),
-  }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/user/codespaces/{codespace_name}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PATCH", uri: "/user/codespaces/{codespace_name}", code: 200 })),
 ).annotate({
   identifier: "UpdateForAuthenticatedUserRequest",
 }) as any as S.Schema<UpdateForAuthenticatedUserRequest>;

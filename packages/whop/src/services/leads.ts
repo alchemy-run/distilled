@@ -46,9 +46,7 @@ export class UnprocessableEntity
   ) {}
 
 /** A JSON object of custom metadata to attach to the lead for tracking purposes. */
-export type CreateLeadRequestMetadataMap = {
-  [key: string]: unknown | undefined;
-};
+export type CreateLeadRequestMetadataMap = { [key: string]: unknown | undefined };
 export const CreateLeadRequestMetadataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -74,9 +72,7 @@ export const CreateLeadRequest = /*@__PURE__*/ S.suspend(() =>
     referrer: S.optional(S.NullOr(S.String)),
     user_id: S.optional(S.NullOr(S.String)),
   }).pipe(T.Http({ method: "POST", uri: "/leads", code: 200 })),
-).annotate({
-  identifier: "CreateLeadRequest",
-}) as any as S.Schema<CreateLeadRequest>;
+).annotate({ identifier: "CreateLeadRequest" }) as any as S.Schema<CreateLeadRequest>;
 
 /** The company member record if this lead has converted into a paying customer. Null if the lead has not converted. */
 export interface LeadMember {
@@ -199,9 +195,7 @@ export const ListLeadRequest = /*@__PURE__*/ S.suspend(() =>
     created_before: S.optional(S.String.pipe(T.Query())),
     product_ids: S.optional(ListLeadRequestProductIdsList.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/leads", code: 200 })),
-).annotate({
-  identifier: "ListLeadRequest",
-}) as any as S.Schema<ListLeadRequest>;
+).annotate({ identifier: "ListLeadRequest" }) as any as S.Schema<ListLeadRequest>;
 
 /** The company member record if this lead has converted into a paying customer. Null if the lead has not converted. */
 export type LeadListItemMember = LeadMember;
@@ -291,14 +285,10 @@ export const ListLeadResponse = /*@__PURE__*/ S.suspend(() =>
     data: ListLeadResponseDataList,
     page_info: PageInfo,
   }),
-).annotate({
-  identifier: "ListLeadResponse",
-}) as any as S.Schema<ListLeadResponse>;
+).annotate({ identifier: "ListLeadResponse" }) as any as S.Schema<ListLeadResponse>;
 
 /** A JSON object of custom metadata to set on the lead, replacing any existing metadata. */
-export type UpdateLeadRequestMetadataMap = {
-  [key: string]: unknown | undefined;
-};
+export type UpdateLeadRequestMetadataMap = { [key: string]: unknown | undefined };
 export const UpdateLeadRequestMetadataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -318,9 +308,7 @@ export const UpdateLeadRequest = /*@__PURE__*/ S.suspend(() =>
     metadata: S.optional(S.NullOr(UpdateLeadRequestMetadataMap)),
     referrer: S.optional(S.NullOr(S.String)),
   }).pipe(T.Http({ method: "PATCH", uri: "/leads/{id}", code: 200 })),
-).annotate({
-  identifier: "UpdateLeadRequest",
-}) as any as S.Schema<UpdateLeadRequest>;
+).annotate({ identifier: "UpdateLeadRequest" }) as any as S.Schema<UpdateLeadRequest>;
 
 export type CreateLeadError = BadRequest | Forbidden | NotFound | UnprocessableEntity | WhopOpError;
 /** Create lead [Legacy API — https://docs.whop.com/api-reference] Record a new lead for a company, capturing a potential customer's interest in a specific product. Required permissions: - `lead:manage` - `member:email:read` - `access_pass:basic:read` - `member:basic:read` */

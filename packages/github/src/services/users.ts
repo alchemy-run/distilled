@@ -170,9 +170,7 @@ export const CheckBlockedRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     username: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/user/blocks/{username}", code: 200 })),
-).annotate({
-  identifier: "CheckBlockedRequest",
-}) as any as S.Schema<CheckBlockedRequest>;
+).annotate({ identifier: "CheckBlockedRequest" }) as any as S.Schema<CheckBlockedRequest>;
 
 export interface CheckBlockedResponse {}
 export const CheckBlockedResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -188,13 +186,7 @@ export const CheckFollowingForUserRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     username: S.String.pipe(T.Label()),
     target_user: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/users/{username}/following/{target_user}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/users/{username}/following/{target_user}", code: 200 })),
 ).annotate({
   identifier: "CheckFollowingForUserRequest",
 }) as any as S.Schema<CheckFollowingForUserRequest>;
@@ -247,9 +239,7 @@ export const GpgKeyEmailsItem = /*@__PURE__*/ S.suspend(() =>
     email: S.optional(S.String),
     verified: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "GpgKeyEmailsItem",
-}) as any as S.Schema<GpgKeyEmailsItem>;
+).annotate({ identifier: "GpgKeyEmailsItem" }) as any as S.Schema<GpgKeyEmailsItem>;
 
 export type GpgKeyEmailsList = Array<GpgKeyEmailsItem>;
 export const GpgKeyEmailsList = /*@__PURE__*/ S.Array(
@@ -302,9 +292,7 @@ export const GpgKeySubkeysItem = /*@__PURE__*/ S.suspend(() =>
     raw_key: S.optional(S.NullOr(S.String)),
     revoked: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "GpgKeySubkeysItem",
-}) as any as S.Schema<GpgKeySubkeysItem>;
+).annotate({ identifier: "GpgKeySubkeysItem" }) as any as S.Schema<GpgKeySubkeysItem>;
 
 export type GpgKeySubkeysList = Array<GpgKeySubkeysItem>;
 export const GpgKeySubkeysList = /*@__PURE__*/ S.Array(
@@ -472,11 +460,7 @@ export const DeleteAttestationsBulkRequest = /*@__PURE__*/ S.suspend(() =>
     username: S.String.pipe(T.Label()),
     body: DeleteAttestationsBulkRequestBody.pipe(T.HttpBody()),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/users/{username}/attestations/delete-request",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/users/{username}/attestations/delete-request", code: 200 }),
   ),
 ).annotate({
   identifier: "DeleteAttestationsBulkRequest",
@@ -498,11 +482,7 @@ export const DeleteAttestationsByIdRequest = /*@__PURE__*/ S.suspend(() =>
     username: S.String.pipe(T.Label()),
     attestation_id: S.Number.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/users/{username}/attestations/{attestation_id}",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/users/{username}/attestations/{attestation_id}", code: 200 }),
   ),
 ).annotate({
   identifier: "DeleteAttestationsByIdRequest",
@@ -597,13 +577,7 @@ export interface DeleteGpgKeyForAuthenticatedUserRequest {
 export const DeleteGpgKeyForAuthenticatedUserRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     gpg_key_id: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/user/gpg_keys/{gpg_key_id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/user/gpg_keys/{gpg_key_id}", code: 200 })),
 ).annotate({
   identifier: "DeleteGpgKeyForAuthenticatedUserRequest",
 }) as any as S.Schema<DeleteGpgKeyForAuthenticatedUserRequest>;
@@ -667,11 +641,7 @@ export const DeleteSshSigningKeyForAuthenticatedUserRequest = /*@__PURE__*/ S.su
   S.Struct({
     ssh_signing_key_id: S.Number.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/user/ssh_signing_keys/{ssh_signing_key_id}",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/user/ssh_signing_keys/{ssh_signing_key_id}", code: 200 }),
   ),
 ).annotate({
   identifier: "DeleteSshSigningKeyForAuthenticatedUserRequest",
@@ -702,9 +672,7 @@ export const FollowResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annota
 export interface GetAuthenticatedRequest {}
 export const GetAuthenticatedRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/user", code: 200 })),
-).annotate({
-  identifier: "GetAuthenticatedRequest",
-}) as any as S.Schema<GetAuthenticatedRequest>;
+).annotate({ identifier: "GetAuthenticatedRequest" }) as any as S.Schema<GetAuthenticatedRequest>;
 
 export interface PrivateUserPlan {
   collaborators: number;
@@ -719,9 +687,7 @@ export const PrivateUserPlan = /*@__PURE__*/ S.suspend(() =>
     space: S.Number,
     private_repos: S.Number,
   }),
-).annotate({
-  identifier: "PrivateUserPlan",
-}) as any as S.Schema<PrivateUserPlan>;
+).annotate({ identifier: "PrivateUserPlan" }) as any as S.Schema<PrivateUserPlan>;
 
 /** Private User */
 export interface PrivateUser {
@@ -915,9 +881,7 @@ export const GetAuthenticatedResponseBody =
 export type GetAuthenticatedResponse = GetAuthenticatedResponseBody;
 export const GetAuthenticatedResponse = /*@__PURE__*/ S.suspend(() =>
   GetAuthenticatedResponseBody.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "GetAuthenticatedResponse",
-}) as any as S.Schema<GetAuthenticatedResponse>;
+).annotate({ identifier: "GetAuthenticatedResponse" }) as any as S.Schema<GetAuthenticatedResponse>;
 
 export interface GetByIdRequest {
   /** account_id parameter */
@@ -935,9 +899,7 @@ export const GetByIdResponseBody = S.Unknown as any as S.Schema<GetByIdResponseB
 export type GetByIdResponse = GetByIdResponseBody;
 export const GetByIdResponse = /*@__PURE__*/ S.suspend(() =>
   GetByIdResponseBody.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "GetByIdResponse",
-}) as any as S.Schema<GetByIdResponse>;
+).annotate({ identifier: "GetByIdResponse" }) as any as S.Schema<GetByIdResponse>;
 
 export interface GetByUsernameRequest {
   /** The handle for the GitHub user account. */
@@ -947,9 +909,7 @@ export const GetByUsernameRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     username: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/users/{username}", code: 200 })),
-).annotate({
-  identifier: "GetByUsernameRequest",
-}) as any as S.Schema<GetByUsernameRequest>;
+).annotate({ identifier: "GetByUsernameRequest" }) as any as S.Schema<GetByUsernameRequest>;
 
 export type GetByUsernameResponseBody = PrivateUser | PublicUser;
 export const GetByUsernameResponseBody = S.Unknown as any as S.Schema<GetByUsernameResponseBody>;
@@ -957,9 +917,7 @@ export const GetByUsernameResponseBody = S.Unknown as any as S.Schema<GetByUsern
 export type GetByUsernameResponse = GetByUsernameResponseBody;
 export const GetByUsernameResponse = /*@__PURE__*/ S.suspend(() =>
   GetByUsernameResponseBody.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "GetByUsernameResponse",
-}) as any as S.Schema<GetByUsernameResponse>;
+).annotate({ identifier: "GetByUsernameResponse" }) as any as S.Schema<GetByUsernameResponse>;
 
 export type GetContextForUserRequestSubjectType =
   | "organization"
@@ -982,9 +940,7 @@ export const GetContextForUserRequest = /*@__PURE__*/ S.suspend(() =>
     subject_type: S.optional(GetContextForUserRequestSubjectType.pipe(T.Query())),
     subject_id: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/users/{username}/hovercard", code: 200 })),
-).annotate({
-  identifier: "GetContextForUserRequest",
-}) as any as S.Schema<GetContextForUserRequest>;
+).annotate({ identifier: "GetContextForUserRequest" }) as any as S.Schema<GetContextForUserRequest>;
 
 export interface HovercardContextsItem {
   message: string;
@@ -995,9 +951,7 @@ export const HovercardContextsItem = /*@__PURE__*/ S.suspend(() =>
     message: S.String,
     octicon: S.String,
   }),
-).annotate({
-  identifier: "HovercardContextsItem",
-}) as any as S.Schema<HovercardContextsItem>;
+).annotate({ identifier: "HovercardContextsItem" }) as any as S.Schema<HovercardContextsItem>;
 
 export type HovercardContextsList = Array<HovercardContextsItem>;
 export const HovercardContextsList = /*@__PURE__*/ S.Array(
@@ -1045,13 +999,7 @@ export interface GetSshSigningKeyForAuthenticatedUserRequest {
 export const GetSshSigningKeyForAuthenticatedUserRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ssh_signing_key_id: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/user/ssh_signing_keys/{ssh_signing_key_id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/user/ssh_signing_keys/{ssh_signing_key_id}", code: 200 })),
 ).annotate({
   identifier: "GetSshSigningKeyForAuthenticatedUserRequest",
 }) as any as S.Schema<GetSshSigningKeyForAuthenticatedUserRequest>;
@@ -1154,15 +1102,9 @@ export const ListAttestationsRequest = /*@__PURE__*/ S.suspend(() =>
     after: S.optional(S.String.pipe(T.Query())),
     predicate_type: S.optional(S.String.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/users/{username}/attestations/{subject_digest}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/users/{username}/attestations/{subject_digest}", code: 200 }),
   ),
-).annotate({
-  identifier: "ListAttestationsRequest",
-}) as any as S.Schema<ListAttestationsRequest>;
+).annotate({ identifier: "ListAttestationsRequest" }) as any as S.Schema<ListAttestationsRequest>;
 
 export type ListAttestationsResponseAttestationsItemBundleVerificationMaterialMap = {
   [key: string]: unknown | undefined;
@@ -1230,9 +1172,7 @@ export const ListAttestationsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     attestations: S.optional(ListAttestationsResponseAttestationsList),
   }),
-).annotate({
-  identifier: "ListAttestationsResponse",
-}) as any as S.Schema<ListAttestationsResponse>;
+).annotate({ identifier: "ListAttestationsResponse" }) as any as S.Schema<ListAttestationsResponse>;
 
 /** List of subject digests to fetch attestations for. */
 export type ListAttestationsBulkRequestSubjectDigestsList = Array<string>;
@@ -1262,13 +1202,7 @@ export const ListAttestationsBulkRequest = /*@__PURE__*/ S.suspend(() =>
     after: S.optional(S.String.pipe(T.Query())),
     subject_digests: ListAttestationsBulkRequestSubjectDigestsList,
     predicate_type: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/users/{username}/attestations/bulk-list",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/users/{username}/attestations/bulk-list", code: 200 })),
 ).annotate({
   identifier: "ListAttestationsBulkRequest",
 }) as any as S.Schema<ListAttestationsBulkRequest>;
@@ -1754,13 +1688,7 @@ export const ListSocialAccountsForUserRequest = /*@__PURE__*/ S.suspend(() =>
     username: S.String.pipe(T.Label()),
     per_page: S.optional(S.Number.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/users/{username}/social_accounts",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/users/{username}/social_accounts", code: 200 })),
 ).annotate({
   identifier: "ListSocialAccountsForUserRequest",
 }) as any as S.Schema<ListSocialAccountsForUserRequest>;
@@ -1818,13 +1746,7 @@ export const ListSshSigningKeysForUserRequest = /*@__PURE__*/ S.suspend(() =>
     username: S.String.pipe(T.Label()),
     per_page: S.optional(S.Number.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/users/{username}/ssh_signing_keys",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/users/{username}/ssh_signing_keys", code: 200 })),
 ).annotate({
   identifier: "ListSshSigningKeysForUserRequest",
 }) as any as S.Schema<ListSshSigningKeysForUserRequest>;
@@ -1893,9 +1815,7 @@ export const UnfollowRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     username: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "DELETE", uri: "/user/following/{username}", code: 200 })),
-).annotate({
-  identifier: "UnfollowRequest",
-}) as any as S.Schema<UnfollowRequest>;
+).annotate({ identifier: "UnfollowRequest" }) as any as S.Schema<UnfollowRequest>;
 
 export interface UnfollowResponse {}
 export const UnfollowResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({

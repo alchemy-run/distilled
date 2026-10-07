@@ -27,9 +27,7 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
-export type CreateCommandRequestParametersMap = {
-  [key: string]: string | undefined;
-};
+export type CreateCommandRequestParametersMap = { [key: string]: string | undefined };
 export const CreateCommandRequestParametersMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -60,9 +58,7 @@ export const CreateCommandRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://run-command.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "CreateCommandRequest",
-}) as any as S.Schema<CreateCommandRequest>;
+).annotate({ identifier: "CreateCommandRequest" }) as any as S.Schema<CreateCommandRequest>;
 
 export interface NewCommandResponse {
   id?: number;
@@ -71,9 +67,7 @@ export const NewCommandResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "NewCommandResponse",
-}) as any as S.Schema<NewCommandResponse>;
+).annotate({ identifier: "NewCommandResponse" }) as any as S.Schema<NewCommandResponse>;
 
 export interface GetCommandRequest {
   /** ID of the project */
@@ -99,12 +93,10 @@ export const GetCommandRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://run-command.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "GetCommandRequest",
-}) as any as S.Schema<GetCommandRequest>;
+).annotate({ identifier: "GetCommandRequest" }) as any as S.Schema<GetCommandRequest>;
 
 export type CommandDetailsStatus = "pending" | "running" | "completed" | "failed";
-export const CommandDetailsStatus = /*@__PURE__*/ S.String;
+export const CommandDetailsStatus = S.String;
 
 export interface CommandDetails {
   commandTemplateName?: string;
@@ -216,9 +208,7 @@ export const ParametersSchema = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     properties: S.optional(Properties),
   }),
-).annotate({
-  identifier: "ParametersSchema",
-}) as any as S.Schema<ParametersSchema>;
+).annotate({ identifier: "ParametersSchema" }) as any as S.Schema<ParametersSchema>;
 
 export interface CommandTemplateSchema {
   description?: string;
@@ -235,9 +225,7 @@ export const CommandTemplateSchema = /*@__PURE__*/ S.suspend(() =>
     parametersSchema: S.optional(ParametersSchema),
     title: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CommandTemplateSchema",
-}) as any as S.Schema<CommandTemplateSchema>;
+).annotate({ identifier: "CommandTemplateSchema" }) as any as S.Schema<CommandTemplateSchema>;
 
 export interface ListCommandsRequest {
   /** ID of the project */
@@ -260,12 +248,10 @@ export const ListCommandsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://run-command.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "ListCommandsRequest",
-}) as any as S.Schema<ListCommandsRequest>;
+).annotate({ identifier: "ListCommandsRequest" }) as any as S.Schema<ListCommandsRequest>;
 
 export type CommandsStatus = "pending" | "running" | "completed" | "failed";
-export const CommandsStatus = /*@__PURE__*/ S.String;
+export const CommandsStatus = S.String;
 
 export interface Commands {
   commandTemplateName?: string;
@@ -298,9 +284,7 @@ export const GetCommandsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     items: S.optional(GetCommandsResponseItemsList),
   }),
-).annotate({
-  identifier: "GetCommandsResponse",
-}) as any as S.Schema<GetCommandsResponse>;
+).annotate({ identifier: "GetCommandsResponse" }) as any as S.Schema<GetCommandsResponse>;
 
 export interface ListCommandTemplatesRequest {
   /** The type of the Operating System (windows or linux). If not provided will return data for all OS types. */
@@ -337,9 +321,7 @@ export const CommandTemplate = /*@__PURE__*/ S.suspend(() =>
     osType: S.optional(CommandTemplateOsTypeList),
     title: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CommandTemplate",
-}) as any as S.Schema<CommandTemplate>;
+).annotate({ identifier: "CommandTemplate" }) as any as S.Schema<CommandTemplate>;
 
 export type CommandTemplateResponseItemsList = Array<CommandTemplate>;
 export const CommandTemplateResponseItemsList = /*@__PURE__*/ S.Array(
@@ -353,9 +335,7 @@ export const CommandTemplateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     items: S.optional(CommandTemplateResponseItemsList),
   }),
-).annotate({
-  identifier: "CommandTemplateResponse",
-}) as any as S.Schema<CommandTemplateResponse>;
+).annotate({ identifier: "CommandTemplateResponse" }) as any as S.Schema<CommandTemplateResponse>;
 
 export type CreateCommandError = BadRequest | NotFound | StackitOpError;
 /** Creates a new command for execution */

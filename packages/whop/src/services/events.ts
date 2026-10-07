@@ -322,9 +322,7 @@ export const CreateEventRequestUser = /*@__PURE__*/ S.suspend(() =>
     user_id: S.optional(S.NullOr(S.String)),
     username: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "CreateEventRequestUser",
-}) as any as S.Schema<CreateEventRequestUser>;
+).annotate({ identifier: "CreateEventRequestUser" }) as any as S.Schema<CreateEventRequestUser>;
 
 export interface CreateEventRequest {
   /** The account to associate with this event. */
@@ -394,9 +392,7 @@ export const CreateEventRequest = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(S.NullOr(S.Number)),
     idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
   }).pipe(T.Http({ method: "POST", uri: "/events", code: 200 })),
-).annotate({
-  identifier: "CreateEventRequest",
-}) as any as S.Schema<CreateEventRequest>;
+).annotate({ identifier: "CreateEventRequest" }) as any as S.Schema<CreateEventRequest>;
 
 export interface CreateEventResponse {
   id: string;
@@ -405,9 +401,7 @@ export const CreateEventResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String,
   }),
-).annotate({
-  identifier: "CreateEventResponse",
-}) as any as S.Schema<CreateEventResponse>;
+).annotate({ identifier: "CreateEventResponse" }) as any as S.Schema<CreateEventResponse>;
 
 export interface GetPulseRequest {
   /** Filter to one or more types, comma separated — for example `purchase,card_spend`. These are the item's `type`, not its `event_name`: several types share the `ledger_line.created` event name. Omit for every type in the feed. Values outside the feed's own set are rejected. */
@@ -426,9 +420,7 @@ export const GetPulseRequest = /*@__PURE__*/ S.suspend(() =>
     after: S.optional(S.String.pipe(T.Query())),
     before: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/events/pulse", code: 200 })),
-).annotate({
-  identifier: "GetPulseRequest",
-}) as any as S.Schema<GetPulseRequest>;
+).annotate({ identifier: "GetPulseRequest" }) as any as S.Schema<GetPulseRequest>;
 
 /** The underlying event recorded. Every movement on this feed is a ledger line, so switch on `type` rather than this. */
 export type GetPulseResponseDataItemEventName = "ledger_line.created";
@@ -485,9 +477,7 @@ export const GetPulseResponseDataItem = /*@__PURE__*/ S.suspend(() =>
     type: GetPulseResponseDataItemType,
     user: S.optional(GetPulseResponseDataItemUser),
   }),
-).annotate({
-  identifier: "GetPulseResponseDataItem",
-}) as any as S.Schema<GetPulseResponseDataItem>;
+).annotate({ identifier: "GetPulseResponseDataItem" }) as any as S.Schema<GetPulseResponseDataItem>;
 
 /** Recent anonymized money-movement events, newest first. */
 export type GetPulseResponseDataList = Array<GetPulseResponseDataItem>;
@@ -508,9 +498,7 @@ export const GetPulseResponsePageInfo = /*@__PURE__*/ S.suspend(() =>
     has_previous_page: S.Boolean,
     start_cursor: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "GetPulseResponsePageInfo",
-}) as any as S.Schema<GetPulseResponsePageInfo>;
+).annotate({ identifier: "GetPulseResponsePageInfo" }) as any as S.Schema<GetPulseResponsePageInfo>;
 
 export interface GetPulseResponse {
   /** Recent anonymized money-movement events, newest first. */
@@ -522,9 +510,7 @@ export const GetPulseResponse = /*@__PURE__*/ S.suspend(() =>
     data: GetPulseResponseDataList,
     page_info: GetPulseResponsePageInfo,
   }),
-).annotate({
-  identifier: "GetPulseResponse",
-}) as any as S.Schema<GetPulseResponse>;
+).annotate({ identifier: "GetPulseResponse" }) as any as S.Schema<GetPulseResponse>;
 
 export type ListEventsRequestDirection = "asc" | "desc";
 export const ListEventsRequestDirection = S.String;
@@ -594,9 +580,7 @@ export const ListEventsRequest = /*@__PURE__*/ S.suspend(() =>
     hostname: S.optional(S.String.pipe(T.Query())),
     page: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/events", code: 200 })),
-).annotate({
-  identifier: "ListEventsRequest",
-}) as any as S.Schema<ListEventsRequest>;
+).annotate({ identifier: "ListEventsRequest" }) as any as S.Schema<ListEventsRequest>;
 
 /** How this event counts as an acquisition touch, using the same rule attribution credits a conversion with. `ad_click` and `lead_form` resolved to a Whop ad; `external_ad_click` is a paid click on a campaign run outside Whop; `referrer` is organic. Null when the event is not a touch. */
 export type ListEventsResponseDataItemContextSourceType =
@@ -968,9 +952,7 @@ export const ListEventsResponse = /*@__PURE__*/ S.suspend(() =>
     data: ListEventsResponseDataList,
     page_info: GetPulseResponsePageInfo,
   }),
-).annotate({
-  identifier: "ListEventsResponse",
-}) as any as S.Schema<ListEventsResponse>;
+).annotate({ identifier: "ListEventsResponse" }) as any as S.Schema<ListEventsResponse>;
 
 export interface ValidatePixelRequest {
   /** Account to check. Defaults to the authenticated account. */
@@ -986,9 +968,7 @@ export const ValidatePixelRequest = /*@__PURE__*/ S.suspend(() =>
     url: S.optional(S.String),
     idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
   }).pipe(T.Http({ method: "POST", uri: "/events/validate_pixel", code: 200 })),
-).annotate({
-  identifier: "ValidatePixelRequest",
-}) as any as S.Schema<ValidatePixelRequest>;
+).annotate({ identifier: "ValidatePixelRequest" }) as any as S.Schema<ValidatePixelRequest>;
 
 export type PixelValidationHostEventsList = Array<string>;
 export const PixelValidationHostEventsList = /*@__PURE__*/ S.Array(
@@ -1030,9 +1010,7 @@ export const PixelValidation = /*@__PURE__*/ S.suspend(() =>
     reachable: S.NullOr(S.Boolean),
     url: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "PixelValidation",
-}) as any as S.Schema<PixelValidation>;
+).annotate({ identifier: "PixelValidation" }) as any as S.Schema<PixelValidation>;
 
 export type CreateEventError = Conflict | WhopOpError;
 /** Create Event Tracks a conversion or engagement event for an account. */

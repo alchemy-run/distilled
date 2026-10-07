@@ -34,9 +34,7 @@ export const CreateSecretRequest = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(S.String),
     hosts: S.optional(CreateSecretRequestHostsList),
   }).pipe(T.Http({ method: "POST", uri: "/secret", code: 200 })),
-).annotate({
-  identifier: "CreateSecretRequest",
-}) as any as S.Schema<CreateSecretRequest>;
+).annotate({ identifier: "CreateSecretRequest" }) as any as S.Schema<CreateSecretRequest>;
 
 /** Allowed hosts this secret may be sent to */
 export type SecretHostsList = Array<string>;
@@ -81,9 +79,7 @@ export const DeleteSecretRequest = /*@__PURE__*/ S.suspend(() =>
     secretId: S.String.pipe(T.Label()),
     xDaytonaOrganizationID: S.optional(S.String.pipe(T.Header("X-Daytona-Organization-ID"))),
   }).pipe(T.Http({ method: "DELETE", uri: "/secret/{secretId}", code: 200 })),
-).annotate({
-  identifier: "DeleteSecretRequest",
-}) as any as S.Schema<DeleteSecretRequest>;
+).annotate({ identifier: "DeleteSecretRequest" }) as any as S.Schema<DeleteSecretRequest>;
 
 export interface DeleteSecretResponse {}
 export const DeleteSecretResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -101,9 +97,7 @@ export const GetSecretRequest = /*@__PURE__*/ S.suspend(() =>
     secretId: S.String.pipe(T.Label()),
     xDaytonaOrganizationID: S.optional(S.String.pipe(T.Header("X-Daytona-Organization-ID"))),
   }).pipe(T.Http({ method: "GET", uri: "/secret/{secretId}", code: 200 })),
-).annotate({
-  identifier: "GetSecretRequest",
-}) as any as S.Schema<GetSecretRequest>;
+).annotate({ identifier: "GetSecretRequest" }) as any as S.Schema<GetSecretRequest>;
 
 export type ListSecretsPaginatedRequestSort = "name" | "createdAt" | "updatedAt";
 export const ListSecretsPaginatedRequestSort = S.String;
@@ -158,9 +152,7 @@ export const ListSecretsResponse = /*@__PURE__*/ S.suspend(() =>
     total: S.Number,
     nextCursor: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "ListSecretsResponse",
-}) as any as S.Schema<ListSecretsResponse>;
+).annotate({ identifier: "ListSecretsResponse" }) as any as S.Schema<ListSecretsResponse>;
 
 /** Allowed hosts this secret may be sent to */
 export type UpdateSecretRequestHostsList = Array<string>;
@@ -188,9 +180,7 @@ export const UpdateSecretRequest = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(S.String),
     hosts: S.optional(UpdateSecretRequestHostsList),
   }).pipe(T.Http({ method: "PATCH", uri: "/secret/{secretId}", code: 200 })),
-).annotate({
-  identifier: "UpdateSecretRequest",
-}) as any as S.Schema<UpdateSecretRequest>;
+).annotate({ identifier: "UpdateSecretRequest" }) as any as S.Schema<UpdateSecretRequest>;
 
 export type CreateSecretError = DaytonaOpError;
 /** Create secret */

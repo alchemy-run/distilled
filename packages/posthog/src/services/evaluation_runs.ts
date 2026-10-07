@@ -30,28 +30,14 @@ export const CreateEvaluationRunRequest = /*@__PURE__*/ S.suspend(() =>
     event: S.optional(S.String),
     distinct_id: S.optional(S.NullOr(S.String)),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/projects/{project_id}/evaluation_runs/",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/api/projects/{project_id}/evaluation_runs/", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateEvaluationRunRequest",
 }) as any as S.Schema<CreateEvaluationRunRequest>;
 
-export type CreateEvaluationRunResponseBodyMap = {
-  [key: string]: unknown | undefined;
-};
-export const CreateEvaluationRunResponseBodyMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.Unknown,
-) as any as S.Schema<CreateEvaluationRunResponseBodyMap>;
-
-export type CreateEvaluationRunResponse = CreateEvaluationRunResponseBodyMap;
-export const CreateEvaluationRunResponse = /*@__PURE__*/ S.suspend(() =>
-  CreateEvaluationRunResponseBodyMap.pipe(T.RawResponseRoot()),
-).annotate({
+export interface CreateEvaluationRunResponse {}
+export const CreateEvaluationRunResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "CreateEvaluationRunResponse",
 }) as any as S.Schema<CreateEvaluationRunResponse>;
 

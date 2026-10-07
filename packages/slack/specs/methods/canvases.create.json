@@ -66,14 +66,16 @@
     "canvas_creation_failed": {
       "desc": "Canvas was unable to be created."
     },
-    "free_teams_cannot_create_non_tabbed_canvases": {
-      "desc": "Free teams cannot create non-tabbed standalone canvases"
-    },
     "free_team_canvas_tab_already_exists": {
       "desc": "Free teams are limited to one canvas tab per channel"
     },
     "free_teams_cannot_create_standalone_canvases": {
       "desc": "Free teams cannot create standalone canvases"
+    }
+  },
+  "warnings": {
+    "failed_adding_canvas_to_tab": {
+      "desc": "The canvas was created but not added as a channel tab. The reason is in response_metadata.messages."
     }
   }
 }

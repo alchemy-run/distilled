@@ -53,9 +53,7 @@ export const GetRefundRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/refunds/{id}", code: 200 })),
-).annotate({
-  identifier: "GetRefundRequest",
-}) as any as S.Schema<GetRefundRequest>;
+).annotate({ identifier: "GetRefundRequest" }) as any as S.Schema<GetRefundRequest>;
 
 /** The available currencies on the platform */
 export type Currencies =
@@ -223,9 +221,7 @@ export const RefundPaymentMember = /*@__PURE__*/ S.suspend(() =>
     id: S.String,
     phone: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "RefundPaymentMember",
-}) as any as S.Schema<RefundPaymentMember>;
+).annotate({ identifier: "RefundPaymentMember" }) as any as S.Schema<RefundPaymentMember>;
 
 /** The status of a membership */
 export type MembershipStatus =
@@ -252,9 +248,7 @@ export const RefundPaymentMembership = /*@__PURE__*/ S.suspend(() =>
     id: S.String,
     status: MembershipStatus,
   }),
-).annotate({
-  identifier: "RefundPaymentMembership",
-}) as any as S.Schema<RefundPaymentMembership>;
+).annotate({ identifier: "RefundPaymentMembership" }) as any as S.Schema<RefundPaymentMembership>;
 
 /** The custom metadata stored on this payment. This will be copied over to the checkout configuration for which this payment was made */
 export type RefundPaymentMetadataMap = { [key: string]: unknown | undefined };
@@ -385,9 +379,7 @@ export type PaymentMethodTypes =
 export const PaymentMethodTypes = S.String;
 
 /** Custom key-value pairs stored on the plan. Included in webhook payloads for payment and membership events. Max 50 keys, 100 chars per key, 500 chars per string value. The reserved keys `custom_cta` and `custom_cta_url`, when set, override the product's checkout call to action for this plan. */
-export type RefundPaymentPlanMetadataMap = {
-  [key: string]: unknown | undefined;
-};
+export type RefundPaymentPlanMetadataMap = { [key: string]: unknown | undefined };
 export const RefundPaymentPlanMetadataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -405,14 +397,10 @@ export const RefundPaymentPlan = /*@__PURE__*/ S.suspend(() =>
     id: S.String,
     metadata: S.NullOr(RefundPaymentPlanMetadataMap),
   }),
-).annotate({
-  identifier: "RefundPaymentPlan",
-}) as any as S.Schema<RefundPaymentPlan>;
+).annotate({ identifier: "RefundPaymentPlan" }) as any as S.Schema<RefundPaymentPlan>;
 
 /** Custom key-value pairs stored on the product and included in payment and membership webhook payloads. Max 50 keys, 100 characters per key, 500 characters per string value. */
-export type RefundPaymentProductMetadataMap = {
-  [key: string]: unknown | undefined;
-};
+export type RefundPaymentProductMetadataMap = { [key: string]: unknown | undefined };
 export const RefundPaymentProductMetadataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -430,9 +418,7 @@ export const RefundPaymentProduct = /*@__PURE__*/ S.suspend(() =>
     id: S.String,
     metadata: S.NullOr(RefundPaymentProductMetadataMap),
   }),
-).annotate({
-  identifier: "RefundPaymentProduct",
-}) as any as S.Schema<RefundPaymentProduct>;
+).annotate({ identifier: "RefundPaymentProduct" }) as any as S.Schema<RefundPaymentProduct>;
 
 /** The type of tax inclusivity applied to the receipt, for determining whether the tax is included in the final price, or paid on top. */
 export type ReceiptTaxBehaviors = "exclusive" | "inclusive" | "unspecified" | "unable_to_collect";
@@ -456,9 +442,7 @@ export const RefundPaymentUser = /*@__PURE__*/ S.suspend(() =>
     name: S.NullOr(S.String),
     username: S.String,
   }),
-).annotate({
-  identifier: "RefundPaymentUser",
-}) as any as S.Schema<RefundPaymentUser>;
+).annotate({ identifier: "RefundPaymentUser" }) as any as S.Schema<RefundPaymentUser>;
 
 /** The original payment that this refund was issued against. Null if the payment is no longer available. */
 export interface RefundPayment {
@@ -637,9 +621,7 @@ export const ListRefundRequest = /*@__PURE__*/ S.suspend(() =>
     created_before: S.optional(S.String.pipe(T.Query())),
     created_after: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/refunds", code: 200 })),
-).annotate({
-  identifier: "ListRefundRequest",
-}) as any as S.Schema<ListRefundRequest>;
+).annotate({ identifier: "ListRefundRequest" }) as any as S.Schema<ListRefundRequest>;
 
 /** The original payment that this refund was issued against. Null if the payment is no longer available. */
 export interface RefundListItemPayment {
@@ -650,9 +632,7 @@ export const RefundListItemPayment = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String,
   }),
-).annotate({
-  identifier: "RefundListItemPayment",
-}) as any as S.Schema<RefundListItemPayment>;
+).annotate({ identifier: "RefundListItemPayment" }) as any as S.Schema<RefundListItemPayment>;
 
 /** A refund represents a full or partial reversal of a payment, including the amount, status, and payment provider. */
 export interface RefundListItem {
@@ -732,9 +712,7 @@ export const ListRefundResponse = /*@__PURE__*/ S.suspend(() =>
     data: ListRefundResponseDataList,
     page_info: PageInfo,
   }),
-).annotate({
-  identifier: "ListRefundResponse",
-}) as any as S.Schema<ListRefundResponse>;
+).annotate({ identifier: "ListRefundResponse" }) as any as S.Schema<ListRefundResponse>;
 
 export type GetRefundError = BadRequest | Forbidden | NotFound | UnprocessableEntity | WhopOpError;
 /** Retrieve refund [Legacy API — https://docs.whop.com/api-reference] Retrieves the details of an existing refund. Required permissions: - `payment:basic:read` - `plan:basic:read` - `access_pass:basic:read` - `member:email:read` - `member:basic:read` - `member:phone:read` */

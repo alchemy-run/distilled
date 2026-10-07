@@ -1681,6 +1681,48 @@
         "smithy.api#input": {}
       }
     },
+    "com.doppler.api#GetSecretResponseValueRawVisibility": {
+      "type": "enum",
+      "members": {
+        "UNMASKED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unmasked"
+          }
+        },
+        "MASKED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "masked"
+          }
+        },
+        "RESTRICTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "restricted"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.doppler.api#GetSecretResponseValueRawValueType": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.doppler.api#GetSecretResponseValueComputedValueType": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
     "com.doppler.api#GetSecretResponseValue": {
       "type": "structure",
       "members": {
@@ -1692,6 +1734,18 @@
         },
         "note": {
           "target": "smithy.api#String"
+        },
+        "rawVisibility": {
+          "target": "com.doppler.api#GetSecretResponseValueRawVisibility"
+        },
+        "computedVisibility": {
+          "target": "smithy.api#String"
+        },
+        "rawValueType": {
+          "target": "com.doppler.api#GetSecretResponseValueRawValueType"
+        },
+        "computedValueType": {
+          "target": "com.doppler.api#GetSecretResponseValueComputedValueType"
         }
       },
       "traits": {}
@@ -1828,6 +1882,30 @@
         "smithy.api#input": {}
       }
     },
+    "com.doppler.api#ListSecretsResponseSecretsSTRIPERawVisibility": {
+      "type": "enum",
+      "members": {
+        "UNMASKED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unmasked"
+          }
+        },
+        "MASKED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "masked"
+          }
+        },
+        "RESTRICTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "restricted"
+          }
+        }
+      },
+      "traits": {}
+    },
     "com.doppler.api#ListSecretsResponseSecretsSTRIPE": {
       "type": "structure",
       "members": {
@@ -1841,10 +1919,34 @@
           "target": "smithy.api#String"
         },
         "rawVisibility": {
-          "target": "smithy.api#String"
+          "target": "com.doppler.api#ListSecretsResponseSecretsSTRIPERawVisibility"
         },
         "computedVisibility": {
           "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.doppler.api#ListSecretsResponseSecretsALGOLIARawVisibility": {
+      "type": "enum",
+      "members": {
+        "UNMASKED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unmasked"
+          }
+        },
+        "MASKED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "masked"
+          }
+        },
+        "RESTRICTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "restricted"
+          }
         }
       },
       "traits": {}
@@ -1862,10 +1964,34 @@
           "target": "smithy.api#String"
         },
         "rawVisibility": {
-          "target": "smithy.api#String"
+          "target": "com.doppler.api#ListSecretsResponseSecretsALGOLIARawVisibility"
         },
         "computedVisibility": {
           "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.doppler.api#ListSecretsResponseSecretsDATABASERawVisibility": {
+      "type": "enum",
+      "members": {
+        "UNMASKED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unmasked"
+          }
+        },
+        "MASKED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "masked"
+          }
+        },
+        "RESTRICTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "restricted"
+          }
         }
       },
       "traits": {}
@@ -1883,10 +2009,34 @@
           "target": "smithy.api#String"
         },
         "rawVisibility": {
-          "target": "smithy.api#String"
+          "target": "com.doppler.api#ListSecretsResponseSecretsDATABASERawVisibility"
         },
         "computedVisibility": {
           "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.doppler.api#ListSecretsResponseSecretsUSERRawVisibility": {
+      "type": "enum",
+      "members": {
+        "UNMASKED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unmasked"
+          }
+        },
+        "MASKED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "masked"
+          }
+        },
+        "RESTRICTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "restricted"
+          }
         }
       },
       "traits": {}
@@ -1904,7 +2054,7 @@
           "target": "smithy.api#String"
         },
         "rawVisibility": {
-          "target": "smithy.api#String"
+          "target": "com.doppler.api#ListSecretsResponseSecretsUSERRawVisibility"
         },
         "computedVisibility": {
           "target": "smithy.api#String"
@@ -6410,13 +6560,117 @@
         "smithy.api#input": {}
       }
     },
+    "com.doppler.api#ListWebhooksResponseWebhooksItemAuthenticationType": {
+      "type": "enum",
+      "members": {
+        "NONE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "None"
+          }
+        },
+        "BASIC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Basic"
+          }
+        },
+        "BEARER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Bearer"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.doppler.api#ListWebhooksResponseWebhooksItemAuthentication": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.doppler.api#ListWebhooksResponseWebhooksItemAuthenticationType"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Webhook's authentication type"
+      }
+    },
+    "com.doppler.api#ListWebhooksResponseWebhooksItemEnabledConfigsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "The configs the webhook will trigger for"
+      }
+    },
+    "com.doppler.api#ListWebhooksResponseWebhooksItem": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Webhook's slug"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Webhook's name"
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Webhook's URL"
+          }
+        },
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the webhook is enabled or disabled"
+          }
+        },
+        "hasSecret": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the webhook has a secret set. See: https://docs.doppler.com/docs/webhooks#verify-webhook-with-request-signing"
+          }
+        },
+        "authentication": {
+          "target": "com.doppler.api#ListWebhooksResponseWebhooksItemAuthentication",
+          "traits": {
+            "smithy.api#documentation": "Webhook's authentication type"
+          }
+        },
+        "enabledConfigs": {
+          "target": "com.doppler.api#ListWebhooksResponseWebhooksItemEnabledConfigsList",
+          "traits": {
+            "smithy.api#documentation": "The configs the webhook will trigger for"
+          }
+        },
+        "canManage": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the requestor has permission to modify the webhook"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.doppler.api#ListWebhooksResponseWebhooksList": {
+      "type": "list",
+      "member": {
+        "target": "com.doppler.api#ListWebhooksResponseWebhooksItem"
+      },
+      "traits": {}
+    },
     "com.doppler.api#ListWebhooksResponse": {
       "type": "structure",
       "members": {
-        "body": {
-          "target": "smithy.api#Document",
+        "webhooks": {
+          "target": "com.doppler.api#ListWebhooksResponseWebhooksList",
           "traits": {
-            "com.distilled.openapi#rawResponse": {},
             "smithy.api#required": {}
           }
         }
@@ -6618,13 +6872,110 @@
         "smithy.api#input": {}
       }
     },
+    "com.doppler.api#GetWebhookResponseWebhookAuthenticationType": {
+      "type": "enum",
+      "members": {
+        "NONE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "None"
+          }
+        },
+        "BASIC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Basic"
+          }
+        },
+        "BEARER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "Bearer"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.doppler.api#GetWebhookResponseWebhookAuthentication": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.doppler.api#GetWebhookResponseWebhookAuthenticationType"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Webhook's authentication type"
+      }
+    },
+    "com.doppler.api#GetWebhookResponseWebhookEnabledConfigsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "The configs the webhook will trigger for"
+      }
+    },
+    "com.doppler.api#GetWebhookResponseWebhook": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Webhook's slug"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Webhook's name"
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Webhook's URL"
+          }
+        },
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the webhook is enabled or disabled"
+          }
+        },
+        "hasSecret": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the webhook has a secret set. See: https://docs.doppler.com/docs/webhooks#verify-webhook-with-request-signing"
+          }
+        },
+        "authentication": {
+          "target": "com.doppler.api#GetWebhookResponseWebhookAuthentication",
+          "traits": {
+            "smithy.api#documentation": "Webhook's authentication type"
+          }
+        },
+        "enabledConfigs": {
+          "target": "com.doppler.api#GetWebhookResponseWebhookEnabledConfigsList",
+          "traits": {
+            "smithy.api#documentation": "The configs the webhook will trigger for"
+          }
+        },
+        "canManage": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the requestor has permission to modify the webhook"
+          }
+        }
+      },
+      "traits": {}
+    },
     "com.doppler.api#GetWebhookResponse": {
       "type": "structure",
       "members": {
-        "body": {
-          "target": "smithy.api#Document",
+        "webhook": {
+          "target": "com.doppler.api#GetWebhookResponseWebhook",
           "traits": {
-            "com.distilled.openapi#rawResponse": {},
             "smithy.api#required": {}
           }
         }

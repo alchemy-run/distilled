@@ -97,6 +97,9 @@
     },
     "subteam_max_users_exceeded": {
       "desc": "Exceeds maximum supported number of users per subteam."
+    },
+    "cannot_modify_role_admin": {
+      "desc": "The user does not have permission to modify the roles admin role."
     }
   }
 }

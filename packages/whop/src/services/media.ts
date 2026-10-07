@@ -139,9 +139,7 @@ export const MediaAssetGeneration = /*@__PURE__*/ S.suspend(() =>
     reference_media: MediaAssetGenerationReferenceMediaList,
     resolution: S.NullOr(MediaAssetGenerationResolution),
   }),
-).annotate({
-  identifier: "MediaAssetGeneration",
-}) as any as S.Schema<MediaAssetGeneration>;
+).annotate({ identifier: "MediaAssetGeneration" }) as any as S.Schema<MediaAssetGeneration>;
 
 /** The kind of media this asset holds. */
 export type MediaAssetMediaType = "video" | "image";
@@ -203,9 +201,7 @@ export const GetMediaAssetRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/media/{id}", code: 200 })),
-).annotate({
-  identifier: "GetMediaAssetRequest",
-}) as any as S.Schema<GetMediaAssetRequest>;
+).annotate({ identifier: "GetMediaAssetRequest" }) as any as S.Schema<GetMediaAssetRequest>;
 
 export type GenerateMediaAssetError =
   | BadRequest

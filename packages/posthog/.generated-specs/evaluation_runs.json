@@ -65,38 +65,13 @@
         "smithy.api#input": {}
       }
     },
-    "com.posthog.evaluation_runs#CreateEvaluationRunResponseBodyMap": {
-      "type": "map",
-      "key": {
-        "target": "smithy.api#String"
-      },
-      "value": {
-        "target": "smithy.api#Document"
-      },
-      "traits": {}
-    },
-    "com.posthog.evaluation_runs#CreateEvaluationRunResponse": {
-      "type": "structure",
-      "members": {
-        "body": {
-          "target": "com.posthog.evaluation_runs#CreateEvaluationRunResponseBodyMap",
-          "traits": {
-            "com.distilled.openapi#rawResponse": {},
-            "smithy.api#required": {}
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#output": {}
-      }
-    },
     "com.posthog.evaluation_runs#CreateEvaluationRun": {
       "type": "operation",
       "input": {
         "target": "com.posthog.evaluation_runs#CreateEvaluationRunRequest"
       },
       "output": {
-        "target": "com.posthog.evaluation_runs#CreateEvaluationRunResponse"
+        "target": "smithy.api#Unit"
       },
       "traits": {
         "smithy.api#http": {

@@ -240,6 +240,19 @@
             "smithy.api#documentation": "Configuration for AI report subscriptions (analysis window, future knobs). Only valid when resource_type is 'ai_prompt'. Replaced wholesale on writes."
           }
         },
+        "contexts": {
+          "target": "com.posthog.subscriptions#SubscriptionOutputContextsList",
+          "traits": {
+            "smithy.api#documentation": "Dashboards and insights that ground this AI report. Deleted resources are omitted."
+          }
+        },
+        "ai_query_plan_status": {
+          "target": "com.posthog.subscriptions#AIQueryPlanStatusEnum",
+          "traits": {
+            "smithy.api#documentation": "Query plan reuse state for AI prompt subscriptions: frozen, not_frozen, or planner_updated. Null for other subscription types.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
         "target_type": {
           "target": "com.posthog.subscriptions#SubscriptionTargetEnum",
           "traits": {
@@ -367,7 +380,7 @@
         "delivery_config": {
           "target": "com.posthog.subscriptions#DeliveryConfig",
           "traits": {
-            "smithy.api#documentation": "Per-delivery rendering options. Each option documents which delivery targets it applies to."
+            "smithy.api#documentation": "Per-delivery rendering options. Every option applies to one subscription kind or delivery target only, and each option's own description says where it applies and whether a mismatch is rejected or ignored. Omit this field unless the user asks for one of the options."
           }
         }
       },
@@ -473,6 +486,98 @@
       "traits": {
         "smithy.api#documentation": "* `since_last_sent` - Since last report\n* `last_n_days` - Last N days\n* `days_ago_range` - Between X and Y days ago"
       }
+    },
+    "com.posthog.subscriptions#SubscriptionContext": {
+      "type": "union",
+      "members": {
+        "SubscriptionDashboardContext": {
+          "target": "com.posthog.subscriptions#SubscriptionDashboardContext"
+        },
+        "SubscriptionInsightContext": {
+          "target": "com.posthog.subscriptions#SubscriptionInsightContext"
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.subscriptions#SubscriptionDashboardContext": {
+      "type": "structure",
+      "members": {
+        "dashboard_id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Dashboard ID used to open the context dashboard.",
+            "smithy.api#required": {}
+          }
+        },
+        "dashboard_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Current display name of the context dashboard.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.subscriptions#SubscriptionInsightContext": {
+      "type": "structure",
+      "members": {
+        "insight_id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Database ID of the context insight.",
+            "smithy.api#required": {}
+          }
+        },
+        "insight_short_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Stable insight identifier used to open the context insight.",
+            "smithy.api#required": {}
+          }
+        },
+        "insight_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Current display name of the context insight.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.subscriptions#SubscriptionOutputContextsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.subscriptions#SubscriptionContext"
+      },
+      "traits": {
+        "smithy.api#documentation": "Dashboards and insights that ground this AI report. Deleted resources are omitted."
+      }
+    },
+    "com.posthog.subscriptions#AIQueryPlanStatusEnum": {
+      "type": "enum",
+      "members": {
+        "FROZEN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "frozen"
+          }
+        },
+        "NOT_FROZEN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "not_frozen"
+          }
+        },
+        "PLANNER_UPDATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "planner_updated"
+          }
+        }
+      },
+      "traits": {}
     },
     "com.posthog.subscriptions#SubscriptionTargetEnum": {
       "type": "enum",
@@ -738,7 +843,31 @@
         "post_all_insights_in_main_message": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Slack only: when true, upload all insight images together in the main Slack message instead of posting the first image in the main message and the rest as threaded replies. Defaults to false."
+            "smithy.api#documentation": "Slack insight and dashboard subscriptions only: when true, upload all insight images together in the main Slack message instead of posting the first image in the main message and the rest as threaded replies. Defaults to false. The request is rejected when target_type is not 'slack', when the subscription sets prompt instead of insight or dashboard, or when the Slack integration does not hold the files:write permission. Omit it unless the user asks for one combined message."
+          }
+        },
+        "include_images": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Prompt subscriptions only: include generated chart images. Defaults to true when omitted. The request is rejected when the subscription sets insight or dashboard instead of prompt. It does not control the AI summary on an insight or dashboard subscription: use summary_enabled and summary_prompt_guide for that."
+          }
+        },
+        "include_feedback": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Prompt subscriptions only: include report feedback links. Defaults to true when omitted. The request is rejected when the subscription sets insight or dashboard instead of prompt. It does not control the AI summary on an insight or dashboard subscription: use summary_enabled and summary_prompt_guide for that."
+          }
+        },
+        "include_manage_link": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Prompt subscriptions only: include a link to manage the subscription. Defaults to true when omitted. The request is rejected when the subscription sets insight or dashboard instead of prompt. It does not control the AI summary on an insight or dashboard subscription: use summary_enabled and summary_prompt_guide for that."
+          }
+        },
+        "include_posthog_hint": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Prompt subscriptions only: include PostHog product guidance. Defaults to true when omitted. Only a Slack report renders the guidance. Email and Microsoft Teams reports leave it out and accept the option without an error, unlike post_all_insights_in_main_message. The request is rejected when the subscription sets insight or dashboard instead of prompt. It does not control the AI summary on an insight or dashboard subscription: use summary_enabled and summary_prompt_guide for that."
           }
         }
       },
@@ -787,6 +916,51 @@
       },
       "traits": {
         "smithy.api#documentation": "List of insight IDs from the dashboard to include. Required for dashboard subscriptions, max 10."
+      }
+    },
+    "com.posthog.subscriptions#CreateSubscriptionRequestContextsItemCase0": {
+      "type": "structure",
+      "members": {
+        "dashboard_id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.subscriptions#CreateSubscriptionRequestContextsItemCase1": {
+      "type": "structure",
+      "members": {
+        "insight_id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.subscriptions#CreateSubscriptionRequestContextsItem": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.posthog.subscriptions#CreateSubscriptionRequestContextsItemCase0"
+        },
+        "Case1": {
+          "target": "com.posthog.subscriptions#CreateSubscriptionRequestContextsItemCase1"
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.subscriptions#CreateSubscriptionRequestContextsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.subscriptions#CreateSubscriptionRequestContextsItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "Complete dashboard and insight context for an AI report. Omit on PATCH to preserve, pass an empty list to clear, or pass up to 3 items to replace all contexts."
       }
     },
     "com.posthog.subscriptions#CreateSubscriptionRequestByweekdayItem": {
@@ -892,28 +1066,38 @@
             "smithy.api#documentation": "Configuration for AI report subscriptions (analysis window, future knobs). Only valid when resource_type is 'ai_prompt'. Replaced wholesale on writes."
           }
         },
+        "contexts": {
+          "target": "com.posthog.subscriptions#CreateSubscriptionRequestContextsList",
+          "traits": {
+            "smithy.api#documentation": "Complete dashboard and insight context for an AI report. Omit on PATCH to preserve, pass an empty list to clear, or pass up to 3 items to replace all contexts."
+          }
+        },
         "target_type": {
           "target": "com.posthog.subscriptions#SubscriptionTargetEnum",
           "traits": {
-            "smithy.api#documentation": "Delivery channel: email, slack, or teams.\n\n* `email` - Email\n* `slack` - Slack\n* `teams` - Microsoft Teams"
+            "smithy.api#documentation": "Delivery channel: email, slack, or teams.\n\n* `email` - Email\n* `slack` - Slack\n* `teams` - Microsoft Teams",
+            "smithy.api#required": {}
           }
         },
         "target_value": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Recipient(s): comma-separated email addresses for email, Slack channel name/ID for slack, or a Microsoft Teams webhook URL for teams. A Teams webhook URL is only ever returned as its host, because the URL authorizes a post to the channel by itself. On update, omit the field to keep the stored URL, or send a full URL to replace it."
+            "smithy.api#documentation": "Recipient(s): comma-separated email addresses for email, Slack channel name/ID for slack, or a Microsoft Teams webhook URL for teams. A Teams webhook URL is only ever returned as its host, because the URL authorizes a post to the channel by itself. On update, omit the field to keep the stored URL, or send a full URL to replace it.",
+            "smithy.api#required": {}
           }
         },
         "frequency": {
           "target": "com.posthog.subscriptions#RecurrenceIntervalEnum",
           "traits": {
-            "smithy.api#documentation": "How often to deliver: daily, weekly, monthly, or yearly.\n\n* `daily` - Daily\n* `weekly` - Weekly\n* `monthly` - Monthly\n* `yearly` - Yearly"
+            "smithy.api#documentation": "How often to deliver: daily, weekly, monthly, or yearly.\n\n* `daily` - Daily\n* `weekly` - Weekly\n* `monthly` - Monthly\n* `yearly` - Yearly",
+            "smithy.api#required": {}
           }
         },
         "interval": {
           "target": "smithy.api#Integer",
           "traits": {
-            "smithy.api#documentation": "Interval multiplier (e.g. 2 with weekly frequency means every 2 weeks). Required on create; must be 1 or greater."
+            "smithy.api#documentation": "Interval multiplier (e.g. 2 with weekly frequency means every 2 weeks). Required on create; must be 1 or greater.",
+            "smithy.api#required": {}
           }
         },
         "byweekday": {
@@ -940,7 +1124,8 @@
         "start_date": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "When to start delivering (ISO 8601 datetime). The date anchors the recurrence and may be in the past. Deliveries run on half-hour cycles at :00 and :30. Other minute values are accepted for backward compatibility, but delivery happens during the next cycle instead of at that exact minute."
+            "smithy.api#documentation": "When to start delivering (ISO 8601 datetime). The date anchors the recurrence and may be in the past. Deliveries run on half-hour cycles at :00 and :30. Other minute values are accepted for backward compatibility, but delivery happens during the next cycle instead of at that exact minute.",
+            "smithy.api#required": {}
           }
         },
         "until_date": {
@@ -1004,7 +1189,7 @@
         "delivery_config": {
           "target": "com.posthog.subscriptions#DeliveryConfig",
           "traits": {
-            "smithy.api#documentation": "Per-delivery rendering options. Each option documents which delivery targets it applies to."
+            "smithy.api#documentation": "Per-delivery rendering options. Every option applies to one subscription kind or delivery target only, and each option's own description says where it applies and whether a mismatch is rejected or ignored. Omit this field unless the user asks for one of the options."
           }
         }
       },
@@ -1094,6 +1279,51 @@
       },
       "traits": {
         "smithy.api#documentation": "List of insight IDs from the dashboard to include. Required for dashboard subscriptions, max 10."
+      }
+    },
+    "com.posthog.subscriptions#UpdateSubscriptionRequestContextsItemCase0": {
+      "type": "structure",
+      "members": {
+        "dashboard_id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.subscriptions#UpdateSubscriptionRequestContextsItemCase1": {
+      "type": "structure",
+      "members": {
+        "insight_id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.subscriptions#UpdateSubscriptionRequestContextsItem": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.posthog.subscriptions#UpdateSubscriptionRequestContextsItemCase0"
+        },
+        "Case1": {
+          "target": "com.posthog.subscriptions#UpdateSubscriptionRequestContextsItemCase1"
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.subscriptions#UpdateSubscriptionRequestContextsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.subscriptions#UpdateSubscriptionRequestContextsItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "Complete dashboard and insight context for an AI report. Omit on PATCH to preserve, pass an empty list to clear, or pass up to 3 items to replace all contexts."
       }
     },
     "com.posthog.subscriptions#UpdateSubscriptionRequestByweekdayItem": {
@@ -1207,28 +1437,38 @@
             "smithy.api#documentation": "Configuration for AI report subscriptions (analysis window, future knobs). Only valid when resource_type is 'ai_prompt'. Replaced wholesale on writes."
           }
         },
+        "contexts": {
+          "target": "com.posthog.subscriptions#UpdateSubscriptionRequestContextsList",
+          "traits": {
+            "smithy.api#documentation": "Complete dashboard and insight context for an AI report. Omit on PATCH to preserve, pass an empty list to clear, or pass up to 3 items to replace all contexts."
+          }
+        },
         "target_type": {
           "target": "com.posthog.subscriptions#SubscriptionTargetEnum",
           "traits": {
-            "smithy.api#documentation": "Delivery channel: email, slack, or teams.\n\n* `email` - Email\n* `slack` - Slack\n* `teams` - Microsoft Teams"
+            "smithy.api#documentation": "Delivery channel: email, slack, or teams.\n\n* `email` - Email\n* `slack` - Slack\n* `teams` - Microsoft Teams",
+            "smithy.api#required": {}
           }
         },
         "target_value": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Recipient(s): comma-separated email addresses for email, Slack channel name/ID for slack, or a Microsoft Teams webhook URL for teams. A Teams webhook URL is only ever returned as its host, because the URL authorizes a post to the channel by itself. On update, omit the field to keep the stored URL, or send a full URL to replace it."
+            "smithy.api#documentation": "Recipient(s): comma-separated email addresses for email, Slack channel name/ID for slack, or a Microsoft Teams webhook URL for teams. A Teams webhook URL is only ever returned as its host, because the URL authorizes a post to the channel by itself. On update, omit the field to keep the stored URL, or send a full URL to replace it.",
+            "smithy.api#required": {}
           }
         },
         "frequency": {
           "target": "com.posthog.subscriptions#RecurrenceIntervalEnum",
           "traits": {
-            "smithy.api#documentation": "How often to deliver: daily, weekly, monthly, or yearly.\n\n* `daily` - Daily\n* `weekly` - Weekly\n* `monthly` - Monthly\n* `yearly` - Yearly"
+            "smithy.api#documentation": "How often to deliver: daily, weekly, monthly, or yearly.\n\n* `daily` - Daily\n* `weekly` - Weekly\n* `monthly` - Monthly\n* `yearly` - Yearly",
+            "smithy.api#required": {}
           }
         },
         "interval": {
           "target": "smithy.api#Integer",
           "traits": {
-            "smithy.api#documentation": "Interval multiplier (e.g. 2 with weekly frequency means every 2 weeks). Required on create; must be 1 or greater."
+            "smithy.api#documentation": "Interval multiplier (e.g. 2 with weekly frequency means every 2 weeks). Required on create; must be 1 or greater.",
+            "smithy.api#required": {}
           }
         },
         "byweekday": {
@@ -1255,7 +1495,8 @@
         "start_date": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "When to start delivering (ISO 8601 datetime). The date anchors the recurrence and may be in the past. Deliveries run on half-hour cycles at :00 and :30. Other minute values are accepted for backward compatibility, but delivery happens during the next cycle instead of at that exact minute."
+            "smithy.api#documentation": "When to start delivering (ISO 8601 datetime). The date anchors the recurrence and may be in the past. Deliveries run on half-hour cycles at :00 and :30. Other minute values are accepted for backward compatibility, but delivery happens during the next cycle instead of at that exact minute.",
+            "smithy.api#required": {}
           }
         },
         "until_date": {
@@ -1319,7 +1560,7 @@
         "delivery_config": {
           "target": "com.posthog.subscriptions#DeliveryConfig",
           "traits": {
-            "smithy.api#documentation": "Per-delivery rendering options. Each option documents which delivery targets it applies to."
+            "smithy.api#documentation": "Per-delivery rendering options. Every option applies to one subscription kind or delivery target only, and each option's own description says where it applies and whether a mismatch is rejected or ignored. Omit this field unless the user asks for one of the options."
           }
         }
       },
@@ -1361,6 +1602,51 @@
       },
       "traits": {
         "smithy.api#documentation": "List of insight IDs from the dashboard to include. Required for dashboard subscriptions, max 10."
+      }
+    },
+    "com.posthog.subscriptions#UpdateSubscriptionsPartialRequestContextsItemCase0": {
+      "type": "structure",
+      "members": {
+        "dashboard_id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.subscriptions#UpdateSubscriptionsPartialRequestContextsItemCase1": {
+      "type": "structure",
+      "members": {
+        "insight_id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.subscriptions#UpdateSubscriptionsPartialRequestContextsItem": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.posthog.subscriptions#UpdateSubscriptionsPartialRequestContextsItemCase0"
+        },
+        "Case1": {
+          "target": "com.posthog.subscriptions#UpdateSubscriptionsPartialRequestContextsItemCase1"
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.subscriptions#UpdateSubscriptionsPartialRequestContextsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.subscriptions#UpdateSubscriptionsPartialRequestContextsItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "Complete dashboard and insight context for an AI report. Omit on PATCH to preserve, pass an empty list to clear, or pass up to 3 items to replace all contexts."
       }
     },
     "com.posthog.subscriptions#UpdateSubscriptionsPartialRequestByweekdayItem": {
@@ -1472,6 +1758,12 @@
           "target": "com.posthog.subscriptions#AIPromptConfig",
           "traits": {
             "smithy.api#documentation": "Configuration for AI report subscriptions (analysis window, future knobs). Only valid when resource_type is 'ai_prompt'. Replaced wholesale on writes."
+          }
+        },
+        "contexts": {
+          "target": "com.posthog.subscriptions#UpdateSubscriptionsPartialRequestContextsList",
+          "traits": {
+            "smithy.api#documentation": "Complete dashboard and insight context for an AI report. Omit on PATCH to preserve, pass an empty list to clear, or pass up to 3 items to replace all contexts."
           }
         },
         "target_type": {
@@ -1586,7 +1878,7 @@
         "delivery_config": {
           "target": "com.posthog.subscriptions#DeliveryConfig",
           "traits": {
-            "smithy.api#documentation": "Per-delivery rendering options. Each option documents which delivery targets it applies to."
+            "smithy.api#documentation": "Per-delivery rendering options. Every option applies to one subscription kind or delivery target only, and each option's own description says where it applies and whether a mismatch is rejected or ignored. Omit this field unless the user asks for one of the options."
           }
         }
       },
@@ -1941,6 +2233,13 @@
             "smithy.api#documentation": "The subscription's prompt as it was when this report was generated. Null for older deliveries and non-AI deliveries.",
             "com.distilled.openapi#nullable": {}
           }
+        },
+        "ai_query_plan_status": {
+          "target": "com.posthog.subscriptions#AIQueryPlanStatusEnum",
+          "traits": {
+            "smithy.api#documentation": "Query plan state recorded for this delivery: frozen, not_frozen, or planner_updated. Null for older deliveries and non-AI deliveries.",
+            "com.distilled.openapi#nullable": {}
+          }
         }
       },
       "traits": {}
@@ -2015,6 +2314,13 @@
           "traits": {
             "smithy.api#documentation": "Exception class name when the query failed; null on success.",
             "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "error_code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Stable query API error code when available; null on success and for unclassified errors.",
             "com.distilled.openapi#nullable": {}
           }
         },

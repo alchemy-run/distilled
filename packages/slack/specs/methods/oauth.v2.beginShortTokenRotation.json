@@ -1,0 +1,62 @@
+{
+  "desc": "Call this to rotate the secret on an old API token with a short secret. Must be paired with a call to oauth.v2.completeShortTokenRotation to confirm the change.",
+  "http_method": "POST",
+  "scope": {},
+  "rate_limits": "t2",
+  "args": {
+    "type": "object",
+    "required": [
+      "client_id",
+      "client_secret",
+      "token"
+    ],
+    "properties": {
+      "client_id": {
+        "desc": "Issued when you created your application. Must be the app the token being rotated was issued to.",
+        "example": "4123121235.9872358710",
+        "type": "string"
+      },
+      "client_secret": {
+        "desc": "Issued when you created your application.",
+        "example": "e1b9e11dfcd19c1982d5de12921e17e8c",
+        "type": "string"
+      },
+      "token": {
+        "desc": "The xoxp token being rotated.",
+        "example": "xoxp-12345-67890-1928471-abcdefg",
+        "type": "string"
+      }
+    }
+  },
+  "output": {
+    "desc": "New xoxp token of standard size that must be confirmed via oauth.v2.completeShortTokenRotation",
+    "type": "object",
+    "required": [
+      "new_token"
+    ],
+    "properties": {
+      "new_token": {
+        "type": "string",
+        "desc": "A new xoxp access token to replace the token with a shorter secret. Not yet active until completeShortTokenRotation is called.",
+        "example": "xoxp-12345-67890-1928471-qemwiiwglagjacakvqbvbfkmvbsvsuzn"
+      }
+    }
+  },
+  "errors": {
+    "bad_client_secret": {
+      "desc": "Value passed for `client_secret` was invalid."
+    },
+    "invalid_client_id": {
+      "desc": "Value passed for `client_id` was invalid, or is not the app the token being rotated was issued to."
+    },
+    "invalid_token": {
+      "desc": "This token is invalid."
+    },
+    "internal_error": {
+      "desc": "A server-side error occurred."
+    },
+    "token_too_long": {
+      "desc": "This token is not short enough to be rotated."
+    }
+  }
+}

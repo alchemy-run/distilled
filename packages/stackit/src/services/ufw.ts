@@ -37,7 +37,7 @@ export class NotFound
   ) {}
 
 export type CreateRuleRequestRegionId = "eu01" | "eu02";
-export const CreateRuleRequestRegionId = /*@__PURE__*/ S.String;
+export const CreateRuleRequestRegionId = S.String;
 
 export interface CreateRuleRequest {
   /** The STACKIT portal project UUID */
@@ -96,9 +96,7 @@ export const CreateRuleRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://ufw.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "CreateRuleRequest",
-}) as any as S.Schema<CreateRuleRequest>;
+).annotate({ identifier: "CreateRuleRequest" }) as any as S.Schema<CreateRuleRequest>;
 
 export interface CreateRuleResponse {
   /** Represents the uuid of the created rule */
@@ -108,12 +106,10 @@ export const CreateRuleResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     refId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CreateRuleResponse",
-}) as any as S.Schema<CreateRuleResponse>;
+).annotate({ identifier: "CreateRuleResponse" }) as any as S.Schema<CreateRuleResponse>;
 
 export type DeleteRuleRequestRegionId = "eu01" | "eu02";
-export const DeleteRuleRequestRegionId = /*@__PURE__*/ S.String;
+export const DeleteRuleRequestRegionId = S.String;
 
 export interface DeleteRuleRequest {
   /** The STACKIT portal project UUID */
@@ -136,9 +132,7 @@ export const DeleteRuleRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://ufw.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "DeleteRuleRequest",
-}) as any as S.Schema<DeleteRuleRequest>;
+).annotate({ identifier: "DeleteRuleRequest" }) as any as S.Schema<DeleteRuleRequest>;
 
 export interface DeleteRuleResponse {
   /** Represents if the call was successfully made */
@@ -148,12 +142,10 @@ export const DeleteRuleResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     success: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "DeleteRuleResponse",
-}) as any as S.Schema<DeleteRuleResponse>;
+).annotate({ identifier: "DeleteRuleResponse" }) as any as S.Schema<DeleteRuleResponse>;
 
 export type GetRuleRequestRegionId = "eu01" | "eu02";
-export const GetRuleRequestRegionId = /*@__PURE__*/ S.String;
+export const GetRuleRequestRegionId = S.String;
 
 export interface GetRuleRequest {
   /** The STACKIT portal project UUID */
@@ -186,11 +178,11 @@ export type RuleResponseStatus =
   | "Updating"
   | "Deleting"
   | "Creating";
-export const RuleResponseStatus = /*@__PURE__*/ S.String;
+export const RuleResponseStatus = S.String;
 
 /** The type of the rule (e.g., "ACL", "PublicIP", "SecurityRule"). */
 export type RuleResponseType = "ACL" | "PublicIP" | "SecurityRule" | "SecurityGroup";
-export const RuleResponseType = /*@__PURE__*/ S.String;
+export const RuleResponseType = S.String;
 
 export interface RuleResponse {
   description?: string;
@@ -277,9 +269,7 @@ export const ContainerResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     type: S.String,
   }),
-).annotate({
-  identifier: "ContainerResponse",
-}) as any as S.Schema<ContainerResponse>;
+).annotate({ identifier: "ContainerResponse" }) as any as S.Schema<ContainerResponse>;
 
 export type ListContainersResponseItemsList = Array<ContainerResponse>;
 export const ListContainersResponseItemsList = /*@__PURE__*/ S.Array(
@@ -297,9 +287,7 @@ export const ListContainersResponse = /*@__PURE__*/ S.suspend(() =>
     items: ListContainersResponseItemsList,
     limit: S.Number,
   }),
-).annotate({
-  identifier: "ListContainersResponse",
-}) as any as S.Schema<ListContainersResponse>;
+).annotate({ identifier: "ListContainersResponse" }) as any as S.Schema<ListContainersResponse>;
 
 export interface ListOrganizationContainersRequest {
   /** The STACKIT portal organization UUID */
@@ -327,7 +315,7 @@ export const ListOrganizationContainersRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListOrganizationContainersRequest>;
 
 export type ListProviderOptionsRequestRegionId = "eu01" | "eu02";
-export const ListProviderOptionsRequestRegionId = /*@__PURE__*/ S.String;
+export const ListProviderOptionsRequestRegionId = S.String;
 
 export interface ListProviderOptionsRequest {
   /** The STACKIT region name the resource is located in. */
@@ -400,18 +388,16 @@ export const ProviderOptionsResponse = /*@__PURE__*/ S.suspend(() =>
     products: ProviderOptionsResponseProductsList,
     types: ProviderOptionsResponseTypesList,
   }),
-).annotate({
-  identifier: "ProviderOptionsResponse",
-}) as any as S.Schema<ProviderOptionsResponse>;
+).annotate({ identifier: "ProviderOptionsResponse" }) as any as S.Schema<ProviderOptionsResponse>;
 
 export type ListRulesRequestRegionId = "eu01" | "eu02";
-export const ListRulesRequestRegionId = /*@__PURE__*/ S.String;
+export const ListRulesRequestRegionId = S.String;
 
 export type ListRulesRequestDirection = "ingress" | "egress";
-export const ListRulesRequestDirection = /*@__PURE__*/ S.String;
+export const ListRulesRequestDirection = S.String;
 
 export type ListRulesRequestSortOrder = "asc" | "desc";
-export const ListRulesRequestSortOrder = /*@__PURE__*/ S.String;
+export const ListRulesRequestSortOrder = S.String;
 
 export interface ListRulesRequest {
   /** The STACKIT portal project UUID */
@@ -470,9 +456,7 @@ export const ListRulesRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://ufw.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "ListRulesRequest",
-}) as any as S.Schema<ListRulesRequest>;
+).annotate({ identifier: "ListRulesRequest" }) as any as S.Schema<ListRulesRequest>;
 
 export type ListRulesResponseErrorsList = Array<string>;
 export const ListRulesResponseErrorsList = /*@__PURE__*/ S.Array(
@@ -493,12 +477,10 @@ export const ListRulesResponse = /*@__PURE__*/ S.suspend(() =>
     errors: S.optional(ListRulesResponseErrorsList),
     rules: ListRulesResponseRulesList,
   }),
-).annotate({
-  identifier: "ListRulesResponse",
-}) as any as S.Schema<ListRulesResponse>;
+).annotate({ identifier: "ListRulesResponse" }) as any as S.Schema<ListRulesResponse>;
 
 export type UpdateRuleRequestRegionId = "eu01" | "eu02";
-export const UpdateRuleRequestRegionId = /*@__PURE__*/ S.String;
+export const UpdateRuleRequestRegionId = S.String;
 
 export interface UpdateRuleRequest {
   /** The STACKIT portal project UUID */
@@ -539,9 +521,7 @@ export const UpdateRuleRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://ufw.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "UpdateRuleRequest",
-}) as any as S.Schema<UpdateRuleRequest>;
+).annotate({ identifier: "UpdateRuleRequest" }) as any as S.Schema<UpdateRuleRequest>;
 
 export interface UpdateRuleResponse {
   /** Represents the uuid of the updated rule */
@@ -551,9 +531,7 @@ export const UpdateRuleResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     refId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "UpdateRuleResponse",
-}) as any as S.Schema<UpdateRuleResponse>;
+).annotate({ identifier: "UpdateRuleResponse" }) as any as S.Schema<UpdateRuleResponse>;
 
 export type CreateRuleError = BadRequest | Forbidden | NotFound | StackitOpError;
 /** Create rule for a project Returns the created rule for a specific project */

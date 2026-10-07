@@ -35,6 +35,15 @@ export class Forbidden
     [{ status: 403 }],
   ) {}
 
+export class Gone
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<Gone>()("Gone", {
+      code: S.Number,
+      message: S.String,
+    }).pipe(C.withBadRequestError),
+    [{ status: 410 }],
+  ) {}
+
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
@@ -121,11 +130,7 @@ export const CreateOrUpdateOrgSecretRequest = /*@__PURE__*/ S.suspend(() =>
     visibility: CreateOrUpdateOrgSecretRequestVisibility,
     selected_repository_ids: S.optional(CreateOrUpdateOrgSecretRequestSelectedRepositoryIdsList),
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/orgs/{org}/dependabot/secrets/{secret_name}",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/orgs/{org}/dependabot/secrets/{secret_name}", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateOrUpdateOrgSecretRequest",
@@ -186,15 +191,9 @@ export const DeleteOrgSecretRequest = /*@__PURE__*/ S.suspend(() =>
     org: S.String.pipe(T.Label()),
     secret_name: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/orgs/{org}/dependabot/secrets/{secret_name}",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/orgs/{org}/dependabot/secrets/{secret_name}", code: 200 }),
   ),
-).annotate({
-  identifier: "DeleteOrgSecretRequest",
-}) as any as S.Schema<DeleteOrgSecretRequest>;
+).annotate({ identifier: "DeleteOrgSecretRequest" }) as any as S.Schema<DeleteOrgSecretRequest>;
 
 export interface DeleteOrgSecretResponse {}
 export const DeleteOrgSecretResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -221,9 +220,7 @@ export const DeleteRepoSecretRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "DeleteRepoSecretRequest",
-}) as any as S.Schema<DeleteRepoSecretRequest>;
+).annotate({ identifier: "DeleteRepoSecretRequest" }) as any as S.Schema<DeleteRepoSecretRequest>;
 
 export interface DeleteRepoSecretResponse {}
 export const DeleteRepoSecretResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -250,9 +247,7 @@ export const GetAlertRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetAlertRequest",
-}) as any as S.Schema<GetAlertRequest>;
+).annotate({ identifier: "GetAlertRequest" }) as any as S.Schema<GetAlertRequest>;
 
 /** The state of the Dependabot alert. */
 export type DependabotAlertState = "auto_dismissed" | "dismissed" | "fixed" | "open";
@@ -270,9 +265,7 @@ export const DependabotAlertPackage = /*@__PURE__*/ S.suspend(() =>
     ecosystem: S.String,
     name: S.String,
   }),
-).annotate({
-  identifier: "DependabotAlertPackage",
-}) as any as S.Schema<DependabotAlertPackage>;
+).annotate({ identifier: "DependabotAlertPackage" }) as any as S.Schema<DependabotAlertPackage>;
 
 /** The execution scope of the vulnerable dependency. */
 export type DependabotAlertDependencyScope = "development" | "runtime";
@@ -387,9 +380,7 @@ export const CvssSeveritiesCvssV3 = /*@__PURE__*/ S.suspend(() =>
     vector_string: S.NullOr(S.String),
     score: S.NullOr(S.Number),
   }),
-).annotate({
-  identifier: "CvssSeveritiesCvssV3",
-}) as any as S.Schema<CvssSeveritiesCvssV3>;
+).annotate({ identifier: "CvssSeveritiesCvssV3" }) as any as S.Schema<CvssSeveritiesCvssV3>;
 
 export interface CvssSeveritiesCvssV4 {
   /** The CVSS 4 vector string. */
@@ -402,9 +393,7 @@ export const CvssSeveritiesCvssV4 = /*@__PURE__*/ S.suspend(() =>
     vector_string: S.NullOr(S.String),
     score: S.NullOr(S.Number),
   }),
-).annotate({
-  identifier: "CvssSeveritiesCvssV4",
-}) as any as S.Schema<CvssSeveritiesCvssV4>;
+).annotate({ identifier: "CvssSeveritiesCvssV4" }) as any as S.Schema<CvssSeveritiesCvssV4>;
 
 export interface CvssSeverities {
   cvss_v3?: CvssSeveritiesCvssV3 | null;
@@ -427,9 +416,7 @@ export const SecurityAdvisoryEpss = /*@__PURE__*/ S.suspend(() =>
     percentage: S.optional(S.Number),
     percentile: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "SecurityAdvisoryEpss",
-}) as any as S.Schema<SecurityAdvisoryEpss>;
+).annotate({ identifier: "SecurityAdvisoryEpss" }) as any as S.Schema<SecurityAdvisoryEpss>;
 
 /** A CWE weakness assigned to the advisory. */
 export interface DependabotAlertSecurityAdvisoryCwesItem {
@@ -607,9 +594,7 @@ export const NullableSimpleUser = /*@__PURE__*/ S.suspend(() =>
     starred_at: S.optional(S.String),
     user_view_type: S.optional(S.String),
   }),
-).annotate({
-  identifier: "NullableSimpleUser",
-}) as any as S.Schema<NullableSimpleUser>;
+).annotate({ identifier: "NullableSimpleUser" }) as any as S.Schema<NullableSimpleUser>;
 
 /** The reason that the alert was dismissed. */
 export type DependabotAlertDismissedReason =
@@ -724,9 +709,7 @@ export const DependabotAlert = /*@__PURE__*/ S.suspend(() =>
     dismissal_request: S.optional(S.NullOr(DependabotAlertDismissalRequestSimple)),
     assignees: S.optional(DependabotAlertAssigneesList),
   }),
-).annotate({
-  identifier: "DependabotAlert",
-}) as any as S.Schema<DependabotAlert>;
+).annotate({ identifier: "DependabotAlert" }) as any as S.Schema<DependabotAlert>;
 
 export interface GetOrgPublicKeyRequest {
   /** The organization name. The name is not case sensitive. */
@@ -735,16 +718,8 @@ export interface GetOrgPublicKeyRequest {
 export const GetOrgPublicKeyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     org: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/orgs/{org}/dependabot/secrets/public-key",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetOrgPublicKeyRequest",
-}) as any as S.Schema<GetOrgPublicKeyRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/orgs/{org}/dependabot/secrets/public-key", code: 200 })),
+).annotate({ identifier: "GetOrgPublicKeyRequest" }) as any as S.Schema<GetOrgPublicKeyRequest>;
 
 /** The public key used for setting Dependabot Secrets. */
 export interface DependabotPublicKey {
@@ -758,9 +733,7 @@ export const DependabotPublicKey = /*@__PURE__*/ S.suspend(() =>
     key_id: S.String,
     key: S.String,
   }),
-).annotate({
-  identifier: "DependabotPublicKey",
-}) as any as S.Schema<DependabotPublicKey>;
+).annotate({ identifier: "DependabotPublicKey" }) as any as S.Schema<DependabotPublicKey>;
 
 export interface GetOrgSecretRequest {
   /** The organization name. The name is not case sensitive. */
@@ -773,15 +746,9 @@ export const GetOrgSecretRequest = /*@__PURE__*/ S.suspend(() =>
     org: S.String.pipe(T.Label()),
     secret_name: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/orgs/{org}/dependabot/secrets/{secret_name}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/orgs/{org}/dependabot/secrets/{secret_name}", code: 200 }),
   ),
-).annotate({
-  identifier: "GetOrgSecretRequest",
-}) as any as S.Schema<GetOrgSecretRequest>;
+).annotate({ identifier: "GetOrgSecretRequest" }) as any as S.Schema<GetOrgSecretRequest>;
 
 /** Visibility of a secret */
 export type OrganizationDependabotSecretVisibility = "all" | "private" | "selected";
@@ -826,9 +793,7 @@ export const GetRepoPublicKeyRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetRepoPublicKeyRequest",
-}) as any as S.Schema<GetRepoPublicKeyRequest>;
+).annotate({ identifier: "GetRepoPublicKeyRequest" }) as any as S.Schema<GetRepoPublicKeyRequest>;
 
 export interface GetRepoSecretRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -850,9 +815,7 @@ export const GetRepoSecretRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetRepoSecretRequest",
-}) as any as S.Schema<GetRepoSecretRequest>;
+).annotate({ identifier: "GetRepoSecretRequest" }) as any as S.Schema<GetRepoSecretRequest>;
 
 /** Set secrets for Dependabot. */
 export interface DependabotSecret {
@@ -867,9 +830,7 @@ export const DependabotSecret = /*@__PURE__*/ S.suspend(() =>
     created_at: S.String,
     updated_at: S.String,
   }),
-).annotate({
-  identifier: "DependabotSecret",
-}) as any as S.Schema<DependabotSecret>;
+).annotate({ identifier: "DependabotSecret" }) as any as S.Schema<DependabotSecret>;
 
 export type ListAlertsForEnterpriseRequestHasCase1Item = "patch";
 export const ListAlertsForEnterpriseRequestHasCase1Item = S.String;
@@ -946,13 +907,7 @@ export const ListAlertsForEnterpriseRequest = /*@__PURE__*/ S.suspend(() =>
     before: S.optional(S.String.pipe(T.Query())),
     after: S.optional(S.String.pipe(T.Query())),
     per_page: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/enterprises/{enterprise}/dependabot/alerts",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/enterprises/{enterprise}/dependabot/alerts", code: 200 })),
 ).annotate({
   identifier: "ListAlertsForEnterpriseRequest",
 }) as any as S.Schema<ListAlertsForEnterpriseRequest>;
@@ -1152,9 +1107,7 @@ export const SimpleRepository = /*@__PURE__*/ S.suspend(() =>
     trees_url: S.String,
     hooks_url: S.String,
   }),
-).annotate({
-  identifier: "SimpleRepository",
-}) as any as S.Schema<SimpleRepository>;
+).annotate({ identifier: "SimpleRepository" }) as any as S.Schema<SimpleRepository>;
 
 /** A Dependabot alert. */
 export interface DependabotAlertWithRepository {
@@ -1303,9 +1256,7 @@ export const ListAlertsForOrgRequest = /*@__PURE__*/ S.suspend(() =>
     after: S.optional(S.String.pipe(T.Query())),
     per_page: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/orgs/{org}/dependabot/alerts", code: 200 })),
-).annotate({
-  identifier: "ListAlertsForOrgRequest",
-}) as any as S.Schema<ListAlertsForOrgRequest>;
+).annotate({ identifier: "ListAlertsForOrgRequest" }) as any as S.Schema<ListAlertsForOrgRequest>;
 
 export type ListAlertsForOrgResponseBodyList = Array<DependabotAlertWithRepository>;
 export const ListAlertsForOrgResponseBodyList = /*@__PURE__*/ S.Array(
@@ -1315,9 +1266,7 @@ export const ListAlertsForOrgResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListAlertsForOrgResponse = ListAlertsForOrgResponseBodyList;
 export const ListAlertsForOrgResponse = /*@__PURE__*/ S.suspend(() =>
   ListAlertsForOrgResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListAlertsForOrgResponse",
-}) as any as S.Schema<ListAlertsForOrgResponse>;
+).annotate({ identifier: "ListAlertsForOrgResponse" }) as any as S.Schema<ListAlertsForOrgResponse>;
 
 export type ListAlertsForRepoRequestHasCase1Item = "patch";
 export const ListAlertsForRepoRequestHasCase1Item = S.String;
@@ -1400,16 +1349,8 @@ export const ListAlertsForRepoRequest = /*@__PURE__*/ S.suspend(() =>
     before: S.optional(S.String.pipe(T.Query())),
     after: S.optional(S.String.pipe(T.Query())),
     per_page: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/dependabot/alerts",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ListAlertsForRepoRequest",
-}) as any as S.Schema<ListAlertsForRepoRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/dependabot/alerts", code: 200 })),
+).annotate({ identifier: "ListAlertsForRepoRequest" }) as any as S.Schema<ListAlertsForRepoRequest>;
 
 export type ListAlertsForRepoResponseBodyList = Array<DependabotAlert>;
 export const ListAlertsForRepoResponseBodyList = /*@__PURE__*/ S.Array(
@@ -1437,9 +1378,7 @@ export const ListOrgSecretsRequest = /*@__PURE__*/ S.suspend(() =>
     per_page: S.optional(S.Number.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/orgs/{org}/dependabot/secrets", code: 200 })),
-).annotate({
-  identifier: "ListOrgSecretsRequest",
-}) as any as S.Schema<ListOrgSecretsRequest>;
+).annotate({ identifier: "ListOrgSecretsRequest" }) as any as S.Schema<ListOrgSecretsRequest>;
 
 export type ListOrgSecretsResponseSecretsList = Array<OrganizationDependabotSecret>;
 export const ListOrgSecretsResponseSecretsList = /*@__PURE__*/ S.Array(
@@ -1455,9 +1394,7 @@ export const ListOrgSecretsResponse = /*@__PURE__*/ S.suspend(() =>
     total_count: S.Number,
     secrets: ListOrgSecretsResponseSecretsList,
   }),
-).annotate({
-  identifier: "ListOrgSecretsResponse",
-}) as any as S.Schema<ListOrgSecretsResponse>;
+).annotate({ identifier: "ListOrgSecretsResponse" }) as any as S.Schema<ListOrgSecretsResponse>;
 
 export interface ListRepoSecretsRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -1475,16 +1412,8 @@ export const ListRepoSecretsRequest = /*@__PURE__*/ S.suspend(() =>
     repo: S.String.pipe(T.Label()),
     per_page: S.optional(S.Number.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/dependabot/secrets",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ListRepoSecretsRequest",
-}) as any as S.Schema<ListRepoSecretsRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/dependabot/secrets", code: 200 })),
+).annotate({ identifier: "ListRepoSecretsRequest" }) as any as S.Schema<ListRepoSecretsRequest>;
 
 export type ListRepoSecretsResponseSecretsList = Array<DependabotSecret>;
 export const ListRepoSecretsResponseSecretsList = /*@__PURE__*/ S.Array(
@@ -1500,9 +1429,7 @@ export const ListRepoSecretsResponse = /*@__PURE__*/ S.suspend(() =>
     total_count: S.Number,
     secrets: ListRepoSecretsResponseSecretsList,
   }),
-).annotate({
-  identifier: "ListRepoSecretsResponse",
-}) as any as S.Schema<ListRepoSecretsResponse>;
+).annotate({ identifier: "ListRepoSecretsResponse" }) as any as S.Schema<ListRepoSecretsResponse>;
 
 export interface ListSelectedReposForOrgSecretRequest {
   /** The organization name. The name is not case sensitive. */
@@ -1592,9 +1519,7 @@ export const MinimalRepositoryLicense = /*@__PURE__*/ S.suspend(() =>
     url: S.optional(S.NullOr(S.String)),
     node_id: S.optional(S.String),
   }),
-).annotate({
-  identifier: "MinimalRepositoryLicense",
-}) as any as S.Schema<MinimalRepositoryLicense>;
+).annotate({ identifier: "MinimalRepositoryLicense" }) as any as S.Schema<MinimalRepositoryLicense>;
 
 export type SecurityAndAnalysisAdvancedSecurityStatus = "enabled" | "disabled";
 export const SecurityAndAnalysisAdvancedSecurityStatus = S.String;
@@ -1813,14 +1738,10 @@ export const SecurityAndAnalysis = /*@__PURE__*/ S.suspend(() =>
       SecurityAndAnalysisSecretScanningDelegatedBypassOptions,
     ),
   }),
-).annotate({
-  identifier: "SecurityAndAnalysis",
-}) as any as S.Schema<SecurityAndAnalysis>;
+).annotate({ identifier: "SecurityAndAnalysis" }) as any as S.Schema<SecurityAndAnalysis>;
 
 /** The custom properties that were defined for the repository. The keys are the custom property names, and the values are the corresponding custom property values. */
-export type MinimalRepositoryCustomPropertiesMap = {
-  [key: string]: unknown | undefined;
-};
+export type MinimalRepositoryCustomPropertiesMap = { [key: string]: unknown | undefined };
 export const MinimalRepositoryCustomPropertiesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -2015,9 +1936,7 @@ export const MinimalRepository = /*@__PURE__*/ S.suspend(() =>
     security_and_analysis: S.optional(S.NullOr(SecurityAndAnalysis)),
     custom_properties: S.optional(MinimalRepositoryCustomPropertiesMap),
   }),
-).annotate({
-  identifier: "MinimalRepository",
-}) as any as S.Schema<MinimalRepository>;
+).annotate({ identifier: "MinimalRepository" }) as any as S.Schema<MinimalRepository>;
 
 export type ListSelectedReposForOrgSecretResponseRepositoriesList = Array<MinimalRepository>;
 export const ListSelectedReposForOrgSecretResponseRepositoriesList = /*@__PURE__*/ S.Array(
@@ -2135,13 +2054,7 @@ export const RepositoryAccessForOrgRequest = /*@__PURE__*/ S.suspend(() =>
     org: S.String.pipe(T.Label()),
     page: S.optional(S.Number.pipe(T.Query())),
     per_page: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/orgs/{org}/dependabot/repository-access",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/orgs/{org}/dependabot/repository-access", code: 200 })),
 ).annotate({
   identifier: "RepositoryAccessForOrgRequest",
 }) as any as S.Schema<RepositoryAccessForOrgRequest>;
@@ -2320,9 +2233,7 @@ export const UpdateAlertRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "UpdateAlertRequest",
-}) as any as S.Schema<UpdateAlertRequest>;
+).annotate({ identifier: "UpdateAlertRequest" }) as any as S.Schema<UpdateAlertRequest>;
 
 /** List of repository IDs to add. */
 export type UpdateRepositoryAccessForEnterpriseRequestRepositoryIdsToAddList = Array<number>;
@@ -2400,13 +2311,7 @@ export const UpdateRepositoryAccessForOrgRequest = /*@__PURE__*/ S.suspend(() =>
     repository_ids_to_remove: S.optional(
       UpdateRepositoryAccessForOrgRequestRepositoryIdsToRemoveList,
     ),
-  }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/orgs/{org}/dependabot/repository-access",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PATCH", uri: "/orgs/{org}/dependabot/repository-access", code: 200 })),
 ).annotate({
   identifier: "UpdateRepositoryAccessForOrgRequest",
 }) as any as S.Schema<UpdateRepositoryAccessForOrgRequest>;
@@ -2493,7 +2398,7 @@ export const deleteRepoSecret: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type GetAlertError = Forbidden | NotFound | GithubOpError;
+export type GetAlertError = Forbidden | NotFound | Gone | GithubOpError;
 /** Get a Dependabot alert OAuth app tokens and personal access tokens (classic) need the `security_events` scope to use this endpoint. If this endpoint is only used with public repositories, the token can use the `public_repo` scope instead. */
 export const getAlert: API.OperationMethod<
   GetAlertRequest,
@@ -2503,7 +2408,7 @@ export const getAlert: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetAlertRequest,
   output: DependabotAlert,
-  errors: [Forbidden, NotFound],
+  errors: [Forbidden, NotFound, Gone],
   protocol: GithubProtocol,
   retry: Retry.Retry,
 }));
@@ -2718,7 +2623,7 @@ export const repositoryAccessForOrg: API.OperationMethod<
 }));
 
 export type SetRepositoryAccessDefaultLevelError = Forbidden | NotFound | GithubOpError;
-/** Set the default repository access level for Dependabot Sets the default level of repository access Dependabot will have while performing an update. Available values are: - 'public' - Dependabot will only have access to public repositories, unless access is explicitly granted to non-public repositories. - 'internal' - Dependabot will only have access to public and internal repositories, unless access is explicitly granted to private repositories. Unauthorized users will not see the existence of this endpoint. This operation supports both server-to-server and user-to-server access. */
+/** Set the default repository access level for Dependabot Sets the default level of repository access Dependabot will have while performing an update. Available values are: - 'public' - Dependabot will only have access to public repositories, unless access is explicitly granted to non-public repositories. - 'internal' - Dependabot will only have access to public and internal repositories, unless access is explicitly granted to private repositories. Unauthorized users will not see the existence of this endpoint. This operation supports both server-to-server and user-to-server access. OAuth app tokens and personal access tokens (classic) need the `write:org` scope to use this endpoint. */
 export const setRepositoryAccessDefaultLevel: API.OperationMethod<
   SetRepositoryAccessDefaultLevelRequest,
   SetRepositoryAccessDefaultLevelResponse,
@@ -2770,6 +2675,7 @@ export type UpdateAlertError =
   | Forbidden
   | NotFound
   | Conflict
+  | Gone
   | UnprocessableEntity
   | GithubOpError;
 /** Update a Dependabot alert The authenticated user must have access to security alerts for the repository to use this endpoint. For more information, see "[Granting access to security alerts](https://docs.github.com/repositories/managing-your-repositorys-settings-and-features/enabling-features-for-your-repository/managing-security-and-analysis-settings-for-your-repository#granting-access-to-security-alerts)." OAuth app tokens and personal access tokens (classic) need the `security_events` scope to use this endpoint. If this endpoint is only used with public repositories, the token can use the `public_repo` scope instead. */
@@ -2781,7 +2687,7 @@ export const updateAlert: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateAlertRequest,
   output: DependabotAlert,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, Gone, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
 }));
@@ -2802,7 +2708,7 @@ export const updateRepositoryAccessForEnterprise: API.OperationMethod<
 }));
 
 export type UpdateRepositoryAccessForOrgError = Forbidden | NotFound | GithubOpError;
-/** Updates Dependabot's repository access list for an organization Updates repositories according to the list of repositories that organization admins have given Dependabot access to when they've updated dependencies. > [!NOTE] > This operation supports both server-to-server and user-to-server access. Unauthorized users will not see the existence of this endpoint. **Example request body:** ```json { "repository_ids_to_add": [123, 456], "repository_ids_to_remove": [789] } ``` */
+/** Updates Dependabot's repository access list for an organization Updates repositories according to the list of repositories that organization admins have given Dependabot access to when they've updated dependencies. > [!NOTE] > This operation supports both server-to-server and user-to-server access. Unauthorized users will not see the existence of this endpoint. OAuth app tokens and personal access tokens (classic) need the `write:org` scope to use this endpoint. **Example request body:** ```json { "repository_ids_to_add": [123, 456], "repository_ids_to_remove": [789] } ``` */
 export const updateRepositoryAccessForOrg: API.OperationMethod<
   UpdateRepositoryAccessForOrgRequest,
   UpdateRepositoryAccessForOrgResponse,

@@ -80,9 +80,7 @@ export const AddDiskResponse = /*@__PURE__*/ S.suspend(() =>
     createdAt: S.String,
     updatedAt: S.String,
   }),
-).annotate({
-  identifier: "AddDiskResponse",
-}) as any as S.Schema<AddDiskResponse>;
+).annotate({ identifier: "AddDiskResponse" }) as any as S.Schema<AddDiskResponse>;
 
 export interface AddHeadersRequest {
   /** The ID of the service */
@@ -101,9 +99,7 @@ export const AddHeadersRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     value: S.String,
   }).pipe(T.Http({ method: "POST", uri: "/services/{serviceId}/headers", code: 200 })),
-).annotate({
-  identifier: "AddHeadersRequest",
-}) as any as S.Schema<AddHeadersRequest>;
+).annotate({ identifier: "AddHeadersRequest" }) as any as S.Schema<AddHeadersRequest>;
 
 export interface Header {
   id: string;
@@ -127,9 +123,40 @@ export const AddHeadersResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     headers: S.optional(Header),
   }),
+).annotate({ identifier: "AddHeadersResponse" }) as any as S.Schema<AddHeadersResponse>;
+
+export interface AddOrUpdateBuildSourceSecretFileRequest {
+  buildSourceId: string;
+  /** The file name of the secret file */
+  envVarKey: string;
+  content?: string;
+}
+export const AddOrUpdateBuildSourceSecretFileRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    buildSourceId: S.String.pipe(T.Label()),
+    envVarKey: S.String.pipe(T.Label()),
+    content: S.optional(S.String),
+  }).pipe(
+    T.Http({
+      method: "PUT",
+      uri: "/build-sources/{buildSourceId}/secret-files/{envVarKey}",
+      code: 200,
+    }),
+  ),
 ).annotate({
-  identifier: "AddHeadersResponse",
-}) as any as S.Schema<AddHeadersResponse>;
+  identifier: "AddOrUpdateBuildSourceSecretFileRequest",
+}) as any as S.Schema<AddOrUpdateBuildSourceSecretFileRequest>;
+
+export interface SecretFile {
+  name: string;
+  content: string;
+}
+export const SecretFile = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    content: S.String,
+  }),
+).annotate({ identifier: "SecretFile" }) as any as S.Schema<SecretFile>;
 
 export interface AddOrUpdateSecretFileRequest {
   /** The ID of the service */
@@ -144,26 +171,11 @@ export const AddOrUpdateSecretFileRequest = /*@__PURE__*/ S.suspend(() =>
     envVarKey: S.String.pipe(T.Label()),
     content: S.optional(S.String),
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/services/{serviceId}/secret-files/{envVarKey}",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/services/{serviceId}/secret-files/{envVarKey}", code: 200 }),
   ),
 ).annotate({
   identifier: "AddOrUpdateSecretFileRequest",
 }) as any as S.Schema<AddOrUpdateSecretFileRequest>;
-
-export interface SecretFile {
-  name: string;
-  content: string;
-}
-export const SecretFile = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.String,
-    content: S.String,
-  }),
-).annotate({ identifier: "SecretFile" }) as any as S.Schema<SecretFile>;
 
 export type AddResourcesToEnvironmentRequestResourceIdsList = Array<string>;
 export const AddResourcesToEnvironmentRequestResourceIdsList = /*@__PURE__*/ S.Array(
@@ -178,13 +190,7 @@ export const AddResourcesToEnvironmentRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     environmentId: S.String.pipe(T.Label()),
     resourceIds: AddResourcesToEnvironmentRequestResourceIdsList,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/environments/{environmentId}/resources",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/environments/{environmentId}/resources", code: 200 })),
 ).annotate({
   identifier: "AddResourcesToEnvironmentRequest",
 }) as any as S.Schema<AddResourcesToEnvironmentRequest>;
@@ -204,9 +210,7 @@ export const CidrBlockAndDescription = /*@__PURE__*/ S.suspend(() =>
     cidrBlock: S.String,
     description: S.String,
   }),
-).annotate({
-  identifier: "CidrBlockAndDescription",
-}) as any as S.Schema<CidrBlockAndDescription>;
+).annotate({ identifier: "CidrBlockAndDescription" }) as any as S.Schema<CidrBlockAndDescription>;
 
 export type EnvironmentIpAllowListList = Array<CidrBlockAndDescription>;
 export const EnvironmentIpAllowListList = /*@__PURE__*/ S.Array(
@@ -279,9 +283,7 @@ export const AddRouteRequest = /*@__PURE__*/ S.suspend(() =>
     destination: S.String,
     priority: S.optional(S.Number),
   }).pipe(T.Http({ method: "POST", uri: "/services/{serviceId}/routes", code: 200 })),
-).annotate({
-  identifier: "AddRouteRequest",
-}) as any as S.Schema<AddRouteRequest>;
+).annotate({ identifier: "AddRouteRequest" }) as any as S.Schema<AddRouteRequest>;
 
 export interface Route {
   id: string;
@@ -348,16 +350,8 @@ export const AutoscaleServiceRequest = /*@__PURE__*/ S.suspend(() =>
     min: S.Number,
     max: S.Number,
     criteria: AutoscaleServiceRequestCriteria,
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/services/{serviceId}/autoscaling",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "AutoscaleServiceRequest",
-}) as any as S.Schema<AutoscaleServiceRequest>;
+  }).pipe(T.Http({ method: "PUT", uri: "/services/{serviceId}/autoscaling", code: 200 })),
+).annotate({ identifier: "AutoscaleServiceRequest" }) as any as S.Schema<AutoscaleServiceRequest>;
 
 export type SchemaCriteriaCpu = AutoscaleServiceRequestCriteriaCpu;
 export const SchemaCriteriaCpu = AutoscaleServiceRequestCriteriaCpu;
@@ -390,9 +384,7 @@ export const CancelCronJobRunRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     cronJobId: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "DELETE", uri: "/cron-jobs/{cronJobId}/runs", code: 200 })),
-).annotate({
-  identifier: "CancelCronJobRunRequest",
-}) as any as S.Schema<CancelCronJobRunRequest>;
+).annotate({ identifier: "CancelCronJobRunRequest" }) as any as S.Schema<CancelCronJobRunRequest>;
 
 export interface CancelCronJobRunResponse {}
 export const CancelCronJobRunResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -410,15 +402,9 @@ export const CancelDeployRequest = /*@__PURE__*/ S.suspend(() =>
     serviceId: S.String.pipe(T.Label()),
     deployId: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/services/{serviceId}/deploys/{deployId}/cancel",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/services/{serviceId}/deploys/{deployId}/cancel", code: 200 }),
   ),
-).annotate({
-  identifier: "CancelDeployRequest",
-}) as any as S.Schema<CancelDeployRequest>;
+).annotate({ identifier: "CancelDeployRequest" }) as any as S.Schema<CancelDeployRequest>;
 
 export interface DeployCommit {
   id?: string;
@@ -513,16 +499,8 @@ export const CancelJobRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceId: S.String.pipe(T.Label()),
     jobId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/services/{serviceId}/jobs/{jobId}/cancel",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "CancelJobRequest",
-}) as any as S.Schema<CancelJobRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/services/{serviceId}/jobs/{jobId}/cancel", code: 200 })),
+).annotate({ identifier: "CancelJobRequest" }) as any as S.Schema<CancelJobRequest>;
 
 export type Items2 = "pending" | "running" | "succeeded" | "failed" | "canceled";
 export const Items2 = S.String;
@@ -558,14 +536,276 @@ export const CancelTaskRunRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     taskRunId: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "DELETE", uri: "/task-runs/{taskRunId}", code: 200 })),
-).annotate({
-  identifier: "CancelTaskRunRequest",
-}) as any as S.Schema<CancelTaskRunRequest>;
+).annotate({ identifier: "CancelTaskRunRequest" }) as any as S.Schema<CancelTaskRunRequest>;
 
 export interface CancelTaskRunResponse {}
 export const CancelTaskRunResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "CancelTaskRunResponse",
 }) as any as S.Schema<CancelTaskRunResponse>;
+
+export type BuildFilterPathsList2 = Array<string>;
+export const BuildFilterPathsList2 = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<BuildFilterPathsList2>;
+
+export type BuildFilterIgnoredPathsList2 = Array<string>;
+export const BuildFilterIgnoredPathsList2 = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<BuildFilterIgnoredPathsList2>;
+
+/** Glob patterns matched against files changed by a commit. When set, a commit only triggers a build when at least one changed file matches `paths` and none match `ignoredPaths`. Useful for monorepos where a single repo backs many services. */
+export interface BuildFilter2 {
+  paths: BuildFilterPathsList2;
+  ignoredPaths: BuildFilterIgnoredPathsList2;
+}
+export const BuildFilter2 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    paths: BuildFilterPathsList2,
+    ignoredPaths: BuildFilterIgnoredPathsList2,
+  }),
+).annotate({ identifier: "BuildFilter2" }) as any as S.Schema<BuildFilter2>;
+
+/** Build runtime for the build source. Static sites are not supported for build sources. */
+export type CreateBuildSourceRequestGitRuntime =
+  | "docker"
+  | "elixir"
+  | "go"
+  | "node"
+  | "python"
+  | "ruby"
+  | "rust";
+export const CreateBuildSourceRequestGitRuntime = S.String;
+
+/** Defaults to "oregon" */
+export type CreateBuildSourceRequestGitRegion =
+  | "frankfurt"
+  | "oregon"
+  | "ohio"
+  | "singapore"
+  | "virginia";
+export const CreateBuildSourceRequestGitRegion = S.String;
+
+export interface CreateBuildSourceRequestGit {
+  baseDir?: string;
+  branch?: string;
+  buildCommand?: string;
+  buildFilter?: BuildFilter2;
+  dockerfilePath?: string;
+  /** Build runtime for the build source. Static sites are not supported for build sources. */
+  runtime: CreateBuildSourceRequestGitRuntime | (string & {});
+  registryCredentialId?: string;
+  /** Defaults to "oregon" */
+  region?: CreateBuildSourceRequestGitRegion | (string & {});
+  repoUrl?: string;
+  rootDir?: string;
+}
+export const CreateBuildSourceRequestGit = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    baseDir: S.optional(S.String),
+    branch: S.optional(S.String),
+    buildCommand: S.optional(S.String),
+    buildFilter: S.optional(BuildFilter2),
+    dockerfilePath: S.optional(S.String),
+    runtime: CreateBuildSourceRequestGitRuntime,
+    registryCredentialId: S.optional(S.String),
+    region: S.optional(CreateBuildSourceRequestGitRegion),
+    repoUrl: S.optional(S.String),
+    rootDir: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "CreateBuildSourceRequestGit",
+}) as any as S.Schema<CreateBuildSourceRequestGit>;
+
+export interface CreateBuildSourceRequestImage {
+  ownerId: string;
+  registryCredentialId?: string;
+  imageUrl: string;
+}
+export const CreateBuildSourceRequestImage = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ownerId: S.String,
+    registryCredentialId: S.optional(S.String),
+    imageUrl: S.String,
+  }),
+).annotate({
+  identifier: "CreateBuildSourceRequestImage",
+}) as any as S.Schema<CreateBuildSourceRequestImage>;
+
+export type CreateBuildSourceRequestServiceIdsList = Array<string>;
+export const CreateBuildSourceRequestServiceIdsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<CreateBuildSourceRequestServiceIdsList>;
+
+export interface SchemaItemCase0 {
+  key: string;
+  value: string;
+}
+export const SchemaItemCase0 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    key: S.String,
+    value: S.String,
+  }),
+).annotate({ identifier: "SchemaItemCase0" }) as any as S.Schema<SchemaItemCase0>;
+
+export interface SchemaItemCase1 {
+  key: string;
+  /** If true, Render generates a strong random value for this environment variable on creation. Cannot be combined with `value`. */
+  generateValue: boolean;
+}
+export const SchemaItemCase1 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    key: S.String,
+    generateValue: S.Boolean,
+  }),
+).annotate({ identifier: "SchemaItemCase1" }) as any as S.Schema<SchemaItemCase1>;
+
+export type SchemaItem = SchemaItemCase0 | SchemaItemCase1;
+export const SchemaItem = S.Unknown as any as S.Schema<SchemaItem>;
+
+export type Schema6 = Array<SchemaItem>;
+export const Schema6 = /*@__PURE__*/ S.Array(SchemaItem) as any as S.Schema<Schema6>;
+
+export interface Items {
+  name: string;
+  content: string;
+}
+export const Items = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    content: S.String,
+  }),
+).annotate({ identifier: "Items" }) as any as S.Schema<Items>;
+
+/** Secret files for the build source's build. Only valid for `git` sources. */
+export type CreateBuildSourceRequestSecretFilesList = Array<Items>;
+export const CreateBuildSourceRequestSecretFilesList = /*@__PURE__*/ S.Array(
+  Items,
+) as any as S.Schema<CreateBuildSourceRequestSecretFilesList>;
+
+/** IDs of env groups to link to the build source. Only valid for `git` sources; env groups must belong to the same workspace and must not be scoped to an environment. */
+export type CreateBuildSourceRequestEnvGroupIdsList = Array<string>;
+export const CreateBuildSourceRequestEnvGroupIdsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<CreateBuildSourceRequestEnvGroupIdsList>;
+
+export interface CreateBuildSourceRequest {
+  ownerId: string;
+  name: string;
+  projectId?: string;
+  git?: CreateBuildSourceRequestGit;
+  image?: CreateBuildSourceRequestImage;
+  serviceIds?: CreateBuildSourceRequestServiceIdsList;
+  envVars?: Schema6;
+  /** Secret files for the build source's build. Only valid for `git` sources. */
+  secretFiles?: CreateBuildSourceRequestSecretFilesList;
+  /** IDs of env groups to link to the build source. Only valid for `git` sources; env groups must belong to the same workspace and must not be scoped to an environment. */
+  envGroupIds?: CreateBuildSourceRequestEnvGroupIdsList;
+}
+export const CreateBuildSourceRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ownerId: S.String,
+    name: S.String,
+    projectId: S.optional(S.String),
+    git: S.optional(CreateBuildSourceRequestGit),
+    image: S.optional(CreateBuildSourceRequestImage),
+    serviceIds: S.optional(CreateBuildSourceRequestServiceIdsList),
+    envVars: S.optional(Schema6),
+    secretFiles: S.optional(CreateBuildSourceRequestSecretFilesList),
+    envGroupIds: S.optional(CreateBuildSourceRequestEnvGroupIdsList),
+  }).pipe(T.Http({ method: "POST", uri: "/build-sources", code: 200 })),
+).annotate({ identifier: "CreateBuildSourceRequest" }) as any as S.Schema<CreateBuildSourceRequest>;
+
+/** Build runtime for the build source. Static sites are not supported for build sources. */
+export type GitRuntime = "docker" | "elixir" | "go" | "node" | "python" | "ruby" | "rust";
+export const GitRuntime = S.String;
+
+/** Defaults to "oregon" */
+export type GitRegion = "frankfurt" | "oregon" | "ohio" | "singapore" | "virginia";
+export const GitRegion = S.String;
+
+export interface Git {
+  baseDir?: string;
+  branch?: string;
+  buildCommand?: string;
+  buildFilter?: BuildFilter2;
+  dockerfilePath?: string;
+  /** Build runtime for the build source. Static sites are not supported for build sources. */
+  runtime: GitRuntime;
+  registryCredentialId?: string;
+  /** Defaults to "oregon" */
+  region?: GitRegion;
+  repoUrl?: string;
+  rootDir?: string;
+}
+export const Git = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    baseDir: S.optional(S.String),
+    branch: S.optional(S.String),
+    buildCommand: S.optional(S.String),
+    buildFilter: S.optional(BuildFilter2),
+    dockerfilePath: S.optional(S.String),
+    runtime: GitRuntime,
+    registryCredentialId: S.optional(S.String),
+    region: S.optional(GitRegion),
+    repoUrl: S.optional(S.String),
+    rootDir: S.optional(S.String),
+  }),
+).annotate({ identifier: "Git" }) as any as S.Schema<Git>;
+
+export type Image2 = CreateBuildSourceRequestImage;
+export const Image2 = CreateBuildSourceRequestImage;
+
+export interface CreateBuildSourceResponseServiceLinksItem {
+  id: string;
+  name: string;
+}
+export const CreateBuildSourceResponseServiceLinksItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    name: S.String,
+  }),
+).annotate({
+  identifier: "CreateBuildSourceResponseServiceLinksItem",
+}) as any as S.Schema<CreateBuildSourceResponseServiceLinksItem>;
+
+/** Services currently linked to this build source. */
+export type CreateBuildSourceResponseServiceLinksList =
+  Array<CreateBuildSourceResponseServiceLinksItem>;
+export const CreateBuildSourceResponseServiceLinksList = /*@__PURE__*/ S.Array(
+  CreateBuildSourceResponseServiceLinksItem,
+) as any as S.Schema<CreateBuildSourceResponseServiceLinksList>;
+
+export interface CreateBuildSourceResponse {
+  id: string;
+  name: string;
+  /** ID of the workspace this build source belongs to. */
+  ownerId: string;
+  /** ID of the project this build source is scoped to, if any. */
+  projectId?: string;
+  /** Present when the build source is currently build-based. Mutually exclusive with `image`. */
+  git?: Git;
+  /** Present when the build source is currently image-based. Mutually exclusive with `git`. */
+  image?: CreateBuildSourceRequestImage;
+  createdAt: string;
+  updatedAt: string;
+  /** Services currently linked to this build source. */
+  serviceLinks: CreateBuildSourceResponseServiceLinksList;
+}
+export const CreateBuildSourceResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    name: S.String,
+    ownerId: S.String,
+    projectId: S.optional(S.String),
+    git: S.optional(Git),
+    image: S.optional(CreateBuildSourceRequestImage),
+    createdAt: S.String,
+    updatedAt: S.String,
+    serviceLinks: CreateBuildSourceResponseServiceLinksList,
+  }),
+).annotate({
+  identifier: "CreateBuildSourceResponse",
+}) as any as S.Schema<CreateBuildSourceResponse>;
 
 export interface CreateCustomDomainRequest {
   /** The ID of the service */
@@ -576,13 +816,7 @@ export const CreateCustomDomainRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceId: S.String.pipe(T.Label()),
     name: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/services/{serviceId}/custom-domains",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/services/{serviceId}/custom-domains", code: 200 })),
 ).annotate({
   identifier: "CreateCustomDomainRequest",
 }) as any as S.Schema<CreateCustomDomainRequest>;
@@ -602,9 +836,7 @@ export const CustomDomainServer = /*@__PURE__*/ S.suspend(() =>
     id: S.optional(S.String),
     name: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CustomDomainServer",
-}) as any as S.Schema<CustomDomainServer>;
+).annotate({ identifier: "CustomDomainServer" }) as any as S.Schema<CustomDomainServer>;
 
 export interface CustomDomain {
   id: string;
@@ -670,9 +902,7 @@ export const CreateDedicatedIpRequest = /*@__PURE__*/ S.suspend(() =>
     region: Region,
     environmentIds: S.optional(CreateDedicatedIpRequestEnvironmentIdsList),
   }).pipe(T.Http({ method: "POST", uri: "/dedicated-ips", code: 200 })),
-).annotate({
-  identifier: "CreateDedicatedIpRequest",
-}) as any as S.Schema<CreateDedicatedIpRequest>;
+).annotate({ identifier: "CreateDedicatedIpRequest" }) as any as S.Schema<CreateDedicatedIpRequest>;
 
 /** Environments this dedicated IP set applies to. If empty, it applies to all services in the workspace within its region. */
 export type DedicatedIPEnvironmentIdsList = Array<string>;
@@ -736,77 +966,34 @@ export const DedicatedIP = /*@__PURE__*/ S.suspend(() =>
 export type CreateDeployRequestClearCache = "clear" | "do_not_clear";
 export const CreateDeployRequestClearCache = S.String;
 
-/** Controls deployment behavior when triggering a deploy. - `deploy_only`: Deploy the last successful build without rebuilding (minimizes downtime) - `build_and_deploy`: Build new code and deploy it (default behavior when not specified) **Note:** `deploy_only` cannot be combined with `commitId`, `imageUrl` or `clearCache` parameters, as those are build related fields. */
+/** Controls deployment behavior when triggering a deploy. - `deploy_only`: Deploy the last successful build without rebuilding (minimizes downtime) - `build_and_deploy`: Build new code and deploy it (default behavior when not specified) **Note:** `deployMode` cannot be combined with `buildId`. `deploy_only` cannot be combined with `commitId`, `imageUrl`, or `clearCache`, as those are build related fields. */
 export type DeployMode = "deploy_only" | "build_and_deploy";
 export const DeployMode = S.String;
 
 export interface CreateDeployRequest {
   /** The ID of the service */
   serviceId: string;
+  /** The ID of the build to deploy. Cannot be combined with `commitId`, `imageUrl`, or `deployMode`. */
+  buildId?: string;
   /** If `clear`, Render clears the service's build cache before deploying. This can be useful if you're experiencing issues with your build. */
   clearCache?: CreateDeployRequestClearCache | (string & {});
-  /** The SHA of a specific Git commit to deploy for a service. Defaults to the latest commit on the service's connected branch. Note that deploying a specific commit with this endpoint does not disable autodeploys for the service. You can toggle autodeploys for your service with the [Update service](https://api-docs.render.com/reference/update-service) endpoint or in the Render Dashboard. Not supported for cron jobs. */
+  /** The SHA of a specific Git commit to deploy for a service. Defaults to the latest commit on the service's connected branch. Cannot be combined with `buildId`, `imageUrl`, or `deployMode: deploy_only`. Note that deploying a specific commit with this endpoint does not disable autodeploys for the service. You can toggle autodeploys for your service with the [Update service](https://api-docs.render.com/reference/update-service) endpoint or in the Render Dashboard. Not supported for cron jobs. */
   commitId?: string;
-  /** The URL of the image to deploy for an image-backed service. The host, repository, and image name all must match the currently configured image for the service. */
+  /** The URL of the image to deploy for an image-backed service. Cannot be combined with `buildId`, `commitId`, or `deployMode: deploy_only`. The host, repository, and image name all must match the currently configured image for the service. */
   imageUrl?: string;
-  /** Deployment mode controlling build and deploy behavior. Defaults to `build_and_deploy` when not specified. **Validation:** `deploy_mode` cannot be combined with `commitId` or `imageUrl` or `clearCache`. */
+  /** Deployment mode controlling build and deploy behavior. Defaults to `build_and_deploy` when not specified. **Validation:** `deployMode` cannot be combined with `buildId`. `deploy_only` cannot be combined with `commitId`, `imageUrl`, or `clearCache`. */
   deployMode?: DeployMode | (string & {});
 }
 export const CreateDeployRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceId: S.String.pipe(T.Label()),
+    buildId: S.optional(S.String),
     clearCache: S.optional(CreateDeployRequestClearCache),
     commitId: S.optional(S.String),
     imageUrl: S.optional(S.String),
     deployMode: S.optional(DeployMode),
   }).pipe(T.Http({ method: "POST", uri: "/services/{serviceId}/deploys", code: 200 })),
-).annotate({
-  identifier: "CreateDeployRequest",
-}) as any as S.Schema<CreateDeployRequest>;
-
-export interface SchemaItemCase0 {
-  key: string;
-  value: string;
-}
-export const SchemaItemCase0 = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    key: S.String,
-    value: S.String,
-  }),
-).annotate({
-  identifier: "SchemaItemCase0",
-}) as any as S.Schema<SchemaItemCase0>;
-
-export interface SchemaItemCase1 {
-  key: string;
-  /** If true, Render generates a strong random value for this environment variable on creation. Cannot be combined with `value`. */
-  generateValue: boolean;
-}
-export const SchemaItemCase1 = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    key: S.String,
-    generateValue: S.Boolean,
-  }),
-).annotate({
-  identifier: "SchemaItemCase1",
-}) as any as S.Schema<SchemaItemCase1>;
-
-export type SchemaItem = SchemaItemCase0 | SchemaItemCase1;
-export const SchemaItem = S.Unknown as any as S.Schema<SchemaItem>;
-
-export type Schema6 = Array<SchemaItem>;
-export const Schema6 = /*@__PURE__*/ S.Array(SchemaItem) as any as S.Schema<Schema6>;
-
-export interface Items {
-  name: string;
-  content: string;
-}
-export const Items = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.String,
-    content: S.String,
-  }),
-).annotate({ identifier: "Items" }) as any as S.Schema<Items>;
+).annotate({ identifier: "CreateDeployRequest" }) as any as S.Schema<CreateDeployRequest>;
 
 export type CreateEnvGroupRequestSecretFilesList = Array<Items>;
 export const CreateEnvGroupRequestSecretFilesList = /*@__PURE__*/ S.Array(
@@ -835,9 +1022,7 @@ export const CreateEnvGroupRequest = /*@__PURE__*/ S.suspend(() =>
     serviceIds: S.optional(CreateEnvGroupRequestServiceIdsList),
     environmentId: S.optional(S.String),
   }).pipe(T.Http({ method: "POST", uri: "/env-groups", code: 200 })),
-).annotate({
-  identifier: "CreateEnvGroupRequest",
-}) as any as S.Schema<CreateEnvGroupRequest>;
+).annotate({ identifier: "CreateEnvGroupRequest" }) as any as S.Schema<CreateEnvGroupRequest>;
 
 export type ServiceTypeShort = "static" | "web" | "pserv" | "worker" | "cron";
 export const ServiceTypeShort = S.String;
@@ -906,9 +1091,7 @@ export const CreateEnvGroupResponse = /*@__PURE__*/ S.suspend(() =>
     envVars: CreateEnvGroupResponseEnvVarsList,
     secretFiles: CreateEnvGroupResponseSecretFilesList,
   }),
-).annotate({
-  identifier: "CreateEnvGroupResponse",
-}) as any as S.Schema<CreateEnvGroupResponse>;
+).annotate({ identifier: "CreateEnvGroupResponse" }) as any as S.Schema<CreateEnvGroupResponse>;
 
 export type CreateEnvironmentRequestIpAllowListList = Array<CidrBlockAndDescription>;
 export const CreateEnvironmentRequestIpAllowListList = /*@__PURE__*/ S.Array(
@@ -930,9 +1113,7 @@ export const CreateEnvironmentRequest = /*@__PURE__*/ S.suspend(() =>
     networkIsolationEnabled: S.optional(S.Boolean),
     ipAllowList: S.optional(CreateEnvironmentRequestIpAllowListList),
   }).pipe(T.Http({ method: "POST", uri: "/environments", code: 200 })),
-).annotate({
-  identifier: "CreateEnvironmentRequest",
-}) as any as S.Schema<CreateEnvironmentRequest>;
+).annotate({ identifier: "CreateEnvironmentRequest" }) as any as S.Schema<CreateEnvironmentRequest>;
 
 export type KeyValuePlan =
   | "free"
@@ -993,9 +1174,7 @@ export const CreateKeyValueRequest = /*@__PURE__*/ S.suspend(() =>
     persistenceMode: S.optional(PersistenceMode),
     ipAllowList: S.optional(CreateKeyValueRequestIpAllowListList),
   }).pipe(T.Http({ method: "POST", uri: "/key-value", code: 200 })),
-).annotate({
-  identifier: "CreateKeyValueRequest",
-}) as any as S.Schema<CreateKeyValueRequest>;
+).annotate({ identifier: "CreateKeyValueRequest" }) as any as S.Schema<CreateKeyValueRequest>;
 
 export type DatabaseStatus =
   | "creating"
@@ -1049,9 +1228,7 @@ export const KeyValueOptions = /*@__PURE__*/ S.suspend(() =>
     maxmemoryPolicy: S.optional(S.String),
     persistenceMode: S.optional(PersistenceMode),
   }),
-).annotate({
-  identifier: "KeyValueOptions",
-}) as any as S.Schema<KeyValueOptions>;
+).annotate({ identifier: "KeyValueOptions" }) as any as S.Schema<KeyValueOptions>;
 
 /** The IP allow list for the Key Value instance */
 export type KeyValueDetailIpAllowListList = Array<CidrBlockAndDescription>;
@@ -1186,25 +1363,15 @@ export const CreatePostgresRequestIpAllowListList = /*@__PURE__*/ S.Array(
   CidrBlockAndDescription,
 ) as any as S.Schema<CreatePostgresRequestIpAllowListList>;
 
-export type PostgresParameterOverrides = { [key: string]: string | undefined };
-export const PostgresParameterOverrides = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String,
-) as any as S.Schema<PostgresParameterOverrides>;
-
 export interface ReadReplicaInput {
   /** The display name of the replica instance. */
   name: string;
-  parameterOverrides?: PostgresParameterOverrides;
 }
 export const ReadReplicaInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.String,
-    parameterOverrides: S.optional(PostgresParameterOverrides),
   }),
-).annotate({
-  identifier: "ReadReplicaInput",
-}) as any as S.Schema<ReadReplicaInput>;
+).annotate({ identifier: "ReadReplicaInput" }) as any as S.Schema<ReadReplicaInput>;
 
 export type ReadReplicasInput = Array<ReadReplicaInput>;
 export const ReadReplicasInput = /*@__PURE__*/ S.Array(
@@ -1236,7 +1403,6 @@ export interface CreatePostgresRequest {
   connectionPool?: string;
   region?: Region | (string & {});
   ipAllowList?: CreatePostgresRequestIpAllowListList;
-  parameterOverrides?: PostgresParameterOverrides;
   readReplicas?: ReadReplicasInput;
   version: PostgresVersion | (string & {});
 }
@@ -1256,13 +1422,10 @@ export const CreatePostgresRequest = /*@__PURE__*/ S.suspend(() =>
     connectionPool: S.optional(S.String),
     region: S.optional(Region),
     ipAllowList: S.optional(CreatePostgresRequestIpAllowListList),
-    parameterOverrides: S.optional(PostgresParameterOverrides),
     readReplicas: S.optional(ReadReplicasInput),
     version: PostgresVersion,
   }).pipe(T.Http({ method: "POST", uri: "/postgres", code: 200 })),
-).annotate({
-  identifier: "CreatePostgresRequest",
-}) as any as S.Schema<CreatePostgresRequest>;
+).annotate({ identifier: "CreatePostgresRequest" }) as any as S.Schema<CreatePostgresRequest>;
 
 export type PostgresDetailIpAllowListList = Array<CidrBlockAndDescription>;
 export const PostgresDetailIpAllowListList = /*@__PURE__*/ S.Array(
@@ -1328,13 +1491,11 @@ export interface ReadReplica {
   id: string;
   /** The display name of the replica instance. */
   name: string;
-  parameterOverrides?: PostgresParameterOverrides;
 }
 export const ReadReplica = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String,
     name: S.String,
-    parameterOverrides: S.optional(PostgresParameterOverrides),
   }),
 ).annotate({ identifier: "ReadReplica" }) as any as S.Schema<ReadReplica>;
 
@@ -1380,7 +1541,6 @@ export interface PostgresDetail {
   owner: Owner;
   plan: Plan2;
   diskSizeGB?: number;
-  parameterOverrides?: PostgresParameterOverrides;
   primaryPostgresID?: string;
   region: Region;
   readReplicas: ReadReplicas;
@@ -1410,7 +1570,6 @@ export const PostgresDetail = /*@__PURE__*/ S.suspend(() =>
     owner: Owner,
     plan: Plan2,
     diskSizeGB: S.optional(S.Number),
-    parameterOverrides: S.optional(PostgresParameterOverrides),
     primaryPostgresID: S.optional(S.String),
     region: Region,
     readReplicas: ReadReplicas,
@@ -1449,13 +1608,7 @@ export const CreatePostgresUserRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     postgresId: S.String.pipe(T.Label()),
     username: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/postgres/{postgresId}/credentials",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/postgres/{postgresId}/credentials", code: 200 })),
 ).annotate({
   identifier: "CreatePostgresUserRequest",
 }) as any as S.Schema<CreatePostgresUserRequest>;
@@ -1507,9 +1660,7 @@ export const CreateProjectRequest = /*@__PURE__*/ S.suspend(() =>
     ownerId: S.String,
     environments: CreateProjectRequestEnvironmentsList,
   }).pipe(T.Http({ method: "POST", uri: "/projects", code: 200 })),
-).annotate({
-  identifier: "CreateProjectRequest",
-}) as any as S.Schema<CreateProjectRequest>;
+).annotate({ identifier: "CreateProjectRequest" }) as any as S.Schema<CreateProjectRequest>;
 
 /** The environments associated with the project */
 export type ProjectEnvironmentIdsList = Array<string>;
@@ -1587,9 +1738,7 @@ export const RegistryCredential = /*@__PURE__*/ S.suspend(() =>
     username: S.String,
     updatedAt: S.String,
   }),
-).annotate({
-  identifier: "RegistryCredential",
-}) as any as S.Schema<RegistryCredential>;
+).annotate({ identifier: "RegistryCredential" }) as any as S.Schema<RegistryCredential>;
 
 export type ServiceType =
   | "static_site"
@@ -1599,8 +1748,13 @@ export type ServiceType =
   | "cron_job";
 export const ServiceType = S.String;
 
+/** Deprecated: use `autoDeployTrigger` instead. You can't set both `autoDeploy` and `autoDeployTrigger` in the same request. - `yes` is equivalent to `autoDeployTrigger: commit`. - `no` is equivalent to `autoDeployTrigger: off`. */
 export type AutoDeploy = "yes" | "no";
 export const AutoDeploy = S.String;
+
+/** Controls autodeploy behavior. - `commit`: Deploy each time a commit is pushed to the service's linked branch. - `checksPass`: Deploy each time a commit is pushed to the linked branch, but only after the commit's CI checks pass. - `off`: Disable autodeploys. */
+export type CreateServiceRequestAutoDeployTrigger = "commit" | "off" | "checksPass";
+export const CreateServiceRequestAutoDeployTrigger = S.String;
 
 export interface Image {
   /** The ID of the owner for this image. This should match the owner of the service as well as the owner of any specified registry credential. */
@@ -1735,9 +1889,7 @@ export const StaticSiteDetailsPOST = /*@__PURE__*/ S.suspend(() =>
     renderSubdomainPolicy: S.optional(RenderSubdomainPolicy),
     ipAllowList: S.optional(StaticSiteDetailsPOSTIpAllowListList),
   }),
-).annotate({
-  identifier: "StaticSiteDetailsPOST",
-}) as any as S.Schema<StaticSiteDetailsPOST>;
+).annotate({ identifier: "StaticSiteDetailsPOST" }) as any as S.Schema<StaticSiteDetailsPOST>;
 
 export interface ServiceDisk {
   name: string;
@@ -1783,9 +1935,7 @@ export const DockerDetailsPOST = /*@__PURE__*/ S.suspend(() =>
     dockerfilePath: S.optional(S.String),
     registryCredentialId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DockerDetailsPOST",
-}) as any as S.Schema<DockerDetailsPOST>;
+).annotate({ identifier: "DockerDetailsPOST" }) as any as S.Schema<DockerDetailsPOST>;
 
 /** Fields for native environment (runtime) services */
 export interface NativeEnvironmentDetailsPOST {
@@ -1814,9 +1964,7 @@ export const MaintenanceMode = /*@__PURE__*/ S.suspend(() =>
     enabled: S.Boolean,
     uri: S.String,
   }),
-).annotate({
-  identifier: "MaintenanceMode",
-}) as any as S.Schema<MaintenanceMode>;
+).annotate({ identifier: "MaintenanceMode" }) as any as S.Schema<MaintenanceMode>;
 
 /** The compute plan to use. Legacy variants (`*_legacy`) identify grandfathered plans no longer offered for new services. Note that base services on any paid compute plan can't create preview instances with the `free` plan. */
 export type Plan =
@@ -1857,6 +2005,8 @@ export const WebServiceDetailsPOSTIpAllowListList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<WebServiceDetailsPOSTIpAllowListList>;
 
 export interface WebServiceDetailsPOST {
+  /** The ID of the Build Source to build and deploy from. Provides all source and build configuration: omit `repo`, `branch`, `image`, `buildFilter`, `runtime`, and build-related `envSpecificDetails` fields when set. */
+  buildSourceId?: string;
   autoscaling?: Schema5;
   disk?: ServiceDisk;
   env?: ServiceEnv | (string & {});
@@ -1878,6 +2028,7 @@ export interface WebServiceDetailsPOST {
 }
 export const WebServiceDetailsPOST = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    buildSourceId: S.optional(S.String),
     autoscaling: S.optional(Schema5),
     disk: S.optional(ServiceDisk),
     env: S.optional(ServiceEnv),
@@ -1895,9 +2046,7 @@ export const WebServiceDetailsPOST = /*@__PURE__*/ S.suspend(() =>
     renderSubdomainPolicy: S.optional(RenderSubdomainPolicy),
     ipAllowList: S.optional(WebServiceDetailsPOSTIpAllowListList),
   }),
-).annotate({
-  identifier: "WebServiceDetailsPOST",
-}) as any as S.Schema<WebServiceDetailsPOST>;
+).annotate({ identifier: "WebServiceDetailsPOST" }) as any as S.Schema<WebServiceDetailsPOST>;
 
 /** Defaults to `0.5c-512mb` when creating a new service. */
 export type PaidPlan =
@@ -1924,6 +2073,8 @@ export type PaidPlan =
 export const PaidPlan = S.String;
 
 export interface PrivateServiceDetailsPOST {
+  /** The ID of the Build Source to build and deploy from. Provides all source and build configuration: omit `repo`, `branch`, `image`, `buildFilter`, `runtime`, and build-related `envSpecificDetails` fields when set. */
+  buildSourceId?: string;
   autoscaling?: Schema5;
   disk?: ServiceDisk;
   env?: ServiceEnv | (string & {});
@@ -1940,6 +2091,7 @@ export interface PrivateServiceDetailsPOST {
 }
 export const PrivateServiceDetailsPOST = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    buildSourceId: S.optional(S.String),
     autoscaling: S.optional(Schema5),
     disk: S.optional(ServiceDisk),
     env: S.optional(ServiceEnv),
@@ -1988,14 +2140,14 @@ export const NativeEnvironmentDetails = /*@__PURE__*/ S.suspend(() =>
     startCommand: S.String,
     preDeployCommand: S.optional(S.String),
   }),
-).annotate({
-  identifier: "NativeEnvironmentDetails",
-}) as any as S.Schema<NativeEnvironmentDetails>;
+).annotate({ identifier: "NativeEnvironmentDetails" }) as any as S.Schema<NativeEnvironmentDetails>;
 
 export type EnvSpecificDetails = DockerDetails | NativeEnvironmentDetails;
 export const EnvSpecificDetails = S.Unknown as any as S.Schema<EnvSpecificDetails>;
 
 export interface CronJobDetailsPOST {
+  /** The ID of the Build Source to build and deploy from. Provides all source and build configuration: omit `repo`, `branch`, `image`, `buildFilter`, `runtime`, and build-related `envSpecificDetails` fields when set. */
+  buildSourceId?: string;
   env?: ServiceEnv | (string & {});
   runtime: ServiceRuntime | (string & {});
   envSpecificDetails?: EnvSpecificDetails;
@@ -2005,6 +2157,7 @@ export interface CronJobDetailsPOST {
 }
 export const CronJobDetailsPOST = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    buildSourceId: S.optional(S.String),
     env: S.optional(ServiceEnv),
     runtime: ServiceRuntime,
     envSpecificDetails: S.optional(EnvSpecificDetails),
@@ -2012,9 +2165,7 @@ export const CronJobDetailsPOST = /*@__PURE__*/ S.suspend(() =>
     region: S.optional(Region),
     schedule: S.String,
   }),
-).annotate({
-  identifier: "CronJobDetailsPOST",
-}) as any as S.Schema<CronJobDetailsPOST>;
+).annotate({ identifier: "CronJobDetailsPOST" }) as any as S.Schema<CronJobDetailsPOST>;
 
 export type CreateServiceRequestServiceDetails =
   | StaticSiteDetailsPOST
@@ -2034,6 +2185,8 @@ export interface CreateServiceRequest {
   /** The service's repository URL. Do not specify a branch in this string (use the `branch` parameter instead). */
   repo?: string;
   autoDeploy?: AutoDeploy | (string & {});
+  /** Controls autodeploy behavior. - `commit`: Deploy each time a commit is pushed to the service's linked branch. - `checksPass`: Deploy each time a commit is pushed to the linked branch, but only after the commit's CI checks pass. - `off`: Disable autodeploys. */
+  autoDeployTrigger?: CreateServiceRequestAutoDeployTrigger | (string & {});
   /** The repo branch to pull, build, and deploy. If omitted, uses the repository's default branch. */
   branch?: string;
   image?: Image;
@@ -2052,6 +2205,7 @@ export const CreateServiceRequest = /*@__PURE__*/ S.suspend(() =>
     ownerId: S.String,
     repo: S.optional(S.String),
     autoDeploy: S.optional(AutoDeploy),
+    autoDeployTrigger: S.optional(CreateServiceRequestAutoDeployTrigger),
     branch: S.optional(S.String),
     image: S.optional(Image),
     buildFilter: S.optional(BuildFilter),
@@ -2061,25 +2215,17 @@ export const CreateServiceRequest = /*@__PURE__*/ S.suspend(() =>
     environmentId: S.optional(S.String),
     serviceDetails: S.optional(CreateServiceRequestServiceDetails),
   }).pipe(T.Http({ method: "POST", uri: "/services", code: 200 })),
-).annotate({
-  identifier: "CreateServiceRequest",
-}) as any as S.Schema<CreateServiceRequest>;
+).annotate({ identifier: "CreateServiceRequest" }) as any as S.Schema<CreateServiceRequest>;
+
+/** Controls autodeploy behavior. - `commit`: Deploy each time a commit is pushed to the service's linked branch. - `checksPass`: Deploy each time a commit is pushed to the linked branch, but only after the commit's CI checks pass. - `off`: Disable autodeploys. */
+export type AutoDeployTrigger = "commit" | "off" | "checksPass";
+export const AutoDeployTrigger = S.String;
 
 export type NotifySetting = "default" | "notify" | "ignore";
 export const NotifySetting = S.String;
 
-export interface RegistryCredentialSummary {
-  id: string;
-  name: string;
-}
-export const RegistryCredentialSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    name: S.String,
-  }),
-).annotate({
-  identifier: "RegistryCredentialSummary",
-}) as any as S.Schema<RegistryCredentialSummary>;
+export type RegistryCredentialSummary = CreateBuildSourceResponseServiceLinksItem;
+export const RegistryCredentialSummary = CreateBuildSourceResponseServiceLinksItem;
 
 export type ServiceSuspended = "suspended" | "not_suspended";
 export const ServiceSuspended = S.String;
@@ -2094,8 +2240,8 @@ export const StaticSiteDetailsIpAllowListList = /*@__PURE__*/ S.Array(
   CidrBlockAndDescription,
 ) as any as S.Schema<StaticSiteDetailsIpAllowListList>;
 
-export type Resource = RegistryCredentialSummary;
-export const Resource = RegistryCredentialSummary;
+export type Resource = CreateBuildSourceResponseServiceLinksItem;
+export const Resource = CreateBuildSourceResponseServiceLinksItem;
 
 export type BuildPlan = "starter" | "performance";
 export const BuildPlan = S.String;
@@ -2103,7 +2249,7 @@ export const BuildPlan = S.String;
 export interface StaticSiteDetails {
   buildCommand: string;
   ipAllowList?: StaticSiteDetailsIpAllowListList;
-  parentServer?: RegistryCredentialSummary;
+  parentServer?: CreateBuildSourceResponseServiceLinksItem;
   publishPath: string;
   pullRequestPreviewsEnabled?: PullRequestPreviewsEnabled;
   previews?: Previews;
@@ -2115,7 +2261,7 @@ export const StaticSiteDetails = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     buildCommand: S.String,
     ipAllowList: S.optional(StaticSiteDetailsIpAllowListList),
-    parentServer: S.optional(RegistryCredentialSummary),
+    parentServer: S.optional(CreateBuildSourceResponseServiceLinksItem),
     publishPath: S.String,
     pullRequestPreviewsEnabled: S.optional(PullRequestPreviewsEnabled),
     previews: S.optional(Previews),
@@ -2123,9 +2269,7 @@ export const StaticSiteDetails = /*@__PURE__*/ S.suspend(() =>
     buildPlan: BuildPlan,
     renderSubdomainPolicy: S.optional(RenderSubdomainPolicy),
   }),
-).annotate({
-  identifier: "StaticSiteDetails",
-}) as any as S.Schema<StaticSiteDetails>;
+).annotate({ identifier: "StaticSiteDetails" }) as any as S.Schema<StaticSiteDetails>;
 
 export type CacheProfile = "no-cache" | "origin-controlled" | "origin-controlled-all";
 export const CacheProfile = S.String;
@@ -2152,9 +2296,7 @@ export const WebServiceDetailsDisk = /*@__PURE__*/ S.suspend(() =>
     sizeGB: S.Number,
     mountPath: S.String,
   }),
-).annotate({
-  identifier: "WebServiceDetailsDisk",
-}) as any as S.Schema<WebServiceDetailsDisk>;
+).annotate({ identifier: "WebServiceDetailsDisk" }) as any as S.Schema<WebServiceDetailsDisk>;
 
 export type WebServiceDetailsIpAllowListList = Array<CidrBlockAndDescription>;
 export const WebServiceDetailsIpAllowListList = /*@__PURE__*/ S.Array(
@@ -2192,7 +2334,7 @@ export interface WebServiceDetails {
   /** For a *manually* scaled service, this is the number of instances the service is scaled to. DOES NOT indicate the number of running instances for an *autoscaled* service. */
   numInstances: number;
   openPorts: WebServiceDetailsOpenPortsList;
-  parentServer?: RegistryCredentialSummary;
+  parentServer?: CreateBuildSourceResponseServiceLinksItem;
   plan: Plan;
   pullRequestPreviewsEnabled?: PullRequestPreviewsEnabled;
   previews?: Previews;
@@ -2216,7 +2358,7 @@ export const WebServiceDetails = /*@__PURE__*/ S.suspend(() =>
     maintenanceMode: S.optional(MaintenanceMode),
     numInstances: S.Number,
     openPorts: WebServiceDetailsOpenPortsList,
-    parentServer: S.optional(RegistryCredentialSummary),
+    parentServer: S.optional(CreateBuildSourceResponseServiceLinksItem),
     plan: Plan,
     pullRequestPreviewsEnabled: S.optional(PullRequestPreviewsEnabled),
     previews: S.optional(Previews),
@@ -2228,9 +2370,7 @@ export const WebServiceDetails = /*@__PURE__*/ S.suspend(() =>
     maxShutdownDelaySeconds: S.optional(S.Number),
     renderSubdomainPolicy: S.optional(RenderSubdomainPolicy),
   }),
-).annotate({
-  identifier: "WebServiceDetails",
-}) as any as S.Schema<WebServiceDetails>;
+).annotate({ identifier: "WebServiceDetails" }) as any as S.Schema<WebServiceDetails>;
 
 export type Disk = WebServiceDetailsDisk;
 export const Disk = WebServiceDetailsDisk;
@@ -2248,7 +2388,7 @@ export interface PrivateServiceDetails {
   /** For a *manually* scaled service, this is the number of instances the service is scaled to. DOES NOT indicate the number of running instances for an *autoscaled* service. */
   numInstances: number;
   openPorts: PrivateServiceDetailsOpenPortsList;
-  parentServer?: RegistryCredentialSummary;
+  parentServer?: CreateBuildSourceResponseServiceLinksItem;
   plan: Plan;
   pullRequestPreviewsEnabled?: PullRequestPreviewsEnabled;
   previews?: Previews;
@@ -2267,7 +2407,7 @@ export const PrivateServiceDetails = /*@__PURE__*/ S.suspend(() =>
     envSpecificDetails: EnvSpecificDetails,
     numInstances: S.Number,
     openPorts: PrivateServiceDetailsOpenPortsList,
-    parentServer: S.optional(RegistryCredentialSummary),
+    parentServer: S.optional(CreateBuildSourceResponseServiceLinksItem),
     plan: Plan,
     pullRequestPreviewsEnabled: S.optional(PullRequestPreviewsEnabled),
     previews: S.optional(Previews),
@@ -2278,9 +2418,7 @@ export const PrivateServiceDetails = /*@__PURE__*/ S.suspend(() =>
     buildPlan: BuildPlan,
     maxShutdownDelaySeconds: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "PrivateServiceDetails",
-}) as any as S.Schema<PrivateServiceDetails>;
+).annotate({ identifier: "PrivateServiceDetails" }) as any as S.Schema<PrivateServiceDetails>;
 
 export interface BackgroundWorkerDetails {
   autoscaling?: Schema5;
@@ -2289,7 +2427,7 @@ export interface BackgroundWorkerDetails {
   envSpecificDetails: EnvSpecificDetails;
   /** For a *manually* scaled service, this is the number of instances the service is scaled to. DOES NOT indicate the number of running instances for an *autoscaled* service. */
   numInstances: number;
-  parentServer?: RegistryCredentialSummary;
+  parentServer?: CreateBuildSourceResponseServiceLinksItem;
   plan: Plan;
   pullRequestPreviewsEnabled?: PullRequestPreviewsEnabled;
   previews?: Previews;
@@ -2306,7 +2444,7 @@ export const BackgroundWorkerDetails = /*@__PURE__*/ S.suspend(() =>
     env: ServiceEnv,
     envSpecificDetails: EnvSpecificDetails,
     numInstances: S.Number,
-    parentServer: S.optional(RegistryCredentialSummary),
+    parentServer: S.optional(CreateBuildSourceResponseServiceLinksItem),
     plan: Plan,
     pullRequestPreviewsEnabled: S.optional(PullRequestPreviewsEnabled),
     previews: S.optional(Previews),
@@ -2316,9 +2454,7 @@ export const BackgroundWorkerDetails = /*@__PURE__*/ S.suspend(() =>
     buildPlan: BuildPlan,
     maxShutdownDelaySeconds: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "BackgroundWorkerDetails",
-}) as any as S.Schema<BackgroundWorkerDetails>;
+).annotate({ identifier: "BackgroundWorkerDetails" }) as any as S.Schema<BackgroundWorkerDetails>;
 
 export interface CronJobDetails {
   env: ServiceEnv;
@@ -2353,7 +2489,9 @@ export const ServiceServiceDetails = S.Unknown as any as S.Schema<ServiceService
 
 export interface Service {
   id: string;
+  buildSourceId?: string;
   autoDeploy: AutoDeploy;
+  autoDeployTrigger?: AutoDeployTrigger;
   branch?: string;
   buildFilter?: BuildFilter;
   createdAt: string;
@@ -2364,7 +2502,7 @@ export interface Service {
   name: string;
   notifyOnFail: NotifySetting;
   ownerId: string;
-  registryCredential?: RegistryCredentialSummary;
+  registryCredential?: CreateBuildSourceResponseServiceLinksItem;
   repo?: string;
   rootDir: string;
   slug: string;
@@ -2377,7 +2515,9 @@ export interface Service {
 export const Service = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String,
+    buildSourceId: S.optional(S.String),
     autoDeploy: AutoDeploy,
+    autoDeployTrigger: S.optional(AutoDeployTrigger),
     branch: S.optional(S.String),
     buildFilter: S.optional(BuildFilter),
     createdAt: S.String,
@@ -2387,7 +2527,7 @@ export const Service = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     notifyOnFail: NotifySetting,
     ownerId: S.String,
-    registryCredential: S.optional(RegistryCredentialSummary),
+    registryCredential: S.optional(CreateBuildSourceResponseServiceLinksItem),
     repo: S.optional(S.String),
     rootDir: S.String,
     slug: S.String,
@@ -2408,9 +2548,7 @@ export const ServiceAndDeploy = /*@__PURE__*/ S.suspend(() =>
     service: S.optional(Service),
     deployId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ServiceAndDeploy",
-}) as any as S.Schema<ServiceAndDeploy>;
+).annotate({ identifier: "ServiceAndDeploy" }) as any as S.Schema<ServiceAndDeploy>;
 
 /** Positional arguments passed to the task function */
 export type CreateTaskRequestInputCase0List = Array<unknown>;
@@ -2419,9 +2557,7 @@ export const CreateTaskRequestInputCase0List = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<CreateTaskRequestInputCase0List>;
 
 /** Named parameters passed to the task function as keyword arguments */
-export type CreateTaskRequestInputCase1Map = {
-  [key: string]: unknown | undefined;
-};
+export type CreateTaskRequestInputCase1Map = { [key: string]: unknown | undefined };
 export const CreateTaskRequestInputCase1Map = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -2438,15 +2574,16 @@ export interface CreateTaskRequest {
   task: string;
   /** Input data for a task. Can be either an array (for positional arguments) or an object (for named parameters). */
   input: CreateTaskRequestInput;
+  /** A client-generated key that makes starting a task run safe to retry. Repeating a request with the same key within 24 hours returns the task run that the first request started instead of starting another one; the repeated request's input is ignored. Keys are scoped to a single workflow version, so the same key used against a different version starts a separate run. Omit the key to always start a new run. */
+  idempotencyKey?: string;
 }
 export const CreateTaskRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     task: S.String,
     input: CreateTaskRequestInput,
+    idempotencyKey: S.optional(S.String),
   }).pipe(T.Http({ method: "POST", uri: "/task-runs", code: 200 })),
-).annotate({
-  identifier: "CreateTaskRequest",
-}) as any as S.Schema<CreateTaskRequest>;
+).annotate({ identifier: "CreateTaskRequest" }) as any as S.Schema<CreateTaskRequest>;
 
 export type Status2 =
   | "pending"
@@ -2512,9 +2649,7 @@ export const CreateTaskResponse = /*@__PURE__*/ S.suspend(() =>
     retries: S.Number,
     attempts: CreateTaskResponseAttemptsList,
   }),
-).annotate({
-  identifier: "CreateTaskResponse",
-}) as any as S.Schema<CreateTaskResponse>;
+).annotate({ identifier: "CreateTaskResponse" }) as any as S.Schema<CreateTaskResponse>;
 
 export type Type =
   | "artifact_fetch_failed"
@@ -2609,9 +2744,7 @@ export const CreateWebhookRequest = /*@__PURE__*/ S.suspend(() =>
     enabled: S.Boolean,
     eventFilter: CreateWebhookRequestEventFilterList,
   }).pipe(T.Http({ method: "POST", uri: "/webhooks", code: 200 })),
-).annotate({
-  identifier: "CreateWebhookRequest",
-}) as any as S.Schema<CreateWebhookRequest>;
+).annotate({ identifier: "CreateWebhookRequest" }) as any as S.Schema<CreateWebhookRequest>;
 
 /** The event types that will trigger the webhook. An empty list means all event types will trigger the webhook. */
 export type EventFilter = Array<Type | (string & {})>;
@@ -2634,9 +2767,7 @@ export const CreateWebhookResponse = /*@__PURE__*/ S.suspend(() =>
     enabled: S.Boolean,
     eventFilter: EventFilter,
   }),
-).annotate({
-  identifier: "CreateWebhookResponse",
-}) as any as S.Schema<CreateWebhookResponse>;
+).annotate({ identifier: "CreateWebhookResponse" }) as any as S.Schema<CreateWebhookResponse>;
 
 /** The runtime environment for the workflow (e.g., node, python, etc.). */
 export type Runtime = "elixir" | "go" | "node" | "python" | "ruby";
@@ -2645,7 +2776,7 @@ export const Runtime = S.String;
 export interface CreateWorkflowRequestBuildConfig {
   /** The branch to use for the build, if applicable. */
   branch?: string;
-  /** The command to run to build the workflow. */
+  /** The command to run to build the workflow. Required for every runtime except docker, which builds from its Dockerfile. */
   buildCommand: string;
   /** The repository URL to use for the build. Cannot be blank. */
   repo: string;
@@ -2700,14 +2831,12 @@ export const CreateWorkflowRequest = /*@__PURE__*/ S.suspend(() =>
     autoDeployTrigger: S.optional(CreateWorkflowRequestAutoDeployTrigger),
     envVars: S.optional(Schema6),
   }).pipe(T.Http({ method: "POST", uri: "/workflows", code: 200 })),
-).annotate({
-  identifier: "CreateWorkflowRequest",
-}) as any as S.Schema<CreateWorkflowRequest>;
+).annotate({ identifier: "CreateWorkflowRequest" }) as any as S.Schema<CreateWorkflowRequest>;
 
 export interface BuildConfig {
   /** The branch to use for the build, if applicable. */
   branch?: string;
-  /** The command to run to build the workflow. */
+  /** The command to run to build the workflow. Required for every runtime except docker, which builds from its Dockerfile. */
   buildCommand: string;
   /** The repository URL to use for the build. Cannot be blank. */
   repo: string;
@@ -2730,8 +2859,8 @@ export type Region2 = "frankfurt" | "oregon" | "ohio" | "singapore" | "virginia"
 export const Region2 = S.String;
 
 /** Controls autodeploy behavior. "commit" deploys when a commit is pushed to the branch. "checksPass" waits for CI checks to pass before deploying. "off" disables autodeploy. */
-export type AutoDeployTrigger = "commit" | "off" | "checksPass";
-export const AutoDeployTrigger = S.String;
+export type AutoDeployTrigger2 = "commit" | "off" | "checksPass";
+export const AutoDeployTrigger2 = S.String;
 
 export interface CreateWorkflowResponse {
   id: string;
@@ -2745,7 +2874,7 @@ export interface CreateWorkflowResponse {
   region: Region2;
   environmentId?: string;
   slug?: string;
-  autoDeployTrigger?: AutoDeployTrigger;
+  autoDeployTrigger?: AutoDeployTrigger2;
 }
 export const CreateWorkflowResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2759,11 +2888,9 @@ export const CreateWorkflowResponse = /*@__PURE__*/ S.suspend(() =>
     region: Region2,
     environmentId: S.optional(S.String),
     slug: S.optional(S.String),
-    autoDeployTrigger: S.optional(AutoDeployTrigger),
+    autoDeployTrigger: S.optional(AutoDeployTrigger2),
   }),
-).annotate({
-  identifier: "CreateWorkflowResponse",
-}) as any as S.Schema<CreateWorkflowResponse>;
+).annotate({ identifier: "CreateWorkflowResponse" }) as any as S.Schema<CreateWorkflowResponse>;
 
 export interface CreateWorkflowVersionRequest {
   workflowId: string;
@@ -2790,23 +2917,81 @@ export interface DeleteAutoscalingConfigRequest {
 export const DeleteAutoscalingConfigRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/services/{serviceId}/autoscaling",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/services/{serviceId}/autoscaling", code: 200 })),
 ).annotate({
   identifier: "DeleteAutoscalingConfigRequest",
 }) as any as S.Schema<DeleteAutoscalingConfigRequest>;
 
 export interface DeleteAutoscalingConfigResponse {}
 export const DeleteAutoscalingConfigResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "DeleteAutoscalingConfigResponse",
-  },
+  { identifier: "DeleteAutoscalingConfigResponse" },
 ) as any as S.Schema<DeleteAutoscalingConfigResponse>;
+
+export interface DeleteBuildSourceRequest {
+  buildSourceId: string;
+}
+export const DeleteBuildSourceRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    buildSourceId: S.String.pipe(T.Label()),
+  }).pipe(T.Http({ method: "DELETE", uri: "/build-sources/{buildSourceId}", code: 200 })),
+).annotate({ identifier: "DeleteBuildSourceRequest" }) as any as S.Schema<DeleteBuildSourceRequest>;
+
+export interface DeleteBuildSourceResponse {}
+export const DeleteBuildSourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  identifier: "DeleteBuildSourceResponse",
+}) as any as S.Schema<DeleteBuildSourceResponse>;
+
+export interface DeleteBuildSourceEnvVarRequest {
+  buildSourceId: string;
+  /** The name of the environment variable */
+  envVarKey: string;
+}
+export const DeleteBuildSourceEnvVarRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    buildSourceId: S.String.pipe(T.Label()),
+    envVarKey: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      uri: "/build-sources/{buildSourceId}/env-vars/{envVarKey}",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "DeleteBuildSourceEnvVarRequest",
+}) as any as S.Schema<DeleteBuildSourceEnvVarRequest>;
+
+export interface DeleteBuildSourceEnvVarResponse {}
+export const DeleteBuildSourceEnvVarResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
+  { identifier: "DeleteBuildSourceEnvVarResponse" },
+) as any as S.Schema<DeleteBuildSourceEnvVarResponse>;
+
+export interface DeleteBuildSourceSecretFileRequest {
+  buildSourceId: string;
+  /** The file name of the secret file */
+  envVarKey: string;
+}
+export const DeleteBuildSourceSecretFileRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    buildSourceId: S.String.pipe(T.Label()),
+    envVarKey: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      uri: "/build-sources/{buildSourceId}/secret-files/{envVarKey}",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "DeleteBuildSourceSecretFileRequest",
+}) as any as S.Schema<DeleteBuildSourceSecretFileRequest>;
+
+export interface DeleteBuildSourceSecretFileResponse {}
+export const DeleteBuildSourceSecretFileResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "DeleteBuildSourceSecretFileResponse",
+}) as any as S.Schema<DeleteBuildSourceSecretFileResponse>;
 
 export interface DeleteCustomDomainRequest {
   /** The ID of the service */
@@ -2841,16 +3026,8 @@ export interface DeleteDedicatedIpRequest {
 export const DeleteDedicatedIpRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     dedicatedIpId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/dedicated-ips/{dedicatedIpId}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "DeleteDedicatedIpRequest",
-}) as any as S.Schema<DeleteDedicatedIpRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/dedicated-ips/{dedicatedIpId}", code: 200 })),
+).annotate({ identifier: "DeleteDedicatedIpRequest" }) as any as S.Schema<DeleteDedicatedIpRequest>;
 
 export interface DeleteDedicatedIpResponse {}
 export const DeleteDedicatedIpResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2865,9 +3042,7 @@ export const DeleteDiskRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     diskId: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "DELETE", uri: "/disks/{diskId}", code: 200 })),
-).annotate({
-  identifier: "DeleteDiskRequest",
-}) as any as S.Schema<DeleteDiskRequest>;
+).annotate({ identifier: "DeleteDiskRequest" }) as any as S.Schema<DeleteDiskRequest>;
 
 export interface DeleteDiskResponse {}
 export const DeleteDiskResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2881,9 +3056,7 @@ export const DeleteEnvGroupRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     envGroupId: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "DELETE", uri: "/env-groups/{envGroupId}", code: 200 })),
-).annotate({
-  identifier: "DeleteEnvGroupRequest",
-}) as any as S.Schema<DeleteEnvGroupRequest>;
+).annotate({ identifier: "DeleteEnvGroupRequest" }) as any as S.Schema<DeleteEnvGroupRequest>;
 
 export interface DeleteEnvGroupResponse {}
 export const DeleteEnvGroupResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2900,11 +3073,7 @@ export const DeleteEnvGroupEnvVarRequest = /*@__PURE__*/ S.suspend(() =>
     envGroupId: S.String.pipe(T.Label()),
     envVarKey: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/env-groups/{envGroupId}/env-vars/{envVarKey}",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/env-groups/{envGroupId}/env-vars/{envVarKey}", code: 200 }),
   ),
 ).annotate({
   identifier: "DeleteEnvGroupEnvVarRequest",
@@ -2949,16 +3118,8 @@ export interface DeleteEnvironmentRequest {
 export const DeleteEnvironmentRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     environmentId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/environments/{environmentId}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "DeleteEnvironmentRequest",
-}) as any as S.Schema<DeleteEnvironmentRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/environments/{environmentId}", code: 200 })),
+).annotate({ identifier: "DeleteEnvironmentRequest" }) as any as S.Schema<DeleteEnvironmentRequest>;
 
 export interface DeleteEnvironmentResponse {}
 export const DeleteEnvironmentResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2976,15 +3137,9 @@ export const DeleteEnvVarRequest = /*@__PURE__*/ S.suspend(() =>
     serviceId: S.String.pipe(T.Label()),
     envVarKey: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/services/{serviceId}/env-vars/{envVarKey}",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/services/{serviceId}/env-vars/{envVarKey}", code: 200 }),
   ),
-).annotate({
-  identifier: "DeleteEnvVarRequest",
-}) as any as S.Schema<DeleteEnvVarRequest>;
+).annotate({ identifier: "DeleteEnvVarRequest" }) as any as S.Schema<DeleteEnvVarRequest>;
 
 export interface DeleteEnvVarResponse {}
 export const DeleteEnvVarResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -3001,16 +3156,8 @@ export const DeleteHeaderRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceId: S.String.pipe(T.Label()),
     headerId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/services/{serviceId}/headers/{headerId}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "DeleteHeaderRequest",
-}) as any as S.Schema<DeleteHeaderRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/services/{serviceId}/headers/{headerId}", code: 200 })),
+).annotate({ identifier: "DeleteHeaderRequest" }) as any as S.Schema<DeleteHeaderRequest>;
 
 export interface DeleteHeaderResponse {}
 export const DeleteHeaderResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -3024,9 +3171,7 @@ export const DeleteKeyValueRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     redisId: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "DELETE", uri: "/key-value/{redisId}", code: 200 })),
-).annotate({
-  identifier: "DeleteKeyValueRequest",
-}) as any as S.Schema<DeleteKeyValueRequest>;
+).annotate({ identifier: "DeleteKeyValueRequest" }) as any as S.Schema<DeleteKeyValueRequest>;
 
 export interface DeleteKeyValueResponse {}
 export const DeleteKeyValueResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -3040,13 +3185,7 @@ export interface DeleteOwnerLogStreamRequest {
 export const DeleteOwnerLogStreamRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ownerId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/logs/streams/owner/{ownerId}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/logs/streams/owner/{ownerId}", code: 200 })),
 ).annotate({
   identifier: "DeleteOwnerLogStreamRequest",
 }) as any as S.Schema<DeleteOwnerLogStreamRequest>;
@@ -3082,9 +3221,7 @@ export const DeletePostgresRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     postgresId: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "DELETE", uri: "/postgres/{postgresId}", code: 200 })),
-).annotate({
-  identifier: "DeletePostgresRequest",
-}) as any as S.Schema<DeletePostgresRequest>;
+).annotate({ identifier: "DeletePostgresRequest" }) as any as S.Schema<DeletePostgresRequest>;
 
 export interface DeletePostgresResponse {}
 export const DeletePostgresResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -3100,11 +3237,7 @@ export const DeletePostgresUserRequest = /*@__PURE__*/ S.suspend(() =>
     postgresId: S.String.pipe(T.Label()),
     username: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/postgres/{postgresId}/credentials/{username}",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/postgres/{postgresId}/credentials/{username}", code: 200 }),
   ),
 ).annotate({
   identifier: "DeletePostgresUserRequest",
@@ -3122,9 +3255,7 @@ export const DeleteProjectRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     projectId: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "DELETE", uri: "/projects/{projectId}", code: 200 })),
-).annotate({
-  identifier: "DeleteProjectRequest",
-}) as any as S.Schema<DeleteProjectRequest>;
+).annotate({ identifier: "DeleteProjectRequest" }) as any as S.Schema<DeleteProjectRequest>;
 
 export interface DeleteProjectResponse {}
 export const DeleteProjectResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -3139,11 +3270,7 @@ export const DeleteRegistryCredentialRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     registryCredentialId: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/registrycredentials/{registryCredentialId}",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/registrycredentials/{registryCredentialId}", code: 200 }),
   ),
 ).annotate({
   identifier: "DeleteRegistryCredentialRequest",
@@ -3163,22 +3290,14 @@ export interface DeleteResourceLogStreamRequest {
 export const DeleteResourceLogStreamRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     resourceId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/logs/streams/resource/{resourceId}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/logs/streams/resource/{resourceId}", code: 200 })),
 ).annotate({
   identifier: "DeleteResourceLogStreamRequest",
 }) as any as S.Schema<DeleteResourceLogStreamRequest>;
 
 export interface DeleteResourceLogStreamResponse {}
 export const DeleteResourceLogStreamResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "DeleteResourceLogStreamResponse",
-  },
+  { identifier: "DeleteResourceLogStreamResponse" },
 ) as any as S.Schema<DeleteResourceLogStreamResponse>;
 
 export interface DeleteRouteRequest {
@@ -3191,16 +3310,8 @@ export const DeleteRouteRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceId: S.String.pipe(T.Label()),
     routeId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/services/{serviceId}/routes/{routeId}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "DeleteRouteRequest",
-}) as any as S.Schema<DeleteRouteRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/services/{serviceId}/routes/{routeId}", code: 200 })),
+).annotate({ identifier: "DeleteRouteRequest" }) as any as S.Schema<DeleteRouteRequest>;
 
 export interface DeleteRouteResponse {}
 export const DeleteRouteResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -3218,15 +3329,9 @@ export const DeleteSecretFileRequest = /*@__PURE__*/ S.suspend(() =>
     serviceId: S.String.pipe(T.Label()),
     envVarKey: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/services/{serviceId}/secret-files/{envVarKey}",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/services/{serviceId}/secret-files/{envVarKey}", code: 200 }),
   ),
-).annotate({
-  identifier: "DeleteSecretFileRequest",
-}) as any as S.Schema<DeleteSecretFileRequest>;
+).annotate({ identifier: "DeleteSecretFileRequest" }) as any as S.Schema<DeleteSecretFileRequest>;
 
 export interface DeleteSecretFileResponse {}
 export const DeleteSecretFileResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -3241,9 +3346,7 @@ export const DeleteServiceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceId: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "DELETE", uri: "/services/{serviceId}", code: 200 })),
-).annotate({
-  identifier: "DeleteServiceRequest",
-}) as any as S.Schema<DeleteServiceRequest>;
+).annotate({ identifier: "DeleteServiceRequest" }) as any as S.Schema<DeleteServiceRequest>;
 
 export interface DeleteServiceResponse {}
 export const DeleteServiceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -3258,9 +3361,7 @@ export const DeleteWebhookRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     webhookId: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "DELETE", uri: "/webhooks/{webhookId}", code: 200 })),
-).annotate({
-  identifier: "DeleteWebhookRequest",
-}) as any as S.Schema<DeleteWebhookRequest>;
+).annotate({ identifier: "DeleteWebhookRequest" }) as any as S.Schema<DeleteWebhookRequest>;
 
 export interface DeleteWebhookResponse {}
 export const DeleteWebhookResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -3275,9 +3376,7 @@ export const DeleteWorkflowRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     workflowId: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "DELETE", uri: "/workflows/{workflowId}", code: 200 })),
-).annotate({
-  identifier: "DeleteWorkflowRequest",
-}) as any as S.Schema<DeleteWorkflowRequest>;
+).annotate({ identifier: "DeleteWorkflowRequest" }) as any as S.Schema<DeleteWorkflowRequest>;
 
 export interface DeleteWorkflowResponse {}
 export const DeleteWorkflowResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -3294,16 +3393,8 @@ export const DeployRollbackRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceId: S.String.pipe(T.Label()),
     deployId: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/services/{serviceId}/rollback",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "DeployRollbackRequest",
-}) as any as S.Schema<DeployRollbackRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/services/{serviceId}/rollback", code: 200 })),
+).annotate({ identifier: "DeployRollbackRequest" }) as any as S.Schema<DeployRollbackRequest>;
 
 export interface DisconnectBlueprintRequest {
   /** The ID of the Blueprint */
@@ -3328,16 +3419,8 @@ export interface FailoverPostgresRequest {
 export const FailoverPostgresRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     postgresId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/postgres/{postgresId}/failover",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "FailoverPostgresRequest",
-}) as any as S.Schema<FailoverPostgresRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/postgres/{postgresId}/failover", code: 200 })),
+).annotate({ identifier: "FailoverPostgresRequest" }) as any as S.Schema<FailoverPostgresRequest>;
 
 export interface FailoverPostgresResponse {}
 export const FailoverPostgresResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -3455,9 +3538,7 @@ export const GetBandwidthRequest = /*@__PURE__*/ S.suspend(() =>
     resource: S.optional(S.String.pipe(T.Query())),
     service: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/metrics/bandwidth", code: 200 })),
-).annotate({
-  identifier: "GetBandwidthRequest",
-}) as any as S.Schema<GetBandwidthRequest>;
+).annotate({ identifier: "GetBandwidthRequest" }) as any as S.Schema<GetBandwidthRequest>;
 
 /** A time series datapoint label */
 export type GetBandwidthResponseBodyItemLabelsItem = GetActiveConnectionsResponseBodyItemLabelsItem;
@@ -3510,9 +3591,7 @@ export const GetBandwidthResponseBodyList = /*@__PURE__*/ S.Array(
 export type GetBandwidthResponse = GetBandwidthResponseBodyList;
 export const GetBandwidthResponse = /*@__PURE__*/ S.suspend(() =>
   GetBandwidthResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "GetBandwidthResponse",
-}) as any as S.Schema<GetBandwidthResponse>;
+).annotate({ identifier: "GetBandwidthResponse" }) as any as S.Schema<GetBandwidthResponse>;
 
 export interface GetBandwidthSourcesRequest {
   /** Epoch/Unix timestamp of start of time range to return. Defaults to `now() - 1 hour`. */
@@ -3612,10 +3691,9 @@ export const GetBlueprintRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     blueprintId: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/blueprints/{blueprintId}", code: 200 })),
-).annotate({
-  identifier: "GetBlueprintRequest",
-}) as any as S.Schema<GetBlueprintRequest>;
+).annotate({ identifier: "GetBlueprintRequest" }) as any as S.Schema<GetBlueprintRequest>;
 
+/** A Blueprint has status `created` until its first Sync is approved. */
 export type GetBlueprintResponseStatus = "created" | "paused" | "in_sync" | "syncing" | "error";
 export const GetBlueprintResponseStatus = S.String;
 
@@ -3630,7 +3708,8 @@ export type GetBlueprintResponseResourcesItemType =
   | "key_value"
   | "postgres"
   | "environment_group"
-  | "artifact_source";
+  | "build_source"
+  | "workflow";
 export const GetBlueprintResponseResourcesItemType = S.String;
 
 export interface GetBlueprintResponseResourcesItem {
@@ -3657,6 +3736,7 @@ export const GetBlueprintResponseResourcesList = /*@__PURE__*/ S.Array(
 export interface GetBlueprintResponse {
   id: string;
   name: string;
+  /** A Blueprint has status `created` until its first Sync is approved. */
   status: GetBlueprintResponseStatus;
   autoSync: boolean;
   repo: string;
@@ -3677,9 +3757,95 @@ export const GetBlueprintResponse = /*@__PURE__*/ S.suspend(() =>
     lastSync: S.optional(S.String),
     resources: GetBlueprintResponseResourcesList,
   }),
+).annotate({ identifier: "GetBlueprintResponse" }) as any as S.Schema<GetBlueprintResponse>;
+
+export interface GetBuildSourceRequest {
+  buildSourceId: string;
+}
+export const GetBuildSourceRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    buildSourceId: S.String.pipe(T.Label()),
+  }).pipe(T.Http({ method: "GET", uri: "/build-sources/{buildSourceId}", code: 200 })),
+).annotate({ identifier: "GetBuildSourceRequest" }) as any as S.Schema<GetBuildSourceRequest>;
+
+export type SchemaServiceLinksItem = CreateBuildSourceResponseServiceLinksItem;
+export const SchemaServiceLinksItem = CreateBuildSourceResponseServiceLinksItem;
+
+/** Services currently linked to this build source. */
+export type SchemaServiceLinksList = Array<CreateBuildSourceResponseServiceLinksItem>;
+export const SchemaServiceLinksList = /*@__PURE__*/ S.Array(
+  CreateBuildSourceResponseServiceLinksItem,
+) as any as S.Schema<SchemaServiceLinksList>;
+
+export interface Schema12 {
+  id: string;
+  name: string;
+  /** ID of the workspace this build source belongs to. */
+  ownerId: string;
+  /** ID of the project this build source is scoped to, if any. */
+  projectId?: string;
+  /** Present when the build source is currently build-based. Mutually exclusive with `image`. */
+  git?: Git;
+  /** Present when the build source is currently image-based. Mutually exclusive with `git`. */
+  image?: CreateBuildSourceRequestImage;
+  createdAt: string;
+  updatedAt: string;
+  /** Services currently linked to this build source. */
+  serviceLinks: SchemaServiceLinksList;
+}
+export const Schema12 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    name: S.String,
+    ownerId: S.String,
+    projectId: S.optional(S.String),
+    git: S.optional(Git),
+    image: S.optional(CreateBuildSourceRequestImage),
+    createdAt: S.String,
+    updatedAt: S.String,
+    serviceLinks: SchemaServiceLinksList,
+  }),
+).annotate({ identifier: "Schema12" }) as any as S.Schema<Schema12>;
+
+export interface GetBuildSourceEnvVarRequest {
+  buildSourceId: string;
+  /** The name of the environment variable */
+  envVarKey: string;
+}
+export const GetBuildSourceEnvVarRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    buildSourceId: S.String.pipe(T.Label()),
+    envVarKey: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/build-sources/{buildSourceId}/env-vars/{envVarKey}",
+      code: 200,
+    }),
+  ),
 ).annotate({
-  identifier: "GetBlueprintResponse",
-}) as any as S.Schema<GetBlueprintResponse>;
+  identifier: "GetBuildSourceEnvVarRequest",
+}) as any as S.Schema<GetBuildSourceEnvVarRequest>;
+
+export interface GetBuildSourceSecretFileRequest {
+  buildSourceId: string;
+  /** The file name of the secret file */
+  envVarKey: string;
+}
+export const GetBuildSourceSecretFileRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    buildSourceId: S.String.pipe(T.Label()),
+    envVarKey: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/build-sources/{buildSourceId}/secret-files/{envVarKey}",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "GetBuildSourceSecretFileRequest",
+}) as any as S.Schema<GetBuildSourceSecretFileRequest>;
 
 export type GetCpuRequestAggregationMethod = "AVG" | "MAX" | "MIN";
 export const GetCpuRequestAggregationMethod = S.String;
@@ -3748,9 +3914,7 @@ export const GetCpuResponseBodyItem = /*@__PURE__*/ S.suspend(() =>
     values: GetCpuResponseBodyItemValuesList,
     unit: S.String,
   }),
-).annotate({
-  identifier: "GetCpuResponseBodyItem",
-}) as any as S.Schema<GetCpuResponseBodyItem>;
+).annotate({ identifier: "GetCpuResponseBodyItem" }) as any as S.Schema<GetCpuResponseBodyItem>;
 
 /** A collection of time series */
 export type GetCpuResponseBodyList = Array<GetCpuResponseBodyItem>;
@@ -3786,9 +3950,7 @@ export const GetCpuLimitRequest = /*@__PURE__*/ S.suspend(() =>
     service: S.optional(S.String.pipe(T.Query())),
     instance: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/metrics/cpu-limit", code: 200 })),
-).annotate({
-  identifier: "GetCpuLimitRequest",
-}) as any as S.Schema<GetCpuLimitRequest>;
+).annotate({ identifier: "GetCpuLimitRequest" }) as any as S.Schema<GetCpuLimitRequest>;
 
 /** A time series datapoint label */
 export type GetCpuLimitResponseBodyItemLabelsItem = GetActiveConnectionsResponseBodyItemLabelsItem;
@@ -3839,9 +4001,7 @@ export const GetCpuLimitResponseBodyList = /*@__PURE__*/ S.Array(
 export type GetCpuLimitResponse = GetCpuLimitResponseBodyList;
 export const GetCpuLimitResponse = /*@__PURE__*/ S.suspend(() =>
   GetCpuLimitResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "GetCpuLimitResponse",
-}) as any as S.Schema<GetCpuLimitResponse>;
+).annotate({ identifier: "GetCpuLimitResponse" }) as any as S.Schema<GetCpuLimitResponse>;
 
 export interface GetCpuTargetRequest {
   /** Epoch/Unix timestamp of start of time range to return. Defaults to `now() - 1 hour`. */
@@ -3866,9 +4026,7 @@ export const GetCpuTargetRequest = /*@__PURE__*/ S.suspend(() =>
     service: S.optional(S.String.pipe(T.Query())),
     instance: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/metrics/cpu-target", code: 200 })),
-).annotate({
-  identifier: "GetCpuTargetRequest",
-}) as any as S.Schema<GetCpuTargetRequest>;
+).annotate({ identifier: "GetCpuTargetRequest" }) as any as S.Schema<GetCpuTargetRequest>;
 
 /** A time series datapoint label */
 export type GetCpuTargetResponseBodyItemLabelsItem = GetActiveConnectionsResponseBodyItemLabelsItem;
@@ -3921,9 +4079,7 @@ export const GetCpuTargetResponseBodyList = /*@__PURE__*/ S.Array(
 export type GetCpuTargetResponse = GetCpuTargetResponseBodyList;
 export const GetCpuTargetResponse = /*@__PURE__*/ S.suspend(() =>
   GetCpuTargetResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "GetCpuTargetResponse",
-}) as any as S.Schema<GetCpuTargetResponse>;
+).annotate({ identifier: "GetCpuTargetResponse" }) as any as S.Schema<GetCpuTargetResponse>;
 
 export interface GetCustomDomainRequest {
   /** The ID of the service */
@@ -3942,9 +4098,7 @@ export const GetCustomDomainRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetCustomDomainRequest",
-}) as any as S.Schema<GetCustomDomainRequest>;
+).annotate({ identifier: "GetCustomDomainRequest" }) as any as S.Schema<GetCustomDomainRequest>;
 
 export interface GetDedicatedIpRequest {
   /** The ID of the dedicated IP set */
@@ -3954,9 +4108,7 @@ export const GetDedicatedIpRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     dedicatedIpId: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/dedicated-ips/{dedicatedIpId}", code: 200 })),
-).annotate({
-  identifier: "GetDedicatedIpRequest",
-}) as any as S.Schema<GetDedicatedIpRequest>;
+).annotate({ identifier: "GetDedicatedIpRequest" }) as any as S.Schema<GetDedicatedIpRequest>;
 
 export interface GetDeployRequest {
   /** The ID of the service */
@@ -3968,16 +4120,8 @@ export const GetDeployRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceId: S.String.pipe(T.Label()),
     deployId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/services/{serviceId}/deploys/{deployId}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetDeployRequest",
-}) as any as S.Schema<GetDeployRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/services/{serviceId}/deploys/{deployId}", code: 200 })),
+).annotate({ identifier: "GetDeployRequest" }) as any as S.Schema<GetDeployRequest>;
 
 export interface GetDiskRequest {
   /** The ID of the disk */
@@ -4030,9 +4174,7 @@ export const GetDiskCapacityRequest = /*@__PURE__*/ S.suspend(() =>
     resource: S.optional(S.String.pipe(T.Query())),
     service: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/metrics/disk-capacity", code: 200 })),
-).annotate({
-  identifier: "GetDiskCapacityRequest",
-}) as any as S.Schema<GetDiskCapacityRequest>;
+).annotate({ identifier: "GetDiskCapacityRequest" }) as any as S.Schema<GetDiskCapacityRequest>;
 
 /** A time series datapoint label */
 export type GetDiskCapacityResponseBodyItemLabelsItem =
@@ -4087,9 +4229,7 @@ export const GetDiskCapacityResponseBodyList = /*@__PURE__*/ S.Array(
 export type GetDiskCapacityResponse = GetDiskCapacityResponseBodyList;
 export const GetDiskCapacityResponse = /*@__PURE__*/ S.suspend(() =>
   GetDiskCapacityResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "GetDiskCapacityResponse",
-}) as any as S.Schema<GetDiskCapacityResponse>;
+).annotate({ identifier: "GetDiskCapacityResponse" }) as any as S.Schema<GetDiskCapacityResponse>;
 
 export interface GetDiskUsageRequest {
   /** Epoch/Unix timestamp of start of time range to return. Defaults to `now() - 1 hour`. */
@@ -4111,9 +4251,7 @@ export const GetDiskUsageRequest = /*@__PURE__*/ S.suspend(() =>
     resource: S.optional(S.String.pipe(T.Query())),
     service: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/metrics/disk-usage", code: 200 })),
-).annotate({
-  identifier: "GetDiskUsageRequest",
-}) as any as S.Schema<GetDiskUsageRequest>;
+).annotate({ identifier: "GetDiskUsageRequest" }) as any as S.Schema<GetDiskUsageRequest>;
 
 /** A time series datapoint label */
 export type GetDiskUsageResponseBodyItemLabelsItem = GetActiveConnectionsResponseBodyItemLabelsItem;
@@ -4166,9 +4304,7 @@ export const GetDiskUsageResponseBodyList = /*@__PURE__*/ S.Array(
 export type GetDiskUsageResponse = GetDiskUsageResponseBodyList;
 export const GetDiskUsageResponse = /*@__PURE__*/ S.suspend(() =>
   GetDiskUsageResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "GetDiskUsageResponse",
-}) as any as S.Schema<GetDiskUsageResponse>;
+).annotate({ identifier: "GetDiskUsageResponse" }) as any as S.Schema<GetDiskUsageResponse>;
 
 export interface GetEnvGroupRequest {
   /** Filter for resources that belong to an environment group */
@@ -4178,9 +4314,7 @@ export const GetEnvGroupRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     envGroupId: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/env-groups/{envGroupId}", code: 200 })),
-).annotate({
-  identifier: "GetEnvGroupRequest",
-}) as any as S.Schema<GetEnvGroupRequest>;
+).annotate({ identifier: "GetEnvGroupRequest" }) as any as S.Schema<GetEnvGroupRequest>;
 
 /** List of serviceIds linked to the envGroup */
 export type GetEnvGroupResponseServiceLinksList = Array<EnvGroupLink>;
@@ -4222,9 +4356,7 @@ export const GetEnvGroupResponse = /*@__PURE__*/ S.suspend(() =>
     envVars: GetEnvGroupResponseEnvVarsList,
     secretFiles: GetEnvGroupResponseSecretFilesList,
   }),
-).annotate({
-  identifier: "GetEnvGroupResponse",
-}) as any as S.Schema<GetEnvGroupResponse>;
+).annotate({ identifier: "GetEnvGroupResponse" }) as any as S.Schema<GetEnvGroupResponse>;
 
 export interface GetEnvGroupEnvVarRequest {
   /** Filter for resources that belong to an environment group */
@@ -4237,15 +4369,9 @@ export const GetEnvGroupEnvVarRequest = /*@__PURE__*/ S.suspend(() =>
     envGroupId: S.String.pipe(T.Label()),
     envVarKey: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/env-groups/{envGroupId}/env-vars/{envVarKey}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/env-groups/{envGroupId}/env-vars/{envVarKey}", code: 200 }),
   ),
-).annotate({
-  identifier: "GetEnvGroupEnvVarRequest",
-}) as any as S.Schema<GetEnvGroupEnvVarRequest>;
+).annotate({ identifier: "GetEnvGroupEnvVarRequest" }) as any as S.Schema<GetEnvGroupEnvVarRequest>;
 
 export interface GetEnvGroupSecretFileRequest {
   /** Filter for resources that belong to an environment group */
@@ -4258,11 +4384,7 @@ export const GetEnvGroupSecretFileRequest = /*@__PURE__*/ S.suspend(() =>
     envGroupId: S.String.pipe(T.Label()),
     envVarKey: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/env-groups/{envGroupId}/secret-files/{envVarKey}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/env-groups/{envGroupId}/secret-files/{envVarKey}", code: 200 }),
   ),
 ).annotate({
   identifier: "GetEnvGroupSecretFileRequest",
@@ -4275,9 +4397,7 @@ export const GetEnvironmentRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     environmentId: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/environments/{environmentId}", code: 200 })),
-).annotate({
-  identifier: "GetEnvironmentRequest",
-}) as any as S.Schema<GetEnvironmentRequest>;
+).annotate({ identifier: "GetEnvironmentRequest" }) as any as S.Schema<GetEnvironmentRequest>;
 
 export interface GetEnvVarRequest {
   /** The ID of the service */
@@ -4289,16 +4409,48 @@ export const GetEnvVarRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceId: S.String.pipe(T.Label()),
     envVarKey: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/services/{serviceId}/env-vars/{envVarKey}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/services/{serviceId}/env-vars/{envVarKey}", code: 200 })),
+).annotate({ identifier: "GetEnvVarRequest" }) as any as S.Schema<GetEnvVarRequest>;
+
+export interface GetEnvVarsForBuildSourceRequest {
+  buildSourceId: string;
+  /** The position in the result list to start from when fetching paginated results. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
+  cursor?: string;
+  /** The maximum number of items to return. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
+  limit?: number;
+}
+export const GetEnvVarsForBuildSourceRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    buildSourceId: S.String.pipe(T.Label()),
+    cursor: S.optional(S.String.pipe(T.Query())),
+    limit: S.optional(S.Number.pipe(T.Query())),
+  }).pipe(T.Http({ method: "GET", uri: "/build-sources/{buildSourceId}/env-vars", code: 200 })),
 ).annotate({
-  identifier: "GetEnvVarRequest",
-}) as any as S.Schema<GetEnvVarRequest>;
+  identifier: "GetEnvVarsForBuildSourceRequest",
+}) as any as S.Schema<GetEnvVarsForBuildSourceRequest>;
+
+export interface EnvVarWithCursor {
+  envVar: EnvVar;
+  cursor: string;
+}
+export const EnvVarWithCursor = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    envVar: EnvVar,
+    cursor: S.String,
+  }),
+).annotate({ identifier: "EnvVarWithCursor" }) as any as S.Schema<EnvVarWithCursor>;
+
+export type GetEnvVarsForBuildSourceResponseBodyList = Array<EnvVarWithCursor>;
+export const GetEnvVarsForBuildSourceResponseBodyList = /*@__PURE__*/ S.Array(
+  EnvVarWithCursor,
+) as any as S.Schema<GetEnvVarsForBuildSourceResponseBodyList>;
+
+export type GetEnvVarsForBuildSourceResponse = GetEnvVarsForBuildSourceResponseBodyList;
+export const GetEnvVarsForBuildSourceResponse = /*@__PURE__*/ S.suspend(() =>
+  GetEnvVarsForBuildSourceResponseBodyList.pipe(T.RawResponseRoot()),
+).annotate({
+  identifier: "GetEnvVarsForBuildSourceResponse",
+}) as any as S.Schema<GetEnvVarsForBuildSourceResponse>;
 
 export interface GetEnvVarsForServiceRequest {
   /** The ID of the service */
@@ -4317,19 +4469,6 @@ export const GetEnvVarsForServiceRequest = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "GetEnvVarsForServiceRequest",
 }) as any as S.Schema<GetEnvVarsForServiceRequest>;
-
-export interface EnvVarWithCursor {
-  envVar: EnvVar;
-  cursor: string;
-}
-export const EnvVarWithCursor = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    envVar: EnvVar,
-    cursor: S.String,
-  }),
-).annotate({
-  identifier: "EnvVarWithCursor",
-}) as any as S.Schema<EnvVarWithCursor>;
 
 export type GetEnvVarsForServiceResponseBodyList = Array<EnvVarWithCursor>;
 export const GetEnvVarsForServiceResponseBodyList = /*@__PURE__*/ S.Array(
@@ -4351,9 +4490,7 @@ export const GetEventRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     eventId: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/events/{eventId}", code: 200 })),
-).annotate({
-  identifier: "GetEventRequest",
-}) as any as S.Schema<GetEventRequest>;
+).annotate({ identifier: "GetEventRequest" }) as any as S.Schema<GetEventRequest>;
 
 export type GetEventResponseType =
   | "artifact_fetch_failed"
@@ -4426,12 +4563,13 @@ export type GetEventResponseType =
 export const GetEventResponseType = S.String;
 
 export interface GetEventResponseDetailsCase0Case0 {
-  artifactId: string;
+  /** The build published by the build source that could not be fetched. */
+  buildId: string;
   message: string;
 }
 export const GetEventResponseDetailsCase0Case0 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    artifactId: S.String,
+    buildId: S.String,
     message: S.String,
   }),
 ).annotate({
@@ -4439,15 +4577,15 @@ export const GetEventResponseDetailsCase0Case0 = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetEventResponseDetailsCase0Case0>;
 
 export interface GetEventResponseDetailsCase0Case1 {
-  /** The previously linked artifact source. Absent when the service was newly attached. */
-  fromArtifactSourceId?: string;
-  /** The newly linked artifact source. Absent when the service was detached. */
-  toArtifactSourceId?: string;
+  /** The previously linked build source. Absent when the service was newly attached. */
+  fromBuildSourceId?: string;
+  /** The newly linked build source. Absent when the service was detached. */
+  toBuildSourceId?: string;
 }
 export const GetEventResponseDetailsCase0Case1 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    fromArtifactSourceId: S.optional(S.String),
-    toArtifactSourceId: S.optional(S.String),
+    fromBuildSourceId: S.optional(S.String),
+    toBuildSourceId: S.optional(S.String),
   }),
 ).annotate({
   identifier: "GetEventResponseDetailsCase0Case1",
@@ -4535,9 +4673,7 @@ export const ReasonOomKilled = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     memoryLimit: S.String,
   }),
-).annotate({
-  identifier: "ReasonOomKilled",
-}) as any as S.Schema<ReasonOomKilled>;
+).annotate({ identifier: "ReasonOomKilled" }) as any as S.Schema<ReasonOomKilled>;
 
 export interface Reason {
   evicted: boolean;
@@ -4737,8 +4873,8 @@ export interface GetEventResponseDetailsCase0Case11 {
   reason: GetEventResponseDetailsCase0Case6Reason;
   deployStatus: BuildStatus;
   status: number;
-  /** Set when the deploy shipped an artifact published by the service's linked artifact source. */
-  artifactId?: string;
+  /** Set when the deploy shipped a build published by the service's linked build source. */
+  buildId?: string;
 }
 export const GetEventResponseDetailsCase0Case11 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -4746,7 +4882,7 @@ export const GetEventResponseDetailsCase0Case11 = /*@__PURE__*/ S.suspend(() =>
     reason: GetEventResponseDetailsCase0Case6Reason,
     deployStatus: BuildStatus,
     status: S.Number,
-    artifactId: S.optional(S.String),
+    buildId: S.optional(S.String),
   }),
 ).annotate({
   identifier: "GetEventResponseDetailsCase0Case11",
@@ -4758,14 +4894,14 @@ export const Trigger = GetEventResponseDetailsCase0Case7Trigger;
 export interface GetEventResponseDetailsCase0Case12 {
   deployId: string;
   trigger: GetEventResponseDetailsCase0Case7Trigger;
-  /** Set when the deploy ships an artifact published by the service's linked artifact source. */
-  artifactId?: string;
+  /** Set when the deploy ships a build published by the service's linked build source. */
+  buildId?: string;
 }
 export const GetEventResponseDetailsCase0Case12 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     deployId: S.String,
     trigger: GetEventResponseDetailsCase0Case7Trigger,
-    artifactId: S.optional(S.String),
+    buildId: S.optional(S.String),
   }),
 ).annotate({
   identifier: "GetEventResponseDetailsCase0Case12",
@@ -5075,36 +5211,28 @@ export const GetEventResponseDetailsCase0Case42 = GetEventResponseDetailsCase0Ca
 export type GetEventResponseDetailsCase0Case43 = GetEventResponseDetailsCase0Case41;
 export const GetEventResponseDetailsCase0Case43 = GetEventResponseDetailsCase0Case41;
 
-/** The auto-deploy trigger value after it was re-enabled */
-export type NewTrigger = "commit" | "off" | "checksPass";
-export const NewTrigger = S.String;
-
 export interface GetEventResponseDetailsCase0Case44 {
   /** Why auto-deploy was disabled (manual_deploy, rollback, or setting_change) */
   reason: string;
   /** The auto-deploy trigger value immediately before it was disabled */
-  fromTrigger?: NewTrigger;
+  fromTrigger?: AutoDeployTrigger;
 }
 export const GetEventResponseDetailsCase0Case44 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     reason: S.String,
-    fromTrigger: S.optional(NewTrigger),
+    fromTrigger: S.optional(AutoDeployTrigger),
   }),
 ).annotate({
   identifier: "GetEventResponseDetailsCase0Case44",
 }) as any as S.Schema<GetEventResponseDetailsCase0Case44>;
 
-/** The auto-deploy trigger value after it was re-enabled */
-export type GetEventResponseDetailsCase0Case45NewTrigger = "commit" | "off" | "checksPass";
-export const GetEventResponseDetailsCase0Case45NewTrigger = S.String;
-
 export interface GetEventResponseDetailsCase0Case45 {
   /** The auto-deploy trigger value after it was re-enabled */
-  newTrigger?: GetEventResponseDetailsCase0Case45NewTrigger;
+  newTrigger?: AutoDeployTrigger;
 }
 export const GetEventResponseDetailsCase0Case45 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    newTrigger: S.optional(GetEventResponseDetailsCase0Case45NewTrigger),
+    newTrigger: S.optional(AutoDeployTrigger),
   }),
 ).annotate({
   identifier: "GetEventResponseDetailsCase0Case45",
@@ -5334,9 +5462,7 @@ export const GetEventResponse = /*@__PURE__*/ S.suspend(() =>
     type: GetEventResponseType,
     details: GetEventResponseDetails,
   }),
-).annotate({
-  identifier: "GetEventResponse",
-}) as any as S.Schema<GetEventResponse>;
+).annotate({ identifier: "GetEventResponse" }) as any as S.Schema<GetEventResponse>;
 
 export interface GetHttpLatencyRequest {
   /** Epoch/Unix timestamp of start of time range to return. Defaults to `now() - 1 hour`. */
@@ -5367,9 +5493,7 @@ export const GetHttpLatencyRequest = /*@__PURE__*/ S.suspend(() =>
     path: S.optional(S.String.pipe(T.Query())),
     quantile: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/metrics/http-latency", code: 200 })),
-).annotate({
-  identifier: "GetHttpLatencyRequest",
-}) as any as S.Schema<GetHttpLatencyRequest>;
+).annotate({ identifier: "GetHttpLatencyRequest" }) as any as S.Schema<GetHttpLatencyRequest>;
 
 /** A time series datapoint label */
 export type GetHttpLatencyResponseBodyItemLabelsItem =
@@ -5424,9 +5548,7 @@ export const GetHttpLatencyResponseBodyList = /*@__PURE__*/ S.Array(
 export type GetHttpLatencyResponse = GetHttpLatencyResponseBodyList;
 export const GetHttpLatencyResponse = /*@__PURE__*/ S.suspend(() =>
   GetHttpLatencyResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "GetHttpLatencyResponse",
-}) as any as S.Schema<GetHttpLatencyResponse>;
+).annotate({ identifier: "GetHttpLatencyResponse" }) as any as S.Schema<GetHttpLatencyResponse>;
 
 export type GetHttpRequestsRequestAggregateBy = "statusCode" | "host";
 export const GetHttpRequestsRequestAggregateBy = S.String;
@@ -5460,9 +5582,7 @@ export const GetHttpRequestsRequest = /*@__PURE__*/ S.suspend(() =>
     path: S.optional(S.String.pipe(T.Query())),
     aggregateBy: S.optional(GetHttpRequestsRequestAggregateBy.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/metrics/http-requests", code: 200 })),
-).annotate({
-  identifier: "GetHttpRequestsRequest",
-}) as any as S.Schema<GetHttpRequestsRequest>;
+).annotate({ identifier: "GetHttpRequestsRequest" }) as any as S.Schema<GetHttpRequestsRequest>;
 
 /** A time series datapoint label */
 export type GetHttpRequestsResponseBodyItemLabelsItem =
@@ -5517,9 +5637,7 @@ export const GetHttpRequestsResponseBodyList = /*@__PURE__*/ S.Array(
 export type GetHttpRequestsResponse = GetHttpRequestsResponseBodyList;
 export const GetHttpRequestsResponse = /*@__PURE__*/ S.suspend(() =>
   GetHttpRequestsResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "GetHttpRequestsResponse",
-}) as any as S.Schema<GetHttpRequestsResponse>;
+).annotate({ identifier: "GetHttpRequestsResponse" }) as any as S.Schema<GetHttpRequestsResponse>;
 
 export interface GetInstanceCountRequest {
   /** Epoch/Unix timestamp of start of time range to return. Defaults to `now() - 1 hour`. */
@@ -5541,9 +5659,7 @@ export const GetInstanceCountRequest = /*@__PURE__*/ S.suspend(() =>
     resource: S.optional(S.String.pipe(T.Query())),
     service: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/metrics/instance-count", code: 200 })),
-).annotate({
-  identifier: "GetInstanceCountRequest",
-}) as any as S.Schema<GetInstanceCountRequest>;
+).annotate({ identifier: "GetInstanceCountRequest" }) as any as S.Schema<GetInstanceCountRequest>;
 
 /** A time series datapoint label */
 export type GetInstanceCountResponseBodyItemLabelsItem =
@@ -5598,9 +5714,7 @@ export const GetInstanceCountResponseBodyList = /*@__PURE__*/ S.Array(
 export type GetInstanceCountResponse = GetInstanceCountResponseBodyList;
 export const GetInstanceCountResponse = /*@__PURE__*/ S.suspend(() =>
   GetInstanceCountResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "GetInstanceCountResponse",
-}) as any as S.Schema<GetInstanceCountResponse>;
+).annotate({ identifier: "GetInstanceCountResponse" }) as any as S.Schema<GetInstanceCountResponse>;
 
 export interface GetJobRequest {
   /** The ID of the service */
@@ -5612,13 +5726,7 @@ export const GetJobRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceId: S.String.pipe(T.Label()),
     jobId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/services/{serviceId}/jobs/{jobId}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/services/{serviceId}/jobs/{jobId}", code: 200 })),
 ).annotate({ identifier: "GetJobRequest" }) as any as S.Schema<GetJobRequest>;
 
 export interface GetKeyValueRequest {
@@ -5628,9 +5736,7 @@ export const GetKeyValueRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     redisId: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/key-value/{redisId}", code: 200 })),
-).annotate({
-  identifier: "GetKeyValueRequest",
-}) as any as S.Schema<GetKeyValueRequest>;
+).annotate({ identifier: "GetKeyValueRequest" }) as any as S.Schema<GetKeyValueRequest>;
 
 export interface GetKeyValueConnectionInfoRequest {
   redisId: string;
@@ -5638,13 +5744,7 @@ export interface GetKeyValueConnectionInfoRequest {
 export const GetKeyValueConnectionInfoRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     redisId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/key-value/{redisId}/connection-info",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/key-value/{redisId}/connection-info", code: 200 })),
 ).annotate({
   identifier: "GetKeyValueConnectionInfoRequest",
 }) as any as S.Schema<GetKeyValueConnectionInfoRequest>;
@@ -5664,9 +5764,7 @@ export const KeyValueConnectionInfo = /*@__PURE__*/ S.suspend(() =>
     externalConnectionString: S.String,
     cliCommand: S.String,
   }),
-).annotate({
-  identifier: "KeyValueConnectionInfo",
-}) as any as S.Schema<KeyValueConnectionInfo>;
+).annotate({ identifier: "KeyValueConnectionInfo" }) as any as S.Schema<KeyValueConnectionInfo>;
 
 export interface GetMaintenanceRequest {
   maintenanceRunID: string;
@@ -5674,16 +5772,8 @@ export interface GetMaintenanceRequest {
 export const GetMaintenanceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     maintenanceRunID: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/maintenance/{maintenanceRunID}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetMaintenanceRequest",
-}) as any as S.Schema<GetMaintenanceRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/maintenance/{maintenanceRunID}", code: 200 })),
+).annotate({ identifier: "GetMaintenanceRequest" }) as any as S.Schema<GetMaintenanceRequest>;
 
 export interface GetMaintenanceResponse {
   id: string;
@@ -5703,9 +5793,7 @@ export const GetMaintenanceResponse = /*@__PURE__*/ S.suspend(() =>
     state: Items4,
     resourceId: S.String,
   }),
-).annotate({
-  identifier: "GetMaintenanceResponse",
-}) as any as S.Schema<GetMaintenanceResponse>;
+).annotate({ identifier: "GetMaintenanceResponse" }) as any as S.Schema<GetMaintenanceResponse>;
 
 export interface GetMemoryRequest {
   /** Epoch/Unix timestamp of start of time range to return. Defaults to `now() - 1 hour`. */
@@ -5730,9 +5818,7 @@ export const GetMemoryRequest = /*@__PURE__*/ S.suspend(() =>
     service: S.optional(S.String.pipe(T.Query())),
     instance: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/metrics/memory", code: 200 })),
-).annotate({
-  identifier: "GetMemoryRequest",
-}) as any as S.Schema<GetMemoryRequest>;
+).annotate({ identifier: "GetMemoryRequest" }) as any as S.Schema<GetMemoryRequest>;
 
 /** A time series datapoint label */
 export type GetMemoryResponseBodyItemLabelsItem = GetActiveConnectionsResponseBodyItemLabelsItem;
@@ -5783,9 +5869,7 @@ export const GetMemoryResponseBodyList = /*@__PURE__*/ S.Array(
 export type GetMemoryResponse = GetMemoryResponseBodyList;
 export const GetMemoryResponse = /*@__PURE__*/ S.suspend(() =>
   GetMemoryResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "GetMemoryResponse",
-}) as any as S.Schema<GetMemoryResponse>;
+).annotate({ identifier: "GetMemoryResponse" }) as any as S.Schema<GetMemoryResponse>;
 
 export interface GetMemoryLimitRequest {
   /** Epoch/Unix timestamp of start of time range to return. Defaults to `now() - 1 hour`. */
@@ -5810,9 +5894,7 @@ export const GetMemoryLimitRequest = /*@__PURE__*/ S.suspend(() =>
     service: S.optional(S.String.pipe(T.Query())),
     instance: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/metrics/memory-limit", code: 200 })),
-).annotate({
-  identifier: "GetMemoryLimitRequest",
-}) as any as S.Schema<GetMemoryLimitRequest>;
+).annotate({ identifier: "GetMemoryLimitRequest" }) as any as S.Schema<GetMemoryLimitRequest>;
 
 /** A time series datapoint label */
 export type GetMemoryLimitResponseBodyItemLabelsItem =
@@ -5867,9 +5949,7 @@ export const GetMemoryLimitResponseBodyList = /*@__PURE__*/ S.Array(
 export type GetMemoryLimitResponse = GetMemoryLimitResponseBodyList;
 export const GetMemoryLimitResponse = /*@__PURE__*/ S.suspend(() =>
   GetMemoryLimitResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "GetMemoryLimitResponse",
-}) as any as S.Schema<GetMemoryLimitResponse>;
+).annotate({ identifier: "GetMemoryLimitResponse" }) as any as S.Schema<GetMemoryLimitResponse>;
 
 export interface GetMemoryTargetRequest {
   /** Epoch/Unix timestamp of start of time range to return. Defaults to `now() - 1 hour`. */
@@ -5894,9 +5974,7 @@ export const GetMemoryTargetRequest = /*@__PURE__*/ S.suspend(() =>
     service: S.optional(S.String.pipe(T.Query())),
     instance: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/metrics/memory-target", code: 200 })),
-).annotate({
-  identifier: "GetMemoryTargetRequest",
-}) as any as S.Schema<GetMemoryTargetRequest>;
+).annotate({ identifier: "GetMemoryTargetRequest" }) as any as S.Schema<GetMemoryTargetRequest>;
 
 /** A time series datapoint label */
 export type GetMemoryTargetResponseBodyItemLabelsItem =
@@ -5951,9 +6029,7 @@ export const GetMemoryTargetResponseBodyList = /*@__PURE__*/ S.Array(
 export type GetMemoryTargetResponse = GetMemoryTargetResponseBodyList;
 export const GetMemoryTargetResponse = /*@__PURE__*/ S.suspend(() =>
   GetMemoryTargetResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "GetMemoryTargetResponse",
-}) as any as S.Schema<GetMemoryTargetResponse>;
+).annotate({ identifier: "GetMemoryTargetResponse" }) as any as S.Schema<GetMemoryTargetResponse>;
 
 export interface GetOwnerRequest {
   /** The ID of the user or team */
@@ -5963,9 +6039,7 @@ export const GetOwnerRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ownerId: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/owners/{ownerId}", code: 200 })),
-).annotate({
-  identifier: "GetOwnerRequest",
-}) as any as S.Schema<GetOwnerRequest>;
+).annotate({ identifier: "GetOwnerRequest" }) as any as S.Schema<GetOwnerRequest>;
 
 export interface GetOwnerLogStreamRequest {
   /** The ID of the workspace to return log stream information for */
@@ -5975,9 +6049,7 @@ export const GetOwnerLogStreamRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ownerId: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/logs/streams/owner/{ownerId}", code: 200 })),
-).annotate({
-  identifier: "GetOwnerLogStreamRequest",
-}) as any as S.Schema<GetOwnerLogStreamRequest>;
+).annotate({ identifier: "GetOwnerLogStreamRequest" }) as any as S.Schema<GetOwnerLogStreamRequest>;
 
 /** Whether to send logs or drop them. */
 export type Preview = "send" | "drop";
@@ -6008,9 +6080,7 @@ export const GetOwnerMembersRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ownerId: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/owners/{ownerId}/members", code: 200 })),
-).annotate({
-  identifier: "GetOwnerMembersRequest",
-}) as any as S.Schema<GetOwnerMembersRequest>;
+).annotate({ identifier: "GetOwnerMembersRequest" }) as any as S.Schema<GetOwnerMembersRequest>;
 
 export type TeamMemberStatus = "active" | "inactive";
 export const TeamMemberStatus = S.String;
@@ -6049,9 +6119,7 @@ export const TeamMembers = /*@__PURE__*/ S.Array(TeamMember) as any as S.Schema<
 export type GetOwnerMembersResponse = TeamMembers;
 export const GetOwnerMembersResponse = /*@__PURE__*/ S.suspend(() =>
   TeamMembers.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "GetOwnerMembersResponse",
-}) as any as S.Schema<GetOwnerMembersResponse>;
+).annotate({ identifier: "GetOwnerMembersResponse" }) as any as S.Schema<GetOwnerMembersResponse>;
 
 export interface GetOwnerMetricsStreamRequest {
   /** The ID of the workspace to return metrics stream information for */
@@ -6100,13 +6168,7 @@ export interface GetOwnerNotificationSettingsRequest {
 export const GetOwnerNotificationSettingsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ownerId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/notification-settings/owners/{ownerId}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/notification-settings/owners/{ownerId}", code: 200 })),
 ).annotate({
   identifier: "GetOwnerNotificationSettingsRequest",
 }) as any as S.Schema<GetOwnerNotificationSettingsRequest>;
@@ -6140,9 +6202,7 @@ export const GetPostgresRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     postgresId: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/postgres/{postgresId}", code: 200 })),
-).annotate({
-  identifier: "GetPostgresRequest",
-}) as any as S.Schema<GetPostgresRequest>;
+).annotate({ identifier: "GetPostgresRequest" }) as any as S.Schema<GetPostgresRequest>;
 
 export interface GetPostgresConnectionInfoRequest {
   postgresId: string;
@@ -6150,13 +6210,7 @@ export interface GetPostgresConnectionInfoRequest {
 export const GetPostgresConnectionInfoRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     postgresId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/postgres/{postgresId}/connection-info",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/postgres/{postgresId}/connection-info", code: 200 })),
 ).annotate({
   identifier: "GetPostgresConnectionInfoRequest",
 }) as any as S.Schema<GetPostgresConnectionInfoRequest>;
@@ -6178,9 +6232,7 @@ export const PostgresConnectionInfo = /*@__PURE__*/ S.suspend(() =>
     externalConnectionPoolString: S.optional(S.String),
     psqlCommand: S.String,
   }),
-).annotate({
-  identifier: "PostgresConnectionInfo",
-}) as any as S.Schema<PostgresConnectionInfo>;
+).annotate({ identifier: "PostgresConnectionInfo" }) as any as S.Schema<PostgresConnectionInfo>;
 
 export interface GetPostgresRecoveryInfoRequest {
   postgresId: string;
@@ -6188,13 +6240,7 @@ export interface GetPostgresRecoveryInfoRequest {
 export const GetPostgresRecoveryInfoRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     postgresId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/postgres/{postgresId}/recovery",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/postgres/{postgresId}/recovery", code: 200 })),
 ).annotate({
   identifier: "GetPostgresRecoveryInfoRequest",
 }) as any as S.Schema<GetPostgresRecoveryInfoRequest>;
@@ -6227,9 +6273,7 @@ export const GetProjectRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     projectId: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/projects/{projectId}", code: 200 })),
-).annotate({
-  identifier: "GetProjectRequest",
-}) as any as S.Schema<GetProjectRequest>;
+).annotate({ identifier: "GetProjectRequest" }) as any as S.Schema<GetProjectRequest>;
 
 export interface GetRegistryCredentialRequest {
   /** The ID of the registry credential */
@@ -6238,13 +6282,7 @@ export interface GetRegistryCredentialRequest {
 export const GetRegistryCredentialRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     registryCredentialId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/registrycredentials/{registryCredentialId}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/registrycredentials/{registryCredentialId}", code: 200 })),
 ).annotate({
   identifier: "GetRegistryCredentialRequest",
 }) as any as S.Schema<GetRegistryCredentialRequest>;
@@ -6266,9 +6304,7 @@ export const GetReplicationLagRequest = /*@__PURE__*/ S.suspend(() =>
     resolutionSeconds: S.optional(S.Number.pipe(T.Query())),
     resource: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/metrics/replication-lag", code: 200 })),
-).annotate({
-  identifier: "GetReplicationLagRequest",
-}) as any as S.Schema<GetReplicationLagRequest>;
+).annotate({ identifier: "GetReplicationLagRequest" }) as any as S.Schema<GetReplicationLagRequest>;
 
 /** A time series datapoint label */
 export type GetReplicationLagResponseBodyItemLabelsItem =
@@ -6334,13 +6370,7 @@ export interface GetResourceLogStreamRequest {
 export const GetResourceLogStreamRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     resourceId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/logs/streams/resource/{resourceId}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/logs/streams/resource/{resourceId}", code: 200 })),
 ).annotate({
   identifier: "GetResourceLogStreamRequest",
 }) as any as S.Schema<GetResourceLogStreamRequest>;
@@ -6377,15 +6407,9 @@ export const GetSecretFileRequest = /*@__PURE__*/ S.suspend(() =>
     serviceId: S.String.pipe(T.Label()),
     envVarKey: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/services/{serviceId}/secret-files/{envVarKey}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/services/{serviceId}/secret-files/{envVarKey}", code: 200 }),
   ),
-).annotate({
-  identifier: "GetSecretFileRequest",
-}) as any as S.Schema<GetSecretFileRequest>;
+).annotate({ identifier: "GetSecretFileRequest" }) as any as S.Schema<GetSecretFileRequest>;
 
 export interface GetServiceRequest {
   /** The ID of the service */
@@ -6395,9 +6419,7 @@ export const GetServiceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceId: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/services/{serviceId}", code: 200 })),
-).annotate({
-  identifier: "GetServiceRequest",
-}) as any as S.Schema<GetServiceRequest>;
+).annotate({ identifier: "GetServiceRequest" }) as any as S.Schema<GetServiceRequest>;
 
 export interface GetServiceNotificationOverridesRequest {
   /** The ID of the service */
@@ -6445,13 +6467,7 @@ export interface GetServiceOutboundIpsRequest {
 export const GetServiceOutboundIpsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/services/{serviceId}/outbound-ips",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/services/{serviceId}/outbound-ips", code: 200 })),
 ).annotate({
   identifier: "GetServiceOutboundIpsRequest",
 }) as any as S.Schema<GetServiceOutboundIpsRequest>;
@@ -6507,9 +6523,7 @@ export const GetTaskResponse = /*@__PURE__*/ S.suspend(() =>
     workflowId: S.optional(S.String),
     workflowVersionId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GetTaskResponse",
-}) as any as S.Schema<GetTaskResponse>;
+).annotate({ identifier: "GetTaskResponse" }) as any as S.Schema<GetTaskResponse>;
 
 export interface GetTaskRunRequest {
   /** The ID of the task run */
@@ -6519,9 +6533,7 @@ export const GetTaskRunRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     taskRunId: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/task-runs/{taskRunId}", code: 200 })),
-).annotate({
-  identifier: "GetTaskRunRequest",
-}) as any as S.Schema<GetTaskRunRequest>;
+).annotate({ identifier: "GetTaskRunRequest" }) as any as S.Schema<GetTaskRunRequest>;
 
 export type GetTaskRunResponseStatus =
   | "pending"
@@ -6622,9 +6634,7 @@ export const GetTaskRunResponse = /*@__PURE__*/ S.suspend(() =>
     retries: S.Number,
     attempts: GetTaskRunResponseAttemptsList,
   }),
-).annotate({
-  identifier: "GetTaskRunResponse",
-}) as any as S.Schema<GetTaskRunResponse>;
+).annotate({ identifier: "GetTaskRunResponse" }) as any as S.Schema<GetTaskRunResponse>;
 
 export type GetTaskRunsCompletedRequestState = "succeeded" | "failed";
 export const GetTaskRunsCompletedRequestState = S.String;
@@ -6733,9 +6743,7 @@ export const GetTaskRunsQueuedRequest = /*@__PURE__*/ S.suspend(() =>
     resolutionSeconds: S.optional(S.Number.pipe(T.Query())),
     resource: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/metrics/task-runs-queued", code: 200 })),
-).annotate({
-  identifier: "GetTaskRunsQueuedRequest",
-}) as any as S.Schema<GetTaskRunsQueuedRequest>;
+).annotate({ identifier: "GetTaskRunsQueuedRequest" }) as any as S.Schema<GetTaskRunsQueuedRequest>;
 
 /** A time series datapoint label */
 export type GetTaskRunsQueuedResponseBodyItemLabelsItem =
@@ -6800,11 +6808,14 @@ export const GetUserRequest = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "GetUserRequest" }) as any as S.Schema<GetUserRequest>;
 
 export interface User {
+  /** The authenticated user's ID. */
+  id: string;
   email: string;
   name: string;
 }
 export const User = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    id: S.String,
     email: S.String,
     name: S.String,
   }),
@@ -6818,11 +6829,9 @@ export const GetWebhookRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     webhookId: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/webhooks/{webhookId}", code: 200 })),
-).annotate({
-  identifier: "GetWebhookRequest",
-}) as any as S.Schema<GetWebhookRequest>;
+).annotate({ identifier: "GetWebhookRequest" }) as any as S.Schema<GetWebhookRequest>;
 
-export interface Schema12 {
+export interface Schema14 {
   id: string;
   url: string;
   name: string;
@@ -6830,7 +6839,7 @@ export interface Schema12 {
   enabled: boolean;
   eventFilter: EventFilter;
 }
-export const Schema12 = /*@__PURE__*/ S.suspend(() =>
+export const Schema14 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String,
     url: S.String,
@@ -6839,7 +6848,7 @@ export const Schema12 = /*@__PURE__*/ S.suspend(() =>
     enabled: S.Boolean,
     eventFilter: EventFilter,
   }),
-).annotate({ identifier: "Schema12" }) as any as S.Schema<Schema12>;
+).annotate({ identifier: "Schema14" }) as any as S.Schema<Schema14>;
 
 export interface GetWorkflowRequest {
   /** The ID of the workflow */
@@ -6849,11 +6858,9 @@ export const GetWorkflowRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     workflowId: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/workflows/{workflowId}", code: 200 })),
-).annotate({
-  identifier: "GetWorkflowRequest",
-}) as any as S.Schema<GetWorkflowRequest>;
+).annotate({ identifier: "GetWorkflowRequest" }) as any as S.Schema<GetWorkflowRequest>;
 
-export interface Schema13 {
+export interface Schema15 {
   id: string;
   name: string;
   ownerId: string;
@@ -6865,9 +6872,9 @@ export interface Schema13 {
   region: Region2;
   environmentId?: string;
   slug?: string;
-  autoDeployTrigger?: AutoDeployTrigger;
+  autoDeployTrigger?: AutoDeployTrigger2;
 }
-export const Schema13 = /*@__PURE__*/ S.suspend(() =>
+export const Schema15 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String,
     name: S.String,
@@ -6879,9 +6886,9 @@ export const Schema13 = /*@__PURE__*/ S.suspend(() =>
     region: Region2,
     environmentId: S.optional(S.String),
     slug: S.optional(S.String),
-    autoDeployTrigger: S.optional(AutoDeployTrigger),
+    autoDeployTrigger: S.optional(AutoDeployTrigger2),
   }),
-).annotate({ identifier: "Schema13" }) as any as S.Schema<Schema13>;
+).annotate({ identifier: "Schema15" }) as any as S.Schema<Schema15>;
 
 export interface GetWorkflowVersionRequest {
   /** The ID of the workflow version */
@@ -6890,13 +6897,7 @@ export interface GetWorkflowVersionRequest {
 export const GetWorkflowVersionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     workflowVersionId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/workflowversions/{workflowVersionId}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/workflowversions/{workflowVersionId}", code: 200 })),
 ).annotate({
   identifier: "GetWorkflowVersionRequest",
 }) as any as S.Schema<GetWorkflowVersionRequest>;
@@ -6929,6 +6930,70 @@ export const GetWorkflowVersionResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetWorkflowVersionResponse",
 }) as any as S.Schema<GetWorkflowVersionResponse>;
 
+export interface LinkEnvGroupToBuildSourceRequest {
+  buildSourceId: string;
+  /** Filter for resources that belong to an environment group */
+  envGroupId: string;
+}
+export const LinkEnvGroupToBuildSourceRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    buildSourceId: S.String.pipe(T.Label()),
+    envGroupId: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/build-sources/{buildSourceId}/env-groups/{envGroupId}",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "LinkEnvGroupToBuildSourceRequest",
+}) as any as S.Schema<LinkEnvGroupToBuildSourceRequest>;
+
+/** List of serviceIds linked to the envGroup */
+export type LinkEnvGroupToBuildSourceResponseServiceLinksList = Array<EnvGroupLink>;
+export const LinkEnvGroupToBuildSourceResponseServiceLinksList = /*@__PURE__*/ S.Array(
+  EnvGroupLink,
+) as any as S.Schema<LinkEnvGroupToBuildSourceResponseServiceLinksList>;
+
+export type LinkEnvGroupToBuildSourceResponseEnvVarsList = Array<EnvVar>;
+export const LinkEnvGroupToBuildSourceResponseEnvVarsList = /*@__PURE__*/ S.Array(
+  EnvVar,
+) as any as S.Schema<LinkEnvGroupToBuildSourceResponseEnvVarsList>;
+
+export type LinkEnvGroupToBuildSourceResponseSecretFilesList = Array<SecretFile>;
+export const LinkEnvGroupToBuildSourceResponseSecretFilesList = /*@__PURE__*/ S.Array(
+  SecretFile,
+) as any as S.Schema<LinkEnvGroupToBuildSourceResponseSecretFilesList>;
+
+export interface LinkEnvGroupToBuildSourceResponse {
+  id: string;
+  name: string;
+  ownerId: string;
+  createdAt: string;
+  updatedAt: string;
+  /** List of serviceIds linked to the envGroup */
+  serviceLinks: LinkEnvGroupToBuildSourceResponseServiceLinksList;
+  environmentId?: string;
+  envVars: LinkEnvGroupToBuildSourceResponseEnvVarsList;
+  secretFiles: LinkEnvGroupToBuildSourceResponseSecretFilesList;
+}
+export const LinkEnvGroupToBuildSourceResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    name: S.String,
+    ownerId: S.String,
+    createdAt: S.String,
+    updatedAt: S.String,
+    serviceLinks: LinkEnvGroupToBuildSourceResponseServiceLinksList,
+    environmentId: S.optional(S.String),
+    envVars: LinkEnvGroupToBuildSourceResponseEnvVarsList,
+    secretFiles: LinkEnvGroupToBuildSourceResponseSecretFilesList,
+  }),
+).annotate({
+  identifier: "LinkEnvGroupToBuildSourceResponse",
+}) as any as S.Schema<LinkEnvGroupToBuildSourceResponse>;
+
 export interface LinkServiceToEnvGroupRequest {
   /** Filter for resources that belong to an environment group */
   envGroupId: string;
@@ -6940,11 +7005,7 @@ export const LinkServiceToEnvGroupRequest = /*@__PURE__*/ S.suspend(() =>
     envGroupId: S.String.pipe(T.Label()),
     serviceId: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/env-groups/{envGroupId}/services/{serviceId}",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/env-groups/{envGroupId}/services/{serviceId}", code: 200 }),
   ),
 ).annotate({
   identifier: "LinkServiceToEnvGroupRequest",
@@ -7072,10 +7133,9 @@ export const ListBlueprintsRequest = /*@__PURE__*/ S.suspend(() =>
     cursor: S.optional(S.String.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/blueprints", code: 200 })),
-).annotate({
-  identifier: "ListBlueprintsRequest",
-}) as any as S.Schema<ListBlueprintsRequest>;
+).annotate({ identifier: "ListBlueprintsRequest" }) as any as S.Schema<ListBlueprintsRequest>;
 
+/** A Blueprint has status `created` until its first Sync is approved. */
 export type Status = "created" | "paused" | "in_sync" | "syncing" | "error";
 export const Status = S.String;
 
@@ -7112,9 +7172,7 @@ export const BlueprintWithCursor = /*@__PURE__*/ S.suspend(() =>
     blueprint: Schema,
     cursor: S.String,
   }),
-).annotate({
-  identifier: "BlueprintWithCursor",
-}) as any as S.Schema<BlueprintWithCursor>;
+).annotate({ identifier: "BlueprintWithCursor" }) as any as S.Schema<BlueprintWithCursor>;
 
 export type ListBlueprintsResponseBodyList = Array<BlueprintWithCursor>;
 export const ListBlueprintsResponseBodyList = /*@__PURE__*/ S.Array(
@@ -7124,9 +7182,7 @@ export const ListBlueprintsResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListBlueprintsResponse = ListBlueprintsResponseBodyList;
 export const ListBlueprintsResponse = /*@__PURE__*/ S.suspend(() =>
   ListBlueprintsResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListBlueprintsResponse",
-}) as any as S.Schema<ListBlueprintsResponse>;
+).annotate({ identifier: "ListBlueprintsResponse" }) as any as S.Schema<ListBlueprintsResponse>;
 
 export interface ListBlueprintSyncsRequest {
   /** The ID of the Blueprint */
@@ -7141,13 +7197,7 @@ export const ListBlueprintSyncsRequest = /*@__PURE__*/ S.suspend(() =>
     blueprintId: S.String.pipe(T.Label()),
     cursor: S.optional(S.String.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/blueprints/{blueprintId}/syncs",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/blueprints/{blueprintId}/syncs", code: 200 })),
 ).annotate({
   identifier: "ListBlueprintSyncsRequest",
 }) as any as S.Schema<ListBlueprintSyncsRequest>;
@@ -7173,9 +7223,7 @@ export const SyncWithCursorSync = /*@__PURE__*/ S.suspend(() =>
     completedAt: S.optional(S.String),
     state: SyncWithCursorSyncState,
   }),
-).annotate({
-  identifier: "SyncWithCursorSync",
-}) as any as S.Schema<SyncWithCursorSync>;
+).annotate({ identifier: "SyncWithCursorSync" }) as any as S.Schema<SyncWithCursorSync>;
 
 /** A Blueprint sync with a cursor */
 export interface SyncWithCursor {
@@ -7200,6 +7248,186 @@ export const ListBlueprintSyncsResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "ListBlueprintSyncsResponse",
 }) as any as S.Schema<ListBlueprintSyncsResponse>;
+
+export interface ListBuildsInBuildSourceRequest {
+  buildSourceId: string;
+  /** The position in the result list to start from when fetching paginated results. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
+  cursor?: string;
+  /** The maximum number of items to return. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
+  limit?: number;
+}
+export const ListBuildsInBuildSourceRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    buildSourceId: S.String.pipe(T.Label()),
+    cursor: S.optional(S.String.pipe(T.Query())),
+    limit: S.optional(S.Number.pipe(T.Query())),
+  }).pipe(T.Http({ method: "GET", uri: "/build-sources/{buildSourceId}/builds", code: 200 })),
+).annotate({
+  identifier: "ListBuildsInBuildSourceRequest",
+}) as any as S.Schema<ListBuildsInBuildSourceRequest>;
+
+export type SchemaBuildRunStatus =
+  | "created"
+  | "inProgress"
+  | "succeeded"
+  | "failed"
+  | "canceled"
+  | "unknown";
+export const SchemaBuildRunStatus = S.String;
+
+export type SchemaBuildRunRuntime =
+  | "docker"
+  | "elixir"
+  | "go"
+  | "node"
+  | "python"
+  | "ruby"
+  | "rust";
+export const SchemaBuildRunRuntime = S.String;
+
+/** The Render build run that produced this build. Present when the build source is currently build-based. Mutually exclusive with `image`. */
+export interface SchemaBuildRun {
+  id: string;
+  status?: SchemaBuildRunStatus;
+  buildStartedAt?: string;
+  buildFinishedAt?: string;
+  runtime?: SchemaBuildRunRuntime;
+  commitId?: string;
+  commitUrl?: string;
+}
+export const SchemaBuildRun = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    status: S.optional(SchemaBuildRunStatus),
+    buildStartedAt: S.optional(S.String),
+    buildFinishedAt: S.optional(S.String),
+    runtime: S.optional(SchemaBuildRunRuntime),
+    commitId: S.optional(S.String),
+    commitUrl: S.optional(S.String),
+  }),
+).annotate({ identifier: "SchemaBuildRun" }) as any as S.Schema<SchemaBuildRun>;
+
+/** Present when the build source is currently image-based. Mutually exclusive with `buildRun`. */
+export interface SchemaImage {
+  imageVersionId?: string;
+  SHA?: string;
+  ref?: string;
+  imageUrl?: string;
+  registryCredentialId?: string;
+}
+export const SchemaImage = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    imageVersionId: S.optional(S.String),
+    SHA: S.optional(S.String),
+    ref: S.optional(S.String),
+    imageUrl: S.optional(S.String),
+    registryCredentialId: S.optional(S.String),
+  }),
+).annotate({ identifier: "SchemaImage" }) as any as S.Schema<SchemaImage>;
+
+export interface Schema13 {
+  id: string;
+  buildSourceId: string;
+  /** The Render build run that produced this build. Present when the build source is currently build-based. Mutually exclusive with `image`. */
+  buildRun?: SchemaBuildRun;
+  /** Present when the build source is currently image-based. Mutually exclusive with `buildRun`. */
+  image?: SchemaImage;
+  createdAt: string;
+  updatedAt: string;
+  assetsDeletedAt?: string;
+}
+export const Schema13 = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    buildSourceId: S.String,
+    buildRun: S.optional(SchemaBuildRun),
+    image: S.optional(SchemaImage),
+    createdAt: S.String,
+    updatedAt: S.String,
+    assetsDeletedAt: S.optional(S.String),
+  }),
+).annotate({ identifier: "Schema13" }) as any as S.Schema<Schema13>;
+
+export type ListBuildsInBuildSourceResponseBodyList = Array<Schema13>;
+export const ListBuildsInBuildSourceResponseBodyList = /*@__PURE__*/ S.Array(
+  Schema13,
+) as any as S.Schema<ListBuildsInBuildSourceResponseBodyList>;
+
+export type ListBuildsInBuildSourceResponse = ListBuildsInBuildSourceResponseBodyList;
+export const ListBuildsInBuildSourceResponse = /*@__PURE__*/ S.suspend(() =>
+  ListBuildsInBuildSourceResponseBodyList.pipe(T.RawResponseRoot()),
+).annotate({
+  identifier: "ListBuildsInBuildSourceResponse",
+}) as any as S.Schema<ListBuildsInBuildSourceResponse>;
+
+export type ListBuildSourcesRequestNameList = Array<string>;
+export const ListBuildSourcesRequestNameList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<ListBuildSourcesRequestNameList>;
+
+export type ListBuildSourcesRequestOwnerIdList = Array<string>;
+export const ListBuildSourcesRequestOwnerIdList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<ListBuildSourcesRequestOwnerIdList>;
+
+export interface ListBuildSourcesRequest {
+  /** Filter by name */
+  name?: ListBuildSourcesRequestNameList;
+  /** The ID of the workspaces to return resources for */
+  ownerId?: ListBuildSourcesRequestOwnerIdList;
+  projectId?: string;
+  /** Include previews in the response */
+  includePreviews?: boolean;
+  /** Filter for resources created before a certain time (specified as an ISO 8601 timestamp) */
+  createdBefore?: string;
+  /** Filter for resources created after a certain time (specified as an ISO 8601 timestamp) */
+  createdAfter?: string;
+  /** Filter for resources updated before a certain time (specified as an ISO 8601 timestamp) */
+  updatedBefore?: string;
+  /** Filter for resources updated after a certain time (specified as an ISO 8601 timestamp) */
+  updatedAfter?: string;
+  /** The position in the result list to start from when fetching paginated results. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
+  cursor?: string;
+  /** The maximum number of items to return. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
+  limit?: number;
+}
+export const ListBuildSourcesRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.optional(ListBuildSourcesRequestNameList.pipe(T.Query())),
+    ownerId: S.optional(ListBuildSourcesRequestOwnerIdList.pipe(T.Query())),
+    projectId: S.optional(S.String.pipe(T.Query())),
+    includePreviews: S.optional(S.Boolean.pipe(T.Query())),
+    createdBefore: S.optional(S.String.pipe(T.Query())),
+    createdAfter: S.optional(S.String.pipe(T.Query())),
+    updatedBefore: S.optional(S.String.pipe(T.Query())),
+    updatedAfter: S.optional(S.String.pipe(T.Query())),
+    cursor: S.optional(S.String.pipe(T.Query())),
+    limit: S.optional(S.Number.pipe(T.Query())),
+  }).pipe(T.Http({ method: "GET", uri: "/build-sources", code: 200 })),
+).annotate({ identifier: "ListBuildSourcesRequest" }) as any as S.Schema<ListBuildSourcesRequest>;
+
+export interface ListBuildSourcesResponseBodyItem {
+  buildSource: Schema12;
+  cursor: string;
+}
+export const ListBuildSourcesResponseBodyItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    buildSource: Schema12,
+    cursor: S.String,
+  }),
+).annotate({
+  identifier: "ListBuildSourcesResponseBodyItem",
+}) as any as S.Schema<ListBuildSourcesResponseBodyItem>;
+
+export type ListBuildSourcesResponseBodyList = Array<ListBuildSourcesResponseBodyItem>;
+export const ListBuildSourcesResponseBodyList = /*@__PURE__*/ S.Array(
+  ListBuildSourcesResponseBodyItem,
+) as any as S.Schema<ListBuildSourcesResponseBodyList>;
+
+export type ListBuildSourcesResponse = ListBuildSourcesResponseBodyList;
+export const ListBuildSourcesResponse = /*@__PURE__*/ S.suspend(() =>
+  ListBuildSourcesResponseBodyList.pipe(T.RawResponseRoot()),
+).annotate({ identifier: "ListBuildSourcesResponse" }) as any as S.Schema<ListBuildSourcesResponse>;
 
 export type ListCustomDomainsRequestNameList = Array<string>;
 export const ListCustomDomainsRequestNameList = /*@__PURE__*/ S.Array(
@@ -7240,16 +7468,8 @@ export const ListCustomDomainsRequest = /*@__PURE__*/ S.suspend(() =>
     verificationStatus: S.optional(ListCustomDomainsRequestVerificationStatus.pipe(T.Query())),
     createdBefore: S.optional(S.String.pipe(T.Query())),
     createdAfter: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/services/{serviceId}/custom-domains",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ListCustomDomainsRequest",
-}) as any as S.Schema<ListCustomDomainsRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/services/{serviceId}/custom-domains", code: 200 })),
+).annotate({ identifier: "ListCustomDomainsRequest" }) as any as S.Schema<ListCustomDomainsRequest>;
 
 export interface CustomDomainWithCursor {
   customDomain: CustomDomain;
@@ -7260,9 +7480,7 @@ export const CustomDomainWithCursor = /*@__PURE__*/ S.suspend(() =>
     customDomain: CustomDomain,
     cursor: S.String,
   }),
-).annotate({
-  identifier: "CustomDomainWithCursor",
-}) as any as S.Schema<CustomDomainWithCursor>;
+).annotate({ identifier: "CustomDomainWithCursor" }) as any as S.Schema<CustomDomainWithCursor>;
 
 export type ListCustomDomainsResponseBodyList = Array<CustomDomainWithCursor>;
 export const ListCustomDomainsResponseBodyList = /*@__PURE__*/ S.Array(
@@ -7287,9 +7505,7 @@ export const ListDedicatedIpsRequest = /*@__PURE__*/ S.suspend(() =>
     ownerId: S.String.pipe(T.Query()),
     environmentId: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/dedicated-ips", code: 200 })),
-).annotate({
-  identifier: "ListDedicatedIpsRequest",
-}) as any as S.Schema<ListDedicatedIpsRequest>;
+).annotate({ identifier: "ListDedicatedIpsRequest" }) as any as S.Schema<ListDedicatedIpsRequest>;
 
 export type ListDedicatedIpsResponseBodyList = Array<DedicatedIP>;
 export const ListDedicatedIpsResponseBodyList = /*@__PURE__*/ S.Array(
@@ -7299,9 +7515,7 @@ export const ListDedicatedIpsResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListDedicatedIpsResponse = ListDedicatedIpsResponseBodyList;
 export const ListDedicatedIpsResponse = /*@__PURE__*/ S.suspend(() =>
   ListDedicatedIpsResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListDedicatedIpsResponse",
-}) as any as S.Schema<ListDedicatedIpsResponse>;
+).annotate({ identifier: "ListDedicatedIpsResponse" }) as any as S.Schema<ListDedicatedIpsResponse>;
 
 export type ListDeploysRequestStatusList = Array<DeployStatus | (string & {})>;
 export const ListDeploysRequestStatusList = /*@__PURE__*/ S.Array(
@@ -7343,9 +7557,7 @@ export const ListDeploysRequest = /*@__PURE__*/ S.suspend(() =>
     cursor: S.optional(S.String.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/services/{serviceId}/deploys", code: 200 })),
-).annotate({
-  identifier: "ListDeploysRequest",
-}) as any as S.Schema<ListDeploysRequest>;
+).annotate({ identifier: "ListDeploysRequest" }) as any as S.Schema<ListDeploysRequest>;
 
 export interface DeployWithCursor {
   deploy?: Deploy;
@@ -7356,9 +7568,7 @@ export const DeployWithCursor = /*@__PURE__*/ S.suspend(() =>
     deploy: S.optional(Deploy),
     cursor: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DeployWithCursor",
-}) as any as S.Schema<DeployWithCursor>;
+).annotate({ identifier: "DeployWithCursor" }) as any as S.Schema<DeployWithCursor>;
 
 export type DeployList = Array<DeployWithCursor>;
 export const DeployList = /*@__PURE__*/ S.Array(DeployWithCursor) as any as S.Schema<DeployList>;
@@ -7366,9 +7576,7 @@ export const DeployList = /*@__PURE__*/ S.Array(DeployWithCursor) as any as S.Sc
 export type ListDeploysResponse = DeployList;
 export const ListDeploysResponse = /*@__PURE__*/ S.suspend(() =>
   DeployList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListDeploysResponse",
-}) as any as S.Schema<ListDeploysResponse>;
+).annotate({ identifier: "ListDeploysResponse" }) as any as S.Schema<ListDeploysResponse>;
 
 export type ListDisksRequestOwnerIdList = Array<string>;
 export const ListDisksRequestOwnerIdList = /*@__PURE__*/ S.Array(
@@ -7425,9 +7633,7 @@ export const ListDisksRequest = /*@__PURE__*/ S.suspend(() =>
     cursor: S.optional(S.String.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/disks", code: 200 })),
-).annotate({
-  identifier: "ListDisksRequest",
-}) as any as S.Schema<ListDisksRequest>;
+).annotate({ identifier: "ListDisksRequest" }) as any as S.Schema<ListDisksRequest>;
 
 export interface DiskWithCursor {
   disk: Schema2;
@@ -7448,9 +7654,7 @@ export const ListDisksResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListDisksResponse = ListDisksResponseBodyList;
 export const ListDisksResponse = /*@__PURE__*/ S.suspend(() =>
   ListDisksResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListDisksResponse",
-}) as any as S.Schema<ListDisksResponse>;
+).annotate({ identifier: "ListDisksResponse" }) as any as S.Schema<ListDisksResponse>;
 
 export type ListEnvGroupsRequestNameList = Array<string>;
 export const ListEnvGroupsRequestNameList = /*@__PURE__*/ S.Array(
@@ -7499,9 +7703,7 @@ export const ListEnvGroupsRequest = /*@__PURE__*/ S.suspend(() =>
     cursor: S.optional(S.String.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/env-groups", code: 200 })),
-).annotate({
-  identifier: "ListEnvGroupsRequest",
-}) as any as S.Schema<ListEnvGroupsRequest>;
+).annotate({ identifier: "ListEnvGroupsRequest" }) as any as S.Schema<ListEnvGroupsRequest>;
 
 /** List of serviceIds linked to the envGroup */
 export type EnvGroupMetaServiceLinksList = Array<EnvGroupLink>;
@@ -7539,9 +7741,7 @@ export const ListEnvGroupsResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListEnvGroupsResponse = ListEnvGroupsResponseBodyList;
 export const ListEnvGroupsResponse = /*@__PURE__*/ S.suspend(() =>
   ListEnvGroupsResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListEnvGroupsResponse",
-}) as any as S.Schema<ListEnvGroupsResponse>;
+).annotate({ identifier: "ListEnvGroupsResponse" }) as any as S.Schema<ListEnvGroupsResponse>;
 
 export type ListEnvironmentsRequestNameList = Array<string>;
 export const ListEnvironmentsRequestNameList = /*@__PURE__*/ S.Array(
@@ -7598,9 +7798,7 @@ export const ListEnvironmentsRequest = /*@__PURE__*/ S.suspend(() =>
     cursor: S.optional(S.String.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/environments", code: 200 })),
-).annotate({
-  identifier: "ListEnvironmentsRequest",
-}) as any as S.Schema<ListEnvironmentsRequest>;
+).annotate({ identifier: "ListEnvironmentsRequest" }) as any as S.Schema<ListEnvironmentsRequest>;
 
 /** An environment with a cursor */
 export interface EnvironmentWithCursor {
@@ -7612,9 +7810,7 @@ export const EnvironmentWithCursor = /*@__PURE__*/ S.suspend(() =>
     environment: Environment,
     cursor: S.String,
   }),
-).annotate({
-  identifier: "EnvironmentWithCursor",
-}) as any as S.Schema<EnvironmentWithCursor>;
+).annotate({ identifier: "EnvironmentWithCursor" }) as any as S.Schema<EnvironmentWithCursor>;
 
 export type ListEnvironmentsResponseBodyList = Array<EnvironmentWithCursor>;
 export const ListEnvironmentsResponseBodyList = /*@__PURE__*/ S.Array(
@@ -7624,9 +7820,7 @@ export const ListEnvironmentsResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListEnvironmentsResponse = ListEnvironmentsResponseBodyList;
 export const ListEnvironmentsResponse = /*@__PURE__*/ S.suspend(() =>
   ListEnvironmentsResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListEnvironmentsResponse",
-}) as any as S.Schema<ListEnvironmentsResponse>;
+).annotate({ identifier: "ListEnvironmentsResponse" }) as any as S.Schema<ListEnvironmentsResponse>;
 
 export type ListEventsRequestType =
   | "artifact_fetch_failed"
@@ -7697,9 +7891,7 @@ export const ListEventsRequest = /*@__PURE__*/ S.suspend(() =>
     cursor: S.optional(S.String.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/services/{serviceId}/events", code: 200 })),
-).annotate({
-  identifier: "ListEventsRequest",
-}) as any as S.Schema<ListEventsRequest>;
+).annotate({ identifier: "ListEventsRequest" }) as any as S.Schema<ListEventsRequest>;
 
 export type _0 =
   | "artifact_fetch_failed"
@@ -7920,19 +8112,8 @@ export const _0Case43 = GetEventResponseDetailsCase0Case41;
 export type _0Case44 = GetEventResponseDetailsCase0Case44;
 export const _0Case44 = GetEventResponseDetailsCase0Case44;
 
-/** The auto-deploy trigger value after it was re-enabled */
-export type _0Case45NewTrigger = "commit" | "off" | "checksPass";
-export const _0Case45NewTrigger = S.String;
-
-export interface _0Case45 {
-  /** The auto-deploy trigger value after it was re-enabled */
-  newTrigger?: _0Case45NewTrigger;
-}
-export const _0Case45 = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    newTrigger: S.optional(_0Case45NewTrigger),
-  }),
-).annotate({ identifier: "_0Case45" }) as any as S.Schema<_0Case45>;
+export type _0Case45 = GetEventResponseDetailsCase0Case45;
+export const _0Case45 = GetEventResponseDetailsCase0Case45;
 
 export type _02 =
   | GetEventResponseDetailsCase0Case0
@@ -7975,7 +8156,7 @@ export type _02 =
   | GetEventResponseDetailsCase0Case41
   | GetEventResponseDetailsCase0Case41
   | GetEventResponseDetailsCase0Case44
-  | _0Case45;
+  | GetEventResponseDetailsCase0Case45;
 export const _02 = S.Unknown as any as S.Schema<_02>;
 
 export interface ServiceEventWithCursorEvent {
@@ -8000,14 +8181,14 @@ export const ServiceEventWithCursorEvent = /*@__PURE__*/ S.suspend(() =>
 /** A service event with a cursor */
 export interface ServiceEventWithCursor {
   event: ServiceEventWithCursorEvent;
+  cursor: string;
 }
 export const ServiceEventWithCursor = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     event: ServiceEventWithCursorEvent,
+    cursor: S.String,
   }),
-).annotate({
-  identifier: "ServiceEventWithCursor",
-}) as any as S.Schema<ServiceEventWithCursor>;
+).annotate({ identifier: "ServiceEventWithCursor" }) as any as S.Schema<ServiceEventWithCursor>;
 
 export type ListEventsResponseBodyList = Array<ServiceEventWithCursor>;
 export const ListEventsResponseBodyList = /*@__PURE__*/ S.Array(
@@ -8017,9 +8198,7 @@ export const ListEventsResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListEventsResponse = ListEventsResponseBodyList;
 export const ListEventsResponse = /*@__PURE__*/ S.suspend(() =>
   ListEventsResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListEventsResponse",
-}) as any as S.Schema<ListEventsResponse>;
+).annotate({ identifier: "ListEventsResponse" }) as any as S.Schema<ListEventsResponse>;
 
 export type ListHeadersRequestPathList = Array<string>;
 export const ListHeadersRequestPathList = /*@__PURE__*/ S.Array(
@@ -8059,9 +8238,7 @@ export const ListHeadersRequest = /*@__PURE__*/ S.suspend(() =>
     cursor: S.optional(S.String.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/services/{serviceId}/headers", code: 200 })),
-).annotate({
-  identifier: "ListHeadersRequest",
-}) as any as S.Schema<ListHeadersRequest>;
+).annotate({ identifier: "ListHeadersRequest" }) as any as S.Schema<ListHeadersRequest>;
 
 export interface HeaderWithCursor {
   header: Header;
@@ -8072,9 +8249,7 @@ export const HeaderWithCursor = /*@__PURE__*/ S.suspend(() =>
     header: Header,
     cursor: S.String,
   }),
-).annotate({
-  identifier: "HeaderWithCursor",
-}) as any as S.Schema<HeaderWithCursor>;
+).annotate({ identifier: "HeaderWithCursor" }) as any as S.Schema<HeaderWithCursor>;
 
 export type ListHeadersResponseBodyList = Array<HeaderWithCursor>;
 export const ListHeadersResponseBodyList = /*@__PURE__*/ S.Array(
@@ -8084,9 +8259,7 @@ export const ListHeadersResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListHeadersResponse = ListHeadersResponseBodyList;
 export const ListHeadersResponse = /*@__PURE__*/ S.suspend(() =>
   ListHeadersResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListHeadersResponse",
-}) as any as S.Schema<ListHeadersResponse>;
+).annotate({ identifier: "ListHeadersResponse" }) as any as S.Schema<ListHeadersResponse>;
 
 export interface ListHttpFilterValuesRequest {
   /** Epoch/Unix timestamp of start of time range to return. Defaults to `now() - 1 hour`. */
@@ -8159,16 +8332,8 @@ export interface ListInstancesRequest {
 export const ListInstancesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/services/{serviceId}/instances",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ListInstancesRequest",
-}) as any as S.Schema<ListInstancesRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/services/{serviceId}/instances", code: 200 })),
+).annotate({ identifier: "ListInstancesRequest" }) as any as S.Schema<ListInstancesRequest>;
 
 export interface ServiceInstance {
   id: string;
@@ -8179,9 +8344,7 @@ export const ServiceInstance = /*@__PURE__*/ S.suspend(() =>
     id: S.String,
     createdAt: S.String,
   }),
-).annotate({
-  identifier: "ServiceInstance",
-}) as any as S.Schema<ServiceInstance>;
+).annotate({ identifier: "ServiceInstance" }) as any as S.Schema<ServiceInstance>;
 
 export type ListInstancesResponseBodyList = Array<ServiceInstance>;
 export const ListInstancesResponseBodyList = /*@__PURE__*/ S.Array(
@@ -8191,9 +8354,7 @@ export const ListInstancesResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListInstancesResponse = ListInstancesResponseBodyList;
 export const ListInstancesResponse = /*@__PURE__*/ S.suspend(() =>
   ListInstancesResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListInstancesResponse",
-}) as any as S.Schema<ListInstancesResponse>;
+).annotate({ identifier: "ListInstancesResponse" }) as any as S.Schema<ListInstancesResponse>;
 
 export type ListJobRequestStatusItem = "pending" | "running" | "succeeded" | "failed" | "canceled";
 export const ListJobRequestStatusItem = S.String;
@@ -8259,9 +8420,7 @@ export const ListJobResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListJobResponse = ListJobResponseBodyList;
 export const ListJobResponse = /*@__PURE__*/ S.suspend(() =>
   ListJobResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListJobResponse",
-}) as any as S.Schema<ListJobResponse>;
+).annotate({ identifier: "ListJobResponse" }) as any as S.Schema<ListJobResponse>;
 
 export type ListKeyValueRequestNameList = Array<string>;
 export const ListKeyValueRequestNameList = /*@__PURE__*/ S.Array(
@@ -8318,9 +8477,7 @@ export const ListKeyValueRequest = /*@__PURE__*/ S.suspend(() =>
     cursor: S.optional(S.String.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/key-value", code: 200 })),
-).annotate({
-  identifier: "ListKeyValueRequest",
-}) as any as S.Schema<ListKeyValueRequest>;
+).annotate({ identifier: "ListKeyValueRequest" }) as any as S.Schema<ListKeyValueRequest>;
 
 /** The IP allow list for the Key Value instance */
 export type KeyValueIpAllowListList = Array<CidrBlockAndDescription>;
@@ -8379,9 +8536,7 @@ export const KeyValueWithCursor = /*@__PURE__*/ S.suspend(() =>
     keyValue: KeyValue,
     cursor: S.String,
   }),
-).annotate({
-  identifier: "KeyValueWithCursor",
-}) as any as S.Schema<KeyValueWithCursor>;
+).annotate({ identifier: "KeyValueWithCursor" }) as any as S.Schema<KeyValueWithCursor>;
 
 export type ListKeyValueResponseBodyList = Array<KeyValueWithCursor>;
 export const ListKeyValueResponseBodyList = /*@__PURE__*/ S.Array(
@@ -8391,9 +8546,7 @@ export const ListKeyValueResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListKeyValueResponse = ListKeyValueResponseBodyList;
 export const ListKeyValueResponse = /*@__PURE__*/ S.suspend(() =>
   ListKeyValueResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListKeyValueResponse",
-}) as any as S.Schema<ListKeyValueResponse>;
+).annotate({ identifier: "ListKeyValueResponse" }) as any as S.Schema<ListKeyValueResponse>;
 
 export type ListLogsRequestDirection = "forward" | "backward";
 export const ListLogsRequestDirection = S.String;
@@ -8514,9 +8667,7 @@ export const ListLogsRequest = /*@__PURE__*/ S.suspend(() =>
     path: S.optional(ListLogsRequestPathList.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/logs", code: 200 })),
-).annotate({
-  identifier: "ListLogsRequest",
-}) as any as S.Schema<ListLogsRequest>;
+).annotate({ identifier: "ListLogsRequest" }) as any as S.Schema<ListLogsRequest>;
 
 /** The name of the log label */
 export type SchemaLabelsItemName =
@@ -8549,9 +8700,7 @@ export const SchemaLabelsItem = /*@__PURE__*/ S.suspend(() =>
     name: SchemaLabelsItemName,
     value: S.String,
   }),
-).annotate({
-  identifier: "SchemaLabelsItem",
-}) as any as S.Schema<SchemaLabelsItem>;
+).annotate({ identifier: "SchemaLabelsItem" }) as any as S.Schema<SchemaLabelsItem>;
 
 export type SchemaLabelsList = Array<SchemaLabelsItem>;
 export const SchemaLabelsList = /*@__PURE__*/ S.Array(
@@ -8598,9 +8747,7 @@ export const ListLogsResponse = /*@__PURE__*/ S.suspend(() =>
     nextEndTime: S.String,
     logs: ListLogsResponseLogsList,
   }),
-).annotate({
-  identifier: "ListLogsResponse",
-}) as any as S.Schema<ListLogsResponse>;
+).annotate({ identifier: "ListLogsResponse" }) as any as S.Schema<ListLogsResponse>;
 
 export type ListLogsValuesRequestLabel =
   | "instance"
@@ -8733,9 +8880,7 @@ export const ListLogsValuesRequest = /*@__PURE__*/ S.suspend(() =>
     path: S.optional(ListLogsValuesRequestPathList.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/logs/values", code: 200 })),
-).annotate({
-  identifier: "ListLogsValuesRequest",
-}) as any as S.Schema<ListLogsValuesRequest>;
+).annotate({ identifier: "ListLogsValuesRequest" }) as any as S.Schema<ListLogsValuesRequest>;
 
 export type ListLogsValuesResponseBodyList = Array<string>;
 export const ListLogsValuesResponseBodyList = /*@__PURE__*/ S.Array(
@@ -8745,9 +8890,7 @@ export const ListLogsValuesResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListLogsValuesResponse = ListLogsValuesResponseBodyList;
 export const ListLogsValuesResponse = /*@__PURE__*/ S.suspend(() =>
   ListLogsValuesResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListLogsValuesResponse",
-}) as any as S.Schema<ListLogsValuesResponse>;
+).annotate({ identifier: "ListLogsValuesResponse" }) as any as S.Schema<ListLogsValuesResponse>;
 
 export type ListMaintenanceRequestResourceIdList = Array<string>;
 export const ListMaintenanceRequestResourceIdList = /*@__PURE__*/ S.Array(
@@ -8787,9 +8930,7 @@ export const ListMaintenanceRequest = /*@__PURE__*/ S.suspend(() =>
     ownerId: S.optional(ListMaintenanceRequestOwnerIdList.pipe(T.Query())),
     state: S.optional(ListMaintenanceRequestStateList.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/maintenance", code: 200 })),
-).annotate({
-  identifier: "ListMaintenanceRequest",
-}) as any as S.Schema<ListMaintenanceRequest>;
+).annotate({ identifier: "ListMaintenanceRequest" }) as any as S.Schema<ListMaintenanceRequest>;
 
 export interface Schema11 {
   id: string;
@@ -8819,9 +8960,7 @@ export const ListMaintenanceResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListMaintenanceResponse = ListMaintenanceResponseBodyList;
 export const ListMaintenanceResponse = /*@__PURE__*/ S.suspend(() =>
   ListMaintenanceResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListMaintenanceResponse",
-}) as any as S.Schema<ListMaintenanceResponse>;
+).annotate({ identifier: "ListMaintenanceResponse" }) as any as S.Schema<ListMaintenanceResponse>;
 
 export type ListNotificationOverridesRequestOwnerIdList = Array<string>;
 export const ListNotificationOverridesRequestOwnerIdList = /*@__PURE__*/ S.Array(
@@ -8849,13 +8988,7 @@ export const ListNotificationOverridesRequest = /*@__PURE__*/ S.suspend(() =>
     serviceId: S.optional(ListNotificationOverridesRequestServiceIdList.pipe(T.Query())),
     cursor: S.optional(S.String.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/notification-settings/overrides",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/notification-settings/overrides", code: 200 })),
 ).annotate({
   identifier: "ListNotificationOverridesRequest",
 }) as any as S.Schema<ListNotificationOverridesRequest>;
@@ -8925,13 +9058,7 @@ export const ListOrganizationAuditLogsRequest = /*@__PURE__*/ S.suspend(() =>
     direction: S.optional(ListOrganizationAuditLogsRequestDirection.pipe(T.Query())),
     cursor: S.optional(S.String.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/organizations/{orgId}/audit-logs",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/organizations/{orgId}/audit-logs", code: 200 })),
 ).annotate({
   identifier: "ListOrganizationAuditLogsRequest",
 }) as any as S.Schema<ListOrganizationAuditLogsRequest>;
@@ -9084,9 +9211,7 @@ export const AuditLogWithCursor = /*@__PURE__*/ S.suspend(() =>
     cursor: S.String,
     auditLog: AuditLog,
   }),
-).annotate({
-  identifier: "AuditLogWithCursor",
-}) as any as S.Schema<AuditLogWithCursor>;
+).annotate({ identifier: "AuditLogWithCursor" }) as any as S.Schema<AuditLogWithCursor>;
 
 export type ListOrganizationAuditLogsResponseBodyList = Array<AuditLogWithCursor>;
 export const ListOrganizationAuditLogsResponseBodyList = /*@__PURE__*/ S.Array(
@@ -9169,9 +9294,7 @@ export const ListOwnersRequest = /*@__PURE__*/ S.suspend(() =>
     cursor: S.optional(S.String.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/owners", code: 200 })),
-).annotate({
-  identifier: "ListOwnersRequest",
-}) as any as S.Schema<ListOwnersRequest>;
+).annotate({ identifier: "ListOwnersRequest" }) as any as S.Schema<ListOwnersRequest>;
 
 export interface OwnerWithCursor {
   owner?: Owner;
@@ -9182,9 +9305,7 @@ export const OwnerWithCursor = /*@__PURE__*/ S.suspend(() =>
     owner: S.optional(Owner),
     cursor: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OwnerWithCursor",
-}) as any as S.Schema<OwnerWithCursor>;
+).annotate({ identifier: "OwnerWithCursor" }) as any as S.Schema<OwnerWithCursor>;
 
 export type ListOwnersResponseBodyList = Array<OwnerWithCursor>;
 export const ListOwnersResponseBodyList = /*@__PURE__*/ S.Array(
@@ -9194,9 +9315,7 @@ export const ListOwnersResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListOwnersResponse = ListOwnersResponseBodyList;
 export const ListOwnersResponse = /*@__PURE__*/ S.suspend(() =>
   ListOwnersResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListOwnersResponse",
-}) as any as S.Schema<ListOwnersResponse>;
+).annotate({ identifier: "ListOwnersResponse" }) as any as S.Schema<ListOwnersResponse>;
 
 export interface ListPathFilterValuesRequest {
   /** Epoch/Unix timestamp of start of time range to return. Defaults to `now() - 1 hour`. */
@@ -9315,9 +9434,7 @@ export const ListPostgresRequest = /*@__PURE__*/ S.suspend(() =>
     cursor: S.optional(S.String.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/postgres", code: 200 })),
-).annotate({
-  identifier: "ListPostgresRequest",
-}) as any as S.Schema<ListPostgresRequest>;
+).annotate({ identifier: "ListPostgresRequest" }) as any as S.Schema<ListPostgresRequest>;
 
 export type PostgresIpAllowListList = Array<CidrBlockAndDescription>;
 export const PostgresIpAllowListList = /*@__PURE__*/ S.Array(
@@ -9399,9 +9516,7 @@ export const PostgresWithCursor = /*@__PURE__*/ S.suspend(() =>
     postgres: Postgres,
     cursor: S.String,
   }),
-).annotate({
-  identifier: "PostgresWithCursor",
-}) as any as S.Schema<PostgresWithCursor>;
+).annotate({ identifier: "PostgresWithCursor" }) as any as S.Schema<PostgresWithCursor>;
 
 export type ListPostgresResponseBodyList = Array<PostgresWithCursor>;
 export const ListPostgresResponseBodyList = /*@__PURE__*/ S.Array(
@@ -9411,9 +9526,7 @@ export const ListPostgresResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListPostgresResponse = ListPostgresResponseBodyList;
 export const ListPostgresResponse = /*@__PURE__*/ S.suspend(() =>
   ListPostgresResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListPostgresResponse",
-}) as any as S.Schema<ListPostgresResponse>;
+).annotate({ identifier: "ListPostgresResponse" }) as any as S.Schema<ListPostgresResponse>;
 
 export interface ListPostgresExportRequest {
   postgresId: string;
@@ -9460,13 +9573,7 @@ export interface ListPostgresProcessesRequest {
 export const ListPostgresProcessesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     postgresId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/postgres/{postgresId}/query/processes",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/postgres/{postgresId}/query/processes", code: 200 })),
 ).annotate({
   identifier: "ListPostgresProcessesRequest",
 }) as any as S.Schema<ListPostgresProcessesRequest>;
@@ -9532,16 +9639,8 @@ export interface ListPostgresSizesRequest {
 export const ListPostgresSizesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     postgresId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/postgres/{postgresId}/query/sizes",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ListPostgresSizesRequest",
-}) as any as S.Schema<ListPostgresSizesRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/postgres/{postgresId}/query/sizes", code: 200 })),
+).annotate({ identifier: "ListPostgresSizesRequest" }) as any as S.Schema<ListPostgresSizesRequest>;
 
 /** The size of an index, table, or database. */
 export interface ListPostgresSizesResponseSizesItem {
@@ -9585,13 +9684,7 @@ export interface ListPostgresTableScansRequest {
 export const ListPostgresTableScansRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     postgresId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/postgres/{postgresId}/query/table-scans",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/postgres/{postgresId}/query/table-scans", code: 200 })),
 ).annotate({
   identifier: "ListPostgresTableScansRequest",
 }) as any as S.Schema<ListPostgresTableScansRequest>;
@@ -9637,13 +9730,7 @@ export interface ListPostgresTopQueriesRequest {
 export const ListPostgresTopQueriesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     postgresId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/postgres/{postgresId}/query/top-queries",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/postgres/{postgresId}/query/top-queries", code: 200 })),
 ).annotate({
   identifier: "ListPostgresTopQueriesRequest",
 }) as any as S.Schema<ListPostgresTopQueriesRequest>;
@@ -9719,16 +9806,8 @@ export interface ListPostgresUsersRequest {
 export const ListPostgresUsersRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     postgresId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/postgres/{postgresId}/credentials",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ListPostgresUsersRequest",
-}) as any as S.Schema<ListPostgresUsersRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/postgres/{postgresId}/credentials", code: 200 })),
+).annotate({ identifier: "ListPostgresUsersRequest" }) as any as S.Schema<ListPostgresUsersRequest>;
 
 export interface ListPostgresUsersResponseBodyItem {
   username?: string;
@@ -9798,9 +9877,7 @@ export const ListProjectsRequest = /*@__PURE__*/ S.suspend(() =>
     cursor: S.optional(S.String.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/projects", code: 200 })),
-).annotate({
-  identifier: "ListProjectsRequest",
-}) as any as S.Schema<ListProjectsRequest>;
+).annotate({ identifier: "ListProjectsRequest" }) as any as S.Schema<ListProjectsRequest>;
 
 export interface ProjectWithCursor {
   project: Project;
@@ -9811,9 +9888,7 @@ export const ProjectWithCursor = /*@__PURE__*/ S.suspend(() =>
     project: Project,
     cursor: S.String,
   }),
-).annotate({
-  identifier: "ProjectWithCursor",
-}) as any as S.Schema<ProjectWithCursor>;
+).annotate({ identifier: "ProjectWithCursor" }) as any as S.Schema<ProjectWithCursor>;
 
 export type ListProjectsResponseBodyList = Array<ProjectWithCursor>;
 export const ListProjectsResponseBodyList = /*@__PURE__*/ S.Array(
@@ -9823,9 +9898,7 @@ export const ListProjectsResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListProjectsResponse = ListProjectsResponseBodyList;
 export const ListProjectsResponse = /*@__PURE__*/ S.suspend(() =>
   ListProjectsResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListProjectsResponse",
-}) as any as S.Schema<ListProjectsResponse>;
+).annotate({ identifier: "ListProjectsResponse" }) as any as S.Schema<ListProjectsResponse>;
 
 export type ListRegistryCredentialsRequestNameList = Array<string>;
 export const ListRegistryCredentialsRequestNameList = /*@__PURE__*/ S.Array(
@@ -10022,9 +10095,7 @@ export const ListRoutesRequest = /*@__PURE__*/ S.suspend(() =>
     cursor: S.optional(S.String.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/services/{serviceId}/routes", code: 200 })),
-).annotate({
-  identifier: "ListRoutesRequest",
-}) as any as S.Schema<ListRoutesRequest>;
+).annotate({ identifier: "ListRoutesRequest" }) as any as S.Schema<ListRoutesRequest>;
 
 export interface RouteWithCursor {
   route: Route;
@@ -10035,9 +10106,7 @@ export const RouteWithCursor = /*@__PURE__*/ S.suspend(() =>
     route: Route,
     cursor: S.String,
   }),
-).annotate({
-  identifier: "RouteWithCursor",
-}) as any as S.Schema<RouteWithCursor>;
+).annotate({ identifier: "RouteWithCursor" }) as any as S.Schema<RouteWithCursor>;
 
 export type ListRoutesResponseBodyList = Array<RouteWithCursor>;
 export const ListRoutesResponseBodyList = /*@__PURE__*/ S.Array(
@@ -10047,9 +10116,47 @@ export const ListRoutesResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListRoutesResponse = ListRoutesResponseBodyList;
 export const ListRoutesResponse = /*@__PURE__*/ S.suspend(() =>
   ListRoutesResponseBodyList.pipe(T.RawResponseRoot()),
+).annotate({ identifier: "ListRoutesResponse" }) as any as S.Schema<ListRoutesResponse>;
+
+export interface ListSecretFilesForBuildSourceRequest {
+  buildSourceId: string;
+  /** The position in the result list to start from when fetching paginated results. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
+  cursor?: string;
+  /** The maximum number of items to return. For details, see [Pagination](https://api-docs.render.com/reference/pagination). */
+  limit?: number;
+}
+export const ListSecretFilesForBuildSourceRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    buildSourceId: S.String.pipe(T.Label()),
+    cursor: S.optional(S.String.pipe(T.Query())),
+    limit: S.optional(S.Number.pipe(T.Query())),
+  }).pipe(T.Http({ method: "GET", uri: "/build-sources/{buildSourceId}/secret-files", code: 200 })),
 ).annotate({
-  identifier: "ListRoutesResponse",
-}) as any as S.Schema<ListRoutesResponse>;
+  identifier: "ListSecretFilesForBuildSourceRequest",
+}) as any as S.Schema<ListSecretFilesForBuildSourceRequest>;
+
+export interface SecretFileWithCursor {
+  secretFile: SecretFile;
+  cursor: string;
+}
+export const SecretFileWithCursor = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    secretFile: SecretFile,
+    cursor: S.String,
+  }),
+).annotate({ identifier: "SecretFileWithCursor" }) as any as S.Schema<SecretFileWithCursor>;
+
+export type ListSecretFilesForBuildSourceResponseBodyList = Array<SecretFileWithCursor>;
+export const ListSecretFilesForBuildSourceResponseBodyList = /*@__PURE__*/ S.Array(
+  SecretFileWithCursor,
+) as any as S.Schema<ListSecretFilesForBuildSourceResponseBodyList>;
+
+export type ListSecretFilesForBuildSourceResponse = ListSecretFilesForBuildSourceResponseBodyList;
+export const ListSecretFilesForBuildSourceResponse = /*@__PURE__*/ S.suspend(() =>
+  ListSecretFilesForBuildSourceResponseBodyList.pipe(T.RawResponseRoot()),
+).annotate({
+  identifier: "ListSecretFilesForBuildSourceResponse",
+}) as any as S.Schema<ListSecretFilesForBuildSourceResponse>;
 
 export interface ListSecretFilesForServiceRequest {
   /** The ID of the service */
@@ -10064,29 +10171,10 @@ export const ListSecretFilesForServiceRequest = /*@__PURE__*/ S.suspend(() =>
     serviceId: S.String.pipe(T.Label()),
     cursor: S.optional(S.String.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/services/{serviceId}/secret-files",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/services/{serviceId}/secret-files", code: 200 })),
 ).annotate({
   identifier: "ListSecretFilesForServiceRequest",
 }) as any as S.Schema<ListSecretFilesForServiceRequest>;
-
-export interface SecretFileWithCursor {
-  secretFile: SecretFile;
-  cursor: string;
-}
-export const SecretFileWithCursor = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    secretFile: SecretFile,
-    cursor: S.String,
-  }),
-).annotate({
-  identifier: "SecretFileWithCursor",
-}) as any as S.Schema<SecretFileWithCursor>;
 
 export type ListSecretFilesForServiceResponseBodyList = Array<SecretFileWithCursor>;
 export const ListSecretFilesForServiceResponseBodyList = /*@__PURE__*/ S.Array(
@@ -10187,9 +10275,7 @@ export const ListServicesRequest = /*@__PURE__*/ S.suspend(() =>
     cursor: S.optional(S.String.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/services", code: 200 })),
-).annotate({
-  identifier: "ListServicesRequest",
-}) as any as S.Schema<ListServicesRequest>;
+).annotate({ identifier: "ListServicesRequest" }) as any as S.Schema<ListServicesRequest>;
 
 export interface ServiceWithCursor {
   service: Service;
@@ -10200,9 +10286,7 @@ export const ServiceWithCursor = /*@__PURE__*/ S.suspend(() =>
     service: Service,
     cursor: S.String,
   }),
-).annotate({
-  identifier: "ServiceWithCursor",
-}) as any as S.Schema<ServiceWithCursor>;
+).annotate({ identifier: "ServiceWithCursor" }) as any as S.Schema<ServiceWithCursor>;
 
 export type ServiceList = Array<ServiceWithCursor>;
 export const ServiceList = /*@__PURE__*/ S.Array(ServiceWithCursor) as any as S.Schema<ServiceList>;
@@ -10210,9 +10294,7 @@ export const ServiceList = /*@__PURE__*/ S.Array(ServiceWithCursor) as any as S.
 export type ListServicesResponse = ServiceList;
 export const ListServicesResponse = /*@__PURE__*/ S.suspend(() =>
   ServiceList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListServicesResponse",
-}) as any as S.Schema<ListServicesResponse>;
+).annotate({ identifier: "ListServicesResponse" }) as any as S.Schema<ListServicesResponse>;
 
 export interface ListSnapshotsRequest {
   /** The ID of the disk */
@@ -10222,9 +10304,7 @@ export const ListSnapshotsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     diskId: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/disks/{diskId}/snapshots", code: 200 })),
-).annotate({
-  identifier: "ListSnapshotsRequest",
-}) as any as S.Schema<ListSnapshotsRequest>;
+).annotate({ identifier: "ListSnapshotsRequest" }) as any as S.Schema<ListSnapshotsRequest>;
 
 export interface DiskSnapshot {
   createdAt?: string;
@@ -10247,9 +10327,7 @@ export const ListSnapshotsResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListSnapshotsResponse = ListSnapshotsResponseBodyList;
 export const ListSnapshotsResponse = /*@__PURE__*/ S.suspend(() =>
   ListSnapshotsResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListSnapshotsResponse",
-}) as any as S.Schema<ListSnapshotsResponse>;
+).annotate({ identifier: "ListSnapshotsResponse" }) as any as S.Schema<ListSnapshotsResponse>;
 
 export type ListTaskRunsRequestTaskSlugList = Array<string>;
 export const ListTaskRunsRequestTaskSlugList = /*@__PURE__*/ S.Array(
@@ -10302,9 +10380,7 @@ export const ListTaskRunsRequest = /*@__PURE__*/ S.suspend(() =>
     workflowVersionId: S.optional(ListTaskRunsRequestWorkflowVersionIdList.pipe(T.Query())),
     workflowId: S.optional(ListTaskRunsRequestWorkflowIdList.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/task-runs", code: 200 })),
-).annotate({
-  identifier: "ListTaskRunsRequest",
-}) as any as S.Schema<ListTaskRunsRequest>;
+).annotate({ identifier: "ListTaskRunsRequest" }) as any as S.Schema<ListTaskRunsRequest>;
 
 export type SchemaAttemptsItem = CreateTaskResponseAttemptsItem;
 export const SchemaAttemptsItem = CreateTaskResponseAttemptsItem;
@@ -10314,7 +10390,7 @@ export const SchemaAttemptsList = /*@__PURE__*/ S.Array(
   CreateTaskResponseAttemptsItem,
 ) as any as S.Schema<SchemaAttemptsList>;
 
-export interface Schema16 {
+export interface Schema18 {
   id: string;
   taskId: string;
   status: Status2;
@@ -10327,7 +10403,7 @@ export interface Schema16 {
   retries: number;
   attempts: SchemaAttemptsList;
 }
-export const Schema16 = /*@__PURE__*/ S.suspend(() =>
+export const Schema18 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String,
     taskId: S.String,
@@ -10340,20 +10416,18 @@ export const Schema16 = /*@__PURE__*/ S.suspend(() =>
     retries: S.Number,
     attempts: SchemaAttemptsList,
   }),
-).annotate({ identifier: "Schema16" }) as any as S.Schema<Schema16>;
+).annotate({ identifier: "Schema18" }) as any as S.Schema<Schema18>;
 
 export interface TaskRunWithCursor {
-  taskRun: Schema16;
+  taskRun: Schema18;
   cursor: string;
 }
 export const TaskRunWithCursor = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    taskRun: Schema16,
+    taskRun: Schema18,
     cursor: S.String,
   }),
-).annotate({
-  identifier: "TaskRunWithCursor",
-}) as any as S.Schema<TaskRunWithCursor>;
+).annotate({ identifier: "TaskRunWithCursor" }) as any as S.Schema<TaskRunWithCursor>;
 
 export type ListTaskRunsResponseBodyList = Array<TaskRunWithCursor>;
 export const ListTaskRunsResponseBodyList = /*@__PURE__*/ S.Array(
@@ -10363,9 +10437,7 @@ export const ListTaskRunsResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListTaskRunsResponse = ListTaskRunsResponseBodyList;
 export const ListTaskRunsResponse = /*@__PURE__*/ S.suspend(() =>
   ListTaskRunsResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListTaskRunsResponse",
-}) as any as S.Schema<ListTaskRunsResponse>;
+).annotate({ identifier: "ListTaskRunsResponse" }) as any as S.Schema<ListTaskRunsResponse>;
 
 export type ListTasksRequestOwnerIdList = Array<string>;
 export const ListTasksRequestOwnerIdList = /*@__PURE__*/ S.Array(
@@ -10410,18 +10482,16 @@ export const ListTasksRequest = /*@__PURE__*/ S.suspend(() =>
     cursor: S.optional(S.String.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/tasks", code: 200 })),
-).annotate({
-  identifier: "ListTasksRequest",
-}) as any as S.Schema<ListTasksRequest>;
+).annotate({ identifier: "ListTasksRequest" }) as any as S.Schema<ListTasksRequest>;
 
-export interface Schema15 {
+export interface Schema17 {
   id: string;
   name: string;
   createdAt: string;
   workflowId?: string;
   workflowVersionId?: string;
 }
-export const Schema15 = /*@__PURE__*/ S.suspend(() =>
+export const Schema17 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String,
     name: S.String,
@@ -10429,15 +10499,15 @@ export const Schema15 = /*@__PURE__*/ S.suspend(() =>
     workflowId: S.optional(S.String),
     workflowVersionId: S.optional(S.String),
   }),
-).annotate({ identifier: "Schema15" }) as any as S.Schema<Schema15>;
+).annotate({ identifier: "Schema17" }) as any as S.Schema<Schema17>;
 
 export interface TaskWithCursor {
-  task: Schema15;
+  task: Schema17;
   cursor: string;
 }
 export const TaskWithCursor = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    task: Schema15,
+    task: Schema17,
     cursor: S.String,
   }),
 ).annotate({ identifier: "TaskWithCursor" }) as any as S.Schema<TaskWithCursor>;
@@ -10450,9 +10520,7 @@ export const ListTasksResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListTasksResponse = ListTasksResponseBodyList;
 export const ListTasksResponse = /*@__PURE__*/ S.suspend(() =>
   ListTasksResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListTasksResponse",
-}) as any as S.Schema<ListTasksResponse>;
+).annotate({ identifier: "ListTasksResponse" }) as any as S.Schema<ListTasksResponse>;
 
 export interface ListWebhookEventsRequest {
   /** Unique identifier for the webhook */
@@ -10474,9 +10542,7 @@ export const ListWebhookEventsRequest = /*@__PURE__*/ S.suspend(() =>
     limit: S.optional(S.Number.pipe(T.Query())),
     cursor: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/webhooks/{webhookId}/events", code: 200 })),
-).annotate({
-  identifier: "ListWebhookEventsRequest",
-}) as any as S.Schema<ListWebhookEventsRequest>;
+).annotate({ identifier: "ListWebhookEventsRequest" }) as any as S.Schema<ListWebhookEventsRequest>;
 
 export interface WebhookEventWithCursorWebhookEvent {
   /** the id of the webhook event */
@@ -10513,9 +10579,7 @@ export const WebhookEventWithCursor = /*@__PURE__*/ S.suspend(() =>
     webhookEvent: WebhookEventWithCursorWebhookEvent,
     cursor: S.String,
   }),
-).annotate({
-  identifier: "WebhookEventWithCursor",
-}) as any as S.Schema<WebhookEventWithCursor>;
+).annotate({ identifier: "WebhookEventWithCursor" }) as any as S.Schema<WebhookEventWithCursor>;
 
 export type ListWebhookEventsResponseBodyList = Array<WebhookEventWithCursor>;
 export const ListWebhookEventsResponseBodyList = /*@__PURE__*/ S.Array(
@@ -10548,22 +10612,18 @@ export const ListWebhooksRequest = /*@__PURE__*/ S.suspend(() =>
     limit: S.optional(S.Number.pipe(T.Query())),
     ownerId: S.optional(ListWebhooksRequestOwnerIdList.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/webhooks", code: 200 })),
-).annotate({
-  identifier: "ListWebhooksRequest",
-}) as any as S.Schema<ListWebhooksRequest>;
+).annotate({ identifier: "ListWebhooksRequest" }) as any as S.Schema<ListWebhooksRequest>;
 
 export interface WebhookWithCursor {
-  webhook: Schema12;
+  webhook: Schema14;
   cursor: string;
 }
 export const WebhookWithCursor = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    webhook: Schema12,
+    webhook: Schema14,
     cursor: S.String,
   }),
-).annotate({
-  identifier: "WebhookWithCursor",
-}) as any as S.Schema<WebhookWithCursor>;
+).annotate({ identifier: "WebhookWithCursor" }) as any as S.Schema<WebhookWithCursor>;
 
 export type ListWebhooksResponseBodyList = Array<WebhookWithCursor>;
 export const ListWebhooksResponseBodyList = /*@__PURE__*/ S.Array(
@@ -10573,9 +10633,7 @@ export const ListWebhooksResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListWebhooksResponse = ListWebhooksResponseBodyList;
 export const ListWebhooksResponse = /*@__PURE__*/ S.suspend(() =>
   ListWebhooksResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListWebhooksResponse",
-}) as any as S.Schema<ListWebhooksResponse>;
+).annotate({ identifier: "ListWebhooksResponse" }) as any as S.Schema<ListWebhooksResponse>;
 
 export type ListWorkflowsRequestNameList = Array<string>;
 export const ListWorkflowsRequestNameList = /*@__PURE__*/ S.Array(
@@ -10620,22 +10678,18 @@ export const ListWorkflowsRequest = /*@__PURE__*/ S.suspend(() =>
     cursor: S.optional(S.String.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/workflows", code: 200 })),
-).annotate({
-  identifier: "ListWorkflowsRequest",
-}) as any as S.Schema<ListWorkflowsRequest>;
+).annotate({ identifier: "ListWorkflowsRequest" }) as any as S.Schema<ListWorkflowsRequest>;
 
 export interface WorkflowWithCursor {
-  workflow: Schema13;
+  workflow: Schema15;
   cursor: string;
 }
 export const WorkflowWithCursor = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    workflow: Schema13,
+    workflow: Schema15,
     cursor: S.String,
   }),
-).annotate({
-  identifier: "WorkflowWithCursor",
-}) as any as S.Schema<WorkflowWithCursor>;
+).annotate({ identifier: "WorkflowWithCursor" }) as any as S.Schema<WorkflowWithCursor>;
 
 export type ListWorkflowsResponseBodyList = Array<WorkflowWithCursor>;
 export const ListWorkflowsResponseBodyList = /*@__PURE__*/ S.Array(
@@ -10645,9 +10699,7 @@ export const ListWorkflowsResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListWorkflowsResponse = ListWorkflowsResponseBodyList;
 export const ListWorkflowsResponse = /*@__PURE__*/ S.suspend(() =>
   ListWorkflowsResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListWorkflowsResponse",
-}) as any as S.Schema<ListWorkflowsResponse>;
+).annotate({ identifier: "ListWorkflowsResponse" }) as any as S.Schema<ListWorkflowsResponse>;
 
 export type ListWorkflowVersionsRequestOwnerIdList = Array<string>;
 export const ListWorkflowVersionsRequestOwnerIdList = /*@__PURE__*/ S.Array(
@@ -10697,14 +10749,14 @@ export type SchemaStatus =
   | "ready";
 export const SchemaStatus = S.String;
 
-export interface Schema14 {
+export interface Schema16 {
   id: string;
   workflowId: string;
   name: string;
   createdAt: string;
   status: SchemaStatus;
 }
-export const Schema14 = /*@__PURE__*/ S.suspend(() =>
+export const Schema16 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String,
     workflowId: S.String,
@@ -10712,15 +10764,15 @@ export const Schema14 = /*@__PURE__*/ S.suspend(() =>
     createdAt: S.String,
     status: SchemaStatus,
   }),
-).annotate({ identifier: "Schema14" }) as any as S.Schema<Schema14>;
+).annotate({ identifier: "Schema16" }) as any as S.Schema<Schema16>;
 
 export interface WorkflowVersionWithCursor {
-  workflowVersion: Schema14;
+  workflowVersion: Schema16;
   cursor: string;
 }
 export const WorkflowVersionWithCursor = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    workflowVersion: Schema14,
+    workflowVersion: Schema16,
     cursor: S.String,
   }),
 ).annotate({
@@ -10755,13 +10807,7 @@ export const PatchOwnerNotificationSettingsRequest = /*@__PURE__*/ S.suspend(() 
     emailEnabled: S.optional(S.Boolean),
     previewNotificationsEnabled: S.optional(S.Boolean),
     notificationsToSend: S.optional(PatchOwnerNotificationSettingsRequestNotificationsToSend),
-  }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/notification-settings/owners/{ownerId}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PATCH", uri: "/notification-settings/owners/{ownerId}", code: 200 })),
 ).annotate({
   identifier: "PatchOwnerNotificationSettingsRequest",
 }) as any as S.Schema<PatchOwnerNotificationSettingsRequest>;
@@ -10796,16 +10842,8 @@ export const PatchRouteRequest = /*@__PURE__*/ S.suspend(() =>
     serviceId: S.String.pipe(T.Label()),
     routeId: S.String.pipe(T.Label()),
     priority: S.Number,
-  }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/services/{serviceId}/routes/{routeId}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "PatchRouteRequest",
-}) as any as S.Schema<PatchRouteRequest>;
+  }).pipe(T.Http({ method: "PATCH", uri: "/services/{serviceId}/routes/{routeId}", code: 200 })),
+).annotate({ identifier: "PatchRouteRequest" }) as any as S.Schema<PatchRouteRequest>;
 
 export interface PatchRouteResponse {
   headers?: Route;
@@ -10814,9 +10852,7 @@ export const PatchRouteResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     headers: S.optional(Route),
   }),
-).annotate({
-  identifier: "PatchRouteResponse",
-}) as any as S.Schema<PatchRouteResponse>;
+).annotate({ identifier: "PatchRouteResponse" }) as any as S.Schema<PatchRouteResponse>;
 
 export type PatchServiceNotificationOverridesRequestPreviewNotificationsEnabled =
   | "default"
@@ -10905,9 +10941,7 @@ export const PostJobResponse = /*@__PURE__*/ S.suspend(() =>
     startedAt: S.optional(S.String),
     finishedAt: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PostJobResponse",
-}) as any as S.Schema<PostJobResponse>;
+).annotate({ identifier: "PostJobResponse" }) as any as S.Schema<PostJobResponse>;
 
 export interface PreviewServiceRequest {
   /** The ID of the service */
@@ -10925,9 +10959,7 @@ export const PreviewServiceRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     plan: S.optional(Plan),
   }).pipe(T.Http({ method: "POST", uri: "/services/{serviceId}/preview", code: 200 })),
-).annotate({
-  identifier: "PreviewServiceRequest",
-}) as any as S.Schema<PreviewServiceRequest>;
+).annotate({ identifier: "PreviewServiceRequest" }) as any as S.Schema<PreviewServiceRequest>;
 
 export interface PurgeCacheRequest {
   /** The ID of the service */
@@ -10936,16 +10968,8 @@ export interface PurgeCacheRequest {
 export const PurgeCacheRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/services/{serviceId}/cache/purge",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "PurgeCacheRequest",
-}) as any as S.Schema<PurgeCacheRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/services/{serviceId}/cache/purge", code: 200 })),
+).annotate({ identifier: "PurgeCacheRequest" }) as any as S.Schema<PurgeCacheRequest>;
 
 export interface PurgeCacheResponse {}
 export const PurgeCacheResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -10980,9 +11004,7 @@ export const PutRoutesRequest = /*@__PURE__*/ S.suspend(() =>
     serviceId: S.String.pipe(T.Label()),
     body: PutRoutesRequestBodyList.pipe(T.HttpBody()),
   }).pipe(T.Http({ method: "PUT", uri: "/services/{serviceId}/routes", code: 200 })),
-).annotate({
-  identifier: "PutRoutesRequest",
-}) as any as S.Schema<PutRoutesRequest>;
+).annotate({ identifier: "PutRoutesRequest" }) as any as S.Schema<PutRoutesRequest>;
 
 export type PutRoutesResponseBodyList = Array<Route>;
 export const PutRoutesResponseBodyList = /*@__PURE__*/ S.Array(
@@ -10992,16 +11014,14 @@ export const PutRoutesResponseBodyList = /*@__PURE__*/ S.Array(
 export type PutRoutesResponse = PutRoutesResponseBodyList;
 export const PutRoutesResponse = /*@__PURE__*/ S.suspend(() =>
   PutRoutesResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "PutRoutesResponse",
-}) as any as S.Schema<PutRoutesResponse>;
+).annotate({ identifier: "PutRoutesResponse" }) as any as S.Schema<PutRoutesResponse>;
 
 export interface RecoverPostgresRequest {
   postgresId: string;
   /** Name of the new database. */
   restoreName?: string;
   /** The point in time to restore the database to. See `/recovery-info` for restore availability */
-  restoreTime: string;
+  restoreTime?: string;
   /** Datadog API key to use for monitoring the new database. Defaults to the API key of the original database. Use an empty string to prevent copying of the API key to the new database. */
   datadogApiKey?: string;
   /** Datadog region code to use for monitoring the new database. Defaults to the region code of the original database. Use an empty string to prevent copying of the region code to the new database. */
@@ -11015,21 +11035,13 @@ export const RecoverPostgresRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     postgresId: S.String.pipe(T.Label()),
     restoreName: S.optional(S.String),
-    restoreTime: S.String,
+    restoreTime: S.optional(S.String),
     datadogApiKey: S.optional(S.String),
     datadogSite: S.optional(S.String),
     plan: S.optional(S.String),
     environmentId: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/postgres/{postgresId}/recovery",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "RecoverPostgresRequest",
-}) as any as S.Schema<RecoverPostgresRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/postgres/{postgresId}/recovery", code: 200 })),
+).annotate({ identifier: "RecoverPostgresRequest" }) as any as S.Schema<RecoverPostgresRequest>;
 
 export interface RefreshCustomDomainRequest {
   /** The ID of the service */
@@ -11070,13 +11082,7 @@ export const RemoveResourcesFromEnvironmentRequest = /*@__PURE__*/ S.suspend(() 
   S.Struct({
     environmentId: S.String.pipe(T.Label()),
     resourceIds: RemoveResourcesFromEnvironmentRequestResourceIdsList.pipe(T.Query()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/environments/{environmentId}/resources",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/environments/{environmentId}/resources", code: 200 })),
 ).annotate({
   identifier: "RemoveResourcesFromEnvironmentRequest",
 }) as any as S.Schema<RemoveResourcesFromEnvironmentRequest>;
@@ -11098,13 +11104,7 @@ export const RemoveWorkspaceMemberRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ownerId: S.String.pipe(T.Label()),
     userId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/owners/{ownerId}/members/{userId}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/owners/{ownerId}/members/{userId}", code: 200 })),
 ).annotate({
   identifier: "RemoveWorkspaceMemberRequest",
 }) as any as S.Schema<RemoveWorkspaceMemberRequest>;
@@ -11120,16 +11120,8 @@ export interface RestartPostgresRequest {
 export const RestartPostgresRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     postgresId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/postgres/{postgresId}/restart",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "RestartPostgresRequest",
-}) as any as S.Schema<RestartPostgresRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/postgres/{postgresId}/restart", code: 200 })),
+).annotate({ identifier: "RestartPostgresRequest" }) as any as S.Schema<RestartPostgresRequest>;
 
 export interface RestartPostgresResponse {}
 export const RestartPostgresResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -11144,9 +11136,7 @@ export const RestartServiceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceId: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "POST", uri: "/services/{serviceId}/restart", code: 200 })),
-).annotate({
-  identifier: "RestartServiceRequest",
-}) as any as S.Schema<RestartServiceRequest>;
+).annotate({ identifier: "RestartServiceRequest" }) as any as S.Schema<RestartServiceRequest>;
 
 export interface RestartServiceResponse {}
 export const RestartServiceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -11164,16 +11154,8 @@ export const RestoreSnapshotRequest = /*@__PURE__*/ S.suspend(() =>
     diskId: S.String.pipe(T.Label()),
     snapshotKey: S.String,
     instanceId: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/disks/{diskId}/snapshots/restore",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "RestoreSnapshotRequest",
-}) as any as S.Schema<RestoreSnapshotRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/disks/{diskId}/snapshots/restore", code: 200 })),
+).annotate({ identifier: "RestoreSnapshotRequest" }) as any as S.Schema<RestoreSnapshotRequest>;
 
 export interface ResumeKeyValueRequest {
   redisId: string;
@@ -11182,9 +11164,7 @@ export const ResumeKeyValueRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     redisId: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "POST", uri: "/key-value/{redisId}/resume", code: 200 })),
-).annotate({
-  identifier: "ResumeKeyValueRequest",
-}) as any as S.Schema<ResumeKeyValueRequest>;
+).annotate({ identifier: "ResumeKeyValueRequest" }) as any as S.Schema<ResumeKeyValueRequest>;
 
 export interface ResumeKeyValueResponse {}
 export const ResumeKeyValueResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -11198,9 +11178,7 @@ export const ResumePostgresRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     postgresId: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "POST", uri: "/postgres/{postgresId}/resume", code: 200 })),
-).annotate({
-  identifier: "ResumePostgresRequest",
-}) as any as S.Schema<ResumePostgresRequest>;
+).annotate({ identifier: "ResumePostgresRequest" }) as any as S.Schema<ResumePostgresRequest>;
 
 export interface ResumePostgresResponse {}
 export const ResumePostgresResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -11215,9 +11193,7 @@ export const ResumeServiceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceId: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "POST", uri: "/services/{serviceId}/resume", code: 200 })),
-).annotate({
-  identifier: "ResumeServiceRequest",
-}) as any as S.Schema<ResumeServiceRequest>;
+).annotate({ identifier: "ResumeServiceRequest" }) as any as S.Schema<ResumeServiceRequest>;
 
 export interface ResumeServiceResponse {}
 export const ResumeServiceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -11232,9 +11208,7 @@ export const RunCronJobRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     cronJobId: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "POST", uri: "/cron-jobs/{cronJobId}/runs", code: 200 })),
-).annotate({
-  identifier: "RunCronJobRequest",
-}) as any as S.Schema<RunCronJobRequest>;
+).annotate({ identifier: "RunCronJobRequest" }) as any as S.Schema<RunCronJobRequest>;
 
 export type CronJobRunStatus = "pending" | "successful" | "unsuccessful" | "canceled";
 export const CronJobRunStatus = S.String;
@@ -11272,9 +11246,7 @@ export const ScaleServiceRequest = /*@__PURE__*/ S.suspend(() =>
     serviceId: S.String.pipe(T.Label()),
     numInstances: S.Number,
   }).pipe(T.Http({ method: "POST", uri: "/services/{serviceId}/scale", code: 200 })),
-).annotate({
-  identifier: "ScaleServiceRequest",
-}) as any as S.Schema<ScaleServiceRequest>;
+).annotate({ identifier: "ScaleServiceRequest" }) as any as S.Schema<ScaleServiceRequest>;
 
 export interface ScaleServiceResponse {}
 export const ScaleServiceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -11422,9 +11394,7 @@ export const SubscribeLogsRequest = /*@__PURE__*/ S.suspend(() =>
     path: S.optional(SubscribeLogsRequestPathList.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/logs/subscribe", code: 200 })),
-).annotate({
-  identifier: "SubscribeLogsRequest",
-}) as any as S.Schema<SubscribeLogsRequest>;
+).annotate({ identifier: "SubscribeLogsRequest" }) as any as S.Schema<SubscribeLogsRequest>;
 
 export interface SubscribeLogsResponse {}
 export const SubscribeLogsResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -11438,9 +11408,7 @@ export const SuspendKeyValueRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     redisId: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "POST", uri: "/key-value/{redisId}/suspend", code: 200 })),
-).annotate({
-  identifier: "SuspendKeyValueRequest",
-}) as any as S.Schema<SuspendKeyValueRequest>;
+).annotate({ identifier: "SuspendKeyValueRequest" }) as any as S.Schema<SuspendKeyValueRequest>;
 
 export interface SuspendKeyValueResponse {}
 export const SuspendKeyValueResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -11453,16 +11421,8 @@ export interface SuspendPostgresRequest {
 export const SuspendPostgresRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     postgresId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/postgres/{postgresId}/suspend",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "SuspendPostgresRequest",
-}) as any as S.Schema<SuspendPostgresRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/postgres/{postgresId}/suspend", code: 200 })),
+).annotate({ identifier: "SuspendPostgresRequest" }) as any as S.Schema<SuspendPostgresRequest>;
 
 export interface SuspendPostgresResponse {}
 export const SuspendPostgresResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -11477,14 +11437,95 @@ export const SuspendServiceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceId: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "POST", uri: "/services/{serviceId}/suspend", code: 200 })),
-).annotate({
-  identifier: "SuspendServiceRequest",
-}) as any as S.Schema<SuspendServiceRequest>;
+).annotate({ identifier: "SuspendServiceRequest" }) as any as S.Schema<SuspendServiceRequest>;
 
 export interface SuspendServiceResponse {}
 export const SuspendServiceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "SuspendServiceResponse",
 }) as any as S.Schema<SuspendServiceResponse>;
+
+export interface TriggerBuildSourceBuildRequest {
+  buildSourceId: string;
+}
+export const TriggerBuildSourceBuildRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    buildSourceId: S.String.pipe(T.Label()),
+  }).pipe(T.Http({ method: "POST", uri: "/build-sources/{buildSourceId}/builds", code: 200 })),
+).annotate({
+  identifier: "TriggerBuildSourceBuildRequest",
+}) as any as S.Schema<TriggerBuildSourceBuildRequest>;
+
+export type TriggerBuildSourceBuildResponseBuildRunStatus =
+  | "created"
+  | "inProgress"
+  | "succeeded"
+  | "failed"
+  | "canceled"
+  | "unknown";
+export const TriggerBuildSourceBuildResponseBuildRunStatus = S.String;
+
+export type TriggerBuildSourceBuildResponseBuildRunRuntime =
+  | "docker"
+  | "elixir"
+  | "go"
+  | "node"
+  | "python"
+  | "ruby"
+  | "rust";
+export const TriggerBuildSourceBuildResponseBuildRunRuntime = S.String;
+
+/** The Render build run that produced this build. Present when the build source is currently build-based. Mutually exclusive with `image`. */
+export interface TriggerBuildSourceBuildResponseBuildRun {
+  id: string;
+  status?: TriggerBuildSourceBuildResponseBuildRunStatus;
+  buildStartedAt?: string;
+  buildFinishedAt?: string;
+  runtime?: TriggerBuildSourceBuildResponseBuildRunRuntime;
+  commitId?: string;
+  commitUrl?: string;
+}
+export const TriggerBuildSourceBuildResponseBuildRun = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    status: S.optional(TriggerBuildSourceBuildResponseBuildRunStatus),
+    buildStartedAt: S.optional(S.String),
+    buildFinishedAt: S.optional(S.String),
+    runtime: S.optional(TriggerBuildSourceBuildResponseBuildRunRuntime),
+    commitId: S.optional(S.String),
+    commitUrl: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "TriggerBuildSourceBuildResponseBuildRun",
+}) as any as S.Schema<TriggerBuildSourceBuildResponseBuildRun>;
+
+/** Present when the build source is currently image-based. Mutually exclusive with `buildRun`. */
+export type TriggerBuildSourceBuildResponseImage = SchemaImage;
+export const TriggerBuildSourceBuildResponseImage = SchemaImage;
+
+export interface TriggerBuildSourceBuildResponse {
+  id: string;
+  buildSourceId: string;
+  /** The Render build run that produced this build. Present when the build source is currently build-based. Mutually exclusive with `image`. */
+  buildRun?: TriggerBuildSourceBuildResponseBuildRun;
+  /** Present when the build source is currently image-based. Mutually exclusive with `buildRun`. */
+  image?: SchemaImage;
+  createdAt: string;
+  updatedAt: string;
+  assetsDeletedAt?: string;
+}
+export const TriggerBuildSourceBuildResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    buildSourceId: S.String,
+    buildRun: S.optional(TriggerBuildSourceBuildResponseBuildRun),
+    image: S.optional(SchemaImage),
+    createdAt: S.String,
+    updatedAt: S.String,
+    assetsDeletedAt: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "TriggerBuildSourceBuildResponse",
+}) as any as S.Schema<TriggerBuildSourceBuildResponse>;
 
 export interface TriggerMaintenanceRequest {
   maintenanceRunID: string;
@@ -11492,13 +11533,7 @@ export interface TriggerMaintenanceRequest {
 export const TriggerMaintenanceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     maintenanceRunID: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/maintenance/{maintenanceRunID}/trigger",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/maintenance/{maintenanceRunID}/trigger", code: 200 })),
 ).annotate({
   identifier: "TriggerMaintenanceRequest",
 }) as any as S.Schema<TriggerMaintenanceRequest>;
@@ -11507,6 +11542,33 @@ export interface TriggerMaintenanceResponse {}
 export const TriggerMaintenanceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TriggerMaintenanceResponse",
 }) as any as S.Schema<TriggerMaintenanceResponse>;
+
+export interface UnlinkEnvGroupFromBuildSourceRequest {
+  buildSourceId: string;
+  /** Filter for resources that belong to an environment group */
+  envGroupId: string;
+}
+export const UnlinkEnvGroupFromBuildSourceRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    buildSourceId: S.String.pipe(T.Label()),
+    envGroupId: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      uri: "/build-sources/{buildSourceId}/env-groups/{envGroupId}",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "UnlinkEnvGroupFromBuildSourceRequest",
+}) as any as S.Schema<UnlinkEnvGroupFromBuildSourceRequest>;
+
+export interface UnlinkEnvGroupFromBuildSourceResponse {}
+export const UnlinkEnvGroupFromBuildSourceResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "UnlinkEnvGroupFromBuildSourceResponse",
+}) as any as S.Schema<UnlinkEnvGroupFromBuildSourceResponse>;
 
 export interface UnlinkServiceFromEnvGroupRequest {
   envGroupId: string;
@@ -11517,11 +11579,7 @@ export const UnlinkServiceFromEnvGroupRequest = /*@__PURE__*/ S.suspend(() =>
     envGroupId: S.String.pipe(T.Label()),
     serviceId: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/env-groups/{envGroupId}/services/{serviceId}",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/env-groups/{envGroupId}/services/{serviceId}", code: 200 }),
   ),
 ).annotate({
   identifier: "UnlinkServiceFromEnvGroupRequest",
@@ -11538,7 +11596,7 @@ export interface UpdateBlueprintRequest {
   /** The ID of the Blueprint */
   blueprintId: string;
   name?: string;
-  /** Automatically sync changes to render.yaml */
+  /** Configuration value that controls whether or not this blueprint will be re-synced on each git push to the configured branch. Even when true, autoSync will not apply when the blueprint has the Created status, which indicates its first sync has not yet been approved. Other conditions, such as a locked workspace, can also prevent automatic syncing even when this is true. */
   autoSync?: boolean;
   /** Path to the Blueprint file in the repository */
   path?: string;
@@ -11550,9 +11608,7 @@ export const UpdateBlueprintRequest = /*@__PURE__*/ S.suspend(() =>
     autoSync: S.optional(S.Boolean),
     path: S.optional(S.String),
   }).pipe(T.Http({ method: "PATCH", uri: "/blueprints/{blueprintId}", code: 200 })),
-).annotate({
-  identifier: "UpdateBlueprintRequest",
-}) as any as S.Schema<UpdateBlueprintRequest>;
+).annotate({ identifier: "UpdateBlueprintRequest" }) as any as S.Schema<UpdateBlueprintRequest>;
 
 export interface UpdateBlueprintResponse {
   id: string;
@@ -11575,9 +11631,158 @@ export const UpdateBlueprintResponse = /*@__PURE__*/ S.suspend(() =>
     path: S.String,
     lastSync: S.optional(S.String),
   }),
+).annotate({ identifier: "UpdateBlueprintResponse" }) as any as S.Schema<UpdateBlueprintResponse>;
+
+export type UpdateBuildSourceRequestGitBuildFilterPathsList = Array<string>;
+export const UpdateBuildSourceRequestGitBuildFilterPathsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<UpdateBuildSourceRequestGitBuildFilterPathsList>;
+
+export type UpdateBuildSourceRequestGitBuildFilterIgnoredPathsList = Array<string>;
+export const UpdateBuildSourceRequestGitBuildFilterIgnoredPathsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<UpdateBuildSourceRequestGitBuildFilterIgnoredPathsList>;
+
+/** Glob patterns matched against files changed by a commit. When set, a commit only triggers a build when at least one changed file matches `paths` and none match `ignoredPaths`. Useful for monorepos where a single repo backs many services. */
+export interface UpdateBuildSourceRequestGitBuildFilter {
+  paths: UpdateBuildSourceRequestGitBuildFilterPathsList;
+  ignoredPaths: UpdateBuildSourceRequestGitBuildFilterIgnoredPathsList;
+}
+export const UpdateBuildSourceRequestGitBuildFilter = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    paths: UpdateBuildSourceRequestGitBuildFilterPathsList,
+    ignoredPaths: UpdateBuildSourceRequestGitBuildFilterIgnoredPathsList,
+  }),
 ).annotate({
-  identifier: "UpdateBlueprintResponse",
-}) as any as S.Schema<UpdateBlueprintResponse>;
+  identifier: "UpdateBuildSourceRequestGitBuildFilter",
+}) as any as S.Schema<UpdateBuildSourceRequestGitBuildFilter>;
+
+/** Build runtime for the build source. Static sites are not supported for build sources. */
+export type UpdateBuildSourceRequestGitRuntime =
+  | "docker"
+  | "elixir"
+  | "go"
+  | "node"
+  | "python"
+  | "ruby"
+  | "rust";
+export const UpdateBuildSourceRequestGitRuntime = S.String;
+
+/** Region for the build. Honored only when this PATCH performs an image→build transition; rejected on a pure build patch (the cluster is pinned for an existing build), and must match the prior build region when switching back to build after time as an external image. Defaults to "oregon" for first-time builds. */
+export type UpdateBuildSourceRequestGitRegion =
+  | "frankfurt"
+  | "oregon"
+  | "ohio"
+  | "singapore"
+  | "virginia";
+export const UpdateBuildSourceRequestGitRegion = S.String;
+
+export interface UpdateBuildSourceRequestGit {
+  baseDir?: string;
+  branch?: string;
+  buildCommand?: string;
+  /** Glob patterns matched against files changed by a commit. When set, a commit only triggers a build when at least one changed file matches `paths` and none match `ignoredPaths`. Useful for monorepos where a single repo backs many services. */
+  buildFilter?: UpdateBuildSourceRequestGitBuildFilter;
+  dockerfilePath?: string;
+  /** Build runtime for the build source. Static sites are not supported for build sources. */
+  runtime?: UpdateBuildSourceRequestGitRuntime | (string & {});
+  /** Optional reference to the registry credential for this build. Omit the field to leave the stored credential unchanged; send an empty string to clear it. */
+  registryCredentialId?: string;
+  /** Region for the build. Honored only when this PATCH performs an image→build transition; rejected on a pure build patch (the cluster is pinned for an existing build), and must match the prior build region when switching back to build after time as an external image. Defaults to "oregon" for first-time builds. */
+  region?: UpdateBuildSourceRequestGitRegion | (string & {});
+  repoUrl?: string;
+  rootDir?: string;
+}
+export const UpdateBuildSourceRequestGit = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    baseDir: S.optional(S.String),
+    branch: S.optional(S.String),
+    buildCommand: S.optional(S.String),
+    buildFilter: S.optional(UpdateBuildSourceRequestGitBuildFilter),
+    dockerfilePath: S.optional(S.String),
+    runtime: S.optional(UpdateBuildSourceRequestGitRuntime),
+    registryCredentialId: S.optional(S.String),
+    region: S.optional(UpdateBuildSourceRequestGitRegion),
+    repoUrl: S.optional(S.String),
+    rootDir: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "UpdateBuildSourceRequestGit",
+}) as any as S.Schema<UpdateBuildSourceRequestGit>;
+
+/** Patch shape for a build source's image identity. Unset fields are left unchanged on the underlying image reference. ownerId is intentionally omitted — a build source's owner is fixed at creation, and changing the image's owner would amount to a different identity. */
+export interface UpdateBuildSourceRequestImage {
+  imageUrl?: string;
+  /** Optional reference to the registry credential passed to the image repository to retrieve this image. Omit the field to leave the stored credential unchanged; send an empty string to clear it. */
+  registryCredentialId?: string;
+}
+export const UpdateBuildSourceRequestImage = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    imageUrl: S.optional(S.String),
+    registryCredentialId: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "UpdateBuildSourceRequestImage",
+}) as any as S.Schema<UpdateBuildSourceRequestImage>;
+
+export interface UpdateBuildSourceRequest {
+  buildSourceId: string;
+  name?: string;
+  git?: UpdateBuildSourceRequestGit;
+  /** Patch shape for a build source's image identity. Unset fields are left unchanged on the underlying image reference. ownerId is intentionally omitted — a build source's owner is fixed at creation, and changing the image's owner would amount to a different identity. */
+  image?: UpdateBuildSourceRequestImage;
+}
+export const UpdateBuildSourceRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    buildSourceId: S.String.pipe(T.Label()),
+    name: S.optional(S.String),
+    git: S.optional(UpdateBuildSourceRequestGit),
+    image: S.optional(UpdateBuildSourceRequestImage),
+  }).pipe(T.Http({ method: "PATCH", uri: "/build-sources/{buildSourceId}", code: 200 })),
+).annotate({ identifier: "UpdateBuildSourceRequest" }) as any as S.Schema<UpdateBuildSourceRequest>;
+
+export interface EnvVarValue {
+  value: string;
+}
+export const EnvVarValue = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    value: S.String,
+  }),
+).annotate({ identifier: "EnvVarValue" }) as any as S.Schema<EnvVarValue>;
+
+export interface EnvVarGenerateValue {
+  generateValue: boolean;
+}
+export const EnvVarGenerateValue = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    generateValue: S.Boolean,
+  }),
+).annotate({ identifier: "EnvVarGenerateValue" }) as any as S.Schema<EnvVarGenerateValue>;
+
+export type AddUpdateEnvVarInput = EnvVarValue | EnvVarGenerateValue;
+export const AddUpdateEnvVarInput = S.Unknown as any as S.Schema<AddUpdateEnvVarInput>;
+
+export interface UpdateBuildSourceEnvVarRequest {
+  buildSourceId: string;
+  /** The name of the environment variable */
+  envVarKey: string;
+  body: AddUpdateEnvVarInput;
+}
+export const UpdateBuildSourceEnvVarRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    buildSourceId: S.String.pipe(T.Label()),
+    envVarKey: S.String.pipe(T.Label()),
+    body: AddUpdateEnvVarInput.pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PUT",
+      uri: "/build-sources/{buildSourceId}/env-vars/{envVarKey}",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "UpdateBuildSourceEnvVarRequest",
+}) as any as S.Schema<UpdateBuildSourceEnvVarRequest>;
 
 export type UpdateDedicatedIpRequestEnvironmentIdsList = Array<string>;
 export const UpdateDedicatedIpRequestEnvironmentIdsList = /*@__PURE__*/ S.Array(
@@ -11597,16 +11802,8 @@ export const UpdateDedicatedIpRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     description: S.optional(S.String),
     environmentIds: S.optional(UpdateDedicatedIpRequestEnvironmentIdsList),
-  }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/dedicated-ips/{dedicatedIpId}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "UpdateDedicatedIpRequest",
-}) as any as S.Schema<UpdateDedicatedIpRequest>;
+  }).pipe(T.Http({ method: "PATCH", uri: "/dedicated-ips/{dedicatedIpId}", code: 200 })),
+).annotate({ identifier: "UpdateDedicatedIpRequest" }) as any as S.Schema<UpdateDedicatedIpRequest>;
 
 export interface UpdateDiskRequest {
   /** The ID of the disk */
@@ -11622,9 +11819,7 @@ export const UpdateDiskRequest = /*@__PURE__*/ S.suspend(() =>
     sizeGB: S.optional(S.Number),
     mountPath: S.optional(S.String),
   }).pipe(T.Http({ method: "PATCH", uri: "/disks/{diskId}", code: 200 })),
-).annotate({
-  identifier: "UpdateDiskRequest",
-}) as any as S.Schema<UpdateDiskRequest>;
+).annotate({ identifier: "UpdateDiskRequest" }) as any as S.Schema<UpdateDiskRequest>;
 
 export interface UpdateEnvGroupRequest {
   envGroupId: string;
@@ -11635,9 +11830,7 @@ export const UpdateEnvGroupRequest = /*@__PURE__*/ S.suspend(() =>
     envGroupId: S.String.pipe(T.Label()),
     name: S.String,
   }).pipe(T.Http({ method: "PATCH", uri: "/env-groups/{envGroupId}", code: 200 })),
-).annotate({
-  identifier: "UpdateEnvGroupRequest",
-}) as any as S.Schema<UpdateEnvGroupRequest>;
+).annotate({ identifier: "UpdateEnvGroupRequest" }) as any as S.Schema<UpdateEnvGroupRequest>;
 
 /** List of serviceIds linked to the envGroup */
 export type UpdateEnvGroupResponseServiceLinksList = Array<EnvGroupLink>;
@@ -11679,32 +11872,7 @@ export const UpdateEnvGroupResponse = /*@__PURE__*/ S.suspend(() =>
     envVars: UpdateEnvGroupResponseEnvVarsList,
     secretFiles: UpdateEnvGroupResponseSecretFilesList,
   }),
-).annotate({
-  identifier: "UpdateEnvGroupResponse",
-}) as any as S.Schema<UpdateEnvGroupResponse>;
-
-export interface EnvVarValue {
-  value: string;
-}
-export const EnvVarValue = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    value: S.String,
-  }),
-).annotate({ identifier: "EnvVarValue" }) as any as S.Schema<EnvVarValue>;
-
-export interface EnvVarGenerateValue {
-  generateValue: boolean;
-}
-export const EnvVarGenerateValue = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    generateValue: S.Boolean,
-  }),
-).annotate({
-  identifier: "EnvVarGenerateValue",
-}) as any as S.Schema<EnvVarGenerateValue>;
-
-export type AddUpdateEnvVarInput = EnvVarValue | EnvVarGenerateValue;
-export const AddUpdateEnvVarInput = S.Unknown as any as S.Schema<AddUpdateEnvVarInput>;
+).annotate({ identifier: "UpdateEnvGroupResponse" }) as any as S.Schema<UpdateEnvGroupResponse>;
 
 export interface UpdateEnvGroupEnvVarRequest {
   /** Filter for resources that belong to an environment group */
@@ -11719,11 +11887,7 @@ export const UpdateEnvGroupEnvVarRequest = /*@__PURE__*/ S.suspend(() =>
     envVarKey: S.String.pipe(T.Label()),
     body: AddUpdateEnvVarInput.pipe(T.HttpBody()),
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/env-groups/{envGroupId}/env-vars/{envVarKey}",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/env-groups/{envGroupId}/env-vars/{envVarKey}", code: 200 }),
   ),
 ).annotate({
   identifier: "UpdateEnvGroupEnvVarRequest",
@@ -11784,11 +11948,7 @@ export const UpdateEnvGroupSecretFileRequest = /*@__PURE__*/ S.suspend(() =>
     envVarKey: S.String.pipe(T.Label()),
     content: S.optional(S.String),
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/env-groups/{envGroupId}/secret-files/{envVarKey}",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/env-groups/{envGroupId}/secret-files/{envVarKey}", code: 200 }),
   ),
 ).annotate({
   identifier: "UpdateEnvGroupSecretFileRequest",
@@ -11857,16 +12017,8 @@ export const UpdateEnvironmentRequest = /*@__PURE__*/ S.suspend(() =>
     networkIsolationEnabled: S.optional(S.Boolean),
     protectedStatus: S.optional(ProtectedStatus),
     ipAllowList: S.optional(UpdateEnvironmentRequestIpAllowListList),
-  }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/environments/{environmentId}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "UpdateEnvironmentRequest",
-}) as any as S.Schema<UpdateEnvironmentRequest>;
+  }).pipe(T.Http({ method: "PATCH", uri: "/environments/{environmentId}", code: 200 })),
+).annotate({ identifier: "UpdateEnvironmentRequest" }) as any as S.Schema<UpdateEnvironmentRequest>;
 
 export interface UpdateEnvVarRequest {
   /** The ID of the service */
@@ -11880,16 +12032,33 @@ export const UpdateEnvVarRequest = /*@__PURE__*/ S.suspend(() =>
     serviceId: S.String.pipe(T.Label()),
     envVarKey: S.String.pipe(T.Label()),
     body: AddUpdateEnvVarInput.pipe(T.HttpBody()),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/services/{serviceId}/env-vars/{envVarKey}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/services/{serviceId}/env-vars/{envVarKey}", code: 200 })),
+).annotate({ identifier: "UpdateEnvVarRequest" }) as any as S.Schema<UpdateEnvVarRequest>;
+
+export interface UpdateEnvVarsForBuildSourceRequest {
+  buildSourceId: string;
+  body: Schema6;
+}
+export const UpdateEnvVarsForBuildSourceRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    buildSourceId: S.String.pipe(T.Label()),
+    body: Schema6.pipe(T.HttpBody()),
+  }).pipe(T.Http({ method: "PUT", uri: "/build-sources/{buildSourceId}/env-vars", code: 200 })),
 ).annotate({
-  identifier: "UpdateEnvVarRequest",
-}) as any as S.Schema<UpdateEnvVarRequest>;
+  identifier: "UpdateEnvVarsForBuildSourceRequest",
+}) as any as S.Schema<UpdateEnvVarsForBuildSourceRequest>;
+
+export type UpdateEnvVarsForBuildSourceResponseBodyList = Array<EnvVarWithCursor>;
+export const UpdateEnvVarsForBuildSourceResponseBodyList = /*@__PURE__*/ S.Array(
+  EnvVarWithCursor,
+) as any as S.Schema<UpdateEnvVarsForBuildSourceResponseBodyList>;
+
+export type UpdateEnvVarsForBuildSourceResponse = UpdateEnvVarsForBuildSourceResponseBodyList;
+export const UpdateEnvVarsForBuildSourceResponse = /*@__PURE__*/ S.suspend(() =>
+  UpdateEnvVarsForBuildSourceResponseBodyList.pipe(T.RawResponseRoot()),
+).annotate({
+  identifier: "UpdateEnvVarsForBuildSourceResponse",
+}) as any as S.Schema<UpdateEnvVarsForBuildSourceResponse>;
 
 export type UpdateEnvVarsForServiceRequestBodyItemCase0 = SchemaItemCase0;
 export const UpdateEnvVarsForServiceRequestBodyItemCase0 = SchemaItemCase0;
@@ -11947,9 +12116,7 @@ export const UpdateHeadersRequest = /*@__PURE__*/ S.suspend(() =>
     serviceId: S.String.pipe(T.Label()),
     body: UpdateHeadersRequestBodyList.pipe(T.HttpBody()),
   }).pipe(T.Http({ method: "PUT", uri: "/services/{serviceId}/headers", code: 200 })),
-).annotate({
-  identifier: "UpdateHeadersRequest",
-}) as any as S.Schema<UpdateHeadersRequest>;
+).annotate({ identifier: "UpdateHeadersRequest" }) as any as S.Schema<UpdateHeadersRequest>;
 
 export type UpdateHeadersResponseBodyList = Array<Header>;
 export const UpdateHeadersResponseBodyList = /*@__PURE__*/ S.Array(
@@ -11959,9 +12126,7 @@ export const UpdateHeadersResponseBodyList = /*@__PURE__*/ S.Array(
 export type UpdateHeadersResponse = UpdateHeadersResponseBodyList;
 export const UpdateHeadersResponse = /*@__PURE__*/ S.suspend(() =>
   UpdateHeadersResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "UpdateHeadersResponse",
-}) as any as S.Schema<UpdateHeadersResponse>;
+).annotate({ identifier: "UpdateHeadersResponse" }) as any as S.Schema<UpdateHeadersResponse>;
 
 export type UpdateKeyValueRequestIpAllowListList = Array<CidrBlockAndDescription>;
 export const UpdateKeyValueRequestIpAllowListList = /*@__PURE__*/ S.Array(
@@ -11986,9 +12151,7 @@ export const UpdateKeyValueRequest = /*@__PURE__*/ S.suspend(() =>
     persistenceMode: S.optional(PersistenceMode),
     ipAllowList: S.optional(UpdateKeyValueRequestIpAllowListList),
   }).pipe(T.Http({ method: "PATCH", uri: "/key-value/{redisId}", code: 200 })),
-).annotate({
-  identifier: "UpdateKeyValueRequest",
-}) as any as S.Schema<UpdateKeyValueRequest>;
+).annotate({ identifier: "UpdateKeyValueRequest" }) as any as S.Schema<UpdateKeyValueRequest>;
 
 export interface UpdateMaintenanceRequest {
   maintenanceRunID: string;
@@ -11999,16 +12162,8 @@ export const UpdateMaintenanceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     maintenanceRunID: S.String.pipe(T.Label()),
     scheduledAt: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/maintenance/{maintenanceRunID}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "UpdateMaintenanceRequest",
-}) as any as S.Schema<UpdateMaintenanceRequest>;
+  }).pipe(T.Http({ method: "PATCH", uri: "/maintenance/{maintenanceRunID}", code: 200 })),
+).annotate({ identifier: "UpdateMaintenanceRequest" }) as any as S.Schema<UpdateMaintenanceRequest>;
 
 export interface UpdateMaintenanceResponse {}
 export const UpdateMaintenanceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -12077,7 +12232,6 @@ export interface UpdatePostgresRequest {
   /** Datadog region to use for monitoring the new database. Defaults to 'US1'. */
   datadogSite?: string;
   ipAllowList?: UpdatePostgresRequestIpAllowListList;
-  parameterOverrides?: PostgresParameterOverrides;
   readReplicas?: ReadReplicasInput;
 }
 export const UpdatePostgresRequest = /*@__PURE__*/ S.suspend(() =>
@@ -12092,12 +12246,9 @@ export const UpdatePostgresRequest = /*@__PURE__*/ S.suspend(() =>
     datadogAPIKey: S.optional(S.String),
     datadogSite: S.optional(S.String),
     ipAllowList: S.optional(UpdatePostgresRequestIpAllowListList),
-    parameterOverrides: S.optional(PostgresParameterOverrides),
     readReplicas: S.optional(ReadReplicasInput),
   }).pipe(T.Http({ method: "PATCH", uri: "/postgres/{postgresId}", code: 200 })),
-).annotate({
-  identifier: "UpdatePostgresRequest",
-}) as any as S.Schema<UpdatePostgresRequest>;
+).annotate({ identifier: "UpdatePostgresRequest" }) as any as S.Schema<UpdatePostgresRequest>;
 
 export interface UpdateProjectRequest {
   projectId: string;
@@ -12108,9 +12259,7 @@ export const UpdateProjectRequest = /*@__PURE__*/ S.suspend(() =>
     projectId: S.String.pipe(T.Label()),
     name: S.optional(S.String),
   }).pipe(T.Http({ method: "PATCH", uri: "/projects/{projectId}", code: 200 })),
-).annotate({
-  identifier: "UpdateProjectRequest",
-}) as any as S.Schema<UpdateProjectRequest>;
+).annotate({ identifier: "UpdateProjectRequest" }) as any as S.Schema<UpdateProjectRequest>;
 
 export interface UpdateRegistryCredentialRequest {
   /** The ID of the registry credential */
@@ -12128,11 +12277,7 @@ export const UpdateRegistryCredentialRequest = /*@__PURE__*/ S.suspend(() =>
     username: S.String,
     authToken: S.String,
   }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/registrycredentials/{registryCredentialId}",
-      code: 200,
-    }),
+    T.Http({ method: "PATCH", uri: "/registrycredentials/{registryCredentialId}", code: 200 }),
   ),
 ).annotate({
   identifier: "UpdateRegistryCredentialRequest",
@@ -12151,13 +12296,7 @@ export const UpdateResourceLogStreamRequest = /*@__PURE__*/ S.suspend(() =>
     endpoint: S.optional(S.String),
     token: S.optional(S.String),
     setting: Items3,
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/logs/streams/resource/{resourceId}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/logs/streams/resource/{resourceId}", code: 200 })),
 ).annotate({
   identifier: "UpdateResourceLogStreamRequest",
 }) as any as S.Schema<UpdateResourceLogStreamRequest>;
@@ -12179,6 +12318,37 @@ export const UpdateResourceLogStreamResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "UpdateResourceLogStreamResponse",
 }) as any as S.Schema<UpdateResourceLogStreamResponse>;
 
+export type UpdateSecretFilesForBuildSourceRequestBodyList = Array<Items>;
+export const UpdateSecretFilesForBuildSourceRequestBodyList = /*@__PURE__*/ S.Array(
+  Items,
+) as any as S.Schema<UpdateSecretFilesForBuildSourceRequestBodyList>;
+
+export interface UpdateSecretFilesForBuildSourceRequest {
+  buildSourceId: string;
+  body: UpdateSecretFilesForBuildSourceRequestBodyList;
+}
+export const UpdateSecretFilesForBuildSourceRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    buildSourceId: S.String.pipe(T.Label()),
+    body: UpdateSecretFilesForBuildSourceRequestBodyList.pipe(T.HttpBody()),
+  }).pipe(T.Http({ method: "PUT", uri: "/build-sources/{buildSourceId}/secret-files", code: 200 })),
+).annotate({
+  identifier: "UpdateSecretFilesForBuildSourceRequest",
+}) as any as S.Schema<UpdateSecretFilesForBuildSourceRequest>;
+
+export type UpdateSecretFilesForBuildSourceResponseBodyList = Array<SecretFileWithCursor>;
+export const UpdateSecretFilesForBuildSourceResponseBodyList = /*@__PURE__*/ S.Array(
+  SecretFileWithCursor,
+) as any as S.Schema<UpdateSecretFilesForBuildSourceResponseBodyList>;
+
+export type UpdateSecretFilesForBuildSourceResponse =
+  UpdateSecretFilesForBuildSourceResponseBodyList;
+export const UpdateSecretFilesForBuildSourceResponse = /*@__PURE__*/ S.suspend(() =>
+  UpdateSecretFilesForBuildSourceResponseBodyList.pipe(T.RawResponseRoot()),
+).annotate({
+  identifier: "UpdateSecretFilesForBuildSourceResponse",
+}) as any as S.Schema<UpdateSecretFilesForBuildSourceResponse>;
+
 export type UpdateSecretFilesForServiceRequestBodyItem = Items;
 export const UpdateSecretFilesForServiceRequestBodyItem = Items;
 
@@ -12196,13 +12366,7 @@ export const UpdateSecretFilesForServiceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceId: S.String.pipe(T.Label()),
     body: UpdateSecretFilesForServiceRequestBodyList.pipe(T.HttpBody()),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/services/{serviceId}/secret-files",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/services/{serviceId}/secret-files", code: 200 })),
 ).annotate({
   identifier: "UpdateSecretFilesForServiceRequest",
 }) as any as S.Schema<UpdateSecretFilesForServiceRequest>;
@@ -12241,14 +12405,13 @@ export const StaticSiteDetailsPATCH = /*@__PURE__*/ S.suspend(() =>
     renderSubdomainPolicy: S.optional(RenderSubdomainPolicy),
     ipAllowList: S.optional(StaticSiteDetailsPATCHIpAllowListList),
   }),
-).annotate({
-  identifier: "StaticSiteDetailsPATCH",
-}) as any as S.Schema<StaticSiteDetailsPATCH>;
+).annotate({ identifier: "StaticSiteDetailsPATCH" }) as any as S.Schema<StaticSiteDetailsPATCH>;
 
 export interface DockerDetailsPATCH {
   dockerCommand?: string;
   dockerContext?: string;
   dockerfilePath?: string;
+  /** Optional reference to the registry credential for this build. Omit the field to leave the stored credential unchanged; send an empty string to clear it. */
   registryCredentialId?: string;
 }
 export const DockerDetailsPATCH = /*@__PURE__*/ S.suspend(() =>
@@ -12258,9 +12421,7 @@ export const DockerDetailsPATCH = /*@__PURE__*/ S.suspend(() =>
     dockerfilePath: S.optional(S.String),
     registryCredentialId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DockerDetailsPATCH",
-}) as any as S.Schema<DockerDetailsPATCH>;
+).annotate({ identifier: "DockerDetailsPATCH" }) as any as S.Schema<DockerDetailsPATCH>;
 
 export interface NativeEnvironmentDetailsPATCH {
   buildCommand?: string;
@@ -12312,9 +12473,7 @@ export const WebServiceDetailsPATCH = /*@__PURE__*/ S.suspend(() =>
     ipAllowList: S.optional(WebServiceDetailsPATCHIpAllowListList),
     cache: S.optional(Cache),
   }),
-).annotate({
-  identifier: "WebServiceDetailsPATCH",
-}) as any as S.Schema<WebServiceDetailsPATCH>;
+).annotate({ identifier: "WebServiceDetailsPATCH" }) as any as S.Schema<WebServiceDetailsPATCH>;
 
 export interface PrivateServiceDetailsPATCH {
   envSpecificDetails?: EnvSpecificDetailsPATCH;
@@ -12355,9 +12514,7 @@ export const CronJobDetailsPATCH = /*@__PURE__*/ S.suspend(() =>
     schedule: S.optional(S.String),
     runtime: S.optional(ServiceRuntime),
   }),
-).annotate({
-  identifier: "CronJobDetailsPATCH",
-}) as any as S.Schema<CronJobDetailsPATCH>;
+).annotate({ identifier: "CronJobDetailsPATCH" }) as any as S.Schema<CronJobDetailsPATCH>;
 
 export type UpdateServiceRequestServiceDetails =
   | StaticSiteDetailsPATCH
@@ -12371,7 +12528,11 @@ export const UpdateServiceRequestServiceDetails =
 export interface UpdateServiceRequest {
   /** The ID of the service */
   serviceId: string;
+  /** The ID of the Build Source to attach this service to. Cannot be combined with other build-configuration changes. Attaching to a Build Source with no builds triggers one. */
+  buildSourceId?: string;
+  buildId?: string;
   autoDeploy?: AutoDeploy | (string & {});
+  autoDeployTrigger?: AutoDeployTrigger | (string & {});
   repo?: string;
   branch?: string;
   image?: Image;
@@ -12383,7 +12544,10 @@ export interface UpdateServiceRequest {
 export const UpdateServiceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceId: S.String.pipe(T.Label()),
+    buildSourceId: S.optional(S.String),
+    buildId: S.optional(S.String),
     autoDeploy: S.optional(AutoDeploy),
+    autoDeployTrigger: S.optional(AutoDeployTrigger),
     repo: S.optional(S.String),
     branch: S.optional(S.String),
     image: S.optional(Image),
@@ -12392,9 +12556,7 @@ export const UpdateServiceRequest = /*@__PURE__*/ S.suspend(() =>
     rootDir: S.optional(S.String),
     serviceDetails: S.optional(UpdateServiceRequestServiceDetails),
   }).pipe(T.Http({ method: "PATCH", uri: "/services/{serviceId}", code: 200 })),
-).annotate({
-  identifier: "UpdateServiceRequest",
-}) as any as S.Schema<UpdateServiceRequest>;
+).annotate({ identifier: "UpdateServiceRequest" }) as any as S.Schema<UpdateServiceRequest>;
 
 export interface UpdateWebhookRequest {
   /** Unique identifier for the webhook */
@@ -12412,9 +12574,7 @@ export const UpdateWebhookRequest = /*@__PURE__*/ S.suspend(() =>
     enabled: S.optional(S.Boolean),
     eventFilter: S.optional(EventFilter),
   }).pipe(T.Http({ method: "PATCH", uri: "/webhooks/{webhookId}", code: 200 })),
-).annotate({
-  identifier: "UpdateWebhookRequest",
-}) as any as S.Schema<UpdateWebhookRequest>;
+).annotate({ identifier: "UpdateWebhookRequest" }) as any as S.Schema<UpdateWebhookRequest>;
 
 /** The runtime environment for the workflow (e.g., node, python, etc.). */
 export type UpdateWorkflowRequestBuildConfigRuntime = "elixir" | "go" | "node" | "python" | "ruby";
@@ -12424,7 +12584,7 @@ export const UpdateWorkflowRequestBuildConfigRuntime = S.String;
 export interface UpdateWorkflowRequestBuildConfig {
   /** The branch to use for the build, if applicable. */
   branch?: string;
-  /** The command to run to build the workflow. */
+  /** The command to run to build the workflow. Required for every runtime except docker, which builds from its Dockerfile. */
   buildCommand?: string;
   /** The repository URL to use for the build. Cannot be blank. */
   repo?: string;
@@ -12453,7 +12613,7 @@ export interface UpdateWorkflowRequest {
   buildConfig?: UpdateWorkflowRequestBuildConfig;
   /** The command to run the workflow. Cannot be blank. */
   runCommand?: string;
-  autoDeployTrigger?: AutoDeployTrigger | (string & {});
+  autoDeployTrigger?: AutoDeployTrigger2 | (string & {});
 }
 export const UpdateWorkflowRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -12461,11 +12621,9 @@ export const UpdateWorkflowRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     buildConfig: S.optional(UpdateWorkflowRequestBuildConfig),
     runCommand: S.optional(S.String),
-    autoDeployTrigger: S.optional(AutoDeployTrigger),
+    autoDeployTrigger: S.optional(AutoDeployTrigger2),
   }).pipe(T.Http({ method: "PATCH", uri: "/workflows/{workflowId}", code: 200 })),
-).annotate({
-  identifier: "UpdateWorkflowRequest",
-}) as any as S.Schema<UpdateWorkflowRequest>;
+).annotate({ identifier: "UpdateWorkflowRequest" }) as any as S.Schema<UpdateWorkflowRequest>;
 
 export interface UpdateWorkspaceMemberRequest {
   /** The ID of the workspace to return resources for */
@@ -12479,13 +12637,7 @@ export const UpdateWorkspaceMemberRequest = /*@__PURE__*/ S.suspend(() =>
     ownerId: S.String.pipe(T.Label()),
     userId: S.String.pipe(T.Label()),
     role: TeamMemberRole,
-  }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/owners/{ownerId}/members/{userId}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PATCH", uri: "/owners/{ownerId}/members/{userId}", code: 200 })),
 ).annotate({
   identifier: "UpdateWorkspaceMemberRequest",
 }) as any as S.Schema<UpdateWorkspaceMemberRequest>;
@@ -12552,16 +12704,9 @@ export const ValidateBlueprintRequest = /*@__PURE__*/ S.suspend(() =>
     ownerId: S.String,
     file: S.String,
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/blueprints/validate",
-      code: 200,
-      contentType: "multipart",
-    }),
+    T.Http({ method: "POST", uri: "/blueprints/validate", code: 200, contentType: "multipart" }),
   ),
-).annotate({
-  identifier: "ValidateBlueprintRequest",
-}) as any as S.Schema<ValidateBlueprintRequest>;
+).annotate({ identifier: "ValidateBlueprintRequest" }) as any as S.Schema<ValidateBlueprintRequest>;
 
 export interface ValidateBlueprintResponseErrorsItem {
   /** The path to the field with the error (e.g., `services[0].plan`) */
@@ -12696,6 +12841,25 @@ export const addHeaders: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type AddOrUpdateBuildSourceSecretFileError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | RenderOpError;
+/** Add or update secret file Add or update a particular secret file for a particular build source. This only applies to secret files set directly on the build source, not to secret files in a linked environment group. */
+export const addOrUpdateBuildSourceSecretFile: API.OperationMethod<
+  AddOrUpdateBuildSourceSecretFileRequest,
+  SecretFile,
+  AddOrUpdateBuildSourceSecretFileError,
+  RenderOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: AddOrUpdateBuildSourceSecretFileRequest,
+  output: SecretFile,
+  errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
+  protocol: RenderProtocol,
+  retry: Retry.Retry,
+}));
+
 export type AddOrUpdateSecretFileError = BadRequest | Forbidden | NotFound | RenderOpError;
 /** Add or update secret file Add or update a particular secret file for a particular service. This only applies to secret files set directly on the service, not to secret files in a linked environment group. */
 export const addOrUpdateSecretFile: API.OperationMethod<
@@ -12797,7 +12961,7 @@ export const cancelJob: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type CancelTaskRunError = Forbidden | NotFound | RenderOpError;
+export type CancelTaskRunError = BadRequest | Forbidden | NotFound | RenderOpError;
 /** Cancel task run Cancel a running task run with the provided ID. */
 export const cancelTaskRun: API.OperationMethod<
   CancelTaskRunRequest,
@@ -12807,7 +12971,22 @@ export const cancelTaskRun: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CancelTaskRunRequest,
   output: CancelTaskRunResponse,
-  errors: [Forbidden, NotFound, UnknownRenderError],
+  errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
+  protocol: RenderProtocol,
+  retry: Retry.Retry,
+}));
+
+export type CreateBuildSourceError = BadRequest | Forbidden | NotFound | RenderOpError;
+/** Create a build source Create a build source that can be linked to one or more services in the same workspace. Exactly one of `git` or `image` must be set: - `git`: the build source is git-backed. The code is built in the requested `region` (defaults to `oregon`). - `image`: the build source is image-backed. It points at an existing image in an external registry; no build is performed. `envVars`, `secretFiles`, and `envGroupIds` set the build-time environment and are only valid for `git` sources; the request fails if any are provided with `image`. */
+export const createBuildSource: API.OperationMethod<
+  CreateBuildSourceRequest,
+  CreateBuildSourceResponse,
+  CreateBuildSourceError,
+  RenderOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateBuildSourceRequest,
+  output: CreateBuildSourceResponse,
+  errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
 }));
@@ -13062,6 +13241,51 @@ export const deleteAutoscalingConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteAutoscalingConfigRequest,
   output: DeleteAutoscalingConfigResponse,
+  errors: [Forbidden, NotFound, UnknownRenderError],
+  protocol: RenderProtocol,
+  retry: Retry.Retry,
+}));
+
+export type DeleteBuildSourceError = BadRequest | Forbidden | NotFound | RenderOpError;
+/** Delete a build source Delete the build source with the provided ID. */
+export const deleteBuildSource: API.OperationMethod<
+  DeleteBuildSourceRequest,
+  DeleteBuildSourceResponse,
+  DeleteBuildSourceError,
+  RenderOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeleteBuildSourceRequest,
+  output: DeleteBuildSourceResponse,
+  errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
+  protocol: RenderProtocol,
+  retry: Retry.Retry,
+}));
+
+export type DeleteBuildSourceEnvVarError = Forbidden | NotFound | RenderOpError;
+/** Delete environment variable Delete a particular environment variable from a particular build source. This only applies to environment variables set directly on the build source, not to environment variables in a linked environment group. */
+export const deleteBuildSourceEnvVar: API.OperationMethod<
+  DeleteBuildSourceEnvVarRequest,
+  DeleteBuildSourceEnvVarResponse,
+  DeleteBuildSourceEnvVarError,
+  RenderOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeleteBuildSourceEnvVarRequest,
+  output: DeleteBuildSourceEnvVarResponse,
+  errors: [Forbidden, NotFound, UnknownRenderError],
+  protocol: RenderProtocol,
+  retry: Retry.Retry,
+}));
+
+export type DeleteBuildSourceSecretFileError = Forbidden | NotFound | RenderOpError;
+/** Delete secret file Delete a particular secret file from a particular build source. This only applies to secret files set directly on the build source, not to secret files in a linked environment group. */
+export const deleteBuildSourceSecretFile: API.OperationMethod<
+  DeleteBuildSourceSecretFileRequest,
+  DeleteBuildSourceSecretFileResponse,
+  DeleteBuildSourceSecretFileError,
+  RenderOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeleteBuildSourceSecretFileRequest,
+  output: DeleteBuildSourceSecretFileResponse,
   errors: [Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -13502,6 +13726,51 @@ export const getBlueprint: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type GetBuildSourceError = BadRequest | NotFound | RenderOpError;
+/** Retrieve a build source Retrieve a shared build source by ID */
+export const getBuildSource: API.OperationMethod<
+  GetBuildSourceRequest,
+  Schema12,
+  GetBuildSourceError,
+  RenderOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetBuildSourceRequest,
+  output: Schema12,
+  errors: [BadRequest, NotFound, UnknownRenderError],
+  protocol: RenderProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetBuildSourceEnvVarError = Forbidden | NotFound | RenderOpError;
+/** Retrieve environment variable Retrieve a particular environment variable for a particular build source. This only applies to environment variables set directly on the build source, not to environment variables in a linked environment group. */
+export const getBuildSourceEnvVar: API.OperationMethod<
+  GetBuildSourceEnvVarRequest,
+  EnvVar,
+  GetBuildSourceEnvVarError,
+  RenderOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetBuildSourceEnvVarRequest,
+  output: EnvVar,
+  errors: [Forbidden, NotFound, UnknownRenderError],
+  protocol: RenderProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetBuildSourceSecretFileError = Forbidden | NotFound | RenderOpError;
+/** Retrieve secret file Retrieve a particular secret file for a particular build source. This only applies to secret files set directly on the build source, not to secret files in a linked environment group. */
+export const getBuildSourceSecretFile: API.OperationMethod<
+  GetBuildSourceSecretFileRequest,
+  SecretFile,
+  GetBuildSourceSecretFileError,
+  RenderOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetBuildSourceSecretFileRequest,
+  output: SecretFile,
+  errors: [Forbidden, NotFound, UnknownRenderError],
+  protocol: RenderProtocol,
+  retry: Retry.Retry,
+}));
+
 export type GetCpuError = BadRequest | RenderOpError;
 /** Get CPU usage Get CPU usage for one or more resources. */
 export const getCpu: API.OperationMethod<
@@ -13703,6 +13972,21 @@ export const getEnvVar: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetEnvVarRequest,
   output: EnvVar,
+  errors: [Forbidden, NotFound, UnknownRenderError],
+  protocol: RenderProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetEnvVarsForBuildSourceError = Forbidden | NotFound | RenderOpError;
+/** List environment variables List all environment variables for the build source with the provided ID. */
+export const getEnvVarsForBuildSource: API.OperationMethod<
+  GetEnvVarsForBuildSourceRequest,
+  GetEnvVarsForBuildSourceResponse,
+  GetEnvVarsForBuildSourceError,
+  RenderOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetEnvVarsForBuildSourceRequest,
+  output: GetEnvVarsForBuildSourceResponse,
   errors: [Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -14135,7 +14419,7 @@ export const getTask: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type GetTaskRunError = Forbidden | NotFound | RenderOpError;
+export type GetTaskRunError = BadRequest | Forbidden | NotFound | RenderOpError;
 /** Retrieve task run Retrieve the workflow task run with the provided ID. */
 export const getTaskRun: API.OperationMethod<
   GetTaskRunRequest,
@@ -14145,7 +14429,7 @@ export const getTaskRun: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetTaskRunRequest,
   output: GetTaskRunResponse,
-  errors: [Forbidden, NotFound, UnknownRenderError],
+  errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
 }));
@@ -14195,12 +14479,12 @@ export type GetWebhookError = NotFound | RenderOpError;
 /** Retrieve a webhook Retrieve the webhook with the provided ID */
 export const getWebhook: API.OperationMethod<
   GetWebhookRequest,
-  Schema12,
+  Schema14,
   GetWebhookError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: GetWebhookRequest,
-  output: Schema12,
+  output: Schema14,
   errors: [NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -14210,12 +14494,12 @@ export type GetWorkflowError = Forbidden | NotFound | RenderOpError;
 /** Retrieve workflow Retrieve the workflow service with the provided ID. */
 export const getWorkflow: API.OperationMethod<
   GetWorkflowRequest,
-  Schema13,
+  Schema15,
   GetWorkflowError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: GetWorkflowRequest,
-  output: Schema13,
+  output: Schema15,
   errors: [Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -14232,6 +14516,21 @@ export const getWorkflowVersion: API.OperationMethod<
   input: GetWorkflowVersionRequest,
   output: GetWorkflowVersionResponse,
   errors: [Forbidden, NotFound, UnknownRenderError],
+  protocol: RenderProtocol,
+  retry: Retry.Retry,
+}));
+
+export type LinkEnvGroupToBuildSourceError = BadRequest | NotFound | RenderOpError;
+/** Link environment group Link a particular environment group to a particular build source. The build source will have access to the environment variables and secret files in the group at build time. */
+export const linkEnvGroupToBuildSource: API.OperationMethod<
+  LinkEnvGroupToBuildSourceRequest,
+  LinkEnvGroupToBuildSourceResponse,
+  LinkEnvGroupToBuildSourceError,
+  RenderOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: LinkEnvGroupToBuildSourceRequest,
+  output: LinkEnvGroupToBuildSourceResponse,
+  errors: [BadRequest, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
 }));
@@ -14292,6 +14591,36 @@ export const listBlueprintSyncs: API.OperationMethod<
   input: ListBlueprintSyncsRequest,
   output: ListBlueprintSyncsResponse,
   errors: [Forbidden, NotFound, UnknownRenderError],
+  protocol: RenderProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListBuildsInBuildSourceError = Forbidden | NotFound | RenderOpError;
+/** List builds in a build source List builds in a build source. */
+export const listBuildsInBuildSource: API.OperationMethod<
+  ListBuildsInBuildSourceRequest,
+  ListBuildsInBuildSourceResponse,
+  ListBuildsInBuildSourceError,
+  RenderOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListBuildsInBuildSourceRequest,
+  output: ListBuildsInBuildSourceResponse,
+  errors: [Forbidden, NotFound, UnknownRenderError],
+  protocol: RenderProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListBuildSourcesError = BadRequest | RenderOpError;
+/** List build sources List build sources matching the provided filters. If `ownerId` is omitted, returns build sources across every workspace you can view. */
+export const listBuildSources: API.OperationMethod<
+  ListBuildSourcesRequest,
+  ListBuildSourcesResponse,
+  ListBuildSourcesError,
+  RenderOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListBuildSourcesRequest,
+  output: ListBuildSourcesResponse,
+  errors: [BadRequest, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
 }));
@@ -14761,6 +15090,21 @@ export const listRoutes: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type ListSecretFilesForBuildSourceError = Forbidden | NotFound | RenderOpError;
+/** List secret files List all secret files for the build source with the provided ID. */
+export const listSecretFilesForBuildSource: API.OperationMethod<
+  ListSecretFilesForBuildSourceRequest,
+  ListSecretFilesForBuildSourceResponse,
+  ListSecretFilesForBuildSourceError,
+  RenderOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListSecretFilesForBuildSourceRequest,
+  output: ListSecretFilesForBuildSourceResponse,
+  errors: [Forbidden, NotFound, UnknownRenderError],
+  protocol: RenderProtocol,
+  retry: Retry.Retry,
+}));
+
 export type ListSecretFilesForServiceError = Forbidden | NotFound | RenderOpError;
 /** List secret files List all secret files for the service with the provided ID. */
 export const listSecretFilesForService: API.OperationMethod<
@@ -14806,7 +15150,7 @@ export const listSnapshots: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type ListTaskRunsError = Forbidden | NotFound | RenderOpError;
+export type ListTaskRunsError = BadRequest | Forbidden | NotFound | RenderOpError;
 /** List task runs List task runs that match the provided filters. If no filters are provided, all task runs accessible by the authenticated user are returned. */
 export const listTaskRuns: API.OperationMethod<
   ListTaskRunsRequest,
@@ -14816,7 +15160,7 @@ export const listTaskRuns: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ListTaskRunsRequest,
   output: ListTaskRunsResponse,
-  errors: [Forbidden, NotFound, UnknownRenderError],
+  errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
 }));
@@ -15182,7 +15526,7 @@ export const scaleService: API.OperationMethod<
 }));
 
 export type StreamTaskRunsEventsError = BadRequest | Forbidden | NotFound | RenderOpError;
-/** Stream realtime events (SSE) Establishes a unidirectional event stream. The server sends events as lines formatted per the SSE spec. Clients SHOULD set `Accept: text/event-stream` and keep the connection open. */
+/** Stream realtime events (SSE) Establishes a unidirectional event stream. The server sends events as lines formatted per the SSE spec. Clients should set `Accept: text/event-stream` and keep the connection open. The server sends a `task.completed` event whenever a requested task run reaches any terminal state (`completed`, `failed`, or `canceled`). The `status` field of the payload indicates which state was reached. The server automatically closes the stream in the following cases: - All requested task runs have reached a terminal state. - The stream has not sent any events for 30 minutes. For tasks with a timeout higher than 30 minutes, waiting clients should fall back to polling with the [Retrieve task run](https://api-docs.render.com/reference/gettaskrun) endpoint. */
 export const streamTaskRunsEvents: API.OperationMethod<
   StreamTaskRunsEventsRequest,
   StreamTaskRunsEventsResponse,
@@ -15256,6 +15600,21 @@ export const suspendService: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type TriggerBuildSourceBuildError = BadRequest | Forbidden | NotFound | RenderOpError;
+/** Trigger a build Start a new build of the build source at the current HEAD of its branch, even if an up-to-date build already exists. Services linked to the build source with autodeploy enabled are deployed with the result. Updating a build source or its build-time environment (env vars, secret files, env groups) with the REST API does not build it. Call this endpoint after those changes to build them. Only `git` build sources can be built. */
+export const triggerBuildSourceBuild: API.OperationMethod<
+  TriggerBuildSourceBuildRequest,
+  TriggerBuildSourceBuildResponse,
+  TriggerBuildSourceBuildError,
+  RenderOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: TriggerBuildSourceBuildRequest,
+  output: TriggerBuildSourceBuildResponse,
+  errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
+  protocol: RenderProtocol,
+  retry: Retry.Retry,
+}));
+
 export type TriggerMaintenanceError = BadRequest | NotFound | RenderOpError;
 /** Trigger maintenance run Trigger the scheduled maintenance run with the provided ID. Triggering maintenance is asynchronous. To check whether maintenance has started, use the [Retrieve maintenance run](https://api-docs.render.com/reference/retrieve-maintenance) endpoint. As maintenance progresses, the run's `state` will change from `scheduled` to other values, such as `in_progress` and `succeeded`. */
 export const triggerMaintenance: API.OperationMethod<
@@ -15266,6 +15625,21 @@ export const triggerMaintenance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: TriggerMaintenanceRequest,
   output: TriggerMaintenanceResponse,
+  errors: [BadRequest, NotFound, UnknownRenderError],
+  protocol: RenderProtocol,
+  retry: Retry.Retry,
+}));
+
+export type UnlinkEnvGroupFromBuildSourceError = BadRequest | NotFound | RenderOpError;
+/** Unlink environment group Unlink a particular environment group from a particular build source. The build source will lose access to the environment variables and secret files in the group. */
+export const unlinkEnvGroupFromBuildSource: API.OperationMethod<
+  UnlinkEnvGroupFromBuildSourceRequest,
+  UnlinkEnvGroupFromBuildSourceResponse,
+  UnlinkEnvGroupFromBuildSourceError,
+  RenderOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: UnlinkEnvGroupFromBuildSourceRequest,
+  output: UnlinkEnvGroupFromBuildSourceResponse,
   errors: [BadRequest, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -15297,6 +15671,36 @@ export const updateBlueprint: API.OperationMethod<
   input: UpdateBlueprintRequest,
   output: UpdateBlueprintResponse,
   errors: [Forbidden, NotFound, UnknownRenderError],
+  protocol: RenderProtocol,
+  retry: Retry.Retry,
+}));
+
+export type UpdateBuildSourceError = BadRequest | Forbidden | NotFound | RenderOpError;
+/** Update a build source Update a shared build source. Each top-level field is a true patch, unset fields are left unchanged. Supplying `git` or `image` can change the build source's underlying identity: - `image` on a git-backed build source switches it to image-backed - `git` on an image-backed build source switches it to git-backed - `git` on a build source that's already git-backed is a pure patch onto the existing config */
+export const updateBuildSource: API.OperationMethod<
+  UpdateBuildSourceRequest,
+  Schema12,
+  UpdateBuildSourceError,
+  RenderOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: UpdateBuildSourceRequest,
+  output: Schema12,
+  errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
+  protocol: RenderProtocol,
+  retry: Retry.Retry,
+}));
+
+export type UpdateBuildSourceEnvVarError = BadRequest | Forbidden | NotFound | RenderOpError;
+/** Add or update environment variable Add or update a particular environment variable for a particular build source. This only applies to environment variables set directly on the build source, not to environment variables in a linked environment group. */
+export const updateBuildSourceEnvVar: API.OperationMethod<
+  UpdateBuildSourceEnvVarRequest,
+  EnvVar,
+  UpdateBuildSourceEnvVarError,
+  RenderOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: UpdateBuildSourceEnvVarRequest,
+  output: EnvVar,
+  errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
 }));
@@ -15401,6 +15805,21 @@ export const updateEnvVar: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateEnvVarRequest,
   output: EnvVar,
+  errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
+  protocol: RenderProtocol,
+  retry: Retry.Retry,
+}));
+
+export type UpdateEnvVarsForBuildSourceError = BadRequest | Forbidden | NotFound | RenderOpError;
+/** Update environment variables Replace all environment variables for a build source with the provided list of environment variables. */
+export const updateEnvVarsForBuildSource: API.OperationMethod<
+  UpdateEnvVarsForBuildSourceRequest,
+  UpdateEnvVarsForBuildSourceResponse,
+  UpdateEnvVarsForBuildSourceError,
+  RenderOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: UpdateEnvVarsForBuildSourceRequest,
+  output: UpdateEnvVarsForBuildSourceResponse,
   errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -15546,6 +15965,25 @@ export const updateResourceLogStream: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type UpdateSecretFilesForBuildSourceError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | RenderOpError;
+/** Update secret files Replace all secret files for a build source with the provided list of secret files. **Any of the build source's existing secret files not included in this request will be deleted.** This only applies to secret files set directly on the build source, not to secret files in a linked environment group. */
+export const updateSecretFilesForBuildSource: API.OperationMethod<
+  UpdateSecretFilesForBuildSourceRequest,
+  UpdateSecretFilesForBuildSourceResponse,
+  UpdateSecretFilesForBuildSourceError,
+  RenderOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: UpdateSecretFilesForBuildSourceRequest,
+  output: UpdateSecretFilesForBuildSourceResponse,
+  errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
+  protocol: RenderProtocol,
+  retry: Retry.Retry,
+}));
+
 export type UpdateSecretFilesForServiceError = BadRequest | Forbidden | NotFound | RenderOpError;
 /** Update secret files Replace all secret files for a service with the provided list of secret files. **Any of the service's existing secret files not included in this request will be deleted.** This only applies to secret files set directly on the service, not to secret files in a linked environment group. */
 export const updateSecretFilesForService: API.OperationMethod<
@@ -15580,12 +16018,12 @@ export type UpdateWebhookError = BadRequest | NotFound | RenderOpError;
 /** Update a webhook Update the webhook with the provided ID. */
 export const updateWebhook: API.OperationMethod<
   UpdateWebhookRequest,
-  Schema12,
+  Schema14,
   UpdateWebhookError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateWebhookRequest,
-  output: Schema12,
+  output: Schema14,
   errors: [BadRequest, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
@@ -15595,12 +16033,12 @@ export type UpdateWorkflowError = Forbidden | NotFound | RenderOpError;
 /** Update workflow Update the workflow service with the provided ID. */
 export const updateWorkflow: API.OperationMethod<
   UpdateWorkflowRequest,
-  Schema13,
+  Schema15,
   UpdateWorkflowError,
   RenderOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateWorkflowRequest,
-  output: Schema13,
+  output: Schema15,
   errors: [Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,

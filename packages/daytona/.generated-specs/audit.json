@@ -180,14 +180,14 @@
           }
         },
         "page": {
-          "target": "smithy.api#Double",
+          "target": "smithy.api#Integer",
           "traits": {
             "smithy.api#httpQuery": "page",
             "smithy.api#documentation": "Page number of the results"
           }
         },
         "limit": {
-          "target": "smithy.api#Double",
+          "target": "smithy.api#Integer",
           "traits": {
             "smithy.api#httpQuery": "limit",
             "smithy.api#documentation": "Number of results per page"
@@ -299,19 +299,19 @@
           }
         },
         "total": {
-          "target": "smithy.api#Double",
+          "target": "smithy.api#Integer",
           "traits": {
             "smithy.api#required": {}
           }
         },
         "page": {
-          "target": "smithy.api#Double",
+          "target": "smithy.api#Integer",
           "traits": {
             "smithy.api#required": {}
           }
         },
         "totalPages": {
-          "target": "smithy.api#Double",
+          "target": "smithy.api#Integer",
           "traits": {
             "smithy.api#required": {}
           }
@@ -904,6 +904,12 @@
             "smithy.api#enumValue": "delete_otel_config"
           }
         },
+        "UPDATE_DEFAULT_QUEUE_TIMEOUT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "update_default_queue_timeout"
+          }
+        },
         "CREATE_SSH_ACCESS": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -962,6 +968,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "ttl_expire"
+          }
+        },
+        "QUEUE_TIMEOUT_EXPIRE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "queue_timeout_expire"
           }
         },
         "SPOT_EVICT": {

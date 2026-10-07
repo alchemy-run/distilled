@@ -23,9 +23,7 @@ export const AddReactionRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     timestamp: S.String,
   }).pipe(T.Http({ method: "POST", uri: "/reactions.add", code: 200 })),
-).annotate({
-  identifier: "AddReactionRequest",
-}) as any as S.Schema<AddReactionRequest>;
+).annotate({ identifier: "AddReactionRequest" }) as any as S.Schema<AddReactionRequest>;
 
 export interface AddReactionResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -35,9 +33,7 @@ export const AddReactionResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ok: S.Boolean,
   }),
-).annotate({
-  identifier: "AddReactionResponse",
-}) as any as S.Schema<AddReactionResponse>;
+).annotate({ identifier: "AddReactionResponse" }) as any as S.Schema<AddReactionResponse>;
 
 export interface GetReactionRequest {
   /** Channel where the message to get reactions for was posted. */
@@ -59,9 +55,7 @@ export const GetReactionRequest = /*@__PURE__*/ S.suspend(() =>
     full: S.optional(S.Boolean.pipe(T.Query())),
     timestamp: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/reactions.get", code: 200 })),
-).annotate({
-  identifier: "GetReactionRequest",
-}) as any as S.Schema<GetReactionRequest>;
+).annotate({ identifier: "GetReactionRequest" }) as any as S.Schema<GetReactionRequest>;
 
 export interface GetReactionResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -81,9 +75,7 @@ export const GetReactionResponse = /*@__PURE__*/ S.suspend(() =>
     channel: S.optional(S.String),
     file: S.optional(S.Unknown),
   }),
-).annotate({
-  identifier: "GetReactionResponse",
-}) as any as S.Schema<GetReactionResponse>;
+).annotate({ identifier: "GetReactionResponse" }) as any as S.Schema<GetReactionResponse>;
 
 export interface ListReactionsRequest {
   /** Show reactions made by this user. Defaults to the authed user. */
@@ -109,13 +101,9 @@ export const ListReactionsRequest = /*@__PURE__*/ S.suspend(() =>
     limit: S.optional(S.Number.pipe(T.Query())),
     team_id: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/reactions.list", code: 200 })),
-).annotate({
-  identifier: "ListReactionsRequest",
-}) as any as S.Schema<ListReactionsRequest>;
+).annotate({ identifier: "ListReactionsRequest" }) as any as S.Schema<ListReactionsRequest>;
 
-export type ListReactionsResponseItemsItemMap = {
-  [key: string]: unknown | undefined;
-};
+export type ListReactionsResponseItemsItemMap = { [key: string]: unknown | undefined };
 export const ListReactionsResponseItemsItemMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -154,9 +142,7 @@ export const ListReactionsResponse = /*@__PURE__*/ S.suspend(() =>
     paging: S.optional(S.Unknown),
     response_metadata: S.optional(ListReactionsResponseResponseMetadata),
   }),
-).annotate({
-  identifier: "ListReactionsResponse",
-}) as any as S.Schema<ListReactionsResponse>;
+).annotate({ identifier: "ListReactionsResponse" }) as any as S.Schema<ListReactionsResponse>;
 
 export interface RemoveReactionRequest {
   /** Reaction (emoji) name. */
@@ -178,9 +164,7 @@ export const RemoveReactionRequest = /*@__PURE__*/ S.suspend(() =>
     channel: S.optional(S.String),
     timestamp: S.optional(S.String),
   }).pipe(T.Http({ method: "POST", uri: "/reactions.remove", code: 200 })),
-).annotate({
-  identifier: "RemoveReactionRequest",
-}) as any as S.Schema<RemoveReactionRequest>;
+).annotate({ identifier: "RemoveReactionRequest" }) as any as S.Schema<RemoveReactionRequest>;
 
 export interface RemoveReactionResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -190,9 +174,7 @@ export const RemoveReactionResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ok: S.Boolean,
   }),
-).annotate({
-  identifier: "RemoveReactionResponse",
-}) as any as S.Schema<RemoveReactionResponse>;
+).annotate({ identifier: "RemoveReactionResponse" }) as any as S.Schema<RemoveReactionResponse>;
 
 export type AddReactionError = SlackOpError;
 /** Adds a reaction to an item. Required scopes — bot: `reactions:write`; user: `reactions:write` Rate limit tier: 3 Method-specific errors (the `error` slug on the SlackError): - `already_reacted` — The specified item already has the user/reaction combination. - `bad_timestamp` — Value passed for `timestamp` was invalid. - `channel_not_found` — Value passed for `channel` is invalid. - `external_channel_migrating` — The channel is in the process of being migrated. - `invalid_name` — Value passed for `name` was invalid. - `is_archived` — Channel specified has been archived. - `message_not_found` — Message specified by `channel` and `timestamp` does not exist. - `no_item_specified` — combination of `channel` and `timestamp` was not specified. - `not_reactable` — Whatever you passed in, like a `file` or `file_comment`, can't be reacted to anymore. Your app can react to messages though. - `thread_locked` — Reactions are disabled as the specified message is part of a locked thread. - `too_many_emoji` — The limit for distinct reactions (i.e emoji) on the item has been reached. - `too_many_reactions` — The limit for reactions a person may add to the item has been reached. - `no_access` — User does not have access to react to this canvas. See https://docs.slack.dev/reference/methods/reactions.add */
@@ -225,7 +207,7 @@ export const getReaction: API.OperationMethod<
 }));
 
 export type ListReactionsError = SlackOpError;
-/** Lists reactions made by a user. Required scopes — bot: `reactions:read`; user: `reactions:read` Rate limit tier: 2 Method-specific errors (the `error` slug on the SlackError): - `user_not_found` — Value passed for `user` was invalid. See https://docs.slack.dev/reference/methods/reactions.list */
+/** Lists reactions made by a user. Required scopes — bot: `reactions:read`; user: `reactions:read` Rate limit tier: 2 Method-specific errors (the `error` slug on the SlackError): - `invalid_cursor` — Value passed for `cursor` was not valid or is no longer valid. - `user_not_found` — Value passed for `user` was invalid. See https://docs.slack.dev/reference/methods/reactions.list */
 export const listReactions: API.PaginatedOperationMethod<
   ListReactionsRequest,
   ListReactionsResponse,

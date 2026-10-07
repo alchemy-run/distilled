@@ -1983,14 +1983,21 @@
         "max_ttl_seconds": {
           "target": "smithy.api#Integer",
           "traits": {
-            "smithy.api#documentation": "Lifetime budget for each powered-on session. Activity does not extend the deadline; starting or resuming the sandbox begins a fresh session.",
+            "smithy.api#documentation": "Lifetime budget applied independently to each powered-on session. Expiry pauses the sandbox, preserving memory and processes for resume. Defaults to 24 hours and can be reset with the timeout endpoint.",
+            "smithy.api#required": {}
+          }
+        },
+        "idle_ttl_seconds": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Seconds without a direct process connection before the sandbox pauses, preserving memory and processes for resume. Zero disables idle expiry.",
             "smithy.api#required": {}
           }
         },
         "max_concurrent_execs": {
           "target": "smithy.api#Integer",
           "traits": {
-            "smithy.api#documentation": "Maximum concurrently attached process sessions",
+            "smithy.api#documentation": "Maximum number of concurrently attached process sessions. Detached processes and one-shot process controls do not count.",
             "smithy.api#required": {}
           }
         },
@@ -2008,7 +2015,16 @@
           }
         },
         "endpoints": {
-          "target": "com.archil.api#SandboxEndpointsList"
+          "target": "com.archil.api#SandboxEndpointsList",
+          "traits": {
+            "smithy.api#documentation": "Public hostnames published by enabled sandbox services."
+          }
+        },
+        "enable_service_ingress": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether services inside the sandbox can expose ingress. Explicit API port exposure remains available regardless of this setting."
+          }
         },
         "created_at": {
           "target": "smithy.api#String",
@@ -2028,14 +2044,14 @@
             "smithy.api#required": {}
           }
         },
-        "expires_at": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Current powered-on session deadline; absent while inactive."
-          }
-        },
         "exit_reason": {
           "target": "smithy.api#String"
+        },
+        "checkpoint": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Disk checkpoint the current session leaves behind. Present while\npausing, paused, stopping, or stopped, and committed once the\nsandbox is paused or stopped. Pass it to the fork endpoint to fork\nexactly this state.\n"
+          }
         }
       },
       "traits": {}
@@ -2149,7 +2165,9 @@
       "member": {
         "target": "com.archil.api#SandboxEndpoint"
       },
-      "traits": {}
+      "traits": {
+        "smithy.api#documentation": "Public hostnames published by enabled sandbox services."
+      }
     },
     "com.archil.api#ApiResponseSandboxListDataSandboxesList": {
       "type": "list",
@@ -2189,6 +2207,15 @@
         "smithy.api#documentation": "List sandboxes\n\nAll the account's sandboxes, oldest first."
       }
     },
+    "com.archil.api#CreateSandboxRequestPortsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Integer"
+      },
+      "traits": {
+        "smithy.api#documentation": "TCP ports to expose publicly when the sandbox is created."
+      }
+    },
     "com.archil.api#CreateSandboxRequestEnvMap": {
       "type": "map",
       "key": {
@@ -2199,6 +2226,154 @@
       },
       "traits": {
         "smithy.api#documentation": "Environment variables applied to every process"
+      }
+    },
+    "com.archil.api#SandboxNetwork": {
+      "type": "structure",
+      "members": {
+        "egress": {
+          "target": "com.archil.api#SandboxEgressPolicy"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Sandbox network policy. New sandboxes on free plans receive deny-all\negress with no allowlist exceptions. Start/resume and forks retain the\nstored policy. For paid accounts, egress is unrestricted when omitted.\n"
+      }
+    },
+    "com.archil.api#SandboxEgressPolicy": {
+      "type": "structure",
+      "members": {
+        "default": {
+          "target": "com.archil.api#SandboxNetworkAction",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "allow": {
+          "target": "com.archil.api#SandboxEgressPolicyAllowList",
+          "traits": {
+            "smithy.api#documentation": "Allowed IPv4 addresses, CIDR ranges, exact domains, wildcard domains beginning with `*.`, or target objects with optional outbound HTTPS request transformations. A wildcard matches subdomains but not the apex domain, including when applying transformations."
+          }
+        },
+        "deny": {
+          "target": "com.archil.api#SandboxEgressPolicyDenyList",
+          "traits": {
+            "smithy.api#documentation": "Denied IPv4 addresses, CIDR ranges, exact domains, or wildcard domains beginning with `*.`. A wildcard matches subdomains but not the apex domain."
+          }
+        },
+        "drain_on_pause": {
+          "target": "com.archil.api#SandboxEgressPolicyDrainOnPauseList",
+          "traits": {
+            "smithy.api#documentation": "Optional hosts whose HTTP(S) requests should finish before pausing, regardless of URL path. Pausing gates new matching requests and waits up to ten minutes by default for active responses, including streams, before taking a snapshot. Errors stop counting, and expiry proceeds with the snapshot. This does not limit requests during normal operation. Selectors do not grant network access. Matching uses the original request host before transformations or forwarding. Only TCP ports 80 and 443 are supported. Connections may need to be retried after resume."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Deny targets take precedence when an address or domain matches both lists. When domain rules or drain selectors are present, TCP ports 80 and 443 are restricted to HTTP/1.1 or HTTP/2. Plaintext HTTP authority is enforced on port 80, but requests matching a transformation rule are rejected unless the rule also forwards. Port 443 is TLS-terminated; both TLS SNI and HTTP authority are evaluated, and the HTTP authority selects the upstream, any request transformations, and any request forwarding. DNS to the sandbox's configured resolvers is allowed and UDP port 443 is denied."
+      }
+    },
+    "com.archil.api#SandboxNetworkAction": {
+      "type": "enum",
+      "members": {
+        "ALLOW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "allow"
+          }
+        },
+        "DENY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "deny"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.archil.api#SandboxEgressRule": {
+      "type": "structure",
+      "members": {
+        "target": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Target allowed by this rule. Effective transformations and forwarding require an exact or wildcard lowercase domain.",
+            "smithy.api#required": {}
+          }
+        },
+        "transform": {
+          "target": "com.archil.api#SandboxEgressTransform"
+        },
+        "forward_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Absolute public HTTPS URL that receives this rule's permitted HTTP and HTTPS requests instead of their original upstream. The original path is appended to this URL, and Archil overwrites the archil-forwarded-host, archil-forwarded-scheme, archil-forwarded-port, archil-forwarded-path, and archil-sandbox-id headers with request metadata. A transform on the same rule is applied before forwarding, so the forwarded request carries the transformed headers. URLs containing credentials, a query, or a fragment are rejected."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.archil.api#SandboxEgressTransform": {
+      "type": "structure",
+      "members": {
+        "headers": {
+          "target": "com.archil.api#SandboxEgressTransformHeadersMap",
+          "traits": {
+            "smithy.api#documentation": "Outbound HTTPS request headers to set, overwriting values supplied by the sandbox."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Optional outbound HTTPS request transformations. An omitted or empty transform leaves the rule as an ordinary allow without request mutations."
+      }
+    },
+    "com.archil.api#SandboxEgressTransformHeadersMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Outbound HTTPS request headers to set, overwriting values supplied by the sandbox."
+      }
+    },
+    "com.archil.api#SandboxEgressPolicyAllowItem": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "smithy.api#String"
+        },
+        "SandboxEgressRule": {
+          "target": "com.archil.api#SandboxEgressRule"
+        }
+      },
+      "traits": {}
+    },
+    "com.archil.api#SandboxEgressPolicyAllowList": {
+      "type": "list",
+      "member": {
+        "target": "com.archil.api#SandboxEgressPolicyAllowItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "Allowed IPv4 addresses, CIDR ranges, exact domains, wildcard domains beginning with `*.`, or target objects with optional outbound HTTPS request transformations. A wildcard matches subdomains but not the apex domain, including when applying transformations."
+      }
+    },
+    "com.archil.api#SandboxEgressPolicyDenyList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Denied IPv4 addresses, CIDR ranges, exact domains, or wildcard domains beginning with `*.`. A wildcard matches subdomains but not the apex domain."
+      }
+    },
+    "com.archil.api#SandboxEgressPolicyDrainOnPauseList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Optional hosts whose HTTP(S) requests should finish before pausing, regardless of URL path. Pausing gates new matching requests and waits up to ten minutes by default for active responses, including streams, before taking a snapshot. Errors stop counting, and expiry proceeds with the snapshot. This does not limit requests during normal operation. Selectors do not grant network access. Matching uses the original request host before transformations or forwarding. Only TCP ports 80 and 443 are supported. Connections may need to be retried after resume."
       }
     },
     "com.archil.api#CreateSandboxRequest": {
@@ -2226,7 +2401,19 @@
         "base_image": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Public Linux OCI image reference. Docker shorthand and tags are accepted."
+            "smithy.api#documentation": "Public Linux OCI image reference. Docker shorthand and tags are accepted; the selected platform manifest is pinned at creation."
+          }
+        },
+        "ports": {
+          "target": "com.archil.api#CreateSandboxRequestPortsList",
+          "traits": {
+            "smithy.api#documentation": "TCP ports to expose publicly when the sandbox is created."
+          }
+        },
+        "enable_service_ingress": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Allow services inside the sandbox to expose ingress. When false, services still run but their ports must be exposed explicitly through the API. Retained across starts, resumes, and forks."
           }
         },
         "env": {
@@ -2235,16 +2422,25 @@
             "smithy.api#documentation": "Environment variables applied to every process"
           }
         },
+        "network": {
+          "target": "com.archil.api#SandboxNetwork"
+        },
         "max_ttl_seconds": {
           "target": "smithy.api#Integer",
           "traits": {
-            "smithy.api#documentation": "Lifetime budget for each powered-on session. Activity does not extend the deadline; starting or resuming the sandbox begins a fresh session."
+            "smithy.api#documentation": "Lifetime budget applied independently to each powered-on session. Expiry pauses the sandbox, preserving memory and processes for resume."
+          }
+        },
+        "idle_ttl_seconds": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Pause after this many seconds without a direct process connection, preserving memory and processes for resume. Omit or set to zero to disable idle expiry."
           }
         },
         "max_concurrent_execs": {
           "target": "smithy.api#Integer",
           "traits": {
-            "smithy.api#documentation": "Maximum concurrently attached process sessions"
+            "smithy.api#documentation": "Maximum number of concurrently attached process sessions. Detached processes and one-shot process controls do not count."
           }
         }
       },
@@ -2448,7 +2644,567 @@
           "uri": "/api/sandboxes/{sid}/connections",
           "code": 200
         },
-        "smithy.api#documentation": "Create a sandbox process connection\n\nReturns a short-lived WebSocket URL for the process API in a running\nsandbox. The URL contains a signed token that expires at `expires_at`."
+        "smithy.api#documentation": "Create a sandbox process connection\n\nReturns a short-lived WebSocket URL used by the sandbox process API.\nThe URL contains a signed token that expires at `expires_at`; an open\nWebSocket can remain connected after the token expires."
+      }
+    },
+    "com.archil.api#ListSandboxPortsRequest": {
+      "type": "structure",
+      "members": {
+        "sid": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Sandbox UUID"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.archil.api#ApiResponseSandboxPortList": {
+      "type": "structure",
+      "members": {
+        "success": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "data": {
+          "target": "com.archil.api#SandboxPortList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.archil.api#SandboxPortList": {
+      "type": "structure",
+      "members": {
+        "ports": {
+          "target": "com.archil.api#SandboxPortListPortsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.archil.api#SandboxPort": {
+      "type": "structure",
+      "members": {
+        "port": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "hostname": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.archil.api#SandboxPortListPortsList": {
+      "type": "list",
+      "member": {
+        "target": "com.archil.api#SandboxPort"
+      },
+      "traits": {}
+    },
+    "com.archil.api#ListSandboxPorts": {
+      "type": "operation",
+      "input": {
+        "target": "com.archil.api#ListSandboxPortsRequest"
+      },
+      "output": {
+        "target": "com.archil.api#ApiResponseSandboxPortList"
+      },
+      "errors": [
+        {
+          "target": "com.archil.api#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/sandboxes/{sid}/ports",
+          "code": 200
+        },
+        "smithy.api#documentation": "List exposed sandbox ports\n\nLists the explicitly exposed public ports for the sandbox."
+      }
+    },
+    "com.archil.api#ExposeSandboxPortRequest": {
+      "type": "structure",
+      "members": {
+        "sid": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Sandbox UUID"
+          }
+        },
+        "port": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.archil.api#ApiResponseSandboxPort": {
+      "type": "structure",
+      "members": {
+        "success": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "data": {
+          "target": "com.archil.api#SandboxPort",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.archil.api#ExposeSandboxPort": {
+      "type": "operation",
+      "input": {
+        "target": "com.archil.api#ExposeSandboxPortRequest"
+      },
+      "output": {
+        "target": "com.archil.api#ApiResponseSandboxPort"
+      },
+      "errors": [
+        {
+          "target": "com.archil.api#BadRequest"
+        },
+        {
+          "target": "com.archil.api#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/api/sandboxes/{sid}/ports/{port}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Expose a sandbox port\n\nCreates or returns public access to a TCP port in the sandbox."
+      }
+    },
+    "com.archil.api#DeleteSandboxPortRequest": {
+      "type": "structure",
+      "members": {
+        "sid": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Sandbox UUID"
+          }
+        },
+        "port": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.archil.api#DeleteSandboxPort": {
+      "type": "operation",
+      "input": {
+        "target": "com.archil.api#DeleteSandboxPortRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "errors": [
+        {
+          "target": "com.archil.api#BadRequest"
+        },
+        {
+          "target": "com.archil.api#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/api/sandboxes/{sid}/ports/{port}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Stop exposing a sandbox port\n\nRemoves an explicitly exposed public port. An enabled sandbox service publishing the same TCP port remains publicly reachable."
+      }
+    },
+    "com.archil.api#ListSandboxPortTokensRequest": {
+      "type": "structure",
+      "members": {
+        "sid": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Sandbox UUID"
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit",
+            "smithy.api#documentation": "Maximum number of items to return"
+          }
+        },
+        "cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "cursor",
+            "smithy.api#documentation": "Pagination cursor from a previous response"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.archil.api#ApiResponseSandboxPortTokenList": {
+      "type": "structure",
+      "members": {
+        "success": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "data": {
+          "target": "com.archil.api#SandboxPortTokenList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "nextCursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Set when more port tokens remain."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.archil.api#SandboxPortTokenList": {
+      "type": "structure",
+      "members": {
+        "tokens": {
+          "target": "com.archil.api#SandboxPortTokenListTokensList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.archil.api#SandboxPortToken": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Stable token identifier used for get and revoke operations.",
+            "smithy.api#required": {}
+          }
+        },
+        "port": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "expires_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the token expires. Absent for a non-expiring token."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.archil.api#SandboxPortTokenListTokensList": {
+      "type": "list",
+      "member": {
+        "target": "com.archil.api#SandboxPortToken"
+      },
+      "traits": {}
+    },
+    "com.archil.api#ListSandboxPortTokens": {
+      "type": "operation",
+      "input": {
+        "target": "com.archil.api#ListSandboxPortTokensRequest"
+      },
+      "output": {
+        "target": "com.archil.api#ApiResponseSandboxPortTokenList"
+      },
+      "errors": [
+        {
+          "target": "com.archil.api#BadRequest"
+        },
+        {
+          "target": "com.archil.api#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/sandboxes/{sid}/port-tokens",
+          "code": 200
+        },
+        "smithy.api#documentation": "List sandbox port tokens\n\nLists unexpired private port token metadata without returning raw tokens."
+      }
+    },
+    "com.archil.api#CreateSandboxPortTokenRequest": {
+      "type": "structure",
+      "members": {
+        "sid": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Sandbox UUID"
+          }
+        },
+        "port": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "ttl": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Token lifetime as a Go duration string (for example, \"4m\", \"1h\",\nor \"24h\"). Maximum 365 days (\"8760h\"). Omit for no expiration.\n"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.archil.api#ApiResponseCreatedSandboxPortToken": {
+      "type": "structure",
+      "members": {
+        "success": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "data": {
+          "target": "com.archil.api#CreatedSandboxPortToken",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.archil.api#CreatedSandboxPortToken": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Stable token identifier used for get and revoke operations.",
+            "smithy.api#required": {}
+          }
+        },
+        "port": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "expires_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the token expires. Absent for a non-expiring token."
+          }
+        },
+        "hostname": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Stable sandbox port hostname, shared with public access.",
+            "smithy.api#required": {}
+          }
+        },
+        "token": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Raw token returned only when the token is created.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.archil.api#CreateSandboxPortToken": {
+      "type": "operation",
+      "input": {
+        "target": "com.archil.api#CreateSandboxPortTokenRequest"
+      },
+      "output": {
+        "target": "com.archil.api#ApiResponseCreatedSandboxPortToken"
+      },
+      "errors": [
+        {
+          "target": "com.archil.api#BadRequest"
+        },
+        {
+          "target": "com.archil.api#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/sandboxes/{sid}/port-tokens",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create a private sandbox port token\n\nCreates token-authorized HTTP access to one port. Send the raw token returned\nby this request in the `X-Archil-Token` request header at the stable\n`<port>-<sandbox-route-id>.<zone>` hostname. Public ports accept connections\nwithout a token; otherwise a valid token for that sandbox and port is required.\nThe token is not returned again."
+      }
+    },
+    "com.archil.api#GetSandboxPortTokenRequest": {
+      "type": "structure",
+      "members": {
+        "sid": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Sandbox UUID"
+          }
+        },
+        "token_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.archil.api#ApiResponseSandboxPortToken": {
+      "type": "structure",
+      "members": {
+        "success": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "data": {
+          "target": "com.archil.api#SandboxPortToken",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.archil.api#GetSandboxPortToken": {
+      "type": "operation",
+      "input": {
+        "target": "com.archil.api#GetSandboxPortTokenRequest"
+      },
+      "output": {
+        "target": "com.archil.api#ApiResponseSandboxPortToken"
+      },
+      "errors": [
+        {
+          "target": "com.archil.api#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/sandboxes/{sid}/port-tokens/{token_id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get a sandbox port token\n\nReturns token metadata without its raw token. Expired tokens return not found."
+      }
+    },
+    "com.archil.api#DeleteSandboxPortTokenRequest": {
+      "type": "structure",
+      "members": {
+        "sid": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Sandbox UUID"
+          }
+        },
+        "token_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.archil.api#DeleteSandboxPortToken": {
+      "type": "operation",
+      "input": {
+        "target": "com.archil.api#DeleteSandboxPortTokenRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "errors": [
+        {
+          "target": "com.archil.api#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/api/sandboxes/{sid}/port-tokens/{token_id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Revoke a sandbox port token\n\nNew private connections using the token fail after this request\ncompletes; established connections remain open. Expired tokens return not found."
       }
     },
     "com.archil.api#PauseSandboxRequest": {
@@ -2518,6 +3274,12 @@
           "traits": {
             "smithy.api#documentation": "Name for the fork. A random word-list name is generated when omitted."
           }
+        },
+        "checkpoint": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Fork this checkpoint of the source, as returned by pause, stop, or\ndescribe, instead of the source's live state. The source is neither\npaused nor resumed. Only the current session's checkpoint and the\none before it are accepted; an uncommitted or superseded checkpoint\nis rejected with 409.\n"
+          }
         }
       },
       "traits": {
@@ -2549,7 +3311,7 @@
           "uri": "/api/sandboxes/{sid}/fork",
           "code": 200
         },
-        "smithy.api#documentation": "Fork a sandbox\n\nCheckpoints a running source sandbox and creates an isolated writable\ndisk branch. Forks from running or paused sources resume from the\nsource's CPU, memory, and disk state. Forks from stopped sources\ncold-boot from the saved disk checkpoint. A running source is\nresumed after its checkpoint; paused and stopped sources remain\ninactive. Forked sandboxes may themselves be forked."
+        "smithy.api#documentation": "Fork a sandbox\n\nCheckpoints a running source sandbox and creates an isolated writable\ndisk branch. Forks from running or paused sources resume from the\nsource's CPU, memory, and disk state. Forks from stopped sources\ncold-boot from the saved disk checkpoint. A running source is\nresumed after its checkpoint; paused and stopped sources remain\ninactive. Forked sandboxes may themselves be forked.\n\nPassing `checkpoint` forks that saved state without touching the\nsource, so clients can pause once, wait for the checkpoint, and fork\nit from any number of places. Without `checkpoint` the server pauses a\nrunning source inside the request and resumes it afterwards; that path\nis kept for older clients and is bounded by the request timeout."
       }
     },
     "com.archil.api#ResumeSandboxRequest": {
@@ -2601,6 +3363,168 @@
           "code": 200
         },
         "smithy.api#documentation": "Resume a sandbox\n\nRestores a paused sandbox's committed CPU and memory snapshot.\nResuming a running sandbox or a pending resume is idempotent. Only a\n`paused` sandbox can begin a new resume; `stopped`, `exited`, `failed`,\n`stopping`, `pausing`, or a pending cold start returns 409."
+      }
+    },
+    "com.archil.api#GetSandboxNetworkRequest": {
+      "type": "structure",
+      "members": {
+        "sid": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Sandbox UUID"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.archil.api#ApiResponseSandboxNetwork": {
+      "type": "structure",
+      "members": {
+        "success": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "data": {
+          "target": "com.archil.api#SandboxNetwork",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.archil.api#GetSandboxNetwork": {
+      "type": "operation",
+      "input": {
+        "target": "com.archil.api#GetSandboxNetworkRequest"
+      },
+      "output": {
+        "target": "com.archil.api#ApiResponseSandboxNetwork"
+      },
+      "errors": [
+        {
+          "target": "com.archil.api#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/sandboxes/{sid}/network",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get a sandbox's network policy\n\nReturns the last committed network policy for a running, paused, or stopped sandbox."
+      }
+    },
+    "com.archil.api#UpdateSandboxNetworkRequest": {
+      "type": "structure",
+      "members": {
+        "sid": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Sandbox UUID"
+          }
+        },
+        "egress": {
+          "target": "com.archil.api#SandboxEgressPolicy"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.archil.api#UpdateSandboxNetwork": {
+      "type": "operation",
+      "input": {
+        "target": "com.archil.api#UpdateSandboxNetworkRequest"
+      },
+      "output": {
+        "target": "com.archil.api#ApiResponseSandboxNetwork"
+      },
+      "errors": [
+        {
+          "target": "com.archil.api#BadRequest"
+        },
+        {
+          "target": "com.archil.api#Forbidden"
+        },
+        {
+          "target": "com.archil.api#NotFound"
+        },
+        {
+          "target": "com.archil.api#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/api/sandboxes/{sid}/network",
+          "code": 200
+        },
+        "smithy.api#documentation": "Replace a running sandbox's network policy\n\nApplies the complete replacement policy to a running sandbox, then\nrecords it as the current policy. A rejected update leaves the previous\npolicy unchanged. Free-plan accounts cannot update network policies and\nreceive 403 with code sandbox_network_plan_required. For paid accounts,\nan empty object restores unrestricted egress. Existing network sessions\nare not terminated; the replacement governs new connections and is\nretained across later stops and resumes. Sandboxes\nthat are not running, or whose policy changes concurrently, return 409."
+      }
+    },
+    "com.archil.api#SetSandboxTimeoutRequest": {
+      "type": "structure",
+      "members": {
+        "sid": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Sandbox UUID"
+          }
+        },
+        "timeout": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Seconds from now until a running sandbox expires, and the lifetime budget for its next powered-on session."
+          }
+        },
+        "idle_ttl_seconds": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Seconds without a direct process connection before the sandbox pauses. Zero disables idle expiry."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.archil.api#SetSandboxTimeout": {
+      "type": "operation",
+      "input": {
+        "target": "com.archil.api#SetSandboxTimeoutRequest"
+      },
+      "output": {
+        "target": "com.archil.api#ApiResponseSandbox"
+      },
+      "errors": [
+        {
+          "target": "com.archil.api#BadRequest"
+        },
+        {
+          "target": "com.archil.api#NotFound"
+        },
+        {
+          "target": "com.archil.api#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/sandboxes/{sid}/timeout",
+          "code": 200
+        },
+        "smithy.api#documentation": "Set a sandbox's timeouts\n\nReplaces one or both sandbox timeout settings. Updating `timeout` while\nthe sandbox is running resets its hard expiration deadline to that many\nseconds from now. Updating `idle_ttl_seconds` resets the idle\ncountdown when no direct process connection is active; zero disables\nidle expiry. Omitted settings remain unchanged. Updates are retained\nacross later stops and starts. For an inactive sandbox, they apply to\nthe next powered-on session. Sandboxes that are starting or shutting\ndown, or whose timeout changes concurrently, return 409."
       }
     },
     "com.archil.api#StartSandboxRequest": {
@@ -3038,6 +3962,27 @@
           "target": "com.archil.api#CreateSandboxConnection"
         },
         {
+          "target": "com.archil.api#ListSandboxPorts"
+        },
+        {
+          "target": "com.archil.api#ExposeSandboxPort"
+        },
+        {
+          "target": "com.archil.api#DeleteSandboxPort"
+        },
+        {
+          "target": "com.archil.api#ListSandboxPortTokens"
+        },
+        {
+          "target": "com.archil.api#CreateSandboxPortToken"
+        },
+        {
+          "target": "com.archil.api#GetSandboxPortToken"
+        },
+        {
+          "target": "com.archil.api#DeleteSandboxPortToken"
+        },
+        {
           "target": "com.archil.api#PauseSandbox"
         },
         {
@@ -3045,6 +3990,15 @@
         },
         {
           "target": "com.archil.api#ResumeSandbox"
+        },
+        {
+          "target": "com.archil.api#GetSandboxNetwork"
+        },
+        {
+          "target": "com.archil.api#UpdateSandboxNetwork"
+        },
+        {
+          "target": "com.archil.api#SetSandboxTimeout"
         },
         {
           "target": "com.archil.api#StartSandbox"

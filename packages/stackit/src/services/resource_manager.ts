@@ -45,7 +45,7 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
-/** Key-value string pairs attached to an existing resource container. Certain labels may be enforced via organizational policies. * **Key:** Must match the regex `[A-ZÄÜÖa-zäüöß0-9_-]{1,64}` * **Value:** Must match the regex `^$|[A-ZÄÜÖa-zäüöß0-9_-]{1,64}` > Note: Additional naming restrictions may apply depending on your specific organization.* */
+/** Key-value string pairs attached to an existing resource container. Certain labels may be enforced via organizational policies. * **Key:** Must be between 1 and 63 characters long (excluding an optional domain prefix). Must start and end with an alphanumeric character `[a-zA-Z0-9]` and can contain alphanumerics, dashes (-), underscores (_), and dots (.). May include an optional domain prefix up to 250 characters (a lowercase DNS subdomain containing `[a-z0-9]`, `-`, and `.`) followed by a slash (/). Total maximum key length is 314 characters. * **Value:** Must be 63 characters or less. May be empty (""). If non-empty, must start and end with an alphanumeric character `[a-zA-Z0-9]` and can contain alphanumerics, dashes (-), underscores (_), and dots (.). > Note: Additional naming restrictions may apply depending on your specific organization.* */
 export type Labels = { [key: string]: string | undefined };
 export const Labels = /*@__PURE__*/ S.Record(S.String, S.String) as any as S.Schema<Labels>;
 
@@ -91,13 +91,11 @@ export const CreateFolderRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://resource-manager.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "CreateFolderRequest",
-}) as any as S.Schema<CreateFolderRequest>;
+).annotate({ identifier: "CreateFolderRequest" }) as any as S.Schema<CreateFolderRequest>;
 
 /** Container type of parent container. */
 export type ParentType = "ORGANIZATION" | "FOLDER";
-export const ParentType = /*@__PURE__*/ S.String;
+export const ParentType = S.String;
 
 /** Parent container. */
 export interface Parent {
@@ -142,7 +140,7 @@ export const FolderResponse = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "FolderResponse" }) as any as S.Schema<FolderResponse>;
 
-/** Key-value string pairs attached to a resource container during creation. Certain labels may be enforced via organizational policies. * **Key:** Must match the regex `[A-ZÄÜÖa-zäüöß0-9_-]{1,64}` * **Value:** Must match the regex `^$|[A-ZÄÜÖa-zäüöß0-9_-]{1,64}` * Either a `"scope": "PUBLIC"` label or a valid `networkArea` label must be provided for project creation. * To create a project within a STACKIT Network Area, you must set the label `"networkArea": "<networkAreaID>"`. > **Important:** The `networkArea` label is immutable and **cannot be changed** after project creation. */
+/** Key-value string pairs attached to a resource container during creation. Certain labels may be enforced via organizational policies. * **Key:** Must be between 1 and 63 characters long (excluding an optional domain prefix). Must start and end with an alphanumeric character `[a-zA-Z0-9]` and can contain alphanumerics, dashes (-), underscores (_), and dots (.). May include an optional domain prefix up to 250 characters (a lowercase DNS subdomain containing `[a-z0-9]`, `-`, and `.`) followed by a slash (/). Total maximum key length is 314 characters. * **Value:** Must be 63 characters or less. May be empty (""). If non-empty, must start and end with an alphanumeric character `[a-zA-Z0-9]` and can contain alphanumerics, dashes (-), underscores (_), and dots (.). * Either a `"scope": "PUBLIC"` label or a valid `networkArea` label must be provided for project creation. * To create a project within a STACKIT Network Area, you must set the label `"networkArea": "<networkAreaID>"`. > **Important:** The `networkArea` label is immutable and **cannot be changed** after project creation. */
 export type CreateProjectLabels = { [key: string]: string | undefined };
 export const CreateProjectLabels = /*@__PURE__*/ S.Record(
   S.String,
@@ -178,13 +176,11 @@ export const CreateProjectRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://resource-manager.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "CreateProjectRequest",
-}) as any as S.Schema<CreateProjectRequest>;
+).annotate({ identifier: "CreateProjectRequest" }) as any as S.Schema<CreateProjectRequest>;
 
 /** Lifecycle state of the resource container. | LIFECYCLE STATE | DESCRIPTION | |----------|--------------------| | CREATING | The creation process has been triggered. The state remains until resource manager gets notified about successful process completion. | | ACTIVE | Resource container can be fully used. | | INACTIVE | Resource container usage has been disabled. | | DELETING | The deletion process has been triggered. The state remains until resource manager gets notified about successful process completion. Afterwards, the record will be deleted. | */
 export type LifecycleState = "CREATING" | "ACTIVE" | "DELETING" | "INACTIVE";
-export const LifecycleState = /*@__PURE__*/ S.String;
+export const LifecycleState = S.String;
 
 export interface Project {
   /** Globally unique, user-friendly identifier. */
@@ -232,9 +228,7 @@ export const DeleteFolderRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://resource-manager.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "DeleteFolderRequest",
-}) as any as S.Schema<DeleteFolderRequest>;
+).annotate({ identifier: "DeleteFolderRequest" }) as any as S.Schema<DeleteFolderRequest>;
 
 export interface DeleteFolderResponse {}
 export const DeleteFolderResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -322,9 +316,7 @@ export const DeleteProjectRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://resource-manager.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "DeleteProjectRequest",
-}) as any as S.Schema<DeleteProjectRequest>;
+).annotate({ identifier: "DeleteProjectRequest" }) as any as S.Schema<DeleteProjectRequest>;
 
 export interface DeleteProjectResponse {}
 export const DeleteProjectResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -380,13 +372,11 @@ export const GetFolderDetailsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://resource-manager.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "GetFolderDetailsRequest",
-}) as any as S.Schema<GetFolderDetailsRequest>;
+).annotate({ identifier: "GetFolderDetailsRequest" }) as any as S.Schema<GetFolderDetailsRequest>;
 
 /** Parent container type. */
 export type ParentListItemType = "FOLDER" | "ORGANIZATION";
-export const ParentListItemType = /*@__PURE__*/ S.String;
+export const ParentListItemType = S.String;
 
 export interface ParentListItem {
   /** User-friendly identifier of either organization or folder (will replace id). */
@@ -442,9 +432,7 @@ export const GetFolderDetailsResponse = /*@__PURE__*/ S.suspend(() =>
     parents: S.optional(ParentList),
     updateTime: S.String,
   }),
-).annotate({
-  identifier: "GetFolderDetailsResponse",
-}) as any as S.Schema<GetFolderDetailsResponse>;
+).annotate({ identifier: "GetFolderDetailsResponse" }) as any as S.Schema<GetFolderDetailsResponse>;
 
 export interface GetOrganizationRequest {
   /** Organization identifier - containerId as well as UUID identifier is supported. */
@@ -461,9 +449,7 @@ export const GetOrganizationRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://resource-manager.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "GetOrganizationRequest",
-}) as any as S.Schema<GetOrganizationRequest>;
+).annotate({ identifier: "GetOrganizationRequest" }) as any as S.Schema<GetOrganizationRequest>;
 
 export interface OrganizationResponse {
   /** Globally unique, user-friendly identifier. */
@@ -489,9 +475,7 @@ export const OrganizationResponse = /*@__PURE__*/ S.suspend(() =>
     organizationId: S.String,
     updateTime: S.String,
   }),
-).annotate({
-  identifier: "OrganizationResponse",
-}) as any as S.Schema<OrganizationResponse>;
+).annotate({ identifier: "OrganizationResponse" }) as any as S.Schema<OrganizationResponse>;
 
 export interface GetProjectRequest {
   /** Project identifier - containerId as well as UUID identifier is supported. */
@@ -510,9 +494,7 @@ export const GetProjectRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://resource-manager.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "GetProjectRequest",
-}) as any as S.Schema<GetProjectRequest>;
+).annotate({ identifier: "GetProjectRequest" }) as any as S.Schema<GetProjectRequest>;
 
 export interface GetProjectResponse {
   /** Globally unique identifier. */
@@ -542,9 +524,7 @@ export const GetProjectResponse = /*@__PURE__*/ S.suspend(() =>
     projectId: S.String,
     updateTime: S.String,
   }),
-).annotate({
-  identifier: "GetProjectResponse",
-}) as any as S.Schema<GetProjectResponse>;
+).annotate({ identifier: "GetProjectResponse" }) as any as S.Schema<GetProjectResponse>;
 
 export type ListFoldersRequestContainerIdsList = Array<string>;
 export const ListFoldersRequestContainerIdsList = /*@__PURE__*/ S.Array(
@@ -581,9 +561,7 @@ export const ListFoldersRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://resource-manager.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "ListFoldersRequest",
-}) as any as S.Schema<ListFoldersRequest>;
+).annotate({ identifier: "ListFoldersRequest" }) as any as S.Schema<ListFoldersRequest>;
 
 export interface ListFoldersResponseItemsItem {
   /** Globally unique folder identifier. */
@@ -629,9 +607,7 @@ export const ListFoldersResponse = /*@__PURE__*/ S.suspend(() =>
     limit: S.Number,
     offset: S.Number,
   }),
-).annotate({
-  identifier: "ListFoldersResponse",
-}) as any as S.Schema<ListFoldersResponse>;
+).annotate({ identifier: "ListFoldersResponse" }) as any as S.Schema<ListFoldersResponse>;
 
 export type ListOrganizationsRequestContainerIdsList = Array<string>;
 export const ListOrganizationsRequestContainerIdsList = /*@__PURE__*/ S.Array(
@@ -665,9 +641,7 @@ export const ListOrganizationsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://resource-manager.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "ListOrganizationsRequest",
-}) as any as S.Schema<ListOrganizationsRequest>;
+).annotate({ identifier: "ListOrganizationsRequest" }) as any as S.Schema<ListOrganizationsRequest>;
 
 export interface ListOrganizationsResponseItemsItem {
   /** Globally unique, user-friendly identifier. */
@@ -752,9 +726,7 @@ export const ListProjectsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://resource-manager.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "ListProjectsRequest",
-}) as any as S.Schema<ListProjectsRequest>;
+).annotate({ identifier: "ListProjectsRequest" }) as any as S.Schema<ListProjectsRequest>;
 
 export type ListProjectsResponseItemsList = Array<Project>;
 export const ListProjectsResponseItemsList = /*@__PURE__*/ S.Array(
@@ -772,15 +744,13 @@ export const ListProjectsResponse = /*@__PURE__*/ S.suspend(() =>
     limit: S.Number,
     offset: S.Number,
   }),
-).annotate({
-  identifier: "ListProjectsResponse",
-}) as any as S.Schema<ListProjectsResponse>;
+).annotate({ identifier: "ListProjectsResponse" }) as any as S.Schema<ListProjectsResponse>;
 
-/** Key-value string pairs attached to an existing resource container. Certain labels may be enforced via organizational policies. Setting an individual label's value to `null` removes/deletes that label from the resource. * **Key:** Must match the regex `[A-ZÄÜÖa-zäüöß0-9_-]{1,64}` * **Value:** Must match the regex `^$|[A-ZÄÜÖa-zäüöß0-9_-]{1,64}`, or be `null` to delete the label > Note: Additional naming restrictions may apply depending on your specific organization.* */
-export type UpdateLabels = { [key: string]: string | undefined };
+/** Key-value string pairs attached to an existing resource container. Certain labels may be enforced via organizational policies. Setting an individual label's value to `null` removes/deletes that label from the resource. * **Key:** Must be between 1 and 63 characters long (excluding an optional domain prefix). Must start and end with an alphanumeric character `[a-zA-Z0-9]` and can contain alphanumerics, dashes (-), underscores (_), and dots (.). May include an optional domain prefix up to 250 characters (a lowercase DNS subdomain containing `[a-z0-9]`, `-`, and `.`) followed by a slash (/). Total maximum key length is 314 characters. * **Value:** Must be 63 characters or less. May be empty (""). If non-empty, must start and end with an alphanumeric character `[a-zA-Z0-9]` and can contain alphanumerics, dashes (-), underscores (_), and dots (.). > Note: Additional naming restrictions may apply depending on your specific organization.* */
+export type UpdateLabels = { [key: string]: string | null | undefined };
 export const UpdateLabels = /*@__PURE__*/ S.Record(
   S.String,
-  S.String,
+  S.NullOr(S.String),
 ) as any as S.Schema<UpdateLabels>;
 
 export interface PartialUpdateFolderRequest {

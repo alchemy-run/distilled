@@ -44,9 +44,7 @@ export const GetDisputeAlertRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/dispute_alerts/{id}", code: 200 })),
-).annotate({
-  identifier: "GetDisputeAlertRequest",
-}) as any as S.Schema<GetDisputeAlertRequest>;
+).annotate({ identifier: "GetDisputeAlertRequest" }) as any as S.Schema<GetDisputeAlertRequest>;
 
 /** Why refunding can no longer avoid a chargeback. `network_resolved` when a Visa RDR already closed the case, `payment_unmatched` when no payment matched, `payment_not_captured` when it never captured money, `payment_disputed` once the payment carries a dispute, `payment_refunded` once fully refunded. `null` while `actionable` is true. */
 export type DisputeAlertNotActionableReason =
@@ -166,9 +164,7 @@ export const ListDisputeAlertsRequest = /*@__PURE__*/ S.suspend(() =>
     created_before: S.optional(S.String.pipe(T.Query())),
     created_after: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/dispute_alerts", code: 200 })),
-).annotate({
-  identifier: "ListDisputeAlertsRequest",
-}) as any as S.Schema<ListDisputeAlertsRequest>;
+).annotate({ identifier: "ListDisputeAlertsRequest" }) as any as S.Schema<ListDisputeAlertsRequest>;
 
 export type ListDisputeAlertsResponseDataList = Array<DisputeAlert>;
 export const ListDisputeAlertsResponseDataList = /*@__PURE__*/ S.Array(

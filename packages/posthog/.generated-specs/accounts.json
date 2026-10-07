@@ -1759,6 +1759,88 @@
         }
       }
     },
+    "com.posthog.accounts#CreateAccountsPresenceRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "A UUID string identifying this account."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.accounts#AccountPresenceViewer": {
+      "type": "structure",
+      "members": {
+        "user_id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "PostHog user ID of the teammate viewing this account.",
+            "smithy.api#required": {}
+          }
+        },
+        "display_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Display name of the teammate viewing this account.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.accounts#CreateAccountsPresenceResponseBodyList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.accounts#AccountPresenceViewer"
+      },
+      "traits": {}
+    },
+    "com.posthog.accounts#CreateAccountsPresenceResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "com.posthog.accounts#CreateAccountsPresenceResponseBodyList",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.posthog.accounts#CreateAccountsPresence": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.accounts#CreateAccountsPresenceRequest"
+      },
+      "output": {
+        "target": "com.posthog.accounts#CreateAccountsPresenceResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/accounts/{id}/presence/",
+          "code": 200
+        }
+      }
+    },
     "com.posthog.accounts#ListAccountsSummariesRequest": {
       "type": "structure",
       "members": {
@@ -2248,6 +2330,145 @@
         }
       }
     },
+    "com.posthog.accounts#GetAccountsByExternalIdRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "external_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "external_id",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Exact external account identifier. Leading and trailing whitespace is significant."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.accounts#GetAccountsByExternalId": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.accounts#GetAccountsByExternalIdRequest"
+      },
+      "output": {
+        "target": "com.posthog.accounts#Account"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/accounts/by_external_id/",
+          "code": 200
+        }
+      }
+    },
+    "com.posthog.accounts#ListAccountsPresenceRequestAccountIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Up to 100 account IDs to read presence for."
+      }
+    },
+    "com.posthog.accounts#ListAccountsPresenceRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "account_ids": {
+          "target": "com.posthog.accounts#ListAccountsPresenceRequestAccountIdsList",
+          "traits": {
+            "smithy.api#documentation": "Up to 100 account IDs to read presence for.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.accounts#AccountPresence": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Customer analytics account ID.",
+            "smithy.api#required": {}
+          }
+        },
+        "viewers": {
+          "target": "com.posthog.accounts#AccountPresenceViewersList",
+          "traits": {
+            "smithy.api#documentation": "People viewing this account.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.accounts#AccountPresenceViewersList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.accounts#AccountPresenceViewer"
+      },
+      "traits": {
+        "smithy.api#documentation": "People viewing this account."
+      }
+    },
+    "com.posthog.accounts#ListAccountsPresenceResponseBodyList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.accounts#AccountPresence"
+      },
+      "traits": {}
+    },
+    "com.posthog.accounts#ListAccountsPresenceResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "com.posthog.accounts#ListAccountsPresenceResponseBodyList",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.posthog.accounts#ListAccountsPresence": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.accounts#ListAccountsPresenceRequest"
+      },
+      "output": {
+        "target": "com.posthog.accounts#ListAccountsPresenceResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/accounts/presence_list/",
+          "code": 200
+        }
+      }
+    },
     "com.posthog.accounts#Accounts": {
       "type": "service",
       "version": "1.0.0",
@@ -2280,6 +2501,9 @@
           "target": "com.posthog.accounts#ListAccountsMeetings"
         },
         {
+          "target": "com.posthog.accounts#CreateAccountsPresence"
+        },
+        {
           "target": "com.posthog.accounts#ListAccountsSummaries"
         },
         {
@@ -2287,6 +2511,12 @@
         },
         {
           "target": "com.posthog.accounts#ListAccountsSupportTicketMessages"
+        },
+        {
+          "target": "com.posthog.accounts#GetAccountsByExternalId"
+        },
+        {
+          "target": "com.posthog.accounts#ListAccountsPresence"
         }
       ],
       "traits": {

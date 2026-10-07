@@ -12,9 +12,7 @@ export type { SlackOpError, SlackOpContext };
 export interface DeletePhotoRequest {}
 export const DeletePhotoRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/users.deletePhoto", code: 200 })),
-).annotate({
-  identifier: "DeletePhotoRequest",
-}) as any as S.Schema<DeletePhotoRequest>;
+).annotate({ identifier: "DeletePhotoRequest" }) as any as S.Schema<DeletePhotoRequest>;
 
 export interface DeletePhotoResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -24,9 +22,7 @@ export const DeletePhotoResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ok: S.Boolean,
   }),
-).annotate({
-  identifier: "DeletePhotoResponse",
-}) as any as S.Schema<DeletePhotoResponse>;
+).annotate({ identifier: "DeletePhotoResponse" }) as any as S.Schema<DeletePhotoResponse>;
 
 export interface GetPresenceRequest {
   /** User to get presence info on. Defaults to the authed user. */
@@ -36,9 +32,7 @@ export const GetPresenceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     user: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/users.getPresence", code: 200 })),
-).annotate({
-  identifier: "GetPresenceRequest",
-}) as any as S.Schema<GetPresenceRequest>;
+).annotate({ identifier: "GetPresenceRequest" }) as any as S.Schema<GetPresenceRequest>;
 
 export interface GetPresenceResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -60,9 +54,7 @@ export const GetPresenceResponse = /*@__PURE__*/ S.suspend(() =>
     connection_count: S.optional(S.Number),
     auto_away: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "GetPresenceResponse",
-}) as any as S.Schema<GetPresenceResponse>;
+).annotate({ identifier: "GetPresenceResponse" }) as any as S.Schema<GetPresenceResponse>;
 
 export interface GetProfileRequest {
   /** Include labels for each ID in custom profile fields. Using this parameter will heavily rate-limit your requests and is not recommended. */
@@ -75,9 +67,7 @@ export const GetProfileRequest = /*@__PURE__*/ S.suspend(() =>
     include_labels: S.optional(S.Boolean.pipe(T.Query())),
     user: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/users.profile.get", code: 200 })),
-).annotate({
-  identifier: "GetProfileRequest",
-}) as any as S.Schema<GetProfileRequest>;
+).annotate({ identifier: "GetProfileRequest" }) as any as S.Schema<GetProfileRequest>;
 
 export interface GetProfileResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -89,9 +79,7 @@ export const GetProfileResponse = /*@__PURE__*/ S.suspend(() =>
     ok: S.Boolean,
     profile: S.Unknown,
   }),
-).annotate({
-  identifier: "GetProfileResponse",
-}) as any as S.Schema<GetProfileResponse>;
+).annotate({ identifier: "GetProfileResponse" }) as any as S.Schema<GetProfileResponse>;
 
 export interface ListUsersRequest {
   /** Paginate through collections of data by setting the `cursor` parameter to a `next_cursor` attribute returned by a previous request's `response_metadata`. Default value fetches the first "page" of the collection. See [pagination](/apis/web-api/pagination) for more detail. */
@@ -110,9 +98,7 @@ export const ListUsersRequest = /*@__PURE__*/ S.suspend(() =>
     limit: S.optional(S.Number.pipe(T.Query())),
     team_id: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/users.list", code: 200 })),
-).annotate({
-  identifier: "ListUsersRequest",
-}) as any as S.Schema<ListUsersRequest>;
+).annotate({ identifier: "ListUsersRequest" }) as any as S.Schema<ListUsersRequest>;
 
 export type ListUsersResponseMembersList = Array<unknown>;
 export const ListUsersResponseMembersList = /*@__PURE__*/ S.Array(
@@ -149,9 +135,7 @@ export const ListUsersResponse = /*@__PURE__*/ S.suspend(() =>
     response_metadata: S.optional(ListUsersResponseResponseMetadata),
     offset: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListUsersResponse",
-}) as any as S.Schema<ListUsersResponse>;
+).annotate({ identifier: "ListUsersResponse" }) as any as S.Schema<ListUsersResponse>;
 
 export interface LookupByEmailRequest {
   /** An email address belonging to a user in the workspace */
@@ -161,9 +145,7 @@ export const LookupByEmailRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     email: S.String.pipe(T.Query()),
   }).pipe(T.Http({ method: "GET", uri: "/users.lookupByEmail", code: 200 })),
-).annotate({
-  identifier: "LookupByEmailRequest",
-}) as any as S.Schema<LookupByEmailRequest>;
+).annotate({ identifier: "LookupByEmailRequest" }) as any as S.Schema<LookupByEmailRequest>;
 
 export interface LookupByEmailResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -175,9 +157,7 @@ export const LookupByEmailResponse = /*@__PURE__*/ S.suspend(() =>
     ok: S.Boolean,
     user: S.Unknown,
   }),
-).annotate({
-  identifier: "LookupByEmailResponse",
-}) as any as S.Schema<LookupByEmailResponse>;
+).annotate({ identifier: "LookupByEmailResponse" }) as any as S.Schema<LookupByEmailResponse>;
 
 export interface LookupDiscoverableContactRequest {
   email: string;
@@ -185,13 +165,7 @@ export interface LookupDiscoverableContactRequest {
 export const LookupDiscoverableContactRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     email: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/users.discoverableContacts.lookup",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/users.discoverableContacts.lookup", code: 200 })),
 ).annotate({
   identifier: "LookupDiscoverableContactRequest",
 }) as any as S.Schema<LookupDiscoverableContactRequest>;
@@ -213,9 +187,7 @@ export const LookupDiscoverableContactResponse = /*@__PURE__*/ S.suspend(() =>
 export interface SetActiveRequest {}
 export const SetActiveRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "POST", uri: "/users.setActive", code: 200 })),
-).annotate({
-  identifier: "SetActiveRequest",
-}) as any as S.Schema<SetActiveRequest>;
+).annotate({ identifier: "SetActiveRequest" }) as any as S.Schema<SetActiveRequest>;
 
 export interface SetActiveResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -225,9 +197,7 @@ export const SetActiveResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ok: S.Boolean,
   }),
-).annotate({
-  identifier: "SetActiveResponse",
-}) as any as S.Schema<SetActiveResponse>;
+).annotate({ identifier: "SetActiveResponse" }) as any as S.Schema<SetActiveResponse>;
 
 export interface SetPhotoRequest {
   /** Width/height of crop box (always square) */
@@ -246,16 +216,9 @@ export const SetPhotoRequest = /*@__PURE__*/ S.suspend(() =>
     crop_y: S.optional(S.String),
     image: S.optional(S.Unknown),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/users.setPhoto",
-      code: 200,
-      contentType: "form-urlencoded",
-    }),
+    T.Http({ method: "POST", uri: "/users.setPhoto", code: 200, contentType: "form-urlencoded" }),
   ),
-).annotate({
-  identifier: "SetPhotoRequest",
-}) as any as S.Schema<SetPhotoRequest>;
+).annotate({ identifier: "SetPhotoRequest" }) as any as S.Schema<SetPhotoRequest>;
 
 export type SetPhotoResponseProfileMap = { [key: string]: unknown | undefined };
 export const SetPhotoResponseProfileMap = /*@__PURE__*/ S.Record(
@@ -273,9 +236,7 @@ export const SetPhotoResponse = /*@__PURE__*/ S.suspend(() =>
     ok: S.Boolean,
     profile: SetPhotoResponseProfileMap,
   }),
-).annotate({
-  identifier: "SetPhotoResponse",
-}) as any as S.Schema<SetPhotoResponse>;
+).annotate({ identifier: "SetPhotoResponse" }) as any as S.Schema<SetPhotoResponse>;
 
 /** Either `auto` or `away` */
 export type SetPresenceRequestPresence = "auto" | "away";
@@ -289,9 +250,7 @@ export const SetPresenceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     presence: SetPresenceRequestPresence,
   }).pipe(T.Http({ method: "POST", uri: "/users.setPresence", code: 200 })),
-).annotate({
-  identifier: "SetPresenceRequest",
-}) as any as S.Schema<SetPresenceRequest>;
+).annotate({ identifier: "SetPresenceRequest" }) as any as S.Schema<SetPresenceRequest>;
 
 export interface SetPresenceResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -301,9 +260,7 @@ export const SetPresenceResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ok: S.Boolean,
   }),
-).annotate({
-  identifier: "SetPresenceResponse",
-}) as any as S.Schema<SetPresenceResponse>;
+).annotate({ identifier: "SetPresenceResponse" }) as any as S.Schema<SetPresenceResponse>;
 
 export interface SetProfileRequest {
   /** Name of a single key to set. Usable only if `profile` is not passed. */
@@ -322,9 +279,7 @@ export const SetProfileRequest = /*@__PURE__*/ S.suspend(() =>
     user: S.optional(S.String),
     value: S.optional(S.String),
   }).pipe(T.Http({ method: "POST", uri: "/users.profile.set", code: 200 })),
-).annotate({
-  identifier: "SetProfileRequest",
-}) as any as S.Schema<SetProfileRequest>;
+).annotate({ identifier: "SetProfileRequest" }) as any as S.Schema<SetProfileRequest>;
 
 export interface SetProfileResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -340,9 +295,7 @@ export const SetProfileResponse = /*@__PURE__*/ S.suspend(() =>
     profile: S.Unknown,
     email_pending: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SetProfileResponse",
-}) as any as S.Schema<SetProfileResponse>;
+).annotate({ identifier: "SetProfileResponse" }) as any as S.Schema<SetProfileResponse>;
 
 export interface UsersConversationsRequest {
   /** Paginate through collections of data by setting the `cursor` parameter to a `next_cursor` attribute returned by a previous request's `response_metadata`. Default value fetches the first "page" of the collection. See [pagination](/apis/web-api/pagination) for more detail. */
@@ -403,9 +356,7 @@ export const UsersConversationsResponse = /*@__PURE__*/ S.suspend(() =>
 export interface UsersIdentityRequest {}
 export const UsersIdentityRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/users.identity", code: 200 })),
-).annotate({
-  identifier: "UsersIdentityRequest",
-}) as any as S.Schema<UsersIdentityRequest>;
+).annotate({ identifier: "UsersIdentityRequest" }) as any as S.Schema<UsersIdentityRequest>;
 
 export interface UsersIdentityResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -415,24 +366,20 @@ export const UsersIdentityResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ok: S.Boolean,
   }),
-).annotate({
-  identifier: "UsersIdentityResponse",
-}) as any as S.Schema<UsersIdentityResponse>;
+).annotate({ identifier: "UsersIdentityResponse" }) as any as S.Schema<UsersIdentityResponse>;
 
 export interface UsersInfoRequest {
   /** Set this to `true` to receive the locale for this user. Defaults to `false` */
   include_locale?: boolean;
   /** User to get info on */
-  user: string;
+  user?: string;
 }
 export const UsersInfoRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     include_locale: S.optional(S.Boolean.pipe(T.Query())),
-    user: S.String.pipe(T.Query()),
+    user: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/users.info", code: 200 })),
-).annotate({
-  identifier: "UsersInfoRequest",
-}) as any as S.Schema<UsersInfoRequest>;
+).annotate({ identifier: "UsersInfoRequest" }) as any as S.Schema<UsersInfoRequest>;
 
 export type UsersInfoResponseUsersList = Array<unknown>;
 export const UsersInfoResponseUsersList = /*@__PURE__*/ S.Array(
@@ -451,9 +398,7 @@ export const UsersInfoResponse = /*@__PURE__*/ S.suspend(() =>
     user: S.optional(S.Unknown),
     users: S.optional(UsersInfoResponseUsersList),
   }),
-).annotate({
-  identifier: "UsersInfoResponse",
-}) as any as S.Schema<UsersInfoResponse>;
+).annotate({ identifier: "UsersInfoResponse" }) as any as S.Schema<UsersInfoResponse>;
 
 export type DeletePhotoError = SlackOpError;
 /** Delete the user profile photo Required scopes — user: `users.profile:write` Rate limit tier: 2 Method-specific errors (the `error` slug on the SlackError): - `internal_error` — An unexpected error occurred. See https://docs.slack.dev/reference/methods/users.deletePhoto */

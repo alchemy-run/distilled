@@ -16,9 +16,7 @@ export const ListEmojiRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     include_categories: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/emoji.list", code: 200 })),
-).annotate({
-  identifier: "ListEmojiRequest",
-}) as any as S.Schema<ListEmojiRequest>;
+).annotate({ identifier: "ListEmojiRequest" }) as any as S.Schema<ListEmojiRequest>;
 
 export type ListEmojiResponseEmojiMap = { [key: string]: unknown | undefined };
 export const ListEmojiResponseEmojiMap = /*@__PURE__*/ S.Record(
@@ -65,9 +63,7 @@ export const ListEmojiResponse = /*@__PURE__*/ S.suspend(() =>
     categories_version: S.optional(S.String),
     categories: S.optional(ListEmojiResponseCategoriesList),
   }),
-).annotate({
-  identifier: "ListEmojiResponse",
-}) as any as S.Schema<ListEmojiResponse>;
+).annotate({ identifier: "ListEmojiResponse" }) as any as S.Schema<ListEmojiResponse>;
 
 export type ListEmojiError = SlackOpError;
 /** Lists custom emoji for a team. Required scopes — bot: `emoji:read`; user: `emoji:read` Rate limit tier: 2 Method-specific errors (the `error` slug on the SlackError): - `invalid_arguments` — Invalid API arguments provided - `unable_to_fetch_custom_emojis` — Unable to fetch custom emojis for team. See https://docs.slack.dev/reference/methods/emoji.list */

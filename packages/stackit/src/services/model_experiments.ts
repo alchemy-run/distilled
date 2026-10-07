@@ -46,7 +46,7 @@ export class NotFound
   ) {}
 
 export type CreateInstanceRequestRegionId = "eu01";
-export const CreateInstanceRequestRegionId = /*@__PURE__*/ S.String;
+export const CreateInstanceRequestRegionId = S.String;
 
 /** Object that represents the labels of an object. Regex for keys: `^([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9]$`. Regex for values: `^(([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9])*$`. Providing a `null` value for a key will remove that key. The `stackit-` prefix is reserved and cannot be used for Keys. */
 export type Labels = { [key: string]: string | undefined };
@@ -78,9 +78,7 @@ export const CreateInstanceRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://model-experiments.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "CreateInstanceRequest",
-}) as any as S.Schema<CreateInstanceRequest>;
+).annotate({ identifier: "CreateInstanceRequest" }) as any as S.Schema<CreateInstanceRequest>;
 
 export type InstanceState =
   | "pending"
@@ -90,7 +88,7 @@ export type InstanceState =
   | "deleting"
   | "impaired"
   | "reconciling";
-export const InstanceState = /*@__PURE__*/ S.String;
+export const InstanceState = S.String;
 
 export interface Instance {
   bucketName?: string;
@@ -128,12 +126,10 @@ export const CreateInstanceResponse = /*@__PURE__*/ S.suspend(() =>
     instance: Instance,
     message: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CreateInstanceResponse",
-}) as any as S.Schema<CreateInstanceResponse>;
+).annotate({ identifier: "CreateInstanceResponse" }) as any as S.Schema<CreateInstanceResponse>;
 
 export type CreateInstanceTokenRequestRegionId = "eu01";
-export const CreateInstanceTokenRequestRegionId = /*@__PURE__*/ S.String;
+export const CreateInstanceTokenRequestRegionId = S.String;
 
 export interface CreateInstanceTokenRequest {
   /** portal project id */
@@ -171,7 +167,7 @@ export const CreateInstanceTokenRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** The lifecycle state of the token. */
 export type TokenState = "creating" | "active" | "deleting" | "inactive";
-export const TokenState = /*@__PURE__*/ S.String;
+export const TokenState = S.String;
 
 export interface Token {
   content: string;
@@ -210,7 +206,7 @@ export const CreateInstanceTokenResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<CreateInstanceTokenResponse>;
 
 export type DeleteInstanceRequestRegionId = "eu01";
-export const DeleteInstanceRequestRegionId = /*@__PURE__*/ S.String;
+export const DeleteInstanceRequestRegionId = S.String;
 
 export interface DeleteInstanceRequest {
   /** portal project id */
@@ -233,9 +229,7 @@ export const DeleteInstanceRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://model-experiments.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "DeleteInstanceRequest",
-}) as any as S.Schema<DeleteInstanceRequest>;
+).annotate({ identifier: "DeleteInstanceRequest" }) as any as S.Schema<DeleteInstanceRequest>;
 
 export interface DeleteInstanceResponse {
   instance: Instance;
@@ -246,12 +240,10 @@ export const DeleteInstanceResponse = /*@__PURE__*/ S.suspend(() =>
     instance: Instance,
     message: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DeleteInstanceResponse",
-}) as any as S.Schema<DeleteInstanceResponse>;
+).annotate({ identifier: "DeleteInstanceResponse" }) as any as S.Schema<DeleteInstanceResponse>;
 
 export type DeleteInstanceTokenRequestRegionId = "eu01";
-export const DeleteInstanceTokenRequestRegionId = /*@__PURE__*/ S.String;
+export const DeleteInstanceTokenRequestRegionId = S.String;
 
 export interface DeleteInstanceTokenRequest {
   /** portal project id */
@@ -316,7 +308,7 @@ export const DeleteInstanceTokenResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<DeleteInstanceTokenResponse>;
 
 export type GetInstanceRequestRegionId = "eu01";
-export const GetInstanceRequestRegionId = /*@__PURE__*/ S.String;
+export const GetInstanceRequestRegionId = S.String;
 
 export interface GetInstanceRequest {
   /** portal project id */
@@ -339,9 +331,7 @@ export const GetInstanceRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://model-experiments.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "GetInstanceRequest",
-}) as any as S.Schema<GetInstanceRequest>;
+).annotate({ identifier: "GetInstanceRequest" }) as any as S.Schema<GetInstanceRequest>;
 
 export interface GetInstanceResponse {
   instance: Instance;
@@ -352,12 +342,10 @@ export const GetInstanceResponse = /*@__PURE__*/ S.suspend(() =>
     instance: Instance,
     message: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GetInstanceResponse",
-}) as any as S.Schema<GetInstanceResponse>;
+).annotate({ identifier: "GetInstanceResponse" }) as any as S.Schema<GetInstanceResponse>;
 
 export type GetInstanceTokenRequestRegionId = "eu01";
-export const GetInstanceTokenRequestRegionId = /*@__PURE__*/ S.String;
+export const GetInstanceTokenRequestRegionId = S.String;
 
 export interface GetInstanceTokenRequest {
   /** portal project id */
@@ -383,9 +371,7 @@ export const GetInstanceTokenRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://model-experiments.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "GetInstanceTokenRequest",
-}) as any as S.Schema<GetInstanceTokenRequest>;
+).annotate({ identifier: "GetInstanceTokenRequest" }) as any as S.Schema<GetInstanceTokenRequest>;
 
 export interface GetInstanceTokenResponse {
   message?: string;
@@ -396,12 +382,10 @@ export const GetInstanceTokenResponse = /*@__PURE__*/ S.suspend(() =>
     message: S.optional(S.String),
     token: TokenMetadata,
   }),
-).annotate({
-  identifier: "GetInstanceTokenResponse",
-}) as any as S.Schema<GetInstanceTokenResponse>;
+).annotate({ identifier: "GetInstanceTokenResponse" }) as any as S.Schema<GetInstanceTokenResponse>;
 
 export type ListInstancesRequestRegionId = "eu01";
-export const ListInstancesRequestRegionId = /*@__PURE__*/ S.String;
+export const ListInstancesRequestRegionId = S.String;
 
 export interface ListInstancesRequest {
   /** portal project id */
@@ -421,9 +405,7 @@ export const ListInstancesRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://model-experiments.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "ListInstancesRequest",
-}) as any as S.Schema<ListInstancesRequest>;
+).annotate({ identifier: "ListInstancesRequest" }) as any as S.Schema<ListInstancesRequest>;
 
 export type ListInstancesResponseInstancesList = Array<Instance>;
 export const ListInstancesResponseInstancesList = /*@__PURE__*/ S.Array(
@@ -439,12 +421,10 @@ export const ListInstancesResponse = /*@__PURE__*/ S.suspend(() =>
     instances: ListInstancesResponseInstancesList,
     message: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListInstancesResponse",
-}) as any as S.Schema<ListInstancesResponse>;
+).annotate({ identifier: "ListInstancesResponse" }) as any as S.Schema<ListInstancesResponse>;
 
 export type ListInstanceTokensRequestRegionId = "eu01";
-export const ListInstanceTokensRequestRegionId = /*@__PURE__*/ S.String;
+export const ListInstanceTokensRequestRegionId = S.String;
 
 export interface ListInstanceTokensRequest {
   /** portal project id */
@@ -490,11 +470,14 @@ export const ListInstanceTokensResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListInstanceTokensResponse>;
 
 export type PartialUpdateInstanceRequestRegionId = "eu01";
-export const PartialUpdateInstanceRequestRegionId = /*@__PURE__*/ S.String;
+export const PartialUpdateInstanceRequestRegionId = S.String;
 
 /** Object that represents the labels of an object. Regex for keys: `^([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9]$`. Regex for values: `^(([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9])*$`. Providing a `null` value for a key will remove that key. The `stackit-` prefix is reserved and cannot be used for Keys. */
-export type LabelPatch = { [key: string]: string | undefined };
-export const LabelPatch = /*@__PURE__*/ S.Record(S.String, S.String) as any as S.Schema<LabelPatch>;
+export type LabelPatch = { [key: string]: string | null | undefined };
+export const LabelPatch = /*@__PURE__*/ S.Record(
+  S.String,
+  S.NullOr(S.String),
+) as any as S.Schema<LabelPatch>;
 
 export interface PartialUpdateInstanceRequest {
   /** portal project id */
@@ -543,7 +526,7 @@ export const PartialUpdateInstanceResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<PartialUpdateInstanceResponse>;
 
 export type PartialUpdateInstanceTokenRequestRegionId = "eu01";
-export const PartialUpdateInstanceTokenRequestRegionId = /*@__PURE__*/ S.String;
+export const PartialUpdateInstanceTokenRequestRegionId = S.String;
 
 export interface PartialUpdateInstanceTokenRequest {
   /** portal project id */

@@ -123,7 +123,7 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "changedSinceDate",
-            "smithy.api#documentation": "Includes all audits that have changed since changedSinceDate."
+            "smithy.api#documentation": "Includes all audits that have changed since changedSinceDate, including\nsoft-deleted audits whose deletionDate is on or after that timestamp."
           }
         },
         "isActiveAudit": {
@@ -207,7 +207,7 @@
         "framework": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Legacy singular framework display name from the audit type. Incomplete for\na multi-framework audit — use `segments` for framework identity.",
+            "smithy.api#documentation": "Legacy singular framework display name from the audit type. Incomplete for\na multi-framework audit — use `segments` instead.",
             "smithy.api#required": {}
           }
         },
@@ -270,6 +270,14 @@
             "smithy.api#required": {}
           }
         },
+        "irlGenerationStatus": {
+          "target": "com.vanta.auditor_api#AuditIrlGenerationStatus",
+          "traits": {
+            "smithy.api#documentation": "Generation status of this audit's Vanta-generated information request list\n(IRL). `PENDING`/`RUNNING` defer initial sync, `READY` permits a full sync,\nand `FAILED` is terminal. Null means the audit has no generated IRL.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
         "auditorRequestListMetadata": {
           "target": "com.vanta.auditor_api#AuditAuditorRequestListMetadata",
           "traits": {
@@ -279,7 +287,7 @@
         "segments": {
           "target": "com.vanta.auditor_api#AuditSegmentsList",
           "traits": {
-            "smithy.api#documentation": "The audit's scope as a list of segments. Always present. A live\nsingle-framework audit has one entry; a multi-framework audit has one\nentry per in-scope framework (and business unit or system, when applicable).\nSoft-deleted audits return an empty list. Prefer this over the deprecated\ntop-level `framework` field.",
+            "smithy.api#documentation": "The audit's scope as a list of segments. Always present. A live audit\nreturns every in-scope program and system segment; more than one segment\ndoes not by itself imply more than one framework. Soft-deleted audits\nreturn an empty list. Prefer this over the deprecated top-level `framework`\nfield.",
             "smithy.api#required": {}
           }
         }
@@ -308,6 +316,36 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "INTERNAL"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vanta.auditor_api#AuditIrlGenerationStatus": {
+      "type": "enum",
+      "members": {
+        "PENDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PENDING"
+          }
+        },
+        "RUNNING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "RUNNING"
+          }
+        },
+        "READY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "READY"
+          }
+        },
+        "FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "FAILED"
           }
         }
       },
@@ -356,7 +394,7 @@
         "framework": {
           "target": "com.vanta.auditor_api#AuditSegmentFramework",
           "traits": {
-            "smithy.api#documentation": "The framework reached through this segment.",
+            "smithy.api#documentation": "The framework this segment is in.",
             "smithy.api#required": {}
           }
         },
@@ -386,7 +424,7 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "One segment of an audit's scope. A live single-framework audit has exactly\none entry; a live multi-framework audit has one per in-scope framework\n(and business unit or system, when applicable). Soft-deleted audits return\nan empty list. `displayName` is the segment label owned by audit scope\n(for example \"{Framework}\" or \"{Framework} — {Business Unit}\").\n`soc2Deliverable` is the per-segment SOC 2 config, or null. `businessUnit`\nis set for program segments that are BU-scoped and null otherwise. `system`\nis set for system segments and null otherwise."
+        "smithy.api#documentation": "One segment of an audit's scope. A live audit returns every in-scope program\nand system segment; more than one segment does not by itself imply more than\none framework. Soft-deleted audits return an empty list. `displayName` is the\nsegment label owned by audit scope\n(for example \"{Framework}\" or \"{Framework} — {Business Unit}\").\n`soc2Deliverable` is the per-segment SOC 2 config, or null. `businessUnit`\nis set for program segments that are BU-scoped and null otherwise. `system`\nis set for system segments and null otherwise."
       }
     },
     "com.vanta.auditor_api#AuditSegmentKind": {
@@ -410,30 +448,16 @@
     "com.vanta.auditor_api#AuditSegmentFramework": {
       "type": "structure",
       "members": {
-        "id": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The stable identifier of the framework (for example `soc2`).",
-            "smithy.api#required": {}
-          }
-        },
         "displayName": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The human-readable framework name.",
-            "smithy.api#required": {}
-          }
-        },
-        "shortName": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The short framework name used in compact UI.",
+            "smithy.api#documentation": "Display name of the framework.",
             "smithy.api#required": {}
           }
         }
       },
       "traits": {
-        "smithy.api#documentation": "The framework reached through a segment."
+        "smithy.api#documentation": "The framework this segment is in."
       }
     },
     "com.vanta.auditor_api#AuditSegmentAssociation": {
@@ -549,7 +573,7 @@
         "target": "com.vanta.auditor_api#AuditSegment"
       },
       "traits": {
-        "smithy.api#documentation": "The audit's scope as a list of segments. Always present. A live\nsingle-framework audit has one entry; a multi-framework audit has one\nentry per in-scope framework (and business unit or system, when applicable).\nSoft-deleted audits return an empty list. Prefer this over the deprecated\ntop-level `framework` field."
+        "smithy.api#documentation": "The audit's scope as a list of segments. Always present. A live audit\nreturns every in-scope program and system segment; more than one segment\ndoes not by itself imply more than one framework. Soft-deleted audits\nreturn an empty list. Prefer this over the deprecated top-level `framework`\nfield."
       }
     },
     "com.vanta.auditor_api#PaginatedResponseAuditResultsDataList": {
@@ -629,7 +653,7 @@
           "uri": "/audits",
           "code": 200
         },
-        "smithy.api#documentation": "List audits\n\nReturns a paginated list of audits scoped to the audit firm.\n\nTo identify IRL (Information Request List) audits, check for the presence of the\n`auditorRequestListMetadata` field. This field is only present for IRL-based audits\nand will be `undefined` for standard audits.\n\nEach audit includes `segments`, the audit's scope. A live single-framework\naudit has one entry; a live multi-framework audit has one entry per\nin-scope framework (and business unit or system, when applicable).\nSoft-deleted audits return an empty list. The top-level `framework` field\nis deprecated; use `segments` for framework identity.\n\nRate limit: 250 requests / minute."
+        "smithy.api#documentation": "List audits\n\nReturns a paginated list of audits scoped to the audit firm.\n\nTo identify IRL (Information Request List) audits, check for the presence of the\n`auditorRequestListMetadata` field. This field is only present for IRL-based audits\nand will be `undefined` for standard audits.\n\nEach audit includes `segments`, the audit's scope. A live audit returns\nevery in-scope program and system segment; more than one segment does not\nby itself imply more than one framework. The top-level `framework` field is\ndeprecated; use `segments` for in-scope frameworks.\n\nThis list may include soft-deleted audits so clients can reconcile\ndeletions. Check `deletionDate`; a deleted audit has an empty `segments`\nlist.\n\nRate limit: 250 requests / minute."
       }
     },
     "com.vanta.auditor_api#DuplicateRequestAllowAuditorEmailsList": {
@@ -737,7 +761,7 @@
           "uri": "/audits/{auditId}",
           "code": 200
         },
-        "smithy.api#documentation": "Get audit by ID\n\nReturns a single audit by ID, scoped to the audit firm.\n\nTo identify IRL (Information Request List) audits, check for the presence of the\n`auditorRequestListMetadata` field. This field is only present for IRL-based audits\nand will be `undefined` for standard audits.\n\nThe response includes `segments`, the audit's scope. A live single-framework\naudit has one entry; a live multi-framework audit has one entry per\nin-scope framework (and business unit or system, when applicable).\nSoft-deleted audits return an empty list. The top-level `framework` field\nis deprecated; use `segments` for framework identity.\n\nRate limit: 250 requests / minute."
+        "smithy.api#documentation": "Get audit by ID\n\nReturns a single audit by ID, scoped to the audit firm.\n\nTo identify IRL (Information Request List) audits, check for the presence of the\n`auditorRequestListMetadata` field. This field is only present for IRL-based audits\nand will be `undefined` for standard audits.\n\nThe response includes `segments`, the audit's scope. It returns every\nin-scope program and system segment; more than one segment does not by\nitself imply more than one framework. The top-level `framework` field is\ndeprecated; use `segments` for in-scope frameworks.\n\nThis endpoint returns 404 for a soft-deleted audit.\n\nRate limit: 250 requests / minute."
       }
     },
     "com.vanta.auditor_api#ApiCodeChangeSource": {
@@ -1244,21 +1268,21 @@
         "sections": {
           "target": "com.vanta.auditor_api#AuditorControlSectionsList",
           "traits": {
-            "smithy.api#documentation": "Sections of a framework that this control satisfies",
+            "smithy.api#documentation": "Current framework sections this control satisfies within the audit\nsegments in which it is in scope.",
             "smithy.api#required": {}
           }
         },
         "inScopeSegmentIds": {
           "target": "com.vanta.auditor_api#AuditorControlInScopeSegmentIdsList",
           "traits": {
-            "smithy.api#documentation": "Audit segments this control is in scope for. Empty when the control is\nattached only by a direct link and has no catalog mapping on a\nmulti-program audit.",
+            "smithy.api#documentation": "Audit segments in which this control is in scope. This can differ from\ncurrent framework mappings, and the array can be empty.",
             "smithy.api#required": {}
           }
         },
         "assessments": {
           "target": "com.vanta.auditor_api#AuditorControlAssessmentsList",
           "traits": {
-            "smithy.api#documentation": "The auditor's assessments of this control, one per audit program segment the\ncontrol is in scope for (a multi-framework audit can have more than one).\nPopulated only for IRL audits when the assessment feature is enabled; empty\notherwise. Within an in-scope segment a control with no recorded assessment\ncoerces to `NOT_ASSESSED`; a segment the control is not in scope for\ncontributes no entry.",
+            "smithy.api#documentation": "The auditor's assessments of this control, with one entry for each segment\nin `inScopeSegmentIds`, which can be any segment on the audit, `PROGRAM` or\n`SYSTEM`. Populated only for IRL audits when assessment access is allowed;\nempty otherwise. A segment with no recorded assessment returns\n`NOT_ASSESSED`.",
             "smithy.api#required": {}
           }
         }
@@ -1419,7 +1443,7 @@
         "target": "com.vanta.auditor_api#Section"
       },
       "traits": {
-        "smithy.api#documentation": "Sections of a framework that this control satisfies"
+        "smithy.api#documentation": "Current framework sections this control satisfies within the audit\nsegments in which it is in scope."
       }
     },
     "com.vanta.auditor_api#AuditorControlInScopeSegmentIdsList": {
@@ -1428,7 +1452,7 @@
         "target": "smithy.api#String"
       },
       "traits": {
-        "smithy.api#documentation": "Audit segments this control is in scope for. Empty when the control is\nattached only by a direct link and has no catalog mapping on a\nmulti-program audit."
+        "smithy.api#documentation": "Audit segments in which this control is in scope. This can differ from\ncurrent framework mappings, and the array can be empty."
       }
     },
     "com.vanta.auditor_api#AuditControlAssessment": {
@@ -1437,7 +1461,7 @@
         "segmentId": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The audit program segment this assessment belongs to.",
+            "smithy.api#documentation": "The audit segment this assessment belongs to.",
             "smithy.api#required": {}
           }
         },
@@ -1458,7 +1482,7 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "An auditor's assessment of a control within one segment of an audit.\nAssessments are keyed per segment, so a control in scope for more than one\nsegment (a multi-framework audit) can carry a distinct assessment per\nsegment. A segment with no recorded assessment coerces to `NOT_ASSESSED` with\na `null` justification."
+        "smithy.api#documentation": "An auditor's assessment of a control within one audit segment. Assessments\ncan be recorded for any segment on the audit, `PROGRAM` or `SYSTEM`, and a\ncontrol can carry a distinct assessment per segment.\nA segment with no recorded assessment returns `NOT_ASSESSED` with a `null`\njustification."
       }
     },
     "com.vanta.auditor_api#AuditControlAssessmentState": {
@@ -1538,7 +1562,7 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "An auditor's assessment of a control within an audit. This is the full flat\nunion of every framework's assessment states (the superset); a given audit's\nframework only uses its own subset. `NOT_ASSESSED` is shared by all\nframeworks and is the default for a control that has not yet been assessed.\n\nWhich states apply to which framework:\n- Most frameworks (e.g. SOC 2): `IN_PLACE`, `NOT_IN_PLACE`, `PARTIAL`, `NOT_ASSESSED`\n- ISO 27001: `CONFORMING`, `MINOR_NON_CONFORMITY`, `MAJOR_NON_CONFORMITY`, `NOT_ASSESSED`\n- FedRAMP: `SATISFIED`, `NOT_SATISFIED`, `OTHER_THAN_SATISFIED`, `NOT_ASSESSED`\n- FedRAMP Key Security Indicators (KSI): `TRUE`, `FALSE`, `PARTIAL`, `NOT_ASSESSED`\n\nDistinct from `ControlStatus`, which is the computed tests/documents-passing\nstatus — a different concept."
+        "smithy.api#documentation": "An auditor's assessment of a control within an audit. This is the full flat\nunion of every framework's assessment states (the superset); the selected\nsegment's framework determines which subset applies. `NOT_ASSESSED` is shared\nby all frameworks and is the default for a control that has not yet been assessed.\n\nWhich states apply to which framework:\n- Most frameworks (e.g. SOC 2): `IN_PLACE`, `NOT_IN_PLACE`, `PARTIAL`, `NOT_ASSESSED`\n- ISO 27001: `CONFORMING`, `MINOR_NON_CONFORMITY`, `MAJOR_NON_CONFORMITY`, `NOT_ASSESSED`\n- FedRAMP: `SATISFIED`, `NOT_SATISFIED`, `OTHER_THAN_SATISFIED`, `NOT_ASSESSED`\n- FedRAMP Key Security Indicators (KSI): `TRUE`, `FALSE`, `PARTIAL`, `NOT_ASSESSED`\n\nDistinct from `ControlStatus`, which is the computed tests/documents-passing\nstatus — a different concept."
       }
     },
     "com.vanta.auditor_api#AuditorControlAssessmentsList": {
@@ -1547,7 +1571,7 @@
         "target": "com.vanta.auditor_api#AuditControlAssessment"
       },
       "traits": {
-        "smithy.api#documentation": "The auditor's assessments of this control, one per audit program segment the\ncontrol is in scope for (a multi-framework audit can have more than one).\nPopulated only for IRL audits when the assessment feature is enabled; empty\notherwise. Within an in-scope segment a control with no recorded assessment\ncoerces to `NOT_ASSESSED`; a segment the control is not in scope for\ncontributes no entry."
+        "smithy.api#documentation": "The auditor's assessments of this control, with one entry for each segment\nin `inScopeSegmentIds`, which can be any segment on the audit, `PROGRAM` or\n`SYSTEM`. Populated only for IRL audits when assessment access is allowed;\nempty otherwise. A segment with no recorded assessment returns\n`NOT_ASSESSED`."
       }
     },
     "com.vanta.auditor_api#PaginatedResponseAuditorControlResultsDataList": {
@@ -2176,7 +2200,7 @@
         "smithy.api#input": {}
       }
     },
-    "com.vanta.auditor_api#Control": {
+    "com.vanta.auditor_api#AuditorApiControl": {
       "type": "structure",
       "members": {
         "id": {
@@ -2216,7 +2240,7 @@
           }
         },
         "domains": {
-          "target": "com.vanta.auditor_api#ControlDomainsList",
+          "target": "com.vanta.auditor_api#AuditorApiControlDomainsList",
           "traits": {
             "smithy.api#documentation": "The security domains that the control belongs to.",
             "smithy.api#required": {}
@@ -2238,7 +2262,7 @@
           }
         },
         "customFields": {
-          "target": "com.vanta.auditor_api#ControlCustomFieldsList",
+          "target": "com.vanta.auditor_api#AuditorApiControlCustomFieldsList",
           "traits": {
             "smithy.api#documentation": "The control's custom field values, if control custom fields is included in your Vanta instance.",
             "smithy.api#required": {}
@@ -2263,7 +2287,7 @@
       },
       "traits": {}
     },
-    "com.vanta.auditor_api#ControlDomainsList": {
+    "com.vanta.auditor_api#AuditorApiControlDomainsList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
@@ -2272,7 +2296,7 @@
         "smithy.api#documentation": "The security domains that the control belongs to."
       }
     },
-    "com.vanta.auditor_api#ControlCustomFieldsList": {
+    "com.vanta.auditor_api#AuditorApiControlCustomFieldsList": {
       "type": "list",
       "member": {
         "target": "com.vanta.auditor_api#CustomField"
@@ -2287,7 +2311,7 @@
         "target": "com.vanta.auditor_api#CreateCustomControlRequest"
       },
       "output": {
-        "target": "com.vanta.auditor_api#Control"
+        "target": "com.vanta.auditor_api#AuditorApiControl"
       },
       "traits": {
         "smithy.api#http": {
@@ -2318,7 +2342,7 @@
         "segmentId": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The program segment to assess. Required when the audit has more than one\nprogram segment. Optional on a single-program audit (the only program is\nused). Must be a program segment on the audit; system segments are rejected."
+            "smithy.api#documentation": "The segment to assess: any segment on the audit, `PROGRAM` or `SYSTEM`.\nMay be omitted only when the audit has exactly one segment; required\notherwise."
           }
         },
         "assessmentState": {
@@ -2360,7 +2384,7 @@
         "segmentId": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The program segment this assessment was written to.",
+            "smithy.api#documentation": "The audit segment this assessment was written to.",
             "smithy.api#required": {}
           }
         },
@@ -2380,7 +2404,7 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "A control's auditor assessment, as persisted. Returned by the assessment\nwrite endpoint so the caller sees exactly what was recorded."
+        "smithy.api#documentation": "A control's auditor assessment returned by the assessment write endpoint."
       }
     },
     "com.vanta.auditor_api#UpsertAssessmentForControl": {
@@ -2397,7 +2421,7 @@
           "uri": "/audits/{auditId}/controls/{controlId}/assessment",
           "code": 200
         },
-        "smithy.api#documentation": "Upsert a control's assessment within an audit\n\nRecords (upserts) an auditor's assessment state and justification for a\ncontrol within an IRL audit — the API equivalent of assessing a control in\nthe web app. Overwrites the single assessment for this control in the\naudit's program segment.\n\nThe `assessmentState` must be valid for the segment's framework (the request\nis rejected otherwise). The acting auditor is identified by `auditorEmail`,\nwhich must belong to the audit firm making the request.\n\nReturns 404 when the control is not part of the audit or the auditor email\ndoes not resolve to a firm user. Returns 422 when the audit does not have\nexactly one program segment (multi-framework audits are not supported on\nthis endpoint). Applies to both Full and Controlled Audit View audits.\n\nRate limit: 10 requests / minute."
+        "smithy.api#documentation": "Upsert a control's assessment within an audit\n\nRecords (upserts) an auditor's assessment state and justification for a\ncontrol within an IRL audit — the API equivalent of assessing a control in\nthe web app. Overwrites the assessment for this control in the chosen\naudit segment.\n\n`segmentId` may be any segment on the audit, `PROGRAM` or `SYSTEM` (see\n`segments` on the audit). It may be omitted only when the audit has\nexactly one segment. The `assessmentState` must be valid for that\nsegment's framework (the request is rejected otherwise). The acting\nauditor is identified by `auditorEmail`, which must belong to the audit\nfirm making the request.\n\nReturns 404 when the control is not part of the audit or the auditor email\ndoes not resolve to a firm user. Returns 422 when `segmentId` is omitted\non an audit with more than one segment, when `segmentId` is not a segment\non this audit, or when the control is not assigned to that segment for\nthis audit. Applies to both Full and Controlled Audit View audits.\n\nRate limit: 10 requests / minute."
       }
     },
     "com.vanta.auditor_api#ListCommentsForControlRequest": {
@@ -2799,7 +2823,14 @@
         "additionalControlIds": {
           "target": "com.vanta.auditor_api#InformationRequestAdditionalControlIdsList",
           "traits": {
-            "smithy.api#documentation": "Additional control IDs beyond those automatically mapped from framework codes.\nAllows manual association with specific controls when automatic mapping\nis insufficient. Each ID should reference a valid control in your audit framework.",
+            "smithy.api#documentation": "Deprecated control-linkage field retained for response compatibility. It\nmay contain control IDs supplied directly to the request, but it is not a\ncomplete or guaranteed-current list of controls linked to the request. Use\n`linkedControlIds` for the complete current list.",
+            "smithy.api#required": {}
+          }
+        },
+        "linkedControlIds": {
+          "target": "com.vanta.auditor_api#InformationRequestLinkedControlIdsList",
+          "traits": {
+            "smithy.api#documentation": "The complete current set of control IDs linked to this request, including\ncontrols linked through framework codes and controls added directly. Each\nID is returned by the audit controls endpoint.",
             "smithy.api#required": {}
           }
         },
@@ -2821,7 +2852,14 @@
         "frameworkCodes": {
           "target": "com.vanta.auditor_api#InformationRequestFrameworkCodesList",
           "traits": {
-            "smithy.api#documentation": "The framework codes this request addresses.\nLinks the request to specific compliance requirements. Can be an empty array\nif no framework codes are associated. These codes correspond to standards like SOC 2, ISO 27001, etc.",
+            "smithy.api#documentation": "Always empty on read. Use `linkedControlIds` for control linkage and\n`segmentIds` for request assignment.",
+            "smithy.api#required": {}
+          }
+        },
+        "segmentIds": {
+          "target": "com.vanta.auditor_api#InformationRequestSegmentIdsList",
+          "traits": {
+            "smithy.api#documentation": "Audit segments this request is assigned to. Empty means unassigned.\nResolved against the current audit scope — stale IDs are dropped.\n\nThis field is a current-scope projection, not a stored watermark. An\naudit-scope change that drops or adds IDs here does not update\ncreationDate, modificationDate, or deletionDate, so it does not appear in\n`changedSinceDate` delta sync on its own. Re-fetch the list without that\nparameter, or GET the request by id, to see the current projection.",
             "smithy.api#required": {}
           }
         },
@@ -2912,7 +2950,16 @@
         "target": "smithy.api#String"
       },
       "traits": {
-        "smithy.api#documentation": "Additional control IDs beyond those automatically mapped from framework codes.\nAllows manual association with specific controls when automatic mapping\nis insufficient. Each ID should reference a valid control in your audit framework."
+        "smithy.api#documentation": "Deprecated control-linkage field retained for response compatibility. It\nmay contain control IDs supplied directly to the request, but it is not a\ncomplete or guaranteed-current list of controls linked to the request. Use\n`linkedControlIds` for the complete current list."
+      }
+    },
+    "com.vanta.auditor_api#InformationRequestLinkedControlIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "The complete current set of control IDs linked to this request, including\ncontrols linked through framework codes and controls added directly. Each\nID is returned by the audit controls endpoint."
       }
     },
     "com.vanta.auditor_api#InformationRequestApprovalStatus": {
@@ -2985,7 +3032,16 @@
         "target": "smithy.api#String"
       },
       "traits": {
-        "smithy.api#documentation": "The framework codes this request addresses.\nLinks the request to specific compliance requirements. Can be an empty array\nif no framework codes are associated. These codes correspond to standards like SOC 2, ISO 27001, etc."
+        "smithy.api#documentation": "Always empty on read. Use `linkedControlIds` for control linkage and\n`segmentIds` for request assignment."
+      }
+    },
+    "com.vanta.auditor_api#InformationRequestSegmentIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Audit segments this request is assigned to. Empty means unassigned.\nResolved against the current audit scope — stale IDs are dropped.\n\nThis field is a current-scope projection, not a stored watermark. An\naudit-scope change that drops or adds IDs here does not update\ncreationDate, modificationDate, or deletionDate, so it does not appear in\n`changedSinceDate` delta sync on its own. Re-fetch the list without that\nparameter, or GET the request by id, to see the current projection."
       }
     },
     "com.vanta.auditor_api#InformationRequestType": {
@@ -3139,7 +3195,7 @@
           "uri": "/audits/{auditId}/controls/{controlId}/information-requests",
           "code": 200
         },
-        "smithy.api#documentation": "List information requests linked to a control within an audit\n\nReturns a paginated list of active information requests linked to a specific\ncontrol within an IRL audit. An information request is linked to a control\neither via its framework codes (`criteriaIds`) or via a direct association\n(`additionalControlIds`).\n\nSoft-deleted information requests are not included in the response. To\nsynchronize deletions, use `GET /audits/{auditId}/information-requests`,\nwhich supports `changedSinceDate` and includes soft-deleted records.\n\nReturns 404 when the control is not part of the audit. Returns an empty page\nwhen the control is part of the audit but has no active IRLs linked to it.\n\nPagination usage:\n1. Make initial request with desired `pageSize`\n2. Check `results.pageInfo.hasNextPage` to see if more data exists\n3. If true, use `results.pageInfo.endCursor` as `pageCursor` in next request\n4. Repeat until `hasNextPage` is false\n\nRate limit: 50 requests / minute."
+        "smithy.api#documentation": "List information requests linked to a control within an audit\n\nReturns a paginated list of active information requests linked to a specific\ncontrol within an IRL audit. Only links saved on the audit's current\ncontrol rows are included.\n\nSoft-deleted information requests are not included in the response. To\nsynchronize deletions, use `GET /audits/{auditId}/information-requests`,\nwhich supports `changedSinceDate` and includes soft-deleted records.\n\nReturns 404 when the control is not part of the audit. Returns an empty page\nwhen the control is part of the audit but has no active IRLs linked to it.\n\nPagination usage:\n1. Make initial request with desired `pageSize`\n2. Check `results.pageInfo.hasNextPage` to see if more data exists\n3. If true, use `results.pageInfo.endCursor` as `pageCursor` in next request\n4. Repeat until `hasNextPage` is false\n\nRate limit: 50 requests / minute."
       }
     },
     "com.vanta.auditor_api#ListAuditEvidenceRequest": {
@@ -4029,7 +4085,14 @@
         "frameworkCodes": {
           "target": "com.vanta.auditor_api#FrameworkCodesFrameworkCodesList",
           "traits": {
-            "smithy.api#documentation": "Array of valid framework codes for the audit's framework (e.g., \"CC6.1\", \"CC6.2\").\nThese represent the different framework sections available for creating information requests.",
+            "smithy.api#documentation": "Valid framework codes for this audit.",
+            "smithy.api#required": {}
+          }
+        },
+        "codesByFramework": {
+          "target": "com.vanta.auditor_api#FrameworkCodesCodesByFrameworkList",
+          "traits": {
+            "smithy.api#documentation": "Valid codes grouped by each distinct in-scope framework. A code that exists\non two frameworks appears in both groups. Two segments that share a\nframework contribute one group. `framework` is the display name.",
             "smithy.api#required": {}
           }
         }
@@ -4044,7 +4107,45 @@
         "target": "smithy.api#String"
       },
       "traits": {
-        "smithy.api#documentation": "Array of valid framework codes for the audit's framework (e.g., \"CC6.1\", \"CC6.2\").\nThese represent the different framework sections available for creating information requests."
+        "smithy.api#documentation": "Valid framework codes for this audit."
+      }
+    },
+    "com.vanta.auditor_api#FrameworkCodesByFramework": {
+      "type": "structure",
+      "members": {
+        "framework": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Display name of the in-scope framework these codes belong to.",
+            "smithy.api#required": {}
+          }
+        },
+        "codes": {
+          "target": "com.vanta.auditor_api#FrameworkCodesByFrameworkCodesList",
+          "traits": {
+            "smithy.api#documentation": "Valid codes for this framework, sorted.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vanta.auditor_api#FrameworkCodesByFrameworkCodesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Valid codes for this framework, sorted."
+      }
+    },
+    "com.vanta.auditor_api#FrameworkCodesCodesByFrameworkList": {
+      "type": "list",
+      "member": {
+        "target": "com.vanta.auditor_api#FrameworkCodesByFramework"
+      },
+      "traits": {
+        "smithy.api#documentation": "Valid codes grouped by each distinct in-scope framework. A code that exists\non two frameworks appears in both groups. Two segments that share a\nframework contribute one group. `framework` is the display name."
       }
     },
     "com.vanta.auditor_api#GetFrameworkCodes": {
@@ -4061,8 +4162,15 @@
           "uri": "/audits/{auditId}/framework-codes",
           "code": 200
         },
-        "smithy.api#documentation": "Get framework codes for an audit\n\nRetrieves all valid framework codes for the specified audit. This endpoint helps users discover which framework codes are available for creating and updating information requests for this audit.\n\nUse this endpoint to:\n- Discover available framework codes before creating information requests\n- Validate framework codes against the audit's framework\n- Get context about what framework codes are available for the audit type\n\nRate limit: 50 requests / minute."
+        "smithy.api#documentation": "Get framework codes for an audit\n\nRetrieves all valid framework codes for the specified audit. This endpoint helps users discover which framework codes are available for creating and updating information requests for this audit.\n\nUse this endpoint to:\n- Discover available framework codes (`frameworkCodes`, the original flat list)\n- Validate framework codes against the audit's frameworks\n- See which codes belong to which in-scope framework (`codesByFramework`)\n\nRate limit: 50 requests / minute."
       }
+    },
+    "com.vanta.auditor_api#ListInformationRequestsRequestSegmentIdsMatchesAnyList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
     },
     "com.vanta.auditor_api#ListInformationRequestsRequest": {
       "type": "structure",
@@ -4092,7 +4200,14 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "changedSinceDate",
-            "smithy.api#documentation": "Includes all information requests that have changed since changedSinceDate.\nConsiders creationDate, modificationDate, and deletionDate timestamps when determining changes."
+            "smithy.api#documentation": "Includes all information requests that have changed since changedSinceDate.\nConsiders creationDate, modificationDate, and deletionDate timestamps when determining changes.\nDoes not include requests whose only change is the derived `segmentIds`\nprojection after an audit-scope change."
+          }
+        },
+        "segmentIdsMatchesAny": {
+          "target": "com.vanta.auditor_api#ListInformationRequestsRequestSegmentIdsMatchesAnyList",
+          "traits": {
+            "smithy.api#httpQuery": "segmentIdsMatchesAny",
+            "smithy.api#documentation": "Return requests whose stored segment assignment includes any of these\nIDs (OR). Omit to return all. A match can still come back with\n`segmentIds: []` if the stored ID is no longer in the audit's scope."
           }
         }
       },
@@ -4114,7 +4229,7 @@
           "uri": "/audits/{auditId}/information-requests",
           "code": 200
         },
-        "smithy.api#documentation": "List information requests for an audit\n\nRetrieves a paginated list of all information requests for an audit, enabling\nexternal audit management systems to display and track evidence requests.\n\nThis endpoint always includes soft-deleted records (where `deletionDate !== null`).\nClients should check the `deletionDate` field to identify and handle deleted records\nappropriately in their systems.\n\nThis endpoint supports delta synchronization via the `changedSinceDate` parameter,\nallowing efficient polling for changes without retrieving the entire dataset.\n\nPagination usage:\n1. Make initial request with desired `pageSize`\n2. Check `results.pageInfo.hasNextPage` to see if more data exists\n3. If true, use `results.pageInfo.endCursor` as `pageCursor` in next request\n4. Repeat until `hasNextPage` is false\n\nDelta sync usage:\n1. Store the timestamp of your last sync\n2. Pass that timestamp as `changedSinceDate`\n3. Only requests created, modified, or deleted since that timestamp are returned\n4. Process updates and soft-deletes by checking the `deletionDate` field\n5. Update your last sync timestamp to the current time\n\nRate limit: 50 requests / minute."
+        "smithy.api#documentation": "List information requests for an audit\n\nRetrieves a paginated list of all information requests for an audit, enabling\nexternal audit management systems to display and track evidence requests.\n\nThis endpoint always includes soft-deleted records (where `deletionDate !== null`).\nClients should check the `deletionDate` field to identify and handle deleted records\nappropriately in their systems.\n\nThis is the only endpoint that returns a deleted information request. No\nwebhook fires when a request is deleted. Endpoints under\n`/audits/{auditId}/information-requests/{requestId}` return a 4xx HTTP error\nfor a deleted request. To confirm deletion, check the request's `deletionDate`\nin this list. Deleting a request does not set `deletionDate` on its comments\nor evidence or send delete events for them. Once this list confirms the\nrequest was deleted, treat its comments and evidence as deleted too.\n\nThis endpoint supports delta synchronization via the `changedSinceDate` parameter,\nallowing efficient polling for changes without retrieving the entire dataset.\n\nPagination usage:\n1. Make initial request with desired `pageSize`\n2. Check `results.pageInfo.hasNextPage` to see if more data exists\n3. If true, use `results.pageInfo.endCursor` as `pageCursor` in next request\n4. Repeat until `hasNextPage` is false\n\nDelta sync usage:\n1. Store the timestamp of your last sync\n2. Pass that timestamp as `changedSinceDate`\n3. Only requests created, modified, or deleted since that timestamp are returned\n4. Process updates and soft-deletes by checking the `deletionDate` field\n5. Update your last sync timestamp to the current time\n\n`segmentIds` on each returned request is resolved against the audit's\ncurrent scope. A scope-only change (a segment leaving or joining the audit\nwithout the request row being written) is not a delta-sync event. Re-fetch\nwithout `changedSinceDate`, or GET by id, to see the current projection.\n\nRate limit: 50 requests / minute."
       }
     },
     "com.vanta.auditor_api#CreateInformationRequestRequestFrameworkCodesList": {
@@ -4132,7 +4247,7 @@
         "target": "smithy.api#String"
       },
       "traits": {
-        "smithy.api#documentation": "Control IDs to link directly to this request, beyond those automatically\nmapped from framework codes. Each must be the `id` of an existing control in\nthe customer's organization (the identifier returned by the controls endpoints).\nThe request is rejected if any ID does not match a control.\nOmit or pass an empty array for no direct control links."
+        "smithy.api#documentation": "Control IDs to link directly to this request, beyond those automatically\nmapped from framework codes. Each must be the `id` of an existing control in\nthe customer's organization (the identifier returned by the controls endpoints).\nUnknown IDs and controls without an active mapping to a framework in the audit are skipped.\nOmit or pass an empty array for no direct control links."
       }
     },
     "com.vanta.auditor_api#CreateInformationRequestRequest": {
@@ -4204,7 +4319,7 @@
         "additionalControlIds": {
           "target": "com.vanta.auditor_api#CreateInformationRequestRequestAdditionalControlIdsList",
           "traits": {
-            "smithy.api#documentation": "Control IDs to link directly to this request, beyond those automatically\nmapped from framework codes. Each must be the `id` of an existing control in\nthe customer's organization (the identifier returned by the controls endpoints).\nThe request is rejected if any ID does not match a control.\nOmit or pass an empty array for no direct control links."
+            "smithy.api#documentation": "Control IDs to link directly to this request, beyond those automatically\nmapped from framework codes. Each must be the `id` of an existing control in\nthe customer's organization (the identifier returned by the controls endpoints).\nUnknown IDs and controls without an active mapping to a framework in the audit are skipped.\nOmit or pass an empty array for no direct control links."
           }
         }
       },
@@ -4265,7 +4380,7 @@
           "uri": "/audits/{auditId}/information-requests/{requestId}",
           "code": 200
         },
-        "smithy.api#documentation": "Get an information request by ID\n\nRetrieves a single information request by its ID for an audit, allowing external\naudit management systems to fetch the latest state of a specific request without\npaginating through the full list.\n\nSoft-deleted records (where `deletionDate !== null`) are included in the response.\nClients should check `deletionDate` to determine whether the request has been deleted.\n\nRate limit: 50 requests / minute."
+        "smithy.api#documentation": "Get an information request by ID\n\nRetrieves a single information request by its ID for an audit, allowing external\naudit management systems to fetch the latest state of a specific request without\npaginating through the full list.\n\nThis endpoint returns a 4xx HTTP error for a soft-deleted information\nrequest. To confirm deletion, use\n`GET /audits/{auditId}/information-requests`, which supports\n`changedSinceDate` and includes soft-deleted requests with `deletionDate`\nset.\n\nRate limit: 50 requests / minute."
       }
     },
     "com.vanta.auditor_api#UpdateInformationRequestRequestFrameworkCodesList": {
@@ -4274,7 +4389,7 @@
         "target": "smithy.api#String"
       },
       "traits": {
-        "smithy.api#documentation": "The framework codes this request addresses.\nAn empty array if no framework codes are associated."
+        "smithy.api#documentation": "Framework codes are assigned only at creation; on update this field is a\nsilent no-op — a value sent here is accepted for backwards compatibility\nbut ignored, leaving the request's framework codes unchanged."
       }
     },
     "com.vanta.auditor_api#UpdateInformationRequestRequestAdditionalControlIdsList": {
@@ -4283,7 +4398,16 @@
         "target": "smithy.api#String"
       },
       "traits": {
-        "smithy.api#documentation": "Control IDs to link directly to this request, beyond those automatically\nmapped from framework codes. Replaces the existing set: pass the complete\ndesired list, an empty array to clear all direct control links, or omit to\nleave them unchanged. Each must be the `id` of an existing control in the\ncustomer's organization (the identifier returned by the controls endpoints).\nThe request is rejected if any ID does not match a control."
+        "smithy.api#documentation": "This legacy field is accepted for backwards compatibility but ignored.\nUse `linkedControlIds` to replace the complete set of linked controls."
+      }
+    },
+    "com.vanta.auditor_api#UpdateInformationRequestRequestLinkedControlIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "The complete desired set of control IDs linked to this request. Send the\nfull list to replace the set, an empty array to clear it, or omit the\nproperty to leave links unchanged. Each ID must identify an existing control\nin the customer's organization and is returned by the audit controls\nendpoint. The request is rejected if any ID does not match a control."
       }
     },
     "com.vanta.auditor_api#UpdateInformationRequestRequest": {
@@ -4306,7 +4430,7 @@
         "frameworkCodes": {
           "target": "com.vanta.auditor_api#UpdateInformationRequestRequestFrameworkCodesList",
           "traits": {
-            "smithy.api#documentation": "The framework codes this request addresses.\nAn empty array if no framework codes are associated."
+            "smithy.api#documentation": "Framework codes are assigned only at creation; on update this field is a\nsilent no-op — a value sent here is accepted for backwards compatibility\nbut ignored, leaving the request's framework codes unchanged."
           }
         },
         "description": {
@@ -4351,7 +4475,13 @@
         "additionalControlIds": {
           "target": "com.vanta.auditor_api#UpdateInformationRequestRequestAdditionalControlIdsList",
           "traits": {
-            "smithy.api#documentation": "Control IDs to link directly to this request, beyond those automatically\nmapped from framework codes. Replaces the existing set: pass the complete\ndesired list, an empty array to clear all direct control links, or omit to\nleave them unchanged. Each must be the `id` of an existing control in the\ncustomer's organization (the identifier returned by the controls endpoints).\nThe request is rejected if any ID does not match a control."
+            "smithy.api#documentation": "This legacy field is accepted for backwards compatibility but ignored.\nUse `linkedControlIds` to replace the complete set of linked controls."
+          }
+        },
+        "linkedControlIds": {
+          "target": "com.vanta.auditor_api#UpdateInformationRequestRequestLinkedControlIdsList",
+          "traits": {
+            "smithy.api#documentation": "The complete desired set of control IDs linked to this request. Send the\nfull list to replace the set, an empty array to clear it, or omit the\nproperty to leave links unchanged. Each ID must identify an existing control\nin the customer's organization and is returned by the audit controls\nendpoint. The request is rejected if any ID does not match a control."
           }
         }
       },
@@ -4412,7 +4542,7 @@
           "uri": "/audits/{auditId}/information-requests/{requestId}",
           "code": 200
         },
-        "smithy.api#documentation": "Delete an information request for an audit\n\nDeletes an information request for an audit. This performs a soft delete, marking\nthe request as deleted (setting `deletionDate`) while preserving it in the system\nfor audit history and compliance tracking.\n\nSoft deletion allows:\n- Maintaining complete audit trail of all requests ever created\n- Retrieving deleted requests via `changedSinceDate` for synchronization\n\nAfter deletion:\n- The request will not appear in normal list responses (without `changedSinceDate`)\n- The request's `deletionDate` field will be populated\n\nRate limit: 50 requests / minute."
+        "smithy.api#documentation": "Delete an information request for an audit\n\nDeletes an information request for an audit. This performs a soft delete, marking\nthe request as deleted (setting `deletionDate`) while preserving it in the system\nfor audit history and compliance tracking.\n\nSoft deletion allows:\n- Maintaining complete audit trail of all requests ever created\n- Retrieving deleted requests via `changedSinceDate` for synchronization\n\nAfter deletion:\n- The request remains in list responses with `deletionDate` set, even when\n\n  `changedSinceDate` is omitted\n\nRate limit: 50 requests / minute."
       }
     },
     "com.vanta.auditor_api#AcceptInformationRequestEvidenceRequest": {
@@ -4529,7 +4659,7 @@
         "activityType": {
           "target": "com.vanta.auditor_api#InformationRequestActivityType",
           "traits": {
-            "smithy.api#documentation": "Type of activity that occurred on the information request.\nDetermines which additional fields are populated.",
+            "smithy.api#documentation": "Type of activity that occurred on the information request.\nDetermines which additional fields are populated.\n`AUDIT_INFORMATION_REQUEST_EVIDENCE_FILL` is never returned — automated\nevidence fill activity is withheld — so no entry carries that value even\nthough the enum still lists it. Do not write a case for it.",
             "smithy.api#required": {}
           }
         },
@@ -4575,7 +4705,7 @@
         "fillOutcome": {
           "target": "com.vanta.auditor_api#EvidenceFillOutcome",
           "traits": {
-            "smithy.api#documentation": "Result of an automated evidence fill.\nOnly populated for evidence fill activities. Null for all other activity types.",
+            "smithy.api#documentation": "Result of an automated evidence fill. Always null: only evidence fill activities\ncould populate it, and those are never returned, so nothing can set it. Do not\nbranch on it.",
             "smithy.api#required": {},
             "com.distilled.openapi#nullable": {}
           }
@@ -4598,7 +4728,7 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "Activity log entry tracking changes and actions on an information request.\n\nThe activity log provides a complete audit trail of all operations performed\non an information request, including status changes, evidence uploads, edits,\nand evidence sharing. This enables tracking compliance activities and understanding\nthe request's history."
+        "smithy.api#documentation": "Activity log entry tracking changes and actions on an information request.\n\nThe activity log provides an audit trail of operations performed on an\ninformation request, including status changes, evidence uploads, edits,\nand evidence sharing. This enables tracking compliance activities and understanding\nthe request's history. Which entries are visible depends on the endpoint returning\nthem; see the endpoint's own description."
       }
     },
     "com.vanta.auditor_api#InformationRequestActivityType": {
@@ -4788,7 +4918,7 @@
           "uri": "/audits/{auditId}/information-requests/{requestId}/activity",
           "code": 200
         },
-        "smithy.api#documentation": "List information request activity\n\nRetrieves a paginated list of activity logs for an information request, providing\na complete audit trail of all changes and actions.\n\nThis endpoint supports delta synchronization via the `changedSinceDate` parameter,\nallowing efficient polling for changes without retrieving the entire dataset.\n\nPagination usage:\n1. Make initial request with desired `pageSize`\n2. Check `results.pageInfo.hasNextPage` to see if more data exists\n3. If true, use `results.pageInfo.endCursor` as `pageCursor` in next request\n4. Repeat until `hasNextPage` is false\n\nDelta sync usage:\n1. Store the timestamp of your last sync\n2. Pass that timestamp as `changedSinceDate`\n3. Only activity created since that timestamp is returned\n4. Process updates to track all changes to the information request\n5. Update your last sync timestamp to the current time\n\nRate limit: 50 requests / minute."
+        "smithy.api#documentation": "List information request activity\n\nRetrieves a paginated list of activity logs for an information request, providing\nan audit trail of the changes and actions taken on it.\n\nActivity recording Vanta's automated preparation of a request is never returned by\nthis endpoint, so `fillOutcome` is always null here. Some internal status transitions\nare also withheld, and those are removed after a page is selected, so a page can\ncontain fewer entries than `pageSize` — or none at all — while more pages remain.\nFollow `results.pageInfo.hasNextPage` rather than treating a short or empty page as\nthe end of the list.\n\nIf the information request has been deleted, this endpoint returns a 4xx\nHTTP error instead of its activity.\n\nThis endpoint supports delta synchronization via the `changedSinceDate` parameter,\nallowing efficient polling for changes without retrieving the entire dataset.\n\nPagination usage:\n1. Make initial request with desired `pageSize`\n2. Check `results.pageInfo.hasNextPage` to see if more data exists\n3. If true, use `results.pageInfo.endCursor` as `pageCursor` in next request\n4. Repeat until `hasNextPage` is false\n\nDelta sync usage:\n1. Store the timestamp of your last sync\n2. Pass that timestamp as `changedSinceDate`\n3. Only activity created since that timestamp is returned\n4. Process updates to track all changes to the information request\n5. Update your last sync timestamp to the current time\n\nRate limit: 50 requests / minute."
       }
     },
     "com.vanta.auditor_api#ListCommentsForInformationRequestRequest": {
@@ -4946,7 +5076,7 @@
           "uri": "/audits/{auditId}/information-requests/{requestId}/comments",
           "code": 200
         },
-        "smithy.api#documentation": "List comments for an information request\n\nRetrieves a paginated list of comments for an information request, enabling\nauditors to view communication history and collaborate with customers.\n\nThis endpoint always includes soft-deleted records (where `deletionDate !== null`).\nClients should check the `deletionDate` field to identify and handle deleted records\nappropriately in their systems.\n\nThis endpoint supports delta synchronization via the `changedSinceDate` parameter,\nallowing efficient polling for changes without retrieving the entire dataset.\n\nPagination usage:\n1. Make initial request with desired `pageSize`\n2. Check `results.pageInfo.hasNextPage` to see if more data exists\n3. If true, use `results.pageInfo.endCursor` as `pageCursor` in next request\n4. Repeat until `hasNextPage` is false\n\nDelta sync usage:\n1. Store the timestamp of your last sync\n2. Pass that timestamp as `changedSinceDate`\n3. Only comments created, modified, or deleted since that timestamp are returned\n4. Process updates, including soft-deletes (deletionDate !== null)\n5. Update your last sync timestamp to the current time\n\nRate limit: 50 requests / minute."
+        "smithy.api#documentation": "List comments for an information request\n\nRetrieves a paginated list of comments for an information request, enabling\nauditors to view communication history and collaborate with customers.\n\nThis endpoint always includes soft-deleted records (where `deletionDate !== null`).\nClients should check the `deletionDate` field to identify and handle deleted records\nappropriately in their systems.\n\nIf the information request itself has been deleted, this endpoint returns a\n4xx HTTP error instead of its comments.\n\nThis endpoint supports delta synchronization via the `changedSinceDate` parameter,\nallowing efficient polling for changes without retrieving the entire dataset.\n\nPagination usage:\n1. Make initial request with desired `pageSize`\n2. Check `results.pageInfo.hasNextPage` to see if more data exists\n3. If true, use `results.pageInfo.endCursor` as `pageCursor` in next request\n4. Repeat until `hasNextPage` is false\n\nDelta sync usage:\n1. Store the timestamp of your last sync\n2. Pass that timestamp as `changedSinceDate`\n3. Only comments created, modified, or deleted since that timestamp are returned\n4. Process updates, including soft-deletes (deletionDate !== null)\n5. Update your last sync timestamp to the current time\n\nRate limit: 50 requests / minute."
       }
     },
     "com.vanta.auditor_api#CreateCommentForInformationRequestRequest": {
@@ -5052,7 +5182,7 @@
           "uri": "/audits/{auditId}/information-requests/{requestId}/comments/{commentId}",
           "code": 200
         },
-        "smithy.api#documentation": "Get an information request comment by ID\n\nRetrieves a single comment on an information request by its ID.\n\nSoft-deleted comments (where `deletionDate !== null`) are included in the\nresponse. Clients should check `deletionDate` to determine whether the\ncomment has been deleted. This matches\n`GET /audits/{auditId}/information-requests/{requestId}/comments`, which\nsupports `changedSinceDate` and returns soft-deleted comments for delta sync.\n\nComments remain fetchable when the parent information request has been\nsoft-deleted, so delayed webhook consumers can still resolve a comment ID\nafter the request is deleted.\n\nRate limit: 50 requests / minute."
+        "smithy.api#documentation": "Get an information request comment by ID\n\nRetrieves a single comment on an information request by its ID.\n\nSoft-deleted comments (where `deletionDate !== null`) are included in the\nresponse. Clients should check `deletionDate` to determine whether the\ncomment has been deleted. This matches\n`GET /audits/{auditId}/information-requests/{requestId}/comments`, which\nsupports `changedSinceDate` and returns soft-deleted comments for delta sync.\n\nComments are only resolvable while their information request exists. Once\nthe request itself is deleted, this endpoint returns a 4xx HTTP error\ninstead of the comment. Check the request's `deletionDate` using\n`GET /audits/{auditId}/information-requests` before treating its comments\nas deleted too.\n\nRate limit: 50 requests / minute."
       }
     },
     "com.vanta.auditor_api#UpdateCommentForInformationRequestRequest": {
@@ -6041,7 +6171,7 @@
           "uri": "/audits/{auditId}/information-requests/{requestId}/evidence",
           "code": 200
         },
-        "smithy.api#documentation": "List evidence for an information request\n\nRetrieves a paginated list of all evidence attached to an information request,\nenabling auditors to review evidence submitted by customers.\n\nThis endpoint always includes soft-deleted records (where `deletionDate !== null`).\nClients should check the `deletionDate` field to identify and handle deleted records\nappropriately in their systems.\n\nThis endpoint supports delta synchronization via the `changedSinceDate` parameter,\nallowing efficient polling for changes without retrieving the entire dataset.\n\nPagination usage:\n1. Make initial request with desired `pageSize`\n2. Check `results.pageInfo.hasNextPage` to see if more data exists\n3. If true, use `results.pageInfo.endCursor` as `pageCursor` in next request\n4. Repeat until `hasNextPage` is false\n\nDelta sync usage:\n1. Store the timestamp of your last sync\n2. Pass that timestamp as `changedSinceDate`\n3. Only evidence created, modified, shared, or deleted since that timestamp is returned\n4. Process updates, including soft-deletes (deletionDate !== null)\n5. Update your last sync timestamp to the current time\n\nRate limit: 50 requests / minute."
+        "smithy.api#documentation": "List evidence for an information request\n\nRetrieves a paginated list of all evidence attached to an information request,\nenabling auditors to review evidence submitted by customers.\n\nThis endpoint always includes soft-deleted records (where `deletionDate !== null`).\nClients should check the `deletionDate` field to identify and handle deleted records\nappropriately in their systems.\n\nIf the information request itself has been deleted, this endpoint returns a\n4xx HTTP error instead of its evidence.\n\nThis endpoint supports delta synchronization via the `changedSinceDate` parameter,\nallowing efficient polling for changes without retrieving the entire dataset.\n\nPagination usage:\n1. Make initial request with desired `pageSize`\n2. Check `results.pageInfo.hasNextPage` to see if more data exists\n3. If true, use `results.pageInfo.endCursor` as `pageCursor` in next request\n4. Repeat until `hasNextPage` is false\n\nDelta sync usage:\n1. Store the timestamp of your last sync\n2. Pass that timestamp as `changedSinceDate`\n3. Only evidence created, modified, shared, or deleted since that timestamp is returned\n4. Process updates, including soft-deletes (deletionDate !== null)\n5. Update your last sync timestamp to the current time\n\nRate limit: 50 requests / minute."
       }
     },
     "com.vanta.auditor_api#GetInformationRequestEvidenceRequest": {
@@ -6087,7 +6217,7 @@
           "uri": "/audits/{auditId}/information-requests/{requestId}/evidence/{evidenceId}",
           "code": 200
         },
-        "smithy.api#documentation": "Get information request evidence by ID\n\nRetrieves a single evidence item attached to an information request by its ID.\n\nThis endpoint always includes soft-deleted evidence (where `deletionDate !== null`),\nso an evidence ID surfaced by a `changedSinceDate` delta sync stays fetchable after\nthe evidence is deleted. Clients should check the `deletionDate` field to identify\nand handle deleted records appropriately in their systems.\n\nEvidence is only resolvable while its information request exists. Once the\nrequest itself is deleted, this endpoint reports the request as not found —\nmatching `GET /audits/{auditId}/information-requests/{requestId}/evidence`.\nClients reconciling a deleted request should treat its evidence as gone with it.\n\nEvidence that the customer has not shared with the auditor is reported as not\nfound, rather than distinguishing it from an ID that does not exist.\n\nRate limit: 250 requests / minute."
+        "smithy.api#documentation": "Get information request evidence by ID\n\nRetrieves a single evidence item attached to an information request by its ID.\n\nThis endpoint always includes soft-deleted evidence (where `deletionDate !== null`),\nso an evidence ID surfaced by a `changedSinceDate` delta sync stays fetchable after\nthe evidence is deleted. Clients should check the `deletionDate` field to identify\nand handle deleted records appropriately in their systems.\n\nEvidence is only resolvable while its information request exists. Once the\nrequest itself is deleted, this endpoint returns a 4xx HTTP error instead\nof the evidence. Check the request's `deletionDate` using\n`GET /audits/{auditId}/information-requests` before treating its evidence\nas deleted too.\n\nEvidence that the customer has not shared with the auditor is reported as not\nfound, rather than distinguishing it from an ID that does not exist.\n\nRate limit: 250 requests / minute."
       }
     },
     "com.vanta.auditor_api#GetInformationRequestTestSnapshotEvidenceDetailRequest": {

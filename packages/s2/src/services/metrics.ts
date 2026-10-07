@@ -31,9 +31,7 @@ export const AccountMetricsRequest = /*@__PURE__*/ S.suspend(() =>
     end: S.optional(S.Number.pipe(T.Query())),
     interval: S.optional(TimeseriesInterval.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/metrics", code: 200 })),
-).annotate({
-  identifier: "AccountMetricsRequest",
-}) as any as S.Schema<AccountMetricsRequest>;
+).annotate({ identifier: "AccountMetricsRequest" }) as any as S.Schema<AccountMetricsRequest>;
 
 export type MetricUnit = "bytes" | "operations";
 export const MetricUnit = S.String;
@@ -93,9 +91,7 @@ export const AccumulationMetric = /*@__PURE__*/ S.suspend(() =>
     unit: MetricUnit,
     values: AccumulationMetricValuesList,
   }),
-).annotate({
-  identifier: "AccumulationMetric",
-}) as any as S.Schema<AccumulationMetric>;
+).annotate({ identifier: "AccumulationMetric" }) as any as S.Schema<AccumulationMetric>;
 
 /** Named series of `(timestamp, value)` points representing an accumulation over a specified interval. */
 export interface MetricCase1 {
@@ -193,9 +189,7 @@ export const MetricSetResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     values: MetricSetResponseValuesList,
   }),
-).annotate({
-  identifier: "MetricSetResponse",
-}) as any as S.Schema<MetricSetResponse>;
+).annotate({ identifier: "MetricSetResponse" }) as any as S.Schema<MetricSetResponse>;
 
 export type BasinMetricSet =
   | "storage"
@@ -226,9 +220,7 @@ export const BasinMetricsRequest = /*@__PURE__*/ S.suspend(() =>
     end: S.optional(S.Number.pipe(T.Query())),
     interval: S.optional(TimeseriesInterval.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/metrics/{basin}", code: 200 })),
-).annotate({
-  identifier: "BasinMetricsRequest",
-}) as any as S.Schema<BasinMetricsRequest>;
+).annotate({ identifier: "BasinMetricsRequest" }) as any as S.Schema<BasinMetricsRequest>;
 
 export type StreamMetricSet = "storage";
 export const StreamMetricSet = S.String;
@@ -256,9 +248,7 @@ export const StreamMetricsRequest = /*@__PURE__*/ S.suspend(() =>
     end: S.optional(S.Number.pipe(T.Query())),
     interval: S.optional(TimeseriesInterval.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/metrics/{basin}/{stream}", code: 200 })),
-).annotate({
-  identifier: "StreamMetricsRequest",
-}) as any as S.Schema<StreamMetricsRequest>;
+).annotate({ identifier: "StreamMetricsRequest" }) as any as S.Schema<StreamMetricsRequest>;
 
 export type AccountMetricsError = S2OpError;
 /** Account-level metrics. */

@@ -23,16 +23,9 @@ export const ListTeamsRequest = /*@__PURE__*/ S.suspend(() =>
     cursor: S.optional(S.String),
     include_icon: S.optional(S.Boolean),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/auth.teams.list",
-      code: 200,
-      contentType: "form-urlencoded",
-    }),
+    T.Http({ method: "POST", uri: "/auth.teams.list", code: 200, contentType: "form-urlencoded" }),
   ),
-).annotate({
-  identifier: "ListTeamsRequest",
-}) as any as S.Schema<ListTeamsRequest>;
+).annotate({ identifier: "ListTeamsRequest" }) as any as S.Schema<ListTeamsRequest>;
 
 /** Paths to icons */
 export interface ListTeamsResponseTeamsItemIcon {
@@ -109,9 +102,7 @@ export const ListTeamsResponse = /*@__PURE__*/ S.suspend(() =>
     teams: ListTeamsResponseTeamsList,
     response_metadata: S.optional(ListTeamsResponseResponseMetadata),
   }),
-).annotate({
-  identifier: "ListTeamsResponse",
-}) as any as S.Schema<ListTeamsResponse>;
+).annotate({ identifier: "ListTeamsResponse" }) as any as S.Schema<ListTeamsResponse>;
 
 export interface RevokeAuthRequest {
   /** Setting this parameter to `1` triggers a _testing mode_ where the specified token will not actually be revoked. */
@@ -121,9 +112,7 @@ export const RevokeAuthRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     test: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/auth.revoke", code: 200 })),
-).annotate({
-  identifier: "RevokeAuthRequest",
-}) as any as S.Schema<RevokeAuthRequest>;
+).annotate({ identifier: "RevokeAuthRequest" }) as any as S.Schema<RevokeAuthRequest>;
 
 export interface RevokeAuthResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -135,16 +124,12 @@ export const RevokeAuthResponse = /*@__PURE__*/ S.suspend(() =>
     ok: S.Boolean,
     revoked: S.Boolean,
   }),
-).annotate({
-  identifier: "RevokeAuthResponse",
-}) as any as S.Schema<RevokeAuthResponse>;
+).annotate({ identifier: "RevokeAuthResponse" }) as any as S.Schema<RevokeAuthResponse>;
 
 export interface TestAuthRequest {}
 export const TestAuthRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "POST", uri: "/auth.test", code: 200 })),
-).annotate({
-  identifier: "TestAuthRequest",
-}) as any as S.Schema<TestAuthRequest>;
+).annotate({ identifier: "TestAuthRequest" }) as any as S.Schema<TestAuthRequest>;
 
 export interface TestAuthResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -176,12 +161,10 @@ export const TestAuthResponse = /*@__PURE__*/ S.suspend(() =>
     is_enterprise_install: S.optional(S.Boolean),
     expires_in: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "TestAuthResponse",
-}) as any as S.Schema<TestAuthResponse>;
+).annotate({ identifier: "TestAuthResponse" }) as any as S.Schema<TestAuthResponse>;
 
 export type ListTeamsError = SlackOpError;
-/** Obtain a full list of workspaces your org-wide app has been approved for. Rate limit tier: 2 Method-specific errors (the `error` slug on the SlackError): - `invalid_cursor` — Invalid cursor. - `invalid_limit` — The value passed for `limit` was not valid. - `invalid_auth` — The token doesn't have access to this endpoint. - `internal_error` — There was an internal error. See https://docs.slack.dev/reference/methods/auth.teams.list */
+/** Obtain a full list of workspaces your org-wide app has been approved for. Rate limit tier: 3 Method-specific errors (the `error` slug on the SlackError): - `invalid_cursor` — Invalid cursor. - `invalid_limit` — The value passed for `limit` was not valid. - `invalid_auth` — The token doesn't have access to this endpoint. - `internal_error` — There was an internal error. See https://docs.slack.dev/reference/methods/auth.teams.list */
 export const listTeams: API.PaginatedOperationMethod<
   ListTeamsRequest,
   ListTeamsResponse,

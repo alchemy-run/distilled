@@ -82,23 +82,21 @@ export const StringList = /*@__PURE__*/ S.Array(S.String) as any as S.Schema<Str
 export interface SasPortalDeployment {
   /** User ID used by the devices belonging to this deployment. Each deployment should be associated with one unique user ID. */
   sasUserIds?: StringList;
+  /** Output only. Resource name. */
+  name?: string;
   /** Output only. The FCC Registration Numbers (FRNs) copied from its direct parent. */
   frns?: StringList;
   /** The deployment's display name. */
   displayName?: string;
-  /** Output only. Resource name. */
-  name?: string;
 }
 export const SasPortalDeployment = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     sasUserIds: S.optional(StringList),
+    name: S.optional(S.String),
     frns: S.optional(StringList),
     displayName: S.optional(S.String),
-    name: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SasPortalDeployment",
-}) as any as S.Schema<SasPortalDeployment>;
+).annotate({ identifier: "SasPortalDeployment" }) as any as S.Schema<SasPortalDeployment>;
 
 export interface CreateCustomersDeploymentsRequest {
   /** Required. The parent resource name where the deployment is to be created. */
@@ -133,25 +131,273 @@ export const SasPortalFrequencyRange = /*@__PURE__*/ S.suspend(() =>
     lowFrequencyMhz: S.optional(S.Number),
     highFrequencyMhz: S.optional(S.Number),
   }),
+).annotate({ identifier: "SasPortalFrequencyRange" }) as any as S.Schema<SasPortalFrequencyRange>;
+
+/** The channel with score. */
+export interface SasPortalChannelWithScore {
+  /** The channel score, normalized to be in the range [0,100]. */
+  score?: number;
+  /** The frequency range of the channel. */
+  frequencyRange?: SasPortalFrequencyRange;
+}
+export const SasPortalChannelWithScore = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    score: S.optional(S.Number),
+    frequencyRange: S.optional(SasPortalFrequencyRange),
+  }),
 ).annotate({
-  identifier: "SasPortalFrequencyRange",
-}) as any as S.Schema<SasPortalFrequencyRange>;
+  identifier: "SasPortalChannelWithScore",
+}) as any as S.Schema<SasPortalChannelWithScore>;
+
+export type SasPortalChannelWithScoreList = Array<SasPortalChannelWithScore>;
+export const SasPortalChannelWithScoreList = /*@__PURE__*/ S.Array(
+  SasPortalChannelWithScore,
+) as any as S.Schema<SasPortalChannelWithScoreList>;
+
+export type SasPortalNrqzValidationStateEnum = "STATE_UNSPECIFIED" | "DRAFT" | "FINAL";
+export const SasPortalNrqzValidationStateEnum = S.String;
+
+/** Information about National Radio Quiet Zone validation. */
+export interface SasPortalNrqzValidation {
+  /** Device latitude that's associated with the validation. */
+  latitude?: number;
+  /** CPI who signed the validation. */
+  cpiId?: string;
+  /** State of the NRQZ validation info. */
+  state?: SasPortalNrqzValidationStateEnum | (string & {});
+  /** Validation case ID. */
+  caseId?: string;
+  /** Device longitude that's associated with the validation. */
+  longitude?: number;
+}
+export const SasPortalNrqzValidation = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    latitude: S.optional(S.Number),
+    cpiId: S.optional(S.String),
+    state: S.optional(SasPortalNrqzValidationStateEnum),
+    caseId: S.optional(S.String),
+    longitude: S.optional(S.Number),
+  }),
+).annotate({ identifier: "SasPortalNrqzValidation" }) as any as S.Schema<SasPortalNrqzValidation>;
+
+/** Device data overridable by both SAS Portal and registration requests. */
+export interface SasPortalDeviceMetadata {
+  /** Output only. Set to `true` if a CPI has validated that they have coordinated with the National Quiet Zone office. */
+  nrqzValidated?: boolean;
+  /** Output only. National Radio Quiet Zone validation info. */
+  nrqzValidation?: SasPortalNrqzValidation;
+  /** Interference Coordination Group (ICG). A group of CBSDs that manage their own interference with the group. For more details, see [CBRSA-TS-2001 V3.0.0](https://ongoalliance.org/wp-content/uploads/2020/02/CBRSA-TS-2001-V3.0.0_Approved-for-publication.pdf). */
+  interferenceCoordinationGroup?: string;
+  /** Common Channel Group (CCG). A group of CBSDs in the same ICG requesting a common primary channel assignment. For more details, see [CBRSA-TS-2001 V3.0.0](https://ongoalliance.org/wp-content/uploads/2020/02/CBRSA-TS-2001-V3.0.0_Approved-for-publication.pdf). */
+  commonChannelGroup?: string;
+  /** If populated, the Antenna Model Pattern to use. Format is: `RecordCreatorId:PatternId` */
+  antennaModel?: string;
+}
+export const SasPortalDeviceMetadata = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    nrqzValidated: S.optional(S.Boolean),
+    nrqzValidation: S.optional(SasPortalNrqzValidation),
+    interferenceCoordinationGroup: S.optional(S.String),
+    commonChannelGroup: S.optional(S.String),
+    antennaModel: S.optional(S.String),
+  }),
+).annotate({ identifier: "SasPortalDeviceMetadata" }) as any as S.Schema<SasPortalDeviceMetadata>;
+
+export type SasPortalFrequencyRangeList = Array<SasPortalFrequencyRange>;
+export const SasPortalFrequencyRangeList = /*@__PURE__*/ S.Array(
+  SasPortalFrequencyRange,
+) as any as S.Schema<SasPortalFrequencyRangeList>;
+
+export type SasPortalDeviceStateEnum =
+  | "DEVICE_STATE_UNSPECIFIED"
+  | "RESERVED"
+  | "REGISTERED"
+  | "DEREGISTERED";
+export const SasPortalDeviceStateEnum = S.String;
+
+export type SasPortalDeviceAirInterfaceRadioTechnologyEnum =
+  | "RADIO_TECHNOLOGY_UNSPECIFIED"
+  | "E_UTRA"
+  | "CAMBIUM_NETWORKS"
+  | "FOUR_G_BBW_SAA_1"
+  | "NR"
+  | "DOODLE_CBRS"
+  | "CW"
+  | "REDLINE"
+  | "TARANA_WIRELESS"
+  | "FAROS";
+export const SasPortalDeviceAirInterfaceRadioTechnologyEnum = S.String;
+
+/** Information about the device's air interface. */
+export interface SasPortalDeviceAirInterface {
+  /** Optional. This field is related to the `radioTechnology` and provides the air interface specification that the CBSD is compliant with at the time of registration. */
+  supportedSpec?: string;
+  /** Conditional. This field specifies the radio access technology that is used for the CBSD. */
+  radioTechnology?: SasPortalDeviceAirInterfaceRadioTechnologyEnum | (string & {});
+}
+export const SasPortalDeviceAirInterface = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    supportedSpec: S.optional(S.String),
+    radioTechnology: S.optional(SasPortalDeviceAirInterfaceRadioTechnologyEnum),
+  }),
+).annotate({
+  identifier: "SasPortalDeviceAirInterface",
+}) as any as S.Schema<SasPortalDeviceAirInterface>;
+
+export type SasPortalInstallationParamsHeightTypeEnum =
+  | "HEIGHT_TYPE_UNSPECIFIED"
+  | "HEIGHT_TYPE_AGL"
+  | "HEIGHT_TYPE_AMSL";
+export const SasPortalInstallationParamsHeightTypeEnum = S.String;
+
+/** Information about the device installation parameters. */
+export interface SasPortalInstallationParams {
+  /** Device antenna height in meters. When the `heightType` parameter value is "AGL", the antenna height should be given relative to ground level. When the `heightType` parameter value is "AMSL", it is given with respect to WGS84 datum. */
+  height?: number;
+  /** Boresight direction of the horizontal plane of the antenna in degrees with respect to true north. The value of this parameter is an integer with a value between 0 and 359 inclusive. A value of 0 degrees means true north; a value of 90 degrees means east. This parameter is optional for Category A devices and conditional for Category B devices. */
+  antennaAzimuth?: number;
+  /** Peak antenna gain in dBi. This parameter is a double with a value between -127 and +128 (dBi) inclusive. Part of Release 2 to support floating-point value */
+  antennaGain?: number;
+  /** If an external antenna is used, the antenna model is optionally provided in this field. The string has a maximum length of 128 octets. */
+  antennaModel?: string;
+  /** This parameter is the maximum device EIRP in units of dBm/10MHz and is an integer with a value between -127 and +47 (dBm/10 MHz) inclusive. If not included, SAS interprets it as maximum allowable EIRP in units of dBm/10MHz for device category. */
+  eirpCapability?: number;
+  /** Specifies how the height is measured. */
+  heightType?: SasPortalInstallationParamsHeightTypeEnum | (string & {});
+  /** 3-dB antenna beamwidth of the antenna in the horizontal-plane in degrees. This parameter is an unsigned integer having a value between 0 and 360 (degrees) inclusive; it is optional for Category A devices and conditional for Category B devices. */
+  antennaBeamwidth?: number;
+  /** Latitude of the device antenna location in degrees relative to the WGS 84 datum. The allowed range is from -90.000000 to +90.000000. Positive values represent latitudes north of the equator; negative values south of the equator. */
+  latitude?: number;
+  /** A positive number in meters to indicate accuracy of the device antenna horizontal location. This optional parameter should only be present if its value is less than the FCC requirement of 50 meters. */
+  horizontalAccuracy?: number;
+  /** If present, this parameter specifies whether the CBSD is a CPE-CBSD or not. */
+  cpeCbsdIndication?: boolean;
+  /** Antenna downtilt in degrees and is an integer with a value between -90 and +90 inclusive; a negative value means the antenna is tilted up (above horizontal). This parameter is optional for Category A devices and conditional for Category B devices. */
+  antennaDowntilt?: number;
+  /** A positive number in meters to indicate accuracy of the device antenna vertical location. This optional parameter should only be present if its value is less than the FCC requirement of 3 meters. */
+  verticalAccuracy?: number;
+  /** Longitude of the device antenna location in degrees relative to the WGS 84 datum. The allowed range is from -180.000000 to +180.000000. Positive values represent longitudes east of the prime meridian; negative values west of the prime meridian. */
+  longitude?: number;
+  /** Whether the device antenna is indoor or not. `true`: indoor. `false`: outdoor. */
+  indoorDeployment?: boolean;
+}
+export const SasPortalInstallationParams = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    height: S.optional(S.Number),
+    antennaAzimuth: S.optional(S.Number),
+    antennaGain: S.optional(S.Number),
+    antennaModel: S.optional(S.String),
+    eirpCapability: S.optional(S.Number),
+    heightType: S.optional(SasPortalInstallationParamsHeightTypeEnum),
+    antennaBeamwidth: S.optional(S.Number),
+    latitude: S.optional(S.Number),
+    horizontalAccuracy: S.optional(S.Number),
+    cpeCbsdIndication: S.optional(S.Boolean),
+    antennaDowntilt: S.optional(S.Number),
+    verticalAccuracy: S.optional(S.Number),
+    longitude: S.optional(S.Number),
+    indoorDeployment: S.optional(S.Boolean),
+  }),
+).annotate({
+  identifier: "SasPortalInstallationParams",
+}) as any as S.Schema<SasPortalInstallationParams>;
+
+/** Information about the model of the device. */
+export interface SasPortalDeviceModel {
+  /** The hardware version of the device. */
+  hardwareVersion?: string;
+  /** The name of the device vendor. */
+  vendor?: string;
+  /** The firmware version of the device. */
+  firmwareVersion?: string;
+  /** The software version of the device. */
+  softwareVersion?: string;
+  /** The name of the device model. */
+  name?: string;
+}
+export const SasPortalDeviceModel = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    hardwareVersion: S.optional(S.String),
+    vendor: S.optional(S.String),
+    firmwareVersion: S.optional(S.String),
+    softwareVersion: S.optional(S.String),
+    name: S.optional(S.String),
+  }),
+).annotate({ identifier: "SasPortalDeviceModel" }) as any as S.Schema<SasPortalDeviceModel>;
+
+export type SasPortalDeviceConfigCategoryEnum =
+  | "DEVICE_CATEGORY_UNSPECIFIED"
+  | "DEVICE_CATEGORY_A"
+  | "DEVICE_CATEGORY_B";
+export const SasPortalDeviceConfigCategoryEnum = S.String;
+
+export type SasPortalDeviceConfigMeasurementCapabilitiesItemEnum =
+  | "MEASUREMENT_CAPABILITY_UNSPECIFIED"
+  | "MEASUREMENT_CAPABILITY_RECEIVED_POWER_WITH_GRANT"
+  | "MEASUREMENT_CAPABILITY_RECEIVED_POWER_WITHOUT_GRANT";
+export const SasPortalDeviceConfigMeasurementCapabilitiesItemEnum = S.String;
+
+export type SasPortalDeviceConfigMeasurementCapabilitiesItemEnumList = Array<
+  SasPortalDeviceConfigMeasurementCapabilitiesItemEnum | (string & {})
+>;
+export const SasPortalDeviceConfigMeasurementCapabilitiesItemEnumList = /*@__PURE__*/ S.Array(
+  SasPortalDeviceConfigMeasurementCapabilitiesItemEnum,
+) as any as S.Schema<SasPortalDeviceConfigMeasurementCapabilitiesItemEnumList>;
+
+export type SasPortalDeviceConfigStateEnum = "DEVICE_CONFIG_STATE_UNSPECIFIED" | "DRAFT" | "FINAL";
+export const SasPortalDeviceConfigStateEnum = S.String;
+
+/** Information about the device configuration. */
+export interface SasPortalDeviceConfig {
+  /** Information about this device's air interface. */
+  airInterface?: SasPortalDeviceAirInterface;
+  /** Installation parameters for the device. */
+  installationParams?: SasPortalInstallationParams;
+  /** Output only. Whether the configuration has been signed by a CPI. */
+  isSigned?: boolean;
+  /** Output only. The last time the device configuration was edited. */
+  updateTime?: string;
+  /** Information about this device model. */
+  model?: SasPortalDeviceModel;
+  /** The call sign of the device operator. */
+  callSign?: string;
+  /** FCC category of the device. */
+  category?: SasPortalDeviceConfigCategoryEnum | (string & {});
+  /** The identifier of a device user. */
+  userId?: string;
+  /** Measurement reporting capabilities of the device. */
+  measurementCapabilities?: SasPortalDeviceConfigMeasurementCapabilitiesItemEnumList;
+  /** State of the configuration. */
+  state?: SasPortalDeviceConfigStateEnum | (string & {});
+}
+export const SasPortalDeviceConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    airInterface: S.optional(SasPortalDeviceAirInterface),
+    installationParams: S.optional(SasPortalInstallationParams),
+    isSigned: S.optional(S.Boolean),
+    updateTime: S.optional(S.String),
+    model: S.optional(SasPortalDeviceModel),
+    callSign: S.optional(S.String),
+    category: S.optional(SasPortalDeviceConfigCategoryEnum),
+    userId: S.optional(S.String),
+    measurementCapabilities: S.optional(SasPortalDeviceConfigMeasurementCapabilitiesItemEnumList),
+    state: S.optional(SasPortalDeviceConfigStateEnum),
+  }),
+).annotate({ identifier: "SasPortalDeviceConfig" }) as any as S.Schema<SasPortalDeviceConfig>;
 
 /** An entry in a DPA's move list. */
 export interface SasPortalDpaMoveList {
-  /** The frequency range that the move list affects. */
-  frequencyRange?: SasPortalFrequencyRange;
   /** The ID of the DPA. */
   dpaId?: string;
+  /** The frequency range that the move list affects. */
+  frequencyRange?: SasPortalFrequencyRange;
 }
 export const SasPortalDpaMoveList = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    frequencyRange: S.optional(SasPortalFrequencyRange),
     dpaId: S.optional(S.String),
+    frequencyRange: S.optional(SasPortalFrequencyRange),
   }),
-).annotate({
-  identifier: "SasPortalDpaMoveList",
-}) as any as S.Schema<SasPortalDpaMoveList>;
+).annotate({ identifier: "SasPortalDpaMoveList" }) as any as S.Schema<SasPortalDpaMoveList>;
 
 export type SasPortalDpaMoveListList = Array<SasPortalDpaMoveList>;
 export const SasPortalDpaMoveListList = /*@__PURE__*/ S.Array(
@@ -177,345 +423,81 @@ export const SasPortalDeviceGrantChannelTypeEnum = S.String;
 export interface SasPortalDeviceGrant {
   /** The transmission frequency range. */
   frequencyRange?: SasPortalFrequencyRange;
-  /** If the grant is suspended, the reason(s) for suspension. */
-  suspensionReason?: StringList;
-  /** The expiration time of the grant. */
-  expireTime?: string;
-  /** The DPA move lists on which this grant appears. */
-  moveList?: SasPortalDpaMoveListList;
-  /** State of the grant. */
-  state?: SasPortalDeviceGrantStateEnum | (string & {});
-  /** Grant Id. */
-  grantId?: string;
   /** Maximum Equivalent Isotropically Radiated Power (EIRP) permitted by the grant. The maximum EIRP is in units of dBm/MHz. The value of `maxEirp` represents the average (RMS) EIRP that would be measured by the procedure defined in FCC part 96.41(e)(3). */
   maxEirp?: number;
+  /** The DPA move lists on which this grant appears. */
+  moveList?: SasPortalDpaMoveListList;
+  /** The expiration time of the grant. */
+  expireTime?: string;
+  /** Grant Id. */
+  grantId?: string;
+  /** If the grant is suspended, the reason(s) for suspension. */
+  suspensionReason?: StringList;
   /** The transmit expiration time of the last heartbeat. */
   lastHeartbeatTransmitExpireTime?: string;
+  /** State of the grant. */
+  state?: SasPortalDeviceGrantStateEnum | (string & {});
   /** Type of channel used. */
   channelType?: SasPortalDeviceGrantChannelTypeEnum | (string & {});
 }
 export const SasPortalDeviceGrant = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     frequencyRange: S.optional(SasPortalFrequencyRange),
-    suspensionReason: S.optional(StringList),
-    expireTime: S.optional(S.String),
-    moveList: S.optional(SasPortalDpaMoveListList),
-    state: S.optional(SasPortalDeviceGrantStateEnum),
-    grantId: S.optional(S.String),
     maxEirp: S.optional(S.Number),
+    moveList: S.optional(SasPortalDpaMoveListList),
+    expireTime: S.optional(S.String),
+    grantId: S.optional(S.String),
+    suspensionReason: S.optional(StringList),
     lastHeartbeatTransmitExpireTime: S.optional(S.String),
+    state: S.optional(SasPortalDeviceGrantStateEnum),
     channelType: S.optional(SasPortalDeviceGrantChannelTypeEnum),
   }),
-).annotate({
-  identifier: "SasPortalDeviceGrant",
-}) as any as S.Schema<SasPortalDeviceGrant>;
+).annotate({ identifier: "SasPortalDeviceGrant" }) as any as S.Schema<SasPortalDeviceGrant>;
 
 export type SasPortalDeviceGrantList = Array<SasPortalDeviceGrant>;
 export const SasPortalDeviceGrantList = /*@__PURE__*/ S.Array(
   SasPortalDeviceGrant,
 ) as any as S.Schema<SasPortalDeviceGrantList>;
 
-/** The channel with score. */
-export interface SasPortalChannelWithScore {
-  /** The frequency range of the channel. */
-  frequencyRange?: SasPortalFrequencyRange;
-  /** The channel score, normalized to be in the range [0,100]. */
-  score?: number;
-}
-export const SasPortalChannelWithScore = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    frequencyRange: S.optional(SasPortalFrequencyRange),
-    score: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "SasPortalChannelWithScore",
-}) as any as S.Schema<SasPortalChannelWithScore>;
-
-export type SasPortalChannelWithScoreList = Array<SasPortalChannelWithScore>;
-export const SasPortalChannelWithScoreList = /*@__PURE__*/ S.Array(
-  SasPortalChannelWithScore,
-) as any as S.Schema<SasPortalChannelWithScoreList>;
-
-export type SasPortalNrqzValidationStateEnum = "STATE_UNSPECIFIED" | "DRAFT" | "FINAL";
-export const SasPortalNrqzValidationStateEnum = S.String;
-
-/** Information about National Radio Quiet Zone validation. */
-export interface SasPortalNrqzValidation {
-  /** CPI who signed the validation. */
-  cpiId?: string;
-  /** Device latitude that's associated with the validation. */
-  latitude?: number;
-  /** State of the NRQZ validation info. */
-  state?: SasPortalNrqzValidationStateEnum | (string & {});
-  /** Validation case ID. */
-  caseId?: string;
-  /** Device longitude that's associated with the validation. */
-  longitude?: number;
-}
-export const SasPortalNrqzValidation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    cpiId: S.optional(S.String),
-    latitude: S.optional(S.Number),
-    state: S.optional(SasPortalNrqzValidationStateEnum),
-    caseId: S.optional(S.String),
-    longitude: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "SasPortalNrqzValidation",
-}) as any as S.Schema<SasPortalNrqzValidation>;
-
-/** Device data overridable by both SAS Portal and registration requests. */
-export interface SasPortalDeviceMetadata {
-  /** Output only. Set to `true` if a CPI has validated that they have coordinated with the National Quiet Zone office. */
-  nrqzValidated?: boolean;
-  /** If populated, the Antenna Model Pattern to use. Format is: `RecordCreatorId:PatternId` */
-  antennaModel?: string;
-  /** Common Channel Group (CCG). A group of CBSDs in the same ICG requesting a common primary channel assignment. For more details, see [CBRSA-TS-2001 V3.0.0](https://ongoalliance.org/wp-content/uploads/2020/02/CBRSA-TS-2001-V3.0.0_Approved-for-publication.pdf). */
-  commonChannelGroup?: string;
-  /** Output only. National Radio Quiet Zone validation info. */
-  nrqzValidation?: SasPortalNrqzValidation;
-  /** Interference Coordination Group (ICG). A group of CBSDs that manage their own interference with the group. For more details, see [CBRSA-TS-2001 V3.0.0](https://ongoalliance.org/wp-content/uploads/2020/02/CBRSA-TS-2001-V3.0.0_Approved-for-publication.pdf). */
-  interferenceCoordinationGroup?: string;
-}
-export const SasPortalDeviceMetadata = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    nrqzValidated: S.optional(S.Boolean),
-    antennaModel: S.optional(S.String),
-    commonChannelGroup: S.optional(S.String),
-    nrqzValidation: S.optional(SasPortalNrqzValidation),
-    interferenceCoordinationGroup: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "SasPortalDeviceMetadata",
-}) as any as S.Schema<SasPortalDeviceMetadata>;
-
-export type SasPortalFrequencyRangeList = Array<SasPortalFrequencyRange>;
-export const SasPortalFrequencyRangeList = /*@__PURE__*/ S.Array(
-  SasPortalFrequencyRange,
-) as any as S.Schema<SasPortalFrequencyRangeList>;
-
-export type SasPortalDeviceConfigStateEnum = "DEVICE_CONFIG_STATE_UNSPECIFIED" | "DRAFT" | "FINAL";
-export const SasPortalDeviceConfigStateEnum = S.String;
-
-export type SasPortalDeviceConfigMeasurementCapabilitiesItemEnum =
-  | "MEASUREMENT_CAPABILITY_UNSPECIFIED"
-  | "MEASUREMENT_CAPABILITY_RECEIVED_POWER_WITH_GRANT"
-  | "MEASUREMENT_CAPABILITY_RECEIVED_POWER_WITHOUT_GRANT";
-export const SasPortalDeviceConfigMeasurementCapabilitiesItemEnum = S.String;
-
-export type SasPortalDeviceConfigMeasurementCapabilitiesItemEnumList = Array<
-  SasPortalDeviceConfigMeasurementCapabilitiesItemEnum | (string & {})
->;
-export const SasPortalDeviceConfigMeasurementCapabilitiesItemEnumList = /*@__PURE__*/ S.Array(
-  SasPortalDeviceConfigMeasurementCapabilitiesItemEnum,
-) as any as S.Schema<SasPortalDeviceConfigMeasurementCapabilitiesItemEnumList>;
-
-export type SasPortalDeviceConfigCategoryEnum =
-  | "DEVICE_CATEGORY_UNSPECIFIED"
-  | "DEVICE_CATEGORY_A"
-  | "DEVICE_CATEGORY_B";
-export const SasPortalDeviceConfigCategoryEnum = S.String;
-
-export type SasPortalDeviceAirInterfaceRadioTechnologyEnum =
-  | "RADIO_TECHNOLOGY_UNSPECIFIED"
-  | "E_UTRA"
-  | "CAMBIUM_NETWORKS"
-  | "FOUR_G_BBW_SAA_1"
-  | "NR"
-  | "DOODLE_CBRS"
-  | "CW"
-  | "REDLINE"
-  | "TARANA_WIRELESS"
-  | "FAROS";
-export const SasPortalDeviceAirInterfaceRadioTechnologyEnum = S.String;
-
-/** Information about the device's air interface. */
-export interface SasPortalDeviceAirInterface {
-  /** Conditional. This field specifies the radio access technology that is used for the CBSD. */
-  radioTechnology?: SasPortalDeviceAirInterfaceRadioTechnologyEnum | (string & {});
-  /** Optional. This field is related to the `radioTechnology` and provides the air interface specification that the CBSD is compliant with at the time of registration. */
-  supportedSpec?: string;
-}
-export const SasPortalDeviceAirInterface = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    radioTechnology: S.optional(SasPortalDeviceAirInterfaceRadioTechnologyEnum),
-    supportedSpec: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "SasPortalDeviceAirInterface",
-}) as any as S.Schema<SasPortalDeviceAirInterface>;
-
-/** Information about the model of the device. */
-export interface SasPortalDeviceModel {
-  /** The software version of the device. */
-  softwareVersion?: string;
-  /** The name of the device model. */
-  name?: string;
-  /** The name of the device vendor. */
-  vendor?: string;
-  /** The firmware version of the device. */
-  firmwareVersion?: string;
-  /** The hardware version of the device. */
-  hardwareVersion?: string;
-}
-export const SasPortalDeviceModel = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    softwareVersion: S.optional(S.String),
-    name: S.optional(S.String),
-    vendor: S.optional(S.String),
-    firmwareVersion: S.optional(S.String),
-    hardwareVersion: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "SasPortalDeviceModel",
-}) as any as S.Schema<SasPortalDeviceModel>;
-
-export type SasPortalInstallationParamsHeightTypeEnum =
-  | "HEIGHT_TYPE_UNSPECIFIED"
-  | "HEIGHT_TYPE_AGL"
-  | "HEIGHT_TYPE_AMSL";
-export const SasPortalInstallationParamsHeightTypeEnum = S.String;
-
-/** Information about the device installation parameters. */
-export interface SasPortalInstallationParams {
-  /** A positive number in meters to indicate accuracy of the device antenna horizontal location. This optional parameter should only be present if its value is less than the FCC requirement of 50 meters. */
-  horizontalAccuracy?: number;
-  /** A positive number in meters to indicate accuracy of the device antenna vertical location. This optional parameter should only be present if its value is less than the FCC requirement of 3 meters. */
-  verticalAccuracy?: number;
-  /** Antenna downtilt in degrees and is an integer with a value between -90 and +90 inclusive; a negative value means the antenna is tilted up (above horizontal). This parameter is optional for Category A devices and conditional for Category B devices. */
-  antennaDowntilt?: number;
-  /** If present, this parameter specifies whether the CBSD is a CPE-CBSD or not. */
-  cpeCbsdIndication?: boolean;
-  /** Device antenna height in meters. When the `heightType` parameter value is "AGL", the antenna height should be given relative to ground level. When the `heightType` parameter value is "AMSL", it is given with respect to WGS84 datum. */
-  height?: number;
-  /** Whether the device antenna is indoor or not. `true`: indoor. `false`: outdoor. */
-  indoorDeployment?: boolean;
-  /** Specifies how the height is measured. */
-  heightType?: SasPortalInstallationParamsHeightTypeEnum | (string & {});
-  /** If an external antenna is used, the antenna model is optionally provided in this field. The string has a maximum length of 128 octets. */
-  antennaModel?: string;
-  /** Latitude of the device antenna location in degrees relative to the WGS 84 datum. The allowed range is from -90.000000 to +90.000000. Positive values represent latitudes north of the equator; negative values south of the equator. */
-  latitude?: number;
-  /** This parameter is the maximum device EIRP in units of dBm/10MHz and is an integer with a value between -127 and +47 (dBm/10 MHz) inclusive. If not included, SAS interprets it as maximum allowable EIRP in units of dBm/10MHz for device category. */
-  eirpCapability?: number;
-  /** Longitude of the device antenna location in degrees relative to the WGS 84 datum. The allowed range is from -180.000000 to +180.000000. Positive values represent longitudes east of the prime meridian; negative values west of the prime meridian. */
-  longitude?: number;
-  /** Boresight direction of the horizontal plane of the antenna in degrees with respect to true north. The value of this parameter is an integer with a value between 0 and 359 inclusive. A value of 0 degrees means true north; a value of 90 degrees means east. This parameter is optional for Category A devices and conditional for Category B devices. */
-  antennaAzimuth?: number;
-  /** 3-dB antenna beamwidth of the antenna in the horizontal-plane in degrees. This parameter is an unsigned integer having a value between 0 and 360 (degrees) inclusive; it is optional for Category A devices and conditional for Category B devices. */
-  antennaBeamwidth?: number;
-  /** Peak antenna gain in dBi. This parameter is a double with a value between -127 and +128 (dBi) inclusive. Part of Release 2 to support floating-point value */
-  antennaGain?: number;
-}
-export const SasPortalInstallationParams = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    horizontalAccuracy: S.optional(S.Number),
-    verticalAccuracy: S.optional(S.Number),
-    antennaDowntilt: S.optional(S.Number),
-    cpeCbsdIndication: S.optional(S.Boolean),
-    height: S.optional(S.Number),
-    indoorDeployment: S.optional(S.Boolean),
-    heightType: S.optional(SasPortalInstallationParamsHeightTypeEnum),
-    antennaModel: S.optional(S.String),
-    latitude: S.optional(S.Number),
-    eirpCapability: S.optional(S.Number),
-    longitude: S.optional(S.Number),
-    antennaAzimuth: S.optional(S.Number),
-    antennaBeamwidth: S.optional(S.Number),
-    antennaGain: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "SasPortalInstallationParams",
-}) as any as S.Schema<SasPortalInstallationParams>;
-
-/** Information about the device configuration. */
-export interface SasPortalDeviceConfig {
-  /** Output only. Whether the configuration has been signed by a CPI. */
-  isSigned?: boolean;
-  /** State of the configuration. */
-  state?: SasPortalDeviceConfigStateEnum | (string & {});
-  /** The call sign of the device operator. */
-  callSign?: string;
-  /** Measurement reporting capabilities of the device. */
-  measurementCapabilities?: SasPortalDeviceConfigMeasurementCapabilitiesItemEnumList;
-  /** Output only. The last time the device configuration was edited. */
-  updateTime?: string;
-  /** FCC category of the device. */
-  category?: SasPortalDeviceConfigCategoryEnum | (string & {});
-  /** Information about this device's air interface. */
-  airInterface?: SasPortalDeviceAirInterface;
-  /** Information about this device model. */
-  model?: SasPortalDeviceModel;
-  /** Installation parameters for the device. */
-  installationParams?: SasPortalInstallationParams;
-  /** The identifier of a device user. */
-  userId?: string;
-}
-export const SasPortalDeviceConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    isSigned: S.optional(S.Boolean),
-    state: S.optional(SasPortalDeviceConfigStateEnum),
-    callSign: S.optional(S.String),
-    measurementCapabilities: S.optional(SasPortalDeviceConfigMeasurementCapabilitiesItemEnumList),
-    updateTime: S.optional(S.String),
-    category: S.optional(SasPortalDeviceConfigCategoryEnum),
-    airInterface: S.optional(SasPortalDeviceAirInterface),
-    model: S.optional(SasPortalDeviceModel),
-    installationParams: S.optional(SasPortalInstallationParams),
-    userId: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "SasPortalDeviceConfig",
-}) as any as S.Schema<SasPortalDeviceConfig>;
-
-export type SasPortalDeviceStateEnum =
-  | "DEVICE_STATE_UNSPECIFIED"
-  | "RESERVED"
-  | "REGISTERED"
-  | "DEREGISTERED";
-export const SasPortalDeviceStateEnum = S.String;
-
 export interface SasPortalDevice {
-  /** Output only. Grants held by the device. */
-  grants?: SasPortalDeviceGrantList;
   /** Output only. Current channels with scores. */
   currentChannels?: SasPortalChannelWithScoreList;
   /** Device parameters that can be overridden by both SAS Portal and SAS registration requests. */
   deviceMetadata?: SasPortalDeviceMetadata;
-  /** A serial number assigned to the device by the device manufacturer. */
-  serialNumber?: string;
   /** Only ranges that are within the allowlists are available for new grants. */
   grantRangeAllowlists?: SasPortalFrequencyRangeList;
-  /** The FCC identifier of the device. Refer to https://www.fcc.gov/oet/ea/fccid for FccID format. Accept underscores and periods because some test-SAS customers use them. */
-  fccId?: string;
-  /** Output only. Current configuration of the device as registered to the SAS. */
-  activeConfig?: SasPortalDeviceConfig;
-  /** Output only. Device state. */
-  state?: SasPortalDeviceStateEnum | (string & {});
-  /** Configuration of the device, as specified via SAS Portal API. */
-  preloadedConfig?: SasPortalDeviceConfig;
-  /** Output only. The resource path name. */
-  name?: string;
   /** Device display name. */
   displayName?: string;
+  /** The FCC identifier of the device. Refer to https://www.fcc.gov/oet/ea/fccid for FccID format. Accept underscores and periods because some test-SAS customers use them. */
+  fccId?: string;
+  /** Output only. Device state. */
+  state?: SasPortalDeviceStateEnum | (string & {});
+  /** A serial number assigned to the device by the device manufacturer. */
+  serialNumber?: string;
+  /** Output only. The resource path name. */
+  name?: string;
+  /** Configuration of the device, as specified via SAS Portal API. */
+  preloadedConfig?: SasPortalDeviceConfig;
+  /** Output only. Current configuration of the device as registered to the SAS. */
+  activeConfig?: SasPortalDeviceConfig;
+  /** Output only. Grants held by the device. */
+  grants?: SasPortalDeviceGrantList;
 }
 export const SasPortalDevice = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    grants: S.optional(SasPortalDeviceGrantList),
     currentChannels: S.optional(SasPortalChannelWithScoreList),
     deviceMetadata: S.optional(SasPortalDeviceMetadata),
-    serialNumber: S.optional(S.String),
     grantRangeAllowlists: S.optional(SasPortalFrequencyRangeList),
-    fccId: S.optional(S.String),
-    activeConfig: S.optional(SasPortalDeviceConfig),
-    state: S.optional(SasPortalDeviceStateEnum),
-    preloadedConfig: S.optional(SasPortalDeviceConfig),
-    name: S.optional(S.String),
     displayName: S.optional(S.String),
+    fccId: S.optional(S.String),
+    state: S.optional(SasPortalDeviceStateEnum),
+    serialNumber: S.optional(S.String),
+    name: S.optional(S.String),
+    preloadedConfig: S.optional(SasPortalDeviceConfig),
+    activeConfig: S.optional(SasPortalDeviceConfig),
+    grants: S.optional(SasPortalDeviceGrantList),
   }),
-).annotate({
-  identifier: "SasPortalDevice",
-}) as any as S.Schema<SasPortalDevice>;
+).annotate({ identifier: "SasPortalDevice" }) as any as S.Schema<SasPortalDevice>;
 
 export interface CreateCustomersDeploymentsDevicesRequest {
   /** Required. The name of the parent resource. */
@@ -561,18 +543,18 @@ export const CreateCustomersDevicesRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** The Node. */
 export interface SasPortalNode {
-  /** User ids used by the devices belonging to this node. */
-  sasUserIds?: StringList;
   /** The node's display name. */
   displayName?: string;
   /** Output only. Resource name. */
   name?: string;
+  /** User ids used by the devices belonging to this node. */
+  sasUserIds?: StringList;
 }
 export const SasPortalNode = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    sasUserIds: S.optional(StringList),
     displayName: S.optional(S.String),
     name: S.optional(S.String),
+    sasUserIds: S.optional(StringList),
   }),
 ).annotate({ identifier: "SasPortalNode" }) as any as S.Schema<SasPortalNode>;
 
@@ -719,9 +701,7 @@ export const CreateNodesNodesRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://sasportal.googleapis.com/",
     }),
   ),
-).annotate({
-  identifier: "CreateNodesNodesRequest",
-}) as any as S.Schema<CreateNodesNodesRequest>;
+).annotate({ identifier: "CreateNodesNodesRequest" }) as any as S.Schema<CreateNodesNodesRequest>;
 
 export interface CreateNodesNodesDeploymentsRequest {
   /** Required. The parent resource name where the deployment is to be created. */
@@ -1056,9 +1036,7 @@ export const DeleteNodesNodesRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://sasportal.googleapis.com/",
     }),
   ),
-).annotate({
-  identifier: "DeleteNodesNodesRequest",
-}) as any as S.Schema<DeleteNodesNodesRequest>;
+).annotate({ identifier: "DeleteNodesNodesRequest" }) as any as S.Schema<DeleteNodesNodesRequest>;
 
 /** Request for GenerateSecret. */
 export interface SasPortalGenerateSecretRequest {}
@@ -1111,28 +1089,24 @@ export const GetCustomersRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://sasportal.googleapis.com/",
     }),
   ),
-).annotate({
-  identifier: "GetCustomersRequest",
-}) as any as S.Schema<GetCustomersRequest>;
+).annotate({ identifier: "GetCustomersRequest" }) as any as S.Schema<GetCustomersRequest>;
 
 /** Entity representing a SAS customer. */
 export interface SasPortalCustomer {
-  /** User IDs used by the devices belonging to this customer. */
-  sasUserIds?: StringList;
   /** Output only. Resource name of the customer. */
   name?: string;
+  /** User IDs used by the devices belonging to this customer. */
+  sasUserIds?: StringList;
   /** Required. Name of the organization that the customer entity represents. */
   displayName?: string;
 }
 export const SasPortalCustomer = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    sasUserIds: S.optional(StringList),
     name: S.optional(S.String),
+    sasUserIds: S.optional(StringList),
     displayName: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SasPortalCustomer",
-}) as any as S.Schema<SasPortalCustomer>;
+).annotate({ identifier: "SasPortalCustomer" }) as any as S.Schema<SasPortalCustomer>;
 
 export interface GetCustomersDeploymentsRequest {
   /** Required. The name of the deployment. */
@@ -1184,9 +1158,7 @@ export const GetCustomersNodesRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://sasportal.googleapis.com/",
     }),
   ),
-).annotate({
-  identifier: "GetCustomersNodesRequest",
-}) as any as S.Schema<GetCustomersNodesRequest>;
+).annotate({ identifier: "GetCustomersNodesRequest" }) as any as S.Schema<GetCustomersNodesRequest>;
 
 export interface GetDeploymentsRequest {
   /** Required. The name of the deployment. */
@@ -1202,9 +1174,7 @@ export const GetDeploymentsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://sasportal.googleapis.com/",
     }),
   ),
-).annotate({
-  identifier: "GetDeploymentsRequest",
-}) as any as S.Schema<GetDeploymentsRequest>;
+).annotate({ identifier: "GetDeploymentsRequest" }) as any as S.Schema<GetDeploymentsRequest>;
 
 export interface GetDeploymentsDevicesRequest {
   /** Required. The name of the device. */
@@ -1238,9 +1208,7 @@ export const GetNodesRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://sasportal.googleapis.com/",
     }),
   ),
-).annotate({
-  identifier: "GetNodesRequest",
-}) as any as S.Schema<GetNodesRequest>;
+).annotate({ identifier: "GetNodesRequest" }) as any as S.Schema<GetNodesRequest>;
 
 export interface GetNodesDeploymentsRequest {
   /** Required. The name of the deployment. */
@@ -1274,9 +1242,7 @@ export const GetNodesDevicesRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://sasportal.googleapis.com/",
     }),
   ),
-).annotate({
-  identifier: "GetNodesDevicesRequest",
-}) as any as S.Schema<GetNodesDevicesRequest>;
+).annotate({ identifier: "GetNodesDevicesRequest" }) as any as S.Schema<GetNodesDevicesRequest>;
 
 export interface GetNodesNodesRequest {
   /** Required. The name of the node. */
@@ -1292,9 +1258,7 @@ export const GetNodesNodesRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://sasportal.googleapis.com/",
     }),
   ),
-).annotate({
-  identifier: "GetNodesNodesRequest",
-}) as any as S.Schema<GetNodesNodesRequest>;
+).annotate({ identifier: "GetNodesNodesRequest" }) as any as S.Schema<GetNodesNodesRequest>;
 
 /** Request message for `GetPolicy` method. */
 export interface SasPortalGetPolicyRequest {
@@ -1323,25 +1287,21 @@ export const GetPoliciesRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://sasportal.googleapis.com/",
     }),
   ),
-).annotate({
-  identifier: "GetPoliciesRequest",
-}) as any as S.Schema<GetPoliciesRequest>;
+).annotate({ identifier: "GetPoliciesRequest" }) as any as S.Schema<GetPoliciesRequest>;
 
 /** Associates `members` with a `role`. */
 export interface SasPortalAssignment {
-  /** The identities the role is assigned to. It can have the following values: * `{user_email}`: An email address that represents a specific Google account. For example: `alice@gmail.com`. * `{group_email}`: An email address that represents a Google group. For example, `viewers@gmail.com`. */
-  members?: StringList;
   /** Required. Role that is assigned to `members`. */
   role?: string;
+  /** The identities the role is assigned to. It can have the following values: * `{user_email}`: An email address that represents a specific Google account. For example: `alice@gmail.com`. * `{group_email}`: An email address that represents a Google group. For example, `viewers@gmail.com`. */
+  members?: StringList;
 }
 export const SasPortalAssignment = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    members: S.optional(StringList),
     role: S.optional(S.String),
+    members: S.optional(StringList),
   }),
-).annotate({
-  identifier: "SasPortalAssignment",
-}) as any as S.Schema<SasPortalAssignment>;
+).annotate({ identifier: "SasPortalAssignment" }) as any as S.Schema<SasPortalAssignment>;
 
 export type SasPortalAssignmentList = Array<SasPortalAssignment>;
 export const SasPortalAssignmentList = /*@__PURE__*/ S.Array(
@@ -1360,20 +1320,18 @@ export const SasPortalPolicy = /*@__PURE__*/ S.suspend(() =>
     etag: S.optional(S.String),
     assignments: S.optional(SasPortalAssignmentList),
   }),
-).annotate({
-  identifier: "SasPortalPolicy",
-}) as any as S.Schema<SasPortalPolicy>;
+).annotate({ identifier: "SasPortalPolicy" }) as any as S.Schema<SasPortalPolicy>;
 
 export interface ListCustomersRequest {
-  /** A pagination token returned from a previous call to ListCustomers that indicates where this listing should continue from. */
-  pageToken?: string;
   /** The maximum number of customers to return in the response. */
   pageSize?: number;
+  /** A pagination token returned from a previous call to ListCustomers that indicates where this listing should continue from. */
+  pageToken?: string;
 }
 export const ListCustomersRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pageToken: S.optional(S.String.pipe(T.Query())),
     pageSize: S.optional(S.Number.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -1381,9 +1339,7 @@ export const ListCustomersRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://sasportal.googleapis.com/",
     }),
   ),
-).annotate({
-  identifier: "ListCustomersRequest",
-}) as any as S.Schema<ListCustomersRequest>;
+).annotate({ identifier: "ListCustomersRequest" }) as any as S.Schema<ListCustomersRequest>;
 
 export type SasPortalCustomerList = Array<SasPortalCustomer>;
 export const SasPortalCustomerList = /*@__PURE__*/ S.Array(
@@ -1407,21 +1363,21 @@ export const SasPortalListCustomersResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<SasPortalListCustomersResponse>;
 
 export interface ListCustomersDeploymentsRequest {
-  /** A pagination token returned from a previous call to ListDeployments that indicates where this listing should continue from. */
-  pageToken?: string;
   /** Required. The parent resource name, for example, "nodes/1", customer/1/nodes/2. */
   parent: string;
-  /** The filter expression. The filter should have the following format: "DIRECT_CHILDREN" or format: "direct_children". The filter is case insensitive. If empty, then no deployments are filtered. */
-  filter?: string;
   /** The maximum number of deployments to return in the response. */
   pageSize?: number;
+  /** A pagination token returned from a previous call to ListDeployments that indicates where this listing should continue from. */
+  pageToken?: string;
+  /** The filter expression. The filter should have the following format: "DIRECT_CHILDREN" or format: "direct_children". The filter is case insensitive. If empty, then no deployments are filtered. */
+  filter?: string;
 }
 export const ListCustomersDeploymentsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pageToken: S.optional(S.String.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
-    filter: S.optional(S.String.pipe(T.Query())),
     pageSize: S.optional(S.Number.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
+    filter: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -1440,15 +1396,15 @@ export const SasPortalDeploymentList = /*@__PURE__*/ S.Array(
 
 /** Response for ListDeployments. */
 export interface SasPortalListDeploymentsResponse {
-  /** The deployments that match the request. */
-  deployments?: SasPortalDeploymentList;
   /** A pagination token returned from a previous call to ListDeployments that indicates from where listing should continue. If the field is missing or empty, it means there are no more deployments. */
   nextPageToken?: string;
+  /** The deployments that match the request. */
+  deployments?: SasPortalDeploymentList;
 }
 export const SasPortalListDeploymentsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    deployments: S.optional(SasPortalDeploymentList),
     nextPageToken: S.optional(S.String),
+    deployments: S.optional(SasPortalDeploymentList),
   }),
 ).annotate({
   identifier: "SasPortalListDeploymentsResponse",
@@ -1457,19 +1413,19 @@ export const SasPortalListDeploymentsResponse = /*@__PURE__*/ S.suspend(() =>
 export interface ListCustomersDeploymentsDevicesRequest {
   /** Required. The name of the parent resource. */
   parent: string;
-  /** The filter expression. The filter should have one of the following formats: "sn=123454" or "display_name=MyDevice". sn corresponds to serial number of the device. The filter is case insensitive. */
-  filter?: string;
   /** A pagination token returned from a previous call to ListDevices that indicates where this listing should continue from. */
   pageToken?: string;
   /** The maximum number of devices to return in the response. If empty or zero, all devices will be listed. Must be in the range [0, 1000]. */
   pageSize?: number;
+  /** The filter expression. The filter should have one of the following formats: "sn=123454" or "display_name=MyDevice". sn corresponds to serial number of the device. The filter is case insensitive. */
+  filter?: string;
 }
 export const ListCustomersDeploymentsDevicesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     parent: S.String.pipe(T.Label()),
-    filter: S.optional(S.String.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
     pageSize: S.optional(S.Number.pipe(T.Query())),
+    filter: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -1503,21 +1459,21 @@ export const SasPortalListDevicesResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<SasPortalListDevicesResponse>;
 
 export interface ListCustomersDevicesRequest {
-  /** Required. The name of the parent resource. */
-  parent: string;
   /** The filter expression. The filter should have one of the following formats: "sn=123454" or "display_name=MyDevice". sn corresponds to serial number of the device. The filter is case insensitive. */
   filter?: string;
-  /** A pagination token returned from a previous call to ListDevices that indicates where this listing should continue from. */
-  pageToken?: string;
   /** The maximum number of devices to return in the response. If empty or zero, all devices will be listed. Must be in the range [0, 1000]. */
   pageSize?: number;
+  /** A pagination token returned from a previous call to ListDevices that indicates where this listing should continue from. */
+  pageToken?: string;
+  /** Required. The name of the parent resource. */
+  parent: string;
 }
 export const ListCustomersDevicesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    parent: S.String.pipe(T.Label()),
     filter: S.optional(S.String.pipe(T.Query())),
-    pageToken: S.optional(S.String.pipe(T.Query())),
     pageSize: S.optional(S.Number.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -1530,21 +1486,21 @@ export const ListCustomersDevicesRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListCustomersDevicesRequest>;
 
 export interface ListCustomersNodesRequest {
+  /** The filter expression. The filter should have the following format: "DIRECT_CHILDREN" or format: "direct_children". The filter is case insensitive. If empty, then no nodes are filtered. */
+  filter?: string;
   /** The maximum number of nodes to return in the response. */
   pageSize?: number;
   /** A pagination token returned from a previous call to ListNodes that indicates where this listing should continue from. */
   pageToken?: string;
   /** Required. The parent resource name, for example, "nodes/1". */
   parent: string;
-  /** The filter expression. The filter should have the following format: "DIRECT_CHILDREN" or format: "direct_children". The filter is case insensitive. If empty, then no nodes are filtered. */
-  filter?: string;
 }
 export const ListCustomersNodesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    filter: S.optional(S.String.pipe(T.Query())),
     pageSize: S.optional(S.Number.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
-    filter: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -1578,21 +1534,21 @@ export const SasPortalListNodesResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<SasPortalListNodesResponse>;
 
 export interface ListCustomersNodesDeploymentsRequest {
-  /** A pagination token returned from a previous call to ListDeployments that indicates where this listing should continue from. */
-  pageToken?: string;
   /** Required. The parent resource name, for example, "nodes/1", customer/1/nodes/2. */
   parent: string;
-  /** The filter expression. The filter should have the following format: "DIRECT_CHILDREN" or format: "direct_children". The filter is case insensitive. If empty, then no deployments are filtered. */
-  filter?: string;
+  /** A pagination token returned from a previous call to ListDeployments that indicates where this listing should continue from. */
+  pageToken?: string;
   /** The maximum number of deployments to return in the response. */
   pageSize?: number;
+  /** The filter expression. The filter should have the following format: "DIRECT_CHILDREN" or format: "direct_children". The filter is case insensitive. If empty, then no deployments are filtered. */
+  filter?: string;
 }
 export const ListCustomersNodesDeploymentsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pageToken: S.optional(S.String.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
-    filter: S.optional(S.String.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
     pageSize: S.optional(S.Number.pipe(T.Query())),
+    filter: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -1605,21 +1561,21 @@ export const ListCustomersNodesDeploymentsRequest = /*@__PURE__*/ S.suspend(() =
 }) as any as S.Schema<ListCustomersNodesDeploymentsRequest>;
 
 export interface ListCustomersNodesDevicesRequest {
-  /** The maximum number of devices to return in the response. If empty or zero, all devices will be listed. Must be in the range [0, 1000]. */
-  pageSize?: number;
   /** Required. The name of the parent resource. */
   parent: string;
-  /** The filter expression. The filter should have one of the following formats: "sn=123454" or "display_name=MyDevice". sn corresponds to serial number of the device. The filter is case insensitive. */
-  filter?: string;
   /** A pagination token returned from a previous call to ListDevices that indicates where this listing should continue from. */
   pageToken?: string;
+  /** The maximum number of devices to return in the response. If empty or zero, all devices will be listed. Must be in the range [0, 1000]. */
+  pageSize?: number;
+  /** The filter expression. The filter should have one of the following formats: "sn=123454" or "display_name=MyDevice". sn corresponds to serial number of the device. The filter is case insensitive. */
+  filter?: string;
 }
 export const ListCustomersNodesDevicesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pageSize: S.optional(S.Number.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
-    filter: S.optional(S.String.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
+    filter: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -1632,21 +1588,21 @@ export const ListCustomersNodesDevicesRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListCustomersNodesDevicesRequest>;
 
 export interface ListCustomersNodesNodesRequest {
-  /** The maximum number of nodes to return in the response. */
-  pageSize?: number;
   /** A pagination token returned from a previous call to ListNodes that indicates where this listing should continue from. */
   pageToken?: string;
-  /** Required. The parent resource name, for example, "nodes/1". */
-  parent: string;
   /** The filter expression. The filter should have the following format: "DIRECT_CHILDREN" or format: "direct_children". The filter is case insensitive. If empty, then no nodes are filtered. */
   filter?: string;
+  /** Required. The parent resource name, for example, "nodes/1". */
+  parent: string;
+  /** The maximum number of nodes to return in the response. */
+  pageSize?: number;
 }
 export const ListCustomersNodesNodesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pageSize: S.optional(S.Number.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
-    parent: S.String.pipe(T.Label()),
     filter: S.optional(S.String.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -1673,15 +1629,15 @@ export const ListGcpProjectDeploymentsCustomersRequest = /*@__PURE__*/ S.suspend
 
 /** Deployment associated with the GCP project. Includes whether SAS analytics has been enabled or not. */
 export interface SasPortalGcpProjectDeployment {
-  /** Deployment associated with the GCP project. */
-  deployment?: SasPortalDeployment;
   /** Whether SAS analytics has been enabled. */
   hasEnabledAnalytics?: boolean;
+  /** Deployment associated with the GCP project. */
+  deployment?: SasPortalDeployment;
 }
 export const SasPortalGcpProjectDeployment = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    deployment: S.optional(SasPortalDeployment),
     hasEnabledAnalytics: S.optional(S.Boolean),
+    deployment: S.optional(SasPortalDeployment),
   }),
 ).annotate({
   identifier: "SasPortalGcpProjectDeployment",
@@ -1720,19 +1676,17 @@ export const ListLegacyOrganizationsCustomersRequest = /*@__PURE__*/ S.suspend((
 
 /** Organization details. */
 export interface SasPortalOrganization {
-  /** Name of organization */
-  displayName?: string;
   /** Id of organization */
   id?: string;
+  /** Name of organization */
+  displayName?: string;
 }
 export const SasPortalOrganization = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    displayName: S.optional(S.String),
     id: S.optional(S.String),
+    displayName: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SasPortalOrganization",
-}) as any as S.Schema<SasPortalOrganization>;
+).annotate({ identifier: "SasPortalOrganization" }) as any as S.Schema<SasPortalOrganization>;
 
 export type SasPortalOrganizationList = Array<SasPortalOrganization>;
 export const SasPortalOrganizationList = /*@__PURE__*/ S.Array(
@@ -1753,20 +1707,20 @@ export const SasPortalListLegacyOrganizationsResponse = /*@__PURE__*/ S.suspend(
 }) as any as S.Schema<SasPortalListLegacyOrganizationsResponse>;
 
 export interface ListNodesDeploymentsRequest {
-  /** The maximum number of deployments to return in the response. */
-  pageSize?: number;
-  /** A pagination token returned from a previous call to ListDeployments that indicates where this listing should continue from. */
-  pageToken?: string;
   /** Required. The parent resource name, for example, "nodes/1", customer/1/nodes/2. */
   parent: string;
+  /** A pagination token returned from a previous call to ListDeployments that indicates where this listing should continue from. */
+  pageToken?: string;
+  /** The maximum number of deployments to return in the response. */
+  pageSize?: number;
   /** The filter expression. The filter should have the following format: "DIRECT_CHILDREN" or format: "direct_children". The filter is case insensitive. If empty, then no deployments are filtered. */
   filter?: string;
 }
 export const ListNodesDeploymentsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pageSize: S.optional(S.Number.pipe(T.Query())),
-    pageToken: S.optional(S.String.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
+    pageToken: S.optional(S.String.pipe(T.Query())),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
     filter: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
@@ -1780,10 +1734,10 @@ export const ListNodesDeploymentsRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListNodesDeploymentsRequest>;
 
 export interface ListNodesDeploymentsDevicesRequest {
-  /** The maximum number of devices to return in the response. If empty or zero, all devices will be listed. Must be in the range [0, 1000]. */
-  pageSize?: number;
   /** A pagination token returned from a previous call to ListDevices that indicates where this listing should continue from. */
   pageToken?: string;
+  /** The maximum number of devices to return in the response. If empty or zero, all devices will be listed. Must be in the range [0, 1000]. */
+  pageSize?: number;
   /** Required. The name of the parent resource. */
   parent: string;
   /** The filter expression. The filter should have one of the following formats: "sn=123454" or "display_name=MyDevice". sn corresponds to serial number of the device. The filter is case insensitive. */
@@ -1791,8 +1745,8 @@ export interface ListNodesDeploymentsDevicesRequest {
 }
 export const ListNodesDeploymentsDevicesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pageSize: S.optional(S.Number.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
     filter: S.optional(S.String.pipe(T.Query())),
   }).pipe(
@@ -1807,20 +1761,20 @@ export const ListNodesDeploymentsDevicesRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListNodesDeploymentsDevicesRequest>;
 
 export interface ListNodesDevicesRequest {
+  /** The maximum number of devices to return in the response. If empty or zero, all devices will be listed. Must be in the range [0, 1000]. */
+  pageSize?: number;
   /** Required. The name of the parent resource. */
   parent: string;
   /** The filter expression. The filter should have one of the following formats: "sn=123454" or "display_name=MyDevice". sn corresponds to serial number of the device. The filter is case insensitive. */
   filter?: string;
-  /** The maximum number of devices to return in the response. If empty or zero, all devices will be listed. Must be in the range [0, 1000]. */
-  pageSize?: number;
   /** A pagination token returned from a previous call to ListDevices that indicates where this listing should continue from. */
   pageToken?: string;
 }
 export const ListNodesDevicesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    pageSize: S.optional(S.Number.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
     filter: S.optional(S.String.pipe(T.Query())),
-    pageSize: S.optional(S.Number.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
@@ -1829,25 +1783,23 @@ export const ListNodesDevicesRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://sasportal.googleapis.com/",
     }),
   ),
-).annotate({
-  identifier: "ListNodesDevicesRequest",
-}) as any as S.Schema<ListNodesDevicesRequest>;
+).annotate({ identifier: "ListNodesDevicesRequest" }) as any as S.Schema<ListNodesDevicesRequest>;
 
 export interface ListNodesNodesRequest {
-  /** Required. The parent resource name, for example, "nodes/1". */
-  parent: string;
-  /** The filter expression. The filter should have the following format: "DIRECT_CHILDREN" or format: "direct_children". The filter is case insensitive. If empty, then no nodes are filtered. */
-  filter?: string;
   /** The maximum number of nodes to return in the response. */
   pageSize?: number;
+  /** The filter expression. The filter should have the following format: "DIRECT_CHILDREN" or format: "direct_children". The filter is case insensitive. If empty, then no nodes are filtered. */
+  filter?: string;
+  /** Required. The parent resource name, for example, "nodes/1". */
+  parent: string;
   /** A pagination token returned from a previous call to ListNodes that indicates where this listing should continue from. */
   pageToken?: string;
 }
 export const ListNodesNodesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    parent: S.String.pipe(T.Label()),
-    filter: S.optional(S.String.pipe(T.Query())),
     pageSize: S.optional(S.Number.pipe(T.Query())),
+    filter: S.optional(S.String.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
     pageToken: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
@@ -1856,26 +1808,24 @@ export const ListNodesNodesRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://sasportal.googleapis.com/",
     }),
   ),
-).annotate({
-  identifier: "ListNodesNodesRequest",
-}) as any as S.Schema<ListNodesNodesRequest>;
+).annotate({ identifier: "ListNodesNodesRequest" }) as any as S.Schema<ListNodesNodesRequest>;
 
 export interface ListNodesNodesDeploymentsRequest {
-  /** The maximum number of deployments to return in the response. */
-  pageSize?: number;
-  /** A pagination token returned from a previous call to ListDeployments that indicates where this listing should continue from. */
-  pageToken?: string;
   /** Required. The parent resource name, for example, "nodes/1", customer/1/nodes/2. */
   parent: string;
+  /** The maximum number of deployments to return in the response. */
+  pageSize?: number;
   /** The filter expression. The filter should have the following format: "DIRECT_CHILDREN" or format: "direct_children". The filter is case insensitive. If empty, then no deployments are filtered. */
   filter?: string;
+  /** A pagination token returned from a previous call to ListDeployments that indicates where this listing should continue from. */
+  pageToken?: string;
 }
 export const ListNodesNodesDeploymentsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pageSize: S.optional(S.Number.pipe(T.Query())),
-    pageToken: S.optional(S.String.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
     filter: S.optional(S.String.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -1888,21 +1838,21 @@ export const ListNodesNodesDeploymentsRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListNodesNodesDeploymentsRequest>;
 
 export interface ListNodesNodesDevicesRequest {
-  /** The maximum number of devices to return in the response. If empty or zero, all devices will be listed. Must be in the range [0, 1000]. */
-  pageSize?: number;
-  /** A pagination token returned from a previous call to ListDevices that indicates where this listing should continue from. */
-  pageToken?: string;
-  /** Required. The name of the parent resource. */
-  parent: string;
   /** The filter expression. The filter should have one of the following formats: "sn=123454" or "display_name=MyDevice". sn corresponds to serial number of the device. The filter is case insensitive. */
   filter?: string;
+  /** A pagination token returned from a previous call to ListDevices that indicates where this listing should continue from. */
+  pageToken?: string;
+  /** The maximum number of devices to return in the response. If empty or zero, all devices will be listed. Must be in the range [0, 1000]. */
+  pageSize?: number;
+  /** Required. The name of the parent resource. */
+  parent: string;
 }
 export const ListNodesNodesDevicesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pageSize: S.optional(S.Number.pipe(T.Query())),
-    pageToken: S.optional(S.String.pipe(T.Query())),
-    parent: S.String.pipe(T.Label()),
     filter: S.optional(S.String.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -1915,21 +1865,21 @@ export const ListNodesNodesDevicesRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListNodesNodesDevicesRequest>;
 
 export interface ListNodesNodesNodesRequest {
-  /** Required. The parent resource name, for example, "nodes/1". */
-  parent: string;
-  /** The filter expression. The filter should have the following format: "DIRECT_CHILDREN" or format: "direct_children". The filter is case insensitive. If empty, then no nodes are filtered. */
-  filter?: string;
-  /** The maximum number of nodes to return in the response. */
-  pageSize?: number;
   /** A pagination token returned from a previous call to ListNodes that indicates where this listing should continue from. */
   pageToken?: string;
+  /** The maximum number of nodes to return in the response. */
+  pageSize?: number;
+  /** The filter expression. The filter should have the following format: "DIRECT_CHILDREN" or format: "direct_children". The filter is case insensitive. If empty, then no nodes are filtered. */
+  filter?: string;
+  /** Required. The parent resource name, for example, "nodes/1". */
+  parent: string;
 }
 export const ListNodesNodesNodesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    parent: S.String.pipe(T.Label()),
-    filter: S.optional(S.String.pipe(T.Query())),
-    pageSize: S.optional(S.Number.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
+    filter: S.optional(S.String.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -1985,47 +1935,43 @@ export const DocumentMapList = /*@__PURE__*/ S.Array(
 
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
 export interface SasPortalStatus {
+  /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
+  details?: DocumentMapList;
   /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
   message?: string;
   /** The status code, which should be an enum value of google.rpc.Code. */
   code?: number;
-  /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
-  details?: DocumentMapList;
 }
 export const SasPortalStatus = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    details: S.optional(DocumentMapList),
     message: S.optional(S.String),
     code: S.optional(S.Number),
-    details: S.optional(DocumentMapList),
   }),
-).annotate({
-  identifier: "SasPortalStatus",
-}) as any as S.Schema<SasPortalStatus>;
+).annotate({ identifier: "SasPortalStatus" }) as any as S.Schema<SasPortalStatus>;
 
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface SasPortalOperation {
-  /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
-  name?: string;
+  /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
+  done?: boolean;
   /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
   response?: DocumentMap;
   /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
   metadata?: DocumentMap;
-  /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
-  done?: boolean;
+  /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
+  name?: string;
   /** The error result of the operation in case of failure or cancellation. */
   error?: SasPortalStatus;
 }
 export const SasPortalOperation = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.optional(S.String),
+    done: S.optional(S.Boolean),
     response: S.optional(DocumentMap),
     metadata: S.optional(DocumentMap),
-    done: S.optional(S.Boolean),
+    name: S.optional(S.String),
     error: S.optional(SasPortalStatus),
   }),
-).annotate({
-  identifier: "SasPortalOperation",
-}) as any as S.Schema<SasPortalOperation>;
+).annotate({ identifier: "SasPortalOperation" }) as any as S.Schema<SasPortalOperation>;
 
 /** Request for MoveDeployment. */
 export interface SasPortalMoveDeploymentRequest {
@@ -2104,9 +2050,7 @@ export const SasPortalMoveNodeRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     destination: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SasPortalMoveNodeRequest",
-}) as any as S.Schema<SasPortalMoveNodeRequest>;
+).annotate({ identifier: "SasPortalMoveNodeRequest" }) as any as S.Schema<SasPortalMoveNodeRequest>;
 
 export interface MoveCustomersNodesRequest {
   /** Required. The name of the node to move. */
@@ -2188,9 +2132,7 @@ export const MoveNodesDevicesRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://sasportal.googleapis.com/",
     }),
   ),
-).annotate({
-  identifier: "MoveNodesDevicesRequest",
-}) as any as S.Schema<MoveNodesDevicesRequest>;
+).annotate({ identifier: "MoveNodesDevicesRequest" }) as any as S.Schema<MoveNodesDevicesRequest>;
 
 export interface MoveNodesNodesRequest {
   /** Required. The name of the node to move. */
@@ -2209,22 +2151,20 @@ export const MoveNodesNodesRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://sasportal.googleapis.com/",
     }),
   ),
-).annotate({
-  identifier: "MoveNodesNodesRequest",
-}) as any as S.Schema<MoveNodesNodesRequest>;
+).annotate({ identifier: "MoveNodesNodesRequest" }) as any as S.Schema<MoveNodesNodesRequest>;
 
 export interface PatchCustomersRequest {
-  /** Output only. Resource name of the customer. */
-  name: string;
   /** Fields to be updated. */
   updateMask?: string;
+  /** Output only. Resource name of the customer. */
+  name: string;
   /** Request body */
   body?: SasPortalCustomer;
 }
 export const PatchCustomersRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.String.pipe(T.Label()),
     updateMask: S.optional(S.String.pipe(T.Query())),
+    name: S.String.pipe(T.Label()),
     body: S.optional(SasPortalCustomer.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -2233,22 +2173,20 @@ export const PatchCustomersRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://sasportal.googleapis.com/",
     }),
   ),
-).annotate({
-  identifier: "PatchCustomersRequest",
-}) as any as S.Schema<PatchCustomersRequest>;
+).annotate({ identifier: "PatchCustomersRequest" }) as any as S.Schema<PatchCustomersRequest>;
 
 export interface PatchCustomersDeploymentsRequest {
-  /** Fields to be updated. */
-  updateMask?: string;
   /** Output only. Resource name. */
   name: string;
+  /** Fields to be updated. */
+  updateMask?: string;
   /** Request body */
   body?: SasPortalDeployment;
 }
 export const PatchCustomersDeploymentsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    updateMask: S.optional(S.String.pipe(T.Query())),
     name: S.String.pipe(T.Label()),
+    updateMask: S.optional(S.String.pipe(T.Query())),
     body: S.optional(SasPortalDeployment.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -2262,17 +2200,17 @@ export const PatchCustomersDeploymentsRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<PatchCustomersDeploymentsRequest>;
 
 export interface PatchCustomersDevicesRequest {
-  /** Output only. The resource path name. */
-  name: string;
   /** Fields to be updated. */
   updateMask?: string;
+  /** Output only. The resource path name. */
+  name: string;
   /** Request body */
   body?: SasPortalDevice;
 }
 export const PatchCustomersDevicesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.String.pipe(T.Label()),
     updateMask: S.optional(S.String.pipe(T.Query())),
+    name: S.String.pipe(T.Label()),
     body: S.optional(SasPortalDevice.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -2286,17 +2224,17 @@ export const PatchCustomersDevicesRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<PatchCustomersDevicesRequest>;
 
 export interface PatchCustomersNodesRequest {
-  /** Output only. Resource name. */
-  name: string;
   /** Fields to be updated. */
   updateMask?: string;
+  /** Output only. Resource name. */
+  name: string;
   /** Request body */
   body?: SasPortalNode;
 }
 export const PatchCustomersNodesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.String.pipe(T.Label()),
     updateMask: S.optional(S.String.pipe(T.Query())),
+    name: S.String.pipe(T.Label()),
     body: S.optional(SasPortalNode.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -2377,9 +2315,7 @@ export const PatchNodesDevicesRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://sasportal.googleapis.com/",
     }),
   ),
-).annotate({
-  identifier: "PatchNodesDevicesRequest",
-}) as any as S.Schema<PatchNodesDevicesRequest>;
+).annotate({ identifier: "PatchNodesDevicesRequest" }) as any as S.Schema<PatchNodesDevicesRequest>;
 
 export interface PatchNodesNodesRequest {
   /** Output only. Resource name. */
@@ -2401,23 +2337,21 @@ export const PatchNodesNodesRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://sasportal.googleapis.com/",
     }),
   ),
-).annotate({
-  identifier: "PatchNodesNodesRequest",
-}) as any as S.Schema<PatchNodesNodesRequest>;
+).annotate({ identifier: "PatchNodesNodesRequest" }) as any as S.Schema<PatchNodesNodesRequest>;
 
 /** Request for [ProvisionDeployment]. [spectrum.sas.portal.v1alpha1.Provisioning.ProvisionDeployment]. GCP Project, Organization Info, and caller’s GAIA ID should be retrieved from the RPC handler, and used as inputs to create a new SAS organization (if not exists) and a new SAS deployment. */
 export interface SasPortalProvisionDeploymentRequest {
-  /** Optional. If this field is set, and a new SAS Portal Deployment needs to be created, its display name will be set to the value of this field. */
-  newDeploymentDisplayName?: string;
   /** Optional. If this field is set, and a new SAS Portal Organization needs to be created, its display name will be set to the value of this field. */
   newOrganizationDisplayName?: string;
+  /** Optional. If this field is set, and a new SAS Portal Deployment needs to be created, its display name will be set to the value of this field. */
+  newDeploymentDisplayName?: string;
   /** Optional. If this field is set then a new deployment will be created under the organization specified by this id. */
   organizationId?: string;
 }
 export const SasPortalProvisionDeploymentRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    newDeploymentDisplayName: S.optional(S.String),
     newOrganizationDisplayName: S.optional(S.String),
+    newDeploymentDisplayName: S.optional(S.String),
     organizationId: S.optional(S.String),
   }),
 ).annotate({
@@ -2457,17 +2391,17 @@ export const SasPortalProvisionDeploymentResponse = /*@__PURE__*/ S.suspend(() =
 
 /** Request message for `SetPolicy` method. */
 export interface SasPortalSetPolicyRequest {
-  /** Required. The resource for which the policy is being specified. This policy replaces any existing policy. */
-  resource?: string;
   /** Optional. Set the field as `true` to disable the onboarding notification. */
   disableNotification?: boolean;
+  /** Required. The resource for which the policy is being specified. This policy replaces any existing policy. */
+  resource?: string;
   /** Required. The policy to be applied to the `resource`. */
   policy?: SasPortalPolicy;
 }
 export const SasPortalSetPolicyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    resource: S.optional(S.String),
     disableNotification: S.optional(S.Boolean),
+    resource: S.optional(S.String),
     policy: S.optional(SasPortalPolicy),
   }),
 ).annotate({
@@ -2488,9 +2422,7 @@ export const SetPoliciesRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://sasportal.googleapis.com/",
     }),
   ),
-).annotate({
-  identifier: "SetPoliciesRequest",
-}) as any as S.Schema<SetPoliciesRequest>;
+).annotate({ identifier: "SetPoliciesRequest" }) as any as S.Schema<SetPoliciesRequest>;
 
 /** Request for the SetupSasAnalytics rpc. */
 export interface SasPortalSetupSasAnalyticsRequest {
@@ -2601,15 +2533,15 @@ export const SignDeviceNodesDevicesRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** Request message for `TestPermissions` method. */
 export interface SasPortalTestPermissionsRequest {
-  /** Required. The resource for which the permissions are being requested. */
-  resource?: string;
   /** The set of permissions to check for the `resource`. */
   permissions?: StringList;
+  /** Required. The resource for which the permissions are being requested. */
+  resource?: string;
 }
 export const SasPortalTestPermissionsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    resource: S.optional(S.String),
     permissions: S.optional(StringList),
+    resource: S.optional(S.String),
   }),
 ).annotate({
   identifier: "SasPortalTestPermissionsRequest",
@@ -2629,9 +2561,7 @@ export const TestPoliciesRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://sasportal.googleapis.com/",
     }),
   ),
-).annotate({
-  identifier: "TestPoliciesRequest",
-}) as any as S.Schema<TestPoliciesRequest>;
+).annotate({ identifier: "TestPoliciesRequest" }) as any as S.Schema<TestPoliciesRequest>;
 
 /** Response message for `TestPermissions` method. */
 export interface SasPortalTestPermissionsResponse {
@@ -2758,9 +2688,7 @@ export const ValidateInstallerRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://sasportal.googleapis.com/",
     }),
   ),
-).annotate({
-  identifier: "ValidateInstallerRequest",
-}) as any as S.Schema<ValidateInstallerRequest>;
+).annotate({ identifier: "ValidateInstallerRequest" }) as any as S.Schema<ValidateInstallerRequest>;
 
 /** Response for ValidateInstaller. */
 export interface SasPortalValidateInstallerResponse {}
@@ -3522,10 +3450,7 @@ export const listCustomers: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListCustomersDeploymentsError = NotFound | Forbidden | ServiceDisabled | GcpOpError;
@@ -3542,10 +3467,7 @@ export const listCustomersDeployments: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListCustomersDeploymentsDevicesError =
@@ -3566,10 +3488,7 @@ export const listCustomersDeploymentsDevices: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListCustomersDevicesError = NotFound | Forbidden | ServiceDisabled | GcpOpError;
@@ -3586,10 +3505,7 @@ export const listCustomersDevices: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListCustomersNodesError = NotFound | Forbidden | ServiceDisabled | GcpOpError;
@@ -3606,10 +3522,7 @@ export const listCustomersNodes: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListCustomersNodesDeploymentsError =
@@ -3630,10 +3543,7 @@ export const listCustomersNodesDeployments: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListCustomersNodesDevicesError = NotFound | Forbidden | ServiceDisabled | GcpOpError;
@@ -3650,10 +3560,7 @@ export const listCustomersNodesDevices: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListCustomersNodesNodesError = NotFound | Forbidden | ServiceDisabled | GcpOpError;
@@ -3670,10 +3577,7 @@ export const listCustomersNodesNodes: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListGcpProjectDeploymentsCustomersError =
@@ -3728,10 +3632,7 @@ export const listNodesDeployments: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListNodesDeploymentsDevicesError = NotFound | Forbidden | ServiceDisabled | GcpOpError;
@@ -3748,10 +3649,7 @@ export const listNodesDeploymentsDevices: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListNodesDevicesError = NotFound | Forbidden | ServiceDisabled | GcpOpError;
@@ -3768,10 +3666,7 @@ export const listNodesDevices: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListNodesNodesError = NotFound | Forbidden | ServiceDisabled | GcpOpError;
@@ -3788,10 +3683,7 @@ export const listNodesNodes: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListNodesNodesDeploymentsError = NotFound | Forbidden | ServiceDisabled | GcpOpError;
@@ -3808,10 +3700,7 @@ export const listNodesNodesDeployments: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListNodesNodesDevicesError = NotFound | Forbidden | ServiceDisabled | GcpOpError;
@@ -3828,10 +3717,7 @@ export const listNodesNodesDevices: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListNodesNodesNodesError = NotFound | Forbidden | ServiceDisabled | GcpOpError;
@@ -3848,10 +3734,7 @@ export const listNodesNodesNodes: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type MigrateOrganizationCustomersError =

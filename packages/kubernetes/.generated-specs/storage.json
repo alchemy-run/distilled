@@ -452,8 +452,7 @@
         "spec": {
           "target": "com.kubernetes.storage#IoK8sApiStorageV1CSIDriverSpec",
           "traits": {
-            "smithy.api#documentation": "spec represents the specification of the CSI Driver.",
-            "smithy.api#required": {}
+            "smithy.api#documentation": "spec represents the specification of the CSI Driver."
           }
         }
       },
@@ -788,8 +787,7 @@
         "audience": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "audience is the intended audience of the token in \"TokenRequestSpec\". It will default to the audiences of kube apiserver.",
-            "smithy.api#required": {}
+            "smithy.api#documentation": "audience is the intended audience of the token in \"TokenRequestSpec\". It will default to the audiences of kube apiserver."
           }
         },
         "expirationSeconds": {
@@ -952,8 +950,7 @@
         "spec": {
           "target": "com.kubernetes.storage#IoK8sApiStorageV1CSIDriverSpec",
           "traits": {
-            "smithy.api#documentation": "spec represents the specification of the CSI Driver.",
-            "smithy.api#required": {}
+            "smithy.api#documentation": "spec represents the specification of the CSI Driver."
           }
         }
       },
@@ -1403,8 +1400,7 @@
         "spec": {
           "target": "com.kubernetes.storage#IoK8sApiStorageV1CSIDriverSpec",
           "traits": {
-            "smithy.api#documentation": "spec represents the specification of the CSI Driver.",
-            "smithy.api#required": {}
+            "smithy.api#documentation": "spec represents the specification of the CSI Driver."
           }
         }
       },
@@ -1778,8 +1774,7 @@
         "spec": {
           "target": "com.kubernetes.storage#IoK8sApiStorageV1CSINodeSpec",
           "traits": {
-            "smithy.api#documentation": "spec is the specification of CSINode",
-            "smithy.api#required": {}
+            "smithy.api#documentation": "spec is the specification of CSINode"
           }
         },
         "status": {
@@ -1799,8 +1794,7 @@
         "drivers": {
           "target": "com.kubernetes.storage#IoK8sApiStorageV1CSINodeSpecDriversList",
           "traits": {
-            "smithy.api#documentation": "drivers is a list of information of all CSI Drivers existing on a node. If all drivers in the list are uninstalled, this can become empty.",
-            "smithy.api#required": {}
+            "smithy.api#documentation": "drivers is a list of information of all CSI Drivers existing on a node. If all drivers in the list are uninstalled, this can become empty."
           }
         }
       },
@@ -2051,8 +2045,7 @@
         "spec": {
           "target": "com.kubernetes.storage#IoK8sApiStorageV1CSINodeSpec",
           "traits": {
-            "smithy.api#documentation": "spec is the specification of CSINode",
-            "smithy.api#required": {}
+            "smithy.api#documentation": "spec is the specification of CSINode"
           }
         },
         "status": {
@@ -2353,8 +2346,7 @@
         "spec": {
           "target": "com.kubernetes.storage#IoK8sApiStorageV1CSINodeSpec",
           "traits": {
-            "smithy.api#documentation": "spec is the specification of CSINode",
-            "smithy.api#required": {}
+            "smithy.api#documentation": "spec is the specification of CSINode"
           }
         },
         "status": {
@@ -2685,8 +2677,7 @@
         "spec": {
           "target": "com.kubernetes.storage#IoK8sApiStorageV1CSINodeSpec",
           "traits": {
-            "smithy.api#documentation": "spec is the specification of CSINode",
-            "smithy.api#required": {}
+            "smithy.api#documentation": "spec is the specification of CSINode"
           }
         },
         "status": {
@@ -4040,7 +4031,7 @@
         "matchLabelExpressions": {
           "target": "com.kubernetes.storage#IoK8sApiCoreV1TopologySelectorTermMatchLabelExpressionsList",
           "traits": {
-            "smithy.api#documentation": "A list of topology selector requirements by labels."
+            "smithy.api#documentation": "matchLabelExpressions is a list of topology selector requirements by labels. Usage: Fields of type []TopologySelectorTerm must be listType=atomic. A list of topology selector requirements by labels."
           }
         }
       },
@@ -4054,14 +4045,14 @@
         "key": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The label key that the selector applies to.",
+            "smithy.api#documentation": "key is the label key that the selector applies to.",
             "smithy.api#required": {}
           }
         },
         "values": {
           "target": "com.kubernetes.storage#IoK8sApiCoreV1TopologySelectorLabelRequirementValuesList",
           "traits": {
-            "smithy.api#documentation": "An array of string values. One value must match the label to be selected. Each entry in Values is ORed.",
+            "smithy.api#documentation": "values is an array of string values. One value must match the label to be selected. Each entry in values is ORed.",
             "smithy.api#required": {}
           }
         }
@@ -4076,7 +4067,7 @@
         "target": "smithy.api#String"
       },
       "traits": {
-        "smithy.api#documentation": "An array of string values. One value must match the label to be selected. Each entry in Values is ORed."
+        "smithy.api#documentation": "values is an array of string values. One value must match the label to be selected. Each entry in values is ORed."
       }
     },
     "com.kubernetes.storage#IoK8sApiCoreV1TopologySelectorTermMatchLabelExpressionsList": {
@@ -4085,7 +4076,7 @@
         "target": "com.kubernetes.storage#IoK8sApiCoreV1TopologySelectorLabelRequirement"
       },
       "traits": {
-        "smithy.api#documentation": "A list of topology selector requirements by labels."
+        "smithy.api#documentation": "matchLabelExpressions is a list of topology selector requirements by labels. Usage: Fields of type []TopologySelectorTerm must be listType=atomic. A list of topology selector requirements by labels."
       }
     },
     "com.kubernetes.storage#IoK8sApiStorageV1StorageClassAllowedTopologiesList": {
@@ -5099,7 +5090,7 @@
         "cephfs": {
           "target": "com.kubernetes.storage#IoK8sApiCoreV1CephFSPersistentVolumeSource",
           "traits": {
-            "smithy.api#documentation": "cephFS represents a Ceph FS mount on the host that shares a pod's lifetime. Deprecated: CephFS is deprecated and the in-tree cephfs type is no longer supported."
+            "smithy.api#documentation": "cephfs represents a Ceph FS mount on the host that shares a pod's lifetime. Deprecated: CephFS is deprecated and the in-tree cephfs type is no longer supported."
           }
         },
         "cinder": {
@@ -5231,13 +5222,13 @@
         "storageos": {
           "target": "com.kubernetes.storage#IoK8sApiCoreV1StorageOSPersistentVolumeSource",
           "traits": {
-            "smithy.api#documentation": "storageOS represents a StorageOS volume that is attached to the kubelet's host machine and mounted into the pod. Deprecated: StorageOS is deprecated and the in-tree storageos type is no longer supported. More info: https://examples.k8s.io/volumes/storageos/README.md"
+            "smithy.api#documentation": "storageos represents a StorageOS volume that is attached to the kubelet's host machine and mounted into the pod. Deprecated: StorageOS is deprecated and the in-tree storageos type is no longer supported. More info: https://examples.k8s.io/volumes/storageos/README.md"
           }
         },
         "volumeAttributesClassName": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Name of VolumeAttributesClass to which this persistent volume belongs. Empty value is not allowed. When this field is not set, it indicates that this volume does not belong to any VolumeAttributesClass. This field is mutable and can be changed by the CSI driver after a volume has been updated successfully to a new class. For an unbound PersistentVolume, the volumeAttributesClassName will be matched with unbound PersistentVolumeClaims during the binding process."
+            "smithy.api#documentation": "volumeAttributesClassName is the name of VolumeAttributesClass to which this persistent volume belongs. Empty value is not allowed. When this field is not set, it indicates that this volume does not belong to any VolumeAttributesClass. This field is mutable and can be changed by the CSI driver after a volume has been updated successfully to a new class. For an unbound PersistentVolume, the volumeAttributesClassName will be matched with unbound PersistentVolumeClaims during the binding process."
           }
         },
         "volumeMode": {
@@ -5504,43 +5495,43 @@
         "apiVersion": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "API version of the referent."
+            "smithy.api#documentation": "apiVersion is API version of the referent."
           }
         },
         "fieldPath": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "If referring to a piece of an object instead of an entire object, this string should contain a valid JSON/Go field access statement, such as desiredState.manifest.containers[2]. For example, if the object reference is to a container within a pod, this would take on a value like: \"spec.containers{name}\" (where \"name\" refers to the name of the container that triggered the event) or if no container name is specified \"spec.containers[2]\" (container with index 2 in this pod). This syntax is chosen only to have some well-defined way of referencing a part of an object."
+            "smithy.api#documentation": "fieldPath if referring to a piece of an object instead of an entire object, this string should contain a valid JSON/Go field access statement, such as desiredState.manifest.containers[2]. For example, if the object reference is to a container within a pod, this would take on a value like: \"spec.containers{name}\" (where \"name\" refers to the name of the container that triggered the event) or if no container name is specified \"spec.containers[2]\" (container with index 2 in this pod). This syntax is chosen only to have some well-defined way of referencing a part of an object."
           }
         },
         "kind": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Kind of the referent. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds"
+            "smithy.api#documentation": "kind of the referent. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds"
           }
         },
         "name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names"
+            "smithy.api#documentation": "name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names"
           }
         },
         "namespace": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Namespace of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/"
+            "smithy.api#documentation": "namespace of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/"
           }
         },
         "resourceVersion": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Specific resourceVersion to which this reference is made, if any. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#concurrency-control-and-consistency"
+            "smithy.api#documentation": "resourceVersion is the specific resourceVersion to which this reference is made, if any. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#concurrency-control-and-consistency"
           }
         },
         "uid": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "UID of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#uids"
+            "smithy.api#documentation": "uid of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#uids"
           }
         }
       },
@@ -5888,8 +5879,7 @@
         "lun": {
           "target": "smithy.api#Integer",
           "traits": {
-            "smithy.api#documentation": "lun is iSCSI Target Lun number.",
-            "smithy.api#required": {}
+            "smithy.api#documentation": "lun is iSCSI Target Lun number."
           }
         },
         "portals": {
@@ -5995,7 +5985,8 @@
         "required": {
           "target": "com.kubernetes.storage#IoK8sApiCoreV1NodeSelector",
           "traits": {
-            "smithy.api#documentation": "required specifies hard node constraints that must be met."
+            "smithy.api#documentation": "required specifies hard node constraints that must be met.",
+            "smithy.api#required": {}
           }
         }
       },
@@ -6009,7 +6000,7 @@
         "nodeSelectorTerms": {
           "target": "com.kubernetes.storage#IoK8sApiCoreV1NodeSelectorNodeSelectorTermsList",
           "traits": {
-            "smithy.api#documentation": "Required. A list of node selector terms. The terms are ORed.",
+            "smithy.api#documentation": "nodeSelectorTerms is a list of node selector terms. The terms are ORed. Required. A list of node selector terms. The terms are ORed.",
             "smithy.api#required": {}
           }
         }
@@ -6024,13 +6015,13 @@
         "matchExpressions": {
           "target": "com.kubernetes.storage#IoK8sApiCoreV1NodeSelectorTermMatchExpressionsList",
           "traits": {
-            "smithy.api#documentation": "A list of node selector requirements by node's labels."
+            "smithy.api#documentation": "matchExpressions is a list of node selector requirements by node's labels."
           }
         },
         "matchFields": {
           "target": "com.kubernetes.storage#IoK8sApiCoreV1NodeSelectorTermMatchFieldsList",
           "traits": {
-            "smithy.api#documentation": "A list of node selector requirements by node's fields."
+            "smithy.api#documentation": "matchFields is a list of node selector requirements by node's fields."
           }
         }
       },
@@ -6044,21 +6035,21 @@
         "key": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The label key that the selector applies to.",
+            "smithy.api#documentation": "key is the label key that the selector applies to.",
             "smithy.api#required": {}
           }
         },
         "operator": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Represents a key's relationship to a set of values. Valid operators are In, NotIn, Exists, DoesNotExist. Gt, and Lt.",
+            "smithy.api#documentation": "operator represents a key's relationship to a set of values. Valid operators are In, NotIn, Exists, DoesNotExist. Gt, and Lt.",
             "smithy.api#required": {}
           }
         },
         "values": {
           "target": "com.kubernetes.storage#IoK8sApiCoreV1NodeSelectorRequirementValuesList",
           "traits": {
-            "smithy.api#documentation": "An array of string values. If the operator is In or NotIn, the values array must be non-empty. If the operator is Exists or DoesNotExist, the values array must be empty. If the operator is Gt or Lt, the values array must have a single element, which will be interpreted as an integer. This array is replaced during a strategic merge patch."
+            "smithy.api#documentation": "values is an array of string values. If the operator is In or NotIn, the values array must be non-empty. If the operator is Exists or DoesNotExist, the values array must be empty. If the operator is Gt or Lt, the values array must have a single element, which will be interpreted as an integer. This array is replaced during a strategic merge patch."
           }
         }
       },
@@ -6072,7 +6063,7 @@
         "target": "smithy.api#String"
       },
       "traits": {
-        "smithy.api#documentation": "An array of string values. If the operator is In or NotIn, the values array must be non-empty. If the operator is Exists or DoesNotExist, the values array must be empty. If the operator is Gt or Lt, the values array must have a single element, which will be interpreted as an integer. This array is replaced during a strategic merge patch."
+        "smithy.api#documentation": "values is an array of string values. If the operator is In or NotIn, the values array must be non-empty. If the operator is Exists or DoesNotExist, the values array must be empty. If the operator is Gt or Lt, the values array must have a single element, which will be interpreted as an integer. This array is replaced during a strategic merge patch."
       }
     },
     "com.kubernetes.storage#IoK8sApiCoreV1NodeSelectorTermMatchExpressionsList": {
@@ -6081,7 +6072,7 @@
         "target": "com.kubernetes.storage#IoK8sApiCoreV1NodeSelectorRequirement"
       },
       "traits": {
-        "smithy.api#documentation": "A list of node selector requirements by node's labels."
+        "smithy.api#documentation": "matchExpressions is a list of node selector requirements by node's labels."
       }
     },
     "com.kubernetes.storage#IoK8sApiCoreV1NodeSelectorTermMatchFieldsList": {
@@ -6090,7 +6081,7 @@
         "target": "com.kubernetes.storage#IoK8sApiCoreV1NodeSelectorRequirement"
       },
       "traits": {
-        "smithy.api#documentation": "A list of node selector requirements by node's fields."
+        "smithy.api#documentation": "matchFields is a list of node selector requirements by node's fields."
       }
     },
     "com.kubernetes.storage#IoK8sApiCoreV1NodeSelectorNodeSelectorTermsList": {
@@ -6099,7 +6090,7 @@
         "target": "com.kubernetes.storage#IoK8sApiCoreV1NodeSelectorTerm"
       },
       "traits": {
-        "smithy.api#documentation": "Required. A list of node selector terms. The terms are ORed."
+        "smithy.api#documentation": "nodeSelectorTerms is a list of node selector terms. The terms are ORed. Required. A list of node selector terms. The terms are ORed."
       }
     },
     "com.kubernetes.storage#IoK8sApiCoreV1PhotonPersistentDiskVolumeSource": {
@@ -6129,7 +6120,7 @@
         "fsType": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "fSType represents the filesystem type to mount Must be a filesystem type supported by the host operating system. Ex. \"ext4\", \"xfs\". Implicitly inferred to be \"ext4\" if unspecified."
+            "smithy.api#documentation": "fsType represents the filesystem type to mount Must be a filesystem type supported by the host operating system. Ex. \"ext4\", \"xfs\". Implicitly inferred to be \"ext4\" if unspecified."
           }
         },
         "readOnly": {
@@ -6294,8 +6285,7 @@
         "secretRef": {
           "target": "com.kubernetes.storage#IoK8sApiCoreV1SecretReference",
           "traits": {
-            "smithy.api#documentation": "secretRef references to the secret for ScaleIO user and other sensitive information. If this is not provided, Login operation will fail.",
-            "smithy.api#required": {}
+            "smithy.api#documentation": "secretRef references to the secret for ScaleIO user and other sensitive information. If this is not provided, Login operation will fail."
           }
         },
         "sslEnabled": {
@@ -6326,7 +6316,8 @@
         "volumeName": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "volumeName is the name of a volume already created in the ScaleIO system that is associated with this volume source."
+            "smithy.api#documentation": "volumeName is the name of a volume already created in the ScaleIO system that is associated with this volume source.",
+            "smithy.api#required": {}
           }
         }
       },
@@ -6358,7 +6349,8 @@
         "volumeName": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "volumeName is the human-readable name of the StorageOS volume.  Volume names are only unique within a namespace."
+            "smithy.api#documentation": "volumeName is the human-readable name of the StorageOS volume.  Volume names are only unique within a namespace.",
+            "smithy.api#required": {}
           }
         },
         "volumeNamespace": {
@@ -6417,8 +6409,7 @@
         "attached": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "attached indicates the volume is successfully attached. This field must only be set by the entity completing the attach operation, i.e. the external-attacher.",
-            "smithy.api#required": {}
+            "smithy.api#documentation": "attached indicates the volume is successfully attached. This field must only be set by the entity completing the attach operation, i.e. the external-attacher."
           }
         },
         "attachmentMetadata": {
@@ -7471,7 +7462,8 @@
         "parameters": {
           "target": "com.kubernetes.storage#IoK8sApiStorageV1VolumeAttributesClassParametersMap",
           "traits": {
-            "smithy.api#documentation": "parameters hold volume attributes defined by the CSI driver. These values are opaque to the Kubernetes and are passed directly to the CSI driver. The underlying storage provider supports changing these attributes on an existing volume, however the parameters field itself is immutable. To invoke a volume update, a new VolumeAttributesClass should be created with new parameters, and the PersistentVolumeClaim should be updated to reference the new VolumeAttributesClass.\n\nThis field is required and must contain at least one key/value pair. The keys cannot be empty, and the maximum number of parameters is 512, with a cumulative max size of 256K. If the CSI driver rejects invalid parameters, the target PersistentVolumeClaim will be set to an \"Infeasible\" state in the modifyVolumeStatus field."
+            "smithy.api#documentation": "parameters hold volume attributes defined by the CSI driver. These values are opaque to the Kubernetes and are passed directly to the CSI driver. The underlying storage provider supports changing these attributes on an existing volume, however the parameters field itself is immutable. To invoke a volume update, a new VolumeAttributesClass should be created with new parameters, and the PersistentVolumeClaim should be updated to reference the new VolumeAttributesClass.\n\nThis field is required and must contain at least one key/value pair. The keys cannot be empty, and the maximum number of parameters is 512, with a cumulative max size of 256K. If the CSI driver rejects invalid parameters, the target PersistentVolumeClaim will be set to an \"Infeasible\" state in the modifyVolumeStatus field.",
+            "smithy.api#required": {}
           }
         }
       },
@@ -7588,7 +7580,8 @@
         "parameters": {
           "target": "com.kubernetes.storage#CreateStorageV1VolumeAttributesClassRequestParametersMap",
           "traits": {
-            "smithy.api#documentation": "parameters hold volume attributes defined by the CSI driver. These values are opaque to the Kubernetes and are passed directly to the CSI driver. The underlying storage provider supports changing these attributes on an existing volume, however the parameters field itself is immutable. To invoke a volume update, a new VolumeAttributesClass should be created with new parameters, and the PersistentVolumeClaim should be updated to reference the new VolumeAttributesClass.\n\nThis field is required and must contain at least one key/value pair. The keys cannot be empty, and the maximum number of parameters is 512, with a cumulative max size of 256K. If the CSI driver rejects invalid parameters, the target PersistentVolumeClaim will be set to an \"Infeasible\" state in the modifyVolumeStatus field."
+            "smithy.api#documentation": "parameters hold volume attributes defined by the CSI driver. These values are opaque to the Kubernetes and are passed directly to the CSI driver. The underlying storage provider supports changing these attributes on an existing volume, however the parameters field itself is immutable. To invoke a volume update, a new VolumeAttributesClass should be created with new parameters, and the PersistentVolumeClaim should be updated to reference the new VolumeAttributesClass.\n\nThis field is required and must contain at least one key/value pair. The keys cannot be empty, and the maximum number of parameters is 512, with a cumulative max size of 256K. If the CSI driver rejects invalid parameters, the target PersistentVolumeClaim will be set to an \"Infeasible\" state in the modifyVolumeStatus field.",
+            "smithy.api#required": {}
           }
         }
       },
@@ -7902,7 +7895,8 @@
         "parameters": {
           "target": "com.kubernetes.storage#ReplaceStorageV1VolumeAttributesClassRequestParametersMap",
           "traits": {
-            "smithy.api#documentation": "parameters hold volume attributes defined by the CSI driver. These values are opaque to the Kubernetes and are passed directly to the CSI driver. The underlying storage provider supports changing these attributes on an existing volume, however the parameters field itself is immutable. To invoke a volume update, a new VolumeAttributesClass should be created with new parameters, and the PersistentVolumeClaim should be updated to reference the new VolumeAttributesClass.\n\nThis field is required and must contain at least one key/value pair. The keys cannot be empty, and the maximum number of parameters is 512, with a cumulative max size of 256K. If the CSI driver rejects invalid parameters, the target PersistentVolumeClaim will be set to an \"Infeasible\" state in the modifyVolumeStatus field."
+            "smithy.api#documentation": "parameters hold volume attributes defined by the CSI driver. These values are opaque to the Kubernetes and are passed directly to the CSI driver. The underlying storage provider supports changing these attributes on an existing volume, however the parameters field itself is immutable. To invoke a volume update, a new VolumeAttributesClass should be created with new parameters, and the PersistentVolumeClaim should be updated to reference the new VolumeAttributesClass.\n\nThis field is required and must contain at least one key/value pair. The keys cannot be empty, and the maximum number of parameters is 512, with a cumulative max size of 256K. If the CSI driver rejects invalid parameters, the target PersistentVolumeClaim will be set to an \"Infeasible\" state in the modifyVolumeStatus field.",
+            "smithy.api#required": {}
           }
         }
       },

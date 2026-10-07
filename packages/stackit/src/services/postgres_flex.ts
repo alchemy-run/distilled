@@ -56,7 +56,7 @@ export class UnprocessableEntity
   ) {}
 
 export type CloneInstanceRequestRegion = "eu01" | "eu02";
-export const CloneInstanceRequestRegion = /*@__PURE__*/ S.String;
+export const CloneInstanceRequestRegion = S.String;
 
 export interface CloneInstanceOverrides {
   class: string;
@@ -69,9 +69,7 @@ export const CloneInstanceOverrides = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     size: S.Number,
   }),
-).annotate({
-  identifier: "CloneInstanceOverrides",
-}) as any as S.Schema<CloneInstanceOverrides>;
+).annotate({ identifier: "CloneInstanceOverrides" }) as any as S.Schema<CloneInstanceOverrides>;
 
 export interface CloneInstanceRequest {
   /** The STACKIT project ID. */
@@ -98,9 +96,7 @@ export const CloneInstanceRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://postgres-flex-service.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "CloneInstanceRequest",
-}) as any as S.Schema<CloneInstanceRequest>;
+).annotate({ identifier: "CloneInstanceRequest" }) as any as S.Schema<CloneInstanceRequest>;
 
 export interface CloneInstanceResponse {
   id: string;
@@ -109,12 +105,10 @@ export const CloneInstanceResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String,
   }),
-).annotate({
-  identifier: "CloneInstanceResponse",
-}) as any as S.Schema<CloneInstanceResponse>;
+).annotate({ identifier: "CloneInstanceResponse" }) as any as S.Schema<CloneInstanceResponse>;
 
 export type CreateDatabaseRequestRegion = "eu01" | "eu02";
-export const CreateDatabaseRequestRegion = /*@__PURE__*/ S.String;
+export const CreateDatabaseRequestRegion = S.String;
 
 export interface CreateDatabaseRequest {
   /** The STACKIT project ID. */
@@ -141,9 +135,7 @@ export const CreateDatabaseRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://postgres-flex-service.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "CreateDatabaseRequest",
-}) as any as S.Schema<CreateDatabaseRequest>;
+).annotate({ identifier: "CreateDatabaseRequest" }) as any as S.Schema<CreateDatabaseRequest>;
 
 export interface CreateDatabaseResponse {
   id: number;
@@ -152,12 +144,10 @@ export const CreateDatabaseResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.Number,
   }),
-).annotate({
-  identifier: "CreateDatabaseResponse",
-}) as any as S.Schema<CreateDatabaseResponse>;
+).annotate({ identifier: "CreateDatabaseResponse" }) as any as S.Schema<CreateDatabaseResponse>;
 
 export type CreateInstanceRequestRegion = "eu01" | "eu02";
-export const CreateInstanceRequestRegion = /*@__PURE__*/ S.String;
+export const CreateInstanceRequestRegion = S.String;
 
 /** The configuration for instance's volume and backup storage encryption. ⚠️ **Note:** This feature is in private preview. Supplying this object is only permitted for enabled accounts. If your account does not have access, the request will be rejected. */
 export interface InstanceEncryption {
@@ -176,17 +166,18 @@ export const InstanceEncryption = /*@__PURE__*/ S.suspend(() =>
     kekKeyVersion: S.String,
     serviceAccount: S.String,
   }),
-).annotate({
-  identifier: "InstanceEncryption",
-}) as any as S.Schema<InstanceEncryption>;
+).annotate({ identifier: "InstanceEncryption" }) as any as S.Schema<InstanceEncryption>;
 
 /** Key-value pairs, 63 characters max, begin and end with an alphanumerical character, may contain dashes (-), underscores (_), dots (.), and alphanumerics between. Key MUST be at least 1 character. Max 64 labels Regex for keys: ^(?=.{1,63}$)([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9]$ Regex for values: ^(?=.{0,63}$)(([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9])*$ The stackit- prefix is reserved and cannot be used for Keys. */
-export type Labels = { [key: string]: string | undefined };
-export const Labels = /*@__PURE__*/ S.Record(S.String, S.String) as any as S.Schema<Labels>;
+export type Labels = { [key: string]: string | null | undefined };
+export const Labels = /*@__PURE__*/ S.Record(
+  S.String,
+  S.NullOr(S.String),
+) as any as S.Schema<Labels>;
 
 /** The access scope of the instance. It defines if the instance is public or airgapped. ⚠️ **Note:** "SNA" value for the "network.accessScope" field is only permitted for enabled accounts. If your account does not have access, the request will be rejected. */
 export type InstanceNetworkAccessScope = "PUBLIC" | "SNA";
-export const InstanceNetworkAccessScope = /*@__PURE__*/ S.String;
+export const InstanceNetworkAccessScope = S.String;
 
 /** List of IPV4 cidr. */
 export type Acl = Array<string>;
@@ -202,9 +193,7 @@ export const InstanceNetworkCreate = /*@__PURE__*/ S.suspend(() =>
     accessScope: S.optional(InstanceNetworkAccessScope),
     acl: Acl,
   }),
-).annotate({
-  identifier: "InstanceNetworkCreate",
-}) as any as S.Schema<InstanceNetworkCreate>;
+).annotate({ identifier: "InstanceNetworkCreate" }) as any as S.Schema<InstanceNetworkCreate>;
 
 /** The object containing information about the storage size and class. */
 export interface StorageCreate {
@@ -254,9 +243,7 @@ export const CreateInstanceRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://postgres-flex-service.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "CreateInstanceRequest",
-}) as any as S.Schema<CreateInstanceRequest>;
+).annotate({ identifier: "CreateInstanceRequest" }) as any as S.Schema<CreateInstanceRequest>;
 
 export interface CreateInstanceResponse {
   id: string;
@@ -265,12 +252,10 @@ export const CreateInstanceResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String,
   }),
-).annotate({
-  identifier: "CreateInstanceResponse",
-}) as any as S.Schema<CreateInstanceResponse>;
+).annotate({ identifier: "CreateInstanceResponse" }) as any as S.Schema<CreateInstanceResponse>;
 
 export type CreateUserRequestRegion = "eu01" | "eu02";
-export const CreateUserRequestRegion = /*@__PURE__*/ S.String;
+export const CreateUserRequestRegion = S.String;
 
 /** A list containing the user roles for the instance. Please refer to the List Roles endpoint for a list of all available Roles. */
 export type CreateUserRequestRolesList = Array<string>;
@@ -304,9 +289,7 @@ export const CreateUserRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://postgres-flex-service.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "CreateUserRequest",
-}) as any as S.Schema<CreateUserRequest>;
+).annotate({ identifier: "CreateUserRequest" }) as any as S.Schema<CreateUserRequest>;
 
 export interface CreateUserResponse {
   id: number;
@@ -321,12 +304,10 @@ export const CreateUserResponse = /*@__PURE__*/ S.suspend(() =>
     password: S.String.pipe(T.SensitiveValue({})),
     state: S.String,
   }),
-).annotate({
-  identifier: "CreateUserResponse",
-}) as any as S.Schema<CreateUserResponse>;
+).annotate({ identifier: "CreateUserResponse" }) as any as S.Schema<CreateUserResponse>;
 
 export type DeleteDatabaseRequestRegion = "eu01" | "eu02";
-export const DeleteDatabaseRequestRegion = /*@__PURE__*/ S.String;
+export const DeleteDatabaseRequestRegion = S.String;
 
 export interface DeleteDatabaseRequest {
   /** The STACKIT project ID. */
@@ -352,9 +333,7 @@ export const DeleteDatabaseRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://postgres-flex-service.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "DeleteDatabaseRequest",
-}) as any as S.Schema<DeleteDatabaseRequest>;
+).annotate({ identifier: "DeleteDatabaseRequest" }) as any as S.Schema<DeleteDatabaseRequest>;
 
 export interface DeleteDatabaseResponse {}
 export const DeleteDatabaseResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -362,7 +341,7 @@ export const DeleteDatabaseResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})
 }) as any as S.Schema<DeleteDatabaseResponse>;
 
 export type DeleteInstanceRequestRegion = "eu01" | "eu02";
-export const DeleteInstanceRequestRegion = /*@__PURE__*/ S.String;
+export const DeleteInstanceRequestRegion = S.String;
 
 export interface DeleteInstanceRequest {
   /** The STACKIT project ID. */
@@ -385,9 +364,7 @@ export const DeleteInstanceRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://postgres-flex-service.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "DeleteInstanceRequest",
-}) as any as S.Schema<DeleteInstanceRequest>;
+).annotate({ identifier: "DeleteInstanceRequest" }) as any as S.Schema<DeleteInstanceRequest>;
 
 export interface DeleteInstanceResponse {}
 export const DeleteInstanceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -395,7 +372,7 @@ export const DeleteInstanceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})
 }) as any as S.Schema<DeleteInstanceResponse>;
 
 export type DeleteUserRequestRegion = "eu01" | "eu02";
-export const DeleteUserRequestRegion = /*@__PURE__*/ S.String;
+export const DeleteUserRequestRegion = S.String;
 
 export interface DeleteUserRequest {
   /** The STACKIT project ID. */
@@ -421,9 +398,7 @@ export const DeleteUserRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://postgres-flex-service.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "DeleteUserRequest",
-}) as any as S.Schema<DeleteUserRequest>;
+).annotate({ identifier: "DeleteUserRequest" }) as any as S.Schema<DeleteUserRequest>;
 
 export interface DeleteUserResponse {}
 export const DeleteUserResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -431,7 +406,7 @@ export const DeleteUserResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).an
 }) as any as S.Schema<DeleteUserResponse>;
 
 export type GetBackupRequestRegion = "eu01" | "eu02";
-export const GetBackupRequestRegion = /*@__PURE__*/ S.String;
+export const GetBackupRequestRegion = S.String;
 
 export interface GetBackupRequest {
   /** The STACKIT project ID. */
@@ -457,9 +432,7 @@ export const GetBackupRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://postgres-flex-service.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "GetBackupRequest",
-}) as any as S.Schema<GetBackupRequest>;
+).annotate({ identifier: "GetBackupRequest" }) as any as S.Schema<GetBackupRequest>;
 
 export interface BackupData {
   completionTime: string;
@@ -481,7 +454,7 @@ export const BackupData = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "BackupData" }) as any as S.Schema<BackupData>;
 
 export type GetDatabaseRequestRegion = "eu01" | "eu02";
-export const GetDatabaseRequestRegion = /*@__PURE__*/ S.String;
+export const GetDatabaseRequestRegion = S.String;
 
 export interface GetDatabaseRequest {
   /** The STACKIT project ID. */
@@ -507,9 +480,7 @@ export const GetDatabaseRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://postgres-flex-service.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "GetDatabaseRequest",
-}) as any as S.Schema<GetDatabaseRequest>;
+).annotate({ identifier: "GetDatabaseRequest" }) as any as S.Schema<GetDatabaseRequest>;
 
 export interface GetDatabaseResponse {
   id: number;
@@ -522,12 +493,10 @@ export const GetDatabaseResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     owner: S.String,
   }),
-).annotate({
-  identifier: "GetDatabaseResponse",
-}) as any as S.Schema<GetDatabaseResponse>;
+).annotate({ identifier: "GetDatabaseResponse" }) as any as S.Schema<GetDatabaseResponse>;
 
 export type GetInstanceRequestRegion = "eu01" | "eu02";
-export const GetInstanceRequestRegion = /*@__PURE__*/ S.String;
+export const GetInstanceRequestRegion = S.String;
 
 export interface GetInstanceRequest {
   /** The STACKIT project ID. */
@@ -550,9 +519,7 @@ export const GetInstanceRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://postgres-flex-service.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "GetInstanceRequest",
-}) as any as S.Schema<GetInstanceRequest>;
+).annotate({ identifier: "GetInstanceRequest" }) as any as S.Schema<GetInstanceRequest>;
 
 /** The DNS name and port in the instance overview */
 export interface InstanceConnectionInfoWrite {
@@ -578,9 +545,7 @@ export const InstanceConnectionInfo = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     write: InstanceConnectionInfoWrite,
   }),
-).annotate({
-  identifier: "InstanceConnectionInfo",
-}) as any as S.Schema<InstanceConnectionInfo>;
+).annotate({ identifier: "InstanceConnectionInfo" }) as any as S.Schema<InstanceConnectionInfo>;
 
 /** The access configuration of the instance */
 export interface InstanceNetwork {
@@ -596,13 +561,11 @@ export const InstanceNetwork = /*@__PURE__*/ S.suspend(() =>
     instanceAddress: S.optional(S.String),
     routerAddress: S.optional(S.String),
   }),
-).annotate({
-  identifier: "InstanceNetwork",
-}) as any as S.Schema<InstanceNetwork>;
+).annotate({ identifier: "InstanceNetwork" }) as any as S.Schema<InstanceNetwork>;
 
 /** The current state of the instance. */
 export type State = "READY" | "PENDING" | "PROGRESSING" | "FAILURE" | "UNKNOWN" | "TERMINATING";
-export const State = /*@__PURE__*/ S.String;
+export const State = S.String;
 
 /** The object containing information about the storage size and class. */
 export interface Storage {
@@ -647,12 +610,10 @@ export const GetInstanceResponse = /*@__PURE__*/ S.suspend(() =>
     storage: Storage,
     version: S.String,
   }),
-).annotate({
-  identifier: "GetInstanceResponse",
-}) as any as S.Schema<GetInstanceResponse>;
+).annotate({ identifier: "GetInstanceResponse" }) as any as S.Schema<GetInstanceResponse>;
 
 export type GetUserRequestRegion = "eu01" | "eu02";
-export const GetUserRequestRegion = /*@__PURE__*/ S.String;
+export const GetUserRequestRegion = S.String;
 
 export interface GetUserRequest {
   /** The STACKIT project ID. */
@@ -700,12 +661,10 @@ export const GetUserResponse = /*@__PURE__*/ S.suspend(() =>
     roles: GetUserResponseRolesList,
     state: S.String,
   }),
-).annotate({
-  identifier: "GetUserResponse",
-}) as any as S.Schema<GetUserResponse>;
+).annotate({ identifier: "GetUserResponse" }) as any as S.Schema<GetUserResponse>;
 
 export type ListBackupsRequestRegion = "eu01" | "eu02";
-export const ListBackupsRequestRegion = /*@__PURE__*/ S.String;
+export const ListBackupsRequestRegion = S.String;
 
 export type BackupSort =
   | "completion_time.desc"
@@ -720,7 +679,7 @@ export type BackupSort =
   | "size.asc"
   | "type.desc"
   | "type.asc";
-export const BackupSort = /*@__PURE__*/ S.String;
+export const BackupSort = S.String;
 
 export interface ListBackupsRequest {
   /** The STACKIT project ID. */
@@ -752,9 +711,7 @@ export const ListBackupsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://postgres-flex-service.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "ListBackupsRequest",
-}) as any as S.Schema<ListBackupsRequest>;
+).annotate({ identifier: "ListBackupsRequest" }) as any as S.Schema<ListBackupsRequest>;
 
 /** The list containing the information about the backups. */
 export type ListBackupsResponseBackupsList = Array<BackupData>;
@@ -789,12 +746,10 @@ export const ListBackupsResponse = /*@__PURE__*/ S.suspend(() =>
     backups: ListBackupsResponseBackupsList,
     pagination: Pagination,
   }),
-).annotate({
-  identifier: "ListBackupsResponse",
-}) as any as S.Schema<ListBackupsResponse>;
+).annotate({ identifier: "ListBackupsResponse" }) as any as S.Schema<ListBackupsResponse>;
 
 export type ListCollationsRequestRegion = "eu01" | "eu02";
-export const ListCollationsRequestRegion = /*@__PURE__*/ S.String;
+export const ListCollationsRequestRegion = S.String;
 
 export interface ListCollationsRequest {
   /** The STACKIT project ID. */
@@ -817,9 +772,7 @@ export const ListCollationsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://postgres-flex-service.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "ListCollationsRequest",
-}) as any as S.Schema<ListCollationsRequest>;
+).annotate({ identifier: "ListCollationsRequest" }) as any as S.Schema<ListCollationsRequest>;
 
 /** List of collations available for the instance. */
 export type ListCollationsResponseCollationsList = Array<string>;
@@ -835,12 +788,10 @@ export const ListCollationsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     collations: ListCollationsResponseCollationsList,
   }),
-).annotate({
-  identifier: "ListCollationsResponse",
-}) as any as S.Schema<ListCollationsResponse>;
+).annotate({ identifier: "ListCollationsResponse" }) as any as S.Schema<ListCollationsResponse>;
 
 export type ListDatabasesRequestRegion = "eu01" | "eu02";
-export const ListDatabasesRequestRegion = /*@__PURE__*/ S.String;
+export const ListDatabasesRequestRegion = S.String;
 
 export type DatabaseSort =
   | "created_at.desc"
@@ -851,7 +802,7 @@ export type DatabaseSort =
   | "database_name.asc"
   | "database_owner.desc"
   | "database_owner.asc";
-export const DatabaseSort = /*@__PURE__*/ S.String;
+export const DatabaseSort = S.String;
 
 export interface ListDatabasesRequest {
   /** The STACKIT project ID. */
@@ -883,9 +834,7 @@ export const ListDatabasesRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://postgres-flex-service.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "ListDatabasesRequest",
-}) as any as S.Schema<ListDatabasesRequest>;
+).annotate({ identifier: "ListDatabasesRequest" }) as any as S.Schema<ListDatabasesRequest>;
 
 export interface ListDatabase {
   id: number;
@@ -916,12 +865,10 @@ export const ListDatabasesResponse = /*@__PURE__*/ S.suspend(() =>
     databases: ListDatabasesResponseDatabasesList,
     pagination: Pagination,
   }),
-).annotate({
-  identifier: "ListDatabasesResponse",
-}) as any as S.Schema<ListDatabasesResponse>;
+).annotate({ identifier: "ListDatabasesResponse" }) as any as S.Schema<ListDatabasesResponse>;
 
 export type ListFlavorsRequestRegion = "eu01" | "eu02";
-export const ListFlavorsRequestRegion = /*@__PURE__*/ S.String;
+export const ListFlavorsRequestRegion = S.String;
 
 export type FlavorSort =
   | "cpu.desc"
@@ -940,7 +887,7 @@ export type FlavorSort =
   | "storage_class.desc"
   | "node_type.asc"
   | "node_type.desc";
-export const FlavorSort = /*@__PURE__*/ S.String;
+export const FlavorSort = S.String;
 
 export interface ListFlavorsRequest {
   /** The STACKIT project ID. */
@@ -969,9 +916,7 @@ export const ListFlavorsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://postgres-flex-service.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "ListFlavorsRequest",
-}) as any as S.Schema<ListFlavorsRequest>;
+).annotate({ identifier: "ListFlavorsRequest" }) as any as S.Schema<ListFlavorsRequest>;
 
 /** a storageClass defines how efficient the storage can work */
 export interface FlavorStorageClassesStorageClass {
@@ -1035,12 +980,10 @@ export const ListFlavorsResponse = /*@__PURE__*/ S.suspend(() =>
     flavors: ListFlavorsResponseFlavorsList,
     pagination: Pagination,
   }),
-).annotate({
-  identifier: "ListFlavorsResponse",
-}) as any as S.Schema<ListFlavorsResponse>;
+).annotate({ identifier: "ListFlavorsResponse" }) as any as S.Schema<ListFlavorsResponse>;
 
 export type ListInstancesRequestRegion = "eu01" | "eu02";
-export const ListInstancesRequestRegion = /*@__PURE__*/ S.String;
+export const ListInstancesRequestRegion = S.String;
 
 export type InstanceSort =
   | "id.desc"
@@ -1051,7 +994,7 @@ export type InstanceSort =
   | "name.desc"
   | "state.asc"
   | "state.desc";
-export const InstanceSort = /*@__PURE__*/ S.String;
+export const InstanceSort = S.String;
 
 export interface ListInstancesRequest {
   /** The STACKIT project ID. */
@@ -1080,9 +1023,7 @@ export const ListInstancesRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://postgres-flex-service.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "ListInstancesRequest",
-}) as any as S.Schema<ListInstancesRequest>;
+).annotate({ identifier: "ListInstancesRequest" }) as any as S.Schema<ListInstancesRequest>;
 
 export interface ListInstance {
   id: string;
@@ -1115,12 +1056,10 @@ export const ListInstancesResponse = /*@__PURE__*/ S.suspend(() =>
     instances: ListInstancesResponseInstancesList,
     pagination: Pagination,
   }),
-).annotate({
-  identifier: "ListInstancesResponse",
-}) as any as S.Schema<ListInstancesResponse>;
+).annotate({ identifier: "ListInstancesResponse" }) as any as S.Schema<ListInstancesResponse>;
 
 export type ListRolesRequestRegion = "eu01" | "eu02";
-export const ListRolesRequestRegion = /*@__PURE__*/ S.String;
+export const ListRolesRequestRegion = S.String;
 
 export interface ListRolesRequest {
   /** The STACKIT project ID. */
@@ -1143,9 +1082,7 @@ export const ListRolesRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://postgres-flex-service.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "ListRolesRequest",
-}) as any as S.Schema<ListRolesRequest>;
+).annotate({ identifier: "ListRolesRequest" }) as any as S.Schema<ListRolesRequest>;
 
 /** List of all role names available in the instance */
 export type ListRolesResponseRolesList = Array<string>;
@@ -1161,15 +1098,13 @@ export const ListRolesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     roles: ListRolesResponseRolesList,
   }),
-).annotate({
-  identifier: "ListRolesResponse",
-}) as any as S.Schema<ListRolesResponse>;
+).annotate({ identifier: "ListRolesResponse" }) as any as S.Schema<ListRolesResponse>;
 
 export type ListUsersRequestRegion = "eu01" | "eu02";
-export const ListUsersRequestRegion = /*@__PURE__*/ S.String;
+export const ListUsersRequestRegion = S.String;
 
 export type UserSort = "id.asc" | "id.desc" | "name.desc" | "name.asc" | "state.desc" | "state.asc";
-export const UserSort = /*@__PURE__*/ S.String;
+export const UserSort = S.String;
 
 export interface ListUsersRequest {
   /** The STACKIT project ID. */
@@ -1201,9 +1136,7 @@ export const ListUsersRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://postgres-flex-service.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "ListUsersRequest",
-}) as any as S.Schema<ListUsersRequest>;
+).annotate({ identifier: "ListUsersRequest" }) as any as S.Schema<ListUsersRequest>;
 
 export interface ListUser {
   id: number;
@@ -1234,12 +1167,10 @@ export const ListUsersResponse = /*@__PURE__*/ S.suspend(() =>
     pagination: Pagination,
     users: ListUsersResponseUsersList,
   }),
-).annotate({
-  identifier: "ListUsersResponse",
-}) as any as S.Schema<ListUsersResponse>;
+).annotate({ identifier: "ListUsersResponse" }) as any as S.Schema<ListUsersResponse>;
 
 export type ListVersionsRequestRegion = "eu01" | "eu02";
-export const ListVersionsRequestRegion = /*@__PURE__*/ S.String;
+export const ListVersionsRequestRegion = S.String;
 
 export interface ListVersionsRequest {
   /** The STACKIT project ID. */
@@ -1259,9 +1190,7 @@ export const ListVersionsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://postgres-flex-service.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "ListVersionsRequest",
-}) as any as S.Schema<ListVersionsRequest>;
+).annotate({ identifier: "ListVersionsRequest" }) as any as S.Schema<ListVersionsRequest>;
 
 /** The version of the postgres instance and more details. */
 export interface Version {
@@ -1297,12 +1226,10 @@ export const ListVersionsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     versions: ListVersionsResponseVersionsList,
   }),
-).annotate({
-  identifier: "ListVersionsResponse",
-}) as any as S.Schema<ListVersionsResponse>;
+).annotate({ identifier: "ListVersionsResponse" }) as any as S.Schema<ListVersionsResponse>;
 
 export type PartialUpdateDatabaseRequestRegion = "eu01" | "eu02";
-export const PartialUpdateDatabaseRequestRegion = /*@__PURE__*/ S.String;
+export const PartialUpdateDatabaseRequestRegion = S.String;
 
 export interface PartialUpdateDatabaseRequest {
   /** The STACKIT project ID. */
@@ -1342,7 +1269,7 @@ export const PartialUpdateDatabaseResponse = /*@__PURE__*/ S.suspend(() => S.Str
 }) as any as S.Schema<PartialUpdateDatabaseResponse>;
 
 export type PartialUpdateInstanceRequestRegion = "eu01" | "eu02";
-export const PartialUpdateInstanceRequestRegion = /*@__PURE__*/ S.String;
+export const PartialUpdateInstanceRequestRegion = S.String;
 
 /** List of IPV4 cidr. */
 export type AclOpt = Array<string>;
@@ -1356,9 +1283,7 @@ export const InstanceNetworkOpt = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     acl: S.optional(AclOpt),
   }),
-).annotate({
-  identifier: "InstanceNetworkOpt",
-}) as any as S.Schema<InstanceNetworkOpt>;
+).annotate({ identifier: "InstanceNetworkOpt" }) as any as S.Schema<InstanceNetworkOpt>;
 
 /** The object containing information about the storage size and class. */
 export interface StorageUpdate {
@@ -1417,7 +1342,7 @@ export const PartialUpdateInstanceResponse = /*@__PURE__*/ S.suspend(() => S.Str
 }) as any as S.Schema<PartialUpdateInstanceResponse>;
 
 export type PartialUpdateUserRequestRegion = "eu01" | "eu02";
-export const PartialUpdateUserRequestRegion = /*@__PURE__*/ S.String;
+export const PartialUpdateUserRequestRegion = S.String;
 
 /** A list containing the user roles for the instance. Please refer to the List Roles endpoint for a list of all available Roles. */
 export type PartialUpdateUserRequestRolesList = Array<string>;
@@ -1454,9 +1379,7 @@ export const PartialUpdateUserRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://postgres-flex-service.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "PartialUpdateUserRequest",
-}) as any as S.Schema<PartialUpdateUserRequest>;
+).annotate({ identifier: "PartialUpdateUserRequest" }) as any as S.Schema<PartialUpdateUserRequest>;
 
 export interface PartialUpdateUserResponse {}
 export const PartialUpdateUserResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1464,7 +1387,7 @@ export const PartialUpdateUserResponse = /*@__PURE__*/ S.suspend(() => S.Struct(
 }) as any as S.Schema<PartialUpdateUserResponse>;
 
 export type ResetUserPasswordRequestRegion = "eu01" | "eu02";
-export const ResetUserPasswordRequestRegion = /*@__PURE__*/ S.String;
+export const ResetUserPasswordRequestRegion = S.String;
 
 export interface ResetUserPasswordRequest {
   /** The STACKIT project ID. */
@@ -1490,9 +1413,7 @@ export const ResetUserPasswordRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://postgres-flex-service.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "ResetUserPasswordRequest",
-}) as any as S.Schema<ResetUserPasswordRequest>;
+).annotate({ identifier: "ResetUserPasswordRequest" }) as any as S.Schema<ResetUserPasswordRequest>;
 
 export interface ResetUserPasswordResponse {
   name: string;
@@ -1510,7 +1431,7 @@ export const ResetUserPasswordResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ResetUserPasswordResponse>;
 
 export type UpdateDatabaseRequestRegion = "eu01" | "eu02";
-export const UpdateDatabaseRequestRegion = /*@__PURE__*/ S.String;
+export const UpdateDatabaseRequestRegion = S.String;
 
 export interface UpdateDatabaseRequest {
   /** The STACKIT project ID. */
@@ -1540,9 +1461,7 @@ export const UpdateDatabaseRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://postgres-flex-service.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "UpdateDatabaseRequest",
-}) as any as S.Schema<UpdateDatabaseRequest>;
+).annotate({ identifier: "UpdateDatabaseRequest" }) as any as S.Schema<UpdateDatabaseRequest>;
 
 export interface UpdateDatabaseResponse {}
 export const UpdateDatabaseResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1550,7 +1469,7 @@ export const UpdateDatabaseResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})
 }) as any as S.Schema<UpdateDatabaseResponse>;
 
 export type UpdateInstanceRequestRegion = "eu01" | "eu02";
-export const UpdateInstanceRequestRegion = /*@__PURE__*/ S.String;
+export const UpdateInstanceRequestRegion = S.String;
 
 /** The access configuration of the instance */
 export interface InstanceNetworkUpdate {
@@ -1560,9 +1479,7 @@ export const InstanceNetworkUpdate = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     acl: Acl,
   }),
-).annotate({
-  identifier: "InstanceNetworkUpdate",
-}) as any as S.Schema<InstanceNetworkUpdate>;
+).annotate({ identifier: "InstanceNetworkUpdate" }) as any as S.Schema<InstanceNetworkUpdate>;
 
 export interface UpdateInstanceRequest {
   /** The STACKIT project ID. */
@@ -1601,9 +1518,7 @@ export const UpdateInstanceRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://postgres-flex-service.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "UpdateInstanceRequest",
-}) as any as S.Schema<UpdateInstanceRequest>;
+).annotate({ identifier: "UpdateInstanceRequest" }) as any as S.Schema<UpdateInstanceRequest>;
 
 export interface UpdateInstanceResponse {}
 export const UpdateInstanceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1611,7 +1526,7 @@ export const UpdateInstanceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})
 }) as any as S.Schema<UpdateInstanceResponse>;
 
 export type UpdateInstanceProtectionRequestRegion = "eu01" | "eu02";
-export const UpdateInstanceProtectionRequestRegion = /*@__PURE__*/ S.String;
+export const UpdateInstanceProtectionRequestRegion = S.String;
 
 export interface UpdateInstanceProtectionRequest {
   /** The STACKIT project ID. */
@@ -1652,7 +1567,7 @@ export const UpdateInstanceProtectionResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateInstanceProtectionResponse>;
 
 export type UpdateUserRequestRegion = "eu01" | "eu02";
-export const UpdateUserRequestRegion = /*@__PURE__*/ S.String;
+export const UpdateUserRequestRegion = S.String;
 
 /** A list containing the user roles for the instance. Please refer to the List Roles endpoint for a list of all available Roles. */
 export type UpdateUserRequestRolesList = Array<string>;
@@ -1689,9 +1604,7 @@ export const UpdateUserRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://postgres-flex-service.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "UpdateUserRequest",
-}) as any as S.Schema<UpdateUserRequest>;
+).annotate({ identifier: "UpdateUserRequest" }) as any as S.Schema<UpdateUserRequest>;
 
 export interface UpdateUserResponse {}
 export const UpdateUserResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({

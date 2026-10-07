@@ -1763,36 +1763,6 @@
     },
     {
       "op": "add",
-      "path": "/paths/~1apis~1certificates.k8s.io~1v1alpha1~1clustertrustbundles/post/responses/422",
-      "value": {
-        "description": "Unprocessable Entity",
-        "schema": {
-          "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Status"
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1apis~1certificates.k8s.io~1v1alpha1~1clustertrustbundles~1{name}/put/responses/422",
-      "value": {
-        "description": "Unprocessable Entity",
-        "schema": {
-          "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Status"
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1apis~1certificates.k8s.io~1v1alpha1~1clustertrustbundles~1{name}/patch/responses/422",
-      "value": {
-        "description": "Unprocessable Entity",
-        "schema": {
-          "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Status"
-        }
-      }
-    },
-    {
-      "op": "add",
       "path": "/paths/~1apis~1certificates.k8s.io~1v1beta1~1clustertrustbundles/post/responses/422",
       "value": {
         "description": "Unprocessable Entity",
@@ -2354,86 +2324,6 @@
     {
       "op": "add",
       "path": "/paths/~1apis~1networking.k8s.io~1v1~1servicecidrs~1{name}~1status/patch/responses/422",
-      "value": {
-        "description": "Unprocessable Entity",
-        "schema": {
-          "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Status"
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1apis~1networking.k8s.io~1v1beta1~1ipaddresses/post/responses/422",
-      "value": {
-        "description": "Unprocessable Entity",
-        "schema": {
-          "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Status"
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1apis~1networking.k8s.io~1v1beta1~1ipaddresses~1{name}/put/responses/422",
-      "value": {
-        "description": "Unprocessable Entity",
-        "schema": {
-          "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Status"
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1apis~1networking.k8s.io~1v1beta1~1ipaddresses~1{name}/patch/responses/422",
-      "value": {
-        "description": "Unprocessable Entity",
-        "schema": {
-          "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Status"
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1apis~1networking.k8s.io~1v1beta1~1servicecidrs/post/responses/422",
-      "value": {
-        "description": "Unprocessable Entity",
-        "schema": {
-          "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Status"
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1apis~1networking.k8s.io~1v1beta1~1servicecidrs~1{name}/put/responses/422",
-      "value": {
-        "description": "Unprocessable Entity",
-        "schema": {
-          "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Status"
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1apis~1networking.k8s.io~1v1beta1~1servicecidrs~1{name}/patch/responses/422",
-      "value": {
-        "description": "Unprocessable Entity",
-        "schema": {
-          "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Status"
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1apis~1networking.k8s.io~1v1beta1~1servicecidrs~1{name}~1status/put/responses/422",
-      "value": {
-        "description": "Unprocessable Entity",
-        "schema": {
-          "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Status"
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1apis~1networking.k8s.io~1v1beta1~1servicecidrs~1{name}~1status/patch/responses/422",
       "value": {
         "description": "Unprocessable Entity",
         "schema": {
@@ -3193,86 +3083,6 @@
     },
     {
       "op": "add",
-      "path": "/paths/~1apis~1scheduling.k8s.io~1v1alpha2~1namespaces~1{namespace}~1podgroups/post/responses/422",
-      "value": {
-        "description": "Unprocessable Entity",
-        "schema": {
-          "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Status"
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1apis~1scheduling.k8s.io~1v1alpha2~1namespaces~1{namespace}~1podgroups~1{name}/put/responses/422",
-      "value": {
-        "description": "Unprocessable Entity",
-        "schema": {
-          "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Status"
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1apis~1scheduling.k8s.io~1v1alpha2~1namespaces~1{namespace}~1podgroups~1{name}/patch/responses/422",
-      "value": {
-        "description": "Unprocessable Entity",
-        "schema": {
-          "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Status"
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1apis~1scheduling.k8s.io~1v1alpha2~1namespaces~1{namespace}~1podgroups~1{name}~1status/put/responses/422",
-      "value": {
-        "description": "Unprocessable Entity",
-        "schema": {
-          "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Status"
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1apis~1scheduling.k8s.io~1v1alpha2~1namespaces~1{namespace}~1podgroups~1{name}~1status/patch/responses/422",
-      "value": {
-        "description": "Unprocessable Entity",
-        "schema": {
-          "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Status"
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1apis~1scheduling.k8s.io~1v1alpha2~1namespaces~1{namespace}~1workloads/post/responses/422",
-      "value": {
-        "description": "Unprocessable Entity",
-        "schema": {
-          "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Status"
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1apis~1scheduling.k8s.io~1v1alpha2~1namespaces~1{namespace}~1workloads~1{name}/put/responses/422",
-      "value": {
-        "description": "Unprocessable Entity",
-        "schema": {
-          "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Status"
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1apis~1scheduling.k8s.io~1v1alpha2~1namespaces~1{namespace}~1workloads~1{name}/patch/responses/422",
-      "value": {
-        "description": "Unprocessable Entity",
-        "schema": {
-          "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Status"
-        }
-      }
-    },
-    {
-      "op": "add",
       "path": "/paths/~1apis~1storage.k8s.io~1v1~1csidrivers/post/responses/422",
       "value": {
         "description": "Unprocessable Entity",
@@ -3464,36 +3274,6 @@
     {
       "op": "add",
       "path": "/paths/~1apis~1storage.k8s.io~1v1~1volumeattributesclasses~1{name}/patch/responses/422",
-      "value": {
-        "description": "Unprocessable Entity",
-        "schema": {
-          "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Status"
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1apis~1storage.k8s.io~1v1beta1~1volumeattributesclasses/post/responses/422",
-      "value": {
-        "description": "Unprocessable Entity",
-        "schema": {
-          "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Status"
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1apis~1storage.k8s.io~1v1beta1~1volumeattributesclasses~1{name}/put/responses/422",
-      "value": {
-        "description": "Unprocessable Entity",
-        "schema": {
-          "$ref": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Status"
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/paths/~1apis~1storage.k8s.io~1v1beta1~1volumeattributesclasses~1{name}/patch/responses/422",
       "value": {
         "description": "Unprocessable Entity",
         "schema": {

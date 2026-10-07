@@ -19,9 +19,7 @@ export const ResourceSetCase0 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     exact: S.String,
   }),
-).annotate({
-  identifier: "ResourceSetCase0",
-}) as any as S.Schema<ResourceSetCase0>;
+).annotate({ identifier: "ResourceSetCase0" }) as any as S.Schema<ResourceSetCase0>;
 
 /** Match all resources that start with this prefix. Use an empty string to match all resource. */
 export interface ResourceSetCase1 {
@@ -32,9 +30,7 @@ export const ResourceSetCase1 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     prefix: S.String,
   }),
-).annotate({
-  identifier: "ResourceSetCase1",
-}) as any as S.Schema<ResourceSetCase1>;
+).annotate({ identifier: "ResourceSetCase1" }) as any as S.Schema<ResourceSetCase1>;
 
 export type ResourceSet = ResourceSetCase0 | ResourceSetCase1;
 export const ResourceSet = /*@__PURE__*/ S.Unknown as any as S.Schema<ResourceSet>;
@@ -50,9 +46,7 @@ export const ReadWritePermissions = /*@__PURE__*/ S.suspend(() =>
     read: S.optional(S.Boolean),
     write: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "ReadWritePermissions",
-}) as any as S.Schema<ReadWritePermissions>;
+).annotate({ identifier: "ReadWritePermissions" }) as any as S.Schema<ReadWritePermissions>;
 
 export interface PermittedOperationGroups {
   account?: ReadWritePermissions | null;
@@ -65,9 +59,7 @@ export const PermittedOperationGroups = /*@__PURE__*/ S.suspend(() =>
     basin: S.optional(S.NullOr(ReadWritePermissions)),
     stream: S.optional(S.NullOr(ReadWritePermissions)),
   }),
-).annotate({
-  identifier: "PermittedOperationGroups",
-}) as any as S.Schema<PermittedOperationGroups>;
+).annotate({ identifier: "PermittedOperationGroups" }) as any as S.Schema<PermittedOperationGroups>;
 
 export type Operation =
   | "list-basins"
@@ -118,9 +110,7 @@ export const AccessTokenScope = /*@__PURE__*/ S.suspend(() =>
     ops: S.optional(S.NullOr(AccessTokenScopeOpsList)),
     streams: S.optional(S.NullOr(ResourceSet)),
   }),
-).annotate({
-  identifier: "AccessTokenScope",
-}) as any as S.Schema<AccessTokenScope>;
+).annotate({ identifier: "AccessTokenScope" }) as any as S.Schema<AccessTokenScope>;
 
 export interface IssueAccessTokenRequest {
   /** Namespace streams based on the configured stream-level scope, which must be a prefix. Stream name arguments will be automatically prefixed, and the prefix will be stripped when listing streams. */
@@ -139,9 +129,7 @@ export const IssueAccessTokenRequest = /*@__PURE__*/ S.suspend(() =>
     id: S.String,
     scope: AccessTokenScope,
   }).pipe(T.Http({ method: "POST", uri: "/access-tokens", code: 200 })),
-).annotate({
-  identifier: "IssueAccessTokenRequest",
-}) as any as S.Schema<IssueAccessTokenRequest>;
+).annotate({ identifier: "IssueAccessTokenRequest" }) as any as S.Schema<IssueAccessTokenRequest>;
 
 export interface IssueAccessTokenResponse {
   /** Created access token. */
@@ -151,9 +139,7 @@ export const IssueAccessTokenResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     access_token: S.String.pipe(T.SensitiveValue({})),
   }),
-).annotate({
-  identifier: "IssueAccessTokenResponse",
-}) as any as S.Schema<IssueAccessTokenResponse>;
+).annotate({ identifier: "IssueAccessTokenResponse" }) as any as S.Schema<IssueAccessTokenResponse>;
 
 export interface ListAccessTokensRequest {
   /** Filter to access tokens whose IDs begin with this prefix. It must not contain NUL bytes. */
@@ -169,9 +155,7 @@ export const ListAccessTokensRequest = /*@__PURE__*/ S.suspend(() =>
     start_after: S.optional(S.String.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/access-tokens", code: 200 })),
-).annotate({
-  identifier: "ListAccessTokensRequest",
-}) as any as S.Schema<ListAccessTokensRequest>;
+).annotate({ identifier: "ListAccessTokensRequest" }) as any as S.Schema<ListAccessTokensRequest>;
 
 export interface AccessTokenInfo {
   /** Namespace streams based on the configured stream-level scope. */
@@ -190,9 +174,7 @@ export const AccessTokenInfo = /*@__PURE__*/ S.suspend(() =>
     id: S.String,
     scope: AccessTokenScope,
   }),
-).annotate({
-  identifier: "AccessTokenInfo",
-}) as any as S.Schema<AccessTokenInfo>;
+).annotate({ identifier: "AccessTokenInfo" }) as any as S.Schema<AccessTokenInfo>;
 
 /** Matching access tokens. */
 export type ListAccessTokensResponseAccessTokensList = Array<AccessTokenInfo>;
@@ -211,9 +193,7 @@ export const ListAccessTokensResponse = /*@__PURE__*/ S.suspend(() =>
     access_tokens: ListAccessTokensResponseAccessTokensList,
     has_more: S.Boolean,
   }),
-).annotate({
-  identifier: "ListAccessTokensResponse",
-}) as any as S.Schema<ListAccessTokensResponse>;
+).annotate({ identifier: "ListAccessTokensResponse" }) as any as S.Schema<ListAccessTokensResponse>;
 
 export interface RevokeAccessTokenRequest {
   /** Access token ID. */
@@ -223,9 +203,7 @@ export const RevokeAccessTokenRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "DELETE", uri: "/access-tokens/{id}", code: 200 })),
-).annotate({
-  identifier: "RevokeAccessTokenRequest",
-}) as any as S.Schema<RevokeAccessTokenRequest>;
+).annotate({ identifier: "RevokeAccessTokenRequest" }) as any as S.Schema<RevokeAccessTokenRequest>;
 
 export interface RevokeAccessTokenResponse {}
 export const RevokeAccessTokenResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({

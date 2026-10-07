@@ -216,9 +216,7 @@ export const BountyCaptureClip = /*@__PURE__*/ S.suspend(() =>
     updated_at: S.String,
     video_url: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "BountyCaptureClip",
-}) as any as S.Schema<BountyCaptureClip>;
+).annotate({ identifier: "BountyCaptureClip" }) as any as S.Schema<BountyCaptureClip>;
 
 export type BountySubmissionCaptureClipsList = Array<BountyCaptureClip>;
 export const BountySubmissionCaptureClipsList = /*@__PURE__*/ S.Array(
@@ -258,9 +256,7 @@ export const BountySubmissionFile = /*@__PURE__*/ S.suspend(() =>
     id: S.String,
     url: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "BountySubmissionFile",
-}) as any as S.Schema<BountySubmissionFile>;
+).annotate({ identifier: "BountySubmissionFile" }) as any as S.Schema<BountySubmissionFile>;
 
 export type BountySubmissionFilesList = Array<BountySubmissionFile>;
 export const BountySubmissionFilesList = /*@__PURE__*/ S.Array(
@@ -317,9 +313,7 @@ export const UserProfilePicture = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     url: S.String,
   }),
-).annotate({
-  identifier: "UserProfilePicture",
-}) as any as S.Schema<UserProfilePicture>;
+).annotate({ identifier: "UserProfilePicture" }) as any as S.Schema<UserProfilePicture>;
 
 export interface UserSummary {
   /** User ID, prefixed `user_`. */
@@ -420,9 +414,7 @@ export const BountySubmission = /*@__PURE__*/ S.suspend(() =>
     updated_at: S.String,
     worker: UserSummary,
   }),
-).annotate({
-  identifier: "BountySubmission",
-}) as any as S.Schema<BountySubmission>;
+).annotate({ identifier: "BountySubmission" }) as any as S.Schema<BountySubmission>;
 
 export interface GetBountySubmissionRequest {
   /** The bounty submission to act on (`btys_` tag). */
@@ -573,13 +565,7 @@ export const SubmitBountySubmissionRequest = /*@__PURE__*/ S.suspend(() =>
     id: S.String.pipe(T.Label()),
     deliverable: S.optional(S.NullOr(SubmitBountySubmissionRequestDeliverable)),
     idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/bounty_submissions/{id}/submit",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/bounty_submissions/{id}/submit", code: 200 })),
 ).annotate({
   identifier: "SubmitBountySubmissionRequest",
 }) as any as S.Schema<SubmitBountySubmissionRequest>;

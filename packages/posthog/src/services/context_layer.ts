@@ -71,9 +71,7 @@ export const ContextLayerStatus = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     head_sha: S.String,
   }),
-).annotate({
-  identifier: "ContextLayerStatus",
-}) as any as S.Schema<ContextLayerStatus>;
+).annotate({ identifier: "ContextLayerStatus" }) as any as S.Schema<ContextLayerStatus>;
 
 export interface ContextLayerExportRetrieveRequest {
   /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
@@ -106,6 +104,26 @@ export const WikiExport = /*@__PURE__*/ S.suspend(() =>
     head_sha: S.String,
   }),
 ).annotate({ identifier: "WikiExport" }) as any as S.Schema<WikiExport>;
+
+export interface ContextLayerProposalsApplyCreateRequest {
+  /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
+  organization_id: string;
+  proposal_id: string;
+}
+export const ContextLayerProposalsApplyCreateRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    organization_id: S.String.pipe(T.Label()),
+    proposal_id: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/api/organizations/{organization_id}/context_layer/proposals/{proposal_id}/apply/",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "ContextLayerProposalsApplyCreateRequest",
+}) as any as S.Schema<ContextLayerProposalsApplyCreateRequest>;
 
 export interface CreateContextLayerCommitRequest {
   /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
@@ -167,9 +185,7 @@ export const ChannelWikiPage = /*@__PURE__*/ S.suspend(() =>
     path: S.String,
     exists: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "ChannelWikiPage",
-}) as any as S.Schema<ChannelWikiPage>;
+).annotate({ identifier: "ChannelWikiPage" }) as any as S.Schema<ChannelWikiPage>;
 
 export interface GetContextLayerDreamRequest {
   /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
@@ -266,12 +282,21 @@ export const DreamRunDetail = /*@__PURE__*/ S.suspend(() =>
 export interface GetContextLayerPageRequest {
   /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
   organization_id: string;
+  /** Head from the first chunk. Required for continuation. A changed head returns 409. */
+  head_sha?: string;
+  /** Maximum characters to read. Omit for the full page. */
+  limit?: number;
+  /** Character offset from next_offset. */
+  offset?: number;
   /** Repo-relative Markdown path of the page to read. */
   path: string;
 }
 export const GetContextLayerPageRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     organization_id: S.String.pipe(T.Label()),
+    head_sha: S.optional(S.String.pipe(T.Query())),
+    limit: S.optional(S.Number.pipe(T.Query())),
+    offset: S.optional(S.Number.pipe(T.Query())),
     path: S.String.pipe(T.Query()),
   }).pipe(
     T.Http({
@@ -294,6 +319,14 @@ export interface WikiPage {
   head_sha: string;
   /** When this page was last changed in the wiki history. */
   updated_at: string;
+  /** Character offset of this chunk. */
+  offset: number;
+  /** Character length of the complete page. */
+  total_length: number;
+  /** Next character offset, or null when complete. */
+  next_offset: number | null;
+  /** True when no further chunks remain. Do not write a page until all chunks are read. */
+  complete: boolean;
 }
 export const WikiPage = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -301,6 +334,10 @@ export const WikiPage = /*@__PURE__*/ S.suspend(() =>
     content: S.String,
     head_sha: S.String,
     updated_at: S.String,
+    offset: S.Number,
+    total_length: S.Number,
+    next_offset: S.NullOr(S.Number),
+    complete: S.Boolean,
   }),
 ).annotate({ identifier: "WikiPage" }) as any as S.Schema<WikiPage>;
 
@@ -392,9 +429,7 @@ export const WikiHealthFinding = /*@__PURE__*/ S.suspend(() =>
     path: S.String,
     message: S.String,
   }),
-).annotate({
-  identifier: "WikiHealthFinding",
-}) as any as S.Schema<WikiHealthFinding>;
+).annotate({ identifier: "WikiHealthFinding" }) as any as S.Schema<WikiHealthFinding>;
 
 /** Health findings for the current wiki head. */
 export type WikiHealthReportFindingsList = Array<WikiHealthFinding>;
@@ -413,9 +448,7 @@ export const WikiHealthReport = /*@__PURE__*/ S.suspend(() =>
     head_sha: S.String,
     findings: WikiHealthReportFindingsList,
   }),
-).annotate({
-  identifier: "WikiHealthReport",
-}) as any as S.Schema<WikiHealthReport>;
+).annotate({ identifier: "WikiHealthReport" }) as any as S.Schema<WikiHealthReport>;
 
 export interface ListContextLayerDreamsRequest {
   /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
@@ -453,6 +486,22 @@ export const ActiveDreamRun = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "ActiveDreamRun" }) as any as S.Schema<ActiveDreamRun>;
 
+export interface UnpublishedDreamRun {
+  /** Task URL in its project for the unpublished dream outcome and logs. */
+  task_url: string;
+  /** The terminal task-run state, such as completed, failed, or cancelled. */
+  run_status: string;
+  /** When the unpublished dream task was created. */
+  started_at: string;
+}
+export const UnpublishedDreamRun = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    task_url: S.String,
+    run_status: S.String,
+    started_at: S.String,
+  }),
+).annotate({ identifier: "UnpublishedDreamRun" }) as any as S.Schema<UnpublishedDreamRun>;
+
 /** Every landed dream run, newest first. */
 export type DreamRunListDreamsList = Array<DreamRun>;
 export const DreamRunListDreamsList = /*@__PURE__*/ S.Array(
@@ -465,6 +514,8 @@ export interface DreamRunList {
   head_sha: string;
   /** The organization's active dreaming task, or null when no dream is running. */
   active_run: ActiveDreamRun | null;
+  /** The latest finished dream when no update was published after it started, or null otherwise. */
+  unpublished_run: UnpublishedDreamRun | null;
   /** Every landed dream run, newest first. */
   dreams: DreamRunListDreamsList;
 }
@@ -472,9 +523,84 @@ export const DreamRunList = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     head_sha: S.String,
     active_run: S.NullOr(ActiveDreamRun),
+    unpublished_run: S.NullOr(UnpublishedDreamRun),
     dreams: DreamRunListDreamsList,
   }),
 ).annotate({ identifier: "DreamRunList" }) as any as S.Schema<DreamRunList>;
+
+export interface ListContextLayerProposalsRequest {
+  /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
+  organization_id: string;
+  /** Number of results to return per page. */
+  limit?: number;
+  /** The initial index from which to return the results. */
+  offset?: number;
+}
+export const ListContextLayerProposalsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    organization_id: S.String.pipe(T.Label()),
+    limit: S.optional(S.Number.pipe(T.Query())),
+    offset: S.optional(S.Number.pipe(T.Query())),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/api/organizations/{organization_id}/context_layer/proposals/",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "ListContextLayerProposalsRequest",
+}) as any as S.Schema<ListContextLayerProposalsRequest>;
+
+export interface WikiPageProposal {
+  /** Immutable suggested edit ID. Only its author can apply it through the user API. */
+  id: string;
+  /** Task that proposed the edit. */
+  task_id: string;
+  /** Shared wiki page to review. */
+  path: string;
+  /** Page content at the revision the proposal is based on. */
+  original_content: string;
+  /** Proposed page content. This is not published wiki content. */
+  content: string;
+  /** Wiki revision the proposal is based on. */
+  base_head: string;
+  /** When the edit was proposed. */
+  created_at: string;
+}
+export const WikiPageProposal = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    task_id: S.String,
+    path: S.String,
+    original_content: S.String,
+    content: S.String,
+    base_head: S.String,
+    created_at: S.String,
+  }),
+).annotate({ identifier: "WikiPageProposal" }) as any as S.Schema<WikiPageProposal>;
+
+export type PaginatedWikiPageProposalListResultsList = Array<WikiPageProposal>;
+export const PaginatedWikiPageProposalListResultsList = /*@__PURE__*/ S.Array(
+  WikiPageProposal,
+) as any as S.Schema<PaginatedWikiPageProposalListResultsList>;
+
+export interface PaginatedWikiPageProposalList {
+  count: number;
+  next?: string | null;
+  previous?: string | null;
+  results: PaginatedWikiPageProposalListResultsList;
+}
+export const PaginatedWikiPageProposalList = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    count: S.Number,
+    next: S.optional(S.NullOr(S.String)),
+    previous: S.optional(S.NullOr(S.String)),
+    results: PaginatedWikiPageProposalListResultsList,
+  }),
+).annotate({
+  identifier: "PaginatedWikiPageProposalList",
+}) as any as S.Schema<PaginatedWikiPageProposalList>;
 
 export interface UpdateContextLayerPageRequest {
   /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
@@ -533,6 +659,21 @@ export const contextLayerExportRetrieve: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type ContextLayerProposalsApplyCreateError = BadRequest | Conflict | PosthogOpError;
+/** Apply a reviewed wiki edit The organization's context wiki: a git repo of Markdown pages hosted by PostHog. */
+export const contextLayerProposalsApplyCreate: API.OperationMethod<
+  ContextLayerProposalsApplyCreateRequest,
+  ContextLayerStatus,
+  ContextLayerProposalsApplyCreateError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ContextLayerProposalsApplyCreateRequest,
+  output: ContextLayerStatus,
+  errors: [BadRequest, Conflict],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
 export type CreateContextLayerCommitError = BadRequest | Conflict | PosthogOpError;
 /** Land agent commits from a git bundle The organization's context wiki: a git repo of Markdown pages hosted by PostHog. */
 export const createContextLayerCommit: API.OperationMethod<
@@ -578,7 +719,7 @@ export const getContextLayerDream: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type GetContextLayerPageError = NotFound | PosthogOpError;
+export type GetContextLayerPageError = BadRequest | NotFound | Conflict | PosthogOpError;
 /** Read a wiki page The organization's context wiki: a git repo of Markdown pages hosted by PostHog. */
 export const getContextLayerPage: API.OperationMethod<
   GetContextLayerPageRequest,
@@ -588,7 +729,7 @@ export const getContextLayerPage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetContextLayerPageRequest,
   output: WikiPage,
-  errors: [NotFound],
+  errors: [BadRequest, NotFound, Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
 }));
@@ -649,6 +790,21 @@ export const listContextLayerDreams: API.OperationMethod<
   input: ListContextLayerDreamsRequest,
   output: DreamRunList,
   errors: [NotFound],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListContextLayerProposalsError = PosthogOpError;
+/** List your pending wiki edits The organization's context wiki: a git repo of Markdown pages hosted by PostHog. */
+export const listContextLayerProposals: API.OperationMethod<
+  ListContextLayerProposalsRequest,
+  PaginatedWikiPageProposalList,
+  ListContextLayerProposalsError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListContextLayerProposalsRequest,
+  output: PaginatedWikiPageProposalList,
+  errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
 }));

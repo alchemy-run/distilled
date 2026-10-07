@@ -76,9 +76,7 @@ export const CreateAppRequestIcon = /*@__PURE__*/ S.suspend(() =>
     direct_upload_id: S.optional(S.String),
     id: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CreateAppRequestIcon",
-}) as any as S.Schema<CreateAppRequestIcon>;
+).annotate({ identifier: "CreateAppRequestIcon" }) as any as S.Schema<CreateAppRequestIcon>;
 
 /** The whitelisted OAuth callback URLs that users are redirected to after authorizing the app. */
 export type CreateAppRequestRedirectUrisList = Array<string>;
@@ -115,9 +113,7 @@ export const CreateAppRequest = /*@__PURE__*/ S.suspend(() =>
     route: S.optional(S.NullOr(S.String)),
     idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
   }).pipe(T.Http({ method: "POST", uri: "/apps", code: 200 })),
-).annotate({
-  identifier: "CreateAppRequest",
-}) as any as S.Schema<CreateAppRequest>;
+).annotate({ identifier: "CreateAppRequest" }) as any as S.Schema<CreateAppRequest>;
 
 export interface AccountParent {
   /** Account ID, prefixed `biz_`. */
@@ -203,9 +199,7 @@ export const AppDefaultApiKey = /*@__PURE__*/ S.suspend(() =>
     obfuscated_secret_key: S.String.pipe(T.SensitiveValue({})),
     secret_key: S.NullOr(S.String).pipe(T.SensitiveValue({})),
   }),
-).annotate({
-  identifier: "AppDefaultApiKey",
-}) as any as S.Schema<AppDefaultApiKey>;
+).annotate({ identifier: "AppDefaultApiKey" }) as any as S.Schema<AppDefaultApiKey>;
 
 /** The stage a running deployment has reached, or `null` when none is running. Later phases dominate the wall clock: `process_archive` waits on the upload pipeline and `promote` waits for the build to go live. */
 export type AppDeploymentPhase =
@@ -357,9 +351,7 @@ export const AppProductionBuild = /*@__PURE__*/ S.suspend(() =>
     source_url: S.NullOr(S.String),
     status: AppProductionBuildStatus,
   }),
-).annotate({
-  identifier: "AppProductionBuild",
-}) as any as S.Schema<AppProductionBuild>;
+).annotate({ identifier: "AppProductionBuild" }) as any as S.Schema<AppProductionBuild>;
 
 export type AppRedirectUrisList = Array<string>;
 export const AppRedirectUrisList = /*@__PURE__*/ S.Array(
@@ -395,9 +387,7 @@ export const AppRequestedPermission = /*@__PURE__*/ S.suspend(() =>
     justification: S.NullOr(S.String),
     permission_action: AppRequestedPermissionAction,
   }),
-).annotate({
-  identifier: "AppRequestedPermission",
-}) as any as S.Schema<AppRequestedPermission>;
+).annotate({ identifier: "AppRequestedPermission" }) as any as S.Schema<AppRequestedPermission>;
 
 export type AppRequestedPermissionsList = Array<AppRequestedPermission>;
 export const AppRequestedPermissionsList = /*@__PURE__*/ S.Array(
@@ -538,9 +528,7 @@ export const DeleteAppRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "DELETE", uri: "/apps/{id}", code: 200 })),
-).annotate({
-  identifier: "DeleteAppRequest",
-}) as any as S.Schema<DeleteAppRequest>;
+).annotate({ identifier: "DeleteAppRequest" }) as any as S.Schema<DeleteAppRequest>;
 
 export interface DeleteAppResponse {
   /** Always true. */
@@ -553,9 +541,7 @@ export const DeleteAppResponse = /*@__PURE__*/ S.suspend(() =>
     deleted: S.Boolean,
     id: S.String,
   }),
-).annotate({
-  identifier: "DeleteAppResponse",
-}) as any as S.Schema<DeleteAppResponse>;
+).annotate({ identifier: "DeleteAppResponse" }) as any as S.Schema<DeleteAppResponse>;
 
 export interface DeployAppRequest {
   /** The app to deploy, prefixed `app_`. */
@@ -571,9 +557,7 @@ export const DeployAppRequest = /*@__PURE__*/ S.suspend(() =>
     draft: S.optional(S.Boolean),
     idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
   }).pipe(T.Http({ method: "POST", uri: "/apps/{id}/deploy", code: 200 })),
-).annotate({
-  identifier: "DeployAppRequest",
-}) as any as S.Schema<DeployAppRequest>;
+).annotate({ identifier: "DeployAppRequest" }) as any as S.Schema<DeployAppRequest>;
 
 export interface GetAppRequest {
   /** App ID (prefixed `app_`), the app's claimed route, or its proxy domain id. */
@@ -620,9 +604,7 @@ export const ListAppLogsRequest = /*@__PURE__*/ S.suspend(() =>
     after: S.optional(S.String.pipe(T.Query())),
     before: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/apps/{id}/logs", code: 200 })),
-).annotate({
-  identifier: "ListAppLogsRequest",
-}) as any as S.Schema<ListAppLogsRequest>;
+).annotate({ identifier: "ListAppLogsRequest" }) as any as S.Schema<ListAppLogsRequest>;
 
 export type ListAppLogsResponseDataItemLevel = "log" | "debug" | "info" | "warn" | "error";
 export const ListAppLogsResponseDataItemLevel = S.String;
@@ -700,9 +682,7 @@ export const ListAppLogsResponse = /*@__PURE__*/ S.suspend(() =>
     data: ListAppLogsResponseDataList,
     page_info: ListAppLogsResponsePageInfo,
   }),
-).annotate({
-  identifier: "ListAppLogsResponse",
-}) as any as S.Schema<ListAppLogsResponse>;
+).annotate({ identifier: "ListAppLogsResponse" }) as any as S.Schema<ListAppLogsResponse>;
 
 export type ListAppsRequestAppType =
   | "b2b_app"
@@ -777,9 +757,7 @@ export const ListAppsRequest = /*@__PURE__*/ S.suspend(() =>
     last: S.optional(S.Number.pipe(T.Query())),
     before: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/apps", code: 200 })),
-).annotate({
-  identifier: "ListAppsRequest",
-}) as any as S.Schema<ListAppsRequest>;
+).annotate({ identifier: "ListAppsRequest" }) as any as S.Schema<ListAppsRequest>;
 
 /** The type of end-user the app is built for. */
 export type AppListItemAppType = "b2b_app" | "b2c_app" | "company_app" | "component" | "website";
@@ -884,9 +862,7 @@ export const ListAppsResponsePageInfo = /*@__PURE__*/ S.suspend(() =>
     has_previous_page: S.Boolean,
     start_cursor: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "ListAppsResponsePageInfo",
-}) as any as S.Schema<ListAppsResponsePageInfo>;
+).annotate({ identifier: "ListAppsResponsePageInfo" }) as any as S.Schema<ListAppsResponsePageInfo>;
 
 export interface ListAppsResponse {
   data: ListAppsResponseDataList;
@@ -897,9 +873,7 @@ export const ListAppsResponse = /*@__PURE__*/ S.suspend(() =>
     data: ListAppsResponseDataList,
     page_info: ListAppsResponsePageInfo,
   }),
-).annotate({
-  identifier: "ListAppsResponse",
-}) as any as S.Schema<ListAppsResponse>;
+).annotate({ identifier: "ListAppsResponse" }) as any as S.Schema<ListAppsResponse>;
 
 /** The type of end-user the app is built for. Cannot be changed on an app whose type is already `website`. */
 export type UpdateAppRequestAppType =
@@ -1002,9 +976,7 @@ export const UpdateAppRequest = /*@__PURE__*/ S.suspend(() =>
     skills_path: S.optional(S.NullOr(S.String)),
     status: S.optional(UpdateAppRequestStatus),
   }).pipe(T.Http({ method: "PATCH", uri: "/apps/{id}", code: 200 })),
-).annotate({
-  identifier: "UpdateAppRequest",
-}) as any as S.Schema<UpdateAppRequest>;
+).annotate({ identifier: "UpdateAppRequest" }) as any as S.Schema<UpdateAppRequest>;
 
 export interface UpdateAppPermissionsRequestRequestedPermissionsItem {
   /** The permission action, for example `company:basic:read`. */

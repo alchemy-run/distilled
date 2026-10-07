@@ -36,9 +36,7 @@ export const AddStarResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ok: S.Boolean,
   }),
-).annotate({
-  identifier: "AddStarResponse",
-}) as any as S.Schema<AddStarResponse>;
+).annotate({ identifier: "AddStarResponse" }) as any as S.Schema<AddStarResponse>;
 
 export interface ListStarsRequest {
   count?: number;
@@ -58,9 +56,7 @@ export const ListStarsRequest = /*@__PURE__*/ S.suspend(() =>
     page: S.optional(S.Number.pipe(T.Query())),
     team_id: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/stars.list", code: 200 })),
-).annotate({
-  identifier: "ListStarsRequest",
-}) as any as S.Schema<ListStarsRequest>;
+).annotate({ identifier: "ListStarsRequest" }) as any as S.Schema<ListStarsRequest>;
 
 export type ListStarsResponseItemsItemCase0Type = "message";
 export const ListStarsResponseItemsItemCase0Type = S.String;
@@ -182,14 +178,17 @@ export type ListStarsResponseItemsItem =
   | ListStarsResponseItemsItemCase4
   | ListStarsResponseItemsItemCase5;
 export const ListStarsResponseItemsItem = /*@__PURE__*/ S.Unknown.pipe(
-  T.UnionCases([
-    ["type", "channel", "message", "date_create"],
-    ["type", "file", "date_create"],
-    ["type", "file", "comment", "date_create"],
-    ["type", "channel", "date_create"],
-    ["type", "channel", "date_create"],
-    ["type", "channel", "date_create"],
-  ]),
+  T.UnionCases(
+    [
+      ["type", "channel", "message", "date_create"],
+      ["type", "file", "date_create"],
+      ["type", "file", "comment", "date_create"],
+      ["type", "channel", "date_create"],
+      ["type", "channel", "date_create"],
+      ["type", "channel", "date_create"],
+    ],
+    { key: "type", values: ["message", "file", "file_comment", "channel", "im", "group"] },
+  ),
 );
 
 export type ListStarsResponseItemsList = Array<ListStarsResponseItemsItem>;
@@ -225,9 +224,7 @@ export const ListStarsResponse = /*@__PURE__*/ S.suspend(() =>
     paging: S.optional(S.Unknown),
     response_metadata: S.optional(ListStarsResponseResponseMetadata),
   }),
-).annotate({
-  identifier: "ListStarsResponse",
-}) as any as S.Schema<ListStarsResponse>;
+).annotate({ identifier: "ListStarsResponse" }) as any as S.Schema<ListStarsResponse>;
 
 export interface RemoveStarRequest {
   /** Channel to remove star from, or channel where the message to remove star from was posted (used with `timestamp`). */
@@ -246,9 +243,7 @@ export const RemoveStarRequest = /*@__PURE__*/ S.suspend(() =>
     file_comment: S.optional(S.String),
     timestamp: S.optional(S.String),
   }).pipe(T.Http({ method: "POST", uri: "/stars.remove", code: 200 })),
-).annotate({
-  identifier: "RemoveStarRequest",
-}) as any as S.Schema<RemoveStarRequest>;
+).annotate({ identifier: "RemoveStarRequest" }) as any as S.Schema<RemoveStarRequest>;
 
 export interface RemoveStarResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -258,9 +253,7 @@ export const RemoveStarResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ok: S.Boolean,
   }),
-).annotate({
-  identifier: "RemoveStarResponse",
-}) as any as S.Schema<RemoveStarResponse>;
+).annotate({ identifier: "RemoveStarResponse" }) as any as S.Schema<RemoveStarResponse>;
 
 export type AddStarError = SlackOpError;
 /** Save an item for later. Formerly known as adding a star. Required scopes — user: `stars:write` Rate limit tier: 2 Method-specific errors (the `error` slug on the SlackError): - `already_starred` — The specified item has already been starred by the authenticated user. - `bad_timestamp` — Value passed for `timestamp` was invalid. - `channel_not_found` — Channel, private group, or DM specified by `channel` does not exist - `external_channel_migrating` — Channel is undergoing active migration - `file_comment_not_found` — File comment specified by `file_comment` does not exist. - `file_not_found` — File specified by `file` does not exist. - `message_not_found` — Message specified by `channel` and `timestamp` does not exist. - `no_item_specified` — `file`, `file_comment`, `channel` and `timestamp` was not specified. See https://docs.slack.dev/reference/methods/stars.add */

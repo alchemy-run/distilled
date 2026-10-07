@@ -38,9 +38,7 @@ export class NotFound
   ) {}
 
 /** Labels represent user-defined metadata as key-value pairs. Label count should not exceed 64 per Certificate. **Key Formatting Rules:** Length: 1-63 characters. Characters: Must begin and end with [a-zA-Z0-9]. May contain dashes (-), underscores (_), dots (.), and alphanumerics in between. Keys starting with 'stackit-' are system-reserved; users MUST NOT manage them. **Value Formatting Rules:** Length: 0-63 characters (empty string explicitly allowed). Characters (for non-empty values): Must begin and end with [a-zA-Z0-9]. May contain dashes (-), underscores (_), dots (.), and alphanumerics in between. */
-export type CreateCertificateRequestLabelsMap = {
-  [key: string]: string | undefined;
-};
+export type CreateCertificateRequestLabelsMap = { [key: string]: string | undefined };
 export const CreateCertificateRequestLabelsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -74,9 +72,7 @@ export const CreateCertificateRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://certificates.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "CreateCertificateRequest",
-}) as any as S.Schema<CreateCertificateRequest>;
+).annotate({ identifier: "CreateCertificateRequest" }) as any as S.Schema<CreateCertificateRequest>;
 
 export interface Data {
   /** Comma-separated list of all domains and IP addresses the certificate is valid for (Subject Alternative Names). */
@@ -131,9 +127,7 @@ export const Data = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "Data" }) as any as S.Schema<Data>;
 
 /** Labels represent user-defined metadata as key-value pairs. Label count should not exceed 64 per Certificate. **Key Formatting Rules:** Length: 1-63 characters. Characters: Must begin and end with [a-zA-Z0-9]. May contain dashes (-), underscores (_), dots (.), and alphanumerics in between. Keys starting with 'stackit-' are system-reserved; users MUST NOT manage them. **Value Formatting Rules:** Length: 0-63 characters (empty string explicitly allowed). Characters (for non-empty values): Must begin and end with [a-zA-Z0-9]. May contain dashes (-), underscores (_), dots (.), and alphanumerics in between. */
-export type GetCertificateResponseLabelsMap = {
-  [key: string]: string | undefined;
-};
+export type GetCertificateResponseLabelsMap = { [key: string]: string | undefined };
 export const GetCertificateResponseLabelsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -200,9 +194,7 @@ export const GetCertificateResponse = /*@__PURE__*/ S.suspend(() =>
     region: S.optional(S.String),
     usage: S.optional(Usage),
   }),
-).annotate({
-  identifier: "GetCertificateResponse",
-}) as any as S.Schema<GetCertificateResponse>;
+).annotate({ identifier: "GetCertificateResponse" }) as any as S.Schema<GetCertificateResponse>;
 
 export interface DeleteCertificateRequest {
   projectId: string;
@@ -222,9 +214,7 @@ export const DeleteCertificateRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://certificates.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "DeleteCertificateRequest",
-}) as any as S.Schema<DeleteCertificateRequest>;
+).annotate({ identifier: "DeleteCertificateRequest" }) as any as S.Schema<DeleteCertificateRequest>;
 
 export type DeleteCertificateResponse2 = unknown;
 export const DeleteCertificateResponse2 = /*@__PURE__*/ S.suspend(() =>
@@ -251,9 +241,7 @@ export const GetCertificateRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://certificates.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "GetCertificateRequest",
-}) as any as S.Schema<GetCertificateRequest>;
+).annotate({ identifier: "GetCertificateRequest" }) as any as S.Schema<GetCertificateRequest>;
 
 export interface GetQuotaRequest {
   projectId: string;
@@ -271,9 +259,7 @@ export const GetQuotaRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://certificates.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "GetQuotaRequest",
-}) as any as S.Schema<GetQuotaRequest>;
+).annotate({ identifier: "GetQuotaRequest" }) as any as S.Schema<GetQuotaRequest>;
 
 /** Certificates quotas holds the limits and usage for certificates resources */
 export interface CertificatesQuota {
@@ -287,9 +273,7 @@ export const CertificatesQuota = /*@__PURE__*/ S.suspend(() =>
     limit: S.optional(S.Number),
     usage: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "CertificatesQuota",
-}) as any as S.Schema<CertificatesQuota>;
+).annotate({ identifier: "CertificatesQuota" }) as any as S.Schema<CertificatesQuota>;
 
 /** Quotas holds the specific quota elements for different resources */
 export interface Quotas {
@@ -314,9 +298,7 @@ export const GetQuotaResponse = /*@__PURE__*/ S.suspend(() =>
     quotas: S.optional(Quotas),
     region: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GetQuotaResponse",
-}) as any as S.Schema<GetQuotaResponse>;
+).annotate({ identifier: "GetQuotaResponse" }) as any as S.Schema<GetQuotaResponse>;
 
 export interface ListCertificatesRequest {
   projectId: string;
@@ -340,9 +322,7 @@ export const ListCertificatesRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://certificates.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "ListCertificatesRequest",
-}) as any as S.Schema<ListCertificatesRequest>;
+).annotate({ identifier: "ListCertificatesRequest" }) as any as S.Schema<ListCertificatesRequest>;
 
 export type ListCertificatesResponseItemsList = Array<GetCertificateResponse>;
 export const ListCertificatesResponseItemsList = /*@__PURE__*/ S.Array(
@@ -360,9 +340,7 @@ export const ListCertificatesResponse = /*@__PURE__*/ S.suspend(() =>
     items: S.optional(ListCertificatesResponseItemsList),
     nextPageId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListCertificatesResponse",
-}) as any as S.Schema<ListCertificatesResponse>;
+).annotate({ identifier: "ListCertificatesResponse" }) as any as S.Schema<ListCertificatesResponse>;
 
 export type CreateCertificateError = BadRequest | Forbidden | StackitOpError;
 /** Store a TLS certificate in a project. CreateCertificate will store a TLS certificate in a project. */

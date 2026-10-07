@@ -126,9 +126,7 @@ export const SupportNewMessageInfo = /*@__PURE__*/ S.suspend(() =>
     ticketId: S.optional(S.Number),
     ticketNumber: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "SupportNewMessageInfo",
-}) as any as S.Schema<SupportNewMessageInfo>;
+).annotate({ identifier: "SupportNewMessageInfo" }) as any as S.Schema<SupportNewMessageInfo>;
 
 export interface CreateSupportTicketCloseRequest {
   /** internal ticket identifier */
@@ -137,13 +135,7 @@ export interface CreateSupportTicketCloseRequest {
 export const CreateSupportTicketCloseRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ticketId: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/support/tickets/{ticketId}/close",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/support/tickets/{ticketId}/close", code: 200 })),
 ).annotate({
   identifier: "CreateSupportTicketCloseRequest",
 }) as any as S.Schema<CreateSupportTicketCloseRequest>;
@@ -165,13 +157,7 @@ export const CreateSupportTicketReopenRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ticketId: S.Number.pipe(T.Label()),
     body: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/support/tickets/{ticketId}/reopen",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/support/tickets/{ticketId}/reopen", code: 200 })),
 ).annotate({
   identifier: "CreateSupportTicketReopenRequest",
 }) as any as S.Schema<CreateSupportTicketReopenRequest>;
@@ -196,13 +182,7 @@ export const CreateSupportTicketScoreRequest = /*@__PURE__*/ S.suspend(() =>
     ticketId: S.Number.pipe(T.Label()),
     score: S.String,
     scoreComment: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/support/tickets/{ticketId}/score",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/support/tickets/{ticketId}/score", code: 200 })),
 ).annotate({
   identifier: "CreateSupportTicketScoreRequest",
 }) as any as S.Schema<CreateSupportTicketScoreRequest>;
@@ -222,9 +202,7 @@ export const GetSupportTicketRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ticketId: S.Number.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/support/tickets/{ticketId}", code: 200 })),
-).annotate({
-  identifier: "GetSupportTicketRequest",
-}) as any as S.Schema<GetSupportTicketRequest>;
+).annotate({ identifier: "GetSupportTicketRequest" }) as any as S.Schema<GetSupportTicketRequest>;
 
 /** Message sender type */
 export type SupportMessageSenderEnum = "customer" | "support";
@@ -291,13 +269,7 @@ export interface GetSupportTicketCanBeScoredRequest {
 export const GetSupportTicketCanBeScoredRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ticketId: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/support/tickets/{ticketId}/canBeScored",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/support/tickets/{ticketId}/canBeScored", code: 200 })),
 ).annotate({
   identifier: "GetSupportTicketCanBeScoredRequest",
 }) as any as S.Schema<GetSupportTicketCanBeScoredRequest>;
@@ -316,13 +288,7 @@ export interface ListSupportTicketMessagesRequest {
 export const ListSupportTicketMessagesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ticketId: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/support/tickets/{ticketId}/messages",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/support/tickets/{ticketId}/messages", code: 200 })),
 ).annotate({
   identifier: "ListSupportTicketMessagesRequest",
 }) as any as S.Schema<ListSupportTicketMessagesRequest>;
@@ -435,13 +401,7 @@ export const ReplySupportTicketRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ticketId: S.Number.pipe(T.Label()),
     body: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/support/tickets/{ticketId}/reply",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/support/tickets/{ticketId}/reply", code: 200 })),
 ).annotate({
   identifier: "ReplySupportTicketRequest",
 }) as any as S.Schema<ReplySupportTicketRequest>;

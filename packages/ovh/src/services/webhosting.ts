@@ -56,11 +56,7 @@ export const ConfirmHostingWebTerminationRequest = /*@__PURE__*/ S.suspend(() =>
     reason: S.optional(ServiceTerminationReasonEnum),
     token: S.String,
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/hosting/web/{serviceName}/confirmTermination",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/hosting/web/{serviceName}/confirmTermination", code: 200 }),
   ),
 ).annotate({
   identifier: "ConfirmHostingWebTerminationRequest",
@@ -84,11 +80,7 @@ export const CopyHostingWebDatabaseRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     name: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/hosting/web/{serviceName}/database/{name}/copy",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/hosting/web/{serviceName}/database/{name}/copy", code: 200 }),
   ),
 ).annotate({
   identifier: "CopyHostingWebDatabaseRequest",
@@ -119,9 +111,7 @@ export const HostingWebDatabaseCopy = /*@__PURE__*/ S.suspend(() =>
     lastUpdate: S.optional(S.String),
     status: S.optional(HostingWebDatabaseCopyStatusEnum),
   }),
-).annotate({
-  identifier: "HostingWebDatabaseCopy",
-}) as any as S.Schema<HostingWebDatabaseCopy>;
+).annotate({ identifier: "HostingWebDatabaseCopy" }) as any as S.Schema<HostingWebDatabaseCopy>;
 
 export interface CopyHostingWebDatabaseRestoreRequest {
   /** The internal name of your hosting */
@@ -278,13 +268,7 @@ export const CreateHostingWebAttachedDomainRequest = /*@__PURE__*/ S.suspend(() 
     path: S.optional(S.NullOr(S.String)),
     runtimeId: S.optional(S.NullOr(S.Number)),
     ssl: S.optional(S.NullOr(S.Boolean)),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/hosting/web/{serviceName}/attachedDomain",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/hosting/web/{serviceName}/attachedDomain", code: 200 })),
 ).annotate({
   identifier: "CreateHostingWebAttachedDomainRequest",
 }) as any as S.Schema<CreateHostingWebAttachedDomainRequest>;
@@ -513,9 +497,7 @@ export const HostingWebPublicTask = /*@__PURE__*/ S.suspend(() =>
     startDate: S.optional(S.String),
     status: S.optional(HostingWebTaskStatusEnum),
   }),
-).annotate({
-  identifier: "HostingWebPublicTask",
-}) as any as S.Schema<HostingWebPublicTask>;
+).annotate({ identifier: "HostingWebPublicTask" }) as any as S.Schema<HostingWebPublicTask>;
 
 export interface CreateHostingWebAttachedDomainSslRequest {
   /** Service name */
@@ -628,9 +610,7 @@ export const CdnDomainOptionConfig = /*@__PURE__*/ S.suspend(() =>
     statusCode: S.optional(S.NullOr(S.Number)),
     ttl: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "CdnDomainOptionConfig",
-}) as any as S.Schema<CdnDomainOptionConfig>;
+).annotate({ identifier: "CdnDomainOptionConfig" }) as any as S.Schema<CdnDomainOptionConfig>;
 
 /** Option type */
 export type CdnOptionTypePostEnum = "cache_rule";
@@ -684,9 +664,7 @@ export const CdnDomainOptionExtra = /*@__PURE__*/ S.suspend(() =>
     quota: S.optional(S.NullOr(S.Number)),
     usage: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "CdnDomainOptionExtra",
-}) as any as S.Schema<CdnDomainOptionExtra>;
+).annotate({ identifier: "CdnDomainOptionExtra" }) as any as S.Schema<CdnDomainOptionExtra>;
 
 /** Option type */
 export type CdnOptionTypeEnum =
@@ -729,9 +707,7 @@ export const CdnDomainOption = /*@__PURE__*/ S.suspend(() =>
     pattern: S.optional(S.NullOr(S.String)),
     type: CdnOptionTypeEnum,
   }),
-).annotate({
-  identifier: "CdnDomainOption",
-}) as any as S.Schema<CdnDomainOption>;
+).annotate({ identifier: "CdnDomainOption" }) as any as S.Schema<CdnDomainOption>;
 
 /** Map a possible renew for a specific service */
 export interface ServiceRenewType {
@@ -754,9 +730,7 @@ export const ServiceRenewType = /*@__PURE__*/ S.suspend(() =>
     manualPayment: S.optional(S.NullOr(S.Boolean)),
     period: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "ServiceRenewType",
-}) as any as S.Schema<ServiceRenewType>;
+).annotate({ identifier: "ServiceRenewType" }) as any as S.Schema<ServiceRenewType>;
 
 export interface CreateHostingWebCdnServiceInfosUpdateRequest {
   /** The internal name of your hosting */
@@ -769,11 +743,7 @@ export const CreateHostingWebCdnServiceInfosUpdateRequest = /*@__PURE__*/ S.susp
     serviceName: S.String.pipe(T.Label()),
     renew: ServiceRenewType,
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/hosting/web/{serviceName}/cdn/serviceInfosUpdate",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/hosting/web/{serviceName}/cdn/serviceInfosUpdate", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateHostingWebCdnServiceInfosUpdateRequest",
@@ -802,13 +772,7 @@ export const CreateHostingWebChangeContactRequest = /*@__PURE__*/ S.suspend(() =
     contactAdmin: S.optional(S.String),
     contactBilling: S.optional(S.String),
     contactTech: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/hosting/web/{serviceName}/changeContact",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/hosting/web/{serviceName}/changeContact", code: 200 })),
 ).annotate({
   identifier: "CreateHostingWebChangeContactRequest",
 }) as any as S.Schema<CreateHostingWebChangeContactRequest>;
@@ -884,13 +848,7 @@ export const CreateHostingWebCronRequest = /*@__PURE__*/ S.suspend(() =>
     frequency: S.String,
     language: HostingWebLanguagesEnum,
     status: S.optional(HostingWebCronStatusEnum),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/hosting/web/{serviceName}/cron",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/hosting/web/{serviceName}/cron", code: 200 })),
 ).annotate({
   identifier: "CreateHostingWebCronRequest",
 }) as any as S.Schema<CreateHostingWebCronRequest>;
@@ -972,13 +930,7 @@ export const CreateHostingWebDatabaseRequest = /*@__PURE__*/ S.suspend(() =>
     type: HostingWebDatabaseDatabaseCreationTypeEnum,
     user: S.String,
     version: S.optional(HostingWebDatabaseVersionEnum),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/hosting/web/{serviceName}/database",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/hosting/web/{serviceName}/database", code: 200 })),
 ).annotate({
   identifier: "CreateHostingWebDatabaseRequest",
 }) as any as S.Schema<CreateHostingWebDatabaseRequest>;
@@ -1028,11 +980,7 @@ export const CreateHostingWebDatabaseDumpRequest = /*@__PURE__*/ S.suspend(() =>
     date: HostingWebDatabaseDumpDateEnum,
     sendEmail: S.optional(S.Boolean),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/hosting/web/{serviceName}/database/{name}/dump",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/hosting/web/{serviceName}/database/{name}/dump", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateHostingWebDatabaseDumpRequest",
@@ -1080,13 +1028,7 @@ export const CreateHostingWebEmailRequestRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     action: HostingWebMailActionEnum,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/hosting/web/{serviceName}/email/request",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/hosting/web/{serviceName}/email/request", code: 200 })),
 ).annotate({
   identifier: "CreateHostingWebEmailRequestRequest",
 }) as any as S.Schema<CreateHostingWebEmailRequestRequest>;
@@ -1118,13 +1060,7 @@ export const CreateHostingWebEnvVarRequest = /*@__PURE__*/ S.suspend(() =>
     key: S.String,
     type: HostingWebEnvVarTypeEnum,
     value: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/hosting/web/{serviceName}/envVar",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/hosting/web/{serviceName}/envVar", code: 200 })),
 ).annotate({
   identifier: "CreateHostingWebEnvVarRequest",
 }) as any as S.Schema<CreateHostingWebEnvVarRequest>;
@@ -1167,13 +1103,7 @@ export interface CreateHostingWebKeySshRequest {
 export const CreateHostingWebKeySshRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/hosting/web/{serviceName}/key/ssh",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/hosting/web/{serviceName}/key/ssh", code: 200 })),
 ).annotate({
   identifier: "CreateHostingWebKeySshRequest",
 }) as any as S.Schema<CreateHostingWebKeySshRequest>;
@@ -1241,13 +1171,7 @@ export const CreateHostingWebLocalSeoVisibilityCheckRequest = /*@__PURE__*/ S.su
     name: S.String,
     street: S.String,
     zip: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/hosting/web/localSeo/visibilityCheck",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/hosting/web/localSeo/visibilityCheck", code: 200 })),
 ).annotate({
   identifier: "CreateHostingWebLocalSeoVisibilityCheckRequest",
 }) as any as S.Schema<CreateHostingWebLocalSeoVisibilityCheckRequest>;
@@ -1389,13 +1313,7 @@ export const CreateHostingWebModuleRequest = /*@__PURE__*/ S.suspend(() =>
     language: S.optional(HostingWebModuleLanguageEnum),
     moduleId: S.Number,
     path: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/hosting/web/{serviceName}/module",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/hosting/web/{serviceName}/module", code: 200 })),
 ).annotate({
   identifier: "CreateHostingWebModuleRequest",
 }) as any as S.Schema<CreateHostingWebModuleRequest>;
@@ -1414,11 +1332,7 @@ export const CreateHostingWebModuleUpgradeRequest = /*@__PURE__*/ S.suspend(() =
     id: S.Number.pipe(T.Label()),
     moduleId: S.Number,
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/hosting/web/{serviceName}/module/{id}/upgrade",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/hosting/web/{serviceName}/module/{id}/upgrade", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateHostingWebModuleUpgradeRequest",
@@ -1506,11 +1420,7 @@ export const CreateHostingWebOvhConfigRefreshRequest = /*@__PURE__*/ S.suspend((
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/hosting/web/{serviceName}/ovhConfigRefresh",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/hosting/web/{serviceName}/ovhConfigRefresh", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateHostingWebOvhConfigRefreshRequest",
@@ -1563,11 +1473,7 @@ export const CreateHostingWebOwnLogUserLogRequest = /*@__PURE__*/ S.suspend(() =
     ownLogsId: S.optional(S.Number),
     password: S.String.pipe(T.SensitiveValue({})),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/hosting/web/{serviceName}/ownLogs/{id}/userLogs",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/hosting/web/{serviceName}/ownLogs/{id}/userLogs", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateHostingWebOwnLogUserLogRequest",
@@ -1628,13 +1534,7 @@ export const CreateHostingWebRequestRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     action: HostingWebRequestActionEnum,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/hosting/web/{serviceName}/request",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/hosting/web/{serviceName}/request", code: 200 })),
 ).annotate({
   identifier: "CreateHostingWebRequestRequest",
 }) as any as S.Schema<CreateHostingWebRequestRequest>;
@@ -1665,13 +1565,7 @@ export const CreateHostingWebRequestBoostRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     offer: S.optional(S.NullOr(HostingWebOfferEnum)),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/hosting/web/{serviceName}/requestBoost",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/hosting/web/{serviceName}/requestBoost", code: 200 })),
 ).annotate({
   identifier: "CreateHostingWebRequestBoostRequest",
 }) as any as S.Schema<CreateHostingWebRequestBoostRequest>;
@@ -1734,13 +1628,7 @@ export const CreateHostingWebRuntimeRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     publicDir: S.optional(S.String),
     type: S.optional(HostingWebRuntimeTypeEnum),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/hosting/web/{serviceName}/runtime",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/hosting/web/{serviceName}/runtime", code: 200 })),
 ).annotate({
   identifier: "CreateHostingWebRuntimeRequest",
 }) as any as S.Schema<CreateHostingWebRuntimeRequest>;
@@ -1768,13 +1656,7 @@ export const CreateHostingWebUserRequest = /*@__PURE__*/ S.suspend(() =>
     login: S.String,
     password: S.String.pipe(T.SensitiveValue({})),
     sshState: S.optional(HostingWebUserSshStateEnum),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/hosting/web/{serviceName}/user",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/hosting/web/{serviceName}/user", code: 200 })),
 ).annotate({
   identifier: "CreateHostingWebUserRequest",
 }) as any as S.Schema<CreateHostingWebUserRequest>;
@@ -1819,13 +1701,7 @@ export const CreateHostingWebWebsiteRequest = /*@__PURE__*/ S.suspend(() =>
     path: S.String,
     vcsBranch: S.String,
     vcsUrl: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/hosting/web/{serviceName}/website",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/hosting/web/{serviceName}/website", code: 200 })),
 ).annotate({
   identifier: "CreateHostingWebWebsiteRequest",
 }) as any as S.Schema<CreateHostingWebWebsiteRequest>;
@@ -1916,13 +1792,7 @@ export const DeleteHostingWebCronRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     id: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/hosting/web/{serviceName}/cron/{id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/hosting/web/{serviceName}/cron/{id}", code: 200 })),
 ).annotate({
   identifier: "DeleteHostingWebCronRequest",
 }) as any as S.Schema<DeleteHostingWebCronRequest>;
@@ -1938,11 +1808,7 @@ export const DeleteHostingWebDatabaseRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     name: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/hosting/web/{serviceName}/database/{name}",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/hosting/web/{serviceName}/database/{name}", code: 200 }),
   ),
 ).annotate({
   identifier: "DeleteHostingWebDatabaseRequest",
@@ -2013,13 +1879,7 @@ export const DeleteHostingWebDumpRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     id: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/hosting/web/{serviceName}/dump/{id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/hosting/web/{serviceName}/dump/{id}", code: 200 })),
 ).annotate({
   identifier: "DeleteHostingWebDumpRequest",
 }) as any as S.Schema<DeleteHostingWebDumpRequest>;
@@ -2034,13 +1894,7 @@ export const DeleteHostingWebEnvVarRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     key: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/hosting/web/{serviceName}/envVar/{key}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/hosting/web/{serviceName}/envVar/{key}", code: 200 })),
 ).annotate({
   identifier: "DeleteHostingWebEnvVarRequest",
 }) as any as S.Schema<DeleteHostingWebEnvVarRequest>;
@@ -2055,13 +1909,7 @@ export const DeleteHostingWebModuleRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     id: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/hosting/web/{serviceName}/module/{id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/hosting/web/{serviceName}/module/{id}", code: 200 })),
 ).annotate({
   identifier: "DeleteHostingWebModuleRequest",
 }) as any as S.Schema<DeleteHostingWebModuleRequest>;
@@ -2107,13 +1955,7 @@ export const DeleteHostingWebRuntimeRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     id: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/hosting/web/{serviceName}/runtime/{id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/hosting/web/{serviceName}/runtime/{id}", code: 200 })),
 ).annotate({
   identifier: "DeleteHostingWebRuntimeRequest",
 }) as any as S.Schema<DeleteHostingWebRuntimeRequest>;
@@ -2128,13 +1970,7 @@ export const DeleteHostingWebUserRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     login: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/hosting/web/{serviceName}/user/{login}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/hosting/web/{serviceName}/user/{login}", code: 200 })),
 ).annotate({
   identifier: "DeleteHostingWebUserRequest",
 }) as any as S.Schema<DeleteHostingWebUserRequest>;
@@ -2152,13 +1988,7 @@ export const DeleteHostingWebWebsiteRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     id: S.Number.pipe(T.Label()),
     deleteFiles: S.Boolean.pipe(T.Query()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/hosting/web/{serviceName}/website/{id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/hosting/web/{serviceName}/website/{id}", code: 200 })),
 ).annotate({
   identifier: "DeleteHostingWebWebsiteRequest",
 }) as any as S.Schema<DeleteHostingWebWebsiteRequest>;
@@ -2177,11 +2007,7 @@ export const DeployHostingWebWebsiteRequest = /*@__PURE__*/ S.suspend(() =>
     id: S.Number.pipe(T.Label()),
     reset: S.optional(S.Boolean),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/hosting/web/{serviceName}/website/{id}/deploy",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/hosting/web/{serviceName}/website/{id}/deploy", code: 200 }),
   ),
 ).annotate({
   identifier: "DeployHostingWebWebsiteRequest",
@@ -2195,9 +2021,7 @@ export const GetHostingWebRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/hosting/web/{serviceName}", code: 200 })),
-).annotate({
-  identifier: "GetHostingWebRequest",
-}) as any as S.Schema<GetHostingWebRequest>;
+).annotate({ identifier: "GetHostingWebRequest" }) as any as S.Schema<GetHostingWebRequest>;
 
 /** Currency code */
 export type OrderCurrencyCodeEnum =
@@ -2363,9 +2187,7 @@ export const HostingWebCountriesIp = /*@__PURE__*/ S.suspend(() =>
     ip: S.optional(S.NullOr(S.String)),
     ipv6: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "HostingWebCountriesIp",
-}) as any as S.Schema<HostingWebCountriesIp>;
+).annotate({ identifier: "HostingWebCountriesIp" }) as any as S.Schema<HostingWebCountriesIp>;
 
 /** Available clusterIp by countries */
 export type HostingWebServiceWithIAMCountriesIpList = Array<HostingWebCountriesIp>;
@@ -2398,9 +2220,7 @@ export const IamResourceMetadata = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(S.NullOr(IamResourceMetadataTagsMap)),
     urn: S.optional(S.String),
   }),
-).annotate({
-  identifier: "IamResourceMetadata",
-}) as any as S.Schema<IamResourceMetadata>;
+).annotate({ identifier: "IamResourceMetadata" }) as any as S.Schema<IamResourceMetadata>;
 
 /** Hosting's OS */
 export type HostingWebOperatingSystemEnum = "linux";
@@ -2422,9 +2242,7 @@ export const HostingWebPhpVersion = /*@__PURE__*/ S.suspend(() =>
     support: S.optional(HostingWebPhpVersionStateEnum),
     version: S.optional(S.String),
   }),
-).annotate({
-  identifier: "HostingWebPhpVersion",
-}) as any as S.Schema<HostingWebPhpVersion>;
+).annotate({ identifier: "HostingWebPhpVersion" }) as any as S.Schema<HostingWebPhpVersion>;
 
 /** State of available php versions for this account */
 export type HostingWebServiceWithIAMPhpVersionsList = Array<HostingWebPhpVersion>;
@@ -2463,9 +2281,7 @@ export const HostingWebAddress = /*@__PURE__*/ S.suspend(() =>
     port: S.optional(S.Number),
     url: S.optional(S.String),
   }),
-).annotate({
-  identifier: "HostingWebAddress",
-}) as any as S.Schema<HostingWebAddress>;
+).annotate({ identifier: "HostingWebAddress" }) as any as S.Schema<HostingWebAddress>;
 
 /** Different url to manage your service */
 export interface HostingWebServiceAccess {
@@ -2482,9 +2298,7 @@ export const HostingWebServiceAccess = /*@__PURE__*/ S.suspend(() =>
     http: S.optional(HostingWebAddress),
     ssh: S.optional(HostingWebAddress),
   }),
-).annotate({
-  identifier: "HostingWebServiceAccess",
-}) as any as S.Schema<HostingWebServiceAccess>;
+).annotate({ identifier: "HostingWebServiceAccess" }) as any as S.Schema<HostingWebServiceAccess>;
 
 /** Hosting's state */
 export type HostingWebStateEnum = "active" | "bloqued" | "maintenance";
@@ -2601,9 +2415,7 @@ export const HostingWebServiceWithIAM = /*@__PURE__*/ S.suspend(() =>
     trafficQuotaUsed: S.optional(S.NullOr(ComplexTypeUnitAndValueDouble)),
     updates: S.optional(HostingWebServiceWithIAMUpdatesList),
   }),
-).annotate({
-  identifier: "HostingWebServiceWithIAM",
-}) as any as S.Schema<HostingWebServiceWithIAM>;
+).annotate({ identifier: "HostingWebServiceWithIAM" }) as any as S.Schema<HostingWebServiceWithIAM>;
 
 export interface GetHostingWebAttachedDomainRequest {
   /** Service name */
@@ -2616,11 +2428,7 @@ export const GetHostingWebAttachedDomainRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     domain: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/hosting/web/{serviceName}/attachedDomain/{domain}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/hosting/web/{serviceName}/attachedDomain/{domain}", code: 200 }),
   ),
 ).annotate({
   identifier: "GetHostingWebAttachedDomainRequest",
@@ -2852,11 +2660,7 @@ export const GetHostingWebBoostHistoryRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     date: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/hosting/web/{serviceName}/boostHistory/{date}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/hosting/web/{serviceName}/boostHistory/{date}", code: 200 }),
   ),
 ).annotate({
   identifier: "GetHostingWebBoostHistoryRequest",
@@ -2880,9 +2684,7 @@ export const HostingWebBoostHistory = /*@__PURE__*/ S.suspend(() =>
     date: S.optional(S.String),
     offer: S.optional(HostingWebOfferCapabilitiesEnum),
   }),
-).annotate({
-  identifier: "HostingWebBoostHistory",
-}) as any as S.Schema<HostingWebBoostHistory>;
+).annotate({ identifier: "HostingWebBoostHistory" }) as any as S.Schema<HostingWebBoostHistory>;
 
 export interface GetHostingWebCdnRequest {
   /** Service name */
@@ -2892,9 +2694,7 @@ export const GetHostingWebCdnRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/hosting/web/{serviceName}/cdn", code: 200 })),
-).annotate({
-  identifier: "GetHostingWebCdnRequest",
-}) as any as S.Schema<GetHostingWebCdnRequest>;
+).annotate({ identifier: "GetHostingWebCdnRequest" }) as any as S.Schema<GetHostingWebCdnRequest>;
 
 /** CDN status */
 export type HostingWebCdnStatusEnum =
@@ -2944,11 +2744,7 @@ export const GetHostingWebCdnDomainRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     domainName: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/hosting/web/{serviceName}/cdn/domain/{domainName}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/hosting/web/{serviceName}/cdn/domain/{domainName}", code: 200 }),
   ),
 ).annotate({
   identifier: "GetHostingWebCdnDomainRequest",
@@ -3062,11 +2858,7 @@ export const GetHostingWebCdnOperationRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     id: S.Number.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/hosting/web/{serviceName}/cdn/operation/{id}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/hosting/web/{serviceName}/cdn/operation/{id}", code: 200 }),
   ),
 ).annotate({
   identifier: "GetHostingWebCdnOperationRequest",
@@ -3122,9 +2914,7 @@ export const CdnOperationParameter = /*@__PURE__*/ S.suspend(() =>
     service: S.optional(S.NullOr(S.String)),
     sslId: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "CdnOperationParameter",
-}) as any as S.Schema<CdnOperationParameter>;
+).annotate({ identifier: "CdnOperationParameter" }) as any as S.Schema<CdnOperationParameter>;
 
 /** Operation status */
 export type CdnOperationStatusEnum = "cancelled" | "doing" | "done" | "error" | "todo";
@@ -3172,13 +2962,7 @@ export interface GetHostingWebCdnServiceInfosRequest {
 export const GetHostingWebCdnServiceInfosRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/hosting/web/{serviceName}/cdn/serviceInfos",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/hosting/web/{serviceName}/cdn/serviceInfos", code: 200 })),
 ).annotate({
   identifier: "GetHostingWebCdnServiceInfosRequest",
 }) as any as S.Schema<GetHostingWebCdnServiceInfosRequest>;
@@ -3245,9 +3029,7 @@ export const ServicesService = /*@__PURE__*/ S.suspend(() =>
     serviceId: S.optional(S.Number),
     status: S.optional(ServiceStateEnum),
   }),
-).annotate({
-  identifier: "ServicesService",
-}) as any as S.Schema<ServicesService>;
+).annotate({ identifier: "ServicesService" }) as any as S.Schema<ServicesService>;
 
 export interface GetHostingWebConfigurationRequest {
   /** The internal name of your hosting */
@@ -3256,13 +3038,7 @@ export interface GetHostingWebConfigurationRequest {
 export const GetHostingWebConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/hosting/web/{serviceName}/configuration",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/hosting/web/{serviceName}/configuration", code: 200 })),
 ).annotate({
   identifier: "GetHostingWebConfigurationRequest",
 }) as any as S.Schema<GetHostingWebConfigurationRequest>;
@@ -3306,9 +3082,7 @@ export const HostingWebConfiguration = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(HostingWebConfigurationStateEnum),
     version: S.optional(S.String),
   }),
-).annotate({
-  identifier: "HostingWebConfiguration",
-}) as any as S.Schema<HostingWebConfiguration>;
+).annotate({ identifier: "HostingWebConfiguration" }) as any as S.Schema<HostingWebConfiguration>;
 
 export interface GetHostingWebCronRequest {
   /** Service name */
@@ -3320,16 +3094,8 @@ export const GetHostingWebCronRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     id: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/hosting/web/{serviceName}/cron/{id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetHostingWebCronRequest",
-}) as any as S.Schema<GetHostingWebCronRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/hosting/web/{serviceName}/cron/{id}", code: 200 })),
+).annotate({ identifier: "GetHostingWebCronRequest" }) as any as S.Schema<GetHostingWebCronRequest>;
 
 /** Cron state */
 export type HostingWebCronStateEnum = "created" | "creating" | "deleting" | "updating";
@@ -3377,13 +3143,7 @@ export const GetHostingWebDatabaseRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     name: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/hosting/web/{serviceName}/database/{name}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/hosting/web/{serviceName}/database/{name}", code: 200 })),
 ).annotate({
   identifier: "GetHostingWebDatabaseRequest",
 }) as any as S.Schema<GetHostingWebDatabaseRequest>;
@@ -3487,9 +3247,7 @@ export const HostingWebDatabase = /*@__PURE__*/ S.suspend(() =>
     version: S.optional(HostingWebDatabaseVersionEnum),
     versionSupport: S.optional(HostingWebDatabaseSupportedVersionEnum),
   }),
-).annotate({
-  identifier: "HostingWebDatabase",
-}) as any as S.Schema<HostingWebDatabase>;
+).annotate({ identifier: "HostingWebDatabase" }) as any as S.Schema<HostingWebDatabase>;
 
 export interface GetHostingWebDatabaseCapabilitiesRequest {
   /** The internal name of your hosting */
@@ -3628,9 +3386,7 @@ export const HostingWebDatabaseDump = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(HostingWebDatabaseDumpDateEnum),
     url: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "HostingWebDatabaseDump",
-}) as any as S.Schema<HostingWebDatabaseDump>;
+).annotate({ identifier: "HostingWebDatabaseDump" }) as any as S.Schema<HostingWebDatabaseDump>;
 
 export interface GetHostingWebDumpRequest {
   /** The internal name of your hosting */
@@ -3642,16 +3398,8 @@ export const GetHostingWebDumpRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     id: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/hosting/web/{serviceName}/dump/{id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetHostingWebDumpRequest",
-}) as any as S.Schema<GetHostingWebDumpRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/hosting/web/{serviceName}/dump/{id}", code: 200 })),
+).annotate({ identifier: "GetHostingWebDumpRequest" }) as any as S.Schema<GetHostingWebDumpRequest>;
 
 /** Dump */
 export interface HostingWebDump {
@@ -3695,13 +3443,7 @@ export interface GetHostingWebEmailRequest {
 export const GetHostingWebEmailRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/hosting/web/{serviceName}/email",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/hosting/web/{serviceName}/email", code: 200 })),
 ).annotate({
   identifier: "GetHostingWebEmailRequest",
 }) as any as S.Schema<GetHostingWebEmailRequest>;
@@ -3734,9 +3476,7 @@ export const HostingWebEmail = /*@__PURE__*/ S.suspend(() =>
     sentToday: S.optional(S.Number),
     state: S.optional(HostingWebMailStateEnum),
   }),
-).annotate({
-  identifier: "HostingWebEmail",
-}) as any as S.Schema<HostingWebEmail>;
+).annotate({ identifier: "HostingWebEmail" }) as any as S.Schema<HostingWebEmail>;
 
 export interface GetHostingWebEmailOptionRequest {
   /** The internal name of your hosting */
@@ -3748,13 +3488,7 @@ export const GetHostingWebEmailOptionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     id: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/hosting/web/{serviceName}/emailOption/{id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/hosting/web/{serviceName}/emailOption/{id}", code: 200 })),
 ).annotate({
   identifier: "GetHostingWebEmailOptionRequest",
 }) as any as S.Schema<GetHostingWebEmailOptionRequest>;
@@ -3774,9 +3508,7 @@ export const HostingWebEmailoption = /*@__PURE__*/ S.suspend(() =>
     domain: S.optional(S.String),
     id: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "HostingWebEmailoption",
-}) as any as S.Schema<HostingWebEmailoption>;
+).annotate({ identifier: "HostingWebEmailoption" }) as any as S.Schema<HostingWebEmailoption>;
 
 export interface GetHostingWebEmailOptionServiceInfosRequest {
   /** The internal name of your hosting */
@@ -3809,13 +3541,7 @@ export const GetHostingWebEnvVarRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     key: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/hosting/web/{serviceName}/envVar/{key}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/hosting/web/{serviceName}/envVar/{key}", code: 200 })),
 ).annotate({
   identifier: "GetHostingWebEnvVarRequest",
 }) as any as S.Schema<GetHostingWebEnvVarRequest>;
@@ -3845,9 +3571,7 @@ export const HostingWebEnvVar = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(HostingWebEnvVarTypeEnum),
     value: S.optional(S.String),
   }),
-).annotate({
-  identifier: "HostingWebEnvVar",
-}) as any as S.Schema<HostingWebEnvVar>;
+).annotate({ identifier: "HostingWebEnvVar" }) as any as S.Schema<HostingWebEnvVar>;
 
 export interface GetHostingWebExtraSqlPersoRequest {
   /** The internal name of your hosting */
@@ -3860,11 +3584,7 @@ export const GetHostingWebExtraSqlPersoRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     name: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/hosting/web/{serviceName}/extraSqlPerso/{name}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/hosting/web/{serviceName}/extraSqlPerso/{name}", code: 200 }),
   ),
 ).annotate({
   identifier: "GetHostingWebExtraSqlPersoRequest",
@@ -3900,9 +3620,7 @@ export const HostingWebExtrasqlperso = /*@__PURE__*/ S.suspend(() =>
     taskId: S.optional(S.NullOr(S.Number)),
     usage: S.optional(HostingWebExtrasqlpersoUsageList),
   }),
-).annotate({
-  identifier: "HostingWebExtrasqlperso",
-}) as any as S.Schema<HostingWebExtrasqlperso>;
+).annotate({ identifier: "HostingWebExtrasqlperso" }) as any as S.Schema<HostingWebExtrasqlperso>;
 
 export interface GetHostingWebExtraSqlPersoServiceInfosRequest {
   /** The internal name of your hosting */
@@ -3935,16 +3653,8 @@ export const GetHostingWebIndyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     login: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/hosting/web/{serviceName}/indy/{login}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetHostingWebIndyRequest",
-}) as any as S.Schema<GetHostingWebIndyRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/hosting/web/{serviceName}/indy/{login}", code: 200 })),
+).annotate({ identifier: "GetHostingWebIndyRequest" }) as any as S.Schema<GetHostingWebIndyRequest>;
 
 /** AttachedDomain IDs linked to this multidomain */
 export type HostingWebIndyAttachedDomainsList = Array<string>;
@@ -3983,13 +3693,7 @@ export interface GetHostingWebKeySshRequest {
 export const GetHostingWebKeySshRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/hosting/web/{serviceName}/key/ssh",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/hosting/web/{serviceName}/key/ssh", code: 200 })),
 ).annotate({
   identifier: "GetHostingWebKeySshRequest",
 }) as any as S.Schema<GetHostingWebKeySshRequest>;
@@ -4005,11 +3709,7 @@ export const GetHostingWebLocalSeoAccountRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     id: S.Number.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/hosting/web/{serviceName}/localSeo/account/{id}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/hosting/web/{serviceName}/localSeo/account/{id}", code: 200 }),
   ),
 ).annotate({
   identifier: "GetHostingWebLocalSeoAccountRequest",
@@ -4054,13 +3754,7 @@ export interface GetHostingWebLocalSeoEmailAvailabilityRequest {
 export const GetHostingWebLocalSeoEmailAvailabilityRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     email: S.String.pipe(T.Query()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/hosting/web/localSeo/emailAvailability",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/hosting/web/localSeo/emailAvailability", code: 200 })),
 ).annotate({
   identifier: "GetHostingWebLocalSeoEmailAvailabilityRequest",
 }) as any as S.Schema<GetHostingWebLocalSeoEmailAvailabilityRequest>;
@@ -4121,11 +3815,7 @@ export const GetHostingWebLocalSeoLocationRequest = /*@__PURE__*/ S.suspend(() =
     serviceName: S.String.pipe(T.Label()),
     id: S.Number.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/hosting/web/{serviceName}/localSeo/location/{id}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/hosting/web/{serviceName}/localSeo/location/{id}", code: 200 }),
   ),
 ).annotate({
   identifier: "GetHostingWebLocalSeoLocationRequest",
@@ -4207,13 +3897,7 @@ export interface GetHostingWebMetricsTokenRequest {
 export const GetHostingWebMetricsTokenRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/hosting/web/{serviceName}/metricsToken",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/hosting/web/{serviceName}/metricsToken", code: 200 })),
 ).annotate({
   identifier: "GetHostingWebMetricsTokenRequest",
 }) as any as S.Schema<GetHostingWebMetricsTokenRequest>;
@@ -4233,9 +3917,7 @@ export const HostingWebMetricsToken = /*@__PURE__*/ S.suspend(() =>
     expiry: S.optional(S.String),
     token: S.optional(S.String),
   }),
-).annotate({
-  identifier: "HostingWebMetricsToken",
-}) as any as S.Schema<HostingWebMetricsToken>;
+).annotate({ identifier: "HostingWebMetricsToken" }) as any as S.Schema<HostingWebMetricsToken>;
 
 export interface GetHostingWebModuleRequest {
   /** The internal name of your hosting */
@@ -4247,13 +3929,7 @@ export const GetHostingWebModuleRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     id: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/hosting/web/{serviceName}/module/{id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/hosting/web/{serviceName}/module/{id}", code: 200 })),
 ).annotate({
   identifier: "GetHostingWebModuleRequest",
 }) as any as S.Schema<GetHostingWebModuleRequest>;
@@ -4310,9 +3986,7 @@ export const HostingWebModule = /*@__PURE__*/ S.suspend(() =>
     targetUrl: S.optional(S.String),
     taskId: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "HostingWebModule",
-}) as any as S.Schema<HostingWebModule>;
+).annotate({ identifier: "HostingWebModule" }) as any as S.Schema<HostingWebModule>;
 
 export interface GetHostingWebModuleListRequest {
   /** The ID of the module */
@@ -4412,9 +4086,7 @@ export const HostingWebModuleList = /*@__PURE__*/ S.suspend(() =>
     upgradeFrom: S.optional(HostingWebModuleListUpgradeFromList),
     version: S.optional(S.String),
   }),
-).annotate({
-  identifier: "HostingWebModuleList",
-}) as any as S.Schema<HostingWebModuleList>;
+).annotate({ identifier: "HostingWebModuleList" }) as any as S.Schema<HostingWebModuleList>;
 
 export interface GetHostingWebOfferCapabilitiesRequest {
   /** Describe offer capabilities */
@@ -4423,13 +4095,7 @@ export interface GetHostingWebOfferCapabilitiesRequest {
 export const GetHostingWebOfferCapabilitiesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     offer: HostingWebOfferCapabilitiesEnum.pipe(T.Query()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/hosting/web/offerCapabilities",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/hosting/web/offerCapabilities", code: 200 })),
 ).annotate({
   identifier: "GetHostingWebOfferCapabilitiesRequest",
 }) as any as S.Schema<GetHostingWebOfferCapabilitiesRequest>;
@@ -4500,9 +4166,7 @@ export const HostingWebDiskType = /*@__PURE__*/ S.suspend(() =>
     unit: S.optional(S.String),
     value: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "HostingWebDiskType",
-}) as any as S.Schema<HostingWebDiskType>;
+).annotate({ identifier: "HostingWebDiskType" }) as any as S.Schema<HostingWebDiskType>;
 
 /** Struct which describes mail offer available and his quota */
 export interface HostingWebCreationEmailCapabilities {
@@ -4666,9 +4330,7 @@ export const HostingWebCapabilities = /*@__PURE__*/ S.suspend(() =>
     ssh: S.optional(S.Boolean),
     traffic: S.optional(S.NullOr(ComplexTypeUnitAndValueDouble)),
   }),
-).annotate({
-  identifier: "HostingWebCapabilities",
-}) as any as S.Schema<HostingWebCapabilities>;
+).annotate({ identifier: "HostingWebCapabilities" }) as any as S.Schema<HostingWebCapabilities>;
 
 export interface GetHostingWebOvhConfigRequest {
   /** The internal name of your hosting */
@@ -4680,13 +4342,7 @@ export const GetHostingWebOvhConfigRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     id: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/hosting/web/{serviceName}/ovhConfig/{id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/hosting/web/{serviceName}/ovhConfig/{id}", code: 200 })),
 ).annotate({
   identifier: "GetHostingWebOvhConfigRequest",
 }) as any as S.Schema<GetHostingWebOvhConfigRequest>;
@@ -4760,9 +4416,7 @@ export const HostingWebOvhConfig = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(HostingWebOvhConfigStatusEnum),
     taskId: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "HostingWebOvhConfig",
-}) as any as S.Schema<HostingWebOvhConfig>;
+).annotate({ identifier: "HostingWebOvhConfig" }) as any as S.Schema<HostingWebOvhConfig>;
 
 export interface GetHostingWebOvhConfigRecommendedValuesRequest {
   /** The internal name of your hosting */
@@ -4817,13 +4471,7 @@ export const GetHostingWebOwnLogRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     id: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/hosting/web/{serviceName}/ownLogs/{id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/hosting/web/{serviceName}/ownLogs/{id}", code: 200 })),
 ).annotate({
   identifier: "GetHostingWebOwnLogRequest",
 }) as any as S.Schema<GetHostingWebOwnLogRequest>;
@@ -4856,9 +4504,7 @@ export const HostingWebOwnLogs = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(HostingWebOwnLogsStatusEnum),
     taskId: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "HostingWebOwnLogs",
-}) as any as S.Schema<HostingWebOwnLogs>;
+).annotate({ identifier: "HostingWebOwnLogs" }) as any as S.Schema<HostingWebOwnLogs>;
 
 export interface GetHostingWebOwnLogUserLogRequest {
   /** The internal name of your hosting */
@@ -4912,9 +4558,7 @@ export const HostingWebUserLogs = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(HostingWebUserLogsStatusEnum),
     taskId: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "HostingWebUserLogs",
-}) as any as S.Schema<HostingWebUserLogs>;
+).annotate({ identifier: "HostingWebUserLogs" }) as any as S.Schema<HostingWebUserLogs>;
 
 export interface GetHostingWebRuntimeRequest {
   /** The internal name of your hosting */
@@ -4926,13 +4570,7 @@ export const GetHostingWebRuntimeRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     id: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/hosting/web/{serviceName}/runtime/{id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/hosting/web/{serviceName}/runtime/{id}", code: 200 })),
 ).annotate({
   identifier: "GetHostingWebRuntimeRequest",
 }) as any as S.Schema<GetHostingWebRuntimeRequest>;
@@ -4983,9 +4621,7 @@ export const HostingWebRuntime = /*@__PURE__*/ S.suspend(() =>
     taskId: S.optional(S.NullOr(S.Number)),
     type: S.optional(HostingWebRuntimeTypeEnum),
   }),
-).annotate({
-  identifier: "HostingWebRuntime",
-}) as any as S.Schema<HostingWebRuntime>;
+).annotate({ identifier: "HostingWebRuntime" }) as any as S.Schema<HostingWebRuntime>;
 
 export interface GetHostingWebServiceInfosRequest {
   /** Service name */
@@ -4994,13 +4630,7 @@ export interface GetHostingWebServiceInfosRequest {
 export const GetHostingWebServiceInfosRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/hosting/web/{serviceName}/serviceInfos",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/hosting/web/{serviceName}/serviceInfos", code: 200 })),
 ).annotate({
   identifier: "GetHostingWebServiceInfosRequest",
 }) as any as S.Schema<GetHostingWebServiceInfosRequest>;
@@ -5015,16 +4645,8 @@ export const GetHostingWebTaskRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     id: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/hosting/web/{serviceName}/tasks/{id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetHostingWebTaskRequest",
-}) as any as S.Schema<GetHostingWebTaskRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/hosting/web/{serviceName}/tasks/{id}", code: 200 })),
+).annotate({ identifier: "GetHostingWebTaskRequest" }) as any as S.Schema<GetHostingWebTaskRequest>;
 
 export interface GetHostingWebTokenRequest {
   /** The internal name of your hosting */
@@ -5033,13 +4655,7 @@ export interface GetHostingWebTokenRequest {
 export const GetHostingWebTokenRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/hosting/web/{serviceName}/token",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/hosting/web/{serviceName}/token", code: 200 })),
 ).annotate({
   identifier: "GetHostingWebTokenRequest",
 }) as any as S.Schema<GetHostingWebTokenRequest>;
@@ -5061,16 +4677,8 @@ export const GetHostingWebUserRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     login: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/hosting/web/{serviceName}/user/{login}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetHostingWebUserRequest",
-}) as any as S.Schema<GetHostingWebUserRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/hosting/web/{serviceName}/user/{login}", code: 200 })),
+).annotate({ identifier: "GetHostingWebUserRequest" }) as any as S.Schema<GetHostingWebUserRequest>;
 
 /** User, url and port of a service */
 export interface HostingWebUserCredentials {
@@ -5159,13 +4767,7 @@ export const GetHostingWebUserLogsTokenRequest = /*@__PURE__*/ S.suspend(() =>
     attachedDomain: S.optional(S.String.pipe(T.Query())),
     remoteCheck: S.optional(S.Boolean.pipe(T.Query())),
     ttl: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/hosting/web/{serviceName}/userLogsToken",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/hosting/web/{serviceName}/userLogsToken", code: 200 })),
 ).annotate({
   identifier: "GetHostingWebUserLogsTokenRequest",
 }) as any as S.Schema<GetHostingWebUserLogsTokenRequest>;
@@ -5194,13 +4796,7 @@ export const GetHostingWebVcsWebhooksRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     path: S.String.pipe(T.Query()),
     vcs: HostingWebSupportedVcsEnum.pipe(T.Query()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/hosting/web/{serviceName}/vcs/webhooks",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/hosting/web/{serviceName}/vcs/webhooks", code: 200 })),
 ).annotate({
   identifier: "GetHostingWebVcsWebhooksRequest",
 }) as any as S.Schema<GetHostingWebVcsWebhooksRequest>;
@@ -5214,9 +4810,7 @@ export const HostingWebVcsWebhooks = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     push: S.optional(S.String),
   }),
-).annotate({
-  identifier: "HostingWebVcsWebhooks",
-}) as any as S.Schema<HostingWebVcsWebhooks>;
+).annotate({ identifier: "HostingWebVcsWebhooks" }) as any as S.Schema<HostingWebVcsWebhooks>;
 
 export interface GetHostingWebWebsiteRequest {
   /** Service name */
@@ -5228,13 +4822,7 @@ export const GetHostingWebWebsiteRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     id: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/hosting/web/{serviceName}/website/{id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/hosting/web/{serviceName}/website/{id}", code: 200 })),
 ).annotate({
   identifier: "GetHostingWebWebsiteRequest",
 }) as any as S.Schema<GetHostingWebWebsiteRequest>;
@@ -5254,9 +4842,7 @@ export const HostingWebWebsiteDomain = /*@__PURE__*/ S.suspend(() =>
     fqdn: S.optional(S.String),
     ssl: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "HostingWebWebsiteDomain",
-}) as any as S.Schema<HostingWebWebsiteDomain>;
+).annotate({ identifier: "HostingWebWebsiteDomain" }) as any as S.Schema<HostingWebWebsiteDomain>;
 
 /** Domains of the website */
 export type HostingWebWebsiteDomainsList = Array<HostingWebWebsiteDomain>;
@@ -5307,9 +4893,7 @@ export const HostingWebWebsite = /*@__PURE__*/ S.suspend(() =>
     vcsBranch: S.optional(S.String),
     vcsUrl: S.optional(S.String),
   }),
-).annotate({
-  identifier: "HostingWebWebsite",
-}) as any as S.Schema<HostingWebWebsite>;
+).annotate({ identifier: "HostingWebWebsite" }) as any as S.Schema<HostingWebWebsite>;
 
 export interface GetHostingWebWebsiteCreationCapabilitiesRequest {
   /** Service name */
@@ -5430,11 +5014,7 @@ export const ImportHostingWebDatabaseRequest = /*@__PURE__*/ S.suspend(() =>
     flushDatabase: S.optional(S.Boolean),
     sendEmail: S.optional(S.Boolean),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/hosting/web/{serviceName}/database/{name}/import",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/hosting/web/{serviceName}/database/{name}/import", code: 200 }),
   ),
 ).annotate({
   identifier: "ImportHostingWebDatabaseRequest",
@@ -5467,9 +5047,7 @@ export const ListHostingWebRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     iamTags: S.optional(ListHostingWebRequestIamTagsMap.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/hosting/web", code: 200 })),
-).annotate({
-  identifier: "ListHostingWebRequest",
-}) as any as S.Schema<ListHostingWebRequest>;
+).annotate({ identifier: "ListHostingWebRequest" }) as any as S.Schema<ListHostingWebRequest>;
 
 export type ListHostingWebResponseBodyList = Array<string>;
 export const ListHostingWebResponseBodyList = /*@__PURE__*/ S.Array(
@@ -5479,9 +5057,7 @@ export const ListHostingWebResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListHostingWebResponse = ListHostingWebResponseBodyList;
 export const ListHostingWebResponse = /*@__PURE__*/ S.suspend(() =>
   ListHostingWebResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListHostingWebResponse",
-}) as any as S.Schema<ListHostingWebResponse>;
+).annotate({ identifier: "ListHostingWebResponse" }) as any as S.Schema<ListHostingWebResponse>;
 
 export interface ListHostingWebAttachedDomainRequest {
   /** Domain used into web hosting attached domains */
@@ -5520,13 +5096,7 @@ export const ListHostingWebAttachedDomainRequest2 = /*@__PURE__*/ S.suspend(() =
     serviceName: S.String.pipe(T.Label()),
     domain: S.optional(S.String.pipe(T.Query())),
     path: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/hosting/web/{serviceName}/attachedDomain",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/hosting/web/{serviceName}/attachedDomain", code: 200 })),
 ).annotate({
   identifier: "ListHostingWebAttachedDomainRequest2",
 }) as any as S.Schema<ListHostingWebAttachedDomainRequest2>;
@@ -5554,11 +5124,7 @@ export const ListHostingWebAvailableConfigurationsRequest = /*@__PURE__*/ S.susp
     serviceName: S.String.pipe(T.Label()),
     language: S.optional(HostingWebConfigurationLanguageEnum.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/hosting/web/{serviceName}/availableConfigurations",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/hosting/web/{serviceName}/availableConfigurations", code: 200 }),
   ),
 ).annotate({
   identifier: "ListHostingWebAvailableConfigurationsRequest",
@@ -5623,13 +5189,7 @@ export const ListHostingWebBoostHistoryRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     date: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/hosting/web/{serviceName}/boostHistory",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/hosting/web/{serviceName}/boostHistory", code: 200 })),
 ).annotate({
   identifier: "ListHostingWebBoostHistoryRequest",
 }) as any as S.Schema<ListHostingWebBoostHistoryRequest>;
@@ -5654,11 +5214,7 @@ export const ListHostingWebCdnAvailableOptionsRequest = /*@__PURE__*/ S.suspend(
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/hosting/web/{serviceName}/cdn/availableOptions",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/hosting/web/{serviceName}/cdn/availableOptions", code: 200 }),
   ),
 ).annotate({
   identifier: "ListHostingWebCdnAvailableOptionsRequest",
@@ -5752,9 +5308,7 @@ export const CdnAvailableOptions = /*@__PURE__*/ S.suspend(() =>
     maxItems: S.optional(S.Number),
     type: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CdnAvailableOptions",
-}) as any as S.Schema<CdnAvailableOptions>;
+).annotate({ identifier: "CdnAvailableOptions" }) as any as S.Schema<CdnAvailableOptions>;
 
 export type ListHostingWebCdnAvailableOptionsResponseBodyList = Array<CdnAvailableOptions>;
 export const ListHostingWebCdnAvailableOptionsResponseBodyList = /*@__PURE__*/ S.Array(
@@ -5776,13 +5330,7 @@ export interface ListHostingWebCdnDomainRequest {
 export const ListHostingWebCdnDomainRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/hosting/web/{serviceName}/cdn/domain",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/hosting/web/{serviceName}/cdn/domain", code: 200 })),
 ).annotate({
   identifier: "ListHostingWebCdnDomainRequest",
 }) as any as S.Schema<ListHostingWebCdnDomainRequest>;
@@ -5839,13 +5387,7 @@ export interface ListHostingWebCdnOperationRequest {
 export const ListHostingWebCdnOperationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/hosting/web/{serviceName}/cdn/operation",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/hosting/web/{serviceName}/cdn/operation", code: 200 })),
 ).annotate({
   identifier: "ListHostingWebCdnOperationRequest",
 }) as any as S.Schema<ListHostingWebCdnOperationRequest>;
@@ -5881,13 +5423,7 @@ export const ListHostingWebCronRequest = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(S.String.pipe(T.Query())),
     email: S.optional(S.String.pipe(T.Query())),
     language: S.optional(HostingWebLanguagesEnum.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/hosting/web/{serviceName}/cron",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/hosting/web/{serviceName}/cron", code: 200 })),
 ).annotate({
   identifier: "ListHostingWebCronRequest",
 }) as any as S.Schema<ListHostingWebCronRequest>;
@@ -5912,11 +5448,7 @@ export const ListHostingWebCronAvailableLanguageRequest = /*@__PURE__*/ S.suspen
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/hosting/web/{serviceName}/cronAvailableLanguage",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/hosting/web/{serviceName}/cronAvailableLanguage", code: 200 }),
   ),
 ).annotate({
   identifier: "ListHostingWebCronAvailableLanguageRequest",
@@ -5957,13 +5489,7 @@ export const ListHostingWebDatabaseRequest = /*@__PURE__*/ S.suspend(() =>
     server: S.optional(S.String.pipe(T.Query())),
     type: S.optional(HostingWebDatabaseDatabaseTypeEnum.pipe(T.Query())),
     user: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/hosting/web/{serviceName}/database",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/hosting/web/{serviceName}/database", code: 200 })),
 ).annotate({
   identifier: "ListHostingWebDatabaseRequest",
 }) as any as S.Schema<ListHostingWebDatabaseRequest>;
@@ -5988,11 +5514,7 @@ export const ListHostingWebDatabaseAvailableTypeRequest = /*@__PURE__*/ S.suspen
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/hosting/web/{serviceName}/databaseAvailableType",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/hosting/web/{serviceName}/databaseAvailableType", code: 200 }),
   ),
 ).annotate({
   identifier: "ListHostingWebDatabaseAvailableTypeRequest",
@@ -6066,11 +5588,7 @@ export const ListHostingWebDatabaseCopyRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     name: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/hosting/web/{serviceName}/database/{name}/copy",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/hosting/web/{serviceName}/database/{name}/copy", code: 200 }),
   ),
 ).annotate({
   identifier: "ListHostingWebDatabaseCopyRequest",
@@ -6146,11 +5664,7 @@ export const ListHostingWebDatabaseDumpRequest = /*@__PURE__*/ S.suspend(() =>
     deletionDate_to: S.optional(S.String.pipe(T.Query("deletionDate.to"))),
     type: S.optional(HostingWebDatabaseDumpDateEnum.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/hosting/web/{serviceName}/database/{name}/dump",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/hosting/web/{serviceName}/database/{name}/dump", code: 200 }),
   ),
 ).annotate({
   identifier: "ListHostingWebDatabaseDumpRequest",
@@ -6278,13 +5792,7 @@ export const ListHostingWebDumpRequest = /*@__PURE__*/ S.suspend(() =>
     deletionDate_from: S.optional(S.String.pipe(T.Query("deletionDate.from"))),
     deletionDate_to: S.optional(S.String.pipe(T.Query("deletionDate.to"))),
     orphan: S.optional(S.Boolean.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/hosting/web/{serviceName}/dump",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/hosting/web/{serviceName}/dump", code: 200 })),
 ).annotate({
   identifier: "ListHostingWebDumpRequest",
 }) as any as S.Schema<ListHostingWebDumpRequest>;
@@ -6311,13 +5819,7 @@ export const ListHostingWebEmailBouncesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     limit: S.Number.pipe(T.Query()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/hosting/web/{serviceName}/email/bounces",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/hosting/web/{serviceName}/email/bounces", code: 200 })),
 ).annotate({
   identifier: "ListHostingWebEmailBouncesRequest",
 }) as any as S.Schema<ListHostingWebEmailBouncesRequest>;
@@ -6337,9 +5839,7 @@ export const HostingWebMailBounce = /*@__PURE__*/ S.suspend(() =>
     message: S.optional(S.NullOr(S.String)),
     to: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "HostingWebMailBounce",
-}) as any as S.Schema<HostingWebMailBounce>;
+).annotate({ identifier: "HostingWebMailBounce" }) as any as S.Schema<HostingWebMailBounce>;
 
 export type ListHostingWebEmailBouncesResponseBodyList = Array<HostingWebMailBounce>;
 export const ListHostingWebEmailBouncesResponseBodyList = /*@__PURE__*/ S.Array(
@@ -6360,13 +5860,7 @@ export interface ListHostingWebEmailOptionRequest {
 export const ListHostingWebEmailOptionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/hosting/web/{serviceName}/emailOption",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/hosting/web/{serviceName}/emailOption", code: 200 })),
 ).annotate({
   identifier: "ListHostingWebEmailOptionRequest",
 }) as any as S.Schema<ListHostingWebEmailOptionRequest>;
@@ -6390,13 +5884,7 @@ export interface ListHostingWebEmailVolumesRequest {
 export const ListHostingWebEmailVolumesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/hosting/web/{serviceName}/email/volumes",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/hosting/web/{serviceName}/email/volumes", code: 200 })),
 ).annotate({
   identifier: "ListHostingWebEmailVolumesRequest",
 }) as any as S.Schema<ListHostingWebEmailVolumesRequest>;
@@ -6439,13 +5927,7 @@ export const ListHostingWebEnvVarRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     type: S.optional(HostingWebEnvVarTypeEnum.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/hosting/web/{serviceName}/envVar",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/hosting/web/{serviceName}/envVar", code: 200 })),
 ).annotate({
   identifier: "ListHostingWebEnvVarRequest",
 }) as any as S.Schema<ListHostingWebEnvVarRequest>;
@@ -6469,13 +5951,7 @@ export interface ListHostingWebExtraSqlPersoRequest {
 export const ListHostingWebExtraSqlPersoRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/hosting/web/{serviceName}/extraSqlPerso",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/hosting/web/{serviceName}/extraSqlPerso", code: 200 })),
 ).annotate({
   identifier: "ListHostingWebExtraSqlPersoRequest",
 }) as any as S.Schema<ListHostingWebExtraSqlPersoRequest>;
@@ -6540,13 +6016,7 @@ export const ListHostingWebFreedomRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     status: S.optional(HostingWebFreedomStatusEnum.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/hosting/web/{serviceName}/freedom",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/hosting/web/{serviceName}/freedom", code: 200 })),
 ).annotate({
   identifier: "ListHostingWebFreedomRequest",
 }) as any as S.Schema<ListHostingWebFreedomRequest>;
@@ -6592,13 +6062,7 @@ export const ListHostingWebIndyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     login: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/hosting/web/{serviceName}/indy",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/hosting/web/{serviceName}/indy", code: 200 })),
 ).annotate({
   identifier: "ListHostingWebIndyRequest",
 }) as any as S.Schema<ListHostingWebIndyRequest>;
@@ -6625,13 +6089,7 @@ export const ListHostingWebLocalSeoAccountRequest = /*@__PURE__*/ S.suspend(() =
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     email: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/hosting/web/{serviceName}/localSeo/account",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/hosting/web/{serviceName}/localSeo/account", code: 200 })),
 ).annotate({
   identifier: "ListHostingWebLocalSeoAccountRequest",
 }) as any as S.Schema<ListHostingWebLocalSeoAccountRequest>;
@@ -6658,13 +6116,7 @@ export const ListHostingWebLocalSeoDirectoriesListRequest = /*@__PURE__*/ S.susp
   S.Struct({
     country: HostingWebLocalSeoLocationCountryEnum.pipe(T.Query()),
     offer: HostingWebLocalSeoLocationOfferEnum.pipe(T.Query()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/hosting/web/localSeo/directoriesList",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/hosting/web/localSeo/directoriesList", code: 200 })),
 ).annotate({
   identifier: "ListHostingWebLocalSeoDirectoriesListRequest",
 }) as any as S.Schema<ListHostingWebLocalSeoDirectoriesListRequest>;
@@ -6732,11 +6184,7 @@ export const ListHostingWebLocalSeoLocationRequest = /*@__PURE__*/ S.suspend(() 
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/hosting/web/{serviceName}/localSeo/location",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/hosting/web/{serviceName}/localSeo/location", code: 200 }),
   ),
 ).annotate({
   identifier: "ListHostingWebLocalSeoLocationRequest",
@@ -6767,13 +6215,7 @@ export const ListHostingWebLocalSeoVisibilityCheckResultRequest = /*@__PURE__*/ 
     directory: S.String.pipe(T.Query()),
     id: S.Number.pipe(T.Query()),
     token: S.String.pipe(T.Query()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/hosting/web/localSeo/visibilityCheckResult",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/hosting/web/localSeo/visibilityCheckResult", code: 200 })),
 ).annotate({
   identifier: "ListHostingWebLocalSeoVisibilityCheckResultRequest",
 }) as any as S.Schema<ListHostingWebLocalSeoVisibilityCheckResultRequest>;
@@ -6936,13 +6378,7 @@ export interface ListHostingWebModuleRequest {
 export const ListHostingWebModuleRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/hosting/web/{serviceName}/module",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/hosting/web/{serviceName}/module", code: 200 })),
 ).annotate({
   identifier: "ListHostingWebModuleRequest",
 }) as any as S.Schema<ListHostingWebModuleRequest>;
@@ -7002,13 +6438,7 @@ export const ListHostingWebOvhConfigRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     historical: S.optional(S.Boolean.pipe(T.Query())),
     path: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/hosting/web/{serviceName}/ovhConfig",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/hosting/web/{serviceName}/ovhConfig", code: 200 })),
 ).annotate({
   identifier: "ListHostingWebOvhConfigRequest",
 }) as any as S.Schema<ListHostingWebOvhConfigRequest>;
@@ -7033,11 +6463,7 @@ export const ListHostingWebOvhConfigCapabilitiesRequest = /*@__PURE__*/ S.suspen
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/hosting/web/{serviceName}/ovhConfigCapabilities",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/hosting/web/{serviceName}/ovhConfigCapabilities", code: 200 }),
   ),
 ).annotate({
   identifier: "ListHostingWebOvhConfigCapabilitiesRequest",
@@ -7089,13 +6515,7 @@ export const ListHostingWebOwnLogsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     fqdn: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/hosting/web/{serviceName}/ownLogs",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/hosting/web/{serviceName}/ownLogs", code: 200 })),
 ).annotate({
   identifier: "ListHostingWebOwnLogsRequest",
 }) as any as S.Schema<ListHostingWebOwnLogsRequest>;
@@ -7126,11 +6546,7 @@ export const ListHostingWebOwnLogUserLogsRequest = /*@__PURE__*/ S.suspend(() =>
     id: S.Number.pipe(T.Label()),
     login: S.optional(S.String.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/hosting/web/{serviceName}/ownLogs/{id}/userLogs",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/hosting/web/{serviceName}/ownLogs/{id}/userLogs", code: 200 }),
   ),
 ).annotate({
   identifier: "ListHostingWebOwnLogUserLogsRequest",
@@ -7189,13 +6605,7 @@ export interface ListHostingWebPrivateDatabasesRequest {
 export const ListHostingWebPrivateDatabasesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/hosting/web/{serviceName}/privateDatabases",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/hosting/web/{serviceName}/privateDatabases", code: 200 })),
 ).annotate({
   identifier: "ListHostingWebPrivateDatabasesRequest",
 }) as any as S.Schema<ListHostingWebPrivateDatabasesRequest>;
@@ -7225,13 +6635,7 @@ export const ListHostingWebRuntimeRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     name: S.optional(S.String.pipe(T.Query())),
     type: S.optional(HostingWebRuntimeTypeEnum.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/hosting/web/{serviceName}/runtime",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/hosting/web/{serviceName}/runtime", code: 200 })),
 ).annotate({
   identifier: "ListHostingWebRuntimeRequest",
 }) as any as S.Schema<ListHostingWebRuntimeRequest>;
@@ -7293,11 +6697,7 @@ export const ListHostingWebRuntimeAvailableTypesRequest = /*@__PURE__*/ S.suspen
     serviceName: S.String.pipe(T.Label()),
     language: S.optional(S.String.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/hosting/web/{serviceName}/runtimeAvailableTypes",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/hosting/web/{serviceName}/runtimeAvailableTypes", code: 200 }),
   ),
 ).annotate({
   identifier: "ListHostingWebRuntimeAvailableTypesRequest",
@@ -7337,13 +6737,7 @@ export const ListHostingWebStatisticsRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     period: HostingWebStatisticsPeriodEnum.pipe(T.Query()),
     type: HostingWebStatisticsTypeEnum.pipe(T.Query()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/hosting/web/{serviceName}/statistics",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/hosting/web/{serviceName}/statistics", code: 200 })),
 ).annotate({
   identifier: "ListHostingWebStatisticsRequest",
 }) as any as S.Schema<ListHostingWebStatisticsRequest>;
@@ -7374,13 +6768,7 @@ export const ListHostingWebTasksRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     function: S.optional(S.String.pipe(T.Query())),
     status: S.optional(HostingWebTaskStatusEnum.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/hosting/web/{serviceName}/tasks",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/hosting/web/{serviceName}/tasks", code: 200 })),
 ).annotate({
   identifier: "ListHostingWebTasksRequest",
 }) as any as S.Schema<ListHostingWebTasksRequest>;
@@ -7410,13 +6798,7 @@ export const ListHostingWebUserRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     home: S.optional(S.String.pipe(T.Query())),
     login: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/hosting/web/{serviceName}/user",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/hosting/web/{serviceName}/user", code: 200 })),
 ).annotate({
   identifier: "ListHostingWebUserRequest",
 }) as any as S.Schema<ListHostingWebUserRequest>;
@@ -7462,13 +6844,7 @@ export const ListHostingWebWebsiteRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     path: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/hosting/web/{serviceName}/website",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/hosting/web/{serviceName}/website", code: 200 })),
 ).annotate({
   identifier: "ListHostingWebWebsiteRequest",
 }) as any as S.Schema<ListHostingWebWebsiteRequest>;
@@ -7496,11 +6872,7 @@ export const ListHostingWebWebsiteDeploymentRequest = /*@__PURE__*/ S.suspend(()
     serviceName: S.String.pipe(T.Label()),
     id: S.Number.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/hosting/web/{serviceName}/website/{id}/deployment",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/hosting/web/{serviceName}/website/{id}/deployment", code: 200 }),
   ),
 ).annotate({
   identifier: "ListHostingWebWebsiteDeploymentRequest",
@@ -7664,9 +7036,7 @@ export const PutHostingWebRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     displayName: S.optional(S.String),
   }).pipe(T.Http({ method: "PUT", uri: "/hosting/web/{serviceName}", code: 200 })),
-).annotate({
-  identifier: "PutHostingWebRequest",
-}) as any as S.Schema<PutHostingWebRequest>;
+).annotate({ identifier: "PutHostingWebRequest" }) as any as S.Schema<PutHostingWebRequest>;
 
 export interface PutHostingWebResponse {}
 export const PutHostingWebResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -7708,11 +7078,7 @@ export const PutHostingWebAttachedDomainRequest = /*@__PURE__*/ S.suspend(() =>
     runtimeId: S.optional(S.NullOr(S.Number)),
     ssl: S.optional(S.NullOr(S.Boolean)),
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/hosting/web/{serviceName}/attachedDomain/{domain}",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/hosting/web/{serviceName}/attachedDomain/{domain}", code: 200 }),
   ),
 ).annotate({
   identifier: "PutHostingWebAttachedDomainRequest",
@@ -7786,13 +7152,7 @@ export const PutHostingWebConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
     language: S.optional(HostingWebConfigurationLanguageEnum),
     publicDir: S.optional(S.NullOr(S.String)),
     version: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/hosting/web/{serviceName}/configuration",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/hosting/web/{serviceName}/configuration", code: 200 })),
 ).annotate({
   identifier: "PutHostingWebConfigurationRequest",
 }) as any as S.Schema<PutHostingWebConfigurationRequest>;
@@ -7832,16 +7192,8 @@ export const PutHostingWebCronRequest = /*@__PURE__*/ S.suspend(() =>
     frequency: S.String,
     language: HostingWebLanguagesEnum,
     status: S.optional(HostingWebCronStatusEnum),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/hosting/web/{serviceName}/cron/{id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "PutHostingWebCronRequest",
-}) as any as S.Schema<PutHostingWebCronRequest>;
+  }).pipe(T.Http({ method: "PUT", uri: "/hosting/web/{serviceName}/cron/{id}", code: 200 })),
+).annotate({ identifier: "PutHostingWebCronRequest" }) as any as S.Schema<PutHostingWebCronRequest>;
 
 export type PutHostingWebCronResponse = string;
 export const PutHostingWebCronResponse = /*@__PURE__*/ S.suspend(() =>
@@ -7860,13 +7212,7 @@ export const PutHostingWebEmailRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     email: S.optional(S.NullOr(S.String)),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/hosting/web/{serviceName}/email",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/hosting/web/{serviceName}/email", code: 200 })),
 ).annotate({
   identifier: "PutHostingWebEmailRequest",
 }) as any as S.Schema<PutHostingWebEmailRequest>;
@@ -7889,13 +7235,7 @@ export const PutHostingWebEnvVarRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     key: S.String.pipe(T.Label()),
     value: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/hosting/web/{serviceName}/envVar/{key}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/hosting/web/{serviceName}/envVar/{key}", code: 200 })),
 ).annotate({
   identifier: "PutHostingWebEnvVarRequest",
 }) as any as S.Schema<PutHostingWebEnvVarRequest>;
@@ -7962,13 +7302,7 @@ export const PutHostingWebRuntimeRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.NullOr(S.String)),
     publicDir: S.optional(S.NullOr(S.String)),
     type: S.optional(HostingWebRuntimeTypeEnum),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/hosting/web/{serviceName}/runtime/{id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/hosting/web/{serviceName}/runtime/{id}", code: 200 })),
 ).annotate({
   identifier: "PutHostingWebRuntimeRequest",
 }) as any as S.Schema<PutHostingWebRuntimeRequest>;
@@ -7988,13 +7322,7 @@ export const PutHostingWebServiceInfosRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     renew: S.optional(S.NullOr(ServiceRenewType)),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/hosting/web/{serviceName}/serviceInfos",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/hosting/web/{serviceName}/serviceInfos", code: 200 })),
 ).annotate({
   identifier: "PutHostingWebServiceInfosRequest",
 }) as any as S.Schema<PutHostingWebServiceInfosRequest>;
@@ -8025,16 +7353,8 @@ export const PutHostingWebUserRequest = /*@__PURE__*/ S.suspend(() =>
     home: S.optional(S.String),
     sshState: S.optional(HostingWebUserSshStateEnum),
     state: S.optional(HostingWebUserStateEnum),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/hosting/web/{serviceName}/user/{login}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "PutHostingWebUserRequest",
-}) as any as S.Schema<PutHostingWebUserRequest>;
+  }).pipe(T.Http({ method: "PUT", uri: "/hosting/web/{serviceName}/user/{login}", code: 200 })),
+).annotate({ identifier: "PutHostingWebUserRequest" }) as any as S.Schema<PutHostingWebUserRequest>;
 
 export interface PutHostingWebUserResponse {}
 export const PutHostingWebUserResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -8054,13 +7374,7 @@ export const PutHostingWebWebsiteRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     id: S.Number.pipe(T.Label()),
     vcsBranch: S.optional(S.NullOr(S.String)),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/hosting/web/{serviceName}/website/{id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/hosting/web/{serviceName}/website/{id}", code: 200 })),
 ).annotate({
   identifier: "PutHostingWebWebsiteRequest",
 }) as any as S.Schema<PutHostingWebWebsiteRequest>;
@@ -8172,13 +7486,7 @@ export const RestoreHostingWebSnapshotRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     backup: HostingWebBackupTypeEnum,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/hosting/web/{serviceName}/restoreSnapshot",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/hosting/web/{serviceName}/restoreSnapshot", code: 200 })),
 ).annotate({
   identifier: "RestoreHostingWebSnapshotRequest",
 }) as any as S.Schema<RestoreHostingWebSnapshotRequest>;
@@ -8190,13 +7498,7 @@ export interface TerminateHostingWebRequest {
 export const TerminateHostingWebRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/hosting/web/{serviceName}/terminate",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/hosting/web/{serviceName}/terminate", code: 200 })),
 ).annotate({
   identifier: "TerminateHostingWebRequest",
 }) as any as S.Schema<TerminateHostingWebRequest>;
@@ -8215,13 +7517,7 @@ export interface TerminateHostingWebCdnRequest {
 export const TerminateHostingWebCdnRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/hosting/web/{serviceName}/cdn/terminate",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/hosting/web/{serviceName}/cdn/terminate", code: 200 })),
 ).annotate({
   identifier: "TerminateHostingWebCdnRequest",
 }) as any as S.Schema<TerminateHostingWebCdnRequest>;

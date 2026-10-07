@@ -28,6 +28,13 @@
             "smithy.api#required": {}
           }
         },
+        "filterGroups": {
+          "target": "com.posthog.accounts_table_query#AccountsTableQueryFilterGroupsList",
+          "traits": {
+            "smithy.api#documentation": "Nonempty property-filter groups are ORed together; filters within each group use AND. Global filters still apply.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
         "filters": {
           "target": "com.posthog.accounts_table_query#AccountsTableQueryFiltersList",
           "traits": {
@@ -329,168 +336,6 @@
         "smithy.api#documentation": "Columns to load for each account. Account identity fields are always returned."
       }
     },
-    "com.posthog.accounts_table_query#AccountsTableSearchFilter": {
-      "type": "structure",
-      "members": {
-        "kind": {
-          "target": "smithy.api#String"
-        },
-        "query": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.posthog.accounts_table_query#AccountsTableTagsFilter": {
-      "type": "structure",
-      "members": {
-        "kind": {
-          "target": "smithy.api#String"
-        },
-        "tagNames": {
-          "target": "com.posthog.accounts_table_query#AccountsTableTagsFilterTagNamesList",
-          "traits": {
-            "smithy.api#documentation": "Match accounts carrying any of these tag names.",
-            "smithy.api#required": {}
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.posthog.accounts_table_query#AccountsTableTagsFilterTagNamesList": {
-      "type": "list",
-      "member": {
-        "target": "smithy.api#String"
-      },
-      "traits": {
-        "smithy.api#documentation": "Match accounts carrying any of these tag names."
-      }
-    },
-    "com.posthog.accounts_table_query#AccountsTableAssignedToFilter": {
-      "type": "structure",
-      "members": {
-        "kind": {
-          "target": "smithy.api#String"
-        },
-        "userIds": {
-          "target": "com.posthog.accounts_table_query#AccountsTableAssignedToFilterUserIdsList",
-          "traits": {
-            "smithy.api#documentation": "Match accounts where any listed user actively holds any relationship.",
-            "smithy.api#required": {}
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.posthog.accounts_table_query#AccountsTableAssignedToFilterUserIdsList": {
-      "type": "list",
-      "member": {
-        "target": "smithy.api#Integer"
-      },
-      "traits": {
-        "smithy.api#documentation": "Match accounts where any listed user actively holds any relationship."
-      }
-    },
-    "com.posthog.accounts_table_query#AccountsTableAssignedFilter": {
-      "type": "structure",
-      "members": {
-        "kind": {
-          "target": "smithy.api#String"
-        }
-      },
-      "traits": {}
-    },
-    "com.posthog.accounts_table_query#AccountsTableUnassignedFilter": {
-      "type": "structure",
-      "members": {
-        "kind": {
-          "target": "smithy.api#String"
-        }
-      },
-      "traits": {}
-    },
-    "com.posthog.accounts_table_query#AccountsTableRelationshipFilter": {
-      "type": "structure",
-      "members": {
-        "definitionId": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "kind": {
-          "target": "smithy.api#String"
-        },
-        "operator": {
-          "target": "com.posthog.accounts_table_query#AccountsTableRelationshipOperator",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "userIds": {
-          "target": "com.posthog.accounts_table_query#AccountsTableRelationshipFilterUserIdsList",
-          "traits": {
-            "com.distilled.openapi#nullable": {}
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.posthog.accounts_table_query#AccountsTableRelationshipOperator": {
-      "type": "enum",
-      "members": {
-        "EXACT": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "exact"
-          }
-        },
-        "IS_NOT": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "is_not"
-          }
-        },
-        "IS_SET": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "is_set"
-          }
-        },
-        "IS_NOT_SET": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "is_not_set"
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.posthog.accounts_table_query#AccountsTableRelationshipFilterUserIdsList": {
-      "type": "list",
-      "member": {
-        "target": "smithy.api#Integer"
-      },
-      "traits": {}
-    },
-    "com.posthog.accounts_table_query#AccountsTableAccountIdFilter": {
-      "type": "structure",
-      "members": {
-        "accountId": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "kind": {
-          "target": "smithy.api#String"
-        }
-      },
-      "traits": {}
-    },
     "com.posthog.accounts_table_query#AccountsTableAccountFieldFilter": {
       "type": "structure",
       "members": {
@@ -582,6 +427,70 @@
       "type": "list",
       "member": {
         "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.posthog.accounts_table_query#AccountsTableRelationshipFilter": {
+      "type": "structure",
+      "members": {
+        "definitionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "kind": {
+          "target": "smithy.api#String"
+        },
+        "operator": {
+          "target": "com.posthog.accounts_table_query#AccountsTableRelationshipOperator",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "userIds": {
+          "target": "com.posthog.accounts_table_query#AccountsTableRelationshipFilterUserIdsList",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.accounts_table_query#AccountsTableRelationshipOperator": {
+      "type": "enum",
+      "members": {
+        "EXACT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "exact"
+          }
+        },
+        "IS_NOT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "is_not"
+          }
+        },
+        "IS_SET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "is_set"
+          }
+        },
+        "IS_NOT_SET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "is_not_set"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.accounts_table_query#AccountsTableRelationshipFilterUserIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Integer"
       },
       "traits": {}
     },
@@ -728,6 +637,133 @@
       "type": "list",
       "member": {
         "target": "com.posthog.accounts_table_query#AccountsTableCustomPropertyFilterValuesItem"
+      },
+      "traits": {}
+    },
+    "com.posthog.accounts_table_query#AccountsTableQueryFilterGroupsItemItem": {
+      "type": "union",
+      "members": {
+        "AccountsTableAccountFieldFilter": {
+          "target": "com.posthog.accounts_table_query#AccountsTableAccountFieldFilter"
+        },
+        "AccountsTableRelationshipFilter": {
+          "target": "com.posthog.accounts_table_query#AccountsTableRelationshipFilter"
+        },
+        "AccountsTableCustomPropertyFilter": {
+          "target": "com.posthog.accounts_table_query#AccountsTableCustomPropertyFilter"
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.accounts_table_query#AccountsTableQueryFilterGroupsItemList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.accounts_table_query#AccountsTableQueryFilterGroupsItemItem"
+      },
+      "traits": {}
+    },
+    "com.posthog.accounts_table_query#AccountsTableQueryFilterGroupsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.accounts_table_query#AccountsTableQueryFilterGroupsItemList"
+      },
+      "traits": {}
+    },
+    "com.posthog.accounts_table_query#AccountsTableSearchFilter": {
+      "type": "structure",
+      "members": {
+        "kind": {
+          "target": "smithy.api#String"
+        },
+        "query": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.accounts_table_query#AccountsTableTagsFilter": {
+      "type": "structure",
+      "members": {
+        "kind": {
+          "target": "smithy.api#String"
+        },
+        "tagNames": {
+          "target": "com.posthog.accounts_table_query#AccountsTableTagsFilterTagNamesList",
+          "traits": {
+            "smithy.api#documentation": "Match accounts carrying any of these tag names.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.accounts_table_query#AccountsTableTagsFilterTagNamesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Match accounts carrying any of these tag names."
+      }
+    },
+    "com.posthog.accounts_table_query#AccountsTableAssignedToFilter": {
+      "type": "structure",
+      "members": {
+        "kind": {
+          "target": "smithy.api#String"
+        },
+        "userIds": {
+          "target": "com.posthog.accounts_table_query#AccountsTableAssignedToFilterUserIdsList",
+          "traits": {
+            "smithy.api#documentation": "Match accounts where any listed user actively holds any relationship.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.accounts_table_query#AccountsTableAssignedToFilterUserIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Integer"
+      },
+      "traits": {
+        "smithy.api#documentation": "Match accounts where any listed user actively holds any relationship."
+      }
+    },
+    "com.posthog.accounts_table_query#AccountsTableAssignedFilter": {
+      "type": "structure",
+      "members": {
+        "kind": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.accounts_table_query#AccountsTableUnassignedFilter": {
+      "type": "structure",
+      "members": {
+        "kind": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.accounts_table_query#AccountsTableAccountIdFilter": {
+      "type": "structure",
+      "members": {
+        "accountId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "kind": {
+          "target": "smithy.api#String"
+        }
       },
       "traits": {}
     },
@@ -955,6 +991,13 @@
             "com.distilled.openapi#nullable": {}
           }
         },
+        "cookielessTrafficIsRegular": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Do not treat a missing user agent as automation on cookieless events. Positive bot signals and custom project rules still apply. Resolved server-side; not intended to be set by clients.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
         "customBotDefinitions": {
           "target": "com.posthog.accounts_table_query#HogQLQueryModifiersCustomBotDefinitionsList",
           "traits": {
@@ -1042,6 +1085,13 @@
             "com.distilled.openapi#nullable": {}
           }
         },
+        "personIdPushdown": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Push an `id IN (SELECT person_id FROM <left table> WHERE …)` predicate into the joined persons subquery, so the latest-version lookup only reads persons that the outer query's left-table filters can reach. Applies only to a persons join from the query's own FROM table.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
         "personsArgMaxVersion": {
           "target": "com.posthog.accounts_table_query#PersonsArgMaxVersion",
           "traits": {
@@ -1123,6 +1173,13 @@
             "com.distilled.openapi#nullable": {}
           }
         },
+        "useNewEventsSchema": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Read events from the native JSON events table (`true`) or the legacy events table (`false`). When unset, the project's stored value applies, then the `CLICKHOUSE_HOGQL_USE_NEW_EVENTS_SCHEMA` instance settings. This is an internal rollout switch. PostHog staff set the project value in Django admin and the project settings API ignores it.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
         "usePreaggregatedIntermediateResults": {
           "target": "smithy.api#Boolean",
           "traits": {
@@ -1176,7 +1233,7 @@
       },
       "traits": {}
     },
-    "com.posthog.accounts_table_query#CustomBotDefinition": {
+    "com.posthog.accounts_table_query#CustomBotRule": {
       "type": "structure",
       "members": {
         "category": {
@@ -1186,6 +1243,56 @@
             "com.distilled.openapi#nullable": {}
           }
         },
+        "combiner": {
+          "target": "com.posthog.accounts_table_query#FilterLogicalOperator",
+          "traits": {
+            "smithy.api#documentation": "Whether every condition must match (AND) or any one of them (OR).",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "items": {
+          "target": "com.posthog.accounts_table_query#CustomBotRuleItemsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Reported by `$virt_bot_name` and `$virt_bot_operator` when the rule matches.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.accounts_table_query#FilterLogicalOperator": {
+      "type": "enum",
+      "members": {
+        "AND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "AND"
+          }
+        },
+        "OR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "OR"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.accounts_table_query#CustomBotCondition": {
+      "type": "structure",
+      "members": {
         "id": {
           "target": "smithy.api#String",
           "traits": {
@@ -1195,20 +1302,13 @@
         "key": {
           "target": "com.posthog.accounts_table_query#CustomBotField",
           "traits": {
-            "smithy.api#documentation": "The event property this rule reads.",
+            "smithy.api#documentation": "The event property this condition reads.",
             "smithy.api#required": {}
           }
         },
         "matcher": {
           "target": "com.posthog.accounts_table_query#CustomBotMatcher",
           "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "name": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Reported by `$virt_bot_name` and `$virt_bot_operator` when the rule matches.",
             "smithy.api#required": {}
           }
         },
@@ -1260,6 +1360,54 @@
           "traits": {
             "smithy.api#enumValue": "$current_url"
           }
+        },
+        "BROWSER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "$browser"
+          }
+        },
+        "OS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "$os"
+          }
+        },
+        "BROWSER_LANGUAGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "$browser_language"
+          }
+        },
+        "SCREEN_WIDTH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "$screen_width"
+          }
+        },
+        "SCREEN_HEIGHT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "$screen_height"
+          }
+        },
+        "GEOIP_COUNTRY_CODE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "$geoip_country_code"
+          }
+        },
+        "REFERRER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "$referrer"
+          }
+        },
+        "REFERRING_DOMAIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "$referring_domain"
+          }
         }
       },
       "traits": {}
@@ -1279,6 +1427,12 @@
             "smithy.api#enumValue": "regex"
           }
         },
+        "EXACT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "exact"
+          }
+        },
         "CIDR": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -1288,10 +1442,17 @@
       },
       "traits": {}
     },
+    "com.posthog.accounts_table_query#CustomBotRuleItemsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.accounts_table_query#CustomBotCondition"
+      },
+      "traits": {}
+    },
     "com.posthog.accounts_table_query#HogQLQueryModifiersCustomBotDefinitionsList": {
       "type": "list",
       "member": {
-        "target": "com.posthog.accounts_table_query#CustomBotDefinition"
+        "target": "com.posthog.accounts_table_query#CustomBotRule"
       },
       "traits": {}
     },
@@ -1309,24 +1470,6 @@
         },
         "items": {
           "target": "com.posthog.accounts_table_query#CustomChannelRuleItemsList"
-        }
-      },
-      "traits": {}
-    },
-    "com.posthog.accounts_table_query#FilterLogicalOperator": {
-      "type": "enum",
-      "members": {
-        "AND": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "AND"
-          }
-        },
-        "OR": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "OR"
-          }
         }
       },
       "traits": {}
@@ -1919,13 +2062,35 @@
     "com.posthog.accounts_table_query#AccountsTableQueryResponseMetricsResultsList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#Double"
+        "target": "smithy.api#Double",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
     "com.posthog.accounts_table_query#QueryStatus": {
       "type": "structure",
       "members": {
+        "budget_remaining_bytes": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "bytes_read": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "cache_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Cache key of the run that failed, so clients can ask for its query scan.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
         "complete": {
           "target": "smithy.api#Boolean",
           "traits": {
@@ -2006,6 +2171,12 @@
             "com.distilled.openapi#nullable": {}
           }
         },
+        "query_scan": {
+          "target": "com.posthog.accounts_table_query#QueryScanSummary",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
         "results": {
           "target": "smithy.api#Document"
         },
@@ -2055,6 +2226,211 @@
         }
       },
       "traits": {}
+    },
+    "com.posthog.accounts_table_query#QueryScanSummary": {
+      "type": "structure",
+      "members": {
+        "analysis": {
+          "target": "com.posthog.accounts_table_query#QueryScanAnalysis",
+          "traits": {
+            "smithy.api#documentation": "The stored analysis, put on the response when it is served. Absent while the analysis runs, and when none was requested.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "analysis_requested": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "True when the run asked for an analysis, or found one stored. While `analysis` is absent, poll `GET /query/scan/{cache_key}` for it.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "duration_ms": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "ClickHouse time for the last fresh run, summed over its ClickHouse queries.",
+            "smithy.api#required": {}
+          }
+        },
+        "killed": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "True when ClickHouse stopped the run instead of finishing it.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "rows_read": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Rows ClickHouse read for the last fresh run, all tables included.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.accounts_table_query#QueryScanAnalysis": {
+      "type": "structure",
+      "members": {
+        "assistant_prompt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The message the Fix with AI button sends to the assistant. Absent when no finding can be fixed in the query.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "findings": {
+          "target": "com.posthog.accounts_table_query#QueryScanAnalysisFindingsList",
+          "traits": {
+            "smithy.api#documentation": "Every finding, fixable or not. Empty when the analysis found none.",
+            "smithy.api#required": {}
+          }
+        },
+        "project_share": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "How much of all the project's events the query read, 0 to 1.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "range_share": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "How much of the project's events in the query's date range the query read, 0 to 1.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.accounts_table_query#QueryScanWarning": {
+      "type": "structure",
+      "members": {
+        "actionable": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the person can change the query so it reads less and still answers the same question. Surfaces show the full advice and \"Fix with AI\" only when a finding is actionable.",
+            "smithy.api#required": {}
+          }
+        },
+        "by_design": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "True when the query reads this much on purpose, so reading less would change the answer. Absent means no.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "cause": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A label for what in the query text kept the read wide, such as `in_or`. Only analytics and the assistant read it, and the labels can change.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "evidence": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The one fact the finding rests on.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "fix": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "What \"Fix with AI\" and the assistant are told to do.",
+            "smithy.api#required": {}
+          }
+        },
+        "fix_location": {
+          "target": "com.posthog.accounts_table_query#QueryScanFixLocation",
+          "traits": {
+            "smithy.api#documentation": "Where the change goes. Absent means the query itself.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "kind": {
+          "target": "com.posthog.accounts_table_query#QueryScanFindingKind",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Shown to the person: what happened and what to do.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.accounts_table_query#QueryScanFixLocation": {
+      "type": "enum",
+      "members": {
+        "QUERY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "query"
+          }
+        },
+        "SUBQUERY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "subquery"
+          }
+        },
+        "VIEW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "view"
+          }
+        },
+        "INSIGHT_DATE_RANGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "insight_date_range"
+          }
+        },
+        "DASHBOARD_DATE_FILTER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "dashboard_date_filter"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.accounts_table_query#QueryScanFindingKind": {
+      "type": "enum",
+      "members": {
+        "NO_EVENT_FILTER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "no_event_filter"
+          }
+        },
+        "NO_START_DATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "no_start_date"
+          }
+        },
+        "PERSONS_JOIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "persons_join"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.accounts_table_query#QueryScanAnalysisFindingsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.accounts_table_query#QueryScanWarning"
+      },
+      "traits": {
+        "smithy.api#documentation": "Every finding, fixable or not. Empty when the analysis found none."
+      }
     },
     "com.posthog.accounts_table_query#ResolvedDateRangeResponse": {
       "type": "structure",
@@ -2147,7 +2523,10 @@
         "target": "smithy.api#String"
       },
       "value": {
-        "target": "smithy.api#String"
+        "target": "smithy.api#String",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {
         "smithy.api#documentation": "Requested direct Account fields, keyed by their typed field reference."
@@ -2174,7 +2553,10 @@
         "target": "smithy.api#String"
       },
       "value": {
-        "target": "com.posthog.accounts_table_query#AccountsTableRowCustomPropertiesValue"
+        "target": "com.posthog.accounts_table_query#AccountsTableRowCustomPropertiesValue",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {
         "smithy.api#documentation": "Current values keyed by requested custom property definition ID."
@@ -2484,6 +2866,13 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "Name of the query, preferably unique. For example web_analytics_vitals",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "presetId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Short id of the saved Web analytics filter preset this query was run under, if any.",
             "com.distilled.openapi#nullable": {}
           }
         },

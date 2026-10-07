@@ -29,9 +29,7 @@ export class UnprocessableEntity
 export interface GetActionsRunRequest {}
 export const GetActionsRunRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/actions/run", code: 200 })),
-).annotate({
-  identifier: "GetActionsRunRequest",
-}) as any as S.Schema<GetActionsRunRequest>;
+).annotate({ identifier: "GetActionsRunRequest" }) as any as S.Schema<GetActionsRunRequest>;
 
 /** ExternalTracker represents settings for external tracker */
 export interface ExternalTracker {
@@ -51,9 +49,7 @@ export const ExternalTracker = /*@__PURE__*/ S.suspend(() =>
     external_tracker_style: S.optional(S.String),
     external_tracker_url: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ExternalTracker",
-}) as any as S.Schema<ExternalTracker>;
+).annotate({ identifier: "ExternalTracker" }) as any as S.Schema<ExternalTracker>;
 
 /** ExternalWiki represents setting for external wiki */
 export interface ExternalWiki {
@@ -81,9 +77,7 @@ export const InternalTracker = /*@__PURE__*/ S.suspend(() =>
     enable_issue_dependencies: S.optional(S.Boolean),
     enable_time_tracker: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "InternalTracker",
-}) as any as S.Schema<InternalTracker>;
+).annotate({ identifier: "InternalTracker" }) as any as S.Schema<InternalTracker>;
 
 /** ObjectFormatName of the underlying git repository */
 export type RepositoryObjectFormatName = "sha1" | "sha256";
@@ -509,9 +503,7 @@ export const GitignoreTemplateInfo = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     source: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GitignoreTemplateInfo",
-}) as any as S.Schema<GitignoreTemplateInfo>;
+).annotate({ identifier: "GitignoreTemplateInfo" }) as any as S.Schema<GitignoreTemplateInfo>;
 
 export interface GetLabelTemplateInfoRequest {
   /** name of the template */
@@ -581,16 +573,12 @@ export const LicenseTemplateInfo = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     url: S.optional(S.String),
   }),
-).annotate({
-  identifier: "LicenseTemplateInfo",
-}) as any as S.Schema<LicenseTemplateInfo>;
+).annotate({ identifier: "LicenseTemplateInfo" }) as any as S.Schema<LicenseTemplateInfo>;
 
 export interface GetNodeInfoRequest {}
 export const GetNodeInfoRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/nodeinfo", code: 200 })),
-).annotate({
-  identifier: "GetNodeInfoRequest",
-}) as any as S.Schema<GetNodeInfoRequest>;
+).annotate({ identifier: "GetNodeInfoRequest" }) as any as S.Schema<GetNodeInfoRequest>;
 
 export type NodeInfoProtocolsList = Array<string>;
 export const NodeInfoProtocolsList = /*@__PURE__*/ S.Array(
@@ -617,9 +605,7 @@ export const NodeInfoServices = /*@__PURE__*/ S.suspend(() =>
     inbound: S.optional(NodeInfoServicesInboundList),
     outbound: S.optional(NodeInfoServicesOutboundList),
   }),
-).annotate({
-  identifier: "NodeInfoServices",
-}) as any as S.Schema<NodeInfoServices>;
+).annotate({ identifier: "NodeInfoServices" }) as any as S.Schema<NodeInfoServices>;
 
 /** NodeInfoSoftware contains Metadata about server software in use */
 export interface NodeInfoSoftware {
@@ -635,9 +621,7 @@ export const NodeInfoSoftware = /*@__PURE__*/ S.suspend(() =>
     repository: S.optional(S.String),
     version: S.optional(S.String),
   }),
-).annotate({
-  identifier: "NodeInfoSoftware",
-}) as any as S.Schema<NodeInfoSoftware>;
+).annotate({ identifier: "NodeInfoSoftware" }) as any as S.Schema<NodeInfoSoftware>;
 
 /** NodeInfoUsageUsers contains statistics about the users of this server */
 export interface NodeInfoUsageUsers {
@@ -651,9 +635,7 @@ export const NodeInfoUsageUsers = /*@__PURE__*/ S.suspend(() =>
     activeMonth: S.optional(S.Number),
     total: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "NodeInfoUsageUsers",
-}) as any as S.Schema<NodeInfoUsageUsers>;
+).annotate({ identifier: "NodeInfoUsageUsers" }) as any as S.Schema<NodeInfoUsageUsers>;
 
 /** NodeInfoUsage contains usage statistics for this server */
 export interface NodeInfoUsage {
@@ -694,37 +676,27 @@ export const NodeInfo = /*@__PURE__*/ S.suspend(() =>
 export interface GetSigningKeyRequest {}
 export const GetSigningKeyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/signing-key.gpg", code: 200 })),
-).annotate({
-  identifier: "GetSigningKeyRequest",
-}) as any as S.Schema<GetSigningKeyRequest>;
+).annotate({ identifier: "GetSigningKeyRequest" }) as any as S.Schema<GetSigningKeyRequest>;
 
 export type GetSigningKeyResponse = string;
 export const GetSigningKeyResponse = /*@__PURE__*/ S.suspend(() =>
   S.String.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "GetSigningKeyResponse",
-}) as any as S.Schema<GetSigningKeyResponse>;
+).annotate({ identifier: "GetSigningKeyResponse" }) as any as S.Schema<GetSigningKeyResponse>;
 
 export interface GetSSHSigningKeyRequest {}
 export const GetSSHSigningKeyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/signing-key.ssh", code: 200 })),
-).annotate({
-  identifier: "GetSSHSigningKeyRequest",
-}) as any as S.Schema<GetSSHSigningKeyRequest>;
+).annotate({ identifier: "GetSSHSigningKeyRequest" }) as any as S.Schema<GetSSHSigningKeyRequest>;
 
 export type GetSSHSigningKeyResponse = string;
 export const GetSSHSigningKeyResponse = /*@__PURE__*/ S.suspend(() =>
   S.String.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "GetSSHSigningKeyResponse",
-}) as any as S.Schema<GetSSHSigningKeyResponse>;
+).annotate({ identifier: "GetSSHSigningKeyResponse" }) as any as S.Schema<GetSSHSigningKeyResponse>;
 
 export interface GetVersionRequest {}
 export const GetVersionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/version", code: 200 })),
-).annotate({
-  identifier: "GetVersionRequest",
-}) as any as S.Schema<GetVersionRequest>;
+).annotate({ identifier: "GetVersionRequest" }) as any as S.Schema<GetVersionRequest>;
 
 /** ServerVersion wraps the version of the server */
 export interface ServerVersion {
@@ -826,16 +798,12 @@ export const RenderMarkdownRequest = /*@__PURE__*/ S.suspend(() =>
     Text: S.optional(S.String),
     Wiki: S.optional(S.Boolean),
   }).pipe(T.Http({ method: "POST", uri: "/markdown", code: 200 })),
-).annotate({
-  identifier: "RenderMarkdownRequest",
-}) as any as S.Schema<RenderMarkdownRequest>;
+).annotate({ identifier: "RenderMarkdownRequest" }) as any as S.Schema<RenderMarkdownRequest>;
 
 export type RenderMarkdownResponse = string;
 export const RenderMarkdownResponse = /*@__PURE__*/ S.suspend(() =>
   S.String.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "RenderMarkdownResponse",
-}) as any as S.Schema<RenderMarkdownResponse>;
+).annotate({ identifier: "RenderMarkdownResponse" }) as any as S.Schema<RenderMarkdownResponse>;
 
 export interface RenderMarkdownRawRequest {
   body: string;
@@ -844,9 +812,7 @@ export const RenderMarkdownRawRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     body: S.String.pipe(T.HttpBody()),
   }).pipe(T.Http({ method: "POST", uri: "/markdown/raw", code: 200 })),
-).annotate({
-  identifier: "RenderMarkdownRawRequest",
-}) as any as S.Schema<RenderMarkdownRawRequest>;
+).annotate({ identifier: "RenderMarkdownRawRequest" }) as any as S.Schema<RenderMarkdownRawRequest>;
 
 export type RenderMarkdownRawResponse = string;
 export const RenderMarkdownRawResponse = /*@__PURE__*/ S.suspend(() =>
@@ -878,16 +844,12 @@ export const RenderMarkupRequest = /*@__PURE__*/ S.suspend(() =>
     Text: S.optional(S.String),
     Wiki: S.optional(S.Boolean),
   }).pipe(T.Http({ method: "POST", uri: "/markup", code: 200 })),
-).annotate({
-  identifier: "RenderMarkupRequest",
-}) as any as S.Schema<RenderMarkupRequest>;
+).annotate({ identifier: "RenderMarkupRequest" }) as any as S.Schema<RenderMarkupRequest>;
 
 export type RenderMarkupResponse = string;
 export const RenderMarkupResponse = /*@__PURE__*/ S.suspend(() =>
   S.String.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "RenderMarkupResponse",
-}) as any as S.Schema<RenderMarkupResponse>;
+).annotate({ identifier: "RenderMarkupResponse" }) as any as S.Schema<RenderMarkupResponse>;
 
 export type GetActionsRunError = ForgejoOpError;
 /** Get a workflow run associated with a token The automatic actions token must be used as the authentication mechanism (<code>Authorization: Bearer $&#x7b;&#x7b; forgejo.token &#x7d;&#x7d;</code>); other types of tokens cannot be used. The token is associated with the job, which must be still running for the request to this endpoint to succeed. */

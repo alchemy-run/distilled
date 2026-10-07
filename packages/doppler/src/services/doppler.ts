@@ -54,9 +54,7 @@ export const ActivityLogsListRequest = /*@__PURE__*/ S.suspend(() =>
     page: S.optional(S.String.pipe(T.Query())),
     per_page: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/v3/logs", code: 200 })),
-).annotate({
-  identifier: "ActivityLogsListRequest",
-}) as any as S.Schema<ActivityLogsListRequest>;
+).annotate({ identifier: "ActivityLogsListRequest" }) as any as S.Schema<ActivityLogsListRequest>;
 
 export interface ActivityLogsListResponseLogsItemUser {
   email?: string;
@@ -112,9 +110,7 @@ export const ActivityLogsListResponse = /*@__PURE__*/ S.suspend(() =>
     page: S.optional(S.Number),
     logs: S.optional(ActivityLogsListResponseLogsList),
   }),
-).annotate({
-  identifier: "ActivityLogsListResponse",
-}) as any as S.Schema<ActivityLogsListResponse>;
+).annotate({ identifier: "ActivityLogsListResponse" }) as any as S.Schema<ActivityLogsListResponse>;
 
 export interface ActivityLogsRetrieveRequest {
   /** Unique identifier for the log object. */
@@ -199,16 +195,12 @@ export const AddWebhookRequest = /*@__PURE__*/ S.suspend(() =>
     enableConfigs: S.optional(AddWebhookRequestEnableConfigsList),
     name: S.optional(S.String),
   }).pipe(T.Http({ method: "POST", uri: "/v3/webhooks", code: 200 })),
-).annotate({
-  identifier: "AddWebhookRequest",
-}) as any as S.Schema<AddWebhookRequest>;
+).annotate({ identifier: "AddWebhookRequest" }) as any as S.Schema<AddWebhookRequest>;
 
 export type AddWebhookResponse = unknown;
 export const AddWebhookResponse = /*@__PURE__*/ S.suspend(() =>
   S.Unknown.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "AddWebhookResponse",
-}) as any as S.Schema<AddWebhookResponse>;
+).annotate({ identifier: "AddWebhookResponse" }) as any as S.Schema<AddWebhookResponse>;
 
 export interface AuditGetUserRequest {
   /** The ID of the workplace user */
@@ -220,16 +212,8 @@ export const AuditGetUserRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     workplace_user_id: S.String.pipe(T.Label()),
     settings: S.optional(S.Boolean.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v3/workplace/users/{workplace_user_id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "AuditGetUserRequest",
-}) as any as S.Schema<AuditGetUserRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/v3/workplace/users/{workplace_user_id}", code: 200 })),
+).annotate({ identifier: "AuditGetUserRequest" }) as any as S.Schema<AuditGetUserRequest>;
 
 export interface AuditGetUserResponseWorkplaceUserUser {
   email?: string;
@@ -280,9 +264,7 @@ export const AuditGetUserResponse = /*@__PURE__*/ S.suspend(() =>
     workplace_user: S.optional(AuditGetUserResponseWorkplaceUser),
     success: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "AuditGetUserResponse",
-}) as any as S.Schema<AuditGetUserResponse>;
+).annotate({ identifier: "AuditGetUserResponse" }) as any as S.Schema<AuditGetUserResponse>;
 
 export interface AuthMeRequest {}
 export const AuthMeRequest = /*@__PURE__*/ S.suspend(() =>
@@ -298,9 +280,7 @@ export const AuthMeResponseWorkplace = /*@__PURE__*/ S.suspend(() =>
     slug: S.optional(S.String),
     name: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AuthMeResponseWorkplace",
-}) as any as S.Schema<AuthMeResponseWorkplace>;
+).annotate({ identifier: "AuthMeResponseWorkplace" }) as any as S.Schema<AuthMeResponseWorkplace>;
 
 export interface AuthMeResponsePrincipal {
   type?: string;
@@ -311,9 +291,7 @@ export const AuthMeResponsePrincipal = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     slug: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AuthMeResponsePrincipal",
-}) as any as S.Schema<AuthMeResponsePrincipal>;
+).annotate({ identifier: "AuthMeResponsePrincipal" }) as any as S.Schema<AuthMeResponsePrincipal>;
 
 export interface AuthMeResponse {
   slug?: string;
@@ -349,9 +327,7 @@ export const AuthOidcRequest = /*@__PURE__*/ S.suspend(() =>
     token: S.String,
     identity: S.String,
   }).pipe(T.Http({ method: "POST", uri: "/v3/auth/oidc", code: 200 })),
-).annotate({
-  identifier: "AuthOidcRequest",
-}) as any as S.Schema<AuthOidcRequest>;
+).annotate({ identifier: "AuthOidcRequest" }) as any as S.Schema<AuthOidcRequest>;
 
 export interface AuthOidcResponse {
   token: string | Redacted.Redacted<string>;
@@ -362,9 +338,7 @@ export const AuthOidcResponse = /*@__PURE__*/ S.suspend(() =>
     token: S.String.pipe(T.SensitiveValue({})),
     expires_at: S.String,
   }),
-).annotate({
-  identifier: "AuthOidcResponse",
-}) as any as S.Schema<AuthOidcResponse>;
+).annotate({ identifier: "AuthOidcResponse" }) as any as S.Schema<AuthOidcResponse>;
 
 export interface AuthorizeCliAuthRequest {
   code: string | Redacted.Redacted<string>;
@@ -373,9 +347,7 @@ export const AuthorizeCliAuthRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     code: S.String.pipe(T.SensitiveValue({})),
   }).pipe(T.Http({ method: "POST", uri: "/v3/auth/cli/authorize", code: 200 })),
-).annotate({
-  identifier: "AuthorizeCliAuthRequest",
-}) as any as S.Schema<AuthorizeCliAuthRequest>;
+).annotate({ identifier: "AuthorizeCliAuthRequest" }) as any as S.Schema<AuthorizeCliAuthRequest>;
 
 export interface AuthorizeCliAuthResponse {
   token: string | Redacted.Redacted<string>;
@@ -388,9 +360,7 @@ export const AuthorizeCliAuthResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     dashboard_url: S.String,
   }),
-).annotate({
-  identifier: "AuthorizeCliAuthResponse",
-}) as any as S.Schema<AuthorizeCliAuthResponse>;
+).annotate({ identifier: "AuthorizeCliAuthResponse" }) as any as S.Schema<AuthorizeCliAuthResponse>;
 
 export interface CloneConfigRequest {
   /** Unique identifier for the project object. */
@@ -406,9 +376,7 @@ export const CloneConfigRequest = /*@__PURE__*/ S.suspend(() =>
     config: S.String,
     name: S.String,
   }).pipe(T.Http({ method: "POST", uri: "/v3/configs/config/clone", code: 200 })),
-).annotate({
-  identifier: "CloneConfigRequest",
-}) as any as S.Schema<CloneConfigRequest>;
+).annotate({ identifier: "CloneConfigRequest" }) as any as S.Schema<CloneConfigRequest>;
 
 export interface CloneConfigResponseConfig {
   name?: string;
@@ -442,9 +410,7 @@ export const CloneConfigResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     config: S.optional(CloneConfigResponseConfig),
   }),
-).annotate({
-  identifier: "CloneConfigResponse",
-}) as any as S.Schema<CloneConfigResponse>;
+).annotate({ identifier: "CloneConfigResponse" }) as any as S.Schema<CloneConfigResponse>;
 
 export interface ConfigLogsGetRequest {
   /** Unique identifier for the project object. */
@@ -460,9 +426,7 @@ export const ConfigLogsGetRequest = /*@__PURE__*/ S.suspend(() =>
     config: S.String.pipe(T.Query()),
     log: S.String.pipe(T.Query()),
   }).pipe(T.Http({ method: "GET", uri: "/v3/configs/config/logs/log", code: 200 })),
-).annotate({
-  identifier: "ConfigLogsGetRequest",
-}) as any as S.Schema<ConfigLogsGetRequest>;
+).annotate({ identifier: "ConfigLogsGetRequest" }) as any as S.Schema<ConfigLogsGetRequest>;
 
 export interface ConfigLogsGetResponseLogDiffItem {
   name?: string;
@@ -524,9 +488,7 @@ export const ConfigLogsGetResponseLog = /*@__PURE__*/ S.suspend(() =>
     project: S.optional(S.String),
     user: S.optional(ConfigLogsGetResponseLogUser),
   }),
-).annotate({
-  identifier: "ConfigLogsGetResponseLog",
-}) as any as S.Schema<ConfigLogsGetResponseLog>;
+).annotate({ identifier: "ConfigLogsGetResponseLog" }) as any as S.Schema<ConfigLogsGetResponseLog>;
 
 export interface ConfigLogsGetResponse {
   log?: ConfigLogsGetResponseLog;
@@ -535,9 +497,7 @@ export const ConfigLogsGetResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     log: S.optional(ConfigLogsGetResponseLog),
   }),
-).annotate({
-  identifier: "ConfigLogsGetResponse",
-}) as any as S.Schema<ConfigLogsGetResponse>;
+).annotate({ identifier: "ConfigLogsGetResponse" }) as any as S.Schema<ConfigLogsGetResponse>;
 
 export interface ConfigLogsListRequest {
   /** Unique identifier for the project object. */
@@ -556,9 +516,7 @@ export const ConfigLogsListRequest = /*@__PURE__*/ S.suspend(() =>
     page: S.optional(S.Number.pipe(T.Query())),
     per_page: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/v3/configs/config/logs", code: 200 })),
-).annotate({
-  identifier: "ConfigLogsListRequest",
-}) as any as S.Schema<ConfigLogsListRequest>;
+).annotate({ identifier: "ConfigLogsListRequest" }) as any as S.Schema<ConfigLogsListRequest>;
 
 export type ConfigLogsListResponseLogsItemUser = ConfigLogsGetResponseLogUser;
 export const ConfigLogsListResponseLogsItemUser = ConfigLogsGetResponseLogUser;
@@ -604,9 +562,7 @@ export const ConfigLogsListResponse = /*@__PURE__*/ S.suspend(() =>
     page: S.optional(S.Number),
     logs: S.optional(ConfigLogsListResponseLogsList),
   }),
-).annotate({
-  identifier: "ConfigLogsListResponse",
-}) as any as S.Schema<ConfigLogsListResponse>;
+).annotate({ identifier: "ConfigLogsListResponse" }) as any as S.Schema<ConfigLogsListResponse>;
 
 export interface ConfigLogsRollbackRequest {
   /** Unique identifier for the project object. */
@@ -621,13 +577,7 @@ export const ConfigLogsRollbackRequest = /*@__PURE__*/ S.suspend(() =>
     project: S.String.pipe(T.Query()),
     config: S.String.pipe(T.Query()),
     log: S.String.pipe(T.Query()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v3/configs/config/logs/log/rollback",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/v3/configs/config/logs/log/rollback", code: 200 })),
 ).annotate({
   identifier: "ConfigLogsRollbackRequest",
 }) as any as S.Schema<ConfigLogsRollbackRequest>;
@@ -704,13 +654,7 @@ export const ConfigsAddTrustedIpRequest = /*@__PURE__*/ S.suspend(() =>
     project: S.String.pipe(T.Query()),
     config: S.String.pipe(T.Query()),
     ip: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v3/configs/config/trusted_ips",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/v3/configs/config/trusted_ips", code: 200 })),
 ).annotate({
   identifier: "ConfigsAddTrustedIpRequest",
 }) as any as S.Schema<ConfigsAddTrustedIpRequest>;
@@ -737,13 +681,7 @@ export const ConfigsDeleteTrustedIpRequest = /*@__PURE__*/ S.suspend(() =>
     project: S.String.pipe(T.Query()),
     config: S.String.pipe(T.Query()),
     ip: S.String,
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/v3/configs/config/trusted_ips",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/v3/configs/config/trusted_ips", code: 200 })),
 ).annotate({
   identifier: "ConfigsDeleteTrustedIpRequest",
 }) as any as S.Schema<ConfigsDeleteTrustedIpRequest>;
@@ -766,13 +704,7 @@ export const ConfigsInheritableRequest = /*@__PURE__*/ S.suspend(() =>
     project: S.String,
     config: S.String,
     inheritable: S.Boolean,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v3/configs/config/inheritable",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/v3/configs/config/inheritable", code: 200 })),
 ).annotate({
   identifier: "ConfigsInheritableRequest",
 }) as any as S.Schema<ConfigsInheritableRequest>;
@@ -870,9 +802,7 @@ export const ConfigsInheritsRequest = /*@__PURE__*/ S.suspend(() =>
     config: S.String,
     inherits: ConfigsInheritsRequestInheritsList,
   }).pipe(T.Http({ method: "POST", uri: "/v3/configs/config/inherits", code: 200 })),
-).annotate({
-  identifier: "ConfigsInheritsRequest",
-}) as any as S.Schema<ConfigsInheritsRequest>;
+).annotate({ identifier: "ConfigsInheritsRequest" }) as any as S.Schema<ConfigsInheritsRequest>;
 
 export interface ConfigsInheritsResponseConfigInheritsItem {
   project?: string;
@@ -942,9 +872,7 @@ export const ConfigsInheritsResponse = /*@__PURE__*/ S.suspend(() =>
     config: S.optional(ConfigsInheritsResponseConfig),
     success: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "ConfigsInheritsResponse",
-}) as any as S.Schema<ConfigsInheritsResponse>;
+).annotate({ identifier: "ConfigsInheritsResponse" }) as any as S.Schema<ConfigsInheritsResponse>;
 
 export interface ConfigsListTrustedIpsRequest {
   project: string;
@@ -1064,13 +992,7 @@ export const CreateChangeRequestPolicyRequest = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(S.String),
     rules: CreateChangeRequestPolicyRequestRulesList,
     targets: CreateChangeRequestPolicyRequestTargets,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v3/workplace/change_request_policies",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/v3/workplace/change_request_policies", code: 200 })),
 ).annotate({
   identifier: "CreateChangeRequestPolicyRequest",
 }) as any as S.Schema<CreateChangeRequestPolicyRequest>;
@@ -1139,9 +1061,7 @@ export const CreateConfigRequest = /*@__PURE__*/ S.suspend(() =>
     environment: S.String,
     name: S.String,
   }).pipe(T.Http({ method: "POST", uri: "/v3/configs", code: 200 })),
-).annotate({
-  identifier: "CreateConfigRequest",
-}) as any as S.Schema<CreateConfigRequest>;
+).annotate({ identifier: "CreateConfigRequest" }) as any as S.Schema<CreateConfigRequest>;
 
 export type CreateConfigResponseConfig = CloneConfigResponseConfig;
 export const CreateConfigResponseConfig = CloneConfigResponseConfig;
@@ -1153,9 +1073,7 @@ export const CreateConfigResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     config: S.optional(CloneConfigResponseConfig),
   }),
-).annotate({
-  identifier: "CreateConfigResponse",
-}) as any as S.Schema<CreateConfigResponse>;
+).annotate({ identifier: "CreateConfigResponse" }) as any as S.Schema<CreateConfigResponse>;
 
 export interface CreateEnvironmentRequest {
   /** The project's name */
@@ -1172,9 +1090,7 @@ export const CreateEnvironmentRequest = /*@__PURE__*/ S.suspend(() =>
     slug: S.String,
     personal_configs: S.optional(S.Boolean),
   }).pipe(T.Http({ method: "POST", uri: "/v3/environments", code: 200 })),
-).annotate({
-  identifier: "CreateEnvironmentRequest",
-}) as any as S.Schema<CreateEnvironmentRequest>;
+).annotate({ identifier: "CreateEnvironmentRequest" }) as any as S.Schema<CreateEnvironmentRequest>;
 
 export interface CreateEnvironmentResponseEnvironment {
   id?: string;
@@ -1216,9 +1132,7 @@ export const CreateGroupRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     default_project_role: S.optional(S.String),
   }).pipe(T.Http({ method: "POST", uri: "/v3/workplace/groups", code: 200 })),
-).annotate({
-  identifier: "CreateGroupRequest",
-}) as any as S.Schema<CreateGroupRequest>;
+).annotate({ identifier: "CreateGroupRequest" }) as any as S.Schema<CreateGroupRequest>;
 
 export interface CreateGroupResponseGroupDefaultProjectRole {
   identifier?: string;
@@ -1279,9 +1193,7 @@ export const CreateGroupResponseGroup = /*@__PURE__*/ S.suspend(() =>
     projects: S.optional(CreateGroupResponseGroupProjectsList),
     members: S.optional(CreateGroupResponseGroupMembersList),
   }),
-).annotate({
-  identifier: "CreateGroupResponseGroup",
-}) as any as S.Schema<CreateGroupResponseGroup>;
+).annotate({ identifier: "CreateGroupResponseGroup" }) as any as S.Schema<CreateGroupResponseGroup>;
 
 export interface CreateGroupResponse {
   group?: CreateGroupResponseGroup;
@@ -1290,9 +1202,7 @@ export const CreateGroupResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     group: S.optional(CreateGroupResponseGroup),
   }),
-).annotate({
-  identifier: "CreateGroupResponse",
-}) as any as S.Schema<CreateGroupResponse>;
+).annotate({ identifier: "CreateGroupResponse" }) as any as S.Schema<CreateGroupResponse>;
 
 export interface CreateIntegrationRequest {
   /** The integration type */
@@ -1308,9 +1218,7 @@ export const CreateIntegrationRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     data: S.optional(S.Unknown),
   }).pipe(T.Http({ method: "POST", uri: "/v3/integrations", code: 200 })),
-).annotate({
-  identifier: "CreateIntegrationRequest",
-}) as any as S.Schema<CreateIntegrationRequest>;
+).annotate({ identifier: "CreateIntegrationRequest" }) as any as S.Schema<CreateIntegrationRequest>;
 
 export interface CreateIntegrationResponseIntegrationFederationCase0 {
   kind: string;
@@ -1402,13 +1310,7 @@ export const CreateIntegrationsIntegrationMemberRequest = /*@__PURE__*/ S.suspen
     type: CreateIntegrationsIntegrationMemberRequestType,
     slug: S.String,
     role: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v3/integrations/integration/members",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/v3/integrations/integration/members", code: 200 })),
 ).annotate({
   identifier: "CreateIntegrationsIntegrationMemberRequest",
 }) as any as S.Schema<CreateIntegrationsIntegrationMemberRequest>;
@@ -1462,9 +1364,7 @@ export const CreateProjectRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     description: S.optional(S.String),
   }).pipe(T.Http({ method: "POST", uri: "/v3/projects", code: 200 })),
-).annotate({
-  identifier: "CreateProjectRequest",
-}) as any as S.Schema<CreateProjectRequest>;
+).annotate({ identifier: "CreateProjectRequest" }) as any as S.Schema<CreateProjectRequest>;
 
 export interface CreateProjectResponseProject {
   id?: string;
@@ -1490,9 +1390,7 @@ export const CreateProjectResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project: S.optional(CreateProjectResponseProject),
   }),
-).annotate({
-  identifier: "CreateProjectResponse",
-}) as any as S.Schema<CreateProjectResponse>;
+).annotate({ identifier: "CreateProjectResponse" }) as any as S.Schema<CreateProjectResponse>;
 
 /** An option indicating if and how Doppler should attempt to import secrets from the sync destination */
 export type CreateSyncRequestImportOption = "none" | "prefer_doppler" | "prefer_integration";
@@ -1521,9 +1419,7 @@ export const CreateSyncRequest = /*@__PURE__*/ S.suspend(() =>
     import_option: S.optional(CreateSyncRequestImportOption),
     await_initial_sync: S.optional(S.Boolean),
   }).pipe(T.Http({ method: "POST", uri: "/v3/configs/config/syncs", code: 200 })),
-).annotate({
-  identifier: "CreateSyncRequest",
-}) as any as S.Schema<CreateSyncRequest>;
+).annotate({ identifier: "CreateSyncRequest" }) as any as S.Schema<CreateSyncRequest>;
 
 export interface CreateSyncResponseSync {
   slug?: string;
@@ -1542,9 +1438,7 @@ export const CreateSyncResponseSync = /*@__PURE__*/ S.suspend(() =>
     enabled: S.optional(S.Boolean),
     lastSyncedAt: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CreateSyncResponseSync",
-}) as any as S.Schema<CreateSyncResponseSync>;
+).annotate({ identifier: "CreateSyncResponseSync" }) as any as S.Schema<CreateSyncResponseSync>;
 
 export interface CreateSyncResponse {
   sync?: CreateSyncResponseSync;
@@ -1553,9 +1447,7 @@ export const CreateSyncResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     sync: S.optional(CreateSyncResponseSync),
   }),
-).annotate({
-  identifier: "CreateSyncResponse",
-}) as any as S.Schema<CreateSyncResponse>;
+).annotate({ identifier: "CreateSyncResponse" }) as any as S.Schema<CreateSyncResponse>;
 
 export interface DeleteChangeRequestPolicyRequest {
   /** The unique identifier of the policy. */
@@ -1597,9 +1489,7 @@ export const DeleteConfigRequest = /*@__PURE__*/ S.suspend(() =>
     project: S.String.pipe(T.Query()),
     config: S.String.pipe(T.Query()),
   }).pipe(T.Http({ method: "DELETE", uri: "/v3/configs/config", code: 200 })),
-).annotate({
-  identifier: "DeleteConfigRequest",
-}) as any as S.Schema<DeleteConfigRequest>;
+).annotate({ identifier: "DeleteConfigRequest" }) as any as S.Schema<DeleteConfigRequest>;
 
 export interface DeleteConfigResponse {
   success?: boolean;
@@ -1608,9 +1498,7 @@ export const DeleteConfigResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     success: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "DeleteConfigResponse",
-}) as any as S.Schema<DeleteConfigResponse>;
+).annotate({ identifier: "DeleteConfigResponse" }) as any as S.Schema<DeleteConfigResponse>;
 
 export interface DeleteEnvironmentRequest {
   /** The project's name */
@@ -1622,16 +1510,8 @@ export const DeleteEnvironmentRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project: S.String.pipe(T.Query()),
     environment: S.String.pipe(T.Query()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/v3/environments/environment",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "DeleteEnvironmentRequest",
-}) as any as S.Schema<DeleteEnvironmentRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/v3/environments/environment", code: 200 })),
+).annotate({ identifier: "DeleteEnvironmentRequest" }) as any as S.Schema<DeleteEnvironmentRequest>;
 
 export interface DeleteEnvironmentResponse {}
 export const DeleteEnvironmentResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1645,16 +1525,8 @@ export interface DeleteGroupRequest {
 export const DeleteGroupRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     slug: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/v3/workplace/groups/group/{slug}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "DeleteGroupRequest",
-}) as any as S.Schema<DeleteGroupRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/v3/workplace/groups/group/{slug}", code: 200 })),
+).annotate({ identifier: "DeleteGroupRequest" }) as any as S.Schema<DeleteGroupRequest>;
 
 export interface DeleteGroupResponse {}
 export const DeleteGroupResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1668,16 +1540,8 @@ export interface DeleteIntegrationRequest {
 export const DeleteIntegrationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     integration: S.String.pipe(T.Query()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/v3/integrations/integration",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "DeleteIntegrationRequest",
-}) as any as S.Schema<DeleteIntegrationRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/v3/integrations/integration", code: 200 })),
+).annotate({ identifier: "DeleteIntegrationRequest" }) as any as S.Schema<DeleteIntegrationRequest>;
 
 export type DeleteIntegrationResponse = unknown;
 export const DeleteIntegrationResponse = /*@__PURE__*/ S.suspend(() =>
@@ -1694,9 +1558,7 @@ export const DeleteProjectRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project: S.String,
   }).pipe(T.Http({ method: "DELETE", uri: "/v3/projects/project", code: 200 })),
-).annotate({
-  identifier: "DeleteProjectRequest",
-}) as any as S.Schema<DeleteProjectRequest>;
+).annotate({ identifier: "DeleteProjectRequest" }) as any as S.Schema<DeleteProjectRequest>;
 
 export interface DeleteProjectResponse {}
 export const DeleteProjectResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1717,9 +1579,7 @@ export const DeleteSecretRequest = /*@__PURE__*/ S.suspend(() =>
     config: S.String.pipe(T.Query()),
     name: S.String.pipe(T.Query()),
   }).pipe(T.Http({ method: "DELETE", uri: "/v3/configs/config/secret", code: 200 })),
-).annotate({
-  identifier: "DeleteSecretRequest",
-}) as any as S.Schema<DeleteSecretRequest>;
+).annotate({ identifier: "DeleteSecretRequest" }) as any as S.Schema<DeleteSecretRequest>;
 
 export interface DeleteSecretResponse {}
 export const DeleteSecretResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1742,23 +1602,13 @@ export const DeleteSyncRequest = /*@__PURE__*/ S.suspend(() =>
     config: S.String.pipe(T.Query()),
     sync: S.String.pipe(T.Query()),
     delete_from_target: S.Boolean.pipe(T.Query()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/v3/configs/config/syncs/sync",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "DeleteSyncRequest",
-}) as any as S.Schema<DeleteSyncRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/v3/configs/config/syncs/sync", code: 200 })),
+).annotate({ identifier: "DeleteSyncRequest" }) as any as S.Schema<DeleteSyncRequest>;
 
 export type DeleteSyncResponse = unknown;
 export const DeleteSyncResponse = /*@__PURE__*/ S.suspend(() =>
   S.Unknown.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "DeleteSyncResponse",
-}) as any as S.Schema<DeleteSyncResponse>;
+).annotate({ identifier: "DeleteSyncResponse" }) as any as S.Schema<DeleteSyncResponse>;
 
 export interface DeleteV3workplacechangeRequestschangeRequestChangeRequestIdUnitsunitUnitIdReviewRequest {
   change_request_id: string;
@@ -1859,16 +1709,12 @@ export const DeleteWebhookRequest = /*@__PURE__*/ S.suspend(() =>
     slug: S.String.pipe(T.Label()),
     project: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "DELETE", uri: "/v3/webhooks/webhook/{slug}", code: 200 })),
-).annotate({
-  identifier: "DeleteWebhookRequest",
-}) as any as S.Schema<DeleteWebhookRequest>;
+).annotate({ identifier: "DeleteWebhookRequest" }) as any as S.Schema<DeleteWebhookRequest>;
 
 export type DeleteWebhookResponse = unknown;
 export const DeleteWebhookResponse = /*@__PURE__*/ S.suspend(() =>
   S.Unknown.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "DeleteWebhookResponse",
-}) as any as S.Schema<DeleteWebhookResponse>;
+).annotate({ identifier: "DeleteWebhookResponse" }) as any as S.Schema<DeleteWebhookResponse>;
 
 export type DeleteWorkplaceIntegrationsIntegrationMemberRequestType =
   | "workplace_user"
@@ -1917,23 +1763,13 @@ export const DisableWebhookRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     slug: S.String.pipe(T.Label()),
     project: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v3/webhooks/webhook/{slug}/disable",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "DisableWebhookRequest",
-}) as any as S.Schema<DisableWebhookRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/v3/webhooks/webhook/{slug}/disable", code: 200 })),
+).annotate({ identifier: "DisableWebhookRequest" }) as any as S.Schema<DisableWebhookRequest>;
 
 export type DisableWebhookResponse = unknown;
 export const DisableWebhookResponse = /*@__PURE__*/ S.suspend(() =>
   S.Unknown.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "DisableWebhookResponse",
-}) as any as S.Schema<DisableWebhookResponse>;
+).annotate({ identifier: "DisableWebhookResponse" }) as any as S.Schema<DisableWebhookResponse>;
 
 export type DownloadSecretRequestFormat =
   | "json"
@@ -1978,20 +1814,10 @@ export const DownloadSecretRequest = /*@__PURE__*/ S.suspend(() =>
     include_dynamic_secrets: S.optional(S.Boolean.pipe(T.Query())),
     dynamic_secrets_ttl_sec: S.optional(S.Number.pipe(T.Query())),
     secrets: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v3/configs/config/secrets/download",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "DownloadSecretRequest",
-}) as any as S.Schema<DownloadSecretRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/v3/configs/config/secrets/download", code: 200 })),
+).annotate({ identifier: "DownloadSecretRequest" }) as any as S.Schema<DownloadSecretRequest>;
 
-export type DownloadSecretResponseBodyMap = {
-  [key: string]: string | undefined;
-};
+export type DownloadSecretResponseBodyMap = { [key: string]: string | undefined };
 export const DownloadSecretResponseBodyMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2000,9 +1826,7 @@ export const DownloadSecretResponseBodyMap = /*@__PURE__*/ S.Record(
 export type DownloadSecretResponse = DownloadSecretResponseBodyMap;
 export const DownloadSecretResponse = /*@__PURE__*/ S.suspend(() =>
   DownloadSecretResponseBodyMap.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "DownloadSecretResponse",
-}) as any as S.Schema<DownloadSecretResponse>;
+).annotate({ identifier: "DownloadSecretResponse" }) as any as S.Schema<DownloadSecretResponse>;
 
 export interface DynamicSecretsIssueLeaseRequest {
   /** The project where the dynamic secret is located */
@@ -2096,23 +1920,13 @@ export const EnableWebhookRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     slug: S.String.pipe(T.Label()),
     project: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v3/webhooks/webhook/{slug}/enable",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "EnableWebhookRequest",
-}) as any as S.Schema<EnableWebhookRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/v3/webhooks/webhook/{slug}/enable", code: 200 })),
+).annotate({ identifier: "EnableWebhookRequest" }) as any as S.Schema<EnableWebhookRequest>;
 
 export type EnableWebhookResponse = unknown;
 export const EnableWebhookResponse = /*@__PURE__*/ S.suspend(() =>
   S.Unknown.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "EnableWebhookResponse",
-}) as any as S.Schema<EnableWebhookResponse>;
+).annotate({ identifier: "EnableWebhookResponse" }) as any as S.Schema<EnableWebhookResponse>;
 
 export interface GenerateCliAuthRequest {
   hostname: string;
@@ -2128,9 +1942,7 @@ export const GenerateCliAuthRequest = /*@__PURE__*/ S.suspend(() =>
     os: S.String.pipe(T.Query()),
     arch: S.String.pipe(T.Query()),
   }).pipe(T.Http({ method: "GET", uri: "/v3/auth/cli/generate/2", code: 200 })),
-).annotate({
-  identifier: "GenerateCliAuthRequest",
-}) as any as S.Schema<GenerateCliAuthRequest>;
+).annotate({ identifier: "GenerateCliAuthRequest" }) as any as S.Schema<GenerateCliAuthRequest>;
 
 export interface GenerateCliAuthResponse {
   code: string;
@@ -2143,9 +1955,7 @@ export const GenerateCliAuthResponse = /*@__PURE__*/ S.suspend(() =>
     polling_code: S.String.pipe(T.SensitiveValue({})),
     auth_url: S.String,
   }),
-).annotate({
-  identifier: "GenerateCliAuthResponse",
-}) as any as S.Schema<GenerateCliAuthResponse>;
+).annotate({ identifier: "GenerateCliAuthResponse" }) as any as S.Schema<GenerateCliAuthResponse>;
 
 export interface GetChangeRequestPolicyRequest {
   /** Unique id of the policy */
@@ -2218,9 +2028,7 @@ export const GetConfigRequest = /*@__PURE__*/ S.suspend(() =>
     project: S.String.pipe(T.Query()),
     config: S.String.pipe(T.Query()),
   }).pipe(T.Http({ method: "GET", uri: "/v3/configs/config", code: 200 })),
-).annotate({
-  identifier: "GetConfigRequest",
-}) as any as S.Schema<GetConfigRequest>;
+).annotate({ identifier: "GetConfigRequest" }) as any as S.Schema<GetConfigRequest>;
 
 export type GetConfigResponseConfig = CloneConfigResponseConfig;
 export const GetConfigResponseConfig = CloneConfigResponseConfig;
@@ -2232,9 +2040,7 @@ export const GetConfigResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     config: S.optional(CloneConfigResponseConfig),
   }),
-).annotate({
-  identifier: "GetConfigResponse",
-}) as any as S.Schema<GetConfigResponse>;
+).annotate({ identifier: "GetConfigResponse" }) as any as S.Schema<GetConfigResponse>;
 
 export interface GetEnvironmentRequest {
   /** The project's name */
@@ -2247,9 +2053,7 @@ export const GetEnvironmentRequest = /*@__PURE__*/ S.suspend(() =>
     project: S.String.pipe(T.Query()),
     environment: S.String.pipe(T.Query()),
   }).pipe(T.Http({ method: "GET", uri: "/v3/environments/environment", code: 200 })),
-).annotate({
-  identifier: "GetEnvironmentRequest",
-}) as any as S.Schema<GetEnvironmentRequest>;
+).annotate({ identifier: "GetEnvironmentRequest" }) as any as S.Schema<GetEnvironmentRequest>;
 
 export type GetEnvironmentResponseEnvironment = CreateEnvironmentResponseEnvironment;
 export const GetEnvironmentResponseEnvironment = CreateEnvironmentResponseEnvironment;
@@ -2261,9 +2065,7 @@ export const GetEnvironmentResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     environment: S.optional(CreateEnvironmentResponseEnvironment),
   }),
-).annotate({
-  identifier: "GetEnvironmentResponse",
-}) as any as S.Schema<GetEnvironmentResponse>;
+).annotate({ identifier: "GetEnvironmentResponse" }) as any as S.Schema<GetEnvironmentResponse>;
 
 export interface GetGroupRequest {
   /** The group's slug */
@@ -2272,16 +2074,8 @@ export interface GetGroupRequest {
 export const GetGroupRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     slug: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v3/workplace/groups/group/{slug}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetGroupRequest",
-}) as any as S.Schema<GetGroupRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/v3/workplace/groups/group/{slug}", code: 200 })),
+).annotate({ identifier: "GetGroupRequest" }) as any as S.Schema<GetGroupRequest>;
 
 export type GetGroupResponseGroupDefaultProjectRole = CreateGroupResponseGroupDefaultProjectRole;
 export const GetGroupResponseGroupDefaultProjectRole = CreateGroupResponseGroupDefaultProjectRole;
@@ -2322,9 +2116,7 @@ export const GetGroupResponseGroup = /*@__PURE__*/ S.suspend(() =>
     projects: S.optional(GetGroupResponseGroupProjectsList),
     members: S.optional(GetGroupResponseGroupMembersList),
   }),
-).annotate({
-  identifier: "GetGroupResponseGroup",
-}) as any as S.Schema<GetGroupResponseGroup>;
+).annotate({ identifier: "GetGroupResponseGroup" }) as any as S.Schema<GetGroupResponseGroup>;
 
 export interface GetGroupResponse {
   group?: GetGroupResponseGroup;
@@ -2333,9 +2125,7 @@ export const GetGroupResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     group: S.optional(GetGroupResponseGroup),
   }),
-).annotate({
-  identifier: "GetGroupResponse",
-}) as any as S.Schema<GetGroupResponse>;
+).annotate({ identifier: "GetGroupResponse" }) as any as S.Schema<GetGroupResponse>;
 
 export interface GetIntegrationRequest {
   /** The integration slug */
@@ -2345,9 +2135,7 @@ export const GetIntegrationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     integration: S.String.pipe(T.Query()),
   }).pipe(T.Http({ method: "GET", uri: "/v3/integrations/integration", code: 200 })),
-).annotate({
-  identifier: "GetIntegrationRequest",
-}) as any as S.Schema<GetIntegrationRequest>;
+).annotate({ identifier: "GetIntegrationRequest" }) as any as S.Schema<GetIntegrationRequest>;
 
 export type GetIntegrationResponseIntegrationFederationCase0 =
   CreateIntegrationResponseIntegrationFederationCase0;
@@ -2391,9 +2179,7 @@ export const GetIntegrationResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     integration: S.optional(GetIntegrationResponseIntegration),
   }),
-).annotate({
-  identifier: "GetIntegrationResponse",
-}) as any as S.Schema<GetIntegrationResponse>;
+).annotate({ identifier: "GetIntegrationResponse" }) as any as S.Schema<GetIntegrationResponse>;
 
 export interface GetIntegrationsIntegrationMembersRequest {
   /** Integration slug */
@@ -2406,13 +2192,7 @@ export const GetIntegrationsIntegrationMembersRequest = /*@__PURE__*/ S.suspend(
     integration: S.String.pipe(T.Query()),
     page: S.optional(S.Number.pipe(T.Query())),
     per_page: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v3/integrations/integration/members",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v3/integrations/integration/members", code: 200 })),
 ).annotate({
   identifier: "GetIntegrationsIntegrationMembersRequest",
 }) as any as S.Schema<GetIntegrationsIntegrationMembersRequest>;
@@ -2483,9 +2263,7 @@ export const GetMemberRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetMemberRequest",
-}) as any as S.Schema<GetMemberRequest>;
+).annotate({ identifier: "GetMemberRequest" }) as any as S.Schema<GetMemberRequest>;
 
 export type GetMemberResponseGroupDefaultProjectRole = CreateGroupResponseGroupDefaultProjectRole;
 export const GetMemberResponseGroupDefaultProjectRole = CreateGroupResponseGroupDefaultProjectRole;
@@ -2526,9 +2304,7 @@ export const GetMemberResponseGroup = /*@__PURE__*/ S.suspend(() =>
     projects: S.optional(GetMemberResponseGroupProjectsList),
     members: S.optional(GetMemberResponseGroupMembersList),
   }),
-).annotate({
-  identifier: "GetMemberResponseGroup",
-}) as any as S.Schema<GetMemberResponseGroup>;
+).annotate({ identifier: "GetMemberResponseGroup" }) as any as S.Schema<GetMemberResponseGroup>;
 
 export interface GetMemberResponse {
   group?: GetMemberResponseGroup;
@@ -2537,9 +2313,7 @@ export const GetMemberResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     group: S.optional(GetMemberResponseGroup),
   }),
-).annotate({
-  identifier: "GetMemberResponse",
-}) as any as S.Schema<GetMemberResponse>;
+).annotate({ identifier: "GetMemberResponse" }) as any as S.Schema<GetMemberResponse>;
 
 export interface GetOptionsRequest {
   /** The integration slug */
@@ -2548,23 +2322,13 @@ export interface GetOptionsRequest {
 export const GetOptionsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     integration: S.String.pipe(T.Query()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v3/integrations/integration/options",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetOptionsRequest",
-}) as any as S.Schema<GetOptionsRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/v3/integrations/integration/options", code: 200 })),
+).annotate({ identifier: "GetOptionsRequest" }) as any as S.Schema<GetOptionsRequest>;
 
 export type GetOptionsResponse = unknown;
 export const GetOptionsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Unknown.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "GetOptionsResponse",
-}) as any as S.Schema<GetOptionsResponse>;
+).annotate({ identifier: "GetOptionsResponse" }) as any as S.Schema<GetOptionsResponse>;
 
 export interface GetProjectRequest {
   /** Unique identifier for the project object. */
@@ -2574,9 +2338,7 @@ export const GetProjectRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project: S.String.pipe(T.Query()),
   }).pipe(T.Http({ method: "GET", uri: "/v3/projects/project", code: 200 })),
-).annotate({
-  identifier: "GetProjectRequest",
-}) as any as S.Schema<GetProjectRequest>;
+).annotate({ identifier: "GetProjectRequest" }) as any as S.Schema<GetProjectRequest>;
 
 export type GetProjectResponseProject = CreateProjectResponseProject;
 export const GetProjectResponseProject = CreateProjectResponseProject;
@@ -2588,9 +2350,7 @@ export const GetProjectResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project: S.optional(CreateProjectResponseProject),
   }),
-).annotate({
-  identifier: "GetProjectResponse",
-}) as any as S.Schema<GetProjectResponse>;
+).annotate({ identifier: "GetProjectResponse" }) as any as S.Schema<GetProjectResponse>;
 
 export interface GetSecretRequest {
   /** Unique identifier for the project object. */
@@ -2606,24 +2366,45 @@ export const GetSecretRequest = /*@__PURE__*/ S.suspend(() =>
     config: S.String.pipe(T.Query()),
     name: S.String.pipe(T.Query()),
   }).pipe(T.Http({ method: "GET", uri: "/v3/configs/config/secret", code: 200 })),
+).annotate({ identifier: "GetSecretRequest" }) as any as S.Schema<GetSecretRequest>;
+
+export type GetSecretResponseValueRawVisibility = "unmasked" | "masked" | "restricted";
+export const GetSecretResponseValueRawVisibility = S.String;
+
+export interface GetSecretResponseValueRawValueType {
+  type?: string;
+}
+export const GetSecretResponseValueRawValueType = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: S.optional(S.String),
+  }),
 ).annotate({
-  identifier: "GetSecretRequest",
-}) as any as S.Schema<GetSecretRequest>;
+  identifier: "GetSecretResponseValueRawValueType",
+}) as any as S.Schema<GetSecretResponseValueRawValueType>;
+
+export type GetSecretResponseValueComputedValueType = GetSecretResponseValueRawValueType;
+export const GetSecretResponseValueComputedValueType = GetSecretResponseValueRawValueType;
 
 export interface GetSecretResponseValue {
   raw?: string;
   computed?: string;
   note?: string;
+  rawVisibility?: GetSecretResponseValueRawVisibility;
+  computedVisibility?: string;
+  rawValueType?: GetSecretResponseValueRawValueType;
+  computedValueType?: GetSecretResponseValueRawValueType;
 }
 export const GetSecretResponseValue = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     raw: S.optional(S.String),
     computed: S.optional(S.String),
     note: S.optional(S.String),
+    rawVisibility: S.optional(GetSecretResponseValueRawVisibility),
+    computedVisibility: S.optional(S.String),
+    rawValueType: S.optional(GetSecretResponseValueRawValueType),
+    computedValueType: S.optional(GetSecretResponseValueRawValueType),
   }),
-).annotate({
-  identifier: "GetSecretResponseValue",
-}) as any as S.Schema<GetSecretResponseValue>;
+).annotate({ identifier: "GetSecretResponseValue" }) as any as S.Schema<GetSecretResponseValue>;
 
 export interface GetSecretResponse {
   name?: string;
@@ -2634,9 +2415,7 @@ export const GetSecretResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     value: S.optional(GetSecretResponseValue),
   }),
-).annotate({
-  identifier: "GetSecretResponse",
-}) as any as S.Schema<GetSecretResponse>;
+).annotate({ identifier: "GetSecretResponse" }) as any as S.Schema<GetSecretResponse>;
 
 export interface GetSyncRequest {
   /** The project slug */
@@ -2664,9 +2443,7 @@ export const GetSyncResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     sync: S.optional(CreateSyncResponseSync),
   }),
-).annotate({
-  identifier: "GetSyncResponse",
-}) as any as S.Schema<GetSyncResponse>;
+).annotate({ identifier: "GetSyncResponse" }) as any as S.Schema<GetSyncResponse>;
 
 export interface GetUserRequest {
   /** The slug of the workplace user */
@@ -2707,9 +2484,7 @@ export const GetUserResponse = /*@__PURE__*/ S.suspend(() =>
     workplace_user: S.optional(GetUserResponseWorkplaceUser),
     success: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "GetUserResponse",
-}) as any as S.Schema<GetUserResponse>;
+).annotate({ identifier: "GetUserResponse" }) as any as S.Schema<GetUserResponse>;
 
 export type GetV3workplacechangeRequestsRequestStatusList = Array<string>;
 export const GetV3workplacechangeRequestsRequestStatusList = /*@__PURE__*/ S.Array(
@@ -3042,18 +2817,10 @@ export type GetV3workplacechangeRequestschangeRequestChangeRequestIdResponseChan
 export const GetV3workplacechangeRequestschangeRequestChangeRequestIdResponseChangeRequestUnitsItemUpdatesItemVisType =
   S.Number;
 
-export interface GetV3workplacechangeRequestschangeRequestChangeRequestIdResponseChangeRequestUnitsItemUpdatesItemValueType {
-  type?: string;
-}
+export type GetV3workplacechangeRequestschangeRequestChangeRequestIdResponseChangeRequestUnitsItemUpdatesItemValueType =
+  GetSecretResponseValueRawValueType;
 export const GetV3workplacechangeRequestschangeRequestChangeRequestIdResponseChangeRequestUnitsItemUpdatesItemValueType =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      type: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier:
-      "GetV3workplacechangeRequestschangeRequestChangeRequestIdResponseChangeRequestUnitsItemUpdatesItemValueType",
-  }) as any as S.Schema<GetV3workplacechangeRequestschangeRequestChangeRequestIdResponseChangeRequestUnitsItemUpdatesItemValueType>;
+  GetSecretResponseValueRawValueType;
 
 export interface GetV3workplacechangeRequestschangeRequestChangeRequestIdResponseChangeRequestUnitsItemUpdatesItem {
   name?: string;
@@ -3061,7 +2828,7 @@ export interface GetV3workplacechangeRequestschangeRequestChangeRequestIdRespons
   shouldDelete?: boolean;
   /** 0 = masked, 1 = unmasked, 2 = restricted */
   visType?: GetV3workplacechangeRequestschangeRequestChangeRequestIdResponseChangeRequestUnitsItemUpdatesItemVisType;
-  valueType?: GetV3workplacechangeRequestschangeRequestChangeRequestIdResponseChangeRequestUnitsItemUpdatesItemValueType;
+  valueType?: GetSecretResponseValueRawValueType;
   generationSettings?: unknown;
 }
 export const GetV3workplacechangeRequestschangeRequestChangeRequestIdResponseChangeRequestUnitsItemUpdatesItem =
@@ -3073,9 +2840,7 @@ export const GetV3workplacechangeRequestschangeRequestChangeRequestIdResponseCha
       visType: S.optional(
         GetV3workplacechangeRequestschangeRequestChangeRequestIdResponseChangeRequestUnitsItemUpdatesItemVisType,
       ),
-      valueType: S.optional(
-        GetV3workplacechangeRequestschangeRequestChangeRequestIdResponseChangeRequestUnitsItemUpdatesItemValueType,
-      ),
+      valueType: S.optional(GetSecretResponseValueRawValueType),
       generationSettings: S.optional(S.Unknown),
     }),
   ).annotate({
@@ -3318,9 +3083,9 @@ export const GetV3workplacechangeRequestschangeRequestChangeRequestIdUnitsunitUn
   S.Number;
 
 export type GetV3workplacechangeRequestschangeRequestChangeRequestIdUnitsunitUnitIdResponseUnitUpdatesItemValueType =
-  GetV3workplacechangeRequestschangeRequestChangeRequestIdResponseChangeRequestUnitsItemUpdatesItemValueType;
+  GetSecretResponseValueRawValueType;
 export const GetV3workplacechangeRequestschangeRequestChangeRequestIdUnitsunitUnitIdResponseUnitUpdatesItemValueType =
-  GetV3workplacechangeRequestschangeRequestChangeRequestIdResponseChangeRequestUnitsItemUpdatesItemValueType;
+  GetSecretResponseValueRawValueType;
 
 export interface GetV3workplacechangeRequestschangeRequestChangeRequestIdUnitsunitUnitIdResponseUnitUpdatesItem {
   name?: string;
@@ -3328,7 +3093,7 @@ export interface GetV3workplacechangeRequestschangeRequestChangeRequestIdUnitsun
   shouldDelete?: boolean;
   /** 0 = masked, 1 = unmasked, 2 = restricted */
   visType?: GetV3workplacechangeRequestschangeRequestChangeRequestIdUnitsunitUnitIdResponseUnitUpdatesItemVisType;
-  valueType?: GetV3workplacechangeRequestschangeRequestChangeRequestIdResponseChangeRequestUnitsItemUpdatesItemValueType;
+  valueType?: GetSecretResponseValueRawValueType;
   generationSettings?: unknown;
 }
 export const GetV3workplacechangeRequestschangeRequestChangeRequestIdUnitsunitUnitIdResponseUnitUpdatesItem =
@@ -3340,9 +3105,7 @@ export const GetV3workplacechangeRequestschangeRequestChangeRequestIdUnitsunitUn
       visType: S.optional(
         GetV3workplacechangeRequestschangeRequestChangeRequestIdUnitsunitUnitIdResponseUnitUpdatesItemVisType,
       ),
-      valueType: S.optional(
-        GetV3workplacechangeRequestschangeRequestChangeRequestIdResponseChangeRequestUnitsItemUpdatesItemValueType,
-      ),
+      valueType: S.optional(GetSecretResponseValueRawValueType),
       generationSettings: S.optional(S.Unknown),
     }),
   ).annotate({
@@ -3677,23 +3440,75 @@ export const GetWebhookRequest = /*@__PURE__*/ S.suspend(() =>
     slug: S.String.pipe(T.Label()),
     project: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/v3/webhooks/webhook/{slug}", code: 200 })),
-).annotate({
-  identifier: "GetWebhookRequest",
-}) as any as S.Schema<GetWebhookRequest>;
+).annotate({ identifier: "GetWebhookRequest" }) as any as S.Schema<GetWebhookRequest>;
 
-export type GetWebhookResponse = unknown;
-export const GetWebhookResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Unknown.pipe(T.RawResponseRoot()),
+export type GetWebhookResponseWebhookAuthenticationType = "None" | "Basic" | "Bearer";
+export const GetWebhookResponseWebhookAuthenticationType = S.String;
+
+/** Webhook's authentication type */
+export interface GetWebhookResponseWebhookAuthentication {
+  type?: GetWebhookResponseWebhookAuthenticationType;
+}
+export const GetWebhookResponseWebhookAuthentication = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: S.optional(GetWebhookResponseWebhookAuthenticationType),
+  }),
 ).annotate({
-  identifier: "GetWebhookResponse",
-}) as any as S.Schema<GetWebhookResponse>;
+  identifier: "GetWebhookResponseWebhookAuthentication",
+}) as any as S.Schema<GetWebhookResponseWebhookAuthentication>;
+
+/** The configs the webhook will trigger for */
+export type GetWebhookResponseWebhookEnabledConfigsList = Array<string>;
+export const GetWebhookResponseWebhookEnabledConfigsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<GetWebhookResponseWebhookEnabledConfigsList>;
+
+export interface GetWebhookResponseWebhook {
+  /** Webhook's slug */
+  id?: string;
+  /** Webhook's name */
+  name?: string;
+  /** Webhook's URL */
+  url?: string;
+  /** Whether the webhook is enabled or disabled */
+  enabled?: boolean;
+  /** Whether the webhook has a secret set. See: https://docs.doppler.com/docs/webhooks#verify-webhook-with-request-signing */
+  hasSecret?: boolean;
+  /** Webhook's authentication type */
+  authentication?: GetWebhookResponseWebhookAuthentication;
+  /** The configs the webhook will trigger for */
+  enabledConfigs?: GetWebhookResponseWebhookEnabledConfigsList;
+  /** Whether the requestor has permission to modify the webhook */
+  canManage?: boolean;
+}
+export const GetWebhookResponseWebhook = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    name: S.optional(S.String),
+    url: S.optional(S.String),
+    enabled: S.optional(S.Boolean),
+    hasSecret: S.optional(S.Boolean),
+    authentication: S.optional(GetWebhookResponseWebhookAuthentication),
+    enabledConfigs: S.optional(GetWebhookResponseWebhookEnabledConfigsList),
+    canManage: S.optional(S.Boolean),
+  }),
+).annotate({
+  identifier: "GetWebhookResponseWebhook",
+}) as any as S.Schema<GetWebhookResponseWebhook>;
+
+export interface GetWebhookResponse {
+  webhook: GetWebhookResponseWebhook;
+}
+export const GetWebhookResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    webhook: GetWebhookResponseWebhook,
+  }),
+).annotate({ identifier: "GetWebhookResponse" }) as any as S.Schema<GetWebhookResponse>;
 
 export interface GetWorkplaceRequest {}
 export const GetWorkplaceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v3/workplace", code: 200 })),
-).annotate({
-  identifier: "GetWorkplaceRequest",
-}) as any as S.Schema<GetWorkplaceRequest>;
+).annotate({ identifier: "GetWorkplaceRequest" }) as any as S.Schema<GetWorkplaceRequest>;
 
 export interface GetWorkplaceResponseWorkplace {
   id?: string;
@@ -3719,9 +3534,7 @@ export const GetWorkplaceResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     workplace: S.optional(GetWorkplaceResponseWorkplace),
   }),
-).annotate({
-  identifier: "GetWorkplaceResponse",
-}) as any as S.Schema<GetWorkplaceResponse>;
+).annotate({ identifier: "GetWorkplaceResponse" }) as any as S.Schema<GetWorkplaceResponse>;
 
 export type GetWorkplaceIntegrationsIntegrationMemberRequestType =
   | "workplace_user"
@@ -3803,16 +3616,8 @@ export const GroupsAddMemberRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     slug: S.String.pipe(T.Label()),
     type: GroupsAddMemberRequestType,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v3/workplace/groups/group/{slug}/members",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GroupsAddMemberRequest",
-}) as any as S.Schema<GroupsAddMemberRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/v3/workplace/groups/group/{slug}/members", code: 200 })),
+).annotate({ identifier: "GroupsAddMemberRequest" }) as any as S.Schema<GroupsAddMemberRequest>;
 
 export interface GroupsAddMemberResponse {}
 export const GroupsAddMemberResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -3853,11 +3658,7 @@ export const GroupsDeleteMemberResponse = /*@__PURE__*/ S.suspend(() => S.Struct
 export interface ListChangeRequestPoliciesRequest {}
 export const ListChangeRequestPoliciesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v3/workplace/change_request_policies",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/v3/workplace/change_request_policies", code: 200 }),
   ),
 ).annotate({
   identifier: "ListChangeRequestPoliciesRequest",
@@ -3939,9 +3740,7 @@ export const ListConfigsRequest = /*@__PURE__*/ S.suspend(() =>
     page: S.optional(S.Number.pipe(T.Query())),
     per_page: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/v3/configs", code: 200 })),
-).annotate({
-  identifier: "ListConfigsRequest",
-}) as any as S.Schema<ListConfigsRequest>;
+).annotate({ identifier: "ListConfigsRequest" }) as any as S.Schema<ListConfigsRequest>;
 
 export type ListConfigsResponseConfigsItem = CloneConfigResponseConfig;
 export const ListConfigsResponseConfigsItem = CloneConfigResponseConfig;
@@ -3960,9 +3759,7 @@ export const ListConfigsResponse = /*@__PURE__*/ S.suspend(() =>
     page: S.optional(S.Number),
     configs: S.optional(ListConfigsResponseConfigsList),
   }),
-).annotate({
-  identifier: "ListConfigsResponse",
-}) as any as S.Schema<ListConfigsResponse>;
+).annotate({ identifier: "ListConfigsResponse" }) as any as S.Schema<ListConfigsResponse>;
 
 export interface ListEnvironmentsRequest {
   /** The project's name */
@@ -3972,9 +3769,7 @@ export const ListEnvironmentsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project: S.String.pipe(T.Query()),
   }).pipe(T.Http({ method: "GET", uri: "/v3/environments", code: 200 })),
-).annotate({
-  identifier: "ListEnvironmentsRequest",
-}) as any as S.Schema<ListEnvironmentsRequest>;
+).annotate({ identifier: "ListEnvironmentsRequest" }) as any as S.Schema<ListEnvironmentsRequest>;
 
 export type ListEnvironmentsResponseEnvironmentsItem = CreateEnvironmentResponseEnvironment;
 export const ListEnvironmentsResponseEnvironmentsItem = CreateEnvironmentResponseEnvironment;
@@ -3993,9 +3788,7 @@ export const ListEnvironmentsResponse = /*@__PURE__*/ S.suspend(() =>
     environments: S.optional(ListEnvironmentsResponseEnvironmentsList),
     page: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "ListEnvironmentsResponse",
-}) as any as S.Schema<ListEnvironmentsResponse>;
+).annotate({ identifier: "ListEnvironmentsResponse" }) as any as S.Schema<ListEnvironmentsResponse>;
 
 export interface ListGroupsRequest {
   page?: number;
@@ -4006,9 +3799,7 @@ export const ListGroupsRequest = /*@__PURE__*/ S.suspend(() =>
     page: S.optional(S.Number.pipe(T.Query())),
     per_page: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/v3/workplace/groups", code: 200 })),
-).annotate({
-  identifier: "ListGroupsRequest",
-}) as any as S.Schema<ListGroupsRequest>;
+).annotate({ identifier: "ListGroupsRequest" }) as any as S.Schema<ListGroupsRequest>;
 
 export type ListGroupsResponseGroupsItemDefaultProjectRole =
   CreateGroupResponseGroupDefaultProjectRole;
@@ -4044,16 +3835,12 @@ export const ListGroupsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     groups: S.optional(ListGroupsResponseGroupsList),
   }),
-).annotate({
-  identifier: "ListGroupsResponse",
-}) as any as S.Schema<ListGroupsResponse>;
+).annotate({ identifier: "ListGroupsResponse" }) as any as S.Schema<ListGroupsResponse>;
 
 export interface ListIntegrationsRequest {}
 export const ListIntegrationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v3/integrations", code: 200 })),
-).annotate({
-  identifier: "ListIntegrationsRequest",
-}) as any as S.Schema<ListIntegrationsRequest>;
+).annotate({ identifier: "ListIntegrationsRequest" }) as any as S.Schema<ListIntegrationsRequest>;
 
 export interface ListIntegrationsResponseIntegrationsItem {
   slug?: string;
@@ -4089,9 +3876,7 @@ export const ListIntegrationsResponse = /*@__PURE__*/ S.suspend(() =>
     integrations: S.optional(ListIntegrationsResponseIntegrationsList),
     success: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "ListIntegrationsResponse",
-}) as any as S.Schema<ListIntegrationsResponse>;
+).annotate({ identifier: "ListIntegrationsResponse" }) as any as S.Schema<ListIntegrationsResponse>;
 
 export interface ListInvitesRequest {
   page?: number;
@@ -4102,9 +3887,7 @@ export const ListInvitesRequest = /*@__PURE__*/ S.suspend(() =>
     page: S.optional(S.Number.pipe(T.Query())),
     per_page: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/v3/workplace/invites", code: 200 })),
-).annotate({
-  identifier: "ListInvitesRequest",
-}) as any as S.Schema<ListInvitesRequest>;
+).annotate({ identifier: "ListInvitesRequest" }) as any as S.Schema<ListInvitesRequest>;
 
 export type ListInvitesResponseInvitesItemWorkplaceRolePermissionsList = Array<string>;
 export const ListInvitesResponseInvitesItemWorkplaceRolePermissionsList = /*@__PURE__*/ S.Array(
@@ -4161,9 +3944,7 @@ export const ListInvitesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     invites: S.optional(ListInvitesResponseInvitesList),
   }),
-).annotate({
-  identifier: "ListInvitesResponse",
-}) as any as S.Schema<ListInvitesResponse>;
+).annotate({ identifier: "ListInvitesResponse" }) as any as S.Schema<ListInvitesResponse>;
 
 export interface ListProjectsRequest {
   /** Page number */
@@ -4176,9 +3957,7 @@ export const ListProjectsRequest = /*@__PURE__*/ S.suspend(() =>
     page: S.optional(S.Number.pipe(T.Query())),
     per_page: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/v3/projects", code: 200 })),
-).annotate({
-  identifier: "ListProjectsRequest",
-}) as any as S.Schema<ListProjectsRequest>;
+).annotate({ identifier: "ListProjectsRequest" }) as any as S.Schema<ListProjectsRequest>;
 
 export interface ListProjectsResponseProjectsItem {
   id?: string;
@@ -4213,9 +3992,7 @@ export const ListProjectsResponse = /*@__PURE__*/ S.suspend(() =>
     page: S.optional(S.Number),
     projects: S.optional(ListProjectsResponseProjectsList),
   }),
-).annotate({
-  identifier: "ListProjectsResponse",
-}) as any as S.Schema<ListProjectsResponse>;
+).annotate({ identifier: "ListProjectsResponse" }) as any as S.Schema<ListProjectsResponse>;
 
 export interface ListSecretsRequest {
   /** Unique identifier for the project object. */
@@ -4240,15 +4017,16 @@ export const ListSecretsRequest = /*@__PURE__*/ S.suspend(() =>
     secrets: S.optional(S.String.pipe(T.Query())),
     include_managed_secrets: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/v3/configs/config/secrets", code: 200 })),
-).annotate({
-  identifier: "ListSecretsRequest",
-}) as any as S.Schema<ListSecretsRequest>;
+).annotate({ identifier: "ListSecretsRequest" }) as any as S.Schema<ListSecretsRequest>;
+
+export type ListSecretsResponseSecretsSTRIPERawVisibility = "unmasked" | "masked" | "restricted";
+export const ListSecretsResponseSecretsSTRIPERawVisibility = S.String;
 
 export interface ListSecretsResponseSecretsSTRIPE {
   raw?: string;
   computed?: string;
   note?: string;
-  rawVisibility?: string;
+  rawVisibility?: ListSecretsResponseSecretsSTRIPERawVisibility;
   computedVisibility?: string;
 }
 export const ListSecretsResponseSecretsSTRIPE = /*@__PURE__*/ S.suspend(() =>
@@ -4256,34 +4034,91 @@ export const ListSecretsResponseSecretsSTRIPE = /*@__PURE__*/ S.suspend(() =>
     raw: S.optional(S.String),
     computed: S.optional(S.String),
     note: S.optional(S.String),
-    rawVisibility: S.optional(S.String),
+    rawVisibility: S.optional(ListSecretsResponseSecretsSTRIPERawVisibility),
     computedVisibility: S.optional(S.String),
   }),
 ).annotate({
   identifier: "ListSecretsResponseSecretsSTRIPE",
 }) as any as S.Schema<ListSecretsResponseSecretsSTRIPE>;
 
-export type ListSecretsResponseSecretsALGOLIA = ListSecretsResponseSecretsSTRIPE;
-export const ListSecretsResponseSecretsALGOLIA = ListSecretsResponseSecretsSTRIPE;
+export type ListSecretsResponseSecretsALGOLIARawVisibility = "unmasked" | "masked" | "restricted";
+export const ListSecretsResponseSecretsALGOLIARawVisibility = S.String;
 
-export type ListSecretsResponseSecretsDATABASE = ListSecretsResponseSecretsSTRIPE;
-export const ListSecretsResponseSecretsDATABASE = ListSecretsResponseSecretsSTRIPE;
+export interface ListSecretsResponseSecretsALGOLIA {
+  raw?: string;
+  computed?: string;
+  note?: string;
+  rawVisibility?: ListSecretsResponseSecretsALGOLIARawVisibility;
+  computedVisibility?: string;
+}
+export const ListSecretsResponseSecretsALGOLIA = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    raw: S.optional(S.String),
+    computed: S.optional(S.String),
+    note: S.optional(S.String),
+    rawVisibility: S.optional(ListSecretsResponseSecretsALGOLIARawVisibility),
+    computedVisibility: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ListSecretsResponseSecretsALGOLIA",
+}) as any as S.Schema<ListSecretsResponseSecretsALGOLIA>;
 
-export type ListSecretsResponseSecretsUSER = ListSecretsResponseSecretsSTRIPE;
-export const ListSecretsResponseSecretsUSER = ListSecretsResponseSecretsSTRIPE;
+export type ListSecretsResponseSecretsDATABASERawVisibility = "unmasked" | "masked" | "restricted";
+export const ListSecretsResponseSecretsDATABASERawVisibility = S.String;
+
+export interface ListSecretsResponseSecretsDATABASE {
+  raw?: string;
+  computed?: string;
+  note?: string;
+  rawVisibility?: ListSecretsResponseSecretsDATABASERawVisibility;
+  computedVisibility?: string;
+}
+export const ListSecretsResponseSecretsDATABASE = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    raw: S.optional(S.String),
+    computed: S.optional(S.String),
+    note: S.optional(S.String),
+    rawVisibility: S.optional(ListSecretsResponseSecretsDATABASERawVisibility),
+    computedVisibility: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ListSecretsResponseSecretsDATABASE",
+}) as any as S.Schema<ListSecretsResponseSecretsDATABASE>;
+
+export type ListSecretsResponseSecretsUSERRawVisibility = "unmasked" | "masked" | "restricted";
+export const ListSecretsResponseSecretsUSERRawVisibility = S.String;
+
+export interface ListSecretsResponseSecretsUSER {
+  raw?: string;
+  computed?: string;
+  note?: string;
+  rawVisibility?: ListSecretsResponseSecretsUSERRawVisibility;
+  computedVisibility?: string;
+}
+export const ListSecretsResponseSecretsUSER = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    raw: S.optional(S.String),
+    computed: S.optional(S.String),
+    note: S.optional(S.String),
+    rawVisibility: S.optional(ListSecretsResponseSecretsUSERRawVisibility),
+    computedVisibility: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ListSecretsResponseSecretsUSER",
+}) as any as S.Schema<ListSecretsResponseSecretsUSER>;
 
 export interface ListSecretsResponseSecrets {
   STRIPE?: ListSecretsResponseSecretsSTRIPE;
-  ALGOLIA?: ListSecretsResponseSecretsSTRIPE;
-  DATABASE?: ListSecretsResponseSecretsSTRIPE;
-  USER?: ListSecretsResponseSecretsSTRIPE;
+  ALGOLIA?: ListSecretsResponseSecretsALGOLIA;
+  DATABASE?: ListSecretsResponseSecretsDATABASE;
+  USER?: ListSecretsResponseSecretsUSER;
 }
 export const ListSecretsResponseSecrets = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     STRIPE: S.optional(ListSecretsResponseSecretsSTRIPE),
-    ALGOLIA: S.optional(ListSecretsResponseSecretsSTRIPE),
-    DATABASE: S.optional(ListSecretsResponseSecretsSTRIPE),
-    USER: S.optional(ListSecretsResponseSecretsSTRIPE),
+    ALGOLIA: S.optional(ListSecretsResponseSecretsALGOLIA),
+    DATABASE: S.optional(ListSecretsResponseSecretsDATABASE),
+    USER: S.optional(ListSecretsResponseSecretsUSER),
   }),
 ).annotate({
   identifier: "ListSecretsResponseSecrets",
@@ -4296,9 +4131,7 @@ export const ListSecretsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     secrets: S.optional(ListSecretsResponseSecrets),
   }),
-).annotate({
-  identifier: "ListSecretsResponse",
-}) as any as S.Schema<ListSecretsResponse>;
+).annotate({ identifier: "ListSecretsResponse" }) as any as S.Schema<ListSecretsResponse>;
 
 export interface ListUsersRequest {
   /** The page of users to fetch */
@@ -4311,9 +4144,7 @@ export const ListUsersRequest = /*@__PURE__*/ S.suspend(() =>
     page: S.optional(S.Number.pipe(T.Query())),
     email: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/v3/workplace/users", code: 200 })),
-).annotate({
-  identifier: "ListUsersRequest",
-}) as any as S.Schema<ListUsersRequest>;
+).annotate({ identifier: "ListUsersRequest" }) as any as S.Schema<ListUsersRequest>;
 
 export type ListUsersResponseWorkplaceUsersItemUser = ConfigLogsGetResponseLogUser;
 export const ListUsersResponseWorkplaceUsersItemUser = ConfigLogsGetResponseLogUser;
@@ -4337,9 +4168,7 @@ export const ListUsersResponse = /*@__PURE__*/ S.suspend(() =>
     page: S.optional(S.Number),
     success: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "ListUsersResponse",
-}) as any as S.Schema<ListUsersResponse>;
+).annotate({ identifier: "ListUsersResponse" }) as any as S.Schema<ListUsersResponse>;
 
 export interface ListWebhooksRequest {
   /** The project's name */
@@ -4349,16 +4178,75 @@ export const ListWebhooksRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/v3/webhooks", code: 200 })),
-).annotate({
-  identifier: "ListWebhooksRequest",
-}) as any as S.Schema<ListWebhooksRequest>;
+).annotate({ identifier: "ListWebhooksRequest" }) as any as S.Schema<ListWebhooksRequest>;
 
-export type ListWebhooksResponse = unknown;
-export const ListWebhooksResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Unknown.pipe(T.RawResponseRoot()),
+export type ListWebhooksResponseWebhooksItemAuthenticationType = "None" | "Basic" | "Bearer";
+export const ListWebhooksResponseWebhooksItemAuthenticationType = S.String;
+
+/** Webhook's authentication type */
+export interface ListWebhooksResponseWebhooksItemAuthentication {
+  type?: ListWebhooksResponseWebhooksItemAuthenticationType;
+}
+export const ListWebhooksResponseWebhooksItemAuthentication = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: S.optional(ListWebhooksResponseWebhooksItemAuthenticationType),
+  }),
 ).annotate({
-  identifier: "ListWebhooksResponse",
-}) as any as S.Schema<ListWebhooksResponse>;
+  identifier: "ListWebhooksResponseWebhooksItemAuthentication",
+}) as any as S.Schema<ListWebhooksResponseWebhooksItemAuthentication>;
+
+/** The configs the webhook will trigger for */
+export type ListWebhooksResponseWebhooksItemEnabledConfigsList = Array<string>;
+export const ListWebhooksResponseWebhooksItemEnabledConfigsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<ListWebhooksResponseWebhooksItemEnabledConfigsList>;
+
+export interface ListWebhooksResponseWebhooksItem {
+  /** Webhook's slug */
+  id?: string;
+  /** Webhook's name */
+  name?: string;
+  /** Webhook's URL */
+  url?: string;
+  /** Whether the webhook is enabled or disabled */
+  enabled?: boolean;
+  /** Whether the webhook has a secret set. See: https://docs.doppler.com/docs/webhooks#verify-webhook-with-request-signing */
+  hasSecret?: boolean;
+  /** Webhook's authentication type */
+  authentication?: ListWebhooksResponseWebhooksItemAuthentication;
+  /** The configs the webhook will trigger for */
+  enabledConfigs?: ListWebhooksResponseWebhooksItemEnabledConfigsList;
+  /** Whether the requestor has permission to modify the webhook */
+  canManage?: boolean;
+}
+export const ListWebhooksResponseWebhooksItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    name: S.optional(S.String),
+    url: S.optional(S.String),
+    enabled: S.optional(S.Boolean),
+    hasSecret: S.optional(S.Boolean),
+    authentication: S.optional(ListWebhooksResponseWebhooksItemAuthentication),
+    enabledConfigs: S.optional(ListWebhooksResponseWebhooksItemEnabledConfigsList),
+    canManage: S.optional(S.Boolean),
+  }),
+).annotate({
+  identifier: "ListWebhooksResponseWebhooksItem",
+}) as any as S.Schema<ListWebhooksResponseWebhooksItem>;
+
+export type ListWebhooksResponseWebhooksList = Array<ListWebhooksResponseWebhooksItem>;
+export const ListWebhooksResponseWebhooksList = /*@__PURE__*/ S.Array(
+  ListWebhooksResponseWebhooksItem,
+) as any as S.Schema<ListWebhooksResponseWebhooksList>;
+
+export interface ListWebhooksResponse {
+  webhooks: ListWebhooksResponseWebhooksList;
+}
+export const ListWebhooksResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    webhooks: ListWebhooksResponseWebhooksList,
+  }),
+).annotate({ identifier: "ListWebhooksResponse" }) as any as S.Schema<ListWebhooksResponse>;
 
 export interface LockConfigRequest {
   /** Unique identifier for the project object. */
@@ -4371,9 +4259,7 @@ export const LockConfigRequest = /*@__PURE__*/ S.suspend(() =>
     project: S.String,
     config: S.String,
   }).pipe(T.Http({ method: "POST", uri: "/v3/configs/config/lock", code: 200 })),
-).annotate({
-  identifier: "LockConfigRequest",
-}) as any as S.Schema<LockConfigRequest>;
+).annotate({ identifier: "LockConfigRequest" }) as any as S.Schema<LockConfigRequest>;
 
 export type LockConfigResponseConfig = CloneConfigResponseConfig;
 export const LockConfigResponseConfig = CloneConfigResponseConfig;
@@ -4385,9 +4271,7 @@ export const LockConfigResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     config: S.optional(CloneConfigResponseConfig),
   }),
-).annotate({
-  identifier: "LockConfigResponse",
-}) as any as S.Schema<LockConfigResponse>;
+).annotate({ identifier: "LockConfigResponse" }) as any as S.Schema<LockConfigResponse>;
 
 export type PostV3workplacechangeRequestsRequestAssignedItemType =
   | "WorkplaceUser"
@@ -4437,9 +4321,9 @@ export type PostV3workplacechangeRequestsRequestUnitsItemUpdatesItemVisType = 0 
 export const PostV3workplacechangeRequestsRequestUnitsItemUpdatesItemVisType = S.Number;
 
 export type PostV3workplacechangeRequestsRequestUnitsItemUpdatesItemValueType =
-  GetV3workplacechangeRequestschangeRequestChangeRequestIdResponseChangeRequestUnitsItemUpdatesItemValueType;
+  GetSecretResponseValueRawValueType;
 export const PostV3workplacechangeRequestsRequestUnitsItemUpdatesItemValueType =
-  GetV3workplacechangeRequestschangeRequestChangeRequestIdResponseChangeRequestUnitsItemUpdatesItemValueType;
+  GetSecretResponseValueRawValueType;
 
 export interface PostV3workplacechangeRequestsRequestUnitsItemUpdatesItem {
   name: string;
@@ -4448,7 +4332,7 @@ export interface PostV3workplacechangeRequestsRequestUnitsItemUpdatesItem {
   shouldDelete?: boolean;
   /** 0 = masked, 1 = unmasked, 2 = restricted */
   visType?: PostV3workplacechangeRequestsRequestUnitsItemUpdatesItemVisType | (number & {});
-  valueType?: GetV3workplacechangeRequestschangeRequestChangeRequestIdResponseChangeRequestUnitsItemUpdatesItemValueType;
+  valueType?: GetSecretResponseValueRawValueType;
   generationSettings?: unknown;
   originalSecretUpdateName?: string;
 }
@@ -4459,9 +4343,7 @@ export const PostV3workplacechangeRequestsRequestUnitsItemUpdatesItem = /*@__PUR
       value: S.optional(S.String),
       shouldDelete: S.optional(S.Boolean),
       visType: S.optional(PostV3workplacechangeRequestsRequestUnitsItemUpdatesItemVisType),
-      valueType: S.optional(
-        GetV3workplacechangeRequestschangeRequestChangeRequestIdResponseChangeRequestUnitsItemUpdatesItemValueType,
-      ),
+      valueType: S.optional(GetSecretResponseValueRawValueType),
       generationSettings: S.optional(S.Unknown),
       originalSecretUpdateName: S.optional(S.String),
     }),
@@ -4512,13 +4394,7 @@ export const PostV3workplacechangeRequestsRequest = /*@__PURE__*/ S.suspend(() =
     description: S.optional(S.String),
     assigned: PostV3workplacechangeRequestsRequestAssignedList,
     units: PostV3workplacechangeRequestsRequestUnitsList,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v3/workplace/change_requests",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/v3/workplace/change_requests", code: 200 })),
 ).annotate({
   identifier: "PostV3workplacechangeRequestsRequest",
 }) as any as S.Schema<PostV3workplacechangeRequestsRequest>;
@@ -5083,9 +4959,7 @@ export const ProjectMembersAddRequest = /*@__PURE__*/ S.suspend(() =>
     role: S.optional(S.String),
     environments: S.optional(ProjectMembersAddRequestEnvironmentsList),
   }).pipe(T.Http({ method: "POST", uri: "/v3/projects/project/members", code: 200 })),
-).annotate({
-  identifier: "ProjectMembersAddRequest",
-}) as any as S.Schema<ProjectMembersAddRequest>;
+).annotate({ identifier: "ProjectMembersAddRequest" }) as any as S.Schema<ProjectMembersAddRequest>;
 
 export type ProjectMembersAddResponseMemberRole = CreateGroupResponseGroupDefaultProjectRole;
 export const ProjectMembersAddResponseMemberRole = CreateGroupResponseGroupDefaultProjectRole;
@@ -5180,15 +5054,9 @@ export const ProjectMembersGetRequest = /*@__PURE__*/ S.suspend(() =>
     slug: S.String.pipe(T.Label()),
     project: S.String.pipe(T.Query()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v3/projects/project/members/member/{type}/{slug}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/v3/projects/project/members/member/{type}/{slug}", code: 200 }),
   ),
-).annotate({
-  identifier: "ProjectMembersGetRequest",
-}) as any as S.Schema<ProjectMembersGetRequest>;
+).annotate({ identifier: "ProjectMembersGetRequest" }) as any as S.Schema<ProjectMembersGetRequest>;
 
 export type ProjectMembersGetResponseMemberRole = CreateGroupResponseGroupDefaultProjectRole;
 export const ProjectMembersGetResponseMemberRole = CreateGroupResponseGroupDefaultProjectRole;
@@ -5430,13 +5298,7 @@ export interface ProjectRolesDeleteRequest {
 export const ProjectRolesDeleteRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     role: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/v3/projects/roles/role/{role}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/v3/projects/roles/role/{role}", code: 200 })),
 ).annotate({
   identifier: "ProjectRolesDeleteRequest",
 }) as any as S.Schema<ProjectRolesDeleteRequest>;
@@ -5454,9 +5316,7 @@ export const ProjectRolesGetRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     role: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/v3/projects/roles/role/{role}", code: 200 })),
-).annotate({
-  identifier: "ProjectRolesGetRequest",
-}) as any as S.Schema<ProjectRolesGetRequest>;
+).annotate({ identifier: "ProjectRolesGetRequest" }) as any as S.Schema<ProjectRolesGetRequest>;
 
 export type ProjectRolesGetResponseRolePermissionsList = Array<string>;
 export const ProjectRolesGetResponseRolePermissionsList = /*@__PURE__*/ S.Array(
@@ -5489,16 +5349,12 @@ export const ProjectRolesGetResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     role: S.optional(ProjectRolesGetResponseRole),
   }),
-).annotate({
-  identifier: "ProjectRolesGetResponse",
-}) as any as S.Schema<ProjectRolesGetResponse>;
+).annotate({ identifier: "ProjectRolesGetResponse" }) as any as S.Schema<ProjectRolesGetResponse>;
 
 export interface ProjectRolesListRequest {}
 export const ProjectRolesListRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v3/projects/roles", code: 200 })),
-).annotate({
-  identifier: "ProjectRolesListRequest",
-}) as any as S.Schema<ProjectRolesListRequest>;
+).annotate({ identifier: "ProjectRolesListRequest" }) as any as S.Schema<ProjectRolesListRequest>;
 
 export type ProjectRolesListResponseRolesItemPermissionsList = Array<string>;
 export const ProjectRolesListResponseRolesItemPermissionsList = /*@__PURE__*/ S.Array(
@@ -5536,9 +5392,7 @@ export const ProjectRolesListResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     roles: S.optional(ProjectRolesListResponseRolesList),
   }),
-).annotate({
-  identifier: "ProjectRolesListResponse",
-}) as any as S.Schema<ProjectRolesListResponse>;
+).annotate({ identifier: "ProjectRolesListResponse" }) as any as S.Schema<ProjectRolesListResponse>;
 
 export interface ProjectRolesListPermissionsRequest {}
 export const ProjectRolesListPermissionsRequest = /*@__PURE__*/ S.suspend(() =>
@@ -5582,13 +5436,7 @@ export const ProjectRolesUpdateRequest = /*@__PURE__*/ S.suspend(() =>
     role: S.String.pipe(T.Label()),
     name: S.optional(S.String),
     permissions: S.optional(ProjectRolesUpdateRequestPermissionsList),
-  }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/v3/projects/roles/role/{role}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PATCH", uri: "/v3/projects/roles/role/{role}", code: 200 })),
 ).annotate({
   identifier: "ProjectRolesUpdateRequest",
 }) as any as S.Schema<ProjectRolesUpdateRequest>;
@@ -5684,9 +5532,9 @@ export const PutV3workplacechangeRequestschangeRequestChangeRequestIdRequestUnit
   S.Number;
 
 export type PutV3workplacechangeRequestschangeRequestChangeRequestIdRequestUnitsItemUpdatesItemValueType =
-  GetV3workplacechangeRequestschangeRequestChangeRequestIdResponseChangeRequestUnitsItemUpdatesItemValueType;
+  GetSecretResponseValueRawValueType;
 export const PutV3workplacechangeRequestschangeRequestChangeRequestIdRequestUnitsItemUpdatesItemValueType =
-  GetV3workplacechangeRequestschangeRequestChangeRequestIdResponseChangeRequestUnitsItemUpdatesItemValueType;
+  GetSecretResponseValueRawValueType;
 
 export interface PutV3workplacechangeRequestschangeRequestChangeRequestIdRequestUnitsItemUpdatesItem {
   action?:
@@ -5700,7 +5548,7 @@ export interface PutV3workplacechangeRequestschangeRequestChangeRequestIdRequest
   visType?:
     | PutV3workplacechangeRequestschangeRequestChangeRequestIdRequestUnitsItemUpdatesItemVisType
     | (number & {});
-  valueType?: GetV3workplacechangeRequestschangeRequestChangeRequestIdResponseChangeRequestUnitsItemUpdatesItemValueType;
+  valueType?: GetSecretResponseValueRawValueType;
   generationSettings?: unknown;
   originalSecretUpdateName?: string;
 }
@@ -5716,9 +5564,7 @@ export const PutV3workplacechangeRequestschangeRequestChangeRequestIdRequestUnit
       visType: S.optional(
         PutV3workplacechangeRequestschangeRequestChangeRequestIdRequestUnitsItemUpdatesItemVisType,
       ),
-      valueType: S.optional(
-        GetV3workplacechangeRequestschangeRequestChangeRequestIdResponseChangeRequestUnitsItemUpdatesItemValueType,
-      ),
+      valueType: S.optional(GetSecretResponseValueRawValueType),
       generationSettings: S.optional(S.Unknown),
       originalSecretUpdateName: S.optional(S.String),
     }),
@@ -6033,9 +5879,7 @@ export const RenameEnvironmentRequest = /*@__PURE__*/ S.suspend(() =>
     slug: S.optional(S.String),
     personal_configs: S.optional(S.Boolean),
   }).pipe(T.Http({ method: "PUT", uri: "/v3/environments/environment", code: 200 })),
-).annotate({
-  identifier: "RenameEnvironmentRequest",
-}) as any as S.Schema<RenameEnvironmentRequest>;
+).annotate({ identifier: "RenameEnvironmentRequest" }) as any as S.Schema<RenameEnvironmentRequest>;
 
 export type RenameEnvironmentResponseEnvironment = CreateEnvironmentResponseEnvironment;
 export const RenameEnvironmentResponseEnvironment = CreateEnvironmentResponseEnvironment;
@@ -6058,9 +5902,7 @@ export const RevokeAuthRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     token: S.String,
   }).pipe(T.Http({ method: "POST", uri: "/v3/auth/revoke", code: 200 })),
-).annotate({
-  identifier: "RevokeAuthRequest",
-}) as any as S.Schema<RevokeAuthRequest>;
+).annotate({ identifier: "RevokeAuthRequest" }) as any as S.Schema<RevokeAuthRequest>;
 
 export interface RevokeAuthResponse {}
 export const RevokeAuthResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -6074,16 +5916,12 @@ export const RevokeCliAuthRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     token: S.String.pipe(T.SensitiveValue({})),
   }).pipe(T.Http({ method: "POST", uri: "/v3/auth/cli/revoke", code: 200 })),
-).annotate({
-  identifier: "RevokeCliAuthRequest",
-}) as any as S.Schema<RevokeCliAuthRequest>;
+).annotate({ identifier: "RevokeCliAuthRequest" }) as any as S.Schema<RevokeCliAuthRequest>;
 
 export type RevokeCliAuthResponse = unknown;
 export const RevokeCliAuthResponse = /*@__PURE__*/ S.suspend(() =>
   S.Unknown.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "RevokeCliAuthResponse",
-}) as any as S.Schema<RevokeCliAuthResponse>;
+).annotate({ identifier: "RevokeCliAuthResponse" }) as any as S.Schema<RevokeCliAuthResponse>;
 
 export interface SecretsNamesRequest {
   /** Unique identifier for the project object. */
@@ -6101,16 +5939,8 @@ export const SecretsNamesRequest = /*@__PURE__*/ S.suspend(() =>
     config: S.String.pipe(T.Query()),
     include_dynamic_secrets: S.optional(S.Boolean.pipe(T.Query())),
     include_managed_secrets: S.optional(S.Boolean.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v3/configs/config/secrets/names",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "SecretsNamesRequest",
-}) as any as S.Schema<SecretsNamesRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/v3/configs/config/secrets/names", code: 200 })),
+).annotate({ identifier: "SecretsNamesRequest" }) as any as S.Schema<SecretsNamesRequest>;
 
 export type SecretsNamesResponseNamesList = Array<string>;
 export const SecretsNamesResponseNamesList = /*@__PURE__*/ S.Array(
@@ -6124,9 +5954,7 @@ export const SecretsNamesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     names: S.optional(SecretsNamesResponseNamesList),
   }),
-).annotate({
-  identifier: "SecretsNamesResponse",
-}) as any as S.Schema<SecretsNamesResponse>;
+).annotate({ identifier: "SecretsNamesResponse" }) as any as S.Schema<SecretsNamesResponse>;
 
 export interface SecretsUpdateNoteRequest {
   /** Unique identifier for the project object. */
@@ -6142,9 +5970,7 @@ export const SecretsUpdateNoteRequest = /*@__PURE__*/ S.suspend(() =>
     secret: S.String.pipe(T.SensitiveValue({})),
     note: S.String,
   }).pipe(T.Http({ method: "POST", uri: "/v3/projects/project/note", code: 200 })),
-).annotate({
-  identifier: "SecretsUpdateNoteRequest",
-}) as any as S.Schema<SecretsUpdateNoteRequest>;
+).annotate({ identifier: "SecretsUpdateNoteRequest" }) as any as S.Schema<SecretsUpdateNoteRequest>;
 
 export interface SecretsUpdateNoteResponse {
   secret?: string | Redacted.Redacted<string>;
@@ -6190,13 +6016,7 @@ export const ServiceAccountsCreateRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.optional(S.String),
     workplace_role: S.optional(ServiceAccountsCreateRequestWorkplaceRole),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v3/workplace/service_accounts",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/v3/workplace/service_accounts", code: 200 })),
 ).annotate({
   identifier: "ServiceAccountsCreateRequest",
 }) as any as S.Schema<ServiceAccountsCreateRequest>;
@@ -6803,13 +6623,7 @@ export const ServiceTokensDeleteRequest = /*@__PURE__*/ S.suspend(() =>
     config: S.String,
     slug: S.optional(S.String),
     token: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/v3/configs/config/tokens/token",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/v3/configs/config/tokens/token", code: 200 })),
 ).annotate({
   identifier: "ServiceTokensDeleteRequest",
 }) as any as S.Schema<ServiceTokensDeleteRequest>;
@@ -6836,9 +6650,7 @@ export const ServiceTokensListRequest = /*@__PURE__*/ S.suspend(() =>
     project: S.String.pipe(T.Query()),
     config: S.String.pipe(T.Query()),
   }).pipe(T.Http({ method: "GET", uri: "/v3/configs/config/tokens", code: 200 })),
-).annotate({
-  identifier: "ServiceTokensListRequest",
-}) as any as S.Schema<ServiceTokensListRequest>;
+).annotate({ identifier: "ServiceTokensListRequest" }) as any as S.Schema<ServiceTokensListRequest>;
 
 export interface ServiceTokensListResponseTokensItem {
   name?: string;
@@ -6893,9 +6705,7 @@ export const ShareSecretRequest = /*@__PURE__*/ S.suspend(() =>
     expire_views: S.optional(S.Number),
     expire_days: S.optional(S.Number),
   }).pipe(T.Http({ method: "POST", uri: "/v1/share/secrets/plain", code: 200 })),
-).annotate({
-  identifier: "ShareSecretRequest",
-}) as any as S.Schema<ShareSecretRequest>;
+).annotate({ identifier: "ShareSecretRequest" }) as any as S.Schema<ShareSecretRequest>;
 
 export interface ShareSecretResponse {
   url?: string;
@@ -6910,9 +6720,7 @@ export const ShareSecretResponse = /*@__PURE__*/ S.suspend(() =>
     password: S.optional(S.String.pipe(T.SensitiveValue({}))),
     success: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "ShareSecretResponse",
-}) as any as S.Schema<ShareSecretResponse>;
+).annotate({ identifier: "ShareSecretResponse" }) as any as S.Schema<ShareSecretResponse>;
 
 export interface ShareSecretEncryptedRequest {
   /** Ecrypted secret using AES-GCM with a symmetric key derived from a cryptographically random 64 character passphrase using PBKDF2. 1,000,000 salt rounds required. Then base64 encode the encrypted secret. */
@@ -6965,9 +6773,7 @@ export const UnlockConfigRequest = /*@__PURE__*/ S.suspend(() =>
     project: S.String,
     config: S.String,
   }).pipe(T.Http({ method: "POST", uri: "/v3/configs/config/unlock", code: 200 })),
-).annotate({
-  identifier: "UnlockConfigRequest",
-}) as any as S.Schema<UnlockConfigRequest>;
+).annotate({ identifier: "UnlockConfigRequest" }) as any as S.Schema<UnlockConfigRequest>;
 
 export type UnlockConfigResponseConfig = CloneConfigResponseConfig;
 export const UnlockConfigResponseConfig = CloneConfigResponseConfig;
@@ -6979,9 +6785,7 @@ export const UnlockConfigResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     config: S.optional(CloneConfigResponseConfig),
   }),
-).annotate({
-  identifier: "UnlockConfigResponse",
-}) as any as S.Schema<UnlockConfigResponse>;
+).annotate({ identifier: "UnlockConfigResponse" }) as any as S.Schema<UnlockConfigResponse>;
 
 export type UpdateChangeRequestPolicyRequestRulesItemType =
   | '"RequiredReviewer"'
@@ -7130,9 +6934,7 @@ export const UpdateConfigRequest = /*@__PURE__*/ S.suspend(() =>
     config: S.String,
     name: S.String,
   }).pipe(T.Http({ method: "POST", uri: "/v3/configs/config", code: 200 })),
-).annotate({
-  identifier: "UpdateConfigRequest",
-}) as any as S.Schema<UpdateConfigRequest>;
+).annotate({ identifier: "UpdateConfigRequest" }) as any as S.Schema<UpdateConfigRequest>;
 
 export type UpdateConfigResponseConfig = CloneConfigResponseConfig;
 export const UpdateConfigResponseConfig = CloneConfigResponseConfig;
@@ -7144,9 +6946,7 @@ export const UpdateConfigResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     config: S.optional(CloneConfigResponseConfig),
   }),
-).annotate({
-  identifier: "UpdateConfigResponse",
-}) as any as S.Schema<UpdateConfigResponse>;
+).annotate({ identifier: "UpdateConfigResponse" }) as any as S.Schema<UpdateConfigResponse>;
 
 export interface UpdateGroupRequest {
   /** The group's slug */
@@ -7160,16 +6960,8 @@ export const UpdateGroupRequest = /*@__PURE__*/ S.suspend(() =>
     slug: S.String.pipe(T.Label()),
     name: S.optional(S.String),
     default_project_role: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/v3/workplace/groups/group/{slug}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "UpdateGroupRequest",
-}) as any as S.Schema<UpdateGroupRequest>;
+  }).pipe(T.Http({ method: "PATCH", uri: "/v3/workplace/groups/group/{slug}", code: 200 })),
+).annotate({ identifier: "UpdateGroupRequest" }) as any as S.Schema<UpdateGroupRequest>;
 
 export type UpdateGroupResponseGroupDefaultProjectRole = CreateGroupResponseGroupDefaultProjectRole;
 export const UpdateGroupResponseGroupDefaultProjectRole =
@@ -7211,9 +7003,7 @@ export const UpdateGroupResponseGroup = /*@__PURE__*/ S.suspend(() =>
     projects: S.optional(UpdateGroupResponseGroupProjectsList),
     members: S.optional(UpdateGroupResponseGroupMembersList),
   }),
-).annotate({
-  identifier: "UpdateGroupResponseGroup",
-}) as any as S.Schema<UpdateGroupResponseGroup>;
+).annotate({ identifier: "UpdateGroupResponseGroup" }) as any as S.Schema<UpdateGroupResponseGroup>;
 
 export interface UpdateGroupResponse {
   group?: UpdateGroupResponseGroup;
@@ -7222,9 +7012,7 @@ export const UpdateGroupResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     group: S.optional(UpdateGroupResponseGroup),
   }),
-).annotate({
-  identifier: "UpdateGroupResponse",
-}) as any as S.Schema<UpdateGroupResponse>;
+).annotate({ identifier: "UpdateGroupResponse" }) as any as S.Schema<UpdateGroupResponse>;
 
 export interface UpdateIntegrationRequest {
   /** The slug of the integration to update */
@@ -7240,9 +7028,7 @@ export const UpdateIntegrationRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     data: S.optional(S.String),
   }).pipe(T.Http({ method: "PUT", uri: "/v3/integrations/integration", code: 200 })),
-).annotate({
-  identifier: "UpdateIntegrationRequest",
-}) as any as S.Schema<UpdateIntegrationRequest>;
+).annotate({ identifier: "UpdateIntegrationRequest" }) as any as S.Schema<UpdateIntegrationRequest>;
 
 export type UpdateIntegrationResponse = unknown;
 export const UpdateIntegrationResponse = /*@__PURE__*/ S.suspend(() =>
@@ -7335,9 +7121,7 @@ export const UpdateProjectRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     description: S.optional(S.String),
   }).pipe(T.Http({ method: "POST", uri: "/v3/projects/project", code: 200 })),
-).annotate({
-  identifier: "UpdateProjectRequest",
-}) as any as S.Schema<UpdateProjectRequest>;
+).annotate({ identifier: "UpdateProjectRequest" }) as any as S.Schema<UpdateProjectRequest>;
 
 export type UpdateProjectResponseProject = CreateProjectResponseProject;
 export const UpdateProjectResponseProject = CreateProjectResponseProject;
@@ -7349,9 +7133,7 @@ export const UpdateProjectResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project: S.optional(CreateProjectResponseProject),
   }),
-).annotate({
-  identifier: "UpdateProjectResponse",
-}) as any as S.Schema<UpdateProjectResponse>;
+).annotate({ identifier: "UpdateProjectResponse" }) as any as S.Schema<UpdateProjectResponse>;
 
 /** Either `secrets` or `change_requests` is required (can't use both). Object of secrets you would like to save to the config. Try it with the sample secrets below. */
 export interface UpdateSecretRequestSecrets {
@@ -7492,29 +7274,39 @@ export const UpdateSecretRequest = /*@__PURE__*/ S.suspend(() =>
     secrets: S.optional(UpdateSecretRequestSecrets),
     change_requests: S.optional(UpdateSecretRequestChangeRequestsList),
   }).pipe(T.Http({ method: "POST", uri: "/v3/configs/config/secrets", code: 200 })),
+).annotate({ identifier: "UpdateSecretRequest" }) as any as S.Schema<UpdateSecretRequest>;
+
+export interface UpdateSecretResponseSecretsSTRIPE {
+  raw?: string;
+  computed?: string;
+  note?: string;
+}
+export const UpdateSecretResponseSecretsSTRIPE = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    raw: S.optional(S.String),
+    computed: S.optional(S.String),
+    note: S.optional(S.String),
+  }),
 ).annotate({
-  identifier: "UpdateSecretRequest",
-}) as any as S.Schema<UpdateSecretRequest>;
+  identifier: "UpdateSecretResponseSecretsSTRIPE",
+}) as any as S.Schema<UpdateSecretResponseSecretsSTRIPE>;
 
-export type UpdateSecretResponseSecretsSTRIPE = GetSecretResponseValue;
-export const UpdateSecretResponseSecretsSTRIPE = GetSecretResponseValue;
+export type UpdateSecretResponseSecretsALGOLIA = UpdateSecretResponseSecretsSTRIPE;
+export const UpdateSecretResponseSecretsALGOLIA = UpdateSecretResponseSecretsSTRIPE;
 
-export type UpdateSecretResponseSecretsALGOLIA = GetSecretResponseValue;
-export const UpdateSecretResponseSecretsALGOLIA = GetSecretResponseValue;
-
-export type UpdateSecretResponseSecretsDATABASE = GetSecretResponseValue;
-export const UpdateSecretResponseSecretsDATABASE = GetSecretResponseValue;
+export type UpdateSecretResponseSecretsDATABASE = UpdateSecretResponseSecretsSTRIPE;
+export const UpdateSecretResponseSecretsDATABASE = UpdateSecretResponseSecretsSTRIPE;
 
 export interface UpdateSecretResponseSecrets {
-  STRIPE?: GetSecretResponseValue;
-  ALGOLIA?: GetSecretResponseValue;
-  DATABASE?: GetSecretResponseValue;
+  STRIPE?: UpdateSecretResponseSecretsSTRIPE;
+  ALGOLIA?: UpdateSecretResponseSecretsSTRIPE;
+  DATABASE?: UpdateSecretResponseSecretsSTRIPE;
 }
 export const UpdateSecretResponseSecrets = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    STRIPE: S.optional(GetSecretResponseValue),
-    ALGOLIA: S.optional(GetSecretResponseValue),
-    DATABASE: S.optional(GetSecretResponseValue),
+    STRIPE: S.optional(UpdateSecretResponseSecretsSTRIPE),
+    ALGOLIA: S.optional(UpdateSecretResponseSecretsSTRIPE),
+    DATABASE: S.optional(UpdateSecretResponseSecretsSTRIPE),
   }),
 ).annotate({
   identifier: "UpdateSecretResponseSecrets",
@@ -7527,9 +7319,7 @@ export const UpdateSecretResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     secrets: S.optional(UpdateSecretResponseSecrets),
   }),
-).annotate({
-  identifier: "UpdateSecretResponse",
-}) as any as S.Schema<UpdateSecretResponse>;
+).annotate({ identifier: "UpdateSecretResponse" }) as any as S.Schema<UpdateSecretResponse>;
 
 export interface UpdateUserRequest {
   /** The slug of the workplace user. */
@@ -7542,9 +7332,7 @@ export const UpdateUserRequest = /*@__PURE__*/ S.suspend(() =>
     slug: S.String.pipe(T.Label()),
     access: S.optional(S.String),
   }).pipe(T.Http({ method: "PATCH", uri: "/v3/workplace/users/{slug}", code: 200 })),
-).annotate({
-  identifier: "UpdateUserRequest",
-}) as any as S.Schema<UpdateUserRequest>;
+).annotate({ identifier: "UpdateUserRequest" }) as any as S.Schema<UpdateUserRequest>;
 
 export type UpdateUserResponseWorkplaceUserUser = ConfigLogsGetResponseLogUser;
 export const UpdateUserResponseWorkplaceUserUser = ConfigLogsGetResponseLogUser;
@@ -7561,9 +7349,7 @@ export const UpdateUserResponse = /*@__PURE__*/ S.suspend(() =>
     workplace_user: S.optional(GetUserResponseWorkplaceUser),
     success: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "UpdateUserResponse",
-}) as any as S.Schema<UpdateUserResponse>;
+).annotate({ identifier: "UpdateUserResponse" }) as any as S.Schema<UpdateUserResponse>;
 
 export type UpdateWebhookRequestAuthenticationType = "None" | "Bearer" | "Basic";
 export const UpdateWebhookRequestAuthenticationType = S.String;
@@ -7631,16 +7417,12 @@ export const UpdateWebhookRequest = /*@__PURE__*/ S.suspend(() =>
     enableConfigs: S.optional(UpdateWebhookRequestEnableConfigsList),
     disableConfigs: S.optional(UpdateWebhookRequestDisableConfigsList),
   }).pipe(T.Http({ method: "PATCH", uri: "/v3/webhooks/webhook/{slug}", code: 200 })),
-).annotate({
-  identifier: "UpdateWebhookRequest",
-}) as any as S.Schema<UpdateWebhookRequest>;
+).annotate({ identifier: "UpdateWebhookRequest" }) as any as S.Schema<UpdateWebhookRequest>;
 
 export type UpdateWebhookResponse = unknown;
 export const UpdateWebhookResponse = /*@__PURE__*/ S.suspend(() =>
   S.Unknown.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "UpdateWebhookResponse",
-}) as any as S.Schema<UpdateWebhookResponse>;
+).annotate({ identifier: "UpdateWebhookResponse" }) as any as S.Schema<UpdateWebhookResponse>;
 
 export interface UpdateWorkplaceRequest {
   /** Workplace name */
@@ -7654,9 +7436,7 @@ export const UpdateWorkplaceRequest = /*@__PURE__*/ S.suspend(() =>
     billing_email: S.optional(S.String),
     security_email: S.optional(S.String),
   }).pipe(T.Http({ method: "POST", uri: "/v3/workplace", code: 200 })),
-).annotate({
-  identifier: "UpdateWorkplaceRequest",
-}) as any as S.Schema<UpdateWorkplaceRequest>;
+).annotate({ identifier: "UpdateWorkplaceRequest" }) as any as S.Schema<UpdateWorkplaceRequest>;
 
 export type UpdateWorkplaceResponseWorkplace = GetWorkplaceResponseWorkplace;
 export const UpdateWorkplaceResponseWorkplace = GetWorkplaceResponseWorkplace;
@@ -7668,9 +7448,7 @@ export const UpdateWorkplaceResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     workplace: S.optional(GetWorkplaceResponseWorkplace),
   }),
-).annotate({
-  identifier: "UpdateWorkplaceResponse",
-}) as any as S.Schema<UpdateWorkplaceResponse>;
+).annotate({ identifier: "UpdateWorkplaceResponse" }) as any as S.Schema<UpdateWorkplaceResponse>;
 
 /** An array containing the permissions the role has. Valid permissions are: `all_enclave_projects`, `all_enclave_projects_admin`, `analytics_dashboard`, `billing`, `billing_manage`, `change_request_policy_manage`, `change_request_policy_read`, `create_enclave_project`, `custom_roles_manage`, `ekm`, `enclave_inheritance`, `enclave_secrets_referencing`, `logs`, `logs_audit`, `service_account_api_tokens`, `service_account_api_tokens_manage`, `service_account_identities`, `service_account_identities_manage`, `service_accounts`, `service_accounts_manage`, `settings`, `settings_manage`, `team`, `team_manage`, `verified_domains`, `verified_domains_manage`, `workplace_default_environments_manage`, `workplace_default_environments_read`, `workplace_integrations_create`, `workplace_integrations_list`, `workplace_integrations_manage`, `workplace_integrations_read` */
 export type WorkplaceRolesCreateRequestPermissionsList = Array<string>;
@@ -7737,13 +7515,7 @@ export interface WorkplaceRolesDeleteRequest {
 export const WorkplaceRolesDeleteRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     role: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/v3/workplace/roles/role/{role}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/v3/workplace/roles/role/{role}", code: 200 })),
 ).annotate({
   identifier: "WorkplaceRolesDeleteRequest",
 }) as any as S.Schema<WorkplaceRolesDeleteRequest>;
@@ -7760,16 +7532,8 @@ export interface WorkplaceRolesGetRequest {
 export const WorkplaceRolesGetRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     role: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v3/workplace/roles/role/{role}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "WorkplaceRolesGetRequest",
-}) as any as S.Schema<WorkplaceRolesGetRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/v3/workplace/roles/role/{role}", code: 200 })),
+).annotate({ identifier: "WorkplaceRolesGetRequest" }) as any as S.Schema<WorkplaceRolesGetRequest>;
 
 export type WorkplaceRolesGetResponseRolePermissionsList = Array<string>;
 export const WorkplaceRolesGetResponseRolePermissionsList = /*@__PURE__*/ S.Array(
@@ -7899,13 +7663,7 @@ export const WorkplaceRolesUpdateRequest = /*@__PURE__*/ S.suspend(() =>
     role: S.String.pipe(T.Label()),
     name: S.optional(S.String),
     permissions: S.optional(WorkplaceRolesUpdateRequestPermissionsList),
-  }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/v3/workplace/roles/role/{role}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PATCH", uri: "/v3/workplace/roles/role/{role}", code: 200 })),
 ).annotate({
   identifier: "WorkplaceRolesUpdateRequest",
 }) as any as S.Schema<WorkplaceRolesUpdateRequest>;

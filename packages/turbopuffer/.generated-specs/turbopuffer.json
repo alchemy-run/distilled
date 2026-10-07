@@ -540,6 +540,12 @@
         },
         "sharding": {
           "target": "com.turbopuffer.api#ShardingConfig"
+        },
+        "read_only": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether document and schema writes are rejected. Omitted when `false`.\n"
+          }
         }
       },
       "traits": {
@@ -684,6 +690,13 @@
             "smithy.api#required": {}
           }
         },
+        "replicas": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The number of running replicas for the namespace. Replicas are billed once running, even before they finish warming their caches and become ready to serve traffic. This count is updated independently and may briefly disagree with the other status fields.\n",
+            "smithy.api#required": {}
+          }
+        },
         "utilization": {
           "target": "smithy.api#Double",
           "traits": {
@@ -772,6 +785,12 @@
           "traits": {
             "smithy.api#documentation": "Configuration for namespace pinning.\n- Missing field: no change to pinning configuration\n- `null` or `false`: explicitly remove pinning\n- `true`: enable pinning with default configuration\n- Object: set pinning configuration\n",
             "com.distilled.openapi#nullable": {}
+          }
+        },
+        "read_only": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Set to `true` to reject document and schema writes, or `false` to allow them. Writes already in progress may still commit. Metadata updates remain available.\n"
           }
         }
       },
@@ -1725,6 +1744,12 @@
             "smithy.api#documentation": "The number of results to return."
           }
         },
+        "offset": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of documents to skip before returning results. Supported only in v2 queries with an explicit `rank_by` and `top_k` or `limit`.\n"
+          }
+        },
         "filters": {
           "target": "smithy.api#Document",
           "traits": {
@@ -1930,6 +1955,12 @@
             "smithy.api#documentation": "The number of results to return."
           }
         },
+        "offset": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of documents to skip before returning results. Supported only in v2 queries with an explicit `rank_by` and `top_k` or `limit`.\n"
+          }
+        },
         "filters": {
           "target": "smithy.api#Document",
           "traits": {
@@ -2036,28 +2067,33 @@
       "traits": {}
     },
     "com.turbopuffer.api#RerankLimit": {
-      "type": "union",
-      "members": {
-        "Case0": {
-          "target": "smithy.api#Integer"
-        },
-        "Case1": {
-          "target": "com.turbopuffer.api#RerankLimitCase1"
-        }
-      },
-      "traits": {}
-    },
-    "com.turbopuffer.api#RerankLimitCase1": {
       "type": "structure",
       "members": {
         "total": {
           "target": "smithy.api#Integer",
           "traits": {
+            "smithy.api#documentation": "Limits the total number of documents returned after reranking.",
             "smithy.api#required": {}
           }
         }
       },
-      "traits": {}
+      "traits": {
+        "smithy.api#documentation": "Limits the total number of reranked documents returned."
+      }
+    },
+    "com.turbopuffer.api#CreateNamespaceQueryRequestLimit2": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "smithy.api#Integer"
+        },
+        "RerankLimit": {
+          "target": "com.turbopuffer.api#RerankLimit"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Limits the total number of reranked documents returned."
+      }
     },
     "com.turbopuffer.api#CreateNamespaceQueryRequest2": {
       "type": "structure",
@@ -2092,9 +2128,15 @@
           }
         },
         "limit": {
-          "target": "com.turbopuffer.api#RerankLimit",
+          "target": "com.turbopuffer.api#CreateNamespaceQueryRequestLimit2",
           "traits": {
             "smithy.api#documentation": "Limits the total number of reranked documents returned."
+          }
+        },
+        "offset": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of reranked documents to skip before returning results. Requires `rerank_by` and `limit`."
           }
         }
       },
@@ -2289,6 +2331,283 @@
         "smithy.api#documentation": "Copy all documents from another namespace into this one."
       }
     },
+    "com.turbopuffer.api#CreateNamespaceAsyncRequest": {
+      "type": "structure",
+      "members": {
+        "namespace": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The name of the namespace."
+          }
+        },
+        "source_namespace": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The namespace to copy documents from.",
+            "smithy.api#required": {}
+          }
+        },
+        "source_api_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "(Optional) An API key for the organization containing the source namespace"
+          }
+        },
+        "source_region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "(Optional) The region of the source namespace."
+          }
+        },
+        "dest_encryption": {
+          "target": "com.turbopuffer.api#Encryption",
+          "traits": {
+            "smithy.api#documentation": "(Optional) The encryption configuration for the destination namespace.\n"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.turbopuffer.api#CreateNamespaceAsyncResponse": {
+      "type": "structure",
+      "members": {
+        "token": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The token identifying the copy operation.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.turbopuffer.api#CreateNamespaceAsync": {
+      "type": "operation",
+      "input": {
+        "target": "com.turbopuffer.api#CreateNamespaceAsyncRequest"
+      },
+      "output": {
+        "target": "com.turbopuffer.api#CreateNamespaceAsyncResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v2/namespaces/{namespace}/async",
+          "code": 200
+        },
+        "smithy.api#documentation": "Start copying all documents from another namespace into this one. Returns an operation token without waiting for the copy to finish. Use the token to poll for progress and the result."
+      }
+    },
+    "com.turbopuffer.api#GetNamespaceOperationRequest": {
+      "type": "structure",
+      "members": {
+        "namespace": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The name of the namespace."
+          }
+        },
+        "token": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The operation token obtained when starting the copy."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.turbopuffer.api#CopyFromNamespaceOperation": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.turbopuffer.api#CopyFromNamespaceOperationCase0"
+        },
+        "Case1": {
+          "target": "com.turbopuffer.api#CopyFromNamespaceOperationCase1"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The current status of a copy operation."
+      }
+    },
+    "com.turbopuffer.api#CopyFromNamespaceOperationCase0": {
+      "type": "structure",
+      "members": {
+        "status": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "start_time": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The time at which the operation started.",
+            "smithy.api#required": {}
+          }
+        },
+        "progress": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A freeform description of the operation's progress. May be absent, and its format may change.\n"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.turbopuffer.api#CopyFromNamespaceOperationResult": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.turbopuffer.api#CopyFromNamespaceOperationResultCase0"
+        },
+        "Case1": {
+          "target": "com.turbopuffer.api#CopyFromNamespaceOperationResultCase1"
+        }
+      },
+      "traits": {}
+    },
+    "com.turbopuffer.api#CopyFromNamespaceOperationResultCase0": {
+      "type": "structure",
+      "members": {
+        "success": {
+          "target": "com.turbopuffer.api#WriteResult",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.turbopuffer.api#OperationError": {
+      "type": "structure",
+      "members": {
+        "status_code": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The HTTP status code of the operation's error.",
+            "smithy.api#required": {}
+          }
+        },
+        "detail": {
+          "target": "com.turbopuffer.api#ErrorResponse",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.turbopuffer.api#ErrorResponse": {
+      "type": "structure",
+      "members": {
+        "status": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "The status of the request.",
+            "smithy.api#required": {}
+          }
+        },
+        "error": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The error message.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The response to an unsuccessful request."
+      }
+    },
+    "com.turbopuffer.api#CopyFromNamespaceOperationResultCase1": {
+      "type": "structure",
+      "members": {
+        "error": {
+          "target": "com.turbopuffer.api#OperationError",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.turbopuffer.api#CopyFromNamespaceOperationCase1": {
+      "type": "structure",
+      "members": {
+        "status": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "start_time": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The time at which the operation started.",
+            "smithy.api#required": {}
+          }
+        },
+        "finish_time": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The time at which the operation finished.",
+            "smithy.api#required": {}
+          }
+        },
+        "result": {
+          "target": "com.turbopuffer.api#CopyFromNamespaceOperationResult",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.turbopuffer.api#GetNamespaceOperationResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "com.turbopuffer.api#CopyFromNamespaceOperation",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.turbopuffer.api#GetNamespaceOperation": {
+      "type": "operation",
+      "input": {
+        "target": "com.turbopuffer.api#GetNamespaceOperationRequest"
+      },
+      "output": {
+        "target": "com.turbopuffer.api#GetNamespaceOperationResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/namespaces/{namespace}/operations/{token}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Retrieve the current status of a copy operation."
+      }
+    },
     "com.turbopuffer.api#CreateNamespaceExplainQueryRequestConsistency": {
       "type": "structure",
       "members": {
@@ -2387,6 +2706,12 @@
           "target": "smithy.api#Integer",
           "traits": {
             "smithy.api#documentation": "The number of results to return."
+          }
+        },
+        "offset": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of documents to skip before returning results. Supported only in v2 queries with an explicit `rank_by` and `top_k` or `limit`.\n"
           }
         },
         "filters": {
@@ -2506,6 +2831,12 @@
         },
         {
           "target": "com.turbopuffer.api#UpdateNamespaceByNamespace2"
+        },
+        {
+          "target": "com.turbopuffer.api#CreateNamespaceAsync"
+        },
+        {
+          "target": "com.turbopuffer.api#GetNamespaceOperation"
         },
         {
           "target": "com.turbopuffer.api#CreateNamespaceExplainQuery"

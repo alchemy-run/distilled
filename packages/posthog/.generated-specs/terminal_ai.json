@@ -1,0 +1,348 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.posthog.terminal_ai#CreateTerminalAiRequestFormat": {
+      "type": "enum",
+      "members": {
+        "JSON": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "json"
+          }
+        },
+        "TXT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "txt"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.terminal_ai#TerminalAIModel": {
+      "type": "enum",
+      "members": {
+        "CLAUDE_OPUS_5": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "claude-opus-5"
+          }
+        },
+        "CLAUDE_SONNET_5": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "claude-sonnet-5"
+          }
+        },
+        "CLAUDE_SONNET_4_6": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "claude-sonnet-4-6"
+          }
+        },
+        "CLAUDE_HAIKU_4_5": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "claude-haiku-4-5"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.terminal_ai#TerminalAIMessage": {
+      "type": "structure",
+      "members": {
+        "role": {
+          "target": "com.posthog.terminal_ai#TerminalAIMessageRoleEnum",
+          "traits": {
+            "smithy.api#documentation": "Author of this conversation message.",
+            "smithy.api#required": {}
+          }
+        },
+        "content": {
+          "target": "com.posthog.terminal_ai#TerminalAIMessageContent",
+          "traits": {
+            "smithy.api#documentation": "Anthropic text, image, or tool content blocks.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.terminal_ai#TerminalAIMessageRoleEnum": {
+      "type": "enum",
+      "members": {
+        "USER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "user"
+          }
+        },
+        "ASSISTANT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "assistant"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.terminal_ai#TerminalAIMessageContentCase1ItemMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {}
+    },
+    "com.posthog.terminal_ai#TerminalAIMessageContentCase1List": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.terminal_ai#TerminalAIMessageContentCase1ItemMap"
+      },
+      "traits": {}
+    },
+    "com.posthog.terminal_ai#TerminalAIMessageContent": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "smithy.api#String"
+        },
+        "Case1": {
+          "target": "com.posthog.terminal_ai#TerminalAIMessageContentCase1List"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Anthropic text, image, or tool content blocks."
+      }
+    },
+    "com.posthog.terminal_ai#CreateTerminalAiRequestMessagesList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.terminal_ai#TerminalAIMessage"
+      },
+      "traits": {
+        "smithy.api#documentation": "Conversation and tool results."
+      }
+    },
+    "com.posthog.terminal_ai#CreateTerminalAiRequestSystemCase1ItemMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {}
+    },
+    "com.posthog.terminal_ai#CreateTerminalAiRequestSystemCase1List": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.terminal_ai#CreateTerminalAiRequestSystemCase1ItemMap"
+      },
+      "traits": {}
+    },
+    "com.posthog.terminal_ai#CreateTerminalAiRequestSystem": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "smithy.api#String"
+        },
+        "Case1": {
+          "target": "com.posthog.terminal_ai#CreateTerminalAiRequestSystemCase1List"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Agent instructions."
+      }
+    },
+    "com.posthog.terminal_ai#TerminalAITool": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of a tool executed inside the terminal.",
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "What the tool does."
+          }
+        },
+        "input_schema": {
+          "target": "com.posthog.terminal_ai#TerminalAIToolInputSchemaMap",
+          "traits": {
+            "smithy.api#documentation": "JSON schema for the tool's arguments.",
+            "smithy.api#required": {}
+          }
+        },
+        "cache_control": {
+          "target": "com.posthog.terminal_ai#TerminalAIToolCacheControlMap",
+          "traits": {
+            "smithy.api#documentation": "Provider prompt cache settings.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "eager_input_streaming": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Stream tool arguments as they are generated.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.terminal_ai#TerminalAIToolInputSchemaMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "JSON schema for the tool's arguments."
+      }
+    },
+    "com.posthog.terminal_ai#TerminalAIToolCacheControlMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.posthog.terminal_ai#CreateTerminalAiRequestToolsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.terminal_ai#TerminalAITool"
+      },
+      "traits": {
+        "smithy.api#documentation": "Tools executed by pi."
+      }
+    },
+    "com.posthog.terminal_ai#CreateTerminalAiRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "format": {
+          "target": "com.posthog.terminal_ai#CreateTerminalAiRequestFormat",
+          "traits": {
+            "smithy.api#httpQuery": "format"
+          }
+        },
+        "model": {
+          "target": "com.posthog.terminal_ai#TerminalAIModel",
+          "traits": {
+            "smithy.api#documentation": "Model served by the PostHog provider.",
+            "smithy.api#required": {}
+          }
+        },
+        "messages": {
+          "target": "com.posthog.terminal_ai#CreateTerminalAiRequestMessagesList",
+          "traits": {
+            "smithy.api#documentation": "Conversation and tool results.",
+            "smithy.api#required": {}
+          }
+        },
+        "max_tokens": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Maximum output tokens for this generation.",
+            "smithy.api#required": {}
+          }
+        },
+        "stream": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Always stream the model response."
+          }
+        },
+        "system": {
+          "target": "com.posthog.terminal_ai#CreateTerminalAiRequestSystem",
+          "traits": {
+            "smithy.api#documentation": "Agent instructions.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "tools": {
+          "target": "com.posthog.terminal_ai#CreateTerminalAiRequestToolsList",
+          "traits": {
+            "smithy.api#documentation": "Tools executed by pi."
+          }
+        },
+        "temperature": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Sampling temperature.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.terminal_ai#CreateTerminalAi": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.terminal_ai#CreateTerminalAiRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/terminal_ai/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Stream a terminal model response through PostHog AI. Requires organization approval for AI data processing. SDK consumers must use getTerminalAiCreateUrl() with streaming fetch. The generated JSON client buffers the response and cannot parse SSE."
+      }
+    },
+    "com.posthog.terminal_ai#TerminalAi": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.posthog.terminal_ai#CreateTerminalAi"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "PostHog API"
+      }
+    }
+  }
+}

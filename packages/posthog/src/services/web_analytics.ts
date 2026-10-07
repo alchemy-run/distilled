@@ -17,6 +17,714 @@ export class BadRequest
     [{ status: 400 }],
   ) {}
 
+export interface CancelWebAnalyticsContentAutopilotRunRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** A UUID string identifying this content autopilot run. */
+  id: string;
+}
+export const CancelWebAnalyticsContentAutopilotRunRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    project_id: S.String.pipe(T.Label()),
+    id: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/api/projects/{project_id}/web_analytics_content_autopilot_runs/{id}/cancel/",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "CancelWebAnalyticsContentAutopilotRunRequest",
+}) as any as S.Schema<CancelWebAnalyticsContentAutopilotRunRequest>;
+
+/** * `pending` - Pending * `generating` - Generating * `ready_for_review` - Ready for review * `completed` - Completed * `canceled` - Canceled * `failed` - Failed */
+export type ContentAutopilotRunRunStatusEnum =
+  | "pending"
+  | "generating"
+  | "ready_for_review"
+  | "completed"
+  | "canceled"
+  | "failed";
+export const ContentAutopilotRunRunStatusEnum = S.String;
+
+/** * `standard` - Standard * `lower` - Lower */
+export type ContentAutopilotSnapshotConfidenceEnum = "standard" | "lower";
+export const ContentAutopilotSnapshotConfidenceEnum = S.String;
+
+/** Public sources authorized for this run. */
+export type ContentAutopilotSnapshotSourceUrlsList = Array<string>;
+export const ContentAutopilotSnapshotSourceUrlsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<ContentAutopilotSnapshotSourceUrlsList>;
+
+/** Site paths authorized for this run. */
+export type ContentAutopilotSnapshotContentBoundariesList = Array<string>;
+export const ContentAutopilotSnapshotContentBoundariesList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<ContentAutopilotSnapshotContentBoundariesList>;
+
+/** Editorial rules captured for this run. */
+export type ContentAutopilotSnapshotBrandRulesList = Array<string>;
+export const ContentAutopilotSnapshotBrandRulesList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<ContentAutopilotSnapshotBrandRulesList>;
+
+export interface ContentAutopilotSnapshot {
+  /** Site domain used for the run. */
+  domain?: string;
+  /** Confidence level based on the available data sources. * `standard` - Standard * `lower` - Lower */
+  confidence?: ContentAutopilotSnapshotConfidenceEnum;
+  /** Public sources authorized for this run. */
+  source_urls?: ContentAutopilotSnapshotSourceUrlsList;
+  /** Site paths authorized for this run. */
+  content_boundaries?: ContentAutopilotSnapshotContentBoundariesList;
+  /** Editorial rules captured for this run. */
+  brand_rules?: ContentAutopilotSnapshotBrandRulesList;
+}
+export const ContentAutopilotSnapshot = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    domain: S.optional(S.String),
+    confidence: S.optional(ContentAutopilotSnapshotConfidenceEnum),
+    source_urls: S.optional(ContentAutopilotSnapshotSourceUrlsList),
+    content_boundaries: S.optional(ContentAutopilotSnapshotContentBoundariesList),
+    brand_rules: S.optional(ContentAutopilotSnapshotBrandRulesList),
+  }),
+).annotate({ identifier: "ContentAutopilotSnapshot" }) as any as S.Schema<ContentAutopilotSnapshot>;
+
+export interface ContentAutopilotError {
+  /** Stable machine-readable error code. */
+  error_code: string;
+  /** Error explanation suitable for the review workspace. */
+  message: string;
+}
+export const ContentAutopilotError = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    error_code: S.String,
+    message: S.String,
+  }),
+).annotate({ identifier: "ContentAutopilotError" }) as any as S.Schema<ContentAutopilotError>;
+
+/** Inspectable workflow errors from this run. */
+export type ContentAutopilotRunErrorsList = Array<ContentAutopilotError>;
+export const ContentAutopilotRunErrorsList = /*@__PURE__*/ S.Array(
+  ContentAutopilotError,
+) as any as S.Schema<ContentAutopilotRunErrorsList>;
+
+export interface ContentAutopilotRun {
+  id: string;
+  /** Site profile used by this run. */
+  profile_id: string;
+  /** Current durable workflow status. * `pending` - Pending * `generating` - Generating * `ready_for_review` - Ready for review * `completed` - Completed * `canceled` - Canceled * `failed` - Failed */
+  run_status: ContentAutopilotRunRunStatusEnum;
+  /** Immutable inputs captured at run start. */
+  input_snapshot: ContentAutopilotSnapshot;
+  /** Inspectable workflow errors from this run. */
+  errors: ContentAutopilotRunErrorsList;
+  created_at: string;
+  updated_at: string;
+  completed_at: string | null;
+}
+export const ContentAutopilotRun = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    profile_id: S.String,
+    run_status: ContentAutopilotRunRunStatusEnum,
+    input_snapshot: ContentAutopilotSnapshot,
+    errors: ContentAutopilotRunErrorsList,
+    created_at: S.String,
+    updated_at: S.String,
+    completed_at: S.NullOr(S.String),
+  }),
+).annotate({ identifier: "ContentAutopilotRun" }) as any as S.Schema<ContentAutopilotRun>;
+
+export interface DismissWebAnalyticsContentAutopilotOpportunityRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** A UUID string identifying this content autopilot opportunity. */
+  id: string;
+}
+export const DismissWebAnalyticsContentAutopilotOpportunityRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    project_id: S.String.pipe(T.Label()),
+    id: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/api/projects/{project_id}/web_analytics_content_autopilot_opportunities/{id}/dismiss/",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "DismissWebAnalyticsContentAutopilotOpportunityRequest",
+}) as any as S.Schema<DismissWebAnalyticsContentAutopilotOpportunityRequest>;
+
+/** * `ai_visibility_gap` - AI visibility gap */
+export type ContentAutopilotOpportunityKindEnum = "ai_visibility_gap";
+export const ContentAutopilotOpportunityKindEnum = S.String;
+
+/** * `new_content` - New content * `page_improvement` - Page improvement */
+export type ContentAutopilotProposalProposalTypeEnum = "new_content" | "page_improvement";
+export const ContentAutopilotProposalProposalTypeEnum = S.String;
+
+/** * `poor_ctr` - Poor click-through rate * `content_gap` - Content gap * `organic_decline` - Organic decline * `ai_visibility_gap` - AI visibility gap * `site_hygiene` - Site hygiene */
+export type OpportunityKindEnum =
+  | "poor_ctr"
+  | "content_gap"
+  | "organic_decline"
+  | "ai_visibility_gap"
+  | "site_hygiene";
+export const OpportunityKindEnum = S.String;
+
+export interface ContentAutopilotEvidence {
+  /** Reason the opportunity was selected. * `poor_ctr` - Poor click-through rate * `content_gap` - Content gap * `organic_decline` - Organic decline * `ai_visibility_gap` - AI visibility gap * `site_hygiene` - Site hygiene */
+  opportunity_kind: OpportunityKindEnum;
+  /** Plain-language explanation of the supporting evidence. */
+  explanation: string;
+  /** Page supported by this evidence. */
+  page_url?: string;
+  /** Search query supported by this evidence. */
+  query?: string;
+}
+export const ContentAutopilotEvidence = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    opportunity_kind: OpportunityKindEnum,
+    explanation: S.String,
+    page_url: S.optional(S.String),
+    query: S.optional(S.String),
+  }),
+).annotate({ identifier: "ContentAutopilotEvidence" }) as any as S.Schema<ContentAutopilotEvidence>;
+
+/** Why this opportunity was selected. */
+export type ContentAutopilotOpportunityEvidenceList = Array<ContentAutopilotEvidence>;
+export const ContentAutopilotOpportunityEvidenceList = /*@__PURE__*/ S.Array(
+  ContentAutopilotEvidence,
+) as any as S.Schema<ContentAutopilotOpportunityEvidenceList>;
+
+/** Engines that answered the prompt. */
+export type ContentAutopilotCitationGapEnginesList = Array<string>;
+export const ContentAutopilotCitationGapEnginesList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<ContentAutopilotCitationGapEnginesList>;
+
+/** Engines that never cited the site in the window. */
+export type ContentAutopilotCitationGapEnginesNotCitingList = Array<string>;
+export const ContentAutopilotCitationGapEnginesNotCitingList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<ContentAutopilotCitationGapEnginesNotCitingList>;
+
+/** Other sites' pages the engines cited, most frequent first. */
+export type ContentAutopilotCitationGapCompetitorUrlsList = Array<string>;
+export const ContentAutopilotCitationGapCompetitorUrlsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<ContentAutopilotCitationGapCompetitorUrlsList>;
+
+/** Domains the engines cited instead, most frequent first. */
+export type ContentAutopilotCitationGapCompetitorDomainsList = Array<string>;
+export const ContentAutopilotCitationGapCompetitorDomainsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<ContentAutopilotCitationGapCompetitorDomainsList>;
+
+/** Web searches the engines ran while answering. */
+export type ContentAutopilotCitationGapEngineSearchQueriesList = Array<string>;
+export const ContentAutopilotCitationGapEngineSearchQueriesList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<ContentAutopilotCitationGapEngineSearchQueriesList>;
+
+/** Site pages the engines cited when they did cite the site. */
+export type ContentAutopilotCitationGapOurCitedUrlsList = Array<string>;
+export const ContentAutopilotCitationGapOurCitedUrlsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<ContentAutopilotCitationGapOurCitedUrlsList>;
+
+export interface ContentAutopilotEngineAnswer {
+  /** Answer engine that gave the answer. */
+  engine: string;
+  /** The engine's most recent answer. Third-party text. */
+  answer_text: string;
+  /** When the answer was recorded, in ISO 8601. */
+  checked_at: string;
+}
+export const ContentAutopilotEngineAnswer = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    engine: S.String,
+    answer_text: S.String,
+    checked_at: S.String,
+  }),
+).annotate({
+  identifier: "ContentAutopilotEngineAnswer",
+}) as any as S.Schema<ContentAutopilotEngineAnswer>;
+
+/** Most recent answer per engine. */
+export type ContentAutopilotCitationGapLatestAnswersList = Array<ContentAutopilotEngineAnswer>;
+export const ContentAutopilotCitationGapLatestAnswersList = /*@__PURE__*/ S.Array(
+  ContentAutopilotEngineAnswer,
+) as any as S.Schema<ContentAutopilotCitationGapLatestAnswersList>;
+
+export interface ContentAutopilotCitationGap {
+  /** Successful citation checks in the lookback window. */
+  checks: number;
+  /** Checks whose answer cited the site. */
+  cited_checks: number;
+  /** Checks whose answer named the site's brand or cited the site. */
+  mentioned_checks?: number;
+  /** Share of checks that cited the site, from 0 to 1. */
+  citation_rate: number;
+  /** Engines that answered the prompt. */
+  engines: ContentAutopilotCitationGapEnginesList;
+  /** Engines that never cited the site in the window. */
+  engines_not_citing: ContentAutopilotCitationGapEnginesNotCitingList;
+  /** Other sites' pages the engines cited, most frequent first. */
+  competitor_urls: ContentAutopilotCitationGapCompetitorUrlsList;
+  /** Domains the engines cited instead, most frequent first. */
+  competitor_domains: ContentAutopilotCitationGapCompetitorDomainsList;
+  /** Web searches the engines ran while answering. */
+  engine_search_queries: ContentAutopilotCitationGapEngineSearchQueriesList;
+  /** Site pages the engines cited when they did cite the site. */
+  our_cited_urls: ContentAutopilotCitationGapOurCitedUrlsList;
+  /** Most recent answer per engine. */
+  latest_answers: ContentAutopilotCitationGapLatestAnswersList;
+  /** When the prompt was last checked, in ISO 8601. */
+  last_checked_at: string;
+}
+export const ContentAutopilotCitationGap = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    checks: S.Number,
+    cited_checks: S.Number,
+    mentioned_checks: S.optional(S.Number),
+    citation_rate: S.Number,
+    engines: ContentAutopilotCitationGapEnginesList,
+    engines_not_citing: ContentAutopilotCitationGapEnginesNotCitingList,
+    competitor_urls: ContentAutopilotCitationGapCompetitorUrlsList,
+    competitor_domains: ContentAutopilotCitationGapCompetitorDomainsList,
+    engine_search_queries: ContentAutopilotCitationGapEngineSearchQueriesList,
+    our_cited_urls: ContentAutopilotCitationGapOurCitedUrlsList,
+    latest_answers: ContentAutopilotCitationGapLatestAnswersList,
+    last_checked_at: S.String,
+  }),
+).annotate({
+  identifier: "ContentAutopilotCitationGap",
+}) as any as S.Schema<ContentAutopilotCitationGap>;
+
+/** * `new` - New * `dismissed` - Dismissed * `queued` - Queued * `drafted` - Drafted */
+export type ContentAutopilotOpportunityStatusEnum = "new" | "dismissed" | "queued" | "drafted";
+export const ContentAutopilotOpportunityStatusEnum = S.String;
+
+export interface ContentAutopilotOpportunity {
+  id: string;
+  /** Site profile this opportunity belongs to. */
+  profile_id: string;
+  /** Latest run that drafted this opportunity. */
+  run_id: string | null;
+  /** Latest proposal drafted for this opportunity. */
+  proposal_id: string | null;
+  /** Type of visibility gap. * `ai_visibility_gap` - AI visibility gap */
+  kind: ContentAutopilotOpportunityKindEnum;
+  /** The prompt the site isn't cited for. */
+  title: string;
+  /** Priority from 0 to 1. Higher means a clearer, more consistent gap. */
+  score: number;
+  /** `page_improvement` when the engines cited a site page for the prompt. Otherwise `new_content`, and drafting decides between a new page and an existing one. * `new_content` - New content * `page_improvement` - Page improvement */
+  recommended_type: ContentAutopilotProposalProposalTypeEnum;
+  /** Site page the engines cited for the prompt, to improve. Empty when no page was cited. */
+  target_url: string;
+  /** Why this opportunity was selected. */
+  evidence: ContentAutopilotOpportunityEvidenceList;
+  /** Citation check results behind this opportunity. */
+  gap: ContentAutopilotCitationGap;
+  /** Where the opportunity is in the drafting workflow. * `new` - New * `dismissed` - Dismissed * `queued` - Queued * `drafted` - Drafted */
+  status: ContentAutopilotOpportunityStatusEnum;
+  /** When the citation data was last read. */
+  last_refreshed_at: string;
+  created_at: string;
+  updated_at: string;
+}
+export const ContentAutopilotOpportunity = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    profile_id: S.String,
+    run_id: S.NullOr(S.String),
+    proposal_id: S.NullOr(S.String),
+    kind: ContentAutopilotOpportunityKindEnum,
+    title: S.String,
+    score: S.Number,
+    recommended_type: ContentAutopilotProposalProposalTypeEnum,
+    target_url: S.String,
+    evidence: ContentAutopilotOpportunityEvidenceList,
+    gap: ContentAutopilotCitationGap,
+    status: ContentAutopilotOpportunityStatusEnum,
+    last_refreshed_at: S.String,
+    created_at: S.String,
+    updated_at: S.String,
+  }),
+).annotate({
+  identifier: "ContentAutopilotOpportunity",
+}) as any as S.Schema<ContentAutopilotOpportunity>;
+
+export interface ContentAutopilotFrontmatterEntry {
+  /** Frontmatter field name. */
+  key: string;
+  /** Serialized frontmatter value. */
+  value: string;
+}
+export const ContentAutopilotFrontmatterEntry = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    key: S.String,
+    value: S.String,
+  }),
+).annotate({
+  identifier: "ContentAutopilotFrontmatterEntry",
+}) as any as S.Schema<ContentAutopilotFrontmatterEntry>;
+
+/** Ordered frontmatter entries. */
+export type ContentAutopilotPackageFrontmatterList = Array<ContentAutopilotFrontmatterEntry>;
+export const ContentAutopilotPackageFrontmatterList = /*@__PURE__*/ S.Array(
+  ContentAutopilotFrontmatterEntry,
+) as any as S.Schema<ContentAutopilotPackageFrontmatterList>;
+
+/** Validated same-origin internal links included in the content. */
+export type ContentAutopilotPackageInternalLinksList = Array<string>;
+export const ContentAutopilotPackageInternalLinksList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<ContentAutopilotPackageInternalLinksList>;
+
+/** Portable source notes included with the export. */
+export type ContentAutopilotPackageSourceNotesList = Array<string>;
+export const ContentAutopilotPackageSourceNotesList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<ContentAutopilotPackageSourceNotesList>;
+
+export interface ContentAutopilotPackage {
+  /** Repository-relative Markdown or MDX file path. */
+  file_path: string;
+  /** Content title. */
+  title: string;
+  /** Search description or summary. */
+  description: string;
+  /** URL slug. */
+  slug: string;
+  /** Ordered frontmatter entries. */
+  frontmatter: ContentAutopilotPackageFrontmatterList;
+  /** Validated same-origin internal links included in the content. */
+  internal_links: ContentAutopilotPackageInternalLinksList;
+  /** Portable source notes included with the export. */
+  source_notes: ContentAutopilotPackageSourceNotesList;
+  /** JSON-LD structured data to embed in the page, such as an FAQPage document. */
+  json_ld?: string;
+  /** Suggested llms.txt entry for the page. */
+  llms_txt_line?: string;
+}
+export const ContentAutopilotPackage = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    file_path: S.String,
+    title: S.String,
+    description: S.String,
+    slug: S.String,
+    frontmatter: ContentAutopilotPackageFrontmatterList,
+    internal_links: ContentAutopilotPackageInternalLinksList,
+    source_notes: ContentAutopilotPackageSourceNotesList,
+    json_ld: S.optional(S.String),
+    llms_txt_line: S.optional(S.String),
+  }),
+).annotate({ identifier: "ContentAutopilotPackage" }) as any as S.Schema<ContentAutopilotPackage>;
+
+export interface EditWebAnalyticsContentAutopilotProposalRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** A UUID string identifying this content autopilot proposal. */
+  id: string;
+  /** Edited Markdown to save for review. */
+  proposed_markdown: string;
+  /** Updated structured package to save with the proposal. */
+  content_package: ContentAutopilotPackage;
+}
+export const EditWebAnalyticsContentAutopilotProposalRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    project_id: S.String.pipe(T.Label()),
+    id: S.String.pipe(T.Label()),
+    proposed_markdown: S.String,
+    content_package: ContentAutopilotPackage,
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/api/projects/{project_id}/web_analytics_content_autopilot_proposals/{id}/edit/",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "EditWebAnalyticsContentAutopilotProposalRequest",
+}) as any as S.Schema<EditWebAnalyticsContentAutopilotProposalRequest>;
+
+/** * `generating` - Generating * `ready_for_review` - Ready for review * `rejected` - Rejected * `exported` - Exported * `failed` - Failed */
+export type ContentAutopilotProposalLifecycleStatusEnum =
+  | "generating"
+  | "ready_for_review"
+  | "rejected"
+  | "exported"
+  | "failed";
+export const ContentAutopilotProposalLifecycleStatusEnum = S.String;
+
+/** Performance evidence for this proposal. */
+export type ContentAutopilotProposalEvidenceList = Array<ContentAutopilotEvidence>;
+export const ContentAutopilotProposalEvidenceList = /*@__PURE__*/ S.Array(
+  ContentAutopilotEvidence,
+) as any as S.Schema<ContentAutopilotProposalEvidenceList>;
+
+export interface ContentAutopilotValidationCheck {
+  /** Stable identifier for the validation gate. */
+  check_key: string;
+  /** Human-readable validation name. */
+  label: string;
+  /** Whether the proposal passed this validation. */
+  passed: boolean;
+  /** Validation result and any action needed. */
+  message: string;
+  /** Whether failure prevents export. */
+  blocking: boolean;
+}
+export const ContentAutopilotValidationCheck = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    check_key: S.String,
+    label: S.String,
+    passed: S.Boolean,
+    message: S.String,
+    blocking: S.Boolean,
+  }),
+).annotate({
+  identifier: "ContentAutopilotValidationCheck",
+}) as any as S.Schema<ContentAutopilotValidationCheck>;
+
+/** Factual, brand, intent, originality, linking, crawlability, and schema checks. */
+export type ContentAutopilotValidationReportChecksList = Array<ContentAutopilotValidationCheck>;
+export const ContentAutopilotValidationReportChecksList = /*@__PURE__*/ S.Array(
+  ContentAutopilotValidationCheck,
+) as any as S.Schema<ContentAutopilotValidationReportChecksList>;
+
+export interface ContentAutopilotValidationReport {
+  /** Whether every blocking validation passed. */
+  passed: boolean;
+  /** Factual, brand, intent, originality, linking, crawlability, and schema checks. */
+  checks: ContentAutopilotValidationReportChecksList;
+}
+export const ContentAutopilotValidationReport = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    passed: S.Boolean,
+    checks: ContentAutopilotValidationReportChecksList,
+  }),
+).annotate({
+  identifier: "ContentAutopilotValidationReport",
+}) as any as S.Schema<ContentAutopilotValidationReport>;
+
+/** Site pages the brief asked to read for facts. */
+export type ContentAutopilotBriefSitePagesToReadList = Array<string>;
+export const ContentAutopilotBriefSitePagesToReadList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<ContentAutopilotBriefSitePagesToReadList>;
+
+export interface ContentAutopilotBriefCompetitor {
+  /** Product to compare against. */
+  name: string;
+  /** The product's own page to research. */
+  url: string;
+}
+export const ContentAutopilotBriefCompetitor = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    url: S.String,
+  }),
+).annotate({
+  identifier: "ContentAutopilotBriefCompetitor",
+}) as any as S.Schema<ContentAutopilotBriefCompetitor>;
+
+/** Products the brief asked to research for a comparison. */
+export type ContentAutopilotBriefCompetitorsToResearchList = Array<ContentAutopilotBriefCompetitor>;
+export const ContentAutopilotBriefCompetitorsToResearchList = /*@__PURE__*/ S.Array(
+  ContentAutopilotBriefCompetitor,
+) as any as S.Schema<ContentAutopilotBriefCompetitorsToResearchList>;
+
+/** Planned sections, in order. */
+export type ContentAutopilotBriefOutlineList = Array<string>;
+export const ContentAutopilotBriefOutlineList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<ContentAutopilotBriefOutlineList>;
+
+/** Questions the page must answer. */
+export type ContentAutopilotBriefQuestionsToAnswerList = Array<string>;
+export const ContentAutopilotBriefQuestionsToAnswerList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<ContentAutopilotBriefQuestionsToAnswerList>;
+
+/** Topics the cited competitor pages cover that the site's pages don't. */
+export type ContentAutopilotBriefCompetitorCoverageList = Array<string>;
+export const ContentAutopilotBriefCompetitorCoverageList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<ContentAutopilotBriefCompetitorCoverageList>;
+
+export interface ContentAutopilotBrief {
+  /** What the person asking wants to know or decide. */
+  intent?: string;
+  /** Who the content is for. */
+  audience?: string;
+  /** Whether the brief recommends new_content or page_improvement. */
+  recommended_type?: string;
+  /** Site page the brief chose to improve. Empty for a new page. */
+  target_page?: string;
+  /** Site pages the brief asked to read for facts. */
+  site_pages_to_read?: ContentAutopilotBriefSitePagesToReadList;
+  /** Products the brief asked to research for a comparison. */
+  competitors_to_research?: ContentAutopilotBriefCompetitorsToResearchList;
+  /** Working title for the page. */
+  working_title?: string;
+  /** Planned sections, in order. */
+  outline?: ContentAutopilotBriefOutlineList;
+  /** Questions the page must answer. */
+  questions_to_answer?: ContentAutopilotBriefQuestionsToAnswerList;
+  /** Topics the cited competitor pages cover that the site's pages don't. */
+  competitor_coverage?: ContentAutopilotBriefCompetitorCoverageList;
+  /** What AI answer engines currently say, including what they get wrong. */
+  engine_answer_summary?: string;
+  /** What the question means, when AI answer engines misread which product or company it asks about. */
+  disambiguation?: string;
+}
+export const ContentAutopilotBrief = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    intent: S.optional(S.String),
+    audience: S.optional(S.String),
+    recommended_type: S.optional(S.String),
+    target_page: S.optional(S.String),
+    site_pages_to_read: S.optional(ContentAutopilotBriefSitePagesToReadList),
+    competitors_to_research: S.optional(ContentAutopilotBriefCompetitorsToResearchList),
+    working_title: S.optional(S.String),
+    outline: S.optional(ContentAutopilotBriefOutlineList),
+    questions_to_answer: S.optional(ContentAutopilotBriefQuestionsToAnswerList),
+    competitor_coverage: S.optional(ContentAutopilotBriefCompetitorCoverageList),
+    engine_answer_summary: S.optional(S.String),
+    disambiguation: S.optional(S.String),
+  }),
+).annotate({ identifier: "ContentAutopilotBrief" }) as any as S.Schema<ContentAutopilotBrief>;
+
+/** * `site` - site * `competitor` - competitor */
+export type ContentAutopilotSourceLedgerEntryKindEnum = "site" | "competitor";
+export const ContentAutopilotSourceLedgerEntryKindEnum = S.String;
+
+export interface ContentAutopilotSourceLedgerEntry {
+  /** Factual claim the draft makes. */
+  claim: string;
+  /** Page that supports the claim. */
+  source_url: string;
+  /** Short quote from the source page. */
+  quote: string;
+  /** Whether the source is one of the site's pages or a competitor's own page. * `site` - site * `competitor` - competitor */
+  kind?: ContentAutopilotSourceLedgerEntryKindEnum;
+}
+export const ContentAutopilotSourceLedgerEntry = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    claim: S.String,
+    source_url: S.String,
+    quote: S.String,
+    kind: S.optional(ContentAutopilotSourceLedgerEntryKindEnum),
+  }),
+).annotate({
+  identifier: "ContentAutopilotSourceLedgerEntry",
+}) as any as S.Schema<ContentAutopilotSourceLedgerEntry>;
+
+/** Factual claims in the draft and the site pages that support them. */
+export type ContentAutopilotProposalSourceLedgerList = Array<ContentAutopilotSourceLedgerEntry>;
+export const ContentAutopilotProposalSourceLedgerList = /*@__PURE__*/ S.Array(
+  ContentAutopilotSourceLedgerEntry,
+) as any as S.Schema<ContentAutopilotProposalSourceLedgerList>;
+
+export interface ContentAutopilotProposal {
+  id: string;
+  /** Run that generated this proposal. */
+  run_id: string;
+  /** New article or bounded page improvement. * `new_content` - New content * `page_improvement` - Page improvement */
+  proposal_type: ContentAutopilotProposalProposalTypeEnum;
+  /** Review and export lifecycle status. * `generating` - Generating * `ready_for_review` - Ready for review * `rejected` - Rejected * `exported` - Exported * `failed` - Failed */
+  lifecycle_status: ContentAutopilotProposalLifecycleStatusEnum;
+  /** Review title for this proposal. */
+  title: string;
+  /** Primary query or topic targeted by this proposal. */
+  target_query: string;
+  /** Existing or intended public URL. */
+  target_url: string;
+  /** Performance evidence for this proposal. */
+  evidence: ContentAutopilotProposalEvidenceList;
+  /** Blocking and advisory validation results. */
+  validation_report: ContentAutopilotValidationReport;
+  /** Structured package that accompanies the exported Markdown. */
+  content_package: ContentAutopilotPackage;
+  /** Existing content for page-improvement diffs. */
+  original_markdown: string;
+  /** Full proposed Markdown after edits. */
+  proposed_markdown: string;
+  /** Content brief the draft was written from. */
+  brief: ContentAutopilotBrief;
+  /** Factual claims in the draft and the site pages that support them. */
+  source_ledger: ContentAutopilotProposalSourceLedgerList;
+  created_at: string;
+  updated_at: string;
+}
+export const ContentAutopilotProposal = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    run_id: S.String,
+    proposal_type: ContentAutopilotProposalProposalTypeEnum,
+    lifecycle_status: ContentAutopilotProposalLifecycleStatusEnum,
+    title: S.String,
+    target_query: S.String,
+    target_url: S.String,
+    evidence: ContentAutopilotProposalEvidenceList,
+    validation_report: ContentAutopilotValidationReport,
+    content_package: ContentAutopilotPackage,
+    original_markdown: S.String,
+    proposed_markdown: S.String,
+    brief: ContentAutopilotBrief,
+    source_ledger: ContentAutopilotProposalSourceLedgerList,
+    created_at: S.String,
+    updated_at: S.String,
+  }),
+).annotate({ identifier: "ContentAutopilotProposal" }) as any as S.Schema<ContentAutopilotProposal>;
+
+export interface ExportWebAnalyticsContentAutopilotProposalRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** A UUID string identifying this content autopilot proposal. */
+  id: string;
+}
+export const ExportWebAnalyticsContentAutopilotProposalRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    project_id: S.String.pipe(T.Label()),
+    id: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/api/projects/{project_id}/web_analytics_content_autopilot_proposals/{id}/export/",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "ExportWebAnalyticsContentAutopilotProposalRequest",
+}) as any as S.Schema<ExportWebAnalyticsContentAutopilotProposalRequest>;
+
+export interface ContentAutopilotExportResponse {
+  /** Suggested export filename. */
+  filename: string;
+  /** Validated Markdown content. */
+  markdown: string;
+  /** Structured JSON package for a CMS adapter. */
+  content_package: ContentAutopilotPackage;
+}
+export const ContentAutopilotExportResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    filename: S.String,
+    markdown: S.String,
+    content_package: ContentAutopilotPackage,
+  }),
+).annotate({
+  identifier: "ContentAutopilotExportResponse",
+}) as any as S.Schema<ContentAutopilotExportResponse>;
+
 export interface FetchWebAnalyticsLlmsTxtRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
@@ -49,9 +757,223 @@ export const LlmsTxtFetchResponse = /*@__PURE__*/ S.suspend(() =>
     content: S.String,
     url: S.String,
   }),
+).annotate({ identifier: "LlmsTxtFetchResponse" }) as any as S.Schema<LlmsTxtFetchResponse>;
+
+export interface RefreshWebAnalyticsContentAutopilotOpportunityRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** Site profile to refresh opportunities for. */
+  profile_id: string;
+}
+export const RefreshWebAnalyticsContentAutopilotOpportunityRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    project_id: S.String.pipe(T.Label()),
+    profile_id: S.String,
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/api/projects/{project_id}/web_analytics_content_autopilot_opportunities/refresh/",
+      code: 200,
+    }),
+  ),
 ).annotate({
-  identifier: "LlmsTxtFetchResponse",
-}) as any as S.Schema<LlmsTxtFetchResponse>;
+  identifier: "RefreshWebAnalyticsContentAutopilotOpportunityRequest",
+}) as any as S.Schema<RefreshWebAnalyticsContentAutopilotOpportunityRequest>;
+
+export type RefreshWebAnalyticsContentAutopilotOpportunityResponseBodyList =
+  Array<ContentAutopilotOpportunity>;
+export const RefreshWebAnalyticsContentAutopilotOpportunityResponseBodyList = /*@__PURE__*/ S.Array(
+  ContentAutopilotOpportunity,
+) as any as S.Schema<RefreshWebAnalyticsContentAutopilotOpportunityResponseBodyList>;
+
+export type RefreshWebAnalyticsContentAutopilotOpportunityResponse =
+  RefreshWebAnalyticsContentAutopilotOpportunityResponseBodyList;
+export const RefreshWebAnalyticsContentAutopilotOpportunityResponse = /*@__PURE__*/ S.suspend(() =>
+  RefreshWebAnalyticsContentAutopilotOpportunityResponseBodyList.pipe(T.RawResponseRoot()),
+).annotate({
+  identifier: "RefreshWebAnalyticsContentAutopilotOpportunityResponse",
+}) as any as S.Schema<RefreshWebAnalyticsContentAutopilotOpportunityResponse>;
+
+export interface RegenerateWebAnalyticsContentAutopilotProposalRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** A UUID string identifying this content autopilot proposal. */
+  id: string;
+}
+export const RegenerateWebAnalyticsContentAutopilotProposalRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    project_id: S.String.pipe(T.Label()),
+    id: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/api/projects/{project_id}/web_analytics_content_autopilot_proposals/{id}/regenerate/",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "RegenerateWebAnalyticsContentAutopilotProposalRequest",
+}) as any as S.Schema<RegenerateWebAnalyticsContentAutopilotProposalRequest>;
+
+export interface RegenerateWebAnalyticsContentAutopilotProposalResponse {}
+export const RegenerateWebAnalyticsContentAutopilotProposalResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "RegenerateWebAnalyticsContentAutopilotProposalResponse",
+}) as any as S.Schema<RegenerateWebAnalyticsContentAutopilotProposalResponse>;
+
+export interface RejectWebAnalyticsContentAutopilotProposalRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** A UUID string identifying this content autopilot proposal. */
+  id: string;
+}
+export const RejectWebAnalyticsContentAutopilotProposalRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    project_id: S.String.pipe(T.Label()),
+    id: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/api/projects/{project_id}/web_analytics_content_autopilot_proposals/{id}/reject/",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "RejectWebAnalyticsContentAutopilotProposalRequest",
+}) as any as S.Schema<RejectWebAnalyticsContentAutopilotProposalRequest>;
+
+export interface StartWebAnalyticsContentAutopilotRunRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** Site profile to research. */
+  profile_id: string;
+}
+export const StartWebAnalyticsContentAutopilotRunRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    project_id: S.String.pipe(T.Label()),
+    profile_id: S.String,
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/api/projects/{project_id}/web_analytics_content_autopilot_runs/start/",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "StartWebAnalyticsContentAutopilotRunRequest",
+}) as any as S.Schema<StartWebAnalyticsContentAutopilotRunRequest>;
+
+export interface StartWebAnalyticsContentAutopilotRunResponse {}
+export const StartWebAnalyticsContentAutopilotRunResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "StartWebAnalyticsContentAutopilotRunResponse",
+}) as any as S.Schema<StartWebAnalyticsContentAutopilotRunResponse>;
+
+/** Opportunities to draft, up to 5 at a time. */
+export type WebAnalyticsContentAutopilotOpportunitiesDraftRequestOpportunityIdsList = Array<string>;
+export const WebAnalyticsContentAutopilotOpportunitiesDraftRequestOpportunityIdsList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<WebAnalyticsContentAutopilotOpportunitiesDraftRequestOpportunityIdsList>;
+
+export interface WebAnalyticsContentAutopilotOpportunitiesDraftRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** Site profile the opportunities belong to. */
+  profile_id: string;
+  /** Opportunities to draft, up to 5 at a time. */
+  opportunity_ids: WebAnalyticsContentAutopilotOpportunitiesDraftRequestOpportunityIdsList;
+}
+export const WebAnalyticsContentAutopilotOpportunitiesDraftRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    project_id: S.String.pipe(T.Label()),
+    profile_id: S.String,
+    opportunity_ids: WebAnalyticsContentAutopilotOpportunitiesDraftRequestOpportunityIdsList,
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/api/projects/{project_id}/web_analytics_content_autopilot_opportunities/draft/",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "WebAnalyticsContentAutopilotOpportunitiesDraftRequest",
+}) as any as S.Schema<WebAnalyticsContentAutopilotOpportunitiesDraftRequest>;
+
+export interface WebAnalyticsContentAutopilotOpportunitiesDraftResponse {}
+export const WebAnalyticsContentAutopilotOpportunitiesDraftResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "WebAnalyticsContentAutopilotOpportunitiesDraftResponse",
+}) as any as S.Schema<WebAnalyticsContentAutopilotOpportunitiesDraftResponse>;
+
+export interface WebAnalyticsContentAutopilotProfilesDiscoverRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** Public site URL to inspect for onboarding defaults. */
+  domain: string;
+}
+export const WebAnalyticsContentAutopilotProfilesDiscoverRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    project_id: S.String.pipe(T.Label()),
+    domain: S.String,
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/api/projects/{project_id}/web_analytics_content_autopilot_profiles/discover/",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "WebAnalyticsContentAutopilotProfilesDiscoverRequest",
+}) as any as S.Schema<WebAnalyticsContentAutopilotProfilesDiscoverRequest>;
+
+/** Detected sitemap URLs or an editable conventional suggestion. */
+export type ContentAutopilotSiteDiscoveryResponseSourceUrlsList = Array<string>;
+export const ContentAutopilotSiteDiscoveryResponseSourceUrlsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<ContentAutopilotSiteDiscoveryResponseSourceUrlsList>;
+
+/** Editable same-origin path boundaries. */
+export type ContentAutopilotSiteDiscoveryResponseContentBoundariesList = Array<string>;
+export const ContentAutopilotSiteDiscoveryResponseContentBoundariesList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<ContentAutopilotSiteDiscoveryResponseContentBoundariesList>;
+
+/** Non-blocking discovery warnings. */
+export type ContentAutopilotSiteDiscoveryResponseWarningsList = Array<string>;
+export const ContentAutopilotSiteDiscoveryResponseWarningsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<ContentAutopilotSiteDiscoveryResponseWarningsList>;
+
+export interface ContentAutopilotSiteDiscoveryResponse {
+  /** Site name inferred from the homepage or hostname. */
+  name: string;
+  /** Normalized site origin. */
+  domain: string;
+  /** Detected sitemap URLs or an editable conventional suggestion. */
+  source_urls: ContentAutopilotSiteDiscoveryResponseSourceUrlsList;
+  /** Editable same-origin path boundaries. */
+  content_boundaries: ContentAutopilotSiteDiscoveryResponseContentBoundariesList;
+  /** Whether at least one sitemap was verified. */
+  sitemap_detected: boolean;
+  /** Non-blocking discovery warnings. */
+  warnings: ContentAutopilotSiteDiscoveryResponseWarningsList;
+}
+export const ContentAutopilotSiteDiscoveryResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    domain: S.String,
+    source_urls: ContentAutopilotSiteDiscoveryResponseSourceUrlsList,
+    content_boundaries: ContentAutopilotSiteDiscoveryResponseContentBoundariesList,
+    sitemap_detected: S.Boolean,
+    warnings: ContentAutopilotSiteDiscoveryResponseWarningsList,
+  }),
+).annotate({
+  identifier: "ContentAutopilotSiteDiscoveryResponse",
+}) as any as S.Schema<ContentAutopilotSiteDiscoveryResponse>;
 
 export interface WebAnalyticsRecapRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -67,15 +989,9 @@ export const WebAnalyticsRecapRequest = /*@__PURE__*/ S.suspend(() =>
     compare: S.optional(S.Boolean.pipe(T.Query())),
     days: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/web_analytics/recap/",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/projects/{project_id}/web_analytics/recap/", code: 200 }),
   ),
-).annotate({
-  identifier: "WebAnalyticsRecapRequest",
-}) as any as S.Schema<WebAnalyticsRecapRequest>;
+).annotate({ identifier: "WebAnalyticsRecapRequest" }) as any as S.Schema<WebAnalyticsRecapRequest>;
 
 /** * `Up` - Up * `Down` - Down */
 export type WoWChangeDirectionEnum = "Up" | "Down";
@@ -204,6 +1120,41 @@ export const WebAnalyticsRecapResponseGoalsList = /*@__PURE__*/ S.Array(
   Goal,
 ) as any as S.Schema<WebAnalyticsRecapResponseGoalsList>;
 
+/** * `ok` - OK * `no_web_sessions` - No web sessions * `no_sessions` - No sessions * `unknown` - Unknown */
+export type DigestDataStatusEnum = "ok" | "no_web_sessions" | "no_sessions" | "unknown";
+export const DigestDataStatusEnum = S.String;
+
+/** Metric definitions to use when you compare the digest with a direct query. */
+export type DigestMetadataNotesList = Array<string>;
+export const DigestMetadataNotesList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<DigestMetadataNotesList>;
+
+export interface DigestMetadata {
+  /** How to read the headline numbers. 'ok': the headline has pageviews or sessions in the period. 'no_web_sessions': the headline is zero, but the project has sessions in the period. None of them contain a $pageview or $screen event from a non-test account. Query the sessions table directly to count them. 'no_sessions': the project has no sessions in the period. 'unknown': the headline is zero, and the check for other sessions in the period failed. Query the sessions table directly to count them. * `ok` - OK * `no_web_sessions` - No web sessions * `no_sessions` - No sessions * `unknown` - Unknown */
+  data_status: DigestDataStatusEnum;
+  /** Start of the current period, in the project timezone. */
+  date_from: string;
+  /** End of the current period, in the project timezone. */
+  date_to: string;
+  /** Project timezone for the period boundaries. */
+  timezone: string;
+  /** True when the headline metrics, top pages and top sources exclude events from test accounts. Goal conversions include them. */
+  filter_test_accounts: boolean;
+  /** Metric definitions to use when you compare the digest with a direct query. */
+  notes: DigestMetadataNotesList;
+}
+export const DigestMetadata = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    data_status: DigestDataStatusEnum,
+    date_from: S.String,
+    date_to: S.String,
+    timezone: S.String,
+    filter_test_accounts: S.Boolean,
+    notes: DigestMetadataNotesList,
+  }),
+).annotate({ identifier: "DigestMetadata" }) as any as S.Schema<DigestMetadata>;
+
 export interface RecapPersona {
   /** Stable persona identifier. One of: just_getting_started, conversion_machine, traffic_magnet, crowd_favorite, search_hog, word_of_mouth, loyal_following, rising_star, steady_hog. */
   id: string;
@@ -271,6 +1222,8 @@ export interface WebAnalyticsRecapResponse {
   top_sources: WebAnalyticsRecapResponseTopSourcesList;
   /** Goal conversions. */
   goals: WebAnalyticsRecapResponseGoalsList;
+  /** Period, filters and metric definitions behind the numbers, and a status that explains a zero. */
+  metadata: DigestMetadata;
   /** Link to the Web analytics dashboard for this project. */
   dashboard_url: string;
   /** The single weekly persona assigned from this week's data. */
@@ -298,6 +1251,7 @@ export const WebAnalyticsRecapResponse = /*@__PURE__*/ S.suspend(() =>
     top_pages: WebAnalyticsRecapResponseTopPagesList,
     top_sources: WebAnalyticsRecapResponseTopSourcesList,
     goals: WebAnalyticsRecapResponseGoalsList,
+    metadata: DigestMetadata,
     dashboard_url: S.String,
     persona: RecapPersona,
     highlights: WebAnalyticsRecapResponseHighlightsList,
@@ -370,6 +1324,8 @@ export interface WeeklyDigestResponse {
   top_sources?: WeeklyDigestResponseTopSourcesList;
   /** Goal conversions. */
   goals?: WeeklyDigestResponseGoalsList;
+  /** Period, filters and metric definitions behind the numbers, and a status that explains a zero. */
+  metadata?: DigestMetadata;
   /** Link to the Web analytics dashboard for this project. */
   dashboard_url?: string;
 }
@@ -383,11 +1339,70 @@ export const WeeklyDigestResponse = /*@__PURE__*/ S.suspend(() =>
     top_pages: S.optional(WeeklyDigestResponseTopPagesList),
     top_sources: S.optional(WeeklyDigestResponseTopSourcesList),
     goals: S.optional(WeeklyDigestResponseGoalsList),
+    metadata: S.optional(DigestMetadata),
     dashboard_url: S.optional(S.String),
   }),
-).annotate({
-  identifier: "WeeklyDigestResponse",
-}) as any as S.Schema<WeeklyDigestResponse>;
+).annotate({ identifier: "WeeklyDigestResponse" }) as any as S.Schema<WeeklyDigestResponse>;
+
+export type CancelWebAnalyticsContentAutopilotRunError = PosthogOpError;
+/** Cancel a content autopilot run Stops a pending or generating run without creating content writes. */
+export const cancelWebAnalyticsContentAutopilotRun: API.OperationMethod<
+  CancelWebAnalyticsContentAutopilotRunRequest,
+  ContentAutopilotRun,
+  CancelWebAnalyticsContentAutopilotRunError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CancelWebAnalyticsContentAutopilotRunRequest,
+  output: ContentAutopilotRun,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
+export type DismissWebAnalyticsContentAutopilotOpportunityError = PosthogOpError;
+/** Dismiss a content opportunity Marks an opportunity as dismissed. It stays dismissed across refreshes, and list responses still include it with status `dismissed`. */
+export const dismissWebAnalyticsContentAutopilotOpportunity: API.OperationMethod<
+  DismissWebAnalyticsContentAutopilotOpportunityRequest,
+  ContentAutopilotOpportunity,
+  DismissWebAnalyticsContentAutopilotOpportunityError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: DismissWebAnalyticsContentAutopilotOpportunityRequest,
+  output: ContentAutopilotOpportunity,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
+export type EditWebAnalyticsContentAutopilotProposalError = PosthogOpError;
+/** Edit a content proposal Saves reviewed Markdown and its structured package without publishing it. */
+export const editWebAnalyticsContentAutopilotProposal: API.OperationMethod<
+  EditWebAnalyticsContentAutopilotProposalRequest,
+  ContentAutopilotProposal,
+  EditWebAnalyticsContentAutopilotProposalError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: EditWebAnalyticsContentAutopilotProposalRequest,
+  output: ContentAutopilotProposal,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ExportWebAnalyticsContentAutopilotProposalError = PosthogOpError;
+/** Export a content proposal Returns validated Markdown and structured JSON without publishing it. */
+export const exportWebAnalyticsContentAutopilotProposal: API.OperationMethod<
+  ExportWebAnalyticsContentAutopilotProposalRequest,
+  ContentAutopilotExportResponse,
+  ExportWebAnalyticsContentAutopilotProposalError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ExportWebAnalyticsContentAutopilotProposalRequest,
+  output: ContentAutopilotExportResponse,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
 
 export type FetchWebAnalyticsLlmsTxtError = BadRequest | PosthogOpError;
 /** Load an llms.txt file Loads an llms.txt file from a public URL for coverage analysis without saving it. */
@@ -400,6 +1415,96 @@ export const fetchWebAnalyticsLlmsTxt: API.OperationMethod<
   input: FetchWebAnalyticsLlmsTxtRequest,
   output: LlmsTxtFetchResponse,
   errors: [BadRequest],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
+export type RefreshWebAnalyticsContentAutopilotOpportunityError = PosthogOpError;
+/** Refresh content opportunities Re-reads AI citation checks and updates the site's content opportunities. Makes no model calls. */
+export const refreshWebAnalyticsContentAutopilotOpportunity: API.OperationMethod<
+  RefreshWebAnalyticsContentAutopilotOpportunityRequest,
+  RefreshWebAnalyticsContentAutopilotOpportunityResponse,
+  RefreshWebAnalyticsContentAutopilotOpportunityError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: RefreshWebAnalyticsContentAutopilotOpportunityRequest,
+  output: RefreshWebAnalyticsContentAutopilotOpportunityResponse,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
+export type RegenerateWebAnalyticsContentAutopilotProposalError = PosthogOpError;
+/** Regenerate a content proposal Returns a proposal to generation while keeping its previous result inspectable in history. */
+export const regenerateWebAnalyticsContentAutopilotProposal: API.OperationMethod<
+  RegenerateWebAnalyticsContentAutopilotProposalRequest,
+  RegenerateWebAnalyticsContentAutopilotProposalResponse,
+  RegenerateWebAnalyticsContentAutopilotProposalError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: RegenerateWebAnalyticsContentAutopilotProposalRequest,
+  output: RegenerateWebAnalyticsContentAutopilotProposalResponse,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
+export type RejectWebAnalyticsContentAutopilotProposalError = PosthogOpError;
+/** Reject a content proposal Rejects a proposal without changing the public site. */
+export const rejectWebAnalyticsContentAutopilotProposal: API.OperationMethod<
+  RejectWebAnalyticsContentAutopilotProposalRequest,
+  ContentAutopilotProposal,
+  RejectWebAnalyticsContentAutopilotProposalError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: RejectWebAnalyticsContentAutopilotProposalRequest,
+  output: ContentAutopilotProposal,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
+export type StartWebAnalyticsContentAutopilotRunError = PosthogOpError;
+/** Start a content autopilot run Captures the current profile and creates one pending on-demand content research run. */
+export const startWebAnalyticsContentAutopilotRun: API.OperationMethod<
+  StartWebAnalyticsContentAutopilotRunRequest,
+  StartWebAnalyticsContentAutopilotRunResponse,
+  StartWebAnalyticsContentAutopilotRunError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: StartWebAnalyticsContentAutopilotRunRequest,
+  output: StartWebAnalyticsContentAutopilotRunResponse,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
+export type WebAnalyticsContentAutopilotOpportunitiesDraftError = PosthogOpError;
+/** Draft content for opportunities Starts a run that researches and drafts content for the selected opportunities. */
+export const webAnalyticsContentAutopilotOpportunitiesDraft: API.OperationMethod<
+  WebAnalyticsContentAutopilotOpportunitiesDraftRequest,
+  WebAnalyticsContentAutopilotOpportunitiesDraftResponse,
+  WebAnalyticsContentAutopilotOpportunitiesDraftError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: WebAnalyticsContentAutopilotOpportunitiesDraftRequest,
+  output: WebAnalyticsContentAutopilotOpportunitiesDraftResponse,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
+export type WebAnalyticsContentAutopilotProfilesDiscoverError = PosthogOpError;
+/** Discover content autopilot site settings Inspects a public site for its canonical origin, name, and sitemap URLs. */
+export const webAnalyticsContentAutopilotProfilesDiscover: API.OperationMethod<
+  WebAnalyticsContentAutopilotProfilesDiscoverRequest,
+  ContentAutopilotSiteDiscoveryResponse,
+  WebAnalyticsContentAutopilotProfilesDiscoverError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: WebAnalyticsContentAutopilotProfilesDiscoverRequest,
+  output: ContentAutopilotSiteDiscoveryResponse,
+  errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
 }));

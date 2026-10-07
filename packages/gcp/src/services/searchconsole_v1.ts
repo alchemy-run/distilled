@@ -75,9 +75,7 @@ export const AddSitesRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://searchconsole.googleapis.com/",
     }),
   ),
-).annotate({
-  identifier: "AddSitesRequest",
-}) as any as S.Schema<AddSitesRequest>;
+).annotate({ identifier: "AddSitesRequest" }) as any as S.Schema<AddSitesRequest>;
 
 export interface AddSitesResponse {}
 export const AddSitesResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -85,15 +83,15 @@ export const AddSitesResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).anno
 }) as any as S.Schema<AddSitesResponse>;
 
 export interface DeleteSitemapsRequest {
-  /** The site's URL, including protocol. For example: `http://www.example.com/`. */
-  siteUrl: string;
   /** The URL of the actual sitemap. For example: `http://www.example.com/sitemap.xml`. */
   feedpath: string;
+  /** The site's URL, including protocol. For example: `http://www.example.com/`. */
+  siteUrl: string;
 }
 export const DeleteSitemapsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    siteUrl: S.String.pipe(T.Label()),
     feedpath: S.String.pipe(T.Label()),
+    siteUrl: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "DELETE",
@@ -101,9 +99,7 @@ export const DeleteSitemapsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://searchconsole.googleapis.com/",
     }),
   ),
-).annotate({
-  identifier: "DeleteSitemapsRequest",
-}) as any as S.Schema<DeleteSitemapsRequest>;
+).annotate({ identifier: "DeleteSitemapsRequest" }) as any as S.Schema<DeleteSitemapsRequest>;
 
 export interface DeleteSitemapsResponse {}
 export const DeleteSitemapsResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -124,9 +120,7 @@ export const DeleteSitesRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://searchconsole.googleapis.com/",
     }),
   ),
-).annotate({
-  identifier: "DeleteSitesRequest",
-}) as any as S.Schema<DeleteSitesRequest>;
+).annotate({ identifier: "DeleteSitesRequest" }) as any as S.Schema<DeleteSitesRequest>;
 
 export interface DeleteSitesResponse {}
 export const DeleteSitesResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -150,9 +144,7 @@ export const GetSitemapsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://searchconsole.googleapis.com/",
     }),
   ),
-).annotate({
-  identifier: "GetSitemapsRequest",
-}) as any as S.Schema<GetSitemapsRequest>;
+).annotate({ identifier: "GetSitemapsRequest" }) as any as S.Schema<GetSitemapsRequest>;
 
 export type WmxSitemapTypeEnum =
   | "NOT_SITEMAP"
@@ -178,22 +170,20 @@ export const WmxSitemapContentTypeEnum = S.String;
 
 /** Information about the various content types in the sitemap. */
 export interface WmxSitemapContent {
+  /** The specific type of content in this sitemap. For example: `web`. */
+  type?: WmxSitemapContentTypeEnum;
   /** *Deprecated; do not use.* */
   indexed?: string;
   /** The number of URLs in the sitemap (of the content type). */
   submitted?: string;
-  /** The specific type of content in this sitemap. For example: `web`. */
-  type?: WmxSitemapContentTypeEnum;
 }
 export const WmxSitemapContent = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    type: S.optional(WmxSitemapContentTypeEnum),
     indexed: S.optional(S.String),
     submitted: S.optional(S.String),
-    type: S.optional(WmxSitemapContentTypeEnum),
   }),
-).annotate({
-  identifier: "WmxSitemapContent",
-}) as any as S.Schema<WmxSitemapContent>;
+).annotate({ identifier: "WmxSitemapContent" }) as any as S.Schema<WmxSitemapContent>;
 
 export type WmxSitemapContentList = Array<WmxSitemapContent>;
 export const WmxSitemapContentList = /*@__PURE__*/ S.Array(
@@ -202,36 +192,36 @@ export const WmxSitemapContentList = /*@__PURE__*/ S.Array(
 
 /** Contains detailed information about a specific URL submitted as a [sitemap](https://support.google.com/webmasters/answer/156184). */
 export interface WmxSitemap {
-  /** Number of errors in the sitemap. These are issues with the sitemap itself that need to be fixed before it can be processed correctly. */
-  errors?: string;
-  /** The type of the sitemap. For example: `rssFeed`. */
-  type?: WmxSitemapTypeEnum;
-  /** Date & time in which this sitemap was last downloaded. Date format is in RFC 3339 format (yyyy-mm-dd). */
-  lastDownloaded?: string;
-  /** Date & time in which this sitemap was submitted. Date format is in RFC 3339 format (yyyy-mm-dd). */
-  lastSubmitted?: string;
   /** Number of warnings for the sitemap. These are generally non-critical issues with URLs in the sitemaps. */
   warnings?: string;
-  /** If true, the sitemap has not been processed. */
-  isPending?: boolean;
-  /** The url of the sitemap. */
-  path?: string;
+  /** Date & time in which this sitemap was last downloaded. Date format is in RFC 3339 format (yyyy-mm-dd). */
+  lastDownloaded?: string;
   /** If true, the sitemap is a collection of sitemaps. */
   isSitemapsIndex?: boolean;
+  /** Number of errors in the sitemap. These are issues with the sitemap itself that need to be fixed before it can be processed correctly. */
+  errors?: string;
+  /** The url of the sitemap. */
+  path?: string;
+  /** Date & time in which this sitemap was submitted. Date format is in RFC 3339 format (yyyy-mm-dd). */
+  lastSubmitted?: string;
+  /** The type of the sitemap. For example: `rssFeed`. */
+  type?: WmxSitemapTypeEnum;
   /** The various content types in the sitemap. */
   contents?: WmxSitemapContentList;
+  /** If true, the sitemap has not been processed. */
+  isPending?: boolean;
 }
 export const WmxSitemap = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    errors: S.optional(S.String),
-    type: S.optional(WmxSitemapTypeEnum),
-    lastDownloaded: S.optional(S.String),
-    lastSubmitted: S.optional(S.String),
     warnings: S.optional(S.String),
-    isPending: S.optional(S.Boolean),
-    path: S.optional(S.String),
+    lastDownloaded: S.optional(S.String),
     isSitemapsIndex: S.optional(S.Boolean),
+    errors: S.optional(S.String),
+    path: S.optional(S.String),
+    lastSubmitted: S.optional(S.String),
+    type: S.optional(WmxSitemapTypeEnum),
     contents: S.optional(WmxSitemapContentList),
+    isPending: S.optional(S.Boolean),
   }),
 ).annotate({ identifier: "WmxSitemap" }) as any as S.Schema<WmxSitemap>;
 
@@ -249,9 +239,7 @@ export const GetSitesRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://searchconsole.googleapis.com/",
     }),
   ),
-).annotate({
-  identifier: "GetSitesRequest",
-}) as any as S.Schema<GetSitesRequest>;
+).annotate({ identifier: "GetSitesRequest" }) as any as S.Schema<GetSitesRequest>;
 
 export type WmxSitePermissionLevelEnum =
   | "SITE_PERMISSION_LEVEL_UNSPECIFIED"
@@ -263,42 +251,40 @@ export const WmxSitePermissionLevelEnum = S.String;
 
 /** Contains permission level information about a Search Console site. For more information, see [Permissions in Search Console](https://support.google.com/webmasters/answer/2451999). */
 export interface WmxSite {
-  /** The user's permission level for the site. */
-  permissionLevel?: WmxSitePermissionLevelEnum;
   /** The URL of the site. */
   siteUrl?: string;
+  /** The user's permission level for the site. */
+  permissionLevel?: WmxSitePermissionLevelEnum;
 }
 export const WmxSite = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    permissionLevel: S.optional(WmxSitePermissionLevelEnum),
     siteUrl: S.optional(S.String),
+    permissionLevel: S.optional(WmxSitePermissionLevelEnum),
   }),
 ).annotate({ identifier: "WmxSite" }) as any as S.Schema<WmxSite>;
 
 /** Index inspection request. */
 export interface InspectUrlIndexRequest {
-  /** Required. URL to inspect. Must be under the property specified in "site_url". */
-  inspectionUrl?: string;
-  /** Required. The URL of the property as defined in Search Console. **Examples:** `http://www.example.com/` for a URL-prefix property, or `sc-domain:example.com` for a Domain property. */
-  siteUrl?: string;
   /** Optional. An [IETF BCP-47](https://en.wikipedia.org/wiki/IETF_language_tag) language code representing the requested language for translated issue messages, e.g. "en-US", "or "de-CH". Default value is "en-US". */
   languageCode?: string;
+  /** Required. The URL of the property as defined in Search Console. **Examples:** `http://www.example.com/` for a URL-prefix property, or `sc-domain:example.com` for a Domain property. */
+  siteUrl?: string;
+  /** Required. URL to inspect. Must be under the property specified in "site_url". */
+  inspectionUrl?: string;
 }
 export const InspectUrlIndexRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    inspectionUrl: S.optional(S.String),
-    siteUrl: S.optional(S.String),
     languageCode: S.optional(S.String),
+    siteUrl: S.optional(S.String),
+    inspectionUrl: S.optional(S.String),
   }),
-).annotate({
-  identifier: "InspectUrlIndexRequest",
-}) as any as S.Schema<InspectUrlIndexRequest>;
+).annotate({ identifier: "InspectUrlIndexRequest" }) as any as S.Schema<InspectUrlIndexRequest>;
 
-export interface ListInspectUrlInspectionRequest {
+export interface InspectUrlInspectionIndexRequest {
   /** Request body */
   body?: InspectUrlIndexRequest;
 }
-export const ListInspectUrlInspectionRequest = /*@__PURE__*/ S.suspend(() =>
+export const InspectUrlInspectionIndexRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     body: S.optional(InspectUrlIndexRequest.pipe(T.HttpBody())),
   }).pipe(
@@ -309,8 +295,66 @@ export const ListInspectUrlInspectionRequest = /*@__PURE__*/ S.suspend(() =>
     }),
   ),
 ).annotate({
-  identifier: "ListInspectUrlInspectionRequest",
-}) as any as S.Schema<ListInspectUrlInspectionRequest>;
+  identifier: "InspectUrlInspectionIndexRequest",
+}) as any as S.Schema<InspectUrlInspectionIndexRequest>;
+
+export type RichResultsIssueSeverityEnum = "SEVERITY_UNSPECIFIED" | "WARNING" | "ERROR";
+export const RichResultsIssueSeverityEnum = S.String;
+
+/** Severity and status of a single issue affecting a single rich result instance on a page. */
+export interface RichResultsIssue {
+  /** Rich Results issue type. */
+  issueMessage?: string;
+  /** Severity of this issue: WARNING, or ERROR. Items with an issue of status ERROR cannot appear with rich result features in Google Search results. */
+  severity?: RichResultsIssueSeverityEnum;
+}
+export const RichResultsIssue = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    issueMessage: S.optional(S.String),
+    severity: S.optional(RichResultsIssueSeverityEnum),
+  }),
+).annotate({ identifier: "RichResultsIssue" }) as any as S.Schema<RichResultsIssue>;
+
+export type RichResultsIssueList = Array<RichResultsIssue>;
+export const RichResultsIssueList = /*@__PURE__*/ S.Array(
+  RichResultsIssue,
+) as any as S.Schema<RichResultsIssueList>;
+
+/** A specific rich result found on the page. */
+export interface Item {
+  /** The user-provided name of this item. */
+  name?: string;
+  /** A list of zero or more rich result issues found for this instance. */
+  issues?: RichResultsIssueList;
+}
+export const Item = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    issues: S.optional(RichResultsIssueList),
+  }),
+).annotate({ identifier: "Item" }) as any as S.Schema<Item>;
+
+export type ItemList = Array<Item>;
+export const ItemList = /*@__PURE__*/ S.Array(Item) as any as S.Schema<ItemList>;
+
+/** Rich Results items grouped by type. */
+export interface DetectedItems {
+  /** List of Rich Results items. */
+  items?: ItemList;
+  /** Rich Results type */
+  richResultType?: string;
+}
+export const DetectedItems = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    items: S.optional(ItemList),
+    richResultType: S.optional(S.String),
+  }),
+).annotate({ identifier: "DetectedItems" }) as any as S.Schema<DetectedItems>;
+
+export type DetectedItemsList = Array<DetectedItems>;
+export const DetectedItemsList = /*@__PURE__*/ S.Array(
+  DetectedItems,
+) as any as S.Schema<DetectedItemsList>;
 
 export type RichResultsInspectionResultVerdictEnum =
   | "VERDICT_UNSPECIFIED"
@@ -320,142 +364,24 @@ export type RichResultsInspectionResultVerdictEnum =
   | "NEUTRAL";
 export const RichResultsInspectionResultVerdictEnum = S.String;
 
-export type RichResultsIssueSeverityEnum = "SEVERITY_UNSPECIFIED" | "WARNING" | "ERROR";
-export const RichResultsIssueSeverityEnum = S.String;
-
-/** Severity and status of a single issue affecting a single rich result instance on a page. */
-export interface RichResultsIssue {
-  /** Severity of this issue: WARNING, or ERROR. Items with an issue of status ERROR cannot appear with rich result features in Google Search results. */
-  severity?: RichResultsIssueSeverityEnum;
-  /** Rich Results issue type. */
-  issueMessage?: string;
-}
-export const RichResultsIssue = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    severity: S.optional(RichResultsIssueSeverityEnum),
-    issueMessage: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "RichResultsIssue",
-}) as any as S.Schema<RichResultsIssue>;
-
-export type RichResultsIssueList = Array<RichResultsIssue>;
-export const RichResultsIssueList = /*@__PURE__*/ S.Array(
-  RichResultsIssue,
-) as any as S.Schema<RichResultsIssueList>;
-
-/** A specific rich result found on the page. */
-export interface Item {
-  /** A list of zero or more rich result issues found for this instance. */
-  issues?: RichResultsIssueList;
-  /** The user-provided name of this item. */
-  name?: string;
-}
-export const Item = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    issues: S.optional(RichResultsIssueList),
-    name: S.optional(S.String),
-  }),
-).annotate({ identifier: "Item" }) as any as S.Schema<Item>;
-
-export type ItemList = Array<Item>;
-export const ItemList = /*@__PURE__*/ S.Array(Item) as any as S.Schema<ItemList>;
-
-/** Rich Results items grouped by type. */
-export interface DetectedItems {
-  /** Rich Results type */
-  richResultType?: string;
-  /** List of Rich Results items. */
-  items?: ItemList;
-}
-export const DetectedItems = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    richResultType: S.optional(S.String),
-    items: S.optional(ItemList),
-  }),
-).annotate({ identifier: "DetectedItems" }) as any as S.Schema<DetectedItems>;
-
-export type DetectedItemsList = Array<DetectedItems>;
-export const DetectedItemsList = /*@__PURE__*/ S.Array(
-  DetectedItems,
-) as any as S.Schema<DetectedItemsList>;
-
 /** Rich-Results inspection result, including any rich results found at this URL. */
 export interface RichResultsInspectionResult {
-  /** High-level rich results inspection result for this URL. */
-  verdict?: RichResultsInspectionResultVerdictEnum;
   /** A list of zero or more rich results detected on this page. Rich results that cannot even be parsed due to syntactic issues will not be listed here. */
   detectedItems?: DetectedItemsList;
+  /** High-level rich results inspection result for this URL. */
+  verdict?: RichResultsInspectionResultVerdictEnum;
 }
 export const RichResultsInspectionResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    verdict: S.optional(RichResultsInspectionResultVerdictEnum),
     detectedItems: S.optional(DetectedItemsList),
+    verdict: S.optional(RichResultsInspectionResultVerdictEnum),
   }),
 ).annotate({
   identifier: "RichResultsInspectionResult",
 }) as any as S.Schema<RichResultsInspectionResult>;
 
-export type MobileUsabilityIssueSeverityEnum = "SEVERITY_UNSPECIFIED" | "WARNING" | "ERROR";
-export const MobileUsabilityIssueSeverityEnum = S.String;
-
-export type MobileUsabilityIssueIssueTypeEnum =
-  | "MOBILE_USABILITY_ISSUE_TYPE_UNSPECIFIED"
-  | "USES_INCOMPATIBLE_PLUGINS"
-  | "CONFIGURE_VIEWPORT"
-  | "FIXED_WIDTH_VIEWPORT"
-  | "SIZE_CONTENT_TO_VIEWPORT"
-  | "USE_LEGIBLE_FONT_SIZES"
-  | "TAP_TARGETS_TOO_CLOSE";
-export const MobileUsabilityIssueIssueTypeEnum = S.String;
-
-/** Mobile-usability issue. */
-export interface MobileUsabilityIssue {
-  /** Not returned; reserved for future use. */
-  severity?: MobileUsabilityIssueSeverityEnum;
-  /** Additional information regarding the issue. */
-  message?: string;
-  /** Mobile-usability issue type. */
-  issueType?: MobileUsabilityIssueIssueTypeEnum;
-}
-export const MobileUsabilityIssue = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    severity: S.optional(MobileUsabilityIssueSeverityEnum),
-    message: S.optional(S.String),
-    issueType: S.optional(MobileUsabilityIssueIssueTypeEnum),
-  }),
-).annotate({
-  identifier: "MobileUsabilityIssue",
-}) as any as S.Schema<MobileUsabilityIssue>;
-
-export type MobileUsabilityIssueList = Array<MobileUsabilityIssue>;
-export const MobileUsabilityIssueList = /*@__PURE__*/ S.Array(
-  MobileUsabilityIssue,
-) as any as S.Schema<MobileUsabilityIssueList>;
-
-export type MobileUsabilityInspectionResultVerdictEnum =
-  | "VERDICT_UNSPECIFIED"
-  | "PASS"
-  | "PARTIAL"
-  | "FAIL"
-  | "NEUTRAL";
-export const MobileUsabilityInspectionResultVerdictEnum = S.String;
-
-/** Mobile-usability inspection results. */
-export interface MobileUsabilityInspectionResult {
-  /** A list of zero or more mobile-usability issues detected for this URL. */
-  issues?: MobileUsabilityIssueList;
-  /** High-level mobile-usability inspection result for this URL. */
-  verdict?: MobileUsabilityInspectionResultVerdictEnum;
-}
-export const MobileUsabilityInspectionResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    issues: S.optional(MobileUsabilityIssueList),
-    verdict: S.optional(MobileUsabilityInspectionResultVerdictEnum),
-  }),
-).annotate({
-  identifier: "MobileUsabilityInspectionResult",
-}) as any as S.Schema<MobileUsabilityInspectionResult>;
+export type StringList = Array<string>;
+export const StringList = /*@__PURE__*/ S.Array(S.String) as any as S.Schema<StringList>;
 
 export type IndexStatusInspectionResultRobotsTxtStateEnum =
   | "ROBOTS_TXT_STATE_UNSPECIFIED"
@@ -494,9 +420,6 @@ export type IndexStatusInspectionResultIndexingStateEnum =
   | "BLOCKED_BY_ROBOTS_TXT";
 export const IndexStatusInspectionResultIndexingStateEnum = S.String;
 
-export type StringList = Array<string>;
-export const StringList = /*@__PURE__*/ S.Array(S.String) as any as S.Schema<StringList>;
-
 export type IndexStatusInspectionResultCrawledAsEnum =
   | "CRAWLING_USER_AGENT_UNSPECIFIED"
   | "DESKTOP"
@@ -505,46 +428,105 @@ export const IndexStatusInspectionResultCrawledAsEnum = S.String;
 
 /** Results of index status inspection for either the live page or the version in Google's index, depending on whether you requested a live inspection or not. For more information, see the [Index coverage report documentation](https://support.google.com/webmasters/answer/7440203). */
 export interface IndexStatusInspectionResult {
-  /** The URL of the page that Google selected as canonical. If the page was not indexed, this field is absent. */
-  googleCanonical?: string;
+  /** Any sitemaps that this URL was listed in, as known by Google. Not guaranteed to be an exhaustive list, especially if Google did not discover this URL through a sitemap. Absent if no sitemaps were found. */
+  sitemap?: StringList;
   /** Whether or not the page is blocked to Google by a robots.txt rule. */
   robotsTxtState?: IndexStatusInspectionResultRobotsTxtStateEnum;
   /** Whether or not Google could retrieve the page from your server. Equivalent to ["page fetch"](https://support.google.com/webmasters/answer/9012289#index_coverage) in the URL inspection report. */
   pageFetchState?: IndexStatusInspectionResultPageFetchStateEnum;
   /** Last time this URL was crawled by Google using the [primary crawler](https://support.google.com/webmasters/answer/7440203#primary_crawler). Absent if the URL was never crawled successfully. */
   lastCrawlTime?: string;
-  /** The URL that your page or site [declares as canonical](https://developers.google.com/search/docs/advanced/crawling/consolidate-duplicate-urls?#define-canonical). If you did not declare a canonical URL, this field is absent. */
-  userCanonical?: string;
-  /** High level verdict about whether the URL *is* indexed (indexed status), or *can be* indexed (live inspection). */
-  verdict?: IndexStatusInspectionResultVerdictEnum;
-  /** Whether or not the page blocks indexing through a noindex rule. */
-  indexingState?: IndexStatusInspectionResultIndexingStateEnum;
-  /** Any sitemaps that this URL was listed in, as known by Google. Not guaranteed to be an exhaustive list, especially if Google did not discover this URL through a sitemap. Absent if no sitemaps were found. */
-  sitemap?: StringList;
-  /** URLs that link to the inspected URL, directly and indirectly. */
-  referringUrls?: StringList;
-  /** Primary crawler that was used by Google to crawl your site. */
-  crawledAs?: IndexStatusInspectionResultCrawledAsEnum;
   /** Could Google find and index the page. More details about page indexing appear in 'indexing_state'. */
   coverageState?: string;
+  /** High level verdict about whether the URL *is* indexed (indexed status), or *can be* indexed (live inspection). */
+  verdict?: IndexStatusInspectionResultVerdictEnum;
+  /** URLs that link to the inspected URL, directly and indirectly. */
+  referringUrls?: StringList;
+  /** The URL of the page that Google selected as canonical. If the page was not indexed, this field is absent. */
+  googleCanonical?: string;
+  /** Whether or not the page blocks indexing through a noindex rule. */
+  indexingState?: IndexStatusInspectionResultIndexingStateEnum;
+  /** The URL that your page or site [declares as canonical](https://developers.google.com/search/docs/advanced/crawling/consolidate-duplicate-urls?#define-canonical). If you did not declare a canonical URL, this field is absent. */
+  userCanonical?: string;
+  /** Primary crawler that was used by Google to crawl your site. */
+  crawledAs?: IndexStatusInspectionResultCrawledAsEnum;
 }
 export const IndexStatusInspectionResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    googleCanonical: S.optional(S.String),
+    sitemap: S.optional(StringList),
     robotsTxtState: S.optional(IndexStatusInspectionResultRobotsTxtStateEnum),
     pageFetchState: S.optional(IndexStatusInspectionResultPageFetchStateEnum),
     lastCrawlTime: S.optional(S.String),
-    userCanonical: S.optional(S.String),
-    verdict: S.optional(IndexStatusInspectionResultVerdictEnum),
-    indexingState: S.optional(IndexStatusInspectionResultIndexingStateEnum),
-    sitemap: S.optional(StringList),
-    referringUrls: S.optional(StringList),
-    crawledAs: S.optional(IndexStatusInspectionResultCrawledAsEnum),
     coverageState: S.optional(S.String),
+    verdict: S.optional(IndexStatusInspectionResultVerdictEnum),
+    referringUrls: S.optional(StringList),
+    googleCanonical: S.optional(S.String),
+    indexingState: S.optional(IndexStatusInspectionResultIndexingStateEnum),
+    userCanonical: S.optional(S.String),
+    crawledAs: S.optional(IndexStatusInspectionResultCrawledAsEnum),
   }),
 ).annotate({
   identifier: "IndexStatusInspectionResult",
 }) as any as S.Schema<IndexStatusInspectionResult>;
+
+export type MobileUsabilityInspectionResultVerdictEnum =
+  | "VERDICT_UNSPECIFIED"
+  | "PASS"
+  | "PARTIAL"
+  | "FAIL"
+  | "NEUTRAL";
+export const MobileUsabilityInspectionResultVerdictEnum = S.String;
+
+export type MobileUsabilityIssueIssueTypeEnum =
+  | "MOBILE_USABILITY_ISSUE_TYPE_UNSPECIFIED"
+  | "USES_INCOMPATIBLE_PLUGINS"
+  | "CONFIGURE_VIEWPORT"
+  | "FIXED_WIDTH_VIEWPORT"
+  | "SIZE_CONTENT_TO_VIEWPORT"
+  | "USE_LEGIBLE_FONT_SIZES"
+  | "TAP_TARGETS_TOO_CLOSE";
+export const MobileUsabilityIssueIssueTypeEnum = S.String;
+
+export type MobileUsabilityIssueSeverityEnum = "SEVERITY_UNSPECIFIED" | "WARNING" | "ERROR";
+export const MobileUsabilityIssueSeverityEnum = S.String;
+
+/** Mobile-usability issue. */
+export interface MobileUsabilityIssue {
+  /** Additional information regarding the issue. */
+  message?: string;
+  /** Mobile-usability issue type. */
+  issueType?: MobileUsabilityIssueIssueTypeEnum;
+  /** Not returned; reserved for future use. */
+  severity?: MobileUsabilityIssueSeverityEnum;
+}
+export const MobileUsabilityIssue = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    message: S.optional(S.String),
+    issueType: S.optional(MobileUsabilityIssueIssueTypeEnum),
+    severity: S.optional(MobileUsabilityIssueSeverityEnum),
+  }),
+).annotate({ identifier: "MobileUsabilityIssue" }) as any as S.Schema<MobileUsabilityIssue>;
+
+export type MobileUsabilityIssueList = Array<MobileUsabilityIssue>;
+export const MobileUsabilityIssueList = /*@__PURE__*/ S.Array(
+  MobileUsabilityIssue,
+) as any as S.Schema<MobileUsabilityIssueList>;
+
+/** Mobile-usability inspection results. */
+export interface MobileUsabilityInspectionResult {
+  /** High-level mobile-usability inspection result for this URL. */
+  verdict?: MobileUsabilityInspectionResultVerdictEnum;
+  /** A list of zero or more mobile-usability issues detected for this URL. */
+  issues?: MobileUsabilityIssueList;
+}
+export const MobileUsabilityInspectionResult = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    verdict: S.optional(MobileUsabilityInspectionResultVerdictEnum),
+    issues: S.optional(MobileUsabilityIssueList),
+  }),
+).annotate({
+  identifier: "MobileUsabilityInspectionResult",
+}) as any as S.Schema<MobileUsabilityInspectionResult>;
 
 export type AmpInspectionResultAmpIndexStatusVerdictEnum =
   | "VERDICT_UNSPECIFIED"
@@ -554,46 +536,38 @@ export type AmpInspectionResultAmpIndexStatusVerdictEnum =
   | "NEUTRAL";
 export const AmpInspectionResultAmpIndexStatusVerdictEnum = S.String;
 
-export type AmpInspectionResultIndexingStateEnum =
-  | "AMP_INDEXING_STATE_UNSPECIFIED"
-  | "AMP_INDEXING_ALLOWED"
-  | "BLOCKED_DUE_TO_NOINDEX"
-  | "BLOCKED_DUE_TO_EXPIRED_UNAVAILABLE_AFTER";
-export const AmpInspectionResultIndexingStateEnum = S.String;
+export type AmpInspectionResultRobotsTxtStateEnum =
+  | "ROBOTS_TXT_STATE_UNSPECIFIED"
+  | "ALLOWED"
+  | "DISALLOWED";
+export const AmpInspectionResultRobotsTxtStateEnum = S.String;
 
 export type AmpIssueSeverityEnum = "SEVERITY_UNSPECIFIED" | "WARNING" | "ERROR";
 export const AmpIssueSeverityEnum = S.String;
 
 /** AMP issue. */
 export interface AmpIssue {
-  /** Brief description of this issue. */
-  issueMessage?: string;
   /** Severity of this issue: WARNING or ERROR. */
   severity?: AmpIssueSeverityEnum;
+  /** Brief description of this issue. */
+  issueMessage?: string;
 }
 export const AmpIssue = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    issueMessage: S.optional(S.String),
     severity: S.optional(AmpIssueSeverityEnum),
+    issueMessage: S.optional(S.String),
   }),
 ).annotate({ identifier: "AmpIssue" }) as any as S.Schema<AmpIssue>;
 
 export type AmpIssueList = Array<AmpIssue>;
 export const AmpIssueList = /*@__PURE__*/ S.Array(AmpIssue) as any as S.Schema<AmpIssueList>;
 
-export type AmpInspectionResultVerdictEnum =
-  | "VERDICT_UNSPECIFIED"
-  | "PASS"
-  | "PARTIAL"
-  | "FAIL"
-  | "NEUTRAL";
-export const AmpInspectionResultVerdictEnum = S.String;
-
-export type AmpInspectionResultRobotsTxtStateEnum =
-  | "ROBOTS_TXT_STATE_UNSPECIFIED"
-  | "ALLOWED"
-  | "DISALLOWED";
-export const AmpInspectionResultRobotsTxtStateEnum = S.String;
+export type AmpInspectionResultIndexingStateEnum =
+  | "AMP_INDEXING_STATE_UNSPECIFIED"
+  | "AMP_INDEXING_ALLOWED"
+  | "BLOCKED_DUE_TO_NOINDEX"
+  | "BLOCKED_DUE_TO_EXPIRED_UNAVAILABLE_AFTER";
+export const AmpInspectionResultIndexingStateEnum = S.String;
 
 export type AmpInspectionResultPageFetchStateEnum =
   | "PAGE_FETCH_STATE_UNSPECIFIED"
@@ -610,64 +584,68 @@ export type AmpInspectionResultPageFetchStateEnum =
   | "INVALID_URL";
 export const AmpInspectionResultPageFetchStateEnum = S.String;
 
+export type AmpInspectionResultVerdictEnum =
+  | "VERDICT_UNSPECIFIED"
+  | "PASS"
+  | "PARTIAL"
+  | "FAIL"
+  | "NEUTRAL";
+export const AmpInspectionResultVerdictEnum = S.String;
+
 /** AMP inspection result of the live page or the current information from Google's index, depending on whether you requested a live inspection or not. */
 export interface AmpInspectionResult {
-  /** Last time this AMP version was crawled by Google. Absent if the URL was never crawled successfully. */
-  lastCrawlTime?: string;
   /** Index status of the AMP URL. */
   ampIndexStatusVerdict?: AmpInspectionResultAmpIndexStatusVerdictEnum;
-  /** URL of the AMP that was inspected. If the submitted URL is a desktop page that refers to an AMP version, the AMP version will be inspected. */
-  ampUrl?: string;
-  /** Whether or not the page blocks indexing through a noindex rule. */
-  indexingState?: AmpInspectionResultIndexingStateEnum;
-  /** A list of zero or more AMP issues found for the inspected URL. */
-  issues?: AmpIssueList;
-  /** The status of the most severe error on the page. If a page has both warnings and errors, the page status is error. Error status means the page cannot be shown in Search results. */
-  verdict?: AmpInspectionResultVerdictEnum;
   /** Whether or not the page is blocked to Google by a robots.txt rule. */
   robotsTxtState?: AmpInspectionResultRobotsTxtStateEnum;
+  /** A list of zero or more AMP issues found for the inspected URL. */
+  issues?: AmpIssueList;
+  /** Whether or not the page blocks indexing through a noindex rule. */
+  indexingState?: AmpInspectionResultIndexingStateEnum;
   /** Whether or not Google could fetch the AMP. */
   pageFetchState?: AmpInspectionResultPageFetchStateEnum;
+  /** The status of the most severe error on the page. If a page has both warnings and errors, the page status is error. Error status means the page cannot be shown in Search results. */
+  verdict?: AmpInspectionResultVerdictEnum;
+  /** Last time this AMP version was crawled by Google. Absent if the URL was never crawled successfully. */
+  lastCrawlTime?: string;
+  /** URL of the AMP that was inspected. If the submitted URL is a desktop page that refers to an AMP version, the AMP version will be inspected. */
+  ampUrl?: string;
 }
 export const AmpInspectionResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    lastCrawlTime: S.optional(S.String),
     ampIndexStatusVerdict: S.optional(AmpInspectionResultAmpIndexStatusVerdictEnum),
-    ampUrl: S.optional(S.String),
-    indexingState: S.optional(AmpInspectionResultIndexingStateEnum),
-    issues: S.optional(AmpIssueList),
-    verdict: S.optional(AmpInspectionResultVerdictEnum),
     robotsTxtState: S.optional(AmpInspectionResultRobotsTxtStateEnum),
+    issues: S.optional(AmpIssueList),
+    indexingState: S.optional(AmpInspectionResultIndexingStateEnum),
     pageFetchState: S.optional(AmpInspectionResultPageFetchStateEnum),
+    verdict: S.optional(AmpInspectionResultVerdictEnum),
+    lastCrawlTime: S.optional(S.String),
+    ampUrl: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AmpInspectionResult",
-}) as any as S.Schema<AmpInspectionResult>;
+).annotate({ identifier: "AmpInspectionResult" }) as any as S.Schema<AmpInspectionResult>;
 
 /** URL inspection result, including all inspection results. */
 export interface UrlInspectionResult {
   /** Result of the Rich Results analysis. Absent if there are no rich results found. */
   richResultsResult?: RichResultsInspectionResult;
-  /** Result of the Mobile usability analysis. */
-  mobileUsabilityResult?: MobileUsabilityInspectionResult;
-  /** Result of the index status analysis. */
-  indexStatusResult?: IndexStatusInspectionResult;
-  /** Result of the AMP analysis. Absent if the page is not an AMP page. */
-  ampResult?: AmpInspectionResult;
   /** Link to Search Console URL inspection. */
   inspectionResultLink?: string;
+  /** Result of the index status analysis. */
+  indexStatusResult?: IndexStatusInspectionResult;
+  /** Result of the Mobile usability analysis. */
+  mobileUsabilityResult?: MobileUsabilityInspectionResult;
+  /** Result of the AMP analysis. Absent if the page is not an AMP page. */
+  ampResult?: AmpInspectionResult;
 }
 export const UrlInspectionResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     richResultsResult: S.optional(RichResultsInspectionResult),
-    mobileUsabilityResult: S.optional(MobileUsabilityInspectionResult),
-    indexStatusResult: S.optional(IndexStatusInspectionResult),
-    ampResult: S.optional(AmpInspectionResult),
     inspectionResultLink: S.optional(S.String),
+    indexStatusResult: S.optional(IndexStatusInspectionResult),
+    mobileUsabilityResult: S.optional(MobileUsabilityInspectionResult),
+    ampResult: S.optional(AmpInspectionResult),
   }),
-).annotate({
-  identifier: "UrlInspectionResult",
-}) as any as S.Schema<UrlInspectionResult>;
+).annotate({ identifier: "UrlInspectionResult" }) as any as S.Schema<UrlInspectionResult>;
 
 /** Index-Status inspection response. */
 export interface InspectUrlIndexResponse {
@@ -678,9 +656,7 @@ export const InspectUrlIndexResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     inspectionResult: S.optional(UrlInspectionResult),
   }),
-).annotate({
-  identifier: "InspectUrlIndexResponse",
-}) as any as S.Schema<InspectUrlIndexResponse>;
+).annotate({ identifier: "InspectUrlIndexResponse" }) as any as S.Schema<InspectUrlIndexResponse>;
 
 export interface ListSitemapsRequest {
   /** A URL of a site's sitemap index. For example: `http://www.example.com/sitemapindex.xml`. */
@@ -699,9 +675,7 @@ export const ListSitemapsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://searchconsole.googleapis.com/",
     }),
   ),
-).annotate({
-  identifier: "ListSitemapsRequest",
-}) as any as S.Schema<ListSitemapsRequest>;
+).annotate({ identifier: "ListSitemapsRequest" }) as any as S.Schema<ListSitemapsRequest>;
 
 export type WmxSitemapList = Array<WmxSitemap>;
 export const WmxSitemapList = /*@__PURE__*/ S.Array(WmxSitemap) as any as S.Schema<WmxSitemapList>;
@@ -715,9 +689,7 @@ export const SitemapsListResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     sitemap: S.optional(WmxSitemapList),
   }),
-).annotate({
-  identifier: "SitemapsListResponse",
-}) as any as S.Schema<SitemapsListResponse>;
+).annotate({ identifier: "SitemapsListResponse" }) as any as S.Schema<SitemapsListResponse>;
 
 export interface ListSitesRequest {}
 export const ListSitesRequest = /*@__PURE__*/ S.suspend(() =>
@@ -728,9 +700,7 @@ export const ListSitesRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://searchconsole.googleapis.com/",
     }),
   ),
-).annotate({
-  identifier: "ListSitesRequest",
-}) as any as S.Schema<ListSitesRequest>;
+).annotate({ identifier: "ListSitesRequest" }) as any as S.Schema<ListSitesRequest>;
 
 export type WmxSiteList = Array<WmxSite>;
 export const WmxSiteList = /*@__PURE__*/ S.Array(WmxSite) as any as S.Schema<WmxSiteList>;
@@ -744,43 +714,10 @@ export const SitesListResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     siteEntry: S.optional(WmxSiteList),
   }),
-).annotate({
-  identifier: "SitesListResponse",
-}) as any as S.Schema<SitesListResponse>;
-
-export type SearchAnalyticsQueryRequestDataStateEnum =
-  | "DATA_STATE_UNSPECIFIED"
-  | "FINAL"
-  | "ALL"
-  | "HOURLY_ALL";
-export const SearchAnalyticsQueryRequestDataStateEnum = S.String;
-
-export type SearchAnalyticsQueryRequestAggregationTypeEnum =
-  | "AUTO"
-  | "BY_PROPERTY"
-  | "BY_PAGE"
-  | "BY_NEWS_SHOWCASE_PANEL";
-export const SearchAnalyticsQueryRequestAggregationTypeEnum = S.String;
-
-export type SearchAnalyticsQueryRequestSearchTypeEnum =
-  | "WEB"
-  | "IMAGE"
-  | "VIDEO"
-  | "NEWS"
-  | "DISCOVER"
-  | "GOOGLE_NEWS";
-export const SearchAnalyticsQueryRequestSearchTypeEnum = S.String;
+).annotate({ identifier: "SitesListResponse" }) as any as S.Schema<SitesListResponse>;
 
 export type ApiDimensionFilterGroupGroupTypeEnum = "AND";
 export const ApiDimensionFilterGroupGroupTypeEnum = S.String;
-
-export type ApiDimensionFilterDimensionEnum =
-  | "QUERY"
-  | "PAGE"
-  | "COUNTRY"
-  | "DEVICE"
-  | "SEARCH_APPEARANCE";
-export const ApiDimensionFilterDimensionEnum = S.String;
 
 export type ApiDimensionFilterOperatorEnum =
   | "EQUALS"
@@ -791,21 +728,27 @@ export type ApiDimensionFilterOperatorEnum =
   | "EXCLUDING_REGEX";
 export const ApiDimensionFilterOperatorEnum = S.String;
 
+export type ApiDimensionFilterDimensionEnum =
+  | "QUERY"
+  | "PAGE"
+  | "COUNTRY"
+  | "DEVICE"
+  | "SEARCH_APPEARANCE";
+export const ApiDimensionFilterDimensionEnum = S.String;
+
 /** A filter test to be applied to each row in the data set, where a match can return the row. Filters are string comparisons, and values and dimension names are not case-sensitive. Individual filters are either AND'ed or OR'ed within their parent filter group, according to the group's group type. You do not need to group by a specified dimension to filter against it. */
 export interface ApiDimensionFilter {
-  dimension?: ApiDimensionFilterDimensionEnum | (string & {});
-  operator?: ApiDimensionFilterOperatorEnum | (string & {});
   expression?: string;
+  operator?: ApiDimensionFilterOperatorEnum | (string & {});
+  dimension?: ApiDimensionFilterDimensionEnum | (string & {});
 }
 export const ApiDimensionFilter = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    dimension: S.optional(ApiDimensionFilterDimensionEnum),
-    operator: S.optional(ApiDimensionFilterOperatorEnum),
     expression: S.optional(S.String),
+    operator: S.optional(ApiDimensionFilterOperatorEnum),
+    dimension: S.optional(ApiDimensionFilterDimensionEnum),
   }),
-).annotate({
-  identifier: "ApiDimensionFilter",
-}) as any as S.Schema<ApiDimensionFilter>;
+).annotate({ identifier: "ApiDimensionFilter" }) as any as S.Schema<ApiDimensionFilter>;
 
 export type ApiDimensionFilterList = Array<ApiDimensionFilter>;
 export const ApiDimensionFilterList = /*@__PURE__*/ S.Array(
@@ -824,14 +767,19 @@ export const ApiDimensionFilterGroup = /*@__PURE__*/ S.suspend(() =>
     groupType: S.optional(ApiDimensionFilterGroupGroupTypeEnum),
     filters: S.optional(ApiDimensionFilterList),
   }),
-).annotate({
-  identifier: "ApiDimensionFilterGroup",
-}) as any as S.Schema<ApiDimensionFilterGroup>;
+).annotate({ identifier: "ApiDimensionFilterGroup" }) as any as S.Schema<ApiDimensionFilterGroup>;
 
 export type ApiDimensionFilterGroupList = Array<ApiDimensionFilterGroup>;
 export const ApiDimensionFilterGroupList = /*@__PURE__*/ S.Array(
   ApiDimensionFilterGroup,
 ) as any as S.Schema<ApiDimensionFilterGroupList>;
+
+export type SearchAnalyticsQueryRequestAggregationTypeEnum =
+  | "AUTO"
+  | "BY_PROPERTY"
+  | "BY_PAGE"
+  | "BY_NEWS_SHOWCASE_PANEL";
+export const SearchAnalyticsQueryRequestAggregationTypeEnum = S.String;
 
 export type SearchAnalyticsQueryRequestTypeEnum =
   | "WEB"
@@ -841,6 +789,22 @@ export type SearchAnalyticsQueryRequestTypeEnum =
   | "DISCOVER"
   | "GOOGLE_NEWS";
 export const SearchAnalyticsQueryRequestTypeEnum = S.String;
+
+export type SearchAnalyticsQueryRequestDataStateEnum =
+  | "DATA_STATE_UNSPECIFIED"
+  | "FINAL"
+  | "ALL"
+  | "HOURLY_ALL";
+export const SearchAnalyticsQueryRequestDataStateEnum = S.String;
+
+export type SearchAnalyticsQueryRequestSearchTypeEnum =
+  | "WEB"
+  | "IMAGE"
+  | "VIDEO"
+  | "NEWS"
+  | "DISCOVER"
+  | "GOOGLE_NEWS";
+export const SearchAnalyticsQueryRequestSearchTypeEnum = S.String;
 
 export type SearchAnalyticsQueryRequestDimensionsItemEnum =
   | "DATE"
@@ -860,39 +824,39 @@ export const SearchAnalyticsQueryRequestDimensionsItemEnumList = /*@__PURE__*/ S
 ) as any as S.Schema<SearchAnalyticsQueryRequestDimensionsItemEnumList>;
 
 export interface SearchAnalyticsQueryRequest {
-  /** The data state to be fetched, can be full or all, the latter including full and partial data. */
-  dataState?: SearchAnalyticsQueryRequestDataStateEnum | (string & {});
-  /** [Optional; Default is \"auto\"] How data is aggregated. If aggregated by property, all data for the same property is aggregated; if aggregated by page, all data is aggregated by canonical URI. If you filter or group by page, choose AUTO; otherwise you can aggregate either by property or by page, depending on how you want your data calculated; see the help documentation to learn how data is calculated differently by site versus by page. **Note:** If you group or filter by page, you cannot aggregate by property. If you specify any value other than AUTO, the aggregation type in the result will match the requested type, or if you request an invalid type, you will get an error. The API will never change your aggregation type if the requested type is invalid. */
-  aggregationType?: SearchAnalyticsQueryRequestAggregationTypeEnum | (string & {});
-  /** [Optional; Default is \"web\"] The search type to filter for. */
-  searchType?: SearchAnalyticsQueryRequestSearchTypeEnum | (string & {});
-  /** [Optional; Default is 0] Zero-based index of the first row in the response. Must be a non-negative number. */
-  startRow?: number;
   /** [Optional] Zero or more filters to apply to the dimension grouping values; for example, 'query contains \"buy\"' to see only data where the query string contains the substring \"buy\" (not case-sensitive). You can filter by a dimension without grouping by it. */
   dimensionFilterGroups?: ApiDimensionFilterGroupList;
-  /** [Required] End date of the requested date range, in YYYY-MM-DD format, in PST (UTC - 8:00). Must be greater than or equal to the start date. This value is included in the range. */
-  endDate?: string;
-  /** Optional. [Optional; Default is \"web\"] Type of report: search type, or either Discover or Gnews. */
-  type?: SearchAnalyticsQueryRequestTypeEnum | (string & {});
+  /** [Optional; Default is \"auto\"] How data is aggregated. If aggregated by property, all data for the same property is aggregated; if aggregated by page, all data is aggregated by canonical URI. If you filter or group by page, choose AUTO; otherwise you can aggregate either by property or by page, depending on how you want your data calculated; see the help documentation to learn how data is calculated differently by site versus by page. **Note:** If you group or filter by page, you cannot aggregate by property. If you specify any value other than AUTO, the aggregation type in the result will match the requested type, or if you request an invalid type, you will get an error. The API will never change your aggregation type if the requested type is invalid. */
+  aggregationType?: SearchAnalyticsQueryRequestAggregationTypeEnum | (string & {});
   /** [Optional; Default is 1000] The maximum number of rows to return. Must be a number from 1 to 25,000 (inclusive). */
   rowLimit?: number;
-  /** [Optional] Zero or more dimensions to group results by. Dimensions are the group-by values in the Search Analytics page. Dimensions are combined to create a unique row key for each row. Results are grouped in the order that you supply these dimensions. */
-  dimensions?: SearchAnalyticsQueryRequestDimensionsItemEnumList;
   /** [Required] Start date of the requested date range, in YYYY-MM-DD format, in PST time (UTC - 8:00). Must be less than or equal to the end date. This value is included in the range. */
   startDate?: string;
+  /** [Optional; Default is 0] Zero-based index of the first row in the response. Must be a non-negative number. */
+  startRow?: number;
+  /** Optional. [Optional; Default is \"web\"] Type of report: search type, or either Discover or Gnews. */
+  type?: SearchAnalyticsQueryRequestTypeEnum | (string & {});
+  /** The data state to be fetched, can be full or all, the latter including full and partial data. */
+  dataState?: SearchAnalyticsQueryRequestDataStateEnum | (string & {});
+  /** [Optional; Default is \"web\"] The search type to filter for. */
+  searchType?: SearchAnalyticsQueryRequestSearchTypeEnum | (string & {});
+  /** [Optional] Zero or more dimensions to group results by. Dimensions are the group-by values in the Search Analytics page. Dimensions are combined to create a unique row key for each row. Results are grouped in the order that you supply these dimensions. */
+  dimensions?: SearchAnalyticsQueryRequestDimensionsItemEnumList;
+  /** [Required] End date of the requested date range, in YYYY-MM-DD format, in PST (UTC - 8:00). Must be greater than or equal to the start date. This value is included in the range. */
+  endDate?: string;
 }
 export const SearchAnalyticsQueryRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    dataState: S.optional(SearchAnalyticsQueryRequestDataStateEnum),
-    aggregationType: S.optional(SearchAnalyticsQueryRequestAggregationTypeEnum),
-    searchType: S.optional(SearchAnalyticsQueryRequestSearchTypeEnum),
-    startRow: S.optional(S.Number),
     dimensionFilterGroups: S.optional(ApiDimensionFilterGroupList),
-    endDate: S.optional(S.String),
-    type: S.optional(SearchAnalyticsQueryRequestTypeEnum),
+    aggregationType: S.optional(SearchAnalyticsQueryRequestAggregationTypeEnum),
     rowLimit: S.optional(S.Number),
-    dimensions: S.optional(SearchAnalyticsQueryRequestDimensionsItemEnumList),
     startDate: S.optional(S.String),
+    startRow: S.optional(S.Number),
+    type: S.optional(SearchAnalyticsQueryRequestTypeEnum),
+    dataState: S.optional(SearchAnalyticsQueryRequestDataStateEnum),
+    searchType: S.optional(SearchAnalyticsQueryRequestSearchTypeEnum),
+    dimensions: S.optional(SearchAnalyticsQueryRequestDimensionsItemEnumList),
+    endDate: S.optional(S.String),
   }),
 ).annotate({
   identifier: "SearchAnalyticsQueryRequest",
@@ -919,26 +883,6 @@ export const QuerySearchanalyticsRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "QuerySearchanalyticsRequest",
 }) as any as S.Schema<QuerySearchanalyticsRequest>;
 
-export interface ApiDataRow {
-  clicks?: number;
-  position?: number;
-  keys?: StringList;
-  ctr?: number;
-  impressions?: number;
-}
-export const ApiDataRow = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    clicks: S.optional(S.Number),
-    position: S.optional(S.Number),
-    keys: S.optional(StringList),
-    ctr: S.optional(S.Number),
-    impressions: S.optional(S.Number),
-  }),
-).annotate({ identifier: "ApiDataRow" }) as any as S.Schema<ApiDataRow>;
-
-export type ApiDataRowList = Array<ApiDataRow>;
-export const ApiDataRowList = /*@__PURE__*/ S.Array(ApiDataRow) as any as S.Schema<ApiDataRowList>;
-
 /** An object that may be returned with your query results, providing context about the state of the data. When you request recent data (using `all` or `hourly_all` for `dataState`), some of the rows returned may represent data that is incomplete, which means that the data is still being collected and processed. This metadata object helps you identify exactly when this starts and ends. All dates and times provided in this object are in the `America/Los_Angeles` time zone. The specific field returned within this object depends on how you've grouped your data in the request. See details in inner fields. */
 export interface Metadata {
   /** The first date for which the data is still being collected and processed, presented in `YYYY-MM-DD` format (ISO-8601 extended local date format). This field is populated only when the request's `dataState` is "`all`", data is grouped by "`DATE`", and the requested date range contains incomplete data points. All values after the `first_incomplete_date` may still change noticeably. */
@@ -953,6 +897,26 @@ export const Metadata = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "Metadata" }) as any as S.Schema<Metadata>;
 
+export interface ApiDataRow {
+  ctr?: number;
+  clicks?: number;
+  keys?: StringList;
+  impressions?: number;
+  position?: number;
+}
+export const ApiDataRow = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ctr: S.optional(S.Number),
+    clicks: S.optional(S.Number),
+    keys: S.optional(StringList),
+    impressions: S.optional(S.Number),
+    position: S.optional(S.Number),
+  }),
+).annotate({ identifier: "ApiDataRow" }) as any as S.Schema<ApiDataRow>;
+
+export type ApiDataRowList = Array<ApiDataRow>;
+export const ApiDataRowList = /*@__PURE__*/ S.Array(ApiDataRow) as any as S.Schema<ApiDataRowList>;
+
 export type SearchAnalyticsQueryResponseResponseAggregationTypeEnum =
   | "AUTO"
   | "BY_PROPERTY"
@@ -962,17 +926,17 @@ export const SearchAnalyticsQueryResponseResponseAggregationTypeEnum = S.String;
 
 /** A list of rows, one per result, grouped by key. Metrics in each row are aggregated for all data grouped by that key either by page or property, as specified by the aggregation type parameter. */
 export interface SearchAnalyticsQueryResponse {
-  /** A list of rows grouped by the key values in the order given in the query. */
-  rows?: ApiDataRowList;
   /** An object that may be returned with your query results, providing context about the state of the data. See details in Metadata object documentation. */
   metadata?: Metadata;
+  /** A list of rows grouped by the key values in the order given in the query. */
+  rows?: ApiDataRowList;
   /** How the results were aggregated. */
   responseAggregationType?: SearchAnalyticsQueryResponseResponseAggregationTypeEnum;
 }
 export const SearchAnalyticsQueryResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    rows: S.optional(ApiDataRowList),
     metadata: S.optional(Metadata),
+    rows: S.optional(ApiDataRowList),
     responseAggregationType: S.optional(SearchAnalyticsQueryResponseResponseAggregationTypeEnum),
   }),
 ).annotate({
@@ -1012,6 +976,33 @@ export const RunUrlTestingToolsMobileFriendlyTestRequest = /*@__PURE__*/ S.suspe
 ).annotate({
   identifier: "RunUrlTestingToolsMobileFriendlyTestRequest",
 }) as any as S.Schema<RunUrlTestingToolsMobileFriendlyTestRequest>;
+
+/** Blocked resource. */
+export interface BlockedResource {
+  /** URL of the blocked resource. */
+  url?: string;
+}
+export const BlockedResource = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    url: S.optional(S.String),
+  }),
+).annotate({ identifier: "BlockedResource" }) as any as S.Schema<BlockedResource>;
+
+/** Information about a resource with issue. */
+export interface ResourceIssue {
+  /** Describes a blocked resource issue. */
+  blockedResource?: BlockedResource;
+}
+export const ResourceIssue = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    blockedResource: S.optional(BlockedResource),
+  }),
+).annotate({ identifier: "ResourceIssue" }) as any as S.Schema<ResourceIssue>;
+
+export type ResourceIssueList = Array<ResourceIssue>;
+export const ResourceIssueList = /*@__PURE__*/ S.Array(
+  ResourceIssue,
+) as any as S.Schema<ResourceIssueList>;
 
 export type TestStatusStatusEnum =
   | "TEST_STATUS_UNSPECIFIED"
@@ -1053,57 +1044,12 @@ export const MobileFriendlyIssue = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     rule: S.optional(MobileFriendlyIssueRuleEnum),
   }),
-).annotate({
-  identifier: "MobileFriendlyIssue",
-}) as any as S.Schema<MobileFriendlyIssue>;
+).annotate({ identifier: "MobileFriendlyIssue" }) as any as S.Schema<MobileFriendlyIssue>;
 
 export type MobileFriendlyIssueList = Array<MobileFriendlyIssue>;
 export const MobileFriendlyIssueList = /*@__PURE__*/ S.Array(
   MobileFriendlyIssue,
 ) as any as S.Schema<MobileFriendlyIssueList>;
-
-/** Blocked resource. */
-export interface BlockedResource {
-  /** URL of the blocked resource. */
-  url?: string;
-}
-export const BlockedResource = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    url: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "BlockedResource",
-}) as any as S.Schema<BlockedResource>;
-
-/** Information about a resource with issue. */
-export interface ResourceIssue {
-  /** Describes a blocked resource issue. */
-  blockedResource?: BlockedResource;
-}
-export const ResourceIssue = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    blockedResource: S.optional(BlockedResource),
-  }),
-).annotate({ identifier: "ResourceIssue" }) as any as S.Schema<ResourceIssue>;
-
-export type ResourceIssueList = Array<ResourceIssue>;
-export const ResourceIssueList = /*@__PURE__*/ S.Array(
-  ResourceIssue,
-) as any as S.Schema<ResourceIssueList>;
-
-/** Describe image data. */
-export interface Image {
-  /** Image data in format determined by the mime type. Currently, the format will always be "image/png", but this might change in the future. */
-  data?: string;
-  /** The mime-type of the image data. */
-  mimeType?: string;
-}
-export const Image = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    data: S.optional(S.String),
-    mimeType: S.optional(S.String),
-  }),
-).annotate({ identifier: "Image" }) as any as S.Schema<Image>;
 
 export type RunMobileFriendlyTestResponseMobileFriendlinessEnum =
   | "MOBILE_FRIENDLY_TEST_RESULT_UNSPECIFIED"
@@ -1111,26 +1057,40 @@ export type RunMobileFriendlyTestResponseMobileFriendlinessEnum =
   | "NOT_MOBILE_FRIENDLY";
 export const RunMobileFriendlyTestResponseMobileFriendlinessEnum = S.String;
 
+/** Describe image data. */
+export interface Image {
+  /** The mime-type of the image data. */
+  mimeType?: string;
+  /** Image data in format determined by the mime type. Currently, the format will always be "image/png", but this might change in the future. */
+  data?: string;
+}
+export const Image = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    mimeType: S.optional(S.String),
+    data: S.optional(S.String),
+  }),
+).annotate({ identifier: "Image" }) as any as S.Schema<Image>;
+
 /** Mobile-friendly test response, including mobile-friendly issues and resource issues. */
 export interface RunMobileFriendlyTestResponse {
+  /** Information about embedded resources issues. */
+  resourceIssues?: ResourceIssueList;
   /** Final state of the test, can be either complete or an error. */
   testStatus?: TestStatus;
   /** List of mobile-usability issues. */
   mobileFriendlyIssues?: MobileFriendlyIssueList;
-  /** Information about embedded resources issues. */
-  resourceIssues?: ResourceIssueList;
-  /** Screenshot of the requested URL. */
-  screenshot?: Image;
   /** Test verdict, whether the page is mobile friendly or not. */
   mobileFriendliness?: RunMobileFriendlyTestResponseMobileFriendlinessEnum;
+  /** Screenshot of the requested URL. */
+  screenshot?: Image;
 }
 export const RunMobileFriendlyTestResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    resourceIssues: S.optional(ResourceIssueList),
     testStatus: S.optional(TestStatus),
     mobileFriendlyIssues: S.optional(MobileFriendlyIssueList),
-    resourceIssues: S.optional(ResourceIssueList),
-    screenshot: S.optional(Image),
     mobileFriendliness: S.optional(RunMobileFriendlyTestResponseMobileFriendlinessEnum),
+    screenshot: S.optional(Image),
   }),
 ).annotate({
   identifier: "RunMobileFriendlyTestResponse",
@@ -1153,9 +1113,7 @@ export const SubmitSitemapsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://searchconsole.googleapis.com/",
     }),
   ),
-).annotate({
-  identifier: "SubmitSitemapsRequest",
-}) as any as S.Schema<SubmitSitemapsRequest>;
+).annotate({ identifier: "SubmitSitemapsRequest" }) as any as S.Schema<SubmitSitemapsRequest>;
 
 export interface SubmitSitemapsResponse {}
 export const SubmitSitemapsResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1233,20 +1191,20 @@ export const getSites: API.OperationMethod<GetSitesRequest, WmxSite, GetSitesErr
     retry: Retry.Retry,
   }));
 
-export type ListInspectUrlInspectionError =
+export type InspectUrlInspectionIndexError =
   | NotFound
   | Forbidden
   | BadRequest
   | Conflict
   | GcpOpError;
 /** Index inspection. */
-export const listInspectUrlInspection: API.OperationMethod<
-  ListInspectUrlInspectionRequest,
+export const inspectUrlInspectionIndex: API.OperationMethod<
+  InspectUrlInspectionIndexRequest,
   InspectUrlIndexResponse,
-  ListInspectUrlInspectionError,
+  InspectUrlInspectionIndexError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListInspectUrlInspectionRequest,
+  input: InspectUrlInspectionIndexRequest,
   output: InspectUrlIndexResponse,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,

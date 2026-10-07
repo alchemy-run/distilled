@@ -561,12 +561,6 @@
             "smithy.api#documentation": "If this organization has issue funding enabled"
           }
         },
-        "seat_based_pricing_enabled": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "smithy.api#documentation": "If this organization has seat-based pricing enabled"
-          }
-        },
         "wallets_enabled": {
           "target": "smithy.api#Boolean",
           "traits": {
@@ -650,6 +644,12 @@
           "target": "smithy.api#Boolean",
           "traits": {
             "smithy.api#documentation": "If this organization can migrate its billing from another provider (e.g. Stripe) to Polar."
+          }
+        },
+        "frame_ancestors_enforced": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "If this organization's checkout tells the browser to refuse framing from any host outside its embed hosts."
           }
         }
       },
@@ -859,6 +859,9 @@
           "traits": {
             "smithy.api#required": {}
           }
+        },
+        "update_units": {
+          "target": "smithy.api#Boolean"
         },
         "pause": {
           "target": "smithy.api#Boolean"
@@ -4151,12 +4154,6 @@
     "com.polar.api#OrganizationFeatureSettingsUpdate": {
       "type": "structure",
       "members": {
-        "seat_based_pricing_enabled": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "smithy.api#documentation": "If this organization has seat-based pricing enabled"
-          }
-        },
         "member_model_enabled": {
           "target": "smithy.api#Boolean",
           "traits": {
@@ -7554,6 +7551,14 @@
             "com.distilled.openapi#nullable": {}
           }
         },
+        "units": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The number of units for unit-based subscriptions. None for non-unit subscriptions.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
         "customer_cancellation_reason": {
           "target": "com.polar.api#CustomerCancellationReason",
           "traits": {
@@ -7703,7 +7708,10 @@
         "target": "smithy.api#String"
       },
       "value": {
-        "target": "com.polar.api#SubscriptionCustomFieldDataValue"
+        "target": "com.polar.api#SubscriptionCustomFieldDataValue",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {
         "smithy.api#documentation": "Key-value object storing custom field values."
@@ -9533,6 +9541,13 @@
             "smithy.api#required": {}
           }
         },
+        "is_deletable": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the product can be permanently deleted. Products referenced by an order, subscription, trial or discount cannot be deleted.",
+            "smithy.api#required": {}
+          }
+        },
         "prices": {
           "target": "com.polar.api#ProductPricesList",
           "traits": {
@@ -9876,8 +9891,14 @@
         "ProductPriceSeatBased": {
           "target": "com.polar.api#ProductPriceSeatBased"
         },
+        "ProductPriceUnitBased": {
+          "target": "com.polar.api#ProductPriceUnitBased"
+        },
         "ProductPriceMeteredUnit": {
           "target": "com.polar.api#ProductPriceMeteredUnit"
+        },
+        "ProductPriceMeteredTiers": {
+          "target": "com.polar.api#ProductPriceMeteredTiers"
         }
       },
       "traits": {}
@@ -10123,11 +10144,27 @@
             "smithy.api#required": {}
           }
         },
-        "seat_tiers": {
-          "target": "com.polar.api#ProductPriceSeatTiersOutput",
+        "tiers": {
+          "target": "com.polar.api#Tiers",
           "traits": {
-            "smithy.api#documentation": "Tiered pricing based on seat quantity",
+            "smithy.api#documentation": "Tiered pricing based on the purchased seat quantity.",
             "smithy.api#required": {}
+          }
+        },
+        "minimum_units": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The minimum purchasable seat quantity (inclusive).",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "maximum_units": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The maximum purchasable seat quantity, from the last tier's bound. `null` for unlimited.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
           }
         }
       },
@@ -10135,43 +10172,27 @@
         "smithy.api#documentation": "A seat-based price for a product."
       }
     },
-    "com.polar.api#ProductPriceSeatTiersOutput": {
+    "com.polar.api#Tiers": {
       "type": "structure",
       "members": {
-        "seat_tier_type": {
-          "target": "com.polar.api#SeatTierType",
+        "type": {
+          "target": "com.polar.api#TierType",
           "traits": {
-            "smithy.api#documentation": "How tiers are applied. 'volume' prices all seats at the matching tier's rate. 'graduated' prices each tier's range independently."
+            "smithy.api#required": {}
           }
         },
         "tiers": {
-          "target": "com.polar.api#ProductPriceSeatTiersOutputTiersList",
+          "target": "com.polar.api#TiersTiersList",
           "traits": {
-            "smithy.api#documentation": "List of pricing tiers",
             "smithy.api#required": {}
-          }
-        },
-        "minimum_seats": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "smithy.api#documentation": "Minimum number of seats required for purchase, derived from first tier.",
-            "smithy.api#required": {}
-          }
-        },
-        "maximum_seats": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "smithy.api#documentation": "Maximum number of seats allowed for purchase, derived from last tier. None for unlimited.",
-            "smithy.api#required": {},
-            "com.distilled.openapi#nullable": {}
           }
         }
       },
       "traits": {
-        "smithy.api#documentation": "List of pricing tiers for seat-based pricing.\n\nThe minimum and maximum seat limits are derived from the tiers:\n- minimum_seats = first tier's min_seats\n- maximum_seats = last tier's max_seats (None for unlimited)"
+        "smithy.api#documentation": "The structure of the shared tiers JSONB column, used by every tiered\nprice type. Purchasable quantity bounds live in the `minimum_units` and\n`maximum_units` columns, not here."
       }
     },
-    "com.polar.api#SeatTierType": {
+    "com.polar.api#TierType": {
       "type": "enum",
       "members": {
         "VOLUME": {
@@ -10189,43 +10210,155 @@
       },
       "traits": {}
     },
-    "com.polar.api#ProductPriceSeatTier": {
+    "com.polar.api#Tier": {
       "type": "structure",
       "members": {
-        "min_seats": {
+        "bound": {
           "target": "smithy.api#Integer",
           "traits": {
-            "smithy.api#documentation": "Minimum number of seats (inclusive)",
-            "smithy.api#required": {}
-          }
-        },
-        "max_seats": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "smithy.api#documentation": "Maximum number of seats (inclusive). None for unlimited.",
             "com.distilled.openapi#nullable": {}
           }
         },
-        "price_per_seat": {
-          "target": "smithy.api#Integer",
+        "unit_amount": {
+          "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Price per seat in cents for this tier",
             "smithy.api#required": {}
           }
         }
       },
       "traits": {
-        "smithy.api#documentation": "A pricing tier for seat-based pricing."
+        "smithy.api#documentation": "A per-unit rate up to and including `bound`.\n\nEach tier starts where the previous one ended. The first starts at\nzero. `bound` is None on the last tier if it's unbounded. Rates are\nin cents and may be fractional.\n\nRates carry no precision bound: this schema reads stored rows, and a\nbound tightened later would stop them loading. `TierInput` holds the\nrules new rates must meet."
       }
     },
-    "com.polar.api#ProductPriceSeatTiersOutputTiersList": {
+    "com.polar.api#TiersTiersList": {
       "type": "list",
       "member": {
-        "target": "com.polar.api#ProductPriceSeatTier"
+        "target": "com.polar.api#Tier"
+      },
+      "traits": {}
+    },
+    "com.polar.api#ProductPriceUnitBased": {
+      "type": "structure",
+      "members": {
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Creation timestamp of the object.",
+            "smithy.api#required": {}
+          }
+        },
+        "modified_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Last modification timestamp of the object.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the price.",
+            "smithy.api#required": {}
+          }
+        },
+        "source": {
+          "target": "com.polar.api#ProductPriceSource",
+          "traits": {
+            "smithy.api#documentation": "The source of the price . `catalog` is a predefined price, while `ad_hoc` is a price created dynamically on a Checkout session.",
+            "smithy.api#required": {}
+          }
+        },
+        "amount_type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "price_currency": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The currency in which the customer will be charged.",
+            "smithy.api#required": {}
+          }
+        },
+        "tax_behavior": {
+          "target": "com.polar.api#TaxBehaviorOption",
+          "traits": {
+            "smithy.api#documentation": "The tax behavior of the price. If null, it defaults to the organization's default tax behavior.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "is_archived": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the price is archived and no longer available.",
+            "smithy.api#required": {}
+          }
+        },
+        "product_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the product owning the price.",
+            "smithy.api#required": {}
+          }
+        },
+        "tiers": {
+          "target": "com.polar.api#Tiers",
+          "traits": {
+            "smithy.api#documentation": "Tiered pricing based on the purchased unit quantity.",
+            "smithy.api#required": {}
+          }
+        },
+        "minimum_units": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The minimum purchasable quantity (inclusive).",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "unit_label": {
+          "target": "com.polar.api#ProductPriceUnitBasedUnitLabelMap",
+          "traits": {
+            "smithy.api#documentation": "Per-locale unit nouns shown at checkout and on invoices. `null` defaults to \"unit\"/\"units\".",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "maximum_units": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The maximum purchasable quantity, from the last tier's bound. `null` for unlimited.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
       },
       "traits": {
-        "smithy.api#documentation": "List of pricing tiers"
+        "smithy.api#documentation": "A unit-based price for a product: the buyer picks a quantity of units,\npays for it up-front. On subscriptions, quantity changes are prorated."
       }
+    },
+    "com.polar.api#ProductPriceUnitBasedUnitLabelValueMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.polar.api#ProductPriceUnitBasedUnitLabelMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.polar.api#ProductPriceUnitBasedUnitLabelValueMap"
+      },
+      "traits": {}
     },
     "com.polar.api#ProductPriceMeteredUnit": {
       "type": "structure",
@@ -10294,13 +10427,6 @@
             "smithy.api#required": {}
           }
         },
-        "unit_amount": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The price per unit in cents.",
-            "smithy.api#required": {}
-          }
-        },
         "cap_amount": {
           "target": "smithy.api#Integer",
           "traits": {
@@ -10320,6 +10446,13 @@
           "target": "com.polar.api#ProductPriceMeter",
           "traits": {
             "smithy.api#documentation": "The meter associated to the price.",
+            "smithy.api#required": {}
+          }
+        },
+        "unit_amount": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The price per unit in cents.",
             "smithy.api#required": {}
           }
         }
@@ -10396,6 +10529,107 @@
         }
       },
       "traits": {}
+    },
+    "com.polar.api#ProductPriceMeteredTiers": {
+      "type": "structure",
+      "members": {
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Creation timestamp of the object.",
+            "smithy.api#required": {}
+          }
+        },
+        "modified_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Last modification timestamp of the object.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the price.",
+            "smithy.api#required": {}
+          }
+        },
+        "source": {
+          "target": "com.polar.api#ProductPriceSource",
+          "traits": {
+            "smithy.api#documentation": "The source of the price . `catalog` is a predefined price, while `ad_hoc` is a price created dynamically on a Checkout session.",
+            "smithy.api#required": {}
+          }
+        },
+        "amount_type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "price_currency": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The currency in which the customer will be charged.",
+            "smithy.api#required": {}
+          }
+        },
+        "tax_behavior": {
+          "target": "com.polar.api#TaxBehaviorOption",
+          "traits": {
+            "smithy.api#documentation": "The tax behavior of the price. If null, it defaults to the organization's default tax behavior.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "is_archived": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the price is archived and no longer available.",
+            "smithy.api#required": {}
+          }
+        },
+        "product_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the product owning the price.",
+            "smithy.api#required": {}
+          }
+        },
+        "cap_amount": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The maximum amount in cents that can be charged, regardless of the number of units consumed.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "meter_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the meter associated to the price.",
+            "smithy.api#required": {}
+          }
+        },
+        "meter": {
+          "target": "com.polar.api#ProductPriceMeter",
+          "traits": {
+            "smithy.api#documentation": "The meter associated to the price.",
+            "smithy.api#required": {}
+          }
+        },
+        "tiers": {
+          "target": "com.polar.api#Tiers",
+          "traits": {
+            "smithy.api#documentation": "The pricing tiers based on consumed units.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A metered, usage-based, price for a product, billed from tiers."
+      }
     },
     "com.polar.api#ProductPricesItem": {
       "type": "union",
@@ -10700,12 +10934,6 @@
           "target": "smithy.api#Boolean",
           "traits": {
             "smithy.api#documentation": "Whether to kick the member from the Discord server on revocation.",
-            "smithy.api#required": {}
-          }
-        },
-        "guild_token": {
-          "target": "smithy.api#String",
-          "traits": {
             "smithy.api#required": {}
           }
         }
@@ -13277,6 +13505,14 @@
             "smithy.api#required": {},
             "com.distilled.openapi#nullable": {}
           }
+        },
+        "units": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of units to apply to the subscription. If `null`, the number of units won't be changed.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
         }
       },
       "traits": {
@@ -13326,6 +13562,13 @@
           "traits": {
             "smithy.api#documentation": "The ID of the recurring product to subscribe to. Must be a free product, otherwise the customer should go through a checkout flow.",
             "smithy.api#required": {}
+          }
+        },
+        "currency": {
+          "target": "com.polar.api#PresentmentCurrency",
+          "traits": {
+            "smithy.api#documentation": "The currency of the subscription. The product must have a free price in this currency. If not set, the organization's default currency is used.",
+            "com.distilled.openapi#nullable": {}
           }
         },
         "customer_id": {
@@ -13384,6 +13627,13 @@
           "traits": {
             "smithy.api#documentation": "The ID of the recurring product to subscribe to. Must be a free product, otherwise the customer should go through a checkout flow.",
             "smithy.api#required": {}
+          }
+        },
+        "currency": {
+          "target": "com.polar.api#PresentmentCurrency",
+          "traits": {
+            "smithy.api#documentation": "The currency of the subscription. The product must have a free price in this currency. If not set, the organization's default currency is used.",
+            "com.distilled.openapi#nullable": {}
           }
         },
         "external_customer_id": {
@@ -13835,6 +14085,9 @@
         "SubscriptionUpdateSeats": {
           "target": "com.polar.api#SubscriptionUpdateSeats"
         },
+        "SubscriptionUpdateUnits": {
+          "target": "com.polar.api#SubscriptionUpdateUnits"
+        },
         "SubscriptionUpdateBillingPeriod": {
           "target": "com.polar.api#SubscriptionUpdateBillingPeriod"
         },
@@ -13889,7 +14142,7 @@
         "trial_end": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Set or extend the trial period of the subscription. If set to `now`, the trial will end immediately.",
+            "smithy.api#documentation": "Set or extend the trial period of the subscription. If set to `now`, the trial will end immediately and the first billing cycle will be charged synchronously. The subscription remains trialing if the payment fails.",
             "com.distilled.openapi#nullable": {}
           }
         }
@@ -13946,13 +14199,33 @@
       },
       "traits": {}
     },
+    "com.polar.api#SubscriptionUpdateUnits": {
+      "type": "structure",
+      "members": {
+        "units": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Update the number of units for this subscription.",
+            "smithy.api#required": {}
+          }
+        },
+        "proration_behavior": {
+          "target": "com.polar.api#SubscriptionProrationBehavior",
+          "traits": {
+            "smithy.api#documentation": "Determine how to handle the proration billing. If not provided, will use the default organization setting.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
     "com.polar.api#SubscriptionUpdateBillingPeriod": {
       "type": "structure",
       "members": {
         "current_billing_period_end": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Set a new date for the end of the current billing period. The subscription will renew on this date. The new date can be earlier or later than the current period end, as long as it's in the future.\n\nIt is not possible to update the current billing period on a canceled subscription.",
+            "smithy.api#documentation": "Set a new date for the end of the current billing period. The subscription will renew on this date. The new date can be earlier or later than the current period end, as long as it's in the future.\n\nIf the subscription is set to cancel at the end of the period, it'll end on this new date instead.\n\nIt is not possible to update the current billing period on a subscription that's already revoked or not active.",
             "smithy.api#required": {}
           }
         }
@@ -15124,6 +15397,12 @@
           }
         },
         "slug": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
@@ -16350,9 +16629,10 @@
     "com.polar.api#BenefitDiscordCreateProperties": {
       "type": "structure",
       "members": {
-        "guild_token": {
+        "guild_id": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "The ID of the Discord server.",
             "smithy.api#required": {}
           }
         },
@@ -19149,6 +19429,13 @@
             "com.distilled.openapi#nullable": {}
           }
         },
+        "api_version": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The API version that'll be used in event payloads.",
+            "smithy.api#required": {}
+          }
+        },
         "format": {
           "target": "com.polar.api#WebhookFormat",
           "traits": {
@@ -19182,6 +19469,13 @@
           "target": "smithy.api#Boolean",
           "traits": {
             "smithy.api#documentation": "Whether the webhook endpoint is enabled and will receive events.",
+            "smithy.api#required": {}
+          }
+        },
+        "uses_standard_webhook_signature": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether Polar signs deliveries to this endpoint with Standard Webhooks. False means Polar's original HMAC over the UTF-8 bytes of the full secret.",
             "smithy.api#required": {}
           }
         }
@@ -19379,6 +19673,12 @@
             "smithy.api#enumValue": "subscription.resumed"
           }
         },
+        "SUBSCRIPTION_MIGRATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "subscription.migrated"
+          }
+        },
         "REFUND_CREATED": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -19504,6 +19804,32 @@
         "smithy.api#documentation": "List Webhook Endpoints\n\nList webhook endpoints.\n\n**Scopes**: `webhooks:read` `webhooks:write`"
       }
     },
+    "com.polar.api#WebhooksCreateWebhookEndpointRequestApiVersion": {
+      "type": "enum",
+      "members": {
+        "_2026_04": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2026-04"
+          }
+        },
+        "_2026_10": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2026-10"
+          }
+        },
+        "_2027_01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2027-01"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The API version that'll be used in event payloads."
+      }
+    },
     "com.polar.api#WebhooksCreateWebhookEndpointRequestEventsList": {
       "type": "list",
       "member": {
@@ -19528,6 +19854,12 @@
           "traits": {
             "smithy.api#documentation": "An optional name for the webhook endpoint to help organize and identify it.",
             "com.distilled.openapi#nullable": {}
+          }
+        },
+        "api_version": {
+          "target": "com.polar.api#WebhooksCreateWebhookEndpointRequestApiVersion",
+          "traits": {
+            "smithy.api#documentation": "The API version that'll be used in event payloads."
           }
         },
         "format": {
@@ -19619,6 +19951,30 @@
         "smithy.api#documentation": "Get Webhook Endpoint\n\nGet a webhook endpoint by ID.\n\n**Scopes**: `webhooks:read` `webhooks:write`"
       }
     },
+    "com.polar.api#WebhooksUpdateWebhookEndpointRequestApiVersion": {
+      "type": "enum",
+      "members": {
+        "_2026_04": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2026-04"
+          }
+        },
+        "_2026_10": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2026-10"
+          }
+        },
+        "_2027_01": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "2027-01"
+          }
+        }
+      },
+      "traits": {}
+    },
     "com.polar.api#WebhooksUpdateWebhookEndpointRequestEventsList": {
       "type": "list",
       "member": {
@@ -19649,6 +20005,13 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "An optional name for the webhook endpoint to help organize and identify it.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "api_version": {
+          "target": "com.polar.api#WebhooksUpdateWebhookEndpointRequestApiVersion",
+          "traits": {
+            "smithy.api#documentation": "The API version that'll be used in event payloads.",
             "com.distilled.openapi#nullable": {}
           }
         },
@@ -20047,6 +20410,13 @@
           "target": "smithy.api#Boolean",
           "traits": {
             "smithy.api#documentation": "Whether this event was skipped because the webhook endpoint was disabled.",
+            "smithy.api#required": {}
+          }
+        },
+        "api_version": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The API version used in the payload of this event.",
             "smithy.api#required": {}
           }
         },
@@ -20655,11 +21025,18 @@
             "com.distilled.openapi#nullable": {}
           }
         },
-        "seat_tiers": {
-          "target": "com.polar.api#ProductPriceSeatTiersInput",
+        "tiers": {
+          "target": "com.polar.api#TiersInput",
           "traits": {
-            "smithy.api#documentation": "Tiered pricing based on seat quantity",
+            "smithy.api#documentation": "Tiered pricing based on the purchased seat quantity.",
             "smithy.api#required": {}
+          }
+        },
+        "minimum_units": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The minimum purchasable seat quantity (inclusive). Defaults to 1 when not set.",
+            "com.distilled.openapi#nullable": {}
           }
         }
       },
@@ -20667,35 +21044,132 @@
         "smithy.api#documentation": "Schema to create a seat-based price with volume-based tiers."
       }
     },
-    "com.polar.api#ProductPriceSeatTiersInput": {
+    "com.polar.api#TiersInput": {
       "type": "structure",
       "members": {
-        "seat_tier_type": {
-          "target": "com.polar.api#SeatTierType",
+        "type": {
+          "target": "com.polar.api#TierType",
           "traits": {
-            "smithy.api#documentation": "How tiers are applied. 'volume' prices all seats at the matching tier's rate. 'graduated' prices each tier's range independently."
+            "smithy.api#required": {}
           }
         },
         "tiers": {
-          "target": "com.polar.api#ProductPriceSeatTiersInputTiersList",
+          "target": "com.polar.api#TiersInputTiersList",
           "traits": {
-            "smithy.api#documentation": "List of pricing tiers",
             "smithy.api#required": {}
           }
         }
       },
       "traits": {
-        "smithy.api#documentation": "List of pricing tiers for seat-based pricing.\n\nThe minimum and maximum seat limits are derived from the tiers:\n- minimum_seats = first tier's min_seats\n- maximum_seats = last tier's max_seats (None for unlimited)"
+        "smithy.api#documentation": "Tiers submitted through the API. Kept apart from `Tiers` so tightening\na rule here never stops a stored row from loading."
       }
     },
-    "com.polar.api#ProductPriceSeatTiersInputTiersList": {
-      "type": "list",
-      "member": {
-        "target": "com.polar.api#ProductPriceSeatTier"
+    "com.polar.api#TierInput": {
+      "type": "structure",
+      "members": {
+        "bound": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "unit_amount": {
+          "target": "com.polar.api#TierInputUnitAmount",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
       },
       "traits": {
-        "smithy.api#documentation": "List of pricing tiers"
+        "smithy.api#documentation": "A tier submitted through the API. Rates stop at the reach of the\nBigInteger amount columns, with 12 decimal places."
       }
+    },
+    "com.polar.api#TierInputUnitAmount": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "smithy.api#Double"
+        },
+        "Case1": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.polar.api#TiersInputTiersList": {
+      "type": "list",
+      "member": {
+        "target": "com.polar.api#TierInput"
+      },
+      "traits": {}
+    },
+    "com.polar.api#ProductPriceUnitBasedCreate": {
+      "type": "structure",
+      "members": {
+        "amount_type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "price_currency": {
+          "target": "com.polar.api#PresentmentCurrency",
+          "traits": {
+            "smithy.api#documentation": "The currency in which the customer will be charged."
+          }
+        },
+        "tax_behavior": {
+          "target": "com.polar.api#TaxBehaviorOption",
+          "traits": {
+            "smithy.api#documentation": "The tax behavior of the price. If not set, it will default to the organization's default tax behavior.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "tiers": {
+          "target": "com.polar.api#TiersInput",
+          "traits": {
+            "smithy.api#documentation": "Tiered pricing based on the purchased unit quantity.",
+            "smithy.api#required": {}
+          }
+        },
+        "minimum_units": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The minimum purchasable quantity (inclusive). Defaults to 1 when not set.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "unit_label": {
+          "target": "com.polar.api#ProductPriceUnitBasedCreateUnitLabelMap",
+          "traits": {
+            "smithy.api#documentation": "Per-locale unit nouns shown at checkout and on invoices. `{\"en\": {\"=1\": \"device\", \"other\": \"devices\"}}`. Defaults to \"unit\"/\"units\" when unset.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Schema to create a unit-based price: the buyer picks a quantity of units,\npays for it up-front. On subscriptions, quantity changes are prorated."
+      }
+    },
+    "com.polar.api#ProductPriceUnitBasedCreateUnitLabelValueMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.polar.api#ProductPriceUnitBasedCreateUnitLabelMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.polar.api#ProductPriceUnitBasedCreateUnitLabelValueMap"
+      },
+      "traits": {}
     },
     "com.polar.api#ProductPriceMeteredUnitCreate": {
       "type": "structure",
@@ -20759,6 +21233,54 @@
         "smithy.api#documentation": "The price per unit in cents. Supports up to 12 decimal places."
       }
     },
+    "com.polar.api#ProductPriceMeteredTiersCreate": {
+      "type": "structure",
+      "members": {
+        "amount_type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "price_currency": {
+          "target": "com.polar.api#PresentmentCurrency",
+          "traits": {
+            "smithy.api#documentation": "The currency in which the customer will be charged."
+          }
+        },
+        "tax_behavior": {
+          "target": "com.polar.api#TaxBehaviorOption",
+          "traits": {
+            "smithy.api#documentation": "The tax behavior of the price. If not set, it will default to the organization's default tax behavior.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "meter_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the meter associated to the price.",
+            "smithy.api#required": {}
+          }
+        },
+        "tiers": {
+          "target": "com.polar.api#TiersInput",
+          "traits": {
+            "smithy.api#documentation": "Tiered pricing based on consumed units.",
+            "smithy.api#required": {}
+          }
+        },
+        "cap_amount": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Optional maximum amount in cents that can be charged, regardless of the number of units consumed.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Schema to create a metered price billed from tiers on consumed units."
+      }
+    },
     "com.polar.api#ProductCreateRecurringPricesItem": {
       "type": "union",
       "members": {
@@ -20771,8 +21293,14 @@
         "ProductPriceSeatBasedCreate": {
           "target": "com.polar.api#ProductPriceSeatBasedCreate"
         },
+        "ProductPriceUnitBasedCreate": {
+          "target": "com.polar.api#ProductPriceUnitBasedCreate"
+        },
         "ProductPriceMeteredUnitCreate": {
           "target": "com.polar.api#ProductPriceMeteredUnitCreate"
+        },
+        "ProductPriceMeteredTiersCreate": {
+          "target": "com.polar.api#ProductPriceMeteredTiersCreate"
         }
       },
       "traits": {}
@@ -20939,8 +21467,14 @@
         "ProductPriceSeatBasedCreate": {
           "target": "com.polar.api#ProductPriceSeatBasedCreate"
         },
+        "ProductPriceUnitBasedCreate": {
+          "target": "com.polar.api#ProductPriceUnitBasedCreate"
+        },
         "ProductPriceMeteredUnitCreate": {
           "target": "com.polar.api#ProductPriceMeteredUnitCreate"
+        },
+        "ProductPriceMeteredTiersCreate": {
+          "target": "com.polar.api#ProductPriceMeteredTiersCreate"
         }
       },
       "traits": {}
@@ -21103,8 +21637,14 @@
         "ProductPriceSeatBasedCreate": {
           "target": "com.polar.api#ProductPriceSeatBasedCreate"
         },
+        "ProductPriceUnitBasedCreate": {
+          "target": "com.polar.api#ProductPriceUnitBasedCreate"
+        },
         "ProductPriceMeteredUnitCreate": {
           "target": "com.polar.api#ProductPriceMeteredUnitCreate"
+        },
+        "ProductPriceMeteredTiersCreate": {
+          "target": "com.polar.api#ProductPriceMeteredTiersCreate"
         }
       },
       "traits": {}
@@ -21266,6 +21806,52 @@
           "code": 200
         },
         "smithy.api#documentation": "Update Product\n\nUpdate a product.\n\n**Scopes**: `products:write`"
+      }
+    },
+    "com.polar.api#ProductsDeleteRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.polar.api#ProductsDelete": {
+      "type": "operation",
+      "input": {
+        "target": "com.polar.api#ProductsDeleteRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "errors": [
+        {
+          "target": "com.polar.api#Forbidden"
+        },
+        {
+          "target": "com.polar.api#NotFound"
+        },
+        {
+          "target": "com.polar.api#Conflict"
+        },
+        {
+          "target": "com.polar.api#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/v1/products/{id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Delete Product\n\nDelete a product.\n\nOnly products without orders, subscriptions, trials or discounts can be deleted.\nProducts that are in use can only be archived.\n\n**Scopes**: `products:write`"
       }
     },
     "com.polar.api#ProductsUpdateBenefitsRequestBenefitsList": {
@@ -21986,6 +22572,14 @@
             "com.distilled.openapi#nullable": {}
           }
         },
+        "units": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of units purchased (for unit-based pricing).",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
         "customer_id": {
           "target": "smithy.api#String",
           "traits": {
@@ -22169,7 +22763,10 @@
         "target": "smithy.api#String"
       },
       "value": {
-        "target": "com.polar.api#OrderCustomFieldDataValue"
+        "target": "com.polar.api#OrderCustomFieldDataValue",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {
         "smithy.api#documentation": "Key-value object storing custom field values."
@@ -22677,6 +23274,14 @@
             "com.distilled.openapi#nullable": {}
           }
         },
+        "units": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The number of units for unit-based subscriptions. None for non-unit subscriptions.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
         "customer_cancellation_reason": {
           "target": "com.polar.api#CustomerCancellationReason",
           "traits": {
@@ -22754,6 +23359,22 @@
             "smithy.api#required": {},
             "com.distilled.openapi#nullable": {}
           }
+        },
+        "start_timestamp": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Start of the period covered by this line item, if any.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "end_timestamp": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "End of the period covered by this line item, if any.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
         }
       },
       "traits": {
@@ -22819,7 +23440,10 @@
         "target": "smithy.api#String"
       },
       "value": {
-        "target": "com.polar.api#OrdersCreateRequestCustomFieldDataValue"
+        "target": "com.polar.api#OrdersCreateRequestCustomFieldDataValue",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {
         "smithy.api#documentation": "Key-value object storing custom field values."
@@ -22887,7 +23511,7 @@
         "product_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The ID of the one-time product to charge for. Must belong to the order's organization. Only fixed-price and free products are supported.",
+            "smithy.api#documentation": "The ID of the one-time product to charge for. Must belong to the order's organization. Only fixed-price, free and unit-based products are supported.",
             "smithy.api#required": {}
           }
         },
@@ -22901,7 +23525,14 @@
         "amount": {
           "target": "smithy.api#Integer",
           "traits": {
-            "smithy.api#documentation": "A custom amount to charge, in the smallest currency unit. Overrides the product's price; defaults to the product's configured price (0 for free products). A positive amount must be at least the currency's minimum.",
+            "smithy.api#documentation": "A custom amount to charge, in the smallest currency unit. Overrides the product's price; defaults to the product's configured price (0 for free products). A positive amount must be at least the currency's minimum. Can't be combined with `units`.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "units": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The number of units to charge for. Required when the product has unit-based pricing, and rejected otherwise. The amount comes from the price's tiers. Can't be combined with `amount`.",
             "com.distilled.openapi#nullable": {}
           }
         },
@@ -26729,6 +27360,30 @@
             "com.distilled.openapi#nullable": {}
           }
         },
+        "units": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Predefined number of units (works with unit-based pricing only)",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "min_units": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Minimum number of units (works with unit-based pricing only)",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "max_units": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Maximum number of units (works with unit-based pricing only)",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
         "discount_amount": {
           "target": "smithy.api#Integer",
           "traits": {
@@ -27084,7 +27739,10 @@
         "target": "smithy.api#String"
       },
       "value": {
-        "target": "com.polar.api#CheckoutCustomFieldDataValue"
+        "target": "com.polar.api#CheckoutCustomFieldDataValue",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {
         "smithy.api#documentation": "Key-value object storing custom field values."
@@ -27360,6 +28018,36 @@
       }
     },
     "com.polar.api#BenefitPublic": {
+      "type": "union",
+      "members": {
+        "BenefitCustomPublic": {
+          "target": "com.polar.api#BenefitCustomPublic"
+        },
+        "BenefitDiscordPublic": {
+          "target": "com.polar.api#BenefitDiscordPublic"
+        },
+        "BenefitGitHubRepositoryPublic": {
+          "target": "com.polar.api#BenefitGitHubRepositoryPublic"
+        },
+        "BenefitDownloadablesPublic": {
+          "target": "com.polar.api#BenefitDownloadablesPublic"
+        },
+        "BenefitLicenseKeysPublic": {
+          "target": "com.polar.api#BenefitLicenseKeysPublic"
+        },
+        "BenefitFeatureFlagPublic": {
+          "target": "com.polar.api#BenefitFeatureFlagPublic"
+        },
+        "BenefitSlackSharedChannelPublic": {
+          "target": "com.polar.api#BenefitSlackSharedChannelPublic"
+        },
+        "BenefitMeterCreditPublic": {
+          "target": "com.polar.api#BenefitMeterCreditPublic"
+        }
+      },
+      "traits": {}
+    },
+    "com.polar.api#BenefitCustomPublic": {
       "type": "structure",
       "members": {
         "id": {
@@ -27385,9 +28073,8 @@
           }
         },
         "type": {
-          "target": "com.polar.api#BenefitType",
+          "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The type of the benefit.",
             "smithy.api#required": {}
           }
         },
@@ -27428,6 +28115,517 @@
         }
       },
       "traits": {}
+    },
+    "com.polar.api#BenefitDiscordPublic": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the benefit.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Creation timestamp of the object.",
+            "smithy.api#required": {}
+          }
+        },
+        "modified_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Last modification timestamp of the object.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The description of the benefit.",
+            "smithy.api#required": {}
+          }
+        },
+        "selectable": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the benefit is selectable when creating a product.",
+            "smithy.api#required": {}
+          }
+        },
+        "deletable": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the benefit is deletable.",
+            "smithy.api#required": {}
+          }
+        },
+        "is_deleted": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the benefit is deleted.",
+            "smithy.api#required": {}
+          }
+        },
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the organization owning the benefit.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.polar.api#BenefitGitHubRepositoryPublic": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the benefit.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Creation timestamp of the object.",
+            "smithy.api#required": {}
+          }
+        },
+        "modified_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Last modification timestamp of the object.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The description of the benefit.",
+            "smithy.api#required": {}
+          }
+        },
+        "selectable": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the benefit is selectable when creating a product.",
+            "smithy.api#required": {}
+          }
+        },
+        "deletable": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the benefit is deletable.",
+            "smithy.api#required": {}
+          }
+        },
+        "is_deleted": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the benefit is deleted.",
+            "smithy.api#required": {}
+          }
+        },
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the organization owning the benefit.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.polar.api#BenefitDownloadablesPublic": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the benefit.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Creation timestamp of the object.",
+            "smithy.api#required": {}
+          }
+        },
+        "modified_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Last modification timestamp of the object.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The description of the benefit.",
+            "smithy.api#required": {}
+          }
+        },
+        "selectable": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the benefit is selectable when creating a product.",
+            "smithy.api#required": {}
+          }
+        },
+        "deletable": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the benefit is deletable.",
+            "smithy.api#required": {}
+          }
+        },
+        "is_deleted": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the benefit is deleted.",
+            "smithy.api#required": {}
+          }
+        },
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the organization owning the benefit.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.polar.api#BenefitLicenseKeysPublic": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the benefit.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Creation timestamp of the object.",
+            "smithy.api#required": {}
+          }
+        },
+        "modified_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Last modification timestamp of the object.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The description of the benefit.",
+            "smithy.api#required": {}
+          }
+        },
+        "selectable": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the benefit is selectable when creating a product.",
+            "smithy.api#required": {}
+          }
+        },
+        "deletable": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the benefit is deletable.",
+            "smithy.api#required": {}
+          }
+        },
+        "is_deleted": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the benefit is deleted.",
+            "smithy.api#required": {}
+          }
+        },
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the organization owning the benefit.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.polar.api#BenefitFeatureFlagPublic": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the benefit.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Creation timestamp of the object.",
+            "smithy.api#required": {}
+          }
+        },
+        "modified_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Last modification timestamp of the object.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The description of the benefit.",
+            "smithy.api#required": {}
+          }
+        },
+        "selectable": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the benefit is selectable when creating a product.",
+            "smithy.api#required": {}
+          }
+        },
+        "deletable": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the benefit is deletable.",
+            "smithy.api#required": {}
+          }
+        },
+        "is_deleted": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the benefit is deleted.",
+            "smithy.api#required": {}
+          }
+        },
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the organization owning the benefit.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.polar.api#BenefitSlackSharedChannelPublic": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the benefit.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Creation timestamp of the object.",
+            "smithy.api#required": {}
+          }
+        },
+        "modified_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Last modification timestamp of the object.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The description of the benefit.",
+            "smithy.api#required": {}
+          }
+        },
+        "selectable": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the benefit is selectable when creating a product.",
+            "smithy.api#required": {}
+          }
+        },
+        "deletable": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the benefit is deletable.",
+            "smithy.api#required": {}
+          }
+        },
+        "is_deleted": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the benefit is deleted.",
+            "smithy.api#required": {}
+          }
+        },
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the organization owning the benefit.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.polar.api#BenefitMeterCreditPublic": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the benefit.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Creation timestamp of the object.",
+            "smithy.api#required": {}
+          }
+        },
+        "modified_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Last modification timestamp of the object.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The description of the benefit.",
+            "smithy.api#required": {}
+          }
+        },
+        "selectable": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the benefit is selectable when creating a product.",
+            "smithy.api#required": {}
+          }
+        },
+        "deletable": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the benefit is deletable.",
+            "smithy.api#required": {}
+          }
+        },
+        "is_deleted": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the benefit is deleted.",
+            "smithy.api#required": {}
+          }
+        },
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the organization owning the benefit.",
+            "smithy.api#required": {}
+          }
+        },
+        "properties": {
+          "target": "com.polar.api#BenefitMeterCreditPublicProperties",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A benefit of type `meter_credit`.\n\nGrants a number of units on a specific meter."
+      }
+    },
+    "com.polar.api#BenefitMeterCreditPublicProperties": {
+      "type": "structure",
+      "members": {
+        "units": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "meter_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Properties for a benefit of type `meter_credit`."
+      }
     },
     "com.polar.api#CheckoutProductBenefitsList": {
       "type": "list",
@@ -27877,7 +29075,10 @@
         "target": "smithy.api#String"
       },
       "value": {
-        "target": "com.polar.api#CheckoutsCreateRequestCustomFieldDataValue"
+        "target": "com.polar.api#CheckoutsCreateRequestCustomFieldDataValue",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {
         "smithy.api#documentation": "Key-value object storing custom field values."
@@ -27934,8 +29135,14 @@
         "ProductPriceSeatBasedCreate": {
           "target": "com.polar.api#ProductPriceSeatBasedCreate"
         },
+        "ProductPriceUnitBasedCreate": {
+          "target": "com.polar.api#ProductPriceUnitBasedCreate"
+        },
         "ProductPriceMeteredUnitCreate": {
           "target": "com.polar.api#ProductPriceMeteredUnitCreate"
+        },
+        "ProductPriceMeteredTiersCreate": {
+          "target": "com.polar.api#ProductPriceMeteredTiersCreate"
         }
       },
       "traits": {}
@@ -28031,6 +29238,27 @@
           "target": "smithy.api#Integer",
           "traits": {
             "smithy.api#documentation": "Maximum number of seats (works with seat-based pricing only)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "units": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Predefined number of units (works with unit-based pricing only)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "min_units": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Minimum number of units (works with unit-based pricing only)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "max_units": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Maximum number of units (works with unit-based pricing only)",
             "com.distilled.openapi#nullable": {}
           }
         },
@@ -28245,7 +29473,10 @@
         "target": "smithy.api#String"
       },
       "value": {
-        "target": "com.polar.api#CheckoutsUpdateRequestCustomFieldDataValue"
+        "target": "com.polar.api#CheckoutsUpdateRequestCustomFieldDataValue",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {
         "smithy.api#documentation": "Key-value object storing custom field values."
@@ -28352,6 +29583,13 @@
           "target": "smithy.api#Integer",
           "traits": {
             "smithy.api#documentation": "Number of seats for seat-based pricing.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "units": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of units for unit-based pricing.",
             "com.distilled.openapi#nullable": {}
           }
         },
@@ -28649,6 +29887,30 @@
           "target": "smithy.api#Integer",
           "traits": {
             "smithy.api#documentation": "Maximum number of seats (works with seat-based pricing only)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "units": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Predefined number of units (works with unit-based pricing only)",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "min_units": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Minimum number of units (works with unit-based pricing only)",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "max_units": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Maximum number of units (works with unit-based pricing only)",
+            "smithy.api#required": {},
             "com.distilled.openapi#nullable": {}
           }
         },
@@ -28970,7 +30232,10 @@
         "target": "smithy.api#String"
       },
       "value": {
-        "target": "com.polar.api#CheckoutPublicCustomFieldDataValue"
+        "target": "com.polar.api#CheckoutPublicCustomFieldDataValue",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {
         "smithy.api#documentation": "Key-value object storing custom field values."
@@ -29137,6 +30402,9 @@
       },
       "errors": [
         {
+          "target": "com.polar.api#Forbidden"
+        },
+        {
           "target": "com.polar.api#NotFound"
         },
         {
@@ -29173,7 +30441,10 @@
         "target": "smithy.api#String"
       },
       "value": {
-        "target": "com.polar.api#UpdateCheckoutsClientRequestCustomFieldDataValue"
+        "target": "com.polar.api#UpdateCheckoutsClientRequestCustomFieldDataValue",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {
         "smithy.api#documentation": "Key-value object storing custom field values."
@@ -29220,6 +30491,13 @@
           "target": "smithy.api#Integer",
           "traits": {
             "smithy.api#documentation": "Number of seats for seat-based pricing.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "units": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of units for unit-based pricing.",
             "com.distilled.openapi#nullable": {}
           }
         },
@@ -29307,6 +30585,9 @@
           "target": "com.polar.api#NotFound"
         },
         {
+          "target": "com.polar.api#Conflict"
+        },
+        {
           "target": "com.polar.api#UnprocessableEntity"
         }
       ],
@@ -29340,7 +30621,10 @@
         "target": "smithy.api#String"
       },
       "value": {
-        "target": "com.polar.api#ConfirmCheckoutsClientRequestCustomFieldDataValue"
+        "target": "com.polar.api#ConfirmCheckoutsClientRequestCustomFieldDataValue",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {
         "smithy.api#documentation": "Key-value object storing custom field values."
@@ -29387,6 +30671,13 @@
           "target": "smithy.api#Integer",
           "traits": {
             "smithy.api#documentation": "Number of seats for seat-based pricing.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "units": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of units for unit-based pricing.",
             "com.distilled.openapi#nullable": {}
           }
         },
@@ -29579,6 +30870,30 @@
           "target": "smithy.api#Integer",
           "traits": {
             "smithy.api#documentation": "Maximum number of seats (works with seat-based pricing only)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "units": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Predefined number of units (works with unit-based pricing only)",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "min_units": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Minimum number of units (works with unit-based pricing only)",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "max_units": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Maximum number of units (works with unit-based pricing only)",
+            "smithy.api#required": {},
             "com.distilled.openapi#nullable": {}
           }
         },
@@ -29907,7 +31222,10 @@
         "target": "smithy.api#String"
       },
       "value": {
-        "target": "com.polar.api#CheckoutPublicConfirmedCustomFieldDataValue"
+        "target": "com.polar.api#CheckoutPublicConfirmedCustomFieldDataValue",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {
         "smithy.api#documentation": "Key-value object storing custom field values."
@@ -30017,6 +31335,9 @@
         },
         {
           "target": "com.polar.api#NotFound"
+        },
+        {
+          "target": "com.polar.api#Conflict"
         },
         {
           "target": "com.polar.api#UnprocessableEntity"
@@ -41956,6 +43277,22 @@
             "smithy.api#required": {}
           }
         },
+        "member_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the seat member holding this key, if any.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "member": {
+          "target": "com.polar.api#LicenseKeyMember",
+          "traits": {
+            "smithy.api#documentation": "The seat member holding this key. Set for keys granted through a seat-based product; `null` for keys granted to the customer directly.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
         "benefit_id": {
           "target": "smithy.api#String",
           "traits": {
@@ -42166,6 +43503,34 @@
       },
       "traits": {}
     },
+    "com.polar.api#LicenseKeyMember": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the object.",
+            "smithy.api#required": {}
+          }
+        },
+        "email": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The email address of the seat member.",
+            "smithy.api#required": {}
+          }
+        },
+        "external_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The external ID of the seat member, if set.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
     "com.polar.api#ListResourceLicenseKeyReadItemsList": {
       "type": "list",
       "member": {
@@ -42254,6 +43619,22 @@
           "target": "com.polar.api#LicenseKeyCustomer",
           "traits": {
             "smithy.api#required": {}
+          }
+        },
+        "member_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the seat member holding this key, if any.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "member": {
+          "target": "com.polar.api#LicenseKeyMember",
+          "traits": {
+            "smithy.api#documentation": "The seat member holding this key. Set for keys granted through a seat-based product; `null` for keys granted to the customer directly.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
           }
         },
         "benefit_id": {
@@ -42498,6 +43879,194 @@
           "code": 200
         },
         "smithy.api#documentation": "Update License Key\n\nUpdate a license key.\n\n**Scopes**: `license_keys:write`"
+      }
+    },
+    "com.polar.api#LicenseKeysRotateRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.polar.api#RotatedLicenseKey": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the object.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Creation timestamp of the object.",
+            "smithy.api#required": {}
+          }
+        },
+        "modified_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Last modification timestamp of the object.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "customer_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "customer": {
+          "target": "com.polar.api#LicenseKeyCustomer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "member_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the seat member holding this key, if any.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "member": {
+          "target": "com.polar.api#LicenseKeyMember",
+          "traits": {
+            "smithy.api#documentation": "The seat member holding this key. Set for keys granted through a seat-based product; `null` for keys granted to the customer directly.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "benefit_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The benefit ID.",
+            "smithy.api#required": {}
+          }
+        },
+        "key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "display_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "com.polar.api#RotatedLicenseKeyStatus",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "limit_activations": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "usage": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "limit_usage": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "validations": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "last_validated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "expires_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.polar.api#RotatedLicenseKeyStatus": {
+      "type": "enum",
+      "members": {
+        "GRANTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "granted"
+          }
+        },
+        "DISABLED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "disabled"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.polar.api#LicenseKeysRotate": {
+      "type": "operation",
+      "input": {
+        "target": "com.polar.api#LicenseKeysRotateRequest"
+      },
+      "output": {
+        "target": "com.polar.api#RotatedLicenseKey"
+      },
+      "errors": [
+        {
+          "target": "com.polar.api#BadRequest"
+        },
+        {
+          "target": "com.polar.api#NotFound"
+        },
+        {
+          "target": "com.polar.api#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v1/license-keys/{id}/rotate",
+          "code": 200
+        },
+        "smithy.api#documentation": "Rotate License Key\n\nRotate a license key.\n\nGenerates a new key string for the same license key record. The previous\nkey string immediately stops validating. Status, usage, limits, expiry,\nand activations are preserved.\n\n**Scopes**: `license_keys:write`"
       }
     },
     "com.polar.api#LicenseKeysGetActivationRequest": {
@@ -42747,6 +44316,22 @@
             "smithy.api#required": {}
           }
         },
+        "member_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the seat member holding this key, if any.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "member": {
+          "target": "com.polar.api#LicenseKeyMember",
+          "traits": {
+            "smithy.api#documentation": "The seat member holding this key. Set for keys granted through a seat-based product; `null` for keys granted to the customer directly.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
         "benefit_id": {
           "target": "smithy.api#String",
           "traits": {
@@ -42767,7 +44352,7 @@
           }
         },
         "status": {
-          "target": "com.polar.api#LicenseKeyStatus",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
@@ -42812,10 +44397,124 @@
             "com.distilled.openapi#nullable": {}
           }
         },
+        "subscription_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the subscription granting the license key.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "subscription": {
+          "target": "com.polar.api#LicenseKeySubscription",
+          "traits": {
+            "smithy.api#documentation": "The subscription granting the license key, if any.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "order_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the one-time order granting the license key.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "order": {
+          "target": "com.polar.api#LicenseKeyOrder",
+          "traits": {
+            "smithy.api#documentation": "The one-time order granting the license key, if any.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
         "activation": {
           "target": "com.polar.api#LicenseKeyActivationBase",
           "traits": {
             "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.polar.api#LicenseKeySubscription": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the object.",
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "com.polar.api#SubscriptionStatus",
+          "traits": {
+            "smithy.api#documentation": "The status of the subscription.",
+            "smithy.api#required": {}
+          }
+        },
+        "current_period_start": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The start timestamp of the current billing period.",
+            "smithy.api#required": {}
+          }
+        },
+        "current_period_end": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The end timestamp of the current billing period.",
+            "smithy.api#required": {}
+          }
+        },
+        "cancel_at_period_end": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the subscription will be canceled at the end of the current period.",
+            "smithy.api#required": {}
+          }
+        },
+        "ends_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The timestamp when the subscription will end.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.polar.api#LicenseKeyOrder": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the object.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Creation timestamp of the object.",
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "com.polar.api#OrderStatus",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "paid": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the order has been paid for.",
+            "smithy.api#required": {}
           }
         }
       },
@@ -42830,6 +44529,9 @@
         "target": "com.polar.api#ValidatedLicenseKey"
       },
       "errors": [
+        {
+          "target": "com.polar.api#BadRequest"
+        },
         {
           "target": "com.polar.api#NotFound"
         },
@@ -42944,13 +44646,249 @@
         "smithy.api#input": {}
       }
     },
+    "com.polar.api#LicenseKeyActivationCreated": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "license_key_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "label": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "meta": {
+          "target": "com.polar.api#LicenseKeyActivationCreatedMetaMap",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "modified_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "license_key": {
+          "target": "com.polar.api#GrantedLicenseKey",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.polar.api#LicenseKeyActivationCreatedMetaValue": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "smithy.api#String"
+        },
+        "Case1": {
+          "target": "smithy.api#Integer"
+        },
+        "Case2": {
+          "target": "smithy.api#Double"
+        },
+        "Case3": {
+          "target": "smithy.api#Boolean"
+        }
+      },
+      "traits": {}
+    },
+    "com.polar.api#LicenseKeyActivationCreatedMetaMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.polar.api#LicenseKeyActivationCreatedMetaValue"
+      },
+      "traits": {}
+    },
+    "com.polar.api#GrantedLicenseKey": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the object.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Creation timestamp of the object.",
+            "smithy.api#required": {}
+          }
+        },
+        "modified_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Last modification timestamp of the object.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "customer_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "customer": {
+          "target": "com.polar.api#LicenseKeyCustomer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "member_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the seat member holding this key, if any.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "member": {
+          "target": "com.polar.api#LicenseKeyMember",
+          "traits": {
+            "smithy.api#documentation": "The seat member holding this key. Set for keys granted through a seat-based product; `null` for keys granted to the customer directly.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "benefit_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The benefit ID.",
+            "smithy.api#required": {}
+          }
+        },
+        "key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "display_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "limit_activations": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "usage": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "limit_usage": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "validations": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "last_validated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "expires_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "subscription_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the subscription granting the license key.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "subscription": {
+          "target": "com.polar.api#LicenseKeySubscription",
+          "traits": {
+            "smithy.api#documentation": "The subscription granting the license key, if any.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "order_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the one-time order granting the license key.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "order": {
+          "target": "com.polar.api#LicenseKeyOrder",
+          "traits": {
+            "smithy.api#documentation": "The one-time order granting the license key, if any.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
     "com.polar.api#LicenseKeysActivate": {
       "type": "operation",
       "input": {
         "target": "com.polar.api#LicenseKeysActivateRequest"
       },
       "output": {
-        "target": "com.polar.api#LicenseKeyActivationRead"
+        "target": "com.polar.api#LicenseKeyActivationCreated"
       },
       "errors": [
         {
@@ -43299,6 +45237,14 @@
           "target": "smithy.api#Integer",
           "traits": {
             "smithy.api#documentation": "Preconfigured number of seats for seat-based pricing. When set, checkout sessions created from this link are locked to this number of seats and the customer won't be able to change it. All products on the link must use seat-based pricing and allow this number of seats. If the products no longer accommodate this value when the link is opened, it'll be ignored.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "units": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Preconfigured number of units for unit-based pricing. When set, checkout sessions created from this link are locked to this number of units and the customer won't be able to change it. All products on the link must use unit-based pricing and allow this number of units. If the products no longer accommodate this value when the link is opened, it'll be ignored.",
             "smithy.api#required": {},
             "com.distilled.openapi#nullable": {}
           }
@@ -43653,6 +45599,13 @@
             "com.distilled.openapi#nullable": {}
           }
         },
+        "units": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Preconfigured number of units for unit-based pricing. When set, checkout sessions created from this link are locked to this number of units and the customer won't be able to change it. All products on the link must use unit-based pricing and allow this number of units. If the products no longer accommodate this value when the link is opened, it'll be ignored.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
         "success_url": {
           "target": "smithy.api#String",
           "traits": {
@@ -43771,6 +45724,13 @@
             "com.distilled.openapi#nullable": {}
           }
         },
+        "units": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Preconfigured number of units for unit-based pricing. When set, checkout sessions created from this link are locked to this number of units and the customer won't be able to change it. All products on the link must use unit-based pricing and allow this number of units. If the products no longer accommodate this value when the link is opened, it'll be ignored.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
         "success_url": {
           "target": "smithy.api#String",
           "traits": {
@@ -43886,6 +45846,13 @@
           "target": "smithy.api#Integer",
           "traits": {
             "smithy.api#documentation": "Preconfigured number of seats for seat-based pricing. When set, checkout sessions created from this link are locked to this number of seats and the customer won't be able to change it. All products on the link must use seat-based pricing and allow this number of seats. If the products no longer accommodate this value when the link is opened, it'll be ignored.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "units": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Preconfigured number of units for unit-based pricing. When set, checkout sessions created from this link are locked to this number of units and the customer won't be able to change it. All products on the link must use unit-based pricing and allow this number of units. If the products no longer accommodate this value when the link is opened, it'll be ignored.",
             "com.distilled.openapi#nullable": {}
           }
         },
@@ -44138,6 +46105,13 @@
           "target": "smithy.api#Integer",
           "traits": {
             "smithy.api#documentation": "Preconfigured number of seats for seat-based pricing. When set, checkout sessions created from this link are locked to this number of seats and the customer won't be able to change it. All products on the link must use seat-based pricing and allow this number of seats. If the products no longer accommodate this value when the link is opened, it'll be ignored.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "units": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Preconfigured number of units for unit-based pricing. When set, checkout sessions created from this link are locked to this number of units and the customer won't be able to change it. All products on the link must use unit-based pricing and allow this number of units. If the products no longer accommodate this value when the link is opened, it'll be ignored.",
             "com.distilled.openapi#nullable": {}
           }
         },
@@ -48325,6 +50299,22 @@
             "com.distilled.openapi#nullable": {}
           }
         },
+        "seats": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The number of seats for seat-based subscriptions. None for non-seat subscriptions.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "units": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The number of units for unit-based subscriptions. None for non-unit subscriptions.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
         "meters": {
           "target": "com.polar.api#CustomerStateSubscriptionMetersList",
           "traits": {
@@ -48358,7 +50348,10 @@
         "target": "smithy.api#String"
       },
       "value": {
-        "target": "com.polar.api#CustomerStateSubscriptionCustomFieldDataValue"
+        "target": "com.polar.api#CustomerStateSubscriptionCustomFieldDataValue",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {
         "smithy.api#documentation": "Key-value object storing custom field values."
@@ -48964,6 +50957,9 @@
         "CustomerPaymentMethodCard": {
           "target": "com.polar.api#CustomerPaymentMethodCard"
         },
+        "CustomerPaymentMethodKrCard": {
+          "target": "com.polar.api#CustomerPaymentMethodKrCard"
+        },
         "CustomerPaymentMethodGeneric": {
           "target": "com.polar.api#CustomerPaymentMethodGeneric"
         }
@@ -49059,6 +51055,85 @@
         "wallet": {
           "target": "smithy.api#String",
           "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.polar.api#CustomerPaymentMethodKrCard": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the object.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Creation timestamp of the object.",
+            "smithy.api#required": {}
+          }
+        },
+        "modified_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Last modification timestamp of the object.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "processor": {
+          "target": "com.polar.api#PaymentProcessor",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "customer_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "method_metadata": {
+          "target": "com.polar.api#PaymentMethodKrCardMetadata",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "is_default": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether this payment method is the customer's default payment method.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.polar.api#PaymentMethodKrCardMetadata": {
+      "type": "structure",
+      "members": {
+        "brand": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "last4": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
             "com.distilled.openapi#nullable": {}
           }
         }
@@ -49223,28 +51298,22 @@
       },
       "traits": {}
     },
-    "com.polar.api#MembersListMembersRequestSortingList": {
+    "com.polar.api#CustomersMembersListRequestSortingList": {
       "type": "list",
       "member": {
         "target": "com.polar.api#MemberSortProperty"
       },
       "traits": {}
     },
-    "com.polar.api#MembersListMembersRequest": {
+    "com.polar.api#CustomersMembersListRequest": {
       "type": "structure",
       "members": {
-        "customer_id": {
+        "id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#httpQuery": "customer_id",
-            "smithy.api#documentation": "Filter by customer ID."
-          }
-        },
-        "external_customer_id": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#httpQuery": "external_customer_id",
-            "smithy.api#documentation": "Filter by customer external ID."
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The customer ID."
           }
         },
         "role": {
@@ -49269,7 +51338,7 @@
           }
         },
         "sorting": {
-          "target": "com.polar.api#MembersListMembersRequestSortingList",
+          "target": "com.polar.api#CustomersMembersListRequestSortingList",
           "traits": {
             "smithy.api#httpQuery": "sorting",
             "smithy.api#documentation": "Sorting criterion. Several criteria can be used simultaneously and will be applied in order. Add a minus sign `-` before the criteria name to sort by descending order."
@@ -49305,15 +51374,18 @@
       },
       "traits": {}
     },
-    "com.polar.api#MembersListMembers": {
+    "com.polar.api#CustomersMembersList": {
       "type": "operation",
       "input": {
-        "target": "com.polar.api#MembersListMembersRequest"
+        "target": "com.polar.api#CustomersMembersListRequest"
       },
       "output": {
         "target": "com.polar.api#ListResourceMember"
       },
       "errors": [
+        {
+          "target": "com.polar.api#NotFound"
+        },
         {
           "target": "com.polar.api#UnprocessableEntity"
         }
@@ -49321,10 +51393,10 @@
       "traits": {
         "smithy.api#http": {
           "method": "GET",
-          "uri": "/v1/members/",
+          "uri": "/v1/customers/{id}/members",
           "code": 200
         },
-        "smithy.api#documentation": "List Members\n\nList members with optional customer ID filter.\n\n**Scopes**: `members:read` `members:write`"
+        "smithy.api#documentation": "List Members\n\nList the members of a customer.\n\n**Scopes**: `members:read` `members:write`"
       }
     },
     "com.polar.api#CustomersMembersCreateRequestRole": {
@@ -49415,6 +51487,85 @@
           "code": 200
         },
         "smithy.api#documentation": "Create Member\n\nCreate a new member for a customer.\n\nOnly B2B customers with the member management feature enabled can add members.\nThe authenticated user or organization must have access to the customer's organization.\n\n**Scopes**: `members:write`"
+      }
+    },
+    "com.polar.api#CustomersMembersListExternalRequestSortingList": {
+      "type": "list",
+      "member": {
+        "target": "com.polar.api#MemberSortProperty"
+      },
+      "traits": {}
+    },
+    "com.polar.api#CustomersMembersListExternalRequest": {
+      "type": "structure",
+      "members": {
+        "external_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The customer external ID."
+          }
+        },
+        "role": {
+          "target": "com.polar.api#MemberRole",
+          "traits": {
+            "smithy.api#httpQuery": "role",
+            "smithy.api#documentation": "Filter by member role."
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page",
+            "smithy.api#documentation": "Page number, defaults to 1."
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit",
+            "smithy.api#documentation": "Size of a page, defaults to 10. Maximum is 100."
+          }
+        },
+        "sorting": {
+          "target": "com.polar.api#CustomersMembersListExternalRequestSortingList",
+          "traits": {
+            "smithy.api#httpQuery": "sorting",
+            "smithy.api#documentation": "Sorting criterion. Several criteria can be used simultaneously and will be applied in order. Add a minus sign `-` before the criteria name to sort by descending order."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.polar.api#CustomersMembersListExternal": {
+      "type": "operation",
+      "input": {
+        "target": "com.polar.api#CustomersMembersListExternalRequest"
+      },
+      "output": {
+        "target": "com.polar.api#ListResourceMember"
+      },
+      "errors": [
+        {
+          "target": "com.polar.api#NotFound"
+        },
+        {
+          "target": "com.polar.api#Conflict"
+        },
+        {
+          "target": "com.polar.api#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/customers/external/{external_id}/members",
+          "code": 200
+        },
+        "smithy.api#documentation": "List Members by Customer External ID\n\nList the members of a customer identified by its external ID.\n\n**Scopes**: `members:read` `members:write`"
       }
     },
     "com.polar.api#CustomersMembersCreateExternalRequestRole": {
@@ -50249,6 +52400,12 @@
             "smithy.api#required": {}
           }
         },
+        "member": {
+          "target": "com.polar.api#CustomerBenefitGrantMember",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
         "benefit": {
           "target": "com.polar.api#BenefitDiscordSubscriber",
           "traits": {
@@ -50384,6 +52541,35 @@
       "traits": {}
     },
     "com.polar.api#CustomerPortalCustomerOauthAccountsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.polar.api#CustomerPortalOAuthAccount"
+      },
+      "traits": {}
+    },
+    "com.polar.api#CustomerBenefitGrantMember": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the object.",
+            "smithy.api#required": {}
+          }
+        },
+        "oauth_accounts": {
+          "target": "com.polar.api#CustomerBenefitGrantMemberOauthAccountsMap",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.polar.api#CustomerBenefitGrantMemberOauthAccountsMap": {
       "type": "map",
       "key": {
         "target": "smithy.api#String"
@@ -50646,6 +52832,12 @@
           "target": "com.polar.api#CustomerPortalCustomer",
           "traits": {
             "smithy.api#required": {}
+          }
+        },
+        "member": {
+          "target": "com.polar.api#CustomerBenefitGrantMember",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
           }
         },
         "benefit": {
@@ -52471,6 +54663,9 @@
         "PaymentMethodCard": {
           "target": "com.polar.api#PaymentMethodCard"
         },
+        "PaymentMethodKrCard": {
+          "target": "com.polar.api#PaymentMethodKrCard"
+        },
         "PaymentMethodGeneric": {
           "target": "com.polar.api#PaymentMethodGeneric"
         }
@@ -52522,6 +54717,58 @@
         },
         "method_metadata": {
           "target": "com.polar.api#PaymentMethodCardMetadata",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.polar.api#PaymentMethodKrCard": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the object.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Creation timestamp of the object.",
+            "smithy.api#required": {}
+          }
+        },
+        "modified_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Last modification timestamp of the object.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "processor": {
+          "target": "com.polar.api#PaymentProcessor",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "customer_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "method_metadata": {
+          "target": "com.polar.api#PaymentMethodKrCardMetadata",
           "traits": {
             "smithy.api#required": {}
           }
@@ -53997,6 +56244,14 @@
             "com.distilled.openapi#nullable": {}
           }
         },
+        "units": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The number of units for unit-based subscriptions. None for non-unit subscriptions.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
         "customer_cancellation_reason": {
           "target": "com.polar.api#CustomerCancellationReason",
           "traits": {
@@ -54939,6 +57194,49 @@
         "smithy.api#documentation": "Get License Key\n\nGet a license key.\n\n**Scopes**: `customer_portal:read` `customer_portal:write`"
       }
     },
+    "com.polar.api#CustomerPortalLicenseKeysRotateRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.polar.api#CustomerPortalLicenseKeysRotate": {
+      "type": "operation",
+      "input": {
+        "target": "com.polar.api#CustomerPortalLicenseKeysRotateRequest"
+      },
+      "output": {
+        "target": "com.polar.api#RotatedLicenseKey"
+      },
+      "errors": [
+        {
+          "target": "com.polar.api#BadRequest"
+        },
+        {
+          "target": "com.polar.api#NotFound"
+        },
+        {
+          "target": "com.polar.api#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v1/customer-portal/license-keys/{id}/rotate",
+          "code": 200
+        },
+        "smithy.api#documentation": "Rotate License Key\n\nRotate a license key.\n\nGenerates a new key string for the same license key record. The previous\nkey string immediately stops validating. Status, usage, limits, expiry,\nand activations are preserved.\n\n**Scopes**: `customer_portal:write`"
+      }
+    },
     "com.polar.api#CustomerPortalLicenseKeysValidateRequestConditionsValue": {
       "type": "union",
       "members": {
@@ -55028,6 +57326,9 @@
         "target": "com.polar.api#ValidatedLicenseKey"
       },
       "errors": [
+        {
+          "target": "com.polar.api#BadRequest"
+        },
         {
           "target": "com.polar.api#NotFound"
         },
@@ -55148,7 +57449,7 @@
         "target": "com.polar.api#CustomerPortalLicenseKeysActivateRequest"
       },
       "output": {
-        "target": "com.polar.api#LicenseKeyActivationRead"
+        "target": "com.polar.api#LicenseKeyActivationCreated"
       },
       "errors": [
         {
@@ -55876,6 +58177,14 @@
             "com.distilled.openapi#nullable": {}
           }
         },
+        "units": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of units purchased (for unit-based pricing).",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
         "customer_id": {
           "target": "smithy.api#String",
           "traits": {
@@ -56355,6 +58664,14 @@
           "target": "smithy.api#Integer",
           "traits": {
             "smithy.api#documentation": "The number of seats for seat-based subscriptions. None for non-seat subscriptions.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "units": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The number of units for unit-based subscriptions. None for non-unit subscriptions.",
+            "smithy.api#required": {},
             "com.distilled.openapi#nullable": {}
           }
         },
@@ -57286,6 +59603,9 @@
         "CustomerSubscriptionUpdateSeats": {
           "target": "com.polar.api#CustomerSubscriptionUpdateSeats"
         },
+        "CustomerSubscriptionUpdateUnits": {
+          "target": "com.polar.api#CustomerSubscriptionUpdateUnits"
+        },
         "CustomerSubscriptionCancel": {
           "target": "com.polar.api#CustomerSubscriptionCancel"
         },
@@ -57321,6 +59641,19 @@
           "target": "smithy.api#Integer",
           "traits": {
             "smithy.api#documentation": "Update the number of seats for this subscription.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.polar.api#CustomerSubscriptionUpdateUnits": {
+      "type": "structure",
+      "members": {
+        "units": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Update the number of units for this subscription.",
             "smithy.api#required": {}
           }
         }
@@ -58289,6 +60622,9 @@
       },
       "errors": [
         {
+          "target": "com.polar.api#Conflict"
+        },
+        {
           "target": "com.polar.api#UnprocessableEntity"
         }
       ],
@@ -58650,6 +60986,9 @@
         "SubscriptionResumedEvent": {
           "target": "com.polar.api#SubscriptionResumedEvent"
         },
+        "SubscriptionMigratedEvent": {
+          "target": "com.polar.api#SubscriptionMigratedEvent"
+        },
         "SubscriptionUncanceledEvent": {
           "target": "com.polar.api#SubscriptionUncanceledEvent"
         },
@@ -58658,6 +60997,9 @@
         },
         "SubscriptionSeatsUpdatedEvent": {
           "target": "com.polar.api#SubscriptionSeatsUpdatedEvent"
+        },
+        "SubscriptionUnitsUpdatedEvent": {
+          "target": "com.polar.api#SubscriptionUnitsUpdatedEvent"
         },
         "SubscriptionBillingPeriodUpdatedEvent": {
           "target": "com.polar.api#SubscriptionBillingPeriodUpdatedEvent"
@@ -59696,6 +62038,9 @@
           "target": "smithy.api#String"
         },
         "seats": {
+          "target": "smithy.api#Integer"
+        },
+        "units": {
           "target": "smithy.api#Integer"
         },
         "billing_period_end": {
@@ -60827,6 +63172,143 @@
       },
       "traits": {}
     },
+    "com.polar.api#SubscriptionMigratedEvent": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the object.",
+            "smithy.api#required": {}
+          }
+        },
+        "timestamp": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The timestamp of the event.",
+            "smithy.api#required": {}
+          }
+        },
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the organization owning the event.",
+            "smithy.api#required": {}
+          }
+        },
+        "customer_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the customer in your Polar organization associated with the event.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "customer": {
+          "target": "com.polar.api#Customer",
+          "traits": {
+            "smithy.api#documentation": "The customer associated with the event.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "external_customer_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the customer in your system associated with the event.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "member_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the member within the customer's organization who performed the action inside B2B.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "external_member_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the member in your system within the customer's organization who performed the action inside B2B.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "child_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of direct child events linked to this event."
+          }
+        },
+        "parent_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the parent event.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "label": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Human readable label of the event type.",
+            "smithy.api#required": {}
+          }
+        },
+        "source": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The source of the event. `system` events are created by Polar. `user` events are the one you create through our ingestion API.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the event.",
+            "smithy.api#required": {}
+          }
+        },
+        "metadata": {
+          "target": "com.polar.api#SubscriptionMigratedMetadata",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "An event created by Polar when a subscription is migrated to Polar."
+      }
+    },
+    "com.polar.api#SubscriptionMigratedMetadata": {
+      "type": "structure",
+      "members": {
+        "subscription_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "provider": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "provider_subscription_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "product_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
     "com.polar.api#SubscriptionUncanceledEvent": {
       "type": "structure",
       "members": {
@@ -61230,6 +63712,143 @@
           }
         },
         "new_seats": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "proration_behavior": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.polar.api#SubscriptionUnitsUpdatedEvent": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the object.",
+            "smithy.api#required": {}
+          }
+        },
+        "timestamp": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The timestamp of the event.",
+            "smithy.api#required": {}
+          }
+        },
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the organization owning the event.",
+            "smithy.api#required": {}
+          }
+        },
+        "customer_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the customer in your Polar organization associated with the event.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "customer": {
+          "target": "com.polar.api#Customer",
+          "traits": {
+            "smithy.api#documentation": "The customer associated with the event.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "external_customer_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the customer in your system associated with the event.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "member_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the member within the customer's organization who performed the action inside B2B.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "external_member_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the member in your system within the customer's organization who performed the action inside B2B.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "child_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of direct child events linked to this event."
+          }
+        },
+        "parent_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the parent event.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "label": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Human readable label of the event type.",
+            "smithy.api#required": {}
+          }
+        },
+        "source": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The source of the event. `system` events are created by Polar. `user` events are the one you create through our ingestion API.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the event.",
+            "smithy.api#required": {}
+          }
+        },
+        "metadata": {
+          "target": "com.polar.api#SubscriptionUnitsUpdatedMetadata",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "An event created by Polar when the units on a subscription are changed."
+      }
+    },
+    "com.polar.api#SubscriptionUnitsUpdatedMetadata": {
+      "type": "structure",
+      "members": {
+        "subscription_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "old_units": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "new_units": {
           "target": "smithy.api#Integer",
           "traits": {
             "smithy.api#required": {}
@@ -70053,6 +72672,9 @@
         "CardPayment": {
           "target": "com.polar.api#CardPayment"
         },
+        "KrCardPayment": {
+          "target": "com.polar.api#KrCardPayment"
+        },
         "GenericPayment": {
           "target": "com.polar.api#GenericPayment"
         }
@@ -70108,7 +72730,7 @@
         "currency": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The payment currency. Currently, only `usd` is supported.",
+            "smithy.api#documentation": "The payment currency",
             "smithy.api#required": {}
           }
         },
@@ -70260,6 +72882,167 @@
         "smithy.api#documentation": "Additional metadata for a card payment method."
       }
     },
+    "com.polar.api#KrCardPayment": {
+      "type": "structure",
+      "members": {
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Creation timestamp of the object.",
+            "smithy.api#required": {}
+          }
+        },
+        "modified_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Last modification timestamp of the object.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the object.",
+            "smithy.api#required": {}
+          }
+        },
+        "processor": {
+          "target": "com.polar.api#PaymentProcessor",
+          "traits": {
+            "smithy.api#documentation": "The payment processor.",
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "com.polar.api#PaymentStatus",
+          "traits": {
+            "smithy.api#documentation": "The payment status.",
+            "smithy.api#required": {}
+          }
+        },
+        "amount": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The payment amount in cents.",
+            "smithy.api#required": {}
+          }
+        },
+        "currency": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The payment currency",
+            "smithy.api#required": {}
+          }
+        },
+        "method": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The payment method used.",
+            "smithy.api#required": {}
+          }
+        },
+        "trigger": {
+          "target": "com.polar.api#PaymentTrigger",
+          "traits": {
+            "smithy.api#documentation": "What initiated this payment attempt, e.g. initial purchase, subscription renewal, or an automated dunning retry.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "decline_reason": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Error code, if the payment was declined.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "decline_message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Human-readable error message, if the payment was declined.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "organization_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the organization that owns the payment.",
+            "smithy.api#required": {}
+          }
+        },
+        "checkout_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the checkout session associated with this payment.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "order_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the order associated with this payment.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "processor_metadata": {
+          "target": "com.polar.api#KrCardPaymentProcessorMetadataMap",
+          "traits": {
+            "smithy.api#documentation": "Additional metadata from the payment processor for internal use."
+          }
+        },
+        "method_metadata": {
+          "target": "com.polar.api#KrCardPaymentMetadata",
+          "traits": {
+            "smithy.api#documentation": "Additional metadata for the South Korean card payment method.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Schema of a payment with a South Korean card payment method."
+      }
+    },
+    "com.polar.api#KrCardPaymentProcessorMetadataMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "Additional metadata from the payment processor for internal use."
+      }
+    },
+    "com.polar.api#KrCardPaymentMetadata": {
+      "type": "structure",
+      "members": {
+        "brand": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The local South Korean card brand used for the payment.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "last4": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The last 4 digits of the card number.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Additional metadata for a South Korean card payment method."
+      }
+    },
     "com.polar.api#GenericPayment": {
       "type": "structure",
       "members": {
@@ -70309,7 +73092,7 @@
         "currency": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The payment currency. Currently, only `usd` is supported.",
+            "smithy.api#documentation": "The payment currency",
             "smithy.api#required": {}
           }
         },
@@ -70542,7 +73325,7 @@
     },
     "com.polar.api#Polar": {
       "type": "service",
-      "version": "2026-10",
+      "version": "2027-01",
       "operations": [
         {
           "target": "com.polar.api#OrganizationsList"
@@ -70662,6 +73445,9 @@
           "target": "com.polar.api#ProductsUpdate"
         },
         {
+          "target": "com.polar.api#ProductsDelete"
+        },
+        {
           "target": "com.polar.api#ProductsUpdateBenefits"
         },
         {
@@ -70776,6 +73562,9 @@
           "target": "com.polar.api#LicenseKeysUpdate"
         },
         {
+          "target": "com.polar.api#LicenseKeysRotate"
+        },
+        {
           "target": "com.polar.api#LicenseKeysGetActivation"
         },
         {
@@ -70872,10 +73661,13 @@
           "target": "com.polar.api#CustomersListPaymentMethodsExternal"
         },
         {
-          "target": "com.polar.api#MembersListMembers"
+          "target": "com.polar.api#CustomersMembersList"
         },
         {
           "target": "com.polar.api#CustomersMembersCreate"
+        },
+        {
+          "target": "com.polar.api#CustomersMembersListExternal"
         },
         {
           "target": "com.polar.api#CustomersMembersCreateExternal"
@@ -70969,6 +73761,9 @@
         },
         {
           "target": "com.polar.api#CustomerPortalLicenseKeysGet"
+        },
+        {
+          "target": "com.polar.api#CustomerPortalLicenseKeysRotate"
         },
         {
           "target": "com.polar.api#CustomerPortalLicenseKeysValidate"

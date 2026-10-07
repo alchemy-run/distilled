@@ -54,13 +54,7 @@ export const ConfirmVrackTerminationRequest = /*@__PURE__*/ S.suspend(() =>
     futureUse: S.optional(ServiceTerminationFutureUseEnum),
     reason: S.optional(ServiceTerminationReasonEnum),
     token: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/vrack/{serviceName}/confirmTermination",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/vrack/{serviceName}/confirmTermination", code: 200 })),
 ).annotate({
   identifier: "ConfirmVrackTerminationRequest",
 }) as any as S.Schema<ConfirmVrackTerminationRequest>;
@@ -88,13 +82,7 @@ export const CreateVrackChangeContactRequest = /*@__PURE__*/ S.suspend(() =>
     contactAdmin: S.optional(S.String),
     contactBilling: S.optional(S.String),
     contactTech: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/vrack/{serviceName}/changeContact",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/vrack/{serviceName}/changeContact", code: 200 })),
 ).annotate({
   identifier: "CreateVrackChangeContactRequest",
 }) as any as S.Schema<CreateVrackChangeContactRequest>;
@@ -121,13 +109,7 @@ export const CreateVrackCloudProjectRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     project: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/vrack/{serviceName}/cloudProject",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/vrack/{serviceName}/cloudProject", code: 200 })),
 ).annotate({
   identifier: "CreateVrackCloudProjectRequest",
 }) as any as S.Schema<CreateVrackCloudProjectRequest>;
@@ -170,13 +152,7 @@ export const CreateVrackDedicatedCloudRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     dedicatedCloud: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/vrack/{serviceName}/dedicatedCloud",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/vrack/{serviceName}/dedicatedCloud", code: 200 })),
 ).annotate({
   identifier: "CreateVrackDedicatedCloudRequest",
 }) as any as S.Schema<CreateVrackDedicatedCloudRequest>;
@@ -197,13 +173,7 @@ export const CreateVrackDedicatedConnectRequest = /*@__PURE__*/ S.suspend(() =>
     entryPointSwitch: S.String,
     name: S.String,
     vlanId: S.Number,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/vrack/{serviceName}/dedicatedConnect",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/vrack/{serviceName}/dedicatedConnect", code: 200 })),
 ).annotate({
   identifier: "CreateVrackDedicatedConnectRequest",
 }) as any as S.Schema<CreateVrackDedicatedConnectRequest>;
@@ -218,13 +188,7 @@ export const CreateVrackDedicatedServerRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     dedicatedServer: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/vrack/{serviceName}/dedicatedServer",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/vrack/{serviceName}/dedicatedServer", code: 200 })),
 ).annotate({
   identifier: "CreateVrackDedicatedServerRequest",
 }) as any as S.Schema<CreateVrackDedicatedServerRequest>;
@@ -240,11 +204,7 @@ export const CreateVrackDedicatedServerInterfaceRequest = /*@__PURE__*/ S.suspen
     serviceName: S.String.pipe(T.Label()),
     dedicatedServerInterface: S.String,
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/vrack/{serviceName}/dedicatedServerInterface",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/vrack/{serviceName}/dedicatedServerInterface", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateVrackDedicatedServerInterfaceRequest",
@@ -264,9 +224,7 @@ export const CreateVrackIpRequest = /*@__PURE__*/ S.suspend(() =>
     block: S.String,
     region: S.optional(S.String),
   }).pipe(T.Http({ method: "POST", uri: "/vrack/{serviceName}/ip", code: 200 })),
-).annotate({
-  identifier: "CreateVrackIpRequest",
-}) as any as S.Schema<CreateVrackIpRequest>;
+).annotate({ identifier: "CreateVrackIpRequest" }) as any as S.Schema<CreateVrackIpRequest>;
 
 export interface CreateVrackIpLoadbalancingRequest {
   /** The internal name of your vrack */
@@ -278,13 +236,7 @@ export const CreateVrackIpLoadbalancingRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     ipLoadbalancing: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/vrack/{serviceName}/ipLoadbalancing",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/vrack/{serviceName}/ipLoadbalancing", code: 200 })),
 ).annotate({
   identifier: "CreateVrackIpLoadbalancingRequest",
 }) as any as S.Schema<CreateVrackIpLoadbalancingRequest>;
@@ -300,9 +252,7 @@ export const CreateVrackIpv6Request = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     block: S.String,
   }).pipe(T.Http({ method: "POST", uri: "/vrack/{serviceName}/ipv6", code: 200 })),
-).annotate({
-  identifier: "CreateVrackIpv6Request",
-}) as any as S.Schema<CreateVrackIpv6Request>;
+).annotate({ identifier: "CreateVrackIpv6Request" }) as any as S.Schema<CreateVrackIpv6Request>;
 
 export interface CreateVrackIpv6RoutedSubrangeRequest {
   /** The internal name of your vrack */
@@ -321,11 +271,7 @@ export const CreateVrackIpv6RoutedSubrangeRequest = /*@__PURE__*/ S.suspend(() =
     nexthop: S.String,
     routedSubrange: S.String,
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/vrack/{serviceName}/ipv6/{ipv6}/routedSubrange",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/vrack/{serviceName}/ipv6/{ipv6}/routedSubrange", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateVrackIpv6RoutedSubrangeRequest",
@@ -340,13 +286,7 @@ export const CreateVrackLegacyVrackRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     legacyVrack: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/vrack/{serviceName}/legacyVrack",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/vrack/{serviceName}/legacyVrack", code: 200 })),
 ).annotate({
   identifier: "CreateVrackLegacyVrackRequest",
 }) as any as S.Schema<CreateVrackLegacyVrackRequest>;
@@ -361,13 +301,7 @@ export const CreateVrackOvhCloudConnectRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     ovhCloudConnect: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/vrack/{serviceName}/ovhCloudConnect",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/vrack/{serviceName}/ovhCloudConnect", code: 200 })),
 ).annotate({
   identifier: "CreateVrackOvhCloudConnectRequest",
 }) as any as S.Schema<CreateVrackOvhCloudConnectRequest>;
@@ -403,13 +337,7 @@ export const CreateVrackVrackServiceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     vrackServices: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/vrack/{serviceName}/vrackServices",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/vrack/{serviceName}/vrackServices", code: 200 })),
 ).annotate({
   identifier: "CreateVrackVrackServiceRequest",
 }) as any as S.Schema<CreateVrackVrackServiceRequest>;
@@ -425,11 +353,7 @@ export const DeleteVrackCloudProjectRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     project: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/vrack/{serviceName}/cloudProject/{project}",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/vrack/{serviceName}/cloudProject/{project}", code: 200 }),
   ),
 ).annotate({
   identifier: "DeleteVrackCloudProjectRequest",
@@ -467,11 +391,7 @@ export const DeleteVrackDedicatedConnectRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     name: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/vrack/{serviceName}/dedicatedConnect/{name}",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/vrack/{serviceName}/dedicatedConnect/{name}", code: 200 }),
   ),
 ).annotate({
   identifier: "DeleteVrackDedicatedConnectRequest",
@@ -529,16 +449,8 @@ export const DeleteVrackIpRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     ip: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/vrack/{serviceName}/ip/{ip}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "DeleteVrackIpRequest",
-}) as any as S.Schema<DeleteVrackIpRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/vrack/{serviceName}/ip/{ip}", code: 200 })),
+).annotate({ identifier: "DeleteVrackIpRequest" }) as any as S.Schema<DeleteVrackIpRequest>;
 
 export interface DeleteVrackIpLoadbalancingRequest {
   /** The internal name of your vrack */
@@ -571,16 +483,8 @@ export const DeleteVrackIpv6Request = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     ipv6: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/vrack/{serviceName}/ipv6/{ipv6}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "DeleteVrackIpv6Request",
-}) as any as S.Schema<DeleteVrackIpv6Request>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/vrack/{serviceName}/ipv6/{ipv6}", code: 200 })),
+).annotate({ identifier: "DeleteVrackIpv6Request" }) as any as S.Schema<DeleteVrackIpv6Request>;
 
 export interface DeleteVrackIpv6RoutedSubrangeRequest {
   /** The internal name of your vrack */
@@ -617,11 +521,7 @@ export const DeleteVrackLegacyVrackRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     legacyVrack: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/vrack/{serviceName}/legacyVrack/{legacyVrack}",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/vrack/{serviceName}/legacyVrack/{legacyVrack}", code: 200 }),
   ),
 ).annotate({
   identifier: "DeleteVrackLegacyVrackRequest",
@@ -698,9 +598,7 @@ export const GetVrackRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/vrack/{serviceName}", code: 200 })),
-).annotate({
-  identifier: "GetVrackRequest",
-}) as any as S.Schema<GetVrackRequest>;
+).annotate({ identifier: "GetVrackRequest" }) as any as S.Schema<GetVrackRequest>;
 
 /** Resource tags. Tags that were internally computed are prefixed with ovh: */
 export type IamResourceMetadataTagsMap = { [key: string]: string | undefined };
@@ -727,9 +625,7 @@ export const IamResourceMetadata = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(S.NullOr(IamResourceMetadataTagsMap)),
     urn: S.optional(S.String),
   }),
-).annotate({
-  identifier: "IamResourceMetadata",
-}) as any as S.Schema<IamResourceMetadata>;
+).annotate({ identifier: "IamResourceMetadata" }) as any as S.Schema<IamResourceMetadata>;
 
 /** vrack */
 export interface VrackVrackWithIAM {
@@ -749,9 +645,7 @@ export const VrackVrackWithIAM = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     serviceName: S.optional(S.String),
   }),
-).annotate({
-  identifier: "VrackVrackWithIAM",
-}) as any as S.Schema<VrackVrackWithIAM>;
+).annotate({ identifier: "VrackVrackWithIAM" }) as any as S.Schema<VrackVrackWithIAM>;
 
 export interface GetVrackCloudProjectRequest {
   /** The internal name of your vrack */
@@ -763,13 +657,7 @@ export const GetVrackCloudProjectRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     project: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/vrack/{serviceName}/cloudProject/{project}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/vrack/{serviceName}/cloudProject/{project}", code: 200 })),
 ).annotate({
   identifier: "GetVrackCloudProjectRequest",
 }) as any as S.Schema<GetVrackCloudProjectRequest>;
@@ -786,9 +674,7 @@ export const VrackCloudProject = /*@__PURE__*/ S.suspend(() =>
     project: S.optional(S.String),
     vrack: S.optional(S.String),
   }),
-).annotate({
-  identifier: "VrackCloudProject",
-}) as any as S.Schema<VrackCloudProject>;
+).annotate({ identifier: "VrackCloudProject" }) as any as S.Schema<VrackCloudProject>;
 
 export interface GetVrackDedicatedCloudRequest {
   /** The internal name of your vrack */
@@ -826,9 +712,7 @@ export const VrackDedicatedCloud = /*@__PURE__*/ S.suspend(() =>
     vlanId: S.optional(S.NullOr(S.Number)),
     vrack: S.optional(S.String),
   }),
-).annotate({
-  identifier: "VrackDedicatedCloud",
-}) as any as S.Schema<VrackDedicatedCloud>;
+).annotate({ identifier: "VrackDedicatedCloud" }) as any as S.Schema<VrackDedicatedCloud>;
 
 export interface GetVrackDedicatedCloudDatacenterRequest {
   /** The internal name of your vrack */
@@ -866,9 +750,7 @@ export const VrackPccDatacenter = /*@__PURE__*/ S.suspend(() =>
     dedicatedCloud: S.optional(S.String),
     vrack: S.optional(S.String),
   }),
-).annotate({
-  identifier: "VrackPccDatacenter",
-}) as any as S.Schema<VrackPccDatacenter>;
+).annotate({ identifier: "VrackPccDatacenter" }) as any as S.Schema<VrackPccDatacenter>;
 
 export interface GetVrackDedicatedConnectRequest {
   /** The internal name of your vrack */
@@ -881,11 +763,7 @@ export const GetVrackDedicatedConnectRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     name: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/vrack/{serviceName}/dedicatedConnect/{name}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/vrack/{serviceName}/dedicatedConnect/{name}", code: 200 }),
   ),
 ).annotate({
   identifier: "GetVrackDedicatedConnectRequest",
@@ -900,9 +778,7 @@ export const VrackDedicatedConnect = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.optional(S.String),
   }),
-).annotate({
-  identifier: "VrackDedicatedConnect",
-}) as any as S.Schema<VrackDedicatedConnect>;
+).annotate({ identifier: "VrackDedicatedConnect" }) as any as S.Schema<VrackDedicatedConnect>;
 
 export interface GetVrackDedicatedServerRequest {
   /** The internal name of your vrack */
@@ -937,9 +813,7 @@ export const VrackDedicatedServer = /*@__PURE__*/ S.suspend(() =>
     dedicatedServer: S.optional(S.String),
     vrack: S.optional(S.String),
   }),
-).annotate({
-  identifier: "VrackDedicatedServer",
-}) as any as S.Schema<VrackDedicatedServer>;
+).annotate({ identifier: "VrackDedicatedServer" }) as any as S.Schema<VrackDedicatedServer>;
 
 export interface GetVrackDedicatedServerInterfaceRequest {
   /** The internal name of your vrack */
@@ -989,9 +863,7 @@ export const GetVrackIpRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     ip: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/vrack/{serviceName}/ip/{ip}", code: 200 })),
-).annotate({
-  identifier: "GetVrackIpRequest",
-}) as any as S.Schema<GetVrackIpRequest>;
+).annotate({ identifier: "GetVrackIpRequest" }) as any as S.Schema<GetVrackIpRequest>;
 
 /** Possible values for vrack zone */
 export type VrackVrackZoneEnum =
@@ -1076,16 +948,8 @@ export const GetVrackIpv6Request = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     ipv6: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/vrack/{serviceName}/ipv6/{ipv6}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetVrackIpv6Request",
-}) as any as S.Schema<GetVrackIpv6Request>;
+  }).pipe(T.Http({ method: "GET", uri: "/vrack/{serviceName}/ipv6/{ipv6}", code: 200 })),
+).annotate({ identifier: "GetVrackIpv6Request" }) as any as S.Schema<GetVrackIpv6Request>;
 
 /** IP v6 block in vrack */
 export interface VrackIpv6 {
@@ -1144,9 +1008,7 @@ export const VrackBridgedSubrange = /*@__PURE__*/ S.suspend(() =>
     gateway: S.optional(S.String),
     slaac: S.optional(VrackSlaacEnum),
   }),
-).annotate({
-  identifier: "VrackBridgedSubrange",
-}) as any as S.Schema<VrackBridgedSubrange>;
+).annotate({ identifier: "VrackBridgedSubrange" }) as any as S.Schema<VrackBridgedSubrange>;
 
 export interface GetVrackIpv6RoutedSubrangeRequest {
   /** The internal name of your vrack */
@@ -1184,9 +1046,7 @@ export const VrackRoutedSubrange = /*@__PURE__*/ S.suspend(() =>
     nexthop: S.optional(S.String),
     routedSubrange: S.optional(S.String),
   }),
-).annotate({
-  identifier: "VrackRoutedSubrange",
-}) as any as S.Schema<VrackRoutedSubrange>;
+).annotate({ identifier: "VrackRoutedSubrange" }) as any as S.Schema<VrackRoutedSubrange>;
 
 export interface GetVrackLegacyVrackRequest {
   /** The internal name of your vrack */
@@ -1199,11 +1059,7 @@ export const GetVrackLegacyVrackRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     legacyVrack: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/vrack/{serviceName}/legacyVrack/{legacyVrack}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/vrack/{serviceName}/legacyVrack/{legacyVrack}", code: 200 }),
   ),
 ).annotate({
   identifier: "GetVrackLegacyVrackRequest",
@@ -1221,9 +1077,7 @@ export const VrackLegacyVrack = /*@__PURE__*/ S.suspend(() =>
     legacyVrack: S.optional(S.String),
     vlanId: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "VrackLegacyVrack",
-}) as any as S.Schema<VrackLegacyVrack>;
+).annotate({ identifier: "VrackLegacyVrack" }) as any as S.Schema<VrackLegacyVrack>;
 
 export interface GetVrackOvhCloudConnectRequest {
   /** The internal name of your vrack */
@@ -1258,9 +1112,7 @@ export const VrackOvhCloudConnect = /*@__PURE__*/ S.suspend(() =>
     ovhCloudConnect: S.optional(S.String),
     vrack: S.optional(S.String),
   }),
-).annotate({
-  identifier: "VrackOvhCloudConnect",
-}) as any as S.Schema<VrackOvhCloudConnect>;
+).annotate({ identifier: "VrackOvhCloudConnect" }) as any as S.Schema<VrackOvhCloudConnect>;
 
 export interface GetVrackPublicRoutingOptionRequest {
   /** The internal name of your vrack */
@@ -1269,13 +1121,7 @@ export interface GetVrackPublicRoutingOptionRequest {
 export const GetVrackPublicRoutingOptionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/vrack/{serviceName}/publicRoutingOption",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/vrack/{serviceName}/publicRoutingOption", code: 200 })),
 ).annotate({
   identifier: "GetVrackPublicRoutingOptionRequest",
 }) as any as S.Schema<GetVrackPublicRoutingOptionRequest>;
@@ -1289,9 +1135,7 @@ export const VrackPublicRoutingOption = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     bandwidth: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "VrackPublicRoutingOption",
-}) as any as S.Schema<VrackPublicRoutingOption>;
+).annotate({ identifier: "VrackPublicRoutingOption" }) as any as S.Schema<VrackPublicRoutingOption>;
 
 export interface GetVrackServiceInfosRequest {
   /** The internal name of your vrack */
@@ -1300,13 +1144,7 @@ export interface GetVrackServiceInfosRequest {
 export const GetVrackServiceInfosRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/vrack/{serviceName}/serviceInfos",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/vrack/{serviceName}/serviceInfos", code: 200 })),
 ).annotate({
   identifier: "GetVrackServiceInfosRequest",
 }) as any as S.Schema<GetVrackServiceInfosRequest>;
@@ -1353,16 +1191,8 @@ export const GetVrackTaskRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     taskId: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/vrack/{serviceName}/task/{taskId}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetVrackTaskRequest",
-}) as any as S.Schema<GetVrackTaskRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/vrack/{serviceName}/task/{taskId}", code: 200 })),
+).annotate({ identifier: "GetVrackTaskRequest" }) as any as S.Schema<GetVrackTaskRequest>;
 
 export interface GetVrackVmwareCloudDirectorVirtualDataCenterRequest {
   /** The internal name of your vrack */
@@ -1412,11 +1242,7 @@ export const GetVrackVrackServiceRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     vrackServices: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/vrack/{serviceName}/vrackServices/{vrackServices}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/vrack/{serviceName}/vrackServices/{vrackServices}", code: 200 }),
   ),
 ).annotate({
   identifier: "GetVrackVrackServiceRequest",
@@ -1434,9 +1260,7 @@ export const VrackVrackServices = /*@__PURE__*/ S.suspend(() =>
     vrack: S.optional(S.String),
     vrackServices: S.optional(S.String),
   }),
-).annotate({
-  identifier: "VrackVrackServices",
-}) as any as S.Schema<VrackVrackServices>;
+).annotate({ identifier: "VrackVrackServices" }) as any as S.Schema<VrackVrackServices>;
 
 /** Resource tag filter */
 export interface IamResourceTagFilterInput {}
@@ -1465,9 +1289,7 @@ export const ListVrackRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     iamTags: S.optional(ListVrackRequestIamTagsMap.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/vrack", code: 200 })),
-).annotate({
-  identifier: "ListVrackRequest",
-}) as any as S.Schema<ListVrackRequest>;
+).annotate({ identifier: "ListVrackRequest" }) as any as S.Schema<ListVrackRequest>;
 
 export type ListVrackResponseBodyList = Array<string>;
 export const ListVrackResponseBodyList = /*@__PURE__*/ S.Array(
@@ -1477,9 +1299,7 @@ export const ListVrackResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListVrackResponse = ListVrackResponseBodyList;
 export const ListVrackResponse = /*@__PURE__*/ S.suspend(() =>
   ListVrackResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListVrackResponse",
-}) as any as S.Schema<ListVrackResponse>;
+).annotate({ identifier: "ListVrackResponse" }) as any as S.Schema<ListVrackResponse>;
 
 /** Possible values for vrack allowed service */
 export type VrackAllowedServiceEnum =
@@ -1508,13 +1328,7 @@ export const ListVrackAllowedServicesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     serviceFamily: S.optional(VrackAllowedServiceEnum.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/vrack/{serviceName}/allowedServices",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/vrack/{serviceName}/allowedServices", code: 200 })),
 ).annotate({
   identifier: "ListVrackAllowedServicesRequest",
 }) as any as S.Schema<ListVrackAllowedServicesRequest>;
@@ -1668,9 +1482,7 @@ export const VrackAllowedServices = /*@__PURE__*/ S.suspend(() =>
     ),
     vrackServices: S.optional(S.NullOr(VrackAllowedServicesVrackServicesList)),
   }),
-).annotate({
-  identifier: "VrackAllowedServices",
-}) as any as S.Schema<VrackAllowedServices>;
+).annotate({ identifier: "VrackAllowedServices" }) as any as S.Schema<VrackAllowedServices>;
 
 export interface ListVrackCloudProjectRequest {
   /** The internal name of your vrack */
@@ -1679,13 +1491,7 @@ export interface ListVrackCloudProjectRequest {
 export const ListVrackCloudProjectRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/vrack/{serviceName}/cloudProject",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/vrack/{serviceName}/cloudProject", code: 200 })),
 ).annotate({
   identifier: "ListVrackCloudProjectRequest",
 }) as any as S.Schema<ListVrackCloudProjectRequest>;
@@ -1709,13 +1515,7 @@ export interface ListVrackDedicatedCloudRequest {
 export const ListVrackDedicatedCloudRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/vrack/{serviceName}/dedicatedCloud",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/vrack/{serviceName}/dedicatedCloud", code: 200 })),
 ).annotate({
   identifier: "ListVrackDedicatedCloudRequest",
 }) as any as S.Schema<ListVrackDedicatedCloudRequest>;
@@ -1740,11 +1540,7 @@ export const ListVrackDedicatedCloudDatacenterRequest = /*@__PURE__*/ S.suspend(
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/vrack/{serviceName}/dedicatedCloudDatacenter",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/vrack/{serviceName}/dedicatedCloudDatacenter", code: 200 }),
   ),
 ).annotate({
   identifier: "ListVrackDedicatedCloudDatacenterRequest",
@@ -1804,13 +1600,7 @@ export interface ListVrackDedicatedConnectRequest {
 export const ListVrackDedicatedConnectRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/vrack/{serviceName}/dedicatedConnect",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/vrack/{serviceName}/dedicatedConnect", code: 200 })),
 ).annotate({
   identifier: "ListVrackDedicatedConnectRequest",
 }) as any as S.Schema<ListVrackDedicatedConnectRequest>;
@@ -1834,13 +1624,7 @@ export interface ListVrackDedicatedServerRequest {
 export const ListVrackDedicatedServerRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/vrack/{serviceName}/dedicatedServer",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/vrack/{serviceName}/dedicatedServer", code: 200 })),
 ).annotate({
   identifier: "ListVrackDedicatedServerRequest",
 }) as any as S.Schema<ListVrackDedicatedServerRequest>;
@@ -1865,11 +1649,7 @@ export const ListVrackDedicatedServerInterfaceRequest = /*@__PURE__*/ S.suspend(
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/vrack/{serviceName}/dedicatedServerInterface",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/vrack/{serviceName}/dedicatedServerInterface", code: 200 }),
   ),
 ).annotate({
   identifier: "ListVrackDedicatedServerInterfaceRequest",
@@ -1927,13 +1707,7 @@ export interface ListVrackEligibleServicesRequest {
 export const ListVrackEligibleServicesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/vrack/{serviceName}/eligibleServices",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/vrack/{serviceName}/eligibleServices", code: 200 })),
 ).annotate({
   identifier: "ListVrackEligibleServicesRequest",
 }) as any as S.Schema<ListVrackEligibleServicesRequest>;
@@ -2093,9 +1867,7 @@ export const VrackEligibleServices = /*@__PURE__*/ S.suspend(() =>
     ),
     vrackServices: S.optional(S.NullOr(VrackEligibleServicesVrackServicesList)),
   }),
-).annotate({
-  identifier: "VrackEligibleServices",
-}) as any as S.Schema<VrackEligibleServices>;
+).annotate({ identifier: "VrackEligibleServices" }) as any as S.Schema<VrackEligibleServices>;
 
 /** Eligible services call response */
 export interface VrackEligibleServicesResponse {
@@ -2127,9 +1899,7 @@ export const ListVrackIpRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/vrack/{serviceName}/ip", code: 200 })),
-).annotate({
-  identifier: "ListVrackIpRequest",
-}) as any as S.Schema<ListVrackIpRequest>;
+).annotate({ identifier: "ListVrackIpRequest" }) as any as S.Schema<ListVrackIpRequest>;
 
 export type ListVrackIpResponseBodyList = Array<string>;
 export const ListVrackIpResponseBodyList = /*@__PURE__*/ S.Array(
@@ -2139,9 +1909,7 @@ export const ListVrackIpResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListVrackIpResponse = ListVrackIpResponseBodyList;
 export const ListVrackIpResponse = /*@__PURE__*/ S.suspend(() =>
   ListVrackIpResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListVrackIpResponse",
-}) as any as S.Schema<ListVrackIpResponse>;
+).annotate({ identifier: "ListVrackIpResponse" }) as any as S.Schema<ListVrackIpResponse>;
 
 export interface ListVrackIpLoadbalancingRequest {
   /** The internal name of your vrack */
@@ -2150,13 +1918,7 @@ export interface ListVrackIpLoadbalancingRequest {
 export const ListVrackIpLoadbalancingRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/vrack/{serviceName}/ipLoadbalancing",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/vrack/{serviceName}/ipLoadbalancing", code: 200 })),
 ).annotate({
   identifier: "ListVrackIpLoadbalancingRequest",
 }) as any as S.Schema<ListVrackIpLoadbalancingRequest>;
@@ -2181,9 +1943,7 @@ export const ListVrackIpv6Request = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/vrack/{serviceName}/ipv6", code: 200 })),
-).annotate({
-  identifier: "ListVrackIpv6Request",
-}) as any as S.Schema<ListVrackIpv6Request>;
+).annotate({ identifier: "ListVrackIpv6Request" }) as any as S.Schema<ListVrackIpv6Request>;
 
 export type ListVrackIpv6ResponseBodyList = Array<string>;
 export const ListVrackIpv6ResponseBodyList = /*@__PURE__*/ S.Array(
@@ -2193,9 +1953,7 @@ export const ListVrackIpv6ResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListVrackIpv6Response = ListVrackIpv6ResponseBodyList;
 export const ListVrackIpv6Response = /*@__PURE__*/ S.suspend(() =>
   ListVrackIpv6ResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListVrackIpv6Response",
-}) as any as S.Schema<ListVrackIpv6Response>;
+).annotate({ identifier: "ListVrackIpv6Response" }) as any as S.Schema<ListVrackIpv6Response>;
 
 export interface ListVrackIpv6BridgedSubrangeRequest {
   /** The internal name of your vrack */
@@ -2208,11 +1966,7 @@ export const ListVrackIpv6BridgedSubrangeRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     ipv6: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/vrack/{serviceName}/ipv6/{ipv6}/bridgedSubrange",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/vrack/{serviceName}/ipv6/{ipv6}/bridgedSubrange", code: 200 }),
   ),
 ).annotate({
   identifier: "ListVrackIpv6BridgedSubrangeRequest",
@@ -2241,11 +1995,7 @@ export const ListVrackIpv6RoutedSubrangeRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     ipv6: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/vrack/{serviceName}/ipv6/{ipv6}/routedSubrange",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/vrack/{serviceName}/ipv6/{ipv6}/routedSubrange", code: 200 }),
   ),
 ).annotate({
   identifier: "ListVrackIpv6RoutedSubrangeRequest",
@@ -2270,13 +2020,7 @@ export interface ListVrackLegacyVrackRequest {
 export const ListVrackLegacyVrackRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/vrack/{serviceName}/legacyVrack",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/vrack/{serviceName}/legacyVrack", code: 200 })),
 ).annotate({
   identifier: "ListVrackLegacyVrackRequest",
 }) as any as S.Schema<ListVrackLegacyVrackRequest>;
@@ -2300,13 +2044,7 @@ export interface ListVrackOvhCloudConnectRequest {
 export const ListVrackOvhCloudConnectRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/vrack/{serviceName}/ovhCloudConnect",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/vrack/{serviceName}/ovhCloudConnect", code: 200 })),
 ).annotate({
   identifier: "ListVrackOvhCloudConnectRequest",
 }) as any as S.Schema<ListVrackOvhCloudConnectRequest>;
@@ -2331,9 +2069,7 @@ export const ListVrackTaskRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/vrack/{serviceName}/task", code: 200 })),
-).annotate({
-  identifier: "ListVrackTaskRequest",
-}) as any as S.Schema<ListVrackTaskRequest>;
+).annotate({ identifier: "ListVrackTaskRequest" }) as any as S.Schema<ListVrackTaskRequest>;
 
 export type ListVrackTaskResponseBodyList = Array<number>;
 export const ListVrackTaskResponseBodyList = /*@__PURE__*/ S.Array(
@@ -2343,9 +2079,7 @@ export const ListVrackTaskResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListVrackTaskResponse = ListVrackTaskResponseBodyList;
 export const ListVrackTaskResponse = /*@__PURE__*/ S.suspend(() =>
   ListVrackTaskResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListVrackTaskResponse",
-}) as any as S.Schema<ListVrackTaskResponse>;
+).annotate({ identifier: "ListVrackTaskResponse" }) as any as S.Schema<ListVrackTaskResponse>;
 
 export interface ListVrackVmwareCloudDirectorVirtualDataCenterRequest {
   /** The internal name of your vrack */
@@ -2385,13 +2119,7 @@ export interface ListVrackVrackServicesRequest {
 export const ListVrackVrackServicesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/vrack/{serviceName}/vrackServices",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/vrack/{serviceName}/vrackServices", code: 200 })),
 ).annotate({
   identifier: "ListVrackVrackServicesRequest",
 }) as any as S.Schema<ListVrackVrackServicesRequest>;
@@ -2446,9 +2174,7 @@ export const PutVrackRequest = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(S.String),
     name: S.optional(S.String),
   }).pipe(T.Http({ method: "PUT", uri: "/vrack/{serviceName}", code: 200 })),
-).annotate({
-  identifier: "PutVrackRequest",
-}) as any as S.Schema<PutVrackRequest>;
+).annotate({ identifier: "PutVrackRequest" }) as any as S.Schema<PutVrackRequest>;
 
 export interface PutVrackResponse {}
 export const PutVrackResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2466,11 +2192,7 @@ export const PutVrackDedicatedConnectRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     name: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/vrack/{serviceName}/dedicatedConnect/{name}",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/vrack/{serviceName}/dedicatedConnect/{name}", code: 200 }),
   ),
 ).annotate({
   identifier: "PutVrackDedicatedConnectRequest",
@@ -2517,23 +2239,13 @@ export interface TerminateVrackRequest {
 export const TerminateVrackRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/vrack/{serviceName}/terminate",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "TerminateVrackRequest",
-}) as any as S.Schema<TerminateVrackRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/vrack/{serviceName}/terminate", code: 200 })),
+).annotate({ identifier: "TerminateVrackRequest" }) as any as S.Schema<TerminateVrackRequest>;
 
 export type TerminateVrackResponse = string;
 export const TerminateVrackResponse = /*@__PURE__*/ S.suspend(() =>
   S.String.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "TerminateVrackResponse",
-}) as any as S.Schema<TerminateVrackResponse>;
+).annotate({ identifier: "TerminateVrackResponse" }) as any as S.Schema<TerminateVrackResponse>;
 
 export type ConfirmVrackTerminationError = OvhOpError;
 /** Confirm service termination */

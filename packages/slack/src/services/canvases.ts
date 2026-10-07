@@ -22,9 +22,7 @@ export const CreateCanvaseRequest = /*@__PURE__*/ S.suspend(() =>
     document_content: S.optional(S.Unknown),
     channel_id: S.optional(S.String),
   }).pipe(T.Http({ method: "POST", uri: "/canvases.create", code: 200 })),
-).annotate({
-  identifier: "CreateCanvaseRequest",
-}) as any as S.Schema<CreateCanvaseRequest>;
+).annotate({ identifier: "CreateCanvaseRequest" }) as any as S.Schema<CreateCanvaseRequest>;
 
 export interface CreateCanvaseResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -37,9 +35,7 @@ export const CreateCanvaseResponse = /*@__PURE__*/ S.suspend(() =>
     ok: S.Boolean,
     canvas_id: S.String,
   }),
-).annotate({
-  identifier: "CreateCanvaseResponse",
-}) as any as S.Schema<CreateCanvaseResponse>;
+).annotate({ identifier: "CreateCanvaseResponse" }) as any as S.Schema<CreateCanvaseResponse>;
 
 /** List of channels you wish to update access for */
 export type DeleteAccessRequestChannelIdsList = Array<string>;
@@ -67,9 +63,7 @@ export const DeleteAccessRequest = /*@__PURE__*/ S.suspend(() =>
     channel_ids: S.optional(DeleteAccessRequestChannelIdsList),
     user_ids: S.optional(DeleteAccessRequestUserIdsList),
   }).pipe(T.Http({ method: "POST", uri: "/canvases.access.delete", code: 200 })),
-).annotate({
-  identifier: "DeleteAccessRequest",
-}) as any as S.Schema<DeleteAccessRequest>;
+).annotate({ identifier: "DeleteAccessRequest" }) as any as S.Schema<DeleteAccessRequest>;
 
 /** The channel IDs that could not be updated */
 export type DeleteAccessResponseFailedToUpdateChannelIdsList = Array<string>;
@@ -97,9 +91,7 @@ export const DeleteAccessResponse = /*@__PURE__*/ S.suspend(() =>
     failed_to_update_channel_ids: S.optional(DeleteAccessResponseFailedToUpdateChannelIdsList),
     failed_to_update_user_ids: S.optional(DeleteAccessResponseFailedToUpdateUserIdsList),
   }),
-).annotate({
-  identifier: "DeleteAccessResponse",
-}) as any as S.Schema<DeleteAccessResponse>;
+).annotate({ identifier: "DeleteAccessResponse" }) as any as S.Schema<DeleteAccessResponse>;
 
 export interface DeleteCanvaseRequest {
   /** Encoded ID of the canvas */
@@ -109,9 +101,7 @@ export const DeleteCanvaseRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     canvas_id: S.String,
   }).pipe(T.Http({ method: "POST", uri: "/canvases.delete", code: 200 })),
-).annotate({
-  identifier: "DeleteCanvaseRequest",
-}) as any as S.Schema<DeleteCanvaseRequest>;
+).annotate({ identifier: "DeleteCanvaseRequest" }) as any as S.Schema<DeleteCanvaseRequest>;
 
 export interface DeleteCanvaseResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -121,9 +111,7 @@ export const DeleteCanvaseResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ok: S.Boolean,
   }),
-).annotate({
-  identifier: "DeleteCanvaseResponse",
-}) as any as S.Schema<DeleteCanvaseResponse>;
+).annotate({ identifier: "DeleteCanvaseResponse" }) as any as S.Schema<DeleteCanvaseResponse>;
 
 /** List of changes to apply on the specified canvas. The markdown content of each change is limited to 1 MiB (1,048,576 characters). */
 export type EditCanvaseRequestChangesList = Array<unknown>;
@@ -142,9 +130,7 @@ export const EditCanvaseRequest = /*@__PURE__*/ S.suspend(() =>
     canvas_id: S.String,
     changes: EditCanvaseRequestChangesList,
   }).pipe(T.Http({ method: "POST", uri: "/canvases.edit", code: 200 })),
-).annotate({
-  identifier: "EditCanvaseRequest",
-}) as any as S.Schema<EditCanvaseRequest>;
+).annotate({ identifier: "EditCanvaseRequest" }) as any as S.Schema<EditCanvaseRequest>;
 
 export interface EditCanvaseResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -154,9 +140,37 @@ export const EditCanvaseResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ok: S.Boolean,
   }),
-).annotate({
-  identifier: "EditCanvaseResponse",
-}) as any as S.Schema<EditCanvaseResponse>;
+).annotate({ identifier: "EditCanvaseResponse" }) as any as S.Schema<EditCanvaseResponse>;
+
+/** Format in which to return the canvas content. Defaults to markdown. */
+export type GetContentRequestContentType = "html" | "markdown";
+export const GetContentRequestContentType = S.String;
+
+export interface GetContentRequest {
+  /** Encoded ID of the canvas */
+  canvas_id: string;
+  /** Format in which to return the canvas content. Defaults to markdown. */
+  content_type?: GetContentRequestContentType | (string & {});
+}
+export const GetContentRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    canvas_id: S.String,
+    content_type: S.optional(GetContentRequestContentType),
+  }).pipe(T.Http({ method: "POST", uri: "/canvases.getContent", code: 200 })),
+).annotate({ identifier: "GetContentRequest" }) as any as S.Schema<GetContentRequest>;
+
+export interface GetContentResponse {
+  /** Always `true` (a failed call raises a typed error instead). */
+  ok: boolean;
+  /** The content of the canvas in the requested content_type. */
+  content: string;
+}
+export const GetContentResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ok: S.Boolean,
+    content: S.String,
+  }),
+).annotate({ identifier: "GetContentResponse" }) as any as S.Schema<GetContentResponse>;
 
 export interface LookupSectionRequest {
   /** Encoded ID of the canvas */
@@ -169,9 +183,7 @@ export const LookupSectionRequest = /*@__PURE__*/ S.suspend(() =>
     canvas_id: S.String,
     criteria: S.Unknown,
   }).pipe(T.Http({ method: "POST", uri: "/canvases.sections.lookup", code: 200 })),
-).annotate({
-  identifier: "LookupSectionRequest",
-}) as any as S.Schema<LookupSectionRequest>;
+).annotate({ identifier: "LookupSectionRequest" }) as any as S.Schema<LookupSectionRequest>;
 
 /** IDs of child sections within a layout container (blockquote, callout, flexbox, or table). */
 export type LookupSectionResponseSectionsItemChildSectionIdsList = Array<string>;
@@ -210,9 +222,7 @@ export const LookupSectionResponse = /*@__PURE__*/ S.suspend(() =>
     ok: S.Boolean,
     sections: LookupSectionResponseSectionsList,
   }),
-).annotate({
-  identifier: "LookupSectionResponse",
-}) as any as S.Schema<LookupSectionResponse>;
+).annotate({ identifier: "LookupSectionResponse" }) as any as S.Schema<LookupSectionResponse>;
 
 /** List of channels you wish to update access for. Can only be used if user_ids is not provided. */
 export type SetAccessRequestChannelIdsList = Array<string>;
@@ -243,9 +253,7 @@ export const SetAccessRequest = /*@__PURE__*/ S.suspend(() =>
     channel_ids: S.optional(SetAccessRequestChannelIdsList),
     user_ids: S.optional(SetAccessRequestUserIdsList),
   }).pipe(T.Http({ method: "POST", uri: "/canvases.access.set", code: 200 })),
-).annotate({
-  identifier: "SetAccessRequest",
-}) as any as S.Schema<SetAccessRequest>;
+).annotate({ identifier: "SetAccessRequest" }) as any as S.Schema<SetAccessRequest>;
 
 /** The channel IDs that could not be updated */
 export type SetAccessResponseFailedToUpdateChannelIdsList = Array<string>;
@@ -273,12 +281,10 @@ export const SetAccessResponse = /*@__PURE__*/ S.suspend(() =>
     failed_to_update_channel_ids: S.optional(SetAccessResponseFailedToUpdateChannelIdsList),
     failed_to_update_user_ids: S.optional(SetAccessResponseFailedToUpdateUserIdsList),
   }),
-).annotate({
-  identifier: "SetAccessResponse",
-}) as any as S.Schema<SetAccessResponse>;
+).annotate({ identifier: "SetAccessResponse" }) as any as S.Schema<SetAccessResponse>;
 
 export type CreateCanvaseError = SlackOpError;
-/** Create canvas for a user Required scopes — bot: `canvases:write`; user: `canvases:write`; seamless_user: `seamless.user` Rate limit tier: 2 Method-specific errors (the `error` slug on the SlackError): - `canvas_disabled_user_team` — Canvas is disabled on user's team - `restricted_action` — User does not have permission to perform this action. - `canvas_creation_failed` — Canvas was unable to be created. - `free_teams_cannot_create_non_tabbed_canvases` — Free teams cannot create non-tabbed standalone canvases - `free_team_canvas_tab_already_exists` — Free teams are limited to one canvas tab per channel - `free_teams_cannot_create_standalone_canvases` — Free teams cannot create standalone canvases See https://docs.slack.dev/reference/methods/canvases.create */
+/** Create canvas for a user Required scopes — bot: `canvases:write`; user: `canvases:write`; seamless_user: `seamless.user` Rate limit tier: 2 Method-specific errors (the `error` slug on the SlackError): - `canvas_disabled_user_team` — Canvas is disabled on user's team - `restricted_action` — User does not have permission to perform this action. - `canvas_creation_failed` — Canvas was unable to be created. - `free_team_canvas_tab_already_exists` — Free teams are limited to one canvas tab per channel - `free_teams_cannot_create_standalone_canvases` — Free teams cannot create standalone canvases See https://docs.slack.dev/reference/methods/canvases.create */
 export const createCanvase: API.OperationMethod<
   CreateCanvaseRequest,
   CreateCanvaseResponse,
@@ -332,6 +338,21 @@ export const editCanvase: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: EditCanvaseRequest,
   output: EditCanvaseResponse,
+  errors: [SlackError, SlackRateLimited],
+  protocol: SlackProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetContentError = SlackOpError;
+/** Get the content of a canvas as markdown (default) or HTML. Required scopes — bot: `canvases:read`; user: `canvases:read` Rate limit tier: 3 Method-specific errors (the `error` slug on the SlackError): - `canvas_disabled_user_team` — Canvas is disabled on user's team - `canvas_not_found` — The canvas does not exist, or is not visible to the calling user. See https://docs.slack.dev/reference/methods/canvases.getContent */
+export const getContent: API.OperationMethod<
+  GetContentRequest,
+  GetContentResponse,
+  GetContentError,
+  SlackOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetContentRequest,
+  output: GetContentResponse,
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,

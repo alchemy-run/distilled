@@ -46,11 +46,11 @@ export class NotFound
   ) {}
 
 export type CreateKeyRequestRegionId = "eu01";
-export const CreateKeyRequestRegionId = /*@__PURE__*/ S.String;
+export const CreateKeyRequestRegionId = S.String;
 
 /** The access scope of the key. */
 export type AccessScope = "PUBLIC" | "SNA";
-export const AccessScope = /*@__PURE__*/ S.String;
+export const AccessScope = S.String;
 
 /** The algorithm the key material uses. */
 export type Algorithm =
@@ -65,7 +65,7 @@ export type Algorithm =
   | "ecdsa_p256_sha256"
   | "ecdsa_p384_sha384"
   | "ecdsa_p521_sha512";
-export const Algorithm = /*@__PURE__*/ S.String;
+export const Algorithm = S.String;
 
 /** The purpose of the key. */
 export type Purpose =
@@ -73,7 +73,7 @@ export type Purpose =
   | "asymmetric_encrypt_decrypt"
   | "message_authentication_code"
   | "asymmetric_sign_verify";
-export const Purpose = /*@__PURE__*/ S.String;
+export const Purpose = S.String;
 
 export interface CreateKeyRequest {
   /** The STACKIT portal project UUID the key ring is part of. */
@@ -113,9 +113,7 @@ export const CreateKeyRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://kms.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "CreateKeyRequest",
-}) as any as S.Schema<CreateKeyRequest>;
+).annotate({ identifier: "CreateKeyRequest" }) as any as S.Schema<CreateKeyRequest>;
 
 /** The current state of the key. */
 export type KeyState =
@@ -125,7 +123,7 @@ export type KeyState =
   | "errors_exist"
   | "creating"
   | "no_version";
-export const KeyState = /*@__PURE__*/ S.String;
+export const KeyState = S.String;
 
 export interface Key {
   access_scope: AccessScope;
@@ -167,7 +165,7 @@ export const Key = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "Key" }) as any as S.Schema<Key>;
 
 export type CreateKeyRingRequestRegionId = "eu01";
-export const CreateKeyRingRequestRegionId = /*@__PURE__*/ S.String;
+export const CreateKeyRingRequestRegionId = S.String;
 
 export interface CreateKeyRingRequest {
   /** The STACKIT portal project UUID the key ring is part of. */
@@ -193,13 +191,11 @@ export const CreateKeyRingRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://kms.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "CreateKeyRingRequest",
-}) as any as S.Schema<CreateKeyRingRequest>;
+).annotate({ identifier: "CreateKeyRingRequest" }) as any as S.Schema<CreateKeyRingRequest>;
 
 /** The current state of the key ring. */
 export type KeyRingState = "creating" | "active" | "deleted";
-export const KeyRingState = /*@__PURE__*/ S.String;
+export const KeyRingState = S.String;
 
 export interface KeyRing {
   /** The date and time the creation of the key ring was triggered. */
@@ -224,7 +220,7 @@ export const KeyRing = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "KeyRing" }) as any as S.Schema<KeyRing>;
 
 export type CreateWrappingKeyRequestRegionId = "eu01";
-export const CreateWrappingKeyRequestRegionId = /*@__PURE__*/ S.String;
+export const CreateWrappingKeyRequestRegionId = S.String;
 
 /** The wrapping algorithm used to wrap the key to import. */
 export type WrappingAlgorithm =
@@ -236,11 +232,11 @@ export type WrappingAlgorithm =
   | "rsa_3072_oaep_sha256_aes_256_key_wrap"
   | "rsa_4096_oaep_sha256_aes_256_key_wrap"
   | "rsa_4096_oaep_sha512_aes_256_key_wrap";
-export const WrappingAlgorithm = /*@__PURE__*/ S.String;
+export const WrappingAlgorithm = S.String;
 
 /** The wrapping purpose for the wrapping key. */
 export type WrappingPurpose = "wrap_symmetric_key" | "wrap_asymmetric_key";
-export const WrappingPurpose = /*@__PURE__*/ S.String;
+export const WrappingPurpose = S.String;
 
 export interface CreateWrappingKeyRequest {
   /** The STACKIT portal project UUID the key ring is part of. */
@@ -277,9 +273,7 @@ export const CreateWrappingKeyRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://kms.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "CreateWrappingKeyRequest",
-}) as any as S.Schema<CreateWrappingKeyRequest>;
+).annotate({ identifier: "CreateWrappingKeyRequest" }) as any as S.Schema<CreateWrappingKeyRequest>;
 
 /** The current state of the wrapping key. */
 export type WrappingKeyState =
@@ -288,7 +282,7 @@ export type WrappingKeyState =
   | "expired"
   | "deleted"
   | "key_material_unavailable";
-export const WrappingKeyState = /*@__PURE__*/ S.String;
+export const WrappingKeyState = S.String;
 
 export interface WrappingKey {
   access_scope: AccessScope;
@@ -330,7 +324,7 @@ export const WrappingKey = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "WrappingKey" }) as any as S.Schema<WrappingKey>;
 
 export type DecryptRequestRegionId = "eu01";
-export const DecryptRequestRegionId = /*@__PURE__*/ S.String;
+export const DecryptRequestRegionId = S.String;
 
 export interface DecryptRequest {
   /** The STACKIT portal project UUID the key ring is part of. */
@@ -375,7 +369,7 @@ export const DecryptedData = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "DecryptedData" }) as any as S.Schema<DecryptedData>;
 
 export type DeleteKeyRequestRegionId = "eu01";
-export const DeleteKeyRequestRegionId = /*@__PURE__*/ S.String;
+export const DeleteKeyRequestRegionId = S.String;
 
 export interface DeleteKeyRequest {
   /** The STACKIT portal project UUID the key ring is part of. */
@@ -401,9 +395,7 @@ export const DeleteKeyRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://kms.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "DeleteKeyRequest",
-}) as any as S.Schema<DeleteKeyRequest>;
+).annotate({ identifier: "DeleteKeyRequest" }) as any as S.Schema<DeleteKeyRequest>;
 
 export interface DeleteKeyResponse {}
 export const DeleteKeyResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -411,7 +403,7 @@ export const DeleteKeyResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).ann
 }) as any as S.Schema<DeleteKeyResponse>;
 
 export type DeleteKeyRingRequestRegionId = "eu01";
-export const DeleteKeyRingRequestRegionId = /*@__PURE__*/ S.String;
+export const DeleteKeyRingRequestRegionId = S.String;
 
 export interface DeleteKeyRingRequest {
   /** The STACKIT portal project UUID the key ring is part of. */
@@ -434,9 +426,7 @@ export const DeleteKeyRingRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://kms.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "DeleteKeyRingRequest",
-}) as any as S.Schema<DeleteKeyRingRequest>;
+).annotate({ identifier: "DeleteKeyRingRequest" }) as any as S.Schema<DeleteKeyRingRequest>;
 
 export interface DeleteKeyRingResponse {}
 export const DeleteKeyRingResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -444,7 +434,7 @@ export const DeleteKeyRingResponse = /*@__PURE__*/ S.suspend(() => S.Struct({}))
 }) as any as S.Schema<DeleteKeyRingResponse>;
 
 export type DeleteWrappingKeyRequestRegionId = "eu01";
-export const DeleteWrappingKeyRequestRegionId = /*@__PURE__*/ S.String;
+export const DeleteWrappingKeyRequestRegionId = S.String;
 
 export interface DeleteWrappingKeyRequest {
   /** The STACKIT portal project UUID the key ring is part of. */
@@ -470,9 +460,7 @@ export const DeleteWrappingKeyRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://kms.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "DeleteWrappingKeyRequest",
-}) as any as S.Schema<DeleteWrappingKeyRequest>;
+).annotate({ identifier: "DeleteWrappingKeyRequest" }) as any as S.Schema<DeleteWrappingKeyRequest>;
 
 export interface DeleteWrappingKeyResponse {}
 export const DeleteWrappingKeyResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -480,7 +468,7 @@ export const DeleteWrappingKeyResponse = /*@__PURE__*/ S.suspend(() => S.Struct(
 }) as any as S.Schema<DeleteWrappingKeyResponse>;
 
 export type DestroyVersionRequestRegionId = "eu01";
-export const DestroyVersionRequestRegionId = /*@__PURE__*/ S.String;
+export const DestroyVersionRequestRegionId = S.String;
 
 export interface DestroyVersionRequest {
   /** The STACKIT portal project UUID the key ring is part of. */
@@ -509,9 +497,7 @@ export const DestroyVersionRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://kms.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "DestroyVersionRequest",
-}) as any as S.Schema<DestroyVersionRequest>;
+).annotate({ identifier: "DestroyVersionRequest" }) as any as S.Schema<DestroyVersionRequest>;
 
 export interface DestroyVersionResponse {}
 export const DestroyVersionResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -519,7 +505,7 @@ export const DestroyVersionResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})
 }) as any as S.Schema<DestroyVersionResponse>;
 
 export type DisableVersionRequestRegionId = "eu01";
-export const DisableVersionRequestRegionId = /*@__PURE__*/ S.String;
+export const DisableVersionRequestRegionId = S.String;
 
 export interface DisableVersionRequest {
   /** The STACKIT portal project UUID the key ring is part of. */
@@ -548,9 +534,7 @@ export const DisableVersionRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://kms.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "DisableVersionRequest",
-}) as any as S.Schema<DisableVersionRequest>;
+).annotate({ identifier: "DisableVersionRequest" }) as any as S.Schema<DisableVersionRequest>;
 
 export interface DisableVersionResponse {}
 export const DisableVersionResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -558,7 +542,7 @@ export const DisableVersionResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})
 }) as any as S.Schema<DisableVersionResponse>;
 
 export type EnableVersionRequestRegionId = "eu01";
-export const EnableVersionRequestRegionId = /*@__PURE__*/ S.String;
+export const EnableVersionRequestRegionId = S.String;
 
 export interface EnableVersionRequest {
   /** The STACKIT portal project UUID the key ring is part of. */
@@ -587,9 +571,7 @@ export const EnableVersionRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://kms.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "EnableVersionRequest",
-}) as any as S.Schema<EnableVersionRequest>;
+).annotate({ identifier: "EnableVersionRequest" }) as any as S.Schema<EnableVersionRequest>;
 
 export interface EnableVersionResponse {}
 export const EnableVersionResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -597,7 +579,7 @@ export const EnableVersionResponse = /*@__PURE__*/ S.suspend(() => S.Struct({}))
 }) as any as S.Schema<EnableVersionResponse>;
 
 export type EncryptRequestRegionId = "eu01";
-export const EncryptRequestRegionId = /*@__PURE__*/ S.String;
+export const EncryptRequestRegionId = S.String;
 
 export interface EncryptRequest {
   /** The STACKIT portal project UUID the key ring is part of. */
@@ -642,7 +624,7 @@ export const EncryptedData = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "EncryptedData" }) as any as S.Schema<EncryptedData>;
 
 export type GetKeyRequestRegionId = "eu01";
-export const GetKeyRequestRegionId = /*@__PURE__*/ S.String;
+export const GetKeyRequestRegionId = S.String;
 
 export interface GetKeyRequest {
   /** The STACKIT portal project UUID the key ring is part of. */
@@ -671,7 +653,7 @@ export const GetKeyRequest = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "GetKeyRequest" }) as any as S.Schema<GetKeyRequest>;
 
 export type GetKeyRingRequestRegionId = "eu01";
-export const GetKeyRingRequestRegionId = /*@__PURE__*/ S.String;
+export const GetKeyRingRequestRegionId = S.String;
 
 export interface GetKeyRingRequest {
   /** The STACKIT portal project UUID the key ring is part of. */
@@ -694,12 +676,10 @@ export const GetKeyRingRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://kms.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "GetKeyRingRequest",
-}) as any as S.Schema<GetKeyRingRequest>;
+).annotate({ identifier: "GetKeyRingRequest" }) as any as S.Schema<GetKeyRingRequest>;
 
 export type GetVersionRequestRegionId = "eu01";
-export const GetVersionRequestRegionId = /*@__PURE__*/ S.String;
+export const GetVersionRequestRegionId = S.String;
 
 export interface GetVersionRequest {
   /** The STACKIT portal project UUID the key ring is part of. */
@@ -728,9 +708,7 @@ export const GetVersionRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://kms.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "GetVersionRequest",
-}) as any as S.Schema<GetVersionRequest>;
+).annotate({ identifier: "GetVersionRequest" }) as any as S.Schema<GetVersionRequest>;
 
 /** The current state of the key. */
 export type VersionState =
@@ -740,7 +718,7 @@ export type VersionState =
   | "key_material_unavailable"
   | "disabled"
   | "destroyed";
-export const VersionState = /*@__PURE__*/ S.String;
+export const VersionState = S.String;
 
 export interface Version {
   /** The date and time the creation of the key was triggered. */
@@ -774,7 +752,7 @@ export const Version = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "Version" }) as any as S.Schema<Version>;
 
 export type GetWrappingKeyRequestRegionId = "eu01";
-export const GetWrappingKeyRequestRegionId = /*@__PURE__*/ S.String;
+export const GetWrappingKeyRequestRegionId = S.String;
 
 export interface GetWrappingKeyRequest {
   /** The STACKIT portal project UUID the key ring is part of. */
@@ -800,12 +778,10 @@ export const GetWrappingKeyRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://kms.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "GetWrappingKeyRequest",
-}) as any as S.Schema<GetWrappingKeyRequest>;
+).annotate({ identifier: "GetWrappingKeyRequest" }) as any as S.Schema<GetWrappingKeyRequest>;
 
 export type ImportKeyRequestRegionId = "eu01";
-export const ImportKeyRequestRegionId = /*@__PURE__*/ S.String;
+export const ImportKeyRequestRegionId = S.String;
 
 export interface ImportKeyRequest {
   /** The STACKIT portal project UUID the key ring is part of. */
@@ -837,12 +813,10 @@ export const ImportKeyRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://kms.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "ImportKeyRequest",
-}) as any as S.Schema<ImportKeyRequest>;
+).annotate({ identifier: "ImportKeyRequest" }) as any as S.Schema<ImportKeyRequest>;
 
 export type ListKeyRingsRequestRegionId = "eu01";
-export const ListKeyRingsRequestRegionId = /*@__PURE__*/ S.String;
+export const ListKeyRingsRequestRegionId = S.String;
 
 export interface ListKeyRingsRequest {
   /** The STACKIT portal project UUID the key ring is part of. */
@@ -862,9 +836,7 @@ export const ListKeyRingsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://kms.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "ListKeyRingsRequest",
-}) as any as S.Schema<ListKeyRingsRequest>;
+).annotate({ identifier: "ListKeyRingsRequest" }) as any as S.Schema<ListKeyRingsRequest>;
 
 export type KeyRingListKeyRingsList = Array<KeyRing>;
 export const KeyRingListKeyRingsList = /*@__PURE__*/ S.Array(
@@ -881,7 +853,7 @@ export const KeyRingList = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "KeyRingList" }) as any as S.Schema<KeyRingList>;
 
 export type ListKeysRequestRegionId = "eu01";
-export const ListKeysRequestRegionId = /*@__PURE__*/ S.String;
+export const ListKeysRequestRegionId = S.String;
 
 export interface ListKeysRequest {
   /** The STACKIT portal project UUID the key ring is part of. */
@@ -904,9 +876,7 @@ export const ListKeysRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://kms.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "ListKeysRequest",
-}) as any as S.Schema<ListKeysRequest>;
+).annotate({ identifier: "ListKeysRequest" }) as any as S.Schema<ListKeysRequest>;
 
 export type KeyListKeysList = Array<Key>;
 export const KeyListKeysList = /*@__PURE__*/ S.Array(Key) as any as S.Schema<KeyListKeysList>;
@@ -921,7 +891,7 @@ export const KeyList = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "KeyList" }) as any as S.Schema<KeyList>;
 
 export type ListVersionsRequestRegionId = "eu01";
-export const ListVersionsRequestRegionId = /*@__PURE__*/ S.String;
+export const ListVersionsRequestRegionId = S.String;
 
 export interface ListVersionsRequest {
   /** The STACKIT portal project UUID the key ring is part of. */
@@ -947,9 +917,7 @@ export const ListVersionsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://kms.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "ListVersionsRequest",
-}) as any as S.Schema<ListVersionsRequest>;
+).annotate({ identifier: "ListVersionsRequest" }) as any as S.Schema<ListVersionsRequest>;
 
 export type VersionListVersionsList = Array<Version>;
 export const VersionListVersionsList = /*@__PURE__*/ S.Array(
@@ -966,7 +934,7 @@ export const VersionList = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "VersionList" }) as any as S.Schema<VersionList>;
 
 export type ListWrappingKeysRequestRegionId = "eu01";
-export const ListWrappingKeysRequestRegionId = /*@__PURE__*/ S.String;
+export const ListWrappingKeysRequestRegionId = S.String;
 
 export interface ListWrappingKeysRequest {
   /** The STACKIT portal project UUID the key ring is part of. */
@@ -989,9 +957,7 @@ export const ListWrappingKeysRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://kms.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "ListWrappingKeysRequest",
-}) as any as S.Schema<ListWrappingKeysRequest>;
+).annotate({ identifier: "ListWrappingKeysRequest" }) as any as S.Schema<ListWrappingKeysRequest>;
 
 export type WrappingKeyListWrappingKeysList = Array<WrappingKey>;
 export const WrappingKeyListWrappingKeysList = /*@__PURE__*/ S.Array(
@@ -1005,12 +971,10 @@ export const WrappingKeyList = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     wrappingKeys: WrappingKeyListWrappingKeysList,
   }),
-).annotate({
-  identifier: "WrappingKeyList",
-}) as any as S.Schema<WrappingKeyList>;
+).annotate({ identifier: "WrappingKeyList" }) as any as S.Schema<WrappingKeyList>;
 
 export type RestoreKeyRequestRegionId = "eu01";
-export const RestoreKeyRequestRegionId = /*@__PURE__*/ S.String;
+export const RestoreKeyRequestRegionId = S.String;
 
 export interface RestoreKeyRequest {
   /** The STACKIT portal project UUID the key ring is part of. */
@@ -1036,9 +1000,7 @@ export const RestoreKeyRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://kms.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "RestoreKeyRequest",
-}) as any as S.Schema<RestoreKeyRequest>;
+).annotate({ identifier: "RestoreKeyRequest" }) as any as S.Schema<RestoreKeyRequest>;
 
 export interface RestoreKeyResponse {}
 export const RestoreKeyResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1046,7 +1008,7 @@ export const RestoreKeyResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).an
 }) as any as S.Schema<RestoreKeyResponse>;
 
 export type RestoreVersionRequestRegionId = "eu01";
-export const RestoreVersionRequestRegionId = /*@__PURE__*/ S.String;
+export const RestoreVersionRequestRegionId = S.String;
 
 export interface RestoreVersionRequest {
   /** The STACKIT portal project UUID the key ring is part of. */
@@ -1075,9 +1037,7 @@ export const RestoreVersionRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://kms.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "RestoreVersionRequest",
-}) as any as S.Schema<RestoreVersionRequest>;
+).annotate({ identifier: "RestoreVersionRequest" }) as any as S.Schema<RestoreVersionRequest>;
 
 export interface RestoreVersionResponse {}
 export const RestoreVersionResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1085,7 +1045,7 @@ export const RestoreVersionResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})
 }) as any as S.Schema<RestoreVersionResponse>;
 
 export type RotateKeyRequestRegionId = "eu01";
-export const RotateKeyRequestRegionId = /*@__PURE__*/ S.String;
+export const RotateKeyRequestRegionId = S.String;
 
 export interface RotateKeyRequest {
   /** The STACKIT portal project UUID the key ring is part of. */
@@ -1111,12 +1071,10 @@ export const RotateKeyRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://kms.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "RotateKeyRequest",
-}) as any as S.Schema<RotateKeyRequest>;
+).annotate({ identifier: "RotateKeyRequest" }) as any as S.Schema<RotateKeyRequest>;
 
 export type SignRequestRegionId = "eu01";
-export const SignRequestRegionId = /*@__PURE__*/ S.String;
+export const SignRequestRegionId = S.String;
 
 export interface SignRequest {
   /** The STACKIT portal project UUID the key ring is part of. */
@@ -1164,7 +1122,7 @@ export const SignedData = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "SignedData" }) as any as S.Schema<SignedData>;
 
 export type VerifyRequestRegionId = "eu01";
-export const VerifyRequestRegionId = /*@__PURE__*/ S.String;
+export const VerifyRequestRegionId = S.String;
 
 export interface VerifyRequest {
   /** The STACKIT portal project UUID the key ring is part of. */

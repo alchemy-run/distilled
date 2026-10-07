@@ -62,9 +62,7 @@ export const CancelPayoutRequest = /*@__PURE__*/ S.suspend(() =>
     user_id: S.optional(S.String.pipe(T.Query())),
     idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
   }).pipe(T.Http({ method: "POST", uri: "/payouts/{id}/cancel", code: 200 })),
-).annotate({
-  identifier: "CancelPayoutRequest",
-}) as any as S.Schema<CancelPayoutRequest>;
+).annotate({ identifier: "CancelPayoutRequest" }) as any as S.Schema<CancelPayoutRequest>;
 
 /** Why the payout ended without paying, or why it reversed after settlement. Present on failed, canceled, denied, and reversed payouts; `null` otherwise. */
 export interface CancelPayoutResponseFailure {
@@ -90,9 +88,7 @@ export type CancelPayoutResponseFeePaidBy = "self" | "platform";
 export const CancelPayoutResponseFeePaidBy = S.String;
 
 /** Key-value data attached at creation and echoed on every read. At most 50 keys, key names up to 40 characters, string values up to 500 characters. */
-export type CancelPayoutResponseMetadataMap = {
-  [key: string]: string | undefined;
-};
+export type CancelPayoutResponseMetadataMap = { [key: string]: string | undefined };
 export const CancelPayoutResponseMetadataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -245,14 +241,10 @@ export const CancelPayoutResponse = /*@__PURE__*/ S.suspend(() =>
     status_detail: S.String,
     trace_code: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "CancelPayoutResponse",
-}) as any as S.Schema<CancelPayoutResponse>;
+).annotate({ identifier: "CancelPayoutResponse" }) as any as S.Schema<CancelPayoutResponse>;
 
 /** Key-value data to attach to the payout, echoed on every read and in webhook payloads. At most 50 keys, key names up to 40 characters, string values up to 500 characters. Never store secrets or regulated personal data here — webhook bodies are retained for delivery inspection. */
-export type CreatePayoutRequestMetadataMap = {
-  [key: string]: string | undefined;
-};
+export type CreatePayoutRequestMetadataMap = { [key: string]: string | undefined };
 export const CreatePayoutRequestMetadataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -300,9 +292,7 @@ export const CreatePayoutRequest = /*@__PURE__*/ S.suspend(() =>
     user_id: S.optional(S.String),
     idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
   }).pipe(T.Http({ method: "POST", uri: "/payouts", code: 200 })),
-).annotate({
-  identifier: "CreatePayoutRequest",
-}) as any as S.Schema<CreatePayoutRequest>;
+).annotate({ identifier: "CreatePayoutRequest" }) as any as S.Schema<CreatePayoutRequest>;
 
 /** Why the payout ended without paying, or why it reversed after settlement. Present on failed, canceled, denied, and reversed payouts; `null` otherwise. */
 export type CreatePayoutResponseFailure = CancelPayoutResponseFailure;
@@ -313,9 +303,7 @@ export type CreatePayoutResponseFeePaidBy = "self" | "platform";
 export const CreatePayoutResponseFeePaidBy = S.String;
 
 /** Key-value data attached at creation and echoed on every read. At most 50 keys, key names up to 40 characters, string values up to 500 characters. */
-export type CreatePayoutResponseMetadataMap = {
-  [key: string]: string | undefined;
-};
+export type CreatePayoutResponseMetadataMap = { [key: string]: string | undefined };
 export const CreatePayoutResponseMetadataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -468,14 +456,10 @@ export const CreatePayoutResponse = /*@__PURE__*/ S.suspend(() =>
     status_detail: S.String,
     trace_code: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "CreatePayoutResponse",
-}) as any as S.Schema<CreatePayoutResponse>;
+).annotate({ identifier: "CreatePayoutResponse" }) as any as S.Schema<CreatePayoutResponse>;
 
 /** The supported payout method's required field values, keyed by field id — list them with `GET /payouts/supported_methods?supported_payout_method_id=...`. Field ids are stable `fld_` identifiers you may hardcode; they never change for a given field. A Basis Theory token id may be passed in place of a raw value. For a U.S. bank routing-number field, a raw nine-digit value must also pass the ABA checksum. A validation failure returns the method's full required_fields schema alongside the error. Required whenever the account details are supplied directly. */
-export type CreatePayoutMethodRequestFieldsMap = {
-  [key: string]: string | undefined;
-};
+export type CreatePayoutMethodRequestFieldsMap = { [key: string]: string | undefined };
 export const CreatePayoutMethodRequestFieldsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -679,9 +663,7 @@ export const GetPayoutRequest = /*@__PURE__*/ S.suspend(() =>
     account_id: S.optional(S.String.pipe(T.Query())),
     user_id: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/payouts/{id}", code: 200 })),
-).annotate({
-  identifier: "GetPayoutRequest",
-}) as any as S.Schema<GetPayoutRequest>;
+).annotate({ identifier: "GetPayoutRequest" }) as any as S.Schema<GetPayoutRequest>;
 
 /** Why the payout ended without paying, or why it reversed after settlement. Present on failed, canceled, denied, and reversed payouts; `null` otherwise. */
 export type GetPayoutResponseFailure = CancelPayoutResponseFailure;
@@ -692,9 +674,7 @@ export type GetPayoutResponseFeePaidBy = "self" | "platform";
 export const GetPayoutResponseFeePaidBy = S.String;
 
 /** Key-value data attached at creation and echoed on every read. At most 50 keys, key names up to 40 characters, string values up to 500 characters. */
-export type GetPayoutResponseMetadataMap = {
-  [key: string]: string | undefined;
-};
+export type GetPayoutResponseMetadataMap = { [key: string]: string | undefined };
 export const GetPayoutResponseMetadataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -847,9 +827,7 @@ export const GetPayoutResponse = /*@__PURE__*/ S.suspend(() =>
     status_detail: S.String,
     trace_code: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "GetPayoutResponse",
-}) as any as S.Schema<GetPayoutResponse>;
+).annotate({ identifier: "GetPayoutResponse" }) as any as S.Schema<GetPayoutResponse>;
 
 export type ListPayoutMethodsRequestStatus = "created" | "active" | "broken";
 export const ListPayoutMethodsRequestStatus = S.String;
@@ -889,9 +867,7 @@ export const ListPayoutMethodsRequest = /*@__PURE__*/ S.suspend(() =>
     last: S.optional(S.Number.pipe(T.Query())),
     before: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/payouts/methods", code: 200 })),
-).annotate({
-  identifier: "ListPayoutMethodsRequest",
-}) as any as S.Schema<ListPayoutMethodsRequest>;
+).annotate({ identifier: "ListPayoutMethodsRequest" }) as any as S.Schema<ListPayoutMethodsRequest>;
 
 /** Lifecycle trust state: `checking` (verification still running), `verified` (bank confirmed ownership or a payout already completed to it), `no_data` (verification unavailable or bank returned no ownership data), `warning` (bank could not confirm the destination's owner), `broken` (payouts failed with a permanent account error), `null` (never checked). */
 export type ListPayoutMethodsResponseDataItemBankVerificationState =
@@ -1277,9 +1253,7 @@ export const ListPayoutsRequest = /*@__PURE__*/ S.suspend(() =>
     last: S.optional(S.Number.pipe(T.Query())),
     before: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/payouts", code: 200 })),
-).annotate({
-  identifier: "ListPayoutsRequest",
-}) as any as S.Schema<ListPayoutsRequest>;
+).annotate({ identifier: "ListPayoutsRequest" }) as any as S.Schema<ListPayoutsRequest>;
 
 /** Why the payout ended without paying, or why it reversed after settlement. Present on failed, canceled, denied, and reversed payouts; `null` otherwise. */
 export type ListPayoutsResponseDataItemFailure = CancelPayoutResponseFailure;
@@ -1290,9 +1264,7 @@ export type ListPayoutsResponseDataItemFeePaidBy = "self" | "platform";
 export const ListPayoutsResponseDataItemFeePaidBy = S.String;
 
 /** Key-value data attached at creation and echoed on every read. At most 50 keys, key names up to 40 characters, string values up to 500 characters. */
-export type ListPayoutsResponseDataItemMetadataMap = {
-  [key: string]: string | undefined;
-};
+export type ListPayoutsResponseDataItemMetadataMap = { [key: string]: string | undefined };
 export const ListPayoutsResponseDataItemMetadataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1467,9 +1439,7 @@ export const ListPayoutsResponse = /*@__PURE__*/ S.suspend(() =>
     data: ListPayoutsResponseDataList,
     page_info: ListPayoutMethodsResponsePageInfo,
   }),
-).annotate({
-  identifier: "ListPayoutsResponse",
-}) as any as S.Schema<ListPayoutsResponse>;
+).annotate({ identifier: "ListPayoutsResponse" }) as any as S.Schema<ListPayoutsResponse>;
 
 export interface ListSupportedPayoutMethodsRequest {
   /** The owning account ID (a biz_ identifier). Provide this or user_id. */

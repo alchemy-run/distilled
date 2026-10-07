@@ -52,16 +52,8 @@ export const GetEventRequest = /*@__PURE__*/ S.suspend(() =>
     id: S.String.pipe(T.Label()),
     format: S.optional(GetEventRequestFormat.pipe(T.Query())),
     include_person: S.optional(S.Boolean.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/events/{id}/",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetEventRequest",
-}) as any as S.Schema<GetEventRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/projects/{project_id}/events/{id}/", code: 200 })),
+).annotate({ identifier: "GetEventRequest" }) as any as S.Schema<GetEventRequest>;
 
 export type GetEventResponseBodyMap = { [key: string]: unknown | undefined };
 export const GetEventResponseBodyMap = /*@__PURE__*/ S.Record(
@@ -72,9 +64,12 @@ export const GetEventResponseBodyMap = /*@__PURE__*/ S.Record(
 export type GetEventResponse = GetEventResponseBodyMap;
 export const GetEventResponse = /*@__PURE__*/ S.suspend(() =>
   GetEventResponseBodyMap.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "GetEventResponse",
-}) as any as S.Schema<GetEventResponse>;
+).annotate({ identifier: "GetEventResponse" }) as any as S.Schema<GetEventResponse>;
+
+export type GetEventsValueRequestEventNameList = Array<string>;
+export const GetEventsValueRequestEventNameList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<GetEventsValueRequestEventNameList>;
 
 export type GetEventsValueRequestFormat = "csv" | "json";
 export const GetEventsValueRequestFormat = S.String;
@@ -82,27 +77,60 @@ export const GetEventsValueRequestFormat = S.String;
 export interface GetEventsValueRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
+  /** Only read values from events with these names. Repeat to pass several. Required with a personal API key. Projects that read values from the precomputed property values table ignore this filter. */
+  event_name?: GetEventsValueRequestEventNameList;
   format?: GetEventsValueRequestFormat | (string & {});
+  /** Read 'key' as an events table column, not a property. */
+  is_column?: boolean;
+  /** The property to list values for. */
+  key: string;
+  /** Only return values that contain this text, ignoring case. */
+  value?: string;
 }
 export const GetEventsValueRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project_id: S.String.pipe(T.Label()),
+    event_name: S.optional(GetEventsValueRequestEventNameList.pipe(T.Query())),
     format: S.optional(GetEventsValueRequestFormat.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/events/values/",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetEventsValueRequest",
-}) as any as S.Schema<GetEventsValueRequest>;
+    is_column: S.optional(S.Boolean.pipe(T.Query())),
+    key: S.String.pipe(T.Query()),
+    value: S.optional(S.String.pipe(T.Query())),
+  }).pipe(T.Http({ method: "GET", uri: "/api/projects/{project_id}/events/values/", code: 200 })),
+).annotate({ identifier: "GetEventsValueRequest" }) as any as S.Schema<GetEventsValueRequest>;
 
-export interface GetEventsValueResponse {}
-export const GetEventsValueResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-  identifier: "GetEventsValueResponse",
-}) as any as S.Schema<GetEventsValueResponse>;
+export interface EventPropertyValue {
+  /** A value of the property, always as a string. Booleans come back as 'true' or 'false', and objects and lists as JSON. */
+  name: string;
+  /** How many times the value occurs, when the lookup counts values. */
+  count?: number;
+}
+export const EventPropertyValue = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    count: S.optional(S.Number),
+  }),
+).annotate({ identifier: "EventPropertyValue" }) as any as S.Schema<EventPropertyValue>;
+
+/** Values of the property that match the request. */
+export type EventPropertyValuesResponseResultsList = Array<EventPropertyValue>;
+export const EventPropertyValuesResponseResultsList = /*@__PURE__*/ S.Array(
+  EventPropertyValue,
+) as any as S.Schema<EventPropertyValuesResponseResultsList>;
+
+export interface EventPropertyValuesResponse {
+  /** Values of the property that match the request. */
+  results: EventPropertyValuesResponseResultsList;
+  /** True when these results come from a stale cache and a refresh runs in the background. */
+  refreshing: boolean;
+}
+export const EventPropertyValuesResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    results: EventPropertyValuesResponseResultsList,
+    refreshing: S.Boolean,
+  }),
+).annotate({
+  identifier: "EventPropertyValuesResponse",
+}) as any as S.Schema<EventPropertyValuesResponse>;
 
 export type ListEventsRequestFormat = "csv" | "json";
 export const ListEventsRequestFormat = S.String;
@@ -281,20 +309,10 @@ export const ListEventsRequest = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(ListEventsRequestPropertiesList.pipe(T.Query())),
     select: S.optional(ListEventsRequestSelectList.pipe(T.Query())),
     where: S.optional(ListEventsRequestWhereList.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/events/",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ListEventsRequest",
-}) as any as S.Schema<ListEventsRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/projects/{project_id}/events/", code: 200 })),
+).annotate({ identifier: "ListEventsRequest" }) as any as S.Schema<ListEventsRequest>;
 
-export type ClickhouseEventPropertiesMap = {
-  [key: string]: unknown | undefined;
-};
+export type ClickhouseEventPropertiesMap = { [key: string]: unknown | undefined };
 export const ClickhouseEventPropertiesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -364,9 +382,7 @@ export const ClickhouseEvent = /*@__PURE__*/ S.suspend(() =>
     elements: S.optional(ClickhouseEventElementsList),
     elements_chain: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ClickhouseEvent",
-}) as any as S.Schema<ClickhouseEvent>;
+).annotate({ identifier: "ClickhouseEvent" }) as any as S.Schema<ClickhouseEvent>;
 
 export type PaginatedClickhouseEventListResultsList = Array<ClickhouseEvent>;
 export const PaginatedClickhouseEventListResultsList = /*@__PURE__*/ S.Array(
@@ -401,14 +417,15 @@ export const getEvent: API.OperationMethod<
 }));
 
 export type GetEventsValueError = BadRequest | Forbidden | NotFound | PosthogOpError;
+/** List values of an event property from recent events. */
 export const getEventsValue: API.OperationMethod<
   GetEventsValueRequest,
-  GetEventsValueResponse,
+  EventPropertyValuesResponse,
   GetEventsValueError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: GetEventsValueRequest,
-  output: GetEventsValueResponse,
+  output: EventPropertyValuesResponse,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,

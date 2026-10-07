@@ -1,0 +1,284 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.posthog.web_analytics_bot_rules#ListWebAnalyticsBotRulesRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.web_analytics_bot_rules#WebAnalyticsBotRule": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Stable id for the rule. Pass it to the delete endpoint.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Label reported by the `Bot name` property when the rule matches. Also the operator for a rule on a bot PostHog does not know.",
+            "smithy.api#required": {}
+          }
+        },
+        "category": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Reported by the `Traffic category` property. Defaults to 'custom'. A built-in category such as ai_crawler or search_crawler relabels the traffic type too."
+          }
+        },
+        "combiner": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "How the conditions combine: 'AND' flags an event only when every condition matches, 'OR' when any one of them does."
+          }
+        },
+        "items": {
+          "target": "com.posthog.web_analytics_bot_rules#WebAnalyticsBotRuleItemsList",
+          "traits": {
+            "smithy.api#documentation": "The conditions of this rule. Each one reads a single event property.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.web_analytics_bot_rules#WebAnalyticsBotCondition": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Stable id for the condition. Generated when omitted."
+          }
+        },
+        "key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Event property the condition reads. One of: $raw_user_agent, $ip, $lib, $host, $pathname, $current_url, $browser, $os, $browser_language, $screen_width, $screen_height, $geoip_country_code, $referrer, $referring_domain.",
+            "smithy.api#required": {}
+          }
+        },
+        "matcher": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "How `pattern` is compared: 'contains' (case-insensitive substring), 'regex' (RE2), 'exact' (case-sensitive equality), or 'cidr' (an IP network range, only valid with the `$ip` property).",
+            "smithy.api#required": {}
+          }
+        },
+        "pattern": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Value matched against the property named by `key`. For 'cidr' this is a network range like 192.0.2.0/24.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.web_analytics_bot_rules#WebAnalyticsBotRuleItemsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.web_analytics_bot_rules#WebAnalyticsBotCondition"
+      },
+      "traits": {
+        "smithy.api#documentation": "The conditions of this rule. Each one reads a single event property."
+      }
+    },
+    "com.posthog.web_analytics_bot_rules#ListWebAnalyticsBotRulesResponseBodyList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.web_analytics_bot_rules#WebAnalyticsBotRule"
+      },
+      "traits": {}
+    },
+    "com.posthog.web_analytics_bot_rules#ListWebAnalyticsBotRulesResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "com.posthog.web_analytics_bot_rules#ListWebAnalyticsBotRulesResponseBodyList",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.posthog.web_analytics_bot_rules#ListWebAnalyticsBotRules": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.web_analytics_bot_rules#ListWebAnalyticsBotRulesRequest"
+      },
+      "output": {
+        "target": "com.posthog.web_analytics_bot_rules#ListWebAnalyticsBotRulesResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/web_analytics_bot_rules/",
+          "code": 200
+        },
+        "smithy.api#documentation": "List custom bot rules\n\nThe project's own bot rules, in the order they are checked at query time."
+      }
+    },
+    "com.posthog.web_analytics_bot_rules#CreateWebAnalyticsBotRuleRequestItemsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.web_analytics_bot_rules#WebAnalyticsBotCondition"
+      },
+      "traits": {
+        "smithy.api#documentation": "The conditions of this rule. Each one reads a single event property."
+      }
+    },
+    "com.posthog.web_analytics_bot_rules#CreateWebAnalyticsBotRuleRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Label reported by the `Bot name` property when the rule matches. Also the operator for a rule on a bot PostHog does not know.",
+            "smithy.api#required": {}
+          }
+        },
+        "category": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Reported by the `Traffic category` property. Defaults to 'custom'. A built-in category such as ai_crawler or search_crawler relabels the traffic type too."
+          }
+        },
+        "combiner": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "How the conditions combine: 'AND' flags an event only when every condition matches, 'OR' when any one of them does."
+          }
+        },
+        "items": {
+          "target": "com.posthog.web_analytics_bot_rules#CreateWebAnalyticsBotRuleRequestItemsList",
+          "traits": {
+            "smithy.api#documentation": "The conditions of this rule. Each one reads a single event property.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.web_analytics_bot_rules#CreateWebAnalyticsBotRule": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.web_analytics_bot_rules#CreateWebAnalyticsBotRuleRequest"
+      },
+      "output": {
+        "target": "com.posthog.web_analytics_bot_rules#WebAnalyticsBotRule"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/web_analytics_bot_rules/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create a custom bot rule\n\nAdd one bot rule to the project. A rule combines one or more single-property conditions with AND or OR. A pattern is rejected if it cannot run, because a broken rule would break every query that classifies traffic for the project."
+      }
+    },
+    "com.posthog.web_analytics_bot_rules#WebAnalyticsBotRulesDestroyRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.web_analytics_bot_rules#WebAnalyticsBotRulesDestroy": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.web_analytics_bot_rules#WebAnalyticsBotRulesDestroyRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/api/projects/{project_id}/web_analytics_bot_rules/{id}/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Delete a custom bot rule\n\nRemove one bot rule by its id. The built-in bot list is unaffected."
+      }
+    },
+    "com.posthog.web_analytics_bot_rules#WebAnalyticsBotRules": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.posthog.web_analytics_bot_rules#ListWebAnalyticsBotRules"
+        },
+        {
+          "target": "com.posthog.web_analytics_bot_rules#CreateWebAnalyticsBotRule"
+        },
+        {
+          "target": "com.posthog.web_analytics_bot_rules#WebAnalyticsBotRulesDestroy"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "PostHog API"
+      }
+    }
+  }
+}

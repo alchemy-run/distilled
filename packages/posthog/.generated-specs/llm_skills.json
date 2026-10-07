@@ -133,7 +133,7 @@
         "allowed_tools": {
           "target": "com.posthog.llm_skills#LLMSkillListAllowedToolsList",
           "traits": {
-            "smithy.api#documentation": "List of pre-approved tools the skill may use. Tool names cannot contain whitespace."
+            "smithy.api#documentation": "Tools the skill asks to use. Tool names cannot contain whitespace. A harness that reads the skill from a file (zip export, git marketplace, a content=full bundle) treats the list as pre-approved. A harness that loads the skill over MCP, including the default content=stub bundle, ignores the list until the user approves that grant."
           }
         },
         "metadata": {
@@ -158,6 +158,12 @@
           "target": "com.posthog.llm_skills#LLMSkillListOutlineList",
           "traits": {
             "smithy.api#documentation": "Flat list of markdown headings parsed from the skill body. Useful as a lightweight table of contents."
+          }
+        },
+        "spec_problems": {
+          "target": "com.posthog.llm_skills#LLMSkillListSpecProblemsList",
+          "traits": {
+            "smithy.api#documentation": "Why this skill is left out of the skills bundle and the plugin marketplace, as stable codes with author-facing messages. Empty when the skill packages cleanly."
           }
         },
         "version": {
@@ -208,7 +214,7 @@
         "target": "smithy.api#String"
       },
       "traits": {
-        "smithy.api#documentation": "List of pre-approved tools the skill may use. Tool names cannot contain whitespace."
+        "smithy.api#documentation": "Tools the skill asks to use. Tool names cannot contain whitespace. A harness that reads the skill from a file (zip export, git marketplace, a content=full bundle) treats the list as pre-approved. A harness that loads the skill over MCP, including the default content=stub bundle, ignores the list until the user approves that grant."
       }
     },
     "com.posthog.llm_skills#LLMSkillListMetadataMap": {
@@ -400,6 +406,43 @@
         "smithy.api#documentation": "Flat list of markdown headings parsed from the skill body. Useful as a lightweight table of contents."
       }
     },
+    "com.posthog.llm_skills#LLMSkillSpecProblem": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Stable machine-readable code for the problem, e.g. description_too_long or file_path_collides.",
+            "smithy.api#required": {}
+          }
+        },
+        "message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "What is wrong and what to change, written for the skill's author.",
+            "smithy.api#required": {}
+          }
+        },
+        "file_path": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The bundled file the problem is about. Null when it is about the skill itself.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.llm_skills#LLMSkillListSpecProblemsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.llm_skills#LLMSkillSpecProblem"
+      },
+      "traits": {
+        "smithy.api#documentation": "Why this skill is left out of the skills bundle and the plugin marketplace, as stable codes with author-facing messages. Empty when the skill packages cleanly."
+      }
+    },
     "com.posthog.llm_skills#PaginatedLLMSkillListListResultsList": {
       "type": "list",
       "member": {
@@ -429,7 +472,7 @@
         "target": "smithy.api#String"
       },
       "traits": {
-        "smithy.api#documentation": "List of pre-approved tools the skill may use. Tool names cannot contain whitespace."
+        "smithy.api#documentation": "Tools the skill asks to use. Tool names cannot contain whitespace. A harness that reads the skill from a file (zip export, git marketplace, a content=full bundle) treats the list as pre-approved. A harness that loads the skill over MCP, including the default content=stub bundle, ignores the list until the user approves that grant."
       }
     },
     "com.posthog.llm_skills#CreateLlmSkillRequestMetadataMap": {
@@ -500,7 +543,7 @@
         "name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Unique skill name. Lowercase letters, numbers, and hyphens only. Max 64 characters."
+            "smithy.api#documentation": "Unique skill name. Lowercase letters, numbers, and hyphens only. Max 64 characters. Cannot be the name of a skill PostHog ships."
           }
         },
         "description": {
@@ -530,7 +573,7 @@
         "allowed_tools": {
           "target": "com.posthog.llm_skills#CreateLlmSkillRequestAllowedToolsList",
           "traits": {
-            "smithy.api#documentation": "List of pre-approved tools the skill may use. Tool names cannot contain whitespace."
+            "smithy.api#documentation": "Tools the skill asks to use. Tool names cannot contain whitespace. A harness that reads the skill from a file (zip export, git marketplace, a content=full bundle) treats the list as pre-approved. A harness that loads the skill over MCP, including the default content=stub bundle, ignores the list until the user approves that grant."
           }
         },
         "metadata": {
@@ -608,7 +651,7 @@
         "allowed_tools": {
           "target": "com.posthog.llm_skills#LLMSkillAllowedToolsList",
           "traits": {
-            "smithy.api#documentation": "List of pre-approved tools the skill may use. Tool names cannot contain whitespace."
+            "smithy.api#documentation": "Tools the skill asks to use. Tool names cannot contain whitespace. A harness that reads the skill from a file (zip export, git marketplace, a content=full bundle) treats the list as pre-approved. A harness that loads the skill over MCP, including the default content=stub bundle, ignores the list until the user approves that grant."
           }
         },
         "metadata": {
@@ -632,13 +675,19 @@
         "files": {
           "target": "com.posthog.llm_skills#LLMSkillFilesList",
           "traits": {
-            "smithy.api#documentation": "Bundled files manifest. Each entry is path + content_type only; fetch content via /llm_skills/name/{name}/files/{path}/."
+            "smithy.api#documentation": "Bundled files manifest. Each entry carries path, content_type, and line/char counts — no content; fetch content via /llm_skills/name/{name}/files/{path}/."
           }
         },
         "outline": {
           "target": "com.posthog.llm_skills#LLMSkillOutlineList",
           "traits": {
             "smithy.api#documentation": "Flat list of markdown headings parsed from the skill body. Useful as a lightweight table of contents."
+          }
+        },
+        "spec_problems": {
+          "target": "com.posthog.llm_skills#LLMSkillSpecProblemsList",
+          "traits": {
+            "smithy.api#documentation": "Why this skill is left out of the skills bundle and the plugin marketplace, as stable codes with author-facing messages. Empty when the skill packages cleanly."
           }
         },
         "version": {
@@ -687,7 +736,7 @@
         "target": "smithy.api#String"
       },
       "traits": {
-        "smithy.api#documentation": "List of pre-approved tools the skill may use. Tool names cannot contain whitespace."
+        "smithy.api#documentation": "Tools the skill asks to use. Tool names cannot contain whitespace. A harness that reads the skill from a file (zip export, git marketplace, a content=full bundle) treats the list as pre-approved. A harness that loads the skill over MCP, including the default content=stub bundle, ignores the list until the user approves that grant."
       }
     },
     "com.posthog.llm_skills#LLMSkillMetadataMap": {
@@ -719,6 +768,32 @@
         },
         "content_type": {
           "target": "smithy.api#String"
+        },
+        "line_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of lines in the file content."
+          }
+        },
+        "char_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of characters in the file content."
+          }
+        },
+        "size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Size of the file content in bytes. Null on rows written before digests were stamped.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "sha256": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Hex SHA-256 of the file content. Null on rows written before digests were stamped.",
+            "com.distilled.openapi#nullable": {}
+          }
         }
       },
       "traits": {}
@@ -729,7 +804,7 @@
         "target": "com.posthog.llm_skills#LLMSkillFileManifest"
       },
       "traits": {
-        "smithy.api#documentation": "Bundled files manifest. Each entry is path + content_type only; fetch content via /llm_skills/name/{name}/files/{path}/."
+        "smithy.api#documentation": "Bundled files manifest. Each entry carries path, content_type, and line/char counts — no content; fetch content via /llm_skills/name/{name}/files/{path}/."
       }
     },
     "com.posthog.llm_skills#LLMSkillOutlineList": {
@@ -739,6 +814,15 @@
       },
       "traits": {
         "smithy.api#documentation": "Flat list of markdown headings parsed from the skill body. Useful as a lightweight table of contents."
+      }
+    },
+    "com.posthog.llm_skills#LLMSkillSpecProblemsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.llm_skills#LLMSkillSpecProblem"
+      },
+      "traits": {
+        "smithy.api#documentation": "Why this skill is left out of the skills bundle and the plugin marketplace, as stable codes with author-facing messages. Empty when the skill packages cleanly."
       }
     },
     "com.posthog.llm_skills#CreateLlmSkill": {
@@ -797,7 +881,7 @@
           "target": "smithy.api#Integer",
           "traits": {
             "smithy.api#httpQuery": "limit",
-            "smithy.api#documentation": "Maximum number of skills in the zip, newest first; default 20, at most 100. Every skill in the zip costs the agent prompt context on each turn, so pick what the harness can usefully carry. Skills past the limit are reported in X-Skills-Dropped."
+            "smithy.api#documentation": "Maximum number of skills in the zip, newest first; default 50, at most 100. Every skill in the zip costs the agent prompt context on each turn, so pick what the harness can usefully carry. Skills past the limit are reported in X-Skills-Dropped."
           }
         }
       },
@@ -1170,7 +1254,7 @@
         "target": "smithy.api#String"
       },
       "traits": {
-        "smithy.api#documentation": "List of pre-approved tools the skill may use. Tool names cannot contain whitespace."
+        "smithy.api#documentation": "Tools the skill asks to use. Tool names cannot contain whitespace. A harness that reads the skill from a file (zip export, git marketplace, a content=full bundle) treats the list as pre-approved. A harness that loads the skill over MCP, including the default content=stub bundle, ignores the list until the user approves that grant."
       }
     },
     "com.posthog.llm_skills#UpdateLlmSkillsNamePartialRequestMetadataMap": {
@@ -1290,7 +1374,7 @@
         "allowed_tools": {
           "target": "com.posthog.llm_skills#UpdateLlmSkillsNamePartialRequestAllowedToolsList",
           "traits": {
-            "smithy.api#documentation": "List of pre-approved tools the skill may use. Tool names cannot contain whitespace."
+            "smithy.api#documentation": "Tools the skill asks to use. Tool names cannot contain whitespace. A harness that reads the skill from a file (zip export, git marketplace, a content=full bundle) treats the list as pre-approved. A harness that loads the skill over MCP, including the default content=stub bundle, ignores the list until the user approves that grant."
           }
         },
         "metadata": {
@@ -1410,7 +1494,7 @@
         "new_name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Name for the duplicated skill. Must be unique."
+            "smithy.api#documentation": "Name for the duplicated skill. Must be unique, and cannot be the name of a skill PostHog ships."
           }
         }
       },
@@ -1721,6 +1805,47 @@
         }
       }
     },
+    "com.posthog.llm_skills#CommunitySkillScoutConfig": {
+      "type": "structure",
+      "members": {
+        "run_interval_minutes": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "How often the scout runs, in minutes. Ignored when run_cron_schedule is set."
+          }
+        },
+        "run_cron_schedule": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Five-field cron expression for the scout's schedule, which takes precedence over the interval."
+          }
+        },
+        "emit": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the scout writes its reports to the inbox. False means it runs as a dry run."
+          }
+        },
+        "tags": {
+          "target": "com.posthog.llm_skills#CommunitySkillScoutConfigTagsList",
+          "traits": {
+            "smithy.api#documentation": "Tags used to group the scout in the fleet."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The scout settings a published scout travels with. Every field is optional. An omitted field\nmeans the scout-create form's own default applies."
+      }
+    },
+    "com.posthog.llm_skills#CommunitySkillScoutConfigTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Tags used to group the scout in the fleet."
+      }
+    },
     "com.posthog.llm_skills#LlmSkillsNamePublishCommunityCreateRequestTagsList": {
       "type": "list",
       "member": {
@@ -1746,6 +1871,32 @@
           "traits": {
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
+          }
+        },
+        "expected_skill_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Immutable ID of the skill version that the publisher reviewed.",
+            "smithy.api#required": {}
+          }
+        },
+        "expected_version": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Skill version that the publisher reviewed. The request returns 409 if the latest version changed.",
+            "smithy.api#required": {}
+          }
+        },
+        "expected_category": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Category of the skill the publisher reviewed. Registering a skill as a scout changes its category without raising its version, so the version alone would let a skill reviewed as an ordinary one publish as a scout. The request returns 409 if the category changed. Omit it to skip that check."
+          }
+        },
+        "scout_config": {
+          "target": "com.posthog.llm_skills#CommunitySkillScoutConfig",
+          "traits": {
+            "smithy.api#documentation": "Schedule, emit posture and tags to publish alongside a scout, so it arrives in another project with its cadence intact. Rejected for a skill that is not a scout."
           }
         },
         "display_name": {
@@ -1806,12 +1957,192 @@
       "output": {
         "target": "com.posthog.llm_skills#CommunitySkillPublishResult"
       },
+      "errors": [
+        {
+          "target": "com.posthog.llm_skills#Conflict"
+        }
+      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
           "uri": "/api/projects/{project_id}/llm_skills/name/{skill_name}/publish-community/",
           "code": 200
         }
+      }
+    },
+    "com.posthog.llm_skills#LlmSkillsNameRenameCreateRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "skill_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "new_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "New name for the skill. Must be unique in the project, cannot be the name of a skill PostHog ships, and must not start with 'signals-scout-' or 'review-hog-'.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.llm_skills#LlmSkillsNameRenameCreate": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.llm_skills#LlmSkillsNameRenameCreateRequest"
+      },
+      "output": {
+        "target": "com.posthog.llm_skills#LLMSkill"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/llm_skills/name/{skill_name}/rename/",
+          "code": 200
+        }
+      }
+    },
+    "com.posthog.llm_skills#GetLlmSkillsNameSkillMdRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "skill_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "version": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "version",
+            "smithy.api#documentation": "Specific skill version to fetch. If omitted, the latest version is returned."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.llm_skills#LLMSkillMarkdown": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the skill, which is also its directory name.",
+            "smithy.api#required": {}
+          }
+        },
+        "version": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Version of the skill that this SKILL.md was rendered from.",
+            "smithy.api#required": {}
+          }
+        },
+        "content": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The complete SKILL.md file: the YAML frontmatter block, a blank line, then the skill body. Serve these bytes as the file; a digest must be taken over this exact string.",
+            "smithy.api#required": {}
+          }
+        },
+        "frontmatter": {
+          "target": "com.posthog.llm_skills#LLMSkillMarkdownFrontmatter",
+          "traits": {
+            "smithy.api#documentation": "The frontmatter block of content as a JSON object. Equal to yaml.safe_load of that block, so a listing can carry the same fields the file carries.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.llm_skills#LLMSkillMarkdownFrontmatterMetadataMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.posthog.llm_skills#LLMSkillMarkdownFrontmatter": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "license": {
+          "target": "smithy.api#String"
+        },
+        "compatibility": {
+          "target": "smithy.api#String"
+        },
+        "metadata": {
+          "target": "com.posthog.llm_skills#LLMSkillMarkdownFrontmatterMetadataMap",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "allowed_tools": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#jsonName": "allowed-tools"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The frontmatter block of content as a JSON object. Equal to yaml.safe_load of that block, so a listing can carry the same fields the file carries."
+      }
+    },
+    "com.posthog.llm_skills#GetLlmSkillsNameSkillMd": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.llm_skills#GetLlmSkillsNameSkillMdRequest"
+      },
+      "output": {
+        "target": "com.posthog.llm_skills#LLMSkillMarkdown"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/llm_skills/name/{skill_name}/skill-md/",
+          "code": 200
+        },
+        "smithy.api#documentation": "The rendered SKILL.md plus its frontmatter as JSON, for a host that serves the file.\n\nBoth halves come from one renderer, so a digest a client takes over ``content`` still\ndescribes the fields it reads from ``frontmatter``."
       }
     },
     "com.posthog.llm_skills#GetLlmSkillsResolveNameRequest": {
@@ -1940,6 +2271,201 @@
         }
       }
     },
+    "com.posthog.llm_skills#LlmSkillsSearchRetrieveRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "query": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "query",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Case-insensitive substring to search across ordinary skill names, descriptions, bodies, file paths, and Markdown file contents."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.llm_skills#LLMSkillSearchResponse": {
+      "type": "structure",
+      "members": {
+        "count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of matching skills returned, capped at 10.",
+            "smithy.api#required": {}
+          }
+        },
+        "results": {
+          "target": "com.posthog.llm_skills#LLMSkillSearchResponseResultsList",
+          "traits": {
+            "smithy.api#documentation": "Matching ordinary skills in relevance order.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.llm_skills#LLMSkillSearchResult": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique skill name.",
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "What this skill does and when to use it.",
+            "smithy.api#required": {}
+          }
+        },
+        "score": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Relevance score used to rank this result. Higher scores are more relevant.",
+            "smithy.api#required": {}
+          }
+        },
+        "matches": {
+          "target": "com.posthog.llm_skills#LLMSkillSearchResultMatchesList",
+          "traits": {
+            "smithy.api#documentation": "Up to two locations that matched the search query, ordered by field relevance.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.llm_skills#LLMSkillSearchMatch": {
+      "type": "structure",
+      "members": {
+        "matched_field": {
+          "target": "com.posthog.llm_skills#MatchedFieldEnum",
+          "traits": {
+            "smithy.api#documentation": "Skill field that matched the search query.\n\n* `name` - name\n* `description` - description\n* `body` - body\n* `file_path` - file_path\n* `file_content` - file_content",
+            "smithy.api#required": {}
+          }
+        },
+        "path": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Skill-relative file path for body or bundled-file matches. Omitted for name and description matches."
+          }
+        },
+        "line": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "One-based line containing the match when the result came from a body or bundled file."
+          }
+        },
+        "excerpt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Short excerpt showing why this skill matched.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.llm_skills#MatchedFieldEnum": {
+      "type": "enum",
+      "members": {
+        "NAME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "name"
+          }
+        },
+        "DESCRIPTION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "description"
+          }
+        },
+        "BODY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "body"
+          }
+        },
+        "FILE_PATH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "file_path"
+          }
+        },
+        "FILE_CONTENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "file_content"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `name` - name\n* `description` - description\n* `body` - body\n* `file_path` - file_path\n* `file_content` - file_content"
+      }
+    },
+    "com.posthog.llm_skills#LLMSkillSearchResultMatchesList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.llm_skills#LLMSkillSearchMatch"
+      },
+      "traits": {
+        "smithy.api#documentation": "Up to two locations that matched the search query, ordered by field relevance."
+      }
+    },
+    "com.posthog.llm_skills#LLMSkillSearchResponseResultsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.llm_skills#LLMSkillSearchResult"
+      },
+      "traits": {
+        "smithy.api#documentation": "Matching ordinary skills in relevance order."
+      }
+    },
+    "com.posthog.llm_skills#LlmSkillsSearchRetrieve": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.llm_skills#LlmSkillsSearchRetrieveRequest"
+      },
+      "output": {
+        "target": "com.posthog.llm_skills#LLMSkillSearchResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/llm_skills/search/",
+          "code": 200
+        }
+      }
+    },
+    "com.posthog.llm_skills#Conflict": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 409,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 409
+          }
+        ]
+      }
+    },
     "com.posthog.llm_skills#LlmSkills": {
       "type": "service",
       "version": "1.0.0",
@@ -1993,7 +2519,16 @@
           "target": "com.posthog.llm_skills#LlmSkillsNamePublishCommunityCreate"
         },
         {
+          "target": "com.posthog.llm_skills#LlmSkillsNameRenameCreate"
+        },
+        {
+          "target": "com.posthog.llm_skills#GetLlmSkillsNameSkillMd"
+        },
+        {
           "target": "com.posthog.llm_skills#GetLlmSkillsResolveName"
+        },
+        {
+          "target": "com.posthog.llm_skills#LlmSkillsSearchRetrieve"
         }
       ],
       "traits": {

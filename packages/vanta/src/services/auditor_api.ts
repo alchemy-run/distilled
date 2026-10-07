@@ -30,11 +30,17 @@ export const AcceptInformationRequestEvidenceRequest = /*@__PURE__*/ S.suspend((
   identifier: "AcceptInformationRequestEvidenceRequest",
 }) as any as S.Schema<AcceptInformationRequestEvidenceRequest>;
 
-/** Additional control IDs beyond those automatically mapped from framework codes. Allows manual association with specific controls when automatic mapping is insufficient. Each ID should reference a valid control in your audit framework. */
+/** Deprecated control-linkage field retained for response compatibility. It may contain control IDs supplied directly to the request, but it is not a complete or guaranteed-current list of controls linked to the request. Use `linkedControlIds` for the complete current list. */
 export type InformationRequestAdditionalControlIdsList = Array<string>;
 export const InformationRequestAdditionalControlIdsList = /*@__PURE__*/ S.Array(
   S.String,
 ) as any as S.Schema<InformationRequestAdditionalControlIdsList>;
+
+/** The complete current set of control IDs linked to this request, including controls linked through framework codes and controls added directly. Each ID is returned by the audit controls endpoint. */
+export type InformationRequestLinkedControlIdsList = Array<string>;
+export const InformationRequestLinkedControlIdsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<InformationRequestLinkedControlIdsList>;
 
 /** Current approval status of the information request, tracking its lifecycle through the audit process. The status progresses through the workflow: initial state → awaiting review → approved or flagged. Status can move between awaiting review and flagged states as evidence is reviewed and resubmitted. */
 export type InformationRequestApprovalStatus =
@@ -48,11 +54,17 @@ export const InformationRequestApprovalStatus = S.String;
 export type InformationRequestCadence = "ANNUALLY" | "BIANNUALLY" | "MONTHLY" | "QUARTERLY";
 export const InformationRequestCadence = S.String;
 
-/** The framework codes this request addresses. Links the request to specific compliance requirements. Can be an empty array if no framework codes are associated. These codes correspond to standards like SOC 2, ISO 27001, etc. */
+/** Always empty on read. Use `linkedControlIds` for control linkage and `segmentIds` for request assignment. */
 export type InformationRequestFrameworkCodesList = Array<string>;
 export const InformationRequestFrameworkCodesList = /*@__PURE__*/ S.Array(
   S.String,
 ) as any as S.Schema<InformationRequestFrameworkCodesList>;
+
+/** Audit segments this request is assigned to. Empty means unassigned. Resolved against the current audit scope — stale IDs are dropped. This field is a current-scope projection, not a stored watermark. An audit-scope change that drops or adds IDs here does not update creationDate, modificationDate, or deletionDate, so it does not appear in `changedSinceDate` delta sync on its own. Re-fetch the list without that parameter, or GET the request by id, to see the current projection. */
+export type InformationRequestSegmentIdsList = Array<string>;
+export const InformationRequestSegmentIdsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<InformationRequestSegmentIdsList>;
 
 /** Type of information request, defining what scope of evidence is needed. - POINT_IN_TIME: Evidence for a specific moment (e.g., current state of a policy) - POPULATION: Evidence covering all items in a category (e.g., all employees) - SAMPLE: Evidence for a representative sample (e.g., 10 random customer records) */
 export type InformationRequestType = "POINT_IN_TIME" | "POPULATION" | "SAMPLE";
@@ -72,9 +84,7 @@ export const ResourceOwnerCase0 = /*@__PURE__*/ S.suspend(() =>
     id: S.String,
     type: ResourceOwnerCase0Type,
   }),
-).annotate({
-  identifier: "ResourceOwnerCase0",
-}) as any as S.Schema<ResourceOwnerCase0>;
+).annotate({ identifier: "ResourceOwnerCase0" }) as any as S.Schema<ResourceOwnerCase0>;
 
 export type ResourceOwnerCase1Type = "team";
 export const ResourceOwnerCase1Type = S.String;
@@ -90,9 +100,7 @@ export const ResourceOwnerCase1 = /*@__PURE__*/ S.suspend(() =>
     id: S.String,
     type: ResourceOwnerCase1Type,
   }),
-).annotate({
-  identifier: "ResourceOwnerCase1",
-}) as any as S.Schema<ResourceOwnerCase1>;
+).annotate({ identifier: "ResourceOwnerCase1" }) as any as S.Schema<ResourceOwnerCase1>;
 
 /** Represents either a user or a team owning a resource. */
 export type ResourceOwner = ResourceOwnerCase0 | ResourceOwnerCase1;
@@ -104,14 +112,18 @@ export interface InformationRequest {
   id: string;
   /** External unique ID to prevent duplicates across different audit systems. Used for idempotency when syncing data between external audit management systems and Vanta. Unlike `id`, this value is provided by the external system. */
   uniqueId: string;
-  /** Additional control IDs beyond those automatically mapped from framework codes. Allows manual association with specific controls when automatic mapping is insufficient. Each ID should reference a valid control in your audit framework. */
+  /** Deprecated control-linkage field retained for response compatibility. It may contain control IDs supplied directly to the request, but it is not a complete or guaranteed-current list of controls linked to the request. Use `linkedControlIds` for the complete current list. */
   additionalControlIds: InformationRequestAdditionalControlIdsList;
+  /** The complete current set of control IDs linked to this request, including controls linked through framework codes and controls added directly. Each ID is returned by the audit controls endpoint. */
+  linkedControlIds: InformationRequestLinkedControlIdsList;
   /** Current approval status tracking the request's lifecycle through evidence submission and auditor review. */
   approvalStatus: InformationRequestApprovalStatus;
   /** How frequently this information request recurs (e.g., annual password policy reviews). Null for one-time requests. */
   cadence: InformationRequestCadence | null;
-  /** The framework codes this request addresses. Links the request to specific compliance requirements. Can be an empty array if no framework codes are associated. These codes correspond to standards like SOC 2, ISO 27001, etc. */
+  /** Always empty on read. Use `linkedControlIds` for control linkage and `segmentIds` for request assignment. */
   frameworkCodes: InformationRequestFrameworkCodesList;
+  /** Audit segments this request is assigned to. Empty means unassigned. Resolved against the current audit scope — stale IDs are dropped. This field is a current-scope projection, not a stored watermark. An audit-scope change that drops or adds IDs here does not update creationDate, modificationDate, or deletionDate, so it does not appear in `changedSinceDate` delta sync on its own. Re-fetch the list without that parameter, or GET the request by id, to see the current projection. */
+  segmentIds: InformationRequestSegmentIdsList;
   /** Detailed description explaining what evidence is needed and why. Should provide clear instructions to help the customer understand what to submit. */
   description: string | null;
   /** The deadline by which the customer must fulfill this request. Null if no specific deadline is set. Format: ISO 8601 UTC timestamp. */
@@ -138,9 +150,11 @@ export const InformationRequest = /*@__PURE__*/ S.suspend(() =>
     id: S.String,
     uniqueId: S.String,
     additionalControlIds: InformationRequestAdditionalControlIdsList,
+    linkedControlIds: InformationRequestLinkedControlIdsList,
     approvalStatus: InformationRequestApprovalStatus,
     cadence: S.NullOr(InformationRequestCadence),
     frameworkCodes: InformationRequestFrameworkCodesList,
+    segmentIds: InformationRequestSegmentIdsList,
     description: S.NullOr(S.String),
     dueDate: S.NullOr(S.String),
     evidenceCaptureDate: S.NullOr(S.String),
@@ -152,9 +166,7 @@ export const InformationRequest = /*@__PURE__*/ S.suspend(() =>
     deletionDate: S.NullOr(S.String),
     ownerAssignment: S.NullOr(ResourceOwner),
   }),
-).annotate({
-  identifier: "InformationRequest",
-}) as any as S.Schema<InformationRequest>;
+).annotate({ identifier: "InformationRequest" }) as any as S.Schema<InformationRequest>;
 
 export interface CreateAuditorRequest {
   /** Email of the new user. */
@@ -170,9 +182,7 @@ export const CreateAuditorRequest = /*@__PURE__*/ S.suspend(() =>
     givenName: S.String,
     familyName: S.String,
   }).pipe(T.Http({ method: "POST", uri: "/auditors", code: 200 })),
-).annotate({
-  identifier: "CreateAuditorRequest",
-}) as any as S.Schema<CreateAuditorRequest>;
+).annotate({ identifier: "CreateAuditorRequest" }) as any as S.Schema<CreateAuditorRequest>;
 
 export interface Auditor {
   id: string;
@@ -272,11 +282,7 @@ export const CreateCommentForControlRequest = /*@__PURE__*/ S.suspend(() =>
     email: S.String,
     creationDate: S.String,
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/audits/{auditId}/controls/{controlId}/comments",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/audits/{auditId}/controls/{controlId}/comments", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateCommentForControlRequest",
@@ -309,9 +315,7 @@ export const AuditControlComment = /*@__PURE__*/ S.suspend(() =>
     email: S.NullOr(S.String),
     authorName: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "AuditControlComment",
-}) as any as S.Schema<AuditControlComment>;
+).annotate({ identifier: "AuditControlComment" }) as any as S.Schema<AuditControlComment>;
 
 export interface CreateCommentForInformationRequestRequest {
   auditId: string;
@@ -465,9 +469,7 @@ export const FrameworkSection = /*@__PURE__*/ S.suspend(() =>
     frameworkId: FrameworkSectionFrameworkId,
     sectionId: S.String,
   }),
-).annotate({
-  identifier: "FrameworkSection",
-}) as any as S.Schema<FrameworkSection>;
+).annotate({ identifier: "FrameworkSection" }) as any as S.Schema<FrameworkSection>;
 
 /** Framework sections that the control should be mapped to. */
 export type CreateCustomControlRequestSectionsList = Array<FrameworkSection>;
@@ -505,13 +507,7 @@ export const CreateCustomControlRequest = /*@__PURE__*/ S.suspend(() =>
     category: ControlDomain,
     sections: S.optional(S.NullOr(CreateCustomControlRequestSectionsList)),
     role: S.optional(S.NullOr(GdprRole)),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/audits/{auditId}/controls/custom-controls",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/audits/{auditId}/controls/custom-controls", code: 200 })),
 ).annotate({
   identifier: "CreateCustomControlRequest",
 }) as any as S.Schema<CreateCustomControlRequest>;
@@ -520,10 +516,10 @@ export type ControlSource = "Vanta" | "Custom";
 export const ControlSource = S.String;
 
 /** The security domains that the control belongs to. */
-export type ControlDomainsList = Array<string>;
-export const ControlDomainsList = /*@__PURE__*/ S.Array(
+export type AuditorApiControlDomainsList = Array<string>;
+export const AuditorApiControlDomainsList = /*@__PURE__*/ S.Array(
   S.String,
-) as any as S.Schema<ControlDomainsList>;
+) as any as S.Schema<AuditorApiControlDomainsList>;
 
 export interface Owner {
   /** Unique identifier for the person. */
@@ -561,12 +557,12 @@ export const CustomField = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "CustomField" }) as any as S.Schema<CustomField>;
 
 /** The control's custom field values, if control custom fields is included in your Vanta instance. */
-export type ControlCustomFieldsList = Array<CustomField>;
-export const ControlCustomFieldsList = /*@__PURE__*/ S.Array(
+export type AuditorApiControlCustomFieldsList = Array<CustomField>;
+export const AuditorApiControlCustomFieldsList = /*@__PURE__*/ S.Array(
   CustomField,
-) as any as S.Schema<ControlCustomFieldsList>;
+) as any as S.Schema<AuditorApiControlCustomFieldsList>;
 
-export interface Control {
+export interface AuditorApiControl {
   /** The control's unique ID. */
   id: string;
   /** The control's external ID. */
@@ -578,33 +574,33 @@ export interface Control {
   /** The control's source, either "VANTA" or "CUSTOM". */
   source: ControlSource;
   /** The security domains that the control belongs to. */
-  domains: ControlDomainsList;
+  domains: AuditorApiControlDomainsList;
   /** The control's owner. */
   owner: Owner | null;
   /** The control's GDPR role, if the control is a GDPR control. */
   role?: string | null;
   /** The control's custom field values, if control custom fields is included in your Vanta instance. */
-  customFields: ControlCustomFieldsList;
+  customFields: AuditorApiControlCustomFieldsList;
   /** When the control was created. Returns null for Vanta library controls. */
   creationDate: string | null;
   /** When the control was last modified. Returns null for Vanta library controls. */
   modificationDate: string | null;
 }
-export const Control = /*@__PURE__*/ S.suspend(() =>
+export const AuditorApiControl = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String,
     externalId: S.NullOr(S.String),
     name: S.String,
     description: S.String,
     source: ControlSource,
-    domains: ControlDomainsList,
+    domains: AuditorApiControlDomainsList,
     owner: S.NullOr(Owner),
     role: S.optional(S.NullOr(S.String)),
-    customFields: ControlCustomFieldsList,
+    customFields: AuditorApiControlCustomFieldsList,
     creationDate: S.NullOr(S.String),
     modificationDate: S.NullOr(S.String),
   }),
-).annotate({ identifier: "Control" }) as any as S.Schema<Control>;
+).annotate({ identifier: "AuditorApiControl" }) as any as S.Schema<AuditorApiControl>;
 
 /** A set of controls, referenced by id, to map the evidence to */
 export type CreateCustomEvidenceRequestRequestControlIdsList = Array<string>;
@@ -685,9 +681,7 @@ export const CustomEvidenceRequest = /*@__PURE__*/ S.suspend(() =>
     reminderWindow: RecurrenceDuration,
     isRestricted: S.Boolean,
   }),
-).annotate({
-  identifier: "CustomEvidenceRequest",
-}) as any as S.Schema<CustomEvidenceRequest>;
+).annotate({ identifier: "CustomEvidenceRequest" }) as any as S.Schema<CustomEvidenceRequest>;
 
 /** Framework codes this request addresses. An empty array if no framework codes are associated. */
 export type CreateInformationRequestRequestFrameworkCodesList = Array<string>;
@@ -695,7 +689,7 @@ export const CreateInformationRequestRequestFrameworkCodesList = /*@__PURE__*/ S
   S.String,
 ) as any as S.Schema<CreateInformationRequestRequestFrameworkCodesList>;
 
-/** Control IDs to link directly to this request, beyond those automatically mapped from framework codes. Each must be the `id` of an existing control in the customer's organization (the identifier returned by the controls endpoints). The request is rejected if any ID does not match a control. Omit or pass an empty array for no direct control links. */
+/** Control IDs to link directly to this request, beyond those automatically mapped from framework codes. Each must be the `id` of an existing control in the customer's organization (the identifier returned by the controls endpoints). Unknown IDs and controls without an active mapping to a framework in the audit are skipped. Omit or pass an empty array for no direct control links. */
 export type CreateInformationRequestRequestAdditionalControlIdsList = Array<string>;
 export const CreateInformationRequestRequestAdditionalControlIdsList = /*@__PURE__*/ S.Array(
   S.String,
@@ -719,7 +713,7 @@ export interface CreateInformationRequestRequest {
   dueDate?: string | null;
   /** Start date of the audit period. Evidence before this date may not be accepted. Null or omitted if not restricted. Format: ISO 8601 UTC timestamp. */
   evidenceCaptureDate?: string | null;
-  /** Control IDs to link directly to this request, beyond those automatically mapped from framework codes. Each must be the `id` of an existing control in the customer's organization (the identifier returned by the controls endpoints). The request is rejected if any ID does not match a control. Omit or pass an empty array for no direct control links. */
+  /** Control IDs to link directly to this request, beyond those automatically mapped from framework codes. Each must be the `id` of an existing control in the customer's organization (the identifier returned by the controls endpoints). Unknown IDs and controls without an active mapping to a framework in the audit are skipped. Omit or pass an empty array for no direct control links. */
   additionalControlIds?: CreateInformationRequestRequestAdditionalControlIdsList;
 }
 export const CreateInformationRequestRequest = /*@__PURE__*/ S.suspend(() =>
@@ -734,13 +728,7 @@ export const CreateInformationRequestRequest = /*@__PURE__*/ S.suspend(() =>
     dueDate: S.optional(S.NullOr(S.String)),
     evidenceCaptureDate: S.optional(S.NullOr(S.String)),
     additionalControlIds: S.optional(CreateInformationRequestRequestAdditionalControlIdsList),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/audits/{auditId}/information-requests",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/audits/{auditId}/information-requests", code: 200 })),
 ).annotate({
   identifier: "CreateInformationRequestRequest",
 }) as any as S.Schema<CreateInformationRequestRequest>;
@@ -771,9 +759,7 @@ export const DeleteCommentForControlRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface DeleteCommentForControlResponse {}
 export const DeleteCommentForControlResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "DeleteCommentForControlResponse",
-  },
+  { identifier: "DeleteCommentForControlResponse" },
 ) as any as S.Schema<DeleteCommentForControlResponse>;
 
 export interface DeleteCommentForInformationRequestRequest {
@@ -862,9 +848,7 @@ export const DuplicateRequest = /*@__PURE__*/ S.suspend(() =>
     earlyAccessStartsAt: S.String,
     allowAuditorEmails: DuplicateRequestAllowAuditorEmailsList,
   }).pipe(T.Http({ method: "POST", uri: "/audits/duplicate", code: 200 })),
-).annotate({
-  identifier: "DuplicateRequest",
-}) as any as S.Schema<DuplicateRequest>;
+).annotate({ identifier: "DuplicateRequest" }) as any as S.Schema<DuplicateRequest>;
 
 /** Emails of auditors with access to audit */
 export type AuditAllowAuditorEmailsList = Array<string>;
@@ -874,6 +858,9 @@ export const AuditAllowAuditorEmailsList = /*@__PURE__*/ S.Array(
 
 export type AuditFocus = "EXTERNAL" | "INTERNAL";
 export const AuditFocus = S.String;
+
+export type AuditIrlGenerationStatus = "PENDING" | "RUNNING" | "READY" | "FAILED";
+export const AuditIrlGenerationStatus = S.String;
 
 /** Metadata about the auditor request list. This field is only present for IRL (Information Request List) based audits and will be undefined for standard audits. Use the presence of this field to differentiate between IRL and non-IRL audits. */
 export interface AuditAuditorRequestListMetadata {
@@ -891,24 +878,16 @@ export const AuditAuditorRequestListMetadata = /*@__PURE__*/ S.suspend(() =>
 export type AuditSegmentKind = "PROGRAM" | "SYSTEM";
 export const AuditSegmentKind = S.String;
 
-/** The framework reached through a segment. */
+/** The framework this segment is in. */
 export interface AuditSegmentFramework {
-  /** The stable identifier of the framework (for example `soc2`). */
-  id: string;
-  /** The human-readable framework name. */
+  /** Display name of the framework. */
   displayName: string;
-  /** The short framework name used in compact UI. */
-  shortName: string;
 }
 export const AuditSegmentFramework = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    id: S.String,
     displayName: S.String,
-    shortName: S.String,
   }),
-).annotate({
-  identifier: "AuditSegmentFramework",
-}) as any as S.Schema<AuditSegmentFramework>;
+).annotate({ identifier: "AuditSegmentFramework" }) as any as S.Schema<AuditSegmentFramework>;
 
 /** A business unit or information-system association on an audit segment. */
 export interface AuditSegmentAssociation {
@@ -922,9 +901,7 @@ export const AuditSegmentAssociation = /*@__PURE__*/ S.suspend(() =>
     id: S.String,
     displayName: S.String,
   }),
-).annotate({
-  identifier: "AuditSegmentAssociation",
-}) as any as S.Schema<AuditSegmentAssociation>;
+).annotate({ identifier: "AuditSegmentAssociation" }) as any as S.Schema<AuditSegmentAssociation>;
 
 export type AuditSoc2ReportType = "soc2type1" | "soc2type2";
 export const AuditSoc2ReportType = S.String;
@@ -955,11 +932,9 @@ export const AuditSoc2Deliverable = /*@__PURE__*/ S.suspend(() =>
     reportType: AuditSoc2ReportType,
     tscs: AuditSoc2DeliverableTscsList,
   }),
-).annotate({
-  identifier: "AuditSoc2Deliverable",
-}) as any as S.Schema<AuditSoc2Deliverable>;
+).annotate({ identifier: "AuditSoc2Deliverable" }) as any as S.Schema<AuditSoc2Deliverable>;
 
-/** One segment of an audit's scope. A live single-framework audit has exactly one entry; a live multi-framework audit has one per in-scope framework (and business unit or system, when applicable). Soft-deleted audits return an empty list. `displayName` is the segment label owned by audit scope (for example "{Framework}" or "{Framework} — {Business Unit}"). `soc2Deliverable` is the per-segment SOC 2 config, or null. `businessUnit` is set for program segments that are BU-scoped and null otherwise. `system` is set for system segments and null otherwise. */
+/** One segment of an audit's scope. A live audit returns every in-scope program and system segment; more than one segment does not by itself imply more than one framework. Soft-deleted audits return an empty list. `displayName` is the segment label owned by audit scope (for example "{Framework}" or "{Framework} — {Business Unit}"). `soc2Deliverable` is the per-segment SOC 2 config, or null. `businessUnit` is set for program segments that are BU-scoped and null otherwise. `system` is set for system segments and null otherwise. */
 export interface AuditSegment {
   /** The unique identifier for the segment. */
   id: string;
@@ -967,7 +942,7 @@ export interface AuditSegment {
   kind: AuditSegmentKind;
   /** The segment's display label. Do not reconstruct this from framework + BU. */
   displayName: string;
-  /** The framework reached through this segment. */
+  /** The framework this segment is in. */
   framework: AuditSegmentFramework;
   /** The business unit this program segment is scoped to, or null when the segment is not BU-scoped or the BU cannot be resolved. */
   businessUnit: AuditSegmentAssociation | null;
@@ -988,7 +963,7 @@ export const AuditSegment = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "AuditSegment" }) as any as S.Schema<AuditSegment>;
 
-/** The audit's scope as a list of segments. Always present. A live single-framework audit has one entry; a multi-framework audit has one entry per in-scope framework (and business unit or system, when applicable). Soft-deleted audits return an empty list. Prefer this over the deprecated top-level `framework` field. */
+/** The audit's scope as a list of segments. Always present. A live audit returns every in-scope program and system segment; more than one segment does not by itself imply more than one framework. Soft-deleted audits return an empty list. Prefer this over the deprecated top-level `framework` field. */
 export type AuditSegmentsList = Array<AuditSegment>;
 export const AuditSegmentsList = /*@__PURE__*/ S.Array(
   AuditSegment,
@@ -1009,7 +984,7 @@ export interface Audit {
   auditEndDate: string;
   /** Timestamp at which auditors gain access to the audit. Occurs before the audit window begins */
   earlyAccessStartsAt: string | null;
-  /** Legacy singular framework display name from the audit type. Incomplete for a multi-framework audit — use `segments` for framework identity. */
+  /** Legacy singular framework display name from the audit type. Incomplete for a multi-framework audit — use `segments` instead. */
   framework: string;
   /** The display name for the audit. Returns the custom audit name if set, otherwise returns the framework name. */
   displayName: string;
@@ -1027,9 +1002,11 @@ export interface Audit {
   completionDate: string | null;
   /** Audit focus determines if the audit is internal or external facing */
   auditFocus: AuditFocus;
+  /** Generation status of this audit's Vanta-generated information request list (IRL). `PENDING`/`RUNNING` defer initial sync, `READY` permits a full sync, and `FAILED` is terminal. Null means the audit has no generated IRL. */
+  irlGenerationStatus: AuditIrlGenerationStatus | null;
   /** Metadata about the auditor request list. This field is only present for IRL (Information Request List) based audits and will be undefined for standard audits. Use the presence of this field to differentiate between IRL and non-IRL audits. */
   auditorRequestListMetadata?: AuditAuditorRequestListMetadata;
-  /** The audit's scope as a list of segments. Always present. A live single-framework audit has one entry; a multi-framework audit has one entry per in-scope framework (and business unit or system, when applicable). Soft-deleted audits return an empty list. Prefer this over the deprecated top-level `framework` field. */
+  /** The audit's scope as a list of segments. Always present. A live audit returns every in-scope program and system segment; more than one segment does not by itself imply more than one framework. Soft-deleted audits return an empty list. Prefer this over the deprecated top-level `framework` field. */
   segments: AuditSegmentsList;
 }
 export const Audit = /*@__PURE__*/ S.suspend(() =>
@@ -1050,6 +1027,7 @@ export const Audit = /*@__PURE__*/ S.suspend(() =>
     modificationDate: S.NullOr(S.String),
     completionDate: S.NullOr(S.String),
     auditFocus: AuditFocus,
+    irlGenerationStatus: S.NullOr(AuditIrlGenerationStatus),
     auditorRequestListMetadata: S.optional(AuditAuditorRequestListMetadata),
     segments: AuditSegmentsList,
   }),
@@ -1087,9 +1065,7 @@ export const GetAuditRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     auditId: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/audits/{auditId}", code: 200 })),
-).annotate({
-  identifier: "GetAuditRequest",
-}) as any as S.Schema<GetAuditRequest>;
+).annotate({ identifier: "GetAuditRequest" }) as any as S.Schema<GetAuditRequest>;
 
 export interface GetAuditEvidenceRequest {
   auditId: string;
@@ -1100,15 +1076,9 @@ export const GetAuditEvidenceRequest = /*@__PURE__*/ S.suspend(() =>
     auditId: S.String.pipe(T.Label()),
     auditEvidenceId: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/audits/{auditId}/evidence/{auditEvidenceId}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/audits/{auditId}/evidence/{auditEvidenceId}", code: 200 }),
   ),
-).annotate({
-  identifier: "GetAuditEvidenceRequest",
-}) as any as S.Schema<GetAuditEvidenceRequest>;
+).annotate({ identifier: "GetAuditEvidenceRequest" }) as any as S.Schema<GetAuditEvidenceRequest>;
 
 export type AuditEvidenceState =
   | "Accepted"
@@ -1139,9 +1109,7 @@ export const EvidenceControl = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     sectionNames: EvidenceControlSectionNamesList,
   }),
-).annotate({
-  identifier: "EvidenceControl",
-}) as any as S.Schema<EvidenceControl>;
+).annotate({ identifier: "EvidenceControl" }) as any as S.Schema<EvidenceControl>;
 
 /** The controls associated to this evidence */
 export type EvidenceRelatedControlsList = Array<EvidenceControl>;
@@ -1240,31 +1208,53 @@ export interface GetFrameworkCodesRequest {
 export const GetFrameworkCodesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     auditId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/audits/{auditId}/framework-codes",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetFrameworkCodesRequest",
-}) as any as S.Schema<GetFrameworkCodesRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/audits/{auditId}/framework-codes", code: 200 })),
+).annotate({ identifier: "GetFrameworkCodesRequest" }) as any as S.Schema<GetFrameworkCodesRequest>;
 
-/** Array of valid framework codes for the audit's framework (e.g., "CC6.1", "CC6.2"). These represent the different framework sections available for creating information requests. */
+/** Valid framework codes for this audit. */
 export type FrameworkCodesFrameworkCodesList = Array<string>;
 export const FrameworkCodesFrameworkCodesList = /*@__PURE__*/ S.Array(
   S.String,
 ) as any as S.Schema<FrameworkCodesFrameworkCodesList>;
 
+/** Valid codes for this framework, sorted. */
+export type FrameworkCodesByFrameworkCodesList = Array<string>;
+export const FrameworkCodesByFrameworkCodesList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<FrameworkCodesByFrameworkCodesList>;
+
+export interface FrameworkCodesByFramework {
+  /** Display name of the in-scope framework these codes belong to. */
+  framework: string;
+  /** Valid codes for this framework, sorted. */
+  codes: FrameworkCodesByFrameworkCodesList;
+}
+export const FrameworkCodesByFramework = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    framework: S.String,
+    codes: FrameworkCodesByFrameworkCodesList,
+  }),
+).annotate({
+  identifier: "FrameworkCodesByFramework",
+}) as any as S.Schema<FrameworkCodesByFramework>;
+
+/** Valid codes grouped by each distinct in-scope framework. A code that exists on two frameworks appears in both groups. Two segments that share a framework contribute one group. `framework` is the display name. */
+export type FrameworkCodesCodesByFrameworkList = Array<FrameworkCodesByFramework>;
+export const FrameworkCodesCodesByFrameworkList = /*@__PURE__*/ S.Array(
+  FrameworkCodesByFramework,
+) as any as S.Schema<FrameworkCodesCodesByFrameworkList>;
+
 /** Framework codes response resource */
 export interface FrameworkCodes {
-  /** Array of valid framework codes for the audit's framework (e.g., "CC6.1", "CC6.2"). These represent the different framework sections available for creating information requests. */
+  /** Valid framework codes for this audit. */
   frameworkCodes: FrameworkCodesFrameworkCodesList;
+  /** Valid codes grouped by each distinct in-scope framework. A code that exists on two frameworks appears in both groups. Two segments that share a framework contribute one group. `framework` is the display name. */
+  codesByFramework: FrameworkCodesCodesByFrameworkList;
 }
 export const FrameworkCodes = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     frameworkCodes: FrameworkCodesFrameworkCodesList,
+    codesByFramework: FrameworkCodesCodesByFrameworkList,
   }),
 ).annotate({ identifier: "FrameworkCodes" }) as any as S.Schema<FrameworkCodes>;
 
@@ -1277,11 +1267,7 @@ export const GetInformationRequestRequest = /*@__PURE__*/ S.suspend(() =>
     auditId: S.String.pipe(T.Label()),
     requestId: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/audits/{auditId}/information-requests/{requestId}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/audits/{auditId}/information-requests/{requestId}", code: 200 }),
   ),
 ).annotate({
   identifier: "GetInformationRequestRequest",
@@ -1336,9 +1322,7 @@ export const UploadedDocumentEvidence = /*@__PURE__*/ S.suspend(() =>
     mimeType: S.String,
     url: S.String,
   }),
-).annotate({
-  identifier: "UploadedDocumentEvidence",
-}) as any as S.Schema<UploadedDocumentEvidence>;
+).annotate({ identifier: "UploadedDocumentEvidence" }) as any as S.Schema<UploadedDocumentEvidence>;
 
 /** Evidence in the form of a link to external documentation or resources. */
 export interface LinkEvidence {
@@ -1366,9 +1350,7 @@ export const ObservationEvidence = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     observationDetails: S.String,
   }),
-).annotate({
-  identifier: "ObservationEvidence",
-}) as any as S.Schema<ObservationEvidence>;
+).annotate({ identifier: "ObservationEvidence" }) as any as S.Schema<ObservationEvidence>;
 
 /** Information about the user who added this file version to the document. Undefined if the user information is not available. */
 export interface VantaDocumentEvidenceAddedBy {
@@ -1464,9 +1446,7 @@ export const VantaDocumentEvidence = /*@__PURE__*/ S.suspend(() =>
     documentVersionId: S.String,
     file: VantaDocumentEvidenceFile,
   }),
-).annotate({
-  identifier: "VantaDocumentEvidence",
-}) as any as S.Schema<VantaDocumentEvidence>;
+).annotate({ identifier: "VantaDocumentEvidence" }) as any as S.Schema<VantaDocumentEvidence>;
 
 /** Information about the user who last edited this policy version. Undefined if the user information is not available. */
 export type VantaPolicyEvidenceLastEditedBy = VantaDocumentEvidenceAddedBy;
@@ -1496,9 +1476,7 @@ export const VantaPolicyEvidenceFile = /*@__PURE__*/ S.suspend(() =>
     filename: S.optional(S.String),
     id: S.String,
   }),
-).annotate({
-  identifier: "VantaPolicyEvidenceFile",
-}) as any as S.Schema<VantaPolicyEvidenceFile>;
+).annotate({ identifier: "VantaPolicyEvidenceFile" }) as any as S.Schema<VantaPolicyEvidenceFile>;
 
 /** Evidence in the form of a Vanta Policy. Vanta Policies are compliance policies with metadata like locale, effective dates, and versioning. Policies are always uploaded files stored in Vanta's system. */
 export interface VantaPolicyEvidence {
@@ -1530,9 +1508,7 @@ export const VantaPolicyEvidence = /*@__PURE__*/ S.suspend(() =>
     policyVersionFileId: S.String,
     file: VantaPolicyEvidenceFile,
   }),
-).annotate({
-  identifier: "VantaPolicyEvidence",
-}) as any as S.Schema<VantaPolicyEvidence>;
+).annotate({ identifier: "VantaPolicyEvidence" }) as any as S.Schema<VantaPolicyEvidence>;
 
 export type VantaTestRunStatus = "NA" | "IN_PROGRESS" | "FAIL" | "PASS" | "INVALID" | "DISABLED";
 export const VantaTestRunStatus = S.String;
@@ -1556,9 +1532,7 @@ export const VantaTestEvidenceFile = /*@__PURE__*/ S.suspend(() =>
     mimeType: S.String,
     url: S.String,
   }),
-).annotate({
-  identifier: "VantaTestEvidenceFile",
-}) as any as S.Schema<VantaTestEvidenceFile>;
+).annotate({ identifier: "VantaTestEvidenceFile" }) as any as S.Schema<VantaTestEvidenceFile>;
 
 /** Evidence in the form of a Vanta automated test run. Vanta Tests are automated compliance tests with metadata like test status, execution time, and file type. Tests generate evidence files that can be workpapers, raw data, or API request logs. */
 export interface VantaTestEvidence {
@@ -1587,9 +1561,7 @@ export const VantaTestEvidence = /*@__PURE__*/ S.suspend(() =>
     fileType: VantaTestFileType,
     file: VantaTestEvidenceFile,
   }),
-).annotate({
-  identifier: "VantaTestEvidence",
-}) as any as S.Schema<VantaTestEvidence>;
+).annotate({ identifier: "VantaTestEvidence" }) as any as S.Schema<VantaTestEvidence>;
 
 /** The outcome status of the test run. */
 export type VantaTestSnapshotEvidenceTestRunStatus =
@@ -1917,13 +1889,7 @@ export interface GetOrganizationInformationRequest {
 export const GetOrganizationInformationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     auditId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/audits/{auditId}/organization/information",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/audits/{auditId}/organization/information", code: 200 })),
 ).annotate({
   identifier: "GetOrganizationInformationRequest",
 }) as any as S.Schema<GetOrganizationInformationRequest>;
@@ -1983,11 +1949,7 @@ export const GetOrganizationNotificationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     auditId: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/audits/{auditId}/organization/notifications",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/audits/{auditId}/organization/notifications", code: 200 }),
   ),
 ).annotate({
   identifier: "GetOrganizationNotificationsRequest",
@@ -2098,9 +2060,7 @@ export const AccountAccessService = /*@__PURE__*/ S.suspend(() =>
     service: S.String,
     subAccountId: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "AccountAccessService",
-}) as any as S.Schema<AccountAccessService>;
+).annotate({ identifier: "AccountAccessService" }) as any as S.Schema<AccountAccessService>;
 
 export type PaginatedResponseAccountAccessServiceResultsDataList = Array<AccountAccessService>;
 export const PaginatedResponseAccountAccessServiceResultsDataList = /*@__PURE__*/ S.Array(
@@ -2165,9 +2125,7 @@ export const ListAuditCommentsRequest = /*@__PURE__*/ S.suspend(() =>
     pageCursor: S.optional(S.String.pipe(T.Query())),
     changedSinceDate: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/audits/{auditId}/comments", code: 200 })),
-).annotate({
-  identifier: "ListAuditCommentsRequest",
-}) as any as S.Schema<ListAuditCommentsRequest>;
+).annotate({ identifier: "ListAuditCommentsRequest" }) as any as S.Schema<ListAuditCommentsRequest>;
 
 export type PaginatedResponseCommentResultsDataList = Array<Comment>;
 export const PaginatedResponseCommentResultsDataList = /*@__PURE__*/ S.Array(
@@ -2194,9 +2152,7 @@ export const PaginatedResponseComment = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     results: PaginatedResponseCommentResults,
   }),
-).annotate({
-  identifier: "PaginatedResponseComment",
-}) as any as S.Schema<PaginatedResponseComment>;
+).annotate({ identifier: "PaginatedResponseComment" }) as any as S.Schema<PaginatedResponseComment>;
 
 export type ListAuditControlsRequestExternalIdMatchesAnyList = Array<string>;
 export const ListAuditControlsRequestExternalIdMatchesAnyList = /*@__PURE__*/ S.Array(
@@ -2219,9 +2175,7 @@ export const ListAuditControlsRequest = /*@__PURE__*/ S.suspend(() =>
       ListAuditControlsRequestExternalIdMatchesAnyList.pipe(T.Query()),
     ),
   }).pipe(T.Http({ method: "GET", uri: "/audits/{auditId}/controls", code: 200 })),
-).annotate({
-  identifier: "ListAuditControlsRequest",
-}) as any as S.Schema<ListAuditControlsRequest>;
+).annotate({ identifier: "ListAuditControlsRequest" }) as any as S.Schema<ListAuditControlsRequest>;
 
 /** The security domains that the control belongs to. */
 export type AuditorControlDomainsList = Array<string>;
@@ -2246,9 +2200,7 @@ export const SectionPrinciple = /*@__PURE__*/ S.suspend(() =>
     id: S.String,
     name: S.String,
   }),
-).annotate({
-  identifier: "SectionPrinciple",
-}) as any as S.Schema<SectionPrinciple>;
+).annotate({ identifier: "SectionPrinciple" }) as any as S.Schema<SectionPrinciple>;
 
 export interface Section {
   /** The section name */
@@ -2266,19 +2218,19 @@ export const Section = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "Section" }) as any as S.Schema<Section>;
 
-/** Sections of a framework that this control satisfies */
+/** Current framework sections this control satisfies within the audit segments in which it is in scope. */
 export type AuditorControlSectionsList = Array<Section>;
 export const AuditorControlSectionsList = /*@__PURE__*/ S.Array(
   Section,
 ) as any as S.Schema<AuditorControlSectionsList>;
 
-/** Audit segments this control is in scope for. Empty when the control is attached only by a direct link and has no catalog mapping on a multi-program audit. */
+/** Audit segments in which this control is in scope. This can differ from current framework mappings, and the array can be empty. */
 export type AuditorControlInScopeSegmentIdsList = Array<string>;
 export const AuditorControlInScopeSegmentIdsList = /*@__PURE__*/ S.Array(
   S.String,
 ) as any as S.Schema<AuditorControlInScopeSegmentIdsList>;
 
-/** An auditor's assessment of a control within an audit. This is the full flat union of every framework's assessment states (the superset); a given audit's framework only uses its own subset. `NOT_ASSESSED` is shared by all frameworks and is the default for a control that has not yet been assessed. Which states apply to which framework: - Most frameworks (e.g. SOC 2): `IN_PLACE`, `NOT_IN_PLACE`, `PARTIAL`, `NOT_ASSESSED` - ISO 27001: `CONFORMING`, `MINOR_NON_CONFORMITY`, `MAJOR_NON_CONFORMITY`, `NOT_ASSESSED` - FedRAMP: `SATISFIED`, `NOT_SATISFIED`, `OTHER_THAN_SATISFIED`, `NOT_ASSESSED` - FedRAMP Key Security Indicators (KSI): `TRUE`, `FALSE`, `PARTIAL`, `NOT_ASSESSED` Distinct from `ControlStatus`, which is the computed tests/documents-passing status — a different concept. */
+/** An auditor's assessment of a control within an audit. This is the full flat union of every framework's assessment states (the superset); the selected segment's framework determines which subset applies. `NOT_ASSESSED` is shared by all frameworks and is the default for a control that has not yet been assessed. Which states apply to which framework: - Most frameworks (e.g. SOC 2): `IN_PLACE`, `NOT_IN_PLACE`, `PARTIAL`, `NOT_ASSESSED` - ISO 27001: `CONFORMING`, `MINOR_NON_CONFORMITY`, `MAJOR_NON_CONFORMITY`, `NOT_ASSESSED` - FedRAMP: `SATISFIED`, `NOT_SATISFIED`, `OTHER_THAN_SATISFIED`, `NOT_ASSESSED` - FedRAMP Key Security Indicators (KSI): `TRUE`, `FALSE`, `PARTIAL`, `NOT_ASSESSED` Distinct from `ControlStatus`, which is the computed tests/documents-passing status — a different concept. */
 export type AuditControlAssessmentState =
   | "IN_PLACE"
   | "NOT_IN_PLACE"
@@ -2294,9 +2246,9 @@ export type AuditControlAssessmentState =
   | "FALSE";
 export const AuditControlAssessmentState = S.String;
 
-/** An auditor's assessment of a control within one segment of an audit. Assessments are keyed per segment, so a control in scope for more than one segment (a multi-framework audit) can carry a distinct assessment per segment. A segment with no recorded assessment coerces to `NOT_ASSESSED` with a `null` justification. */
+/** An auditor's assessment of a control within one audit segment. Assessments can be recorded for any segment on the audit, `PROGRAM` or `SYSTEM`, and a control can carry a distinct assessment per segment. A segment with no recorded assessment returns `NOT_ASSESSED` with a `null` justification. */
 export interface AuditControlAssessment {
-  /** The audit program segment this assessment belongs to. */
+  /** The audit segment this assessment belongs to. */
   segmentId: string;
   /** The auditor's assessment of the control for this segment; `NOT_ASSESSED` when no assessment has been recorded. */
   assessmentState: AuditControlAssessmentState;
@@ -2309,11 +2261,9 @@ export const AuditControlAssessment = /*@__PURE__*/ S.suspend(() =>
     assessmentState: AuditControlAssessmentState,
     justification: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "AuditControlAssessment",
-}) as any as S.Schema<AuditControlAssessment>;
+).annotate({ identifier: "AuditControlAssessment" }) as any as S.Schema<AuditControlAssessment>;
 
-/** The auditor's assessments of this control, one per audit program segment the control is in scope for (a multi-framework audit can have more than one). Populated only for IRL audits when the assessment feature is enabled; empty otherwise. Within an in-scope segment a control with no recorded assessment coerces to `NOT_ASSESSED`; a segment the control is not in scope for contributes no entry. */
+/** The auditor's assessments of this control, with one entry for each segment in `inScopeSegmentIds`, which can be any segment on the audit, `PROGRAM` or `SYSTEM`. Populated only for IRL audits when assessment access is allowed; empty otherwise. A segment with no recorded assessment returns `NOT_ASSESSED`. */
 export type AuditorControlAssessmentsList = Array<AuditControlAssessment>;
 export const AuditorControlAssessmentsList = /*@__PURE__*/ S.Array(
   AuditControlAssessment,
@@ -2344,11 +2294,11 @@ export interface AuditorControl {
   modificationDate: string | null;
   /** The report standard framework fulfilled by the control. Incomplete once a control is in scope for more than one framework. */
   framework: string;
-  /** Sections of a framework that this control satisfies */
+  /** Current framework sections this control satisfies within the audit segments in which it is in scope. */
   sections: AuditorControlSectionsList;
-  /** Audit segments this control is in scope for. Empty when the control is attached only by a direct link and has no catalog mapping on a multi-program audit. */
+  /** Audit segments in which this control is in scope. This can differ from current framework mappings, and the array can be empty. */
   inScopeSegmentIds: AuditorControlInScopeSegmentIdsList;
-  /** The auditor's assessments of this control, one per audit program segment the control is in scope for (a multi-framework audit can have more than one). Populated only for IRL audits when the assessment feature is enabled; empty otherwise. Within an in-scope segment a control with no recorded assessment coerces to `NOT_ASSESSED`; a segment the control is not in scope for contributes no entry. */
+  /** The auditor's assessments of this control, with one entry for each segment in `inScopeSegmentIds`, which can be any segment on the audit, `PROGRAM` or `SYSTEM`. Populated only for IRL audits when assessment access is allowed; empty otherwise. A segment with no recorded assessment returns `NOT_ASSESSED`. */
   assessments: AuditorControlAssessmentsList;
 }
 export const AuditorControl = /*@__PURE__*/ S.suspend(() =>
@@ -2414,9 +2364,7 @@ export const ListAuditEvidenceRequest = /*@__PURE__*/ S.suspend(() =>
     pageCursor: S.optional(S.String.pipe(T.Query())),
     changedSinceDate: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/audits/{auditId}/evidence", code: 200 })),
-).annotate({
-  identifier: "ListAuditEvidenceRequest",
-}) as any as S.Schema<ListAuditEvidenceRequest>;
+).annotate({ identifier: "ListAuditEvidenceRequest" }) as any as S.Schema<ListAuditEvidenceRequest>;
 
 export type PaginatedResponseEvidenceResultsDataList = Array<Evidence>;
 export const PaginatedResponseEvidenceResultsDataList = /*@__PURE__*/ S.Array(
@@ -2460,11 +2408,7 @@ export const ListAuditEvidenceUrlsRequest = /*@__PURE__*/ S.suspend(() =>
     pageSize: S.optional(S.Number.pipe(T.Query())),
     pageCursor: S.optional(S.String.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/audits/{auditId}/evidence/{auditEvidenceId}/urls",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/audits/{auditId}/evidence/{auditEvidenceId}/urls", code: 200 }),
   ),
 ).annotate({
   identifier: "ListAuditEvidenceUrlsRequest",
@@ -2574,9 +2518,7 @@ export const ListAuditIssuesRequest = /*@__PURE__*/ S.suspend(() =>
     orderBy: S.optional(IssueSnapshotItemOrderBy.pipe(T.Query())),
     orderDirection: S.optional(OrderDirection.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/audits/{auditId}/issues/items", code: 200 })),
-).annotate({
-  identifier: "ListAuditIssuesRequest",
-}) as any as S.Schema<ListAuditIssuesRequest>;
+).annotate({ identifier: "ListAuditIssuesRequest" }) as any as S.Schema<ListAuditIssuesRequest>;
 
 export type IssueStatusTypeForSnapshot =
   | "IN_PROGRESS"
@@ -2642,9 +2584,7 @@ export const IssueSnapshotItem = /*@__PURE__*/ S.suspend(() =>
     createdAt: S.optional(S.String),
     detectedAt: S.optional(S.String),
   }),
-).annotate({
-  identifier: "IssueSnapshotItem",
-}) as any as S.Schema<IssueSnapshotItem>;
+).annotate({ identifier: "IssueSnapshotItem" }) as any as S.Schema<IssueSnapshotItem>;
 
 export type PaginatedResponseIssueSnapshotItemResultsDataList = Array<IssueSnapshotItem>;
 export const PaginatedResponseIssueSnapshotItemResultsDataList = /*@__PURE__*/ S.Array(
@@ -2713,16 +2653,8 @@ export const ListAuditRisksRequest = /*@__PURE__*/ S.suspend(() =>
     search: S.optional(S.String.pipe(T.Query())),
     orderBy: S.optional(RiskOrderBy.pipe(T.Query())),
     orderDirection: S.optional(OrderDirection.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/audits/{auditId}/risks/{snapshotId}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ListAuditRisksRequest",
-}) as any as S.Schema<ListAuditRisksRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/audits/{auditId}/risks/{snapshotId}", code: 200 })),
+).annotate({ identifier: "ListAuditRisksRequest" }) as any as S.Schema<ListAuditRisksRequest>;
 
 /** Risk treatment strategy returned by the auditor API. */
 export type AuditRiskTreatment = "ACCEPT" | "AVOID" | "MITIGATE" | "TRANSFER";
@@ -2863,7 +2795,7 @@ export const PaginatedResponseAuditRisk = /*@__PURE__*/ S.suspend(() =>
 export interface ListAuditsRequest {
   pageSize?: number;
   pageCursor?: string;
-  /** Includes all audits that have changed since changedSinceDate. */
+  /** Includes all audits that have changed since changedSinceDate, including soft-deleted audits whose deletionDate is on or after that timestamp. */
   changedSinceDate?: string;
   /** Includes only audits with no audit report uploaded */
   isActiveAudit?: boolean;
@@ -2875,9 +2807,7 @@ export const ListAuditsRequest = /*@__PURE__*/ S.suspend(() =>
     changedSinceDate: S.optional(S.String.pipe(T.Query())),
     isActiveAudit: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/audits", code: 200 })),
-).annotate({
-  identifier: "ListAuditsRequest",
-}) as any as S.Schema<ListAuditsRequest>;
+).annotate({ identifier: "ListAuditsRequest" }) as any as S.Schema<ListAuditsRequest>;
 
 export type PaginatedResponseAuditResultsDataList = Array<Audit>;
 export const PaginatedResponseAuditResultsDataList = /*@__PURE__*/ S.Array(
@@ -2904,9 +2834,7 @@ export const PaginatedResponseAudit = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     results: PaginatedResponseAuditResults,
   }),
-).annotate({
-  identifier: "PaginatedResponseAudit",
-}) as any as S.Schema<PaginatedResponseAudit>;
+).annotate({ identifier: "PaginatedResponseAudit" }) as any as S.Schema<PaginatedResponseAudit>;
 
 export interface ListAuditSnapshotsRequest {
   /** The audit ID */
@@ -2924,13 +2852,7 @@ export const ListAuditSnapshotsRequest = /*@__PURE__*/ S.suspend(() =>
     pageSize: S.optional(S.Number.pipe(T.Query())),
     pageCursor: S.optional(S.String.pipe(T.Query())),
     search: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/audits/{auditId}/issues/snapshots",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/audits/{auditId}/issues/snapshots", code: 200 })),
 ).annotate({
   identifier: "ListAuditSnapshotsRequest",
 }) as any as S.Schema<ListAuditSnapshotsRequest>;
@@ -2952,9 +2874,7 @@ export const IssueSnapshotMetadata = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(S.String),
     createdAt: S.optional(S.String),
   }),
-).annotate({
-  identifier: "IssueSnapshotMetadata",
-}) as any as S.Schema<IssueSnapshotMetadata>;
+).annotate({ identifier: "IssueSnapshotMetadata" }) as any as S.Schema<IssueSnapshotMetadata>;
 
 export type PaginatedResponseIssueSnapshotMetadataResultsDataList = Array<IssueSnapshotMetadata>;
 export const PaginatedResponseIssueSnapshotMetadataResultsDataList = /*@__PURE__*/ S.Array(
@@ -3021,16 +2941,8 @@ export const ListCodeChangesRequest = /*@__PURE__*/ S.suspend(() =>
     sourcesMatchesAny: S.optional(ListCodeChangesRequestSourcesMatchesAnyList.pipe(T.Query())),
     closedAfterDate: S.optional(S.String.pipe(T.Query())),
     closedBeforeDate: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/audits/{auditId}/assets/code-changes",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ListCodeChangesRequest",
-}) as any as S.Schema<ListCodeChangesRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/audits/{auditId}/assets/code-changes", code: 200 })),
+).annotate({ identifier: "ListCodeChangesRequest" }) as any as S.Schema<ListCodeChangesRequest>;
 
 /** Code change data. `id` and `codeChange` are required. All other fields are optional to support customizable field visibility. Omitted keys mean the column is not in the response; `null` means the column is present but empty. */
 export interface CodeChange {
@@ -3108,11 +3020,7 @@ export const ListCommentsForControlRequest = /*@__PURE__*/ S.suspend(() =>
     pageCursor: S.optional(S.String.pipe(T.Query())),
     changedSinceDate: S.optional(S.String.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/audits/{auditId}/controls/{controlId}/comments",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/audits/{auditId}/controls/{controlId}/comments", code: 200 }),
   ),
 ).annotate({
   identifier: "ListCommentsForControlRequest",
@@ -3264,11 +3172,11 @@ export const InformationRequestActivityLogNewStatus = S.String;
 export type EvidenceFillOutcome = "SUCCESS" | "PARTIAL" | "FAILED";
 export const EvidenceFillOutcome = S.String;
 
-/** Activity log entry tracking changes and actions on an information request. The activity log provides a complete audit trail of all operations performed on an information request, including status changes, evidence uploads, edits, and evidence sharing. This enables tracking compliance activities and understanding the request's history. */
+/** Activity log entry tracking changes and actions on an information request. The activity log provides an audit trail of operations performed on an information request, including status changes, evidence uploads, edits, and evidence sharing. This enables tracking compliance activities and understanding the request's history. Which entries are visible depends on the endpoint returning them; see the endpoint's own description. */
 export interface InformationRequestActivityLog {
   /** The unique identifier for the activity log entry within Vanta's system. Format: ObjectId as a string (e.g., "6890e473dce1da5d8406f5e7"). */
   id: string;
-  /** Type of activity that occurred on the information request. Determines which additional fields are populated. */
+  /** Type of activity that occurred on the information request. Determines which additional fields are populated. `AUDIT_INFORMATION_REQUEST_EVIDENCE_FILL` is never returned — automated evidence fill activity is withheld — so no entry carries that value even though the enum still lists it. Do not write a case for it. */
   activityType: InformationRequestActivityType;
   /** Timestamp when the activity occurred. Format: ISO 8601 UTC timestamp. */
   timestamp: string;
@@ -3280,7 +3188,7 @@ export interface InformationRequestActivityLog {
   newStatus: InformationRequestActivityLogNewStatus | null;
   /** Optional explanation for the status change. Only populated for status change activities when a reason is provided (e.g., when flagging evidence). Null for all other cases. */
   reason: string | null;
-  /** Result of an automated evidence fill. Only populated for evidence fill activities. Null for all other activity types. */
+  /** Result of an automated evidence fill. Always null: only evidence fill activities could populate it, and those are never returned, so nothing can set it. Do not branch on it. */
   fillOutcome: EvidenceFillOutcome | null;
   /** Identifier of the information request this one was copied from when its audit was duplicated. Only populated for audit-duplication trail activities. Null for all other activity types. Format: ObjectId as a string. */
   sourceInformationRequestId: string | null;
@@ -3405,14 +3313,21 @@ export const PaginatedResponseInformationRequestEvidence = /*@__PURE__*/ S.suspe
   identifier: "PaginatedResponseInformationRequestEvidence",
 }) as any as S.Schema<PaginatedResponseInformationRequestEvidence>;
 
+export type ListInformationRequestsRequestSegmentIdsMatchesAnyList = Array<string>;
+export const ListInformationRequestsRequestSegmentIdsMatchesAnyList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<ListInformationRequestsRequestSegmentIdsMatchesAnyList>;
+
 export interface ListInformationRequestsRequest {
   auditId: string;
   /** Maximum number of information requests to return per page. */
   pageSize?: number;
   /** Pagination cursor from a previous response. Provide to fetch the next page of results. */
   pageCursor?: string;
-  /** Includes all information requests that have changed since changedSinceDate. Considers creationDate, modificationDate, and deletionDate timestamps when determining changes. */
+  /** Includes all information requests that have changed since changedSinceDate. Considers creationDate, modificationDate, and deletionDate timestamps when determining changes. Does not include requests whose only change is the derived `segmentIds` projection after an audit-scope change. */
   changedSinceDate?: string;
+  /** Return requests whose stored segment assignment includes any of these IDs (OR). Omit to return all. A match can still come back with `segmentIds: []` if the stored ID is no longer in the audit's scope. */
+  segmentIdsMatchesAny?: ListInformationRequestsRequestSegmentIdsMatchesAnyList;
 }
 export const ListInformationRequestsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -3420,13 +3335,10 @@ export const ListInformationRequestsRequest = /*@__PURE__*/ S.suspend(() =>
     pageSize: S.optional(S.Number.pipe(T.Query())),
     pageCursor: S.optional(S.String.pipe(T.Query())),
     changedSinceDate: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/audits/{auditId}/information-requests",
-      code: 200,
-    }),
-  ),
+    segmentIdsMatchesAny: S.optional(
+      ListInformationRequestsRequestSegmentIdsMatchesAnyList.pipe(T.Query()),
+    ),
+  }).pipe(T.Http({ method: "GET", uri: "/audits/{auditId}/information-requests", code: 200 })),
 ).annotate({
   identifier: "ListInformationRequestsRequest",
 }) as any as S.Schema<ListInformationRequestsRequest>;
@@ -3571,9 +3483,7 @@ export const ListIntegrationsRequest = /*@__PURE__*/ S.suspend(() =>
       ListIntegrationsRequestCategoriesMatchesAnyList.pipe(T.Query()),
     ),
   }).pipe(T.Http({ method: "GET", uri: "/audits/{auditId}/integrations", code: 200 })),
-).annotate({
-  identifier: "ListIntegrationsRequest",
-}) as any as S.Schema<ListIntegrationsRequest>;
+).annotate({ identifier: "ListIntegrationsRequest" }) as any as S.Schema<ListIntegrationsRequest>;
 
 /** Integration tag display names describing what data this integration provides. */
 export type AuditIntegrationTagsList = Array<string>;
@@ -3605,9 +3515,7 @@ export const AuditIntegration = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(AuditIntegrationTagsList),
     categories: S.optional(AuditIntegrationCategoriesList),
   }),
-).annotate({
-  identifier: "AuditIntegration",
-}) as any as S.Schema<AuditIntegration>;
+).annotate({ identifier: "AuditIntegration" }) as any as S.Schema<AuditIntegration>;
 
 export type PaginatedResponseAuditIntegrationResultsDataList = Array<AuditIntegration>;
 export const PaginatedResponseAuditIntegrationResultsDataList = /*@__PURE__*/ S.Array(
@@ -3775,13 +3683,7 @@ export const ListPersonnelGroupsRequest = /*@__PURE__*/ S.suspend(() =>
     sourcesMatchesAny: S.optional(ListPersonnelGroupsRequestSourcesMatchesAnyList.pipe(T.Query())),
     orderBy: S.optional(GroupOrderBy.pipe(T.Query())),
     orderDirection: S.optional(OrderDirection.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/audits/{auditId}/personnel/groups",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/audits/{auditId}/personnel/groups", code: 200 })),
 ).annotate({
   identifier: "ListPersonnelGroupsRequest",
 }) as any as S.Schema<ListPersonnelGroupsRequest>;
@@ -3795,9 +3697,7 @@ export const PersonnelGroupTask = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.String,
   }),
-).annotate({
-  identifier: "PersonnelGroupTask",
-}) as any as S.Schema<PersonnelGroupTask>;
+).annotate({ identifier: "PersonnelGroupTask" }) as any as S.Schema<PersonnelGroupTask>;
 
 /** Security tasks enabled for this group, or empty array if not available. */
 export type PersonnelGroupTasksList = Array<PersonnelGroupTask>;
@@ -3909,13 +3809,7 @@ export const ListPersonnelPeopleRequest = /*@__PURE__*/ S.suspend(() =>
     groupsMatchesAny: S.optional(ListPersonnelPeopleRequestGroupsMatchesAnyList.pipe(T.Query())),
     orderBy: S.optional(PeopleOrderBy.pipe(T.Query())),
     orderDirection: S.optional(OrderDirection.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/audits/{auditId}/personnel/people",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/audits/{auditId}/personnel/people", code: 200 })),
 ).annotate({
   identifier: "ListPersonnelPeopleRequest",
 }) as any as S.Schema<ListPersonnelPeopleRequest>;
@@ -3949,9 +3843,7 @@ export const PeopleSourceInfo = /*@__PURE__*/ S.suspend(() =>
     mainSource: S.String,
     supplementarySource: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "PeopleSourceInfo",
-}) as any as S.Schema<PeopleSourceInfo>;
+).annotate({ identifier: "PeopleSourceInfo" }) as any as S.Schema<PeopleSourceInfo>;
 
 /** Overall user task status. */
 export type PeopleTaskStatus =
@@ -3989,9 +3881,7 @@ export const PeopleTaskStatusInfo = /*@__PURE__*/ S.suspend(() =>
     numTasksOverdue: S.NullOr(S.Number),
     numTasksDueSoon: S.NullOr(S.Number),
   }),
-).annotate({
-  identifier: "PeopleTaskStatusInfo",
-}) as any as S.Schema<PeopleTaskStatusInfo>;
+).annotate({ identifier: "PeopleTaskStatusInfo" }) as any as S.Schema<PeopleTaskStatusInfo>;
 
 /** Security task status for individual task categories. */
 export type PeopleSecurityTaskStatus =
@@ -4077,9 +3967,7 @@ export const PersonnelPerson = /*@__PURE__*/ S.suspend(() =>
     customOnboarding: S.optional(S.NullOr(PeopleSecurityTaskDetails)),
     customOffboarding: S.optional(S.NullOr(PeopleSecurityTaskDetails)),
   }),
-).annotate({
-  identifier: "PersonnelPerson",
-}) as any as S.Schema<PersonnelPerson>;
+).annotate({ identifier: "PersonnelPerson" }) as any as S.Schema<PersonnelPerson>;
 
 export type PaginatedResponsePersonnelPersonResultsDataList = Array<PersonnelPerson>;
 export const PaginatedResponsePersonnelPersonResultsDataList = /*@__PURE__*/ S.Array(
@@ -4123,16 +4011,8 @@ export const ListRiskSnapshotsRequest = /*@__PURE__*/ S.suspend(() =>
     auditId: S.String.pipe(T.Label()),
     pageSize: S.optional(S.Number.pipe(T.Query())),
     pageCursor: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/audits/{auditId}/risks/snapshots",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ListRiskSnapshotsRequest",
-}) as any as S.Schema<ListRiskSnapshotsRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/audits/{auditId}/risks/snapshots", code: 200 })),
+).annotate({ identifier: "ListRiskSnapshotsRequest" }) as any as S.Schema<ListRiskSnapshotsRequest>;
 
 /** A risk assessment snapshot available for an audit. Risk snapshots capture the state of an organization's risk register at a point in time. Use the snapshot `id` with the `/audits/{auditId}/risks/{snapshotId}` endpoint to retrieve the risk scenarios within a snapshot. */
 export interface RiskSnapshot {
@@ -4184,11 +4064,7 @@ export const ListShareInformationRequestRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     auditId: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/audits/{auditId}/share-information-request-list",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/audits/{auditId}/share-information-request-list", code: 200 }),
   ),
 ).annotate({
   identifier: "ListShareInformationRequestRequest",
@@ -4249,16 +4125,8 @@ export const ListVendorsRequest = /*@__PURE__*/ S.suspend(() =>
     ),
     orderBy: S.optional(VendorOrderBy.pipe(T.Query())),
     orderDirection: S.optional(OrderDirection.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/audits/{auditId}/managed-vendors",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ListVendorsRequest",
-}) as any as S.Schema<ListVendorsRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/audits/{auditId}/managed-vendors", code: 200 })),
+).annotate({ identifier: "ListVendorsRequest" }) as any as S.Schema<ListVendorsRequest>;
 
 /** BAA/DPA document completion counts, or null if no such documents are required. Full Audit View only - omitted in Controlled Audit View. */
 export interface AuditVendorDataAgreements {
@@ -4375,11 +4243,7 @@ export const UpdateAuditEvidenceRequest = /*@__PURE__*/ S.suspend(() =>
     auditEvidenceId: S.String.pipe(T.Label()),
     statusUpdate: S.optional(UpdateAuditEvidenceRequestStatusUpdate),
   }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/audits/{auditId}/evidence/{auditEvidenceId}",
-      code: 200,
-    }),
+    T.Http({ method: "PATCH", uri: "/audits/{auditId}/evidence/{auditEvidenceId}", code: 200 }),
   ),
 ).annotate({
   identifier: "UpdateAuditEvidenceRequest",
@@ -4439,22 +4303,28 @@ export const UpdateCommentForInformationRequestRequest = /*@__PURE__*/ S.suspend
   identifier: "UpdateCommentForInformationRequestRequest",
 }) as any as S.Schema<UpdateCommentForInformationRequestRequest>;
 
-/** The framework codes this request addresses. An empty array if no framework codes are associated. */
+/** Framework codes are assigned only at creation; on update this field is a silent no-op — a value sent here is accepted for backwards compatibility but ignored, leaving the request's framework codes unchanged. */
 export type UpdateInformationRequestRequestFrameworkCodesList = Array<string>;
 export const UpdateInformationRequestRequestFrameworkCodesList = /*@__PURE__*/ S.Array(
   S.String,
 ) as any as S.Schema<UpdateInformationRequestRequestFrameworkCodesList>;
 
-/** Control IDs to link directly to this request, beyond those automatically mapped from framework codes. Replaces the existing set: pass the complete desired list, an empty array to clear all direct control links, or omit to leave them unchanged. Each must be the `id` of an existing control in the customer's organization (the identifier returned by the controls endpoints). The request is rejected if any ID does not match a control. */
+/** This legacy field is accepted for backwards compatibility but ignored. Use `linkedControlIds` to replace the complete set of linked controls. */
 export type UpdateInformationRequestRequestAdditionalControlIdsList = Array<string>;
 export const UpdateInformationRequestRequestAdditionalControlIdsList = /*@__PURE__*/ S.Array(
   S.String,
 ) as any as S.Schema<UpdateInformationRequestRequestAdditionalControlIdsList>;
 
+/** The complete desired set of control IDs linked to this request. Send the full list to replace the set, an empty array to clear it, or omit the property to leave links unchanged. Each ID must identify an existing control in the customer's organization and is returned by the audit controls endpoint. The request is rejected if any ID does not match a control. */
+export type UpdateInformationRequestRequestLinkedControlIdsList = Array<string>;
+export const UpdateInformationRequestRequestLinkedControlIdsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<UpdateInformationRequestRequestLinkedControlIdsList>;
+
 export interface UpdateInformationRequestRequest {
   auditId: string;
   requestId: string;
-  /** The framework codes this request addresses. An empty array if no framework codes are associated. */
+  /** Framework codes are assigned only at creation; on update this field is a silent no-op — a value sent here is accepted for backwards compatibility but ignored, leaving the request's framework codes unchanged. */
   frameworkCodes?: UpdateInformationRequestRequestFrameworkCodesList;
   /** Detailed description of what evidence is needed. */
   description?: string | null;
@@ -4468,8 +4338,10 @@ export interface UpdateInformationRequestRequest {
   title?: string;
   /** How frequently this request recurs. */
   cadence?: InformationRequestCadence | (string & {});
-  /** Control IDs to link directly to this request, beyond those automatically mapped from framework codes. Replaces the existing set: pass the complete desired list, an empty array to clear all direct control links, or omit to leave them unchanged. Each must be the `id` of an existing control in the customer's organization (the identifier returned by the controls endpoints). The request is rejected if any ID does not match a control. */
+  /** This legacy field is accepted for backwards compatibility but ignored. Use `linkedControlIds` to replace the complete set of linked controls. */
   additionalControlIds?: UpdateInformationRequestRequestAdditionalControlIdsList;
+  /** The complete desired set of control IDs linked to this request. Send the full list to replace the set, an empty array to clear it, or omit the property to leave links unchanged. Each ID must identify an existing control in the customer's organization and is returned by the audit controls endpoint. The request is rejected if any ID does not match a control. */
+  linkedControlIds?: UpdateInformationRequestRequestLinkedControlIdsList;
 }
 export const UpdateInformationRequestRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -4483,6 +4355,7 @@ export const UpdateInformationRequestRequest = /*@__PURE__*/ S.suspend(() =>
     title: S.optional(S.String),
     cadence: S.optional(InformationRequestCadence),
     additionalControlIds: S.optional(UpdateInformationRequestRequestAdditionalControlIdsList),
+    linkedControlIds: S.optional(UpdateInformationRequestRequestLinkedControlIdsList),
   }).pipe(
     T.Http({
       method: "PATCH",
@@ -4497,7 +4370,7 @@ export const UpdateInformationRequestRequest = /*@__PURE__*/ S.suspend(() =>
 export interface UpsertAssessmentForControlRequest {
   auditId: string;
   controlId: string;
-  /** The program segment to assess. Required when the audit has more than one program segment. Optional on a single-program audit (the only program is used). Must be a program segment on the audit; system segments are rejected. */
+  /** The segment to assess: any segment on the audit, `PROGRAM` or `SYSTEM`. May be omitted only when the audit has exactly one segment; required otherwise. */
   segmentId?: string;
   /** The assessment state to record. Must be one of the states valid for the segment's framework; the request is rejected otherwise. */
   assessmentState: AuditControlAssessmentState | (string & {});
@@ -4515,21 +4388,17 @@ export const UpsertAssessmentForControlRequest = /*@__PURE__*/ S.suspend(() =>
     justification: S.String,
     auditorEmail: S.String,
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/audits/{auditId}/controls/{controlId}/assessment",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/audits/{auditId}/controls/{controlId}/assessment", code: 200 }),
   ),
 ).annotate({
   identifier: "UpsertAssessmentForControlRequest",
 }) as any as S.Schema<UpsertAssessmentForControlRequest>;
 
-/** A control's auditor assessment, as persisted. Returned by the assessment write endpoint so the caller sees exactly what was recorded. */
+/** A control's auditor assessment returned by the assessment write endpoint. */
 export interface AuditorControlAssessment {
   /** The control this assessment belongs to. */
   controlId: string;
-  /** The program segment this assessment was written to. */
+  /** The audit segment this assessment was written to. */
   segmentId: string;
   /** The recorded assessment state. */
   assessmentState: AuditControlAssessmentState;
@@ -4543,9 +4412,7 @@ export const AuditorControlAssessment = /*@__PURE__*/ S.suspend(() =>
     assessmentState: AuditControlAssessmentState,
     justification: S.String,
   }),
-).annotate({
-  identifier: "AuditorControlAssessment",
-}) as any as S.Schema<AuditorControlAssessment>;
+).annotate({ identifier: "AuditorControlAssessment" }) as any as S.Schema<AuditorControlAssessment>;
 
 export type AcceptInformationRequestEvidenceError = VantaOpError;
 /** Accept evidence for an information request Accepts evidence for an information request, confirming that all submitted evidence meets audit requirements. This action changes the request's approvalStatus to an approved state and creates an activity log entry. Acceptance workflow: 1. Auditor reviews submitted evidence 2. If evidence is satisfactory, auditor calls this endpoint 3. Request status changes to approved state and is considered complete for this audit cycle Use this endpoint when: - All required evidence has been submitted - Evidence quality meets audit standards - Evidence addresses all specified framework codes - No additional information is needed Rate limit: 50 requests / minute. */
@@ -4626,12 +4493,12 @@ export type CreateCustomControlError = VantaOpError;
 /** Create a custom control for an audit Create a custom control for an audit. This endpoint supports classic audits only. Audits that use information request lists (IRL) are not supported and return a 422 error. Rate limit: 10 requests / minute. */
 export const createCustomControl: API.OperationMethod<
   CreateCustomControlRequest,
-  Control,
+  AuditorApiControl,
   CreateCustomControlError,
   VantaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateCustomControlRequest,
-  output: Control,
+  output: AuditorApiControl,
   errors: [UnknownVantaError],
   protocol: VantaProtocol,
   retry: Retry.Retry,
@@ -4698,7 +4565,7 @@ export const deleteCommentForInformationRequest: API.OperationMethod<
 }));
 
 export type DeleteInformationRequestError = VantaOpError;
-/** Delete an information request for an audit Deletes an information request for an audit. This performs a soft delete, marking the request as deleted (setting `deletionDate`) while preserving it in the system for audit history and compliance tracking. Soft deletion allows: - Maintaining complete audit trail of all requests ever created - Retrieving deleted requests via `changedSinceDate` for synchronization After deletion: - The request will not appear in normal list responses (without `changedSinceDate`) - The request's `deletionDate` field will be populated Rate limit: 50 requests / minute. */
+/** Delete an information request for an audit Deletes an information request for an audit. This performs a soft delete, marking the request as deleted (setting `deletionDate`) while preserving it in the system for audit history and compliance tracking. Soft deletion allows: - Maintaining complete audit trail of all requests ever created - Retrieving deleted requests via `changedSinceDate` for synchronization After deletion: - The request remains in list responses with `deletionDate` set, even when `changedSinceDate` is omitted Rate limit: 50 requests / minute. */
 export const deleteInformationRequest: API.OperationMethod<
   DeleteInformationRequestRequest,
   DeleteInformationRequestResponse,
@@ -4743,7 +4610,7 @@ export const flagInformationRequestEvidence: API.OperationMethod<
 }));
 
 export type GetAuditError = VantaOpError;
-/** Get audit by ID Returns a single audit by ID, scoped to the audit firm. To identify IRL (Information Request List) audits, check for the presence of the `auditorRequestListMetadata` field. This field is only present for IRL-based audits and will be `undefined` for standard audits. The response includes `segments`, the audit's scope. A live single-framework audit has one entry; a live multi-framework audit has one entry per in-scope framework (and business unit or system, when applicable). Soft-deleted audits return an empty list. The top-level `framework` field is deprecated; use `segments` for framework identity. Rate limit: 250 requests / minute. */
+/** Get audit by ID Returns a single audit by ID, scoped to the audit firm. To identify IRL (Information Request List) audits, check for the presence of the `auditorRequestListMetadata` field. This field is only present for IRL-based audits and will be `undefined` for standard audits. The response includes `segments`, the audit's scope. It returns every in-scope program and system segment; more than one segment does not by itself imply more than one framework. The top-level `framework` field is deprecated; use `segments` for in-scope frameworks. This endpoint returns 404 for a soft-deleted audit. Rate limit: 250 requests / minute. */
 export const getAudit: API.OperationMethod<GetAuditRequest, Audit, GetAuditError, VantaOpContext> =
   /*@__PURE__*/ API.make(() => ({
     input: GetAuditRequest,
@@ -4784,7 +4651,7 @@ export const getAuditEvidenceComment: API.OperationMethod<
 }));
 
 export type GetCommentForInformationRequestError = VantaOpError;
-/** Get an information request comment by ID Retrieves a single comment on an information request by its ID. Soft-deleted comments (where `deletionDate !== null`) are included in the response. Clients should check `deletionDate` to determine whether the comment has been deleted. This matches `GET /audits/{auditId}/information-requests/{requestId}/comments`, which supports `changedSinceDate` and returns soft-deleted comments for delta sync. Comments remain fetchable when the parent information request has been soft-deleted, so delayed webhook consumers can still resolve a comment ID after the request is deleted. Rate limit: 50 requests / minute. */
+/** Get an information request comment by ID Retrieves a single comment on an information request by its ID. Soft-deleted comments (where `deletionDate !== null`) are included in the response. Clients should check `deletionDate` to determine whether the comment has been deleted. This matches `GET /audits/{auditId}/information-requests/{requestId}/comments`, which supports `changedSinceDate` and returns soft-deleted comments for delta sync. Comments are only resolvable while their information request exists. Once the request itself is deleted, this endpoint returns a 4xx HTTP error instead of the comment. Check the request's `deletionDate` using `GET /audits/{auditId}/information-requests` before treating its comments as deleted too. Rate limit: 50 requests / minute. */
 export const getCommentForInformationRequest: API.OperationMethod<
   GetCommentForInformationRequestRequest,
   InformationRequestComment,
@@ -4799,7 +4666,7 @@ export const getCommentForInformationRequest: API.OperationMethod<
 }));
 
 export type GetFrameworkCodesError = VantaOpError;
-/** Get framework codes for an audit Retrieves all valid framework codes for the specified audit. This endpoint helps users discover which framework codes are available for creating and updating information requests for this audit. Use this endpoint to: - Discover available framework codes before creating information requests - Validate framework codes against the audit's framework - Get context about what framework codes are available for the audit type Rate limit: 50 requests / minute. */
+/** Get framework codes for an audit Retrieves all valid framework codes for the specified audit. This endpoint helps users discover which framework codes are available for creating and updating information requests for this audit. Use this endpoint to: - Discover available framework codes (`frameworkCodes`, the original flat list) - Validate framework codes against the audit's frameworks - See which codes belong to which in-scope framework (`codesByFramework`) Rate limit: 50 requests / minute. */
 export const getFrameworkCodes: API.OperationMethod<
   GetFrameworkCodesRequest,
   FrameworkCodes,
@@ -4814,7 +4681,7 @@ export const getFrameworkCodes: API.OperationMethod<
 }));
 
 export type GetInformationRequestError = VantaOpError;
-/** Get an information request by ID Retrieves a single information request by its ID for an audit, allowing external audit management systems to fetch the latest state of a specific request without paginating through the full list. Soft-deleted records (where `deletionDate !== null`) are included in the response. Clients should check `deletionDate` to determine whether the request has been deleted. Rate limit: 50 requests / minute. */
+/** Get an information request by ID Retrieves a single information request by its ID for an audit, allowing external audit management systems to fetch the latest state of a specific request without paginating through the full list. This endpoint returns a 4xx HTTP error for a soft-deleted information request. To confirm deletion, use `GET /audits/{auditId}/information-requests`, which supports `changedSinceDate` and includes soft-deleted requests with `deletionDate` set. Rate limit: 50 requests / minute. */
 export const getInformationRequest: API.OperationMethod<
   GetInformationRequestRequest,
   InformationRequest,
@@ -4829,7 +4696,7 @@ export const getInformationRequest: API.OperationMethod<
 }));
 
 export type GetInformationRequestEvidenceError = VantaOpError;
-/** Get information request evidence by ID Retrieves a single evidence item attached to an information request by its ID. This endpoint always includes soft-deleted evidence (where `deletionDate !== null`), so an evidence ID surfaced by a `changedSinceDate` delta sync stays fetchable after the evidence is deleted. Clients should check the `deletionDate` field to identify and handle deleted records appropriately in their systems. Evidence is only resolvable while its information request exists. Once the request itself is deleted, this endpoint reports the request as not found — matching `GET /audits/{auditId}/information-requests/{requestId}/evidence`. Clients reconciling a deleted request should treat its evidence as gone with it. Evidence that the customer has not shared with the auditor is reported as not found, rather than distinguishing it from an ID that does not exist. Rate limit: 250 requests / minute. */
+/** Get information request evidence by ID Retrieves a single evidence item attached to an information request by its ID. This endpoint always includes soft-deleted evidence (where `deletionDate !== null`), so an evidence ID surfaced by a `changedSinceDate` delta sync stays fetchable after the evidence is deleted. Clients should check the `deletionDate` field to identify and handle deleted records appropriately in their systems. Evidence is only resolvable while its information request exists. Once the request itself is deleted, this endpoint returns a 4xx HTTP error instead of the evidence. Check the request's `deletionDate` using `GET /audits/{auditId}/information-requests` before treating its evidence as deleted too. Evidence that the customer has not shared with the auditor is reported as not found, rather than distinguishing it from an ID that does not exist. Rate limit: 250 requests / minute. */
 export const getInformationRequestEvidence: API.OperationMethod<
   GetInformationRequestEvidenceRequest,
   InformationRequestEvidence,
@@ -4994,7 +4861,7 @@ export const listAuditRisks: API.OperationMethod<
 }));
 
 export type ListAuditsError = VantaOpError;
-/** List audits Returns a paginated list of audits scoped to the audit firm. To identify IRL (Information Request List) audits, check for the presence of the `auditorRequestListMetadata` field. This field is only present for IRL-based audits and will be `undefined` for standard audits. Each audit includes `segments`, the audit's scope. A live single-framework audit has one entry; a live multi-framework audit has one entry per in-scope framework (and business unit or system, when applicable). Soft-deleted audits return an empty list. The top-level `framework` field is deprecated; use `segments` for framework identity. Rate limit: 250 requests / minute. */
+/** List audits Returns a paginated list of audits scoped to the audit firm. To identify IRL (Information Request List) audits, check for the presence of the `auditorRequestListMetadata` field. This field is only present for IRL-based audits and will be `undefined` for standard audits. Each audit includes `segments`, the audit's scope. A live audit returns every in-scope program and system segment; more than one segment does not by itself imply more than one framework. The top-level `framework` field is deprecated; use `segments` for in-scope frameworks. This list may include soft-deleted audits so clients can reconcile deletions. Check `deletionDate`; a deleted audit has an empty `segments` list. Rate limit: 250 requests / minute. */
 export const listAudits: API.OperationMethod<
   ListAuditsRequest,
   PaginatedResponseAudit,
@@ -5054,7 +4921,7 @@ export const listCommentsForControl: API.OperationMethod<
 }));
 
 export type ListCommentsForInformationRequestError = VantaOpError;
-/** List comments for an information request Retrieves a paginated list of comments for an information request, enabling auditors to view communication history and collaborate with customers. This endpoint always includes soft-deleted records (where `deletionDate !== null`). Clients should check the `deletionDate` field to identify and handle deleted records appropriately in their systems. This endpoint supports delta synchronization via the `changedSinceDate` parameter, allowing efficient polling for changes without retrieving the entire dataset. Pagination usage: 1. Make initial request with desired `pageSize` 2. Check `results.pageInfo.hasNextPage` to see if more data exists 3. If true, use `results.pageInfo.endCursor` as `pageCursor` in next request 4. Repeat until `hasNextPage` is false Delta sync usage: 1. Store the timestamp of your last sync 2. Pass that timestamp as `changedSinceDate` 3. Only comments created, modified, or deleted since that timestamp are returned 4. Process updates, including soft-deletes (deletionDate !== null) 5. Update your last sync timestamp to the current time Rate limit: 50 requests / minute. */
+/** List comments for an information request Retrieves a paginated list of comments for an information request, enabling auditors to view communication history and collaborate with customers. This endpoint always includes soft-deleted records (where `deletionDate !== null`). Clients should check the `deletionDate` field to identify and handle deleted records appropriately in their systems. If the information request itself has been deleted, this endpoint returns a 4xx HTTP error instead of its comments. This endpoint supports delta synchronization via the `changedSinceDate` parameter, allowing efficient polling for changes without retrieving the entire dataset. Pagination usage: 1. Make initial request with desired `pageSize` 2. Check `results.pageInfo.hasNextPage` to see if more data exists 3. If true, use `results.pageInfo.endCursor` as `pageCursor` in next request 4. Repeat until `hasNextPage` is false Delta sync usage: 1. Store the timestamp of your last sync 2. Pass that timestamp as `changedSinceDate` 3. Only comments created, modified, or deleted since that timestamp are returned 4. Process updates, including soft-deletes (deletionDate !== null) 5. Update your last sync timestamp to the current time Rate limit: 50 requests / minute. */
 export const listCommentsForInformationRequest: API.OperationMethod<
   ListCommentsForInformationRequestRequest,
   PaginatedResponseInformationRequestComment,
@@ -5069,7 +4936,7 @@ export const listCommentsForInformationRequest: API.OperationMethod<
 }));
 
 export type ListInformationRequestActivityError = VantaOpError;
-/** List information request activity Retrieves a paginated list of activity logs for an information request, providing a complete audit trail of all changes and actions. This endpoint supports delta synchronization via the `changedSinceDate` parameter, allowing efficient polling for changes without retrieving the entire dataset. Pagination usage: 1. Make initial request with desired `pageSize` 2. Check `results.pageInfo.hasNextPage` to see if more data exists 3. If true, use `results.pageInfo.endCursor` as `pageCursor` in next request 4. Repeat until `hasNextPage` is false Delta sync usage: 1. Store the timestamp of your last sync 2. Pass that timestamp as `changedSinceDate` 3. Only activity created since that timestamp is returned 4. Process updates to track all changes to the information request 5. Update your last sync timestamp to the current time Rate limit: 50 requests / minute. */
+/** List information request activity Retrieves a paginated list of activity logs for an information request, providing an audit trail of the changes and actions taken on it. Activity recording Vanta's automated preparation of a request is never returned by this endpoint, so `fillOutcome` is always null here. Some internal status transitions are also withheld, and those are removed after a page is selected, so a page can contain fewer entries than `pageSize` — or none at all — while more pages remain. Follow `results.pageInfo.hasNextPage` rather than treating a short or empty page as the end of the list. If the information request has been deleted, this endpoint returns a 4xx HTTP error instead of its activity. This endpoint supports delta synchronization via the `changedSinceDate` parameter, allowing efficient polling for changes without retrieving the entire dataset. Pagination usage: 1. Make initial request with desired `pageSize` 2. Check `results.pageInfo.hasNextPage` to see if more data exists 3. If true, use `results.pageInfo.endCursor` as `pageCursor` in next request 4. Repeat until `hasNextPage` is false Delta sync usage: 1. Store the timestamp of your last sync 2. Pass that timestamp as `changedSinceDate` 3. Only activity created since that timestamp is returned 4. Process updates to track all changes to the information request 5. Update your last sync timestamp to the current time Rate limit: 50 requests / minute. */
 export const listInformationRequestActivity: API.OperationMethod<
   ListInformationRequestActivityRequest,
   PaginatedResponseInformationRequestActivityLog,
@@ -5084,7 +4951,7 @@ export const listInformationRequestActivity: API.OperationMethod<
 }));
 
 export type ListInformationRequestEvidenceError = VantaOpError;
-/** List evidence for an information request Retrieves a paginated list of all evidence attached to an information request, enabling auditors to review evidence submitted by customers. This endpoint always includes soft-deleted records (where `deletionDate !== null`). Clients should check the `deletionDate` field to identify and handle deleted records appropriately in their systems. This endpoint supports delta synchronization via the `changedSinceDate` parameter, allowing efficient polling for changes without retrieving the entire dataset. Pagination usage: 1. Make initial request with desired `pageSize` 2. Check `results.pageInfo.hasNextPage` to see if more data exists 3. If true, use `results.pageInfo.endCursor` as `pageCursor` in next request 4. Repeat until `hasNextPage` is false Delta sync usage: 1. Store the timestamp of your last sync 2. Pass that timestamp as `changedSinceDate` 3. Only evidence created, modified, shared, or deleted since that timestamp is returned 4. Process updates, including soft-deletes (deletionDate !== null) 5. Update your last sync timestamp to the current time Rate limit: 50 requests / minute. */
+/** List evidence for an information request Retrieves a paginated list of all evidence attached to an information request, enabling auditors to review evidence submitted by customers. This endpoint always includes soft-deleted records (where `deletionDate !== null`). Clients should check the `deletionDate` field to identify and handle deleted records appropriately in their systems. If the information request itself has been deleted, this endpoint returns a 4xx HTTP error instead of its evidence. This endpoint supports delta synchronization via the `changedSinceDate` parameter, allowing efficient polling for changes without retrieving the entire dataset. Pagination usage: 1. Make initial request with desired `pageSize` 2. Check `results.pageInfo.hasNextPage` to see if more data exists 3. If true, use `results.pageInfo.endCursor` as `pageCursor` in next request 4. Repeat until `hasNextPage` is false Delta sync usage: 1. Store the timestamp of your last sync 2. Pass that timestamp as `changedSinceDate` 3. Only evidence created, modified, shared, or deleted since that timestamp is returned 4. Process updates, including soft-deletes (deletionDate !== null) 5. Update your last sync timestamp to the current time Rate limit: 50 requests / minute. */
 export const listInformationRequestEvidence: API.OperationMethod<
   ListInformationRequestEvidenceRequest,
   PaginatedResponseInformationRequestEvidence,
@@ -5099,7 +4966,7 @@ export const listInformationRequestEvidence: API.OperationMethod<
 }));
 
 export type ListInformationRequestsError = VantaOpError;
-/** List information requests for an audit Retrieves a paginated list of all information requests for an audit, enabling external audit management systems to display and track evidence requests. This endpoint always includes soft-deleted records (where `deletionDate !== null`). Clients should check the `deletionDate` field to identify and handle deleted records appropriately in their systems. This endpoint supports delta synchronization via the `changedSinceDate` parameter, allowing efficient polling for changes without retrieving the entire dataset. Pagination usage: 1. Make initial request with desired `pageSize` 2. Check `results.pageInfo.hasNextPage` to see if more data exists 3. If true, use `results.pageInfo.endCursor` as `pageCursor` in next request 4. Repeat until `hasNextPage` is false Delta sync usage: 1. Store the timestamp of your last sync 2. Pass that timestamp as `changedSinceDate` 3. Only requests created, modified, or deleted since that timestamp are returned 4. Process updates and soft-deletes by checking the `deletionDate` field 5. Update your last sync timestamp to the current time Rate limit: 50 requests / minute. */
+/** List information requests for an audit Retrieves a paginated list of all information requests for an audit, enabling external audit management systems to display and track evidence requests. This endpoint always includes soft-deleted records (where `deletionDate !== null`). Clients should check the `deletionDate` field to identify and handle deleted records appropriately in their systems. This is the only endpoint that returns a deleted information request. No webhook fires when a request is deleted. Endpoints under `/audits/{auditId}/information-requests/{requestId}` return a 4xx HTTP error for a deleted request. To confirm deletion, check the request's `deletionDate` in this list. Deleting a request does not set `deletionDate` on its comments or evidence or send delete events for them. Once this list confirms the request was deleted, treat its comments and evidence as deleted too. This endpoint supports delta synchronization via the `changedSinceDate` parameter, allowing efficient polling for changes without retrieving the entire dataset. Pagination usage: 1. Make initial request with desired `pageSize` 2. Check `results.pageInfo.hasNextPage` to see if more data exists 3. If true, use `results.pageInfo.endCursor` as `pageCursor` in next request 4. Repeat until `hasNextPage` is false Delta sync usage: 1. Store the timestamp of your last sync 2. Pass that timestamp as `changedSinceDate` 3. Only requests created, modified, or deleted since that timestamp are returned 4. Process updates and soft-deletes by checking the `deletionDate` field 5. Update your last sync timestamp to the current time `segmentIds` on each returned request is resolved against the audit's current scope. A scope-only change (a segment leaving or joining the audit without the request row being written) is not a delta-sync event. Re-fetch without `changedSinceDate`, or GET by id, to see the current projection. Rate limit: 50 requests / minute. */
 export const listInformationRequests: API.OperationMethod<
   ListInformationRequestsRequest,
   PaginatedResponseInformationRequest,
@@ -5114,7 +4981,7 @@ export const listInformationRequests: API.OperationMethod<
 }));
 
 export type ListInformationRequestsForControlError = VantaOpError;
-/** List information requests linked to a control within an audit Returns a paginated list of active information requests linked to a specific control within an IRL audit. An information request is linked to a control either via its framework codes (`criteriaIds`) or via a direct association (`additionalControlIds`). Soft-deleted information requests are not included in the response. To synchronize deletions, use `GET /audits/{auditId}/information-requests`, which supports `changedSinceDate` and includes soft-deleted records. Returns 404 when the control is not part of the audit. Returns an empty page when the control is part of the audit but has no active IRLs linked to it. Pagination usage: 1. Make initial request with desired `pageSize` 2. Check `results.pageInfo.hasNextPage` to see if more data exists 3. If true, use `results.pageInfo.endCursor` as `pageCursor` in next request 4. Repeat until `hasNextPage` is false Rate limit: 50 requests / minute. */
+/** List information requests linked to a control within an audit Returns a paginated list of active information requests linked to a specific control within an IRL audit. Only links saved on the audit's current control rows are included. Soft-deleted information requests are not included in the response. To synchronize deletions, use `GET /audits/{auditId}/information-requests`, which supports `changedSinceDate` and includes soft-deleted records. Returns 404 when the control is not part of the audit. Returns an empty page when the control is part of the audit but has no active IRLs linked to it. Pagination usage: 1. Make initial request with desired `pageSize` 2. Check `results.pageInfo.hasNextPage` to see if more data exists 3. If true, use `results.pageInfo.endCursor` as `pageCursor` in next request 4. Repeat until `hasNextPage` is false Rate limit: 50 requests / minute. */
 export const listInformationRequestsForControl: API.OperationMethod<
   ListInformationRequestsForControlRequest,
   PaginatedResponseInformationRequest,
@@ -5294,7 +5161,7 @@ export const updateInformationRequest: API.OperationMethod<
 }));
 
 export type UpsertAssessmentForControlError = VantaOpError;
-/** Upsert a control's assessment within an audit Records (upserts) an auditor's assessment state and justification for a control within an IRL audit — the API equivalent of assessing a control in the web app. Overwrites the single assessment for this control in the audit's program segment. The `assessmentState` must be valid for the segment's framework (the request is rejected otherwise). The acting auditor is identified by `auditorEmail`, which must belong to the audit firm making the request. Returns 404 when the control is not part of the audit or the auditor email does not resolve to a firm user. Returns 422 when the audit does not have exactly one program segment (multi-framework audits are not supported on this endpoint). Applies to both Full and Controlled Audit View audits. Rate limit: 10 requests / minute. */
+/** Upsert a control's assessment within an audit Records (upserts) an auditor's assessment state and justification for a control within an IRL audit — the API equivalent of assessing a control in the web app. Overwrites the assessment for this control in the chosen audit segment. `segmentId` may be any segment on the audit, `PROGRAM` or `SYSTEM` (see `segments` on the audit). It may be omitted only when the audit has exactly one segment. The `assessmentState` must be valid for that segment's framework (the request is rejected otherwise). The acting auditor is identified by `auditorEmail`, which must belong to the audit firm making the request. Returns 404 when the control is not part of the audit or the auditor email does not resolve to a firm user. Returns 422 when `segmentId` is omitted on an audit with more than one segment, when `segmentId` is not a segment on this audit, or when the control is not assigned to that segment for this audit. Applies to both Full and Controlled Audit View audits. Rate limit: 10 requests / minute. */
 export const upsertAssessmentForControl: API.OperationMethod<
   UpsertAssessmentForControlRequest,
   AuditorControlAssessment,

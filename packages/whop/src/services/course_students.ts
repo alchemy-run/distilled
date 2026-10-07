@@ -53,9 +53,7 @@ export const GetCourseStudentRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/course_students/{id}", code: 200 })),
-).annotate({
-  identifier: "GetCourseStudentRequest",
-}) as any as S.Schema<GetCourseStudentRequest>;
+).annotate({ identifier: "GetCourseStudentRequest" }) as any as S.Schema<GetCourseStudentRequest>;
 
 /** The parent experience that this course belongs to. */
 export interface CourseStudentCourseExperience {
@@ -85,9 +83,7 @@ export const CourseStudentCourse = /*@__PURE__*/ S.suspend(() =>
     id: S.String,
     title: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "CourseStudentCourse",
-}) as any as S.Schema<CourseStudentCourse>;
+).annotate({ identifier: "CourseStudentCourse" }) as any as S.Schema<CourseStudentCourse>;
 
 /** The user profile of the enrolled student. */
 export interface CourseStudentUser {
@@ -104,9 +100,7 @@ export const CourseStudentUser = /*@__PURE__*/ S.suspend(() =>
     name: S.NullOr(S.String),
     username: S.String,
   }),
-).annotate({
-  identifier: "CourseStudentUser",
-}) as any as S.Schema<CourseStudentUser>;
+).annotate({ identifier: "CourseStudentUser" }) as any as S.Schema<CourseStudentUser>;
 
 /** An enrollment record for a student in a course, including progress and completion metrics. */
 export interface CourseStudent {
@@ -157,9 +151,7 @@ export const ListCourseStudentRequest = /*@__PURE__*/ S.suspend(() =>
     course_id: S.String.pipe(T.Query()),
     keyword: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/course_students", code: 200 })),
-).annotate({
-  identifier: "ListCourseStudentRequest",
-}) as any as S.Schema<ListCourseStudentRequest>;
+).annotate({ identifier: "ListCourseStudentRequest" }) as any as S.Schema<ListCourseStudentRequest>;
 
 /** The user profile of the enrolled student. */
 export type CourseStudentListItemUser = CourseStudentUser;
@@ -192,9 +184,7 @@ export const CourseStudentListItem = /*@__PURE__*/ S.suspend(() =>
     total_lessons_count: S.Number,
     user: CourseStudentUser,
   }),
-).annotate({
-  identifier: "CourseStudentListItem",
-}) as any as S.Schema<CourseStudentListItem>;
+).annotate({ identifier: "CourseStudentListItem" }) as any as S.Schema<CourseStudentListItem>;
 
 /** A list of nodes. */
 export type ListCourseStudentResponseDataList = Array<CourseStudentListItem>;

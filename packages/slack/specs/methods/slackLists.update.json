@@ -20,7 +20,8 @@
     "properties": {
       "token": {
         "type": "string",
-        "subtype": "auth"
+        "subtype": "auth",
+        "example": "xxxx-xxxxxxxxx-xxxx"
       },
       "id": {
         "desc": "The ID of the List to update.",
@@ -76,5 +77,6 @@
     "missing_arguments": {
       "desc": "No arguments were provided to update the List."
     }
-  }
+  },
+  "json_input_supported": true
 }

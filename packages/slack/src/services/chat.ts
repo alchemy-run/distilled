@@ -23,18 +23,16 @@ export interface AppendStreamRequest {
   /** The timestamp of the streaming message. */
   ts: string;
   /** Accepts message text formatted in markdown. Limit this field to 12,000 characters. This text is what will be appended to the message received so far. */
-  markdown_text: string;
+  markdown_text?: string;
 }
 export const AppendStreamRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     channel: S.String,
     chunks: S.optional(AppendStreamRequestChunksList),
     ts: S.String,
-    markdown_text: S.String,
+    markdown_text: S.optional(S.String),
   }).pipe(T.Http({ method: "POST", uri: "/chat.appendStream", code: 200 })),
-).annotate({
-  identifier: "AppendStreamRequest",
-}) as any as S.Schema<AppendStreamRequest>;
+).annotate({ identifier: "AppendStreamRequest" }) as any as S.Schema<AppendStreamRequest>;
 
 export interface AppendStreamResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -48,9 +46,7 @@ export const AppendStreamResponse = /*@__PURE__*/ S.suspend(() =>
     channel: S.String,
     ts: S.String,
   }),
-).annotate({
-  identifier: "AppendStreamResponse",
-}) as any as S.Schema<AppendStreamResponse>;
+).annotate({ identifier: "AppendStreamResponse" }) as any as S.Schema<AppendStreamResponse>;
 
 /** The source of the link to unfurl. The source may either be `composer`, when the link is inside the message composer, or `conversations_history`, when the link has been posted to a conversation. */
 export type ChatUnfurlRequestSource = "composer" | "conversations_history";
@@ -61,7 +57,7 @@ export interface ChatUnfurlRequest {
   channel?: string;
   /** Timestamp of the message to add unfurl behavior to. Required for public channels. */
   ts?: string;
-  /** URL-encoded JSON map with keys set to URLs featured in the the message, pointing to their unfurl blocks or message attachments. Required for public channels. */
+  /** URL-encoded JSON map with keys set to URLs featured in the message, pointing to their unfurl blocks or message attachments. Required for public channels. */
   unfurls?: string;
   /** Provide a simply-formatted string to send as an ephemeral message to the user as invitation to authenticate further and enable full unfurling behavior. Provides two buttons, `Not now` or `Never ask me again`. */
   user_auth_message?: string | null;
@@ -88,9 +84,7 @@ export const ChatUnfurlRequest = /*@__PURE__*/ S.suspend(() =>
     unfurl_id: S.optional(S.String),
     source: S.optional(ChatUnfurlRequestSource),
   }).pipe(T.Http({ method: "POST", uri: "/chat.unfurl", code: 200 })),
-).annotate({
-  identifier: "ChatUnfurlRequest",
-}) as any as S.Schema<ChatUnfurlRequest>;
+).annotate({ identifier: "ChatUnfurlRequest" }) as any as S.Schema<ChatUnfurlRequest>;
 
 export interface ChatUnfurlResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -100,9 +94,7 @@ export const ChatUnfurlResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ok: S.Boolean,
   }),
-).annotate({
-  identifier: "ChatUnfurlResponse",
-}) as any as S.Schema<ChatUnfurlResponse>;
+).annotate({ identifier: "ChatUnfurlResponse" }) as any as S.Schema<ChatUnfurlResponse>;
 
 export interface DeleteChatRequest {
   /** (Legacy) Pass true to delete the message as the authed user with `chat:write:user` scope. Bot users in this context are considered authed users. See [legacy `as_user` parameter](#legacy_as_user) below. */
@@ -118,9 +110,7 @@ export const DeleteChatRequest = /*@__PURE__*/ S.suspend(() =>
     channel: S.String,
     ts: S.String,
   }).pipe(T.Http({ method: "POST", uri: "/chat.delete", code: 200 })),
-).annotate({
-  identifier: "DeleteChatRequest",
-}) as any as S.Schema<DeleteChatRequest>;
+).annotate({ identifier: "DeleteChatRequest" }) as any as S.Schema<DeleteChatRequest>;
 
 export interface DeleteChatResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -134,9 +124,7 @@ export const DeleteChatResponse = /*@__PURE__*/ S.suspend(() =>
     channel: S.String,
     ts: S.String,
   }),
-).annotate({
-  identifier: "DeleteChatResponse",
-}) as any as S.Schema<DeleteChatResponse>;
+).annotate({ identifier: "DeleteChatResponse" }) as any as S.Schema<DeleteChatResponse>;
 
 export interface DeleteScheduledMessageRequest {
   /** Pass true to delete the message as the authed user with `chat:write:user` scope. Bot users in this context are considered authed users. If unused or false, the message will be deleted with `chat:write:bot` scope. */
@@ -179,9 +167,7 @@ export const GetPermalinkRequest = /*@__PURE__*/ S.suspend(() =>
     channel: S.String.pipe(T.Query()),
     message_ts: S.String.pipe(T.Query()),
   }).pipe(T.Http({ method: "GET", uri: "/chat.getPermalink", code: 200 })),
-).annotate({
-  identifier: "GetPermalinkRequest",
-}) as any as S.Schema<GetPermalinkRequest>;
+).annotate({ identifier: "GetPermalinkRequest" }) as any as S.Schema<GetPermalinkRequest>;
 
 export interface GetPermalinkResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -195,9 +181,7 @@ export const GetPermalinkResponse = /*@__PURE__*/ S.suspend(() =>
     permalink: S.String,
     channel: S.String,
   }),
-).annotate({
-  identifier: "GetPermalinkResponse",
-}) as any as S.Schema<GetPermalinkResponse>;
+).annotate({ identifier: "GetPermalinkResponse" }) as any as S.Schema<GetPermalinkResponse>;
 
 export interface ListScheduledMessagesRequest {
   /** The channel of the scheduled messages */
@@ -292,9 +276,7 @@ export const MeMessageRequest = /*@__PURE__*/ S.suspend(() =>
     channel: S.String,
     text: S.String,
   }).pipe(T.Http({ method: "POST", uri: "/chat.meMessage", code: 200 })),
-).annotate({
-  identifier: "MeMessageRequest",
-}) as any as S.Schema<MeMessageRequest>;
+).annotate({ identifier: "MeMessageRequest" }) as any as S.Schema<MeMessageRequest>;
 
 export interface MeMessageResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -308,13 +290,9 @@ export const MeMessageResponse = /*@__PURE__*/ S.suspend(() =>
     ts: S.optional(S.String),
     channel: S.optional(S.String),
   }),
-).annotate({
-  identifier: "MeMessageResponse",
-}) as any as S.Schema<MeMessageResponse>;
+).annotate({ identifier: "MeMessageResponse" }) as any as S.Schema<MeMessageResponse>;
 
-export type PostEphemeralRequestAttachmentsCase1ItemMap = {
-  [key: string]: unknown | undefined;
-};
+export type PostEphemeralRequestAttachmentsCase1ItemMap = { [key: string]: unknown | undefined };
 export const PostEphemeralRequestAttachmentsCase1ItemMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -330,9 +308,7 @@ export const PostEphemeralRequestAttachmentsCase1List = /*@__PURE__*/ S.Array(
 export type PostEphemeralRequestAttachments = string | PostEphemeralRequestAttachmentsCase1List;
 export const PostEphemeralRequestAttachments = /*@__PURE__*/ S.Unknown.pipe(T.UnionCases([[], []]));
 
-export type PostEphemeralRequestBlocksCase1ItemMap = {
-  [key: string]: unknown | undefined;
-};
+export type PostEphemeralRequestBlocksCase1ItemMap = { [key: string]: unknown | undefined };
 export const PostEphemeralRequestBlocksCase1ItemMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -397,9 +373,7 @@ export const PostEphemeralRequest = /*@__PURE__*/ S.suspend(() =>
     user: S.String,
     username: S.optional(S.String),
   }).pipe(T.Http({ method: "POST", uri: "/chat.postEphemeral", code: 200 })),
-).annotate({
-  identifier: "PostEphemeralRequest",
-}) as any as S.Schema<PostEphemeralRequest>;
+).annotate({ identifier: "PostEphemeralRequest" }) as any as S.Schema<PostEphemeralRequest>;
 
 export interface PostEphemeralResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -411,13 +385,9 @@ export const PostEphemeralResponse = /*@__PURE__*/ S.suspend(() =>
     ok: S.Boolean,
     message_ts: S.String,
   }),
-).annotate({
-  identifier: "PostEphemeralResponse",
-}) as any as S.Schema<PostEphemeralResponse>;
+).annotate({ identifier: "PostEphemeralResponse" }) as any as S.Schema<PostEphemeralResponse>;
 
-export type PostMessageRequestAttachmentsCase1ItemMap = {
-  [key: string]: unknown | undefined;
-};
+export type PostMessageRequestAttachmentsCase1ItemMap = { [key: string]: unknown | undefined };
 export const PostMessageRequestAttachmentsCase1ItemMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -433,9 +403,7 @@ export const PostMessageRequestAttachmentsCase1List = /*@__PURE__*/ S.Array(
 export type PostMessageRequestAttachments = string | PostMessageRequestAttachmentsCase1List;
 export const PostMessageRequestAttachments = /*@__PURE__*/ S.Unknown.pipe(T.UnionCases([[], []]));
 
-export type PostMessageRequestBlocksCase1ItemMap = {
-  [key: string]: unknown | undefined;
-};
+export type PostMessageRequestBlocksCase1ItemMap = { [key: string]: unknown | undefined };
 export const PostMessageRequestBlocksCase1ItemMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -487,6 +455,8 @@ export interface PostMessageRequest {
   unfurl_media?: boolean;
   /** Set your bot's user name. */
   username?: string | null;
+  /** Pass true to unfurl links from installed apps, or false to prevent app links from unfurling. When omitted, app links follow the `unfurl_links` setting. */
+  unfurl_app_links?: boolean;
 }
 export const PostMessageRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -508,10 +478,9 @@ export const PostMessageRequest = /*@__PURE__*/ S.suspend(() =>
     unfurl_links: S.optional(S.Boolean),
     unfurl_media: S.optional(S.Boolean),
     username: S.optional(S.NullOr(S.String)),
+    unfurl_app_links: S.optional(S.Boolean),
   }).pipe(T.Http({ method: "POST", uri: "/chat.postMessage", code: 200 })),
-).annotate({
-  identifier: "PostMessageRequest",
-}) as any as S.Schema<PostMessageRequest>;
+).annotate({ identifier: "PostMessageRequest" }) as any as S.Schema<PostMessageRequest>;
 
 export interface PostMessageResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -530,13 +499,9 @@ export const PostMessageResponse = /*@__PURE__*/ S.suspend(() =>
     message: S.optional(S.Unknown),
     is_duplicate: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "PostMessageResponse",
-}) as any as S.Schema<PostMessageResponse>;
+).annotate({ identifier: "PostMessageResponse" }) as any as S.Schema<PostMessageResponse>;
 
-export type ScheduleMessageRequestAttachmentsCase1ItemMap = {
-  [key: string]: unknown | undefined;
-};
+export type ScheduleMessageRequestAttachmentsCase1ItemMap = { [key: string]: unknown | undefined };
 export const ScheduleMessageRequestAttachmentsCase1ItemMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -554,9 +519,7 @@ export const ScheduleMessageRequestAttachments = /*@__PURE__*/ S.Unknown.pipe(
   T.UnionCases([[], []]),
 );
 
-export type ScheduleMessageRequestBlocksCase1ItemMap = {
-  [key: string]: unknown | undefined;
-};
+export type ScheduleMessageRequestBlocksCase1ItemMap = { [key: string]: unknown | undefined };
 export const ScheduleMessageRequestBlocksCase1ItemMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -622,13 +585,9 @@ export const ScheduleMessageRequest = /*@__PURE__*/ S.suspend(() =>
     unfurl_media: S.optional(S.Boolean),
     metadata: S.optional(S.NullOr(S.String)),
   }).pipe(T.Http({ method: "POST", uri: "/chat.scheduleMessage", code: 200 })),
-).annotate({
-  identifier: "ScheduleMessageRequest",
-}) as any as S.Schema<ScheduleMessageRequest>;
+).annotate({ identifier: "ScheduleMessageRequest" }) as any as S.Schema<ScheduleMessageRequest>;
 
-export type ScheduleMessageResponseMessageMap = {
-  [key: string]: unknown | undefined;
-};
+export type ScheduleMessageResponseMessageMap = { [key: string]: unknown | undefined };
 export const ScheduleMessageResponseMessageMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -650,58 +609,54 @@ export const ScheduleMessageResponse = /*@__PURE__*/ S.suspend(() =>
     scheduled_message_id: S.String,
     message: ScheduleMessageResponseMessageMap,
   }),
-).annotate({
-  identifier: "ScheduleMessageResponse",
-}) as any as S.Schema<ScheduleMessageResponse>;
+).annotate({ identifier: "ScheduleMessageResponse" }) as any as S.Schema<ScheduleMessageResponse>;
 
-/** Array of streaming chunks. */
+/** Array of streaming chunks. Can include [markdown text chunk](#markdown_text-chunks) objects, [task update chunk](#task_update-chunks) objects, [plan update chunks](#plan_update-chunks), or [blocks chunks](#blocks-chunks). */
 export type StartStreamRequestChunksList = Array<unknown>;
 export const StartStreamRequestChunksList = /*@__PURE__*/ S.Array(
   S.Unknown,
 ) as any as S.Schema<StartStreamRequestChunksList>;
 
-/** Specifies how tasks are displayed in the message. A `timeline` displays individual tasks with text in sequential order, `plan` displays all tasks together, with the first tasks's placement determining the placement of the rest of the tasks, and `dense` collapses consecutive tool calls into a single summarized task card. */
-export type StartStreamRequestTaskDisplayMode = "timeline" | "plan" | "dense";
+/** Specifies how tasks are displayed in the message. `timeline` task updates render as individual task cards interleaved with streamed text. `plan` task updates render together in a plan block. */
+export type StartStreamRequestTaskDisplayMode = "timeline" | "plan";
 export const StartStreamRequestTaskDisplayMode = S.String;
 
 export interface StartStreamRequest {
-  /** An encoded ID that represents a channel thread or DM. */
+  /** An encoded ID that represents a channel, thread, or DM. */
   channel: string;
-  /** Array of streaming chunks. */
+  /** Array of streaming chunks. Can include [markdown text chunk](#markdown_text-chunks) objects, [task update chunk](#task_update-chunks) objects, [plan update chunks](#plan_update-chunks), or [blocks chunks](#blocks-chunks). */
   chunks?: StartStreamRequestChunksList;
   /** Accepts message text formatted in markdown. Limit this field to 12,000 characters. */
   markdown_text?: string;
-  /** Provide another message's `ts` value to reply to. Streamed messages should always be replies to a user request. */
-  thread_ts: string;
+  /** Provide another message's `ts` value to reply to. Omit it to stream a top-level message instead of a thread reply; this is only supported in channels where the whole channel is one session, such as Slack Code, and returns `invalid_thread_ts` elsewhere. Passing `"0"` is equivalent to omitting it. */
+  thread_ts?: string;
   /** The encoded ID of the user to receive the streaming text. Required when streaming to channels. */
   recipient_user_id?: string;
   /** The encoded ID of the team the user receiving the streaming text belongs to. Required when streaming to channels. */
   recipient_team_id?: string;
-  /** Specifies how tasks are displayed in the message. A `timeline` displays individual tasks with text in sequential order, `plan` displays all tasks together, with the first tasks's placement determining the placement of the rest of the tasks, and `dense` collapses consecutive tool calls into a single summarized task card. */
+  /** Specifies how tasks are displayed in the message. `timeline` task updates render as individual task cards interleaved with streamed text. `plan` task updates render together in a plan block. */
   task_display_mode?: StartStreamRequestTaskDisplayMode | (string & {});
   /** Emoji to use as the icon for this message. Overrides `icon_url`. */
-  icon_emoji?: string;
+  icon_emoji?: string | null;
   /** Image URL to use as the icon for this message. */
-  icon_url?: string;
+  icon_url?: string | null;
   /** The bot's username to display. */
-  username?: string;
+  username?: string | null;
 }
 export const StartStreamRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     channel: S.String,
     chunks: S.optional(StartStreamRequestChunksList),
     markdown_text: S.optional(S.String),
-    thread_ts: S.String,
+    thread_ts: S.optional(S.String),
     recipient_user_id: S.optional(S.String),
     recipient_team_id: S.optional(S.String),
     task_display_mode: S.optional(StartStreamRequestTaskDisplayMode),
-    icon_emoji: S.optional(S.String),
-    icon_url: S.optional(S.String),
-    username: S.optional(S.String),
+    icon_emoji: S.optional(S.NullOr(S.String)),
+    icon_url: S.optional(S.NullOr(S.String)),
+    username: S.optional(S.NullOr(S.String)),
   }).pipe(T.Http({ method: "POST", uri: "/chat.startStream", code: 200 })),
-).annotate({
-  identifier: "StartStreamRequest",
-}) as any as S.Schema<StartStreamRequest>;
+).annotate({ identifier: "StartStreamRequest" }) as any as S.Schema<StartStreamRequest>;
 
 export interface StartStreamResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -716,21 +671,17 @@ export const StartStreamResponse = /*@__PURE__*/ S.suspend(() =>
     channel: S.String,
     ts: S.String,
   }),
-).annotate({
-  identifier: "StartStreamResponse",
-}) as any as S.Schema<StartStreamResponse>;
+).annotate({ identifier: "StartStreamResponse" }) as any as S.Schema<StartStreamResponse>;
 
-/** Array of streaming chunks. */
-export type StopStreamRequestChunksList = Array<unknown>;
-export const StopStreamRequestChunksList = /*@__PURE__*/ S.Array(
-  S.Unknown,
-) as any as S.Schema<StopStreamRequestChunksList>;
+/** The session status to set after stopping the stream. */
+export type StopStreamRequestSessionStatus = "active" | "processing" | "suspended" | "closed";
+export const StopStreamRequestSessionStatus = S.String;
 
 export interface StopStreamRequest {
   /** An encoded ID that represents a channel, private group, or DM */
   channel: string;
-  /** Array of streaming chunks. */
-  chunks?: StopStreamRequestChunksList;
+  /** Array of streaming chunks. Can include [markdown text chunk](#markdown_text-chunks) objects, [task update chunk](#task_update-chunks) objects, [plan update chunks](#plan_update-chunks), or [blocks chunks](#blocks-chunks). */
+  chunks?: unknown;
   /** The timestamp of the streaming message. */
   ts: string;
   /** Accepts message text formatted in markdown. Limit this field to 12,000 characters. */
@@ -739,19 +690,20 @@ export interface StopStreamRequest {
   blocks?: unknown;
   /** JSON object with event_type and event_payload fields, presented as a URL-encoded string. Metadata you post to Slack is accessible to any app or user who is a member of that workspace. */
   metadata?: string | null;
+  /** The session status to set after stopping the stream. */
+  session_status?: StopStreamRequestSessionStatus | (string & {});
 }
 export const StopStreamRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     channel: S.String,
-    chunks: S.optional(StopStreamRequestChunksList),
+    chunks: S.optional(S.Unknown),
     ts: S.String,
     markdown_text: S.optional(S.String),
     blocks: S.optional(S.Unknown),
     metadata: S.optional(S.NullOr(S.String)),
+    session_status: S.optional(StopStreamRequestSessionStatus),
   }).pipe(T.Http({ method: "POST", uri: "/chat.stopStream", code: 200 })),
-).annotate({
-  identifier: "StopStreamRequest",
-}) as any as S.Schema<StopStreamRequest>;
+).annotate({ identifier: "StopStreamRequest" }) as any as S.Schema<StopStreamRequest>;
 
 export interface StopStreamResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -767,17 +719,13 @@ export const StopStreamResponse = /*@__PURE__*/ S.suspend(() =>
     ts: S.String,
     message: S.Unknown,
   }),
-).annotate({
-  identifier: "StopStreamResponse",
-}) as any as S.Schema<StopStreamResponse>;
+).annotate({ identifier: "StopStreamResponse" }) as any as S.Schema<StopStreamResponse>;
 
 /** Pass true to update the message as the authed user. Bot users in this context are considered authed users. */
 export type UpdateChatRequestAsUser = boolean | string;
 export const UpdateChatRequestAsUser = /*@__PURE__*/ S.Unknown.pipe(T.UnionCases([[], []]));
 
-export type UpdateChatRequestAttachmentsCase1ItemMap = {
-  [key: string]: unknown | undefined;
-};
+export type UpdateChatRequestAttachmentsCase1ItemMap = { [key: string]: unknown | undefined };
 export const UpdateChatRequestAttachmentsCase1ItemMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -792,9 +740,7 @@ export const UpdateChatRequestAttachmentsCase1List = /*@__PURE__*/ S.Array(
 export type UpdateChatRequestAttachments = string | UpdateChatRequestAttachmentsCase1List;
 export const UpdateChatRequestAttachments = /*@__PURE__*/ S.Unknown.pipe(T.UnionCases([[], []]));
 
-export type UpdateChatRequestBlocksCase1ItemMap = {
-  [key: string]: unknown | undefined;
-};
+export type UpdateChatRequestBlocksCase1ItemMap = { [key: string]: unknown | undefined };
 export const UpdateChatRequestBlocksCase1ItemMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -863,13 +809,9 @@ export const UpdateChatRequest = /*@__PURE__*/ S.suspend(() =>
     reply_broadcast: S.optional(S.Boolean),
     file_ids: S.optional(UpdateChatRequestFileIdsList),
   }).pipe(T.Http({ method: "POST", uri: "/chat.update", code: 200 })),
-).annotate({
-  identifier: "UpdateChatRequest",
-}) as any as S.Schema<UpdateChatRequest>;
+).annotate({ identifier: "UpdateChatRequest" }) as any as S.Schema<UpdateChatRequest>;
 
-export type UpdateChatResponseMessageAttachmentsItemMap = {
-  [key: string]: unknown | undefined;
-};
+export type UpdateChatResponseMessageAttachmentsItemMap = { [key: string]: unknown | undefined };
 export const UpdateChatResponseMessageAttachmentsItemMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -881,9 +823,7 @@ export const UpdateChatResponseMessageAttachmentsList = /*@__PURE__*/ S.Array(
   UpdateChatResponseMessageAttachmentsItemMap,
 ) as any as S.Schema<UpdateChatResponseMessageAttachmentsList>;
 
-export type UpdateChatResponseMessageMetadataMap = {
-  [key: string]: unknown | undefined;
-};
+export type UpdateChatResponseMessageMetadataMap = { [key: string]: unknown | undefined };
 export const UpdateChatResponseMessageMetadataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -922,12 +862,10 @@ export const UpdateChatResponse = /*@__PURE__*/ S.suspend(() =>
     text: S.String,
     message: UpdateChatResponseMessage,
   }),
-).annotate({
-  identifier: "UpdateChatResponse",
-}) as any as S.Schema<UpdateChatResponse>;
+).annotate({ identifier: "UpdateChatResponse" }) as any as S.Schema<UpdateChatResponse>;
 
 export type AppendStreamError = SlackOpError;
-/** Appends text to an existing streaming conversation. Required scopes — bot: `chat:write` Rate limit tier: 4 Method-specific errors (the `error` slug on the SlackError): - `message_not_in_streaming_state` — The message is not in the streaming state. - `messaging_processing_failed` — Failed to process the message. - `as_user_not_supported` — The `as_user` parameter does not function with workspace apps. - `channel_not_found` — Value passed for `channel` was invalid. - `duplicate_channel_not_found` — Channel associated with `client_msg_id` was invalid. - `duplicate_message_not_found` — No duplicate message exists associated with `client_msg_id`. - `ekm_access_denied` — Your message couldn’t be sent because your admins have disabled sending messages to this channel. - `invalid_blocks` — Blocks submitted with this message are not valid. - `invalid_chunks` — Chunks submitted with this message are not valid. - `invalid_metadata_format` — Invalid metadata format provided - `invalid_metadata_schema` — Invalid metadata schema provided - `is_archived` — Channel has been archived. - `message_limit_exceeded` — Members on this team are sending too many messages. For more details, see https://slack.com/help/articles/115002422943-Usage-limits-for-free-workspaces - `messages_tab_disabled` — Messages tab for the app is disabled. - `metadata_must_be_sent_from_app` — Message metadata can only be posted or updated using an app-level token - `msg_blocks_too_long` — Blocks submitted with this message are too long. - `msg_blocks_too_many` — Max blocks exceeded, blocks are limited to 50 per message. - `metadata_too_large` — Metadata exceeds size limit - `no_text` — No message text provided - `not_in_channel` — Cannot post user messages to a channel they are not in. - `rate_limited` — Application has posted too many messages, [read the Rate Limit documentation](/apis/web-api/rate-limits) for more information - `restricted_action` — A workspace preference prevents the authenticated user from posting. - `restricted_action_non_threadable_channel` — Cannot post thread replies into a non_threadable channel. - `restricted_action_read_only_channel` — Cannot post any message into a read-only channel. - `restricted_action_thread_locked` — Cannot post replies to a thread that has been locked by admins. - `restricted_action_thread_only_channel` — Cannot post top-level messages into a thread-only channel. - `slack_connect_canvas_sharing_blocked` — Admin has disabled Canvas File sharing in all Slack Connect communications - `slack_connect_file_link_sharing_blocked` — Admin has disabled Slack File sharing in all Slack Connect communications - `slack_connect_lists_sharing_blocked` — Admin has disabled Lists sharing in all Slack Connect communications - `team_not_found` — This error occurs if, when using an org-wide token, the `channel_name` is passed instead of the `channel_id`. - `too_many_attachments` — Too many attachments were provided with this message. A maximum of 100 attachments are allowed on a message. - `too_many_contact_cards` — Too many contact_cards were provided with this message. A maximum of 10 contact cards are allowed on a message. - `message_not_found` — Message not found - `channel_type_not_supported` — Channel type not supported - `stopped_by_user` — The streaming message was stopped by the user and no further appends are accepted. - `message_not_owned_by_app` — The message is not owned by the app. See https://docs.slack.dev/reference/methods/chat.appendStream */
+/** Appends text to an existing streaming conversation. Required scopes — bot: `chat:write` Rate limit tier: 4 Method-specific errors (the `error` slug on the SlackError): - `message_not_in_streaming_state` — The message is not in the streaming state. - `messaging_processing_failed` — Failed to process the message. - `as_user_not_supported` — The `as_user` parameter does not function with workspace apps. - `channel_not_found` — Value passed for `channel` was invalid. - `duplicate_channel_not_found` — Channel associated with `client_msg_id` was invalid. - `duplicate_message_not_found` — No duplicate message exists associated with `client_msg_id`. - `ekm_access_denied` — Your message couldn’t be sent because your admins have disabled sending messages to this channel. - `invalid_blocks` — Blocks submitted with this message are not valid. - `invalid_chunks` — Chunks submitted with this message are not valid. - `invalid_metadata_format` — Invalid metadata format provided - `invalid_metadata_schema` — Invalid metadata schema provided - `is_archived` — Channel has been archived. - `message_limit_exceeded` — Members on this team are sending too many messages. For more details, see https://slack.com/help/articles/115002422943-Usage-limits-for-free-workspaces - `messages_tab_disabled` — Messages tab for the app is disabled. - `metadata_must_be_sent_from_app` — Message metadata can only be posted or updated using an app-level token - `msg_blocks_too_long` — Blocks submitted with this message are too long. - `msg_blocks_too_many` — Max blocks exceeded, blocks are limited to 50 per message. - `metadata_too_large` — Metadata exceeds size limit - `no_text` — No message text provided - `not_in_channel` — Cannot post user messages to a channel they are not in. - `rate_limited` — Application has posted too many messages, [read the Rate Limit documentation](/apis/web-api/rate-limits) for more information - `restricted_action` — A workspace preference prevents the authenticated user from posting. - `restricted_action_non_threadable_channel` — Cannot post thread replies into a non_threadable channel. - `restricted_action_read_only_channel` — Cannot post any message into a read-only channel. - `restricted_action_thread_locked` — Cannot post replies to a thread that has been locked by admins. - `restricted_action_thread_only_channel` — Cannot post top-level messages into a thread-only channel. - `slack_connect_canvas_sharing_blocked` — Admin has disabled Canvas File sharing in all Slack Connect communications - `slack_connect_file_link_sharing_blocked` — Admin has disabled Slack File sharing in all Slack Connect communications - `slack_connect_lists_sharing_blocked` — Admin has disabled Lists sharing in all Slack Connect communications - `team_not_found` — This error occurs if, when using an org-wide token, the `channel_name` is passed instead of the `channel_id`. - `too_many_attachments` — Too many attachments were provided with this message. A maximum of 100 attachments are allowed on a message. - `too_many_contact_cards` — Too many contact_cards were provided with this message. A maximum of 10 contact cards are allowed on a message. - `message_not_found` — Message not found - `channel_type_not_supported` — Channel type not supported - `stopped_by_user` — The streaming message was stopped by the user and no further appends are accepted. - `message_not_owned_by_app` — The message is not owned by the app. - `markdown_text_required` — Missing required field: 'markdown_text' - `markdown_text_or_chunks_required` — One of 'markdown_text' or 'chunks' is required - `streaming_mode_mismatch` — The streaming mode must be the same as the streaming mode used to start the stream. If you started the stream with `markdown_text`, you must append with `markdown_text`. If you started the stream with `chunks`, you must append with `chunks`. - `cannot_provide_both_markdown_text_and_chunks` — Cannot provide both `markdown_text` and `chunks` in the same request. See https://docs.slack.dev/reference/methods/chat.appendStream */
 export const appendStream: API.OperationMethod<
   AppendStreamRequest,
   AppendStreamResponse,
@@ -957,7 +895,7 @@ export const chatUnfurl: API.OperationMethod<
 }));
 
 export type DeleteChatError = SlackOpError;
-/** Deletes a message. Required scopes — bot: `chat:write`; user: `chat:write` Rate limit tier: 3 Method-specific errors (the `error` slug on the SlackError): - `cant_delete_message` — Authenticated user does not have permission to delete this message. - `channel_not_found` — Value passed for `channel` was invalid. - `message_not_found` — No message exists with the requested timestamp. See https://docs.slack.dev/reference/methods/chat.delete */
+/** Deletes a message. Required scopes — bot: `chat:write`; user: `chat:write` Rate limit tier: 3 Method-specific errors (the `error` slug on the SlackError): - `cant_delete_message` — Authenticated user does not have permission to delete this message. - `channel_not_found` — Value passed for `channel` was invalid. - `message_not_found` — No message exists with the requested timestamp. - `invalid_channel_id` — Value passed for `channel` was not a valid channel ID. See https://docs.slack.dev/reference/methods/chat.delete */
 export const deleteChat: API.OperationMethod<
   DeleteChatRequest,
   DeleteChatResponse,
@@ -1058,7 +996,7 @@ export const postEphemeral: API.OperationMethod<
 }));
 
 export type PostMessageError = SlackOpError;
-/** Sends a message to a channel. Required scopes — bot: `chat:write`; user: `chat:write` Rate limit tier: 5 Method-specific errors (the `error` slug on the SlackError): - `app_access_restricted` — The user does not have permission to use this app. - `as_user_not_supported` — The `as_user` parameter does not function with workspace apps. - `channel_not_found` — Value passed for `channel` was invalid. - `draft_already_deleted` — The draft has already been deleted. - `draft_already_sent` — The draft has already been sent. - `draft_has_conflict` — The client draft version is out of sync with the server draft version. - `draft_not_found` — The draft was not found. - `duplicate_channel_not_found` — Channel associated with `client_msg_id` was invalid. - `duplicate_message_not_found` — No duplicate message exists associated with `client_msg_id`. - `ekm_access_denied` — Your message couldn’t be sent because your admins have disabled sending messages to this channel. - `invalid_blocks` — Blocks submitted with this message are not valid. - `invalid_blocks_format` — The `blocks` is not a valid JSON object or doesn't match the Block Kit syntax. - `invalid_metadata_format` — Invalid metadata format provided. - `invalid_metadata_schema` — Invalid metadata schema provided. - `is_archived` — Channel has been archived. - `markdown_text_conflict` — Markdown text cannot be used in conjunction with `blocks` or `text` argument. - `message_limit_exceeded` — Members on this team are sending too many messages. For more details, see https://slack.com/help/articles/115002422943-Usage-limits-for-free-workspaces. - `messages_tab_disabled` — Messages tab for the app is disabled. - `metadata_must_be_sent_from_app` — Message metadata can only be posted or updated using an app-level token. - `metadata_too_large` — Metadata exceeds size limit. - `msg_blocks_too_long` — Blocks submitted with this message are too long. - `no_text` — No message text provided. - `not_in_channel` — Cannot post user messages to a channel they are not in. - `rate_limited` — Application has posted too many messages, [read the Rate Limit documentation](/apis/web-api/rate-limits) for more information. - `restricted_action` — A workspace preference prevents the authenticated user from posting. - `restricted_action_non_threadable_channel` — Cannot post thread replies into a non_threadable channel. - `restricted_action_read_only_channel` — Cannot post any message into a read-only channel. - `restricted_action_thread_locked` — Cannot post replies to a thread that has been locked by admins. - `restricted_action_thread_only_channel` — Cannot post top-level messages into a thread-only channel. - `send_on_behalf_not_allowed` — Cannot send on behalf of the provided user. - `slack_connect_canvas_sharing_blocked` — Admin has disabled Canvas File sharing in all Slack Connect communications. - `slack_connect_file_link_sharing_blocked` — Admin has disabled Slack File sharing in all Slack Connect communications. - `slack_connect_lists_sharing_blocked` — Admin has disabled Lists sharing in all Slack Connect communications. - `team_not_found` — This error occurs if, when using an org-wide token, the `channel_name` is passed instead of the `channel_id`. - `too_many_attachments` — Too many attachments were provided with this message. A maximum of 100 attachments are allowed on a message. - `too_many_contact_cards` — Too many contact_cards were provided with this message. A maximum of 10 contact cards are allowed on a message. - `cannot_reply_to_message` — This message type cannot have thread replies. - `missing_file_data` — Attempted to share a file but some required data was missing. - `attachment_payload_limit_exceeded` — Attachment payload size is too long. See https://docs.slack.dev/reference/methods/chat.postMessage */
+/** Sends a message to a channel. Required scopes — bot: `chat:write`; user: `chat:write` Rate limit tier: 5 Method-specific errors (the `error` slug on the SlackError): - `agent_prompt_display_not_allowed` — `client_context.agent_prompt_display` may only be set by the Slack client when posting to the user's Slackbot DM. - `app_access_restricted` — The user does not have permission to use this app. - `as_user_not_supported` — The `as_user` parameter does not function with workspace apps. - `channel_not_found` — Value passed for `channel` was invalid. - `draft_already_deleted` — The draft has already been deleted. - `draft_already_sent` — The draft has already been sent. - `draft_has_conflict` — The client draft version is out of sync with the server draft version. - `draft_not_found` — The draft was not found. - `duplicate_channel_not_found` — Channel associated with `client_msg_id` was invalid. - `duplicate_message_not_found` — No duplicate message exists associated with `client_msg_id`. - `ekm_access_denied` — Your message couldn’t be sent because your admins have disabled sending messages to this channel. - `invalid_blocks` — Blocks submitted with this message are not valid. - `invalid_blocks_format` — The `blocks` is not a valid JSON object or doesn't match the Block Kit syntax. - `invalid_metadata_format` — Invalid metadata format provided. - `invalid_metadata_schema` — Invalid metadata schema provided. - `is_archived` — Channel has been archived. - `markdown_text_conflict` — Markdown text cannot be used in conjunction with `blocks` or `text` argument. - `message_limit_exceeded` — Members on this team are sending too many messages. For more details, see https://slack.com/help/articles/115002422943-Usage-limits-for-free-workspaces. - `messages_tab_disabled` — Messages tab for the app is disabled. - `metadata_must_be_sent_from_app` — Message metadata can only be posted or updated using an app-level token. - `metadata_too_large` — Metadata exceeds size limit. - `msg_blocks_too_long` — Blocks submitted with this message are too long. - `no_text` — No message text provided. - `not_in_channel` — Cannot post user messages to a channel they are not in. - `rate_limited` — Application has posted too many messages, [read the Rate Limit documentation](/apis/web-api/rate-limits) for more information. - `restricted_action` — A workspace preference prevents the authenticated user from posting. - `restricted_action_non_threadable_channel` — Cannot post thread replies into a non_threadable channel. - `restricted_action_read_only_channel` — Cannot post any message into a read-only channel. - `restricted_action_thread_locked` — Cannot post replies to a thread that has been locked by admins. - `restricted_action_thread_only_channel` — Cannot post top-level messages into a thread-only channel. - `send_on_behalf_not_allowed` — Cannot send on behalf of the provided user. - `slack_connect_canvas_sharing_blocked` — Admin has disabled Canvas File sharing in all Slack Connect communications. - `slack_connect_file_link_sharing_blocked` — Admin has disabled Slack File sharing in all Slack Connect communications. - `slack_connect_lists_sharing_blocked` — Admin has disabled Lists sharing in all Slack Connect communications. - `team_not_found` — This error occurs if, when using an org-wide token, the `channel_name` is passed instead of the `channel_id`. - `too_many_attachments` — Too many attachments were provided with this message. A maximum of 100 attachments are allowed on a message. - `too_many_contact_cards` — Too many contact_cards were provided with this message. A maximum of 10 contact cards are allowed on a message. - `cannot_reply_to_message` — This message type cannot have thread replies. - `missing_file_data` — Attempted to share a file but some required data was missing. - `attachment_payload_limit_exceeded` — Attachment payload size is too long. See https://docs.slack.dev/reference/methods/chat.postMessage */
 export const postMessage: API.OperationMethod<
   PostMessageRequest,
   PostMessageResponse,
@@ -1088,7 +1026,7 @@ export const scheduleMessage: API.OperationMethod<
 }));
 
 export type StartStreamError = SlackOpError;
-/** Starts a new streaming conversation. Required scopes — bot: `chat:write` Rate limit tier: 2 Method-specific errors (the `error` slug on the SlackError): - `messaging_processing_failed` — Failed to process the message. - `channel_not_found` — Value passed for `channel` was invalid. - `duplicate_channel_not_found` — Channel associated with `client_msg_id` was invalid. - `duplicate_message_not_found` — No duplicate message exists associated with `client_msg_id`. - `ekm_access_denied` — Your message couldn’t be sent because your admins have disabled sending messages to this channel. - `invalid_blocks` — Blocks submitted with this message are not valid - `invalid_chunks` — Chunks submitted with this message are not valid. - `invalid_blocks_format` — The `blocks` is not a valid JSON object or doesn't match the Block Kit syntax. - `invalid_metadata_format` — Invalid metadata format provided - `invalid_metadata_schema` — Invalid metadata schema provided - `is_archived` — Channel has been archived. - `message_limit_exceeded` — Members on this team are sending too many messages. For more details, see https://slack.com/help/articles/115002422943-Usage-limits-for-free-workspaces - `messages_tab_disabled` — Messages tab for the app is disabled. - `metadata_must_be_sent_from_app` — Message metadata can only be posted or updated using an app-level token - `metadata_too_large` — Metadata exceeds size limit - `msg_blocks_too_long` — Blocks submitted with this message are too long. - `msg_blocks_too_many` — Max blocks exceeded, blocks are limited to 50 per message. - `no_text` — No message text provided - `not_in_channel` — Cannot post user messages to a channel they are not in. - `rate_limited` — Application has posted too many messages, [read the Rate Limit documentation](/apis/web-api/rate-limits) for more information - `restricted_action` — A workspace preference prevents the authenticated user from posting. - `restricted_action_non_threadable_channel` — Cannot post thread replies into a non_threadable channel. - `restricted_action_read_only_channel` — Cannot post any message into a read-only channel. - `restricted_action_thread_locked` — Cannot post replies to a thread that has been locked by admins. - `restricted_action_thread_only_channel` — Cannot post top-level messages into a thread-only channel. - `slack_connect_canvas_sharing_blocked` — Admin has disabled Canvas File sharing in all Slack Connect communications - `slack_connect_file_link_sharing_blocked` — Admin has disabled Slack File sharing in all Slack Connect communications - `slack_connect_lists_sharing_blocked` — Admin has disabled Lists sharing in all Slack Connect communications - `team_not_found` — This error occurs if, when using an org-wide token, the `channel_name` is passed instead of the `channel_id`. - `channel_type_not_supported` — Channel type not supported - `user_not_found` — User not found. - `missing_recipient_team_id` — Missing recipient team ID. - `missing_recipient_user_id` — Missing recipient user ID. - `not_subscribed_to_message_stream_stopped` — The app must be subscribed to the `message_stream_stopped` event to use `is_stoppable`. See https://docs.slack.dev/reference/methods/chat.startStream */
+/** Starts a new streaming conversation. Required scopes — bot: `chat:write` Rate limit tier: 2 Method-specific errors (the `error` slug on the SlackError): - `messaging_processing_failed` — Failed to process the message. - `channel_not_found` — Value passed for `channel` was invalid. - `duplicate_channel_not_found` — Channel associated with `client_msg_id` was invalid. - `duplicate_message_not_found` — No duplicate message exists associated with `client_msg_id`. - `ekm_access_denied` — Your message couldn’t be sent because your admins have disabled sending messages to this channel. - `invalid_blocks` — Blocks submitted with this message are not valid - `invalid_chunks` — Chunks submitted with this message are not valid. - `invalid_blocks_format` — The `blocks` is not a valid JSON object or doesn't match the Block Kit syntax. - `invalid_metadata_format` — Invalid metadata format provided - `invalid_metadata_schema` — Invalid metadata schema provided - `is_archived` — Channel has been archived. - `message_limit_exceeded` — Members on this team are sending too many messages. For more details, see https://slack.com/help/articles/115002422943-Usage-limits-for-free-workspaces - `messages_tab_disabled` — Messages tab for the app is disabled. - `metadata_must_be_sent_from_app` — Message metadata can only be posted or updated using an app-level token - `metadata_too_large` — Metadata exceeds size limit - `msg_blocks_too_long` — Blocks submitted with this message are too long. - `msg_blocks_too_many` — Max blocks exceeded, blocks are limited to 50 per message. - `no_text` — No message text provided - `not_in_channel` — Cannot post user messages to a channel they are not in. - `rate_limited` — Application has posted too many messages, [read the Rate Limit documentation](/apis/web-api/rate-limits) for more information - `restricted_action` — A workspace preference prevents the authenticated user from posting. - `restricted_action_non_threadable_channel` — Cannot post thread replies into a non_threadable channel. - `restricted_action_read_only_channel` — Cannot post any message into a read-only channel. - `restricted_action_thread_locked` — Cannot post replies to a thread that has been locked by admins. - `restricted_action_thread_only_channel` — Cannot post top-level messages into a thread-only channel. - `slack_connect_canvas_sharing_blocked` — Admin has disabled Canvas File sharing in all Slack Connect communications - `slack_connect_file_link_sharing_blocked` — Admin has disabled Slack File sharing in all Slack Connect communications - `slack_connect_lists_sharing_blocked` — Admin has disabled Lists sharing in all Slack Connect communications - `team_not_found` — This error occurs if, when using an org-wide token, the `channel_name` is passed instead of the `channel_id`. - `channel_type_not_supported` — Channel type not supported - `user_not_found` — User not found. - `missing_recipient_team_id` — Missing recipient team ID. - `missing_recipient_user_id` — Missing recipient user ID. - `cannot_provide_both_markdown_text_and_chunks` — Cannot provide both `markdown_text` and `chunks` in the same request. See https://docs.slack.dev/reference/methods/chat.startStream */
 export const startStream: API.OperationMethod<
   StartStreamRequest,
   StartStreamResponse,
@@ -1103,7 +1041,7 @@ export const startStream: API.OperationMethod<
 }));
 
 export type StopStreamError = SlackOpError;
-/** Stops a streaming conversation. Required scopes — bot: `chat:write` Rate limit tier: 2 Method-specific errors (the `error` slug on the SlackError): - `message_not_found` — The message was not found. - `message_not_in_streaming_state` — The message is not in a streaming state. - `as_user_not_supported` — The `as_user` parameter does not function with workspace apps. - `channel_not_found` — Value passed for `channel` was invalid. - `channel_type_not_supported` — Channel type not supported. - `duplicate_channel_not_found` — Channel associated with `client_msg_id` was invalid. - `duplicate_message_not_found` — No duplicate message exists associated with `client_msg_id`. - `ekm_access_denied` — Your message couldn’t be sent because your admins have disabled sending messages to this channel. - `invalid_blocks` — Blocks submitted with this message are not valid. - `invalid_chunks` — Chunks submitted with this message are not valid. - `invalid_metadata_format` — Invalid metadata format provided - `invalid_metadata_schema` — Invalid metadata schema provided - `is_archived` — Channel has been archived. - `message_limit_exceeded` — Members on this team are sending too many messages. For more details, see https://slack.com/help/articles/115002422943-Usage-limits-for-free-workspaces - `message_not_owned_by_app` — The message is not owned by the app. - `messages_tab_disabled` — Messages tab for the app is disabled. - `metadata_must_be_sent_from_app` — Message metadata can only be posted or updated using an app-level token - `metadata_too_large` — Metadata exceeds size limit - `msg_blocks_too_long` — Blocks submitted with this message are too long. - `msg_blocks_too_many` — Max blocks exceeded, blocks are limited to 50 per message. - `no_text` — No message text provided - `not_in_channel` — Cannot post user messages to a channel they are not in. - `rate_limited` — Application has posted too many messages, [read the Rate Limit documentation](/apis/web-api/rate-limits) for more information - `restricted_action` — A workspace preference prevents the authenticated user from posting. - `restricted_action_non_threadable_channel` — Cannot post thread replies into a non_threadable channel. - `restricted_action_read_only_channel` — Cannot post any message into a read-only channel. - `restricted_action_thread_locked` — Cannot post replies to a thread that has been locked by admins. - `restricted_action_thread_only_channel` — Cannot post top-level messages into a thread-only channel. - `slack_connect_canvas_sharing_blocked` — Admin has disabled Canvas File sharing in all Slack Connect communications - `slack_connect_file_link_sharing_blocked` — Admin has disabled Slack File sharing in all Slack Connect communications - `slack_connect_lists_sharing_blocked` — Admin has disabled Lists sharing in all Slack Connect communications - `team_not_found` — This error occurs if, when using an org-wide token, the `channel_name` is passed instead of the `channel_id`. - `too_many_attachments` — Too many attachments were provided with this message. A maximum of 100 attachments are allowed on a message. - `too_many_contact_cards` — Too many contact_cards were provided with this message. A maximum of 10 contact cards are allowed on a message. - `cannot_reply_to_message` — This message type cannot have thread replies. - `missing_file_data` — Attempted to share a file but some required data was missing. - `attachment_payload_limit_exceeded` — Attachment payload size is too long. See https://docs.slack.dev/reference/methods/chat.stopStream */
+/** Stops a streaming conversation. Required scopes — bot: `chat:write` Rate limit tier: 2 Method-specific errors (the `error` slug on the SlackError): - `message_not_found` — The message was not found. - `message_not_in_streaming_state` — The message is not in a streaming state. - `as_user_not_supported` — The `as_user` parameter does not function with workspace apps. - `channel_not_found` — Value passed for `channel` was invalid. - `channel_type_not_supported` — Channel type not supported. - `duplicate_channel_not_found` — Channel associated with `client_msg_id` was invalid. - `duplicate_message_not_found` — No duplicate message exists associated with `client_msg_id`. - `ekm_access_denied` — Your message couldn’t be sent because your admins have disabled sending messages to this channel. - `invalid_blocks` — Blocks submitted with this message are not valid. - `invalid_chunks` — Chunks submitted with this message are not valid. - `invalid_metadata_format` — Invalid metadata format provided - `invalid_metadata_schema` — Invalid metadata schema provided - `is_archived` — Channel has been archived. - `message_limit_exceeded` — Members on this team are sending too many messages. For more details, see https://slack.com/help/articles/115002422943-Usage-limits-for-free-workspaces - `message_not_owned_by_app` — The message is not owned by the app. - `messages_tab_disabled` — Messages tab for the app is disabled. - `metadata_must_be_sent_from_app` — Message metadata can only be posted or updated using an app-level token - `metadata_too_large` — Metadata exceeds size limit - `msg_blocks_too_long` — Blocks submitted with this message are too long. - `msg_blocks_too_many` — Max blocks exceeded, blocks are limited to 50 per message. - `no_text` — No message text provided - `not_in_channel` — Cannot post user messages to a channel they are not in. - `rate_limited` — Application has posted too many messages, [read the Rate Limit documentation](/apis/web-api/rate-limits) for more information - `restricted_action` — A workspace preference prevents the authenticated user from posting. - `restricted_action_non_threadable_channel` — Cannot post thread replies into a non_threadable channel. - `restricted_action_read_only_channel` — Cannot post any message into a read-only channel. - `restricted_action_thread_locked` — Cannot post replies to a thread that has been locked by admins. - `restricted_action_thread_only_channel` — Cannot post top-level messages into a thread-only channel. - `slack_connect_canvas_sharing_blocked` — Admin has disabled Canvas File sharing in all Slack Connect communications - `slack_connect_file_link_sharing_blocked` — Admin has disabled Slack File sharing in all Slack Connect communications - `slack_connect_lists_sharing_blocked` — Admin has disabled Lists sharing in all Slack Connect communications - `team_not_found` — This error occurs if, when using an org-wide token, the `channel_name` is passed instead of the `channel_id`. - `too_many_attachments` — Too many attachments were provided with this message. A maximum of 100 attachments are allowed on a message. - `too_many_contact_cards` — Too many contact_cards were provided with this message. A maximum of 10 contact cards are allowed on a message. - `cannot_reply_to_message` — This message type cannot have thread replies. - `missing_file_data` — Attempted to share a file but some required data was missing. - `attachment_payload_limit_exceeded` — Attachment payload size is too long. - `cannot_provide_both_markdown_text_and_chunks` — Cannot provide both `markdown_text` and `chunks` in the same request. - `streaming_mode_mismatch` — The streaming mode must be the same as the streaming mode used to start the stream. If you started the stream with `markdown_text`, you must append with `markdown_text`. If you started the stream with `chunks`, you must append with `chunks`. See https://docs.slack.dev/reference/methods/chat.stopStream */
 export const stopStream: API.OperationMethod<
   StopStreamRequest,
   StopStreamResponse,
@@ -1118,7 +1056,7 @@ export const stopStream: API.OperationMethod<
 }));
 
 export type UpdateChatError = SlackOpError;
-/** Updates a message. Required scopes — bot: `chat:write`; user: `chat:write` Rate limit tier: 3 Method-specific errors (the `error` slug on the SlackError): - `as_user_not_supported` — The `as_user` parameter does not function with workspace apps. - `blocked_file_type` — Admin has disabled uploading this type of file. - `block_mismatch` — Rich-text blocks cannot be replaced with non-rich-text blocks - `cant_broadcast_message` — Unable to broadcast this message. - `cant_update_message` — Authenticated user does not have permission to update this message. - `channel_not_found` — Value passed for `channel` was invalid. - `edit_window_closed` — The message cannot be edited due to the team message edit settings - `external_channel_migrating` — The channel is in the process of migrating and so the message cannot be updated at this time. - `file_deleted` — File to share deleted. - `file_is_deleted` — The file is deleted. - `file_not_found` — One or more of the provided file IDs could not be found. - `file_share_limit_reached` — The file has reached the share limit. - `invalid_attachments` — The attachments were invalid. - `invalid_blocks` — The blocks were invalid for the requesting user. - `invalid_blocks_format` — The `blocks` array is not a valid JSON object or doesn't match the Block Kit syntax. - `invalid_metadata_format` — Invalid metadata format provided - `invalid_metadata_schema` — Invalid metadata schema provided - `is_inactive` — The message cannot be edited within a frozen, archived or deleted channel. - `markdown_text_conflict` — Markdown text cannot be used in conjunction with `blocks` or `text` argument. - `max_file_sharing_exceeded` — Exceeded max allowed files shared. - `message_limit_exceeded` — Members on this team are sending too many messages. For more details, see https://slack.com/help/articles/115002422943-Usage-limits-for-free-workspaces. - `message_not_found` — No message exists with the requested timestamp. - `metadata_must_be_sent_from_app` — Message metadata can only be posted or updated using an app-level token - `metadata_too_large` — Metadata exceeds size limit - `msg_too_long` — Message text is too long. The `text` field cannot exceed 4,000 characters. - `no_dual_broadcast_content_update` — Can't broadcast an old reply and update the content at the same time. - `no_text` — No message text provided - `posting_to_channel_denied` — The user does not have permission to share files in this channel. - `slack_connect_blocked_file_type` — Files with certain extensions are blocked from being uploaded in all Slack Connect messages. - `slack_connect_canvas_sharing_blocked` — Admin has disabled sharing of canvas links in all Slack Connect messages. - `slack_connect_clip_sharing_blocked` — Admin has disabled Clip uploads in Slack Connect channels. - `slack_connect_file_link_sharing_blocked` — Admin has disabled Slack file sharing in all Slack Connect messages. - `slack_connect_file_upload_sharing_blocked` — Admin has disabled file uploads in all Slack Connect messages. - `streaming_state_conflict` — The message is currently streaming text and cannot be edited. - `team_not_found` — Team associated with the message and channel could not be found. - `too_many_attachments` — Too many attachments were provided with this message. A maximum of 100 attachments are allowed on a message. - `unable_to_share_files` — Sharing the files failed. - `update_failed` — Internal update failure. See https://docs.slack.dev/reference/methods/chat.update */
+/** Updates a message. Required scopes — bot: `chat:write`; user: `chat:write` Rate limit tier: 3 Method-specific errors (the `error` slug on the SlackError): - `as_user_not_supported` — The `as_user` parameter does not function with workspace apps. - `blocked_file_type` — Admin has disabled uploading this type of file. - `block_mismatch` — Rich-text blocks cannot be replaced with non-rich-text blocks - `cant_broadcast_message` — Unable to broadcast this message. - `cant_update_message` — Authenticated user does not have permission to update this message. - `channel_not_found` — Value passed for `channel` was invalid. - `edit_window_closed` — The message cannot be edited due to the team message edit settings - `external_channel_migrating` — The channel is in the process of migrating and so the message cannot be updated at this time. - `file_deleted` — File to share deleted. - `file_is_deleted` — The file is deleted. - `file_not_found` — One or more of the provided file IDs could not be found. - `file_share_limit_reached` — The file has reached the share limit. - `invalid_attachments` — The attachments were invalid. - `invalid_blocks` — The blocks were invalid for the requesting user. - `invalid_blocks_format` — The `blocks` array is not a valid JSON object or doesn't match the Block Kit syntax. - `invalid_metadata_format` — Invalid metadata format provided - `invalid_metadata_schema` — Invalid metadata schema provided - `is_inactive` — The message cannot be edited within a frozen, archived or deleted channel. - `markdown_text_conflict` — Markdown text cannot be used in conjunction with `blocks` or `text` argument. - `max_file_sharing_exceeded` — Exceeded max allowed files shared. - `message_limit_exceeded` — Members on this team are sending too many messages. For more details, see https://slack.com/help/articles/115002422943-Usage-limits-for-free-workspaces. - `message_not_found` — No message exists with the requested timestamp. - `metadata_must_be_sent_from_app` — Message metadata can only be posted or updated using an app-level token - `metadata_too_large` — Metadata exceeds size limit - `msg_too_long` — Message text is too long. The `text` field cannot exceed 4,000 characters. - `no_dual_broadcast_content_update` — Can't broadcast an old reply and update the content at the same time. - `no_text` — No message text provided - `posting_to_channel_denied` — The user does not have permission to share files in this channel. - `slack_connect_blocked_file_type` — Files with certain extensions are blocked from being uploaded in all Slack Connect messages. - `slack_connect_canvas_sharing_blocked` — Admin has disabled sharing of canvas links in all Slack Connect messages. - `slack_connect_clip_sharing_blocked` — Admin has disabled Clip uploads in Slack Connect channels. - `slack_connect_file_link_sharing_blocked` — Admin has disabled Slack file sharing in all Slack Connect messages. - `slack_connect_file_upload_sharing_blocked` — Admin has disabled file uploads in all Slack Connect messages. - `streaming_state_conflict` — The message is currently streaming text and cannot be edited. - `team_not_found` — Team associated with the message and channel could not be found. - `too_many_attachments` — Too many attachments were provided with this message. A maximum of 100 attachments are allowed on a message. - `unable_to_share_files` — Sharing the files failed. - `update_failed` — Internal update failure. - `invalid_channel_id` — Value passed for `channel` was not a valid channel ID. See https://docs.slack.dev/reference/methods/chat.update */
 export const updateChat: API.OperationMethod<
   UpdateChatRequest,
   UpdateChatResponse,

@@ -21,7 +21,8 @@
     "properties": {
       "token": {
         "type": "string",
-        "subtype": "auth"
+        "subtype": "auth",
+        "example": "xxxx-xxxxxxxxx-xxxx"
       },
       "channel_ids": {
         "desc": "Comma-separated array of channel IDs to list featured workflows for.",

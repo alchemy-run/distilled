@@ -63,16 +63,8 @@ export const CreateExportRequest = /*@__PURE__*/ S.suspend(() =>
     insight: S.optional(S.NullOr(S.Number)),
     export_format: ExportedAssetCreateExportFormatEnum,
     export_context: S.optional(S.Unknown),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/projects/{project_id}/exports/",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "CreateExportRequest",
-}) as any as S.Schema<CreateExportRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/api/projects/{project_id}/exports/", code: 200 })),
+).annotate({ identifier: "CreateExportRequest" }) as any as S.Schema<CreateExportRequest>;
 
 /** Standard ExportedAsset serializer that doesn't return content. */
 export interface ExportedAssetCreate {
@@ -82,6 +74,7 @@ export interface ExportedAssetCreate {
   /** File format to generate. Dataset JSONL exports use the dataset export endpoint. * `image/png` - image/png * `application/pdf` - application/pdf * `text/csv` - text/csv * `application/vnd.openxmlformats-officedocument.spreadsheetml.sheet` - application/vnd.openxmlformats-officedocument.spreadsheetml.sheet * `video/webm` - video/webm * `video/mp4` - video/mp4 * `image/gif` - image/gif * `application/json` - application/json */
   export_format: ExportedAssetCreateExportFormatEnum;
   created_at: string;
+  /** Whether the export finished and its content is ready to download. Create can return before the export finishes; poll the asset until has_content is true or exception is set. */
   has_content: boolean;
   export_context?: unknown;
   filename: string;
@@ -104,9 +97,7 @@ export const ExportedAssetCreate = /*@__PURE__*/ S.suspend(() =>
     exception: S.NullOr(S.String),
     user_access_level: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "ExportedAssetCreate",
-}) as any as S.Schema<ExportedAssetCreate>;
+).annotate({ identifier: "ExportedAssetCreate" }) as any as S.Schema<ExportedAssetCreate>;
 
 export interface GetExportRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -118,16 +109,8 @@ export const GetExportRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project_id: S.String.pipe(T.Label()),
     id: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/exports/{id}/",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetExportRequest",
-}) as any as S.Schema<GetExportRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/projects/{project_id}/exports/{id}/", code: 200 })),
+).annotate({ identifier: "GetExportRequest" }) as any as S.Schema<GetExportRequest>;
 
 /** * `image/png` - image/png * `application/pdf` - application/pdf * `text/csv` - text/csv * `application/vnd.openxmlformats-officedocument.spreadsheetml.sheet` - application/vnd.openxmlformats-officedocument.spreadsheetml.sheet * `video/webm` - video/webm * `video/mp4` - video/mp4 * `image/gif` - image/gif * `application/json` - application/json * `application/x-ndjson` - application/x-ndjson */
 export type ExportedAssetExportFormatEnum =
@@ -150,6 +133,7 @@ export interface ExportedAsset {
   /** File format of the generated export. * `image/png` - image/png * `application/pdf` - application/pdf * `text/csv` - text/csv * `application/vnd.openxmlformats-officedocument.spreadsheetml.sheet` - application/vnd.openxmlformats-officedocument.spreadsheetml.sheet * `video/webm` - video/webm * `video/mp4` - video/mp4 * `image/gif` - image/gif * `application/json` - application/json * `application/x-ndjson` - application/x-ndjson */
   export_format?: ExportedAssetExportFormatEnum;
   created_at?: string;
+  /** Whether the export finished and its content is ready to download. Create can return before the export finishes; poll the asset until has_content is true or exception is set. */
   has_content?: boolean;
   export_context?: unknown;
   filename?: string;
@@ -185,15 +169,9 @@ export const GetExportsContentRequest = /*@__PURE__*/ S.suspend(() =>
     project_id: S.String.pipe(T.Label()),
     id: S.Number.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/exports/{id}/content/",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/projects/{project_id}/exports/{id}/content/", code: 200 }),
   ),
-).annotate({
-  identifier: "GetExportsContentRequest",
-}) as any as S.Schema<GetExportsContentRequest>;
+).annotate({ identifier: "GetExportsContentRequest" }) as any as S.Schema<GetExportsContentRequest>;
 
 export interface GetExportsContentResponse {}
 export const GetExportsContentResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -213,16 +191,8 @@ export const ListExportsRequest = /*@__PURE__*/ S.suspend(() =>
     project_id: S.String.pipe(T.Label()),
     limit: S.optional(S.Number.pipe(T.Query())),
     offset: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/exports/",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ListExportsRequest",
-}) as any as S.Schema<ListExportsRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/projects/{project_id}/exports/", code: 200 })),
+).annotate({ identifier: "ListExportsRequest" }) as any as S.Schema<ListExportsRequest>;
 
 export type PaginatedExportedAssetListResultsList = Array<ExportedAsset>;
 export const PaginatedExportedAssetListResultsList = /*@__PURE__*/ S.Array(

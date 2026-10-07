@@ -101,11 +101,7 @@ export const CheckIamResourceAuthorizationRequest = /*@__PURE__*/ S.suspend(() =
     resourceURN: S.String.pipe(T.Label()),
     actions: CheckIamResourceAuthorizationRequestActionsList,
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/iam/resource/{resourceURN}/authorization/check",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/iam/resource/{resourceURN}/authorization/check", code: 200 }),
   ),
 ).annotate({
   identifier: "CheckIamResourceAuthorizationRequest",
@@ -135,9 +131,7 @@ export const IamAuthorizeResponse = /*@__PURE__*/ S.suspend(() =>
     authorizedActions: S.optional(IamAuthorizeResponseAuthorizedActionsList),
     unauthorizedActions: S.optional(IamAuthorizeResponseUnauthorizedActionsList),
   }),
-).annotate({
-  identifier: "IamAuthorizeResponse",
-}) as any as S.Schema<IamAuthorizeResponse>;
+).annotate({ identifier: "IamAuthorizeResponse" }) as any as S.Schema<IamAuthorizeResponse>;
 
 export interface CreateIamLogSubscriptionRequest {
   /** Log kind name to subscribe to */
@@ -178,9 +172,7 @@ export const CreateIamLogUrlRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     kind: S.String,
   }).pipe(T.Http({ method: "POST", uri: "/iam/log/url", code: 200 })),
-).annotate({
-  identifier: "CreateIamLogUrlRequest",
-}) as any as S.Schema<CreateIamLogUrlRequest>;
+).annotate({ identifier: "CreateIamLogUrlRequest" }) as any as S.Schema<CreateIamLogUrlRequest>;
 
 /** Temporary url information */
 export interface DbaasLogsTemporaryLogsLink {
@@ -207,9 +199,7 @@ export const IamPolicyAction = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     action: S.String,
   }),
-).annotate({
-  identifier: "IamPolicyAction",
-}) as any as S.Schema<IamPolicyAction>;
+).annotate({ identifier: "IamPolicyAction" }) as any as S.Schema<IamPolicyAction>;
 
 /** List of allowed actions */
 export type IamPolicyPermissionsAllowList = Array<IamPolicyAction>;
@@ -244,9 +234,7 @@ export const IamPolicyPermissions = /*@__PURE__*/ S.suspend(() =>
     deny: S.optional(S.NullOr(IamPolicyPermissionsDenyList)),
     except: S.optional(S.NullOr(IamPolicyPermissionsExceptList)),
   }),
-).annotate({
-  identifier: "IamPolicyPermissions",
-}) as any as S.Schema<IamPolicyPermissions>;
+).annotate({ identifier: "IamPolicyPermissions" }) as any as S.Schema<IamPolicyPermissions>;
 
 export interface CreateIamPermissionsGroupRequest {
   /** Description of the permissions group */
@@ -296,9 +284,7 @@ export const IamPermissionsGroup = /*@__PURE__*/ S.suspend(() =>
     updatedAt: S.optional(S.NullOr(S.String)),
     urn: S.optional(S.String),
   }),
-).annotate({
-  identifier: "IamPermissionsGroup",
-}) as any as S.Schema<IamPermissionsGroup>;
+).annotate({ identifier: "IamPermissionsGroup" }) as any as S.Schema<IamPermissionsGroup>;
 
 /** conditions */
 export type IamPolicyConditionConditionsList = Array<IamPolicyCondition>;
@@ -332,9 +318,7 @@ export const IamPolicyCondition = /*@__PURE__*/ S.suspend(() =>
     operator: S.optional(IamPolicyConditionOperatorEnum),
     values: S.optional(S.NullOr(IamPolicyConditionValuesMap)),
   }),
-).annotate({
-  identifier: "IamPolicyCondition",
-}) as any as S.Schema<IamPolicyCondition>;
+).annotate({ identifier: "IamPolicyCondition" }) as any as S.Schema<IamPolicyCondition>;
 
 /** Recipients of the delegated resources */
 export type CreateIamPolicyRequestIdentitiesList = Array<string>;
@@ -370,9 +354,7 @@ export const IamPolicyResourceInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     urn: S.String,
   }),
-).annotate({
-  identifier: "IamPolicyResourceInput",
-}) as any as S.Schema<IamPolicyResourceInput>;
+).annotate({ identifier: "IamPolicyResourceInput" }) as any as S.Schema<IamPolicyResourceInput>;
 
 /** Resources to delegate */
 export type CreateIamPolicyRequestResourcesList = Array<IamPolicyResourceInput>;
@@ -409,9 +391,7 @@ export const CreateIamPolicyRequest = /*@__PURE__*/ S.suspend(() =>
     permissionsGroups: S.optional(S.NullOr(CreateIamPolicyRequestPermissionsGroupsList)),
     resources: CreateIamPolicyRequestResourcesList,
   }).pipe(T.Http({ method: "POST", uri: "/iam/policy", code: 200 })),
-).annotate({
-  identifier: "CreateIamPolicyRequest",
-}) as any as S.Schema<CreateIamPolicyRequest>;
+).annotate({ identifier: "CreateIamPolicyRequest" }) as any as S.Schema<CreateIamPolicyRequest>;
 
 /** Recipients of the delegated resources */
 export type IamPolicyResponseIdentitiesList = Array<string>;
@@ -465,9 +445,7 @@ export const IamPolicyGroup = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "IamPolicyGroup" }) as any as S.Schema<IamPolicyGroup>;
 
 /** Resource tags. Tags that were internally computed are prefixed with ovh: */
-export type IamPolicySingleResourceTagsMap = {
-  [key: string]: string | undefined;
-};
+export type IamPolicySingleResourceTagsMap = { [key: string]: string | undefined };
 export const IamPolicySingleResourceTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -497,9 +475,7 @@ export const IamPolicySingleResource = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(S.NullOr(IamPolicySingleResourceTagsMap)),
     type: S.optional(S.String),
   }),
-).annotate({
-  identifier: "IamPolicySingleResource",
-}) as any as S.Schema<IamPolicySingleResource>;
+).annotate({ identifier: "IamPolicySingleResource" }) as any as S.Schema<IamPolicySingleResource>;
 
 /** Resource in a policy */
 export interface IamPolicyResource {
@@ -516,9 +492,7 @@ export const IamPolicyResource = /*@__PURE__*/ S.suspend(() =>
     resource: S.optional(S.NullOr(IamPolicySingleResource)),
     urn: S.String,
   }),
-).annotate({
-  identifier: "IamPolicyResource",
-}) as any as S.Schema<IamPolicyResource>;
+).annotate({ identifier: "IamPolicyResource" }) as any as S.Schema<IamPolicyResource>;
 
 /** Resources to delegate */
 export type IamPolicyResponseResourcesList = Array<IamPolicyResource>;
@@ -571,9 +545,7 @@ export const IamPolicyResponse = /*@__PURE__*/ S.suspend(() =>
     resources: S.optional(IamPolicyResponseResourcesList),
     updatedAt: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "IamPolicyResponse",
-}) as any as S.Schema<IamPolicyResponse>;
+).annotate({ identifier: "IamPolicyResponse" }) as any as S.Schema<IamPolicyResponse>;
 
 /** Resource is an entity standing for a product. It is used for right delegation */
 export interface IamGroupResourceInput {
@@ -587,9 +559,7 @@ export const IamGroupResourceInput = /*@__PURE__*/ S.suspend(() =>
     id: S.optional(S.String),
     urn: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "IamGroupResourceInput",
-}) as any as S.Schema<IamGroupResourceInput>;
+).annotate({ identifier: "IamGroupResourceInput" }) as any as S.Schema<IamGroupResourceInput>;
 
 /** Resources to add in the created group */
 export type CreateIamResourceGroupRequestResourcesList = Array<IamGroupResourceInput>;
@@ -646,9 +616,7 @@ export const IamGroupResource = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.NullOr(S.String)),
     urn: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "IamGroupResource",
-}) as any as S.Schema<IamGroupResource>;
+).annotate({ identifier: "IamGroupResource" }) as any as S.Schema<IamGroupResource>;
 
 /** Resources included in the group */
 export type IamGroupResponseResourcesList = Array<IamGroupResource>;
@@ -686,9 +654,7 @@ export const IamGroupResponse = /*@__PURE__*/ S.suspend(() =>
     updatedAt: S.optional(S.NullOr(S.String)),
     urn: S.optional(S.String),
   }),
-).annotate({
-  identifier: "IamGroupResponse",
-}) as any as S.Schema<IamGroupResponse>;
+).annotate({ identifier: "IamGroupResponse" }) as any as S.Schema<IamGroupResponse>;
 
 export interface CreateIamResourceTagRequest {
   /** ResourceURN */
@@ -703,13 +669,7 @@ export const CreateIamResourceTagRequest = /*@__PURE__*/ S.suspend(() =>
     resourceURN: S.String.pipe(T.Label()),
     key: S.String,
     value: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/iam/resource/{resourceURN}/tag",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/iam/resource/{resourceURN}/tag", code: 200 })),
 ).annotate({
   identifier: "CreateIamResourceTagRequest",
 }) as any as S.Schema<CreateIamResourceTagRequest>;
@@ -726,13 +686,7 @@ export interface DeleteIamLogSubscriptionRequest {
 export const DeleteIamLogSubscriptionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     subscriptionId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/iam/log/subscription/{subscriptionId}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/iam/log/subscription/{subscriptionId}", code: 200 })),
 ).annotate({
   identifier: "DeleteIamLogSubscriptionRequest",
 }) as any as S.Schema<DeleteIamLogSubscriptionRequest>;
@@ -745,11 +699,7 @@ export const DeleteIamPermissionsGroupRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     permissionsGroupURN: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/iam/permissionsGroup/{permissionsGroupURN}",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/iam/permissionsGroup/{permissionsGroupURN}", code: 200 }),
   ),
 ).annotate({
   identifier: "DeleteIamPermissionsGroupRequest",
@@ -770,9 +720,7 @@ export const DeleteIamPolicyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     policyId: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "DELETE", uri: "/iam/policy/{policyId}", code: 200 })),
-).annotate({
-  identifier: "DeleteIamPolicyRequest",
-}) as any as S.Schema<DeleteIamPolicyRequest>;
+).annotate({ identifier: "DeleteIamPolicyRequest" }) as any as S.Schema<DeleteIamPolicyRequest>;
 
 export interface DeleteIamPolicyResponse {}
 export const DeleteIamPolicyResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -786,13 +734,7 @@ export interface DeleteIamResourceGroupRequest {
 export const DeleteIamResourceGroupRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     groupId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/iam/resourceGroup/{groupId}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/iam/resourceGroup/{groupId}", code: 200 })),
 ).annotate({
   identifier: "DeleteIamResourceGroupRequest",
 }) as any as S.Schema<DeleteIamResourceGroupRequest>;
@@ -812,13 +754,7 @@ export const DeleteIamResourceTagRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     resourceURN: S.String.pipe(T.Label()),
     key: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/iam/resource/{resourceURN}/tag/{key}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/iam/resource/{resourceURN}/tag/{key}", code: 200 })),
 ).annotate({
   identifier: "DeleteIamResourceTagRequest",
 }) as any as S.Schema<DeleteIamResourceTagRequest>;
@@ -836,9 +772,7 @@ export const GetIamLogKindRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/iam/log/kind/{name}", code: 200 })),
-).annotate({
-  identifier: "GetIamLogKindRequest",
-}) as any as S.Schema<GetIamLogKindRequest>;
+).annotate({ identifier: "GetIamLogKindRequest" }) as any as S.Schema<GetIamLogKindRequest>;
 
 /** List of additional log fields managed in this log kind */
 export type DbaasLogsLogKindAdditionalReturnedFieldsList = Array<string>;
@@ -870,9 +804,7 @@ export const DbaasLogsLogKind = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     updatedAt: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DbaasLogsLogKind",
-}) as any as S.Schema<DbaasLogsLogKind>;
+).annotate({ identifier: "DbaasLogsLogKind" }) as any as S.Schema<DbaasLogsLogKind>;
 
 export interface GetIamLogSubscriptionRequest {
   /** Subscription ID */
@@ -881,13 +813,7 @@ export interface GetIamLogSubscriptionRequest {
 export const GetIamLogSubscriptionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     subscriptionId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/iam/log/subscription/{subscriptionId}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/iam/log/subscription/{subscriptionId}", code: 200 })),
 ).annotate({
   identifier: "GetIamLogSubscriptionRequest",
 }) as any as S.Schema<GetIamLogSubscriptionRequest>;
@@ -935,9 +861,7 @@ export const DbaasLogsLogSubscription = /*@__PURE__*/ S.suspend(() =>
     subscriptionId: S.optional(S.String),
     updatedAt: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DbaasLogsLogSubscription",
-}) as any as S.Schema<DbaasLogsLogSubscription>;
+).annotate({ identifier: "DbaasLogsLogSubscription" }) as any as S.Schema<DbaasLogsLogSubscription>;
 
 export interface GetIamPermissionsGroupRequest {
   /** Permissions groupurn */
@@ -946,13 +870,7 @@ export interface GetIamPermissionsGroupRequest {
 export const GetIamPermissionsGroupRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     permissionsGroupURN: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/iam/permissionsGroup/{permissionsGroupURN}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/iam/permissionsGroup/{permissionsGroupURN}", code: 200 })),
 ).annotate({
   identifier: "GetIamPermissionsGroupRequest",
 }) as any as S.Schema<GetIamPermissionsGroupRequest>;
@@ -968,9 +886,7 @@ export const GetIamPolicyRequest = /*@__PURE__*/ S.suspend(() =>
     policyId: S.String.pipe(T.Label()),
     details: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/iam/policy/{policyId}", code: 200 })),
-).annotate({
-  identifier: "GetIamPolicyRequest",
-}) as any as S.Schema<GetIamPolicyRequest>;
+).annotate({ identifier: "GetIamPolicyRequest" }) as any as S.Schema<GetIamPolicyRequest>;
 
 export interface GetIamResourceRequest {
   /** ResourceURN */
@@ -980,9 +896,7 @@ export const GetIamResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     resourceURN: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/iam/resource/{resourceURN}", code: 200 })),
-).annotate({
-  identifier: "GetIamResourceRequest",
-}) as any as S.Schema<GetIamResourceRequest>;
+).annotate({ identifier: "GetIamResourceRequest" }) as any as S.Schema<GetIamResourceRequest>;
 
 /** Resource tags. Tags that were internally computed are prefixed with ovh: */
 export type IamResourceResourceTagsMap = { [key: string]: string | undefined };
@@ -1018,9 +932,7 @@ export const IamResourceResource = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     urn: S.optional(S.String),
   }),
-).annotate({
-  identifier: "IamResourceResource",
-}) as any as S.Schema<IamResourceResource>;
+).annotate({ identifier: "IamResourceResource" }) as any as S.Schema<IamResourceResource>;
 
 export interface GetIamResourceGroupRequest {
   /** Group ID */
@@ -1048,9 +960,7 @@ export const ListIamLogKindRequest = /*@__PURE__*/ S.suspend(() =>
     xPaginationCursor: S.optional(S.String.pipe(T.Header("X-Pagination-Cursor"))),
     xPaginationSize: S.optional(S.Number.pipe(T.Header("X-Pagination-Size"))),
   }).pipe(T.Http({ method: "GET", uri: "/iam/log/kind", code: 200 })),
-).annotate({
-  identifier: "ListIamLogKindRequest",
-}) as any as S.Schema<ListIamLogKindRequest>;
+).annotate({ identifier: "ListIamLogKindRequest" }) as any as S.Schema<ListIamLogKindRequest>;
 
 export type ListIamLogKindResponseBodyList = Array<string>;
 export const ListIamLogKindResponseBodyList = /*@__PURE__*/ S.Array(
@@ -1060,9 +970,7 @@ export const ListIamLogKindResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListIamLogKindResponse = ListIamLogKindResponseBodyList;
 export const ListIamLogKindResponse = /*@__PURE__*/ S.suspend(() =>
   ListIamLogKindResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListIamLogKindResponse",
-}) as any as S.Schema<ListIamLogKindResponse>;
+).annotate({ identifier: "ListIamLogKindResponse" }) as any as S.Schema<ListIamLogKindResponse>;
 
 export interface ListIamLogSubscriptionRequest {
   /** Filter on a specific kind (e.g., default) */
@@ -1162,9 +1070,7 @@ export const ListIamPolicyRequest = /*@__PURE__*/ S.suspend(() =>
     xPaginationCursor: S.optional(S.String.pipe(T.Header("X-Pagination-Cursor"))),
     xPaginationSize: S.optional(S.Number.pipe(T.Header("X-Pagination-Size"))),
   }).pipe(T.Http({ method: "GET", uri: "/iam/policy", code: 200 })),
-).annotate({
-  identifier: "ListIamPolicyRequest",
-}) as any as S.Schema<ListIamPolicyRequest>;
+).annotate({ identifier: "ListIamPolicyRequest" }) as any as S.Schema<ListIamPolicyRequest>;
 
 export type ListIamPolicyResponseBodyList = Array<IamPolicyResponse>;
 export const ListIamPolicyResponseBodyList = /*@__PURE__*/ S.Array(
@@ -1174,9 +1080,7 @@ export const ListIamPolicyResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListIamPolicyResponse = ListIamPolicyResponseBodyList;
 export const ListIamPolicyResponse = /*@__PURE__*/ S.suspend(() =>
   ListIamPolicyResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListIamPolicyResponse",
-}) as any as S.Schema<ListIamPolicyResponse>;
+).annotate({ identifier: "ListIamPolicyResponse" }) as any as S.Schema<ListIamPolicyResponse>;
 
 export type ListIamReferenceActionRequestResourceTypeList = Array<string>;
 export const ListIamReferenceActionRequestResourceTypeList = /*@__PURE__*/ S.Array(
@@ -1228,9 +1132,7 @@ export const IamReferenceAction = /*@__PURE__*/ S.suspend(() =>
     hasQueryParameters: S.optional(S.Boolean),
     resourceType: S.optional(S.String),
   }),
-).annotate({
-  identifier: "IamReferenceAction",
-}) as any as S.Schema<IamReferenceAction>;
+).annotate({ identifier: "IamReferenceAction" }) as any as S.Schema<IamReferenceAction>;
 
 export type ListIamReferenceActionResponseBodyList = Array<IamReferenceAction>;
 export const ListIamReferenceActionResponseBodyList = /*@__PURE__*/ S.Array(
@@ -1328,9 +1230,7 @@ export const ListIamResourceRequest = /*@__PURE__*/ S.suspend(() =>
     xPaginationCursor: S.optional(S.String.pipe(T.Header("X-Pagination-Cursor"))),
     xPaginationSize: S.optional(S.Number.pipe(T.Header("X-Pagination-Size"))),
   }).pipe(T.Http({ method: "GET", uri: "/iam/resource", code: 200 })),
-).annotate({
-  identifier: "ListIamResourceRequest",
-}) as any as S.Schema<ListIamResourceRequest>;
+).annotate({ identifier: "ListIamResourceRequest" }) as any as S.Schema<ListIamResourceRequest>;
 
 export type ListIamResourceResponseBodyList = Array<IamResourceResource>;
 export const ListIamResourceResponseBodyList = /*@__PURE__*/ S.Array(
@@ -1340,9 +1240,7 @@ export const ListIamResourceResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListIamResourceResponse = ListIamResourceResponseBodyList;
 export const ListIamResourceResponse = /*@__PURE__*/ S.suspend(() =>
   ListIamResourceResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListIamResourceResponse",
-}) as any as S.Schema<ListIamResourceResponse>;
+).annotate({ identifier: "ListIamResourceResponse" }) as any as S.Schema<ListIamResourceResponse>;
 
 export interface ListIamResourceGroupRequest {
   /** Add extra information about resources in output */
@@ -1390,13 +1288,7 @@ export const PutIamPermissionsGroupRequest = /*@__PURE__*/ S.suspend(() =>
     description: S.String,
     name: S.String,
     permissions: IamPolicyPermissions,
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/iam/permissionsGroup/{permissionsGroupURN}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/iam/permissionsGroup/{permissionsGroupURN}", code: 200 })),
 ).annotate({
   identifier: "PutIamPermissionsGroupRequest",
 }) as any as S.Schema<PutIamPermissionsGroupRequest>;
@@ -1451,14 +1343,10 @@ export const PutIamPolicyRequest = /*@__PURE__*/ S.suspend(() =>
     permissionsGroups: S.optional(S.NullOr(PutIamPolicyRequestPermissionsGroupsList)),
     resources: PutIamPolicyRequestResourcesList,
   }).pipe(T.Http({ method: "PUT", uri: "/iam/policy/{policyId}", code: 200 })),
-).annotate({
-  identifier: "PutIamPolicyRequest",
-}) as any as S.Schema<PutIamPolicyRequest>;
+).annotate({ identifier: "PutIamPolicyRequest" }) as any as S.Schema<PutIamPolicyRequest>;
 
 /** Resource tags. Tags that were internally computed are prefixed with ovh: */
-export type PutIamResourceRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type PutIamResourceRequestTagsMap = { [key: string]: string | undefined };
 export const PutIamResourceRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1475,9 +1363,7 @@ export const PutIamResourceRequest = /*@__PURE__*/ S.suspend(() =>
     resourceURN: S.String.pipe(T.Label()),
     tags: S.optional(S.NullOr(PutIamResourceRequestTagsMap)),
   }).pipe(T.Http({ method: "PUT", uri: "/iam/resource/{resourceURN}", code: 200 })),
-).annotate({
-  identifier: "PutIamResourceRequest",
-}) as any as S.Schema<PutIamResourceRequest>;
+).annotate({ identifier: "PutIamResourceRequest" }) as any as S.Schema<PutIamResourceRequest>;
 
 /** New list of resources of the group */
 export type PutIamResourceGroupRequestResourcesList = Array<IamGroupResourceInput>;

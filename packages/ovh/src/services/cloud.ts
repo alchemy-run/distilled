@@ -122,9 +122,7 @@ export const CloudSubOperation = /*@__PURE__*/ S.suspend(() =>
     startedAt: S.optional(S.NullOr(S.String)),
     status: S.optional(CloudOperationStatusEnum),
   }),
-).annotate({
-  identifier: "CloudSubOperation",
-}) as any as S.Schema<CloudSubOperation>;
+).annotate({ identifier: "CloudSubOperation" }) as any as S.Schema<CloudSubOperation>;
 
 /** Sub-operations of the operation */
 export type CloudOperationSubOperationsList = Array<CloudSubOperation>;
@@ -230,9 +228,7 @@ export const CloudFlavorCapability = /*@__PURE__*/ S.suspend(() =>
     enabled: S.optional(S.Boolean),
     name: S.optional(CloudFlavorCapabilityNameEnum),
   }),
-).annotate({
-  identifier: "CloudFlavorCapability",
-}) as any as S.Schema<CloudFlavorCapability>;
+).annotate({ identifier: "CloudFlavorCapability" }) as any as S.Schema<CloudFlavorCapability>;
 
 /** Capabilities of the flavor */
 export type CloudFlavorFlavorCapabilitiesList = Array<CloudFlavorCapability>;
@@ -307,9 +303,7 @@ export const CloudFlavorFlavor = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     vcpus: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "CloudFlavorFlavor",
-}) as any as S.Schema<CloudFlavorFlavor>;
+).annotate({ identifier: "CloudFlavorFlavor" }) as any as S.Schema<CloudFlavorFlavor>;
 
 /** Tags about the image */
 export type CloudImageImageTagsList = Array<string>;
@@ -365,9 +359,7 @@ export const CloudImageImage = /*@__PURE__*/ S.suspend(() =>
     user: S.optional(S.String),
     visibility: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CloudImageImage",
-}) as any as S.Schema<CloudImageImage>;
+).annotate({ identifier: "CloudImageImage" }) as any as S.Schema<CloudImageImage>;
 
 /** IpAddress */
 export interface CloudInstanceIpAddress {
@@ -390,9 +382,7 @@ export const CloudInstanceIpAddress = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     version: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "CloudInstanceIpAddress",
-}) as any as S.Schema<CloudInstanceIpAddress>;
+).annotate({ identifier: "CloudInstanceIpAddress" }) as any as S.Schema<CloudInstanceIpAddress>;
 
 /** Instance IP addresses */
 export type CloudInstanceInstanceIpAddressesList = Array<CloudInstanceIpAddress>;
@@ -453,9 +443,7 @@ export const CloudSshkeySshKeyDetail = /*@__PURE__*/ S.suspend(() =>
     publicKey: S.optional(S.String),
     regions: S.optional(CloudSshkeySshKeyDetailRegionsList),
   }),
-).annotate({
-  identifier: "CloudSshkeySshKeyDetail",
-}) as any as S.Schema<CloudSshkeySshKeyDetail>;
+).annotate({ identifier: "CloudSshkeySshKeyDetail" }) as any as S.Schema<CloudSshkeySshKeyDetail>;
 
 /** InstanceStatusEnum */
 export type CloudInstanceInstanceStatusEnum =
@@ -552,9 +540,7 @@ export const CloudInstanceInstance = /*@__PURE__*/ S.suspend(() =>
     sshKeyId: S.optional(S.NullOr(S.String)),
     status: S.optional(CloudInstanceInstanceStatusEnum),
   }),
-).annotate({
-  identifier: "CloudInstanceInstance",
-}) as any as S.Schema<CloudInstanceInstance>;
+).annotate({ identifier: "CloudInstanceInstance" }) as any as S.Schema<CloudInstanceInstance>;
 
 export type ActivateCloudProjectMonthlyBillingResponseBodyList = Array<CloudInstanceInstance>;
 export const ActivateCloudProjectMonthlyBillingResponseBodyList = /*@__PURE__*/ S.Array(
@@ -614,16 +600,8 @@ export const AddAlertingRequest = /*@__PURE__*/ S.suspend(() =>
     monthlyThreshold: S.Number,
     name: S.optional(S.String),
     service: S.optional(CloudAlertingServiceEnum),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/cloud/project/{serviceName}/alerting",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "AddAlertingRequest",
-}) as any as S.Schema<AddAlertingRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/cloud/project/{serviceName}/alerting", code: 200 })),
+).annotate({ identifier: "AddAlertingRequest" }) as any as S.Schema<AddAlertingRequest>;
 
 /** Receiver of the alert */
 export type CloudAlertingAlertingEmailsList = Array<string>;
@@ -710,9 +688,7 @@ export const CloudAlertingAlerting = /*@__PURE__*/ S.suspend(() =>
     service: S.optional(CloudAlertingServiceEnum),
     status: S.optional(CloudAlertingStatusEnum),
   }),
-).annotate({
-  identifier: "CloudAlertingAlerting",
-}) as any as S.Schema<CloudAlertingAlerting>;
+).annotate({ identifier: "CloudAlertingAlerting" }) as any as S.Schema<CloudAlertingAlerting>;
 
 /** Import external certificate */
 export interface CloudProjectCertificateImport {
@@ -746,16 +722,8 @@ export const AddCertificateRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     import: S.optional(S.NullOr(CloudProjectCertificateImport)),
     name: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/cloud/project/{serviceName}/certificate",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "AddCertificateRequest",
-}) as any as S.Schema<AddCertificateRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/cloud/project/{serviceName}/certificate", code: 200 })),
+).annotate({ identifier: "AddCertificateRequest" }) as any as S.Schema<AddCertificateRequest>;
 
 /** Certificate kind */
 export type CloudProjectCertificateKindEnum = "IMPORTED";
@@ -834,9 +802,7 @@ export const CloudProjectCertificate = /*@__PURE__*/ S.suspend(() =>
     validAt: S.optional(S.String),
     version: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "CloudProjectCertificate",
-}) as any as S.Schema<CloudProjectCertificate>;
+).annotate({ identifier: "CloudProjectCertificate" }) as any as S.Schema<CloudProjectCertificate>;
 
 export interface ApplyApplicationLoadBalancerConfigurationRequest {
   /** Service name */
@@ -2245,9 +2211,7 @@ export const CloudIpFailoverIp = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(CloudIpIpStatusEnum),
     subType: S.optional(CloudIpIpSubTypeEnum),
   }),
-).annotate({
-  identifier: "CloudIpFailoverIp",
-}) as any as S.Schema<CloudIpFailoverIp>;
+).annotate({ identifier: "CloudIpFailoverIp" }) as any as S.Schema<CloudIpFailoverIp>;
 
 export interface AttachCloudProjectVolumeRequest {
   /** Service name */
@@ -2358,9 +2322,7 @@ export const CloudVolumeVolume = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(CloudVolumeVolumeStatusEnum),
     type: S.optional(CloudVolumeVolumeTypeEnum),
   }),
-).annotate({
-  identifier: "CloudVolumeVolume",
-}) as any as S.Schema<CloudVolumeVolume>;
+).annotate({ identifier: "CloudVolumeVolume" }) as any as S.Schema<CloudVolumeVolume>;
 
 /** Autobackup params at instance creation */
 export interface CloudInstanceAutoBackup {
@@ -2374,9 +2336,7 @@ export const CloudInstanceAutoBackup = /*@__PURE__*/ S.suspend(() =>
     cron: S.optional(S.String),
     rotation: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "CloudInstanceAutoBackup",
-}) as any as S.Schema<CloudInstanceAutoBackup>;
+).annotate({ identifier: "CloudInstanceAutoBackup" }) as any as S.Schema<CloudInstanceAutoBackup>;
 
 /** NetworkBulkParams */
 export interface CloudInstanceNetworkBulkParams {
@@ -2443,13 +2403,7 @@ export const BulkCloudProjectInstanceRequest = /*@__PURE__*/ S.suspend(() =>
     sshKeyId: S.optional(S.NullOr(S.String)),
     userData: S.optional(S.NullOr(S.String)),
     volumeId: S.optional(S.NullOr(S.String)),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/cloud/project/{serviceName}/instance/bulk",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/cloud/project/{serviceName}/instance/bulk", code: 200 })),
 ).annotate({
   identifier: "BulkCloudProjectInstanceRequest",
 }) as any as S.Schema<BulkCloudProjectInstanceRequest>;
@@ -2517,9 +2471,7 @@ export const CloudStorageObjectDelete = /*@__PURE__*/ S.suspend(() =>
     key: S.String,
     versionId: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "CloudStorageObjectDelete",
-}) as any as S.Schema<CloudStorageObjectDelete>;
+).annotate({ identifier: "CloudStorageObjectDelete" }) as any as S.Schema<CloudStorageObjectDelete>;
 
 /** Objects to delete. */
 export type BulkDeleteContainerObjectsOnRegionRequestObjectsList = Array<CloudStorageObjectDelete>;
@@ -2633,13 +2585,7 @@ export interface CancelCloudProjectRequest {
 export const CancelCloudProjectRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/cloud/project/{serviceName}/cancel",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/cloud/project/{serviceName}/cancel", code: 200 })),
 ).annotate({
   identifier: "CancelCloudProjectRequest",
 }) as any as S.Schema<CancelCloudProjectRequest>;
@@ -2855,11 +2801,7 @@ export const ConfirmCloudProjectTerminationRequest = /*@__PURE__*/ S.suspend(() 
     reason: S.optional(ServiceTerminationReasonEnum),
     token: S.String,
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/cloud/project/{serviceName}/confirmTermination",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/cloud/project/{serviceName}/confirmTermination", code: 200 }),
   ),
 ).annotate({
   identifier: "ConfirmCloudProjectTerminationRequest",
@@ -3255,13 +3197,7 @@ export const CreateCloudProjectAclRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     accountId: S.String,
     type: CloudAclTypeEnum,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/cloud/project/{serviceName}/acl",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/cloud/project/{serviceName}/acl", code: 200 })),
 ).annotate({
   identifier: "CreateCloudProjectAclRequest",
 }) as any as S.Schema<CreateCloudProjectAclRequest>;
@@ -3320,9 +3256,7 @@ export const CloudProjectAiJobJobEnv = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     value: S.String,
   }),
-).annotate({
-  identifier: "CloudProjectAiJobJobEnv",
-}) as any as S.Schema<CloudProjectAiJobJobEnv>;
+).annotate({ identifier: "CloudProjectAiJobJobEnv" }) as any as S.Schema<CloudProjectAiJobJobEnv>;
 
 /** List of environment variable to be set inside the app */
 export type CreateCloudProjectAiAppRequestEnvVarsList = Array<CloudProjectAiJobJobEnv>;
@@ -3331,9 +3265,7 @@ export const CreateCloudProjectAiAppRequestEnvVarsList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<CreateCloudProjectAiAppRequestEnvVarsList>;
 
 /** Labels are used to scope tokens, labels prefixed by 'ovh/' are owned by the platform and overridden */
-export type CreateCloudProjectAiAppRequestLabelsMap = {
-  [key: string]: string | undefined;
-};
+export type CreateCloudProjectAiAppRequestLabelsMap = { [key: string]: string | undefined };
 export const CreateCloudProjectAiAppRequestLabelsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3729,13 +3661,7 @@ export const CreateCloudProjectAiAppRequest = /*@__PURE__*/ S.suspend(() =>
     scalingStrategy: S.optional(S.NullOr(CloudProjectAiAppScalingStrategyInput)),
     unsecureHttp: S.optional(S.NullOr(S.Boolean)),
     volumes: S.optional(S.NullOr(CreateCloudProjectAiAppRequestVolumesList)),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/cloud/project/{serviceName}/ai/app",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/cloud/project/{serviceName}/ai/app", code: 200 })),
 ).annotate({
   identifier: "CreateCloudProjectAiAppRequest",
 }) as any as S.Schema<CreateCloudProjectAiAppRequest>;
@@ -3753,9 +3679,7 @@ export const CloudProjectAiAppAppSpecEnvVarsList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<CloudProjectAiAppAppSpecEnvVarsList>;
 
 /** Labels for the app */
-export type CloudProjectAiAppAppSpecLabelsMap = {
-  [key: string]: string | undefined;
-};
+export type CloudProjectAiAppAppSpecLabelsMap = { [key: string]: string | undefined };
 export const CloudProjectAiAppAppSpecLabelsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3804,9 +3728,7 @@ export const CloudProjectAiResources = /*@__PURE__*/ S.suspend(() =>
     privateNetwork: S.optional(S.Number),
     publicNetwork: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "CloudProjectAiResources",
-}) as any as S.Schema<CloudProjectAiResources>;
+).annotate({ identifier: "CloudProjectAiResources" }) as any as S.Schema<CloudProjectAiResources>;
 
 /** Scale an AI Deploy App based on a custom metric provided by a customer-exposed API */
 export interface CloudProjectAiAppAutomaticScalingStrategyCustomMetrics {
@@ -3999,9 +3921,7 @@ export const CloudProjectAiAppAppSpec = /*@__PURE__*/ S.suspend(() =>
     unsecureHttp: S.optional(S.NullOr(S.Boolean)),
     volumes: S.optional(S.NullOr(CloudProjectAiAppAppSpecVolumesList)),
   }),
-).annotate({
-  identifier: "CloudProjectAiAppAppSpec",
-}) as any as S.Schema<CloudProjectAiAppAppSpec>;
+).annotate({ identifier: "CloudProjectAiAppAppSpec" }) as any as S.Schema<CloudProjectAiAppAppSpec>;
 
 /** Data Sync Direction */
 export type CloudProjectAiVolumeDataSyncEnum = "pull" | "push";
@@ -4101,9 +4021,7 @@ export const CloudProjectAiInfo = /*@__PURE__*/ S.suspend(() =>
     code: S.optional(CloudProjectAiInfoCodeEnum),
     message: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CloudProjectAiInfo",
-}) as any as S.Schema<CloudProjectAiInfo>;
+).annotate({ identifier: "CloudProjectAiInfo" }) as any as S.Schema<CloudProjectAiInfo>;
 
 /** State of the progress sync */
 export type CloudProjectAiVolumeDataSyncProgressStateEnum =
@@ -4379,9 +4297,7 @@ export const CloudProjectAiAppApp = /*@__PURE__*/ S.suspend(() =>
     updatedAt: S.optional(S.String),
     user: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CloudProjectAiAppApp",
-}) as any as S.Schema<CloudProjectAiAppApp>;
+).annotate({ identifier: "CloudProjectAiAppApp" }) as any as S.Schema<CloudProjectAiAppApp>;
 
 /** App command */
 export type CreateCloudProjectAiAppCommandRequestCommandList = Array<string>;
@@ -4396,9 +4312,7 @@ export const CreateCloudProjectAiAppCommandRequestEnvVarsList = /*@__PURE__*/ S.
 ) as any as S.Schema<CreateCloudProjectAiAppCommandRequestEnvVarsList>;
 
 /** Labels are used to scope tokens, labels prefixed by 'ovh/' are owned by the platform and overridden */
-export type CreateCloudProjectAiAppCommandRequestLabelsMap = {
-  [key: string]: string | undefined;
-};
+export type CreateCloudProjectAiAppCommandRequestLabelsMap = { [key: string]: string | undefined };
 export const CreateCloudProjectAiAppCommandRequestLabelsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -4467,11 +4381,7 @@ export const CreateCloudProjectAiAppCommandRequest = /*@__PURE__*/ S.suspend(() 
     unsecureHttp: S.optional(S.NullOr(S.Boolean)),
     volumes: S.optional(S.NullOr(CreateCloudProjectAiAppCommandRequestVolumesList)),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/cloud/project/{serviceName}/ai/app/command",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/cloud/project/{serviceName}/ai/app/command", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateCloudProjectAiAppCommandRequest",
@@ -4486,9 +4396,7 @@ export const CloudProjectAiCommand = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     command: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CloudProjectAiCommand",
-}) as any as S.Schema<CloudProjectAiCommand>;
+).annotate({ identifier: "CloudProjectAiCommand" }) as any as S.Schema<CloudProjectAiCommand>;
 
 export interface CreateCloudProjectAiAppDatasyncRequest {
   /** Service name */
@@ -4525,11 +4433,7 @@ export const CreateCloudProjectAiAuthorizationRequest = /*@__PURE__*/ S.suspend(
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/cloud/project/{serviceName}/ai/authorization",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/cloud/project/{serviceName}/ai/authorization", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateCloudProjectAiAuthorizationRequest",
@@ -4693,9 +4597,7 @@ export const CloudProjectAiDataStore = /*@__PURE__*/ S.suspend(() =>
     owner: S.optional(CloudProjectAiDataStoreOwnerEnum),
     type: S.optional(CloudProjectAiDataStoreTypeEnum),
   }),
-).annotate({
-  identifier: "CloudProjectAiDataStore",
-}) as any as S.Schema<CloudProjectAiDataStore>;
+).annotate({ identifier: "CloudProjectAiDataStore" }) as any as S.Schema<CloudProjectAiDataStore>;
 
 /** Job command */
 export type CreateCloudProjectAiJobRequestCommandList = Array<string>;
@@ -4710,9 +4612,7 @@ export const CreateCloudProjectAiJobRequestEnvVarsList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<CreateCloudProjectAiJobRequestEnvVarsList>;
 
 /** Labels are used to scope tokens, labels prefixed by 'ovh/' are owned by the platform and overridden */
-export type CreateCloudProjectAiJobRequestLabelsMap = {
-  [key: string]: string | undefined;
-};
+export type CreateCloudProjectAiJobRequestLabelsMap = { [key: string]: string | undefined };
 export const CreateCloudProjectAiJobRequestLabelsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -4785,13 +4685,7 @@ export const CreateCloudProjectAiJobRequest = /*@__PURE__*/ S.suspend(() =>
     timeoutAutoRestart: S.optional(S.NullOr(S.Boolean)),
     unsecureHttp: S.optional(S.NullOr(S.Boolean)),
     volumes: S.optional(S.NullOr(CreateCloudProjectAiJobRequestVolumesList)),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/cloud/project/{serviceName}/ai/job",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/cloud/project/{serviceName}/ai/job", code: 200 })),
 ).annotate({
   identifier: "CreateCloudProjectAiJobRequest",
 }) as any as S.Schema<CreateCloudProjectAiJobRequest>;
@@ -4809,9 +4703,7 @@ export const CloudProjectAiJobJobSpecEnvVarsList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<CloudProjectAiJobJobSpecEnvVarsList>;
 
 /** Labels for the job */
-export type CloudProjectAiJobJobSpecLabelsMap = {
-  [key: string]: string | undefined;
-};
+export type CloudProjectAiJobJobSpecLabelsMap = { [key: string]: string | undefined };
 export const CloudProjectAiJobJobSpecLabelsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -4890,9 +4782,7 @@ export const CloudProjectAiJobJobSpec = /*@__PURE__*/ S.suspend(() =>
     unsecureHttp: S.optional(S.NullOr(S.Boolean)),
     volumes: S.optional(S.NullOr(CloudProjectAiJobJobSpecVolumesList)),
   }),
-).annotate({
-  identifier: "CloudProjectAiJobJobSpec",
-}) as any as S.Schema<CloudProjectAiJobJobSpec>;
+).annotate({ identifier: "CloudProjectAiJobJobSpec" }) as any as S.Schema<CloudProjectAiJobJobSpec>;
 
 /** Status about the datasync linked to the job */
 export type CloudProjectAiJobJobStatusDataSyncList = Array<CloudProjectAiVolumeDataSync>;
@@ -5042,9 +4932,7 @@ export const CloudProjectAiJobJob = /*@__PURE__*/ S.suspend(() =>
     updatedAt: S.optional(S.String),
     user: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CloudProjectAiJobJob",
-}) as any as S.Schema<CloudProjectAiJobJob>;
+).annotate({ identifier: "CloudProjectAiJobJob" }) as any as S.Schema<CloudProjectAiJobJob>;
 
 /** Job command */
 export type CreateCloudProjectAiJobCommandRequestCommandList = Array<string>;
@@ -5059,9 +4947,7 @@ export const CreateCloudProjectAiJobCommandRequestEnvVarsList = /*@__PURE__*/ S.
 ) as any as S.Schema<CreateCloudProjectAiJobCommandRequestEnvVarsList>;
 
 /** Labels are used to scope tokens, labels prefixed by 'ovh/' are owned by the platform and overridden */
-export type CreateCloudProjectAiJobCommandRequestLabelsMap = {
-  [key: string]: string | undefined;
-};
+export type CreateCloudProjectAiJobCommandRequestLabelsMap = { [key: string]: string | undefined };
 export const CreateCloudProjectAiJobCommandRequestLabelsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -5136,11 +5022,7 @@ export const CreateCloudProjectAiJobCommandRequest = /*@__PURE__*/ S.suspend(() 
     unsecureHttp: S.optional(S.NullOr(S.Boolean)),
     volumes: S.optional(S.NullOr(CreateCloudProjectAiJobCommandRequestVolumesList)),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/cloud/project/{serviceName}/ai/job/command",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/cloud/project/{serviceName}/ai/job/command", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateCloudProjectAiJobCommandRequest",
@@ -5199,9 +5081,7 @@ export const CreateCloudProjectAiNotebookRequestEnvVarsList = /*@__PURE__*/ S.Ar
 ) as any as S.Schema<CreateCloudProjectAiNotebookRequestEnvVarsList>;
 
 /** Labels are used to scope tokens, labels prefixed by 'ovh/' are owned by the platform and overridden */
-export type CreateCloudProjectAiNotebookRequestLabelsMap = {
-  [key: string]: string | undefined;
-};
+export type CreateCloudProjectAiNotebookRequestLabelsMap = { [key: string]: string | undefined };
 export const CreateCloudProjectAiNotebookRequestLabelsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -5272,13 +5152,7 @@ export const CreateCloudProjectAiNotebookRequest = /*@__PURE__*/ S.suspend(() =>
     timeoutAutoRestart: S.optional(S.NullOr(S.Boolean)),
     unsecureHttp: S.optional(S.NullOr(S.Boolean)),
     volumes: S.optional(S.NullOr(CreateCloudProjectAiNotebookRequestVolumesList)),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/cloud/project/{serviceName}/ai/notebook",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/cloud/project/{serviceName}/ai/notebook", code: 200 })),
 ).annotate({
   identifier: "CreateCloudProjectAiNotebookRequest",
 }) as any as S.Schema<CreateCloudProjectAiNotebookRequest>;
@@ -5290,9 +5164,7 @@ export const CloudProjectAiNotebookNotebookSpecEnvVarsList = /*@__PURE__*/ S.Arr
 ) as any as S.Schema<CloudProjectAiNotebookNotebookSpecEnvVarsList>;
 
 /** Labels for the notebook */
-export type CloudProjectAiNotebookNotebookSpecLabelsMap = {
-  [key: string]: string | undefined;
-};
+export type CloudProjectAiNotebookNotebookSpecLabelsMap = { [key: string]: string | undefined };
 export const CloudProjectAiNotebookNotebookSpecLabelsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -5556,11 +5428,7 @@ export const CreateCloudProjectAiNotebookCommandRequest = /*@__PURE__*/ S.suspen
     unsecureHttp: S.optional(S.NullOr(S.Boolean)),
     volumes: S.optional(S.NullOr(CreateCloudProjectAiNotebookCommandRequestVolumesList)),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/cloud/project/{serviceName}/ai/notebook/command",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/cloud/project/{serviceName}/ai/notebook/command", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateCloudProjectAiNotebookCommandRequest",
@@ -5612,13 +5480,7 @@ export const CreateCloudProjectAiRegistryRequest = /*@__PURE__*/ S.suspend(() =>
     region: S.String,
     url: S.NullOr(S.String),
     username: S.NullOr(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/cloud/project/{serviceName}/ai/registry",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/cloud/project/{serviceName}/ai/registry", code: 200 })),
 ).annotate({
   identifier: "CreateCloudProjectAiRegistryRequest",
 }) as any as S.Schema<CreateCloudProjectAiRegistryRequest>;
@@ -5684,13 +5546,7 @@ export const CreateCloudProjectAiTokenRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     region: S.String,
     role: CloudProjectAiTokenRoleEnum,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/cloud/project/{serviceName}/ai/token",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/cloud/project/{serviceName}/ai/token", code: 200 })),
 ).annotate({
   identifier: "CreateCloudProjectAiTokenRequest",
 }) as any as S.Schema<CreateCloudProjectAiTokenRequest>;
@@ -5754,9 +5610,7 @@ export const CloudProjectAiTokenToken = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(CloudProjectAiTokenTokenStatus),
     updatedAt: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CloudProjectAiTokenToken",
-}) as any as S.Schema<CloudProjectAiTokenToken>;
+).annotate({ identifier: "CloudProjectAiTokenToken" }) as any as S.Schema<CloudProjectAiTokenToken>;
 
 export interface CreateCloudProjectChangeContactRequest {
   /** The project id */
@@ -5774,13 +5628,7 @@ export const CreateCloudProjectChangeContactRequest = /*@__PURE__*/ S.suspend(()
     contactAdmin: S.optional(S.String),
     contactBilling: S.optional(S.String),
     contactTech: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/cloud/project/{serviceName}/changeContact",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/cloud/project/{serviceName}/changeContact", code: 200 })),
 ).annotate({
   identifier: "CreateCloudProjectChangeContactRequest",
 }) as any as S.Schema<CreateCloudProjectChangeContactRequest>;
@@ -5815,11 +5663,7 @@ export const CreateCloudProjectContainerRegistryRequest = /*@__PURE__*/ S.suspen
     planID: S.optional(S.String),
     region: S.String,
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/cloud/project/{serviceName}/containerRegistry",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/cloud/project/{serviceName}/containerRegistry", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateCloudProjectContainerRegistryRequest",
@@ -6048,13 +5892,7 @@ export const CreateCloudProjectCreditRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     code: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/cloud/project/{serviceName}/credit",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/cloud/project/{serviceName}/credit", code: 200 })),
 ).annotate({
   identifier: "CreateCloudProjectCreditRequest",
 }) as any as S.Schema<CreateCloudProjectCreditRequest>;
@@ -6261,11 +6099,7 @@ export const CreateCloudProjectDatabaseCassandraRequest = /*@__PURE__*/ S.suspen
     subnetId: S.optional(S.NullOr(S.String)),
     version: S.optional(S.String),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/cloud/project/{serviceName}/database/cassandra",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/cloud/project/{serviceName}/database/cassandra", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateCloudProjectDatabaseCassandraRequest",
@@ -6940,11 +6774,7 @@ export const CreateCloudProjectDatabaseClickhouseRequest = /*@__PURE__*/ S.suspe
     subnetId: S.optional(S.NullOr(S.String)),
     version: S.optional(S.String),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/cloud/project/{serviceName}/database/clickhouse",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/cloud/project/{serviceName}/database/clickhouse", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateCloudProjectDatabaseClickhouseRequest",
@@ -7221,11 +7051,7 @@ export const CreateCloudProjectDatabaseGrafanaRequest = /*@__PURE__*/ S.suspend(
     subnetId: S.optional(S.NullOr(S.String)),
     version: S.optional(S.String),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/cloud/project/{serviceName}/database/grafana",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/cloud/project/{serviceName}/database/grafana", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateCloudProjectDatabaseGrafanaRequest",
@@ -7500,11 +7326,7 @@ export const CreateCloudProjectDatabaseKafkaRequest = /*@__PURE__*/ S.suspend(()
     subnetId: S.optional(S.NullOr(S.String)),
     version: S.optional(S.String),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/cloud/project/{serviceName}/database/kafka",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/cloud/project/{serviceName}/database/kafka", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateCloudProjectDatabaseKafkaRequest",
@@ -8734,13 +8556,7 @@ export const CreateCloudProjectDatabaseM3dbRequest = /*@__PURE__*/ S.suspend(() 
     plan: S.optional(S.String),
     subnetId: S.optional(S.NullOr(S.String)),
     version: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/cloud/project/{serviceName}/database/m3db",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/cloud/project/{serviceName}/database/m3db", code: 200 })),
 ).annotate({
   identifier: "CreateCloudProjectDatabaseM3dbRequest",
 }) as any as S.Schema<CreateCloudProjectDatabaseM3dbRequest>;
@@ -9081,11 +8897,7 @@ export const CreateCloudProjectDatabaseMongodbRequest = /*@__PURE__*/ S.suspend(
     subnetId: S.optional(S.NullOr(S.String)),
     version: S.optional(S.String),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/cloud/project/{serviceName}/database/mongodb",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/cloud/project/{serviceName}/database/mongodb", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateCloudProjectDatabaseMongodbRequest",
@@ -9359,11 +9171,7 @@ export const CreateCloudProjectDatabaseMysqlRequest = /*@__PURE__*/ S.suspend(()
     subnetId: S.optional(S.NullOr(S.String)),
     version: S.optional(S.String),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/cloud/project/{serviceName}/database/mysql",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/cloud/project/{serviceName}/database/mysql", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateCloudProjectDatabaseMysqlRequest",
@@ -9635,11 +9443,7 @@ export const CreateCloudProjectDatabaseOpensearchRequest = /*@__PURE__*/ S.suspe
     subnetId: S.optional(S.NullOr(S.String)),
     version: S.optional(S.String),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/cloud/project/{serviceName}/database/opensearch",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/cloud/project/{serviceName}/database/opensearch", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateCloudProjectDatabaseOpensearchRequest",
@@ -10051,11 +9855,7 @@ export const CreateCloudProjectDatabasePostgresqlRequest = /*@__PURE__*/ S.suspe
     subnetId: S.optional(S.NullOr(S.String)),
     version: S.optional(S.String),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/cloud/project/{serviceName}/database/postgresql",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/cloud/project/{serviceName}/database/postgresql", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateCloudProjectDatabasePostgresqlRequest",
@@ -10364,11 +10164,7 @@ export const CreateCloudProjectDatabaseRedisRequest = /*@__PURE__*/ S.suspend(()
     subnetId: S.optional(S.NullOr(S.String)),
     version: S.optional(S.String),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/cloud/project/{serviceName}/database/redis",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/cloud/project/{serviceName}/database/redis", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateCloudProjectDatabaseRedisRequest",
@@ -10655,11 +10451,7 @@ export const CreateCloudProjectDatabaseValkeyRequest = /*@__PURE__*/ S.suspend((
     subnetId: S.optional(S.NullOr(S.String)),
     version: S.optional(S.String),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/cloud/project/{serviceName}/database/valkey",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/cloud/project/{serviceName}/database/valkey", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateCloudProjectDatabaseValkeyRequest",
@@ -10886,13 +10678,7 @@ export const CreateCloudProjectInstanceRequest = /*@__PURE__*/ S.suspend(() =>
     sshKeyId: S.optional(S.NullOr(S.String)),
     userData: S.optional(S.NullOr(S.String)),
     volumeId: S.optional(S.NullOr(S.String)),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/cloud/project/{serviceName}/instance",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/cloud/project/{serviceName}/instance", code: 200 })),
 ).annotate({
   identifier: "CreateCloudProjectInstanceRequest",
 }) as any as S.Schema<CreateCloudProjectInstanceRequest>;
@@ -10957,9 +10743,7 @@ export const CloudInstanceAccess = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     url: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CloudInstanceAccess",
-}) as any as S.Schema<CloudInstanceAccess>;
+).annotate({ identifier: "CloudInstanceAccess" }) as any as S.Schema<CloudInstanceAccess>;
 
 /** List of credentials */
 export type CloudInstanceApplicationAccessAccessesList = Array<CloudInstanceAccess>;
@@ -11008,11 +10792,7 @@ export const CreateCloudProjectInstanceGroupRequest = /*@__PURE__*/ S.suspend(()
     region: S.String,
     type: CloudInstancegroupInstanceGroupTypeEnum,
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/cloud/project/{serviceName}/instance/group",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/cloud/project/{serviceName}/instance/group", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateCloudProjectInstanceGroupRequest",
@@ -11316,9 +11096,7 @@ export const CloudInstanceInstanceVnc = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     url: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CloudInstanceInstanceVnc",
-}) as any as S.Schema<CloudInstanceInstanceVnc>;
+).annotate({ identifier: "CloudInstanceInstanceVnc" }) as any as S.Schema<CloudInstanceInstanceVnc>;
 
 /** Enum admission plugins */
 export type CloudProjectKubeCustomizationAPIServerAdmissionPluginsEnum =
@@ -11664,9 +11442,7 @@ export const CloudProjectKubeCreationNodePoolAvailabilityZonesList = /*@__PURE__
 ) as any as S.Schema<CloudProjectKubeCreationNodePoolAvailabilityZonesList>;
 
 /** Annotations to apply to each nodes */
-export type CloudKubeNodePoolTemplateMetadataAnnotationsMap = {
-  [key: string]: string | undefined;
-};
+export type CloudKubeNodePoolTemplateMetadataAnnotationsMap = { [key: string]: string | undefined };
 export const CloudKubeNodePoolTemplateMetadataAnnotationsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -11679,9 +11455,7 @@ export const CloudKubeNodePoolTemplateMetadataFinalizersList = /*@__PURE__*/ S.A
 ) as any as S.Schema<CloudKubeNodePoolTemplateMetadataFinalizersList>;
 
 /** Labels to apply to each nodes */
-export type CloudKubeNodePoolTemplateMetadataLabelsMap = {
-  [key: string]: string | undefined;
-};
+export type CloudKubeNodePoolTemplateMetadataLabelsMap = { [key: string]: string | undefined };
 export const CloudKubeNodePoolTemplateMetadataLabelsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -11890,13 +11664,7 @@ export const CreateCloudProjectKubeRequest = /*@__PURE__*/ S.suspend(() =>
     region: S.String,
     updatePolicy: S.optional(S.NullOr(CloudKubeUpdatePolicyEnum)),
     version: S.optional(CloudKubeVersionEnum),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/cloud/project/{serviceName}/kube",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/cloud/project/{serviceName}/kube", code: 200 })),
 ).annotate({
   identifier: "CreateCloudProjectKubeRequest",
 }) as any as S.Schema<CreateCloudProjectKubeRequest>;
@@ -11999,9 +11767,7 @@ export const CloudKubeCluster = /*@__PURE__*/ S.suspend(() =>
     url: S.optional(S.String),
     version: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CloudKubeCluster",
-}) as any as S.Schema<CloudKubeCluster>;
+).annotate({ identifier: "CloudKubeCluster" }) as any as S.Schema<CloudKubeCluster>;
 
 /** List of ips to add to the cluster api-server restrictions (format with /subnet available) */
 export type CreateCloudProjectKubeIpRestrictionRequestIpsList = Array<string>;
@@ -12076,9 +11842,7 @@ export const CloudKubeKubeconfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     content: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CloudKubeKubeconfig",
-}) as any as S.Schema<CloudKubeKubeconfig>;
+).annotate({ identifier: "CloudKubeKubeconfig" }) as any as S.Schema<CloudKubeKubeconfig>;
 
 export interface CreateCloudProjectKubeLogSubscriptionRequest {
   /** Service name */
@@ -12307,9 +12071,7 @@ export const CloudKubeNodePool = /*@__PURE__*/ S.suspend(() =>
     upToDateNodes: S.optional(S.Number),
     updatedAt: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CloudKubeNodePool",
-}) as any as S.Schema<CloudKubeNodePool>;
+).annotate({ identifier: "CloudKubeNodePool" }) as any as S.Schema<CloudKubeNodePool>;
 
 /** JWT claim to use as the user's group. If the claim is present it must be an array of strings. */
 export type CreateCloudProjectKubeOpenIdConnectRequestGroupsClaimList = Array<string>;
@@ -12449,9 +12211,7 @@ export const CloudKubeOpenIdConnect = /*@__PURE__*/ S.suspend(() =>
     usernameClaim: S.optional(S.NullOr(S.String)),
     usernamePrefix: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "CloudKubeOpenIdConnect",
-}) as any as S.Schema<CloudKubeOpenIdConnect>;
+).annotate({ identifier: "CloudKubeOpenIdConnect" }) as any as S.Schema<CloudKubeOpenIdConnect>;
 
 /** Region where to activate private network. No parameters means all region */
 export type CreateCloudProjectNetworkPrivateRequestRegionsList = Array<string>;
@@ -12476,11 +12236,7 @@ export const CreateCloudProjectNetworkPrivateRequest = /*@__PURE__*/ S.suspend((
     regions: S.optional(S.NullOr(CreateCloudProjectNetworkPrivateRequestRegionsList)),
     vlanId: S.optional(S.NullOr(S.Number)),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/cloud/project/{serviceName}/network/private",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/cloud/project/{serviceName}/network/private", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateCloudProjectNetworkPrivateRequest",
@@ -12547,9 +12303,7 @@ export const CloudNetworkNetwork = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.NullOr(CloudNetworkNetworkTypeEnum)),
     vlanId: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "CloudNetworkNetwork",
-}) as any as S.Schema<CloudNetworkNetwork>;
+).annotate({ identifier: "CloudNetworkNetwork" }) as any as S.Schema<CloudNetworkNetwork>;
 
 export interface CreateCloudProjectNetworkPrivateRegionRequest {
   /** Service name */
@@ -12635,9 +12389,7 @@ export const CloudNetworkIPPool = /*@__PURE__*/ S.suspend(() =>
     region: S.optional(S.String),
     start: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CloudNetworkIPPool",
-}) as any as S.Schema<CloudNetworkIPPool>;
+).annotate({ identifier: "CloudNetworkIPPool" }) as any as S.Schema<CloudNetworkIPPool>;
 
 /** List of ip pools allocated in subnet */
 export type CloudNetworkSubnetIpPoolsList = Array<CloudNetworkIPPool>;
@@ -12666,9 +12418,7 @@ export const CloudNetworkSubnet = /*@__PURE__*/ S.suspend(() =>
     id: S.optional(S.String),
     ipPools: S.optional(CloudNetworkSubnetIpPoolsList),
   }),
-).annotate({
-  identifier: "CloudNetworkSubnet",
-}) as any as S.Schema<CloudNetworkSubnet>;
+).annotate({ identifier: "CloudNetworkSubnet" }) as any as S.Schema<CloudNetworkSubnet>;
 
 export interface CreateCloudProjectRegionRequest {
   /** Service name */
@@ -12680,13 +12430,7 @@ export const CreateCloudProjectRegionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     region: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/cloud/project/{serviceName}/region",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/cloud/project/{serviceName}/region", code: 200 })),
 ).annotate({
   identifier: "CreateCloudProjectRegionRequest",
 }) as any as S.Schema<CreateCloudProjectRegionRequest>;
@@ -13125,9 +12869,7 @@ export const CloudNetworkHostRoute = /*@__PURE__*/ S.suspend(() =>
     destination: S.optional(S.String),
     nextHop: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CloudNetworkHostRoute",
-}) as any as S.Schema<CloudNetworkHostRoute>;
+).annotate({ identifier: "CloudNetworkHostRoute" }) as any as S.Schema<CloudNetworkHostRoute>;
 
 /** Host routes */
 export type CloudNetworkCreateSubnetForGatewaySummaryHostRoutesList = Array<CloudNetworkHostRoute>;
@@ -13374,9 +13116,7 @@ export const CloudNetworkGateway = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(CloudNetworkGatewayStatusEnum),
     type: S.optional(CloudProjectGatewayTypeEnum),
   }),
-).annotate({
-  identifier: "CloudNetworkGateway",
-}) as any as S.Schema<CloudNetworkGateway>;
+).annotate({ identifier: "CloudNetworkGateway" }) as any as S.Schema<CloudNetworkGateway>;
 
 export interface CreateCloudProjectRegionGatewayInterfaceRequest {
   /** Service name */
@@ -13539,9 +13279,7 @@ export const CloudKeymanagerSecretRef = /*@__PURE__*/ S.suspend(() =>
     id: S.optional(S.String),
     name: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CloudKeymanagerSecretRef",
-}) as any as S.Schema<CloudKeymanagerSecretRef>;
+).annotate({ identifier: "CloudKeymanagerSecretRef" }) as any as S.Schema<CloudKeymanagerSecretRef>;
 
 /** List of secrets in certificate container */
 export type CloudKeymanagerCertificateSecretsList = Array<CloudKeymanagerSecretRef>;
@@ -13929,9 +13667,7 @@ export const CloudLoadbalancingL7Rule = /*@__PURE__*/ S.suspend(() =>
     ruleType: CloudLoadbalancingL7RuleTypeEnum,
     value: S.String,
   }),
-).annotate({
-  identifier: "CloudLoadbalancingL7Rule",
-}) as any as S.Schema<CloudLoadbalancingL7Rule>;
+).annotate({ identifier: "CloudLoadbalancingL7Rule" }) as any as S.Schema<CloudLoadbalancingL7Rule>;
 
 /** The allowed CIDRs */
 export type CreateCloudProjectRegionLoadbalancingListenerRequestAllowedCidrsList = Array<string>;
@@ -14631,9 +14367,7 @@ export const CloudLoadbalancingPool = /*@__PURE__*/ S.suspend(() =>
     provisioningStatus: S.optional(CloudLoadbalancingLoadBalancerProvisioningStatusEnum),
     sessionPersistence: S.optional(S.NullOr(CloudLoadbalancingPoolSessionPersistence)),
   }),
-).annotate({
-  identifier: "CloudLoadbalancingPool",
-}) as any as S.Schema<CloudLoadbalancingPool>;
+).annotate({ identifier: "CloudLoadbalancingPool" }) as any as S.Schema<CloudLoadbalancingPool>;
 
 /** Member */
 export interface CloudLoadbalancingPoolMemberInput {
@@ -15004,9 +14738,7 @@ export const CloudProjectSubnet = /*@__PURE__*/ S.suspend(() =>
     ipVersion: S.optional(S.Number),
     name: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CloudProjectSubnet",
-}) as any as S.Schema<CloudProjectSubnet>;
+).annotate({ identifier: "CloudProjectSubnet" }) as any as S.Schema<CloudProjectSubnet>;
 
 export interface CreateCloudProjectRegionNetworkSubnetGatewayRequest {
   /** Service name */
@@ -15140,9 +14872,7 @@ export const CloudShareAclACL = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(CloudShareAclStatusEnum),
     updatedAt: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CloudShareAclACL",
-}) as any as S.Schema<CloudShareAclACL>;
+).annotate({ identifier: "CloudShareAclACL" }) as any as S.Schema<CloudShareAclACL>;
 
 export interface CreateCloudProjectRegionShareSnapshotRequest {
   /** Service name */
@@ -15560,13 +15290,7 @@ export interface CreateCloudProjectRetainRequest {
 export const CreateCloudProjectRetainRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/cloud/project/{serviceName}/retain",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/cloud/project/{serviceName}/retain", code: 200 })),
 ).annotate({
   identifier: "CreateCloudProjectRetainRequest",
 }) as any as S.Schema<CreateCloudProjectRetainRequest>;
@@ -15594,13 +15318,7 @@ export const CreateCloudProjectSshkeyRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     publicKey: S.String,
     region: S.optional(S.NullOr(S.String)),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/cloud/project/{serviceName}/sshkey",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/cloud/project/{serviceName}/sshkey", code: 200 })),
 ).annotate({
   identifier: "CreateCloudProjectSshkeyRequest",
 }) as any as S.Schema<CreateCloudProjectSshkeyRequest>;
@@ -15621,13 +15339,7 @@ export const CreateCloudProjectStorageRequest = /*@__PURE__*/ S.suspend(() =>
     archive: S.Boolean,
     containerName: S.String,
     region: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/cloud/project/{serviceName}/storage",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/cloud/project/{serviceName}/storage", code: 200 })),
 ).annotate({
   identifier: "CreateCloudProjectStorageRequest",
 }) as any as S.Schema<CreateCloudProjectStorageRequest>;
@@ -15662,9 +15374,7 @@ export const CloudStorageContainer2 = /*@__PURE__*/ S.suspend(() =>
     storedBytes: S.optional(S.Number),
     storedObjects: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "CloudStorageContainer2",
-}) as any as S.Schema<CloudStorageContainer2>;
+).annotate({ identifier: "CloudStorageContainer2" }) as any as S.Schema<CloudStorageContainer2>;
 
 export interface CreateCloudProjectStorageAccessRequest {
   /** Service name */
@@ -15674,11 +15384,7 @@ export const CreateCloudProjectStorageAccessRequest = /*@__PURE__*/ S.suspend(()
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/cloud/project/{serviceName}/storage/access",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/cloud/project/{serviceName}/storage/access", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateCloudProjectStorageAccessRequest",
@@ -15696,9 +15402,7 @@ export const CloudStorageEndpoint = /*@__PURE__*/ S.suspend(() =>
     region: S.optional(S.String),
     url: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CloudStorageEndpoint",
-}) as any as S.Schema<CloudStorageEndpoint>;
+).annotate({ identifier: "CloudStorageEndpoint" }) as any as S.Schema<CloudStorageEndpoint>;
 
 /** Storage access endpoints */
 export type CloudStorageContainerAccessEndpointsList = Array<CloudStorageEndpoint>;
@@ -15927,9 +15631,7 @@ export const CloudUserUserDetail = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(CloudUserUserStatusEnum),
     username: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CloudUserUserDetail",
-}) as any as S.Schema<CloudUserUserDetail>;
+).annotate({ identifier: "CloudUserUserDetail" }) as any as S.Schema<CloudUserUserDetail>;
 
 export interface CreateCloudProjectUnleashRequest {
   /** The project id */
@@ -15938,13 +15640,7 @@ export interface CreateCloudProjectUnleashRequest {
 export const CreateCloudProjectUnleashRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/cloud/project/{serviceName}/unleash",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/cloud/project/{serviceName}/unleash", code: 200 })),
 ).annotate({
   identifier: "CreateCloudProjectUnleashRequest",
 }) as any as S.Schema<CreateCloudProjectUnleashRequest>;
@@ -16000,13 +15696,7 @@ export const CreateCloudProjectUserRequest = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(S.NullOr(S.String)),
     role: S.optional(S.NullOr(CloudUserRoleEnum)),
     roles: S.optional(S.NullOr(CreateCloudProjectUserRequestRolesList)),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/cloud/project/{serviceName}/user",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/cloud/project/{serviceName}/user", code: 200 })),
 ).annotate({
   identifier: "CreateCloudProjectUserRequest",
 }) as any as S.Schema<CreateCloudProjectUserRequest>;
@@ -16025,11 +15715,7 @@ export const CreateCloudProjectUserPolicyRequest = /*@__PURE__*/ S.suspend(() =>
     userId: S.Number.pipe(T.Label()),
     policy: S.optional(S.String),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/cloud/project/{serviceName}/user/{userId}/policy",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/cloud/project/{serviceName}/user/{userId}/policy", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateCloudProjectUserPolicyRequest",
@@ -16056,11 +15742,7 @@ export const CreateCloudProjectUserRoleRequest = /*@__PURE__*/ S.suspend(() =>
     userId: S.Number.pipe(T.Label()),
     roleId: S.String,
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/cloud/project/{serviceName}/user/{userId}/role",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/cloud/project/{serviceName}/user/{userId}/role", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateCloudProjectUserRoleRequest",
@@ -16160,11 +15842,7 @@ export const CreateCloudProjectUserTokenRequest = /*@__PURE__*/ S.suspend(() =>
     userId: S.Number.pipe(T.Label()),
     password: S.String.pipe(T.SensitiveValue({})),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/cloud/project/{serviceName}/user/{userId}/token",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/cloud/project/{serviceName}/user/{userId}/token", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateCloudProjectUserTokenRequest",
@@ -16261,9 +15939,7 @@ export const CloudAuthenticationRole = /*@__PURE__*/ S.suspend(() =>
     id: S.optional(S.String),
     name: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CloudAuthenticationRole",
-}) as any as S.Schema<CloudAuthenticationRole>;
+).annotate({ identifier: "CloudAuthenticationRole" }) as any as S.Schema<CloudAuthenticationRole>;
 
 export type CloudAuthenticationOpenstackTokenRolesList = Array<CloudAuthenticationRole>;
 export const CloudAuthenticationOpenstackTokenRolesList = /*@__PURE__*/ S.Array(
@@ -16308,9 +15984,7 @@ export const CloudAuthenticationToken = /*@__PURE__*/ S.suspend(() =>
     X_Auth_Token: S.optional(S.String.pipe(T.Body("X-Auth-Token"))),
     token: S.optional(CloudAuthenticationOpenstackToken),
   }),
-).annotate({
-  identifier: "CloudAuthenticationToken",
-}) as any as S.Schema<CloudAuthenticationToken>;
+).annotate({ identifier: "CloudAuthenticationToken" }) as any as S.Schema<CloudAuthenticationToken>;
 
 export interface CreateCloudProjectVolumeRequest {
   /** Service name */
@@ -16340,13 +16014,7 @@ export const CreateCloudProjectVolumeRequest = /*@__PURE__*/ S.suspend(() =>
     size: S.Number,
     snapshotId: S.optional(S.NullOr(S.String)),
     type: CloudVolumeVolumeTypeEnum,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/cloud/project/{serviceName}/volume",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/cloud/project/{serviceName}/volume", code: 200 })),
 ).annotate({
   identifier: "CreateCloudProjectVolumeRequest",
 }) as any as S.Schema<CreateCloudProjectVolumeRequest>;
@@ -16420,9 +16088,7 @@ export const CloudVolumeSnapshot = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(CloudVolumeSnapshotStatusEnum),
     volumeId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CloudVolumeSnapshot",
-}) as any as S.Schema<CloudVolumeSnapshot>;
+).annotate({ identifier: "CloudVolumeSnapshot" }) as any as S.Schema<CloudVolumeSnapshot>;
 
 export interface CreateCloudProjectVolumeUpsizeRequest {
   /** Service name */
@@ -16455,13 +16121,7 @@ export interface CreateCloudProjectVrackRequest {
 export const CreateCloudProjectVrackRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/cloud/project/{serviceName}/vrack",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/cloud/project/{serviceName}/vrack", code: 200 })),
 ).annotate({
   identifier: "CreateCloudProjectVrackRequest",
 }) as any as S.Schema<CreateCloudProjectVrackRequest>;
@@ -16516,9 +16176,7 @@ export const CloudStorageLifecycleRuleExpiration = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<CloudStorageLifecycleRuleExpiration>;
 
 /** Tags filter */
-export type CloudStorageLifecycleRuleFilterTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CloudStorageLifecycleRuleFilterTagsMap = { [key: string]: string | undefined };
 export const CloudStorageLifecycleRuleFilterTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -16760,9 +16418,7 @@ export const CloudStorageReplicationRuleDestinationIn = /*@__PURE__*/ S.suspend(
 }) as any as S.Schema<CloudStorageReplicationRuleDestinationIn>;
 
 /** Tags filter. */
-export type CloudStorageReplicationRuleFilterTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CloudStorageReplicationRuleFilterTagsMap = { [key: string]: string | undefined };
 export const CloudStorageReplicationRuleFilterTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -16962,9 +16618,7 @@ export const CloudStorageObjectList = /*@__PURE__*/ S.suspend(() =>
     storageClass: S.optional(S.NullOr(CloudStorageStorageClassEnum)),
     versionId: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "CloudStorageObjectList",
-}) as any as S.Schema<CloudStorageObjectList>;
+).annotate({ identifier: "CloudStorageObjectList" }) as any as S.Schema<CloudStorageObjectList>;
 
 /** Container objects (deprecated) */
 export type CloudColdArchiveContainerObjectsList = Array<CloudStorageObjectList>;
@@ -17077,9 +16731,7 @@ export const CloudInstanceAutoBackup2 = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     rotation: S.Number,
   }),
-).annotate({
-  identifier: "CloudInstanceAutoBackup2",
-}) as any as S.Schema<CloudInstanceAutoBackup2>;
+).annotate({ identifier: "CloudInstanceAutoBackup2" }) as any as S.Schema<CloudInstanceAutoBackup2>;
 
 /** Billing period */
 export type CloudInstanceCreateInputBillingPeriodEnum = "hourly" | "monthly";
@@ -17405,13 +17057,7 @@ export const CreateLoadBalancerRequest = /*@__PURE__*/ S.suspend(() =>
     openstackRegion: S.optional(S.String),
     region: S.String,
     size: S.optional(S.NullOr(CloudProjectLoadbalancerSizeEnum)),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/cloud/project/{serviceName}/loadbalancer",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/cloud/project/{serviceName}/loadbalancer", code: 200 })),
 ).annotate({
   identifier: "CreateLoadBalancerRequest",
 }) as any as S.Schema<CreateLoadBalancerRequest>;
@@ -17503,9 +17149,7 @@ export const CloudProjectLoadBalancer = /*@__PURE__*/ S.suspend(() =>
     size: S.optional(CloudProjectLoadbalancerSizeEnum),
     status: S.optional(CloudProjectLoadbalancerStatusEnum),
   }),
-).annotate({
-  identifier: "CloudProjectLoadBalancer",
-}) as any as S.Schema<CloudProjectLoadBalancer>;
+).annotate({ identifier: "CloudProjectLoadBalancer" }) as any as S.Schema<CloudProjectLoadBalancer>;
 
 /** List of backends */
 export type CreateLoadBalancerConfigurationRequestBackendsList =
@@ -17586,11 +17230,7 @@ export const CreateNetworkLoadBalancerRequest = /*@__PURE__*/ S.suspend(() =>
     region: S.String,
     size: S.optional(S.NullOr(CloudProjectLoadbalancerSizeEnum)),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/cloud/project/{serviceName}/networkloadbalancer",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/cloud/project/{serviceName}/networkloadbalancer", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateNetworkLoadBalancerRequest",
@@ -17740,9 +17380,7 @@ export const CreatePresignedUrlOnRegionRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<CreatePresignedUrlOnRegionRequest>;
 
 /** Signed headers. */
-export type CloudStoragePresignedURLSignedHeadersMap = {
-  [key: string]: string | undefined;
-};
+export type CloudStoragePresignedURLSignedHeadersMap = { [key: string]: string | undefined };
 export const CloudStoragePresignedURLSignedHeadersMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -17763,9 +17401,7 @@ export const CloudStoragePresignedURL = /*@__PURE__*/ S.suspend(() =>
     signedHeaders: S.optional(CloudStoragePresignedURLSignedHeadersMap),
     url: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CloudStoragePresignedURL",
-}) as any as S.Schema<CloudStoragePresignedURL>;
+).annotate({ identifier: "CloudStoragePresignedURL" }) as any as S.Schema<CloudStoragePresignedURL>;
 
 export interface CreateReplicationJobOnStorageContainerRequest {
   /** Service name */
@@ -17832,9 +17468,7 @@ export const CloudStorageJobReplication = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<CloudStorageJobReplication>;
 
 /** Container tags. */
-export type CreateStorageContainerOnRegionRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CreateStorageContainerOnRegionRequestTagsMap = { [key: string]: string | undefined };
 export const CreateStorageContainerOnRegionRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -17960,9 +17594,7 @@ export const CloudStorageReplicationObject = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<CloudStorageReplicationObject>;
 
 /** Container tags. */
-export type CloudStorageContainerTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CloudStorageContainerTagsMap = { [key: string]: string | undefined };
 export const CloudStorageContainerTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -18016,9 +17648,7 @@ export const CloudStorageContainer = /*@__PURE__*/ S.suspend(() =>
     versioning: S.optional(S.NullOr(CloudStorageVersioningObject)),
     virtualHost: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CloudStorageContainer",
-}) as any as S.Schema<CloudStorageContainer>;
+).annotate({ identifier: "CloudStorageContainer" }) as any as S.Schema<CloudStorageContainer>;
 
 /** Storage policy role */
 export type CloudStoragePolicyRoleEnum = "admin" | "deny" | "readOnly" | "readWrite";
@@ -18075,15 +17705,9 @@ export const DeleteAlertingRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     id: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/cloud/project/{serviceName}/alerting/{id}",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/cloud/project/{serviceName}/alerting/{id}", code: 200 }),
   ),
-).annotate({
-  identifier: "DeleteAlertingRequest",
-}) as any as S.Schema<DeleteAlertingRequest>;
+).annotate({ identifier: "DeleteAlertingRequest" }) as any as S.Schema<DeleteAlertingRequest>;
 
 export interface DeleteAlertingResponse {}
 export const DeleteAlertingResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -18166,9 +17790,7 @@ export const DeleteCertificateRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "DeleteCertificateRequest",
-}) as any as S.Schema<DeleteCertificateRequest>;
+).annotate({ identifier: "DeleteCertificateRequest" }) as any as S.Schema<DeleteCertificateRequest>;
 
 export interface DeleteCertificateResponse {}
 export const DeleteCertificateResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -18186,11 +17808,7 @@ export const DeleteCloudProjectAclRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     accountId: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/cloud/project/{serviceName}/acl/{accountId}",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/cloud/project/{serviceName}/acl/{accountId}", code: 200 }),
   ),
 ).annotate({
   identifier: "DeleteCloudProjectAclRequest",
@@ -18215,11 +17833,7 @@ export const DeleteCloudProjectAiAppRequest = /*@__PURE__*/ S.suspend(() =>
     appId: S.String.pipe(T.Label()),
     force: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/cloud/project/{serviceName}/ai/app/{appId}",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/cloud/project/{serviceName}/ai/app/{appId}", code: 200 }),
   ),
 ).annotate({
   identifier: "DeleteCloudProjectAiAppRequest",
@@ -18227,9 +17841,7 @@ export const DeleteCloudProjectAiAppRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface DeleteCloudProjectAiAppResponse {}
 export const DeleteCloudProjectAiAppResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "DeleteCloudProjectAiAppResponse",
-  },
+  { identifier: "DeleteCloudProjectAiAppResponse" },
 ) as any as S.Schema<DeleteCloudProjectAiAppResponse>;
 
 export interface DeleteCloudProjectAiDataRegionAliasRequest {
@@ -18277,11 +17889,7 @@ export const DeleteCloudProjectAiJobRequest = /*@__PURE__*/ S.suspend(() =>
     jobId: S.String.pipe(T.Label()),
     force: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/cloud/project/{serviceName}/ai/job/{jobId}",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/cloud/project/{serviceName}/ai/job/{jobId}", code: 200 }),
   ),
 ).annotate({
   identifier: "DeleteCloudProjectAiJobRequest",
@@ -18289,9 +17897,7 @@ export const DeleteCloudProjectAiJobRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface DeleteCloudProjectAiJobResponse {}
 export const DeleteCloudProjectAiJobResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "DeleteCloudProjectAiJobResponse",
-  },
+  { identifier: "DeleteCloudProjectAiJobResponse" },
 ) as any as S.Schema<DeleteCloudProjectAiJobResponse>;
 
 export interface DeleteCloudProjectAiNotebookRequest {
@@ -18364,11 +17970,7 @@ export const DeleteCloudProjectAiTokenRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     id: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/cloud/project/{serviceName}/ai/token/{id}",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/cloud/project/{serviceName}/ai/token/{id}", code: 200 }),
   ),
 ).annotate({
   identifier: "DeleteCloudProjectAiTokenRequest",
@@ -20510,11 +20112,7 @@ export const DeleteCloudProjectKubeRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     kubeId: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/cloud/project/{serviceName}/kube/{kubeId}",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/cloud/project/{serviceName}/kube/{kubeId}", code: 200 }),
   ),
 ).annotate({
   identifier: "DeleteCloudProjectKubeRequest",
@@ -21478,11 +21076,7 @@ export const DeleteCloudProjectSnapshotRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     imageId: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/cloud/project/{serviceName}/snapshot/{imageId}",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/cloud/project/{serviceName}/snapshot/{imageId}", code: 200 }),
   ),
 ).annotate({
   identifier: "DeleteCloudProjectSnapshotRequest",
@@ -21499,11 +21093,7 @@ export const DeleteCloudProjectSshkeyRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     keyId: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/cloud/project/{serviceName}/sshkey/{keyId}",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/cloud/project/{serviceName}/sshkey/{keyId}", code: 200 }),
   ),
 ).annotate({
   identifier: "DeleteCloudProjectSshkeyRequest",
@@ -21589,11 +21179,7 @@ export const DeleteCloudProjectUserRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     userId: S.Number.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/cloud/project/{serviceName}/user/{userId}",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/cloud/project/{serviceName}/user/{userId}", code: 200 }),
   ),
 ).annotate({
   identifier: "DeleteCloudProjectUserRequest",
@@ -21677,11 +21263,7 @@ export const DeleteCloudProjectVolumeRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     volumeId: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/cloud/project/{serviceName}/volume/{volumeId}",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/cloud/project/{serviceName}/volume/{volumeId}", code: 200 }),
   ),
 ).annotate({
   identifier: "DeleteCloudProjectVolumeRequest",
@@ -22211,9 +21793,7 @@ export const GetAlertRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetAlertRequest",
-}) as any as S.Schema<GetAlertRequest>;
+).annotate({ identifier: "GetAlertRequest" }) as any as S.Schema<GetAlertRequest>;
 
 /** Receivers of the alert */
 export type CloudAlertingAlertEmailsList = Array<string>;
@@ -22236,9 +21816,7 @@ export const CloudAlertingAlert = /*@__PURE__*/ S.suspend(() =>
     alertId: S.optional(S.Number),
     emails: S.optional(S.NullOr(CloudAlertingAlertEmailsList)),
   }),
-).annotate({
-  identifier: "CloudAlertingAlert",
-}) as any as S.Schema<CloudAlertingAlert>;
+).annotate({ identifier: "CloudAlertingAlert" }) as any as S.Schema<CloudAlertingAlert>;
 
 export interface GetAlertingConfigurationRequest {
   /** Service name */
@@ -22250,13 +21828,7 @@ export const GetAlertingConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/cloud/project/{serviceName}/alerting/{id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/cloud/project/{serviceName}/alerting/{id}", code: 200 })),
 ).annotate({
   identifier: "GetAlertingConfigurationRequest",
 }) as any as S.Schema<GetAlertingConfigurationRequest>;
@@ -22268,13 +21840,7 @@ export interface GetAlertingConfigurationsRequest {
 export const GetAlertingConfigurationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/cloud/project/{serviceName}/alerting",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/cloud/project/{serviceName}/alerting", code: 200 })),
 ).annotate({
   identifier: "GetAlertingConfigurationsRequest",
 }) as any as S.Schema<GetAlertingConfigurationsRequest>;
@@ -22302,15 +21868,9 @@ export const GetAlertsRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     id: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/cloud/project/{serviceName}/alerting/{id}/alert",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/cloud/project/{serviceName}/alerting/{id}/alert", code: 200 }),
   ),
-).annotate({
-  identifier: "GetAlertsRequest",
-}) as any as S.Schema<GetAlertsRequest>;
+).annotate({ identifier: "GetAlertsRequest" }) as any as S.Schema<GetAlertsRequest>;
 
 export type GetAlertsResponseBodyList = Array<number>;
 export const GetAlertsResponseBodyList = /*@__PURE__*/ S.Array(
@@ -22320,9 +21880,7 @@ export const GetAlertsResponseBodyList = /*@__PURE__*/ S.Array(
 export type GetAlertsResponse = GetAlertsResponseBodyList;
 export const GetAlertsResponse = /*@__PURE__*/ S.suspend(() =>
   GetAlertsResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "GetAlertsResponse",
-}) as any as S.Schema<GetAlertsResponse>;
+).annotate({ identifier: "GetAlertsResponse" }) as any as S.Schema<GetAlertsResponse>;
 
 export interface GetApplicationLoadBalancerRequest {
   /** Service name */
@@ -22513,9 +22071,7 @@ export const GetCertificateRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetCertificateRequest",
-}) as any as S.Schema<GetCertificateRequest>;
+).annotate({ identifier: "GetCertificateRequest" }) as any as S.Schema<GetCertificateRequest>;
 
 export interface GetCloudProjectAclRequest {
   /** The project id */
@@ -22528,11 +22084,7 @@ export const GetCloudProjectAclRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     accountId: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/cloud/project/{serviceName}/acl/{accountId}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/cloud/project/{serviceName}/acl/{accountId}", code: 200 }),
   ),
 ).annotate({
   identifier: "GetCloudProjectAclRequest",
@@ -22548,13 +22100,7 @@ export const GetCloudProjectAiAppRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     appId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/cloud/project/{serviceName}/ai/app/{appId}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/cloud/project/{serviceName}/ai/app/{appId}", code: 200 })),
 ).annotate({
   identifier: "GetCloudProjectAiAppRequest",
 }) as any as S.Schema<GetCloudProjectAiAppRequest>;
@@ -22567,11 +22113,7 @@ export const GetCloudProjectAiAuthorizationRequest = /*@__PURE__*/ S.suspend(() 
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/cloud/project/{serviceName}/ai/authorization",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/cloud/project/{serviceName}/ai/authorization", code: 200 }),
   ),
 ).annotate({
   identifier: "GetCloudProjectAiAuthorizationRequest",
@@ -22632,11 +22174,7 @@ export const GetCloudProjectAiCapabilityQuotaRequest = /*@__PURE__*/ S.suspend((
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/cloud/project/{serviceName}/ai/capabilities/quota",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/cloud/project/{serviceName}/ai/capabilities/quota", code: 200 }),
   ),
 ).annotate({
   identifier: "GetCloudProjectAiCapabilityQuotaRequest",
@@ -23117,9 +22655,7 @@ export const CloudProjectAiJobPartner = /*@__PURE__*/ S.suspend(() =>
     id: S.optional(S.String),
     name: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CloudProjectAiJobPartner",
-}) as any as S.Schema<CloudProjectAiJobPartner>;
+).annotate({ identifier: "CloudProjectAiJobPartner" }) as any as S.Schema<CloudProjectAiJobPartner>;
 
 /** Preset Type */
 export type CloudProjectAiCapabilitiesPresetTypeEnum = "app" | "job" | "notebook";
@@ -23269,13 +22805,7 @@ export const GetCloudProjectAiJobRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     jobId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/cloud/project/{serviceName}/ai/job/{jobId}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/cloud/project/{serviceName}/ai/job/{jobId}", code: 200 })),
 ).annotate({
   identifier: "GetCloudProjectAiJobRequest",
 }) as any as S.Schema<GetCloudProjectAiJobRequest>;
@@ -23508,13 +23038,7 @@ export const GetCloudProjectAiTokenRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/cloud/project/{serviceName}/ai/token/{id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/cloud/project/{serviceName}/ai/token/{id}", code: 200 })),
 ).annotate({
   identifier: "GetCloudProjectAiTokenRequest",
 }) as any as S.Schema<GetCloudProjectAiTokenRequest>;
@@ -23654,9 +23178,7 @@ export const DbaasLogsLogKind = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     updatedAt: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DbaasLogsLogKind",
-}) as any as S.Schema<DbaasLogsLogKind>;
+).annotate({ identifier: "DbaasLogsLogKind" }) as any as S.Schema<DbaasLogsLogKind>;
 
 export interface GetCloudProjectCapabilityLoadbalancerRegionRequest {
   /** Service name */
@@ -24018,13 +23540,7 @@ export const GetCloudProjectCreditRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     id: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/cloud/project/{serviceName}/credit/{id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/cloud/project/{serviceName}/credit/{id}", code: 200 })),
 ).annotate({
   identifier: "GetCloudProjectCreditRequest",
 }) as any as S.Schema<GetCloudProjectCreditRequest>;
@@ -24320,9 +23836,7 @@ export const DbaasLogsLogSubscription = /*@__PURE__*/ S.suspend(() =>
     subscriptionId: S.optional(S.String),
     updatedAt: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DbaasLogsLogSubscription",
-}) as any as S.Schema<DbaasLogsLogSubscription>;
+).annotate({ identifier: "DbaasLogsLogSubscription" }) as any as S.Schema<DbaasLogsLogSubscription>;
 
 export interface GetCloudProjectDatabaseCassandraMaintenanceRequest {
   /** Service name */
@@ -28353,11 +27867,7 @@ export const GetCloudProjectImageRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     imageId: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/cloud/project/{serviceName}/image/{imageId}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/cloud/project/{serviceName}/image/{imageId}", code: 200 }),
   ),
 ).annotate({
   identifier: "GetCloudProjectImageRequest",
@@ -28374,11 +27884,7 @@ export const GetCloudProjectInstanceRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     instanceId: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/cloud/project/{serviceName}/instance/{instanceId}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/cloud/project/{serviceName}/instance/{instanceId}", code: 200 }),
   ),
 ).annotate({
   identifier: "GetCloudProjectInstanceRequest",
@@ -28443,11 +27949,7 @@ export const GetCloudProjectIpFailoverRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     id: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/cloud/project/{serviceName}/ip/failover/{id}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/cloud/project/{serviceName}/ip/failover/{id}", code: 200 }),
   ),
 ).annotate({
   identifier: "GetCloudProjectIpFailoverRequest",
@@ -28463,13 +27965,7 @@ export const GetCloudProjectKubeRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     kubeId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/cloud/project/{serviceName}/kube/{kubeId}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/cloud/project/{serviceName}/kube/{kubeId}", code: 200 })),
 ).annotate({
   identifier: "GetCloudProjectKubeRequest",
 }) as any as S.Schema<GetCloudProjectKubeRequest>;
@@ -28552,9 +28048,7 @@ export const CloudKubeEtcdUsage = /*@__PURE__*/ S.suspend(() =>
     quota: S.optional(S.Number),
     usage: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "CloudKubeEtcdUsage",
-}) as any as S.Schema<CloudKubeEtcdUsage>;
+).annotate({ identifier: "CloudKubeEtcdUsage" }) as any as S.Schema<CloudKubeEtcdUsage>;
 
 export interface GetCloudProjectKubeNodeRequest {
   /** Service name */
@@ -28726,13 +28220,7 @@ export const GetCloudProjectLabRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     labId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/cloud/project/{serviceName}/lab/{labId}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/cloud/project/{serviceName}/lab/{labId}", code: 200 })),
 ).annotate({
   identifier: "GetCloudProjectLabRequest",
 }) as any as S.Schema<GetCloudProjectLabRequest>;
@@ -28927,11 +28415,7 @@ export const GetCloudProjectRegionRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     regionName: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/cloud/project/{serviceName}/region/{regionName}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/cloud/project/{serviceName}/region/{regionName}", code: 200 }),
   ),
 ).annotate({
   identifier: "GetCloudProjectRegionRequest",
@@ -29106,9 +28590,7 @@ export const CloudKeymanagerSecret = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     region: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CloudKeymanagerSecret",
-}) as any as S.Schema<CloudKeymanagerSecret>;
+).annotate({ identifier: "CloudKeymanagerSecret" }) as any as S.Schema<CloudKeymanagerSecret>;
 
 export interface GetCloudProjectRegionLoadbalancingFlavorRequest {
   /** Service name */
@@ -29149,9 +28631,7 @@ export const CloudLoadbalancingFlavor = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     region: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CloudLoadbalancingFlavor",
-}) as any as S.Schema<CloudLoadbalancingFlavor>;
+).annotate({ identifier: "CloudLoadbalancingFlavor" }) as any as S.Schema<CloudLoadbalancingFlavor>;
 
 export interface GetCloudProjectRegionLoadbalancingHealthMonitorRequest {
   /** Service name */
@@ -29600,9 +29080,7 @@ export const CloudProjectNetwork = /*@__PURE__*/ S.suspend(() =>
     visibility: S.optional(CloudNetworkNetworkVisibilityEnum),
     vlanId: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "CloudProjectNetwork",
-}) as any as S.Schema<CloudProjectNetwork>;
+).annotate({ identifier: "CloudProjectNetwork" }) as any as S.Schema<CloudProjectNetwork>;
 
 export interface GetCloudProjectRegionNetworkSubnetRequest {
   /** Service name */
@@ -29704,9 +29182,7 @@ export const CloudQuotaKeypairQuotas = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     maxCount: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "CloudQuotaKeypairQuotas",
-}) as any as S.Schema<CloudQuotaKeypairQuotas>;
+).annotate({ identifier: "CloudQuotaKeypairQuotas" }) as any as S.Schema<CloudQuotaKeypairQuotas>;
 
 /** Quotas on loadbalancer */
 export interface CloudQuotaLoadbalancerQuotas {
@@ -29754,9 +29230,7 @@ export const CloudQuotaNetworkQuotas = /*@__PURE__*/ S.suspend(() =>
     usedNetworks: S.optional(S.Number),
     usedSubnets: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "CloudQuotaNetworkQuotas",
-}) as any as S.Schema<CloudQuotaNetworkQuotas>;
+).annotate({ identifier: "CloudQuotaNetworkQuotas" }) as any as S.Schema<CloudQuotaNetworkQuotas>;
 
 /** Share Quota */
 export interface CloudQuotaShareQuota {
@@ -29797,9 +29271,7 @@ export const CloudQuotaShareQuota = /*@__PURE__*/ S.suspend(() =>
     usedShareSnapshots: S.optional(S.Number),
     usedSharesNumber: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "CloudQuotaShareQuota",
-}) as any as S.Schema<CloudQuotaShareQuota>;
+).annotate({ identifier: "CloudQuotaShareQuota" }) as any as S.Schema<CloudQuotaShareQuota>;
 
 /** Quotas on volumes */
 export interface CloudQuotaVolumeUsageQuotas {
@@ -29865,9 +29337,7 @@ export const CloudQuotaQuotas = /*@__PURE__*/ S.suspend(() =>
     share: S.optional(S.NullOr(CloudQuotaShareQuota)),
     volume: S.optional(S.NullOr(CloudQuotaVolumeUsageQuotas)),
   }),
-).annotate({
-  identifier: "CloudQuotaQuotas",
-}) as any as S.Schema<CloudQuotaQuotas>;
+).annotate({ identifier: "CloudQuotaQuotas" }) as any as S.Schema<CloudQuotaQuotas>;
 
 export interface GetCloudProjectRegionQuotaShareRequest {
   /** Service name */
@@ -29929,9 +29399,7 @@ export const CloudQuotaStorageQuota = /*@__PURE__*/ S.suspend(() =>
     objectCount: S.optional(S.Number),
     quotaBytes: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "CloudQuotaStorageQuota",
-}) as any as S.Schema<CloudQuotaStorageQuota>;
+).annotate({ identifier: "CloudQuotaStorageQuota" }) as any as S.Schema<CloudQuotaStorageQuota>;
 
 export interface GetCloudProjectRegionShareRequest {
   /** Service name */
@@ -29969,9 +29437,7 @@ export const CloudShareCapability = /*@__PURE__*/ S.suspend(() =>
     enabled: S.optional(S.Boolean),
     name: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CloudShareCapability",
-}) as any as S.Schema<CloudShareCapability>;
+).annotate({ identifier: "CloudShareCapability" }) as any as S.Schema<CloudShareCapability>;
 
 /** Share capabilities */
 export type CloudShareShareCapabilitiesList = Array<CloudShareCapability>;
@@ -30090,9 +29556,7 @@ export const CloudShareShare = /*@__PURE__*/ S.suspend(() =>
     subnetId: S.optional(S.NullOr(S.String)),
     type: S.optional(CloudShareTypeEnum),
   }),
-).annotate({
-  identifier: "CloudShareShare",
-}) as any as S.Schema<CloudShareShare>;
+).annotate({ identifier: "CloudShareShare" }) as any as S.Schema<CloudShareShare>;
 
 export interface GetCloudProjectRegionShareAclRequest {
   /** Service name */
@@ -30193,9 +29657,7 @@ export const CloudRegionSSHKey = /*@__PURE__*/ S.suspend(() =>
     publicKey: S.optional(S.String),
     region: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CloudRegionSSHKey",
-}) as any as S.Schema<CloudRegionSSHKey>;
+).annotate({ identifier: "CloudRegionSSHKey" }) as any as S.Schema<CloudRegionSSHKey>;
 
 export interface GetCloudProjectRegionVolumeRequest {
   /** Service name */
@@ -30267,9 +29729,7 @@ export const CloudRegionVolume = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(CloudVolumeVolumeStatusEnum),
     type: S.optional(CloudVolumeVolumeTypeEnum),
   }),
-).annotate({
-  identifier: "CloudRegionVolume",
-}) as any as S.Schema<CloudRegionVolume>;
+).annotate({ identifier: "CloudRegionVolume" }) as any as S.Schema<CloudRegionVolume>;
 
 export interface GetCloudProjectRegionVolumeBackupRequest {
   /** Service name */
@@ -30326,13 +29786,7 @@ export interface GetCloudProjectServiceInfosRequest {
 export const GetCloudProjectServiceInfosRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/cloud/project/{serviceName}/serviceInfos",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/cloud/project/{serviceName}/serviceInfos", code: 200 })),
 ).annotate({
   identifier: "GetCloudProjectServiceInfosRequest",
 }) as any as S.Schema<GetCloudProjectServiceInfosRequest>;
@@ -30364,9 +29818,7 @@ export const ServiceRenewType = /*@__PURE__*/ S.suspend(() =>
     manualPayment: S.optional(S.NullOr(S.Boolean)),
     period: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "ServiceRenewType",
-}) as any as S.Schema<ServiceRenewType>;
+).annotate({ identifier: "ServiceRenewType" }) as any as S.Schema<ServiceRenewType>;
 
 /** Detailed renewal type of a service */
 export type ServiceRenewalTypeEnum =
@@ -30424,9 +29876,7 @@ export const ServicesService = /*@__PURE__*/ S.suspend(() =>
     serviceId: S.optional(S.Number),
     status: S.optional(ServiceStateEnum),
   }),
-).annotate({
-  identifier: "ServicesService",
-}) as any as S.Schema<ServicesService>;
+).annotate({ identifier: "ServicesService" }) as any as S.Schema<ServicesService>;
 
 export interface GetCloudProjectSnapshotRequest {
   /** Service name */
@@ -30439,11 +29889,7 @@ export const GetCloudProjectSnapshotRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     imageId: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/cloud/project/{serviceName}/snapshot/{imageId}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/cloud/project/{serviceName}/snapshot/{imageId}", code: 200 }),
   ),
 ).annotate({
   identifier: "GetCloudProjectSnapshotRequest",
@@ -30459,13 +29905,7 @@ export const GetCloudProjectSshkeyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     keyId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/cloud/project/{serviceName}/sshkey/{keyId}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/cloud/project/{serviceName}/sshkey/{keyId}", code: 200 })),
 ).annotate({
   identifier: "GetCloudProjectSshkeyRequest",
 }) as any as S.Schema<GetCloudProjectSshkeyRequest>;
@@ -30487,11 +29927,7 @@ export const GetCloudProjectStorageRequest = /*@__PURE__*/ S.suspend(() =>
     noObjects: S.optional(S.Boolean.pipe(T.Query())),
     prefix: S.optional(S.String.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/cloud/project/{serviceName}/storage/{containerId}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/cloud/project/{serviceName}/storage/{containerId}", code: 200 }),
   ),
 ).annotate({
   identifier: "GetCloudProjectStorageRequest",
@@ -30588,13 +30024,7 @@ export interface GetCloudProjectStorageQuotaRequest {
 export const GetCloudProjectStorageQuotaRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/cloud/project/{serviceName}/storage/quota",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/cloud/project/{serviceName}/storage/quota", code: 200 })),
 ).annotate({
   identifier: "GetCloudProjectStorageQuotaRequest",
 }) as any as S.Schema<GetCloudProjectStorageQuotaRequest>;
@@ -30611,9 +30041,7 @@ export const CloudStorageQuota = /*@__PURE__*/ S.suspend(() =>
     buckets: S.optional(S.Number),
     maxBuckets: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "CloudStorageQuota",
-}) as any as S.Schema<CloudStorageQuota>;
+).annotate({ identifier: "CloudStorageQuota" }) as any as S.Schema<CloudStorageQuota>;
 
 export interface GetCloudProjectUsageCurrentRequest {
   /** Service name */
@@ -30622,13 +30050,7 @@ export interface GetCloudProjectUsageCurrentRequest {
 export const GetCloudProjectUsageCurrentRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/cloud/project/{serviceName}/usage/current",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/cloud/project/{serviceName}/usage/current", code: 200 })),
 ).annotate({
   identifier: "GetCloudProjectUsageCurrentRequest",
 }) as any as S.Schema<GetCloudProjectUsageCurrentRequest>;
@@ -30659,9 +30081,7 @@ export const CloudBillingViewQuantity = /*@__PURE__*/ S.suspend(() =>
     unit: S.optional(CloudBillingViewUnitQuantityEnum),
     value: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "CloudBillingViewQuantity",
-}) as any as S.Schema<CloudBillingViewQuantity>;
+).annotate({ identifier: "CloudBillingViewQuantity" }) as any as S.Schema<CloudBillingViewQuantity>;
 
 /** HourlyInstanceDetail */
 export interface CloudBillingViewHourlyInstanceDetail {
@@ -31540,9 +30960,7 @@ export const CloudUsagePeriod = /*@__PURE__*/ S.suspend(() =>
     from: S.optional(S.String),
     to: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CloudUsagePeriod",
-}) as any as S.Schema<CloudUsagePeriod>;
+).annotate({ identifier: "CloudUsagePeriod" }) as any as S.Schema<CloudUsagePeriod>;
 
 /** Fee detail */
 export interface CloudPlanDetail {
@@ -31568,9 +30986,7 @@ export const CloudPlanDetail = /*@__PURE__*/ S.suspend(() =>
     totalPrice: S.optional(OrderPrice),
     unitPrice: S.optional(OrderPrice),
   }),
-).annotate({
-  identifier: "CloudPlanDetail",
-}) as any as S.Schema<CloudPlanDetail>;
+).annotate({ identifier: "CloudPlanDetail" }) as any as S.Schema<CloudPlanDetail>;
 
 /** Detailed listing of all flat fees */
 export type CloudBillingViewMonthlySavingsPlanDetailsList = Array<CloudPlanDetail>;
@@ -31732,9 +31148,7 @@ export const CloudUsageUsageCurrent = /*@__PURE__*/ S.suspend(() =>
     resourcesUsage: S.optional(S.NullOr(CloudUsageUsageCurrentResourcesUsageList)),
     totalPrice: S.optional(OrderPrice),
   }),
-).annotate({
-  identifier: "CloudUsageUsageCurrent",
-}) as any as S.Schema<CloudUsageUsageCurrent>;
+).annotate({ identifier: "CloudUsageUsageCurrent" }) as any as S.Schema<CloudUsageUsageCurrent>;
 
 export interface GetCloudProjectUsageForecastRequest {
   /** Service name */
@@ -31743,13 +31157,7 @@ export interface GetCloudProjectUsageForecastRequest {
 export const GetCloudProjectUsageForecastRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/cloud/project/{serviceName}/usage/forecast",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/cloud/project/{serviceName}/usage/forecast", code: 200 })),
 ).annotate({
   identifier: "GetCloudProjectUsageForecastRequest",
 }) as any as S.Schema<GetCloudProjectUsageForecastRequest>;
@@ -31828,9 +31236,7 @@ export const CloudUsageUsageForecast = /*@__PURE__*/ S.suspend(() =>
     totalPrice: S.optional(OrderPrice),
     usableCredits: S.optional(S.NullOr(CloudBillingViewUsedCredits)),
   }),
-).annotate({
-  identifier: "CloudUsageUsageForecast",
-}) as any as S.Schema<CloudUsageUsageForecast>;
+).annotate({ identifier: "CloudUsageUsageForecast" }) as any as S.Schema<CloudUsageUsageForecast>;
 
 export interface GetCloudProjectUsageHistoryRequest {
   /** Service name */
@@ -31900,13 +31306,7 @@ export const GetCloudProjectUserRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     userId: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/cloud/project/{serviceName}/user/{userId}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/cloud/project/{serviceName}/user/{userId}", code: 200 })),
 ).annotate({
   identifier: "GetCloudProjectUserRequest",
 }) as any as S.Schema<GetCloudProjectUserRequest>;
@@ -31979,9 +31379,7 @@ export const CloudUserConfiguration = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     content: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CloudUserConfiguration",
-}) as any as S.Schema<CloudUserConfiguration>;
+).annotate({ identifier: "CloudUserConfiguration" }) as any as S.Schema<CloudUserConfiguration>;
 
 /** OpenrcVersionEnum */
 export type CloudUserOpenrcVersionEnum = "v2.0" | "v3";
@@ -32004,11 +31402,7 @@ export const GetCloudProjectUserOpenrcRequest = /*@__PURE__*/ S.suspend(() =>
     region: S.String.pipe(T.Query()),
     version: S.optional(CloudUserOpenrcVersionEnum.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/cloud/project/{serviceName}/user/{userId}/openrc",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/cloud/project/{serviceName}/user/{userId}/openrc", code: 200 }),
   ),
 ).annotate({
   identifier: "GetCloudProjectUserOpenrcRequest",
@@ -32023,9 +31417,7 @@ export const CloudUserOpenrc = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     content: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CloudUserOpenrc",
-}) as any as S.Schema<CloudUserOpenrc>;
+).annotate({ identifier: "CloudUserOpenrc" }) as any as S.Schema<CloudUserOpenrc>;
 
 export interface GetCloudProjectUserPolicyRequest {
   /** Service name */
@@ -32038,11 +31430,7 @@ export const GetCloudProjectUserPolicyRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     userId: S.Number.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/cloud/project/{serviceName}/user/{userId}/policy",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/cloud/project/{serviceName}/user/{userId}/policy", code: 200 }),
   ),
 ).annotate({
   identifier: "GetCloudProjectUserPolicyRequest",
@@ -32057,9 +31445,7 @@ export const CloudStoragePolicyRaw = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     policy: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CloudStoragePolicyRaw",
-}) as any as S.Schema<CloudStoragePolicyRaw>;
+).annotate({ identifier: "CloudStoragePolicyRaw" }) as any as S.Schema<CloudStoragePolicyRaw>;
 
 /** RCloneServiceEnum */
 export type CloudUserRCloneServiceEnum = "storage" | "storage-s3";
@@ -32082,11 +31468,7 @@ export const GetCloudProjectUserRcloneRequest = /*@__PURE__*/ S.suspend(() =>
     region: S.String.pipe(T.Query()),
     service: S.optional(CloudUserRCloneServiceEnum.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/cloud/project/{serviceName}/user/{userId}/rclone",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/cloud/project/{serviceName}/user/{userId}/rclone", code: 200 }),
   ),
 ).annotate({
   identifier: "GetCloudProjectUserRcloneRequest",
@@ -32101,9 +31483,7 @@ export const CloudUserRclone = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     content: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CloudUserRclone",
-}) as any as S.Schema<CloudUserRclone>;
+).annotate({ identifier: "CloudUserRclone" }) as any as S.Schema<CloudUserRclone>;
 
 export interface GetCloudProjectUserRoleRequest {
   /** Service name */
@@ -32168,9 +31548,7 @@ export const CloudUserS3Credentials = /*@__PURE__*/ S.suspend(() =>
     tenantId: S.optional(S.String),
     userId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CloudUserS3Credentials",
-}) as any as S.Schema<CloudUserS3Credentials>;
+).annotate({ identifier: "CloudUserS3Credentials" }) as any as S.Schema<CloudUserS3Credentials>;
 
 export interface GetCloudProjectVolumeRequest {
   /** Service name */
@@ -32183,11 +31561,7 @@ export const GetCloudProjectVolumeRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     volumeId: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/cloud/project/{serviceName}/volume/{volumeId}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/cloud/project/{serviceName}/volume/{volumeId}", code: 200 }),
   ),
 ).annotate({
   identifier: "GetCloudProjectVolumeRequest",
@@ -32221,13 +31595,7 @@ export interface GetCloudProjectVrackRequest {
 export const GetCloudProjectVrackRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/cloud/project/{serviceName}/vrack",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/cloud/project/{serviceName}/vrack", code: 200 })),
 ).annotate({
   identifier: "GetCloudProjectVrackRequest",
 }) as any as S.Schema<GetCloudProjectVrackRequest>;
@@ -32351,15 +31719,9 @@ export const GetFlavorRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     flavorId: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/cloud/project/{serviceName}/flavor/{flavorId}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/cloud/project/{serviceName}/flavor/{flavorId}", code: 200 }),
   ),
-).annotate({
-  identifier: "GetFlavorRequest",
-}) as any as S.Schema<GetFlavorRequest>;
+).annotate({ identifier: "GetFlavorRequest" }) as any as S.Schema<GetFlavorRequest>;
 
 export interface GetFlavorOnRegionRequest {
   /** Service name */
@@ -32381,9 +31743,7 @@ export const GetFlavorOnRegionRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetFlavorOnRegionRequest",
-}) as any as S.Schema<GetFlavorOnRegionRequest>;
+).annotate({ identifier: "GetFlavorOnRegionRequest" }) as any as S.Schema<GetFlavorOnRegionRequest>;
 
 /** Region flavor */
 export interface CloudRegionFlavor {
@@ -32409,9 +31769,7 @@ export const CloudRegionFlavor = /*@__PURE__*/ S.suspend(() =>
     region: S.optional(S.String),
     vcpus: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "CloudRegionFlavor",
-}) as any as S.Schema<CloudRegionFlavor>;
+).annotate({ identifier: "CloudRegionFlavor" }) as any as S.Schema<CloudRegionFlavor>;
 
 export interface GetFlavorsRequest {
   /** Service name */
@@ -32423,16 +31781,8 @@ export const GetFlavorsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     region: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/cloud/project/{serviceName}/flavor",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetFlavorsRequest",
-}) as any as S.Schema<GetFlavorsRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/cloud/project/{serviceName}/flavor", code: 200 })),
+).annotate({ identifier: "GetFlavorsRequest" }) as any as S.Schema<GetFlavorsRequest>;
 
 export type GetFlavorsResponseBodyList = Array<CloudFlavorFlavor>;
 export const GetFlavorsResponseBodyList = /*@__PURE__*/ S.Array(
@@ -32442,9 +31792,7 @@ export const GetFlavorsResponseBodyList = /*@__PURE__*/ S.Array(
 export type GetFlavorsResponse = GetFlavorsResponseBodyList;
 export const GetFlavorsResponse = /*@__PURE__*/ S.suspend(() =>
   GetFlavorsResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "GetFlavorsResponse",
-}) as any as S.Schema<GetFlavorsResponse>;
+).annotate({ identifier: "GetFlavorsResponse" }) as any as S.Schema<GetFlavorsResponse>;
 
 export interface GetFlavorsOnRegionRequest {
   /** Service name */
@@ -32562,9 +31910,7 @@ export const CloudProjectFloatingIp = /*@__PURE__*/ S.suspend(() =>
     region: S.optional(S.NullOr(S.String)),
     status: S.optional(CloudProjectFloatingIpStatusEnum),
   }),
-).annotate({
-  identifier: "CloudProjectFloatingIp",
-}) as any as S.Schema<CloudProjectFloatingIp>;
+).annotate({ identifier: "CloudProjectFloatingIp" }) as any as S.Schema<CloudProjectFloatingIp>;
 
 export interface GetFloatingIpsOnRegionRequest {
   /** Service name */
@@ -32659,9 +32005,7 @@ export const CloudInstanceAction = /*@__PURE__*/ S.suspend(() =>
     group: S.optional(CloudAggregatedInstanceActionGroupEnum),
     name: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CloudInstanceAction",
-}) as any as S.Schema<CloudInstanceAction>;
+).annotate({ identifier: "CloudInstanceAction" }) as any as S.Schema<CloudInstanceAction>;
 
 /** Actions that can be done on the instance */
 export type CloudInstanceInstanceListActionsList = Array<CloudInstanceAction>;
@@ -33116,9 +32460,7 @@ export const GetLoadBalancerRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetLoadBalancerRequest",
-}) as any as S.Schema<GetLoadBalancerRequest>;
+).annotate({ identifier: "GetLoadBalancerRequest" }) as any as S.Schema<GetLoadBalancerRequest>;
 
 export interface GetLoadBalancerConfigurationRequest {
   /** Service name */
@@ -33303,9 +32645,7 @@ export const CloudStorageObject = /*@__PURE__*/ S.suspend(() =>
     storageClass: S.optional(S.NullOr(CloudStorageStorageClassEnum)),
     versionId: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "CloudStorageObject",
-}) as any as S.Schema<CloudStorageObject>;
+).annotate({ identifier: "CloudStorageObject" }) as any as S.Schema<CloudStorageObject>;
 
 export interface GetObjectsInformationOnContainerOnRegionRequest {
   /** Service name */
@@ -33490,9 +32830,7 @@ export const GetProjectRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/cloud/project/{serviceName}", code: 200 })),
-).annotate({
-  identifier: "GetProjectRequest",
-}) as any as S.Schema<GetProjectRequest>;
+).annotate({ identifier: "GetProjectRequest" }) as any as S.Schema<GetProjectRequest>;
 
 /** Possible values for project access type */
 export type CloudAccessTypeEnum = "full" | "restricted";
@@ -33530,9 +32868,7 @@ export const IamResourceMetadata = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(S.NullOr(IamResourceMetadataTagsMap)),
     urn: S.optional(S.String),
   }),
-).annotate({
-  identifier: "IamResourceMetadata",
-}) as any as S.Schema<IamResourceMetadata>;
+).annotate({ identifier: "IamResourceMetadata" }) as any as S.Schema<IamResourceMetadata>;
 
 /** Possible values for project status */
 export type CloudProjectProjectStatusEnum =
@@ -33585,9 +32921,7 @@ export const CloudProjectWithIAM = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(CloudProjectProjectStatusEnum),
     unleash: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "CloudProjectWithIAM",
-}) as any as S.Schema<CloudProjectWithIAM>;
+).annotate({ identifier: "CloudProjectWithIAM" }) as any as S.Schema<CloudProjectWithIAM>;
 
 /** Resource tag filter */
 export interface IamResourceTagFilterInput {}
@@ -33616,9 +32950,7 @@ export const GetProjectsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     iamTags: S.optional(GetProjectsRequestIamTagsMap.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/cloud/project", code: 200 })),
-).annotate({
-  identifier: "GetProjectsRequest",
-}) as any as S.Schema<GetProjectsRequest>;
+).annotate({ identifier: "GetProjectsRequest" }) as any as S.Schema<GetProjectsRequest>;
 
 export type GetProjectsResponseBodyList = Array<string>;
 export const GetProjectsResponseBodyList = /*@__PURE__*/ S.Array(
@@ -33628,9 +32960,7 @@ export const GetProjectsResponseBodyList = /*@__PURE__*/ S.Array(
 export type GetProjectsResponse = GetProjectsResponseBodyList;
 export const GetProjectsResponse = /*@__PURE__*/ S.suspend(() =>
   GetProjectsResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "GetProjectsResponse",
-}) as any as S.Schema<GetProjectsResponse>;
+).annotate({ identifier: "GetProjectsResponse" }) as any as S.Schema<GetProjectsResponse>;
 
 /** Possible values for quota category */
 export type CloudQuotaCategoryEnum =
@@ -33658,16 +32988,8 @@ export const GetQuotasRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     categories: S.optional(GetQuotasRequestCategoriesList.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/cloud/project/{serviceName}/quota",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetQuotasRequest",
-}) as any as S.Schema<GetQuotasRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/cloud/project/{serviceName}/quota", code: 200 })),
+).annotate({ identifier: "GetQuotasRequest" }) as any as S.Schema<GetQuotasRequest>;
 
 export type GetQuotasResponseBodyList = Array<CloudQuotaQuotas>;
 export const GetQuotasResponseBodyList = /*@__PURE__*/ S.Array(
@@ -33677,9 +32999,7 @@ export const GetQuotasResponseBodyList = /*@__PURE__*/ S.Array(
 export type GetQuotasResponse = GetQuotasResponseBodyList;
 export const GetQuotasResponse = /*@__PURE__*/ S.suspend(() =>
   GetQuotasResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "GetQuotasResponse",
-}) as any as S.Schema<GetQuotasResponse>;
+).annotate({ identifier: "GetQuotasResponse" }) as any as S.Schema<GetQuotasResponse>;
 
 export interface GetReplicationJobsOnStorageContainerRequest {
   /** Service name */
@@ -33899,16 +33219,8 @@ export interface ListCertificatesRequest {
 export const ListCertificatesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/cloud/project/{serviceName}/certificate",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ListCertificatesRequest",
-}) as any as S.Schema<ListCertificatesRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/cloud/project/{serviceName}/certificate", code: 200 })),
+).annotate({ identifier: "ListCertificatesRequest" }) as any as S.Schema<ListCertificatesRequest>;
 
 export type ListCertificatesResponseBodyList = Array<string>;
 export const ListCertificatesResponseBodyList = /*@__PURE__*/ S.Array(
@@ -33918,9 +33230,7 @@ export const ListCertificatesResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListCertificatesResponse = ListCertificatesResponseBodyList;
 export const ListCertificatesResponse = /*@__PURE__*/ S.suspend(() =>
   ListCertificatesResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListCertificatesResponse",
-}) as any as S.Schema<ListCertificatesResponse>;
+).annotate({ identifier: "ListCertificatesResponse" }) as any as S.Schema<ListCertificatesResponse>;
 
 /** Possible values for cloud project product name */
 export type CloudProjectProductNameEnum = "registry";
@@ -34059,9 +33369,7 @@ export const ListCloudOrderRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     planCode: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/cloud/order", code: 200 })),
-).annotate({
-  identifier: "ListCloudOrderRequest",
-}) as any as S.Schema<ListCloudOrderRequest>;
+).annotate({ identifier: "ListCloudOrderRequest" }) as any as S.Schema<ListCloudOrderRequest>;
 
 /** Order status */
 export type CloudOrderStatusEnum = "delivered" | "delivering" | "unknown" | "unpaid";
@@ -34087,9 +33395,7 @@ export const CloudOrderOrder = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.optional(S.NullOr(S.String)),
     status: S.optional(CloudOrderStatusEnum),
   }),
-).annotate({
-  identifier: "CloudOrderOrder",
-}) as any as S.Schema<CloudOrderOrder>;
+).annotate({ identifier: "CloudOrderOrder" }) as any as S.Schema<CloudOrderOrder>;
 
 export type ListCloudOrderResponseBodyList = Array<CloudOrderOrder>;
 export const ListCloudOrderResponseBodyList = /*@__PURE__*/ S.Array(
@@ -34099,9 +33405,7 @@ export const ListCloudOrderResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListCloudOrderResponse = ListCloudOrderResponseBodyList;
 export const ListCloudOrderResponse = /*@__PURE__*/ S.suspend(() =>
   ListCloudOrderResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListCloudOrderResponse",
-}) as any as S.Schema<ListCloudOrderResponse>;
+).annotate({ identifier: "ListCloudOrderResponse" }) as any as S.Schema<ListCloudOrderResponse>;
 
 /** OVH subsidiaries */
 export type NichandleOvhSubsidiaryEnum =
@@ -34136,13 +33440,7 @@ export const ListCloudOrderRuleAvailabilityRequest = /*@__PURE__*/ S.suspend(() 
     addonFamily: S.optional(S.String.pipe(T.Query())),
     ovhSubsidiary: NichandleOvhSubsidiaryEnum.pipe(T.Query()),
     planCode: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/cloud/order/rule/availability",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/cloud/order/rule/availability", code: 200 })),
 ).annotate({
   identifier: "ListCloudOrderRuleAvailabilityRequest",
 }) as any as S.Schema<ListCloudOrderRuleAvailabilityRequest>;
@@ -34229,13 +33527,7 @@ export const ListCloudProjectAclRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     type: S.optional(CloudAclTypeEnum.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/cloud/project/{serviceName}/acl",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/cloud/project/{serviceName}/acl", code: 200 })),
 ).annotate({
   identifier: "ListCloudProjectAclRequest",
 }) as any as S.Schema<ListCloudProjectAclRequest>;
@@ -34297,13 +33589,7 @@ export const ListCloudProjectAiAppRequest = /*@__PURE__*/ S.suspend(() =>
     updatedAfter: S.optional(S.String.pipe(T.Query())),
     updatedBefore: S.optional(S.String.pipe(T.Query())),
     userName: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/cloud/project/{serviceName}/ai/app",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/cloud/project/{serviceName}/ai/app", code: 200 })),
 ).annotate({
   identifier: "ListCloudProjectAiAppRequest",
 }) as any as S.Schema<ListCloudProjectAiAppRequest>;
@@ -34340,11 +33626,7 @@ export const ListCloudProjectAiAppLogRequest = /*@__PURE__*/ S.suspend(() =>
     replica: S.optional(S.String.pipe(T.Query())),
     size: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/cloud/project/{serviceName}/ai/app/{appId}/log",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/cloud/project/{serviceName}/ai/app/{appId}/log", code: 200 }),
   ),
 ).annotate({
   identifier: "ListCloudProjectAiAppLogRequest",
@@ -34362,9 +33644,7 @@ export const CloudProjectAiLogLine = /*@__PURE__*/ S.suspend(() =>
     content: S.optional(S.NullOr(S.String)),
     timestamp: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "CloudProjectAiLogLine",
-}) as any as S.Schema<CloudProjectAiLogLine>;
+).annotate({ identifier: "CloudProjectAiLogLine" }) as any as S.Schema<CloudProjectAiLogLine>;
 
 /** Logs lines */
 export type CloudProjectAiLogsLogsList = Array<CloudProjectAiLogLine>;
@@ -34384,9 +33664,7 @@ export const CloudProjectAiLogs = /*@__PURE__*/ S.suspend(() =>
     lastActivity: S.optional(S.NullOr(S.String)),
     logs: S.optional(CloudProjectAiLogsLogsList),
   }),
-).annotate({
-  identifier: "CloudProjectAiLogs",
-}) as any as S.Schema<CloudProjectAiLogs>;
+).annotate({ identifier: "CloudProjectAiLogs" }) as any as S.Schema<CloudProjectAiLogs>;
 
 export interface ListCloudProjectAiCapabilityRegionRequest {
   /** Service name */
@@ -34772,13 +34050,7 @@ export interface ListCloudProjectAiDataRegionRequest {
 export const ListCloudProjectAiDataRegionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/cloud/project/{serviceName}/ai/data/region",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/cloud/project/{serviceName}/ai/data/region", code: 200 })),
 ).annotate({
   identifier: "ListCloudProjectAiDataRegionRequest",
 }) as any as S.Schema<ListCloudProjectAiDataRegionRequest>;
@@ -34870,13 +34142,7 @@ export const ListCloudProjectAiJobRequest = /*@__PURE__*/ S.suspend(() =>
     updatedAfter: S.optional(S.String.pipe(T.Query())),
     updatedBefore: S.optional(S.String.pipe(T.Query())),
     userName: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/cloud/project/{serviceName}/ai/job",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/cloud/project/{serviceName}/ai/job", code: 200 })),
 ).annotate({
   identifier: "ListCloudProjectAiJobRequest",
 }) as any as S.Schema<ListCloudProjectAiJobRequest>;
@@ -34967,11 +34233,7 @@ export const ListCloudProjectAiJobLogRequest = /*@__PURE__*/ S.suspend(() =>
     page: S.optional(S.Number.pipe(T.Query())),
     size: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/cloud/project/{serviceName}/ai/job/{jobId}/log",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/cloud/project/{serviceName}/ai/job/{jobId}/log", code: 200 }),
   ),
 ).annotate({
   identifier: "ListCloudProjectAiJobLogRequest",
@@ -35021,13 +34283,7 @@ export const ListCloudProjectAiNotebookRequest = /*@__PURE__*/ S.suspend(() =>
     updatedBefore: S.optional(S.String.pipe(T.Query())),
     userName: S.optional(S.String.pipe(T.Query())),
     withSpark: S.optional(S.Boolean.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/cloud/project/{serviceName}/ai/notebook",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/cloud/project/{serviceName}/ai/notebook", code: 200 })),
 ).annotate({
   identifier: "ListCloudProjectAiNotebookRequest",
 }) as any as S.Schema<ListCloudProjectAiNotebookRequest>;
@@ -35260,11 +34516,7 @@ export const ListCloudProjectAiPartnerRegionRequest = /*@__PURE__*/ S.suspend(()
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/cloud/project/{serviceName}/ai/partners/region",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/cloud/project/{serviceName}/ai/partners/region", code: 200 }),
   ),
 ).annotate({
   identifier: "ListCloudProjectAiPartnerRegionRequest",
@@ -35326,13 +34578,7 @@ export interface ListCloudProjectAiRegistryRequest {
 export const ListCloudProjectAiRegistryRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/cloud/project/{serviceName}/ai/registry",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/cloud/project/{serviceName}/ai/registry", code: 200 })),
 ).annotate({
   identifier: "ListCloudProjectAiRegistryRequest",
 }) as any as S.Schema<ListCloudProjectAiRegistryRequest>;
@@ -35356,13 +34602,7 @@ export interface ListCloudProjectAiTokenRequest {
 export const ListCloudProjectAiTokenRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/cloud/project/{serviceName}/ai/token",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/cloud/project/{serviceName}/ai/token", code: 200 })),
 ).annotate({
   identifier: "ListCloudProjectAiTokenRequest",
 }) as any as S.Schema<ListCloudProjectAiTokenRequest>;
@@ -35392,13 +34632,7 @@ export const ListCloudProjectBillRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     from: S.String.pipe(T.Query()),
     to: S.String.pipe(T.Query()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/cloud/project/{serviceName}/bill",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/cloud/project/{serviceName}/bill", code: 200 })),
 ).annotate({
   identifier: "ListCloudProjectBillRequest",
 }) as any as S.Schema<ListCloudProjectBillRequest>;
@@ -35422,9 +34656,7 @@ export const CloudProjectBill = /*@__PURE__*/ S.suspend(() =>
     billId: S.optional(S.String),
     type: S.optional(CloudProjectBillTypeEnum),
   }),
-).annotate({
-  identifier: "CloudProjectBill",
-}) as any as S.Schema<CloudProjectBill>;
+).annotate({ identifier: "CloudProjectBill" }) as any as S.Schema<CloudProjectBill>;
 
 export type ListCloudProjectBillResponseBodyList = Array<CloudProjectBill>;
 export const ListCloudProjectBillResponseBodyList = /*@__PURE__*/ S.Array(
@@ -35651,9 +34883,7 @@ export const CloudKubeFlavor = /*@__PURE__*/ S.suspend(() =>
     state: S.optional(CloudKubeFlavorStateEnum),
     vCPUs: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "CloudKubeFlavor",
-}) as any as S.Schema<CloudKubeFlavor>;
+).annotate({ identifier: "CloudKubeFlavor" }) as any as S.Schema<CloudKubeFlavor>;
 
 export type ListCloudProjectCapabilityKubeFlavorsResponseBodyList = Array<CloudKubeFlavor>;
 export const ListCloudProjectCapabilityKubeFlavorsResponseBodyList = /*@__PURE__*/ S.Array(
@@ -36013,11 +35243,7 @@ export const ListCloudProjectContainerRegistryRequest = /*@__PURE__*/ S.suspend(
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/cloud/project/{serviceName}/containerRegistry",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/cloud/project/{serviceName}/containerRegistry", code: 200 }),
   ),
 ).annotate({
   identifier: "ListCloudProjectContainerRegistryRequest",
@@ -36217,13 +35443,7 @@ export interface ListCloudProjectCreditRequest {
 export const ListCloudProjectCreditRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/cloud/project/{serviceName}/credit",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/cloud/project/{serviceName}/credit", code: 200 })),
 ).annotate({
   identifier: "ListCloudProjectCreditRequest",
 }) as any as S.Schema<ListCloudProjectCreditRequest>;
@@ -36265,11 +35485,7 @@ export const ListCloudProjectDatabaseAvailabilityRequest = /*@__PURE__*/ S.suspe
     clusterId: S.optional(S.String.pipe(T.Query())),
     target: S.optional(CloudProjectDatabaseAvailabilityTargetEnum.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/cloud/project/{serviceName}/database/availability",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/cloud/project/{serviceName}/database/availability", code: 200 }),
   ),
 ).annotate({
   identifier: "ListCloudProjectDatabaseAvailabilityRequest",
@@ -36484,11 +35700,7 @@ export const ListCloudProjectDatabaseCapabilitiesRequest = /*@__PURE__*/ S.suspe
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/cloud/project/{serviceName}/database/capabilities",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/cloud/project/{serviceName}/database/capabilities", code: 200 }),
   ),
 ).annotate({
   identifier: "ListCloudProjectDatabaseCapabilitiesRequest",
@@ -36732,11 +35944,7 @@ export const ListCloudProjectDatabaseCassandraRequest = /*@__PURE__*/ S.suspend(
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/cloud/project/{serviceName}/database/cassandra",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/cloud/project/{serviceName}/database/cassandra", code: 200 }),
   ),
 ).annotate({
   identifier: "ListCloudProjectDatabaseCassandraRequest",
@@ -37331,11 +36539,7 @@ export const ListCloudProjectDatabaseClickhouseRequest = /*@__PURE__*/ S.suspend
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/cloud/project/{serviceName}/database/clickhouse",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/cloud/project/{serviceName}/database/clickhouse", code: 200 }),
   ),
 ).annotate({
   identifier: "ListCloudProjectDatabaseClickhouseRequest",
@@ -38045,11 +37249,7 @@ export const ListCloudProjectDatabaseGrafanaRequest = /*@__PURE__*/ S.suspend(()
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/cloud/project/{serviceName}/database/grafana",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/cloud/project/{serviceName}/database/grafana", code: 200 }),
   ),
 ).annotate({
   identifier: "ListCloudProjectDatabaseGrafanaRequest",
@@ -38505,13 +37705,7 @@ export interface ListCloudProjectDatabaseKafkaRequest {
 export const ListCloudProjectDatabaseKafkaRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/cloud/project/{serviceName}/database/kafka",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/cloud/project/{serviceName}/database/kafka", code: 200 })),
 ).annotate({
   identifier: "ListCloudProjectDatabaseKafkaRequest",
 }) as any as S.Schema<ListCloudProjectDatabaseKafkaRequest>;
@@ -38651,11 +37845,7 @@ export const ListCloudProjectDatabaseKafkaConnectRequest = /*@__PURE__*/ S.suspe
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/cloud/project/{serviceName}/database/kafkaConnect",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/cloud/project/{serviceName}/database/kafkaConnect", code: 200 }),
   ),
 ).annotate({
   identifier: "ListCloudProjectDatabaseKafkaConnectRequest",
@@ -40267,11 +39457,7 @@ export const ListCloudProjectDatabaseM3aggregatorRequest = /*@__PURE__*/ S.suspe
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/cloud/project/{serviceName}/database/m3aggregator",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/cloud/project/{serviceName}/database/m3aggregator", code: 200 }),
   ),
 ).annotate({
   identifier: "ListCloudProjectDatabaseM3aggregatorRequest",
@@ -40587,13 +39773,7 @@ export interface ListCloudProjectDatabaseM3dbRequest {
 export const ListCloudProjectDatabaseM3dbRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/cloud/project/{serviceName}/database/m3db",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/cloud/project/{serviceName}/database/m3db", code: 200 })),
 ).annotate({
   identifier: "ListCloudProjectDatabaseM3dbRequest",
 }) as any as S.Schema<ListCloudProjectDatabaseM3dbRequest>;
@@ -41042,11 +40222,7 @@ export const ListCloudProjectDatabaseMongodbRequest = /*@__PURE__*/ S.suspend(()
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/cloud/project/{serviceName}/database/mongodb",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/cloud/project/{serviceName}/database/mongodb", code: 200 }),
   ),
 ).annotate({
   identifier: "ListCloudProjectDatabaseMongodbRequest",
@@ -41388,13 +40564,7 @@ export interface ListCloudProjectDatabaseMysqlRequest {
 export const ListCloudProjectDatabaseMysqlRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/cloud/project/{serviceName}/database/mysql",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/cloud/project/{serviceName}/database/mysql", code: 200 })),
 ).annotate({
   identifier: "ListCloudProjectDatabaseMysqlRequest",
 }) as any as S.Schema<ListCloudProjectDatabaseMysqlRequest>;
@@ -42091,11 +41261,7 @@ export const ListCloudProjectDatabaseOpensearchRequest = /*@__PURE__*/ S.suspend
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/cloud/project/{serviceName}/database/opensearch",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/cloud/project/{serviceName}/database/opensearch", code: 200 }),
   ),
 ).annotate({
   identifier: "ListCloudProjectDatabaseOpensearchRequest",
@@ -42686,11 +41852,7 @@ export const ListCloudProjectDatabasePostgresqlRequest = /*@__PURE__*/ S.suspend
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/cloud/project/{serviceName}/database/postgresql",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/cloud/project/{serviceName}/database/postgresql", code: 200 }),
   ),
 ).annotate({
   identifier: "ListCloudProjectDatabasePostgresqlRequest",
@@ -43450,13 +42612,7 @@ export interface ListCloudProjectDatabaseRedisRequest {
 export const ListCloudProjectDatabaseRedisRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/cloud/project/{serviceName}/database/redis",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/cloud/project/{serviceName}/database/redis", code: 200 })),
 ).annotate({
   identifier: "ListCloudProjectDatabaseRedisRequest",
 }) as any as S.Schema<ListCloudProjectDatabaseRedisRequest>;
@@ -43967,11 +43123,7 @@ export const ListCloudProjectDatabaseServiceRequest = /*@__PURE__*/ S.suspend(()
     serviceName: S.String.pipe(T.Label()),
     category: S.optional(CloudProjectDatabaseEngineCategoryEnum.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/cloud/project/{serviceName}/database/service",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/cloud/project/{serviceName}/database/service", code: 200 }),
   ),
 ).annotate({
   identifier: "ListCloudProjectDatabaseServiceRequest",
@@ -43998,11 +43150,7 @@ export const ListCloudProjectDatabaseValkeyRequest = /*@__PURE__*/ S.suspend(() 
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/cloud/project/{serviceName}/database/valkey",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/cloud/project/{serviceName}/database/valkey", code: 200 }),
   ),
 ).annotate({
   identifier: "ListCloudProjectDatabaseValkeyRequest",
@@ -44561,13 +43709,7 @@ export const ListCloudProjectImageRequest = /*@__PURE__*/ S.suspend(() =>
     flavorType: S.optional(S.String.pipe(T.Query())),
     osType: S.optional(CloudImageOSTypeEnum.pipe(T.Query())),
     region: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/cloud/project/{serviceName}/image",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/cloud/project/{serviceName}/image", code: 200 })),
 ).annotate({
   identifier: "ListCloudProjectImageRequest",
 }) as any as S.Schema<ListCloudProjectImageRequest>;
@@ -44594,13 +43736,7 @@ export const ListCloudProjectInstanceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     region: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/cloud/project/{serviceName}/instance",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/cloud/project/{serviceName}/instance", code: 200 })),
 ).annotate({
   identifier: "ListCloudProjectInstanceRequest",
 }) as any as S.Schema<ListCloudProjectInstanceRequest>;
@@ -44627,13 +43763,7 @@ export const ListCloudProjectInstanceGroupRequest = /*@__PURE__*/ S.suspend(() =
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     region: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/cloud/project/{serviceName}/instance/group",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/cloud/project/{serviceName}/instance/group", code: 200 })),
 ).annotate({
   identifier: "ListCloudProjectInstanceGroupRequest",
 }) as any as S.Schema<ListCloudProjectInstanceGroupRequest>;
@@ -44692,13 +43822,7 @@ export interface ListCloudProjectIpRequest {
 export const ListCloudProjectIpRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/cloud/project/{serviceName}/ip",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/cloud/project/{serviceName}/ip", code: 200 })),
 ).annotate({
   identifier: "ListCloudProjectIpRequest",
 }) as any as S.Schema<ListCloudProjectIpRequest>;
@@ -44742,13 +43866,7 @@ export interface ListCloudProjectIpFailoverRequest {
 export const ListCloudProjectIpFailoverRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/cloud/project/{serviceName}/ip/failover",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/cloud/project/{serviceName}/ip/failover", code: 200 })),
 ).annotate({
   identifier: "ListCloudProjectIpFailoverRequest",
 }) as any as S.Schema<ListCloudProjectIpFailoverRequest>;
@@ -44772,13 +43890,7 @@ export interface ListCloudProjectKubeRequest {
 export const ListCloudProjectKubeRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/cloud/project/{serviceName}/kube",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/cloud/project/{serviceName}/kube", code: 200 })),
 ).annotate({
   identifier: "ListCloudProjectKubeRequest",
 }) as any as S.Schema<ListCloudProjectKubeRequest>;
@@ -44806,11 +43918,7 @@ export const ListCloudProjectKubeFlavorsRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     kubeId: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/cloud/project/{serviceName}/kube/{kubeId}/flavors",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/cloud/project/{serviceName}/kube/{kubeId}/flavors", code: 200 }),
   ),
 ).annotate({
   identifier: "ListCloudProjectKubeFlavorsRequest",
@@ -44916,11 +44024,7 @@ export const ListCloudProjectKubeNodeRequest = /*@__PURE__*/ S.suspend(() =>
     history: S.optional(S.Boolean.pipe(T.Query())),
     xPaginationCursor: S.optional(S.String.pipe(T.Header("X-Pagination-Cursor"))),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/cloud/project/{serviceName}/kube/{kubeId}/node",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/cloud/project/{serviceName}/kube/{kubeId}/node", code: 200 }),
   ),
 ).annotate({
   identifier: "ListCloudProjectKubeNodeRequest",
@@ -45021,13 +44125,7 @@ export interface ListCloudProjectLabRequest {
 export const ListCloudProjectLabRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/cloud/project/{serviceName}/lab",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/cloud/project/{serviceName}/lab", code: 200 })),
 ).annotate({
   identifier: "ListCloudProjectLabRequest",
 }) as any as S.Schema<ListCloudProjectLabRequest>;
@@ -45055,11 +44153,7 @@ export const ListCloudProjectLabAgreementRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     labId: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/cloud/project/{serviceName}/lab/{labId}/agreement",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/cloud/project/{serviceName}/lab/{labId}/agreement", code: 200 }),
   ),
 ).annotate({
   identifier: "ListCloudProjectLabAgreementRequest",
@@ -45089,9 +44183,7 @@ export const CloudLabAgreements = /*@__PURE__*/ S.suspend(() =>
     accepted: S.optional(CloudLabAgreementsAcceptedList),
     toAccept: S.optional(CloudLabAgreementsToAcceptList),
   }),
-).annotate({
-  identifier: "CloudLabAgreements",
-}) as any as S.Schema<CloudLabAgreements>;
+).annotate({ identifier: "CloudLabAgreements" }) as any as S.Schema<CloudLabAgreements>;
 
 export interface ListCloudProjectNetworkRequest {
   /** Service name */
@@ -45100,13 +44192,7 @@ export interface ListCloudProjectNetworkRequest {
 export const ListCloudProjectNetworkRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/cloud/project/{serviceName}/network/public",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/cloud/project/{serviceName}/network/public", code: 200 })),
 ).annotate({
   identifier: "ListCloudProjectNetworkRequest",
 }) as any as S.Schema<ListCloudProjectNetworkRequest>;
@@ -45131,11 +44217,7 @@ export const ListCloudProjectNetworkPrivateRequest = /*@__PURE__*/ S.suspend(() 
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/cloud/project/{serviceName}/network/private",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/cloud/project/{serviceName}/network/private", code: 200 }),
   ),
 ).annotate({
   identifier: "ListCloudProjectNetworkPrivateRequest",
@@ -45197,13 +44279,7 @@ export const ListCloudProjectOperationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     instanceId: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/cloud/project/{serviceName}/operation",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/cloud/project/{serviceName}/operation", code: 200 })),
 ).annotate({
   identifier: "ListCloudProjectOperationRequest",
 }) as any as S.Schema<ListCloudProjectOperationRequest>;
@@ -45297,13 +44373,7 @@ export interface ListCloudProjectRegionRequest {
 export const ListCloudProjectRegionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/cloud/project/{serviceName}/region",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/cloud/project/{serviceName}/region", code: 200 })),
 ).annotate({
   identifier: "ListCloudProjectRegionRequest",
 }) as any as S.Schema<ListCloudProjectRegionRequest>;
@@ -45328,11 +44398,7 @@ export const ListCloudProjectRegionAvailableRequest = /*@__PURE__*/ S.suspend(()
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/cloud/project/{serviceName}/regionAvailable",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/cloud/project/{serviceName}/regionAvailable", code: 200 }),
   ),
 ).annotate({
   identifier: "ListCloudProjectRegionAvailableRequest",
@@ -45356,9 +44422,7 @@ export const CloudAvailableRegion = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(CloudRegionTypeEnum),
   }),
-).annotate({
-  identifier: "CloudAvailableRegion",
-}) as any as S.Schema<CloudAvailableRegion>;
+).annotate({ identifier: "CloudAvailableRegion" }) as any as S.Schema<CloudAvailableRegion>;
 
 export type ListCloudProjectRegionAvailableResponseBodyList = Array<CloudAvailableRegion>;
 export const ListCloudProjectRegionAvailableResponseBodyList = /*@__PURE__*/ S.Array(
@@ -46120,9 +45184,7 @@ export const CloudQuotaComputeQuota = /*@__PURE__*/ S.suspend(() =>
     instances: S.optional(S.Number),
     ram: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "CloudQuotaComputeQuota",
-}) as any as S.Schema<CloudQuotaComputeQuota>;
+).annotate({ identifier: "CloudQuotaComputeQuota" }) as any as S.Schema<CloudQuotaComputeQuota>;
 
 /** Quotas for network */
 export interface CloudQuotaNetworkQuota {
@@ -46139,9 +45201,7 @@ export const CloudQuotaNetworkQuota = /*@__PURE__*/ S.suspend(() =>
     ports: S.optional(S.Number),
     subnets: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "CloudQuotaNetworkQuota",
-}) as any as S.Schema<CloudQuotaNetworkQuota>;
+).annotate({ identifier: "CloudQuotaNetworkQuota" }) as any as S.Schema<CloudQuotaNetworkQuota>;
 
 /** Quotas for volume */
 export interface CloudQuotaVolumeQuota {
@@ -46158,9 +45218,7 @@ export const CloudQuotaVolumeQuota = /*@__PURE__*/ S.suspend(() =>
     snapshots: S.optional(S.Number),
     volumes: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "CloudQuotaVolumeQuota",
-}) as any as S.Schema<CloudQuotaVolumeQuota>;
+).annotate({ identifier: "CloudQuotaVolumeQuota" }) as any as S.Schema<CloudQuotaVolumeQuota>;
 
 /** Quotas */
 export interface CloudQuotaAllowedQuota {
@@ -46180,9 +45238,7 @@ export const CloudQuotaAllowedQuota = /*@__PURE__*/ S.suspend(() =>
     network: S.optional(CloudQuotaNetworkQuota),
     volume: S.optional(CloudQuotaVolumeQuota),
   }),
-).annotate({
-  identifier: "CloudQuotaAllowedQuota",
-}) as any as S.Schema<CloudQuotaAllowedQuota>;
+).annotate({ identifier: "CloudQuotaAllowedQuota" }) as any as S.Schema<CloudQuotaAllowedQuota>;
 
 export type ListCloudProjectRegionQuotaAllowedResponseBodyList = Array<CloudQuotaAllowedQuota>;
 export const ListCloudProjectRegionQuotaAllowedResponseBodyList = /*@__PURE__*/ S.Array(
@@ -46434,9 +45490,7 @@ export const CloudRegionVolumeType = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CloudRegionVolumeType",
-}) as any as S.Schema<CloudRegionVolumeType>;
+).annotate({ identifier: "CloudRegionVolumeType" }) as any as S.Schema<CloudRegionVolumeType>;
 
 export type ListCloudProjectRegionVolumeTypeResponseBodyList = Array<CloudRegionVolumeType>;
 export const ListCloudProjectRegionVolumeTypeResponseBodyList = /*@__PURE__*/ S.Array(
@@ -46492,13 +45546,7 @@ export interface ListCloudProjectRoleRequest {
 export const ListCloudProjectRoleRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/cloud/project/{serviceName}/role",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/cloud/project/{serviceName}/role", code: 200 })),
 ).annotate({
   identifier: "ListCloudProjectRoleRequest",
 }) as any as S.Schema<ListCloudProjectRoleRequest>;
@@ -46527,9 +45575,7 @@ export const CloudRolePermission = /*@__PURE__*/ S.suspend(() =>
     label: S.optional(S.String),
     roles: S.optional(CloudRolePermissionRolesList),
   }),
-).annotate({
-  identifier: "CloudRolePermission",
-}) as any as S.Schema<CloudRolePermission>;
+).annotate({ identifier: "CloudRolePermission" }) as any as S.Schema<CloudRolePermission>;
 
 /** List of permissions */
 export type CloudRoleServicePermissionsList = Array<CloudRolePermission>;
@@ -46549,9 +45595,7 @@ export const CloudRoleService = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     permissions: S.optional(CloudRoleServicePermissionsList),
   }),
-).annotate({
-  identifier: "CloudRoleService",
-}) as any as S.Schema<CloudRoleService>;
+).annotate({ identifier: "CloudRoleService" }) as any as S.Schema<CloudRoleService>;
 
 /** OpenStack services */
 export type CloudRoleRolesServicesList = Array<CloudRoleService>;
@@ -46586,13 +45630,7 @@ export const ListCloudProjectSnapshotRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     flavorType: S.optional(S.String.pipe(T.Query())),
     region: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/cloud/project/{serviceName}/snapshot",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/cloud/project/{serviceName}/snapshot", code: 200 })),
 ).annotate({
   identifier: "ListCloudProjectSnapshotRequest",
 }) as any as S.Schema<ListCloudProjectSnapshotRequest>;
@@ -46619,13 +45657,7 @@ export const ListCloudProjectSshkeyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     region: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/cloud/project/{serviceName}/sshkey",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/cloud/project/{serviceName}/sshkey", code: 200 })),
 ).annotate({
   identifier: "ListCloudProjectSshkeyRequest",
 }) as any as S.Schema<ListCloudProjectSshkeyRequest>;
@@ -46654,9 +45686,7 @@ export const CloudSshkeySshKey = /*@__PURE__*/ S.suspend(() =>
     publicKey: S.optional(S.String),
     regions: S.optional(CloudSshkeySshKeyRegionsList),
   }),
-).annotate({
-  identifier: "CloudSshkeySshKey",
-}) as any as S.Schema<CloudSshkeySshKey>;
+).annotate({ identifier: "CloudSshkeySshKey" }) as any as S.Schema<CloudSshkeySshKey>;
 
 export type ListCloudProjectSshkeyResponseBodyList = Array<CloudSshkeySshKey>;
 export const ListCloudProjectSshkeyResponseBodyList = /*@__PURE__*/ S.Array(
@@ -46680,13 +45710,7 @@ export const ListCloudProjectStorageRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     includeType: S.optional(S.Boolean.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/cloud/project/{serviceName}/storage",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/cloud/project/{serviceName}/storage", code: 200 })),
 ).annotate({
   identifier: "ListCloudProjectStorageRequest",
 }) as any as S.Schema<ListCloudProjectStorageRequest>;
@@ -46716,13 +45740,7 @@ export const ListCloudProjectUsageHistoryRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     from: S.optional(S.String.pipe(T.Query())),
     to: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/cloud/project/{serviceName}/usage/history",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/cloud/project/{serviceName}/usage/history", code: 200 })),
 ).annotate({
   identifier: "ListCloudProjectUsageHistoryRequest",
 }) as any as S.Schema<ListCloudProjectUsageHistoryRequest>;
@@ -46742,9 +45760,7 @@ export const CloudUsageUsageHistory = /*@__PURE__*/ S.suspend(() =>
     lastUpdate: S.optional(S.String),
     period: S.optional(CloudUsagePeriod),
   }),
-).annotate({
-  identifier: "CloudUsageUsageHistory",
-}) as any as S.Schema<CloudUsageUsageHistory>;
+).annotate({ identifier: "CloudUsageUsageHistory" }) as any as S.Schema<CloudUsageUsageHistory>;
 
 export type ListCloudProjectUsageHistoryResponseBodyList = Array<CloudUsageUsageHistory>;
 export const ListCloudProjectUsageHistoryResponseBodyList = /*@__PURE__*/ S.Array(
@@ -46774,13 +45790,7 @@ export const ListCloudProjectUsagePlansRequest = /*@__PURE__*/ S.suspend(() =>
     flavor: S.optional(S.String.pipe(T.Query())),
     month: S.optional(S.Number.pipe(T.Query())),
     year: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/cloud/project/{serviceName}/usage/plans",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/cloud/project/{serviceName}/usage/plans", code: 200 })),
 ).annotate({
   identifier: "ListCloudProjectUsagePlansRequest",
 }) as any as S.Schema<ListCloudProjectUsagePlansRequest>;
@@ -46803,9 +45813,7 @@ export const CloudPlanFlatFee = /*@__PURE__*/ S.suspend(() =>
     details: S.optional(CloudPlanFlatFeeDetailsList),
     totalPrice: S.optional(OrderPrice),
   }),
-).annotate({
-  identifier: "CloudPlanFlatFee",
-}) as any as S.Schema<CloudPlanFlatFee>;
+).annotate({ identifier: "CloudPlanFlatFee" }) as any as S.Schema<CloudPlanFlatFee>;
 
 /** List of plan ids */
 export type CloudPlanOverQuotaIdsList = Array<string>;
@@ -46831,9 +45839,7 @@ export const CloudPlanOverQuota = /*@__PURE__*/ S.suspend(() =>
     totalPrice: S.optional(OrderPrice),
     unitPrice: S.optional(OrderPrice),
   }),
-).annotate({
-  identifier: "CloudPlanOverQuota",
-}) as any as S.Schema<CloudPlanOverQuota>;
+).annotate({ identifier: "CloudPlanOverQuota" }) as any as S.Schema<CloudPlanOverQuota>;
 
 /** Details of fees for all plan subscriptions for this flavor */
 export interface CloudPlanFees {
@@ -46897,9 +45903,7 @@ export const CloudPlanPlanPeriod = /*@__PURE__*/ S.suspend(() =>
     resourceIds: S.optional(CloudPlanPlanPeriodResourceIdsList),
     utilization: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CloudPlanPlanPeriod",
-}) as any as S.Schema<CloudPlanPlanPeriod>;
+).annotate({ identifier: "CloudPlanPlanPeriod" }) as any as S.Schema<CloudPlanPlanPeriod>;
 
 /** Listing of all periods concerning this flavor saving plans : every change in usage or plans will make a new period */
 export type CloudPlanFlavorPeriodsList = Array<CloudPlanPlanPeriod>;
@@ -46925,9 +45929,7 @@ export const CloudPlanSubscription = /*@__PURE__*/ S.suspend(() =>
     id: S.optional(S.String),
     size: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "CloudPlanSubscription",
-}) as any as S.Schema<CloudPlanSubscription>;
+).annotate({ identifier: "CloudPlanSubscription" }) as any as S.Schema<CloudPlanSubscription>;
 
 /** List of existing plan subscriptions for the flavor */
 export type CloudPlanFlavorSubscriptionsList = Array<CloudPlanSubscription>;
@@ -46953,9 +45955,7 @@ export const CloudPlanFlavor = /*@__PURE__*/ S.suspend(() =>
     periods: S.optional(CloudPlanFlavorPeriodsList),
     subscriptions: S.optional(CloudPlanFlavorSubscriptionsList),
   }),
-).annotate({
-  identifier: "CloudPlanFlavor",
-}) as any as S.Schema<CloudPlanFlavor>;
+).annotate({ identifier: "CloudPlanFlavor" }) as any as S.Schema<CloudPlanFlavor>;
 
 /** List of consumption details by flavor */
 export type CloudUsagePlanResponseFlavorsList = Array<CloudPlanFlavor>;
@@ -46975,9 +45975,7 @@ export const CloudPlanPeriod = /*@__PURE__*/ S.suspend(() =>
     from: S.optional(S.String),
     to: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CloudPlanPeriod",
-}) as any as S.Schema<CloudPlanPeriod>;
+).annotate({ identifier: "CloudPlanPeriod" }) as any as S.Schema<CloudPlanPeriod>;
 
 /** Usage of plans */
 export interface CloudUsagePlanResponse {
@@ -46997,9 +45995,7 @@ export const CloudUsagePlanResponse = /*@__PURE__*/ S.suspend(() =>
     projectId: S.optional(S.String),
     totalSavings: S.optional(OrderPrice),
   }),
-).annotate({
-  identifier: "CloudUsagePlanResponse",
-}) as any as S.Schema<CloudUsagePlanResponse>;
+).annotate({ identifier: "CloudUsagePlanResponse" }) as any as S.Schema<CloudUsagePlanResponse>;
 
 export interface ListCloudProjectUserRequest {
   /** Service name */
@@ -47008,13 +46004,7 @@ export interface ListCloudProjectUserRequest {
 export const ListCloudProjectUserRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/cloud/project/{serviceName}/user",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/cloud/project/{serviceName}/user", code: 200 })),
 ).annotate({
   identifier: "ListCloudProjectUserRequest",
 }) as any as S.Schema<ListCloudProjectUserRequest>;
@@ -47042,11 +46032,7 @@ export const ListCloudProjectUserRoleRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     userId: S.Number.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/cloud/project/{serviceName}/user/{userId}/role",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/cloud/project/{serviceName}/user/{userId}/role", code: 200 }),
   ),
 ).annotate({
   identifier: "ListCloudProjectUserRoleRequest",
@@ -47108,13 +46094,7 @@ export const ListCloudProjectVolumeRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     region: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/cloud/project/{serviceName}/volume",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/cloud/project/{serviceName}/volume", code: 200 })),
 ).annotate({
   identifier: "ListCloudProjectVolumeRequest",
 }) as any as S.Schema<ListCloudProjectVolumeRequest>;
@@ -47142,11 +46122,7 @@ export const ListCloudProjectVolumeSnapshotRequest = /*@__PURE__*/ S.suspend(() 
     serviceName: S.String.pipe(T.Label()),
     region: S.optional(S.String.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/cloud/project/{serviceName}/volume/snapshot",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/cloud/project/{serviceName}/volume/snapshot", code: 200 }),
   ),
 ).annotate({
   identifier: "ListCloudProjectVolumeSnapshotRequest",
@@ -47204,16 +46180,8 @@ export interface ListLoadBalancersRequest {
 export const ListLoadBalancersRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/cloud/project/{serviceName}/loadbalancer",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ListLoadBalancersRequest",
-}) as any as S.Schema<ListLoadBalancersRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/cloud/project/{serviceName}/loadbalancer", code: 200 })),
+).annotate({ identifier: "ListLoadBalancersRequest" }) as any as S.Schema<ListLoadBalancersRequest>;
 
 export type ListLoadBalancersResponseBodyList = Array<string>;
 export const ListLoadBalancersResponseBodyList = /*@__PURE__*/ S.Array(
@@ -47269,11 +46237,7 @@ export const ListNetworkLoadBalancersRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/cloud/project/{serviceName}/networkloadbalancer",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/cloud/project/{serviceName}/networkloadbalancer", code: 200 }),
   ),
 ).annotate({
   identifier: "ListNetworkLoadBalancersRequest",
@@ -47375,9 +46339,7 @@ export const PutCloudProjectRequest = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(S.NullOr(S.String)),
     manualQuota: S.optional(S.Boolean),
   }).pipe(T.Http({ method: "PUT", uri: "/cloud/project/{serviceName}", code: 200 })),
-).annotate({
-  identifier: "PutCloudProjectRequest",
-}) as any as S.Schema<PutCloudProjectRequest>;
+).annotate({ identifier: "PutCloudProjectRequest" }) as any as S.Schema<PutCloudProjectRequest>;
 
 export interface PutCloudProjectResponse {}
 export const PutCloudProjectResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -47402,9 +46364,7 @@ export const CloudProjectAiEnv = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     value: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "CloudProjectAiEnv",
-}) as any as S.Schema<CloudProjectAiEnv>;
+).annotate({ identifier: "CloudProjectAiEnv" }) as any as S.Schema<CloudProjectAiEnv>;
 
 /** Environment variables to be patched (empty/null value to remove) */
 export type PutCloudProjectAiAppRequestEnvVarsList = Array<CloudProjectAiEnv>;
@@ -47455,13 +46415,7 @@ export const PutCloudProjectAiAppRequest = /*@__PURE__*/ S.suspend(() =>
     livenessProbe: S.optional(S.NullOr(CloudProjectAiAppProbeInput)),
     probe: S.optional(S.NullOr(CloudProjectAiAppProbeInput)),
     url: S.optional(S.NullOr(S.String)),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/cloud/project/{serviceName}/ai/app/{appId}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/cloud/project/{serviceName}/ai/app/{appId}", code: 200 })),
 ).annotate({
   identifier: "PutCloudProjectAiAppRequest",
 }) as any as S.Schema<PutCloudProjectAiAppRequest>;
@@ -47480,11 +46434,7 @@ export const PutCloudProjectAiAppImageRequest = /*@__PURE__*/ S.suspend(() =>
     appId: S.String.pipe(T.Label()),
     url: S.String,
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/cloud/project/{serviceName}/ai/app/{appId}/image",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/cloud/project/{serviceName}/ai/app/{appId}/image", code: 200 }),
   ),
 ).annotate({
   identifier: "PutCloudProjectAiAppImageRequest",
@@ -47519,11 +46469,7 @@ export const PutCloudProjectAiAppLabelRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     value: S.optional(S.NullOr(S.String)),
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/cloud/project/{serviceName}/ai/app/{appId}/label",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/cloud/project/{serviceName}/ai/app/{appId}/label", code: 200 }),
   ),
 ).annotate({
   identifier: "PutCloudProjectAiAppLabelRequest",
@@ -47581,11 +46527,7 @@ export const PutCloudProjectAiAppStartRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     appId: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/cloud/project/{serviceName}/ai/app/{appId}/start",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/cloud/project/{serviceName}/ai/app/{appId}/start", code: 200 }),
   ),
 ).annotate({
   identifier: "PutCloudProjectAiAppStartRequest",
@@ -47609,11 +46551,7 @@ export const PutCloudProjectAiAppStopRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     appId: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/cloud/project/{serviceName}/ai/app/{appId}/stop",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/cloud/project/{serviceName}/ai/app/{appId}/stop", code: 200 }),
   ),
 ).annotate({
   identifier: "PutCloudProjectAiAppStopRequest",
@@ -47714,11 +46652,7 @@ export const PutCloudProjectAiJobKillRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     jobId: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/cloud/project/{serviceName}/ai/job/{jobId}/kill",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/cloud/project/{serviceName}/ai/job/{jobId}/kill", code: 200 }),
   ),
 ).annotate({
   identifier: "PutCloudProjectAiJobKillRequest",
@@ -47748,11 +46682,7 @@ export const PutCloudProjectAiJobLabelRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     value: S.optional(S.NullOr(S.String)),
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/cloud/project/{serviceName}/ai/job/{jobId}/label",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/cloud/project/{serviceName}/ai/job/{jobId}/label", code: 200 }),
   ),
 ).annotate({
   identifier: "PutCloudProjectAiJobLabelRequest",
@@ -47766,9 +46696,7 @@ export const PutCloudProjectAiJobLabelResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<PutCloudProjectAiJobLabelResponse>;
 
 /** Labels for the notebook */
-export type PutCloudProjectAiNotebookRequestLabelsMap = {
-  [key: string]: string | undefined;
-};
+export type PutCloudProjectAiNotebookRequestLabelsMap = { [key: string]: string | undefined };
 export const PutCloudProjectAiNotebookRequestLabelsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -50312,11 +49240,7 @@ export const PutCloudProjectInstanceRequest = /*@__PURE__*/ S.suspend(() =>
     instanceId: S.String.pipe(T.Label()),
     instanceName: S.String,
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/cloud/project/{serviceName}/instance/{instanceId}",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/cloud/project/{serviceName}/instance/{instanceId}", code: 200 }),
   ),
 ).annotate({
   identifier: "PutCloudProjectInstanceRequest",
@@ -50324,9 +49248,7 @@ export const PutCloudProjectInstanceRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface PutCloudProjectInstanceResponse {}
 export const PutCloudProjectInstanceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "PutCloudProjectInstanceResponse",
-  },
+  { identifier: "PutCloudProjectInstanceResponse" },
 ) as any as S.Schema<PutCloudProjectInstanceResponse>;
 
 export interface PutCloudProjectKubeRequest {
@@ -50345,13 +49267,7 @@ export const PutCloudProjectKubeRequest = /*@__PURE__*/ S.suspend(() =>
     kubeId: S.String.pipe(T.Label()),
     name: S.optional(S.String),
     updatePolicy: S.optional(CloudKubeUpdatePolicyEnum),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/cloud/project/{serviceName}/kube/{kubeId}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/cloud/project/{serviceName}/kube/{kubeId}", code: 200 })),
 ).annotate({
   identifier: "PutCloudProjectKubeRequest",
 }) as any as S.Schema<PutCloudProjectKubeRequest>;
@@ -50400,9 +49316,7 @@ export const CloudKubeResponseMessage = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     message: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CloudKubeResponseMessage",
-}) as any as S.Schema<CloudKubeResponseMessage>;
+).annotate({ identifier: "CloudKubeResponseMessage" }) as any as S.Schema<CloudKubeResponseMessage>;
 
 /** List of ips to add to the cluster api-server restrictions (format with /subnet available) */
 export type PutCloudProjectKubeIpRestrictionsRequestIpsList = Array<string>;
@@ -51164,13 +50078,7 @@ export const PutCloudProjectServiceInfosRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     renew: S.optional(S.NullOr(ServiceRenewType)),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/cloud/project/{serviceName}/serviceInfos",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/cloud/project/{serviceName}/serviceInfos", code: 200 })),
 ).annotate({
   identifier: "PutCloudProjectServiceInfosRequest",
 }) as any as S.Schema<PutCloudProjectServiceInfosRequest>;
@@ -51196,11 +50104,7 @@ export const PutCloudProjectStorageRequest = /*@__PURE__*/ S.suspend(() =>
     containerId: S.String.pipe(T.Label()),
     containerType: S.optional(S.NullOr(CloudStorageTypeEnum)),
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/cloud/project/{serviceName}/storage/{containerId}",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/cloud/project/{serviceName}/storage/{containerId}", code: 200 }),
   ),
 ).annotate({
   identifier: "PutCloudProjectStorageRequest",
@@ -51231,11 +50135,7 @@ export const PutCloudProjectUserRoleRequest = /*@__PURE__*/ S.suspend(() =>
     userId: S.Number.pipe(T.Label()),
     rolesIds: PutCloudProjectUserRoleRequestRolesIdsList,
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/cloud/project/{serviceName}/user/{userId}/role",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/cloud/project/{serviceName}/user/{userId}/role", code: 200 }),
   ),
 ).annotate({
   identifier: "PutCloudProjectUserRoleRequest",
@@ -51258,11 +50158,7 @@ export const PutCloudProjectVolumeRequest = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(S.NullOr(S.String)),
     name: S.optional(S.NullOr(S.String)),
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/cloud/project/{serviceName}/volume/{volumeId}",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/cloud/project/{serviceName}/volume/{volumeId}", code: 200 }),
   ),
 ).annotate({
   identifier: "PutCloudProjectVolumeRequest",
@@ -51350,9 +50246,7 @@ export const ReinstallOnRegionRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "ReinstallOnRegionRequest",
-}) as any as S.Schema<ReinstallOnRegionRequest>;
+).annotate({ identifier: "ReinstallOnRegionRequest" }) as any as S.Schema<ReinstallOnRegionRequest>;
 
 export interface RenewCloudProjectAiTokenRequest {
   /** Service name */
@@ -51365,11 +50259,7 @@ export const RenewCloudProjectAiTokenRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     id: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/cloud/project/{serviceName}/ai/token/{id}/renew",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/cloud/project/{serviceName}/ai/token/{id}/renew", code: 200 }),
   ),
 ).annotate({
   identifier: "RenewCloudProjectAiTokenRequest",
@@ -52031,11 +50921,7 @@ export const ResetCloudProjectKubeRequest = /*@__PURE__*/ S.suspend(() =>
     version: S.optional(CloudKubeVersionEnum),
     workerNodesPolicy: S.optional(CloudKubeResetWorkerNodesPolicyEnum),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/cloud/project/{serviceName}/kube/{kubeId}/reset",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/cloud/project/{serviceName}/kube/{kubeId}/reset", code: 200 }),
   ),
 ).annotate({
   identifier: "ResetCloudProjectKubeRequest",
@@ -52190,9 +51076,7 @@ export const RestartCloudProjectKubeRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface RestartCloudProjectKubeResponse {}
 export const RestartCloudProjectKubeResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "RestartCloudProjectKubeResponse",
-  },
+  { identifier: "RestartCloudProjectKubeResponse" },
 ) as any as S.Schema<RestartCloudProjectKubeResponse>;
 
 export interface RestoreCloudProjectDatabaseMongodbRequest {
@@ -52518,9 +51402,7 @@ export const SnapshotOnRegionRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "SnapshotOnRegionRequest",
-}) as any as S.Schema<SnapshotOnRegionRequest>;
+).annotate({ identifier: "SnapshotOnRegionRequest" }) as any as S.Schema<SnapshotOnRegionRequest>;
 
 /** Instance snapshot */
 export interface CloudInstanceSnapshot {
@@ -52534,9 +51416,7 @@ export const CloudInstanceSnapshot = /*@__PURE__*/ S.suspend(() =>
     imageId: S.optional(S.String),
     operationId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CloudInstanceSnapshot",
-}) as any as S.Schema<CloudInstanceSnapshot>;
+).annotate({ identifier: "CloudInstanceSnapshot" }) as any as S.Schema<CloudInstanceSnapshot>;
 
 export interface StartCloudProjectInstanceRequest {
   /** Service name */
@@ -52629,13 +51509,7 @@ export interface TerminateCloudProjectRequest {
 export const TerminateCloudProjectRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/cloud/project/{serviceName}/terminate",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/cloud/project/{serviceName}/terminate", code: 200 })),
 ).annotate({
   identifier: "TerminateCloudProjectRequest",
 }) as any as S.Schema<TerminateCloudProjectRequest>;
@@ -52684,16 +51558,8 @@ export const UpdateAlertingRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     service: S.optional(CloudAlertingServiceEnum),
     status: S.optional(CloudAlertingStatusEnum),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/cloud/project/{serviceName}/alerting/{id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "UpdateAlertingRequest",
-}) as any as S.Schema<UpdateAlertingRequest>;
+  }).pipe(T.Http({ method: "PUT", uri: "/cloud/project/{serviceName}/alerting/{id}", code: 200 })),
+).annotate({ identifier: "UpdateAlertingRequest" }) as any as S.Schema<UpdateAlertingRequest>;
 
 export interface UpdateAlertingResponse {}
 export const UpdateAlertingResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -52751,11 +51617,7 @@ export const UpdateCloudProjectKubeRequest = /*@__PURE__*/ S.suspend(() =>
     force: S.optional(S.NullOr(S.Boolean)),
     strategy: S.optional(CloudKubeUpdateStrategyEnum),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/cloud/project/{serviceName}/kube/{kubeId}/update",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/cloud/project/{serviceName}/kube/{kubeId}/update", code: 200 }),
   ),
 ).annotate({
   identifier: "UpdateCloudProjectKubeRequest",
@@ -52776,13 +51638,7 @@ export const UpdateCloudProjectLabRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     labId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/cloud/project/{serviceName}/lab/{labId}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/cloud/project/{serviceName}/lab/{labId}", code: 200 })),
 ).annotate({
   identifier: "UpdateCloudProjectLabRequest",
 }) as any as S.Schema<UpdateCloudProjectLabRequest>;
@@ -52991,9 +51847,7 @@ export const UpdateObjectVersionOnContainerOnRegionRequest = /*@__PURE__*/ S.sus
 }) as any as S.Schema<UpdateObjectVersionOnContainerOnRegionRequest>;
 
 /** Container tags. */
-export type UpdateStorageContainerOnRegionRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateStorageContainerOnRegionRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateStorageContainerOnRegionRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,

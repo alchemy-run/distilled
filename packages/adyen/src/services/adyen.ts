@@ -66,9 +66,7 @@ export const ApplePaySessionResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     data: S.String,
   }),
-).annotate({
-  identifier: "ApplePaySessionResponse",
-}) as any as S.Schema<ApplePaySessionResponse>;
+).annotate({ identifier: "ApplePaySessionResponse" }) as any as S.Schema<ApplePaySessionResponse>;
 
 export interface CommonField {
   /** Name of the field. For example, Name of External Platform. */
@@ -97,9 +95,7 @@ export const ExternalPlatform = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     version: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ExternalPlatform",
-}) as any as S.Schema<ExternalPlatform>;
+).annotate({ identifier: "ExternalPlatform" }) as any as S.Schema<ExternalPlatform>;
 
 export interface MerchantDevice {
   /** Operating system running on the merchant device. */
@@ -131,9 +127,7 @@ export const ShopperInteractionDevice = /*@__PURE__*/ S.suspend(() =>
     os: S.optional(S.String),
     osVersion: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ShopperInteractionDevice",
-}) as any as S.Schema<ShopperInteractionDevice>;
+).annotate({ identifier: "ShopperInteractionDevice" }) as any as S.Schema<ShopperInteractionDevice>;
 
 export interface ApplicationInfo {
   /** Adyen-developed software, such as libraries and plugins, used to interact with the Adyen API. For example, Magento plugin, Java API library, etc. */
@@ -158,9 +152,7 @@ export const ApplicationInfo = /*@__PURE__*/ S.suspend(() =>
     merchantDevice: S.optional(MerchantDevice),
     shopperInteractionDevice: S.optional(ShopperInteractionDevice),
   }),
-).annotate({
-  identifier: "ApplicationInfo",
-}) as any as S.Schema<ApplicationInfo>;
+).annotate({ identifier: "ApplicationInfo" }) as any as S.Schema<ApplicationInfo>;
 
 export interface CreateCancelRequest {
   /** A unique identifier for the message with a maximum of 64 characters (we recommend a UUID). */
@@ -182,9 +174,7 @@ export const CreateCancelRequest = /*@__PURE__*/ S.suspend(() =>
     paymentReference: S.String,
     reference: S.optional(S.String),
   }).pipe(T.Http({ method: "POST", uri: "/cancels", code: 200 })),
-).annotate({
-  identifier: "CreateCancelRequest",
-}) as any as S.Schema<CreateCancelRequest>;
+).annotate({ identifier: "CreateCancelRequest" }) as any as S.Schema<CreateCancelRequest>;
 
 /** The status of your request. This will always have the value **received**. */
 export type StandalonePaymentCancelResponseStatus = "received";
@@ -243,9 +233,7 @@ export const CreateCardDetailRequest = /*@__PURE__*/ S.suspend(() =>
     merchantAccount: S.String,
     supportedBrands: S.optional(CreateCardDetailRequestSupportedBrandsList),
   }).pipe(T.Http({ method: "POST", uri: "/cardDetails", code: 200 })),
-).annotate({
-  identifier: "CreateCardDetailRequest",
-}) as any as S.Schema<CreateCardDetailRequest>;
+).annotate({ identifier: "CreateCardDetailRequest" }) as any as S.Schema<CreateCardDetailRequest>;
 
 export interface CardBrandDetails {
   /** Indicates if the card supports FSA/HSA healthcare payments. */
@@ -261,9 +249,7 @@ export const CardBrandDetails = /*@__PURE__*/ S.suspend(() =>
     supported: S.optional(S.Boolean),
     type: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CardBrandDetails",
-}) as any as S.Schema<CardBrandDetails>;
+).annotate({ identifier: "CardBrandDetails" }) as any as S.Schema<CardBrandDetails>;
 
 /** The list of brands identified for the card. */
 export type CardDetailsResponseBrandsList = Array<CardBrandDetails>;
@@ -288,9 +274,7 @@ export const CardDetailsResponse = /*@__PURE__*/ S.suspend(() =>
     isCardCommercial: S.optional(S.Boolean),
     issuingCountryCode: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CardDetailsResponse",
-}) as any as S.Schema<CardDetailsResponse>;
+).annotate({ identifier: "CardDetailsResponse" }) as any as S.Schema<CardDetailsResponse>;
 
 /** Indicator for the length of time since this shopper account was created in the merchant's environment. Allowed values: * notApplicable * thisTransaction * lessThan30Days * from30To60Days * moreThan60Days */
 export type AccountInfoAccountAgeIndicator =
@@ -453,9 +437,7 @@ export const ThreeDSRequestData = /*@__PURE__*/ S.suspend(() =>
     nativeThreeDS: S.optional(ThreeDSRequestDataNativeThreeDS),
     threeDSVersion: S.optional(ThreeDSRequestDataThreeDSVersion),
   }),
-).annotate({
-  identifier: "ThreeDSRequestData",
-}) as any as S.Schema<ThreeDSRequestData>;
+).annotate({ identifier: "ThreeDSRequestData" }) as any as S.Schema<ThreeDSRequestData>;
 
 export interface AuthenticationData {
   /** Indicates when 3D Secure authentication should be attempted. This overrides all other rules, including [Dynamic 3D Secure settings](https://docs.adyen.com/risk-management/dynamic-3d-secure). Possible values: * **always**: Perform 3D Secure authentication. * **never**: Don't perform 3D Secure authentication. If PSD2 SCA or other national regulations require authentication, the transaction gets declined. */
@@ -471,9 +453,7 @@ export const AuthenticationData = /*@__PURE__*/ S.suspend(() =>
     authenticationOnly: S.optional(S.Boolean),
     threeDSRequestData: S.optional(ThreeDSRequestData),
   }),
-).annotate({
-  identifier: "AuthenticationData",
-}) as any as S.Schema<AuthenticationData>;
+).annotate({ identifier: "AuthenticationData" }) as any as S.Schema<AuthenticationData>;
 
 export interface BillingAddress {
   /** The name of the city. Maximum length: 3000 characters. */
@@ -565,9 +545,7 @@ export const DeliveryAddress = /*@__PURE__*/ S.suspend(() =>
     stateOrProvince: S.optional(S.String),
     street: S.String,
   }),
-).annotate({
-  identifier: "DeliveryAddress",
-}) as any as S.Schema<DeliveryAddress>;
+).annotate({ identifier: "DeliveryAddress" }) as any as S.Schema<DeliveryAddress>;
 
 export interface LineItem {
   /** Item amount excluding the tax, in [minor units](https://docs.adyen.com/development-resources/currency-codes/#minor-units). */
@@ -602,6 +580,8 @@ export interface LineItem {
   returnTrackingNumber?: string;
   /** Tracking URI for the return of the item. */
   returnTrackingUri?: string;
+  /** An optional, free-text category for the item to be used in the risk evaluation. When provided, Protect uses this value to evaluate custom risk rules. */
+  riskCategory?: string;
   /** Shipping company handling the delivery of the item. */
   shippingCompany?: string;
   /** Shipping method used to deliver the item. */
@@ -639,6 +619,7 @@ export const LineItem = /*@__PURE__*/ S.suspend(() =>
     returnShippingCompany: S.optional(S.String),
     returnTrackingNumber: S.optional(S.String),
     returnTrackingUri: S.optional(S.String),
+    riskCategory: S.optional(S.String),
     shippingCompany: S.optional(S.String),
     shippingMethod: S.optional(S.String),
     size: S.optional(S.String),
@@ -723,14 +704,10 @@ export const MerchantRiskIndicator = /*@__PURE__*/ S.suspend(() =>
     reorderItemsInd: S.optional(S.String),
     shipIndicator: S.optional(S.String),
   }),
-).annotate({
-  identifier: "MerchantRiskIndicator",
-}) as any as S.Schema<MerchantRiskIndicator>;
+).annotate({ identifier: "MerchantRiskIndicator" }) as any as S.Schema<MerchantRiskIndicator>;
 
 /** Metadata consists of entries, each of which includes a key and a value. Limits: * Maximum 20 key-value pairs per request. When exceeding, the "177" error occurs: "Metadata size exceeds limit". * Maximum 20 characters per key. * Maximum 80 characters per value. */
-export type CreateDonationRequestMetadataMap = {
-  [key: string]: string | undefined;
-};
+export type CreateDonationRequestMetadataMap = { [key: string]: string | undefined };
 export const CreateDonationRequestMetadataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -789,9 +766,7 @@ export const ThreeDSecureData = /*@__PURE__*/ S.suspend(() =>
     transStatusReason: S.optional(S.String),
     xid: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ThreeDSecureData",
-}) as any as S.Schema<ThreeDSecureData>;
+).annotate({ identifier: "ThreeDSecureData" }) as any as S.Schema<ThreeDSecureData>;
 
 /** The funding source that should be used when multiple sources are available. For Brazilian combo cards, by default the funding source is credit. To use debit, set this value to **debit**. */
 export type ApplePayDonationsFundingSource = "credit" | "debit" | "prepaid";
@@ -827,9 +802,7 @@ export const ApplePayDonations = /*@__PURE__*/ S.suspend(() =>
     storedPaymentMethodId: S.optional(S.String),
     type: S.optional(ApplePayDonationsType),
   }),
-).annotate({
-  identifier: "ApplePayDonations",
-}) as any as S.Schema<ApplePayDonations>;
+).annotate({ identifier: "ApplePayDonations" }) as any as S.Schema<ApplePayDonations>;
 
 /** The funding source that should be used when multiple sources are available. For Brazilian combo cards, by default the funding source is credit. To use debit, set this value to **debit**. */
 export type CardDonationsFundingSource = "credit" | "debit" | "prepaid";
@@ -975,9 +948,7 @@ export const GooglePayDonations = /*@__PURE__*/ S.suspend(() =>
     threeDS2SdkVersion: S.optional(S.String),
     type: S.optional(GooglePayDonationsType),
   }),
-).annotate({
-  identifier: "GooglePayDonations",
-}) as any as S.Schema<GooglePayDonations>;
+).annotate({ identifier: "GooglePayDonations" }) as any as S.Schema<GooglePayDonations>;
 
 /** **ideal** */
 export type IdealDonationsType = "ideal";
@@ -1045,9 +1016,7 @@ export const PayWithGoogleDonations = /*@__PURE__*/ S.suspend(() =>
     threeDS2SdkVersion: S.optional(S.String),
     type: S.optional(PayWithGoogleDonationsType),
   }),
-).annotate({
-  identifier: "PayWithGoogleDonations",
-}) as any as S.Schema<PayWithGoogleDonations>;
+).annotate({ identifier: "PayWithGoogleDonations" }) as any as S.Schema<PayWithGoogleDonations>;
 
 /** **sepadirectdebit** */
 export type SepaDirectDebitDonationsType = "sepadirectdebit";
@@ -1073,9 +1042,7 @@ export const SepaDirectDebitDonations = /*@__PURE__*/ S.suspend(() =>
     storedPaymentMethodId: S.optional(S.String),
     type: S.optional(SepaDirectDebitDonationsType),
   }),
-).annotate({
-  identifier: "SepaDirectDebitDonations",
-}) as any as S.Schema<SepaDirectDebitDonations>;
+).annotate({ identifier: "SepaDirectDebitDonations" }) as any as S.Schema<SepaDirectDebitDonations>;
 
 /** The type and required details of a payment method to use. When `donationToken` is provided, the payment method is derived from the token and this field becomes optional. If you are [PCI compliant](https://docs.adyen.com/development-resources/pci-dss-compliance-guide), and make donations using raw card details, you must explicitly provide the payment method details. */
 export type CreateDonationRequestPaymentMethod =
@@ -1242,9 +1209,7 @@ export const DeviceRenderOptions = /*@__PURE__*/ S.suspend(() =>
     sdkInterface: S.optional(DeviceRenderOptionsSdkInterface),
     sdkUiType: S.optional(DeviceRenderOptionsSdkUiTypeList),
   }),
-).annotate({
-  identifier: "DeviceRenderOptions",
-}) as any as S.Schema<DeviceRenderOptions>;
+).annotate({ identifier: "DeviceRenderOptions" }) as any as S.Schema<DeviceRenderOptions>;
 
 export interface Phone {
   /** Country code. Length: 1–3 digits. */
@@ -1475,9 +1440,7 @@ export const ThreeDS2RequestFields = /*@__PURE__*/ S.suspend(() =>
     whiteListStatus: S.optional(S.String),
     workPhone: S.optional(Phone),
   }),
-).annotate({
-  identifier: "ThreeDS2RequestFields",
-}) as any as S.Schema<ThreeDS2RequestFields>;
+).annotate({ identifier: "ThreeDS2RequestFields" }) as any as S.Schema<ThreeDS2RequestFields>;
 
 export interface CreateDonationRequest {
   /** A unique identifier for the message with a maximum of 64 characters (we recommend a UUID). */
@@ -1604,9 +1567,7 @@ export const CreateDonationRequest = /*@__PURE__*/ S.suspend(() =>
     telephoneNumber: S.optional(S.String),
     threeDS2RequestData: S.optional(ThreeDS2RequestFields),
   }).pipe(T.Http({ method: "POST", uri: "/donations", code: 200 })),
-).annotate({
-  identifier: "CreateDonationRequest",
-}) as any as S.Schema<CreateDonationRequest>;
+).annotate({ identifier: "CreateDonationRequest" }) as any as S.Schema<CreateDonationRequest>;
 
 /** **await** */
 export type CheckoutAwaitActionType = "await";
@@ -1629,9 +1590,7 @@ export const CheckoutAwaitAction = /*@__PURE__*/ S.suspend(() =>
     type: CheckoutAwaitActionType,
     url: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CheckoutAwaitAction",
-}) as any as S.Schema<CheckoutAwaitAction>;
+).annotate({ identifier: "CheckoutAwaitAction" }) as any as S.Schema<CheckoutAwaitAction>;
 
 /** The type of the action. */
 export type CheckoutBankTransferActionType = "bankTransfer";
@@ -1723,9 +1682,7 @@ export const CheckoutDelegatedAuthenticationAction = /*@__PURE__*/ S.suspend(() 
 }) as any as S.Schema<CheckoutDelegatedAuthenticationAction>;
 
 /** When the redirect URL must be accessed via POST, use this data to post to the redirect URL. */
-export type CheckoutNativeRedirectActionDataMap = {
-  [key: string]: string | undefined;
-};
+export type CheckoutNativeRedirectActionDataMap = { [key: string]: string | undefined };
 export const CheckoutNativeRedirectActionDataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1789,14 +1746,10 @@ export const CheckoutQrCodeAction = /*@__PURE__*/ S.suspend(() =>
     type: CheckoutQrCodeActionType,
     url: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CheckoutQrCodeAction",
-}) as any as S.Schema<CheckoutQrCodeAction>;
+).annotate({ identifier: "CheckoutQrCodeAction" }) as any as S.Schema<CheckoutQrCodeAction>;
 
 /** When the redirect URL must be accessed via POST, use this data to post to the redirect URL. */
-export type CheckoutRedirectActionDataMap = {
-  [key: string]: string | undefined;
-};
+export type CheckoutRedirectActionDataMap = { [key: string]: string | undefined };
 export const CheckoutRedirectActionDataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1826,9 +1779,7 @@ export const CheckoutRedirectAction = /*@__PURE__*/ S.suspend(() =>
     type: CheckoutRedirectActionType,
     url: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CheckoutRedirectAction",
-}) as any as S.Schema<CheckoutRedirectAction>;
+).annotate({ identifier: "CheckoutRedirectAction" }) as any as S.Schema<CheckoutRedirectAction>;
 
 /** The data to pass to the SDK. */
 export type CheckoutSDKActionSdkDataMap = { [key: string]: string | undefined };
@@ -1861,9 +1812,7 @@ export const CheckoutSDKAction = /*@__PURE__*/ S.suspend(() =>
     type: CheckoutSDKActionType,
     url: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CheckoutSDKAction",
-}) as any as S.Schema<CheckoutSDKAction>;
+).annotate({ identifier: "CheckoutSDKAction" }) as any as S.Schema<CheckoutSDKAction>;
 
 /** **threeDS2** */
 export type CheckoutThreeDS2ActionType = "threeDS2";
@@ -1895,9 +1844,7 @@ export const CheckoutThreeDS2Action = /*@__PURE__*/ S.suspend(() =>
     type: CheckoutThreeDS2ActionType,
     url: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CheckoutThreeDS2Action",
-}) as any as S.Schema<CheckoutThreeDS2Action>;
+).annotate({ identifier: "CheckoutThreeDS2Action" }) as any as S.Schema<CheckoutThreeDS2Action>;
 
 /** **voucher** */
 export type CheckoutVoucherActionType = "voucher";
@@ -1971,9 +1918,7 @@ export const CheckoutVoucherAction = /*@__PURE__*/ S.suspend(() =>
     type: CheckoutVoucherActionType,
     url: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CheckoutVoucherAction",
-}) as any as S.Schema<CheckoutVoucherAction>;
+).annotate({ identifier: "CheckoutVoucherAction" }) as any as S.Schema<CheckoutVoucherAction>;
 
 /** Action to be taken for completing the payment. */
 export type PaymentResponseAction =
@@ -1989,9 +1934,7 @@ export type PaymentResponseAction =
 export const PaymentResponseAction = S.Unknown as any as S.Schema<PaymentResponseAction>;
 
 /** Contains additional information about the payment. Some data fields are included only if you select them first: Go to **Customer Area** > **Developers** > **Additional data**. */
-export type PaymentResponseAdditionalDataMap = {
-  [key: string]: string | undefined;
-};
+export type PaymentResponseAdditionalDataMap = { [key: string]: string | undefined };
 export const PaymentResponseAdditionalDataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2011,9 +1954,7 @@ export const FraudCheckResult = /*@__PURE__*/ S.suspend(() =>
     checkId: S.Number,
     name: S.String,
   }),
-).annotate({
-  identifier: "FraudCheckResult",
-}) as any as S.Schema<FraudCheckResult>;
+).annotate({ identifier: "FraudCheckResult" }) as any as S.Schema<FraudCheckResult>;
 
 /** The result of the individual risk checks. */
 export type FraudResultResultsList = Array<FraudCheckResult>;
@@ -2033,6 +1974,19 @@ export const FraudResult = /*@__PURE__*/ S.suspend(() =>
     results: S.optional(FraudResultResultsList),
   }),
 ).annotate({ identifier: "FraudResult" }) as any as S.Schema<FraudResult>;
+
+export interface OpiResponse {
+  /** The OPI issuer id. */
+  issuerId?: string;
+  /** The OPI transaction token. */
+  transToken?: string;
+}
+export const OpiResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    issuerId: S.optional(S.String),
+    transToken: S.optional(S.String),
+  }),
+).annotate({ identifier: "OpiResponse" }) as any as S.Schema<OpiResponse>;
 
 export interface CheckoutOrderResponse {
   /** The initial amount of the order. */
@@ -2057,9 +2011,7 @@ export const CheckoutOrderResponse = /*@__PURE__*/ S.suspend(() =>
     reference: S.optional(S.String),
     remainingAmount: S.optional(Amount),
   }),
-).annotate({
-  identifier: "CheckoutOrderResponse",
-}) as any as S.Schema<CheckoutOrderResponse>;
+).annotate({ identifier: "CheckoutOrderResponse" }) as any as S.Schema<CheckoutOrderResponse>;
 
 export interface ResponsePaymentMethod {
   /** The card brand that the shopper used to pay. Only returned if `paymentMethod.type` is **scheme**. */
@@ -2072,9 +2024,7 @@ export const ResponsePaymentMethod = /*@__PURE__*/ S.suspend(() =>
     brand: S.optional(S.String),
     type: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ResponsePaymentMethod",
-}) as any as S.Schema<ResponsePaymentMethod>;
+).annotate({ identifier: "ResponsePaymentMethod" }) as any as S.Schema<ResponsePaymentMethod>;
 
 export interface PaymentValidationsNameResultRawResponse {
   /** The raw first name validation result that Adyen received from the scheme. First name validation result is only returned for Visa. */
@@ -2216,9 +2166,7 @@ export const ThreeDS2ResponseData = /*@__PURE__*/ S.suspend(() =>
     transStatus: S.optional(S.String),
     transStatusReason: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ThreeDS2ResponseData",
-}) as any as S.Schema<ThreeDS2ResponseData>;
+).annotate({ identifier: "ThreeDS2ResponseData" }) as any as S.Schema<ThreeDS2ResponseData>;
 
 /** Indicator informing the Access Control Server (ACS) and the Directory Server (DS) that the authentication has been cancelled. For possible values, refer to [3D Secure API reference](https://docs.adyen.com/online-payments/3d-secure/api-reference#mpidata). */
 export type ThreeDS2ResultChallengeCancel = "01" | "02" | "03" | "04" | "05" | "06" | "07";
@@ -2298,6 +2246,8 @@ export interface PaymentResponse {
   fraudResult?: FraudResult;
   /** The reference to uniquely identify a payment. This reference is used in all communication with you about the payment status. We recommend using a unique value per payment; however, it is not a requirement. If you need to provide multiple references for a transaction, separate them with hyphens ("-"). Maximum length: 80 characters. */
   merchantReference?: string;
+  /** Oracle Payment Interface (OPI) response fields such as `transToken` and `issuerId`. */
+  opi?: OpiResponse;
   /** Contains updated information regarding the order in case order information was provided in the request. */
   order?: CheckoutOrderResponse;
   /** Details about the payment method used in the transaction. Only returned if `resultCode` is **Authorised**. */
@@ -2327,6 +2277,7 @@ export const PaymentResponse = /*@__PURE__*/ S.suspend(() =>
     donationToken: S.optional(S.String),
     fraudResult: S.optional(FraudResult),
     merchantReference: S.optional(S.String),
+    opi: S.optional(OpiResponse),
     order: S.optional(CheckoutOrderResponse),
     paymentMethod: S.optional(ResponsePaymentMethod),
     paymentValidations: S.optional(PaymentValidationsResponse),
@@ -2338,9 +2289,7 @@ export const PaymentResponse = /*@__PURE__*/ S.suspend(() =>
     threeDS2Result: S.optional(ThreeDS2Result),
     threeDSPaymentData: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PaymentResponse",
-}) as any as S.Schema<PaymentResponse>;
+).annotate({ identifier: "PaymentResponse" }) as any as S.Schema<PaymentResponse>;
 
 /** The status of the donation transaction. Possible values: * **completed** * **pending** * **refused** */
 export type DonationPaymentResponseStatus = "completed" | "pending" | "refused";
@@ -2372,9 +2321,7 @@ export const DonationPaymentResponse = /*@__PURE__*/ S.suspend(() =>
     reference: S.optional(S.String),
     status: S.optional(DonationPaymentResponseStatus),
   }),
-).annotate({
-  identifier: "DonationPaymentResponse",
-}) as any as S.Schema<DonationPaymentResponse>;
+).annotate({ identifier: "DonationPaymentResponse" }) as any as S.Schema<DonationPaymentResponse>;
 
 export interface CreateDonationCampaignRequest {
   /** A unique identifier for the message with a maximum of 64 characters (we recommend a UUID). */
@@ -2488,9 +2435,7 @@ export const DonationCampaign = /*@__PURE__*/ S.suspend(() =>
     nonprofitUrl: S.optional(S.String),
     termsAndConditionsUrl: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DonationCampaign",
-}) as any as S.Schema<DonationCampaign>;
+).annotate({ identifier: "DonationCampaign" }) as any as S.Schema<DonationCampaign>;
 
 /** List of active donation campaigns for your merchant account. */
 export type DonationCampaignsResponseDonationCampaignsList = Array<DonationCampaign>;
@@ -2525,30 +2470,30 @@ export const CheckoutNetworkTokenOption = /*@__PURE__*/ S.suspend(() =>
   identifier: "CheckoutNetworkTokenOption",
 }) as any as S.Schema<CheckoutNetworkTokenOption>;
 
-/** Set in tokenize:true case when forwarding PAN. Addresses to the possible location(s) of networkTxReference in the incoming 3rd party response */
+/** Only include when `tokenize` is set to **true**.<br><br>A list of addresses to possible location(s) of the `networkTxReference` that will be returned in the third party response. */
 export type CheckoutForwardRequestOptionsNetworkTxReferencePathsList = Array<string>;
 export const CheckoutForwardRequestOptionsNetworkTxReferencePathsList = /*@__PURE__*/ S.Array(
   S.String,
 ) as any as S.Schema<CheckoutForwardRequestOptionsNetworkTxReferencePathsList>;
 
-/** Set in tokenize:true case when forwarding PAN. Addresses to the possible location(s) of transactionLinkId in the incoming 3rd party response */
+/** Only include when `tokenize` is set to **true**.<br><br>A list of addresses to possible location(s) of the `transactionLinkId` that will be returned in the third party response. */
 export type CheckoutForwardRequestOptionsTransactionLinkIdPathsList = Array<string>;
 export const CheckoutForwardRequestOptionsTransactionLinkIdPathsList = /*@__PURE__*/ S.Array(
   S.String,
 ) as any as S.Schema<CheckoutForwardRequestOptionsTransactionLinkIdPathsList>;
 
 export interface CheckoutForwardRequestOptions {
-  /** Whether to check for a card account update (true) or not (false) */
+  /** Set to **true** to check if the account tied to the card has been updated. */
   accountUpdate?: boolean;
   /** Set to **true** to receive a copy of the request Adyen is making to the third party in the response. Any sensitive information will be masked in the response you receive. This functionality is only available in the test environment. */
   dryRun?: boolean;
   /** The object that contains the details for forwarding a network token. */
   networkToken?: CheckoutNetworkTokenOption;
-  /** Set in tokenize:true case when forwarding PAN. Addresses to the possible location(s) of networkTxReference in the incoming 3rd party response */
+  /** Only include when `tokenize` is set to **true**.<br><br>A list of addresses to possible location(s) of the `networkTxReference` that will be returned in the third party response. */
   networkTxReferencePaths?: CheckoutForwardRequestOptionsNetworkTxReferencePathsList;
-  /** Set to **true**, the payment details are [tokenized](https://docs.adyen.com/online-payments/tokenization). */
+  /** Set to **true** to [tokenize](https://docs.adyen.com/online-payments/tokenization) the payment details. */
   tokenize?: boolean;
-  /** Set in tokenize:true case when forwarding PAN. Addresses to the possible location(s) of transactionLinkId in the incoming 3rd party response */
+  /** Only include when `tokenize` is set to **true**.<br><br>A list of addresses to possible location(s) of the `transactionLinkId` that will be returned in the third party response. */
   transactionLinkIdPaths?: CheckoutForwardRequestOptionsTransactionLinkIdPathsList;
 }
 export const CheckoutForwardRequestOptions = /*@__PURE__*/ S.suspend(() =>
@@ -2608,9 +2553,7 @@ export const CheckoutForwardRequestCard = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<CheckoutForwardRequestCard>;
 
 /** The request headers that will be included in the request Adyen makes to the third party on your behalf. Supports the `{{credentials}}` [placeholder](https://docs.adyen.com/online-payments/tokenization/forward-payment-details#placeholders). */
-export type CheckoutOutgoingForwardRequestHeadersMap = {
-  [key: string]: string | undefined;
-};
+export type CheckoutOutgoingForwardRequestHeadersMap = { [key: string]: string | undefined };
 export const CheckoutOutgoingForwardRequestHeadersMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2679,14 +2622,44 @@ export const CreateForwardRequest = /*@__PURE__*/ S.suspend(() =>
     shopperReference: S.String,
     storedPaymentMethodId: S.optional(S.String),
   }).pipe(T.Http({ method: "POST", uri: "/forward", code: 200 })),
+).annotate({ identifier: "CreateForwardRequest" }) as any as S.Schema<CreateForwardRequest>;
+
+/** The result of the [Real Time Account Updater](https://docs.adyen.com/online-payments/account-updater/real-time-account-updater). Possible values: * NoChange * CardChanged * CardExpiryChanged * CloseAccount * ContactCardAccountHolder * Error */
+export type CheckoutForwardAccountUpdateResultResult =
+  | "CardChanged"
+  | "CardExpiryChanged"
+  | "CloseAccount"
+  | "ContactCardAccountHolder"
+  | "Error"
+  | "NoChange";
+export const CheckoutForwardAccountUpdateResultResult = S.String;
+
+export interface CheckoutForwardAccountUpdateResult {
+  /** The result of the [Real Time Account Updater](https://docs.adyen.com/online-payments/account-updater/real-time-account-updater). Possible values: * NoChange * CardChanged * CardExpiryChanged * CloseAccount * ContactCardAccountHolder * Error */
+  result?: CheckoutForwardAccountUpdateResultResult;
+}
+export const CheckoutForwardAccountUpdateResult = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    result: S.optional(CheckoutForwardAccountUpdateResultResult),
+  }),
 ).annotate({
-  identifier: "CreateForwardRequest",
-}) as any as S.Schema<CreateForwardRequest>;
+  identifier: "CheckoutForwardAccountUpdateResult",
+}) as any as S.Schema<CheckoutForwardAccountUpdateResult>;
+
+export interface CheckoutForwardNetworkTokenResult {
+  /** Indicates whether a network token was used in the forwarded request. When `true`, the Primary Account Number (PAN) was successfully swapped for a network token. When `false`, the request fell back to the PAN. */
+  swapped?: boolean;
+}
+export const CheckoutForwardNetworkTokenResult = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    swapped: S.optional(S.Boolean),
+  }),
+).annotate({
+  identifier: "CheckoutForwardNetworkTokenResult",
+}) as any as S.Schema<CheckoutForwardNetworkTokenResult>;
 
 /** The HTTP headers of the response Adyen received from the third party. */
-export type CheckoutForwardResponseFromUrlHeadersMap = {
-  [key: string]: string | undefined;
-};
+export type CheckoutForwardResponseFromUrlHeadersMap = { [key: string]: string | undefined };
 export const CheckoutForwardResponseFromUrlHeadersMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2711,8 +2684,12 @@ export const CheckoutForwardResponseFromUrl = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<CheckoutForwardResponseFromUrl>;
 
 export interface CheckoutForwardResponse {
+  /** Account update details for the forwarded request, including the result of the [Real Time Account Updater](https://docs.adyen.com/online-payments/account-updater/real-time-account-updater). Returning the result of the Real Time Account Updater is in [pilot phase](https://docs.adyen.com/online-payments/tokenization/forward-payment-details#handle-the-result), and not yet widely available. */
+  accountUpdate?: CheckoutForwardAccountUpdateResult;
   /** Merchant defined payment reference. */
   merchantReference?: string;
+  /** Network token details for the forwarded request, including whether the Primary Account Number (PAN) was successfully swapped for a network token. */
+  networkToken?: CheckoutForwardNetworkTokenResult;
   /** Adyen's 16-character reference associated with the transaction/request. This value is globally unique. Use this reference when you communicate with us about this request. */
   pspReference?: string;
   /** The details of the response Adyen received from the third party. */
@@ -2722,14 +2699,14 @@ export interface CheckoutForwardResponse {
 }
 export const CheckoutForwardResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    accountUpdate: S.optional(CheckoutForwardAccountUpdateResult),
     merchantReference: S.optional(S.String),
+    networkToken: S.optional(CheckoutForwardNetworkTokenResult),
     pspReference: S.optional(S.String),
     response: CheckoutForwardResponseFromUrl,
     storedPaymentMethodId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CheckoutForwardResponse",
-}) as any as S.Schema<CheckoutForwardResponse>;
+).annotate({ identifier: "CheckoutForwardResponse" }) as any as S.Schema<CheckoutForwardResponse>;
 
 export interface CreateOrderRequest {
   /** A unique identifier for the message with a maximum of 64 characters (we recommend a UUID). */
@@ -2751,14 +2728,10 @@ export const CreateOrderRequest = /*@__PURE__*/ S.suspend(() =>
     merchantAccount: S.String,
     reference: S.String,
   }).pipe(T.Http({ method: "POST", uri: "/orders", code: 200 })),
-).annotate({
-  identifier: "CreateOrderRequest",
-}) as any as S.Schema<CreateOrderRequest>;
+).annotate({ identifier: "CreateOrderRequest" }) as any as S.Schema<CreateOrderRequest>;
 
 /** Contains additional information about the payment. Some data fields are included only if you select them first: Go to **Customer Area** > **Developers** > **Additional data**. */
-export type CreateOrderResponseAdditionalDataMap = {
-  [key: string]: string | undefined;
-};
+export type CreateOrderResponseAdditionalDataMap = { [key: string]: string | undefined };
 export const CreateOrderResponseAdditionalDataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2803,9 +2776,7 @@ export const CreateOrderResponse = /*@__PURE__*/ S.suspend(() =>
     remainingAmount: Amount,
     resultCode: CreateOrderResponseResultCode,
   }),
-).annotate({
-  identifier: "CreateOrderResponse",
-}) as any as S.Schema<CreateOrderResponse>;
+).annotate({ identifier: "CreateOrderResponse" }) as any as S.Schema<CreateOrderResponse>;
 
 export interface EncryptedOrderData {
   /** The encrypted order data. */
@@ -2818,9 +2789,7 @@ export const EncryptedOrderData = /*@__PURE__*/ S.suspend(() =>
     orderData: S.String,
     pspReference: S.String,
   }),
-).annotate({
-  identifier: "EncryptedOrderData",
-}) as any as S.Schema<EncryptedOrderData>;
+).annotate({ identifier: "EncryptedOrderData" }) as any as S.Schema<EncryptedOrderData>;
 
 export interface CreateOrdersCancelRequest {
   /** A unique identifier for the message with a maximum of 64 characters (we recommend a UUID). */
@@ -2855,14 +2824,10 @@ export const CancelOrderResponse = /*@__PURE__*/ S.suspend(() =>
     pspReference: S.String,
     resultCode: CancelOrderResponseResultCode,
   }),
-).annotate({
-  identifier: "CancelOrderResponse",
-}) as any as S.Schema<CancelOrderResponse>;
+).annotate({ identifier: "CancelOrderResponse" }) as any as S.Schema<CancelOrderResponse>;
 
 /** This field contains additional data, which may be required for a particular payment request. The `additionalData` object consists of entries, each of which includes the key and value. */
-export type CreatePaymentRequestAdditionalDataMap = {
-  [key: string]: string | undefined;
-};
+export type CreatePaymentRequestAdditionalDataMap = { [key: string]: string | undefined };
 export const CreatePaymentRequestAdditionalDataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2914,9 +2879,7 @@ export const CheckoutBankAccount = /*@__PURE__*/ S.suspend(() =>
     ownerName: S.optional(S.String),
     taxId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CheckoutBankAccount",
-}) as any as S.Schema<CheckoutBankAccount>;
+).annotate({ identifier: "CheckoutBankAccount" }) as any as S.Schema<CheckoutBankAccount>;
 
 /** The platform where a payment transaction takes place. This field is optional for filtering out payment methods that are only available on specific platforms. If this value is not set, then we will try to infer it from the `sdkVersion` or `token`. Possible values: * iOS * Android * Web */
 export type CreatePaymentRequestChannel = "iOS" | "Android" | "Web";
@@ -3174,9 +3137,7 @@ export const RentalSurcharges = /*@__PURE__*/ S.suspend(() =>
     insurance: S.optional(S.Number),
     oneWayDropOff: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "RentalSurcharges",
-}) as any as S.Schema<RentalSurcharges>;
+).annotate({ identifier: "RentalSurcharges" }) as any as S.Schema<RentalSurcharges>;
 
 export interface ReturnInfo {
   /** The city where the car must be returned. * Format: ASCII * maxLength: 18 characters * Must not start with a space or be all spaces. * Must not be all zeros. * **additionalData key:** `carRental.returnCity` */
@@ -3455,9 +3416,7 @@ export const TemporaryServices = /*@__PURE__*/ S.suspend(() =>
     serviceRequestor: S.optional(S.String),
     startDate: S.optional(S.String),
   }),
-).annotate({
-  identifier: "TemporaryServices",
-}) as any as S.Schema<TemporaryServices>;
+).annotate({ identifier: "TemporaryServices" }) as any as S.Schema<TemporaryServices>;
 
 export interface EnhancedSchemeData {
   /** [Airline enhanced scheme data](https://docs.adyen.com/payment-methods/cards/enhanced-scheme-data/airline/) that may be required for processing the transaction and/or for interchange savings. */
@@ -3482,9 +3441,7 @@ export const EnhancedSchemeData = /*@__PURE__*/ S.suspend(() =>
     lodging: S.optional(Lodging),
     temporaryServices: S.optional(TemporaryServices),
   }),
-).annotate({
-  identifier: "EnhancedSchemeData",
-}) as any as S.Schema<EnhancedSchemeData>;
+).annotate({ identifier: "EnhancedSchemeData" }) as any as S.Schema<EnhancedSchemeData>;
 
 /** The type of the entity the payment is processed for. */
 export type CreatePaymentRequestEntityType = "NaturalPerson" | "CompanyName";
@@ -3800,13 +3757,24 @@ export const Mandate = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "Mandate" }) as any as S.Schema<Mandate>;
 
 /** Metadata consists of entries, each of which includes a key and a value. Limits: * Maximum 20 key-value pairs per request. When exceeding, the "177" error occurs: "Metadata size exceeds limit". * Maximum 20 characters per key. * Maximum 80 characters per value. */
-export type CreatePaymentRequestMetadataMap = {
-  [key: string]: string | undefined;
-};
+export type CreatePaymentRequestMetadataMap = { [key: string]: string | undefined };
 export const CreatePaymentRequestMetadataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
 ) as any as S.Schema<CreatePaymentRequestMetadataMap>;
+
+export interface OpiRequest {
+  /** When set to true, includes the OPI issuer ID in the response. */
+  includeIssuerId?: boolean;
+  /** When set to true, includes an OPI transaction token in the response when the payment creates a stored payment method. */
+  includeTransToken?: boolean;
+}
+export const OpiRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    includeIssuerId: S.optional(S.Boolean),
+    includeTransToken: S.optional(S.Boolean),
+  }),
+).annotate({ identifier: "OpiRequest" }) as any as S.Schema<OpiRequest>;
 
 /** The account holder type (personal or business). */
 export type AchDetailsAccountHolderType = "business" | "personal";
@@ -3933,9 +3901,7 @@ export const AfterpayDetails = /*@__PURE__*/ S.suspend(() =>
     storedPaymentMethodId: S.optional(S.String),
     type: AfterpayDetailsType,
   }),
-).annotate({
-  identifier: "AfterpayDetails",
-}) as any as S.Schema<AfterpayDetails>;
+).annotate({ identifier: "AfterpayDetails" }) as any as S.Schema<AfterpayDetails>;
 
 /** **Alma payment request fee type** */
 export type AlmaDetailsFeeType = "merchantPays" | "shopperPays";
@@ -3988,9 +3954,7 @@ export const AmazonPayDetails = /*@__PURE__*/ S.suspend(() =>
     sdkData: S.optional(S.String),
     type: S.optional(AmazonPayDetailsType),
   }),
-).annotate({
-  identifier: "AmazonPayDetails",
-}) as any as S.Schema<AmazonPayDetails>;
+).annotate({ identifier: "AmazonPayDetails" }) as any as S.Schema<AmazonPayDetails>;
 
 /** **ancv** */
 export type AncvDetailsType = "ancv";
@@ -4039,9 +4003,7 @@ export const AndroidPayDetails = /*@__PURE__*/ S.suspend(() =>
     sdkData: S.optional(S.String),
     type: S.optional(AndroidPayDetailsType),
   }),
-).annotate({
-  identifier: "AndroidPayDetails",
-}) as any as S.Schema<AndroidPayDetails>;
+).annotate({ identifier: "AndroidPayDetails" }) as any as S.Schema<AndroidPayDetails>;
 
 /** The funding source that should be used when multiple sources are available. For Brazilian combo cards, by default the funding source is credit. To use debit, set this value to **debit**. */
 export type ApplePayDetailsFundingSource = "credit" | "debit" | "prepaid";
@@ -4077,9 +4039,7 @@ export const ApplePayDetails = /*@__PURE__*/ S.suspend(() =>
     storedPaymentMethodId: S.optional(S.String),
     type: S.optional(ApplePayDetailsType),
   }),
-).annotate({
-  identifier: "ApplePayDetails",
-}) as any as S.Schema<ApplePayDetails>;
+).annotate({ identifier: "ApplePayDetails" }) as any as S.Schema<ApplePayDetails>;
 
 /** **aupay** */
 export type AuPayDetailsType = "aupay";
@@ -4143,9 +4103,7 @@ export const BacsDirectDebitDetails = /*@__PURE__*/ S.suspend(() =>
     transferInstrumentId: S.optional(S.String),
     type: S.optional(BacsDirectDebitDetailsType),
   }),
-).annotate({
-  identifier: "BacsDirectDebitDetails",
-}) as any as S.Schema<BacsDirectDebitDetails>;
+).annotate({ identifier: "BacsDirectDebitDetails" }) as any as S.Schema<BacsDirectDebitDetails>;
 
 /** **billdesk** */
 export type BillDeskDetailsType = "billdesk_online" | "billdesk_wallet";
@@ -4168,9 +4126,7 @@ export const BillDeskDetails = /*@__PURE__*/ S.suspend(() =>
     sdkData: S.optional(S.String),
     type: BillDeskDetailsType,
   }),
-).annotate({
-  identifier: "BillDeskDetails",
-}) as any as S.Schema<BillDeskDetails>;
+).annotate({ identifier: "BillDeskDetails" }) as any as S.Schema<BillDeskDetails>;
 
 /** **blik** */
 export type BlikDetailsType = "blik";
@@ -4266,9 +4222,7 @@ export const CellulantDetails = /*@__PURE__*/ S.suspend(() =>
     sdkData: S.optional(S.String),
     type: S.optional(CellulantDetailsType),
   }),
-).annotate({
-  identifier: "CellulantDetails",
-}) as any as S.Schema<CellulantDetails>;
+).annotate({ identifier: "CellulantDetails" }) as any as S.Schema<CellulantDetails>;
 
 /** **dbarai** */
 export type DBaraiDetailsType = "dbarai";
@@ -4329,9 +4283,7 @@ export const DirectDebitAuDetails = /*@__PURE__*/ S.suspend(() =>
     storedPaymentMethodId: S.optional(S.String),
     type: S.optional(DirectDebitAuDetailsType),
   }),
-).annotate({
-  identifier: "DirectDebitAuDetails",
-}) as any as S.Schema<DirectDebitAuDetails>;
+).annotate({ identifier: "DirectDebitAuDetails" }) as any as S.Schema<DirectDebitAuDetails>;
 
 /** **doku** */
 export type DokuDetailsType =
@@ -4401,9 +4353,7 @@ export const DragonpayDetails = /*@__PURE__*/ S.suspend(() =>
     shopperEmail: S.optional(S.String),
     type: DragonpayDetailsType,
   }),
-).annotate({
-  identifier: "DragonpayDetails",
-}) as any as S.Schema<DragonpayDetails>;
+).annotate({ identifier: "DragonpayDetails" }) as any as S.Schema<DragonpayDetails>;
 
 /** **ebanking_FI** */
 export type EBankingFinlandDetailsType = "ebanking_FI";
@@ -4426,9 +4376,7 @@ export const EBankingFinlandDetails = /*@__PURE__*/ S.suspend(() =>
     sdkData: S.optional(S.String),
     type: EBankingFinlandDetailsType,
   }),
-).annotate({
-  identifier: "EBankingFinlandDetails",
-}) as any as S.Schema<EBankingFinlandDetails>;
+).annotate({ identifier: "EBankingFinlandDetails" }) as any as S.Schema<EBankingFinlandDetails>;
 
 /** **econtextvoucher** */
 export type EcontextVoucherDetailsType =
@@ -4465,9 +4413,7 @@ export const EcontextVoucherDetails = /*@__PURE__*/ S.suspend(() =>
     telephoneNumber: S.String,
     type: EcontextVoucherDetailsType,
   }),
-).annotate({
-  identifier: "EcontextVoucherDetails",
-}) as any as S.Schema<EcontextVoucherDetails>;
+).annotate({ identifier: "EcontextVoucherDetails" }) as any as S.Schema<EcontextVoucherDetails>;
 
 /** **eft** */
 export type EftDetailsType = "eft_directdebit_CA";
@@ -4544,9 +4490,7 @@ export const ExternalTokenDetails = /*@__PURE__*/ S.suspend(() =>
     subtype: ExternalTokenDetailsSubtype,
     type: ExternalTokenDetailsType,
   }),
-).annotate({
-  identifier: "ExternalTokenDetails",
-}) as any as S.Schema<ExternalTokenDetails>;
+).annotate({ identifier: "ExternalTokenDetails" }) as any as S.Schema<ExternalTokenDetails>;
 
 /** **fastlane** */
 export type FastlaneDetailsType = "fastlane";
@@ -4575,9 +4519,7 @@ export const FastlaneDetails = /*@__PURE__*/ S.suspend(() =>
     storedPaymentMethodId: S.optional(S.String),
     type: FastlaneDetailsType,
   }),
-).annotate({
-  identifier: "FastlaneDetails",
-}) as any as S.Schema<FastlaneDetails>;
+).annotate({ identifier: "FastlaneDetails" }) as any as S.Schema<FastlaneDetails>;
 
 /** **genericissuer** */
 export type GenericIssuerPaymentMethodDetailsType =
@@ -4655,9 +4597,7 @@ export const GooglePayDetails = /*@__PURE__*/ S.suspend(() =>
     threeDS2SdkVersion: S.optional(S.String),
     type: S.optional(GooglePayDetailsType),
   }),
-).annotate({
-  identifier: "GooglePayDetails",
-}) as any as S.Schema<GooglePayDetails>;
+).annotate({ identifier: "GooglePayDetails" }) as any as S.Schema<GooglePayDetails>;
 
 /** **ideal** */
 export type IdealDetailsType = "ideal";
@@ -4745,6 +4685,8 @@ export interface KlarnaNetworkDetails {
   checkoutAttemptId?: string;
   /** A string containing a structured JSON object. This is a passthrough field used to enable custom features or data exchange with Klarna. */
   klarnaNetworkData?: string;
+  /** The Klarna Network Payment Account identifier to use for the transaction. Required when `klarnaNetworkSessionToken` is provided. */
+  klarnaNetworkPaymentAccountId?: string;
   /** The token obtained from the Klarna SDK during an Express Checkout flow. */
   klarnaNetworkSessionToken?: string;
   /** This is the `recurringDetailReference` returned in the response when you created the token. */
@@ -4760,15 +4702,14 @@ export const KlarnaNetworkDetails = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     checkoutAttemptId: S.optional(S.String),
     klarnaNetworkData: S.optional(S.String),
+    klarnaNetworkPaymentAccountId: S.optional(S.String),
     klarnaNetworkSessionToken: S.optional(S.String),
     recurringDetailReference: S.optional(S.String),
     sdkData: S.optional(S.String),
     storedPaymentMethodId: S.optional(S.String),
     type: KlarnaNetworkDetailsType,
   }),
-).annotate({
-  identifier: "KlarnaNetworkDetails",
-}) as any as S.Schema<KlarnaNetworkDetails>;
+).annotate({ identifier: "KlarnaNetworkDetails" }) as any as S.Schema<KlarnaNetworkDetails>;
 
 /** The funding source that should be used when multiple sources are available. For Brazilian combo cards, by default the funding source is credit. To use debit, set this value to **debit**. */
 export type MasterpassDetailsFundingSource = "credit" | "debit" | "prepaid";
@@ -4798,9 +4739,7 @@ export const MasterpassDetails = /*@__PURE__*/ S.suspend(() =>
     sdkData: S.optional(S.String),
     type: S.optional(MasterpassDetailsType),
   }),
-).annotate({
-  identifier: "MasterpassDetails",
-}) as any as S.Schema<MasterpassDetails>;
+).annotate({ identifier: "MasterpassDetails" }) as any as S.Schema<MasterpassDetails>;
 
 /** **mbway** */
 export type MbwayDetailsType = "mbway";
@@ -4844,9 +4783,7 @@ export const MobilePayDetails = /*@__PURE__*/ S.suspend(() =>
     sdkData: S.optional(S.String),
     type: S.optional(MobilePayDetailsType),
   }),
-).annotate({
-  identifier: "MobilePayDetails",
-}) as any as S.Schema<MobilePayDetails>;
+).annotate({ identifier: "MobilePayDetails" }) as any as S.Schema<MobilePayDetails>;
 
 /** **molpay** */
 export type MolPayDetailsType = "molpay_ebanking_fpx_MY" | "molpay_ebanking_TH";
@@ -4904,9 +4841,7 @@ export const OpenInvoiceDetails = /*@__PURE__*/ S.suspend(() =>
     storedPaymentMethodId: S.optional(S.String),
     type: S.optional(OpenInvoiceDetailsType),
   }),
-).annotate({
-  identifier: "OpenInvoiceDetails",
-}) as any as S.Schema<OpenInvoiceDetails>;
+).annotate({ identifier: "OpenInvoiceDetails" }) as any as S.Schema<OpenInvoiceDetails>;
 
 /** **paybybank_AIS_DD** */
 export type PayByBankAISDirectDebitDetailsType = "paybybank_AIS_DD";
@@ -4936,6 +4871,34 @@ export const PayByBankAISDirectDebitDetails = /*@__PURE__*/ S.suspend(() =>
   identifier: "PayByBankAISDirectDebitDetails",
 }) as any as S.Schema<PayByBankAISDirectDebitDetails>;
 
+/** The type of payment method */
+export type PayByBankCADirectDebitDetailsType = "paybybank_ca";
+export const PayByBankCADirectDebitDetailsType = S.String;
+
+export interface PayByBankCADirectDebitDetails {
+  /** The checkout attempt identifier. */
+  checkoutAttemptId?: string;
+  /** This is the `recurringDetailReference` returned in the response when you created the token. */
+  recurringDetailReference?: string;
+  /** Base64-encoded JSON object containing SDK related parameters required by the SDK */
+  sdkData?: string;
+  /** This is the `recurringDetailReference` returned in the response when you created the token. */
+  storedPaymentMethodId?: string;
+  /** The type of payment method */
+  type: PayByBankCADirectDebitDetailsType;
+}
+export const PayByBankCADirectDebitDetails = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    checkoutAttemptId: S.optional(S.String),
+    recurringDetailReference: S.optional(S.String),
+    sdkData: S.optional(S.String),
+    storedPaymentMethodId: S.optional(S.String),
+    type: PayByBankCADirectDebitDetailsType,
+  }),
+).annotate({
+  identifier: "PayByBankCADirectDebitDetails",
+}) as any as S.Schema<PayByBankCADirectDebitDetails>;
+
 /** **paybybank** */
 export type PayByBankDetailsType = "paybybank";
 export const PayByBankDetailsType = S.String;
@@ -4957,9 +4920,7 @@ export const PayByBankDetails = /*@__PURE__*/ S.suspend(() =>
     sdkData: S.optional(S.String),
     type: PayByBankDetailsType,
   }),
-).annotate({
-  identifier: "PayByBankDetails",
-}) as any as S.Schema<PayByBankDetails>;
+).annotate({ identifier: "PayByBankDetails" }) as any as S.Schema<PayByBankDetails>;
 
 /** The type of flow to initiate. */
 export type PayPalDetailsSubtype = "express" | "redirect" | "sdk";
@@ -5130,9 +5091,7 @@ export const PayWithGoogleDetails = /*@__PURE__*/ S.suspend(() =>
     threeDS2SdkVersion: S.optional(S.String),
     type: S.optional(PayWithGoogleDetailsType),
   }),
-).annotate({
-  identifier: "PayWithGoogleDetails",
-}) as any as S.Schema<PayWithGoogleDetails>;
+).annotate({ identifier: "PayWithGoogleDetails" }) as any as S.Schema<PayWithGoogleDetails>;
 
 /** The payment method type. */
 export type PaymentDetailsType =
@@ -5173,6 +5132,7 @@ export type PaymentDetailsType =
   | "walley"
   | "walley_b2b"
   | "paypo"
+  | "satispay"
   | "scalapay"
   | "scalapay_3x"
   | "scalapay_4x"
@@ -5322,9 +5282,7 @@ export const ConfidenceScore = /*@__PURE__*/ S.suspend(() =>
     errors: S.optional(ConfidenceScoreErrorsList),
     score: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "ConfidenceScore",
-}) as any as S.Schema<ConfidenceScore>;
+).annotate({ identifier: "ConfidenceScore" }) as any as S.Schema<ConfidenceScore>;
 
 export interface ScreenDimensions {
   height?: number;
@@ -5335,9 +5293,7 @@ export const ScreenDimensions = /*@__PURE__*/ S.suspend(() =>
     height: S.optional(S.Number),
     width: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "ScreenDimensions",
-}) as any as S.Schema<ScreenDimensions>;
+).annotate({ identifier: "ScreenDimensions" }) as any as S.Schema<ScreenDimensions>;
 
 export interface PixPayByBankRiskSignals {
   confidenceScore?: ConfidenceScore;
@@ -5360,9 +5316,7 @@ export const PixPayByBankRiskSignals = /*@__PURE__*/ S.suspend(() =>
     screenDimensions: S.optional(ScreenDimensions),
     userTimeZoneOffset: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "PixPayByBankRiskSignals",
-}) as any as S.Schema<PixPayByBankRiskSignals>;
+).annotate({ identifier: "PixPayByBankRiskSignals" }) as any as S.Schema<PixPayByBankRiskSignals>;
 
 /** **paybybank_pix** */
 export type PixPayByBankDetailsType = "paybybank_pix";
@@ -5394,9 +5348,7 @@ export const PixPayByBankDetails = /*@__PURE__*/ S.suspend(() =>
     storedPaymentMethodId: S.optional(S.String),
     type: S.optional(PixPayByBankDetailsType),
   }),
-).annotate({
-  identifier: "PixPayByBankDetails",
-}) as any as S.Schema<PixPayByBankDetails>;
+).annotate({ identifier: "PixPayByBankDetails" }) as any as S.Schema<PixPayByBankDetails>;
 
 /** The payment method type. */
 export type PseDetailsType = "pse_payulatam";
@@ -5454,9 +5406,7 @@ export const RakutenPayDetails = /*@__PURE__*/ S.suspend(() =>
     storedPaymentMethodId: S.optional(S.String),
     type: S.optional(RakutenPayDetailsType),
   }),
-).annotate({
-  identifier: "RakutenPayDetails",
-}) as any as S.Schema<RakutenPayDetails>;
+).annotate({ identifier: "RakutenPayDetails" }) as any as S.Schema<RakutenPayDetails>;
 
 /** **ratepay** */
 export type RatepayDetailsType = "ratepay" | "ratepay_directdebit";
@@ -5578,9 +5528,7 @@ export const SamsungPayDetails = /*@__PURE__*/ S.suspend(() =>
     storedPaymentMethodId: S.optional(S.String),
     type: S.optional(SamsungPayDetailsType),
   }),
-).annotate({
-  identifier: "SamsungPayDetails",
-}) as any as S.Schema<SamsungPayDetails>;
+).annotate({ identifier: "SamsungPayDetails" }) as any as S.Schema<SamsungPayDetails>;
 
 /** **sepadirectdebit** */
 export type SepaDirectDebitDetailsType = "sepadirectdebit" | "sepadirectdebit_amazonpay";
@@ -5618,9 +5566,7 @@ export const SepaDirectDebitDetails = /*@__PURE__*/ S.suspend(() =>
     transferInstrumentId: S.optional(S.String),
     type: S.optional(SepaDirectDebitDetailsType),
   }),
-).annotate({
-  identifier: "SepaDirectDebitDetails",
-}) as any as S.Schema<SepaDirectDebitDetails>;
+).annotate({ identifier: "SepaDirectDebitDetails" }) as any as S.Schema<SepaDirectDebitDetails>;
 
 /** The payment method type. */
 export type StoredPaymentMethodDetailsType =
@@ -5743,9 +5689,7 @@ export const UpiCollectDetails = /*@__PURE__*/ S.suspend(() =>
     type: UpiCollectDetailsType,
     virtualPaymentAddress: S.optional(S.String),
   }),
-).annotate({
-  identifier: "UpiCollectDetails",
-}) as any as S.Schema<UpiCollectDetails>;
+).annotate({ identifier: "UpiCollectDetails" }) as any as S.Schema<UpiCollectDetails>;
 
 /** **upi_intent** */
 export type UpiIntentDetailsType = "upi_intent";
@@ -5780,9 +5724,7 @@ export const UpiIntentDetails = /*@__PURE__*/ S.suspend(() =>
     storedPaymentMethodId: S.optional(S.String),
     type: UpiIntentDetailsType,
   }),
-).annotate({
-  identifier: "UpiIntentDetails",
-}) as any as S.Schema<UpiIntentDetails>;
+).annotate({ identifier: "UpiIntentDetails" }) as any as S.Schema<UpiIntentDetails>;
 
 /** **upi_qr** */
 export type UpiQrDetailsType = "upi_qr";
@@ -5872,9 +5814,7 @@ export const VisaCheckoutDetails = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(VisaCheckoutDetailsType),
     visaCheckoutCallId: S.String,
   }),
-).annotate({
-  identifier: "VisaCheckoutDetails",
-}) as any as S.Schema<VisaCheckoutDetails>;
+).annotate({ identifier: "VisaCheckoutDetails" }) as any as S.Schema<VisaCheckoutDetails>;
 
 /** **wechatpay** */
 export type WeChatPayDetailsType = "wechatpay" | "wechatpay_pos";
@@ -5894,9 +5834,7 @@ export const WeChatPayDetails = /*@__PURE__*/ S.suspend(() =>
     sdkData: S.optional(S.String),
     type: S.optional(WeChatPayDetailsType),
   }),
-).annotate({
-  identifier: "WeChatPayDetails",
-}) as any as S.Schema<WeChatPayDetails>;
+).annotate({ identifier: "WeChatPayDetails" }) as any as S.Schema<WeChatPayDetails>;
 
 /** **wechatpayMiniProgram** */
 export type WeChatPayMiniProgramDetailsType = "wechatpayMiniProgram";
@@ -5996,6 +5934,7 @@ export type CreatePaymentRequestPaymentMethod =
   | MolPayDetails
   | OpenInvoiceDetails
   | PayByBankAISDirectDebitDetails
+  | PayByBankCADirectDebitDetails
   | PayByBankDetails
   | PayPalDetails
   | PayPayDetails
@@ -6043,9 +5982,7 @@ export const PaymentValidations = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.optional(PaymentValidationsNameRequest),
   }),
-).annotate({
-  identifier: "PaymentValidations",
-}) as any as S.Schema<PaymentValidations>;
+).annotate({ identifier: "PaymentValidations" }) as any as S.Schema<PaymentValidations>;
 
 /** The method of handling the chargeback. Possible values: **deductFromLiableAccount**, **deductFromOneBalanceAccount**, **deductAccordingToSplitRatio**. */
 export type PlatformChargebackLogicBehavior =
@@ -6068,9 +6005,7 @@ export const PlatformChargebackLogic = /*@__PURE__*/ S.suspend(() =>
     costAllocationAccount: S.optional(S.String),
     targetAccount: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PlatformChargebackLogic",
-}) as any as S.Schema<PlatformChargebackLogic>;
+).annotate({ identifier: "PlatformChargebackLogic" }) as any as S.Schema<PlatformChargebackLogic>;
 
 /** Defines a recurring payment type. Required when creating a token to store payment details or using stored payment details. Allowed values: * `Subscription` – A transaction for a fixed or variable amount, which follows a fixed schedule. * `CardOnFile` – With a card-on-file (CoF) transaction, card details are stored to enable one-click or omnichannel journeys, or simply to streamline the checkout process. Any subscription not following a fixed schedule is also considered a card-on-file transaction. * `UnscheduledCardOnFile` – An unscheduled card-on-file (UCoF) transaction is a transaction that occurs on a non-fixed schedule and/or have variable amounts. For example, automatic top-ups when a cardholder's balance drops below a certain amount. */
 export type CreatePaymentRequestRecurringProcessingModel =
@@ -6217,9 +6152,7 @@ export const SubMerchantInfo = /*@__PURE__*/ S.suspend(() =>
     taxId: S.optional(S.String),
     url: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SubMerchantInfo",
-}) as any as S.Schema<SubMerchantInfo>;
+).annotate({ identifier: "SubMerchantInfo" }) as any as S.Schema<SubMerchantInfo>;
 
 /** This field contains additional information on the submerchant, who is onboarded to an acquirer through a payment facilitator or aggregator */
 export type CreatePaymentRequestSubMerchantsList = Array<SubMerchantInfo>;
@@ -6334,7 +6267,7 @@ export interface CreatePaymentRequest {
   mcc?: string;
   /** The merchant account identifier, with which you want to process the transaction. */
   merchantAccount: string;
-  /** You can use this reference to link multiple transactions to one another (for example, to track order authorization rate).For each billing cycle, this reference should be unique. After the first authorized payment attempt, do not reuse the reference. If you use this parameter, include it in all of the payment requests that you make. We strongly recommend that you: * Always include this parameter, so that you can benefit from linking payment requests to one another, in case of authorization retries. * Additionally include the following parameters in the `additionalData` object: [`retry.orderAttemptNumber`](https://docs.adyen.com/api-explorer/Checkout/latest/post/sessions#request-additionalData-AdditionalDataRetry-retry-orderAttemptNumber), [`retry.chainAttemptNumber`](https://docs.adyen.com/api-explorer/Checkout/latest/post/sessions#request-additionalData-AdditionalDataRetry-retry-chainAttemptNumber), and [`retry.skipRetry`](https://docs.adyen.com/api-explorer/Checkout/latest/post/sessions#request-additionalData-AdditionalDataRetry-retry-skipRetry) */
+  /** You can use this reference to link multiple transactions to one another (for example, to track order authorization rate). For each billing cycle, this reference should be unique. After the first authorized payment attempt, do not reuse the reference. If you use this parameter, include it in all of the payment requests that you make. We strongly recommend that you: * Always include this parameter, so that you can benefit from linking payment requests to one another, in case of authorization retries. * Additionally include the following parameters in the `additionalData` object: [`retry.orderAttemptNumber`](https://docs.adyen.com/api-explorer/Checkout/latest/post/sessions#request-additionalData-AdditionalDataRetry-retry-orderAttemptNumber), [`retry.chainAttemptNumber`](https://docs.adyen.com/api-explorer/Checkout/latest/post/sessions#request-additionalData-AdditionalDataRetry-retry-chainAttemptNumber), and [`retry.skipRetry`](https://docs.adyen.com/api-explorer/Checkout/latest/post/sessions#request-additionalData-AdditionalDataRetry-retry-skipRetry) */
   merchantOrderReference?: string;
   /** Additional risk fields for 3D Secure 2. > For 3D Secure 2 transactions, we recommend that you include this object to increase the chances of achieving a frictionless flow. */
   merchantRiskIndicator?: MerchantRiskIndicator;
@@ -6342,6 +6275,8 @@ export interface CreatePaymentRequest {
   metadata?: CreatePaymentRequestMetadataMap;
   /** Authentication data produced by an MPI (Mastercard SecureCode, Visa Secure, or Cartes Bancaires). */
   mpiData?: ThreeDSecureData;
+  /** Configuration for Oracle Payment Interface (OPI) integrations. */
+  opi?: OpiRequest;
   /** The order information required for partial payments. */
   order?: EncryptedOrderData;
   /** When you are doing multiple partial (gift card) payments, this is the `pspReference` of the first payment. We use this to link the multiple payments to each other. As your own reference for linking multiple payments, use the `merchantOrderReference`instead. */
@@ -6364,7 +6299,7 @@ export interface CreatePaymentRequest {
   redirectFromIssuerMethod?: string;
   /** Specifies the redirect method (GET or POST) when redirecting to the issuer. */
   redirectToIssuerMethod?: string;
-  /** The reference to uniquely identify a payment. This reference is used in all communication with you about the payment status. To provide multiple references for one transaction, separate the reference values with the hyphen (`-`) character.We strongly recommend that you use a unique value for each transaction. Maximum length: 80 characters. */
+  /** The reference to uniquely identify a payment. This reference is used in all communication with you about the payment status. To provide multiple references for one transaction, separate the reference values with the hyphen (`-`) character. We strongly recommend that you use a unique value for each transaction. Maximum length: 80 characters. */
   reference: string;
   /** The URL to return to in case of a redirection. The format depends on the channel. * For web, include the protocol `http://` or `https://`. You can also include your own additional query parameters, for example, shopper ID or order reference number. Example: `https://your-company.example.com/checkout?shopperOrder=12xy` * For iOS, use the custom URL for your app. To know more about setting custom URL schemes, refer to the [Apple Developer documentation](https://developer.apple.com/documentation/uikit/inter-process_communication/allowing_apps_and_websites_to_link_to_your_content/defining_a_custom_url_scheme_for_your_app). Example: `my-app://` * For Android, use a custom URL handled by an Activity on your app. You can configure it with an [intent filter](https://developer.android.com/guide/components/intents-filters). Example: `my-app://your.package.name` If the URL to return to includes non-ASCII characters, like spaces or special letters, URL encode the value. > The URL must not include personally identifiable information (PII), for example name or email address. */
   returnUrl: string;
@@ -6455,6 +6390,7 @@ export const CreatePaymentRequest = /*@__PURE__*/ S.suspend(() =>
     merchantRiskIndicator: S.optional(MerchantRiskIndicator),
     metadata: S.optional(CreatePaymentRequestMetadataMap),
     mpiData: S.optional(ThreeDSecureData),
+    opi: S.optional(OpiRequest),
     order: S.optional(EncryptedOrderData),
     orderReference: S.optional(S.String),
     origin: S.optional(S.String),
@@ -6491,9 +6427,7 @@ export const CreatePaymentRequest = /*@__PURE__*/ S.suspend(() =>
     threeDSAuthenticationOnly: S.optional(S.Boolean),
     trustedShopper: S.optional(S.Boolean),
   }).pipe(T.Http({ method: "POST", uri: "/payments", code: 200 })),
-).annotate({
-  identifier: "CreatePaymentRequest",
-}) as any as S.Schema<CreatePaymentRequest>;
+).annotate({ identifier: "CreatePaymentRequest" }) as any as S.Schema<CreatePaymentRequest>;
 
 /** The type of adjustment. Possible values: * **cardholderInitiatedTransaction** * **merchantInitiatedTransaction** */
 export type CreatePaymentAmountUpdateRequestAdjustAuthType =
@@ -6561,11 +6495,7 @@ export const CreatePaymentAmountUpdateRequest = /*@__PURE__*/ S.suspend(() =>
     reference: S.optional(S.String),
     splits: S.optional(CreatePaymentAmountUpdateRequestSplitsList),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/payments/{paymentPspReference}/amountUpdates",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/payments/{paymentPspReference}/amountUpdates", code: 200 }),
   ),
 ).annotate({
   identifier: "CreatePaymentAmountUpdateRequest",
@@ -6649,13 +6579,7 @@ export const CreatePaymentCancelRequest = /*@__PURE__*/ S.suspend(() =>
     applicationInfo: S.optional(ApplicationInfo),
     merchantAccount: S.String,
     reference: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/payments/{paymentPspReference}/cancels",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/payments/{paymentPspReference}/cancels", code: 200 })),
 ).annotate({
   identifier: "CreatePaymentCancelRequest",
 }) as any as S.Schema<CreatePaymentCancelRequest>;
@@ -6684,9 +6608,7 @@ export const PaymentCancelResponse = /*@__PURE__*/ S.suspend(() =>
     reference: S.optional(S.String),
     status: PaymentCancelResponseStatus,
   }),
-).annotate({
-  identifier: "PaymentCancelResponse",
-}) as any as S.Schema<PaymentCancelResponse>;
+).annotate({ identifier: "PaymentCancelResponse" }) as any as S.Schema<PaymentCancelResponse>;
 
 /** Price and product information of the refunded items, required for [partial refunds](https://docs.adyen.com/online-payments/refund#refund-a-payment). > This field is required for partial refunds with 3x 4x Oney, Affirm, Afterpay, Atome, Clearpay, Klarna, Ratepay, Walley, and Zip. */
 export type CreatePaymentCaptureRequestLineItemsList = Array<LineItem>;
@@ -6743,13 +6665,7 @@ export const CreatePaymentCaptureRequest = /*@__PURE__*/ S.suspend(() =>
     reference: S.optional(S.String),
     splits: S.optional(CreatePaymentCaptureRequestSplitsList),
     subMerchants: S.optional(CreatePaymentCaptureRequestSubMerchantsList),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/payments/{paymentPspReference}/captures",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/payments/{paymentPspReference}/captures", code: 200 })),
 ).annotate({
   identifier: "CreatePaymentCaptureRequest",
 }) as any as S.Schema<CreatePaymentCaptureRequest>;
@@ -6811,9 +6727,7 @@ export const PaymentCaptureResponse = /*@__PURE__*/ S.suspend(() =>
     status: PaymentCaptureResponseStatus,
     subMerchants: S.optional(PaymentCaptureResponseSubMerchantsList),
   }),
-).annotate({
-  identifier: "PaymentCaptureResponse",
-}) as any as S.Schema<PaymentCaptureResponse>;
+).annotate({ identifier: "PaymentCaptureResponse" }) as any as S.Schema<PaymentCaptureResponse>;
 
 /** List of payment methods to be presented to the shopper. To refer to payment methods, use their [payment method type](https://docs.adyen.com/payment-methods/payment-method-types). Example: `"allowedPaymentMethods":["ideal","applepay"]` */
 export type CreatePaymentLinkRequestAllowedPaymentMethodsList = Array<string>;
@@ -6869,9 +6783,7 @@ export const InstallmentOption = /*@__PURE__*/ S.suspend(() =>
     preselectedValue: S.optional(S.Number),
     values: S.optional(InstallmentOptionValuesList),
   }),
-).annotate({
-  identifier: "InstallmentOption",
-}) as any as S.Schema<InstallmentOption>;
+).annotate({ identifier: "InstallmentOption" }) as any as S.Schema<InstallmentOption>;
 
 /** A set of key-value pairs that specifies the installment options available per payment method. The key must be a payment method name in lowercase. For example, **card** to specify installment options for all cards, or **visa** or **mc**. The value must be an object containing the installment options. */
 export type CreatePaymentLinkRequestInstallmentOptionsMap = {
@@ -6889,9 +6801,7 @@ export const CreatePaymentLinkRequestLineItemsList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<CreatePaymentLinkRequestLineItemsList>;
 
 /** Metadata consists of entries, each of which includes a key and a value. Limitations: * Maximum 20 key-value pairs per request. Otherwise, error "177" occurs: "Metadata size exceeds limit" * Maximum 20 characters per key. Otherwise, error "178" occurs: "Metadata key size exceeds limit" * A key cannot have the name `checkout.linkId`. Any value that you provide with this key is going to be replaced by the real payment link ID. */
-export type CreatePaymentLinkRequestMetadataMap = {
-  [key: string]: string | undefined;
-};
+export type CreatePaymentLinkRequestMetadataMap = { [key: string]: string | undefined };
 export const CreatePaymentLinkRequestMetadataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -7102,9 +7012,7 @@ export const CreatePaymentLinkRequest = /*@__PURE__*/ S.suspend(() =>
     themeId: S.optional(S.String),
     threeDS2RequestData: S.optional(CheckoutSessionThreeDS2RequestData),
   }).pipe(T.Http({ method: "POST", uri: "/paymentLinks", code: 200 })),
-).annotate({
-  identifier: "CreatePaymentLinkRequest",
-}) as any as S.Schema<CreatePaymentLinkRequest>;
+).annotate({ identifier: "CreatePaymentLinkRequest" }) as any as S.Schema<CreatePaymentLinkRequest>;
 
 /** List of payment methods to be presented to the shopper. To refer to payment methods, use their [payment method type](https://docs.adyen.com/payment-methods/payment-method-types). Example: `"allowedPaymentMethods":["ideal","applepay"]` */
 export type PaymentLinkResponseAllowedPaymentMethodsList = Array<string>;
@@ -7134,9 +7042,7 @@ export const PaymentLinkResponseLineItemsList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<PaymentLinkResponseLineItemsList>;
 
 /** Metadata consists of entries, each of which includes a key and a value. Limitations: * Maximum 20 key-value pairs per request. Otherwise, error "177" occurs: "Metadata size exceeds limit" * Maximum 20 characters per key. Otherwise, error "178" occurs: "Metadata key size exceeds limit" * A key cannot have the name `checkout.linkId`. Any value that you provide with this key is going to be replaced by the real payment link ID. */
-export type PaymentLinkResponseMetadataMap = {
-  [key: string]: string | undefined;
-};
+export type PaymentLinkResponseMetadataMap = { [key: string]: string | undefined };
 export const PaymentLinkResponseMetadataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -7326,14 +7232,10 @@ export const PaymentLinkResponse = /*@__PURE__*/ S.suspend(() =>
     updatedAt: S.optional(S.String),
     url: S.String,
   }),
-).annotate({
-  identifier: "PaymentLinkResponse",
-}) as any as S.Schema<PaymentLinkResponse>;
+).annotate({ identifier: "PaymentLinkResponse" }) as any as S.Schema<PaymentLinkResponse>;
 
 /** This field contains additional data, which may be required for a particular payment request. The `additionalData` object consists of entries, each of which includes the key and value. */
-export type CreatePaymentMethodRequestAdditionalDataMap = {
-  [key: string]: string | undefined;
-};
+export type CreatePaymentMethodRequestAdditionalDataMap = { [key: string]: string | undefined };
 export const CreatePaymentMethodRequestAdditionalDataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -7439,9 +7341,7 @@ export const AppIdentifierInfo = /*@__PURE__*/ S.suspend(() =>
     androidPackageId: S.optional(S.String),
     iosScheme: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AppIdentifierInfo",
-}) as any as S.Schema<AppIdentifierInfo>;
+).annotate({ identifier: "AppIdentifierInfo" }) as any as S.Schema<AppIdentifierInfo>;
 
 export interface PaymentMethodUPIApps {
   /** The app identifier information containing iOS scheme and Android package ID. */
@@ -7457,9 +7357,7 @@ export const PaymentMethodUPIApps = /*@__PURE__*/ S.suspend(() =>
     id: S.String,
     name: S.String,
   }),
-).annotate({
-  identifier: "PaymentMethodUPIApps",
-}) as any as S.Schema<PaymentMethodUPIApps>;
+).annotate({ identifier: "PaymentMethodUPIApps" }) as any as S.Schema<PaymentMethodUPIApps>;
 
 /** A list of apps for this payment method. */
 export type PaymentMethodAppsList = Array<PaymentMethodUPIApps>;
@@ -7474,9 +7372,7 @@ export const PaymentMethodBrandsList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<PaymentMethodBrandsList>;
 
 /** The configuration of the payment method. */
-export type PaymentMethodConfigurationMap = {
-  [key: string]: string | undefined;
-};
+export type PaymentMethodConfigurationMap = { [key: string]: string | undefined };
 export const PaymentMethodConfigurationMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -7500,9 +7396,7 @@ export const PaymentMethodGroup = /*@__PURE__*/ S.suspend(() =>
     paymentMethodData: S.optional(S.String),
     type: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PaymentMethodGroup",
-}) as any as S.Schema<PaymentMethodGroup>;
+).annotate({ identifier: "PaymentMethodGroup" }) as any as S.Schema<PaymentMethodGroup>;
 
 /** Configuration parameters for the required input. */
 export type InputDetailConfigurationMap = { [key: string]: string | undefined };
@@ -7512,9 +7406,7 @@ export const InputDetailConfigurationMap = /*@__PURE__*/ S.Record(
 ) as any as S.Schema<InputDetailConfigurationMap>;
 
 /** Configuration parameters for the required input. */
-export type SubInputDetailConfigurationMap = {
-  [key: string]: string | undefined;
-};
+export type SubInputDetailConfigurationMap = { [key: string]: string | undefined };
 export const SubInputDetailConfigurationMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -7636,9 +7528,7 @@ export const PaymentMethodIssuer = /*@__PURE__*/ S.suspend(() =>
     id: S.String,
     name: S.String,
   }),
-).annotate({
-  identifier: "PaymentMethodIssuer",
-}) as any as S.Schema<PaymentMethodIssuer>;
+).annotate({ identifier: "PaymentMethodIssuer" }) as any as S.Schema<PaymentMethodIssuer>;
 
 /** A list of issuers for this payment method. */
 export type PaymentMethodIssuersList = Array<PaymentMethodIssuer>;
@@ -7768,9 +7658,7 @@ export const StoredPaymentMethod = /*@__PURE__*/ S.suspend(() =>
     supportedShopperInteractions: S.optional(StoredPaymentMethodSupportedShopperInteractionsList),
     type: S.optional(S.String),
   }),
-).annotate({
-  identifier: "StoredPaymentMethod",
-}) as any as S.Schema<StoredPaymentMethod>;
+).annotate({ identifier: "StoredPaymentMethod" }) as any as S.Schema<StoredPaymentMethod>;
 
 /** List of all stored payment methods. */
 export type PaymentMethodsResponseStoredPaymentMethodsList = Array<StoredPaymentMethod>;
@@ -7789,9 +7677,7 @@ export const PaymentMethodsResponse = /*@__PURE__*/ S.suspend(() =>
     paymentMethods: S.optional(PaymentMethodsResponsePaymentMethodsList),
     storedPaymentMethods: S.optional(PaymentMethodsResponseStoredPaymentMethodsList),
   }),
-).annotate({
-  identifier: "PaymentMethodsResponse",
-}) as any as S.Schema<PaymentMethodsResponse>;
+).annotate({ identifier: "PaymentMethodsResponse" }) as any as S.Schema<PaymentMethodsResponse>;
 
 /** This field contains additional data, which may be required for a particular payment request. The `additionalData` object consists of entries, each of which includes the key and value. */
 export type CreatePaymentMethodsBalanceRequestAdditionalDataMap = {
@@ -7813,9 +7699,7 @@ export const CreatePaymentMethodsBalanceRequestLocalizedShopperStatementMap =
   ) as any as S.Schema<CreatePaymentMethodsBalanceRequestLocalizedShopperStatementMap>;
 
 /** Metadata consists of entries, each of which includes a key and a value. Limits: * Maximum 20 key-value pairs per request. When exceeding, the "177" error occurs: "Metadata size exceeds limit". * Maximum 20 characters per key. * Maximum 80 characters per value. */
-export type CreatePaymentMethodsBalanceRequestMetadataMap = {
-  [key: string]: string | undefined;
-};
+export type CreatePaymentMethodsBalanceRequestMetadataMap = { [key: string]: string | undefined };
 export const CreatePaymentMethodsBalanceRequestMetadataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -8051,9 +7935,7 @@ export const ThreeDS2RequestData = /*@__PURE__*/ S.suspend(() =>
     whiteListStatus: S.optional(S.String),
     workPhone: S.optional(Phone),
   }),
-).annotate({
-  identifier: "ThreeDS2RequestData",
-}) as any as S.Schema<ThreeDS2RequestData>;
+).annotate({ identifier: "ThreeDS2RequestData" }) as any as S.Schema<ThreeDS2RequestData>;
 
 export interface CreatePaymentMethodsBalanceRequest {
   /** A unique identifier for the message with a maximum of 64 characters (we recommend a UUID). */
@@ -8206,9 +8088,7 @@ export const CreatePaymentMethodsBalanceRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<CreatePaymentMethodsBalanceRequest>;
 
 /** Contains additional information about the payment. Some data fields are included only if you select them first: Go to **Customer Area** > **Developers** > **Additional data**. */
-export type BalanceCheckResponseAdditionalDataMap = {
-  [key: string]: string | undefined;
-};
+export type BalanceCheckResponseAdditionalDataMap = { [key: string]: string | undefined };
 export const BalanceCheckResponseAdditionalDataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -8244,9 +8124,7 @@ export const BalanceCheckResponse = /*@__PURE__*/ S.suspend(() =>
     resultCode: BalanceCheckResponseResultCode,
     transactionLimit: S.optional(Amount),
   }),
-).annotate({
-  identifier: "BalanceCheckResponse",
-}) as any as S.Schema<BalanceCheckResponse>;
+).annotate({ identifier: "BalanceCheckResponse" }) as any as S.Schema<BalanceCheckResponse>;
 
 /** Price and product information of the refunded items, required for [partial refunds](https://docs.adyen.com/online-payments/refund#refund-a-payment). > This field is required for partial refunds with 3x 4x Oney, Affirm, Afterpay, Atome, Clearpay, Klarna, Ratepay, Walley, and Zip. */
 export type CreatePaymentRefundRequestLineItemsList = Array<LineItem>;
@@ -8309,13 +8187,7 @@ export const CreatePaymentRefundRequest = /*@__PURE__*/ S.suspend(() =>
     reference: S.optional(S.String),
     splits: S.optional(CreatePaymentRefundRequestSplitsList),
     store: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/payments/{paymentPspReference}/refunds",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/payments/{paymentPspReference}/refunds", code: 200 })),
 ).annotate({
   identifier: "CreatePaymentRefundRequest",
 }) as any as S.Schema<CreatePaymentRefundRequest>;
@@ -8383,9 +8255,7 @@ export const PaymentRefundResponse = /*@__PURE__*/ S.suspend(() =>
     status: PaymentRefundResponseStatus,
     store: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PaymentRefundResponse",
-}) as any as S.Schema<PaymentRefundResponse>;
+).annotate({ identifier: "PaymentRefundResponse" }) as any as S.Schema<PaymentRefundResponse>;
 
 export interface CreatePaymentReversalRequest {
   /** The [`pspReference`](https://docs.adyen.com/api-explorer/Checkout/latest/post/payments#responses-200-pspReference) of the payment that you want to reverse. */
@@ -8406,13 +8276,7 @@ export const CreatePaymentReversalRequest = /*@__PURE__*/ S.suspend(() =>
     applicationInfo: S.optional(ApplicationInfo),
     merchantAccount: S.String,
     reference: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/payments/{paymentPspReference}/reversals",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/payments/{paymentPspReference}/reversals", code: 200 })),
 ).annotate({
   identifier: "CreatePaymentReversalRequest",
 }) as any as S.Schema<CreatePaymentReversalRequest>;
@@ -8441,9 +8305,7 @@ export const PaymentReversalResponse = /*@__PURE__*/ S.suspend(() =>
     reference: S.optional(S.String),
     status: PaymentReversalResponseStatus,
   }),
-).annotate({
-  identifier: "PaymentReversalResponse",
-}) as any as S.Schema<PaymentReversalResponse>;
+).annotate({ identifier: "PaymentReversalResponse" }) as any as S.Schema<PaymentReversalResponse>;
 
 export interface DetailsRequestAuthenticationData {
   /** Required to trigger the [authentication-only flow](https://docs.adyen.com/online-payments/3d-secure/authentication-only/). If set to **true**, you will only perform the 3D Secure 2 authentication, and will not proceed to the payment authorization.Default: **false**. */
@@ -8521,9 +8383,7 @@ export const PaymentCompletionDetails = /*@__PURE__*/ S.suspend(() =>
     threeds2_fingerprint: S.optional(S.String.pipe(T.Body("threeds2.fingerprint"))),
     vaultToken: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PaymentCompletionDetails",
-}) as any as S.Schema<PaymentCompletionDetails>;
+).annotate({ identifier: "PaymentCompletionDetails" }) as any as S.Schema<PaymentCompletionDetails>;
 
 export interface CreatePaymentsDetailRequest {
   /** A unique identifier for the message with a maximum of 64 characters (we recommend a UUID). */
@@ -8550,9 +8410,7 @@ export const CreatePaymentsDetailRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<CreatePaymentsDetailRequest>;
 
 /** Contains additional information about the payment. Some data fields are included only if you select them first: Go to **Customer Area** > **Developers** > **Additional data**. */
-export type PaymentDetailsResponseAdditionalDataMap = {
-  [key: string]: string | undefined;
-};
+export type PaymentDetailsResponseAdditionalDataMap = { [key: string]: string | undefined };
 export const PaymentDetailsResponseAdditionalDataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -8589,6 +8447,8 @@ export interface PaymentDetailsResponse {
   fraudResult?: FraudResult;
   /** The reference used during the /payments request. */
   merchantReference?: string;
+  /** Oracle Payment Interface (OPI) response fields such as `transToken` and `issuerId`. */
+  opi?: OpiResponse;
   /** Contains updated information regarding the order in case order information was provided in the request. */
   order?: CheckoutOrderResponse;
   /** Details about the payment method used in the transaction. Only returned if `resultCode` is **Authorised**. */
@@ -8620,6 +8480,7 @@ export const PaymentDetailsResponse = /*@__PURE__*/ S.suspend(() =>
     donationToken: S.optional(S.String),
     fraudResult: S.optional(FraudResult),
     merchantReference: S.optional(S.String),
+    opi: S.optional(OpiResponse),
     order: S.optional(CheckoutOrderResponse),
     paymentMethod: S.optional(ResponsePaymentMethod),
     paymentValidations: S.optional(PaymentValidationsResponse),
@@ -8632,9 +8493,7 @@ export const PaymentDetailsResponse = /*@__PURE__*/ S.suspend(() =>
     threeDS2Result: S.optional(ThreeDS2Result),
     threeDSPaymentData: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PaymentDetailsResponse",
-}) as any as S.Schema<PaymentDetailsResponse>;
+).annotate({ identifier: "PaymentDetailsResponse" }) as any as S.Schema<PaymentDetailsResponse>;
 
 /** The type of the delivery method. */
 export type DeliveryMethodType = "Shipping";
@@ -8736,9 +8595,7 @@ export const PaypalUpdateOrderResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<PaypalUpdateOrderResponse>;
 
 /** This field contains additional data, which may be required for a particular payment request. The `additionalData` object consists of entries, each of which includes the key and value. */
-export type CreateSessionRequestAdditionalDataMap = {
-  [key: string]: string | undefined;
-};
+export type CreateSessionRequestAdditionalDataMap = { [key: string]: string | undefined };
 export const CreateSessionRequestAdditionalDataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -8773,7 +8630,7 @@ export type CheckoutSessionInstallmentOptionPlansItem =
   | "with_interest";
 export const CheckoutSessionInstallmentOptionPlansItem = S.String;
 
-/** Defines the type of installment plan. If not set, defaults to **regular**. Possible values: * **regular** * **revolving** * **bonus** * **with_interest** * **buynow_paylater** * **nointerest_bonus** * **interest_bonus** * **refund_prctg** * **nointeres_refund_prctg** * **interes_refund_prctg** */
+/** Defines the type of installment plan. If not set, defaults to **regular**. Possible values: * **regular** * **revolving** * **bonus** */
 export type CheckoutSessionInstallmentOptionPlansList = Array<
   CheckoutSessionInstallmentOptionPlansItem | (string & {})
 >;
@@ -8781,18 +8638,18 @@ export const CheckoutSessionInstallmentOptionPlansList = /*@__PURE__*/ S.Array(
   CheckoutSessionInstallmentOptionPlansItem,
 ) as any as S.Schema<CheckoutSessionInstallmentOptionPlansList>;
 
-/** An array of the number of installments that the shopper can choose from. For example, **[2,3,5]**. This cannot be specified simultaneously with `maxValue`. */
+/** An array of the number of installments that the shopper can choose from. For example, **[2,3,5]**. */
 export type CheckoutSessionInstallmentOptionValuesList = Array<number>;
 export const CheckoutSessionInstallmentOptionValuesList = /*@__PURE__*/ S.Array(
   S.Number,
 ) as any as S.Schema<CheckoutSessionInstallmentOptionValuesList>;
 
 export interface CheckoutSessionInstallmentOption {
-  /** Defines the type of installment plan. If not set, defaults to **regular**. Possible values: * **regular** * **revolving** * **bonus** * **with_interest** * **buynow_paylater** * **nointerest_bonus** * **interest_bonus** * **refund_prctg** * **nointeres_refund_prctg** * **interes_refund_prctg** */
+  /** Defines the type of installment plan. If not set, defaults to **regular**. Possible values: * **regular** * **revolving** * **bonus** */
   plans?: CheckoutSessionInstallmentOptionPlansList;
   /** Preselected number of installments offered for this payment method. */
   preselectedValue?: number;
-  /** An array of the number of installments that the shopper can choose from. For example, **[2,3,5]**. This cannot be specified simultaneously with `maxValue`. */
+  /** An array of the number of installments that the shopper can choose from. For example, **[2,3,5]**. */
   values?: CheckoutSessionInstallmentOptionValuesList;
 }
 export const CheckoutSessionInstallmentOption = /*@__PURE__*/ S.suspend(() =>
@@ -8821,9 +8678,7 @@ export const CreateSessionRequestLineItemsList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<CreateSessionRequestLineItemsList>;
 
 /** Metadata consists of entries, each of which includes a key and a value. Limits: * Maximum 20 key-value pairs per request. * Maximum 20 characters per key. * Maximum 80 characters per value. */
-export type CreateSessionRequestMetadataMap = {
-  [key: string]: string | undefined;
-};
+export type CreateSessionRequestMetadataMap = { [key: string]: string | undefined };
 export const CreateSessionRequestMetadataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -8923,6 +8778,8 @@ export interface CreateSessionRequest {
   mode?: CreateSessionRequestMode | (string & {});
   /** Authentication data produced by an MPI (Mastercard SecureCode, Visa Secure, or Cartes Bancaires). */
   mpiData?: ThreeDSecureData;
+  /** Indicates if the session is payable. If the payment amount is final, set this to **true** to indicate that the session is payable, so that the shopper can proceed to submit the payment. When you set this to **true**, you can no longer update the session. If you set this to **false**, you must make another request to update the session and set this to **true** before the shopper can submit the payment. If not specified, this defaults to **true**. */
+  payable?: boolean;
   /** Defines how to book chargebacks when using [Adyen for Platforms](https://docs.adyen.com/adyen-for-platforms-model). */
   platformChargebackLogic?: PlatformChargebackLogic;
   /** Date after which no further authorisations shall be performed. Only for 3D Secure 2. */
@@ -9022,6 +8879,7 @@ export const CreateSessionRequest = /*@__PURE__*/ S.suspend(() =>
     metadata: S.optional(CreateSessionRequestMetadataMap),
     mode: S.optional(CreateSessionRequestMode),
     mpiData: S.optional(ThreeDSecureData),
+    payable: S.optional(S.Boolean),
     platformChargebackLogic: S.optional(PlatformChargebackLogic),
     recurringExpiry: S.optional(S.String),
     recurringFrequency: S.optional(S.String),
@@ -9055,14 +8913,10 @@ export const CreateSessionRequest = /*@__PURE__*/ S.suspend(() =>
     threeDSAuthenticationOnly: S.optional(S.Boolean),
     trustedShopper: S.optional(S.Boolean),
   }).pipe(T.Http({ method: "POST", uri: "/sessions", code: 200 })),
-).annotate({
-  identifier: "CreateSessionRequest",
-}) as any as S.Schema<CreateSessionRequest>;
+).annotate({ identifier: "CreateSessionRequest" }) as any as S.Schema<CreateSessionRequest>;
 
 /** This field contains additional data, which may be required for a particular payment request. The `additionalData` object consists of entries, each of which includes the key and value. */
-export type CreateCheckoutSessionResponseAdditionalDataMap = {
-  [key: string]: string | undefined;
-};
+export type CreateCheckoutSessionResponseAdditionalDataMap = { [key: string]: string | undefined };
 export const CreateCheckoutSessionResponseAdditionalDataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -9100,9 +8954,7 @@ export const CreateCheckoutSessionResponseLineItemsList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<CreateCheckoutSessionResponseLineItemsList>;
 
 /** Metadata consists of entries, each of which includes a key and a value. Limits: * Maximum 20 key-value pairs per request. * Maximum 20 characters per key. * Maximum 80 characters per value. */
-export type CreateCheckoutSessionResponseMetadataMap = {
-  [key: string]: string | undefined;
-};
+export type CreateCheckoutSessionResponseMetadataMap = { [key: string]: string | undefined };
 export const CreateCheckoutSessionResponseMetadataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -9212,6 +9064,8 @@ export interface CreateCheckoutSessionResponse {
   mode?: CreateCheckoutSessionResponseMode;
   /** Authentication data produced by an MPI (Mastercard SecureCode, Visa Secure, or Cartes Bancaires). */
   mpiData?: ThreeDSecureData;
+  /** Indicates if the session is payable. If the payment amount is final, set this to **true** to indicate that the session is payable, so that the shopper can proceed to submit the payment. When you set this to **true**, you can no longer update the session. If you set this to **false**, you must make another request to update the session and set this to **true** before the shopper can submit the payment. If not specified, this defaults to **true**. */
+  payable?: boolean;
   /** Defines how to book chargebacks when using [Adyen for Platforms](https://docs.adyen.com/adyen-for-platforms-model). */
   platformChargebackLogic?: PlatformChargebackLogic;
   /** Date after which no further authorisations shall be performed. Only for 3D Secure 2. */
@@ -9313,6 +9167,7 @@ export const CreateCheckoutSessionResponse = /*@__PURE__*/ S.suspend(() =>
     metadata: S.optional(CreateCheckoutSessionResponseMetadataMap),
     mode: S.optional(CreateCheckoutSessionResponseMode),
     mpiData: S.optional(ThreeDSecureData),
+    payable: S.optional(S.Boolean),
     platformChargebackLogic: S.optional(PlatformChargebackLogic),
     recurringExpiry: S.optional(S.String),
     recurringFrequency: S.optional(S.String),
@@ -9392,9 +9247,7 @@ export const PaymentMethodToStore = /*@__PURE__*/ S.suspend(() =>
     number: S.optional(S.String),
     type: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PaymentMethodToStore",
-}) as any as S.Schema<PaymentMethodToStore>;
+).annotate({ identifier: "PaymentMethodToStore" }) as any as S.Schema<PaymentMethodToStore>;
 
 /** Defines a recurring payment type. Required when creating a token to store payment details. Allowed values: * `Subscription` – A transaction for a fixed or variable amount, which follows a fixed schedule. * `CardOnFile` – With a card-on-file (CoF) transaction, card details are stored to enable one-click or omnichannel journeys, or simply to streamline the checkout process. Any subscription not following a fixed schedule is also considered a card-on-file transaction. * `UnscheduledCardOnFile` – An unscheduled card-on-file (UCoF) transaction is a transaction that occurs on a non-fixed schedule and/or have variable amounts. For example, automatic top-ups when a cardholder's balance drops below a certain amount. */
 export type CreateStoredPaymentMethodRequestRecurringProcessingModel =
@@ -9408,6 +9261,8 @@ export interface CreateStoredPaymentMethodRequest {
   idempotencyKey?: string;
   /** The merchant account identifier, with which you want to process the transaction. */
   merchantAccount: string;
+  /** Configuration for Oracle Payment Interface (OPI) integrations. */
+  opi?: OpiRequest;
   /** Contains the information required to store a payment method. */
   paymentMethod: PaymentMethodToStore;
   /** Defines a recurring payment type. Required when creating a token to store payment details. Allowed values: * `Subscription` – A transaction for a fixed or variable amount, which follows a fixed schedule. * `CardOnFile` – With a card-on-file (CoF) transaction, card details are stored to enable one-click or omnichannel journeys, or simply to streamline the checkout process. Any subscription not following a fixed schedule is also considered a card-on-file transaction. * `UnscheduledCardOnFile` – An unscheduled card-on-file (UCoF) transaction is a transaction that occurs on a non-fixed schedule and/or have variable amounts. For example, automatic top-ups when a cardholder's balance drops below a certain amount. */
@@ -9425,6 +9280,7 @@ export const CreateStoredPaymentMethodRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
     merchantAccount: S.String,
+    opi: S.optional(OpiRequest),
     paymentMethod: PaymentMethodToStore,
     recurringProcessingModel: CreateStoredPaymentMethodRequestRecurringProcessingModel,
     shopperEmail: S.optional(S.String),
@@ -9572,6 +9428,8 @@ export interface StoredPaymentMethodResource {
   name?: string;
   /** Returned in the response if you are not tokenizing with Adyen and are using the Merchant-initiated transactions (MIT) framework from Mastercard or Visa. This contains either the Mastercard Trace ID or the Visa Transaction ID. */
   networkTxReference?: string;
+  /** Oracle Payment Interface (OPI) response fields such as `transToken` and `issuerId`. */
+  opi?: OpiResponse;
   /** The name of the bank account holder. */
   ownerName?: string;
   /** The shopper’s email address. */
@@ -9604,6 +9462,7 @@ export const StoredPaymentMethodResource = /*@__PURE__*/ S.suspend(() =>
     mandate: S.optional(TokenMandate),
     name: S.optional(S.String),
     networkTxReference: S.optional(S.String),
+    opi: S.optional(OpiResponse),
     ownerName: S.optional(S.String),
     shopperEmail: S.optional(S.String),
     shopperReference: S.optional(S.String),
@@ -9623,9 +9482,7 @@ export const ShopperIdPaymentMethod = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     type: S.String,
   }),
-).annotate({
-  identifier: "ShopperIdPaymentMethod",
-}) as any as S.Schema<ShopperIdPaymentMethod>;
+).annotate({ identifier: "ShopperIdPaymentMethod" }) as any as S.Schema<ShopperIdPaymentMethod>;
 
 export interface CreateValidateShopperIdRequest {
   /** The merchant account identifier, with which you want to process the transaction. */
@@ -9680,11 +9537,7 @@ export const DeleteStoredPaymentMethodRequest = /*@__PURE__*/ S.suspend(() =>
     shopperReference: S.String.pipe(T.Query()),
     merchantAccount: S.String.pipe(T.Query()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/storedPaymentMethods/{storedPaymentMethodId}",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/storedPaymentMethods/{storedPaymentMethodId}", code: 200 }),
   ),
 ).annotate({
   identifier: "DeleteStoredPaymentMethodRequest",
@@ -9705,9 +9558,7 @@ export const GetPaymentLinkRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     linkId: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/paymentLinks/{linkId}", code: 200 })),
-).annotate({
-  identifier: "GetPaymentLinkRequest",
-}) as any as S.Schema<GetPaymentLinkRequest>;
+).annotate({ identifier: "GetPaymentLinkRequest" }) as any as S.Schema<GetPaymentLinkRequest>;
 
 export interface GetSessionRequest {
   /** A unique identifier of the session. */
@@ -9720,14 +9571,10 @@ export const GetSessionRequest = /*@__PURE__*/ S.suspend(() =>
     sessionId: S.String.pipe(T.Label()),
     sessionResult: S.String.pipe(T.Query()),
   }).pipe(T.Http({ method: "GET", uri: "/sessions/{sessionId}", code: 200 })),
-).annotate({
-  identifier: "GetSessionRequest",
-}) as any as S.Schema<GetSessionRequest>;
+).annotate({ identifier: "GetSessionRequest" }) as any as S.Schema<GetSessionRequest>;
 
 /** Contains additional information about the payment. Some fields are included only if you enable them. To enable these fields in your Customer Area, go to **Developers** > **Additional data**. */
-export type SessionResultResponseAdditionalDataMap = {
-  [key: string]: string | undefined;
-};
+export type SessionResultResponseAdditionalDataMap = { [key: string]: string | undefined };
 export const SessionResultResponseAdditionalDataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -9792,9 +9639,7 @@ export const SessionResultResponse = /*@__PURE__*/ S.suspend(() =>
     reference: S.optional(S.String),
     status: S.optional(SessionResultResponseStatus),
   }),
-).annotate({
-  identifier: "SessionResultResponse",
-}) as any as S.Schema<SessionResultResponse>;
+).annotate({ identifier: "SessionResultResponse" }) as any as S.Schema<SessionResultResponse>;
 
 export interface GetStoredPaymentMethodsRequest {
   /** Your reference to uniquely identify this shopper, for example user ID or account ID. Minimum length: 3 characters. > Your reference must not include personally identifiable information (PII), for example name or email address. */
@@ -9851,9 +9696,7 @@ export const UpdatePaymentLinkRequest = /*@__PURE__*/ S.suspend(() =>
     linkId: S.String.pipe(T.Label()),
     status: UpdatePaymentLinkRequestStatus,
   }).pipe(T.Http({ method: "PATCH", uri: "/paymentLinks/{linkId}", code: 200 })),
-).annotate({
-  identifier: "UpdatePaymentLinkRequest",
-}) as any as S.Schema<UpdatePaymentLinkRequest>;
+).annotate({ identifier: "UpdatePaymentLinkRequest" }) as any as S.Schema<UpdatePaymentLinkRequest>;
 
 export interface SessionAmountUpdate {
   /** The three-character [ISO currency code](https://docs.adyen.com/development-resources/currency-codes). */
@@ -9866,9 +9709,7 @@ export const SessionAmountUpdate = /*@__PURE__*/ S.suspend(() =>
     currency: S.String,
     value: S.Number,
   }),
-).annotate({
-  identifier: "SessionAmountUpdate",
-}) as any as S.Schema<SessionAmountUpdate>;
+).annotate({ identifier: "SessionAmountUpdate" }) as any as S.Schema<SessionAmountUpdate>;
 
 export interface UpdateSessionRequest {
   sessionId: string;
@@ -9886,9 +9727,7 @@ export const UpdateSessionRequest = /*@__PURE__*/ S.suspend(() =>
     payable: S.optional(S.Boolean),
     sessionData: S.String,
   }).pipe(T.Http({ method: "PATCH", uri: "/sessions/{sessionId}", code: 200 })),
-).annotate({
-  identifier: "UpdateSessionRequest",
-}) as any as S.Schema<UpdateSessionRequest>;
+).annotate({ identifier: "UpdateSessionRequest" }) as any as S.Schema<UpdateSessionRequest>;
 
 export interface CheckoutSessionPatchSessionResponse {
   sessionData?: string;
@@ -10222,7 +10061,7 @@ export const createSession: API.OperationMethod<
 }));
 
 export type CreateStoredPaymentMethodError = AdyenOpError;
-/** Create a token to store payment details Creates a token to store the shopper's payment details. This token can be used for the shopper's future payments. */
+/** Create a token to store payment details Creates a token to store the shopper's payment details. This token can be used for the shopper's future payments. To make this request, your API credential must have the following [role](https://docs.adyen.com/development-resources/api-credentials#api-permissions): * API tokenise payment details */
 export const createStoredPaymentMethod: API.OperationMethod<
   CreateStoredPaymentMethodRequest,
   StoredPaymentMethodResource,
@@ -10256,7 +10095,7 @@ export const createValidateShopperId: API.OperationMethod<
 }));
 
 export type DeleteStoredPaymentMethodError = AdyenOpError;
-/** Delete a token for stored payment details Deletes the token identified in the path. The token can no longer be used with payment requests. */
+/** Delete a token for stored payment details Deletes the token identified in the path. The token can no longer be used with payment requests. To make this request, your API credential must have the following [role](https://docs.adyen.com/development-resources/api-credentials#api-permissions): * API tokenise payment details */
 export const deleteStoredPaymentMethod: API.OperationMethod<
   DeleteStoredPaymentMethodRequest,
   DeleteStoredPaymentMethodResponse,
@@ -10301,7 +10140,7 @@ export const getSession: API.OperationMethod<
 }));
 
 export type GetStoredPaymentMethodsError = AdyenOpError;
-/** Get tokens for stored payment details Lists the tokens for stored payment details for the shopper identified in the path, if there are any available. The token ID can be used with payment requests for the shopper's payment. A summary of the stored details is included. */
+/** Get tokens for stored payment details Lists the tokens for stored payment details for the shopper identified in the path, if there are any available. The token ID can be used with payment requests for the shopper's payment. A summary of the stored details is included. To make this request, your API credential must have the following [role](https://docs.adyen.com/development-resources/api-credentials#api-permissions): * API tokenise payment details */
 export const getStoredPaymentMethods: API.OperationMethod<
   GetStoredPaymentMethodsRequest,
   ListStoredPaymentMethodsResponse,

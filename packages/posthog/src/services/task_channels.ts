@@ -17,38 +17,44 @@ export class Conflict
     [{ status: 409 }],
   ) {}
 
+/** * `public` - public * `private` - private */
+export type TaskChannelWriteTypeEnum = "public" | "private";
+export const TaskChannelWriteTypeEnum = S.String;
+
+/** User IDs to add to a private channel. The requester is always a member. The endpoint ignores this field for public channels and skips users without project access. */
+export type CreateTaskChannelRequestMemberIdsList = Array<number>;
+export const CreateTaskChannelRequestMemberIdsList = /*@__PURE__*/ S.Array(
+  S.Number,
+) as any as S.Schema<CreateTaskChannelRequestMemberIdsList>;
+
 export interface CreateTaskChannelRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
-  /** Channel name, rendered as #<name>. Normalized to lowercase-dashed. */
+  /** Channel name, shown as #<name>. Uses lowercase letters and hyphens. */
   name: string;
-  /** Star the channel for the requester when this call creates it. Ignored when the channel already exists, which leaves existing stars untouched. */
+  /** Use 'public' for access by all project members. Use 'private' for access by channel members only. Defaults to 'public'. This endpoint cannot create personal #me spaces. * `public` - public * `private` - private */
+  channel_type?: TaskChannelWriteTypeEnum | (string & {});
+  /** User IDs to add to a private channel. The requester is always a member. The endpoint ignores this field for public channels and skips users without project access. */
+  member_ids?: CreateTaskChannelRequestMemberIdsList;
+  /** Star a new channel for the requester. This field does not change stars on an existing channel. */
   star?: boolean;
 }
 export const CreateTaskChannelRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project_id: S.String.pipe(T.Label()),
     name: S.String,
+    channel_type: S.optional(TaskChannelWriteTypeEnum),
+    member_ids: S.optional(CreateTaskChannelRequestMemberIdsList),
     star: S.optional(S.Boolean),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/projects/{project_id}/task_channels/",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "CreateTaskChannelRequest",
-}) as any as S.Schema<CreateTaskChannelRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/api/projects/{project_id}/task_channels/", code: 200 })),
+).annotate({ identifier: "CreateTaskChannelRequest" }) as any as S.Schema<CreateTaskChannelRequest>;
 
 export type ChannelDTORepositoriesList = Array<string>;
 export const ChannelDTORepositoriesList = /*@__PURE__*/ S.Array(
   S.String,
 ) as any as S.Schema<ChannelDTORepositoriesList>;
 
-export type TaskUserBasicInfoHedgehogConfigMap = {
-  [key: string]: unknown | undefined;
-};
+export type TaskUserBasicInfoHedgehogConfigMap = { [key: string]: unknown | undefined };
 export const TaskUserBasicInfoHedgehogConfigMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -78,9 +84,7 @@ export const TaskUserBasicInfo = /*@__PURE__*/ S.suspend(() =>
     hedgehog_config: S.optional(S.NullOr(TaskUserBasicInfoHedgehogConfigMap)),
     role_at_organization: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "TaskUserBasicInfo",
-}) as any as S.Schema<TaskUserBasicInfo>;
+).annotate({ identifier: "TaskUserBasicInfo" }) as any as S.Schema<TaskUserBasicInfo>;
 
 /** * `personal` - Personal * `general` - General */
 export type ChannelSystemRoleEnum = "personal" | "general";
@@ -148,9 +152,7 @@ export const CreateTaskChannelsFeedRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "CreateTaskChannelsFeedRequest",
 }) as any as S.Schema<CreateTaskChannelsFeedRequest>;
 
-export type ChannelFeedMessageDTOPayloadMap = {
-  [key: string]: unknown | undefined;
-};
+export type ChannelFeedMessageDTOPayloadMap = { [key: string]: unknown | undefined };
 export const ChannelFeedMessageDTOPayloadMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -178,9 +180,7 @@ export const ChannelFeedMessageDTO = /*@__PURE__*/ S.suspend(() =>
     content: S.String,
     created_at: S.String,
   }),
-).annotate({
-  identifier: "ChannelFeedMessageDTO",
-}) as any as S.Schema<ChannelFeedMessageDTO>;
+).annotate({ identifier: "ChannelFeedMessageDTO" }) as any as S.Schema<ChannelFeedMessageDTO>;
 
 export interface CreateTaskChannelsOnboardingSessionRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -209,9 +209,7 @@ export const OnboardingSession = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     task_id: S.String,
   }),
-).annotate({
-  identifier: "OnboardingSession",
-}) as any as S.Schema<OnboardingSession>;
+).annotate({ identifier: "OnboardingSession" }) as any as S.Schema<OnboardingSession>;
 
 /** Display names of other Desktop users in the organization. */
 export type CreateTaskChannelsOnboardingSessionTestRequestOtherMembersList = Array<string>;
@@ -236,6 +234,8 @@ export const CreateTaskChannelsOnboardingSessionTestRequestSourcesWatchingList =
 export interface CreateTaskChannelsOnboardingSessionTestRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
+  /** Optional LLM model identifier for the test session. Omit to use the plan default. */
+  model?: string | null;
   /** Company domain to research. Blank simulates a personal email address. */
   company_domain?: string;
   /** Whether the user is joining an organization that already has shared context. */
@@ -256,6 +256,7 @@ export interface CreateTaskChannelsOnboardingSessionTestRequest {
 export const CreateTaskChannelsOnboardingSessionTestRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project_id: S.String.pipe(T.Label()),
+    model: S.optional(S.NullOr(S.String)),
     company_domain: S.optional(S.String),
     joining_existing_organization: S.optional(S.Boolean),
     has_events: S.optional(S.Boolean),
@@ -330,9 +331,104 @@ export const ProvisionedChannels = /*@__PURE__*/ S.suspend(() =>
     personal_created: S.Boolean,
     general_created: S.Boolean,
   }),
+).annotate({ identifier: "ProvisionedChannels" }) as any as S.Schema<ProvisionedChannels>;
+
+/** * `goal` - Goal * `feature` - Feature */
+export type SpaceSetupKindEnum = "goal" | "feature";
+export const SpaceSetupKindEnum = S.String;
+
+/** * `day` - Day * `week` - Week * `month` - Month */
+export type CalendarUnitEnum = "day" | "week" | "month";
+export const CalendarUnitEnum = S.String;
+
+/** * `at_least` - At least * `at_most` - At most */
+export type SpaceGoalDirectionEnum = "at_least" | "at_most";
+export const SpaceGoalDirectionEnum = S.String;
+
+/** The metric a goal space should move. */
+export interface SpaceGoalWrite {
+  /** The goal in one or two sentences, e.g. 'Increase the weekly activation rate'. */
+  statement: string;
+  /** How often the metric is measured. * `day` - Day * `week` - Week * `month` - Month */
+  period?: CalendarUnitEnum | (string & {});
+  /** Whether the target is a floor ('at_least') or a ceiling ('at_most'). * `at_least` - At least * `at_most` - At most */
+  direction?: SpaceGoalDirectionEnum | (string & {});
+  /** Target value as typed, e.g. '20%' or '1500'. */
+  target?: string | null;
+  /** Date the target should be reached. */
+  deadline?: string | null;
+  /** Short id of an existing insight that measures the goal, when there is one. */
+  insight_short_id?: string | null;
+}
+export const SpaceGoalWrite = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    statement: S.String,
+    period: S.optional(CalendarUnitEnum),
+    direction: S.optional(SpaceGoalDirectionEnum),
+    target: S.optional(S.NullOr(S.String)),
+    deadline: S.optional(S.NullOr(S.String)),
+    insight_short_id: S.optional(S.NullOr(S.String)),
+  }),
+).annotate({ identifier: "SpaceGoalWrite" }) as any as S.Schema<SpaceGoalWrite>;
+
+/** The feature a feature space is set up around. */
+export interface SpaceFeatureWrite {
+  /** Feature name as people call it. */
+  name: string;
+  /** What the feature does, in a sentence. */
+  description?: string;
+  /** Key of the feature flag that gates it, if any. */
+  flag_key?: string | null;
+}
+export const SpaceFeatureWrite = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    description: S.optional(S.String),
+    flag_key: S.optional(S.NullOr(S.String)),
+  }),
+).annotate({ identifier: "SpaceFeatureWrite" }) as any as S.Schema<SpaceFeatureWrite>;
+
+export interface CreateTaskChannelsSetupRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  id: string;
+  /** What the space is set up for. * `goal` - Goal * `feature` - Feature */
+  kind: SpaceSetupKindEnum | (string & {});
+  /** Required when kind is 'goal'. */
+  goal?: SpaceGoalWrite;
+  /** Required when kind is 'feature'. */
+  feature?: SpaceFeatureWrite;
+  /** Repository the loops work in, as 'owner/name'. Defaults to the channel's first repository. */
+  repository?: string | null;
+}
+export const CreateTaskChannelsSetupRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    project_id: S.String.pipe(T.Label()),
+    id: S.String.pipe(T.Label()),
+    kind: SpaceSetupKindEnum,
+    goal: S.optional(SpaceGoalWrite),
+    feature: S.optional(SpaceFeatureWrite),
+    repository: S.optional(S.NullOr(S.String)),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/api/projects/{project_id}/task_channels/{id}/setup/",
+      code: 200,
+    }),
+  ),
 ).annotate({
-  identifier: "ProvisionedChannels",
-}) as any as S.Schema<ProvisionedChannels>;
+  identifier: "CreateTaskChannelsSetupRequest",
+}) as any as S.Schema<CreateTaskChannelsSetupRequest>;
+
+/** The setup task that was started for the channel. */
+export interface SpaceSetupStartedDTO {
+  task_id: string;
+}
+export const SpaceSetupStartedDTO = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    task_id: S.String,
+  }),
+).annotate({ identifier: "SpaceSetupStartedDTO" }) as any as S.Schema<SpaceSetupStartedDTO>;
 
 export interface CreateTaskChannelsStarRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -402,15 +498,9 @@ export const GetTaskChannelRequest = /*@__PURE__*/ S.suspend(() =>
     project_id: S.String.pipe(T.Label()),
     id: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/task_channels/{id}/",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/projects/{project_id}/task_channels/{id}/", code: 200 }),
   ),
-).annotate({
-  identifier: "GetTaskChannelRequest",
-}) as any as S.Schema<GetTaskChannelRequest>;
+).annotate({ identifier: "GetTaskChannelRequest" }) as any as S.Schema<GetTaskChannelRequest>;
 
 export interface GetTaskChannelsContextGenerationRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -440,9 +530,57 @@ export const ChannelContextGeneration = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     task_id: S.NullOr(S.String),
   }),
+).annotate({ identifier: "ChannelContextGeneration" }) as any as S.Schema<ChannelContextGeneration>;
+
+export interface GetTaskChannelsContributorRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+}
+export const GetTaskChannelsContributorRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    project_id: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/api/projects/{project_id}/task_channels/contributors/",
+      code: 200,
+    }),
+  ),
 ).annotate({
-  identifier: "ChannelContextGeneration",
-}) as any as S.Schema<ChannelContextGeneration>;
+  identifier: "GetTaskChannelsContributorRequest",
+}) as any as S.Schema<GetTaskChannelsContributorRequest>;
+
+/** Everyone who owns at least one task or canvas in the channel, most recently active first. Deleted tasks and canvases do not count. */
+export type ChannelContributorsDTOPeopleList = Array<TaskUserBasicInfo>;
+export const ChannelContributorsDTOPeopleList = /*@__PURE__*/ S.Array(
+  TaskUserBasicInfo,
+) as any as S.Schema<ChannelContributorsDTOPeopleList>;
+
+/** The people who own at least one task or canvas in a channel. */
+export interface ChannelContributorsDTO {
+  /** The channel these people worked in. */
+  channel: string;
+  /** Everyone who owns at least one task or canvas in the channel, most recently active first. Deleted tasks and canvases do not count. */
+  people: ChannelContributorsDTOPeopleList;
+}
+export const ChannelContributorsDTO = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    channel: S.String,
+    people: ChannelContributorsDTOPeopleList,
+  }),
+).annotate({ identifier: "ChannelContributorsDTO" }) as any as S.Schema<ChannelContributorsDTO>;
+
+export type GetTaskChannelsContributorResponseBodyList = Array<ChannelContributorsDTO>;
+export const GetTaskChannelsContributorResponseBodyList = /*@__PURE__*/ S.Array(
+  ChannelContributorsDTO,
+) as any as S.Schema<GetTaskChannelsContributorResponseBodyList>;
+
+export type GetTaskChannelsContributorResponse = GetTaskChannelsContributorResponseBodyList;
+export const GetTaskChannelsContributorResponse = /*@__PURE__*/ S.suspend(() =>
+  GetTaskChannelsContributorResponseBodyList.pipe(T.RawResponseRoot()),
+).annotate({
+  identifier: "GetTaskChannelsContributorResponse",
+}) as any as S.Schema<GetTaskChannelsContributorResponse>;
 
 export interface GetTaskChannelsInstructionRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -480,9 +618,7 @@ export const ChannelInstructionsDTO = /*@__PURE__*/ S.suspend(() =>
     created_at: S.optional(S.NullOr(S.String)),
     created_by: S.optional(S.NullOr(TaskUserBasicInfo)),
   }),
-).annotate({
-  identifier: "ChannelInstructionsDTO",
-}) as any as S.Schema<ChannelInstructionsDTO>;
+).annotate({ identifier: "ChannelInstructionsDTO" }) as any as S.Schema<ChannelInstructionsDTO>;
 
 export interface GetTaskChannelsInstructionsVersionRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -526,6 +662,38 @@ export const PaginatedChannelInstructionsDTOList = /*@__PURE__*/ S.suspend(() =>
   identifier: "PaginatedChannelInstructionsDTOList",
 }) as any as S.Schema<PaginatedChannelInstructionsDTOList>;
 
+export interface GetTaskChannelsMemberRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  id: string;
+}
+export const GetTaskChannelsMemberRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    project_id: S.String.pipe(T.Label()),
+    id: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/api/projects/{project_id}/task_channels/{id}/members/",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "GetTaskChannelsMemberRequest",
+}) as any as S.Schema<GetTaskChannelsMemberRequest>;
+
+export type GetTaskChannelsMemberResponseBodyList = Array<TaskUserBasicInfo>;
+export const GetTaskChannelsMemberResponseBodyList = /*@__PURE__*/ S.Array(
+  TaskUserBasicInfo,
+) as any as S.Schema<GetTaskChannelsMemberResponseBodyList>;
+
+export type GetTaskChannelsMemberResponse = GetTaskChannelsMemberResponseBodyList;
+export const GetTaskChannelsMemberResponse = /*@__PURE__*/ S.suspend(() =>
+  GetTaskChannelsMemberResponseBodyList.pipe(T.RawResponseRoot()),
+).annotate({
+  identifier: "GetTaskChannelsMemberResponse",
+}) as any as S.Schema<GetTaskChannelsMemberResponse>;
+
 export interface ListTaskChannelsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
@@ -539,16 +707,8 @@ export const ListTaskChannelsRequest = /*@__PURE__*/ S.suspend(() =>
     project_id: S.String.pipe(T.Label()),
     limit: S.optional(S.Number.pipe(T.Query())),
     offset: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/task_channels/",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ListTaskChannelsRequest",
-}) as any as S.Schema<ListTaskChannelsRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/projects/{project_id}/task_channels/", code: 200 })),
+).annotate({ identifier: "ListTaskChannelsRequest" }) as any as S.Schema<ListTaskChannelsRequest>;
 
 export type PaginatedChannelDTOListResultsList = Array<ChannelDTO>;
 export const PaginatedChannelDTOListResultsList = /*@__PURE__*/ S.Array(
@@ -568,9 +728,7 @@ export const PaginatedChannelDTOList = /*@__PURE__*/ S.suspend(() =>
     previous: S.optional(S.NullOr(S.String)),
     results: PaginatedChannelDTOListResultsList,
   }),
-).annotate({
-  identifier: "PaginatedChannelDTOList",
-}) as any as S.Schema<PaginatedChannelDTOList>;
+).annotate({ identifier: "PaginatedChannelDTOList" }) as any as S.Schema<PaginatedChannelDTOList>;
 
 export interface ListTaskChannelsFeedRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -630,11 +788,7 @@ export const TaskChannelsDestroyRequest = /*@__PURE__*/ S.suspend(() =>
     project_id: S.String.pipe(T.Label()),
     id: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/projects/{project_id}/task_channels/{id}/",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/api/projects/{project_id}/task_channels/{id}/", code: 200 }),
   ),
 ).annotate({
   identifier: "TaskChannelsDestroyRequest",
@@ -746,6 +900,47 @@ export const UpdateTaskChannelsInstructionsPartialRequest = /*@__PURE__*/ S.susp
   identifier: "UpdateTaskChannelsInstructionsPartialRequest",
 }) as any as S.Schema<UpdateTaskChannelsInstructionsPartialRequest>;
 
+/** Required list of member user IDs. This list replaces the current members. The creator remains a member. Send an empty list to remove all other members. Each submitted user must have project access. */
+export type UpdateTaskChannelsMemberRequestUserIdsList = Array<number>;
+export const UpdateTaskChannelsMemberRequestUserIdsList = /*@__PURE__*/ S.Array(
+  S.Number,
+) as any as S.Schema<UpdateTaskChannelsMemberRequestUserIdsList>;
+
+export interface UpdateTaskChannelsMemberRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  id: string;
+  /** Required list of member user IDs. This list replaces the current members. The creator remains a member. Send an empty list to remove all other members. Each submitted user must have project access. */
+  user_ids: UpdateTaskChannelsMemberRequestUserIdsList;
+}
+export const UpdateTaskChannelsMemberRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    project_id: S.String.pipe(T.Label()),
+    id: S.String.pipe(T.Label()),
+    user_ids: UpdateTaskChannelsMemberRequestUserIdsList,
+  }).pipe(
+    T.Http({
+      method: "PUT",
+      uri: "/api/projects/{project_id}/task_channels/{id}/members/",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "UpdateTaskChannelsMemberRequest",
+}) as any as S.Schema<UpdateTaskChannelsMemberRequest>;
+
+export type UpdateTaskChannelsMemberResponseBodyList = Array<TaskUserBasicInfo>;
+export const UpdateTaskChannelsMemberResponseBodyList = /*@__PURE__*/ S.Array(
+  TaskUserBasicInfo,
+) as any as S.Schema<UpdateTaskChannelsMemberResponseBodyList>;
+
+export type UpdateTaskChannelsMemberResponse = UpdateTaskChannelsMemberResponseBodyList;
+export const UpdateTaskChannelsMemberResponse = /*@__PURE__*/ S.suspend(() =>
+  UpdateTaskChannelsMemberResponseBodyList.pipe(T.RawResponseRoot()),
+).annotate({
+  identifier: "UpdateTaskChannelsMemberResponse",
+}) as any as S.Schema<UpdateTaskChannelsMemberResponse>;
+
 /** GitHub repositories inherited by new tasks in this channel. */
 export type UpdateTaskChannelsPartialRequestRepositoriesList = Array<string>;
 export const UpdateTaskChannelsPartialRequestRepositoriesList = /*@__PURE__*/ S.Array(
@@ -764,6 +959,8 @@ export interface UpdateTaskChannelsPartialRequest {
   repositories?: UpdateTaskChannelsPartialRequestRepositoriesList;
   /** Days of inactivity before tasks in this channel are archived. Accepts 1 through 365. Null disables automatic archiving. */
   auto_archive_after_days?: number | null;
+  /** Switch a shared space between 'public' and 'private'. Making a space private keeps only the creator and the requester as members. Making it public removes its member list. Personal #me spaces cannot change. * `public` - public * `private` - private */
+  channel_type?: TaskChannelWriteTypeEnum | (string & {});
 }
 export const UpdateTaskChannelsPartialRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -773,19 +970,16 @@ export const UpdateTaskChannelsPartialRequest = /*@__PURE__*/ S.suspend(() =>
     github_integration: S.optional(S.NullOr(S.Number)),
     repositories: S.optional(UpdateTaskChannelsPartialRequestRepositoriesList),
     auto_archive_after_days: S.optional(S.NullOr(S.Number)),
+    channel_type: S.optional(TaskChannelWriteTypeEnum),
   }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/api/projects/{project_id}/task_channels/{id}/",
-      code: 200,
-    }),
+    T.Http({ method: "PATCH", uri: "/api/projects/{project_id}/task_channels/{id}/", code: 200 }),
   ),
 ).annotate({
   identifier: "UpdateTaskChannelsPartialRequest",
 }) as any as S.Schema<UpdateTaskChannelsPartialRequest>;
 
 export type CreateTaskChannelError = PosthogOpError;
-/** Resolve or create a public channel Returns the existing public channel with the (normalized) name, creating it if needed. A channel created here is starred for the requester unless star is false. The general name returns the team's general space; names that read as a private space ("me", "personal") are rejected. */
+/** Create a channel Create a channel. Public channels use lowercase names with hyphens. If a public channel has that name, return it. The name general returns the project's general space. Private channels always get a new ID, even if another channel has the same name. The requester and users in member_ids with project access become members. New channels are starred for the requester unless star is false. The names "me" and "personal" are reserved. */
 export const createTaskChannel: API.OperationMethod<
   CreateTaskChannelRequest,
   ChannelDTO,
@@ -859,8 +1053,23 @@ export const createTaskChannelsProvisionDefault: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type CreateTaskChannelsSetupError = Conflict | PosthogOpError;
+/** Set a space up for a goal or a feature Starts one unattended task in the channel that resolves the metric, writes the context page and, for a goal, creates the tracking canvas and the loops. The task becomes the channel's context generation task. */
+export const createTaskChannelsSetup: API.OperationMethod<
+  CreateTaskChannelsSetupRequest,
+  SpaceSetupStartedDTO,
+  CreateTaskChannelsSetupError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateTaskChannelsSetupRequest,
+  output: SpaceSetupStartedDTO,
+  errors: [Conflict],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
 export type CreateTaskChannelsStarError = PosthogOpError;
-/** Star or unstar a channel for the requesting user API for task channels — the shared feeds tasks are kicked off in. The provision_defaults action get-or-creates the requester's personal "#me" channel and the team's shared "#general" channel; creation is resolve-or-create by normalized name so clients can map channel-like surfaces onto backend channels. */
+/** Star or unstar a channel for the requesting user */
 export const createTaskChannelsStar: API.OperationMethod<
   CreateTaskChannelsStarRequest,
   CreateTaskChannelsStarResponse,
@@ -890,7 +1099,7 @@ export const createTaskChannelsTeachingCanvasTest: API.OperationMethod<
 }));
 
 export type GetTaskChannelError = PosthogOpError;
-/** Get a channel API for task channels — the shared feeds tasks are kicked off in. The provision_defaults action get-or-creates the requester's personal "#me" channel and the team's shared "#general" channel; creation is resolve-or-create by normalized name so clients can map channel-like surfaces onto backend channels. */
+/** Get a channel */
 export const getTaskChannel: API.OperationMethod<
   GetTaskChannelRequest,
   ChannelDTO,
@@ -905,7 +1114,7 @@ export const getTaskChannel: API.OperationMethod<
 }));
 
 export type GetTaskChannelsContextGenerationError = PosthogOpError;
-/** Get the channel's CONTEXT.md generation task API for task channels — the shared feeds tasks are kicked off in. The provision_defaults action get-or-creates the requester's personal "#me" channel and the team's shared "#general" channel; creation is resolve-or-create by normalized name so clients can map channel-like surfaces onto backend channels. */
+/** Get the channel's CONTEXT.md generation task */
 export const getTaskChannelsContextGeneration: API.OperationMethod<
   GetTaskChannelsContextGenerationRequest,
   ChannelContextGeneration,
@@ -914,6 +1123,21 @@ export const getTaskChannelsContextGeneration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetTaskChannelsContextGenerationRequest,
   output: ChannelContextGeneration,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetTaskChannelsContributorError = PosthogOpError;
+/** List who worked in each channel For each channel the requester can access, list the people who own at least one task or canvas in it, most recently active first. Channels with no owners are left out. */
+export const getTaskChannelsContributor: API.OperationMethod<
+  GetTaskChannelsContributorRequest,
+  GetTaskChannelsContributorResponse,
+  GetTaskChannelsContributorError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetTaskChannelsContributorRequest,
+  output: GetTaskChannelsContributorResponse,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -935,7 +1159,7 @@ export const getTaskChannelsInstruction: API.OperationMethod<
 }));
 
 export type GetTaskChannelsInstructionsVersionError = PosthogOpError;
-/** List channel instruction versions API for task channels — the shared feeds tasks are kicked off in. The provision_defaults action get-or-creates the requester's personal "#me" channel and the team's shared "#general" channel; creation is resolve-or-create by normalized name so clients can map channel-like surfaces onto backend channels. */
+/** List channel instruction versions */
 export const getTaskChannelsInstructionsVersion: API.OperationMethod<
   GetTaskChannelsInstructionsVersionRequest,
   PaginatedChannelInstructionsDTOList,
@@ -949,8 +1173,23 @@ export const getTaskChannelsInstructionsVersion: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type GetTaskChannelsMemberError = PosthogOpError;
+/** List a channel's members List the members of a private channel. Return an empty list for public and personal channels. Return 404 if the requester cannot access the channel. */
+export const getTaskChannelsMember: API.OperationMethod<
+  GetTaskChannelsMemberRequest,
+  GetTaskChannelsMemberResponse,
+  GetTaskChannelsMemberError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetTaskChannelsMemberRequest,
+  output: GetTaskChannelsMemberResponse,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
 export type ListTaskChannelsError = PosthogOpError;
-/** List channels All live public channels plus the requester's personal #me channel when it exists, sorted by name. Listing does not provision; call provision_defaults to create the default channels. Send `limit` (with `offset`) for one page and a `count`/`next` envelope; without `limit` the response is the full array of channels. */
+/** List channels List channels the requester can access, sorted by name and ID. Includes public channels, their personal #me channel, and private channels they belong to. Call provision_defaults to create missing default channels. Send limit and offset to get a page with count, next, previous, and results. Without limit, the response is an array of all accessible channels. */
 export const listTaskChannels: API.OperationMethod<
   ListTaskChannelsRequest,
   PaginatedChannelDTOList,
@@ -980,7 +1219,7 @@ export const listTaskChannelsFeed: API.OperationMethod<
 }));
 
 export type TaskChannelsDestroyError = Conflict | PosthogOpError;
-/** Delete a public channel API for task channels — the shared feeds tasks are kicked off in. The provision_defaults action get-or-creates the requester's personal "#me" channel and the team's shared "#general" channel; creation is resolve-or-create by normalized name so clients can map channel-like surfaces onto backend channels. */
+/** Delete a channel */
 export const taskChannelsDestroy: API.OperationMethod<
   TaskChannelsDestroyRequest,
   TaskChannelsDestroyResponse,
@@ -995,7 +1234,7 @@ export const taskChannelsDestroy: API.OperationMethod<
 }));
 
 export type TaskChannelsInstructionsDestroyError = PosthogOpError;
-/** Delete channel instructions API for task channels — the shared feeds tasks are kicked off in. The provision_defaults action get-or-creates the requester's personal "#me" channel and the team's shared "#general" channel; creation is resolve-or-create by normalized name so clients can map channel-like surfaces onto backend channels. */
+/** Delete channel instructions */
 export const taskChannelsInstructionsDestroy: API.OperationMethod<
   TaskChannelsInstructionsDestroyRequest,
   TaskChannelsInstructionsDestroyResponse,
@@ -1010,7 +1249,7 @@ export const taskChannelsInstructionsDestroy: API.OperationMethod<
 }));
 
 export type UpdateTaskChannelsContextGenerationError = PosthogOpError;
-/** Set or clear the channel's CONTEXT.md generation task API for task channels — the shared feeds tasks are kicked off in. The provision_defaults action get-or-creates the requester's personal "#me" channel and the team's shared "#general" channel; creation is resolve-or-create by normalized name so clients can map channel-like surfaces onto backend channels. */
+/** Set or clear the channel's CONTEXT.md generation task */
 export const updateTaskChannelsContextGeneration: API.OperationMethod<
   UpdateTaskChannelsContextGenerationRequest,
   ChannelContextGeneration,
@@ -1054,8 +1293,23 @@ export const updateTaskChannelsInstructionsPartial: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type UpdateTaskChannelsMemberError = PosthogOpError;
+/** Replace a private channel's members Replace the members of a private channel. Any member can update this list. The creator remains a member. Return 400 for public and personal channels. */
+export const updateTaskChannelsMember: API.OperationMethod<
+  UpdateTaskChannelsMemberRequest,
+  UpdateTaskChannelsMemberResponse,
+  UpdateTaskChannelsMemberError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: UpdateTaskChannelsMemberRequest,
+  output: UpdateTaskChannelsMemberResponse,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
 export type UpdateTaskChannelsPartialError = PosthogOpError;
-/** Rename a public channel API for task channels — the shared feeds tasks are kicked off in. The provision_defaults action get-or-creates the requester's personal "#me" channel and the team's shared "#general" channel; creation is resolve-or-create by normalized name so clients can map channel-like surfaces onto backend channels. */
+/** Update a channel */
 export const updateTaskChannelsPartial: API.OperationMethod<
   UpdateTaskChannelsPartialRequest,
   ChannelDTO,

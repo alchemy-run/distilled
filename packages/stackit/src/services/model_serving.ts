@@ -67,12 +67,10 @@ export const CreateTokenRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://model-serving.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "CreateTokenRequest",
-}) as any as S.Schema<CreateTokenRequest>;
+).annotate({ identifier: "CreateTokenRequest" }) as any as S.Schema<CreateTokenRequest>;
 
 export type TokenCreatedState = "creating" | "active" | "deleting";
-export const TokenCreatedState = /*@__PURE__*/ S.String;
+export const TokenCreatedState = S.String;
 
 export interface TokenCreated {
   content: string;
@@ -106,9 +104,7 @@ export const CreateTokenResponse = /*@__PURE__*/ S.suspend(() =>
     message: S.optional(S.String),
     token: TokenCreated,
   }),
-).annotate({
-  identifier: "CreateTokenResponse",
-}) as any as S.Schema<CreateTokenResponse>;
+).annotate({ identifier: "CreateTokenResponse" }) as any as S.Schema<CreateTokenResponse>;
 
 export interface DeleteTokenRequest {
   /** portal project id */
@@ -131,9 +127,7 @@ export const DeleteTokenRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://model-serving.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "DeleteTokenRequest",
-}) as any as S.Schema<DeleteTokenRequest>;
+).annotate({ identifier: "DeleteTokenRequest" }) as any as S.Schema<DeleteTokenRequest>;
 
 export interface MessageResponse {
   message?: string;
@@ -142,9 +136,7 @@ export const MessageResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     message: S.optional(S.String),
   }),
-).annotate({
-  identifier: "MessageResponse",
-}) as any as S.Schema<MessageResponse>;
+).annotate({ identifier: "MessageResponse" }) as any as S.Schema<MessageResponse>;
 
 export interface GetChatModelRequest {
   /** region name */
@@ -164,18 +156,16 @@ export const GetChatModelRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://model-serving.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "GetChatModelRequest",
-}) as any as S.Schema<GetChatModelRequest>;
+).annotate({ identifier: "GetChatModelRequest" }) as any as S.Schema<GetChatModelRequest>;
 
 export type ChatModelDetailsBits = 1 | 2 | 4 | 8 | 16;
-export const ChatModelDetailsBits = /*@__PURE__*/ S.Number;
+export const ChatModelDetailsBits = S.Number;
 
 export type ChatModelDetailsCategory = "standard" | "plus" | "premium";
-export const ChatModelDetailsCategory = /*@__PURE__*/ S.String;
+export const ChatModelDetailsCategory = S.String;
 
 export type ChatModelDetailsQuantizationMethod = "PTQ" | "QAT";
-export const ChatModelDetailsQuantizationMethod = /*@__PURE__*/ S.String;
+export const ChatModelDetailsQuantizationMethod = S.String;
 
 export interface SKU {
   description?: string;
@@ -235,9 +225,7 @@ export const ChatModelDetails = /*@__PURE__*/ S.suspend(() =>
     tags: ChatModelDetailsTagsList,
     url: S.String,
   }),
-).annotate({
-  identifier: "ChatModelDetails",
-}) as any as S.Schema<ChatModelDetails>;
+).annotate({ identifier: "ChatModelDetails" }) as any as S.Schema<ChatModelDetails>;
 
 export interface GetChatModelResponse {
   message?: string;
@@ -248,9 +236,7 @@ export const GetChatModelResponse = /*@__PURE__*/ S.suspend(() =>
     message: S.optional(S.String),
     model: ChatModelDetails,
   }),
-).annotate({
-  identifier: "GetChatModelResponse",
-}) as any as S.Schema<GetChatModelResponse>;
+).annotate({ identifier: "GetChatModelResponse" }) as any as S.Schema<GetChatModelResponse>;
 
 export interface GetEmbeddingModelRequest {
   /** region name */
@@ -270,12 +256,10 @@ export const GetEmbeddingModelRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://model-serving.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "GetEmbeddingModelRequest",
-}) as any as S.Schema<GetEmbeddingModelRequest>;
+).annotate({ identifier: "GetEmbeddingModelRequest" }) as any as S.Schema<GetEmbeddingModelRequest>;
 
 export type EmbeddingModelDetailsCategory = "standard" | "plus" | "premium";
-export const EmbeddingModelDetailsCategory = /*@__PURE__*/ S.String;
+export const EmbeddingModelDetailsCategory = S.String;
 
 export type EmbeddingModelDetailsSkusList = Array<SKU>;
 export const EmbeddingModelDetailsSkusList = /*@__PURE__*/ S.Array(
@@ -315,9 +299,7 @@ export const EmbeddingModelDetails = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(EmbeddingModelDetailsTagsList),
     url: S.String,
   }),
-).annotate({
-  identifier: "EmbeddingModelDetails",
-}) as any as S.Schema<EmbeddingModelDetails>;
+).annotate({ identifier: "EmbeddingModelDetails" }) as any as S.Schema<EmbeddingModelDetails>;
 
 export interface GetEmbeddingsModelResp {
   message?: string;
@@ -328,9 +310,7 @@ export const GetEmbeddingsModelResp = /*@__PURE__*/ S.suspend(() =>
     message: S.optional(S.String),
     model: EmbeddingModelDetails,
   }),
-).annotate({
-  identifier: "GetEmbeddingsModelResp",
-}) as any as S.Schema<GetEmbeddingsModelResp>;
+).annotate({ identifier: "GetEmbeddingsModelResp" }) as any as S.Schema<GetEmbeddingsModelResp>;
 
 export interface GetTokenRequest {
   /** portal project id */
@@ -353,12 +333,10 @@ export const GetTokenRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://model-serving.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "GetTokenRequest",
-}) as any as S.Schema<GetTokenRequest>;
+).annotate({ identifier: "GetTokenRequest" }) as any as S.Schema<GetTokenRequest>;
 
 export type TokenState = "creating" | "active" | "deleting" | "inactive";
-export const TokenState = /*@__PURE__*/ S.String;
+export const TokenState = S.String;
 
 export interface Token {
   description?: string;
@@ -390,9 +368,7 @@ export const GetTokenResponse = /*@__PURE__*/ S.suspend(() =>
     message: S.optional(S.String),
     token: Token,
   }),
-).annotate({
-  identifier: "GetTokenResponse",
-}) as any as S.Schema<GetTokenResponse>;
+).annotate({ identifier: "GetTokenResponse" }) as any as S.Schema<GetTokenResponse>;
 
 export interface ListModelsRequest {
   /** region name */
@@ -409,12 +385,10 @@ export const ListModelsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://model-serving.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "ListModelsRequest",
-}) as any as S.Schema<ListModelsRequest>;
+).annotate({ identifier: "ListModelsRequest" }) as any as S.Schema<ListModelsRequest>;
 
 export type ModelCategory = "standard" | "plus" | "premium";
-export const ModelCategory = /*@__PURE__*/ S.String;
+export const ModelCategory = S.String;
 
 export type ModelSkusList = Array<SKU>;
 export const ModelSkusList = /*@__PURE__*/ S.Array(SKU) as any as S.Schema<ModelSkusList>;
@@ -423,7 +397,7 @@ export type ModelTagsList = Array<string>;
 export const ModelTagsList = /*@__PURE__*/ S.Array(S.String) as any as S.Schema<ModelTagsList>;
 
 export type ModelType = "chat" | "embedding" | "audio" | "image";
-export const ModelType = /*@__PURE__*/ S.String;
+export const ModelType = S.String;
 
 export interface Model {
   category: ModelCategory;
@@ -469,9 +443,7 @@ export const ListModelsResponse = /*@__PURE__*/ S.suspend(() =>
     message: S.optional(S.String),
     models: ListModelsResponseModelsList,
   }),
-).annotate({
-  identifier: "ListModelsResponse",
-}) as any as S.Schema<ListModelsResponse>;
+).annotate({ identifier: "ListModelsResponse" }) as any as S.Schema<ListModelsResponse>;
 
 export interface ListTokensRequest {
   /** portal project id */
@@ -494,9 +466,7 @@ export const ListTokensRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://model-serving.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "ListTokensRequest",
-}) as any as S.Schema<ListTokensRequest>;
+).annotate({ identifier: "ListTokensRequest" }) as any as S.Schema<ListTokensRequest>;
 
 export type ListTokenRespTokensList = Array<Token>;
 export const ListTokenRespTokensList = /*@__PURE__*/ S.Array(
@@ -515,8 +485,11 @@ export const ListTokenResp = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "ListTokenResp" }) as any as S.Schema<ListTokenResp>;
 
 /** Object that represents the labels of an object. Regex for keys: `^(?=.{1,63}$)([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9]$`. Regex for values: `^(?=.{0,63}$)(([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9])*$`. Providing a `null` value for a key will remove that key. Send empty object {} to remove all labels. The `stackit` prefix is reserved and cannot be used for Keys. */
-export type LabelPatch = { [key: string]: string | undefined };
-export const LabelPatch = /*@__PURE__*/ S.Record(S.String, S.String) as any as S.Schema<LabelPatch>;
+export type LabelPatch = { [key: string]: string | null | undefined };
+export const LabelPatch = /*@__PURE__*/ S.Record(
+  S.String,
+  S.NullOr(S.String),
+) as any as S.Schema<LabelPatch>;
 
 export interface PartialUpdateTokenRequest {
   /** portal project id */
@@ -558,9 +531,7 @@ export const UpdateTokenResponse = /*@__PURE__*/ S.suspend(() =>
     message: S.optional(S.String),
     token: Token,
   }),
-).annotate({
-  identifier: "UpdateTokenResponse",
-}) as any as S.Schema<UpdateTokenResponse>;
+).annotate({ identifier: "UpdateTokenResponse" }) as any as S.Schema<UpdateTokenResponse>;
 
 export type CreateTokenError = BadRequest | Conflict | StackitOpError;
 /** create auth token for shared model use create auth token for shared model use */

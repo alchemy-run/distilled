@@ -38,9 +38,7 @@ export const GetPersonRequest = /*@__PURE__*/ S.suspend(() =>
     id: S.String.pipe(T.Label()),
     account_id: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/people/{id}", code: 200 })),
-).annotate({
-  identifier: "GetPersonRequest",
-}) as any as S.Schema<GetPersonRequest>;
+).annotate({ identifier: "GetPersonRequest" }) as any as S.Schema<GetPersonRequest>;
 
 export type GetPersonResponseAudienceIdsList = Array<string>;
 export const GetPersonResponseAudienceIdsList = /*@__PURE__*/ S.Array(
@@ -63,9 +61,7 @@ export const GetPersonResponseDevice = /*@__PURE__*/ S.suspend(() =>
     device: S.optional(S.NullOr(S.String)),
     os: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "GetPersonResponseDevice",
-}) as any as S.Schema<GetPersonResponseDevice>;
+).annotate({ identifier: "GetPersonResponseDevice" }) as any as S.Schema<GetPersonResponseDevice>;
 
 /** Every linked email, primary first. */
 export type GetPersonResponseEmailsList = Array<string>;
@@ -205,9 +201,7 @@ export const GetPersonResponseMember = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(S.NullOr(S.String)),
     usd_total_spend: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "GetPersonResponseMember",
-}) as any as S.Schema<GetPersonResponseMember>;
+).annotate({ identifier: "GetPersonResponseMember" }) as any as S.Schema<GetPersonResponseMember>;
 
 /** Every name the person's linked identities carried, primary first. */
 export type GetPersonResponseNamesList = Array<string>;
@@ -391,9 +385,7 @@ export const GetPersonResponseUsage = /*@__PURE__*/ S.suspend(() =>
     referrer: S.optional(GetPersonResponseUsageReferrerList),
     timezone: S.optional(GetPersonResponseUsageTimezoneList),
   }),
-).annotate({
-  identifier: "GetPersonResponseUsage",
-}) as any as S.Schema<GetPersonResponseUsage>;
+).annotate({ identifier: "GetPersonResponseUsage" }) as any as S.Schema<GetPersonResponseUsage>;
 
 /** The person's primary whop user, when one of their identities is a whop account. */
 export interface GetPersonResponseUser {
@@ -409,9 +401,7 @@ export const GetPersonResponseUser = /*@__PURE__*/ S.suspend(() =>
     profile_pic_url: S.optional(S.NullOr(S.String)),
     username: S.String,
   }),
-).annotate({
-  identifier: "GetPersonResponseUser",
-}) as any as S.Schema<GetPersonResponseUser>;
+).annotate({ identifier: "GetPersonResponseUser" }) as any as S.Schema<GetPersonResponseUser>;
 
 /** Every linked whop account, the most used one first. */
 export type GetPersonResponseUserIdsList = Array<string>;
@@ -501,9 +491,7 @@ export const GetPersonResponse = /*@__PURE__*/ S.suspend(() =>
     user: S.optional(S.NullOr(GetPersonResponseUser)),
     user_ids: S.optional(GetPersonResponseUserIdsList),
   }),
-).annotate({
-  identifier: "GetPersonResponse",
-}) as any as S.Schema<GetPersonResponse>;
+).annotate({ identifier: "GetPersonResponse" }) as any as S.Schema<GetPersonResponse>;
 
 export type ListPeopleRequestSourceList = Array<string>;
 export const ListPeopleRequestSourceList = /*@__PURE__*/ S.Array(
@@ -617,9 +605,7 @@ export const ListPeopleRequest = /*@__PURE__*/ S.suspend(() =>
     order: S.optional(ListPeopleRequestOrder.pipe(T.Query())),
     direction: S.optional(ListPeopleRequestDirection.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/people", code: 200 })),
-).annotate({
-  identifier: "ListPeopleRequest",
-}) as any as S.Schema<ListPeopleRequest>;
+).annotate({ identifier: "ListPeopleRequest" }) as any as S.Schema<ListPeopleRequest>;
 
 export type ListPeopleResponseDataItemDevice = GetPersonResponseDevice;
 export const ListPeopleResponseDataItemDevice = GetPersonResponseDevice;
@@ -812,9 +798,7 @@ export const ListPeopleResponse = /*@__PURE__*/ S.suspend(() =>
     page_info: ListPeopleResponsePageInfo,
     total_count: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "ListPeopleResponse",
-}) as any as S.Schema<ListPeopleResponse>;
+).annotate({ identifier: "ListPeopleResponse" }) as any as S.Schema<ListPeopleResponse>;
 
 export type GetPersonError = NotFound | WhopOpError;
 /** Retrieve Person Retrieves one person for an account. The identifier can be a person ID (prefixed `prsn_`), a user ID (prefixed `user_`), an email address, or a phone number — merged people resolve to the surviving profile. */

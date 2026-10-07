@@ -75,6 +75,9 @@
     },
     "reserved_username": {
       "desc": "Reserved usernames are not allowed to be used."
+    },
+    "method_not_supported_for_channel_type": {
+      "desc": "This type of conversation cannot be used with this method. Use `agents.sessions.setStatus` to set status in a session channel."
     }
   }
 }

@@ -1,0 +1,71 @@
+{
+  "desc": "Call this to finish rotating the secret on an old API token with a short secret. Must be paired with a call to oauth.v2.beginShortTokenRotation to start the process.",
+  "http_method": "POST",
+  "scope": {},
+  "rate_limits": "t2",
+  "args": {
+    "type": "object",
+    "required": [
+      "client_id",
+      "client_secret",
+      "token",
+      "new_token"
+    ],
+    "properties": {
+      "client_id": {
+        "desc": "Issued when you created your application. Must be the app the token being rotated was issued to.",
+        "example": "4123121235.9872358710",
+        "type": "string"
+      },
+      "client_secret": {
+        "desc": "Issued when you created your application.",
+        "example": "e1b9e11dfcd19c1982d5de12921e17e8c",
+        "type": "string"
+      },
+      "token": {
+        "desc": "The original short xoxp token being rotated (the one passed to oauth.v2.beginShortTokenRotation). Authenticates the request.",
+        "example": "xoxp-12345-67890-1928471-abcdefg",
+        "type": "string"
+      },
+      "new_token": {
+        "desc": "The new xoxp token returned by oauth.v2.beginShortTokenRotation.",
+        "example": "xoxp-12345-67890-1928471-qemwiiwglagjacakvqbvbfkmvbsvsuzn",
+        "type": "string"
+      }
+    }
+  },
+  "output": {
+    "desc": "The now-active xoxp token, returned for confirmation",
+    "type": "object",
+    "required": [
+      "token"
+    ],
+    "properties": {
+      "token": {
+        "type": "string",
+        "desc": "The new xoxp access token, now active. The previous token is no longer valid.",
+        "example": "xoxp-12345-67890-1928471-qemwiiwglagjacakvqbvbfkmvbsvsuzn"
+      }
+    }
+  },
+  "errors": {
+    "bad_client_secret": {
+      "desc": "Value passed for `client_secret` was invalid."
+    },
+    "invalid_client_id": {
+      "desc": "Value passed for `client_id` was invalid, or is not the app the token being rotated was issued to."
+    },
+    "invalid_token": {
+      "desc": "This token is invalid."
+    },
+    "rotation_not_found": {
+      "desc": "No pending rotation was found for this token. Call oauth.v2.beginShortTokenRotation first, or the pending rotation may have expired."
+    },
+    "internal_error": {
+      "desc": "A server-side error occurred."
+    },
+    "token_too_long": {
+      "desc": "This token is not short enough to be rotated."
+    }
+  }
+}

@@ -151,7 +151,10 @@
         "target": "smithy.api#String"
       },
       "value": {
-        "target": "smithy.api#String"
+        "target": "smithy.api#String",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {
         "smithy.api#documentation": "Labels are key-value pairs used to group and organize subsets of resources.\n\n**Key constraints:**\n- May contain an optional domain prefix separated by a slash (`/`).\n- The domain prefix must be less than or equal to 250 characters and a valid DNS subdomain containing only lowercase alphanumerics (`[a-z0-9]`) and dashes (`-`), separated by dots (`.`).\n- The name part (excluding the domain prefix) must be between 1 and 63 characters long.\n- The name part must begin and end with an alphanumeric character (`[a-z0-9A-Z]`).\n- The name part may contain dashes (`-`), underscores (`_`), dots (`.`), and alphanumerics in between.\n- Keys starting with the prefix `stackit-` or having a domain prefix of `stackit.cloud` (including its subdomains, e.g., `*.stackit.cloud/`) are reserved for system use.\n\n**Value constraints:**\n- Must be less than or equal to 63 characters long (can be empty).\n- Must begin and end with an alphanumeric character (`[a-z0-9A-Z]`) if not empty.\n- May contain dashes (`-`), underscores (`_`), dots (`.`), and alphanumerics in between.\n\n**Count constraint:**\n- A maximum of 64 labels can be applied per resource. Restricted labels are excluded from this count.\n"

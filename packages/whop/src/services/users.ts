@@ -55,16 +55,8 @@ export const CheckUserAccessRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
     resource_id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/users/{id}/access/{resource_id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "CheckUserAccessRequest",
-}) as any as S.Schema<CheckUserAccessRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/users/{id}/access/{resource_id}", code: 200 })),
+).annotate({ identifier: "CheckUserAccessRequest" }) as any as S.Schema<CheckUserAccessRequest>;
 
 export type CheckUserAccessResponseAccessLevel = "no_access" | "admin" | "customer";
 export const CheckUserAccessResponseAccessLevel = S.String;
@@ -78,9 +70,7 @@ export const CheckUserAccessResponse = /*@__PURE__*/ S.suspend(() =>
     access_level: CheckUserAccessResponseAccessLevel,
     has_access: S.Boolean,
   }),
-).annotate({
-  identifier: "CheckUserAccessResponse",
-}) as any as S.Schema<CheckUserAccessResponse>;
+).annotate({ identifier: "CheckUserAccessResponse" }) as any as S.Schema<CheckUserAccessResponse>;
 
 /** How `code_challenge` was derived. Only `S256` is accepted. */
 export type CreateOauthGrantRequestCodeChallengeMethod = "S256";
@@ -134,9 +124,7 @@ export const CreateOauthGrantRequest = /*@__PURE__*/ S.suspend(() =>
     state: S.optional(S.String),
     idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
   }).pipe(T.Http({ method: "POST", uri: "/users/me/oauth_grants", code: 200 })),
-).annotate({
-  identifier: "CreateOauthGrantRequest",
-}) as any as S.Schema<CreateOauthGrantRequest>;
+).annotate({ identifier: "CreateOauthGrantRequest" }) as any as S.Schema<CreateOauthGrantRequest>;
 
 export type OauthGrantScopesList = Array<string>;
 export const OauthGrantScopesList = /*@__PURE__*/ S.Array(
@@ -193,9 +181,7 @@ export const CreatePasskeyRequest = /*@__PURE__*/ S.suspend(() =>
     nickname: S.String,
     idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
   }).pipe(T.Http({ method: "POST", uri: "/users/me/passkeys", code: 200 })),
-).annotate({
-  identifier: "CreatePasskeyRequest",
-}) as any as S.Schema<CreatePasskeyRequest>;
+).annotate({ identifier: "CreatePasskeyRequest" }) as any as S.Schema<CreatePasskeyRequest>;
 
 export interface Passkey {
   /** When the user registered this passkey, as an ISO 8601 timestamp. */
@@ -270,9 +256,7 @@ export const DeletePasskeyRequest = /*@__PURE__*/ S.suspend(() =>
     client_data_json: S.String,
     signature: S.String,
   }).pipe(T.Http({ method: "DELETE", uri: "/users/me/passkeys/{id}", code: 200 })),
-).annotate({
-  identifier: "DeletePasskeyRequest",
-}) as any as S.Schema<DeletePasskeyRequest>;
+).annotate({ identifier: "DeletePasskeyRequest" }) as any as S.Schema<DeletePasskeyRequest>;
 
 export interface DeletePasskeyResponse {
   /** Always `true`: the passkey was removed. */
@@ -285,9 +269,7 @@ export const DeletePasskeyResponse = /*@__PURE__*/ S.suspend(() =>
     deleted: S.Boolean,
     id: S.String,
   }),
-).annotate({
-  identifier: "DeletePasskeyResponse",
-}) as any as S.Schema<DeletePasskeyResponse>;
+).annotate({ identifier: "DeletePasskeyResponse" }) as any as S.Schema<DeletePasskeyResponse>;
 
 export type GetUserRequestInterval = "hour" | "day" | "week" | "month";
 export const GetUserRequestInterval = S.String;
@@ -337,9 +319,7 @@ export const UserBalanceBusiness = /*@__PURE__*/ S.suspend(() =>
     logo_url: S.NullOr(S.String),
     name: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "UserBalanceBusiness",
-}) as any as S.Schema<UserBalanceBusiness>;
+).annotate({ identifier: "UserBalanceBusiness" }) as any as S.Schema<UserBalanceBusiness>;
 
 export type UserBalanceBusinessesList = Array<UserBalanceBusiness>;
 export const UserBalanceBusinessesList = /*@__PURE__*/ S.Array(
@@ -375,9 +355,7 @@ export const UserBalanceCash = /*@__PURE__*/ S.suspend(() =>
     reserve_balance_usd: S.Number,
     total_withdrawable_balance: S.Number,
   }),
-).annotate({
-  identifier: "UserBalanceCash",
-}) as any as S.Schema<UserBalanceCash>;
+).annotate({ identifier: "UserBalanceCash" }) as any as S.Schema<UserBalanceCash>;
 
 export type UserBalanceCashList = Array<UserBalanceCash>;
 export const UserBalanceCashList = /*@__PURE__*/ S.Array(
@@ -395,9 +373,7 @@ export const AccountBalanceSettlement = /*@__PURE__*/ S.suspend(() =>
     amount: S.String,
     date: S.String,
   }),
-).annotate({
-  identifier: "AccountBalanceSettlement",
-}) as any as S.Schema<AccountBalanceSettlement>;
+).annotate({ identifier: "AccountBalanceSettlement" }) as any as S.Schema<AccountBalanceSettlement>;
 
 export type AccountBalanceBreakdownPendingSettlementsList = Array<AccountBalanceSettlement>;
 export const AccountBalanceBreakdownPendingSettlementsList = /*@__PURE__*/ S.Array(
@@ -423,9 +399,7 @@ export const AccountBalanceBreakdown = /*@__PURE__*/ S.suspend(() =>
     pending_settlements: AccountBalanceBreakdownPendingSettlementsList,
     reserve: S.String,
   }),
-).annotate({
-  identifier: "AccountBalanceBreakdown",
-}) as any as S.Schema<AccountBalanceBreakdown>;
+).annotate({ identifier: "AccountBalanceBreakdown" }) as any as S.Schema<AccountBalanceBreakdown>;
 
 export interface UserBalanceToken {
   /** Amount held in native token units, as a decimal string. */
@@ -453,9 +427,7 @@ export const UserBalanceToken = /*@__PURE__*/ S.suspend(() =>
     symbol: S.String,
     value_usd: S.Number,
   }),
-).annotate({
-  identifier: "UserBalanceToken",
-}) as any as S.Schema<UserBalanceToken>;
+).annotate({ identifier: "UserBalanceToken" }) as any as S.Schema<UserBalanceToken>;
 
 export type UserBalanceCryptoList = Array<UserBalanceToken>;
 export const UserBalanceCryptoList = /*@__PURE__*/ S.Array(
@@ -504,9 +476,7 @@ export const UserBalanceHistoryPoint = /*@__PURE__*/ S.suspend(() =>
     t: S.Number,
     v: S.Number,
   }),
-).annotate({
-  identifier: "UserBalanceHistoryPoint",
-}) as any as S.Schema<UserBalanceHistoryPoint>;
+).annotate({ identifier: "UserBalanceHistoryPoint" }) as any as S.Schema<UserBalanceHistoryPoint>;
 
 export type UserBalanceHistoryDataList = Array<UserBalanceHistoryPoint>;
 export const UserBalanceHistoryDataList = /*@__PURE__*/ S.Array(
@@ -529,9 +499,7 @@ export const UserBalanceHistory = /*@__PURE__*/ S.suspend(() =>
     max: S.Number,
     min: S.Number,
   }),
-).annotate({
-  identifier: "UserBalanceHistory",
-}) as any as S.Schema<UserBalanceHistory>;
+).annotate({ identifier: "UserBalanceHistory" }) as any as S.Schema<UserBalanceHistory>;
 
 export interface UserBanner {
   /** Profile banner image URL. */
@@ -560,9 +528,7 @@ export const UserEarningsAmount = /*@__PURE__*/ S.suspend(() =>
     last_7_days: S.String,
     lifetime: S.String,
   }),
-).annotate({
-  identifier: "UserEarningsAmount",
-}) as any as S.Schema<UserEarningsAmount>;
+).annotate({ identifier: "UserEarningsAmount" }) as any as S.Schema<UserEarningsAmount>;
 
 export interface UserEarnings {
   /** The first time the user earned gross income, as an ISO 8601 timestamp. */
@@ -591,9 +557,7 @@ export const UserProfilePicture = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     url: S.String,
   }),
-).annotate({
-  identifier: "UserProfilePicture",
-}) as any as S.Schema<UserProfilePicture>;
+).annotate({ identifier: "UserProfilePicture" }) as any as S.Schema<UserProfilePicture>;
 
 /** The platform the parent social account exists on. */
 export type SocialAccountParentPlatform =
@@ -632,9 +596,7 @@ export const SocialAccountParent = /*@__PURE__*/ S.suspend(() =>
     username: S.NullOr(S.String),
     verified: S.Boolean,
   }),
-).annotate({
-  identifier: "SocialAccountParent",
-}) as any as S.Schema<SocialAccountParent>;
+).annotate({ identifier: "SocialAccountParent" }) as any as S.Schema<SocialAccountParent>;
 
 /** The platform the social account exists on. */
 export type SocialAccountPlatform =
@@ -713,9 +675,7 @@ export const UserStaffAccess = /*@__PURE__*/ S.suspend(() =>
     manager: S.Boolean,
     support: S.Boolean,
   }),
-).annotate({
-  identifier: "UserStaffAccess",
-}) as any as S.Schema<UserStaffAccess>;
+).annotate({ identifier: "UserStaffAccess" }) as any as S.Schema<UserStaffAccess>;
 
 export interface User {
   /** The user's balance: personal cash + crypto + in-flight treasury deposits, plus account balances for accounts they own. Computed only on the self view (retrieved with the reserved id `me`) for callers with balance-read scope; `null` otherwise. */
@@ -792,9 +752,7 @@ export const UserPreferences = /*@__PURE__*/ S.suspend(() =>
     terms_accepted: S.Boolean,
     terms_accepted_at: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "UserPreferences",
-}) as any as S.Schema<UserPreferences>;
+).annotate({ identifier: "UserPreferences" }) as any as S.Schema<UserPreferences>;
 
 export type ListOauthGrantsRequestOrder = "created_at";
 export const ListOauthGrantsRequestOrder = S.String;
@@ -828,9 +786,7 @@ export const ListOauthGrantsRequest = /*@__PURE__*/ S.suspend(() =>
     order: S.optional(ListOauthGrantsRequestOrder.pipe(T.Query())),
     direction: S.optional(ListOauthGrantsRequestDirection.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/users/me/oauth_grants", code: 200 })),
-).annotate({
-  identifier: "ListOauthGrantsRequest",
-}) as any as S.Schema<ListOauthGrantsRequest>;
+).annotate({ identifier: "ListOauthGrantsRequest" }) as any as S.Schema<ListOauthGrantsRequest>;
 
 export type ListOauthGrantsResponseDataList = Array<OauthGrant>;
 export const ListOauthGrantsResponseDataList = /*@__PURE__*/ S.Array(
@@ -863,9 +819,7 @@ export const ListOauthGrantsResponse = /*@__PURE__*/ S.suspend(() =>
     data: ListOauthGrantsResponseDataList,
     page_info: ListOauthGrantsResponsePageInfo,
   }),
-).annotate({
-  identifier: "ListOauthGrantsResponse",
-}) as any as S.Schema<ListOauthGrantsResponse>;
+).annotate({ identifier: "ListOauthGrantsResponse" }) as any as S.Schema<ListOauthGrantsResponse>;
 
 export type ListPasskeysRequestOrder = "created_at";
 export const ListPasskeysRequestOrder = S.String;
@@ -896,9 +850,7 @@ export const ListPasskeysRequest = /*@__PURE__*/ S.suspend(() =>
     order: S.optional(ListPasskeysRequestOrder.pipe(T.Query())),
     direction: S.optional(ListPasskeysRequestDirection.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/users/me/passkeys", code: 200 })),
-).annotate({
-  identifier: "ListPasskeysRequest",
-}) as any as S.Schema<ListPasskeysRequest>;
+).annotate({ identifier: "ListPasskeysRequest" }) as any as S.Schema<ListPasskeysRequest>;
 
 export type ListPasskeysResponseDataList = Array<Passkey>;
 export const ListPasskeysResponseDataList = /*@__PURE__*/ S.Array(
@@ -917,9 +869,7 @@ export const ListPasskeysResponse = /*@__PURE__*/ S.suspend(() =>
     data: ListPasskeysResponseDataList,
     page_info: ListOauthGrantsResponsePageInfo,
   }),
-).annotate({
-  identifier: "ListPasskeysResponse",
-}) as any as S.Schema<ListPasskeysResponse>;
+).annotate({ identifier: "ListPasskeysResponse" }) as any as S.Schema<ListPasskeysResponse>;
 
 export interface ListUserNotificationExperiencePreferencesRequest {
   /** The number of preferences to return. */
@@ -932,11 +882,7 @@ export const ListUserNotificationExperiencePreferencesRequest = /*@__PURE__*/ S.
     first: S.optional(S.Number.pipe(T.Query())),
     after: S.optional(S.String.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/users/me/preferences/notifications/experiences",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/users/me/preferences/notifications/experiences", code: 200 }),
   ),
 ).annotate({
   identifier: "ListUserNotificationExperiencePreferencesRequest",
@@ -1048,13 +994,7 @@ export const ListUserNotificationTopicPreferencesRequest = /*@__PURE__*/ S.suspe
     topic_id: S.optional(S.String.pipe(T.Query())),
     first: S.optional(S.Number.pipe(T.Query())),
     after: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/users/me/preferences/notifications/topics",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/users/me/preferences/notifications/topics", code: 200 })),
 ).annotate({
   identifier: "ListUserNotificationTopicPreferencesRequest",
 }) as any as S.Schema<ListUserNotificationTopicPreferencesRequest>;
@@ -1204,9 +1144,7 @@ export const UserRecommendedAction = /*@__PURE__*/ S.suspend(() =>
     status: UserRecommendedActionStatus,
     title: S.String,
   }),
-).annotate({
-  identifier: "UserRecommendedAction",
-}) as any as S.Schema<UserRecommendedAction>;
+).annotate({ identifier: "UserRecommendedAction" }) as any as S.Schema<UserRecommendedAction>;
 
 export type ListUserRecommendedActionsResponseDataList = Array<UserRecommendedAction>;
 export const ListUserRecommendedActionsResponseDataList = /*@__PURE__*/ S.Array(
@@ -1244,9 +1182,7 @@ export const ListUsersRequest = /*@__PURE__*/ S.suspend(() =>
     last: S.optional(S.Number.pipe(T.Query())),
     before: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/users", code: 200 })),
-).annotate({
-  identifier: "ListUsersRequest",
-}) as any as S.Schema<ListUsersRequest>;
+).annotate({ identifier: "ListUsersRequest" }) as any as S.Schema<ListUsersRequest>;
 
 export type ListUsersResponseDataList = Array<User>;
 export const ListUsersResponseDataList = /*@__PURE__*/ S.Array(
@@ -1265,9 +1201,7 @@ export const ListUsersResponse = /*@__PURE__*/ S.suspend(() =>
     data: ListUsersResponseDataList,
     page_info: ListOauthGrantsResponsePageInfo,
   }),
-).annotate({
-  identifier: "ListUsersResponse",
-}) as any as S.Schema<ListUsersResponse>;
+).annotate({ identifier: "ListUsersResponse" }) as any as S.Schema<ListUsersResponse>;
 
 /** What the user is notified about in this scope. `mentions` is only valid for an experience level. `null` clears the preference. */
 export type SetUserNotificationPreferencesRequestPreferencesItemLevel =
@@ -1337,13 +1271,7 @@ export interface SetUserNotificationPreferencesRequest {
 export const SetUserNotificationPreferencesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     preferences: SetUserNotificationPreferencesRequestPreferencesList,
-  }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/users/me/preferences/notifications",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PATCH", uri: "/users/me/preferences/notifications", code: 200 })),
 ).annotate({
   identifier: "SetUserNotificationPreferencesRequest",
 }) as any as S.Schema<SetUserNotificationPreferencesRequest>;
@@ -1401,9 +1329,7 @@ export const UpdateUserRequestBanner = /*@__PURE__*/ S.suspend(() =>
     direct_upload_id: S.optional(S.String),
     id: S.optional(S.String),
   }),
-).annotate({
-  identifier: "UpdateUserRequestBanner",
-}) as any as S.Schema<UpdateUserRequestBanner>;
+).annotate({ identifier: "UpdateUserRequestBanner" }) as any as S.Schema<UpdateUserRequestBanner>;
 
 export type UpdateUserRequestProfilePicture = UpdateUserRequestBanner;
 export const UpdateUserRequestProfilePicture = UpdateUserRequestBanner;
@@ -1429,9 +1355,7 @@ export const UpdateUserRequest = /*@__PURE__*/ S.suspend(() =>
     profile_picture: S.optional(UpdateUserRequestBanner),
     username: S.optional(S.String),
   }).pipe(T.Http({ method: "PATCH", uri: "/users/{id}", code: 200 })),
-).annotate({
-  identifier: "UpdateUserRequest",
-}) as any as S.Schema<UpdateUserRequest>;
+).annotate({ identifier: "UpdateUserRequest" }) as any as S.Schema<UpdateUserRequest>;
 
 export interface UpdateUserPreferencesRequest {
   /** Whether the user has dismissed the first-time bounty worker onboarding. Set to `false` to show it again. */

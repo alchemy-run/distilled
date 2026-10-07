@@ -40,5 +40,20 @@ await runOpenApiConvert({
     namespace: "com.rediscloud.api",
     serviceName: "RedisCloud",
     skipDeprecated: true,
+    // Spring numbers these `proxyDataIntegrationWorkspace_<n>` in an order
+    // that changes between spec releases; pin each method to its name so a
+    // spec update cannot silently move an export onto another HTTP method.
+    operationNames: {
+      "GET /v1/subscriptions/{subscriptionId}/data-integration-workspace":
+        "proxyDataIntegrationWorkspace5",
+      "DELETE /v1/subscriptions/{subscriptionId}/data-integration-workspace":
+        "proxyDataIntegrationWorkspace6",
+      "POST /v1/subscriptions/{subscriptionId}/data-integration-workspace":
+        "proxyDataIntegrationWorkspace7",
+      "PUT /v1/subscriptions/{subscriptionId}/data-integration-workspace":
+        "proxyDataIntegrationWorkspace8",
+      "PATCH /v1/subscriptions/{subscriptionId}/data-integration-workspace":
+        "proxyDataIntegrationWorkspace9",
+    },
   },
 });

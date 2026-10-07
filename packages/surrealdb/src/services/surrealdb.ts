@@ -21,9 +21,7 @@ export const CreateSqlRequest = /*@__PURE__*/ S.suspend(() =>
     dB: S.optional(S.String.pipe(T.Header("DB"))),
     body: S.String.pipe(T.HttpBody()),
   }).pipe(T.Http({ method: "POST", uri: "/sql", code: 200 })),
-).annotate({
-  identifier: "CreateSqlRequest",
-}) as any as S.Schema<CreateSqlRequest>;
+).annotate({ identifier: "CreateSqlRequest" }) as any as S.Schema<CreateSqlRequest>;
 
 export interface CreateSqlResponse {}
 export const CreateSqlResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -44,9 +42,7 @@ export const DeleteKeyRequest = /*@__PURE__*/ S.suspend(() =>
     nS: S.optional(S.String.pipe(T.Header("NS"))),
     dB: S.optional(S.String.pipe(T.Header("DB"))),
   }).pipe(T.Http({ method: "DELETE", uri: "/key/{table}", code: 200 })),
-).annotate({
-  identifier: "DeleteKeyRequest",
-}) as any as S.Schema<DeleteKeyRequest>;
+).annotate({ identifier: "DeleteKeyRequest" }) as any as S.Schema<DeleteKeyRequest>;
 
 export interface DeleteKeyResponse {}
 export const DeleteKeyResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -70,9 +66,7 @@ export const DeleteKeyByIdRequest = /*@__PURE__*/ S.suspend(() =>
     nS: S.optional(S.String.pipe(T.Header("NS"))),
     dB: S.optional(S.String.pipe(T.Header("DB"))),
   }).pipe(T.Http({ method: "DELETE", uri: "/key/{table}/{id}", code: 200 })),
-).annotate({
-  identifier: "DeleteKeyByIdRequest",
-}) as any as S.Schema<DeleteKeyByIdRequest>;
+).annotate({ identifier: "DeleteKeyByIdRequest" }) as any as S.Schema<DeleteKeyByIdRequest>;
 
 export interface DeleteKeyByIdResponse {}
 export const DeleteKeyByIdResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -90,9 +84,7 @@ export const GetExportRequest = /*@__PURE__*/ S.suspend(() =>
     nS: S.optional(S.String.pipe(T.Header("NS"))),
     dB: S.optional(S.String.pipe(T.Header("DB"))),
   }).pipe(T.Http({ method: "GET", uri: "/export", code: 200 })),
-).annotate({
-  identifier: "GetExportRequest",
-}) as any as S.Schema<GetExportRequest>;
+).annotate({ identifier: "GetExportRequest" }) as any as S.Schema<GetExportRequest>;
 
 export interface GetExportResponse {}
 export const GetExportResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -102,9 +94,7 @@ export const GetExportResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).ann
 export interface GetHealthRequest {}
 export const GetHealthRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/health", code: 200 })),
-).annotate({
-  identifier: "GetHealthRequest",
-}) as any as S.Schema<GetHealthRequest>;
+).annotate({ identifier: "GetHealthRequest" }) as any as S.Schema<GetHealthRequest>;
 
 export interface GetHealthResponse {}
 export const GetHealthResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -158,9 +148,7 @@ export const GetKeyByIdRequest = /*@__PURE__*/ S.suspend(() =>
     nS: S.optional(S.String.pipe(T.Header("NS"))),
     dB: S.optional(S.String.pipe(T.Header("DB"))),
   }).pipe(T.Http({ method: "GET", uri: "/key/{table}/{id}", code: 200 })),
-).annotate({
-  identifier: "GetKeyByIdRequest",
-}) as any as S.Schema<GetKeyByIdRequest>;
+).annotate({ identifier: "GetKeyByIdRequest" }) as any as S.Schema<GetKeyByIdRequest>;
 
 export interface GetKeyByIdResponseBodyItemResultItem {
   id?: string;
@@ -203,16 +191,12 @@ export const GetKeyByIdResponseBodyList = /*@__PURE__*/ S.Array(
 export type GetKeyByIdResponse = GetKeyByIdResponseBodyList;
 export const GetKeyByIdResponse = /*@__PURE__*/ S.suspend(() =>
   GetKeyByIdResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "GetKeyByIdResponse",
-}) as any as S.Schema<GetKeyByIdResponse>;
+).annotate({ identifier: "GetKeyByIdResponse" }) as any as S.Schema<GetKeyByIdResponse>;
 
 export interface GetStatusRequest {}
 export const GetStatusRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/status", code: 200 })),
-).annotate({
-  identifier: "GetStatusRequest",
-}) as any as S.Schema<GetStatusRequest>;
+).annotate({ identifier: "GetStatusRequest" }) as any as S.Schema<GetStatusRequest>;
 
 export interface GetStatusResponse {}
 export const GetStatusResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -222,9 +206,7 @@ export const GetStatusResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).ann
 export interface GetVersionRequest {}
 export const GetVersionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/version", code: 200 })),
-).annotate({
-  identifier: "GetVersionRequest",
-}) as any as S.Schema<GetVersionRequest>;
+).annotate({ identifier: "GetVersionRequest" }) as any as S.Schema<GetVersionRequest>;
 
 export interface GetVersionResponse {}
 export const GetVersionResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -309,9 +291,7 @@ export const PutKeyByIdRequest = /*@__PURE__*/ S.suspend(() =>
     dB: S.optional(S.String.pipe(T.Header("DB"))),
     body: PutKeyByIdRequestBodyMap.pipe(T.HttpBody()),
   }).pipe(T.Http({ method: "PUT", uri: "/key/{table}/{id}", code: 200 })),
-).annotate({
-  identifier: "PutKeyByIdRequest",
-}) as any as S.Schema<PutKeyByIdRequest>;
+).annotate({ identifier: "PutKeyByIdRequest" }) as any as S.Schema<PutKeyByIdRequest>;
 
 export interface PutKeyByIdResponse {}
 export const PutKeyByIdResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -341,9 +321,7 @@ export const UpdateKeyRequest = /*@__PURE__*/ S.suspend(() =>
     dB: S.optional(S.String.pipe(T.Header("DB"))),
     body: UpdateKeyRequestBodyMap.pipe(T.HttpBody()),
   }).pipe(T.Http({ method: "POST", uri: "/key/{table}", code: 200 })),
-).annotate({
-  identifier: "UpdateKeyRequest",
-}) as any as S.Schema<UpdateKeyRequest>;
+).annotate({ identifier: "UpdateKeyRequest" }) as any as S.Schema<UpdateKeyRequest>;
 
 export interface UpdateKeyResponse {}
 export const UpdateKeyResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -351,9 +329,7 @@ export const UpdateKeyResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).ann
 }) as any as S.Schema<UpdateKeyResponse>;
 
 /** Record content */
-export type UpdateKeyByIdRequestBodyMap = {
-  [key: string]: unknown | undefined;
-};
+export type UpdateKeyByIdRequestBodyMap = { [key: string]: unknown | undefined };
 export const UpdateKeyByIdRequestBodyMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -378,9 +354,7 @@ export const UpdateKeyByIdRequest = /*@__PURE__*/ S.suspend(() =>
     dB: S.optional(S.String.pipe(T.Header("DB"))),
     body: UpdateKeyByIdRequestBodyMap.pipe(T.HttpBody()),
   }).pipe(T.Http({ method: "POST", uri: "/key/{table}/{id}", code: 200 })),
-).annotate({
-  identifier: "UpdateKeyByIdRequest",
-}) as any as S.Schema<UpdateKeyByIdRequest>;
+).annotate({ identifier: "UpdateKeyByIdRequest" }) as any as S.Schema<UpdateKeyByIdRequest>;
 
 export interface UpdateKeyByIdResponse {}
 export const UpdateKeyByIdResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -388,9 +362,7 @@ export const UpdateKeyByIdResponse = /*@__PURE__*/ S.suspend(() => S.Struct({}))
 }) as any as S.Schema<UpdateKeyByIdResponse>;
 
 /** Fields to merge into the record */
-export type UpdateKeyByIdRequestBodyMap2 = {
-  [key: string]: unknown | undefined;
-};
+export type UpdateKeyByIdRequestBodyMap2 = { [key: string]: unknown | undefined };
 export const UpdateKeyByIdRequestBodyMap2 = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -415,9 +387,7 @@ export const UpdateKeyByIdRequest2 = /*@__PURE__*/ S.suspend(() =>
     dB: S.optional(S.String.pipe(T.Header("DB"))),
     body: UpdateKeyByIdRequestBodyMap2.pipe(T.HttpBody()),
   }).pipe(T.Http({ method: "PATCH", uri: "/key/{table}/{id}", code: 200 })),
-).annotate({
-  identifier: "UpdateKeyByIdRequest2",
-}) as any as S.Schema<UpdateKeyByIdRequest2>;
+).annotate({ identifier: "UpdateKeyByIdRequest2" }) as any as S.Schema<UpdateKeyByIdRequest2>;
 
 export interface UpdateKeyById2Response {}
 export const UpdateKeyById2Response = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -425,9 +395,7 @@ export const UpdateKeyById2Response = /*@__PURE__*/ S.suspend(() => S.Struct({})
 }) as any as S.Schema<UpdateKeyById2Response>;
 
 /** Fields to merge into each record */
-export type UpdateKeyByTableRequestBodyMap = {
-  [key: string]: unknown | undefined;
-};
+export type UpdateKeyByTableRequestBodyMap = { [key: string]: unknown | undefined };
 export const UpdateKeyByTableRequestBodyMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -449,9 +417,7 @@ export const UpdateKeyByTableRequest = /*@__PURE__*/ S.suspend(() =>
     dB: S.optional(S.String.pipe(T.Header("DB"))),
     body: UpdateKeyByTableRequestBodyMap.pipe(T.HttpBody()),
   }).pipe(T.Http({ method: "PATCH", uri: "/key/{table}", code: 200 })),
-).annotate({
-  identifier: "UpdateKeyByTableRequest",
-}) as any as S.Schema<UpdateKeyByTableRequest>;
+).annotate({ identifier: "UpdateKeyByTableRequest" }) as any as S.Schema<UpdateKeyByTableRequest>;
 
 export interface UpdateKeyByTableResponse {}
 export const UpdateKeyByTableResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({

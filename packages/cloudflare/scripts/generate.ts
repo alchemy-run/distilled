@@ -23,6 +23,8 @@ const FORM_DATA_FILE_TRAIT = "com.cloudflare.protocols#formDataFile";
 const BINARY_RESPONSE_BODY_TRAIT = "com.cloudflare.protocols#binaryResponseBody";
 const KEY_DICTIONARY_TRAIT = "com.cloudflare.protocols#keyDictionary";
 const DEEP_QUERY_TRAIT = "com.cloudflare.protocols#deepQuery";
+const HOST_TRAIT = "com.cloudflare.protocols#host";
+const VERBATIM_PAYLOAD_TRAIT = "com.cloudflare.protocols#verbatimPayload";
 
 /** Cloudflare's provider spec for the shared smithy→SDK compiler. */
 const makeCfSpec = (
@@ -92,6 +94,22 @@ const makeCfSpec = (
       : undefined,
 
   sourceNote: ".generated-specs",
+
+  // The generic struct pipes (http trait, key dictionary), plus the
+  // per-operation origin for inputs whose operation carries
+  // `com.cloudflare.protocols#host` (K2's per-stream data plane).
+  structPipes: ({ isOpIo, httpTrait, opTraits }) => [
+    ...(httpTrait ? [`T.Http(${JSON.stringify(httpTrait)})`] : []),
+    ...(typeof opTraits?.[HOST_TRAIT] === "string"
+      ? [`T.Host(${JSON.stringify(opTraits[HOST_TRAIT])})`]
+      : []),
+    // An operation whose request body is user data (Pipelines ingest
+    // records) must not have its opaque content renamed through the
+    // service key dictionary.
+    ...(keyDictionary && isOpIo && opTraits?.[VERBATIM_PAYLOAD_TRAIT] === undefined
+      ? [`T.KeyDictionary(KEY_DICTIONARY)`]
+      : []),
+  ],
 
   // Op I/O roots carry the service key dictionary (inside the suspend, so it
   // survives core's Suspend resolution): the protocol reads it off the root

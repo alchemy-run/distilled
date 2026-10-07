@@ -161,13 +161,7 @@ export interface CancelTelephonyProcedureRequest {
 export const CancelTelephonyProcedureRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/telephony/procedure/{id}/cancel",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/telephony/procedure/{id}/cancel", code: 200 })),
 ).annotate({
   identifier: "CancelTelephonyProcedureRequest",
 }) as any as S.Schema<CancelTelephonyProcedureRequest>;
@@ -241,11 +235,7 @@ export const CancelTelephonyTerminationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     billingAccount: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/telephony/{billingAccount}/cancelTermination",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/telephony/{billingAccount}/cancelTermination", code: 200 }),
   ),
 ).annotate({
   identifier: "CancelTelephonyTerminationRequest",
@@ -318,9 +308,7 @@ export const TelephonyOfferTask = /*@__PURE__*/ S.suspend(() =>
     taskId: S.optional(S.Number),
     type: S.optional(TelephonyOfferTaskTypeEnum),
   }),
-).annotate({
-  identifier: "TelephonyOfferTask",
-}) as any as S.Schema<TelephonyOfferTask>;
+).annotate({ identifier: "TelephonyOfferTask" }) as any as S.Schema<TelephonyOfferTask>;
 
 export interface ConvertTelephonyNumberToLineRequest {
   /** The name of your billingAccount */
@@ -364,11 +352,7 @@ export const CreateTelephonyAbbreviatedNumberRequest = /*@__PURE__*/ S.suspend((
     name: S.String,
     surname: S.String,
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/telephony/{billingAccount}/abbreviatedNumber",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/telephony/{billingAccount}/abbreviatedNumber", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateTelephonyAbbreviatedNumberRequest",
@@ -411,11 +395,7 @@ export const CreateTelephonyAliasChangeContactRequest = /*@__PURE__*/ S.suspend(
     contactBilling: S.optional(S.String),
     contactTech: S.optional(S.String),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/telephony/aliases/{serviceName}/changeContact",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/telephony/aliases/{serviceName}/changeContact", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateTelephonyAliasChangeContactRequest",
@@ -445,11 +425,7 @@ export const CreateTelephonyBillingAccountSiteRequest = /*@__PURE__*/ S.suspend(
     billingAccount: S.String.pipe(T.Label()),
     billingAccountSite: S.String,
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/telephony/{billingAccount}/billingAccountSite",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/telephony/{billingAccount}/billingAccountSite", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateTelephonyBillingAccountSiteRequest",
@@ -506,13 +482,7 @@ export const CreateTelephonyChangeContactRequest = /*@__PURE__*/ S.suspend(() =>
     contactAdmin: S.optional(S.String),
     contactBilling: S.optional(S.String),
     contactTech: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/telephony/{billingAccount}/changeContact",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/telephony/{billingAccount}/changeContact", code: 200 })),
 ).annotate({
   identifier: "CreateTelephonyChangeContactRequest",
 }) as any as S.Schema<CreateTelephonyChangeContactRequest>;
@@ -750,9 +720,7 @@ export const TelephonyConferenceRoom = /*@__PURE__*/ S.suspend(() =>
     roomNumber: S.optional(S.Number),
     whiteLabelReport: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "TelephonyConferenceRoom",
-}) as any as S.Schema<TelephonyConferenceRoom>;
+).annotate({ identifier: "TelephonyConferenceRoom" }) as any as S.Schema<TelephonyConferenceRoom>;
 
 export interface CreateTelephonyConferenceRoomParticipantDeafRequest {
   /** The name of your billingAccount */
@@ -1075,9 +1043,7 @@ export const TelephonyBannerAccess = /*@__PURE__*/ S.suspend(() =>
     id: S.optional(S.Number),
     url: S.optional(S.String),
   }),
-).annotate({
-  identifier: "TelephonyBannerAccess",
-}) as any as S.Schema<TelephonyBannerAccess>;
+).annotate({ identifier: "TelephonyBannerAccess" }) as any as S.Schema<TelephonyBannerAccess>;
 
 export interface CreateTelephonyEasyHuntingHuntingAgentCallEavesdropRequest {
   /** The name of your billingAccount */
@@ -1895,13 +1861,7 @@ export const CreateTelephonyEventTokenRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     billingAccount: S.String.pipe(T.Label()),
     expiration: TelephonyTokenExpirationEnum,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/telephony/{billingAccount}/eventToken",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/telephony/{billingAccount}/eventToken", code: 200 })),
 ).annotate({
   identifier: "CreateTelephonyEventTokenRequest",
 }) as any as S.Schema<CreateTelephonyEventTokenRequest>;
@@ -2008,9 +1968,7 @@ export const TelephonyFaxCampaign = /*@__PURE__*/ S.suspend(() =>
     reference: S.optional(S.String),
     status: S.optional(S.String),
   }),
-).annotate({
-  identifier: "TelephonyFaxCampaign",
-}) as any as S.Schema<TelephonyFaxCampaign>;
+).annotate({ identifier: "TelephonyFaxCampaign" }) as any as S.Schema<TelephonyFaxCampaign>;
 
 /** List of numbers not allowed to send a fax */
 export type CreateTelephonyFaxScreenListRequestBlacklistedNumbersList = Array<string>;
@@ -2128,9 +2086,7 @@ export const TelephonyFaxScreen = /*@__PURE__*/ S.suspend(() =>
     whitelistedNumbers: S.optional(S.NullOr(TelephonyFaxScreenWhitelistedNumbersList)),
     whitelistedTSI: S.optional(S.NullOr(TelephonyFaxScreenWhitelistedTSIList)),
   }),
-).annotate({
-  identifier: "TelephonyFaxScreen",
-}) as any as S.Schema<TelephonyFaxScreen>;
+).annotate({ identifier: "TelephonyFaxScreen" }) as any as S.Schema<TelephonyFaxScreen>;
 
 export interface CreateTelephonyFaxSettingsChangePasswordRequest {
   /** The name of your billingAccount */
@@ -2443,11 +2399,7 @@ export const CreateTelephonyLineChangeContactRequest = /*@__PURE__*/ S.suspend((
     contactBilling: S.optional(S.String),
     contactTech: S.optional(S.String),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/telephony/lines/{serviceName}/changeContact",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/telephony/lines/{serviceName}/changeContact", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateTelephonyLineChangeContactRequest",
@@ -2849,9 +2801,7 @@ export const TelephonyRmaReturn = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.optional(S.String),
   }),
-).annotate({
-  identifier: "TelephonyRmaReturn",
-}) as any as S.Schema<TelephonyRmaReturn>;
+).annotate({ identifier: "TelephonyRmaReturn" }) as any as S.Schema<TelephonyRmaReturn>;
 
 /** Types of return merchandise authorisation you can change to */
 export type TelephonyRmaChangeTypeEnum = "resiliate" | "toSip";
@@ -2922,9 +2872,7 @@ export const TelephonySoftphoneToken = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     token: S.optional(S.String),
   }),
-).annotate({
-  identifier: "TelephonySoftphoneToken",
-}) as any as S.Schema<TelephonySoftphoneToken>;
+).annotate({ identifier: "TelephonySoftphoneToken" }) as any as S.Schema<TelephonySoftphoneToken>;
 
 /** Tones type */
 export type TelephonyTonesTypeEnum = "callWaiting" | "endCall" | "onHold" | "ringback";
@@ -3008,9 +2956,7 @@ export const TelephonyTrafficExtract = /*@__PURE__*/ S.suspend(() =>
     id: S.optional(S.Number),
     status: S.optional(TelephonyTaskStatusEnum),
   }),
-).annotate({
-  identifier: "TelephonyTrafficExtract",
-}) as any as S.Schema<TelephonyTrafficExtract>;
+).annotate({ identifier: "TelephonyTrafficExtract" }) as any as S.Schema<TelephonyTrafficExtract>;
 
 /** All existing types of line or alias */
 export type TelephonyTypeEnum =
@@ -3085,11 +3031,7 @@ export const CreateTelephonyOutplanNotificationRequest = /*@__PURE__*/ S.suspend
     notifyEmail: S.optional(S.String),
     percentage: S.Number,
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/telephony/{billingAccount}/outplanNotification",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/telephony/{billingAccount}/outplanNotification", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateTelephonyOutplanNotificationRequest",
@@ -3175,9 +3117,7 @@ export const TelephonyOvhPabxDialplan = /*@__PURE__*/ S.suspend(() =>
     showCallerNumber: S.optional(TelephonyOvhPabxDialplanNumberPresentationEnum),
     transferTimeout: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "TelephonyOvhPabxDialplan",
-}) as any as S.Schema<TelephonyOvhPabxDialplan>;
+).annotate({ identifier: "TelephonyOvhPabxDialplan" }) as any as S.Schema<TelephonyOvhPabxDialplan>;
 
 /** Scheculer category */
 export type TelephonySchedulerCategoryEnum =
@@ -4044,9 +3984,7 @@ export const TelephonyOvhPabxMenu = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     timeout: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "TelephonyOvhPabxMenu",
-}) as any as S.Schema<TelephonyOvhPabxMenu>;
+).annotate({ identifier: "TelephonyOvhPabxMenu" }) as any as S.Schema<TelephonyOvhPabxMenu>;
 
 /** IVR menu action */
 export type TelephonyOvhPabxIvrMenuEntryActionEnum =
@@ -4193,13 +4131,7 @@ export const CreateTelephonyPhonebookRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     billingAccount: S.String.pipe(T.Label()),
     name: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/telephony/{billingAccount}/phonebook",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/telephony/{billingAccount}/phonebook", code: 200 })),
 ).annotate({
   identifier: "CreateTelephonyPhonebookRequest",
 }) as any as S.Schema<CreateTelephonyPhonebookRequest>;
@@ -4438,9 +4370,7 @@ export const TelephonyProcedure = /*@__PURE__*/ S.suspend(() =>
     requestDate: S.optional(S.String),
     status: S.optional(TelephonyProcedureStatusEnum),
   }),
-).annotate({
-  identifier: "TelephonyProcedure",
-}) as any as S.Schema<TelephonyProcedure>;
+).annotate({ identifier: "TelephonyProcedure" }) as any as S.Schema<TelephonyProcedure>;
 
 export interface CreateTelephonyRedirectChangeDestinationRequest {
   /** The name of your billingAccount */
@@ -4816,9 +4746,7 @@ export const TelephonyTimeCondition = /*@__PURE__*/ S.suspend(() =>
     policy: S.optional(TelephonyTimeConditionsPolicyEnum),
     status: S.optional(S.String),
   }),
-).annotate({
-  identifier: "TelephonyTimeCondition",
-}) as any as S.Schema<TelephonyTimeCondition>;
+).annotate({ identifier: "TelephonyTimeCondition" }) as any as S.Schema<TelephonyTimeCondition>;
 
 export interface CreateTelephonyTrunkChangeContactRequest {
   /** Your trunk number */
@@ -4837,11 +4765,7 @@ export const CreateTelephonyTrunkChangeContactRequest = /*@__PURE__*/ S.suspend(
     contactBilling: S.optional(S.String),
     contactTech: S.optional(S.String),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/telephony/trunks/{serviceName}/changeContact",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/telephony/trunks/{serviceName}/changeContact", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateTelephonyTrunkChangeContactRequest",
@@ -5080,9 +5004,7 @@ export const DeleteTelephonyRequest = /*@__PURE__*/ S.suspend(() =>
     details: S.optional(S.String.pipe(T.Query())),
     reason: TelephonyTerminationReasonEnum.pipe(T.Query()),
   }).pipe(T.Http({ method: "DELETE", uri: "/telephony/{billingAccount}", code: 200 })),
-).annotate({
-  identifier: "DeleteTelephonyRequest",
-}) as any as S.Schema<DeleteTelephonyRequest>;
+).annotate({ identifier: "DeleteTelephonyRequest" }) as any as S.Schema<DeleteTelephonyRequest>;
 
 export interface DeleteTelephonyResponse {}
 export const DeleteTelephonyResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -5538,13 +5460,7 @@ export interface DeleteTelephonyEventTokenRequest {
 export const DeleteTelephonyEventTokenRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     billingAccount: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/telephony/{billingAccount}/eventToken",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/telephony/{billingAccount}/eventToken", code: 200 })),
 ).annotate({
   identifier: "DeleteTelephonyEventTokenRequest",
 }) as any as S.Schema<DeleteTelephonyEventTokenRequest>;
@@ -6491,11 +6407,7 @@ export const DeleteTelephonyPhonebookRequest = /*@__PURE__*/ S.suspend(() =>
     billingAccount: S.String.pipe(T.Label()),
     bookKey: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/telephony/{billingAccount}/phonebook/{bookKey}",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/telephony/{billingAccount}/phonebook/{bookKey}", code: 200 }),
   ),
 ).annotate({
   identifier: "DeleteTelephonyPhonebookRequest",
@@ -6723,11 +6635,7 @@ export const DeleteTelephonySoftphoneLogoRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     billingAccount: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/telephony/{billingAccount}/softphone/logo",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/telephony/{billingAccount}/softphone/logo", code: 200 }),
   ),
 ).annotate({
   identifier: "DeleteTelephonySoftphoneLogoRequest",
@@ -7024,11 +6932,7 @@ export const TelephonyEntrepriseNumberInformationsTask = /*@__PURE__*/ S.suspend
 export interface GenerateTelephonyResellerPanelPasswordRequest {}
 export const GenerateTelephonyResellerPanelPasswordRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/telephony/resellerPanel/generatePassword",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/telephony/resellerPanel/generatePassword", code: 200 }),
   ),
 ).annotate({
   identifier: "GenerateTelephonyResellerPanelPasswordRequest",
@@ -7049,9 +6953,7 @@ export const GetTelephonyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     billingAccount: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/telephony/{billingAccount}", code: 200 })),
-).annotate({
-  identifier: "GetTelephonyRequest",
-}) as any as S.Schema<GetTelephonyRequest>;
+).annotate({ identifier: "GetTelephonyRequest" }) as any as S.Schema<GetTelephonyRequest>;
 
 /** Resource tags. Tags that were internally computed are prefixed with ovh: */
 export type IamResourceMetadataTagsMap = { [key: string]: string | undefined };
@@ -7078,9 +6980,7 @@ export const IamResourceMetadata = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(S.NullOr(IamResourceMetadataTagsMap)),
     urn: S.optional(S.String),
   }),
-).annotate({
-  identifier: "IamResourceMetadata",
-}) as any as S.Schema<IamResourceMetadata>;
+).annotate({ identifier: "IamResourceMetadata" }) as any as S.Schema<IamResourceMetadata>;
 
 /** Status of billing account */
 export type TelephonyBillingAccountStatusEnum = "closed" | "deleted" | "enabled" | "expired";
@@ -7160,16 +7060,8 @@ export interface GetTelephonyAliasRequest {
 export const GetTelephonyAliasRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/telephony/aliases/{serviceName}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetTelephonyAliasRequest",
-}) as any as S.Schema<GetTelephonyAliasRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/telephony/aliases/{serviceName}", code: 200 })),
+).annotate({ identifier: "GetTelephonyAliasRequest" }) as any as S.Schema<GetTelephonyAliasRequest>;
 
 /** Telephony service */
 export interface TelephonyTelephonyGenericServiceWithIAM {
@@ -7194,11 +7086,7 @@ export const GetTelephonyAliasServiceInfosRequest = /*@__PURE__*/ S.suspend(() =
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/telephony/aliases/{serviceName}/serviceInfos",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/telephony/aliases/{serviceName}/serviceInfos", code: 200 }),
   ),
 ).annotate({
   identifier: "GetTelephonyAliasServiceInfosRequest",
@@ -7231,9 +7119,7 @@ export const ServiceRenewType = /*@__PURE__*/ S.suspend(() =>
     manualPayment: S.optional(S.NullOr(S.Boolean)),
     period: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "ServiceRenewType",
-}) as any as S.Schema<ServiceRenewType>;
+).annotate({ identifier: "ServiceRenewType" }) as any as S.Schema<ServiceRenewType>;
 
 /** Detailed renewal type of a service */
 export type ServiceRenewalTypeEnum =
@@ -7291,9 +7177,7 @@ export const ServicesService = /*@__PURE__*/ S.suspend(() =>
     serviceId: S.optional(S.Number),
     status: S.optional(ServiceStateEnum),
   }),
-).annotate({
-  identifier: "ServicesService",
-}) as any as S.Schema<ServicesService>;
+).annotate({ identifier: "ServicesService" }) as any as S.Schema<ServicesService>;
 
 export interface GetTelephonyBillingAccountSiteRequest {
   /** The name of your billingAccount */
@@ -7303,11 +7187,7 @@ export const GetTelephonyBillingAccountSiteRequest = /*@__PURE__*/ S.suspend(() 
   S.Struct({
     billingAccount: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/telephony/{billingAccount}/billingAccountSite",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/telephony/{billingAccount}/billingAccountSite", code: 200 }),
   ),
 ).annotate({
   identifier: "GetTelephonyBillingAccountSiteRequest",
@@ -7356,9 +7236,7 @@ export const TelephonyCarrierSip = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.optional(S.String),
     serviceType: S.optional(TelephonyTypeServiceEnum),
   }),
-).annotate({
-  identifier: "TelephonyCarrierSip",
-}) as any as S.Schema<TelephonyCarrierSip>;
+).annotate({ identifier: "TelephonyCarrierSip" }) as any as S.Schema<TelephonyCarrierSip>;
 
 export interface GetTelephonyCarrierSipCdrsRequest {
   /** The name of your billingAccount */
@@ -7407,9 +7285,7 @@ export const TelephonyDocument = /*@__PURE__*/ S.suspend(() =>
     url: S.optional(S.String),
     validationDate: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "TelephonyDocument",
-}) as any as S.Schema<TelephonyDocument>;
+).annotate({ identifier: "TelephonyDocument" }) as any as S.Schema<TelephonyDocument>;
 
 export interface GetTelephonyCarrierSipEndpointRequest {
   /** The name of your billingAccount */
@@ -7628,9 +7504,7 @@ export const TelephonyConference = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.optional(S.String),
     serviceType: S.optional(TelephonyTypeServiceEnum),
   }),
-).annotate({
-  identifier: "TelephonyConference",
-}) as any as S.Schema<TelephonyConference>;
+).annotate({ identifier: "TelephonyConference" }) as any as S.Schema<TelephonyConference>;
 
 export interface GetTelephonyConferenceHistoryRequest {
   /** The name of your billingAccount */
@@ -8055,15 +7929,9 @@ export const GetTelephonyDdiRequest = /*@__PURE__*/ S.suspend(() =>
     billingAccount: S.String.pipe(T.Label()),
     serviceName: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/telephony/{billingAccount}/ddi/{serviceName}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/telephony/{billingAccount}/ddi/{serviceName}", code: 200 }),
   ),
-).annotate({
-  identifier: "GetTelephonyDdiRequest",
-}) as any as S.Schema<GetTelephonyDdiRequest>;
+).annotate({ identifier: "GetTelephonyDdiRequest" }) as any as S.Schema<GetTelephonyDdiRequest>;
 
 /** DDI (direct dial-in) service */
 export interface TelephonyDdi {
@@ -8153,9 +8021,7 @@ export const TelephonyEasyHunting = /*@__PURE__*/ S.suspend(() =>
     toneOnOpening: S.optional(S.NullOr(S.Number)),
     voicemail: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "TelephonyEasyHunting",
-}) as any as S.Schema<TelephonyEasyHunting>;
+).annotate({ identifier: "TelephonyEasyHunting" }) as any as S.Schema<TelephonyEasyHunting>;
 
 export interface GetTelephonyEasyHuntingHuntingRequest {
   /** The name of your billingAccount */
@@ -8195,9 +8061,7 @@ export const TelephonyOvhPabxHunting = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     statusIvrEnabled: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "TelephonyOvhPabxHunting",
-}) as any as S.Schema<TelephonyOvhPabxHunting>;
+).annotate({ identifier: "TelephonyOvhPabxHunting" }) as any as S.Schema<TelephonyOvhPabxHunting>;
 
 export interface GetTelephonyEasyHuntingHuntingAgentRequest {
   /** The name of your billingAccount */
@@ -8344,9 +8208,7 @@ export const TelephonyEventToken = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     token: S.optional(S.String),
   }),
-).annotate({
-  identifier: "TelephonyEventToken",
-}) as any as S.Schema<TelephonyEventToken>;
+).annotate({ identifier: "TelephonyEventToken" }) as any as S.Schema<TelephonyEventToken>;
 
 export interface GetTelephonyEasyHuntingHuntingAgentLiveStatusRequest {
   /** The name of your billingAccount */
@@ -8693,9 +8555,7 @@ export const TelephonyOvhPabxRecord = /*@__PURE__*/ S.suspend(() =>
     fileUrl: S.optional(S.String),
     id: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "TelephonyOvhPabxRecord",
-}) as any as S.Schema<TelephonyOvhPabxRecord>;
+).annotate({ identifier: "TelephonyOvhPabxRecord" }) as any as S.Schema<TelephonyOvhPabxRecord>;
 
 export interface GetTelephonyEasyHuntingScreenListConditionConditionRequest {
   /** The name of your billingAccount */
@@ -8792,9 +8652,7 @@ export const TelephonyOvhPabxSound = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     soundId: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "TelephonyOvhPabxSound",
-}) as any as S.Schema<TelephonyOvhPabxSound>;
+).annotate({ identifier: "TelephonyOvhPabxSound" }) as any as S.Schema<TelephonyOvhPabxSound>;
 
 export interface GetTelephonyEasyHuntingTimeConditionConditionRequest {
   /** The name of your billingAccount */
@@ -8886,13 +8744,7 @@ export interface GetTelephonyEventTokenRequest {
 export const GetTelephonyEventTokenRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     billingAccount: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/telephony/{billingAccount}/eventToken",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/telephony/{billingAccount}/eventToken", code: 200 })),
 ).annotate({
   identifier: "GetTelephonyEventTokenRequest",
 }) as any as S.Schema<GetTelephonyEventTokenRequest>;
@@ -8907,15 +8759,9 @@ export const GetTelephonyFaxRequest = /*@__PURE__*/ S.suspend(() =>
     billingAccount: S.String.pipe(T.Label()),
     serviceName: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/telephony/{billingAccount}/fax/{serviceName}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/telephony/{billingAccount}/fax/{serviceName}", code: 200 }),
   ),
-).annotate({
-  identifier: "GetTelephonyFaxRequest",
-}) as any as S.Schema<GetTelephonyFaxRequest>;
+).annotate({ identifier: "GetTelephonyFaxRequest" }) as any as S.Schema<GetTelephonyFaxRequest>;
 
 /** Types of statistics available for a line. */
 export type TelephonyLineNotificationsLogsFrequencyEnum = "Never" | "Once a day" | "Twice a day";
@@ -9082,9 +8928,7 @@ export const TelephonyFaxProperties = /*@__PURE__*/ S.suspend(() =>
     rejectAnonymous: S.optional(S.Boolean),
     sender: S.optional(S.String),
   }),
-).annotate({
-  identifier: "TelephonyFaxProperties",
-}) as any as S.Schema<TelephonyFaxProperties>;
+).annotate({ identifier: "TelephonyFaxProperties" }) as any as S.Schema<TelephonyFaxProperties>;
 
 export interface GetTelephonyHasSpecialNumbersRequest {
   /** The name of your billingAccount */
@@ -9094,11 +8938,7 @@ export const GetTelephonyHasSpecialNumbersRequest = /*@__PURE__*/ S.suspend(() =
   S.Struct({
     billingAccount: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/telephony/{billingAccount}/hasSpecialNumbers",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/telephony/{billingAccount}/hasSpecialNumbers", code: 200 }),
   ),
 ).annotate({
   identifier: "GetTelephonyHasSpecialNumbersRequest",
@@ -9194,9 +9034,7 @@ export const TelephonyPcsFile = /*@__PURE__*/ S.suspend(() =>
     url: S.optional(S.String),
     urlExpirationDatetime: S.optional(S.String),
   }),
-).annotate({
-  identifier: "TelephonyPcsFile",
-}) as any as S.Schema<TelephonyPcsFile>;
+).annotate({ identifier: "TelephonyPcsFile" }) as any as S.Schema<TelephonyPcsFile>;
 
 export interface GetTelephonyHistoryRepaymentConsumptionRequest {
   /** The name of your billingAccount */
@@ -9309,9 +9147,7 @@ export const GetTelephonyLineRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/telephony/lines/{serviceName}", code: 200 })),
-).annotate({
-  identifier: "GetTelephonyLineRequest",
-}) as any as S.Schema<GetTelephonyLineRequest>;
+).annotate({ identifier: "GetTelephonyLineRequest" }) as any as S.Schema<GetTelephonyLineRequest>;
 
 export interface GetTelephonyLineAbbreviatedNumberRequest {
   /** The name of your billingAccount */
@@ -9503,9 +9339,7 @@ export const TelephonyCallsGenerated = /*@__PURE__*/ S.suspend(() =>
     transferFrom: S.optional(S.NullOr(S.String)),
     uuid: S.optional(S.String),
   }),
-).annotate({
-  identifier: "TelephonyCallsGenerated",
-}) as any as S.Schema<TelephonyCallsGenerated>;
+).annotate({ identifier: "TelephonyCallsGenerated" }) as any as S.Schema<TelephonyCallsGenerated>;
 
 export interface GetTelephonyLineByServiceNameRequest {
   /** The name of your billingAccount */
@@ -9517,11 +9351,7 @@ export const GetTelephonyLineByServiceNameRequest = /*@__PURE__*/ S.suspend(() =
     billingAccount: S.String.pipe(T.Label()),
     serviceName: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/telephony/{billingAccount}/line/{serviceName}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/telephony/{billingAccount}/line/{serviceName}", code: 200 }),
   ),
 ).annotate({
   identifier: "GetTelephonyLineByServiceNameRequest",
@@ -9542,9 +9372,7 @@ export const TelephonyLineOffer = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     price: S.optional(S.NullOr(OrderPrice)),
   }),
-).annotate({
-  identifier: "TelephonyLineOffer",
-}) as any as S.Schema<TelephonyLineOffer>;
+).annotate({ identifier: "TelephonyLineOffer" }) as any as S.Schema<TelephonyLineOffer>;
 
 /** The line offers (Deprecated, prefer "name" in getPublicOffer) */
 export type TelephonyLineOffersList = Array<string>;
@@ -9627,9 +9455,7 @@ export const TelephonyClick2CallUser = /*@__PURE__*/ S.suspend(() =>
     id: S.optional(S.Number),
     login: S.optional(S.String),
   }),
-).annotate({
-  identifier: "TelephonyClick2CallUser",
-}) as any as S.Schema<TelephonyClick2CallUser>;
+).annotate({ identifier: "TelephonyClick2CallUser" }) as any as S.Schema<TelephonyClick2CallUser>;
 
 export interface GetTelephonyLineEventRequest {
   /** The name of your billingAccount */
@@ -9935,9 +9761,7 @@ export const TelephonyLineOptions = /*@__PURE__*/ S.suspend(() =>
     voicemailExternalNumber: S.optional(S.String),
     voicemailInternalNumber: S.optional(S.String),
   }),
-).annotate({
-  identifier: "TelephonyLineOptions",
-}) as any as S.Schema<TelephonyLineOptions>;
+).annotate({ identifier: "TelephonyLineOptions" }) as any as S.Schema<TelephonyLineOptions>;
 
 export interface GetTelephonyLinePhoneRequest {
   /** The name of your billingAccount */
@@ -9979,9 +9803,7 @@ export const ComplexTypeRangeLong = /*@__PURE__*/ S.suspend(() =>
     from: S.optional(S.Number),
     to: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "ComplexTypeRangeLong",
-}) as any as S.Schema<ComplexTypeRangeLong>;
+).annotate({ identifier: "ComplexTypeRangeLong" }) as any as S.Schema<ComplexTypeRangeLong>;
 
 /** Phone configuration type enum */
 export type TelephonyPhoneConfigurationTypeEnum =
@@ -10161,9 +9983,7 @@ export const TelephonyFunctionKey = /*@__PURE__*/ S.suspend(() =>
     parameter: S.optional(S.NullOr(S.String)),
     type: S.optional(S.String),
   }),
-).annotate({
-  identifier: "TelephonyFunctionKey",
-}) as any as S.Schema<TelephonyFunctionKey>;
+).annotate({ identifier: "TelephonyFunctionKey" }) as any as S.Schema<TelephonyFunctionKey>;
 
 export interface GetTelephonyLinePhonePhonebookRequest {
   /** The name of your billingAccount */
@@ -10206,9 +10026,7 @@ export const TelephonyPhonebook = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     phoneKey: S.optional(S.String),
   }),
-).annotate({
-  identifier: "TelephonyPhonebook",
-}) as any as S.Schema<TelephonyPhonebook>;
+).annotate({ identifier: "TelephonyPhonebook" }) as any as S.Schema<TelephonyPhonebook>;
 
 /** Export file format */
 export type TelephonyContactsExportFormatsEnum = "csv";
@@ -10627,9 +10445,7 @@ export const TelephonyContact = /*@__PURE__*/ S.suspend(() =>
     phone: S.optional(S.NullOr(S.String)),
     zip: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "TelephonyContact",
-}) as any as S.Schema<TelephonyContact>;
+).annotate({ identifier: "TelephonyContact" }) as any as S.Schema<TelephonyContact>;
 
 /** Return merchandise authorisation step */
 export type TelephonyRmaStatusEnum = "closed" | "open" | "received";
@@ -10671,9 +10487,7 @@ export const TelephonyRmaStep = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(TelephonyRmaStepNameEnum),
     status: S.optional(TelephonyRmaStepStatusEnum),
   }),
-).annotate({
-  identifier: "TelephonyRmaStep",
-}) as any as S.Schema<TelephonyRmaStep>;
+).annotate({ identifier: "TelephonyRmaStep" }) as any as S.Schema<TelephonyRmaStep>;
 
 /** Indicates the current status of the RMA with a list of steps */
 export type TelephonyRmaStepsList = Array<TelephonyRmaStep>;
@@ -10803,13 +10617,7 @@ export interface GetTelephonyLineServiceInfosRequest {
 export const GetTelephonyLineServiceInfosRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/telephony/lines/{serviceName}/serviceInfos",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/telephony/lines/{serviceName}/serviceInfos", code: 200 })),
 ).annotate({
   identifier: "GetTelephonyLineServiceInfosRequest",
 }) as any as S.Schema<GetTelephonyLineServiceInfosRequest>;
@@ -10924,9 +10732,7 @@ export const TelephonySoftphoneLogo = /*@__PURE__*/ S.suspend(() =>
     filename: S.String,
     url: S.String,
   }),
-).annotate({
-  identifier: "TelephonySoftphoneLogo",
-}) as any as S.Schema<TelephonySoftphoneLogo>;
+).annotate({ identifier: "TelephonySoftphoneLogo" }) as any as S.Schema<TelephonySoftphoneLogo>;
 
 export interface GetTelephonyLineSoftphoneStatusRequest {
   /** The name of your billingAccount */
@@ -10967,9 +10773,7 @@ export const TelephonySoftphoneStatus = /*@__PURE__*/ S.suspend(() =>
     eligibility: S.optional(S.Boolean),
     infrastructure: S.optional(TelephonySoftphoneInfrastructureEnum),
   }),
-).annotate({
-  identifier: "TelephonySoftphoneStatus",
-}) as any as S.Schema<TelephonySoftphoneStatus>;
+).annotate({ identifier: "TelephonySoftphoneStatus" }) as any as S.Schema<TelephonySoftphoneStatus>;
 
 export interface GetTelephonyLineSoftphoneThemeRequest {
   /** The name of your billingAccount */
@@ -11003,9 +10807,7 @@ export const TelephonySoftphoneTheme = /*@__PURE__*/ S.suspend(() =>
     color: S.optional(S.String),
     themeId: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "TelephonySoftphoneTheme",
-}) as any as S.Schema<TelephonySoftphoneTheme>;
+).annotate({ identifier: "TelephonySoftphoneTheme" }) as any as S.Schema<TelephonySoftphoneTheme>;
 
 export interface GetTelephonyLineTonesRequest {
   /** The name of your billingAccount */
@@ -11089,11 +10891,7 @@ export const GetTelephonyNumberRequest = /*@__PURE__*/ S.suspend(() =>
     billingAccount: S.String.pipe(T.Label()),
     serviceName: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/telephony/{billingAccount}/number/{serviceName}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/telephony/{billingAccount}/number/{serviceName}", code: 200 }),
   ),
 ).annotate({
   identifier: "GetTelephonyNumberRequest",
@@ -11119,9 +10917,7 @@ export const TelephonyNumber = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.optional(S.String),
     serviceType: S.optional(TelephonyTypeServiceEnum),
   }),
-).annotate({
-  identifier: "TelephonyNumber",
-}) as any as S.Schema<TelephonyNumber>;
+).annotate({ identifier: "TelephonyNumber" }) as any as S.Schema<TelephonyNumber>;
 
 export interface GetTelephonyOfferTaskRequest {
   /** The name of your billingAccount */
@@ -11133,11 +10929,7 @@ export const GetTelephonyOfferTaskRequest = /*@__PURE__*/ S.suspend(() =>
     billingAccount: S.String.pipe(T.Label()),
     taskId: S.Number.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/telephony/{billingAccount}/offerTask/{taskId}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/telephony/{billingAccount}/offerTask/{taskId}", code: 200 }),
   ),
 ).annotate({
   identifier: "GetTelephonyOfferTaskRequest",
@@ -11174,11 +10966,7 @@ export const GetTelephonyOvhPabxRequest = /*@__PURE__*/ S.suspend(() =>
     billingAccount: S.String.pipe(T.Label()),
     serviceName: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/telephony/{billingAccount}/ovhPabx/{serviceName}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/telephony/{billingAccount}/ovhPabx/{serviceName}", code: 200 }),
   ),
 ).annotate({
   identifier: "GetTelephonyOvhPabxRequest",
@@ -11204,9 +10992,7 @@ export const TelephonyOvhPabx = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.optional(S.String),
     serviceType: S.optional(TelephonyTypeServiceEnum),
   }),
-).annotate({
-  identifier: "TelephonyOvhPabx",
-}) as any as S.Schema<TelephonyOvhPabx>;
+).annotate({ identifier: "TelephonyOvhPabx" }) as any as S.Schema<TelephonyOvhPabx>;
 
 export interface GetTelephonyOvhPabxDialplanRequest {
   /** The name of your billingAccount */
@@ -11800,9 +11586,7 @@ export const TelephonyOvhPabxTts = /*@__PURE__*/ S.suspend(() =>
     text: S.optional(S.String),
     voice: S.optional(TelephonyOvhPabxTtsVoiceEnum),
   }),
-).annotate({
-  identifier: "TelephonyOvhPabxTts",
-}) as any as S.Schema<TelephonyOvhPabxTts>;
+).annotate({ identifier: "TelephonyOvhPabxTts" }) as any as S.Schema<TelephonyOvhPabxTts>;
 
 export interface GetTelephonyPhonebookRequest {
   /** The name of your billingAccount */
@@ -11815,11 +11599,7 @@ export const GetTelephonyPhonebookRequest = /*@__PURE__*/ S.suspend(() =>
     billingAccount: S.String.pipe(T.Label()),
     bookKey: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/telephony/{billingAccount}/phonebook/{bookKey}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/telephony/{billingAccount}/phonebook/{bookKey}", code: 200 }),
   ),
 ).annotate({
   identifier: "GetTelephonyPhonebookRequest",
@@ -11837,9 +11617,7 @@ export const TelephonyPhonebookMaster = /*@__PURE__*/ S.suspend(() =>
     bookKey: S.optional(S.String),
     name: S.optional(S.String),
   }),
-).annotate({
-  identifier: "TelephonyPhonebookMaster",
-}) as any as S.Schema<TelephonyPhonebookMaster>;
+).annotate({ identifier: "TelephonyPhonebookMaster" }) as any as S.Schema<TelephonyPhonebookMaster>;
 
 export interface GetTelephonyPhonebookExportRequest {
   /** The name of your billingAccount */
@@ -11900,11 +11678,7 @@ export const GetTelephonyPortabilityRequest = /*@__PURE__*/ S.suspend(() =>
     billingAccount: S.String.pipe(T.Label()),
     id: S.Number.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/telephony/{billingAccount}/portability/{id}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/telephony/{billingAccount}/portability/{id}", code: 200 }),
   ),
 ).annotate({
   identifier: "GetTelephonyPortabilityRequest",
@@ -12011,9 +11785,7 @@ export const TelephonyPortability = /*@__PURE__*/ S.suspend(() =>
     portabilityCountry: S.optional(TelephonyPortabilityCountryEnum),
     rio: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "TelephonyPortability",
-}) as any as S.Schema<TelephonyPortability>;
+).annotate({ identifier: "TelephonyPortability" }) as any as S.Schema<TelephonyPortability>;
 
 export interface GetTelephonyPortabilityCanBeCancelledRequest {
   /** The name of your billingAccount */
@@ -12137,13 +11909,7 @@ export const GetTelephonyProcedureRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface GetTelephonyProcedureRequiredRequest {}
 export const GetTelephonyProcedureRequiredRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/telephony/procedure/required",
-      code: 200,
-    }),
-  ),
+  S.Struct({}).pipe(T.Http({ method: "GET", uri: "/telephony/procedure/required", code: 200 })),
 ).annotate({
   identifier: "GetTelephonyProcedureRequiredRequest",
 }) as any as S.Schema<GetTelephonyProcedureRequiredRequest>;
@@ -12165,11 +11931,7 @@ export const GetTelephonyRedirectRequest = /*@__PURE__*/ S.suspend(() =>
     billingAccount: S.String.pipe(T.Label()),
     serviceName: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/telephony/{billingAccount}/redirect/{serviceName}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/telephony/{billingAccount}/redirect/{serviceName}", code: 200 }),
   ),
 ).annotate({
   identifier: "GetTelephonyRedirectRequest",
@@ -12191,19 +11953,11 @@ export const TelephonyRedirect = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.optional(S.String),
     serviceType: S.optional(TelephonyTypeServiceEnum),
   }),
-).annotate({
-  identifier: "TelephonyRedirect",
-}) as any as S.Schema<TelephonyRedirect>;
+).annotate({ identifier: "TelephonyRedirect" }) as any as S.Schema<TelephonyRedirect>;
 
 export interface GetTelephonyResellerPanelStatusRequest {}
 export const GetTelephonyResellerPanelStatusRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/telephony/resellerPanel/status",
-      code: 200,
-    }),
-  ),
+  S.Struct({}).pipe(T.Http({ method: "GET", uri: "/telephony/resellerPanel/status", code: 200 })),
 ).annotate({
   identifier: "GetTelephonyResellerPanelStatusRequest",
 }) as any as S.Schema<GetTelephonyResellerPanelStatusRequest>;
@@ -12238,15 +11992,9 @@ export const GetTelephonyRsvaRequest = /*@__PURE__*/ S.suspend(() =>
     billingAccount: S.String.pipe(T.Label()),
     serviceName: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/telephony/{billingAccount}/rsva/{serviceName}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/telephony/{billingAccount}/rsva/{serviceName}", code: 200 }),
   ),
-).annotate({
-  identifier: "GetTelephonyRsvaRequest",
-}) as any as S.Schema<GetTelephonyRsvaRequest>;
+).annotate({ identifier: "GetTelephonyRsvaRequest" }) as any as S.Schema<GetTelephonyRsvaRequest>;
 
 /** Special number category */
 export type TelephonyPortabilitySpecialNumberCategoryEnum =
@@ -12354,9 +12102,7 @@ export const TelephonyScheduler = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.optional(S.String),
     timeZone: S.optional(TelephonyTimeZone),
   }),
-).annotate({
-  identifier: "TelephonyScheduler",
-}) as any as S.Schema<TelephonyScheduler>;
+).annotate({ identifier: "TelephonyScheduler" }) as any as S.Schema<TelephonyScheduler>;
 
 export interface GetTelephonySchedulerEventRequest {
   /** The name of your billingAccount */
@@ -12403,9 +12149,7 @@ export const TelephonySchedulerEvent = /*@__PURE__*/ S.suspend(() =>
     title: S.optional(S.String),
     uid: S.optional(S.String),
   }),
-).annotate({
-  identifier: "TelephonySchedulerEvent",
-}) as any as S.Schema<TelephonySchedulerEvent>;
+).annotate({ identifier: "TelephonySchedulerEvent" }) as any as S.Schema<TelephonySchedulerEvent>;
 
 export interface GetTelephonyScreenRequest {
   /** The name of your billingAccount */
@@ -12417,11 +12161,7 @@ export const GetTelephonyScreenRequest = /*@__PURE__*/ S.suspend(() =>
     billingAccount: S.String.pipe(T.Label()),
     serviceName: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/telephony/{billingAccount}/screen/{serviceName}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/telephony/{billingAccount}/screen/{serviceName}", code: 200 }),
   ),
 ).annotate({
   identifier: "GetTelephonyScreenRequest",
@@ -12443,9 +12183,7 @@ export const TelephonyScreen = /*@__PURE__*/ S.suspend(() =>
     outgoingScreenList: S.optional(TelephonyScreenListChoosingEnum),
     serviceName: S.optional(S.String),
   }),
-).annotate({
-  identifier: "TelephonyScreen",
-}) as any as S.Schema<TelephonyScreen>;
+).annotate({ identifier: "TelephonyScreen" }) as any as S.Schema<TelephonyScreen>;
 
 export interface GetTelephonyScreenScreenListRequest {
   /** The name of your billingAccount */
@@ -12486,9 +12224,7 @@ export const TelephonyScreenList = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(S.String),
     type: S.optional(TelephonyScreenListTypeEnum),
   }),
-).annotate({
-  identifier: "TelephonyScreenList",
-}) as any as S.Schema<TelephonyScreenList>;
+).annotate({ identifier: "TelephonyScreenList" }) as any as S.Schema<TelephonyScreenList>;
 
 export interface GetTelephonyServiceRequest {
   /** The name of your billingAccount */
@@ -12500,11 +12236,7 @@ export const GetTelephonyServiceRequest = /*@__PURE__*/ S.suspend(() =>
     billingAccount: S.String.pipe(T.Label()),
     serviceName: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/telephony/{billingAccount}/service/{serviceName}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/telephony/{billingAccount}/service/{serviceName}", code: 200 }),
   ),
 ).annotate({
   identifier: "GetTelephonyServiceRequest",
@@ -12683,9 +12415,7 @@ export const TelephonyDirectoryInfo = /*@__PURE__*/ S.suspend(() =>
     wayNumberExtra: S.optional(S.String),
     wayType: S.optional(S.String),
   }),
-).annotate({
-  identifier: "TelephonyDirectoryInfo",
-}) as any as S.Schema<TelephonyDirectoryInfo>;
+).annotate({ identifier: "TelephonyDirectoryInfo" }) as any as S.Schema<TelephonyDirectoryInfo>;
 
 export interface GetTelephonyServiceEventCallbackRequest {
   /** The name of your billingAccount */
@@ -12719,9 +12449,7 @@ export const TelephonyEventCallback = /*@__PURE__*/ S.suspend(() =>
     emailError: S.optional(S.NullOr(S.String)),
     url: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "TelephonyEventCallback",
-}) as any as S.Schema<TelephonyEventCallback>;
+).annotate({ identifier: "TelephonyEventCallback" }) as any as S.Schema<TelephonyEventCallback>;
 
 export interface GetTelephonyServiceEventTokenRequest {
   /** The name of your billingAccount */
@@ -12789,9 +12517,7 @@ export const TelephonyFaxConsumption = /*@__PURE__*/ S.suspend(() =>
     priceWithoutTax: S.optional(OrderPrice),
     wayType: S.optional(TelephonyFaxConsumptionWayTypeEnum),
   }),
-).annotate({
-  identifier: "TelephonyFaxConsumption",
-}) as any as S.Schema<TelephonyFaxConsumption>;
+).annotate({ identifier: "TelephonyFaxConsumption" }) as any as S.Schema<TelephonyFaxConsumption>;
 
 export interface GetTelephonyServiceInfosRequest {
   /** The name of your billingAccount */
@@ -12800,13 +12526,7 @@ export interface GetTelephonyServiceInfosRequest {
 export const GetTelephonyServiceInfosRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     billingAccount: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/telephony/{billingAccount}/serviceInfos",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/telephony/{billingAccount}/serviceInfos", code: 200 })),
 ).annotate({
   identifier: "GetTelephonyServiceInfosRequest",
 }) as any as S.Schema<GetTelephonyServiceInfosRequest>;
@@ -12840,9 +12560,7 @@ export const TelephonyOfferChange = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     offer: S.optional(S.String),
   }),
-).annotate({
-  identifier: "TelephonyOfferChange",
-}) as any as S.Schema<TelephonyOfferChange>;
+).annotate({ identifier: "TelephonyOfferChange" }) as any as S.Schema<TelephonyOfferChange>;
 
 export interface GetTelephonyServiceOfferTaskRequest {
   /** The name of your billingAccount */
@@ -13080,11 +12798,7 @@ export const TelephonyVoiceConsumption = /*@__PURE__*/ S.suspend(() =>
 export interface GetTelephonySoftphoneBetaEligibilityRequest {}
 export const GetTelephonySoftphoneBetaEligibilityRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/telephony/softphoneBetaEligibility",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/telephony/softphoneBetaEligibility", code: 200 }),
   ),
 ).annotate({
   identifier: "GetTelephonySoftphoneBetaEligibilityRequest",
@@ -13110,26 +12824,14 @@ export interface GetTelephonySoftphoneLogoRequest {
 export const GetTelephonySoftphoneLogoRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     billingAccount: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/telephony/{billingAccount}/softphone/logo",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/telephony/{billingAccount}/softphone/logo", code: 200 })),
 ).annotate({
   identifier: "GetTelephonySoftphoneLogoRequest",
 }) as any as S.Schema<GetTelephonySoftphoneLogoRequest>;
 
 export interface GetTelephonySoftphoneStoreLinksRequest {}
 export const GetTelephonySoftphoneStoreLinksRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/telephony/softphone/storeLinks",
-      code: 200,
-    }),
-  ),
+  S.Struct({}).pipe(T.Http({ method: "GET", uri: "/telephony/softphone/storeLinks", code: 200 })),
 ).annotate({
   identifier: "GetTelephonySoftphoneStoreLinksRequest",
 }) as any as S.Schema<GetTelephonySoftphoneStoreLinksRequest>;
@@ -13163,13 +12865,7 @@ export interface GetTelephonySoftphoneThemeRequest {
 export const GetTelephonySoftphoneThemeRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     themeId: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/telephony/softphone/themes/{themeId}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/telephony/softphone/themes/{themeId}", code: 200 })),
 ).annotate({
   identifier: "GetTelephonySoftphoneThemeRequest",
 }) as any as S.Schema<GetTelephonySoftphoneThemeRequest>;
@@ -13181,13 +12877,7 @@ export interface GetTelephonySoftphoneThemeRequest2 {
 export const GetTelephonySoftphoneThemeRequest2 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     billingAccount: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/telephony/{billingAccount}/softphone/theme",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/telephony/{billingAccount}/softphone/theme", code: 200 })),
 ).annotate({
   identifier: "GetTelephonySoftphoneThemeRequest2",
 }) as any as S.Schema<GetTelephonySoftphoneThemeRequest2>;
@@ -13200,9 +12890,7 @@ export const GetTelephonySoundRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.Number.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/telephony/sounds/{id}", code: 200 })),
-).annotate({
-  identifier: "GetTelephonySoundRequest",
-}) as any as S.Schema<GetTelephonySoundRequest>;
+).annotate({ identifier: "GetTelephonySoundRequest" }) as any as S.Schema<GetTelephonySoundRequest>;
 
 export interface GetTelephonySpareRequest {
   /** The internal name of your spare */
@@ -13212,9 +12900,7 @@ export const GetTelephonySpareRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     spare: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/telephony/spare/{spare}", code: 200 })),
-).annotate({
-  identifier: "GetTelephonySpareRequest",
-}) as any as S.Schema<GetTelephonySpareRequest>;
+).annotate({ identifier: "GetTelephonySpareRequest" }) as any as S.Schema<GetTelephonySpareRequest>;
 
 /** Spare properties */
 export interface SpareTelephonyTelephonySpareWithIAM {
@@ -13245,13 +12931,7 @@ export interface GetTelephonySpareServiceInfosRequest {
 export const GetTelephonySpareServiceInfosRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     spare: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/telephony/spare/{spare}/serviceInfos",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/telephony/spare/{spare}/serviceInfos", code: 200 })),
 ).annotate({
   identifier: "GetTelephonySpareServiceInfosRequest",
 }) as any as S.Schema<GetTelephonySpareServiceInfosRequest>;
@@ -13265,16 +12945,8 @@ export const GetTelephonyTaskRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     billingAccount: S.String.pipe(T.Label()),
     taskId: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/telephony/{billingAccount}/task/{taskId}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetTelephonyTaskRequest",
-}) as any as S.Schema<GetTelephonyTaskRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/telephony/{billingAccount}/task/{taskId}", code: 200 })),
+).annotate({ identifier: "GetTelephonyTaskRequest" }) as any as S.Schema<GetTelephonyTaskRequest>;
 
 export interface GetTelephonyTimeConditionRequest {
   /** The name of your billingAccount */
@@ -13304,9 +12976,7 @@ export const TelephonyGenericScreen = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.optional(S.String),
   }),
-).annotate({
-  identifier: "TelephonyGenericScreen",
-}) as any as S.Schema<TelephonyGenericScreen>;
+).annotate({ identifier: "TelephonyGenericScreen" }) as any as S.Schema<TelephonyGenericScreen>;
 
 export interface GetTelephonyTimeConditionConditionRequest {
   /** The name of your billingAccount */
@@ -13428,16 +13098,8 @@ export interface GetTelephonyTrunkRequest {
 export const GetTelephonyTrunkRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/telephony/trunks/{serviceName}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetTelephonyTrunkRequest",
-}) as any as S.Schema<GetTelephonyTrunkRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/telephony/trunks/{serviceName}", code: 200 })),
+).annotate({ identifier: "GetTelephonyTrunkRequest" }) as any as S.Schema<GetTelephonyTrunkRequest>;
 
 export interface GetTelephonyTrunkByServiceNameRequest {
   /** The name of your billingAccount */
@@ -13450,11 +13112,7 @@ export const GetTelephonyTrunkByServiceNameRequest = /*@__PURE__*/ S.suspend(() 
     billingAccount: S.String.pipe(T.Label()),
     serviceName: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/telephony/{billingAccount}/trunk/{serviceName}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/telephony/{billingAccount}/trunk/{serviceName}", code: 200 }),
   ),
 ).annotate({
   identifier: "GetTelephonyTrunkByServiceNameRequest",
@@ -13509,11 +13167,7 @@ export const GetTelephonyTrunkServiceInfosRequest = /*@__PURE__*/ S.suspend(() =
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/telephony/trunks/{serviceName}/serviceInfos",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/telephony/trunks/{serviceName}/serviceInfos", code: 200 }),
   ),
 ).annotate({
   identifier: "GetTelephonyTrunkServiceInfosRequest",
@@ -13558,9 +13212,7 @@ export const TelephonyVoicemail = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.optional(S.String),
     serviceType: S.optional(TelephonyTypeServiceEnum),
   }),
-).annotate({
-  identifier: "TelephonyVoicemail",
-}) as any as S.Schema<TelephonyVoicemail>;
+).annotate({ identifier: "TelephonyVoicemail" }) as any as S.Schema<TelephonyVoicemail>;
 
 export interface GetTelephonyVoicemailDirectoryRequest {
   /** The name of your billingAccount */
@@ -13904,15 +13556,9 @@ export const GetTelephonyVxmlRequest = /*@__PURE__*/ S.suspend(() =>
     billingAccount: S.String.pipe(T.Label()),
     serviceName: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/telephony/{billingAccount}/vxml/{serviceName}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/telephony/{billingAccount}/vxml/{serviceName}", code: 200 }),
   ),
-).annotate({
-  identifier: "GetTelephonyVxmlRequest",
-}) as any as S.Schema<GetTelephonyVxmlRequest>;
+).annotate({ identifier: "GetTelephonyVxmlRequest" }) as any as S.Schema<GetTelephonyVxmlRequest>;
 
 export type TelephonyVxmlOffersList = Array<string>;
 export const TelephonyVxmlOffersList = /*@__PURE__*/ S.Array(
@@ -13965,9 +13611,7 @@ export const TelephonyVxmlProperties = /*@__PURE__*/ S.suspend(() =>
     url: S.optional(S.String),
     urlRecord: S.optional(S.String),
   }),
-).annotate({
-  identifier: "TelephonyVxmlProperties",
-}) as any as S.Schema<TelephonyVxmlProperties>;
+).annotate({ identifier: "TelephonyVxmlProperties" }) as any as S.Schema<TelephonyVxmlProperties>;
 
 export interface ImportTelephonyLinePhonePhonebookRequest {
   /** The name of your billingAccount */
@@ -14069,9 +13713,7 @@ export const ListTelephonyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     iamTags: S.optional(ListTelephonyRequestIamTagsMap.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/telephony", code: 200 })),
-).annotate({
-  identifier: "ListTelephonyRequest",
-}) as any as S.Schema<ListTelephonyRequest>;
+).annotate({ identifier: "ListTelephonyRequest" }) as any as S.Schema<ListTelephonyRequest>;
 
 export type ListTelephonyResponseBodyList = Array<string>;
 export const ListTelephonyResponseBodyList = /*@__PURE__*/ S.Array(
@@ -14081,9 +13723,7 @@ export const ListTelephonyResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListTelephonyResponse = ListTelephonyResponseBodyList;
 export const ListTelephonyResponse = /*@__PURE__*/ S.suspend(() =>
   ListTelephonyResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListTelephonyResponse",
-}) as any as S.Schema<ListTelephonyResponse>;
+).annotate({ identifier: "ListTelephonyResponse" }) as any as S.Schema<ListTelephonyResponse>;
 
 export interface ListTelephonyAbbreviatedNumberRequest {
   /** The name of your billingAccount */
@@ -14093,11 +13733,7 @@ export const ListTelephonyAbbreviatedNumberRequest = /*@__PURE__*/ S.suspend(() 
   S.Struct({
     billingAccount: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/telephony/{billingAccount}/abbreviatedNumber",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/telephony/{billingAccount}/abbreviatedNumber", code: 200 }),
   ),
 ).annotate({
   identifier: "ListTelephonyAbbreviatedNumberRequest",
@@ -14148,9 +13784,7 @@ export const TelephonyAccessoryOffer = /*@__PURE__*/ S.suspend(() =>
     price: S.optional(OrderPrice),
     url: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "TelephonyAccessoryOffer",
-}) as any as S.Schema<TelephonyAccessoryOffer>;
+).annotate({ identifier: "TelephonyAccessoryOffer" }) as any as S.Schema<TelephonyAccessoryOffer>;
 
 export type ListTelephonyAccessoriesResponseBodyList = Array<TelephonyAccessoryOffer>;
 export const ListTelephonyAccessoriesResponseBodyList = /*@__PURE__*/ S.Array(
@@ -14209,11 +13843,7 @@ export const ListTelephonyAllowedCreditThresholdRequest = /*@__PURE__*/ S.suspen
   S.Struct({
     billingAccount: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/telephony/{billingAccount}/allowedCreditThreshold",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/telephony/{billingAccount}/allowedCreditThreshold", code: 200 }),
   ),
 ).annotate({
   identifier: "ListTelephonyAllowedCreditThresholdRequest",
@@ -14240,11 +13870,7 @@ export const ListTelephonyAmountSecurityDepositRequest = /*@__PURE__*/ S.suspend
   S.Struct({
     billingAccount: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/telephony/{billingAccount}/amountSecurityDeposit",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/telephony/{billingAccount}/amountSecurityDeposit", code: 200 }),
   ),
 ).annotate({
   identifier: "ListTelephonyAmountSecurityDepositRequest",
@@ -14274,13 +13900,7 @@ export interface ListTelephonyAvailableDefaultSipDomainsRequest {
 export const ListTelephonyAvailableDefaultSipDomainsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     type: TelephonySipDomainProductTypeEnum.pipe(T.Query()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/telephony/availableDefaultSipDomains",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/telephony/availableDefaultSipDomains", code: 200 })),
 ).annotate({
   identifier: "ListTelephonyAvailableDefaultSipDomainsRequest",
 }) as any as S.Schema<ListTelephonyAvailableDefaultSipDomainsRequest>;
@@ -14333,13 +13953,7 @@ export interface ListTelephonyCarrierSipRequest {
 export const ListTelephonyCarrierSipRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     billingAccount: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/telephony/{billingAccount}/carrierSip",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/telephony/{billingAccount}/carrierSip", code: 200 })),
 ).annotate({
   identifier: "ListTelephonyCarrierSipRequest",
 }) as any as S.Schema<ListTelephonyCarrierSipRequest>;
@@ -14532,13 +14146,7 @@ export interface ListTelephonyConferenceRequest {
 export const ListTelephonyConferenceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     billingAccount: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/telephony/{billingAccount}/conference",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/telephony/{billingAccount}/conference", code: 200 })),
 ).annotate({
   identifier: "ListTelephonyConferenceRequest",
 }) as any as S.Schema<ListTelephonyConferenceRequest>;
@@ -14832,16 +14440,8 @@ export interface ListTelephonyDdiRequest {
 export const ListTelephonyDdiRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     billingAccount: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/telephony/{billingAccount}/ddi",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ListTelephonyDdiRequest",
-}) as any as S.Schema<ListTelephonyDdiRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/telephony/{billingAccount}/ddi", code: 200 })),
+).annotate({ identifier: "ListTelephonyDdiRequest" }) as any as S.Schema<ListTelephonyDdiRequest>;
 
 export type ListTelephonyDdiResponseBodyList = Array<string>;
 export const ListTelephonyDdiResponseBodyList = /*@__PURE__*/ S.Array(
@@ -14851,9 +14451,7 @@ export const ListTelephonyDdiResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListTelephonyDdiResponse = ListTelephonyDdiResponseBodyList;
 export const ListTelephonyDdiResponse = /*@__PURE__*/ S.suspend(() =>
   ListTelephonyDdiResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListTelephonyDdiResponse",
-}) as any as S.Schema<ListTelephonyDdiResponse>;
+).annotate({ identifier: "ListTelephonyDdiResponse" }) as any as S.Schema<ListTelephonyDdiResponse>;
 
 export interface ListTelephonyDirectoryAvailableZipCodesRequest {
   /** The country of the city */
@@ -14865,13 +14463,7 @@ export const ListTelephonyDirectoryAvailableZipCodesRequest = /*@__PURE__*/ S.su
   S.Struct({
     country: TelephonyServiceNumberCountryEnum.pipe(T.Query()),
     number: S.String.pipe(T.Query()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/telephony/directories/availableZipCodes",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/telephony/directories/availableZipCodes", code: 200 })),
 ).annotate({
   identifier: "ListTelephonyDirectoryAvailableZipCodesRequest",
 }) as any as S.Schema<ListTelephonyDirectoryAvailableZipCodesRequest>;
@@ -14940,13 +14532,7 @@ export interface ListTelephonyEasyHuntingRequest {
 export const ListTelephonyEasyHuntingRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     billingAccount: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/telephony/{billingAccount}/easyHunting",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/telephony/{billingAccount}/easyHunting", code: 200 })),
 ).annotate({
   identifier: "ListTelephonyEasyHuntingRequest",
 }) as any as S.Schema<ListTelephonyEasyHuntingRequest>;
@@ -15352,16 +14938,8 @@ export interface ListTelephonyFaxRequest {
 export const ListTelephonyFaxRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     billingAccount: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/telephony/{billingAccount}/fax",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ListTelephonyFaxRequest",
-}) as any as S.Schema<ListTelephonyFaxRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/telephony/{billingAccount}/fax", code: 200 })),
+).annotate({ identifier: "ListTelephonyFaxRequest" }) as any as S.Schema<ListTelephonyFaxRequest>;
 
 export type ListTelephonyFaxResponseBodyList = Array<string>;
 export const ListTelephonyFaxResponseBodyList = /*@__PURE__*/ S.Array(
@@ -15371,9 +14949,7 @@ export const ListTelephonyFaxResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListTelephonyFaxResponse = ListTelephonyFaxResponseBodyList;
 export const ListTelephonyFaxResponse = /*@__PURE__*/ S.suspend(() =>
   ListTelephonyFaxResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListTelephonyFaxResponse",
-}) as any as S.Schema<ListTelephonyFaxResponse>;
+).annotate({ identifier: "ListTelephonyFaxResponse" }) as any as S.Schema<ListTelephonyFaxResponse>;
 
 export interface ListTelephonyFaxCampaignDetailRequest {
   /** The name of your billingAccount */
@@ -15497,11 +15073,7 @@ export const ListTelephonyHistoryConsumptionRequest = /*@__PURE__*/ S.suspend(()
   S.Struct({
     billingAccount: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/telephony/{billingAccount}/historyConsumption",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/telephony/{billingAccount}/historyConsumption", code: 200 }),
   ),
 ).annotate({
   identifier: "ListTelephonyHistoryConsumptionRequest",
@@ -15589,16 +15161,8 @@ export interface ListTelephonyLineRequest {
 export const ListTelephonyLineRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     billingAccount: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/telephony/{billingAccount}/line",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ListTelephonyLineRequest",
-}) as any as S.Schema<ListTelephonyLineRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/telephony/{billingAccount}/line", code: 200 })),
+).annotate({ identifier: "ListTelephonyLineRequest" }) as any as S.Schema<ListTelephonyLineRequest>;
 
 export type ListTelephonyLineResponseBodyList = Array<string>;
 export const ListTelephonyLineResponseBodyList = /*@__PURE__*/ S.Array(
@@ -15817,11 +15381,7 @@ export const ListTelephonyLineIpsRequest = /*@__PURE__*/ S.suspend(() =>
     billingAccount: S.String.pipe(T.Label()),
     serviceName: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/telephony/{billingAccount}/line/{serviceName}/ips",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/telephony/{billingAccount}/line/{serviceName}/ips", code: 200 }),
   ),
 ).annotate({
   identifier: "ListTelephonyLineIpsRequest",
@@ -16039,9 +15599,7 @@ export const TelephonyLinePhone = /*@__PURE__*/ S.suspend(() =>
     price: S.optional(OrderPrice),
     protocol: S.optional(TelephonyProtocolEnum),
   }),
-).annotate({
-  identifier: "TelephonyLinePhone",
-}) as any as S.Schema<TelephonyLinePhone>;
+).annotate({ identifier: "TelephonyLinePhone" }) as any as S.Schema<TelephonyLinePhone>;
 
 export type ListTelephonyLineOfferPhonesResponseBodyList = Array<TelephonyLinePhone>;
 export const ListTelephonyLineOfferPhonesResponseBodyList = /*@__PURE__*/ S.Array(
@@ -16222,9 +15780,7 @@ export const TelephonyHardwareOffer = /*@__PURE__*/ S.suspend(() =>
     price: S.optional(OrderPrice),
     url: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "TelephonyHardwareOffer",
-}) as any as S.Schema<TelephonyHardwareOffer>;
+).annotate({ identifier: "TelephonyHardwareOffer" }) as any as S.Schema<TelephonyHardwareOffer>;
 
 export type ListTelephonyLinePhoneMerchandiseAvailableResponseBodyList =
   Array<TelephonyHardwareOffer>;
@@ -16509,13 +16065,7 @@ export interface ListTelephonyNumberRequest {
 export const ListTelephonyNumberRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     billingAccount: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/telephony/{billingAccount}/number",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/telephony/{billingAccount}/number", code: 200 })),
 ).annotate({
   identifier: "ListTelephonyNumberRequest",
 }) as any as S.Schema<ListTelephonyNumberRequest>;
@@ -16605,13 +16155,7 @@ export const ListTelephonyNumberDetailedZonesRequest = /*@__PURE__*/ S.suspend((
   S.Struct({
     axiom: S.optional(S.String.pipe(T.Query())),
     country: TelephonyNumberCountryEnum.pipe(T.Query()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/telephony/number/detailedZones",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/telephony/number/detailedZones", code: 200 })),
 ).annotate({
   identifier: "ListTelephonyNumberDetailedZonesRequest",
 }) as any as S.Schema<ListTelephonyNumberDetailedZonesRequest>;
@@ -16731,13 +16275,7 @@ export const ListTelephonyNumberSpecificNumbersRequest = /*@__PURE__*/ S.suspend
     range: S.optional(S.String.pipe(T.Query())),
     type: TelephonyNumberTypeEnum.pipe(T.Query()),
     zone: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/telephony/number/specificNumbers",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/telephony/number/specificNumbers", code: 200 })),
 ).annotate({
   identifier: "ListTelephonyNumberSpecificNumbersRequest",
 }) as any as S.Schema<ListTelephonyNumberSpecificNumbersRequest>;
@@ -16754,9 +16292,7 @@ export const TelephonySpecificNumber = /*@__PURE__*/ S.suspend(() =>
     isPremium: S.optional(S.Boolean),
     number: S.optional(S.String),
   }),
-).annotate({
-  identifier: "TelephonySpecificNumber",
-}) as any as S.Schema<TelephonySpecificNumber>;
+).annotate({ identifier: "TelephonySpecificNumber" }) as any as S.Schema<TelephonySpecificNumber>;
 
 export type ListTelephonyNumberSpecificNumbersResponseBodyList = Array<TelephonySpecificNumber>;
 export const ListTelephonyNumberSpecificNumbersResponseBodyList = /*@__PURE__*/ S.Array(
@@ -16814,13 +16350,7 @@ export const ListTelephonyOfferTaskRequest = /*@__PURE__*/ S.suspend(() =>
     action: S.optional(TelephonyOfferTaskActionEnum.pipe(T.Query())),
     status: S.optional(TelephonyTaskStatusEnum.pipe(T.Query())),
     type: S.optional(TelephonyOfferTaskTypeEnum.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/telephony/{billingAccount}/offerTask",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/telephony/{billingAccount}/offerTask", code: 200 })),
 ).annotate({
   identifier: "ListTelephonyOfferTaskRequest",
 }) as any as S.Schema<ListTelephonyOfferTaskRequest>;
@@ -16844,13 +16374,7 @@ export interface ListTelephonyOldPhoneRequest {
 export const ListTelephonyOldPhoneRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     billingAccount: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/telephony/{billingAccount}/oldPhone",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/telephony/{billingAccount}/oldPhone", code: 200 })),
 ).annotate({
   identifier: "ListTelephonyOldPhoneRequest",
 }) as any as S.Schema<ListTelephonyOldPhoneRequest>;
@@ -16867,9 +16391,7 @@ export const TelephonyOldPhone = /*@__PURE__*/ S.suspend(() =>
     mac: S.optional(S.String),
     model: S.optional(S.String),
   }),
-).annotate({
-  identifier: "TelephonyOldPhone",
-}) as any as S.Schema<TelephonyOldPhone>;
+).annotate({ identifier: "TelephonyOldPhone" }) as any as S.Schema<TelephonyOldPhone>;
 
 export type ListTelephonyOldPhoneResponseBodyList = Array<TelephonyOldPhone>;
 export const ListTelephonyOldPhoneResponseBodyList = /*@__PURE__*/ S.Array(
@@ -16891,11 +16413,7 @@ export const ListTelephonyOutplanNotificationRequest = /*@__PURE__*/ S.suspend((
   S.Struct({
     billingAccount: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/telephony/{billingAccount}/outplanNotification",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/telephony/{billingAccount}/outplanNotification", code: 200 }),
   ),
 ).annotate({
   identifier: "ListTelephonyOutplanNotificationRequest",
@@ -16921,13 +16439,7 @@ export interface ListTelephonyOvhPabxRequest {
 export const ListTelephonyOvhPabxRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     billingAccount: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/telephony/{billingAccount}/ovhPabx",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/telephony/{billingAccount}/ovhPabx", code: 200 })),
 ).annotate({
   identifier: "ListTelephonyOvhPabxRequest",
 }) as any as S.Schema<ListTelephonyOvhPabxRequest>;
@@ -17539,13 +17051,7 @@ export interface ListTelephonyPhonebookRequest {
 export const ListTelephonyPhonebookRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     billingAccount: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/telephony/{billingAccount}/phonebook",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/telephony/{billingAccount}/phonebook", code: 200 })),
 ).annotate({
   identifier: "ListTelephonyPhonebookRequest",
 }) as any as S.Schema<ListTelephonyPhonebookRequest>;
@@ -17603,13 +17109,7 @@ export interface ListTelephonyPortabilityRequest {
 export const ListTelephonyPortabilityRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     billingAccount: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/telephony/{billingAccount}/portability",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/telephony/{billingAccount}/portability", code: 200 })),
 ).annotate({
   identifier: "ListTelephonyPortabilityRequest",
 }) as any as S.Schema<ListTelephonyPortabilityRequest>;
@@ -17828,9 +17328,7 @@ export const TelephonyPortabilityStep = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(TelephonyPortabilityStepNameEnum),
     status: S.optional(TelephonyPortabilityStepStatusEnum),
   }),
-).annotate({
-  identifier: "TelephonyPortabilityStep",
-}) as any as S.Schema<TelephonyPortabilityStep>;
+).annotate({ identifier: "TelephonyPortabilityStep" }) as any as S.Schema<TelephonyPortabilityStep>;
 
 export type ListTelephonyPortabilityStatusResponseBodyList = Array<TelephonyPortabilityStep>;
 export const ListTelephonyPortabilityStatusResponseBodyList = /*@__PURE__*/ S.Array(
@@ -17870,13 +17368,7 @@ export interface ListTelephonyRedirectRequest {
 export const ListTelephonyRedirectRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     billingAccount: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/telephony/{billingAccount}/redirect",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/telephony/{billingAccount}/redirect", code: 200 })),
 ).annotate({
   identifier: "ListTelephonyRedirectRequest",
 }) as any as S.Schema<ListTelephonyRedirectRequest>;
@@ -17900,16 +17392,8 @@ export interface ListTelephonyRsvaRequest {
 export const ListTelephonyRsvaRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     billingAccount: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/telephony/{billingAccount}/rsva",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ListTelephonyRsvaRequest",
-}) as any as S.Schema<ListTelephonyRsvaRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/telephony/{billingAccount}/rsva", code: 200 })),
+).annotate({ identifier: "ListTelephonyRsvaRequest" }) as any as S.Schema<ListTelephonyRsvaRequest>;
 
 export type ListTelephonyRsvaResponseBodyList = Array<string>;
 export const ListTelephonyRsvaResponseBodyList = /*@__PURE__*/ S.Array(
@@ -17982,13 +17466,7 @@ export interface ListTelephonySchedulerRequest {
 export const ListTelephonySchedulerRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     billingAccount: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/telephony/{billingAccount}/scheduler",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/telephony/{billingAccount}/scheduler", code: 200 })),
 ).annotate({
   identifier: "ListTelephonySchedulerRequest",
 }) as any as S.Schema<ListTelephonySchedulerRequest>;
@@ -18059,13 +17537,7 @@ export interface ListTelephonyScreenRequest {
 export const ListTelephonyScreenRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     billingAccount: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/telephony/{billingAccount}/screen",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/telephony/{billingAccount}/screen", code: 200 })),
 ).annotate({
   identifier: "ListTelephonyScreenRequest",
 }) as any as S.Schema<ListTelephonyScreenRequest>;
@@ -18168,13 +17640,7 @@ export interface ListTelephonyServiceRequest {
 export const ListTelephonyServiceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     billingAccount: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/telephony/{billingAccount}/service",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/telephony/{billingAccount}/service", code: 200 })),
 ).annotate({
   identifier: "ListTelephonyServiceRequest",
 }) as any as S.Schema<ListTelephonyServiceRequest>;
@@ -18692,11 +18158,7 @@ export const ListTelephonySpareCompatibleReplacementRequest = /*@__PURE__*/ S.su
   S.Struct({
     spare: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/telephony/spare/{spare}/compatibleReplacement",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/telephony/spare/{spare}/compatibleReplacement", code: 200 }),
   ),
 ).annotate({
   identifier: "ListTelephonySpareCompatibleReplacementRequest",
@@ -18731,16 +18193,8 @@ export const ListTelephonyTaskRequest = /*@__PURE__*/ S.suspend(() =>
     action: S.optional(S.String.pipe(T.Query())),
     serviceType: S.optional(S.String.pipe(T.Query())),
     status: S.optional(TelephonyTaskStatusEnum.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/telephony/{billingAccount}/task",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ListTelephonyTaskRequest",
-}) as any as S.Schema<ListTelephonyTaskRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/telephony/{billingAccount}/task", code: 200 })),
+).annotate({ identifier: "ListTelephonyTaskRequest" }) as any as S.Schema<ListTelephonyTaskRequest>;
 
 export type ListTelephonyTaskResponseBodyList = Array<number>;
 export const ListTelephonyTaskResponseBodyList = /*@__PURE__*/ S.Array(
@@ -18761,13 +18215,7 @@ export interface ListTelephonyTimeConditionRequest {
 export const ListTelephonyTimeConditionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     billingAccount: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/telephony/{billingAccount}/timeCondition",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/telephony/{billingAccount}/timeCondition", code: 200 })),
 ).annotate({
   identifier: "ListTelephonyTimeConditionRequest",
 }) as any as S.Schema<ListTelephonyTimeConditionRequest>;
@@ -18824,13 +18272,7 @@ export interface ListTelephonyTrunkRequest {
 export const ListTelephonyTrunkRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     billingAccount: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/telephony/{billingAccount}/trunk",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/telephony/{billingAccount}/trunk", code: 200 })),
 ).annotate({
   identifier: "ListTelephonyTrunkRequest",
 }) as any as S.Schema<ListTelephonyTrunkRequest>;
@@ -18994,13 +18436,7 @@ export interface ListTelephonyVoicemailRequest {
 export const ListTelephonyVoicemailRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     billingAccount: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/telephony/{billingAccount}/voicemail",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/telephony/{billingAccount}/voicemail", code: 200 })),
 ).annotate({
   identifier: "ListTelephonyVoicemailRequest",
 }) as any as S.Schema<ListTelephonyVoicemailRequest>;
@@ -19096,16 +18532,8 @@ export interface ListTelephonyVxmlRequest {
 export const ListTelephonyVxmlRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     billingAccount: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/telephony/{billingAccount}/vxml",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ListTelephonyVxmlRequest",
-}) as any as S.Schema<ListTelephonyVxmlRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/telephony/{billingAccount}/vxml", code: 200 })),
+).annotate({ identifier: "ListTelephonyVxmlRequest" }) as any as S.Schema<ListTelephonyVxmlRequest>;
 
 export type ListTelephonyVxmlResponseBodyList = Array<string>;
 export const ListTelephonyVxmlResponseBodyList = /*@__PURE__*/ S.Array(
@@ -19324,9 +18752,7 @@ export const PutTelephonyRequest = /*@__PURE__*/ S.suspend(() =>
     hiddenExternalNumber: S.optional(S.Boolean),
     overrideDisplayedNumber: S.optional(S.Boolean),
   }).pipe(T.Http({ method: "PUT", uri: "/telephony/{billingAccount}", code: 200 })),
-).annotate({
-  identifier: "PutTelephonyRequest",
-}) as any as S.Schema<PutTelephonyRequest>;
+).annotate({ identifier: "PutTelephonyRequest" }) as any as S.Schema<PutTelephonyRequest>;
 
 export interface PutTelephonyResponse {}
 export const PutTelephonyResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -19379,11 +18805,7 @@ export const PutTelephonyAliasServiceInfosRequest = /*@__PURE__*/ S.suspend(() =
     serviceName: S.String.pipe(T.Label()),
     renew: S.optional(S.NullOr(ServiceRenewType)),
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/telephony/aliases/{serviceName}/serviceInfos",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/telephony/aliases/{serviceName}/serviceInfos", code: 200 }),
   ),
 ).annotate({
   identifier: "PutTelephonyAliasServiceInfosRequest",
@@ -19594,15 +19016,9 @@ export const PutTelephonyDdiRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     description: S.optional(S.String),
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/telephony/{billingAccount}/ddi/{serviceName}",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/telephony/{billingAccount}/ddi/{serviceName}", code: 200 }),
   ),
-).annotate({
-  identifier: "PutTelephonyDdiRequest",
-}) as any as S.Schema<PutTelephonyDdiRequest>;
+).annotate({ identifier: "PutTelephonyDdiRequest" }) as any as S.Schema<PutTelephonyDdiRequest>;
 
 export interface PutTelephonyDdiResponse {}
 export const PutTelephonyDdiResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -19664,9 +19080,7 @@ export const PutTelephonyEasyHuntingRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface PutTelephonyEasyHuntingResponse {}
 export const PutTelephonyEasyHuntingResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "PutTelephonyEasyHuntingResponse",
-  },
+  { identifier: "PutTelephonyEasyHuntingResponse" },
 ) as any as S.Schema<PutTelephonyEasyHuntingResponse>;
 
 export interface PutTelephonyEasyHuntingHuntingRequest {
@@ -20082,15 +19496,9 @@ export const PutTelephonyFaxRequest = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(S.String),
     notifications: S.optional(S.NullOr(TelephonyLineNotificationsOptions)),
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/telephony/{billingAccount}/fax/{serviceName}",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/telephony/{billingAccount}/fax/{serviceName}", code: 200 }),
   ),
-).annotate({
-  identifier: "PutTelephonyFaxRequest",
-}) as any as S.Schema<PutTelephonyFaxRequest>;
+).annotate({ identifier: "PutTelephonyFaxRequest" }) as any as S.Schema<PutTelephonyFaxRequest>;
 
 export interface PutTelephonyFaxResponse {}
 export const PutTelephonyFaxResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -20211,9 +19619,7 @@ export const PutTelephonyFaxSettingsRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface PutTelephonyFaxSettingsResponse {}
 export const PutTelephonyFaxSettingsResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "PutTelephonyFaxSettingsResponse",
-  },
+  { identifier: "PutTelephonyFaxSettingsResponse" },
 ) as any as S.Schema<PutTelephonyFaxSettingsResponse>;
 
 export interface PutTelephonyLineRequest {
@@ -20231,15 +19637,9 @@ export const PutTelephonyLineRequest = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(S.String),
     notifications: S.optional(S.NullOr(TelephonyLineNotificationsOptions)),
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/telephony/{billingAccount}/line/{serviceName}",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/telephony/{billingAccount}/line/{serviceName}", code: 200 }),
   ),
-).annotate({
-  identifier: "PutTelephonyLineRequest",
-}) as any as S.Schema<PutTelephonyLineRequest>;
+).annotate({ identifier: "PutTelephonyLineRequest" }) as any as S.Schema<PutTelephonyLineRequest>;
 
 export interface PutTelephonyLineResponse {}
 export const PutTelephonyLineResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -20407,9 +19807,7 @@ export const PutTelephonyLineOptionsRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface PutTelephonyLineOptionsResponse {}
 export const PutTelephonyLineOptionsResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "PutTelephonyLineOptionsResponse",
-  },
+  { identifier: "PutTelephonyLineOptionsResponse" },
 ) as any as S.Schema<PutTelephonyLineOptionsResponse>;
 
 export interface PutTelephonyLinePhoneRequest {
@@ -20612,13 +20010,7 @@ export const PutTelephonyLineServiceInfosRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     renew: S.optional(S.NullOr(ServiceRenewType)),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/telephony/lines/{serviceName}/serviceInfos",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/telephony/lines/{serviceName}/serviceInfos", code: 200 })),
 ).annotate({
   identifier: "PutTelephonyLineServiceInfosRequest",
 }) as any as S.Schema<PutTelephonyLineServiceInfosRequest>;
@@ -20753,11 +20145,7 @@ export const PutTelephonyNumberRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     description: S.optional(S.String),
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/telephony/{billingAccount}/number/{serviceName}",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/telephony/{billingAccount}/number/{serviceName}", code: 200 }),
   ),
 ).annotate({
   identifier: "PutTelephonyNumberRequest",
@@ -20781,11 +20169,7 @@ export const PutTelephonyOfferTaskRequest = /*@__PURE__*/ S.suspend(() =>
     taskId: S.Number.pipe(T.Label()),
     executionDate: S.optional(S.String),
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/telephony/{billingAccount}/offerTask/{taskId}",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/telephony/{billingAccount}/offerTask/{taskId}", code: 200 }),
   ),
 ).annotate({
   identifier: "PutTelephonyOfferTaskRequest",
@@ -20809,11 +20193,7 @@ export const PutTelephonyOvhPabxRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     description: S.optional(S.String),
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/telephony/{billingAccount}/ovhPabx/{serviceName}",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/telephony/{billingAccount}/ovhPabx/{serviceName}", code: 200 }),
   ),
 ).annotate({
   identifier: "PutTelephonyOvhPabxRequest",
@@ -21284,9 +20664,7 @@ export const PutTelephonyOvhPabxMenuRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface PutTelephonyOvhPabxMenuResponse {}
 export const PutTelephonyOvhPabxMenuResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "PutTelephonyOvhPabxMenuResponse",
-  },
+  { identifier: "PutTelephonyOvhPabxMenuResponse" },
 ) as any as S.Schema<PutTelephonyOvhPabxMenuResponse>;
 
 export interface PutTelephonyOvhPabxMenuEntryRequest {
@@ -21376,11 +20754,7 @@ export const PutTelephonyPhonebookRequest = /*@__PURE__*/ S.suspend(() =>
     bookKey: S.String.pipe(T.Label()),
     name: S.optional(S.String),
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/telephony/{billingAccount}/phonebook/{bookKey}",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/telephony/{billingAccount}/phonebook/{bookKey}", code: 200 }),
   ),
 ).annotate({
   identifier: "PutTelephonyPhonebookRequest",
@@ -21492,11 +20866,7 @@ export const PutTelephonyRedirectRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     description: S.optional(S.String),
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/telephony/{billingAccount}/redirect/{serviceName}",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/telephony/{billingAccount}/redirect/{serviceName}", code: 200 }),
   ),
 ).annotate({
   identifier: "PutTelephonyRedirectRequest",
@@ -21519,15 +20889,9 @@ export const PutTelephonyRsvaRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     typology: S.optional(S.NullOr(TelephonyPortabilitySpecialNumberCategoryEnum)),
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/telephony/{billingAccount}/rsva/{serviceName}",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/telephony/{billingAccount}/rsva/{serviceName}", code: 200 }),
   ),
-).annotate({
-  identifier: "PutTelephonyRsvaRequest",
-}) as any as S.Schema<PutTelephonyRsvaRequest>;
+).annotate({ identifier: "PutTelephonyRsvaRequest" }) as any as S.Schema<PutTelephonyRsvaRequest>;
 
 export interface PutTelephonyRsvaResponse {}
 export const PutTelephonyRsvaResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -21618,11 +20982,7 @@ export const PutTelephonyScreenRequest = /*@__PURE__*/ S.suspend(() =>
     incomingScreenList: S.optional(TelephonyScreenListChoosingEnum),
     outgoingScreenList: S.optional(TelephonyScreenListChoosingEnum),
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/telephony/{billingAccount}/screen/{serviceName}",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/telephony/{billingAccount}/screen/{serviceName}", code: 200 }),
   ),
 ).annotate({
   identifier: "PutTelephonyScreenRequest",
@@ -21645,11 +21005,7 @@ export const PutTelephonyServiceRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     description: S.optional(S.String),
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/telephony/{billingAccount}/service/{serviceName}",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/telephony/{billingAccount}/service/{serviceName}", code: 200 }),
   ),
 ).annotate({
   identifier: "PutTelephonyServiceRequest",
@@ -21794,13 +21150,7 @@ export const PutTelephonyServiceInfosRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     billingAccount: S.String.pipe(T.Label()),
     renew: S.optional(S.NullOr(ServiceRenewType)),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/telephony/{billingAccount}/serviceInfos",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/telephony/{billingAccount}/serviceInfos", code: 200 })),
 ).annotate({
   identifier: "PutTelephonyServiceInfosRequest",
 }) as any as S.Schema<PutTelephonyServiceInfosRequest>;
@@ -21857,13 +21207,7 @@ export const PutTelephonySoftphoneLogoRequest = /*@__PURE__*/ S.suspend(() =>
     billingAccount: S.String.pipe(T.Label()),
     filename: S.String,
     url: S.String,
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/telephony/{billingAccount}/softphone/logo",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/telephony/{billingAccount}/softphone/logo", code: 200 })),
 ).annotate({
   identifier: "PutTelephonySoftphoneLogoRequest",
 }) as any as S.Schema<PutTelephonySoftphoneLogoRequest>;
@@ -21878,13 +21222,7 @@ export const PutTelephonySoftphoneThemeRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     billingAccount: S.String.pipe(T.Label()),
     themeId: S.Number,
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/telephony/{billingAccount}/softphone/theme",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/telephony/{billingAccount}/softphone/theme", code: 200 })),
 ).annotate({
   identifier: "PutTelephonySoftphoneThemeRequest",
 }) as any as S.Schema<PutTelephonySoftphoneThemeRequest>;
@@ -21903,9 +21241,7 @@ export const PutTelephonySoundRequest = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(S.NullOr(S.String)),
     filename: S.optional(S.String),
   }).pipe(T.Http({ method: "PUT", uri: "/telephony/sounds/{id}", code: 200 })),
-).annotate({
-  identifier: "PutTelephonySoundRequest",
-}) as any as S.Schema<PutTelephonySoundRequest>;
+).annotate({ identifier: "PutTelephonySoundRequest" }) as any as S.Schema<PutTelephonySoundRequest>;
 
 export interface PutTelephonySoundResponse {}
 export const PutTelephonySoundResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -21922,13 +21258,7 @@ export const PutTelephonySpareServiceInfosRequest = /*@__PURE__*/ S.suspend(() =
   S.Struct({
     spare: S.String.pipe(T.Label()),
     renew: S.optional(S.NullOr(ServiceRenewType)),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/telephony/spare/{spare}/serviceInfos",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/telephony/spare/{spare}/serviceInfos", code: 200 })),
 ).annotate({
   identifier: "PutTelephonySpareServiceInfosRequest",
 }) as any as S.Schema<PutTelephonySpareServiceInfosRequest>;
@@ -22048,11 +21378,7 @@ export const PutTelephonyTrunkServiceInfosRequest = /*@__PURE__*/ S.suspend(() =
     serviceName: S.String.pipe(T.Label()),
     renew: S.optional(S.NullOr(ServiceRenewType)),
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/telephony/trunks/{serviceName}/serviceInfos",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/telephony/trunks/{serviceName}/serviceInfos", code: 200 }),
   ),
 ).annotate({
   identifier: "PutTelephonyTrunkServiceInfosRequest",
@@ -22303,13 +21629,7 @@ export const ReplaceTelephonySpareRequest = /*@__PURE__*/ S.suspend(() =>
     spare: S.String.pipe(T.Label()),
     domain: S.String,
     ip: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/telephony/spare/{spare}/replace",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/telephony/spare/{spare}/replace", code: 200 })),
 ).annotate({
   identifier: "ReplaceTelephonySpareRequest",
 }) as any as S.Schema<ReplaceTelephonySpareRequest>;
@@ -22416,9 +21736,7 @@ export const TelephonyResetPhoneInfo = /*@__PURE__*/ S.suspend(() =>
     resetCodeInfo: S.optional(S.NullOr(TelephonyResetPhoneCodeInfo)),
     resetPhoneMethod: S.optional(TelephonyResetPhoneMethodEnum),
   }),
-).annotate({
-  identifier: "TelephonyResetPhoneInfo",
-}) as any as S.Schema<TelephonyResetPhoneInfo>;
+).annotate({ identifier: "TelephonyResetPhoneInfo" }) as any as S.Schema<TelephonyResetPhoneInfo>;
 
 /** List of recipients of your fax */
 export type SendTelephonyFaxSettingsFaxRequestRecipientsList = Array<string>;
@@ -22468,13 +21786,7 @@ export const SetTelephonyDefaultSipDomainRequest = /*@__PURE__*/ S.suspend(() =>
     country: TelephonyServiceNumberCountryEnum,
     domain: S.String,
     type: TelephonySipDomainProductTypeEnum,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/telephony/setDefaultSipDomain",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/telephony/setDefaultSipDomain", code: 200 })),
 ).annotate({
   identifier: "SetTelephonyDefaultSipDomainRequest",
 }) as any as S.Schema<SetTelephonyDefaultSipDomainRequest>;

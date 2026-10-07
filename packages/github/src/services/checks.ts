@@ -148,9 +148,7 @@ export const CreateRequestOutput = /*@__PURE__*/ S.suspend(() =>
     annotations: S.optional(CreateRequestOutputAnnotationsList),
     images: S.optional(CreateRequestOutputImagesList),
   }),
-).annotate({
-  identifier: "CreateRequestOutput",
-}) as any as S.Schema<CreateRequestOutput>;
+).annotate({ identifier: "CreateRequestOutput" }) as any as S.Schema<CreateRequestOutput>;
 
 export interface CreateRequestActionsItem {
   /** The text to be displayed on a button in the web UI. The maximum size is 20 characters. */
@@ -166,9 +164,7 @@ export const CreateRequestActionsItem = /*@__PURE__*/ S.suspend(() =>
     description: S.String,
     identifier: S.String,
   }),
-).annotate({
-  identifier: "CreateRequestActionsItem",
-}) as any as S.Schema<CreateRequestActionsItem>;
+).annotate({ identifier: "CreateRequestActionsItem" }) as any as S.Schema<CreateRequestActionsItem>;
 
 /** Displays a button on GitHub that can be clicked to alert your app to do additional tasks. For example, a code linting app can display a button that automatically fixes detected errors. The button created in this object is displayed after the check run completes. When a user clicks the button, GitHub sends the [`check_run.requested_action` webhook](https://docs.github.com/webhooks/event-payloads/#check_run) to your app. Each action includes a `label`, `identifier` and `description`. A maximum of three actions are accepted. To learn more about check runs and requested actions, see "[Check runs and requested actions](https://docs.github.com/rest/guides/using-the-rest-api-to-interact-with-checks#check-runs-and-requested-actions)." */
 export type CreateRequestActionsList = Array<CreateRequestActionsItem>;
@@ -216,13 +212,7 @@ export const CreateRequest = /*@__PURE__*/ S.suspend(() =>
     completed_at: S.optional(S.String),
     output: S.optional(CreateRequestOutput),
     actions: S.optional(CreateRequestActionsList),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/repos/{owner}/{repo}/check-runs",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/repos/{owner}/{repo}/check-runs", code: 200 })),
 ).annotate({ identifier: "CreateRequest" }) as any as S.Schema<CreateRequest>;
 
 /** The phase of the lifecycle that the check is currently in. Statuses of waiting, requested, and pending are reserved for GitHub Actions check runs. */
@@ -269,9 +259,7 @@ export const CheckRunCheckSuite = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.Number,
   }),
-).annotate({
-  identifier: "CheckRunCheckSuite",
-}) as any as S.Schema<CheckRunCheckSuite>;
+).annotate({ identifier: "CheckRunCheckSuite" }) as any as S.Schema<CheckRunCheckSuite>;
 
 /** A GitHub user. */
 export interface SimpleUser {
@@ -427,9 +415,7 @@ export const NullableIntegration = /*@__PURE__*/ S.suspend(() =>
     events: NullableIntegrationEventsList,
     installations_count: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "NullableIntegration",
-}) as any as S.Schema<NullableIntegration>;
+).annotate({ identifier: "NullableIntegration" }) as any as S.Schema<NullableIntegration>;
 
 export interface PullRequestMinimalHeadRepo {
   id: number;
@@ -457,9 +443,7 @@ export const PullRequestMinimalHead = /*@__PURE__*/ S.suspend(() =>
     sha: S.String,
     repo: PullRequestMinimalHeadRepo,
   }),
-).annotate({
-  identifier: "PullRequestMinimalHead",
-}) as any as S.Schema<PullRequestMinimalHead>;
+).annotate({ identifier: "PullRequestMinimalHead" }) as any as S.Schema<PullRequestMinimalHead>;
 
 export type PullRequestMinimalBaseRepo = PullRequestMinimalHeadRepo;
 export const PullRequestMinimalBaseRepo = PullRequestMinimalHeadRepo;
@@ -482,9 +466,7 @@ export const PullRequestMinimal = /*@__PURE__*/ S.suspend(() =>
     head: PullRequestMinimalHead,
     base: PullRequestMinimalHead,
   }),
-).annotate({
-  identifier: "PullRequestMinimal",
-}) as any as S.Schema<PullRequestMinimal>;
+).annotate({ identifier: "PullRequestMinimal" }) as any as S.Schema<PullRequestMinimal>;
 
 /** Pull requests that are open with a `head_sha` or `head_branch` that matches the check. The returned pull requests do not necessarily indicate pull requests that triggered the check. */
 export type CheckRunPullRequestsList = Array<PullRequestMinimal>;
@@ -531,9 +513,7 @@ export const DeploymentSimple = /*@__PURE__*/ S.suspend(() =>
     production_environment: S.optional(S.Boolean),
     performed_via_github_app: S.optional(S.NullOr(NullableIntegration)),
   }),
-).annotate({
-  identifier: "DeploymentSimple",
-}) as any as S.Schema<DeploymentSimple>;
+).annotate({ identifier: "DeploymentSimple" }) as any as S.Schema<DeploymentSimple>;
 
 /** A check performed on the code of a given code change */
 export interface CheckRun {
@@ -595,16 +575,8 @@ export const CreateSuiteRequest = /*@__PURE__*/ S.suspend(() =>
     owner: S.String.pipe(T.Label()),
     repo: S.String.pipe(T.Label()),
     head_sha: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/repos/{owner}/{repo}/check-suites",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "CreateSuiteRequest",
-}) as any as S.Schema<CreateSuiteRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/repos/{owner}/{repo}/check-suites", code: 200 })),
+).annotate({ identifier: "CreateSuiteRequest" }) as any as S.Schema<CreateSuiteRequest>;
 
 /** The phase of the lifecycle that the check suite is currently in. Statuses of waiting, requested, and pending are reserved for GitHub Actions check suites. */
 export type CheckSuiteStatus =
@@ -694,9 +666,7 @@ export const MinimalRepositoryLicense = /*@__PURE__*/ S.suspend(() =>
     url: S.optional(S.NullOr(S.String)),
     node_id: S.optional(S.String),
   }),
-).annotate({
-  identifier: "MinimalRepositoryLicense",
-}) as any as S.Schema<MinimalRepositoryLicense>;
+).annotate({ identifier: "MinimalRepositoryLicense" }) as any as S.Schema<MinimalRepositoryLicense>;
 
 export type SecurityAndAnalysisAdvancedSecurityStatus = "enabled" | "disabled";
 export const SecurityAndAnalysisAdvancedSecurityStatus = S.String;
@@ -915,14 +885,10 @@ export const SecurityAndAnalysis = /*@__PURE__*/ S.suspend(() =>
       SecurityAndAnalysisSecretScanningDelegatedBypassOptions,
     ),
   }),
-).annotate({
-  identifier: "SecurityAndAnalysis",
-}) as any as S.Schema<SecurityAndAnalysis>;
+).annotate({ identifier: "SecurityAndAnalysis" }) as any as S.Schema<SecurityAndAnalysis>;
 
 /** The custom properties that were defined for the repository. The keys are the custom property names, and the values are the corresponding custom property values. */
-export type MinimalRepositoryCustomPropertiesMap = {
-  [key: string]: unknown | undefined;
-};
+export type MinimalRepositoryCustomPropertiesMap = { [key: string]: unknown | undefined };
 export const MinimalRepositoryCustomPropertiesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -1117,9 +1083,7 @@ export const MinimalRepository = /*@__PURE__*/ S.suspend(() =>
     security_and_analysis: S.optional(S.NullOr(SecurityAndAnalysis)),
     custom_properties: S.optional(MinimalRepositoryCustomPropertiesMap),
   }),
-).annotate({
-  identifier: "MinimalRepository",
-}) as any as S.Schema<MinimalRepository>;
+).annotate({ identifier: "MinimalRepository" }) as any as S.Schema<MinimalRepository>;
 
 /** Information about the Git author */
 export interface SimpleCommitAuthor {
@@ -1133,9 +1097,7 @@ export const SimpleCommitAuthor = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     email: S.String,
   }),
-).annotate({
-  identifier: "SimpleCommitAuthor",
-}) as any as S.Schema<SimpleCommitAuthor>;
+).annotate({ identifier: "SimpleCommitAuthor" }) as any as S.Schema<SimpleCommitAuthor>;
 
 /** Information about the Git committer */
 export interface SimpleCommitCommitter {
@@ -1149,9 +1111,7 @@ export const SimpleCommitCommitter = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     email: S.String,
   }),
-).annotate({
-  identifier: "SimpleCommitCommitter",
-}) as any as S.Schema<SimpleCommitCommitter>;
+).annotate({ identifier: "SimpleCommitCommitter" }) as any as S.Schema<SimpleCommitCommitter>;
 
 /** A commit. */
 export interface SimpleCommit {
@@ -1241,11 +1201,7 @@ export const GetRequest = /*@__PURE__*/ S.suspend(() =>
     repo: S.String.pipe(T.Label()),
     check_run_id: S.Number.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/check-runs/{check_run_id}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/check-runs/{check_run_id}", code: 200 }),
   ),
 ).annotate({ identifier: "GetRequest" }) as any as S.Schema<GetRequest>;
 
@@ -1269,9 +1225,7 @@ export const GetSuiteRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetSuiteRequest",
-}) as any as S.Schema<GetSuiteRequest>;
+).annotate({ identifier: "GetSuiteRequest" }) as any as S.Schema<GetSuiteRequest>;
 
 export interface ListAnnotationsRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -1299,9 +1253,7 @@ export const ListAnnotationsRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "ListAnnotationsRequest",
-}) as any as S.Schema<ListAnnotationsRequest>;
+).annotate({ identifier: "ListAnnotationsRequest" }) as any as S.Schema<ListAnnotationsRequest>;
 
 /** Check Annotation */
 export interface CheckAnnotation {
@@ -1329,9 +1281,7 @@ export const CheckAnnotation = /*@__PURE__*/ S.suspend(() =>
     raw_details: S.NullOr(S.String),
     blob_href: S.String,
   }),
-).annotate({
-  identifier: "CheckAnnotation",
-}) as any as S.Schema<CheckAnnotation>;
+).annotate({ identifier: "CheckAnnotation" }) as any as S.Schema<CheckAnnotation>;
 
 export type ListAnnotationsResponseBodyList = Array<CheckAnnotation>;
 export const ListAnnotationsResponseBodyList = /*@__PURE__*/ S.Array(
@@ -1341,9 +1291,7 @@ export const ListAnnotationsResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListAnnotationsResponse = ListAnnotationsResponseBodyList;
 export const ListAnnotationsResponse = /*@__PURE__*/ S.suspend(() =>
   ListAnnotationsResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListAnnotationsResponse",
-}) as any as S.Schema<ListAnnotationsResponse>;
+).annotate({ identifier: "ListAnnotationsResponse" }) as any as S.Schema<ListAnnotationsResponse>;
 
 export type ListForRefRequestStatus = "queued" | "in_progress" | "completed";
 export const ListForRefRequestStatus = S.String;
@@ -1382,15 +1330,9 @@ export const ListForRefRequest = /*@__PURE__*/ S.suspend(() =>
     page: S.optional(S.Number.pipe(T.Query())),
     app_id: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/commits/{ref}/check-runs",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/commits/{ref}/check-runs", code: 200 }),
   ),
-).annotate({
-  identifier: "ListForRefRequest",
-}) as any as S.Schema<ListForRefRequest>;
+).annotate({ identifier: "ListForRefRequest" }) as any as S.Schema<ListForRefRequest>;
 
 export type ListForRefResponseCheckRunsList = Array<CheckRun>;
 export const ListForRefResponseCheckRunsList = /*@__PURE__*/ S.Array(
@@ -1406,9 +1348,7 @@ export const ListForRefResponse = /*@__PURE__*/ S.suspend(() =>
     total_count: S.Number,
     check_runs: ListForRefResponseCheckRunsList,
   }),
-).annotate({
-  identifier: "ListForRefResponse",
-}) as any as S.Schema<ListForRefResponse>;
+).annotate({ identifier: "ListForRefResponse" }) as any as S.Schema<ListForRefResponse>;
 
 export type ListForSuiteRequestStatus = "queued" | "in_progress" | "completed";
 export const ListForSuiteRequestStatus = S.String;
@@ -1451,9 +1391,7 @@ export const ListForSuiteRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "ListForSuiteRequest",
-}) as any as S.Schema<ListForSuiteRequest>;
+).annotate({ identifier: "ListForSuiteRequest" }) as any as S.Schema<ListForSuiteRequest>;
 
 export type ListForSuiteResponseCheckRunsList = Array<CheckRun>;
 export const ListForSuiteResponseCheckRunsList = /*@__PURE__*/ S.Array(
@@ -1469,9 +1407,7 @@ export const ListForSuiteResponse = /*@__PURE__*/ S.suspend(() =>
     total_count: S.Number,
     check_runs: ListForSuiteResponseCheckRunsList,
   }),
-).annotate({
-  identifier: "ListForSuiteResponse",
-}) as any as S.Schema<ListForSuiteResponse>;
+).annotate({ identifier: "ListForSuiteResponse" }) as any as S.Schema<ListForSuiteResponse>;
 
 export interface ListSuitesForRefRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -1499,15 +1435,9 @@ export const ListSuitesForRefRequest = /*@__PURE__*/ S.suspend(() =>
     per_page: S.optional(S.Number.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/commits/{ref}/check-suites",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/commits/{ref}/check-suites", code: 200 }),
   ),
-).annotate({
-  identifier: "ListSuitesForRefRequest",
-}) as any as S.Schema<ListSuitesForRefRequest>;
+).annotate({ identifier: "ListSuitesForRefRequest" }) as any as S.Schema<ListSuitesForRefRequest>;
 
 export type ListSuitesForRefResponseCheckSuitesList = Array<CheckSuite>;
 export const ListSuitesForRefResponseCheckSuitesList = /*@__PURE__*/ S.Array(
@@ -1523,9 +1453,7 @@ export const ListSuitesForRefResponse = /*@__PURE__*/ S.suspend(() =>
     total_count: S.Number,
     check_suites: ListSuitesForRefResponseCheckSuitesList,
   }),
-).annotate({
-  identifier: "ListSuitesForRefResponse",
-}) as any as S.Schema<ListSuitesForRefResponse>;
+).annotate({ identifier: "ListSuitesForRefResponse" }) as any as S.Schema<ListSuitesForRefResponse>;
 
 export interface RerequestSuiteRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -1547,16 +1475,12 @@ export const RerequestSuiteRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "RerequestSuiteRequest",
-}) as any as S.Schema<RerequestSuiteRequest>;
+).annotate({ identifier: "RerequestSuiteRequest" }) as any as S.Schema<RerequestSuiteRequest>;
 
 export type RerequestSuiteResponse = unknown;
 export const RerequestSuiteResponse = /*@__PURE__*/ S.suspend(() =>
   S.Unknown.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "RerequestSuiteResponse",
-}) as any as S.Schema<RerequestSuiteResponse>;
+).annotate({ identifier: "RerequestSuiteResponse" }) as any as S.Schema<RerequestSuiteResponse>;
 
 export interface RunRerequestRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -1578,16 +1502,12 @@ export const RunRerequestRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "RunRerequestRequest",
-}) as any as S.Schema<RunRerequestRequest>;
+).annotate({ identifier: "RunRerequestRequest" }) as any as S.Schema<RunRerequestRequest>;
 
 export type RunRerequestResponse = unknown;
 export const RunRerequestResponse = /*@__PURE__*/ S.suspend(() =>
   S.Unknown.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "RunRerequestResponse",
-}) as any as S.Schema<RunRerequestResponse>;
+).annotate({ identifier: "RunRerequestResponse" }) as any as S.Schema<RunRerequestResponse>;
 
 export interface SetSuitesPreferencesRequestAutoTriggerChecksItem {
   /** The `id` of the GitHub App. */
@@ -1625,11 +1545,7 @@ export const SetSuitesPreferencesRequest = /*@__PURE__*/ S.suspend(() =>
     repo: S.String.pipe(T.Label()),
     auto_trigger_checks: S.optional(SetSuitesPreferencesRequestAutoTriggerChecksList),
   }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/repos/{owner}/{repo}/check-suites/preferences",
-      code: 200,
-    }),
+    T.Http({ method: "PATCH", uri: "/repos/{owner}/{repo}/check-suites/preferences", code: 200 }),
   ),
 ).annotate({
   identifier: "SetSuitesPreferencesRequest",
@@ -1675,9 +1591,7 @@ export const CheckSuitePreference = /*@__PURE__*/ S.suspend(() =>
     preferences: CheckSuitePreferencePreferences,
     repository: MinimalRepository,
   }),
-).annotate({
-  identifier: "CheckSuitePreference",
-}) as any as S.Schema<CheckSuitePreference>;
+).annotate({ identifier: "CheckSuitePreference" }) as any as S.Schema<CheckSuitePreference>;
 
 /** The current status of the check run. Only GitHub Actions can set a status of `waiting`, `pending`, or `requested`. */
 export type UpdateRequestStatus =
@@ -1777,9 +1691,7 @@ export const UpdateRequestOutput = /*@__PURE__*/ S.suspend(() =>
     annotations: S.optional(UpdateRequestOutputAnnotationsList),
     images: S.optional(UpdateRequestOutputImagesList),
   }),
-).annotate({
-  identifier: "UpdateRequestOutput",
-}) as any as S.Schema<UpdateRequestOutput>;
+).annotate({ identifier: "UpdateRequestOutput" }) as any as S.Schema<UpdateRequestOutput>;
 
 export type UpdateRequestActionsItem = CreateRequestActionsItem;
 export const UpdateRequestActionsItem = CreateRequestActionsItem;
@@ -1831,11 +1743,7 @@ export const UpdateRequest = /*@__PURE__*/ S.suspend(() =>
     output: S.optional(UpdateRequestOutput),
     actions: S.optional(UpdateRequestActionsList),
   }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/repos/{owner}/{repo}/check-runs/{check_run_id}",
-      code: 200,
-    }),
+    T.Http({ method: "PATCH", uri: "/repos/{owner}/{repo}/check-runs/{check_run_id}", code: 200 }),
   ),
 ).annotate({ identifier: "UpdateRequest" }) as any as S.Schema<UpdateRequest>;
 

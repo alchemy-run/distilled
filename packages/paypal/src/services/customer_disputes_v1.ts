@@ -85,9 +85,7 @@ export const LinkDescription = /*@__PURE__*/ S.suspend(() =>
     rel: S.String,
     method: S.optional(LinkDescriptionMethod),
   }),
-).annotate({
-  identifier: "LinkDescription",
-}) as any as S.Schema<LinkDescription>;
+).annotate({ identifier: "LinkDescription" }) as any as S.Schema<LinkDescription>;
 
 /** An array of request-related [HATEOAS links](/docs/api/reference/api-responses/#hateoas-links/). */
 export type DefinitionsLinkDescriptionList = Array<LinkDescription>;
@@ -103,9 +101,7 @@ export const SubsequentAction = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     links: S.optional(DefinitionsLinkDescriptionList),
   }),
-).annotate({
-  identifier: "SubsequentAction",
-}) as any as S.Schema<SubsequentAction>;
+).annotate({ identifier: "SubsequentAction" }) as any as S.Schema<SubsequentAction>;
 
 export interface DisputesAcceptOfferRequest {
   /** The ID of the dispute for which to provide the supporting information. */
@@ -117,13 +113,7 @@ export const DisputesAcceptOfferRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
     note: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v1/customer/disputes/{id}/accept-offer",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/v1/customer/disputes/{id}/accept-offer", code: 200 })),
 ).annotate({
   identifier: "DisputesAcceptOfferRequest",
 }) as any as S.Schema<DisputesAcceptOfferRequest>;
@@ -164,13 +154,7 @@ export const DisputesAdjudicateRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
     adjudication_outcome: DisputesAdjudicateRequestAdjudicationOutcome,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v1/customer/disputes/{id}/adjudicate",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/v1/customer/disputes/{id}/adjudicate", code: 200 })),
 ).annotate({
   identifier: "DisputesAdjudicateRequest",
 }) as any as S.Schema<DisputesAdjudicateRequest>;
@@ -193,9 +177,7 @@ export const DisputesAppealRequest = /*@__PURE__*/ S.suspend(() =>
       contentType: "multipart",
     }),
   ),
-).annotate({
-  identifier: "DisputesAppealRequest",
-}) as any as S.Schema<DisputesAppealRequest>;
+).annotate({ identifier: "DisputesAppealRequest" }) as any as S.Schema<DisputesAppealRequest>;
 
 export interface DisputesDenyOfferRequest {
   /** The ID of the dispute for which to provide the supporting information. */
@@ -207,16 +189,8 @@ export const DisputesDenyOfferRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
     note: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v1/customer/disputes/{id}/deny-offer",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "DisputesDenyOfferRequest",
-}) as any as S.Schema<DisputesDenyOfferRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/v1/customer/disputes/{id}/deny-offer", code: 200 })),
+).annotate({ identifier: "DisputesDenyOfferRequest" }) as any as S.Schema<DisputesDenyOfferRequest>;
 
 export interface DisputesEscalateRequest {
   /** The ID of the dispute for which to provide the supporting information. */
@@ -230,16 +204,8 @@ export const DisputesEscalateRequest = /*@__PURE__*/ S.suspend(() =>
     id: S.String.pipe(T.Label()),
     note: S.optional(S.String),
     buyer_escalation_reason: S.optional(S.Unknown),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v1/customer/disputes/{id}/escalate",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "DisputesEscalateRequest",
-}) as any as S.Schema<DisputesEscalateRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/v1/customer/disputes/{id}/escalate", code: 200 })),
+).annotate({ identifier: "DisputesEscalateRequest" }) as any as S.Schema<DisputesEscalateRequest>;
 
 /** The response for escalate action. */
 export interface EscalateResponse {
@@ -249,9 +215,7 @@ export const EscalateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     links: S.optional(DefinitionsLinkDescriptionList),
   }),
-).annotate({
-  identifier: "EscalateResponse",
-}) as any as S.Schema<EscalateResponse>;
+).annotate({ identifier: "EscalateResponse" }) as any as S.Schema<EscalateResponse>;
 
 /** The currency and amount for a financial transaction, such as a balance or payment due. */
 export interface Money {
@@ -326,9 +290,7 @@ export const AddressPortable = /*@__PURE__*/ S.suspend(() =>
     country_code: S.String,
     address_details: S.optional(AddressDetails),
   }),
-).annotate({
-  identifier: "AddressPortable",
-}) as any as S.Schema<AddressPortable>;
+).annotate({ identifier: "AddressPortable" }) as any as S.Schema<AddressPortable>;
 
 /** The merchant-proposed offer type for the dispute. */
 export type OfferType =
@@ -359,16 +321,8 @@ export const DisputesMakeOfferRequest = /*@__PURE__*/ S.suspend(() =>
     return_shipping_address: S.optional(AddressPortable),
     invoice_id: S.optional(S.String),
     offer_type: OfferType,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v1/customer/disputes/{id}/make-offer",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "DisputesMakeOfferRequest",
-}) as any as S.Schema<DisputesMakeOfferRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/v1/customer/disputes/{id}/make-offer", code: 200 })),
+).annotate({ identifier: "DisputesMakeOfferRequest" }) as any as S.Schema<DisputesMakeOfferRequest>;
 
 export interface DisputesProvideEvidenceRequest {
   /** The ID of the dispute for which to provide the supporting information. */
@@ -429,11 +383,7 @@ export const DisputesRequireEvidenceRequest = /*@__PURE__*/ S.suspend(() =>
     id: S.String.pipe(T.Label()),
     action: DisputesRequireEvidenceRequestAction,
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v1/customer/disputes/{id}/require-evidence",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/v1/customer/disputes/{id}/require-evidence", code: 200 }),
   ),
 ).annotate({
   identifier: "DisputesRequireEvidenceRequest",
@@ -469,9 +419,7 @@ export const GetDisputeRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/v1/customer/disputes/{id}", code: 200 })),
-).annotate({
-  identifier: "GetDisputeRequest",
-}) as any as S.Schema<GetDisputeRequest>;
+).annotate({ identifier: "GetDisputeRequest" }) as any as S.Schema<GetDisputeRequest>;
 
 /** The transaction status. */
 export type TransactionInfoTransactionStatus =
@@ -651,9 +599,7 @@ export const TransactionInfo = /*@__PURE__*/ S.suspend(() =>
     items: S.optional(ItemInfoList),
     payment_processor: S.optional(S.Unknown),
   }),
-).annotate({
-  identifier: "TransactionInfo",
-}) as any as S.Schema<TransactionInfo>;
+).annotate({ identifier: "TransactionInfo" }) as any as S.Schema<TransactionInfo>;
 
 /** An array of transactions for which disputes were created. */
 export type TransactionInfoList = Array<TransactionInfo>;
@@ -1027,9 +973,7 @@ export const DuplicateTransaction = /*@__PURE__*/ S.suspend(() =>
     received_duplicate: S.optional(S.Boolean),
     original_transaction: S.optional(TransactionInfo),
   }),
-).annotate({
-  identifier: "DuplicateTransaction",
-}) as any as S.Schema<DuplicateTransaction>;
+).annotate({ identifier: "DuplicateTransaction" }) as any as S.Schema<DuplicateTransaction>;
 
 /** The incorrect transaction amount details. */
 export interface IncorrectTransactionAmount {
@@ -1078,9 +1022,7 @@ export const PaymentByOtherMeans = /*@__PURE__*/ S.suspend(() =>
     payment_method: S.optional(PaymentByOtherMeansPaymentMethod),
     payment_instrument_suffix: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PaymentByOtherMeans",
-}) as any as S.Schema<PaymentByOtherMeans>;
+).annotate({ identifier: "PaymentByOtherMeans" }) as any as S.Schema<PaymentByOtherMeans>;
 
 /** The issue type. */
 export type CreditNotProcessedIssueType = "PRODUCT" | "SERVICE";
@@ -1114,9 +1056,7 @@ export const CancellationDetails = /*@__PURE__*/ S.suspend(() =>
     cancelled: S.optional(S.Boolean),
     cancellation_mode: S.optional(CancellationDetailsCancellationMode),
   }),
-).annotate({
-  identifier: "CancellationDetails",
-}) as any as S.Schema<CancellationDetails>;
+).annotate({ identifier: "CancellationDetails" }) as any as S.Schema<CancellationDetails>;
 
 /** Indicates whether the product was, or was not, received or returned. */
 export type ProductDetailsProductReceived = "YES" | "NO" | "RETURNED";
@@ -1232,9 +1172,7 @@ export const AgreedRefundDetails = /*@__PURE__*/ S.suspend(() =>
     merchant_agreed_refund: S.optional(S.Boolean),
     merchant_agreed_refund_time: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AgreedRefundDetails",
-}) as any as S.Schema<AgreedRefundDetails>;
+).annotate({ identifier: "AgreedRefundDetails" }) as any as S.Schema<AgreedRefundDetails>;
 
 /** The credit not processed details. */
 export interface CreditNotProcessed {
@@ -1255,9 +1193,7 @@ export const CreditNotProcessed = /*@__PURE__*/ S.suspend(() =>
     service_details: S.optional(ServiceDetails),
     agreed_refund_details: S.optional(AgreedRefundDetails),
   }),
-).annotate({
-  identifier: "CreditNotProcessed",
-}) as any as S.Schema<CreditNotProcessed>;
+).annotate({ identifier: "CreditNotProcessed" }) as any as S.Schema<CreditNotProcessed>;
 
 /** The recurring billing canceled details. */
 export interface CanceledRecurringBilling {
@@ -1269,9 +1205,7 @@ export const CanceledRecurringBilling = /*@__PURE__*/ S.suspend(() =>
     expected_refund: S.optional(Money),
     cancellation_details: S.optional(CancellationDetails),
   }),
-).annotate({
-  identifier: "CanceledRecurringBilling",
-}) as any as S.Schema<CanceledRecurringBilling>;
+).annotate({ identifier: "CanceledRecurringBilling" }) as any as S.Schema<CanceledRecurringBilling>;
 
 /** The billing issue details. */
 export interface BillingDisputesProperties {
@@ -2914,9 +2848,7 @@ export const CommunicationDetails = /*@__PURE__*/ S.suspend(() =>
     note: S.optional(S.String),
     time_posted: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CommunicationDetails",
-}) as any as S.Schema<CommunicationDetails>;
+).annotate({ identifier: "CommunicationDetails" }) as any as S.Schema<CommunicationDetails>;
 
 /** An array of metadata for the documents which were uploaded as supporting information for the dispute. */
 export type SupportingInfoDefinitionsDocumentList = Array<Document>;
@@ -3024,9 +2956,7 @@ export const MakeOfferResponseOptions = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     offer_types: S.optional(OfferTypeList),
   }),
-).annotate({
-  identifier: "MakeOfferResponseOptions",
-}) as any as S.Schema<MakeOfferResponseOptions>;
+).annotate({ identifier: "MakeOfferResponseOptions" }) as any as S.Schema<MakeOfferResponseOptions>;
 
 /** The allowed response options for the buyer/seller update actions. */
 export interface AllowedResponseOptions {
@@ -3040,9 +2970,7 @@ export const AllowedResponseOptions = /*@__PURE__*/ S.suspend(() =>
     accept_claim: S.optional(AcceptClaimResponseOptions),
     make_offer: S.optional(MakeOfferResponseOptions),
   }),
-).annotate({
-  identifier: "AllowedResponseOptions",
-}) as any as S.Schema<AllowedResponseOptions>;
+).annotate({ identifier: "AllowedResponseOptions" }) as any as S.Schema<AllowedResponseOptions>;
 
 /** The dispute details. */
 export interface Dispute {
@@ -3141,9 +3069,7 @@ export const ListDisputesRequest = /*@__PURE__*/ S.suspend(() =>
     update_time_before: S.optional(S.String.pipe(T.Query())),
     update_time_after: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/v1/customer/disputes", code: 200 })),
-).annotate({
-  identifier: "ListDisputesRequest",
-}) as any as S.Schema<ListDisputesRequest>;
+).annotate({ identifier: "ListDisputesRequest" }) as any as S.Schema<ListDisputesRequest>;
 
 /** The user specific state of the dispute, could vary between parties during the dispute lifecycle. */
 export type DisputeState =
@@ -3252,9 +3178,7 @@ export const PatchDisputeRequest = /*@__PURE__*/ S.suspend(() =>
     id: S.String.pipe(T.Label()),
     body: S.optional(PatchRequest.pipe(T.HttpBody())),
   }).pipe(T.Http({ method: "PATCH", uri: "/v1/customer/disputes/{id}", code: 200 })),
-).annotate({
-  identifier: "PatchDisputeRequest",
-}) as any as S.Schema<PatchDisputeRequest>;
+).annotate({ identifier: "PatchDisputeRequest" }) as any as S.Schema<PatchDisputeRequest>;
 
 export interface PatchDisputeResponse {}
 export const PatchDisputeResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({

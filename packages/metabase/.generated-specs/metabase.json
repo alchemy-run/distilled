@@ -2188,6 +2188,12 @@
             "smithy.api#enumValue": "action"
           }
         },
+        "ACTION_EXECUTE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "action-execute"
+          }
+        },
         "AD_HOC": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -2264,6 +2270,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "json-download"
+          }
+        },
+        "PUBLIC_ACTION_EXECUTE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "public-action-execute"
           }
         },
         "PUBLIC_DASHBOARD": {
@@ -6261,7 +6273,7 @@
           "uri": "/api/automagic-dashboards/model_index/{model_index_id}/primary_key/{pk_id}",
           "code": 200
         },
-        "smithy.api#documentation": "GET /api/automagic-dashboards/model_index/{model-index-id}/primary_key/{pk-id}\n\nReturn an automagic dashboard for an entity detail specified by `entity`\n  with id `id` and a primary key of `indexed-value`."
+        "smithy.api#documentation": "GET /api/automagic-dashboards/model_index/{model-index-id}/primary_key/{pk-id}\n\nReturn an automagic dashboard for the record of the model indexed by `model-index-id` whose primary key is\n  `pk-id`. The record's value, used in the title, is read through the QP as the requesting user (never from\n  `model_index_value`, which is not permission-checked); a `pk-id` they cannot resolve yields a dashboard titled\n  by the pk, with no matching rows, rather than a 404."
       }
     },
     "com.metabase.api#GetAutomagicDashboardRequestEntity": {
@@ -13695,6 +13707,12 @@
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
+        },
+        "dashboard_load_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "dashboard_load_id"
+          }
         }
       },
       "traits": {
@@ -14529,6 +14547,12 @@
           "traits": {
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
+          }
+        },
+        "dashboard_load_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "dashboard_load_id"
           }
         }
       },
@@ -15932,6 +15956,12 @@
             "smithy.api#httpLabel": {},
             "smithy.api#required": {},
             "smithy.api#documentation": "value must be an integer greater than zero."
+          }
+        },
+        "include_editable_data_model": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "include_editable_data_model"
           }
         }
       },
@@ -18430,7 +18460,7 @@
           "uri": "/api/ee/ai-controls/permissions/advanced",
           "code": 200
         },
-        "smithy.api#documentation": "POST /api/ee/ai-controls/permissions/advanced\n\nSwitch to advanced group-level permissions. Removes any custom permissions from the All Users group."
+        "smithy.api#documentation": "POST /api/ee/ai-controls/permissions/advanced\n\nSwitch to group-level permissions. Removes the permissions of All Users and All tenant users, so nobody has\n   access until they are in a group that grants it."
       }
     },
     "com.metabase.api#DeleteEeAiControlsPermissionsAdvanced": {
@@ -18447,7 +18477,7 @@
           "uri": "/api/ee/ai-controls/permissions/advanced",
           "code": 200
         },
-        "smithy.api#documentation": "DELETE /api/ee/ai-controls/permissions/advanced\n\nSwitch back to simple permissions. Removes any custom permissions from all specific groups, keeping only Admins and All Users."
+        "smithy.api#documentation": "DELETE /api/ee/ai-controls/permissions/advanced\n\nSwitch back to simple permissions. Removes the permissions of every group other than Administrators, All Users\n   and All tenant users."
       }
     },
     "com.metabase.api#GetEeAiControlsUsageGroup": {
@@ -19133,6 +19163,12 @@
           "traits": {
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
+          }
+        },
+        "locale": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "locale"
           }
         }
       },
@@ -24832,7 +24868,10 @@
         "target": "smithy.api#String"
       },
       "value": {
-        "target": "com.metabase.api#MetabaseEnterpriseTransformsInspectorSchemaLensParamsValue"
+        "target": "com.metabase.api#MetabaseEnterpriseTransformsInspectorSchemaLensParamsValue",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {
         "smithy.api#documentation": "Params passed to a drill lens (e.g. `{:join_step 2}`), emitted on drill-lens triggers and echoed back by the FE\n   to the lens endpoints. Scalar values only: they end up in `query_execution.lens_params`, and scalars keep\n   map/collection shapes out of the value position."
@@ -27270,10 +27309,25 @@
         "smithy.api#documentation": "PUT /api/google/settings\n\nUpdate Google Sign-In related settings. You must be a superuser to do this."
       }
     },
+    "com.metabase.api#GetHealthInspectorRequest": {
+      "type": "structure",
+      "members": {
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit",
+            "smithy.api#documentation": "value must be an integer greater than zero."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
     "com.metabase.api#GetHealthInspector": {
       "type": "operation",
       "input": {
-        "target": "smithy.api#Unit"
+        "target": "com.metabase.api#GetHealthInspectorRequest"
       },
       "output": {
         "target": "smithy.api#Unit"
@@ -30838,7 +30892,7 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "[[::NotificationApiInput]] for a create request: no `:id` at any level, so a caller cannot pick a primary key."
+        "smithy.api#documentation": "Notification schema for a create request, or for sending one that was never saved. Like\n  FullyHydratedNotification but restricts templates to user-provided types only (no handlebars-resource),\n  and carries no ids since the body has no row of its own."
       }
     },
     "com.metabase.api#MetabaseChannelModelsChannelChannel": {
@@ -31639,12 +31693,6 @@
             "smithy.api#required": {}
           }
         },
-        "payload_id": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "com.distilled.openapi#nullable": {}
-          }
-        },
         "payload_type": {
           "target": "com.metabase.api#MetabaseNotificationApiNotificationCreateNotificationParamsCase0PayloadType",
           "traits": {
@@ -31784,12 +31832,6 @@
         },
         "handlers": {
           "target": "com.metabase.api#MetabaseNotificationApiNotificationCreateNotificationParamsCase1HandlersList"
-        },
-        "payload_id": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "com.distilled.openapi#nullable": {}
-          }
         },
         "payload_type": {
           "target": "com.metabase.api#MetabaseNotificationApiNotificationCreateNotificationParamsCase1PayloadType",
@@ -32131,546 +32173,11 @@
         "smithy.api#documentation": "GET /api/notification/admin/{id}\n\nGet a single card-type notification with last_check, last_send, check_history (up to 10\n  most-recent terminal alert-type TaskRuns) and send_history (up to 10 most-recent channel-send\n  delivery attempts). 404 if the notification doesn't exist or isn't a card-type notification."
       }
     },
-    "com.metabase.api#MetabaseNotificationApiNotificationNotificationApiInput": {
-      "type": "union",
-      "members": {
-        "Case0": {
-          "target": "com.metabase.api#MetabaseNotificationApiNotificationNotificationApiInputCase0"
-        },
-        "Case1": {
-          "target": "com.metabase.api#MetabaseNotificationApiNotificationNotificationApiInputCase1"
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "Notification schema for API input. Like FullyHydratedNotification but restricts templates\n  to user-provided types only (no handlebars-resource)."
-      }
-    },
-    "com.metabase.api#MetabaseNotificationApiNotificationNotificationApiInputCase0PayloadType": {
-      "type": "enum",
-      "members": {
-        "NOTIFICATION_DASHBOARD": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "notification/dashboard"
-          }
-        },
-        "NOTIFICATION_SYSTEM_EVENT": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "notification/system-event"
-          }
-        },
-        "NOTIFICATION_TESTING": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "notification/testing"
-          }
-        },
-        "NOTIFICATION_CARD": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "notification/card"
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.metabase.api#MetabaseNotificationApiNotificationNotificationApiInputCase0HandlersItemRecipientsList": {
-      "type": "list",
-      "member": {
-        "target": "com.metabase.api#MetabaseNotificationModelsNotificationRecipient"
-      },
-      "traits": {}
-    },
-    "com.metabase.api#MetabaseNotificationApiNotificationNotificationApiInputCase0HandlersItem": {
-      "type": "structure",
-      "members": {
-        "template_id": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "channel_id": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "id": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "smithy.api#documentation": "value must be an integer greater than zero."
-          }
-        },
-        "recipients": {
-          "target": "com.metabase.api#MetabaseNotificationApiNotificationNotificationApiInputCase0HandlersItemRecipientsList"
-        },
-        "template": {
-          "target": "com.metabase.api#MetabaseChannelModelsChannelChannelTemplateUserProvided",
-          "traits": {
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "channel_type": {
-          "target": "smithy.api#Document",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "channel": {
-          "target": "com.metabase.api#MetabaseChannelModelsChannelChannel",
-          "traits": {
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "notification_id": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "smithy.api#documentation": "value must be an integer greater than zero."
-          }
-        },
-        "active": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "com.distilled.openapi#nullable": {}
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.metabase.api#MetabaseNotificationApiNotificationNotificationApiInputCase0HandlersList": {
-      "type": "list",
-      "member": {
-        "target": "com.metabase.api#MetabaseNotificationApiNotificationNotificationApiInputCase0HandlersItem"
-      },
-      "traits": {}
-    },
-    "com.metabase.api#MetabaseNotificationModelsNotificationCard": {
-      "type": "structure",
-      "members": {
-        "card": {
-          "target": "smithy.api#Document",
-          "traits": {
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "card_id": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "smithy.api#documentation": "value must be an integer greater than zero.",
-            "smithy.api#required": {}
-          }
-        },
-        "id": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "notification_id": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "send_condition": {
-          "target": "com.metabase.api#MetabaseNotificationModelsNotificationCardSendCondition"
-        },
-        "send_once": {
-          "target": "smithy.api#Boolean"
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "Schema for :model/NotificationCard."
-      }
-    },
-    "com.metabase.api#MetabaseNotificationModelsNotificationCardSendCondition": {
-      "type": "enum",
-      "members": {
-        "GOAL_BELOW": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "goal_below"
-          }
-        },
-        "HAS_RESULT": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "has_result"
-          }
-        },
-        "GOAL_ABOVE": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "goal_above"
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.metabase.api#MetabaseNotificationModelsNotificationSubscription": {
-      "type": "union",
-      "members": {
-        "Case0": {
-          "target": "com.metabase.api#MetabaseNotificationModelsNotificationSubscriptionCase0"
-        },
-        "Case1": {
-          "target": "com.metabase.api#MetabaseNotificationModelsNotificationSubscriptionCase1"
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "Schema for :model/NotificationSubscription."
-      }
-    },
-    "com.metabase.api#MetabaseNotificationModelsNotificationSubscriptionCase0Type": {
-      "type": "enum",
-      "members": {
-        "NOTIFICATION_SUBSCRIPTION_CRON": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "notification-subscription/cron"
-          }
-        },
-        "NOTIFICATION_SUBSCRIPTION_SYSTEM_EVENT": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "notification-subscription/system-event"
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.metabase.api#MetabaseNotificationModelsNotificationSubscriptionCase0": {
-      "type": "structure",
-      "members": {
-        "cron_schedule": {
-          "target": "smithy.api#Document",
-          "traits": {
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "event_name": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "id": {
-          "target": "smithy.api#Integer"
-        },
-        "notification_id": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "smithy.api#documentation": "value must be an integer greater than zero."
-          }
-        },
-        "type": {
-          "target": "com.metabase.api#MetabaseNotificationModelsNotificationSubscriptionCase0Type",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.metabase.api#MetabaseNotificationModelsNotificationSubscriptionCase1Type": {
-      "type": "enum",
-      "members": {
-        "NOTIFICATION_SUBSCRIPTION_CRON": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "notification-subscription/cron"
-          }
-        },
-        "NOTIFICATION_SUBSCRIPTION_SYSTEM_EVENT": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "notification-subscription/system-event"
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.metabase.api#MetabaseNotificationModelsNotificationSubscriptionCase1UiDisplayType": {
-      "type": "enum",
-      "members": {
-        "CRON_RAW": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "cron/raw"
-          }
-        },
-        "CRON_BUILDER": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "cron/builder"
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.metabase.api#MetabaseNotificationModelsNotificationSubscriptionCase1": {
-      "type": "structure",
-      "members": {
-        "cron_schedule": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "event_name": {
-          "target": "smithy.api#Document",
-          "traits": {
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "id": {
-          "target": "smithy.api#Integer"
-        },
-        "notification_id": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "smithy.api#documentation": "value must be an integer greater than zero."
-          }
-        },
-        "type": {
-          "target": "com.metabase.api#MetabaseNotificationModelsNotificationSubscriptionCase1Type",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "ui_display_type": {
-          "target": "com.metabase.api#MetabaseNotificationModelsNotificationSubscriptionCase1UiDisplayType",
-          "traits": {
-            "com.distilled.openapi#nullable": {}
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.metabase.api#MetabaseNotificationApiNotificationNotificationApiInputCase0SubscriptionsList": {
-      "type": "list",
-      "member": {
-        "target": "com.metabase.api#MetabaseNotificationModelsNotificationSubscription"
-      },
-      "traits": {}
-    },
-    "com.metabase.api#MetabaseNotificationApiNotificationNotificationApiInputCase0": {
-      "type": "structure",
-      "members": {
-        "payload_type": {
-          "target": "com.metabase.api#MetabaseNotificationApiNotificationNotificationApiInputCase0PayloadType",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "payload_id": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "handlers": {
-          "target": "com.metabase.api#MetabaseNotificationApiNotificationNotificationApiInputCase0HandlersList"
-        },
-        "id": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "smithy.api#documentation": "value must be an integer greater than zero."
-          }
-        },
-        "creator": {
-          "target": "smithy.api#Document",
-          "traits": {
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "active": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "payload": {
-          "target": "com.metabase.api#MetabaseNotificationModelsNotificationCard",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "creator_id": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "subscriptions": {
-          "target": "com.metabase.api#MetabaseNotificationApiNotificationNotificationApiInputCase0SubscriptionsList"
-        }
-      },
-      "traits": {}
-    },
-    "com.metabase.api#MetabaseNotificationApiNotificationNotificationApiInputCase1HandlersItemRecipientsList": {
-      "type": "list",
-      "member": {
-        "target": "com.metabase.api#MetabaseNotificationModelsNotificationRecipient"
-      },
-      "traits": {}
-    },
-    "com.metabase.api#MetabaseNotificationApiNotificationNotificationApiInputCase1HandlersItem": {
-      "type": "structure",
-      "members": {
-        "template_id": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "channel_id": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "id": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "smithy.api#documentation": "value must be an integer greater than zero."
-          }
-        },
-        "recipients": {
-          "target": "com.metabase.api#MetabaseNotificationApiNotificationNotificationApiInputCase1HandlersItemRecipientsList"
-        },
-        "template": {
-          "target": "com.metabase.api#MetabaseChannelModelsChannelChannelTemplateUserProvided",
-          "traits": {
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "channel_type": {
-          "target": "smithy.api#Document",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "channel": {
-          "target": "com.metabase.api#MetabaseChannelModelsChannelChannel",
-          "traits": {
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "notification_id": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "smithy.api#documentation": "value must be an integer greater than zero."
-          }
-        },
-        "active": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "com.distilled.openapi#nullable": {}
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.metabase.api#MetabaseNotificationApiNotificationNotificationApiInputCase1HandlersList": {
-      "type": "list",
-      "member": {
-        "target": "com.metabase.api#MetabaseNotificationApiNotificationNotificationApiInputCase1HandlersItem"
-      },
-      "traits": {}
-    },
-    "com.metabase.api#MetabaseNotificationApiNotificationNotificationApiInputCase1PayloadType": {
-      "type": "enum",
-      "members": {
-        "NOTIFICATION_DASHBOARD": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "notification/dashboard"
-          }
-        },
-        "NOTIFICATION_SYSTEM_EVENT": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "notification/system-event"
-          }
-        },
-        "NOTIFICATION_TESTING": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "notification/testing"
-          }
-        },
-        "NOTIFICATION_CARD": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "notification/card"
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.metabase.api#MetabaseNotificationApiNotificationNotificationApiInputCase1SubscriptionsList": {
-      "type": "list",
-      "member": {
-        "target": "com.metabase.api#MetabaseNotificationModelsNotificationSubscription"
-      },
-      "traits": {}
-    },
-    "com.metabase.api#MetabaseNotificationApiNotificationNotificationApiInputCase1": {
-      "type": "structure",
-      "members": {
-        "active": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "creator": {
-          "target": "smithy.api#Document",
-          "traits": {
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "creator_id": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "handlers": {
-          "target": "com.metabase.api#MetabaseNotificationApiNotificationNotificationApiInputCase1HandlersList"
-        },
-        "id": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "smithy.api#documentation": "value must be an integer greater than zero."
-          }
-        },
-        "payload_id": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "payload_type": {
-          "target": "com.metabase.api#MetabaseNotificationApiNotificationNotificationApiInputCase1PayloadType",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "subscriptions": {
-          "target": "com.metabase.api#MetabaseNotificationApiNotificationNotificationApiInputCase1SubscriptionsList"
-        }
-      },
-      "traits": {}
-    },
     "com.metabase.api#CreateNotificationSendRequest": {
       "type": "structure",
       "members": {
         "body": {
-          "target": "com.metabase.api#MetabaseNotificationApiNotificationNotificationApiInput",
+          "target": "com.metabase.api#MetabaseNotificationApiNotificationCreateNotificationParams",
           "traits": {
             "smithy.api#httpPayload": {}
           }
@@ -32820,6 +32327,499 @@
         "smithy.api#documentation": "GET /api/notification/{id}\n\nGet a notification by id."
       }
     },
+    "com.metabase.api#MetabaseNotificationApiNotificationNotificationApiUpdateInput": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.metabase.api#MetabaseNotificationApiNotificationNotificationApiUpdateInputCase0"
+        },
+        "Case1": {
+          "target": "com.metabase.api#MetabaseNotificationApiNotificationNotificationApiUpdateInputCase1"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Notification schema for an update request, restricted to what `notification-update-spec` writes. On PUT\n  the URL, not the body, identifies the target (RFC 9110 §9.3.4), so a client-sent id is stripped."
+      }
+    },
+    "com.metabase.api#MetabaseNotificationApiNotificationNotificationApiUpdateInputCase0HandlersItemRecipientsList": {
+      "type": "list",
+      "member": {
+        "target": "com.metabase.api#MetabaseNotificationModelsNotificationRecipient"
+      },
+      "traits": {}
+    },
+    "com.metabase.api#MetabaseNotificationApiNotificationNotificationApiUpdateInputCase0HandlersItem": {
+      "type": "structure",
+      "members": {
+        "template_id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "channel_id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "value must be an integer greater than zero."
+          }
+        },
+        "recipients": {
+          "target": "com.metabase.api#MetabaseNotificationApiNotificationNotificationApiUpdateInputCase0HandlersItemRecipientsList"
+        },
+        "template": {
+          "target": "com.metabase.api#MetabaseChannelModelsChannelChannelTemplateUserProvided",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "channel_type": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "channel": {
+          "target": "com.metabase.api#MetabaseChannelModelsChannelChannel",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "notification_id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "value must be an integer greater than zero."
+          }
+        },
+        "active": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.metabase.api#MetabaseNotificationApiNotificationNotificationApiUpdateInputCase0HandlersList": {
+      "type": "list",
+      "member": {
+        "target": "com.metabase.api#MetabaseNotificationApiNotificationNotificationApiUpdateInputCase0HandlersItem"
+      },
+      "traits": {}
+    },
+    "com.metabase.api#MetabaseNotificationModelsNotificationCardUpdate": {
+      "type": "structure",
+      "members": {
+        "card_id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "value must be an integer greater than zero.",
+            "smithy.api#required": {}
+          }
+        },
+        "send_condition": {
+          "target": "com.metabase.api#MetabaseNotificationModelsNotificationCardUpdateSendCondition"
+        },
+        "send_once": {
+          "target": "smithy.api#Boolean"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "::NotificationCard restricted to what the update spec writes - `:id` comes from the URL's notification."
+      }
+    },
+    "com.metabase.api#MetabaseNotificationModelsNotificationCardUpdateSendCondition": {
+      "type": "enum",
+      "members": {
+        "GOAL_BELOW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "goal_below"
+          }
+        },
+        "HAS_RESULT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "has_result"
+          }
+        },
+        "GOAL_ABOVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "goal_above"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.metabase.api#MetabaseNotificationApiNotificationNotificationApiUpdateInputCase0PayloadType": {
+      "type": "enum",
+      "members": {
+        "NOTIFICATION_DASHBOARD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "notification/dashboard"
+          }
+        },
+        "NOTIFICATION_SYSTEM_EVENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "notification/system-event"
+          }
+        },
+        "NOTIFICATION_TESTING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "notification/testing"
+          }
+        },
+        "NOTIFICATION_CARD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "notification/card"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.metabase.api#MetabaseNotificationModelsNotificationSubscription": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.metabase.api#MetabaseNotificationModelsNotificationSubscriptionCase0"
+        },
+        "Case1": {
+          "target": "com.metabase.api#MetabaseNotificationModelsNotificationSubscriptionCase1"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Schema for :model/NotificationSubscription."
+      }
+    },
+    "com.metabase.api#MetabaseNotificationModelsNotificationSubscriptionCase0Type": {
+      "type": "enum",
+      "members": {
+        "NOTIFICATION_SUBSCRIPTION_CRON": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "notification-subscription/cron"
+          }
+        },
+        "NOTIFICATION_SUBSCRIPTION_SYSTEM_EVENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "notification-subscription/system-event"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.metabase.api#MetabaseNotificationModelsNotificationSubscriptionCase0": {
+      "type": "structure",
+      "members": {
+        "cron_schedule": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "event_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#Integer"
+        },
+        "notification_id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "value must be an integer greater than zero."
+          }
+        },
+        "type": {
+          "target": "com.metabase.api#MetabaseNotificationModelsNotificationSubscriptionCase0Type",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.metabase.api#MetabaseNotificationModelsNotificationSubscriptionCase1Type": {
+      "type": "enum",
+      "members": {
+        "NOTIFICATION_SUBSCRIPTION_CRON": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "notification-subscription/cron"
+          }
+        },
+        "NOTIFICATION_SUBSCRIPTION_SYSTEM_EVENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "notification-subscription/system-event"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.metabase.api#MetabaseNotificationModelsNotificationSubscriptionCase1UiDisplayType": {
+      "type": "enum",
+      "members": {
+        "CRON_RAW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cron/raw"
+          }
+        },
+        "CRON_BUILDER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cron/builder"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.metabase.api#MetabaseNotificationModelsNotificationSubscriptionCase1": {
+      "type": "structure",
+      "members": {
+        "cron_schedule": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "event_name": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#Integer"
+        },
+        "notification_id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "value must be an integer greater than zero."
+          }
+        },
+        "type": {
+          "target": "com.metabase.api#MetabaseNotificationModelsNotificationSubscriptionCase1Type",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "ui_display_type": {
+          "target": "com.metabase.api#MetabaseNotificationModelsNotificationSubscriptionCase1UiDisplayType",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.metabase.api#MetabaseNotificationApiNotificationNotificationApiUpdateInputCase0SubscriptionsList": {
+      "type": "list",
+      "member": {
+        "target": "com.metabase.api#MetabaseNotificationModelsNotificationSubscription"
+      },
+      "traits": {}
+    },
+    "com.metabase.api#MetabaseNotificationApiNotificationNotificationApiUpdateInputCase0": {
+      "type": "structure",
+      "members": {
+        "active": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "creator_id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "handlers": {
+          "target": "com.metabase.api#MetabaseNotificationApiNotificationNotificationApiUpdateInputCase0HandlersList"
+        },
+        "payload": {
+          "target": "com.metabase.api#MetabaseNotificationModelsNotificationCardUpdate",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "payload_id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "payload_type": {
+          "target": "com.metabase.api#MetabaseNotificationApiNotificationNotificationApiUpdateInputCase0PayloadType",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "subscriptions": {
+          "target": "com.metabase.api#MetabaseNotificationApiNotificationNotificationApiUpdateInputCase0SubscriptionsList"
+        }
+      },
+      "traits": {}
+    },
+    "com.metabase.api#MetabaseNotificationApiNotificationNotificationApiUpdateInputCase1HandlersItemRecipientsList": {
+      "type": "list",
+      "member": {
+        "target": "com.metabase.api#MetabaseNotificationModelsNotificationRecipient"
+      },
+      "traits": {}
+    },
+    "com.metabase.api#MetabaseNotificationApiNotificationNotificationApiUpdateInputCase1HandlersItem": {
+      "type": "structure",
+      "members": {
+        "template_id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "channel_id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "value must be an integer greater than zero."
+          }
+        },
+        "recipients": {
+          "target": "com.metabase.api#MetabaseNotificationApiNotificationNotificationApiUpdateInputCase1HandlersItemRecipientsList"
+        },
+        "template": {
+          "target": "com.metabase.api#MetabaseChannelModelsChannelChannelTemplateUserProvided",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "channel_type": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "channel": {
+          "target": "com.metabase.api#MetabaseChannelModelsChannelChannel",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "notification_id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "value must be an integer greater than zero."
+          }
+        },
+        "active": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.metabase.api#MetabaseNotificationApiNotificationNotificationApiUpdateInputCase1HandlersList": {
+      "type": "list",
+      "member": {
+        "target": "com.metabase.api#MetabaseNotificationApiNotificationNotificationApiUpdateInputCase1HandlersItem"
+      },
+      "traits": {}
+    },
+    "com.metabase.api#MetabaseNotificationApiNotificationNotificationApiUpdateInputCase1PayloadType": {
+      "type": "enum",
+      "members": {
+        "NOTIFICATION_DASHBOARD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "notification/dashboard"
+          }
+        },
+        "NOTIFICATION_SYSTEM_EVENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "notification/system-event"
+          }
+        },
+        "NOTIFICATION_TESTING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "notification/testing"
+          }
+        },
+        "NOTIFICATION_CARD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "notification/card"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.metabase.api#MetabaseNotificationApiNotificationNotificationApiUpdateInputCase1SubscriptionsList": {
+      "type": "list",
+      "member": {
+        "target": "com.metabase.api#MetabaseNotificationModelsNotificationSubscription"
+      },
+      "traits": {}
+    },
+    "com.metabase.api#MetabaseNotificationApiNotificationNotificationApiUpdateInputCase1": {
+      "type": "structure",
+      "members": {
+        "active": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "creator_id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "handlers": {
+          "target": "com.metabase.api#MetabaseNotificationApiNotificationNotificationApiUpdateInputCase1HandlersList"
+        },
+        "payload_id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "payload_type": {
+          "target": "com.metabase.api#MetabaseNotificationApiNotificationNotificationApiUpdateInputCase1PayloadType",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "subscriptions": {
+          "target": "com.metabase.api#MetabaseNotificationApiNotificationNotificationApiUpdateInputCase1SubscriptionsList"
+        }
+      },
+      "traits": {}
+    },
     "com.metabase.api#PutNotificationRequest": {
       "type": "structure",
       "members": {
@@ -32832,7 +32832,7 @@
           }
         },
         "body": {
-          "target": "com.metabase.api#MetabaseNotificationApiNotificationNotificationApiInput",
+          "target": "com.metabase.api#MetabaseNotificationApiNotificationNotificationApiUpdateInput",
           "traits": {
             "smithy.api#httpPayload": {}
           }
@@ -35046,6 +35046,13 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "value": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "value",
             "smithy.api#required": {}
           }
         }
@@ -39452,11 +39459,153 @@
         "smithy.api#documentation": "GET /api/slack/app-info\n\nReturns the Slack app_id and team_id. Used by the frontend to construct\n   direct links to the Slack app settings page."
       }
     },
+    "com.metabase.api#CreateSlackBugReportRequestDiagnosticInfoFrontendErrorsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.metabase.api#CreateSlackBugReportRequestDiagnosticInfoReporterCase0": {
+      "type": "structure",
+      "members": {
+        "email": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.metabase.api#CreateSlackBugReportRequestDiagnosticInfoReporter": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.metabase.api#CreateSlackBugReportRequestDiagnosticInfoReporterCase0"
+        },
+        "Case1": {
+          "target": "smithy.api#Boolean"
+        }
+      },
+      "traits": {}
+    },
+    "com.metabase.api#CreateSlackBugReportRequestDiagnosticInfoBackendErrorsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {}
+    },
+    "com.metabase.api#CreateSlackBugReportRequestDiagnosticInfoUserLogsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {}
+    },
+    "com.metabase.api#CreateSlackBugReportRequestDiagnosticInfoLogsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {}
+    },
+    "com.metabase.api#CreateSlackBugReportRequestDiagnosticInfo": {
+      "type": "structure",
+      "members": {
+        "entityName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "frontendErrors": {
+          "target": "com.metabase.api#CreateSlackBugReportRequestDiagnosticInfoFrontendErrorsList",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "entityInfo": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "reporter": {
+          "target": "com.metabase.api#CreateSlackBugReportRequestDiagnosticInfoReporter",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "backendErrors": {
+          "target": "com.metabase.api#CreateSlackBugReportRequestDiagnosticInfoBackendErrorsList",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "bugReportDetails": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "userLogs": {
+          "target": "com.metabase.api#CreateSlackBugReportRequestDiagnosticInfoUserLogsList",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "localizedEntityName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "logs": {
+          "target": "com.metabase.api#CreateSlackBugReportRequestDiagnosticInfoLogsList",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "queryResults": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "browserInfo": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
     "com.metabase.api#CreateSlackBugReportRequest": {
       "type": "structure",
       "members": {
         "diagnosticInfo": {
-          "target": "smithy.api#Document",
+          "target": "com.metabase.api#CreateSlackBugReportRequestDiagnosticInfo",
           "traits": {
             "smithy.api#required": {}
           }
@@ -39480,7 +39629,7 @@
           "uri": "/api/slack/bug-report",
           "code": 200
         },
-        "smithy.api#documentation": "POST /api/slack/bug-report\n\nSend diagnostic information to the configured Slack channels."
+        "smithy.api#documentation": "POST /api/slack/bug-report\n\nSend diagnostic information to the configured Slack channels. Requires bug reporting to be enabled. The report is\n  attributed to the current user when `diagnosticInfo.reporter` is true, and anonymous otherwise. The `{name, email}`\n  form of `reporter` that clients before 0.64 send is treated as true; the identity in it is ignored."
       }
     },
     "com.metabase.api#GetSlackManifest": {

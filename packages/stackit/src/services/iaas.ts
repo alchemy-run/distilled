@@ -102,9 +102,7 @@ export const AddNicToServerRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://iaas.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "AddNicToServerRequest",
-}) as any as S.Schema<AddNicToServerRequest>;
+).annotate({ identifier: "AddNicToServerRequest" }) as any as S.Schema<AddNicToServerRequest>;
 
 export interface AddNicToServerResponse {}
 export const AddNicToServerResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -144,83 +142,101 @@ export const AddPublicIpToServerResponse = /*@__PURE__*/ S.suspend(() => S.Struc
   identifier: "AddPublicIpToServerResponse",
 }) as any as S.Schema<AddPublicIpToServerResponse>;
 
+export type DestinationCIDRv4Type = "cidrv4";
+export const DestinationCIDRv4Type = S.String;
+
 /** IPv4 Classless Inter-Domain Routing (CIDR) Object. */
 export interface DestinationCIDRv4 {
-  type: string;
+  type: DestinationCIDRv4Type;
   /** An CIDRv4 string. */
   value: string;
 }
 export const DestinationCIDRv4 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    type: S.String,
+    type: DestinationCIDRv4Type,
     value: S.String,
   }),
-).annotate({
-  identifier: "DestinationCIDRv4",
-}) as any as S.Schema<DestinationCIDRv4>;
+).annotate({ identifier: "DestinationCIDRv4" }) as any as S.Schema<DestinationCIDRv4>;
+
+export type DestinationCIDRv6Type = "cidrv6";
+export const DestinationCIDRv6Type = S.String;
 
 /** IPv6 Classless Inter-Domain Routing (CIDR) Object. */
 export interface DestinationCIDRv6 {
-  type: string;
+  type: DestinationCIDRv6Type;
   /** An CIDRv6 string. */
   value: string;
 }
 export const DestinationCIDRv6 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    type: S.String,
+    type: DestinationCIDRv6Type,
     value: S.String,
   }),
-).annotate({
-  identifier: "DestinationCIDRv6",
-}) as any as S.Schema<DestinationCIDRv6>;
+).annotate({ identifier: "DestinationCIDRv6" }) as any as S.Schema<DestinationCIDRv6>;
 
 export type RouteInputDestination = DestinationCIDRv4 | DestinationCIDRv6;
 export const RouteInputDestination =
   /*@__PURE__*/ S.Unknown as any as S.Schema<RouteInputDestination>;
 
+export type NexthopIPv4Type = "ipv4";
+export const NexthopIPv4Type = S.String;
+
 /** Object that represents an IPv4 address. */
 export interface NexthopIPv4 {
-  type: string;
+  type: NexthopIPv4Type;
   /** An IPv4 address. */
   value: string;
 }
 export const NexthopIPv4 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    type: S.String,
+    type: NexthopIPv4Type,
     value: S.String,
   }),
 ).annotate({ identifier: "NexthopIPv4" }) as any as S.Schema<NexthopIPv4>;
 
+export type NexthopIPv6Type = "ipv6";
+export const NexthopIPv6Type = S.String;
+
 /** Object that represents an IPv6 address. */
 export interface NexthopIPv6 {
-  type: string;
+  type: NexthopIPv6Type;
   /** An IPv6 address. */
   value: string;
 }
 export const NexthopIPv6 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    type: S.String,
+    type: NexthopIPv6Type,
     value: S.String,
   }),
 ).annotate({ identifier: "NexthopIPv6" }) as any as S.Schema<NexthopIPv6>;
 
+export type NexthopInternetType = "internet";
+export const NexthopInternetType = S.String;
+
 /** Object that represents a route to the internet. */
 export interface NexthopInternet {
-  type: string;
+  type: NexthopInternetType;
 }
 export const NexthopInternet = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    type: S.String,
+    type: NexthopInternetType,
   }),
-).annotate({
-  identifier: "NexthopInternet",
-}) as any as S.Schema<NexthopInternet>;
+).annotate({ identifier: "NexthopInternet" }) as any as S.Schema<NexthopInternet>;
+
+export type NexthopBlackholeType = "blackhole";
+export const NexthopBlackholeType = S.String;
 
 /** Object that represents a blackhole route. */
-export type NexthopBlackhole = NexthopInternet;
-export const NexthopBlackhole = NexthopInternet;
+export interface NexthopBlackhole {
+  type: NexthopBlackholeType;
+}
+export const NexthopBlackhole = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: NexthopBlackholeType,
+  }),
+).annotate({ identifier: "NexthopBlackhole" }) as any as S.Schema<NexthopBlackhole>;
 
-export type RouteInputNexthop = NexthopIPv4 | NexthopIPv6 | NexthopInternet | NexthopInternet;
+export type RouteInputNexthop = NexthopIPv4 | NexthopIPv6 | NexthopInternet | NexthopBlackhole;
 export const RouteInputNexthop = /*@__PURE__*/ S.Unknown as any as S.Schema<RouteInputNexthop>;
 
 /** Object represents a network route. */
@@ -274,7 +290,7 @@ export const AddRoutesToRoutingTableRequest = /*@__PURE__*/ S.suspend(() =>
 export type RouteDestination = DestinationCIDRv4 | DestinationCIDRv6;
 export const RouteDestination = /*@__PURE__*/ S.Unknown as any as S.Schema<RouteDestination>;
 
-export type RouteNexthop = NexthopIPv4 | NexthopIPv6 | NexthopInternet | NexthopInternet;
+export type RouteNexthop = NexthopIPv4 | NexthopIPv6 | NexthopInternet | NexthopBlackhole;
 export const RouteNexthop = /*@__PURE__*/ S.Unknown as any as S.Schema<RouteNexthop>;
 
 /** Object represents a network route. */
@@ -309,9 +325,7 @@ export const RouteListResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     items: RouteList,
   }),
-).annotate({
-  identifier: "RouteListResponse",
-}) as any as S.Schema<RouteListResponse>;
+).annotate({ identifier: "RouteListResponse" }) as any as S.Schema<RouteListResponse>;
 
 export interface AddRoutingTableToAreaRequest {
   /** The identifier (ID) of a STACKIT Organization. */
@@ -482,9 +496,7 @@ export const AddVolumeToServerRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://iaas.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "AddVolumeToServerRequest",
-}) as any as S.Schema<AddVolumeToServerRequest>;
+).annotate({ identifier: "AddVolumeToServerRequest" }) as any as S.Schema<AddVolumeToServerRequest>;
 
 /** Object that represents a Volume attachment to a server. */
 export interface VolumeAttachment {
@@ -498,9 +510,7 @@ export const VolumeAttachment = /*@__PURE__*/ S.suspend(() =>
     serverId: S.optional(S.String),
     volumeId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "VolumeAttachment",
-}) as any as S.Schema<VolumeAttachment>;
+).annotate({ identifier: "VolumeAttachment" }) as any as S.Schema<VolumeAttachment>;
 
 export interface CreateAffinityGroupRequest {
   /** The identifier (ID) of a STACKIT Project. */
@@ -589,9 +599,7 @@ export const CreateBackupRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://iaas.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "CreateBackupRequest",
-}) as any as S.Schema<CreateBackupRequest>;
+).annotate({ identifier: "CreateBackupRequest" }) as any as S.Schema<CreateBackupRequest>;
 
 /** Object that represents a backup. */
 export interface Backup {
@@ -723,9 +731,7 @@ export const CreateImageRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://iaas.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "CreateImageRequest",
-}) as any as S.Schema<CreateImageRequest>;
+).annotate({ identifier: "CreateImageRequest" }) as any as S.Schema<CreateImageRequest>;
 
 /** Image creation response. */
 export interface ImageCreateResponse {
@@ -737,9 +743,7 @@ export const ImageCreateResponse = /*@__PURE__*/ S.suspend(() =>
     id: S.String,
     uploadUrl: S.String,
   }),
-).annotate({
-  identifier: "ImageCreateResponse",
-}) as any as S.Schema<ImageCreateResponse>;
+).annotate({ identifier: "ImageCreateResponse" }) as any as S.Schema<ImageCreateResponse>;
 
 /** A list containing DNS Servers/Nameservers for IPv4. */
 export type NameserversIPv4 = Array<string>;
@@ -864,6 +868,7 @@ export const NetworkIPv6 = /*@__PURE__*/ S.suspend(() =>
 /** Object that represents a network. If no routing table is specified, the default routing table is used. */
 export interface Network {
   createdAt?: string;
+  description?: string;
   dhcp?: boolean;
   id: string;
   ipv4?: NetworkIPv4;
@@ -880,6 +885,7 @@ export interface Network {
 export const Network = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     createdAt: S.optional(S.String),
+    description: S.optional(S.String),
     dhcp: S.optional(S.Boolean),
     id: S.String,
     ipv4: S.optional(NetworkIPv4),
@@ -912,9 +918,7 @@ export const CreateKeyPairRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://iaas.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "CreateKeyPairRequest",
-}) as any as S.Schema<CreateKeyPairRequest>;
+).annotate({ identifier: "CreateKeyPairRequest" }) as any as S.Schema<CreateKeyPairRequest>;
 
 /** Object that represents the public key of an SSH keypair and its name. */
 export interface Keypair {
@@ -979,6 +983,7 @@ export interface CreateNetworkRequest {
   projectId: string;
   /** The STACKIT Region of the resources. */
   region: string;
+  description?: string;
   dhcp?: boolean;
   ipv4?: CreateNetworkIPv4;
   ipv6?: CreateNetworkIPv6;
@@ -993,6 +998,7 @@ export const CreateNetworkRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     projectId: S.String.pipe(T.Label()),
     region: S.String.pipe(T.Label()),
+    description: S.optional(S.String),
     dhcp: S.optional(S.Boolean),
     ipv4: S.optional(CreateNetworkIPv4),
     ipv6: S.optional(CreateNetworkIPv6),
@@ -1009,9 +1015,7 @@ export const CreateNetworkRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://iaas.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "CreateNetworkRequest",
-}) as any as S.Schema<CreateNetworkRequest>;
+).annotate({ identifier: "CreateNetworkRequest" }) as any as S.Schema<CreateNetworkRequest>;
 
 export interface CreateNetworkAreaRequest {
   /** The identifier (ID) of a STACKIT Organization. */
@@ -1032,9 +1036,7 @@ export const CreateNetworkAreaRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://iaas.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "CreateNetworkAreaRequest",
-}) as any as S.Schema<CreateNetworkAreaRequest>;
+).annotate({ identifier: "CreateNetworkAreaRequest" }) as any as S.Schema<CreateNetworkAreaRequest>;
 
 /** Object that represents a network area. */
 export interface NetworkArea {
@@ -1064,9 +1066,7 @@ export const NetworkRangeInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     prefix: S.String,
   }),
-).annotate({
-  identifier: "NetworkRangeInput",
-}) as any as S.Schema<NetworkRangeInput>;
+).annotate({ identifier: "NetworkRangeInput" }) as any as S.Schema<NetworkRangeInput>;
 
 /** A list of network area network ranges. */
 export type NetworkRangeListInput = Array<NetworkRangeInput>;
@@ -1131,9 +1131,7 @@ export const NetworkRangeListResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     items: NetworkRangeList,
   }),
-).annotate({
-  identifier: "NetworkRangeListResponse",
-}) as any as S.Schema<NetworkRangeListResponse>;
+).annotate({ identifier: "NetworkRangeListResponse" }) as any as S.Schema<NetworkRangeListResponse>;
 
 export type RegionalAreaIPv4InputDefaultNameserversList = Array<string>;
 export const RegionalAreaIPv4InputDefaultNameserversList = /*@__PURE__*/ S.Array(
@@ -1158,9 +1156,7 @@ export const RegionalAreaIPv4Input = /*@__PURE__*/ S.suspend(() =>
     networkRanges: NetworkRangeListInput,
     transferNetwork: S.String,
   }),
-).annotate({
-  identifier: "RegionalAreaIPv4Input",
-}) as any as S.Schema<RegionalAreaIPv4Input>;
+).annotate({ identifier: "RegionalAreaIPv4Input" }) as any as S.Schema<RegionalAreaIPv4Input>;
 
 export interface CreateNetworkAreaRegionRequest {
   /** The identifier (ID) of a STACKIT Organization. */
@@ -1212,9 +1208,7 @@ export const RegionalAreaIPv4 = /*@__PURE__*/ S.suspend(() =>
     networkRanges: NetworkRangeList,
     transferNetwork: S.String,
   }),
-).annotate({
-  identifier: "RegionalAreaIPv4",
-}) as any as S.Schema<RegionalAreaIPv4>;
+).annotate({ identifier: "RegionalAreaIPv4" }) as any as S.Schema<RegionalAreaIPv4>;
 
 /** The basic properties of a regional network area. */
 export interface RegionalArea {
@@ -1302,9 +1296,7 @@ export const CreateNicRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://iaas.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "CreateNicRequest",
-}) as any as S.Schema<CreateNicRequest>;
+).annotate({ identifier: "CreateNicRequest" }) as any as S.Schema<CreateNicRequest>;
 
 /** Object that represents a network interface. */
 export interface NIC {
@@ -1367,9 +1359,7 @@ export const CreatePublicIPRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://iaas.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "CreatePublicIPRequest",
-}) as any as S.Schema<CreatePublicIPRequest>;
+).annotate({ identifier: "CreatePublicIPRequest" }) as any as S.Schema<CreatePublicIPRequest>;
 
 /** Object that represents a public IP. */
 export interface PublicIp {
@@ -1492,9 +1482,7 @@ export const SecurityGroupRule = /*@__PURE__*/ S.suspend(() =>
     updatedAt: S.optional(S.String),
     protocol: S.optional(Protocol),
   }),
-).annotate({
-  identifier: "SecurityGroupRule",
-}) as any as S.Schema<SecurityGroupRule>;
+).annotate({ identifier: "SecurityGroupRule" }) as any as S.Schema<SecurityGroupRule>;
 
 /** A list containing security group rule objects. */
 export type SecurityGroupRuleList = Array<SecurityGroupRule>;
@@ -1641,9 +1629,7 @@ export const BootVolumeInput = /*@__PURE__*/ S.suspend(() =>
     size: S.optional(S.Number),
     source: S.optional(BackupSource),
   }),
-).annotate({
-  identifier: "BootVolumeInput",
-}) as any as S.Schema<BootVolumeInput>;
+).annotate({ identifier: "BootVolumeInput" }) as any as S.Schema<BootVolumeInput>;
 
 /** The initial networking setup for the server creation with a network. */
 export interface CreateServerNetworking {
@@ -1653,9 +1639,7 @@ export const CreateServerNetworking = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     networkId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CreateServerNetworking",
-}) as any as S.Schema<CreateServerNetworking>;
+).annotate({ identifier: "CreateServerNetworking" }) as any as S.Schema<CreateServerNetworking>;
 
 /** The initial networking setup for the server creation with a network interface. */
 export interface CreateServerNetworkingWithNics {
@@ -1737,9 +1721,7 @@ export const CreateServerRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://iaas.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "CreateServerRequest",
-}) as any as S.Schema<CreateServerRequest>;
+).annotate({ identifier: "CreateServerRequest" }) as any as S.Schema<CreateServerRequest>;
 
 /** The boot device for the server. */
 export interface BootVolumeOutput {
@@ -1751,9 +1733,7 @@ export const BootVolumeOutput = /*@__PURE__*/ S.suspend(() =>
     deleteOnTermination: S.optional(S.Boolean),
     id: S.optional(S.String),
   }),
-).annotate({
-  identifier: "BootVolumeOutput",
-}) as any as S.Schema<BootVolumeOutput>;
+).annotate({ identifier: "BootVolumeOutput" }) as any as S.Schema<BootVolumeOutput>;
 
 /** Object that represents the information about the next planned server maintenance window. */
 export interface ServerMaintenance {
@@ -1772,9 +1752,7 @@ export const ServerMaintenance = /*@__PURE__*/ S.suspend(() =>
     startsAt: S.String,
     status: S.String,
   }),
-).annotate({
-  identifier: "ServerMaintenance",
-}) as any as S.Schema<ServerMaintenance>;
+).annotate({ identifier: "ServerMaintenance" }) as any as S.Schema<ServerMaintenance>;
 
 /** The initial networking setup for the server creation. A network, a nic or nothing can be given. */
 export type ServerOutputNetworking = CreateServerNetworking | CreateServerNetworkingWithNics;
@@ -1905,9 +1883,7 @@ export const CreateSnapshotRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://iaas.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "CreateSnapshotRequest",
-}) as any as S.Schema<CreateSnapshotRequest>;
+).annotate({ identifier: "CreateSnapshotRequest" }) as any as S.Schema<CreateSnapshotRequest>;
 
 /** Object that represents a snapshot. */
 export interface Snapshot {
@@ -2005,9 +1981,7 @@ export const CreateVolumeRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://iaas.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "CreateVolumeRequest",
-}) as any as S.Schema<CreateVolumeRequest>;
+).annotate({ identifier: "CreateVolumeRequest" }) as any as S.Schema<CreateVolumeRequest>;
 
 /** Object that represents a volume and its parameters. Volumes sized up to 16000GB are supported. */
 export interface Volume {
@@ -2070,9 +2044,7 @@ export const DeallocateServerRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://iaas.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "DeallocateServerRequest",
-}) as any as S.Schema<DeallocateServerRequest>;
+).annotate({ identifier: "DeallocateServerRequest" }) as any as S.Schema<DeallocateServerRequest>;
 
 export interface DeallocateServerResponse {}
 export const DeallocateServerResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2133,9 +2105,7 @@ export const DeleteBackupRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://iaas.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "DeleteBackupRequest",
-}) as any as S.Schema<DeleteBackupRequest>;
+).annotate({ identifier: "DeleteBackupRequest" }) as any as S.Schema<DeleteBackupRequest>;
 
 export interface DeleteBackupResponse {}
 export const DeleteBackupResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2163,9 +2133,7 @@ export const DeleteImageRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://iaas.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "DeleteImageRequest",
-}) as any as S.Schema<DeleteImageRequest>;
+).annotate({ identifier: "DeleteImageRequest" }) as any as S.Schema<DeleteImageRequest>;
 
 export interface DeleteImageResponse {}
 export const DeleteImageResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2193,9 +2161,7 @@ export const DeleteImageShareRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://iaas.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "DeleteImageShareRequest",
-}) as any as S.Schema<DeleteImageShareRequest>;
+).annotate({ identifier: "DeleteImageShareRequest" }) as any as S.Schema<DeleteImageShareRequest>;
 
 export interface DeleteImageShareResponse {}
 export const DeleteImageShareResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2252,9 +2218,7 @@ export const DeleteKeyPairRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://iaas.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "DeleteKeyPairRequest",
-}) as any as S.Schema<DeleteKeyPairRequest>;
+).annotate({ identifier: "DeleteKeyPairRequest" }) as any as S.Schema<DeleteKeyPairRequest>;
 
 export interface DeleteKeyPairResponse {}
 export const DeleteKeyPairResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2282,9 +2246,7 @@ export const DeleteNetworkRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://iaas.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "DeleteNetworkRequest",
-}) as any as S.Schema<DeleteNetworkRequest>;
+).annotate({ identifier: "DeleteNetworkRequest" }) as any as S.Schema<DeleteNetworkRequest>;
 
 export interface DeleteNetworkResponse {}
 export const DeleteNetworkResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2309,9 +2271,7 @@ export const DeleteNetworkAreaRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://iaas.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "DeleteNetworkAreaRequest",
-}) as any as S.Schema<DeleteNetworkAreaRequest>;
+).annotate({ identifier: "DeleteNetworkAreaRequest" }) as any as S.Schema<DeleteNetworkAreaRequest>;
 
 export interface DeleteNetworkAreaResponse {}
 export const DeleteNetworkAreaResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2378,9 +2338,7 @@ export const DeleteNetworkAreaRegionRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface DeleteNetworkAreaRegionResponse {}
 export const DeleteNetworkAreaRegionResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "DeleteNetworkAreaRegionResponse",
-  },
+  { identifier: "DeleteNetworkAreaRegionResponse" },
 ) as any as S.Schema<DeleteNetworkAreaRegionResponse>;
 
 export interface DeleteNetworkAreaRouteRequest {
@@ -2440,9 +2398,7 @@ export const DeleteNicRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://iaas.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "DeleteNicRequest",
-}) as any as S.Schema<DeleteNicRequest>;
+).annotate({ identifier: "DeleteNicRequest" }) as any as S.Schema<DeleteNicRequest>;
 
 export interface DeleteNicResponse {}
 export const DeleteNicResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2470,9 +2426,7 @@ export const DeletePublicIPRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://iaas.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "DeletePublicIPRequest",
-}) as any as S.Schema<DeletePublicIPRequest>;
+).annotate({ identifier: "DeletePublicIPRequest" }) as any as S.Schema<DeletePublicIPRequest>;
 
 export interface DeletePublicIPResponse {}
 export const DeletePublicIPResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2612,9 +2566,7 @@ export const DeleteSecurityGroupRuleRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface DeleteSecurityGroupRuleResponse {}
 export const DeleteSecurityGroupRuleResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "DeleteSecurityGroupRuleResponse",
-  },
+  { identifier: "DeleteSecurityGroupRuleResponse" },
 ) as any as S.Schema<DeleteSecurityGroupRuleResponse>;
 
 export interface DeleteServerRequest {
@@ -2638,9 +2590,7 @@ export const DeleteServerRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://iaas.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "DeleteServerRequest",
-}) as any as S.Schema<DeleteServerRequest>;
+).annotate({ identifier: "DeleteServerRequest" }) as any as S.Schema<DeleteServerRequest>;
 
 export interface DeleteServerResponse {}
 export const DeleteServerResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2668,9 +2618,7 @@ export const DeleteSnapshotRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://iaas.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "DeleteSnapshotRequest",
-}) as any as S.Schema<DeleteSnapshotRequest>;
+).annotate({ identifier: "DeleteSnapshotRequest" }) as any as S.Schema<DeleteSnapshotRequest>;
 
 export interface DeleteSnapshotResponse {}
 export const DeleteSnapshotResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2701,9 +2649,7 @@ export const DeleteVolumeRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://iaas.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "DeleteVolumeRequest",
-}) as any as S.Schema<DeleteVolumeRequest>;
+).annotate({ identifier: "DeleteVolumeRequest" }) as any as S.Schema<DeleteVolumeRequest>;
 
 export interface DeleteVolumeResponse {}
 export const DeleteVolumeResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2731,9 +2677,7 @@ export const GetAffinityGroupRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://iaas.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "GetAffinityGroupRequest",
-}) as any as S.Schema<GetAffinityGroupRequest>;
+).annotate({ identifier: "GetAffinityGroupRequest" }) as any as S.Schema<GetAffinityGroupRequest>;
 
 export interface GetAttachedVolumeRequest {
   /** The identifier (ID) of a STACKIT Project. */
@@ -2759,9 +2703,7 @@ export const GetAttachedVolumeRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://iaas.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "GetAttachedVolumeRequest",
-}) as any as S.Schema<GetAttachedVolumeRequest>;
+).annotate({ identifier: "GetAttachedVolumeRequest" }) as any as S.Schema<GetAttachedVolumeRequest>;
 
 export interface GetBackupRequest {
   /** The identifier (ID) of a STACKIT Project. */
@@ -2784,9 +2726,7 @@ export const GetBackupRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://iaas.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "GetBackupRequest",
-}) as any as S.Schema<GetBackupRequest>;
+).annotate({ identifier: "GetBackupRequest" }) as any as S.Schema<GetBackupRequest>;
 
 export interface GetImageRequest {
   /** The identifier (ID) of a STACKIT Project. */
@@ -2809,9 +2749,7 @@ export const GetImageRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://iaas.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "GetImageRequest",
-}) as any as S.Schema<GetImageRequest>;
+).annotate({ identifier: "GetImageRequest" }) as any as S.Schema<GetImageRequest>;
 
 /** Representation of an image checksum. */
 export interface ImageChecksum {
@@ -2890,9 +2828,7 @@ export const GetImageShareRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://iaas.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "GetImageShareRequest",
-}) as any as S.Schema<GetImageShareRequest>;
+).annotate({ identifier: "GetImageShareRequest" }) as any as S.Schema<GetImageShareRequest>;
 
 /** List of all projects the Image is shared with. */
 export type ImageShareProjectsList = Array<string>;
@@ -2956,9 +2892,7 @@ export const ImageShareConsumer = /*@__PURE__*/ S.suspend(() =>
     imageId: S.optional(S.String),
     updatedAt: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ImageShareConsumer",
-}) as any as S.Schema<ImageShareConsumer>;
+).annotate({ identifier: "ImageShareConsumer" }) as any as S.Schema<ImageShareConsumer>;
 
 export interface GetKeyPairRequest {
   /** The name of an SSH keypair. */
@@ -2975,9 +2909,7 @@ export const GetKeyPairRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://iaas.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "GetKeyPairRequest",
-}) as any as S.Schema<GetKeyPairRequest>;
+).annotate({ identifier: "GetKeyPairRequest" }) as any as S.Schema<GetKeyPairRequest>;
 
 export interface GetMachineTypeRequest {
   /** The identifier (ID) of a STACKIT Project. */
@@ -3000,9 +2932,7 @@ export const GetMachineTypeRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://iaas.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "GetMachineTypeRequest",
-}) as any as S.Schema<GetMachineTypeRequest>;
+).annotate({ identifier: "GetMachineTypeRequest" }) as any as S.Schema<GetMachineTypeRequest>;
 
 /** Machine Type. Filterable Fields: `disk`, `extraSpecs`, `name`, `ram`, `vcpus`. */
 export interface MachineType {
@@ -3045,9 +2975,7 @@ export const GetNetworkRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://iaas.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "GetNetworkRequest",
-}) as any as S.Schema<GetNetworkRequest>;
+).annotate({ identifier: "GetNetworkRequest" }) as any as S.Schema<GetNetworkRequest>;
 
 export interface GetNetworkAreaRequest {
   /** The identifier (ID) of a STACKIT Organization. */
@@ -3067,9 +2995,7 @@ export const GetNetworkAreaRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://iaas.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "GetNetworkAreaRequest",
-}) as any as S.Schema<GetNetworkAreaRequest>;
+).annotate({ identifier: "GetNetworkAreaRequest" }) as any as S.Schema<GetNetworkAreaRequest>;
 
 export interface GetNetworkAreaRangeRequest {
   /** The identifier (ID) of a STACKIT Organization. */
@@ -3212,9 +3138,7 @@ export const RequestResource = /*@__PURE__*/ S.suspend(() =>
     status: S.String,
     type: S.String,
   }),
-).annotate({
-  identifier: "RequestResource",
-}) as any as S.Schema<RequestResource>;
+).annotate({ identifier: "RequestResource" }) as any as S.Schema<RequestResource>;
 
 export type RequestResourcesList = Array<RequestResource>;
 export const RequestResourcesList = /*@__PURE__*/ S.Array(
@@ -3256,13 +3180,11 @@ export const GetProjectDetailsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://iaas.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "GetProjectDetailsRequest",
-}) as any as S.Schema<GetProjectDetailsRequest>;
+).annotate({ identifier: "GetProjectDetailsRequest" }) as any as S.Schema<GetProjectDetailsRequest>;
 
 /** The identifier (ID) of a static area. */
 export type StaticAreaID = "PUBLIC" | "SCHWARZ";
-export const StaticAreaID = /*@__PURE__*/ S.String;
+export const StaticAreaID = S.String;
 
 /** The identifier (ID) of an area. */
 export type AreaId = string | StaticAreaID;
@@ -3274,8 +3196,11 @@ export interface Project {
   createdAt?: string;
   id: string;
   internetAccess?: boolean;
+  /** Possible values: `Schwarz`, `Public`, `SNA`, `VPC`. */
+  projectType?: string;
   status: string;
   updatedAt?: string;
+  vpcId?: string;
 }
 export const Project = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -3283,8 +3208,10 @@ export const Project = /*@__PURE__*/ S.suspend(() =>
     createdAt: S.optional(S.String),
     id: S.String,
     internetAccess: S.optional(S.Boolean),
+    projectType: S.optional(S.String),
     status: S.String,
     updatedAt: S.optional(S.String),
+    vpcId: S.optional(S.String),
   }),
 ).annotate({ identifier: "Project" }) as any as S.Schema<Project>;
 
@@ -3309,9 +3236,7 @@ export const GetProjectNICRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://iaas.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "GetProjectNICRequest",
-}) as any as S.Schema<GetProjectNICRequest>;
+).annotate({ identifier: "GetProjectNICRequest" }) as any as S.Schema<GetProjectNICRequest>;
 
 export interface GetProjectRequestRequest {
   /** The identifier (ID) of a STACKIT Project. */
@@ -3334,9 +3259,7 @@ export const GetProjectRequestRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://iaas.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "GetProjectRequestRequest",
-}) as any as S.Schema<GetProjectRequestRequest>;
+).annotate({ identifier: "GetProjectRequestRequest" }) as any as S.Schema<GetProjectRequestRequest>;
 
 export interface GetPublicIPRequest {
   /** The identifier (ID) of a STACKIT Project. */
@@ -3359,9 +3282,7 @@ export const GetPublicIPRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://iaas.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "GetPublicIPRequest",
-}) as any as S.Schema<GetPublicIPRequest>;
+).annotate({ identifier: "GetPublicIPRequest" }) as any as S.Schema<GetPublicIPRequest>;
 
 export interface GetRouteOfRoutingTableRequest {
   /** The identifier (ID) of a STACKIT Organization. */
@@ -3443,9 +3364,7 @@ export const GetSecurityGroupRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://iaas.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "GetSecurityGroupRequest",
-}) as any as S.Schema<GetSecurityGroupRequest>;
+).annotate({ identifier: "GetSecurityGroupRequest" }) as any as S.Schema<GetSecurityGroupRequest>;
 
 export interface GetSecurityGroupRuleRequest {
   /** The identifier (ID) of a STACKIT Project. */
@@ -3536,9 +3455,7 @@ export const GetServerRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://iaas.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "GetServerRequest",
-}) as any as S.Schema<GetServerRequest>;
+).annotate({ identifier: "GetServerRequest" }) as any as S.Schema<GetServerRequest>;
 
 export interface GetServerConsoleRequest {
   /** The identifier (ID) of a STACKIT Project. */
@@ -3561,9 +3478,7 @@ export const GetServerConsoleRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://iaas.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "GetServerConsoleRequest",
-}) as any as S.Schema<GetServerConsoleRequest>;
+).annotate({ identifier: "GetServerConsoleRequest" }) as any as S.Schema<GetServerConsoleRequest>;
 
 /** Object that represents a server console URL. */
 export interface ServerConsoleUrl {
@@ -3573,9 +3488,7 @@ export const ServerConsoleUrl = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     url: S.String,
   }),
-).annotate({
-  identifier: "ServerConsoleUrl",
-}) as any as S.Schema<ServerConsoleUrl>;
+).annotate({ identifier: "ServerConsoleUrl" }) as any as S.Schema<ServerConsoleUrl>;
 
 export interface GetServerLogRequest {
   /** The identifier (ID) of a STACKIT Project. */
@@ -3601,9 +3514,7 @@ export const GetServerLogRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://iaas.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "GetServerLogRequest",
-}) as any as S.Schema<GetServerLogRequest>;
+).annotate({ identifier: "GetServerLogRequest" }) as any as S.Schema<GetServerLogRequest>;
 
 export interface GetServerLogResponse {
   output?: string;
@@ -3612,9 +3523,7 @@ export const GetServerLogResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     output: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GetServerLogResponse",
-}) as any as S.Schema<GetServerLogResponse>;
+).annotate({ identifier: "GetServerLogResponse" }) as any as S.Schema<GetServerLogResponse>;
 
 export interface GetSnapshotRequest {
   /** The identifier (ID) of a STACKIT Project. */
@@ -3637,9 +3546,7 @@ export const GetSnapshotRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://iaas.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "GetSnapshotRequest",
-}) as any as S.Schema<GetSnapshotRequest>;
+).annotate({ identifier: "GetSnapshotRequest" }) as any as S.Schema<GetSnapshotRequest>;
 
 export interface GetVolumeRequest {
   /** The identifier (ID) of a STACKIT Project. */
@@ -3662,9 +3569,7 @@ export const GetVolumeRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://iaas.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "GetVolumeRequest",
-}) as any as S.Schema<GetVolumeRequest>;
+).annotate({ identifier: "GetVolumeRequest" }) as any as S.Schema<GetVolumeRequest>;
 
 export interface GetVolumePerformanceClassRequest {
   /** The identifier (ID) of a STACKIT Project. */
@@ -3707,9 +3612,7 @@ export const VolumePerformanceClass = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     throughput: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "VolumePerformanceClass",
-}) as any as S.Schema<VolumePerformanceClass>;
+).annotate({ identifier: "VolumePerformanceClass" }) as any as S.Schema<VolumePerformanceClass>;
 
 export interface ImageFromVolumeRequest {
   /** The identifier (ID) of a STACKIT Project. */
@@ -3719,6 +3622,7 @@ export interface ImageFromVolumeRequest {
   /** The identifier (ID) of a STACKIT Volume. */
   volumeId: string;
   diskFormat: string;
+  force?: boolean;
   name: string;
   protected?: boolean;
 }
@@ -3728,6 +3632,7 @@ export const ImageFromVolumeRequest = /*@__PURE__*/ S.suspend(() =>
     region: S.String.pipe(T.Label()),
     volumeId: S.String.pipe(T.Label()),
     diskFormat: S.String,
+    force: S.optional(S.Boolean),
     name: S.String,
     protected: S.optional(S.Boolean),
   }).pipe(
@@ -3738,9 +3643,7 @@ export const ImageFromVolumeRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://iaas.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "ImageFromVolumeRequest",
-}) as any as S.Schema<ImageFromVolumeRequest>;
+).annotate({ identifier: "ImageFromVolumeRequest" }) as any as S.Schema<ImageFromVolumeRequest>;
 
 export interface ListAffinityGroupsRequest {
   /** The identifier (ID) of a STACKIT Project. */
@@ -3883,9 +3786,7 @@ export const ListBackupsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://iaas.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "ListBackupsRequest",
-}) as any as S.Schema<ListBackupsRequest>;
+).annotate({ identifier: "ListBackupsRequest" }) as any as S.Schema<ListBackupsRequest>;
 
 /** A list containing backup objects. */
 export type BackupList = Array<Backup>;
@@ -3899,9 +3800,7 @@ export const BackupListResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     items: BackupList,
   }),
-).annotate({
-  identifier: "BackupListResponse",
-}) as any as S.Schema<BackupListResponse>;
+).annotate({ identifier: "BackupListResponse" }) as any as S.Schema<BackupListResponse>;
 
 export interface ListImagesRequest {
   /** The identifier (ID) of a STACKIT Project. */
@@ -3927,9 +3826,7 @@ export const ListImagesRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://iaas.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "ListImagesRequest",
-}) as any as S.Schema<ListImagesRequest>;
+).annotate({ identifier: "ListImagesRequest" }) as any as S.Schema<ListImagesRequest>;
 
 /** A list containing image objects. */
 export type ImageList = Array<Image>;
@@ -3943,9 +3840,7 @@ export const ImageListResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     items: ImageList,
   }),
-).annotate({
-  identifier: "ImageListResponse",
-}) as any as S.Schema<ImageListResponse>;
+).annotate({ identifier: "ImageListResponse" }) as any as S.Schema<ImageListResponse>;
 
 export interface ListKeyPairsRequest {
   /** Filter resources by labels. */
@@ -3962,9 +3857,7 @@ export const ListKeyPairsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://iaas.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "ListKeyPairsRequest",
-}) as any as S.Schema<ListKeyPairsRequest>;
+).annotate({ identifier: "ListKeyPairsRequest" }) as any as S.Schema<ListKeyPairsRequest>;
 
 /** A list of SSH keypairs. */
 export type KeyPairList = Array<Keypair>;
@@ -3978,9 +3871,7 @@ export const KeyPairListResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     items: KeyPairList,
   }),
-).annotate({
-  identifier: "KeyPairListResponse",
-}) as any as S.Schema<KeyPairListResponse>;
+).annotate({ identifier: "KeyPairListResponse" }) as any as S.Schema<KeyPairListResponse>;
 
 export interface ListMachineTypesRequest {
   /** The identifier (ID) of a STACKIT Project. */
@@ -4003,9 +3894,7 @@ export const ListMachineTypesRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://iaas.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "ListMachineTypesRequest",
-}) as any as S.Schema<ListMachineTypesRequest>;
+).annotate({ identifier: "ListMachineTypesRequest" }) as any as S.Schema<ListMachineTypesRequest>;
 
 /** Machine type list. */
 export type MachineTypeList = Array<MachineType>;
@@ -4021,9 +3910,7 @@ export const MachineTypeListResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     items: MachineTypeList,
   }),
-).annotate({
-  identifier: "MachineTypeListResponse",
-}) as any as S.Schema<MachineTypeListResponse>;
+).annotate({ identifier: "MachineTypeListResponse" }) as any as S.Schema<MachineTypeListResponse>;
 
 export interface ListNetworkAreaProjectsRequest {
   /** The identifier (ID) of a STACKIT Organization. */
@@ -4059,9 +3946,7 @@ export const ProjectListResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     items: ProjectList,
   }),
-).annotate({
-  identifier: "ProjectListResponse",
-}) as any as S.Schema<ProjectListResponse>;
+).annotate({ identifier: "ProjectListResponse" }) as any as S.Schema<ProjectListResponse>;
 
 export interface ListNetworkAreaRangesRequest {
   /** The identifier (ID) of a STACKIT Organization. */
@@ -4110,9 +3995,7 @@ export const ListNetworkAreaRegionsRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "ListNetworkAreaRegionsRequest",
 }) as any as S.Schema<ListNetworkAreaRegionsRequest>;
 
-export type RegionalAreaListResponseRegionsMap = {
-  [key: string]: RegionalArea | undefined;
-};
+export type RegionalAreaListResponseRegionsMap = { [key: string]: RegionalArea | undefined };
 export const RegionalAreaListResponseRegionsMap = /*@__PURE__*/ S.Record(
   S.String,
   RegionalArea,
@@ -4126,9 +4009,7 @@ export const RegionalAreaListResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     regions: RegionalAreaListResponseRegionsMap,
   }),
-).annotate({
-  identifier: "RegionalAreaListResponse",
-}) as any as S.Schema<RegionalAreaListResponse>;
+).annotate({ identifier: "RegionalAreaListResponse" }) as any as S.Schema<RegionalAreaListResponse>;
 
 export interface ListNetworkAreaRoutesRequest {
   /** The identifier (ID) of a STACKIT Organization. */
@@ -4176,9 +4057,7 @@ export const ListNetworkAreasRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://iaas.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "ListNetworkAreasRequest",
-}) as any as S.Schema<ListNetworkAreasRequest>;
+).annotate({ identifier: "ListNetworkAreasRequest" }) as any as S.Schema<ListNetworkAreasRequest>;
 
 /** A list of network areas. */
 export type NetworkAreaList = Array<NetworkArea>;
@@ -4194,9 +4073,7 @@ export const NetworkAreaListResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     items: NetworkAreaList,
   }),
-).annotate({
-  identifier: "NetworkAreaListResponse",
-}) as any as S.Schema<NetworkAreaListResponse>;
+).annotate({ identifier: "NetworkAreaListResponse" }) as any as S.Schema<NetworkAreaListResponse>;
 
 export interface ListNetworksRequest {
   /** The identifier (ID) of a STACKIT Project. */
@@ -4219,9 +4096,7 @@ export const ListNetworksRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://iaas.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "ListNetworksRequest",
-}) as any as S.Schema<ListNetworksRequest>;
+).annotate({ identifier: "ListNetworksRequest" }) as any as S.Schema<ListNetworksRequest>;
 
 /** A list of networks. */
 export type NetworkList = Array<Network>;
@@ -4235,9 +4110,7 @@ export const NetworkListResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     items: NetworkList,
   }),
-).annotate({
-  identifier: "NetworkListResponse",
-}) as any as S.Schema<NetworkListResponse>;
+).annotate({ identifier: "NetworkListResponse" }) as any as S.Schema<NetworkListResponse>;
 
 export interface ListNicsRequest {
   /** The identifier (ID) of a STACKIT Project. */
@@ -4263,9 +4136,7 @@ export const ListNicsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://iaas.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "ListNicsRequest",
-}) as any as S.Schema<ListNicsRequest>;
+).annotate({ identifier: "ListNicsRequest" }) as any as S.Schema<ListNicsRequest>;
 
 /** A list of network interfaces. */
 export type NICList = Array<NIC>;
@@ -4279,9 +4150,7 @@ export const NICListResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     items: NICList,
   }),
-).annotate({
-  identifier: "NICListResponse",
-}) as any as S.Schema<NICListResponse>;
+).annotate({ identifier: "NICListResponse" }) as any as S.Schema<NICListResponse>;
 
 export interface ListProjectNICsRequest {
   /** The identifier (ID) of a STACKIT Project. */
@@ -4304,9 +4173,7 @@ export const ListProjectNICsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://iaas.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "ListProjectNICsRequest",
-}) as any as S.Schema<ListProjectNICsRequest>;
+).annotate({ identifier: "ListProjectNICsRequest" }) as any as S.Schema<ListProjectNICsRequest>;
 
 export interface ListPublicIPRangesRequest {}
 export const ListPublicIPRangesRequest = /*@__PURE__*/ S.suspend(() =>
@@ -4373,9 +4240,7 @@ export const ListPublicIPsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://iaas.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "ListPublicIPsRequest",
-}) as any as S.Schema<ListPublicIPsRequest>;
+).annotate({ identifier: "ListPublicIPsRequest" }) as any as S.Schema<ListPublicIPsRequest>;
 
 /** A list of public IPs. */
 export type PublicIpList = Array<PublicIp>;
@@ -4389,9 +4254,7 @@ export const PublicIpListResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     items: PublicIpList,
   }),
-).annotate({
-  identifier: "PublicIpListResponse",
-}) as any as S.Schema<PublicIpListResponse>;
+).annotate({ identifier: "PublicIpListResponse" }) as any as S.Schema<PublicIpListResponse>;
 
 export interface ListQuotasRequest {
   /** The identifier (ID) of a STACKIT Project. */
@@ -4411,9 +4274,7 @@ export const ListQuotasRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://iaas.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "ListQuotasRequest",
-}) as any as S.Schema<ListQuotasRequest>;
+).annotate({ identifier: "ListQuotasRequest" }) as any as S.Schema<ListQuotasRequest>;
 
 /** Object that represents a single resource quota. */
 export interface Quota {
@@ -4479,9 +4340,7 @@ export const QuotaListResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     quotas: QuotaList,
   }),
-).annotate({
-  identifier: "QuotaListResponse",
-}) as any as S.Schema<QuotaListResponse>;
+).annotate({ identifier: "QuotaListResponse" }) as any as S.Schema<QuotaListResponse>;
 
 export interface ListRoutesOfRoutingTableRequest {
   /** The identifier (ID) of a STACKIT Organization. */
@@ -4556,9 +4415,7 @@ export const RoutingTableListResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     items: RoutingTablesList,
   }),
-).annotate({
-  identifier: "RoutingTableListResponse",
-}) as any as S.Schema<RoutingTableListResponse>;
+).annotate({ identifier: "RoutingTableListResponse" }) as any as S.Schema<RoutingTableListResponse>;
 
 export interface ListSecurityGroupRulesRequest {
   /** The identifier (ID) of a STACKIT Project. */
@@ -4661,9 +4518,7 @@ export const ListServerNICsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://iaas.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "ListServerNICsRequest",
-}) as any as S.Schema<ListServerNICsRequest>;
+).annotate({ identifier: "ListServerNICsRequest" }) as any as S.Schema<ListServerNICsRequest>;
 
 export interface ListServersRequest {
   /** The identifier (ID) of a STACKIT Project. */
@@ -4689,9 +4544,7 @@ export const ListServersRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://iaas.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "ListServersRequest",
-}) as any as S.Schema<ListServersRequest>;
+).annotate({ identifier: "ListServersRequest" }) as any as S.Schema<ListServersRequest>;
 
 /** A list of servers. */
 export type ServerListOutput = Array<ServerOutput>;
@@ -4707,9 +4560,7 @@ export const ServerListResponseOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     items: ServerListOutput,
   }),
-).annotate({
-  identifier: "ServerListResponseOutput",
-}) as any as S.Schema<ServerListResponseOutput>;
+).annotate({ identifier: "ServerListResponseOutput" }) as any as S.Schema<ServerListResponseOutput>;
 
 export interface ListServerServiceAccountsRequest {
   /** The identifier (ID) of a STACKIT Project. */
@@ -4773,9 +4624,7 @@ export const SnapshotListResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     items: SnapshotList,
   }),
-).annotate({
-  identifier: "SnapshotListResponse",
-}) as any as S.Schema<SnapshotListResponse>;
+).annotate({ identifier: "SnapshotListResponse" }) as any as S.Schema<SnapshotListResponse>;
 
 export interface ListVolumePerformanceClassesRequest {
   /** The identifier (ID) of a STACKIT Project. */
@@ -4841,9 +4690,7 @@ export const ListVolumesRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://iaas.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "ListVolumesRequest",
-}) as any as S.Schema<ListVolumesRequest>;
+).annotate({ identifier: "ListVolumesRequest" }) as any as S.Schema<ListVolumesRequest>;
 
 /** A list containing volume objects. */
 export type VolumeList = Array<Volume>;
@@ -4857,9 +4704,7 @@ export const VolumeListResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     items: VolumeList,
   }),
-).annotate({
-  identifier: "VolumeListResponse",
-}) as any as S.Schema<VolumeListResponse>;
+).annotate({ identifier: "VolumeListResponse" }) as any as S.Schema<VolumeListResponse>;
 
 /** The config object for a IPv4 network update. */
 export interface UpdateNetworkIPv4Body {
@@ -4871,9 +4716,7 @@ export const UpdateNetworkIPv4Body = /*@__PURE__*/ S.suspend(() =>
     gateway: S.optional(S.NullOr(S.String)),
     nameservers: S.optional(NameserversIPv4),
   }),
-).annotate({
-  identifier: "UpdateNetworkIPv4Body",
-}) as any as S.Schema<UpdateNetworkIPv4Body>;
+).annotate({ identifier: "UpdateNetworkIPv4Body" }) as any as S.Schema<UpdateNetworkIPv4Body>;
 
 /** The config object for a IPv6 network update. */
 export interface UpdateNetworkIPv6Body {
@@ -4885,9 +4728,7 @@ export const UpdateNetworkIPv6Body = /*@__PURE__*/ S.suspend(() =>
     gateway: S.optional(S.NullOr(S.String)),
     nameservers: S.optional(NameserversIPv6),
   }),
-).annotate({
-  identifier: "UpdateNetworkIPv6Body",
-}) as any as S.Schema<UpdateNetworkIPv6Body>;
+).annotate({ identifier: "UpdateNetworkIPv6Body" }) as any as S.Schema<UpdateNetworkIPv6Body>;
 
 export interface PartialUpdateNetworkRequest {
   /** The identifier (ID) of a STACKIT Project. */
@@ -4896,6 +4737,7 @@ export interface PartialUpdateNetworkRequest {
   region: string;
   /** The identifier (ID) of a STACKIT Network. */
   networkId: string;
+  description?: string;
   dhcp?: boolean;
   ipv4?: UpdateNetworkIPv4Body;
   ipv6?: UpdateNetworkIPv6Body;
@@ -4909,6 +4751,7 @@ export const PartialUpdateNetworkRequest = /*@__PURE__*/ S.suspend(() =>
     projectId: S.String.pipe(T.Label()),
     region: S.String.pipe(T.Label()),
     networkId: S.String.pipe(T.Label()),
+    description: S.optional(S.String),
     dhcp: S.optional(S.Boolean),
     ipv4: S.optional(UpdateNetworkIPv4Body),
     ipv6: S.optional(UpdateNetworkIPv6Body),
@@ -4983,9 +4826,7 @@ export const RebootServerRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://iaas.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "RebootServerRequest",
-}) as any as S.Schema<RebootServerRequest>;
+).annotate({ identifier: "RebootServerRequest" }) as any as S.Schema<RebootServerRequest>;
 
 export interface RebootServerResponse {}
 export const RebootServerResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -5022,9 +4863,7 @@ export const RemoveNetworkFromServerRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface RemoveNetworkFromServerResponse {}
 export const RemoveNetworkFromServerResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "RemoveNetworkFromServerResponse",
-  },
+  { identifier: "RemoveNetworkFromServerResponse" },
 ) as any as S.Schema<RemoveNetworkFromServerResponse>;
 
 export interface RemoveNicFromServerRequest {
@@ -5214,9 +5053,7 @@ export const RescueServerRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://iaas.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "RescueServerRequest",
-}) as any as S.Schema<RescueServerRequest>;
+).annotate({ identifier: "RescueServerRequest" }) as any as S.Schema<RescueServerRequest>;
 
 export interface RescueServerResponse {}
 export const RescueServerResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -5246,9 +5083,7 @@ export const ResizeServerRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://iaas.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "ResizeServerRequest",
-}) as any as S.Schema<ResizeServerRequest>;
+).annotate({ identifier: "ResizeServerRequest" }) as any as S.Schema<ResizeServerRequest>;
 
 export interface ResizeServerResponse {}
 export const ResizeServerResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -5278,9 +5113,7 @@ export const ResizeVolumeRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://iaas.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "ResizeVolumeRequest",
-}) as any as S.Schema<ResizeVolumeRequest>;
+).annotate({ identifier: "ResizeVolumeRequest" }) as any as S.Schema<ResizeVolumeRequest>;
 
 export interface ResizeVolumeResponse {}
 export const ResizeVolumeResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -5308,9 +5141,7 @@ export const RestoreBackupRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://iaas.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "RestoreBackupRequest",
-}) as any as S.Schema<RestoreBackupRequest>;
+).annotate({ identifier: "RestoreBackupRequest" }) as any as S.Schema<RestoreBackupRequest>;
 
 export interface RestoreBackupResponse {}
 export const RestoreBackupResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -5350,9 +5181,7 @@ export const SetImageShareRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://iaas.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "SetImageShareRequest",
-}) as any as S.Schema<SetImageShareRequest>;
+).annotate({ identifier: "SetImageShareRequest" }) as any as S.Schema<SetImageShareRequest>;
 
 export interface StartServerRequest {
   /** The identifier (ID) of a STACKIT Project. */
@@ -5375,9 +5204,7 @@ export const StartServerRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://iaas.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "StartServerRequest",
-}) as any as S.Schema<StartServerRequest>;
+).annotate({ identifier: "StartServerRequest" }) as any as S.Schema<StartServerRequest>;
 
 export interface StartServerResponse {}
 export const StartServerResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -5405,9 +5232,7 @@ export const StopServerRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://iaas.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "StopServerRequest",
-}) as any as S.Schema<StopServerRequest>;
+).annotate({ identifier: "StopServerRequest" }) as any as S.Schema<StopServerRequest>;
 
 export interface StopServerResponse {}
 export const StopServerResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -5435,9 +5260,7 @@ export const UnrescueServerRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://iaas.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "UnrescueServerRequest",
-}) as any as S.Schema<UnrescueServerRequest>;
+).annotate({ identifier: "UnrescueServerRequest" }) as any as S.Schema<UnrescueServerRequest>;
 
 export interface UnrescueServerResponse {}
 export const UnrescueServerResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -5501,9 +5324,7 @@ export const UpdateBackupRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://iaas.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "UpdateBackupRequest",
-}) as any as S.Schema<UpdateBackupRequest>;
+).annotate({ identifier: "UpdateBackupRequest" }) as any as S.Schema<UpdateBackupRequest>;
 
 export interface UpdateImageRequest {
   /** The identifier (ID) of a STACKIT Project. */
@@ -5542,9 +5363,7 @@ export const UpdateImageRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://iaas.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "UpdateImageRequest",
-}) as any as S.Schema<UpdateImageRequest>;
+).annotate({ identifier: "UpdateImageRequest" }) as any as S.Schema<UpdateImageRequest>;
 
 /** List of all projects the Image is shared with. */
 export type UpdateImageShareRequestProjectsList = Array<string>;
@@ -5579,9 +5398,7 @@ export const UpdateImageShareRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://iaas.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "UpdateImageShareRequest",
-}) as any as S.Schema<UpdateImageShareRequest>;
+).annotate({ identifier: "UpdateImageShareRequest" }) as any as S.Schema<UpdateImageShareRequest>;
 
 export interface UpdateKeyPairRequest {
   /** The name of an SSH keypair. */
@@ -5600,9 +5417,7 @@ export const UpdateKeyPairRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://iaas.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "UpdateKeyPairRequest",
-}) as any as S.Schema<UpdateKeyPairRequest>;
+).annotate({ identifier: "UpdateKeyPairRequest" }) as any as S.Schema<UpdateKeyPairRequest>;
 
 export type UpdateRegionalAreaIPv4DefaultNameserversList = Array<string>;
 export const UpdateRegionalAreaIPv4DefaultNameserversList = /*@__PURE__*/ S.Array(
@@ -5623,9 +5438,7 @@ export const UpdateRegionalAreaIPv4 = /*@__PURE__*/ S.suspend(() =>
     maxPrefixLen: S.optional(S.Number),
     minPrefixLen: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "UpdateRegionalAreaIPv4",
-}) as any as S.Schema<UpdateRegionalAreaIPv4>;
+).annotate({ identifier: "UpdateRegionalAreaIPv4" }) as any as S.Schema<UpdateRegionalAreaIPv4>;
 
 export interface UpdateNetworkAreaRegionRequest {
   /** The identifier (ID) of a STACKIT Organization. */
@@ -5720,9 +5533,7 @@ export const UpdateNicRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://iaas.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "UpdateNicRequest",
-}) as any as S.Schema<UpdateNicRequest>;
+).annotate({ identifier: "UpdateNicRequest" }) as any as S.Schema<UpdateNicRequest>;
 
 export interface UpdatePublicIPRequest {
   /** The identifier (ID) of a STACKIT Project. */
@@ -5750,9 +5561,7 @@ export const UpdatePublicIPRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://iaas.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "UpdatePublicIPRequest",
-}) as any as S.Schema<UpdatePublicIPRequest>;
+).annotate({ identifier: "UpdatePublicIPRequest" }) as any as S.Schema<UpdatePublicIPRequest>;
 
 export interface UpdateRouteOfRoutingTableRequest {
   /** The identifier (ID) of a STACKIT Organization. */
@@ -5883,9 +5692,7 @@ export const UpdateServerRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://iaas.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "UpdateServerRequest",
-}) as any as S.Schema<UpdateServerRequest>;
+).annotate({ identifier: "UpdateServerRequest" }) as any as S.Schema<UpdateServerRequest>;
 
 export interface UpdateSnapshotRequest {
   /** The identifier (ID) of a STACKIT Project. */
@@ -5914,9 +5721,7 @@ export const UpdateSnapshotRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://iaas.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "UpdateSnapshotRequest",
-}) as any as S.Schema<UpdateSnapshotRequest>;
+).annotate({ identifier: "UpdateSnapshotRequest" }) as any as S.Schema<UpdateSnapshotRequest>;
 
 export interface UpdateVolumeRequest {
   /** The identifier (ID) of a STACKIT Project. */
@@ -5949,9 +5754,7 @@ export const UpdateVolumeRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://iaas.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "UpdateVolumeRequest",
-}) as any as S.Schema<UpdateVolumeRequest>;
+).annotate({ identifier: "UpdateVolumeRequest" }) as any as S.Schema<UpdateVolumeRequest>;
 
 export type AddNetworkToServerError = BadRequest | Forbidden | NotFound | StackitOpError;
 /** Create and attach a network interface from the specified network. Create and attach a network interface from the specified network to the server. */

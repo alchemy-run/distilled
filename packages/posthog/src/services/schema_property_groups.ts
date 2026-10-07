@@ -127,9 +127,7 @@ export const EventDefinitionBasic = /*@__PURE__*/ S.suspend(() =>
     id: S.optional(S.String),
     name: S.optional(S.String),
   }),
-).annotate({
-  identifier: "EventDefinitionBasic",
-}) as any as S.Schema<EventDefinitionBasic>;
+).annotate({ identifier: "EventDefinitionBasic" }) as any as S.Schema<EventDefinitionBasic>;
 
 export type SchemaPropertyGroupEventsList = Array<EventDefinitionBasic>;
 export const SchemaPropertyGroupEventsList = /*@__PURE__*/ S.Array(
@@ -208,9 +206,7 @@ export const SchemaPropertyGroup = /*@__PURE__*/ S.suspend(() =>
     updated_at: S.optional(S.String),
     created_by: S.optional(S.NullOr(UserBasic)),
   }),
-).annotate({
-  identifier: "SchemaPropertyGroup",
-}) as any as S.Schema<SchemaPropertyGroup>;
+).annotate({ identifier: "SchemaPropertyGroup" }) as any as S.Schema<SchemaPropertyGroup>;
 
 export interface GetSchemaPropertyGroupRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -247,11 +243,7 @@ export const ListSchemaPropertyGroupsRequest = /*@__PURE__*/ S.suspend(() =>
     limit: S.optional(S.Number.pipe(T.Query())),
     offset: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/schema_property_groups/",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/projects/{project_id}/schema_property_groups/", code: 200 }),
   ),
 ).annotate({
   identifier: "ListSchemaPropertyGroupsRequest",

@@ -62,9 +62,7 @@ export const CreateUpdateRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://server-update.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "CreateUpdateRequest",
-}) as any as S.Schema<CreateUpdateRequest>;
+).annotate({ identifier: "CreateUpdateRequest" }) as any as S.Schema<CreateUpdateRequest>;
 
 export interface Update {
   endDate?: string;
@@ -270,9 +268,7 @@ export const GetUpdateServiceResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     enabled: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "GetUpdateServiceResponse",
-}) as any as S.Schema<GetUpdateServiceResponse>;
+).annotate({ identifier: "GetUpdateServiceResponse" }) as any as S.Schema<GetUpdateServiceResponse>;
 
 export interface GetUpdateRequest {
   /** project id */
@@ -298,9 +294,7 @@ export const GetUpdateRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://server-update.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "GetUpdateRequest",
-}) as any as S.Schema<GetUpdateRequest>;
+).annotate({ identifier: "GetUpdateRequest" }) as any as S.Schema<GetUpdateRequest>;
 
 export interface GetUpdateScheduleRequest {
   /** project id */
@@ -326,9 +320,7 @@ export const GetUpdateScheduleRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://server-update.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "GetUpdateScheduleRequest",
-}) as any as S.Schema<GetUpdateScheduleRequest>;
+).annotate({ identifier: "GetUpdateScheduleRequest" }) as any as S.Schema<GetUpdateScheduleRequest>;
 
 export interface GetUpdateScheduleResponse {
   enabled: boolean;
@@ -430,9 +422,7 @@ export const ListUpdatesRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://server-update.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "ListUpdatesRequest",
-}) as any as S.Schema<ListUpdatesRequest>;
+).annotate({ identifier: "ListUpdatesRequest" }) as any as S.Schema<ListUpdatesRequest>;
 
 export type GetUpdatesListResponseItemsList = Array<Update>;
 export const GetUpdatesListResponseItemsList = /*@__PURE__*/ S.Array(
@@ -446,9 +436,7 @@ export const GetUpdatesListResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     items: S.optional(GetUpdatesListResponseItemsList),
   }),
-).annotate({
-  identifier: "GetUpdatesListResponse",
-}) as any as S.Schema<GetUpdatesListResponse>;
+).annotate({ identifier: "GetUpdatesListResponse" }) as any as S.Schema<GetUpdatesListResponse>;
 
 export interface ListUpdateSchedulesRequest {
   /** project id */

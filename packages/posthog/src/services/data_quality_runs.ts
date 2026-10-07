@@ -13,22 +13,28 @@ export const CreateDataQualityRunRequestCheckIdsList = /*@__PURE__*/ S.Array(
   S.String,
 ) as any as S.Schema<CreateDataQualityRunRequestCheckIdsList>;
 
+/** * `table` - table * `view` - view * `metric` - metric * `posthog_table` - posthog_table */
+export type SubjectTypeEnum = "table" | "view" | "metric" | "posthog_table";
+export const SubjectTypeEnum = S.String;
+
 export interface CreateDataQualityRunRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Ids of the checks to run. Omit to run every enabled check in the project. */
   check_ids?: CreateDataQualityRunRequestCheckIdsList;
+  /** Narrow the run to one subject. Pass subject_uuid with it. Ignored when check_ids is given. * `table` - table * `view` - view * `metric` - metric * `posthog_table` - posthog_table */
+  subject_type?: SubjectTypeEnum | (string & {});
+  /** Id of the subject to run every enabled check on. Pass subject_type with it. */
+  subject_uuid?: string;
 }
 export const CreateDataQualityRunRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project_id: S.String.pipe(T.Label()),
     check_ids: S.optional(CreateDataQualityRunRequestCheckIdsList),
+    subject_type: S.optional(SubjectTypeEnum),
+    subject_uuid: S.optional(S.String),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/projects/{project_id}/data_quality_runs/",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/api/projects/{project_id}/data_quality_runs/", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateDataQualityRunRequest",
@@ -36,11 +42,11 @@ export const CreateDataQualityRunRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface DataQualitySuiteRun {
   id: string;
-  /** manual, materialization, or source_sync. */
+  /** manual, materialization, source_sync, or scheduled. */
   trigger: string;
   /** running, completed, failed, or empty (nothing matched the trigger). */
   status: string;
-  /** 'table' or 'view' when the run targets exactly one subject, including a run of a single check on that subject; null for a run spanning several subjects. */
+  /** 'table', 'view', 'metric', or 'posthog_table' when the run targets exactly one subject, including a run of a single check on that subject; null for a run spanning several subjects. */
   subject_type: string | null;
   /** Set when the run targets exactly one subject. */
   subject_uuid: string | null;
@@ -72,9 +78,7 @@ export const DataQualitySuiteRun = /*@__PURE__*/ S.suspend(() =>
     error: S.String,
     created_at: S.String,
   }),
-).annotate({
-  identifier: "DataQualitySuiteRun",
-}) as any as S.Schema<DataQualitySuiteRun>;
+).annotate({ identifier: "DataQualitySuiteRun" }) as any as S.Schema<DataQualitySuiteRun>;
 
 export interface GetDataQualityRunRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -87,15 +91,12 @@ export const GetDataQualityRunRequest = /*@__PURE__*/ S.suspend(() =>
     project_id: S.String.pipe(T.Label()),
     id: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/data_quality_runs/{id}/",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/projects/{project_id}/data_quality_runs/{id}/", code: 200 }),
   ),
-).annotate({
-  identifier: "GetDataQualityRunRequest",
-}) as any as S.Schema<GetDataQualityRunRequest>;
+).annotate({ identifier: "GetDataQualityRunRequest" }) as any as S.Schema<GetDataQualityRunRequest>;
+
+export type ListDataQualityRunsRequestSubjectType = "metric" | "posthog_table" | "table" | "view";
+export const ListDataQualityRunsRequestSubjectType = S.String;
 
 export interface ListDataQualityRunsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -104,18 +105,20 @@ export interface ListDataQualityRunsRequest {
   limit?: number;
   /** The initial index from which to return the results. */
   offset?: number;
+  /** Kind of object being checked: 'table', 'view', 'metric', or 'posthog_table'. */
+  subject_type?: ListDataQualityRunsRequestSubjectType | (string & {});
+  /** Id of the table, view, metric, or PostHog table. */
+  subject_uuid?: string;
 }
 export const ListDataQualityRunsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project_id: S.String.pipe(T.Label()),
     limit: S.optional(S.Number.pipe(T.Query())),
     offset: S.optional(S.Number.pipe(T.Query())),
+    subject_type: S.optional(ListDataQualityRunsRequestSubjectType.pipe(T.Query())),
+    subject_uuid: S.optional(S.String.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/data_quality_runs/",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/projects/{project_id}/data_quality_runs/", code: 200 }),
   ),
 ).annotate({
   identifier: "ListDataQualityRunsRequest",
@@ -143,8 +146,123 @@ export const PaginatedDataQualitySuiteRunList = /*@__PURE__*/ S.suspend(() =>
   identifier: "PaginatedDataQualitySuiteRunList",
 }) as any as S.Schema<PaginatedDataQualitySuiteRunList>;
 
+export interface ListDataQualityRunsCheckRunsRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** A UUID string identifying this data quality suite run. */
+  id: string;
+}
+export const ListDataQualityRunsCheckRunsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    project_id: S.String.pipe(T.Label()),
+    id: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/api/projects/{project_id}/data_quality_runs/{id}/check_runs/",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "ListDataQualityRunsCheckRunsRequest",
+}) as any as S.Schema<ListDataQualityRunsCheckRunsRequest>;
+
+/** * `not_null` - not_null * `unique` - unique * `accepted_values` - accepted_values * `relationships` - relationships * `row_count` - row_count * `freshness` - freshness * `custom_sql` - custom_sql */
+export type CheckTypeEnum =
+  | "not_null"
+  | "unique"
+  | "accepted_values"
+  | "relationships"
+  | "row_count"
+  | "freshness"
+  | "custom_sql";
+export const CheckTypeEnum = S.String;
+
+/** Config this run executed, snapshotted so an edit to the check cannot rewrite history. Null for runs recorded before snapshots existed -- unknown, not 'same as the check has now'. */
+export type DataQualityCheckRunCheckConfigMap = { [key: string]: unknown | undefined };
+export const DataQualityCheckRunCheckConfigMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.Unknown,
+) as any as S.Schema<DataQualityCheckRunCheckConfigMap>;
+
+/** * `error` - error * `warn` - warn */
+export type DataQualityCheckSeverityEnum = "error" | "warn";
+export const DataQualityCheckSeverityEnum = S.String;
+
+export interface DataQualityCheckRun {
+  id: string;
+  /** The definition executed. Nulled rather than cascaded so history outlives hard deletes. */
+  quality_check: string | null;
+  /** Name the check carries now, so a run can be told from the others in its suite. Null when the check is unnamed, has been hard deleted, or is out of your reach today -- describe the run by check_type and column_name instead. */
+  check_name: string | null;
+  suite_run: string;
+  subject_type: SubjectTypeEnum;
+  subject_uuid: string;
+  subject_name: string;
+  /** Which assertion this run made. * `not_null` - not_null * `unique` - unique * `accepted_values` - accepted_values * `relationships` - relationships * `row_count` - row_count * `freshness` - freshness * `custom_sql` - custom_sql */
+  check_type: CheckTypeEnum;
+  column_name: string;
+  /** Config this run executed, snapshotted so an edit to the check cannot rewrite history. Null for runs recorded before snapshots existed -- unknown, not 'same as the check has now'. */
+  check_config: DataQualityCheckRunCheckConfigMap | null;
+  /** Severity this run was judged at. Null for runs recorded before snapshots existed. * `error` - error * `warn` - warn */
+  check_severity: DataQualityCheckSeverityEnum | null;
+  /** passed, failed, errored, or skipped. */
+  status: string;
+  /** Rows violating the assertion. Null for bounds checks like row_count. */
+  failed_row_count: number | null;
+  /** The check's headline number, recorded on passes too. */
+  observed_value: number | null;
+  /** HogQL selecting the failing rows. Re-run it to see them. For a run that audited a staged refresh it inlines the view's definition, so it reads the source tables rather than the published table. Empty when there is nothing to replay: retention cleared it, or a staged run could not build its replay query. */
+  compiled_query: string;
+  /** True when the run audited a refresh that was staged but not yet published, under the materialization gate. */
+  audited_staged_refresh: boolean;
+  /** Compilation or execution failure, when status is 'errored'. */
+  error: string;
+  duration_ms: number | null;
+  started_at: string | null;
+  finished_at: string | null;
+  created_at: string;
+}
+export const DataQualityCheckRun = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    quality_check: S.NullOr(S.String),
+    check_name: S.NullOr(S.String),
+    suite_run: S.String,
+    subject_type: SubjectTypeEnum,
+    subject_uuid: S.String,
+    subject_name: S.String,
+    check_type: CheckTypeEnum,
+    column_name: S.String,
+    check_config: S.NullOr(DataQualityCheckRunCheckConfigMap),
+    check_severity: S.NullOr(DataQualityCheckSeverityEnum),
+    status: S.String,
+    failed_row_count: S.NullOr(S.Number),
+    observed_value: S.NullOr(S.Number),
+    compiled_query: S.String,
+    audited_staged_refresh: S.Boolean,
+    error: S.String,
+    duration_ms: S.NullOr(S.Number),
+    started_at: S.NullOr(S.String),
+    finished_at: S.NullOr(S.String),
+    created_at: S.String,
+  }),
+).annotate({ identifier: "DataQualityCheckRun" }) as any as S.Schema<DataQualityCheckRun>;
+
+export type ListDataQualityRunsCheckRunsResponseBodyList = Array<DataQualityCheckRun>;
+export const ListDataQualityRunsCheckRunsResponseBodyList = /*@__PURE__*/ S.Array(
+  DataQualityCheckRun,
+) as any as S.Schema<ListDataQualityRunsCheckRunsResponseBodyList>;
+
+export type ListDataQualityRunsCheckRunsResponse = ListDataQualityRunsCheckRunsResponseBodyList;
+export const ListDataQualityRunsCheckRunsResponse = /*@__PURE__*/ S.suspend(() =>
+  ListDataQualityRunsCheckRunsResponseBodyList.pipe(T.RawResponseRoot()),
+).annotate({
+  identifier: "ListDataQualityRunsCheckRunsResponse",
+}) as any as S.Schema<ListDataQualityRunsCheckRunsResponse>;
+
 export type CreateDataQualityRunError = PosthogOpError;
-/** Run the named checks now, or every enabled check in the project when none are named. Returns the suite run to poll for the report. */
+/** Run checks now: the ones named by check_ids, every enabled check on the subject named by subject_type and subject_uuid, or every enabled check in the project when neither is given. Returns the suite run to poll for the report. */
 export const createDataQualityRun: API.OperationMethod<
   CreateDataQualityRunRequest,
   DataQualitySuiteRun,
@@ -159,7 +277,7 @@ export const createDataQualityRun: API.OperationMethod<
 }));
 
 export type GetDataQualityRunError = PosthogOpError;
-/** Project-wide check runs: start one over a selection, and read every run the project has had. The per-subject surfaces only serve runs scoped to their own subject, so this is where a sweep across several subjects -- a manual project-wide run, a materialization, a source sync -- is readable. Scoped to `warehouse_objects` because it spans tables and views at once. */
+/** Check-suite executions: start one over a selection, and read every run the project has had. A suite run may sweep several subjects at once -- a manual project-wide run, a materialization, a source sync -- so it is reported here rather than under any one of them. */
 export const getDataQualityRun: API.OperationMethod<
   GetDataQualityRunRequest,
   DataQualitySuiteRun,
@@ -174,7 +292,7 @@ export const getDataQualityRun: API.OperationMethod<
 }));
 
 export type ListDataQualityRunsError = PosthogOpError;
-/** Project-wide check runs: start one over a selection, and read every run the project has had. The per-subject surfaces only serve runs scoped to their own subject, so this is where a sweep across several subjects -- a manual project-wide run, a materialization, a source sync -- is readable. Scoped to `warehouse_objects` because it spans tables and views at once. */
+/** Every check-suite run in the project, newest first. Narrow it to one subject with subject_type and subject_uuid. */
 export const listDataQualityRuns: API.OperationMethod<
   ListDataQualityRunsRequest,
   PaginatedDataQualitySuiteRunList,
@@ -183,6 +301,21 @@ export const listDataQualityRuns: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ListDataQualityRunsRequest,
   output: PaginatedDataQualitySuiteRunList,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListDataQualityRunsCheckRunsError = PosthogOpError;
+/** Every check execution in this suite run. */
+export const listDataQualityRunsCheckRuns: API.OperationMethod<
+  ListDataQualityRunsCheckRunsRequest,
+  ListDataQualityRunsCheckRunsResponse,
+  ListDataQualityRunsCheckRunsError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListDataQualityRunsCheckRunsRequest,
+  output: ListDataQualityRunsCheckRunsResponse,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,

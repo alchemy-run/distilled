@@ -61,6 +61,20 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
+export type ConversionSourceStateEnum = "STATE_UNSPECIFIED" | "ACTIVE" | "ARCHIVED" | "PENDING";
+export const ConversionSourceStateEnum = S.String;
+
+export type AttributionSettingsAttributionModelEnum =
+  | "ATTRIBUTION_MODEL_UNSPECIFIED"
+  | "CROSS_CHANNEL_LAST_CLICK"
+  | "ADS_PREFERRED_LAST_CLICK"
+  | "CROSS_CHANNEL_DATA_DRIVEN"
+  | "CROSS_CHANNEL_FIRST_CLICK"
+  | "CROSS_CHANNEL_LINEAR"
+  | "CROSS_CHANNEL_POSITION_BASED"
+  | "CROSS_CHANNEL_TIME_DECAY";
+export const AttributionSettingsAttributionModelEnum = S.String;
+
 /** Message representing the type of a conversion event. */
 export interface ConversionType {
   /** Output only. Option indicating if the type should be included in Merchant Center reporting. */
@@ -80,60 +94,44 @@ export const ConversionTypeList = /*@__PURE__*/ S.Array(
   ConversionType,
 ) as any as S.Schema<ConversionTypeList>;
 
-export type AttributionSettingsAttributionModelEnum =
-  | "ATTRIBUTION_MODEL_UNSPECIFIED"
-  | "CROSS_CHANNEL_LAST_CLICK"
-  | "ADS_PREFERRED_LAST_CLICK"
-  | "CROSS_CHANNEL_DATA_DRIVEN"
-  | "CROSS_CHANNEL_FIRST_CLICK"
-  | "CROSS_CHANNEL_LINEAR"
-  | "CROSS_CHANNEL_POSITION_BASED"
-  | "CROSS_CHANNEL_TIME_DECAY";
-export const AttributionSettingsAttributionModelEnum = S.String;
-
 /** Represents attribution settings for conversion sources receiving pre-attribution data. */
 export interface AttributionSettings {
   /** Required. Lookback window (in days) used for attribution in this source. Supported values are `7`, `30` & `40`. */
   attributionLookbackWindowDays?: number;
-  /** Immutable. Unordered list. List of different conversion types a conversion event can be classified as. A standard "purchase" type will be automatically created if this list is empty at creation time. */
-  conversionType?: ConversionTypeList;
   /** Required. Attribution model. */
   attributionModel?: AttributionSettingsAttributionModelEnum | (string & {});
+  /** Immutable. Unordered list. List of different conversion types a conversion event can be classified as. A standard "purchase" type will be automatically created if this list is empty at creation time. */
+  conversionType?: ConversionTypeList;
 }
 export const AttributionSettings = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     attributionLookbackWindowDays: S.optional(S.Number),
-    conversionType: S.optional(ConversionTypeList),
     attributionModel: S.optional(AttributionSettingsAttributionModelEnum),
+    conversionType: S.optional(ConversionTypeList),
   }),
-).annotate({
-  identifier: "AttributionSettings",
-}) as any as S.Schema<AttributionSettings>;
+).annotate({ identifier: "AttributionSettings" }) as any as S.Schema<AttributionSettings>;
 
 /** "Merchant Center Destination" sources can be used to send conversion events from an online store using a Google tag directly to a Merchant Center account where the source is created. */
 export interface MerchantCenterDestination {
-  /** Required. Three-letter currency code (ISO 4217). The currency code defines in which currency the conversions sent to this destination will be reported in Merchant Center. */
-  currencyCode?: string;
   /** Output only. Merchant Center Destination ID. */
   destination?: string;
   /** Required. Merchant-specified display name for the destination. This is the name that identifies the conversion source within the Merchant Center UI. The maximum length is 64 characters. */
   displayName?: string;
   /** Required. Attribution settings used for the Merchant Center Destination. */
   attributionSettings?: AttributionSettings;
+  /** Required. Three-letter currency code (ISO 4217). The currency code defines in which currency the conversions sent to this destination will be reported in Merchant Center. */
+  currencyCode?: string;
 }
 export const MerchantCenterDestination = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    currencyCode: S.optional(S.String),
     destination: S.optional(S.String),
     displayName: S.optional(S.String),
     attributionSettings: S.optional(AttributionSettings),
+    currencyCode: S.optional(S.String),
   }),
 ).annotate({
   identifier: "MerchantCenterDestination",
 }) as any as S.Schema<MerchantCenterDestination>;
-
-export type ConversionSourceStateEnum = "STATE_UNSPECIFIED" | "ACTIVE" | "ARCHIVED" | "PENDING";
-export const ConversionSourceStateEnum = S.String;
 
 export type ConversionSourceControllerEnum =
   | "CONTROLLER_UNSPECIFIED"
@@ -143,29 +141,27 @@ export const ConversionSourceControllerEnum = S.String;
 
 /** "Google Analytics Link" sources can be used to get conversion data from an existing Google Analytics property into the linked Merchant Center account. */
 export interface GoogleAnalyticsLink {
+  /** Output only. Attribution settings for the linked Google Analytics property. */
+  attributionSettings?: AttributionSettings;
   /** Output only. Name of the Google Analytics property the merchant is linked to. */
   property?: string;
   /** Required. Immutable. ID of the Google Analytics property the merchant is linked to. */
   propertyId?: string;
-  /** Output only. Attribution settings for the linked Google Analytics property. */
-  attributionSettings?: AttributionSettings;
 }
 export const GoogleAnalyticsLink = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    attributionSettings: S.optional(AttributionSettings),
     property: S.optional(S.String),
     propertyId: S.optional(S.String),
-    attributionSettings: S.optional(AttributionSettings),
   }),
-).annotate({
-  identifier: "GoogleAnalyticsLink",
-}) as any as S.Schema<GoogleAnalyticsLink>;
+).annotate({ identifier: "GoogleAnalyticsLink" }) as any as S.Schema<GoogleAnalyticsLink>;
 
 /** Represents a conversion source owned by a Merchant account. A merchant account can have up to 200 conversion sources. */
 export interface ConversionSource {
-  /** Conversion Source of type "Merchant Center Tag Destination". */
-  merchantCenterDestination?: MerchantCenterDestination;
   /** Output only. Current state of this conversion source. Can't be edited through the API. */
   state?: ConversionSourceStateEnum | (string & {});
+  /** Conversion Source of type "Merchant Center Tag Destination". */
+  merchantCenterDestination?: MerchantCenterDestination;
   /** Output only. The time when an archived conversion source becomes permanently deleted and is no longer available to undelete. */
   expireTime?: string;
   /** Output only. Controller of the conversion source. */
@@ -177,16 +173,14 @@ export interface ConversionSource {
 }
 export const ConversionSource = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    merchantCenterDestination: S.optional(MerchantCenterDestination),
     state: S.optional(ConversionSourceStateEnum),
+    merchantCenterDestination: S.optional(MerchantCenterDestination),
     expireTime: S.optional(S.String),
     controller: S.optional(ConversionSourceControllerEnum),
     googleAnalyticsLink: S.optional(GoogleAnalyticsLink),
     name: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ConversionSource",
-}) as any as S.Schema<ConversionSource>;
+).annotate({ identifier: "ConversionSource" }) as any as S.Schema<ConversionSource>;
 
 export interface CreateAccountsConversionSourcesRequest {
   /** Required. The merchant account that will own the new conversion source. Format: `accounts/{account}` */
@@ -252,21 +246,21 @@ export const GetAccountsConversionSourcesRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetAccountsConversionSourcesRequest>;
 
 export interface ListAccountsConversionSourcesRequest {
-  /** Optional. The maximum number of conversion sources to return in a page. If no `page_size` is specified, `100` is used as the default value. The maximum value is `200`. Values above `200` will be coerced to `200`. Regardless of pagination, at most `200` conversion sources are returned in total. */
-  pageSize?: number;
-  /** Optional. Show deleted (archived) conversion sources. By default, deleted conversion sources are not returned. */
-  showDeleted?: boolean;
   /** Optional. Page token. */
   pageToken?: string;
   /** Required. The merchant account who owns the collection of conversion sources. Format: `accounts/{account}` */
   parent: string;
+  /** Optional. Show deleted (archived) conversion sources. By default, deleted conversion sources are not returned. */
+  showDeleted?: boolean;
+  /** Optional. The maximum number of conversion sources to return in a page. If no `page_size` is specified, `100` is used as the default value. The maximum value is `200`. Values above `200` will be coerced to `200`. Regardless of pagination, at most `200` conversion sources are returned in total. */
+  pageSize?: number;
 }
 export const ListAccountsConversionSourcesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pageSize: S.optional(S.Number.pipe(T.Query())),
-    showDeleted: S.optional(S.Boolean.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
+    showDeleted: S.optional(S.Boolean.pipe(T.Query())),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -300,17 +294,17 @@ export const ListConversionSourcesResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListConversionSourcesResponse>;
 
 export interface PatchAccountsConversionSourcesRequest {
-  /** Optional. List of fields being updated. */
-  updateMask?: string;
   /** Output only. Identifier. Generated by the Content API upon creation of a new `ConversionSource`. Format: `[a-z]{4}:.+` The four characters before the colon represent the type of conversion source. Content after the colon represents the ID of the conversion source within that type. The ID of two different conversion sources might be the same across different types. The following type prefixes are supported: * `galk`: For GoogleAnalyticsLink sources. * `mcdn`: For MerchantCenterDestination sources. */
   name: string;
+  /** Optional. List of fields being updated. */
+  updateMask?: string;
   /** Request body */
   body?: ConversionSource;
 }
 export const PatchAccountsConversionSourcesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    updateMask: S.optional(S.String.pipe(T.Query())),
     name: S.String.pipe(T.Label()),
+    updateMask: S.optional(S.String.pipe(T.Query())),
     body: S.optional(ConversionSource.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -326,9 +320,7 @@ export const PatchAccountsConversionSourcesRequest = /*@__PURE__*/ S.suspend(() 
 /** Request message for the UndeleteConversionSource method. */
 export interface UndeleteConversionSourceRequest {}
 export const UndeleteConversionSourceRequest = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "UndeleteConversionSourceRequest",
-  },
+  { identifier: "UndeleteConversionSourceRequest" },
 ) as any as S.Schema<UndeleteConversionSourceRequest>;
 
 export interface UndeleteAccountsConversionSourcesRequest {
@@ -421,10 +413,7 @@ export const listAccountsConversionSources: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type PatchAccountsConversionSourcesError =

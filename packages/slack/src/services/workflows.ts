@@ -25,9 +25,7 @@ export const AddFeaturedRequest = /*@__PURE__*/ S.suspend(() =>
     channel_id: S.String,
     trigger_ids: AddFeaturedRequestTriggerIdsList,
   }).pipe(T.Http({ method: "POST", uri: "/workflows.featured.add", code: 200 })),
-).annotate({
-  identifier: "AddFeaturedRequest",
-}) as any as S.Schema<AddFeaturedRequest>;
+).annotate({ identifier: "AddFeaturedRequest" }) as any as S.Schema<AddFeaturedRequest>;
 
 export interface AddFeaturedResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -37,9 +35,7 @@ export const AddFeaturedResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ok: S.Boolean,
   }),
-).annotate({
-  identifier: "AddFeaturedResponse",
-}) as any as S.Schema<AddFeaturedResponse>;
+).annotate({ identifier: "AddFeaturedResponse" }) as any as S.Schema<AddFeaturedResponse>;
 
 /** List of encoded user IDs */
 export type AddTriggersPermissionsRequestUserIdsList = Array<string>;
@@ -84,13 +80,7 @@ export const AddTriggersPermissionsRequest = /*@__PURE__*/ S.suspend(() =>
     channel_ids: S.optional(AddTriggersPermissionsRequestChannelIdsList),
     team_ids: S.optional(AddTriggersPermissionsRequestTeamIdsList),
     org_ids: S.optional(AddTriggersPermissionsRequestOrgIdsList),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/workflows.triggers.permissions.add",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/workflows.triggers.permissions.add", code: 200 })),
 ).annotate({
   identifier: "AddTriggersPermissionsRequest",
 }) as any as S.Schema<AddTriggersPermissionsRequest>;
@@ -121,9 +111,7 @@ export const ListFeaturedRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     channel_ids: ListFeaturedRequestChannelIdsList,
   }).pipe(T.Http({ method: "POST", uri: "/workflows.featured.list", code: 200 })),
-).annotate({
-  identifier: "ListFeaturedRequest",
-}) as any as S.Schema<ListFeaturedRequest>;
+).annotate({ identifier: "ListFeaturedRequest" }) as any as S.Schema<ListFeaturedRequest>;
 
 export interface ListFeaturedResponseFeaturedWorkflowsItemTriggersItem {
   id: string;
@@ -176,9 +164,7 @@ export const ListFeaturedResponse = /*@__PURE__*/ S.suspend(() =>
     ok: S.Boolean,
     featured_workflows: ListFeaturedResponseFeaturedWorkflowsList,
   }),
-).annotate({
-  identifier: "ListFeaturedResponse",
-}) as any as S.Schema<ListFeaturedResponse>;
+).annotate({ identifier: "ListFeaturedResponse" }) as any as S.Schema<ListFeaturedResponse>;
 
 export interface ListTriggersPermissionsRequest {
   /** Encoded ID of the trigger */
@@ -187,13 +173,7 @@ export interface ListTriggersPermissionsRequest {
 export const ListTriggersPermissionsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     trigger_id: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/workflows.triggers.permissions.list",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/workflows.triggers.permissions.list", code: 200 })),
 ).annotate({
   identifier: "ListTriggersPermissionsRequest",
 }) as any as S.Schema<ListTriggersPermissionsRequest>;
@@ -227,9 +207,7 @@ export const RemoveFeaturedRequest = /*@__PURE__*/ S.suspend(() =>
     channel_id: S.String,
     trigger_ids: RemoveFeaturedRequestTriggerIdsList,
   }).pipe(T.Http({ method: "POST", uri: "/workflows.featured.remove", code: 200 })),
-).annotate({
-  identifier: "RemoveFeaturedRequest",
-}) as any as S.Schema<RemoveFeaturedRequest>;
+).annotate({ identifier: "RemoveFeaturedRequest" }) as any as S.Schema<RemoveFeaturedRequest>;
 
 export interface RemoveFeaturedResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -239,9 +217,7 @@ export const RemoveFeaturedResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ok: S.Boolean,
   }),
-).annotate({
-  identifier: "RemoveFeaturedResponse",
-}) as any as S.Schema<RemoveFeaturedResponse>;
+).annotate({ identifier: "RemoveFeaturedResponse" }) as any as S.Schema<RemoveFeaturedResponse>;
 
 /** List of encoded user IDs */
 export type RemoveTriggersPermissionsRequestUserIdsList = Array<string>;
@@ -286,13 +262,7 @@ export const RemoveTriggersPermissionsRequest = /*@__PURE__*/ S.suspend(() =>
     channel_ids: S.optional(RemoveTriggersPermissionsRequestChannelIdsList),
     team_ids: S.optional(RemoveTriggersPermissionsRequestTeamIdsList),
     org_ids: S.optional(RemoveTriggersPermissionsRequestOrgIdsList),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/workflows.triggers.permissions.remove",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/workflows.triggers.permissions.remove", code: 200 })),
 ).annotate({
   identifier: "RemoveTriggersPermissionsRequest",
 }) as any as S.Schema<RemoveTriggersPermissionsRequest>;
@@ -368,9 +338,7 @@ export const SetFeaturedRequest = /*@__PURE__*/ S.suspend(() =>
     channel_id: S.String,
     trigger_ids: SetFeaturedRequestTriggerIdsList,
   }).pipe(T.Http({ method: "POST", uri: "/workflows.featured.set", code: 200 })),
-).annotate({
-  identifier: "SetFeaturedRequest",
-}) as any as S.Schema<SetFeaturedRequest>;
+).annotate({ identifier: "SetFeaturedRequest" }) as any as S.Schema<SetFeaturedRequest>;
 
 export interface SetFeaturedResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -380,9 +348,7 @@ export const SetFeaturedResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ok: S.Boolean,
   }),
-).annotate({
-  identifier: "SetFeaturedResponse",
-}) as any as S.Schema<SetFeaturedResponse>;
+).annotate({ identifier: "SetFeaturedResponse" }) as any as S.Schema<SetFeaturedResponse>;
 
 /** The type of permission that defines who can run a trigger */
 export type SetTriggersPermissionsRequestPermissionType =
@@ -437,13 +403,7 @@ export const SetTriggersPermissionsRequest = /*@__PURE__*/ S.suspend(() =>
     channel_ids: S.optional(SetTriggersPermissionsRequestChannelIdsList),
     team_ids: S.optional(SetTriggersPermissionsRequestTeamIdsList),
     org_ids: S.optional(SetTriggersPermissionsRequestOrgIdsList),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/workflows.triggers.permissions.set",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/workflows.triggers.permissions.set", code: 200 })),
 ).annotate({
   identifier: "SetTriggersPermissionsRequest",
 }) as any as S.Schema<SetTriggersPermissionsRequest>;

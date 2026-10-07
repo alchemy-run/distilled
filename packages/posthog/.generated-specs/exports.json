@@ -100,7 +100,10 @@
           "target": "smithy.api#String"
         },
         "has_content": {
-          "target": "smithy.api#Boolean"
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the export finished and its content is ready to download. Create can return before the export finishes; poll the asset until has_content is true or exception is set."
+          }
         },
         "export_context": {
           "target": "smithy.api#Document"
@@ -359,6 +362,7 @@
         "has_content": {
           "target": "smithy.api#Boolean",
           "traits": {
+            "smithy.api#documentation": "Whether the export finished and its content is ready to download. Create can return before the export finishes; poll the asset until has_content is true or exception is set.",
             "smithy.api#required": {}
           }
         },

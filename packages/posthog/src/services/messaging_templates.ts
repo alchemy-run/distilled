@@ -45,9 +45,7 @@ export const EmailTemplateDesignBody = /*@__PURE__*/ S.suspend(() =>
     footers: S.optional(EmailTemplateDesignBodyFootersList),
     values: S.optional(S.Unknown),
   }),
-).annotate({
-  identifier: "EmailTemplateDesignBody",
-}) as any as S.Schema<EmailTemplateDesignBody>;
+).annotate({ identifier: "EmailTemplateDesignBody" }) as any as S.Schema<EmailTemplateDesignBody>;
 
 /** Design JSON for PostHog's visual email editor — the authoring surface and source of truth. The server renders the sent email from it, and it opens as editable blocks in the editor. Full schema in the designing-email-templates skill. */
 export interface EmailTemplateDesign {
@@ -63,9 +61,7 @@ export const EmailTemplateDesign = /*@__PURE__*/ S.suspend(() =>
     schemaVersion: S.Number,
     body: EmailTemplateDesignBody,
   }),
-).annotate({
-  identifier: "EmailTemplateDesign",
-}) as any as S.Schema<EmailTemplateDesign>;
+).annotate({ identifier: "EmailTemplateDesign" }) as any as S.Schema<EmailTemplateDesign>;
 
 export interface EmailTemplate {
   /** Email subject line. Supports Liquid templating. Required for email-type templates. */
@@ -97,9 +93,7 @@ export const MessageTemplateContent = /*@__PURE__*/ S.suspend(() =>
     templating: S.optional(MessageTemplateContentTemplatingEnum),
     email: S.optional(S.NullOr(EmailTemplate)),
   }),
-).annotate({
-  identifier: "MessageTemplateContent",
-}) as any as S.Schema<MessageTemplateContent>;
+).annotate({ identifier: "MessageTemplateContent" }) as any as S.Schema<MessageTemplateContent>;
 
 export interface CreateMessagingTemplateRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -127,11 +121,7 @@ export const CreateMessagingTemplateRequest = /*@__PURE__*/ S.suspend(() =>
     message_category: S.optional(S.NullOr(S.String)),
     deleted: S.optional(S.Boolean),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/projects/{project_id}/messaging_templates/",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/api/projects/{project_id}/messaging_templates/", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateMessagingTemplateRequest",
@@ -219,9 +209,7 @@ export const MessageTemplate = /*@__PURE__*/ S.suspend(() =>
     message_category: S.optional(S.NullOr(S.String)),
     deleted: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "MessageTemplate",
-}) as any as S.Schema<MessageTemplate>;
+).annotate({ identifier: "MessageTemplate" }) as any as S.Schema<MessageTemplate>;
 
 export interface GetMessagingTemplateRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -258,11 +246,7 @@ export const ListMessagingTemplatesRequest = /*@__PURE__*/ S.suspend(() =>
     limit: S.optional(S.Number.pipe(T.Query())),
     offset: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/messaging_templates/",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/projects/{project_id}/messaging_templates/", code: 200 }),
   ),
 ).annotate({
   identifier: "ListMessagingTemplatesRequest",
@@ -396,9 +380,7 @@ export const DesignOperation = /*@__PURE__*/ S.suspend(() =>
     row: S.optional(S.Unknown),
     index: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "DesignOperation",
-}) as any as S.Schema<DesignOperation>;
+).annotate({ identifier: "DesignOperation" }) as any as S.Schema<DesignOperation>;
 
 /** Ordered edits applied atomically to a template's Unlayer design: the stored design is read, the ops are applied in order, the result is validated and re-rendered to HTML, and it's saved only if valid — otherwise the template is unchanged. Reference blocks by id so you never resend the whole design. */
 export type UpdateMessagingTemplatesDesignPartialRequestOperationsList = Array<DesignOperation>;

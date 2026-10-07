@@ -431,5 +431,8 @@
 [submodule "packages/anthropic/specs/spec-mirror-anthropic"]
 	path = packages/anthropic/specs/spec-mirror-anthropic
 	url = https://github.com/distilled-mirror/spec-mirror-anthropic.git
+[submodule "packages/iceberg/specs/spec-mirror-iceberg"]
+	path = packages/iceberg/specs/spec-mirror-iceberg
+	url = https://github.com/distilled-mirror/spec-mirror-iceberg.git
 	ignore = dirty
 	shallow = true

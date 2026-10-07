@@ -64,9 +64,7 @@ export const GetFindingRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetFindingRequest",
-}) as any as S.Schema<GetFindingRequest>;
+).annotate({ identifier: "GetFindingRequest" }) as any as S.Schema<GetFindingRequest>;
 
 /** State of the code quality finding. */
 export type CodeQualityFindingState = "open" | "dismissed";
@@ -104,9 +102,7 @@ export const CodeQualityFindingRule = /*@__PURE__*/ S.suspend(() =>
     severity: CodeQualityFindingRuleSeverity,
     category: CodeQualityFindingRuleCategory,
   }),
-).annotate({
-  identifier: "CodeQualityFindingRule",
-}) as any as S.Schema<CodeQualityFindingRule>;
+).annotate({ identifier: "CodeQualityFindingRule" }) as any as S.Schema<CodeQualityFindingRule>;
 
 /** Code quality file location */
 export interface CodeQualityFindingLocation {
@@ -173,9 +169,7 @@ export const CodeQualityFinding = /*@__PURE__*/ S.suspend(() =>
     message: CodeQualityFindingMessage,
     created_at: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CodeQualityFinding",
-}) as any as S.Schema<CodeQualityFinding>;
+).annotate({ identifier: "CodeQualityFinding" }) as any as S.Schema<CodeQualityFinding>;
 
 export interface GetSetupRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -187,16 +181,8 @@ export const GetSetupRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     owner: S.String.pipe(T.Label()),
     repo: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/code-quality/setup",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetSetupRequest",
-}) as any as S.Schema<GetSetupRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/code-quality/setup", code: 200 })),
+).annotate({ identifier: "GetSetupRequest" }) as any as S.Schema<GetSetupRequest>;
 
 /** Code quality setup has been configured or not. */
 export type CodeQualitySetupState = "configured" | "not-configured";
@@ -257,9 +243,7 @@ export const CodeQualitySetup = /*@__PURE__*/ S.suspend(() =>
     schedule: S.optional(S.NullOr(CodeQualitySetupSchedule)),
     ai_findings_option: S.optional(S.NullOr(CodeQualitySetupAiFindingsOption)),
   }),
-).annotate({
-  identifier: "CodeQualitySetup",
-}) as any as S.Schema<CodeQualitySetup>;
+).annotate({ identifier: "CodeQualitySetup" }) as any as S.Schema<CodeQualitySetup>;
 
 export type ListFindingsForRepoRequestDirection = "asc" | "desc";
 export const ListFindingsForRepoRequestDirection = S.String;
@@ -292,13 +276,7 @@ export const ListFindingsForRepoRequest = /*@__PURE__*/ S.suspend(() =>
     before: S.optional(S.String.pipe(T.Query())),
     after: S.optional(S.String.pipe(T.Query())),
     state: S.optional(ListFindingsForRepoRequestState.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/code-quality/findings",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/code-quality/findings", code: 200 })),
 ).annotate({
   identifier: "ListFindingsForRepoRequest",
 }) as any as S.Schema<ListFindingsForRepoRequest>;
@@ -369,23 +347,13 @@ export const UpdateSetupRequest = /*@__PURE__*/ S.suspend(() =>
     runner_label: S.optional(S.NullOr(S.String)),
     languages: S.optional(UpdateSetupRequestLanguagesList),
     ai_findings_option: S.optional(UpdateSetupRequestAiFindingsOption),
-  }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/repos/{owner}/{repo}/code-quality/setup",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "UpdateSetupRequest",
-}) as any as S.Schema<UpdateSetupRequest>;
+  }).pipe(T.Http({ method: "PATCH", uri: "/repos/{owner}/{repo}/code-quality/setup", code: 200 })),
+).annotate({ identifier: "UpdateSetupRequest" }) as any as S.Schema<UpdateSetupRequest>;
 
 export type UpdateSetupResponse = unknown;
 export const UpdateSetupResponse = /*@__PURE__*/ S.suspend(() =>
   S.Unknown.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "UpdateSetupResponse",
-}) as any as S.Schema<UpdateSetupResponse>;
+).annotate({ identifier: "UpdateSetupResponse" }) as any as S.Schema<UpdateSetupResponse>;
 
 export type GetFindingError = Forbidden | NotFound | GithubOpError;
 /** Get a code quality finding Gets a single code quality finding. OAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint with private or public repositories, or the `public_repo` scope to use this endpoint with only public repositories. */

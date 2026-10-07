@@ -1,0 +1,247 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.slack.agents#RenameSessionRequest": {
+      "type": "structure",
+      "members": {
+        "channel_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the channel containing the agent session. Required for public channels."
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "New title for the agent session (1-200 characters). For a session channel, this also renames the channel.",
+            "smithy.api#required": {}
+          }
+        },
+        "thread_ts": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Timestamp of the thread root message the session is scoped to. Required for thread-based sessions in regular channels and DMs. Must be omitted for session channels."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.slack.agents#RenameSessionResponse": {
+      "type": "structure",
+      "members": {
+        "ok": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Always `true` (a failed call raises a typed error instead).",
+            "smithy.api#required": {}
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The updated title of the agent session."
+          }
+        },
+        "channel_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The encoded ID of the channel, returned when an agent channel was renamed."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.slack.agents#RenameSession": {
+      "type": "operation",
+      "input": {
+        "target": "com.slack.agents#RenameSessionRequest"
+      },
+      "output": {
+        "target": "com.slack.agents#RenameSessionResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/agents.sessions.rename",
+          "code": 200
+        },
+        "smithy.api#documentation": "Rename an agent session.\n\nRequired scopes — bot: `chat:write`\n\nRate limit tier: 3\n\nMethod-specific errors (the `error` slug on the SlackError):\n  - `feature_disabled` — The agent tasks feature is not enabled for this workspace.\n  - `channel_not_found` — The specified channel does not exist or is not accessible.\n  - `not_authorized` — The calling app is not an authorized agent for this session.\n  - `session_not_found` — No agent session exists for the specified channel and thread.\n  - `thread_ts_required` — `thread_ts` is required for thread-based sessions in regular channels and DMs.\n  - `thread_ts_not_allowed` — `thread_ts` must not be provided for session channels.\n  - `invalid_name` — The `title` value is not valid for a channel name.\n  - `name_taken` — The new channel name is already taken.\n  - `is_archived` — Cannot rename an archived channel.\n  - `internal_error` — An internal error occurred while renaming the session.\n\nSee https://docs.slack.dev/reference/methods/agents.sessions.rename"
+      }
+    },
+    "com.slack.agents#SetStatusRequestStatus": {
+      "type": "enum",
+      "members": {
+        "ACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "active"
+          }
+        },
+        "PROCESSING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "processing"
+          }
+        },
+        "SUSPENDED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "suspended"
+          }
+        },
+        "CLOSED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "closed"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The lifecycle status to set."
+      }
+    },
+    "com.slack.agents#SetStatusRequest": {
+      "type": "structure",
+      "members": {
+        "channel_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the channel containing the agent session. Required for public channels."
+          }
+        },
+        "status": {
+          "target": "com.slack.agents#SetStatusRequestStatus",
+          "traits": {
+            "smithy.api#documentation": "The lifecycle status to set.",
+            "smithy.api#required": {}
+          }
+        },
+        "thread_ts": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Timestamp of the thread root message the session is scoped to. Required for thread-based sessions in regular channels and DMs. Must be omitted for session channels."
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Title for the agent session (max 200 characters). Only used when creating a new session; ignored if the session already exists. To rename an existing session, use `agents.sessions.rename`."
+          }
+        },
+        "initiator_user_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The user who initiated the session. Only used when creating a new session; ignored if the session already exists. Must be a member of the channel."
+          }
+        },
+        "icon_emoji": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Emoji to use as the agent's icon. Takes priority over `icon_url`. Remains in effect until you clear it (pass `null`) or set a new value. Requires the `chat:write.customize` scope."
+          }
+        },
+        "icon_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "URL to an image to use as the agent's icon. Remains in effect until you clear it (pass `null`) or set a new value. Requires the `chat:write.customize` scope."
+          }
+        },
+        "username": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Display name override for the agent (max 200 characters). Remains in effect until you clear it (pass `null`) or set a new value. Requires the `chat:write.customize` scope."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.slack.agents#SetStatusResponse": {
+      "type": "structure",
+      "members": {
+        "ok": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Always `true` (a failed call raises a typed error instead).",
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "The current lifecycle status of the agent session, derived from the statuses of all agents in the session."
+          }
+        },
+        "agent_status": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "The lifecycle status of the calling agent within this session. May differ from the session-level status when other agents are present."
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The current title of the agent session, if set."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.slack.agents#SetStatus": {
+      "type": "operation",
+      "input": {
+        "target": "com.slack.agents#SetStatusRequest"
+      },
+      "output": {
+        "target": "com.slack.agents#SetStatusResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/agents.sessions.setStatus",
+          "code": 200
+        },
+        "smithy.api#documentation": "Set an agent session's lifecycle status, creating the session if needed.\n\nRequired scopes — bot: `chat:write`\n\nRate limit tier: 3\n\nMethod-specific errors (the `error` slug on the SlackError):\n  - `feature_disabled` — The agent tasks feature is not enabled for this workspace.\n  - `channel_not_found` — The specified channel does not exist or is not accessible.\n  - `user_not_found` — The specified `initiator_user_id` does not exist or is not accessible.\n  - `not_authorized` — The caller is not a member of the specified channel.\n  - `invalid_status` — The `status` value is not a valid agent session status. Must be one of: `active`, `processing`, `suspended`, `closed`.\n  - `thread_ts_required` — `thread_ts` is required for thread-based sessions in regular channels and DMs.\n  - `thread_ts_not_allowed` — `thread_ts` must not be provided for session channels. The channel-level session is updated automatically.\n  - `internal_error` — An internal error occurred while updating the session.\n\nSee https://docs.slack.dev/reference/methods/agents.sessions.setStatus"
+      }
+    },
+    "com.slack.agents#Agents": {
+      "type": "service",
+      "version": "1.0",
+      "operations": [
+        {
+          "target": "com.slack.agents#RenameSession"
+        },
+        {
+          "target": "com.slack.agents#SetStatus"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Slack Web API — agents"
+      }
+    }
+  }
+}

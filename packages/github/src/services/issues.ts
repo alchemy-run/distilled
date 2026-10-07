@@ -111,9 +111,7 @@ export const AddAssigneesRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "AddAssigneesRequest",
-}) as any as S.Schema<AddAssigneesRequest>;
+).annotate({ identifier: "AddAssigneesRequest" }) as any as S.Schema<AddAssigneesRequest>;
 
 /** The reason for the current state */
 export type IssueStateReason = "completed" | "reopened" | "not_planned" | "duplicate";
@@ -169,9 +167,11 @@ export const NullableSimpleUser = /*@__PURE__*/ S.suspend(() =>
     starred_at: S.optional(S.String),
     user_view_type: S.optional(S.String),
   }),
-).annotate({
-  identifier: "NullableSimpleUser",
-}) as any as S.Schema<NullableSimpleUser>;
+).annotate({ identifier: "NullableSimpleUser" }) as any as S.Schema<NullableSimpleUser>;
+
+/** A GitHub user. */
+export type SimpleUser = NullableSimpleUser;
+export const SimpleUser = NullableSimpleUser;
 
 export interface IssueLabelsItemCase1 {
   id?: number;
@@ -181,6 +181,8 @@ export interface IssueLabelsItemCase1 {
   description?: string | null;
   color?: string | null;
   default?: boolean;
+  /** The user who archived the label, or `null` if it has not been archived. */
+  archived_by?: NullableSimpleUser | null;
 }
 export const IssueLabelsItemCase1 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -191,10 +193,9 @@ export const IssueLabelsItemCase1 = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(S.NullOr(S.String)),
     color: S.optional(S.NullOr(S.String)),
     default: S.optional(S.Boolean),
+    archived_by: S.optional(S.NullOr(NullableSimpleUser)),
   }),
-).annotate({
-  identifier: "IssueLabelsItemCase1",
-}) as any as S.Schema<IssueLabelsItemCase1>;
+).annotate({ identifier: "IssueLabelsItemCase1" }) as any as S.Schema<IssueLabelsItemCase1>;
 
 export type IssueLabelsItem = string | IssueLabelsItemCase1;
 export const IssueLabelsItem = S.Unknown as any as S.Schema<IssueLabelsItem>;
@@ -204,10 +205,6 @@ export type IssueLabelsList = Array<IssueLabelsItem>;
 export const IssueLabelsList = /*@__PURE__*/ S.Array(
   IssueLabelsItem,
 ) as any as S.Schema<IssueLabelsList>;
-
-/** A GitHub user. */
-export type SimpleUser = NullableSimpleUser;
-export const SimpleUser = NullableSimpleUser;
 
 export type IssueAssigneesList = Array<NullableSimpleUser>;
 export const IssueAssigneesList = /*@__PURE__*/ S.Array(
@@ -259,9 +256,7 @@ export const NullableMilestone = /*@__PURE__*/ S.suspend(() =>
     closed_at: S.NullOr(S.String),
     due_on: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "NullableMilestone",
-}) as any as S.Schema<NullableMilestone>;
+).annotate({ identifier: "NullableMilestone" }) as any as S.Schema<NullableMilestone>;
 
 export interface IssuePullRequest {
   merged_at?: string | null;
@@ -278,9 +273,7 @@ export const IssuePullRequest = /*@__PURE__*/ S.suspend(() =>
     patch_url: S.NullOr(S.String),
     url: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "IssuePullRequest",
-}) as any as S.Schema<IssuePullRequest>;
+).annotate({ identifier: "IssuePullRequest" }) as any as S.Schema<IssuePullRequest>;
 
 /** The color of the issue type. */
 export type IssueTypeColor =
@@ -344,9 +337,7 @@ export const NullableLicenseSimple = /*@__PURE__*/ S.suspend(() =>
     node_id: S.String,
     html_url: S.optional(S.String),
   }),
-).annotate({
-  identifier: "NullableLicenseSimple",
-}) as any as S.Schema<NullableLicenseSimple>;
+).annotate({ identifier: "NullableLicenseSimple" }) as any as S.Schema<NullableLicenseSimple>;
 
 export interface RepositoryPermissions {
   admin: boolean;
@@ -363,9 +354,7 @@ export const RepositoryPermissions = /*@__PURE__*/ S.suspend(() =>
     push: S.Boolean,
     maintain: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "RepositoryPermissions",
-}) as any as S.Schema<RepositoryPermissions>;
+).annotate({ identifier: "RepositoryPermissions" }) as any as S.Schema<RepositoryPermissions>;
 
 export type RepositoryTopicsList = Array<string>;
 export const RepositoryTopicsList = /*@__PURE__*/ S.Array(
@@ -743,9 +732,7 @@ export const NullableIntegration = /*@__PURE__*/ S.suspend(() =>
     events: NullableIntegrationEventsList,
     installations_count: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "NullableIntegration",
-}) as any as S.Schema<NullableIntegration>;
+).annotate({ identifier: "NullableIntegration" }) as any as S.Schema<NullableIntegration>;
 
 /** How the author is associated with the repository. */
 export type AuthorAssociation =
@@ -797,9 +784,7 @@ export const SubIssuesSummary = /*@__PURE__*/ S.suspend(() =>
     completed: S.Number,
     percent_completed: S.Number,
   }),
-).annotate({
-  identifier: "SubIssuesSummary",
-}) as any as S.Schema<SubIssuesSummary>;
+).annotate({ identifier: "SubIssuesSummary" }) as any as S.Schema<SubIssuesSummary>;
 
 /** Context around who pinned an issue comment and when it was pinned. */
 export interface NullablePinnedIssueComment {
@@ -869,9 +854,7 @@ export const NullableIssueComment = /*@__PURE__*/ S.suspend(() =>
     pin: S.optional(S.NullOr(NullablePinnedIssueComment)),
     minimized: S.optional(S.NullOr(NullableIssueCommentMinimized)),
   }),
-).annotate({
-  identifier: "NullableIssueComment",
-}) as any as S.Schema<NullableIssueComment>;
+).annotate({ identifier: "NullableIssueComment" }) as any as S.Schema<NullableIssueComment>;
 
 export interface IssueDependenciesSummary {
   blocked_by: number;
@@ -886,9 +869,7 @@ export const IssueDependenciesSummary = /*@__PURE__*/ S.suspend(() =>
     total_blocked_by: S.Number,
     total_blocking: S.Number,
   }),
-).annotate({
-  identifier: "IssueDependenciesSummary",
-}) as any as S.Schema<IssueDependenciesSummary>;
+).annotate({ identifier: "IssueDependenciesSummary" }) as any as S.Schema<IssueDependenciesSummary>;
 
 /** The data type of the issue field */
 export type IssueFieldValueDataType = "text" | "single_select" | "multi_select" | "number" | "date";
@@ -952,9 +933,7 @@ export const IssueFieldValue = /*@__PURE__*/ S.suspend(() =>
     single_select_option: S.optional(S.NullOr(IssueFieldValueSingleSelectOption)),
     multi_select_options: S.optional(S.NullOr(IssueFieldValueMultiSelectOptionsList)),
   }),
-).annotate({
-  identifier: "IssueFieldValue",
-}) as any as S.Schema<IssueFieldValue>;
+).annotate({ identifier: "IssueFieldValue" }) as any as S.Schema<IssueFieldValue>;
 
 export type IssueIssueFieldValuesList = Array<IssueFieldValue>;
 export const IssueIssueFieldValuesList = /*@__PURE__*/ S.Array(
@@ -1269,9 +1248,7 @@ export const AddLabelsRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "AddLabelsRequest",
-}) as any as S.Schema<AddLabelsRequest>;
+).annotate({ identifier: "AddLabelsRequest" }) as any as S.Schema<AddLabelsRequest>;
 
 /** Color-coded labels help you categorize and filter your issues (just like labels in Gmail). */
 export interface Label {
@@ -1288,6 +1265,10 @@ export interface Label {
   color: string;
   /** Whether this label comes by default in a new repository. */
   default: boolean;
+  /** Timestamp indicating when the label was archived, or `null` if it has not been archived. */
+  archived_at: string | null;
+  /** The user who archived the label, or `null` if it has not been archived. */
+  archived_by: NullableSimpleUser | null;
 }
 export const Label = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1298,6 +1279,8 @@ export const Label = /*@__PURE__*/ S.suspend(() =>
     description: S.NullOr(S.String),
     color: S.String,
     default: S.Boolean,
+    archived_at: S.NullOr(S.String),
+    archived_by: S.NullOr(NullableSimpleUser),
   }),
 ).annotate({ identifier: "Label" }) as any as S.Schema<Label>;
 
@@ -1309,9 +1292,32 @@ export const AddLabelsResponseBodyList = /*@__PURE__*/ S.Array(
 export type AddLabelsResponse = AddLabelsResponseBodyList;
 export const AddLabelsResponse = /*@__PURE__*/ S.suspend(() =>
   AddLabelsResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "AddLabelsResponse",
-}) as any as S.Schema<AddLabelsResponse>;
+).annotate({ identifier: "AddLabelsResponse" }) as any as S.Schema<AddLabelsResponse>;
+
+export interface AddRelatesToRequest {
+  /** The account owner of the repository. The name is not case sensitive. */
+  owner: string;
+  /** The name of the repository without the `.git` extension. The name is not case sensitive. */
+  repo: string;
+  /** The number that identifies the issue. */
+  issue_number: number;
+  /** The id of the issue to mark as related to the current issue */
+  issue_id: number;
+}
+export const AddRelatesToRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    owner: S.String.pipe(T.Label()),
+    repo: S.String.pipe(T.Label()),
+    issue_number: S.Number.pipe(T.Label()),
+    issue_id: S.Number,
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/repos/{owner}/{repo}/issues/{issue_number}/relates_to",
+      code: 200,
+    }),
+  ),
+).annotate({ identifier: "AddRelatesToRequest" }) as any as S.Schema<AddRelatesToRequest>;
 
 export interface AddSubIssueRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -1339,9 +1345,7 @@ export const AddSubIssueRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "AddSubIssueRequest",
-}) as any as S.Schema<AddSubIssueRequest>;
+).annotate({ identifier: "AddSubIssueRequest" }) as any as S.Schema<AddSubIssueRequest>;
 
 export interface ApproveSuggestionRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -1366,9 +1370,7 @@ export const ApproveSuggestionRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "ApproveSuggestionRequest",
-}) as any as S.Schema<ApproveSuggestionRequest>;
+).annotate({ identifier: "ApproveSuggestionRequest" }) as any as S.Schema<ApproveSuggestionRequest>;
 
 /** The kind of change proposed. */
 export type IssueSuggestionAction =
@@ -1451,9 +1453,7 @@ export const IssueSuggestion = /*@__PURE__*/ S.suspend(() =>
     created_at: S.String,
     updated_at: S.String,
   }),
-).annotate({
-  identifier: "IssueSuggestion",
-}) as any as S.Schema<IssueSuggestion>;
+).annotate({ identifier: "IssueSuggestion" }) as any as S.Schema<IssueSuggestion>;
 
 export interface CheckUserCanBeAssignedRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -1467,13 +1467,7 @@ export const CheckUserCanBeAssignedRequest = /*@__PURE__*/ S.suspend(() =>
     owner: S.String.pipe(T.Label()),
     repo: S.String.pipe(T.Label()),
     assignee: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/assignees/{assignee}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/assignees/{assignee}", code: 200 })),
 ).annotate({
   identifier: "CheckUserCanBeAssignedRequest",
 }) as any as S.Schema<CheckUserCanBeAssignedRequest>;
@@ -1651,9 +1645,7 @@ export const CreateCommentRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "CreateCommentRequest",
-}) as any as S.Schema<CreateCommentRequest>;
+).annotate({ identifier: "CreateCommentRequest" }) as any as S.Schema<CreateCommentRequest>;
 
 /** Comments provide a way for people to collaborate on an issue. */
 export interface IssueComment {
@@ -1718,9 +1710,7 @@ export const CreateLabelRequest = /*@__PURE__*/ S.suspend(() =>
     color: S.optional(S.String),
     description: S.optional(S.String),
   }).pipe(T.Http({ method: "POST", uri: "/repos/{owner}/{repo}/labels", code: 200 })),
-).annotate({
-  identifier: "CreateLabelRequest",
-}) as any as S.Schema<CreateLabelRequest>;
+).annotate({ identifier: "CreateLabelRequest" }) as any as S.Schema<CreateLabelRequest>;
 
 /** The state of the milestone. Either `open` or `closed`. */
 export type CreateMilestoneRequestState = "open" | "closed";
@@ -1748,16 +1738,8 @@ export const CreateMilestoneRequest = /*@__PURE__*/ S.suspend(() =>
     state: S.optional(CreateMilestoneRequestState),
     description: S.optional(S.String),
     due_on: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/repos/{owner}/{repo}/milestones",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "CreateMilestoneRequest",
-}) as any as S.Schema<CreateMilestoneRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/repos/{owner}/{repo}/milestones", code: 200 })),
+).annotate({ identifier: "CreateMilestoneRequest" }) as any as S.Schema<CreateMilestoneRequest>;
 
 /** The state of the milestone. */
 export type MilestoneState = "open" | "closed";
@@ -1826,9 +1808,7 @@ export const DeleteCommentRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "DeleteCommentRequest",
-}) as any as S.Schema<DeleteCommentRequest>;
+).annotate({ identifier: "DeleteCommentRequest" }) as any as S.Schema<DeleteCommentRequest>;
 
 export interface DeleteCommentResponse {}
 export const DeleteCommentResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1879,16 +1859,8 @@ export const DeleteLabelRequest = /*@__PURE__*/ S.suspend(() =>
     owner: S.String.pipe(T.Label()),
     repo: S.String.pipe(T.Label()),
     name: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/repos/{owner}/{repo}/labels/{name}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "DeleteLabelRequest",
-}) as any as S.Schema<DeleteLabelRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/repos/{owner}/{repo}/labels/{name}", code: 200 })),
+).annotate({ identifier: "DeleteLabelRequest" }) as any as S.Schema<DeleteLabelRequest>;
 
 export interface DeleteLabelResponse {}
 export const DeleteLabelResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1915,9 +1887,7 @@ export const DeleteMilestoneRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "DeleteMilestoneRequest",
-}) as any as S.Schema<DeleteMilestoneRequest>;
+).annotate({ identifier: "DeleteMilestoneRequest" }) as any as S.Schema<DeleteMilestoneRequest>;
 
 export interface DeleteMilestoneResponse {}
 export const DeleteMilestoneResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1947,9 +1917,7 @@ export const DismissSuggestionRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "DismissSuggestionRequest",
-}) as any as S.Schema<DismissSuggestionRequest>;
+).annotate({ identifier: "DismissSuggestionRequest" }) as any as S.Schema<DismissSuggestionRequest>;
 
 export interface GetRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -1964,13 +1932,7 @@ export const GetRequest = /*@__PURE__*/ S.suspend(() =>
     owner: S.String.pipe(T.Label()),
     repo: S.String.pipe(T.Label()),
     issue_number: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/issues/{issue_number}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/issues/{issue_number}", code: 200 })),
 ).annotate({ identifier: "GetRequest" }) as any as S.Schema<GetRequest>;
 
 export interface GetCommentRequest {
@@ -1987,15 +1949,9 @@ export const GetCommentRequest = /*@__PURE__*/ S.suspend(() =>
     repo: S.String.pipe(T.Label()),
     comment_id: S.Number.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/issues/comments/{comment_id}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/issues/comments/{comment_id}", code: 200 }),
   ),
-).annotate({
-  identifier: "GetCommentRequest",
-}) as any as S.Schema<GetCommentRequest>;
+).annotate({ identifier: "GetCommentRequest" }) as any as S.Schema<GetCommentRequest>;
 
 export interface GetEventRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -2010,15 +1966,9 @@ export const GetEventRequest = /*@__PURE__*/ S.suspend(() =>
     repo: S.String.pipe(T.Label()),
     event_id: S.Number.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/issues/events/{event_id}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/issues/events/{event_id}", code: 200 }),
   ),
-).annotate({
-  identifier: "GetEventRequest",
-}) as any as S.Schema<GetEventRequest>;
+).annotate({ identifier: "GetEventRequest" }) as any as S.Schema<GetEventRequest>;
 
 /** The reason for the current state */
 export type NullableIssueStateReason = "completed" | "reopened" | "not_planned" | "duplicate";
@@ -2155,9 +2105,7 @@ export const IssueEventLabel = /*@__PURE__*/ S.suspend(() =>
     name: S.NullOr(S.String),
     color: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "IssueEventLabel",
-}) as any as S.Schema<IssueEventLabel>;
+).annotate({ identifier: "IssueEventLabel" }) as any as S.Schema<IssueEventLabel>;
 
 export interface TeamPermissions {
   pull: boolean;
@@ -2174,9 +2122,7 @@ export const TeamPermissions = /*@__PURE__*/ S.suspend(() =>
     maintain: S.Boolean,
     admin: S.Boolean,
   }),
-).annotate({
-  identifier: "TeamPermissions",
-}) as any as S.Schema<TeamPermissions>;
+).annotate({ identifier: "TeamPermissions" }) as any as S.Schema<TeamPermissions>;
 
 /** The ownership type of the team */
 export type TeamType = "enterprise" | "organization";
@@ -2239,9 +2185,7 @@ export const NullableTeamSimple = /*@__PURE__*/ S.suspend(() =>
     organization_id: S.optional(S.Number),
     enterprise_id: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "NullableTeamSimple",
-}) as any as S.Schema<NullableTeamSimple>;
+).annotate({ identifier: "NullableTeamSimple" }) as any as S.Schema<NullableTeamSimple>;
 
 /** Groups of organization members that gives permissions on specified repositories. */
 export interface Team {
@@ -2316,9 +2260,7 @@ export const IssueEventMilestone = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     title: S.String,
   }),
-).annotate({
-  identifier: "IssueEventMilestone",
-}) as any as S.Schema<IssueEventMilestone>;
+).annotate({ identifier: "IssueEventMilestone" }) as any as S.Schema<IssueEventMilestone>;
 
 /** Issue Event Project Card */
 export interface IssueEventProjectCard {
@@ -2338,9 +2280,7 @@ export const IssueEventProjectCard = /*@__PURE__*/ S.suspend(() =>
     column_name: S.String,
     previous_column_name: S.optional(S.String),
   }),
-).annotate({
-  identifier: "IssueEventProjectCard",
-}) as any as S.Schema<IssueEventProjectCard>;
+).annotate({ identifier: "IssueEventProjectCard" }) as any as S.Schema<IssueEventProjectCard>;
 
 /** Issue Event Rename */
 export interface IssueEventRename {
@@ -2352,9 +2292,7 @@ export const IssueEventRename = /*@__PURE__*/ S.suspend(() =>
     from: S.String,
     to: S.String,
   }),
-).annotate({
-  identifier: "IssueEventRename",
-}) as any as S.Schema<IssueEventRename>;
+).annotate({ identifier: "IssueEventRename" }) as any as S.Schema<IssueEventRename>;
 
 /** The color of the issue type. */
 export type IssueTypeWebhookColor =
@@ -2383,9 +2321,7 @@ export const IssueTypeWebhook = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     color: S.optional(S.NullOr(IssueTypeWebhookColor)),
   }),
-).annotate({
-  identifier: "IssueTypeWebhook",
-}) as any as S.Schema<IssueTypeWebhook>;
+).annotate({ identifier: "IssueTypeWebhook" }) as any as S.Schema<IssueTypeWebhook>;
 
 /** A GitHub repository. */
 export interface SimpleRepository {
@@ -2530,9 +2466,7 @@ export const SimpleRepository = /*@__PURE__*/ S.suspend(() =>
     trees_url: S.String,
     hooks_url: S.String,
   }),
-).annotate({
-  identifier: "SimpleRepository",
-}) as any as S.Schema<SimpleRepository>;
+).annotate({ identifier: "SimpleRepository" }) as any as S.Schema<SimpleRepository>;
 
 /** The type of the referenced issue. */
 export interface NullableIssueReferenceIssueType {
@@ -2579,9 +2513,7 @@ export const NullableIssueReference = /*@__PURE__*/ S.suspend(() =>
     repository: SimpleRepository,
     issue_type: S.NullOr(NullableIssueReferenceIssueType),
   }),
-).annotate({
-  identifier: "NullableIssueReference",
-}) as any as S.Schema<NullableIssueReference>;
+).annotate({ identifier: "NullableIssueReference" }) as any as S.Schema<NullableIssueReference>;
 
 /** The confidence level the agent had when performing this action. */
 export type NullableIssueEventIntentConfidence = "LOW" | "MEDIUM" | "HIGH";
@@ -2599,9 +2531,7 @@ export const NullableIssueEventIntent = /*@__PURE__*/ S.suspend(() =>
     rationale: S.optional(S.NullOr(S.String)),
     confidence: S.optional(S.NullOr(NullableIssueEventIntentConfidence)),
   }),
-).annotate({
-  identifier: "NullableIssueEventIntent",
-}) as any as S.Schema<NullableIssueEventIntent>;
+).annotate({ identifier: "NullableIssueEventIntent" }) as any as S.Schema<NullableIssueEventIntent>;
 
 /** Issue Event */
 export interface IssueEvent {
@@ -2681,16 +2611,8 @@ export const GetLabelRequest = /*@__PURE__*/ S.suspend(() =>
     owner: S.String.pipe(T.Label()),
     repo: S.String.pipe(T.Label()),
     name: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/labels/{name}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetLabelRequest",
-}) as any as S.Schema<GetLabelRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/labels/{name}", code: 200 })),
+).annotate({ identifier: "GetLabelRequest" }) as any as S.Schema<GetLabelRequest>;
 
 export interface GetMilestoneRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -2712,9 +2634,7 @@ export const GetMilestoneRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetMilestoneRequest",
-}) as any as S.Schema<GetMilestoneRequest>;
+).annotate({ identifier: "GetMilestoneRequest" }) as any as S.Schema<GetMilestoneRequest>;
 
 export interface GetParentRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -2730,15 +2650,9 @@ export const GetParentRequest = /*@__PURE__*/ S.suspend(() =>
     repo: S.String.pipe(T.Label()),
     issue_number: S.Number.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/issues/{issue_number}/parent",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/issues/{issue_number}/parent", code: 200 }),
   ),
-).annotate({
-  identifier: "GetParentRequest",
-}) as any as S.Schema<GetParentRequest>;
+).annotate({ identifier: "GetParentRequest" }) as any as S.Schema<GetParentRequest>;
 
 export type ListRequestFilter =
   | "assigned"
@@ -2823,16 +2737,8 @@ export const ListAssigneesRequest = /*@__PURE__*/ S.suspend(() =>
     repo: S.String.pipe(T.Label()),
     per_page: S.optional(S.Number.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/assignees",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ListAssigneesRequest",
-}) as any as S.Schema<ListAssigneesRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/assignees", code: 200 })),
+).annotate({ identifier: "ListAssigneesRequest" }) as any as S.Schema<ListAssigneesRequest>;
 
 export type ListAssigneesResponseBodyList = Array<NullableSimpleUser>;
 export const ListAssigneesResponseBodyList = /*@__PURE__*/ S.Array(
@@ -2842,9 +2748,7 @@ export const ListAssigneesResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListAssigneesResponse = ListAssigneesResponseBodyList;
 export const ListAssigneesResponse = /*@__PURE__*/ S.suspend(() =>
   ListAssigneesResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListAssigneesResponse",
-}) as any as S.Schema<ListAssigneesResponse>;
+).annotate({ identifier: "ListAssigneesResponse" }) as any as S.Schema<ListAssigneesResponse>;
 
 export interface ListCommentsRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -2875,9 +2779,7 @@ export const ListCommentsRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "ListCommentsRequest",
-}) as any as S.Schema<ListCommentsRequest>;
+).annotate({ identifier: "ListCommentsRequest" }) as any as S.Schema<ListCommentsRequest>;
 
 export type ListCommentsResponseBodyList = Array<IssueComment>;
 export const ListCommentsResponseBodyList = /*@__PURE__*/ S.Array(
@@ -2887,9 +2789,7 @@ export const ListCommentsResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListCommentsResponse = ListCommentsResponseBodyList;
 export const ListCommentsResponse = /*@__PURE__*/ S.suspend(() =>
   ListCommentsResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListCommentsResponse",
-}) as any as S.Schema<ListCommentsResponse>;
+).annotate({ identifier: "ListCommentsResponse" }) as any as S.Schema<ListCommentsResponse>;
 
 export type ListCommentsForRepoRequestSort = "created" | "updated";
 export const ListCommentsForRepoRequestSort = S.String;
@@ -2922,13 +2822,7 @@ export const ListCommentsForRepoRequest = /*@__PURE__*/ S.suspend(() =>
     since: S.optional(S.String.pipe(T.Query())),
     per_page: S.optional(S.Number.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/issues/comments",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/issues/comments", code: 200 })),
 ).annotate({
   identifier: "ListCommentsForRepoRequest",
 }) as any as S.Schema<ListCommentsForRepoRequest>;
@@ -3049,15 +2943,9 @@ export const ListEventsRequest = /*@__PURE__*/ S.suspend(() =>
     per_page: S.optional(S.Number.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/issues/{issue_number}/events",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/issues/{issue_number}/events", code: 200 }),
   ),
-).annotate({
-  identifier: "ListEventsRequest",
-}) as any as S.Schema<ListEventsRequest>;
+).annotate({ identifier: "ListEventsRequest" }) as any as S.Schema<ListEventsRequest>;
 
 export interface LabeledIssueEventLabel {
   name: string;
@@ -3068,9 +2956,7 @@ export const LabeledIssueEventLabel = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     color: S.String,
   }),
-).annotate({
-  identifier: "LabeledIssueEventLabel",
-}) as any as S.Schema<LabeledIssueEventLabel>;
+).annotate({ identifier: "LabeledIssueEventLabel" }) as any as S.Schema<LabeledIssueEventLabel>;
 
 /** Labeled Issue Event */
 export interface LabeledIssueEvent {
@@ -3100,9 +2986,7 @@ export const LabeledIssueEvent = /*@__PURE__*/ S.suspend(() =>
     label: LabeledIssueEventLabel,
     intent: S.optional(S.NullOr(NullableIssueEventIntent)),
   }),
-).annotate({
-  identifier: "LabeledIssueEvent",
-}) as any as S.Schema<LabeledIssueEvent>;
+).annotate({ identifier: "LabeledIssueEvent" }) as any as S.Schema<LabeledIssueEvent>;
 
 export type UnlabeledIssueEventLabel = LabeledIssueEventLabel;
 export const UnlabeledIssueEventLabel = LabeledIssueEventLabel;
@@ -3196,9 +3080,7 @@ export const AssignedIssueEvent = /*@__PURE__*/ S.suspend(() =>
     assigner: NullableSimpleUser,
     intent: S.optional(S.NullOr(NullableIssueEventIntent)),
   }),
-).annotate({
-  identifier: "AssignedIssueEvent",
-}) as any as S.Schema<AssignedIssueEvent>;
+).annotate({ identifier: "AssignedIssueEvent" }) as any as S.Schema<AssignedIssueEvent>;
 
 /** Unassigned Issue Event */
 export interface UnassignedIssueEvent {
@@ -3228,9 +3110,7 @@ export const UnassignedIssueEvent = /*@__PURE__*/ S.suspend(() =>
     assignee: NullableSimpleUser,
     assigner: NullableSimpleUser,
   }),
-).annotate({
-  identifier: "UnassignedIssueEvent",
-}) as any as S.Schema<UnassignedIssueEvent>;
+).annotate({ identifier: "UnassignedIssueEvent" }) as any as S.Schema<UnassignedIssueEvent>;
 
 export type MilestonedIssueEventMilestone = IssueEventMilestone;
 export const MilestonedIssueEventMilestone = IssueEventMilestone;
@@ -3261,9 +3141,7 @@ export const MilestonedIssueEvent = /*@__PURE__*/ S.suspend(() =>
     performed_via_github_app: S.NullOr(NullableIntegration),
     milestone: IssueEventMilestone,
   }),
-).annotate({
-  identifier: "MilestonedIssueEvent",
-}) as any as S.Schema<MilestonedIssueEvent>;
+).annotate({ identifier: "MilestonedIssueEvent" }) as any as S.Schema<MilestonedIssueEvent>;
 
 export type DemilestonedIssueEventMilestone = IssueEventMilestone;
 export const DemilestonedIssueEventMilestone = IssueEventMilestone;
@@ -3301,9 +3179,7 @@ export const RenamedIssueEvent = /*@__PURE__*/ S.suspend(() =>
     performed_via_github_app: S.NullOr(NullableIntegration),
     rename: IssueEventRename,
   }),
-).annotate({
-  identifier: "RenamedIssueEvent",
-}) as any as S.Schema<RenamedIssueEvent>;
+).annotate({ identifier: "RenamedIssueEvent" }) as any as S.Schema<RenamedIssueEvent>;
 
 /** Review Requested Issue Event */
 export interface ReviewRequestedIssueEvent {
@@ -3416,9 +3292,7 @@ export const LockedIssueEvent = /*@__PURE__*/ S.suspend(() =>
     performed_via_github_app: S.NullOr(NullableIntegration),
     lock_reason: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "LockedIssueEvent",
-}) as any as S.Schema<LockedIssueEvent>;
+).annotate({ identifier: "LockedIssueEvent" }) as any as S.Schema<LockedIssueEvent>;
 
 export interface AddedToProjectIssueEventProjectCard {
   id: number;
@@ -3467,9 +3341,7 @@ export const AddedToProjectIssueEvent = /*@__PURE__*/ S.suspend(() =>
     performed_via_github_app: S.NullOr(NullableIntegration),
     project_card: S.optional(AddedToProjectIssueEventProjectCard),
   }),
-).annotate({
-  identifier: "AddedToProjectIssueEvent",
-}) as any as S.Schema<AddedToProjectIssueEvent>;
+).annotate({ identifier: "AddedToProjectIssueEvent" }) as any as S.Schema<AddedToProjectIssueEvent>;
 
 export type MovedColumnInProjectIssueEventProjectCard = AddedToProjectIssueEventProjectCard;
 export const MovedColumnInProjectIssueEventProjectCard = AddedToProjectIssueEventProjectCard;
@@ -3546,9 +3418,7 @@ export const IssueTypeAddedIssueEvent = /*@__PURE__*/ S.suspend(() =>
     issue_type: S.NullOr(IssueTypeWebhook),
     intent: S.optional(S.NullOr(NullableIssueEventIntent)),
   }),
-).annotate({
-  identifier: "IssueTypeAddedIssueEvent",
-}) as any as S.Schema<IssueTypeAddedIssueEvent>;
+).annotate({ identifier: "IssueTypeAddedIssueEvent" }) as any as S.Schema<IssueTypeAddedIssueEvent>;
 
 /** Issue Type Removed Issue Event */
 export interface IssueTypeRemovedIssueEvent {
@@ -3642,9 +3512,7 @@ export const SubIssueAddedIssueEvent = /*@__PURE__*/ S.suspend(() =>
     performed_via_github_app: S.NullOr(NullableIntegration),
     sub_issue: S.NullOr(NullableIssueReference),
   }),
-).annotate({
-  identifier: "SubIssueAddedIssueEvent",
-}) as any as S.Schema<SubIssueAddedIssueEvent>;
+).annotate({ identifier: "SubIssueAddedIssueEvent" }) as any as S.Schema<SubIssueAddedIssueEvent>;
 
 /** Sub-issue Removed Issue Event */
 export type SubIssueRemovedIssueEvent = SubIssueAddedIssueEvent;
@@ -3710,9 +3578,7 @@ export const BlockedByAddedIssueEvent = /*@__PURE__*/ S.suspend(() =>
     performed_via_github_app: S.NullOr(NullableIntegration),
     blocked_by: S.NullOr(NullableIssueReference),
   }),
-).annotate({
-  identifier: "BlockedByAddedIssueEvent",
-}) as any as S.Schema<BlockedByAddedIssueEvent>;
+).annotate({ identifier: "BlockedByAddedIssueEvent" }) as any as S.Schema<BlockedByAddedIssueEvent>;
 
 /** Blocked-by Removed Issue Event */
 export type BlockedByRemovedIssueEvent = BlockedByAddedIssueEvent;
@@ -3744,9 +3610,7 @@ export const BlockingAddedIssueEvent = /*@__PURE__*/ S.suspend(() =>
     performed_via_github_app: S.NullOr(NullableIntegration),
     blocking: S.NullOr(NullableIssueReference),
   }),
-).annotate({
-  identifier: "BlockingAddedIssueEvent",
-}) as any as S.Schema<BlockingAddedIssueEvent>;
+).annotate({ identifier: "BlockingAddedIssueEvent" }) as any as S.Schema<BlockingAddedIssueEvent>;
 
 /** Blocking Removed Issue Event */
 export type BlockingRemovedIssueEvent = BlockingAddedIssueEvent;
@@ -3790,9 +3654,7 @@ export const ListEventsResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListEventsResponse = ListEventsResponseBodyList;
 export const ListEventsResponse = /*@__PURE__*/ S.suspend(() =>
   ListEventsResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListEventsResponse",
-}) as any as S.Schema<ListEventsResponse>;
+).annotate({ identifier: "ListEventsResponse" }) as any as S.Schema<ListEventsResponse>;
 
 export interface ListEventsForRepoRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -3810,16 +3672,8 @@ export const ListEventsForRepoRequest = /*@__PURE__*/ S.suspend(() =>
     repo: S.String.pipe(T.Label()),
     per_page: S.optional(S.Number.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/issues/events",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ListEventsForRepoRequest",
-}) as any as S.Schema<ListEventsForRepoRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/issues/events", code: 200 })),
+).annotate({ identifier: "ListEventsForRepoRequest" }) as any as S.Schema<ListEventsForRepoRequest>;
 
 export type ListEventsForRepoResponseBodyList = Array<IssueEvent>;
 export const ListEventsForRepoResponseBodyList = /*@__PURE__*/ S.Array(
@@ -3911,9 +3765,7 @@ export const TimelineCommentEvent = /*@__PURE__*/ S.suspend(() =>
     pin: S.optional(S.NullOr(NullablePinnedIssueComment)),
     minimized: S.optional(S.NullOr(NullableIssueCommentMinimized)),
   }),
-).annotate({
-  identifier: "TimelineCommentEvent",
-}) as any as S.Schema<TimelineCommentEvent>;
+).annotate({ identifier: "TimelineCommentEvent" }) as any as S.Schema<TimelineCommentEvent>;
 
 export interface TimelineCrossReferencedEventSource {
   type?: string;
@@ -4057,9 +3909,7 @@ export const TimelineCommittedEvent = /*@__PURE__*/ S.suspend(() =>
     verification: TimelineCommittedEventVerification,
     html_url: S.String,
   }),
-).annotate({
-  identifier: "TimelineCommittedEvent",
-}) as any as S.Schema<TimelineCommittedEvent>;
+).annotate({ identifier: "TimelineCommittedEvent" }) as any as S.Schema<TimelineCommittedEvent>;
 
 export interface TimelineReviewedEventLinksHtml {
   href: string;
@@ -4127,9 +3977,7 @@ export const TimelineReviewedEvent = /*@__PURE__*/ S.suspend(() =>
     body_text: S.optional(S.String),
     author_association: AuthorAssociation,
   }),
-).annotate({
-  identifier: "TimelineReviewedEvent",
-}) as any as S.Schema<TimelineReviewedEvent>;
+).annotate({ identifier: "TimelineReviewedEvent" }) as any as S.Schema<TimelineReviewedEvent>;
 
 export type PullRequestReviewCommentLinksSelf = TimelineReviewedEventLinksHtml;
 export const PullRequestReviewCommentLinksSelf = TimelineReviewedEventLinksHtml;
@@ -4252,9 +4100,7 @@ export const PullRequestReviewComment = /*@__PURE__*/ S.suspend(() =>
     body_html: S.optional(S.String),
     body_text: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PullRequestReviewComment",
-}) as any as S.Schema<PullRequestReviewComment>;
+).annotate({ identifier: "PullRequestReviewComment" }) as any as S.Schema<PullRequestReviewComment>;
 
 export type TimelineLineCommentedEventCommentsList = Array<PullRequestReviewComment>;
 export const TimelineLineCommentedEventCommentsList = /*@__PURE__*/ S.Array(
@@ -4426,9 +4272,7 @@ export const StateChangeIssueEvent = /*@__PURE__*/ S.suspend(() =>
     state_reason: S.optional(S.NullOr(S.String)),
     intent: S.optional(S.NullOr(NullableIssueEventIntent)),
   }),
-).annotate({
-  identifier: "StateChangeIssueEvent",
-}) as any as S.Schema<StateChangeIssueEvent>;
+).annotate({ identifier: "StateChangeIssueEvent" }) as any as S.Schema<StateChangeIssueEvent>;
 
 /** Timeline Connected Event */
 export interface TimelineConnectedEvent {
@@ -4454,9 +4298,7 @@ export const TimelineConnectedEvent = /*@__PURE__*/ S.suspend(() =>
     created_at: S.String,
     performed_via_github_app: S.NullOr(NullableIntegration),
   }),
-).annotate({
-  identifier: "TimelineConnectedEvent",
-}) as any as S.Schema<TimelineConnectedEvent>;
+).annotate({ identifier: "TimelineConnectedEvent" }) as any as S.Schema<TimelineConnectedEvent>;
 
 /** Timeline Disconnected Event */
 export type TimelineDisconnectedEvent = TimelineConnectedEvent;
@@ -4629,9 +4471,7 @@ export const ListForOrgRequest = /*@__PURE__*/ S.suspend(() =>
     per_page: S.optional(S.Number.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/orgs/{org}/issues", code: 200 })),
-).annotate({
-  identifier: "ListForOrgRequest",
-}) as any as S.Schema<ListForOrgRequest>;
+).annotate({ identifier: "ListForOrgRequest" }) as any as S.Schema<ListForOrgRequest>;
 
 export type ListForOrgResponseBodyList = Array<Issue>;
 export const ListForOrgResponseBodyList = /*@__PURE__*/ S.Array(
@@ -4641,9 +4481,7 @@ export const ListForOrgResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListForOrgResponse = ListForOrgResponseBodyList;
 export const ListForOrgResponse = /*@__PURE__*/ S.suspend(() =>
   ListForOrgResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListForOrgResponse",
-}) as any as S.Schema<ListForOrgResponse>;
+).annotate({ identifier: "ListForOrgResponse" }) as any as S.Schema<ListForOrgResponse>;
 
 export type ListForRepoRequestState = "open" | "closed" | "all";
 export const ListForRepoRequestState = S.String;
@@ -4704,9 +4542,7 @@ export const ListForRepoRequest = /*@__PURE__*/ S.suspend(() =>
     per_page: S.optional(S.Number.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/issues", code: 200 })),
-).annotate({
-  identifier: "ListForRepoRequest",
-}) as any as S.Schema<ListForRepoRequest>;
+).annotate({ identifier: "ListForRepoRequest" }) as any as S.Schema<ListForRepoRequest>;
 
 export type ListForRepoResponseBodyList = Array<Issue>;
 export const ListForRepoResponseBodyList = /*@__PURE__*/ S.Array(
@@ -4716,9 +4552,7 @@ export const ListForRepoResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListForRepoResponse = ListForRepoResponseBodyList;
 export const ListForRepoResponse = /*@__PURE__*/ S.suspend(() =>
   ListForRepoResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListForRepoResponse",
-}) as any as S.Schema<ListForRepoResponse>;
+).annotate({ identifier: "ListForRepoResponse" }) as any as S.Schema<ListForRepoResponse>;
 
 export interface ListIssueFieldValuesForIssueRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -4821,9 +4655,7 @@ export const ListLabelsForRepoRequest = /*@__PURE__*/ S.suspend(() =>
     per_page: S.optional(S.Number.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/labels", code: 200 })),
-).annotate({
-  identifier: "ListLabelsForRepoRequest",
-}) as any as S.Schema<ListLabelsForRepoRequest>;
+).annotate({ identifier: "ListLabelsForRepoRequest" }) as any as S.Schema<ListLabelsForRepoRequest>;
 
 export type ListLabelsForRepoResponseBodyList = Array<Label>;
 export const ListLabelsForRepoResponseBodyList = /*@__PURE__*/ S.Array(
@@ -4857,15 +4689,9 @@ export const ListLabelsOnIssueRequest = /*@__PURE__*/ S.suspend(() =>
     per_page: S.optional(S.Number.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/issues/{issue_number}/labels",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/issues/{issue_number}/labels", code: 200 }),
   ),
-).annotate({
-  identifier: "ListLabelsOnIssueRequest",
-}) as any as S.Schema<ListLabelsOnIssueRequest>;
+).annotate({ identifier: "ListLabelsOnIssueRequest" }) as any as S.Schema<ListLabelsOnIssueRequest>;
 
 export type ListLabelsOnIssueResponseBodyList = Array<Label>;
 export const ListLabelsOnIssueResponseBodyList = /*@__PURE__*/ S.Array(
@@ -4913,16 +4739,8 @@ export const ListMilestonesRequest = /*@__PURE__*/ S.suspend(() =>
     direction: S.optional(ListMilestonesRequestDirection.pipe(T.Query())),
     per_page: S.optional(S.Number.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/milestones",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ListMilestonesRequest",
-}) as any as S.Schema<ListMilestonesRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/milestones", code: 200 })),
+).annotate({ identifier: "ListMilestonesRequest" }) as any as S.Schema<ListMilestonesRequest>;
 
 export type ListMilestonesResponseBodyList = Array<Milestone>;
 export const ListMilestonesResponseBodyList = /*@__PURE__*/ S.Array(
@@ -4932,9 +4750,45 @@ export const ListMilestonesResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListMilestonesResponse = ListMilestonesResponseBodyList;
 export const ListMilestonesResponse = /*@__PURE__*/ S.suspend(() =>
   ListMilestonesResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListMilestonesResponse",
-}) as any as S.Schema<ListMilestonesResponse>;
+).annotate({ identifier: "ListMilestonesResponse" }) as any as S.Schema<ListMilestonesResponse>;
+
+export interface ListRelatesToRequest {
+  /** The account owner of the repository. The name is not case sensitive. */
+  owner: string;
+  /** The name of the repository without the `.git` extension. The name is not case sensitive. */
+  repo: string;
+  /** The number that identifies the issue. */
+  issue_number: number;
+  /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
+  per_page?: number;
+  /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
+  page?: number;
+}
+export const ListRelatesToRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    owner: S.String.pipe(T.Label()),
+    repo: S.String.pipe(T.Label()),
+    issue_number: S.Number.pipe(T.Label()),
+    per_page: S.optional(S.Number.pipe(T.Query())),
+    page: S.optional(S.Number.pipe(T.Query())),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/repos/{owner}/{repo}/issues/{issue_number}/relates_to",
+      code: 200,
+    }),
+  ),
+).annotate({ identifier: "ListRelatesToRequest" }) as any as S.Schema<ListRelatesToRequest>;
+
+export type ListRelatesToResponseBodyList = Array<Issue>;
+export const ListRelatesToResponseBodyList = /*@__PURE__*/ S.Array(
+  Issue,
+) as any as S.Schema<ListRelatesToResponseBodyList>;
+
+export type ListRelatesToResponse = ListRelatesToResponseBodyList;
+export const ListRelatesToResponse = /*@__PURE__*/ S.suspend(() =>
+  ListRelatesToResponseBodyList.pipe(T.RawResponseRoot()),
+).annotate({ identifier: "ListRelatesToResponse" }) as any as S.Schema<ListRelatesToResponse>;
 
 export interface ListSubIssuesRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -4962,9 +4816,7 @@ export const ListSubIssuesRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "ListSubIssuesRequest",
-}) as any as S.Schema<ListSubIssuesRequest>;
+).annotate({ identifier: "ListSubIssuesRequest" }) as any as S.Schema<ListSubIssuesRequest>;
 
 export type ListSubIssuesResponseBodyList = Array<Issue>;
 export const ListSubIssuesResponseBodyList = /*@__PURE__*/ S.Array(
@@ -4974,9 +4826,7 @@ export const ListSubIssuesResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListSubIssuesResponse = ListSubIssuesResponseBodyList;
 export const ListSubIssuesResponse = /*@__PURE__*/ S.suspend(() =>
   ListSubIssuesResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListSubIssuesResponse",
-}) as any as S.Schema<ListSubIssuesResponse>;
+).annotate({ identifier: "ListSubIssuesResponse" }) as any as S.Schema<ListSubIssuesResponse>;
 
 export type ListSuggestionsRequestState =
   | "pending"
@@ -5028,9 +4878,7 @@ export const ListSuggestionsRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "ListSuggestionsRequest",
-}) as any as S.Schema<ListSuggestionsRequest>;
+).annotate({ identifier: "ListSuggestionsRequest" }) as any as S.Schema<ListSuggestionsRequest>;
 
 export type ListSuggestionsResponseBodyList = Array<IssueSuggestion>;
 export const ListSuggestionsResponseBodyList = /*@__PURE__*/ S.Array(
@@ -5040,9 +4888,7 @@ export const ListSuggestionsResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListSuggestionsResponse = ListSuggestionsResponseBodyList;
 export const ListSuggestionsResponse = /*@__PURE__*/ S.suspend(() =>
   ListSuggestionsResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListSuggestionsResponse",
-}) as any as S.Schema<ListSuggestionsResponse>;
+).annotate({ identifier: "ListSuggestionsResponse" }) as any as S.Schema<ListSuggestionsResponse>;
 
 /** The reason for locking the issue or pull request conversation. Lock will fail if you don't use one of these reasons: * `off-topic` * `too heated` * `resolved` * `spam` */
 export type LockRequestLockReason = "off-topic" | "too heated" | "resolved" | "spam";
@@ -5065,11 +4911,7 @@ export const LockRequest = /*@__PURE__*/ S.suspend(() =>
     issue_number: S.Number.pipe(T.Label()),
     lock_reason: S.optional(LockRequestLockReason),
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/repos/{owner}/{repo}/issues/{issue_number}/lock",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/repos/{owner}/{repo}/issues/{issue_number}/lock", code: 200 }),
   ),
 ).annotate({ identifier: "LockRequest" }) as any as S.Schema<LockRequest>;
 
@@ -5098,9 +4940,7 @@ export const PinCommentRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "PinCommentRequest",
-}) as any as S.Schema<PinCommentRequest>;
+).annotate({ identifier: "PinCommentRequest" }) as any as S.Schema<PinCommentRequest>;
 
 export interface RemoveAllLabelsRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -5122,9 +4962,7 @@ export const RemoveAllLabelsRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "RemoveAllLabelsRequest",
-}) as any as S.Schema<RemoveAllLabelsRequest>;
+).annotate({ identifier: "RemoveAllLabelsRequest" }) as any as S.Schema<RemoveAllLabelsRequest>;
 
 export interface RemoveAllLabelsResponse {}
 export const RemoveAllLabelsResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -5160,9 +4998,7 @@ export const RemoveAssigneesRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "RemoveAssigneesRequest",
-}) as any as S.Schema<RemoveAssigneesRequest>;
+).annotate({ identifier: "RemoveAssigneesRequest" }) as any as S.Schema<RemoveAssigneesRequest>;
 
 export interface RemoveDependencyBlockedByRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -5213,9 +5049,7 @@ export const RemoveLabelRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "RemoveLabelRequest",
-}) as any as S.Schema<RemoveLabelRequest>;
+).annotate({ identifier: "RemoveLabelRequest" }) as any as S.Schema<RemoveLabelRequest>;
 
 export type RemoveLabelResponseBodyList = Array<Label>;
 export const RemoveLabelResponseBodyList = /*@__PURE__*/ S.Array(
@@ -5225,9 +5059,32 @@ export const RemoveLabelResponseBodyList = /*@__PURE__*/ S.Array(
 export type RemoveLabelResponse = RemoveLabelResponseBodyList;
 export const RemoveLabelResponse = /*@__PURE__*/ S.suspend(() =>
   RemoveLabelResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "RemoveLabelResponse",
-}) as any as S.Schema<RemoveLabelResponse>;
+).annotate({ identifier: "RemoveLabelResponse" }) as any as S.Schema<RemoveLabelResponse>;
+
+export interface RemoveRelatesToRequest {
+  /** The account owner of the repository. The name is not case sensitive. */
+  owner: string;
+  /** The name of the repository without the `.git` extension. The name is not case sensitive. */
+  repo: string;
+  /** The number that identifies the issue. */
+  issue_number: number;
+  /** The id of the related issue to remove */
+  issue_id: number;
+}
+export const RemoveRelatesToRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    owner: S.String.pipe(T.Label()),
+    repo: S.String.pipe(T.Label()),
+    issue_number: S.Number.pipe(T.Label()),
+    issue_id: S.Number.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      uri: "/repos/{owner}/{repo}/issues/{issue_number}/relates_to/{issue_id}",
+      code: 200,
+    }),
+  ),
+).annotate({ identifier: "RemoveRelatesToRequest" }) as any as S.Schema<RemoveRelatesToRequest>;
 
 export interface RemoveSubIssueRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -5252,9 +5109,7 @@ export const RemoveSubIssueRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "RemoveSubIssueRequest",
-}) as any as S.Schema<RemoveSubIssueRequest>;
+).annotate({ identifier: "RemoveSubIssueRequest" }) as any as S.Schema<RemoveSubIssueRequest>;
 
 export interface ReprioritizeSubIssueRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -5438,15 +5293,9 @@ export const SetLabelsRequest = /*@__PURE__*/ S.suspend(() =>
     issue_number: S.Number.pipe(T.Label()),
     body: S.optional(SetLabelsRequestBody.pipe(T.HttpBody())),
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/repos/{owner}/{repo}/issues/{issue_number}/labels",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/repos/{owner}/{repo}/issues/{issue_number}/labels", code: 200 }),
   ),
-).annotate({
-  identifier: "SetLabelsRequest",
-}) as any as S.Schema<SetLabelsRequest>;
+).annotate({ identifier: "SetLabelsRequest" }) as any as S.Schema<SetLabelsRequest>;
 
 export type SetLabelsResponseBodyList = Array<Label>;
 export const SetLabelsResponseBodyList = /*@__PURE__*/ S.Array(
@@ -5456,9 +5305,7 @@ export const SetLabelsResponseBodyList = /*@__PURE__*/ S.Array(
 export type SetLabelsResponse = SetLabelsResponseBodyList;
 export const SetLabelsResponse = /*@__PURE__*/ S.suspend(() =>
   SetLabelsResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "SetLabelsResponse",
-}) as any as S.Schema<SetLabelsResponse>;
+).annotate({ identifier: "SetLabelsResponse" }) as any as S.Schema<SetLabelsResponse>;
 
 export interface UnlockRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -5507,9 +5354,7 @@ export const UnpinCommentRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "UnpinCommentRequest",
-}) as any as S.Schema<UnpinCommentRequest>;
+).annotate({ identifier: "UnpinCommentRequest" }) as any as S.Schema<UnpinCommentRequest>;
 
 export interface UnpinCommentResponse {}
 export const UnpinCommentResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -5672,9 +5517,7 @@ export const UpdateRequestTypeCase1 = /*@__PURE__*/ S.suspend(() =>
     suggest: S.optional(S.Boolean),
     confidence: S.optional(UpdateRequestTypeCase1Confidence),
   }),
-).annotate({
-  identifier: "UpdateRequestTypeCase1",
-}) as any as S.Schema<UpdateRequestTypeCase1>;
+).annotate({ identifier: "UpdateRequestTypeCase1" }) as any as S.Schema<UpdateRequestTypeCase1>;
 
 /** The issue type to associate with this issue. Only users with push access can set the type for issues. Without push access to the repository, type changes are silently dropped. */
 export type UpdateRequestType = string | UpdateRequestTypeCase1;
@@ -5726,11 +5569,7 @@ export const UpdateRequest = /*@__PURE__*/ S.suspend(() =>
     issue_field_values: S.optional(UpdateRequestIssueFieldValuesList),
     type: S.optional(S.NullOr(UpdateRequestType)),
   }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/repos/{owner}/{repo}/issues/{issue_number}",
-      code: 200,
-    }),
+    T.Http({ method: "PATCH", uri: "/repos/{owner}/{repo}/issues/{issue_number}", code: 200 }),
   ),
 ).annotate({ identifier: "UpdateRequest" }) as any as S.Schema<UpdateRequest>;
 
@@ -6093,9 +5932,7 @@ export const UpdateCommentRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "UpdateCommentRequest",
-}) as any as S.Schema<UpdateCommentRequest>;
+).annotate({ identifier: "UpdateCommentRequest" }) as any as S.Schema<UpdateCommentRequest>;
 
 export interface UpdateLabelRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -6121,16 +5958,8 @@ export const UpdateLabelRequest = /*@__PURE__*/ S.suspend(() =>
     color: S.optional(S.String),
     description: S.optional(S.String),
     archived: S.optional(S.Boolean),
-  }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/repos/{owner}/{repo}/labels/{name}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "UpdateLabelRequest",
-}) as any as S.Schema<UpdateLabelRequest>;
+  }).pipe(T.Http({ method: "PATCH", uri: "/repos/{owner}/{repo}/labels/{name}", code: 200 })),
+).annotate({ identifier: "UpdateLabelRequest" }) as any as S.Schema<UpdateLabelRequest>;
 
 /** The state of the milestone. Either `open` or `closed`. */
 export type UpdateMilestoneRequestState = "open" | "closed";
@@ -6168,9 +5997,7 @@ export const UpdateMilestoneRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "UpdateMilestoneRequest",
-}) as any as S.Schema<UpdateMilestoneRequest>;
+).annotate({ identifier: "UpdateMilestoneRequest" }) as any as S.Schema<UpdateMilestoneRequest>;
 
 export type AddAssigneesError = GithubOpError;
 /** Add assignees to an issue Adds up to 10 assignees to an issue. Users already assigned to an issue are not replaced. */
@@ -6238,6 +6065,21 @@ export const addLabels: API.OperationMethod<
   input: AddLabelsRequest,
   output: AddLabelsResponse,
   errors: [NotFound, Gone, UnprocessableEntity],
+  protocol: GithubProtocol,
+  retry: Retry.Retry,
+}));
+
+export type AddRelatesToError = Forbidden | NotFound | Gone | UnprocessableEntity | GithubOpError;
+/** Add a related issue You can use the REST API to mark an issue as related to another issue. Creating content too quickly using this endpoint may result in secondary rate limiting. For more information, see [Rate limits for the API](https://docs.github.com/rest/using-the-rest-api/rate-limits-for-the-rest-api#about-secondary-rate-limits) and [Best practices for using the REST API](https://docs.github.com/rest/guides/best-practices-for-using-the-rest-api). This endpoint supports the following custom media types. For more information, see [Media types](https://docs.github.com/rest/using-the-rest-api/getting-started-with-the-rest-api#media-types). - **`application/vnd.github.raw+json`**: Returns the raw Markdown body. Response will include `body`. This is the default if you do not pass any specific media type. - **`application/vnd.github.text+json`**: Returns a text only representation of the Markdown body. Response will include `body_text`. - **`application/vnd.github.html+json`**: Returns HTML rendered from the body's Markdown. Response will include `body_html`. - **`application/vnd.github.full+json`**: Returns raw, text, and HTML representations. Response will include `body`, `body_text`, and `body_html`. */
+export const addRelatesTo: API.OperationMethod<
+  AddRelatesToRequest,
+  Issue,
+  AddRelatesToError,
+  GithubOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: AddRelatesToRequest,
+  output: Issue,
+  errors: [Forbidden, NotFound, Gone, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
 }));
@@ -6772,6 +6614,21 @@ export const listMilestones: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type ListRelatesToError = NotFound | Gone | GithubOpError;
+/** List issues related to an issue You can use the REST API to list the issues that are related to an issue. This endpoint supports the following custom media types. For more information, see [Media types](https://docs.github.com/rest/using-the-rest-api/getting-started-with-the-rest-api#media-types). - **`application/vnd.github.raw+json`**: Returns the raw Markdown body. Response will include `body`. This is the default if you do not pass any specific media type. - **`application/vnd.github.text+json`**: Returns a text only representation of the Markdown body. Response will include `body_text`. - **`application/vnd.github.html+json`**: Returns HTML rendered from the body's Markdown. Response will include `body_html`. - **`application/vnd.github.full+json`**: Returns raw, text, and HTML representations. Response will include `body`, `body_text`, and `body_html`. */
+export const listRelatesTo: API.OperationMethod<
+  ListRelatesToRequest,
+  ListRelatesToResponse,
+  ListRelatesToError,
+  GithubOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListRelatesToRequest,
+  output: ListRelatesToResponse,
+  errors: [NotFound, Gone],
+  protocol: GithubProtocol,
+  retry: Retry.Retry,
+}));
+
 export type ListSubIssuesError = NotFound | Gone | GithubOpError;
 /** List sub-issues You can use the REST API to list the sub-issues on an issue. This endpoint supports the following custom media types. For more information, see [Media types](https://docs.github.com/rest/using-the-rest-api/getting-started-with-the-rest-api#media-types). - **`application/vnd.github.raw+json`**: Returns the raw Markdown body. Response will include `body`. This is the default if you do not pass any specific media type. - **`application/vnd.github.text+json`**: Returns a text only representation of the Markdown body. Response will include `body_text`. - **`application/vnd.github.html+json`**: Returns HTML rendered from the body's Markdown. Response will include `body_html`. - **`application/vnd.github.full+json`**: Returns raw, text, and HTML representations. Response will include `body`, `body_text`, and `body_html`. */
 export const listSubIssues: API.OperationMethod<
@@ -6889,6 +6746,21 @@ export const removeLabel: API.OperationMethod<
   input: RemoveLabelRequest,
   output: RemoveLabelResponse,
   errors: [NotFound, Gone],
+  protocol: GithubProtocol,
+  retry: Retry.Retry,
+}));
+
+export type RemoveRelatesToError = BadRequest | Forbidden | NotFound | Gone | GithubOpError;
+/** Remove a related issue You can use the REST API to remove a 'relates to' relationship between two issues. Removing content too quickly using this endpoint may result in secondary rate limiting. For more information, see [Rate limits for the API](https://docs.github.com/rest/using-the-rest-api/rate-limits-for-the-rest-api#about-secondary-rate-limits) and [Best practices for using the REST API](https://docs.github.com/rest/guides/best-practices-for-using-the-rest-api). This endpoint supports the following custom media types. For more information, see [Media types](https://docs.github.com/rest/using-the-rest-api/getting-started-with-the-rest-api#media-types). - **`application/vnd.github.raw+json`**: Returns the raw Markdown body. Response will include `body`. This is the default if you do not pass any specific media type. - **`application/vnd.github.text+json`**: Returns a text only representation of the Markdown body. Response will include `body_text`. - **`application/vnd.github.html+json`**: Returns HTML rendered from the body's Markdown. Response will include `body_html`. - **`application/vnd.github.full+json`**: Returns raw, text, and HTML representations. Response will include `body`, `body_text`, and `body_html`. */
+export const removeRelatesTo: API.OperationMethod<
+  RemoveRelatesToRequest,
+  Issue,
+  RemoveRelatesToError,
+  GithubOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: RemoveRelatesToRequest,
+  output: Issue,
+  errors: [BadRequest, Forbidden, NotFound, Gone],
   protocol: GithubProtocol,
   retry: Retry.Retry,
 }));

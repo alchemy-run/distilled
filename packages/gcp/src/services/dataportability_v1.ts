@@ -66,18 +66,18 @@ export const StringList = /*@__PURE__*/ S.Array(S.String) as any as S.Schema<Str
 
 /** Request to kick off an Archive job. */
 export interface ArchiveInitiatePortabilityRequest {
+  /** The resources from which you're exporting data. These values have a 1:1 correspondence with the OAuth scopes. */
+  resources?: StringList;
   /** Optional. The timestamp that represents the starting point for the data you are exporting. If the start_time is not specified in the InitiatePortabilityArchiveRequest, the field is set to the earliest available data. */
   startTime?: string;
   /** Optional. The timestamp that represents the end point for the data you are exporting. If the end_time is not specified in the InitiatePortabilityArchiveRequest, this field is set to the latest available data. */
   endTime?: string;
-  /** The resources from which you're exporting data. These values have a 1:1 correspondence with the OAuth scopes. */
-  resources?: StringList;
 }
 export const ArchiveInitiatePortabilityRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    resources: S.optional(StringList),
     startTime: S.optional(S.String),
     endTime: S.optional(S.String),
-    resources: S.optional(StringList),
   }),
 ).annotate({
   identifier: "ArchiveInitiatePortabilityRequest",
@@ -126,9 +126,7 @@ export const ArchiveInitiatePortabilityResponse = /*@__PURE__*/ S.suspend(() =>
 /** Request to cancel a Portability Archive job. */
 export interface CancelPortabilityArchiveRequest {}
 export const CancelPortabilityArchiveRequest = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "CancelPortabilityArchiveRequest",
-  },
+  { identifier: "CancelPortabilityArchiveRequest" },
 ) as any as S.Schema<CancelPortabilityArchiveRequest>;
 
 export interface CancelArchiveJobsRequest {
@@ -148,9 +146,7 @@ export const CancelArchiveJobsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://dataportability.googleapis.com/",
     }),
   ),
-).annotate({
-  identifier: "CancelArchiveJobsRequest",
-}) as any as S.Schema<CancelArchiveJobsRequest>;
+).annotate({ identifier: "CancelArchiveJobsRequest" }) as any as S.Schema<CancelArchiveJobsRequest>;
 
 /** Response to canceling a Data Portability Archive job. */
 export interface CancelPortabilityArchiveResponse {}
@@ -178,25 +174,21 @@ export const CheckAccessTypeRequest_ = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://dataportability.googleapis.com/",
     }),
   ),
-).annotate({
-  identifier: "CheckAccessTypeRequest_",
-}) as any as S.Schema<CheckAccessTypeRequest_>;
+).annotate({ identifier: "CheckAccessTypeRequest_" }) as any as S.Schema<CheckAccessTypeRequest_>;
 
 /** Response to checking the token's access type. */
 export interface CheckAccessTypeResponse {
-  /** Jobs initiated with this token will be one-time if any requested resources have one-time access. */
-  oneTimeResources?: StringList;
   /** Jobs initiated with this token will be time-based if all requested resources have time-based access. */
   timeBasedResources?: StringList;
+  /** Jobs initiated with this token will be one-time if any requested resources have one-time access. */
+  oneTimeResources?: StringList;
 }
 export const CheckAccessTypeResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    oneTimeResources: S.optional(StringList),
     timeBasedResources: S.optional(StringList),
+    oneTimeResources: S.optional(StringList),
   }),
-).annotate({
-  identifier: "CheckAccessTypeResponse",
-}) as any as S.Schema<CheckAccessTypeResponse>;
+).annotate({ identifier: "CheckAccessTypeResponse" }) as any as S.Schema<CheckAccessTypeResponse>;
 
 export interface GetPortabilityArchiveStateArchiveJobsRequest {
   /** Required. The archive job ID that is returned when you request the state of the job. The format is: archiveJobs/{archive_job}/portabilityArchiveState. archive_job is the job ID returned by the InitiatePortabilityArchiveResponse. */
@@ -226,28 +218,26 @@ export const PortabilityArchiveStateStateEnum = S.String;
 
 /** Resource that contains the state of an Archive job. */
 export interface PortabilityArchiveState {
-  /** Resource that represents the state of the Archive job. */
-  state?: PortabilityArchiveStateStateEnum;
   /** The timestamp that represents the starting point for the data you are exporting. This field is set only if the start_time field is specified in the InitiatePortabilityArchiveRequest. */
   startTime?: string;
   /** The timestamp that represents the end point for the data you are exporting. If the end_time value is set in the InitiatePortabilityArchiveRequest, this field is set to that value. If end_time is not set, this value is set to the time the export was requested. */
   exportTime?: string;
-  /** If the state is complete, this method returns the signed URLs of the objects in the Cloud Storage bucket. */
-  urls?: StringList;
+  /** Resource that represents the state of the Archive job. */
+  state?: PortabilityArchiveStateStateEnum;
   /** The resource name of ArchiveJob's PortabilityArchiveState singleton. The format is: archiveJobs/{archive_job}/portabilityArchiveState. archive_job is the job ID provided in the request. */
   name?: string;
+  /** If the state is complete, this method returns the signed URLs of the objects in the Cloud Storage bucket. */
+  urls?: StringList;
 }
 export const PortabilityArchiveState = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    state: S.optional(PortabilityArchiveStateStateEnum),
     startTime: S.optional(S.String),
     exportTime: S.optional(S.String),
-    urls: S.optional(StringList),
+    state: S.optional(PortabilityArchiveStateStateEnum),
     name: S.optional(S.String),
+    urls: S.optional(StringList),
   }),
-).annotate({
-  identifier: "PortabilityArchiveState",
-}) as any as S.Schema<PortabilityArchiveState>;
+).annotate({ identifier: "PortabilityArchiveState" }) as any as S.Schema<PortabilityArchiveState>;
 
 /** Request to reset exhausted OAuth scopes. */
 export type ResetAuthorizationRequest = CancelPortabilityArchiveRequest;
@@ -298,9 +288,7 @@ export const RetryArchiveJobsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://dataportability.googleapis.com/",
     }),
   ),
-).annotate({
-  identifier: "RetryArchiveJobsRequest",
-}) as any as S.Schema<RetryArchiveJobsRequest>;
+).annotate({ identifier: "RetryArchiveJobsRequest" }) as any as S.Schema<RetryArchiveJobsRequest>;
 
 /** Response from retrying a Portability Archive. */
 export interface RetryPortabilityArchiveResponse {

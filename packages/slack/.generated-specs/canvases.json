@@ -301,7 +301,7 @@
           "uri": "/canvases.create",
           "code": 200
         },
-        "smithy.api#documentation": "Create canvas for a user\n\nRequired scopes — bot: `canvases:write`; user: `canvases:write`; seamless_user: `seamless.user`\n\nRate limit tier: 2\n\nMethod-specific errors (the `error` slug on the SlackError):\n  - `canvas_disabled_user_team` — Canvas is disabled on user's team\n  - `restricted_action` — User does not have permission to perform this action.\n  - `canvas_creation_failed` — Canvas was unable to be created.\n  - `free_teams_cannot_create_non_tabbed_canvases` — Free teams cannot create non-tabbed standalone canvases\n  - `free_team_canvas_tab_already_exists` — Free teams are limited to one canvas tab per channel\n  - `free_teams_cannot_create_standalone_canvases` — Free teams cannot create standalone canvases\n\nSee https://docs.slack.dev/reference/methods/canvases.create"
+        "smithy.api#documentation": "Create canvas for a user\n\nRequired scopes — bot: `canvases:write`; user: `canvases:write`; seamless_user: `seamless.user`\n\nRate limit tier: 2\n\nMethod-specific errors (the `error` slug on the SlackError):\n  - `canvas_disabled_user_team` — Canvas is disabled on user's team\n  - `restricted_action` — User does not have permission to perform this action.\n  - `canvas_creation_failed` — Canvas was unable to be created.\n  - `free_team_canvas_tab_already_exists` — Free teams are limited to one canvas tab per channel\n  - `free_teams_cannot_create_standalone_canvases` — Free teams cannot create standalone canvases\n\nSee https://docs.slack.dev/reference/methods/canvases.create"
       }
     },
     "com.slack.canvases#DeleteCanvaseRequest": {
@@ -412,6 +412,86 @@
           "code": 200
         },
         "smithy.api#documentation": "Update an existing canvas\n\nRequired scopes — bot: `canvases:write`; user: `canvases:write`; seamless_user: `seamless.user`\n\nRate limit tier: 3\n\nMethod-specific errors (the `error` slug on the SlackError):\n  - `canvas_not_found` — The canvas you wish to apply changes to is not available.\n  - `canvas_disabled_user_team` — Canvas is disabled on user's team\n  - `free_teams_cannot_edit_standalone_canvases` — Free teams cannot edit standalone canvases\n  - `restricted_action` — User does not have permission to perform this action.\n  - `canvas_editing_failed` — The changes to the canvas failed to be applied.\n  - `canvas_editing_locked` — Another edit to this canvas is currently in progress. Please retry after a short delay.\n  - `canvas_too_large` — The canvas is too large to apply the requested changes. Reduce the size of the canvas or the edit and try again.\n\nSee https://docs.slack.dev/reference/methods/canvases.edit"
+      }
+    },
+    "com.slack.canvases#GetContentRequestContentType": {
+      "type": "enum",
+      "members": {
+        "HTML": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "html"
+          }
+        },
+        "MARKDOWN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "markdown"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Format in which to return the canvas content. Defaults to markdown."
+      }
+    },
+    "com.slack.canvases#GetContentRequest": {
+      "type": "structure",
+      "members": {
+        "canvas_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Encoded ID of the canvas",
+            "smithy.api#required": {}
+          }
+        },
+        "content_type": {
+          "target": "com.slack.canvases#GetContentRequestContentType",
+          "traits": {
+            "smithy.api#documentation": "Format in which to return the canvas content. Defaults to markdown."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.slack.canvases#GetContentResponse": {
+      "type": "structure",
+      "members": {
+        "ok": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Always `true` (a failed call raises a typed error instead).",
+            "smithy.api#required": {}
+          }
+        },
+        "content": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The content of the canvas in the requested content_type.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.slack.canvases#GetContent": {
+      "type": "operation",
+      "input": {
+        "target": "com.slack.canvases#GetContentRequest"
+      },
+      "output": {
+        "target": "com.slack.canvases#GetContentResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/canvases.getContent",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get the content of a canvas as markdown (default) or HTML.\n\nRequired scopes — bot: `canvases:read`; user: `canvases:read`\n\nRate limit tier: 3\n\nMethod-specific errors (the `error` slug on the SlackError):\n  - `canvas_disabled_user_team` — Canvas is disabled on user's team\n  - `canvas_not_found` — The canvas does not exist, or is not visible to the calling user.\n\nSee https://docs.slack.dev/reference/methods/canvases.getContent"
       }
     },
     "com.slack.canvases#LookupSectionRequest": {
@@ -529,6 +609,9 @@
         },
         {
           "target": "com.slack.canvases#EditCanvase"
+        },
+        {
+          "target": "com.slack.canvases#GetContent"
         },
         {
           "target": "com.slack.canvases#LookupSection"

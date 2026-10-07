@@ -91,6 +91,13 @@
     "properties": {
       "usergroup": {
         "schema": "subteam"
+      },
+      "channel_limit_user_ids": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "desc": "List of user IDs who would exceed their channel limit"
       }
     }
   },
@@ -106,6 +113,9 @@
     },
     "too_many_linked_channels": {
       "desc": "This request exceeds the number of channels we supporting linking to a single usergroup."
+    },
+    "user_channel_limit_exceeded": {
+      "desc": "Adding these channels would cause one or more members to exceed their channel limit."
     }
   }
 }

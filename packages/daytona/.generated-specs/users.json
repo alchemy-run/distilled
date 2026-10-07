@@ -124,6 +124,23 @@
         "smithy.api#documentation": "Get authenticated user"
       }
     },
+    "com.daytona.users#LoginRecord": {
+      "type": "operation",
+      "input": {
+        "target": "smithy.api#Unit"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/users/me/logins",
+          "code": 200
+        },
+        "smithy.api#documentation": "Record a completed login\n\nCalled by the dashboard once per completed sign-in. The email access gate evaluates the user and reports the login to analytics; a refused user receives 403 with code EMAIL_ACCESS_DENIED."
+      }
+    },
     "com.daytona.users#AcceptPrivacyPolicies": {
       "type": "operation",
       "input": {
@@ -144,33 +161,42 @@
     "com.daytona.users#AccountProvider": {
       "type": "structure",
       "members": {
-        "name": {
+        "provider": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "WorkOS identity provider, e.g. GoogleOAuth or GitHubOAuth",
             "smithy.api#required": {}
           }
         },
         "displayName": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "Human-readable provider name",
+            "smithy.api#required": {}
+          }
+        },
+        "linked": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the authenticated user has an identity from this provider",
             "smithy.api#required": {}
           }
         }
       },
       "traits": {}
     },
-    "com.daytona.users#GetAvailableAccountProvidersResponseBodyList": {
+    "com.daytona.users#GetAccountProvidersResponseBodyList": {
       "type": "list",
       "member": {
         "target": "com.daytona.users#AccountProvider"
       },
       "traits": {}
     },
-    "com.daytona.users#GetAvailableAccountProvidersResponse": {
+    "com.daytona.users#GetAccountProvidersResponse": {
       "type": "structure",
       "members": {
         "body": {
-          "target": "com.daytona.users#GetAvailableAccountProvidersResponseBodyList",
+          "target": "com.daytona.users#GetAccountProvidersResponseBodyList",
           "traits": {
             "com.distilled.openapi#rawResponse": {},
             "smithy.api#required": {}
@@ -181,13 +207,13 @@
         "smithy.api#output": {}
       }
     },
-    "com.daytona.users#GetAvailableAccountProviders": {
+    "com.daytona.users#GetAccountProviders": {
       "type": "operation",
       "input": {
         "target": "smithy.api#Unit"
       },
       "output": {
-        "target": "com.daytona.users#GetAvailableAccountProvidersResponse"
+        "target": "com.daytona.users#GetAccountProvidersResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -195,78 +221,7 @@
           "uri": "/users/account-providers",
           "code": 200
         },
-        "smithy.api#documentation": "Get available account providers"
-      }
-    },
-    "com.daytona.users#UnlinkAccountRequest": {
-      "type": "structure",
-      "members": {
-        "provider": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {}
-          }
-        },
-        "providerUserId": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {}
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#input": {}
-      }
-    },
-    "com.daytona.users#UnlinkAccount": {
-      "type": "operation",
-      "input": {
-        "target": "com.daytona.users#UnlinkAccountRequest"
-      },
-      "output": {
-        "target": "smithy.api#Unit"
-      },
-      "traits": {
-        "smithy.api#http": {
-          "method": "DELETE",
-          "uri": "/users/linked-accounts/{provider}/{providerUserId}",
-          "code": 200
-        },
-        "smithy.api#documentation": "Unlink account"
-      }
-    },
-    "com.daytona.users#EnrollInSmsMfaResponse": {
-      "type": "structure",
-      "members": {
-        "body": {
-          "target": "smithy.api#String",
-          "traits": {
-            "com.distilled.openapi#rawResponse": {},
-            "smithy.api#required": {}
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#output": {}
-      }
-    },
-    "com.daytona.users#EnrollInSmsMfa": {
-      "type": "operation",
-      "input": {
-        "target": "smithy.api#Unit"
-      },
-      "output": {
-        "target": "com.daytona.users#EnrollInSmsMfaResponse"
-      },
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/users/mfa/sms/enroll",
-          "code": 200
-        },
-        "smithy.api#documentation": "Enroll in SMS MFA"
+        "smithy.api#documentation": "Get account providers\n\nSocial sign-in providers (Google, GitHub, ...) enabled for this environment, each flagged with whether the authenticated user has an identity linked through it."
       }
     },
     "com.daytona.users#PendingSsoLink": {
@@ -426,16 +381,13 @@
           "target": "com.daytona.users#GetAuthenticatedUser"
         },
         {
+          "target": "com.daytona.users#LoginRecord"
+        },
+        {
           "target": "com.daytona.users#AcceptPrivacyPolicies"
         },
         {
-          "target": "com.daytona.users#GetAvailableAccountProviders"
-        },
-        {
-          "target": "com.daytona.users#UnlinkAccount"
-        },
-        {
-          "target": "com.daytona.users#EnrollInSmsMfa"
+          "target": "com.daytona.users#GetAccountProviders"
         },
         {
           "target": "com.daytona.users#ListPendingSsoLinks"

@@ -799,6 +799,30 @@
         "smithy.api#documentation": "Get iframe connection info for a running app"
       }
     },
+    "com.posthog.streamlit_apps#StreamlitAppsCreateVersionFromSourceCreateRequestFilesMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Extra text files to ship next to app.py, keyed by project-relative path (for example 'utils.py' or 'data/config.json'), each as plain text (max 1 MB)."
+      }
+    },
+    "com.posthog.streamlit_apps#StreamlitAppsCreateVersionFromSourceCreateRequestAssetsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Extra binary files to ship next to app.py, keyed by project-relative path (for example 'data/events.parquet'), each as standard base64 text."
+      }
+    },
     "com.posthog.streamlit_apps#StreamlitAppsCreateVersionFromSourceCreateRequest": {
       "type": "structure",
       "members": {
@@ -822,6 +846,18 @@
           "traits": {
             "smithy.api#documentation": "Full Python source for the Streamlit app's root app.py file, as free text (max 1 MB). Becomes a new version and is set as the active version.",
             "smithy.api#required": {}
+          }
+        },
+        "files": {
+          "target": "com.posthog.streamlit_apps#StreamlitAppsCreateVersionFromSourceCreateRequestFilesMap",
+          "traits": {
+            "smithy.api#documentation": "Extra text files to ship next to app.py, keyed by project-relative path (for example 'utils.py' or 'data/config.json'), each as plain text (max 1 MB)."
+          }
+        },
+        "assets": {
+          "target": "com.posthog.streamlit_apps#StreamlitAppsCreateVersionFromSourceCreateRequestAssetsMap",
+          "traits": {
+            "smithy.api#documentation": "Extra binary files to ship next to app.py, keyed by project-relative path (for example 'data/events.parquet'), each as standard base64 text."
           }
         }
       },

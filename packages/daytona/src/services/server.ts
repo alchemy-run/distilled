@@ -15,9 +15,7 @@ export const InitializeRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     token: S.String,
   }).pipe(T.Http({ method: "POST", uri: "/init", code: 200 })),
-).annotate({
-  identifier: "InitializeRequest",
-}) as any as S.Schema<InitializeRequest>;
+).annotate({ identifier: "InitializeRequest" }) as any as S.Schema<InitializeRequest>;
 
 export type InitializeResponseBodyMap = { [key: string]: string | undefined };
 export const InitializeResponseBodyMap = /*@__PURE__*/ S.Record(
@@ -28,9 +26,7 @@ export const InitializeResponseBodyMap = /*@__PURE__*/ S.Record(
 export type InitializeResponse = InitializeResponseBodyMap;
 export const InitializeResponse = /*@__PURE__*/ S.suspend(() =>
   InitializeResponseBodyMap.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "InitializeResponse",
-}) as any as S.Schema<InitializeResponse>;
+).annotate({ identifier: "InitializeResponse" }) as any as S.Schema<InitializeResponse>;
 
 /** Set maps env var names to values applied to the daemon's process env, so processes spawned after the call (exec, sessions, PTYs) inherit them. */
 export type UpdateEnvRequestSetMap = { [key: string]: string | undefined };
@@ -59,9 +55,7 @@ export const UpdateEnvRequest = /*@__PURE__*/ S.suspend(() =>
     unset: S.optional(UpdateEnvRequestUnsetList),
     unsetValuePrefix: S.optional(S.String),
   }).pipe(T.Http({ method: "POST", uri: "/env", code: 200 })),
-).annotate({
-  identifier: "UpdateEnvRequest",
-}) as any as S.Schema<UpdateEnvRequest>;
+).annotate({ identifier: "UpdateEnvRequest" }) as any as S.Schema<UpdateEnvRequest>;
 
 export type UpdateEnvResponseBodyMap = { [key: string]: string | undefined };
 export const UpdateEnvResponseBodyMap = /*@__PURE__*/ S.Record(
@@ -72,9 +66,7 @@ export const UpdateEnvResponseBodyMap = /*@__PURE__*/ S.Record(
 export type UpdateEnvResponse = UpdateEnvResponseBodyMap;
 export const UpdateEnvResponse = /*@__PURE__*/ S.suspend(() =>
   UpdateEnvResponseBodyMap.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "UpdateEnvResponse",
-}) as any as S.Schema<UpdateEnvResponse>;
+).annotate({ identifier: "UpdateEnvResponse" }) as any as S.Schema<UpdateEnvResponse>;
 
 export type InitializeError = DaytonaOpError;
 /** Initialize toolbox server Set the auth token and initialize telemetry for the toolbox server */

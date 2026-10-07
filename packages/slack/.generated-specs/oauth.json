@@ -703,6 +703,139 @@
         "com.distilled.openapi#contentType": "form-urlencoded"
       }
     },
+    "com.slack.oauth#BeginShortTokenRotationRequest": {
+      "type": "structure",
+      "members": {
+        "client_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Issued when you created your application. Must be the app the token being rotated was issued to.",
+            "smithy.api#required": {}
+          }
+        },
+        "client_secret": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Issued when you created your application.",
+            "smithy.api#required": {},
+            "smithy.api#sensitive": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.slack.oauth#BeginShortTokenRotationResponse": {
+      "type": "structure",
+      "members": {
+        "ok": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Always `true` (a failed call raises a typed error instead).",
+            "smithy.api#required": {}
+          }
+        },
+        "new_token": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A new xoxp access token to replace the token with a shorter secret. Not yet active until completeShortTokenRotation is called.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.slack.oauth#BeginShortTokenRotation": {
+      "type": "operation",
+      "input": {
+        "target": "com.slack.oauth#BeginShortTokenRotationRequest"
+      },
+      "output": {
+        "target": "com.slack.oauth#BeginShortTokenRotationResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/oauth.v2.beginShortTokenRotation",
+          "code": 200
+        },
+        "smithy.api#documentation": "Call this to rotate the secret on an old API token with a short secret. Must be paired with a call to oauth.v2.completeShortTokenRotation to confirm the change.\n\nRate limit tier: 2\n\nMethod-specific errors (the `error` slug on the SlackError):\n  - `bad_client_secret` — Value passed for `client_secret` was invalid.\n  - `invalid_client_id` — Value passed for `client_id` was invalid, or is not the app the token being rotated was issued to.\n  - `invalid_token` — This token is invalid.\n  - `internal_error` — A server-side error occurred.\n  - `token_too_long` — This token is not short enough to be rotated.\n\nSee https://docs.slack.dev/reference/methods/oauth.v2.beginShortTokenRotation",
+        "com.distilled.openapi#contentType": "form-urlencoded"
+      }
+    },
+    "com.slack.oauth#CompleteShortTokenRotationRequest": {
+      "type": "structure",
+      "members": {
+        "client_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Issued when you created your application. Must be the app the token being rotated was issued to.",
+            "smithy.api#required": {}
+          }
+        },
+        "client_secret": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Issued when you created your application.",
+            "smithy.api#required": {},
+            "smithy.api#sensitive": {}
+          }
+        },
+        "new_token": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The new xoxp token returned by oauth.v2.beginShortTokenRotation.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.slack.oauth#CompleteShortTokenRotationResponse": {
+      "type": "structure",
+      "members": {
+        "ok": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Always `true` (a failed call raises a typed error instead).",
+            "smithy.api#required": {}
+          }
+        },
+        "token": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The new xoxp access token, now active. The previous token is no longer valid.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.slack.oauth#CompleteShortTokenRotation": {
+      "type": "operation",
+      "input": {
+        "target": "com.slack.oauth#CompleteShortTokenRotationRequest"
+      },
+      "output": {
+        "target": "com.slack.oauth#CompleteShortTokenRotationResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/oauth.v2.completeShortTokenRotation",
+          "code": 200
+        },
+        "smithy.api#documentation": "Call this to finish rotating the secret on an old API token with a short secret. Must be paired with a call to oauth.v2.beginShortTokenRotation to start the process.\n\nRate limit tier: 2\n\nMethod-specific errors (the `error` slug on the SlackError):\n  - `bad_client_secret` — Value passed for `client_secret` was invalid.\n  - `invalid_client_id` — Value passed for `client_id` was invalid, or is not the app the token being rotated was issued to.\n  - `invalid_token` — This token is invalid.\n  - `rotation_not_found` — No pending rotation was found for this token. Call oauth.v2.beginShortTokenRotation first, or the pending rotation may have expired.\n  - `internal_error` — A server-side error occurred.\n  - `token_too_long` — This token is not short enough to be rotated.\n\nSee https://docs.slack.dev/reference/methods/oauth.v2.completeShortTokenRotation",
+        "com.distilled.openapi#contentType": "form-urlencoded"
+      }
+    },
     "com.slack.oauth#V2ExchangeRequest": {
       "type": "structure",
       "members": {
@@ -1058,7 +1191,7 @@
           "uri": "/oauth.v2.user.access",
           "code": 200
         },
-        "smithy.api#documentation": "Exchanges a temporary OAuth verifier code for a user access token.\n\nRate limit tier: 5\n\nMethod-specific errors (the `error` slug on the SlackError):\n  - `bad_client_secret` — Value passed for `client_secret` was invalid.\n  - `bad_redirect_uri` — Value passed for `redirect_uri` did not match the `redirect_uri` in the original request.\n  - `cannot_install_an_org_installed_app` — Returned when the the org-installed app cannot be installed on a workspace.\n  - `invalid_client_id` — Value passed for `client_id` was invalid.\n  - `invalid_code` — Value passed for `code` was invalid.\n  - `invalid_grant_type` — Value passed for `grant_type` was invalid.\n  - `invalid_refresh_token` — The given refresh token is invalid.\n  - `no_scopes` — Missing `scope` in the request.\n  - `no_user_scopes` — Missing user `scope` in the auth request.\n  - `not_implemented` — Method not yet supported\n  - `oauth_authorization_url_mismatch` — The OAuth flow was initiated on an incorrect version of the authorization url. The flow must be initiated via /oauth/v2/authorize .\n  - `preview_feature_not_available` — Returned when the API method is not yet available on the team in context.\n  - `user_email_unverified` — The users email is unverified\n\nSee https://docs.slack.dev/reference/methods/oauth.v2.user.access",
+        "smithy.api#documentation": "Exchanges a temporary OAuth verifier code for a user access token.\n\nRate limit tier: 5\n\nMethod-specific errors (the `error` slug on the SlackError):\n  - `bad_client_secret` — Value passed for `client_secret` was invalid.\n  - `bad_redirect_uri` — Value passed for `redirect_uri` did not match the `redirect_uri` in the original request.\n  - `cannot_install_an_org_installed_app` — Returned when the the org-installed app cannot be installed on a workspace.\n  - `invalid_client_id` — Value passed for `client_id` was invalid.\n  - `invalid_code` — Value passed for `code` was invalid.\n  - `invalid_grant_type` — Value passed for `grant_type` was invalid.\n  - `invalid_refresh_token` — The given refresh token is invalid.\n  - `invalid_resource` — The `resource` in the assertion is malformed, or is not a resource tokens can be issued for.\n  - `no_scopes` — Missing `scope` in the request.\n  - `no_user_scopes` — Missing user `scope` in the auth request.\n  - `not_implemented` — Method not yet supported\n  - `oauth_authorization_url_mismatch` — The OAuth flow was initiated on an incorrect version of the authorization url. The flow must be initiated via /oauth/v2/authorize .\n  - `preview_feature_not_available` — Returned when the API method is not yet available on the team in context.\n  - `user_email_unverified` — The users email is unverified\n  - `app_not_admin_approved` — The app has not been approved by an org admin, so no tokens can be issued for this user. Ask an org admin to approve the app before requesting a token with the `urn:ietf:params:oauth:grant-type:jwt-bearer` grant.\n  - `app_not_org_installed` — The app is not installed at the organization level. Using the `urn:ietf:params:oauth:grant-type:jwt-bearer` grant type requires org level app installs.\n  - `client_id_mismatch` — Value passed for `client_id` did not match the `client_id` in the assertion.\n  - `ema_disabled` — Enterprise-managed auth is disabled.\n  - `ema_issuer_mismatch` — The issuer in the assertion did not match the issuer configured for enterprise-managed auth.\n  - `invalid_audience` — The audience in the assertion is not one this token endpoint supports.\n  - `missing_scope` — Missing `scope` in the assertion. The identity assertion JWT must carry a space-delimited `scope` claim.\n  - `no_app_scopes_requested` — None of the scopes requested in the identity assertion are configured on the app. Request only scopes the app already declares.\n  - `no_approved_scopes_requested` — The app is approved by org admins, but none of the requested scopes are approved ones. Ask an org admin to approve the requested scopes.\n  - `no_assertion` — Missing `assertion` in the request.\n  - `user_not_authenticated` — The user has never authenticated via single sign-on.\n\nSee https://docs.slack.dev/reference/methods/oauth.v2.user.access",
         "com.distilled.openapi#contentType": "form-urlencoded"
       }
     },
@@ -1071,6 +1204,12 @@
         },
         {
           "target": "com.slack.oauth#V2Access"
+        },
+        {
+          "target": "com.slack.oauth#BeginShortTokenRotation"
+        },
+        {
+          "target": "com.slack.oauth#CompleteShortTokenRotation"
         },
         {
           "target": "com.slack.oauth#V2Exchange"

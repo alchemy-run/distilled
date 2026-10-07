@@ -88,8 +88,77 @@ export const ActivateCuratorsCuratedPackagesRequest = /*@__PURE__*/ S.suspend(()
   identifier: "ActivateCuratorsCuratedPackagesRequest",
 }) as any as S.Schema<ActivateCuratorsCuratedPackagesRequest>;
 
+export type CuratedPackageStateEnum = "STATE_UNSPECIFIED" | "ACTIVE" | "INACTIVE";
+export const CuratedPackageStateEnum = S.String;
+
 export type StringList_ = Array<string>;
 export const StringList_ = /*@__PURE__*/ S.Array(S.String) as any as S.Schema<StringList_>;
+
+/** Settings for controlling access to a curated package. */
+export interface AccessControlSettings {
+  /** Required. Immutable. The list of media planners that are explicitly granted access to the curated package. Eligible media planners can be found in the mediaPlanners.list method. Only a single media planner may be allowlisted at this time. Format: `mediaPlanners/{mediaPlannerAccountId}` */
+  allowlistedMediaPlanners?: StringList_;
+}
+export const AccessControlSettings = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    allowlistedMediaPlanners: S.optional(StringList_),
+  }),
+).annotate({ identifier: "AccessControlSettings" }) as any as S.Schema<AccessControlSettings>;
+
+export type PackageTargetingIncludedEnvironmentEnum =
+  | "ENVIRONMENT_UNSPECIFIED"
+  | "ENVIRONMENT_SITE"
+  | "ENVIRONMENT_APP";
+export const PackageTargetingIncludedEnvironmentEnum = S.String;
+
+export type PackageTargetingIncludedNativeInventoryTypesItemEnum =
+  | "NATIVE_INVENTORY_TYPE_UNSPECIFIED"
+  | "NATIVE_INVENTORY_TYPE_NATIVE_ONLY"
+  | "NATIVE_INVENTORY_TYPE_NATIVE_OR_BANNER";
+export const PackageTargetingIncludedNativeInventoryTypesItemEnum = S.String;
+
+export type PackageTargetingIncludedNativeInventoryTypesItemEnumList = Array<
+  PackageTargetingIncludedNativeInventoryTypesItemEnum | (string & {})
+>;
+export const PackageTargetingIncludedNativeInventoryTypesItemEnumList = /*@__PURE__*/ S.Array(
+  PackageTargetingIncludedNativeInventoryTypesItemEnum,
+) as any as S.Schema<PackageTargetingIncludedNativeInventoryTypesItemEnumList>;
+
+export type PackageTargetingIncludedRestrictedCategoriesItemEnum =
+  | "RESTRICTED_CATEGORY_UNSPECIFIED"
+  | "RESTRICTED_CATEGORY_ALCOHOL"
+  | "RESTRICTED_CATEGORY_GAMBLING";
+export const PackageTargetingIncludedRestrictedCategoriesItemEnum = S.String;
+
+export type PackageTargetingIncludedRestrictedCategoriesItemEnumList = Array<
+  PackageTargetingIncludedRestrictedCategoriesItemEnum | (string & {})
+>;
+export const PackageTargetingIncludedRestrictedCategoriesItemEnumList = /*@__PURE__*/ S.Array(
+  PackageTargetingIncludedRestrictedCategoriesItemEnum,
+) as any as S.Schema<PackageTargetingIncludedRestrictedCategoriesItemEnumList>;
+
+export type AdSizeTypeEnum = "TYPE_UNSPECIFIED" | "PIXEL" | "INTERSTITIAL" | "NATIVE" | "FLUID";
+export const AdSizeTypeEnum = S.String;
+
+/** Represents size of a single ad slot, or a creative. */
+export interface AdSize {
+  /** The type of the ad slot size. */
+  type?: AdSizeTypeEnum | (string & {});
+  /** The height of the ad slot in pixels. This field will be present only when size type is `PIXEL`. */
+  height?: string;
+  /** The width of the ad slot in pixels. This field will be present only when size type is `PIXEL`. */
+  width?: string;
+}
+export const AdSize = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: S.optional(AdSizeTypeEnum),
+    height: S.optional(S.String),
+    width: S.optional(S.String),
+  }),
+).annotate({ identifier: "AdSize" }) as any as S.Schema<AdSize>;
+
+export type AdSizeList = Array<AdSize>;
+export const AdSizeList = /*@__PURE__*/ S.Array(AdSize) as any as S.Schema<AdSizeList>;
 
 export type StringTargetingDimensionSelectionTypeEnum =
   | "SELECTION_TYPE_UNSPECIFIED"
@@ -109,146 +178,7 @@ export const StringTargetingDimension = /*@__PURE__*/ S.suspend(() =>
     values: S.optional(StringList_),
     selectionType: S.optional(StringTargetingDimensionSelectionTypeEnum),
   }),
-).annotate({
-  identifier: "StringTargetingDimension",
-}) as any as S.Schema<StringTargetingDimension>;
-
-export type AdSizeTypeEnum = "TYPE_UNSPECIFIED" | "PIXEL" | "INTERSTITIAL" | "NATIVE" | "FLUID";
-export const AdSizeTypeEnum = S.String;
-
-/** Represents size of a single ad slot, or a creative. */
-export interface AdSize {
-  /** The height of the ad slot in pixels. This field will be present only when size type is `PIXEL`. */
-  height?: string;
-  /** The type of the ad slot size. */
-  type?: AdSizeTypeEnum | (string & {});
-  /** The width of the ad slot in pixels. This field will be present only when size type is `PIXEL`. */
-  width?: string;
-}
-export const AdSize = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    height: S.optional(S.String),
-    type: S.optional(AdSizeTypeEnum),
-    width: S.optional(S.String),
-  }),
-).annotate({ identifier: "AdSize" }) as any as S.Schema<AdSize>;
-
-export type AdSizeList = Array<AdSize>;
-export const AdSizeList = /*@__PURE__*/ S.Array(AdSize) as any as S.Schema<AdSizeList>;
-
-/** Defines targeting criteria for handling the IAB audience and content Taxonomy ID space. */
-export interface TaxonomyTargeting {
-  /** Optional. The list of targeted content taxonomy IDs. */
-  targetedTaxonomyIds?: StringList_;
-  /** Optional. The list of excluded content taxonomy IDs. */
-  excludedTaxonomyIds?: StringList_;
-}
-export const TaxonomyTargeting = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    targetedTaxonomyIds: S.optional(StringList_),
-    excludedTaxonomyIds: S.optional(StringList_),
-  }),
-).annotate({
-  identifier: "TaxonomyTargeting",
-}) as any as S.Schema<TaxonomyTargeting>;
-
-/** Represents targeting about publisher provided signals. Different publisher provided signals types will be logically OR'ed. */
-export interface PackagePublisherProvidedSignalsTargeting {
-  /** Optional. The list of targeted and excluded video and audio signals IDs. These are additional signals supported by publisher provided signals. */
-  videoAndAudioSignalsTargeting?: StringTargetingDimension;
-  /** Optional. The list of targeted or excluded content IDs. Based off of IAB Content Taxonomy version 2.2 (https://github.com/InteractiveAdvertisingBureau/Taxonomies/blob/main/Content%20Taxonomies/Content%20Taxonomy%202.2.tsv) */
-  contentTargeting?: TaxonomyTargeting;
-  /** Optional. The list of targeted or excluded audience IDs. Based off of IAB Audience Taxonomy version 1.1 (https://github.com/InteractiveAdvertisingBureau/Taxonomies/blob/main/Audience%20Taxonomies/Audience%20Taxonomy%201.1.tsv) */
-  audienceTargeting?: TaxonomyTargeting;
-}
-export const PackagePublisherProvidedSignalsTargeting = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    videoAndAudioSignalsTargeting: S.optional(StringTargetingDimension),
-    contentTargeting: S.optional(TaxonomyTargeting),
-    audienceTargeting: S.optional(TaxonomyTargeting),
-  }),
-).annotate({
-  identifier: "PackagePublisherProvidedSignalsTargeting",
-}) as any as S.Schema<PackagePublisherProvidedSignalsTargeting>;
-
-export type PackageTargetingIncludedCreativeFormatEnum =
-  | "CREATIVE_FORMAT_UNSPECIFIED"
-  | "CREATIVE_FORMAT_DISPLAY"
-  | "CREATIVE_FORMAT_VIDEO"
-  | "CREATIVE_FORMAT_AUDIO";
-export const PackageTargetingIncludedCreativeFormatEnum = S.String;
-
-export type PackageTargetingIncludedNativeInventoryTypesItemEnum =
-  | "NATIVE_INVENTORY_TYPE_UNSPECIFIED"
-  | "NATIVE_INVENTORY_TYPE_NATIVE_ONLY"
-  | "NATIVE_INVENTORY_TYPE_NATIVE_OR_BANNER";
-export const PackageTargetingIncludedNativeInventoryTypesItemEnum = S.String;
-
-export type PackageTargetingIncludedNativeInventoryTypesItemEnumList = Array<
-  PackageTargetingIncludedNativeInventoryTypesItemEnum | (string & {})
->;
-export const PackageTargetingIncludedNativeInventoryTypesItemEnumList = /*@__PURE__*/ S.Array(
-  PackageTargetingIncludedNativeInventoryTypesItemEnum,
-) as any as S.Schema<PackageTargetingIncludedNativeInventoryTypesItemEnumList>;
-
-export type PackageTargetingIncludedDeviceTypesItemEnum =
-  | "DEVICE_TYPE_UNSPECIFIED"
-  | "DEVICE_TYPE_PERSONAL_COMPUTER"
-  | "DEVICE_TYPE_CONNECTED_TV"
-  | "DEVICE_TYPE_PHONE"
-  | "DEVICE_TYPE_TABLET";
-export const PackageTargetingIncludedDeviceTypesItemEnum = S.String;
-
-export type PackageTargetingIncludedDeviceTypesItemEnumList = Array<
-  PackageTargetingIncludedDeviceTypesItemEnum | (string & {})
->;
-export const PackageTargetingIncludedDeviceTypesItemEnumList = /*@__PURE__*/ S.Array(
-  PackageTargetingIncludedDeviceTypesItemEnum,
-) as any as S.Schema<PackageTargetingIncludedDeviceTypesItemEnumList>;
-
-export type PackageTargetingIncludedAcceleratedMobilePageTypeEnum =
-  | "ACCELERATED_MOBILE_PAGE_TYPE_UNSPECIFIED"
-  | "ACCELERATED_MOBILE_PAGE_TYPE_NON_AMP"
-  | "ACCELERATED_MOBILE_PAGE_TYPE_AMP"
-  | "ACCELERATED_MOBILE_PAGE_TYPE_AMP_STORY";
-export const PackageTargetingIncludedAcceleratedMobilePageTypeEnum = S.String;
-
-export type PackageTargetingIncludedRestrictedCategoriesItemEnum =
-  | "RESTRICTED_CATEGORY_UNSPECIFIED"
-  | "RESTRICTED_CATEGORY_ALCOHOL"
-  | "RESTRICTED_CATEGORY_GAMBLING";
-export const PackageTargetingIncludedRestrictedCategoriesItemEnum = S.String;
-
-export type PackageTargetingIncludedRestrictedCategoriesItemEnumList = Array<
-  PackageTargetingIncludedRestrictedCategoriesItemEnum | (string & {})
->;
-export const PackageTargetingIncludedRestrictedCategoriesItemEnumList = /*@__PURE__*/ S.Array(
-  PackageTargetingIncludedRestrictedCategoriesItemEnum,
-) as any as S.Schema<PackageTargetingIncludedRestrictedCategoriesItemEnumList>;
-
-export type PackageTargetingIncludedRewardedTypeEnum =
-  | "REWARDED_TYPE_UNSPECIFIED"
-  | "REWARDED_TYPE_NON_REWARDED"
-  | "REWARDED_TYPE_REWARDED";
-export const PackageTargetingIncludedRewardedTypeEnum = S.String;
-
-export type PackageTargetingIncludedOpenMeasurementTypesItemEnum =
-  | "OPEN_MEASUREMENT_TYPE_UNSPECIFIED"
-  | "OPEN_MEASUREMENT_TYPE_OMID_V1";
-export const PackageTargetingIncludedOpenMeasurementTypesItemEnum = S.String;
-
-export type PackageTargetingIncludedOpenMeasurementTypesItemEnumList = Array<
-  PackageTargetingIncludedOpenMeasurementTypesItemEnum | (string & {})
->;
-export const PackageTargetingIncludedOpenMeasurementTypesItemEnumList = /*@__PURE__*/ S.Array(
-  PackageTargetingIncludedOpenMeasurementTypesItemEnum,
-) as any as S.Schema<PackageTargetingIncludedOpenMeasurementTypesItemEnumList>;
-
-export type PackageTargetingIncludedEnvironmentEnum =
-  | "ENVIRONMENT_UNSPECIFIED"
-  | "ENVIRONMENT_SITE"
-  | "ENVIRONMENT_APP";
-export const PackageTargetingIncludedEnvironmentEnum = S.String;
+).annotate({ identifier: "StringTargetingDimension" }) as any as S.Schema<StringTargetingDimension>;
 
 /** Represents targeting about where the ads can appear, for example, certain sites or mobile applications. Different placement targeting types will be logically OR'ed. */
 export interface PackagePlacementTargeting {
@@ -271,48 +201,91 @@ export const PackagePlacementTargeting = /*@__PURE__*/ S.suspend(() =>
 
 /** Generic targeting used for targeting dimensions that contains a list of included and excluded numeric IDs. This cannot be filtered using list filter syntax. */
 export interface CriteriaTargeting {
-  /** A list of numeric IDs to be excluded. */
-  excludedCriteriaIds?: StringList_;
   /** A list of numeric IDs to be included. */
   targetedCriteriaIds?: StringList_;
+  /** A list of numeric IDs to be excluded. */
+  excludedCriteriaIds?: StringList_;
 }
 export const CriteriaTargeting = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    excludedCriteriaIds: S.optional(StringList_),
     targetedCriteriaIds: S.optional(StringList_),
+    excludedCriteriaIds: S.optional(StringList_),
   }),
-).annotate({
-  identifier: "CriteriaTargeting",
-}) as any as S.Schema<CriteriaTargeting>;
+).annotate({ identifier: "CriteriaTargeting" }) as any as S.Schema<CriteriaTargeting>;
 
-export type PackageTargetingIncludedAuthorizedSellerStatusesItemEnum =
-  | "AUTHORIZED_SELLER_STATUS_UNSPECIFIED"
-  | "AUTHORIZED_SELLER_STATUS_DIRECT"
-  | "AUTHORIZED_SELLER_STATUS_RESELLER";
-export const PackageTargetingIncludedAuthorizedSellerStatusesItemEnum = S.String;
+export type PackageTargetingIncludedRewardedTypeEnum =
+  | "REWARDED_TYPE_UNSPECIFIED"
+  | "REWARDED_TYPE_NON_REWARDED"
+  | "REWARDED_TYPE_REWARDED";
+export const PackageTargetingIncludedRewardedTypeEnum = S.String;
 
-export type PackageTargetingIncludedAuthorizedSellerStatusesItemEnumList = Array<
-  PackageTargetingIncludedAuthorizedSellerStatusesItemEnum | (string & {})
+export type PackageTargetingIncludedAcceleratedMobilePageTypeEnum =
+  | "ACCELERATED_MOBILE_PAGE_TYPE_UNSPECIFIED"
+  | "ACCELERATED_MOBILE_PAGE_TYPE_NON_AMP"
+  | "ACCELERATED_MOBILE_PAGE_TYPE_AMP"
+  | "ACCELERATED_MOBILE_PAGE_TYPE_AMP_STORY";
+export const PackageTargetingIncludedAcceleratedMobilePageTypeEnum = S.String;
+
+export type PackageVideoTargetingIncludedMaximumAdDurationTargetingEnum =
+  | "MAXIMUM_VIDEO_AD_DURATION_UNSPECIFIED"
+  | "MAXIMUM_VIDEO_AD_DURATION_FIFTEEN_SECONDS"
+  | "MAXIMUM_VIDEO_AD_DURATION_TWENTY_SECONDS"
+  | "MAXIMUM_VIDEO_AD_DURATION_THIRTY_SECONDS"
+  | "MAXIMUM_VIDEO_AD_DURATION_SIXTY_SECONDS"
+  | "MAXIMUM_VIDEO_AD_DURATION_NINETY_SECONDS"
+  | "MAXIMUM_VIDEO_AD_DURATION_ONE_HUNDRED_TWENTY_SECONDS";
+export const PackageVideoTargetingIncludedMaximumAdDurationTargetingEnum = S.String;
+
+export type PackageVideoTargetingIncludedMimeTypesItemEnum =
+  | "VIDEO_MIME_TYPE_UNSPECIFIED"
+  | "VIDEO_MIME_TYPE_THREEGPP"
+  | "VIDEO_MIME_TYPE_APPLICATION_MPEGURL"
+  | "VIDEO_MIME_TYPE_MP4"
+  | "VIDEO_MIME_TYPE_APPLICATION_MPEGDASH"
+  | "VIDEO_MIME_TYPE_APPLICATION_JAVASCRIPT"
+  | "VIDEO_MIME_TYPE_WEBM";
+export const PackageVideoTargetingIncludedMimeTypesItemEnum = S.String;
+
+export type PackageVideoTargetingIncludedMimeTypesItemEnumList = Array<
+  PackageVideoTargetingIncludedMimeTypesItemEnum | (string & {})
 >;
-export const PackageTargetingIncludedAuthorizedSellerStatusesItemEnumList = /*@__PURE__*/ S.Array(
-  PackageTargetingIncludedAuthorizedSellerStatusesItemEnum,
-) as any as S.Schema<PackageTargetingIncludedAuthorizedSellerStatusesItemEnumList>;
+export const PackageVideoTargetingIncludedMimeTypesItemEnumList = /*@__PURE__*/ S.Array(
+  PackageVideoTargetingIncludedMimeTypesItemEnum,
+) as any as S.Schema<PackageVideoTargetingIncludedMimeTypesItemEnumList>;
 
-/** Represents the size of the video player that can be targeted. Both width and height are required to be set to non-zero values. */
-export interface VideoPlayerSizeTargeting {
-  /** Required. The minimum height of the video player in pixels. */
-  minimumHeight?: string;
-  /** Required. The minimum width of the video player in pixels. */
-  minimumWidth?: string;
-}
-export const VideoPlayerSizeTargeting = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    minimumHeight: S.optional(S.String),
-    minimumWidth: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "VideoPlayerSizeTargeting",
-}) as any as S.Schema<VideoPlayerSizeTargeting>;
+export type PackageVideoTargetingIncludedPositionTypesItemEnum =
+  | "POSITION_TYPE_UNSPECIFIED"
+  | "POSITION_TYPE_MIDROLL"
+  | "POSITION_TYPE_POSTROLL"
+  | "POSITION_TYPE_PREROLL";
+export const PackageVideoTargetingIncludedPositionTypesItemEnum = S.String;
+
+export type PackageVideoTargetingIncludedPositionTypesItemEnumList = Array<
+  PackageVideoTargetingIncludedPositionTypesItemEnum | (string & {})
+>;
+export const PackageVideoTargetingIncludedPositionTypesItemEnumList = /*@__PURE__*/ S.Array(
+  PackageVideoTargetingIncludedPositionTypesItemEnum,
+) as any as S.Schema<PackageVideoTargetingIncludedPositionTypesItemEnumList>;
+
+export type PackageVideoTargetingIncludedPlaybackMethodsItemEnum =
+  | "PLAYBACK_METHOD_UNSPECIFIED"
+  | "PLAYBACK_METHOD_AUTO_PLAY_SOUND_ON"
+  | "PLAYBACK_METHOD_AUTO_PLAY_SOUND_OFF"
+  | "PLAYBACK_METHOD_CLICK_TO_PLAY";
+export const PackageVideoTargetingIncludedPlaybackMethodsItemEnum = S.String;
+
+export type PackageVideoTargetingIncludedPlaybackMethodsItemEnumList = Array<
+  PackageVideoTargetingIncludedPlaybackMethodsItemEnum | (string & {})
+>;
+export const PackageVideoTargetingIncludedPlaybackMethodsItemEnumList = /*@__PURE__*/ S.Array(
+  PackageVideoTargetingIncludedPlaybackMethodsItemEnum,
+) as any as S.Schema<PackageVideoTargetingIncludedPlaybackMethodsItemEnumList>;
+
+export type PackageVideoTargetingIncludedContentDeliveryMethodEnum =
+  | "CONTENT_DELIVERY_METHOD_UNSPECIFIED"
+  | "CONTENT_DELIVERY_METHOD_STREAMING"
+  | "CONTENT_DELIVERY_METHOD_PROGRESSIVE";
+export const PackageVideoTargetingIncludedContentDeliveryMethodEnum = S.String;
 
 export type VideoPlcmtTargetingSelectionTypeEnum =
   | "SELECTION_TYPE_UNSPECIFIED"
@@ -347,224 +320,238 @@ export const VideoPlcmtTargeting = /*@__PURE__*/ S.suspend(() =>
     selectionType: S.optional(VideoPlcmtTargetingSelectionTypeEnum),
     videoPlcmtTypes: S.optional(VideoPlcmtTargetingVideoPlcmtTypesItemEnumList),
   }),
-).annotate({
-  identifier: "VideoPlcmtTargeting",
-}) as any as S.Schema<VideoPlcmtTargeting>;
+).annotate({ identifier: "VideoPlcmtTargeting" }) as any as S.Schema<VideoPlcmtTargeting>;
 
-export type PackageVideoTargetingIncludedMaximumAdDurationTargetingEnum =
-  | "MAXIMUM_VIDEO_AD_DURATION_UNSPECIFIED"
-  | "MAXIMUM_VIDEO_AD_DURATION_FIFTEEN_SECONDS"
-  | "MAXIMUM_VIDEO_AD_DURATION_TWENTY_SECONDS"
-  | "MAXIMUM_VIDEO_AD_DURATION_THIRTY_SECONDS"
-  | "MAXIMUM_VIDEO_AD_DURATION_SIXTY_SECONDS"
-  | "MAXIMUM_VIDEO_AD_DURATION_NINETY_SECONDS"
-  | "MAXIMUM_VIDEO_AD_DURATION_ONE_HUNDRED_TWENTY_SECONDS";
-export const PackageVideoTargetingIncludedMaximumAdDurationTargetingEnum = S.String;
-
-export type PackageVideoTargetingIncludedMimeTypesItemEnum =
-  | "VIDEO_MIME_TYPE_UNSPECIFIED"
-  | "VIDEO_MIME_TYPE_THREEGPP"
-  | "VIDEO_MIME_TYPE_APPLICATION_MPEGURL"
-  | "VIDEO_MIME_TYPE_MP4"
-  | "VIDEO_MIME_TYPE_APPLICATION_MPEGDASH"
-  | "VIDEO_MIME_TYPE_APPLICATION_JAVASCRIPT"
-  | "VIDEO_MIME_TYPE_WEBM";
-export const PackageVideoTargetingIncludedMimeTypesItemEnum = S.String;
-
-export type PackageVideoTargetingIncludedMimeTypesItemEnumList = Array<
-  PackageVideoTargetingIncludedMimeTypesItemEnum | (string & {})
->;
-export const PackageVideoTargetingIncludedMimeTypesItemEnumList = /*@__PURE__*/ S.Array(
-  PackageVideoTargetingIncludedMimeTypesItemEnum,
-) as any as S.Schema<PackageVideoTargetingIncludedMimeTypesItemEnumList>;
-
-export type PackageVideoTargetingIncludedContentDeliveryMethodEnum =
-  | "CONTENT_DELIVERY_METHOD_UNSPECIFIED"
-  | "CONTENT_DELIVERY_METHOD_STREAMING"
-  | "CONTENT_DELIVERY_METHOD_PROGRESSIVE";
-export const PackageVideoTargetingIncludedContentDeliveryMethodEnum = S.String;
-
-export type PackageVideoTargetingIncludedPositionTypesItemEnum =
-  | "POSITION_TYPE_UNSPECIFIED"
-  | "POSITION_TYPE_MIDROLL"
-  | "POSITION_TYPE_POSTROLL"
-  | "POSITION_TYPE_PREROLL";
-export const PackageVideoTargetingIncludedPositionTypesItemEnum = S.String;
-
-export type PackageVideoTargetingIncludedPositionTypesItemEnumList = Array<
-  PackageVideoTargetingIncludedPositionTypesItemEnum | (string & {})
->;
-export const PackageVideoTargetingIncludedPositionTypesItemEnumList = /*@__PURE__*/ S.Array(
-  PackageVideoTargetingIncludedPositionTypesItemEnum,
-) as any as S.Schema<PackageVideoTargetingIncludedPositionTypesItemEnumList>;
-
-export type PackageVideoTargetingIncludedPlaybackMethodsItemEnum =
-  | "PLAYBACK_METHOD_UNSPECIFIED"
-  | "PLAYBACK_METHOD_AUTO_PLAY_SOUND_ON"
-  | "PLAYBACK_METHOD_AUTO_PLAY_SOUND_OFF"
-  | "PLAYBACK_METHOD_CLICK_TO_PLAY";
-export const PackageVideoTargetingIncludedPlaybackMethodsItemEnum = S.String;
-
-export type PackageVideoTargetingIncludedPlaybackMethodsItemEnumList = Array<
-  PackageVideoTargetingIncludedPlaybackMethodsItemEnum | (string & {})
->;
-export const PackageVideoTargetingIncludedPlaybackMethodsItemEnumList = /*@__PURE__*/ S.Array(
-  PackageVideoTargetingIncludedPlaybackMethodsItemEnum,
-) as any as S.Schema<PackageVideoTargetingIncludedPlaybackMethodsItemEnumList>;
+/** Represents the size of the video player that can be targeted. Both width and height are required to be set to non-zero values. */
+export interface VideoPlayerSizeTargeting {
+  /** Required. The minimum height of the video player in pixels. */
+  minimumHeight?: string;
+  /** Required. The minimum width of the video player in pixels. */
+  minimumWidth?: string;
+}
+export const VideoPlayerSizeTargeting = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    minimumHeight: S.optional(S.String),
+    minimumWidth: S.optional(S.String),
+  }),
+).annotate({ identifier: "VideoPlayerSizeTargeting" }) as any as S.Schema<VideoPlayerSizeTargeting>;
 
 /** Video specific targeting criteria. */
 export interface PackageVideoTargeting {
-  /** Optional. The targeted video player size. If unset, inventory will be targeted regardless of video player size. */
-  includedPlayerSizeTargeting?: VideoPlayerSizeTargeting;
-  /** Optional. The targeted video plcmt types. If unset, inventory will be targeted regardless of video plcmt type. */
-  plcmtTargeting?: VideoPlcmtTargeting;
   /** Optional. The targeted maximum video ad duration. If unset, inventory will be targeted regardless of maximum video ad duration. */
   includedMaximumAdDurationTargeting?:
     | PackageVideoTargetingIncludedMaximumAdDurationTargetingEnum
     | (string & {});
-  /** Optional. The targeted minimum predicted completion rate percentage. This value must be a multiple of 10 between 10 and 90 (inclusive). For example, 10 is valid, but 0, 15, and 100 are not. A value of 10 means that the configuration will only match adslots for which we predict at least 10% completion rate. An unset value indicates inventory will be targeted regardless of predicted completion rate. */
-  minimumPredictedCompletionRatePercentage?: string;
   /** Optional. The list of targeted video mime types using the IANA published MIME type strings (https://www.iana.org/assignments/media-types/media-types.xhtml). If empty, inventory will be targeted regardless of video mime type. */
   includedMimeTypes?: PackageVideoTargetingIncludedMimeTypesItemEnumList;
-  /** Optional. The targeted video delivery method. If unset, inventory will be targeted regardless of video delivery method. */
-  includedContentDeliveryMethod?:
-    | PackageVideoTargetingIncludedContentDeliveryMethodEnum
-    | (string & {});
   /** Optional. The targeted video ad position types. If empty, inventory will be targeted regardless of video ad position type. */
   includedPositionTypes?: PackageVideoTargetingIncludedPositionTypesItemEnumList;
   /** Optional. The list of targeted video playback methods. If empty, inventory will be targeted regardless of video playback method. */
   includedPlaybackMethods?: PackageVideoTargetingIncludedPlaybackMethodsItemEnumList;
+  /** Optional. The targeted video delivery method. If unset, inventory will be targeted regardless of video delivery method. */
+  includedContentDeliveryMethod?:
+    | PackageVideoTargetingIncludedContentDeliveryMethodEnum
+    | (string & {});
+  /** Optional. The targeted video plcmt types. If unset, inventory will be targeted regardless of video plcmt type. */
+  plcmtTargeting?: VideoPlcmtTargeting;
+  /** Optional. The targeted video player size. If unset, inventory will be targeted regardless of video player size. */
+  includedPlayerSizeTargeting?: VideoPlayerSizeTargeting;
+  /** Optional. The targeted minimum predicted completion rate percentage. This value must be a multiple of 10 between 10 and 90 (inclusive). For example, 10 is valid, but 0, 15, and 100 are not. A value of 10 means that the configuration will only match adslots for which we predict at least 10% completion rate. An unset value indicates inventory will be targeted regardless of predicted completion rate. */
+  minimumPredictedCompletionRatePercentage?: string;
 }
 export const PackageVideoTargeting = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    includedPlayerSizeTargeting: S.optional(VideoPlayerSizeTargeting),
-    plcmtTargeting: S.optional(VideoPlcmtTargeting),
     includedMaximumAdDurationTargeting: S.optional(
       PackageVideoTargetingIncludedMaximumAdDurationTargetingEnum,
     ),
-    minimumPredictedCompletionRatePercentage: S.optional(S.String),
     includedMimeTypes: S.optional(PackageVideoTargetingIncludedMimeTypesItemEnumList),
+    includedPositionTypes: S.optional(PackageVideoTargetingIncludedPositionTypesItemEnumList),
+    includedPlaybackMethods: S.optional(PackageVideoTargetingIncludedPlaybackMethodsItemEnumList),
     includedContentDeliveryMethod: S.optional(
       PackageVideoTargetingIncludedContentDeliveryMethodEnum,
     ),
-    includedPositionTypes: S.optional(PackageVideoTargetingIncludedPositionTypesItemEnumList),
-    includedPlaybackMethods: S.optional(PackageVideoTargetingIncludedPlaybackMethodsItemEnumList),
+    plcmtTargeting: S.optional(VideoPlcmtTargeting),
+    includedPlayerSizeTargeting: S.optional(VideoPlayerSizeTargeting),
+    minimumPredictedCompletionRatePercentage: S.optional(S.String),
+  }),
+).annotate({ identifier: "PackageVideoTargeting" }) as any as S.Schema<PackageVideoTargeting>;
+
+/** Defines targeting criteria for handling the IAB audience and content Taxonomy ID space. */
+export interface TaxonomyTargeting {
+  /** Optional. The list of excluded content taxonomy IDs. */
+  excludedTaxonomyIds?: StringList_;
+  /** Optional. The list of targeted content taxonomy IDs. */
+  targetedTaxonomyIds?: StringList_;
+}
+export const TaxonomyTargeting = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    excludedTaxonomyIds: S.optional(StringList_),
+    targetedTaxonomyIds: S.optional(StringList_),
+  }),
+).annotate({ identifier: "TaxonomyTargeting" }) as any as S.Schema<TaxonomyTargeting>;
+
+/** Represents targeting about publisher provided signals. Different publisher provided signals types will be logically OR'ed. */
+export interface PackagePublisherProvidedSignalsTargeting {
+  /** Optional. The list of targeted or excluded audience IDs. Based off of IAB Audience Taxonomy version 1.1 (https://github.com/InteractiveAdvertisingBureau/Taxonomies/blob/main/Audience%20Taxonomies/Audience%20Taxonomy%201.1.tsv) */
+  audienceTargeting?: TaxonomyTargeting;
+  /** Optional. The list of targeted or excluded content IDs. Based off of IAB Content Taxonomy version 2.2 (https://github.com/InteractiveAdvertisingBureau/Taxonomies/blob/main/Content%20Taxonomies/Content%20Taxonomy%202.2.tsv) */
+  contentTargeting?: TaxonomyTargeting;
+  /** Optional. The list of targeted and excluded video and audio signals IDs. These are additional signals supported by publisher provided signals. */
+  videoAndAudioSignalsTargeting?: StringTargetingDimension;
+}
+export const PackagePublisherProvidedSignalsTargeting = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    audienceTargeting: S.optional(TaxonomyTargeting),
+    contentTargeting: S.optional(TaxonomyTargeting),
+    videoAndAudioSignalsTargeting: S.optional(StringTargetingDimension),
   }),
 ).annotate({
-  identifier: "PackageVideoTargeting",
-}) as any as S.Schema<PackageVideoTargeting>;
+  identifier: "PackagePublisherProvidedSignalsTargeting",
+}) as any as S.Schema<PackagePublisherProvidedSignalsTargeting>;
+
+export type PackageTargetingIncludedDeviceTypesItemEnum =
+  | "DEVICE_TYPE_UNSPECIFIED"
+  | "DEVICE_TYPE_PERSONAL_COMPUTER"
+  | "DEVICE_TYPE_CONNECTED_TV"
+  | "DEVICE_TYPE_PHONE"
+  | "DEVICE_TYPE_TABLET";
+export const PackageTargetingIncludedDeviceTypesItemEnum = S.String;
+
+export type PackageTargetingIncludedDeviceTypesItemEnumList = Array<
+  PackageTargetingIncludedDeviceTypesItemEnum | (string & {})
+>;
+export const PackageTargetingIncludedDeviceTypesItemEnumList = /*@__PURE__*/ S.Array(
+  PackageTargetingIncludedDeviceTypesItemEnum,
+) as any as S.Schema<PackageTargetingIncludedDeviceTypesItemEnumList>;
+
+export type PackageTargetingIncludedCreativeFormatEnum =
+  | "CREATIVE_FORMAT_UNSPECIFIED"
+  | "CREATIVE_FORMAT_DISPLAY"
+  | "CREATIVE_FORMAT_VIDEO"
+  | "CREATIVE_FORMAT_AUDIO";
+export const PackageTargetingIncludedCreativeFormatEnum = S.String;
+
+export type PackageTargetingIncludedAuthorizedSellerStatusesItemEnum =
+  | "AUTHORIZED_SELLER_STATUS_UNSPECIFIED"
+  | "AUTHORIZED_SELLER_STATUS_DIRECT"
+  | "AUTHORIZED_SELLER_STATUS_RESELLER";
+export const PackageTargetingIncludedAuthorizedSellerStatusesItemEnum = S.String;
+
+export type PackageTargetingIncludedAuthorizedSellerStatusesItemEnumList = Array<
+  PackageTargetingIncludedAuthorizedSellerStatusesItemEnum | (string & {})
+>;
+export const PackageTargetingIncludedAuthorizedSellerStatusesItemEnumList = /*@__PURE__*/ S.Array(
+  PackageTargetingIncludedAuthorizedSellerStatusesItemEnum,
+) as any as S.Schema<PackageTargetingIncludedAuthorizedSellerStatusesItemEnumList>;
+
+export type PackageTargetingIncludedOpenMeasurementTypesItemEnum =
+  | "OPEN_MEASUREMENT_TYPE_UNSPECIFIED"
+  | "OPEN_MEASUREMENT_TYPE_OMID_V1";
+export const PackageTargetingIncludedOpenMeasurementTypesItemEnum = S.String;
+
+export type PackageTargetingIncludedOpenMeasurementTypesItemEnumList = Array<
+  PackageTargetingIncludedOpenMeasurementTypesItemEnum | (string & {})
+>;
+export const PackageTargetingIncludedOpenMeasurementTypesItemEnumList = /*@__PURE__*/ S.Array(
+  PackageTargetingIncludedOpenMeasurementTypesItemEnum,
+) as any as S.Schema<PackageTargetingIncludedOpenMeasurementTypesItemEnumList>;
 
 /** Targeting criteria for curated and auction packages. */
 export interface PackageTargeting {
-  /** Optional. The targeted minimum predicted click through rate, ranging in values [10, 10000] (0.01% - 10%). A value of 50 means that the configuration will only match adslots for which we predict at least 0.05% click through rate. An unset value indicates inventory will be targeted regardless of predicted click through rate. */
-  minimumPredictedClickThroughRatePercentageMillis?: string;
-  /** Optional. The languages to target. If unset, inventory will be targeted regardless of language. See https://developers.google.com/google-ads/api/data/codes-formats#languages for the list of supported language codes. */
-  languageTargeting?: StringTargetingDimension;
-  /** Optional. The list of ad sizes to target. If unset, inventory will be targeted regardless of ad size. Curated packages supports `PIXEL` and `INTERSTITIAL` ad sizes. */
-  includedAdSizes?: AdSizeList;
-  /** Optional. The publisher provided signals to target. If unset, inventory will be targeted regardless of publisher provided signals. */
-  publisherProvidedSignalsTargeting?: PackagePublisherProvidedSignalsTargeting;
-  /** Optional. The creative format to target. If unset, all creative markup types are targeted. */
-  includedCreativeFormat?: PackageTargetingIncludedCreativeFormatEnum | (string & {});
-  /** Optional. The targeted native inventory types. If empty, inventory will be targeted regardless of native inventory type. */
-  includedNativeInventoryTypes?: PackageTargetingIncludedNativeInventoryTypesItemEnumList;
-  /** Optional. The active data segments to be targeted. If unset, inventory will be targeted regardless of data segments. Format: `curators/{account_id}/dataSegments/{data_segment_id}` */
-  includedDataSegments?: StringList_;
-  /** Optional. The list of included device types to target. If empty, all device types are targeted. */
-  includedDeviceTypes?: PackageTargetingIncludedDeviceTypesItemEnumList;
-  /** Optional. The targeted minimum predicted viewability percentage. This value must be a multiple of 10 between 10 and 90 (inclusive). For example, 10 is valid, but 0, 15, and 100 are not. A value of 10 means that the configuration will only match adslots for which we predict at least 10% viewability. An unset value indicates inventory will be targeted regardless of predicted viewability. */
-  minimumPredictedViewabilityPercentage?: string;
-  /** Optional. The targeted accelerated mobile page type. If unset, inventory will be targeted regardless of AMP status. */
-  includedAcceleratedMobilePageType?:
-    | PackageTargetingIncludedAcceleratedMobilePageTypeEnum
-    | (string & {});
-  /** Optional. The targeted publishers. If unset, inventory will be targeted regardless of publisher. Publishers are identified by their publisher ID from ads.txt / app-ads.txt. See https://iabtechlab.com/ads-txt/ and https://iabtechlab.com/app-ads-txt/ for more details. */
-  publisherTargeting?: StringTargetingDimension;
-  /** Optional. The list of targeted restricted categories. If empty, inventory will be targeted regardless of restricted categories. */
-  includedRestrictedCategories?: PackageTargetingIncludedRestrictedCategoriesItemEnumList;
-  /** Optional. The targeted rewarded type. If unset, inventory will be targeted regardless of rewarded type. */
-  includedRewardedType?: PackageTargetingIncludedRewardedTypeEnum | (string & {});
-  /** Optional. The list of targeted open measurement types. If empty, inventory will be targeted regardless of Open Measurement support. */
-  includedOpenMeasurementTypes?: PackageTargetingIncludedOpenMeasurementTypesItemEnumList;
   /** Optional. The environment to target. If unspecified, all environments are targeted. */
   includedEnvironment?: PackageTargetingIncludedEnvironmentEnum | (string & {});
+  /** Optional. The targeted native inventory types. If empty, inventory will be targeted regardless of native inventory type. */
+  includedNativeInventoryTypes?: PackageTargetingIncludedNativeInventoryTypesItemEnumList;
+  /** Optional. The list of targeted restricted categories. If empty, inventory will be targeted regardless of restricted categories. */
+  includedRestrictedCategories?: PackageTargetingIncludedRestrictedCategoriesItemEnumList;
+  /** Optional. The list of ad sizes to target. If unset, inventory will be targeted regardless of ad size. Curated packages supports `PIXEL` and `INTERSTITIAL` ad sizes. */
+  includedAdSizes?: AdSizeList;
   /** Optional. Placement targeting information, for example, URL, mobile applications. */
   placementTargeting?: PackagePlacementTargeting;
   /** Optional. The geo criteria IDs to be included or excluded as defined in https://storage.googleapis.com/adx-rtb-dictionaries/geo-table.csv. If unset, inventory will be targeted regardless of geo. */
   geoTargeting?: CriteriaTargeting;
-  /** Optional. The included list of targeted authorized seller statuses. If empty, inventory will be targeted regardless of seller status. */
-  includedAuthorizedSellerStatuses?: PackageTargetingIncludedAuthorizedSellerStatusesItemEnumList;
-  /** Optional. Video specific targeting criteria. */
-  videoTargeting?: PackageVideoTargeting;
+  /** Optional. The targeted minimum predicted viewability percentage. This value must be a multiple of 10 between 10 and 90 (inclusive). For example, 10 is valid, but 0, 15, and 100 are not. A value of 10 means that the configuration will only match adslots for which we predict at least 10% viewability. An unset value indicates inventory will be targeted regardless of predicted viewability. */
+  minimumPredictedViewabilityPercentage?: string;
   /** Optional. The verticals included or excluded as defined in https://developers.google.com/authorized-buyers/rtb/downloads/publisher-verticals. If unset, inventory will be targeted regardless of vertical. */
   verticalTargeting?: CriteriaTargeting;
+  /** Optional. The targeted minimum predicted click through rate, ranging in values [10, 10000] (0.01% - 10%). A value of 50 means that the configuration will only match adslots for which we predict at least 0.05% click through rate. An unset value indicates inventory will be targeted regardless of predicted click through rate. */
+  minimumPredictedClickThroughRatePercentageMillis?: string;
+  /** Optional. The targeted rewarded type. If unset, inventory will be targeted regardless of rewarded type. */
+  includedRewardedType?: PackageTargetingIncludedRewardedTypeEnum | (string & {});
+  /** Optional. The targeted publishers. If unset, inventory will be targeted regardless of publisher. Publishers are identified by their publisher ID from ads.txt / app-ads.txt. See https://iabtechlab.com/ads-txt/ and https://iabtechlab.com/app-ads-txt/ for more details. */
+  publisherTargeting?: StringTargetingDimension;
+  /** Optional. The targeted accelerated mobile page type. If unset, inventory will be targeted regardless of AMP status. */
+  includedAcceleratedMobilePageType?:
+    | PackageTargetingIncludedAcceleratedMobilePageTypeEnum
+    | (string & {});
+  /** Optional. The languages to target. If unset, inventory will be targeted regardless of language. See https://developers.google.com/google-ads/api/data/codes-formats#languages for the list of supported language codes. */
+  languageTargeting?: StringTargetingDimension;
+  /** Optional. Video specific targeting criteria. */
+  videoTargeting?: PackageVideoTargeting;
+  /** Optional. The active data segments to be targeted. If unset, inventory will be targeted regardless of data segments. Format: `curators/{account_id}/dataSegments/{data_segment_id}` */
+  includedDataSegments?: StringList_;
+  /** Optional. The publisher provided signals to target. If unset, inventory will be targeted regardless of publisher provided signals. */
+  publisherProvidedSignalsTargeting?: PackagePublisherProvidedSignalsTargeting;
+  /** Optional. The list of included device types to target. If empty, all device types are targeted. */
+  includedDeviceTypes?: PackageTargetingIncludedDeviceTypesItemEnumList;
+  /** Optional. The creative format to target. If unset, all creative markup types are targeted. */
+  includedCreativeFormat?: PackageTargetingIncludedCreativeFormatEnum | (string & {});
+  /** Optional. The included list of targeted authorized seller statuses. If empty, inventory will be targeted regardless of seller status. */
+  includedAuthorizedSellerStatuses?: PackageTargetingIncludedAuthorizedSellerStatusesItemEnumList;
+  /** Optional. The list of targeted open measurement types. If empty, inventory will be targeted regardless of Open Measurement support. */
+  includedOpenMeasurementTypes?: PackageTargetingIncludedOpenMeasurementTypesItemEnumList;
 }
 export const PackageTargeting = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    minimumPredictedClickThroughRatePercentageMillis: S.optional(S.String),
-    languageTargeting: S.optional(StringTargetingDimension),
-    includedAdSizes: S.optional(AdSizeList),
-    publisherProvidedSignalsTargeting: S.optional(PackagePublisherProvidedSignalsTargeting),
-    includedCreativeFormat: S.optional(PackageTargetingIncludedCreativeFormatEnum),
+    includedEnvironment: S.optional(PackageTargetingIncludedEnvironmentEnum),
     includedNativeInventoryTypes: S.optional(
       PackageTargetingIncludedNativeInventoryTypesItemEnumList,
     ),
-    includedDataSegments: S.optional(StringList_),
-    includedDeviceTypes: S.optional(PackageTargetingIncludedDeviceTypesItemEnumList),
-    minimumPredictedViewabilityPercentage: S.optional(S.String),
-    includedAcceleratedMobilePageType: S.optional(
-      PackageTargetingIncludedAcceleratedMobilePageTypeEnum,
-    ),
-    publisherTargeting: S.optional(StringTargetingDimension),
     includedRestrictedCategories: S.optional(
       PackageTargetingIncludedRestrictedCategoriesItemEnumList,
     ),
-    includedRewardedType: S.optional(PackageTargetingIncludedRewardedTypeEnum),
-    includedOpenMeasurementTypes: S.optional(
-      PackageTargetingIncludedOpenMeasurementTypesItemEnumList,
-    ),
-    includedEnvironment: S.optional(PackageTargetingIncludedEnvironmentEnum),
+    includedAdSizes: S.optional(AdSizeList),
     placementTargeting: S.optional(PackagePlacementTargeting),
     geoTargeting: S.optional(CriteriaTargeting),
+    minimumPredictedViewabilityPercentage: S.optional(S.String),
+    verticalTargeting: S.optional(CriteriaTargeting),
+    minimumPredictedClickThroughRatePercentageMillis: S.optional(S.String),
+    includedRewardedType: S.optional(PackageTargetingIncludedRewardedTypeEnum),
+    publisherTargeting: S.optional(StringTargetingDimension),
+    includedAcceleratedMobilePageType: S.optional(
+      PackageTargetingIncludedAcceleratedMobilePageTypeEnum,
+    ),
+    languageTargeting: S.optional(StringTargetingDimension),
+    videoTargeting: S.optional(PackageVideoTargeting),
+    includedDataSegments: S.optional(StringList_),
+    publisherProvidedSignalsTargeting: S.optional(PackagePublisherProvidedSignalsTargeting),
+    includedDeviceTypes: S.optional(PackageTargetingIncludedDeviceTypesItemEnumList),
+    includedCreativeFormat: S.optional(PackageTargetingIncludedCreativeFormatEnum),
     includedAuthorizedSellerStatuses: S.optional(
       PackageTargetingIncludedAuthorizedSellerStatusesItemEnumList,
     ),
-    videoTargeting: S.optional(PackageVideoTargeting),
-    verticalTargeting: S.optional(CriteriaTargeting),
+    includedOpenMeasurementTypes: S.optional(
+      PackageTargetingIncludedOpenMeasurementTypesItemEnumList,
+    ),
   }),
-).annotate({
-  identifier: "PackageTargeting",
-}) as any as S.Schema<PackageTargeting>;
+).annotate({ identifier: "PackageTargeting" }) as any as S.Schema<PackageTargeting>;
 
 /** Represents an amount of money with its currency type. */
 export interface Money {
   /** Number of nano (10^-9) units of the amount. The value must be between -999,999,999 and +999,999,999 inclusive. If `units` is positive, `nanos` must be positive or zero. If `units` is zero, `nanos` can be positive, zero, or negative. If `units` is negative, `nanos` must be negative or zero. For example $-1.75 is represented as `units`=-1 and `nanos`=-750,000,000. */
   nanos?: number;
-  /** The three-letter currency code defined in ISO 4217. */
-  currencyCode?: string;
   /** The whole units of the amount. For example if `currencyCode` is `"USD"`, then 1 unit is one US dollar. */
   units?: string;
+  /** The three-letter currency code defined in ISO 4217. */
+  currencyCode?: string;
 }
 export const Money = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     nanos: S.optional(S.Number),
-    currencyCode: S.optional(S.String),
     units: S.optional(S.String),
+    currencyCode: S.optional(S.String),
   }),
 ).annotate({ identifier: "Money" }) as any as S.Schema<Money>;
-
-/** Settings for controlling access to a curated package. */
-export interface AccessControlSettings {
-  /** Required. Immutable. The list of media planners that are explicitly granted access to the curated package. Eligible media planners can be found in the mediaPlanners.list method. Only a single media planner may be allowlisted at this time. Format: `mediaPlanners/{mediaPlannerAccountId}` */
-  allowlistedMediaPlanners?: StringList_;
-}
-export const AccessControlSettings = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    allowlistedMediaPlanners: S.optional(StringList_),
-  }),
-).annotate({
-  identifier: "AccessControlSettings",
-}) as any as S.Schema<AccessControlSettings>;
 
 export type CuratedPackageCurationFeeVisibilityEnum =
   | "CURATION_FEE_VISIBILITY_UNSPECIFIED"
@@ -572,50 +559,47 @@ export type CuratedPackageCurationFeeVisibilityEnum =
   | "NON_DISCLOSED";
 export const CuratedPackageCurationFeeVisibilityEnum = S.String;
 
-export type CuratedPackageStateEnum = "STATE_UNSPECIFIED" | "ACTIVE" | "INACTIVE";
-export const CuratedPackageStateEnum = S.String;
-
 /** Represents a curated package of inventory created and managed by a Curator. */
 export interface CuratedPackage {
+  /** Output only. The state of the curated package. Can be used to filter the response of the curatedPackages.list method. */
+  state?: CuratedPackageStateEnum | (string & {});
+  /** Identifier. The unique resource name for the curated package. Format: `curators/{accountId}/curatedPackages/{curatedPackageId}` */
+  name?: string;
+  /** Required. Settings for controlling access to the curated package. Access to this curated package is limited to the allowlisted media planners and the creator. Buyers and bidders can not be allowlisted for or have direct access to this resource. */
+  accessSettings?: AccessControlSettings;
   /** Optional. Targeting criteria for the curated package. */
   targeting?: PackageTargeting;
-  /** Optional. The CPM fee charged by the curator to buyers using this curated package. Can be used to filter the response of the curatedPackages.list method. */
-  feeCpm?: Money;
-  /** Optional. A description of the curated package, provided by the curator. */
-  description?: string;
+  /** Output only. The timestamp when the curated package was created. Can be used to filter the response of the curatedPackages.list method. */
+  createTime?: string;
+  /** Optional. The minimum CPM a buyer has to bid to participate in auctions for inventory in this curated package. Can be used to filter the response of the curatedPackages.list method. */
+  floorPriceCpm?: Money;
   /** Optional. The fee will be charged as a percentage of the impression cost, represented in millipercent. For example, 1% is represented as 1000. */
   millipercentOfMediaFee?: string;
   /** Output only. The timestamp when the curated package was last updated. Can be used to filter the response of the curatedPackages.list method. */
   updateTime?: string;
-  /** Required. Settings for controlling access to the curated package. Access to this curated package is limited to the allowlisted media planners and the creator. Buyers and bidders can not be allowlisted for or have direct access to this resource. */
-  accessSettings?: AccessControlSettings;
-  /** Required. The display name assigned to the curated package by the curator. Can be used to filter the response of the curatedPackages.list method. */
-  displayName?: string;
   /** Optional. Immutable. The visibility of the combined curation package fee and data segment fees (the total curation fee). */
   curationFeeVisibility?: CuratedPackageCurationFeeVisibilityEnum | (string & {});
-  /** Output only. The timestamp when the curated package was created. Can be used to filter the response of the curatedPackages.list method. */
-  createTime?: string;
-  /** Identifier. The unique resource name for the curated package. Format: `curators/{accountId}/curatedPackages/{curatedPackageId}` */
-  name?: string;
-  /** Output only. The state of the curated package. Can be used to filter the response of the curatedPackages.list method. */
-  state?: CuratedPackageStateEnum | (string & {});
-  /** Optional. The minimum CPM a buyer has to bid to participate in auctions for inventory in this curated package. Can be used to filter the response of the curatedPackages.list method. */
-  floorPriceCpm?: Money;
+  /** Required. The display name assigned to the curated package by the curator. Can be used to filter the response of the curatedPackages.list method. */
+  displayName?: string;
+  /** Optional. The CPM fee charged by the curator to buyers using this curated package. Can be used to filter the response of the curatedPackages.list method. */
+  feeCpm?: Money;
+  /** Optional. A description of the curated package, provided by the curator. */
+  description?: string;
 }
 export const CuratedPackage = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    state: S.optional(CuratedPackageStateEnum),
+    name: S.optional(S.String),
+    accessSettings: S.optional(AccessControlSettings),
     targeting: S.optional(PackageTargeting),
-    feeCpm: S.optional(Money),
-    description: S.optional(S.String),
+    createTime: S.optional(S.String),
+    floorPriceCpm: S.optional(Money),
     millipercentOfMediaFee: S.optional(S.String),
     updateTime: S.optional(S.String),
-    accessSettings: S.optional(AccessControlSettings),
-    displayName: S.optional(S.String),
     curationFeeVisibility: S.optional(CuratedPackageCurationFeeVisibilityEnum),
-    createTime: S.optional(S.String),
-    name: S.optional(S.String),
-    state: S.optional(CuratedPackageStateEnum),
-    floorPriceCpm: S.optional(Money),
+    displayName: S.optional(S.String),
+    feeCpm: S.optional(Money),
+    description: S.optional(S.String),
   }),
 ).annotate({ identifier: "CuratedPackage" }) as any as S.Schema<CuratedPackage>;
 
@@ -651,28 +635,28 @@ export const DataSegmentStateEnum = S.String;
 export interface DataSegment {
   /** Immutable. Identifier. The unique identifier for the data segment. Account ID corresponds to the account ID that created the segment. Format: `curators/{curatorAccountId}/dataSegments/{curatorDataSegmentId}` */
   name?: string;
-  /** Optional. A fixed fee charged per thousand impressions. Once set, the currency code cannot be changed. */
-  cpmFee?: Money;
   /** Output only. The state of the data segment. */
   state?: DataSegmentStateEnum | (string & {});
-  /** Output only. Time the data segment was created. */
-  createTime?: string;
-  /** Output only. Time the data segment was last updated. */
-  updateTime?: string;
-  /** Optional. Immutable. The ID of the User List wrapped by this Data Segment. Curators with a linked Data Partner account can create a data segment that wraps a user list owned by the linked Data Partner account. User lists can be uploaded and managed using the [Data Manager API](https://developers.google.com/data-manager/api/data-partners/audiences). Linking a user list to a data segment lets you define a segment of inventory that is based on an audience you create. */
-  userListId?: string;
+  /** Optional. A fixed fee charged per thousand impressions. Once set, the currency code cannot be changed. */
+  cpmFee?: Money;
   /** Optional. The fee will be charged as a percentage of the impression cost, represented in millipercent. For example, 1% is represented as 1000. */
   millipercentOfMediaFee?: string;
+  /** Output only. Time the data segment was created. */
+  createTime?: string;
+  /** Optional. Immutable. The ID of the User List wrapped by this Data Segment. Curators with a linked Data Partner account can create a data segment that wraps a user list owned by the linked Data Partner account. User lists can be uploaded and managed using the [Data Manager API](https://developers.google.com/data-manager/api/data-partners/audiences). Linking a user list to a data segment lets you define a segment of inventory that is based on an audience you create. */
+  userListId?: string;
+  /** Output only. Time the data segment was last updated. */
+  updateTime?: string;
 }
 export const DataSegment = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.optional(S.String),
-    cpmFee: S.optional(Money),
     state: S.optional(DataSegmentStateEnum),
-    createTime: S.optional(S.String),
-    updateTime: S.optional(S.String),
-    userListId: S.optional(S.String),
+    cpmFee: S.optional(Money),
     millipercentOfMediaFee: S.optional(S.String),
+    createTime: S.optional(S.String),
+    userListId: S.optional(S.String),
+    updateTime: S.optional(S.String),
   }),
 ).annotate({ identifier: "DataSegment" }) as any as S.Schema<DataSegment>;
 
@@ -725,84 +709,6 @@ export type ReportDefinitionTimeZoneSourceEnum =
   | "PROVIDED";
 export const ReportDefinitionTimeZoneSourceEnum = S.String;
 
-/** Represents a whole or partial calendar date, such as a birthday. The time of day and time zone are either specified elsewhere or are insignificant. The date is relative to the Gregorian Calendar. This can represent one of the following: * A full date, with non-zero year, month, and day values. * A month and day, with a zero year (for example, an anniversary). * A year on its own, with a zero month and a zero day. * A year and month, with a zero day (for example, a credit card expiration date). Related types: * google.type.TimeOfDay * google.type.DateTime * google.protobuf.Timestamp */
-export interface Curationpartners_Date {
-  /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
-  year?: number;
-  /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
-  month?: number;
-  /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
-  day?: number;
-}
-export const Curationpartners_Date = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    year: S.optional(S.Number),
-    month: S.optional(S.Number),
-    day: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "Curationpartners_Date",
-}) as any as S.Schema<Curationpartners_Date>;
-
-/** A date range between two fixed dates (inclusive of end date). */
-export interface FixedDateRange {
-  /** Required. The start date of this date range. */
-  startDate?: Curationpartners_Date;
-  /** Required. The end date (inclusive) of this date range. */
-  endDate?: Curationpartners_Date;
-}
-export const FixedDateRange = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    startDate: S.optional(Curationpartners_Date),
-    endDate: S.optional(Curationpartners_Date),
-  }),
-).annotate({ identifier: "FixedDateRange" }) as any as S.Schema<FixedDateRange>;
-
-export type DateRangeRelativeEnum =
-  | "RELATIVE_DATE_RANGE_UNSPECIFIED"
-  | "TODAY"
-  | "YESTERDAY"
-  | "THIS_WEEK_TO_DATE"
-  | "THIS_WEEK_TO_YESTERDAY"
-  | "THIS_MONTH_TO_DATE"
-  | "THIS_MONTH_TO_YESTERDAY"
-  | "THIS_QUARTER_TO_DATE"
-  | "THIS_QUARTER_TO_YESTERDAY"
-  | "THIS_YEAR_TO_DATE"
-  | "THIS_YEAR_TO_YESTERDAY"
-  | "LAST_WEEK"
-  | "LAST_WEEK_STARTING_SUNDAY"
-  | "LAST_MONTH"
-  | "LAST_QUARTER"
-  | "LAST_YEAR"
-  | "LAST_7_DAYS"
-  | "LAST_30_DAYS"
-  | "LAST_60_DAYS"
-  | "LAST_90_DAYS"
-  | "LAST_93_DAYS"
-  | "LAST_180_DAYS"
-  | "LAST_360_DAYS"
-  | "LAST_365_DAYS"
-  | "LAST_3_MONTHS"
-  | "LAST_6_MONTHS"
-  | "LAST_12_MONTHS"
-  | "ALL_AVAILABLE";
-export const DateRangeRelativeEnum = S.String;
-
-/** A date range for a report. */
-export interface DateRange {
-  /** A fixed date range. */
-  fixed?: FixedDateRange;
-  /** A relative date range. */
-  relative?: DateRangeRelativeEnum | (string & {});
-}
-export const DateRange = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    fixed: S.optional(FixedDateRange),
-    relative: S.optional(DateRangeRelativeEnum),
-  }),
-).annotate({ identifier: "DateRange" }) as any as S.Schema<DateRange>;
-
 export type ReportDefinitionMetricsItemEnum =
   | "METRIC_UNSPECIFIED"
   | "ACTIVE_VIEW_MEASURABILITY_RATE"
@@ -826,43 +732,6 @@ export type ReportDefinitionMetricsItemEnumList = Array<
 export const ReportDefinitionMetricsItemEnumList = /*@__PURE__*/ S.Array(
   ReportDefinitionMetricsItemEnum,
 ) as any as S.Schema<ReportDefinitionMetricsItemEnumList>;
-
-export type ReportDefinitionDimensionsItemEnum =
-  | "DIMENSION_UNSPECIFIED"
-  | "ADVERTISER_DOMAIN"
-  | "COUNTRY"
-  | "CURATION_DATA_SEGMENT_ID"
-  | "CURATION_DATA_SEGMENT_RESPONSE_STATUS"
-  | "CURATION_DATA_SEGMENT_RESPONSE_STATUS_NAME"
-  | "CURATOR_FEE_TYPE"
-  | "DATE"
-  | "DEAL_ID"
-  | "DEAL_NAME"
-  | "DETECTED_ADVERTISER_NAME"
-  | "DSP_NAME"
-  | "DSP_SEAT_ID"
-  | "ENVIRONMENT"
-  | "ENVIRONMENT_NAME"
-  | "HOLDING_COMPANY_NAME"
-  | "HOUR"
-  | "MOBILE_APP_ID"
-  | "MOBILE_APP_NAME"
-  | "MOBILE_OS"
-  | "MONTH"
-  | "PACKAGE_FEE_VISIBILITY"
-  | "PLATFORM"
-  | "PUBLISHER_DOMAIN"
-  | "PUBLISHER_ID"
-  | "PUBLISHER_NAME"
-  | "WEEK";
-export const ReportDefinitionDimensionsItemEnum = S.String;
-
-export type ReportDefinitionDimensionsItemEnumList = Array<
-  ReportDefinitionDimensionsItemEnum | (string & {})
->;
-export const ReportDefinitionDimensionsItemEnumList = /*@__PURE__*/ S.Array(
-  ReportDefinitionDimensionsItemEnum,
-) as any as S.Schema<ReportDefinitionDimensionsItemEnumList>;
 
 /** A list of filters. */
 export interface FilterList {
@@ -900,10 +769,6 @@ export const StringList = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "StringList" }) as any as S.Schema<StringList>;
 
-/** A list of integer values. */
-export type IntList = StringList;
-export const IntList = StringList;
-
 export type DoubleList_ = Array<number>;
 export const DoubleList_ = /*@__PURE__*/ S.Array(S.Number) as any as S.Schema<DoubleList_>;
 
@@ -918,34 +783,38 @@ export const DoubleList = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "DoubleList" }) as any as S.Schema<DoubleList>;
 
+/** A list of integer values. */
+export type IntList = StringList;
+export const IntList = StringList;
+
 /** Represents a single value in a report. */
 export interface ReportValue {
-  /** For integer values. */
-  intValue?: string;
-  /** For boolean values. */
-  boolValue?: boolean;
   /** For lists of string values. */
   stringListValue?: StringList;
-  /** For lists of integer values. */
-  intListValue?: StringList;
-  /** For lists of double values. */
-  doubleListValue?: DoubleList;
-  /** For string values. */
-  stringValue?: string;
   /** For double values. */
   doubleValue?: number;
+  /** For boolean values. */
+  boolValue?: boolean;
+  /** For lists of double values. */
+  doubleListValue?: DoubleList;
+  /** For integer values. */
+  intValue?: string;
+  /** For string values. */
+  stringValue?: string;
+  /** For lists of integer values. */
+  intListValue?: StringList;
   /** For bytes values. */
   bytesValue?: string;
 }
 export const ReportValue = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    intValue: S.optional(S.String),
-    boolValue: S.optional(S.Boolean),
     stringListValue: S.optional(StringList),
-    intListValue: S.optional(StringList),
-    doubleListValue: S.optional(DoubleList),
-    stringValue: S.optional(S.String),
     doubleValue: S.optional(S.Number),
+    boolValue: S.optional(S.Boolean),
+    doubleListValue: S.optional(DoubleList),
+    intValue: S.optional(S.String),
+    stringValue: S.optional(S.String),
+    intListValue: S.optional(StringList),
     bytesValue: S.optional(S.String),
   }),
 ).annotate({ identifier: "ReportValue" }) as any as S.Schema<ReportValue>;
@@ -1035,21 +904,21 @@ export const FieldFilter = /*@__PURE__*/ S.suspend(() =>
 
 /** A filter over one or more fields. */
 export interface Filter {
+  /** A list of filters whose results are AND-ed. */
+  andFilter?: FilterList;
   /** A filter whose result is negated. */
   notFilter?: Filter;
   /** A list of filters whose results are OR-ed. */
   orFilter?: FilterList;
   /** A filter on a single field. */
   fieldFilter?: FieldFilter;
-  /** A list of filters whose results are AND-ed. */
-  andFilter?: FilterList;
 }
 export const Filter = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    andFilter: S.optional(FilterList),
     notFilter: S.optional(Filter),
     orFilter: S.optional(FilterList),
     fieldFilter: S.optional(FieldFilter),
-    andFilter: S.optional(FilterList),
   }),
 ).annotate({ identifier: "Filter" }) as any as S.Schema<Filter>;
 
@@ -1058,81 +927,192 @@ export const FilterList_ = /*@__PURE__*/ S.Array(Filter) as any as S.Schema<Filt
 
 /** Represents a sorting in a report. */
 export interface Sort {
-  /** Optional. The sort order. If true the sort will be descending. */
-  descending?: boolean;
   /** Required. A field (dimension or metric) to sort by. */
   field?: Field;
+  /** Optional. The sort order. If true the sort will be descending. */
+  descending?: boolean;
 }
 export const Sort = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    descending: S.optional(S.Boolean),
     field: S.optional(Field),
+    descending: S.optional(S.Boolean),
   }),
 ).annotate({ identifier: "Sort" }) as any as S.Schema<Sort>;
 
 export type SortList = Array<Sort>;
 export const SortList = /*@__PURE__*/ S.Array(Sort) as any as S.Schema<SortList>;
 
+export type ReportDefinitionDimensionsItemEnum =
+  | "DIMENSION_UNSPECIFIED"
+  | "ADVERTISER_DOMAIN"
+  | "COUNTRY"
+  | "CURATION_DATA_SEGMENT_ID"
+  | "CURATION_DATA_SEGMENT_RESPONSE_STATUS"
+  | "CURATION_DATA_SEGMENT_RESPONSE_STATUS_NAME"
+  | "CURATOR_FEE_TYPE"
+  | "DATE"
+  | "DEAL_ID"
+  | "DEAL_NAME"
+  | "DETECTED_ADVERTISER_NAME"
+  | "DSP_NAME"
+  | "DSP_SEAT_ID"
+  | "ENVIRONMENT"
+  | "ENVIRONMENT_NAME"
+  | "HOLDING_COMPANY_NAME"
+  | "HOUR"
+  | "MOBILE_APP_ID"
+  | "MOBILE_APP_NAME"
+  | "MOBILE_OS"
+  | "MONTH"
+  | "PACKAGE_FEE_VISIBILITY"
+  | "PLATFORM"
+  | "PUBLISHER_DOMAIN"
+  | "PUBLISHER_ID"
+  | "PUBLISHER_NAME"
+  | "WEEK";
+export const ReportDefinitionDimensionsItemEnum = S.String;
+
+export type ReportDefinitionDimensionsItemEnumList = Array<
+  ReportDefinitionDimensionsItemEnum | (string & {})
+>;
+export const ReportDefinitionDimensionsItemEnumList = /*@__PURE__*/ S.Array(
+  ReportDefinitionDimensionsItemEnum,
+) as any as S.Schema<ReportDefinitionDimensionsItemEnumList>;
+
+/** Represents a whole or partial calendar date, such as a birthday. The time of day and time zone are either specified elsewhere or are insignificant. The date is relative to the Gregorian Calendar. This can represent one of the following: * A full date, with non-zero year, month, and day values. * A month and day, with a zero year (for example, an anniversary). * A year on its own, with a zero month and a zero day. * A year and month, with a zero day (for example, a credit card expiration date). Related types: * google.type.TimeOfDay * google.type.DateTime * google.protobuf.Timestamp */
+export interface Curationpartners_Date {
+  /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
+  year?: number;
+  /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
+  day?: number;
+  /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
+  month?: number;
+}
+export const Curationpartners_Date = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    year: S.optional(S.Number),
+    day: S.optional(S.Number),
+    month: S.optional(S.Number),
+  }),
+).annotate({ identifier: "Curationpartners_Date" }) as any as S.Schema<Curationpartners_Date>;
+
+/** A date range between two fixed dates (inclusive of end date). */
+export interface FixedDateRange {
+  /** Required. The start date of this date range. */
+  startDate?: Curationpartners_Date;
+  /** Required. The end date (inclusive) of this date range. */
+  endDate?: Curationpartners_Date;
+}
+export const FixedDateRange = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    startDate: S.optional(Curationpartners_Date),
+    endDate: S.optional(Curationpartners_Date),
+  }),
+).annotate({ identifier: "FixedDateRange" }) as any as S.Schema<FixedDateRange>;
+
+export type DateRangeRelativeEnum =
+  | "RELATIVE_DATE_RANGE_UNSPECIFIED"
+  | "TODAY"
+  | "YESTERDAY"
+  | "THIS_WEEK_TO_DATE"
+  | "THIS_WEEK_TO_YESTERDAY"
+  | "THIS_MONTH_TO_DATE"
+  | "THIS_MONTH_TO_YESTERDAY"
+  | "THIS_QUARTER_TO_DATE"
+  | "THIS_QUARTER_TO_YESTERDAY"
+  | "THIS_YEAR_TO_DATE"
+  | "THIS_YEAR_TO_YESTERDAY"
+  | "LAST_WEEK"
+  | "LAST_WEEK_STARTING_SUNDAY"
+  | "LAST_MONTH"
+  | "LAST_QUARTER"
+  | "LAST_YEAR"
+  | "LAST_7_DAYS"
+  | "LAST_30_DAYS"
+  | "LAST_60_DAYS"
+  | "LAST_90_DAYS"
+  | "LAST_93_DAYS"
+  | "LAST_180_DAYS"
+  | "LAST_360_DAYS"
+  | "LAST_365_DAYS"
+  | "LAST_3_MONTHS"
+  | "LAST_6_MONTHS"
+  | "LAST_12_MONTHS"
+  | "ALL_AVAILABLE";
+export const DateRangeRelativeEnum = S.String;
+
+/** A date range for a report. */
+export interface DateRange {
+  /** A fixed date range. */
+  fixed?: FixedDateRange;
+  /** A relative date range. */
+  relative?: DateRangeRelativeEnum | (string & {});
+}
+export const DateRange = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    fixed: S.optional(FixedDateRange),
+    relative: S.optional(DateRangeRelativeEnum),
+  }),
+).annotate({ identifier: "DateRange" }) as any as S.Schema<DateRange>;
+
 /** The definition of how a report should be run. */
 export interface ReportDefinition {
   /** Optional. Where to get the time zone for this report. Defaults to using the Pacific time zone (PT). If source is PROVIDED, the time_zone field in the report definition must also set a time zone. */
   timeZoneSource?: ReportDefinitionTimeZoneSourceEnum | (string & {});
-  /** Optional. If time_zone_source is PROVIDED, this is the time zone to use for this report. Leave empty for any other time zone source. Time zone in IANA format. For example, "America/New_York". */
-  timeZone?: string;
-  /** Optional. The ISO 4217 currency code for this report. Defaults to account currency code if not specified. */
-  currencyCode?: string;
-  /** Required. The primary date range of this report. */
-  dateRange?: DateRange;
   /** Required. The list of metrics to report on. If empty, the report will have no metrics. */
   metrics?: ReportDefinitionMetricsItemEnumList;
-  /** Required. The list of dimensions to report on. If empty, the report will have no dimensions, and any metrics will be totals. */
-  dimensions?: ReportDefinitionDimensionsItemEnumList;
   /** Optional. The filters for this report. */
   filters?: FilterList_;
+  /** Optional. The ISO 4217 currency code for this report. Defaults to account currency code if not specified. */
+  currencyCode?: string;
   /** Optional. Default sorts to apply to this report. */
   sorts?: SortList;
+  /** Required. The list of dimensions to report on. If empty, the report will have no dimensions, and any metrics will be totals. */
+  dimensions?: ReportDefinitionDimensionsItemEnumList;
+  /** Required. The primary date range of this report. */
+  dateRange?: DateRange;
+  /** Optional. If time_zone_source is PROVIDED, this is the time zone to use for this report. Leave empty for any other time zone source. Time zone in IANA format. For example, "America/New_York". */
+  timeZone?: string;
 }
 export const ReportDefinition = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     timeZoneSource: S.optional(ReportDefinitionTimeZoneSourceEnum),
-    timeZone: S.optional(S.String),
-    currencyCode: S.optional(S.String),
-    dateRange: S.optional(DateRange),
     metrics: S.optional(ReportDefinitionMetricsItemEnumList),
-    dimensions: S.optional(ReportDefinitionDimensionsItemEnumList),
     filters: S.optional(FilterList_),
+    currencyCode: S.optional(S.String),
     sorts: S.optional(SortList),
+    dimensions: S.optional(ReportDefinitionDimensionsItemEnumList),
+    dateRange: S.optional(DateRange),
+    timeZone: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ReportDefinition",
-}) as any as S.Schema<ReportDefinition>;
+).annotate({ identifier: "ReportDefinition" }) as any as S.Schema<ReportDefinition>;
 
 /** The `Report` resource. */
 export interface Report {
+  /** Output only. The instant this report was last modified. */
+  updateTime?: string;
+  /** Optional. Display name for the report. */
+  displayName?: string;
+  /** Output only. Report ID. */
+  reportId?: string;
+  /** Output only. The instant this report was created. */
+  createTime?: string;
   /** Output only. The locale of this report. Locale is set from the user's locale at the time of the request. Locale can't be modified. */
   locale?: string;
   /** Identifier. The resource name of the report. Report resource name have the form: `curators/{account_id}/reports/{report_id}` */
   name?: string;
-  /** Optional. Display name for the report. */
-  displayName?: string;
   /** Required. The report definition of the report. */
   reportDefinition?: ReportDefinition;
-  /** Output only. Report ID. */
-  reportId?: string;
-  /** Output only. The instant this report was last modified. */
-  updateTime?: string;
-  /** Output only. The instant this report was created. */
-  createTime?: string;
 }
 export const Report = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    updateTime: S.optional(S.String),
+    displayName: S.optional(S.String),
+    reportId: S.optional(S.String),
+    createTime: S.optional(S.String),
     locale: S.optional(S.String),
     name: S.optional(S.String),
-    displayName: S.optional(S.String),
     reportDefinition: S.optional(ReportDefinition),
-    reportId: S.optional(S.String),
-    updateTime: S.optional(S.String),
-    createTime: S.optional(S.String),
   }),
 ).annotate({ identifier: "Report" }) as any as S.Schema<Report>;
 
@@ -1232,18 +1212,18 @@ export const Empty = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
 }) as any as S.Schema<Empty>;
 
 export interface FetchRowsCuratorsReportsResultsRequest {
-  /** Optional. The maximum number of rows to return. The service may return fewer than this value. If unspecified, at most 1,000 rows will be returned. The maximum value is 10,000; values greater than 10,000 will be reduced to 10,000. */
-  pageSize?: number;
   /** The report result being fetched. Format: `curators/{account_id}/reports/{report_id}/results/{report_result_id}` */
   name: string;
   /** Optional. A page token, received from a previous `FetchReportResultRows` call. Provide this to retrieve the second and subsequent batches of rows. */
   pageToken?: string;
+  /** Optional. The maximum number of rows to return. The service may return fewer than this value. If unspecified, at most 1,000 rows will be returned. The maximum value is 10,000; values greater than 10,000 will be reduced to 10,000. */
+  pageSize?: number;
 }
 export const FetchRowsCuratorsReportsResultsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pageSize: S.optional(S.Number.pipe(T.Query())),
     name: S.String.pipe(T.Label()),
     pageToken: S.optional(S.String.pipe(T.Query())),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -1255,11 +1235,6 @@ export const FetchRowsCuratorsReportsResultsRequest = /*@__PURE__*/ S.suspend(()
   identifier: "FetchRowsCuratorsReportsResultsRequest",
 }) as any as S.Schema<FetchRowsCuratorsReportsResultsRequest>;
 
-export type FixedDateRangeList = Array<FixedDateRange>;
-export const FixedDateRangeList = /*@__PURE__*/ S.Array(
-  FixedDateRange,
-) as any as S.Schema<FixedDateRangeList>;
-
 /** Contains all metric values requested for a single date range and set of column dimension values (returned in the columns field of the response). The order of the metrics in each field corresponds to the order of the metrics specified in the request. */
 export interface MetricValueGroup {
   /** Data for the PRIMARY MetricValueType. */
@@ -1269,9 +1244,7 @@ export const MetricValueGroup = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     primaryValues: S.optional(ReportValueList),
   }),
-).annotate({
-  identifier: "MetricValueGroup",
-}) as any as S.Schema<MetricValueGroup>;
+).annotate({ identifier: "MetricValueGroup" }) as any as S.Schema<MetricValueGroup>;
 
 export type MetricValueGroupList = Array<MetricValueGroup>;
 export const MetricValueGroupList = /*@__PURE__*/ S.Array(
@@ -1280,41 +1253,46 @@ export const MetricValueGroupList = /*@__PURE__*/ S.Array(
 
 /** A row of report data. */
 export interface Row {
-  /** The length of the metric_value_groups field will be equal to the length of the date_ranges field in the fetch response. The metric_value_groups field is ordered such that each index corresponds to the date_range at the same index. For example, given date_ranges [x, y], metric_value_groups will have a length of two. The first entry in metric_value_groups represents the metrics for date x and the second entry in metric_value_groups represents the metrics for date y. */
-  metricValueGroups?: MetricValueGroupList;
   /** The order of the dimension values is the same as the order of the dimensions specified in the request. */
   dimensionValues?: ReportValueList;
+  /** The length of the metric_value_groups field will be equal to the length of the date_ranges field in the fetch response. The metric_value_groups field is ordered such that each index corresponds to the date_range at the same index. For example, given date_ranges [x, y], metric_value_groups will have a length of two. The first entry in metric_value_groups represents the metrics for date x and the second entry in metric_value_groups represents the metrics for date y. */
+  metricValueGroups?: MetricValueGroupList;
 }
 export const Row = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    metricValueGroups: S.optional(MetricValueGroupList),
     dimensionValues: S.optional(ReportValueList),
+    metricValueGroups: S.optional(MetricValueGroupList),
   }),
 ).annotate({ identifier: "Row" }) as any as S.Schema<Row>;
 
 export type RowList = Array<Row>;
 export const RowList = /*@__PURE__*/ S.Array(Row) as any as S.Schema<RowList>;
 
+export type FixedDateRangeList = Array<FixedDateRange>;
+export const FixedDateRangeList = /*@__PURE__*/ S.Array(
+  FixedDateRange,
+) as any as S.Schema<FixedDateRangeList>;
+
 /** The response message for the fetch report result rows endpoint. */
 export interface FetchReportResultRowsResponse {
   /** A token that can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
   nextPageToken?: string;
-  /** The computed fixed date ranges this report includes. Only returned with the first page of results (when page_token is not included in the request). */
-  dateRanges?: FixedDateRangeList;
   /** Up to `page_size` rows of report data. */
   rows?: RowList;
   /** The time at which the report was scheduled to run. For non-scheduled reports, this is the time at which the report was requested to be run. */
   runTime?: string;
   /** The total number of rows available from this report. Useful for pagination. Only returned with the first page of results (when page_token is not included in the request). */
   totalRowCount?: number;
+  /** The computed fixed date ranges this report includes. Only returned with the first page of results (when page_token is not included in the request). */
+  dateRanges?: FixedDateRangeList;
 }
 export const FetchReportResultRowsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     nextPageToken: S.optional(S.String),
-    dateRanges: S.optional(FixedDateRangeList),
     rows: S.optional(RowList),
     runTime: S.optional(S.String),
     totalRowCount: S.optional(S.Number),
+    dateRanges: S.optional(FixedDateRangeList),
   }),
 ).annotate({
   identifier: "FetchReportResultRowsResponse",
@@ -1422,43 +1400,43 @@ export const Status = /*@__PURE__*/ S.suspend(() =>
 
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
-  /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
-  metadata?: DocumentMap;
   /** The error result of the operation in case of failure or cancellation. */
   error?: Status;
+  /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
+  metadata?: DocumentMap;
   /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
   response?: DocumentMap;
-  /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
-  name?: string;
   /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
   done?: boolean;
+  /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
+  name?: string;
 }
 export const Operation = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    metadata: S.optional(DocumentMap),
     error: S.optional(Status),
+    metadata: S.optional(DocumentMap),
     response: S.optional(DocumentMap),
-    name: S.optional(S.String),
     done: S.optional(S.Boolean),
+    name: S.optional(S.String),
   }),
 ).annotate({ identifier: "Operation" }) as any as S.Schema<Operation>;
 
 export interface ListCuratorsCuratedPackagesRequest {
-  /** Required. The parent curator account which owns this collection of curated packages. Format: `curators/{accountId}` */
-  parent: string;
+  /** Optional. Requested page size. The server may return fewer results than requested. Max allowed page size is 500. If unspecified, the server will default to 500. */
+  pageSize?: number;
   /** Optional. Optional query string using the [Cloud API list filtering syntax](/authorized-buyers/apis/guides/list-filters). Supported columns for filtering are: * displayName * createTime * updateTime * state * feeCpm.currencyCode * feeCpm.units * feeCpm.nanos * floorPriceCpm.currencyCode * floorPriceCpm.units * floorPriceCpm.nanos */
   filter?: string;
   /** Optional. A page token, received from a previous `ListCuratedPackages` call. Provide this to retrieve the subsequent page. */
   pageToken?: string;
-  /** Optional. Requested page size. The server may return fewer results than requested. Max allowed page size is 500. If unspecified, the server will default to 500. */
-  pageSize?: number;
+  /** Required. The parent curator account which owns this collection of curated packages. Format: `curators/{accountId}` */
+  parent: string;
 }
 export const ListCuratorsCuratedPackagesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    parent: S.String.pipe(T.Label()),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
     filter: S.optional(S.String.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
-    pageSize: S.optional(S.Number.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -1477,33 +1455,33 @@ export const CuratedPackageList = /*@__PURE__*/ S.Array(
 
 /** Response message for ListCuratedPackages. */
 export interface ListCuratedPackagesResponse {
-  /** A token to retrieve the next page of results. Pass this value in the ListCuratedPackagesRequest.pageToken field in the subsequent call to `ListCuratedPackages` method to retrieve the next page of results. If empty, then there are no more results. */
-  nextPageToken?: string;
   /** The list of curated packages. */
   curatedPackages?: CuratedPackageList;
+  /** A token to retrieve the next page of results. Pass this value in the ListCuratedPackagesRequest.pageToken field in the subsequent call to `ListCuratedPackages` method to retrieve the next page of results. If empty, then there are no more results. */
+  nextPageToken?: string;
 }
 export const ListCuratedPackagesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    nextPageToken: S.optional(S.String),
     curatedPackages: S.optional(CuratedPackageList),
+    nextPageToken: S.optional(S.String),
   }),
 ).annotate({
   identifier: "ListCuratedPackagesResponse",
 }) as any as S.Schema<ListCuratedPackagesResponse>;
 
 export interface ListCuratorsDataSegmentsRequest {
+  /** Optional. The page token as returned. ListDataSegmentsResponse.nextPageToken */
+  pageToken?: string;
   /** Optional. Requested page size. The server may return fewer results than requested. Max allowed page size is 500. If unspecified, the server will default to 500. */
   pageSize?: number;
   /** Required. Name of the parent curator that can access the data segment. Format: `curators/{accountId}` */
   parent: string;
-  /** Optional. The page token as returned. ListDataSegmentsResponse.nextPageToken */
-  pageToken?: string;
 }
 export const ListCuratorsDataSegmentsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    pageToken: S.optional(S.String.pipe(T.Query())),
     pageSize: S.optional(S.Number.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
-    pageToken: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -1532,32 +1510,30 @@ export const ListDataSegmentsResponse = /*@__PURE__*/ S.suspend(() =>
     dataSegments: S.optional(DataSegmentList),
     nextPageToken: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListDataSegmentsResponse",
-}) as any as S.Schema<ListDataSegmentsResponse>;
+).annotate({ identifier: "ListDataSegmentsResponse" }) as any as S.Schema<ListDataSegmentsResponse>;
 
 export interface ListCuratorsReportsRequest {
-  /** Optional. The maximum number of `Reports` to return. The service may return fewer than this value. If unspecified, at most 50 `Reports` will be returned. The maximum value is 1000; values greater than 1000 will be coerced to 1000. */
-  pageSize?: number;
+  /** Optional. Expression to filter the response. See syntax details at https://developers.google.com/ad-manager/api/beta/filters */
+  filter?: string;
   /** Optional. A page token, received from a previous `ListReports` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListReports` must match the call that provided the page token. */
   pageToken?: string;
+  /** Optional. Number of individual resources to skip while paginating. */
+  skip?: number;
   /** Required. The parent, which owns this collection of reports. Format: `curators/{account_id}` */
   parent: string;
   /** Optional. Expression to specify sorting order. See syntax details at https://developers.google.com/ad-manager/api/beta/filters#order */
   orderBy?: string;
-  /** Optional. Number of individual resources to skip while paginating. */
-  skip?: number;
-  /** Optional. Expression to filter the response. See syntax details at https://developers.google.com/ad-manager/api/beta/filters */
-  filter?: string;
+  /** Optional. The maximum number of `Reports` to return. The service may return fewer than this value. If unspecified, at most 50 `Reports` will be returned. The maximum value is 1000; values greater than 1000 will be coerced to 1000. */
+  pageSize?: number;
 }
 export const ListCuratorsReportsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pageSize: S.optional(S.Number.pipe(T.Query())),
+    filter: S.optional(S.String.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
+    skip: S.optional(S.Number.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
     orderBy: S.optional(S.String.pipe(T.Query())),
-    skip: S.optional(S.Number.pipe(T.Query())),
-    filter: S.optional(S.String.pipe(T.Query())),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -1576,34 +1552,32 @@ export const ReportList = /*@__PURE__*/ S.Array(Report) as any as S.Schema<Repor
 export interface ListReportsResponse {
   /** Total number of `Report` objects. If a filter was included in the request, this reflects the total number after the filtering is applied. `total_size` won't be calculated in the response unless it has been included in a response field mask. The response field mask can be provided to the method by using the URL parameter `$fields` or `fields`, or by using the HTTP/gRPC header `X-Goog-FieldMask`. For more information, see https://developers.google.com/ad-manager/api/beta/field-masks */
   totalSize?: number;
-  /** The `Report` objects from the specified network. */
-  reports?: ReportList;
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
   nextPageToken?: string;
+  /** The `Report` objects from the specified network. */
+  reports?: ReportList;
 }
 export const ListReportsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     totalSize: S.optional(S.Number),
-    reports: S.optional(ReportList),
     nextPageToken: S.optional(S.String),
+    reports: S.optional(ReportList),
   }),
-).annotate({
-  identifier: "ListReportsResponse",
-}) as any as S.Schema<ListReportsResponse>;
+).annotate({ identifier: "ListReportsResponse" }) as any as S.Schema<ListReportsResponse>;
 
 export interface ListMediaPlannersRequest {
-  /** The maximum number of media planners to return. If unspecified, at most 100 media planners will be returned. The maximum value is 500; values above 500 will be coerced to 500. */
-  pageSize?: number;
   /** Optional query string using the [Cloud API list filtering syntax](/authorized-buyers/apis/guides/list-filters). Supported columns for filtering are: * `name` * `displayName` * `ancestorNames` */
   filter?: string;
   /** Optional. A token identifying a page of results the server should return.This value is received from a previous `ListMediaPlanners` call in ListMediaPlannersResponse.nextPageToken. */
   pageToken?: string;
+  /** The maximum number of media planners to return. If unspecified, at most 100 media planners will be returned. The maximum value is 500; values above 500 will be coerced to 500. */
+  pageSize?: number;
 }
 export const ListMediaPlannersRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pageSize: S.optional(S.Number.pipe(T.Query())),
     filter: S.optional(S.String.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -1611,27 +1585,25 @@ export const ListMediaPlannersRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://curationpartners.googleapis.com/",
     }),
   ),
-).annotate({
-  identifier: "ListMediaPlannersRequest",
-}) as any as S.Schema<ListMediaPlannersRequest>;
+).annotate({ identifier: "ListMediaPlannersRequest" }) as any as S.Schema<ListMediaPlannersRequest>;
 
 /** Represents a media planner account. */
 export interface MediaPlanner {
-  /** Output only. The display name of the media planner. Can be used to filter the response of the mediaPlanners.list method. */
-  displayName?: string;
-  /** Identifier. The unique resource name of the media planner. Format: `mediaPlanners/{mediaPlannerAccountId}`. Can be used to filter the response of the mediaPlanners.list method. */
-  name?: string;
-  /** Output only. Account ID of the media planner. */
-  accountId?: string;
   /** Output only. The ancestor names of the media planner. Format: `mediaPlanners/{mediaPlannerAccountId}`. Can be used to filter the response of the mediaPlanners.list method. */
   ancestorNames?: StringList_;
+  /** Output only. The display name of the media planner. Can be used to filter the response of the mediaPlanners.list method. */
+  displayName?: string;
+  /** Output only. Account ID of the media planner. */
+  accountId?: string;
+  /** Identifier. The unique resource name of the media planner. Format: `mediaPlanners/{mediaPlannerAccountId}`. Can be used to filter the response of the mediaPlanners.list method. */
+  name?: string;
 }
 export const MediaPlanner = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    displayName: S.optional(S.String),
-    name: S.optional(S.String),
-    accountId: S.optional(S.String),
     ancestorNames: S.optional(StringList_),
+    displayName: S.optional(S.String),
+    accountId: S.optional(S.String),
+    name: S.optional(S.String),
   }),
 ).annotate({ identifier: "MediaPlanner" }) as any as S.Schema<MediaPlanner>;
 
@@ -1657,17 +1629,17 @@ export const ListMediaPlannersResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListMediaPlannersResponse>;
 
 export interface PatchCuratorsCuratedPackagesRequest {
-  /** Identifier. The unique resource name for the curated package. Format: `curators/{accountId}/curatedPackages/{curatedPackageId}` */
-  name: string;
   /** Optional. List of fields to be updated. If empty or unspecified, the service will update all fields populated in the update request excluding the output only fields and primitive fields with default value. Note that explicit field mask is required in order to reset a primitive field back to its default value, for example, false for boolean fields, 0 for integer fields. A special field mask consisting of a single path "*" can be used to indicate full replacement (the equivalent of PUT method), updatable fields unset or unspecified in the input will be cleared or set to default value. Output only fields will be ignored regardless of the value of updateMask. */
   updateMask?: string;
+  /** Identifier. The unique resource name for the curated package. Format: `curators/{accountId}/curatedPackages/{curatedPackageId}` */
+  name: string;
   /** Request body */
   body?: CuratedPackage;
 }
 export const PatchCuratorsCuratedPackagesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.String.pipe(T.Label()),
     updateMask: S.optional(S.String.pipe(T.Query())),
+    name: S.String.pipe(T.Label()),
     body: S.optional(CuratedPackage.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -1705,17 +1677,17 @@ export const PatchCuratorsDataSegmentsRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<PatchCuratorsDataSegmentsRequest>;
 
 export interface PatchCuratorsReportsRequest {
-  /** Identifier. The resource name of the report. Report resource name have the form: `curators/{account_id}/reports/{report_id}` */
-  name: string;
   /** Optional. The list of fields to update. */
   updateMask?: string;
+  /** Identifier. The resource name of the report. Report resource name have the form: `curators/{account_id}/reports/{report_id}` */
+  name: string;
   /** Request body */
   body?: Report;
 }
 export const PatchCuratorsReportsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.String.pipe(T.Label()),
     updateMask: S.optional(S.String.pipe(T.Query())),
+    name: S.String.pipe(T.Label()),
     body: S.optional(Report.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -1917,10 +1889,7 @@ export const fetchRowsCuratorsReportsResults: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type GetCuratorsCuratedPackagesError = NotFound | Forbidden | GcpOpError;
@@ -1997,10 +1966,7 @@ export const listCuratorsCuratedPackages: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListCuratorsDataSegmentsError = NotFound | Forbidden | GcpOpError;
@@ -2017,10 +1983,7 @@ export const listCuratorsDataSegments: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListCuratorsReportsError = NotFound | Forbidden | GcpOpError;
@@ -2037,10 +2000,7 @@ export const listCuratorsReports: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListMediaPlannersError = NotFound | Forbidden | GcpOpError;
@@ -2057,10 +2017,7 @@ export const listMediaPlanners: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type PatchCuratorsCuratedPackagesError =

@@ -95,9 +95,7 @@ export const CreateMessageRequestPoll = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     options: CreateMessageRequestPollOptionsList,
   }),
-).annotate({
-  identifier: "CreateMessageRequestPoll",
-}) as any as S.Schema<CreateMessageRequestPoll>;
+).annotate({ identifier: "CreateMessageRequestPoll" }) as any as S.Schema<CreateMessageRequestPoll>;
 
 export interface CreateMessageRequest {
   /** A list of file attachments to include with the message, such as images or videos. */
@@ -122,9 +120,7 @@ export const CreateMessageRequest = /*@__PURE__*/ S.suspend(() =>
     poll: S.optional(S.NullOr(CreateMessageRequestPoll)),
     replying_to_message_id: S.optional(S.NullOr(S.String)),
   }).pipe(T.Http({ method: "POST", uri: "/messages", code: 200 })),
-).annotate({
-  identifier: "CreateMessageRequest",
-}) as any as S.Schema<CreateMessageRequest>;
+).annotate({ identifier: "CreateMessageRequest" }) as any as S.Schema<CreateMessageRequest>;
 
 /** A list of user IDs that are explicitly mentioned in this message. */
 export type MessageMentionsList = Array<string>;
@@ -148,9 +144,7 @@ export const MessagePollOptionsItem = /*@__PURE__*/ S.suspend(() =>
     id: S.String,
     text: S.String,
   }),
-).annotate({
-  identifier: "MessagePollOptionsItem",
-}) as any as S.Schema<MessagePollOptionsItem>;
+).annotate({ identifier: "MessagePollOptionsItem" }) as any as S.Schema<MessagePollOptionsItem>;
 
 /** The options for the poll */
 export type MessagePollOptionsList = Array<MessagePollOptionsItem>;
@@ -181,9 +175,7 @@ export const MessagePollVotesItem = /*@__PURE__*/ S.suspend(() =>
     count: S.Number,
     option_id: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "MessagePollVotesItem",
-}) as any as S.Schema<MessagePollVotesItem>;
+).annotate({ identifier: "MessagePollVotesItem" }) as any as S.Schema<MessagePollVotesItem>;
 
 /** Aggregated reaction counts on this message, filtered to a specific reaction type. */
 export type MessagePollVotesList = Array<MessagePollVotesItem>;
@@ -291,16 +283,12 @@ export const DeleteMessageRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "DELETE", uri: "/messages/{id}", code: 200 })),
-).annotate({
-  identifier: "DeleteMessageRequest",
-}) as any as S.Schema<DeleteMessageRequest>;
+).annotate({ identifier: "DeleteMessageRequest" }) as any as S.Schema<DeleteMessageRequest>;
 
 export type DeleteMessageResponse = boolean;
 export const DeleteMessageResponse = /*@__PURE__*/ S.suspend(() =>
   S.Boolean.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "DeleteMessageResponse",
-}) as any as S.Schema<DeleteMessageResponse>;
+).annotate({ identifier: "DeleteMessageResponse" }) as any as S.Schema<DeleteMessageResponse>;
 
 export interface GetMessageRequest {
   /** The unique identifier of the message to retrieve. */
@@ -310,9 +298,7 @@ export const GetMessageRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/messages/{id}", code: 200 })),
-).annotate({
-  identifier: "GetMessageRequest",
-}) as any as S.Schema<GetMessageRequest>;
+).annotate({ identifier: "GetMessageRequest" }) as any as S.Schema<GetMessageRequest>;
 
 /** The direction of the sort. */
 export type Direction = "asc" | "desc";
@@ -335,9 +321,7 @@ export const ListMessageRequest = /*@__PURE__*/ S.suspend(() =>
     channel_id: S.String.pipe(T.Query()),
     direction: S.optional(Direction.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/messages", code: 200 })),
-).annotate({
-  identifier: "ListMessageRequest",
-}) as any as S.Schema<ListMessageRequest>;
+).annotate({ identifier: "ListMessageRequest" }) as any as S.Schema<ListMessageRequest>;
 
 /** A list of user IDs that are explicitly mentioned in this message. */
 export type MessageListItemMentionsList = Array<string>;
@@ -364,9 +348,7 @@ export const MessageListItemPoll = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     options: S.NullOr(MessageListItemPollOptionsList),
   }),
-).annotate({
-  identifier: "MessageListItemPoll",
-}) as any as S.Schema<MessageListItemPoll>;
+).annotate({ identifier: "MessageListItemPoll" }) as any as S.Schema<MessageListItemPoll>;
 
 /** Represents a reaction count for a feed post */
 export type MessageListItemPollVotesItem = MessagePollVotesItem;
@@ -443,9 +425,7 @@ export const MessageListItem = /*@__PURE__*/ S.suspend(() =>
     user: MessageUser,
     view_count: S.NullOr(S.Number),
   }),
-).annotate({
-  identifier: "MessageListItem",
-}) as any as S.Schema<MessageListItem>;
+).annotate({ identifier: "MessageListItem" }) as any as S.Schema<MessageListItem>;
 
 /** A list of nodes. */
 export type ListMessageResponseDataList = Array<MessageListItem>;
@@ -484,9 +464,7 @@ export const ListMessageResponse = /*@__PURE__*/ S.suspend(() =>
     data: ListMessageResponseDataList,
     page_info: PageInfo,
   }),
-).annotate({
-  identifier: "ListMessageResponse",
-}) as any as S.Schema<ListMessageResponse>;
+).annotate({ identifier: "ListMessageResponse" }) as any as S.Schema<ListMessageResponse>;
 
 /** Input for an attachment */
 export type UpdateMessageRequestAttachmentsItem = CreateMessageRequestAttachmentsItem;
@@ -515,9 +493,7 @@ export const UpdateMessageRequest = /*@__PURE__*/ S.suspend(() =>
     content: S.optional(S.NullOr(S.String)),
     is_pinned: S.optional(S.NullOr(S.Boolean)),
   }).pipe(T.Http({ method: "PATCH", uri: "/messages/{id}", code: 200 })),
-).annotate({
-  identifier: "UpdateMessageRequest",
-}) as any as S.Schema<UpdateMessageRequest>;
+).annotate({ identifier: "UpdateMessageRequest" }) as any as S.Schema<UpdateMessageRequest>;
 
 export type CreateMessageError =
   | BadRequest

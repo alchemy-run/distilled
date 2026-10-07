@@ -15,13 +15,7 @@ export const BillingActivateAuthorizeCreateRequest = /*@__PURE__*/ S.suspend(() 
   S.Struct({
     plan: S.String,
     billing_limit: S.Number,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/billing/activate/authorize/",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/api/billing/activate/authorize/", code: 200 })),
 ).annotate({
   identifier: "BillingActivateAuthorizeCreateRequest",
 }) as any as S.Schema<BillingActivateAuthorizeCreateRequest>;
@@ -41,13 +35,7 @@ export const BillingActivateAuthorizeStatusCreateRequest = /*@__PURE__*/ S.suspe
   S.Struct({
     plan: S.String,
     billing_limit: S.Number,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/billing/activate/authorize/status/",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/api/billing/activate/authorize/status/", code: 200 })),
 ).annotate({
   identifier: "BillingActivateAuthorizeStatusCreateRequest",
 }) as any as S.Schema<BillingActivateAuthorizeStatusCreateRequest>;
@@ -155,9 +143,7 @@ export const BillingDeactivateCreateRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface BillingDeactivateCreateResponse {}
 export const BillingDeactivateCreateResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "BillingDeactivateCreateResponse",
-  },
+  { identifier: "BillingDeactivateCreateResponse" },
 ) as any as S.Schema<BillingDeactivateCreateResponse>;
 
 export interface BillingGetInvoicesRetrieveRequest {}
@@ -173,6 +159,48 @@ export const BillingGetInvoicesRetrieveResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "BillingGetInvoicesRetrieveResponse",
 }) as any as S.Schema<BillingGetInvoicesRetrieveResponse>;
+
+export interface BillingSpendExportRetrieveRequest {
+  /** The `next` cursor from the previous page. Opaque. Ignored without page_size. */
+  after?: string;
+  /** JSON-encoded array of breakdown dimensions. Valid values are "type" and "team", for example ["type","team"]. Omit for a single aggregate series. */
+  breakdowns?: string;
+  /** End date (YYYY-MM-DD, UTC), inclusive. Defaults to yesterday if both dates are omitted, or today if only start_date is provided. */
+  end_date?: string;
+  interval?: string;
+  /** Return at most this many series, ranked by total, with a `next` cursor for the page after. A caller that pages never approaches the size this endpoint refuses oversized breakdowns at. Requires a project breakdown. */
+  page_size?: number;
+  /** Start date (YYYY-MM-DD, UTC), or "all" for 2020-01-01. If both dates are omitted, defaults to 30 days ago. */
+  start_date?: string;
+  /** JSON-encoded array of numeric team/project IDs to filter on, for example [1,2]. Omit for all projects available to the caller. Full billing-access callers can read all organization projects; member read-only callers are limited to visible projects and any project scope on their token. */
+  team_ids?: string;
+  /** With a project breakdown, return only this many highest-usage projects and fold the rest into a single 'all other projects' series, so the totals still reconcile. Omit it to get every project. */
+  top_projects?: number;
+  /** JSON-encoded array of usage type identifiers to filter on. Valid values: event_count_in_period, exceptions_captured_in_period, recording_count_in_period, rows_synced_in_period, free_historical_rows_synced_in_period, survey_responses_count_in_period, mobile_recording_count_in_period, mobile_billable_recording_count_in_period, billable_feature_flag_requests_count_in_period, enhanced_persons_event_count_in_period, ai_event_count_in_period, cdp_billable_invocations_in_period, rows_exported_in_period, ai_credits_used_in_period, signals_credits_used_in_period, posthog_code_credits_used_in_period, posthog_code_token_credits_used_in_period, sandbox_compute_credits_used_in_period, sandbox_compute_cpu_millicore_seconds_in_period, sandbox_compute_memory_mib_seconds_in_period, workflow_emails_sent_in_period, workflow_billable_invocations_in_period, logs_mb_in_period, logs_retention_30d_mb_in_period, logs_retention_mb_days_in_period, replay_vision_credits_used_in_period, data_pipelines, group_analytics. E.g. ["event_count_in_period","recording_count_in_period"]. Omit for all types. */
+  usage_types?: string;
+}
+export const BillingSpendExportRetrieveRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    after: S.optional(S.String.pipe(T.Query())),
+    breakdowns: S.optional(S.String.pipe(T.Query())),
+    end_date: S.optional(S.String.pipe(T.Query())),
+    interval: S.optional(S.String.pipe(T.Query())),
+    page_size: S.optional(S.Number.pipe(T.Query())),
+    start_date: S.optional(S.String.pipe(T.Query())),
+    team_ids: S.optional(S.String.pipe(T.Query())),
+    top_projects: S.optional(S.Number.pipe(T.Query())),
+    usage_types: S.optional(S.String.pipe(T.Query())),
+  }).pipe(T.Http({ method: "GET", uri: "/api/billing/spend/export/", code: 200 })),
+).annotate({
+  identifier: "BillingSpendExportRetrieveRequest",
+}) as any as S.Schema<BillingSpendExportRetrieveRequest>;
+
+export interface BillingSpendExportRetrieveResponse {}
+export const BillingSpendExportRetrieveResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "BillingSpendExportRetrieveResponse",
+}) as any as S.Schema<BillingSpendExportRetrieveResponse>;
 
 export interface BillingStartupsApplyCreateRequest {
   plan: string;
@@ -233,6 +261,48 @@ export const BillingTrialsCancelCreateResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "BillingTrialsCancelCreateResponse",
 }) as any as S.Schema<BillingTrialsCancelCreateResponse>;
+
+export interface BillingUsageExportRetrieveRequest {
+  /** The `next` cursor from the previous page. Opaque. Ignored without page_size. */
+  after?: string;
+  /** JSON-encoded array of breakdown dimensions. Valid values are "type" and "team", for example ["type","team"]. Omit for a single aggregate series. */
+  breakdowns?: string;
+  /** End date (YYYY-MM-DD, UTC), inclusive. Defaults to yesterday if both dates are omitted, or today if only start_date is provided. */
+  end_date?: string;
+  interval?: string;
+  /** Return at most this many series, ranked by total, with a `next` cursor for the page after. A caller that pages never approaches the size this endpoint refuses oversized breakdowns at. Requires a project breakdown. */
+  page_size?: number;
+  /** Start date (YYYY-MM-DD, UTC), or "all" for 2020-01-01. If both dates are omitted, defaults to 30 days ago. */
+  start_date?: string;
+  /** JSON-encoded array of numeric team/project IDs to filter on, for example [1,2]. Omit for all projects available to the caller. Full billing-access callers can read all organization projects; member read-only callers are limited to visible projects and any project scope on their token. */
+  team_ids?: string;
+  /** With a project breakdown, return only this many highest-usage projects and fold the rest into a single 'all other projects' series, so the totals still reconcile. Omit it to get every project. */
+  top_projects?: number;
+  /** JSON-encoded array of usage type identifiers to filter on. Valid values: event_count_in_period, exceptions_captured_in_period, recording_count_in_period, rows_synced_in_period, free_historical_rows_synced_in_period, survey_responses_count_in_period, mobile_recording_count_in_period, mobile_billable_recording_count_in_period, billable_feature_flag_requests_count_in_period, enhanced_persons_event_count_in_period, ai_event_count_in_period, cdp_billable_invocations_in_period, rows_exported_in_period, ai_credits_used_in_period, signals_credits_used_in_period, posthog_code_credits_used_in_period, posthog_code_token_credits_used_in_period, sandbox_compute_credits_used_in_period, sandbox_compute_cpu_millicore_seconds_in_period, sandbox_compute_memory_mib_seconds_in_period, workflow_emails_sent_in_period, workflow_billable_invocations_in_period, logs_mb_in_period, logs_retention_30d_mb_in_period, logs_retention_mb_days_in_period, replay_vision_credits_used_in_period, data_pipelines, group_analytics. E.g. ["event_count_in_period","recording_count_in_period"]. Omit for all types. */
+  usage_types?: string;
+}
+export const BillingUsageExportRetrieveRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    after: S.optional(S.String.pipe(T.Query())),
+    breakdowns: S.optional(S.String.pipe(T.Query())),
+    end_date: S.optional(S.String.pipe(T.Query())),
+    interval: S.optional(S.String.pipe(T.Query())),
+    page_size: S.optional(S.Number.pipe(T.Query())),
+    start_date: S.optional(S.String.pipe(T.Query())),
+    team_ids: S.optional(S.String.pipe(T.Query())),
+    top_projects: S.optional(S.Number.pipe(T.Query())),
+    usage_types: S.optional(S.String.pipe(T.Query())),
+  }).pipe(T.Http({ method: "GET", uri: "/api/billing/usage/export/", code: 200 })),
+).annotate({
+  identifier: "BillingUsageExportRetrieveRequest",
+}) as any as S.Schema<BillingUsageExportRetrieveRequest>;
+
+export interface BillingUsageExportRetrieveResponse {}
+export const BillingUsageExportRetrieveResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "BillingUsageExportRetrieveResponse",
+}) as any as S.Schema<BillingUsageExportRetrieveResponse>;
 
 /** * `spend` - Spend * `projected_spend` - Projected spend */
 export type BillingAlertConfigurationMetricEnum = "spend" | "projected_spend";
@@ -594,9 +664,7 @@ export const BillingAlertEvent = /*@__PURE__*/ S.suspend(() =>
     error_message: S.NullOr(S.String),
     reason: S.String,
   }),
-).annotate({
-  identifier: "BillingAlertEvent",
-}) as any as S.Schema<BillingAlertEvent>;
+).annotate({ identifier: "BillingAlertEvent" }) as any as S.Schema<BillingAlertEvent>;
 
 export interface BillingAlertCheckNowResponse {
   /** Evaluation event recorded by the manual check, or null for a paused preview. */
@@ -702,13 +770,7 @@ export const CreateBillingCreditsPurchaseRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     plan: S.String,
     billing_limit: S.Number,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/billing/credits/purchase/",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/api/billing/credits/purchase/", code: 200 })),
 ).annotate({
   identifier: "CreateBillingCreditsPurchaseRequest",
 }) as any as S.Schema<CreateBillingCreditsPurchaseRequest>;
@@ -728,13 +790,7 @@ export const CreateBillingSubscriptionSwitchPlanRequest = /*@__PURE__*/ S.suspen
   S.Struct({
     plan: S.String,
     billing_limit: S.Number,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/billing/subscription/switch-plan/",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/api/billing/subscription/switch-plan/", code: 200 })),
 ).annotate({
   identifier: "CreateBillingSubscriptionSwitchPlanRequest",
 }) as any as S.Schema<CreateBillingSubscriptionSwitchPlanRequest>;
@@ -763,9 +819,7 @@ export const GetBillingAlertRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetBillingAlertRequest",
-}) as any as S.Schema<GetBillingAlertRequest>;
+).annotate({ identifier: "GetBillingAlertRequest" }) as any as S.Schema<GetBillingAlertRequest>;
 
 export interface GetBillingCouponsOverviewRequest {}
 export const GetBillingCouponsOverviewRequest = /*@__PURE__*/ S.suspend(() =>
@@ -798,9 +852,7 @@ export const GetBillingCreditsOverviewResponse = /*@__PURE__*/ S.suspend(() =>
 export interface GetBillingPeriodRequest {}
 export const GetBillingPeriodRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/api/billing/period/", code: 200 })),
-).annotate({
-  identifier: "GetBillingPeriodRequest",
-}) as any as S.Schema<GetBillingPeriodRequest>;
+).annotate({ identifier: "GetBillingPeriodRequest" }) as any as S.Schema<GetBillingPeriodRequest>;
 
 export interface BillingPeriodResponse {
   /** Start of the organization's current billing period, or null when billing has not synced a period. */
@@ -813,16 +865,12 @@ export const BillingPeriodResponse = /*@__PURE__*/ S.suspend(() =>
     current_period_start: S.NullOr(S.String),
     current_period_end: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "BillingPeriodResponse",
-}) as any as S.Schema<BillingPeriodResponse>;
+).annotate({ identifier: "BillingPeriodResponse" }) as any as S.Schema<BillingPeriodResponse>;
 
 export interface GetBillingPortalRequest {}
 export const GetBillingPortalRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/api/billing/portal/", code: 200 })),
-).annotate({
-  identifier: "GetBillingPortalRequest",
-}) as any as S.Schema<GetBillingPortalRequest>;
+).annotate({ identifier: "GetBillingPortalRequest" }) as any as S.Schema<GetBillingPortalRequest>;
 
 export interface GetBillingPortalResponse {}
 export const GetBillingPortalResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -830,28 +878,37 @@ export const GetBillingPortalResponse = /*@__PURE__*/ S.suspend(() => S.Struct({
 }) as any as S.Schema<GetBillingPortalResponse>;
 
 export interface GetBillingSpendRequest {
+  /** The `next` cursor from the previous page. Opaque. Ignored without page_size. */
+  after?: string;
   /** JSON-encoded array of breakdown dimensions. Valid values are "type" and "team", for example ["type","team"]. Omit for a single aggregate series. */
   breakdowns?: string;
+  /** End date (YYYY-MM-DD, UTC), inclusive. Defaults to yesterday if both dates are omitted, or today if only start_date is provided. */
   end_date?: string;
   interval?: string;
+  /** Return at most this many series, ranked by total, with a `next` cursor for the page after. A caller that pages never approaches the size this endpoint refuses oversized breakdowns at. Requires a project breakdown. */
+  page_size?: number;
+  /** Start date (YYYY-MM-DD, UTC), or "all" for 2020-01-01. If both dates are omitted, defaults to 30 days ago. */
   start_date?: string;
   /** JSON-encoded array of numeric team/project IDs to filter on, for example [1,2]. Omit for all projects available to the caller. Full billing-access callers can read all organization projects; member read-only callers are limited to visible projects and any project scope on their token. */
   team_ids?: string;
-  /** JSON-encoded array of usage type identifiers to filter on. Valid values: event_count_in_period, exceptions_captured_in_period, recording_count_in_period, rows_synced_in_period, free_historical_rows_synced_in_period, survey_responses_count_in_period, mobile_recording_count_in_period, billable_feature_flag_requests_count_in_period, enhanced_persons_event_count_in_period, ai_event_count_in_period, cdp_billable_invocations_in_period, rows_exported_in_period, ai_credits_used_in_period, signals_credits_used_in_period, posthog_code_credits_used_in_period, posthog_code_token_credits_used_in_period, sandbox_compute_credits_used_in_period, sandbox_compute_cpu_millicore_seconds_in_period, sandbox_compute_memory_mib_seconds_in_period, workflow_emails_sent_in_period, workflow_billable_invocations_in_period, logs_mb_in_period, logs_retention_30d_mb_in_period, replay_vision_credits_used_in_period, data_pipelines, group_analytics. E.g. ["event_count_in_period","recording_count_in_period"]. Omit for all types. */
+  /** With a project breakdown, return only this many highest-usage projects and fold the rest into a single 'all other projects' series, so the totals still reconcile. Omit it to get every project. */
+  top_projects?: number;
+  /** JSON-encoded array of usage type identifiers to filter on. Valid values: event_count_in_period, exceptions_captured_in_period, recording_count_in_period, rows_synced_in_period, free_historical_rows_synced_in_period, survey_responses_count_in_period, mobile_recording_count_in_period, mobile_billable_recording_count_in_period, billable_feature_flag_requests_count_in_period, enhanced_persons_event_count_in_period, ai_event_count_in_period, cdp_billable_invocations_in_period, rows_exported_in_period, ai_credits_used_in_period, signals_credits_used_in_period, posthog_code_credits_used_in_period, posthog_code_token_credits_used_in_period, sandbox_compute_credits_used_in_period, sandbox_compute_cpu_millicore_seconds_in_period, sandbox_compute_memory_mib_seconds_in_period, workflow_emails_sent_in_period, workflow_billable_invocations_in_period, logs_mb_in_period, logs_retention_30d_mb_in_period, logs_retention_mb_days_in_period, replay_vision_credits_used_in_period, data_pipelines, group_analytics. E.g. ["event_count_in_period","recording_count_in_period"]. Omit for all types. */
   usage_types?: string;
 }
 export const GetBillingSpendRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    after: S.optional(S.String.pipe(T.Query())),
     breakdowns: S.optional(S.String.pipe(T.Query())),
     end_date: S.optional(S.String.pipe(T.Query())),
     interval: S.optional(S.String.pipe(T.Query())),
+    page_size: S.optional(S.Number.pipe(T.Query())),
     start_date: S.optional(S.String.pipe(T.Query())),
     team_ids: S.optional(S.String.pipe(T.Query())),
+    top_projects: S.optional(S.Number.pipe(T.Query())),
     usage_types: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/api/billing/spend/", code: 200 })),
-).annotate({
-  identifier: "GetBillingSpendRequest",
-}) as any as S.Schema<GetBillingSpendRequest>;
+).annotate({ identifier: "GetBillingSpendRequest" }) as any as S.Schema<GetBillingSpendRequest>;
 
 export type BillingTimeSeriesPointDataList = Array<number>;
 export const BillingTimeSeriesPointDataList = /*@__PURE__*/ S.Array(
@@ -884,9 +941,7 @@ export const BillingTimeSeriesPoint = /*@__PURE__*/ S.suspend(() =>
     breakdown_type: S.optional(S.NullOr(BreakdownTypeEnum)),
     breakdown_value: S.optional(S.Unknown),
   }),
-).annotate({
-  identifier: "BillingTimeSeriesPoint",
-}) as any as S.Schema<BillingTimeSeriesPoint>;
+).annotate({ identifier: "BillingTimeSeriesPoint" }) as any as S.Schema<BillingTimeSeriesPoint>;
 
 export type BillingTimeSeriesResponseResultsList = Array<BillingTimeSeriesPoint>;
 export const BillingTimeSeriesResponseResultsList = /*@__PURE__*/ S.Array(
@@ -905,6 +960,7 @@ export interface BillingTimeSeriesResponse {
   results: BillingTimeSeriesResponseResultsList;
   team_id_options?: BillingTimeSeriesResponseTeamIdOptionsList;
   next?: string;
+  total_count?: number;
 }
 export const BillingTimeSeriesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -914,45 +970,76 @@ export const BillingTimeSeriesResponse = /*@__PURE__*/ S.suspend(() =>
     results: BillingTimeSeriesResponseResultsList,
     team_id_options: S.optional(BillingTimeSeriesResponseTeamIdOptionsList),
     next: S.optional(S.String),
+    total_count: S.optional(S.Number),
   }),
 ).annotate({
   identifier: "BillingTimeSeriesResponse",
 }) as any as S.Schema<BillingTimeSeriesResponse>;
 
 export interface GetBillingUsageRequest {
+  /** The `next` cursor from the previous page. Opaque. Ignored without page_size. */
+  after?: string;
   /** JSON-encoded array of breakdown dimensions. Valid values are "type" and "team", for example ["type","team"]. Omit for a single aggregate series. */
   breakdowns?: string;
+  /** End date (YYYY-MM-DD, UTC), inclusive. Defaults to yesterday if both dates are omitted, or today if only start_date is provided. */
   end_date?: string;
   interval?: string;
+  /** Return at most this many series, ranked by total, with a `next` cursor for the page after. A caller that pages never approaches the size this endpoint refuses oversized breakdowns at. Requires a project breakdown. */
+  page_size?: number;
+  /** Start date (YYYY-MM-DD, UTC), or "all" for 2020-01-01. If both dates are omitted, defaults to 30 days ago. */
   start_date?: string;
   /** JSON-encoded array of numeric team/project IDs to filter on, for example [1,2]. Omit for all projects available to the caller. Full billing-access callers can read all organization projects; member read-only callers are limited to visible projects and any project scope on their token. */
   team_ids?: string;
-  /** JSON-encoded array of usage type identifiers to filter on. Valid values: event_count_in_period, exceptions_captured_in_period, recording_count_in_period, rows_synced_in_period, free_historical_rows_synced_in_period, survey_responses_count_in_period, mobile_recording_count_in_period, billable_feature_flag_requests_count_in_period, enhanced_persons_event_count_in_period, ai_event_count_in_period, cdp_billable_invocations_in_period, rows_exported_in_period, ai_credits_used_in_period, signals_credits_used_in_period, posthog_code_credits_used_in_period, posthog_code_token_credits_used_in_period, sandbox_compute_credits_used_in_period, sandbox_compute_cpu_millicore_seconds_in_period, sandbox_compute_memory_mib_seconds_in_period, workflow_emails_sent_in_period, workflow_billable_invocations_in_period, logs_mb_in_period, logs_retention_30d_mb_in_period, replay_vision_credits_used_in_period, data_pipelines, group_analytics. E.g. ["event_count_in_period","recording_count_in_period"]. Omit for all types. */
+  /** With a project breakdown, return only this many highest-usage projects and fold the rest into a single 'all other projects' series, so the totals still reconcile. Omit it to get every project. */
+  top_projects?: number;
+  /** JSON-encoded array of usage type identifiers to filter on. Valid values: event_count_in_period, exceptions_captured_in_period, recording_count_in_period, rows_synced_in_period, free_historical_rows_synced_in_period, survey_responses_count_in_period, mobile_recording_count_in_period, mobile_billable_recording_count_in_period, billable_feature_flag_requests_count_in_period, enhanced_persons_event_count_in_period, ai_event_count_in_period, cdp_billable_invocations_in_period, rows_exported_in_period, ai_credits_used_in_period, signals_credits_used_in_period, posthog_code_credits_used_in_period, posthog_code_token_credits_used_in_period, sandbox_compute_credits_used_in_period, sandbox_compute_cpu_millicore_seconds_in_period, sandbox_compute_memory_mib_seconds_in_period, workflow_emails_sent_in_period, workflow_billable_invocations_in_period, logs_mb_in_period, logs_retention_30d_mb_in_period, logs_retention_mb_days_in_period, replay_vision_credits_used_in_period, data_pipelines, group_analytics. E.g. ["event_count_in_period","recording_count_in_period"]. Omit for all types. */
   usage_types?: string;
 }
 export const GetBillingUsageRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    after: S.optional(S.String.pipe(T.Query())),
     breakdowns: S.optional(S.String.pipe(T.Query())),
     end_date: S.optional(S.String.pipe(T.Query())),
     interval: S.optional(S.String.pipe(T.Query())),
+    page_size: S.optional(S.Number.pipe(T.Query())),
     start_date: S.optional(S.String.pipe(T.Query())),
     team_ids: S.optional(S.String.pipe(T.Query())),
+    top_projects: S.optional(S.Number.pipe(T.Query())),
     usage_types: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/api/billing/usage/", code: 200 })),
+).annotate({ identifier: "GetBillingUsageRequest" }) as any as S.Schema<GetBillingUsageRequest>;
+
+export interface GetBillingUsageTeamOptionRequest {}
+export const GetBillingUsageTeamOptionRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}).pipe(T.Http({ method: "GET", uri: "/api/billing/usage/team_options/", code: 200 })),
 ).annotate({
-  identifier: "GetBillingUsageRequest",
-}) as any as S.Schema<GetBillingUsageRequest>;
+  identifier: "GetBillingUsageTeamOptionRequest",
+}) as any as S.Schema<GetBillingUsageTeamOptionRequest>;
+
+/** Project ids that appear in the organization's usage reports. */
+export type BillingTeamOptionsResponseTeamIdOptionsList = Array<number>;
+export const BillingTeamOptionsResponseTeamIdOptionsList = /*@__PURE__*/ S.Array(
+  S.Number,
+) as any as S.Schema<BillingTeamOptionsResponseTeamIdOptionsList>;
+
+export interface BillingTeamOptionsResponse {
+  /** Project ids that appear in the organization's usage reports. */
+  team_id_options: BillingTeamOptionsResponseTeamIdOptionsList;
+}
+export const BillingTeamOptionsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    team_id_options: BillingTeamOptionsResponseTeamIdOptionsList,
+  }),
+).annotate({
+  identifier: "BillingTeamOptionsResponse",
+}) as any as S.Schema<BillingTeamOptionsResponse>;
 
 export interface ListBillingRequest {}
 export const ListBillingRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/api/billing/", code: 200 })),
-).annotate({
-  identifier: "ListBillingRequest",
-}) as any as S.Schema<ListBillingRequest>;
+).annotate({ identifier: "ListBillingRequest" }) as any as S.Schema<ListBillingRequest>;
 
-export type BillingOverviewResponseProductsItemMap = {
-  [key: string]: unknown | undefined;
-};
+export type BillingOverviewResponseProductsItemMap = { [key: string]: unknown | undefined };
 export const BillingOverviewResponseProductsItemMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -968,6 +1055,16 @@ export type BillingOverviewResponseAvailableProductFeaturesList = Array<string>;
 export const BillingOverviewResponseAvailableProductFeaturesList = /*@__PURE__*/ S.Array(
   S.String,
 ) as any as S.Schema<BillingOverviewResponseAvailableProductFeaturesList>;
+
+export interface BillingManagedByPartner {
+  /** Name of the partner that pays for this organization. Can be empty. */
+  partner_name: string;
+}
+export const BillingManagedByPartner = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    partner_name: S.String,
+  }),
+).annotate({ identifier: "BillingManagedByPartner" }) as any as S.Schema<BillingManagedByPartner>;
 
 export interface BillingOverviewResponse {
   customer_id?: string | null;
@@ -1002,6 +1099,8 @@ export interface BillingOverviewResponse {
   account_owner?: unknown;
   customer_trust_scores?: unknown;
   never_drop_data?: boolean;
+  /** Set when a provisioning partner pays for this organization and the organization has no Stripe customer of its own. Self-serve subscription and payment changes are refused while it is set. Null otherwise. */
+  billing_managed_by_partner: BillingManagedByPartner | null;
 }
 export const BillingOverviewResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1036,10 +1135,9 @@ export const BillingOverviewResponse = /*@__PURE__*/ S.suspend(() =>
     account_owner: S.optional(S.Unknown),
     customer_trust_scores: S.optional(S.Unknown),
     never_drop_data: S.optional(S.Boolean),
+    billing_managed_by_partner: S.NullOr(BillingManagedByPartner),
   }),
-).annotate({
-  identifier: "BillingOverviewResponse",
-}) as any as S.Schema<BillingOverviewResponse>;
+).annotate({ identifier: "BillingOverviewResponse" }) as any as S.Schema<BillingOverviewResponse>;
 
 export interface ListBillingAlertsRequest {
   /** ID of the organization you're trying to access. To find the ID of the organization, make a call to /api/organizations/. */
@@ -1061,9 +1159,7 @@ export const ListBillingAlertsRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "ListBillingAlertsRequest",
-}) as any as S.Schema<ListBillingAlertsRequest>;
+).annotate({ identifier: "ListBillingAlertsRequest" }) as any as S.Schema<ListBillingAlertsRequest>;
 
 export type PaginatedBillingAlertConfigurationListOutputResultsList =
   Array<BillingAlertConfigurationOutput>;
@@ -1376,6 +1472,21 @@ export const billingGetInvoicesRetrieve: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type BillingSpendExportRetrieveError = PosthogOpError;
+/** Download the spend breakdown as CSV, honouring the requested project cap. */
+export const billingSpendExportRetrieve: API.OperationMethod<
+  BillingSpendExportRetrieveRequest,
+  BillingSpendExportRetrieveResponse,
+  BillingSpendExportRetrieveError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: BillingSpendExportRetrieveRequest,
+  output: BillingSpendExportRetrieveResponse,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
 export type BillingStartupsApplyCreateError = PosthogOpError;
 export const billingStartupsApplyCreate: API.OperationMethod<
   BillingStartupsApplyCreateRequest,
@@ -1413,6 +1524,21 @@ export const billingTrialsCancelCreate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: BillingTrialsCancelCreateRequest,
   output: BillingTrialsCancelCreateResponse,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
+export type BillingUsageExportRetrieveError = PosthogOpError;
+/** Download the usage breakdown as CSV, honouring the requested project cap. */
+export const billingUsageExportRetrieve: API.OperationMethod<
+  BillingUsageExportRetrieveRequest,
+  BillingUsageExportRetrieveResponse,
+  BillingUsageExportRetrieveError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: BillingUsageExportRetrieveRequest,
+  output: BillingUsageExportRetrieveResponse,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1599,6 +1725,21 @@ export const getBillingUsage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetBillingUsageRequest,
   output: BillingTimeSeriesResponse,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetBillingUsageTeamOptionError = PosthogOpError;
+/** The project ids the project filter offers, loaded apart from the charts. Scoped the way the charts are: a member without billing access sees only the projects they can see. */
+export const getBillingUsageTeamOption: API.OperationMethod<
+  GetBillingUsageTeamOptionRequest,
+  BillingTeamOptionsResponse,
+  GetBillingUsageTeamOptionError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetBillingUsageTeamOptionRequest,
+  output: BillingTeamOptionsResponse,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,

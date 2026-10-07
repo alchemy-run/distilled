@@ -9,9 +9,7 @@ import * as T from "../traits.ts";
 export type { SlackOpError, SlackOpContext };
 
 /** The full comment data. Required for edit and post actions. See the [comment schema](/messaging/work-objects-comments#entity-present-comments-method) for the full list of properties. */
-export type AcknowledgeCommentActionRequestCommentMap = {
-  [key: string]: unknown | undefined;
-};
+export type AcknowledgeCommentActionRequestCommentMap = { [key: string]: unknown | undefined };
 export const AcknowledgeCommentActionRequestCommentMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -30,13 +28,7 @@ export const AcknowledgeCommentActionRequest = /*@__PURE__*/ S.suspend(() =>
     trigger_id: S.String,
     comment: S.optional(AcknowledgeCommentActionRequestCommentMap),
     error: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/entity.acknowledgeCommentAction",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/entity.acknowledgeCommentAction", code: 200 })),
 ).annotate({
   identifier: "AcknowledgeCommentActionRequest",
 }) as any as S.Schema<AcknowledgeCommentActionRequest>;
@@ -53,9 +45,7 @@ export const AcknowledgeCommentActionResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "AcknowledgeCommentActionResponse",
 }) as any as S.Schema<AcknowledgeCommentActionResponse>;
 
-export type PresentCommentsRequestCommentsItemMap = {
-  [key: string]: unknown | undefined;
-};
+export type PresentCommentsRequestCommentsItemMap = { [key: string]: unknown | undefined };
 export const PresentCommentsRequestCommentsItemMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -95,9 +85,7 @@ export const PresentCommentsRequest = /*@__PURE__*/ S.suspend(() =>
     user_auth_url: S.optional(S.String),
     error: S.optional(S.String),
   }).pipe(T.Http({ method: "POST", uri: "/entity.presentComments", code: 200 })),
-).annotate({
-  identifier: "PresentCommentsRequest",
-}) as any as S.Schema<PresentCommentsRequest>;
+).annotate({ identifier: "PresentCommentsRequest" }) as any as S.Schema<PresentCommentsRequest>;
 
 /** Pagination metadata. An empty `next_cursor` means the last page. */
 export interface PresentCommentsResponseResponseMetadata {
@@ -123,14 +111,10 @@ export const PresentCommentsResponse = /*@__PURE__*/ S.suspend(() =>
     ok: S.Boolean,
     response_metadata: S.optional(PresentCommentsResponseResponseMetadata),
   }),
-).annotate({
-  identifier: "PresentCommentsResponse",
-}) as any as S.Schema<PresentCommentsResponse>;
+).annotate({ identifier: "PresentCommentsResponse" }) as any as S.Schema<PresentCommentsResponse>;
 
 /** URL-encoded JSON object containing flexpane metadata from the app that will be conformed to a Work Object metadata schema, keyed by entity ID. */
-export type PresentDetailsRequestMetadataMap = {
-  [key: string]: unknown | undefined;
-};
+export type PresentDetailsRequestMetadataMap = { [key: string]: unknown | undefined };
 export const PresentDetailsRequestMetadataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -155,9 +139,7 @@ export const PresentDetailsRequest = /*@__PURE__*/ S.suspend(() =>
     user_auth_url: S.optional(S.String),
     error: S.optional(S.String),
   }).pipe(T.Http({ method: "POST", uri: "/entity.presentDetails", code: 200 })),
-).annotate({
-  identifier: "PresentDetailsRequest",
-}) as any as S.Schema<PresentDetailsRequest>;
+).annotate({ identifier: "PresentDetailsRequest" }) as any as S.Schema<PresentDetailsRequest>;
 
 export interface PresentDetailsResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -167,9 +149,7 @@ export const PresentDetailsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ok: S.Boolean,
   }),
-).annotate({
-  identifier: "PresentDetailsResponse",
-}) as any as S.Schema<PresentDetailsResponse>;
+).annotate({ identifier: "PresentDetailsResponse" }) as any as S.Schema<PresentDetailsResponse>;
 
 export type AcknowledgeCommentActionError = SlackOpError;
 /** Acknowledge a comment mutation (edit, delete, or post) on a work object entity. Apps call this endpoint to confirm they have processed a comment action, and the backend emits a dedicated RTM event to the user. Rate limit tier: 3 Method-specific errors (the `error` slug on the SlackError): - `method_not_found` — when the API isn't available to the caller - `invalid_trigger_id` — Trigger id is not valid - `invalid_app_id` — App ID is not a valid format - `invalid_auth` — Invalid token provided - `invalid_action` — The comment data does not match the original trigger context (e.g., comment_id or thread_root_id mismatch) - `missing_comment_data` — Required comment fields are missing for the given action type - `not_allowed` — User is not enrolled in comment syncing - `invalid_sender_schema` — The sender field could not be transformed to a valid user schema See https://docs.slack.dev/reference/methods/entity.acknowledgeCommentAction */

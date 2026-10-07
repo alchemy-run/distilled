@@ -78,11 +78,7 @@ export const CreateEventDefinitionRequest = /*@__PURE__*/ S.suspend(() =>
     post_to_slack: S.optional(S.Boolean),
     default_columns: S.optional(CreateEventDefinitionRequestDefaultColumnsList),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/projects/{project_id}/event_definitions/",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/api/projects/{project_id}/event_definitions/", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateEventDefinitionRequest",
@@ -268,7 +264,7 @@ export const EventDefinitionBulkUpdateVerifiedResponseUpdatedList = /*@__PURE__*
 export interface BulkUpdateTagsUUIDError {
   /** UUID of the object that was skipped. */
   id: string;
-  /** Why the object was skipped, e.g. 'Not found'. */
+  /** Why the object was skipped, e.g. 'Not found or no edit access'. */
   reason: string;
 }
 export const BulkUpdateTagsUUIDError = /*@__PURE__*/ S.suspend(() =>
@@ -276,9 +272,7 @@ export const BulkUpdateTagsUUIDError = /*@__PURE__*/ S.suspend(() =>
     id: S.String,
     reason: S.String,
   }),
-).annotate({
-  identifier: "BulkUpdateTagsUUIDError",
-}) as any as S.Schema<BulkUpdateTagsUUIDError>;
+).annotate({ identifier: "BulkUpdateTagsUUIDError" }) as any as S.Schema<BulkUpdateTagsUUIDError>;
 
 /** Events that were skipped (e.g. not found in this project), with a reason each. */
 export type EventDefinitionBulkUpdateVerifiedResponseSkippedList = Array<BulkUpdateTagsUUIDError>;
@@ -324,9 +318,7 @@ export const EventDefinitionsDestroyRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface EventDefinitionsDestroyResponse {}
 export const EventDefinitionsDestroyResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "EventDefinitionsDestroyResponse",
-  },
+  { identifier: "EventDefinitionsDestroyResponse" },
 ) as any as S.Schema<EventDefinitionsDestroyResponse>;
 
 export interface GetEventDefinitionRequest {
@@ -340,11 +332,7 @@ export const GetEventDefinitionRequest = /*@__PURE__*/ S.suspend(() =>
     project_id: S.String.pipe(T.Label()),
     id: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/event_definitions/{id}/",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/projects/{project_id}/event_definitions/{id}/", code: 200 }),
   ),
 ).annotate({
   identifier: "GetEventDefinitionRequest",
@@ -411,9 +399,7 @@ export const EventDefinitionRecord = /*@__PURE__*/ S.suspend(() =>
     created_by: S.optional(S.NullOr(UserBasic)),
     post_to_slack: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "EventDefinitionRecord",
-}) as any as S.Schema<EventDefinitionRecord>;
+).annotate({ identifier: "EventDefinitionRecord" }) as any as S.Schema<EventDefinitionRecord>;
 
 export interface GetEventDefinitionsGolangRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -467,9 +453,7 @@ export const GetEventDefinitionsPrimaryPropertyRequest = /*@__PURE__*/ S.suspend
 }) as any as S.Schema<GetEventDefinitionsPrimaryPropertyRequest>;
 
 /** Mapping from event name to the team-configured primary property for that event. Names without a configured primary property are omitted; callers should fall back to the core taxonomy defaults for those. */
-export type PrimaryPropertiesResponsePrimaryPropertiesMap = {
-  [key: string]: string | undefined;
-};
+export type PrimaryPropertiesResponsePrimaryPropertiesMap = { [key: string]: string | undefined };
 export const PrimaryPropertiesResponsePrimaryPropertiesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -537,39 +521,76 @@ export const GetEventDefinitionsTypescriptResponse = /*@__PURE__*/ S.suspend(() 
   identifier: "GetEventDefinitionsTypescriptResponse",
 }) as any as S.Schema<GetEventDefinitionsTypescriptResponse>;
 
+export type ListEventDefinitionsRequestEventType = "event" | "event_custom" | "event_posthog";
+export const ListEventDefinitionsRequestEventType = S.String;
+
 export type ListEventDefinitionsRequestNamesList = Array<string>;
 export const ListEventDefinitionsRequestNamesList = /*@__PURE__*/ S.Array(
   S.String,
 ) as any as S.Schema<ListEventDefinitionsRequestNamesList>;
 
+export type ListEventDefinitionsRequestOrderingItem =
+  | "-created_at"
+  | "-created_at::date"
+  | "-last_seen_at"
+  | "-last_seen_at::date"
+  | "-name"
+  | "created_at"
+  | "created_at::date"
+  | "last_seen_at"
+  | "last_seen_at::date"
+  | "name";
+export const ListEventDefinitionsRequestOrderingItem = S.String;
+
+export type ListEventDefinitionsRequestOrderingList = Array<
+  ListEventDefinitionsRequestOrderingItem | (string & {})
+>;
+export const ListEventDefinitionsRequestOrderingList = /*@__PURE__*/ S.Array(
+  ListEventDefinitionsRequestOrderingItem,
+) as any as S.Schema<ListEventDefinitionsRequestOrderingList>;
+
 export interface ListEventDefinitionsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
+  /** `event_custom` keeps only names without a `$` prefix and `event_posthog` only names with one. Default `event`. */
+  event_type?: ListEventDefinitionsRequestEventType | (string & {});
   /** When true, omit events that have been explicitly hidden by a team admin (Enterprise only). */
   exclude_hidden?: boolean;
   /** When true, omit events whose last ingested occurrence is older than 30 days. Events that have never been seen (`last_seen_at` is null) are kept so newly-defined events remain discoverable. Default false. If a search returns zero results with this filter on, retry with `exclude_stale=false` and tell the user the matches are stale. */
   exclude_stale?: boolean;
+  /** JSON-encoded list of event names to omit. The name matches the property definitions endpoint that shares it. */
+  excluded_properties?: string;
   /** Number of results to return per page. */
   limit?: number;
   /** Return exact matches for these event names. Pass names as repeated or comma-separated values. */
   names?: ListEventDefinitionsRequestNamesList;
   /** The initial index from which to return the results. */
   offset?: number;
+  /** Sort keys, prefixed with `-` for descending. Default `-last_seen_at::date` then `name`. Projects with more than 100000 event definitions default to `name`, unless the request sets `search`, `exclude_stale`, `verified`, `names`, `tags` or `event_type=event_posthog`. */
+  ordering?: ListEventDefinitionsRequestOrderingList;
+  /** Case-insensitive match on the event name. Every whitespace-separated term has to match. */
+  search?: string;
+  /** JSON-encoded list of tag names. Keeps events that carry any of them. */
+  tags?: string;
+  /** When true, keep only verified events and core PostHog events. When false, keep the rest (Enterprise only). */
+  verified?: boolean;
 }
 export const ListEventDefinitionsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project_id: S.String.pipe(T.Label()),
+    event_type: S.optional(ListEventDefinitionsRequestEventType.pipe(T.Query())),
     exclude_hidden: S.optional(S.Boolean.pipe(T.Query())),
     exclude_stale: S.optional(S.Boolean.pipe(T.Query())),
+    excluded_properties: S.optional(S.String.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
     names: S.optional(ListEventDefinitionsRequestNamesList.pipe(T.Query())),
     offset: S.optional(S.Number.pipe(T.Query())),
+    ordering: S.optional(ListEventDefinitionsRequestOrderingList.pipe(T.Query())),
+    search: S.optional(S.String.pipe(T.Query())),
+    tags: S.optional(S.String.pipe(T.Query())),
+    verified: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/event_definitions/",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/projects/{project_id}/event_definitions/", code: 200 }),
   ),
 ).annotate({
   identifier: "ListEventDefinitionsRequest",
@@ -585,6 +606,8 @@ export interface PaginatedEnterpriseEventDefinitionList {
   next?: string | null;
   previous?: string | null;
   results?: PaginatedEnterpriseEventDefinitionListResultsList;
+  /** True when `count` stopped at a cap, so it is a lower bound and `next` keeps paging past it. */
+  count_is_capped?: boolean;
 }
 export const PaginatedEnterpriseEventDefinitionList = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -592,6 +615,7 @@ export const PaginatedEnterpriseEventDefinitionList = /*@__PURE__*/ S.suspend(()
     next: S.optional(S.NullOr(S.String)),
     previous: S.optional(S.NullOr(S.String)),
     results: S.optional(PaginatedEnterpriseEventDefinitionListResultsList),
+    count_is_capped: S.optional(S.Boolean),
   }),
 ).annotate({
   identifier: "PaginatedEnterpriseEventDefinitionList",
@@ -639,11 +663,7 @@ export const UpdateEventDefinitionRequest = /*@__PURE__*/ S.suspend(() =>
     post_to_slack: S.optional(S.Boolean),
     default_columns: S.optional(UpdateEventDefinitionRequestDefaultColumnsList),
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/api/projects/{project_id}/event_definitions/{id}/",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/api/projects/{project_id}/event_definitions/{id}/", code: 200 }),
   ),
 ).annotate({
   identifier: "UpdateEventDefinitionRequest",
@@ -831,6 +851,7 @@ export const getEventDefinitionsTypescript: API.OperationMethod<
 }));
 
 export type ListEventDefinitionsError = BadRequest | Forbidden | NotFound | PosthogOpError;
+/** List the event definitions of a project. On projects with more than 50000 event definitions, `count` stops at 10000 and `count_is_capped` is true, unless the request sets `search`, `exclude_stale`, `verified`, `names`, `tags` or `event_type=event_posthog`. Projects with more than 100000 event definitions also default to ordering by name under the same condition. */
 export const listEventDefinitions: API.OperationMethod<
   ListEventDefinitionsRequest,
   PaginatedEnterpriseEventDefinitionList,

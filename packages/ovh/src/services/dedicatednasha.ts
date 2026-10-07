@@ -55,11 +55,7 @@ export const ConfirmDedicatedNashaTerminationRequest = /*@__PURE__*/ S.suspend((
     reason: S.optional(ServiceTerminationReasonEnum),
     token: S.String,
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/dedicated/nasha/{serviceName}/confirmTermination",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/dedicated/nasha/{serviceName}/confirmTermination", code: 200 }),
   ),
 ).annotate({
   identifier: "ConfirmDedicatedNashaTerminationRequest",
@@ -89,11 +85,7 @@ export const CreateDedicatedNashaChangeContactRequest = /*@__PURE__*/ S.suspend(
     contactBilling: S.optional(S.String),
     contactTech: S.optional(S.String),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/dedicated/nasha/{serviceName}/changeContact",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/dedicated/nasha/{serviceName}/changeContact", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateDedicatedNashaChangeContactRequest",
@@ -135,13 +127,7 @@ export const CreateDedicatedNashaPartitionRequest = /*@__PURE__*/ S.suspend(() =
     partitionName: S.String,
     protocol: DedicatedStorageProtocolEnum,
     size: S.Number,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/dedicated/nasha/{serviceName}/partition",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/dedicated/nasha/{serviceName}/partition", code: 200 })),
 ).annotate({
   identifier: "CreateDedicatedNashaPartitionRequest",
 }) as any as S.Schema<CreateDedicatedNashaPartitionRequest>;
@@ -215,9 +201,7 @@ export const DedicatedNasTaskTask = /*@__PURE__*/ S.suspend(() =>
     taskId: S.optional(S.Number),
     todoDate: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "DedicatedNasTaskTask",
-}) as any as S.Schema<DedicatedNasTaskTask>;
+).annotate({ identifier: "DedicatedNasTaskTask" }) as any as S.Schema<DedicatedNasTaskTask>;
 
 /** Acl Type */
 export type DedicatedStorageAclTypeEnum = "readonly" | "readwrite";
@@ -536,9 +520,7 @@ export const GetDedicatedNashaRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/dedicated/nasha/{serviceName}", code: 200 })),
-).annotate({
-  identifier: "GetDedicatedNashaRequest",
-}) as any as S.Schema<GetDedicatedNashaRequest>;
+).annotate({ identifier: "GetDedicatedNashaRequest" }) as any as S.Schema<GetDedicatedNashaRequest>;
 
 /** the disk type of the nasHa */
 export type DedicatedStorageDiskTypeEnum = "hdd" | "nvme" | "ssd";
@@ -569,9 +551,7 @@ export const IamResourceMetadata = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(S.NullOr(IamResourceMetadataTagsMap)),
     urn: S.optional(S.String),
   }),
-).annotate({
-  identifier: "IamResourceMetadata",
-}) as any as S.Schema<IamResourceMetadata>;
+).annotate({ identifier: "IamResourceMetadata" }) as any as S.Schema<IamResourceMetadata>;
 
 /** Storage nas HA */
 export interface DedicatedNashaStorageWithIAM {
@@ -620,13 +600,7 @@ export interface GetDedicatedNashaMetricsTokenRequest {
 export const GetDedicatedNashaMetricsTokenRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/dedicated/nasha/{serviceName}/metricsToken",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/dedicated/nasha/{serviceName}/metricsToken", code: 200 })),
 ).annotate({
   identifier: "GetDedicatedNashaMetricsTokenRequest",
 }) as any as S.Schema<GetDedicatedNashaMetricsTokenRequest>;
@@ -692,9 +666,7 @@ export const DedicatedNashaPartition = /*@__PURE__*/ S.suspend(() =>
     size: S.optional(S.Number),
     usedBySnapshots: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "DedicatedNashaPartition",
-}) as any as S.Schema<DedicatedNashaPartition>;
+).annotate({ identifier: "DedicatedNashaPartition" }) as any as S.Schema<DedicatedNashaPartition>;
 
 export interface GetDedicatedNashaPartitionAccessRequest {
   /** The internal name of your storage */
@@ -738,9 +710,7 @@ export const DedicatedNashaAccess = /*@__PURE__*/ S.suspend(() =>
     ip: S.optional(S.String),
     type: S.optional(DedicatedStorageAclTypeEnum),
   }),
-).annotate({
-  identifier: "DedicatedNashaAccess",
-}) as any as S.Schema<DedicatedNashaAccess>;
+).annotate({ identifier: "DedicatedNashaAccess" }) as any as S.Schema<DedicatedNashaAccess>;
 
 export interface GetDedicatedNashaPartitionCustomSnapshotRequest {
   /** The internal name of your storage */
@@ -778,9 +748,7 @@ export const DedicatedNashaCustomSnap = /*@__PURE__*/ S.suspend(() =>
     expiration: S.optional(S.NullOr(S.String)),
     name: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DedicatedNashaCustomSnap",
-}) as any as S.Schema<DedicatedNashaCustomSnap>;
+).annotate({ identifier: "DedicatedNashaCustomSnap" }) as any as S.Schema<DedicatedNashaCustomSnap>;
 
 export interface GetDedicatedNashaPartitionOptionsRequest {
   /** The internal name of your storage */
@@ -824,9 +792,7 @@ export const DedicatedNashaOptions = /*@__PURE__*/ S.suspend(() =>
     sync: S.optional(S.String),
     templateName: S.optional(S.NullOr(DedicatedStorageTemplateUsageOptionsEnum)),
   }),
-).annotate({
-  identifier: "DedicatedNashaOptions",
-}) as any as S.Schema<DedicatedNashaOptions>;
+).annotate({ identifier: "DedicatedNashaOptions" }) as any as S.Schema<DedicatedNashaOptions>;
 
 export interface GetDedicatedNashaPartitionQuotaRequest {
   /** The internal name of your storage */
@@ -864,9 +830,7 @@ export const DedicatedNashaQuota = /*@__PURE__*/ S.suspend(() =>
     size: S.optional(S.Number),
     uid: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "DedicatedNashaQuota",
-}) as any as S.Schema<DedicatedNashaQuota>;
+).annotate({ identifier: "DedicatedNashaQuota" }) as any as S.Schema<DedicatedNashaQuota>;
 
 /** Partition snapshot allowed */
 export type GetDedicatedNashaPartitionSnapshotRequestSnapshotType =
@@ -911,9 +875,7 @@ export const DedicatedNashaSnapshot = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     snapshotType: S.optional(DedicatedStorageSnapshotEnum),
   }),
-).annotate({
-  identifier: "DedicatedNashaSnapshot",
-}) as any as S.Schema<DedicatedNashaSnapshot>;
+).annotate({ identifier: "DedicatedNashaSnapshot" }) as any as S.Schema<DedicatedNashaSnapshot>;
 
 /** Available types for NAS partition usage */
 export type DedicatedStoragePartitionUsageTypeEnum = "size" | "used" | "usedbysnapshots";
@@ -964,13 +926,7 @@ export interface GetDedicatedNashaServiceInfosRequest {
 export const GetDedicatedNashaServiceInfosRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/dedicated/nasha/{serviceName}/serviceInfos",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/dedicated/nasha/{serviceName}/serviceInfos", code: 200 })),
 ).annotate({
   identifier: "GetDedicatedNashaServiceInfosRequest",
 }) as any as S.Schema<GetDedicatedNashaServiceInfosRequest>;
@@ -1002,9 +958,7 @@ export const ServiceRenewType = /*@__PURE__*/ S.suspend(() =>
     manualPayment: S.optional(S.NullOr(S.Boolean)),
     period: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "ServiceRenewType",
-}) as any as S.Schema<ServiceRenewType>;
+).annotate({ identifier: "ServiceRenewType" }) as any as S.Schema<ServiceRenewType>;
 
 /** Detailed renewal type of a service */
 export type ServiceRenewalTypeEnum =
@@ -1062,9 +1016,7 @@ export const ServicesService = /*@__PURE__*/ S.suspend(() =>
     serviceId: S.optional(S.Number),
     status: S.optional(ServiceStateEnum),
   }),
-).annotate({
-  identifier: "ServicesService",
-}) as any as S.Schema<ServicesService>;
+).annotate({ identifier: "ServicesService" }) as any as S.Schema<ServicesService>;
 
 export interface GetDedicatedNashaTaskRequest {
   /** The internal name of your storage */
@@ -1077,11 +1029,7 @@ export const GetDedicatedNashaTaskRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     taskId: S.Number.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/dedicated/nasha/{serviceName}/task/{taskId}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/dedicated/nasha/{serviceName}/task/{taskId}", code: 200 }),
   ),
 ).annotate({
   identifier: "GetDedicatedNashaTaskRequest",
@@ -1101,13 +1049,7 @@ export const GetDedicatedNashaUseRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     type: DedicatedStorageNasUsageTypeEnum.pipe(T.Query()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/dedicated/nasha/{serviceName}/use",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/dedicated/nasha/{serviceName}/use", code: 200 })),
 ).annotate({
   identifier: "GetDedicatedNashaUseRequest",
 }) as any as S.Schema<GetDedicatedNashaUseRequest>;
@@ -1162,13 +1104,7 @@ export interface ListDedicatedNashaPartitionRequest {
 export const ListDedicatedNashaPartitionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/dedicated/nasha/{serviceName}/partition",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/dedicated/nasha/{serviceName}/partition", code: 200 })),
 ).annotate({
   identifier: "ListDedicatedNashaPartitionRequest",
 }) as any as S.Schema<ListDedicatedNashaPartitionRequest>;
@@ -1454,13 +1390,7 @@ export const ListDedicatedNashaTaskRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     operation: S.optional(DedicatedStorageTaskFunctionEnum.pipe(T.Query())),
     status: S.optional(DedicatedTaskStatusEnum.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/dedicated/nasha/{serviceName}/task",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/dedicated/nasha/{serviceName}/task", code: 200 })),
 ).annotate({
   identifier: "ListDedicatedNashaTaskRequest",
 }) as any as S.Schema<ListDedicatedNashaTaskRequest>;
@@ -1491,9 +1421,7 @@ export const PutDedicatedNashaRequest = /*@__PURE__*/ S.suspend(() =>
     customName: S.optional(S.NullOr(S.String)),
     monitored: S.optional(S.Boolean),
   }).pipe(T.Http({ method: "PUT", uri: "/dedicated/nasha/{serviceName}", code: 200 })),
-).annotate({
-  identifier: "PutDedicatedNashaRequest",
-}) as any as S.Schema<PutDedicatedNashaRequest>;
+).annotate({ identifier: "PutDedicatedNashaRequest" }) as any as S.Schema<PutDedicatedNashaRequest>;
 
 export interface PutDedicatedNashaResponse {}
 export const PutDedicatedNashaResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1544,13 +1472,7 @@ export const PutDedicatedNashaServiceInfosRequest = /*@__PURE__*/ S.suspend(() =
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     renew: S.optional(S.NullOr(ServiceRenewType)),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/dedicated/nasha/{serviceName}/serviceInfos",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/dedicated/nasha/{serviceName}/serviceInfos", code: 200 })),
 ).annotate({
   identifier: "PutDedicatedNashaServiceInfosRequest",
 }) as any as S.Schema<PutDedicatedNashaServiceInfosRequest>;
@@ -1569,13 +1491,7 @@ export interface TerminateDedicatedNashaRequest {
 export const TerminateDedicatedNashaRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/dedicated/nasha/{serviceName}/terminate",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/dedicated/nasha/{serviceName}/terminate", code: 200 })),
 ).annotate({
   identifier: "TerminateDedicatedNashaRequest",
 }) as any as S.Schema<TerminateDedicatedNashaRequest>;

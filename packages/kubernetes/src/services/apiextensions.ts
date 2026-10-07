@@ -1278,13 +1278,7 @@ export const IoK8sApimachineryPkgApisMetaV1APIGroup = /*@__PURE__*/ S.suspend(()
 
 export interface GetApiextensionsV1APIResourcesRequest {}
 export const GetApiextensionsV1APIResourcesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/apis/apiextensions.k8s.io/v1/",
-      code: 200,
-    }),
-  ),
+  S.Struct({}).pipe(T.Http({ method: "GET", uri: "/apis/apiextensions.k8s.io/v1/", code: 200 })),
 ).annotate({
   identifier: "GetApiextensionsV1APIResourcesRequest",
 }) as any as S.Schema<GetApiextensionsV1APIResourcesRequest>;

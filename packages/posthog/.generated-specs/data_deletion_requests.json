@@ -1,0 +1,561 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.posthog.data_deletion_requests#ListDataDeletionRequestsRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit",
+            "smithy.api#documentation": "Number of results to return per page."
+          }
+        },
+        "offset": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "offset",
+            "smithy.api#documentation": "The initial index from which to return the results."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.data_deletion_requests#PaginatedDataDeletionRequestList": {
+      "type": "structure",
+      "members": {
+        "count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "next": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "previous": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "results": {
+          "target": "com.posthog.data_deletion_requests#PaginatedDataDeletionRequestListResultsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.data_deletion_requests#DataDeletionRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Deletion request identifier.",
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "com.posthog.data_deletion_requests#RequestStatusEnum",
+          "traits": {
+            "smithy.api#documentation": "Current deletion workflow status.\n\n* `draft` - Draft\n* `pending` - Pending\n* `approved` - Approved\n* `in_progress` - In Progress\n* `queued` - Queued\n* `completed` - Completed\n* `failed` - Failed",
+            "smithy.api#required": {}
+          }
+        },
+        "query": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Submitted HogQL query snapshot.",
+            "smithy.api#required": {}
+          }
+        },
+        "variables": {
+          "target": "com.posthog.data_deletion_requests#DataDeletionRequestVariablesMap",
+          "traits": {
+            "smithy.api#documentation": "Submitted HogQL variable snapshot.",
+            "smithy.api#required": {}
+          }
+        },
+        "submission_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Client-generated idempotency identifier.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of selected events, when calculated.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "created_by_id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Identifier of the user who submitted the request.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "created_by_staff": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the submitter was a PostHog staff user.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Time when the request was submitted.",
+            "smithy.api#required": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Time when the request last changed.",
+            "smithy.api#required": {}
+          }
+        },
+        "approved_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Time when the request was approved, if approved.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "stats_calculated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Time when selection statistics were calculated, if available.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.data_deletion_requests#RequestStatusEnum": {
+      "type": "enum",
+      "members": {
+        "DRAFT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "draft"
+          }
+        },
+        "PENDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pending"
+          }
+        },
+        "APPROVED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "approved"
+          }
+        },
+        "IN_PROGRESS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "in_progress"
+          }
+        },
+        "QUEUED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "queued"
+          }
+        },
+        "COMPLETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "completed"
+          }
+        },
+        "FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "failed"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `draft` - Draft\n* `pending` - Pending\n* `approved` - Approved\n* `in_progress` - In Progress\n* `queued` - Queued\n* `completed` - Completed\n* `failed` - Failed"
+      }
+    },
+    "com.posthog.data_deletion_requests#DataDeletionRequestVariablesValue": {
+      "type": "structure",
+      "members": {
+        "code_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "isNull": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "value": {
+          "target": "smithy.api#Document"
+        },
+        "variableId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.data_deletion_requests#DataDeletionRequestVariablesMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.posthog.data_deletion_requests#DataDeletionRequestVariablesValue"
+      },
+      "traits": {
+        "smithy.api#documentation": "Submitted HogQL variable snapshot."
+      }
+    },
+    "com.posthog.data_deletion_requests#PaginatedDataDeletionRequestListResultsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.data_deletion_requests#DataDeletionRequest"
+      },
+      "traits": {}
+    },
+    "com.posthog.data_deletion_requests#ListDataDeletionRequests": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.data_deletion_requests#ListDataDeletionRequestsRequest"
+      },
+      "output": {
+        "target": "com.posthog.data_deletion_requests#PaginatedDataDeletionRequestList"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/data_deletion_requests/",
+          "code": 200
+        },
+        "smithy.api#documentation": "List self-service event deletion requests for this project."
+      }
+    },
+    "com.posthog.data_deletion_requests#CreateDataDeletionRequestRequestVariablesValue": {
+      "type": "structure",
+      "members": {
+        "code_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "isNull": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "value": {
+          "target": "smithy.api#Document"
+        },
+        "variableId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.data_deletion_requests#CreateDataDeletionRequestRequestVariablesMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.posthog.data_deletion_requests#CreateDataDeletionRequestRequestVariablesValue"
+      },
+      "traits": {
+        "smithy.api#documentation": "Variables referenced by the HogQL query."
+      }
+    },
+    "com.posthog.data_deletion_requests#CreateDataDeletionRequestRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "query": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "HogQL query that selects one event UUID column.",
+            "smithy.api#required": {}
+          }
+        },
+        "variables": {
+          "target": "com.posthog.data_deletion_requests#CreateDataDeletionRequestRequestVariablesMap",
+          "traits": {
+            "smithy.api#documentation": "Variables referenced by the HogQL query."
+          }
+        },
+        "submission_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Client-generated identifier that makes request submission idempotent.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.data_deletion_requests#CreateDataDeletionRequest": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.data_deletion_requests#CreateDataDeletionRequestRequest"
+      },
+      "output": {
+        "target": "com.posthog.data_deletion_requests#DataDeletionRequest"
+      },
+      "errors": [
+        {
+          "target": "com.posthog.data_deletion_requests#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/data_deletion_requests/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Submit a one-column HogQL query for event deletion."
+      }
+    },
+    "com.posthog.data_deletion_requests#GetDataDeletionRequestRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "A UUID string identifying this data deletion request."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.data_deletion_requests#GetDataDeletionRequest": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.data_deletion_requests#GetDataDeletionRequestRequest"
+      },
+      "output": {
+        "target": "com.posthog.data_deletion_requests#DataDeletionRequest"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/data_deletion_requests/{id}/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get one self-service event deletion request for this project."
+      }
+    },
+    "com.posthog.data_deletion_requests#CreateDataDeletionRequestsPreviewRequestVariablesValue": {
+      "type": "structure",
+      "members": {
+        "code_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "isNull": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "value": {
+          "target": "smithy.api#Document"
+        },
+        "variableId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.data_deletion_requests#CreateDataDeletionRequestsPreviewRequestVariablesMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.posthog.data_deletion_requests#CreateDataDeletionRequestsPreviewRequestVariablesValue"
+      },
+      "traits": {
+        "smithy.api#documentation": "Variables referenced by the HogQL query."
+      }
+    },
+    "com.posthog.data_deletion_requests#CreateDataDeletionRequestsPreviewRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "query": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "HogQL query that selects one event UUID column.",
+            "smithy.api#required": {}
+          }
+        },
+        "variables": {
+          "target": "com.posthog.data_deletion_requests#CreateDataDeletionRequestsPreviewRequestVariablesMap",
+          "traits": {
+            "smithy.api#documentation": "Variables referenced by the HogQL query."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.data_deletion_requests#DataDeletionPreview": {
+      "type": "structure",
+      "members": {
+        "count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of event UUIDs selected when the preview ran.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.data_deletion_requests#CreateDataDeletionRequestsPreview": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.data_deletion_requests#CreateDataDeletionRequestsPreviewRequest"
+      },
+      "output": {
+        "target": "com.posthog.data_deletion_requests#DataDeletionPreview"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/data_deletion_requests/preview/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Validate a one-column HogQL query and count the selected event UUIDs."
+      }
+    },
+    "com.posthog.data_deletion_requests#Conflict": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 409,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 409
+          }
+        ]
+      }
+    },
+    "com.posthog.data_deletion_requests#DataDeletionRequests": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.posthog.data_deletion_requests#ListDataDeletionRequests"
+        },
+        {
+          "target": "com.posthog.data_deletion_requests#CreateDataDeletionRequest"
+        },
+        {
+          "target": "com.posthog.data_deletion_requests#GetDataDeletionRequest"
+        },
+        {
+          "target": "com.posthog.data_deletion_requests#CreateDataDeletionRequestsPreview"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "PostHog API"
+      }
+    }
+  }
+}

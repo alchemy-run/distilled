@@ -138,11 +138,11 @@ export const Dependencies = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "Dependencies" }) as any as S.Schema<Dependencies>;
 
 export type ServiceStatusEnablement = "REQUEST" | "AUTO";
-export const ServiceStatusEnablement = /*@__PURE__*/ S.String;
+export const ServiceStatusEnablement = S.String;
 
 /** the last action which was triggered on this service */
 export type ActionErrorAction = "DISABLE" | "ENABLE";
-export const ActionErrorAction = /*@__PURE__*/ S.String;
+export const ActionErrorAction = S.String;
 
 /** the last error for this service. */
 export interface ActionError {
@@ -168,10 +168,10 @@ export const ServiceStatusLabelsMap = /*@__PURE__*/ S.Record(
 ) as any as S.Schema<ServiceStatusLabelsMap>;
 
 export type ServiceStatusLifecycle = "FLEX" | "PROJECT";
-export const ServiceStatusLifecycle = /*@__PURE__*/ S.String;
+export const ServiceStatusLifecycle = S.String;
 
 export type ParametersGeneralProjectScope = "SCHWARZ" | "PUBLIC";
-export const ParametersGeneralProjectScope = /*@__PURE__*/ S.String;
+export const ParametersGeneralProjectScope = S.String;
 
 export interface ParametersGeneral {
   organizationId?: string;
@@ -184,9 +184,7 @@ export const ParametersGeneral = /*@__PURE__*/ S.suspend(() =>
     projectName: S.optional(S.String),
     projectScope: S.optional(ParametersGeneralProjectScope),
   }),
-).annotate({
-  identifier: "ParametersGeneral",
-}) as any as S.Schema<ParametersGeneral>;
+).annotate({ identifier: "ParametersGeneral" }) as any as S.Schema<ParametersGeneral>;
 
 /** service parameters */
 export interface Parameters {
@@ -199,11 +197,11 @@ export const Parameters = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "Parameters" }) as any as S.Schema<Parameters>;
 
 export type ServiceStatusScope = "PRIVATE" | "PUBLIC";
-export const ServiceStatusScope = /*@__PURE__*/ S.String;
+export const ServiceStatusScope = S.String;
 
 /** the state of a service within a project */
 export type ServiceStatusState = "ENABLED" | "ENABLING" | "DISABLED" | "DISABLING";
-export const ServiceStatusState = /*@__PURE__*/ S.String;
+export const ServiceStatusState = S.String;
 
 export interface ServiceStatus {
   dependencies?: Dependencies;

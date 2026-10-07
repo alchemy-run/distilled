@@ -79,7 +79,7 @@ export const GitAuth = /*@__PURE__*/ S.Unknown as any as S.Schema<GitAuth>;
 
 /** Bundle type identifier. */
 export type GitDagBundleType = "git";
-export const GitDagBundleType = /*@__PURE__*/ S.String;
+export const GitDagBundleType = S.String;
 
 /** A Git-based DAG bundle. Maps to airflow.providers.git.bundles.git.GitDagBundle. */
 export interface GitDagBundle {
@@ -111,7 +111,7 @@ export const GitDagBundle = /*@__PURE__*/ S.suspend(() =>
 
 /** Type of authentication */
 export type S3AccessKeyAuthType = "accessKey";
-export const S3AccessKeyAuthType = /*@__PURE__*/ S.String;
+export const S3AccessKeyAuthType = S.String;
 
 /** S3 access key credentials (access key ID + secret access key). */
 export interface S3AccessKeyAuth {
@@ -128,9 +128,7 @@ export const S3AccessKeyAuth = /*@__PURE__*/ S.suspend(() =>
     secretAccessKey: S.String.pipe(T.SensitiveValue({})),
     type: S3AccessKeyAuthType,
   }),
-).annotate({
-  identifier: "S3AccessKeyAuth",
-}) as any as S.Schema<S3AccessKeyAuth>;
+).annotate({ identifier: "S3AccessKeyAuth" }) as any as S.Schema<S3AccessKeyAuth>;
 
 /** Authentication for S3-compatible object storage */
 export type S3Auth = S3AccessKeyAuth | NoAuth;
@@ -138,7 +136,7 @@ export const S3Auth = /*@__PURE__*/ S.Unknown as any as S.Schema<S3Auth>;
 
 /** Bundle type identifier. */
 export type S3DagBundleType = "s3";
-export const S3DagBundleType = /*@__PURE__*/ S.String;
+export const S3DagBundleType = S.String;
 
 /** An S3-based DAG bundle. Maps to airflow.providers.amazon.aws.bundles.s3.S3DagBundle. Compatible with any S3-compatible object storage (e.g. STACKIT Object Storage). */
 export interface S3DagBundle {
@@ -196,9 +194,7 @@ export const CreateDagBundleRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://workflows.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "CreateDagBundleRequest",
-}) as any as S.Schema<CreateDagBundleRequest>;
+).annotate({ identifier: "CreateDagBundleRequest" }) as any as S.Schema<CreateDagBundleRequest>;
 
 /** Basic authentication as returned in API responses. The password field is always masked ("**********") and never contains the real value. */
 export interface BasicAuthResponseOutput {
@@ -212,9 +208,7 @@ export const BasicAuthResponseOutput = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     username: S.optional(S.String),
   }),
-).annotate({
-  identifier: "BasicAuthResponseOutput",
-}) as any as S.Schema<BasicAuthResponseOutput>;
+).annotate({ identifier: "BasicAuthResponseOutput" }) as any as S.Schema<BasicAuthResponseOutput>;
 
 /** Authentication configuration as returned in API responses. Credentials (passwords) are always masked and never returned in plain text. */
 export type GitAuthResponseOutput = BasicAuthResponseOutput | NoAuth;
@@ -223,7 +217,7 @@ export const GitAuthResponseOutput =
 
 /** Bundle type identifier. */
 export type GitDagBundleResponseOutputType = "git";
-export const GitDagBundleResponseOutputType = /*@__PURE__*/ S.String;
+export const GitDagBundleResponseOutputType = S.String;
 
 /** A Git-based DAG bundle as returned by the API. The auth structure (type, username) is included; passwords are masked. */
 export interface GitDagBundleResponseOutput {
@@ -257,7 +251,7 @@ export const GitDagBundleResponseOutput = /*@__PURE__*/ S.suspend(() =>
 
 /** Type of authentication */
 export type S3AccessKeyAuthResponseType = "accessKey";
-export const S3AccessKeyAuthResponseType = /*@__PURE__*/ S.String;
+export const S3AccessKeyAuthResponseType = S.String;
 
 /** S3 access key credentials as returned in API responses. The secret access key is always masked ("**********") and never contains the real value. */
 export interface S3AccessKeyAuthResponse {
@@ -274,9 +268,7 @@ export const S3AccessKeyAuthResponse = /*@__PURE__*/ S.suspend(() =>
     secretAccessKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
     type: S3AccessKeyAuthResponseType,
   }),
-).annotate({
-  identifier: "S3AccessKeyAuthResponse",
-}) as any as S.Schema<S3AccessKeyAuthResponse>;
+).annotate({ identifier: "S3AccessKeyAuthResponse" }) as any as S.Schema<S3AccessKeyAuthResponse>;
 
 /** S3 authentication configuration as returned in API responses. Secret keys are always masked and never returned in plain text. */
 export type S3AuthResponse = S3AccessKeyAuthResponse | NoAuth;
@@ -284,7 +276,7 @@ export const S3AuthResponse = /*@__PURE__*/ S.Unknown as any as S.Schema<S3AuthR
 
 /** Bundle type identifier. */
 export type S3DagBundleResponseType = "s3";
-export const S3DagBundleResponseType = /*@__PURE__*/ S.String;
+export const S3DagBundleResponseType = S.String;
 
 /** An S3-based DAG bundle as returned by the API. The s3Auth structure (type, accessKeyId) is included; secret keys are masked. */
 export interface S3DagBundleResponse {
@@ -312,9 +304,7 @@ export const S3DagBundleResponse = /*@__PURE__*/ S.suspend(() =>
     s3Auth: S3AuthResponse,
     type: S3DagBundleResponseType,
   }),
-).annotate({
-  identifier: "S3DagBundleResponse",
-}) as any as S.Schema<S3DagBundleResponse>;
+).annotate({ identifier: "S3DagBundleResponse" }) as any as S.Schema<S3DagBundleResponse>;
 
 /** A DAG bundle as returned by the API. Auth structure (type, username) is included but credentials (passwords, secret keys) are masked. Discriminated by the "type" field. */
 export type DagBundleResponseOutput = GitDagBundleResponseOutput | S3DagBundleResponse;
@@ -324,9 +314,7 @@ export const DagBundleResponseOutput =
 export type CreateDagBundleResponse = DagBundleResponseOutput;
 export const CreateDagBundleResponse = /*@__PURE__*/ S.suspend(() =>
   DagBundleResponseOutput.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "CreateDagBundleResponse",
-}) as any as S.Schema<CreateDagBundleResponse>;
+).annotate({ identifier: "CreateDagBundleResponse" }) as any as S.Schema<CreateDagBundleResponse>;
 
 /** A DAG bundle configuration. Discriminated by the "type" field. Supported types are "git" and "s3". */
 export type DagBundle = GitDagBundle | S3DagBundle;
@@ -354,7 +342,7 @@ export const GitRepository = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "GitRepository" }) as any as S.Schema<GitRepository>;
 
 export type StackITIdentityProviderType = "stackit";
-export const StackITIdentityProviderType = /*@__PURE__*/ S.String;
+export const StackITIdentityProviderType = S.String;
 
 /** The default STACKIT identity provider. */
 export interface StackITIdentityProvider {
@@ -364,9 +352,7 @@ export const StackITIdentityProvider = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     type: StackITIdentityProviderType,
   }),
-).annotate({
-  identifier: "StackITIdentityProvider",
-}) as any as S.Schema<StackITIdentityProvider>;
+).annotate({ identifier: "StackITIdentityProvider" }) as any as S.Schema<StackITIdentityProvider>;
 
 /** Expected audience(s) for API token validation when using the session endpoint for token exchange. */
 export type OAuth2IdentityProviderApiAudienceList = Array<string>;
@@ -375,7 +361,7 @@ export const OAuth2IdentityProviderApiAudienceList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<OAuth2IdentityProviderApiAudienceList>;
 
 export type OAuth2IdentityProviderType = "oauth2";
-export const OAuth2IdentityProviderType = /*@__PURE__*/ S.String;
+export const OAuth2IdentityProviderType = S.String;
 
 /** Configuration for the custom OAuth2 identity provider used. */
 export interface OAuth2IdentityProvider {
@@ -409,9 +395,7 @@ export const OAuth2IdentityProvider = /*@__PURE__*/ S.suspend(() =>
     scope: S.String,
     type: OAuth2IdentityProviderType,
   }),
-).annotate({
-  identifier: "OAuth2IdentityProvider",
-}) as any as S.Schema<OAuth2IdentityProvider>;
+).annotate({ identifier: "OAuth2IdentityProvider" }) as any as S.Schema<OAuth2IdentityProvider>;
 
 /** Configuration for the identity provider used. */
 export type IdentityProvider = StackITIdentityProvider | OAuth2IdentityProvider;
@@ -471,9 +455,7 @@ export const CreateInstanceRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://workflows.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "CreateInstanceRequest",
-}) as any as S.Schema<CreateInstanceRequest>;
+).annotate({ identifier: "CreateInstanceRequest" }) as any as S.Schema<CreateInstanceRequest>;
 
 /** All configured DAG bundles. This is the canonical source of truth for DAG sources. Available for Airflow 3 instances. */
 export type InstanceDagBundlesList = Array<DagBundle>;
@@ -497,7 +479,7 @@ export const Endpoints = /*@__PURE__*/ S.suspend(() =>
 
 /** The current status of the STACKIT Workflows instance. */
 export type InstanceStatus = "creating" | "active" | "updating" | "deleting" | "failed";
-export const InstanceStatus = /*@__PURE__*/ S.String;
+export const InstanceStatus = S.String;
 
 export interface Instance {
   /** The date and time the creation of the STACKIT Workflows instance was triggered. */
@@ -577,9 +559,7 @@ export const DeleteDagBundleRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://workflows.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "DeleteDagBundleRequest",
-}) as any as S.Schema<DeleteDagBundleRequest>;
+).annotate({ identifier: "DeleteDagBundleRequest" }) as any as S.Schema<DeleteDagBundleRequest>;
 
 export interface DeleteDagBundleResponse {}
 export const DeleteDagBundleResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -607,9 +587,7 @@ export const DeleteInstanceRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://workflows.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "DeleteInstanceRequest",
-}) as any as S.Schema<DeleteInstanceRequest>;
+).annotate({ identifier: "DeleteInstanceRequest" }) as any as S.Schema<DeleteInstanceRequest>;
 
 export interface DeleteInstanceResponse {}
 export const DeleteInstanceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -640,16 +618,12 @@ export const GetDagBundleRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://workflows.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "GetDagBundleRequest",
-}) as any as S.Schema<GetDagBundleRequest>;
+).annotate({ identifier: "GetDagBundleRequest" }) as any as S.Schema<GetDagBundleRequest>;
 
 export type GetDagBundleResponse = DagBundleResponseOutput;
 export const GetDagBundleResponse = /*@__PURE__*/ S.suspend(() =>
   DagBundleResponseOutput.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "GetDagBundleResponse",
-}) as any as S.Schema<GetDagBundleResponse>;
+).annotate({ identifier: "GetDagBundleResponse" }) as any as S.Schema<GetDagBundleResponse>;
 
 export interface GetInstanceRequest {
   /** The STACKIT portal project UUID the STACKIT Workflows instance is part of. */
@@ -672,9 +646,7 @@ export const GetInstanceRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://workflows.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "GetInstanceRequest",
-}) as any as S.Schema<GetInstanceRequest>;
+).annotate({ identifier: "GetInstanceRequest" }) as any as S.Schema<GetInstanceRequest>;
 
 export interface GetProviderOptionsRequest {
   /** The STACKIT region the STACKIT Workflows instance is part of. */
@@ -706,9 +678,7 @@ export const SupportedVersion = /*@__PURE__*/ S.suspend(() =>
     state: S.String,
     version: S.String,
   }),
-).annotate({
-  identifier: "SupportedVersion",
-}) as any as S.Schema<SupportedVersion>;
+).annotate({ identifier: "SupportedVersion" }) as any as S.Schema<SupportedVersion>;
 
 export type ProviderOptionsVersionsList = Array<SupportedVersion>;
 export const ProviderOptionsVersionsList = /*@__PURE__*/ S.Array(
@@ -722,9 +692,7 @@ export const ProviderOptions = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     versions: ProviderOptionsVersionsList,
   }),
-).annotate({
-  identifier: "ProviderOptions",
-}) as any as S.Schema<ProviderOptions>;
+).annotate({ identifier: "ProviderOptions" }) as any as S.Schema<ProviderOptions>;
 
 export interface ListDagBundlesRequest {
   /** The STACKIT portal project UUID the STACKIT Workflows instance is part of. */
@@ -747,9 +715,7 @@ export const ListDagBundlesRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://workflows.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "ListDagBundlesRequest",
-}) as any as S.Schema<ListDagBundlesRequest>;
+).annotate({ identifier: "ListDagBundlesRequest" }) as any as S.Schema<ListDagBundlesRequest>;
 
 /** List of all configured DAG bundles. Authentication type and username are returned for informational purposes; passwords and secrets are always masked. */
 export type ListDagBundlesResponseOutputDagBundlesList = Array<DagBundleResponseOutput>;
@@ -787,9 +753,7 @@ export const ListInstancesRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://workflows.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "ListInstancesRequest",
-}) as any as S.Schema<ListInstancesRequest>;
+).annotate({ identifier: "ListInstancesRequest" }) as any as S.Schema<ListInstancesRequest>;
 
 export type ListInstancesResponseInstancesList = Array<Instance>;
 export const ListInstancesResponseInstancesList = /*@__PURE__*/ S.Array(
@@ -803,13 +767,11 @@ export const ListInstancesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     instances: ListInstancesResponseInstancesList,
   }),
-).annotate({
-  identifier: "ListInstancesResponse",
-}) as any as S.Schema<ListInstancesResponse>;
+).annotate({ identifier: "ListInstancesResponse" }) as any as S.Schema<ListInstancesResponse>;
 
 /** Bundle type identifier — must match the existing bundle's type. */
 export type UpdateGitDagBundlePayloadType = "git";
-export const UpdateGitDagBundlePayloadType = /*@__PURE__*/ S.String;
+export const UpdateGitDagBundlePayloadType = S.String;
 
 /** Partial update payload for a Git DAG bundle. All fields except "type" are optional; only the provided fields will be updated. */
 export interface UpdateGitDagBundlePayload {
@@ -840,7 +802,7 @@ export const UpdateGitDagBundlePayload = /*@__PURE__*/ S.suspend(() =>
 
 /** Bundle type identifier — must match the existing bundle's type. */
 export type UpdateS3DagBundlePayloadType = "s3";
-export const UpdateS3DagBundlePayloadType = /*@__PURE__*/ S.String;
+export const UpdateS3DagBundlePayloadType = S.String;
 
 /** Partial update payload for an S3 DAG bundle. All fields except "type" are optional; only the provided fields will be updated. */
 export interface UpdateS3DagBundlePayload {
@@ -865,9 +827,7 @@ export const UpdateS3DagBundlePayload = /*@__PURE__*/ S.suspend(() =>
     s3Auth: S.optional(S3Auth),
     type: UpdateS3DagBundlePayloadType,
   }),
-).annotate({
-  identifier: "UpdateS3DagBundlePayload",
-}) as any as S.Schema<UpdateS3DagBundlePayload>;
+).annotate({ identifier: "UpdateS3DagBundlePayload" }) as any as S.Schema<UpdateS3DagBundlePayload>;
 
 /** Partial update payload for a DAG bundle. The "type" field must be provided and must match the existing bundle's type ("git" or "s3"). Only the provided fields will be updated. Supplying fields that belong to the wrong type will be rejected. */
 export type UpdateDagBundlePayload = UpdateGitDagBundlePayload | UpdateS3DagBundlePayload;
@@ -900,16 +860,12 @@ export const UpdateDagBundleRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://workflows.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "UpdateDagBundleRequest",
-}) as any as S.Schema<UpdateDagBundleRequest>;
+).annotate({ identifier: "UpdateDagBundleRequest" }) as any as S.Schema<UpdateDagBundleRequest>;
 
 export type UpdateDagBundleResponse = DagBundleResponseOutput;
 export const UpdateDagBundleResponse = /*@__PURE__*/ S.suspend(() =>
   DagBundleResponseOutput.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "UpdateDagBundleResponse",
-}) as any as S.Schema<UpdateDagBundleResponse>;
+).annotate({ identifier: "UpdateDagBundleResponse" }) as any as S.Schema<UpdateDagBundleResponse>;
 
 export interface UpdateDagsRepositoryRequest {
   /** The STACKIT portal project UUID the STACKIT Workflows instance is part of. */
@@ -1052,9 +1008,7 @@ export const UpdateInstanceRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://workflows.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "UpdateInstanceRequest",
-}) as any as S.Schema<UpdateInstanceRequest>;
+).annotate({ identifier: "UpdateInstanceRequest" }) as any as S.Schema<UpdateInstanceRequest>;
 
 export interface UpdateObservabilityRequest {
   /** The STACKIT portal project UUID the STACKIT Workflows instance is part of. */

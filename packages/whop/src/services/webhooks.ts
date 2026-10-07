@@ -205,9 +205,7 @@ export const CreateWebhookRequest = /*@__PURE__*/ S.suspend(() =>
     url: S.String,
     idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
   }).pipe(T.Http({ method: "POST", uri: "/webhooks", code: 200 })),
-).annotate({
-  identifier: "CreateWebhookRequest",
-}) as any as S.Schema<CreateWebhookRequest>;
+).annotate({ identifier: "CreateWebhookRequest" }) as any as S.Schema<CreateWebhookRequest>;
 
 /** The API version used to format payloads sent to this webhook endpoint. */
 export type WebhookApiVersion = "v1" | "v2" | "v5";
@@ -482,9 +480,7 @@ export const DeleteWebhookRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "DELETE", uri: "/webhooks/{id}", code: 200 })),
-).annotate({
-  identifier: "DeleteWebhookRequest",
-}) as any as S.Schema<DeleteWebhookRequest>;
+).annotate({ identifier: "DeleteWebhookRequest" }) as any as S.Schema<DeleteWebhookRequest>;
 
 export interface DeleteWebhookResponse {
   /** Always `true`: the resource was deleted. */
@@ -497,9 +493,7 @@ export const DeleteWebhookResponse = /*@__PURE__*/ S.suspend(() =>
     deleted: S.Boolean,
     id: S.String,
   }),
-).annotate({
-  identifier: "DeleteWebhookResponse",
-}) as any as S.Schema<DeleteWebhookResponse>;
+).annotate({ identifier: "DeleteWebhookResponse" }) as any as S.Schema<DeleteWebhookResponse>;
 
 export interface DeliveriesWebhookRequest {
   /** The unique identifier of the webhook to list deliveries for. */
@@ -516,16 +510,8 @@ export const DeliveriesWebhookRequest = /*@__PURE__*/ S.suspend(() =>
     before: S.optional(S.String.pipe(T.Query())),
     first: S.optional(S.Number.pipe(T.Query())),
     last: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/webhooks/{webhook_id}/deliveries",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "DeliveriesWebhookRequest",
-}) as any as S.Schema<DeliveriesWebhookRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/webhooks/{webhook_id}/deliveries", code: 200 })),
+).annotate({ identifier: "DeliveriesWebhookRequest" }) as any as S.Schema<DeliveriesWebhookRequest>;
 
 /** The request body sent to the webhook endpoint */
 export type DeliveriesWebhookResponseDataItemRequestBodyMap = {
@@ -618,9 +604,7 @@ export const GetWebhookRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/webhooks/{id}", code: 200 })),
-).annotate({
-  identifier: "GetWebhookRequest",
-}) as any as S.Schema<GetWebhookRequest>;
+).annotate({ identifier: "GetWebhookRequest" }) as any as S.Schema<GetWebhookRequest>;
 
 export interface ListWebhookDeliveriesRequest {
   /** Webhook ID, prefixed `hook_`. */
@@ -675,9 +659,7 @@ export const WebhookDelivery = /*@__PURE__*/ S.suspend(() =>
     success: S.Boolean,
     total_time: S.Number,
   }),
-).annotate({
-  identifier: "WebhookDelivery",
-}) as any as S.Schema<WebhookDelivery>;
+).annotate({ identifier: "WebhookDelivery" }) as any as S.Schema<WebhookDelivery>;
 
 export type ListWebhookDeliveriesResponseDataList = Array<WebhookDelivery>;
 export const ListWebhookDeliveriesResponseDataList = /*@__PURE__*/ S.Array(
@@ -743,9 +725,7 @@ export const ListWebhooksRequest = /*@__PURE__*/ S.suspend(() =>
     last: S.optional(S.Number.pipe(T.Query())),
     before: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/webhooks", code: 200 })),
-).annotate({
-  identifier: "ListWebhooksRequest",
-}) as any as S.Schema<ListWebhooksRequest>;
+).annotate({ identifier: "ListWebhooksRequest" }) as any as S.Schema<ListWebhooksRequest>;
 
 /** The API version used to format payloads sent to this webhook endpoint. */
 export type WebhookListItemApiVersion = "v1" | "v2" | "v5";
@@ -906,9 +886,7 @@ export const WebhookListItem = /*@__PURE__*/ S.suspend(() =>
     url: S.String,
     webhook_secret: S.NullOr(S.String).pipe(T.SensitiveValue({})),
   }),
-).annotate({
-  identifier: "WebhookListItem",
-}) as any as S.Schema<WebhookListItem>;
+).annotate({ identifier: "WebhookListItem" }) as any as S.Schema<WebhookListItem>;
 
 export type ListWebhooksResponseDataList = Array<WebhookListItem>;
 export const ListWebhooksResponseDataList = /*@__PURE__*/ S.Array(
@@ -927,9 +905,7 @@ export const ListWebhooksResponse = /*@__PURE__*/ S.suspend(() =>
     data: ListWebhooksResponseDataList,
     page_info: ListWebhookDeliveriesResponsePageInfo,
   }),
-).annotate({
-  identifier: "ListWebhooksResponse",
-}) as any as S.Schema<ListWebhooksResponse>;
+).annotate({ identifier: "ListWebhooksResponse" }) as any as S.Schema<ListWebhooksResponse>;
 
 /** Only replay these event types, in dot form (for example `payment.succeeded`). Omit to include every event. */
 export type ReplayWebhookRequestEventsList = Array<string>;
@@ -963,9 +939,7 @@ export const ReplayWebhookRequest = /*@__PURE__*/ S.suspend(() =>
     sent_before: S.optional(S.String),
     idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
   }).pipe(T.Http({ method: "POST", uri: "/webhooks/{id}/replay", code: 200 })),
-).annotate({
-  identifier: "ReplayWebhookRequest",
-}) as any as S.Schema<ReplayWebhookRequest>;
+).annotate({ identifier: "ReplayWebhookRequest" }) as any as S.Schema<ReplayWebhookRequest>;
 
 export interface ReplayWebhookResponse {
   /** Whether the replay was accepted. Watch the webhook's delivery log for the re-sends. */
@@ -975,9 +949,7 @@ export const ReplayWebhookResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     queued: S.Boolean,
   }),
-).annotate({
-  identifier: "ReplayWebhookResponse",
-}) as any as S.Schema<ReplayWebhookResponse>;
+).annotate({ identifier: "ReplayWebhookResponse" }) as any as S.Schema<ReplayWebhookResponse>;
 
 export interface ReplayWebhookDeliveryRequest {
   /** Webhook ID, prefixed `hook_`. */
@@ -996,11 +968,7 @@ export const ReplayWebhookDeliveryRequest = /*@__PURE__*/ S.suspend(() =>
     regenerate_id: S.optional(S.Boolean),
     idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/webhooks/{id}/deliveries/{delivery_id}/replay",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/webhooks/{id}/deliveries/{delivery_id}/replay", code: 200 }),
   ),
 ).annotate({
   identifier: "ReplayWebhookDeliveryRequest",
@@ -1038,9 +1006,7 @@ export const TestWebhookRequest = /*@__PURE__*/ S.suspend(() =>
     event: S.String,
     idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
   }).pipe(T.Http({ method: "POST", uri: "/webhooks/{id}/test", code: 200 })),
-).annotate({
-  identifier: "TestWebhookRequest",
-}) as any as S.Schema<TestWebhookRequest>;
+).annotate({ identifier: "TestWebhookRequest" }) as any as S.Schema<TestWebhookRequest>;
 
 export interface TestWebhookResponse {
   /** The body of the webhook response. */
@@ -1056,9 +1022,7 @@ export const TestWebhookResponse = /*@__PURE__*/ S.suspend(() =>
     status: S.Number,
     success: S.Boolean,
   }),
-).annotate({
-  identifier: "TestWebhookResponse",
-}) as any as S.Schema<TestWebhookResponse>;
+).annotate({ identifier: "TestWebhookResponse" }) as any as S.Schema<TestWebhookResponse>;
 
 export type UpdateWebhookRequestEventsItem =
   | "account.updated"
@@ -1207,9 +1171,7 @@ export const UpdateWebhookRequest = /*@__PURE__*/ S.suspend(() =>
     events: S.optional(UpdateWebhookRequestEventsList),
     url: S.optional(S.String),
   }).pipe(T.Http({ method: "PATCH", uri: "/webhooks/{id}", code: 200 })),
-).annotate({
-  identifier: "UpdateWebhookRequest",
-}) as any as S.Schema<UpdateWebhookRequest>;
+).annotate({ identifier: "UpdateWebhookRequest" }) as any as S.Schema<UpdateWebhookRequest>;
 
 export type CreateWebhookError = BadRequest | Forbidden | NotFound | Conflict | WhopOpError;
 /** Create Webhook Creates a webhook endpoint that receives event notifications via HTTP POST. */

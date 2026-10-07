@@ -15,25 +15,35 @@ export const GetDefaultLocationRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetDefaultLocationRequest",
 }) as any as S.Schema<GetDefaultLocationRequest>;
 
+/** [Storage classes](https://s2.dev/docs/storage-classes) available to the account in this location. */
+export type LocationInfoStorageClassesList = Array<string>;
+export const LocationInfoStorageClassesList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<LocationInfoStorageClassesList>;
+
 export interface LocationInfo {
+  /** Default [storage class](https://s2.dev/docs/storage-classes) for this location. */
+  default_storage_class?: string | null;
   /** Location represents a private placement, limited by account. */
   is_private: boolean;
   /** Location name. */
   name: string;
+  /** [Storage classes](https://s2.dev/docs/storage-classes) available to the account in this location. */
+  storage_classes?: LocationInfoStorageClassesList | null;
 }
 export const LocationInfo = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    default_storage_class: S.optional(S.NullOr(S.String)),
     is_private: S.Boolean,
     name: S.String,
+    storage_classes: S.optional(S.NullOr(LocationInfoStorageClassesList)),
   }),
 ).annotate({ identifier: "LocationInfo" }) as any as S.Schema<LocationInfo>;
 
 export interface ListLocationsRequest {}
 export const ListLocationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/locations", code: 200 })),
-).annotate({
-  identifier: "ListLocationsRequest",
-}) as any as S.Schema<ListLocationsRequest>;
+).annotate({ identifier: "ListLocationsRequest" }) as any as S.Schema<ListLocationsRequest>;
 
 export type ListLocationsResponseBodyList = Array<LocationInfo>;
 export const ListLocationsResponseBodyList = /*@__PURE__*/ S.Array(
@@ -43,9 +53,7 @@ export const ListLocationsResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListLocationsResponse = ListLocationsResponseBodyList;
 export const ListLocationsResponse = /*@__PURE__*/ S.suspend(() =>
   ListLocationsResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListLocationsResponse",
-}) as any as S.Schema<ListLocationsResponse>;
+).annotate({ identifier: "ListLocationsResponse" }) as any as S.Schema<ListLocationsResponse>;
 
 export interface SetDefaultLocationRequest {
   body: string;

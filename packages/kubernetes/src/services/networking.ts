@@ -220,13 +220,13 @@ export const IoK8sApiNetworkingV1IngressClassParametersReference = /*@__PURE__*/
 /** IngressClassSpec provides information about the class of an Ingress. */
 export interface IoK8sApiNetworkingV1IngressClassSpec {
   /** controller refers to the name of the controller that should handle this class. This allows for different "flavors" that are controlled by the same controller. For example, you may have different parameters for the same implementing controller. This should be specified as a domain-prefixed path no more than 250 characters in length, e.g. "acme.io/ingress-controller". This field is immutable. */
-  controller?: string;
+  controller: string;
   /** parameters is a link to a custom resource containing additional configuration for the controller. This is optional if the controller does not require extra parameters. */
   parameters?: IoK8sApiNetworkingV1IngressClassParametersReference;
 }
 export const IoK8sApiNetworkingV1IngressClassSpec = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    controller: S.optional(S.String),
+    controller: S.String,
     parameters: S.optional(IoK8sApiNetworkingV1IngressClassParametersReference),
   }),
 ).annotate({
@@ -249,7 +249,7 @@ export interface CreateNetworkingV1IngressClassRequest {
   /** metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
   metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta;
   /** spec is the desired state of the IngressClass. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status */
-  spec?: IoK8sApiNetworkingV1IngressClassSpec;
+  spec: IoK8sApiNetworkingV1IngressClassSpec;
 }
 export const CreateNetworkingV1IngressClassRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -260,14 +260,8 @@ export const CreateNetworkingV1IngressClassRequest = /*@__PURE__*/ S.suspend(() 
     apiVersion: S.optional(S.String),
     kind: S.optional(S.String),
     metadata: S.optional(IoK8sApimachineryPkgApisMetaV1ObjectMeta),
-    spec: S.optional(IoK8sApiNetworkingV1IngressClassSpec),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/apis/networking.k8s.io/v1/ingressclasses",
-      code: 200,
-    }),
-  ),
+    spec: IoK8sApiNetworkingV1IngressClassSpec,
+  }).pipe(T.Http({ method: "POST", uri: "/apis/networking.k8s.io/v1/ingressclasses", code: 200 })),
 ).annotate({
   identifier: "CreateNetworkingV1IngressClassRequest",
 }) as any as S.Schema<CreateNetworkingV1IngressClassRequest>;
@@ -281,14 +275,14 @@ export interface IoK8sApiNetworkingV1IngressClass {
   /** metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
   metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta;
   /** spec is the desired state of the IngressClass. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status */
-  spec?: IoK8sApiNetworkingV1IngressClassSpec;
+  spec: IoK8sApiNetworkingV1IngressClassSpec;
 }
 export const IoK8sApiNetworkingV1IngressClass = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     apiVersion: S.optional(S.String),
     kind: S.optional(S.String),
     metadata: S.optional(IoK8sApimachineryPkgApisMetaV1ObjectMeta),
-    spec: S.optional(IoK8sApiNetworkingV1IngressClassSpec),
+    spec: IoK8sApiNetworkingV1IngressClassSpec,
   }),
 ).annotate({
   identifier: "IoK8sApiNetworkingV1IngressClass",
@@ -357,13 +351,7 @@ export const CreateNetworkingV1IPAddressRequest = /*@__PURE__*/ S.suspend(() =>
     kind: S.optional(S.String),
     metadata: S.optional(IoK8sApimachineryPkgApisMetaV1ObjectMeta),
     spec: IoK8sApiNetworkingV1IPAddressSpec,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/apis/networking.k8s.io/v1/ipaddresses",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/apis/networking.k8s.io/v1/ipaddresses", code: 200 })),
 ).annotate({
   identifier: "CreateNetworkingV1IPAddressRequest",
 }) as any as S.Schema<CreateNetworkingV1IPAddressRequest>;
@@ -392,11 +380,11 @@ export const IoK8sApiNetworkingV1IPAddress = /*@__PURE__*/ S.suspend(() =>
 
 /** TypedLocalObjectReference contains enough information to let you locate the typed referenced object inside the same namespace. */
 export interface IoK8sApiCoreV1TypedLocalObjectReference {
-  /** APIGroup is the group for the resource being referenced. If APIGroup is not specified, the specified Kind must be in the core API group. For any other third-party types, APIGroup is required. */
+  /** apiGroup is the group for the resource being referenced. If APIGroup is not specified, the specified Kind must be in the core API group. For any other third-party types, APIGroup is required. */
   apiGroup?: string;
-  /** Kind is the type of resource being referenced */
+  /** kind is the type of resource being referenced */
   kind: string;
-  /** Name is the name of resource being referenced */
+  /** name is the name of resource being referenced */
   name: string;
 }
 export const IoK8sApiCoreV1TypedLocalObjectReference = /*@__PURE__*/ S.suspend(() =>
@@ -573,15 +561,15 @@ export interface IoK8sApiNetworkingV1IngressPortStatus {
   /** error is to record the problem with the service port The format of the error shall comply with the following rules: - built-in error values shall be specified in this file and those shall use CamelCase names - cloud provider specific error values must have names that comply with the format foo.example.com/CamelCase. */
   error?: string;
   /** port is the port number of the ingress port. */
-  port: number;
+  port?: number;
   /** protocol is the protocol of the ingress port. The supported values are: "TCP", "UDP", "SCTP" */
-  protocol: string;
+  protocol?: string;
 }
 export const IoK8sApiNetworkingV1IngressPortStatus = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     error: S.optional(S.String),
-    port: S.Number,
-    protocol: S.String,
+    port: S.optional(S.Number),
+    protocol: S.optional(S.String),
   }),
 ).annotate({
   identifier: "IoK8sApiNetworkingV1IngressPortStatus",
@@ -1099,13 +1087,7 @@ export const CreateNetworkingV1ServiceCIDRRequest = /*@__PURE__*/ S.suspend(() =
     metadata: S.optional(IoK8sApimachineryPkgApisMetaV1ObjectMeta),
     spec: S.optional(IoK8sApiNetworkingV1ServiceCIDRSpec),
     status: S.optional(IoK8sApiNetworkingV1ServiceCIDRStatus),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/apis/networking.k8s.io/v1/servicecidrs",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/apis/networking.k8s.io/v1/servicecidrs", code: 200 })),
 ).annotate({
   identifier: "CreateNetworkingV1ServiceCIDRRequest",
 }) as any as S.Schema<CreateNetworkingV1ServiceCIDRRequest>;
@@ -1210,11 +1192,7 @@ export const DeleteNetworkingV1CollectionIngressClassRequest = /*@__PURE__*/ S.s
     kind: S.optional(S.String),
     preconditions: S.optional(IoK8sApimachineryPkgApisMetaV1Preconditions),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/apis/networking.k8s.io/v1/ingressclasses",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/apis/networking.k8s.io/v1/ingressclasses", code: 200 }),
   ),
 ).annotate({
   identifier: "DeleteNetworkingV1CollectionIngressClassRequest",
@@ -1404,13 +1382,7 @@ export const DeleteNetworkingV1CollectionIPAddressRequest = /*@__PURE__*/ S.susp
     apiVersion: S.optional(S.String),
     kind: S.optional(S.String),
     preconditions: S.optional(IoK8sApimachineryPkgApisMetaV1Preconditions),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/apis/networking.k8s.io/v1/ipaddresses",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/apis/networking.k8s.io/v1/ipaddresses", code: 200 })),
 ).annotate({
   identifier: "DeleteNetworkingV1CollectionIPAddressRequest",
 }) as any as S.Schema<DeleteNetworkingV1CollectionIPAddressRequest>;
@@ -1618,13 +1590,7 @@ export const DeleteNetworkingV1CollectionServiceCIDRRequest = /*@__PURE__*/ S.su
     apiVersion: S.optional(S.String),
     kind: S.optional(S.String),
     preconditions: S.optional(IoK8sApimachineryPkgApisMetaV1Preconditions),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/apis/networking.k8s.io/v1/servicecidrs",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/apis/networking.k8s.io/v1/servicecidrs", code: 200 })),
 ).annotate({
   identifier: "DeleteNetworkingV1CollectionServiceCIDRRequest",
 }) as any as S.Schema<DeleteNetworkingV1CollectionServiceCIDRRequest>;
@@ -1709,11 +1675,7 @@ export const DeleteNetworkingV1IPAddressRequest = /*@__PURE__*/ S.suspend(() =>
     kind: S.optional(S.String),
     preconditions: S.optional(IoK8sApimachineryPkgApisMetaV1Preconditions),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/apis/networking.k8s.io/v1/ipaddresses/{name}",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/apis/networking.k8s.io/v1/ipaddresses/{name}", code: 200 }),
   ),
 ).annotate({
   identifier: "DeleteNetworkingV1IPAddressRequest",
@@ -1850,11 +1812,7 @@ export const DeleteNetworkingV1ServiceCIDRRequest = /*@__PURE__*/ S.suspend(() =
     kind: S.optional(S.String),
     preconditions: S.optional(IoK8sApimachineryPkgApisMetaV1Preconditions),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/apis/networking.k8s.io/v1/servicecidrs/{name}",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/apis/networking.k8s.io/v1/servicecidrs/{name}", code: 200 }),
   ),
 ).annotate({
   identifier: "DeleteNetworkingV1ServiceCIDRRequest",
@@ -2078,13 +2036,7 @@ export const ListNetworkingV1IngressClassRequest = /*@__PURE__*/ S.suspend(() =>
     shardSelector: S.optional(S.String.pipe(T.Query())),
     timeoutSeconds: S.optional(S.Number.pipe(T.Query())),
     watch: S.optional(S.Boolean.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/apis/networking.k8s.io/v1/ingressclasses",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/apis/networking.k8s.io/v1/ingressclasses", code: 200 })),
 ).annotate({
   identifier: "ListNetworkingV1IngressClassRequest",
 }) as any as S.Schema<ListNetworkingV1IngressClassRequest>;
@@ -2157,13 +2109,7 @@ export const ListNetworkingV1IngressForAllNamespacesRequest = /*@__PURE__*/ S.su
     shardSelector: S.optional(S.String.pipe(T.Query())),
     timeoutSeconds: S.optional(S.Number.pipe(T.Query())),
     watch: S.optional(S.Boolean.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/apis/networking.k8s.io/v1/ingresses",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/apis/networking.k8s.io/v1/ingresses", code: 200 })),
 ).annotate({
   identifier: "ListNetworkingV1IngressForAllNamespacesRequest",
 }) as any as S.Schema<ListNetworkingV1IngressForAllNamespacesRequest>;
@@ -2236,13 +2182,7 @@ export const ListNetworkingV1IPAddressRequest = /*@__PURE__*/ S.suspend(() =>
     shardSelector: S.optional(S.String.pipe(T.Query())),
     timeoutSeconds: S.optional(S.Number.pipe(T.Query())),
     watch: S.optional(S.Boolean.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/apis/networking.k8s.io/v1/ipaddresses",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/apis/networking.k8s.io/v1/ipaddresses", code: 200 })),
 ).annotate({
   identifier: "ListNetworkingV1IPAddressRequest",
 }) as any as S.Schema<ListNetworkingV1IPAddressRequest>;
@@ -2452,13 +2392,7 @@ export const ListNetworkingV1NetworkPolicyForAllNamespacesRequest = /*@__PURE__*
     shardSelector: S.optional(S.String.pipe(T.Query())),
     timeoutSeconds: S.optional(S.Number.pipe(T.Query())),
     watch: S.optional(S.Boolean.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/apis/networking.k8s.io/v1/networkpolicies",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/apis/networking.k8s.io/v1/networkpolicies", code: 200 })),
 ).annotate({
   identifier: "ListNetworkingV1NetworkPolicyForAllNamespacesRequest",
 }) as any as S.Schema<ListNetworkingV1NetworkPolicyForAllNamespacesRequest>;
@@ -2503,13 +2437,7 @@ export const ListNetworkingV1ServiceCIDRRequest = /*@__PURE__*/ S.suspend(() =>
     shardSelector: S.optional(S.String.pipe(T.Query())),
     timeoutSeconds: S.optional(S.Number.pipe(T.Query())),
     watch: S.optional(S.Boolean.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/apis/networking.k8s.io/v1/servicecidrs",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/apis/networking.k8s.io/v1/servicecidrs", code: 200 })),
 ).annotate({
   identifier: "ListNetworkingV1ServiceCIDRRequest",
 }) as any as S.Schema<ListNetworkingV1ServiceCIDRRequest>;
@@ -2565,11 +2493,7 @@ export const PatchNetworkingV1IngressClassRequest = /*@__PURE__*/ S.suspend(() =
     fieldValidation: S.optional(S.String.pipe(T.Query())),
     force: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/apis/networking.k8s.io/v1/ingressclasses/{name}",
-      code: 200,
-    }),
+    T.Http({ method: "PATCH", uri: "/apis/networking.k8s.io/v1/ingressclasses/{name}", code: 200 }),
   ),
 ).annotate({
   identifier: "PatchNetworkingV1IngressClassRequest",
@@ -2598,11 +2522,7 @@ export const PatchNetworkingV1IPAddressRequest = /*@__PURE__*/ S.suspend(() =>
     fieldValidation: S.optional(S.String.pipe(T.Query())),
     force: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/apis/networking.k8s.io/v1/ipaddresses/{name}",
-      code: 200,
-    }),
+    T.Http({ method: "PATCH", uri: "/apis/networking.k8s.io/v1/ipaddresses/{name}", code: 200 }),
   ),
 ).annotate({
   identifier: "PatchNetworkingV1IPAddressRequest",
@@ -2739,11 +2659,7 @@ export const PatchNetworkingV1ServiceCIDRRequest = /*@__PURE__*/ S.suspend(() =>
     fieldValidation: S.optional(S.String.pipe(T.Query())),
     force: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/apis/networking.k8s.io/v1/servicecidrs/{name}",
-      code: 200,
-    }),
+    T.Http({ method: "PATCH", uri: "/apis/networking.k8s.io/v1/servicecidrs/{name}", code: 200 }),
   ),
 ).annotate({
   identifier: "PatchNetworkingV1ServiceCIDRRequest",
@@ -2793,11 +2709,7 @@ export const ReadNetworkingV1IngressClassRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.String.pipe(T.Label()),
     pretty: S.optional(S.String.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/apis/networking.k8s.io/v1/ingressclasses/{name}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/apis/networking.k8s.io/v1/ingressclasses/{name}", code: 200 }),
   ),
 ).annotate({
   identifier: "ReadNetworkingV1IngressClassRequest",
@@ -2814,11 +2726,7 @@ export const ReadNetworkingV1IPAddressRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.String.pipe(T.Label()),
     pretty: S.optional(S.String.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/apis/networking.k8s.io/v1/ipaddresses/{name}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/apis/networking.k8s.io/v1/ipaddresses/{name}", code: 200 }),
   ),
 ).annotate({
   identifier: "ReadNetworkingV1IPAddressRequest",
@@ -2907,11 +2815,7 @@ export const ReadNetworkingV1ServiceCIDRRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.String.pipe(T.Label()),
     pretty: S.optional(S.String.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/apis/networking.k8s.io/v1/servicecidrs/{name}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/apis/networking.k8s.io/v1/servicecidrs/{name}", code: 200 }),
   ),
 ).annotate({
   identifier: "ReadNetworkingV1ServiceCIDRRequest",
@@ -2956,7 +2860,7 @@ export interface ReplaceNetworkingV1IngressClassRequest {
   /** metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
   metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta;
   /** spec is the desired state of the IngressClass. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status */
-  spec?: IoK8sApiNetworkingV1IngressClassSpec;
+  spec: IoK8sApiNetworkingV1IngressClassSpec;
 }
 export const ReplaceNetworkingV1IngressClassRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2968,13 +2872,9 @@ export const ReplaceNetworkingV1IngressClassRequest = /*@__PURE__*/ S.suspend(()
     apiVersion: S.optional(S.String),
     kind: S.optional(S.String),
     metadata: S.optional(IoK8sApimachineryPkgApisMetaV1ObjectMeta),
-    spec: S.optional(IoK8sApiNetworkingV1IngressClassSpec),
+    spec: IoK8sApiNetworkingV1IngressClassSpec,
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/apis/networking.k8s.io/v1/ingressclasses/{name}",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/apis/networking.k8s.io/v1/ingressclasses/{name}", code: 200 }),
   ),
 ).annotate({
   identifier: "ReplaceNetworkingV1IngressClassRequest",
@@ -3012,11 +2912,7 @@ export const ReplaceNetworkingV1IPAddressRequest = /*@__PURE__*/ S.suspend(() =>
     metadata: S.optional(IoK8sApimachineryPkgApisMetaV1ObjectMeta),
     spec: IoK8sApiNetworkingV1IPAddressSpec,
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/apis/networking.k8s.io/v1/ipaddresses/{name}",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/apis/networking.k8s.io/v1/ipaddresses/{name}", code: 200 }),
   ),
 ).annotate({
   identifier: "ReplaceNetworkingV1IPAddressRequest",
@@ -3198,11 +3094,7 @@ export const ReplaceNetworkingV1ServiceCIDRRequest = /*@__PURE__*/ S.suspend(() 
     spec: S.optional(IoK8sApiNetworkingV1ServiceCIDRSpec),
     status: S.optional(IoK8sApiNetworkingV1ServiceCIDRStatus),
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/apis/networking.k8s.io/v1/servicecidrs/{name}",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/apis/networking.k8s.io/v1/servicecidrs/{name}", code: 200 }),
   ),
 ).annotate({
   identifier: "ReplaceNetworkingV1ServiceCIDRRequest",
@@ -3363,11 +3255,7 @@ export const WatchNetworkingV1IngressClassListRequest = /*@__PURE__*/ S.suspend(
     timeoutSeconds: S.optional(S.Number.pipe(T.Query())),
     watch: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/apis/networking.k8s.io/v1/watch/ingressclasses",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/apis/networking.k8s.io/v1/watch/ingressclasses", code: 200 }),
   ),
 ).annotate({
   identifier: "WatchNetworkingV1IngressClassListRequest",
@@ -3413,13 +3301,7 @@ export const WatchNetworkingV1IngressListForAllNamespacesRequest = /*@__PURE__*/
     shardSelector: S.optional(S.String.pipe(T.Query())),
     timeoutSeconds: S.optional(S.Number.pipe(T.Query())),
     watch: S.optional(S.Boolean.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/apis/networking.k8s.io/v1/watch/ingresses",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/apis/networking.k8s.io/v1/watch/ingresses", code: 200 })),
 ).annotate({
   identifier: "WatchNetworkingV1IngressListForAllNamespacesRequest",
 }) as any as S.Schema<WatchNetworkingV1IngressListForAllNamespacesRequest>;
@@ -3519,11 +3401,7 @@ export const WatchNetworkingV1IPAddressListRequest = /*@__PURE__*/ S.suspend(() 
     timeoutSeconds: S.optional(S.Number.pipe(T.Query())),
     watch: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/apis/networking.k8s.io/v1/watch/ipaddresses",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/apis/networking.k8s.io/v1/watch/ipaddresses", code: 200 }),
   ),
 ).annotate({
   identifier: "WatchNetworkingV1IPAddressListRequest",
@@ -3793,11 +3671,7 @@ export const WatchNetworkingV1NetworkPolicyListForAllNamespacesRequest = /*@__PU
       timeoutSeconds: S.optional(S.Number.pipe(T.Query())),
       watch: S.optional(S.Boolean.pipe(T.Query())),
     }).pipe(
-      T.Http({
-        method: "GET",
-        uri: "/apis/networking.k8s.io/v1/watch/networkpolicies",
-        code: 200,
-      }),
+      T.Http({ method: "GET", uri: "/apis/networking.k8s.io/v1/watch/networkpolicies", code: 200 }),
     ),
 ).annotate({
   identifier: "WatchNetworkingV1NetworkPolicyListForAllNamespacesRequest",
@@ -3898,11 +3772,7 @@ export const WatchNetworkingV1ServiceCIDRListRequest = /*@__PURE__*/ S.suspend((
     timeoutSeconds: S.optional(S.Number.pipe(T.Query())),
     watch: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/apis/networking.k8s.io/v1/watch/servicecidrs",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/apis/networking.k8s.io/v1/watch/servicecidrs", code: 200 }),
   ),
 ).annotate({
   identifier: "WatchNetworkingV1ServiceCIDRListRequest",

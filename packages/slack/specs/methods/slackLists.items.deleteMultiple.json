@@ -22,7 +22,8 @@
       "token": {
         "desc": "Token with which to authenticate the session.",
         "type": "string",
-        "subtype": "auth"
+        "subtype": "auth",
+        "example": "xxxx-xxxxxxxxx-xxxx"
       },
       "list_id": {
         "desc": "ID of the List containing the items.",
@@ -63,5 +64,6 @@
     "user_not_found": {
       "desc": "The user cannot be found."
     }
-  }
+  },
+  "json_input_supported": true
 }

@@ -24,9 +24,7 @@ export const RotateTokenRequest = /*@__PURE__*/ S.suspend(() =>
       contentType: "form-urlencoded",
     }),
   ),
-).annotate({
-  identifier: "RotateTokenRequest",
-}) as any as S.Schema<RotateTokenRequest>;
+).annotate({ identifier: "RotateTokenRequest" }) as any as S.Schema<RotateTokenRequest>;
 
 export interface RotateTokenResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -54,9 +52,7 @@ export const RotateTokenResponse = /*@__PURE__*/ S.suspend(() =>
     exp: S.Number,
     iat: S.Number,
   }),
-).annotate({
-  identifier: "RotateTokenResponse",
-}) as any as S.Schema<RotateTokenResponse>;
+).annotate({ identifier: "RotateTokenResponse" }) as any as S.Schema<RotateTokenResponse>;
 
 export type RotateTokenError = SlackOpError;
 /** Exchanges a refresh token for a new app configuration token. Rate limit tier: 5 Method-specific errors (the `error` slug on the SlackError): - `internal_error` — Internal error - `invalid_refresh_token` — The given refresh token is invalid. - `unknown_error` — Temporary error for dev only restriction See https://docs.slack.dev/reference/methods/tooling.tokens.rotate */

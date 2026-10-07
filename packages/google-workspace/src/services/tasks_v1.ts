@@ -79,9 +79,7 @@ export const ClearTasksRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://tasks.googleapis.com/",
     }),
   ),
-).annotate({
-  identifier: "ClearTasksRequest",
-}) as any as S.Schema<ClearTasksRequest>;
+).annotate({ identifier: "ClearTasksRequest" }) as any as S.Schema<ClearTasksRequest>;
 
 export interface ClearTasksResponse {}
 export const ClearTasksResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -102,9 +100,7 @@ export const DeleteTasklistsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://tasks.googleapis.com/",
     }),
   ),
-).annotate({
-  identifier: "DeleteTasklistsRequest",
-}) as any as S.Schema<DeleteTasklistsRequest>;
+).annotate({ identifier: "DeleteTasklistsRequest" }) as any as S.Schema<DeleteTasklistsRequest>;
 
 export interface DeleteTasklistsResponse {}
 export const DeleteTasklistsResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -128,9 +124,7 @@ export const DeleteTasksRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://tasks.googleapis.com/",
     }),
   ),
-).annotate({
-  identifier: "DeleteTasksRequest",
-}) as any as S.Schema<DeleteTasksRequest>;
+).annotate({ identifier: "DeleteTasksRequest" }) as any as S.Schema<DeleteTasksRequest>;
 
 export interface DeleteTasksResponse {}
 export const DeleteTasksResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -151,45 +145,43 @@ export const GetTasklistsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://tasks.googleapis.com/",
     }),
   ),
-).annotate({
-  identifier: "GetTasklistsRequest",
-}) as any as S.Schema<GetTasklistsRequest>;
+).annotate({ identifier: "GetTasklistsRequest" }) as any as S.Schema<GetTasklistsRequest>;
 
 export interface TaskList {
-  /** Output only. Last modification time of the task list (as a RFC 3339 timestamp). */
-  updated?: string;
-  /** Title of the task list. Maximum length allowed: 1024 characters. */
-  title?: string;
   /** Output only. URL pointing to this task list. Used to retrieve, update, or delete this task list. */
   selfLink?: string;
-  /** Output only. Type of the resource. This is always "tasks#taskList". */
-  kind?: string;
+  /** Output only. Last modification time of the task list (as a RFC 3339 timestamp). */
+  updated?: string;
   /** ETag of the resource. */
   etag?: string;
+  /** Output only. Type of the resource. This is always "tasks#taskList". */
+  kind?: string;
   /** Task list identifier. */
   id?: string;
+  /** Title of the task list. Maximum length allowed: 1024 characters. */
+  title?: string;
 }
 export const TaskList = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    updated: S.optional(S.String),
-    title: S.optional(S.String),
     selfLink: S.optional(S.String),
-    kind: S.optional(S.String),
+    updated: S.optional(S.String),
     etag: S.optional(S.String),
+    kind: S.optional(S.String),
     id: S.optional(S.String),
+    title: S.optional(S.String),
   }),
 ).annotate({ identifier: "TaskList" }) as any as S.Schema<TaskList>;
 
 export interface GetTasksRequest {
-  /** Task list identifier. */
-  tasklist: string;
   /** Task identifier. */
   task: string;
+  /** Task list identifier. */
+  tasklist: string;
 }
 export const GetTasksRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    tasklist: S.String.pipe(T.Label()),
     task: S.String.pipe(T.Label()),
+    tasklist: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -197,9 +189,7 @@ export const GetTasksRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://tasks.googleapis.com/",
     }),
   ),
-).annotate({
-  identifier: "GetTasksRequest",
-}) as any as S.Schema<GetTasksRequest>;
+).annotate({ identifier: "GetTasksRequest" }) as any as S.Schema<GetTasksRequest>;
 
 export type AssignmentInfoSurfaceTypeEnum =
   | "CONTEXT_TYPE_UNSPECIFIED"
@@ -207,22 +197,6 @@ export type AssignmentInfoSurfaceTypeEnum =
   | "DOCUMENT"
   | "SPACE";
 export const AssignmentInfoSurfaceTypeEnum = S.String;
-
-/** Information about the Drive resource where a task was assigned from (the document, sheet, etc.). */
-export interface DriveResourceInfo {
-  /** Output only. Identifier of the file in the Drive API. */
-  driveFileId?: string;
-  /** Output only. Resource key required to access files shared via a shared link. Not required for all files. See also developers.google.com/drive/api/guides/resource-keys. */
-  resourceKey?: string;
-}
-export const DriveResourceInfo = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    driveFileId: S.optional(S.String),
-    resourceKey: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "DriveResourceInfo",
-}) as any as S.Schema<DriveResourceInfo>;
 
 /** Information about the Chat Space where a task was assigned from. */
 export interface SpaceInfo {
@@ -235,39 +209,53 @@ export const SpaceInfo = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "SpaceInfo" }) as any as S.Schema<SpaceInfo>;
 
+/** Information about the Drive resource where a task was assigned from (the document, sheet, etc.). */
+export interface DriveResourceInfo {
+  /** Output only. Resource key required to access files shared via a shared link. Not required for all files. See also developers.google.com/drive/api/guides/resource-keys. */
+  resourceKey?: string;
+  /** Output only. Identifier of the file in the Drive API. */
+  driveFileId?: string;
+}
+export const DriveResourceInfo = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    resourceKey: S.optional(S.String),
+    driveFileId: S.optional(S.String),
+  }),
+).annotate({ identifier: "DriveResourceInfo" }) as any as S.Schema<DriveResourceInfo>;
+
 /** Information about the source of the task assignment (Document, Chat Space). */
 export interface AssignmentInfo {
   /** Output only. An absolute link to the original task in the surface of assignment (Docs, Chat spaces, etc.). */
   linkToTask?: string;
   /** Output only. The type of surface this assigned task originates from. Currently limited to DOCUMENT or SPACE. */
   surfaceType?: AssignmentInfoSurfaceTypeEnum | (string & {});
-  /** Output only. Information about the Drive file where this task originates from. Currently, the Drive file can only be a document. This field is read-only. */
-  driveResourceInfo?: DriveResourceInfo;
   /** Output only. Information about the Chat Space where this task originates from. This field is read-only. */
   spaceInfo?: SpaceInfo;
+  /** Output only. Information about the Drive file where this task originates from. Currently, the Drive file can only be a document. This field is read-only. */
+  driveResourceInfo?: DriveResourceInfo;
 }
 export const AssignmentInfo = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     linkToTask: S.optional(S.String),
     surfaceType: S.optional(AssignmentInfoSurfaceTypeEnum),
-    driveResourceInfo: S.optional(DriveResourceInfo),
     spaceInfo: S.optional(SpaceInfo),
+    driveResourceInfo: S.optional(DriveResourceInfo),
   }),
 ).annotate({ identifier: "AssignmentInfo" }) as any as S.Schema<AssignmentInfo>;
 
 export interface TaskLinksItem {
-  /** The description (might be empty). */
-  description?: string;
-  /** The URL. */
-  link?: string;
   /** Type of the link, e.g. "email", "generic", "chat_message", "keep_note". */
   type?: string;
+  /** The URL. */
+  link?: string;
+  /** The description (might be empty). */
+  description?: string;
 }
 export const TaskLinksItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    description: S.optional(S.String),
-    link: S.optional(S.String),
     type: S.optional(S.String),
+    link: S.optional(S.String),
+    description: S.optional(S.String),
   }),
 ).annotate({ identifier: "TaskLinksItem" }) as any as S.Schema<TaskLinksItem>;
 
@@ -277,60 +265,60 @@ export const TaskLinksItemList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<TaskLinksItemList>;
 
 export interface Task {
-  /** Notes describing the task. Tasks assigned from Google Docs cannot have notes. Optional. Maximum length allowed: 8192 characters. */
-  notes?: string;
-  /** Status of the task. This is either "needsAction" or "completed". */
-  status?: string;
-  /** Output only. Type of the resource. This is always "tasks#task". */
-  kind?: string;
-  /** Title of the task. Maximum length allowed: 1024 characters. */
-  title?: string;
-  /** Output only. Last modification time of the task (as a RFC 3339 timestamp). */
-  updated?: string;
-  /** Task identifier. */
-  id?: string;
-  /** ETag of the resource. */
-  etag?: string;
-  /** Output only. Context information for assigned tasks. A task can be assigned to a user, currently possible from surfaces like Docs and Chat Spaces. This field is populated for tasks assigned to the current user and identifies where the task was assigned from. This field is read-only. */
-  assignmentInfo?: AssignmentInfo;
   /** Output only. String indicating the position of the task among its sibling tasks under the same parent task or at the top level. If this string is greater than another task's corresponding position string according to lexicographical ordering, the task is positioned after the other task under the same parent task (or at the top level). Use the "move" method to move the task to another position. */
   position?: string;
+  /** Output only. Last modification time of the task (as a RFC 3339 timestamp). */
+  updated?: string;
+  /** Title of the task. Maximum length allowed: 1024 characters. */
+  title?: string;
+  /** Output only. Context information for assigned tasks. A task can be assigned to a user, currently possible from surfaces like Docs and Chat Spaces. This field is populated for tasks assigned to the current user and identifies where the task was assigned from. This field is read-only. */
+  assignmentInfo?: AssignmentInfo;
   /** Output only. Collection of links. This collection is read-only. */
   links?: TaskLinksItemList;
-  /** Output only. URL pointing to this task. Used to retrieve, update, or delete this task. */
-  selfLink?: string;
-  /** Scheduled date for the task (as an RFC 3339 timestamp). Optional. This represents the day that the task should be done, or that the task is visible on the calendar grid. It doesn't represent the deadline of the task. Only date information is recorded; the time portion of the timestamp is discarded when setting this field. It isn't possible to read or write the time that a task is scheduled for using the API. */
-  due?: string;
-  /** Output only. An absolute link to the task in the Google Tasks Web UI. */
-  webViewLink?: string;
-  /** Output only. Parent task identifier. This field is omitted if it is a top-level task. Use the "move" method to move the task under a different parent or to the top level. A parent task can never be an assigned task (from Chat Spaces, Docs). This field is read-only. */
-  parent?: string;
-  /** Flag indicating whether the task is hidden. This is the case if the task had been marked completed when the task list was last cleared. The default is False. This field is read-only. */
-  hidden?: boolean;
-  /** Flag indicating whether the task has been deleted. For assigned tasks this field is read-only. They can only be deleted by calling tasks.delete, in which case both the assigned task and the original task (in Docs or Chat Spaces) are deleted. To delete the assigned task only, navigate to the assignment surface and unassign the task from there. The default is False. */
-  deleted?: boolean;
   /** Completion date of the task (as a RFC 3339 timestamp). This field is omitted if the task has not been completed. */
   completed?: string;
+  /** Task identifier. */
+  id?: string;
+  /** Status of the task. This is either "needsAction" or "completed". */
+  status?: string;
+  /** Notes describing the task. Tasks assigned from Google Docs cannot have notes. Optional. Maximum length allowed: 8192 characters. */
+  notes?: string;
+  /** Output only. Type of the resource. This is always "tasks#task". */
+  kind?: string;
+  /** Scheduled date for the task (as an RFC 3339 timestamp). Optional. This represents the day that the task should be done, or that the task is visible on the calendar grid. It doesn't represent the deadline of the task. Only date information is recorded; the time portion of the timestamp is discarded when setting this field. It isn't possible to read or write the time that a task is scheduled for using the API. */
+  due?: string;
+  /** Output only. Parent task identifier. This field is omitted if it is a top-level task. Use the "move" method to move the task under a different parent or to the top level. A parent task can never be an assigned task (from Chat Spaces, Docs). This field is read-only. */
+  parent?: string;
+  /** ETag of the resource. */
+  etag?: string;
+  /** Output only. URL pointing to this task. Used to retrieve, update, or delete this task. */
+  selfLink?: string;
+  /** Flag indicating whether the task has been deleted. For assigned tasks this field is read-only. They can only be deleted by calling tasks.delete, in which case both the assigned task and the original task (in Docs or Chat Spaces) are deleted. To delete the assigned task only, navigate to the assignment surface and unassign the task from there. The default is False. */
+  deleted?: boolean;
+  /** Output only. An absolute link to the task in the Google Tasks Web UI. */
+  webViewLink?: string;
+  /** Flag indicating whether the task is hidden. This is the case if the task had been marked completed when the task list was last cleared. The default is False. This field is read-only. */
+  hidden?: boolean;
 }
 export const Task = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    notes: S.optional(S.String),
-    status: S.optional(S.String),
-    kind: S.optional(S.String),
-    title: S.optional(S.String),
-    updated: S.optional(S.String),
-    id: S.optional(S.String),
-    etag: S.optional(S.String),
-    assignmentInfo: S.optional(AssignmentInfo),
     position: S.optional(S.String),
+    updated: S.optional(S.String),
+    title: S.optional(S.String),
+    assignmentInfo: S.optional(AssignmentInfo),
     links: S.optional(TaskLinksItemList),
-    selfLink: S.optional(S.String),
-    due: S.optional(S.String),
-    webViewLink: S.optional(S.String),
-    parent: S.optional(S.String),
-    hidden: S.optional(S.Boolean),
-    deleted: S.optional(S.Boolean),
     completed: S.optional(S.String),
+    id: S.optional(S.String),
+    status: S.optional(S.String),
+    notes: S.optional(S.String),
+    kind: S.optional(S.String),
+    due: S.optional(S.String),
+    parent: S.optional(S.String),
+    etag: S.optional(S.String),
+    selfLink: S.optional(S.String),
+    deleted: S.optional(S.Boolean),
+    webViewLink: S.optional(S.String),
+    hidden: S.optional(S.Boolean),
   }),
 ).annotate({ identifier: "Task" }) as any as S.Schema<Task>;
 
@@ -348,25 +336,23 @@ export const InsertTasklistsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://tasks.googleapis.com/",
     }),
   ),
-).annotate({
-  identifier: "InsertTasklistsRequest",
-}) as any as S.Schema<InsertTasklistsRequest>;
+).annotate({ identifier: "InsertTasklistsRequest" }) as any as S.Schema<InsertTasklistsRequest>;
 
 export interface InsertTasksRequest {
   /** Task list identifier. */
   tasklist: string;
-  /** Previous sibling task identifier. If the task is created at the first position among its siblings, this parameter is omitted. Optional. */
-  previous?: string;
   /** Parent task identifier. If the task is created at the top level, this parameter is omitted. An assigned task cannot be a parent task, nor can it have a parent. Setting the parent to an assigned task results in failure of the request. Optional. */
   parent?: string;
+  /** Previous sibling task identifier. If the task is created at the first position among its siblings, this parameter is omitted. Optional. */
+  previous?: string;
   /** Request body */
   body?: Task;
 }
 export const InsertTasksRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     tasklist: S.String.pipe(T.Label()),
-    previous: S.optional(S.String.pipe(T.Query())),
     parent: S.optional(S.String.pipe(T.Query())),
+    previous: S.optional(S.String.pipe(T.Query())),
     body: S.optional(Task.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -375,9 +361,7 @@ export const InsertTasksRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://tasks.googleapis.com/",
     }),
   ),
-).annotate({
-  identifier: "InsertTasksRequest",
-}) as any as S.Schema<InsertTasksRequest>;
+).annotate({ identifier: "InsertTasksRequest" }) as any as S.Schema<InsertTasksRequest>;
 
 export interface ListTasklistsRequest {
   /** Token specifying the result page to return. Optional. */
@@ -396,72 +380,70 @@ export const ListTasklistsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://tasks.googleapis.com/",
     }),
   ),
-).annotate({
-  identifier: "ListTasklistsRequest",
-}) as any as S.Schema<ListTasklistsRequest>;
+).annotate({ identifier: "ListTasklistsRequest" }) as any as S.Schema<ListTasklistsRequest>;
 
 export type TaskListList = Array<TaskList>;
 export const TaskListList = /*@__PURE__*/ S.Array(TaskList) as any as S.Schema<TaskListList>;
 
 export interface TaskLists {
-  /** Type of the resource. This is always "tasks#taskLists". */
-  kind?: string;
   /** ETag of the resource. */
   etag?: string;
-  /** Collection of task lists. */
-  items: TaskListList;
   /** Token that can be used to request the next page of this result. */
   nextPageToken?: string;
+  /** Type of the resource. This is always "tasks#taskLists". */
+  kind?: string;
+  /** Collection of task lists. */
+  items: TaskListList;
 }
 export const TaskLists = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    kind: S.optional(S.String),
     etag: S.optional(S.String),
-    items: TaskListList,
     nextPageToken: S.optional(S.String),
+    kind: S.optional(S.String),
+    items: TaskListList,
   }),
 ).annotate({ identifier: "TaskLists" }) as any as S.Schema<TaskLists>;
 
 export interface ListTasksRequest {
-  /** Upper bound for a task's completion date (as a RFC 3339 timestamp) to filter by. Optional. The default is not to filter by completion date. */
-  completedMax?: string;
   /** Maximum number of tasks returned on one page. Optional. The default is 20 (max allowed: 100). */
   maxResults?: number;
-  /** Flag indicating whether completed tasks are returned in the result. Note that showHidden must also be True to show tasks completed in first party clients, such as the web UI and Google's mobile apps. Optional. The default is True. */
-  showCompleted?: boolean;
-  /** Flag indicating whether hidden tasks are returned in the result. Optional. The default is False. */
-  showHidden?: boolean;
-  /** Optional. Flag indicating whether tasks assigned to the current user are returned in the result. Optional. The default is False. */
-  showAssigned?: boolean;
-  /** Lower bound for a task's last modification time (as a RFC 3339 timestamp) to filter by. Optional. The default is not to filter by last modification time. */
-  updatedMin?: string;
   /** Task list identifier. */
   tasklist: string;
-  /** Token specifying the result page to return. Optional. */
-  pageToken?: string;
-  /** Lower bound for a task's due date (as a RFC 3339 timestamp) to filter by. Optional. The default is not to filter by due date. */
-  dueMin?: string;
-  /** Flag indicating whether deleted tasks are returned in the result. Optional. The default is False. */
-  showDeleted?: boolean;
   /** Lower bound for a task's completion date (as a RFC 3339 timestamp) to filter by. Optional. The default is not to filter by completion date. */
   completedMin?: string;
+  /** Token specifying the result page to return. Optional. */
+  pageToken?: string;
+  /** Flag indicating whether completed tasks are returned in the result. Note that showHidden must also be True to show tasks completed in first party clients, such as the web UI and Google's mobile apps. Optional. The default is True. */
+  showCompleted?: boolean;
+  /** Flag indicating whether deleted tasks are returned in the result. Optional. The default is False. */
+  showDeleted?: boolean;
+  /** Upper bound for a task's completion date (as a RFC 3339 timestamp) to filter by. Optional. The default is not to filter by completion date. */
+  completedMax?: string;
+  /** Optional. Flag indicating whether tasks assigned to the current user are returned in the result. Optional. The default is False. */
+  showAssigned?: boolean;
+  /** Lower bound for a task's due date (as a RFC 3339 timestamp) to filter by. Optional. The default is not to filter by due date. */
+  dueMin?: string;
+  /** Flag indicating whether hidden tasks are returned in the result. Optional. The default is False. */
+  showHidden?: boolean;
   /** Upper bound for a task's due date (as a RFC 3339 timestamp) to filter by. Optional. The default is not to filter by due date. */
   dueMax?: string;
+  /** Lower bound for a task's last modification time (as a RFC 3339 timestamp) to filter by. Optional. The default is not to filter by last modification time. */
+  updatedMin?: string;
 }
 export const ListTasksRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    completedMax: S.optional(S.String.pipe(T.Query())),
     maxResults: S.optional(S.Number.pipe(T.Query())),
-    showCompleted: S.optional(S.Boolean.pipe(T.Query())),
-    showHidden: S.optional(S.Boolean.pipe(T.Query())),
-    showAssigned: S.optional(S.Boolean.pipe(T.Query())),
-    updatedMin: S.optional(S.String.pipe(T.Query())),
     tasklist: S.String.pipe(T.Label()),
-    pageToken: S.optional(S.String.pipe(T.Query())),
-    dueMin: S.optional(S.String.pipe(T.Query())),
-    showDeleted: S.optional(S.Boolean.pipe(T.Query())),
     completedMin: S.optional(S.String.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
+    showCompleted: S.optional(S.Boolean.pipe(T.Query())),
+    showDeleted: S.optional(S.Boolean.pipe(T.Query())),
+    completedMax: S.optional(S.String.pipe(T.Query())),
+    showAssigned: S.optional(S.Boolean.pipe(T.Query())),
+    dueMin: S.optional(S.String.pipe(T.Query())),
+    showHidden: S.optional(S.Boolean.pipe(T.Query())),
     dueMax: S.optional(S.String.pipe(T.Query())),
+    updatedMin: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -469,51 +451,49 @@ export const ListTasksRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://tasks.googleapis.com/",
     }),
   ),
-).annotate({
-  identifier: "ListTasksRequest",
-}) as any as S.Schema<ListTasksRequest>;
+).annotate({ identifier: "ListTasksRequest" }) as any as S.Schema<ListTasksRequest>;
 
 export type TaskList_ = Array<Task>;
 export const TaskList_ = /*@__PURE__*/ S.Array(Task) as any as S.Schema<TaskList_>;
 
 export interface Tasks {
-  /** Collection of tasks. */
-  items: TaskList_;
   /** Token used to access the next page of this result. */
   nextPageToken?: string;
-  /** Type of the resource. This is always "tasks#tasks". */
-  kind?: string;
   /** ETag of the resource. */
   etag?: string;
+  /** Collection of tasks. */
+  items: TaskList_;
+  /** Type of the resource. This is always "tasks#tasks". */
+  kind?: string;
 }
 export const Tasks = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    items: TaskList_,
     nextPageToken: S.optional(S.String),
-    kind: S.optional(S.String),
     etag: S.optional(S.String),
+    items: TaskList_,
+    kind: S.optional(S.String),
   }),
 ).annotate({ identifier: "Tasks" }) as any as S.Schema<Tasks>;
 
 export interface MoveTasksRequest {
-  /** Task list identifier. */
-  tasklist: string;
-  /** Optional. New parent task identifier. If the task is moved to the top level, this parameter is omitted. The task set as parent must exist in the task list and can not be hidden. Exceptions: 1. Assigned and repeating tasks cannot be set as parent tasks (have subtasks), or be moved under a parent task (become subtasks). 2. Tasks that are both completed and hidden cannot be nested, so the parent field must be empty. */
-  parent?: string;
-  /** Optional. New previous sibling task identifier. If the task is moved to the first position among its siblings, this parameter is omitted. The task set as previous must exist in the task list and can not be hidden. Exceptions: 1. Tasks that are both completed and hidden can only be moved to position 0, so the previous field must be empty. */
-  previous?: string;
   /** Task identifier. */
   task: string;
+  /** Optional. New previous sibling task identifier. If the task is moved to the first position among its siblings, this parameter is omitted. The task set as previous must exist in the task list and can not be hidden. Exceptions: 1. Tasks that are both completed and hidden can only be moved to position 0, so the previous field must be empty. */
+  previous?: string;
+  /** Task list identifier. */
+  tasklist: string;
   /** Optional. Destination task list identifier. If set, the task is moved from tasklist to the destinationTasklist list. Otherwise the task is moved within its current list. Recurrent tasks cannot currently be moved between lists. */
   destinationTasklist?: string;
+  /** Optional. New parent task identifier. If the task is moved to the top level, this parameter is omitted. The task set as parent must exist in the task list and can not be hidden. Exceptions: 1. Assigned and repeating tasks cannot be set as parent tasks (have subtasks), or be moved under a parent task (become subtasks). 2. Tasks that are both completed and hidden cannot be nested, so the parent field must be empty. */
+  parent?: string;
 }
 export const MoveTasksRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    tasklist: S.String.pipe(T.Label()),
-    parent: S.optional(S.String.pipe(T.Query())),
-    previous: S.optional(S.String.pipe(T.Query())),
     task: S.String.pipe(T.Label()),
+    previous: S.optional(S.String.pipe(T.Query())),
+    tasklist: S.String.pipe(T.Label()),
     destinationTasklist: S.optional(S.String.pipe(T.Query())),
+    parent: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "POST",
@@ -521,9 +501,7 @@ export const MoveTasksRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://tasks.googleapis.com/",
     }),
   ),
-).annotate({
-  identifier: "MoveTasksRequest",
-}) as any as S.Schema<MoveTasksRequest>;
+).annotate({ identifier: "MoveTasksRequest" }) as any as S.Schema<MoveTasksRequest>;
 
 export interface PatchTasklistsRequest {
   /** Task list identifier. */
@@ -542,22 +520,20 @@ export const PatchTasklistsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://tasks.googleapis.com/",
     }),
   ),
-).annotate({
-  identifier: "PatchTasklistsRequest",
-}) as any as S.Schema<PatchTasklistsRequest>;
+).annotate({ identifier: "PatchTasklistsRequest" }) as any as S.Schema<PatchTasklistsRequest>;
 
 export interface PatchTasksRequest {
-  /** Task identifier. */
-  task: string;
   /** Task list identifier. */
   tasklist: string;
+  /** Task identifier. */
+  task: string;
   /** Request body */
   body?: Task;
 }
 export const PatchTasksRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    task: S.String.pipe(T.Label()),
     tasklist: S.String.pipe(T.Label()),
+    task: S.String.pipe(T.Label()),
     body: S.optional(Task.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -566,9 +542,7 @@ export const PatchTasksRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://tasks.googleapis.com/",
     }),
   ),
-).annotate({
-  identifier: "PatchTasksRequest",
-}) as any as S.Schema<PatchTasksRequest>;
+).annotate({ identifier: "PatchTasksRequest" }) as any as S.Schema<PatchTasksRequest>;
 
 export interface UpdateTasklistsRequest {
   /** Task list identifier. */
@@ -587,9 +561,7 @@ export const UpdateTasklistsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://tasks.googleapis.com/",
     }),
   ),
-).annotate({
-  identifier: "UpdateTasklistsRequest",
-}) as any as S.Schema<UpdateTasklistsRequest>;
+).annotate({ identifier: "UpdateTasklistsRequest" }) as any as S.Schema<UpdateTasklistsRequest>;
 
 export interface UpdateTasksRequest {
   /** Task list identifier. */
@@ -611,9 +583,7 @@ export const UpdateTasksRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://tasks.googleapis.com/",
     }),
   ),
-).annotate({
-  identifier: "UpdateTasksRequest",
-}) as any as S.Schema<UpdateTasksRequest>;
+).annotate({ identifier: "UpdateTasksRequest" }) as any as S.Schema<UpdateTasksRequest>;
 
 export type ClearTasksError = NotFound | Forbidden | BadRequest | Conflict | GoogleWorkspaceOpError;
 /** Clears all completed tasks from the specified task list. The affected tasks will be marked as 'hidden' and no longer be returned by default when retrieving all tasks for a task list. */
@@ -754,11 +724,7 @@ export const listTasklists: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-    items: "items",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
 export type ListTasksError = NotFound | Forbidden | GoogleWorkspaceOpError;
@@ -775,11 +741,7 @@ export const listTasks: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-    items: "items",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
 export type MoveTasksError = NotFound | Forbidden | BadRequest | Conflict | GoogleWorkspaceOpError;

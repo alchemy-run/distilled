@@ -247,7 +247,7 @@ export const IoK8sApiSchedulingV1alpha3CompositePodGroupSchedulingConstraints =
 
 /** CompositeGangSchedulingPolicy indicates that the groups belonging to the composite group should be scheduled using all-or-nothing semantics. */
 export interface IoK8sApiSchedulingV1alpha3CompositeGangSchedulingPolicy {
-  /** minGroupCount is the minimum number of child groups that must be schedulable or scheduled at the same time for the scheduler to admit the entire group. It must be a positive integer. */
+  /** minGroupCount is the minimum number of child groups that must be schedulable or scheduled at the same time for the scheduler to admit the entire group. It must be a positive integer. This field is mutable to support workload scaling. Note that the scheduler operates on an eventually consistent model. Updates to minGroupCount may not be immediately reflected in scheduling decisions due to propagation delays. If minGroupCount is updated while a scheduling cycle is in progress for that group, the new value may not take effect until the next cycle. Moreover, minGroupCount is only enforced during scheduling, meaning that modifications to this field do not affect already-scheduled pods, applying only to those evaluated in future cycles. */
   minGroupCount: number;
 }
 export const IoK8sApiSchedulingV1alpha3CompositeGangSchedulingPolicy = /*@__PURE__*/ S.suspend(() =>
@@ -258,11 +258,11 @@ export const IoK8sApiSchedulingV1alpha3CompositeGangSchedulingPolicy = /*@__PURE
   identifier: "IoK8sApiSchedulingV1alpha3CompositeGangSchedulingPolicy",
 }) as any as S.Schema<IoK8sApiSchedulingV1alpha3CompositeGangSchedulingPolicy>;
 
-/** CompositePodGroupSchedulingPolicy defines the scheduling configuration for a CompositePodGroup. Exactly one policy must be set. */
+/** CompositePodGroupSchedulingPolicy defines the scheduling configuration for a CompositePodGroup. Exactly one policy must be set. The policy is chosen at creation time by setting either the Basic or Gang field. The CompositePodGroup may not change policy after creation. Fields within chosen policy may be updated after creation when their individual fields allow it. */
 export interface IoK8sApiSchedulingV1alpha3CompositePodGroupSchedulingPolicy {
-  /** basic specifies that the groups of this composite group should be scheduled independently. This field is immutable. */
+  /** basic specifies that the groups of this composite group should be scheduled independently. Setting this field at group creation time opts this group to basic scheduling; this field cannot be changed afterward. */
   basic?: unknown;
-  /** gang specifies that the groups of this composite group should be scheduled using all-or-nothing semantics. */
+  /** gang specifies that the groups of this composite group should be scheduled using all-or-nothing semantics. Setting this field at group creation time opts this group to gang scheduling; this field cannot be set or unset afterward. The minGroupCount field within Gang scheduling policy remains mutable after group creation. */
   gang?: IoK8sApiSchedulingV1alpha3CompositeGangSchedulingPolicy;
 }
 export const IoK8sApiSchedulingV1alpha3CompositePodGroupSchedulingPolicy = /*@__PURE__*/ S.suspend(
@@ -305,7 +305,7 @@ export interface IoK8sApiSchedulingV1alpha3CompositePodGroupSpec {
   priorityClassName?: string;
   /** schedulingConstraints defines optional scheduling constraints (e.g. topology) for this CompositePodGroup. Controllers are expected to fill this field by copying it from a CompositePodGroupTemplate. This field is immutable. */
   schedulingConstraints?: IoK8sApiSchedulingV1alpha3CompositePodGroupSchedulingConstraints;
-  /** schedulingPolicy defines the scheduling policy for this instance of the CompositePodGroup. Controllers are expected to fill this field by copying it from a CompositePodGroupTemplate. This field is immutable. */
+  /** schedulingPolicy defines the scheduling policy for this instance of the CompositePodGroup. Controllers are expected to fill this field by copying it from a CompositePodGroupTemplate. */
   schedulingPolicy: IoK8sApiSchedulingV1alpha3CompositePodGroupSchedulingPolicy;
   /** workloadRef references an optional CompositePodGroup template within the Workload object that was used to create the CompositePodGroup. This field is required. This field is immutable. */
   workloadRef: IoK8sApiSchedulingV1alpha3WorkloadReference;
@@ -355,7 +355,7 @@ export const IoK8sApimachineryPkgApisMetaV1Condition = /*@__PURE__*/ S.suspend((
   identifier: "IoK8sApimachineryPkgApisMetaV1Condition",
 }) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1Condition>;
 
-/** conditions represent the latest observations of the CompositePodGroup's state. Known condition types: - "CompositePodGroupInitiallyScheduled": Indicates whether the overall scheduling requirement for the subtree under this CompositePodGroup has been satisfied. Once this condition transitions to True, it serves as a terminal state and will never revert to False, even if pods are subsequently deleted and group constraints are no longer met. - "DisruptionTarget": Indicates whether the CompositePodGroup is about to be terminated due to disruption such as preemption. Known reasons for the CompositePodGroupInitiallyScheduled condition: - "Unschedulable": The CompositePodGroup's subtree could not be placed due to resource constraints, affinity/anti-affinity, or topological constraints. - "SchedulerError": The CompositePodGroup cannot be scheduled due to some internal error that occurred during scheduling. - "Invalid": Set to True when kube-scheduler detects an invalid group layout during runtime validation. The `message` field details the specific layout violation (such as a detected cycle, exceeding the maximum depth of 4, or referencing multiple distinct Workloads). Known reasons for the DisruptionTarget condition: - "PreemptionByScheduler": The CompositePodGroup was targeted by the scheduler's preemption loop to free up capacity for higher-priority preemptors. */
+/** conditions represent the latest observations of the CompositePodGroup's state. Known condition types: - "CompositePodGroupInitiallyScheduled": Indicates whether the overall scheduling requirement for the subtree under this CompositePodGroup has been satisfied. Once this condition transitions to True, it serves as a terminal state and will never revert to False, even if pods are subsequently deleted and group constraints are no longer met. - "DisruptionTarget": Indicates whether the CompositePodGroup is about to be terminated due to disruption such as preemption. Known reasons for the CompositePodGroupInitiallyScheduled condition: - "Scheduled": All required child groups and pods under this CompositePodGroup have been successfully scheduled. - "Unschedulable": The CompositePodGroup's subtree could not be placed, for example due to unmet minGroupCount, placement constraints, or insufficient capacity for its child groups. - "SchedulerError": The CompositePodGroup cannot be scheduled due to some internal error that occurred during scheduling. - "CompositePodGroupError": The CompositePodGroup cannot be scheduled due to an invalid group layout detected during runtime validation. The `message` field details the specific layout violation (such as a detected cycle, exceeding the maximum depth of 4, or referencing multiple distinct Workloads). Known reasons for the DisruptionTarget condition: - "PreemptionByScheduler": The CompositePodGroup was preempted by the scheduler to make room for higher-priority CompositePodGroups, PodGroups or Pods. */
 export type IoK8sApiSchedulingV1alpha3CompositePodGroupStatusConditionsList =
   Array<IoK8sApimachineryPkgApisMetaV1Condition>;
 export const IoK8sApiSchedulingV1alpha3CompositePodGroupStatusConditionsList =
@@ -365,7 +365,7 @@ export const IoK8sApiSchedulingV1alpha3CompositePodGroupStatusConditionsList =
 
 /** CompositePodGroupStatus represents information about the status of a composite pod group. */
 export interface IoK8sApiSchedulingV1alpha3CompositePodGroupStatus {
-  /** conditions represent the latest observations of the CompositePodGroup's state. Known condition types: - "CompositePodGroupInitiallyScheduled": Indicates whether the overall scheduling requirement for the subtree under this CompositePodGroup has been satisfied. Once this condition transitions to True, it serves as a terminal state and will never revert to False, even if pods are subsequently deleted and group constraints are no longer met. - "DisruptionTarget": Indicates whether the CompositePodGroup is about to be terminated due to disruption such as preemption. Known reasons for the CompositePodGroupInitiallyScheduled condition: - "Unschedulable": The CompositePodGroup's subtree could not be placed due to resource constraints, affinity/anti-affinity, or topological constraints. - "SchedulerError": The CompositePodGroup cannot be scheduled due to some internal error that occurred during scheduling. - "Invalid": Set to True when kube-scheduler detects an invalid group layout during runtime validation. The `message` field details the specific layout violation (such as a detected cycle, exceeding the maximum depth of 4, or referencing multiple distinct Workloads). Known reasons for the DisruptionTarget condition: - "PreemptionByScheduler": The CompositePodGroup was targeted by the scheduler's preemption loop to free up capacity for higher-priority preemptors. */
+  /** conditions represent the latest observations of the CompositePodGroup's state. Known condition types: - "CompositePodGroupInitiallyScheduled": Indicates whether the overall scheduling requirement for the subtree under this CompositePodGroup has been satisfied. Once this condition transitions to True, it serves as a terminal state and will never revert to False, even if pods are subsequently deleted and group constraints are no longer met. - "DisruptionTarget": Indicates whether the CompositePodGroup is about to be terminated due to disruption such as preemption. Known reasons for the CompositePodGroupInitiallyScheduled condition: - "Scheduled": All required child groups and pods under this CompositePodGroup have been successfully scheduled. - "Unschedulable": The CompositePodGroup's subtree could not be placed, for example due to unmet minGroupCount, placement constraints, or insufficient capacity for its child groups. - "SchedulerError": The CompositePodGroup cannot be scheduled due to some internal error that occurred during scheduling. - "CompositePodGroupError": The CompositePodGroup cannot be scheduled due to an invalid group layout detected during runtime validation. The `message` field details the specific layout violation (such as a detected cycle, exceeding the maximum depth of 4, or referencing multiple distinct Workloads). Known reasons for the DisruptionTarget condition: - "PreemptionByScheduler": The CompositePodGroup was preempted by the scheduler to make room for higher-priority CompositePodGroups, PodGroups or Pods. */
   conditions?: IoK8sApiSchedulingV1alpha3CompositePodGroupStatusConditionsList;
 }
 export const IoK8sApiSchedulingV1alpha3CompositePodGroupStatus = /*@__PURE__*/ S.suspend(() =>
@@ -576,7 +576,7 @@ export const IoK8sApiSchedulingV1alpha3PodGroupSpec = /*@__PURE__*/ S.suspend(()
   identifier: "IoK8sApiSchedulingV1alpha3PodGroupSpec",
 }) as any as S.Schema<IoK8sApiSchedulingV1alpha3PodGroupSpec>;
 
-/** conditions represent the latest observations of the PodGroup's state. Known condition types: - "PodGroupInitiallyScheduled": Indicates whether the scheduling requirement has been satisfied. Once this condition transitions to True, it serves as a terminal state and will never revert to False, even if pods are subsequently evicted and group constraints are no longer met. - "DisruptionTarget": Indicates whether the PodGroup is about to be terminated due to disruption such as preemption. Known reasons for the PodGroupInitiallyScheduled condition: - "Unschedulable": The PodGroup cannot be scheduled due to resource constraints, affinity/anti-affinity rules, or insufficient capacity for the gang. - "SchedulerError": The PodGroup cannot be scheduled due to some internal error that happened during scheduling, for example due to nodeAffinity parsing errors. Known reasons for the DisruptionTarget condition: - "PreemptionByScheduler": The PodGroup was preempted by the scheduler to make room for higher-priority PodGroups or Pods. */
+/** conditions represent the latest observations of the PodGroup's state. Known condition types: - "PodGroupInitiallyScheduled": Indicates whether the scheduling requirement has been satisfied. Once this condition transitions to True, it serves as a terminal state and will never revert to False, even if pods are subsequently evicted and group constraints are no longer met. - "DisruptionTarget": Indicates whether the PodGroup is about to be terminated due to disruption such as preemption. Known reasons for the PodGroupInitiallyScheduled condition: - "Scheduled": All required pods in the PodGroup have been successfully scheduled. - "Unschedulable": The PodGroup cannot be scheduled due to resource constraints, affinity/anti-affinity rules, or insufficient capacity for the gang. - "SchedulerError": The PodGroup cannot be scheduled due to some internal error that happened during scheduling, for example due to nodeAffinity parsing errors. - "PodGroupError": The PodGroup cannot be scheduled due to an invalid group configuration detected during runtime validation (such as conflicting scheduler names, or priority/preemption policy conflicts). Known reasons for the DisruptionTarget condition: - "PreemptionByScheduler": The PodGroup was preempted by the scheduler to make room for higher-priority CompositePodGroups, PodGroups or Pods. */
 export type IoK8sApiSchedulingV1alpha3PodGroupStatusConditionsList =
   Array<IoK8sApimachineryPkgApisMetaV1Condition>;
 export const IoK8sApiSchedulingV1alpha3PodGroupStatusConditionsList = /*@__PURE__*/ S.Array(
@@ -609,7 +609,7 @@ export const IoK8sApiSchedulingV1alpha3PodGroupStatusResourceClaimStatusesList =
 
 /** PodGroupStatus represents information about the status of a pod group. */
 export interface IoK8sApiSchedulingV1alpha3PodGroupStatus {
-  /** conditions represent the latest observations of the PodGroup's state. Known condition types: - "PodGroupInitiallyScheduled": Indicates whether the scheduling requirement has been satisfied. Once this condition transitions to True, it serves as a terminal state and will never revert to False, even if pods are subsequently evicted and group constraints are no longer met. - "DisruptionTarget": Indicates whether the PodGroup is about to be terminated due to disruption such as preemption. Known reasons for the PodGroupInitiallyScheduled condition: - "Unschedulable": The PodGroup cannot be scheduled due to resource constraints, affinity/anti-affinity rules, or insufficient capacity for the gang. - "SchedulerError": The PodGroup cannot be scheduled due to some internal error that happened during scheduling, for example due to nodeAffinity parsing errors. Known reasons for the DisruptionTarget condition: - "PreemptionByScheduler": The PodGroup was preempted by the scheduler to make room for higher-priority PodGroups or Pods. */
+  /** conditions represent the latest observations of the PodGroup's state. Known condition types: - "PodGroupInitiallyScheduled": Indicates whether the scheduling requirement has been satisfied. Once this condition transitions to True, it serves as a terminal state and will never revert to False, even if pods are subsequently evicted and group constraints are no longer met. - "DisruptionTarget": Indicates whether the PodGroup is about to be terminated due to disruption such as preemption. Known reasons for the PodGroupInitiallyScheduled condition: - "Scheduled": All required pods in the PodGroup have been successfully scheduled. - "Unschedulable": The PodGroup cannot be scheduled due to resource constraints, affinity/anti-affinity rules, or insufficient capacity for the gang. - "SchedulerError": The PodGroup cannot be scheduled due to some internal error that happened during scheduling, for example due to nodeAffinity parsing errors. - "PodGroupError": The PodGroup cannot be scheduled due to an invalid group configuration detected during runtime validation (such as conflicting scheduler names, or priority/preemption policy conflicts). Known reasons for the DisruptionTarget condition: - "PreemptionByScheduler": The PodGroup was preempted by the scheduler to make room for higher-priority CompositePodGroups, PodGroups or Pods. */
   conditions?: IoK8sApiSchedulingV1alpha3PodGroupStatusConditionsList;
   /** resourceClaimStatuses is status of resource claims. */
   resourceClaimStatuses?: IoK8sApiSchedulingV1alpha3PodGroupStatusResourceClaimStatusesList;
@@ -795,7 +795,7 @@ export const IoK8sApiSchedulingV1alpha3CompositePodGroupTemplate = /*@__PURE__*/
   identifier: "IoK8sApiSchedulingV1alpha3CompositePodGroupTemplate",
 }) as any as S.Schema<IoK8sApiSchedulingV1alpha3CompositePodGroupTemplate>;
 
-/** compositePodGroupTemplates is the list of CompositePodGroup templates that make up the Workload. The maximum number of templates is 8. This field is immutable. Exactly one of CompositePodGroupTemplates and PodGroupTemplates must be set. This field is used only when the CompositePodGroup feature gate is enabled. */
+/** compositePodGroupTemplates is the list of CompositePodGroup templates that make up the Workload. The maximum number of templates is 8. Templates cannot be added or removed after the workload is created. Existing templates may still be updated where their individual fields allow it. Exactly one of CompositePodGroupTemplates and PodGroupTemplates must be set. This field is used only when the CompositePodGroup feature gate is enabled. */
 export type IoK8sApiSchedulingV1alpha3WorkloadSpecCompositePodGroupTemplatesList =
   Array<IoK8sApiSchedulingV1alpha3CompositePodGroupTemplate>;
 export const IoK8sApiSchedulingV1alpha3WorkloadSpecCompositePodGroupTemplatesList =
@@ -831,7 +831,7 @@ export const IoK8sApiSchedulingV1alpha3WorkloadSpecPodGroupTemplatesList = /*@__
 
 /** WorkloadSpec defines the desired state of a Workload. */
 export interface IoK8sApiSchedulingV1alpha3WorkloadSpec {
-  /** compositePodGroupTemplates is the list of CompositePodGroup templates that make up the Workload. The maximum number of templates is 8. This field is immutable. Exactly one of CompositePodGroupTemplates and PodGroupTemplates must be set. This field is used only when the CompositePodGroup feature gate is enabled. */
+  /** compositePodGroupTemplates is the list of CompositePodGroup templates that make up the Workload. The maximum number of templates is 8. Templates cannot be added or removed after the workload is created. Existing templates may still be updated where their individual fields allow it. Exactly one of CompositePodGroupTemplates and PodGroupTemplates must be set. This field is used only when the CompositePodGroup feature gate is enabled. */
   compositePodGroupTemplates?: IoK8sApiSchedulingV1alpha3WorkloadSpecCompositePodGroupTemplatesList;
   /** controllerRef is an optional reference to the controlling object, such as a Deployment or Job. This field is intended for use by tools like CLIs to provide a link back to the original workload definition. This field is immutable. */
   controllerRef?: IoK8sApiSchedulingV1alpha3TypedLocalObjectReference;
@@ -1013,7 +1013,7 @@ export const IoK8sApiSchedulingV1beta1PodGroupSpec = /*@__PURE__*/ S.suspend(() 
   identifier: "IoK8sApiSchedulingV1beta1PodGroupSpec",
 }) as any as S.Schema<IoK8sApiSchedulingV1beta1PodGroupSpec>;
 
-/** conditions represent the latest observations of the PodGroup's state. Known condition types: - "PodGroupInitiallyScheduled": Indicates whether the scheduling requirement has been satisfied. Once this condition transitions to True, it serves as a terminal state and will never revert to False, even if pods are subsequently evicted and group constraints are no longer met. - "DisruptionTarget": Indicates whether the PodGroup is about to be terminated due to disruption such as preemption. Known reasons for the PodGroupInitiallyScheduled condition: - "Unschedulable": The PodGroup cannot be scheduled due to resource constraints, affinity/anti-affinity rules, or insufficient capacity for the gang. - "SchedulerError": The PodGroup cannot be scheduled due to some internal error that happened during scheduling, for example due to nodeAffinity parsing errors. Known reasons for the DisruptionTarget condition: - "PreemptionByScheduler": The PodGroup was preempted by the scheduler to make room for higher-priority PodGroups or Pods. */
+/** conditions represent the latest observations of the PodGroup's state. Known condition types: - "PodGroupInitiallyScheduled": Indicates whether the scheduling requirement has been satisfied. Once this condition transitions to True, it serves as a terminal state and will never revert to False, even if pods are subsequently evicted and group constraints are no longer met. - "DisruptionTarget": Indicates whether the PodGroup is about to be terminated due to disruption such as preemption. Known reasons for the PodGroupInitiallyScheduled condition: - "Scheduled": All required pods in the PodGroup have been successfully scheduled. - "Unschedulable": The PodGroup cannot be scheduled due to resource constraints, affinity/anti-affinity rules, or insufficient capacity for the gang. - "SchedulerError": The PodGroup cannot be scheduled due to some internal error that happened during scheduling, for example due to nodeAffinity parsing errors. - "PodGroupError": The PodGroup cannot be scheduled due to an invalid group configuration detected during runtime validation (such as conflicting scheduler names, or priority/preemption policy conflicts). Known reasons for the DisruptionTarget condition: - "PreemptionByScheduler": The PodGroup was preempted by the scheduler to make room for higher-priority CompositePodGroups, PodGroups or Pods. */
 export type IoK8sApiSchedulingV1beta1PodGroupStatusConditionsList =
   Array<IoK8sApimachineryPkgApisMetaV1Condition>;
 export const IoK8sApiSchedulingV1beta1PodGroupStatusConditionsList = /*@__PURE__*/ S.Array(
@@ -1036,7 +1036,7 @@ export const IoK8sApiSchedulingV1beta1PodGroupStatusResourceClaimStatusesList =
 
 /** PodGroupStatus represents information about the status of a pod group. */
 export interface IoK8sApiSchedulingV1beta1PodGroupStatus {
-  /** conditions represent the latest observations of the PodGroup's state. Known condition types: - "PodGroupInitiallyScheduled": Indicates whether the scheduling requirement has been satisfied. Once this condition transitions to True, it serves as a terminal state and will never revert to False, even if pods are subsequently evicted and group constraints are no longer met. - "DisruptionTarget": Indicates whether the PodGroup is about to be terminated due to disruption such as preemption. Known reasons for the PodGroupInitiallyScheduled condition: - "Unschedulable": The PodGroup cannot be scheduled due to resource constraints, affinity/anti-affinity rules, or insufficient capacity for the gang. - "SchedulerError": The PodGroup cannot be scheduled due to some internal error that happened during scheduling, for example due to nodeAffinity parsing errors. Known reasons for the DisruptionTarget condition: - "PreemptionByScheduler": The PodGroup was preempted by the scheduler to make room for higher-priority PodGroups or Pods. */
+  /** conditions represent the latest observations of the PodGroup's state. Known condition types: - "PodGroupInitiallyScheduled": Indicates whether the scheduling requirement has been satisfied. Once this condition transitions to True, it serves as a terminal state and will never revert to False, even if pods are subsequently evicted and group constraints are no longer met. - "DisruptionTarget": Indicates whether the PodGroup is about to be terminated due to disruption such as preemption. Known reasons for the PodGroupInitiallyScheduled condition: - "Scheduled": All required pods in the PodGroup have been successfully scheduled. - "Unschedulable": The PodGroup cannot be scheduled due to resource constraints, affinity/anti-affinity rules, or insufficient capacity for the gang. - "SchedulerError": The PodGroup cannot be scheduled due to some internal error that happened during scheduling, for example due to nodeAffinity parsing errors. - "PodGroupError": The PodGroup cannot be scheduled due to an invalid group configuration detected during runtime validation (such as conflicting scheduler names, or priority/preemption policy conflicts). Known reasons for the DisruptionTarget condition: - "PreemptionByScheduler": The PodGroup was preempted by the scheduler to make room for higher-priority CompositePodGroups, PodGroups or Pods. */
   conditions?: IoK8sApiSchedulingV1beta1PodGroupStatusConditionsList;
   /** resourceClaimStatuses is status of resource claims. */
   resourceClaimStatuses?: IoK8sApiSchedulingV1beta1PodGroupStatusResourceClaimStatusesList;
@@ -1215,7 +1215,7 @@ export type IoK8sApiSchedulingV1beta1CompositeGangSchedulingPolicy =
 export const IoK8sApiSchedulingV1beta1CompositeGangSchedulingPolicy =
   IoK8sApiSchedulingV1alpha3CompositeGangSchedulingPolicy;
 
-/** CompositePodGroupSchedulingPolicy defines the scheduling configuration for a CompositePodGroup. Exactly one policy must be set. */
+/** CompositePodGroupSchedulingPolicy defines the scheduling configuration for a CompositePodGroup. Exactly one policy must be set. The policy is chosen at creation time by setting either the Basic or Gang field. The CompositePodGroup may not change policy after creation. Fields within chosen policy may be updated after creation when their individual fields allow it. */
 export type IoK8sApiSchedulingV1beta1CompositePodGroupSchedulingPolicy =
   IoK8sApiSchedulingV1alpha3CompositePodGroupSchedulingPolicy;
 export const IoK8sApiSchedulingV1beta1CompositePodGroupSchedulingPolicy =
@@ -1264,7 +1264,7 @@ export const IoK8sApiSchedulingV1beta1CompositePodGroupTemplate = /*@__PURE__*/ 
   identifier: "IoK8sApiSchedulingV1beta1CompositePodGroupTemplate",
 }) as any as S.Schema<IoK8sApiSchedulingV1beta1CompositePodGroupTemplate>;
 
-/** compositePodGroupTemplates is the list of CompositePodGroup templates that make up the Workload. The maximum number of templates is 8. This field is immutable. Exactly one of CompositePodGroupTemplates and PodGroupTemplates must be set. This field is used only when the CompositePodGroup feature gate is enabled. */
+/** compositePodGroupTemplates is the list of CompositePodGroup templates that make up the Workload. The maximum number of templates is 8. Templates cannot be added or removed after the workload is created. Existing templates may still be updated where their individual fields allow it. Exactly one of CompositePodGroupTemplates and PodGroupTemplates must be set. This field is used only when the CompositePodGroup feature gate is enabled. */
 export type IoK8sApiSchedulingV1beta1WorkloadSpecCompositePodGroupTemplatesList =
   Array<IoK8sApiSchedulingV1beta1CompositePodGroupTemplate>;
 export const IoK8sApiSchedulingV1beta1WorkloadSpecCompositePodGroupTemplatesList =
@@ -1300,7 +1300,7 @@ export const IoK8sApiSchedulingV1beta1WorkloadSpecPodGroupTemplatesList = /*@__P
 
 /** WorkloadSpec defines the desired state of a Workload. */
 export interface IoK8sApiSchedulingV1beta1WorkloadSpec {
-  /** compositePodGroupTemplates is the list of CompositePodGroup templates that make up the Workload. The maximum number of templates is 8. This field is immutable. Exactly one of CompositePodGroupTemplates and PodGroupTemplates must be set. This field is used only when the CompositePodGroup feature gate is enabled. */
+  /** compositePodGroupTemplates is the list of CompositePodGroup templates that make up the Workload. The maximum number of templates is 8. Templates cannot be added or removed after the workload is created. Existing templates may still be updated where their individual fields allow it. Exactly one of CompositePodGroupTemplates and PodGroupTemplates must be set. This field is used only when the CompositePodGroup feature gate is enabled. */
   compositePodGroupTemplates?: IoK8sApiSchedulingV1beta1WorkloadSpecCompositePodGroupTemplatesList;
   /** controllerRef is an optional reference to the controlling object, such as a Deployment or Job. This field is intended for use by tools like CLIs to provide a link back to the original workload definition. This field is immutable. */
   controllerRef?: IoK8sApiSchedulingV1beta1TypedLocalObjectReference;
@@ -1420,13 +1420,7 @@ export const CreateSchedulingV1PriorityClassRequest = /*@__PURE__*/ S.suspend(()
     metadata: S.optional(IoK8sApimachineryPkgApisMetaV1ObjectMeta),
     preemptionPolicy: S.optional(S.String),
     value: S.optional(S.Number),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/apis/scheduling.k8s.io/v1/priorityclasses",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/apis/scheduling.k8s.io/v1/priorityclasses", code: 200 })),
 ).annotate({
   identifier: "CreateSchedulingV1PriorityClassRequest",
 }) as any as S.Schema<CreateSchedulingV1PriorityClassRequest>;
@@ -2269,11 +2263,7 @@ export const DeleteSchedulingV1CollectionPriorityClassRequest = /*@__PURE__*/ S.
     kind: S.optional(S.String),
     preconditions: S.optional(IoK8sApimachineryPkgApisMetaV1Preconditions),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/apis/scheduling.k8s.io/v1/priorityclasses",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/apis/scheduling.k8s.io/v1/priorityclasses", code: 200 }),
   ),
 ).annotate({
   identifier: "DeleteSchedulingV1CollectionPriorityClassRequest",
@@ -2410,13 +2400,7 @@ export const IoK8sApimachineryPkgApisMetaV1APIGroup = /*@__PURE__*/ S.suspend(()
 
 export interface GetSchedulingV1alpha3APIResourcesRequest {}
 export const GetSchedulingV1alpha3APIResourcesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/apis/scheduling.k8s.io/v1alpha3/",
-      code: 200,
-    }),
-  ),
+  S.Struct({}).pipe(T.Http({ method: "GET", uri: "/apis/scheduling.k8s.io/v1alpha3/", code: 200 })),
 ).annotate({
   identifier: "GetSchedulingV1alpha3APIResourcesRequest",
 }) as any as S.Schema<GetSchedulingV1alpha3APIResourcesRequest>;
@@ -2517,13 +2501,7 @@ export const GetSchedulingV1APIResourcesRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface GetSchedulingV1beta1APIResourcesRequest {}
 export const GetSchedulingV1beta1APIResourcesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/apis/scheduling.k8s.io/v1beta1/",
-      code: 200,
-    }),
-  ),
+  S.Struct({}).pipe(T.Http({ method: "GET", uri: "/apis/scheduling.k8s.io/v1beta1/", code: 200 })),
 ).annotate({
   identifier: "GetSchedulingV1beta1APIResourcesRequest",
 }) as any as S.Schema<GetSchedulingV1beta1APIResourcesRequest>;
@@ -2870,13 +2848,7 @@ export const ListSchedulingV1alpha3PodGroupForAllNamespacesRequest = /*@__PURE__
     shardSelector: S.optional(S.String.pipe(T.Query())),
     timeoutSeconds: S.optional(S.Number.pipe(T.Query())),
     watch: S.optional(S.Boolean.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/apis/scheduling.k8s.io/v1alpha3/podgroups",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/apis/scheduling.k8s.io/v1alpha3/podgroups", code: 200 })),
 ).annotate({
   identifier: "ListSchedulingV1alpha3PodGroupForAllNamespacesRequest",
 }) as any as S.Schema<ListSchedulingV1alpha3PodGroupForAllNamespacesRequest>;
@@ -2921,13 +2893,7 @@ export const ListSchedulingV1alpha3WorkloadForAllNamespacesRequest = /*@__PURE__
     shardSelector: S.optional(S.String.pipe(T.Query())),
     timeoutSeconds: S.optional(S.Number.pipe(T.Query())),
     watch: S.optional(S.Boolean.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/apis/scheduling.k8s.io/v1alpha3/workloads",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/apis/scheduling.k8s.io/v1alpha3/workloads", code: 200 })),
 ).annotate({
   identifier: "ListSchedulingV1alpha3WorkloadForAllNamespacesRequest",
 }) as any as S.Schema<ListSchedulingV1alpha3WorkloadForAllNamespacesRequest>;
@@ -3138,13 +3104,7 @@ export const ListSchedulingV1beta1PodGroupForAllNamespacesRequest = /*@__PURE__*
     shardSelector: S.optional(S.String.pipe(T.Query())),
     timeoutSeconds: S.optional(S.Number.pipe(T.Query())),
     watch: S.optional(S.Boolean.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/apis/scheduling.k8s.io/v1beta1/podgroups",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/apis/scheduling.k8s.io/v1beta1/podgroups", code: 200 })),
 ).annotate({
   identifier: "ListSchedulingV1beta1PodGroupForAllNamespacesRequest",
 }) as any as S.Schema<ListSchedulingV1beta1PodGroupForAllNamespacesRequest>;
@@ -3189,13 +3149,7 @@ export const ListSchedulingV1beta1WorkloadForAllNamespacesRequest = /*@__PURE__*
     shardSelector: S.optional(S.String.pipe(T.Query())),
     timeoutSeconds: S.optional(S.Number.pipe(T.Query())),
     watch: S.optional(S.Boolean.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/apis/scheduling.k8s.io/v1beta1/workloads",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/apis/scheduling.k8s.io/v1beta1/workloads", code: 200 })),
 ).annotate({
   identifier: "ListSchedulingV1beta1WorkloadForAllNamespacesRequest",
 }) as any as S.Schema<ListSchedulingV1beta1WorkloadForAllNamespacesRequest>;
@@ -3240,13 +3194,7 @@ export const ListSchedulingV1PriorityClassRequest = /*@__PURE__*/ S.suspend(() =
     shardSelector: S.optional(S.String.pipe(T.Query())),
     timeoutSeconds: S.optional(S.Number.pipe(T.Query())),
     watch: S.optional(S.Boolean.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/apis/scheduling.k8s.io/v1/priorityclasses",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/apis/scheduling.k8s.io/v1/priorityclasses", code: 200 })),
 ).annotate({
   identifier: "ListSchedulingV1PriorityClassRequest",
 }) as any as S.Schema<ListSchedulingV1PriorityClassRequest>;
@@ -3808,11 +3756,7 @@ export const ReadSchedulingV1PriorityClassRequest = /*@__PURE__*/ S.suspend(() =
     name: S.String.pipe(T.Label()),
     pretty: S.optional(S.String.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/apis/scheduling.k8s.io/v1/priorityclasses/{name}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/apis/scheduling.k8s.io/v1/priorityclasses/{name}", code: 200 }),
   ),
 ).annotate({
   identifier: "ReadSchedulingV1PriorityClassRequest",
@@ -4240,11 +4184,7 @@ export const ReplaceSchedulingV1PriorityClassRequest = /*@__PURE__*/ S.suspend((
     preemptionPolicy: S.optional(S.String),
     value: S.optional(S.Number),
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/apis/scheduling.k8s.io/v1/priorityclasses/{name}",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/apis/scheduling.k8s.io/v1/priorityclasses/{name}", code: 200 }),
   ),
 ).annotate({
   identifier: "ReplaceSchedulingV1PriorityClassRequest",
@@ -4694,11 +4634,7 @@ export const WatchSchedulingV1alpha3PodGroupListForAllNamespacesRequest = /*@__P
       timeoutSeconds: S.optional(S.Number.pipe(T.Query())),
       watch: S.optional(S.Boolean.pipe(T.Query())),
     }).pipe(
-      T.Http({
-        method: "GET",
-        uri: "/apis/scheduling.k8s.io/v1alpha3/watch/podgroups",
-        code: 200,
-      }),
+      T.Http({ method: "GET", uri: "/apis/scheduling.k8s.io/v1alpha3/watch/podgroups", code: 200 }),
     ),
 ).annotate({
   identifier: "WatchSchedulingV1alpha3PodGroupListForAllNamespacesRequest",
@@ -4746,11 +4682,7 @@ export const WatchSchedulingV1alpha3WorkloadListForAllNamespacesRequest = /*@__P
       timeoutSeconds: S.optional(S.Number.pipe(T.Query())),
       watch: S.optional(S.Boolean.pipe(T.Query())),
     }).pipe(
-      T.Http({
-        method: "GET",
-        uri: "/apis/scheduling.k8s.io/v1alpha3/watch/workloads",
-        code: 200,
-      }),
+      T.Http({ method: "GET", uri: "/apis/scheduling.k8s.io/v1alpha3/watch/workloads", code: 200 }),
     ),
 ).annotate({
   identifier: "WatchSchedulingV1alpha3WorkloadListForAllNamespacesRequest",
@@ -5020,11 +4952,7 @@ export const WatchSchedulingV1beta1PodGroupListForAllNamespacesRequest = /*@__PU
       timeoutSeconds: S.optional(S.Number.pipe(T.Query())),
       watch: S.optional(S.Boolean.pipe(T.Query())),
     }).pipe(
-      T.Http({
-        method: "GET",
-        uri: "/apis/scheduling.k8s.io/v1beta1/watch/podgroups",
-        code: 200,
-      }),
+      T.Http({ method: "GET", uri: "/apis/scheduling.k8s.io/v1beta1/watch/podgroups", code: 200 }),
     ),
 ).annotate({
   identifier: "WatchSchedulingV1beta1PodGroupListForAllNamespacesRequest",
@@ -5072,11 +5000,7 @@ export const WatchSchedulingV1beta1WorkloadListForAllNamespacesRequest = /*@__PU
       timeoutSeconds: S.optional(S.Number.pipe(T.Query())),
       watch: S.optional(S.Boolean.pipe(T.Query())),
     }).pipe(
-      T.Http({
-        method: "GET",
-        uri: "/apis/scheduling.k8s.io/v1beta1/watch/workloads",
-        code: 200,
-      }),
+      T.Http({ method: "GET", uri: "/apis/scheduling.k8s.io/v1beta1/watch/workloads", code: 200 }),
     ),
 ).annotate({
   identifier: "WatchSchedulingV1beta1WorkloadListForAllNamespacesRequest",
@@ -5177,11 +5101,7 @@ export const WatchSchedulingV1PriorityClassListRequest = /*@__PURE__*/ S.suspend
     timeoutSeconds: S.optional(S.Number.pipe(T.Query())),
     watch: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/apis/scheduling.k8s.io/v1/watch/priorityclasses",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/apis/scheduling.k8s.io/v1/watch/priorityclasses", code: 200 }),
   ),
 ).annotate({
   identifier: "WatchSchedulingV1PriorityClassListRequest",

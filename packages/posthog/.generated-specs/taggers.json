@@ -407,9 +407,9 @@
       "type": "structure",
       "members": {
         "provider": {
-          "target": "com.posthog.taggers#LLMProviderEnum",
+          "target": "com.posthog.taggers#LLMCompletionProviderEnum",
           "traits": {
-            "smithy.api#documentation": "LLM provider to use for this tagger.\n\n* `openai` - Openai\n* `anthropic` - Anthropic\n* `gemini` - Gemini\n* `openrouter` - Openrouter\n* `fireworks` - Fireworks\n* `azure_openai` - Azure OpenAI\n* `together_ai` - Together AI\n* `minimax` - MiniMax\n* `zeabur` - Zeabur AI Hub",
+            "smithy.api#documentation": "LLM provider to use for this tagger.\n\n* `openai` - Openai\n* `anthropic` - Anthropic\n* `gemini` - Gemini\n* `openrouter` - Openrouter\n* `fireworks` - Fireworks\n* `azure_openai` - Azure OpenAI\n* `together_ai` - Together AI\n* `minimax` - MiniMax\n* `zeabur` - Zeabur AI Hub\n* `openai_compatible` - OpenAI-compatible",
             "smithy.api#required": {}
           }
         },
@@ -439,7 +439,7 @@
         "smithy.api#documentation": "Nested serializer for model configuration."
       }
     },
-    "com.posthog.taggers#LLMProviderEnum": {
+    "com.posthog.taggers#LLMCompletionProviderEnum": {
       "type": "enum",
       "members": {
         "OPENAI": {
@@ -495,10 +495,16 @@
           "traits": {
             "smithy.api#enumValue": "zeabur"
           }
+        },
+        "OPENAI_COMPATIBLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "openai_compatible"
+          }
         }
       },
       "traits": {
-        "smithy.api#documentation": "* `openai` - Openai\n* `anthropic` - Anthropic\n* `gemini` - Gemini\n* `openrouter` - Openrouter\n* `fireworks` - Fireworks\n* `azure_openai` - Azure OpenAI\n* `together_ai` - Together AI\n* `minimax` - MiniMax\n* `zeabur` - Zeabur AI Hub"
+        "smithy.api#documentation": "* `openai` - Openai\n* `anthropic` - Anthropic\n* `gemini` - Gemini\n* `openrouter` - Openrouter\n* `fireworks` - Fireworks\n* `azure_openai` - Azure OpenAI\n* `together_ai` - Together AI\n* `minimax` - MiniMax\n* `zeabur` - Zeabur AI Hub\n* `openai_compatible` - OpenAI-compatible"
       }
     },
     "com.posthog.taggers#UserBasic": {
@@ -678,9 +684,9 @@
       "type": "structure",
       "members": {
         "provider": {
-          "target": "com.posthog.taggers#LLMProviderEnum",
+          "target": "com.posthog.taggers#LLMCompletionProviderEnum",
           "traits": {
-            "smithy.api#documentation": "LLM provider to use for this tagger.\n\n* `openai` - Openai\n* `anthropic` - Anthropic\n* `gemini` - Gemini\n* `openrouter` - Openrouter\n* `fireworks` - Fireworks\n* `azure_openai` - Azure OpenAI\n* `together_ai` - Together AI\n* `minimax` - MiniMax\n* `zeabur` - Zeabur AI Hub",
+            "smithy.api#documentation": "LLM provider to use for this tagger.\n\n* `openai` - Openai\n* `anthropic` - Anthropic\n* `gemini` - Gemini\n* `openrouter` - Openrouter\n* `fireworks` - Fireworks\n* `azure_openai` - Azure OpenAI\n* `together_ai` - Together AI\n* `minimax` - MiniMax\n* `zeabur` - Zeabur AI Hub\n* `openai_compatible` - OpenAI-compatible",
             "smithy.api#required": {}
           }
         },

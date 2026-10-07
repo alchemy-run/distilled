@@ -58,9 +58,7 @@ export const CreateACLRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://secrets-manager.api.{region}stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "CreateACLRequest",
-}) as any as S.Schema<CreateACLRequest>;
+).annotate({ identifier: "CreateACLRequest" }) as any as S.Schema<CreateACLRequest>;
 
 export interface ACL {
   /** The given IP/IP Range that is permitted to access. */
@@ -104,9 +102,7 @@ export const CreateApproleRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://secrets-manager.api.{region}stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "CreateApproleRequest",
-}) as any as S.Schema<CreateApproleRequest>;
+).annotate({ identifier: "CreateApproleRequest" }) as any as S.Schema<CreateApproleRequest>;
 
 export interface Approle {
   /** A user chosen description to differentiate between multiple approles. */
@@ -218,9 +214,7 @@ export const CreateInstanceRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://secrets-manager.api.{region}stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "CreateInstanceRequest",
-}) as any as S.Schema<CreateInstanceRequest>;
+).annotate({ identifier: "CreateInstanceRequest" }) as any as S.Schema<CreateInstanceRequest>;
 
 export interface Instance {
   /** The API endpoint for connecting to the secrets engine. */
@@ -283,9 +277,7 @@ export const CreateUserRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://secrets-manager.api.{region}stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "CreateUserRequest",
-}) as any as S.Schema<CreateUserRequest>;
+).annotate({ identifier: "CreateUserRequest" }) as any as S.Schema<CreateUserRequest>;
 
 export interface User {
   /** A user chosen description to differentiate between multiple users. */
@@ -330,9 +322,7 @@ export const DeleteACLRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://secrets-manager.api.{region}stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "DeleteACLRequest",
-}) as any as S.Schema<DeleteACLRequest>;
+).annotate({ identifier: "DeleteACLRequest" }) as any as S.Schema<DeleteACLRequest>;
 
 export interface DeleteACLResponse {}
 export const DeleteACLResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -360,9 +350,7 @@ export const DeleteApproleRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://secrets-manager.api.{region}stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "DeleteApproleRequest",
-}) as any as S.Schema<DeleteApproleRequest>;
+).annotate({ identifier: "DeleteApproleRequest" }) as any as S.Schema<DeleteApproleRequest>;
 
 export interface DeleteApproleResponse {}
 export const DeleteApproleResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -420,9 +408,7 @@ export const DeleteInstanceRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://secrets-manager.api.{region}stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "DeleteInstanceRequest",
-}) as any as S.Schema<DeleteInstanceRequest>;
+).annotate({ identifier: "DeleteInstanceRequest" }) as any as S.Schema<DeleteInstanceRequest>;
 
 export interface DeleteInstanceResponse {}
 export const DeleteInstanceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -450,9 +436,7 @@ export const DeleteUserRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://secrets-manager.api.{region}stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "DeleteUserRequest",
-}) as any as S.Schema<DeleteUserRequest>;
+).annotate({ identifier: "DeleteUserRequest" }) as any as S.Schema<DeleteUserRequest>;
 
 export interface DeleteUserResponse {}
 export const DeleteUserResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -503,9 +487,7 @@ export const GetApproleRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://secrets-manager.api.{region}stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "GetApproleRequest",
-}) as any as S.Schema<GetApproleRequest>;
+).annotate({ identifier: "GetApproleRequest" }) as any as S.Schema<GetApproleRequest>;
 
 export interface GetApprolesRequest {
   /** The STACKIT portal project UUID the Secrets Manager instance is part of. */
@@ -525,9 +507,7 @@ export const GetApprolesRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://secrets-manager.api.{region}stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "GetApprolesRequest",
-}) as any as S.Schema<GetApprolesRequest>;
+).annotate({ identifier: "GetApprolesRequest" }) as any as S.Schema<GetApprolesRequest>;
 
 export type ApproleListApprolesList = Array<Approle>;
 export const ApproleListApprolesList = /*@__PURE__*/ S.Array(
@@ -589,9 +569,7 @@ export const GetInstanceRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://secrets-manager.api.{region}stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "GetInstanceRequest",
-}) as any as S.Schema<GetInstanceRequest>;
+).annotate({ identifier: "GetInstanceRequest" }) as any as S.Schema<GetInstanceRequest>;
 
 export interface GetUserRequest {
   /** The STACKIT portal project UUID the Secrets Manager instance is part of. */
@@ -634,9 +612,7 @@ export const ListACLsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://secrets-manager.api.{region}stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "ListACLsRequest",
-}) as any as S.Schema<ListACLsRequest>;
+).annotate({ identifier: "ListACLsRequest" }) as any as S.Schema<ListACLsRequest>;
 
 export type ListACLsResponseAclsList = Array<ACL>;
 export const ListACLsResponseAclsList = /*@__PURE__*/ S.Array(
@@ -650,9 +626,7 @@ export const ListACLsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     acls: ListACLsResponseAclsList,
   }),
-).annotate({
-  identifier: "ListACLsResponse",
-}) as any as S.Schema<ListACLsResponse>;
+).annotate({ identifier: "ListACLsResponse" }) as any as S.Schema<ListACLsResponse>;
 
 export interface ListApproleSecretIdsRequest {
   /** The STACKIT portal project UUID the Secrets Manager instance is part of. */
@@ -691,9 +665,7 @@ export const ApproleSecretList = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     secretIds: ApproleSecretListSecretIdsList,
   }),
-).annotate({
-  identifier: "ApproleSecretList",
-}) as any as S.Schema<ApproleSecretList>;
+).annotate({ identifier: "ApproleSecretList" }) as any as S.Schema<ApproleSecretList>;
 
 export interface ListInstancesRequest {
   /** The STACKIT portal project UUID the Secrets Manager instance is part of. */
@@ -710,9 +682,7 @@ export const ListInstancesRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://secrets-manager.api.{region}stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "ListInstancesRequest",
-}) as any as S.Schema<ListInstancesRequest>;
+).annotate({ identifier: "ListInstancesRequest" }) as any as S.Schema<ListInstancesRequest>;
 
 export type ListInstancesResponseInstancesList = Array<Instance>;
 export const ListInstancesResponseInstancesList = /*@__PURE__*/ S.Array(
@@ -726,9 +696,7 @@ export const ListInstancesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     instances: ListInstancesResponseInstancesList,
   }),
-).annotate({
-  identifier: "ListInstancesResponse",
-}) as any as S.Schema<ListInstancesResponse>;
+).annotate({ identifier: "ListInstancesResponse" }) as any as S.Schema<ListInstancesResponse>;
 
 export interface ListUsersRequest {
   /** The STACKIT portal project UUID the Secrets Manager instance is part of. */
@@ -748,9 +716,7 @@ export const ListUsersRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://secrets-manager.api.{region}stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "ListUsersRequest",
-}) as any as S.Schema<ListUsersRequest>;
+).annotate({ identifier: "ListUsersRequest" }) as any as S.Schema<ListUsersRequest>;
 
 export type ListUsersResponseUsersList = Array<User>;
 export const ListUsersResponseUsersList = /*@__PURE__*/ S.Array(
@@ -764,9 +730,7 @@ export const ListUsersResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     users: ListUsersResponseUsersList,
   }),
-).annotate({
-  identifier: "ListUsersResponse",
-}) as any as S.Schema<ListUsersResponse>;
+).annotate({ identifier: "ListUsersResponse" }) as any as S.Schema<ListUsersResponse>;
 
 export interface UpdateACLRequest {
   /** The STACKIT portal project UUID the Secrets Manager instance is part of. */
@@ -792,9 +756,7 @@ export const UpdateACLRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://secrets-manager.api.{region}stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "UpdateACLRequest",
-}) as any as S.Schema<UpdateACLRequest>;
+).annotate({ identifier: "UpdateACLRequest" }) as any as S.Schema<UpdateACLRequest>;
 
 export interface UpdateACLResponse {}
 export const UpdateACLResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -809,9 +771,7 @@ export const UpdateACLPayload = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     cidr: S.String,
   }),
-).annotate({
-  identifier: "UpdateACLPayload",
-}) as any as S.Schema<UpdateACLPayload>;
+).annotate({ identifier: "UpdateACLPayload" }) as any as S.Schema<UpdateACLPayload>;
 
 export type UpdateACLsRequestCidrsList = Array<UpdateACLPayload>;
 export const UpdateACLsRequestCidrsList = /*@__PURE__*/ S.Array(
@@ -838,9 +798,7 @@ export const UpdateACLsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://secrets-manager.api.{region}stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "UpdateACLsRequest",
-}) as any as S.Schema<UpdateACLsRequest>;
+).annotate({ identifier: "UpdateACLsRequest" }) as any as S.Schema<UpdateACLsRequest>;
 
 export interface UpdateACLsResponse {}
 export const UpdateACLsResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -879,9 +837,7 @@ export const UpdateApproleRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://secrets-manager.api.{region}stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "UpdateApproleRequest",
-}) as any as S.Schema<UpdateApproleRequest>;
+).annotate({ identifier: "UpdateApproleRequest" }) as any as S.Schema<UpdateApproleRequest>;
 
 export interface UpdateApproleSecretIdRequest {
   /** The STACKIT portal project UUID the Secrets Manager instance is part of. */
@@ -937,9 +893,7 @@ export const UpdateInstanceRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://secrets-manager.api.{region}stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "UpdateInstanceRequest",
-}) as any as S.Schema<UpdateInstanceRequest>;
+).annotate({ identifier: "UpdateInstanceRequest" }) as any as S.Schema<UpdateInstanceRequest>;
 
 export interface UpdateInstanceResponse {}
 export const UpdateInstanceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -973,9 +927,7 @@ export const UpdateUserRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://secrets-manager.api.{region}stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "UpdateUserRequest",
-}) as any as S.Schema<UpdateUserRequest>;
+).annotate({ identifier: "UpdateUserRequest" }) as any as S.Schema<UpdateUserRequest>;
 
 export interface UpdateUserResponse {}
 export const UpdateUserResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({

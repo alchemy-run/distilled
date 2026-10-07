@@ -12,9 +12,7 @@ export type PostHogConnectionForwardMethodEnum = "GET" | "POST" | "PUT" | "PATCH
 export const PostHogConnectionForwardMethodEnum = S.String;
 
 /** Query parameters to send to the target. */
-export type CreatePosthogConnectionsForwardRequestQueryMap = {
-  [key: string]: string | undefined;
-};
+export type CreatePosthogConnectionsForwardRequestQueryMap = { [key: string]: string | undefined };
 export const CreatePosthogConnectionsForwardRequestQueryMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -110,9 +108,7 @@ export const PostHogConnectionTarget = /*@__PURE__*/ S.suspend(() =>
     region: S.String,
     base_url: S.String,
   }),
-).annotate({
-  identifier: "PostHogConnectionTarget",
-}) as any as S.Schema<PostHogConnectionTarget>;
+).annotate({ identifier: "PostHogConnectionTarget" }) as any as S.Schema<PostHogConnectionTarget>;
 
 export type CreatePosthogConnectionsForwardError = PosthogOpError;
 /** Forward a request through a PostHog connection Replay an API request against the connected PostHog project. The server injects the connection's token; the response is passed through. */

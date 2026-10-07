@@ -933,7 +933,7 @@
         "smithy.api#input": {}
       }
     },
-    "com.xata.api#UserWithID": {
+    "com.xata.api#OrganizationMember": {
       "type": "structure",
       "members": {
         "email": {
@@ -955,14 +955,42 @@
           "traits": {
             "smithy.api#required": {}
           }
+        },
+        "role": {
+          "target": "com.xata.api#OrganizationRoleName",
+          "traits": {
+            "smithy.api#required": {}
+          }
         }
       },
-      "traits": {}
+      "traits": {
+        "smithy.api#documentation": "A member of an organization and the role they hold in it"
+      }
+    },
+    "com.xata.api#OrganizationRoleName": {
+      "type": "enum",
+      "members": {
+        "ADMIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "admin"
+          }
+        },
+        "EDITOR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "editor"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The roles a member of an organization can hold"
+      }
     },
     "com.xata.api#ListOrganizationMembersResponseMembersList": {
       "type": "list",
       "member": {
-        "target": "com.xata.api#UserWithID"
+        "target": "com.xata.api#OrganizationMember"
       },
       "traits": {}
     },
@@ -1029,6 +1057,14 @@
       "output": {
         "target": "smithy.api#Unit"
       },
+      "errors": [
+        {
+          "target": "com.xata.api#BadRequest"
+        },
+        {
+          "target": "com.xata.api#Conflict"
+        }
+      ],
       "traits": {
         "smithy.api#http": {
           "method": "DELETE",
@@ -1036,6 +1072,158 @@
           "code": 200
         },
         "smithy.api#documentation": "Remove a member from an organization"
+      }
+    },
+    "com.xata.api#ListOrganizationRolesRequest": {
+      "type": "structure",
+      "members": {
+        "organizationID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Unique identifier for a specific organization"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.xata.api#OrganizationRole": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "com.xata.api#OrganizationRoleName",
+          "traits": {
+            "smithy.api#documentation": "Stable identifier for the role",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Human-readable name of the role",
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "What the role allows",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A role that can be held by a member of an organization"
+      }
+    },
+    "com.xata.api#ListOrganizationRolesResponseRolesList": {
+      "type": "list",
+      "member": {
+        "target": "com.xata.api#OrganizationRole"
+      },
+      "traits": {}
+    },
+    "com.xata.api#ListOrganizationRolesResponse": {
+      "type": "structure",
+      "members": {
+        "roles": {
+          "target": "com.xata.api#ListOrganizationRolesResponseRolesList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.xata.api#ListOrganizationRoles": {
+      "type": "operation",
+      "input": {
+        "target": "com.xata.api#ListOrganizationRolesRequest"
+      },
+      "output": {
+        "target": "com.xata.api#ListOrganizationRolesResponse"
+      },
+      "errors": [
+        {
+          "target": "com.xata.api#Forbidden"
+        },
+        {
+          "target": "com.xata.api#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/organizations/{organizationID}/roles",
+          "code": 200
+        },
+        "smithy.api#documentation": "List the roles assignable in an organization\n\nRoles are predefined. Every member of an organization holds exactly one."
+      }
+    },
+    "com.xata.api#SetOrganizationMemberRoleRequest": {
+      "type": "structure",
+      "members": {
+        "organizationID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Unique identifier for a specific organization"
+          }
+        },
+        "userID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Unique identifier for a specific user account"
+          }
+        },
+        "role": {
+          "target": "com.xata.api#OrganizationRoleName",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.xata.api#SetOrganizationMemberRole": {
+      "type": "operation",
+      "input": {
+        "target": "com.xata.api#SetOrganizationMemberRoleRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "errors": [
+        {
+          "target": "com.xata.api#BadRequest"
+        },
+        {
+          "target": "com.xata.api#Forbidden"
+        },
+        {
+          "target": "com.xata.api#NotFound"
+        },
+        {
+          "target": "com.xata.api#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/organizations/{organizationID}/members/{userID}/role",
+          "code": 200
+        },
+        "smithy.api#documentation": "Set the role of an organization member\n\nReplaces the member's current role. An organization always retains at least one Admin."
       }
     },
     "com.xata.api#ListOrganizationInvitationsRequestStatus": {
@@ -1180,10 +1368,11 @@
             "smithy.api#required": {}
           }
         },
-        "invite_link": {
-          "target": "smithy.api#String",
+        "role": {
+          "target": "com.xata.api#OrganizationRoleName",
           "traits": {
-            "smithy.api#documentation": "URL link to accept the invitation"
+            "smithy.api#documentation": "Role the user holds once they accept the invitation",
+            "smithy.api#required": {}
           }
         }
       },
@@ -1274,6 +1463,12 @@
           "traits": {
             "smithy.api#documentation": "Email address of the user to invite",
             "smithy.api#required": {}
+          }
+        },
+        "role": {
+          "target": "com.xata.api#OrganizationRoleName",
+          "traits": {
+            "smithy.api#documentation": "Role the user holds once they accept the invitation. Optional; when omitted, the least privileged role offered applies"
           }
         }
       },
@@ -1570,6 +1765,655 @@
           "code": 200
         },
         "smithy.api#documentation": "Get organization membership limits\n\nRetrieves the membership limits for the specified organization (maximum members and invitations)."
+      }
+    },
+    "com.xata.api#GetOrganizationSSORequest": {
+      "type": "structure",
+      "members": {
+        "organizationID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Unique identifier for a specific organization"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.xata.api#OrganizationSSO": {
+      "type": "structure",
+      "members": {
+        "providers": {
+          "target": "com.xata.api#OrganizationSSOProvidersList",
+          "traits": {
+            "smithy.api#documentation": "Identity providers registered for this organization, at most one per verified domain.",
+            "smithy.api#required": {}
+          }
+        },
+        "domains": {
+          "target": "com.xata.api#OrganizationSSODomainsList",
+          "traits": {
+            "smithy.api#documentation": "Email domains claimed for this organization, verified and pending.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "An organization's single sign-on setup, as one identity provider per verified email domain."
+      }
+    },
+    "com.xata.api#OrganizationSSOProvider": {
+      "type": "structure",
+      "members": {
+        "alias": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Stable identifier for this provider, used in its own endpoints.",
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "com.xata.api#OrganizationSSOProviderType",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "display_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name members see for this provider when signing in.",
+            "smithy.api#required": {}
+          }
+        },
+        "domain": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The verified email domain this provider serves. Empty while the domain is not verified.",
+            "smithy.api#required": {}
+          }
+        },
+        "enforced": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether members on this domain are sent to this provider automatically, leaving no other way in. Registering a provider does not set this; it is enabled separately.",
+            "smithy.api#required": {}
+          }
+        },
+        "issuer": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "OIDC issuer URL, without the /.well-known suffix."
+          }
+        },
+        "client_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "OAuth client ID the organization registered with the provider.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "An identity provider serving one of the organization's verified domains. The client secret is write-only and is never returned."
+      }
+    },
+    "com.xata.api#OrganizationSSOProviderType": {
+      "type": "enum",
+      "members": {
+        "GOOGLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "google"
+          }
+        },
+        "MICROSOFT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "microsoft"
+          }
+        },
+        "OIDC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "oidc"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Which identity provider this is. `google` pins the login to a Google Workspace domain and `microsoft` to a single Entra tenant, taken from the issuer; `oidc` is the fallback for anything else that speaks OpenID Connect."
+      }
+    },
+    "com.xata.api#OrganizationSSOProvidersList": {
+      "type": "list",
+      "member": {
+        "target": "com.xata.api#OrganizationSSOProvider"
+      },
+      "traits": {
+        "smithy.api#documentation": "Identity providers registered for this organization, at most one per verified domain."
+      }
+    },
+    "com.xata.api#OrganizationSSODomain": {
+      "type": "structure",
+      "members": {
+        "domain": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The claimed email domain",
+            "smithy.api#required": {}
+          }
+        },
+        "provider_alias": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The alias an identity provider on this domain will be given. Derived from the organization and the domain, so it is known before the provider exists, which is what lets a client show the redirect URI to register with the provider up front.",
+            "smithy.api#required": {}
+          }
+        },
+        "verified": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether control of the domain has been proven through DNS",
+            "smithy.api#required": {}
+          }
+        },
+        "verification": {
+          "target": "com.xata.api#OrganizationSSODomainVerification",
+          "traits": {
+            "smithy.api#documentation": "The DNS record that proves control of the domain. It must stay published while the domain is verified.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "missing_since": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the daily recheck first found the record missing from a verified domain.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "revokes_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the domain stops being verified if the record is still missing.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "An email domain claimed by an organization for SSO"
+      }
+    },
+    "com.xata.api#OrganizationSSODomainVerification": {
+      "type": "structure",
+      "members": {
+        "record_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name to create the record at",
+            "smithy.api#required": {}
+          }
+        },
+        "record_type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "DNS record type",
+            "smithy.api#required": {}
+          }
+        },
+        "record_value": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Value the record must hold",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The DNS TXT record that proves an organization controls a domain"
+      }
+    },
+    "com.xata.api#OrganizationSSODomainsList": {
+      "type": "list",
+      "member": {
+        "target": "com.xata.api#OrganizationSSODomain"
+      },
+      "traits": {
+        "smithy.api#documentation": "Email domains claimed for this organization, verified and pending."
+      }
+    },
+    "com.xata.api#GetOrganizationSSO": {
+      "type": "operation",
+      "input": {
+        "target": "com.xata.api#GetOrganizationSSORequest"
+      },
+      "output": {
+        "target": "com.xata.api#OrganizationSSO"
+      },
+      "errors": [
+        {
+          "target": "com.xata.api#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/organizations/{organizationID}/sso",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get the organization's SSO configuration\n\nLists the organization's identity providers and the email domains claimed for them. An organization signs in\nthrough one provider per verified domain, so both are collections. Client secrets are write-only and are never\nreturned. An organization that has not set anything up yet responds 200 with empty lists."
+      }
+    },
+    "com.xata.api#ClaimOrganizationSSODomainRequest": {
+      "type": "structure",
+      "members": {
+        "organizationID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Unique identifier for a specific organization"
+          }
+        },
+        "domain": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Bare email domain to claim, for example acme.com.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.xata.api#ClaimOrganizationSSODomain": {
+      "type": "operation",
+      "input": {
+        "target": "com.xata.api#ClaimOrganizationSSODomainRequest"
+      },
+      "output": {
+        "target": "com.xata.api#OrganizationSSODomain"
+      },
+      "errors": [
+        {
+          "target": "com.xata.api#BadRequest"
+        },
+        {
+          "target": "com.xata.api#Forbidden"
+        },
+        {
+          "target": "com.xata.api#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/organizations/{organizationID}/sso/domains",
+          "code": 200
+        },
+        "smithy.api#documentation": "Claim an email domain for SSO\n\nClaims an email domain and returns the DNS record that proves control of it. A claim is only a note to\nourselves: nothing is registered against the domain until verification succeeds, so claiming a domain neither\naffects anyone's sign-in nor stops another organization claiming it first. A domain another organization has\nalready registered is refused with 409, before any DNS record is published."
+      }
+    },
+    "com.xata.api#DeleteOrganizationSSODomainRequest": {
+      "type": "structure",
+      "members": {
+        "organizationID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Unique identifier for a specific organization"
+          }
+        },
+        "domain": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Email domain claimed for SSO"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.xata.api#DeleteOrganizationSSODomain": {
+      "type": "operation",
+      "input": {
+        "target": "com.xata.api#DeleteOrganizationSSODomainRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "errors": [
+        {
+          "target": "com.xata.api#Forbidden"
+        },
+        {
+          "target": "com.xata.api#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/organizations/{organizationID}/sso/domains/{domain}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Release a claimed or verified domain\n\nDrops a pending claim, or releases a verified domain so members on it sign in however they could before.\nRefused with a 409 while the organization has a provider for the domain; remove the provider first. Idempotent."
+      }
+    },
+    "com.xata.api#VerifyOrganizationSSODomainRequest": {
+      "type": "structure",
+      "members": {
+        "organizationID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Unique identifier for a specific organization"
+          }
+        },
+        "domain": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Email domain claimed for SSO"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.xata.api#VerifyOrganizationSSODomain": {
+      "type": "operation",
+      "input": {
+        "target": "com.xata.api#VerifyOrganizationSSODomainRequest"
+      },
+      "output": {
+        "target": "com.xata.api#OrganizationSSODomain"
+      },
+      "errors": [
+        {
+          "target": "com.xata.api#Forbidden"
+        },
+        {
+          "target": "com.xata.api#NotFound"
+        },
+        {
+          "target": "com.xata.api#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/organizations/{organizationID}/sso/domains/{domain}/verify",
+          "code": 200
+        },
+        "smithy.api#documentation": "Check the DNS record for a claimed domain\n\nLooks up the challenge TXT record. Verification is a poll, not a command: a missing or stale record is reported\nas `verified: false` on a 200 rather than as an error, so a client can retry while DNS propagates. Verifying a\ndomain that lost its verification restores its provider, with enforcement off."
+      }
+    },
+    "com.xata.api#CreateOrganizationSSOProviderRequest": {
+      "type": "structure",
+      "members": {
+        "organizationID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Unique identifier for a specific organization"
+          }
+        },
+        "type": {
+          "target": "com.xata.api#OrganizationSSOProviderType",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "domain": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The verified email domain this provider will serve.",
+            "smithy.api#required": {}
+          }
+        },
+        "issuer": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "OIDC issuer URL. Required for `oidc`, and for `microsoft` where it names the Entra tenant; ignored for `google`. Must be https, and must serve a /.well-known/openid-configuration document naming itself as the issuer."
+          }
+        },
+        "client_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "OAuth client ID the organization registered with the provider",
+            "smithy.api#required": {}
+          }
+        },
+        "client_secret": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "OAuth client secret. Write-only: it is stored in Keycloak and is never returned by this API.",
+            "smithy.api#required": {},
+            "smithy.api#sensitive": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.xata.api#CreateOrganizationSSOProvider": {
+      "type": "operation",
+      "input": {
+        "target": "com.xata.api#CreateOrganizationSSOProviderRequest"
+      },
+      "output": {
+        "target": "com.xata.api#OrganizationSSOProvider"
+      },
+      "errors": [
+        {
+          "target": "com.xata.api#BadRequest"
+        },
+        {
+          "target": "com.xata.api#Forbidden"
+        },
+        {
+          "target": "com.xata.api#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/organizations/{organizationID}/sso/providers",
+          "code": 200
+        },
+        "smithy.api#documentation": "Register an identity provider for a verified domain\n\nRegisters an identity provider for one verified domain. `google` needs only the credentials and pins the login\nto that Google Workspace domain; `microsoft` pins it to the Entra tenant in the issuer; `oidc` is the fallback\nfor any other provider and discovers its endpoints from the issuer's `/.well-known/openid-configuration`. The\ndomain must already be verified, and registering does not redirect anyone on its own: that is enabled\nseparately."
+      }
+    },
+    "com.xata.api#UpdateOrganizationSSOProviderRequest": {
+      "type": "structure",
+      "members": {
+        "organizationID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Unique identifier for a specific organization"
+          }
+        },
+        "providerAlias": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Alias identifying one of the organization's SSO identity providers"
+          }
+        },
+        "issuer": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "OIDC issuer URL. Required for `oidc`, and for `microsoft` where it names the Entra tenant; ignored for `google`."
+          }
+        },
+        "client_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "OAuth client ID the organization registered with the provider",
+            "smithy.api#required": {}
+          }
+        },
+        "client_secret": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "OAuth client secret. Write-only: it is stored in Keycloak and is never returned by this API.",
+            "smithy.api#required": {},
+            "smithy.api#sensitive": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.xata.api#UpdateOrganizationSSOProvider": {
+      "type": "operation",
+      "input": {
+        "target": "com.xata.api#UpdateOrganizationSSOProviderRequest"
+      },
+      "output": {
+        "target": "com.xata.api#OrganizationSSOProvider"
+      },
+      "errors": [
+        {
+          "target": "com.xata.api#BadRequest"
+        },
+        {
+          "target": "com.xata.api#Forbidden"
+        },
+        {
+          "target": "com.xata.api#NotFound"
+        },
+        {
+          "target": "com.xata.api#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/organizations/{organizationID}/sso/providers/{providerAlias}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Update an identity provider's credentials\n\nReplaces the provider's credentials, and for `oidc` re-discovers its endpoints from the issuer. The domain it\nserves and whether it is enforced are carried across unchanged, so rotating a client secret does not quietly\nturn enforcement off. A provider whose domain stopped being verified is refused until the domain verifies again."
+      }
+    },
+    "com.xata.api#DeleteOrganizationSSOProviderRequest": {
+      "type": "structure",
+      "members": {
+        "organizationID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Unique identifier for a specific organization"
+          }
+        },
+        "providerAlias": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Alias identifying one of the organization's SSO identity providers"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.xata.api#DeleteOrganizationSSOProvider": {
+      "type": "operation",
+      "input": {
+        "target": "com.xata.api#DeleteOrganizationSSOProviderRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "errors": [
+        {
+          "target": "com.xata.api#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/organizations/{organizationID}/sso/providers/{providerAlias}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Remove an identity provider\n\nDeletes the provider, so members on its domain fall back to the sign-in methods they had before. The domain\nstays verified and can be given another provider. Idempotent."
+      }
+    },
+    "com.xata.api#SetOrganizationSSOProviderEnforcementRequest": {
+      "type": "structure",
+      "members": {
+        "organizationID": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Unique identifier for a specific organization"
+          }
+        },
+        "providerAlias": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Alias identifying one of the organization's SSO identity providers"
+          }
+        },
+        "enforced": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Enable to send every address on the domain to this provider. Disable to let members sign in however they could before.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.xata.api#SetOrganizationSSOProviderEnforcement": {
+      "type": "operation",
+      "input": {
+        "target": "com.xata.api#SetOrganizationSSOProviderEnforcementRequest"
+      },
+      "output": {
+        "target": "com.xata.api#OrganizationSSOProvider"
+      },
+      "errors": [
+        {
+          "target": "com.xata.api#Forbidden"
+        },
+        {
+          "target": "com.xata.api#NotFound"
+        },
+        {
+          "target": "com.xata.api#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/organizations/{organizationID}/sso/providers/{providerAlias}/enforcement",
+          "code": 200
+        },
+        "smithy.api#documentation": "Require members on this provider's domain to sign in through it\n\nEnabling sends every address on the provider's domain to it, leaving those members no other way in. Refused\nwith a 409 until the domain is verified. Disabling needs nothing, so the way out is always open."
       }
     },
     "com.xata.api#CreateBillingCheckoutSessionRequest": {
@@ -2773,7 +3617,7 @@
         "columnID": {
           "target": "smithy.api#Integer",
           "traits": {
-            "smithy.api#documentation": "Attribute number of the column within the table.",
+            "smithy.api#documentation": "Attribute number of the column within the table (0 if not a table column, negative for system columns).",
             "smithy.api#required": {}
           }
         },
@@ -3205,6 +4049,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "gcp"
+          }
+        },
+        "AZURE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "azure"
           }
         },
         "CUSTOM": {
@@ -3712,7 +4562,7 @@
         "maxDescriptionLength": {
           "target": "smithy.api#Integer",
           "traits": {
-            "smithy.api#documentation": "Maximum character length allowed for project descriptions",
+            "smithy.api#documentation": "Maximum character length allowed for branch descriptions",
             "smithy.api#required": {}
           }
         },
@@ -3804,75 +4654,6 @@
           "code": 200
         },
         "smithy.api#documentation": "Get organization resource limits\n\nRetrieves the effective org-level limits, including project creation limits and branch configuration defaults. Project-specific overrides are not applied here."
-      }
-    },
-    "com.xata.api#GetDefaultProjectLimitsRequest": {
-      "type": "structure",
-      "members": {
-        "organizationID": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {},
-            "smithy.api#documentation": "Unique identifier of the organization to get project limits for"
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#input": {}
-      }
-    },
-    "com.xata.api#ProjectLimits": {
-      "type": "structure",
-      "members": {
-        "maxInstances": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "smithy.api#documentation": "Maximum number of database instances allowed per branch",
-            "smithy.api#required": {}
-          }
-        },
-        "minInstances": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "smithy.api#documentation": "Minimum number of database instances required per branch",
-            "smithy.api#required": {}
-          }
-        },
-        "maxDescriptionLength": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "smithy.api#documentation": "Maximum character length allowed for project descriptions",
-            "smithy.api#required": {}
-          }
-        },
-        "maxBranches": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "smithy.api#documentation": "Maximum number of branches allowed per project",
-            "smithy.api#required": {}
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "Resource limits and constraints for projects within an organization"
-      }
-    },
-    "com.xata.api#GetDefaultProjectLimits": {
-      "type": "operation",
-      "input": {
-        "target": "com.xata.api#GetDefaultProjectLimitsRequest"
-      },
-      "output": {
-        "target": "com.xata.api#ProjectLimits"
-      },
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/organizations/{organizationID}/projects/limits",
-          "code": 200
-        },
-        "smithy.api#documentation": "Get project resource limits\n\nRetrieves the default resource limits for projects in the specified organization, including maximum instances, storage, and allowed regions."
       }
     },
     "com.xata.api#ListProjectsRequest": {
@@ -4333,7 +5114,7 @@
         "maxDescriptionLength": {
           "target": "smithy.api#Integer",
           "traits": {
-            "smithy.api#documentation": "Maximum character length allowed for project descriptions",
+            "smithy.api#documentation": "Maximum character length allowed for branch descriptions",
             "smithy.api#required": {}
           }
         },
@@ -4784,7 +5565,7 @@
         "description": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Optional description for the branch purpose or contents (max 50 characters)"
+            "smithy.api#documentation": "Optional description for the branch purpose or contents. An empty string is stored as no description."
           }
         },
         "scaleToZero": {
@@ -5391,7 +6172,7 @@
         "description": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "New description for the branch (max 50 characters)"
+            "smithy.api#documentation": "New description for the branch. Send an empty string to clear it."
           }
         },
         "replicas": {
@@ -7475,6 +8256,573 @@
         "smithy.api#documentation": "Delete a Vercel Marketplace installation\n\nBegin uninstalling an installation. The installation is marked\n'deleting' so billing can finalize before being soft-deleted; the 204\ndefers final deletion to Vercel's 24-hour window. (Vercel's contract\nalso allows a 200 with {\"finalized\": true} for immediate deletion;\nXata always finalizes asynchronously.)"
       }
     },
+    "com.xata.api#ListBillingPlansForProductRequest": {
+      "type": "structure",
+      "members": {
+        "productSlug": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Vercel product slug (e.g. xata-postgres)."
+          }
+        },
+        "metadata": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "metadata",
+            "smithy.api#documentation": "Opaque metadata forwarded by Vercel."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.xata.api#ListBillingPlansResponse": {
+      "type": "structure",
+      "members": {
+        "plans": {
+          "target": "com.xata.api#ListBillingPlansResponsePlansList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The billing plans available for a product."
+      }
+    },
+    "com.xata.api#BillingPlan": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Partner-provided billing plan id.",
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Plan type: \"subscription\" or \"prepayment\".",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "scope": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Plan scope; installation-level plans require enablement on the integration."
+          }
+        },
+        "paymentMethodRequired": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Subscription plans only. false means the plan is completely free."
+          }
+        },
+        "preauthorizationAmount": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Subscription + paymentMethodRequired. Amount used to test the payment method; never charged."
+          }
+        },
+        "initialCharge": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Subscription + paymentMethodRequired. Amount invoiced immediately at sign-up (decimal USD string)."
+          }
+        },
+        "cost": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Display cost for fixed-cost plans, e.g. \"$20.00/month\". Omitted for usage-based plans."
+          }
+        },
+        "details": {
+          "target": "com.xata.api#BillingPlanDetailsList"
+        },
+        "highlightedDetails": {
+          "target": "com.xata.api#BillingPlanHighlightedDetailsList"
+        },
+        "quote": {
+          "target": "com.xata.api#BillingPlanQuoteList"
+        },
+        "effectiveDate": {
+          "target": "smithy.api#String"
+        },
+        "disabled": {
+          "target": "smithy.api#Boolean"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A Vercel Marketplace billing plan. Billing SKU only; it does not change Xata entitlements."
+      }
+    },
+    "com.xata.api#PlanDetail": {
+      "type": "structure",
+      "members": {
+        "label": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "value": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.xata.api#BillingPlanDetailsList": {
+      "type": "list",
+      "member": {
+        "target": "com.xata.api#PlanDetail"
+      },
+      "traits": {}
+    },
+    "com.xata.api#BillingPlanHighlightedDetailsList": {
+      "type": "list",
+      "member": {
+        "target": "com.xata.api#PlanDetail"
+      },
+      "traits": {}
+    },
+    "com.xata.api#PlanQuoteLine": {
+      "type": "structure",
+      "members": {
+        "line": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "amount": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.xata.api#BillingPlanQuoteList": {
+      "type": "list",
+      "member": {
+        "target": "com.xata.api#PlanQuoteLine"
+      },
+      "traits": {}
+    },
+    "com.xata.api#ListBillingPlansResponsePlansList": {
+      "type": "list",
+      "member": {
+        "target": "com.xata.api#BillingPlan"
+      },
+      "traits": {}
+    },
+    "com.xata.api#ListBillingPlansForProduct": {
+      "type": "operation",
+      "input": {
+        "target": "com.xata.api#ListBillingPlansForProductRequest"
+      },
+      "output": {
+        "target": "com.xata.api#ListBillingPlansResponse"
+      },
+      "errors": [
+        {
+          "target": "com.xata.api#BadRequest"
+        },
+        {
+          "target": "com.xata.api#Forbidden"
+        },
+        {
+          "target": "com.xata.api#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/products/{productSlug}/plans",
+          "code": 200
+        },
+        "smithy.api#documentation": "List billing plans for a product\n\nReturn the product's available billing plans, rendered into Vercel's\nbillingPlan shape. Vercel calls this to show plans when a customer creates\na resource; it may be called before any installation exists, so the signed\ntoken can carry no installation or account id. Plans are billing SKUs only\nand do not change Xata entitlements (every Vercel org is T2)."
+      }
+    },
+    "com.xata.api#GetResourceRequest": {
+      "type": "structure",
+      "members": {
+        "installationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Vercel installation id (icfg_...)."
+          }
+        },
+        "resourceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Vercel resource id."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.xata.api#Resource": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The partner-specific resource id.",
+            "smithy.api#required": {}
+          }
+        },
+        "productId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The partner-specific product id/slug.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "User-inputted resource name.",
+            "smithy.api#required": {}
+          }
+        },
+        "metadata": {
+          "target": "com.xata.api#ResourceMetadataMap",
+          "traits": {
+            "smithy.api#documentation": "User-inputted metadata based on the registered metadata schema.",
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Resource lifecycle status. One of Vercel's values: ready, pending, onboarding, suspended, resumed, uninstalled, error.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A provisioned Vercel Marketplace resource. Matches Vercel's Partner API\n\"Get Resource\" response. Secrets/connection info are returned by Provision\nResource, not here. The optional billingPlan, protocolSettings, and\nnotification fields are not yet populated.\n"
+      }
+    },
+    "com.xata.api#ResourceMetadataMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "User-inputted metadata based on the registered metadata schema."
+      }
+    },
+    "com.xata.api#GetResource": {
+      "type": "operation",
+      "input": {
+        "target": "com.xata.api#GetResourceRequest"
+      },
+      "output": {
+        "target": "com.xata.api#Resource"
+      },
+      "errors": [
+        {
+          "target": "com.xata.api#Forbidden"
+        },
+        {
+          "target": "com.xata.api#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/installations/{installationId}/resources/{resourceId}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get a Vercel Marketplace resource\n\nReturn a provisioned resource. Scoped to the installation in the signed\ntoken; a resource owned by another installation is reported as not found."
+      }
+    },
+    "com.xata.api#DeleteResourceRequest": {
+      "type": "structure",
+      "members": {
+        "installationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Vercel installation id (icfg_...)."
+          }
+        },
+        "resourceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Vercel resource id."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.xata.api#DeleteResource": {
+      "type": "operation",
+      "input": {
+        "target": "com.xata.api#DeleteResourceRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "errors": [
+        {
+          "target": "com.xata.api#Forbidden"
+        },
+        {
+          "target": "com.xata.api#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/v1/installations/{installationId}/resources/{resourceId}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Delete a Vercel Marketplace resource\n\nDeprovision a resource (its Xata project and branches) and mark the\ntracking records deleting. Vercel calls this when a customer removes a\nresource. Idempotent: a resource already being torn down is deprovisioned\nagain harmlessly; a resource that no longer exists returns 404."
+      }
+    },
+    "com.xata.api#ProvisionResourceRequestMetadataMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "User-inputted metadata based on the registered metadata schema."
+      }
+    },
+    "com.xata.api#ProvisionResourceRequest": {
+      "type": "structure",
+      "members": {
+        "installationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Vercel installation id (icfg_...)."
+          }
+        },
+        "productId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The partner-specific product id/slug.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "User-inputted resource name.",
+            "smithy.api#required": {}
+          }
+        },
+        "metadata": {
+          "target": "com.xata.api#ProvisionResourceRequestMetadataMap",
+          "traits": {
+            "smithy.api#documentation": "User-inputted metadata based on the registered metadata schema.",
+            "smithy.api#required": {}
+          }
+        },
+        "billingPlanId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Selected Vercel billing plan id.",
+            "smithy.api#required": {}
+          }
+        },
+        "externalId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Partner-provided identifier indicating the source of provisioning."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.xata.api#ProvisionedResource": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The partner-specific resource id.",
+            "smithy.api#required": {}
+          }
+        },
+        "productId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The partner-specific product id/slug.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "User-inputted resource name.",
+            "smithy.api#required": {}
+          }
+        },
+        "metadata": {
+          "target": "com.xata.api#ProvisionedResourceMetadataMap",
+          "traits": {
+            "smithy.api#documentation": "User-inputted metadata based on the registered metadata schema.",
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Resource lifecycle status. One of Vercel's values: ready, pending, onboarding, suspended, resumed, uninstalled, error.",
+            "smithy.api#required": {}
+          }
+        },
+        "secrets": {
+          "target": "com.xata.api#ProvisionedResourceSecretsList",
+          "traits": {
+            "smithy.api#documentation": "Connection secrets that become environment variables on connected projects.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A newly provisioned resource: the Resource fields plus the connection\nsecrets. Provision Resource is the only endpoint that returns secrets.\n"
+      }
+    },
+    "com.xata.api#ProvisionedResourceMetadataMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "User-inputted metadata based on the registered metadata schema."
+      }
+    },
+    "com.xata.api#Secret": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Environment variable name.",
+            "smithy.api#required": {}
+          }
+        },
+        "value": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Default value, used when no per-environment override applies.",
+            "smithy.api#required": {}
+          }
+        },
+        "environmentOverrides": {
+          "target": "com.xata.api#SecretEnvironmentOverrides",
+          "traits": {
+            "smithy.api#documentation": "Per-environment values that override value for that Vercel environment."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A connection secret exposed as an environment variable on connected Vercel projects."
+      }
+    },
+    "com.xata.api#SecretEnvironmentOverrides": {
+      "type": "structure",
+      "members": {
+        "development": {
+          "target": "smithy.api#String"
+        },
+        "preview": {
+          "target": "smithy.api#String"
+        },
+        "production": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Per-environment values that override value for that Vercel environment."
+      }
+    },
+    "com.xata.api#ProvisionedResourceSecretsList": {
+      "type": "list",
+      "member": {
+        "target": "com.xata.api#Secret"
+      },
+      "traits": {
+        "smithy.api#documentation": "Connection secrets that become environment variables on connected projects."
+      }
+    },
+    "com.xata.api#ProvisionResource": {
+      "type": "operation",
+      "input": {
+        "target": "com.xata.api#ProvisionResourceRequest"
+      },
+      "output": {
+        "target": "com.xata.api#ProvisionedResource"
+      },
+      "errors": [
+        {
+          "target": "com.xata.api#BadRequest"
+        },
+        {
+          "target": "com.xata.api#Forbidden"
+        },
+        {
+          "target": "com.xata.api#NotFound"
+        },
+        {
+          "target": "com.xata.api#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v1/installations/{installationId}/resources",
+          "code": 200
+        },
+        "smithy.api#documentation": "Provision a Vercel Marketplace resource\n\nCreate a resource (a Xata project and its branches) and return it with\nthe connection secrets. Vercel calls this when a customer creates a\nresource. Idempotent when an Idempotency-Key header is sent: a retry with\nthe same key returns the existing resource unchanged, and reusing the key\nwith a different body is a conflict (409). Without the header there is no\nstable key, so each call provisions a new resource."
+      }
+    },
     "com.xata.api#OrbWebhookRequestBodyMap": {
       "type": "map",
       "key": {
@@ -7660,6 +9008,12 @@
           "target": "com.xata.api#RemoveOrganizationMember"
         },
         {
+          "target": "com.xata.api#ListOrganizationRoles"
+        },
+        {
+          "target": "com.xata.api#SetOrganizationMemberRole"
+        },
+        {
           "target": "com.xata.api#ListOrganizationInvitations"
         },
         {
@@ -7679,6 +9033,30 @@
         },
         {
           "target": "com.xata.api#GetOrganizationMembershipLimits"
+        },
+        {
+          "target": "com.xata.api#GetOrganizationSSO"
+        },
+        {
+          "target": "com.xata.api#ClaimOrganizationSSODomain"
+        },
+        {
+          "target": "com.xata.api#DeleteOrganizationSSODomain"
+        },
+        {
+          "target": "com.xata.api#VerifyOrganizationSSODomain"
+        },
+        {
+          "target": "com.xata.api#CreateOrganizationSSOProvider"
+        },
+        {
+          "target": "com.xata.api#UpdateOrganizationSSOProvider"
+        },
+        {
+          "target": "com.xata.api#DeleteOrganizationSSOProvider"
+        },
+        {
+          "target": "com.xata.api#SetOrganizationSSOProviderEnforcement"
         },
         {
           "target": "com.xata.api#CreateBillingCheckoutSession"
@@ -7736,9 +9114,6 @@
         },
         {
           "target": "com.xata.api#GetOrganizationLimits"
-        },
-        {
-          "target": "com.xata.api#GetDefaultProjectLimits"
         },
         {
           "target": "com.xata.api#ListProjects"
@@ -7823,6 +9198,18 @@
         },
         {
           "target": "com.xata.api#DeleteInstallation"
+        },
+        {
+          "target": "com.xata.api#ListBillingPlansForProduct"
+        },
+        {
+          "target": "com.xata.api#GetResource"
+        },
+        {
+          "target": "com.xata.api#DeleteResource"
+        },
+        {
+          "target": "com.xata.api#ProvisionResource"
         },
         {
           "target": "com.xata.api#OrbWebhook"

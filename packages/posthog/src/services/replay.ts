@@ -39,6 +39,10 @@ export class NotFound
 export type SessionRecordingPlaylistPlaylistTypeEnum = "collection" | "filters";
 export const SessionRecordingPlaylistPlaylistTypeEnum = S.String;
 
+/** * `new` - new * `pin` - pin * `duplicate` - duplicate */
+export type SessionRecordingPlaylistCreationMethodEnum = "new" | "pin" | "duplicate";
+export const SessionRecordingPlaylistCreationMethodEnum = S.String;
+
 export interface CreateSessionRecordingPlaylistRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
@@ -56,6 +60,8 @@ export interface CreateSessionRecordingPlaylistRequest {
   /** Playlist type: 'collection' for manually curated recordings, 'filters' for saved filter views. Required on create, cannot be changed after. * `collection` - Collection * `filters` - Filters */
   type?: SessionRecordingPlaylistPlaylistTypeEnum | (string & {}) | null;
   _create_in_folder?: string;
+  /** How the PostHog app created the playlist, for product analytics. Not stored. * `new` - new * `pin` - pin * `duplicate` - duplicate */
+  creation_method?: SessionRecordingPlaylistCreationMethodEnum | (string & {});
 }
 export const CreateSessionRecordingPlaylistRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -68,6 +74,7 @@ export const CreateSessionRecordingPlaylistRequest = /*@__PURE__*/ S.suspend(() 
     filters: S.optional(S.Unknown),
     type: S.optional(S.NullOr(SessionRecordingPlaylistPlaylistTypeEnum)),
     _create_in_folder: S.optional(S.String),
+    creation_method: S.optional(SessionRecordingPlaylistCreationMethodEnum),
   }).pipe(
     T.Http({
       method: "POST",
@@ -215,6 +222,8 @@ export interface CreateSessionRecordingPlaylistsRecordingRequest {
   /** Playlist type: 'collection' for manually curated recordings, 'filters' for saved filter views. Required on create, cannot be changed after. * `collection` - Collection * `filters` - Filters */
   type?: SessionRecordingPlaylistPlaylistTypeEnum | (string & {}) | null;
   _create_in_folder?: string;
+  /** How the PostHog app created the playlist, for product analytics. Not stored. * `new` - new * `pin` - pin * `duplicate` - duplicate */
+  creation_method?: SessionRecordingPlaylistCreationMethodEnum | (string & {});
 }
 export const CreateSessionRecordingPlaylistsRecordingRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -229,6 +238,7 @@ export const CreateSessionRecordingPlaylistsRecordingRequest = /*@__PURE__*/ S.s
     filters: S.optional(S.Unknown),
     type: S.optional(S.NullOr(SessionRecordingPlaylistPlaylistTypeEnum)),
     _create_in_folder: S.optional(S.String),
+    creation_method: S.optional(SessionRecordingPlaylistCreationMethodEnum),
   }).pipe(
     T.Http({
       method: "POST",
@@ -305,9 +315,7 @@ export const MinimalPerson = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "MinimalPerson" }) as any as S.Schema<MinimalPerson>;
 
-export type SessionRecordingExternalReferencesItemMap = {
-  [key: string]: unknown | undefined;
-};
+export type SessionRecordingExternalReferencesItemMap = { [key: string]: unknown | undefined };
 export const SessionRecordingExternalReferencesItemMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -385,9 +393,7 @@ export const SessionRecording = /*@__PURE__*/ S.suspend(() =>
     total_size: S.optional(S.NullOr(S.Number)),
     event_count: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "SessionRecording",
-}) as any as S.Schema<SessionRecording>;
+).annotate({ identifier: "SessionRecording" }) as any as S.Schema<SessionRecording>;
 
 export interface GetSessionRecordingPlaylistRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -501,11 +507,7 @@ export const ListSessionRecordingsRequest = /*@__PURE__*/ S.suspend(() =>
     limit: S.optional(S.Number.pipe(T.Query())),
     offset: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/session_recordings/",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/projects/{project_id}/session_recordings/", code: 200 }),
   ),
 ).annotate({
   identifier: "ListSessionRecordingsRequest",
@@ -683,9 +685,7 @@ export const MinimalPersonInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     properties: S.optional(S.Unknown),
   }),
-).annotate({
-  identifier: "MinimalPersonInput",
-}) as any as S.Schema<MinimalPersonInput>;
+).annotate({ identifier: "MinimalPersonInput" }) as any as S.Schema<MinimalPersonInput>;
 
 export interface UpdateSessionRecordingRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -728,6 +728,8 @@ export interface UpdateSessionRecordingPlaylistRequest {
   /** Playlist type: 'collection' for manually curated recordings, 'filters' for saved filter views. Required on create, cannot be changed after. * `collection` - Collection * `filters` - Filters */
   type?: SessionRecordingPlaylistPlaylistTypeEnum | (string & {}) | null;
   _create_in_folder?: string;
+  /** How the PostHog app created the playlist, for product analytics. Not stored. * `new` - new * `pin` - pin * `duplicate` - duplicate */
+  creation_method?: SessionRecordingPlaylistCreationMethodEnum | (string & {});
 }
 export const UpdateSessionRecordingPlaylistRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -741,6 +743,7 @@ export const UpdateSessionRecordingPlaylistRequest = /*@__PURE__*/ S.suspend(() 
     filters: S.optional(S.Unknown),
     type: S.optional(S.NullOr(SessionRecordingPlaylistPlaylistTypeEnum)),
     _create_in_folder: S.optional(S.String),
+    creation_method: S.optional(SessionRecordingPlaylistCreationMethodEnum),
   }).pipe(
     T.Http({
       method: "PUT",
@@ -770,6 +773,8 @@ export interface UpdateSessionRecordingPlaylistsPartialRequest {
   /** Playlist type: 'collection' for manually curated recordings, 'filters' for saved filter views. Required on create, cannot be changed after. * `collection` - Collection * `filters` - Filters */
   type?: SessionRecordingPlaylistPlaylistTypeEnum | (string & {}) | null;
   _create_in_folder?: string;
+  /** How the PostHog app created the playlist, for product analytics. Not stored. * `new` - new * `pin` - pin * `duplicate` - duplicate */
+  creation_method?: SessionRecordingPlaylistCreationMethodEnum | (string & {});
 }
 export const UpdateSessionRecordingPlaylistsPartialRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -783,6 +788,7 @@ export const UpdateSessionRecordingPlaylistsPartialRequest = /*@__PURE__*/ S.sus
     filters: S.optional(S.Unknown),
     type: S.optional(S.NullOr(SessionRecordingPlaylistPlaylistTypeEnum)),
     _create_in_folder: S.optional(S.String),
+    creation_method: S.optional(SessionRecordingPlaylistCreationMethodEnum),
   }).pipe(
     T.Http({
       method: "PATCH",

@@ -78,6 +78,9 @@
     }
   },
   "errors": {
+    "invalid_cursor": {
+      "desc": "Value passed for `cursor` was not valid or is no longer valid."
+    },
     "user_not_found": {
       "desc": "Value passed for `user` was invalid."
     }

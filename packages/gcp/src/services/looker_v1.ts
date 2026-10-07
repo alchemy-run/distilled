@@ -78,11 +78,7 @@ export const CancelProjectsLocationsOperationsRequest = /*@__PURE__*/ S.suspend(
     name: S.String.pipe(T.Label()),
     body: S.optional(CancelOperationRequest.pipe(T.HttpBody())),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "v1/{+name}:cancel",
-      baseUrl: "https://looker.googleapis.com/",
-    }),
+    T.Http({ method: "POST", uri: "v1/{+name}:cancel", baseUrl: "https://looker.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "CancelProjectsLocationsOperationsRequest",
@@ -99,162 +95,20 @@ export const EncryptionConfigKmsKeyStateEnum = S.String;
 
 /** Encryption configuration (i.e. CMEK). */
 export interface EncryptionConfig {
-  /** Output only. Full name and version of the CMEK key currently in use to encrypt Looker data. Format: `projects/{project}/locations/{location}/keyRings/{ring}/cryptoKeys/{key}/cryptoKeyVersions/{version}`. Empty if CMEK is not configured in this instance. */
-  kmsKeyNameVersion?: string;
   /** Name of the CMEK key in KMS (input parameter). */
   kmsKeyName?: string;
+  /** Output only. Full name and version of the CMEK key currently in use to encrypt Looker data. Format: `projects/{project}/locations/{location}/keyRings/{ring}/cryptoKeys/{key}/cryptoKeyVersions/{version}`. Empty if CMEK is not configured in this instance. */
+  kmsKeyNameVersion?: string;
   /** Output only. Status of the CMEK key. */
   kmsKeyState?: EncryptionConfigKmsKeyStateEnum | (string & {});
 }
 export const EncryptionConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    kmsKeyNameVersion: S.optional(S.String),
     kmsKeyName: S.optional(S.String),
+    kmsKeyNameVersion: S.optional(S.String),
     kmsKeyState: S.optional(EncryptionConfigKmsKeyStateEnum),
   }),
-).annotate({
-  identifier: "EncryptionConfig",
-}) as any as S.Schema<EncryptionConfig>;
-
-export type StringList = Array<string>;
-export const StringList = /*@__PURE__*/ S.Array(S.String) as any as S.Schema<StringList>;
-
-export type ServiceAttachmentConnectionStatusEnum =
-  | "UNKNOWN"
-  | "ACCEPTED"
-  | "PENDING"
-  | "REJECTED"
-  | "NEEDS_ATTENTION"
-  | "CLOSED";
-export const ServiceAttachmentConnectionStatusEnum = S.String;
-
-/** Service attachment configuration. */
-export interface ServiceAttachment {
-  /** Optional. List of fully qualified domain names that will be used in the private DNS record created for the service attachment. */
-  localFqdns?: StringList;
-  /** Output only. Connection status. */
-  connectionStatus?: ServiceAttachmentConnectionStatusEnum | (string & {});
-  /** Required. URI of the service attachment to connect to. Format: projects/{project}/regions/{region}/serviceAttachments/{service_attachment} */
-  targetServiceAttachmentUri?: string;
-  /** Optional. Fully qualified domain name that will be used in the private DNS record created for the service attachment. */
-  localFqdn?: string;
-  /** Output only. Reason the service attachment creation failed. This value will only be populated if the service attachment encounters an issue during provisioning. */
-  failureReason?: string;
-}
-export const ServiceAttachment = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    localFqdns: S.optional(StringList),
-    connectionStatus: S.optional(ServiceAttachmentConnectionStatusEnum),
-    targetServiceAttachmentUri: S.optional(S.String),
-    localFqdn: S.optional(S.String),
-    failureReason: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ServiceAttachment",
-}) as any as S.Schema<ServiceAttachment>;
-
-export type ServiceAttachmentList = Array<ServiceAttachment>;
-export const ServiceAttachmentList = /*@__PURE__*/ S.Array(
-  ServiceAttachment,
-) as any as S.Schema<ServiceAttachmentList>;
-
-/** Information for Private Service Connect (PSC) setup for a Looker instance. */
-export interface PscConfig {
-  /** Output only. URI of the Looker service attachment. */
-  lookerServiceAttachmentUri?: string;
-  /** Optional. List of egress service attachment configurations. */
-  serviceAttachments?: ServiceAttachmentList;
-  /** Optional. List of VPCs that are allowed ingress into looker. Format: projects/{project}/global/networks/{network} */
-  allowedVpcs?: StringList;
-}
-export const PscConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    lookerServiceAttachmentUri: S.optional(S.String),
-    serviceAttachments: S.optional(ServiceAttachmentList),
-    allowedVpcs: S.optional(StringList),
-  }),
-).annotate({ identifier: "PscConfig" }) as any as S.Schema<PscConfig>;
-
-/** Controlled egress configuration. */
-export interface ControlledEgressConfig {
-  /** Output only. The list of IP addresses used by Secure Web Proxy for outbound traffic. */
-  webProxyIps?: StringList;
-  /** Optional. Whether marketplace is enabled. */
-  marketplaceEnabled?: boolean;
-  /** Optional. List of fully qualified domain names to be added to the allowlist for outbound traffic. */
-  egressFqdns?: StringList;
-}
-export const ControlledEgressConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    webProxyIps: S.optional(StringList),
-    marketplaceEnabled: S.optional(S.Boolean),
-    egressFqdns: S.optional(StringList),
-  }),
-).annotate({
-  identifier: "ControlledEgressConfig",
-}) as any as S.Schema<ControlledEgressConfig>;
-
-/** Looker instance Admin settings fields. */
-export interface AdminSettings {
-  /** Email domain allowlist for the instance. */
-  allowedEmailDomains?: StringList;
-}
-export const AdminSettings = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    allowedEmailDomains: S.optional(StringList),
-  }),
-).annotate({ identifier: "AdminSettings" }) as any as S.Schema<AdminSettings>;
-
-export type InstanceStateEnum =
-  | "STATE_UNSPECIFIED"
-  | "ACTIVE"
-  | "CREATING"
-  | "FAILED"
-  | "SUSPENDED"
-  | "UPDATING"
-  | "DELETING"
-  | "EXPORTING"
-  | "IMPORTING";
-export const InstanceStateEnum = S.String;
-
-/** Represents a time of day. The date and time zone are either not significant or are specified elsewhere. An API may choose to allow leap seconds. Related types are google.type.Date and `google.protobuf.Timestamp`. */
-export interface TimeOfDay {
-  /** Hours of a day in 24 hour format. Must be greater than or equal to 0 and typically must be less than or equal to 23. An API may choose to allow the value "24:00:00" for scenarios like business closing time. */
-  hours?: number;
-  /** Seconds of a minute. Must be greater than or equal to 0 and typically must be less than or equal to 59. An API may allow the value 60 if it allows leap-seconds. */
-  seconds?: number;
-  /** Minutes of an hour. Must be greater than or equal to 0 and less than or equal to 59. */
-  minutes?: number;
-  /** Fractions of seconds, in nanoseconds. Must be greater than or equal to 0 and less than or equal to 999,999,999. */
-  nanos?: number;
-}
-export const TimeOfDay = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    hours: S.optional(S.Number),
-    seconds: S.optional(S.Number),
-    minutes: S.optional(S.Number),
-    nanos: S.optional(S.Number),
-  }),
-).annotate({ identifier: "TimeOfDay" }) as any as S.Schema<TimeOfDay>;
-
-/** Configuration for periodic export. */
-export interface PeriodicExportConfig {
-  /** Required. Cloud Storage bucket URI for periodic export. Format: gs://{bucket_name} */
-  gcsUri?: string;
-  /** Required. Time in UTC to start the periodic export job. */
-  startTime?: TimeOfDay;
-  /** Required. Name of the CMEK key in KMS. Format: projects/{project}/locations/{location}/keyRings/{key_ring}/cryptoKeys/{crypto_key} */
-  kmsKey?: string;
-}
-export const PeriodicExportConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    gcsUri: S.optional(S.String),
-    startTime: S.optional(TimeOfDay),
-    kmsKey: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "PeriodicExportConfig",
-}) as any as S.Schema<PeriodicExportConfig>;
+).annotate({ identifier: "EncryptionConfig" }) as any as S.Schema<EncryptionConfig>;
 
 /** Published upcoming future maintenance schedule. */
 export interface MaintenanceSchedule {
@@ -268,9 +122,25 @@ export const MaintenanceSchedule = /*@__PURE__*/ S.suspend(() =>
     startTime: S.optional(S.String),
     endTime: S.optional(S.String),
   }),
-).annotate({
-  identifier: "MaintenanceSchedule",
-}) as any as S.Schema<MaintenanceSchedule>;
+).annotate({ identifier: "MaintenanceSchedule" }) as any as S.Schema<MaintenanceSchedule>;
+
+export type InstanceClassTypeEnum = "CLASS_TYPE_UNSPECIFIED" | "R1" | "P1";
+export const InstanceClassTypeEnum = S.String;
+
+export type InstancePlatformEditionEnum =
+  | "PLATFORM_EDITION_UNSPECIFIED"
+  | "LOOKER_CORE_TRIAL"
+  | "LOOKER_CORE_STANDARD"
+  | "LOOKER_CORE_STANDARD_ANNUAL"
+  | "LOOKER_CORE_ENTERPRISE_ANNUAL"
+  | "LOOKER_CORE_EMBED_ANNUAL"
+  | "LOOKER_CORE_NONPROD_STANDARD_ANNUAL"
+  | "LOOKER_CORE_NONPROD_ENTERPRISE_ANNUAL"
+  | "LOOKER_CORE_NONPROD_EMBED_ANNUAL"
+  | "LOOKER_CORE_TRIAL_STANDARD"
+  | "LOOKER_CORE_TRIAL_ENTERPRISE"
+  | "LOOKER_CORE_TRIAL_EMBED";
+export const InstancePlatformEditionEnum = S.String;
 
 /** Represents a whole or partial calendar date, such as a birthday. The time of day and time zone are either specified elsewhere or are insignificant. The date is relative to the Gregorian Calendar. This can represent one of the following: * A full date, with non-zero year, month, and day values. * A month and day, with a zero year (for example, an anniversary). * A year on its own, with a zero month and a zero day. * A year and month, with a zero day (for example, a credit card expiration date). Related types: * google.type.TimeOfDay * google.type.DateTime * google.protobuf.Timestamp */
 export interface Looker_Date {
@@ -289,57 +159,85 @@ export const Looker_Date = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "Looker_Date" }) as any as S.Schema<Looker_Date>;
 
+/** Represents a time of day. The date and time zone are either not significant or are specified elsewhere. An API may choose to allow leap seconds. Related types are google.type.Date and `google.protobuf.Timestamp`. */
+export interface TimeOfDay {
+  /** Hours of a day in 24 hour format. Must be greater than or equal to 0 and typically must be less than or equal to 23. An API may choose to allow the value "24:00:00" for scenarios like business closing time. */
+  hours?: number;
+  /** Minutes of an hour. Must be greater than or equal to 0 and less than or equal to 59. */
+  minutes?: number;
+  /** Seconds of a minute. Must be greater than or equal to 0 and typically must be less than or equal to 59. An API may allow the value 60 if it allows leap-seconds. */
+  seconds?: number;
+  /** Fractions of seconds, in nanoseconds. Must be greater than or equal to 0 and less than or equal to 999,999,999. */
+  nanos?: number;
+}
+export const TimeOfDay = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    hours: S.optional(S.Number),
+    minutes: S.optional(S.Number),
+    seconds: S.optional(S.Number),
+    nanos: S.optional(S.Number),
+  }),
+).annotate({ identifier: "TimeOfDay" }) as any as S.Schema<TimeOfDay>;
+
 /** Specifies the maintenance denial period. */
 export interface DenyMaintenancePeriod {
+  /** Required. Start date of the deny maintenance period. */
+  startDate?: Looker_Date;
   /** Required. Time in UTC when the period starts and ends. */
   time?: TimeOfDay;
   /** Required. End date of the deny maintenance period. */
   endDate?: Looker_Date;
-  /** Required. Start date of the deny maintenance period. */
-  startDate?: Looker_Date;
 }
 export const DenyMaintenancePeriod = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    startDate: S.optional(Looker_Date),
     time: S.optional(TimeOfDay),
     endDate: S.optional(Looker_Date),
-    startDate: S.optional(Looker_Date),
   }),
-).annotate({
-  identifier: "DenyMaintenancePeriod",
-}) as any as S.Schema<DenyMaintenancePeriod>;
+).annotate({ identifier: "DenyMaintenancePeriod" }) as any as S.Schema<DenyMaintenancePeriod>;
 
-/** Metadata about users for a Looker instance. */
-export interface UserMetadata {
-  /** Optional. The number of additional standard users the instance owner has purchased. */
-  additionalStandardUserCount?: number;
-  /** Optional. The number of additional developer users the instance owner has purchased. */
-  additionalDeveloperUserCount?: number;
-  /** Optional. The number of additional viewer users the instance owner has purchased. */
-  additionalViewerUserCount?: number;
+export type InstanceStateEnum =
+  | "STATE_UNSPECIFIED"
+  | "ACTIVE"
+  | "CREATING"
+  | "FAILED"
+  | "SUSPENDED"
+  | "UPDATING"
+  | "DELETING"
+  | "EXPORTING"
+  | "IMPORTING";
+export const InstanceStateEnum = S.String;
+
+/** Configuration for periodic export. */
+export interface PeriodicExportConfig {
+  /** Required. Time in UTC to start the periodic export job. */
+  startTime?: TimeOfDay;
+  /** Required. Cloud Storage bucket URI for periodic export. Format: gs://{bucket_name} */
+  gcsUri?: string;
+  /** Required. Name of the CMEK key in KMS. Format: projects/{project}/locations/{location}/keyRings/{key_ring}/cryptoKeys/{crypto_key} */
+  kmsKey?: string;
 }
-export const UserMetadata = /*@__PURE__*/ S.suspend(() =>
+export const PeriodicExportConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    additionalStandardUserCount: S.optional(S.Number),
-    additionalDeveloperUserCount: S.optional(S.Number),
-    additionalViewerUserCount: S.optional(S.Number),
+    startTime: S.optional(TimeOfDay),
+    gcsUri: S.optional(S.String),
+    kmsKey: S.optional(S.String),
   }),
-).annotate({ identifier: "UserMetadata" }) as any as S.Schema<UserMetadata>;
+).annotate({ identifier: "PeriodicExportConfig" }) as any as S.Schema<PeriodicExportConfig>;
 
 /** Ingress IP allowlist rule. */
 export interface IngressIpAllowlistRule {
-  /** Optional. The IP range to allow ingress traffic from. */
-  ipRange?: string;
   /** Optional. Description for the IP range. */
   description?: string;
+  /** Optional. The IP range to allow ingress traffic from. */
+  ipRange?: string;
 }
 export const IngressIpAllowlistRule = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    ipRange: S.optional(S.String),
     description: S.optional(S.String),
+    ipRange: S.optional(S.String),
   }),
-).annotate({
-  identifier: "IngressIpAllowlistRule",
-}) as any as S.Schema<IngressIpAllowlistRule>;
+).annotate({ identifier: "IngressIpAllowlistRule" }) as any as S.Schema<IngressIpAllowlistRule>;
 
 export type IngressIpAllowlistRuleList = Array<IngressIpAllowlistRule>;
 export const IngressIpAllowlistRuleList = /*@__PURE__*/ S.Array(
@@ -361,26 +259,24 @@ export const IngressIpAllowlistConfig = /*@__PURE__*/ S.suspend(() =>
     allowlistRules: S.optional(IngressIpAllowlistRuleList),
     enabled: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "IngressIpAllowlistConfig",
-}) as any as S.Schema<IngressIpAllowlistConfig>;
+).annotate({ identifier: "IngressIpAllowlistConfig" }) as any as S.Schema<IngressIpAllowlistConfig>;
 
-export type InstanceSoftDeleteReasonEnum =
-  | "SOFT_DELETE_REASON_UNSPECIFIED"
-  | "BILLING_ACCOUNT_ISSUE"
-  | "TRIAL_EXPIRED"
-  | "CUSTOMER_REQUEST";
-export const InstanceSoftDeleteReasonEnum = S.String;
-
-export type InstanceReleaseChannelEnum =
-  | "RELEASE_CHANNEL_UNSPECIFIED"
-  | "RAPID"
-  | "REGULAR"
-  | "STABLE";
-export const InstanceReleaseChannelEnum = S.String;
-
-export type InstanceClassTypeEnum = "CLASS_TYPE_UNSPECIFIED" | "R1" | "P1";
-export const InstanceClassTypeEnum = S.String;
+/** Looker instance OAuth login settings. */
+export interface OAuthConfig {
+  /** Input only. Client secret from an external OAuth application. This is an input-only field, and thus will not be set in any responses. */
+  clientSecret?: string;
+  /** Input only. Client ID from an external OAuth application. This is an input-only field, and thus will not be set in any responses. */
+  clientId?: string;
+  /** Optional. Whether to use the shared OAuth client. Instances specifying this field do not need to provide client_id and client_secret. */
+  sharedOauthClientEnabled?: boolean;
+}
+export const OAuthConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    clientSecret: S.optional(S.String),
+    clientId: S.optional(S.String),
+    sharedOauthClientEnabled: S.optional(S.Boolean),
+  }),
+).annotate({ identifier: "OAuthConfig" }) as any as S.Schema<OAuthConfig>;
 
 export type CustomDomainStateEnum =
   | "CUSTOM_DOMAIN_STATE_UNSPECIFIED"
@@ -394,15 +290,15 @@ export const CustomDomainStateEnum = S.String;
 
 /** Custom domain information. */
 export interface CustomDomain {
-  /** Domain name. */
-  domain?: string;
   /** Domain state. */
   state?: CustomDomainStateEnum | (string & {});
+  /** Domain name. */
+  domain?: string;
 }
 export const CustomDomain = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    domain: S.optional(S.String),
     state: S.optional(CustomDomainStateEnum),
+    domain: S.optional(S.String),
   }),
 ).annotate({ identifier: "CustomDomain" }) as any as S.Schema<CustomDomain>;
 
@@ -419,192 +315,291 @@ export const MaintenanceWindowDayOfWeekEnum = S.String;
 
 /** Specifies the recurring maintenance window. */
 export interface MaintenanceWindow {
-  /** Required. Day of the week for this MaintenanceWindow (in UTC). */
-  dayOfWeek?: MaintenanceWindowDayOfWeekEnum | (string & {});
   /** Required. Time in UTC when the period starts. Maintenance will be scheduled within 60 minutes. */
   startTime?: TimeOfDay;
+  /** Required. Day of the week for this MaintenanceWindow (in UTC). */
+  dayOfWeek?: MaintenanceWindowDayOfWeekEnum | (string & {});
 }
 export const MaintenanceWindow = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    dayOfWeek: S.optional(MaintenanceWindowDayOfWeekEnum),
     startTime: S.optional(TimeOfDay),
+    dayOfWeek: S.optional(MaintenanceWindowDayOfWeekEnum),
   }),
-).annotate({
-  identifier: "MaintenanceWindow",
-}) as any as S.Schema<MaintenanceWindow>;
+).annotate({ identifier: "MaintenanceWindow" }) as any as S.Schema<MaintenanceWindow>;
 
-export type InstancePlatformEditionEnum =
-  | "PLATFORM_EDITION_UNSPECIFIED"
-  | "LOOKER_CORE_TRIAL"
-  | "LOOKER_CORE_STANDARD"
-  | "LOOKER_CORE_STANDARD_ANNUAL"
-  | "LOOKER_CORE_ENTERPRISE_ANNUAL"
-  | "LOOKER_CORE_EMBED_ANNUAL"
-  | "LOOKER_CORE_NONPROD_STANDARD_ANNUAL"
-  | "LOOKER_CORE_NONPROD_ENTERPRISE_ANNUAL"
-  | "LOOKER_CORE_NONPROD_EMBED_ANNUAL"
-  | "LOOKER_CORE_TRIAL_STANDARD"
-  | "LOOKER_CORE_TRIAL_ENTERPRISE"
-  | "LOOKER_CORE_TRIAL_EMBED";
-export const InstancePlatformEditionEnum = S.String;
+export type StringList = Array<string>;
+export const StringList = /*@__PURE__*/ S.Array(S.String) as any as S.Schema<StringList>;
 
-/** Looker instance OAuth login settings. */
-export interface OAuthConfig {
-  /** Input only. Client secret from an external OAuth application. This is an input-only field, and thus will not be set in any responses. */
-  clientSecret?: string;
-  /** Optional. Whether to use the shared OAuth client. Instances specifying this field do not need to provide client_id and client_secret. */
-  sharedOauthClientEnabled?: boolean;
-  /** Input only. Client ID from an external OAuth application. This is an input-only field, and thus will not be set in any responses. */
-  clientId?: string;
+export type ServiceAttachmentConnectionStatusEnum =
+  | "UNKNOWN"
+  | "ACCEPTED"
+  | "PENDING"
+  | "REJECTED"
+  | "NEEDS_ATTENTION"
+  | "CLOSED";
+export const ServiceAttachmentConnectionStatusEnum = S.String;
+
+/** Service attachment configuration. */
+export interface ServiceAttachment {
+  /** Optional. List of fully qualified domain names that will be used in the private DNS record created for the service attachment. */
+  localFqdns?: StringList;
+  /** Required. URI of the service attachment to connect to. Format: projects/{project}/regions/{region}/serviceAttachments/{service_attachment} */
+  targetServiceAttachmentUri?: string;
+  /** Output only. Connection status. */
+  connectionStatus?: ServiceAttachmentConnectionStatusEnum | (string & {});
+  /** Optional. Fully qualified domain name that will be used in the private DNS record created for the service attachment. */
+  localFqdn?: string;
+  /** Output only. Reason the service attachment creation failed. This value will only be populated if the service attachment encounters an issue during provisioning. */
+  failureReason?: string;
 }
-export const OAuthConfig = /*@__PURE__*/ S.suspend(() =>
+export const ServiceAttachment = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    clientSecret: S.optional(S.String),
-    sharedOauthClientEnabled: S.optional(S.Boolean),
-    clientId: S.optional(S.String),
+    localFqdns: S.optional(StringList),
+    targetServiceAttachmentUri: S.optional(S.String),
+    connectionStatus: S.optional(ServiceAttachmentConnectionStatusEnum),
+    localFqdn: S.optional(S.String),
+    failureReason: S.optional(S.String),
   }),
-).annotate({ identifier: "OAuthConfig" }) as any as S.Schema<OAuthConfig>;
+).annotate({ identifier: "ServiceAttachment" }) as any as S.Schema<ServiceAttachment>;
+
+export type ServiceAttachmentList = Array<ServiceAttachment>;
+export const ServiceAttachmentList = /*@__PURE__*/ S.Array(
+  ServiceAttachment,
+) as any as S.Schema<ServiceAttachmentList>;
+
+/** Information for Private Service Connect (PSC) setup for a Looker instance. */
+export interface PscConfig {
+  /** Optional. List of VPCs that are allowed ingress into looker. Format: projects/{project}/global/networks/{network} */
+  allowedVpcs?: StringList;
+  /** Output only. URI of the Looker service attachment. */
+  lookerServiceAttachmentUri?: string;
+  /** Optional. List of egress service attachment configurations. */
+  serviceAttachments?: ServiceAttachmentList;
+}
+export const PscConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    allowedVpcs: S.optional(StringList),
+    lookerServiceAttachmentUri: S.optional(S.String),
+    serviceAttachments: S.optional(ServiceAttachmentList),
+  }),
+).annotate({ identifier: "PscConfig" }) as any as S.Schema<PscConfig>;
+
+export type InstanceReleaseChannelEnum =
+  | "RELEASE_CHANNEL_UNSPECIFIED"
+  | "RAPID"
+  | "REGULAR"
+  | "STABLE";
+export const InstanceReleaseChannelEnum = S.String;
+
+export type InstanceSoftDeleteReasonEnum =
+  | "SOFT_DELETE_REASON_UNSPECIFIED"
+  | "BILLING_ACCOUNT_ISSUE"
+  | "TRIAL_EXPIRED"
+  | "CUSTOMER_REQUEST";
+export const InstanceSoftDeleteReasonEnum = S.String;
+
+/** Looker instance Admin settings fields. */
+export interface AdminSettings {
+  /** Email domain allowlist for the instance. */
+  allowedEmailDomains?: StringList;
+}
+export const AdminSettings = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    allowedEmailDomains: S.optional(StringList),
+  }),
+).annotate({ identifier: "AdminSettings" }) as any as S.Schema<AdminSettings>;
+
+/** Metadata about users for a Looker instance. */
+export interface UserMetadata {
+  /** Optional. The number of additional developer users the instance owner has purchased. */
+  additionalDeveloperUserCount?: number;
+  /** Optional. The number of additional viewer users the instance owner has purchased. */
+  additionalViewerUserCount?: number;
+  /** Optional. The number of additional standard users the instance owner has purchased. */
+  additionalStandardUserCount?: number;
+}
+export const UserMetadata = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    additionalDeveloperUserCount: S.optional(S.Number),
+    additionalViewerUserCount: S.optional(S.Number),
+    additionalStandardUserCount: S.optional(S.Number),
+  }),
+).annotate({ identifier: "UserMetadata" }) as any as S.Schema<UserMetadata>;
+
+/** Controlled egress configuration. */
+export interface ControlledEgressConfig {
+  /** Optional. Whether marketplace is enabled. */
+  marketplaceEnabled?: boolean;
+  /** Optional. List of fully qualified domain names to be added to the allowlist for outbound traffic. */
+  egressFqdns?: StringList;
+  /** Output only. The list of IP addresses used by Secure Web Proxy for outbound traffic. */
+  webProxyIps?: StringList;
+}
+export const ControlledEgressConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    marketplaceEnabled: S.optional(S.Boolean),
+    egressFqdns: S.optional(StringList),
+    webProxyIps: S.optional(StringList),
+  }),
+).annotate({ identifier: "ControlledEgressConfig" }) as any as S.Schema<ControlledEgressConfig>;
+
+/** Auth type for the Looker instance. */
+export interface AuthType {
+  /** Optional. Whether Workforce auth is enabled on the Looker instance. */
+  workforceAuthEnabled?: boolean;
+  /** Optional. Whether google auth is enabled on the Looker instance. */
+  googleAuthEnabled?: boolean;
+}
+export const AuthType = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    workforceAuthEnabled: S.optional(S.Boolean),
+    googleAuthEnabled: S.optional(S.Boolean),
+  }),
+).annotate({ identifier: "AuthType" }) as any as S.Schema<AuthType>;
 
 /** A Looker instance. */
 export interface Instance {
   /** Encryption configuration (CMEK). Only set if CMEK has been enabled on the instance. */
   encryptionConfig?: EncryptionConfig;
-  /** Optional. PSC configuration. Used when `psc_enabled` is true. */
-  pscConfig?: PscConfig;
-  /** Output only. The time when the Looker instance provisioning was first requested. */
-  createTime?: string;
-  /** Optional. Controlled egress configuration. */
-  controlledEgressConfig?: ControlledEgressConfig;
-  /** Output only. Public Ingress IP (IPv4). */
-  ingressPublicIp?: string;
-  /** Output only. The Looker version that the instance is using. */
-  lookerVersion?: string;
-  /** Looker Instance Admin settings. */
-  adminSettings?: AdminSettings;
-  /** Output only. Public Egress IP (IPv4). */
-  egressPublicIp?: string;
+  /** Maintenance schedule for this instance. */
+  maintenanceSchedule?: MaintenanceSchedule;
+  /** Optional. Indicates whether catalog integration is disabled for the Looker instance. */
+  catalogIntegrationOptOut?: boolean;
+  /** Optional. Storage class of the instance. */
+  classType?: InstanceClassTypeEnum | (string & {});
+  /** Platform edition. */
+  platformEdition?: InstancePlatformEditionEnum | (string & {});
+  /** Output only. Last computed maintenance denial period for this instance. */
+  lastDenyMaintenancePeriod?: DenyMaintenancePeriod;
   /** Output only. The state of the instance. */
   state?: InstanceStateEnum | (string & {});
   /** Optional. Configuration for periodic export. */
   periodicExportConfig?: PeriodicExportConfig;
-  /** Maintenance schedule for this instance. */
-  maintenanceSchedule?: MaintenanceSchedule;
-  /** Network name in the consumer project. Format: `projects/{project}/global/networks/{network}`. Note that the consumer network may be in a different GCP project than the consumer project that is hosting the Looker Instance. */
-  consumerNetwork?: string;
-  /** Name of a reserved IP address range within the Instance.consumer_network, to be used for private services access connection. May or may not be specified in a create request. */
-  reservedRange?: string;
-  /** Optional. Linked Google Cloud Project Number for Looker Studio Pro. */
-  linkedLspProjectNumber?: string;
-  /** Whether public IP is enabled on the Looker instance. */
-  publicIpEnabled?: boolean;
-  /** Output only. Last computed maintenance denial period for this instance. */
-  lastDenyMaintenancePeriod?: DenyMaintenancePeriod;
-  /** Optional. User metadata. */
-  userMetadata?: UserMetadata;
   /** Output only. The time when the Looker instance was last updated. */
   updateTime?: string;
   /** Optional. Ingress IP allowlist configuration for the Looker instance. */
   ingressIpAllowlistConfig?: IngressIpAllowlistConfig;
   /** Optional. Whether controlled egress is enabled on the Looker instance. */
   controlledEgressEnabled?: boolean;
-  /** Whether private IP is enabled on the Looker instance. */
-  privateIpEnabled?: boolean;
-  /** Output only. The reason for the instance being in a soft-deleted state. */
-  softDeleteReason?: InstanceSoftDeleteReasonEnum | (string & {});
+  /** Output only. The time when the Looker instance was suspended (soft deleted). */
+  suspendedTime?: string;
   /** Output only. Reserved for future use. */
   satisfiesPzs?: boolean;
-  /** Maintenance denial period for this instance. */
-  denyMaintenancePeriod?: DenyMaintenancePeriod;
-  /** Optional. The selected release channel for the instance. */
-  releaseChannel?: InstanceReleaseChannelEnum | (string & {});
+  /** Optional. Linked Google Cloud Project Number for Looker Studio Pro. */
+  linkedLspProjectNumber?: string;
+  /** Name of a reserved IP address range within the Instance.consumer_network, to be used for private services access connection. May or may not be specified in a create request. */
+  reservedRange?: string;
+  /** Output only. Public Ingress IP (IPv4). */
+  ingressPublicIp?: string;
+  /** Looker instance OAuth login settings. */
+  oauthConfig?: OAuthConfig;
   /** Optional. Whether FIPS is enabled on the Looker instance. */
   fipsEnabled?: boolean;
-  /** Output only. Reserved for future use. */
-  satisfiesPzi?: boolean;
-  /** Output only. Private Ingress IP (IPv4). */
-  ingressPrivateIp?: string;
-  /** Optional. Accelerated security patch enabled for the instance. */
-  acceleratedSecurityPatchEnabled?: boolean;
-  /** Optional. Indicates whether catalog integration is disabled for the Looker instance. */
-  catalogIntegrationOptOut?: boolean;
-  /** Optional. Storage class of the instance. */
-  classType?: InstanceClassTypeEnum | (string & {});
-  /** Output only. Looker instance URI which can be used to access the Looker Instance UI. */
-  lookerUri?: string;
   /** Custom domain configuration for the instance. */
   customDomain?: CustomDomain;
   /** Maintenance window for this instance. */
   maintenanceWindow?: MaintenanceWindow;
+  /** Output only. Public Egress IP (IPv4). */
+  egressPublicIp?: string;
+  /** Optional. PSC configuration. Used when `psc_enabled` is true. */
+  pscConfig?: PscConfig;
+  /** Optional. The selected release channel for the instance. */
+  releaseChannel?: InstanceReleaseChannelEnum | (string & {});
+  /** Output only. The reason for the instance being in a soft-deleted state. */
+  softDeleteReason?: InstanceSoftDeleteReasonEnum | (string & {});
   /** Optional. Whether Gemini feature is enabled on the Looker instance or not. */
   geminiEnabled?: boolean;
-  /** Output only. The time when the Looker instance was suspended (soft deleted). */
-  suspendedTime?: string;
+  /** Optional. Accelerated security patch enabled for the instance. */
+  acceleratedSecurityPatchEnabled?: boolean;
   /** Optional. Whether to use Private Service Connect (PSC) for private IP connectivity. If true, neither `public_ip_enabled` nor `private_ip_enabled` can be true. */
   pscEnabled?: boolean;
-  /** Platform edition. */
-  platformEdition?: InstancePlatformEditionEnum | (string & {});
+  /** Looker Instance Admin settings. */
+  adminSettings?: AdminSettings;
+  /** Output only. The time when the Looker instance provisioning was first requested. */
+  createTime?: string;
+  /** Whether private IP is enabled on the Looker instance. */
+  privateIpEnabled?: boolean;
+  /** Output only. The Looker version that the instance is using. */
+  lookerVersion?: string;
+  /** Optional. User metadata. */
+  userMetadata?: UserMetadata;
+  /** Maintenance denial period for this instance. */
+  denyMaintenancePeriod?: DenyMaintenancePeriod;
+  /** Whether public IP is enabled on the Looker instance. */
+  publicIpEnabled?: boolean;
   /** Output only. Format: `projects/{project}/locations/{location}/instances/{instance}`. */
   name?: string;
-  /** Looker instance OAuth login settings. */
-  oauthConfig?: OAuthConfig;
+  /** Output only. Reserved for future use. */
+  satisfiesPzi?: boolean;
+  /** Network name in the consumer project. Format: `projects/{project}/global/networks/{network}`. Note that the consumer network may be in a different GCP project than the consumer project that is hosting the Looker Instance. */
+  consumerNetwork?: string;
+  /** Optional. Controlled egress configuration. */
+  controlledEgressConfig?: ControlledEgressConfig;
+  /** Output only. Looker instance URI which can be used to access the Looker Instance UI. */
+  lookerUri?: string;
+  /** Optional. Auth type for the Looker instance. */
+  authType?: AuthType;
+  /** Output only. Private Ingress IP (IPv4). */
+  ingressPrivateIp?: string;
 }
 export const Instance = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     encryptionConfig: S.optional(EncryptionConfig),
-    pscConfig: S.optional(PscConfig),
-    createTime: S.optional(S.String),
-    controlledEgressConfig: S.optional(ControlledEgressConfig),
-    ingressPublicIp: S.optional(S.String),
-    lookerVersion: S.optional(S.String),
-    adminSettings: S.optional(AdminSettings),
-    egressPublicIp: S.optional(S.String),
+    maintenanceSchedule: S.optional(MaintenanceSchedule),
+    catalogIntegrationOptOut: S.optional(S.Boolean),
+    classType: S.optional(InstanceClassTypeEnum),
+    platformEdition: S.optional(InstancePlatformEditionEnum),
+    lastDenyMaintenancePeriod: S.optional(DenyMaintenancePeriod),
     state: S.optional(InstanceStateEnum),
     periodicExportConfig: S.optional(PeriodicExportConfig),
-    maintenanceSchedule: S.optional(MaintenanceSchedule),
-    consumerNetwork: S.optional(S.String),
-    reservedRange: S.optional(S.String),
-    linkedLspProjectNumber: S.optional(S.String),
-    publicIpEnabled: S.optional(S.Boolean),
-    lastDenyMaintenancePeriod: S.optional(DenyMaintenancePeriod),
-    userMetadata: S.optional(UserMetadata),
     updateTime: S.optional(S.String),
     ingressIpAllowlistConfig: S.optional(IngressIpAllowlistConfig),
     controlledEgressEnabled: S.optional(S.Boolean),
-    privateIpEnabled: S.optional(S.Boolean),
-    softDeleteReason: S.optional(InstanceSoftDeleteReasonEnum),
+    suspendedTime: S.optional(S.String),
     satisfiesPzs: S.optional(S.Boolean),
-    denyMaintenancePeriod: S.optional(DenyMaintenancePeriod),
-    releaseChannel: S.optional(InstanceReleaseChannelEnum),
+    linkedLspProjectNumber: S.optional(S.String),
+    reservedRange: S.optional(S.String),
+    ingressPublicIp: S.optional(S.String),
+    oauthConfig: S.optional(OAuthConfig),
     fipsEnabled: S.optional(S.Boolean),
-    satisfiesPzi: S.optional(S.Boolean),
-    ingressPrivateIp: S.optional(S.String),
-    acceleratedSecurityPatchEnabled: S.optional(S.Boolean),
-    catalogIntegrationOptOut: S.optional(S.Boolean),
-    classType: S.optional(InstanceClassTypeEnum),
-    lookerUri: S.optional(S.String),
     customDomain: S.optional(CustomDomain),
     maintenanceWindow: S.optional(MaintenanceWindow),
+    egressPublicIp: S.optional(S.String),
+    pscConfig: S.optional(PscConfig),
+    releaseChannel: S.optional(InstanceReleaseChannelEnum),
+    softDeleteReason: S.optional(InstanceSoftDeleteReasonEnum),
     geminiEnabled: S.optional(S.Boolean),
-    suspendedTime: S.optional(S.String),
+    acceleratedSecurityPatchEnabled: S.optional(S.Boolean),
     pscEnabled: S.optional(S.Boolean),
-    platformEdition: S.optional(InstancePlatformEditionEnum),
+    adminSettings: S.optional(AdminSettings),
+    createTime: S.optional(S.String),
+    privateIpEnabled: S.optional(S.Boolean),
+    lookerVersion: S.optional(S.String),
+    userMetadata: S.optional(UserMetadata),
+    denyMaintenancePeriod: S.optional(DenyMaintenancePeriod),
+    publicIpEnabled: S.optional(S.Boolean),
     name: S.optional(S.String),
-    oauthConfig: S.optional(OAuthConfig),
+    satisfiesPzi: S.optional(S.Boolean),
+    consumerNetwork: S.optional(S.String),
+    controlledEgressConfig: S.optional(ControlledEgressConfig),
+    lookerUri: S.optional(S.String),
+    authType: S.optional(AuthType),
+    ingressPrivateIp: S.optional(S.String),
   }),
 ).annotate({ identifier: "Instance" }) as any as S.Schema<Instance>;
 
 export interface CreateProjectsLocationsInstancesRequest {
-  /** Required. Format: `projects/{project}/locations/{location}`. */
-  parent: string;
   /** Required. The unique instance identifier. Must contain only lowercase letters, numbers, or hyphens, with the first character a letter and the last a letter or a number. 63 characters maximum. */
   instanceId?: string;
+  /** Required. Format: `projects/{project}/locations/{location}`. */
+  parent: string;
   /** Request body */
   body?: Instance;
 }
 export const CreateProjectsLocationsInstancesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    parent: S.String.pipe(T.Label()),
     instanceId: S.optional(S.String.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
     body: S.optional(Instance.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -649,22 +644,22 @@ export const Status = /*@__PURE__*/ S.suspend(() =>
 export interface Operation {
   /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
   metadata?: DocumentMap;
-  /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
-  done?: boolean;
-  /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
-  response?: DocumentMap;
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
   name?: string;
+  /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
+  done?: boolean;
   /** The error result of the operation in case of failure or cancellation. */
   error?: Status;
+  /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
+  response?: DocumentMap;
 }
 export const Operation = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     metadata: S.optional(DocumentMap),
-    done: S.optional(S.Boolean),
-    response: S.optional(DocumentMap),
     name: S.optional(S.String),
+    done: S.optional(S.Boolean),
     error: S.optional(Status),
+    response: S.optional(DocumentMap),
   }),
 ).annotate({ identifier: "Operation" }) as any as S.Schema<Operation>;
 
@@ -680,22 +675,22 @@ export const InstanceBackupStateEnum = S.String;
 export interface InstanceBackup {
   /** Output only. The time when the backup was started. */
   createTime?: string;
-  /** Output only. The current state of the backup. */
-  state?: InstanceBackupStateEnum | (string & {});
-  /** Output only. The time when the backup will be deleted. */
-  expireTime?: string;
-  /** Output only. Current status of the CMEK encryption */
-  encryptionConfig?: EncryptionConfig;
   /** Immutable. The relative resource name of the backup, in the following form: `projects/{project_number}/locations/{location_id}/instances/{instance_id}/backups/{backup}` */
   name?: string;
+  /** Output only. Current status of the CMEK encryption */
+  encryptionConfig?: EncryptionConfig;
+  /** Output only. The time when the backup will be deleted. */
+  expireTime?: string;
+  /** Output only. The current state of the backup. */
+  state?: InstanceBackupStateEnum | (string & {});
 }
 export const InstanceBackup = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     createTime: S.optional(S.String),
-    state: S.optional(InstanceBackupStateEnum),
-    expireTime: S.optional(S.String),
-    encryptionConfig: S.optional(EncryptionConfig),
     name: S.optional(S.String),
+    encryptionConfig: S.optional(EncryptionConfig),
+    expireTime: S.optional(S.String),
+    state: S.optional(InstanceBackupStateEnum),
   }),
 ).annotate({ identifier: "InstanceBackup" }) as any as S.Schema<InstanceBackup>;
 
@@ -731,11 +726,7 @@ export const DeleteProjectsLocationsInstancesRequest = /*@__PURE__*/ S.suspend((
     name: S.String.pipe(T.Label()),
     force: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "v1/{+name}",
-      baseUrl: "https://looker.googleapis.com/",
-    }),
+    T.Http({ method: "DELETE", uri: "v1/{+name}", baseUrl: "https://looker.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "DeleteProjectsLocationsInstancesRequest",
@@ -749,11 +740,7 @@ export const DeleteProjectsLocationsInstancesBackupsRequest = /*@__PURE__*/ S.su
   S.Struct({
     name: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "v1/{+name}",
-      baseUrl: "https://looker.googleapis.com/",
-    }),
+    T.Http({ method: "DELETE", uri: "v1/{+name}", baseUrl: "https://looker.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "DeleteProjectsLocationsInstancesBackupsRequest",
@@ -767,11 +754,7 @@ export const DeleteProjectsLocationsOperationsRequest = /*@__PURE__*/ S.suspend(
   S.Struct({
     name: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "v1/{+name}",
-      baseUrl: "https://looker.googleapis.com/",
-    }),
+    T.Http({ method: "DELETE", uri: "v1/{+name}", baseUrl: "https://looker.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "DeleteProjectsLocationsOperationsRequest",
@@ -786,9 +769,7 @@ export const ExportEncryptionConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     kmsKeyName: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ExportEncryptionConfig",
-}) as any as S.Schema<ExportEncryptionConfig>;
+).annotate({ identifier: "ExportEncryptionConfig" }) as any as S.Schema<ExportEncryptionConfig>;
 
 /** Request options for exporting data of an Instance. */
 export interface ExportInstanceRequest {
@@ -802,9 +783,7 @@ export const ExportInstanceRequest = /*@__PURE__*/ S.suspend(() =>
     gcsUri: S.optional(S.String),
     encryptionConfig: S.optional(ExportEncryptionConfig),
   }),
-).annotate({
-  identifier: "ExportInstanceRequest",
-}) as any as S.Schema<ExportInstanceRequest>;
+).annotate({ identifier: "ExportInstanceRequest" }) as any as S.Schema<ExportInstanceRequest>;
 
 export interface ExportProjectsLocationsInstancesRequest {
   /** Required. Format: `projects/{project}/locations/{location}/instances/{instance}`. */
@@ -817,11 +796,7 @@ export const ExportProjectsLocationsInstancesRequest = /*@__PURE__*/ S.suspend((
     name: S.String.pipe(T.Label()),
     body: S.optional(ExportInstanceRequest.pipe(T.HttpBody())),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "v1/{+name}:export",
-      baseUrl: "https://looker.googleapis.com/",
-    }),
+    T.Http({ method: "POST", uri: "v1/{+name}:export", baseUrl: "https://looker.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "ExportProjectsLocationsInstancesRequest",
@@ -834,13 +809,7 @@ export interface GetProjectsLocationsRequest {
 export const GetProjectsLocationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "v1/{+name}",
-      baseUrl: "https://looker.googleapis.com/",
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://looker.googleapis.com/" })),
 ).annotate({
   identifier: "GetProjectsLocationsRequest",
 }) as any as S.Schema<GetProjectsLocationsRequest>;
@@ -850,24 +819,24 @@ export const StringMap = /*@__PURE__*/ S.Record(S.String, S.String) as any as S.
 
 /** A resource that represents a Google Cloud location. */
 export interface Location {
-  /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
-  name?: string;
   /** Service-specific metadata. For example the available capacity at the given location. */
   metadata?: DocumentMap;
-  /** The friendly name for this location, typically a nearby city name. For example, "Tokyo". */
-  displayName?: string;
-  /** Cross-service attributes for the location. For example {"cloud.googleapis.com/region": "us-east1"} */
-  labels?: StringMap;
+  /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
+  name?: string;
   /** The canonical id for this location. For example: `"us-east1"`. */
   locationId?: string;
+  /** Cross-service attributes for the location. For example {"cloud.googleapis.com/region": "us-east1"} */
+  labels?: StringMap;
+  /** The friendly name for this location, typically a nearby city name. For example, "Tokyo". */
+  displayName?: string;
 }
 export const Location = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.optional(S.String),
     metadata: S.optional(DocumentMap),
-    displayName: S.optional(S.String),
-    labels: S.optional(StringMap),
+    name: S.optional(S.String),
     locationId: S.optional(S.String),
+    labels: S.optional(StringMap),
+    displayName: S.optional(S.String),
   }),
 ).annotate({ identifier: "Location" }) as any as S.Schema<Location>;
 
@@ -878,13 +847,7 @@ export interface GetProjectsLocationsInstancesRequest {
 export const GetProjectsLocationsInstancesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "v1/{+name}",
-      baseUrl: "https://looker.googleapis.com/",
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://looker.googleapis.com/" })),
 ).annotate({
   identifier: "GetProjectsLocationsInstancesRequest",
 }) as any as S.Schema<GetProjectsLocationsInstancesRequest>;
@@ -896,13 +859,7 @@ export interface GetProjectsLocationsInstancesBackupsRequest {
 export const GetProjectsLocationsInstancesBackupsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "v1/{+name}",
-      baseUrl: "https://looker.googleapis.com/",
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://looker.googleapis.com/" })),
 ).annotate({
   identifier: "GetProjectsLocationsInstancesBackupsRequest",
 }) as any as S.Schema<GetProjectsLocationsInstancesBackupsRequest>;
@@ -914,13 +871,7 @@ export interface GetProjectsLocationsOperationsRequest {
 export const GetProjectsLocationsOperationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "v1/{+name}",
-      baseUrl: "https://looker.googleapis.com/",
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://looker.googleapis.com/" })),
 ).annotate({
   identifier: "GetProjectsLocationsOperationsRequest",
 }) as any as S.Schema<GetProjectsLocationsOperationsRequest>;
@@ -934,9 +885,7 @@ export const ImportInstanceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     gcsUri: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ImportInstanceRequest",
-}) as any as S.Schema<ImportInstanceRequest>;
+).annotate({ identifier: "ImportInstanceRequest" }) as any as S.Schema<ImportInstanceRequest>;
 
 export interface ImportProjectsLocationsInstancesRequest {
   /** Required. Format: `projects/{project}/locations/{location}/instances/{instance}`. */
@@ -949,35 +898,31 @@ export const ImportProjectsLocationsInstancesRequest = /*@__PURE__*/ S.suspend((
     name: S.String.pipe(T.Label()),
     body: S.optional(ImportInstanceRequest.pipe(T.HttpBody())),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "v1/{+name}:import",
-      baseUrl: "https://looker.googleapis.com/",
-    }),
+    T.Http({ method: "POST", uri: "v1/{+name}:import", baseUrl: "https://looker.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "ImportProjectsLocationsInstancesRequest",
 }) as any as S.Schema<ImportProjectsLocationsInstancesRequest>;
 
 export interface ListProjectsLocationsRequest {
-  /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
-  pageToken?: string;
-  /** The maximum number of results to return. If not set, the service selects a default. */
-  pageSize?: number;
   /** Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage. */
   extraLocationTypes?: StringList;
-  /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
-  filter?: string;
+  /** The maximum number of results to return. If not set, the service selects a default. */
+  pageSize?: number;
   /** The resource that owns the locations collection, if applicable. */
   name: string;
+  /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
+  filter?: string;
+  /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
+  pageToken?: string;
 }
 export const ListProjectsLocationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pageToken: S.optional(S.String.pipe(T.Query())),
-    pageSize: S.optional(S.Number.pipe(T.Query())),
     extraLocationTypes: S.optional(StringList.pipe(T.Query())),
-    filter: S.optional(S.String.pipe(T.Query())),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
     name: S.String.pipe(T.Label()),
+    filter: S.optional(S.String.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -1004,26 +949,24 @@ export const ListLocationsResponse = /*@__PURE__*/ S.suspend(() =>
     nextPageToken: S.optional(S.String),
     locations: S.optional(LocationList),
   }),
-).annotate({
-  identifier: "ListLocationsResponse",
-}) as any as S.Schema<ListLocationsResponse>;
+).annotate({ identifier: "ListLocationsResponse" }) as any as S.Schema<ListLocationsResponse>;
 
 export interface ListProjectsLocationsInstancesRequest {
   /** Optional. Whether to include deleted instances in the response. */
   showDeleted?: boolean;
   /** Required. Format: `projects/{project}/locations/{location}`. */
   parent: string;
-  /** The maximum number of instances to return. If unspecified at most 256 will be returned. The maximum possible value is 2048. */
-  pageSize?: number;
   /** A page token received from a previous ListInstancesRequest. */
   pageToken?: string;
+  /** The maximum number of instances to return. If unspecified at most 256 will be returned. The maximum possible value is 2048. */
+  pageSize?: number;
 }
 export const ListProjectsLocationsInstancesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     showDeleted: S.optional(S.Boolean.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
-    pageSize: S.optional(S.Number.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -1040,39 +983,37 @@ export const InstanceList = /*@__PURE__*/ S.Array(Instance) as any as S.Schema<I
 
 /** Response from ListInstances. */
 export interface ListInstancesResponse {
-  /** Locations that could not be reached. */
-  unreachable?: StringList;
-  /** The list of instances matching the request filters, up to the requested `pageSize`. */
-  instances?: InstanceList;
   /** If provided, a page token that can look up the next `pageSize` results. If empty, the results list is exhausted. */
   nextPageToken?: string;
+  /** The list of instances matching the request filters, up to the requested `pageSize`. */
+  instances?: InstanceList;
+  /** Locations that could not be reached. */
+  unreachable?: StringList;
 }
 export const ListInstancesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    unreachable: S.optional(StringList),
-    instances: S.optional(InstanceList),
     nextPageToken: S.optional(S.String),
+    instances: S.optional(InstanceList),
+    unreachable: S.optional(StringList),
   }),
-).annotate({
-  identifier: "ListInstancesResponse",
-}) as any as S.Schema<ListInstancesResponse>;
+).annotate({ identifier: "ListInstancesResponse" }) as any as S.Schema<ListInstancesResponse>;
 
 export interface ListProjectsLocationsInstancesBackupsRequest {
   /** Sort results. Default order is "create_time desc". Other supported fields are "state" and "expire_time". https://google.aip.dev/132#ordering */
   orderBy?: string;
   /** Required. Format: projects/{project}/locations/{location}/instances/{instance}. */
   parent: string;
-  /** The maximum number of instances to return. */
-  pageSize?: number;
   /** A page token received from a previous ListInstances request. */
   pageToken?: string;
+  /** The maximum number of instances to return. */
+  pageSize?: number;
 }
 export const ListProjectsLocationsInstancesBackupsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     orderBy: S.optional(S.String.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
-    pageSize: S.optional(S.Number.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -1109,24 +1050,24 @@ export const ListInstanceBackupsResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListInstanceBackupsResponse>;
 
 export interface ListProjectsLocationsOperationsRequest {
-  /** The standard list filter. */
-  filter?: string;
-  /** The name of the operation's parent resource. */
-  name: string;
   /** The standard list page size. */
   pageSize?: number;
-  /** The standard list page token. */
-  pageToken?: string;
+  /** The name of the operation's parent resource. */
+  name: string;
   /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
   returnPartialSuccess?: boolean;
+  /** The standard list page token. */
+  pageToken?: string;
+  /** The standard list filter. */
+  filter?: string;
 }
 export const ListProjectsLocationsOperationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    filter: S.optional(S.String.pipe(T.Query())),
-    name: S.String.pipe(T.Label()),
     pageSize: S.optional(S.Number.pipe(T.Query())),
-    pageToken: S.optional(S.String.pipe(T.Query())),
+    name: S.String.pipe(T.Label()),
     returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
+    filter: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -1143,22 +1084,20 @@ export const OperationList = /*@__PURE__*/ S.Array(Operation) as any as S.Schema
 
 /** The response message for Operations.ListOperations. */
 export interface ListOperationsResponse {
-  /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
-  unreachable?: StringList;
-  /** The standard List next-page token. */
-  nextPageToken?: string;
   /** A list of operations that matches the specified filter in the request. */
   operations?: OperationList;
+  /** The standard List next-page token. */
+  nextPageToken?: string;
+  /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
+  unreachable?: StringList;
 }
 export const ListOperationsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    unreachable: S.optional(StringList),
-    nextPageToken: S.optional(S.String),
     operations: S.optional(OperationList),
+    nextPageToken: S.optional(S.String),
+    unreachable: S.optional(StringList),
   }),
-).annotate({
-  identifier: "ListOperationsResponse",
-}) as any as S.Schema<ListOperationsResponse>;
+).annotate({ identifier: "ListOperationsResponse" }) as any as S.Schema<ListOperationsResponse>;
 
 export interface PatchProjectsLocationsInstancesRequest {
   /** Output only. Format: `projects/{project}/locations/{location}/instances/{instance}`. */
@@ -1174,11 +1113,7 @@ export const PatchProjectsLocationsInstancesRequest = /*@__PURE__*/ S.suspend(()
     updateMask: S.optional(S.String.pipe(T.Query())),
     body: S.optional(Instance.pipe(T.HttpBody())),
   }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "v1/{+name}",
-      baseUrl: "https://looker.googleapis.com/",
-    }),
+    T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://looker.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "PatchProjectsLocationsInstancesRequest",
@@ -1218,9 +1153,7 @@ export const RestoreInstanceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     backup: S.optional(S.String),
   }),
-).annotate({
-  identifier: "RestoreInstanceRequest",
-}) as any as S.Schema<RestoreInstanceRequest>;
+).annotate({ identifier: "RestoreInstanceRequest" }) as any as S.Schema<RestoreInstanceRequest>;
 
 export interface RestoreProjectsLocationsInstancesRequest {
   /** Required. Instance being restored Format: projects/{project}/locations/{location}/instances/{instance} */
@@ -1501,10 +1434,7 @@ export const listProjectsLocations: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListProjectsLocationsInstancesError = NotFound | Forbidden | GcpOpError;
@@ -1521,10 +1451,7 @@ export const listProjectsLocationsInstances: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListProjectsLocationsInstancesBackupsError = NotFound | Forbidden | GcpOpError;
@@ -1541,10 +1468,7 @@ export const listProjectsLocationsInstancesBackups: API.PaginatedOperationMethod
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListProjectsLocationsOperationsError = NotFound | Forbidden | GcpOpError;
@@ -1561,10 +1485,7 @@ export const listProjectsLocationsOperations: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type PatchProjectsLocationsInstancesError =

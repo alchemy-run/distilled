@@ -36,68 +36,14 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
-export type VolumeRecoveryPointManagementInputRecoveryPointLabelsMap = {
-  [key: string]: string | undefined;
-};
-export const VolumeRecoveryPointManagementInputRecoveryPointLabelsMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String,
-) as any as S.Schema<VolumeRecoveryPointManagementInputRecoveryPointLabelsMap>;
-
-export type SnapshotRetentionPolicyCountKind = "count";
-export const SnapshotRetentionPolicyCountKind = /*@__PURE__*/ S.String;
-
-export interface SnapshotRetentionPolicyCount {
-  kind: SnapshotRetentionPolicyCountKind;
-  value: number;
-}
-export const SnapshotRetentionPolicyCount = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    kind: SnapshotRetentionPolicyCountKind,
-    value: S.Number,
-  }),
-).annotate({
-  identifier: "SnapshotRetentionPolicyCount",
-}) as any as S.Schema<SnapshotRetentionPolicyCount>;
-
-export type SnapshotRetentionPolicyIndefinitelyKind = "indefinitely";
-export const SnapshotRetentionPolicyIndefinitelyKind = /*@__PURE__*/ S.String;
-
-export interface SnapshotRetentionPolicyIndefinitely {
-  kind: SnapshotRetentionPolicyIndefinitelyKind;
-}
-export const SnapshotRetentionPolicyIndefinitely = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    kind: SnapshotRetentionPolicyIndefinitelyKind,
-  }),
-).annotate({
-  identifier: "SnapshotRetentionPolicyIndefinitely",
-}) as any as S.Schema<SnapshotRetentionPolicyIndefinitely>;
-
-export type SnapshotRetentionPolicy =
-  | SnapshotRetentionPolicyCount
-  | SnapshotRetentionPolicyIndefinitely;
-export const SnapshotRetentionPolicy =
-  /*@__PURE__*/ S.Unknown as any as S.Schema<SnapshotRetentionPolicy>;
-
-export interface VolumeRecoveryPointManagementInput {
-  inheritVolumeLabels?: boolean;
+export interface VolumeAutomationInput {
   kind: string;
-  recoveryPointLabels?: VolumeRecoveryPointManagementInputRecoveryPointLabelsMap;
-  snapshotRetentionPolicy: SnapshotRetentionPolicy;
-  volumeLabelSelector?: string;
 }
-export const VolumeRecoveryPointManagementInput = /*@__PURE__*/ S.suspend(() =>
+export const VolumeAutomationInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    inheritVolumeLabels: S.optional(S.Boolean),
     kind: S.String,
-    recoveryPointLabels: S.optional(VolumeRecoveryPointManagementInputRecoveryPointLabelsMap),
-    snapshotRetentionPolicy: SnapshotRetentionPolicy,
-    volumeLabelSelector: S.optional(S.String),
   }),
-).annotate({
-  identifier: "VolumeRecoveryPointManagementInput",
-}) as any as S.Schema<VolumeRecoveryPointManagementInput>;
+).annotate({ identifier: "VolumeAutomationInput" }) as any as S.Schema<VolumeAutomationInput>;
 
 export interface AutomationScheduleTrigger {
   /** An rrule (Recurrence Rule) is a standardized string format used in iCalendar (RFC 5545) to define repeating events, and you can generate one by using a dedicated library or by using online generator tools to specify parameters like frequency, interval, and end dates */
@@ -112,40 +58,38 @@ export const AutomationScheduleTrigger = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<AutomationScheduleTrigger>;
 
 export interface AutomationTriggers {
-  schedule?: AutomationScheduleTrigger;
+  schedule?: AutomationScheduleTrigger | null;
 }
 export const AutomationTriggers = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    schedule: S.optional(AutomationScheduleTrigger),
+    schedule: S.optional(S.NullOr(AutomationScheduleTrigger)),
   }),
-).annotate({
-  identifier: "AutomationTriggers",
-}) as any as S.Schema<AutomationTriggers>;
+).annotate({ identifier: "AutomationTriggers" }) as any as S.Schema<AutomationTriggers>;
 
 export interface CreateVolumeAutomationRequest {
   /** project Id */
   projectId: string;
   /** region */
   region: string;
-  description?: string;
-  input?: VolumeRecoveryPointManagementInput;
-  name?: string;
+  description?: string | null;
+  input?: VolumeAutomationInput | null;
+  name?: string | null;
   templateId: string;
-  triggers?: AutomationTriggers;
+  triggers?: AutomationTriggers | null;
 }
 export const CreateVolumeAutomationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     projectId: S.String.pipe(T.Label()),
     region: S.String.pipe(T.Label()),
-    description: S.optional(S.String),
-    input: S.optional(VolumeRecoveryPointManagementInput),
-    name: S.optional(S.String),
+    description: S.optional(S.NullOr(S.String)),
+    input: S.optional(S.NullOr(VolumeAutomationInput)),
+    name: S.optional(S.NullOr(S.String)),
     templateId: S.String,
-    triggers: S.optional(AutomationTriggers),
+    triggers: S.optional(S.NullOr(AutomationTriggers)),
   }).pipe(
     T.Http({
       method: "POST",
-      uri: "/v1beta/projects/{projectId}/regions/{region}/services/volumes/automations",
+      uri: "/v1/projects/{projectId}/regions/{region}/services/volumes/automations",
       code: 200,
       baseUrl: "https://automation-service.api.stackit.cloud",
     }),
@@ -154,58 +98,19 @@ export const CreateVolumeAutomationRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "CreateVolumeAutomationRequest",
 }) as any as S.Schema<CreateVolumeAutomationRequest>;
 
-export type GetVolumeIDsResultVolumeIDsList = Array<string>;
-export const GetVolumeIDsResultVolumeIDsList = /*@__PURE__*/ S.Array(
-  S.String,
-) as any as S.Schema<GetVolumeIDsResultVolumeIDsList>;
-
-export interface GetVolumeIDsResult {
-  kind: string;
-  volumeIDs?: GetVolumeIDsResultVolumeIDsList;
-}
-export const GetVolumeIDsResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    kind: S.String,
-    volumeIDs: S.optional(GetVolumeIDsResultVolumeIDsList),
-  }),
-).annotate({
-  identifier: "GetVolumeIDsResult",
-}) as any as S.Schema<GetVolumeIDsResult>;
-
-export type CreateSnapshotsResultCreatedSnapshotIDsList = Array<string>;
-export const CreateSnapshotsResultCreatedSnapshotIDsList = /*@__PURE__*/ S.Array(
-  S.String,
-) as any as S.Schema<CreateSnapshotsResultCreatedSnapshotIDsList>;
-
-export interface CreateSnapshotsResult {
-  createdSnapshotIDs?: CreateSnapshotsResultCreatedSnapshotIDsList;
-  kind: string;
-}
-export const CreateSnapshotsResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    createdSnapshotIDs: S.optional(CreateSnapshotsResultCreatedSnapshotIDsList),
-    kind: S.String,
-  }),
-).annotate({
-  identifier: "CreateSnapshotsResult",
-}) as any as S.Schema<CreateSnapshotsResult>;
-
-export type VolumeOutputStepResult = GetVolumeIDsResult | CreateSnapshotsResult;
-export const VolumeOutputStepResult =
-  /*@__PURE__*/ S.Unknown as any as S.Schema<VolumeOutputStepResult>;
+export type VolumeOutputStepResult = VolumeAutomationInput;
+export const VolumeOutputStepResult = VolumeAutomationInput;
 
 export interface VolumeOutputStep {
   name: string;
-  result?: VolumeOutputStepResult;
+  result?: VolumeAutomationInput;
 }
 export const VolumeOutputStep = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.String,
-    result: S.optional(VolumeOutputStepResult),
+    result: S.optional(VolumeAutomationInput),
   }),
-).annotate({
-  identifier: "VolumeOutputStep",
-}) as any as S.Schema<VolumeOutputStep>;
+).annotate({ identifier: "VolumeOutputStep" }) as any as S.Schema<VolumeOutputStep>;
 
 export type VolumeOutputStepsList = Array<VolumeOutputStep>;
 export const VolumeOutputStepsList = /*@__PURE__*/ S.Array(
@@ -225,11 +130,11 @@ export interface VolumeAutomation {
   createTime: string;
   description?: string;
   id: string;
-  input?: VolumeRecoveryPointManagementInput;
+  input?: VolumeAutomationInput | null;
   name?: string;
   output?: VolumeOutput;
   templateId?: string;
-  triggers?: AutomationTriggers;
+  triggers?: AutomationTriggers | null;
   updateTime: string;
 }
 export const VolumeAutomation = /*@__PURE__*/ S.suspend(() =>
@@ -237,16 +142,14 @@ export const VolumeAutomation = /*@__PURE__*/ S.suspend(() =>
     createTime: S.String,
     description: S.optional(S.String),
     id: S.String,
-    input: S.optional(VolumeRecoveryPointManagementInput),
+    input: S.optional(S.NullOr(VolumeAutomationInput)),
     name: S.optional(S.String),
     output: S.optional(VolumeOutput),
     templateId: S.optional(S.String),
-    triggers: S.optional(AutomationTriggers),
+    triggers: S.optional(S.NullOr(AutomationTriggers)),
     updateTime: S.String,
   }),
-).annotate({
-  identifier: "VolumeAutomation",
-}) as any as S.Schema<VolumeAutomation>;
+).annotate({ identifier: "VolumeAutomation" }) as any as S.Schema<VolumeAutomation>;
 
 export interface CreateVolumeExecutionRequest {
   /** project Id */
@@ -264,7 +167,7 @@ export const CreateVolumeExecutionRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "POST",
-      uri: "/v1beta/projects/{projectId}/regions/{region}/services/volumes/automations/{automationId}/executions",
+      uri: "/v1/projects/{projectId}/regions/{region}/services/volumes/automations/{automationId}/executions",
       code: 200,
       baseUrl: "https://automation-service.api.stackit.cloud",
     }),
@@ -276,22 +179,22 @@ export const CreateVolumeExecutionRequest = /*@__PURE__*/ S.suspend(() =>
 export interface VolumeExecutionAutomation {
   createTime: string;
   description?: string;
-  input?: VolumeRecoveryPointManagementInput;
+  input?: VolumeAutomationInput | null;
   name?: string;
   output?: VolumeOutput;
   templateId?: string;
-  triggers?: AutomationTriggers;
+  triggers?: AutomationTriggers | null;
   updateTime: string;
 }
 export const VolumeExecutionAutomation = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     createTime: S.String,
     description: S.optional(S.String),
-    input: S.optional(VolumeRecoveryPointManagementInput),
+    input: S.optional(S.NullOr(VolumeAutomationInput)),
     name: S.optional(S.String),
     output: S.optional(VolumeOutput),
     templateId: S.optional(S.String),
-    triggers: S.optional(AutomationTriggers),
+    triggers: S.optional(S.NullOr(AutomationTriggers)),
     updateTime: S.String,
   }),
 ).annotate({
@@ -299,19 +202,19 @@ export const VolumeExecutionAutomation = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<VolumeExecutionAutomation>;
 
 export type VolumeExecutionOutputStepStatus = "PENDING" | "RUNNING" | "FAILED" | "SUCCESSFUL";
-export const VolumeExecutionOutputStepStatus = /*@__PURE__*/ S.String;
+export const VolumeExecutionOutputStepStatus = S.String;
 
 export interface VolumeExecutionOutputStep {
   message?: string;
   name: string;
-  result?: VolumeOutputStepResult;
+  result?: VolumeAutomationInput;
   status: VolumeExecutionOutputStepStatus;
 }
 export const VolumeExecutionOutputStep = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     message: S.optional(S.String),
     name: S.String,
-    result: S.optional(VolumeOutputStepResult),
+    result: S.optional(VolumeAutomationInput),
     status: VolumeExecutionOutputStepStatus,
   }),
 ).annotate({
@@ -330,9 +233,7 @@ export const VolumeExecutionOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     steps: S.optional(VolumeExecutionOutputStepsList),
   }),
-).annotate({
-  identifier: "VolumeExecutionOutput",
-}) as any as S.Schema<VolumeExecutionOutput>;
+).annotate({ identifier: "VolumeExecutionOutput" }) as any as S.Schema<VolumeExecutionOutput>;
 
 export interface VolumeExecutionDetails {
   config: VolumeExecutionAutomation;
@@ -343,9 +244,7 @@ export const VolumeExecutionDetails = /*@__PURE__*/ S.suspend(() =>
     config: VolumeExecutionAutomation,
     output: S.optional(VolumeExecutionOutput),
   }),
-).annotate({
-  identifier: "VolumeExecutionDetails",
-}) as any as S.Schema<VolumeExecutionDetails>;
+).annotate({ identifier: "VolumeExecutionDetails" }) as any as S.Schema<VolumeExecutionDetails>;
 
 export type VolumeExecutionResponseStatus =
   | "PENDING"
@@ -353,7 +252,7 @@ export type VolumeExecutionResponseStatus =
   | "COMPLETED"
   | "FAILED"
   | "TERMINATED";
-export const VolumeExecutionResponseStatus = /*@__PURE__*/ S.String;
+export const VolumeExecutionResponseStatus = S.String;
 
 export interface VolumeExecutionResponse {
   automation?: VolumeExecutionDetails;
@@ -370,9 +269,7 @@ export const VolumeExecutionResponse = /*@__PURE__*/ S.suspend(() =>
     id: S.String,
     status: VolumeExecutionResponseStatus,
   }),
-).annotate({
-  identifier: "VolumeExecutionResponse",
-}) as any as S.Schema<VolumeExecutionResponse>;
+).annotate({ identifier: "VolumeExecutionResponse" }) as any as S.Schema<VolumeExecutionResponse>;
 
 export interface DeleteVolumeAutomationRequest {
   /** project Id */
@@ -390,7 +287,7 @@ export const DeleteVolumeAutomationRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "DELETE",
-      uri: "/v1beta/projects/{projectId}/regions/{region}/services/volumes/automations/{automationId}",
+      uri: "/v1/projects/{projectId}/regions/{region}/services/volumes/automations/{automationId}",
       code: 200,
       baseUrl: "https://automation-service.api.stackit.cloud",
     }),
@@ -420,7 +317,7 @@ export const GetVolumeAutomationRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/v1beta/projects/{projectId}/regions/{region}/services/volumes/automations/{automationId}",
+      uri: "/v1/projects/{projectId}/regions/{region}/services/volumes/automations/{automationId}",
       code: 200,
       baseUrl: "https://automation-service.api.stackit.cloud",
     }),
@@ -448,7 +345,7 @@ export const GetVolumeExecutionRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/v1beta/projects/{projectId}/regions/{region}/services/volumes/automations/{automationId}/executions/{executionId}",
+      uri: "/v1/projects/{projectId}/regions/{region}/services/volumes/automations/{automationId}/executions/{executionId}",
       code: 200,
       baseUrl: "https://automation-service.api.stackit.cloud",
     }),
@@ -473,17 +370,15 @@ export const GetVolumeTemplateRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/v1beta/projects/{projectId}/regions/{region}/services/volumes/automations/templates/{templateId}",
+      uri: "/v1/projects/{projectId}/regions/{region}/services/volumes/automations/templates/{templateId}",
       code: 200,
       baseUrl: "https://automation-service.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "GetVolumeTemplateRequest",
-}) as any as S.Schema<GetVolumeTemplateRequest>;
+).annotate({ identifier: "GetVolumeTemplateRequest" }) as any as S.Schema<GetVolumeTemplateRequest>;
 
 export type VolumeTemplateAutomationInputKind = "VolumeRecoveryPointManagement";
-export const VolumeTemplateAutomationInputKind = /*@__PURE__*/ S.String;
+export const VolumeTemplateAutomationInputKind = S.String;
 
 export interface VolumeTemplateAutomationInput {
   kind: VolumeTemplateAutomationInputKind;
@@ -536,7 +431,7 @@ export const ListVolumeAutomationsRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/v1beta/projects/{projectId}/regions/{region}/services/volumes/automations",
+      uri: "/v1/projects/{projectId}/regions/{region}/services/volumes/automations",
       code: 200,
       baseUrl: "https://automation-service.api.stackit.cloud",
     }),
@@ -551,7 +446,7 @@ export interface ListAutomationsItem {
   id: string;
   name?: string;
   templateId?: string;
-  triggers?: AutomationTriggers;
+  triggers?: AutomationTriggers | null;
   updateTime: string;
 }
 export const ListAutomationsItem = /*@__PURE__*/ S.suspend(() =>
@@ -561,12 +456,10 @@ export const ListAutomationsItem = /*@__PURE__*/ S.suspend(() =>
     id: S.String,
     name: S.optional(S.String),
     templateId: S.optional(S.String),
-    triggers: S.optional(AutomationTriggers),
+    triggers: S.optional(S.NullOr(AutomationTriggers)),
     updateTime: S.String,
   }),
-).annotate({
-  identifier: "ListAutomationsItem",
-}) as any as S.Schema<ListAutomationsItem>;
+).annotate({ identifier: "ListAutomationsItem" }) as any as S.Schema<ListAutomationsItem>;
 
 export type ListAutomationsResponseItemsList = Array<ListAutomationsItem>;
 export const ListAutomationsResponseItemsList = /*@__PURE__*/ S.Array(
@@ -583,9 +476,7 @@ export const ListAutomationsResponse = /*@__PURE__*/ S.suspend(() =>
     items: ListAutomationsResponseItemsList,
     nextPageToken: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListAutomationsResponse",
-}) as any as S.Schema<ListAutomationsResponse>;
+).annotate({ identifier: "ListAutomationsResponse" }) as any as S.Schema<ListAutomationsResponse>;
 
 export interface ListVolumeExecutionsRequest {
   /** project Id */
@@ -609,7 +500,7 @@ export const ListVolumeExecutionsRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/v1beta/projects/{projectId}/regions/{region}/services/volumes/automations/{automationId}/executions",
+      uri: "/v1/projects/{projectId}/regions/{region}/services/volumes/automations/{automationId}/executions",
       code: 200,
       baseUrl: "https://automation-service.api.stackit.cloud",
     }),
@@ -624,7 +515,7 @@ export type ListExecutionsItemStatus =
   | "COMPLETED"
   | "FAILED"
   | "TERMINATED";
-export const ListExecutionsItemStatus = /*@__PURE__*/ S.String;
+export const ListExecutionsItemStatus = S.String;
 
 export interface ListExecutionsItem {
   createTime: string;
@@ -639,9 +530,7 @@ export const ListExecutionsItem = /*@__PURE__*/ S.suspend(() =>
     id: S.String,
     status: ListExecutionsItemStatus,
   }),
-).annotate({
-  identifier: "ListExecutionsItem",
-}) as any as S.Schema<ListExecutionsItem>;
+).annotate({ identifier: "ListExecutionsItem" }) as any as S.Schema<ListExecutionsItem>;
 
 export type ListExecutionsResponseItemsList = Array<ListExecutionsItem>;
 export const ListExecutionsResponseItemsList = /*@__PURE__*/ S.Array(
@@ -658,9 +547,7 @@ export const ListExecutionsResponse = /*@__PURE__*/ S.suspend(() =>
     items: ListExecutionsResponseItemsList,
     nextPageToken: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListExecutionsResponse",
-}) as any as S.Schema<ListExecutionsResponse>;
+).annotate({ identifier: "ListExecutionsResponse" }) as any as S.Schema<ListExecutionsResponse>;
 
 export interface ListVolumeTemplatesRequest {
   /** project Id */
@@ -681,7 +568,7 @@ export const ListVolumeTemplatesRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/v1beta/projects/{projectId}/regions/{region}/services/volumes/automations/templates",
+      uri: "/v1/projects/{projectId}/regions/{region}/services/volumes/automations/templates",
       code: 200,
       baseUrl: "https://automation-service.api.stackit.cloud",
     }),
@@ -720,9 +607,7 @@ export const ListTemplatesResponse = /*@__PURE__*/ S.suspend(() =>
     items: ListTemplatesResponseItemsList,
     nextPageToken: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListTemplatesResponse",
-}) as any as S.Schema<ListTemplatesResponse>;
+).annotate({ identifier: "ListTemplatesResponse" }) as any as S.Schema<ListTemplatesResponse>;
 
 export interface PartialUpdateVolumeAutomationRequest {
   /** project Id */
@@ -733,10 +618,10 @@ export interface PartialUpdateVolumeAutomationRequest {
   automationId: string;
   /** A comma-separated list of fully qualified names of fields to be updated. Example: "name,triggers.schedule.rrule" */
   updateMask?: string;
-  description?: string;
-  input?: VolumeRecoveryPointManagementInput;
-  name?: string;
-  triggers?: AutomationTriggers;
+  description?: string | null;
+  input?: VolumeAutomationInput | null;
+  name?: string | null;
+  triggers?: AutomationTriggers | null;
 }
 export const PartialUpdateVolumeAutomationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -744,14 +629,14 @@ export const PartialUpdateVolumeAutomationRequest = /*@__PURE__*/ S.suspend(() =
     region: S.String.pipe(T.Label()),
     automationId: S.String.pipe(T.Label()),
     updateMask: S.optional(S.String.pipe(T.Query())),
-    description: S.optional(S.String),
-    input: S.optional(VolumeRecoveryPointManagementInput),
-    name: S.optional(S.String),
-    triggers: S.optional(AutomationTriggers),
+    description: S.optional(S.NullOr(S.String)),
+    input: S.optional(S.NullOr(VolumeAutomationInput)),
+    name: S.optional(S.NullOr(S.String)),
+    triggers: S.optional(S.NullOr(AutomationTriggers)),
   }).pipe(
     T.Http({
       method: "PATCH",
-      uri: "/v1beta/projects/{projectId}/regions/{region}/services/volumes/automations/{automationId}",
+      uri: "/v1/projects/{projectId}/regions/{region}/services/volumes/automations/{automationId}",
       code: 200,
       baseUrl: "https://automation-service.api.stackit.cloud",
     }),

@@ -49,46 +49,42 @@ export const GetSitesRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://abusiveexperiencereport.googleapis.com/",
     }),
   ),
-).annotate({
-  identifier: "GetSitesRequest",
-}) as any as S.Schema<GetSitesRequest>;
-
-export type SiteSummaryResponseFilterStatusEnum = "UNKNOWN" | "ON" | "OFF" | "PAUSED" | "PENDING";
-export const SiteSummaryResponseFilterStatusEnum = S.String;
+).annotate({ identifier: "GetSitesRequest" }) as any as S.Schema<GetSitesRequest>;
 
 export type SiteSummaryResponseAbusiveStatusEnum = "UNKNOWN" | "PASSING" | "FAILING";
 export const SiteSummaryResponseAbusiveStatusEnum = S.String;
 
+export type SiteSummaryResponseFilterStatusEnum = "UNKNOWN" | "ON" | "OFF" | "PAUSED" | "PENDING";
+export const SiteSummaryResponseFilterStatusEnum = S.String;
+
 /** Response message for GetSiteSummary. */
 export interface SiteSummaryResponse {
+  /** The site's Abusive Experience Report status. */
+  abusiveStatus?: SiteSummaryResponseAbusiveStatusEnum;
+  /** The site's [enforcement status](https://support.google.com/webtools/answer/7538608). */
+  filterStatus?: SiteSummaryResponseFilterStatusEnum;
   /** Whether the site is currently under review. */
   underReview?: boolean;
-  /** The name of the reviewed site, e.g. `google.com`. */
-  reviewedSite?: string;
+  /** The time at which [enforcement](https://support.google.com/webtools/answer/7538608) against the site began or will begin. Not set when the filter_status is OFF. */
+  enforcementTime?: string;
   /** A link to the full Abusive Experience Report for the site. Not set in ViolatingSitesResponse. Note that you must complete the [Search Console verification process](https://support.google.com/webmasters/answer/9008080) for the site before you can access the full report. */
   reportUrl?: string;
   /** The time at which the site's status last changed. */
   lastChangeTime?: string;
-  /** The site's [enforcement status](https://support.google.com/webtools/answer/7538608). */
-  filterStatus?: SiteSummaryResponseFilterStatusEnum;
-  /** The site's Abusive Experience Report status. */
-  abusiveStatus?: SiteSummaryResponseAbusiveStatusEnum;
-  /** The time at which [enforcement](https://support.google.com/webtools/answer/7538608) against the site began or will begin. Not set when the filter_status is OFF. */
-  enforcementTime?: string;
+  /** The name of the reviewed site, e.g. `google.com`. */
+  reviewedSite?: string;
 }
 export const SiteSummaryResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    abusiveStatus: S.optional(SiteSummaryResponseAbusiveStatusEnum),
+    filterStatus: S.optional(SiteSummaryResponseFilterStatusEnum),
     underReview: S.optional(S.Boolean),
-    reviewedSite: S.optional(S.String),
+    enforcementTime: S.optional(S.String),
     reportUrl: S.optional(S.String),
     lastChangeTime: S.optional(S.String),
-    filterStatus: S.optional(SiteSummaryResponseFilterStatusEnum),
-    abusiveStatus: S.optional(SiteSummaryResponseAbusiveStatusEnum),
-    enforcementTime: S.optional(S.String),
+    reviewedSite: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SiteSummaryResponse",
-}) as any as S.Schema<SiteSummaryResponse>;
+).annotate({ identifier: "SiteSummaryResponse" }) as any as S.Schema<SiteSummaryResponse>;
 
 export interface ListViolatingSitesRequest {}
 export const ListViolatingSitesRequest = /*@__PURE__*/ S.suspend(() =>
@@ -117,9 +113,7 @@ export const ViolatingSitesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     violatingSites: S.optional(SiteSummaryResponseList),
   }),
-).annotate({
-  identifier: "ViolatingSitesResponse",
-}) as any as S.Schema<ViolatingSitesResponse>;
+).annotate({ identifier: "ViolatingSitesResponse" }) as any as S.Schema<ViolatingSitesResponse>;
 
 export type GetSitesError = NotFound | Forbidden | GcpOpError;
 /** Gets a site's Abusive Experience Report summary. */

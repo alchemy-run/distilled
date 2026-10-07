@@ -45,6 +45,12 @@
     "com.stackit.object_storage#ProjectStatus": {
       "type": "structure",
       "members": {
+        "labels": {
+          "target": "com.stackit.object_storage#ProjectStatusLabelsMap",
+          "traits": {
+            "smithy.api#documentation": "Project labels"
+          }
+        },
         "project": {
           "target": "smithy.api#String",
           "traits": {
@@ -61,6 +67,18 @@
         }
       },
       "traits": {}
+    },
+    "com.stackit.object_storage#ProjectStatusLabelsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Project labels"
+      }
     },
     "com.stackit.object_storage#ProjectScope": {
       "type": "enum",
@@ -162,6 +180,78 @@
           "baseUrl": "https://object-storage.api.stackit.cloud"
         },
         "smithy.api#documentation": "Create Project\n\nCreate a project. Creation will also be successful if the project\nalready exists, but will not create a duplicate"
+      }
+    },
+    "com.stackit.object_storage#UpdateServiceRequestLabelsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Project labels"
+      }
+    },
+    "com.stackit.object_storage#UpdateServiceRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "STACKIT project ID"
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "STACKIT Region"
+          }
+        },
+        "labels": {
+          "target": "com.stackit.object_storage#UpdateServiceRequestLabelsMap",
+          "traits": {
+            "smithy.api#documentation": "Project labels",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.object_storage#UpdateService": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.object_storage#UpdateServiceRequest"
+      },
+      "output": {
+        "target": "com.stackit.object_storage#ProjectStatus"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.object_storage#Forbidden"
+        },
+        {
+          "target": "com.stackit.object_storage#NotFound"
+        },
+        {
+          "target": "com.stackit.object_storage#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/v2/project/{projectId}/regions/{region}",
+          "code": 200,
+          "baseUrl": "https://object-storage.api.stackit.cloud"
+        },
+        "smithy.api#documentation": "Update Project\n\nUpdate project details."
       }
     },
     "com.stackit.object_storage#DisableServiceRequest": {
@@ -1779,6 +1869,9 @@
         },
         {
           "target": "com.stackit.object_storage#EnableService"
+        },
+        {
+          "target": "com.stackit.object_storage#UpdateService"
         },
         {
           "target": "com.stackit.object_storage#DisableService"

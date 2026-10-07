@@ -69,28 +69,26 @@ export const StringList = /*@__PURE__*/ S.Array(S.String) as any as S.Schema<Str
 
 /** Request payload sent by a physical web client. This request includes all necessary context to load a particular user experience history record. */
 export interface QueryHistoryRequest {
-  /** The number of collection periods to return. If not specified, the default is 25. If present, must be in the range [1, 40]. */
-  collectionPeriodCount?: number;
-  /** The url pattern "origin" refers to a url pattern that is the origin of a website. Examples: "https://example.com", "https://cloud.google.com" */
-  origin?: string;
-  /** The url pattern "url" refers to a url pattern that is any arbitrary url. Examples: "https://example.com/", "https://cloud.google.com/why-google-cloud/" */
-  url?: string;
   /** The form factor is a query dimension that specifies the device class that the record's data should belong to. Note: If no form factor is specified, then a special record with aggregated data over all form factors will be returned. */
   formFactor?: QueryHistoryRequestFormFactorEnum | (string & {});
+  /** The url pattern "url" refers to a url pattern that is any arbitrary url. Examples: "https://example.com/", "https://cloud.google.com/why-google-cloud/" */
+  url?: string;
+  /** The url pattern "origin" refers to a url pattern that is the origin of a website. Examples: "https://example.com", "https://cloud.google.com" */
+  origin?: string;
+  /** The number of collection periods to return. If not specified, the default is 25. If present, must be in the range [1, 40]. */
+  collectionPeriodCount?: number;
   /** The metrics that should be included in the response. If none are specified then any metrics found will be returned. Allowed values: ["first_contentful_paint", "first_input_delay", "largest_contentful_paint", "cumulative_layout_shift", "experimental_time_to_first_byte", "experimental_interaction_to_next_paint"] */
   metrics?: StringList;
 }
 export const QueryHistoryRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    collectionPeriodCount: S.optional(S.Number),
-    origin: S.optional(S.String),
-    url: S.optional(S.String),
     formFactor: S.optional(QueryHistoryRequestFormFactorEnum),
+    url: S.optional(S.String),
+    origin: S.optional(S.String),
+    collectionPeriodCount: S.optional(S.Number),
     metrics: S.optional(StringList),
   }),
-).annotate({
-  identifier: "QueryHistoryRequest",
-}) as any as S.Schema<QueryHistoryRequest>;
+).annotate({ identifier: "QueryHistoryRequest" }) as any as S.Schema<QueryHistoryRequest>;
 
 export interface QueryHistoryRecordRecordsRequest {
   /** Request body */
@@ -110,65 +108,30 @@ export const QueryHistoryRecordRecordsRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "QueryHistoryRecordRecordsRequest",
 }) as any as S.Schema<QueryHistoryRecordRecordsRequest>;
 
-/** Represents a whole or partial calendar date, such as a birthday. The time of day and time zone are either specified elsewhere or are insignificant. The date is relative to the Gregorian Calendar. This can represent one of the following: * A full date, with non-zero year, month, and day values. * A month and day, with a zero year (for example, an anniversary). * A year on its own, with a zero month and a zero day. * A year and month, with a zero day (for example, a credit card expiration date). Related types: * google.type.TimeOfDay * google.type.DateTime * google.protobuf.Timestamp */
-export interface Chromeuxreport_Date {
-  /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
-  month?: number;
-  /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
-  year?: number;
-  /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
-  day?: number;
+export type DoubleList = Array<number>;
+export const DoubleList = /*@__PURE__*/ S.Array(S.Number) as any as S.Schema<DoubleList>;
+
+/** A bin is a discrete portion of data spanning from start to end, or if no end is given, then from start to +inf. A bin's start and end values are given in the value type of the metric it represents. For example, "first contentful paint" is measured in milliseconds and exposed as ints, therefore its metric bins will use int32s for its start and end types. However, "cumulative layout shift" is measured in unitless decimals and is exposed as a decimal encoded as a string, therefore its metric bins will use strings for its value type. */
+export interface TimeseriesBin {
+  /** End is the end of the data bin. If end is not populated, then the bin has no end and is valid from start to +inf. */
+  end?: unknown;
+  /** The proportion of users that experienced this bin's value for the given metric in a given collection period; the index for each of these entries corresponds to an entry in the CollectionPeriods field in the HistoryRecord message, which describes when the density was observed in the field. Thus, the length of this list of densities is equal to the length of the CollectionPeriods field in the HistoryRecord message. */
+  densities?: DoubleList;
+  /** Start is the beginning of the data bin. */
+  start?: unknown;
 }
-export const Chromeuxreport_Date = /*@__PURE__*/ S.suspend(() =>
+export const TimeseriesBin = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    month: S.optional(S.Number),
-    year: S.optional(S.Number),
-    day: S.optional(S.Number),
+    end: S.optional(S.Unknown),
+    densities: S.optional(DoubleList),
+    start: S.optional(S.Unknown),
   }),
-).annotate({
-  identifier: "Chromeuxreport_Date",
-}) as any as S.Schema<Chromeuxreport_Date>;
+).annotate({ identifier: "TimeseriesBin" }) as any as S.Schema<TimeseriesBin>;
 
-/** The collection period is a date range which includes the `first` and `last` day. */
-export interface CollectionPeriod {
-  /** The first day in the collection period, inclusive. */
-  firstDate?: Chromeuxreport_Date;
-  /** The last day in the collection period, inclusive. */
-  lastDate?: Chromeuxreport_Date;
-}
-export const CollectionPeriod = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    firstDate: S.optional(Chromeuxreport_Date),
-    lastDate: S.optional(Chromeuxreport_Date),
-  }),
-).annotate({
-  identifier: "CollectionPeriod",
-}) as any as S.Schema<CollectionPeriod>;
-
-export type CollectionPeriodList = Array<CollectionPeriod>;
-export const CollectionPeriodList = /*@__PURE__*/ S.Array(
-  CollectionPeriod,
-) as any as S.Schema<CollectionPeriodList>;
-
-export type HistoryKeyFormFactorEnum = "ALL_FORM_FACTORS" | "PHONE" | "DESKTOP" | "TABLET";
-export const HistoryKeyFormFactorEnum = S.String;
-
-/** Key defines all the dimensions that identify this record as unique. */
-export interface HistoryKey {
-  /** Origin specifies the origin that this record is for. Note: When specifying an origin, data for loads under this origin over all pages are aggregated into origin level user experience data. */
-  origin?: string;
-  /** Url specifies a specific url that this record is for. This url should be normalized, following the normalization actions taken in the request to increase the chances of successful lookup. Note: When specifying a "url" only data for that specific url will be aggregated. */
-  url?: string;
-  /** The form factor is the device class that all users used to access the site for this record. If the form factor is unspecified, then aggregated data over all form factors will be returned. */
-  formFactor?: HistoryKeyFormFactorEnum;
-}
-export const HistoryKey = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    origin: S.optional(S.String),
-    url: S.optional(S.String),
-    formFactor: S.optional(HistoryKeyFormFactorEnum),
-  }),
-).annotate({ identifier: "HistoryKey" }) as any as S.Schema<HistoryKey>;
+export type TimeseriesBinList = Array<TimeseriesBin>;
+export const TimeseriesBinList = /*@__PURE__*/ S.Array(
+  TimeseriesBin,
+) as any as S.Schema<TimeseriesBinList>;
 
 export type DocumentList = Array<unknown>;
 export const DocumentList = /*@__PURE__*/ S.Array(S.Unknown) as any as S.Schema<DocumentList>;
@@ -182,34 +145,7 @@ export const TimeseriesPercentiles = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     p75s: S.optional(DocumentList),
   }),
-).annotate({
-  identifier: "TimeseriesPercentiles",
-}) as any as S.Schema<TimeseriesPercentiles>;
-
-export type DoubleList = Array<number>;
-export const DoubleList = /*@__PURE__*/ S.Array(S.Number) as any as S.Schema<DoubleList>;
-
-/** A bin is a discrete portion of data spanning from start to end, or if no end is given, then from start to +inf. A bin's start and end values are given in the value type of the metric it represents. For example, "first contentful paint" is measured in milliseconds and exposed as ints, therefore its metric bins will use int32s for its start and end types. However, "cumulative layout shift" is measured in unitless decimals and is exposed as a decimal encoded as a string, therefore its metric bins will use strings for its value type. */
-export interface TimeseriesBin {
-  /** Start is the beginning of the data bin. */
-  start?: unknown;
-  /** End is the end of the data bin. If end is not populated, then the bin has no end and is valid from start to +inf. */
-  end?: unknown;
-  /** The proportion of users that experienced this bin's value for the given metric in a given collection period; the index for each of these entries corresponds to an entry in the CollectionPeriods field in the HistoryRecord message, which describes when the density was observed in the field. Thus, the length of this list of densities is equal to the length of the CollectionPeriods field in the HistoryRecord message. */
-  densities?: DoubleList;
-}
-export const TimeseriesBin = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    start: S.optional(S.Unknown),
-    end: S.optional(S.Unknown),
-    densities: S.optional(DoubleList),
-  }),
-).annotate({ identifier: "TimeseriesBin" }) as any as S.Schema<TimeseriesBin>;
-
-export type TimeseriesBinList = Array<TimeseriesBin>;
-export const TimeseriesBinList = /*@__PURE__*/ S.Array(
-  TimeseriesBin,
-) as any as S.Schema<TimeseriesBinList>;
+).annotate({ identifier: "TimeseriesPercentiles" }) as any as S.Schema<TimeseriesPercentiles>;
 
 /** For enum metrics, provides fraction timeseries which add up to approximately 1.0 per entry (k-th element into the repeated fractions field for any k <= len) across fraction_timeseries. */
 export interface FractionTimeseries {
@@ -220,13 +156,9 @@ export const FractionTimeseries = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     fractions: S.optional(DoubleList),
   }),
-).annotate({
-  identifier: "FractionTimeseries",
-}) as any as S.Schema<FractionTimeseries>;
+).annotate({ identifier: "FractionTimeseries" }) as any as S.Schema<FractionTimeseries>;
 
-export type FractionTimeseriesMap = {
-  [key: string]: FractionTimeseries | undefined;
-};
+export type FractionTimeseriesMap = { [key: string]: FractionTimeseries | undefined };
 export const FractionTimeseriesMap = /*@__PURE__*/ S.Record(
   S.String,
   FractionTimeseries,
@@ -234,63 +166,113 @@ export const FractionTimeseriesMap = /*@__PURE__*/ S.Record(
 
 /** A `metric timeseries` is a set of user experience data for a single web performance metric, like "first contentful paint". It contains a summary histogram of real world Chrome usage as a series of `bins`, where each bin has density values for a particular time period. */
 export interface MetricTimeseries {
-  /** Commonly useful percentiles of the Metric. The value type for the percentiles will be the same as the value types given for the Histogram bins. */
-  percentilesTimeseries?: TimeseriesPercentiles;
   /** The histogram of user experiences for a metric. The histogram will have at least one bin and the densities of all bins will add up to ~1, for each timeseries entry. */
   histogramTimeseries?: TimeseriesBinList;
+  /** Commonly useful percentiles of the Metric. The value type for the percentiles will be the same as the value types given for the Histogram bins. */
+  percentilesTimeseries?: TimeseriesPercentiles;
   /** Mapping from labels to timeseries of fractions attributed to this label. */
   fractionTimeseries?: FractionTimeseriesMap;
 }
 export const MetricTimeseries = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    percentilesTimeseries: S.optional(TimeseriesPercentiles),
     histogramTimeseries: S.optional(TimeseriesBinList),
+    percentilesTimeseries: S.optional(TimeseriesPercentiles),
     fractionTimeseries: S.optional(FractionTimeseriesMap),
   }),
-).annotate({
-  identifier: "MetricTimeseries",
-}) as any as S.Schema<MetricTimeseries>;
+).annotate({ identifier: "MetricTimeseries" }) as any as S.Schema<MetricTimeseries>;
 
-export type MetricTimeseriesMap = {
-  [key: string]: MetricTimeseries | undefined;
-};
+export type MetricTimeseriesMap = { [key: string]: MetricTimeseries | undefined };
 export const MetricTimeseriesMap = /*@__PURE__*/ S.Record(
   S.String,
   MetricTimeseries,
 ) as any as S.Schema<MetricTimeseriesMap>;
 
+/** Represents a whole or partial calendar date, such as a birthday. The time of day and time zone are either specified elsewhere or are insignificant. The date is relative to the Gregorian Calendar. This can represent one of the following: * A full date, with non-zero year, month, and day values. * A month and day, with a zero year (for example, an anniversary). * A year on its own, with a zero month and a zero day. * A year and month, with a zero day (for example, a credit card expiration date). Related types: * google.type.TimeOfDay * google.type.DateTime * google.protobuf.Timestamp */
+export interface Chromeuxreport_Date {
+  /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
+  day?: number;
+  /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
+  month?: number;
+  /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
+  year?: number;
+}
+export const Chromeuxreport_Date = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    day: S.optional(S.Number),
+    month: S.optional(S.Number),
+    year: S.optional(S.Number),
+  }),
+).annotate({ identifier: "Chromeuxreport_Date" }) as any as S.Schema<Chromeuxreport_Date>;
+
+/** The collection period is a date range which includes the `first` and `last` day. */
+export interface CollectionPeriod {
+  /** The last day in the collection period, inclusive. */
+  lastDate?: Chromeuxreport_Date;
+  /** The first day in the collection period, inclusive. */
+  firstDate?: Chromeuxreport_Date;
+}
+export const CollectionPeriod = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    lastDate: S.optional(Chromeuxreport_Date),
+    firstDate: S.optional(Chromeuxreport_Date),
+  }),
+).annotate({ identifier: "CollectionPeriod" }) as any as S.Schema<CollectionPeriod>;
+
+export type CollectionPeriodList = Array<CollectionPeriod>;
+export const CollectionPeriodList = /*@__PURE__*/ S.Array(
+  CollectionPeriod,
+) as any as S.Schema<CollectionPeriodList>;
+
+export type HistoryKeyFormFactorEnum = "ALL_FORM_FACTORS" | "PHONE" | "DESKTOP" | "TABLET";
+export const HistoryKeyFormFactorEnum = S.String;
+
+/** Key defines all the dimensions that identify this record as unique. */
+export interface HistoryKey {
+  /** Url specifies a specific url that this record is for. This url should be normalized, following the normalization actions taken in the request to increase the chances of successful lookup. Note: When specifying a "url" only data for that specific url will be aggregated. */
+  url?: string;
+  /** The form factor is the device class that all users used to access the site for this record. If the form factor is unspecified, then aggregated data over all form factors will be returned. */
+  formFactor?: HistoryKeyFormFactorEnum;
+  /** Origin specifies the origin that this record is for. Note: When specifying an origin, data for loads under this origin over all pages are aggregated into origin level user experience data. */
+  origin?: string;
+}
+export const HistoryKey = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    url: S.optional(S.String),
+    formFactor: S.optional(HistoryKeyFormFactorEnum),
+    origin: S.optional(S.String),
+  }),
+).annotate({ identifier: "HistoryKey" }) as any as S.Schema<HistoryKey>;
+
 /** HistoryRecord is a timeseries of Chrome UX Report data. It contains user experience statistics for a single url pattern and a set of dimensions. */
 export interface HistoryRecord {
+  /** Metrics is the map of user experience time series data available for the record defined in the key field. Metrics are keyed on the metric name. Allowed key values: ["first_contentful_paint", "first_input_delay", "largest_contentful_paint", "cumulative_layout_shift", "experimental_time_to_first_byte", "experimental_interaction_to_next_paint"] */
+  metrics?: MetricTimeseriesMap;
   /** The collection periods indicate when each of the data points reflected in the time series data in metrics was collected. Note that all the time series share the same collection periods, and it is enforced in the CrUX pipeline that every time series has the same number of data points. */
   collectionPeriods?: CollectionPeriodList;
   /** Key defines all of the unique querying parameters needed to look up a user experience history record. */
   key?: HistoryKey;
-  /** Metrics is the map of user experience time series data available for the record defined in the key field. Metrics are keyed on the metric name. Allowed key values: ["first_contentful_paint", "first_input_delay", "largest_contentful_paint", "cumulative_layout_shift", "experimental_time_to_first_byte", "experimental_interaction_to_next_paint"] */
-  metrics?: MetricTimeseriesMap;
 }
 export const HistoryRecord = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    metrics: S.optional(MetricTimeseriesMap),
     collectionPeriods: S.optional(CollectionPeriodList),
     key: S.optional(HistoryKey),
-    metrics: S.optional(MetricTimeseriesMap),
   }),
 ).annotate({ identifier: "HistoryRecord" }) as any as S.Schema<HistoryRecord>;
 
 /** Object representing the normalization actions taken to normalize a url to achieve a higher chance of successful lookup. These are simple automated changes that are taken when looking up the provided `url_patten` would be known to fail. Complex actions like following redirects are not handled. */
 export interface UrlNormalization {
-  /** The original requested URL prior to any normalization actions. */
-  originalUrl?: string;
   /** The URL after any normalization actions. This is a valid user experience URL that could reasonably be looked up. */
   normalizedUrl?: string;
+  /** The original requested URL prior to any normalization actions. */
+  originalUrl?: string;
 }
 export const UrlNormalization = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    originalUrl: S.optional(S.String),
     normalizedUrl: S.optional(S.String),
+    originalUrl: S.optional(S.String),
   }),
-).annotate({
-  identifier: "UrlNormalization",
-}) as any as S.Schema<UrlNormalization>;
+).annotate({ identifier: "UrlNormalization" }) as any as S.Schema<UrlNormalization>;
 
 /** Response payload sent back to a physical web client. This response contains the record found based on the identiers present in a `QueryHistoryRequest`. The returned response will have a history record, and sometimes details on normalization actions taken on the request that were necessary to make the request successful. */
 export interface QueryHistoryResponse {
@@ -304,32 +286,30 @@ export const QueryHistoryResponse = /*@__PURE__*/ S.suspend(() =>
     record: S.optional(HistoryRecord),
     urlNormalizationDetails: S.optional(UrlNormalization),
   }),
-).annotate({
-  identifier: "QueryHistoryResponse",
-}) as any as S.Schema<QueryHistoryResponse>;
+).annotate({ identifier: "QueryHistoryResponse" }) as any as S.Schema<QueryHistoryResponse>;
 
 export type QueryRequestFormFactorEnum = "ALL_FORM_FACTORS" | "PHONE" | "DESKTOP" | "TABLET";
 export const QueryRequestFormFactorEnum = S.String;
 
 /** Request payload sent by a physical web client. This request includes all necessary context to load a particular user experience record. */
 export interface QueryRequest {
-  /** The url pattern "origin" refers to a url pattern that is the origin of a website. Examples: "https://example.com", "https://cloud.google.com" */
-  origin?: string;
-  /** The form factor is a query dimension that specifies the device class that the record's data should belong to. Note: If no form factor is specified, then a special record with aggregated data over all form factors will be returned. */
-  formFactor?: QueryRequestFormFactorEnum | (string & {});
-  /** The effective connection type is a query dimension that specifies the effective network class that the record's data should belong to. This field uses the values ["offline", "slow-2G", "2G", "3G", "4G"] as specified in: https://wicg.github.io/netinfo/#effective-connection-types Note: If no effective connection type is specified, then a special record with aggregated data over all effective connection types will be returned. */
-  effectiveConnectionType?: string;
   /** The metrics that should be included in the response. If none are specified then any metrics found will be returned. Allowed values: ["first_contentful_paint", "first_input_delay", "largest_contentful_paint", "cumulative_layout_shift", "experimental_time_to_first_byte", "experimental_interaction_to_next_paint"] */
   metrics?: StringList;
+  /** The url pattern "origin" refers to a url pattern that is the origin of a website. Examples: "https://example.com", "https://cloud.google.com" */
+  origin?: string;
+  /** The effective connection type is a query dimension that specifies the effective network class that the record's data should belong to. This field uses the values ["offline", "slow-2G", "2G", "3G", "4G"] as specified in: https://wicg.github.io/netinfo/#effective-connection-types Note: If no effective connection type is specified, then a special record with aggregated data over all effective connection types will be returned. */
+  effectiveConnectionType?: string;
+  /** The form factor is a query dimension that specifies the device class that the record's data should belong to. Note: If no form factor is specified, then a special record with aggregated data over all form factors will be returned. */
+  formFactor?: QueryRequestFormFactorEnum | (string & {});
   /** The url pattern "url" refers to a url pattern that is any arbitrary url. Examples: "https://example.com/", "https://cloud.google.com/why-google-cloud/" */
   url?: string;
 }
 export const QueryRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    origin: S.optional(S.String),
-    formFactor: S.optional(QueryRequestFormFactorEnum),
-    effectiveConnectionType: S.optional(S.String),
     metrics: S.optional(StringList),
+    origin: S.optional(S.String),
+    effectiveConnectionType: S.optional(S.String),
+    formFactor: S.optional(QueryRequestFormFactorEnum),
     url: S.optional(S.String),
   }),
 ).annotate({ identifier: "QueryRequest" }) as any as S.Schema<QueryRequest>;
@@ -354,18 +334,18 @@ export const QueryRecordRecordsRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** A bin is a discrete portion of data spanning from start to end, or if no end is given, then from start to +inf. A bin's start and end values are given in the value type of the metric it represents. For example, "first contentful paint" is measured in milliseconds and exposed as ints, therefore its metric bins will use int32s for its start and end types. However, "cumulative layout shift" is measured in unitless decimals and is exposed as a decimal encoded as a string, therefore its metric bins will use strings for its value type. */
 export interface Bin {
+  /** Start is the beginning of the data bin. */
+  start?: unknown;
   /** The proportion of users that experienced this bin's value for the given metric. */
   density?: unknown;
   /** End is the end of the data bin. If end is not populated, then the bin has no end and is valid from start to +inf. */
   end?: unknown;
-  /** Start is the beginning of the data bin. */
-  start?: unknown;
 }
 export const Bin = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    start: S.optional(S.Unknown),
     density: S.optional(S.Unknown),
     end: S.optional(S.Unknown),
-    start: S.optional(S.Unknown),
   }),
 ).annotate({ identifier: "Bin" }) as any as S.Schema<Bin>;
 
@@ -411,54 +391,52 @@ export const KeyFormFactorEnum = S.String;
 
 /** Key defines all the dimensions that identify this record as unique. */
 export interface Key {
-  /** Origin specifies the origin that this record is for. Note: When specifying an origin, data for loads under this origin over all pages are aggregated into origin level user experience data. */
-  origin?: string;
-  /** The form factor is the device class that all users used to access the site for this record. If the form factor is unspecified, then aggregated data over all form factors will be returned. */
-  formFactor?: KeyFormFactorEnum;
-  /** Url specifies a specific url that this record is for. Note: When specifying a "url" only data for that specific url will be aggregated. */
-  url?: string;
   /** The effective connection type is the general connection class that all users experienced for this record. This field uses the values ["offline", "slow-2G", "2G", "3G", "4G"] as specified in: https://wicg.github.io/netinfo/#effective-connection-types If the effective connection type is unspecified, then aggregated data over all effective connection types will be returned. */
   effectiveConnectionType?: string;
+  /** The form factor is the device class that all users used to access the site for this record. If the form factor is unspecified, then aggregated data over all form factors will be returned. */
+  formFactor?: KeyFormFactorEnum;
+  /** Origin specifies the origin that this record is for. Note: When specifying an origin, data for loads under this origin over all pages are aggregated into origin level user experience data. */
+  origin?: string;
+  /** Url specifies a specific url that this record is for. Note: When specifying a "url" only data for that specific url will be aggregated. */
+  url?: string;
 }
 export const Key = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    origin: S.optional(S.String),
-    formFactor: S.optional(KeyFormFactorEnum),
-    url: S.optional(S.String),
     effectiveConnectionType: S.optional(S.String),
+    formFactor: S.optional(KeyFormFactorEnum),
+    origin: S.optional(S.String),
+    url: S.optional(S.String),
   }),
 ).annotate({ identifier: "Key" }) as any as S.Schema<Key>;
 
 /** Record is a single Chrome UX report data record. It contains use experience statistics for a single url pattern and set of dimensions. */
 export interface Chromeuxreport_Record {
-  /** The collection period indicates when the data reflected in this record was collected. */
-  collectionPeriod?: CollectionPeriod;
   /** Metrics is the map of user experience data available for the record defined in the key field. Metrics are keyed on the metric name. Allowed key values: ["first_contentful_paint", "first_input_delay", "largest_contentful_paint", "cumulative_layout_shift", "experimental_time_to_first_byte", "experimental_interaction_to_next_paint"] */
   metrics?: MetricMap;
+  /** The collection period indicates when the data reflected in this record was collected. */
+  collectionPeriod?: CollectionPeriod;
   /** Key defines all of the unique querying parameters needed to look up a user experience record. */
   key?: Key;
 }
 export const Chromeuxreport_Record = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    collectionPeriod: S.optional(CollectionPeriod),
     metrics: S.optional(MetricMap),
+    collectionPeriod: S.optional(CollectionPeriod),
     key: S.optional(Key),
   }),
-).annotate({
-  identifier: "Chromeuxreport_Record",
-}) as any as S.Schema<Chromeuxreport_Record>;
+).annotate({ identifier: "Chromeuxreport_Record" }) as any as S.Schema<Chromeuxreport_Record>;
 
 /** Response payload sent back to a physical web client. This response contains the record found based on the identiers present in a `QueryRequest`. The returned response will have a record, and sometimes details on normalization actions taken on the request that were necessary to make the request successful. */
 export interface QueryResponse {
-  /** The record that was found. */
-  record?: Chromeuxreport_Record;
   /** These are details about automated normalization actions that were taken in order to make the requested `url_pattern` valid. */
   urlNormalizationDetails?: UrlNormalization;
+  /** The record that was found. */
+  record?: Chromeuxreport_Record;
 }
 export const QueryResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    record: S.optional(Chromeuxreport_Record),
     urlNormalizationDetails: S.optional(UrlNormalization),
+    record: S.optional(Chromeuxreport_Record),
   }),
 ).annotate({ identifier: "QueryResponse" }) as any as S.Schema<QueryResponse>;
 

@@ -132,9 +132,7 @@ export const BenefitGrantsListRequest = /*@__PURE__*/ S.suspend(() =>
     limit: S.optional(S.Number.pipe(T.Query())),
     sorting: S.optional(BenefitGrantsListRequestSortingList.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/v1/benefit-grants/", code: 200 })),
-).annotate({
-  identifier: "BenefitGrantsListRequest",
-}) as any as S.Schema<BenefitGrantsListRequest>;
+).annotate({ identifier: "BenefitGrantsListRequest" }) as any as S.Schema<BenefitGrantsListRequest>;
 
 export interface BenefitGrantError {
   message: string;
@@ -147,16 +145,12 @@ export const BenefitGrantError = /*@__PURE__*/ S.suspend(() =>
     type: S.String,
     timestamp: S.String,
   }),
-).annotate({
-  identifier: "BenefitGrantError",
-}) as any as S.Schema<BenefitGrantError>;
+).annotate({ identifier: "BenefitGrantError" }) as any as S.Schema<BenefitGrantError>;
 
 export type MetadataOutputTypeValue = string | number | number | boolean;
 export const MetadataOutputTypeValue = S.Unknown as any as S.Schema<MetadataOutputTypeValue>;
 
-export type MetadataOutputType = {
-  [key: string]: MetadataOutputTypeValue | undefined;
-};
+export type MetadataOutputType = { [key: string]: MetadataOutputTypeValue | undefined };
 export const MetadataOutputType = /*@__PURE__*/ S.Record(
   S.String,
   MetadataOutputTypeValue,
@@ -493,9 +487,7 @@ export const CustomerIndividual = /*@__PURE__*/ S.suspend(() =>
     first_user_event_at: S.NullOr(S.String),
     avatar_url: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "CustomerIndividual",
-}) as any as S.Schema<CustomerIndividual>;
+).annotate({ identifier: "CustomerIndividual" }) as any as S.Schema<CustomerIndividual>;
 
 export type CustomerTeamTaxIdList = Array<unknown>;
 export const CustomerTeamTaxIdList = /*@__PURE__*/ S.Array(
@@ -608,9 +600,7 @@ export const BenefitCustomProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     note: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "BenefitCustomProperties",
-}) as any as S.Schema<BenefitCustomProperties>;
+).annotate({ identifier: "BenefitCustomProperties" }) as any as S.Schema<BenefitCustomProperties>;
 
 /** A benefit of type `custom`. Use it to grant any kind of benefit that doesn't fit in the other types. */
 export interface BenefitCustom {
@@ -663,18 +653,14 @@ export interface BenefitDiscordProperties {
   role_id: string;
   /** Whether to kick the member from the Discord server on revocation. */
   kick_member: boolean;
-  guild_token: string;
 }
 export const BenefitDiscordProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     guild_id: S.String,
     role_id: S.String,
     kick_member: S.Boolean,
-    guild_token: S.String,
   }),
-).annotate({
-  identifier: "BenefitDiscordProperties",
-}) as any as S.Schema<BenefitDiscordProperties>;
+).annotate({ identifier: "BenefitDiscordProperties" }) as any as S.Schema<BenefitDiscordProperties>;
 
 /** A benefit of type `discord`. Use it to automatically invite your backers to a Discord server. */
 export interface BenefitDiscord {
@@ -788,13 +774,9 @@ export const BenefitGitHubRepository = /*@__PURE__*/ S.suspend(() =>
     properties: BenefitGitHubRepositoryProperties,
     visibility_configurable: S.Boolean,
   }),
-).annotate({
-  identifier: "BenefitGitHubRepository",
-}) as any as S.Schema<BenefitGitHubRepository>;
+).annotate({ identifier: "BenefitGitHubRepository" }) as any as S.Schema<BenefitGitHubRepository>;
 
-export type BenefitDownloadablesPropertiesArchivedMap = {
-  [key: string]: boolean | undefined;
-};
+export type BenefitDownloadablesPropertiesArchivedMap = { [key: string]: boolean | undefined };
 export const BenefitDownloadablesPropertiesArchivedMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Boolean,
@@ -858,9 +840,7 @@ export const BenefitDownloadables = /*@__PURE__*/ S.suspend(() =>
     properties: BenefitDownloadablesProperties,
     visibility_configurable: S.Boolean,
   }),
-).annotate({
-  identifier: "BenefitDownloadables",
-}) as any as S.Schema<BenefitDownloadables>;
+).annotate({ identifier: "BenefitDownloadables" }) as any as S.Schema<BenefitDownloadables>;
 
 export type BenefitLicenseKeyExpirationPropertiesTimeframe = "year" | "month" | "day";
 export const BenefitLicenseKeyExpirationPropertiesTimeframe = S.String;
@@ -948,9 +928,7 @@ export const BenefitLicenseKeys = /*@__PURE__*/ S.suspend(() =>
     properties: BenefitLicenseKeysProperties,
     visibility_configurable: S.Boolean,
   }),
-).annotate({
-  identifier: "BenefitLicenseKeys",
-}) as any as S.Schema<BenefitLicenseKeys>;
+).annotate({ identifier: "BenefitLicenseKeys" }) as any as S.Schema<BenefitLicenseKeys>;
 
 /** Properties for a benefit of type `meter_unit`. */
 export interface BenefitMeterCreditProperties {
@@ -1009,9 +987,7 @@ export const BenefitMeterCredit = /*@__PURE__*/ S.suspend(() =>
     properties: BenefitMeterCreditProperties,
     visibility_configurable: S.Boolean,
   }),
-).annotate({
-  identifier: "BenefitMeterCredit",
-}) as any as S.Schema<BenefitMeterCredit>;
+).annotate({ identifier: "BenefitMeterCredit" }) as any as S.Schema<BenefitMeterCredit>;
 
 /** A benefit of type `feature_flag`. Use it to grant feature flags with key-value metadata that can be queried via the API and webhooks. */
 export interface BenefitFeatureFlag {
@@ -1054,9 +1030,7 @@ export const BenefitFeatureFlag = /*@__PURE__*/ S.suspend(() =>
     properties: S.Unknown,
     visibility_configurable: S.Boolean,
   }),
-).annotate({
-  identifier: "BenefitFeatureFlag",
-}) as any as S.Schema<BenefitFeatureFlag>;
+).annotate({ identifier: "BenefitFeatureFlag" }) as any as S.Schema<BenefitFeatureFlag>;
 
 /** Slack user IDs from the merchant workspace to invite to every channel created for this benefit. */
 export type BenefitSlackSharedChannelPropertiesTeamInviteesList = Array<string>;
@@ -1330,9 +1304,7 @@ export const ListResourceBenefitGrant = /*@__PURE__*/ S.suspend(() =>
     items: ListResourceBenefitGrantItemsList,
     pagination: Pagination,
   }),
-).annotate({
-  identifier: "ListResourceBenefitGrant",
-}) as any as S.Schema<ListResourceBenefitGrant>;
+).annotate({ identifier: "ListResourceBenefitGrant" }) as any as S.Schema<ListResourceBenefitGrant>;
 
 export type BenefitCustomCreateMetadataValue = string | number | number | boolean;
 export const BenefitCustomCreateMetadataValue =
@@ -1381,9 +1353,7 @@ export const BenefitCustomCreate = /*@__PURE__*/ S.suspend(() =>
     visibility: S.optional(S.NullOr(BenefitVisibility)),
     properties: BenefitCustomCreateProperties,
   }),
-).annotate({
-  identifier: "BenefitCustomCreate",
-}) as any as S.Schema<BenefitCustomCreate>;
+).annotate({ identifier: "BenefitCustomCreate" }) as any as S.Schema<BenefitCustomCreate>;
 
 export type BenefitDiscordCreateMetadataValue = string | number | number | boolean;
 export const BenefitDiscordCreateMetadataValue =
@@ -1399,22 +1369,8 @@ export const BenefitDiscordCreateMetadataMap = /*@__PURE__*/ S.Record(
 ) as any as S.Schema<BenefitDiscordCreateMetadataMap>;
 
 /** Properties to create a benefit of type `discord`. */
-export interface BenefitDiscordCreateProperties {
-  guild_token: string;
-  /** The ID of the Discord role to grant. */
-  role_id: string;
-  /** Whether to kick the member from the Discord server on revocation. */
-  kick_member: boolean;
-}
-export const BenefitDiscordCreateProperties = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    guild_token: S.String,
-    role_id: S.String,
-    kick_member: S.Boolean,
-  }),
-).annotate({
-  identifier: "BenefitDiscordCreateProperties",
-}) as any as S.Schema<BenefitDiscordCreateProperties>;
+export type BenefitDiscordCreateProperties = BenefitDiscordProperties;
+export const BenefitDiscordCreateProperties = BenefitDiscordProperties;
 
 export interface BenefitDiscordCreate {
   /** Key-value object allowing you to store additional information. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
@@ -1426,7 +1382,7 @@ export interface BenefitDiscordCreate {
   organization_id?: string | null;
   /** The visibility of the benefit in the customer portal. */
   visibility?: BenefitVisibility | (string & {}) | null;
-  properties: BenefitDiscordCreateProperties;
+  properties: BenefitDiscordProperties;
 }
 export const BenefitDiscordCreate = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1435,11 +1391,9 @@ export const BenefitDiscordCreate = /*@__PURE__*/ S.suspend(() =>
     description: S.String,
     organization_id: S.optional(S.NullOr(S.String)),
     visibility: S.optional(S.NullOr(BenefitVisibility)),
-    properties: BenefitDiscordCreateProperties,
+    properties: BenefitDiscordProperties,
   }),
-).annotate({
-  identifier: "BenefitDiscordCreate",
-}) as any as S.Schema<BenefitDiscordCreate>;
+).annotate({ identifier: "BenefitDiscordCreate" }) as any as S.Schema<BenefitDiscordCreate>;
 
 export type BenefitGitHubRepositoryCreateMetadataValue = string | number | number | boolean;
 export const BenefitGitHubRepositoryCreateMetadataValue =
@@ -1625,9 +1579,7 @@ export const BenefitLicenseKeysCreate = /*@__PURE__*/ S.suspend(() =>
     visibility: S.optional(S.NullOr(BenefitVisibility)),
     properties: BenefitLicenseKeysCreateProperties,
   }),
-).annotate({
-  identifier: "BenefitLicenseKeysCreate",
-}) as any as S.Schema<BenefitLicenseKeysCreate>;
+).annotate({ identifier: "BenefitLicenseKeysCreate" }) as any as S.Schema<BenefitLicenseKeysCreate>;
 
 export type BenefitMeterCreditCreateMetadataValue = string | number | number | boolean;
 export const BenefitMeterCreditCreateMetadataValue =
@@ -1668,9 +1620,7 @@ export const BenefitMeterCreditCreate = /*@__PURE__*/ S.suspend(() =>
     visibility: S.optional(S.NullOr(BenefitVisibility)),
     properties: BenefitMeterCreditProperties,
   }),
-).annotate({
-  identifier: "BenefitMeterCreditCreate",
-}) as any as S.Schema<BenefitMeterCreditCreate>;
+).annotate({ identifier: "BenefitMeterCreditCreate" }) as any as S.Schema<BenefitMeterCreditCreate>;
 
 export type BenefitFeatureFlagCreateMetadataValue = string | number | number | boolean;
 export const BenefitFeatureFlagCreateMetadataValue =
@@ -1707,9 +1657,7 @@ export const BenefitFeatureFlagCreate = /*@__PURE__*/ S.suspend(() =>
     visibility: S.optional(S.NullOr(BenefitVisibility)),
     properties: S.Unknown,
   }),
-).annotate({
-  identifier: "BenefitFeatureFlagCreate",
-}) as any as S.Schema<BenefitFeatureFlagCreate>;
+).annotate({ identifier: "BenefitFeatureFlagCreate" }) as any as S.Schema<BenefitFeatureFlagCreate>;
 
 export type BenefitSlackSharedChannelCreateMetadataValue = string | number | number | boolean;
 export const BenefitSlackSharedChannelCreateMetadataValue =
@@ -1794,16 +1742,12 @@ export const BenefitsCreateRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     body: BenefitCreate.pipe(T.HttpBody()),
   }).pipe(T.Http({ method: "POST", uri: "/v1/benefits/", code: 200 })),
-).annotate({
-  identifier: "BenefitsCreateRequest",
-}) as any as S.Schema<BenefitsCreateRequest>;
+).annotate({ identifier: "BenefitsCreateRequest" }) as any as S.Schema<BenefitsCreateRequest>;
 
 export type BenefitsCreateResponse = Benefit;
 export const BenefitsCreateResponse = /*@__PURE__*/ S.suspend(() =>
   Benefit.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "BenefitsCreateResponse",
-}) as any as S.Schema<BenefitsCreateResponse>;
+).annotate({ identifier: "BenefitsCreateResponse" }) as any as S.Schema<BenefitsCreateResponse>;
 
 export interface BenefitsDeleteRequest {
   id: string;
@@ -1812,9 +1756,7 @@ export const BenefitsDeleteRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "DELETE", uri: "/v1/benefits/{id}", code: 200 })),
-).annotate({
-  identifier: "BenefitsDeleteRequest",
-}) as any as S.Schema<BenefitsDeleteRequest>;
+).annotate({ identifier: "BenefitsDeleteRequest" }) as any as S.Schema<BenefitsDeleteRequest>;
 
 export interface BenefitsDeleteResponse {}
 export const BenefitsDeleteResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1834,9 +1776,7 @@ export const BenefitsFilesRequest = /*@__PURE__*/ S.suspend(() =>
     page: S.optional(S.Number.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/v1/benefits/{id}/files", code: 200 })),
-).annotate({
-  identifier: "BenefitsFilesRequest",
-}) as any as S.Schema<BenefitsFilesRequest>;
+).annotate({ identifier: "BenefitsFilesRequest" }) as any as S.Schema<BenefitsFilesRequest>;
 
 export interface BenefitDownloadableFile {
   /** The ID of the object. */
@@ -1884,9 +1824,7 @@ export const BenefitDownloadableFile = /*@__PURE__*/ S.suspend(() =>
     downloads: S.Number,
     size_readable: S.String,
   }),
-).annotate({
-  identifier: "BenefitDownloadableFile",
-}) as any as S.Schema<BenefitDownloadableFile>;
+).annotate({ identifier: "BenefitDownloadableFile" }) as any as S.Schema<BenefitDownloadableFile>;
 
 export type ListResourceBenefitDownloadableFileItemsList = Array<BenefitDownloadableFile>;
 export const ListResourceBenefitDownloadableFileItemsList = /*@__PURE__*/ S.Array(
@@ -1913,16 +1851,12 @@ export const BenefitsGetRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/v1/benefits/{id}", code: 200 })),
-).annotate({
-  identifier: "BenefitsGetRequest",
-}) as any as S.Schema<BenefitsGetRequest>;
+).annotate({ identifier: "BenefitsGetRequest" }) as any as S.Schema<BenefitsGetRequest>;
 
 export type BenefitsGetResponse = Benefit;
 export const BenefitsGetResponse = /*@__PURE__*/ S.suspend(() =>
   Benefit.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "BenefitsGetResponse",
-}) as any as S.Schema<BenefitsGetResponse>;
+).annotate({ identifier: "BenefitsGetResponse" }) as any as S.Schema<BenefitsGetResponse>;
 
 export type BenefitsGrantsRequestCustomerIdCase1List = Array<string>;
 export const BenefitsGrantsRequestCustomerIdCase1List = /*@__PURE__*/ S.Array(
@@ -1966,9 +1900,7 @@ export const BenefitsGrantsRequest = /*@__PURE__*/ S.suspend(() =>
     page: S.optional(S.Number.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/v1/benefits/{id}/grants", code: 200 })),
-).annotate({
-  identifier: "BenefitsGrantsRequest",
-}) as any as S.Schema<BenefitsGrantsRequest>;
+).annotate({ identifier: "BenefitsGrantsRequest" }) as any as S.Schema<BenefitsGrantsRequest>;
 
 export type BenefitsListRequestOrganizationIdCase1List = Array<string>;
 export const BenefitsListRequestOrganizationIdCase1List = /*@__PURE__*/ S.Array(
@@ -2059,9 +1991,7 @@ export type MetadataQueryValue =
   | MetadataQueryValueCase5List;
 export const MetadataQueryValue = S.Unknown as any as S.Schema<MetadataQueryValue>;
 
-export type MetadataQueryMap = {
-  [key: string]: MetadataQueryValue | undefined;
-};
+export type MetadataQueryMap = { [key: string]: MetadataQueryValue | undefined };
 export const MetadataQueryMap = /*@__PURE__*/ S.Record(
   S.String,
   MetadataQueryValue,
@@ -2099,9 +2029,7 @@ export const BenefitsListRequest = /*@__PURE__*/ S.suspend(() =>
     sorting: S.optional(BenefitsListRequestSortingList.pipe(T.Query())),
     metadata: S.optional(MetadataQueryMap.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/v1/benefits/", code: 200 })),
-).annotate({
-  identifier: "BenefitsListRequest",
-}) as any as S.Schema<BenefitsListRequest>;
+).annotate({ identifier: "BenefitsListRequest" }) as any as S.Schema<BenefitsListRequest>;
 
 export type ListResourceBenefitItemsList = Array<Benefit>;
 export const ListResourceBenefitItemsList = /*@__PURE__*/ S.Array(
@@ -2117,9 +2045,7 @@ export const ListResourceBenefit = /*@__PURE__*/ S.suspend(() =>
     items: ListResourceBenefitItemsList,
     pagination: Pagination,
   }),
-).annotate({
-  identifier: "ListResourceBenefit",
-}) as any as S.Schema<ListResourceBenefit>;
+).annotate({ identifier: "ListResourceBenefit" }) as any as S.Schema<ListResourceBenefit>;
 
 export type BenefitCustomUpdateMetadataValue = string | number | number | boolean;
 export const BenefitCustomUpdateMetadataValue =
@@ -2152,9 +2078,7 @@ export const BenefitCustomUpdate = /*@__PURE__*/ S.suspend(() =>
     type: S.String,
     properties: S.optional(S.NullOr(BenefitCustomProperties)),
   }),
-).annotate({
-  identifier: "BenefitCustomUpdate",
-}) as any as S.Schema<BenefitCustomUpdate>;
+).annotate({ identifier: "BenefitCustomUpdate" }) as any as S.Schema<BenefitCustomUpdate>;
 
 export type BenefitDiscordUpdateMetadataValue = string | number | number | boolean;
 export const BenefitDiscordUpdateMetadataValue =
@@ -2175,18 +2099,16 @@ export interface BenefitDiscordUpdate {
   /** The description of the benefit. Will be displayed on products having this benefit. */
   description?: string | null;
   type: string;
-  properties?: BenefitDiscordCreateProperties | null;
+  properties?: BenefitDiscordProperties | null;
 }
 export const BenefitDiscordUpdate = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     metadata: S.optional(BenefitDiscordUpdateMetadataMap),
     description: S.optional(S.NullOr(S.String)),
     type: S.String,
-    properties: S.optional(S.NullOr(BenefitDiscordCreateProperties)),
+    properties: S.optional(S.NullOr(BenefitDiscordProperties)),
   }),
-).annotate({
-  identifier: "BenefitDiscordUpdate",
-}) as any as S.Schema<BenefitDiscordUpdate>;
+).annotate({ identifier: "BenefitDiscordUpdate" }) as any as S.Schema<BenefitDiscordUpdate>;
 
 export type BenefitGitHubRepositoryUpdateMetadataValue = string | number | number | boolean;
 export const BenefitGitHubRepositoryUpdateMetadataValue =
@@ -2283,9 +2205,7 @@ export const BenefitLicenseKeysUpdate = /*@__PURE__*/ S.suspend(() =>
     type: S.String,
     properties: S.optional(S.NullOr(BenefitLicenseKeysCreateProperties)),
   }),
-).annotate({
-  identifier: "BenefitLicenseKeysUpdate",
-}) as any as S.Schema<BenefitLicenseKeysUpdate>;
+).annotate({ identifier: "BenefitLicenseKeysUpdate" }) as any as S.Schema<BenefitLicenseKeysUpdate>;
 
 export type BenefitMeterCreditUpdateMetadataValue = string | number | number | boolean;
 export const BenefitMeterCreditUpdateMetadataValue =
@@ -2318,9 +2238,7 @@ export const BenefitMeterCreditUpdate = /*@__PURE__*/ S.suspend(() =>
     type: S.String,
     properties: S.optional(S.NullOr(BenefitMeterCreditProperties)),
   }),
-).annotate({
-  identifier: "BenefitMeterCreditUpdate",
-}) as any as S.Schema<BenefitMeterCreditUpdate>;
+).annotate({ identifier: "BenefitMeterCreditUpdate" }) as any as S.Schema<BenefitMeterCreditUpdate>;
 
 export type BenefitFeatureFlagUpdateMetadataValue = string | number | number | boolean;
 export const BenefitFeatureFlagUpdateMetadataValue =
@@ -2353,9 +2271,7 @@ export const BenefitFeatureFlagUpdate = /*@__PURE__*/ S.suspend(() =>
     type: S.String,
     properties: S.optional(S.NullOr(S.Unknown)),
   }),
-).annotate({
-  identifier: "BenefitFeatureFlagUpdate",
-}) as any as S.Schema<BenefitFeatureFlagUpdate>;
+).annotate({ identifier: "BenefitFeatureFlagUpdate" }) as any as S.Schema<BenefitFeatureFlagUpdate>;
 
 export type BenefitSlackSharedChannelUpdateMetadataValue = string | number | number | boolean;
 export const BenefitSlackSharedChannelUpdateMetadataValue =
@@ -2409,16 +2325,12 @@ export const BenefitsUpdateRequest = /*@__PURE__*/ S.suspend(() =>
     id: S.String.pipe(T.Label()),
     body: BenefitsUpdateRequestBody.pipe(T.HttpBody()),
   }).pipe(T.Http({ method: "PATCH", uri: "/v1/benefits/{id}", code: 200 })),
-).annotate({
-  identifier: "BenefitsUpdateRequest",
-}) as any as S.Schema<BenefitsUpdateRequest>;
+).annotate({ identifier: "BenefitsUpdateRequest" }) as any as S.Schema<BenefitsUpdateRequest>;
 
 export type BenefitsUpdateResponse = Benefit;
 export const BenefitsUpdateResponse = /*@__PURE__*/ S.suspend(() =>
   Benefit.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "BenefitsUpdateResponse",
-}) as any as S.Schema<BenefitsUpdateResponse>;
+).annotate({ identifier: "BenefitsUpdateResponse" }) as any as S.Schema<BenefitsUpdateResponse>;
 
 export type CheckoutLinkCreateProductPriceMetadataValue = string | number | number | boolean;
 export const CheckoutLinkCreateProductPriceMetadataValue =
@@ -2456,6 +2368,8 @@ export interface CheckoutLinkCreateProductPrice {
   discount_id?: string | null;
   /** Preconfigured number of seats for seat-based pricing. When set, checkout sessions created from this link are locked to this number of seats and the customer won't be able to change it. All products on the link must use seat-based pricing and allow this number of seats. If the products no longer accommodate this value when the link is opened, it'll be ignored. */
   seats?: number | null;
+  /** Preconfigured number of units for unit-based pricing. When set, checkout sessions created from this link are locked to this number of units and the customer won't be able to change it. All products on the link must use unit-based pricing and allow this number of units. If the products no longer accommodate this value when the link is opened, it'll be ignored. */
+  units?: number | null;
   /** URL where the customer will be redirected after a successful payment.You can add the `checkout_id={CHECKOUT_ID}` query parameter to retrieve the checkout session id. */
   success_url?: string | null;
   /** When set, a back button will be shown in the checkout to return to this URL. */
@@ -2473,6 +2387,7 @@ export const CheckoutLinkCreateProductPrice = /*@__PURE__*/ S.suspend(() =>
     require_billing_address: S.optional(S.Boolean),
     discount_id: S.optional(S.NullOr(S.String)),
     seats: S.optional(S.NullOr(S.Number)),
+    units: S.optional(S.NullOr(S.Number)),
     success_url: S.optional(S.NullOr(S.String)),
     return_url: S.optional(S.NullOr(S.String)),
     product_price_id: S.String,
@@ -2514,6 +2429,8 @@ export interface CheckoutLinkCreateProduct {
   discount_id?: string | null;
   /** Preconfigured number of seats for seat-based pricing. When set, checkout sessions created from this link are locked to this number of seats and the customer won't be able to change it. All products on the link must use seat-based pricing and allow this number of seats. If the products no longer accommodate this value when the link is opened, it'll be ignored. */
   seats?: number | null;
+  /** Preconfigured number of units for unit-based pricing. When set, checkout sessions created from this link are locked to this number of units and the customer won't be able to change it. All products on the link must use unit-based pricing and allow this number of units. If the products no longer accommodate this value when the link is opened, it'll be ignored. */
+  units?: number | null;
   /** URL where the customer will be redirected after a successful payment.You can add the `checkout_id={CHECKOUT_ID}` query parameter to retrieve the checkout session id. */
   success_url?: string | null;
   /** When set, a back button will be shown in the checkout to return to this URL. */
@@ -2531,6 +2448,7 @@ export const CheckoutLinkCreateProduct = /*@__PURE__*/ S.suspend(() =>
     require_billing_address: S.optional(S.Boolean),
     discount_id: S.optional(S.NullOr(S.String)),
     seats: S.optional(S.NullOr(S.Number)),
+    units: S.optional(S.NullOr(S.Number)),
     success_url: S.optional(S.NullOr(S.String)),
     return_url: S.optional(S.NullOr(S.String)),
     product_id: S.String,
@@ -2578,6 +2496,8 @@ export interface CheckoutLinkCreateProducts {
   discount_id?: string | null;
   /** Preconfigured number of seats for seat-based pricing. When set, checkout sessions created from this link are locked to this number of seats and the customer won't be able to change it. All products on the link must use seat-based pricing and allow this number of seats. If the products no longer accommodate this value when the link is opened, it'll be ignored. */
   seats?: number | null;
+  /** Preconfigured number of units for unit-based pricing. When set, checkout sessions created from this link are locked to this number of units and the customer won't be able to change it. All products on the link must use unit-based pricing and allow this number of units. If the products no longer accommodate this value when the link is opened, it'll be ignored. */
+  units?: number | null;
   /** URL where the customer will be redirected after a successful payment.You can add the `checkout_id={CHECKOUT_ID}` query parameter to retrieve the checkout session id. */
   success_url?: string | null;
   /** When set, a back button will be shown in the checkout to return to this URL. */
@@ -2596,6 +2516,7 @@ export const CheckoutLinkCreateProducts = /*@__PURE__*/ S.suspend(() =>
     require_billing_address: S.optional(S.Boolean),
     discount_id: S.optional(S.NullOr(S.String)),
     seats: S.optional(S.NullOr(S.Number)),
+    units: S.optional(S.NullOr(S.Number)),
     success_url: S.optional(S.NullOr(S.String)),
     return_url: S.optional(S.NullOr(S.String)),
     products: CheckoutLinkCreateProductsProductsList,
@@ -2777,9 +2698,7 @@ export const ProductPriceFixed = /*@__PURE__*/ S.suspend(() =>
     product_id: S.String,
     price_amount: S.Number,
   }),
-).annotate({
-  identifier: "ProductPriceFixed",
-}) as any as S.Schema<ProductPriceFixed>;
+).annotate({ identifier: "ProductPriceFixed" }) as any as S.Schema<ProductPriceFixed>;
 
 /** A pay-what-you-want price for a product. */
 export interface ProductPriceCustom {
@@ -2822,59 +2741,37 @@ export const ProductPriceCustom = /*@__PURE__*/ S.suspend(() =>
     maximum_amount: S.NullOr(S.Number),
     preset_amount: S.NullOr(S.Number),
   }),
-).annotate({
-  identifier: "ProductPriceCustom",
-}) as any as S.Schema<ProductPriceCustom>;
+).annotate({ identifier: "ProductPriceCustom" }) as any as S.Schema<ProductPriceCustom>;
 
-export type SeatTierType = "volume" | "graduated";
-export const SeatTierType = S.String;
+export type TierType = "volume" | "graduated";
+export const TierType = S.String;
 
-/** A pricing tier for seat-based pricing. */
-export interface ProductPriceSeatTier {
-  /** Minimum number of seats (inclusive) */
-  min_seats: number;
-  /** Maximum number of seats (inclusive). None for unlimited. */
-  max_seats?: number | null;
-  /** Price per seat in cents for this tier */
-  price_per_seat: number;
+/** A per-unit rate up to and including `bound`. Each tier starts where the previous one ended. The first starts at zero. `bound` is None on the last tier if it's unbounded. Rates are in cents and may be fractional. Rates carry no precision bound: this schema reads stored rows, and a bound tightened later would stop them loading. `TierInput` holds the rules new rates must meet. */
+export interface Tier {
+  bound?: number | null;
+  unit_amount: string;
 }
-export const ProductPriceSeatTier = /*@__PURE__*/ S.suspend(() =>
+export const Tier = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    min_seats: S.Number,
-    max_seats: S.optional(S.NullOr(S.Number)),
-    price_per_seat: S.Number,
+    bound: S.optional(S.NullOr(S.Number)),
+    unit_amount: S.String,
   }),
-).annotate({
-  identifier: "ProductPriceSeatTier",
-}) as any as S.Schema<ProductPriceSeatTier>;
+).annotate({ identifier: "Tier" }) as any as S.Schema<Tier>;
 
-/** List of pricing tiers */
-export type ProductPriceSeatTiersOutputTiersList = Array<ProductPriceSeatTier>;
-export const ProductPriceSeatTiersOutputTiersList = /*@__PURE__*/ S.Array(
-  ProductPriceSeatTier,
-) as any as S.Schema<ProductPriceSeatTiersOutputTiersList>;
+export type TiersTiersList = Array<Tier>;
+export const TiersTiersList = /*@__PURE__*/ S.Array(Tier) as any as S.Schema<TiersTiersList>;
 
-/** List of pricing tiers for seat-based pricing. The minimum and maximum seat limits are derived from the tiers: - minimum_seats = first tier's min_seats - maximum_seats = last tier's max_seats (None for unlimited) */
-export interface ProductPriceSeatTiersOutput {
-  /** How tiers are applied. 'volume' prices all seats at the matching tier's rate. 'graduated' prices each tier's range independently. */
-  seat_tier_type?: SeatTierType;
-  /** List of pricing tiers */
-  tiers: ProductPriceSeatTiersOutputTiersList;
-  /** Minimum number of seats required for purchase, derived from first tier. */
-  minimum_seats: number;
-  /** Maximum number of seats allowed for purchase, derived from last tier. None for unlimited. */
-  maximum_seats: number | null;
+/** The structure of the shared tiers JSONB column, used by every tiered price type. Purchasable quantity bounds live in the `minimum_units` and `maximum_units` columns, not here. */
+export interface Tiers {
+  type: TierType;
+  tiers: TiersTiersList;
 }
-export const ProductPriceSeatTiersOutput = /*@__PURE__*/ S.suspend(() =>
+export const Tiers = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    seat_tier_type: S.optional(SeatTierType),
-    tiers: ProductPriceSeatTiersOutputTiersList,
-    minimum_seats: S.Number,
-    maximum_seats: S.NullOr(S.Number),
+    type: TierType,
+    tiers: TiersTiersList,
   }),
-).annotate({
-  identifier: "ProductPriceSeatTiersOutput",
-}) as any as S.Schema<ProductPriceSeatTiersOutput>;
+).annotate({ identifier: "Tiers" }) as any as S.Schema<Tiers>;
 
 /** A seat-based price for a product. */
 export interface ProductPriceSeatBased {
@@ -2895,8 +2792,12 @@ export interface ProductPriceSeatBased {
   is_archived: boolean;
   /** The ID of the product owning the price. */
   product_id: string;
-  /** Tiered pricing based on seat quantity */
-  seat_tiers: ProductPriceSeatTiersOutput;
+  /** Tiered pricing based on the purchased seat quantity. */
+  tiers: Tiers;
+  /** The minimum purchasable seat quantity (inclusive). */
+  minimum_units: number | null;
+  /** The maximum purchasable seat quantity, from the last tier's bound. `null` for unlimited. */
+  maximum_units: number | null;
 }
 export const ProductPriceSeatBased = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2909,11 +2810,71 @@ export const ProductPriceSeatBased = /*@__PURE__*/ S.suspend(() =>
     tax_behavior: S.NullOr(TaxBehaviorOption),
     is_archived: S.Boolean,
     product_id: S.String,
-    seat_tiers: ProductPriceSeatTiersOutput,
+    tiers: Tiers,
+    minimum_units: S.NullOr(S.Number),
+    maximum_units: S.NullOr(S.Number),
   }),
-).annotate({
-  identifier: "ProductPriceSeatBased",
-}) as any as S.Schema<ProductPriceSeatBased>;
+).annotate({ identifier: "ProductPriceSeatBased" }) as any as S.Schema<ProductPriceSeatBased>;
+
+export type ProductPriceUnitBasedUnitLabelValueMap = { [key: string]: string | undefined };
+export const ProductPriceUnitBasedUnitLabelValueMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.String,
+) as any as S.Schema<ProductPriceUnitBasedUnitLabelValueMap>;
+
+export type ProductPriceUnitBasedUnitLabelMap = {
+  [key: string]: ProductPriceUnitBasedUnitLabelValueMap | undefined;
+};
+export const ProductPriceUnitBasedUnitLabelMap = /*@__PURE__*/ S.Record(
+  S.String,
+  ProductPriceUnitBasedUnitLabelValueMap,
+) as any as S.Schema<ProductPriceUnitBasedUnitLabelMap>;
+
+/** A unit-based price for a product: the buyer picks a quantity of units, pays for it up-front. On subscriptions, quantity changes are prorated. */
+export interface ProductPriceUnitBased {
+  /** Creation timestamp of the object. */
+  created_at: string;
+  /** Last modification timestamp of the object. */
+  modified_at: string | null;
+  /** The ID of the price. */
+  id: string;
+  /** The source of the price . `catalog` is a predefined price, while `ad_hoc` is a price created dynamically on a Checkout session. */
+  source: ProductPriceSource;
+  amount_type: string;
+  /** The currency in which the customer will be charged. */
+  price_currency: string;
+  /** The tax behavior of the price. If null, it defaults to the organization's default tax behavior. */
+  tax_behavior: TaxBehaviorOption | null;
+  /** Whether the price is archived and no longer available. */
+  is_archived: boolean;
+  /** The ID of the product owning the price. */
+  product_id: string;
+  /** Tiered pricing based on the purchased unit quantity. */
+  tiers: Tiers;
+  /** The minimum purchasable quantity (inclusive). */
+  minimum_units: number | null;
+  /** Per-locale unit nouns shown at checkout and on invoices. `null` defaults to "unit"/"units". */
+  unit_label: ProductPriceUnitBasedUnitLabelMap | null;
+  /** The maximum purchasable quantity, from the last tier's bound. `null` for unlimited. */
+  maximum_units: number | null;
+}
+export const ProductPriceUnitBased = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    created_at: S.String,
+    modified_at: S.NullOr(S.String),
+    id: S.String,
+    source: ProductPriceSource,
+    amount_type: S.String,
+    price_currency: S.String,
+    tax_behavior: S.NullOr(TaxBehaviorOption),
+    is_archived: S.Boolean,
+    product_id: S.String,
+    tiers: Tiers,
+    minimum_units: S.NullOr(S.Number),
+    unit_label: S.NullOr(ProductPriceUnitBasedUnitLabelMap),
+    maximum_units: S.NullOr(S.Number),
+  }),
+).annotate({ identifier: "ProductPriceUnitBased" }) as any as S.Schema<ProductPriceUnitBased>;
 
 export type MeterUnit = "scalar" | "token" | "custom";
 export const MeterUnit = S.String;
@@ -2939,9 +2900,7 @@ export const ProductPriceMeter = /*@__PURE__*/ S.suspend(() =>
     custom_label: S.NullOr(S.String),
     custom_multiplier: S.NullOr(S.Number),
   }),
-).annotate({
-  identifier: "ProductPriceMeter",
-}) as any as S.Schema<ProductPriceMeter>;
+).annotate({ identifier: "ProductPriceMeter" }) as any as S.Schema<ProductPriceMeter>;
 
 /** A metered, usage-based, price for a product, with a fixed unit price. */
 export interface ProductPriceMeteredUnit {
@@ -2962,14 +2921,14 @@ export interface ProductPriceMeteredUnit {
   is_archived: boolean;
   /** The ID of the product owning the price. */
   product_id: string;
-  /** The price per unit in cents. */
-  unit_amount: string;
   /** The maximum amount in cents that can be charged, regardless of the number of units consumed. */
   cap_amount: number | null;
   /** The ID of the meter associated to the price. */
   meter_id: string;
   /** The meter associated to the price. */
   meter: ProductPriceMeter;
+  /** The price per unit in cents. */
+  unit_amount: string;
 }
 export const ProductPriceMeteredUnit = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2982,20 +2941,66 @@ export const ProductPriceMeteredUnit = /*@__PURE__*/ S.suspend(() =>
     tax_behavior: S.NullOr(TaxBehaviorOption),
     is_archived: S.Boolean,
     product_id: S.String,
-    unit_amount: S.String,
     cap_amount: S.NullOr(S.Number),
     meter_id: S.String,
     meter: ProductPriceMeter,
+    unit_amount: S.String,
   }),
-).annotate({
-  identifier: "ProductPriceMeteredUnit",
-}) as any as S.Schema<ProductPriceMeteredUnit>;
+).annotate({ identifier: "ProductPriceMeteredUnit" }) as any as S.Schema<ProductPriceMeteredUnit>;
+
+/** A metered, usage-based, price for a product, billed from tiers. */
+export interface ProductPriceMeteredTiers {
+  /** Creation timestamp of the object. */
+  created_at: string;
+  /** Last modification timestamp of the object. */
+  modified_at: string | null;
+  /** The ID of the price. */
+  id: string;
+  /** The source of the price . `catalog` is a predefined price, while `ad_hoc` is a price created dynamically on a Checkout session. */
+  source: ProductPriceSource;
+  amount_type: string;
+  /** The currency in which the customer will be charged. */
+  price_currency: string;
+  /** The tax behavior of the price. If null, it defaults to the organization's default tax behavior. */
+  tax_behavior: TaxBehaviorOption | null;
+  /** Whether the price is archived and no longer available. */
+  is_archived: boolean;
+  /** The ID of the product owning the price. */
+  product_id: string;
+  /** The maximum amount in cents that can be charged, regardless of the number of units consumed. */
+  cap_amount: number | null;
+  /** The ID of the meter associated to the price. */
+  meter_id: string;
+  /** The meter associated to the price. */
+  meter: ProductPriceMeter;
+  /** The pricing tiers based on consumed units. */
+  tiers: Tiers;
+}
+export const ProductPriceMeteredTiers = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    created_at: S.String,
+    modified_at: S.NullOr(S.String),
+    id: S.String,
+    source: ProductPriceSource,
+    amount_type: S.String,
+    price_currency: S.String,
+    tax_behavior: S.NullOr(TaxBehaviorOption),
+    is_archived: S.Boolean,
+    product_id: S.String,
+    cap_amount: S.NullOr(S.Number),
+    meter_id: S.String,
+    meter: ProductPriceMeter,
+    tiers: Tiers,
+  }),
+).annotate({ identifier: "ProductPriceMeteredTiers" }) as any as S.Schema<ProductPriceMeteredTiers>;
 
 export type ProductPrice =
   | ProductPriceFixed
   | ProductPriceCustom
   | ProductPriceSeatBased
-  | ProductPriceMeteredUnit;
+  | ProductPriceUnitBased
+  | ProductPriceMeteredUnit
+  | ProductPriceMeteredTiers;
 export const ProductPrice = S.Unknown as any as S.Schema<ProductPrice>;
 
 export type CheckoutLinkProductPricesItem = LegacyRecurringProductPrice | ProductPrice;
@@ -3008,15 +3013,14 @@ export const CheckoutLinkProductPricesList = /*@__PURE__*/ S.Array(
   CheckoutLinkProductPricesItem,
 ) as any as S.Schema<CheckoutLinkProductPricesList>;
 
-export interface BenefitPublic {
+export interface BenefitCustomPublic {
   /** The ID of the benefit. */
   id: string;
   /** Creation timestamp of the object. */
   created_at: string;
   /** Last modification timestamp of the object. */
   modified_at: string | null;
-  /** The type of the benefit. */
-  type: BenefitType;
+  type: string;
   /** The description of the benefit. */
   description: string;
   /** Whether the benefit is selectable when creating a product. */
@@ -3028,19 +3032,98 @@ export interface BenefitPublic {
   /** The ID of the organization owning the benefit. */
   organization_id: string;
 }
-export const BenefitPublic = /*@__PURE__*/ S.suspend(() =>
+export const BenefitCustomPublic = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String,
     created_at: S.String,
     modified_at: S.NullOr(S.String),
-    type: BenefitType,
+    type: S.String,
     description: S.String,
     selectable: S.Boolean,
     deletable: S.Boolean,
     is_deleted: S.Boolean,
     organization_id: S.String,
   }),
-).annotate({ identifier: "BenefitPublic" }) as any as S.Schema<BenefitPublic>;
+).annotate({ identifier: "BenefitCustomPublic" }) as any as S.Schema<BenefitCustomPublic>;
+
+export type BenefitDiscordPublic = BenefitCustomPublic;
+export const BenefitDiscordPublic = BenefitCustomPublic;
+
+export type BenefitGitHubRepositoryPublic = BenefitCustomPublic;
+export const BenefitGitHubRepositoryPublic = BenefitCustomPublic;
+
+export type BenefitDownloadablesPublic = BenefitCustomPublic;
+export const BenefitDownloadablesPublic = BenefitCustomPublic;
+
+export type BenefitLicenseKeysPublic = BenefitCustomPublic;
+export const BenefitLicenseKeysPublic = BenefitCustomPublic;
+
+export type BenefitFeatureFlagPublic = BenefitCustomPublic;
+export const BenefitFeatureFlagPublic = BenefitCustomPublic;
+
+export type BenefitSlackSharedChannelPublic = BenefitCustomPublic;
+export const BenefitSlackSharedChannelPublic = BenefitCustomPublic;
+
+/** Properties for a benefit of type `meter_credit`. */
+export interface BenefitMeterCreditPublicProperties {
+  units: number;
+  meter_id: string;
+}
+export const BenefitMeterCreditPublicProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    units: S.Number,
+    meter_id: S.String,
+  }),
+).annotate({
+  identifier: "BenefitMeterCreditPublicProperties",
+}) as any as S.Schema<BenefitMeterCreditPublicProperties>;
+
+/** A benefit of type `meter_credit`. Grants a number of units on a specific meter. */
+export interface BenefitMeterCreditPublic {
+  /** The ID of the benefit. */
+  id: string;
+  /** Creation timestamp of the object. */
+  created_at: string;
+  /** Last modification timestamp of the object. */
+  modified_at: string | null;
+  type: string;
+  /** The description of the benefit. */
+  description: string;
+  /** Whether the benefit is selectable when creating a product. */
+  selectable: boolean;
+  /** Whether the benefit is deletable. */
+  deletable: boolean;
+  /** Whether the benefit is deleted. */
+  is_deleted: boolean;
+  /** The ID of the organization owning the benefit. */
+  organization_id: string;
+  properties: BenefitMeterCreditPublicProperties;
+}
+export const BenefitMeterCreditPublic = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    created_at: S.String,
+    modified_at: S.NullOr(S.String),
+    type: S.String,
+    description: S.String,
+    selectable: S.Boolean,
+    deletable: S.Boolean,
+    is_deleted: S.Boolean,
+    organization_id: S.String,
+    properties: BenefitMeterCreditPublicProperties,
+  }),
+).annotate({ identifier: "BenefitMeterCreditPublic" }) as any as S.Schema<BenefitMeterCreditPublic>;
+
+export type BenefitPublic =
+  | BenefitCustomPublic
+  | BenefitCustomPublic
+  | BenefitCustomPublic
+  | BenefitCustomPublic
+  | BenefitCustomPublic
+  | BenefitCustomPublic
+  | BenefitCustomPublic
+  | BenefitMeterCreditPublic;
+export const BenefitPublic = S.Unknown as any as S.Schema<BenefitPublic>;
 
 /** List of benefits granted by the product. */
 export type CheckoutLinkProductBenefitsList = Array<BenefitPublic>;
@@ -3089,9 +3172,7 @@ export const ProductMediaFileRead = /*@__PURE__*/ S.suspend(() =>
     size_readable: S.String,
     public_url: S.String,
   }),
-).annotate({
-  identifier: "ProductMediaFileRead",
-}) as any as S.Schema<ProductMediaFileRead>;
+).annotate({ identifier: "ProductMediaFileRead" }) as any as S.Schema<ProductMediaFileRead>;
 
 /** List of medias associated to the product. */
 export type CheckoutLinkProductMediasList = Array<ProductMediaFileRead>;
@@ -3161,9 +3242,7 @@ export const CheckoutLinkProduct = /*@__PURE__*/ S.suspend(() =>
     benefits: CheckoutLinkProductBenefitsList,
     medias: CheckoutLinkProductMediasList,
   }),
-).annotate({
-  identifier: "CheckoutLinkProduct",
-}) as any as S.Schema<CheckoutLinkProduct>;
+).annotate({ identifier: "CheckoutLinkProduct" }) as any as S.Schema<CheckoutLinkProduct>;
 
 export type CheckoutLinkProductsList = Array<CheckoutLinkProduct>;
 export const CheckoutLinkProductsList = /*@__PURE__*/ S.Array(
@@ -3177,9 +3256,7 @@ export type DiscountType = "fixed" | "percentage";
 export const DiscountType = S.String;
 
 /** Map of currency to fixed amount to discount from the total. */
-export type DiscountFixedOnceForeverDurationBaseAmountsMap = {
-  [key: string]: number | undefined;
-};
+export type DiscountFixedOnceForeverDurationBaseAmountsMap = { [key: string]: number | undefined };
 export const DiscountFixedOnceForeverDurationBaseAmountsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Number,
@@ -3241,9 +3318,7 @@ export const DiscountFixedOnceForeverDurationBase = /*@__PURE__*/ S.suspend(() =
 }) as any as S.Schema<DiscountFixedOnceForeverDurationBase>;
 
 /** Map of currency to fixed amount to discount from the total. */
-export type DiscountFixedRepeatDurationBaseAmountsMap = {
-  [key: string]: number | undefined;
-};
+export type DiscountFixedRepeatDurationBaseAmountsMap = { [key: string]: number | undefined };
 export const DiscountFixedRepeatDurationBaseAmountsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Number,
@@ -3448,6 +3523,8 @@ export interface CheckoutLink {
   discount_id: string | null;
   /** Preconfigured number of seats for seat-based pricing. When set, checkout sessions created from this link are locked to this number of seats and the customer won't be able to change it. All products on the link must use seat-based pricing and allow this number of seats. If the products no longer accommodate this value when the link is opened, it'll be ignored. */
   seats: number | null;
+  /** Preconfigured number of units for unit-based pricing. When set, checkout sessions created from this link are locked to this number of units and the customer won't be able to change it. All products on the link must use unit-based pricing and allow this number of units. If the products no longer accommodate this value when the link is opened, it'll be ignored. */
+  units: number | null;
   /** The organization ID. */
   organization_id: string;
   products: CheckoutLinkProductsList;
@@ -3471,6 +3548,7 @@ export const CheckoutLink = /*@__PURE__*/ S.suspend(() =>
     require_billing_address: S.Boolean,
     discount_id: S.NullOr(S.String),
     seats: S.NullOr(S.Number),
+    units: S.NullOr(S.Number),
     organization_id: S.String,
     products: CheckoutLinkProductsList,
     discount: S.NullOr(CheckoutLinkDiscount),
@@ -3503,9 +3581,7 @@ export const CheckoutLinksGetRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/v1/checkout-links/{id}", code: 200 })),
-).annotate({
-  identifier: "CheckoutLinksGetRequest",
-}) as any as S.Schema<CheckoutLinksGetRequest>;
+).annotate({ identifier: "CheckoutLinksGetRequest" }) as any as S.Schema<CheckoutLinksGetRequest>;
 
 export type CheckoutLinksListRequestOrganizationIdCase1List = Array<string>;
 export const CheckoutLinksListRequestOrganizationIdCase1List = /*@__PURE__*/ S.Array(
@@ -3565,9 +3641,7 @@ export const CheckoutLinksListRequest = /*@__PURE__*/ S.suspend(() =>
     limit: S.optional(S.Number.pipe(T.Query())),
     sorting: S.optional(CheckoutLinksListRequestSortingList.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/v1/checkout-links/", code: 200 })),
-).annotate({
-  identifier: "CheckoutLinksListRequest",
-}) as any as S.Schema<CheckoutLinksListRequest>;
+).annotate({ identifier: "CheckoutLinksListRequest" }) as any as S.Schema<CheckoutLinksListRequest>;
 
 export type ListResourceCheckoutLinkItemsList = Array<CheckoutLink>;
 export const ListResourceCheckoutLinkItemsList = /*@__PURE__*/ S.Array(
@@ -3583,9 +3657,7 @@ export const ListResourceCheckoutLink = /*@__PURE__*/ S.suspend(() =>
     items: ListResourceCheckoutLinkItemsList,
     pagination: Pagination,
   }),
-).annotate({
-  identifier: "ListResourceCheckoutLink",
-}) as any as S.Schema<ListResourceCheckoutLink>;
+).annotate({ identifier: "ListResourceCheckoutLink" }) as any as S.Schema<ListResourceCheckoutLink>;
 
 export type CheckoutLinksUpdateRequestMetadataValue = string | number | number | boolean;
 export const CheckoutLinksUpdateRequestMetadataValue =
@@ -3625,6 +3697,8 @@ export interface CheckoutLinksUpdateRequest {
   discount_id?: string | null;
   /** Preconfigured number of seats for seat-based pricing. When set, checkout sessions created from this link are locked to this number of seats and the customer won't be able to change it. All products on the link must use seat-based pricing and allow this number of seats. If the products no longer accommodate this value when the link is opened, it'll be ignored. */
   seats?: number | null;
+  /** Preconfigured number of units for unit-based pricing. When set, checkout sessions created from this link are locked to this number of units and the customer won't be able to change it. All products on the link must use unit-based pricing and allow this number of units. If the products no longer accommodate this value when the link is opened, it'll be ignored. */
+  units?: number | null;
   /** URL where the customer will be redirected after a successful payment.You can add the `checkout_id={CHECKOUT_ID}` query parameter to retrieve the checkout session id. */
   success_url?: string | null;
   /** When set, a back button will be shown in the checkout to return to this URL. */
@@ -3642,6 +3716,7 @@ export const CheckoutLinksUpdateRequest = /*@__PURE__*/ S.suspend(() =>
     require_billing_address: S.optional(S.NullOr(S.Boolean)),
     discount_id: S.optional(S.NullOr(S.String)),
     seats: S.optional(S.NullOr(S.Number)),
+    units: S.optional(S.NullOr(S.Number)),
     success_url: S.optional(S.NullOr(S.String)),
     return_url: S.optional(S.NullOr(S.String)),
   }).pipe(T.Http({ method: "PATCH", uri: "/v1/checkout-links/{id}", code: 200 })),
@@ -3668,11 +3743,11 @@ export const CheckoutsCreateRequestCustomFieldDataValue =
 
 /** Key-value object storing custom field values. */
 export type CheckoutsCreateRequestCustomFieldDataMap = {
-  [key: string]: CheckoutsCreateRequestCustomFieldDataValue | undefined;
+  [key: string]: CheckoutsCreateRequestCustomFieldDataValue | null | undefined;
 };
 export const CheckoutsCreateRequestCustomFieldDataMap = /*@__PURE__*/ S.Record(
   S.String,
-  CheckoutsCreateRequestCustomFieldDataValue,
+  S.NullOr(CheckoutsCreateRequestCustomFieldDataValue),
 ) as any as S.Schema<CheckoutsCreateRequestCustomFieldDataMap>;
 
 export type AddressInputCountry =
@@ -4106,9 +4181,7 @@ export const ProductPriceFixedCreate = /*@__PURE__*/ S.suspend(() =>
     tax_behavior: S.optional(S.NullOr(TaxBehaviorOption)),
     price_amount: S.Number,
   }),
-).annotate({
-  identifier: "ProductPriceFixedCreate",
-}) as any as S.Schema<ProductPriceFixedCreate>;
+).annotate({ identifier: "ProductPriceFixedCreate" }) as any as S.Schema<ProductPriceFixedCreate>;
 
 /** Schema to create a pay-what-you-want price. */
 export interface ProductPriceCustomCreate {
@@ -4133,31 +4206,39 @@ export const ProductPriceCustomCreate = /*@__PURE__*/ S.suspend(() =>
     maximum_amount: S.optional(S.NullOr(S.Number)),
     preset_amount: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "ProductPriceCustomCreate",
-}) as any as S.Schema<ProductPriceCustomCreate>;
+).annotate({ identifier: "ProductPriceCustomCreate" }) as any as S.Schema<ProductPriceCustomCreate>;
 
-/** List of pricing tiers */
-export type ProductPriceSeatTiersInputTiersList = Array<ProductPriceSeatTier>;
-export const ProductPriceSeatTiersInputTiersList = /*@__PURE__*/ S.Array(
-  ProductPriceSeatTier,
-) as any as S.Schema<ProductPriceSeatTiersInputTiersList>;
+export type TierInputUnitAmount = number | string;
+export const TierInputUnitAmount = S.Unknown as any as S.Schema<TierInputUnitAmount>;
 
-/** List of pricing tiers for seat-based pricing. The minimum and maximum seat limits are derived from the tiers: - minimum_seats = first tier's min_seats - maximum_seats = last tier's max_seats (None for unlimited) */
-export interface ProductPriceSeatTiersInput {
-  /** How tiers are applied. 'volume' prices all seats at the matching tier's rate. 'graduated' prices each tier's range independently. */
-  seat_tier_type?: SeatTierType | (string & {});
-  /** List of pricing tiers */
-  tiers: ProductPriceSeatTiersInputTiersList;
+/** A tier submitted through the API. Rates stop at the reach of the BigInteger amount columns, with 12 decimal places. */
+export interface TierInput {
+  bound?: number | null;
+  unit_amount: TierInputUnitAmount;
 }
-export const ProductPriceSeatTiersInput = /*@__PURE__*/ S.suspend(() =>
+export const TierInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    seat_tier_type: S.optional(SeatTierType),
-    tiers: ProductPriceSeatTiersInputTiersList,
+    bound: S.optional(S.NullOr(S.Number)),
+    unit_amount: TierInputUnitAmount,
   }),
-).annotate({
-  identifier: "ProductPriceSeatTiersInput",
-}) as any as S.Schema<ProductPriceSeatTiersInput>;
+).annotate({ identifier: "TierInput" }) as any as S.Schema<TierInput>;
+
+export type TiersInputTiersList = Array<TierInput>;
+export const TiersInputTiersList = /*@__PURE__*/ S.Array(
+  TierInput,
+) as any as S.Schema<TiersInputTiersList>;
+
+/** Tiers submitted through the API. Kept apart from `Tiers` so tightening a rule here never stops a stored row from loading. */
+export interface TiersInput {
+  type: TierType | (string & {});
+  tiers: TiersInputTiersList;
+}
+export const TiersInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: TierType,
+    tiers: TiersInputTiersList,
+  }),
+).annotate({ identifier: "TiersInput" }) as any as S.Schema<TiersInput>;
 
 /** Schema to create a seat-based price with volume-based tiers. */
 export interface ProductPriceSeatBasedCreate {
@@ -4166,19 +4247,63 @@ export interface ProductPriceSeatBasedCreate {
   price_currency?: PresentmentCurrency | (string & {});
   /** The tax behavior of the price. If not set, it will default to the organization's default tax behavior. */
   tax_behavior?: TaxBehaviorOption | (string & {}) | null;
-  /** Tiered pricing based on seat quantity */
-  seat_tiers: ProductPriceSeatTiersInput;
+  /** Tiered pricing based on the purchased seat quantity. */
+  tiers: TiersInput;
+  /** The minimum purchasable seat quantity (inclusive). Defaults to 1 when not set. */
+  minimum_units?: number | null;
 }
 export const ProductPriceSeatBasedCreate = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     amount_type: S.String,
     price_currency: S.optional(PresentmentCurrency),
     tax_behavior: S.optional(S.NullOr(TaxBehaviorOption)),
-    seat_tiers: ProductPriceSeatTiersInput,
+    tiers: TiersInput,
+    minimum_units: S.optional(S.NullOr(S.Number)),
   }),
 ).annotate({
   identifier: "ProductPriceSeatBasedCreate",
 }) as any as S.Schema<ProductPriceSeatBasedCreate>;
+
+export type ProductPriceUnitBasedCreateUnitLabelValueMap = { [key: string]: string | undefined };
+export const ProductPriceUnitBasedCreateUnitLabelValueMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.String,
+) as any as S.Schema<ProductPriceUnitBasedCreateUnitLabelValueMap>;
+
+export type ProductPriceUnitBasedCreateUnitLabelMap = {
+  [key: string]: ProductPriceUnitBasedCreateUnitLabelValueMap | undefined;
+};
+export const ProductPriceUnitBasedCreateUnitLabelMap = /*@__PURE__*/ S.Record(
+  S.String,
+  ProductPriceUnitBasedCreateUnitLabelValueMap,
+) as any as S.Schema<ProductPriceUnitBasedCreateUnitLabelMap>;
+
+/** Schema to create a unit-based price: the buyer picks a quantity of units, pays for it up-front. On subscriptions, quantity changes are prorated. */
+export interface ProductPriceUnitBasedCreate {
+  amount_type: string;
+  /** The currency in which the customer will be charged. */
+  price_currency?: PresentmentCurrency | (string & {});
+  /** The tax behavior of the price. If not set, it will default to the organization's default tax behavior. */
+  tax_behavior?: TaxBehaviorOption | (string & {}) | null;
+  /** Tiered pricing based on the purchased unit quantity. */
+  tiers: TiersInput;
+  /** The minimum purchasable quantity (inclusive). Defaults to 1 when not set. */
+  minimum_units?: number | null;
+  /** Per-locale unit nouns shown at checkout and on invoices. `{"en": {"=1": "device", "other": "devices"}}`. Defaults to "unit"/"units" when unset. */
+  unit_label?: ProductPriceUnitBasedCreateUnitLabelMap | null;
+}
+export const ProductPriceUnitBasedCreate = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    amount_type: S.String,
+    price_currency: S.optional(PresentmentCurrency),
+    tax_behavior: S.optional(S.NullOr(TaxBehaviorOption)),
+    tiers: TiersInput,
+    minimum_units: S.optional(S.NullOr(S.Number)),
+    unit_label: S.optional(S.NullOr(ProductPriceUnitBasedCreateUnitLabelMap)),
+  }),
+).annotate({
+  identifier: "ProductPriceUnitBasedCreate",
+}) as any as S.Schema<ProductPriceUnitBasedCreate>;
 
 /** The price per unit in cents. Supports up to 12 decimal places. */
 export type ProductPriceMeteredUnitCreateUnitAmount = number | string;
@@ -4212,11 +4337,40 @@ export const ProductPriceMeteredUnitCreate = /*@__PURE__*/ S.suspend(() =>
   identifier: "ProductPriceMeteredUnitCreate",
 }) as any as S.Schema<ProductPriceMeteredUnitCreate>;
 
+/** Schema to create a metered price billed from tiers on consumed units. */
+export interface ProductPriceMeteredTiersCreate {
+  amount_type: string;
+  /** The currency in which the customer will be charged. */
+  price_currency?: PresentmentCurrency | (string & {});
+  /** The tax behavior of the price. If not set, it will default to the organization's default tax behavior. */
+  tax_behavior?: TaxBehaviorOption | (string & {}) | null;
+  /** The ID of the meter associated to the price. */
+  meter_id: string;
+  /** Tiered pricing based on consumed units. */
+  tiers: TiersInput;
+  /** Optional maximum amount in cents that can be charged, regardless of the number of units consumed. */
+  cap_amount?: number | null;
+}
+export const ProductPriceMeteredTiersCreate = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    amount_type: S.String,
+    price_currency: S.optional(PresentmentCurrency),
+    tax_behavior: S.optional(S.NullOr(TaxBehaviorOption)),
+    meter_id: S.String,
+    tiers: TiersInput,
+    cap_amount: S.optional(S.NullOr(S.Number)),
+  }),
+).annotate({
+  identifier: "ProductPriceMeteredTiersCreate",
+}) as any as S.Schema<ProductPriceMeteredTiersCreate>;
+
 export type CheckoutsCreateRequestPricesValueItem =
   | ProductPriceFixedCreate
   | ProductPriceCustomCreate
   | ProductPriceSeatBasedCreate
-  | ProductPriceMeteredUnitCreate;
+  | ProductPriceUnitBasedCreate
+  | ProductPriceMeteredUnitCreate
+  | ProductPriceMeteredTiersCreate;
 export const CheckoutsCreateRequestPricesValueItem =
   S.Unknown as any as S.Schema<CheckoutsCreateRequestPricesValueItem>;
 
@@ -4256,6 +4410,12 @@ export interface CheckoutsCreateRequest {
   min_seats?: number | null;
   /** Maximum number of seats (works with seat-based pricing only) */
   max_seats?: number | null;
+  /** Predefined number of units (works with unit-based pricing only) */
+  units?: number | null;
+  /** Minimum number of units (works with unit-based pricing only) */
+  min_units?: number | null;
+  /** Maximum number of units (works with unit-based pricing only) */
+  max_units?: number | null;
   /** Whether to enable the trial period for the checkout session. If `false`, the trial period will be disabled, even if the selected product has a trial configured. */
   allow_trial?: boolean;
   /** ID of an existing customer in the organization. The customer data will be pre-filled in the checkout form. The resulting order will be linked to this customer. */
@@ -4300,6 +4460,9 @@ export const CheckoutsCreateRequest = /*@__PURE__*/ S.suspend(() =>
     seats: S.optional(S.NullOr(S.Number)),
     min_seats: S.optional(S.NullOr(S.Number)),
     max_seats: S.optional(S.NullOr(S.Number)),
+    units: S.optional(S.NullOr(S.Number)),
+    min_units: S.optional(S.NullOr(S.Number)),
+    max_units: S.optional(S.NullOr(S.Number)),
     allow_trial: S.optional(S.Boolean),
     customer_id: S.optional(S.NullOr(S.String)),
     is_business_customer: S.optional(S.Boolean),
@@ -4320,9 +4483,7 @@ export const CheckoutsCreateRequest = /*@__PURE__*/ S.suspend(() =>
     products: CheckoutsCreateRequestProductsList,
     prices: S.optional(S.NullOr(CheckoutsCreateRequestPricesMap)),
   }).pipe(T.Http({ method: "POST", uri: "/v1/checkouts/", code: 200 })),
-).annotate({
-  identifier: "CheckoutsCreateRequest",
-}) as any as S.Schema<CheckoutsCreateRequest>;
+).annotate({ identifier: "CheckoutsCreateRequest" }) as any as S.Schema<CheckoutsCreateRequest>;
 
 export type CheckoutCustomFieldDataValue = string | number | boolean;
 export const CheckoutCustomFieldDataValue =
@@ -4330,11 +4491,11 @@ export const CheckoutCustomFieldDataValue =
 
 /** Key-value object storing custom field values. */
 export type CheckoutCustomFieldDataMap = {
-  [key: string]: CheckoutCustomFieldDataValue | undefined;
+  [key: string]: CheckoutCustomFieldDataValue | null | undefined;
 };
 export const CheckoutCustomFieldDataMap = /*@__PURE__*/ S.Record(
   S.String,
-  CheckoutCustomFieldDataValue,
+  S.NullOr(CheckoutCustomFieldDataValue),
 ) as any as S.Schema<CheckoutCustomFieldDataMap>;
 
 export type CheckoutStatus = "open" | "expired" | "confirmed" | "succeeded" | "failed";
@@ -4343,9 +4504,7 @@ export const CheckoutStatus = S.String;
 export type TaxBehavior = "inclusive" | "exclusive";
 export const TaxBehavior = S.String;
 
-export type CheckoutPaymentProcessorMetadataMap = {
-  [key: string]: string | undefined;
-};
+export type CheckoutPaymentProcessorMetadataMap = { [key: string]: string | undefined };
 export const CheckoutPaymentProcessorMetadataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -4456,9 +4615,7 @@ export const CheckoutProduct = /*@__PURE__*/ S.suspend(() =>
     benefits: CheckoutProductBenefitsList,
     medias: CheckoutProductMediasList,
   }),
-).annotate({
-  identifier: "CheckoutProduct",
-}) as any as S.Schema<CheckoutProduct>;
+).annotate({ identifier: "CheckoutProduct" }) as any as S.Schema<CheckoutProduct>;
 
 /** List of products available to select. */
 export type CheckoutProductsList = Array<CheckoutProduct>;
@@ -4478,9 +4635,7 @@ export const CheckoutPricesValueList = /*@__PURE__*/ S.Array(
   CheckoutPricesValueItem,
 ) as any as S.Schema<CheckoutPricesValueList>;
 
-export type CheckoutPricesMap = {
-  [key: string]: CheckoutPricesValueList | undefined;
-};
+export type CheckoutPricesMap = { [key: string]: CheckoutPricesValueList | undefined };
 export const CheckoutPricesMap = /*@__PURE__*/ S.Record(
   S.String,
   CheckoutPricesValueList,
@@ -4524,9 +4679,7 @@ export const CheckoutDiscountFixedOnceForeverDuration = /*@__PURE__*/ S.suspend(
 }) as any as S.Schema<CheckoutDiscountFixedOnceForeverDuration>;
 
 /** Map of currency to fixed amount to discount from the total. */
-export type CheckoutDiscountFixedRepeatDurationAmountsMap = {
-  [key: string]: number | undefined;
-};
+export type CheckoutDiscountFixedRepeatDurationAmountsMap = { [key: string]: number | undefined };
 export const CheckoutDiscountFixedRepeatDurationAmountsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Number,
@@ -4670,9 +4823,7 @@ export const CustomFieldText = /*@__PURE__*/ S.suspend(() =>
     organization_id: S.String,
     properties: CustomFieldTextProperties,
   }),
-).annotate({
-  identifier: "CustomFieldText",
-}) as any as S.Schema<CustomFieldText>;
+).annotate({ identifier: "CustomFieldText" }) as any as S.Schema<CustomFieldText>;
 
 export interface CustomFieldNumberProperties {
   form_label?: string;
@@ -4723,9 +4874,7 @@ export const CustomFieldNumber = /*@__PURE__*/ S.suspend(() =>
     organization_id: S.String,
     properties: CustomFieldNumberProperties,
   }),
-).annotate({
-  identifier: "CustomFieldNumber",
-}) as any as S.Schema<CustomFieldNumber>;
+).annotate({ identifier: "CustomFieldNumber" }) as any as S.Schema<CustomFieldNumber>;
 
 export type CustomFieldDateProperties = CustomFieldNumberProperties;
 export const CustomFieldDateProperties = CustomFieldNumberProperties;
@@ -4779,9 +4928,7 @@ export const CustomFieldCheckbox = /*@__PURE__*/ S.suspend(() =>
     organization_id: S.String,
     properties: CustomFieldCheckboxProperties,
   }),
-).annotate({
-  identifier: "CustomFieldCheckbox",
-}) as any as S.Schema<CustomFieldCheckbox>;
+).annotate({ identifier: "CustomFieldCheckbox" }) as any as S.Schema<CustomFieldCheckbox>;
 
 export interface CustomFieldSelectOption {
   value: string;
@@ -4792,9 +4939,7 @@ export const CustomFieldSelectOption = /*@__PURE__*/ S.suspend(() =>
     value: S.String,
     label: S.String,
   }),
-).annotate({
-  identifier: "CustomFieldSelectOption",
-}) as any as S.Schema<CustomFieldSelectOption>;
+).annotate({ identifier: "CustomFieldSelectOption" }) as any as S.Schema<CustomFieldSelectOption>;
 
 export type CustomFieldSelectPropertiesOptionsList = Array<CustomFieldSelectOption>;
 export const CustomFieldSelectPropertiesOptionsList = /*@__PURE__*/ S.Array(
@@ -4848,9 +4993,7 @@ export const CustomFieldSelect = /*@__PURE__*/ S.suspend(() =>
     organization_id: S.String,
     properties: CustomFieldSelectProperties,
   }),
-).annotate({
-  identifier: "CustomFieldSelect",
-}) as any as S.Schema<CustomFieldSelect>;
+).annotate({ identifier: "CustomFieldSelect" }) as any as S.Schema<CustomFieldSelect>;
 
 export type CustomField =
   | CustomFieldText
@@ -4877,9 +5020,7 @@ export const AttachedCustomField = /*@__PURE__*/ S.suspend(() =>
     order: S.Number,
     required: S.Boolean,
   }),
-).annotate({
-  identifier: "AttachedCustomField",
-}) as any as S.Schema<AttachedCustomField>;
+).annotate({ identifier: "AttachedCustomField" }) as any as S.Schema<AttachedCustomField>;
 
 export type CheckoutAttachedCustomFieldsList = Array<AttachedCustomField>;
 export const CheckoutAttachedCustomFieldsList = /*@__PURE__*/ S.Array(
@@ -4932,6 +5073,12 @@ export interface Checkout {
   min_seats?: number | null;
   /** Maximum number of seats (works with seat-based pricing only) */
   max_seats?: number | null;
+  /** Predefined number of units (works with unit-based pricing only) */
+  units: number | null;
+  /** Minimum number of units (works with unit-based pricing only) */
+  min_units: number | null;
+  /** Maximum number of units (works with unit-based pricing only) */
+  max_units: number | null;
   /** Discount amount in cents. */
   discount_amount: number;
   /** Amount in cents, after discounts but before taxes. */
@@ -5029,6 +5176,9 @@ export const Checkout = /*@__PURE__*/ S.suspend(() =>
     seats: S.optional(S.NullOr(S.Number)),
     min_seats: S.optional(S.NullOr(S.Number)),
     max_seats: S.optional(S.NullOr(S.Number)),
+    units: S.NullOr(S.Number),
+    min_units: S.NullOr(S.Number),
+    max_units: S.NullOr(S.Number),
     discount_amount: S.Number,
     net_amount: S.Number,
     tax_amount: S.NullOr(S.Number),
@@ -5085,9 +5235,7 @@ export const CheckoutsGetRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/v1/checkouts/{id}", code: 200 })),
-).annotate({
-  identifier: "CheckoutsGetRequest",
-}) as any as S.Schema<CheckoutsGetRequest>;
+).annotate({ identifier: "CheckoutsGetRequest" }) as any as S.Schema<CheckoutsGetRequest>;
 
 export type CheckoutsListRequestOrganizationIdCase1List = Array<string>;
 export const CheckoutsListRequestOrganizationIdCase1List = /*@__PURE__*/ S.Array(
@@ -5188,9 +5336,7 @@ export const CheckoutsListRequest = /*@__PURE__*/ S.suspend(() =>
     limit: S.optional(S.Number.pipe(T.Query())),
     sorting: S.optional(CheckoutsListRequestSortingList.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/v1/checkouts/", code: 200 })),
-).annotate({
-  identifier: "CheckoutsListRequest",
-}) as any as S.Schema<CheckoutsListRequest>;
+).annotate({ identifier: "CheckoutsListRequest" }) as any as S.Schema<CheckoutsListRequest>;
 
 export type ListResourceCheckoutItemsList = Array<Checkout>;
 export const ListResourceCheckoutItemsList = /*@__PURE__*/ S.Array(
@@ -5206,9 +5352,7 @@ export const ListResourceCheckout = /*@__PURE__*/ S.suspend(() =>
     items: ListResourceCheckoutItemsList,
     pagination: Pagination,
   }),
-).annotate({
-  identifier: "ListResourceCheckout",
-}) as any as S.Schema<ListResourceCheckout>;
+).annotate({ identifier: "ListResourceCheckout" }) as any as S.Schema<ListResourceCheckout>;
 
 export type CheckoutsUpdateRequestCustomFieldDataValue = string | number | boolean;
 export const CheckoutsUpdateRequestCustomFieldDataValue =
@@ -5216,11 +5360,11 @@ export const CheckoutsUpdateRequestCustomFieldDataValue =
 
 /** Key-value object storing custom field values. */
 export type CheckoutsUpdateRequestCustomFieldDataMap = {
-  [key: string]: CheckoutsUpdateRequestCustomFieldDataValue | undefined;
+  [key: string]: CheckoutsUpdateRequestCustomFieldDataValue | null | undefined;
 };
 export const CheckoutsUpdateRequestCustomFieldDataMap = /*@__PURE__*/ S.Record(
   S.String,
-  CheckoutsUpdateRequestCustomFieldDataValue,
+  S.NullOr(CheckoutsUpdateRequestCustomFieldDataValue),
 ) as any as S.Schema<CheckoutsUpdateRequestCustomFieldDataMap>;
 
 export type CheckoutsUpdateRequestMetadataValue = string | number | number | boolean;
@@ -5261,6 +5405,8 @@ export interface CheckoutsUpdateRequest {
   amount?: number | null;
   /** Number of seats for seat-based pricing. */
   seats?: number | null;
+  /** Number of units for unit-based pricing. */
+  units?: number | null;
   is_business_customer?: boolean | null;
   customer_name?: string | null;
   customer_email?: string | null;
@@ -5301,6 +5447,7 @@ export const CheckoutsUpdateRequest = /*@__PURE__*/ S.suspend(() =>
     product_price_id: S.optional(S.NullOr(S.String)),
     amount: S.optional(S.NullOr(S.Number)),
     seats: S.optional(S.NullOr(S.Number)),
+    units: S.optional(S.NullOr(S.Number)),
     is_business_customer: S.optional(S.NullOr(S.Boolean)),
     customer_name: S.optional(S.NullOr(S.String)),
     customer_email: S.optional(S.NullOr(S.String)),
@@ -5322,9 +5469,7 @@ export const CheckoutsUpdateRequest = /*@__PURE__*/ S.suspend(() =>
     return_url: S.optional(S.NullOr(S.String)),
     embed_origin: S.optional(S.NullOr(S.String)),
   }).pipe(T.Http({ method: "PATCH", uri: "/v1/checkouts/{id}", code: 200 })),
-).annotate({
-  identifier: "CheckoutsUpdateRequest",
-}) as any as S.Schema<CheckoutsUpdateRequest>;
+).annotate({ identifier: "CheckoutsUpdateRequest" }) as any as S.Schema<CheckoutsUpdateRequest>;
 
 export interface ClaimCustomerSeatsGetInfoRequest {
   invitation_token: string;
@@ -5332,13 +5477,7 @@ export interface ClaimCustomerSeatsGetInfoRequest {
 export const ClaimCustomerSeatsGetInfoRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     invitation_token: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/customer-seats/claim/{invitation_token}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/customer-seats/claim/{invitation_token}", code: 200 })),
 ).annotate({
   identifier: "ClaimCustomerSeatsGetInfoRequest",
 }) as any as S.Schema<ClaimCustomerSeatsGetInfoRequest>;
@@ -5375,11 +5514,11 @@ export const ConfirmCheckoutsClientRequestCustomFieldDataValue =
 
 /** Key-value object storing custom field values. */
 export type ConfirmCheckoutsClientRequestCustomFieldDataMap = {
-  [key: string]: ConfirmCheckoutsClientRequestCustomFieldDataValue | undefined;
+  [key: string]: ConfirmCheckoutsClientRequestCustomFieldDataValue | null | undefined;
 };
 export const ConfirmCheckoutsClientRequestCustomFieldDataMap = /*@__PURE__*/ S.Record(
   S.String,
-  ConfirmCheckoutsClientRequestCustomFieldDataValue,
+  S.NullOr(ConfirmCheckoutsClientRequestCustomFieldDataValue),
 ) as any as S.Schema<ConfirmCheckoutsClientRequestCustomFieldDataMap>;
 
 export interface ConfirmCheckoutsClientRequest {
@@ -5394,6 +5533,8 @@ export interface ConfirmCheckoutsClientRequest {
   amount?: number | null;
   /** Number of seats for seat-based pricing. */
   seats?: number | null;
+  /** Number of units for unit-based pricing. */
+  units?: number | null;
   is_business_customer?: boolean | null;
   customer_name?: string | null;
   customer_email?: string | null;
@@ -5418,6 +5559,7 @@ export const ConfirmCheckoutsClientRequest = /*@__PURE__*/ S.suspend(() =>
     product_price_id: S.optional(S.NullOr(S.String)),
     amount: S.optional(S.NullOr(S.Number)),
     seats: S.optional(S.NullOr(S.Number)),
+    units: S.optional(S.NullOr(S.Number)),
     is_business_customer: S.optional(S.NullOr(S.Boolean)),
     customer_name: S.optional(S.NullOr(S.String)),
     customer_email: S.optional(S.NullOr(S.String)),
@@ -5430,11 +5572,7 @@ export const ConfirmCheckoutsClientRequest = /*@__PURE__*/ S.suspend(() =>
     allow_trial: S.optional(S.NullOr(S.Boolean)),
     confirmation_token_id: S.optional(S.NullOr(S.String)),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v1/checkouts/client/{client_secret}/confirm",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/v1/checkouts/client/{client_secret}/confirm", code: 200 }),
   ),
 ).annotate({
   identifier: "ConfirmCheckoutsClientRequest",
@@ -5446,11 +5584,11 @@ export const CheckoutPublicConfirmedCustomFieldDataValue =
 
 /** Key-value object storing custom field values. */
 export type CheckoutPublicConfirmedCustomFieldDataMap = {
-  [key: string]: CheckoutPublicConfirmedCustomFieldDataValue | undefined;
+  [key: string]: CheckoutPublicConfirmedCustomFieldDataValue | null | undefined;
 };
 export const CheckoutPublicConfirmedCustomFieldDataMap = /*@__PURE__*/ S.Record(
   S.String,
-  CheckoutPublicConfirmedCustomFieldDataValue,
+  S.NullOr(CheckoutPublicConfirmedCustomFieldDataValue),
 ) as any as S.Schema<CheckoutPublicConfirmedCustomFieldDataMap>;
 
 export type CheckoutPublicConfirmedPaymentProcessorMetadataMap = {
@@ -5529,9 +5667,7 @@ export const CheckoutOrganization = /*@__PURE__*/ S.suspend(() =>
     proration_behavior: SubscriptionProrationBehavior,
     allow_customer_updates: S.Boolean,
   }),
-).annotate({
-  identifier: "CheckoutOrganization",
-}) as any as S.Schema<CheckoutOrganization>;
+).annotate({ identifier: "CheckoutOrganization" }) as any as S.Schema<CheckoutOrganization>;
 
 export type CheckoutPublicConfirmedAttachedCustomFieldsList = Array<AttachedCustomField>;
 export const CheckoutPublicConfirmedAttachedCustomFieldsList = /*@__PURE__*/ S.Array(
@@ -5571,6 +5707,12 @@ export interface CheckoutPublicConfirmed {
   min_seats?: number | null;
   /** Maximum number of seats (works with seat-based pricing only) */
   max_seats?: number | null;
+  /** Predefined number of units (works with unit-based pricing only) */
+  units: number | null;
+  /** Minimum number of units (works with unit-based pricing only) */
+  min_units: number | null;
+  /** Maximum number of units (works with unit-based pricing only) */
+  max_units: number | null;
   /** Discount amount in cents. */
   discount_amount: number;
   /** Amount in cents, after discounts but before taxes. */
@@ -5661,6 +5803,9 @@ export const CheckoutPublicConfirmed = /*@__PURE__*/ S.suspend(() =>
     seats: S.optional(S.NullOr(S.Number)),
     min_seats: S.optional(S.NullOr(S.Number)),
     max_seats: S.optional(S.NullOr(S.Number)),
+    units: S.NullOr(S.Number),
+    min_units: S.NullOr(S.Number),
+    max_units: S.NullOr(S.Number),
     discount_amount: S.Number,
     net_amount: S.Number,
     tax_amount: S.NullOr(S.Number),
@@ -5703,9 +5848,7 @@ export const CheckoutPublicConfirmed = /*@__PURE__*/ S.suspend(() =>
     attached_custom_fields: S.NullOr(CheckoutPublicConfirmedAttachedCustomFieldsList),
     customer_session_token: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "CheckoutPublicConfirmed",
-}) as any as S.Schema<CheckoutPublicConfirmed>;
+).annotate({ identifier: "CheckoutPublicConfirmed" }) as any as S.Schema<CheckoutPublicConfirmed>;
 
 export interface CustomerMetersGetRequest {
   /** The customer meter ID. */
@@ -5715,9 +5858,7 @@ export const CustomerMetersGetRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/v1/customer-meters/{id}", code: 200 })),
-).annotate({
-  identifier: "CustomerMetersGetRequest",
-}) as any as S.Schema<CustomerMetersGetRequest>;
+).annotate({ identifier: "CustomerMetersGetRequest" }) as any as S.Schema<CustomerMetersGetRequest>;
 
 export type FilterConjunction = "and" | "or";
 export const FilterConjunction = S.String;
@@ -5767,9 +5908,7 @@ export const CountAggregation = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     func: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CountAggregation",
-}) as any as S.Schema<CountAggregation>;
+).annotate({ identifier: "CountAggregation" }) as any as S.Schema<CountAggregation>;
 
 export type PropertyAggregationFunc = "sum" | "max" | "min" | "avg";
 export const PropertyAggregationFunc = S.String;
@@ -5783,9 +5922,7 @@ export const PropertyAggregation = /*@__PURE__*/ S.suspend(() =>
     func: PropertyAggregationFunc,
     property: S.String,
   }),
-).annotate({
-  identifier: "PropertyAggregation",
-}) as any as S.Schema<PropertyAggregation>;
+).annotate({ identifier: "PropertyAggregation" }) as any as S.Schema<PropertyAggregation>;
 
 export interface UniqueAggregation {
   func?: string;
@@ -5796,9 +5933,7 @@ export const UniqueAggregation = /*@__PURE__*/ S.suspend(() =>
     func: S.optional(S.String),
     property: S.String,
   }),
-).annotate({
-  identifier: "UniqueAggregation",
-}) as any as S.Schema<UniqueAggregation>;
+).annotate({ identifier: "UniqueAggregation" }) as any as S.Schema<UniqueAggregation>;
 
 /** The aggregation to apply on the filtered events to calculate the meter. */
 export type MeterAggregation = CountAggregation | PropertyAggregation | UniqueAggregation;
@@ -6011,13 +6146,7 @@ export interface CustomerPortalBenefitGrantsGetRequest {
 export const CustomerPortalBenefitGrantsGetRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/customer-portal/benefit-grants/{id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/customer-portal/benefit-grants/{id}", code: 200 })),
 ).annotate({
   identifier: "CustomerPortalBenefitGrantsGetRequest",
 }) as any as S.Schema<CustomerPortalBenefitGrantsGetRequest>;
@@ -6085,9 +6214,29 @@ export const CustomerPortalCustomer = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.NullOr(CustomerType)),
     locale: S.optional(S.NullOr(S.String)),
   }),
+).annotate({ identifier: "CustomerPortalCustomer" }) as any as S.Schema<CustomerPortalCustomer>;
+
+export type CustomerBenefitGrantMemberOauthAccountsMap = {
+  [key: string]: CustomerPortalOAuthAccount | undefined;
+};
+export const CustomerBenefitGrantMemberOauthAccountsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  CustomerPortalOAuthAccount,
+) as any as S.Schema<CustomerBenefitGrantMemberOauthAccountsMap>;
+
+export interface CustomerBenefitGrantMember {
+  /** The ID of the object. */
+  id: string;
+  oauth_accounts: CustomerBenefitGrantMemberOauthAccountsMap;
+}
+export const CustomerBenefitGrantMember = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    oauth_accounts: CustomerBenefitGrantMemberOauthAccountsMap,
+  }),
 ).annotate({
-  identifier: "CustomerPortalCustomer",
-}) as any as S.Schema<CustomerPortalCustomer>;
+  identifier: "CustomerBenefitGrantMember",
+}) as any as S.Schema<CustomerBenefitGrantMember>;
 
 export type BenefitSubscriberOrganization = CheckoutOrganization;
 export const BenefitSubscriberOrganization = CheckoutOrganization;
@@ -6140,9 +6289,7 @@ export const BenefitDiscordSubscriber = /*@__PURE__*/ S.suspend(() =>
     organization: CheckoutOrganization,
     properties: BenefitDiscordSubscriberProperties,
   }),
-).annotate({
-  identifier: "BenefitDiscordSubscriber",
-}) as any as S.Schema<BenefitDiscordSubscriber>;
+).annotate({ identifier: "BenefitDiscordSubscriber" }) as any as S.Schema<BenefitDiscordSubscriber>;
 
 export interface CustomerBenefitGrantDiscord {
   /** Creation timestamp of the object. */
@@ -6162,6 +6309,7 @@ export interface CustomerBenefitGrantDiscord {
   is_revoked: boolean;
   error?: BenefitGrantError | null;
   customer: CustomerPortalCustomer;
+  member?: CustomerBenefitGrantMember | null;
   benefit: BenefitDiscordSubscriber;
   properties: BenefitGrantDiscordProperties;
 }
@@ -6181,6 +6329,7 @@ export const CustomerBenefitGrantDiscord = /*@__PURE__*/ S.suspend(() =>
     is_revoked: S.Boolean,
     error: S.optional(S.NullOr(BenefitGrantError)),
     customer: CustomerPortalCustomer,
+    member: S.optional(S.NullOr(CustomerBenefitGrantMember)),
     benefit: BenefitDiscordSubscriber,
     properties: BenefitGrantDiscordProperties,
   }),
@@ -6261,6 +6410,7 @@ export interface CustomerBenefitGrantGitHubRepository {
   is_revoked: boolean;
   error?: BenefitGrantError | null;
   customer: CustomerPortalCustomer;
+  member?: CustomerBenefitGrantMember | null;
   benefit: BenefitGitHubRepositorySubscriber;
   properties: BenefitGrantGitHubRepositoryProperties;
 }
@@ -6280,6 +6430,7 @@ export const CustomerBenefitGrantGitHubRepository = /*@__PURE__*/ S.suspend(() =
     is_revoked: S.Boolean,
     error: S.optional(S.NullOr(BenefitGrantError)),
     customer: CustomerPortalCustomer,
+    member: S.optional(S.NullOr(CustomerBenefitGrantMember)),
     benefit: BenefitGitHubRepositorySubscriber,
     properties: BenefitGrantGitHubRepositoryProperties,
   }),
@@ -6511,9 +6662,7 @@ export const BenefitCustomSubscriber = /*@__PURE__*/ S.suspend(() =>
     organization: CheckoutOrganization,
     properties: BenefitCustomProperties,
   }),
-).annotate({
-  identifier: "BenefitCustomSubscriber",
-}) as any as S.Schema<BenefitCustomSubscriber>;
+).annotate({ identifier: "BenefitCustomSubscriber" }) as any as S.Schema<BenefitCustomSubscriber>;
 
 export interface CustomerBenefitGrantCustom {
   /** Creation timestamp of the object. */
@@ -6937,13 +7086,7 @@ export const CustomerPortalBenefitGrantsListRequest = /*@__PURE__*/ S.suspend(()
     page: S.optional(S.Number.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
     sorting: S.optional(CustomerPortalBenefitGrantsListRequestSortingList.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/customer-portal/benefit-grants/",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/customer-portal/benefit-grants/", code: 200 })),
 ).annotate({
   identifier: "CustomerPortalBenefitGrantsListRequest",
 }) as any as S.Schema<CustomerPortalBenefitGrantsListRequest>;
@@ -7065,13 +7208,7 @@ export const CustomerPortalBenefitGrantsUpdateRequest = /*@__PURE__*/ S.suspend(
   S.Struct({
     id: S.String.pipe(T.Label()),
     body: CustomerBenefitGrantUpdate.pipe(T.HttpBody()),
-  }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/v1/customer-portal/benefit-grants/{id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PATCH", uri: "/v1/customer-portal/benefit-grants/{id}", code: 200 })),
 ).annotate({
   identifier: "CustomerPortalBenefitGrantsUpdateRequest",
 }) as any as S.Schema<CustomerPortalBenefitGrantsUpdateRequest>;
@@ -7090,13 +7227,7 @@ export interface CustomerPortalCustomerMetersGetRequest {
 export const CustomerPortalCustomerMetersGetRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/customer-portal/meters/{id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/customer-portal/meters/{id}", code: 200 })),
 ).annotate({
   identifier: "CustomerPortalCustomerMetersGetRequest",
 }) as any as S.Schema<CustomerPortalCustomerMetersGetRequest>;
@@ -7153,9 +7284,7 @@ export const CustomerCustomerMeter = /*@__PURE__*/ S.suspend(() =>
     balance: S.Number,
     meter: CustomerCustomerMeterMeter,
   }),
-).annotate({
-  identifier: "CustomerCustomerMeter",
-}) as any as S.Schema<CustomerCustomerMeter>;
+).annotate({ identifier: "CustomerCustomerMeter" }) as any as S.Schema<CustomerCustomerMeter>;
 
 export type CustomerPortalCustomerMetersListRequestMeterIdCase1List = Array<string>;
 export const CustomerPortalCustomerMetersListRequestMeterIdCase1List = /*@__PURE__*/ S.Array(
@@ -7246,11 +7375,7 @@ export const CustomerPortalCustomersAddPaymentMethodRequest = /*@__PURE__*/ S.su
     set_default: S.Boolean,
     return_url: S.String,
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v1/customer-portal/customers/me/payment-methods",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/v1/customer-portal/customers/me/payment-methods", code: 200 }),
   ),
 ).annotate({
   identifier: "CustomerPortalCustomersAddPaymentMethodRequest",
@@ -7297,9 +7422,44 @@ export const PaymentMethodCard = /*@__PURE__*/ S.suspend(() =>
     type: S.String,
     method_metadata: PaymentMethodCardMetadata,
   }),
+).annotate({ identifier: "PaymentMethodCard" }) as any as S.Schema<PaymentMethodCard>;
+
+export interface PaymentMethodKrCardMetadata {
+  brand: string | null;
+  last4: string | null;
+}
+export const PaymentMethodKrCardMetadata = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    brand: S.NullOr(S.String),
+    last4: S.NullOr(S.String),
+  }),
 ).annotate({
-  identifier: "PaymentMethodCard",
-}) as any as S.Schema<PaymentMethodCard>;
+  identifier: "PaymentMethodKrCardMetadata",
+}) as any as S.Schema<PaymentMethodKrCardMetadata>;
+
+export interface PaymentMethodKrCard {
+  /** The ID of the object. */
+  id: string;
+  /** Creation timestamp of the object. */
+  created_at: string;
+  /** Last modification timestamp of the object. */
+  modified_at: string | null;
+  processor: PaymentProcessor;
+  customer_id: string;
+  type: string;
+  method_metadata: PaymentMethodKrCardMetadata;
+}
+export const PaymentMethodKrCard = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    created_at: S.String,
+    modified_at: S.NullOr(S.String),
+    processor: PaymentProcessor,
+    customer_id: S.String,
+    type: S.String,
+    method_metadata: PaymentMethodKrCardMetadata,
+  }),
+).annotate({ identifier: "PaymentMethodKrCard" }) as any as S.Schema<PaymentMethodKrCard>;
 
 export interface PaymentMethodGeneric {
   /** The ID of the object. */
@@ -7321,11 +7481,9 @@ export const PaymentMethodGeneric = /*@__PURE__*/ S.suspend(() =>
     customer_id: S.String,
     type: S.String,
   }),
-).annotate({
-  identifier: "PaymentMethodGeneric",
-}) as any as S.Schema<PaymentMethodGeneric>;
+).annotate({ identifier: "PaymentMethodGeneric" }) as any as S.Schema<PaymentMethodGeneric>;
 
-export type CustomerPaymentMethod = PaymentMethodCard | PaymentMethodGeneric;
+export type CustomerPaymentMethod = PaymentMethodCard | PaymentMethodKrCard | PaymentMethodGeneric;
 export const CustomerPaymentMethod = S.Unknown as any as S.Schema<CustomerPaymentMethod>;
 
 export interface CustomerPaymentMethodCreateSucceededResponse {
@@ -7422,11 +7580,7 @@ export interface CustomerPortalCustomerSessionGetAuthenticatedUserRequest {}
 export const CustomerPortalCustomerSessionGetAuthenticatedUserRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({}).pipe(
-      T.Http({
-        method: "GET",
-        uri: "/v1/customer-portal/customer-session/user",
-        code: 200,
-      }),
+      T.Http({ method: "GET", uri: "/v1/customer-portal/customer-session/user", code: 200 }),
     ),
 ).annotate({
   identifier: "CustomerPortalCustomerSessionGetAuthenticatedUserRequest",
@@ -7456,18 +7610,12 @@ export const PortalAuthenticatedUser = /*@__PURE__*/ S.suspend(() =>
     member_id: S.optional(S.NullOr(S.String)),
     role: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "PortalAuthenticatedUser",
-}) as any as S.Schema<PortalAuthenticatedUser>;
+).annotate({ identifier: "PortalAuthenticatedUser" }) as any as S.Schema<PortalAuthenticatedUser>;
 
 export interface CustomerPortalCustomerSessionIntrospectRequest {}
 export const CustomerPortalCustomerSessionIntrospectRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/customer-portal/customer-session/introspect",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/v1/customer-portal/customer-session/introspect", code: 200 }),
   ),
 ).annotate({
   identifier: "CustomerPortalCustomerSessionIntrospectRequest",
@@ -7482,19 +7630,11 @@ export const CustomerCustomerSession = /*@__PURE__*/ S.suspend(() =>
     expires_at: S.String,
     return_url: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "CustomerCustomerSession",
-}) as any as S.Schema<CustomerCustomerSession>;
+).annotate({ identifier: "CustomerCustomerSession" }) as any as S.Schema<CustomerCustomerSession>;
 
 export interface CustomerPortalCustomersGetRequest {}
 export const CustomerPortalCustomersGetRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/customer-portal/customers/me",
-      code: 200,
-    }),
-  ),
+  S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v1/customer-portal/customers/me", code: 200 })),
 ).annotate({
   identifier: "CustomerPortalCustomersGetRequest",
 }) as any as S.Schema<CustomerPortalCustomersGetRequest>;
@@ -7510,11 +7650,7 @@ export const CustomerPortalCustomersListPaymentMethodsRequest = /*@__PURE__*/ S.
     page: S.optional(S.Number.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/customer-portal/customers/me/payment-methods",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/v1/customer-portal/customers/me/payment-methods", code: 200 }),
   ),
 ).annotate({
   identifier: "CustomerPortalCustomersListPaymentMethodsRequest",
@@ -7550,13 +7686,7 @@ export const CustomerPortalCustomersUpdateRequest = /*@__PURE__*/ S.suspend(() =
     billing_address: S.optional(S.NullOr(AddressInput)),
     tax_id: S.optional(S.NullOr(S.String)),
     default_payment_method_id: S.optional(S.NullOr(S.String)),
-  }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/v1/customer-portal/customers/me",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PATCH", uri: "/v1/customer-portal/customers/me", code: 200 })),
 ).annotate({
   identifier: "CustomerPortalCustomersUpdateRequest",
 }) as any as S.Schema<CustomerPortalCustomersUpdateRequest>;
@@ -7586,13 +7716,7 @@ export const CustomerPortalDownloadablesListRequest = /*@__PURE__*/ S.suspend(()
     benefit_id: S.optional(CustomerPortalDownloadablesListRequestBenefitId.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/customer-portal/downloadables/",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/customer-portal/downloadables/", code: 200 })),
 ).annotate({
   identifier: "CustomerPortalDownloadablesListRequest",
 }) as any as S.Schema<CustomerPortalDownloadablesListRequest>;
@@ -7674,9 +7798,7 @@ export const DownloadableRead = /*@__PURE__*/ S.suspend(() =>
     benefit_id: S.String,
     file: FileDownload,
   }),
-).annotate({
-  identifier: "DownloadableRead",
-}) as any as S.Schema<DownloadableRead>;
+).annotate({ identifier: "DownloadableRead" }) as any as S.Schema<DownloadableRead>;
 
 export type ListResourceDownloadableReadItemsList = Array<DownloadableRead>;
 export const ListResourceDownloadableReadItemsList = /*@__PURE__*/ S.Array(
@@ -7742,28 +7864,22 @@ export const CustomerPortalLicenseKeysActivateRequest = /*@__PURE__*/ S.suspend(
     label: S.String,
     conditions: S.optional(CustomerPortalLicenseKeysActivateRequestConditionsMap),
     meta: S.optional(CustomerPortalLicenseKeysActivateRequestMetaMap),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v1/customer-portal/license-keys/activate",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/v1/customer-portal/license-keys/activate", code: 200 })),
 ).annotate({
   identifier: "CustomerPortalLicenseKeysActivateRequest",
 }) as any as S.Schema<CustomerPortalLicenseKeysActivateRequest>;
 
-export type LicenseKeyActivationReadMetaValue = string | number | number | boolean;
-export const LicenseKeyActivationReadMetaValue =
-  S.Unknown as any as S.Schema<LicenseKeyActivationReadMetaValue>;
+export type LicenseKeyActivationCreatedMetaValue = string | number | number | boolean;
+export const LicenseKeyActivationCreatedMetaValue =
+  S.Unknown as any as S.Schema<LicenseKeyActivationCreatedMetaValue>;
 
-export type LicenseKeyActivationReadMetaMap = {
-  [key: string]: LicenseKeyActivationReadMetaValue | undefined;
+export type LicenseKeyActivationCreatedMetaMap = {
+  [key: string]: LicenseKeyActivationCreatedMetaValue | undefined;
 };
-export const LicenseKeyActivationReadMetaMap = /*@__PURE__*/ S.Record(
+export const LicenseKeyActivationCreatedMetaMap = /*@__PURE__*/ S.Record(
   S.String,
-  LicenseKeyActivationReadMetaValue,
-) as any as S.Schema<LicenseKeyActivationReadMetaMap>;
+  LicenseKeyActivationCreatedMetaValue,
+) as any as S.Schema<LicenseKeyActivationCreatedMetaMap>;
 
 export type LicenseKeyCustomerTaxIdList = Array<unknown>;
 export const LicenseKeyCustomerTaxIdList = /*@__PURE__*/ S.Array(
@@ -7824,14 +7940,82 @@ export const LicenseKeyCustomer = /*@__PURE__*/ S.suspend(() =>
     first_user_event_at: S.NullOr(S.String),
     avatar_url: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "LicenseKeyCustomer",
-}) as any as S.Schema<LicenseKeyCustomer>;
+).annotate({ identifier: "LicenseKeyCustomer" }) as any as S.Schema<LicenseKeyCustomer>;
 
-export type LicenseKeyStatus = "granted" | "revoked" | "disabled";
-export const LicenseKeyStatus = S.String;
+export interface LicenseKeyMember {
+  /** The ID of the object. */
+  id: string;
+  /** The email address of the seat member. */
+  email: string;
+  /** The external ID of the seat member, if set. */
+  external_id: string | null;
+}
+export const LicenseKeyMember = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    email: S.String,
+    external_id: S.NullOr(S.String),
+  }),
+).annotate({ identifier: "LicenseKeyMember" }) as any as S.Schema<LicenseKeyMember>;
 
-export interface LicenseKeyRead {
+export type SubscriptionStatus =
+  | "incomplete"
+  | "incomplete_expired"
+  | "trialing"
+  | "active"
+  | "past_due"
+  | "canceled"
+  | "unpaid"
+  | "paused";
+export const SubscriptionStatus = S.String;
+
+export interface LicenseKeySubscription {
+  /** The ID of the object. */
+  id: string;
+  /** The status of the subscription. */
+  status: SubscriptionStatus;
+  /** The start timestamp of the current billing period. */
+  current_period_start: string;
+  /** The end timestamp of the current billing period. */
+  current_period_end: string;
+  /** Whether the subscription will be canceled at the end of the current period. */
+  cancel_at_period_end: boolean;
+  /** The timestamp when the subscription will end. */
+  ends_at: string | null;
+}
+export const LicenseKeySubscription = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    status: SubscriptionStatus,
+    current_period_start: S.String,
+    current_period_end: S.String,
+    cancel_at_period_end: S.Boolean,
+    ends_at: S.NullOr(S.String),
+  }),
+).annotate({ identifier: "LicenseKeySubscription" }) as any as S.Schema<LicenseKeySubscription>;
+
+export type OrderStatus = "draft" | "pending" | "paid" | "refunded" | "partially_refunded" | "void";
+export const OrderStatus = S.String;
+
+export interface LicenseKeyOrder {
+  /** The ID of the object. */
+  id: string;
+  /** Creation timestamp of the object. */
+  created_at: string;
+  status: OrderStatus;
+  /** Whether the order has been paid for. */
+  paid: boolean;
+}
+export const LicenseKeyOrder = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    created_at: S.String,
+    status: OrderStatus,
+    paid: S.Boolean,
+  }),
+).annotate({ identifier: "LicenseKeyOrder" }) as any as S.Schema<LicenseKeyOrder>;
+
+export interface GrantedLicenseKey {
   /** The ID of the object. */
   id: string;
   /** Creation timestamp of the object. */
@@ -7841,19 +8025,31 @@ export interface LicenseKeyRead {
   organization_id: string;
   customer_id: string;
   customer: LicenseKeyCustomer;
+  /** The ID of the seat member holding this key, if any. */
+  member_id: string | null;
+  /** The seat member holding this key. Set for keys granted through a seat-based product; `null` for keys granted to the customer directly. */
+  member: LicenseKeyMember | null;
   /** The benefit ID. */
   benefit_id: string;
   key: string;
   display_key: string;
-  status: LicenseKeyStatus;
+  status: string;
   limit_activations: number | null;
   usage: number;
   limit_usage: number | null;
   validations: number;
   last_validated_at: string | null;
   expires_at: string | null;
+  /** The ID of the subscription granting the license key. */
+  subscription_id: string | null;
+  /** The subscription granting the license key, if any. */
+  subscription: LicenseKeySubscription | null;
+  /** The ID of the one-time order granting the license key. */
+  order_id: string | null;
+  /** The one-time order granting the license key, if any. */
+  order: LicenseKeyOrder | null;
 }
-export const LicenseKeyRead = /*@__PURE__*/ S.suspend(() =>
+export const GrantedLicenseKey = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String,
     created_at: S.String,
@@ -7861,41 +8057,47 @@ export const LicenseKeyRead = /*@__PURE__*/ S.suspend(() =>
     organization_id: S.String,
     customer_id: S.String,
     customer: LicenseKeyCustomer,
+    member_id: S.NullOr(S.String),
+    member: S.NullOr(LicenseKeyMember),
     benefit_id: S.String,
     key: S.String,
     display_key: S.String,
-    status: LicenseKeyStatus,
+    status: S.String,
     limit_activations: S.NullOr(S.Number),
     usage: S.Number,
     limit_usage: S.NullOr(S.Number),
     validations: S.Number,
     last_validated_at: S.NullOr(S.String),
     expires_at: S.NullOr(S.String),
+    subscription_id: S.NullOr(S.String),
+    subscription: S.NullOr(LicenseKeySubscription),
+    order_id: S.NullOr(S.String),
+    order: S.NullOr(LicenseKeyOrder),
   }),
-).annotate({ identifier: "LicenseKeyRead" }) as any as S.Schema<LicenseKeyRead>;
+).annotate({ identifier: "GrantedLicenseKey" }) as any as S.Schema<GrantedLicenseKey>;
 
-export interface LicenseKeyActivationRead {
+export interface LicenseKeyActivationCreated {
   id: string;
   license_key_id: string;
   label: string;
-  meta: LicenseKeyActivationReadMetaMap;
+  meta: LicenseKeyActivationCreatedMetaMap;
   created_at: string;
   modified_at: string | null;
-  license_key: LicenseKeyRead;
+  license_key: GrantedLicenseKey;
 }
-export const LicenseKeyActivationRead = /*@__PURE__*/ S.suspend(() =>
+export const LicenseKeyActivationCreated = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String,
     license_key_id: S.String,
     label: S.String,
-    meta: LicenseKeyActivationReadMetaMap,
+    meta: LicenseKeyActivationCreatedMetaMap,
     created_at: S.String,
     modified_at: S.NullOr(S.String),
-    license_key: LicenseKeyRead,
+    license_key: GrantedLicenseKey,
   }),
 ).annotate({
-  identifier: "LicenseKeyActivationRead",
-}) as any as S.Schema<LicenseKeyActivationRead>;
+  identifier: "LicenseKeyActivationCreated",
+}) as any as S.Schema<LicenseKeyActivationCreated>;
 
 export interface CustomerPortalLicenseKeysDeactivateRequest {
   key: string;
@@ -7908,11 +8110,7 @@ export const CustomerPortalLicenseKeysDeactivateRequest = /*@__PURE__*/ S.suspen
     organization_id: S.String,
     activation_id: S.String,
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v1/customer-portal/license-keys/deactivate",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/v1/customer-portal/license-keys/deactivate", code: 200 }),
   ),
 ).annotate({
   identifier: "CustomerPortalLicenseKeysDeactivateRequest",
@@ -7931,16 +8129,13 @@ export interface CustomerPortalLicenseKeysGetRequest {
 export const CustomerPortalLicenseKeysGetRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/customer-portal/license-keys/{id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/customer-portal/license-keys/{id}", code: 200 })),
 ).annotate({
   identifier: "CustomerPortalLicenseKeysGetRequest",
 }) as any as S.Schema<CustomerPortalLicenseKeysGetRequest>;
+
+export type LicenseKeyStatus = "granted" | "revoked" | "disabled";
+export const LicenseKeyStatus = S.String;
 
 export type LicenseKeyActivationBaseMetaValue = string | number | number | boolean;
 export const LicenseKeyActivationBaseMetaValue =
@@ -7971,9 +8166,7 @@ export const LicenseKeyActivationBase = /*@__PURE__*/ S.suspend(() =>
     created_at: S.String,
     modified_at: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "LicenseKeyActivationBase",
-}) as any as S.Schema<LicenseKeyActivationBase>;
+).annotate({ identifier: "LicenseKeyActivationBase" }) as any as S.Schema<LicenseKeyActivationBase>;
 
 export type LicenseKeyWithActivationsActivationsList = Array<LicenseKeyActivationBase>;
 export const LicenseKeyWithActivationsActivationsList = /*@__PURE__*/ S.Array(
@@ -7990,6 +8183,10 @@ export interface LicenseKeyWithActivations {
   organization_id: string;
   customer_id: string;
   customer: LicenseKeyCustomer;
+  /** The ID of the seat member holding this key, if any. */
+  member_id: string | null;
+  /** The seat member holding this key. Set for keys granted through a seat-based product; `null` for keys granted to the customer directly. */
+  member: LicenseKeyMember | null;
   /** The benefit ID. */
   benefit_id: string;
   key: string;
@@ -8011,6 +8208,8 @@ export const LicenseKeyWithActivations = /*@__PURE__*/ S.suspend(() =>
     organization_id: S.String,
     customer_id: S.String,
     customer: LicenseKeyCustomer,
+    member_id: S.NullOr(S.String),
+    member: S.NullOr(LicenseKeyMember),
     benefit_id: S.String,
     key: S.String,
     display_key: S.String,
@@ -8040,16 +8239,59 @@ export const CustomerPortalLicenseKeysListRequest = /*@__PURE__*/ S.suspend(() =
     benefit_id: S.optional(S.String.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/customer-portal/license-keys/",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/customer-portal/license-keys/", code: 200 })),
 ).annotate({
   identifier: "CustomerPortalLicenseKeysListRequest",
 }) as any as S.Schema<CustomerPortalLicenseKeysListRequest>;
+
+export interface LicenseKeyRead {
+  /** The ID of the object. */
+  id: string;
+  /** Creation timestamp of the object. */
+  created_at: string;
+  /** Last modification timestamp of the object. */
+  modified_at: string | null;
+  organization_id: string;
+  customer_id: string;
+  customer: LicenseKeyCustomer;
+  /** The ID of the seat member holding this key, if any. */
+  member_id: string | null;
+  /** The seat member holding this key. Set for keys granted through a seat-based product; `null` for keys granted to the customer directly. */
+  member: LicenseKeyMember | null;
+  /** The benefit ID. */
+  benefit_id: string;
+  key: string;
+  display_key: string;
+  status: LicenseKeyStatus;
+  limit_activations: number | null;
+  usage: number;
+  limit_usage: number | null;
+  validations: number;
+  last_validated_at: string | null;
+  expires_at: string | null;
+}
+export const LicenseKeyRead = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    created_at: S.String,
+    modified_at: S.NullOr(S.String),
+    organization_id: S.String,
+    customer_id: S.String,
+    customer: LicenseKeyCustomer,
+    member_id: S.NullOr(S.String),
+    member: S.NullOr(LicenseKeyMember),
+    benefit_id: S.String,
+    key: S.String,
+    display_key: S.String,
+    status: LicenseKeyStatus,
+    limit_activations: S.NullOr(S.Number),
+    usage: S.Number,
+    limit_usage: S.NullOr(S.Number),
+    validations: S.Number,
+    last_validated_at: S.NullOr(S.String),
+    expires_at: S.NullOr(S.String),
+  }),
+).annotate({ identifier: "LicenseKeyRead" }) as any as S.Schema<LicenseKeyRead>;
 
 export type ListResourceLicenseKeyReadItemsList = Array<LicenseKeyRead>;
 export const ListResourceLicenseKeyReadItemsList = /*@__PURE__*/ S.Array(
@@ -8068,6 +8310,71 @@ export const ListResourceLicenseKeyRead = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "ListResourceLicenseKeyRead",
 }) as any as S.Schema<ListResourceLicenseKeyRead>;
+
+export interface CustomerPortalLicenseKeysRotateRequest {
+  id: string;
+}
+export const CustomerPortalLicenseKeysRotateRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({ method: "POST", uri: "/v1/customer-portal/license-keys/{id}/rotate", code: 200 }),
+  ),
+).annotate({
+  identifier: "CustomerPortalLicenseKeysRotateRequest",
+}) as any as S.Schema<CustomerPortalLicenseKeysRotateRequest>;
+
+export type RotatedLicenseKeyStatus = "granted" | "disabled";
+export const RotatedLicenseKeyStatus = S.String;
+
+export interface RotatedLicenseKey {
+  /** The ID of the object. */
+  id: string;
+  /** Creation timestamp of the object. */
+  created_at: string;
+  /** Last modification timestamp of the object. */
+  modified_at: string | null;
+  organization_id: string;
+  customer_id: string;
+  customer: LicenseKeyCustomer;
+  /** The ID of the seat member holding this key, if any. */
+  member_id: string | null;
+  /** The seat member holding this key. Set for keys granted through a seat-based product; `null` for keys granted to the customer directly. */
+  member: LicenseKeyMember | null;
+  /** The benefit ID. */
+  benefit_id: string;
+  key: string;
+  display_key: string;
+  status: RotatedLicenseKeyStatus;
+  limit_activations: number | null;
+  usage: number;
+  limit_usage: number | null;
+  validations: number;
+  last_validated_at: string | null;
+  expires_at: string | null;
+}
+export const RotatedLicenseKey = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    created_at: S.String,
+    modified_at: S.NullOr(S.String),
+    organization_id: S.String,
+    customer_id: S.String,
+    customer: LicenseKeyCustomer,
+    member_id: S.NullOr(S.String),
+    member: S.NullOr(LicenseKeyMember),
+    benefit_id: S.String,
+    key: S.String,
+    display_key: S.String,
+    status: RotatedLicenseKeyStatus,
+    limit_activations: S.NullOr(S.Number),
+    usage: S.Number,
+    limit_usage: S.NullOr(S.Number),
+    validations: S.Number,
+    last_validated_at: S.NullOr(S.String),
+    expires_at: S.NullOr(S.String),
+  }),
+).annotate({ identifier: "RotatedLicenseKey" }) as any as S.Schema<RotatedLicenseKey>;
 
 export type CustomerPortalLicenseKeysValidateRequestConditionsValue =
   | string
@@ -8105,13 +8412,7 @@ export const CustomerPortalLicenseKeysValidateRequest = /*@__PURE__*/ S.suspend(
     customer_id: S.optional(S.NullOr(S.String)),
     increment_usage: S.optional(S.NullOr(S.Number)),
     conditions: S.optional(CustomerPortalLicenseKeysValidateRequestConditionsMap),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v1/customer-portal/license-keys/validate",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/v1/customer-portal/license-keys/validate", code: 200 })),
 ).annotate({
   identifier: "CustomerPortalLicenseKeysValidateRequest",
 }) as any as S.Schema<CustomerPortalLicenseKeysValidateRequest>;
@@ -8126,17 +8427,29 @@ export interface ValidatedLicenseKey {
   organization_id: string;
   customer_id: string;
   customer: LicenseKeyCustomer;
+  /** The ID of the seat member holding this key, if any. */
+  member_id: string | null;
+  /** The seat member holding this key. Set for keys granted through a seat-based product; `null` for keys granted to the customer directly. */
+  member: LicenseKeyMember | null;
   /** The benefit ID. */
   benefit_id: string;
   key: string;
   display_key: string;
-  status: LicenseKeyStatus;
+  status: string;
   limit_activations: number | null;
   usage: number;
   limit_usage: number | null;
   validations: number;
   last_validated_at: string | null;
   expires_at: string | null;
+  /** The ID of the subscription granting the license key. */
+  subscription_id: string | null;
+  /** The subscription granting the license key, if any. */
+  subscription: LicenseKeySubscription | null;
+  /** The ID of the one-time order granting the license key. */
+  order_id: string | null;
+  /** The one-time order granting the license key, if any. */
+  order: LicenseKeyOrder | null;
   activation?: LicenseKeyActivationBase | null;
 }
 export const ValidatedLicenseKey = /*@__PURE__*/ S.suspend(() =>
@@ -8147,21 +8460,25 @@ export const ValidatedLicenseKey = /*@__PURE__*/ S.suspend(() =>
     organization_id: S.String,
     customer_id: S.String,
     customer: LicenseKeyCustomer,
+    member_id: S.NullOr(S.String),
+    member: S.NullOr(LicenseKeyMember),
     benefit_id: S.String,
     key: S.String,
     display_key: S.String,
-    status: LicenseKeyStatus,
+    status: S.String,
     limit_activations: S.NullOr(S.Number),
     usage: S.Number,
     limit_usage: S.NullOr(S.Number),
     validations: S.Number,
     last_validated_at: S.NullOr(S.String),
     expires_at: S.NullOr(S.String),
+    subscription_id: S.NullOr(S.String),
+    subscription: S.NullOr(LicenseKeySubscription),
+    order_id: S.NullOr(S.String),
+    order: S.NullOr(LicenseKeyOrder),
     activation: S.optional(S.NullOr(LicenseKeyActivationBase)),
   }),
-).annotate({
-  identifier: "ValidatedLicenseKey",
-}) as any as S.Schema<ValidatedLicenseKey>;
+).annotate({ identifier: "ValidatedLicenseKey" }) as any as S.Schema<ValidatedLicenseKey>;
 
 export interface CustomerPortalMembersAddMemberRequest {
   /** The email address of the new member. */
@@ -8205,9 +8522,7 @@ export const CustomerPortalMember = /*@__PURE__*/ S.suspend(() =>
     name: S.NullOr(S.String),
     role: MemberRole,
   }),
-).annotate({
-  identifier: "CustomerPortalMember",
-}) as any as S.Schema<CustomerPortalMember>;
+).annotate({ identifier: "CustomerPortalMember" }) as any as S.Schema<CustomerPortalMember>;
 
 export interface CustomerPortalMembersListMembersRequest {
   /** Page number, defaults to 1. */
@@ -8248,13 +8563,7 @@ export interface CustomerPortalMembersRemoveMemberRequest {
 export const CustomerPortalMembersRemoveMemberRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/v1/customer-portal/members/{id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/v1/customer-portal/members/{id}", code: 200 })),
 ).annotate({
   identifier: "CustomerPortalMembersRemoveMemberRequest",
 }) as any as S.Schema<CustomerPortalMembersRemoveMemberRequest>;
@@ -8278,13 +8587,7 @@ export const CustomerPortalMembersUpdateMemberRequest = /*@__PURE__*/ S.suspend(
     id: S.String.pipe(T.Label()),
     name: S.optional(S.NullOr(S.String)),
     role: S.optional(S.NullOr(MemberRole)),
-  }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/v1/customer-portal/members/{id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PATCH", uri: "/v1/customer-portal/members/{id}", code: 200 })),
 ).annotate({
   identifier: "CustomerPortalMembersUpdateMemberRequest",
 }) as any as S.Schema<CustomerPortalMembersUpdateMemberRequest>;
@@ -8296,13 +8599,7 @@ export interface CustomerPortalOrdersGenerateInvoiceRequest {
 export const CustomerPortalOrdersGenerateInvoiceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v1/customer-portal/orders/{id}/invoice",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/v1/customer-portal/orders/{id}/invoice", code: 200 })),
 ).annotate({
   identifier: "CustomerPortalOrdersGenerateInvoiceRequest",
 }) as any as S.Schema<CustomerPortalOrdersGenerateInvoiceRequest>;
@@ -8321,19 +8618,10 @@ export interface CustomerPortalOrdersGetRequest {
 export const CustomerPortalOrdersGetRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/customer-portal/orders/{id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/customer-portal/orders/{id}", code: 200 })),
 ).annotate({
   identifier: "CustomerPortalOrdersGetRequest",
 }) as any as S.Schema<CustomerPortalOrdersGetRequest>;
-
-export type OrderStatus = "draft" | "pending" | "paid" | "refunded" | "partially_refunded" | "void";
-export const OrderStatus = S.String;
 
 export type OrderBillingReason =
   | "purchase"
@@ -8379,12 +8667,14 @@ export const CustomerPortalUsageSettings = /*@__PURE__*/ S.suspend(() =>
 export interface CustomerPortalSubscriptionSettings {
   update_seats: boolean;
   update_plan: boolean;
+  update_units?: boolean;
   pause?: boolean;
 }
 export const CustomerPortalSubscriptionSettings = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     update_seats: S.Boolean,
     update_plan: S.Boolean,
+    update_units: S.optional(S.Boolean),
     pause: S.optional(S.Boolean),
   }),
 ).annotate({
@@ -8468,9 +8758,7 @@ export const CustomerOrganization = /*@__PURE__*/ S.suspend(() =>
     customer_portal_settings: OrganizationCustomerPortalSettings,
     organization_features: S.optional(CustomerOrganizationFeatureSettings),
   }),
-).annotate({
-  identifier: "CustomerOrganization",
-}) as any as S.Schema<CustomerOrganization>;
+).annotate({ identifier: "CustomerOrganization" }) as any as S.Schema<CustomerOrganization>;
 
 export interface CustomerOrderProduct {
   /** The ID of the object. */
@@ -8533,20 +8821,7 @@ export const CustomerOrderProduct = /*@__PURE__*/ S.suspend(() =>
     medias: CustomerOrderProductMediasList,
     organization: CustomerOrganization,
   }),
-).annotate({
-  identifier: "CustomerOrderProduct",
-}) as any as S.Schema<CustomerOrderProduct>;
-
-export type SubscriptionStatus =
-  | "incomplete"
-  | "incomplete_expired"
-  | "trialing"
-  | "active"
-  | "past_due"
-  | "canceled"
-  | "unpaid"
-  | "paused";
-export const SubscriptionStatus = S.String;
+).annotate({ identifier: "CustomerOrderProduct" }) as any as S.Schema<CustomerOrderProduct>;
 
 export type CustomerCancellationReason =
   | "customer_service"
@@ -8615,6 +8890,8 @@ export interface CustomerOrderSubscription {
   checkout_id: string | null;
   /** The number of seats for seat-based subscriptions. None for non-seat subscriptions. */
   seats?: number | null;
+  /** The number of units for unit-based subscriptions. None for non-unit subscriptions. */
+  units: number | null;
   customer_cancellation_reason: CustomerCancellationReason | null;
   customer_cancellation_comment: string | null;
 }
@@ -8648,6 +8925,7 @@ export const CustomerOrderSubscription = /*@__PURE__*/ S.suspend(() =>
     discount_id: S.NullOr(S.String),
     checkout_id: S.NullOr(S.String),
     seats: S.optional(S.NullOr(S.Number)),
+    units: S.NullOr(S.Number),
     customer_cancellation_reason: S.NullOr(CustomerCancellationReason),
     customer_cancellation_comment: S.NullOr(S.String),
   }),
@@ -8673,6 +8951,10 @@ export interface OrderItemSchema {
   proration: boolean;
   /** Associated price ID, if any. */
   product_price_id: string | null;
+  /** Start of the period covered by this line item, if any. */
+  start_timestamp: string | null;
+  /** End of the period covered by this line item, if any. */
+  end_timestamp: string | null;
 }
 export const OrderItemSchema = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -8684,10 +8966,10 @@ export const OrderItemSchema = /*@__PURE__*/ S.suspend(() =>
     tax_amount: S.Number,
     proration: S.Boolean,
     product_price_id: S.NullOr(S.String),
+    start_timestamp: S.NullOr(S.String),
+    end_timestamp: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "OrderItemSchema",
-}) as any as S.Schema<OrderItemSchema>;
+).annotate({ identifier: "OrderItemSchema" }) as any as S.Schema<OrderItemSchema>;
 
 /** Line items composing the order. */
 export type CustomerOrderItemsList = Array<OrderItemSchema>;
@@ -8736,6 +9018,8 @@ export interface CustomerOrder {
   receipt_number: string | null;
   /** Number of seats purchased (for seat-based one-time orders). */
   seats?: number | null;
+  /** Number of units purchased (for unit-based pricing). */
+  units: number | null;
   customer_id: string;
   product_id: string | null;
   discount_id: string | null;
@@ -8778,6 +9062,7 @@ export const CustomerOrder = /*@__PURE__*/ S.suspend(() =>
     is_invoice_generated: S.Boolean,
     receipt_number: S.NullOr(S.String),
     seats: S.optional(S.NullOr(S.Number)),
+    units: S.NullOr(S.Number),
     customer_id: S.String,
     product_id: S.NullOr(S.String),
     discount_id: S.NullOr(S.String),
@@ -8801,11 +9086,7 @@ export const CustomerPortalOrdersGetPaymentStatusRequest = /*@__PURE__*/ S.suspe
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/customer-portal/orders/{id}/payment-status",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/v1/customer-portal/orders/{id}/payment-status", code: 200 }),
   ),
 ).annotate({
   identifier: "CustomerPortalOrdersGetPaymentStatusRequest",
@@ -8834,13 +9115,7 @@ export interface CustomerPortalOrdersInvoiceRequest {
 export const CustomerPortalOrdersInvoiceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/customer-portal/orders/{id}/invoice",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/customer-portal/orders/{id}/invoice", code: 200 })),
 ).annotate({
   identifier: "CustomerPortalOrdersInvoiceRequest",
 }) as any as S.Schema<CustomerPortalOrdersInvoiceRequest>;
@@ -8854,9 +9129,7 @@ export const CustomerOrderInvoice = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     url: S.String,
   }),
-).annotate({
-  identifier: "CustomerOrderInvoice",
-}) as any as S.Schema<CustomerOrderInvoice>;
+).annotate({ identifier: "CustomerOrderInvoice" }) as any as S.Schema<CustomerOrderInvoice>;
 
 export type CustomerPortalOrdersListRequestProductIdCase1List = Array<string>;
 export const CustomerPortalOrdersListRequestProductIdCase1List = /*@__PURE__*/ S.Array(
@@ -8976,13 +9249,7 @@ export interface CustomerPortalOrdersReceiptRequest {
 export const CustomerPortalOrdersReceiptRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/customer-portal/orders/{id}/receipt",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/customer-portal/orders/{id}/receipt", code: 200 })),
 ).annotate({
   identifier: "CustomerPortalOrdersReceiptRequest",
 }) as any as S.Schema<CustomerPortalOrdersReceiptRequest>;
@@ -8996,9 +9263,7 @@ export const CustomerOrderReceipt = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     url: S.String,
   }),
-).annotate({
-  identifier: "CustomerOrderReceipt",
-}) as any as S.Schema<CustomerOrderReceipt>;
+).annotate({ identifier: "CustomerOrderReceipt" }) as any as S.Schema<CustomerOrderReceipt>;
 
 export interface CustomerPortalOrdersUpdateRequest {
   /** The order ID. */
@@ -9013,13 +9278,7 @@ export const CustomerPortalOrdersUpdateRequest = /*@__PURE__*/ S.suspend(() =>
     id: S.String.pipe(T.Label()),
     billing_name: S.optional(S.NullOr(S.String)),
     billing_address: S.optional(S.NullOr(AddressInput)),
-  }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/v1/customer-portal/orders/{id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PATCH", uri: "/v1/customer-portal/orders/{id}", code: 200 })),
 ).annotate({
   identifier: "CustomerPortalOrdersUpdateRequest",
 }) as any as S.Schema<CustomerPortalOrdersUpdateRequest>;
@@ -9031,13 +9290,7 @@ export interface CustomerPortalOrganizationsGetRequest {
 export const CustomerPortalOrganizationsGetRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     slug: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/customer-portal/organizations/{slug}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/customer-portal/organizations/{slug}", code: 200 })),
 ).annotate({
   identifier: "CustomerPortalOrganizationsGetRequest",
 }) as any as S.Schema<CustomerPortalOrganizationsGetRequest>;
@@ -9123,9 +9376,7 @@ export const CustomerProduct = /*@__PURE__*/ S.suspend(() =>
     benefits: CustomerProductBenefitsList,
     medias: CustomerProductMediasList,
   }),
-).annotate({
-  identifier: "CustomerProduct",
-}) as any as S.Schema<CustomerProduct>;
+).annotate({ identifier: "CustomerProduct" }) as any as S.Schema<CustomerProduct>;
 
 export type CustomerOrganizationDataProductsList = Array<CustomerProduct>;
 export const CustomerOrganizationDataProductsList = /*@__PURE__*/ S.Array(
@@ -9142,9 +9393,7 @@ export const CustomerOrganizationData = /*@__PURE__*/ S.suspend(() =>
     organization: CustomerOrganization,
     products: CustomerOrganizationDataProductsList,
   }),
-).annotate({
-  identifier: "CustomerOrganizationData",
-}) as any as S.Schema<CustomerOrganizationData>;
+).annotate({ identifier: "CustomerOrganizationData" }) as any as S.Schema<CustomerOrganizationData>;
 
 export type CustomerPortalSeatsAssignSeatRequestMetadataMap = {
   [key: string]: unknown | undefined;
@@ -9196,9 +9445,7 @@ export const CustomerPortalSeatsAssignSeatRequest = /*@__PURE__*/ S.suspend(() =
 export type SeatStatus = "pending" | "claimed" | "revoked";
 export const SeatStatus = S.String;
 
-export type CustomerSeatSeatMetadataMap = {
-  [key: string]: unknown | undefined;
-};
+export type CustomerSeatSeatMetadataMap = { [key: string]: unknown | undefined };
 export const CustomerSeatSeatMetadataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -9266,13 +9513,7 @@ export const CustomerPortalSeatsListClaimedSubscriptionsRequest = /*@__PURE__*/ 
   S.Struct({
     page: S.optional(S.Number.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/customer-portal/seats/subscriptions",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/customer-portal/seats/subscriptions", code: 200 })),
 ).annotate({
   identifier: "CustomerPortalSeatsListClaimedSubscriptionsRequest",
 }) as any as S.Schema<CustomerPortalSeatsListClaimedSubscriptionsRequest>;
@@ -9429,6 +9670,8 @@ export interface PendingSubscriptionUpdate {
   product_id: string | null;
   /** Number of seats to apply to the subscription. If `null`, the number of seats won't be changed. */
   seats: number | null;
+  /** Number of units to apply to the subscription. If `null`, the number of units won't be changed. */
+  units: number | null;
 }
 export const PendingSubscriptionUpdate = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -9438,6 +9681,7 @@ export const PendingSubscriptionUpdate = /*@__PURE__*/ S.suspend(() =>
     applies_at: S.String,
     product_id: S.NullOr(S.String),
     seats: S.NullOr(S.Number),
+    units: S.NullOr(S.Number),
   }),
 ).annotate({
   identifier: "PendingSubscriptionUpdate",
@@ -9499,6 +9743,8 @@ export interface CustomerSubscription {
   checkout_id: string | null;
   /** The number of seats for seat-based subscriptions. None for non-seat subscriptions. */
   seats?: number | null;
+  /** The number of units for unit-based subscriptions. None for non-unit subscriptions. */
+  units: number | null;
   customer_cancellation_reason: CustomerCancellationReason | null;
   customer_cancellation_comment: string | null;
   product: CustomerSubscriptionProduct;
@@ -9539,6 +9785,7 @@ export const CustomerSubscription = /*@__PURE__*/ S.suspend(() =>
     discount_id: S.NullOr(S.String),
     checkout_id: S.NullOr(S.String),
     seats: S.optional(S.NullOr(S.Number)),
+    units: S.NullOr(S.Number),
     customer_cancellation_reason: S.NullOr(CustomerCancellationReason),
     customer_cancellation_comment: S.NullOr(S.String),
     product: CustomerSubscriptionProduct,
@@ -9546,9 +9793,7 @@ export const CustomerSubscription = /*@__PURE__*/ S.suspend(() =>
     meters: CustomerSubscriptionMetersList,
     pending_update: S.NullOr(PendingSubscriptionUpdate),
   }),
-).annotate({
-  identifier: "CustomerSubscription",
-}) as any as S.Schema<CustomerSubscription>;
+).annotate({ identifier: "CustomerSubscription" }) as any as S.Schema<CustomerSubscription>;
 
 export type ListResourceCustomerSubscriptionItemsList = Array<CustomerSubscription>;
 export const ListResourceCustomerSubscriptionItemsList = /*@__PURE__*/ S.Array(
@@ -9611,13 +9856,7 @@ export interface CustomerPortalSeatsResendInvitationRequest {
 export const CustomerPortalSeatsResendInvitationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     seat_id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v1/customer-portal/seats/{seat_id}/resend",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/v1/customer-portal/seats/{seat_id}/resend", code: 200 })),
 ).annotate({
   identifier: "CustomerPortalSeatsResendInvitationRequest",
 }) as any as S.Schema<CustomerPortalSeatsResendInvitationRequest>;
@@ -9628,13 +9867,7 @@ export interface CustomerPortalSeatsRevokeSeatRequest {
 export const CustomerPortalSeatsRevokeSeatRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     seat_id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/v1/customer-portal/seats/{seat_id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/v1/customer-portal/seats/{seat_id}", code: 200 })),
 ).annotate({
   identifier: "CustomerPortalSeatsRevokeSeatRequest",
 }) as any as S.Schema<CustomerPortalSeatsRevokeSeatRequest>;
@@ -9646,13 +9879,7 @@ export interface CustomerPortalSubscriptionsCancelRequest {
 export const CustomerPortalSubscriptionsCancelRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/v1/customer-portal/subscriptions/{id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/v1/customer-portal/subscriptions/{id}", code: 200 })),
 ).annotate({
   identifier: "CustomerPortalSubscriptionsCancelRequest",
 }) as any as S.Schema<CustomerPortalSubscriptionsCancelRequest>;
@@ -9664,13 +9891,7 @@ export interface CustomerPortalSubscriptionsGetRequest {
 export const CustomerPortalSubscriptionsGetRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/customer-portal/subscriptions/{id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/customer-portal/subscriptions/{id}", code: 200 })),
 ).annotate({
   identifier: "CustomerPortalSubscriptionsGetRequest",
 }) as any as S.Schema<CustomerPortalSubscriptionsGetRequest>;
@@ -9729,13 +9950,7 @@ export const CustomerPortalSubscriptionsListRequest = /*@__PURE__*/ S.suspend(()
     page: S.optional(S.Number.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
     sorting: S.optional(CustomerPortalSubscriptionsListRequestSortingList.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/customer-portal/subscriptions/",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/customer-portal/subscriptions/", code: 200 })),
 ).annotate({
   identifier: "CustomerPortalSubscriptionsListRequest",
 }) as any as S.Schema<CustomerPortalSubscriptionsListRequest>;
@@ -9763,6 +9978,18 @@ export const CustomerSubscriptionUpdateSeats = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "CustomerSubscriptionUpdateSeats",
 }) as any as S.Schema<CustomerSubscriptionUpdateSeats>;
+
+export interface CustomerSubscriptionUpdateUnits {
+  /** Update the number of units for this subscription. */
+  units: number;
+}
+export const CustomerSubscriptionUpdateUnits = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    units: S.Number,
+  }),
+).annotate({
+  identifier: "CustomerSubscriptionUpdateUnits",
+}) as any as S.Schema<CustomerSubscriptionUpdateUnits>;
 
 export interface CustomerSubscriptionCancel {
   /** Cancel an active subscription once the current period ends. Or uncancel a subscription currently set to be revoked at period end. */
@@ -9824,6 +10051,7 @@ export const CustomerSubscriptionUpdateClear = /*@__PURE__*/ S.suspend(() =>
 export type CustomerSubscriptionUpdate =
   | CustomerSubscriptionUpdateProduct
   | CustomerSubscriptionUpdateSeats
+  | CustomerSubscriptionUpdateUnits
   | CustomerSubscriptionCancel
   | CustomerSubscriptionPause
   | CustomerSubscriptionResume
@@ -9839,13 +10067,7 @@ export const CustomerPortalSubscriptionsUpdateRequest = /*@__PURE__*/ S.suspend(
   S.Struct({
     id: S.String.pipe(T.Label()),
     body: CustomerSubscriptionUpdate.pipe(T.HttpBody()),
-  }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/v1/customer-portal/subscriptions/{id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PATCH", uri: "/v1/customer-portal/subscriptions/{id}", code: 200 })),
 ).annotate({
   identifier: "CustomerPortalSubscriptionsUpdateRequest",
 }) as any as S.Schema<CustomerPortalSubscriptionsUpdateRequest>;
@@ -9857,13 +10079,7 @@ export interface CustomerPortalWalletsGetRequest {
 export const CustomerPortalWalletsGetRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/customer-portal/wallets/{id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/customer-portal/wallets/{id}", code: 200 })),
 ).annotate({
   identifier: "CustomerPortalWalletsGetRequest",
 }) as any as S.Schema<CustomerPortalWalletsGetRequest>;
@@ -9967,9 +10183,7 @@ export const MemberOwnerCreate = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.NullOr(S.String)),
     external_id: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "MemberOwnerCreate",
-}) as any as S.Schema<MemberOwnerCreate>;
+).annotate({ identifier: "MemberOwnerCreate" }) as any as S.Schema<MemberOwnerCreate>;
 
 export interface CustomerIndividualCreate {
   /** Key-value object allowing you to store additional information. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
@@ -10001,9 +10215,7 @@ export const CustomerIndividualCreate = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     email: S.String,
   }),
-).annotate({
-  identifier: "CustomerIndividualCreate",
-}) as any as S.Schema<CustomerIndividualCreate>;
+).annotate({ identifier: "CustomerIndividualCreate" }) as any as S.Schema<CustomerIndividualCreate>;
 
 export type CustomerTeamCreateMetadataValue = string | number | number | boolean;
 export const CustomerTeamCreateMetadataValue =
@@ -10048,9 +10260,7 @@ export const CustomerTeamCreate = /*@__PURE__*/ S.suspend(() =>
     type: S.String,
     email: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "CustomerTeamCreate",
-}) as any as S.Schema<CustomerTeamCreate>;
+).annotate({ identifier: "CustomerTeamCreate" }) as any as S.Schema<CustomerTeamCreate>;
 
 export type CustomerCreate = CustomerIndividualCreate | CustomerTeamCreate;
 export const CustomerCreate = S.Unknown as any as S.Schema<CustomerCreate>;
@@ -10062,16 +10272,12 @@ export const CustomersCreateRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     body: CustomerCreate.pipe(T.HttpBody()),
   }).pipe(T.Http({ method: "POST", uri: "/v1/customers/", code: 200 })),
-).annotate({
-  identifier: "CustomersCreateRequest",
-}) as any as S.Schema<CustomersCreateRequest>;
+).annotate({ identifier: "CustomersCreateRequest" }) as any as S.Schema<CustomersCreateRequest>;
 
 export type CustomersCreateResponse = Customer;
 export const CustomersCreateResponse = /*@__PURE__*/ S.suspend(() =>
   Customer.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "CustomersCreateResponse",
-}) as any as S.Schema<CustomersCreateResponse>;
+).annotate({ identifier: "CustomersCreateResponse" }) as any as S.Schema<CustomersCreateResponse>;
 
 export interface CustomersDeleteRequest {
   /** The customer ID. */
@@ -10084,9 +10290,7 @@ export const CustomersDeleteRequest = /*@__PURE__*/ S.suspend(() =>
     id: S.String.pipe(T.Label()),
     anonymize: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(T.Http({ method: "DELETE", uri: "/v1/customers/{id}", code: 200 })),
-).annotate({
-  identifier: "CustomersDeleteRequest",
-}) as any as S.Schema<CustomersDeleteRequest>;
+).annotate({ identifier: "CustomersDeleteRequest" }) as any as S.Schema<CustomersDeleteRequest>;
 
 export interface CustomersDeleteResponse {}
 export const CustomersDeleteResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -10103,27 +10307,17 @@ export const CustomersDeleteExternalRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     external_id: S.String.pipe(T.Label()),
     anonymize: S.optional(S.Boolean.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/v1/customers/external/{external_id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/v1/customers/external/{external_id}", code: 200 })),
 ).annotate({
   identifier: "CustomersDeleteExternalRequest",
 }) as any as S.Schema<CustomersDeleteExternalRequest>;
 
 export interface CustomersDeleteExternalResponse {}
 export const CustomersDeleteExternalResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "CustomersDeleteExternalResponse",
-  },
+  { identifier: "CustomersDeleteExternalResponse" },
 ) as any as S.Schema<CustomersDeleteExternalResponse>;
 
-export type CustomerSeatsAssignSeatRequestMetadataMap = {
-  [key: string]: unknown | undefined;
-};
+export type CustomerSeatsAssignSeatRequestMetadataMap = { [key: string]: unknown | undefined };
 export const CustomerSeatsAssignSeatRequestMetadataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -10212,13 +10406,7 @@ export interface CustomerSeatsResendInvitationRequest {
 export const CustomerSeatsResendInvitationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     seat_id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v1/customer-seats/{seat_id}/resend",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/v1/customer-seats/{seat_id}/resend", code: 200 })),
 ).annotate({
   identifier: "CustomerSeatsResendInvitationRequest",
 }) as any as S.Schema<CustomerSeatsResendInvitationRequest>;
@@ -10229,13 +10417,7 @@ export interface CustomerSeatsRevokeSeatRequest {
 export const CustomerSeatsRevokeSeatRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     seat_id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/v1/customer-seats/{seat_id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/v1/customer-seats/{seat_id}", code: 200 })),
 ).annotate({
   identifier: "CustomerSeatsRevokeSeatRequest",
 }) as any as S.Schema<CustomerSeatsRevokeSeatRequest>;
@@ -10328,9 +10510,7 @@ export const CustomerSession = /*@__PURE__*/ S.suspend(() =>
     customer_id: S.String,
     customer: Customer,
   }),
-).annotate({
-  identifier: "CustomerSession",
-}) as any as S.Schema<CustomerSession>;
+).annotate({ identifier: "CustomerSession" }) as any as S.Schema<CustomerSession>;
 
 export type CustomersExportRequestOrganizationIdCase1List = Array<string>;
 export const CustomersExportRequestOrganizationIdCase1List = /*@__PURE__*/ S.Array(
@@ -10352,9 +10532,7 @@ export const CustomersExportRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     organization_id: S.optional(CustomersExportRequestOrganizationId.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/v1/customers/export", code: 200 })),
-).annotate({
-  identifier: "CustomersExportRequest",
-}) as any as S.Schema<CustomersExportRequest>;
+).annotate({ identifier: "CustomersExportRequest" }) as any as S.Schema<CustomersExportRequest>;
 
 export interface CustomersExportResponse {}
 export const CustomersExportResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -10369,16 +10547,12 @@ export const CustomersGetRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/v1/customers/{id}", code: 200 })),
-).annotate({
-  identifier: "CustomersGetRequest",
-}) as any as S.Schema<CustomersGetRequest>;
+).annotate({ identifier: "CustomersGetRequest" }) as any as S.Schema<CustomersGetRequest>;
 
 export type CustomersGetResponse = Customer;
 export const CustomersGetResponse = /*@__PURE__*/ S.suspend(() =>
   Customer.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "CustomersGetResponse",
-}) as any as S.Schema<CustomersGetResponse>;
+).annotate({ identifier: "CustomersGetResponse" }) as any as S.Schema<CustomersGetResponse>;
 
 export interface CustomersGetExternalRequest {
   /** The customer external ID. */
@@ -10387,13 +10561,7 @@ export interface CustomersGetExternalRequest {
 export const CustomersGetExternalRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     external_id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/customers/external/{external_id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/customers/external/{external_id}", code: 200 })),
 ).annotate({
   identifier: "CustomersGetExternalRequest",
 }) as any as S.Schema<CustomersGetExternalRequest>;
@@ -10413,9 +10581,7 @@ export const CustomersGetStateRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/v1/customers/{id}/state", code: 200 })),
-).annotate({
-  identifier: "CustomersGetStateRequest",
-}) as any as S.Schema<CustomersGetStateRequest>;
+).annotate({ identifier: "CustomersGetStateRequest" }) as any as S.Schema<CustomersGetStateRequest>;
 
 export type CustomerStateIndividualTaxIdList = Array<unknown>;
 export const CustomerStateIndividualTaxIdList = /*@__PURE__*/ S.Array(
@@ -10428,11 +10594,11 @@ export const CustomerStateSubscriptionCustomFieldDataValue =
 
 /** Key-value object storing custom field values. */
 export type CustomerStateSubscriptionCustomFieldDataMap = {
-  [key: string]: CustomerStateSubscriptionCustomFieldDataValue | undefined;
+  [key: string]: CustomerStateSubscriptionCustomFieldDataValue | null | undefined;
 };
 export const CustomerStateSubscriptionCustomFieldDataMap = /*@__PURE__*/ S.Record(
   S.String,
-  CustomerStateSubscriptionCustomFieldDataValue,
+  S.NullOr(CustomerStateSubscriptionCustomFieldDataValue),
 ) as any as S.Schema<CustomerStateSubscriptionCustomFieldDataMap>;
 
 export type CustomerStateSubscriptionStatus = "active" | "trialing";
@@ -10513,6 +10679,10 @@ export interface CustomerStateSubscription {
   product_id: string;
   /** The ID of the applied discount, if any. */
   discount_id: string | null;
+  /** The number of seats for seat-based subscriptions. None for non-seat subscriptions. */
+  seats: number | null;
+  /** The number of units for unit-based subscriptions. None for non-unit subscriptions. */
+  units: number | null;
   /** List of meters associated with the subscription. */
   meters: CustomerStateSubscriptionMetersList;
 }
@@ -10537,6 +10707,8 @@ export const CustomerStateSubscription = /*@__PURE__*/ S.suspend(() =>
     ends_at: S.NullOr(S.String),
     product_id: S.String,
     discount_id: S.NullOr(S.String),
+    seats: S.NullOr(S.Number),
+    units: S.NullOr(S.Number),
     meters: CustomerStateSubscriptionMetersList,
   }),
 ).annotate({
@@ -10625,9 +10797,7 @@ export const CustomerStateMeter = /*@__PURE__*/ S.suspend(() =>
     credited_units: S.Number,
     balance: S.Number,
   }),
-).annotate({
-  identifier: "CustomerStateMeter",
-}) as any as S.Schema<CustomerStateMeter>;
+).annotate({ identifier: "CustomerStateMeter" }) as any as S.Schema<CustomerStateMeter>;
 
 /** The customer's active meters. */
 export type CustomerStateIndividualActiveMetersList = Array<CustomerStateMeter>;
@@ -10699,9 +10869,7 @@ export const CustomerStateIndividual = /*@__PURE__*/ S.suspend(() =>
     granted_benefits: CustomerStateIndividualGrantedBenefitsList,
     active_meters: CustomerStateIndividualActiveMetersList,
   }),
-).annotate({
-  identifier: "CustomerStateIndividual",
-}) as any as S.Schema<CustomerStateIndividual>;
+).annotate({ identifier: "CustomerStateIndividual" }) as any as S.Schema<CustomerStateIndividual>;
 
 export type CustomerStateTeamTaxIdList = Array<unknown>;
 export const CustomerStateTeamTaxIdList = /*@__PURE__*/ S.Array(
@@ -10790,9 +10958,7 @@ export const CustomerStateTeam = /*@__PURE__*/ S.suspend(() =>
     granted_benefits: CustomerStateTeamGrantedBenefitsList,
     active_meters: CustomerStateTeamActiveMetersList,
   }),
-).annotate({
-  identifier: "CustomerStateTeam",
-}) as any as S.Schema<CustomerStateTeam>;
+).annotate({ identifier: "CustomerStateTeam" }) as any as S.Schema<CustomerStateTeam>;
 
 export type CustomerState = CustomerStateIndividual | CustomerStateTeam;
 export const CustomerState = S.Unknown as any as S.Schema<CustomerState>;
@@ -10811,13 +10977,7 @@ export interface CustomersGetStateExternalRequest {
 export const CustomersGetStateExternalRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     external_id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/customers/external/{external_id}/state",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/customers/external/{external_id}/state", code: 200 })),
 ).annotate({
   identifier: "CustomersGetStateExternalRequest",
 }) as any as S.Schema<CustomersGetStateExternalRequest>;
@@ -10884,9 +11044,7 @@ export const CustomersListRequest = /*@__PURE__*/ S.suspend(() =>
     sorting: S.optional(CustomersListRequestSortingList.pipe(T.Query())),
     metadata: S.optional(MetadataQueryMap.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/v1/customers/", code: 200 })),
-).annotate({
-  identifier: "CustomersListRequest",
-}) as any as S.Schema<CustomersListRequest>;
+).annotate({ identifier: "CustomersListRequest" }) as any as S.Schema<CustomersListRequest>;
 
 export type ListResourceCustomerItemsList = Array<Customer>;
 export const ListResourceCustomerItemsList = /*@__PURE__*/ S.Array(
@@ -10902,9 +11060,7 @@ export const ListResourceCustomer = /*@__PURE__*/ S.suspend(() =>
     items: ListResourceCustomerItemsList,
     pagination: Pagination,
   }),
-).annotate({
-  identifier: "ListResourceCustomer",
-}) as any as S.Schema<ListResourceCustomer>;
+).annotate({ identifier: "ListResourceCustomer" }) as any as S.Schema<ListResourceCustomer>;
 
 export interface CustomersListPaymentMethodsRequest {
   /** The customer ID. */
@@ -10919,13 +11075,7 @@ export const CustomersListPaymentMethodsRequest = /*@__PURE__*/ S.suspend(() =>
     id: S.String.pipe(T.Label()),
     page: S.optional(S.Number.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/customers/{id}/payment-methods",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/customers/{id}/payment-methods", code: 200 })),
 ).annotate({
   identifier: "CustomersListPaymentMethodsRequest",
 }) as any as S.Schema<CustomersListPaymentMethodsRequest>;
@@ -10959,6 +11109,35 @@ export const CustomerPaymentMethodCard = /*@__PURE__*/ S.suspend(() =>
   identifier: "CustomerPaymentMethodCard",
 }) as any as S.Schema<CustomerPaymentMethodCard>;
 
+export interface CustomerPaymentMethodKrCard {
+  /** The ID of the object. */
+  id: string;
+  /** Creation timestamp of the object. */
+  created_at: string;
+  /** Last modification timestamp of the object. */
+  modified_at: string | null;
+  processor: PaymentProcessor;
+  customer_id: string;
+  type: string;
+  method_metadata: PaymentMethodKrCardMetadata;
+  /** Whether this payment method is the customer's default payment method. */
+  is_default: boolean;
+}
+export const CustomerPaymentMethodKrCard = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    created_at: S.String,
+    modified_at: S.NullOr(S.String),
+    processor: PaymentProcessor,
+    customer_id: S.String,
+    type: S.String,
+    method_metadata: PaymentMethodKrCardMetadata,
+    is_default: S.Boolean,
+  }),
+).annotate({
+  identifier: "CustomerPaymentMethodKrCard",
+}) as any as S.Schema<CustomerPaymentMethodKrCard>;
+
 export interface CustomerPaymentMethodGeneric {
   /** The ID of the object. */
   id: string;
@@ -10986,7 +11165,10 @@ export const CustomerPaymentMethodGeneric = /*@__PURE__*/ S.suspend(() =>
   identifier: "CustomerPaymentMethodGeneric",
 }) as any as S.Schema<CustomerPaymentMethodGeneric>;
 
-export type PaymentMethod = CustomerPaymentMethodCard | CustomerPaymentMethodGeneric;
+export type PaymentMethod =
+  | CustomerPaymentMethodCard
+  | CustomerPaymentMethodKrCard
+  | CustomerPaymentMethodGeneric;
 export const PaymentMethod = S.Unknown as any as S.Schema<PaymentMethod>;
 
 export type ListResourcePaymentMethodItemsList = Array<PaymentMethod>;
@@ -11078,11 +11260,7 @@ export const CustomersMembersCreateExternalRequest = /*@__PURE__*/ S.suspend(() 
     name: S.optional(S.NullOr(S.String)),
     role: S.optional(CustomersMembersCreateExternalRequestRole),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v1/customers/external/{external_id}/members",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/v1/customers/external/{external_id}/members", code: 200 }),
   ),
 ).annotate({
   identifier: "CustomersMembersCreateExternalRequest",
@@ -11097,13 +11275,7 @@ export const CustomersMembersDeleteRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
     member_id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/v1/customers/{id}/members/{member_id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/v1/customers/{id}/members/{member_id}", code: 200 })),
 ).annotate({
   identifier: "CustomersMembersDeleteRequest",
 }) as any as S.Schema<CustomersMembersDeleteRequest>;
@@ -11150,13 +11322,7 @@ export const CustomersMembersGetRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
     member_id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/customers/{id}/members/{member_id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/customers/{id}/members/{member_id}", code: 200 })),
 ).annotate({
   identifier: "CustomersMembersGetRequest",
 }) as any as S.Schema<CustomersMembersGetRequest>;
@@ -11182,6 +11348,87 @@ export const CustomersMembersGetExternalRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "CustomersMembersGetExternalRequest",
 }) as any as S.Schema<CustomersMembersGetExternalRequest>;
 
+export type MemberSortProperty = "created_at" | "-created_at";
+export const MemberSortProperty = S.String;
+
+export type CustomersMembersListRequestSortingList = Array<MemberSortProperty | (string & {})>;
+export const CustomersMembersListRequestSortingList = /*@__PURE__*/ S.Array(
+  MemberSortProperty,
+) as any as S.Schema<CustomersMembersListRequestSortingList>;
+
+export interface CustomersMembersListRequest {
+  /** The customer ID. */
+  id: string;
+  /** Filter by member role. */
+  role?: MemberRole | (string & {});
+  /** Page number, defaults to 1. */
+  page?: number;
+  /** Size of a page, defaults to 10. Maximum is 100. */
+  limit?: number;
+  /** Sorting criterion. Several criteria can be used simultaneously and will be applied in order. Add a minus sign `-` before the criteria name to sort by descending order. */
+  sorting?: CustomersMembersListRequestSortingList;
+}
+export const CustomersMembersListRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String.pipe(T.Label()),
+    role: S.optional(MemberRole.pipe(T.Query())),
+    page: S.optional(S.Number.pipe(T.Query())),
+    limit: S.optional(S.Number.pipe(T.Query())),
+    sorting: S.optional(CustomersMembersListRequestSortingList.pipe(T.Query())),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/customers/{id}/members", code: 200 })),
+).annotate({
+  identifier: "CustomersMembersListRequest",
+}) as any as S.Schema<CustomersMembersListRequest>;
+
+export type ListResourceMemberItemsList = Array<Member>;
+export const ListResourceMemberItemsList = /*@__PURE__*/ S.Array(
+  Member,
+) as any as S.Schema<ListResourceMemberItemsList>;
+
+export interface ListResourceMember {
+  items: ListResourceMemberItemsList;
+  pagination: Pagination;
+}
+export const ListResourceMember = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    items: ListResourceMemberItemsList,
+    pagination: Pagination,
+  }),
+).annotate({ identifier: "ListResourceMember" }) as any as S.Schema<ListResourceMember>;
+
+export type CustomersMembersListExternalRequestSortingList = Array<
+  MemberSortProperty | (string & {})
+>;
+export const CustomersMembersListExternalRequestSortingList = /*@__PURE__*/ S.Array(
+  MemberSortProperty,
+) as any as S.Schema<CustomersMembersListExternalRequestSortingList>;
+
+export interface CustomersMembersListExternalRequest {
+  /** The customer external ID. */
+  external_id: string;
+  /** Filter by member role. */
+  role?: MemberRole | (string & {});
+  /** Page number, defaults to 1. */
+  page?: number;
+  /** Size of a page, defaults to 10. Maximum is 100. */
+  limit?: number;
+  /** Sorting criterion. Several criteria can be used simultaneously and will be applied in order. Add a minus sign `-` before the criteria name to sort by descending order. */
+  sorting?: CustomersMembersListExternalRequestSortingList;
+}
+export const CustomersMembersListExternalRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    external_id: S.String.pipe(T.Label()),
+    role: S.optional(MemberRole.pipe(T.Query())),
+    page: S.optional(S.Number.pipe(T.Query())),
+    limit: S.optional(S.Number.pipe(T.Query())),
+    sorting: S.optional(CustomersMembersListExternalRequestSortingList.pipe(T.Query())),
+  }).pipe(
+    T.Http({ method: "GET", uri: "/v1/customers/external/{external_id}/members", code: 200 }),
+  ),
+).annotate({
+  identifier: "CustomersMembersListExternalRequest",
+}) as any as S.Schema<CustomersMembersListExternalRequest>;
+
 export interface CustomersMembersUpdateRequest {
   /** The customer ID. */
   id: string;
@@ -11198,13 +11445,7 @@ export const CustomersMembersUpdateRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.NullOr(S.String)),
     email: S.optional(S.NullOr(S.String)),
     role: S.optional(S.NullOr(MemberRole)),
-  }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/v1/customers/{id}/members/{member_id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PATCH", uri: "/v1/customers/{id}/members/{member_id}", code: 200 })),
 ).annotate({
   identifier: "CustomersMembersUpdateRequest",
 }) as any as S.Schema<CustomersMembersUpdateRequest>;
@@ -11278,16 +11519,12 @@ export const CustomersUpdateRequest = /*@__PURE__*/ S.suspend(() =>
     external_id: S.optional(S.NullOr(S.String)),
     type: S.optional(S.NullOr(CustomerType)),
   }).pipe(T.Http({ method: "PATCH", uri: "/v1/customers/{id}", code: 200 })),
-).annotate({
-  identifier: "CustomersUpdateRequest",
-}) as any as S.Schema<CustomersUpdateRequest>;
+).annotate({ identifier: "CustomersUpdateRequest" }) as any as S.Schema<CustomersUpdateRequest>;
 
 export type CustomersUpdateResponse = Customer;
 export const CustomersUpdateResponse = /*@__PURE__*/ S.suspend(() =>
   Customer.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "CustomersUpdateResponse",
-}) as any as S.Schema<CustomersUpdateResponse>;
+).annotate({ identifier: "CustomersUpdateResponse" }) as any as S.Schema<CustomersUpdateResponse>;
 
 export type CustomersUpdateExternalRequestMetadataValue = string | number | number | boolean;
 export const CustomersUpdateExternalRequestMetadataValue =
@@ -11323,13 +11560,7 @@ export const CustomersUpdateExternalRequest = /*@__PURE__*/ S.suspend(() =>
     billing_address: S.optional(S.NullOr(AddressInput)),
     tax_id: S.optional(S.NullOr(S.String)),
     locale: S.optional(S.NullOr(S.String)),
-  }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/v1/customers/external/{external_id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PATCH", uri: "/v1/customers/external/{external_id}", code: 200 })),
 ).annotate({
   identifier: "CustomersUpdateExternalRequest",
 }) as any as S.Schema<CustomersUpdateExternalRequest>;
@@ -11376,9 +11607,7 @@ export const CustomFieldCreateText = /*@__PURE__*/ S.suspend(() =>
     organization_id: S.optional(S.NullOr(S.String)),
     properties: CustomFieldTextProperties,
   }),
-).annotate({
-  identifier: "CustomFieldCreateText",
-}) as any as S.Schema<CustomFieldCreateText>;
+).annotate({ identifier: "CustomFieldCreateText" }) as any as S.Schema<CustomFieldCreateText>;
 
 export type CustomFieldCreateNumberMetadataValue = string | number | number | boolean;
 export const CustomFieldCreateNumberMetadataValue =
@@ -11415,9 +11644,7 @@ export const CustomFieldCreateNumber = /*@__PURE__*/ S.suspend(() =>
     organization_id: S.optional(S.NullOr(S.String)),
     properties: CustomFieldNumberProperties,
   }),
-).annotate({
-  identifier: "CustomFieldCreateNumber",
-}) as any as S.Schema<CustomFieldCreateNumber>;
+).annotate({ identifier: "CustomFieldCreateNumber" }) as any as S.Schema<CustomFieldCreateNumber>;
 
 export type CustomFieldCreateDateMetadataValue = string | number | number | boolean;
 export const CustomFieldCreateDateMetadataValue =
@@ -11454,9 +11681,7 @@ export const CustomFieldCreateDate = /*@__PURE__*/ S.suspend(() =>
     organization_id: S.optional(S.NullOr(S.String)),
     properties: CustomFieldNumberProperties,
   }),
-).annotate({
-  identifier: "CustomFieldCreateDate",
-}) as any as S.Schema<CustomFieldCreateDate>;
+).annotate({ identifier: "CustomFieldCreateDate" }) as any as S.Schema<CustomFieldCreateDate>;
 
 export type CustomFieldCreateCheckboxMetadataValue = string | number | number | boolean;
 export const CustomFieldCreateCheckboxMetadataValue =
@@ -11532,9 +11757,7 @@ export const CustomFieldCreateSelect = /*@__PURE__*/ S.suspend(() =>
     organization_id: S.optional(S.NullOr(S.String)),
     properties: CustomFieldSelectProperties,
   }),
-).annotate({
-  identifier: "CustomFieldCreateSelect",
-}) as any as S.Schema<CustomFieldCreateSelect>;
+).annotate({ identifier: "CustomFieldCreateSelect" }) as any as S.Schema<CustomFieldCreateSelect>;
 
 export type CustomFieldCreate =
   | CustomFieldCreateText
@@ -11587,16 +11810,12 @@ export const CustomFieldsGetRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/v1/custom-fields/{id}", code: 200 })),
-).annotate({
-  identifier: "CustomFieldsGetRequest",
-}) as any as S.Schema<CustomFieldsGetRequest>;
+).annotate({ identifier: "CustomFieldsGetRequest" }) as any as S.Schema<CustomFieldsGetRequest>;
 
 export type CustomFieldsGetResponse = CustomField;
 export const CustomFieldsGetResponse = /*@__PURE__*/ S.suspend(() =>
   CustomField.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "CustomFieldsGetResponse",
-}) as any as S.Schema<CustomFieldsGetResponse>;
+).annotate({ identifier: "CustomFieldsGetResponse" }) as any as S.Schema<CustomFieldsGetResponse>;
 
 export type CustomFieldsListRequestOrganizationIdCase1List = Array<string>;
 export const CustomFieldsListRequestOrganizationIdCase1List = /*@__PURE__*/ S.Array(
@@ -11662,9 +11881,7 @@ export const CustomFieldsListRequest = /*@__PURE__*/ S.suspend(() =>
     limit: S.optional(S.Number.pipe(T.Query())),
     sorting: S.optional(CustomFieldsListRequestSortingList.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/v1/custom-fields/", code: 200 })),
-).annotate({
-  identifier: "CustomFieldsListRequest",
-}) as any as S.Schema<CustomFieldsListRequest>;
+).annotate({ identifier: "CustomFieldsListRequest" }) as any as S.Schema<CustomFieldsListRequest>;
 
 export type ListResourceCustomFieldItemsList = Array<CustomField>;
 export const ListResourceCustomFieldItemsList = /*@__PURE__*/ S.Array(
@@ -11680,9 +11897,7 @@ export const ListResourceCustomField = /*@__PURE__*/ S.suspend(() =>
     items: ListResourceCustomFieldItemsList,
     pagination: Pagination,
   }),
-).annotate({
-  identifier: "ListResourceCustomField",
-}) as any as S.Schema<ListResourceCustomField>;
+).annotate({ identifier: "ListResourceCustomField" }) as any as S.Schema<ListResourceCustomField>;
 
 export type CustomFieldUpdateTextMetadataValue = string | number | number | boolean;
 export const CustomFieldUpdateTextMetadataValue =
@@ -11714,9 +11929,7 @@ export const CustomFieldUpdateText = /*@__PURE__*/ S.suspend(() =>
     type: S.String,
     properties: S.optional(S.NullOr(CustomFieldTextProperties)),
   }),
-).annotate({
-  identifier: "CustomFieldUpdateText",
-}) as any as S.Schema<CustomFieldUpdateText>;
+).annotate({ identifier: "CustomFieldUpdateText" }) as any as S.Schema<CustomFieldUpdateText>;
 
 export type CustomFieldUpdateNumberMetadataValue = string | number | number | boolean;
 export const CustomFieldUpdateNumberMetadataValue =
@@ -11748,9 +11961,7 @@ export const CustomFieldUpdateNumber = /*@__PURE__*/ S.suspend(() =>
     type: S.String,
     properties: S.optional(S.NullOr(CustomFieldNumberProperties)),
   }),
-).annotate({
-  identifier: "CustomFieldUpdateNumber",
-}) as any as S.Schema<CustomFieldUpdateNumber>;
+).annotate({ identifier: "CustomFieldUpdateNumber" }) as any as S.Schema<CustomFieldUpdateNumber>;
 
 export type CustomFieldUpdateDateMetadataValue = string | number | number | boolean;
 export const CustomFieldUpdateDateMetadataValue =
@@ -11782,9 +11993,7 @@ export const CustomFieldUpdateDate = /*@__PURE__*/ S.suspend(() =>
     type: S.String,
     properties: S.optional(S.NullOr(CustomFieldNumberProperties)),
   }),
-).annotate({
-  identifier: "CustomFieldUpdateDate",
-}) as any as S.Schema<CustomFieldUpdateDate>;
+).annotate({ identifier: "CustomFieldUpdateDate" }) as any as S.Schema<CustomFieldUpdateDate>;
 
 export type CustomFieldUpdateCheckboxMetadataValue = string | number | number | boolean;
 export const CustomFieldUpdateCheckboxMetadataValue =
@@ -11850,9 +12059,7 @@ export const CustomFieldUpdateSelect = /*@__PURE__*/ S.suspend(() =>
     type: S.String,
     properties: S.optional(S.NullOr(CustomFieldSelectProperties)),
   }),
-).annotate({
-  identifier: "CustomFieldUpdateSelect",
-}) as any as S.Schema<CustomFieldUpdateSelect>;
+).annotate({ identifier: "CustomFieldUpdateSelect" }) as any as S.Schema<CustomFieldUpdateSelect>;
 
 export type CustomFieldUpdate =
   | CustomFieldUpdateText
@@ -11903,9 +12110,7 @@ export const DiscountFixedCreateProductsList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<DiscountFixedCreateProductsList>;
 
 /** Map of currency to fixed amount to discount from the total. This allows specifying different discount amounts for different currencies. */
-export type DiscountFixedCreateAmountsMap = {
-  [key: string]: number | undefined;
-};
+export type DiscountFixedCreateAmountsMap = { [key: string]: number | undefined };
 export const DiscountFixedCreateAmountsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Number,
@@ -11957,9 +12162,7 @@ export const DiscountFixedCreate = /*@__PURE__*/ S.suspend(() =>
     currency: S.optional(S.NullOr(PresentmentCurrency)),
     amounts: S.optional(S.NullOr(DiscountFixedCreateAmountsMap)),
   }),
-).annotate({
-  identifier: "DiscountFixedCreate",
-}) as any as S.Schema<DiscountFixedCreate>;
+).annotate({ identifier: "DiscountFixedCreate" }) as any as S.Schema<DiscountFixedCreate>;
 
 export type DiscountPercentageCreateMetadataValue = string | number | number | boolean;
 export const DiscountPercentageCreateMetadataValue =
@@ -12023,9 +12226,7 @@ export const DiscountPercentageCreate = /*@__PURE__*/ S.suspend(() =>
     duration_in_months: S.optional(S.NullOr(S.Number)),
     basis_points: S.Number,
   }),
-).annotate({
-  identifier: "DiscountPercentageCreate",
-}) as any as S.Schema<DiscountPercentageCreate>;
+).annotate({ identifier: "DiscountPercentageCreate" }) as any as S.Schema<DiscountPercentageCreate>;
 
 export type DiscountCreate = DiscountFixedCreate | DiscountPercentageCreate;
 export const DiscountCreate = S.Unknown as any as S.Schema<DiscountCreate>;
@@ -12037,14 +12238,10 @@ export const DiscountsCreateRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     body: DiscountCreate.pipe(T.HttpBody()),
   }).pipe(T.Http({ method: "POST", uri: "/v1/discounts/", code: 200 })),
-).annotate({
-  identifier: "DiscountsCreateRequest",
-}) as any as S.Schema<DiscountsCreateRequest>;
+).annotate({ identifier: "DiscountsCreateRequest" }) as any as S.Schema<DiscountsCreateRequest>;
 
 /** Map of currency to fixed amount to discount from the total. */
-export type DiscountFixedOnceForeverDurationAmountsMap = {
-  [key: string]: number | undefined;
-};
+export type DiscountFixedOnceForeverDurationAmountsMap = { [key: string]: number | undefined };
 export const DiscountFixedOnceForeverDurationAmountsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Number,
@@ -12103,9 +12300,7 @@ export const DiscountProduct = /*@__PURE__*/ S.suspend(() =>
     is_archived: S.Boolean,
     organization_id: S.String,
   }),
-).annotate({
-  identifier: "DiscountProduct",
-}) as any as S.Schema<DiscountProduct>;
+).annotate({ identifier: "DiscountProduct" }) as any as S.Schema<DiscountProduct>;
 
 export type DiscountFixedOnceForeverDurationProductsList = Array<DiscountProduct>;
 export const DiscountFixedOnceForeverDurationProductsList = /*@__PURE__*/ S.Array(
@@ -12171,9 +12366,7 @@ export const DiscountFixedOnceForeverDuration = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<DiscountFixedOnceForeverDuration>;
 
 /** Map of currency to fixed amount to discount from the total. */
-export type DiscountFixedRepeatDurationAmountsMap = {
-  [key: string]: number | undefined;
-};
+export type DiscountFixedRepeatDurationAmountsMap = { [key: string]: number | undefined };
 export const DiscountFixedRepeatDurationAmountsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Number,
@@ -12374,9 +12567,7 @@ export const Discount = S.Unknown as any as S.Schema<Discount>;
 export type DiscountsCreateResponse = Discount;
 export const DiscountsCreateResponse = /*@__PURE__*/ S.suspend(() =>
   Discount.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "DiscountsCreateResponse",
-}) as any as S.Schema<DiscountsCreateResponse>;
+).annotate({ identifier: "DiscountsCreateResponse" }) as any as S.Schema<DiscountsCreateResponse>;
 
 export interface DiscountsDeleteRequest {
   /** The discount ID. */
@@ -12386,9 +12577,7 @@ export const DiscountsDeleteRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "DELETE", uri: "/v1/discounts/{id}", code: 200 })),
-).annotate({
-  identifier: "DiscountsDeleteRequest",
-}) as any as S.Schema<DiscountsDeleteRequest>;
+).annotate({ identifier: "DiscountsDeleteRequest" }) as any as S.Schema<DiscountsDeleteRequest>;
 
 export interface DiscountsDeleteResponse {}
 export const DiscountsDeleteResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -12403,16 +12592,12 @@ export const DiscountsGetRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/v1/discounts/{id}", code: 200 })),
-).annotate({
-  identifier: "DiscountsGetRequest",
-}) as any as S.Schema<DiscountsGetRequest>;
+).annotate({ identifier: "DiscountsGetRequest" }) as any as S.Schema<DiscountsGetRequest>;
 
 export type DiscountsGetResponse = Discount;
 export const DiscountsGetResponse = /*@__PURE__*/ S.suspend(() =>
   Discount.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "DiscountsGetResponse",
-}) as any as S.Schema<DiscountsGetResponse>;
+).annotate({ identifier: "DiscountsGetResponse" }) as any as S.Schema<DiscountsGetResponse>;
 
 export type DiscountsListRequestOrganizationIdCase1List = Array<string>;
 export const DiscountsListRequestOrganizationIdCase1List = /*@__PURE__*/ S.Array(
@@ -12464,9 +12649,7 @@ export const DiscountsListRequest = /*@__PURE__*/ S.suspend(() =>
     limit: S.optional(S.Number.pipe(T.Query())),
     sorting: S.optional(DiscountsListRequestSortingList.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/v1/discounts/", code: 200 })),
-).annotate({
-  identifier: "DiscountsListRequest",
-}) as any as S.Schema<DiscountsListRequest>;
+).annotate({ identifier: "DiscountsListRequest" }) as any as S.Schema<DiscountsListRequest>;
 
 export type ListResourceDiscountItemsList = Array<Discount>;
 export const ListResourceDiscountItemsList = /*@__PURE__*/ S.Array(
@@ -12482,9 +12665,7 @@ export const ListResourceDiscount = /*@__PURE__*/ S.suspend(() =>
     items: ListResourceDiscountItemsList,
     pagination: Pagination,
   }),
-).annotate({
-  identifier: "ListResourceDiscount",
-}) as any as S.Schema<ListResourceDiscount>;
+).annotate({ identifier: "ListResourceDiscount" }) as any as S.Schema<ListResourceDiscount>;
 
 export type DiscountsUpdateRequestMetadataValue = string | number | number | boolean;
 export const DiscountsUpdateRequestMetadataValue =
@@ -12500,9 +12681,7 @@ export const DiscountsUpdateRequestMetadataMap = /*@__PURE__*/ S.Record(
 ) as any as S.Schema<DiscountsUpdateRequestMetadataMap>;
 
 /** Map of currency to fixed amount to discount from the total. This allows specifying different discount amounts for different currencies. */
-export type DiscountsUpdateRequestAmountsMap = {
-  [key: string]: number | undefined;
-};
+export type DiscountsUpdateRequestAmountsMap = { [key: string]: number | undefined };
 export const DiscountsUpdateRequestAmountsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Number,
@@ -12558,16 +12737,12 @@ export const DiscountsUpdateRequest = /*@__PURE__*/ S.suspend(() =>
     basis_points: S.optional(S.NullOr(S.Number)),
     products: S.optional(S.NullOr(DiscountsUpdateRequestProductsList)),
   }).pipe(T.Http({ method: "PATCH", uri: "/v1/discounts/{id}", code: 200 })),
-).annotate({
-  identifier: "DiscountsUpdateRequest",
-}) as any as S.Schema<DiscountsUpdateRequest>;
+).annotate({ identifier: "DiscountsUpdateRequest" }) as any as S.Schema<DiscountsUpdateRequest>;
 
 export type DiscountsUpdateResponse = Discount;
 export const DiscountsUpdateResponse = /*@__PURE__*/ S.suspend(() =>
   Discount.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "DiscountsUpdateResponse",
-}) as any as S.Schema<DiscountsUpdateResponse>;
+).annotate({ identifier: "DiscountsUpdateResponse" }) as any as S.Schema<DiscountsUpdateResponse>;
 
 export interface DisputesAcceptRequest {
   /** The dispute ID. */
@@ -12577,9 +12752,7 @@ export const DisputesAcceptRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "POST", uri: "/v1/disputes/{id}/accept", code: 200 })),
-).annotate({
-  identifier: "DisputesAcceptRequest",
-}) as any as S.Schema<DisputesAcceptRequest>;
+).annotate({ identifier: "DisputesAcceptRequest" }) as any as S.Schema<DisputesAcceptRequest>;
 
 export type DisputeStatus =
   | "prevented"
@@ -12649,9 +12822,7 @@ export const DisputeCustomer = /*@__PURE__*/ S.suspend(() =>
     first_user_event_at: S.NullOr(S.String),
     avatar_url: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "DisputeCustomer",
-}) as any as S.Schema<DisputeCustomer>;
+).annotate({ identifier: "DisputeCustomer" }) as any as S.Schema<DisputeCustomer>;
 
 /** Schema representing a dispute. A dispute is a challenge raised by a customer or their bank regarding a payment. */
 export interface Dispute {
@@ -12717,9 +12888,7 @@ export const DisputesGetRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/v1/disputes/{id}", code: 200 })),
-).annotate({
-  identifier: "DisputesGetRequest",
-}) as any as S.Schema<DisputesGetRequest>;
+).annotate({ identifier: "DisputesGetRequest" }) as any as S.Schema<DisputesGetRequest>;
 
 export type DisputesListRequestOrganizationIdCase1List = Array<string>;
 export const DisputesListRequestOrganizationIdCase1List = /*@__PURE__*/ S.Array(
@@ -12780,9 +12949,7 @@ export const DisputesListRequest = /*@__PURE__*/ S.suspend(() =>
     limit: S.optional(S.Number.pipe(T.Query())),
     sorting: S.optional(DisputesListRequestSortingList.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/v1/disputes/", code: 200 })),
-).annotate({
-  identifier: "DisputesListRequest",
-}) as any as S.Schema<DisputesListRequest>;
+).annotate({ identifier: "DisputesListRequest" }) as any as S.Schema<DisputesListRequest>;
 
 export type ListResourceDisputeItemsList = Array<Dispute>;
 export const ListResourceDisputeItemsList = /*@__PURE__*/ S.Array(
@@ -12798,9 +12965,7 @@ export const ListResourceDispute = /*@__PURE__*/ S.suspend(() =>
     items: ListResourceDisputeItemsList,
     pagination: Pagination,
   }),
-).annotate({
-  identifier: "ListResourceDispute",
-}) as any as S.Schema<ListResourceDispute>;
+).annotate({ identifier: "ListResourceDispute" }) as any as S.Schema<ListResourceDispute>;
 
 export interface EventsGetRequest {
   /** The event ID. */
@@ -12810,9 +12975,7 @@ export const EventsGetRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/v1/events/{id}", code: 200 })),
-).annotate({
-  identifier: "EventsGetRequest",
-}) as any as S.Schema<EventsGetRequest>;
+).annotate({ identifier: "EventsGetRequest" }) as any as S.Schema<EventsGetRequest>;
 
 export interface MeterCreditedMetadata {
   meter_id: string;
@@ -12825,9 +12988,7 @@ export const MeterCreditedMetadata = /*@__PURE__*/ S.suspend(() =>
     units: S.Number,
     rollover: S.Boolean,
   }),
-).annotate({
-  identifier: "MeterCreditedMetadata",
-}) as any as S.Schema<MeterCreditedMetadata>;
+).annotate({ identifier: "MeterCreditedMetadata" }) as any as S.Schema<MeterCreditedMetadata>;
 
 /** An event created by Polar when credits are added to a customer meter. */
 export interface MeterCreditEvent {
@@ -12876,9 +13037,7 @@ export const MeterCreditEvent = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     metadata: MeterCreditedMetadata,
   }),
-).annotate({
-  identifier: "MeterCreditEvent",
-}) as any as S.Schema<MeterCreditEvent>;
+).annotate({ identifier: "MeterCreditEvent" }) as any as S.Schema<MeterCreditEvent>;
 
 export interface MeterResetMetadata {
   meter_id: string;
@@ -12887,9 +13046,7 @@ export const MeterResetMetadata = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     meter_id: S.String,
   }),
-).annotate({
-  identifier: "MeterResetMetadata",
-}) as any as S.Schema<MeterResetMetadata>;
+).annotate({ identifier: "MeterResetMetadata" }) as any as S.Schema<MeterResetMetadata>;
 
 /** An event created by Polar when a customer meter is reset. */
 export interface MeterResetEvent {
@@ -12938,9 +13095,7 @@ export const MeterResetEvent = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     metadata: MeterResetMetadata,
   }),
-).annotate({
-  identifier: "MeterResetEvent",
-}) as any as S.Schema<MeterResetEvent>;
+).annotate({ identifier: "MeterResetEvent" }) as any as S.Schema<MeterResetEvent>;
 
 export interface BenefitGrantMetadata {
   benefit_id: string;
@@ -12955,9 +13110,7 @@ export const BenefitGrantMetadata = /*@__PURE__*/ S.suspend(() =>
     benefit_type: BenefitType,
     member_id: S.optional(S.String),
   }),
-).annotate({
-  identifier: "BenefitGrantMetadata",
-}) as any as S.Schema<BenefitGrantMetadata>;
+).annotate({ identifier: "BenefitGrantMetadata" }) as any as S.Schema<BenefitGrantMetadata>;
 
 /** An event created by Polar when a benefit is granted to a customer. */
 export interface BenefitGrantedEvent {
@@ -13006,9 +13159,7 @@ export const BenefitGrantedEvent = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     metadata: BenefitGrantMetadata,
   }),
-).annotate({
-  identifier: "BenefitGrantedEvent",
-}) as any as S.Schema<BenefitGrantedEvent>;
+).annotate({ identifier: "BenefitGrantedEvent" }) as any as S.Schema<BenefitGrantedEvent>;
 
 /** An event created by Polar when a benefit is cycled. */
 export type BenefitCycledEvent = BenefitGrantedEvent;
@@ -13092,9 +13243,7 @@ export const SubscriptionCreatedEvent = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     metadata: SubscriptionCreatedMetadata,
   }),
-).annotate({
-  identifier: "SubscriptionCreatedEvent",
-}) as any as S.Schema<SubscriptionCreatedEvent>;
+).annotate({ identifier: "SubscriptionCreatedEvent" }) as any as S.Schema<SubscriptionCreatedEvent>;
 
 export interface SubscriptionUpdatedMetadata {
   product_id?: string;
@@ -13102,6 +13251,7 @@ export interface SubscriptionUpdatedMetadata {
   discount_id?: string | null;
   trial_end?: string;
   seats?: number;
+  units?: number;
   billing_period_end?: string;
   subscription_id: string;
 }
@@ -13112,6 +13262,7 @@ export const SubscriptionUpdatedMetadata = /*@__PURE__*/ S.suspend(() =>
     discount_id: S.optional(S.NullOr(S.String)),
     trial_end: S.optional(S.String),
     seats: S.optional(S.Number),
+    units: S.optional(S.Number),
     billing_period_end: S.optional(S.String),
     subscription_id: S.String,
   }),
@@ -13166,9 +13317,7 @@ export const SubscriptionUpdatedEvent = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     metadata: SubscriptionUpdatedMetadata,
   }),
-).annotate({
-  identifier: "SubscriptionUpdatedEvent",
-}) as any as S.Schema<SubscriptionUpdatedEvent>;
+).annotate({ identifier: "SubscriptionUpdatedEvent" }) as any as S.Schema<SubscriptionUpdatedEvent>;
 
 export interface SubscriptionCycledMetadata {
   subscription_id: string;
@@ -13238,9 +13387,7 @@ export const SubscriptionCycledEvent = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     metadata: SubscriptionCycledMetadata,
   }),
-).annotate({
-  identifier: "SubscriptionCycledEvent",
-}) as any as S.Schema<SubscriptionCycledEvent>;
+).annotate({ identifier: "SubscriptionCycledEvent" }) as any as S.Schema<SubscriptionCycledEvent>;
 
 export interface SubscriptionCanceledMetadata {
   subscription_id: string;
@@ -13401,9 +13548,7 @@ export const SubscriptionPastDueEvent = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     metadata: SubscriptionPastDueMetadata,
   }),
-).annotate({
-  identifier: "SubscriptionPastDueEvent",
-}) as any as S.Schema<SubscriptionPastDueEvent>;
+).annotate({ identifier: "SubscriptionPastDueEvent" }) as any as S.Schema<SubscriptionPastDueEvent>;
 
 export type SubscriptionReactivatedMetadata = SubscriptionCycledMetadata;
 export const SubscriptionReactivatedMetadata = SubscriptionCycledMetadata;
@@ -13491,9 +13636,7 @@ export const SubscriptionPausedEvent = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     metadata: SubscriptionPausedMetadata,
   }),
-).annotate({
-  identifier: "SubscriptionPausedEvent",
-}) as any as S.Schema<SubscriptionPausedEvent>;
+).annotate({ identifier: "SubscriptionPausedEvent" }) as any as S.Schema<SubscriptionPausedEvent>;
 
 export type SubscriptionResumedMetadata = SubscriptionCycledMetadata;
 export const SubscriptionResumedMetadata = SubscriptionCycledMetadata;
@@ -13501,6 +13644,74 @@ export const SubscriptionResumedMetadata = SubscriptionCycledMetadata;
 /** An event created by Polar when a paused subscription is resumed. */
 export type SubscriptionResumedEvent = SubscriptionCycledEvent;
 export const SubscriptionResumedEvent = SubscriptionCycledEvent;
+
+export interface SubscriptionMigratedMetadata {
+  subscription_id: string;
+  provider: string;
+  provider_subscription_id: string;
+  product_id: string;
+}
+export const SubscriptionMigratedMetadata = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    subscription_id: S.String,
+    provider: S.String,
+    provider_subscription_id: S.String,
+    product_id: S.String,
+  }),
+).annotate({
+  identifier: "SubscriptionMigratedMetadata",
+}) as any as S.Schema<SubscriptionMigratedMetadata>;
+
+/** An event created by Polar when a subscription is migrated to Polar. */
+export interface SubscriptionMigratedEvent {
+  /** The ID of the object. */
+  id: string;
+  /** The timestamp of the event. */
+  timestamp: string;
+  /** The ID of the organization owning the event. */
+  organization_id: string;
+  /** ID of the customer in your Polar organization associated with the event. */
+  customer_id: string | null;
+  /** The customer associated with the event. */
+  customer: Customer | null;
+  /** ID of the customer in your system associated with the event. */
+  external_customer_id: string | null;
+  /** ID of the member within the customer's organization who performed the action inside B2B. */
+  member_id?: string | null;
+  /** ID of the member in your system within the customer's organization who performed the action inside B2B. */
+  external_member_id?: string | null;
+  /** Number of direct child events linked to this event. */
+  child_count?: number;
+  /** The ID of the parent event. */
+  parent_id?: string | null;
+  /** Human readable label of the event type. */
+  label: string;
+  /** The source of the event. `system` events are created by Polar. `user` events are the one you create through our ingestion API. */
+  source: string;
+  /** The name of the event. */
+  name: string;
+  metadata: SubscriptionMigratedMetadata;
+}
+export const SubscriptionMigratedEvent = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    timestamp: S.String,
+    organization_id: S.String,
+    customer_id: S.NullOr(S.String),
+    customer: S.NullOr(Customer),
+    external_customer_id: S.NullOr(S.String),
+    member_id: S.optional(S.NullOr(S.String)),
+    external_member_id: S.optional(S.NullOr(S.String)),
+    child_count: S.optional(S.Number),
+    parent_id: S.optional(S.NullOr(S.String)),
+    label: S.String,
+    source: S.String,
+    name: S.String,
+    metadata: SubscriptionMigratedMetadata,
+  }),
+).annotate({
+  identifier: "SubscriptionMigratedEvent",
+}) as any as S.Schema<SubscriptionMigratedEvent>;
 
 export interface SubscriptionUncanceledMetadata {
   subscription_id: string;
@@ -13708,6 +13919,74 @@ export const SubscriptionSeatsUpdatedEvent = /*@__PURE__*/ S.suspend(() =>
   identifier: "SubscriptionSeatsUpdatedEvent",
 }) as any as S.Schema<SubscriptionSeatsUpdatedEvent>;
 
+export interface SubscriptionUnitsUpdatedMetadata {
+  subscription_id: string;
+  old_units: number;
+  new_units: number;
+  proration_behavior: string;
+}
+export const SubscriptionUnitsUpdatedMetadata = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    subscription_id: S.String,
+    old_units: S.Number,
+    new_units: S.Number,
+    proration_behavior: S.String,
+  }),
+).annotate({
+  identifier: "SubscriptionUnitsUpdatedMetadata",
+}) as any as S.Schema<SubscriptionUnitsUpdatedMetadata>;
+
+/** An event created by Polar when the units on a subscription are changed. */
+export interface SubscriptionUnitsUpdatedEvent {
+  /** The ID of the object. */
+  id: string;
+  /** The timestamp of the event. */
+  timestamp: string;
+  /** The ID of the organization owning the event. */
+  organization_id: string;
+  /** ID of the customer in your Polar organization associated with the event. */
+  customer_id: string | null;
+  /** The customer associated with the event. */
+  customer: Customer | null;
+  /** ID of the customer in your system associated with the event. */
+  external_customer_id: string | null;
+  /** ID of the member within the customer's organization who performed the action inside B2B. */
+  member_id?: string | null;
+  /** ID of the member in your system within the customer's organization who performed the action inside B2B. */
+  external_member_id?: string | null;
+  /** Number of direct child events linked to this event. */
+  child_count?: number;
+  /** The ID of the parent event. */
+  parent_id?: string | null;
+  /** Human readable label of the event type. */
+  label: string;
+  /** The source of the event. `system` events are created by Polar. `user` events are the one you create through our ingestion API. */
+  source: string;
+  /** The name of the event. */
+  name: string;
+  metadata: SubscriptionUnitsUpdatedMetadata;
+}
+export const SubscriptionUnitsUpdatedEvent = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    timestamp: S.String,
+    organization_id: S.String,
+    customer_id: S.NullOr(S.String),
+    customer: S.NullOr(Customer),
+    external_customer_id: S.NullOr(S.String),
+    member_id: S.optional(S.NullOr(S.String)),
+    external_member_id: S.optional(S.NullOr(S.String)),
+    child_count: S.optional(S.Number),
+    parent_id: S.optional(S.NullOr(S.String)),
+    label: S.String,
+    source: S.String,
+    name: S.String,
+    metadata: SubscriptionUnitsUpdatedMetadata,
+  }),
+).annotate({
+  identifier: "SubscriptionUnitsUpdatedEvent",
+}) as any as S.Schema<SubscriptionUnitsUpdatedEvent>;
+
 export interface SubscriptionBillingPeriodUpdatedMetadata {
   subscription_id: string;
   old_period_end: string;
@@ -13869,9 +14148,7 @@ export const OrderPaidMetadata = /*@__PURE__*/ S.suspend(() =>
     recurring_interval: S.optional(S.String),
     recurring_interval_count: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "OrderPaidMetadata",
-}) as any as S.Schema<OrderPaidMetadata>;
+).annotate({ identifier: "OrderPaidMetadata" }) as any as S.Schema<OrderPaidMetadata>;
 
 /** An event created by Polar when an order is paid. */
 export interface OrderPaidEvent {
@@ -13933,9 +14210,7 @@ export const OrderRefundedMetadata = /*@__PURE__*/ S.suspend(() =>
     refunded_amount: S.Number,
     currency: S.String,
   }),
-).annotate({
-  identifier: "OrderRefundedMetadata",
-}) as any as S.Schema<OrderRefundedMetadata>;
+).annotate({ identifier: "OrderRefundedMetadata" }) as any as S.Schema<OrderRefundedMetadata>;
 
 /** An event created by Polar when an order is refunded. */
 export interface OrderRefundedEvent {
@@ -13984,9 +14259,7 @@ export const OrderRefundedEvent = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     metadata: OrderRefundedMetadata,
   }),
-).annotate({
-  identifier: "OrderRefundedEvent",
-}) as any as S.Schema<OrderRefundedEvent>;
+).annotate({ identifier: "OrderRefundedEvent" }) as any as S.Schema<OrderRefundedEvent>;
 
 export interface OrderVoidedMetadata {
   order_id: string;
@@ -13999,9 +14272,7 @@ export const OrderVoidedMetadata = /*@__PURE__*/ S.suspend(() =>
     amount: S.Number,
     currency: S.String,
   }),
-).annotate({
-  identifier: "OrderVoidedMetadata",
-}) as any as S.Schema<OrderVoidedMetadata>;
+).annotate({ identifier: "OrderVoidedMetadata" }) as any as S.Schema<OrderVoidedMetadata>;
 
 /** An event created by Polar when an order is voided. */
 export interface OrderVoidedEvent {
@@ -14050,9 +14321,7 @@ export const OrderVoidedEvent = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     metadata: OrderVoidedMetadata,
   }),
-).annotate({
-  identifier: "OrderVoidedEvent",
-}) as any as S.Schema<OrderVoidedEvent>;
+).annotate({ identifier: "OrderVoidedEvent" }) as any as S.Schema<OrderVoidedEvent>;
 
 export type OrderUnvoidedMetadata = OrderVoidedMetadata;
 export const OrderUnvoidedMetadata = OrderVoidedMetadata;
@@ -14072,9 +14341,7 @@ export const CheckoutCreatedMetadata = /*@__PURE__*/ S.suspend(() =>
     checkout_status: S.String,
     product_id: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CheckoutCreatedMetadata",
-}) as any as S.Schema<CheckoutCreatedMetadata>;
+).annotate({ identifier: "CheckoutCreatedMetadata" }) as any as S.Schema<CheckoutCreatedMetadata>;
 
 /** An event created by Polar when a checkout is created. */
 export interface CheckoutCreatedEvent {
@@ -14123,9 +14390,7 @@ export const CheckoutCreatedEvent = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     metadata: CheckoutCreatedMetadata,
   }),
-).annotate({
-  identifier: "CheckoutCreatedEvent",
-}) as any as S.Schema<CheckoutCreatedEvent>;
+).annotate({ identifier: "CheckoutCreatedEvent" }) as any as S.Schema<CheckoutCreatedEvent>;
 
 export interface CustomerCreatedMetadata {
   customer_id: string;
@@ -14140,9 +14405,7 @@ export const CustomerCreatedMetadata = /*@__PURE__*/ S.suspend(() =>
     customer_name: S.NullOr(S.String),
     customer_external_id: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "CustomerCreatedMetadata",
-}) as any as S.Schema<CustomerCreatedMetadata>;
+).annotate({ identifier: "CustomerCreatedMetadata" }) as any as S.Schema<CustomerCreatedMetadata>;
 
 /** An event created by Polar when a customer is created. */
 export interface CustomerCreatedEvent {
@@ -14191,9 +14454,7 @@ export const CustomerCreatedEvent = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     metadata: CustomerCreatedMetadata,
   }),
-).annotate({
-  identifier: "CustomerCreatedEvent",
-}) as any as S.Schema<CustomerCreatedEvent>;
+).annotate({ identifier: "CustomerCreatedEvent" }) as any as S.Schema<CustomerCreatedEvent>;
 
 export interface AddressDict {
   line1?: string;
@@ -14243,9 +14504,7 @@ export const CustomerUpdatedFields = /*@__PURE__*/ S.suspend(() =>
     tax_id: S.optional(S.NullOr(S.String)),
     metadata: S.optional(S.NullOr(CustomerUpdatedFieldsMetadataMap)),
   }),
-).annotate({
-  identifier: "CustomerUpdatedFields",
-}) as any as S.Schema<CustomerUpdatedFields>;
+).annotate({ identifier: "CustomerUpdatedFields" }) as any as S.Schema<CustomerUpdatedFields>;
 
 export interface CustomerUpdatedMetadata {
   customer_id: string;
@@ -14262,9 +14521,7 @@ export const CustomerUpdatedMetadata = /*@__PURE__*/ S.suspend(() =>
     customer_external_id: S.NullOr(S.String),
     updated_fields: CustomerUpdatedFields,
   }),
-).annotate({
-  identifier: "CustomerUpdatedMetadata",
-}) as any as S.Schema<CustomerUpdatedMetadata>;
+).annotate({ identifier: "CustomerUpdatedMetadata" }) as any as S.Schema<CustomerUpdatedMetadata>;
 
 /** An event created by Polar when a customer is updated. */
 export interface CustomerUpdatedEvent {
@@ -14313,9 +14570,7 @@ export const CustomerUpdatedEvent = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     metadata: CustomerUpdatedMetadata,
   }),
-).annotate({
-  identifier: "CustomerUpdatedEvent",
-}) as any as S.Schema<CustomerUpdatedEvent>;
+).annotate({ identifier: "CustomerUpdatedEvent" }) as any as S.Schema<CustomerUpdatedEvent>;
 
 export type CustomerDeletedMetadata = CustomerCreatedMetadata;
 export const CustomerDeletedMetadata = CustomerCreatedMetadata;
@@ -14357,9 +14612,7 @@ export const BalanceOrderMetadata = /*@__PURE__*/ S.suspend(() =>
     fee: S.Number,
     exchange_rate: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "BalanceOrderMetadata",
-}) as any as S.Schema<BalanceOrderMetadata>;
+).annotate({ identifier: "BalanceOrderMetadata" }) as any as S.Schema<BalanceOrderMetadata>;
 
 /** An event created by Polar when an order is paid. */
 export interface BalanceOrderEvent {
@@ -14408,9 +14661,7 @@ export const BalanceOrderEvent = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     metadata: BalanceOrderMetadata,
   }),
-).annotate({
-  identifier: "BalanceOrderEvent",
-}) as any as S.Schema<BalanceOrderEvent>;
+).annotate({ identifier: "BalanceOrderEvent" }) as any as S.Schema<BalanceOrderEvent>;
 
 export interface BalanceCreditOrderMetadata {
   order_id: string;
@@ -14488,9 +14739,7 @@ export const BalanceCreditOrderEvent = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     metadata: BalanceCreditOrderMetadata,
   }),
-).annotate({
-  identifier: "BalanceCreditOrderEvent",
-}) as any as S.Schema<BalanceCreditOrderEvent>;
+).annotate({ identifier: "BalanceCreditOrderEvent" }) as any as S.Schema<BalanceCreditOrderEvent>;
 
 export interface BalanceRefundMetadata {
   transaction_id: string;
@@ -14529,9 +14778,7 @@ export const BalanceRefundMetadata = /*@__PURE__*/ S.suspend(() =>
     fee: S.Number,
     exchange_rate: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "BalanceRefundMetadata",
-}) as any as S.Schema<BalanceRefundMetadata>;
+).annotate({ identifier: "BalanceRefundMetadata" }) as any as S.Schema<BalanceRefundMetadata>;
 
 /** An event created by Polar when an order is refunded. */
 export interface BalanceRefundEvent {
@@ -14580,9 +14827,7 @@ export const BalanceRefundEvent = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     metadata: BalanceRefundMetadata,
   }),
-).annotate({
-  identifier: "BalanceRefundEvent",
-}) as any as S.Schema<BalanceRefundEvent>;
+).annotate({ identifier: "BalanceRefundEvent" }) as any as S.Schema<BalanceRefundEvent>;
 
 /** An event created by Polar when a refund is reverted. */
 export type BalanceRefundReversalEvent = BalanceRefundEvent;
@@ -14623,9 +14868,7 @@ export const BalanceDisputeMetadata = /*@__PURE__*/ S.suspend(() =>
     fee: S.Number,
     exchange_rate: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "BalanceDisputeMetadata",
-}) as any as S.Schema<BalanceDisputeMetadata>;
+).annotate({ identifier: "BalanceDisputeMetadata" }) as any as S.Schema<BalanceDisputeMetadata>;
 
 /** An event created by Polar when an order is disputed. */
 export interface BalanceDisputeEvent {
@@ -14674,9 +14917,7 @@ export const BalanceDisputeEvent = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     metadata: BalanceDisputeMetadata,
   }),
-).annotate({
-  identifier: "BalanceDisputeEvent",
-}) as any as S.Schema<BalanceDisputeEvent>;
+).annotate({ identifier: "BalanceDisputeEvent" }) as any as S.Schema<BalanceDisputeEvent>;
 
 /** An event created by Polar when a dispute is won and funds are reinstated. */
 export type BalanceDisputeReversalEvent = BalanceDisputeEvent;
@@ -14699,9 +14940,11 @@ export type SystemEvent =
   | SubscriptionCycledEvent
   | SubscriptionPausedEvent
   | SubscriptionCycledEvent
+  | SubscriptionMigratedEvent
   | SubscriptionUncanceledEvent
   | SubscriptionProductUpdatedEvent
   | SubscriptionSeatsUpdatedEvent
+  | SubscriptionUnitsUpdatedEvent
   | SubscriptionBillingPeriodUpdatedEvent
   | SubscriptionUpdateClearedEvent
   | OrderPaidEvent
@@ -14731,9 +14974,7 @@ export const CostMetadataOutput = /*@__PURE__*/ S.suspend(() =>
     amount: S.String,
     currency: S.String,
   }),
-).annotate({
-  identifier: "CostMetadataOutput",
-}) as any as S.Schema<CostMetadataOutput>;
+).annotate({ identifier: "CostMetadataOutput" }) as any as S.Schema<CostMetadataOutput>;
 
 export interface LLMMetadata {
   /** The vendor of the event. */
@@ -14775,9 +15016,7 @@ export const EventMetadataOutput = /*@__PURE__*/ S.suspend(() =>
     _cost: S.optional(CostMetadataOutput),
     _llm: S.optional(LLMMetadata),
   }),
-).annotate({
-  identifier: "EventMetadataOutput",
-}) as any as S.Schema<EventMetadataOutput>;
+).annotate({ identifier: "EventMetadataOutput" }) as any as S.Schema<EventMetadataOutput>;
 
 /** An event you created through the ingestion API. */
 export interface UserEvent {
@@ -14834,9 +15073,7 @@ export const Event = S.Unknown as any as S.Schema<Event>;
 export type EventsGetResponse = Event;
 export const EventsGetResponse = /*@__PURE__*/ S.suspend(() =>
   Event.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "EventsGetResponse",
-}) as any as S.Schema<EventsGetResponse>;
+).annotate({ identifier: "EventsGetResponse" }) as any as S.Schema<EventsGetResponse>;
 
 /** The amount in cents. */
 export type CostMetadataInputAmount = number | string;
@@ -14853,9 +15090,7 @@ export const CostMetadataInput = /*@__PURE__*/ S.suspend(() =>
     amount: CostMetadataInputAmount,
     currency: S.String,
   }),
-).annotate({
-  identifier: "CostMetadataInput",
-}) as any as S.Schema<CostMetadataInput>;
+).annotate({ identifier: "CostMetadataInput" }) as any as S.Schema<CostMetadataInput>;
 
 export interface EventMetadataInput {
   _cost?: CostMetadataInput;
@@ -14866,9 +15101,7 @@ export const EventMetadataInput = /*@__PURE__*/ S.suspend(() =>
     _cost: S.optional(CostMetadataInput),
     _llm: S.optional(LLMMetadata),
   }),
-).annotate({
-  identifier: "EventMetadataInput",
-}) as any as S.Schema<EventMetadataInput>;
+).annotate({ identifier: "EventMetadataInput" }) as any as S.Schema<EventMetadataInput>;
 
 export interface EventCreateCustomer {
   /** The timestamp of the event. */
@@ -14899,9 +15132,7 @@ export const EventCreateCustomer = /*@__PURE__*/ S.suspend(() =>
     customer_id: S.String,
     member_id: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "EventCreateCustomer",
-}) as any as S.Schema<EventCreateCustomer>;
+).annotate({ identifier: "EventCreateCustomer" }) as any as S.Schema<EventCreateCustomer>;
 
 export interface EventCreateExternalCustomer {
   /** The timestamp of the event. */
@@ -14954,9 +15185,7 @@ export const EventsIngestRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     events: EventsIngestRequestEventsList,
   }).pipe(T.Http({ method: "POST", uri: "/v1/events/ingest", code: 200 })),
-).annotate({
-  identifier: "EventsIngestRequest",
-}) as any as S.Schema<EventsIngestRequest>;
+).annotate({ identifier: "EventsIngestRequest" }) as any as S.Schema<EventsIngestRequest>;
 
 export interface EventsIngestResponse {
   /** Number of events inserted. */
@@ -14969,9 +15198,7 @@ export const EventsIngestResponse = /*@__PURE__*/ S.suspend(() =>
     inserted: S.Number,
     duplicates: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "EventsIngestResponse",
-}) as any as S.Schema<EventsIngestResponse>;
+).annotate({ identifier: "EventsIngestResponse" }) as any as S.Schema<EventsIngestResponse>;
 
 export type EventsListRequestOrganizationIdCase1List = Array<string>;
 export const EventsListRequestOrganizationIdCase1List = /*@__PURE__*/ S.Array(
@@ -15087,9 +15314,7 @@ export const EventsListRequest = /*@__PURE__*/ S.suspend(() =>
     sorting: S.optional(EventsListRequestSortingList.pipe(T.Query())),
     metadata: S.optional(MetadataQueryMap.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/v1/events/", code: 200 })),
-).annotate({
-  identifier: "EventsListRequest",
-}) as any as S.Schema<EventsListRequest>;
+).annotate({ identifier: "EventsListRequest" }) as any as S.Schema<EventsListRequest>;
 
 export type ListResourceEventItemsList = Array<Event>;
 export const ListResourceEventItemsList = /*@__PURE__*/ S.Array(
@@ -15105,9 +15330,7 @@ export const ListResourceEvent = /*@__PURE__*/ S.suspend(() =>
     items: ListResourceEventItemsList,
     pagination: Pagination,
   }),
-).annotate({
-  identifier: "ListResourceEvent",
-}) as any as S.Schema<ListResourceEvent>;
+).annotate({ identifier: "ListResourceEvent" }) as any as S.Schema<ListResourceEvent>;
 
 export type ListResourceWithCursorPaginationEventItemsList = Array<Event>;
 export const ListResourceWithCursorPaginationEventItemsList = /*@__PURE__*/ S.Array(
@@ -15121,9 +15344,7 @@ export const CursorPagination = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     has_next_page: S.Boolean,
   }),
-).annotate({
-  identifier: "CursorPagination",
-}) as any as S.Schema<CursorPagination>;
+).annotate({ identifier: "CursorPagination" }) as any as S.Schema<CursorPagination>;
 
 export interface ListResourceWithCursorPaginationEvent {
   items: ListResourceWithCursorPaginationEventItemsList;
@@ -15144,9 +15365,7 @@ export const EventsListResponseBody = S.Unknown as any as S.Schema<EventsListRes
 export type EventsListResponse = EventsListResponseBody;
 export const EventsListResponse = /*@__PURE__*/ S.suspend(() =>
   EventsListResponseBody.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "EventsListResponse",
-}) as any as S.Schema<EventsListResponse>;
+).annotate({ identifier: "EventsListResponse" }) as any as S.Schema<EventsListResponse>;
 
 export type EventsListNamesRequestOrganizationIdCase1List = Array<string>;
 export const EventsListNamesRequestOrganizationIdCase1List = /*@__PURE__*/ S.Array(
@@ -15237,9 +15456,7 @@ export const EventsListNamesRequest = /*@__PURE__*/ S.suspend(() =>
     limit: S.optional(S.Number.pipe(T.Query())),
     sorting: S.optional(EventsListNamesRequestSortingList.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/v1/events/names", code: 200 })),
-).annotate({
-  identifier: "EventsListNamesRequest",
-}) as any as S.Schema<EventsListNamesRequest>;
+).annotate({ identifier: "EventsListNamesRequest" }) as any as S.Schema<EventsListNamesRequest>;
 
 export interface EventName {
   /** The name of the event. */
@@ -15280,9 +15497,7 @@ export const ListResourceEventName = /*@__PURE__*/ S.suspend(() =>
     items: ListResourceEventNameItemsList,
     pagination: Pagination,
   }),
-).annotate({
-  identifier: "ListResourceEventName",
-}) as any as S.Schema<ListResourceEventName>;
+).annotate({ identifier: "ListResourceEventName" }) as any as S.Schema<ListResourceEventName>;
 
 export type EventTypesListRequestOrganizationIdCase1List = Array<string>;
 export const EventTypesListRequestOrganizationIdCase1List = /*@__PURE__*/ S.Array(
@@ -15371,9 +15586,7 @@ export const EventTypesListRequest = /*@__PURE__*/ S.suspend(() =>
     limit: S.optional(S.Number.pipe(T.Query())),
     sorting: S.optional(EventTypesListRequestSortingList.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/v1/event-types/", code: 200 })),
-).annotate({
-  identifier: "EventTypesListRequest",
-}) as any as S.Schema<EventTypesListRequest>;
+).annotate({ identifier: "EventTypesListRequest" }) as any as S.Schema<EventTypesListRequest>;
 
 export interface EventTypeWithStats {
   /** The ID of the event type. Null for system event types. */
@@ -15413,9 +15626,7 @@ export const EventTypeWithStats = /*@__PURE__*/ S.suspend(() =>
     first_seen: S.String,
     last_seen: S.String,
   }),
-).annotate({
-  identifier: "EventTypeWithStats",
-}) as any as S.Schema<EventTypeWithStats>;
+).annotate({ identifier: "EventTypeWithStats" }) as any as S.Schema<EventTypeWithStats>;
 
 export type ListResourceEventTypeWithStatsItemsList = Array<EventTypeWithStats>;
 export const ListResourceEventTypeWithStatsItemsList = /*@__PURE__*/ S.Array(
@@ -15449,9 +15660,7 @@ export const EventTypesUpdateRequest = /*@__PURE__*/ S.suspend(() =>
     label: S.String,
     label_property_selector: S.optional(S.NullOr(S.String)),
   }).pipe(T.Http({ method: "PATCH", uri: "/v1/event-types/{id}", code: 200 })),
-).annotate({
-  identifier: "EventTypesUpdateRequest",
-}) as any as S.Schema<EventTypesUpdateRequest>;
+).annotate({ identifier: "EventTypesUpdateRequest" }) as any as S.Schema<EventTypesUpdateRequest>;
 
 export interface EventType {
   /** Creation timestamp of the object. */
@@ -15494,9 +15703,7 @@ export const S3FileCreatePart = /*@__PURE__*/ S.suspend(() =>
     chunk_end: S.Number,
     checksum_sha256_base64: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "S3FileCreatePart",
-}) as any as S.Schema<S3FileCreatePart>;
+).annotate({ identifier: "S3FileCreatePart" }) as any as S.Schema<S3FileCreatePart>;
 
 export type S3FileCreateMultipartPartsList = Array<S3FileCreatePart>;
 export const S3FileCreateMultipartPartsList = /*@__PURE__*/ S.Array(
@@ -15510,9 +15717,7 @@ export const S3FileCreateMultipart = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     parts: S3FileCreateMultipartPartsList,
   }),
-).annotate({
-  identifier: "S3FileCreateMultipart",
-}) as any as S.Schema<S3FileCreateMultipart>;
+).annotate({ identifier: "S3FileCreateMultipart" }) as any as S.Schema<S3FileCreateMultipart>;
 
 /** Schema to create a file to be associated with the downloadables benefit. */
 export interface DownloadableFileCreate {
@@ -15536,9 +15741,7 @@ export const DownloadableFileCreate = /*@__PURE__*/ S.suspend(() =>
     service: S.String,
     version: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "DownloadableFileCreate",
-}) as any as S.Schema<DownloadableFileCreate>;
+).annotate({ identifier: "DownloadableFileCreate" }) as any as S.Schema<DownloadableFileCreate>;
 
 /** Schema to create a file to be used as a product media file. */
 export interface ProductMediaFileCreate {
@@ -15564,9 +15767,7 @@ export const ProductMediaFileCreate = /*@__PURE__*/ S.suspend(() =>
     service: S.String,
     version: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "ProductMediaFileCreate",
-}) as any as S.Schema<ProductMediaFileCreate>;
+).annotate({ identifier: "ProductMediaFileCreate" }) as any as S.Schema<ProductMediaFileCreate>;
 
 /** Schema to create a file to be used as an organization avatar. */
 export interface OrganizationAvatarFileCreate {
@@ -15638,9 +15839,7 @@ export const FilesCreateRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     body: FileCreate.pipe(T.HttpBody()),
   }).pipe(T.Http({ method: "POST", uri: "/v1/files/", code: 200 })),
-).annotate({
-  identifier: "FilesCreateRequest",
-}) as any as S.Schema<FilesCreateRequest>;
+).annotate({ identifier: "FilesCreateRequest" }) as any as S.Schema<FilesCreateRequest>;
 
 export type S3FileUploadPartHeadersMap = { [key: string]: string | undefined };
 export const S3FileUploadPartHeadersMap = /*@__PURE__*/ S.Record(
@@ -15667,9 +15866,7 @@ export const S3FileUploadPart = /*@__PURE__*/ S.suspend(() =>
     expires_at: S.String,
     headers: S.optional(S3FileUploadPartHeadersMap),
   }),
-).annotate({
-  identifier: "S3FileUploadPart",
-}) as any as S.Schema<S3FileUploadPart>;
+).annotate({ identifier: "S3FileUploadPart" }) as any as S.Schema<S3FileUploadPart>;
 
 export type S3FileUploadMultipartPartsList = Array<S3FileUploadPart>;
 export const S3FileUploadMultipartPartsList = /*@__PURE__*/ S.Array(
@@ -15687,9 +15884,7 @@ export const S3FileUploadMultipart = /*@__PURE__*/ S.suspend(() =>
     path: S.String,
     parts: S3FileUploadMultipartPartsList,
   }),
-).annotate({
-  identifier: "S3FileUploadMultipart",
-}) as any as S.Schema<S3FileUploadMultipart>;
+).annotate({ identifier: "S3FileUploadMultipart" }) as any as S.Schema<S3FileUploadMultipart>;
 
 export interface FileUpload {
   /** The ID of the object. */
@@ -15738,9 +15933,7 @@ export const FilesDeleteRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "DELETE", uri: "/v1/files/{id}", code: 200 })),
-).annotate({
-  identifier: "FilesDeleteRequest",
-}) as any as S.Schema<FilesDeleteRequest>;
+).annotate({ identifier: "FilesDeleteRequest" }) as any as S.Schema<FilesDeleteRequest>;
 
 export interface FilesDeleteResponse {}
 export const FilesDeleteResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -15783,9 +15976,7 @@ export const FilesListRequest = /*@__PURE__*/ S.suspend(() =>
     page: S.optional(S.Number.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/v1/files/", code: 200 })),
-).annotate({
-  identifier: "FilesListRequest",
-}) as any as S.Schema<FilesListRequest>;
+).annotate({ identifier: "FilesListRequest" }) as any as S.Schema<FilesListRequest>;
 
 /** File to be associated with the downloadables benefit. */
 export interface DownloadableFileRead {
@@ -15828,9 +16019,7 @@ export const DownloadableFileRead = /*@__PURE__*/ S.suspend(() =>
     flagged_malicious_at: S.NullOr(S.String),
     size_readable: S.String,
   }),
-).annotate({
-  identifier: "DownloadableFileRead",
-}) as any as S.Schema<DownloadableFileRead>;
+).annotate({ identifier: "DownloadableFileRead" }) as any as S.Schema<DownloadableFileRead>;
 
 /** File to be used as an organization avatar. */
 export type OrganizationAvatarFileRead = ProductMediaFileRead;
@@ -15900,9 +16089,7 @@ export const ListResourceFileRead = /*@__PURE__*/ S.suspend(() =>
     items: ListResourceFileReadItemsList,
     pagination: Pagination,
   }),
-).annotate({
-  identifier: "ListResourceFileRead",
-}) as any as S.Schema<ListResourceFileRead>;
+).annotate({ identifier: "ListResourceFileRead" }) as any as S.Schema<ListResourceFileRead>;
 
 export interface FilesUpdateRequest {
   /** The file ID. */
@@ -15916,16 +16103,12 @@ export const FilesUpdateRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.NullOr(S.String)),
     version: S.optional(S.NullOr(S.String)),
   }).pipe(T.Http({ method: "PATCH", uri: "/v1/files/{id}", code: 200 })),
-).annotate({
-  identifier: "FilesUpdateRequest",
-}) as any as S.Schema<FilesUpdateRequest>;
+).annotate({ identifier: "FilesUpdateRequest" }) as any as S.Schema<FilesUpdateRequest>;
 
 export type FilesUpdateResponse = FileRead;
 export const FilesUpdateResponse = /*@__PURE__*/ S.suspend(() =>
   FileRead.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "FilesUpdateResponse",
-}) as any as S.Schema<FilesUpdateResponse>;
+).annotate({ identifier: "FilesUpdateResponse" }) as any as S.Schema<FilesUpdateResponse>;
 
 export interface S3FileUploadCompletedPart {
   number: number;
@@ -15959,16 +16142,12 @@ export const FilesUploadedRequest = /*@__PURE__*/ S.suspend(() =>
     path: S.String,
     parts: FilesUploadedRequestPartsList,
   }).pipe(T.Http({ method: "POST", uri: "/v1/files/{id}/uploaded", code: 200 })),
-).annotate({
-  identifier: "FilesUploadedRequest",
-}) as any as S.Schema<FilesUploadedRequest>;
+).annotate({ identifier: "FilesUploadedRequest" }) as any as S.Schema<FilesUploadedRequest>;
 
 export type FilesUploadedResponse = FileRead;
 export const FilesUploadedResponse = /*@__PURE__*/ S.suspend(() =>
   FileRead.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "FilesUploadedResponse",
-}) as any as S.Schema<FilesUploadedResponse>;
+).annotate({ identifier: "FilesUploadedResponse" }) as any as S.Schema<FilesUploadedResponse>;
 
 export interface GetCheckoutsClientRequest {
   /** The checkout session client secret. */
@@ -15977,13 +16156,7 @@ export interface GetCheckoutsClientRequest {
 export const GetCheckoutsClientRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     client_secret: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/checkouts/client/{client_secret}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/checkouts/client/{client_secret}", code: 200 })),
 ).annotate({
   identifier: "GetCheckoutsClientRequest",
 }) as any as S.Schema<GetCheckoutsClientRequest>;
@@ -15994,16 +16167,14 @@ export const CheckoutPublicCustomFieldDataValue =
 
 /** Key-value object storing custom field values. */
 export type CheckoutPublicCustomFieldDataMap = {
-  [key: string]: CheckoutPublicCustomFieldDataValue | undefined;
+  [key: string]: CheckoutPublicCustomFieldDataValue | null | undefined;
 };
 export const CheckoutPublicCustomFieldDataMap = /*@__PURE__*/ S.Record(
   S.String,
-  CheckoutPublicCustomFieldDataValue,
+  S.NullOr(CheckoutPublicCustomFieldDataValue),
 ) as any as S.Schema<CheckoutPublicCustomFieldDataMap>;
 
-export type CheckoutPublicPaymentProcessorMetadataMap = {
-  [key: string]: string | undefined;
-};
+export type CheckoutPublicPaymentProcessorMetadataMap = { [key: string]: string | undefined };
 export const CheckoutPublicPaymentProcessorMetadataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -16028,9 +16199,7 @@ export const CheckoutPublicPricesValueList = /*@__PURE__*/ S.Array(
   CheckoutPublicPricesValueItem,
 ) as any as S.Schema<CheckoutPublicPricesValueList>;
 
-export type CheckoutPublicPricesMap = {
-  [key: string]: CheckoutPublicPricesValueList | undefined;
-};
+export type CheckoutPublicPricesMap = { [key: string]: CheckoutPublicPricesValueList | undefined };
 export const CheckoutPublicPricesMap = /*@__PURE__*/ S.Record(
   S.String,
   CheckoutPublicPricesValueList,
@@ -16082,6 +16251,12 @@ export interface CheckoutPublic {
   min_seats?: number | null;
   /** Maximum number of seats (works with seat-based pricing only) */
   max_seats?: number | null;
+  /** Predefined number of units (works with unit-based pricing only) */
+  units: number | null;
+  /** Minimum number of units (works with unit-based pricing only) */
+  min_units: number | null;
+  /** Maximum number of units (works with unit-based pricing only) */
+  max_units: number | null;
   /** Discount amount in cents. */
   discount_amount: number;
   /** Amount in cents, after discounts but before taxes. */
@@ -16171,6 +16346,9 @@ export const CheckoutPublic = /*@__PURE__*/ S.suspend(() =>
     seats: S.optional(S.NullOr(S.Number)),
     min_seats: S.optional(S.NullOr(S.Number)),
     max_seats: S.optional(S.NullOr(S.Number)),
+    units: S.NullOr(S.Number),
+    min_units: S.NullOr(S.Number),
+    max_units: S.NullOr(S.Number),
     discount_amount: S.Number,
     net_amount: S.Number,
     tax_amount: S.NullOr(S.Number),
@@ -16288,9 +16466,7 @@ export const LicenseKeysGetRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/v1/license-keys/{id}", code: 200 })),
-).annotate({
-  identifier: "LicenseKeysGetRequest",
-}) as any as S.Schema<LicenseKeysGetRequest>;
+).annotate({ identifier: "LicenseKeysGetRequest" }) as any as S.Schema<LicenseKeysGetRequest>;
 
 export interface LicenseKeysGetActivationRequest {
   id: string;
@@ -16301,15 +16477,44 @@ export const LicenseKeysGetActivationRequest = /*@__PURE__*/ S.suspend(() =>
     id: S.String.pipe(T.Label()),
     activation_id: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/license-keys/{id}/activations/{activation_id}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/v1/license-keys/{id}/activations/{activation_id}", code: 200 }),
   ),
 ).annotate({
   identifier: "LicenseKeysGetActivationRequest",
 }) as any as S.Schema<LicenseKeysGetActivationRequest>;
+
+export type LicenseKeyActivationReadMetaValue = string | number | number | boolean;
+export const LicenseKeyActivationReadMetaValue =
+  S.Unknown as any as S.Schema<LicenseKeyActivationReadMetaValue>;
+
+export type LicenseKeyActivationReadMetaMap = {
+  [key: string]: LicenseKeyActivationReadMetaValue | undefined;
+};
+export const LicenseKeyActivationReadMetaMap = /*@__PURE__*/ S.Record(
+  S.String,
+  LicenseKeyActivationReadMetaValue,
+) as any as S.Schema<LicenseKeyActivationReadMetaMap>;
+
+export interface LicenseKeyActivationRead {
+  id: string;
+  license_key_id: string;
+  label: string;
+  meta: LicenseKeyActivationReadMetaMap;
+  created_at: string;
+  modified_at: string | null;
+  license_key: LicenseKeyRead;
+}
+export const LicenseKeyActivationRead = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    license_key_id: S.String,
+    label: S.String,
+    meta: LicenseKeyActivationReadMetaMap,
+    created_at: S.String,
+    modified_at: S.NullOr(S.String),
+    license_key: LicenseKeyRead,
+  }),
+).annotate({ identifier: "LicenseKeyActivationRead" }) as any as S.Schema<LicenseKeyActivationRead>;
 
 export type LicenseKeysListRequestOrganizationIdCase1List = Array<string>;
 export const LicenseKeysListRequestOrganizationIdCase1List = /*@__PURE__*/ S.Array(
@@ -16363,9 +16568,16 @@ export const LicenseKeysListRequest = /*@__PURE__*/ S.suspend(() =>
     page: S.optional(S.Number.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/v1/license-keys/", code: 200 })),
-).annotate({
-  identifier: "LicenseKeysListRequest",
-}) as any as S.Schema<LicenseKeysListRequest>;
+).annotate({ identifier: "LicenseKeysListRequest" }) as any as S.Schema<LicenseKeysListRequest>;
+
+export interface LicenseKeysRotateRequest {
+  id: string;
+}
+export const LicenseKeysRotateRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String.pipe(T.Label()),
+  }).pipe(T.Http({ method: "POST", uri: "/v1/license-keys/{id}/rotate", code: 200 })),
+).annotate({ identifier: "LicenseKeysRotateRequest" }) as any as S.Schema<LicenseKeysRotateRequest>;
 
 export interface LicenseKeysUpdateRequest {
   id: string;
@@ -16384,9 +16596,7 @@ export const LicenseKeysUpdateRequest = /*@__PURE__*/ S.suspend(() =>
     limit_usage: S.optional(S.NullOr(S.Number)),
     expires_at: S.optional(S.NullOr(S.String)),
   }).pipe(T.Http({ method: "PATCH", uri: "/v1/license-keys/{id}", code: 200 })),
-).annotate({
-  identifier: "LicenseKeysUpdateRequest",
-}) as any as S.Schema<LicenseKeysUpdateRequest>;
+).annotate({ identifier: "LicenseKeysUpdateRequest" }) as any as S.Schema<LicenseKeysUpdateRequest>;
 
 export type LicenseKeysValidateRequestConditionsValue = string | number | number | boolean;
 export const LicenseKeysValidateRequestConditionsValue =
@@ -16424,59 +16634,6 @@ export const LicenseKeysValidateRequest = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "LicenseKeysValidateRequest",
 }) as any as S.Schema<LicenseKeysValidateRequest>;
-
-export type MemberSortProperty = "created_at" | "-created_at";
-export const MemberSortProperty = S.String;
-
-export type MembersListMembersRequestSortingList = Array<MemberSortProperty | (string & {})>;
-export const MembersListMembersRequestSortingList = /*@__PURE__*/ S.Array(
-  MemberSortProperty,
-) as any as S.Schema<MembersListMembersRequestSortingList>;
-
-export interface MembersListMembersRequest {
-  /** Filter by customer ID. */
-  customer_id?: string;
-  /** Filter by customer external ID. */
-  external_customer_id?: string;
-  /** Filter by member role. */
-  role?: MemberRole | (string & {});
-  /** Page number, defaults to 1. */
-  page?: number;
-  /** Size of a page, defaults to 10. Maximum is 100. */
-  limit?: number;
-  /** Sorting criterion. Several criteria can be used simultaneously and will be applied in order. Add a minus sign `-` before the criteria name to sort by descending order. */
-  sorting?: MembersListMembersRequestSortingList;
-}
-export const MembersListMembersRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    customer_id: S.optional(S.String.pipe(T.Query())),
-    external_customer_id: S.optional(S.String.pipe(T.Query())),
-    role: S.optional(MemberRole.pipe(T.Query())),
-    page: S.optional(S.Number.pipe(T.Query())),
-    limit: S.optional(S.Number.pipe(T.Query())),
-    sorting: S.optional(MembersListMembersRequestSortingList.pipe(T.Query())),
-  }).pipe(T.Http({ method: "GET", uri: "/v1/members/", code: 200 })),
-).annotate({
-  identifier: "MembersListMembersRequest",
-}) as any as S.Schema<MembersListMembersRequest>;
-
-export type ListResourceMemberItemsList = Array<Member>;
-export const ListResourceMemberItemsList = /*@__PURE__*/ S.Array(
-  Member,
-) as any as S.Schema<ListResourceMemberItemsList>;
-
-export interface ListResourceMember {
-  items: ListResourceMemberItemsList;
-  pagination: Pagination;
-}
-export const ListResourceMember = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    items: ListResourceMemberItemsList,
-    pagination: Pagination,
-  }),
-).annotate({
-  identifier: "ListResourceMember",
-}) as any as S.Schema<ListResourceMember>;
 
 export type MetersCreateRequestMetadataValue = string | number | number | boolean;
 export const MetersCreateRequestMetadataValue =
@@ -16528,9 +16685,7 @@ export const MetersCreateRequest = /*@__PURE__*/ S.suspend(() =>
     aggregation: MetersCreateRequestAggregation,
     organization_id: S.optional(S.NullOr(S.String)),
   }).pipe(T.Http({ method: "POST", uri: "/v1/meters/", code: 200 })),
-).annotate({
-  identifier: "MetersCreateRequest",
-}) as any as S.Schema<MetersCreateRequest>;
+).annotate({ identifier: "MetersCreateRequest" }) as any as S.Schema<MetersCreateRequest>;
 
 export interface MetersGetRequest {
   /** The meter ID. */
@@ -16540,9 +16695,7 @@ export const MetersGetRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/v1/meters/{id}", code: 200 })),
-).annotate({
-  identifier: "MetersGetRequest",
-}) as any as S.Schema<MetersGetRequest>;
+).annotate({ identifier: "MetersGetRequest" }) as any as S.Schema<MetersGetRequest>;
 
 export type MetersListRequestOrganizationIdCase1List = Array<string>;
 export const MetersListRequestOrganizationIdCase1List = /*@__PURE__*/ S.Array(
@@ -16588,9 +16741,7 @@ export const MetersListRequest = /*@__PURE__*/ S.suspend(() =>
     sorting: S.optional(MetersListRequestSortingList.pipe(T.Query())),
     metadata: S.optional(MetadataQueryMap.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/v1/meters/", code: 200 })),
-).annotate({
-  identifier: "MetersListRequest",
-}) as any as S.Schema<MetersListRequest>;
+).annotate({ identifier: "MetersListRequest" }) as any as S.Schema<MetersListRequest>;
 
 export type ListResourceMeterItemsList = Array<Meter>;
 export const ListResourceMeterItemsList = /*@__PURE__*/ S.Array(
@@ -16606,9 +16757,7 @@ export const ListResourceMeter = /*@__PURE__*/ S.suspend(() =>
     items: ListResourceMeterItemsList,
     pagination: Pagination,
   }),
-).annotate({
-  identifier: "ListResourceMeter",
-}) as any as S.Schema<ListResourceMeter>;
+).annotate({ identifier: "ListResourceMeter" }) as any as S.Schema<ListResourceMeter>;
 
 export type TimeInterval = "year" | "month" | "week" | "day" | "hour";
 export const TimeInterval = S.String;
@@ -17272,9 +17421,7 @@ export const MetersQuantitiesRequest = /*@__PURE__*/ S.suspend(() =>
     customer_aggregation_function: S.optional(AggregationFunction.pipe(T.Query())),
     metadata: S.optional(MetadataQueryMap.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/v1/meters/{id}/quantities", code: 200 })),
-).annotate({
-  identifier: "MetersQuantitiesRequest",
-}) as any as S.Schema<MetersQuantitiesRequest>;
+).annotate({ identifier: "MetersQuantitiesRequest" }) as any as S.Schema<MetersQuantitiesRequest>;
 
 export interface MeterQuantity {
   /** The timestamp for the current period. */
@@ -17304,9 +17451,7 @@ export const MeterQuantities = /*@__PURE__*/ S.suspend(() =>
     quantities: MeterQuantitiesQuantitiesList,
     total: S.Number,
   }),
-).annotate({
-  identifier: "MeterQuantities",
-}) as any as S.Schema<MeterQuantities>;
+).annotate({ identifier: "MeterQuantities" }) as any as S.Schema<MeterQuantities>;
 
 export type MetersUpdateRequestMetadataValue = string | number | number | boolean;
 export const MetersUpdateRequestMetadataValue =
@@ -17360,9 +17505,7 @@ export const MetersUpdateRequest = /*@__PURE__*/ S.suspend(() =>
     aggregation: S.optional(S.NullOr(MetersUpdateRequestAggregation)),
     is_archived: S.optional(S.NullOr(S.Boolean)),
   }).pipe(T.Http({ method: "PATCH", uri: "/v1/meters/{id}", code: 200 })),
-).annotate({
-  identifier: "MetersUpdateRequest",
-}) as any as S.Schema<MetersUpdateRequest>;
+).annotate({ identifier: "MetersUpdateRequest" }) as any as S.Schema<MetersUpdateRequest>;
 
 /** List of metric slugs to display in this dashboard. */
 export type MetricsCreateDashboardRequestMetricsList = Array<string>;
@@ -17418,9 +17561,7 @@ export const MetricDashboardSchema = /*@__PURE__*/ S.suspend(() =>
     metrics: MetricDashboardSchemaMetricsList,
     organization_id: S.String,
   }),
-).annotate({
-  identifier: "MetricDashboardSchema",
-}) as any as S.Schema<MetricDashboardSchema>;
+).annotate({ identifier: "MetricDashboardSchema" }) as any as S.Schema<MetricDashboardSchema>;
 
 export interface MetricsDeleteDashboardRequest {
   /** The metric dashboard ID. */
@@ -18122,9 +18263,7 @@ export const MetricsExportRequest = /*@__PURE__*/ S.suspend(() =>
     customer_id: S.optional(MetricsExportRequestCustomerId.pipe(T.Query())),
     metrics: S.optional(MetricsExportRequestMetricsList.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/v1/metrics/export", code: 200 })),
-).annotate({
-  identifier: "MetricsExportRequest",
-}) as any as S.Schema<MetricsExportRequest>;
+).annotate({ identifier: "MetricsExportRequest" }) as any as S.Schema<MetricsExportRequest>;
 
 export interface MetricsExportResponse {}
 export const MetricsExportResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -18811,9 +18950,7 @@ export const MetricsGetRequest = /*@__PURE__*/ S.suspend(() =>
     customer_id: S.optional(MetricsGetRequestCustomerId.pipe(T.Query())),
     metrics: S.optional(MetricsGetRequestMetricsList.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/v1/metrics/", code: 200 })),
-).annotate({
-  identifier: "MetricsGetRequest",
-}) as any as S.Schema<MetricsGetRequest>;
+).annotate({ identifier: "MetricsGetRequest" }) as any as S.Schema<MetricsGetRequest>;
 
 export type MetricPeriodActiveSubscriptions = number | number;
 export const MetricPeriodActiveSubscriptions =
@@ -19664,9 +19801,7 @@ export const MetricsResponse = /*@__PURE__*/ S.suspend(() =>
     totals: MetricsTotals,
     metrics: Metrics,
   }),
-).annotate({
-  identifier: "MetricsResponse",
-}) as any as S.Schema<MetricsResponse>;
+).annotate({ identifier: "MetricsResponse" }) as any as S.Schema<MetricsResponse>;
 
 export interface MetricsGetDashboardRequest {
   /** The metric dashboard ID. */
@@ -19683,9 +19818,7 @@ export const MetricsGetDashboardRequest = /*@__PURE__*/ S.suspend(() =>
 export interface MetricsLimits2Request {}
 export const MetricsLimits2Request = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v1/metrics/limits", code: 200 })),
-).annotate({
-  identifier: "MetricsLimits2Request",
-}) as any as S.Schema<MetricsLimits2Request>;
+).annotate({ identifier: "MetricsLimits2Request" }) as any as S.Schema<MetricsLimits2Request>;
 
 /** Date interval limit to get metrics for a given interval. */
 export interface MetricsIntervalLimit {
@@ -19699,9 +19832,7 @@ export const MetricsIntervalLimit = /*@__PURE__*/ S.suspend(() =>
     min_days: S.Number,
     max_days: S.Number,
   }),
-).annotate({
-  identifier: "MetricsIntervalLimit",
-}) as any as S.Schema<MetricsIntervalLimit>;
+).annotate({ identifier: "MetricsIntervalLimit" }) as any as S.Schema<MetricsIntervalLimit>;
 
 /** Date interval limits to get metrics for each interval. */
 export interface MetricsIntervalsLimits {
@@ -19724,9 +19855,7 @@ export const MetricsIntervalsLimits = /*@__PURE__*/ S.suspend(() =>
     month: MetricsIntervalLimit,
     year: MetricsIntervalLimit,
   }),
-).annotate({
-  identifier: "MetricsIntervalsLimits",
-}) as any as S.Schema<MetricsIntervalsLimits>;
+).annotate({ identifier: "MetricsIntervalsLimits" }) as any as S.Schema<MetricsIntervalsLimits>;
 
 /** Date limits to get metrics. */
 export interface MetricsLimits {
@@ -19804,9 +19933,7 @@ export const MetricsUpdateDashboardRequest = /*@__PURE__*/ S.suspend(() =>
 export interface Oauth2AuthorizeRequest {}
 export const Oauth2AuthorizeRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v1/oauth2/authorize", code: 200 })),
-).annotate({
-  identifier: "Oauth2AuthorizeRequest",
-}) as any as S.Schema<Oauth2AuthorizeRequest>;
+).annotate({ identifier: "Oauth2AuthorizeRequest" }) as any as S.Schema<Oauth2AuthorizeRequest>;
 
 export interface OAuth2ClientPublic {
   /** Creation timestamp of the object. */
@@ -19831,9 +19958,7 @@ export const OAuth2ClientPublic = /*@__PURE__*/ S.suspend(() =>
     tos_uri: S.NullOr(S.String),
     policy_uri: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "OAuth2ClientPublic",
-}) as any as S.Schema<OAuth2ClientPublic>;
+).annotate({ identifier: "OAuth2ClientPublic" }) as any as S.Schema<OAuth2ClientPublic>;
 
 export interface AuthorizeUser {
   id: string;
@@ -19922,26 +20047,24 @@ export const AuthorizeResponseUserScopesList = /*@__PURE__*/ S.Array(
 export interface AuthorizeOrganization {
   id: string;
   slug: string;
+  name: string;
   avatar_url: string | null;
 }
 export const AuthorizeOrganization = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String,
     slug: S.String,
+    name: S.String,
     avatar_url: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "AuthorizeOrganization",
-}) as any as S.Schema<AuthorizeOrganization>;
+).annotate({ identifier: "AuthorizeOrganization" }) as any as S.Schema<AuthorizeOrganization>;
 
 export type AuthorizeResponseUserOrganizationsList = Array<AuthorizeOrganization>;
 export const AuthorizeResponseUserOrganizationsList = /*@__PURE__*/ S.Array(
   AuthorizeOrganization,
 ) as any as S.Schema<AuthorizeResponseUserOrganizationsList>;
 
-export type AuthorizeResponseUserScopeDisplayNamesMap = {
-  [key: string]: string | undefined;
-};
+export type AuthorizeResponseUserScopeDisplayNamesMap = { [key: string]: string | undefined };
 export const AuthorizeResponseUserScopeDisplayNamesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -19966,9 +20089,7 @@ export const AuthorizeResponseUser = /*@__PURE__*/ S.suspend(() =>
     requires_single_organization: S.optional(S.Boolean),
     scope_display_names: S.optional(AuthorizeResponseUserScopeDisplayNamesMap),
   }),
-).annotate({
-  identifier: "AuthorizeResponseUser",
-}) as any as S.Schema<AuthorizeResponseUser>;
+).annotate({ identifier: "AuthorizeResponseUser" }) as any as S.Schema<AuthorizeResponseUser>;
 
 export type AuthorizeResponseOrganizationScopesList = Array<Scope>;
 export const AuthorizeResponseOrganizationScopesList = /*@__PURE__*/ S.Array(
@@ -20018,9 +20139,7 @@ export const Oauth2AuthorizeResponseBody =
 export type Oauth2AuthorizeResponse = Oauth2AuthorizeResponseBody;
 export const Oauth2AuthorizeResponse = /*@__PURE__*/ S.suspend(() =>
   Oauth2AuthorizeResponseBody.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "Oauth2AuthorizeResponse",
-}) as any as S.Schema<Oauth2AuthorizeResponse>;
+).annotate({ identifier: "Oauth2AuthorizeResponse" }) as any as S.Schema<Oauth2AuthorizeResponse>;
 
 export type Oauth2ClientsOauth2CreateClientRequestRedirectUrisList = Array<string>;
 export const Oauth2ClientsOauth2CreateClientRequestRedirectUrisList = /*@__PURE__*/ S.Array(
@@ -20101,13 +20220,7 @@ export interface Oauth2ClientsOauth2DeleteClientRequest {
 export const Oauth2ClientsOauth2DeleteClientRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     client_id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/v1/oauth2/register/{client_id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/v1/oauth2/register/{client_id}", code: 200 })),
 ).annotate({
   identifier: "Oauth2ClientsOauth2DeleteClientRequest",
 }) as any as S.Schema<Oauth2ClientsOauth2DeleteClientRequest>;
@@ -20125,13 +20238,7 @@ export interface Oauth2ClientsOauth2GetClientRequest {
 export const Oauth2ClientsOauth2GetClientRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     client_id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/oauth2/register/{client_id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/oauth2/register/{client_id}", code: 200 })),
 ).annotate({
   identifier: "Oauth2ClientsOauth2GetClientRequest",
 }) as any as S.Schema<Oauth2ClientsOauth2GetClientRequest>;
@@ -20203,13 +20310,7 @@ export const Oauth2ClientsOauth2UpdateClientRequest = /*@__PURE__*/ S.suspend(()
     tos_uri: S.optional(S.NullOr(S.String)),
     policy_uri: S.optional(S.NullOr(S.String)),
     default_sub_type: S.optional(SubType),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/v1/oauth2/register/{client_id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/v1/oauth2/register/{client_id}", code: 200 })),
 ).annotate({
   identifier: "Oauth2ClientsOauth2UpdateClientRequest",
 }) as any as S.Schema<Oauth2ClientsOauth2UpdateClientRequest>;
@@ -20276,9 +20377,7 @@ export const IntrospectTokenResponse = /*@__PURE__*/ S.suspend(() =>
     exp: S.Number,
     iat: S.Number,
   }),
-).annotate({
-  identifier: "IntrospectTokenResponse",
-}) as any as S.Schema<IntrospectTokenResponse>;
+).annotate({ identifier: "IntrospectTokenResponse" }) as any as S.Schema<IntrospectTokenResponse>;
 
 export interface AuthorizationCodeTokenRequest {
   grant_type: string;
@@ -20312,9 +20411,7 @@ export const RefreshTokenRequest = /*@__PURE__*/ S.suspend(() =>
     client_secret: S.String.pipe(T.SensitiveValue({})),
     refresh_token: S.String.pipe(T.SensitiveValue({})),
   }),
-).annotate({
-  identifier: "RefreshTokenRequest",
-}) as any as S.Schema<RefreshTokenRequest>;
+).annotate({ identifier: "RefreshTokenRequest" }) as any as S.Schema<RefreshTokenRequest>;
 
 export type WebTokenRequestSubType = "user" | "organization";
 export const WebTokenRequestSubType = S.String;
@@ -20338,9 +20435,7 @@ export const WebTokenRequest = /*@__PURE__*/ S.suspend(() =>
     sub: S.optional(S.NullOr(S.String)),
     scope: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "WebTokenRequest",
-}) as any as S.Schema<WebTokenRequest>;
+).annotate({ identifier: "WebTokenRequest" }) as any as S.Schema<WebTokenRequest>;
 
 export type Oauth2RequestTokenRequestBody =
   | AuthorizationCodeTokenRequest
@@ -20395,9 +20490,7 @@ export const Oauth2RevokeTokenRequest = /*@__PURE__*/ S.suspend(() =>
     client_id: S.String,
     client_secret: S.String.pipe(T.SensitiveValue({})),
   }).pipe(T.Http({ method: "POST", uri: "/v1/oauth2/revoke", code: 200 })),
-).annotate({
-  identifier: "Oauth2RevokeTokenRequest",
-}) as any as S.Schema<Oauth2RevokeTokenRequest>;
+).annotate({ identifier: "Oauth2RevokeTokenRequest" }) as any as S.Schema<Oauth2RevokeTokenRequest>;
 
 export type Oauth2RevokeTokenResponse = unknown;
 export const Oauth2RevokeTokenResponse = /*@__PURE__*/ S.suspend(() =>
@@ -20409,9 +20502,7 @@ export const Oauth2RevokeTokenResponse = /*@__PURE__*/ S.suspend(() =>
 export interface Oauth2UserinfoRequest {}
 export const Oauth2UserinfoRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v1/oauth2/userinfo", code: 200 })),
-).annotate({
-  identifier: "Oauth2UserinfoRequest",
-}) as any as S.Schema<Oauth2UserinfoRequest>;
+).annotate({ identifier: "Oauth2UserinfoRequest" }) as any as S.Schema<Oauth2UserinfoRequest>;
 
 export interface UserInfoUser {
   sub: string;
@@ -20437,9 +20528,7 @@ export const UserInfoOrganization = /*@__PURE__*/ S.suspend(() =>
     sub: S.String,
     name: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "UserInfoOrganization",
-}) as any as S.Schema<UserInfoOrganization>;
+).annotate({ identifier: "UserInfoOrganization" }) as any as S.Schema<UserInfoOrganization>;
 
 export type Oauth2UserinfoResponseBody = UserInfoUser | UserInfoOrganization;
 export const Oauth2UserinfoResponseBody = S.Unknown as any as S.Schema<Oauth2UserinfoResponseBody>;
@@ -20447,9 +20536,7 @@ export const Oauth2UserinfoResponseBody = S.Unknown as any as S.Schema<Oauth2Use
 export type Oauth2UserinfoResponse = Oauth2UserinfoResponseBody;
 export const Oauth2UserinfoResponse = /*@__PURE__*/ S.suspend(() =>
   Oauth2UserinfoResponseBody.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "Oauth2UserinfoResponse",
-}) as any as S.Schema<Oauth2UserinfoResponse>;
+).annotate({ identifier: "Oauth2UserinfoResponse" }) as any as S.Schema<Oauth2UserinfoResponse>;
 
 export type OrdersCreateRequestCustomFieldDataValue = string | number | boolean;
 export const OrdersCreateRequestCustomFieldDataValue =
@@ -20457,11 +20544,11 @@ export const OrdersCreateRequestCustomFieldDataValue =
 
 /** Key-value object storing custom field values. */
 export type OrdersCreateRequestCustomFieldDataMap = {
-  [key: string]: OrdersCreateRequestCustomFieldDataValue | undefined;
+  [key: string]: OrdersCreateRequestCustomFieldDataValue | null | undefined;
 };
 export const OrdersCreateRequestCustomFieldDataMap = /*@__PURE__*/ S.Record(
   S.String,
-  OrdersCreateRequestCustomFieldDataValue,
+  S.NullOr(OrdersCreateRequestCustomFieldDataValue),
 ) as any as S.Schema<OrdersCreateRequestCustomFieldDataMap>;
 
 export type OrdersCreateRequestMetadataValue = string | number | number | boolean;
@@ -20486,12 +20573,14 @@ export interface OrdersCreateRequest {
   organization_id?: string | null;
   /** The ID of the customer the order is for. Must belong to the order's organization. */
   customer_id: string;
-  /** The ID of the one-time product to charge for. Must belong to the order's organization. Only fixed-price and free products are supported. */
+  /** The ID of the one-time product to charge for. Must belong to the order's organization. Only fixed-price, free and unit-based products are supported. */
   product_id: string;
   /** The currency to charge in (ISO 4217, lowercase, e.g. `usd`). Defaults to the organization's default currency; specify it to force a different one, or when the product isn't priced in the organization's default currency. */
   currency?: string | null;
-  /** A custom amount to charge, in the smallest currency unit. Overrides the product's price; defaults to the product's configured price (0 for free products). A positive amount must be at least the currency's minimum. */
+  /** A custom amount to charge, in the smallest currency unit. Overrides the product's price; defaults to the product's configured price (0 for free products). A positive amount must be at least the currency's minimum. Can't be combined with `units`. */
   amount?: number | null;
+  /** The number of units to charge for. Required when the product has unit-based pricing, and rejected otherwise. The amount comes from the price's tiers. Can't be combined with `amount`. */
+  units?: number | null;
   /** A custom description for the order's line item, shown on the invoice and receipt (e.g. `5,000 tokens`). Defaults to the product name. */
   description?: string | null;
 }
@@ -20504,22 +20593,21 @@ export const OrdersCreateRequest = /*@__PURE__*/ S.suspend(() =>
     product_id: S.String,
     currency: S.optional(S.NullOr(S.String)),
     amount: S.optional(S.NullOr(S.Number)),
+    units: S.optional(S.NullOr(S.Number)),
     description: S.optional(S.NullOr(S.String)),
   }).pipe(T.Http({ method: "POST", uri: "/v1/orders/", code: 200 })),
-).annotate({
-  identifier: "OrdersCreateRequest",
-}) as any as S.Schema<OrdersCreateRequest>;
+).annotate({ identifier: "OrdersCreateRequest" }) as any as S.Schema<OrdersCreateRequest>;
 
 export type OrderCustomFieldDataValue = string | number | boolean;
 export const OrderCustomFieldDataValue = S.Unknown as any as S.Schema<OrderCustomFieldDataValue>;
 
 /** Key-value object storing custom field values. */
 export type OrderCustomFieldDataMap = {
-  [key: string]: OrderCustomFieldDataValue | undefined;
+  [key: string]: OrderCustomFieldDataValue | null | undefined;
 };
 export const OrderCustomFieldDataMap = /*@__PURE__*/ S.Record(
   S.String,
-  OrderCustomFieldDataValue,
+  S.NullOr(OrderCustomFieldDataValue),
 ) as any as S.Schema<OrderCustomFieldDataMap>;
 
 export type OrderCustomerTaxIdList = Array<unknown>;
@@ -20650,6 +20738,8 @@ export interface OrderSubscription {
   checkout_id: string | null;
   /** The number of seats for seat-based subscriptions. None for non-seat subscriptions. */
   seats?: number | null;
+  /** The number of units for unit-based subscriptions. None for non-unit subscriptions. */
+  units: number | null;
   customer_cancellation_reason: CustomerCancellationReason | null;
   customer_cancellation_comment: string | null;
 }
@@ -20684,12 +20774,11 @@ export const OrderSubscription = /*@__PURE__*/ S.suspend(() =>
     discount_id: S.NullOr(S.String),
     checkout_id: S.NullOr(S.String),
     seats: S.optional(S.NullOr(S.Number)),
+    units: S.NullOr(S.Number),
     customer_cancellation_reason: S.NullOr(CustomerCancellationReason),
     customer_cancellation_comment: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "OrderSubscription",
-}) as any as S.Schema<OrderSubscription>;
+).annotate({ identifier: "OrderSubscription" }) as any as S.Schema<OrderSubscription>;
 
 /** Line items composing the order. */
 export type OrderItemsList = Array<OrderItemSchema>;
@@ -20738,6 +20827,8 @@ export interface Order {
   receipt_number: string | null;
   /** Number of seats purchased (for seat-based one-time orders). */
   seats?: number | null;
+  /** Number of units purchased (for unit-based pricing). */
+  units: number | null;
   customer_id: string;
   product_id: string | null;
   discount_id: string | null;
@@ -20789,6 +20880,7 @@ export const Order = /*@__PURE__*/ S.suspend(() =>
     is_invoice_generated: S.Boolean,
     receipt_number: S.NullOr(S.String),
     seats: S.optional(S.NullOr(S.Number)),
+    units: S.NullOr(S.Number),
     customer_id: S.String,
     product_id: S.NullOr(S.String),
     discount_id: S.NullOr(S.String),
@@ -20893,9 +20985,7 @@ export const OrdersExportRequest = /*@__PURE__*/ S.suspend(() =>
     timezone: S.optional(S.String.pipe(T.Query())),
     columns: S.optional(OrdersExportRequestColumns.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/v1/orders/export", code: 200 })),
-).annotate({
-  identifier: "OrdersExportRequest",
-}) as any as S.Schema<OrdersExportRequest>;
+).annotate({ identifier: "OrdersExportRequest" }) as any as S.Schema<OrdersExportRequest>;
 
 export interface OrdersExportResponse {}
 export const OrdersExportResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -20913,9 +21003,7 @@ export const OrdersFinalizeRequest = /*@__PURE__*/ S.suspend(() =>
     id: S.String.pipe(T.Label()),
     payment_method_id: S.optional(S.NullOr(S.String)),
   }).pipe(T.Http({ method: "POST", uri: "/v1/orders/{id}/finalize", code: 200 })),
-).annotate({
-  identifier: "OrdersFinalizeRequest",
-}) as any as S.Schema<OrdersFinalizeRequest>;
+).annotate({ identifier: "OrdersFinalizeRequest" }) as any as S.Schema<OrdersFinalizeRequest>;
 
 export interface OrdersGenerateInvoiceRequest {
   /** The order ID. */
@@ -20942,9 +21030,7 @@ export const OrdersGetRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/v1/orders/{id}", code: 200 })),
-).annotate({
-  identifier: "OrdersGetRequest",
-}) as any as S.Schema<OrdersGetRequest>;
+).annotate({ identifier: "OrdersGetRequest" }) as any as S.Schema<OrdersGetRequest>;
 
 export interface OrdersInvoiceRequest {
   /** The order ID. */
@@ -20954,9 +21040,7 @@ export const OrdersInvoiceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/v1/orders/{id}/invoice", code: 200 })),
-).annotate({
-  identifier: "OrdersInvoiceRequest",
-}) as any as S.Schema<OrdersInvoiceRequest>;
+).annotate({ identifier: "OrdersInvoiceRequest" }) as any as S.Schema<OrdersInvoiceRequest>;
 
 /** Order's invoice data. */
 export interface OrderInvoice {
@@ -21139,9 +21223,7 @@ export const OrdersListRequest = /*@__PURE__*/ S.suspend(() =>
     sorting: S.optional(OrdersListRequestSortingList.pipe(T.Query())),
     metadata: S.optional(MetadataQueryMap.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/v1/orders/", code: 200 })),
-).annotate({
-  identifier: "OrdersListRequest",
-}) as any as S.Schema<OrdersListRequest>;
+).annotate({ identifier: "OrdersListRequest" }) as any as S.Schema<OrdersListRequest>;
 
 export type ListResourceOrderItemsList = Array<Order>;
 export const ListResourceOrderItemsList = /*@__PURE__*/ S.Array(
@@ -21157,9 +21239,7 @@ export const ListResourceOrder = /*@__PURE__*/ S.suspend(() =>
     items: ListResourceOrderItemsList,
     pagination: Pagination,
   }),
-).annotate({
-  identifier: "ListResourceOrder",
-}) as any as S.Schema<ListResourceOrder>;
+).annotate({ identifier: "ListResourceOrder" }) as any as S.Schema<ListResourceOrder>;
 
 export interface OrdersReceiptRequest {
   /** The order ID. */
@@ -21169,9 +21249,7 @@ export const OrdersReceiptRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/v1/orders/{id}/receipt", code: 200 })),
-).annotate({
-  identifier: "OrdersReceiptRequest",
-}) as any as S.Schema<OrdersReceiptRequest>;
+).annotate({ identifier: "OrdersReceiptRequest" }) as any as S.Schema<OrdersReceiptRequest>;
 
 /** Order's receipt data. */
 export interface OrderReceipt {
@@ -21198,9 +21276,7 @@ export const OrdersUpdateRequest = /*@__PURE__*/ S.suspend(() =>
     billing_name: S.optional(S.NullOr(S.String)),
     billing_address: S.optional(S.NullOr(AddressInput)),
   }).pipe(T.Http({ method: "PATCH", uri: "/v1/orders/{id}", code: 200 })),
-).annotate({
-  identifier: "OrdersUpdateRequest",
-}) as any as S.Schema<OrdersUpdateRequest>;
+).annotate({ identifier: "OrdersUpdateRequest" }) as any as S.Schema<OrdersUpdateRequest>;
 
 export interface OrganizationIndividualLegalEntitySchema {
   type: string;
@@ -21256,9 +21332,7 @@ export const OrganizationSocialLink = /*@__PURE__*/ S.suspend(() =>
     platform: OrganizationSocialPlatforms,
     url: S.String,
   }),
-).annotate({
-  identifier: "OrganizationSocialLink",
-}) as any as S.Schema<OrganizationSocialLink>;
+).annotate({ identifier: "OrganizationSocialLink" }) as any as S.Schema<OrganizationSocialLink>;
 
 export type OrganizationsCreateRequestSocialsList = Array<OrganizationSocialLink>;
 export const OrganizationsCreateRequestSocialsList = /*@__PURE__*/ S.Array(
@@ -21326,9 +21400,7 @@ export const OrganizationDetails = /*@__PURE__*/ S.suspend(() =>
     switching_from: S.optional(S.NullOr(OrganizationDetailsSwitchingFrom)),
     previous_annual_revenue: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "OrganizationDetails",
-}) as any as S.Schema<OrganizationDetails>;
+).annotate({ identifier: "OrganizationDetails" }) as any as S.Schema<OrganizationDetails>;
 
 export type OrganizationsCreateRequestCountry =
   | "AD"
@@ -21584,8 +21656,6 @@ export const OrganizationFeatureSettingsUpdateOverviewMetricsList = /*@__PURE__*
 
 /** Feature settings that organizations can update themselves. Other feature settings are managed by Polar staff: they're ignored if provided and keep their current value. */
 export interface OrganizationFeatureSettingsUpdate {
-  /** If this organization has seat-based pricing enabled */
-  seat_based_pricing_enabled?: boolean;
   /** If this organization has the Member model enabled */
   member_model_enabled?: boolean;
   /** If this organization has checkout localization enabled */
@@ -21595,7 +21665,6 @@ export interface OrganizationFeatureSettingsUpdate {
 }
 export const OrganizationFeatureSettingsUpdate = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    seat_based_pricing_enabled: S.optional(S.Boolean),
     member_model_enabled: S.optional(S.Boolean),
     checkout_localization_enabled: S.optional(S.Boolean),
     overview_metrics: S.optional(S.NullOr(OrganizationFeatureSettingsUpdateOverviewMetricsList)),
@@ -21737,8 +21806,6 @@ export const OrganizationFeatureSettingsOverviewMetricsList = /*@__PURE__*/ S.Ar
 export interface OrganizationFeatureSettings {
   /** If this organization has issue funding enabled */
   issue_funding_enabled?: boolean;
-  /** If this organization has seat-based pricing enabled */
-  seat_based_pricing_enabled?: boolean;
   /** If this organization has Wallets enabled */
   wallets_enabled?: boolean;
   /** If this organization has the Member model enabled */
@@ -21767,11 +21834,12 @@ export interface OrganizationFeatureSettings {
   compass_enabled?: boolean;
   /** If this organization can migrate its billing from another provider (e.g. Stripe) to Polar. */
   merchant_migration_enabled?: boolean;
+  /** If this organization's checkout tells the browser to refuse framing from any host outside its embed hosts. */
+  frame_ancestors_enforced?: boolean;
 }
 export const OrganizationFeatureSettings = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     issue_funding_enabled: S.optional(S.Boolean),
-    seat_based_pricing_enabled: S.optional(S.Boolean),
     wallets_enabled: S.optional(S.Boolean),
     member_model_enabled: S.optional(S.Boolean),
     checkout_localization_enabled: S.optional(S.Boolean),
@@ -21786,6 +21854,7 @@ export const OrganizationFeatureSettings = /*@__PURE__*/ S.suspend(() =>
     dispute_auto_accept_enabled: S.optional(S.Boolean),
     compass_enabled: S.optional(S.Boolean),
     merchant_migration_enabled: S.optional(S.Boolean),
+    frame_ancestors_enforced: S.optional(S.Boolean),
   }),
 ).annotate({
   identifier: "OrganizationFeatureSettings",
@@ -22084,9 +22153,7 @@ export const OrganizationCapabilities = /*@__PURE__*/ S.suspend(() =>
     api_access: S.Boolean,
     dashboard_access: S.Boolean,
   }),
-).annotate({
-  identifier: "OrganizationCapabilities",
-}) as any as S.Schema<OrganizationCapabilities>;
+).annotate({ identifier: "OrganizationCapabilities" }) as any as S.Schema<OrganizationCapabilities>;
 
 export interface Organization {
   /** Creation timestamp of the object. */
@@ -22183,9 +22250,7 @@ export const OrganizationsGetRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/v1/organizations/{id}", code: 200 })),
-).annotate({
-  identifier: "OrganizationsGetRequest",
-}) as any as S.Schema<OrganizationsGetRequest>;
+).annotate({ identifier: "OrganizationsGetRequest" }) as any as S.Schema<OrganizationsGetRequest>;
 
 export type OrganizationSortProperty =
   | "created_at"
@@ -22222,9 +22287,7 @@ export const OrganizationsListRequest = /*@__PURE__*/ S.suspend(() =>
     limit: S.optional(S.Number.pipe(T.Query())),
     sorting: S.optional(OrganizationsListRequestSortingList.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/v1/organizations/", code: 200 })),
-).annotate({
-  identifier: "OrganizationsListRequest",
-}) as any as S.Schema<OrganizationsListRequest>;
+).annotate({ identifier: "OrganizationsListRequest" }) as any as S.Schema<OrganizationsListRequest>;
 
 export type ListResourceOrganizationItemsList = Array<Organization>;
 export const ListResourceOrganizationItemsList = /*@__PURE__*/ S.Array(
@@ -22240,9 +22303,7 @@ export const ListResourceOrganization = /*@__PURE__*/ S.suspend(() =>
     items: ListResourceOrganizationItemsList,
     pagination: Pagination,
   }),
-).annotate({
-  identifier: "ListResourceOrganization",
-}) as any as S.Schema<ListResourceOrganization>;
+).annotate({ identifier: "ListResourceOrganization" }) as any as S.Schema<ListResourceOrganization>;
 
 export type OrganizationsUpdateRequestSocialsList = Array<OrganizationSocialLink>;
 export const OrganizationsUpdateRequestSocialsList = /*@__PURE__*/ S.Array(
@@ -22573,9 +22634,7 @@ export const PaymentsGetRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/v1/payments/{id}", code: 200 })),
-).annotate({
-  identifier: "PaymentsGetRequest",
-}) as any as S.Schema<PaymentsGetRequest>;
+).annotate({ identifier: "PaymentsGetRequest" }) as any as S.Schema<PaymentsGetRequest>;
 
 export type PaymentStatus = "pending" | "succeeded" | "failed";
 export const PaymentStatus = S.String;
@@ -22590,9 +22649,7 @@ export type PaymentTrigger =
 export const PaymentTrigger = S.String;
 
 /** Additional metadata from the payment processor for internal use. */
-export type CardPaymentProcessorMetadataMap = {
-  [key: string]: unknown | undefined;
-};
+export type CardPaymentProcessorMetadataMap = { [key: string]: unknown | undefined };
 export const CardPaymentProcessorMetadataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -22610,9 +22667,7 @@ export const CardPaymentMetadata = /*@__PURE__*/ S.suspend(() =>
     brand: S.String,
     last4: S.String,
   }),
-).annotate({
-  identifier: "CardPaymentMetadata",
-}) as any as S.Schema<CardPaymentMetadata>;
+).annotate({ identifier: "CardPaymentMetadata" }) as any as S.Schema<CardPaymentMetadata>;
 
 /** Schema of a payment with a card payment method. */
 export interface CardPayment {
@@ -22628,7 +22683,7 @@ export interface CardPayment {
   status: PaymentStatus;
   /** The payment amount in cents. */
   amount: number;
-  /** The payment currency. Currently, only `usd` is supported. */
+  /** The payment currency */
   currency: string;
   /** The payment method used. */
   method: string;
@@ -22671,9 +22726,84 @@ export const CardPayment = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "CardPayment" }) as any as S.Schema<CardPayment>;
 
 /** Additional metadata from the payment processor for internal use. */
-export type GenericPaymentProcessorMetadataMap = {
-  [key: string]: unknown | undefined;
-};
+export type KrCardPaymentProcessorMetadataMap = { [key: string]: unknown | undefined };
+export const KrCardPaymentProcessorMetadataMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.Unknown,
+) as any as S.Schema<KrCardPaymentProcessorMetadataMap>;
+
+/** Additional metadata for a South Korean card payment method. */
+export interface KrCardPaymentMetadata {
+  /** The local South Korean card brand used for the payment. */
+  brand: string | null;
+  /** The last 4 digits of the card number. */
+  last4: string | null;
+}
+export const KrCardPaymentMetadata = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    brand: S.NullOr(S.String),
+    last4: S.NullOr(S.String),
+  }),
+).annotate({ identifier: "KrCardPaymentMetadata" }) as any as S.Schema<KrCardPaymentMetadata>;
+
+/** Schema of a payment with a South Korean card payment method. */
+export interface KrCardPayment {
+  /** Creation timestamp of the object. */
+  created_at: string;
+  /** Last modification timestamp of the object. */
+  modified_at: string | null;
+  /** The ID of the object. */
+  id: string;
+  /** The payment processor. */
+  processor: PaymentProcessor;
+  /** The payment status. */
+  status: PaymentStatus;
+  /** The payment amount in cents. */
+  amount: number;
+  /** The payment currency */
+  currency: string;
+  /** The payment method used. */
+  method: string;
+  /** What initiated this payment attempt, e.g. initial purchase, subscription renewal, or an automated dunning retry. */
+  trigger: PaymentTrigger | null;
+  /** Error code, if the payment was declined. */
+  decline_reason: string | null;
+  /** Human-readable error message, if the payment was declined. */
+  decline_message: string | null;
+  /** The ID of the organization that owns the payment. */
+  organization_id: string;
+  /** The ID of the checkout session associated with this payment. */
+  checkout_id: string | null;
+  /** The ID of the order associated with this payment. */
+  order_id: string | null;
+  /** Additional metadata from the payment processor for internal use. */
+  processor_metadata?: KrCardPaymentProcessorMetadataMap;
+  /** Additional metadata for the South Korean card payment method. */
+  method_metadata: KrCardPaymentMetadata;
+}
+export const KrCardPayment = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    created_at: S.String,
+    modified_at: S.NullOr(S.String),
+    id: S.String,
+    processor: PaymentProcessor,
+    status: PaymentStatus,
+    amount: S.Number,
+    currency: S.String,
+    method: S.String,
+    trigger: S.NullOr(PaymentTrigger),
+    decline_reason: S.NullOr(S.String),
+    decline_message: S.NullOr(S.String),
+    organization_id: S.String,
+    checkout_id: S.NullOr(S.String),
+    order_id: S.NullOr(S.String),
+    processor_metadata: S.optional(KrCardPaymentProcessorMetadataMap),
+    method_metadata: KrCardPaymentMetadata,
+  }),
+).annotate({ identifier: "KrCardPayment" }) as any as S.Schema<KrCardPayment>;
+
+/** Additional metadata from the payment processor for internal use. */
+export type GenericPaymentProcessorMetadataMap = { [key: string]: unknown | undefined };
 export const GenericPaymentProcessorMetadataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -22693,7 +22823,7 @@ export interface GenericPayment {
   status: PaymentStatus;
   /** The payment amount in cents. */
   amount: number;
-  /** The payment currency. Currently, only `usd` is supported. */
+  /** The payment currency */
   currency: string;
   /** The payment method used. */
   method: string;
@@ -22732,15 +22862,13 @@ export const GenericPayment = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "GenericPayment" }) as any as S.Schema<GenericPayment>;
 
-export type Payment = CardPayment | GenericPayment;
+export type Payment = CardPayment | KrCardPayment | GenericPayment;
 export const Payment = S.Unknown as any as S.Schema<Payment>;
 
 export type PaymentsGetResponse = Payment;
 export const PaymentsGetResponse = /*@__PURE__*/ S.suspend(() =>
   Payment.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "PaymentsGetResponse",
-}) as any as S.Schema<PaymentsGetResponse>;
+).annotate({ identifier: "PaymentsGetResponse" }) as any as S.Schema<PaymentsGetResponse>;
 
 export type PaymentsListRequestOrganizationIdCase1List = Array<string>;
 export const PaymentsListRequestOrganizationIdCase1List = /*@__PURE__*/ S.Array(
@@ -22860,9 +22988,7 @@ export const PaymentsListRequest = /*@__PURE__*/ S.suspend(() =>
     limit: S.optional(S.Number.pipe(T.Query())),
     sorting: S.optional(PaymentsListRequestSortingList.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/v1/payments/", code: 200 })),
-).annotate({
-  identifier: "PaymentsListRequest",
-}) as any as S.Schema<PaymentsListRequest>;
+).annotate({ identifier: "PaymentsListRequest" }) as any as S.Schema<PaymentsListRequest>;
 
 export type ListResourcePaymentItemsList = Array<Payment>;
 export const ListResourcePaymentItemsList = /*@__PURE__*/ S.Array(
@@ -22878,9 +23004,7 @@ export const ListResourcePayment = /*@__PURE__*/ S.suspend(() =>
     items: ListResourcePaymentItemsList,
     pagination: Pagination,
   }),
-).annotate({
-  identifier: "ListResourcePayment",
-}) as any as S.Schema<ListResourcePayment>;
+).annotate({ identifier: "ListResourcePayment" }) as any as S.Schema<ListResourcePayment>;
 
 export type ProductCreateRecurringMetadataValue = string | number | number | boolean;
 export const ProductCreateRecurringMetadataValue =
@@ -22899,7 +23023,9 @@ export type ProductCreateRecurringPricesItem =
   | ProductPriceFixedCreate
   | ProductPriceCustomCreate
   | ProductPriceSeatBasedCreate
-  | ProductPriceMeteredUnitCreate;
+  | ProductPriceUnitBasedCreate
+  | ProductPriceMeteredUnitCreate
+  | ProductPriceMeteredTiersCreate;
 export const ProductCreateRecurringPricesItem =
   S.Unknown as any as S.Schema<ProductCreateRecurringPricesItem>;
 
@@ -22983,9 +23109,7 @@ export const ProductCreateRecurring = /*@__PURE__*/ S.suspend(() =>
     meter_interval: S.optional(S.NullOr(RecurringInterval)),
     meter_interval_count: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "ProductCreateRecurring",
-}) as any as S.Schema<ProductCreateRecurring>;
+).annotate({ identifier: "ProductCreateRecurring" }) as any as S.Schema<ProductCreateRecurring>;
 
 export type ProductCreateOneTimeMetadataValue = string | number | number | boolean;
 export const ProductCreateOneTimeMetadataValue =
@@ -23004,7 +23128,9 @@ export type ProductCreateOneTimePricesItem =
   | ProductPriceFixedCreate
   | ProductPriceCustomCreate
   | ProductPriceSeatBasedCreate
-  | ProductPriceMeteredUnitCreate;
+  | ProductPriceUnitBasedCreate
+  | ProductPriceMeteredUnitCreate
+  | ProductPriceMeteredTiersCreate;
 export const ProductCreateOneTimePricesItem =
   S.Unknown as any as S.Schema<ProductCreateOneTimePricesItem>;
 
@@ -23060,9 +23186,7 @@ export const ProductCreateOneTime = /*@__PURE__*/ S.suspend(() =>
     recurring_interval: S.optional(S.NullOr(S.Unknown)),
     recurring_interval_count: S.optional(S.NullOr(S.Unknown)),
   }),
-).annotate({
-  identifier: "ProductCreateOneTime",
-}) as any as S.Schema<ProductCreateOneTime>;
+).annotate({ identifier: "ProductCreateOneTime" }) as any as S.Schema<ProductCreateOneTime>;
 
 export type ProductCreate = ProductCreateRecurring | ProductCreateOneTime;
 export const ProductCreate = S.Unknown as any as S.Schema<ProductCreate>;
@@ -23074,9 +23198,7 @@ export const ProductsCreateRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     body: ProductCreate.pipe(T.HttpBody()),
   }).pipe(T.Http({ method: "POST", uri: "/v1/products/", code: 200 })),
-).annotate({
-  identifier: "ProductsCreateRequest",
-}) as any as S.Schema<ProductsCreateRequest>;
+).annotate({ identifier: "ProductsCreateRequest" }) as any as S.Schema<ProductsCreateRequest>;
 
 export type ProductPricesItem = LegacyRecurringProductPrice | ProductPrice;
 export const ProductPricesItem = S.Unknown as any as S.Schema<ProductPricesItem>;
@@ -23138,6 +23260,8 @@ export interface Product {
   /** The ID of the organization owning the product. */
   organization_id: string;
   metadata: MetadataOutputType;
+  /** Whether the product can be permanently deleted. Products referenced by an order, subscription, trial or discount cannot be deleted. */
+  is_deletable: boolean;
   /** List of prices for this product. */
   prices: ProductPricesList;
   /** List of benefits granted by the product. */
@@ -23165,12 +23289,27 @@ export const Product = /*@__PURE__*/ S.suspend(() =>
     is_archived: S.Boolean,
     organization_id: S.String,
     metadata: MetadataOutputType,
+    is_deletable: S.Boolean,
     prices: ProductPricesList,
     benefits: ProductBenefitsList,
     medias: ProductMediasList,
     attached_custom_fields: ProductAttachedCustomFieldsList,
   }),
 ).annotate({ identifier: "Product" }) as any as S.Schema<Product>;
+
+export interface ProductsDeleteRequest {
+  id: string;
+}
+export const ProductsDeleteRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String.pipe(T.Label()),
+  }).pipe(T.Http({ method: "DELETE", uri: "/v1/products/{id}", code: 200 })),
+).annotate({ identifier: "ProductsDeleteRequest" }) as any as S.Schema<ProductsDeleteRequest>;
+
+export interface ProductsDeleteResponse {}
+export const ProductsDeleteResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  identifier: "ProductsDeleteResponse",
+}) as any as S.Schema<ProductsDeleteResponse>;
 
 export interface ProductsGetRequest {
   id: string;
@@ -23179,9 +23318,7 @@ export const ProductsGetRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/v1/products/{id}", code: 200 })),
-).annotate({
-  identifier: "ProductsGetRequest",
-}) as any as S.Schema<ProductsGetRequest>;
+).annotate({ identifier: "ProductsGetRequest" }) as any as S.Schema<ProductsGetRequest>;
 
 export type ProductsListRequestIdCase1List = Array<string>;
 export const ProductsListRequestIdCase1List = /*@__PURE__*/ S.Array(
@@ -23271,9 +23408,7 @@ export const ProductsListRequest = /*@__PURE__*/ S.suspend(() =>
     sorting: S.optional(ProductsListRequestSortingList.pipe(T.Query())),
     metadata: S.optional(MetadataQueryMap.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/v1/products/", code: 200 })),
-).annotate({
-  identifier: "ProductsListRequest",
-}) as any as S.Schema<ProductsListRequest>;
+).annotate({ identifier: "ProductsListRequest" }) as any as S.Schema<ProductsListRequest>;
 
 export type ListResourceProductItemsList = Array<Product>;
 export const ListResourceProductItemsList = /*@__PURE__*/ S.Array(
@@ -23289,9 +23424,7 @@ export const ListResourceProduct = /*@__PURE__*/ S.suspend(() =>
     items: ListResourceProductItemsList,
     pagination: Pagination,
   }),
-).annotate({
-  identifier: "ListResourceProduct",
-}) as any as S.Schema<ListResourceProduct>;
+).annotate({ identifier: "ListResourceProduct" }) as any as S.Schema<ListResourceProduct>;
 
 export type ProductsUpdateRequestMetadataValue = string | number | number | boolean;
 export const ProductsUpdateRequestMetadataValue =
@@ -23314,15 +23447,15 @@ export const ExistingProductPrice = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String,
   }),
-).annotate({
-  identifier: "ExistingProductPrice",
-}) as any as S.Schema<ExistingProductPrice>;
+).annotate({ identifier: "ExistingProductPrice" }) as any as S.Schema<ExistingProductPrice>;
 
 export type ProductsUpdateRequestPricesItemCase1 =
   | ProductPriceFixedCreate
   | ProductPriceCustomCreate
   | ProductPriceSeatBasedCreate
-  | ProductPriceMeteredUnitCreate;
+  | ProductPriceUnitBasedCreate
+  | ProductPriceMeteredUnitCreate
+  | ProductPriceMeteredTiersCreate;
 export const ProductsUpdateRequestPricesItemCase1 =
   S.Unknown as any as S.Schema<ProductsUpdateRequestPricesItemCase1>;
 
@@ -23389,9 +23522,7 @@ export const ProductsUpdateRequest = /*@__PURE__*/ S.suspend(() =>
     medias: S.optional(S.NullOr(ProductsUpdateRequestMediasList)),
     attached_custom_fields: S.optional(S.NullOr(ProductsUpdateRequestAttachedCustomFieldsList)),
   }).pipe(T.Http({ method: "PATCH", uri: "/v1/products/{id}", code: 200 })),
-).annotate({
-  identifier: "ProductsUpdateRequest",
-}) as any as S.Schema<ProductsUpdateRequest>;
+).annotate({ identifier: "ProductsUpdateRequest" }) as any as S.Schema<ProductsUpdateRequest>;
 
 /** List of benefit IDs. Each one must be on the same organization as the product. */
 export type ProductsUpdateBenefitsRequestBenefitsList = Array<string>;
@@ -23458,9 +23589,7 @@ export const RefundsCreateRequest = /*@__PURE__*/ S.suspend(() =>
     comment: S.optional(S.NullOr(S.String)),
     revoke_benefits: S.optional(S.Boolean),
   }).pipe(T.Http({ method: "POST", uri: "/v1/refunds/", code: 200 })),
-).annotate({
-  identifier: "RefundsCreateRequest",
-}) as any as S.Schema<RefundsCreateRequest>;
+).annotate({ identifier: "RefundsCreateRequest" }) as any as S.Schema<RefundsCreateRequest>;
 
 export type RefundStatus = "pending" | "succeeded" | "failed" | "canceled";
 export const RefundStatus = S.String;
@@ -23668,9 +23797,7 @@ export const RefundsListRequest = /*@__PURE__*/ S.suspend(() =>
     limit: S.optional(S.Number.pipe(T.Query())),
     sorting: S.optional(RefundsListRequestSortingList.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/v1/refunds/", code: 200 })),
-).annotate({
-  identifier: "RefundsListRequest",
-}) as any as S.Schema<RefundsListRequest>;
+).annotate({ identifier: "RefundsListRequest" }) as any as S.Schema<RefundsListRequest>;
 
 export type ListResourceRefundItemsList = Array<Refund>;
 export const ListResourceRefundItemsList = /*@__PURE__*/ S.Array(
@@ -23686,9 +23813,7 @@ export const ListResourceRefund = /*@__PURE__*/ S.suspend(() =>
     items: ListResourceRefundItemsList,
     pagination: Pagination,
   }),
-).annotate({
-  identifier: "ListResourceRefund",
-}) as any as S.Schema<ListResourceRefund>;
+).annotate({ identifier: "ListResourceRefund" }) as any as S.Schema<ListResourceRefund>;
 
 export interface RetryCustomerPortalOrdersConfirmPaymentRequest {
   /** The order ID. */
@@ -23707,11 +23832,7 @@ export const RetryCustomerPortalOrdersConfirmPaymentRequest = /*@__PURE__*/ S.su
     payment_method_id: S.optional(S.NullOr(S.String)),
     payment_processor: S.optional(PaymentProcessor),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v1/customer-portal/orders/{id}/confirm-payment",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/v1/customer-portal/orders/{id}/confirm-payment", code: 200 }),
   ),
 ).annotate({
   identifier: "RetryCustomerPortalOrdersConfirmPaymentRequest",
@@ -23755,6 +23876,8 @@ export interface SubscriptionCreateCustomer {
   metadata?: SubscriptionCreateCustomerMetadataMap;
   /** The ID of the recurring product to subscribe to. Must be a free product, otherwise the customer should go through a checkout flow. */
   product_id: string;
+  /** The currency of the subscription. The product must have a free price in this currency. If not set, the organization's default currency is used. */
+  currency?: PresentmentCurrency | (string & {}) | null;
   /** The ID of the customer to create the subscription for. */
   customer_id: string;
 }
@@ -23762,6 +23885,7 @@ export const SubscriptionCreateCustomer = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     metadata: S.optional(SubscriptionCreateCustomerMetadataMap),
     product_id: S.String,
+    currency: S.optional(S.NullOr(PresentmentCurrency)),
     customer_id: S.String,
   }),
 ).annotate({
@@ -23787,6 +23911,8 @@ export interface SubscriptionCreateExternalCustomer {
   metadata?: SubscriptionCreateExternalCustomerMetadataMap;
   /** The ID of the recurring product to subscribe to. Must be a free product, otherwise the customer should go through a checkout flow. */
   product_id: string;
+  /** The currency of the subscription. The product must have a free price in this currency. If not set, the organization's default currency is used. */
+  currency?: PresentmentCurrency | (string & {}) | null;
   /** The ID of the customer in your system to create the subscription for. It must already exist in Polar. */
   external_customer_id: string;
 }
@@ -23794,6 +23920,7 @@ export const SubscriptionCreateExternalCustomer = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     metadata: S.optional(SubscriptionCreateExternalCustomerMetadataMap),
     product_id: S.String,
+    currency: S.optional(S.NullOr(PresentmentCurrency)),
     external_customer_id: S.String,
   }),
 ).annotate({
@@ -23823,11 +23950,11 @@ export const SubscriptionCustomFieldDataValue =
 
 /** Key-value object storing custom field values. */
 export type SubscriptionCustomFieldDataMap = {
-  [key: string]: SubscriptionCustomFieldDataValue | undefined;
+  [key: string]: SubscriptionCustomFieldDataValue | null | undefined;
 };
 export const SubscriptionCustomFieldDataMap = /*@__PURE__*/ S.Record(
   S.String,
-  SubscriptionCustomFieldDataValue,
+  S.NullOr(SubscriptionCustomFieldDataValue),
 ) as any as S.Schema<SubscriptionCustomFieldDataMap>;
 
 export type SubscriptionCustomerTaxIdList = Array<unknown>;
@@ -23889,9 +24016,7 @@ export const SubscriptionCustomer = /*@__PURE__*/ S.suspend(() =>
     first_user_event_at: S.NullOr(S.String),
     avatar_url: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "SubscriptionCustomer",
-}) as any as S.Schema<SubscriptionCustomer>;
+).annotate({ identifier: "SubscriptionCustomer" }) as any as S.Schema<SubscriptionCustomer>;
 
 export type SubscriptionDiscount =
   | DiscountFixedOnceForeverDurationBase
@@ -23939,9 +24064,7 @@ export const SubscriptionMeter = /*@__PURE__*/ S.suspend(() =>
     meter_id: S.String,
     meter: Meter,
   }),
-).annotate({
-  identifier: "SubscriptionMeter",
-}) as any as S.Schema<SubscriptionMeter>;
+).annotate({ identifier: "SubscriptionMeter" }) as any as S.Schema<SubscriptionMeter>;
 
 /** List of meters associated with the subscription. */
 export type SubscriptionMetersList = Array<SubscriptionMeter>;
@@ -24005,6 +24128,8 @@ export interface Subscription {
   checkout_id: string | null;
   /** The number of seats for seat-based subscriptions. None for non-seat subscriptions. */
   seats?: number | null;
+  /** The number of units for unit-based subscriptions. None for non-unit subscriptions. */
+  units: number | null;
   customer_cancellation_reason: CustomerCancellationReason | null;
   customer_cancellation_comment: string | null;
   metadata: MetadataOutputType;
@@ -24050,6 +24175,7 @@ export const Subscription = /*@__PURE__*/ S.suspend(() =>
     discount_id: S.NullOr(S.String),
     checkout_id: S.NullOr(S.String),
     seats: S.optional(S.NullOr(S.Number)),
+    units: S.NullOr(S.Number),
     customer_cancellation_reason: S.NullOr(CustomerCancellationReason),
     customer_cancellation_comment: S.NullOr(S.String),
     metadata: MetadataOutputType,
@@ -24184,9 +24310,7 @@ export const SubscriptionsGetRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/v1/subscriptions/{id}", code: 200 })),
-).annotate({
-  identifier: "SubscriptionsGetRequest",
-}) as any as S.Schema<SubscriptionsGetRequest>;
+).annotate({ identifier: "SubscriptionsGetRequest" }) as any as S.Schema<SubscriptionsGetRequest>;
 
 export type SubscriptionsListRequestOrganizationIdCase1List = Array<string>;
 export const SubscriptionsListRequestOrganizationIdCase1List = /*@__PURE__*/ S.Array(
@@ -24356,9 +24480,7 @@ export const SubscriptionsListRequest = /*@__PURE__*/ S.suspend(() =>
     sorting: S.optional(SubscriptionsListRequestSortingList.pipe(T.Query())),
     metadata: S.optional(MetadataQueryMap.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/v1/subscriptions/", code: 200 })),
-).annotate({
-  identifier: "SubscriptionsListRequest",
-}) as any as S.Schema<SubscriptionsListRequest>;
+).annotate({ identifier: "SubscriptionsListRequest" }) as any as S.Schema<SubscriptionsListRequest>;
 
 export type ListResourceSubscriptionItemsList = Array<Subscription>;
 export const ListResourceSubscriptionItemsList = /*@__PURE__*/ S.Array(
@@ -24374,9 +24496,7 @@ export const ListResourceSubscription = /*@__PURE__*/ S.suspend(() =>
     items: ListResourceSubscriptionItemsList,
     pagination: Pagination,
   }),
-).annotate({
-  identifier: "ListResourceSubscription",
-}) as any as S.Schema<ListResourceSubscription>;
+).annotate({ identifier: "ListResourceSubscription" }) as any as S.Schema<ListResourceSubscription>;
 
 export interface SubscriptionsRevokeRequest {
   /** The subscription ID. */
@@ -24412,7 +24532,7 @@ export interface SubscriptionUpdateBase {
   proration_behavior?: SubscriptionProrationBehavior | (string & {}) | null;
   /** Update the subscription to apply a new discount. If set to `null`, the discount will be removed. The change will be applied on the next billing cycle. */
   discount_id?: string | null;
-  /** Set or extend the trial period of the subscription. If set to `now`, the trial will end immediately. */
+  /** Set or extend the trial period of the subscription. If set to `now`, the trial will end immediately and the first billing cycle will be charged synchronously. The subscription remains trialing if the payment fails. */
   trial_end?: string | null;
 }
 export const SubscriptionUpdateBase = /*@__PURE__*/ S.suspend(() =>
@@ -24423,9 +24543,7 @@ export const SubscriptionUpdateBase = /*@__PURE__*/ S.suspend(() =>
     discount_id: S.optional(S.NullOr(S.String)),
     trial_end: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "SubscriptionUpdateBase",
-}) as any as S.Schema<SubscriptionUpdateBase>;
+).annotate({ identifier: "SubscriptionUpdateBase" }) as any as S.Schema<SubscriptionUpdateBase>;
 
 export interface SubscriptionUpdateSeats {
   /** Update the number of seats for this subscription. */
@@ -24438,12 +24556,23 @@ export const SubscriptionUpdateSeats = /*@__PURE__*/ S.suspend(() =>
     seats: S.Number,
     proration_behavior: S.optional(S.NullOr(SubscriptionProrationBehavior)),
   }),
-).annotate({
-  identifier: "SubscriptionUpdateSeats",
-}) as any as S.Schema<SubscriptionUpdateSeats>;
+).annotate({ identifier: "SubscriptionUpdateSeats" }) as any as S.Schema<SubscriptionUpdateSeats>;
+
+export interface SubscriptionUpdateUnits {
+  /** Update the number of units for this subscription. */
+  units: number;
+  /** Determine how to handle the proration billing. If not provided, will use the default organization setting. */
+  proration_behavior?: SubscriptionProrationBehavior | (string & {}) | null;
+}
+export const SubscriptionUpdateUnits = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    units: S.Number,
+    proration_behavior: S.optional(S.NullOr(SubscriptionProrationBehavior)),
+  }),
+).annotate({ identifier: "SubscriptionUpdateUnits" }) as any as S.Schema<SubscriptionUpdateUnits>;
 
 export interface SubscriptionUpdateBillingPeriod {
-  /** Set a new date for the end of the current billing period. The subscription will renew on this date. The new date can be earlier or later than the current period end, as long as it's in the future. It is not possible to update the current billing period on a canceled subscription. */
+  /** Set a new date for the end of the current billing period. The subscription will renew on this date. The new date can be earlier or later than the current period end, as long as it's in the future. If the subscription is set to cancel at the end of the period, it'll end on this new date instead. It is not possible to update the current billing period on a subscription that's already revoked or not active. */
   current_billing_period_end: string;
 }
 export const SubscriptionUpdateBillingPeriod = /*@__PURE__*/ S.suspend(() =>
@@ -24468,9 +24597,7 @@ export const SubscriptionCancel = /*@__PURE__*/ S.suspend(() =>
     customer_cancellation_comment: S.optional(S.NullOr(S.String)),
     cancel_at_period_end: S.Boolean,
   }),
-).annotate({
-  identifier: "SubscriptionCancel",
-}) as any as S.Schema<SubscriptionCancel>;
+).annotate({ identifier: "SubscriptionCancel" }) as any as S.Schema<SubscriptionCancel>;
 
 export interface SubscriptionRevoke {
   /** Customer reason for cancellation. Helpful to monitor reasons behind churn for future improvements. Only set this in case your own service is requesting the reason from the customer. Or you know based on direct conversations, i.e support, with the customer. * `too_expensive`: Too expensive for the customer. * `missing_features`: Customer is missing certain features. * `switched_service`: Customer switched to another service. * `unused`: Customer is not using it enough. * `customer_service`: Customer is not satisfied with the customer service. * `low_quality`: Customer is unhappy with the quality. * `too_complex`: Customer considers the service too complicated. * `other`: Other reason(s). */
@@ -24486,9 +24613,7 @@ export const SubscriptionRevoke = /*@__PURE__*/ S.suspend(() =>
     customer_cancellation_comment: S.optional(S.NullOr(S.String)),
     revoke: S.Boolean,
   }),
-).annotate({
-  identifier: "SubscriptionRevoke",
-}) as any as S.Schema<SubscriptionRevoke>;
+).annotate({ identifier: "SubscriptionRevoke" }) as any as S.Schema<SubscriptionRevoke>;
 
 export interface SubscriptionPause {
   /** Pause an active subscription at the end of the current period. Or cancel a scheduled pause on a subscription set to be paused at period end. */
@@ -24501,9 +24626,7 @@ export const SubscriptionPause = /*@__PURE__*/ S.suspend(() =>
     pause_at_period_end: S.Boolean,
     resumes_at: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "SubscriptionPause",
-}) as any as S.Schema<SubscriptionPause>;
+).annotate({ identifier: "SubscriptionPause" }) as any as S.Schema<SubscriptionPause>;
 
 export type SubscriptionResume = CustomerSubscriptionResume;
 export const SubscriptionResume = CustomerSubscriptionResume;
@@ -24516,13 +24639,12 @@ export const SubscriptionUpdateClear = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     pending_update: S.NullOr(S.Unknown),
   }),
-).annotate({
-  identifier: "SubscriptionUpdateClear",
-}) as any as S.Schema<SubscriptionUpdateClear>;
+).annotate({ identifier: "SubscriptionUpdateClear" }) as any as S.Schema<SubscriptionUpdateClear>;
 
 export type SubscriptionUpdate =
   | SubscriptionUpdateBase
   | SubscriptionUpdateSeats
+  | SubscriptionUpdateUnits
   | SubscriptionUpdateBillingPeriod
   | SubscriptionCancel
   | SubscriptionRevoke
@@ -24551,11 +24673,11 @@ export const UpdateCheckoutsClientRequestCustomFieldDataValue =
 
 /** Key-value object storing custom field values. */
 export type UpdateCheckoutsClientRequestCustomFieldDataMap = {
-  [key: string]: UpdateCheckoutsClientRequestCustomFieldDataValue | undefined;
+  [key: string]: UpdateCheckoutsClientRequestCustomFieldDataValue | null | undefined;
 };
 export const UpdateCheckoutsClientRequestCustomFieldDataMap = /*@__PURE__*/ S.Record(
   S.String,
-  UpdateCheckoutsClientRequestCustomFieldDataValue,
+  S.NullOr(UpdateCheckoutsClientRequestCustomFieldDataValue),
 ) as any as S.Schema<UpdateCheckoutsClientRequestCustomFieldDataMap>;
 
 export interface UpdateCheckoutsClientRequest {
@@ -24570,6 +24692,8 @@ export interface UpdateCheckoutsClientRequest {
   amount?: number | null;
   /** Number of seats for seat-based pricing. */
   seats?: number | null;
+  /** Number of units for unit-based pricing. */
+  units?: number | null;
   is_business_customer?: boolean | null;
   customer_name?: string | null;
   customer_email?: string | null;
@@ -24592,6 +24716,7 @@ export const UpdateCheckoutsClientRequest = /*@__PURE__*/ S.suspend(() =>
     product_price_id: S.optional(S.NullOr(S.String)),
     amount: S.optional(S.NullOr(S.Number)),
     seats: S.optional(S.NullOr(S.Number)),
+    units: S.optional(S.NullOr(S.Number)),
     is_business_customer: S.optional(S.NullOr(S.Boolean)),
     customer_name: S.optional(S.NullOr(S.String)),
     customer_email: S.optional(S.NullOr(S.String)),
@@ -24602,13 +24727,7 @@ export const UpdateCheckoutsClientRequest = /*@__PURE__*/ S.suspend(() =>
     payment_method_type: S.optional(S.NullOr(S.String)),
     discount_code: S.optional(S.NullOr(S.String)),
     allow_trial: S.optional(S.NullOr(S.Boolean)),
-  }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/v1/checkouts/client/{client_secret}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PATCH", uri: "/v1/checkouts/client/{client_secret}", code: 200 })),
 ).annotate({
   identifier: "UpdateCheckoutsClientRequest",
 }) as any as S.Schema<UpdateCheckoutsClientRequest>;
@@ -24689,6 +24808,10 @@ export const CustomerEmailUpdateVerifyResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "CustomerEmailUpdateVerifyResponse",
 }) as any as S.Schema<CustomerEmailUpdateVerifyResponse>;
 
+/** The API version that'll be used in event payloads. */
+export type WebhooksCreateWebhookEndpointRequestApiVersion = "2026-04" | "2026-10" | "2027-01";
+export const WebhooksCreateWebhookEndpointRequestApiVersion = S.String;
+
 export type WebhookFormat = "raw" | "discord" | "slack";
 export const WebhookFormat = S.String;
 
@@ -24720,6 +24843,7 @@ export type WebhookEventType =
   | "subscription.past_due"
   | "subscription.paused"
   | "subscription.resumed"
+  | "subscription.migrated"
   | "refund.created"
   | "refund.updated"
   | "product.created"
@@ -24749,6 +24873,8 @@ export interface WebhooksCreateWebhookEndpointRequest {
   url: string;
   /** An optional name for the webhook endpoint to help organize and identify it. */
   name?: string | null;
+  /** The API version that'll be used in event payloads. */
+  api_version?: WebhooksCreateWebhookEndpointRequestApiVersion | (string & {});
   /** The format of the webhook payload. */
   format: WebhookFormat | (string & {});
   /** The events that will trigger the webhook. */
@@ -24760,6 +24886,7 @@ export const WebhooksCreateWebhookEndpointRequest = /*@__PURE__*/ S.suspend(() =
   S.Struct({
     url: S.String,
     name: S.optional(S.NullOr(S.String)),
+    api_version: S.optional(WebhooksCreateWebhookEndpointRequestApiVersion),
     format: WebhookFormat,
     events: WebhooksCreateWebhookEndpointRequestEventsList,
     organization_id: S.optional(S.NullOr(S.String)),
@@ -24786,6 +24913,8 @@ export interface WebhookEndpoint {
   url: string;
   /** An optional name for the webhook endpoint to help organize and identify it. */
   name?: string | null;
+  /** The API version that'll be used in event payloads. */
+  api_version: string;
   /** The format of the webhook payload. */
   format: WebhookFormat;
   /** The secret used to sign the webhook events. */
@@ -24796,6 +24925,8 @@ export interface WebhookEndpoint {
   events: WebhookEndpointEventsList;
   /** Whether the webhook endpoint is enabled and will receive events. */
   enabled: boolean;
+  /** Whether Polar signs deliveries to this endpoint with Standard Webhooks. False means Polar's original HMAC over the UTF-8 bytes of the full secret. */
+  uses_standard_webhook_signature: boolean;
 }
 export const WebhookEndpoint = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -24804,15 +24935,15 @@ export const WebhookEndpoint = /*@__PURE__*/ S.suspend(() =>
     id: S.String,
     url: S.String,
     name: S.optional(S.NullOr(S.String)),
+    api_version: S.String,
     format: WebhookFormat,
     secret: S.String.pipe(T.SensitiveValue({})),
     organization_id: S.String,
     events: WebhookEndpointEventsList,
     enabled: S.Boolean,
+    uses_standard_webhook_signature: S.Boolean,
   }),
-).annotate({
-  identifier: "WebhookEndpoint",
-}) as any as S.Schema<WebhookEndpoint>;
+).annotate({ identifier: "WebhookEndpoint" }) as any as S.Schema<WebhookEndpoint>;
 
 export interface WebhooksDeleteWebhookEndpointRequest {
   /** The webhook endpoint ID. */
@@ -24821,13 +24952,7 @@ export interface WebhooksDeleteWebhookEndpointRequest {
 export const WebhooksDeleteWebhookEndpointRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/v1/webhooks/endpoints/{id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/v1/webhooks/endpoints/{id}", code: 200 })),
 ).annotate({
   identifier: "WebhooksDeleteWebhookEndpointRequest",
 }) as any as S.Schema<WebhooksDeleteWebhookEndpointRequest>;
@@ -24930,6 +25055,8 @@ export interface WebhookEvent {
   succeeded?: boolean | null;
   /** Whether this event was skipped because the webhook endpoint was disabled. */
   skipped: boolean;
+  /** The API version used in the payload of this event. */
+  api_version: string;
   /** The payload of the webhook event. */
   payload: string | null;
   /** The type of the webhook event. */
@@ -24945,6 +25072,7 @@ export const WebhookEvent = /*@__PURE__*/ S.suspend(() =>
     last_http_code: S.optional(S.NullOr(S.Number)),
     succeeded: S.optional(S.NullOr(S.Boolean)),
     skipped: S.Boolean,
+    api_version: S.String,
     payload: S.NullOr(S.String),
     type: WebhookEventType,
     is_archived: S.Boolean,
@@ -24978,9 +25106,7 @@ export const WebhookDelivery = /*@__PURE__*/ S.suspend(() =>
     response: S.NullOr(S.String),
     webhook_event: WebhookEvent,
   }),
-).annotate({
-  identifier: "WebhookDelivery",
-}) as any as S.Schema<WebhookDelivery>;
+).annotate({ identifier: "WebhookDelivery" }) as any as S.Schema<WebhookDelivery>;
 
 export type ListResourceWebhookDeliveryItemsList = Array<WebhookDelivery>;
 export const ListResourceWebhookDeliveryItemsList = /*@__PURE__*/ S.Array(
@@ -25055,13 +25181,7 @@ export interface WebhooksRedeliverWebhookEventRequest {
 export const WebhooksRedeliverWebhookEventRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v1/webhooks/events/{id}/redeliver",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/v1/webhooks/events/{id}/redeliver", code: 200 })),
 ).annotate({
   identifier: "WebhooksRedeliverWebhookEventRequest",
 }) as any as S.Schema<WebhooksRedeliverWebhookEventRequest>;
@@ -25080,16 +25200,13 @@ export interface WebhooksResetWebhookEndpointSecretRequest {
 export const WebhooksResetWebhookEndpointSecretRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/v1/webhooks/endpoints/{id}/secret",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PATCH", uri: "/v1/webhooks/endpoints/{id}/secret", code: 200 })),
 ).annotate({
   identifier: "WebhooksResetWebhookEndpointSecretRequest",
 }) as any as S.Schema<WebhooksResetWebhookEndpointSecretRequest>;
+
+export type WebhooksUpdateWebhookEndpointRequestApiVersion = "2026-04" | "2026-10" | "2027-01";
+export const WebhooksUpdateWebhookEndpointRequestApiVersion = S.String;
 
 /** The events that will trigger the webhook. */
 export type WebhooksUpdateWebhookEndpointRequestEventsList = Array<
@@ -25105,6 +25222,8 @@ export interface WebhooksUpdateWebhookEndpointRequest {
   url?: string | null;
   /** An optional name for the webhook endpoint to help organize and identify it. */
   name?: string | null;
+  /** The API version that'll be used in event payloads. */
+  api_version?: WebhooksUpdateWebhookEndpointRequestApiVersion | (string & {}) | null;
   format?: WebhookFormat | (string & {}) | null;
   events?: WebhooksUpdateWebhookEndpointRequestEventsList | null;
   /** Whether the webhook endpoint is enabled. */
@@ -25115,16 +25234,11 @@ export const WebhooksUpdateWebhookEndpointRequest = /*@__PURE__*/ S.suspend(() =
     id: S.String.pipe(T.Label()),
     url: S.optional(S.NullOr(S.String)),
     name: S.optional(S.NullOr(S.String)),
+    api_version: S.optional(S.NullOr(WebhooksUpdateWebhookEndpointRequestApiVersion)),
     format: S.optional(S.NullOr(WebhookFormat)),
     events: S.optional(S.NullOr(WebhooksUpdateWebhookEndpointRequestEventsList)),
     enabled: S.optional(S.NullOr(S.Boolean)),
-  }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/v1/webhooks/endpoints/{id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PATCH", uri: "/v1/webhooks/endpoints/{id}", code: 200 })),
 ).annotate({
   identifier: "WebhooksUpdateWebhookEndpointRequest",
 }) as any as S.Schema<WebhooksUpdateWebhookEndpointRequest>;
@@ -25474,6 +25588,7 @@ export type ConfirmCheckoutsClientError =
   | BadRequest
   | Forbidden
   | NotFound
+  | Conflict
   | UnprocessableEntity
   | PolarOpError;
 /** Confirm Checkout Session from Client Confirm a checkout session by client secret. Orders and subscriptions will be processed. */
@@ -25485,7 +25600,7 @@ export const confirmCheckoutsClient: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ConfirmCheckoutsClientRequest,
   output: CheckoutPublicConfirmed,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownPolarError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
 }));
@@ -25807,12 +25922,12 @@ export type CustomerPortalLicenseKeysActivateError =
 /** Activate License Key Activate a license key instance. > This endpoint doesn't require authentication and can be safely used on a public > client, like a desktop application or a mobile app. > If you plan to validate a license key on a server, use the `/v1/license-keys/activate` > endpoint instead. */
 export const customerPortalLicenseKeysActivate: API.OperationMethod<
   CustomerPortalLicenseKeysActivateRequest,
-  LicenseKeyActivationRead,
+  LicenseKeyActivationCreated,
   CustomerPortalLicenseKeysActivateError,
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: CustomerPortalLicenseKeysActivateRequest,
-  output: LicenseKeyActivationRead,
+  output: LicenseKeyActivationCreated,
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
@@ -25877,7 +25992,30 @@ export const customerPortalLicenseKeysList: API.PaginatedOperationMethod<
   paginatePolar,
 ) as any;
 
-export type CustomerPortalLicenseKeysValidateError = NotFound | UnprocessableEntity | PolarOpError;
+export type CustomerPortalLicenseKeysRotateError =
+  | BadRequest
+  | NotFound
+  | UnprocessableEntity
+  | PolarOpError;
+/** Rotate License Key Rotate a license key. Generates a new key string for the same license key record. The previous key string immediately stops validating. Status, usage, limits, expiry, and activations are preserved. **Scopes**: `customer_portal:write` */
+export const customerPortalLicenseKeysRotate: API.OperationMethod<
+  CustomerPortalLicenseKeysRotateRequest,
+  RotatedLicenseKey,
+  CustomerPortalLicenseKeysRotateError,
+  PolarOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CustomerPortalLicenseKeysRotateRequest,
+  output: RotatedLicenseKey,
+  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownPolarError],
+  protocol: PolarProtocol,
+  retry: Retry.Retry,
+}));
+
+export type CustomerPortalLicenseKeysValidateError =
+  | BadRequest
+  | NotFound
+  | UnprocessableEntity
+  | PolarOpError;
 /** Validate License Key Validate a license key. > This endpoint doesn't require authentication and can be safely used on a public > client, like a desktop application or a mobile app. > If you plan to validate a license key on a server, use the `/v1/license-keys/validate` > endpoint instead. */
 export const customerPortalLicenseKeysValidate: API.OperationMethod<
   CustomerPortalLicenseKeysValidateRequest,
@@ -25887,7 +26025,7 @@ export const customerPortalLicenseKeysValidate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CustomerPortalLicenseKeysValidateRequest,
   output: ValidatedLicenseKey,
-  errors: [NotFound, UnprocessableEntity, UnknownPolarError],
+  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
 }));
@@ -26478,7 +26616,7 @@ export const customerSeatsRevokeSeat: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type CustomerSessionsCreateError = UnprocessableEntity | PolarOpError;
+export type CustomerSessionsCreateError = Conflict | UnprocessableEntity | PolarOpError;
 /** Create Customer Session Create a customer session. For organizations with `member_model_enabled`, this will automatically create a member session for the owner member of the customer. **Scopes**: `customer_sessions:write` */
 export const customerSessionsCreate: API.OperationMethod<
   CustomerSessionsCreateRequest,
@@ -26488,7 +26626,7 @@ export const customerSessionsCreate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CustomerSessionsCreateRequest,
   output: CustomerSession,
-  errors: [UnprocessableEntity, UnknownPolarError],
+  errors: [Conflict, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
 }));
@@ -26751,6 +26889,62 @@ export const customersMembersGetExternal: API.OperationMethod<
   protocol: PolarProtocol,
   retry: Retry.Retry,
 }));
+
+export type CustomersMembersListError = NotFound | UnprocessableEntity | PolarOpError;
+/** List Members List the members of a customer. **Scopes**: `members:read` `members:write` */
+export const customersMembersList: API.PaginatedOperationMethod<
+  CustomersMembersListRequest,
+  ListResourceMember,
+  CustomersMembersListError,
+  PolarOpContext,
+  Member
+> = /*@__PURE__*/ API.makePaginated(
+  () => ({
+    input: CustomersMembersListRequest,
+    output: ListResourceMember,
+    errors: [NotFound, UnprocessableEntity, UnknownPolarError],
+    protocol: PolarProtocol,
+    retry: Retry.Retry,
+    pagination: {
+      mode: "page",
+      inputToken: "page",
+      outputToken: "pagination.max_page",
+      items: "items",
+      pageSize: "limit",
+    } as const,
+  }),
+  paginatePolar,
+) as any;
+
+export type CustomersMembersListExternalError =
+  | NotFound
+  | Conflict
+  | UnprocessableEntity
+  | PolarOpError;
+/** List Members by Customer External ID List the members of a customer identified by its external ID. **Scopes**: `members:read` `members:write` */
+export const customersMembersListExternal: API.PaginatedOperationMethod<
+  CustomersMembersListExternalRequest,
+  ListResourceMember,
+  CustomersMembersListExternalError,
+  PolarOpContext,
+  Member
+> = /*@__PURE__*/ API.makePaginated(
+  () => ({
+    input: CustomersMembersListExternalRequest,
+    output: ListResourceMember,
+    errors: [NotFound, Conflict, UnprocessableEntity, UnknownPolarError],
+    protocol: PolarProtocol,
+    retry: Retry.Retry,
+    pagination: {
+      mode: "page",
+      inputToken: "page",
+      outputToken: "pagination.max_page",
+      items: "items",
+      pageSize: "limit",
+    } as const,
+  }),
+  paginatePolar,
+) as any;
 
 export type CustomersMembersUpdateError = NotFound | UnprocessableEntity | PolarOpError;
 /** Update Member Update a member of a customer. Only name, email and role can be updated. **Scopes**: `members:write` */
@@ -27242,7 +27436,7 @@ export const filesUploaded: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type GetCheckoutsClientError = NotFound | UnprocessableEntity | PolarOpError;
+export type GetCheckoutsClientError = Forbidden | NotFound | UnprocessableEntity | PolarOpError;
 /** Get Checkout Session from Client Get a checkout session by client secret. */
 export const getCheckoutsClient: API.OperationMethod<
   GetCheckoutsClientRequest,
@@ -27252,7 +27446,7 @@ export const getCheckoutsClient: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetCheckoutsClientRequest,
   output: CheckoutPublic,
-  errors: [NotFound, UnprocessableEntity, UnknownPolarError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
 }));
@@ -27261,12 +27455,12 @@ export type LicenseKeysActivateError = Forbidden | NotFound | UnprocessableEntit
 /** Activate License Key Activate a license key instance. **Scopes**: `license_keys:write` */
 export const licenseKeysActivate: API.OperationMethod<
   LicenseKeysActivateRequest,
-  LicenseKeyActivationRead,
+  LicenseKeyActivationCreated,
   LicenseKeysActivateError,
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: LicenseKeysActivateRequest,
-  output: LicenseKeyActivationRead,
+  output: LicenseKeyActivationCreated,
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
@@ -27343,6 +27537,21 @@ export const licenseKeysList: API.PaginatedOperationMethod<
   paginatePolar,
 ) as any;
 
+export type LicenseKeysRotateError = BadRequest | NotFound | UnprocessableEntity | PolarOpError;
+/** Rotate License Key Rotate a license key. Generates a new key string for the same license key record. The previous key string immediately stops validating. Status, usage, limits, expiry, and activations are preserved. **Scopes**: `license_keys:write` */
+export const licenseKeysRotate: API.OperationMethod<
+  LicenseKeysRotateRequest,
+  RotatedLicenseKey,
+  LicenseKeysRotateError,
+  PolarOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: LicenseKeysRotateRequest,
+  output: RotatedLicenseKey,
+  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownPolarError],
+  protocol: PolarProtocol,
+  retry: Retry.Retry,
+}));
+
 export type LicenseKeysUpdateError = NotFound | UnprocessableEntity | PolarOpError;
 /** Update License Key Update a license key. **Scopes**: `license_keys:write` */
 export const licenseKeysUpdate: API.OperationMethod<
@@ -27358,7 +27567,7 @@ export const licenseKeysUpdate: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type LicenseKeysValidateError = NotFound | UnprocessableEntity | PolarOpError;
+export type LicenseKeysValidateError = BadRequest | NotFound | UnprocessableEntity | PolarOpError;
 /** Validate License Key Validate a license key. **Scopes**: `license_keys:write` */
 export const licenseKeysValidate: API.OperationMethod<
   LicenseKeysValidateRequest,
@@ -27368,36 +27577,10 @@ export const licenseKeysValidate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: LicenseKeysValidateRequest,
   output: ValidatedLicenseKey,
-  errors: [NotFound, UnprocessableEntity, UnknownPolarError],
+  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
 }));
-
-export type MembersListMembersError = UnprocessableEntity | PolarOpError;
-/** List Members List members with optional customer ID filter. **Scopes**: `members:read` `members:write` */
-export const membersListMembers: API.PaginatedOperationMethod<
-  MembersListMembersRequest,
-  ListResourceMember,
-  MembersListMembersError,
-  PolarOpContext,
-  Member
-> = /*@__PURE__*/ API.makePaginated(
-  () => ({
-    input: MembersListMembersRequest,
-    output: ListResourceMember,
-    errors: [UnprocessableEntity, UnknownPolarError],
-    protocol: PolarProtocol,
-    retry: Retry.Retry,
-    pagination: {
-      mode: "page",
-      inputToken: "page",
-      outputToken: "pagination.max_page",
-      items: "items",
-      pageSize: "limit",
-    } as const,
-  }),
-  paginatePolar,
-) as any;
 
 export type MetersCreateError = UnprocessableEntity | PolarOpError;
 /** Create Meter Create a meter. **Scopes**: `meters:write` */
@@ -28018,6 +28201,26 @@ export const productsCreate: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type ProductsDeleteError =
+  | Forbidden
+  | NotFound
+  | Conflict
+  | UnprocessableEntity
+  | PolarOpError;
+/** Delete Product Delete a product. Only products without orders, subscriptions, trials or discounts can be deleted. Products that are in use can only be archived. **Scopes**: `products:write` */
+export const productsDelete: API.OperationMethod<
+  ProductsDeleteRequest,
+  ProductsDeleteResponse,
+  ProductsDeleteError,
+  PolarOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ProductsDeleteRequest,
+  output: ProductsDeleteResponse,
+  errors: [Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownPolarError],
+  protocol: PolarProtocol,
+  retry: Retry.Retry,
+}));
+
 export type ProductsGetError = NotFound | UnprocessableEntity | PolarOpError;
 /** Get Product Get a product by ID. **Scopes**: `products:read` `products:write` */
 export const productsGet: API.OperationMethod<
@@ -28260,7 +28463,12 @@ export const subscriptionsUpdate: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type UpdateCheckoutsClientError = Forbidden | NotFound | UnprocessableEntity | PolarOpError;
+export type UpdateCheckoutsClientError =
+  | Forbidden
+  | NotFound
+  | Conflict
+  | UnprocessableEntity
+  | PolarOpError;
 /** Update Checkout Session from Client Update a checkout session by client secret. */
 export const updateCheckoutsClient: API.OperationMethod<
   UpdateCheckoutsClientRequest,
@@ -28270,7 +28478,7 @@ export const updateCheckoutsClient: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateCheckoutsClientRequest,
   output: CheckoutPublic,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPolarError],
+  errors: [Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
 }));

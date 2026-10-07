@@ -598,6 +598,7 @@
       "Legacy Bot"
     ],
     "compatible_api_methods": [
+      "canvases.getContent",
       "canvases.sections.lookup"
     ],
     "compatible_events": [],
@@ -1331,6 +1332,17 @@
       "slackLists.items.update",
       "slackLists.update"
     ],
+    "compatible_events": [],
+    "scope_families": []
+  },
+  {
+    "name": "managed_apps:install",
+    "description": "Install managed child apps on workspaces",
+    "token_types": [
+      "Bot",
+      "User"
+    ],
+    "compatible_api_methods": [],
     "compatible_events": [],
     "scope_families": []
   },

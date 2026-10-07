@@ -76,9 +76,7 @@ export const OrganizationQuota = /*@__PURE__*/ S.suspend(() =>
     quotaId: S.String,
     region: S.String,
   }),
-).annotate({
-  identifier: "OrganizationQuota",
-}) as any as S.Schema<OrganizationQuota>;
+).annotate({ identifier: "OrganizationQuota" }) as any as S.Schema<OrganizationQuota>;
 
 export interface CreateOrganizationRequest {
   projectId: string;
@@ -139,9 +137,7 @@ export const CreateOrgManagerRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://scf.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "CreateOrgManagerRequest",
-}) as any as S.Schema<CreateOrgManagerRequest>;
+).annotate({ identifier: "CreateOrgManagerRequest" }) as any as S.Schema<CreateOrgManagerRequest>;
 
 export interface OrgManagerResponse {
   createdAt: string;
@@ -166,16 +162,14 @@ export const OrgManagerResponse = /*@__PURE__*/ S.suspend(() =>
     updatedAt: S.String,
     username: S.String,
   }),
-).annotate({
-  identifier: "OrgManagerResponse",
-}) as any as S.Schema<OrgManagerResponse>;
+).annotate({ identifier: "OrgManagerResponse" }) as any as S.Schema<OrgManagerResponse>;
 
 export type OrgRoleType =
   | "organization_user"
   | "organization_auditor"
   | "organization_manager"
   | "organization_billing_manager";
-export const OrgRoleType = /*@__PURE__*/ S.String;
+export const OrgRoleType = S.String;
 
 export interface CreateOrgRoleRequest {
   projectId: string;
@@ -201,9 +195,7 @@ export const CreateOrgRoleRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://scf.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "CreateOrgRoleRequest",
-}) as any as S.Schema<CreateOrgRoleRequest>;
+).annotate({ identifier: "CreateOrgRoleRequest" }) as any as S.Schema<CreateOrgRoleRequest>;
 
 export interface OrgRoleResponse {
   guid: string;
@@ -222,9 +214,7 @@ export const OrgRoleResponse = /*@__PURE__*/ S.suspend(() =>
     region: S.String,
     type: OrgRoleType,
   }),
-).annotate({
-  identifier: "OrgRoleResponse",
-}) as any as S.Schema<OrgRoleResponse>;
+).annotate({ identifier: "OrgRoleResponse" }) as any as S.Schema<OrgRoleResponse>;
 
 export interface CreateSpaceRequest {
   projectId: string;
@@ -246,9 +236,7 @@ export const CreateSpaceRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://scf.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "CreateSpaceRequest",
-}) as any as S.Schema<CreateSpaceRequest>;
+).annotate({ identifier: "CreateSpaceRequest" }) as any as S.Schema<CreateSpaceRequest>;
 
 export interface Space {
   createdAt: string;
@@ -278,7 +266,7 @@ export type SpaceRoleType =
   | "space_developer"
   | "space_manager"
   | "space_supporter";
-export const SpaceRoleType = /*@__PURE__*/ S.String;
+export const SpaceRoleType = S.String;
 
 export interface CreateSpaceRoleRequest {
   projectId: string;
@@ -306,9 +294,7 @@ export const CreateSpaceRoleRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://scf.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "CreateSpaceRoleRequest",
-}) as any as S.Schema<CreateSpaceRoleRequest>;
+).annotate({ identifier: "CreateSpaceRoleRequest" }) as any as S.Schema<CreateSpaceRoleRequest>;
 
 export interface SpaceRoleCreateResponse {
   guid: string;
@@ -329,9 +315,7 @@ export const SpaceRoleCreateResponse = /*@__PURE__*/ S.suspend(() =>
     spaceId: S.String,
     type: SpaceRoleType,
   }),
-).annotate({
-  identifier: "SpaceRoleCreateResponse",
-}) as any as S.Schema<SpaceRoleCreateResponse>;
+).annotate({ identifier: "SpaceRoleCreateResponse" }) as any as S.Schema<SpaceRoleCreateResponse>;
 
 export interface DeleteOrganizationRequest {
   projectId: string;
@@ -390,9 +374,7 @@ export const DeleteOrgManagerRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://scf.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "DeleteOrgManagerRequest",
-}) as any as S.Schema<DeleteOrgManagerRequest>;
+).annotate({ identifier: "DeleteOrgManagerRequest" }) as any as S.Schema<DeleteOrgManagerRequest>;
 
 export interface OrgManagerDeleteResponse {
   message: string;
@@ -401,9 +383,7 @@ export const OrgManagerDeleteResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     message: S.String,
   }),
-).annotate({
-  identifier: "OrgManagerDeleteResponse",
-}) as any as S.Schema<OrgManagerDeleteResponse>;
+).annotate({ identifier: "OrgManagerDeleteResponse" }) as any as S.Schema<OrgManagerDeleteResponse>;
 
 export interface DeleteSpaceRequest {
   projectId: string;
@@ -425,9 +405,7 @@ export const DeleteSpaceRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://scf.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "DeleteSpaceRequest",
-}) as any as S.Schema<DeleteSpaceRequest>;
+).annotate({ identifier: "DeleteSpaceRequest" }) as any as S.Schema<DeleteSpaceRequest>;
 
 export interface SpaceDeleteResponse {
   message: string;
@@ -436,9 +414,7 @@ export const SpaceDeleteResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     message: S.String,
   }),
-).annotate({
-  identifier: "SpaceDeleteResponse",
-}) as any as S.Schema<SpaceDeleteResponse>;
+).annotate({ identifier: "SpaceDeleteResponse" }) as any as S.Schema<SpaceDeleteResponse>;
 
 export interface GetOrganizationRequest {
   projectId: string;
@@ -458,9 +434,7 @@ export const GetOrganizationRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://scf.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "GetOrganizationRequest",
-}) as any as S.Schema<GetOrganizationRequest>;
+).annotate({ identifier: "GetOrganizationRequest" }) as any as S.Schema<GetOrganizationRequest>;
 
 export interface Organization {
   createdAt: string;
@@ -664,9 +638,7 @@ export const OrganizationUsageSummary = /*@__PURE__*/ S.suspend(() =>
     region: S.String,
     usageSummary: UsageSummary,
   }),
-).annotate({
-  identifier: "OrganizationUsageSummary",
-}) as any as S.Schema<OrganizationUsageSummary>;
+).annotate({ identifier: "OrganizationUsageSummary" }) as any as S.Schema<OrganizationUsageSummary>;
 
 export interface GetOrgManagerRequest {
   projectId: string;
@@ -686,9 +658,7 @@ export const GetOrgManagerRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://scf.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "GetOrgManagerRequest",
-}) as any as S.Schema<GetOrgManagerRequest>;
+).annotate({ identifier: "GetOrgManagerRequest" }) as any as S.Schema<GetOrgManagerRequest>;
 
 export interface OrgManager {
   createdAt: string;
@@ -731,9 +701,7 @@ export const GetPlatformRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://scf.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "GetPlatformRequest",
-}) as any as S.Schema<GetPlatformRequest>;
+).annotate({ identifier: "GetPlatformRequest" }) as any as S.Schema<GetPlatformRequest>;
 
 export interface Platforms {
   apiUrl: string;
@@ -774,9 +742,7 @@ export const GetPlatformQuotaRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://scf.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "GetPlatformQuotaRequest",
-}) as any as S.Schema<GetPlatformQuotaRequest>;
+).annotate({ identifier: "GetPlatformQuotaRequest" }) as any as S.Schema<GetPlatformQuotaRequest>;
 
 export interface GetSpaceRequest {
   projectId: string;
@@ -798,9 +764,7 @@ export const GetSpaceRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://scf.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "GetSpaceRequest",
-}) as any as S.Schema<GetSpaceRequest>;
+).annotate({ identifier: "GetSpaceRequest" }) as any as S.Schema<GetSpaceRequest>;
 
 export interface ListOrganizationQuotasRequest {
   projectId: string;
@@ -864,9 +828,7 @@ export const ListOrganizationsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://scf.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "ListOrganizationsRequest",
-}) as any as S.Schema<ListOrganizationsRequest>;
+).annotate({ identifier: "ListOrganizationsRequest" }) as any as S.Schema<ListOrganizationsRequest>;
 
 export interface Pagination {
   totalPages?: number;
@@ -904,9 +866,7 @@ export const OrganizationsListItem = /*@__PURE__*/ S.suspend(() =>
     suspended: S.optional(S.Boolean),
     updatedAt: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OrganizationsListItem",
-}) as any as S.Schema<OrganizationsListItem>;
+).annotate({ identifier: "OrganizationsListItem" }) as any as S.Schema<OrganizationsListItem>;
 
 export type OrganizationsListResourcesList = Array<OrganizationsListItem>;
 export const OrganizationsListResourcesList = /*@__PURE__*/ S.Array(
@@ -922,9 +882,7 @@ export const OrganizationsList = /*@__PURE__*/ S.suspend(() =>
     pagination: Pagination,
     resources: OrganizationsListResourcesList,
   }),
-).annotate({
-  identifier: "OrganizationsList",
-}) as any as S.Schema<OrganizationsList>;
+).annotate({ identifier: "OrganizationsList" }) as any as S.Schema<OrganizationsList>;
 
 export interface ListPlatformQuotasRequest {
   projectId: string;
@@ -982,9 +940,7 @@ export const ListPlatformsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://scf.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "ListPlatformsRequest",
-}) as any as S.Schema<ListPlatformsRequest>;
+).annotate({ identifier: "ListPlatformsRequest" }) as any as S.Schema<ListPlatformsRequest>;
 
 export type PlatformListResourcesList = Array<Platforms>;
 export const PlatformListResourcesList = /*@__PURE__*/ S.Array(
@@ -1026,9 +982,7 @@ export const ListSpacesRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://scf.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "ListSpacesRequest",
-}) as any as S.Schema<ListSpacesRequest>;
+).annotate({ identifier: "ListSpacesRequest" }) as any as S.Schema<ListSpacesRequest>;
 
 export type SpacesListResourcesList = Array<Space>;
 export const SpacesListResourcesList = /*@__PURE__*/ S.Array(
@@ -1094,9 +1048,7 @@ export const UpdateSpaceRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://scf.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "UpdateSpaceRequest",
-}) as any as S.Schema<UpdateSpaceRequest>;
+).annotate({ identifier: "UpdateSpaceRequest" }) as any as S.Schema<UpdateSpaceRequest>;
 
 export type ApplyOrganizationQuotaError = BadRequest | Forbidden | NotFound | StackitOpError;
 /** Apply an organization quota Change the organization quota of an organization. */

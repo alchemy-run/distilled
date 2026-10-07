@@ -59,9 +59,7 @@ export const CreateReactionRequest = /*@__PURE__*/ S.suspend(() =>
     poll_option_id: S.optional(S.NullOr(S.String)),
     resource_id: S.String,
   }).pipe(T.Http({ method: "POST", uri: "/reactions", code: 200 })),
-).annotate({
-  identifier: "CreateReactionRequest",
-}) as any as S.Schema<CreateReactionRequest>;
+).annotate({ identifier: "CreateReactionRequest" }) as any as S.Schema<CreateReactionRequest>;
 
 /** The user who left this reaction on the post. */
 export interface ReactionUser {
@@ -110,16 +108,12 @@ export const DeleteReactionRequest = /*@__PURE__*/ S.suspend(() =>
     id: S.String.pipe(T.Label()),
     emoji: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "DELETE", uri: "/reactions/{id}", code: 200 })),
-).annotate({
-  identifier: "DeleteReactionRequest",
-}) as any as S.Schema<DeleteReactionRequest>;
+).annotate({ identifier: "DeleteReactionRequest" }) as any as S.Schema<DeleteReactionRequest>;
 
 export type DeleteReactionResponse = boolean;
 export const DeleteReactionResponse = /*@__PURE__*/ S.suspend(() =>
   S.Boolean.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "DeleteReactionResponse",
-}) as any as S.Schema<DeleteReactionResponse>;
+).annotate({ identifier: "DeleteReactionResponse" }) as any as S.Schema<DeleteReactionResponse>;
 
 export interface GetReactionRequest {
   /** The unique identifier of the reaction to retrieve. */
@@ -129,9 +123,7 @@ export const GetReactionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/reactions/{id}", code: 200 })),
-).annotate({
-  identifier: "GetReactionRequest",
-}) as any as S.Schema<GetReactionRequest>;
+).annotate({ identifier: "GetReactionRequest" }) as any as S.Schema<GetReactionRequest>;
 
 export interface ListReactionRequest {
   after?: string;
@@ -148,9 +140,7 @@ export const ListReactionRequest = /*@__PURE__*/ S.suspend(() =>
     last: S.optional(S.Number.pipe(T.Query())),
     resource_id: S.String.pipe(T.Query()),
   }).pipe(T.Http({ method: "GET", uri: "/reactions", code: 200 })),
-).annotate({
-  identifier: "ListReactionRequest",
-}) as any as S.Schema<ListReactionRequest>;
+).annotate({ identifier: "ListReactionRequest" }) as any as S.Schema<ListReactionRequest>;
 
 /** The user who left this reaction on the post. */
 export type ReactionListItemUser = ReactionUser;
@@ -174,9 +164,7 @@ export const ReactionListItem = /*@__PURE__*/ S.suspend(() =>
     resource_id: S.String,
     user: ReactionUser,
   }),
-).annotate({
-  identifier: "ReactionListItem",
-}) as any as S.Schema<ReactionListItem>;
+).annotate({ identifier: "ReactionListItem" }) as any as S.Schema<ReactionListItem>;
 
 /** A list of nodes. */
 export type ListReactionResponseDataList = Array<ReactionListItem>;
@@ -215,9 +203,7 @@ export const ListReactionResponse = /*@__PURE__*/ S.suspend(() =>
     data: ListReactionResponseDataList,
     page_info: PageInfo,
   }),
-).annotate({
-  identifier: "ListReactionResponse",
-}) as any as S.Schema<ListReactionResponse>;
+).annotate({ identifier: "ListReactionResponse" }) as any as S.Schema<ListReactionResponse>;
 
 export type CreateReactionError =
   | BadRequest

@@ -67,6 +67,12 @@
     },
     "restricted_action": {
       "desc": "A workspace preference prevents the authenticated user from renaming a channel."
+    },
+    "external_channel_migrating": {
+      "desc": "The channel is an externally shared channel that is currently being migrated and can't be renamed."
+    },
+    "not_supported": {
+      "desc": "This type of channel doesn't support renaming through this method."
     }
   }
 }

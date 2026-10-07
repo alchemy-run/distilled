@@ -61,79 +61,90 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
-/** Updates the alt text title and/or description of a page element. */
-export interface UpdatePageElementAltTextRequest {
-  /** The updated alt text description of the page element. If unset the existing value will be maintained. The description is exposed to screen readers and other accessibility interfaces. Only use human readable values related to the content of the page element. */
-  description?: string;
-  /** The updated alt text title of the page element. If unset the existing value will be maintained. The title is exposed to screen readers and other accessibility interfaces. Only use human readable values related to the content of the page element. */
-  title?: string;
-  /** The object ID of the page element the updates are applied to. */
-  objectId?: string;
+/** Provides control over how write requests are executed. */
+export interface WriteControl {
+  /** The revision ID of the presentation required for the write request. If specified and the required revision ID doesn't match the presentation's current revision ID, the request is not processed and returns a 400 bad request error. When a required revision ID is returned in a response, it indicates the revision ID of the document after the request was applied. */
+  requiredRevisionId?: string;
 }
-export const UpdatePageElementAltTextRequest = /*@__PURE__*/ S.suspend(() =>
+export const WriteControl = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    description: S.optional(S.String),
-    title: S.optional(S.String),
-    objectId: S.optional(S.String),
+    requiredRevisionId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "UpdatePageElementAltTextRequest",
-}) as any as S.Schema<UpdatePageElementAltTextRequest>;
+).annotate({ identifier: "WriteControl" }) as any as S.Schema<WriteControl>;
 
 /** A location of a single table cell within a table. */
 export interface TableCellLocation {
-  /** The 0-based row index. */
-  rowIndex?: number;
   /** The 0-based column index. */
   columnIndex?: number;
+  /** The 0-based row index. */
+  rowIndex?: number;
 }
 export const TableCellLocation = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    rowIndex: S.optional(S.Number),
     columnIndex: S.optional(S.Number),
+    rowIndex: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "TableCellLocation",
-}) as any as S.Schema<TableCellLocation>;
+).annotate({ identifier: "TableCellLocation" }) as any as S.Schema<TableCellLocation>;
 
 /** A table range represents a reference to a subset of a table. It's important to note that the cells specified by a table range do not necessarily form a rectangle. For example, let's say we have a 3 x 3 table where all the cells of the last row are merged together. The table looks like this: [ ] A table range with location = (0, 0), row span = 3 and column span = 2 specifies the following cells: x x [ x x x ] */
 export interface TableRange {
-  /** The column span of the table range. */
-  columnSpan?: number;
   /** The starting location of the table range. */
   location?: TableCellLocation;
   /** The row span of the table range. */
   rowSpan?: number;
+  /** The column span of the table range. */
+  columnSpan?: number;
 }
 export const TableRange = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    columnSpan: S.optional(S.Number),
     location: S.optional(TableCellLocation),
     rowSpan: S.optional(S.Number),
+    columnSpan: S.optional(S.Number),
   }),
 ).annotate({ identifier: "TableRange" }) as any as S.Schema<TableRange>;
 
-export type TableCellPropertiesContentAlignmentEnum =
-  | "CONTENT_ALIGNMENT_UNSPECIFIED"
-  | "CONTENT_ALIGNMENT_UNSUPPORTED"
-  | "TOP"
-  | "MIDDLE"
-  | "BOTTOM";
-export const TableCellPropertiesContentAlignmentEnum = S.String;
+export type UpdateTableBorderPropertiesRequestBorderPositionEnum =
+  | "ALL"
+  | "BOTTOM"
+  | "INNER"
+  | "INNER_HORIZONTAL"
+  | "INNER_VERTICAL"
+  | "LEFT"
+  | "OUTER"
+  | "RIGHT"
+  | "TOP";
+export const UpdateTableBorderPropertiesRequestBorderPositionEnum = S.String;
+
+export type DimensionUnitEnum = "UNIT_UNSPECIFIED" | "EMU" | "PT";
+export const DimensionUnitEnum = S.String;
+
+/** A magnitude in a single direction in the specified units. */
+export interface Dimension {
+  /** The units for magnitude. */
+  unit?: DimensionUnitEnum | (string & {});
+  /** The magnitude. */
+  magnitude?: number;
+}
+export const Dimension = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    unit: S.optional(DimensionUnitEnum),
+    magnitude: S.optional(S.Number),
+  }),
+).annotate({ identifier: "Dimension" }) as any as S.Schema<Dimension>;
 
 /** An RGB color. */
 export interface RgbColor {
-  /** The blue component of the color, from 0.0 to 1.0. */
-  blue?: number;
   /** The red component of the color, from 0.0 to 1.0. */
   red?: number;
+  /** The blue component of the color, from 0.0 to 1.0. */
+  blue?: number;
   /** The green component of the color, from 0.0 to 1.0. */
   green?: number;
 }
 export const RgbColor = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    blue: S.optional(S.Number),
     red: S.optional(S.Number),
+    blue: S.optional(S.Number),
     green: S.optional(S.Number),
   }),
 ).annotate({ identifier: "RgbColor" }) as any as S.Schema<RgbColor>;
@@ -174,339 +185,165 @@ export const OpaqueColor = /*@__PURE__*/ S.suspend(() =>
 
 /** A solid color fill. The page or page element is filled entirely with the specified color value. If any field is unset, its value may be inherited from a parent placeholder if it exists. */
 export interface SolidFill {
-  /** The color value of the solid fill. */
-  color?: OpaqueColor;
   /** The fraction of this `color` that should be applied to the pixel. That is, the final pixel color is defined by the equation: pixel color = alpha * (color) + (1.0 - alpha) * (background color) This means that a value of 1.0 corresponds to a solid color, whereas a value of 0.0 corresponds to a completely transparent color. */
   alpha?: number;
+  /** The color value of the solid fill. */
+  color?: OpaqueColor;
 }
 export const SolidFill = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    color: S.optional(OpaqueColor),
     alpha: S.optional(S.Number),
+    color: S.optional(OpaqueColor),
   }),
 ).annotate({ identifier: "SolidFill" }) as any as S.Schema<SolidFill>;
 
-export type TableCellBackgroundFillPropertyStateEnum = "RENDERED" | "NOT_RENDERED" | "INHERIT";
-export const TableCellBackgroundFillPropertyStateEnum = S.String;
-
-/** The table cell background fill. */
-export interface TableCellBackgroundFill {
-  /** Solid color fill. */
+/** The fill of the border. */
+export interface TableBorderFill {
+  /** Solid fill. */
   solidFill?: SolidFill;
-  /** The background fill property state. Updating the fill on a table cell will implicitly update this field to `RENDERED`, unless another value is specified in the same request. To have no fill on a table cell, set this field to `NOT_RENDERED`. In this case, any other fill fields set in the same request will be ignored. */
-  propertyState?: TableCellBackgroundFillPropertyStateEnum | (string & {});
 }
-export const TableCellBackgroundFill = /*@__PURE__*/ S.suspend(() =>
+export const TableBorderFill = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     solidFill: S.optional(SolidFill),
-    propertyState: S.optional(TableCellBackgroundFillPropertyStateEnum),
   }),
-).annotate({
-  identifier: "TableCellBackgroundFill",
-}) as any as S.Schema<TableCellBackgroundFill>;
+).annotate({ identifier: "TableBorderFill" }) as any as S.Schema<TableBorderFill>;
 
-/** The properties of the TableCell. */
-export interface TableCellProperties {
-  /** The alignment of the content in the table cell. The default alignment matches the alignment for newly created table cells in the Slides editor. */
-  contentAlignment?: TableCellPropertiesContentAlignmentEnum | (string & {});
-  /** The background fill of the table cell. The default fill matches the fill for newly created table cells in the Slides editor. */
-  tableCellBackgroundFill?: TableCellBackgroundFill;
+export type TableBorderPropertiesDashStyleEnum =
+  | "DASH_STYLE_UNSPECIFIED"
+  | "SOLID"
+  | "DOT"
+  | "DASH"
+  | "DASH_DOT"
+  | "LONG_DASH"
+  | "LONG_DASH_DOT";
+export const TableBorderPropertiesDashStyleEnum = S.String;
+
+/** The border styling properties of the TableBorderCell. */
+export interface TableBorderProperties {
+  /** The thickness of the border. */
+  weight?: Dimension;
+  /** The fill of the table border. */
+  tableBorderFill?: TableBorderFill;
+  /** The dash style of the border. */
+  dashStyle?: TableBorderPropertiesDashStyleEnum | (string & {});
 }
-export const TableCellProperties = /*@__PURE__*/ S.suspend(() =>
+export const TableBorderProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    contentAlignment: S.optional(TableCellPropertiesContentAlignmentEnum),
-    tableCellBackgroundFill: S.optional(TableCellBackgroundFill),
+    weight: S.optional(Dimension),
+    tableBorderFill: S.optional(TableBorderFill),
+    dashStyle: S.optional(TableBorderPropertiesDashStyleEnum),
   }),
-).annotate({
-  identifier: "TableCellProperties",
-}) as any as S.Schema<TableCellProperties>;
+).annotate({ identifier: "TableBorderProperties" }) as any as S.Schema<TableBorderProperties>;
 
-/** Update the properties of a TableCell. */
-export interface UpdateTableCellPropertiesRequest {
-  /** The fields that should be updated. At least one field must be specified. The root `tableCellProperties` is implied and should not be specified. A single `"*"` can be used as short-hand for listing every field. For example to update the table cell background solid fill color, set `fields` to `"tableCellBackgroundFill.solidFill.color"`. To reset a property to its default value, include its field name in the field mask but leave the field itself unset. */
-  fields?: string;
+/** Updates the properties of the table borders in a Table. */
+export interface UpdateTableBorderPropertiesRequest {
   /** The table range representing the subset of the table to which the updates are applied. If a table range is not specified, the updates will apply to the entire table. */
   tableRange?: TableRange;
+  /** The border position in the table range the updates should apply to. If a border position is not specified, the updates will apply to all borders in the table range. */
+  borderPosition?: UpdateTableBorderPropertiesRequestBorderPositionEnum | (string & {});
   /** The object ID of the table. */
   objectId?: string;
-  /** The table cell properties to update. */
-  tableCellProperties?: TableCellProperties;
+  /** The table border properties to update. */
+  tableBorderProperties?: TableBorderProperties;
+  /** The fields that should be updated. At least one field must be specified. The root `tableBorderProperties` is implied and should not be specified. A single `"*"` can be used as short-hand for listing every field. For example to update the table border solid fill color, set `fields` to `"tableBorderFill.solidFill.color"`. To reset a property to its default value, include its field name in the field mask but leave the field itself unset. */
+  fields?: string;
 }
-export const UpdateTableCellPropertiesRequest = /*@__PURE__*/ S.suspend(() =>
+export const UpdateTableBorderPropertiesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    fields: S.optional(S.String),
     tableRange: S.optional(TableRange),
+    borderPosition: S.optional(UpdateTableBorderPropertiesRequestBorderPositionEnum),
     objectId: S.optional(S.String),
-    tableCellProperties: S.optional(TableCellProperties),
+    tableBorderProperties: S.optional(TableBorderProperties),
+    fields: S.optional(S.String),
   }),
 ).annotate({
-  identifier: "UpdateTableCellPropertiesRequest",
-}) as any as S.Schema<UpdateTableCellPropertiesRequest>;
+  identifier: "UpdateTableBorderPropertiesRequest",
+}) as any as S.Schema<UpdateTableBorderPropertiesRequest>;
 
-export type CreateParagraphBulletsRequestBulletPresetEnum =
-  | "BULLET_DISC_CIRCLE_SQUARE"
-  | "BULLET_DIAMONDX_ARROW3D_SQUARE"
-  | "BULLET_CHECKBOX"
-  | "BULLET_ARROW_DIAMOND_DISC"
-  | "BULLET_STAR_CIRCLE_SQUARE"
-  | "BULLET_ARROW3D_CIRCLE_SQUARE"
-  | "BULLET_LEFTTRIANGLE_DIAMOND_DISC"
-  | "BULLET_DIAMONDX_HOLLOWDIAMOND_SQUARE"
-  | "BULLET_DIAMOND_CIRCLE_SQUARE"
-  | "NUMBERED_DIGIT_ALPHA_ROMAN"
-  | "NUMBERED_DIGIT_ALPHA_ROMAN_PARENS"
-  | "NUMBERED_DIGIT_NESTED"
-  | "NUMBERED_UPPERALPHA_ALPHA_ROMAN"
-  | "NUMBERED_UPPERROMAN_UPPERALPHA_DIGIT"
-  | "NUMBERED_ZERODIGIT_ALPHA_ROMAN";
-export const CreateParagraphBulletsRequestBulletPresetEnum = S.String;
-
-export type RangeTypeEnum = "RANGE_TYPE_UNSPECIFIED" | "FIXED_RANGE" | "FROM_START_INDEX" | "ALL";
-export const RangeTypeEnum = S.String;
-
-/** Specifies a contiguous range of an indexed collection, such as characters in text. */
-export interface Range {
-  /** The optional zero-based index of the beginning of the collection. Required for `FIXED_RANGE` and `FROM_START_INDEX` ranges. */
-  startIndex?: number;
-  /** The optional zero-based index of the end of the collection. Required for `FIXED_RANGE` ranges. */
-  endIndex?: number;
-  /** The type of range. */
-  type?: RangeTypeEnum | (string & {});
-}
-export const Range = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    startIndex: S.optional(S.Number),
-    endIndex: S.optional(S.Number),
-    type: S.optional(RangeTypeEnum),
-  }),
-).annotate({ identifier: "Range" }) as any as S.Schema<Range>;
-
-/** Creates bullets for all of the paragraphs that overlap with the given text index range. The nesting level of each paragraph will be determined by counting leading tabs in front of each paragraph. To avoid excess space between the bullet and the corresponding paragraph, these leading tabs are removed by this request. This may change the indices of parts of the text. If the paragraph immediately before paragraphs being updated is in a list with a matching preset, the paragraphs being updated are added to that preceding list. */
-export interface CreateParagraphBulletsRequest {
-  /** The optional table cell location if the text to be modified is in a table cell. If present, the object_id must refer to a table. */
+/** Inserts columns into a table. Other columns in the table will be resized to fit the new column. */
+export interface InsertTableColumnsRequest {
+  /** The table to insert columns into. */
+  tableObjectId?: string;
+  /** The reference table cell location from which columns will be inserted. A new column will be inserted to the left (or right) of the column where the reference cell is. If the reference cell is a merged cell, a new column will be inserted to the left (or right) of the merged cell. */
   cellLocation?: TableCellLocation;
-  /** The kinds of bullet glyphs to be used. Defaults to the `BULLET_DISC_CIRCLE_SQUARE` preset. */
-  bulletPreset?: CreateParagraphBulletsRequestBulletPresetEnum | (string & {});
-  /** The range of text to apply the bullet presets to, based on TextElement indexes. */
-  textRange?: Range;
-  /** The object ID of the shape or table containing the text to add bullets to. */
-  objectId?: string;
+  /** The number of columns to be inserted. Maximum 20 per request. */
+  number?: number;
+  /** Whether to insert new columns to the right of the reference cell location. - `True`: insert to the right. - `False`: insert to the left. */
+  insertRight?: boolean;
 }
-export const CreateParagraphBulletsRequest = /*@__PURE__*/ S.suspend(() =>
+export const InsertTableColumnsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    tableObjectId: S.optional(S.String),
     cellLocation: S.optional(TableCellLocation),
-    bulletPreset: S.optional(CreateParagraphBulletsRequestBulletPresetEnum),
-    textRange: S.optional(Range),
-    objectId: S.optional(S.String),
+    number: S.optional(S.Number),
+    insertRight: S.optional(S.Boolean),
   }),
 ).annotate({
-  identifier: "CreateParagraphBulletsRequest",
-}) as any as S.Schema<CreateParagraphBulletsRequest>;
+  identifier: "InsertTableColumnsRequest",
+}) as any as S.Schema<InsertTableColumnsRequest>;
 
-export type CreateVideoRequestSourceEnum = "SOURCE_UNSPECIFIED" | "YOUTUBE" | "DRIVE";
-export const CreateVideoRequestSourceEnum = S.String;
+export type UpdateLineCategoryRequestLineCategoryEnum =
+  | "LINE_CATEGORY_UNSPECIFIED"
+  | "STRAIGHT"
+  | "BENT"
+  | "CURVED";
+export const UpdateLineCategoryRequestLineCategoryEnum = S.String;
 
-export type DimensionUnitEnum = "UNIT_UNSPECIFIED" | "EMU" | "PT";
-export const DimensionUnitEnum = S.String;
-
-/** A magnitude in a single direction in the specified units. */
-export interface Dimension {
-  /** The units for magnitude. */
-  unit?: DimensionUnitEnum | (string & {});
-  /** The magnitude. */
-  magnitude?: number;
-}
-export const Dimension = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    unit: S.optional(DimensionUnitEnum),
-    magnitude: S.optional(S.Number),
-  }),
-).annotate({ identifier: "Dimension" }) as any as S.Schema<Dimension>;
-
-/** A width and height. */
-export interface Size {
-  /** The height of the object. */
-  height?: Dimension;
-  /** The width of the object. */
-  width?: Dimension;
-}
-export const Size = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    height: S.optional(Dimension),
-    width: S.optional(Dimension),
-  }),
-).annotate({ identifier: "Size" }) as any as S.Schema<Size>;
-
-export type AffineTransformUnitEnum = "UNIT_UNSPECIFIED" | "EMU" | "PT";
-export const AffineTransformUnitEnum = S.String;
-
-/** AffineTransform uses a 3x3 matrix with an implied last row of [ 0 0 1 ] to transform source coordinates (x,y) into destination coordinates (x', y') according to: x' x = shear_y scale_y translate_y 1 [ 1 ] After transformation, x' = scale_x * x + shear_x * y + translate_x; y' = scale_y * y + shear_y * x + translate_y; This message is therefore composed of these six matrix elements. */
-export interface AffineTransform {
-  /** The Y coordinate translation element. */
-  translateY?: number;
-  /** The X coordinate shearing element. */
-  shearX?: number;
-  /** The Y coordinate shearing element. */
-  shearY?: number;
-  /** The units for translate elements. */
-  unit?: AffineTransformUnitEnum | (string & {});
-  /** The X coordinate scaling element. */
-  scaleX?: number;
-  /** The Y coordinate scaling element. */
-  scaleY?: number;
-  /** The X coordinate translation element. */
-  translateX?: number;
-}
-export const AffineTransform = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    translateY: S.optional(S.Number),
-    shearX: S.optional(S.Number),
-    shearY: S.optional(S.Number),
-    unit: S.optional(AffineTransformUnitEnum),
-    scaleX: S.optional(S.Number),
-    scaleY: S.optional(S.Number),
-    translateX: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "AffineTransform",
-}) as any as S.Schema<AffineTransform>;
-
-/** Common properties for a page element. Note: When you initially create a PageElement, the API may modify the values of both `size` and `transform`, but the visual size will be unchanged. */
-export interface PageElementProperties {
-  /** The object ID of the page where the element is located. */
-  pageObjectId?: string;
-  /** The size of the element. */
-  size?: Size;
-  /** The transform for the element. */
-  transform?: AffineTransform;
-}
-export const PageElementProperties = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    pageObjectId: S.optional(S.String),
-    size: S.optional(Size),
-    transform: S.optional(AffineTransform),
-  }),
-).annotate({
-  identifier: "PageElementProperties",
-}) as any as S.Schema<PageElementProperties>;
-
-/** Creates a video. NOTE: Creating a video from Google Drive requires that the requesting app have at least one of the drive, drive.readonly, or drive.file OAuth scopes. */
-export interface CreateVideoRequest {
-  /** The video source's unique identifier for this video. e.g. For YouTube video https://www.youtube.com/watch?v=7U3axjORYZ0, the ID is 7U3axjORYZ0. For a Google Drive video https://drive.google.com/file/d/1xCgQLFTJi5_Xl8DgW_lcUYq5e-q6Hi5Q the ID is 1xCgQLFTJi5_Xl8DgW_lcUYq5e-q6Hi5Q. To access a Google Drive video file, you might need to add a resource key to the HTTP header for a subset of old files. For more information, see [Access link-shared files using resource keys](https://developers.google.com/drive/api/v3/resource-keys). */
-  id?: string;
-  /** A user-supplied object ID. If you specify an ID, it must be unique among all pages and page elements in the presentation. The ID must start with an alphanumeric character or an underscore (matches regex `[a-zA-Z0-9_]`); remaining characters may include those as well as a hyphen or colon (matches regex `[a-zA-Z0-9_-:]`). The length of the ID must not be less than 5 or greater than 50. If you don't specify an ID, a unique one is generated. */
+/** Updates the category of a line. */
+export interface UpdateLineCategoryRequest {
+  /** The object ID of the line the update is applied to. Only a line with a category indicating it is a "connector" can be updated. The line may be rerouted after updating its category. */
   objectId?: string;
-  /** The video source. */
-  source?: CreateVideoRequestSourceEnum | (string & {});
-  /** The element properties for the video. The PageElementProperties.size property is optional. If you don't specify a size, a default size is chosen by the server. The PageElementProperties.transform property is optional. The transform must not have shear components. If you don't specify a transform, the video will be placed at the top left corner of the page. */
-  elementProperties?: PageElementProperties;
+  /** The line category to update to. The exact line type is determined based on the category to update to and how it's routed to connect to other page elements. */
+  lineCategory?: UpdateLineCategoryRequestLineCategoryEnum | (string & {});
 }
-export const CreateVideoRequest = /*@__PURE__*/ S.suspend(() =>
+export const UpdateLineCategoryRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    id: S.optional(S.String),
     objectId: S.optional(S.String),
-    source: S.optional(CreateVideoRequestSourceEnum),
-    elementProperties: S.optional(PageElementProperties),
+    lineCategory: S.optional(UpdateLineCategoryRequestLineCategoryEnum),
   }),
 ).annotate({
-  identifier: "CreateVideoRequest",
-}) as any as S.Schema<CreateVideoRequest>;
+  identifier: "UpdateLineCategoryRequest",
+}) as any as S.Schema<UpdateLineCategoryRequest>;
 
 export type StringList = Array<string>;
 export const StringList = /*@__PURE__*/ S.Array(S.String) as any as S.Schema<StringList>;
 
-/** Ungroups objects, such as groups. */
-export interface UngroupObjectsRequest {
-  /** The object IDs of the objects to ungroup. Only groups that are not inside other groups can be ungrouped. All the groups should be on the same page. The group itself is deleted. The visual sizes and positions of all the children are preserved. */
-  objectIds?: StringList;
+/** Groups objects to create an object group. For example, groups PageElements to create a Group on the same page as all the children. */
+export interface GroupObjectsRequest {
+  /** The object IDs of the objects to group. Only page elements can be grouped. There should be at least two page elements on the same page that are not already in another group. Some page elements, such as videos, tables and placeholders cannot be grouped. */
+  childrenObjectIds?: StringList;
+  /** A user-supplied object ID for the group to be created. If you specify an ID, it must be unique among all pages and page elements in the presentation. The ID must start with an alphanumeric character or an underscore (matches regex `[a-zA-Z0-9_]`); remaining characters may include those as well as a hyphen or colon (matches regex `[a-zA-Z0-9_-:]`). The length of the ID must not be less than 5 or greater than 50. If you don't specify an ID, a unique one is generated. */
+  groupObjectId?: string;
 }
-export const UngroupObjectsRequest = /*@__PURE__*/ S.suspend(() =>
+export const GroupObjectsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    objectIds: S.optional(StringList),
+    childrenObjectIds: S.optional(StringList),
+    groupObjectId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "UngroupObjectsRequest",
-}) as any as S.Schema<UngroupObjectsRequest>;
+).annotate({ identifier: "GroupObjectsRequest" }) as any as S.Schema<GroupObjectsRequest>;
 
-export type ParagraphStyleSpacingModeEnum =
-  | "SPACING_MODE_UNSPECIFIED"
-  | "NEVER_COLLAPSE"
-  | "COLLAPSE_LISTS";
-export const ParagraphStyleSpacingModeEnum = S.String;
+export type ReplaceImageRequestImageReplaceMethodEnum =
+  | "IMAGE_REPLACE_METHOD_UNSPECIFIED"
+  | "CENTER_INSIDE"
+  | "CENTER_CROP";
+export const ReplaceImageRequestImageReplaceMethodEnum = S.String;
 
-export type ParagraphStyleDirectionEnum =
-  | "TEXT_DIRECTION_UNSPECIFIED"
-  | "LEFT_TO_RIGHT"
-  | "RIGHT_TO_LEFT";
-export const ParagraphStyleDirectionEnum = S.String;
-
-export type ParagraphStyleAlignmentEnum =
-  | "ALIGNMENT_UNSPECIFIED"
-  | "START"
-  | "CENTER"
-  | "END"
-  | "JUSTIFIED";
-export const ParagraphStyleAlignmentEnum = S.String;
-
-/** Styles that apply to a whole paragraph. If this text is contained in a shape with a parent placeholder, then these paragraph styles may be inherited from the parent. Which paragraph styles are inherited depend on the nesting level of lists: * A paragraph not in a list will inherit its paragraph style from the paragraph at the 0 nesting level of the list inside the parent placeholder. * A paragraph in a list will inherit its paragraph style from the paragraph at its corresponding nesting level of the list inside the parent placeholder. Inherited paragraph styles are represented as unset fields in this message. */
-export interface ParagraphStyle {
-  /** The amount of extra space above the paragraph. If unset, the value is inherited from the parent. */
-  spaceAbove?: Dimension;
-  /** The spacing mode for the paragraph. */
-  spacingMode?: ParagraphStyleSpacingModeEnum | (string & {});
-  /** The text direction of this paragraph. If unset, the value defaults to LEFT_TO_RIGHT since text direction is not inherited. */
-  direction?: ParagraphStyleDirectionEnum | (string & {});
-  /** The amount of indentation for the start of the first line of the paragraph. If unset, the value is inherited from the parent. */
-  indentFirstLine?: Dimension;
-  /** The amount of extra space below the paragraph. If unset, the value is inherited from the parent. */
-  spaceBelow?: Dimension;
-  /** The amount of space between lines, as a percentage of normal, where normal is represented as 100.0. If unset, the value is inherited from the parent. */
-  lineSpacing?: number;
-  /** The amount indentation for the paragraph on the side that corresponds to the end of the text, based on the current text direction. If unset, the value is inherited from the parent. */
-  indentEnd?: Dimension;
-  /** The amount indentation for the paragraph on the side that corresponds to the start of the text, based on the current text direction. If unset, the value is inherited from the parent. */
-  indentStart?: Dimension;
-  /** The text alignment for this paragraph. */
-  alignment?: ParagraphStyleAlignmentEnum | (string & {});
+/** Replaces an existing image with a new image. Replacing an image removes some image effects from the existing image. */
+export interface ReplaceImageRequest {
+  /** The ID of the existing image that will be replaced. The ID can be retrieved from the response of a get request. */
+  imageObjectId?: string;
+  /** The replacement method. */
+  imageReplaceMethod?: ReplaceImageRequestImageReplaceMethodEnum | (string & {});
+  /** The image URL. The image is fetched once at insertion time and a copy is stored for display inside the presentation. Images must be less than 50MB, cannot exceed 25 megapixels, and must be in PNG, JPEG, or GIF format. The provided URL can't surpass 2 KB in length. The URL is saved with the image, and exposed through the Image.source_url field. */
+  url?: string;
 }
-export const ParagraphStyle = /*@__PURE__*/ S.suspend(() =>
+export const ReplaceImageRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    spaceAbove: S.optional(Dimension),
-    spacingMode: S.optional(ParagraphStyleSpacingModeEnum),
-    direction: S.optional(ParagraphStyleDirectionEnum),
-    indentFirstLine: S.optional(Dimension),
-    spaceBelow: S.optional(Dimension),
-    lineSpacing: S.optional(S.Number),
-    indentEnd: S.optional(Dimension),
-    indentStart: S.optional(Dimension),
-    alignment: S.optional(ParagraphStyleAlignmentEnum),
+    imageObjectId: S.optional(S.String),
+    imageReplaceMethod: S.optional(ReplaceImageRequestImageReplaceMethodEnum),
+    url: S.optional(S.String),
   }),
-).annotate({ identifier: "ParagraphStyle" }) as any as S.Schema<ParagraphStyle>;
-
-/** Updates the styling for all of the paragraphs within a Shape or Table that overlap with the given text index range. */
-export interface UpdateParagraphStyleRequest {
-  /** The fields that should be updated. At least one field must be specified. The root `style` is implied and should not be specified. A single `"*"` can be used as short-hand for listing every field. For example, to update the paragraph alignment, set `fields` to `"alignment"`. To reset a property to its default value, include its field name in the field mask but leave the field itself unset. */
-  fields?: string;
-  /** The paragraph's style. */
-  style?: ParagraphStyle;
-  /** The location of the cell in the table containing the paragraph(s) to style. If `object_id` refers to a table, `cell_location` must have a value. Otherwise, it must not. */
-  cellLocation?: TableCellLocation;
-  /** The object ID of the shape or table with the text to be styled. */
-  objectId?: string;
-  /** The range of text containing the paragraph(s) to style. */
-  textRange?: Range;
-}
-export const UpdateParagraphStyleRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    fields: S.optional(S.String),
-    style: S.optional(ParagraphStyle),
-    cellLocation: S.optional(TableCellLocation),
-    objectId: S.optional(S.String),
-    textRange: S.optional(Range),
-  }),
-).annotate({
-  identifier: "UpdateParagraphStyleRequest",
-}) as any as S.Schema<UpdateParagraphStyleRequest>;
+).annotate({ identifier: "ReplaceImageRequest" }) as any as S.Schema<ReplaceImageRequest>;
 
 export type StringMap = { [key: string]: string | undefined };
 export const StringMap = /*@__PURE__*/ S.Record(S.String, S.String) as any as S.Schema<StringMap>;
@@ -523,979 +360,26 @@ export const DuplicateObjectRequest = /*@__PURE__*/ S.suspend(() =>
     objectId: S.optional(S.String),
     objectIds: S.optional(StringMap),
   }),
-).annotate({
-  identifier: "DuplicateObjectRequest",
-}) as any as S.Schema<DuplicateObjectRequest>;
+).annotate({ identifier: "DuplicateObjectRequest" }) as any as S.Schema<DuplicateObjectRequest>;
 
-export type ReplaceAllShapesWithImageRequestImageReplaceMethodEnum =
-  | "IMAGE_REPLACE_METHOD_UNSPECIFIED"
-  | "CENTER_INSIDE"
-  | "CENTER_CROP";
-export const ReplaceAllShapesWithImageRequestImageReplaceMethodEnum = S.String;
-
-/** A criteria that matches a specific string of text in a shape or table. */
-export interface SubstringMatchCriteria {
-  /** Optional. True if the find value should be treated as a regular expression. Any backslashes in the pattern should be escaped. - `True`: the search text is treated as a regular expressions. - `False`: the search text is treated as a substring for matching. */
-  searchByRegex?: boolean;
-  /** The text to search for in the shape or table. */
-  text?: string;
-  /** Indicates whether the search should respect case: - `True`: the search is case sensitive. - `False`: the search is case insensitive. */
-  matchCase?: boolean;
-}
-export const SubstringMatchCriteria = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    searchByRegex: S.optional(S.Boolean),
-    text: S.optional(S.String),
-    matchCase: S.optional(S.Boolean),
-  }),
-).annotate({
-  identifier: "SubstringMatchCriteria",
-}) as any as S.Schema<SubstringMatchCriteria>;
-
-export type ReplaceAllShapesWithImageRequestReplaceMethodEnum = "CENTER_INSIDE" | "CENTER_CROP";
-export const ReplaceAllShapesWithImageRequestReplaceMethodEnum = S.String;
-
-/** Replaces all shapes that match the given criteria with the provided image. The images replacing the shapes are rectangular after being inserted into the presentation and do not take on the forms of the shapes. */
-export interface ReplaceAllShapesWithImageRequest {
-  /** The image URL. The image is fetched once at insertion time and a copy is stored for display inside the presentation. Images must be less than 50MB in size, cannot exceed 25 megapixels, and must be in one of PNG, JPEG, or GIF format. The provided URL can be at most 2 kB in length. The URL itself is saved with the image, and exposed via the Image.source_url field. */
-  imageUrl?: string;
-  /** The image replace method. If you specify both a `replace_method` and an `image_replace_method`, the `image_replace_method` takes precedence. If you do not specify a value for `image_replace_method`, but specify a value for `replace_method`, then the specified `replace_method` value is used. If you do not specify either, then CENTER_INSIDE is used. */
-  imageReplaceMethod?: ReplaceAllShapesWithImageRequestImageReplaceMethodEnum | (string & {});
-  /** If set, this request will replace all of the shapes that contain the given text. */
-  containsText?: SubstringMatchCriteria;
-  /** The replace method. *Deprecated*: use `image_replace_method` instead. If you specify both a `replace_method` and an `image_replace_method`, the `image_replace_method` takes precedence. */
-  replaceMethod?: ReplaceAllShapesWithImageRequestReplaceMethodEnum | (string & {});
-  /** If non-empty, limits the matches to page elements only on the given pages. Returns a 400 bad request error if given the page object ID of a notes page or a notes master, or if a page with that object ID doesn't exist in the presentation. */
-  pageObjectIds?: StringList;
-}
-export const ReplaceAllShapesWithImageRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    imageUrl: S.optional(S.String),
-    imageReplaceMethod: S.optional(ReplaceAllShapesWithImageRequestImageReplaceMethodEnum),
-    containsText: S.optional(SubstringMatchCriteria),
-    replaceMethod: S.optional(ReplaceAllShapesWithImageRequestReplaceMethodEnum),
-    pageObjectIds: S.optional(StringList),
-  }),
-).annotate({
-  identifier: "ReplaceAllShapesWithImageRequest",
-}) as any as S.Schema<ReplaceAllShapesWithImageRequest>;
-
-/** Inserts rows into a table. */
-export interface InsertTableRowsRequest {
-  /** The reference table cell location from which rows will be inserted. A new row will be inserted above (or below) the row where the reference cell is. If the reference cell is a merged cell, a new row will be inserted above (or below) the merged cell. */
-  cellLocation?: TableCellLocation;
-  /** Whether to insert new rows below the reference cell location. - `True`: insert below the cell. - `False`: insert above the cell. */
-  insertBelow?: boolean;
-  /** The table to insert rows into. */
-  tableObjectId?: string;
-  /** The number of rows to be inserted. Maximum 20 per request. */
-  number?: number;
-}
-export const InsertTableRowsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    cellLocation: S.optional(TableCellLocation),
-    insertBelow: S.optional(S.Boolean),
-    tableObjectId: S.optional(S.String),
-    number: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "InsertTableRowsRequest",
-}) as any as S.Schema<InsertTableRowsRequest>;
-
-/** Inserts text into a shape or a table cell. */
-export interface InsertTextRequest {
-  /** The object ID of the shape or table where the text will be inserted. */
+/** Updates the alt text title and/or description of a page element. */
+export interface UpdatePageElementAltTextRequest {
+  /** The updated alt text description of the page element. If unset the existing value will be maintained. The description is exposed to screen readers and other accessibility interfaces. Only use human readable values related to the content of the page element. */
+  description?: string;
+  /** The object ID of the page element the updates are applied to. */
   objectId?: string;
-  /** The index where the text will be inserted, in Unicode code units, based on TextElement indexes. The index is zero-based and is computed from the start of the string. The index may be adjusted to prevent insertions inside Unicode grapheme clusters. In these cases, the text will be inserted immediately after the grapheme cluster. */
-  insertionIndex?: number;
-  /** The optional table cell location if the text is to be inserted into a table cell. If present, the object_id must refer to a table. */
-  cellLocation?: TableCellLocation;
-  /** The text to be inserted. Inserting a newline character will implicitly create a new ParagraphMarker at that index. The paragraph style of the new paragraph will be copied from the paragraph at the current insertion index, including lists and bullets. Text styles for inserted text will be determined automatically, generally preserving the styling of neighboring text. In most cases, the text will be added to the TextRun that exists at the insertion index. Some control characters (U+0000-U+0008, U+000C-U+001F) and characters from the Unicode Basic Multilingual Plane Private Use Area (U+E000-U+F8FF) will be stripped out of the inserted text. */
-  text?: string;
+  /** The updated alt text title of the page element. If unset the existing value will be maintained. The title is exposed to screen readers and other accessibility interfaces. Only use human readable values related to the content of the page element. */
+  title?: string;
 }
-export const InsertTextRequest = /*@__PURE__*/ S.suspend(() =>
+export const UpdatePageElementAltTextRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    description: S.optional(S.String),
     objectId: S.optional(S.String),
-    insertionIndex: S.optional(S.Number),
-    cellLocation: S.optional(TableCellLocation),
-    text: S.optional(S.String),
+    title: S.optional(S.String),
   }),
 ).annotate({
-  identifier: "InsertTextRequest",
-}) as any as S.Schema<InsertTextRequest>;
-
-/** Deletes a column from a table. */
-export interface DeleteTableColumnRequest {
-  /** The table to delete columns from. */
-  tableObjectId?: string;
-  /** The reference table cell location from which a column will be deleted. The column this cell spans will be deleted. If this is a merged cell, multiple columns will be deleted. If no columns remain in the table after this deletion, the whole table is deleted. */
-  cellLocation?: TableCellLocation;
-}
-export const DeleteTableColumnRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    tableObjectId: S.optional(S.String),
-    cellLocation: S.optional(TableCellLocation),
-  }),
-).annotate({
-  identifier: "DeleteTableColumnRequest",
-}) as any as S.Schema<DeleteTableColumnRequest>;
-
-/** Replaces all instances of text matching a criteria with replace text. */
-export interface ReplaceAllTextRequest {
-  /** If non-empty, limits the matches to page elements only on the given pages. Returns a 400 bad request error if given the page object ID of a notes master, or if a page with that object ID doesn't exist in the presentation. */
-  pageObjectIds?: StringList;
-  /** The text that will replace the matched text. */
-  replaceText?: string;
-  /** Finds text in a shape matching this substring. */
-  containsText?: SubstringMatchCriteria;
-}
-export const ReplaceAllTextRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    pageObjectIds: S.optional(StringList),
-    replaceText: S.optional(S.String),
-    containsText: S.optional(SubstringMatchCriteria),
-  }),
-).annotate({
-  identifier: "ReplaceAllTextRequest",
-}) as any as S.Schema<ReplaceAllTextRequest>;
-
-/** Reroutes a line such that it's connected at the two closest connection sites on the connected page elements. */
-export interface RerouteLineRequest {
-  /** The object ID of the line to reroute. Only a line with a category indicating it is a "connector" can be rerouted. The start and end connections of the line must be on different page elements. */
-  objectId?: string;
-}
-export const RerouteLineRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    objectId: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "RerouteLineRequest",
-}) as any as S.Schema<RerouteLineRequest>;
-
-/** Refreshes an embedded Google Sheets chart by replacing it with the latest version of the chart from Google Sheets. NOTE: Refreshing charts requires at least one of the spreadsheets.readonly, spreadsheets, drive.readonly, or drive OAuth scopes. */
-export interface RefreshSheetsChartRequest {
-  /** The object ID of the chart to refresh. */
-  objectId?: string;
-}
-export const RefreshSheetsChartRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    objectId: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "RefreshSheetsChartRequest",
-}) as any as S.Schema<RefreshSheetsChartRequest>;
-
-export type LinkRelativeLinkEnum =
-  | "RELATIVE_SLIDE_LINK_UNSPECIFIED"
-  | "NEXT_SLIDE"
-  | "PREVIOUS_SLIDE"
-  | "FIRST_SLIDE"
-  | "LAST_SLIDE";
-export const LinkRelativeLinkEnum = S.String;
-
-/** A hypertext link. */
-export interface Link {
-  /** If set, indicates this is a link to a slide in this presentation, addressed by its position. */
-  relativeLink?: LinkRelativeLinkEnum | (string & {});
-  /** If set, indicates this is a link to the slide at this zero-based index in the presentation. There may not be a slide at this index. */
-  slideIndex?: number;
-  /** If set, indicates this is a link to the external web page at this URL. */
-  url?: string;
-  /** If set, indicates this is a link to the specific page in this presentation with this ID. A page with this ID may not exist. */
-  pageObjectId?: string;
-}
-export const Link = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    relativeLink: S.optional(LinkRelativeLinkEnum),
-    slideIndex: S.optional(S.Number),
-    url: S.optional(S.String),
-    pageObjectId: S.optional(S.String),
-  }),
-).annotate({ identifier: "Link" }) as any as S.Schema<Link>;
-
-export type ShadowAlignmentEnum =
-  | "RECTANGLE_POSITION_UNSPECIFIED"
-  | "TOP_LEFT"
-  | "TOP_CENTER"
-  | "TOP_RIGHT"
-  | "LEFT_CENTER"
-  | "CENTER"
-  | "RIGHT_CENTER"
-  | "BOTTOM_LEFT"
-  | "BOTTOM_CENTER"
-  | "BOTTOM_RIGHT";
-export const ShadowAlignmentEnum = S.String;
-
-export type ShadowTypeEnum = "SHADOW_TYPE_UNSPECIFIED" | "OUTER";
-export const ShadowTypeEnum = S.String;
-
-export type ShadowPropertyStateEnum = "RENDERED" | "NOT_RENDERED" | "INHERIT";
-export const ShadowPropertyStateEnum = S.String;
-
-/** The shadow properties of a page element. If these fields are unset, they may be inherited from a parent placeholder if it exists. If there is no parent, the fields will default to the value used for new page elements created in the Slides editor, which may depend on the page element kind. */
-export interface Shadow {
-  /** The alignment point of the shadow, that sets the origin for translate, scale and skew of the shadow. This property is read-only. */
-  alignment?: ShadowAlignmentEnum | (string & {});
-  /** The alpha of the shadow's color, from 0.0 to 1.0. */
-  alpha?: number;
-  /** The radius of the shadow blur. The larger the radius, the more diffuse the shadow becomes. */
-  blurRadius?: Dimension;
-  /** The type of the shadow. This property is read-only. */
-  type?: ShadowTypeEnum | (string & {});
-  /** Whether the shadow should rotate with the shape. This property is read-only. */
-  rotateWithShape?: boolean;
-  /** The shadow color value. */
-  color?: OpaqueColor;
-  /** Transform that encodes the translate, scale, and skew of the shadow, relative to the alignment position. */
-  transform?: AffineTransform;
-  /** The shadow property state. Updating the shadow on a page element will implicitly update this field to `RENDERED`, unless another value is specified in the same request. To have no shadow on a page element, set this field to `NOT_RENDERED`. In this case, any other shadow fields set in the same request will be ignored. */
-  propertyState?: ShadowPropertyStateEnum | (string & {});
-}
-export const Shadow = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    alignment: S.optional(ShadowAlignmentEnum),
-    alpha: S.optional(S.Number),
-    blurRadius: S.optional(Dimension),
-    type: S.optional(ShadowTypeEnum),
-    rotateWithShape: S.optional(S.Boolean),
-    color: S.optional(OpaqueColor),
-    transform: S.optional(AffineTransform),
-    propertyState: S.optional(ShadowPropertyStateEnum),
-  }),
-).annotate({ identifier: "Shadow" }) as any as S.Schema<Shadow>;
-
-/** The crop properties of an object enclosed in a container. For example, an Image. The crop properties is represented by the offsets of four edges which define a crop rectangle. The offsets are measured in percentage from the corresponding edges of the object's original bounding rectangle towards inside, relative to the object's original dimensions. - If the offset is in the interval (0, 1), the corresponding edge of crop rectangle is positioned inside of the object's original bounding rectangle. - If the offset is negative or greater than 1, the corresponding edge of crop rectangle is positioned outside of the object's original bounding rectangle. - If the left edge of the crop rectangle is on the right side of its right edge, the object will be flipped horizontally. - If the top edge of the crop rectangle is below its bottom edge, the object will be flipped vertically. - If all offsets and rotation angle is 0, the object is not cropped. After cropping, the content in the crop rectangle will be stretched to fit its container. */
-export interface CropProperties {
-  /** The offset specifies the right edge of the crop rectangle that is located to the left of the original bounding rectangle right edge, relative to the object's original width. */
-  rightOffset?: number;
-  /** The offset specifies the top edge of the crop rectangle that is located below the original bounding rectangle top edge, relative to the object's original height. */
-  topOffset?: number;
-  /** The offset specifies the bottom edge of the crop rectangle that is located above the original bounding rectangle bottom edge, relative to the object's original height. */
-  bottomOffset?: number;
-  /** The offset specifies the left edge of the crop rectangle that is located to the right of the original bounding rectangle left edge, relative to the object's original width. */
-  leftOffset?: number;
-  /** The rotation angle of the crop window around its center, in radians. Rotation angle is applied after the offset. */
-  angle?: number;
-}
-export const CropProperties = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    rightOffset: S.optional(S.Number),
-    topOffset: S.optional(S.Number),
-    bottomOffset: S.optional(S.Number),
-    leftOffset: S.optional(S.Number),
-    angle: S.optional(S.Number),
-  }),
-).annotate({ identifier: "CropProperties" }) as any as S.Schema<CropProperties>;
-
-export type RecolorNameEnum =
-  | "NONE"
-  | "LIGHT1"
-  | "LIGHT2"
-  | "LIGHT3"
-  | "LIGHT4"
-  | "LIGHT5"
-  | "LIGHT6"
-  | "LIGHT7"
-  | "LIGHT8"
-  | "LIGHT9"
-  | "LIGHT10"
-  | "DARK1"
-  | "DARK2"
-  | "DARK3"
-  | "DARK4"
-  | "DARK5"
-  | "DARK6"
-  | "DARK7"
-  | "DARK8"
-  | "DARK9"
-  | "DARK10"
-  | "GRAYSCALE"
-  | "NEGATIVE"
-  | "SEPIA"
-  | "CUSTOM";
-export const RecolorNameEnum = S.String;
-
-/** A color and position in a gradient band. */
-export interface ColorStop {
-  /** The color of the gradient stop. */
-  color?: OpaqueColor;
-  /** The alpha value of this color in the gradient band. Defaults to 1.0, fully opaque. */
-  alpha?: number;
-  /** The relative position of the color stop in the gradient band measured in percentage. The value should be in the interval [0.0, 1.0]. */
-  position?: number;
-}
-export const ColorStop = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    color: S.optional(OpaqueColor),
-    alpha: S.optional(S.Number),
-    position: S.optional(S.Number),
-  }),
-).annotate({ identifier: "ColorStop" }) as any as S.Schema<ColorStop>;
-
-export type ColorStopList = Array<ColorStop>;
-export const ColorStopList = /*@__PURE__*/ S.Array(ColorStop) as any as S.Schema<ColorStopList>;
-
-/** A recolor effect applied on an image. */
-export interface Recolor {
-  /** The name of the recolor effect. The name is determined from the `recolor_stops` by matching the gradient against the colors in the page's current color scheme. This property is read-only. */
-  name?: RecolorNameEnum | (string & {});
-  /** The recolor effect is represented by a gradient, which is a list of color stops. The colors in the gradient will replace the corresponding colors at the same position in the color palette and apply to the image. This property is read-only. */
-  recolorStops?: ColorStopList;
-}
-export const Recolor = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.optional(RecolorNameEnum),
-    recolorStops: S.optional(ColorStopList),
-  }),
-).annotate({ identifier: "Recolor" }) as any as S.Schema<Recolor>;
-
-export type OutlinePropertyStateEnum = "RENDERED" | "NOT_RENDERED" | "INHERIT";
-export const OutlinePropertyStateEnum = S.String;
-
-/** The fill of the outline. */
-export interface OutlineFill {
-  /** Solid color fill. */
-  solidFill?: SolidFill;
-}
-export const OutlineFill = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    solidFill: S.optional(SolidFill),
-  }),
-).annotate({ identifier: "OutlineFill" }) as any as S.Schema<OutlineFill>;
-
-export type OutlineDashStyleEnum =
-  | "DASH_STYLE_UNSPECIFIED"
-  | "SOLID"
-  | "DOT"
-  | "DASH"
-  | "DASH_DOT"
-  | "LONG_DASH"
-  | "LONG_DASH_DOT";
-export const OutlineDashStyleEnum = S.String;
-
-/** The outline of a PageElement. If these fields are unset, they may be inherited from a parent placeholder if it exists. If there is no parent, the fields will default to the value used for new page elements created in the Slides editor, which may depend on the page element kind. */
-export interface Outline {
-  /** The thickness of the outline. */
-  weight?: Dimension;
-  /** The outline property state. Updating the outline on a page element will implicitly update this field to `RENDERED`, unless another value is specified in the same request. To have no outline on a page element, set this field to `NOT_RENDERED`. In this case, any other outline fields set in the same request will be ignored. */
-  propertyState?: OutlinePropertyStateEnum | (string & {});
-  /** The fill of the outline. */
-  outlineFill?: OutlineFill;
-  /** The dash style of the outline. */
-  dashStyle?: OutlineDashStyleEnum | (string & {});
-}
-export const Outline = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    weight: S.optional(Dimension),
-    propertyState: S.optional(OutlinePropertyStateEnum),
-    outlineFill: S.optional(OutlineFill),
-    dashStyle: S.optional(OutlineDashStyleEnum),
-  }),
-).annotate({ identifier: "Outline" }) as any as S.Schema<Outline>;
-
-/** The properties of the Image. */
-export interface ImageProperties {
-  /** The hyperlink destination of the image. If unset, there is no link. */
-  link?: Link;
-  /** The contrast effect of the image. The value should be in the interval [-1.0, 1.0], where 0 means no effect. This property is read-only. */
-  contrast?: number;
-  /** The shadow of the image. If not set, the image has no shadow. This property is read-only. */
-  shadow?: Shadow;
-  /** The brightness effect of the image. The value should be in the interval [-1.0, 1.0], where 0 means no effect. This property is read-only. */
-  brightness?: number;
-  /** The crop properties of the image. If not set, the image is not cropped. This property is read-only. */
-  cropProperties?: CropProperties;
-  /** The recolor effect of the image. If not set, the image is not recolored. This property is read-only. */
-  recolor?: Recolor;
-  /** The transparency effect of the image. The value should be in the interval [0.0, 1.0], where 0 means no effect and 1 means completely transparent. This property is read-only. */
-  transparency?: number;
-  /** The outline of the image. If not set, the image has no outline. */
-  outline?: Outline;
-}
-export const ImageProperties = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    link: S.optional(Link),
-    contrast: S.optional(S.Number),
-    shadow: S.optional(Shadow),
-    brightness: S.optional(S.Number),
-    cropProperties: S.optional(CropProperties),
-    recolor: S.optional(Recolor),
-    transparency: S.optional(S.Number),
-    outline: S.optional(Outline),
-  }),
-).annotate({
-  identifier: "ImageProperties",
-}) as any as S.Schema<ImageProperties>;
-
-/** Update the properties of an Image. */
-export interface UpdateImagePropertiesRequest {
-  /** The image properties to update. */
-  imageProperties?: ImageProperties;
-  /** The object ID of the image the updates are applied to. */
-  objectId?: string;
-  /** The fields that should be updated. At least one field must be specified. The root `imageProperties` is implied and should not be specified. A single `"*"` can be used as short-hand for listing every field. For example to update the image outline color, set `fields` to `"outline.outlineFill.solidFill.color"`. To reset a property to its default value, include its field name in the field mask but leave the field itself unset. */
-  fields?: string;
-}
-export const UpdateImagePropertiesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    imageProperties: S.optional(ImageProperties),
-    objectId: S.optional(S.String),
-    fields: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "UpdateImagePropertiesRequest",
-}) as any as S.Schema<UpdateImagePropertiesRequest>;
-
-/** Updates the position of slides in the presentation. */
-export interface UpdateSlidesPositionRequest {
-  /** The IDs of the slides in the presentation that should be moved. The slides in this list must be in existing presentation order, without duplicates. */
-  slideObjectIds?: StringList;
-  /** The index where the slides should be inserted, based on the slide arrangement before the move takes place. Must be between zero and the number of slides in the presentation, inclusive. */
-  insertionIndex?: number;
-}
-export const UpdateSlidesPositionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    slideObjectIds: S.optional(StringList),
-    insertionIndex: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "UpdateSlidesPositionRequest",
-}) as any as S.Schema<UpdateSlidesPositionRequest>;
-
-export type CreateSheetsChartRequestLinkingModeEnum = "NOT_LINKED_IMAGE" | "LINKED";
-export const CreateSheetsChartRequestLinkingModeEnum = S.String;
-
-/** Creates an embedded Google Sheets chart. NOTE: Chart creation requires at least one of the spreadsheets.readonly, spreadsheets, drive.readonly, drive.file, or drive OAuth scopes. */
-export interface CreateSheetsChartRequest {
-  /** The ID of the specific chart in the Google Sheets spreadsheet. */
-  chartId?: number;
-  /** The mode with which the chart is linked to the source spreadsheet. When not specified, the chart will be an image that is not linked. */
-  linkingMode?: CreateSheetsChartRequestLinkingModeEnum | (string & {});
-  /** The element properties for the chart. When the aspect ratio of the provided size does not match the chart aspect ratio, the chart is scaled and centered with respect to the size in order to maintain aspect ratio. The provided transform is applied after this operation. */
-  elementProperties?: PageElementProperties;
-  /** A user-supplied object ID. If specified, the ID must be unique among all pages and page elements in the presentation. The ID should start with a word character [a-zA-Z0-9_] and then followed by any number of the following characters [a-zA-Z0-9_-:]. The length of the ID should not be less than 5 or greater than 50. If empty, a unique identifier will be generated. */
-  objectId?: string;
-  /** The ID of the Google Sheets spreadsheet that contains the chart. You might need to add a resource key to the HTTP header for a subset of old files. For more information, see [Access link-shared files using resource keys](https://developers.google.com/drive/api/v3/resource-keys). */
-  spreadsheetId?: string;
-}
-export const CreateSheetsChartRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    chartId: S.optional(S.Number),
-    linkingMode: S.optional(CreateSheetsChartRequestLinkingModeEnum),
-    elementProperties: S.optional(PageElementProperties),
-    objectId: S.optional(S.String),
-    spreadsheetId: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "CreateSheetsChartRequest",
-}) as any as S.Schema<CreateSheetsChartRequest>;
-
-/** A color that can either be fully opaque or fully transparent. */
-export interface OptionalColor {
-  /** If set, this will be used as an opaque color. If unset, this represents a transparent color. */
-  opaqueColor?: OpaqueColor;
-}
-export const OptionalColor = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    opaqueColor: S.optional(OpaqueColor),
-  }),
-).annotate({ identifier: "OptionalColor" }) as any as S.Schema<OptionalColor>;
-
-/** Represents a font family and weight used to style a TextRun. */
-export interface WeightedFontFamily {
-  /** The font family of the text. The font family can be any font from the Font menu in Slides or from [Google Fonts] (https://fonts.google.com/). If the font name is unrecognized, the text is rendered in `Arial`. */
-  fontFamily?: string;
-  /** The rendered weight of the text. This field can have any value that is a multiple of `100` between `100` and `900`, inclusive. This range corresponds to the numerical values described in the CSS 2.1 Specification, [section 15.6](https://www.w3.org/TR/CSS21/fonts.html#font-boldness), with non-numerical values disallowed. Weights greater than or equal to `700` are considered bold, and weights less than `700`are not bold. The default value is `400` ("normal"). */
-  weight?: number;
-}
-export const WeightedFontFamily = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    fontFamily: S.optional(S.String),
-    weight: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "WeightedFontFamily",
-}) as any as S.Schema<WeightedFontFamily>;
-
-export type TextStyleBaselineOffsetEnum =
-  | "BASELINE_OFFSET_UNSPECIFIED"
-  | "NONE"
-  | "SUPERSCRIPT"
-  | "SUBSCRIPT";
-export const TextStyleBaselineOffsetEnum = S.String;
-
-/** Represents the styling that can be applied to a TextRun. If this text is contained in a shape with a parent placeholder, then these text styles may be inherited from the parent. Which text styles are inherited depend on the nesting level of lists: * A text run in a paragraph that is not in a list will inherit its text style from the the newline character in the paragraph at the 0 nesting level of the list inside the parent placeholder. * A text run in a paragraph that is in a list will inherit its text style from the newline character in the paragraph at its corresponding nesting level of the list inside the parent placeholder. Inherited text styles are represented as unset fields in this message. If text is contained in a shape without a parent placeholder, unsetting these fields will revert the style to a value matching the defaults in the Slides editor. */
-export interface TextStyle {
-  /** The color of the text itself. If set, the color is either opaque or transparent, depending on if the `opaque_color` field in it is set. */
-  foregroundColor?: OptionalColor;
-  /** The background color of the text. If set, the color is either opaque or transparent, depending on if the `opaque_color` field in it is set. */
-  backgroundColor?: OptionalColor;
-  /** The size of the text's font. When read, the `font_size` will specified in points. */
-  fontSize?: Dimension;
-  /** Whether or not the text is rendered as bold. */
-  bold?: boolean;
-  /** Whether or not the text is underlined. */
-  underline?: boolean;
-  /** Whether or not the text is struck through. */
-  strikethrough?: boolean;
-  /** The font family and rendered weight of the text. This field is an extension of `font_family` meant to support explicit font weights without breaking backwards compatibility. As such, when reading the style of a range of text, the value of `weighted_font_family#font_family` will always be equal to that of `font_family`. However, when writing, if both fields are included in the field mask (either explicitly or through the wildcard `"*"`), their values are reconciled as follows: * If `font_family` is set and `weighted_font_family` is not, the value of `font_family` is applied with weight `400` ("normal"). * If both fields are set, the value of `font_family` must match that of `weighted_font_family#font_family`. If so, the font family and weight of `weighted_font_family` is applied. Otherwise, a 400 bad request error is returned. * If `weighted_font_family` is set and `font_family` is not, the font family and weight of `weighted_font_family` is applied. * If neither field is set, the font family and weight of the text inherit from the parent. Note that these properties cannot inherit separately from each other. If an update request specifies values for both `weighted_font_family` and `bold`, the `weighted_font_family` is applied first, then `bold`. If `weighted_font_family#weight` is not set, it defaults to `400`. If `weighted_font_family` is set, then `weighted_font_family#font_family` must also be set with a non-empty value. Otherwise, a 400 bad request error is returned. */
-  weightedFontFamily?: WeightedFontFamily;
-  /** The font family of the text. The font family can be any font from the Font menu in Slides or from [Google Fonts] (https://fonts.google.com/). If the font name is unrecognized, the text is rendered in `Arial`. Some fonts can affect the weight of the text. If an update request specifies values for both `font_family` and `bold`, the explicitly-set `bold` value is used. */
-  fontFamily?: string;
-  /** The text's vertical offset from its normal position. Text with `SUPERSCRIPT` or `SUBSCRIPT` baseline offsets is automatically rendered in a smaller font size, computed based on the `font_size` field. The `font_size` itself is not affected by changes in this field. */
-  baselineOffset?: TextStyleBaselineOffsetEnum | (string & {});
-  /** The hyperlink destination of the text. If unset, there is no link. Links are not inherited from parent text. Changing the link in an update request causes some other changes to the text style of the range: * When setting a link, the text foreground color will be set to ThemeColorType.HYPERLINK and the text will be underlined. If these fields are modified in the same request, those values will be used instead of the link defaults. * Setting a link on a text range that overlaps with an existing link will also update the existing link to point to the new URL. * Links are not settable on newline characters. As a result, setting a link on a text range that crosses a paragraph boundary, such as `"ABC\n123"`, will separate the newline character(s) into their own text runs. The link will be applied separately to the runs before and after the newline. * Removing a link will update the text style of the range to match the style of the preceding text (or the default text styles if the preceding text is another link) unless different styles are being set in the same request. */
-  link?: Link;
-  /** Whether or not the text is italicized. */
-  italic?: boolean;
-  /** Whether or not the text is in small capital letters. */
-  smallCaps?: boolean;
-}
-export const TextStyle = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    foregroundColor: S.optional(OptionalColor),
-    backgroundColor: S.optional(OptionalColor),
-    fontSize: S.optional(Dimension),
-    bold: S.optional(S.Boolean),
-    underline: S.optional(S.Boolean),
-    strikethrough: S.optional(S.Boolean),
-    weightedFontFamily: S.optional(WeightedFontFamily),
-    fontFamily: S.optional(S.String),
-    baselineOffset: S.optional(TextStyleBaselineOffsetEnum),
-    link: S.optional(Link),
-    italic: S.optional(S.Boolean),
-    smallCaps: S.optional(S.Boolean),
-  }),
-).annotate({ identifier: "TextStyle" }) as any as S.Schema<TextStyle>;
-
-/** Update the styling of text in a Shape or Table. */
-export interface UpdateTextStyleRequest {
-  /** The style(s) to set on the text. If the value for a particular style matches that of the parent, that style will be set to inherit. Certain text style changes may cause other changes meant to mirror the behavior of the Slides editor. See the documentation of TextStyle for more information. */
-  style?: TextStyle;
-  /** The location of the cell in the table containing the text to style. If `object_id` refers to a table, `cell_location` must have a value. Otherwise, it must not. */
-  cellLocation?: TableCellLocation;
-  /** The range of text to style. The range may be extended to include adjacent newlines. If the range fully contains a paragraph belonging to a list, the paragraph's bullet is also updated with the matching text style. */
-  textRange?: Range;
-  /** The fields that should be updated. At least one field must be specified. The root `style` is implied and should not be specified. A single `"*"` can be used as short-hand for listing every field. For example, to update the text style to bold, set `fields` to `"bold"`. To reset a property to its default value, include its field name in the field mask but leave the field itself unset. */
-  fields?: string;
-  /** The object ID of the shape or table with the text to be styled. */
-  objectId?: string;
-}
-export const UpdateTextStyleRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    style: S.optional(TextStyle),
-    cellLocation: S.optional(TableCellLocation),
-    textRange: S.optional(Range),
-    fields: S.optional(S.String),
-    objectId: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "UpdateTextStyleRequest",
-}) as any as S.Schema<UpdateTextStyleRequest>;
-
-export type UpdatePageElementsZOrderRequestOperationEnum =
-  | "Z_ORDER_OPERATION_UNSPECIFIED"
-  | "BRING_TO_FRONT"
-  | "BRING_FORWARD"
-  | "SEND_BACKWARD"
-  | "SEND_TO_BACK";
-export const UpdatePageElementsZOrderRequestOperationEnum = S.String;
-
-/** Updates the Z-order of page elements. Z-order is an ordering of the elements on the page from back to front. The page element in the front may cover the elements that are behind it. */
-export interface UpdatePageElementsZOrderRequest {
-  /** The Z-order operation to apply on the page elements. When applying the operation on multiple page elements, the relative Z-orders within these page elements before the operation is maintained. */
-  operation?: UpdatePageElementsZOrderRequestOperationEnum | (string & {});
-  /** The object IDs of the page elements to update. All the page elements must be on the same page and must not be grouped. */
-  pageElementObjectIds?: StringList;
-}
-export const UpdatePageElementsZOrderRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    operation: S.optional(UpdatePageElementsZOrderRequestOperationEnum),
-    pageElementObjectIds: S.optional(StringList),
-  }),
-).annotate({
-  identifier: "UpdatePageElementsZOrderRequest",
-}) as any as S.Schema<UpdatePageElementsZOrderRequest>;
-
-export type UpdateTableBorderPropertiesRequestBorderPositionEnum =
-  | "ALL"
-  | "BOTTOM"
-  | "INNER"
-  | "INNER_HORIZONTAL"
-  | "INNER_VERTICAL"
-  | "LEFT"
-  | "OUTER"
-  | "RIGHT"
-  | "TOP";
-export const UpdateTableBorderPropertiesRequestBorderPositionEnum = S.String;
-
-export type TableBorderPropertiesDashStyleEnum =
-  | "DASH_STYLE_UNSPECIFIED"
-  | "SOLID"
-  | "DOT"
-  | "DASH"
-  | "DASH_DOT"
-  | "LONG_DASH"
-  | "LONG_DASH_DOT";
-export const TableBorderPropertiesDashStyleEnum = S.String;
-
-/** The fill of the border. */
-export interface TableBorderFill {
-  /** Solid fill. */
-  solidFill?: SolidFill;
-}
-export const TableBorderFill = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    solidFill: S.optional(SolidFill),
-  }),
-).annotate({
-  identifier: "TableBorderFill",
-}) as any as S.Schema<TableBorderFill>;
-
-/** The border styling properties of the TableBorderCell. */
-export interface TableBorderProperties {
-  /** The thickness of the border. */
-  weight?: Dimension;
-  /** The dash style of the border. */
-  dashStyle?: TableBorderPropertiesDashStyleEnum | (string & {});
-  /** The fill of the table border. */
-  tableBorderFill?: TableBorderFill;
-}
-export const TableBorderProperties = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    weight: S.optional(Dimension),
-    dashStyle: S.optional(TableBorderPropertiesDashStyleEnum),
-    tableBorderFill: S.optional(TableBorderFill),
-  }),
-).annotate({
-  identifier: "TableBorderProperties",
-}) as any as S.Schema<TableBorderProperties>;
-
-/** Updates the properties of the table borders in a Table. */
-export interface UpdateTableBorderPropertiesRequest {
-  /** The object ID of the table. */
-  objectId?: string;
-  /** The table range representing the subset of the table to which the updates are applied. If a table range is not specified, the updates will apply to the entire table. */
-  tableRange?: TableRange;
-  /** The border position in the table range the updates should apply to. If a border position is not specified, the updates will apply to all borders in the table range. */
-  borderPosition?: UpdateTableBorderPropertiesRequestBorderPositionEnum | (string & {});
-  /** The table border properties to update. */
-  tableBorderProperties?: TableBorderProperties;
-  /** The fields that should be updated. At least one field must be specified. The root `tableBorderProperties` is implied and should not be specified. A single `"*"` can be used as short-hand for listing every field. For example to update the table border solid fill color, set `fields` to `"tableBorderFill.solidFill.color"`. To reset a property to its default value, include its field name in the field mask but leave the field itself unset. */
-  fields?: string;
-}
-export const UpdateTableBorderPropertiesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    objectId: S.optional(S.String),
-    tableRange: S.optional(TableRange),
-    borderPosition: S.optional(UpdateTableBorderPropertiesRequestBorderPositionEnum),
-    tableBorderProperties: S.optional(TableBorderProperties),
-    fields: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "UpdateTableBorderPropertiesRequest",
-}) as any as S.Schema<UpdateTableBorderPropertiesRequest>;
-
-export type ShapePropertiesContentAlignmentEnum =
-  | "CONTENT_ALIGNMENT_UNSPECIFIED"
-  | "CONTENT_ALIGNMENT_UNSUPPORTED"
-  | "TOP"
-  | "MIDDLE"
-  | "BOTTOM";
-export const ShapePropertiesContentAlignmentEnum = S.String;
-
-export type AutofitAutofitTypeEnum =
-  | "AUTOFIT_TYPE_UNSPECIFIED"
-  | "NONE"
-  | "TEXT_AUTOFIT"
-  | "SHAPE_AUTOFIT";
-export const AutofitAutofitTypeEnum = S.String;
-
-/** The autofit properties of a Shape. This property is only set for shapes that allow text. */
-export interface Autofit {
-  /** The font scale applied to the shape. For shapes with autofit_type NONE or SHAPE_AUTOFIT, this value is the default value of 1. For TEXT_AUTOFIT, this value multiplied by the font_size gives the font size that's rendered in the editor. This property is read-only. */
-  fontScale?: number;
-  /** The line spacing reduction applied to the shape. For shapes with autofit_type NONE or SHAPE_AUTOFIT, this value is the default value of 0. For TEXT_AUTOFIT, this value subtracted from the line_spacing gives the line spacing that's rendered in the editor. This property is read-only. */
-  lineSpacingReduction?: number;
-  /** The autofit type of the shape. If the autofit type is AUTOFIT_TYPE_UNSPECIFIED, the autofit type is inherited from a parent placeholder if it exists. The field is automatically set to NONE if a request is made that might affect text fitting within its bounding text box. In this case, the font_scale is applied to the font_size and the line_spacing_reduction is applied to the line_spacing. Both properties are also reset to default values. */
-  autofitType?: AutofitAutofitTypeEnum | (string & {});
-}
-export const Autofit = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    fontScale: S.optional(S.Number),
-    lineSpacingReduction: S.optional(S.Number),
-    autofitType: S.optional(AutofitAutofitTypeEnum),
-  }),
-).annotate({ identifier: "Autofit" }) as any as S.Schema<Autofit>;
-
-export type ShapeBackgroundFillPropertyStateEnum = "RENDERED" | "NOT_RENDERED" | "INHERIT";
-export const ShapeBackgroundFillPropertyStateEnum = S.String;
-
-/** The shape background fill. */
-export interface ShapeBackgroundFill {
-  /** The background fill property state. Updating the fill on a shape will implicitly update this field to `RENDERED`, unless another value is specified in the same request. To have no fill on a shape, set this field to `NOT_RENDERED`. In this case, any other fill fields set in the same request will be ignored. */
-  propertyState?: ShapeBackgroundFillPropertyStateEnum | (string & {});
-  /** Solid color fill. */
-  solidFill?: SolidFill;
-}
-export const ShapeBackgroundFill = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    propertyState: S.optional(ShapeBackgroundFillPropertyStateEnum),
-    solidFill: S.optional(SolidFill),
-  }),
-).annotate({
-  identifier: "ShapeBackgroundFill",
-}) as any as S.Schema<ShapeBackgroundFill>;
-
-/** The properties of a Shape. If the shape is a placeholder shape as determined by the placeholder field, then these properties may be inherited from a parent placeholder shape. Determining the rendered value of the property depends on the corresponding property_state field value. Any text autofit settings on the shape are automatically deactivated by requests that can impact how text fits in the shape. */
-export interface ShapeProperties {
-  /** The shadow properties of the shape. If unset, the shadow is inherited from a parent placeholder if it exists. If the shape has no parent, then the default shadow matches the defaults for new shapes created in the Slides editor. This property is read-only. */
-  shadow?: Shadow;
-  /** The outline of the shape. If unset, the outline is inherited from a parent placeholder if it exists. If the shape has no parent, then the default outline depends on the shape type, matching the defaults for new shapes created in the Slides editor. */
-  outline?: Outline;
-  /** The alignment of the content in the shape. If unspecified, the alignment is inherited from a parent placeholder if it exists. If the shape has no parent, the default alignment matches the alignment for new shapes created in the Slides editor. */
-  contentAlignment?: ShapePropertiesContentAlignmentEnum | (string & {});
-  /** The autofit properties of the shape. This property is only set for shapes that allow text. */
-  autofit?: Autofit;
-  /** The background fill of the shape. If unset, the background fill is inherited from a parent placeholder if it exists. If the shape has no parent, then the default background fill depends on the shape type, matching the defaults for new shapes created in the Slides editor. */
-  shapeBackgroundFill?: ShapeBackgroundFill;
-  /** The hyperlink destination of the shape. If unset, there is no link. Links are not inherited from parent placeholders. */
-  link?: Link;
-}
-export const ShapeProperties = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    shadow: S.optional(Shadow),
-    outline: S.optional(Outline),
-    contentAlignment: S.optional(ShapePropertiesContentAlignmentEnum),
-    autofit: S.optional(Autofit),
-    shapeBackgroundFill: S.optional(ShapeBackgroundFill),
-    link: S.optional(Link),
-  }),
-).annotate({
-  identifier: "ShapeProperties",
-}) as any as S.Schema<ShapeProperties>;
-
-/** Update the properties of a Shape. */
-export interface UpdateShapePropertiesRequest {
-  /** The fields that should be updated. At least one field must be specified. The root `shapeProperties` is implied and should not be specified. A single `"*"` can be used as short-hand for listing every field. For example to update the shape background solid fill color, set `fields` to `"shapeBackgroundFill.solidFill.color"`. To reset a property to its default value, include its field name in the field mask but leave the field itself unset. */
-  fields?: string;
-  /** The object ID of the shape the updates are applied to. */
-  objectId?: string;
-  /** The shape properties to update. */
-  shapeProperties?: ShapeProperties;
-}
-export const UpdateShapePropertiesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    fields: S.optional(S.String),
-    objectId: S.optional(S.String),
-    shapeProperties: S.optional(ShapeProperties),
-  }),
-).annotate({
-  identifier: "UpdateShapePropertiesRequest",
-}) as any as S.Schema<UpdateShapePropertiesRequest>;
-
-export type UpdateLineCategoryRequestLineCategoryEnum =
-  | "LINE_CATEGORY_UNSPECIFIED"
-  | "STRAIGHT"
-  | "BENT"
-  | "CURVED";
-export const UpdateLineCategoryRequestLineCategoryEnum = S.String;
-
-/** Updates the category of a line. */
-export interface UpdateLineCategoryRequest {
-  /** The line category to update to. The exact line type is determined based on the category to update to and how it's routed to connect to other page elements. */
-  lineCategory?: UpdateLineCategoryRequestLineCategoryEnum | (string & {});
-  /** The object ID of the line the update is applied to. Only a line with a category indicating it is a "connector" can be updated. The line may be rerouted after updating its category. */
-  objectId?: string;
-}
-export const UpdateLineCategoryRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    lineCategory: S.optional(UpdateLineCategoryRequestLineCategoryEnum),
-    objectId: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "UpdateLineCategoryRequest",
-}) as any as S.Schema<UpdateLineCategoryRequest>;
-
-/** Merges cells in a Table. */
-export interface MergeTableCellsRequest {
-  /** The table range specifying which cells of the table to merge. Any text in the cells being merged will be concatenated and stored in the upper-left ("head") cell of the range. If the range is non-rectangular (which can occur in some cases where the range covers cells that are already merged), a 400 bad request error is returned. */
-  tableRange?: TableRange;
-  /** The object ID of the table. */
-  objectId?: string;
-}
-export const MergeTableCellsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    tableRange: S.optional(TableRange),
-    objectId: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "MergeTableCellsRequest",
-}) as any as S.Schema<MergeTableCellsRequest>;
-
-export type IntegerList = Array<number>;
-export const IntegerList = /*@__PURE__*/ S.Array(S.Number) as any as S.Schema<IntegerList>;
-
-/** Properties of each column in a table. */
-export interface TableColumnProperties {
-  /** Width of a column. */
-  columnWidth?: Dimension;
-}
-export const TableColumnProperties = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    columnWidth: S.optional(Dimension),
-  }),
-).annotate({
-  identifier: "TableColumnProperties",
-}) as any as S.Schema<TableColumnProperties>;
-
-/** Updates the properties of a Table column. */
-export interface UpdateTableColumnPropertiesRequest {
-  /** The list of zero-based indices specifying which columns to update. If no indices are provided, all columns in the table will be updated. */
-  columnIndices?: IntegerList;
-  /** The fields that should be updated. At least one field must be specified. The root `tableColumnProperties` is implied and should not be specified. A single `"*"` can be used as short-hand for listing every field. For example to update the column width, set `fields` to `"column_width"`. If '"column_width"' is included in the field mask but the property is left unset, the column width will default to 406,400 EMU (32 points). */
-  fields?: string;
-  /** The table column properties to update. If the value of `table_column_properties#column_width` in the request is less than 406,400 EMU (32 points), a 400 bad request error is returned. */
-  tableColumnProperties?: TableColumnProperties;
-  /** The object ID of the table. */
-  objectId?: string;
-}
-export const UpdateTableColumnPropertiesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    columnIndices: S.optional(IntegerList),
-    fields: S.optional(S.String),
-    tableColumnProperties: S.optional(TableColumnProperties),
-    objectId: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "UpdateTableColumnPropertiesRequest",
-}) as any as S.Schema<UpdateTableColumnPropertiesRequest>;
-
-export type LinePropertiesStartArrowEnum =
-  | "ARROW_STYLE_UNSPECIFIED"
-  | "NONE"
-  | "STEALTH_ARROW"
-  | "FILL_ARROW"
-  | "FILL_CIRCLE"
-  | "FILL_SQUARE"
-  | "FILL_DIAMOND"
-  | "OPEN_ARROW"
-  | "OPEN_CIRCLE"
-  | "OPEN_SQUARE"
-  | "OPEN_DIAMOND";
-export const LinePropertiesStartArrowEnum = S.String;
-
-export type LinePropertiesEndArrowEnum =
-  | "ARROW_STYLE_UNSPECIFIED"
-  | "NONE"
-  | "STEALTH_ARROW"
-  | "FILL_ARROW"
-  | "FILL_CIRCLE"
-  | "FILL_SQUARE"
-  | "FILL_DIAMOND"
-  | "OPEN_ARROW"
-  | "OPEN_CIRCLE"
-  | "OPEN_SQUARE"
-  | "OPEN_DIAMOND";
-export const LinePropertiesEndArrowEnum = S.String;
-
-/** The properties for one end of a Line connection. */
-export interface LineConnection {
-  /** The object ID of the connected page element. Some page elements, such as groups, tables, and lines do not have connection sites and therefore cannot be connected to a connector line. */
-  connectedObjectId?: string;
-  /** The index of the connection site on the connected page element. In most cases, it corresponds to the predefined connection site index from the ECMA-376 standard. More information on those connection sites can be found in both the description of the "cxn" attribute in section 20.1.9.9 and "Annex H. Example Predefined DrawingML Shape and Text Geometries" of "Office Open XML File Formats - Fundamentals and Markup Language Reference", part 1 of [ECMA-376 5th edition](https://ecma-international.org/publications-and-standards/standards/ecma-376/). The position of each connection site can also be viewed from Slides editor. */
-  connectionSiteIndex?: number;
-}
-export const LineConnection = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    connectedObjectId: S.optional(S.String),
-    connectionSiteIndex: S.optional(S.Number),
-  }),
-).annotate({ identifier: "LineConnection" }) as any as S.Schema<LineConnection>;
-
-export type LinePropertiesDashStyleEnum =
-  | "DASH_STYLE_UNSPECIFIED"
-  | "SOLID"
-  | "DOT"
-  | "DASH"
-  | "DASH_DOT"
-  | "LONG_DASH"
-  | "LONG_DASH_DOT";
-export const LinePropertiesDashStyleEnum = S.String;
-
-/** The fill of the line. */
-export type LineFill = OutlineFill;
-export const LineFill = OutlineFill;
-
-/** The properties of the Line. When unset, these fields default to values that match the appearance of new lines created in the Slides editor. */
-export interface LineProperties {
-  /** The style of the arrow at the beginning of the line. */
-  startArrow?: LinePropertiesStartArrowEnum | (string & {});
-  /** The thickness of the line. */
-  weight?: Dimension;
-  /** The style of the arrow at the end of the line. */
-  endArrow?: LinePropertiesEndArrowEnum | (string & {});
-  /** The connection at the beginning of the line. If unset, there is no connection. Only lines with a Type indicating it is a "connector" can have a `start_connection`. */
-  startConnection?: LineConnection;
-  /** The dash style of the line. */
-  dashStyle?: LinePropertiesDashStyleEnum | (string & {});
-  /** The fill of the line. The default line fill matches the defaults for new lines created in the Slides editor. */
-  lineFill?: OutlineFill;
-  /** The connection at the end of the line. If unset, there is no connection. Only lines with a Type indicating it is a "connector" can have an `end_connection`. */
-  endConnection?: LineConnection;
-  /** The hyperlink destination of the line. If unset, there is no link. */
-  link?: Link;
-}
-export const LineProperties = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    startArrow: S.optional(LinePropertiesStartArrowEnum),
-    weight: S.optional(Dimension),
-    endArrow: S.optional(LinePropertiesEndArrowEnum),
-    startConnection: S.optional(LineConnection),
-    dashStyle: S.optional(LinePropertiesDashStyleEnum),
-    lineFill: S.optional(OutlineFill),
-    endConnection: S.optional(LineConnection),
-    link: S.optional(Link),
-  }),
-).annotate({ identifier: "LineProperties" }) as any as S.Schema<LineProperties>;
-
-/** Updates the properties of a Line. */
-export interface UpdateLinePropertiesRequest {
-  /** The fields that should be updated. At least one field must be specified. The root `lineProperties` is implied and should not be specified. A single `"*"` can be used as short-hand for listing every field. For example to update the line solid fill color, set `fields` to `"lineFill.solidFill.color"`. To reset a property to its default value, include its field name in the field mask but leave the field itself unset. */
-  fields?: string;
-  /** The line properties to update. */
-  lineProperties?: LineProperties;
-  /** The object ID of the line the update is applied to. */
-  objectId?: string;
-}
-export const UpdateLinePropertiesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    fields: S.optional(S.String),
-    lineProperties: S.optional(LineProperties),
-    objectId: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "UpdateLinePropertiesRequest",
-}) as any as S.Schema<UpdateLinePropertiesRequest>;
-
-/** Deletes text from a shape or a table cell. */
-export interface DeleteTextRequest {
-  /** The optional table cell location if the text is to be deleted from a table cell. If present, the object_id must refer to a table. */
-  cellLocation?: TableCellLocation;
-  /** The range of text to delete, based on TextElement indexes. There is always an implicit newline character at the end of a shape's or table cell's text that cannot be deleted. `Range.Type.ALL` will use the correct bounds, but care must be taken when specifying explicit bounds for range types `FROM_START_INDEX` and `FIXED_RANGE`. For example, if the text is "ABC", followed by an implicit newline, then the maximum value is 2 for `text_range.start_index` and 3 for `text_range.end_index`. Deleting text that crosses a paragraph boundary may result in changes to paragraph styles and lists as the two paragraphs are merged. Ranges that include only one code unit of a surrogate pair are expanded to include both code units. */
-  textRange?: Range;
-  /** The object ID of the shape or table from which the text will be deleted. */
-  objectId?: string;
-}
-export const DeleteTextRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    cellLocation: S.optional(TableCellLocation),
-    textRange: S.optional(Range),
-    objectId: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "DeleteTextRequest",
-}) as any as S.Schema<DeleteTextRequest>;
+  identifier: "UpdatePageElementAltTextRequest",
+}) as any as S.Schema<UpdatePageElementAltTextRequest>;
 
 export type CreateShapeRequestShapeTypeEnum =
   | "TYPE_UNSPECIFIED"
@@ -1643,261 +527,383 @@ export type CreateShapeRequestShapeTypeEnum =
   | "CUSTOM";
 export const CreateShapeRequestShapeTypeEnum = S.String;
 
+/** A width and height. */
+export interface Size {
+  /** The width of the object. */
+  width?: Dimension;
+  /** The height of the object. */
+  height?: Dimension;
+}
+export const Size = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    width: S.optional(Dimension),
+    height: S.optional(Dimension),
+  }),
+).annotate({ identifier: "Size" }) as any as S.Schema<Size>;
+
+export type AffineTransformUnitEnum = "UNIT_UNSPECIFIED" | "EMU" | "PT";
+export const AffineTransformUnitEnum = S.String;
+
+/** AffineTransform uses a 3x3 matrix with an implied last row of [ 0 0 1 ] to transform source coordinates (x,y) into destination coordinates (x', y') according to: x' x = shear_y scale_y translate_y 1 [ 1 ] After transformation, x' = scale_x * x + shear_x * y + translate_x; y' = scale_y * y + shear_y * x + translate_y; This message is therefore composed of these six matrix elements. */
+export interface AffineTransform {
+  /** The Y coordinate shearing element. */
+  shearY?: number;
+  /** The X coordinate scaling element. */
+  scaleX?: number;
+  /** The units for translate elements. */
+  unit?: AffineTransformUnitEnum | (string & {});
+  /** The X coordinate shearing element. */
+  shearX?: number;
+  /** The Y coordinate scaling element. */
+  scaleY?: number;
+  /** The X coordinate translation element. */
+  translateX?: number;
+  /** The Y coordinate translation element. */
+  translateY?: number;
+}
+export const AffineTransform = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    shearY: S.optional(S.Number),
+    scaleX: S.optional(S.Number),
+    unit: S.optional(AffineTransformUnitEnum),
+    shearX: S.optional(S.Number),
+    scaleY: S.optional(S.Number),
+    translateX: S.optional(S.Number),
+    translateY: S.optional(S.Number),
+  }),
+).annotate({ identifier: "AffineTransform" }) as any as S.Schema<AffineTransform>;
+
+/** Common properties for a page element. Note: When you initially create a PageElement, the API may modify the values of both `size` and `transform`, but the visual size will be unchanged. */
+export interface PageElementProperties {
+  /** The object ID of the page where the element is located. */
+  pageObjectId?: string;
+  /** The size of the element. */
+  size?: Size;
+  /** The transform for the element. */
+  transform?: AffineTransform;
+}
+export const PageElementProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    pageObjectId: S.optional(S.String),
+    size: S.optional(Size),
+    transform: S.optional(AffineTransform),
+  }),
+).annotate({ identifier: "PageElementProperties" }) as any as S.Schema<PageElementProperties>;
+
 /** Creates a new shape. */
 export interface CreateShapeRequest {
-  /** The element properties for the shape. */
-  elementProperties?: PageElementProperties;
-  /** The shape type. */
-  shapeType?: CreateShapeRequestShapeTypeEnum | (string & {});
   /** A user-supplied object ID. If you specify an ID, it must be unique among all pages and page elements in the presentation. The ID must start with an alphanumeric character or an underscore (matches regex `[a-zA-Z0-9_]`); remaining characters may include those as well as a hyphen or colon (matches regex `[a-zA-Z0-9_-:]`). The length of the ID must not be less than 5 or greater than 50. If empty, a unique identifier will be generated. */
   objectId?: string;
+  /** The shape type. */
+  shapeType?: CreateShapeRequestShapeTypeEnum | (string & {});
+  /** The element properties for the shape. */
+  elementProperties?: PageElementProperties;
 }
 export const CreateShapeRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    elementProperties: S.optional(PageElementProperties),
+    objectId: S.optional(S.String),
     shapeType: S.optional(CreateShapeRequestShapeTypeEnum),
-    objectId: S.optional(S.String),
+    elementProperties: S.optional(PageElementProperties),
   }),
-).annotate({
-  identifier: "CreateShapeRequest",
-}) as any as S.Schema<CreateShapeRequest>;
+).annotate({ identifier: "CreateShapeRequest" }) as any as S.Schema<CreateShapeRequest>;
 
-/** Properties of each row in a table. */
-export interface TableRowProperties {
-  /** Minimum height of the row. The row will be rendered in the Slides editor at a height equal to or greater than this value in order to show all the text in the row's cell(s). */
-  minRowHeight?: Dimension;
+export type RangeTypeEnum = "RANGE_TYPE_UNSPECIFIED" | "FIXED_RANGE" | "FROM_START_INDEX" | "ALL";
+export const RangeTypeEnum = S.String;
+
+/** Specifies a contiguous range of an indexed collection, such as characters in text. */
+export interface Range {
+  /** The optional zero-based index of the end of the collection. Required for `FIXED_RANGE` ranges. */
+  endIndex?: number;
+  /** The type of range. */
+  type?: RangeTypeEnum | (string & {});
+  /** The optional zero-based index of the beginning of the collection. Required for `FIXED_RANGE` and `FROM_START_INDEX` ranges. */
+  startIndex?: number;
 }
-export const TableRowProperties = /*@__PURE__*/ S.suspend(() =>
+export const Range = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    minRowHeight: S.optional(Dimension),
+    endIndex: S.optional(S.Number),
+    type: S.optional(RangeTypeEnum),
+    startIndex: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "TableRowProperties",
-}) as any as S.Schema<TableRowProperties>;
+).annotate({ identifier: "Range" }) as any as S.Schema<Range>;
 
-/** Updates the properties of a Table row. */
-export interface UpdateTableRowPropertiesRequest {
-  /** The object ID of the table. */
-  objectId?: string;
-  /** The fields that should be updated. At least one field must be specified. The root `tableRowProperties` is implied and should not be specified. A single `"*"` can be used as short-hand for listing every field. For example to update the minimum row height, set `fields` to `"min_row_height"`. If '"min_row_height"' is included in the field mask but the property is left unset, the minimum row height will default to 0. */
-  fields?: string;
-  /** The list of zero-based indices specifying which rows to update. If no indices are provided, all rows in the table will be updated. */
-  rowIndices?: IntegerList;
-  /** The table row properties to update. */
-  tableRowProperties?: TableRowProperties;
+/** Represents a font family and weight used to style a TextRun. */
+export interface WeightedFontFamily {
+  /** The rendered weight of the text. This field can have any value that is a multiple of `100` between `100` and `900`, inclusive. This range corresponds to the numerical values described in the CSS 2.1 Specification, [section 15.6](https://www.w3.org/TR/CSS21/fonts.html#font-boldness), with non-numerical values disallowed. Weights greater than or equal to `700` are considered bold, and weights less than `700`are not bold. The default value is `400` ("normal"). */
+  weight?: number;
+  /** The font family of the text. The font family can be any font from the Font menu in Slides or from [Google Fonts] (https://fonts.google.com/). If the font name is unrecognized, the text is rendered in `Arial`. */
+  fontFamily?: string;
 }
-export const UpdateTableRowPropertiesRequest = /*@__PURE__*/ S.suspend(() =>
+export const WeightedFontFamily = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    objectId: S.optional(S.String),
-    fields: S.optional(S.String),
-    rowIndices: S.optional(IntegerList),
-    tableRowProperties: S.optional(TableRowProperties),
+    weight: S.optional(S.Number),
+    fontFamily: S.optional(S.String),
   }),
-).annotate({
-  identifier: "UpdateTableRowPropertiesRequest",
-}) as any as S.Schema<UpdateTableRowPropertiesRequest>;
+).annotate({ identifier: "WeightedFontFamily" }) as any as S.Schema<WeightedFontFamily>;
 
-/** Unmerges cells in a Table. */
-export interface UnmergeTableCellsRequest {
-  /** The table range specifying which cells of the table to unmerge. All merged cells in this range will be unmerged, and cells that are already unmerged will not be affected. If the range has no merged cells, the request will do nothing. If there is text in any of the merged cells, the text will remain in the upper-left ("head") cell of the resulting block of unmerged cells. */
-  tableRange?: TableRange;
-  /** The object ID of the table. */
-  objectId?: string;
+/** A color that can either be fully opaque or fully transparent. */
+export interface OptionalColor {
+  /** If set, this will be used as an opaque color. If unset, this represents a transparent color. */
+  opaqueColor?: OpaqueColor;
 }
-export const UnmergeTableCellsRequest = /*@__PURE__*/ S.suspend(() =>
+export const OptionalColor = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    tableRange: S.optional(TableRange),
-    objectId: S.optional(S.String),
+    opaqueColor: S.optional(OpaqueColor),
   }),
-).annotate({
-  identifier: "UnmergeTableCellsRequest",
-}) as any as S.Schema<UnmergeTableCellsRequest>;
+).annotate({ identifier: "OptionalColor" }) as any as S.Schema<OptionalColor>;
 
-export type ReplaceAllShapesWithSheetsChartRequestLinkingModeEnum = "NOT_LINKED_IMAGE" | "LINKED";
-export const ReplaceAllShapesWithSheetsChartRequestLinkingModeEnum = S.String;
-
-/** Replaces all shapes that match the given criteria with the provided Google Sheets chart. The chart will be scaled and centered to fit within the bounds of the original shape. NOTE: Replacing shapes with a chart requires at least one of the spreadsheets.readonly, spreadsheets, drive.readonly, or drive OAuth scopes. */
-export interface ReplaceAllShapesWithSheetsChartRequest {
-  /** The mode with which the chart is linked to the source spreadsheet. When not specified, the chart will be an image that is not linked. */
-  linkingMode?: ReplaceAllShapesWithSheetsChartRequestLinkingModeEnum | (string & {});
-  /** The ID of the Google Sheets spreadsheet that contains the chart. */
-  spreadsheetId?: string;
-  /** The criteria that the shapes must match in order to be replaced. The request will replace all of the shapes that contain the given text. */
-  containsText?: SubstringMatchCriteria;
-  /** The ID of the specific chart in the Google Sheets spreadsheet. */
-  chartId?: number;
-  /** If non-empty, limits the matches to page elements only on the given pages. Returns a 400 bad request error if given the page object ID of a notes page or a notes master, or if a page with that object ID doesn't exist in the presentation. */
-  pageObjectIds?: StringList;
-}
-export const ReplaceAllShapesWithSheetsChartRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    linkingMode: S.optional(ReplaceAllShapesWithSheetsChartRequestLinkingModeEnum),
-    spreadsheetId: S.optional(S.String),
-    containsText: S.optional(SubstringMatchCriteria),
-    chartId: S.optional(S.Number),
-    pageObjectIds: S.optional(StringList),
-  }),
-).annotate({
-  identifier: "ReplaceAllShapesWithSheetsChartRequest",
-}) as any as S.Schema<ReplaceAllShapesWithSheetsChartRequest>;
-
-export type LayoutReferencePredefinedLayoutEnum =
-  | "PREDEFINED_LAYOUT_UNSPECIFIED"
-  | "BLANK"
-  | "CAPTION_ONLY"
-  | "TITLE"
-  | "TITLE_AND_BODY"
-  | "TITLE_AND_TWO_COLUMNS"
-  | "TITLE_ONLY"
-  | "SECTION_HEADER"
-  | "SECTION_TITLE_AND_DESCRIPTION"
-  | "ONE_COLUMN_TEXT"
-  | "MAIN_POINT"
-  | "BIG_NUMBER";
-export const LayoutReferencePredefinedLayoutEnum = S.String;
-
-/** Slide layout reference. This may reference either: - A predefined layout - One of the layouts in the presentation. */
-export interface LayoutReference {
-  /** Predefined layout. */
-  predefinedLayout?: LayoutReferencePredefinedLayoutEnum | (string & {});
-  /** Layout ID: the object ID of one of the layouts in the presentation. */
-  layoutId?: string;
-}
-export const LayoutReference = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    predefinedLayout: S.optional(LayoutReferencePredefinedLayoutEnum),
-    layoutId: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "LayoutReference",
-}) as any as S.Schema<LayoutReference>;
-
-export type PlaceholderTypeEnum =
+export type TextStyleBaselineOffsetEnum =
+  | "BASELINE_OFFSET_UNSPECIFIED"
   | "NONE"
-  | "BODY"
-  | "CHART"
-  | "CLIP_ART"
-  | "CENTERED_TITLE"
-  | "DIAGRAM"
-  | "DATE_AND_TIME"
-  | "FOOTER"
-  | "HEADER"
-  | "MEDIA"
-  | "OBJECT"
-  | "PICTURE"
-  | "SLIDE_NUMBER"
-  | "SUBTITLE"
-  | "TABLE"
-  | "TITLE"
-  | "SLIDE_IMAGE";
-export const PlaceholderTypeEnum = S.String;
+  | "SUPERSCRIPT"
+  | "SUBSCRIPT";
+export const TextStyleBaselineOffsetEnum = S.String;
 
-/** The placeholder information that uniquely identifies a placeholder shape. */
-export interface Placeholder {
-  /** The index of the placeholder. If the same placeholder types are present in the same page, they would have different index values. */
-  index?: number;
-  /** The object ID of this shape's parent placeholder. If unset, the parent placeholder shape does not exist, so the shape does not inherit properties from any other shape. */
-  parentObjectId?: string;
-  /** The type of the placeholder. */
-  type?: PlaceholderTypeEnum | (string & {});
+export type LinkRelativeLinkEnum =
+  | "RELATIVE_SLIDE_LINK_UNSPECIFIED"
+  | "NEXT_SLIDE"
+  | "PREVIOUS_SLIDE"
+  | "FIRST_SLIDE"
+  | "LAST_SLIDE";
+export const LinkRelativeLinkEnum = S.String;
+
+/** A hypertext link. */
+export interface Link {
+  /** If set, indicates this is a link to the external web page at this URL. */
+  url?: string;
+  /** If set, indicates this is a link to a slide in this presentation, addressed by its position. */
+  relativeLink?: LinkRelativeLinkEnum | (string & {});
+  /** If set, indicates this is a link to the slide at this zero-based index in the presentation. There may not be a slide at this index. */
+  slideIndex?: number;
+  /** If set, indicates this is a link to the specific page in this presentation with this ID. A page with this ID may not exist. */
+  pageObjectId?: string;
 }
-export const Placeholder = /*@__PURE__*/ S.suspend(() =>
+export const Link = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    index: S.optional(S.Number),
-    parentObjectId: S.optional(S.String),
-    type: S.optional(PlaceholderTypeEnum),
+    url: S.optional(S.String),
+    relativeLink: S.optional(LinkRelativeLinkEnum),
+    slideIndex: S.optional(S.Number),
+    pageObjectId: S.optional(S.String),
   }),
-).annotate({ identifier: "Placeholder" }) as any as S.Schema<Placeholder>;
+).annotate({ identifier: "Link" }) as any as S.Schema<Link>;
 
-/** The user-specified ID mapping for a placeholder that will be created on a slide from a specified layout. */
-export interface LayoutPlaceholderIdMapping {
-  /** A user-supplied object ID for the placeholder identified above that to be created onto a slide. If you specify an ID, it must be unique among all pages and page elements in the presentation. The ID must start with an alphanumeric character or an underscore (matches regex `[a-zA-Z0-9_]`); remaining characters may include those as well as a hyphen or colon (matches regex `[a-zA-Z0-9_-:]`). The length of the ID must not be less than 5 or greater than 50. If you don't specify an ID, a unique one is generated. */
+/** Represents the styling that can be applied to a TextRun. If this text is contained in a shape with a parent placeholder, then these text styles may be inherited from the parent. Which text styles are inherited depend on the nesting level of lists: * A text run in a paragraph that is not in a list will inherit its text style from the the newline character in the paragraph at the 0 nesting level of the list inside the parent placeholder. * A text run in a paragraph that is in a list will inherit its text style from the newline character in the paragraph at its corresponding nesting level of the list inside the parent placeholder. Inherited text styles are represented as unset fields in this message. If text is contained in a shape without a parent placeholder, unsetting these fields will revert the style to a value matching the defaults in the Slides editor. */
+export interface TextStyle {
+  /** The font family and rendered weight of the text. This field is an extension of `font_family` meant to support explicit font weights without breaking backwards compatibility. As such, when reading the style of a range of text, the value of `weighted_font_family#font_family` will always be equal to that of `font_family`. However, when writing, if both fields are included in the field mask (either explicitly or through the wildcard `"*"`), their values are reconciled as follows: * If `font_family` is set and `weighted_font_family` is not, the value of `font_family` is applied with weight `400` ("normal"). * If both fields are set, the value of `font_family` must match that of `weighted_font_family#font_family`. If so, the font family and weight of `weighted_font_family` is applied. Otherwise, a 400 bad request error is returned. * If `weighted_font_family` is set and `font_family` is not, the font family and weight of `weighted_font_family` is applied. * If neither field is set, the font family and weight of the text inherit from the parent. Note that these properties cannot inherit separately from each other. If an update request specifies values for both `weighted_font_family` and `bold`, the `weighted_font_family` is applied first, then `bold`. If `weighted_font_family#weight` is not set, it defaults to `400`. If `weighted_font_family` is set, then `weighted_font_family#font_family` must also be set with a non-empty value. Otherwise, a 400 bad request error is returned. */
+  weightedFontFamily?: WeightedFontFamily;
+  /** The color of the text itself. If set, the color is either opaque or transparent, depending on if the `opaque_color` field in it is set. */
+  foregroundColor?: OptionalColor;
+  /** The background color of the text. If set, the color is either opaque or transparent, depending on if the `opaque_color` field in it is set. */
+  backgroundColor?: OptionalColor;
+  /** Whether or not the text is rendered as bold. */
+  bold?: boolean;
+  /** The text's vertical offset from its normal position. Text with `SUPERSCRIPT` or `SUBSCRIPT` baseline offsets is automatically rendered in a smaller font size, computed based on the `font_size` field. The `font_size` itself is not affected by changes in this field. */
+  baselineOffset?: TextStyleBaselineOffsetEnum | (string & {});
+  /** Whether or not the text is in small capital letters. */
+  smallCaps?: boolean;
+  /** The font family of the text. The font family can be any font from the Font menu in Slides or from [Google Fonts] (https://fonts.google.com/). If the font name is unrecognized, the text is rendered in `Arial`. Some fonts can affect the weight of the text. If an update request specifies values for both `font_family` and `bold`, the explicitly-set `bold` value is used. */
+  fontFamily?: string;
+  /** The size of the text's font. When read, the `font_size` will specified in points. */
+  fontSize?: Dimension;
+  /** The hyperlink destination of the text. If unset, there is no link. Links are not inherited from parent text. Changing the link in an update request causes some other changes to the text style of the range: * When setting a link, the text foreground color will be set to ThemeColorType.HYPERLINK and the text will be underlined. If these fields are modified in the same request, those values will be used instead of the link defaults. * Setting a link on a text range that overlaps with an existing link will also update the existing link to point to the new URL. * Links are not settable on newline characters. As a result, setting a link on a text range that crosses a paragraph boundary, such as `"ABC\n123"`, will separate the newline character(s) into their own text runs. The link will be applied separately to the runs before and after the newline. * Removing a link will update the text style of the range to match the style of the preceding text (or the default text styles if the preceding text is another link) unless different styles are being set in the same request. */
+  link?: Link;
+  /** Whether or not the text is italicized. */
+  italic?: boolean;
+  /** Whether or not the text is struck through. */
+  strikethrough?: boolean;
+  /** Whether or not the text is underlined. */
+  underline?: boolean;
+}
+export const TextStyle = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    weightedFontFamily: S.optional(WeightedFontFamily),
+    foregroundColor: S.optional(OptionalColor),
+    backgroundColor: S.optional(OptionalColor),
+    bold: S.optional(S.Boolean),
+    baselineOffset: S.optional(TextStyleBaselineOffsetEnum),
+    smallCaps: S.optional(S.Boolean),
+    fontFamily: S.optional(S.String),
+    fontSize: S.optional(Dimension),
+    link: S.optional(Link),
+    italic: S.optional(S.Boolean),
+    strikethrough: S.optional(S.Boolean),
+    underline: S.optional(S.Boolean),
+  }),
+).annotate({ identifier: "TextStyle" }) as any as S.Schema<TextStyle>;
+
+/** Update the styling of text in a Shape or Table. */
+export interface UpdateTextStyleRequest {
+  /** The range of text to style. The range may be extended to include adjacent newlines. If the range fully contains a paragraph belonging to a list, the paragraph's bullet is also updated with the matching text style. */
+  textRange?: Range;
+  /** The object ID of the shape or table with the text to be styled. */
   objectId?: string;
-  /** The object ID of the placeholder on a layout that will be applied to a slide. */
-  layoutPlaceholderObjectId?: string;
-  /** The placeholder on a layout that will be applied to a slide. Only type and index are needed. For example, a predefined `TITLE_AND_BODY` layout may usually have a TITLE placeholder with index 0 and a BODY placeholder with index 0. */
-  layoutPlaceholder?: Placeholder;
-}
-export const LayoutPlaceholderIdMapping = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    objectId: S.optional(S.String),
-    layoutPlaceholderObjectId: S.optional(S.String),
-    layoutPlaceholder: S.optional(Placeholder),
-  }),
-).annotate({
-  identifier: "LayoutPlaceholderIdMapping",
-}) as any as S.Schema<LayoutPlaceholderIdMapping>;
-
-export type LayoutPlaceholderIdMappingList = Array<LayoutPlaceholderIdMapping>;
-export const LayoutPlaceholderIdMappingList = /*@__PURE__*/ S.Array(
-  LayoutPlaceholderIdMapping,
-) as any as S.Schema<LayoutPlaceholderIdMappingList>;
-
-/** Creates a slide. */
-export interface CreateSlideRequest {
-  /** A user-supplied object ID. If you specify an ID, it must be unique among all pages and page elements in the presentation. The ID must start with an alphanumeric character or an underscore (matches regex `[a-zA-Z0-9_]`); remaining characters may include those as well as a hyphen or colon (matches regex `[a-zA-Z0-9_-:]`). The ID length must be between 5 and 50 characters, inclusive. If you don't specify an ID, a unique one is generated. */
-  objectId?: string;
-  /** Layout reference of the slide to be inserted, based on the *current master*, which is one of the following: - The master of the previous slide index. - The master of the first slide, if the insertion_index is zero. - The first master in the presentation, if there are no slides. If the LayoutReference is not found in the current master, a 400 bad request error is returned. If you don't specify a layout reference, the slide uses the predefined `BLANK` layout. */
-  slideLayoutReference?: LayoutReference;
-  /** An optional list of object ID mappings from the placeholder(s) on the layout to the placeholders that are created on the slide from the specified layout. Can only be used when `slide_layout_reference` is specified. */
-  placeholderIdMappings?: LayoutPlaceholderIdMappingList;
-  /** The optional zero-based index indicating where to insert the slides. If you don't specify an index, the slide is created at the end. */
-  insertionIndex?: number;
-}
-export const CreateSlideRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    objectId: S.optional(S.String),
-    slideLayoutReference: S.optional(LayoutReference),
-    placeholderIdMappings: S.optional(LayoutPlaceholderIdMappingList),
-    insertionIndex: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "CreateSlideRequest",
-}) as any as S.Schema<CreateSlideRequest>;
-
-/** The properties of the Video. */
-export interface VideoProperties {
-  /** Whether to enable video autoplay when the page is displayed in present mode. Defaults to false. */
-  autoPlay?: boolean;
-  /** The time at which to end playback, measured in seconds from the beginning of the video. If set, the end time should be after the start time. If not set or if you set this to a value that exceeds the video's length, the video will be played until its end. */
-  end?: number;
-  /** Whether to mute the audio during video playback. Defaults to false. */
-  mute?: boolean;
-  /** The outline of the video. The default outline matches the defaults for new videos created in the Slides editor. */
-  outline?: Outline;
-  /** The time at which to start playback, measured in seconds from the beginning of the video. If set, the start time should be before the end time. If you set this to a value that exceeds the video's length in seconds, the video will be played from the last second. If not set, the video will be played from the beginning. */
-  start?: number;
-}
-export const VideoProperties = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    autoPlay: S.optional(S.Boolean),
-    end: S.optional(S.Number),
-    mute: S.optional(S.Boolean),
-    outline: S.optional(Outline),
-    start: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "VideoProperties",
-}) as any as S.Schema<VideoProperties>;
-
-/** Update the properties of a Video. */
-export interface UpdateVideoPropertiesRequest {
-  /** The object ID of the video the updates are applied to. */
-  objectId?: string;
-  /** The fields that should be updated. At least one field must be specified. The root `videoProperties` is implied and should not be specified. A single `"*"` can be used as short-hand for listing every field. For example to update the video outline color, set `fields` to `"outline.outlineFill.solidFill.color"`. To reset a property to its default value, include its field name in the field mask but leave the field itself unset. */
+  /** The location of the cell in the table containing the text to style. If `object_id` refers to a table, `cell_location` must have a value. Otherwise, it must not. */
+  cellLocation?: TableCellLocation;
+  /** The fields that should be updated. At least one field must be specified. The root `style` is implied and should not be specified. A single `"*"` can be used as short-hand for listing every field. For example, to update the text style to bold, set `fields` to `"bold"`. To reset a property to its default value, include its field name in the field mask but leave the field itself unset. */
   fields?: string;
-  /** The video properties to update. */
-  videoProperties?: VideoProperties;
+  /** The style(s) to set on the text. If the value for a particular style matches that of the parent, that style will be set to inherit. Certain text style changes may cause other changes meant to mirror the behavior of the Slides editor. See the documentation of TextStyle for more information. */
+  style?: TextStyle;
 }
-export const UpdateVideoPropertiesRequest = /*@__PURE__*/ S.suspend(() =>
+export const UpdateTextStyleRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    textRange: S.optional(Range),
+    objectId: S.optional(S.String),
+    cellLocation: S.optional(TableCellLocation),
+    fields: S.optional(S.String),
+    style: S.optional(TextStyle),
+  }),
+).annotate({ identifier: "UpdateTextStyleRequest" }) as any as S.Schema<UpdateTextStyleRequest>;
+
+/** Deletes text from a shape or a table cell. */
+export interface DeleteTextRequest {
+  /** The range of text to delete, based on TextElement indexes. There is always an implicit newline character at the end of a shape's or table cell's text that cannot be deleted. `Range.Type.ALL` will use the correct bounds, but care must be taken when specifying explicit bounds for range types `FROM_START_INDEX` and `FIXED_RANGE`. For example, if the text is "ABC", followed by an implicit newline, then the maximum value is 2 for `text_range.start_index` and 3 for `text_range.end_index`. Deleting text that crosses a paragraph boundary may result in changes to paragraph styles and lists as the two paragraphs are merged. Ranges that include only one code unit of a surrogate pair are expanded to include both code units. */
+  textRange?: Range;
+  /** The object ID of the shape or table from which the text will be deleted. */
+  objectId?: string;
+  /** The optional table cell location if the text is to be deleted from a table cell. If present, the object_id must refer to a table. */
+  cellLocation?: TableCellLocation;
+}
+export const DeleteTextRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    textRange: S.optional(Range),
+    objectId: S.optional(S.String),
+    cellLocation: S.optional(TableCellLocation),
+  }),
+).annotate({ identifier: "DeleteTextRequest" }) as any as S.Schema<DeleteTextRequest>;
+
+export type ParagraphStyleSpacingModeEnum =
+  | "SPACING_MODE_UNSPECIFIED"
+  | "NEVER_COLLAPSE"
+  | "COLLAPSE_LISTS";
+export const ParagraphStyleSpacingModeEnum = S.String;
+
+export type ParagraphStyleAlignmentEnum =
+  | "ALIGNMENT_UNSPECIFIED"
+  | "START"
+  | "CENTER"
+  | "END"
+  | "JUSTIFIED";
+export const ParagraphStyleAlignmentEnum = S.String;
+
+export type ParagraphStyleDirectionEnum =
+  | "TEXT_DIRECTION_UNSPECIFIED"
+  | "LEFT_TO_RIGHT"
+  | "RIGHT_TO_LEFT";
+export const ParagraphStyleDirectionEnum = S.String;
+
+/** Styles that apply to a whole paragraph. If this text is contained in a shape with a parent placeholder, then these paragraph styles may be inherited from the parent. Which paragraph styles are inherited depend on the nesting level of lists: * A paragraph not in a list will inherit its paragraph style from the paragraph at the 0 nesting level of the list inside the parent placeholder. * A paragraph in a list will inherit its paragraph style from the paragraph at its corresponding nesting level of the list inside the parent placeholder. Inherited paragraph styles are represented as unset fields in this message. */
+export interface ParagraphStyle {
+  /** The amount indentation for the paragraph on the side that corresponds to the start of the text, based on the current text direction. If unset, the value is inherited from the parent. */
+  indentStart?: Dimension;
+  /** The amount of extra space below the paragraph. If unset, the value is inherited from the parent. */
+  spaceBelow?: Dimension;
+  /** The amount of extra space above the paragraph. If unset, the value is inherited from the parent. */
+  spaceAbove?: Dimension;
+  /** The spacing mode for the paragraph. */
+  spacingMode?: ParagraphStyleSpacingModeEnum | (string & {});
+  /** The amount indentation for the paragraph on the side that corresponds to the end of the text, based on the current text direction. If unset, the value is inherited from the parent. */
+  indentEnd?: Dimension;
+  /** The amount of indentation for the start of the first line of the paragraph. If unset, the value is inherited from the parent. */
+  indentFirstLine?: Dimension;
+  /** The text alignment for this paragraph. */
+  alignment?: ParagraphStyleAlignmentEnum | (string & {});
+  /** The amount of space between lines, as a percentage of normal, where normal is represented as 100.0. If unset, the value is inherited from the parent. */
+  lineSpacing?: number;
+  /** The text direction of this paragraph. If unset, the value defaults to LEFT_TO_RIGHT since text direction is not inherited. */
+  direction?: ParagraphStyleDirectionEnum | (string & {});
+}
+export const ParagraphStyle = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    indentStart: S.optional(Dimension),
+    spaceBelow: S.optional(Dimension),
+    spaceAbove: S.optional(Dimension),
+    spacingMode: S.optional(ParagraphStyleSpacingModeEnum),
+    indentEnd: S.optional(Dimension),
+    indentFirstLine: S.optional(Dimension),
+    alignment: S.optional(ParagraphStyleAlignmentEnum),
+    lineSpacing: S.optional(S.Number),
+    direction: S.optional(ParagraphStyleDirectionEnum),
+  }),
+).annotate({ identifier: "ParagraphStyle" }) as any as S.Schema<ParagraphStyle>;
+
+/** Updates the styling for all of the paragraphs within a Shape or Table that overlap with the given text index range. */
+export interface UpdateParagraphStyleRequest {
+  /** The object ID of the shape or table with the text to be styled. */
+  objectId?: string;
+  /** The fields that should be updated. At least one field must be specified. The root `style` is implied and should not be specified. A single `"*"` can be used as short-hand for listing every field. For example, to update the paragraph alignment, set `fields` to `"alignment"`. To reset a property to its default value, include its field name in the field mask but leave the field itself unset. */
+  fields?: string;
+  /** The range of text containing the paragraph(s) to style. */
+  textRange?: Range;
+  /** The location of the cell in the table containing the paragraph(s) to style. If `object_id` refers to a table, `cell_location` must have a value. Otherwise, it must not. */
+  cellLocation?: TableCellLocation;
+  /** The paragraph's style. */
+  style?: ParagraphStyle;
+}
+export const UpdateParagraphStyleRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     objectId: S.optional(S.String),
     fields: S.optional(S.String),
-    videoProperties: S.optional(VideoProperties),
+    textRange: S.optional(Range),
+    cellLocation: S.optional(TableCellLocation),
+    style: S.optional(ParagraphStyle),
   }),
 ).annotate({
-  identifier: "UpdateVideoPropertiesRequest",
-}) as any as S.Schema<UpdateVideoPropertiesRequest>;
+  identifier: "UpdateParagraphStyleRequest",
+}) as any as S.Schema<UpdateParagraphStyleRequest>;
+
+export type CreateParagraphBulletsRequestBulletPresetEnum =
+  | "BULLET_DISC_CIRCLE_SQUARE"
+  | "BULLET_DIAMONDX_ARROW3D_SQUARE"
+  | "BULLET_CHECKBOX"
+  | "BULLET_ARROW_DIAMOND_DISC"
+  | "BULLET_STAR_CIRCLE_SQUARE"
+  | "BULLET_ARROW3D_CIRCLE_SQUARE"
+  | "BULLET_LEFTTRIANGLE_DIAMOND_DISC"
+  | "BULLET_DIAMONDX_HOLLOWDIAMOND_SQUARE"
+  | "BULLET_DIAMOND_CIRCLE_SQUARE"
+  | "NUMBERED_DIGIT_ALPHA_ROMAN"
+  | "NUMBERED_DIGIT_ALPHA_ROMAN_PARENS"
+  | "NUMBERED_DIGIT_NESTED"
+  | "NUMBERED_UPPERALPHA_ALPHA_ROMAN"
+  | "NUMBERED_UPPERROMAN_UPPERALPHA_DIGIT"
+  | "NUMBERED_ZERODIGIT_ALPHA_ROMAN";
+export const CreateParagraphBulletsRequestBulletPresetEnum = S.String;
+
+/** Creates bullets for all of the paragraphs that overlap with the given text index range. The nesting level of each paragraph will be determined by counting leading tabs in front of each paragraph. To avoid excess space between the bullet and the corresponding paragraph, these leading tabs are removed by this request. This may change the indices of parts of the text. If the paragraph immediately before paragraphs being updated is in a list with a matching preset, the paragraphs being updated are added to that preceding list. */
+export interface CreateParagraphBulletsRequest {
+  /** The object ID of the shape or table containing the text to add bullets to. */
+  objectId?: string;
+  /** The optional table cell location if the text to be modified is in a table cell. If present, the object_id must refer to a table. */
+  cellLocation?: TableCellLocation;
+  /** The kinds of bullet glyphs to be used. Defaults to the `BULLET_DISC_CIRCLE_SQUARE` preset. */
+  bulletPreset?: CreateParagraphBulletsRequestBulletPresetEnum | (string & {});
+  /** The range of text to apply the bullet presets to, based on TextElement indexes. */
+  textRange?: Range;
+}
+export const CreateParagraphBulletsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    objectId: S.optional(S.String),
+    cellLocation: S.optional(TableCellLocation),
+    bulletPreset: S.optional(CreateParagraphBulletsRequestBulletPresetEnum),
+    textRange: S.optional(Range),
+  }),
+).annotate({
+  identifier: "CreateParagraphBulletsRequest",
+}) as any as S.Schema<CreateParagraphBulletsRequest>;
+
+/** Deletes a column from a table. */
+export interface DeleteTableColumnRequest {
+  /** The table to delete columns from. */
+  tableObjectId?: string;
+  /** The reference table cell location from which a column will be deleted. The column this cell spans will be deleted. If this is a merged cell, multiple columns will be deleted. If no columns remain in the table after this deletion, the whole table is deleted. */
+  cellLocation?: TableCellLocation;
+}
+export const DeleteTableColumnRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    tableObjectId: S.optional(S.String),
+    cellLocation: S.optional(TableCellLocation),
+  }),
+).annotate({ identifier: "DeleteTableColumnRequest" }) as any as S.Schema<DeleteTableColumnRequest>;
 
 /** The properties of Page that are only relevant for pages with page_type MASTER. */
 export interface MasterProperties {
@@ -1908,251 +914,152 @@ export const MasterProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     displayName: S.optional(S.String),
   }),
-).annotate({
-  identifier: "MasterProperties",
-}) as any as S.Schema<MasterProperties>;
+).annotate({ identifier: "MasterProperties" }) as any as S.Schema<MasterProperties>;
 
 /** The properties of Page are only relevant for pages with page_type LAYOUT. */
 export interface LayoutProperties {
-  /** The object ID of the master that this layout is based on. */
-  masterObjectId?: string;
-  /** The human-readable name of the layout. */
-  displayName?: string;
   /** The name of the layout. */
   name?: string;
+  /** The human-readable name of the layout. */
+  displayName?: string;
+  /** The object ID of the master that this layout is based on. */
+  masterObjectId?: string;
 }
 export const LayoutProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    masterObjectId: S.optional(S.String),
-    displayName: S.optional(S.String),
     name: S.optional(S.String),
+    displayName: S.optional(S.String),
+    masterObjectId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "LayoutProperties",
-}) as any as S.Schema<LayoutProperties>;
+).annotate({ identifier: "LayoutProperties" }) as any as S.Schema<LayoutProperties>;
 
-export type PageBackgroundFillPropertyStateEnum = "RENDERED" | "NOT_RENDERED" | "INHERIT";
-export const PageBackgroundFillPropertyStateEnum = S.String;
+export type PageCommentsViewModeEnum =
+  | "COMMENTS_VIEW_MODE_UNSPECIFIED"
+  | "COMMENTS_VIEW_MODE_DEFAULT_FOR_CURRENT_ACCESS"
+  | "COMMENTS_VIEW_MODE_OMITTED"
+  | "COMMENTS_VIEW_MODE_INCLUDED";
+export const PageCommentsViewModeEnum = S.String;
 
-/** The stretched picture fill. The page or page element is filled entirely with the specified picture. The picture is stretched to fit its container. */
-export interface StretchedPictureFill {
-  /** Reading the content_url: An URL to a picture with a default lifetime of 30 minutes. This URL is tagged with the account of the requester. Anyone with the URL effectively accesses the picture as the original requester. Access to the picture may be lost if the presentation's sharing settings change. Writing the content_url: The picture is fetched once at insertion time and a copy is stored for display inside the presentation. Pictures must be less than 50MB in size, cannot exceed 25 megapixels, and must be in one of PNG, JPEG, or GIF format. The provided URL can be at most 2 kB in length. */
-  contentUrl?: string;
-  /** The original size of the picture fill. This field is read-only. */
-  size?: Size;
+export type PostCommentActionEnum =
+  | "COMMENT_ACTION_TYPE_UNSPECIFIED"
+  | "NO_COMMENT_ACTION_CHANGE"
+  | "RESOLVE"
+  | "REOPEN";
+export const PostCommentActionEnum = S.String;
+
+/** Represents a user who authored a comment post. [Developer Preview](https://developers.google.com/workspace/preview). */
+export interface PostAuthor {
+  /** Whether the user is the authenticated user making the request. */
+  me?: boolean;
+  /** The resource name of the post author user, which can also be used to identify the user in the [Google People API](https://developers.google.com/people/api/rest/v1/people). Format: `users/{user}`. Will not be populated if the anonymous field is `true` or if the post is from an imported presentation. */
+  user?: string;
+  /** The display name of the user. May be absent if the author is anonymous. */
+  displayName?: string;
+  /** Whether the user is anonymous. */
+  anonymous?: boolean;
 }
-export const StretchedPictureFill = /*@__PURE__*/ S.suspend(() =>
+export const PostAuthor = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    contentUrl: S.optional(S.String),
-    size: S.optional(Size),
+    me: S.optional(S.Boolean),
+    user: S.optional(S.String),
+    displayName: S.optional(S.String),
+    anonymous: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "StretchedPictureFill",
-}) as any as S.Schema<StretchedPictureFill>;
+).annotate({ identifier: "PostAuthor" }) as any as S.Schema<PostAuthor>;
 
-/** The page background fill. */
-export interface PageBackgroundFill {
-  /** The background fill property state. Updating the fill on a page will implicitly update this field to `RENDERED`, unless another value is specified in the same request. To have no fill on a page, set this field to `NOT_RENDERED`. In this case, any other fill fields set in the same request will be ignored. */
-  propertyState?: PageBackgroundFillPropertyStateEnum | (string & {});
-  /** Stretched picture fill. */
-  stretchedPictureFill?: StretchedPictureFill;
-  /** Solid color fill. */
-  solidFill?: SolidFill;
+/** Represents a single post in a comment thread. [Developer Preview](https://developers.google.com/workspace/preview). */
+export interface Post {
+  /** Action taken as part of creating the post. */
+  commentAction?: PostCommentActionEnum | (string & {});
+  /** Output only. The time the post was last updated. */
+  updateTime?: string;
+  /** The content of the post. Required to be non-empty if comment_action is not `RESOLVE` or `REOPEN`. This text content will be handled similarly to comments created in the Slides editor. It will have similar behaviors for formatting, notifications, etc. May not exceed 2048 UTF-8 code units. */
+  content?: string;
+  /** Output only. The user who created the post. */
+  author?: PostAuthor;
+  /** Output only. Whether the post is from a copied presentation. This field cannot be set directly by callers. */
+  fromCopiedPresentation?: boolean;
+  /** Output only. Whether the post is from an imported presentation. This field cannot be set directly by callers. */
+  fromImportedPresentation?: boolean;
+  /** Optional. The email of the user who is being newly assigned to the thread as part of this post. Returns a 400 bad request error if: - The parent thread is a CommentThread whose headPost does not have an assignee. - commentAction is specified as `RESOLVE` or `REOPEN`. - `assignee_email` exceeds 2048 UTF-8 code units. */
+  assigneeEmail?: string;
+  /** Output only. The unique ID of the post. */
+  postId?: string;
+  /** Output only. Whether the post is deleted. If `true`, content and author fields will be empty. */
+  deleted?: boolean;
+  /** Output only. The content of the post as HTML. */
+  contentHtml?: string;
+  /** Output only. The time the post was created. */
+  createTime?: string;
 }
-export const PageBackgroundFill = /*@__PURE__*/ S.suspend(() =>
+export const Post = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    propertyState: S.optional(PageBackgroundFillPropertyStateEnum),
-    stretchedPictureFill: S.optional(StretchedPictureFill),
-    solidFill: S.optional(SolidFill),
+    commentAction: S.optional(PostCommentActionEnum),
+    updateTime: S.optional(S.String),
+    content: S.optional(S.String),
+    author: S.optional(PostAuthor),
+    fromCopiedPresentation: S.optional(S.Boolean),
+    fromImportedPresentation: S.optional(S.Boolean),
+    assigneeEmail: S.optional(S.String),
+    postId: S.optional(S.String),
+    deleted: S.optional(S.Boolean),
+    contentHtml: S.optional(S.String),
+    createTime: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PageBackgroundFill",
-}) as any as S.Schema<PageBackgroundFill>;
+).annotate({ identifier: "Post" }) as any as S.Schema<Post>;
 
-export type ThemeColorPairTypeEnum =
-  | "THEME_COLOR_TYPE_UNSPECIFIED"
-  | "DARK1"
-  | "LIGHT1"
-  | "DARK2"
-  | "LIGHT2"
-  | "ACCENT1"
-  | "ACCENT2"
-  | "ACCENT3"
-  | "ACCENT4"
-  | "ACCENT5"
-  | "ACCENT6"
-  | "HYPERLINK"
-  | "FOLLOWED_HYPERLINK"
-  | "TEXT1"
-  | "BACKGROUND1"
-  | "TEXT2"
-  | "BACKGROUND2";
-export const ThemeColorPairTypeEnum = S.String;
+export type CommentThreadStatusEnum = "STATUS_UNSPECIFIED" | "OPEN" | "RESOLVED";
+export const CommentThreadStatusEnum = S.String;
 
-/** A pair mapping a theme color type to the concrete color it represents. */
-export interface ThemeColorPair {
-  /** The type of the theme color. */
-  type?: ThemeColorPairTypeEnum | (string & {});
-  /** The concrete color corresponding to the theme color type above. */
-  color?: RgbColor;
+export type PostList = Array<Post>;
+export const PostList = /*@__PURE__*/ S.Array(Post) as any as S.Schema<PostList>;
+
+/** Represents a single comment thread inside a presentation. [Developer Preview](https://developers.google.com/workspace/preview). */
+export interface CommentThread {
+  /** The unique ID of the comment thread. */
+  commentId?: string;
+  /** The ID of the CommentAnchor in the presentation that this thread is tied to. */
+  anchorId?: string;
+  /** The first post in the thread. */
+  headPost?: Post;
+  /** The quoted text from the page element when the comment was created, formatted as plain-text. */
+  plainTextQuote?: string;
+  /** Whether the thread is open or resolved. */
+  status?: CommentThreadStatusEnum | (string & {});
+  /** Replies to the head post. */
+  replies?: PostList;
 }
-export const ThemeColorPair = /*@__PURE__*/ S.suspend(() =>
+export const CommentThread = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    type: S.optional(ThemeColorPairTypeEnum),
-    color: S.optional(RgbColor),
+    commentId: S.optional(S.String),
+    anchorId: S.optional(S.String),
+    headPost: S.optional(Post),
+    plainTextQuote: S.optional(S.String),
+    status: S.optional(CommentThreadStatusEnum),
+    replies: S.optional(PostList),
   }),
-).annotate({ identifier: "ThemeColorPair" }) as any as S.Schema<ThemeColorPair>;
+).annotate({ identifier: "CommentThread" }) as any as S.Schema<CommentThread>;
 
-export type ThemeColorPairList = Array<ThemeColorPair>;
-export const ThemeColorPairList = /*@__PURE__*/ S.Array(
-  ThemeColorPair,
-) as any as S.Schema<ThemeColorPairList>;
+export type CommentThreadList = Array<CommentThread>;
+export const CommentThreadList = /*@__PURE__*/ S.Array(
+  CommentThread,
+) as any as S.Schema<CommentThreadList>;
 
-/** The palette of predefined colors for a page. */
-export interface ColorScheme {
-  /** The ThemeColorType and corresponding concrete color pairs. */
-  colors?: ThemeColorPairList;
+/** Properties of each column in a table. */
+export interface TableColumnProperties {
+  /** Width of a column. */
+  columnWidth?: Dimension;
 }
-export const ColorScheme = /*@__PURE__*/ S.suspend(() =>
+export const TableColumnProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    colors: S.optional(ThemeColorPairList),
+    columnWidth: S.optional(Dimension),
   }),
-).annotate({ identifier: "ColorScheme" }) as any as S.Schema<ColorScheme>;
+).annotate({ identifier: "TableColumnProperties" }) as any as S.Schema<TableColumnProperties>;
 
-/** The properties of the Page. The page will inherit properties from the parent page. Depending on the page type the hierarchy is defined in either SlideProperties or LayoutProperties. */
-export interface PageProperties {
-  /** The background fill of the page. If unset, the background fill is inherited from a parent page if it exists. If the page has no parent, then the background fill defaults to the corresponding fill in the Slides editor. */
-  pageBackgroundFill?: PageBackgroundFill;
-  /** The color scheme of the page. If unset, the color scheme is inherited from a parent page. If the page has no parent, the color scheme uses a default Slides color scheme, matching the defaults in the Slides editor. Only the concrete colors of the first 12 ThemeColorTypes are editable. In addition, only the color scheme on `Master` pages can be updated. To update the field, a color scheme containing mappings from all the first 12 ThemeColorTypes to their concrete colors must be provided. Colors for the remaining ThemeColorTypes will be ignored. */
-  colorScheme?: ColorScheme;
-}
-export const PageProperties = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    pageBackgroundFill: S.optional(PageBackgroundFill),
-    colorScheme: S.optional(ColorScheme),
-  }),
-).annotate({ identifier: "PageProperties" }) as any as S.Schema<PageProperties>;
-
-export type VideoSourceEnum = "SOURCE_UNSPECIFIED" | "YOUTUBE" | "DRIVE";
-export const VideoSourceEnum = S.String;
-
-/** A PageElement kind representing a video. */
-export interface Video {
-  /** An URL to a video. The URL is valid as long as the source video exists and sharing settings do not change. */
-  url?: string;
-  /** The video source. */
-  source?: VideoSourceEnum | (string & {});
-  /** The properties of the video. */
-  videoProperties?: VideoProperties;
-  /** The video source's unique identifier for this video. */
-  id?: string;
-}
-export const Video = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    url: S.optional(S.String),
-    source: S.optional(VideoSourceEnum),
-    videoProperties: S.optional(VideoProperties),
-    id: S.optional(S.String),
-  }),
-).annotate({ identifier: "Video" }) as any as S.Schema<Video>;
-
-/** A PageElement kind representing a joined collection of PageElements. */
-export interface Group {
-  /** The collection of elements in the group. The minimum size of a group is 2. */
-  children?: PageElementList;
-}
-export const Group = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    children: S.optional(S.suspend(() => PageElementList)),
-  }),
-).annotate({ identifier: "Group" }) as any as S.Schema<Group>;
-
-/** A PageElement kind representing an image. */
-export interface Image {
-  /** The source URL is the URL used to insert the image. The source URL can be empty. */
-  sourceUrl?: string;
-  /** An URL to an image with a default lifetime of 30 minutes. This URL is tagged with the account of the requester. Anyone with the URL effectively accesses the image as the original requester. Access to the image may be lost if the presentation's sharing settings change. */
-  contentUrl?: string;
-  /** Placeholders are page elements that inherit from corresponding placeholders on layouts and masters. If set, the image is a placeholder image and any inherited properties can be resolved by looking at the parent placeholder identified by the Placeholder.parent_object_id field. */
-  placeholder?: Placeholder;
-  /** The properties of the image. */
-  imageProperties?: ImageProperties;
-}
-export const Image = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    sourceUrl: S.optional(S.String),
-    contentUrl: S.optional(S.String),
-    placeholder: S.optional(Placeholder),
-    imageProperties: S.optional(ImageProperties),
-  }),
-).annotate({ identifier: "Image" }) as any as S.Schema<Image>;
-
-export type LineLineTypeEnum =
-  | "TYPE_UNSPECIFIED"
-  | "STRAIGHT_CONNECTOR_1"
-  | "BENT_CONNECTOR_2"
-  | "BENT_CONNECTOR_3"
-  | "BENT_CONNECTOR_4"
-  | "BENT_CONNECTOR_5"
-  | "CURVED_CONNECTOR_2"
-  | "CURVED_CONNECTOR_3"
-  | "CURVED_CONNECTOR_4"
-  | "CURVED_CONNECTOR_5"
-  | "STRAIGHT_LINE";
-export const LineLineTypeEnum = S.String;
-
-export type LineLineCategoryEnum = "LINE_CATEGORY_UNSPECIFIED" | "STRAIGHT" | "BENT" | "CURVED";
-export const LineLineCategoryEnum = S.String;
-
-/** A PageElement kind representing a non-connector line, straight connector, curved connector, or bent connector. */
-export interface Line {
-  /** The type of the line. */
-  lineType?: LineLineTypeEnum | (string & {});
-  /** The properties of the line. */
-  lineProperties?: LineProperties;
-  /** The category of the line. It matches the `category` specified in CreateLineRequest, and can be updated with UpdateLineCategoryRequest. */
-  lineCategory?: LineLineCategoryEnum | (string & {});
-}
-export const Line = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    lineType: S.optional(LineLineTypeEnum),
-    lineProperties: S.optional(LineProperties),
-    lineCategory: S.optional(LineLineCategoryEnum),
-  }),
-).annotate({ identifier: "Line" }) as any as S.Schema<Line>;
-
-/** The properties of the SheetsChart. */
-export interface SheetsChartProperties {
-  /** The properties of the embedded chart image. */
-  chartImageProperties?: ImageProperties;
-}
-export const SheetsChartProperties = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    chartImageProperties: S.optional(ImageProperties),
-  }),
-).annotate({
-  identifier: "SheetsChartProperties",
-}) as any as S.Schema<SheetsChartProperties>;
-
-/** A PageElement kind representing a linked chart embedded from Google Sheets. */
-export interface SheetsChart {
-  /** The ID of the specific chart in the Google Sheets spreadsheet that is embedded. */
-  chartId?: number;
-  /** The URL of an image of the embedded chart, with a default lifetime of 30 minutes. This URL is tagged with the account of the requester. Anyone with the URL effectively accesses the image as the original requester. Access to the image may be lost if the presentation's sharing settings change. */
-  contentUrl?: string;
-  /** The ID of the Google Sheets spreadsheet that contains the source chart. */
-  spreadsheetId?: string;
-  /** The properties of the Sheets chart. */
-  sheetsChartProperties?: SheetsChartProperties;
-}
-export const SheetsChart = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    chartId: S.optional(S.Number),
-    contentUrl: S.optional(S.String),
-    spreadsheetId: S.optional(S.String),
-    sheetsChartProperties: S.optional(SheetsChartProperties),
-  }),
-).annotate({ identifier: "SheetsChart" }) as any as S.Schema<SheetsChart>;
+export type TableColumnPropertiesList = Array<TableColumnProperties>;
+export const TableColumnPropertiesList = /*@__PURE__*/ S.Array(
+  TableColumnProperties,
+) as any as S.Schema<TableColumnPropertiesList>;
 
 /** The properties of each border cell. */
 export interface TableBorderCell {
@@ -2166,9 +1073,7 @@ export const TableBorderCell = /*@__PURE__*/ S.suspend(() =>
     location: S.optional(TableCellLocation),
     tableBorderProperties: S.optional(TableBorderProperties),
   }),
-).annotate({
-  identifier: "TableBorderCell",
-}) as any as S.Schema<TableBorderCell>;
+).annotate({ identifier: "TableBorderCell" }) as any as S.Schema<TableBorderCell>;
 
 export type TableBorderCellList = Array<TableBorderCell>;
 export const TableBorderCellList = /*@__PURE__*/ S.Array(
@@ -2191,10 +1096,25 @@ export const TableBorderRowList = /*@__PURE__*/ S.Array(
   TableBorderRow,
 ) as any as S.Schema<TableBorderRowList>;
 
-export type TableColumnPropertiesList = Array<TableColumnProperties>;
-export const TableColumnPropertiesList = /*@__PURE__*/ S.Array(
-  TableColumnProperties,
-) as any as S.Schema<TableColumnPropertiesList>;
+export type AutoTextTypeEnum = "TYPE_UNSPECIFIED" | "SLIDE_NUMBER";
+export const AutoTextTypeEnum = S.String;
+
+/** A TextElement kind that represents auto text. */
+export interface AutoText {
+  /** The type of this auto text. */
+  type?: AutoTextTypeEnum | (string & {});
+  /** The styling applied to this auto text. */
+  style?: TextStyle;
+  /** The rendered content of this auto text, if available. */
+  content?: string;
+}
+export const AutoText = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: S.optional(AutoTextTypeEnum),
+    style: S.optional(TextStyle),
+    content: S.optional(S.String),
+  }),
+).annotate({ identifier: "AutoText" }) as any as S.Schema<AutoText>;
 
 /** A TextElement kind that represents a run of text that all has the same styling. */
 export interface TextRun {
@@ -2210,82 +1130,60 @@ export const TextRun = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "TextRun" }) as any as S.Schema<TextRun>;
 
-export type AutoTextTypeEnum = "TYPE_UNSPECIFIED" | "SLIDE_NUMBER";
-export const AutoTextTypeEnum = S.String;
-
-/** A TextElement kind that represents auto text. */
-export interface AutoText {
-  /** The rendered content of this auto text, if available. */
-  content?: string;
-  /** The type of this auto text. */
-  type?: AutoTextTypeEnum | (string & {});
-  /** The styling applied to this auto text. */
-  style?: TextStyle;
-}
-export const AutoText = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    content: S.optional(S.String),
-    type: S.optional(AutoTextTypeEnum),
-    style: S.optional(TextStyle),
-  }),
-).annotate({ identifier: "AutoText" }) as any as S.Schema<AutoText>;
-
 /** Describes the bullet of a paragraph. */
 export interface Bullet {
+  /** The paragraph specific text style applied to this bullet. */
+  bulletStyle?: TextStyle;
   /** The ID of the list this paragraph belongs to. */
   listId?: string;
   /** The nesting level of this paragraph in the list. */
   nestingLevel?: number;
   /** The rendered bullet glyph for this paragraph. */
   glyph?: string;
-  /** The paragraph specific text style applied to this bullet. */
-  bulletStyle?: TextStyle;
 }
 export const Bullet = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    bulletStyle: S.optional(TextStyle),
     listId: S.optional(S.String),
     nestingLevel: S.optional(S.Number),
     glyph: S.optional(S.String),
-    bulletStyle: S.optional(TextStyle),
   }),
 ).annotate({ identifier: "Bullet" }) as any as S.Schema<Bullet>;
 
 /** A TextElement kind that represents the beginning of a new paragraph. */
 export interface ParagraphMarker {
-  /** The bullet for this paragraph. If not present, the paragraph does not belong to a list. */
-  bullet?: Bullet;
   /** The paragraph's style */
   style?: ParagraphStyle;
+  /** The bullet for this paragraph. If not present, the paragraph does not belong to a list. */
+  bullet?: Bullet;
 }
 export const ParagraphMarker = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    bullet: S.optional(Bullet),
     style: S.optional(ParagraphStyle),
+    bullet: S.optional(Bullet),
   }),
-).annotate({
-  identifier: "ParagraphMarker",
-}) as any as S.Schema<ParagraphMarker>;
+).annotate({ identifier: "ParagraphMarker" }) as any as S.Schema<ParagraphMarker>;
 
 /** A TextElement describes the content of a range of indices in the text content of a Shape or TableCell. */
 export interface TextElement {
-  /** A TextElement representing a run of text where all of the characters in the run have the same TextStyle. The `start_index` and `end_index` of TextRuns will always be fully contained in the index range of a single `paragraph_marker` TextElement. In other words, a TextRun will never span multiple paragraphs. */
-  textRun?: TextRun;
   /** A TextElement representing a spot in the text that is dynamically replaced with content that can change over time. */
   autoText?: AutoText;
   /** The zero-based start index of this text element, in Unicode code units. */
   startIndex?: number;
-  /** A marker representing the beginning of a new paragraph. The `start_index` and `end_index` of this TextElement represent the range of the paragraph. Other TextElements with an index range contained inside this paragraph's range are considered to be part of this paragraph. The range of indices of two separate paragraphs will never overlap. */
-  paragraphMarker?: ParagraphMarker;
   /** The zero-based end index of this text element, exclusive, in Unicode code units. */
   endIndex?: number;
+  /** A TextElement representing a run of text where all of the characters in the run have the same TextStyle. The `start_index` and `end_index` of TextRuns will always be fully contained in the index range of a single `paragraph_marker` TextElement. In other words, a TextRun will never span multiple paragraphs. */
+  textRun?: TextRun;
+  /** A marker representing the beginning of a new paragraph. The `start_index` and `end_index` of this TextElement represent the range of the paragraph. Other TextElements with an index range contained inside this paragraph's range are considered to be part of this paragraph. The range of indices of two separate paragraphs will never overlap. */
+  paragraphMarker?: ParagraphMarker;
 }
 export const TextElement = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    textRun: S.optional(TextRun),
     autoText: S.optional(AutoText),
     startIndex: S.optional(S.Number),
-    paragraphMarker: S.optional(ParagraphMarker),
     endIndex: S.optional(S.Number),
+    textRun: S.optional(TextRun),
+    paragraphMarker: S.optional(ParagraphMarker),
   }),
 ).annotate({ identifier: "TextElement" }) as any as S.Schema<TextElement>;
 
@@ -2342,46 +1240,96 @@ export const TextContent = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "TextContent" }) as any as S.Schema<TextContent>;
 
+export type TableCellPropertiesContentAlignmentEnum =
+  | "CONTENT_ALIGNMENT_UNSPECIFIED"
+  | "CONTENT_ALIGNMENT_UNSUPPORTED"
+  | "TOP"
+  | "MIDDLE"
+  | "BOTTOM";
+export const TableCellPropertiesContentAlignmentEnum = S.String;
+
+export type TableCellBackgroundFillPropertyStateEnum = "RENDERED" | "NOT_RENDERED" | "INHERIT";
+export const TableCellBackgroundFillPropertyStateEnum = S.String;
+
+/** The table cell background fill. */
+export interface TableCellBackgroundFill {
+  /** The background fill property state. Updating the fill on a table cell will implicitly update this field to `RENDERED`, unless another value is specified in the same request. To have no fill on a table cell, set this field to `NOT_RENDERED`. In this case, any other fill fields set in the same request will be ignored. */
+  propertyState?: TableCellBackgroundFillPropertyStateEnum | (string & {});
+  /** Solid color fill. */
+  solidFill?: SolidFill;
+}
+export const TableCellBackgroundFill = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    propertyState: S.optional(TableCellBackgroundFillPropertyStateEnum),
+    solidFill: S.optional(SolidFill),
+  }),
+).annotate({ identifier: "TableCellBackgroundFill" }) as any as S.Schema<TableCellBackgroundFill>;
+
+/** The properties of the TableCell. */
+export interface TableCellProperties {
+  /** The alignment of the content in the table cell. The default alignment matches the alignment for newly created table cells in the Slides editor. */
+  contentAlignment?: TableCellPropertiesContentAlignmentEnum | (string & {});
+  /** The background fill of the table cell. The default fill matches the fill for newly created table cells in the Slides editor. */
+  tableCellBackgroundFill?: TableCellBackgroundFill;
+}
+export const TableCellProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    contentAlignment: S.optional(TableCellPropertiesContentAlignmentEnum),
+    tableCellBackgroundFill: S.optional(TableCellBackgroundFill),
+  }),
+).annotate({ identifier: "TableCellProperties" }) as any as S.Schema<TableCellProperties>;
+
 /** Properties and contents of each table cell. */
 export interface TableCell {
   /** Column span of the cell. */
   columnSpan?: number;
-  /** The properties of the table cell. */
-  tableCellProperties?: TableCellProperties;
-  /** The location of the cell within the table. */
-  location?: TableCellLocation;
   /** The text content of the cell. */
   text?: TextContent;
   /** Row span of the cell. */
   rowSpan?: number;
+  /** The location of the cell within the table. */
+  location?: TableCellLocation;
+  /** The properties of the table cell. */
+  tableCellProperties?: TableCellProperties;
 }
 export const TableCell = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     columnSpan: S.optional(S.Number),
-    tableCellProperties: S.optional(TableCellProperties),
-    location: S.optional(TableCellLocation),
     text: S.optional(TextContent),
     rowSpan: S.optional(S.Number),
+    location: S.optional(TableCellLocation),
+    tableCellProperties: S.optional(TableCellProperties),
   }),
 ).annotate({ identifier: "TableCell" }) as any as S.Schema<TableCell>;
 
 export type TableCellList = Array<TableCell>;
 export const TableCellList = /*@__PURE__*/ S.Array(TableCell) as any as S.Schema<TableCellList>;
 
+/** Properties of each row in a table. */
+export interface TableRowProperties {
+  /** Minimum height of the row. The row will be rendered in the Slides editor at a height equal to or greater than this value in order to show all the text in the row's cell(s). */
+  minRowHeight?: Dimension;
+}
+export const TableRowProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    minRowHeight: S.optional(Dimension),
+  }),
+).annotate({ identifier: "TableRowProperties" }) as any as S.Schema<TableRowProperties>;
+
 /** Properties and contents of each row in a table. */
 export interface TableRow {
+  /** Properties and contents of each cell. Cells that span multiple columns are represented only once with a column_span greater than 1. As a result, the length of this collection does not always match the number of columns of the entire table. */
+  tableCells?: TableCellList;
   /** Height of a row. */
   rowHeight?: Dimension;
   /** Properties of the row. */
   tableRowProperties?: TableRowProperties;
-  /** Properties and contents of each cell. Cells that span multiple columns are represented only once with a column_span greater than 1. As a result, the length of this collection does not always match the number of columns of the entire table. */
-  tableCells?: TableCellList;
 }
 export const TableRow = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    tableCells: S.optional(TableCellList),
     rowHeight: S.optional(Dimension),
     tableRowProperties: S.optional(TableRowProperties),
-    tableCells: S.optional(TableCellList),
   }),
 ).annotate({ identifier: "TableRow" }) as any as S.Schema<TableRow>;
 
@@ -2392,38 +1340,234 @@ export const TableRowList = /*@__PURE__*/ S.Array(TableRow) as any as S.Schema<T
 export interface Table {
   /** Number of columns in the table. */
   columns?: number;
-  /** Number of rows in the table. */
-  rows?: number;
-  /** Properties of horizontal cell borders. A table's horizontal cell borders are represented as a grid. The grid has one more row than the number of rows in the table and the same number of columns as the table. For example, if the table is 3 x 3, its horizontal borders will be represented as a grid with 4 rows and 3 columns. */
-  horizontalBorderRows?: TableBorderRowList;
   /** Properties of each column. */
   tableColumns?: TableColumnPropertiesList;
-  /** Properties and contents of each row. Cells that span multiple rows are contained in only one of these rows and have a row_span greater than 1. */
-  tableRows?: TableRowList;
+  /** Number of rows in the table. */
+  rows?: number;
   /** Properties of vertical cell borders. A table's vertical cell borders are represented as a grid. The grid has the same number of rows as the table and one more column than the number of columns in the table. For example, if the table is 3 x 3, its vertical borders will be represented as a grid with 3 rows and 4 columns. */
   verticalBorderRows?: TableBorderRowList;
+  /** Properties and contents of each row. Cells that span multiple rows are contained in only one of these rows and have a row_span greater than 1. */
+  tableRows?: TableRowList;
+  /** Properties of horizontal cell borders. A table's horizontal cell borders are represented as a grid. The grid has one more row than the number of rows in the table and the same number of columns as the table. For example, if the table is 3 x 3, its horizontal borders will be represented as a grid with 4 rows and 3 columns. */
+  horizontalBorderRows?: TableBorderRowList;
 }
 export const Table = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     columns: S.optional(S.Number),
-    rows: S.optional(S.Number),
-    horizontalBorderRows: S.optional(TableBorderRowList),
     tableColumns: S.optional(TableColumnPropertiesList),
-    tableRows: S.optional(TableRowList),
+    rows: S.optional(S.Number),
     verticalBorderRows: S.optional(TableBorderRowList),
+    tableRows: S.optional(TableRowList),
+    horizontalBorderRows: S.optional(TableBorderRowList),
   }),
 ).annotate({ identifier: "Table" }) as any as S.Schema<Table>;
 
-/** A PageElement kind representing word art. */
-export interface WordArt {
-  /** The text rendered as word art. */
-  renderedText?: string;
+export type ShapeBackgroundFillPropertyStateEnum = "RENDERED" | "NOT_RENDERED" | "INHERIT";
+export const ShapeBackgroundFillPropertyStateEnum = S.String;
+
+/** The shape background fill. */
+export interface ShapeBackgroundFill {
+  /** The background fill property state. Updating the fill on a shape will implicitly update this field to `RENDERED`, unless another value is specified in the same request. To have no fill on a shape, set this field to `NOT_RENDERED`. In this case, any other fill fields set in the same request will be ignored. */
+  propertyState?: ShapeBackgroundFillPropertyStateEnum | (string & {});
+  /** Solid color fill. */
+  solidFill?: SolidFill;
 }
-export const WordArt = /*@__PURE__*/ S.suspend(() =>
+export const ShapeBackgroundFill = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    renderedText: S.optional(S.String),
+    propertyState: S.optional(ShapeBackgroundFillPropertyStateEnum),
+    solidFill: S.optional(SolidFill),
   }),
-).annotate({ identifier: "WordArt" }) as any as S.Schema<WordArt>;
+).annotate({ identifier: "ShapeBackgroundFill" }) as any as S.Schema<ShapeBackgroundFill>;
+
+export type AutofitAutofitTypeEnum =
+  | "AUTOFIT_TYPE_UNSPECIFIED"
+  | "NONE"
+  | "TEXT_AUTOFIT"
+  | "SHAPE_AUTOFIT";
+export const AutofitAutofitTypeEnum = S.String;
+
+/** The autofit properties of a Shape. This property is only set for shapes that allow text. */
+export interface Autofit {
+  /** The font scale applied to the shape. For shapes with autofit_type NONE or SHAPE_AUTOFIT, this value is the default value of 1. For TEXT_AUTOFIT, this value multiplied by the font_size gives the font size that's rendered in the editor. This property is read-only. */
+  fontScale?: number;
+  /** The autofit type of the shape. If the autofit type is AUTOFIT_TYPE_UNSPECIFIED, the autofit type is inherited from a parent placeholder if it exists. The field is automatically set to NONE if a request is made that might affect text fitting within its bounding text box. In this case, the font_scale is applied to the font_size and the line_spacing_reduction is applied to the line_spacing. Both properties are also reset to default values. */
+  autofitType?: AutofitAutofitTypeEnum | (string & {});
+  /** The line spacing reduction applied to the shape. For shapes with autofit_type NONE or SHAPE_AUTOFIT, this value is the default value of 0. For TEXT_AUTOFIT, this value subtracted from the line_spacing gives the line spacing that's rendered in the editor. This property is read-only. */
+  lineSpacingReduction?: number;
+}
+export const Autofit = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    fontScale: S.optional(S.Number),
+    autofitType: S.optional(AutofitAutofitTypeEnum),
+    lineSpacingReduction: S.optional(S.Number),
+  }),
+).annotate({ identifier: "Autofit" }) as any as S.Schema<Autofit>;
+
+export type ShapePropertiesContentAlignmentEnum =
+  | "CONTENT_ALIGNMENT_UNSPECIFIED"
+  | "CONTENT_ALIGNMENT_UNSUPPORTED"
+  | "TOP"
+  | "MIDDLE"
+  | "BOTTOM";
+export const ShapePropertiesContentAlignmentEnum = S.String;
+
+/** The fill of the outline. */
+export interface OutlineFill {
+  /** Solid color fill. */
+  solidFill?: SolidFill;
+}
+export const OutlineFill = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    solidFill: S.optional(SolidFill),
+  }),
+).annotate({ identifier: "OutlineFill" }) as any as S.Schema<OutlineFill>;
+
+export type OutlineDashStyleEnum =
+  | "DASH_STYLE_UNSPECIFIED"
+  | "SOLID"
+  | "DOT"
+  | "DASH"
+  | "DASH_DOT"
+  | "LONG_DASH"
+  | "LONG_DASH_DOT";
+export const OutlineDashStyleEnum = S.String;
+
+export type OutlinePropertyStateEnum = "RENDERED" | "NOT_RENDERED" | "INHERIT";
+export const OutlinePropertyStateEnum = S.String;
+
+/** The outline of a PageElement. If these fields are unset, they may be inherited from a parent placeholder if it exists. If there is no parent, the fields will default to the value used for new page elements created in the Slides editor, which may depend on the page element kind. */
+export interface Outline {
+  /** The fill of the outline. */
+  outlineFill?: OutlineFill;
+  /** The dash style of the outline. */
+  dashStyle?: OutlineDashStyleEnum | (string & {});
+  /** The outline property state. Updating the outline on a page element will implicitly update this field to `RENDERED`, unless another value is specified in the same request. To have no outline on a page element, set this field to `NOT_RENDERED`. In this case, any other outline fields set in the same request will be ignored. */
+  propertyState?: OutlinePropertyStateEnum | (string & {});
+  /** The thickness of the outline. */
+  weight?: Dimension;
+}
+export const Outline = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    outlineFill: S.optional(OutlineFill),
+    dashStyle: S.optional(OutlineDashStyleEnum),
+    propertyState: S.optional(OutlinePropertyStateEnum),
+    weight: S.optional(Dimension),
+  }),
+).annotate({ identifier: "Outline" }) as any as S.Schema<Outline>;
+
+export type ShadowTypeEnum = "SHADOW_TYPE_UNSPECIFIED" | "OUTER";
+export const ShadowTypeEnum = S.String;
+
+export type ShadowAlignmentEnum =
+  | "RECTANGLE_POSITION_UNSPECIFIED"
+  | "TOP_LEFT"
+  | "TOP_CENTER"
+  | "TOP_RIGHT"
+  | "LEFT_CENTER"
+  | "CENTER"
+  | "RIGHT_CENTER"
+  | "BOTTOM_LEFT"
+  | "BOTTOM_CENTER"
+  | "BOTTOM_RIGHT";
+export const ShadowAlignmentEnum = S.String;
+
+export type ShadowPropertyStateEnum = "RENDERED" | "NOT_RENDERED" | "INHERIT";
+export const ShadowPropertyStateEnum = S.String;
+
+/** The shadow properties of a page element. If these fields are unset, they may be inherited from a parent placeholder if it exists. If there is no parent, the fields will default to the value used for new page elements created in the Slides editor, which may depend on the page element kind. */
+export interface Shadow {
+  /** The alpha of the shadow's color, from 0.0 to 1.0. */
+  alpha?: number;
+  /** The radius of the shadow blur. The larger the radius, the more diffuse the shadow becomes. */
+  blurRadius?: Dimension;
+  /** The type of the shadow. This property is read-only. */
+  type?: ShadowTypeEnum | (string & {});
+  /** Transform that encodes the translate, scale, and skew of the shadow, relative to the alignment position. */
+  transform?: AffineTransform;
+  /** The shadow color value. */
+  color?: OpaqueColor;
+  /** The alignment point of the shadow, that sets the origin for translate, scale and skew of the shadow. This property is read-only. */
+  alignment?: ShadowAlignmentEnum | (string & {});
+  /** The shadow property state. Updating the shadow on a page element will implicitly update this field to `RENDERED`, unless another value is specified in the same request. To have no shadow on a page element, set this field to `NOT_RENDERED`. In this case, any other shadow fields set in the same request will be ignored. */
+  propertyState?: ShadowPropertyStateEnum | (string & {});
+  /** Whether the shadow should rotate with the shape. This property is read-only. */
+  rotateWithShape?: boolean;
+}
+export const Shadow = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    alpha: S.optional(S.Number),
+    blurRadius: S.optional(Dimension),
+    type: S.optional(ShadowTypeEnum),
+    transform: S.optional(AffineTransform),
+    color: S.optional(OpaqueColor),
+    alignment: S.optional(ShadowAlignmentEnum),
+    propertyState: S.optional(ShadowPropertyStateEnum),
+    rotateWithShape: S.optional(S.Boolean),
+  }),
+).annotate({ identifier: "Shadow" }) as any as S.Schema<Shadow>;
+
+/** The properties of a Shape. If the shape is a placeholder shape as determined by the placeholder field, then these properties may be inherited from a parent placeholder shape. Determining the rendered value of the property depends on the corresponding property_state field value. Any text autofit settings on the shape are automatically deactivated by requests that can impact how text fits in the shape. */
+export interface ShapeProperties {
+  /** The background fill of the shape. If unset, the background fill is inherited from a parent placeholder if it exists. If the shape has no parent, then the default background fill depends on the shape type, matching the defaults for new shapes created in the Slides editor. */
+  shapeBackgroundFill?: ShapeBackgroundFill;
+  /** The autofit properties of the shape. This property is only set for shapes that allow text. */
+  autofit?: Autofit;
+  /** The alignment of the content in the shape. If unspecified, the alignment is inherited from a parent placeholder if it exists. If the shape has no parent, the default alignment matches the alignment for new shapes created in the Slides editor. */
+  contentAlignment?: ShapePropertiesContentAlignmentEnum | (string & {});
+  /** The outline of the shape. If unset, the outline is inherited from a parent placeholder if it exists. If the shape has no parent, then the default outline depends on the shape type, matching the defaults for new shapes created in the Slides editor. */
+  outline?: Outline;
+  /** The shadow properties of the shape. If unset, the shadow is inherited from a parent placeholder if it exists. If the shape has no parent, then the default shadow matches the defaults for new shapes created in the Slides editor. This property is read-only. */
+  shadow?: Shadow;
+  /** The hyperlink destination of the shape. If unset, there is no link. Links are not inherited from parent placeholders. */
+  link?: Link;
+}
+export const ShapeProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    shapeBackgroundFill: S.optional(ShapeBackgroundFill),
+    autofit: S.optional(Autofit),
+    contentAlignment: S.optional(ShapePropertiesContentAlignmentEnum),
+    outline: S.optional(Outline),
+    shadow: S.optional(Shadow),
+    link: S.optional(Link),
+  }),
+).annotate({ identifier: "ShapeProperties" }) as any as S.Schema<ShapeProperties>;
+
+export type PlaceholderTypeEnum =
+  | "NONE"
+  | "BODY"
+  | "CHART"
+  | "CLIP_ART"
+  | "CENTERED_TITLE"
+  | "DIAGRAM"
+  | "DATE_AND_TIME"
+  | "FOOTER"
+  | "HEADER"
+  | "MEDIA"
+  | "OBJECT"
+  | "PICTURE"
+  | "SLIDE_NUMBER"
+  | "SUBTITLE"
+  | "TABLE"
+  | "TITLE"
+  | "SLIDE_IMAGE";
+export const PlaceholderTypeEnum = S.String;
+
+/** The placeholder information that uniquely identifies a placeholder shape. */
+export interface Placeholder {
+  /** The type of the placeholder. */
+  type?: PlaceholderTypeEnum | (string & {});
+  /** The index of the placeholder. If the same placeholder types are present in the same page, they would have different index values. */
+  index?: number;
+  /** The object ID of this shape's parent placeholder. If unset, the parent placeholder shape does not exist, so the shape does not inherit properties from any other shape. */
+  parentObjectId?: string;
+}
+export const Placeholder = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: S.optional(PlaceholderTypeEnum),
+    index: S.optional(S.Number),
+    parentObjectId: S.optional(S.String),
+  }),
+).annotate({ identifier: "Placeholder" }) as any as S.Schema<Placeholder>;
 
 export type ShapeShapeTypeEnum =
   | "TYPE_UNSPECIFIED"
@@ -2573,35 +1717,35 @@ export const ShapeShapeTypeEnum = S.String;
 
 /** A PageElement kind representing a generic shape that doesn't have a more specific classification. For more information, see [Size and position page elements](https://developers.google.com/workspace/slides/api/guides/transform). */
 export interface Shape {
-  /** Placeholders are page elements that inherit from corresponding placeholders on layouts and masters. If set, the shape is a placeholder shape and any inherited properties can be resolved by looking at the parent placeholder identified by the Placeholder.parent_object_id field. */
-  placeholder?: Placeholder;
   /** The text content of the shape. */
   text?: TextContent;
-  /** The type of the shape. */
-  shapeType?: ShapeShapeTypeEnum | (string & {});
   /** The properties of the shape. */
   shapeProperties?: ShapeProperties;
+  /** Placeholders are page elements that inherit from corresponding placeholders on layouts and masters. If set, the shape is a placeholder shape and any inherited properties can be resolved by looking at the parent placeholder identified by the Placeholder.parent_object_id field. */
+  placeholder?: Placeholder;
+  /** The type of the shape. */
+  shapeType?: ShapeShapeTypeEnum | (string & {});
 }
 export const Shape = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    placeholder: S.optional(Placeholder),
     text: S.optional(TextContent),
-    shapeType: S.optional(ShapeShapeTypeEnum),
     shapeProperties: S.optional(ShapeProperties),
+    placeholder: S.optional(Placeholder),
+    shapeType: S.optional(ShapeShapeTypeEnum),
   }),
 ).annotate({ identifier: "Shape" }) as any as S.Schema<Shape>;
 
 /** The properties of the SpeakerSpotlight. */
 export interface SpeakerSpotlightProperties {
-  /** The shadow of the Speaker Spotlight. If not set, it has no shadow. */
-  shadow?: Shadow;
   /** The outline of the Speaker Spotlight. If not set, it has no outline. */
   outline?: Outline;
+  /** The shadow of the Speaker Spotlight. If not set, it has no shadow. */
+  shadow?: Shadow;
 }
 export const SpeakerSpotlightProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    shadow: S.optional(Shadow),
     outline: S.optional(Outline),
+    shadow: S.optional(Shadow),
   }),
 ).annotate({
   identifier: "SpeakerSpotlightProperties",
@@ -2616,57 +1760,413 @@ export const SpeakerSpotlight = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     speakerSpotlightProperties: S.optional(SpeakerSpotlightProperties),
   }),
-).annotate({
-  identifier: "SpeakerSpotlight",
-}) as any as S.Schema<SpeakerSpotlight>;
+).annotate({ identifier: "SpeakerSpotlight" }) as any as S.Schema<SpeakerSpotlight>;
+
+/** The properties of the Video. */
+export interface VideoProperties {
+  /** The outline of the video. The default outline matches the defaults for new videos created in the Slides editor. */
+  outline?: Outline;
+  /** Whether to mute the audio during video playback. Defaults to false. */
+  mute?: boolean;
+  /** Whether to enable video autoplay when the page is displayed in present mode. Defaults to false. */
+  autoPlay?: boolean;
+  /** The time at which to start playback, measured in seconds from the beginning of the video. If set, the start time should be before the end time. If you set this to a value that exceeds the video's length in seconds, the video will be played from the last second. If not set, the video will be played from the beginning. */
+  start?: number;
+  /** The time at which to end playback, measured in seconds from the beginning of the video. If set, the end time should be after the start time. If not set or if you set this to a value that exceeds the video's length, the video will be played until its end. */
+  end?: number;
+}
+export const VideoProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    outline: S.optional(Outline),
+    mute: S.optional(S.Boolean),
+    autoPlay: S.optional(S.Boolean),
+    start: S.optional(S.Number),
+    end: S.optional(S.Number),
+  }),
+).annotate({ identifier: "VideoProperties" }) as any as S.Schema<VideoProperties>;
+
+export type VideoSourceEnum = "SOURCE_UNSPECIFIED" | "YOUTUBE" | "DRIVE";
+export const VideoSourceEnum = S.String;
+
+/** A PageElement kind representing a video. */
+export interface Video {
+  /** An URL to a video. The URL is valid as long as the source video exists and sharing settings do not change. */
+  url?: string;
+  /** The properties of the video. */
+  videoProperties?: VideoProperties;
+  /** The video source. */
+  source?: VideoSourceEnum | (string & {});
+  /** The video source's unique identifier for this video. */
+  id?: string;
+}
+export const Video = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    url: S.optional(S.String),
+    videoProperties: S.optional(VideoProperties),
+    source: S.optional(VideoSourceEnum),
+    id: S.optional(S.String),
+  }),
+).annotate({ identifier: "Video" }) as any as S.Schema<Video>;
+
+/** A PageElement kind representing word art. */
+export interface WordArt {
+  /** The text rendered as word art. */
+  renderedText?: string;
+}
+export const WordArt = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    renderedText: S.optional(S.String),
+  }),
+).annotate({ identifier: "WordArt" }) as any as S.Schema<WordArt>;
+
+export type RecolorNameEnum =
+  | "NONE"
+  | "LIGHT1"
+  | "LIGHT2"
+  | "LIGHT3"
+  | "LIGHT4"
+  | "LIGHT5"
+  | "LIGHT6"
+  | "LIGHT7"
+  | "LIGHT8"
+  | "LIGHT9"
+  | "LIGHT10"
+  | "DARK1"
+  | "DARK2"
+  | "DARK3"
+  | "DARK4"
+  | "DARK5"
+  | "DARK6"
+  | "DARK7"
+  | "DARK8"
+  | "DARK9"
+  | "DARK10"
+  | "GRAYSCALE"
+  | "NEGATIVE"
+  | "SEPIA"
+  | "CUSTOM";
+export const RecolorNameEnum = S.String;
+
+/** A color and position in a gradient band. */
+export interface ColorStop {
+  /** The alpha value of this color in the gradient band. Defaults to 1.0, fully opaque. */
+  alpha?: number;
+  /** The relative position of the color stop in the gradient band measured in percentage. The value should be in the interval [0.0, 1.0]. */
+  position?: number;
+  /** The color of the gradient stop. */
+  color?: OpaqueColor;
+}
+export const ColorStop = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    alpha: S.optional(S.Number),
+    position: S.optional(S.Number),
+    color: S.optional(OpaqueColor),
+  }),
+).annotate({ identifier: "ColorStop" }) as any as S.Schema<ColorStop>;
+
+export type ColorStopList = Array<ColorStop>;
+export const ColorStopList = /*@__PURE__*/ S.Array(ColorStop) as any as S.Schema<ColorStopList>;
+
+/** A recolor effect applied on an image. */
+export interface Recolor {
+  /** The name of the recolor effect. The name is determined from the `recolor_stops` by matching the gradient against the colors in the page's current color scheme. This property is read-only. */
+  name?: RecolorNameEnum | (string & {});
+  /** The recolor effect is represented by a gradient, which is a list of color stops. The colors in the gradient will replace the corresponding colors at the same position in the color palette and apply to the image. This property is read-only. */
+  recolorStops?: ColorStopList;
+}
+export const Recolor = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.optional(RecolorNameEnum),
+    recolorStops: S.optional(ColorStopList),
+  }),
+).annotate({ identifier: "Recolor" }) as any as S.Schema<Recolor>;
+
+/** The crop properties of an object enclosed in a container. For example, an Image. The crop properties is represented by the offsets of four edges which define a crop rectangle. The offsets are measured in percentage from the corresponding edges of the object's original bounding rectangle towards inside, relative to the object's original dimensions. - If the offset is in the interval (0, 1), the corresponding edge of crop rectangle is positioned inside of the object's original bounding rectangle. - If the offset is negative or greater than 1, the corresponding edge of crop rectangle is positioned outside of the object's original bounding rectangle. - If the left edge of the crop rectangle is on the right side of its right edge, the object will be flipped horizontally. - If the top edge of the crop rectangle is below its bottom edge, the object will be flipped vertically. - If all offsets and rotation angle is 0, the object is not cropped. After cropping, the content in the crop rectangle will be stretched to fit its container. */
+export interface CropProperties {
+  /** The offset specifies the bottom edge of the crop rectangle that is located above the original bounding rectangle bottom edge, relative to the object's original height. */
+  bottomOffset?: number;
+  /** The offset specifies the left edge of the crop rectangle that is located to the right of the original bounding rectangle left edge, relative to the object's original width. */
+  leftOffset?: number;
+  /** The offset specifies the right edge of the crop rectangle that is located to the left of the original bounding rectangle right edge, relative to the object's original width. */
+  rightOffset?: number;
+  /** The rotation angle of the crop window around its center, in radians. Rotation angle is applied after the offset. */
+  angle?: number;
+  /** The offset specifies the top edge of the crop rectangle that is located below the original bounding rectangle top edge, relative to the object's original height. */
+  topOffset?: number;
+}
+export const CropProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    bottomOffset: S.optional(S.Number),
+    leftOffset: S.optional(S.Number),
+    rightOffset: S.optional(S.Number),
+    angle: S.optional(S.Number),
+    topOffset: S.optional(S.Number),
+  }),
+).annotate({ identifier: "CropProperties" }) as any as S.Schema<CropProperties>;
+
+/** The properties of the Image. */
+export interface ImageProperties {
+  /** The contrast effect of the image. The value should be in the interval [-1.0, 1.0], where 0 means no effect. This property is read-only. */
+  contrast?: number;
+  /** The transparency effect of the image. The value should be in the interval [0.0, 1.0], where 0 means no effect and 1 means completely transparent. This property is read-only. */
+  transparency?: number;
+  /** The hyperlink destination of the image. If unset, there is no link. */
+  link?: Link;
+  /** The recolor effect of the image. If not set, the image is not recolored. This property is read-only. */
+  recolor?: Recolor;
+  /** The brightness effect of the image. The value should be in the interval [-1.0, 1.0], where 0 means no effect. This property is read-only. */
+  brightness?: number;
+  /** The crop properties of the image. If not set, the image is not cropped. This property is read-only. */
+  cropProperties?: CropProperties;
+  /** The outline of the image. If not set, the image has no outline. */
+  outline?: Outline;
+  /** The shadow of the image. If not set, the image has no shadow. This property is read-only. */
+  shadow?: Shadow;
+}
+export const ImageProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    contrast: S.optional(S.Number),
+    transparency: S.optional(S.Number),
+    link: S.optional(Link),
+    recolor: S.optional(Recolor),
+    brightness: S.optional(S.Number),
+    cropProperties: S.optional(CropProperties),
+    outline: S.optional(Outline),
+    shadow: S.optional(Shadow),
+  }),
+).annotate({ identifier: "ImageProperties" }) as any as S.Schema<ImageProperties>;
+
+/** The properties of the SheetsChart. */
+export interface SheetsChartProperties {
+  /** The properties of the embedded chart image. */
+  chartImageProperties?: ImageProperties;
+}
+export const SheetsChartProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    chartImageProperties: S.optional(ImageProperties),
+  }),
+).annotate({ identifier: "SheetsChartProperties" }) as any as S.Schema<SheetsChartProperties>;
+
+/** A PageElement kind representing a linked chart embedded from Google Sheets. */
+export interface SheetsChart {
+  /** The ID of the specific chart in the Google Sheets spreadsheet that is embedded. */
+  chartId?: number;
+  /** The ID of the Google Sheets spreadsheet that contains the source chart. */
+  spreadsheetId?: string;
+  /** The properties of the Sheets chart. */
+  sheetsChartProperties?: SheetsChartProperties;
+  /** The URL of an image of the embedded chart, with a default lifetime of 30 minutes. This URL is tagged with the account of the requester. Anyone with the URL effectively accesses the image as the original requester. Access to the image may be lost if the presentation's sharing settings change. */
+  contentUrl?: string;
+}
+export const SheetsChart = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    chartId: S.optional(S.Number),
+    spreadsheetId: S.optional(S.String),
+    sheetsChartProperties: S.optional(SheetsChartProperties),
+    contentUrl: S.optional(S.String),
+  }),
+).annotate({ identifier: "SheetsChart" }) as any as S.Schema<SheetsChart>;
+
+export type LineLineTypeEnum =
+  | "TYPE_UNSPECIFIED"
+  | "STRAIGHT_CONNECTOR_1"
+  | "BENT_CONNECTOR_2"
+  | "BENT_CONNECTOR_3"
+  | "BENT_CONNECTOR_4"
+  | "BENT_CONNECTOR_5"
+  | "CURVED_CONNECTOR_2"
+  | "CURVED_CONNECTOR_3"
+  | "CURVED_CONNECTOR_4"
+  | "CURVED_CONNECTOR_5"
+  | "STRAIGHT_LINE";
+export const LineLineTypeEnum = S.String;
+
+export type LinePropertiesStartArrowEnum =
+  | "ARROW_STYLE_UNSPECIFIED"
+  | "NONE"
+  | "STEALTH_ARROW"
+  | "FILL_ARROW"
+  | "FILL_CIRCLE"
+  | "FILL_SQUARE"
+  | "FILL_DIAMOND"
+  | "OPEN_ARROW"
+  | "OPEN_CIRCLE"
+  | "OPEN_SQUARE"
+  | "OPEN_DIAMOND";
+export const LinePropertiesStartArrowEnum = S.String;
+
+/** The properties for one end of a Line connection. */
+export interface LineConnection {
+  /** The index of the connection site on the connected page element. In most cases, it corresponds to the predefined connection site index from the ECMA-376 standard. More information on those connection sites can be found in both the description of the "cxn" attribute in section 20.1.9.9 and "Annex H. Example Predefined DrawingML Shape and Text Geometries" of "Office Open XML File Formats - Fundamentals and Markup Language Reference", part 1 of [ECMA-376 5th edition](https://ecma-international.org/publications-and-standards/standards/ecma-376/). The position of each connection site can also be viewed from Slides editor. */
+  connectionSiteIndex?: number;
+  /** The object ID of the connected page element. Some page elements, such as groups, tables, and lines do not have connection sites and therefore cannot be connected to a connector line. */
+  connectedObjectId?: string;
+}
+export const LineConnection = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    connectionSiteIndex: S.optional(S.Number),
+    connectedObjectId: S.optional(S.String),
+  }),
+).annotate({ identifier: "LineConnection" }) as any as S.Schema<LineConnection>;
+
+export type LinePropertiesDashStyleEnum =
+  | "DASH_STYLE_UNSPECIFIED"
+  | "SOLID"
+  | "DOT"
+  | "DASH"
+  | "DASH_DOT"
+  | "LONG_DASH"
+  | "LONG_DASH_DOT";
+export const LinePropertiesDashStyleEnum = S.String;
+
+/** The fill of the line. */
+export type LineFill = OutlineFill;
+export const LineFill = OutlineFill;
+
+export type LinePropertiesEndArrowEnum =
+  | "ARROW_STYLE_UNSPECIFIED"
+  | "NONE"
+  | "STEALTH_ARROW"
+  | "FILL_ARROW"
+  | "FILL_CIRCLE"
+  | "FILL_SQUARE"
+  | "FILL_DIAMOND"
+  | "OPEN_ARROW"
+  | "OPEN_CIRCLE"
+  | "OPEN_SQUARE"
+  | "OPEN_DIAMOND";
+export const LinePropertiesEndArrowEnum = S.String;
+
+/** The properties of the Line. When unset, these fields default to values that match the appearance of new lines created in the Slides editor. */
+export interface LineProperties {
+  /** The hyperlink destination of the line. If unset, there is no link. */
+  link?: Link;
+  /** The style of the arrow at the beginning of the line. */
+  startArrow?: LinePropertiesStartArrowEnum | (string & {});
+  /** The connection at the beginning of the line. If unset, there is no connection. Only lines with a Type indicating it is a "connector" can have a `start_connection`. */
+  startConnection?: LineConnection;
+  /** The connection at the end of the line. If unset, there is no connection. Only lines with a Type indicating it is a "connector" can have an `end_connection`. */
+  endConnection?: LineConnection;
+  /** The dash style of the line. */
+  dashStyle?: LinePropertiesDashStyleEnum | (string & {});
+  /** The fill of the line. The default line fill matches the defaults for new lines created in the Slides editor. */
+  lineFill?: OutlineFill;
+  /** The thickness of the line. */
+  weight?: Dimension;
+  /** The style of the arrow at the end of the line. */
+  endArrow?: LinePropertiesEndArrowEnum | (string & {});
+}
+export const LineProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    link: S.optional(Link),
+    startArrow: S.optional(LinePropertiesStartArrowEnum),
+    startConnection: S.optional(LineConnection),
+    endConnection: S.optional(LineConnection),
+    dashStyle: S.optional(LinePropertiesDashStyleEnum),
+    lineFill: S.optional(OutlineFill),
+    weight: S.optional(Dimension),
+    endArrow: S.optional(LinePropertiesEndArrowEnum),
+  }),
+).annotate({ identifier: "LineProperties" }) as any as S.Schema<LineProperties>;
+
+export type LineLineCategoryEnum = "LINE_CATEGORY_UNSPECIFIED" | "STRAIGHT" | "BENT" | "CURVED";
+export const LineLineCategoryEnum = S.String;
+
+/** A PageElement kind representing a non-connector line, straight connector, curved connector, or bent connector. */
+export interface Line {
+  /** The type of the line. */
+  lineType?: LineLineTypeEnum | (string & {});
+  /** The properties of the line. */
+  lineProperties?: LineProperties;
+  /** The category of the line. It matches the `category` specified in CreateLineRequest, and can be updated with UpdateLineCategoryRequest. */
+  lineCategory?: LineLineCategoryEnum | (string & {});
+}
+export const Line = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    lineType: S.optional(LineLineTypeEnum),
+    lineProperties: S.optional(LineProperties),
+    lineCategory: S.optional(LineLineCategoryEnum),
+  }),
+).annotate({ identifier: "Line" }) as any as S.Schema<Line>;
+
+/** A PageElement kind representing a joined collection of PageElements. */
+export interface Group {
+  /** The collection of elements in the group. The minimum size of a group is 2. */
+  children?: PageElementList;
+}
+export const Group = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    children: S.optional(S.suspend(() => PageElementList)),
+  }),
+).annotate({ identifier: "Group" }) as any as S.Schema<Group>;
+
+/** A PageElement kind representing an image. */
+export interface Image {
+  /** Placeholders are page elements that inherit from corresponding placeholders on layouts and masters. If set, the image is a placeholder image and any inherited properties can be resolved by looking at the parent placeholder identified by the Placeholder.parent_object_id field. */
+  placeholder?: Placeholder;
+  /** The properties of the image. */
+  imageProperties?: ImageProperties;
+  /** The source URL is the URL used to insert the image. The source URL can be empty. */
+  sourceUrl?: string;
+  /** An URL to an image with a default lifetime of 30 minutes. This URL is tagged with the account of the requester. Anyone with the URL effectively accesses the image as the original requester. Access to the image may be lost if the presentation's sharing settings change. */
+  contentUrl?: string;
+}
+export const Image = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    placeholder: S.optional(Placeholder),
+    imageProperties: S.optional(ImageProperties),
+    sourceUrl: S.optional(S.String),
+    contentUrl: S.optional(S.String),
+  }),
+).annotate({ identifier: "Image" }) as any as S.Schema<Image>;
 
 /** A visual element rendered on a page. */
 export interface PageElement {
-  /** The size of the page element. */
-  size?: Size;
-  /** The description of the page element. Combined with title to display alt text. The field is not supported for Group elements. */
-  description?: string;
-  /** A video page element. */
-  video?: Video;
-  /** A collection of page elements joined as a single unit. */
-  elementGroup?: Group;
-  /** The transform of the page element. The visual appearance of the page element is determined by its absolute transform. To compute the absolute transform, preconcatenate a page element's transform with the transforms of all of its parent groups. If the page element is not in a group, its absolute transform is the same as the value in this field. The initial transform for the newly created Group is always the identity transform. */
-  transform?: AffineTransform;
-  /** The title of the page element. Combined with description to display alt text. The field is not supported for Group elements. */
-  title?: string;
-  /** An image page element. */
-  image?: Image;
-  /** A line page element. */
-  line?: Line;
-  /** A linked chart embedded from Google Sheets. Unlinked charts are represented as images. */
-  sheetsChart?: SheetsChart;
   /** A table page element. */
   table?: Table;
-  /** A word art page element. */
-  wordArt?: WordArt;
+  /** The object ID for this page element. Object IDs used by google.apps.slides.v1.Page and google.apps.slides.v1.PageElement share the same namespace. */
+  objectId?: string;
   /** A generic shape. */
   shape?: Shape;
   /** A Speaker Spotlight. */
   speakerSpotlight?: SpeakerSpotlight;
-  /** The object ID for this page element. Object IDs used by google.apps.slides.v1.Page and google.apps.slides.v1.PageElement share the same namespace. */
-  objectId?: string;
+  /** A video page element. */
+  video?: Video;
+  /** A word art page element. */
+  wordArt?: WordArt;
+  /** The description of the page element. Combined with title to display alt text. The field is not supported for Group elements. */
+  description?: string;
+  /** A linked chart embedded from Google Sheets. Unlinked charts are represented as images. */
+  sheetsChart?: SheetsChart;
+  /** A line page element. */
+  line?: Line;
+  /** The transform of the page element. The visual appearance of the page element is determined by its absolute transform. To compute the absolute transform, preconcatenate a page element's transform with the transforms of all of its parent groups. If the page element is not in a group, its absolute transform is the same as the value in this field. The initial transform for the newly created Group is always the identity transform. */
+  transform?: AffineTransform;
+  /** The size of the page element. */
+  size?: Size;
+  /** A collection of page elements joined as a single unit. */
+  elementGroup?: Group;
+  /** The title of the page element. Combined with description to display alt text. The field is not supported for Group elements. */
+  title?: string;
+  /** An image page element. */
+  image?: Image;
 }
 export const PageElement = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    size: S.optional(Size),
-    description: S.optional(S.String),
-    video: S.optional(Video),
-    elementGroup: S.optional(Group),
-    transform: S.optional(AffineTransform),
-    title: S.optional(S.String),
-    image: S.optional(Image),
-    line: S.optional(Line),
-    sheetsChart: S.optional(SheetsChart),
     table: S.optional(Table),
-    wordArt: S.optional(WordArt),
+    objectId: S.optional(S.String),
     shape: S.optional(Shape),
     speakerSpotlight: S.optional(SpeakerSpotlight),
-    objectId: S.optional(S.String),
+    video: S.optional(Video),
+    wordArt: S.optional(WordArt),
+    description: S.optional(S.String),
+    sheetsChart: S.optional(SheetsChart),
+    line: S.optional(Line),
+    transform: S.optional(AffineTransform),
+    size: S.optional(Size),
+    elementGroup: S.optional(Group),
+    title: S.optional(S.String),
+    image: S.optional(Image),
   }),
 ).annotate({ identifier: "PageElement" }) as any as S.Schema<PageElement>;
 
@@ -2674,6 +2174,206 @@ export type PageElementList = Array<PageElement>;
 export const PageElementList = /*@__PURE__*/ S.Array(
   PageElement,
 ) as any as S.Schema<PageElementList>;
+
+export type PagePageTypeEnum = "SLIDE" | "MASTER" | "LAYOUT" | "NOTES" | "NOTES_MASTER";
+export const PagePageTypeEnum = S.String;
+
+export type ThemeColorPairTypeEnum =
+  | "THEME_COLOR_TYPE_UNSPECIFIED"
+  | "DARK1"
+  | "LIGHT1"
+  | "DARK2"
+  | "LIGHT2"
+  | "ACCENT1"
+  | "ACCENT2"
+  | "ACCENT3"
+  | "ACCENT4"
+  | "ACCENT5"
+  | "ACCENT6"
+  | "HYPERLINK"
+  | "FOLLOWED_HYPERLINK"
+  | "TEXT1"
+  | "BACKGROUND1"
+  | "TEXT2"
+  | "BACKGROUND2";
+export const ThemeColorPairTypeEnum = S.String;
+
+/** A pair mapping a theme color type to the concrete color it represents. */
+export interface ThemeColorPair {
+  /** The type of the theme color. */
+  type?: ThemeColorPairTypeEnum | (string & {});
+  /** The concrete color corresponding to the theme color type above. */
+  color?: RgbColor;
+}
+export const ThemeColorPair = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: S.optional(ThemeColorPairTypeEnum),
+    color: S.optional(RgbColor),
+  }),
+).annotate({ identifier: "ThemeColorPair" }) as any as S.Schema<ThemeColorPair>;
+
+export type ThemeColorPairList = Array<ThemeColorPair>;
+export const ThemeColorPairList = /*@__PURE__*/ S.Array(
+  ThemeColorPair,
+) as any as S.Schema<ThemeColorPairList>;
+
+/** The palette of predefined colors for a page. */
+export interface ColorScheme {
+  /** The ThemeColorType and corresponding concrete color pairs. */
+  colors?: ThemeColorPairList;
+}
+export const ColorScheme = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    colors: S.optional(ThemeColorPairList),
+  }),
+).annotate({ identifier: "ColorScheme" }) as any as S.Schema<ColorScheme>;
+
+/** The stretched picture fill. The page or page element is filled entirely with the specified picture. The picture is stretched to fit its container. */
+export interface StretchedPictureFill {
+  /** Reading the content_url: An URL to a picture with a default lifetime of 30 minutes. This URL is tagged with the account of the requester. Anyone with the URL effectively accesses the picture as the original requester. Access to the picture may be lost if the presentation's sharing settings change. Writing the content_url: The picture is fetched once at insertion time and a copy is stored for display inside the presentation. Pictures must be less than 50MB in size, cannot exceed 25 megapixels, and must be in one of PNG, JPEG, or GIF format. The provided URL can be at most 2 kB in length. */
+  contentUrl?: string;
+  /** The original size of the picture fill. This field is read-only. */
+  size?: Size;
+}
+export const StretchedPictureFill = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    contentUrl: S.optional(S.String),
+    size: S.optional(Size),
+  }),
+).annotate({ identifier: "StretchedPictureFill" }) as any as S.Schema<StretchedPictureFill>;
+
+export type PageBackgroundFillPropertyStateEnum = "RENDERED" | "NOT_RENDERED" | "INHERIT";
+export const PageBackgroundFillPropertyStateEnum = S.String;
+
+/** The page background fill. */
+export interface PageBackgroundFill {
+  /** Stretched picture fill. */
+  stretchedPictureFill?: StretchedPictureFill;
+  /** The background fill property state. Updating the fill on a page will implicitly update this field to `RENDERED`, unless another value is specified in the same request. To have no fill on a page, set this field to `NOT_RENDERED`. In this case, any other fill fields set in the same request will be ignored. */
+  propertyState?: PageBackgroundFillPropertyStateEnum | (string & {});
+  /** Solid color fill. */
+  solidFill?: SolidFill;
+}
+export const PageBackgroundFill = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    stretchedPictureFill: S.optional(StretchedPictureFill),
+    propertyState: S.optional(PageBackgroundFillPropertyStateEnum),
+    solidFill: S.optional(SolidFill),
+  }),
+).annotate({ identifier: "PageBackgroundFill" }) as any as S.Schema<PageBackgroundFill>;
+
+/** The properties of the Page. The page will inherit properties from the parent page. Depending on the page type the hierarchy is defined in either SlideProperties or LayoutProperties. */
+export interface PageProperties {
+  /** The color scheme of the page. If unset, the color scheme is inherited from a parent page. If the page has no parent, the color scheme uses a default Slides color scheme, matching the defaults in the Slides editor. Only the concrete colors of the first 12 ThemeColorTypes are editable. In addition, only the color scheme on `Master` pages can be updated. To update the field, a color scheme containing mappings from all the first 12 ThemeColorTypes to their concrete colors must be provided. Colors for the remaining ThemeColorTypes will be ignored. */
+  colorScheme?: ColorScheme;
+  /** The background fill of the page. If unset, the background fill is inherited from a parent page if it exists. If the page has no parent, then the background fill defaults to the corresponding fill in the Slides editor. */
+  pageBackgroundFill?: PageBackgroundFill;
+}
+export const PageProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    colorScheme: S.optional(ColorScheme),
+    pageBackgroundFill: S.optional(PageBackgroundFill),
+  }),
+).annotate({ identifier: "PageProperties" }) as any as S.Schema<PageProperties>;
+
+/** Specifies a contiguous range of text within a shape or table cell's text. [Developer Preview](https://developers.google.com/workspace/preview). */
+export interface TextRange {
+  /** The zero-based index of the end of the range. This field is an Int32Value in order to accommodate future use cases with open-ended ranges. */
+  endIndex?: number;
+  /** The zero-based index of the beginning range. This field is an Int32Value in order to accommodate future use cases with open-ended ranges. */
+  startIndex?: number;
+}
+export const TextRange = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    endIndex: S.optional(S.Number),
+    startIndex: S.optional(S.Number),
+  }),
+).annotate({ identifier: "TextRange" }) as any as S.Schema<TextRange>;
+
+export type TextRangeList = Array<TextRange>;
+export const TextRangeList = /*@__PURE__*/ S.Array(TextRange) as any as S.Schema<TextRangeList>;
+
+/** Represents text ranges within a shape covered by a comment anchor. [Developer Preview](https://developers.google.com/workspace/preview). */
+export interface ShapeTextAnchors {
+  /** A list of text ranges covered by the comment anchor. */
+  ranges?: TextRangeList;
+}
+export const ShapeTextAnchors = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ranges: S.optional(TextRangeList),
+  }),
+).annotate({ identifier: "ShapeTextAnchors" }) as any as S.Schema<ShapeTextAnchors>;
+
+/** Represents text ranges within a table cell covered by a comment anchor. [Developer Preview](https://developers.google.com/workspace/preview). */
+export interface TableCellTextRanges {
+  /** A list of all text ranges covered by the anchor in this cell. */
+  ranges?: TextRangeList;
+  /** The location of the table cell. */
+  cellLocation?: TableCellLocation;
+}
+export const TableCellTextRanges = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ranges: S.optional(TextRangeList),
+    cellLocation: S.optional(TableCellLocation),
+  }),
+).annotate({ identifier: "TableCellTextRanges" }) as any as S.Schema<TableCellTextRanges>;
+
+export type TableCellTextRangesList = Array<TableCellTextRanges>;
+export const TableCellTextRangesList = /*@__PURE__*/ S.Array(
+  TableCellTextRanges,
+) as any as S.Schema<TableCellTextRangesList>;
+
+/** Represents table cell ranges within a table covered by a comment anchor. [Developer Preview](https://developers.google.com/workspace/preview). */
+export interface TableCellAnchors {
+  /** A list of all table cells in a table that have text covered by the anchor in the table. */
+  cellRanges?: TableCellTextRangesList;
+}
+export const TableCellAnchors = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    cellRanges: S.optional(TableCellTextRangesList),
+  }),
+).annotate({ identifier: "TableCellAnchors" }) as any as S.Schema<TableCellAnchors>;
+
+/** Represents comment anchor data tied to a Slides object, for example a `Page` or PageElement. [Developer Preview](https://developers.google.com/workspace/preview). */
+export interface ObjectAnchor {
+  /** Populated for Shapes that have comments anchored to ranges of text in the shape's text. */
+  shapeTextAnchors?: ShapeTextAnchors;
+  /** Populated for Tables that have comments anchored to ranges of text in one or more of the table's cells. */
+  tableCellAnchors?: TableCellAnchors;
+  /** Output only. The page or page element that the comment thread is anchored to. */
+  objectId?: string;
+}
+export const ObjectAnchor = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    shapeTextAnchors: S.optional(ShapeTextAnchors),
+    tableCellAnchors: S.optional(TableCellAnchors),
+    objectId: S.optional(S.String),
+  }),
+).annotate({ identifier: "ObjectAnchor" }) as any as S.Schema<ObjectAnchor>;
+
+export type ObjectAnchorList = Array<ObjectAnchor>;
+export const ObjectAnchorList = /*@__PURE__*/ S.Array(
+  ObjectAnchor,
+) as any as S.Schema<ObjectAnchorList>;
+
+/** Contains a list of all locations in a `Page` that are anchored to a CommentThread via the same anchorId. Multiple separate anchors may refer to the same location, either within a `Page` or across different pages, [Developer Preview](https://developers.google.com/workspace/preview). */
+export interface CommentAnchor {
+  /** Output only. The unique ID of the comment anchor. */
+  anchorId?: string;
+  /** Output only. All object ID-based locations within a page that refer to the anchor ID. */
+  objectAnchors?: ObjectAnchorList;
+}
+export const CommentAnchor = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    anchorId: S.optional(S.String),
+    objectAnchors: S.optional(ObjectAnchorList),
+  }),
+).annotate({ identifier: "CommentAnchor" }) as any as S.Schema<CommentAnchor>;
+
+export type CommentAnchorList = Array<CommentAnchor>;
+export const CommentAnchorList = /*@__PURE__*/ S.Array(
+  CommentAnchor,
+) as any as S.Schema<CommentAnchorList>;
 
 /** The properties of Page that are only relevant for pages with page_type NOTES. */
 export interface NotesProperties {
@@ -2684,69 +2384,71 @@ export const NotesProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     speakerNotesObjectId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "NotesProperties",
-}) as any as S.Schema<NotesProperties>;
-
-export type PagePageTypeEnum = "SLIDE" | "MASTER" | "LAYOUT" | "NOTES" | "NOTES_MASTER";
-export const PagePageTypeEnum = S.String;
+).annotate({ identifier: "NotesProperties" }) as any as S.Schema<NotesProperties>;
 
 /** A page in a presentation. */
 export interface Page {
-  /** Output only. The revision ID of the presentation. Can be used in update requests to assert the presentation revision hasn't changed since the last read operation. Only populated if the user has edit access to the presentation. The revision ID is not a sequential number but an opaque string. The format of the revision ID might change over time. A returned revision ID is only guaranteed to be valid for 24 hours after it has been returned and cannot be shared across users. If the revision ID is unchanged between calls, then the presentation has not changed. Conversely, a changed ID (for the same presentation and user) usually means the presentation has been updated. However, a changed ID can also be due to internal factors such as ID format changes. */
-  revisionId?: string;
   /** Master specific properties. Only set if page_type = MASTER. */
   masterProperties?: MasterProperties;
   /** Slide specific properties. Only set if page_type = SLIDE. */
   slideProperties?: SlideProperties;
   /** Layout specific properties. Only set if page_type = LAYOUT. */
   layoutProperties?: LayoutProperties;
-  /** The properties of the page. */
-  pageProperties?: PageProperties;
+  /** Output only. The comments view mode applied to the page. Only populated if the page was fetched via a GetPageRequest with a populated comments_view_mode. [Developer Preview](https://developers.google.com/workspace/preview). */
+  commentsViewMode?: PageCommentsViewModeEnum | (string & {});
+  /** Output only. The comment threads associated with the page. Only populated if the page was fetched via a GetPageRequest with a populated comments_view_mode. Otherwise, comments are returned in the Presentation via the GetPresentationRequest. [Developer Preview](https://developers.google.com/workspace/preview). */
+  comments?: CommentThreadList;
   /** The page elements rendered on the page. */
   pageElements?: PageElementList;
-  /** Notes specific properties. Only set if page_type = NOTES. */
-  notesProperties?: NotesProperties;
-  /** The object ID for this page. Object IDs used by Page and PageElement share the same namespace. */
-  objectId?: string;
   /** The type of the page. */
   pageType?: PagePageTypeEnum | (string & {});
+  /** The properties of the page. */
+  pageProperties?: PageProperties;
+  /** The object ID for this page. Object IDs used by Page and PageElement share the same namespace. */
+  objectId?: string;
+  /** Output only. The revision ID of the presentation. Can be used in update requests to assert the presentation revision hasn't changed since the last read operation. Only populated if the user has edit access to the presentation. The revision ID is not a sequential number but an opaque string. The format of the revision ID might change over time. A returned revision ID is only guaranteed to be valid for 24 hours after it has been returned and cannot be shared across users. If the revision ID is unchanged between calls, then the presentation has not changed. Conversely, a changed ID (for the same presentation and user) usually means the presentation has been updated. However, a changed ID can also be due to internal factors such as ID format changes. */
+  revisionId?: string;
+  /** Output only. The comment anchors present on the page. [Developer Preview](https://developers.google.com/workspace/preview). */
+  commentAnchors?: CommentAnchorList;
+  /** Notes specific properties. Only set if page_type = NOTES. */
+  notesProperties?: NotesProperties;
 }
 export const Page = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    revisionId: S.optional(S.String),
     masterProperties: S.optional(MasterProperties),
     slideProperties: S.optional(S.suspend(() => SlideProperties)),
     layoutProperties: S.optional(LayoutProperties),
-    pageProperties: S.optional(PageProperties),
+    commentsViewMode: S.optional(PageCommentsViewModeEnum),
+    comments: S.optional(CommentThreadList),
     pageElements: S.optional(PageElementList),
-    notesProperties: S.optional(NotesProperties),
-    objectId: S.optional(S.String),
     pageType: S.optional(PagePageTypeEnum),
+    pageProperties: S.optional(PageProperties),
+    objectId: S.optional(S.String),
+    revisionId: S.optional(S.String),
+    commentAnchors: S.optional(CommentAnchorList),
+    notesProperties: S.optional(NotesProperties),
   }),
 ).annotate({ identifier: "Page" }) as any as S.Schema<Page>;
 
 /** The properties of Page that are only relevant for pages with page_type SLIDE. */
 export interface SlideProperties {
-  /** The notes page that this slide is associated with. It defines the visual appearance of a notes page when printing or exporting slides with speaker notes. A notes page inherits properties from the notes master. The placeholder shape with type BODY on the notes page contains the speaker notes for this slide. The ID of this shape is identified by the speakerNotesObjectId field. The notes page is read-only except for the text content and styles of the speaker notes shape. This property is read-only. */
-  notesPage?: Page;
   /** The object ID of the layout that this slide is based on. This property is read-only. */
   layoutObjectId?: string;
   /** Whether the slide is skipped in the presentation mode. Defaults to false. */
   isSkipped?: boolean;
+  /** The notes page that this slide is associated with. It defines the visual appearance of a notes page when printing or exporting slides with speaker notes. A notes page inherits properties from the notes master. The placeholder shape with type BODY on the notes page contains the speaker notes for this slide. The ID of this shape is identified by the speakerNotesObjectId field. The notes page is read-only except for the text content and styles of the speaker notes shape. This property is read-only. */
+  notesPage?: Page;
   /** The object ID of the master that this slide is based on. This property is read-only. */
   masterObjectId?: string;
 }
 export const SlideProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    notesPage: S.optional(Page),
     layoutObjectId: S.optional(S.String),
     isSkipped: S.optional(S.Boolean),
+    notesPage: S.optional(Page),
     masterObjectId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SlideProperties",
-}) as any as S.Schema<SlideProperties>;
+).annotate({ identifier: "SlideProperties" }) as any as S.Schema<SlideProperties>;
 
 /** Updates the properties of a Slide. */
 export interface UpdateSlidePropertiesRequest {
@@ -2767,31 +2469,6 @@ export const UpdateSlidePropertiesRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "UpdateSlidePropertiesRequest",
 }) as any as S.Schema<UpdateSlidePropertiesRequest>;
 
-export type ReplaceImageRequestImageReplaceMethodEnum =
-  | "IMAGE_REPLACE_METHOD_UNSPECIFIED"
-  | "CENTER_INSIDE"
-  | "CENTER_CROP";
-export const ReplaceImageRequestImageReplaceMethodEnum = S.String;
-
-/** Replaces an existing image with a new image. Replacing an image removes some image effects from the existing image. */
-export interface ReplaceImageRequest {
-  /** The replacement method. */
-  imageReplaceMethod?: ReplaceImageRequestImageReplaceMethodEnum | (string & {});
-  /** The image URL. The image is fetched once at insertion time and a copy is stored for display inside the presentation. Images must be less than 50MB, cannot exceed 25 megapixels, and must be in PNG, JPEG, or GIF format. The provided URL can't surpass 2 KB in length. The URL is saved with the image, and exposed through the Image.source_url field. */
-  url?: string;
-  /** The ID of the existing image that will be replaced. The ID can be retrieved from the response of a get request. */
-  imageObjectId?: string;
-}
-export const ReplaceImageRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    imageReplaceMethod: S.optional(ReplaceImageRequestImageReplaceMethodEnum),
-    url: S.optional(S.String),
-    imageObjectId: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ReplaceImageRequest",
-}) as any as S.Schema<ReplaceImageRequest>;
-
 /** Updates the properties of a Page. */
 export interface UpdatePagePropertiesRequest {
   /** The object ID of the page the update is applied to. */
@@ -2811,125 +2488,449 @@ export const UpdatePagePropertiesRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "UpdatePagePropertiesRequest",
 }) as any as S.Schema<UpdatePagePropertiesRequest>;
 
-/** Creates a new table. */
-export interface CreateTableRequest {
-  /** Number of columns in the table. */
-  columns?: number;
-  /** The element properties for the table. The table will be created at the provided size, subject to a minimum size. If no size is provided, the table will be automatically sized. Table transforms must have a scale of 1 and no shear components. If no transform is provided, the table will be centered on the page. */
-  elementProperties?: PageElementProperties;
-  /** A user-supplied object ID. If you specify an ID, it must be unique among all pages and page elements in the presentation. The ID must start with an alphanumeric character or an underscore (matches regex `[a-zA-Z0-9_]`); remaining characters may include those as well as a hyphen or colon (matches regex `[a-zA-Z0-9_-:]`). The length of the ID must not be less than 5 or greater than 50. If you don't specify an ID, a unique one is generated. */
+export type CreateSheetsChartRequestLinkingModeEnum = "NOT_LINKED_IMAGE" | "LINKED";
+export const CreateSheetsChartRequestLinkingModeEnum = S.String;
+
+/** Creates an embedded Google Sheets chart. NOTE: Chart creation requires at least one of the spreadsheets.readonly, spreadsheets, drive.readonly, drive.file, or drive OAuth scopes. */
+export interface CreateSheetsChartRequest {
+  /** The ID of the Google Sheets spreadsheet that contains the chart. You might need to add a resource key to the HTTP header for a subset of old files. For more information, see [Access link-shared files using resource keys](https://developers.google.com/drive/api/v3/resource-keys). */
+  spreadsheetId?: string;
+  /** A user-supplied object ID. If specified, the ID must be unique among all pages and page elements in the presentation. The ID should start with a word character [a-zA-Z0-9_] and then followed by any number of the following characters [a-zA-Z0-9_-:]. The length of the ID should not be less than 5 or greater than 50. If empty, a unique identifier will be generated. */
   objectId?: string;
-  /** Number of rows in the table. */
-  rows?: number;
+  /** The element properties for the chart. When the aspect ratio of the provided size does not match the chart aspect ratio, the chart is scaled and centered with respect to the size in order to maintain aspect ratio. The provided transform is applied after this operation. */
+  elementProperties?: PageElementProperties;
+  /** The ID of the specific chart in the Google Sheets spreadsheet. */
+  chartId?: number;
+  /** The mode with which the chart is linked to the source spreadsheet. When not specified, the chart will be an image that is not linked. */
+  linkingMode?: CreateSheetsChartRequestLinkingModeEnum | (string & {});
 }
-export const CreateTableRequest = /*@__PURE__*/ S.suspend(() =>
+export const CreateSheetsChartRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    columns: S.optional(S.Number),
-    elementProperties: S.optional(PageElementProperties),
+    spreadsheetId: S.optional(S.String),
     objectId: S.optional(S.String),
-    rows: S.optional(S.Number),
+    elementProperties: S.optional(PageElementProperties),
+    chartId: S.optional(S.Number),
+    linkingMode: S.optional(CreateSheetsChartRequestLinkingModeEnum),
   }),
-).annotate({
-  identifier: "CreateTableRequest",
-}) as any as S.Schema<CreateTableRequest>;
+).annotate({ identifier: "CreateSheetsChartRequest" }) as any as S.Schema<CreateSheetsChartRequest>;
 
-/** Groups objects to create an object group. For example, groups PageElements to create a Group on the same page as all the children. */
-export interface GroupObjectsRequest {
-  /** A user-supplied object ID for the group to be created. If you specify an ID, it must be unique among all pages and page elements in the presentation. The ID must start with an alphanumeric character or an underscore (matches regex `[a-zA-Z0-9_]`); remaining characters may include those as well as a hyphen or colon (matches regex `[a-zA-Z0-9_-:]`). The length of the ID must not be less than 5 or greater than 50. If you don't specify an ID, a unique one is generated. */
-  groupObjectId?: string;
-  /** The object IDs of the objects to group. Only page elements can be grouped. There should be at least two page elements on the same page that are not already in another group. Some page elements, such as videos, tables and placeholders cannot be grouped. */
-  childrenObjectIds?: StringList;
+export type LayoutReferencePredefinedLayoutEnum =
+  | "PREDEFINED_LAYOUT_UNSPECIFIED"
+  | "BLANK"
+  | "CAPTION_ONLY"
+  | "TITLE"
+  | "TITLE_AND_BODY"
+  | "TITLE_AND_TWO_COLUMNS"
+  | "TITLE_ONLY"
+  | "SECTION_HEADER"
+  | "SECTION_TITLE_AND_DESCRIPTION"
+  | "ONE_COLUMN_TEXT"
+  | "MAIN_POINT"
+  | "BIG_NUMBER";
+export const LayoutReferencePredefinedLayoutEnum = S.String;
+
+/** Slide layout reference. This may reference either: - A predefined layout - One of the layouts in the presentation. */
+export interface LayoutReference {
+  /** Layout ID: the object ID of one of the layouts in the presentation. */
+  layoutId?: string;
+  /** Predefined layout. */
+  predefinedLayout?: LayoutReferencePredefinedLayoutEnum | (string & {});
 }
-export const GroupObjectsRequest = /*@__PURE__*/ S.suspend(() =>
+export const LayoutReference = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    groupObjectId: S.optional(S.String),
-    childrenObjectIds: S.optional(StringList),
+    layoutId: S.optional(S.String),
+    predefinedLayout: S.optional(LayoutReferencePredefinedLayoutEnum),
+  }),
+).annotate({ identifier: "LayoutReference" }) as any as S.Schema<LayoutReference>;
+
+/** The user-specified ID mapping for a placeholder that will be created on a slide from a specified layout. */
+export interface LayoutPlaceholderIdMapping {
+  /** The object ID of the placeholder on a layout that will be applied to a slide. */
+  layoutPlaceholderObjectId?: string;
+  /** A user-supplied object ID for the placeholder identified above that to be created onto a slide. If you specify an ID, it must be unique among all pages and page elements in the presentation. The ID must start with an alphanumeric character or an underscore (matches regex `[a-zA-Z0-9_]`); remaining characters may include those as well as a hyphen or colon (matches regex `[a-zA-Z0-9_-:]`). The length of the ID must not be less than 5 or greater than 50. If you don't specify an ID, a unique one is generated. */
+  objectId?: string;
+  /** The placeholder on a layout that will be applied to a slide. Only type and index are needed. For example, a predefined `TITLE_AND_BODY` layout may usually have a TITLE placeholder with index 0 and a BODY placeholder with index 0. */
+  layoutPlaceholder?: Placeholder;
+}
+export const LayoutPlaceholderIdMapping = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    layoutPlaceholderObjectId: S.optional(S.String),
+    objectId: S.optional(S.String),
+    layoutPlaceholder: S.optional(Placeholder),
   }),
 ).annotate({
-  identifier: "GroupObjectsRequest",
-}) as any as S.Schema<GroupObjectsRequest>;
+  identifier: "LayoutPlaceholderIdMapping",
+}) as any as S.Schema<LayoutPlaceholderIdMapping>;
 
-/** Deletes a row from a table. */
-export interface DeleteTableRowRequest {
-  /** The reference table cell location from which a row will be deleted. The row this cell spans will be deleted. If this is a merged cell, multiple rows will be deleted. If no rows remain in the table after this deletion, the whole table is deleted. */
+export type LayoutPlaceholderIdMappingList = Array<LayoutPlaceholderIdMapping>;
+export const LayoutPlaceholderIdMappingList = /*@__PURE__*/ S.Array(
+  LayoutPlaceholderIdMapping,
+) as any as S.Schema<LayoutPlaceholderIdMappingList>;
+
+/** Creates a slide. */
+export interface CreateSlideRequest {
+  /** Layout reference of the slide to be inserted, based on the *current master*, which is one of the following: - The master of the previous slide index. - The master of the first slide, if the insertion_index is zero. - The first master in the presentation, if there are no slides. If the LayoutReference is not found in the current master, a 400 bad request error is returned. If you don't specify a layout reference, the slide uses the predefined `BLANK` layout. */
+  slideLayoutReference?: LayoutReference;
+  /** An optional list of object ID mappings from the placeholder(s) on the layout to the placeholders that are created on the slide from the specified layout. Can only be used when `slide_layout_reference` is specified. */
+  placeholderIdMappings?: LayoutPlaceholderIdMappingList;
+  /** The optional zero-based index indicating where to insert the slides. If you don't specify an index, the slide is created at the end. */
+  insertionIndex?: number;
+  /** A user-supplied object ID. If you specify an ID, it must be unique among all pages and page elements in the presentation. The ID must start with an alphanumeric character or an underscore (matches regex `[a-zA-Z0-9_]`); remaining characters may include those as well as a hyphen or colon (matches regex `[a-zA-Z0-9_-:]`). The ID length must be between 5 and 50 characters, inclusive. If you don't specify an ID, a unique one is generated. */
+  objectId?: string;
+}
+export const CreateSlideRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    slideLayoutReference: S.optional(LayoutReference),
+    placeholderIdMappings: S.optional(LayoutPlaceholderIdMappingList),
+    insertionIndex: S.optional(S.Number),
+    objectId: S.optional(S.String),
+  }),
+).annotate({ identifier: "CreateSlideRequest" }) as any as S.Schema<CreateSlideRequest>;
+
+/** Updates the position of slides in the presentation. */
+export interface UpdateSlidesPositionRequest {
+  /** The index where the slides should be inserted, based on the slide arrangement before the move takes place. Must be between zero and the number of slides in the presentation, inclusive. */
+  insertionIndex?: number;
+  /** The IDs of the slides in the presentation that should be moved. The slides in this list must be in existing presentation order, without duplicates. */
+  slideObjectIds?: StringList;
+}
+export const UpdateSlidesPositionRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    insertionIndex: S.optional(S.Number),
+    slideObjectIds: S.optional(StringList),
+  }),
+).annotate({
+  identifier: "UpdateSlidesPositionRequest",
+}) as any as S.Schema<UpdateSlidesPositionRequest>;
+
+/** Deletes a CommentThread. Returns a 400 bad request error if the requesting user is not the author of the headPost. [Developer Preview](https://developers.google.com/workspace/preview). */
+export interface DeleteCommentRequest {
+  /** The ID of the CommentThread that is being deleted. */
+  commentId?: string;
+}
+export const DeleteCommentRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    commentId: S.optional(S.String),
+  }),
+).annotate({ identifier: "DeleteCommentRequest" }) as any as S.Schema<DeleteCommentRequest>;
+
+/** Updates the properties of a Line. */
+export interface UpdateLinePropertiesRequest {
+  /** The fields that should be updated. At least one field must be specified. The root `lineProperties` is implied and should not be specified. A single `"*"` can be used as short-hand for listing every field. For example to update the line solid fill color, set `fields` to `"lineFill.solidFill.color"`. To reset a property to its default value, include its field name in the field mask but leave the field itself unset. */
+  fields?: string;
+  /** The line properties to update. */
+  lineProperties?: LineProperties;
+  /** The object ID of the line the update is applied to. */
+  objectId?: string;
+}
+export const UpdateLinePropertiesRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    fields: S.optional(S.String),
+    lineProperties: S.optional(LineProperties),
+    objectId: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "UpdateLinePropertiesRequest",
+}) as any as S.Schema<UpdateLinePropertiesRequest>;
+
+/** An anchor to a specific range of cells within a Table. Used to anchor a comment to all of the text in each cell in a range within a table. [Developer Preview](https://developers.google.com/workspace/preview). */
+export interface TableAnchor {
+  /** The object ID of the table. */
+  objectId?: string;
+  /** The range of cells in the table to apply the anchor to. If omitted, all cells in the table will be used for the anchor. */
+  tableRange?: TableRange;
+}
+export const TableAnchor = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    objectId: S.optional(S.String),
+    tableRange: S.optional(TableRange),
+  }),
+).annotate({ identifier: "TableAnchor" }) as any as S.Schema<TableAnchor>;
+
+/** An anchor to a specific range of text within a TableCell's TextElement. [Developer Preview](https://developers.google.com/workspace/preview). */
+export interface TableCellTextAnchor {
+  /** The text range for the anchor. */
+  textRange?: Range;
+  /** The location of the cell in the table. */
   cellLocation?: TableCellLocation;
-  /** The table to delete rows from. */
-  tableObjectId?: string;
+  /** The object ID of the table containing the cell. */
+  objectId?: string;
 }
-export const DeleteTableRowRequest = /*@__PURE__*/ S.suspend(() =>
+export const TableCellTextAnchor = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    textRange: S.optional(Range),
     cellLocation: S.optional(TableCellLocation),
+    objectId: S.optional(S.String),
+  }),
+).annotate({ identifier: "TableCellTextAnchor" }) as any as S.Schema<TableCellTextAnchor>;
+
+/** An anchor to a specific range of text within a Shape's text. [Developer Preview](https://developers.google.com/workspace/preview). To insert comments in speaker notes, use the ShapeTextAnchor with the speaker notes object ID. */
+export interface ShapeTextAnchor {
+  /** The object ID of the page element containing the text. */
+  objectId?: string;
+  /** The text range for the anchor. */
+  textRange?: Range;
+}
+export const ShapeTextAnchor = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    objectId: S.optional(S.String),
+    textRange: S.optional(Range),
+  }),
+).annotate({ identifier: "ShapeTextAnchor" }) as any as S.Schema<ShapeTextAnchor>;
+
+/** Inserts a CommentThread into the presentation. [Developer Preview](https://developers.google.com/workspace/preview). */
+export interface InsertCommentRequest {
+  /** The text of the comment, as plain text. This text content will be handled similarly to comments created in the Slides editor. It will have similar behaviors for formatting, notifications, etc. This field cannot be empty, and must not exceed 2048 UTF-8 code units. */
+  content?: string;
+  /** The object ID of the Page or PageElement that is tied to this comment. If the specified object_id is a Group, the comment will be anchored to at most 100 of the group's non-group descendants. */
+  objectId?: string;
+  /** Optional. The email address of the assignee of the comment. Leave empty for a non-assigned comment. May not exceed 2048 UTF-8 code units. */
+  assigneeEmailAddress?: string;
+  /** Anchors a comment to a specific range of cells within a Table. Returns a 400 bad request error if no cells within the range contain text. */
+  tableAnchor?: TableAnchor;
+  /** Anchors a comment to a specific range of text within a single cell in a Table. */
+  tableCellTextAnchor?: TableCellTextAnchor;
+  /** Anchors a comment to a specific range of text within a Shape. */
+  shapeTextAnchor?: ShapeTextAnchor;
+}
+export const InsertCommentRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    content: S.optional(S.String),
+    objectId: S.optional(S.String),
+    assigneeEmailAddress: S.optional(S.String),
+    tableAnchor: S.optional(TableAnchor),
+    tableCellTextAnchor: S.optional(TableCellTextAnchor),
+    shapeTextAnchor: S.optional(ShapeTextAnchor),
+  }),
+).annotate({ identifier: "InsertCommentRequest" }) as any as S.Schema<InsertCommentRequest>;
+
+/** Inserts rows into a table. */
+export interface InsertTableRowsRequest {
+  /** The number of rows to be inserted. Maximum 20 per request. */
+  number?: number;
+  /** The table to insert rows into. */
+  tableObjectId?: string;
+  /** Whether to insert new rows below the reference cell location. - `True`: insert below the cell. - `False`: insert above the cell. */
+  insertBelow?: boolean;
+  /** The reference table cell location from which rows will be inserted. A new row will be inserted above (or below) the row where the reference cell is. If the reference cell is a merged cell, a new row will be inserted above (or below) the merged cell. */
+  cellLocation?: TableCellLocation;
+}
+export const InsertTableRowsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    number: S.optional(S.Number),
     tableObjectId: S.optional(S.String),
+    insertBelow: S.optional(S.Boolean),
+    cellLocation: S.optional(TableCellLocation),
+  }),
+).annotate({ identifier: "InsertTableRowsRequest" }) as any as S.Schema<InsertTableRowsRequest>;
+
+/** Updates a Post in a CommentThread. Returns a 400 bad request error if: - The requesting user is not the author of the post. [Developer Preview](https://developers.google.com/workspace/preview). */
+export interface UpdateCommentPostRequest {
+  /** The ID of the CommentThread which the post belongs to. */
+  commentId?: string;
+  /** The ID of the post being updated. */
+  postId?: string;
+  /** The new text of the comment, as plain text. This text content will be handled similarly to comments created in the Slides editor. It will have similar behaviors for formatting, notifications, etc. This field cannot be empty, and must not exceed 2048 UTF-8 code units. */
+  content?: string;
+}
+export const UpdateCommentPostRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    commentId: S.optional(S.String),
+    postId: S.optional(S.String),
+    content: S.optional(S.String),
+  }),
+).annotate({ identifier: "UpdateCommentPostRequest" }) as any as S.Schema<UpdateCommentPostRequest>;
+
+/** Update the properties of a Video. */
+export interface UpdateVideoPropertiesRequest {
+  /** The video properties to update. */
+  videoProperties?: VideoProperties;
+  /** The fields that should be updated. At least one field must be specified. The root `videoProperties` is implied and should not be specified. A single `"*"` can be used as short-hand for listing every field. For example to update the video outline color, set `fields` to `"outline.outlineFill.solidFill.color"`. To reset a property to its default value, include its field name in the field mask but leave the field itself unset. */
+  fields?: string;
+  /** The object ID of the video the updates are applied to. */
+  objectId?: string;
+}
+export const UpdateVideoPropertiesRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    videoProperties: S.optional(VideoProperties),
+    fields: S.optional(S.String),
+    objectId: S.optional(S.String),
   }),
 ).annotate({
-  identifier: "DeleteTableRowRequest",
-}) as any as S.Schema<DeleteTableRowRequest>;
+  identifier: "UpdateVideoPropertiesRequest",
+}) as any as S.Schema<UpdateVideoPropertiesRequest>;
+
+export type IntegerList = Array<number>;
+export const IntegerList = /*@__PURE__*/ S.Array(S.Number) as any as S.Schema<IntegerList>;
+
+/** Updates the properties of a Table column. */
+export interface UpdateTableColumnPropertiesRequest {
+  /** The object ID of the table. */
+  objectId?: string;
+  /** The table column properties to update. If the value of `table_column_properties#column_width` in the request is less than 406,400 EMU (32 points), a 400 bad request error is returned. */
+  tableColumnProperties?: TableColumnProperties;
+  /** The list of zero-based indices specifying which columns to update. If no indices are provided, all columns in the table will be updated. */
+  columnIndices?: IntegerList;
+  /** The fields that should be updated. At least one field must be specified. The root `tableColumnProperties` is implied and should not be specified. A single `"*"` can be used as short-hand for listing every field. For example to update the column width, set `fields` to `"column_width"`. If '"column_width"' is included in the field mask but the property is left unset, the column width will default to 406,400 EMU (32 points). */
+  fields?: string;
+}
+export const UpdateTableColumnPropertiesRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    objectId: S.optional(S.String),
+    tableColumnProperties: S.optional(TableColumnProperties),
+    columnIndices: S.optional(IntegerList),
+    fields: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "UpdateTableColumnPropertiesRequest",
+}) as any as S.Schema<UpdateTableColumnPropertiesRequest>;
+
+/** Unmerges cells in a Table. */
+export interface UnmergeTableCellsRequest {
+  /** The table range specifying which cells of the table to unmerge. All merged cells in this range will be unmerged, and cells that are already unmerged will not be affected. If the range has no merged cells, the request will do nothing. If there is text in any of the merged cells, the text will remain in the upper-left ("head") cell of the resulting block of unmerged cells. */
+  tableRange?: TableRange;
+  /** The object ID of the table. */
+  objectId?: string;
+}
+export const UnmergeTableCellsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    tableRange: S.optional(TableRange),
+    objectId: S.optional(S.String),
+  }),
+).annotate({ identifier: "UnmergeTableCellsRequest" }) as any as S.Schema<UnmergeTableCellsRequest>;
+
+/** Update the properties of a TableCell. */
+export interface UpdateTableCellPropertiesRequest {
+  /** The table cell properties to update. */
+  tableCellProperties?: TableCellProperties;
+  /** The table range representing the subset of the table to which the updates are applied. If a table range is not specified, the updates will apply to the entire table. */
+  tableRange?: TableRange;
+  /** The object ID of the table. */
+  objectId?: string;
+  /** The fields that should be updated. At least one field must be specified. The root `tableCellProperties` is implied and should not be specified. A single `"*"` can be used as short-hand for listing every field. For example to update the table cell background solid fill color, set `fields` to `"tableCellBackgroundFill.solidFill.color"`. To reset a property to its default value, include its field name in the field mask but leave the field itself unset. */
+  fields?: string;
+}
+export const UpdateTableCellPropertiesRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    tableCellProperties: S.optional(TableCellProperties),
+    tableRange: S.optional(TableRange),
+    objectId: S.optional(S.String),
+    fields: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "UpdateTableCellPropertiesRequest",
+}) as any as S.Schema<UpdateTableCellPropertiesRequest>;
+
+export type UpdatePageElementsZOrderRequestOperationEnum =
+  | "Z_ORDER_OPERATION_UNSPECIFIED"
+  | "BRING_TO_FRONT"
+  | "BRING_FORWARD"
+  | "SEND_BACKWARD"
+  | "SEND_TO_BACK";
+export const UpdatePageElementsZOrderRequestOperationEnum = S.String;
+
+/** Updates the Z-order of page elements. Z-order is an ordering of the elements on the page from back to front. The page element in the front may cover the elements that are behind it. */
+export interface UpdatePageElementsZOrderRequest {
+  /** The object IDs of the page elements to update. All the page elements must be on the same page and must not be grouped. */
+  pageElementObjectIds?: StringList;
+  /** The Z-order operation to apply on the page elements. When applying the operation on multiple page elements, the relative Z-orders within these page elements before the operation is maintained. */
+  operation?: UpdatePageElementsZOrderRequestOperationEnum | (string & {});
+}
+export const UpdatePageElementsZOrderRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    pageElementObjectIds: S.optional(StringList),
+    operation: S.optional(UpdatePageElementsZOrderRequestOperationEnum),
+  }),
+).annotate({
+  identifier: "UpdatePageElementsZOrderRequest",
+}) as any as S.Schema<UpdatePageElementsZOrderRequest>;
 
 /** Creates an image. */
 export interface CreateImageRequest {
   /** A user-supplied object ID. If you specify an ID, it must be unique among all pages and page elements in the presentation. The ID must start with an alphanumeric character or an underscore (matches regex `[a-zA-Z0-9_]`); remaining characters may include those as well as a hyphen or colon (matches regex `[a-zA-Z0-9_-:]`). The length of the ID must not be less than 5 or greater than 50. If you don't specify an ID, a unique one is generated. */
   objectId?: string;
-  /** The image URL. The image is fetched once at insertion time and a copy is stored for display inside the presentation. Images must be less than 50 MB in size, can't exceed 25 megapixels, and must be in one of PNG, JPEG, or GIF formats. The provided URL must be publicly accessible and up to 2 KB in length. The URL is saved with the image, and exposed through the Image.source_url field. */
-  url?: string;
   /** The element properties for the image. When the aspect ratio of the provided size does not match the image aspect ratio, the image is scaled and centered with respect to the size in order to maintain the aspect ratio. The provided transform is applied after this operation. The PageElementProperties.size property is optional. If you don't specify the size, the default size of the image is used. The PageElementProperties.transform property is optional. If you don't specify a transform, the image will be placed at the top-left corner of the page. */
   elementProperties?: PageElementProperties;
+  /** The image URL. The image is fetched once at insertion time and a copy is stored for display inside the presentation. Images must be less than 50 MB in size, can't exceed 25 megapixels, and must be in one of PNG, JPEG, or GIF formats. The provided URL must be publicly accessible and up to 2 KB in length. The URL is saved with the image, and exposed through the Image.source_url field. */
+  url?: string;
 }
 export const CreateImageRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     objectId: S.optional(S.String),
+    elementProperties: S.optional(PageElementProperties),
     url: S.optional(S.String),
+  }),
+).annotate({ identifier: "CreateImageRequest" }) as any as S.Schema<CreateImageRequest>;
+
+/** Deletes a row from a table. */
+export interface DeleteTableRowRequest {
+  /** The table to delete rows from. */
+  tableObjectId?: string;
+  /** The reference table cell location from which a row will be deleted. The row this cell spans will be deleted. If this is a merged cell, multiple rows will be deleted. If no rows remain in the table after this deletion, the whole table is deleted. */
+  cellLocation?: TableCellLocation;
+}
+export const DeleteTableRowRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    tableObjectId: S.optional(S.String),
+    cellLocation: S.optional(TableCellLocation),
+  }),
+).annotate({ identifier: "DeleteTableRowRequest" }) as any as S.Schema<DeleteTableRowRequest>;
+
+export type CreateVideoRequestSourceEnum = "SOURCE_UNSPECIFIED" | "YOUTUBE" | "DRIVE";
+export const CreateVideoRequestSourceEnum = S.String;
+
+/** Creates a video. NOTE: Creating a video from Google Drive requires that the requesting app have at least one of the drive, drive.readonly, or drive.file OAuth scopes. */
+export interface CreateVideoRequest {
+  /** The video source's unique identifier for this video. e.g. For YouTube video https://www.youtube.com/watch?v=7U3axjORYZ0, the ID is 7U3axjORYZ0. For a Google Drive video https://drive.google.com/file/d/1xCgQLFTJi5_Xl8DgW_lcUYq5e-q6Hi5Q the ID is 1xCgQLFTJi5_Xl8DgW_lcUYq5e-q6Hi5Q. To access a Google Drive video file, you might need to add a resource key to the HTTP header for a subset of old files. For more information, see [Access link-shared files using resource keys](https://developers.google.com/drive/api/v3/resource-keys). */
+  id?: string;
+  /** The video source. */
+  source?: CreateVideoRequestSourceEnum | (string & {});
+  /** A user-supplied object ID. If you specify an ID, it must be unique among all pages and page elements in the presentation. The ID must start with an alphanumeric character or an underscore (matches regex `[a-zA-Z0-9_]`); remaining characters may include those as well as a hyphen or colon (matches regex `[a-zA-Z0-9_-:]`). The length of the ID must not be less than 5 or greater than 50. If you don't specify an ID, a unique one is generated. */
+  objectId?: string;
+  /** The element properties for the video. The PageElementProperties.size property is optional. If you don't specify a size, a default size is chosen by the server. The PageElementProperties.transform property is optional. The transform must not have shear components. If you don't specify a transform, the video will be placed at the top left corner of the page. */
+  elementProperties?: PageElementProperties;
+}
+export const CreateVideoRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    source: S.optional(CreateVideoRequestSourceEnum),
+    objectId: S.optional(S.String),
     elementProperties: S.optional(PageElementProperties),
   }),
-).annotate({
-  identifier: "CreateImageRequest",
-}) as any as S.Schema<CreateImageRequest>;
+).annotate({ identifier: "CreateVideoRequest" }) as any as S.Schema<CreateVideoRequest>;
 
-export type UpdatePageElementTransformRequestApplyModeEnum =
-  | "APPLY_MODE_UNSPECIFIED"
-  | "RELATIVE"
-  | "ABSOLUTE";
-export const UpdatePageElementTransformRequestApplyModeEnum = S.String;
-
-/** Updates the transform of a page element. Updating the transform of a group will change the absolute transform of the page elements in that group, which can change their visual appearance. See the documentation for PageElement.transform for more details. */
-export interface UpdatePageElementTransformRequest {
-  /** The object ID of the page element to update. */
+/** Reroutes a line such that it's connected at the two closest connection sites on the connected page elements. */
+export interface RerouteLineRequest {
+  /** The object ID of the line to reroute. Only a line with a category indicating it is a "connector" can be rerouted. The start and end connections of the line must be on different page elements. */
   objectId?: string;
-  /** The apply mode of the transform update. */
-  applyMode?: UpdatePageElementTransformRequestApplyModeEnum | (string & {});
-  /** The input transform matrix used to update the page element. */
-  transform?: AffineTransform;
 }
-export const UpdatePageElementTransformRequest = /*@__PURE__*/ S.suspend(() =>
+export const RerouteLineRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     objectId: S.optional(S.String),
-    applyMode: S.optional(UpdatePageElementTransformRequestApplyModeEnum),
-    transform: S.optional(AffineTransform),
   }),
-).annotate({
-  identifier: "UpdatePageElementTransformRequest",
-}) as any as S.Schema<UpdatePageElementTransformRequest>;
+).annotate({ identifier: "RerouteLineRequest" }) as any as S.Schema<RerouteLineRequest>;
 
-/** Inserts columns into a table. Other columns in the table will be resized to fit the new column. */
-export interface InsertTableColumnsRequest {
-  /** The number of columns to be inserted. Maximum 20 per request. */
-  number?: number;
-  /** The reference table cell location from which columns will be inserted. A new column will be inserted to the left (or right) of the column where the reference cell is. If the reference cell is a merged cell, a new column will be inserted to the left (or right) of the merged cell. */
-  cellLocation?: TableCellLocation;
-  /** The table to insert columns into. */
-  tableObjectId?: string;
-  /** Whether to insert new columns to the right of the reference cell location. - `True`: insert to the right. - `False`: insert to the left. */
-  insertRight?: boolean;
+/** Updates the properties of a Table row. */
+export interface UpdateTableRowPropertiesRequest {
+  /** The object ID of the table. */
+  objectId?: string;
+  /** The list of zero-based indices specifying which rows to update. If no indices are provided, all rows in the table will be updated. */
+  rowIndices?: IntegerList;
+  /** The fields that should be updated. At least one field must be specified. The root `tableRowProperties` is implied and should not be specified. A single `"*"` can be used as short-hand for listing every field. For example to update the minimum row height, set `fields` to `"min_row_height"`. If '"min_row_height"' is included in the field mask but the property is left unset, the minimum row height will default to 0. */
+  fields?: string;
+  /** The table row properties to update. */
+  tableRowProperties?: TableRowProperties;
 }
-export const InsertTableColumnsRequest = /*@__PURE__*/ S.suspend(() =>
+export const UpdateTableRowPropertiesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    number: S.optional(S.Number),
-    cellLocation: S.optional(TableCellLocation),
-    tableObjectId: S.optional(S.String),
-    insertRight: S.optional(S.Boolean),
+    objectId: S.optional(S.String),
+    rowIndices: S.optional(IntegerList),
+    fields: S.optional(S.String),
+    tableRowProperties: S.optional(TableRowProperties),
   }),
 ).annotate({
-  identifier: "InsertTableColumnsRequest",
-}) as any as S.Schema<InsertTableColumnsRequest>;
+  identifier: "UpdateTableRowPropertiesRequest",
+}) as any as S.Schema<UpdateTableRowPropertiesRequest>;
 
 /** Deletes an object, either pages or page elements, from the presentation. */
 export interface DeleteObjectRequest {
@@ -2940,41 +2941,130 @@ export const DeleteObjectRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     objectId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DeleteObjectRequest",
-}) as any as S.Schema<DeleteObjectRequest>;
+).annotate({ identifier: "DeleteObjectRequest" }) as any as S.Schema<DeleteObjectRequest>;
 
-export type CreateLineRequestCategoryEnum =
-  | "LINE_CATEGORY_UNSPECIFIED"
-  | "STRAIGHT"
-  | "BENT"
-  | "CURVED";
-export const CreateLineRequestCategoryEnum = S.String;
+/** Inserts a reply Post into a CommentThread. [Developer Preview](https://developers.google.com/workspace/preview). */
+export interface AddCommentReplyRequest {
+  /** The Post representing the reply. */
+  post?: Post;
+  /** The ID of the CommentThread to add the reply to. */
+  commentId?: string;
+}
+export const AddCommentReplyRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    post: S.optional(Post),
+    commentId: S.optional(S.String),
+  }),
+).annotate({ identifier: "AddCommentReplyRequest" }) as any as S.Schema<AddCommentReplyRequest>;
 
-export type CreateLineRequestLineCategoryEnum = "STRAIGHT" | "BENT" | "CURVED";
-export const CreateLineRequestLineCategoryEnum = S.String;
+/** Ungroups objects, such as groups. */
+export interface UngroupObjectsRequest {
+  /** The object IDs of the objects to ungroup. Only groups that are not inside other groups can be ungrouped. All the groups should be on the same page. The group itself is deleted. The visual sizes and positions of all the children are preserved. */
+  objectIds?: StringList;
+}
+export const UngroupObjectsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    objectIds: S.optional(StringList),
+  }),
+).annotate({ identifier: "UngroupObjectsRequest" }) as any as S.Schema<UngroupObjectsRequest>;
 
-/** Creates a line. */
-export interface CreateLineRequest {
-  /** The category of the line to be created. The exact line type created is determined based on the category and how it's routed to connect to other page elements. If you specify both a `category` and a `line_category`, the `category` takes precedence. If you do not specify a value for `category`, but specify a value for `line_category`, then the specified `line_category` value is used. If you do not specify either, then STRAIGHT is used. */
-  category?: CreateLineRequestCategoryEnum | (string & {});
-  /** The element properties for the line. */
-  elementProperties?: PageElementProperties;
-  /** The category of the line to be created. *Deprecated*: use `category` instead. The exact line type created is determined based on the category and how it's routed to connect to other page elements. If you specify both a `category` and a `line_category`, the `category` takes precedence. */
-  lineCategory?: CreateLineRequestLineCategoryEnum | (string & {});
-  /** A user-supplied object ID. If you specify an ID, it must be unique among all pages and page elements in the presentation. The ID must start with an alphanumeric character or an underscore (matches regex `[a-zA-Z0-9_]`); remaining characters may include those as well as a hyphen or colon (matches regex `[a-zA-Z0-9_-:]`). The length of the ID must not be less than 5 or greater than 50. If you don't specify an ID, a unique one is generated. */
+export type UpdatePageElementTransformRequestApplyModeEnum =
+  | "APPLY_MODE_UNSPECIFIED"
+  | "RELATIVE"
+  | "ABSOLUTE";
+export const UpdatePageElementTransformRequestApplyModeEnum = S.String;
+
+/** Updates the transform of a page element. Updating the transform of a group will change the absolute transform of the page elements in that group, which can change their visual appearance. See the documentation for PageElement.transform for more details. */
+export interface UpdatePageElementTransformRequest {
+  /** The input transform matrix used to update the page element. */
+  transform?: AffineTransform;
+  /** The apply mode of the transform update. */
+  applyMode?: UpdatePageElementTransformRequestApplyModeEnum | (string & {});
+  /** The object ID of the page element to update. */
   objectId?: string;
 }
-export const CreateLineRequest = /*@__PURE__*/ S.suspend(() =>
+export const UpdatePageElementTransformRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    category: S.optional(CreateLineRequestCategoryEnum),
-    elementProperties: S.optional(PageElementProperties),
-    lineCategory: S.optional(CreateLineRequestLineCategoryEnum),
+    transform: S.optional(AffineTransform),
+    applyMode: S.optional(UpdatePageElementTransformRequestApplyModeEnum),
     objectId: S.optional(S.String),
   }),
 ).annotate({
-  identifier: "CreateLineRequest",
-}) as any as S.Schema<CreateLineRequest>;
+  identifier: "UpdatePageElementTransformRequest",
+}) as any as S.Schema<UpdatePageElementTransformRequest>;
+
+/** A criteria that matches a specific string of text in a shape or table. */
+export interface SubstringMatchCriteria {
+  /** The text to search for in the shape or table. */
+  text?: string;
+  /** Optional. True if the find value should be treated as a regular expression. Any backslashes in the pattern should be escaped. - `True`: the search text is treated as a regular expressions. - `False`: the search text is treated as a substring for matching. */
+  searchByRegex?: boolean;
+  /** Indicates whether the search should respect case: - `True`: the search is case sensitive. - `False`: the search is case insensitive. */
+  matchCase?: boolean;
+}
+export const SubstringMatchCriteria = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    text: S.optional(S.String),
+    searchByRegex: S.optional(S.Boolean),
+    matchCase: S.optional(S.Boolean),
+  }),
+).annotate({ identifier: "SubstringMatchCriteria" }) as any as S.Schema<SubstringMatchCriteria>;
+
+/** Replaces all instances of text matching a criteria with replace text. */
+export interface ReplaceAllTextRequest {
+  /** If non-empty, limits the matches to page elements only on the given pages. Returns a 400 bad request error if given the page object ID of a notes master, or if a page with that object ID doesn't exist in the presentation. */
+  pageObjectIds?: StringList;
+  /** The text that will replace the matched text. */
+  replaceText?: string;
+  /** Finds text in a shape matching this substring. */
+  containsText?: SubstringMatchCriteria;
+}
+export const ReplaceAllTextRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    pageObjectIds: S.optional(StringList),
+    replaceText: S.optional(S.String),
+    containsText: S.optional(SubstringMatchCriteria),
+  }),
+).annotate({ identifier: "ReplaceAllTextRequest" }) as any as S.Schema<ReplaceAllTextRequest>;
+
+/** Inserts text into a shape or a table cell. */
+export interface InsertTextRequest {
+  /** The optional table cell location if the text is to be inserted into a table cell. If present, the object_id must refer to a table. */
+  cellLocation?: TableCellLocation;
+  /** The index where the text will be inserted, in Unicode code units, based on TextElement indexes. The index is zero-based and is computed from the start of the string. The index may be adjusted to prevent insertions inside Unicode grapheme clusters. In these cases, the text will be inserted immediately after the grapheme cluster. */
+  insertionIndex?: number;
+  /** The text to be inserted. Inserting a newline character will implicitly create a new ParagraphMarker at that index. The paragraph style of the new paragraph will be copied from the paragraph at the current insertion index, including lists and bullets. Text styles for inserted text will be determined automatically, generally preserving the styling of neighboring text. In most cases, the text will be added to the TextRun that exists at the insertion index. Some control characters (U+0000-U+0008, U+000C-U+001F) and characters from the Unicode Basic Multilingual Plane Private Use Area (U+E000-U+F8FF) will be stripped out of the inserted text. */
+  text?: string;
+  /** The object ID of the shape or table where the text will be inserted. */
+  objectId?: string;
+}
+export const InsertTextRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    cellLocation: S.optional(TableCellLocation),
+    insertionIndex: S.optional(S.Number),
+    text: S.optional(S.String),
+    objectId: S.optional(S.String),
+  }),
+).annotate({ identifier: "InsertTextRequest" }) as any as S.Schema<InsertTextRequest>;
+
+/** Update the properties of an Image. */
+export interface UpdateImagePropertiesRequest {
+  /** The object ID of the image the updates are applied to. */
+  objectId?: string;
+  /** The image properties to update. */
+  imageProperties?: ImageProperties;
+  /** The fields that should be updated. At least one field must be specified. The root `imageProperties` is implied and should not be specified. A single `"*"` can be used as short-hand for listing every field. For example to update the image outline color, set `fields` to `"outline.outlineFill.solidFill.color"`. To reset a property to its default value, include its field name in the field mask but leave the field itself unset. */
+  fields?: string;
+}
+export const UpdateImagePropertiesRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    objectId: S.optional(S.String),
+    imageProperties: S.optional(ImageProperties),
+    fields: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "UpdateImagePropertiesRequest",
+}) as any as S.Schema<UpdateImagePropertiesRequest>;
 
 /** Deletes bullets from all of the paragraphs that overlap with the given text index range. The nesting level of each paragraph will be visually preserved by adding indent to the start of the corresponding paragraph. */
 export interface DeleteParagraphBulletsRequest {
@@ -2995,171 +3085,349 @@ export const DeleteParagraphBulletsRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteParagraphBulletsRequest",
 }) as any as S.Schema<DeleteParagraphBulletsRequest>;
 
+/** Creates a new table. */
+export interface CreateTableRequest {
+  /** The element properties for the table. The table will be created at the provided size, subject to a minimum size. If no size is provided, the table will be automatically sized. Table transforms must have a scale of 1 and no shear components. If no transform is provided, the table will be centered on the page. */
+  elementProperties?: PageElementProperties;
+  /** Number of rows in the table. */
+  rows?: number;
+  /** A user-supplied object ID. If you specify an ID, it must be unique among all pages and page elements in the presentation. The ID must start with an alphanumeric character or an underscore (matches regex `[a-zA-Z0-9_]`); remaining characters may include those as well as a hyphen or colon (matches regex `[a-zA-Z0-9_-:]`). The length of the ID must not be less than 5 or greater than 50. If you don't specify an ID, a unique one is generated. */
+  objectId?: string;
+  /** Number of columns in the table. */
+  columns?: number;
+}
+export const CreateTableRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    elementProperties: S.optional(PageElementProperties),
+    rows: S.optional(S.Number),
+    objectId: S.optional(S.String),
+    columns: S.optional(S.Number),
+  }),
+).annotate({ identifier: "CreateTableRequest" }) as any as S.Schema<CreateTableRequest>;
+
+/** Merges cells in a Table. */
+export interface MergeTableCellsRequest {
+  /** The table range specifying which cells of the table to merge. Any text in the cells being merged will be concatenated and stored in the upper-left ("head") cell of the range. If the range is non-rectangular (which can occur in some cases where the range covers cells that are already merged), a 400 bad request error is returned. */
+  tableRange?: TableRange;
+  /** The object ID of the table. */
+  objectId?: string;
+}
+export const MergeTableCellsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    tableRange: S.optional(TableRange),
+    objectId: S.optional(S.String),
+  }),
+).annotate({ identifier: "MergeTableCellsRequest" }) as any as S.Schema<MergeTableCellsRequest>;
+
+/** Deletes a reply Post from a CommentThread. Returns a 400 bad request error if: - The requesting user is not the author of the post. - The reply post contains a comment action. - The reply post contains an assignee. [Developer Preview](https://developers.google.com/workspace/preview). */
+export interface DeleteCommentReplyRequest {
+  /** The ID of the reply Post being deleted. */
+  postId?: string;
+  /** The ID of the CommentThread which the post belongs to. */
+  commentId?: string;
+}
+export const DeleteCommentReplyRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    postId: S.optional(S.String),
+    commentId: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "DeleteCommentReplyRequest",
+}) as any as S.Schema<DeleteCommentReplyRequest>;
+
+export type ReplaceAllShapesWithSheetsChartRequestLinkingModeEnum = "NOT_LINKED_IMAGE" | "LINKED";
+export const ReplaceAllShapesWithSheetsChartRequestLinkingModeEnum = S.String;
+
+/** Replaces all shapes that match the given criteria with the provided Google Sheets chart. The chart will be scaled and centered to fit within the bounds of the original shape. NOTE: Replacing shapes with a chart requires at least one of the spreadsheets.readonly, spreadsheets, drive.readonly, or drive OAuth scopes. */
+export interface ReplaceAllShapesWithSheetsChartRequest {
+  /** The ID of the specific chart in the Google Sheets spreadsheet. */
+  chartId?: number;
+  /** The ID of the Google Sheets spreadsheet that contains the chart. */
+  spreadsheetId?: string;
+  /** The mode with which the chart is linked to the source spreadsheet. When not specified, the chart will be an image that is not linked. */
+  linkingMode?: ReplaceAllShapesWithSheetsChartRequestLinkingModeEnum | (string & {});
+  /** If non-empty, limits the matches to page elements only on the given pages. Returns a 400 bad request error if given the page object ID of a notes page or a notes master, or if a page with that object ID doesn't exist in the presentation. */
+  pageObjectIds?: StringList;
+  /** The criteria that the shapes must match in order to be replaced. The request will replace all of the shapes that contain the given text. */
+  containsText?: SubstringMatchCriteria;
+}
+export const ReplaceAllShapesWithSheetsChartRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    chartId: S.optional(S.Number),
+    spreadsheetId: S.optional(S.String),
+    linkingMode: S.optional(ReplaceAllShapesWithSheetsChartRequestLinkingModeEnum),
+    pageObjectIds: S.optional(StringList),
+    containsText: S.optional(SubstringMatchCriteria),
+  }),
+).annotate({
+  identifier: "ReplaceAllShapesWithSheetsChartRequest",
+}) as any as S.Schema<ReplaceAllShapesWithSheetsChartRequest>;
+
+/** Update the properties of a Shape. */
+export interface UpdateShapePropertiesRequest {
+  /** The object ID of the shape the updates are applied to. */
+  objectId?: string;
+  /** The fields that should be updated. At least one field must be specified. The root `shapeProperties` is implied and should not be specified. A single `"*"` can be used as short-hand for listing every field. For example to update the shape background solid fill color, set `fields` to `"shapeBackgroundFill.solidFill.color"`. To reset a property to its default value, include its field name in the field mask but leave the field itself unset. */
+  fields?: string;
+  /** The shape properties to update. */
+  shapeProperties?: ShapeProperties;
+}
+export const UpdateShapePropertiesRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    objectId: S.optional(S.String),
+    fields: S.optional(S.String),
+    shapeProperties: S.optional(ShapeProperties),
+  }),
+).annotate({
+  identifier: "UpdateShapePropertiesRequest",
+}) as any as S.Schema<UpdateShapePropertiesRequest>;
+
+export type CreateLineRequestLineCategoryEnum = "STRAIGHT" | "BENT" | "CURVED";
+export const CreateLineRequestLineCategoryEnum = S.String;
+
+export type CreateLineRequestCategoryEnum =
+  | "LINE_CATEGORY_UNSPECIFIED"
+  | "STRAIGHT"
+  | "BENT"
+  | "CURVED";
+export const CreateLineRequestCategoryEnum = S.String;
+
+/** Creates a line. */
+export interface CreateLineRequest {
+  /** The category of the line to be created. *Deprecated*: use `category` instead. The exact line type created is determined based on the category and how it's routed to connect to other page elements. If you specify both a `category` and a `line_category`, the `category` takes precedence. */
+  lineCategory?: CreateLineRequestLineCategoryEnum | (string & {});
+  /** The element properties for the line. */
+  elementProperties?: PageElementProperties;
+  /** A user-supplied object ID. If you specify an ID, it must be unique among all pages and page elements in the presentation. The ID must start with an alphanumeric character or an underscore (matches regex `[a-zA-Z0-9_]`); remaining characters may include those as well as a hyphen or colon (matches regex `[a-zA-Z0-9_-:]`). The length of the ID must not be less than 5 or greater than 50. If you don't specify an ID, a unique one is generated. */
+  objectId?: string;
+  /** The category of the line to be created. The exact line type created is determined based on the category and how it's routed to connect to other page elements. If you specify both a `category` and a `line_category`, the `category` takes precedence. If you do not specify a value for `category`, but specify a value for `line_category`, then the specified `line_category` value is used. If you do not specify either, then STRAIGHT is used. */
+  category?: CreateLineRequestCategoryEnum | (string & {});
+}
+export const CreateLineRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    lineCategory: S.optional(CreateLineRequestLineCategoryEnum),
+    elementProperties: S.optional(PageElementProperties),
+    objectId: S.optional(S.String),
+    category: S.optional(CreateLineRequestCategoryEnum),
+  }),
+).annotate({ identifier: "CreateLineRequest" }) as any as S.Schema<CreateLineRequest>;
+
+export type ReplaceAllShapesWithImageRequestImageReplaceMethodEnum =
+  | "IMAGE_REPLACE_METHOD_UNSPECIFIED"
+  | "CENTER_INSIDE"
+  | "CENTER_CROP";
+export const ReplaceAllShapesWithImageRequestImageReplaceMethodEnum = S.String;
+
+export type ReplaceAllShapesWithImageRequestReplaceMethodEnum = "CENTER_INSIDE" | "CENTER_CROP";
+export const ReplaceAllShapesWithImageRequestReplaceMethodEnum = S.String;
+
+/** Replaces all shapes that match the given criteria with the provided image. The images replacing the shapes are rectangular after being inserted into the presentation and do not take on the forms of the shapes. */
+export interface ReplaceAllShapesWithImageRequest {
+  /** If set, this request will replace all of the shapes that contain the given text. */
+  containsText?: SubstringMatchCriteria;
+  /** If non-empty, limits the matches to page elements only on the given pages. Returns a 400 bad request error if given the page object ID of a notes page or a notes master, or if a page with that object ID doesn't exist in the presentation. */
+  pageObjectIds?: StringList;
+  /** The image replace method. If you specify both a `replace_method` and an `image_replace_method`, the `image_replace_method` takes precedence. If you do not specify a value for `image_replace_method`, but specify a value for `replace_method`, then the specified `replace_method` value is used. If you do not specify either, then CENTER_INSIDE is used. */
+  imageReplaceMethod?: ReplaceAllShapesWithImageRequestImageReplaceMethodEnum | (string & {});
+  /** The image URL. The image is fetched once at insertion time and a copy is stored for display inside the presentation. Images must be less than 50MB in size, cannot exceed 25 megapixels, and must be in one of PNG, JPEG, or GIF format. The provided URL can be at most 2 kB in length. The URL itself is saved with the image, and exposed via the Image.source_url field. */
+  imageUrl?: string;
+  /** The replace method. *Deprecated*: use `image_replace_method` instead. If you specify both a `replace_method` and an `image_replace_method`, the `image_replace_method` takes precedence. */
+  replaceMethod?: ReplaceAllShapesWithImageRequestReplaceMethodEnum | (string & {});
+}
+export const ReplaceAllShapesWithImageRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    containsText: S.optional(SubstringMatchCriteria),
+    pageObjectIds: S.optional(StringList),
+    imageReplaceMethod: S.optional(ReplaceAllShapesWithImageRequestImageReplaceMethodEnum),
+    imageUrl: S.optional(S.String),
+    replaceMethod: S.optional(ReplaceAllShapesWithImageRequestReplaceMethodEnum),
+  }),
+).annotate({
+  identifier: "ReplaceAllShapesWithImageRequest",
+}) as any as S.Schema<ReplaceAllShapesWithImageRequest>;
+
+/** Refreshes an embedded Google Sheets chart by replacing it with the latest version of the chart from Google Sheets. NOTE: Refreshing charts requires at least one of the spreadsheets.readonly, spreadsheets, drive.readonly, or drive OAuth scopes. */
+export interface RefreshSheetsChartRequest {
+  /** The object ID of the chart to refresh. */
+  objectId?: string;
+}
+export const RefreshSheetsChartRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    objectId: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "RefreshSheetsChartRequest",
+}) as any as S.Schema<RefreshSheetsChartRequest>;
+
 /** A single kind of update to apply to a presentation. */
 export interface Request {
-  /** Updates the alt text title and/or description of a page element. */
-  updatePageElementAltText?: UpdatePageElementAltTextRequest;
-  /** Updates the properties of a TableCell. */
-  updateTableCellProperties?: UpdateTableCellPropertiesRequest;
-  /** Creates bullets for paragraphs. */
-  createParagraphBullets?: CreateParagraphBulletsRequest;
-  /** Creates a video. */
-  createVideo?: CreateVideoRequest;
-  /** Ungroups objects, such as groups. */
-  ungroupObjects?: UngroupObjectsRequest;
-  /** Updates the styling of paragraphs within a Shape or Table. */
-  updateParagraphStyle?: UpdateParagraphStyleRequest;
-  /** Duplicates a slide or page element. */
-  duplicateObject?: DuplicateObjectRequest;
-  /** Replaces all shapes matching some criteria with an image. */
-  replaceAllShapesWithImage?: ReplaceAllShapesWithImageRequest;
-  /** Inserts rows into a table. */
-  insertTableRows?: InsertTableRowsRequest;
-  /** Inserts text into a shape or table cell. */
-  insertText?: InsertTextRequest;
-  /** Deletes a column from a table. */
-  deleteTableColumn?: DeleteTableColumnRequest;
-  /** Replaces all instances of specified text. */
-  replaceAllText?: ReplaceAllTextRequest;
-  /** Reroutes a line such that it's connected at the two closest connection sites on the connected page elements. */
-  rerouteLine?: RerouteLineRequest;
-  /** Refreshes a Google Sheets chart. */
-  refreshSheetsChart?: RefreshSheetsChartRequest;
-  /** Updates the properties of an Image. */
-  updateImageProperties?: UpdateImagePropertiesRequest;
-  /** Updates the position of a set of slides in the presentation. */
-  updateSlidesPosition?: UpdateSlidesPositionRequest;
-  /** Creates an embedded Google Sheets chart. */
-  createSheetsChart?: CreateSheetsChartRequest;
-  /** Updates the styling of text within a Shape or Table. */
-  updateTextStyle?: UpdateTextStyleRequest;
-  /** Updates the Z-order of page elements. */
-  updatePageElementsZOrder?: UpdatePageElementsZOrderRequest;
   /** Updates the properties of the table borders in a Table. */
   updateTableBorderProperties?: UpdateTableBorderPropertiesRequest;
-  /** Updates the properties of a Shape. */
-  updateShapeProperties?: UpdateShapePropertiesRequest;
-  /** Updates the category of a line. */
-  updateLineCategory?: UpdateLineCategoryRequest;
-  /** Merges cells in a Table. */
-  mergeTableCells?: MergeTableCellsRequest;
-  /** Updates the properties of a Table column. */
-  updateTableColumnProperties?: UpdateTableColumnPropertiesRequest;
-  /** Updates the properties of a Line. */
-  updateLineProperties?: UpdateLinePropertiesRequest;
-  /** Deletes text from a shape or a table cell. */
-  deleteText?: DeleteTextRequest;
-  /** Creates a new shape. */
-  createShape?: CreateShapeRequest;
-  /** Updates the properties of a Table row. */
-  updateTableRowProperties?: UpdateTableRowPropertiesRequest;
-  /** Unmerges cells in a Table. */
-  unmergeTableCells?: UnmergeTableCellsRequest;
-  /** Replaces all shapes matching some criteria with a Google Sheets chart. */
-  replaceAllShapesWithSheetsChart?: ReplaceAllShapesWithSheetsChartRequest;
-  /** Creates a new slide. */
-  createSlide?: CreateSlideRequest;
-  /** Updates the properties of a Video. */
-  updateVideoProperties?: UpdateVideoPropertiesRequest;
-  /** Updates the properties of a Slide */
-  updateSlideProperties?: UpdateSlidePropertiesRequest;
-  /** Replaces an existing image with a new image. */
-  replaceImage?: ReplaceImageRequest;
-  /** Updates the properties of a Page. */
-  updatePageProperties?: UpdatePagePropertiesRequest;
-  /** Creates a new table. */
-  createTable?: CreateTableRequest;
-  /** Groups objects, such as page elements. */
-  groupObjects?: GroupObjectsRequest;
-  /** Deletes a row from a table. */
-  deleteTableRow?: DeleteTableRowRequest;
-  /** Creates an image. */
-  createImage?: CreateImageRequest;
-  /** Updates the transform of a page element. */
-  updatePageElementTransform?: UpdatePageElementTransformRequest;
   /** Inserts columns into a table. */
   insertTableColumns?: InsertTableColumnsRequest;
+  /** Updates the category of a line. */
+  updateLineCategory?: UpdateLineCategoryRequest;
+  /** Groups objects, such as page elements. */
+  groupObjects?: GroupObjectsRequest;
+  /** Replaces an existing image with a new image. */
+  replaceImage?: ReplaceImageRequest;
+  /** Duplicates a slide or page element. */
+  duplicateObject?: DuplicateObjectRequest;
+  /** Updates the alt text title and/or description of a page element. */
+  updatePageElementAltText?: UpdatePageElementAltTextRequest;
+  /** Creates a new shape. */
+  createShape?: CreateShapeRequest;
+  /** Updates the styling of text within a Shape or Table. */
+  updateTextStyle?: UpdateTextStyleRequest;
+  /** Deletes text from a shape or a table cell. */
+  deleteText?: DeleteTextRequest;
+  /** Updates the styling of paragraphs within a Shape or Table. */
+  updateParagraphStyle?: UpdateParagraphStyleRequest;
+  /** Creates bullets for paragraphs. */
+  createParagraphBullets?: CreateParagraphBulletsRequest;
+  /** Deletes a column from a table. */
+  deleteTableColumn?: DeleteTableColumnRequest;
+  /** Updates the properties of a Slide */
+  updateSlideProperties?: UpdateSlidePropertiesRequest;
+  /** Updates the properties of a Page. */
+  updatePageProperties?: UpdatePagePropertiesRequest;
+  /** Creates an embedded Google Sheets chart. */
+  createSheetsChart?: CreateSheetsChartRequest;
+  /** Creates a new slide. */
+  createSlide?: CreateSlideRequest;
+  /** Updates the position of a set of slides in the presentation. */
+  updateSlidesPosition?: UpdateSlidesPositionRequest;
+  /** Deletes a CommentThread. [Developer Preview](https://developers.google.com/workspace/preview). */
+  deleteComment?: DeleteCommentRequest;
+  /** Updates the properties of a Line. */
+  updateLineProperties?: UpdateLinePropertiesRequest;
+  /** Inserts a CommentThread into the presentation. [Developer Preview](https://developers.google.com/workspace/preview). */
+  insertComment?: InsertCommentRequest;
+  /** Inserts rows into a table. */
+  insertTableRows?: InsertTableRowsRequest;
+  /** Updates an existing post (head post or reply) of a CommentThread. [Developer Preview](https://developers.google.com/workspace/preview). */
+  updateCommentPost?: UpdateCommentPostRequest;
+  /** Updates the properties of a Video. */
+  updateVideoProperties?: UpdateVideoPropertiesRequest;
+  /** Updates the properties of a Table column. */
+  updateTableColumnProperties?: UpdateTableColumnPropertiesRequest;
+  /** Unmerges cells in a Table. */
+  unmergeTableCells?: UnmergeTableCellsRequest;
+  /** Updates the properties of a TableCell. */
+  updateTableCellProperties?: UpdateTableCellPropertiesRequest;
+  /** Updates the Z-order of page elements. */
+  updatePageElementsZOrder?: UpdatePageElementsZOrderRequest;
+  /** Creates an image. */
+  createImage?: CreateImageRequest;
+  /** Deletes a row from a table. */
+  deleteTableRow?: DeleteTableRowRequest;
+  /** Creates a video. */
+  createVideo?: CreateVideoRequest;
+  /** Reroutes a line such that it's connected at the two closest connection sites on the connected page elements. */
+  rerouteLine?: RerouteLineRequest;
+  /** Updates the properties of a Table row. */
+  updateTableRowProperties?: UpdateTableRowPropertiesRequest;
   /** Deletes a page or page element from the presentation. */
   deleteObject?: DeleteObjectRequest;
-  /** Creates a line. */
-  createLine?: CreateLineRequest;
+  /** Adds a reply to a CommentThread. [Developer Preview](https://developers.google.com/workspace/preview). */
+  addCommentReply?: AddCommentReplyRequest;
+  /** Ungroups objects, such as groups. */
+  ungroupObjects?: UngroupObjectsRequest;
+  /** Updates the transform of a page element. */
+  updatePageElementTransform?: UpdatePageElementTransformRequest;
+  /** Replaces all instances of specified text. */
+  replaceAllText?: ReplaceAllTextRequest;
+  /** Inserts text into a shape or table cell. */
+  insertText?: InsertTextRequest;
+  /** Updates the properties of an Image. */
+  updateImageProperties?: UpdateImagePropertiesRequest;
   /** Deletes bullets from paragraphs. */
   deleteParagraphBullets?: DeleteParagraphBulletsRequest;
+  /** Creates a new table. */
+  createTable?: CreateTableRequest;
+  /** Merges cells in a Table. */
+  mergeTableCells?: MergeTableCellsRequest;
+  /** Deletes a reply Post from a CommentThread. [Developer Preview](https://developers.google.com/workspace/preview). */
+  deleteCommentReply?: DeleteCommentReplyRequest;
+  /** Replaces all shapes matching some criteria with a Google Sheets chart. */
+  replaceAllShapesWithSheetsChart?: ReplaceAllShapesWithSheetsChartRequest;
+  /** Updates the properties of a Shape. */
+  updateShapeProperties?: UpdateShapePropertiesRequest;
+  /** Creates a line. */
+  createLine?: CreateLineRequest;
+  /** Replaces all shapes matching some criteria with an image. */
+  replaceAllShapesWithImage?: ReplaceAllShapesWithImageRequest;
+  /** Refreshes a Google Sheets chart. */
+  refreshSheetsChart?: RefreshSheetsChartRequest;
 }
 export const Request = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    updatePageElementAltText: S.optional(UpdatePageElementAltTextRequest),
-    updateTableCellProperties: S.optional(UpdateTableCellPropertiesRequest),
-    createParagraphBullets: S.optional(CreateParagraphBulletsRequest),
-    createVideo: S.optional(CreateVideoRequest),
-    ungroupObjects: S.optional(UngroupObjectsRequest),
-    updateParagraphStyle: S.optional(UpdateParagraphStyleRequest),
-    duplicateObject: S.optional(DuplicateObjectRequest),
-    replaceAllShapesWithImage: S.optional(ReplaceAllShapesWithImageRequest),
-    insertTableRows: S.optional(InsertTableRowsRequest),
-    insertText: S.optional(InsertTextRequest),
-    deleteTableColumn: S.optional(DeleteTableColumnRequest),
-    replaceAllText: S.optional(ReplaceAllTextRequest),
-    rerouteLine: S.optional(RerouteLineRequest),
-    refreshSheetsChart: S.optional(RefreshSheetsChartRequest),
-    updateImageProperties: S.optional(UpdateImagePropertiesRequest),
-    updateSlidesPosition: S.optional(UpdateSlidesPositionRequest),
-    createSheetsChart: S.optional(CreateSheetsChartRequest),
-    updateTextStyle: S.optional(UpdateTextStyleRequest),
-    updatePageElementsZOrder: S.optional(UpdatePageElementsZOrderRequest),
     updateTableBorderProperties: S.optional(UpdateTableBorderPropertiesRequest),
-    updateShapeProperties: S.optional(UpdateShapePropertiesRequest),
-    updateLineCategory: S.optional(UpdateLineCategoryRequest),
-    mergeTableCells: S.optional(MergeTableCellsRequest),
-    updateTableColumnProperties: S.optional(UpdateTableColumnPropertiesRequest),
-    updateLineProperties: S.optional(UpdateLinePropertiesRequest),
-    deleteText: S.optional(DeleteTextRequest),
-    createShape: S.optional(CreateShapeRequest),
-    updateTableRowProperties: S.optional(UpdateTableRowPropertiesRequest),
-    unmergeTableCells: S.optional(UnmergeTableCellsRequest),
-    replaceAllShapesWithSheetsChart: S.optional(ReplaceAllShapesWithSheetsChartRequest),
-    createSlide: S.optional(CreateSlideRequest),
-    updateVideoProperties: S.optional(UpdateVideoPropertiesRequest),
-    updateSlideProperties: S.optional(UpdateSlidePropertiesRequest),
-    replaceImage: S.optional(ReplaceImageRequest),
-    updatePageProperties: S.optional(UpdatePagePropertiesRequest),
-    createTable: S.optional(CreateTableRequest),
-    groupObjects: S.optional(GroupObjectsRequest),
-    deleteTableRow: S.optional(DeleteTableRowRequest),
-    createImage: S.optional(CreateImageRequest),
-    updatePageElementTransform: S.optional(UpdatePageElementTransformRequest),
     insertTableColumns: S.optional(InsertTableColumnsRequest),
+    updateLineCategory: S.optional(UpdateLineCategoryRequest),
+    groupObjects: S.optional(GroupObjectsRequest),
+    replaceImage: S.optional(ReplaceImageRequest),
+    duplicateObject: S.optional(DuplicateObjectRequest),
+    updatePageElementAltText: S.optional(UpdatePageElementAltTextRequest),
+    createShape: S.optional(CreateShapeRequest),
+    updateTextStyle: S.optional(UpdateTextStyleRequest),
+    deleteText: S.optional(DeleteTextRequest),
+    updateParagraphStyle: S.optional(UpdateParagraphStyleRequest),
+    createParagraphBullets: S.optional(CreateParagraphBulletsRequest),
+    deleteTableColumn: S.optional(DeleteTableColumnRequest),
+    updateSlideProperties: S.optional(UpdateSlidePropertiesRequest),
+    updatePageProperties: S.optional(UpdatePagePropertiesRequest),
+    createSheetsChart: S.optional(CreateSheetsChartRequest),
+    createSlide: S.optional(CreateSlideRequest),
+    updateSlidesPosition: S.optional(UpdateSlidesPositionRequest),
+    deleteComment: S.optional(DeleteCommentRequest),
+    updateLineProperties: S.optional(UpdateLinePropertiesRequest),
+    insertComment: S.optional(InsertCommentRequest),
+    insertTableRows: S.optional(InsertTableRowsRequest),
+    updateCommentPost: S.optional(UpdateCommentPostRequest),
+    updateVideoProperties: S.optional(UpdateVideoPropertiesRequest),
+    updateTableColumnProperties: S.optional(UpdateTableColumnPropertiesRequest),
+    unmergeTableCells: S.optional(UnmergeTableCellsRequest),
+    updateTableCellProperties: S.optional(UpdateTableCellPropertiesRequest),
+    updatePageElementsZOrder: S.optional(UpdatePageElementsZOrderRequest),
+    createImage: S.optional(CreateImageRequest),
+    deleteTableRow: S.optional(DeleteTableRowRequest),
+    createVideo: S.optional(CreateVideoRequest),
+    rerouteLine: S.optional(RerouteLineRequest),
+    updateTableRowProperties: S.optional(UpdateTableRowPropertiesRequest),
     deleteObject: S.optional(DeleteObjectRequest),
-    createLine: S.optional(CreateLineRequest),
+    addCommentReply: S.optional(AddCommentReplyRequest),
+    ungroupObjects: S.optional(UngroupObjectsRequest),
+    updatePageElementTransform: S.optional(UpdatePageElementTransformRequest),
+    replaceAllText: S.optional(ReplaceAllTextRequest),
+    insertText: S.optional(InsertTextRequest),
+    updateImageProperties: S.optional(UpdateImagePropertiesRequest),
     deleteParagraphBullets: S.optional(DeleteParagraphBulletsRequest),
+    createTable: S.optional(CreateTableRequest),
+    mergeTableCells: S.optional(MergeTableCellsRequest),
+    deleteCommentReply: S.optional(DeleteCommentReplyRequest),
+    replaceAllShapesWithSheetsChart: S.optional(ReplaceAllShapesWithSheetsChartRequest),
+    updateShapeProperties: S.optional(UpdateShapePropertiesRequest),
+    createLine: S.optional(CreateLineRequest),
+    replaceAllShapesWithImage: S.optional(ReplaceAllShapesWithImageRequest),
+    refreshSheetsChart: S.optional(RefreshSheetsChartRequest),
   }),
 ).annotate({ identifier: "Request" }) as any as S.Schema<Request>;
 
 export type RequestList = Array<Request>;
 export const RequestList = /*@__PURE__*/ S.Array(Request) as any as S.Schema<RequestList>;
 
-/** Provides control over how write requests are executed. */
-export interface WriteControl {
-  /** The revision ID of the presentation required for the write request. If specified and the required revision ID doesn't match the presentation's current revision ID, the request is not processed and returns a 400 bad request error. When a required revision ID is returned in a response, it indicates the revision ID of the document after the request was applied. */
-  requiredRevisionId?: string;
-}
-export const WriteControl = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    requiredRevisionId: S.optional(S.String),
-  }),
-).annotate({ identifier: "WriteControl" }) as any as S.Schema<WriteControl>;
-
 /** Request message for PresentationsService.BatchUpdatePresentation. */
 export interface BatchUpdatePresentationRequest {
-  /** A list of updates to apply to the presentation. */
-  requests?: RequestList;
   /** Provides control over how write requests are executed. */
   writeControl?: WriteControl;
+  /** A list of updates to apply to the presentation. */
+  requests?: RequestList;
 }
 export const BatchUpdatePresentationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    requests: S.optional(RequestList),
     writeControl: S.optional(WriteControl),
+    requests: S.optional(RequestList),
   }),
 ).annotate({
   identifier: "BatchUpdatePresentationRequest",
@@ -3186,71 +3454,6 @@ export const BatchUpdatePresentationsRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "BatchUpdatePresentationsRequest",
 }) as any as S.Schema<BatchUpdatePresentationsRequest>;
 
-/** The result of replacing shapes with an image. */
-export interface ReplaceAllShapesWithImageResponse {
-  /** The number of shapes replaced with images. */
-  occurrencesChanged?: number;
-}
-export const ReplaceAllShapesWithImageResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    occurrencesChanged: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "ReplaceAllShapesWithImageResponse",
-}) as any as S.Schema<ReplaceAllShapesWithImageResponse>;
-
-/** The result of creating a table. */
-export interface CreateTableResponse {
-  /** The object ID of the created table. */
-  objectId?: string;
-}
-export const CreateTableResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    objectId: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "CreateTableResponse",
-}) as any as S.Schema<CreateTableResponse>;
-
-/** The result of creating a line. */
-export interface CreateLineResponse {
-  /** The object ID of the created line. */
-  objectId?: string;
-}
-export const CreateLineResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    objectId: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "CreateLineResponse",
-}) as any as S.Schema<CreateLineResponse>;
-
-/** The result of creating a shape. */
-export interface CreateShapeResponse {
-  /** The object ID of the created shape. */
-  objectId?: string;
-}
-export const CreateShapeResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    objectId: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "CreateShapeResponse",
-}) as any as S.Schema<CreateShapeResponse>;
-
-/** The result of grouping objects. */
-export interface GroupObjectsResponse {
-  /** The object ID of the created group. */
-  objectId?: string;
-}
-export const GroupObjectsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    objectId: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GroupObjectsResponse",
-}) as any as S.Schema<GroupObjectsResponse>;
-
 /** The result of creating an image. */
 export interface CreateImageResponse {
   /** The object ID of the created image. */
@@ -3260,35 +3463,7 @@ export const CreateImageResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     objectId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CreateImageResponse",
-}) as any as S.Schema<CreateImageResponse>;
-
-/** The result of creating a slide. */
-export interface CreateSlideResponse {
-  /** The object ID of the created slide. */
-  objectId?: string;
-}
-export const CreateSlideResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    objectId: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "CreateSlideResponse",
-}) as any as S.Schema<CreateSlideResponse>;
-
-/** The result of creating a video. */
-export interface CreateVideoResponse {
-  /** The object ID of the created video. */
-  objectId?: string;
-}
-export const CreateVideoResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    objectId: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "CreateVideoResponse",
-}) as any as S.Schema<CreateVideoResponse>;
+).annotate({ identifier: "CreateImageResponse" }) as any as S.Schema<CreateImageResponse>;
 
 /** The result of creating an embedded Google Sheets chart. */
 export interface CreateSheetsChartResponse {
@@ -3303,18 +3478,73 @@ export const CreateSheetsChartResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "CreateSheetsChartResponse",
 }) as any as S.Schema<CreateSheetsChartResponse>;
 
-/** The response of duplicating an object. */
-export interface DuplicateObjectResponse {
-  /** The ID of the new duplicate object. */
+/** The result of creating a slide. */
+export interface CreateSlideResponse {
+  /** The object ID of the created slide. */
   objectId?: string;
 }
-export const DuplicateObjectResponse = /*@__PURE__*/ S.suspend(() =>
+export const CreateSlideResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     objectId: S.optional(S.String),
   }),
+).annotate({ identifier: "CreateSlideResponse" }) as any as S.Schema<CreateSlideResponse>;
+
+/** The result of creating a table. */
+export interface CreateTableResponse {
+  /** The object ID of the created table. */
+  objectId?: string;
+}
+export const CreateTableResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    objectId: S.optional(S.String),
+  }),
+).annotate({ identifier: "CreateTableResponse" }) as any as S.Schema<CreateTableResponse>;
+
+/** The result of creating a video. */
+export interface CreateVideoResponse {
+  /** The object ID of the created video. */
+  objectId?: string;
+}
+export const CreateVideoResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    objectId: S.optional(S.String),
+  }),
+).annotate({ identifier: "CreateVideoResponse" }) as any as S.Schema<CreateVideoResponse>;
+
+/** The result of creating a shape. */
+export interface CreateShapeResponse {
+  /** The object ID of the created shape. */
+  objectId?: string;
+}
+export const CreateShapeResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    objectId: S.optional(S.String),
+  }),
+).annotate({ identifier: "CreateShapeResponse" }) as any as S.Schema<CreateShapeResponse>;
+
+/** The result of replacing text. */
+export interface ReplaceAllTextResponse {
+  /** The number of occurrences changed by replacing all text. */
+  occurrencesChanged?: number;
+}
+export const ReplaceAllTextResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    occurrencesChanged: S.optional(S.Number),
+  }),
+).annotate({ identifier: "ReplaceAllTextResponse" }) as any as S.Schema<ReplaceAllTextResponse>;
+
+/** The result of replacing shapes with an image. */
+export interface ReplaceAllShapesWithImageResponse {
+  /** The number of shapes replaced with images. */
+  occurrencesChanged?: number;
+}
+export const ReplaceAllShapesWithImageResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    occurrencesChanged: S.optional(S.Number),
+  }),
 ).annotate({
-  identifier: "DuplicateObjectResponse",
-}) as any as S.Schema<DuplicateObjectResponse>;
+  identifier: "ReplaceAllShapesWithImageResponse",
+}) as any as S.Schema<ReplaceAllShapesWithImageResponse>;
 
 /** The result of replacing shapes with a Google Sheets chart. */
 export interface ReplaceAllShapesWithSheetsChartResponse {
@@ -3329,80 +3559,138 @@ export const ReplaceAllShapesWithSheetsChartResponse = /*@__PURE__*/ S.suspend((
   identifier: "ReplaceAllShapesWithSheetsChartResponse",
 }) as any as S.Schema<ReplaceAllShapesWithSheetsChartResponse>;
 
-/** The result of replacing text. */
-export interface ReplaceAllTextResponse {
-  /** The number of occurrences changed by replacing all text. */
-  occurrencesChanged?: number;
+/** The result of grouping objects. */
+export interface GroupObjectsResponse {
+  /** The object ID of the created group. */
+  objectId?: string;
 }
-export const ReplaceAllTextResponse = /*@__PURE__*/ S.suspend(() =>
+export const GroupObjectsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    occurrencesChanged: S.optional(S.Number),
+    objectId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ReplaceAllTextResponse",
-}) as any as S.Schema<ReplaceAllTextResponse>;
+).annotate({ identifier: "GroupObjectsResponse" }) as any as S.Schema<GroupObjectsResponse>;
+
+/** The result of creating a reply. [Developer Preview](https://developers.google.com/workspace/preview). */
+export interface AddCommentReplyResponse {
+  /** The newly-inserted reply Post. */
+  post?: Post;
+}
+export const AddCommentReplyResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    post: S.optional(Post),
+  }),
+).annotate({ identifier: "AddCommentReplyResponse" }) as any as S.Schema<AddCommentReplyResponse>;
+
+/** The result of creating a comment. [Developer Preview](https://developers.google.com/workspace/preview). */
+export interface InsertCommentResponse {
+  /** The newly-inserted comment thread. */
+  commentThread?: CommentThread;
+}
+export const InsertCommentResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    commentThread: S.optional(CommentThread),
+  }),
+).annotate({ identifier: "InsertCommentResponse" }) as any as S.Schema<InsertCommentResponse>;
+
+/** The result of creating a line. */
+export interface CreateLineResponse {
+  /** The object ID of the created line. */
+  objectId?: string;
+}
+export const CreateLineResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    objectId: S.optional(S.String),
+  }),
+).annotate({ identifier: "CreateLineResponse" }) as any as S.Schema<CreateLineResponse>;
+
+/** The response of duplicating an object. */
+export interface DuplicateObjectResponse {
+  /** The ID of the new duplicate object. */
+  objectId?: string;
+}
+export const DuplicateObjectResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    objectId: S.optional(S.String),
+  }),
+).annotate({ identifier: "DuplicateObjectResponse" }) as any as S.Schema<DuplicateObjectResponse>;
 
 /** A single response from an update. */
 export interface Response {
-  /** The result of replacing all shapes matching some criteria with an image. */
-  replaceAllShapesWithImage?: ReplaceAllShapesWithImageResponse;
-  /** The result of creating a table. */
-  createTable?: CreateTableResponse;
-  /** The result of creating a line. */
-  createLine?: CreateLineResponse;
-  /** The result of creating a shape. */
-  createShape?: CreateShapeResponse;
-  /** The result of grouping objects. */
-  groupObjects?: GroupObjectsResponse;
   /** The result of creating an image. */
   createImage?: CreateImageResponse;
-  /** The result of creating a slide. */
-  createSlide?: CreateSlideResponse;
-  /** The result of creating a video. */
-  createVideo?: CreateVideoResponse;
   /** The result of creating a Google Sheets chart. */
   createSheetsChart?: CreateSheetsChartResponse;
-  /** The result of duplicating an object. */
-  duplicateObject?: DuplicateObjectResponse;
-  /** The result of replacing all shapes matching some criteria with a Google Sheets chart. */
-  replaceAllShapesWithSheetsChart?: ReplaceAllShapesWithSheetsChartResponse;
+  /** The result of creating a slide. */
+  createSlide?: CreateSlideResponse;
+  /** The result of creating a table. */
+  createTable?: CreateTableResponse;
+  /** The result of creating a video. */
+  createVideo?: CreateVideoResponse;
+  /** The result of creating a shape. */
+  createShape?: CreateShapeResponse;
   /** The result of replacing text. */
   replaceAllText?: ReplaceAllTextResponse;
+  /** The result of replacing all shapes matching some criteria with an image. */
+  replaceAllShapesWithImage?: ReplaceAllShapesWithImageResponse;
+  /** The result of replacing all shapes matching some criteria with a Google Sheets chart. */
+  replaceAllShapesWithSheetsChart?: ReplaceAllShapesWithSheetsChartResponse;
+  /** The result of grouping objects. */
+  groupObjects?: GroupObjectsResponse;
+  /** The result of creating a reply. [Developer Preview](https://developers.google.com/workspace/preview). */
+  addCommentReply?: AddCommentReplyResponse;
+  /** The result of creating a comment. [Developer Preview](https://developers.google.com/workspace/preview). */
+  insertComment?: InsertCommentResponse;
+  /** The result of creating a line. */
+  createLine?: CreateLineResponse;
+  /** The result of duplicating an object. */
+  duplicateObject?: DuplicateObjectResponse;
 }
 export const Response = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    replaceAllShapesWithImage: S.optional(ReplaceAllShapesWithImageResponse),
-    createTable: S.optional(CreateTableResponse),
-    createLine: S.optional(CreateLineResponse),
-    createShape: S.optional(CreateShapeResponse),
-    groupObjects: S.optional(GroupObjectsResponse),
     createImage: S.optional(CreateImageResponse),
-    createSlide: S.optional(CreateSlideResponse),
-    createVideo: S.optional(CreateVideoResponse),
     createSheetsChart: S.optional(CreateSheetsChartResponse),
-    duplicateObject: S.optional(DuplicateObjectResponse),
-    replaceAllShapesWithSheetsChart: S.optional(ReplaceAllShapesWithSheetsChartResponse),
+    createSlide: S.optional(CreateSlideResponse),
+    createTable: S.optional(CreateTableResponse),
+    createVideo: S.optional(CreateVideoResponse),
+    createShape: S.optional(CreateShapeResponse),
     replaceAllText: S.optional(ReplaceAllTextResponse),
+    replaceAllShapesWithImage: S.optional(ReplaceAllShapesWithImageResponse),
+    replaceAllShapesWithSheetsChart: S.optional(ReplaceAllShapesWithSheetsChartResponse),
+    groupObjects: S.optional(GroupObjectsResponse),
+    addCommentReply: S.optional(AddCommentReplyResponse),
+    insertComment: S.optional(InsertCommentResponse),
+    createLine: S.optional(CreateLineResponse),
+    duplicateObject: S.optional(DuplicateObjectResponse),
   }),
 ).annotate({ identifier: "Response" }) as any as S.Schema<Response>;
 
 export type ResponseList = Array<Response>;
 export const ResponseList = /*@__PURE__*/ S.Array(Response) as any as S.Schema<ResponseList>;
 
+export type BatchUpdatePresentationResponseCommentUpdateStateEnum =
+  | "COMMENT_UPDATE_STATE_UNSPECIFIED"
+  | "NO_UPDATES_REQUESTED"
+  | "ALL_SAVED"
+  | "ALL_FAILED_UNKNOWN_REASON";
+export const BatchUpdatePresentationResponseCommentUpdateStateEnum = S.String;
+
 /** Response message from a batch update. */
 export interface BatchUpdatePresentationResponse {
   /** The reply of the updates. This maps 1:1 with the updates, although replies to some requests may be empty. */
   replies?: ResponseList;
-  /** The updated write control after applying the request. */
-  writeControl?: WriteControl;
+  /** Whether comment updates were applied in the batch request. [Developer Preview](https://developers.google.com/workspace/preview). */
+  commentUpdateState?: BatchUpdatePresentationResponseCommentUpdateStateEnum;
   /** The presentation the updates were applied to. */
   presentationId?: string;
+  /** The updated write control after applying the request. */
+  writeControl?: WriteControl;
 }
 export const BatchUpdatePresentationResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     replies: S.optional(ResponseList),
-    writeControl: S.optional(WriteControl),
+    commentUpdateState: S.optional(BatchUpdatePresentationResponseCommentUpdateStateEnum),
     presentationId: S.optional(S.String),
+    writeControl: S.optional(WriteControl),
   }),
 ).annotate({
   identifier: "BatchUpdatePresentationResponse",
@@ -3411,38 +3699,51 @@ export const BatchUpdatePresentationResponse = /*@__PURE__*/ S.suspend(() =>
 export type PageList = Array<Page>;
 export const PageList = /*@__PURE__*/ S.Array(Page) as any as S.Schema<PageList>;
 
+export type PresentationCommentsViewModeEnum =
+  | "COMMENTS_VIEW_MODE_UNSPECIFIED"
+  | "COMMENTS_VIEW_MODE_DEFAULT_FOR_CURRENT_ACCESS"
+  | "COMMENTS_VIEW_MODE_OMITTED"
+  | "COMMENTS_VIEW_MODE_INCLUDED";
+export const PresentationCommentsViewModeEnum = S.String;
+
 /** A Google Slides presentation. */
 export interface Presentation {
-  /** The slides in the presentation. A slide inherits properties from a slide layout. */
-  slides?: PageList;
+  /** Output only. The comment threads associated with the presentation. [Developer Preview](https://developers.google.com/workspace/preview). */
+  comments?: CommentThreadList;
+  /** The locale of the presentation, as an IETF BCP 47 language tag. */
+  locale?: string;
+  /** The layouts in the presentation. A layout is a template that determines how content is arranged and styled on the slides that inherit from that layout. */
+  layouts?: PageList;
   /** The slide masters in the presentation. A slide master contains all common page elements and the common properties for a set of layouts. They serve three purposes: - Placeholder shapes on a master contain the default text styles and shape properties of all placeholder shapes on pages that use that master. - The master page properties define the common page properties inherited by its layouts. - Any other shapes on the master slide appear on all slides using that master, regardless of their layout. */
   masters?: PageList;
   /** The ID of the presentation. */
   presentationId?: string;
-  /** The title of the presentation. */
-  title?: string;
-  /** The size of pages in the presentation. */
-  pageSize?: Size;
-  /** The locale of the presentation, as an IETF BCP 47 language tag. */
-  locale?: string;
-  /** Output only. The revision ID of the presentation. Can be used in update requests to assert the presentation revision hasn't changed since the last read operation. Only populated if the user has edit access to the presentation. The revision ID is not a sequential number but a nebulous string. The format of the revision ID may change over time, so it should be treated opaquely. A returned revision ID is only guaranteed to be valid for 24 hours after it has been returned and cannot be shared across users. If the revision ID is unchanged between calls, then the presentation has not changed. Conversely, a changed ID (for the same presentation and user) usually means the presentation has been updated. However, a changed ID can also be due to internal factors such as ID format changes. */
-  revisionId?: string;
   /** The notes master in the presentation. It serves three purposes: - Placeholder shapes on a notes master contain the default text styles and shape properties of all placeholder shapes on notes pages. Specifically, a `SLIDE_IMAGE` placeholder shape contains the slide thumbnail, and a `BODY` placeholder shape contains the speaker notes. - The notes master page properties define the common page properties inherited by all notes pages. - Any other shapes on the notes master appear on all notes pages. The notes master is read-only. */
   notesMaster?: Page;
-  /** The layouts in the presentation. A layout is a template that determines how content is arranged and styled on the slides that inherit from that layout. */
-  layouts?: PageList;
+  /** Output only. The revision ID of the presentation. Can be used in update requests to assert the presentation revision hasn't changed since the last read operation. Only populated if the user has edit access to the presentation. The revision ID is not a sequential number but a nebulous string. The format of the revision ID may change over time, so it should be treated opaquely. A returned revision ID is only guaranteed to be valid for 24 hours after it has been returned and cannot be shared across users. If the revision ID is unchanged between calls, then the presentation has not changed. Conversely, a changed ID (for the same presentation and user) usually means the presentation has been updated. However, a changed ID can also be due to internal factors such as ID format changes. */
+  revisionId?: string;
+  /** The slides in the presentation. A slide inherits properties from a slide layout. */
+  slides?: PageList;
+  /** Output only. The comments view mode applied to the presentation. [Developer Preview](https://developers.google.com/workspace/preview). */
+  commentsViewMode?: PresentationCommentsViewModeEnum | (string & {});
+  /** The size of pages in the presentation. */
+  pageSize?: Size;
+  /** The title of the presentation. */
+  title?: string;
 }
 export const Presentation = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    slides: S.optional(PageList),
+    comments: S.optional(CommentThreadList),
+    locale: S.optional(S.String),
+    layouts: S.optional(PageList),
     masters: S.optional(PageList),
     presentationId: S.optional(S.String),
-    title: S.optional(S.String),
-    pageSize: S.optional(Size),
-    locale: S.optional(S.String),
-    revisionId: S.optional(S.String),
     notesMaster: S.optional(Page),
-    layouts: S.optional(PageList),
+    revisionId: S.optional(S.String),
+    slides: S.optional(PageList),
+    commentsViewMode: S.optional(PresentationCommentsViewModeEnum),
+    pageSize: S.optional(Size),
+    title: S.optional(S.String),
   }),
 ).annotate({ identifier: "Presentation" }) as any as S.Schema<Presentation>;
 
@@ -3454,23 +3755,29 @@ export const CreatePresentationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     body: S.optional(Presentation.pipe(T.HttpBody())),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "v1/presentations",
-      baseUrl: "https://slides.googleapis.com/",
-    }),
+    T.Http({ method: "POST", uri: "v1/presentations", baseUrl: "https://slides.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "CreatePresentationsRequest",
 }) as any as S.Schema<CreatePresentationsRequest>;
 
+export type GetPresentationsCommentsViewModeEnum =
+  | "COMMENTS_VIEW_MODE_UNSPECIFIED"
+  | "COMMENTS_VIEW_MODE_DEFAULT_FOR_CURRENT_ACCESS"
+  | "COMMENTS_VIEW_MODE_OMITTED"
+  | "COMMENTS_VIEW_MODE_INCLUDED";
+export const GetPresentationsCommentsViewModeEnum = S.String;
+
 export interface GetPresentationsRequest {
   /** The ID of the presentation to retrieve. */
   presentationId: string;
+  /** The comments view mode to apply to the presentation. This allows viewing the presentation with comments omitted or included. If one is not specified, COMMENTS_VIEW_MODE_OMITTED is used. [Developer Preview](https://developers.google.com/workspace/preview). */
+  commentsViewMode?: GetPresentationsCommentsViewModeEnum | (string & {});
 }
 export const GetPresentationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     presentationId: S.String.pipe(T.Label()),
+    commentsViewMode: S.optional(GetPresentationsCommentsViewModeEnum.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -3478,19 +3785,27 @@ export const GetPresentationsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://slides.googleapis.com/",
     }),
   ),
-).annotate({
-  identifier: "GetPresentationsRequest",
-}) as any as S.Schema<GetPresentationsRequest>;
+).annotate({ identifier: "GetPresentationsRequest" }) as any as S.Schema<GetPresentationsRequest>;
+
+export type GetPresentationsPagesCommentsViewModeEnum =
+  | "COMMENTS_VIEW_MODE_UNSPECIFIED"
+  | "COMMENTS_VIEW_MODE_DEFAULT_FOR_CURRENT_ACCESS"
+  | "COMMENTS_VIEW_MODE_OMITTED"
+  | "COMMENTS_VIEW_MODE_INCLUDED";
+export const GetPresentationsPagesCommentsViewModeEnum = S.String;
 
 export interface GetPresentationsPagesRequest {
   /** The ID of the presentation to retrieve. */
   presentationId: string;
+  /** The comments view mode to apply to the page. This allows viewing the page with comments omitted or included. If one is not specified, COMMENTS_VIEW_MODE_OMITTED is used. [Developer Preview](https://developers.google.com/workspace/preview). */
+  commentsViewMode?: GetPresentationsPagesCommentsViewModeEnum | (string & {});
   /** The object ID of the page to retrieve. */
   pageObjectId: string;
 }
 export const GetPresentationsPagesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     presentationId: S.String.pipe(T.Label()),
+    commentsViewMode: S.optional(GetPresentationsPagesCommentsViewModeEnum.pipe(T.Query())),
     pageObjectId: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
@@ -3503,9 +3818,6 @@ export const GetPresentationsPagesRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetPresentationsPagesRequest",
 }) as any as S.Schema<GetPresentationsPagesRequest>;
 
-export type GetThumbnailPresentationsPagesThumbnailProperties_mimeTypeEnum = "PNG";
-export const GetThumbnailPresentationsPagesThumbnailProperties_mimeTypeEnum = S.String;
-
 export type GetThumbnailPresentationsPagesThumbnailProperties_thumbnailSizeEnum =
   | "THUMBNAIL_SIZE_UNSPECIFIED"
   | "LARGE"
@@ -3514,29 +3826,32 @@ export type GetThumbnailPresentationsPagesThumbnailProperties_thumbnailSizeEnum 
   | "WIDTH2000_PX";
 export const GetThumbnailPresentationsPagesThumbnailProperties_thumbnailSizeEnum = S.String;
 
+export type GetThumbnailPresentationsPagesThumbnailProperties_mimeTypeEnum = "PNG";
+export const GetThumbnailPresentationsPagesThumbnailProperties_mimeTypeEnum = S.String;
+
 export interface GetThumbnailPresentationsPagesRequest {
   /** The ID of the presentation to retrieve. */
   presentationId: string;
+  /** The optional thumbnail image size. If you don't specify the size, the server chooses a default size of the image. */
+  "thumbnailProperties.thumbnailSize"?:
+    | GetThumbnailPresentationsPagesThumbnailProperties_thumbnailSizeEnum
+    | (string & {});
   /** The object ID of the page whose thumbnail to retrieve. */
   pageObjectId: string;
   /** The optional mime type of the thumbnail image. If you don't specify the mime type, the mime type defaults to PNG. */
   "thumbnailProperties.mimeType"?:
     | GetThumbnailPresentationsPagesThumbnailProperties_mimeTypeEnum
     | (string & {});
-  /** The optional thumbnail image size. If you don't specify the size, the server chooses a default size of the image. */
-  "thumbnailProperties.thumbnailSize"?:
-    | GetThumbnailPresentationsPagesThumbnailProperties_thumbnailSizeEnum
-    | (string & {});
 }
 export const GetThumbnailPresentationsPagesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     presentationId: S.String.pipe(T.Label()),
+    "thumbnailProperties.thumbnailSize": S.optional(
+      GetThumbnailPresentationsPagesThumbnailProperties_thumbnailSizeEnum.pipe(T.Query()),
+    ),
     pageObjectId: S.String.pipe(T.Label()),
     "thumbnailProperties.mimeType": S.optional(
       GetThumbnailPresentationsPagesThumbnailProperties_mimeTypeEnum.pipe(T.Query()),
-    ),
-    "thumbnailProperties.thumbnailSize": S.optional(
-      GetThumbnailPresentationsPagesThumbnailProperties_thumbnailSizeEnum.pipe(T.Query()),
     ),
   }).pipe(
     T.Http({
@@ -3551,18 +3866,18 @@ export const GetThumbnailPresentationsPagesRequest = /*@__PURE__*/ S.suspend(() 
 
 /** The thumbnail of a page. */
 export interface Thumbnail {
-  /** The positive height in pixels of the thumbnail image. */
-  height?: number;
   /** The positive width in pixels of the thumbnail image. */
   width?: number;
   /** The content URL of the thumbnail image. The URL to the image has a default lifetime of 30 minutes. This URL is tagged with the account of the requester. Anyone with the URL effectively accesses the image as the original requester. Access to the image may be lost if the presentation's sharing settings change. The mime type of the thumbnail image is the same as specified in the `GetPageThumbnailRequest`. */
   contentUrl?: string;
+  /** The positive height in pixels of the thumbnail image. */
+  height?: number;
 }
 export const Thumbnail = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    height: S.optional(S.Number),
     width: S.optional(S.Number),
     contentUrl: S.optional(S.String),
+    height: S.optional(S.Number),
   }),
 ).annotate({ identifier: "Thumbnail" }) as any as S.Schema<Thumbnail>;
 

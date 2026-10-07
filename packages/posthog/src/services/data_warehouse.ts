@@ -155,9 +155,7 @@ export const ResetPasswordResponse = /*@__PURE__*/ S.suspend(() =>
     username: S.String,
     password: S.String.pipe(T.SensitiveValue({})),
   }),
-).annotate({
-  identifier: "ResetPasswordResponse",
-}) as any as S.Schema<ResetPasswordResponse>;
+).annotate({ identifier: "ResetPasswordResponse" }) as any as S.Schema<ResetPasswordResponse>;
 
 export interface DeleteDataWarehouseOrgDestroyRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -258,17 +256,36 @@ export const CheckSchemaNameResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     available: S.Boolean,
   }),
-).annotate({
-  identifier: "CheckSchemaNameResponse",
-}) as any as S.Schema<CheckSchemaNameResponse>;
+).annotate({ identifier: "CheckSchemaNameResponse" }) as any as S.Schema<CheckSchemaNameResponse>;
+
+export type GetDataWarehouseCompletedActivityRequestKind = "all" | "import" | "model";
+export const GetDataWarehouseCompletedActivityRequestKind = S.String;
+
+export type GetDataWarehouseCompletedActivityRequestOutcome = "completed" | "failed" | "all";
+export const GetDataWarehouseCompletedActivityRequestOutcome = S.String;
 
 export interface GetDataWarehouseCompletedActivityRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
+  /** Only include runs created within this many days of now. Defaults to 30. */
+  cutoff_days?: number;
+  /** Which runs to return: 'import' for warehouse source syncs, 'model' for materialized view runs, 'all' for both. Defaults to 'all'. * `all` - all * `import` - import * `model` - model */
+  kind?: GetDataWarehouseCompletedActivityRequestKind | (string & {});
+  /** Max rows to return. Capped at 50 server-side. Defaults to 20. */
+  limit?: number;
+  /** Rows to skip, for pagination. Defaults to 0. */
+  offset?: number;
+  /** Which outcome to return: 'completed', 'failed', or 'all' for every run that finished either way. Defaults to 'completed'. Running jobs come from `running_activity` instead. * `completed` - completed * `failed` - failed * `all` - all */
+  outcome?: GetDataWarehouseCompletedActivityRequestOutcome | (string & {});
 }
 export const GetDataWarehouseCompletedActivityRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project_id: S.String.pipe(T.Label()),
+    cutoff_days: S.optional(S.Number.pipe(T.Query())),
+    kind: S.optional(GetDataWarehouseCompletedActivityRequestKind.pipe(T.Query())),
+    limit: S.optional(S.Number.pipe(T.Query())),
+    offset: S.optional(S.Number.pipe(T.Query())),
+    outcome: S.optional(GetDataWarehouseCompletedActivityRequestOutcome.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -280,12 +297,67 @@ export const GetDataWarehouseCompletedActivityRequest = /*@__PURE__*/ S.suspend(
   identifier: "GetDataWarehouseCompletedActivityRequest",
 }) as any as S.Schema<GetDataWarehouseCompletedActivityRequest>;
 
-export interface GetDataWarehouseCompletedActivityResponse {}
-export const GetDataWarehouseCompletedActivityResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "GetDataWarehouseCompletedActivityResponse",
-}) as any as S.Schema<GetDataWarehouseCompletedActivityResponse>;
+export interface PipelineActivityRow {
+  /** Run id. */
+  id: string;
+  /** The source type for a sync, or 'Materialized view' for a model run. */
+  type: string | null;
+  /** Table or view the run wrote. */
+  name: string | null;
+  /** Run status. One of: Running, Completed, Failed, BillingLimitReached, BillingLimitTooLow. */
+  status: string;
+  /** Rows the run wrote. Zero while it is still going. */
+  rows: number;
+  /** When the run was created. There is no separate start time. */
+  created_at: string;
+  /** When the run ended, or null while running. */
+  finished_at: string | null;
+  /** Error the run ended with, if any. */
+  latest_error: string | null;
+  /** Temporal run id, for finding the run's logs. */
+  workflow_run_id: string | null;
+  /** Where a materialized view came from. Null for syncs. */
+  origin: string | null;
+  /** Id of the source the run belongs to, for linking to it. Null for model runs. */
+  source_id?: string | null;
+}
+export const PipelineActivityRow = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    type: S.NullOr(S.String),
+    name: S.NullOr(S.String),
+    status: S.String,
+    rows: S.Number,
+    created_at: S.String,
+    finished_at: S.NullOr(S.String),
+    latest_error: S.NullOr(S.String),
+    workflow_run_id: S.NullOr(S.String),
+    origin: S.NullOr(S.String),
+    source_id: S.optional(S.NullOr(S.String)),
+  }),
+).annotate({ identifier: "PipelineActivityRow" }) as any as S.Schema<PipelineActivityRow>;
+
+/** Runs, newest first. */
+export type PipelineActivityResponseResultsList = Array<PipelineActivityRow>;
+export const PipelineActivityResponseResultsList = /*@__PURE__*/ S.Array(
+  PipelineActivityRow,
+) as any as S.Schema<PipelineActivityResponseResultsList>;
+
+export interface PipelineActivityResponse {
+  /** Runs, newest first. */
+  results: PipelineActivityResponseResultsList;
+  /** Query string for the next page, or null on the last. */
+  next: string | null;
+  /** Query string for the previous page, or null on the first. */
+  previous: string | null;
+}
+export const PipelineActivityResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    results: PipelineActivityResponseResultsList,
+    next: S.NullOr(S.String),
+    previous: S.NullOr(S.String),
+  }),
+).annotate({ identifier: "PipelineActivityResponse" }) as any as S.Schema<PipelineActivityResponse>;
 
 export interface GetDataWarehouseDataHealthIssueRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -305,12 +377,58 @@ export const GetDataWarehouseDataHealthIssueRequest = /*@__PURE__*/ S.suspend(()
   identifier: "GetDataWarehouseDataHealthIssueRequest",
 }) as any as S.Schema<GetDataWarehouseDataHealthIssueRequest>;
 
-export interface GetDataWarehouseDataHealthIssueResponse {}
-export const GetDataWarehouseDataHealthIssueResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "GetDataWarehouseDataHealthIssueResponse",
-}) as any as S.Schema<GetDataWarehouseDataHealthIssueResponse>;
+export interface DataHealthIssue {
+  /** Id of the thing that is unhealthy. */
+  id: string;
+  /** Table, view or export the issue is about. */
+  name: string;
+  /** What kind of thing is unhealthy. One of: materialized_view, external_data_sync, source, destination, transformation. */
+  type: string;
+  /** Source type for a sync issue, for example 'Stripe'. */
+  source_type?: string | null;
+  /** How a sync issue's table is kept up to date, for example 'incremental' or 'webhook'. A webhook table is pushed to rather than pulled on a schedule. Null for other types. */
+  sync_type?: string | null;
+  /** Why it is unhealthy. One of: failed, disabled, degraded, billing_limit. */
+  status: string;
+  /** The error, where one was recorded. */
+  error: string | null;
+  /** When a sync issue's table last synced successfully. Null if it never has. */
+  failed_at: string | null;
+  /** Where to go to fix it. */
+  url: string | null;
+}
+export const DataHealthIssue = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    name: S.String,
+    type: S.String,
+    source_type: S.optional(S.NullOr(S.String)),
+    sync_type: S.optional(S.NullOr(S.String)),
+    status: S.String,
+    error: S.NullOr(S.String),
+    failed_at: S.NullOr(S.String),
+    url: S.NullOr(S.String),
+  }),
+).annotate({ identifier: "DataHealthIssue" }) as any as S.Schema<DataHealthIssue>;
+
+/** Everything currently unhealthy. */
+export type DataHealthIssuesResponseResultsList = Array<DataHealthIssue>;
+export const DataHealthIssuesResponseResultsList = /*@__PURE__*/ S.Array(
+  DataHealthIssue,
+) as any as S.Schema<DataHealthIssuesResponseResultsList>;
+
+export interface DataHealthIssuesResponse {
+  /** Everything currently unhealthy. */
+  results: DataHealthIssuesResponseResultsList;
+  /** How many issues are in `results`. */
+  count: number;
+}
+export const DataHealthIssuesResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    results: DataHealthIssuesResponseResultsList,
+    count: S.Number,
+  }),
+).annotate({ identifier: "DataHealthIssuesResponse" }) as any as S.Schema<DataHealthIssuesResponse>;
 
 export interface GetDataWarehouseDataOpsDashboardRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -364,17 +482,21 @@ export const DataQualityGateConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     gate_materialization_on_checks: S.Boolean,
   }),
-).annotate({
-  identifier: "DataQualityGateConfig",
-}) as any as S.Schema<DataQualityGateConfig>;
+).annotate({ identifier: "DataQualityGateConfig" }) as any as S.Schema<DataQualityGateConfig>;
+
+export type GetDataWarehouseJobStatRequestDays = 1 | 7 | 30;
+export const GetDataWarehouseJobStatRequestDays = S.Number;
 
 export interface GetDataWarehouseJobStatRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
+  /** Window the counts should cover, in days. One of 1, 7 or 30. Defaults to 7. * `1` - 1 * `7` - 7 * `30` - 30 */
+  days?: GetDataWarehouseJobStatRequestDays | (number & {});
 }
 export const GetDataWarehouseJobStatRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project_id: S.String.pipe(T.Label()),
+    days: S.optional(GetDataWarehouseJobStatRequestDays.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -386,12 +508,75 @@ export const GetDataWarehouseJobStatRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetDataWarehouseJobStatRequest",
 }) as any as S.Schema<GetDataWarehouseJobStatRequest>;
 
-export interface GetDataWarehouseJobStatResponse {}
-export const GetDataWarehouseJobStatResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "GetDataWarehouseJobStatResponse",
-  },
-) as any as S.Schema<GetDataWarehouseJobStatResponse>;
+export interface JobCounts {
+  /** Runs that finished inside the window. */
+  total: number;
+  /** Runs in flight right now, regardless of the window. */
+  running: number;
+  /** Runs that completed. */
+  successful: number;
+  /** Runs that errored or that billing stopped. */
+  failed: number;
+}
+export const JobCounts = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    total: S.Number,
+    running: S.Number,
+    successful: S.Number,
+    failed: S.Number,
+  }),
+).annotate({ identifier: "JobCounts" }) as any as S.Schema<JobCounts>;
+
+export interface JobStatsBucket {
+  /** Runs that completed in this bucket. */
+  successful: number;
+  /** Runs that failed in this bucket. */
+  failed: number;
+}
+export const JobStatsBucket = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    successful: S.Number,
+    failed: S.Number,
+  }),
+).annotate({ identifier: "JobStatsBucket" }) as any as S.Schema<JobStatsBucket>;
+
+/** Runs per time bucket, keyed by ISO hour when days=1 and by ISO date otherwise. Buckets with no runs are absent rather than zero. */
+export type PipelineJobStatsResponseBreakdownMap = { [key: string]: JobStatsBucket | undefined };
+export const PipelineJobStatsResponseBreakdownMap = /*@__PURE__*/ S.Record(
+  S.String,
+  JobStatsBucket,
+) as any as S.Schema<PipelineJobStatsResponseBreakdownMap>;
+
+export interface PipelineJobStatsResponse {
+  /** Window the counts cover, in days. One of 1, 7 or 30. */
+  days: number;
+  /** Start of the window, in the project's timezone. */
+  cutoff_time: string;
+  /** Sync runs plus materialization runs in the window. */
+  total_jobs: number;
+  /** Sync and materialization runs that completed. */
+  successful_jobs: number;
+  /** Sync and materialization runs that failed. */
+  failed_jobs: number;
+  /** Counts for warehouse source syncs alone. */
+  external_data_jobs: JobCounts;
+  /** Counts for materialized view runs alone. */
+  modeling_jobs: JobCounts;
+  /** Runs per time bucket, keyed by ISO hour when days=1 and by ISO date otherwise. Buckets with no runs are absent rather than zero. */
+  breakdown: PipelineJobStatsResponseBreakdownMap;
+}
+export const PipelineJobStatsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    days: S.Number,
+    cutoff_time: S.String,
+    total_jobs: S.Number,
+    successful_jobs: S.Number,
+    failed_jobs: S.Number,
+    external_data_jobs: JobCounts,
+    modeling_jobs: JobCounts,
+    breakdown: PipelineJobStatsResponseBreakdownMap,
+  }),
+).annotate({ identifier: "PipelineJobStatsResponse" }) as any as S.Schema<PipelineJobStatsResponse>;
 
 export interface GetDataWarehouseManagedWarehouseDataStatusRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -792,9 +977,7 @@ export const GetDataWarehouseManagedWarehouseMonitoringTimeseriesRequest = /*@__
 }) as any as S.Schema<GetDataWarehouseManagedWarehouseMonitoringTimeseriesRequest>;
 
 /** Allow-listed labels distinguishing this series, such as query outcome or acquisition source. */
-export type ManagedWarehouseMonitoringSeriesLabelsMap = {
-  [key: string]: string | undefined;
-};
+export type ManagedWarehouseMonitoringSeriesLabelsMap = { [key: string]: string | undefined };
 export const ManagedWarehouseMonitoringSeriesLabelsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -997,13 +1180,28 @@ export const GetDataWarehousePropertyValueResponse = /*@__PURE__*/ S.suspend(() 
   identifier: "GetDataWarehousePropertyValueResponse",
 }) as any as S.Schema<GetDataWarehousePropertyValueResponse>;
 
+export type GetDataWarehouseRunningActivityRequestKind = "all" | "import" | "model";
+export const GetDataWarehouseRunningActivityRequestKind = S.String;
+
 export interface GetDataWarehouseRunningActivityRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
+  /** Only include runs created within this many days of now. Defaults to 30. */
+  cutoff_days?: number;
+  /** Which runs to return: 'import' for warehouse source syncs, 'model' for materialized view runs, 'all' for both. Defaults to 'all'. * `all` - all * `import` - import * `model` - model */
+  kind?: GetDataWarehouseRunningActivityRequestKind | (string & {});
+  /** Max rows to return. Capped at 50 server-side. Defaults to 20. */
+  limit?: number;
+  /** Rows to skip, for pagination. Defaults to 0. */
+  offset?: number;
 }
 export const GetDataWarehouseRunningActivityRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project_id: S.String.pipe(T.Label()),
+    cutoff_days: S.optional(S.Number.pipe(T.Query())),
+    kind: S.optional(GetDataWarehouseRunningActivityRequestKind.pipe(T.Query())),
+    limit: S.optional(S.Number.pipe(T.Query())),
+    offset: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -1014,13 +1212,6 @@ export const GetDataWarehouseRunningActivityRequest = /*@__PURE__*/ S.suspend(()
 ).annotate({
   identifier: "GetDataWarehouseRunningActivityRequest",
 }) as any as S.Schema<GetDataWarehouseRunningActivityRequest>;
-
-export interface GetDataWarehouseRunningActivityResponse {}
-export const GetDataWarehouseRunningActivityResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "GetDataWarehouseRunningActivityResponse",
-}) as any as S.Schema<GetDataWarehouseRunningActivityResponse>;
 
 export interface GetDataWarehouseTotalRowsStatRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -1040,12 +1231,50 @@ export const GetDataWarehouseTotalRowsStatRequest = /*@__PURE__*/ S.suspend(() =
   identifier: "GetDataWarehouseTotalRowsStatRequest",
 }) as any as S.Schema<GetDataWarehouseTotalRowsStatRequest>;
 
-export interface GetDataWarehouseTotalRowsStatResponse {}
-export const GetDataWarehouseTotalRowsStatResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+/** Rows synced in the billing period, keyed by source id. */
+export type PipelineRowsStatsResponseBreakdownOfRowsBySourceMap = {
+  [key: string]: number | undefined;
+};
+export const PipelineRowsStatsResponseBreakdownOfRowsBySourceMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.Number,
+) as any as S.Schema<PipelineRowsStatsResponseBreakdownOfRowsBySourceMap>;
+
+export interface PipelineRowsStatsResponse {
+  /** Whether billing answered. When false, only the counts derived from runs are meaningful. */
+  billing_available: boolean;
+  /** Length of the billing period, for example 'month'. */
+  billing_interval: string | null;
+  /** Start of the current billing period. */
+  billing_period_start: string | null;
+  /** End of the current billing period. */
+  billing_period_end: string | null;
+  /** Rows synced in the billing period, billed and not yet billed. */
+  total_rows: number;
+  /** Rows billing has already counted. */
+  tracked_billing_rows: number;
+  /** Rows synced since billing last counted. */
+  pending_billing_rows: number;
+  /** Rows written by materialized view runs in the billing period. */
+  materialized_rows_in_billing_period: number;
+  /** Rows synced in the billing period, keyed by source id. */
+  breakdown_of_rows_by_source: PipelineRowsStatsResponseBreakdownOfRowsBySourceMap;
+}
+export const PipelineRowsStatsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    billing_available: S.Boolean,
+    billing_interval: S.NullOr(S.String),
+    billing_period_start: S.NullOr(S.String),
+    billing_period_end: S.NullOr(S.String),
+    total_rows: S.Number,
+    tracked_billing_rows: S.Number,
+    pending_billing_rows: S.Number,
+    materialized_rows_in_billing_period: S.Number,
+    breakdown_of_rows_by_source: PipelineRowsStatsResponseBreakdownOfRowsBySourceMap,
+  }),
 ).annotate({
-  identifier: "GetDataWarehouseTotalRowsStatResponse",
-}) as any as S.Schema<GetDataWarehouseTotalRowsStatResponse>;
+  identifier: "PipelineRowsStatsResponse",
+}) as any as S.Schema<PipelineRowsStatsResponse>;
 
 export interface GetDataWarehouseWarehouseStatusRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -1092,9 +1321,7 @@ export const WarehouseConnection = /*@__PURE__*/ S.suspend(() =>
     database: S.String,
     username: S.String,
   }),
-).annotate({
-  identifier: "WarehouseConnection",
-}) as any as S.Schema<WarehouseConnection>;
+).annotate({ identifier: "WarehouseConnection" }) as any as S.Schema<WarehouseConnection>;
 
 export interface WarehouseStatusResponse {
   /** duckgres org identifier (the PostHog organization id) */
@@ -1142,9 +1369,7 @@ export const WarehouseStatusResponse = /*@__PURE__*/ S.suspend(() =>
     team_onboarded: S.Boolean,
     schema_name: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "WarehouseStatusResponse",
-}) as any as S.Schema<WarehouseStatusResponse>;
+).annotate({ identifier: "WarehouseStatusResponse" }) as any as S.Schema<WarehouseStatusResponse>;
 
 export interface UpdateDataWarehouseDataQualityGatePartialRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -1276,12 +1501,12 @@ export type GetDataWarehouseCompletedActivityError = PosthogOpError;
 /** Returns completed/non-running activities (jobs with status 'Completed'). Supports pagination and cutoff time filtering. */
 export const getDataWarehouseCompletedActivity: API.OperationMethod<
   GetDataWarehouseCompletedActivityRequest,
-  GetDataWarehouseCompletedActivityResponse,
+  PipelineActivityResponse,
   GetDataWarehouseCompletedActivityError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: GetDataWarehouseCompletedActivityRequest,
-  output: GetDataWarehouseCompletedActivityResponse,
+  output: PipelineActivityResponse,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1291,12 +1516,12 @@ export type GetDataWarehouseDataHealthIssueError = PosthogOpError;
 /** Returns failed/disabled data pipeline items for the Pipeline status side panel. Includes: materializations, syncs, sources, destinations, and transformations. */
 export const getDataWarehouseDataHealthIssue: API.OperationMethod<
   GetDataWarehouseDataHealthIssueRequest,
-  GetDataWarehouseDataHealthIssueResponse,
+  DataHealthIssuesResponse,
   GetDataWarehouseDataHealthIssueError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: GetDataWarehouseDataHealthIssueRequest,
-  output: GetDataWarehouseDataHealthIssueResponse,
+  output: DataHealthIssuesResponse,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1332,17 +1557,17 @@ export const getDataWarehouseDataQualityGate: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type GetDataWarehouseJobStatError = PosthogOpError;
+export type GetDataWarehouseJobStatError = BadRequest | PosthogOpError;
 /** Returns success and failed job statistics for the last 1, 7, or 30 days. Query parameter 'days' can be 1, 7, or 30 (default: 7). */
 export const getDataWarehouseJobStat: API.OperationMethod<
   GetDataWarehouseJobStatRequest,
-  GetDataWarehouseJobStatResponse,
+  PipelineJobStatsResponse,
   GetDataWarehouseJobStatError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: GetDataWarehouseJobStatRequest,
-  output: GetDataWarehouseJobStatResponse,
-  errors: [],
+  output: PipelineJobStatsResponse,
+  errors: [BadRequest],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
 }));
@@ -1434,12 +1659,12 @@ export type GetDataWarehouseRunningActivityError = PosthogOpError;
 /** Returns currently running activities (jobs with status 'Running'). Supports pagination and cutoff time filtering. */
 export const getDataWarehouseRunningActivity: API.OperationMethod<
   GetDataWarehouseRunningActivityRequest,
-  GetDataWarehouseRunningActivityResponse,
+  PipelineActivityResponse,
   GetDataWarehouseRunningActivityError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: GetDataWarehouseRunningActivityRequest,
-  output: GetDataWarehouseRunningActivityResponse,
+  output: PipelineActivityResponse,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1449,12 +1674,12 @@ export type GetDataWarehouseTotalRowsStatError = PosthogOpError;
 /** Returns aggregated statistics for the data warehouse total rows processed within the current billing period. Used by the frontend data warehouse scene to display usage information. */
 export const getDataWarehouseTotalRowsStat: API.OperationMethod<
   GetDataWarehouseTotalRowsStatRequest,
-  GetDataWarehouseTotalRowsStatResponse,
+  PipelineRowsStatsResponse,
   GetDataWarehouseTotalRowsStatError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: GetDataWarehouseTotalRowsStatRequest,
-  output: GetDataWarehouseTotalRowsStatResponse,
+  output: PipelineRowsStatsResponse,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,

@@ -193,9 +193,7 @@ export const IoK8sApimachineryPkgApisMetaV1ObjectMeta = /*@__PURE__*/ S.suspend(
 }) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1ObjectMeta>;
 
 /** podFixed represents the fixed resource overhead associated with running a pod. */
-export type IoK8sApiNodeV1OverheadPodFixedMap = {
-  [key: string]: string | undefined;
-};
+export type IoK8sApiNodeV1OverheadPodFixedMap = { [key: string]: string | undefined };
 export const IoK8sApiNodeV1OverheadPodFixedMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -210,14 +208,10 @@ export const IoK8sApiNodeV1Overhead = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     podFixed: S.optional(IoK8sApiNodeV1OverheadPodFixedMap),
   }),
-).annotate({
-  identifier: "IoK8sApiNodeV1Overhead",
-}) as any as S.Schema<IoK8sApiNodeV1Overhead>;
+).annotate({ identifier: "IoK8sApiNodeV1Overhead" }) as any as S.Schema<IoK8sApiNodeV1Overhead>;
 
 /** nodeSelector lists labels that must be present on nodes that support this RuntimeClass. Pods using this RuntimeClass can only be scheduled to a node matched by this selector. The RuntimeClass nodeSelector is merged with a pod's existing nodeSelector. Any conflicts will cause the pod to be rejected in admission. */
-export type IoK8sApiNodeV1SchedulingNodeSelectorMap = {
-  [key: string]: string | undefined;
-};
+export type IoK8sApiNodeV1SchedulingNodeSelectorMap = { [key: string]: string | undefined };
 export const IoK8sApiNodeV1SchedulingNodeSelectorMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -225,15 +219,15 @@ export const IoK8sApiNodeV1SchedulingNodeSelectorMap = /*@__PURE__*/ S.Record(
 
 /** The pod this Toleration is attached to tolerates any taint that matches the triple <key,value,effect> using the matching operator <operator>. */
 export interface IoK8sApiCoreV1Toleration {
-  /** Effect indicates the taint effect to match. Empty means match all taint effects. When specified, allowed values are NoSchedule, PreferNoSchedule and NoExecute. */
+  /** effect indicates the taint effect to match. Empty means match all taint effects. When specified, allowed values are NoSchedule, PreferNoSchedule and NoExecute. */
   effect?: string;
-  /** Key is the taint key that the toleration applies to. Empty means match all taint keys. If the key is empty, operator must be Exists; this combination means to match all values and all keys. */
+  /** key is the taint key that the toleration applies to. Empty means match all taint keys. If the key is empty, operator must be Exists; this combination means to match all values and all keys. */
   key?: string;
-  /** Operator represents a key's relationship to the value. Valid operators are Exists, Equal, Lt, and Gt. Defaults to Equal. Exists is equivalent to wildcard for value, so that a pod can tolerate all taints of a particular category. Lt and Gt perform numeric comparisons (requires feature gate TaintTolerationComparisonOperators). */
+  /** operator represents a key's relationship to the value. Valid operators are Exists, Equal, Lt, and Gt. Defaults to Equal. Exists is equivalent to wildcard for value, so that a pod can tolerate all taints of a particular category. Lt and Gt perform numeric comparisons (requires feature gate TaintTolerationComparisonOperators). */
   operator?: string;
-  /** TolerationSeconds represents the period of time the toleration (which must be of effect NoExecute, otherwise this field is ignored) tolerates the taint. By default, it is not set, which means tolerate the taint forever (do not evict). Zero and negative values will be treated as 0 (evict immediately) by the system. */
+  /** tolerationSeconds represents the period of time the toleration (which must be of effect NoExecute, otherwise this field is ignored) tolerates the taint. By default, it is not set, which means tolerate the taint forever (do not evict). Zero and negative values will be treated as 0 (evict immediately) by the system. */
   tolerationSeconds?: number;
-  /** Value is the taint value the toleration matches to. If the operator is Exists, the value should be empty, otherwise just a regular string. */
+  /** value is the taint value the toleration matches to. If the operator is Exists, the value should be empty, otherwise just a regular string. */
   value?: string;
 }
 export const IoK8sApiCoreV1Toleration = /*@__PURE__*/ S.suspend(() =>
@@ -244,9 +238,7 @@ export const IoK8sApiCoreV1Toleration = /*@__PURE__*/ S.suspend(() =>
     tolerationSeconds: S.optional(S.Number),
     value: S.optional(S.String),
   }),
-).annotate({
-  identifier: "IoK8sApiCoreV1Toleration",
-}) as any as S.Schema<IoK8sApiCoreV1Toleration>;
+).annotate({ identifier: "IoK8sApiCoreV1Toleration" }) as any as S.Schema<IoK8sApiCoreV1Toleration>;
 
 /** tolerations are appended (excluding duplicates) to pods running with this RuntimeClass during admission, effectively unioning the set of nodes tolerated by the pod and the RuntimeClass. */
 export type IoK8sApiNodeV1SchedulingTolerationsList = Array<IoK8sApiCoreV1Toleration>;
@@ -266,9 +258,7 @@ export const IoK8sApiNodeV1Scheduling = /*@__PURE__*/ S.suspend(() =>
     nodeSelector: S.optional(IoK8sApiNodeV1SchedulingNodeSelectorMap),
     tolerations: S.optional(IoK8sApiNodeV1SchedulingTolerationsList),
   }),
-).annotate({
-  identifier: "IoK8sApiNodeV1Scheduling",
-}) as any as S.Schema<IoK8sApiNodeV1Scheduling>;
+).annotate({ identifier: "IoK8sApiNodeV1Scheduling" }) as any as S.Schema<IoK8sApiNodeV1Scheduling>;
 
 export interface CreateNodeV1RuntimeClassRequest {
   /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
@@ -304,13 +294,7 @@ export const CreateNodeV1RuntimeClassRequest = /*@__PURE__*/ S.suspend(() =>
     metadata: S.optional(IoK8sApimachineryPkgApisMetaV1ObjectMeta),
     overhead: S.optional(IoK8sApiNodeV1Overhead),
     scheduling: S.optional(IoK8sApiNodeV1Scheduling),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/apis/node.k8s.io/v1/runtimeclasses",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/apis/node.k8s.io/v1/runtimeclasses", code: 200 })),
 ).annotate({
   identifier: "CreateNodeV1RuntimeClassRequest",
 }) as any as S.Schema<CreateNodeV1RuntimeClassRequest>;
@@ -417,13 +401,7 @@ export const DeleteNodeV1CollectionRuntimeClassRequest = /*@__PURE__*/ S.suspend
     apiVersion: S.optional(S.String),
     kind: S.optional(S.String),
     preconditions: S.optional(IoK8sApimachineryPkgApisMetaV1Preconditions),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/apis/node.k8s.io/v1/runtimeclasses",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/apis/node.k8s.io/v1/runtimeclasses", code: 200 })),
 ).annotate({
   identifier: "DeleteNodeV1CollectionRuntimeClassRequest",
 }) as any as S.Schema<DeleteNodeV1CollectionRuntimeClassRequest>;
@@ -589,11 +567,7 @@ export const DeleteNodeV1RuntimeClassRequest = /*@__PURE__*/ S.suspend(() =>
     kind: S.optional(S.String),
     preconditions: S.optional(IoK8sApimachineryPkgApisMetaV1Preconditions),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/apis/node.k8s.io/v1/runtimeclasses/{name}",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/apis/node.k8s.io/v1/runtimeclasses/{name}", code: 200 }),
   ),
 ).annotate({
   identifier: "DeleteNodeV1RuntimeClassRequest",
@@ -602,9 +576,7 @@ export const DeleteNodeV1RuntimeClassRequest = /*@__PURE__*/ S.suspend(() =>
 export interface GetNodeAPIGroupRequest {}
 export const GetNodeAPIGroupRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/apis/node.k8s.io/", code: 200 })),
-).annotate({
-  identifier: "GetNodeAPIGroupRequest",
-}) as any as S.Schema<GetNodeAPIGroupRequest>;
+).annotate({ identifier: "GetNodeAPIGroupRequest" }) as any as S.Schema<GetNodeAPIGroupRequest>;
 
 /** GroupVersion contains the "group/version" and "version" string of a version. It is made a struct to keep extensibility. */
 export interface IoK8sApimachineryPkgApisMetaV1GroupVersionForDiscovery {
@@ -817,13 +789,7 @@ export const ListNodeV1RuntimeClassRequest = /*@__PURE__*/ S.suspend(() =>
     shardSelector: S.optional(S.String.pipe(T.Query())),
     timeoutSeconds: S.optional(S.Number.pipe(T.Query())),
     watch: S.optional(S.Boolean.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/apis/node.k8s.io/v1/runtimeclasses",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/apis/node.k8s.io/v1/runtimeclasses", code: 200 })),
 ).annotate({
   identifier: "ListNodeV1RuntimeClassRequest",
 }) as any as S.Schema<ListNodeV1RuntimeClassRequest>;
@@ -879,11 +845,7 @@ export const PatchNodeV1RuntimeClassRequest = /*@__PURE__*/ S.suspend(() =>
     fieldValidation: S.optional(S.String.pipe(T.Query())),
     force: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/apis/node.k8s.io/v1/runtimeclasses/{name}",
-      code: 200,
-    }),
+    T.Http({ method: "PATCH", uri: "/apis/node.k8s.io/v1/runtimeclasses/{name}", code: 200 }),
   ),
 ).annotate({
   identifier: "PatchNodeV1RuntimeClassRequest",
@@ -899,13 +861,7 @@ export const ReadNodeV1RuntimeClassRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.String.pipe(T.Label()),
     pretty: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/apis/node.k8s.io/v1/runtimeclasses/{name}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/apis/node.k8s.io/v1/runtimeclasses/{name}", code: 200 })),
 ).annotate({
   identifier: "ReadNodeV1RuntimeClassRequest",
 }) as any as S.Schema<ReadNodeV1RuntimeClassRequest>;
@@ -947,13 +903,7 @@ export const ReplaceNodeV1RuntimeClassRequest = /*@__PURE__*/ S.suspend(() =>
     metadata: S.optional(IoK8sApimachineryPkgApisMetaV1ObjectMeta),
     overhead: S.optional(IoK8sApiNodeV1Overhead),
     scheduling: S.optional(IoK8sApiNodeV1Scheduling),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/apis/node.k8s.io/v1/runtimeclasses/{name}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/apis/node.k8s.io/v1/runtimeclasses/{name}", code: 200 })),
 ).annotate({
   identifier: "ReplaceNodeV1RuntimeClassRequest",
 }) as any as S.Schema<ReplaceNodeV1RuntimeClassRequest>;
@@ -1002,11 +952,7 @@ export const WatchNodeV1RuntimeClassRequest = /*@__PURE__*/ S.suspend(() =>
     timeoutSeconds: S.optional(S.Number.pipe(T.Query())),
     watch: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/apis/node.k8s.io/v1/watch/runtimeclasses/{name}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/apis/node.k8s.io/v1/watch/runtimeclasses/{name}", code: 200 }),
   ),
 ).annotate({
   identifier: "WatchNodeV1RuntimeClassRequest",
@@ -1067,13 +1013,7 @@ export const WatchNodeV1RuntimeClassListRequest = /*@__PURE__*/ S.suspend(() =>
     shardSelector: S.optional(S.String.pipe(T.Query())),
     timeoutSeconds: S.optional(S.Number.pipe(T.Query())),
     watch: S.optional(S.Boolean.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/apis/node.k8s.io/v1/watch/runtimeclasses",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/apis/node.k8s.io/v1/watch/runtimeclasses", code: 200 })),
 ).annotate({
   identifier: "WatchNodeV1RuntimeClassListRequest",
 }) as any as S.Schema<WatchNodeV1RuntimeClassListRequest>;

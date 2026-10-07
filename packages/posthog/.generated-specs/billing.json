@@ -161,6 +161,14 @@
         },
         "never_drop_data": {
           "target": "smithy.api#Boolean"
+        },
+        "billing_managed_by_partner": {
+          "target": "com.posthog.billing#BillingManagedByPartner",
+          "traits": {
+            "smithy.api#documentation": "Set when a provisioning partner pays for this organization and the organization has no Stripe customer of its own. Self-serve subscription and payment changes are refused while it is set. Null otherwise.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
         }
       },
       "traits": {}
@@ -188,6 +196,19 @@
       "type": "list",
       "member": {
         "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.posthog.billing#BillingManagedByPartner": {
+      "type": "structure",
+      "members": {
+        "partner_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the partner that pays for this organization. Can be empty.",
+            "smithy.api#required": {}
+          }
+        }
       },
       "traits": {}
     },
@@ -559,6 +580,13 @@
     "com.posthog.billing#GetBillingSpendRequest": {
       "type": "structure",
       "members": {
+        "after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "after",
+            "smithy.api#documentation": "The `next` cursor from the previous page. Opaque. Ignored without page_size."
+          }
+        },
         "breakdowns": {
           "target": "smithy.api#String",
           "traits": {
@@ -569,7 +597,8 @@
         "end_date": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#httpQuery": "end_date"
+            "smithy.api#httpQuery": "end_date",
+            "smithy.api#documentation": "End date (YYYY-MM-DD, UTC), inclusive. Defaults to yesterday if both dates are omitted, or today if only start_date is provided."
           }
         },
         "interval": {
@@ -578,10 +607,18 @@
             "smithy.api#httpQuery": "interval"
           }
         },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size",
+            "smithy.api#documentation": "Return at most this many series, ranked by total, with a `next` cursor for the page after. A caller that pages never approaches the size this endpoint refuses oversized breakdowns at. Requires a project breakdown."
+          }
+        },
         "start_date": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#httpQuery": "start_date"
+            "smithy.api#httpQuery": "start_date",
+            "smithy.api#documentation": "Start date (YYYY-MM-DD, UTC), or \"all\" for 2020-01-01. If both dates are omitted, defaults to 30 days ago."
           }
         },
         "team_ids": {
@@ -591,11 +628,18 @@
             "smithy.api#documentation": "JSON-encoded array of numeric team/project IDs to filter on, for example [1,2]. Omit for all projects available to the caller. Full billing-access callers can read all organization projects; member read-only callers are limited to visible projects and any project scope on their token."
           }
         },
+        "top_projects": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "top_projects",
+            "smithy.api#documentation": "With a project breakdown, return only this many highest-usage projects and fold the rest into a single 'all other projects' series, so the totals still reconcile. Omit it to get every project."
+          }
+        },
         "usage_types": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "usage_types",
-            "smithy.api#documentation": "JSON-encoded array of usage type identifiers to filter on. Valid values: event_count_in_period, exceptions_captured_in_period, recording_count_in_period, rows_synced_in_period, free_historical_rows_synced_in_period, survey_responses_count_in_period, mobile_recording_count_in_period, billable_feature_flag_requests_count_in_period, enhanced_persons_event_count_in_period, ai_event_count_in_period, cdp_billable_invocations_in_period, rows_exported_in_period, ai_credits_used_in_period, signals_credits_used_in_period, posthog_code_credits_used_in_period, posthog_code_token_credits_used_in_period, sandbox_compute_credits_used_in_period, sandbox_compute_cpu_millicore_seconds_in_period, sandbox_compute_memory_mib_seconds_in_period, workflow_emails_sent_in_period, workflow_billable_invocations_in_period, logs_mb_in_period, logs_retention_30d_mb_in_period, replay_vision_credits_used_in_period, data_pipelines, group_analytics. E.g. [\"event_count_in_period\",\"recording_count_in_period\"]. Omit for all types."
+            "smithy.api#documentation": "JSON-encoded array of usage type identifiers to filter on. Valid values: event_count_in_period, exceptions_captured_in_period, recording_count_in_period, rows_synced_in_period, free_historical_rows_synced_in_period, survey_responses_count_in_period, mobile_recording_count_in_period, mobile_billable_recording_count_in_period, billable_feature_flag_requests_count_in_period, enhanced_persons_event_count_in_period, ai_event_count_in_period, cdp_billable_invocations_in_period, rows_exported_in_period, ai_credits_used_in_period, signals_credits_used_in_period, posthog_code_credits_used_in_period, posthog_code_token_credits_used_in_period, sandbox_compute_credits_used_in_period, sandbox_compute_cpu_millicore_seconds_in_period, sandbox_compute_memory_mib_seconds_in_period, workflow_emails_sent_in_period, workflow_billable_invocations_in_period, logs_mb_in_period, logs_retention_30d_mb_in_period, logs_retention_mb_days_in_period, replay_vision_credits_used_in_period, data_pipelines, group_analytics. E.g. [\"event_count_in_period\",\"recording_count_in_period\"]. Omit for all types."
           }
         }
       },
@@ -626,6 +670,9 @@
         },
         "next": {
           "target": "smithy.api#String"
+        },
+        "total_count": {
+          "target": "smithy.api#Integer"
         }
       },
       "traits": {}
@@ -726,6 +773,93 @@
           "code": 200
         },
         "smithy.api#documentation": "Endpoint to fetch spend data (proxy to billing service)."
+      }
+    },
+    "com.posthog.billing#BillingSpendExportRetrieveRequest": {
+      "type": "structure",
+      "members": {
+        "after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "after",
+            "smithy.api#documentation": "The `next` cursor from the previous page. Opaque. Ignored without page_size."
+          }
+        },
+        "breakdowns": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "breakdowns",
+            "smithy.api#documentation": "JSON-encoded array of breakdown dimensions. Valid values are \"type\" and \"team\", for example [\"type\",\"team\"]. Omit for a single aggregate series."
+          }
+        },
+        "end_date": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "end_date",
+            "smithy.api#documentation": "End date (YYYY-MM-DD, UTC), inclusive. Defaults to yesterday if both dates are omitted, or today if only start_date is provided."
+          }
+        },
+        "interval": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "interval"
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size",
+            "smithy.api#documentation": "Return at most this many series, ranked by total, with a `next` cursor for the page after. A caller that pages never approaches the size this endpoint refuses oversized breakdowns at. Requires a project breakdown."
+          }
+        },
+        "start_date": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "start_date",
+            "smithy.api#documentation": "Start date (YYYY-MM-DD, UTC), or \"all\" for 2020-01-01. If both dates are omitted, defaults to 30 days ago."
+          }
+        },
+        "team_ids": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "team_ids",
+            "smithy.api#documentation": "JSON-encoded array of numeric team/project IDs to filter on, for example [1,2]. Omit for all projects available to the caller. Full billing-access callers can read all organization projects; member read-only callers are limited to visible projects and any project scope on their token."
+          }
+        },
+        "top_projects": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "top_projects",
+            "smithy.api#documentation": "With a project breakdown, return only this many highest-usage projects and fold the rest into a single 'all other projects' series, so the totals still reconcile. Omit it to get every project."
+          }
+        },
+        "usage_types": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "usage_types",
+            "smithy.api#documentation": "JSON-encoded array of usage type identifiers to filter on. Valid values: event_count_in_period, exceptions_captured_in_period, recording_count_in_period, rows_synced_in_period, free_historical_rows_synced_in_period, survey_responses_count_in_period, mobile_recording_count_in_period, mobile_billable_recording_count_in_period, billable_feature_flag_requests_count_in_period, enhanced_persons_event_count_in_period, ai_event_count_in_period, cdp_billable_invocations_in_period, rows_exported_in_period, ai_credits_used_in_period, signals_credits_used_in_period, posthog_code_credits_used_in_period, posthog_code_token_credits_used_in_period, sandbox_compute_credits_used_in_period, sandbox_compute_cpu_millicore_seconds_in_period, sandbox_compute_memory_mib_seconds_in_period, workflow_emails_sent_in_period, workflow_billable_invocations_in_period, logs_mb_in_period, logs_retention_30d_mb_in_period, logs_retention_mb_days_in_period, replay_vision_credits_used_in_period, data_pipelines, group_analytics. E.g. [\"event_count_in_period\",\"recording_count_in_period\"]. Omit for all types."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.billing#BillingSpendExportRetrieve": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.billing#BillingSpendExportRetrieveRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/billing/spend/export/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Download the spend breakdown as CSV, honouring the requested project cap."
       }
     },
     "com.posthog.billing#BillingStartupsApplyCreateRequest": {
@@ -875,6 +1009,13 @@
     "com.posthog.billing#GetBillingUsageRequest": {
       "type": "structure",
       "members": {
+        "after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "after",
+            "smithy.api#documentation": "The `next` cursor from the previous page. Opaque. Ignored without page_size."
+          }
+        },
         "breakdowns": {
           "target": "smithy.api#String",
           "traits": {
@@ -885,7 +1026,8 @@
         "end_date": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#httpQuery": "end_date"
+            "smithy.api#httpQuery": "end_date",
+            "smithy.api#documentation": "End date (YYYY-MM-DD, UTC), inclusive. Defaults to yesterday if both dates are omitted, or today if only start_date is provided."
           }
         },
         "interval": {
@@ -894,10 +1036,18 @@
             "smithy.api#httpQuery": "interval"
           }
         },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size",
+            "smithy.api#documentation": "Return at most this many series, ranked by total, with a `next` cursor for the page after. A caller that pages never approaches the size this endpoint refuses oversized breakdowns at. Requires a project breakdown."
+          }
+        },
         "start_date": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#httpQuery": "start_date"
+            "smithy.api#httpQuery": "start_date",
+            "smithy.api#documentation": "Start date (YYYY-MM-DD, UTC), or \"all\" for 2020-01-01. If both dates are omitted, defaults to 30 days ago."
           }
         },
         "team_ids": {
@@ -907,11 +1057,18 @@
             "smithy.api#documentation": "JSON-encoded array of numeric team/project IDs to filter on, for example [1,2]. Omit for all projects available to the caller. Full billing-access callers can read all organization projects; member read-only callers are limited to visible projects and any project scope on their token."
           }
         },
+        "top_projects": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "top_projects",
+            "smithy.api#documentation": "With a project breakdown, return only this many highest-usage projects and fold the rest into a single 'all other projects' series, so the totals still reconcile. Omit it to get every project."
+          }
+        },
         "usage_types": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "usage_types",
-            "smithy.api#documentation": "JSON-encoded array of usage type identifiers to filter on. Valid values: event_count_in_period, exceptions_captured_in_period, recording_count_in_period, rows_synced_in_period, free_historical_rows_synced_in_period, survey_responses_count_in_period, mobile_recording_count_in_period, billable_feature_flag_requests_count_in_period, enhanced_persons_event_count_in_period, ai_event_count_in_period, cdp_billable_invocations_in_period, rows_exported_in_period, ai_credits_used_in_period, signals_credits_used_in_period, posthog_code_credits_used_in_period, posthog_code_token_credits_used_in_period, sandbox_compute_credits_used_in_period, sandbox_compute_cpu_millicore_seconds_in_period, sandbox_compute_memory_mib_seconds_in_period, workflow_emails_sent_in_period, workflow_billable_invocations_in_period, logs_mb_in_period, logs_retention_30d_mb_in_period, replay_vision_credits_used_in_period, data_pipelines, group_analytics. E.g. [\"event_count_in_period\",\"recording_count_in_period\"]. Omit for all types."
+            "smithy.api#documentation": "JSON-encoded array of usage type identifiers to filter on. Valid values: event_count_in_period, exceptions_captured_in_period, recording_count_in_period, rows_synced_in_period, free_historical_rows_synced_in_period, survey_responses_count_in_period, mobile_recording_count_in_period, mobile_billable_recording_count_in_period, billable_feature_flag_requests_count_in_period, enhanced_persons_event_count_in_period, ai_event_count_in_period, cdp_billable_invocations_in_period, rows_exported_in_period, ai_credits_used_in_period, signals_credits_used_in_period, posthog_code_credits_used_in_period, posthog_code_token_credits_used_in_period, sandbox_compute_credits_used_in_period, sandbox_compute_cpu_millicore_seconds_in_period, sandbox_compute_memory_mib_seconds_in_period, workflow_emails_sent_in_period, workflow_billable_invocations_in_period, logs_mb_in_period, logs_retention_30d_mb_in_period, logs_retention_mb_days_in_period, replay_vision_credits_used_in_period, data_pipelines, group_analytics. E.g. [\"event_count_in_period\",\"recording_count_in_period\"]. Omit for all types."
           }
         }
       },
@@ -933,6 +1090,132 @@
           "uri": "/api/billing/usage/",
           "code": 200
         }
+      }
+    },
+    "com.posthog.billing#BillingUsageExportRetrieveRequest": {
+      "type": "structure",
+      "members": {
+        "after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "after",
+            "smithy.api#documentation": "The `next` cursor from the previous page. Opaque. Ignored without page_size."
+          }
+        },
+        "breakdowns": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "breakdowns",
+            "smithy.api#documentation": "JSON-encoded array of breakdown dimensions. Valid values are \"type\" and \"team\", for example [\"type\",\"team\"]. Omit for a single aggregate series."
+          }
+        },
+        "end_date": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "end_date",
+            "smithy.api#documentation": "End date (YYYY-MM-DD, UTC), inclusive. Defaults to yesterday if both dates are omitted, or today if only start_date is provided."
+          }
+        },
+        "interval": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "interval"
+          }
+        },
+        "page_size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page_size",
+            "smithy.api#documentation": "Return at most this many series, ranked by total, with a `next` cursor for the page after. A caller that pages never approaches the size this endpoint refuses oversized breakdowns at. Requires a project breakdown."
+          }
+        },
+        "start_date": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "start_date",
+            "smithy.api#documentation": "Start date (YYYY-MM-DD, UTC), or \"all\" for 2020-01-01. If both dates are omitted, defaults to 30 days ago."
+          }
+        },
+        "team_ids": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "team_ids",
+            "smithy.api#documentation": "JSON-encoded array of numeric team/project IDs to filter on, for example [1,2]. Omit for all projects available to the caller. Full billing-access callers can read all organization projects; member read-only callers are limited to visible projects and any project scope on their token."
+          }
+        },
+        "top_projects": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "top_projects",
+            "smithy.api#documentation": "With a project breakdown, return only this many highest-usage projects and fold the rest into a single 'all other projects' series, so the totals still reconcile. Omit it to get every project."
+          }
+        },
+        "usage_types": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "usage_types",
+            "smithy.api#documentation": "JSON-encoded array of usage type identifiers to filter on. Valid values: event_count_in_period, exceptions_captured_in_period, recording_count_in_period, rows_synced_in_period, free_historical_rows_synced_in_period, survey_responses_count_in_period, mobile_recording_count_in_period, mobile_billable_recording_count_in_period, billable_feature_flag_requests_count_in_period, enhanced_persons_event_count_in_period, ai_event_count_in_period, cdp_billable_invocations_in_period, rows_exported_in_period, ai_credits_used_in_period, signals_credits_used_in_period, posthog_code_credits_used_in_period, posthog_code_token_credits_used_in_period, sandbox_compute_credits_used_in_period, sandbox_compute_cpu_millicore_seconds_in_period, sandbox_compute_memory_mib_seconds_in_period, workflow_emails_sent_in_period, workflow_billable_invocations_in_period, logs_mb_in_period, logs_retention_30d_mb_in_period, logs_retention_mb_days_in_period, replay_vision_credits_used_in_period, data_pipelines, group_analytics. E.g. [\"event_count_in_period\",\"recording_count_in_period\"]. Omit for all types."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.billing#BillingUsageExportRetrieve": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.billing#BillingUsageExportRetrieveRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/billing/usage/export/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Download the usage breakdown as CSV, honouring the requested project cap."
+      }
+    },
+    "com.posthog.billing#BillingTeamOptionsResponse": {
+      "type": "structure",
+      "members": {
+        "team_id_options": {
+          "target": "com.posthog.billing#BillingTeamOptionsResponseTeamIdOptionsList",
+          "traits": {
+            "smithy.api#documentation": "Project ids that appear in the organization's usage reports.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.billing#BillingTeamOptionsResponseTeamIdOptionsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Integer"
+      },
+      "traits": {
+        "smithy.api#documentation": "Project ids that appear in the organization's usage reports."
+      }
+    },
+    "com.posthog.billing#GetBillingUsageTeamOption": {
+      "type": "operation",
+      "input": {
+        "target": "smithy.api#Unit"
+      },
+      "output": {
+        "target": "com.posthog.billing#BillingTeamOptionsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/billing/usage/team_options/",
+          "code": 200
+        },
+        "smithy.api#documentation": "The project ids the project filter offers, loaded apart from the charts.\n\nScoped the way the charts are: a member without billing access sees only the projects\nthey can see."
       }
     },
     "com.posthog.billing#ListBillingAlertsRequest": {
@@ -2484,6 +2767,9 @@
           "target": "com.posthog.billing#GetBillingSpend"
         },
         {
+          "target": "com.posthog.billing#BillingSpendExportRetrieve"
+        },
+        {
           "target": "com.posthog.billing#BillingStartupsApplyCreate"
         },
         {
@@ -2497,6 +2783,12 @@
         },
         {
           "target": "com.posthog.billing#GetBillingUsage"
+        },
+        {
+          "target": "com.posthog.billing#BillingUsageExportRetrieve"
+        },
+        {
+          "target": "com.posthog.billing#GetBillingUsageTeamOption"
         },
         {
           "target": "com.posthog.billing#ListBillingAlerts"

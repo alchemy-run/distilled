@@ -19,9 +19,7 @@ export const ActivateSnapshotRequest = /*@__PURE__*/ S.suspend(() =>
     id: S.String.pipe(T.Label()),
     xDaytonaOrganizationID: S.optional(S.String.pipe(T.Header("X-Daytona-Organization-ID"))),
   }).pipe(T.Http({ method: "POST", uri: "/snapshots/{id}/activate", code: 200 })),
-).annotate({
-  identifier: "ActivateSnapshotRequest",
-}) as any as S.Schema<ActivateSnapshotRequest>;
+).annotate({ identifier: "ActivateSnapshotRequest" }) as any as S.Schema<ActivateSnapshotRequest>;
 
 export type SnapshotState =
   | "building"
@@ -40,7 +38,14 @@ export const SnapshotDtoEntrypointList = /*@__PURE__*/ S.Array(
   S.String,
 ) as any as S.Schema<SnapshotDtoEntrypointList>;
 
-export type GpuType = "H100" | "H200" | "RTX-PRO-6000" | "RTX-4090" | "RTX-5090" | "MI355X";
+export type GpuType =
+  | "H100"
+  | "H200"
+  | "B300"
+  | "RTX-PRO-6000"
+  | "RTX-4090"
+  | "RTX-5090"
+  | "MI355X";
 export const GpuType = S.String;
 
 /** The context hashes used for the build */
@@ -78,7 +83,7 @@ export const SnapshotDtoRegionIdsList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<SnapshotDtoRegionIdsList>;
 
 /** The sandbox class of the snapshot */
-export type SnapshotDtoSandboxClass = "linux-vm" | "container" | "android" | "windows";
+export type SnapshotDtoSandboxClass = "linux-vm" | "container" | "windows";
 export const SnapshotDtoSandboxClass = S.String;
 
 export interface SnapshotDto {
@@ -170,11 +175,9 @@ export const CreateBuildInfo = /*@__PURE__*/ S.suspend(() =>
     dockerfileContent: S.String,
     contextHashes: S.optional(CreateBuildInfoContextHashesList),
   }),
-).annotate({
-  identifier: "CreateBuildInfo",
-}) as any as S.Schema<CreateBuildInfo>;
+).annotate({ identifier: "CreateBuildInfo" }) as any as S.Schema<CreateBuildInfo>;
 
-export type SandboxClass = "linux-vm" | "container" | "android" | "windows";
+export type SandboxClass = "linux-vm" | "container" | "windows";
 export const SandboxClass = S.String;
 
 export interface CreateSnapshotRequest {
@@ -218,9 +221,7 @@ export const CreateSnapshotRequest = /*@__PURE__*/ S.suspend(() =>
     regionId: S.optional(S.String),
     sandboxClass: S.optional(SandboxClass),
   }).pipe(T.Http({ method: "POST", uri: "/snapshots", code: 200 })),
-).annotate({
-  identifier: "CreateSnapshotRequest",
-}) as any as S.Schema<CreateSnapshotRequest>;
+).annotate({ identifier: "CreateSnapshotRequest" }) as any as S.Schema<CreateSnapshotRequest>;
 
 export interface DeactivateSnapshotRequest {
   /** Snapshot ID */
@@ -274,9 +275,7 @@ export const GetAllSnapshotsRequest = /*@__PURE__*/ S.suspend(() =>
     order: S.optional(GetAllSnapshotsRequestOrder.pipe(T.Query())),
     xDaytonaOrganizationID: S.optional(S.String.pipe(T.Header("X-Daytona-Organization-ID"))),
   }).pipe(T.Http({ method: "GET", uri: "/snapshots", code: 200 })),
-).annotate({
-  identifier: "GetAllSnapshotsRequest",
-}) as any as S.Schema<GetAllSnapshotsRequest>;
+).annotate({ identifier: "GetAllSnapshotsRequest" }) as any as S.Schema<GetAllSnapshotsRequest>;
 
 export type PaginatedSnapshotsItemsList = Array<SnapshotDto>;
 export const PaginatedSnapshotsItemsList = /*@__PURE__*/ S.Array(
@@ -296,9 +295,7 @@ export const PaginatedSnapshots = /*@__PURE__*/ S.suspend(() =>
     page: S.Number,
     totalPages: S.Number,
   }),
-).annotate({
-  identifier: "PaginatedSnapshots",
-}) as any as S.Schema<PaginatedSnapshots>;
+).annotate({ identifier: "PaginatedSnapshots" }) as any as S.Schema<PaginatedSnapshots>;
 
 export interface GetSnapshotRequest {
   /** Snapshot ID or name */
@@ -311,9 +308,7 @@ export const GetSnapshotRequest = /*@__PURE__*/ S.suspend(() =>
     id: S.String.pipe(T.Label()),
     xDaytonaOrganizationID: S.optional(S.String.pipe(T.Header("X-Daytona-Organization-ID"))),
   }).pipe(T.Http({ method: "GET", uri: "/snapshots/{id}", code: 200 })),
-).annotate({
-  identifier: "GetSnapshotRequest",
-}) as any as S.Schema<GetSnapshotRequest>;
+).annotate({ identifier: "GetSnapshotRequest" }) as any as S.Schema<GetSnapshotRequest>;
 
 export interface GetSnapshotBuildLogsUrlRequest {
   /** Snapshot ID */
@@ -351,9 +346,7 @@ export const RemoveSnapshotRequest = /*@__PURE__*/ S.suspend(() =>
     id: S.String.pipe(T.Label()),
     xDaytonaOrganizationID: S.optional(S.String.pipe(T.Header("X-Daytona-Organization-ID"))),
   }).pipe(T.Http({ method: "DELETE", uri: "/snapshots/{id}", code: 200 })),
-).annotate({
-  identifier: "RemoveSnapshotRequest",
-}) as any as S.Schema<RemoveSnapshotRequest>;
+).annotate({ identifier: "RemoveSnapshotRequest" }) as any as S.Schema<RemoveSnapshotRequest>;
 
 export interface RemoveSnapshotResponse {}
 export const RemoveSnapshotResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({

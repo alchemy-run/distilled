@@ -11,16 +11,16 @@
     "com.gcp.mybusinessnotifications_v1#NotificationSetting": {
       "type": "structure",
       "members": {
-        "notificationTypes": {
-          "target": "com.gcp.mybusinessnotifications_v1#NotificationSettingNotificationTypesItemEnumList",
-          "traits": {
-            "smithy.api#documentation": "The types of notifications that will be sent to the Pub/Sub topic. To stop receiving notifications entirely, use NotificationSettings.UpdateNotificationSetting with an empty notification_types or set the pubsub_topic to an empty string."
-          }
-        },
         "name": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "Required. The resource name this setting is for. This is of the form `accounts/{account_id}/notificationSetting`."
+          }
+        },
+        "notificationTypes": {
+          "target": "com.gcp.mybusinessnotifications_v1#NotificationSettingNotificationTypesItemEnumList",
+          "traits": {
+            "smithy.api#documentation": "The types of notifications that will be sent to the Pub/Sub topic. To stop receiving notifications entirely, use NotificationSettings.UpdateNotificationSetting with an empty notification_types or set the pubsub_topic to an empty string."
           }
         },
         "pubsubTopic": {
@@ -117,15 +117,29 @@
         "target": "com.gcp.mybusinessnotifications_v1#NotificationSettingNotificationTypesItemEnum"
       }
     },
-    "com.gcp.mybusinessnotifications_v1#GetNotificationSettingAccountsRequest": {
+    "com.gcp.mybusinessnotifications_v1#UpdateNotificationSettingAccountsRequest": {
       "type": "structure",
       "members": {
+        "updateMask": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Required. The specific fields that should be updated. The only editable field is notification_setting.",
+            "smithy.api#httpQuery": "updateMask"
+          }
+        },
         "name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Required. The resource name of the notification setting we are trying to fetch.",
+            "smithy.api#documentation": "Required. The resource name this setting is for. This is of the form `accounts/{account_id}/notificationSetting`.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
+          }
+        },
+        "body": {
+          "target": "com.gcp.mybusinessnotifications_v1#NotificationSetting",
+          "traits": {
+            "smithy.api#httpPayload": {},
+            "smithy.api#documentation": "Request body"
           }
         }
       }
@@ -154,57 +168,6 @@
             "status": 403
           }
         ]
-      }
-    },
-    "com.gcp.mybusinessnotifications_v1#GetNotificationSettingAccounts": {
-      "type": "operation",
-      "input": {
-        "target": "com.gcp.mybusinessnotifications_v1#GetNotificationSettingAccountsRequest"
-      },
-      "output": {
-        "target": "com.gcp.mybusinessnotifications_v1#NotificationSetting"
-      },
-      "errors": [
-        {
-          "target": "com.gcp.mybusinessnotifications_v1#NotFound"
-        },
-        {
-          "target": "com.gcp.mybusinessnotifications_v1#Forbidden"
-        }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "v1/{+name}"
-        },
-        "smithy.api#documentation": "Returns the pubsub notification settings for the account."
-      }
-    },
-    "com.gcp.mybusinessnotifications_v1#UpdateNotificationSettingAccountsRequest": {
-      "type": "structure",
-      "members": {
-        "name": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Required. The resource name this setting is for. This is of the form `accounts/{account_id}/notificationSetting`.",
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {}
-          }
-        },
-        "updateMask": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Required. The specific fields that should be updated. The only editable field is notification_setting.",
-            "smithy.api#httpQuery": "updateMask"
-          }
-        },
-        "body": {
-          "target": "com.gcp.mybusinessnotifications_v1#NotificationSetting",
-          "traits": {
-            "smithy.api#httpPayload": {},
-            "smithy.api#documentation": "Request body"
-          }
-        }
       }
     },
     "com.gcp.mybusinessnotifications_v1#BadRequest": {
@@ -261,6 +224,43 @@
           "uri": "v1/{+name}"
         },
         "smithy.api#documentation": "Sets the pubsub notification setting for the account informing Google which topic to send pubsub notifications for. Use the notification_types field within notification_setting to manipulate the events an account wants to subscribe to. An account will only have one notification setting resource, and only one pubsub topic can be set. To delete the setting, update with an empty notification_types"
+      }
+    },
+    "com.gcp.mybusinessnotifications_v1#GetNotificationSettingAccountsRequest": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Required. The resource name of the notification setting we are trying to fetch.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.gcp.mybusinessnotifications_v1#GetNotificationSettingAccounts": {
+      "type": "operation",
+      "input": {
+        "target": "com.gcp.mybusinessnotifications_v1#GetNotificationSettingAccountsRequest"
+      },
+      "output": {
+        "target": "com.gcp.mybusinessnotifications_v1#NotificationSetting"
+      },
+      "errors": [
+        {
+          "target": "com.gcp.mybusinessnotifications_v1#NotFound"
+        },
+        {
+          "target": "com.gcp.mybusinessnotifications_v1#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "v1/{+name}"
+        },
+        "smithy.api#documentation": "Returns the pubsub notification settings for the account."
       }
     }
   }

@@ -4913,6 +4913,12 @@
         "RepositoryRuleCodeScanning": {
           "target": "com.github.repos#RepositoryRuleCodeScanning"
         },
+        "RepositoryRuleCodeQuality": {
+          "target": "com.github.repos#RepositoryRuleCodeQuality"
+        },
+        "RepositoryRuleCodeCoverage": {
+          "target": "com.github.repos#RepositoryRuleCodeCoverage"
+        },
         "RepositoryRuleCopilotCodeReview": {
           "target": "com.github.repos#RepositoryRuleCopilotCodeReview"
         },
@@ -6359,6 +6365,127 @@
           "traits": {
             "smithy.api#documentation": "Tools that must provide code scanning results for this rule to pass.",
             "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.github.repos#RepositoryRuleCodeQuality": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.github.repos#RepositoryRuleCodeQualityType",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "parameters": {
+          "target": "com.github.repos#RepositoryRuleCodeQualityParameters"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Choose which severity levels of code quality results should block pull request merges. When configured, a code quality analysis must be done on the pull request before the changes can be merged."
+      }
+    },
+    "com.github.repos#RepositoryRuleCodeQualityType": {
+      "type": "enum",
+      "members": {
+        "CODE_QUALITY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "code_quality"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.github.repos#RepositoryRuleCodeQualityParametersSeverity": {
+      "type": "enum",
+      "members": {
+        "ERRORS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "errors"
+          }
+        },
+        "WARNINGS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "warnings"
+          }
+        },
+        "NOTES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "notes"
+          }
+        },
+        "ALL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "all"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The lowest severity level at which code quality reviews need to be resolved before commits can be merged."
+      }
+    },
+    "com.github.repos#RepositoryRuleCodeQualityParameters": {
+      "type": "structure",
+      "members": {
+        "severity": {
+          "target": "com.github.repos#RepositoryRuleCodeQualityParametersSeverity",
+          "traits": {
+            "smithy.api#documentation": "The lowest severity level at which code quality reviews need to be resolved before commits can be merged.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.github.repos#RepositoryRuleCodeCoverage": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.github.repos#RepositoryRuleCodeCoverageType",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "parameters": {
+          "target": "com.github.repos#RepositoryRuleCodeCoverageParameters"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Enforce minimum line coverage thresholds on pull requests. When configured, uploaded coverage data must meet the specified criteria before changes can be merged."
+      }
+    },
+    "com.github.repos#RepositoryRuleCodeCoverageType": {
+      "type": "enum",
+      "members": {
+        "CODE_COVERAGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "code_coverage"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.github.repos#RepositoryRuleCodeCoverageParameters": {
+      "type": "structure",
+      "members": {
+        "max_coverage_drop": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The maximum percentage points that line coverage may drop relative to the default branch. Pull requests that reduce line coverage by more than this amount will be blocked."
+          }
+        },
+        "minimum_coverage": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The absolute minimum line coverage percentage required. Pull requests with line coverage below this threshold will be blocked."
           }
         }
       },
@@ -14976,6 +15103,12 @@
             "smithy.api#enumValue": "triage"
           }
         },
+        "TRIAGE_PLUS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "triage_plus"
+          }
+        },
         "PUSH": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -15348,7 +15481,7 @@
         "permission": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The permission to grant the collaborator. **Only valid on organization-owned repositories.** We accept the following permissions to be set: `pull`, `triage`, `push`, `maintain`, `admin` and you can also specify a custom repository role name, if the owning organization has defined any."
+            "smithy.api#documentation": "The permission to grant the collaborator. **Only valid on organization-owned repositories.** We accept the following permissions to be set: `pull`, `triage`, `triage_plus`, `push`, `maintain`, `admin` and you can also specify a custom repository role name, if the owning organization has defined any."
           }
         }
       },
@@ -15454,6 +15587,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "triage"
+          }
+        },
+        "TRIAGE_PLUS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "triage_plus"
           }
         },
         "MAINTAIN": {
@@ -16383,6 +16522,9 @@
         },
         {
           "target": "com.github.repos#Conflict"
+        },
+        {
+          "target": "com.github.repos#UnprocessableEntity"
         }
       ],
       "traits": {
@@ -17002,6 +17144,14 @@
           "target": "smithy.api#Boolean",
           "traits": {
             "smithy.api#required": {}
+          }
+        },
+        "archived_by": {
+          "target": "com.github.repos#SimpleUser",
+          "traits": {
+            "smithy.api#documentation": "The user who archived the label, or `null` if it has not been archived.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
           }
         }
       },
@@ -18283,6 +18433,9 @@
       "errors": [
         {
           "target": "com.github.repos#NotFound"
+        },
+        {
+          "target": "com.github.repos#UnprocessableEntity"
         }
       ],
       "traits": {

@@ -47,9 +47,7 @@ export class UnprocessableEntity
   ) {}
 
 /** Custom metadata to attach to the payment. */
-export type CreatePaymentRequestBodyCase0MetadataMap = {
-  [key: string]: unknown | undefined;
-};
+export type CreatePaymentRequestBodyCase0MetadataMap = { [key: string]: unknown | undefined };
 export const CreatePaymentRequestBodyCase0MetadataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -297,9 +295,7 @@ export const CreatePaymentRequestBodyCase0 = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<CreatePaymentRequestBodyCase0>;
 
 /** Custom metadata to attach to the payment. */
-export type CreatePaymentRequestBodyCase1MetadataMap = {
-  [key: string]: unknown | undefined;
-};
+export type CreatePaymentRequestBodyCase1MetadataMap = { [key: string]: unknown | undefined };
 export const CreatePaymentRequestBodyCase1MetadataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -348,9 +344,7 @@ export const CreatePaymentRequestBodyCase1 = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<CreatePaymentRequestBodyCase1>;
 
 /** Custom metadata to attach to the payment. */
-export type CreatePaymentRequestBodyCase2MetadataMap = {
-  [key: string]: unknown | undefined;
-};
+export type CreatePaymentRequestBodyCase2MetadataMap = { [key: string]: unknown | undefined };
 export const CreatePaymentRequestBodyCase2MetadataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -391,9 +385,7 @@ export const CreatePaymentRequestBodyCase2 = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<CreatePaymentRequestBodyCase2>;
 
 /** Custom metadata to attach to the payment. */
-export type CreatePaymentRequestBodyCase3MetadataMap = {
-  [key: string]: unknown | undefined;
-};
+export type CreatePaymentRequestBodyCase3MetadataMap = { [key: string]: unknown | undefined };
 export const CreatePaymentRequestBodyCase3MetadataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -448,9 +440,7 @@ export const CreatePaymentRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     body: CreatePaymentRequestBody.pipe(T.HttpBody()),
   }).pipe(T.Http({ method: "POST", uri: "/payments", code: 200 })),
-).annotate({
-  identifier: "CreatePaymentRequest",
-}) as any as S.Schema<CreatePaymentRequest>;
+).annotate({ identifier: "CreatePaymentRequest" }) as any as S.Schema<CreatePaymentRequest>;
 
 /** The application fee charged on this payment. */
 export interface CreatePaymentResponseApplicationFee {
@@ -845,9 +835,7 @@ export const CreatePaymentResponseMembership = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<CreatePaymentResponseMembership>;
 
 /** The custom metadata stored on this payment. This will be copied over to the checkout configuration for which this payment was made */
-export type CreatePaymentResponseMetadataMap = {
-  [key: string]: unknown | undefined;
-};
+export type CreatePaymentResponseMetadataMap = { [key: string]: unknown | undefined };
 export const CreatePaymentResponseMetadataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -1141,9 +1129,7 @@ export const CreatePaymentResponsePaymentMethod = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<CreatePaymentResponsePaymentMethod>;
 
 /** Custom key-value pairs stored on the plan. Included in webhook payloads for payment and membership events. Max 50 keys, 100 chars per key, 500 chars per string value. The reserved keys `custom_cta` and `custom_cta_url`, when set, override the product's checkout call to action for this plan. */
-export type CreatePaymentResponsePlanMetadataMap = {
-  [key: string]: unknown | undefined;
-};
+export type CreatePaymentResponsePlanMetadataMap = { [key: string]: unknown | undefined };
 export const CreatePaymentResponsePlanMetadataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -1169,9 +1155,7 @@ export const CreatePaymentResponsePlan = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<CreatePaymentResponsePlan>;
 
 /** Custom key-value pairs stored on the product and included in payment and membership webhook payloads. Max 50 keys, 100 characters per key, 500 characters per string value. */
-export type CreatePaymentResponseProductMetadataMap = {
-  [key: string]: unknown | undefined;
-};
+export type CreatePaymentResponseProductMetadataMap = { [key: string]: unknown | undefined };
 export const CreatePaymentResponseProductMetadataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -1376,9 +1360,7 @@ export const CreatePaymentResponseResolutionsList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<CreatePaymentResponseResolutionsList>;
 
 /** A curated set of factors behind the risk score, grouped by category (business transaction history, buyer, device). Each entry has a key, human-readable label, category, and value. Null when there is no risk assessment for this payment. */
-export type CreatePaymentResponseRiskSignalsMap = {
-  [key: string]: unknown | undefined;
-};
+export type CreatePaymentResponseRiskSignalsMap = { [key: string]: unknown | undefined };
 export const CreatePaymentResponseRiskSignalsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -1712,9 +1694,7 @@ export const CreatePaymentResponse = /*@__PURE__*/ S.suspend(() =>
     voidable: S.Boolean,
     client_secret: S.NullOr(S.String).pipe(T.SensitiveValue({})),
   }),
-).annotate({
-  identifier: "CreatePaymentResponse",
-}) as any as S.Schema<CreatePaymentResponse>;
+).annotate({ identifier: "CreatePaymentResponse" }) as any as S.Schema<CreatePaymentResponse>;
 
 export interface FeesPaymentRequest {
   /** The unique identifier of the payment to list fees for. */
@@ -1732,9 +1712,7 @@ export const FeesPaymentRequest = /*@__PURE__*/ S.suspend(() =>
     first: S.optional(S.Number.pipe(T.Query())),
     last: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/payments/{id}/fees", code: 200 })),
-).annotate({
-  identifier: "FeesPaymentRequest",
-}) as any as S.Schema<FeesPaymentRequest>;
+).annotate({ identifier: "FeesPaymentRequest" }) as any as S.Schema<FeesPaymentRequest>;
 
 /** The origin of the specific fee */
 export type SpecificFeeOrigins =
@@ -1831,9 +1809,7 @@ export const FeesPaymentResponse = /*@__PURE__*/ S.suspend(() =>
     data: FeesPaymentResponseDataList,
     page_info: PageInfo,
   }),
-).annotate({
-  identifier: "FeesPaymentResponse",
-}) as any as S.Schema<FeesPaymentResponse>;
+).annotate({ identifier: "FeesPaymentResponse" }) as any as S.Schema<FeesPaymentResponse>;
 
 export interface GetPaymentRequest {
   /** The unique identifier of the payment. */
@@ -1843,9 +1819,7 @@ export const GetPaymentRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/payments/{id}", code: 200 })),
-).annotate({
-  identifier: "GetPaymentRequest",
-}) as any as S.Schema<GetPaymentRequest>;
+).annotate({ identifier: "GetPaymentRequest" }) as any as S.Schema<GetPaymentRequest>;
 
 /** The application fee charged on this payment. */
 export type GetPaymentResponseApplicationFee = CreatePaymentResponseApplicationFee;
@@ -1891,9 +1865,7 @@ export type GetPaymentResponseMembership = CreatePaymentResponseMembership;
 export const GetPaymentResponseMembership = CreatePaymentResponseMembership;
 
 /** The custom metadata stored on this payment. This will be copied over to the checkout configuration for which this payment was made */
-export type GetPaymentResponseMetadataMap = {
-  [key: string]: unknown | undefined;
-};
+export type GetPaymentResponseMetadataMap = { [key: string]: unknown | undefined };
 export const GetPaymentResponseMetadataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -1956,9 +1928,7 @@ export type GetPaymentResponsePaymentMethod = CreatePaymentResponsePaymentMethod
 export const GetPaymentResponsePaymentMethod = CreatePaymentResponsePaymentMethod;
 
 /** Custom key-value pairs stored on the plan. Included in webhook payloads for payment and membership events. Max 50 keys, 100 chars per key, 500 chars per string value. The reserved keys `custom_cta` and `custom_cta_url`, when set, override the product's checkout call to action for this plan. */
-export type GetPaymentResponsePlanMetadataMap = {
-  [key: string]: unknown | undefined;
-};
+export type GetPaymentResponsePlanMetadataMap = { [key: string]: unknown | undefined };
 export const GetPaymentResponsePlanMetadataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -1979,14 +1949,10 @@ export const GetPaymentResponsePlan = /*@__PURE__*/ S.suspend(() =>
     internal_notes: S.NullOr(S.String),
     metadata: S.NullOr(GetPaymentResponsePlanMetadataMap),
   }),
-).annotate({
-  identifier: "GetPaymentResponsePlan",
-}) as any as S.Schema<GetPaymentResponsePlan>;
+).annotate({ identifier: "GetPaymentResponsePlan" }) as any as S.Schema<GetPaymentResponsePlan>;
 
 /** Custom key-value pairs stored on the product and included in payment and membership webhook payloads. Max 50 keys, 100 characters per key, 500 characters per string value. */
-export type GetPaymentResponseProductMetadataMap = {
-  [key: string]: unknown | undefined;
-};
+export type GetPaymentResponseProductMetadataMap = { [key: string]: unknown | undefined };
 export const GetPaymentResponseProductMetadataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -2093,9 +2059,7 @@ export const GetPaymentResponseResolutionsList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<GetPaymentResponseResolutionsList>;
 
 /** A curated set of factors behind the risk score, grouped by category (business transaction history, buyer, device). Each entry has a key, human-readable label, category, and value. Null when there is no risk assessment for this payment. */
-export type GetPaymentResponseRiskSignalsMap = {
-  [key: string]: unknown | undefined;
-};
+export type GetPaymentResponseRiskSignalsMap = { [key: string]: unknown | undefined };
 export const GetPaymentResponseRiskSignalsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -2311,9 +2275,7 @@ export const GetPaymentResponse = /*@__PURE__*/ S.suspend(() =>
     voidable: S.Boolean,
     client_secret: S.NullOr(S.String).pipe(T.SensitiveValue({})),
   }),
-).annotate({
-  identifier: "GetPaymentResponse",
-}) as any as S.Schema<GetPaymentResponse>;
+).annotate({ identifier: "GetPaymentResponse" }) as any as S.Schema<GetPaymentResponse>;
 
 export interface GetStatusPaymentRequest {
   /** The unique identifier of the payment. */
@@ -2323,9 +2285,7 @@ export const GetStatusPaymentRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     payment_id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/payments/{payment_id}/status", code: 200 })),
-).annotate({
-  identifier: "GetStatusPaymentRequest",
-}) as any as S.Schema<GetStatusPaymentRequest>;
+).annotate({ identifier: "GetStatusPaymentRequest" }) as any as S.Schema<GetStatusPaymentRequest>;
 
 /** The reason the payment was declined. */
 export type PaymentLastPaymentErrorDeclineCode =
@@ -2431,9 +2391,7 @@ export const PaymentLastPaymentError = /*@__PURE__*/ S.suspend(() =>
     decline_code: S.NullOr(PaymentLastPaymentErrorDeclineCode),
     message: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "PaymentLastPaymentError",
-}) as any as S.Schema<PaymentLastPaymentError>;
+).annotate({ identifier: "PaymentLastPaymentError" }) as any as S.Schema<PaymentLastPaymentError>;
 
 export interface PaymentNextActionRedirectData {
   /** The widest the provider's page lays out usefully, in CSS pixels — cap a frame or dialog presenting it at this width. `null` when the page fills whatever width it is given. */
@@ -2592,9 +2550,7 @@ export const PaymentQrInstructions = /*@__PURE__*/ S.suspend(() =>
     kind: PaymentQrInstructionsKind,
     qr: PaymentQr,
   }),
-).annotate({
-  identifier: "PaymentQrInstructions",
-}) as any as S.Schema<PaymentQrInstructions>;
+).annotate({ identifier: "PaymentQrInstructions" }) as any as S.Schema<PaymentQrInstructions>;
 
 export interface PaymentBankTransfer {
   /** The account to send to, in the local scheme's format — `account_number_label` says what to call it. */
@@ -2655,9 +2611,7 @@ export const PaymentBankTransfer = /*@__PURE__*/ S.suspend(() =>
     secondary_account_number: S.optional(S.String),
     secondary_account_number_label: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PaymentBankTransfer",
-}) as any as S.Schema<PaymentBankTransfer>;
+).annotate({ identifier: "PaymentBankTransfer" }) as any as S.Schema<PaymentBankTransfer>;
 
 /** Always `bank_transfer`: account details the buyer sends money to from their own bank. */
 export type PaymentBankTransferInstructionsKind = "bank_transfer";
@@ -2774,9 +2728,7 @@ export const PaymentProcessingDetails = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     expected_by: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "PaymentProcessingDetails",
-}) as any as S.Schema<PaymentProcessingDetails>;
+).annotate({ identifier: "PaymentProcessingDetails" }) as any as S.Schema<PaymentProcessingDetails>;
 
 /** How far the payment has got. `requires_confirmation` — nothing attempted yet, or the last attempt failed and can be retried. `requires_action` — the buyer has a step outstanding; see `next_action`. `confirming` — the buyer has done their part and the processor is deciding. `processing` — the money is moving; see `processing_details`. `succeeded` — collected. `canceled` — voided or written off. */
 export type PaymentStatusStatus =
@@ -2913,9 +2865,7 @@ export const ListPaymentRequest = /*@__PURE__*/ S.suspend(() =>
       ListPaymentRequestCheckoutConfigurationIdsList.pipe(T.Query()),
     ),
   }).pipe(T.Http({ method: "GET", uri: "/payments", code: 200 })),
-).annotate({
-  identifier: "ListPaymentRequest",
-}) as any as S.Schema<ListPaymentRequest>;
+).annotate({ identifier: "ListPaymentRequest" }) as any as S.Schema<ListPaymentRequest>;
 
 /** The application fee charged on this payment. */
 export type PaymentListItemApplicationFee = CreatePaymentResponseApplicationFee;
@@ -3001,9 +2951,7 @@ export type PaymentListItemPaymentMethod = CreatePaymentResponsePaymentMethod;
 export const PaymentListItemPaymentMethod = CreatePaymentResponsePaymentMethod;
 
 /** Custom key-value pairs stored on the plan. Included in webhook payloads for payment and membership events. Max 50 keys, 100 chars per key, 500 chars per string value. The reserved keys `custom_cta` and `custom_cta_url`, when set, override the product's checkout call to action for this plan. */
-export type PaymentListItemPlanMetadataMap = {
-  [key: string]: unknown | undefined;
-};
+export type PaymentListItemPlanMetadataMap = { [key: string]: unknown | undefined };
 export const PaymentListItemPlanMetadataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -3024,14 +2972,10 @@ export const PaymentListItemPlan = /*@__PURE__*/ S.suspend(() =>
     internal_notes: S.NullOr(S.String),
     metadata: S.NullOr(PaymentListItemPlanMetadataMap),
   }),
-).annotate({
-  identifier: "PaymentListItemPlan",
-}) as any as S.Schema<PaymentListItemPlan>;
+).annotate({ identifier: "PaymentListItemPlan" }) as any as S.Schema<PaymentListItemPlan>;
 
 /** Custom key-value pairs stored on the product and included in payment and membership webhook payloads. Max 50 keys, 100 characters per key, 500 characters per string value. */
-export type PaymentListItemProductMetadataMap = {
-  [key: string]: unknown | undefined;
-};
+export type PaymentListItemProductMetadataMap = { [key: string]: unknown | undefined };
 export const PaymentListItemProductMetadataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -3055,9 +2999,7 @@ export const PaymentListItemProduct = /*@__PURE__*/ S.suspend(() =>
     route: S.String,
     title: S.String,
   }),
-).annotate({
-  identifier: "PaymentListItemProduct",
-}) as any as S.Schema<PaymentListItemProduct>;
+).annotate({ identifier: "PaymentListItemProduct" }) as any as S.Schema<PaymentListItemProduct>;
 
 /** The promo code used for this payment. */
 export type PaymentListItemPromoCode = CreatePaymentResponsePromoCode;
@@ -3222,9 +3164,7 @@ export const PaymentListItem = /*@__PURE__*/ S.suspend(() =>
     user: S.NullOr(CreatePaymentResponseUser),
     voidable: S.Boolean,
   }),
-).annotate({
-  identifier: "PaymentListItem",
-}) as any as S.Schema<PaymentListItem>;
+).annotate({ identifier: "PaymentListItem" }) as any as S.Schema<PaymentListItem>;
 
 /** A list of nodes. */
 export type ListPaymentResponseDataList = Array<PaymentListItem>;
@@ -3243,9 +3183,7 @@ export const ListPaymentResponse = /*@__PURE__*/ S.suspend(() =>
     data: ListPaymentResponseDataList,
     page_info: PageInfo,
   }),
-).annotate({
-  identifier: "ListPaymentResponse",
-}) as any as S.Schema<ListPaymentResponse>;
+).annotate({ identifier: "ListPaymentResponse" }) as any as S.Schema<ListPaymentResponse>;
 
 export interface RefundPaymentRequest {
   /** The unique identifier of the payment to refund. */
@@ -3258,9 +3196,7 @@ export const RefundPaymentRequest = /*@__PURE__*/ S.suspend(() =>
     id: S.String.pipe(T.Label()),
     partial_amount: S.optional(S.NullOr(S.Number)),
   }).pipe(T.Http({ method: "POST", uri: "/payments/{id}/refund", code: 200 })),
-).annotate({
-  identifier: "RefundPaymentRequest",
-}) as any as S.Schema<RefundPaymentRequest>;
+).annotate({ identifier: "RefundPaymentRequest" }) as any as S.Schema<RefundPaymentRequest>;
 
 /** The application fee charged on this payment. */
 export type PaymentApplicationFee = CreatePaymentResponseApplicationFee;
@@ -3481,9 +3417,7 @@ export const PaymentResolutionsItem = /*@__PURE__*/ S.suspend(() =>
     platform_response_actions: PaymentResolutionsItemPlatformResponseActionsList,
     status: ResolutionCenterCaseStatuses,
   }),
-).annotate({
-  identifier: "PaymentResolutionsItem",
-}) as any as S.Schema<PaymentResolutionsItem>;
+).annotate({ identifier: "PaymentResolutionsItem" }) as any as S.Schema<PaymentResolutionsItem>;
 
 /** The resolution center cases opened by the customer on this payment. Null if the actor in context does not have the payment:resolution_center_case:read permission. */
 export type PaymentResolutionsList = Array<PaymentResolutionsItem>;
@@ -3716,9 +3650,7 @@ export const RetryPaymentRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "POST", uri: "/payments/{id}/retry", code: 200 })),
-).annotate({
-  identifier: "RetryPaymentRequest",
-}) as any as S.Schema<RetryPaymentRequest>;
+).annotate({ identifier: "RetryPaymentRequest" }) as any as S.Schema<RetryPaymentRequest>;
 
 export interface UpdateReturnUrlPaymentRequest {
   /** The unique identifier of the payment. */
@@ -3730,13 +3662,7 @@ export const UpdateReturnUrlPaymentRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     payment_id: S.String.pipe(T.Label()),
     return_url: S.String,
-  }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/payments/{payment_id}/return_url",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PATCH", uri: "/payments/{payment_id}/return_url", code: 200 })),
 ).annotate({
   identifier: "UpdateReturnUrlPaymentRequest",
 }) as any as S.Schema<UpdateReturnUrlPaymentRequest>;
@@ -3749,9 +3675,7 @@ export const VoidPaymentRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "POST", uri: "/payments/{id}/void", code: 200 })),
-).annotate({
-  identifier: "VoidPaymentRequest",
-}) as any as S.Schema<VoidPaymentRequest>;
+).annotate({ identifier: "VoidPaymentRequest" }) as any as S.Schema<VoidPaymentRequest>;
 
 export type CreatePaymentError =
   | BadRequest

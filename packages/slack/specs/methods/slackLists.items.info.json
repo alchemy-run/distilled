@@ -21,7 +21,8 @@
     "properties": {
       "token": {
         "type": "string",
-        "subtype": "auth"
+        "subtype": "auth",
+        "example": "xxxx-xxxxxxxxx-xxxx"
       },
       "list_id": {
         "desc": "ID of the List.",
@@ -83,5 +84,6 @@
     "user_not_found": {
       "desc": "The user cannot be found."
     }
-  }
+  },
+  "json_input_supported": true
 }

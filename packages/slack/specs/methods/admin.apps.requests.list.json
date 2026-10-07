@@ -108,6 +108,9 @@
     },
     "too_many_teams_provided": {
       "desc": "Please provide only `team_id` OR `enterprise_id`"
+    },
+    "invalid_scopes": {
+      "desc": "One or more of the given scopes is not a recognized OAuth scope"
     }
   }
 }

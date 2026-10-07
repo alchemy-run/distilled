@@ -84,13 +84,7 @@ export const AcceptResolutionCenterCaseRequest = /*@__PURE__*/ S.suspend(() =>
     message: S.optional(S.String),
     terminate_membership: S.optional(S.Boolean),
     idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/resolution_center_cases/{id}/accept",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/resolution_center_cases/{id}/accept", code: 200 })),
 ).annotate({
   identifier: "AcceptResolutionCenterCaseRequest",
 }) as any as S.Schema<AcceptResolutionCenterCaseRequest>;
@@ -144,9 +138,7 @@ export const ResolutionBuyer = /*@__PURE__*/ S.suspend(() =>
     user_id: S.NullOr(S.String),
     username: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "ResolutionBuyer",
-}) as any as S.Schema<ResolutionBuyer>;
+).annotate({ identifier: "ResolutionBuyer" }) as any as S.Schema<ResolutionBuyer>;
 
 /** Who prevailed on the claim. `null` until the case closes. Read `refund` for whether any money actually moved. */
 export type ResolutionCenterCaseOutcome = "customer_won" | "merchant_won" | "withdrawn";
@@ -172,9 +164,7 @@ export const ResolutionPayment = /*@__PURE__*/ S.suspend(() =>
     id: S.String,
     payment_method_type: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "ResolutionPayment",
-}) as any as S.Schema<ResolutionPayment>;
+).annotate({ identifier: "ResolutionPayment" }) as any as S.Schema<ResolutionPayment>;
 
 /** What the customer says went wrong. Shares the `/disputes` vocabulary, so a case that later becomes a chargeback reports the same complaint. */
 export type ResolutionCenterCaseReason =
@@ -255,9 +245,7 @@ export const ResolutionCenterCase = /*@__PURE__*/ S.suspend(() =>
     status: ResolutionCenterCaseStatus,
     updated_at: S.String,
   }),
-).annotate({
-  identifier: "ResolutionCenterCase",
-}) as any as S.Schema<ResolutionCenterCase>;
+).annotate({ identifier: "ResolutionCenterCase" }) as any as S.Schema<ResolutionCenterCase>;
 
 export type AppealResolutionCenterCaseRequestAttachmentsItem =
   AcceptResolutionCenterCaseRequestAttachmentsItem;
@@ -287,13 +275,7 @@ export const AppealResolutionCenterCaseRequest = /*@__PURE__*/ S.suspend(() =>
     attachments: S.optional(AppealResolutionCenterCaseRequestAttachmentsList),
     message: S.String,
     idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/resolution_center_cases/{id}/appeal",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/resolution_center_cases/{id}/appeal", code: 200 })),
 ).annotate({
   identifier: "AppealResolutionCenterCaseRequest",
 }) as any as S.Schema<AppealResolutionCenterCaseRequest>;
@@ -369,13 +351,7 @@ export const DenyResolutionCenterCaseRequest = /*@__PURE__*/ S.suspend(() =>
     attachments: S.optional(DenyResolutionCenterCaseRequestAttachmentsList),
     message: S.String,
     idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/resolution_center_cases/{id}/deny",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/resolution_center_cases/{id}/deny", code: 200 })),
 ).annotate({
   identifier: "DenyResolutionCenterCaseRequest",
 }) as any as S.Schema<DenyResolutionCenterCaseRequest>;
@@ -472,13 +448,7 @@ export const GetResolutionCenterCaseSummaryRequest = /*@__PURE__*/ S.suspend(() 
     outcome: S.optional(GetResolutionCenterCaseSummaryRequestOutcomeList.pipe(T.Query())),
     created_before: S.optional(S.String.pipe(T.Query())),
     created_after: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/resolution_center_cases/summary",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/resolution_center_cases/summary", code: 200 })),
 ).annotate({
   identifier: "GetResolutionCenterCaseSummaryRequest",
 }) as any as S.Schema<GetResolutionCenterCaseSummaryRequest>;
@@ -590,13 +560,7 @@ export const ListResolutionCenterCaseEventsRequest = /*@__PURE__*/ S.suspend(() 
     after: S.optional(S.String.pipe(T.Query())),
     last: S.optional(S.Number.pipe(T.Query())),
     before: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/resolution_center_cases/{id}/events",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/resolution_center_cases/{id}/events", code: 200 })),
 ).annotate({
   identifier: "ListResolutionCenterCaseEventsRequest",
 }) as any as S.Schema<ListResolutionCenterCaseEventsRequest>;
@@ -633,9 +597,7 @@ export const ResolutionAttachment = /*@__PURE__*/ S.suspend(() =>
     id: S.String,
     url: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "ResolutionAttachment",
-}) as any as S.Schema<ResolutionAttachment>;
+).annotate({ identifier: "ResolutionAttachment" }) as any as S.Schema<ResolutionAttachment>;
 
 export type ResolutionEventAttachmentsList = Array<ResolutionAttachment>;
 export const ResolutionEventAttachmentsList = /*@__PURE__*/ S.Array(
@@ -674,9 +636,7 @@ export const ResolutionEvent = /*@__PURE__*/ S.suspend(() =>
     viewable_by_customer: S.Boolean,
     viewable_by_merchant: S.Boolean,
   }),
-).annotate({
-  identifier: "ResolutionEvent",
-}) as any as S.Schema<ResolutionEvent>;
+).annotate({ identifier: "ResolutionEvent" }) as any as S.Schema<ResolutionEvent>;
 
 export type ListResolutionCenterCaseEventsResponseDataList = Array<ResolutionEvent>;
 export const ListResolutionCenterCaseEventsResponseDataList = /*@__PURE__*/ S.Array(
@@ -860,13 +820,7 @@ export const ReplyToResolutionCenterCaseRequest = /*@__PURE__*/ S.suspend(() =>
     attachments: S.optional(ReplyToResolutionCenterCaseRequestAttachmentsList),
     message: S.String,
     idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/resolution_center_cases/{id}/reply",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/resolution_center_cases/{id}/reply", code: 200 })),
 ).annotate({
   identifier: "ReplyToResolutionCenterCaseRequest",
 }) as any as S.Schema<ReplyToResolutionCenterCaseRequest>;
@@ -899,13 +853,7 @@ export const RequestResolutionCenterCaseInfoRequest = /*@__PURE__*/ S.suspend(()
     attachments: S.optional(RequestResolutionCenterCaseInfoRequestAttachmentsList),
     message: S.optional(S.String),
     idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/resolution_center_cases/{id}/request_info",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/resolution_center_cases/{id}/request_info", code: 200 })),
 ).annotate({
   identifier: "RequestResolutionCenterCaseInfoRequest",
 }) as any as S.Schema<RequestResolutionCenterCaseInfoRequest>;
@@ -920,13 +868,7 @@ export const WithdrawResolutionCenterCaseRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
     idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/resolution_center_cases/{id}/withdraw",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/resolution_center_cases/{id}/withdraw", code: 200 })),
 ).annotate({
   identifier: "WithdrawResolutionCenterCaseRequest",
 }) as any as S.Schema<WithdrawResolutionCenterCaseRequest>;

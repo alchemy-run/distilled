@@ -47,6 +47,8 @@ export interface DataModelingJob {
   status: DataModelingJobStatusEnum;
   /** What this run wrote: full_refresh rebuilt the whole table, so rows_materialized is the table's size; incremental wrote only its window, so rows_materialized counts just the rows synced. Null for runs from before modes were recorded, or that failed before the plan resolved. * `full_refresh` - Full refresh * `incremental` - Incremental */
   run_mode: DataModelingJobRunModeEnum | null;
+  /** Why this run rebuilt the whole table instead of updating only new rows, for example first run, definition changed, or table missing. Null when the run was incremental. */
+  full_refresh_reason: string | null;
   rows_materialized: number;
   error: string | null;
   created_at: string;
@@ -64,6 +66,7 @@ export const DataModelingJob = /*@__PURE__*/ S.suspend(() =>
     saved_query_id: S.NullOr(S.String),
     status: DataModelingJobStatusEnum,
     run_mode: S.NullOr(DataModelingJobRunModeEnum),
+    full_refresh_reason: S.NullOr(S.String),
     rows_materialized: S.Number,
     error: S.NullOr(S.String),
     created_at: S.String,
@@ -73,9 +76,7 @@ export const DataModelingJob = /*@__PURE__*/ S.suspend(() =>
     workflow_run_id: S.NullOr(S.String),
     rows_expected: S.NullOr(S.Number),
   }),
-).annotate({
-  identifier: "DataModelingJob",
-}) as any as S.Schema<DataModelingJob>;
+).annotate({ identifier: "DataModelingJob" }) as any as S.Schema<DataModelingJob>;
 
 export interface GetDataModelingJobsRecentRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -113,6 +114,14 @@ export const GetDataModelingJobsRunningRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetDataModelingJobsRunningRequest",
 }) as any as S.Schema<GetDataModelingJobsRunningRequest>;
 
+export type ListDataModelingJobsRequestStatus =
+  | "Cancelled"
+  | "Completed"
+  | "Failed"
+  | "Running"
+  | "Skipped";
+export const ListDataModelingJobsRequestStatus = S.String;
+
 export interface ListDataModelingJobsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
@@ -121,6 +130,8 @@ export interface ListDataModelingJobsRequest {
   /** The initial index from which to return the results. */
   offset?: number;
   saved_query_id?: string;
+  /** * `Cancelled` - Cancelled * `Completed` - Completed * `Failed` - Failed * `Running` - Running * `Skipped` - Skipped */
+  status?: ListDataModelingJobsRequestStatus | (string & {});
 }
 export const ListDataModelingJobsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -128,12 +139,9 @@ export const ListDataModelingJobsRequest = /*@__PURE__*/ S.suspend(() =>
     limit: S.optional(S.Number.pipe(T.Query())),
     offset: S.optional(S.Number.pipe(T.Query())),
     saved_query_id: S.optional(S.String.pipe(T.Query())),
+    status: S.optional(ListDataModelingJobsRequestStatus.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/data_modeling_jobs/",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/projects/{project_id}/data_modeling_jobs/", code: 200 }),
   ),
 ).annotate({
   identifier: "ListDataModelingJobsRequest",

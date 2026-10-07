@@ -105,9 +105,7 @@ export const CreateIssueRequest = /*@__PURE__*/ S.suspend(() =>
     ref: S.optional(S.String),
     title: S.String,
   }).pipe(T.Http({ method: "POST", uri: "/repos/{owner}/{repo}/issues", code: 200 })),
-).annotate({
-  identifier: "CreateIssueRequest",
-}) as any as S.Schema<CreateIssueRequest>;
+).annotate({ identifier: "CreateIssueRequest" }) as any as S.Schema<CreateIssueRequest>;
 
 export type AttachmentType = "attachment" | "external";
 export const AttachmentType = S.String;
@@ -285,9 +283,7 @@ export const PullRequestMeta = /*@__PURE__*/ S.suspend(() =>
     merged: S.optional(S.Boolean),
     merged_at: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PullRequestMeta",
-}) as any as S.Schema<PullRequestMeta>;
+).annotate({ identifier: "PullRequestMeta" }) as any as S.Schema<PullRequestMeta>;
 
 /** RepositoryMeta basic repository information */
 export interface RepositoryMeta {
@@ -383,11 +379,7 @@ export const CreateIssueAttachmentRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String.pipe(T.Query())),
     updated_at: S.optional(S.String.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/repos/{owner}/{repo}/issues/{index}/assets",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/repos/{owner}/{repo}/issues/{index}/assets", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateIssueAttachmentRequest",
@@ -407,11 +399,7 @@ export const CreateIssueBlockingRequest = /*@__PURE__*/ S.suspend(() =>
     repo: S.String.pipe(T.Label()),
     index: S.Number.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/repos/{owner}/{repo}/issues/{index}/blocks",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/repos/{owner}/{repo}/issues/{index}/blocks", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateIssueBlockingRequest",
@@ -437,11 +425,7 @@ export const CreateIssueCommentAttachmentRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String.pipe(T.Query())),
     updated_at: S.optional(S.String.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/repos/{owner}/{repo}/issues/comments/{id}/assets",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/repos/{owner}/{repo}/issues/comments/{id}/assets", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateIssueCommentAttachmentRequest",
@@ -461,11 +445,7 @@ export const CreateIssueDependenciesRequest = /*@__PURE__*/ S.suspend(() =>
     repo: S.String.pipe(T.Label()),
     index: S.Number.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/repos/{owner}/{repo}/issues/{index}/dependencies",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/repos/{owner}/{repo}/issues/{index}/dependencies", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateIssueDependenciesRequest",
@@ -484,16 +464,8 @@ export const DeleteIssueRequest = /*@__PURE__*/ S.suspend(() =>
     owner: S.String.pipe(T.Label()),
     repo: S.String.pipe(T.Label()),
     index: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/repos/{owner}/{repo}/issues/{index}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "DeleteIssueRequest",
-}) as any as S.Schema<DeleteIssueRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/repos/{owner}/{repo}/issues/{index}", code: 200 })),
+).annotate({ identifier: "DeleteIssueRequest" }) as any as S.Schema<DeleteIssueRequest>;
 
 export interface DeleteIssueResponse {}
 export const DeleteIssueResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -582,11 +554,7 @@ export const DeleteIssueReactionRequest = /*@__PURE__*/ S.suspend(() =>
     index: S.Number.pipe(T.Label()),
     content: S.optional(S.String),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/repos/{owner}/{repo}/issues/{index}/reactions",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/repos/{owner}/{repo}/issues/{index}/reactions", code: 200 }),
   ),
 ).annotate({
   identifier: "DeleteIssueReactionRequest",
@@ -636,16 +604,8 @@ export const EditIssueRequest = /*@__PURE__*/ S.suspend(() =>
     title: S.optional(S.String),
     unset_due_date: S.optional(S.Boolean),
     updated_at: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/repos/{owner}/{repo}/issues/{index}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "EditIssueRequest",
-}) as any as S.Schema<EditIssueRequest>;
+  }).pipe(T.Http({ method: "PATCH", uri: "/repos/{owner}/{repo}/issues/{index}", code: 200 })),
+).annotate({ identifier: "EditIssueRequest" }) as any as S.Schema<EditIssueRequest>;
 
 export interface EditIssueAttachmentRequest {
   /** owner of the repo */
@@ -727,15 +687,9 @@ export const EditIssueDeadlineRequest = /*@__PURE__*/ S.suspend(() =>
     index: S.Number.pipe(T.Label()),
     due_date: S.String,
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/repos/{owner}/{repo}/issues/{index}/deadline",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/repos/{owner}/{repo}/issues/{index}/deadline", code: 200 }),
   ),
-).annotate({
-  identifier: "EditIssueDeadlineRequest",
-}) as any as S.Schema<EditIssueDeadlineRequest>;
+).annotate({ identifier: "EditIssueDeadlineRequest" }) as any as S.Schema<EditIssueDeadlineRequest>;
 
 /** IssueDeadline represents an issue deadline */
 export interface IssueDeadline {
@@ -760,16 +714,8 @@ export const GetIssueRequest = /*@__PURE__*/ S.suspend(() =>
     owner: S.String.pipe(T.Label()),
     repo: S.String.pipe(T.Label()),
     index: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/issues/{index}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetIssueRequest",
-}) as any as S.Schema<GetIssueRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/issues/{index}", code: 200 })),
+).annotate({ identifier: "GetIssueRequest" }) as any as S.Schema<GetIssueRequest>;
 
 export interface GetIssueAttachmentRequest {
   /** owner of the repo */
@@ -845,15 +791,9 @@ export const GetIssueReactionsRequest = /*@__PURE__*/ S.suspend(() =>
     page: S.optional(S.Number.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/issues/{index}/reactions",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/issues/{index}/reactions", code: 200 }),
   ),
-).annotate({
-  identifier: "GetIssueReactionsRequest",
-}) as any as S.Schema<GetIssueReactionsRequest>;
+).annotate({ identifier: "GetIssueReactionsRequest" }) as any as S.Schema<GetIssueReactionsRequest>;
 
 /** Reaction contain one reaction */
 export interface Reaction {
@@ -906,15 +846,9 @@ export const IssueAddLabelRequest = /*@__PURE__*/ S.suspend(() =>
     labels: S.optional(IssueAddLabelRequestLabelsList),
     updated_at: S.optional(S.String),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/repos/{owner}/{repo}/issues/{index}/labels",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/repos/{owner}/{repo}/issues/{index}/labels", code: 200 }),
   ),
-).annotate({
-  identifier: "IssueAddLabelRequest",
-}) as any as S.Schema<IssueAddLabelRequest>;
+).annotate({ identifier: "IssueAddLabelRequest" }) as any as S.Schema<IssueAddLabelRequest>;
 
 export type IssueAddLabelResponseBodyList = Array<Label>;
 export const IssueAddLabelResponseBodyList = /*@__PURE__*/ S.Array(
@@ -924,9 +858,7 @@ export const IssueAddLabelResponseBodyList = /*@__PURE__*/ S.Array(
 export type IssueAddLabelResponse = IssueAddLabelResponseBodyList;
 export const IssueAddLabelResponse = /*@__PURE__*/ S.suspend(() =>
   IssueAddLabelResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "IssueAddLabelResponse",
-}) as any as S.Schema<IssueAddLabelResponse>;
+).annotate({ identifier: "IssueAddLabelResponse" }) as any as S.Schema<IssueAddLabelResponse>;
 
 export interface IssueAddSubscriptionRequest {
   /** owner of the repo */
@@ -981,16 +913,8 @@ export const IssueAddTimeRequest = /*@__PURE__*/ S.suspend(() =>
     created: S.optional(S.String),
     time: S.Number,
     user_name: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/repos/{owner}/{repo}/issues/{index}/times",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "IssueAddTimeRequest",
-}) as any as S.Schema<IssueAddTimeRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/repos/{owner}/{repo}/issues/{index}/times", code: 200 })),
+).annotate({ identifier: "IssueAddTimeRequest" }) as any as S.Schema<IssueAddTimeRequest>;
 
 /** TrackedTime worked time for an issue / pr */
 export interface TrackedTime {
@@ -1077,15 +1001,9 @@ export const IssueClearLabelsRequest = /*@__PURE__*/ S.suspend(() =>
     index: S.Number.pipe(T.Label()),
     updated_at: S.optional(S.String),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/repos/{owner}/{repo}/issues/{index}/labels",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/repos/{owner}/{repo}/issues/{index}/labels", code: 200 }),
   ),
-).annotate({
-  identifier: "IssueClearLabelsRequest",
-}) as any as S.Schema<IssueClearLabelsRequest>;
+).annotate({ identifier: "IssueClearLabelsRequest" }) as any as S.Schema<IssueClearLabelsRequest>;
 
 export interface IssueClearLabelsResponse {}
 export const IssueClearLabelsResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1112,11 +1030,7 @@ export const IssueCreateCommentRequest = /*@__PURE__*/ S.suspend(() =>
     body: S.String,
     updated_at: S.optional(S.String),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/repos/{owner}/{repo}/issues/{index}/comments",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/repos/{owner}/{repo}/issues/{index}/comments", code: 200 }),
   ),
 ).annotate({
   identifier: "IssueCreateCommentRequest",
@@ -1189,9 +1103,7 @@ export const IssueCreateLabelRequest = /*@__PURE__*/ S.suspend(() =>
     is_archived: S.optional(S.Boolean),
     name: S.String,
   }).pipe(T.Http({ method: "POST", uri: "/repos/{owner}/{repo}/labels", code: 200 })),
-).annotate({
-  identifier: "IssueCreateLabelRequest",
-}) as any as S.Schema<IssueCreateLabelRequest>;
+).annotate({ identifier: "IssueCreateLabelRequest" }) as any as S.Schema<IssueCreateLabelRequest>;
 
 export type IssueCreateMilestoneRequestState = "open" | "closed";
 export const IssueCreateMilestoneRequestState = S.String;
@@ -1214,13 +1126,7 @@ export const IssueCreateMilestoneRequest = /*@__PURE__*/ S.suspend(() =>
     due_on: S.optional(S.String),
     state: S.optional(IssueCreateMilestoneRequestState),
     title: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/repos/{owner}/{repo}/milestones",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/repos/{owner}/{repo}/milestones", code: 200 })),
 ).annotate({
   identifier: "IssueCreateMilestoneRequest",
 }) as any as S.Schema<IssueCreateMilestoneRequest>;
@@ -1239,11 +1145,7 @@ export const IssueDeleteCommentRequest = /*@__PURE__*/ S.suspend(() =>
     repo: S.String.pipe(T.Label()),
     id: S.Number.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/repos/{owner}/{repo}/issues/comments/{id}",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/repos/{owner}/{repo}/issues/comments/{id}", code: 200 }),
   ),
 ).annotate({
   identifier: "IssueDeleteCommentRequest",
@@ -1300,16 +1202,8 @@ export const IssueDeleteLabelRequest = /*@__PURE__*/ S.suspend(() =>
     owner: S.String.pipe(T.Label()),
     repo: S.String.pipe(T.Label()),
     id: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/repos/{owner}/{repo}/labels/{id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "IssueDeleteLabelRequest",
-}) as any as S.Schema<IssueDeleteLabelRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/repos/{owner}/{repo}/labels/{id}", code: 200 })),
+).annotate({ identifier: "IssueDeleteLabelRequest" }) as any as S.Schema<IssueDeleteLabelRequest>;
 
 export interface IssueDeleteLabelResponse {}
 export const IssueDeleteLabelResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1329,13 +1223,7 @@ export const IssueDeleteMilestoneRequest = /*@__PURE__*/ S.suspend(() =>
     owner: S.String.pipe(T.Label()),
     repo: S.String.pipe(T.Label()),
     id: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/repos/{owner}/{repo}/milestones/{id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/repos/{owner}/{repo}/milestones/{id}", code: 200 })),
 ).annotate({
   identifier: "IssueDeleteMilestoneRequest",
 }) as any as S.Schema<IssueDeleteMilestoneRequest>;
@@ -1403,9 +1291,7 @@ export const IssueDeleteSubscriptionRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface IssueDeleteSubscriptionResponse {}
 export const IssueDeleteSubscriptionResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "IssueDeleteSubscriptionResponse",
-  },
+  { identifier: "IssueDeleteSubscriptionResponse" },
 ) as any as S.Schema<IssueDeleteSubscriptionResponse>;
 
 export interface IssueDeleteTimeRequest {
@@ -1425,15 +1311,9 @@ export const IssueDeleteTimeRequest = /*@__PURE__*/ S.suspend(() =>
     index: S.Number.pipe(T.Label()),
     id: S.Number.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/repos/{owner}/{repo}/issues/{index}/times/{id}",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/repos/{owner}/{repo}/issues/{index}/times/{id}", code: 200 }),
   ),
-).annotate({
-  identifier: "IssueDeleteTimeRequest",
-}) as any as S.Schema<IssueDeleteTimeRequest>;
+).annotate({ identifier: "IssueDeleteTimeRequest" }) as any as S.Schema<IssueDeleteTimeRequest>;
 
 export interface IssueDeleteTimeResponse {}
 export const IssueDeleteTimeResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1460,15 +1340,9 @@ export const IssueEditCommentRequest = /*@__PURE__*/ S.suspend(() =>
     body: S.String,
     updated_at: S.optional(S.String),
   }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/repos/{owner}/{repo}/issues/comments/{id}",
-      code: 200,
-    }),
+    T.Http({ method: "PATCH", uri: "/repos/{owner}/{repo}/issues/comments/{id}", code: 200 }),
   ),
-).annotate({
-  identifier: "IssueEditCommentRequest",
-}) as any as S.Schema<IssueEditCommentRequest>;
+).annotate({ identifier: "IssueEditCommentRequest" }) as any as S.Schema<IssueEditCommentRequest>;
 
 export interface IssueEditLabelRequest {
   /** owner of the repo */
@@ -1493,16 +1367,8 @@ export const IssueEditLabelRequest = /*@__PURE__*/ S.suspend(() =>
     exclusive: S.optional(S.Boolean),
     is_archived: S.optional(S.Boolean),
     name: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/repos/{owner}/{repo}/labels/{id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "IssueEditLabelRequest",
-}) as any as S.Schema<IssueEditLabelRequest>;
+  }).pipe(T.Http({ method: "PATCH", uri: "/repos/{owner}/{repo}/labels/{id}", code: 200 })),
+).annotate({ identifier: "IssueEditLabelRequest" }) as any as S.Schema<IssueEditLabelRequest>;
 
 export interface IssueEditMilestoneRequest {
   /** owner of the repo */
@@ -1525,13 +1391,7 @@ export const IssueEditMilestoneRequest = /*@__PURE__*/ S.suspend(() =>
     due_on: S.optional(S.String),
     state: S.optional(S.String),
     title: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/repos/{owner}/{repo}/milestones/{id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PATCH", uri: "/repos/{owner}/{repo}/milestones/{id}", code: 200 })),
 ).annotate({
   identifier: "IssueEditMilestoneRequest",
 }) as any as S.Schema<IssueEditMilestoneRequest>;
@@ -1549,16 +1409,8 @@ export const IssueGetCommentRequest = /*@__PURE__*/ S.suspend(() =>
     owner: S.String.pipe(T.Label()),
     repo: S.String.pipe(T.Label()),
     id: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/issues/comments/{id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "IssueGetCommentRequest",
-}) as any as S.Schema<IssueGetCommentRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/issues/comments/{id}", code: 200 })),
+).annotate({ identifier: "IssueGetCommentRequest" }) as any as S.Schema<IssueGetCommentRequest>;
 
 export interface IssueGetCommentReactionsRequest {
   /** owner of the repo */
@@ -1616,15 +1468,9 @@ export const IssueGetCommentsRequest = /*@__PURE__*/ S.suspend(() =>
     since: S.optional(S.String.pipe(T.Query())),
     before: S.optional(S.String.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/issues/{index}/comments",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/issues/{index}/comments", code: 200 }),
   ),
-).annotate({
-  identifier: "IssueGetCommentsRequest",
-}) as any as S.Schema<IssueGetCommentsRequest>;
+).annotate({ identifier: "IssueGetCommentsRequest" }) as any as S.Schema<IssueGetCommentsRequest>;
 
 export type IssueGetCommentsResponseBodyList = Array<Comment>;
 export const IssueGetCommentsResponseBodyList = /*@__PURE__*/ S.Array(
@@ -1634,9 +1480,7 @@ export const IssueGetCommentsResponseBodyList = /*@__PURE__*/ S.Array(
 export type IssueGetCommentsResponse = IssueGetCommentsResponseBodyList;
 export const IssueGetCommentsResponse = /*@__PURE__*/ S.suspend(() =>
   IssueGetCommentsResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "IssueGetCommentsResponse",
-}) as any as S.Schema<IssueGetCommentsResponse>;
+).annotate({ identifier: "IssueGetCommentsResponse" }) as any as S.Schema<IssueGetCommentsResponse>;
 
 export interface IssueGetCommentsAndTimelineRequest {
   /** owner of the repo */
@@ -1664,11 +1508,7 @@ export const IssueGetCommentsAndTimelineRequest = /*@__PURE__*/ S.suspend(() =>
     limit: S.optional(S.Number.pipe(T.Query())),
     before: S.optional(S.String.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/issues/{index}/timeline",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/issues/{index}/timeline", code: 200 }),
   ),
 ).annotate({
   identifier: "IssueGetCommentsAndTimelineRequest",
@@ -1811,9 +1651,7 @@ export const TimelineComment = /*@__PURE__*/ S.suspend(() =>
     updated_at: S.optional(S.String),
     user: S.optional(User),
   }),
-).annotate({
-  identifier: "TimelineComment",
-}) as any as S.Schema<TimelineComment>;
+).annotate({ identifier: "TimelineComment" }) as any as S.Schema<TimelineComment>;
 
 export type IssueGetCommentsAndTimelineResponseBodyList = Array<TimelineComment>;
 export const IssueGetCommentsAndTimelineResponseBodyList = /*@__PURE__*/ S.Array(
@@ -1840,16 +1678,8 @@ export const IssueGetLabelRequest = /*@__PURE__*/ S.suspend(() =>
     owner: S.String.pipe(T.Label()),
     repo: S.String.pipe(T.Label()),
     id: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/labels/{id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "IssueGetLabelRequest",
-}) as any as S.Schema<IssueGetLabelRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/labels/{id}", code: 200 })),
+).annotate({ identifier: "IssueGetLabelRequest" }) as any as S.Schema<IssueGetLabelRequest>;
 
 export interface IssueGetLabelsRequest {
   /** owner of the repo */
@@ -1864,16 +1694,8 @@ export const IssueGetLabelsRequest = /*@__PURE__*/ S.suspend(() =>
     owner: S.String.pipe(T.Label()),
     repo: S.String.pipe(T.Label()),
     index: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/issues/{index}/labels",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "IssueGetLabelsRequest",
-}) as any as S.Schema<IssueGetLabelsRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/issues/{index}/labels", code: 200 })),
+).annotate({ identifier: "IssueGetLabelsRequest" }) as any as S.Schema<IssueGetLabelsRequest>;
 
 export type IssueGetLabelsResponseBodyList = Array<Label>;
 export const IssueGetLabelsResponseBodyList = /*@__PURE__*/ S.Array(
@@ -1883,9 +1705,7 @@ export const IssueGetLabelsResponseBodyList = /*@__PURE__*/ S.Array(
 export type IssueGetLabelsResponse = IssueGetLabelsResponseBodyList;
 export const IssueGetLabelsResponse = /*@__PURE__*/ S.suspend(() =>
   IssueGetLabelsResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "IssueGetLabelsResponse",
-}) as any as S.Schema<IssueGetLabelsResponse>;
+).annotate({ identifier: "IssueGetLabelsResponse" }) as any as S.Schema<IssueGetLabelsResponse>;
 
 export interface IssueGetMilestoneRequest {
   /** owner of the repo */
@@ -1900,16 +1720,8 @@ export const IssueGetMilestoneRequest = /*@__PURE__*/ S.suspend(() =>
     owner: S.String.pipe(T.Label()),
     repo: S.String.pipe(T.Label()),
     id: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/milestones/{id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "IssueGetMilestoneRequest",
-}) as any as S.Schema<IssueGetMilestoneRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/milestones/{id}", code: 200 })),
+).annotate({ identifier: "IssueGetMilestoneRequest" }) as any as S.Schema<IssueGetMilestoneRequest>;
 
 export interface IssueGetMilestonesListRequest {
   /** owner of the repo */
@@ -1933,13 +1745,7 @@ export const IssueGetMilestonesListRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/milestones",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/milestones", code: 200 })),
 ).annotate({
   identifier: "IssueGetMilestonesListRequest",
 }) as any as S.Schema<IssueGetMilestonesListRequest>;
@@ -1978,13 +1784,7 @@ export const IssueGetRepoCommentsRequest = /*@__PURE__*/ S.suspend(() =>
     before: S.optional(S.String.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/issues/comments",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/issues/comments", code: 200 })),
 ).annotate({
   identifier: "IssueGetRepoCommentsRequest",
 }) as any as S.Schema<IssueGetRepoCommentsRequest>;
@@ -2020,16 +1820,8 @@ export const IssueListBlocksRequest = /*@__PURE__*/ S.suspend(() =>
     index: S.Number.pipe(T.Label()),
     page: S.optional(S.Number.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/issues/{index}/blocks",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "IssueListBlocksRequest",
-}) as any as S.Schema<IssueListBlocksRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/issues/{index}/blocks", code: 200 })),
+).annotate({ identifier: "IssueListBlocksRequest" }) as any as S.Schema<IssueListBlocksRequest>;
 
 export type IssueListBlocksResponseBodyList = Array<Issue>;
 export const IssueListBlocksResponseBodyList = /*@__PURE__*/ S.Array(
@@ -2039,9 +1831,7 @@ export const IssueListBlocksResponseBodyList = /*@__PURE__*/ S.Array(
 export type IssueListBlocksResponse = IssueListBlocksResponseBodyList;
 export const IssueListBlocksResponse = /*@__PURE__*/ S.suspend(() =>
   IssueListBlocksResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "IssueListBlocksResponse",
-}) as any as S.Schema<IssueListBlocksResponse>;
+).annotate({ identifier: "IssueListBlocksResponse" }) as any as S.Schema<IssueListBlocksResponse>;
 
 export type IssueListLabelsRequestSort = "mostissues" | "leastissues" | "reversealphabetically";
 export const IssueListLabelsRequestSort = S.String;
@@ -2066,9 +1856,7 @@ export const IssueListLabelsRequest = /*@__PURE__*/ S.suspend(() =>
     page: S.optional(S.Number.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/labels", code: 200 })),
-).annotate({
-  identifier: "IssueListLabelsRequest",
-}) as any as S.Schema<IssueListLabelsRequest>;
+).annotate({ identifier: "IssueListLabelsRequest" }) as any as S.Schema<IssueListLabelsRequest>;
 
 export type IssueListLabelsResponseBodyList = Array<Label>;
 export const IssueListLabelsResponseBodyList = /*@__PURE__*/ S.Array(
@@ -2078,9 +1866,7 @@ export const IssueListLabelsResponseBodyList = /*@__PURE__*/ S.Array(
 export type IssueListLabelsResponse = IssueListLabelsResponseBodyList;
 export const IssueListLabelsResponse = /*@__PURE__*/ S.suspend(() =>
   IssueListLabelsResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "IssueListLabelsResponse",
-}) as any as S.Schema<IssueListLabelsResponse>;
+).annotate({ identifier: "IssueListLabelsResponse" }) as any as S.Schema<IssueListLabelsResponse>;
 
 export interface IssuePostCommentReactionRequest {
   /** owner of the repo */
@@ -2133,9 +1919,7 @@ export const IssueRemoveLabelRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "IssueRemoveLabelRequest",
-}) as any as S.Schema<IssueRemoveLabelRequest>;
+).annotate({ identifier: "IssueRemoveLabelRequest" }) as any as S.Schema<IssueRemoveLabelRequest>;
 
 export interface IssueRemoveLabelResponse {}
 export const IssueRemoveLabelResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2166,13 +1950,7 @@ export const IssueReplaceLabelsRequest = /*@__PURE__*/ S.suspend(() =>
     index: S.Number.pipe(T.Label()),
     labels: S.optional(IssueReplaceLabelsRequestLabelsList),
     updated_at: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/repos/{owner}/{repo}/issues/{index}/labels",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/repos/{owner}/{repo}/issues/{index}/labels", code: 200 })),
 ).annotate({
   identifier: "IssueReplaceLabelsRequest",
 }) as any as S.Schema<IssueReplaceLabelsRequest>;
@@ -2203,15 +1981,9 @@ export const IssueResetTimeRequest = /*@__PURE__*/ S.suspend(() =>
     repo: S.String.pipe(T.Label()),
     index: S.Number.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/repos/{owner}/{repo}/issues/{index}/times",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/repos/{owner}/{repo}/issues/{index}/times", code: 200 }),
   ),
-).annotate({
-  identifier: "IssueResetTimeRequest",
-}) as any as S.Schema<IssueResetTimeRequest>;
+).annotate({ identifier: "IssueResetTimeRequest" }) as any as S.Schema<IssueResetTimeRequest>;
 
 export interface IssueResetTimeResponse {}
 export const IssueResetTimeResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2296,11 +2068,7 @@ export const IssueSubscriptionsRequest = /*@__PURE__*/ S.suspend(() =>
     page: S.optional(S.Number.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/issues/{index}/subscriptions",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/issues/{index}/subscriptions", code: 200 }),
   ),
 ).annotate({
   identifier: "IssueSubscriptionsRequest",
@@ -2346,16 +2114,8 @@ export const IssueTrackedTimesRequest = /*@__PURE__*/ S.suspend(() =>
     before: S.optional(S.String.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/issues/{index}/times",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "IssueTrackedTimesRequest",
-}) as any as S.Schema<IssueTrackedTimesRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/issues/{index}/times", code: 200 })),
+).annotate({ identifier: "IssueTrackedTimesRequest" }) as any as S.Schema<IssueTrackedTimesRequest>;
 
 export type IssueTrackedTimesResponseBodyList = Array<TrackedTime>;
 export const IssueTrackedTimesResponseBodyList = /*@__PURE__*/ S.Array(
@@ -2382,13 +2142,7 @@ export const ListIssueAttachmentsRequest = /*@__PURE__*/ S.suspend(() =>
     owner: S.String.pipe(T.Label()),
     repo: S.String.pipe(T.Label()),
     index: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/issues/{index}/assets",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/issues/{index}/assets", code: 200 })),
 ).annotate({
   identifier: "ListIssueAttachmentsRequest",
 }) as any as S.Schema<ListIssueAttachmentsRequest>;
@@ -2419,11 +2173,7 @@ export const ListIssueCommentAttachmentsRequest = /*@__PURE__*/ S.suspend(() =>
     repo: S.String.pipe(T.Label()),
     id: S.Number.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/issues/comments/{id}/assets",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/issues/comments/{id}/assets", code: 200 }),
   ),
 ).annotate({
   identifier: "ListIssueCommentAttachmentsRequest",
@@ -2461,11 +2211,7 @@ export const ListIssueDependenciesRequest = /*@__PURE__*/ S.suspend(() =>
     page: S.optional(S.Number.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/issues/{index}/dependencies",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/issues/{index}/dependencies", code: 200 }),
   ),
 ).annotate({
   identifier: "ListIssueDependenciesRequest",
@@ -2551,9 +2297,7 @@ export const ListIssuesRequest = /*@__PURE__*/ S.suspend(() =>
     limit: S.optional(S.Number.pipe(T.Query())),
     sort: S.optional(ListIssuesRequestSort.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/issues", code: 200 })),
-).annotate({
-  identifier: "ListIssuesRequest",
-}) as any as S.Schema<ListIssuesRequest>;
+).annotate({ identifier: "ListIssuesRequest" }) as any as S.Schema<ListIssuesRequest>;
 
 export type ListIssuesResponseBodyList = Array<Issue>;
 export const ListIssuesResponseBodyList = /*@__PURE__*/ S.Array(
@@ -2563,9 +2307,7 @@ export const ListIssuesResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListIssuesResponse = ListIssuesResponseBodyList;
 export const ListIssuesResponse = /*@__PURE__*/ S.suspend(() =>
   ListIssuesResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListIssuesResponse",
-}) as any as S.Schema<ListIssuesResponse>;
+).annotate({ identifier: "ListIssuesResponse" }) as any as S.Schema<ListIssuesResponse>;
 
 export interface MoveIssuePinRequest {
   /** owner of the repo */
@@ -2590,9 +2332,7 @@ export const MoveIssuePinRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "MoveIssuePinRequest",
-}) as any as S.Schema<MoveIssuePinRequest>;
+).annotate({ identifier: "MoveIssuePinRequest" }) as any as S.Schema<MoveIssuePinRequest>;
 
 export interface MoveIssuePinResponse {}
 export const MoveIssuePinResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2612,16 +2352,8 @@ export const PinIssueRequest = /*@__PURE__*/ S.suspend(() =>
     owner: S.String.pipe(T.Label()),
     repo: S.String.pipe(T.Label()),
     index: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/repos/{owner}/{repo}/issues/{index}/pin",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "PinIssueRequest",
-}) as any as S.Schema<PinIssueRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/repos/{owner}/{repo}/issues/{index}/pin", code: 200 })),
+).annotate({ identifier: "PinIssueRequest" }) as any as S.Schema<PinIssueRequest>;
 
 export interface PinIssueResponse {}
 export const PinIssueResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2644,15 +2376,9 @@ export const PostIssueReactionRequest = /*@__PURE__*/ S.suspend(() =>
     index: S.Number.pipe(T.Label()),
     content: S.optional(S.String),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/repos/{owner}/{repo}/issues/{index}/reactions",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/repos/{owner}/{repo}/issues/{index}/reactions", code: 200 }),
   ),
-).annotate({
-  identifier: "PostIssueReactionRequest",
-}) as any as S.Schema<PostIssueReactionRequest>;
+).annotate({ identifier: "PostIssueReactionRequest" }) as any as S.Schema<PostIssueReactionRequest>;
 
 export interface RemoveIssueBlockingRequest {
   /** owner of the repo */
@@ -2668,11 +2394,7 @@ export const RemoveIssueBlockingRequest = /*@__PURE__*/ S.suspend(() =>
     repo: S.String.pipe(T.Label()),
     index: S.Number.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/repos/{owner}/{repo}/issues/{index}/blocks",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/repos/{owner}/{repo}/issues/{index}/blocks", code: 200 }),
   ),
 ).annotate({
   identifier: "RemoveIssueBlockingRequest",
@@ -2779,9 +2501,7 @@ export const SearchIssuesRequest = /*@__PURE__*/ S.suspend(() =>
     limit: S.optional(S.Number.pipe(T.Query())),
     sort: S.optional(SearchIssuesRequestSort.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/repos/issues/search", code: 200 })),
-).annotate({
-  identifier: "SearchIssuesRequest",
-}) as any as S.Schema<SearchIssuesRequest>;
+).annotate({ identifier: "SearchIssuesRequest" }) as any as S.Schema<SearchIssuesRequest>;
 
 export type SearchIssuesResponseBodyList = Array<Issue>;
 export const SearchIssuesResponseBodyList = /*@__PURE__*/ S.Array(
@@ -2791,9 +2511,7 @@ export const SearchIssuesResponseBodyList = /*@__PURE__*/ S.Array(
 export type SearchIssuesResponse = SearchIssuesResponseBodyList;
 export const SearchIssuesResponse = /*@__PURE__*/ S.suspend(() =>
   SearchIssuesResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "SearchIssuesResponse",
-}) as any as S.Schema<SearchIssuesResponse>;
+).annotate({ identifier: "SearchIssuesResponse" }) as any as S.Schema<SearchIssuesResponse>;
 
 export interface UnpinIssueRequest {
   /** owner of the repo */
@@ -2808,16 +2526,8 @@ export const UnpinIssueRequest = /*@__PURE__*/ S.suspend(() =>
     owner: S.String.pipe(T.Label()),
     repo: S.String.pipe(T.Label()),
     index: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/repos/{owner}/{repo}/issues/{index}/pin",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "UnpinIssueRequest",
-}) as any as S.Schema<UnpinIssueRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/repos/{owner}/{repo}/issues/{index}/pin", code: 200 })),
+).annotate({ identifier: "UnpinIssueRequest" }) as any as S.Schema<UnpinIssueRequest>;
 
 export interface UnpinIssueResponse {}
 export const UnpinIssueResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({

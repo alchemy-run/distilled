@@ -20,7 +20,7 @@ export interface CreateCustomPropertySourceRequest {
   source_column?: string | null;
   /** Person and group sources only: {warehouse_column: property_name} mapping the columns this source writes onto the person or group. */
   column_property_map?: unknown;
-  /** Person and group sources only: {warehouse_column: description} giving each mapped column a human-facing description, seeded from the warehouse column's information_schema description. Optional per column. Create-only. */
+  /** Person and group sources only: {warehouse_column: description} giving each mapped column a human-facing description, seeded from the warehouse column's information_schema description. Optional per column. */
   column_descriptions?: unknown;
   /** Column whose value identifies the target: an account's external_id for account sources, the person's distinct_id for person sources, or the group key for group sources. */
   key_column: string;
@@ -119,9 +119,7 @@ export const CustomPropertySyncRun = /*@__PURE__*/ S.suspend(() =>
     error: S.NullOr(S.String),
     created_at: S.String,
   }),
-).annotate({
-  identifier: "CustomPropertySyncRun",
-}) as any as S.Schema<CustomPropertySyncRun>;
+).annotate({ identifier: "CustomPropertySyncRun" }) as any as S.Schema<CustomPropertySyncRun>;
 
 /** Binds warehouse columns to a custom property definition. Account sources read a materialized view column and sync onto matching accounts; person and group sources read either an imported warehouse table or a materialized view, and sync onto matching persons or groups on every warehouse run of what they read. */
 export interface CustomPropertySource {
@@ -136,7 +134,7 @@ export interface CustomPropertySource {
   source_column?: string | null;
   /** Person and group sources only: {warehouse_column: property_name} mapping the columns this source writes onto the person or group. */
   column_property_map?: unknown;
-  /** Person and group sources only: {warehouse_column: description} giving each mapped column a human-facing description, seeded from the warehouse column's information_schema description. Optional per column. Create-only. */
+  /** Person and group sources only: {warehouse_column: description} giving each mapped column a human-facing description, seeded from the warehouse column's information_schema description. Optional per column. */
   column_descriptions?: unknown;
   /** Column whose value identifies the target: an account's external_id for account sources, the person's distinct_id for person sources, or the group key for group sources. */
   key_column: string;
@@ -188,9 +186,7 @@ export const CustomPropertySource = /*@__PURE__*/ S.suspend(() =>
     table_name: S.NullOr(S.String),
     saved_query_name: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "CustomPropertySource",
-}) as any as S.Schema<CustomPropertySource>;
+).annotate({ identifier: "CustomPropertySource" }) as any as S.Schema<CustomPropertySource>;
 
 export interface CustomPropertySourcesBackfillRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -398,6 +394,10 @@ export interface UpdateCustomPropertySourceRequest {
   source_column?: string;
   /** Column in the view whose value matches an account's external_id. */
   key_column?: string;
+  /** Person and group sources only: {warehouse_column: property_name} mapping the columns this source writes onto the person or group. */
+  column_property_map?: unknown;
+  /** Person and group sources only: {warehouse_column: description} for mapped columns. Optional per column. */
+  column_descriptions?: unknown;
   /** Whether the source syncs; re-enabling it resets the failure count. */
   is_enabled?: boolean;
 }
@@ -407,6 +407,8 @@ export const UpdateCustomPropertySourceRequest = /*@__PURE__*/ S.suspend(() =>
     id: S.String.pipe(T.Label()),
     source_column: S.optional(S.String),
     key_column: S.optional(S.String),
+    column_property_map: S.optional(S.Unknown),
+    column_descriptions: S.optional(S.Unknown),
     is_enabled: S.optional(S.Boolean),
   }).pipe(
     T.Http({
@@ -427,6 +429,10 @@ export interface UpdateCustomPropertySourcesPartialRequest {
   source_column?: string;
   /** Column in the view whose value matches an account's external_id. */
   key_column?: string;
+  /** Person and group sources only: {warehouse_column: property_name} mapping the columns this source writes onto the person or group. */
+  column_property_map?: unknown;
+  /** Person and group sources only: {warehouse_column: description} for mapped columns. Optional per column. */
+  column_descriptions?: unknown;
   /** Whether the source syncs; re-enabling it resets the failure count. */
   is_enabled?: boolean;
 }
@@ -436,6 +442,8 @@ export const UpdateCustomPropertySourcesPartialRequest = /*@__PURE__*/ S.suspend
     id: S.String.pipe(T.Label()),
     source_column: S.optional(S.String),
     key_column: S.optional(S.String),
+    column_property_map: S.optional(S.Unknown),
+    column_descriptions: S.optional(S.Unknown),
     is_enabled: S.optional(S.Boolean),
   }).pipe(
     T.Http({
@@ -463,7 +471,7 @@ export const createCustomPropertySource: API.OperationMethod<
 }));
 
 export type CustomPropertySourcesBackfillError = PosthogOpError;
-/** Person and group sources only: start a backfill that reads the whole warehouse table and populates person or group properties for historical rows. Coalesces if one is already running for the table. */
+/** Person and group sources only: start a backfill that reads the whole warehouse table and populates person or group properties for historical rows. If one is already running for the table, queue a follow-up that observes the latest mapping. */
 export const customPropertySourcesBackfill: API.OperationMethod<
   CustomPropertySourcesBackfillRequest,
   CustomPropertySourcesBackfillResponse,

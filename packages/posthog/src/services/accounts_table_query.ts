@@ -41,9 +41,7 @@ export const AccountsTableTagsColumn = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     kind: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AccountsTableTagsColumn",
-}) as any as S.Schema<AccountsTableTagsColumn>;
+).annotate({ identifier: "AccountsTableTagsColumn" }) as any as S.Schema<AccountsTableTagsColumn>;
 
 export type AccountsTableNoteCountColumn = AccountsTableTagsColumn;
 export const AccountsTableNoteCountColumn = AccountsTableTagsColumn;
@@ -112,103 +110,6 @@ export const AccountsTableQueryColumnsList = /*@__PURE__*/ S.Array(
   AccountsTableQueryColumnsItem,
 ) as any as S.Schema<AccountsTableQueryColumnsList>;
 
-export interface AccountsTableSearchFilter {
-  kind?: string;
-  query: string;
-}
-export const AccountsTableSearchFilter = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    kind: S.optional(S.String),
-    query: S.String,
-  }),
-).annotate({
-  identifier: "AccountsTableSearchFilter",
-}) as any as S.Schema<AccountsTableSearchFilter>;
-
-/** Match accounts carrying any of these tag names. */
-export type AccountsTableTagsFilterTagNamesList = Array<string>;
-export const AccountsTableTagsFilterTagNamesList = /*@__PURE__*/ S.Array(
-  S.String,
-) as any as S.Schema<AccountsTableTagsFilterTagNamesList>;
-
-export interface AccountsTableTagsFilter {
-  kind?: string;
-  /** Match accounts carrying any of these tag names. */
-  tagNames: AccountsTableTagsFilterTagNamesList;
-}
-export const AccountsTableTagsFilter = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    kind: S.optional(S.String),
-    tagNames: AccountsTableTagsFilterTagNamesList,
-  }),
-).annotate({
-  identifier: "AccountsTableTagsFilter",
-}) as any as S.Schema<AccountsTableTagsFilter>;
-
-/** Match accounts where any listed user actively holds any relationship. */
-export type AccountsTableAssignedToFilterUserIdsList = Array<number>;
-export const AccountsTableAssignedToFilterUserIdsList = /*@__PURE__*/ S.Array(
-  S.Number,
-) as any as S.Schema<AccountsTableAssignedToFilterUserIdsList>;
-
-export interface AccountsTableAssignedToFilter {
-  kind?: string;
-  /** Match accounts where any listed user actively holds any relationship. */
-  userIds: AccountsTableAssignedToFilterUserIdsList;
-}
-export const AccountsTableAssignedToFilter = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    kind: S.optional(S.String),
-    userIds: AccountsTableAssignedToFilterUserIdsList,
-  }),
-).annotate({
-  identifier: "AccountsTableAssignedToFilter",
-}) as any as S.Schema<AccountsTableAssignedToFilter>;
-
-export type AccountsTableAssignedFilter = AccountsTableTagsColumn;
-export const AccountsTableAssignedFilter = AccountsTableTagsColumn;
-
-export type AccountsTableUnassignedFilter = AccountsTableTagsColumn;
-export const AccountsTableUnassignedFilter = AccountsTableTagsColumn;
-
-export type AccountsTableRelationshipOperator = "exact" | "is_not" | "is_set" | "is_not_set";
-export const AccountsTableRelationshipOperator = S.String;
-
-export type AccountsTableRelationshipFilterUserIdsList = Array<number>;
-export const AccountsTableRelationshipFilterUserIdsList = /*@__PURE__*/ S.Array(
-  S.Number,
-) as any as S.Schema<AccountsTableRelationshipFilterUserIdsList>;
-
-export interface AccountsTableRelationshipFilter {
-  definitionId: string;
-  kind?: string;
-  operator: AccountsTableRelationshipOperator | (string & {});
-  userIds?: AccountsTableRelationshipFilterUserIdsList | null;
-}
-export const AccountsTableRelationshipFilter = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    definitionId: S.String,
-    kind: S.optional(S.String),
-    operator: AccountsTableRelationshipOperator,
-    userIds: S.optional(S.NullOr(AccountsTableRelationshipFilterUserIdsList)),
-  }),
-).annotate({
-  identifier: "AccountsTableRelationshipFilter",
-}) as any as S.Schema<AccountsTableRelationshipFilter>;
-
-export interface AccountsTableAccountIdFilter {
-  accountId: string;
-  kind?: string;
-}
-export const AccountsTableAccountIdFilter = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    accountId: S.String,
-    kind: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "AccountsTableAccountIdFilter",
-}) as any as S.Schema<AccountsTableAccountIdFilter>;
-
 export type AccountsTableAccountFieldOperator =
   | "exact"
   | "is_not"
@@ -242,6 +143,31 @@ export const AccountsTableAccountFieldFilter = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "AccountsTableAccountFieldFilter",
 }) as any as S.Schema<AccountsTableAccountFieldFilter>;
+
+export type AccountsTableRelationshipOperator = "exact" | "is_not" | "is_set" | "is_not_set";
+export const AccountsTableRelationshipOperator = S.String;
+
+export type AccountsTableRelationshipFilterUserIdsList = Array<number>;
+export const AccountsTableRelationshipFilterUserIdsList = /*@__PURE__*/ S.Array(
+  S.Number,
+) as any as S.Schema<AccountsTableRelationshipFilterUserIdsList>;
+
+export interface AccountsTableRelationshipFilter {
+  definitionId: string;
+  kind?: string;
+  operator: AccountsTableRelationshipOperator | (string & {});
+  userIds?: AccountsTableRelationshipFilterUserIdsList | null;
+}
+export const AccountsTableRelationshipFilter = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    definitionId: S.String,
+    kind: S.optional(S.String),
+    operator: AccountsTableRelationshipOperator,
+    userIds: S.optional(S.NullOr(AccountsTableRelationshipFilterUserIdsList)),
+  }),
+).annotate({
+  identifier: "AccountsTableRelationshipFilter",
+}) as any as S.Schema<AccountsTableRelationshipFilter>;
 
 export type AccountsTableCustomPropertyOperator =
   | "exact"
@@ -288,6 +214,93 @@ export const AccountsTableCustomPropertyFilter = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "AccountsTableCustomPropertyFilter",
 }) as any as S.Schema<AccountsTableCustomPropertyFilter>;
+
+export type AccountsTableQueryFilterGroupsItemItem =
+  | AccountsTableAccountFieldFilter
+  | AccountsTableRelationshipFilter
+  | AccountsTableCustomPropertyFilter;
+export const AccountsTableQueryFilterGroupsItemItem =
+  S.Unknown as any as S.Schema<AccountsTableQueryFilterGroupsItemItem>;
+
+export type AccountsTableQueryFilterGroupsItemList = Array<AccountsTableQueryFilterGroupsItemItem>;
+export const AccountsTableQueryFilterGroupsItemList = /*@__PURE__*/ S.Array(
+  AccountsTableQueryFilterGroupsItemItem,
+) as any as S.Schema<AccountsTableQueryFilterGroupsItemList>;
+
+export type AccountsTableQueryFilterGroupsList = Array<AccountsTableQueryFilterGroupsItemList>;
+export const AccountsTableQueryFilterGroupsList = /*@__PURE__*/ S.Array(
+  AccountsTableQueryFilterGroupsItemList,
+) as any as S.Schema<AccountsTableQueryFilterGroupsList>;
+
+export interface AccountsTableSearchFilter {
+  kind?: string;
+  query: string;
+}
+export const AccountsTableSearchFilter = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    kind: S.optional(S.String),
+    query: S.String,
+  }),
+).annotate({
+  identifier: "AccountsTableSearchFilter",
+}) as any as S.Schema<AccountsTableSearchFilter>;
+
+/** Match accounts carrying any of these tag names. */
+export type AccountsTableTagsFilterTagNamesList = Array<string>;
+export const AccountsTableTagsFilterTagNamesList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<AccountsTableTagsFilterTagNamesList>;
+
+export interface AccountsTableTagsFilter {
+  kind?: string;
+  /** Match accounts carrying any of these tag names. */
+  tagNames: AccountsTableTagsFilterTagNamesList;
+}
+export const AccountsTableTagsFilter = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    kind: S.optional(S.String),
+    tagNames: AccountsTableTagsFilterTagNamesList,
+  }),
+).annotate({ identifier: "AccountsTableTagsFilter" }) as any as S.Schema<AccountsTableTagsFilter>;
+
+/** Match accounts where any listed user actively holds any relationship. */
+export type AccountsTableAssignedToFilterUserIdsList = Array<number>;
+export const AccountsTableAssignedToFilterUserIdsList = /*@__PURE__*/ S.Array(
+  S.Number,
+) as any as S.Schema<AccountsTableAssignedToFilterUserIdsList>;
+
+export interface AccountsTableAssignedToFilter {
+  kind?: string;
+  /** Match accounts where any listed user actively holds any relationship. */
+  userIds: AccountsTableAssignedToFilterUserIdsList;
+}
+export const AccountsTableAssignedToFilter = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    kind: S.optional(S.String),
+    userIds: AccountsTableAssignedToFilterUserIdsList,
+  }),
+).annotate({
+  identifier: "AccountsTableAssignedToFilter",
+}) as any as S.Schema<AccountsTableAssignedToFilter>;
+
+export type AccountsTableAssignedFilter = AccountsTableTagsColumn;
+export const AccountsTableAssignedFilter = AccountsTableTagsColumn;
+
+export type AccountsTableUnassignedFilter = AccountsTableTagsColumn;
+export const AccountsTableUnassignedFilter = AccountsTableTagsColumn;
+
+export interface AccountsTableAccountIdFilter {
+  accountId: string;
+  kind?: string;
+}
+export const AccountsTableAccountIdFilter = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    accountId: S.String,
+    kind: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "AccountsTableAccountIdFilter",
+}) as any as S.Schema<AccountsTableAccountIdFilter>;
 
 export type AccountsTableQueryFiltersItem =
   | AccountsTableSearchFilter
@@ -368,50 +381,75 @@ export type BounceRatePageViewMode =
   | "uniq_page_screen_autocaptures";
 export const BounceRatePageViewMode = S.String;
 
+export type FilterLogicalOperator = "AND" | "OR";
+export const FilterLogicalOperator = S.String;
+
 export type CustomBotField =
   | "$raw_user_agent"
   | "$ip"
   | "$lib"
   | "$host"
   | "$pathname"
-  | "$current_url";
+  | "$current_url"
+  | "$browser"
+  | "$os"
+  | "$browser_language"
+  | "$screen_width"
+  | "$screen_height"
+  | "$geoip_country_code"
+  | "$referrer"
+  | "$referring_domain";
 export const CustomBotField = S.String;
 
-export type CustomBotMatcher = "contains" | "regex" | "cidr";
+export type CustomBotMatcher = "contains" | "regex" | "exact" | "cidr";
 export const CustomBotMatcher = S.String;
 
-export interface CustomBotDefinition {
-  /** Reported by `$virt_traffic_category`. Defaults to `custom`. */
-  category?: string | null;
+export interface CustomBotCondition {
   id: string;
-  /** The event property this rule reads. */
+  /** The event property this condition reads. */
   key: CustomBotField | (string & {});
   matcher: CustomBotMatcher | (string & {});
-  /** Reported by `$virt_bot_name` and `$virt_bot_operator` when the rule matches. */
-  name: string;
   /** Matched against the property named by `key`. */
   pattern: string;
 }
-export const CustomBotDefinition = /*@__PURE__*/ S.suspend(() =>
+export const CustomBotCondition = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    category: S.optional(S.NullOr(S.String)),
     id: S.String,
     key: CustomBotField,
     matcher: CustomBotMatcher,
-    name: S.String,
     pattern: S.String,
   }),
-).annotate({
-  identifier: "CustomBotDefinition",
-}) as any as S.Schema<CustomBotDefinition>;
+).annotate({ identifier: "CustomBotCondition" }) as any as S.Schema<CustomBotCondition>;
 
-export type HogQLQueryModifiersCustomBotDefinitionsList = Array<CustomBotDefinition>;
+export type CustomBotRuleItemsList = Array<CustomBotCondition>;
+export const CustomBotRuleItemsList = /*@__PURE__*/ S.Array(
+  CustomBotCondition,
+) as any as S.Schema<CustomBotRuleItemsList>;
+
+export interface CustomBotRule {
+  /** Reported by `$virt_traffic_category`. Defaults to `custom`. */
+  category?: string | null;
+  /** Whether every condition must match (AND) or any one of them (OR). */
+  combiner: FilterLogicalOperator | (string & {});
+  id: string;
+  items: CustomBotRuleItemsList;
+  /** Reported by `$virt_bot_name` and `$virt_bot_operator` when the rule matches. */
+  name: string;
+}
+export const CustomBotRule = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    category: S.optional(S.NullOr(S.String)),
+    combiner: FilterLogicalOperator,
+    id: S.String,
+    items: CustomBotRuleItemsList,
+    name: S.String,
+  }),
+).annotate({ identifier: "CustomBotRule" }) as any as S.Schema<CustomBotRule>;
+
+export type HogQLQueryModifiersCustomBotDefinitionsList = Array<CustomBotRule>;
 export const HogQLQueryModifiersCustomBotDefinitionsList = /*@__PURE__*/ S.Array(
-  CustomBotDefinition,
+  CustomBotRule,
 ) as any as S.Schema<HogQLQueryModifiersCustomBotDefinitionsList>;
-
-export type FilterLogicalOperator = "AND" | "OR";
-export const FilterLogicalOperator = S.String;
 
 export type CustomChannelField =
   | "utm_source"
@@ -456,9 +494,7 @@ export const CustomChannelCondition = /*@__PURE__*/ S.suspend(() =>
     op: S.optional(CustomChannelOperator),
     value: S.optional(S.NullOr(CustomChannelConditionValue)),
   }),
-).annotate({
-  identifier: "CustomChannelCondition",
-}) as any as S.Schema<CustomChannelCondition>;
+).annotate({ identifier: "CustomChannelCondition" }) as any as S.Schema<CustomChannelCondition>;
 
 export type CustomChannelRuleItemsList = Array<CustomChannelCondition>;
 export const CustomChannelRuleItemsList = /*@__PURE__*/ S.Array(
@@ -478,9 +514,7 @@ export const CustomChannelRule = /*@__PURE__*/ S.suspend(() =>
     id: S.optional(S.String),
     items: S.optional(CustomChannelRuleItemsList),
   }),
-).annotate({
-  identifier: "CustomChannelRule",
-}) as any as S.Schema<CustomChannelRule>;
+).annotate({ identifier: "CustomChannelRule" }) as any as S.Schema<CustomChannelRule>;
 
 export type HogQLQueryModifiersCustomChannelTypeRulesList = Array<CustomChannelRule>;
 export const HogQLQueryModifiersCustomChannelTypeRulesList = /*@__PURE__*/ S.Array(
@@ -567,6 +601,8 @@ export interface HogQLQueryModifiers {
   bounceRateDurationSeconds?: number | null;
   bounceRatePageViewMode?: BounceRatePageViewMode | (string & {}) | null;
   convertToProjectTimezone?: boolean | null;
+  /** Do not treat a missing user agent as automation on cookieless events. Positive bot signals and custom project rules still apply. Resolved server-side; not intended to be set by clients. */
+  cookielessTrafficIsRegular?: boolean | null;
   customBotDefinitions?: HogQLQueryModifiersCustomBotDefinitionsList | null;
   customChannelTypeRules?: HogQLQueryModifiersCustomChannelTypeRulesList | null;
   dataWarehouseEventsModifiers?: HogQLQueryModifiersDataWarehouseEventsModifiersList | null;
@@ -584,6 +620,8 @@ export interface HogQLQueryModifiers {
   optimizeProjections?: boolean | null;
   /** HogQL parser backend; absent → `rust_py_with_cpp_shadow` (rust-py is primary, cpp runs as a sampled shadow). `*_shadow` modes return the primary result and sample-compare against the other parser, reporting divergences without failing the request. The `rust_py_*` modes drive the same hand-rolled Rust parser as `rust_*` but build `posthog.hogql.ast` dataclass instances directly via PyO3, skipping the JSON round-trip. */
   parserMode?: ParserMode | (string & {}) | null;
+  /** Push an `id IN (SELECT person_id FROM <left table> WHERE …)` predicate into the joined persons subquery, so the latest-version lookup only reads persons that the outer query's left-table filters can reach. Applies only to a persons join from the query's own FROM table. */
+  personIdPushdown?: boolean | null;
   personsArgMaxVersion?: PersonsArgMaxVersion | (string & {}) | null;
   personsJoinMode?: PersonsJoinMode | (string & {}) | null;
   personsOnEventsMode?: PersonsOnEventsMode | (string & {}) | null;
@@ -600,6 +638,8 @@ export interface HogQLQueryModifiers {
   /** Remove provably redundant casts and nullability wrappers (e.g. `toString(String)`, `assumeNotNull(non_nullable)`, dead `ifNull` fallbacks) using inferred expression types */
   typeAwareCastSimplification?: boolean | null;
   useMaterializedViews?: boolean | null;
+  /** Read events from the native JSON events table (`true`) or the legacy events table (`false`). When unset, the project's stored value applies, then the `CLICKHOUSE_HOGQL_USE_NEW_EVENTS_SCHEMA` instance settings. This is an internal rollout switch. PostHog staff set the project value in Django admin and the project settings API ignores it. */
+  useNewEventsSchema?: boolean | null;
   usePreaggregatedIntermediateResults?: boolean | null;
   /** Try to automatically convert HogQL queries to use preaggregated tables at the AST level * */
   usePreaggregatedTableTransforms?: boolean | null;
@@ -612,6 +652,7 @@ export const HogQLQueryModifiers = /*@__PURE__*/ S.suspend(() =>
     bounceRateDurationSeconds: S.optional(S.NullOr(S.Number)),
     bounceRatePageViewMode: S.optional(S.NullOr(BounceRatePageViewMode)),
     convertToProjectTimezone: S.optional(S.NullOr(S.Boolean)),
+    cookielessTrafficIsRegular: S.optional(S.NullOr(S.Boolean)),
     customBotDefinitions: S.optional(S.NullOr(HogQLQueryModifiersCustomBotDefinitionsList)),
     customChannelTypeRules: S.optional(S.NullOr(HogQLQueryModifiersCustomChannelTypeRulesList)),
     dataWarehouseEventsModifiers: S.optional(
@@ -630,6 +671,7 @@ export const HogQLQueryModifiers = /*@__PURE__*/ S.suspend(() =>
     optimizeJoinedFilters: S.optional(S.NullOr(S.Boolean)),
     optimizeProjections: S.optional(S.NullOr(S.Boolean)),
     parserMode: S.optional(S.NullOr(ParserMode)),
+    personIdPushdown: S.optional(S.NullOr(S.Boolean)),
     personsArgMaxVersion: S.optional(S.NullOr(PersonsArgMaxVersion)),
     personsJoinMode: S.optional(S.NullOr(PersonsJoinMode)),
     personsOnEventsMode: S.optional(S.NullOr(PersonsOnEventsMode)),
@@ -643,18 +685,17 @@ export const HogQLQueryModifiers = /*@__PURE__*/ S.suspend(() =>
     timings: S.optional(S.NullOr(S.Boolean)),
     typeAwareCastSimplification: S.optional(S.NullOr(S.Boolean)),
     useMaterializedViews: S.optional(S.NullOr(S.Boolean)),
+    useNewEventsSchema: S.optional(S.NullOr(S.Boolean)),
     usePreaggregatedIntermediateResults: S.optional(S.NullOr(S.Boolean)),
     usePreaggregatedTableTransforms: S.optional(S.NullOr(S.Boolean)),
     useWebAnalyticsPreAggregatedTables: S.optional(S.NullOr(S.Boolean)),
     webAnalyticsFirstPageviewFilters: S.optional(S.NullOr(S.Boolean)),
   }),
-).annotate({
-  identifier: "HogQLQueryModifiers",
-}) as any as S.Schema<HogQLQueryModifiers>;
+).annotate({ identifier: "HogQLQueryModifiers" }) as any as S.Schema<HogQLQueryModifiers>;
 
-export type AccountsTableQueryResponseMetricsResultsList = Array<number>;
+export type AccountsTableQueryResponseMetricsResultsList = Array<number | null>;
 export const AccountsTableQueryResponseMetricsResultsList = /*@__PURE__*/ S.Array(
-  S.Number,
+  S.NullOr(S.Number),
 ) as any as S.Schema<AccountsTableQueryResponseMetricsResultsList>;
 
 export type QueryStatusLabelsList = Array<string>;
@@ -677,11 +718,101 @@ export const ClickhouseQueryProgress = /*@__PURE__*/ S.suspend(() =>
     rows_read: S.optional(S.Number),
     time_elapsed: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "ClickhouseQueryProgress",
-}) as any as S.Schema<ClickhouseQueryProgress>;
+).annotate({ identifier: "ClickhouseQueryProgress" }) as any as S.Schema<ClickhouseQueryProgress>;
+
+export type QueryScanFixLocation =
+  | "query"
+  | "subquery"
+  | "view"
+  | "insight_date_range"
+  | "dashboard_date_filter";
+export const QueryScanFixLocation = S.String;
+
+export type QueryScanFindingKind = "no_event_filter" | "no_start_date" | "persons_join";
+export const QueryScanFindingKind = S.String;
+
+export interface QueryScanWarning {
+  /** Whether the person can change the query so it reads less and still answers the same question. Surfaces show the full advice and "Fix with AI" only when a finding is actionable. */
+  actionable: boolean;
+  /** True when the query reads this much on purpose, so reading less would change the answer. Absent means no. */
+  by_design?: boolean | null;
+  /** A label for what in the query text kept the read wide, such as `in_or`. Only analytics and the assistant read it, and the labels can change. */
+  cause?: string | null;
+  /** The one fact the finding rests on. */
+  evidence?: string | null;
+  /** What "Fix with AI" and the assistant are told to do. */
+  fix: string;
+  /** Where the change goes. Absent means the query itself. */
+  fix_location?: QueryScanFixLocation | (string & {}) | null;
+  kind: QueryScanFindingKind | (string & {});
+  /** Shown to the person: what happened and what to do. */
+  message: string;
+}
+export const QueryScanWarning = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    actionable: S.Boolean,
+    by_design: S.optional(S.NullOr(S.Boolean)),
+    cause: S.optional(S.NullOr(S.String)),
+    evidence: S.optional(S.NullOr(S.String)),
+    fix: S.String,
+    fix_location: S.optional(S.NullOr(QueryScanFixLocation)),
+    kind: QueryScanFindingKind,
+    message: S.String,
+  }),
+).annotate({ identifier: "QueryScanWarning" }) as any as S.Schema<QueryScanWarning>;
+
+/** Every finding, fixable or not. Empty when the analysis found none. */
+export type QueryScanAnalysisFindingsList = Array<QueryScanWarning>;
+export const QueryScanAnalysisFindingsList = /*@__PURE__*/ S.Array(
+  QueryScanWarning,
+) as any as S.Schema<QueryScanAnalysisFindingsList>;
+
+export interface QueryScanAnalysis {
+  /** The message the Fix with AI button sends to the assistant. Absent when no finding can be fixed in the query. */
+  assistant_prompt?: string | null;
+  /** Every finding, fixable or not. Empty when the analysis found none. */
+  findings: QueryScanAnalysisFindingsList;
+  /** How much of all the project's events the query read, 0 to 1. */
+  project_share?: number | null;
+  /** How much of the project's events in the query's date range the query read, 0 to 1. */
+  range_share?: number | null;
+}
+export const QueryScanAnalysis = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    assistant_prompt: S.optional(S.NullOr(S.String)),
+    findings: QueryScanAnalysisFindingsList,
+    project_share: S.optional(S.NullOr(S.Number)),
+    range_share: S.optional(S.NullOr(S.Number)),
+  }),
+).annotate({ identifier: "QueryScanAnalysis" }) as any as S.Schema<QueryScanAnalysis>;
+
+export interface QueryScanSummary {
+  /** The stored analysis, put on the response when it is served. Absent while the analysis runs, and when none was requested. */
+  analysis?: QueryScanAnalysis | null;
+  /** True when the run asked for an analysis, or found one stored. While `analysis` is absent, poll `GET /query/scan/{cache_key}` for it. */
+  analysis_requested?: boolean | null;
+  /** ClickHouse time for the last fresh run, summed over its ClickHouse queries. */
+  duration_ms: number;
+  /** True when ClickHouse stopped the run instead of finishing it. */
+  killed?: boolean | null;
+  /** Rows ClickHouse read for the last fresh run, all tables included. */
+  rows_read: number;
+}
+export const QueryScanSummary = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    analysis: S.optional(S.NullOr(QueryScanAnalysis)),
+    analysis_requested: S.optional(S.NullOr(S.Boolean)),
+    duration_ms: S.Number,
+    killed: S.optional(S.NullOr(S.Boolean)),
+    rows_read: S.Number,
+  }),
+).annotate({ identifier: "QueryScanSummary" }) as any as S.Schema<QueryScanSummary>;
 
 export interface QueryStatus {
+  budget_remaining_bytes?: number | null;
+  bytes_read?: number | null;
+  /** Cache key of the run that failed, so clients can ask for its query scan. */
+  cache_key?: string | null;
   /** Whether the query is still running. Will be true if the query is complete, even if it errored. Either result or error will be set. */
   complete?: boolean | null;
   dashboard_id?: number | null;
@@ -701,6 +832,7 @@ export interface QueryStatus {
   /** ONLY async queries use QueryStatus. */
   query_async?: boolean;
   query_progress?: ClickhouseQueryProgress | null;
+  query_scan?: QueryScanSummary | null;
   results?: unknown;
   /** When was query execution task enqueued. */
   start_time?: string | null;
@@ -709,6 +841,9 @@ export interface QueryStatus {
 }
 export const QueryStatus = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    budget_remaining_bytes: S.optional(S.NullOr(S.Number)),
+    bytes_read: S.optional(S.NullOr(S.Number)),
+    cache_key: S.optional(S.NullOr(S.String)),
     complete: S.optional(S.NullOr(S.Boolean)),
     dashboard_id: S.optional(S.NullOr(S.Number)),
     end_time: S.optional(S.NullOr(S.String)),
@@ -722,6 +857,7 @@ export const QueryStatus = /*@__PURE__*/ S.suspend(() =>
     pickup_time: S.optional(S.NullOr(S.String)),
     query_async: S.optional(S.Boolean),
     query_progress: S.optional(S.NullOr(ClickhouseQueryProgress)),
+    query_scan: S.optional(S.NullOr(QueryScanSummary)),
     results: S.optional(S.Unknown),
     start_time: S.optional(S.NullOr(S.String)),
     task_id: S.optional(S.NullOr(S.String)),
@@ -743,12 +879,10 @@ export const ResolvedDateRangeResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ResolvedDateRangeResponse>;
 
 /** Requested direct Account fields, keyed by their typed field reference. */
-export type AccountsTableRowAccountFieldsMap = {
-  [key: string]: string | undefined;
-};
+export type AccountsTableRowAccountFieldsMap = { [key: string]: string | null | undefined };
 export const AccountsTableRowAccountFieldsMap = /*@__PURE__*/ S.Record(
   S.String,
-  S.String,
+  S.NullOr(S.String),
 ) as any as S.Schema<AccountsTableRowAccountFieldsMap>;
 
 export type AccountsTableRowCustomPropertiesValue = string | number | boolean;
@@ -757,11 +891,11 @@ export const AccountsTableRowCustomPropertiesValue =
 
 /** Current values keyed by requested custom property definition ID. */
 export type AccountsTableRowCustomPropertiesMap = {
-  [key: string]: AccountsTableRowCustomPropertiesValue | undefined;
+  [key: string]: AccountsTableRowCustomPropertiesValue | null | undefined;
 };
 export const AccountsTableRowCustomPropertiesMap = /*@__PURE__*/ S.Record(
   S.String,
-  AccountsTableRowCustomPropertiesValue,
+  S.NullOr(AccountsTableRowCustomPropertiesValue),
 ) as any as S.Schema<AccountsTableRowCustomPropertiesMap>;
 
 export interface AccountsTableCustomPropertyHistoryPoint {
@@ -843,9 +977,7 @@ export const AccountsTableRow = /*@__PURE__*/ S.suspend(() =>
     relationships: AccountsTableRowRelationshipsMap,
     tags: S.optional(S.NullOr(AccountsTableRowTagsList)),
   }),
-).annotate({
-  identifier: "AccountsTableRow",
-}) as any as S.Schema<AccountsTableRow>;
+).annotate({ identifier: "AccountsTableRow" }) as any as S.Schema<AccountsTableRow>;
 
 export type AccountsTableQueryResponseResultsList = Array<AccountsTableRow>;
 export const AccountsTableQueryResponseResultsList = /*@__PURE__*/ S.Array(
@@ -884,9 +1016,7 @@ export const DataWarehouseSourceUsage = /*@__PURE__*/ S.suspend(() =>
     source_type: S.optional(S.NullOr(S.String)),
     table_name: S.String,
   }),
-).annotate({
-  identifier: "DataWarehouseSourceUsage",
-}) as any as S.Schema<DataWarehouseSourceUsage>;
+).annotate({ identifier: "DataWarehouseSourceUsage" }) as any as S.Schema<DataWarehouseSourceUsage>;
 
 export type AccountsTableQueryResponseUsedDataWarehouseSourcesList =
   Array<DataWarehouseSourceUsage>;
@@ -920,9 +1050,7 @@ export const DataWarehouseSyncWarning = /*@__PURE__*/ S.suspend(() =>
     table_name: S.String,
     type: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DataWarehouseSyncWarning",
-}) as any as S.Schema<DataWarehouseSyncWarning>;
+).annotate({ identifier: "DataWarehouseSyncWarning" }) as any as S.Schema<DataWarehouseSyncWarning>;
 
 /** Resource types the user has access restrictions on, referenced by the query, e.g. ["insight", "dashboard"] */
 export type AccessControlFilterWarningResourcesList = Array<string>;
@@ -1032,13 +1160,13 @@ export const AccountsTableSort = /*@__PURE__*/ S.suspend(() =>
     column: AccountsTableSortColumn,
     direction: AccountsTableSortDirection,
   }),
-).annotate({
-  identifier: "AccountsTableSort",
-}) as any as S.Schema<AccountsTableSort>;
+).annotate({ identifier: "AccountsTableSort" }) as any as S.Schema<AccountsTableSort>;
 
 export interface QueryLogTags {
   /** Name of the query, preferably unique. For example web_analytics_vitals */
   name?: string | null;
+  /** Short id of the saved Web analytics filter preset this query was run under, if any. */
+  presetId?: string | null;
   /** Product responsible for this query. Use string, there's no need to churn the Schema when we add a new product * */
   productKey?: string | null;
   /** Scene where this query is shown in the UI. Use string, there's no need to churn the Schema when we add a new Scene * */
@@ -1047,6 +1175,7 @@ export interface QueryLogTags {
 export const QueryLogTags = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.optional(S.NullOr(S.String)),
+    presetId: S.optional(S.NullOr(S.String)),
     productKey: S.optional(S.NullOr(S.String)),
     scene: S.optional(S.NullOr(S.String)),
   }),
@@ -1055,6 +1184,8 @@ export const QueryLogTags = /*@__PURE__*/ S.suspend(() =>
 export interface AccountsTableQuery2 {
   /** Columns to load for each account. Account identity fields are always returned. */
   columns: AccountsTableQueryColumnsList;
+  /** Nonempty property-filter groups are ORed together; filters within each group use AND. Global filters still apply. */
+  filterGroups?: AccountsTableQueryFilterGroupsList | null;
   /** Filters are combined with AND. Values within tag and assignment filters use OR. */
   filters?: AccountsTableQueryFiltersList | null;
   /** Include churned accounts. Churned accounts are hidden by default. */
@@ -1077,6 +1208,7 @@ export interface AccountsTableQuery2 {
 export const AccountsTableQuery2 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     columns: AccountsTableQueryColumnsList,
+    filterGroups: S.optional(S.NullOr(AccountsTableQueryFilterGroupsList)),
     filters: S.optional(S.NullOr(AccountsTableQueryFiltersList)),
     includeChurned: S.optional(S.NullOr(S.Boolean)),
     includeIgnored: S.optional(S.NullOr(S.Boolean)),
@@ -1090,9 +1222,7 @@ export const AccountsTableQuery2 = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(S.NullOr(QueryLogTags)),
     version: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "AccountsTableQuery2",
-}) as any as S.Schema<AccountsTableQuery2>;
+).annotate({ identifier: "AccountsTableQuery2" }) as any as S.Schema<AccountsTableQuery2>;
 
 export type BreakdownFilterBreakdownCase1Item = string | number;
 export const BreakdownFilterBreakdownCase1Item =
@@ -1180,9 +1310,7 @@ export const BreakdownFilter = /*@__PURE__*/ S.suspend(() =>
     breakdown_type: S.optional(S.NullOr(BreakdownType)),
     breakdowns: S.optional(S.NullOr(BreakdownFilterBreakdownsList)),
   }),
-).annotate({
-  identifier: "BreakdownFilter",
-}) as any as S.Schema<BreakdownFilter>;
+).annotate({ identifier: "BreakdownFilter" }) as any as S.Schema<BreakdownFilter>;
 
 export type IntervalType =
   | "second"
@@ -1268,9 +1396,7 @@ export const EventPropertyFilter = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     value: S.optional(S.NullOr(EventPropertyFilterValue)),
   }),
-).annotate({
-  identifier: "EventPropertyFilter",
-}) as any as S.Schema<EventPropertyFilter>;
+).annotate({ identifier: "EventPropertyFilter" }) as any as S.Schema<EventPropertyFilter>;
 
 export type PersonPropertyFilterValueCase0Item = string | number | boolean;
 export const PersonPropertyFilterValueCase0Item =
@@ -1304,9 +1430,7 @@ export const PersonPropertyFilter = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     value: S.optional(S.NullOr(PersonPropertyFilterValue)),
   }),
-).annotate({
-  identifier: "PersonPropertyFilter",
-}) as any as S.Schema<PersonPropertyFilter>;
+).annotate({ identifier: "PersonPropertyFilter" }) as any as S.Schema<PersonPropertyFilter>;
 
 export type PersonMetadataPropertyFilterValueCase0Item = string | number | boolean;
 export const PersonMetadataPropertyFilterValueCase0Item =
@@ -1380,9 +1504,7 @@ export const ElementPropertyFilter = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     value: S.optional(S.NullOr(ElementPropertyFilterValue)),
   }),
-).annotate({
-  identifier: "ElementPropertyFilter",
-}) as any as S.Schema<ElementPropertyFilter>;
+).annotate({ identifier: "ElementPropertyFilter" }) as any as S.Schema<ElementPropertyFilter>;
 
 export type EventMetadataPropertyFilterValueCase0Item = string | number | boolean;
 export const EventMetadataPropertyFilterValueCase0Item =
@@ -1452,9 +1574,7 @@ export const SessionPropertyFilter = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     value: S.optional(S.NullOr(SessionPropertyFilterValue)),
   }),
-).annotate({
-  identifier: "SessionPropertyFilter",
-}) as any as S.Schema<SessionPropertyFilter>;
+).annotate({ identifier: "SessionPropertyFilter" }) as any as S.Schema<SessionPropertyFilter>;
 
 export interface CohortPropertyFilter {
   cohort_name?: string | null;
@@ -1473,9 +1593,7 @@ export const CohortPropertyFilter = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     value: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "CohortPropertyFilter",
-}) as any as S.Schema<CohortPropertyFilter>;
+).annotate({ identifier: "CohortPropertyFilter" }) as any as S.Schema<CohortPropertyFilter>;
 
 export type DurationType = "duration" | "active_seconds" | "inactive_seconds";
 export const DurationType = S.String;
@@ -1515,9 +1633,7 @@ export const RecordingPropertyFilter = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     value: S.optional(S.NullOr(RecordingPropertyFilterValue)),
   }),
-).annotate({
-  identifier: "RecordingPropertyFilter",
-}) as any as S.Schema<RecordingPropertyFilter>;
+).annotate({ identifier: "RecordingPropertyFilter" }) as any as S.Schema<RecordingPropertyFilter>;
 
 export type LogEntryPropertyFilterValueCase0Item = string | number | boolean;
 export const LogEntryPropertyFilterValueCase0Item =
@@ -1551,13 +1667,9 @@ export const LogEntryPropertyFilter = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     value: S.optional(S.NullOr(LogEntryPropertyFilterValue)),
   }),
-).annotate({
-  identifier: "LogEntryPropertyFilter",
-}) as any as S.Schema<LogEntryPropertyFilter>;
+).annotate({ identifier: "LogEntryPropertyFilter" }) as any as S.Schema<LogEntryPropertyFilter>;
 
-export type GroupPropertyFilterGroupKeyNamesMap = {
-  [key: string]: string | undefined;
-};
+export type GroupPropertyFilterGroupKeyNamesMap = { [key: string]: string | undefined };
 export const GroupPropertyFilterGroupKeyNamesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1598,9 +1710,7 @@ export const GroupPropertyFilter = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     value: S.optional(S.NullOr(GroupPropertyFilterValue)),
   }),
-).annotate({
-  identifier: "GroupPropertyFilter",
-}) as any as S.Schema<GroupPropertyFilter>;
+).annotate({ identifier: "GroupPropertyFilter" }) as any as S.Schema<GroupPropertyFilter>;
 
 export type FeaturePropertyFilterValueCase0Item = string | number | boolean;
 export const FeaturePropertyFilterValueCase0Item =
@@ -1634,9 +1744,7 @@ export const FeaturePropertyFilter = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     value: S.optional(S.NullOr(FeaturePropertyFilterValue)),
   }),
-).annotate({
-  identifier: "FeaturePropertyFilter",
-}) as any as S.Schema<FeaturePropertyFilter>;
+).annotate({ identifier: "FeaturePropertyFilter" }) as any as S.Schema<FeaturePropertyFilter>;
 
 /** The value can be true, false, or a variant name */
 export type FlagPropertyFilterValue = boolean | string;
@@ -1661,9 +1769,7 @@ export const FlagPropertyFilter = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     value: S.optional(FlagPropertyFilterValue),
   }),
-).annotate({
-  identifier: "FlagPropertyFilter",
-}) as any as S.Schema<FlagPropertyFilter>;
+).annotate({ identifier: "FlagPropertyFilter" }) as any as S.Schema<FlagPropertyFilter>;
 
 export type HogQLPropertyFilterValueCase0Item = string | number | boolean;
 export const HogQLPropertyFilterValueCase0Item =
@@ -1694,9 +1800,7 @@ export const HogQLPropertyFilter = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     value: S.optional(S.NullOr(HogQLPropertyFilterValue)),
   }),
-).annotate({
-  identifier: "HogQLPropertyFilter",
-}) as any as S.Schema<HogQLPropertyFilter>;
+).annotate({ identifier: "HogQLPropertyFilter" }) as any as S.Schema<HogQLPropertyFilter>;
 
 export interface EmptyPropertyFilter {
   type?: string;
@@ -1705,9 +1809,7 @@ export const EmptyPropertyFilter = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     type: S.optional(S.String),
   }),
-).annotate({
-  identifier: "EmptyPropertyFilter",
-}) as any as S.Schema<EmptyPropertyFilter>;
+).annotate({ identifier: "EmptyPropertyFilter" }) as any as S.Schema<EmptyPropertyFilter>;
 
 export type DataWarehousePropertyFilterValueCase0Item = string | number | boolean;
 export const DataWarehousePropertyFilterValueCase0Item =
@@ -1815,9 +1917,7 @@ export const ErrorTrackingIssueFilter = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     value: S.optional(S.NullOr(ErrorTrackingIssueFilterValue)),
   }),
-).annotate({
-  identifier: "ErrorTrackingIssueFilter",
-}) as any as S.Schema<ErrorTrackingIssueFilter>;
+).annotate({ identifier: "ErrorTrackingIssueFilter" }) as any as S.Schema<ErrorTrackingIssueFilter>;
 
 export type LogPropertyFilterType = "log" | "log_attribute" | "log_resource_attribute";
 export const LogPropertyFilterType = S.String;
@@ -1849,9 +1949,7 @@ export const LogPropertyFilter = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(LogPropertyFilterType),
     value: S.optional(S.NullOr(LogPropertyFilterValue)),
   }),
-).annotate({
-  identifier: "LogPropertyFilter",
-}) as any as S.Schema<LogPropertyFilter>;
+).annotate({ identifier: "LogPropertyFilter" }) as any as S.Schema<LogPropertyFilter>;
 
 export type MetricPropertyFilterValueCase0Item = string | number | boolean;
 export const MetricPropertyFilterValueCase0Item =
@@ -1884,9 +1982,7 @@ export const MetricPropertyFilter = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     value: S.optional(S.NullOr(MetricPropertyFilterValue)),
   }),
-).annotate({
-  identifier: "MetricPropertyFilter",
-}) as any as S.Schema<MetricPropertyFilter>;
+).annotate({ identifier: "MetricPropertyFilter" }) as any as S.Schema<MetricPropertyFilter>;
 
 export type SpanPropertyFilterType = "span" | "span_attribute" | "span_resource_attribute";
 export const SpanPropertyFilterType = S.String;
@@ -1918,9 +2014,7 @@ export const SpanPropertyFilter = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(SpanPropertyFilterType),
     value: S.optional(S.NullOr(SpanPropertyFilterValue)),
   }),
-).annotate({
-  identifier: "SpanPropertyFilter",
-}) as any as S.Schema<SpanPropertyFilter>;
+).annotate({ identifier: "SpanPropertyFilter" }) as any as S.Schema<SpanPropertyFilter>;
 
 export type RevenueAnalyticsPropertyFilterValueCase0Item = string | number | boolean;
 export const RevenueAnalyticsPropertyFilterValueCase0Item =
@@ -2097,9 +2191,7 @@ export const BehavioralPropertyFilter = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     value: InlineBehavioralType,
   }),
-).annotate({
-  identifier: "BehavioralPropertyFilter",
-}) as any as S.Schema<BehavioralPropertyFilter>;
+).annotate({ identifier: "BehavioralPropertyFilter" }) as any as S.Schema<BehavioralPropertyFilter>;
 
 export type DashboardFilterPropertiesItem =
   | EventPropertyFilter
@@ -2155,9 +2247,7 @@ export const DashboardFilter = /*@__PURE__*/ S.suspend(() =>
     interval: S.optional(S.NullOr(IntervalType)),
     properties: S.optional(S.NullOr(DashboardFilterPropertiesList)),
   }),
-).annotate({
-  identifier: "DashboardFilter",
-}) as any as S.Schema<DashboardFilter>;
+).annotate({ identifier: "DashboardFilter" }) as any as S.Schema<DashboardFilter>;
 
 export type LimitContext = "posthog_ai";
 export const LimitContext = S.String;
@@ -2223,11 +2313,7 @@ export const CreateCustomerAnalyticsAccountsTableQueryRequest = /*@__PURE__*/ S.
       S.NullOr(CreateCustomerAnalyticsAccountsTableQueryRequestVariablesOverrideMap),
     ),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/projects/{project_id}/accounts_table_query/",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/api/projects/{project_id}/accounts_table_query/", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateCustomerAnalyticsAccountsTableQueryRequest",

@@ -55,9 +55,7 @@ export const DescribeStatsRequest = /*@__PURE__*/ S.suspend(() =>
     company_id: S.optional(S.String.pipe(T.Query())),
     user_id: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/stats/describe", code: 200 })),
-).annotate({
-  identifier: "DescribeStatsRequest",
-}) as any as S.Schema<DescribeStatsRequest>;
+).annotate({ identifier: "DescribeStatsRequest" }) as any as S.Schema<DescribeStatsRequest>;
 
 /** Debug information. */
 export interface DescribeStatsResponseBodyCase0Debug {
@@ -216,9 +214,7 @@ export const DescribeStatsResponseBodyCase1MetricsList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<DescribeStatsResponseBodyCase1MetricsList>;
 
 /** Represents untyped JSON */
-export type DescribeStatsResponseBodyCase1SampleItemMap = {
-  [key: string]: unknown | undefined;
-};
+export type DescribeStatsResponseBodyCase1SampleItemMap = { [key: string]: unknown | undefined };
 export const DescribeStatsResponseBodyCase1SampleItemMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -392,9 +388,7 @@ export const DescribeStatsResponseBodyCase3MetricsList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<DescribeStatsResponseBodyCase3MetricsList>;
 
 /** Represents untyped JSON */
-export type DescribeStatsResponseBodyCase3SampleItemMap = {
-  [key: string]: unknown | undefined;
-};
+export type DescribeStatsResponseBodyCase3SampleItemMap = { [key: string]: unknown | undefined };
 export const DescribeStatsResponseBodyCase3SampleItemMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -466,9 +460,7 @@ export const DescribeStatsResponseBody = S.Unknown as any as S.Schema<DescribeSt
 export type DescribeStatsResponse = DescribeStatsResponseBody;
 export const DescribeStatsResponse = /*@__PURE__*/ S.suspend(() =>
   DescribeStatsResponseBody.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "DescribeStatsResponse",
-}) as any as S.Schema<DescribeStatsResponse>;
+).annotate({ identifier: "DescribeStatsResponse" }) as any as S.Schema<DescribeStatsResponse>;
 
 export type GetMetricRequestInterval =
   | "minute"
@@ -612,9 +604,7 @@ export const GetMetricRequest = /*@__PURE__*/ S.suspend(() =>
     snapshot_window: S.optional(GetMetricRequestSnapshotWindow.pipe(T.Query())),
     event: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/stats/{metric}", code: 200 })),
-).annotate({
-  identifier: "GetMetricRequest",
-}) as any as S.Schema<GetMetricRequest>;
+).annotate({ identifier: "GetMetricRequest" }) as any as S.Schema<GetMetricRequest>;
 
 export interface GetMetricResponseDataPointsItemBreakdownItem {
   /** The property value, for example usd or visa. */
@@ -697,9 +687,7 @@ export const GetMetricResponseData = /*@__PURE__*/ S.suspend(() =>
     points: GetMetricResponseDataPointsList,
     totals: S.optional(S.NullOr(GetMetricResponseDataTotalsList)),
   }),
-).annotate({
-  identifier: "GetMetricResponseData",
-}) as any as S.Schema<GetMetricResponseData>;
+).annotate({ identifier: "GetMetricResponseData" }) as any as S.Schema<GetMetricResponseData>;
 
 export interface GetMetricResponse {
   data: GetMetricResponseData;
@@ -708,16 +696,12 @@ export const GetMetricResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     data: GetMetricResponseData,
   }),
-).annotate({
-  identifier: "GetMetricResponse",
-}) as any as S.Schema<GetMetricResponse>;
+).annotate({ identifier: "GetMetricResponse" }) as any as S.Schema<GetMetricResponse>;
 
 export interface ListMetricsRequest {}
 export const ListMetricsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/stats", code: 200 })),
-).annotate({
-  identifier: "ListMetricsRequest",
-}) as any as S.Schema<ListMetricsRequest>;
+).annotate({ identifier: "ListMetricsRequest" }) as any as S.Schema<ListMetricsRequest>;
 
 /** The properties you can use with this metric — pass one as a filter (property=value) to narrow the series, or as breakdown_by=property to split it. */
 export type ListMetricsResponseDataItemPropertiesList = Array<string>;
@@ -776,9 +760,7 @@ export const ListMetricsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     data: ListMetricsResponseDataList,
   }),
-).annotate({
-  identifier: "ListMetricsResponse",
-}) as any as S.Schema<ListMetricsResponse>;
+).annotate({ identifier: "ListMetricsResponse" }) as any as S.Schema<ListMetricsResponse>;
 
 /** Columns to break down the metric by. */
 export type MetricStatsRequestBreakdownsList = Array<string>;
@@ -787,9 +769,7 @@ export const MetricStatsRequestBreakdownsList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<MetricStatsRequestBreakdownsList>;
 
 /** Key-value pairs to filter the data. */
-export type MetricStatsRequestFiltersMap = {
-  [key: string]: unknown | undefined;
-};
+export type MetricStatsRequestFiltersMap = { [key: string]: unknown | undefined };
 export const MetricStatsRequestFiltersMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -818,9 +798,7 @@ export const MetricStatsRequest = /*@__PURE__*/ S.suspend(() =>
     company_id: S.optional(S.String.pipe(T.Query())),
     user_id: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/stats/metric", code: 200 })),
-).annotate({
-  identifier: "MetricStatsRequest",
-}) as any as S.Schema<MetricStatsRequest>;
+).annotate({ identifier: "MetricStatsRequest" }) as any as S.Schema<MetricStatsRequest>;
 
 /** Column names in the order they appear in each data row. */
 export type MetricStatsResponseColumnsList = Array<string>;
@@ -829,9 +807,7 @@ export const MetricStatsResponseColumnsList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<MetricStatsResponseColumnsList>;
 
 /** Represents untyped JSON */
-export type MetricStatsResponseDataItemMap = {
-  [key: string]: unknown | undefined;
-};
+export type MetricStatsResponseDataItemMap = { [key: string]: unknown | undefined };
 export const MetricStatsResponseDataItemMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -858,9 +834,7 @@ export const MetricStatsResponseDebug = /*@__PURE__*/ S.suspend(() =>
     request_id: S.NullOr(S.String),
     sql: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "MetricStatsResponseDebug",
-}) as any as S.Schema<MetricStatsResponseDebug>;
+).annotate({ identifier: "MetricStatsResponseDebug" }) as any as S.Schema<MetricStatsResponseDebug>;
 
 /** Pagination information. */
 export interface MetricStatsResponsePagination {
@@ -898,9 +872,7 @@ export const MetricStatsResponse = /*@__PURE__*/ S.suspend(() =>
     pagination: S.NullOr(MetricStatsResponsePagination),
     typename: S.String,
   }),
-).annotate({
-  identifier: "MetricStatsResponse",
-}) as any as S.Schema<MetricStatsResponse>;
+).annotate({ identifier: "MetricStatsResponse" }) as any as S.Schema<MetricStatsResponse>;
 
 /** The direction of the sort. */
 export type Direction = "asc" | "desc";
@@ -929,9 +901,7 @@ export const RawStatsRequest = /*@__PURE__*/ S.suspend(() =>
     company_id: S.optional(S.String.pipe(T.Query())),
     user_id: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/stats/raw", code: 200 })),
-).annotate({
-  identifier: "RawStatsRequest",
-}) as any as S.Schema<RawStatsRequest>;
+).annotate({ identifier: "RawStatsRequest" }) as any as S.Schema<RawStatsRequest>;
 
 /** Column names in the order they appear in each data row. */
 export type RawStatsResponseColumnsList = Array<string>;
@@ -940,9 +910,7 @@ export const RawStatsResponseColumnsList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<RawStatsResponseColumnsList>;
 
 /** Represents untyped JSON */
-export type RawStatsResponseDataItemMap = {
-  [key: string]: unknown | undefined;
-};
+export type RawStatsResponseDataItemMap = { [key: string]: unknown | undefined };
 export const RawStatsResponseDataItemMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -982,9 +950,7 @@ export const RawStatsResponse = /*@__PURE__*/ S.suspend(() =>
     node: S.NullOr(S.String),
     pagination: S.NullOr(MetricStatsResponsePagination),
   }),
-).annotate({
-  identifier: "RawStatsResponse",
-}) as any as S.Schema<RawStatsResponse>;
+).annotate({ identifier: "RawStatsResponse" }) as any as S.Schema<RawStatsResponse>;
 
 export type DescribeStatsError =
   | BadRequest

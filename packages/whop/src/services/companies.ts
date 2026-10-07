@@ -112,13 +112,7 @@ export const CreateApiKeyCompanyRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.NullOr(S.String)),
     permissions: S.optional(S.NullOr(CreateApiKeyCompanyRequestPermissionsList)),
     role: S.optional(S.NullOr(PermissionSystemRoles)),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/companies/{parent_company_id}/api_keys",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/companies/{parent_company_id}/api_keys", code: 200 })),
 ).annotate({
   identifier: "CreateApiKeyCompanyRequest",
 }) as any as S.Schema<CreateApiKeyCompanyRequest>;
@@ -396,14 +390,10 @@ export const CreateCompanyRequestLogo = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String,
   }),
-).annotate({
-  identifier: "CreateCompanyRequestLogo",
-}) as any as S.Schema<CreateCompanyRequestLogo>;
+).annotate({ identifier: "CreateCompanyRequestLogo" }) as any as S.Schema<CreateCompanyRequestLogo>;
 
 /** A key-value JSON object of custom metadata to store on the company. */
-export type CreateCompanyRequestMetadataMap = {
-  [key: string]: unknown | undefined;
-};
+export type CreateCompanyRequestMetadataMap = { [key: string]: unknown | undefined };
 export const CreateCompanyRequestMetadataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -438,9 +428,7 @@ export const CreateCompanyRequest = /*@__PURE__*/ S.suspend(() =>
     send_customer_emails: S.optional(S.NullOr(S.Boolean)),
     title: S.String,
   }).pipe(T.Http({ method: "POST", uri: "/companies", code: 200 })),
-).annotate({
-  identifier: "CreateCompanyRequest",
-}) as any as S.Schema<CreateCompanyRequest>;
+).annotate({ identifier: "CreateCompanyRequest" }) as any as S.Schema<CreateCompanyRequest>;
 
 /** The product featured for affiliates to promote on this company's affiliate page. Null if none is configured. */
 export interface CompanyFeaturedAffiliateProduct {
@@ -491,9 +479,7 @@ export const CompanyOwnerUser = /*@__PURE__*/ S.suspend(() =>
     name: S.NullOr(S.String),
     username: S.String,
   }),
-).annotate({
-  identifier: "CompanyOwnerUser",
-}) as any as S.Schema<CompanyOwnerUser>;
+).annotate({ identifier: "CompanyOwnerUser" }) as any as S.Schema<CompanyOwnerUser>;
 
 /** The different websites you can have social links for */
 export type SocialLinkWebsites =
@@ -523,9 +509,7 @@ export const CompanySocialLinksItem = /*@__PURE__*/ S.suspend(() =>
     url: S.String,
     website: SocialLinkWebsites,
   }),
-).annotate({
-  identifier: "CompanySocialLinksItem",
-}) as any as S.Schema<CompanySocialLinksItem>;
+).annotate({ identifier: "CompanySocialLinksItem" }) as any as S.Schema<CompanySocialLinksItem>;
 
 /** The list of social media accounts and external links associated with this company. */
 export type CompanySocialLinksList = Array<CompanySocialLinksItem>;
@@ -600,9 +584,7 @@ export const GetCompanyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/companies/{id}", code: 200 })),
-).annotate({
-  identifier: "GetCompanyRequest",
-}) as any as S.Schema<GetCompanyRequest>;
+).annotate({ identifier: "GetCompanyRequest" }) as any as S.Schema<GetCompanyRequest>;
 
 /** The direction of the sort. */
 export type Direction = "asc" | "desc";
@@ -629,9 +611,7 @@ export const ListCompanyRequest = /*@__PURE__*/ S.suspend(() =>
     created_before: S.optional(S.String.pipe(T.Query())),
     created_after: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/companies", code: 200 })),
-).annotate({
-  identifier: "ListCompanyRequest",
-}) as any as S.Schema<ListCompanyRequest>;
+).annotate({ identifier: "ListCompanyRequest" }) as any as S.Schema<ListCompanyRequest>;
 
 /** The company's logo. */
 export type CompanyListItemLogo = CompanyLogo;
@@ -696,9 +676,7 @@ export const CompanyListItem = /*@__PURE__*/ S.suspend(() =>
     updated_at: S.String,
     verified: S.Boolean,
   }),
-).annotate({
-  identifier: "CompanyListItem",
-}) as any as S.Schema<CompanyListItem>;
+).annotate({ identifier: "CompanyListItem" }) as any as S.Schema<CompanyListItem>;
 
 /** A list of nodes. */
 export type ListCompanyResponseDataList = Array<CompanyListItem>;
@@ -737,9 +715,7 @@ export const ListCompanyResponse = /*@__PURE__*/ S.suspend(() =>
     data: ListCompanyResponseDataList,
     page_info: PageInfo,
   }),
-).annotate({
-  identifier: "ListCompanyResponse",
-}) as any as S.Schema<ListCompanyResponse>;
+).annotate({ identifier: "ListCompanyResponse" }) as any as S.Schema<ListCompanyResponse>;
 
 /** The company's banner image. Accepts PNG or JPEG format. */
 export type UpdateCompanyRequestBannerImage = CreateCompanyRequestLogo;
@@ -828,9 +804,7 @@ export const UpdateCompanyRequest = /*@__PURE__*/ S.suspend(() =>
     target_audience: S.optional(S.NullOr(S.String)),
     title: S.optional(S.NullOr(S.String)),
   }).pipe(T.Http({ method: "PATCH", uri: "/companies/{id}", code: 200 })),
-).annotate({
-  identifier: "UpdateCompanyRequest",
-}) as any as S.Schema<UpdateCompanyRequest>;
+).annotate({ identifier: "UpdateCompanyRequest" }) as any as S.Schema<UpdateCompanyRequest>;
 
 export type CreateApiKeyCompanyError =
   | BadRequest

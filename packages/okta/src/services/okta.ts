@@ -131,9 +131,7 @@ export const HrefObjectSelfLink = /*@__PURE__*/ S.suspend(() =>
     templated: S.optional(S.Boolean),
     type: S.optional(S.String),
   }),
-).annotate({
-  identifier: "HrefObjectSelfLink",
-}) as any as S.Schema<HrefObjectSelfLink>;
+).annotate({ identifier: "HrefObjectSelfLink" }) as any as S.Schema<HrefObjectSelfLink>;
 
 /** Specifies link relations (see [Web Linking](https://www.rfc-editor.org/rfc/rfc8288)) available using the [JSON Hypertext Application Language](https://datatracker.ietf.org/doc/html/draft-kelly-json-hal-06) specification. This object is used for dynamic discovery of related resources and lifecycle operations. */
 export interface LinksSelf {
@@ -211,9 +209,7 @@ export const AutoUpdateSchedule = /*@__PURE__*/ S.suspend(() =>
     lastUpdated: S.optional(S.String),
     timezone: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AutoUpdateSchedule",
-}) as any as S.Schema<AutoUpdateSchedule>;
+).annotate({ identifier: "AutoUpdateSchedule" }) as any as S.Schema<AutoUpdateSchedule>;
 
 /** Overall state for the auto-update job from the admin perspective */
 export type AgentUpdateJobStatus =
@@ -262,9 +258,7 @@ export const AgentPoolUpdate = /*@__PURE__*/ S.suspend(() =>
     targetVersion: S.optional(S.String),
     _links: S.optional(LinksSelf),
   }),
-).annotate({
-  identifier: "AgentPoolUpdate",
-}) as any as S.Schema<AgentPoolUpdate>;
+).annotate({ identifier: "AgentPoolUpdate" }) as any as S.Schema<AgentPoolUpdate>;
 
 export interface ActivateApiServiceIntegrationInstanceSecretRequest {
   /** `id` of the API Service Integration instance */
@@ -352,13 +346,7 @@ export interface ActivateApplicationRequest {
 export const ActivateApplicationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     appId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v1/apps/{appId}/lifecycle/activate",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/api/v1/apps/{appId}/lifecycle/activate", code: 200 })),
 ).annotate({
   identifier: "ActivateApplicationRequest",
 }) as any as S.Schema<ActivateApplicationRequest>;
@@ -435,9 +423,7 @@ export const AuthenticatorLinks = /*@__PURE__*/ S.suspend(() =>
     deactivate: S.optional(HrefObjectSelfLink),
     methods: S.optional(HrefObjectSelfLink),
   }),
-).annotate({
-  identifier: "AuthenticatorLinks",
-}) as any as S.Schema<AuthenticatorLinks>;
+).annotate({ identifier: "AuthenticatorLinks" }) as any as S.Schema<AuthenticatorLinks>;
 
 export interface AuthenticatorBase {
   /** Timestamp when the authenticator was created */
@@ -468,9 +454,7 @@ export const AuthenticatorBase = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(AuthenticatorType),
     _links: S.optional(AuthenticatorLinks),
   }),
-).annotate({
-  identifier: "AuthenticatorBase",
-}) as any as S.Schema<AuthenticatorBase>;
+).annotate({ identifier: "AuthenticatorBase" }) as any as S.Schema<AuthenticatorBase>;
 
 /** The type of authenticator method */
 export type ActivateAuthenticatorMethodRequestMethodType =
@@ -540,9 +524,7 @@ export const LinksSelfAndLifecycle = /*@__PURE__*/ S.suspend(() =>
     activate: S.optional(HrefObjectSelfLink),
     deactivate: S.optional(HrefObjectSelfLink),
   }),
-).annotate({
-  identifier: "LinksSelfAndLifecycle",
-}) as any as S.Schema<LinksSelfAndLifecycle>;
+).annotate({ identifier: "LinksSelfAndLifecycle" }) as any as S.Schema<LinksSelfAndLifecycle>;
 
 export interface AuthenticatorMethodBase {
   status?: unknown;
@@ -555,9 +537,7 @@ export const AuthenticatorMethodBase = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(AuthenticatorMethodType),
     _links: S.optional(LinksSelfAndLifecycle),
   }),
-).annotate({
-  identifier: "AuthenticatorMethodBase",
-}) as any as S.Schema<AuthenticatorMethodBase>;
+).annotate({ identifier: "AuthenticatorMethodBase" }) as any as S.Schema<AuthenticatorMethodBase>;
 
 export interface ActivateAuthorizationServerRequest {
   /** `id` of the Authorization Server */
@@ -651,11 +631,7 @@ export const ActivateBehaviorDetectionRuleRequest = /*@__PURE__*/ S.suspend(() =
   S.Struct({
     behaviorId: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v1/behaviors/{behaviorId}/lifecycle/activate",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/api/v1/behaviors/{behaviorId}/lifecycle/activate", code: 200 }),
   ),
 ).annotate({
   identifier: "ActivateBehaviorDetectionRuleRequest",
@@ -908,15 +884,9 @@ export const ActivateDeviceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     deviceId: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v1/devices/{deviceId}/lifecycle/activate",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/api/v1/devices/{deviceId}/lifecycle/activate", code: 200 }),
   ),
-).annotate({
-  identifier: "ActivateDeviceRequest",
-}) as any as S.Schema<ActivateDeviceRequest>;
+).annotate({ identifier: "ActivateDeviceRequest" }) as any as S.Schema<ActivateDeviceRequest>;
 
 export interface ActivateDeviceResponse {}
 export const ActivateDeviceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1041,9 +1011,7 @@ export const DeviceIntegrations = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(DeviceIntegrationsStatus),
     _links: S.optional(LinksSelfAndLifecycle),
   }),
-).annotate({
-  identifier: "DeviceIntegrations",
-}) as any as S.Schema<DeviceIntegrations>;
+).annotate({ identifier: "DeviceIntegrations" }) as any as S.Schema<DeviceIntegrations>;
 
 export interface ActivateEventHookRequest {
   /** `id` of the Event Hook */
@@ -1059,9 +1027,7 @@ export const ActivateEventHookRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "ActivateEventHookRequest",
-}) as any as S.Schema<ActivateEventHookRequest>;
+).annotate({ identifier: "ActivateEventHookRequest" }) as any as S.Schema<ActivateEventHookRequest>;
 
 /** The authentication scheme type. Currently only supports `HEADER`. */
 export type EventHookChannelConfigAuthSchemeType = "HEADER";
@@ -1098,9 +1064,9 @@ export const EventHookChannelConfigHeader = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<EventHookChannelConfigHeader>;
 
 /** Optional list of key/value pairs for headers that can be sent with the request to the external service. For example, `X-Other-Header` is an example of an optional header, with a value of `my-header-value`, that you want Okta to pass to your external service. */
-export type EventHookChannelConfigOutputHeadersList = Array<EventHookChannelConfigHeader>;
+export type EventHookChannelConfigOutputHeadersList = Array<EventHookChannelConfigHeader | null>;
 export const EventHookChannelConfigOutputHeadersList = /*@__PURE__*/ S.Array(
-  EventHookChannelConfigHeader,
+  S.NullOr(EventHookChannelConfigHeader),
 ) as any as S.Schema<EventHookChannelConfigOutputHeadersList>;
 
 export interface EventHookChannelConfigOutput {
@@ -1139,9 +1105,7 @@ export const EventHookChannelOutput = /*@__PURE__*/ S.suspend(() =>
     type: EventHookChannelType,
     version: S.String,
   }),
-).annotate({
-  identifier: "EventHookChannelOutput",
-}) as any as S.Schema<EventHookChannelOutput>;
+).annotate({ identifier: "EventHookChannelOutput" }) as any as S.Schema<EventHookChannelOutput>;
 
 export interface EventHookFilterMapObjectCondition {
   /** The Okta Expression language statement that filters the event type */
@@ -1168,9 +1132,7 @@ export const EventHookFilterMapObject = /*@__PURE__*/ S.suspend(() =>
     condition: S.optional(EventHookFilterMapObjectCondition),
     event: S.optional(S.String),
   }),
-).annotate({
-  identifier: "EventHookFilterMapObject",
-}) as any as S.Schema<EventHookFilterMapObject>;
+).annotate({ identifier: "EventHookFilterMapObject" }) as any as S.Schema<EventHookFilterMapObject>;
 
 /** The object that maps the filter to the event type */
 export type EventHookFilterMap = Array<EventHookFilterMapObject>;
@@ -1189,9 +1151,7 @@ export const EventHookFilters = /*@__PURE__*/ S.suspend(() =>
     eventFilterMap: S.optional(EventHookFilterMap),
     type: S.optional(S.String),
   }),
-).annotate({
-  identifier: "EventHookFilters",
-}) as any as S.Schema<EventHookFilters>;
+).annotate({ identifier: "EventHookFilters" }) as any as S.Schema<EventHookFilters>;
 
 /** The subscribed event types that trigger the event hook. When you register an event hook you need to specify which events you want to subscribe to. To see the list of event types currently eligible for use in event hooks, use the [Event Types catalog](https://developer.okta.com/docs/reference/api/event-types/#catalog) and search with the parameter `event-hook-eligible`. */
 export type EventHookSubscribedEventTypes = Array<string>;
@@ -1214,9 +1174,7 @@ export const EventSubscriptions = /*@__PURE__*/ S.suspend(() =>
     items: EventHookSubscribedEventTypes,
     type: EventSubscriptionType,
   }),
-).annotate({
-  identifier: "EventSubscriptions",
-}) as any as S.Schema<EventSubscriptions>;
+).annotate({ identifier: "EventSubscriptions" }) as any as S.Schema<EventSubscriptions>;
 
 /** Status of the event hook */
 export type EventHookOutputStatus = "ACTIVE" | "INACTIVE";
@@ -1237,9 +1195,7 @@ export const EventHookOutputLinks = /*@__PURE__*/ S.suspend(() =>
     deactivate: S.optional(HrefObjectSelfLink),
     verify: S.optional(HrefObjectSelfLink),
   }),
-).annotate({
-  identifier: "EventHookOutputLinks",
-}) as any as S.Schema<EventHookOutputLinks>;
+).annotate({ identifier: "EventHookOutputLinks" }) as any as S.Schema<EventHookOutputLinks>;
 
 export interface EventHookOutput {
   channel: EventHookChannelOutput;
@@ -1275,9 +1231,7 @@ export const EventHookOutput = /*@__PURE__*/ S.suspend(() =>
     verificationStatus: S.optional(EventHookVerificationStatus),
     _links: S.optional(EventHookOutputLinks),
   }),
-).annotate({
-  identifier: "EventHookOutput",
-}) as any as S.Schema<EventHookOutput>;
+).annotate({ identifier: "EventHookOutput" }) as any as S.Schema<EventHookOutput>;
 
 /** Attempts to activate a `call` factor with the specified passcode */
 export interface UserFactorActivateRequestCase0 {
@@ -1376,9 +1330,7 @@ export const ActivateFactorRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "ActivateFactorRequest",
-}) as any as S.Schema<ActivateFactorRequest>;
+).annotate({ identifier: "ActivateFactorRequest" }) as any as S.Schema<ActivateFactorRequest>;
 
 /** Type of the factor */
 export type UserFactorActivateResponseFactorType =
@@ -1440,9 +1392,7 @@ export const ActivateGroupRuleRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "ActivateGroupRuleRequest",
-}) as any as S.Schema<ActivateGroupRuleRequest>;
+).annotate({ identifier: "ActivateGroupRuleRequest" }) as any as S.Schema<ActivateGroupRuleRequest>;
 
 export interface ActivateGroupRuleResponse {}
 export const ActivateGroupRuleResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1456,13 +1406,7 @@ export interface ActivateIdentityProviderRequest {
 export const ActivateIdentityProviderRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     idpId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v1/idps/{idpId}/lifecycle/activate",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/api/v1/idps/{idpId}/lifecycle/activate", code: 200 })),
 ).annotate({
   identifier: "ActivateIdentityProviderRequest",
 }) as any as S.Schema<ActivateIdentityProviderRequest>;
@@ -1526,9 +1470,7 @@ export const PolicyAccountLinkFilter = /*@__PURE__*/ S.suspend(() =>
     groups: S.optional(PolicyAccountLinkFilterGroups),
     users: S.optional(PolicyAccountLinkFilterUsers),
   }),
-).annotate({
-  identifier: "PolicyAccountLinkFilter",
-}) as any as S.Schema<PolicyAccountLinkFilter>;
+).annotate({ identifier: "PolicyAccountLinkFilter" }) as any as S.Schema<PolicyAccountLinkFilter>;
 
 /** Specifies the behavior for linking an IdP user to an existing Okta user */
 export interface PolicyAccountLink {
@@ -1540,9 +1482,7 @@ export const PolicyAccountLink = /*@__PURE__*/ S.suspend(() =>
     action: S.optional(PolicyAccountLinkAction),
     filter: S.optional(PolicyAccountLinkFilter),
   }),
-).annotate({
-  identifier: "PolicyAccountLink",
-}) as any as S.Schema<PolicyAccountLink>;
+).annotate({ identifier: "PolicyAccountLink" }) as any as S.Schema<PolicyAccountLink>;
 
 /** Specifies the user provisioning action during authentication when an IdP user isn't linked to an existing Okta user. * To successfully provision a new Okta user, you must enable just-in-time (JIT) provisioning in your org security settings. * If the target username isn't unique or the resulting Okta user profile is missing a required profile attribute, JIT provisioning may fail. * New Okta users are provisioned with either a `FEDERATION` or `SOCIAL` authentication provider depending on the IdP type. */
 export type ProvisioningAction = "AUTO" | "DISABLED";
@@ -1590,9 +1530,7 @@ export const ProvisioningConditions = /*@__PURE__*/ S.suspend(() =>
     deprovisioned: S.optional(ProvisioningDeprovisionedCondition),
     suspended: S.optional(ProvisioningSuspendedCondition),
   }),
-).annotate({
-  identifier: "ProvisioningConditions",
-}) as any as S.Schema<ProvisioningConditions>;
+).annotate({ identifier: "ProvisioningConditions" }) as any as S.Schema<ProvisioningConditions>;
 
 /** Provisioning action for the IdP user's group memberships | Enum | Description | Existing OKTA_GROUP Memberships | Existing APP_GROUP Memberships | Existing BUILT_IN Memberships | | -------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------- | ------------------------------ | ----------------------------- | | `APPEND` | Adds a user to any group defined by the IdP as a value of the `sourceAttributeName` array that matches the name of the allow listed group defined in the `filter` | Unchanged | Unchanged | Unchanged | | `ASSIGN` | Assigns a user to groups defined in the `assignments` array | Unchanged | Unchanged | Unchanged | | `NONE` | Skips processing of group memberships | Unchanged | Unchanged | Unchanged | | `SYNC` | Group memberships are sourced by the IdP as a value of the `sourceAttributeName` array that matches the name of the group defined in the `filter` | Removed if not defined by the IdP in `sourceAttributeName` and matching name of the group in `filter` | Unchanged | Unchanged | > **Note:** Group provisioning action is processed independently from profile sourcing. You can sync group memberships through SAML with profile sourcing disabled. */
 export type ProvisioningGroupsAction = "APPEND" | "ASSIGN" | "NONE" | "SYNC";
@@ -1627,9 +1565,7 @@ export const ProvisioningGroups = /*@__PURE__*/ S.suspend(() =>
     filter: S.optional(ProvisioningGroupsFilterList),
     sourceAttributeName: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ProvisioningGroups",
-}) as any as S.Schema<ProvisioningGroups>;
+).annotate({ identifier: "ProvisioningGroups" }) as any as S.Schema<ProvisioningGroups>;
 
 /** Specifies the behavior for just-in-time (JIT) provisioning of an IdP user as a new Okta user and their group memberships */
 export interface Provisioning {
@@ -1664,9 +1600,7 @@ export const PolicyUserNameTemplate = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     template: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PolicyUserNameTemplate",
-}) as any as S.Schema<PolicyUserNameTemplate>;
+).annotate({ identifier: "PolicyUserNameTemplate" }) as any as S.Schema<PolicyUserNameTemplate>;
 
 /** Specifies the behavior for establishing, validating, and matching a username for an IdP user */
 export interface PolicySubject {
@@ -1703,9 +1637,7 @@ export const IdentityProviderPolicy = /*@__PURE__*/ S.suspend(() =>
     provisioning: S.optional(Provisioning),
     subject: S.optional(PolicySubject),
   }),
-).annotate({
-  identifier: "IdentityProviderPolicy",
-}) as any as S.Schema<IdentityProviderPolicy>;
+).annotate({ identifier: "IdentityProviderPolicy" }) as any as S.Schema<IdentityProviderPolicy>;
 
 export type IdentityProviderPropertiesAdditionalAmrItem = "sc" | "hwk" | "pin" | "mfa";
 export const IdentityProviderPropertiesAdditionalAmrItem = S.String;
@@ -1803,9 +1735,7 @@ export const SamlRequestAlgorithm = /*@__PURE__*/ S.suspend(() =>
     digest: S.optional(SamlRequestDigestAlgorithm),
     signature: S.optional(SamlRequestSignatureAlgorithm),
   }),
-).annotate({
-  identifier: "SamlRequestAlgorithm",
-}) as any as S.Schema<SamlRequestAlgorithm>;
+).annotate({ identifier: "SamlRequestAlgorithm" }) as any as S.Schema<SamlRequestAlgorithm>;
 
 /** Specifies whether to verify responses from the IdP */
 export type ProtocolAlgorithmResponseScope = "ANY" | "RESPONSE" | "TOKEN";
@@ -1833,9 +1763,7 @@ export const SamlResponseAlgorithm = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     signature: S.optional(SamlResponseSignatureAlgorithm),
   }),
-).annotate({
-  identifier: "SamlResponseAlgorithm",
-}) as any as S.Schema<SamlResponseAlgorithm>;
+).annotate({ identifier: "SamlResponseAlgorithm" }) as any as S.Schema<SamlResponseAlgorithm>;
 
 /** Settings for signing and verifying SAML messages */
 export interface SamlAlgorithms {
@@ -1857,9 +1785,7 @@ export const SamlSigningCredentials = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     kid: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SamlSigningCredentials",
-}) as any as S.Schema<SamlSigningCredentials>;
+).annotate({ identifier: "SamlSigningCredentials" }) as any as S.Schema<SamlSigningCredentials>;
 
 /** Additional IdP key credential reference to the Okta X.509 signature certificate */
 export type SamlTrustCredentialsAdditionalKidsList = Array<string>;
@@ -1884,9 +1810,7 @@ export const SamlTrustCredentials = /*@__PURE__*/ S.suspend(() =>
     issuer: S.optional(S.String),
     kid: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SamlTrustCredentials",
-}) as any as S.Schema<SamlTrustCredentials>;
+).annotate({ identifier: "SamlTrustCredentials" }) as any as S.Schema<SamlTrustCredentials>;
 
 /** Federation Trust Credentials for verifying assertions from the IdP and signing requests to the IdP */
 export interface SamlCredentials {
@@ -1898,9 +1822,7 @@ export const SamlCredentials = /*@__PURE__*/ S.suspend(() =>
     signing: S.optional(SamlSigningCredentials),
     trust: S.optional(SamlTrustCredentials),
   }),
-).annotate({
-  identifier: "SamlCredentials",
-}) as any as S.Schema<SamlCredentials>;
+).annotate({ identifier: "SamlCredentials" }) as any as S.Schema<SamlCredentials>;
 
 export type ProtocolEndpointBinding = "HTTP-POST" | "HTTP-REDIRECT";
 export const ProtocolEndpointBinding = S.String;
@@ -1919,9 +1841,7 @@ export const SamlAcsEndpoint = /*@__PURE__*/ S.suspend(() =>
     binding: S.optional(ProtocolEndpointBinding),
     type: S.optional(SamlEndpointType),
   }),
-).annotate({
-  identifier: "SamlAcsEndpoint",
-}) as any as S.Schema<SamlAcsEndpoint>;
+).annotate({ identifier: "SamlAcsEndpoint" }) as any as S.Schema<SamlAcsEndpoint>;
 
 /** IdP's `SingleLogoutService` endpoint where Okta sends a `<LogoutRequest>` message */
 export interface SamlSloEndpoint {
@@ -1934,9 +1854,7 @@ export const SamlSloEndpoint = /*@__PURE__*/ S.suspend(() =>
     binding: S.optional(ProtocolEndpointBinding),
     url: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SamlSloEndpoint",
-}) as any as S.Schema<SamlSloEndpoint>;
+).annotate({ identifier: "SamlSloEndpoint" }) as any as S.Schema<SamlSloEndpoint>;
 
 /** IdP's `SingleSignOnService` endpoint where Okta sends an `<AuthnRequest>` message */
 export interface SamlSsoEndpoint {
@@ -1952,9 +1870,7 @@ export const SamlSsoEndpoint = /*@__PURE__*/ S.suspend(() =>
     destination: S.optional(S.String),
     url: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SamlSsoEndpoint",
-}) as any as S.Schema<SamlSsoEndpoint>;
+).annotate({ identifier: "SamlSsoEndpoint" }) as any as S.Schema<SamlSsoEndpoint>;
 
 /** SAML 2.0 HTTP binding settings for IdP and SP (Okta) */
 export interface SamlEndpoints {
@@ -2058,9 +1974,7 @@ export const OAuthCredentialsClient = /*@__PURE__*/ S.suspend(() =>
     pkce_required: S.optional(S.Boolean),
     token_endpoint_auth_method: S.optional(OAuthCredentialsClientTokenEndpointAuthMethod),
   }),
-).annotate({
-  identifier: "OAuthCredentialsClient",
-}) as any as S.Schema<OAuthCredentialsClient>;
+).annotate({ identifier: "OAuthCredentialsClient" }) as any as S.Schema<OAuthCredentialsClient>;
 
 /** Information used to generate the secret JSON Web Token for the token requests to Apple IdP > **Note:** The `privateKey` property is required for a CREATE request. For an UPDATE request, it can be null and keeps the existing value if it's null. The `privateKey` property isn't returned for LIST and GET requests or UPDATE requests if it's null. */
 export interface AppleClientSigning {
@@ -2077,9 +1991,7 @@ export const AppleClientSigning = /*@__PURE__*/ S.suspend(() =>
     privateKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
     teamId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AppleClientSigning",
-}) as any as S.Schema<AppleClientSigning>;
+).annotate({ identifier: "AppleClientSigning" }) as any as S.Schema<AppleClientSigning>;
 
 /** Client authentication credentials for an [OAuth 2.0 Authorization Server](https://tools.ietf.org/html/rfc6749#section-2.3) */
 export interface OAuthCredentials {
@@ -2091,9 +2003,7 @@ export const OAuthCredentials = /*@__PURE__*/ S.suspend(() =>
     client: S.optional(OAuthCredentialsClient),
     signing: S.optional(AppleClientSigning),
   }),
-).annotate({
-  identifier: "OAuthCredentials",
-}) as any as S.Schema<OAuthCredentials>;
+).annotate({ identifier: "OAuthCredentials" }) as any as S.Schema<OAuthCredentials>;
 
 /** Endpoint for an [OAuth 2.0 Authorization Server (AS)](https://tools.ietf.org/html/rfc6749#page-18) */
 export interface OAuthAuthorizationEndpoint {
@@ -2121,9 +2031,7 @@ export const OidcJwksEndpoint = /*@__PURE__*/ S.suspend(() =>
     binding: S.optional(ProtocolEndpointBinding),
     url: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OidcJwksEndpoint",
-}) as any as S.Schema<OidcJwksEndpoint>;
+).annotate({ identifier: "OidcJwksEndpoint" }) as any as S.Schema<OidcJwksEndpoint>;
 
 /** OIDC IdP logout endpoint */
 export interface OidcSloEndpoint {
@@ -2134,9 +2042,7 @@ export const OidcSloEndpoint = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     url: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OidcSloEndpoint",
-}) as any as S.Schema<OidcSloEndpoint>;
+).annotate({ identifier: "OidcSloEndpoint" }) as any as S.Schema<OidcSloEndpoint>;
 
 /** Endpoint for an [OAuth 2.0 Authorization Server (AS)](https://tools.ietf.org/html/rfc6749#page-18) */
 export interface OAuthTokenEndpoint {
@@ -2149,9 +2055,7 @@ export const OAuthTokenEndpoint = /*@__PURE__*/ S.suspend(() =>
     binding: S.optional(ProtocolEndpointBinding),
     url: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OAuthTokenEndpoint",
-}) as any as S.Schema<OAuthTokenEndpoint>;
+).annotate({ identifier: "OAuthTokenEndpoint" }) as any as S.Schema<OAuthTokenEndpoint>;
 
 /** Endpoint for getting identity information about the user. For more information on the `/userinfo` endpoint, see [OpenID Connect](https://openid.net/specs/openid-connect-core-1_0.html#UserInfo). */
 export interface OidcUserInfoEndpoint {
@@ -2164,9 +2068,7 @@ export const OidcUserInfoEndpoint = /*@__PURE__*/ S.suspend(() =>
     binding: S.optional(ProtocolEndpointBinding),
     url: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OidcUserInfoEndpoint",
-}) as any as S.Schema<OidcUserInfoEndpoint>;
+).annotate({ identifier: "OidcUserInfoEndpoint" }) as any as S.Schema<OidcUserInfoEndpoint>;
 
 /** The `OAUTH2` and `OIDC` protocols support the `authorization` and `token` endpoints. Also, the `OIDC` protocol supports the `userInfo` and `jwks` endpoints. The IdP Authorization Server (AS) endpoints are currently defined as part of the [IdP provider]((https://developer.okta.com/docs/api/openapi/okta-management/management/tag/IdentityProvider/#tag/IdentityProvider/operation/createIdentityProvider!path=type&t=request)) and are read-only. */
 export interface OAuthEndpoints {
@@ -2236,9 +2138,7 @@ export const OidcRequestAlgorithm = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     signature: S.optional(OidcRequestSignatureAlgorithm),
   }),
-).annotate({
-  identifier: "OidcRequestAlgorithm",
-}) as any as S.Schema<OidcRequestAlgorithm>;
+).annotate({ identifier: "OidcRequestAlgorithm" }) as any as S.Schema<OidcRequestAlgorithm>;
 
 export interface OidcAlgorithms {
   request?: OidcRequestAlgorithm;
@@ -2333,9 +2233,7 @@ export const MtlsTrustCredentials = /*@__PURE__*/ S.suspend(() =>
     revocation: S.optional(MtlsTrustCredentialsRevocation),
     revocationCacheLifetime: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "MtlsTrustCredentials",
-}) as any as S.Schema<MtlsTrustCredentials>;
+).annotate({ identifier: "MtlsTrustCredentials" }) as any as S.Schema<MtlsTrustCredentials>;
 
 /** Certificate chain description for verifying assertions from the Smart Card */
 export interface MtlsCredentials {
@@ -2345,9 +2243,7 @@ export const MtlsCredentials = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     trust: S.optional(MtlsTrustCredentials),
   }),
-).annotate({
-  identifier: "MtlsCredentials",
-}) as any as S.Schema<MtlsCredentials>;
+).annotate({ identifier: "MtlsCredentials" }) as any as S.Schema<MtlsCredentials>;
 
 /** The Single Sign-On (SSO) endpoint is the IdP's `SingleSignOnService` endpoint */
 export interface MtlsSsoEndpoint {
@@ -2357,9 +2253,7 @@ export const MtlsSsoEndpoint = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     url: S.optional(S.String),
   }),
-).annotate({
-  identifier: "MtlsSsoEndpoint",
-}) as any as S.Schema<MtlsSsoEndpoint>;
+).annotate({ identifier: "MtlsSsoEndpoint" }) as any as S.Schema<MtlsSsoEndpoint>;
 
 export interface MtlsEndpoints {
   sso?: MtlsSsoEndpoint;
@@ -2398,9 +2292,7 @@ export const IDVCredentialsBearer = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     apiKey: S.String.pipe(T.SensitiveValue({})),
   }),
-).annotate({
-  identifier: "IDVCredentialsBearer",
-}) as any as S.Schema<IDVCredentialsBearer>;
+).annotate({ identifier: "IDVCredentialsBearer" }) as any as S.Schema<IDVCredentialsBearer>;
 
 /** <x-lifecycle-container><x-lifecycle class="oie"></x-lifecycle></x-lifecycle-container>Client credentials for `IDV_CLEAR` and `IDV_INCODE` IdP types */
 export interface IDVCredentialsClient {
@@ -2414,9 +2306,7 @@ export const IDVCredentialsClient = /*@__PURE__*/ S.suspend(() =>
     client_id: S.String,
     client_secret: S.String.pipe(T.SensitiveValue({})),
   }),
-).annotate({
-  identifier: "IDVCredentialsClient",
-}) as any as S.Schema<IDVCredentialsClient>;
+).annotate({ identifier: "IDVCredentialsClient" }) as any as S.Schema<IDVCredentialsClient>;
 
 /** Credentials for verifying requests to the IDV vendor */
 export interface IDVCredentials {
@@ -2446,9 +2336,7 @@ export const IDVAuthorizationEndpoint = /*@__PURE__*/ S.suspend(() =>
     binding: S.optional(IDVAuthorizationEndpointBinding),
     url: S.optional(S.String),
   }),
-).annotate({
-  identifier: "IDVAuthorizationEndpoint",
-}) as any as S.Schema<IDVAuthorizationEndpoint>;
+).annotate({ identifier: "IDVAuthorizationEndpoint" }) as any as S.Schema<IDVAuthorizationEndpoint>;
 
 export type IDVParEndpointBinding = "HTTP-POST";
 export const IDVParEndpointBinding = S.String;
@@ -2480,9 +2368,7 @@ export const IDVTokenEndpoint = /*@__PURE__*/ S.suspend(() =>
     binding: S.optional(IDVTokenEndpointBinding),
     url: S.optional(S.String),
   }),
-).annotate({
-  identifier: "IDVTokenEndpoint",
-}) as any as S.Schema<IDVTokenEndpoint>;
+).annotate({ identifier: "IDVTokenEndpoint" }) as any as S.Schema<IDVTokenEndpoint>;
 
 /** Contains endpoints for the IDV vendor. When you create an `IDV_STANDARD` IdP, you must include the `par`, `authorization`, `token`, and `jwks` endpoints in the request body. */
 export interface IDVEndpoints {
@@ -2519,9 +2405,7 @@ export const ProtocolIdVerification = /*@__PURE__*/ S.suspend(() =>
     scopes: S.optional(OAuthScopes),
     type: S.optional(ProtocolIdVerificationType),
   }),
-).annotate({
-  identifier: "ProtocolIdVerification",
-}) as any as S.Schema<ProtocolIdVerification>;
+).annotate({ identifier: "ProtocolIdVerification" }) as any as S.Schema<ProtocolIdVerification>;
 
 /** IdP-specific protocol settings for endpoints, bindings, and algorithms used to connect with the IdP and validate messages */
 export type IdentityProviderProtocol =
@@ -2593,9 +2477,7 @@ export const IdentityProviderLinks = /*@__PURE__*/ S.suspend(() =>
     activate: S.optional(HrefObjectSelfLink),
     keys: S.optional(HrefObjectSelfLink),
   }),
-).annotate({
-  identifier: "IdentityProviderLinks",
-}) as any as S.Schema<IdentityProviderLinks>;
+).annotate({ identifier: "IdentityProviderLinks" }) as any as S.Schema<IdentityProviderLinks>;
 
 export interface IdentityProvider {
   created?: string;
@@ -2627,9 +2509,7 @@ export const IdentityProvider = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(IdentityProviderType),
     _links: S.optional(IdentityProviderLinks),
   }),
-).annotate({
-  identifier: "IdentityProvider",
-}) as any as S.Schema<IdentityProvider>;
+).annotate({ identifier: "IdentityProvider" }) as any as S.Schema<IdentityProvider>;
 
 export interface ActivateInlineHookRequest {
   /** `id` of the inline hook */
@@ -2662,9 +2542,7 @@ export const InlineHookChannel = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(InlineHookChannelType),
     version: S.optional(S.String),
   }),
-).annotate({
-  identifier: "InlineHookChannel",
-}) as any as S.Schema<InlineHookChannel>;
+).annotate({ identifier: "InlineHookChannel" }) as any as S.Schema<InlineHookChannel>;
 
 export type InlineHookStatus = "ACTIVE" | "INACTIVE";
 export const InlineHookStatus = S.String;
@@ -2698,9 +2576,7 @@ export const InlineHookLinks = /*@__PURE__*/ S.suspend(() =>
     delete: S.optional(HrefObjectSelfLink),
     execute: S.optional(HrefObjectSelfLink),
   }),
-).annotate({
-  identifier: "InlineHookLinks",
-}) as any as S.Schema<InlineHookLinks>;
+).annotate({ identifier: "InlineHookLinks" }) as any as S.Schema<InlineHookLinks>;
 
 /** An inline hook object that specifies the details of the inline hook */
 export interface InlineHook {
@@ -2747,9 +2623,7 @@ export const ActivateLogStreamRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "ActivateLogStreamRequest",
-}) as any as S.Schema<ActivateLogStreamRequest>;
+).annotate({ identifier: "ActivateLogStreamRequest" }) as any as S.Schema<ActivateLogStreamRequest>;
 
 /** Lifecycle status of the log stream object */
 export type LogStreamStatus = "ACTIVE" | "INACTIVE";
@@ -2774,9 +2648,7 @@ export const LogStreamActivateLink = /*@__PURE__*/ S.suspend(() =>
     href: S.String,
     method: S.optional(LogStreamActivateLinkMethod),
   }),
-).annotate({
-  identifier: "LogStreamActivateLink",
-}) as any as S.Schema<LogStreamActivateLink>;
+).annotate({ identifier: "LogStreamActivateLink" }) as any as S.Schema<LogStreamActivateLink>;
 
 /** HTTP method allowed for the resource */
 export type LogStreamDeactivateLinkMethod = "GET" | "POST";
@@ -2793,9 +2665,7 @@ export const LogStreamDeactivateLink = /*@__PURE__*/ S.suspend(() =>
     href: S.String,
     method: S.optional(LogStreamDeactivateLinkMethod),
   }),
-).annotate({
-  identifier: "LogStreamDeactivateLink",
-}) as any as S.Schema<LogStreamDeactivateLink>;
+).annotate({ identifier: "LogStreamDeactivateLink" }) as any as S.Schema<LogStreamDeactivateLink>;
 
 /** HTTP method allowed for the resource */
 export type LogStreamSelfLinkMethod = "GET" | "POST";
@@ -2812,9 +2682,7 @@ export const LogStreamSelfLink = /*@__PURE__*/ S.suspend(() =>
     href: S.String,
     method: S.optional(LogStreamSelfLinkMethod),
   }),
-).annotate({
-  identifier: "LogStreamSelfLink",
-}) as any as S.Schema<LogStreamSelfLink>;
+).annotate({ identifier: "LogStreamSelfLink" }) as any as S.Schema<LogStreamSelfLink>;
 
 /** Specifies link relations (see [Web Linking](https://www.rfc-editor.org/rfc/rfc8288)) available for the current status of an application using the [JSON Hypertext Application Language](https://datatracker.ietf.org/doc/html/draft-kelly-json-hal-06) specification. This object is used for dynamic discovery of related resources and lifecycle operations. */
 export interface LogStreamLinksSelfAndLifecycle {
@@ -2864,13 +2732,7 @@ export interface ActivateNetworkZoneRequest {
 export const ActivateNetworkZoneRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     zoneId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v1/zones/{zoneId}/lifecycle/activate",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/api/v1/zones/{zoneId}/lifecycle/activate", code: 200 })),
 ).annotate({
   identifier: "ActivateNetworkZoneRequest",
 }) as any as S.Schema<ActivateNetworkZoneRequest>;
@@ -3151,9 +3013,7 @@ export const OAuth2ClientSecret = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(OAuth2ClientSecretStatus),
     _links: S.optional(APIServiceIntegrationSecretLinks),
   }),
-).annotate({
-  identifier: "OAuth2ClientSecret",
-}) as any as S.Schema<OAuth2ClientSecret>;
+).annotate({ identifier: "OAuth2ClientSecret" }) as any as S.Schema<OAuth2ClientSecret>;
 
 export interface ActivateOAuth2ResourceServerJsonWebKeyRequest {
   /** `id` of the Authorization Server */
@@ -3240,15 +3100,9 @@ export const ActivatePolicyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     policyId: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v1/policies/{policyId}/lifecycle/activate",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/api/v1/policies/{policyId}/lifecycle/activate", code: 200 }),
   ),
-).annotate({
-  identifier: "ActivatePolicyRequest",
-}) as any as S.Schema<ActivatePolicyRequest>;
+).annotate({ identifier: "ActivatePolicyRequest" }) as any as S.Schema<ActivatePolicyRequest>;
 
 export interface ActivatePolicyResponse {}
 export const ActivatePolicyResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -3293,9 +3147,7 @@ export const WebAuthnCredResponse = /*@__PURE__*/ S.suspend(() =>
     authenticatorEnrollmentId: S.optional(S.String),
     credResponseJwe: S.optional(S.String),
   }),
-).annotate({
-  identifier: "WebAuthnCredResponse",
-}) as any as S.Schema<WebAuthnCredResponse>;
+).annotate({ identifier: "WebAuthnCredResponse" }) as any as S.Schema<WebAuthnCredResponse>;
 
 /** List of credential responses from the fulfillment provider */
 export type ActivatePreregistrationEnrollmentRequestCredResponsesList = Array<WebAuthnCredResponse>;
@@ -3376,13 +3228,7 @@ export const ActivatePreregistrationEnrollmentRequest = /*@__PURE__*/ S.suspend(
     userId: S.optional(S.String),
     version: S.optional(S.String),
     yubicoSigningJwks: S.optional(ActivatePreregistrationEnrollmentRequestYubicoSigningJwksList),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/webauthn-registration/api/v1/activate",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/webauthn-registration/api/v1/activate", code: 200 })),
 ).annotate({
   identifier: "ActivatePreregistrationEnrollmentRequest",
 }) as any as S.Schema<ActivatePreregistrationEnrollmentRequest>;
@@ -3438,9 +3284,7 @@ export const ActivateRealmAssignmentRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface ActivateRealmAssignmentResponse {}
 export const ActivateRealmAssignmentResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "ActivateRealmAssignmentResponse",
-  },
+  { identifier: "ActivateRealmAssignmentResponse" },
 ) as any as S.Schema<ActivateRealmAssignmentResponse>;
 
 export interface ActivateSecurityEventsProviderInstanceRequest {
@@ -3554,9 +3398,7 @@ export const TrustedOriginScope = /*@__PURE__*/ S.suspend(() =>
     allowedOktaApps: S.optional(TrustedOriginScopeAllowedOktaAppsList),
     type: S.optional(TrustedOriginScopeType),
   }),
-).annotate({
-  identifier: "TrustedOriginScope",
-}) as any as S.Schema<TrustedOriginScope>;
+).annotate({ identifier: "TrustedOriginScope" }) as any as S.Schema<TrustedOriginScope>;
 
 /** Array of scope types that this trusted origin is used for */
 export type TrustedOriginScopes = Array<TrustedOriginScope>;
@@ -3606,16 +3448,8 @@ export const ActivateUserRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
     sendEmail: S.optional(S.Boolean.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v1/users/{id}/lifecycle/activate",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ActivateUserRequest",
-}) as any as S.Schema<ActivateUserRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/api/v1/users/{id}/lifecycle/activate", code: 200 })),
+).annotate({ identifier: "ActivateUserRequest" }) as any as S.Schema<ActivateUserRequest>;
 
 export interface UserActivationToken {
   /** Token received as part of an activation user request. If a password was set before the user was activated, then user must sign in with their password or the `activationToken` and not the activation link. More information about using the `activationToken` to login can be found in the [Authentication API](https://developer.okta.com/docs/reference/api/authn/#primary-authentication-with-activation-token). */
@@ -3628,9 +3462,7 @@ export const UserActivationToken = /*@__PURE__*/ S.suspend(() =>
     activationToken: S.optional(S.String),
     activationUrl: S.optional(S.String),
   }),
-).annotate({
-  identifier: "UserActivationToken",
-}) as any as S.Schema<UserActivationToken>;
+).annotate({ identifier: "UserActivationToken" }) as any as S.Schema<UserActivationToken>;
 
 /** Profile for any group that is not imported from Active Directory. Specifies the standard and custom profile properties for a group. The `objectClass` for these groups is `okta:user_group`. You can extend group profiles with custom properties, but you must first add the properties to the group profile schema before you can reference them. Use the Profile Editor in the Admin Console or the [Schemas API](https://developer.okta.com/docs/api/openapi/okta-management/management/tag/Schema/) to manage schema extensions. Custom properties can contain HTML tags. It is the client's responsibility to escape or encode this data before displaying it. Use [best-practices](https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html) to prevent cross-site scripting. */
 export interface OktaUserGroupProfile {
@@ -3644,9 +3476,7 @@ export const OktaUserGroupProfile = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(S.String),
     name: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OktaUserGroupProfile",
-}) as any as S.Schema<OktaUserGroupProfile>;
+).annotate({ identifier: "OktaUserGroupProfile" }) as any as S.Schema<OktaUserGroupProfile>;
 
 export interface AddGroupRequest {
   profile?: OktaUserGroupProfile;
@@ -3655,9 +3485,7 @@ export const AddGroupRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     profile: S.optional(OktaUserGroupProfile),
   }).pipe(T.Http({ method: "POST", uri: "/api/v1/groups", code: 200 })),
-).annotate({
-  identifier: "AddGroupRequest",
-}) as any as S.Schema<AddGroupRequest>;
+).annotate({ identifier: "AddGroupRequest" }) as any as S.Schema<AddGroupRequest>;
 
 /** Determines the group's `profile` */
 export type GroupObjectClassList = Array<string>;
@@ -3718,9 +3546,7 @@ export const GroupEmbeddedStats = /*@__PURE__*/ S.suspend(() =>
     groupPushMappingsCount: S.optional(S.Number),
     hasAdminPrivlege: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "GroupEmbeddedStats",
-}) as any as S.Schema<GroupEmbeddedStats>;
+).annotate({ identifier: "GroupEmbeddedStats" }) as any as S.Schema<GroupEmbeddedStats>;
 
 /** If the group is sourced from an app, this object contains information about that app */
 export interface GroupEmbeddedApp {
@@ -3740,9 +3566,7 @@ export const GroupEmbeddedApp = /*@__PURE__*/ S.suspend(() =>
     label: S.optional(S.String),
     signOnMode: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GroupEmbeddedApp",
-}) as any as S.Schema<GroupEmbeddedApp>;
+).annotate({ identifier: "GroupEmbeddedApp" }) as any as S.Schema<GroupEmbeddedApp>;
 
 /** Embedded resources related to the group */
 export interface GroupEmbedded {
@@ -3943,13 +3767,7 @@ export const AddJwkRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     appId: S.String.pipe(T.Label()),
     body: AddJwkRequestBody.pipe(T.HttpBody()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v1/apps/{appId}/credentials/jwks",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/api/v1/apps/{appId}/credentials/jwks", code: 200 })),
 ).annotate({ identifier: "AddJwkRequest" }) as any as S.Schema<AddJwkRequest>;
 
 export type AddJwkResponseBody =
@@ -4092,9 +3910,7 @@ export const ResourceConditions = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     Exclude: S.optional(ResourceConditionsExclude),
   }),
-).annotate({
-  identifier: "ResourceConditions",
-}) as any as S.Schema<ResourceConditions>;
+).annotate({ identifier: "ResourceConditions" }) as any as S.Schema<ResourceConditions>;
 
 export interface AddResourceSetResourceRequest {
   /** `id` or `label` of the resource set */
@@ -4145,9 +3961,7 @@ export const ResourceSetResourceLinks = /*@__PURE__*/ S.suspend(() =>
     groups: S.optional(HrefObjectSelfLink),
     users: S.optional(HrefObjectSelfLink),
   }),
-).annotate({
-  identifier: "ResourceSetResourceLinks",
-}) as any as S.Schema<ResourceSetResourceLinks>;
+).annotate({ identifier: "ResourceSetResourceLinks" }) as any as S.Schema<ResourceSetResourceLinks>;
 
 export interface ResourceSetResource {
   conditions?: ResourceConditions;
@@ -4171,9 +3985,7 @@ export const ResourceSetResource = /*@__PURE__*/ S.suspend(() =>
     orn: S.optional(S.String),
     _links: S.optional(ResourceSetResourceLinks),
   }),
-).annotate({
-  identifier: "ResourceSetResource",
-}) as any as S.Schema<ResourceSetResource>;
+).annotate({ identifier: "ResourceSetResource" }) as any as S.Schema<ResourceSetResource>;
 
 /** A list of resources to add to the resource set */
 export type AddResourceSetResourcesRequestAdditionsList = Array<string>;
@@ -4216,9 +4028,7 @@ export const ResourceSetLinks = /*@__PURE__*/ S.suspend(() =>
     resources: S.optional(HrefObjectSelfLink),
     bindings: S.optional(HrefObjectSelfLink),
   }),
-).annotate({
-  identifier: "ResourceSetLinks",
-}) as any as S.Schema<ResourceSetLinks>;
+).annotate({ identifier: "ResourceSetLinks" }) as any as S.Schema<ResourceSetLinks>;
 
 export interface ResourceSet {
   /** Timestamp when the role was created */
@@ -4350,22 +4160,14 @@ export const AssignApplicationPolicyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     appId: S.String.pipe(T.Label()),
     policyId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/api/v1/apps/{appId}/policies/{policyId}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/api/v1/apps/{appId}/policies/{policyId}", code: 200 })),
 ).annotate({
   identifier: "AssignApplicationPolicyRequest",
 }) as any as S.Schema<AssignApplicationPolicyRequest>;
 
 export interface AssignApplicationPolicyResponse {}
 export const AssignApplicationPolicyResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "AssignApplicationPolicyResponse",
-  },
+  { identifier: "AssignApplicationPolicyResponse" },
 ) as any as S.Schema<AssignApplicationPolicyResponse>;
 
 export interface AssignAppTargetInstanceRoleForClientRequest {
@@ -4503,11 +4305,7 @@ export const AssignClientPrivilegesSettingRequest = /*@__PURE__*/ S.suspend(() =
   S.Struct({
     clientPrivilegesSetting: S.optional(S.Boolean),
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/api/v1/org/settings/clientPrivilegesSetting",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/api/v1/org/settings/clientPrivilegesSetting", code: 200 }),
   ),
 ).annotate({
   identifier: "AssignClientPrivilegesSettingRequest",
@@ -4522,9 +4320,7 @@ export const ClientPrivilegesSetting = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     clientPrivilegesSetting: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "ClientPrivilegesSetting",
-}) as any as S.Schema<ClientPrivilegesSetting>;
+).annotate({ identifier: "ClientPrivilegesSetting" }) as any as S.Schema<ClientPrivilegesSetting>;
 
 export interface AssignFulfillmentErrorWebAuthnPreregistrationFactorRequest {
   /** ID of an existing Okta user */
@@ -4571,16 +4367,8 @@ export const AssignGroupOwnerRequest = /*@__PURE__*/ S.suspend(() =>
     groupId: S.String.pipe(T.Label()),
     id: S.optional(S.String),
     type: S.optional(GroupOwnerType),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v1/groups/{groupId}/owners",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "AssignGroupOwnerRequest",
-}) as any as S.Schema<AssignGroupOwnerRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/api/v1/groups/{groupId}/owners", code: 200 })),
+).annotate({ identifier: "AssignGroupOwnerRequest" }) as any as S.Schema<AssignGroupOwnerRequest>;
 
 /** The source where group ownership is managed */
 export type GroupOwnerOriginType = "APPLICATION" | "OKTA_DIRECTORY";
@@ -4719,9 +4507,7 @@ export const HrefObjectSelfLinkInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     href: S.String,
   }),
-).annotate({
-  identifier: "HrefObjectSelfLinkInput",
-}) as any as S.Schema<HrefObjectSelfLinkInput>;
+).annotate({ identifier: "HrefObjectSelfLinkInput" }) as any as S.Schema<HrefObjectSelfLinkInput>;
 
 export type HrefObjectAppLinkInput = HrefObjectSelfLinkInput;
 export const HrefObjectAppLinkInput = HrefObjectSelfLinkInput;
@@ -4763,21 +4549,13 @@ export const AssignGroupToApplicationRequest = /*@__PURE__*/ S.suspend(() =>
     priority: S.optional(S.Number),
     profile: S.optional(GroupAssignmentProfile),
     _links: S.optional(AssignGroupToApplicationRequestLinks),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/api/v1/apps/{appId}/groups/{groupId}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/api/v1/apps/{appId}/groups/{groupId}", code: 200 })),
 ).annotate({
   identifier: "AssignGroupToApplicationRequest",
 }) as any as S.Schema<AssignGroupToApplicationRequest>;
 
 /** Embedded resource related to the Application Group using the [JSON Hypertext Application Language](https://datatracker.ietf.org/doc/html/draft-kelly-json-hal-06) specification. If the `expand=group` query parameter is specified, then the [group](openapi/okta-management/management/group) object is embedded. If the `expand=metadata` query parameter is specified, then the group assignment metadata is embedded. */
-export type ApplicationGroupAssignmentEmbeddedMap = {
-  [key: string]: unknown | undefined;
-};
+export type ApplicationGroupAssignmentEmbeddedMap = { [key: string]: unknown | undefined };
 export const ApplicationGroupAssignmentEmbeddedMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -4925,13 +4703,7 @@ export const AssignRoleToClientRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     clientId: S.String.pipe(T.Label()),
     body: AssignRoleToClientRequestBody.pipe(T.HttpBody()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/oauth2/v1/clients/{clientId}/roles",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/oauth2/v1/clients/{clientId}/roles", code: 200 })),
 ).annotate({
   identifier: "AssignRoleToClientRequest",
 }) as any as S.Schema<AssignRoleToClientRequest>;
@@ -4999,9 +4771,7 @@ export const CatalogApplicationLinks = /*@__PURE__*/ S.suspend(() =>
     logo: S.optional(CatalogApplicationLinksLogoList),
     self: S.optional(HrefObjectSelfLink),
   }),
-).annotate({
-  identifier: "CatalogApplicationLinks",
-}) as any as S.Schema<CatalogApplicationLinks>;
+).annotate({ identifier: "CatalogApplicationLinks" }) as any as S.Schema<CatalogApplicationLinks>;
 
 /** An app in the OIN catalog */
 export interface CatalogApplication {
@@ -5044,9 +4814,7 @@ export const CatalogApplication = /*@__PURE__*/ S.suspend(() =>
     website: S.optional(S.String),
     _links: S.optional(CatalogApplicationLinks),
   }),
-).annotate({
-  identifier: "CatalogApplication",
-}) as any as S.Schema<CatalogApplication>;
+).annotate({ identifier: "CatalogApplication" }) as any as S.Schema<CatalogApplication>;
 
 export type StandardRoleEmbeddedTargetsCatalogAppsList = Array<CatalogApplication>;
 export const StandardRoleEmbeddedTargetsCatalogAppsList = /*@__PURE__*/ S.Array(
@@ -5090,9 +4858,7 @@ export const StandardRoleEmbedded = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     targets: S.optional(StandardRoleEmbeddedTargets),
   }),
-).annotate({
-  identifier: "StandardRoleEmbedded",
-}) as any as S.Schema<StandardRoleEmbedded>;
+).annotate({ identifier: "StandardRoleEmbedded" }) as any as S.Schema<StandardRoleEmbedded>;
 
 export type HrefObjectAssigneeLink = HrefObjectSelfLink;
 export const HrefObjectAssigneeLink = HrefObjectSelfLink;
@@ -5162,9 +4928,7 @@ export const LinksCustomRoleResponse = /*@__PURE__*/ S.suspend(() =>
     resource_set: S.optional(HrefObjectSelfLink.pipe(T.Body("resource-set"))),
     role: S.optional(HrefObjectSelfLink),
   }),
-).annotate({
-  identifier: "LinksCustomRoleResponse",
-}) as any as S.Schema<LinksCustomRoleResponse>;
+).annotate({ identifier: "LinksCustomRoleResponse" }) as any as S.Schema<LinksCustomRoleResponse>;
 
 export interface CustomRole {
   assignmentType?: RoleAssignmentType;
@@ -5228,16 +4992,8 @@ export const AssignRoleToGroupRequest = /*@__PURE__*/ S.suspend(() =>
     groupId: S.String.pipe(T.Label()),
     disableNotifications: S.optional(S.Boolean.pipe(T.Query())),
     body: AssignRoleToGroupRequestBody.pipe(T.HttpBody()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v1/groups/{groupId}/roles",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "AssignRoleToGroupRequest",
-}) as any as S.Schema<AssignRoleToGroupRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/api/v1/groups/{groupId}/roles", code: 200 })),
+).annotate({ identifier: "AssignRoleToGroupRequest" }) as any as S.Schema<AssignRoleToGroupRequest>;
 
 export type AssignRoleToGroupResponseBody = StandardRole | CustomRole;
 export const AssignRoleToGroupResponseBody =
@@ -5267,9 +5023,7 @@ export const AssignRoleToUserRequest = /*@__PURE__*/ S.suspend(() =>
     disableNotifications: S.optional(S.Boolean.pipe(T.Query())),
     body: AssignRoleToUserRequestBody.pipe(T.HttpBody()),
   }).pipe(T.Http({ method: "POST", uri: "/api/v1/users/{userId}/roles", code: 200 })),
-).annotate({
-  identifier: "AssignRoleToUserRequest",
-}) as any as S.Schema<AssignRoleToUserRequest>;
+).annotate({ identifier: "AssignRoleToUserRequest" }) as any as S.Schema<AssignRoleToUserRequest>;
 
 export type AssignRoleToUserResponseBody = StandardRole | CustomRole;
 export const AssignRoleToUserResponseBody =
@@ -5278,9 +5032,7 @@ export const AssignRoleToUserResponseBody =
 export type AssignRoleToUserResponse = AssignRoleToUserResponseBody;
 export const AssignRoleToUserResponse = /*@__PURE__*/ S.suspend(() =>
   AssignRoleToUserResponseBody.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "AssignRoleToUserResponse",
-}) as any as S.Schema<AssignRoleToUserResponse>;
+).annotate({ identifier: "AssignRoleToUserResponse" }) as any as S.Schema<AssignRoleToUserResponse>;
 
 /** The user's password. This is a write-only property. An empty `password` object is returned to indicate that a password value exists. */
 export interface AppUserPasswordCredential {
@@ -5306,9 +5058,7 @@ export const AppUserCredentials = /*@__PURE__*/ S.suspend(() =>
     password: S.optional(AppUserPasswordCredential),
     userName: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AppUserCredentials",
-}) as any as S.Schema<AppUserCredentials>;
+).annotate({ identifier: "AppUserCredentials" }) as any as S.Schema<AppUserCredentials>;
 
 /** Specifies the default and custom profile properties for a user. Properties that are visible in the Admin Console for an app assignment can also be assigned through the API. Some properties are reference properties that are imported from the target app and can't be configured. See [profile](/openapi/okta-management/management/user/getuser#user/getuser/t=response&c=200&path=profile). */
 export type AppUserProfile = { [key: string]: unknown | undefined };
@@ -5350,9 +5100,7 @@ export const AssignUserToApplicationRequest = /*@__PURE__*/ S.suspend(() =>
 /** The user's password. This is a write-only property. An empty `password` object is returned to indicate that a password value exists. */
 export interface AppUserPasswordCredentialOutput {}
 export const AppUserPasswordCredentialOutput = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "AppUserPasswordCredentialOutput",
-  },
+  { identifier: "AppUserPasswordCredentialOutput" },
 ) as any as S.Schema<AppUserPasswordCredentialOutput>;
 
 /** Specifies a user's credentials for the app. This parameter can be omitted for apps with [sign-on mode](/openapi/okta-management/management/application/getapplication#application/getapplication/t=response&c=200&path=&d=0/signonmode) (`signOnMode`) or [authentication schemes](/openapi/okta-management/management/application/getapplication#application/getapplication/t=response&c=200&path=&d=0/credentials/scheme) (`credentials.scheme`) that don't require credentials. */
@@ -5366,9 +5114,7 @@ export const AppUserCredentialsOutput = /*@__PURE__*/ S.suspend(() =>
     password: S.optional(AppUserPasswordCredentialOutput),
     userName: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AppUserCredentialsOutput",
-}) as any as S.Schema<AppUserCredentialsOutput>;
+).annotate({ identifier: "AppUserCredentialsOutput" }) as any as S.Schema<AppUserCredentialsOutput>;
 
 /** Indicates if the assignment is direct (`USER`) or by group membership (`GROUP`). If not specified, Okta tries to determine the scope based on the assignment type. */
 export type AppUserOutputScope = "USER" | "GROUP";
@@ -5417,9 +5163,7 @@ export const LinksAppAndUser = /*@__PURE__*/ S.suspend(() =>
     group: S.optional(HrefObjectSelfLink),
     user: S.optional(HrefObjectSelfLink),
   }),
-).annotate({
-  identifier: "LinksAppAndUser",
-}) as any as S.Schema<LinksAppAndUser>;
+).annotate({ identifier: "LinksAppAndUser" }) as any as S.Schema<LinksAppAndUser>;
 
 /** The app user object defines a user's app-specific profile and credentials for an app */
 export interface AppUserOutput {
@@ -5474,16 +5218,8 @@ export const AssignUserToGroupRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     groupId: S.String.pipe(T.Label()),
     userId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/api/v1/groups/{groupId}/users/{userId}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "AssignUserToGroupRequest",
-}) as any as S.Schema<AssignUserToGroupRequest>;
+  }).pipe(T.Http({ method: "PUT", uri: "/api/v1/groups/{groupId}/users/{userId}", code: 200 })),
+).annotate({ identifier: "AssignUserToGroupRequest" }) as any as S.Schema<AssignUserToGroupRequest>;
 
 export interface AssignUserToGroupResponse {}
 export const AssignUserToGroupResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -5503,13 +5239,7 @@ export interface BulkRemoveEmailAddressBouncesRequest {
 export const BulkRemoveEmailAddressBouncesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     emailAddresses: S.optional(BulkRemoveEmailAddressBouncesRequestEmailAddressesList),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v1/org/email/bounces/remove-list",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/api/v1/org/email/bounces/remove-list", code: 200 })),
 ).annotate({
   identifier: "BulkRemoveEmailAddressBouncesRequest",
 }) as any as S.Schema<BulkRemoveEmailAddressBouncesRequest>;
@@ -5525,9 +5255,7 @@ export const BouncesRemoveListError = /*@__PURE__*/ S.suspend(() =>
     emailAddress: S.optional(S.String),
     reason: S.optional(S.String),
   }),
-).annotate({
-  identifier: "BouncesRemoveListError",
-}) as any as S.Schema<BouncesRemoveListError>;
+).annotate({ identifier: "BouncesRemoveListError" }) as any as S.Schema<BouncesRemoveListError>;
 
 /** A list of emails that wasn't added to the email-bounced remove list and the error reason */
 export type BouncesRemoveListResultErrorsList = Array<BouncesRemoveListError>;
@@ -5543,9 +5271,7 @@ export const BouncesRemoveListResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     errors: S.optional(BouncesRemoveListResultErrorsList),
   }),
-).annotate({
-  identifier: "BouncesRemoveListResult",
-}) as any as S.Schema<BouncesRemoveListResult>;
+).annotate({ identifier: "BouncesRemoveListResult" }) as any as S.Schema<BouncesRemoveListResult>;
 
 /** The algorithm used to generate the hash using the password (and salt, when applicable). */
 export type PasswordCredentialHashAlgorithm =
@@ -5589,9 +5315,7 @@ export const PasswordCredentialHash = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(S.String),
     workFactor: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "PasswordCredentialHash",
-}) as any as S.Schema<PasswordCredentialHash>;
+).annotate({ identifier: "PasswordCredentialHash" }) as any as S.Schema<PasswordCredentialHash>;
 
 /** Specify a [password import inline hook](/openapi/okta-management/management/tags/inlinehook/createpasswordimportinlinehook) to trigger verification of the user's password the first time the user signs in. This allows an existing password to be imported into Okta directly from some other store. */
 export interface PasswordCredentialHook {
@@ -5602,9 +5326,7 @@ export const PasswordCredentialHook = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     type: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PasswordCredentialHook",
-}) as any as S.Schema<PasswordCredentialHook>;
+).annotate({ identifier: "PasswordCredentialHook" }) as any as S.Schema<PasswordCredentialHook>;
 
 /** Specifies a password for a user. When a user has a valid password, imported hashed password, or password hook, and a response object contains a password credential, then the password object is a bare object without the value property defined (for example, `password: {}`). This indicates that a password value exists. You can modify password policy requirements in the Admin Console by editing the Password authenticator: **Security** > **Authenticators** > **Password** (or for Okta Classic orgs, use **Security** > **Authentication** > **Password**). For information on defaults and configuring your password policies, see [Configure the password authenticator](https://help.okta.com/okta_help.htm?type=oie&id=ext-configure-password) in the help documentation. */
 export interface PasswordCredential {
@@ -5619,9 +5341,7 @@ export const PasswordCredential = /*@__PURE__*/ S.suspend(() =>
     hook: S.optional(PasswordCredentialHook),
     value: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PasswordCredential",
-}) as any as S.Schema<PasswordCredential>;
+).annotate({ identifier: "PasswordCredential" }) as any as S.Schema<PasswordCredential>;
 
 export interface ChangePasswordRequest {
   /** ID of an existing Okta user */
@@ -5647,9 +5367,7 @@ export const ChangePasswordRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "ChangePasswordRequest",
-}) as any as S.Schema<ChangePasswordRequest>;
+).annotate({ identifier: "ChangePasswordRequest" }) as any as S.Schema<ChangePasswordRequest>;
 
 /** Specifies a password for a user. When a user has a valid password, imported hashed password, or password hook, and a response object contains a password credential, then the password object is a bare object without the value property defined (for example, `password: {}`). This indicates that a password value exists. You can modify password policy requirements in the Admin Console by editing the Password authenticator: **Security** > **Authenticators** > **Password** (or for Okta Classic orgs, use **Security** > **Authentication** > **Password**). For information on defaults and configuring your password policies, see [Configure the password authenticator](https://help.okta.com/okta_help.htm?type=oie&id=ext-configure-password) in the help documentation. */
 export interface PasswordCredentialOutput {
@@ -5661,9 +5379,7 @@ export const PasswordCredentialOutput = /*@__PURE__*/ S.suspend(() =>
     hash: S.optional(PasswordCredentialHash),
     hook: S.optional(PasswordCredentialHook),
   }),
-).annotate({
-  identifier: "PasswordCredentialOutput",
-}) as any as S.Schema<PasswordCredentialOutput>;
+).annotate({ identifier: "PasswordCredentialOutput" }) as any as S.Schema<PasswordCredentialOutput>;
 
 /** The type of authentication provider */
 export type AuthenticationProviderType =
@@ -5686,9 +5402,7 @@ export const AuthenticationProvider = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(AuthenticationProviderType),
   }),
-).annotate({
-  identifier: "AuthenticationProvider",
-}) as any as S.Schema<AuthenticationProvider>;
+).annotate({ identifier: "AuthenticationProvider" }) as any as S.Schema<AuthenticationProvider>;
 
 /** Specifies a secret question and answer that's validated (case insensitive) when a user forgets their password or unlocks their account. The answer property is write-only. */
 export interface RecoveryQuestionCredentialOutput {
@@ -5715,9 +5429,7 @@ export const UserCredentialsOutput = /*@__PURE__*/ S.suspend(() =>
     provider: S.optional(AuthenticationProvider),
     recovery_question: S.optional(RecoveryQuestionCredentialOutput),
   }),
-).annotate({
-  identifier: "UserCredentialsOutput",
-}) as any as S.Schema<UserCredentialsOutput>;
+).annotate({ identifier: "UserCredentialsOutput" }) as any as S.Schema<UserCredentialsOutput>;
 
 /** Specifies a secret question and answer that's validated (case insensitive) when a user forgets their password or unlocks their account. The answer property is write-only. */
 export interface RecoveryQuestionCredential {
@@ -5836,11 +5548,7 @@ export const CloneIdentityProviderKeyRequest = /*@__PURE__*/ S.suspend(() =>
     kid: S.String.pipe(T.Label()),
     targetIdpId: S.String.pipe(T.Query()),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v1/idps/{idpId}/credentials/keys/{kid}/clone",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/api/v1/idps/{idpId}/credentials/keys/{kid}/clone", code: 200 }),
   ),
 ).annotate({
   identifier: "CloneIdentityProviderKeyRequest",
@@ -5882,9 +5590,7 @@ export const IdPKeyCredential = /*@__PURE__*/ S.suspend(() =>
     x5c: S.optional(X5c),
     x5t_S256: S.optional(S.String.pipe(T.Body("x5t#S256"))),
   }),
-).annotate({
-  identifier: "IdPKeyCredential",
-}) as any as S.Schema<IdPKeyCredential>;
+).annotate({ identifier: "IdPKeyCredential" }) as any as S.Schema<IdPKeyCredential>;
 
 export interface ClonePolicyRequest {
   /** `id` of the policy */
@@ -5893,16 +5599,8 @@ export interface ClonePolicyRequest {
 export const ClonePolicyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     policyId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v1/policies/{policyId}/clone",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ClonePolicyRequest",
-}) as any as S.Schema<ClonePolicyRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/api/v1/policies/{policyId}/clone", code: 200 })),
+).annotate({ identifier: "ClonePolicyRequest" }) as any as S.Schema<ClonePolicyRequest>;
 
 /** All Okta orgs contain only one IdP discovery policy with an immutable default rule routing to your org's sign-in page. All Okta orgs also contain just one entity risk policy, one session protection policy, and one identity claims sourcing policy. */
 export type PolicyType =
@@ -6058,13 +5756,7 @@ export const CreateAgentPoolsUpdateRequest = /*@__PURE__*/ S.suspend(() =>
     sortOrder: S.optional(S.Number),
     status: S.optional(AgentUpdateJobStatus),
     targetVersion: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v1/agentPools/{poolId}/updates",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/api/v1/agentPools/{poolId}/updates", code: 200 })),
 ).annotate({
   identifier: "CreateAgentPoolsUpdateRequest",
 }) as any as S.Schema<CreateAgentPoolsUpdateRequest>;
@@ -6086,9 +5778,7 @@ export const AppPropertiesValue = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     value: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AppPropertiesValue",
-}) as any as S.Schema<AppPropertiesValue>;
+).annotate({ identifier: "AppPropertiesValue" }) as any as S.Schema<AppPropertiesValue>;
 
 /** App instance properties */
 export type AppProperties = { [key: string]: AppPropertiesValue | undefined };
@@ -6109,13 +5799,7 @@ export const CreateApiServiceIntegrationInstanceRequest = /*@__PURE__*/ S.suspen
     grantedScopes: CreateApiServiceIntegrationInstanceRequestGrantedScopesList,
     properties: S.optional(AppProperties),
     type: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/integrations/api/v1/api-services",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/integrations/api/v1/api-services", code: 200 })),
 ).annotate({
   identifier: "CreateApiServiceIntegrationInstanceRequest",
 }) as any as S.Schema<CreateApiServiceIntegrationInstanceRequest>;
@@ -6215,9 +5899,7 @@ export const ApplicationAccessibility = /*@__PURE__*/ S.suspend(() =>
     loginRedirectUrl: S.optional(S.String),
     selfService: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "ApplicationAccessibility",
-}) as any as S.Schema<ApplicationAccessibility>;
+).annotate({ identifier: "ApplicationAccessibility" }) as any as S.Schema<ApplicationAccessibility>;
 
 /** Licenses for the app */
 export interface ApplicationLicensing {
@@ -6228,14 +5910,10 @@ export const ApplicationLicensing = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     seatCount: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "ApplicationLicensing",
-}) as any as S.Schema<ApplicationLicensing>;
+).annotate({ identifier: "ApplicationLicensing" }) as any as S.Schema<ApplicationLicensing>;
 
 /** Contains any valid JSON schema for specifying properties that can be referenced from a request (only available to OAuth 2.0 client apps). For example, add an app manager contact email address or define an allowlist of groups that you can then reference using the Okta Expression Language `getFilteredGroups` function. > **Notes:** > * `profile` isn't encrypted, so don't store sensitive data in it. > * `profile` doesn't limit the level of nesting in the JSON schema you created, but there is a practical size limit. Okta recommends a JSON schema size of 1 MB or less for best performance. */
-export type CreateApplicationRequestProfileMap = {
-  [key: string]: unknown | undefined;
-};
+export type CreateApplicationRequestProfileMap = { [key: string]: unknown | undefined };
 export const CreateApplicationRequestProfileMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -6255,9 +5933,7 @@ export type ApplicationSignOnMode =
 export const ApplicationSignOnMode = S.String;
 
 /** Links or icons that appear on the End-User Dashboard if they're set to `true`. */
-export type ApplicationVisibilityAppLinksMap = {
-  [key: string]: boolean | undefined;
-};
+export type ApplicationVisibilityAppLinksMap = { [key: string]: boolean | undefined };
 export const ApplicationVisibilityAppLinksMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Boolean,
@@ -6296,9 +5972,7 @@ export const ApplicationVisibility = /*@__PURE__*/ S.suspend(() =>
     autoSubmitToolbar: S.optional(S.Boolean),
     hide: S.optional(ApplicationVisibilityHide),
   }),
-).annotate({
-  identifier: "ApplicationVisibility",
-}) as any as S.Schema<ApplicationVisibility>;
+).annotate({ identifier: "ApplicationVisibility" }) as any as S.Schema<ApplicationVisibility>;
 
 export interface CreateApplicationRequest {
   /** Executes activation lifecycle operation when creating the app */
@@ -6321,9 +5995,7 @@ export const CreateApplicationRequest = /*@__PURE__*/ S.suspend(() =>
     signOnMode: ApplicationSignOnMode,
     visibility: S.optional(ApplicationVisibility),
   }).pipe(T.Http({ method: "POST", uri: "/api/v1/apps", code: 200 })),
-).annotate({
-  identifier: "CreateApplicationRequest",
-}) as any as S.Schema<CreateApplicationRequest>;
+).annotate({ identifier: "CreateApplicationRequest" }) as any as S.Schema<CreateApplicationRequest>;
 
 /** Capabilities supported by the app */
 export type ApplicationCapability = "PROVISIONING" | "SSO" | "UNIVERSAL_LOGOUT";
@@ -6473,9 +6145,7 @@ export const ApplicationEmbedded = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     user: S.optional(ApplicationEmbeddedUserMap),
   }),
-).annotate({
-  identifier: "ApplicationEmbedded",
-}) as any as S.Schema<ApplicationEmbedded>;
+).annotate({ identifier: "ApplicationEmbedded" }) as any as S.Schema<ApplicationEmbedded>;
 
 export type AccessPolicyLink = HrefObjectSelfLink;
 export const AccessPolicyLink = HrefObjectSelfLink;
@@ -6532,9 +6202,7 @@ export const ApplicationLinks = /*@__PURE__*/ S.suspend(() =>
     self: S.optional(HrefObjectSelfLink),
     users: S.optional(HrefObjectSelfLink),
   }),
-).annotate({
-  identifier: "ApplicationLinks",
-}) as any as S.Schema<ApplicationLinks>;
+).annotate({ identifier: "ApplicationLinks" }) as any as S.Schema<ApplicationLinks>;
 
 export interface Application {
   accessibility?: ApplicationAccessibility;
@@ -6619,13 +6287,7 @@ export const CreateAppServiceAccountRequest = /*@__PURE__*/ S.suspend(() =>
     ownerUserIds: S.optional(CreateAppServiceAccountRequestOwnerUserIdsList),
     password: S.String.pipe(T.SensitiveValue({})),
     username: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/privileged-access/api/v1/service-accounts",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/privileged-access/api/v1/service-accounts", code: 200 })),
 ).annotate({
   identifier: "CreateAppServiceAccountRequest",
 }) as any as S.Schema<CreateAppServiceAccountRequest>;
@@ -6701,9 +6363,7 @@ export const AppServiceAccountOutput = /*@__PURE__*/ S.suspend(() =>
     statusDetail: S.optional(ServiceAccountStatusDetail),
     username: S.String,
   }),
-).annotate({
-  identifier: "AppServiceAccountOutput",
-}) as any as S.Schema<AppServiceAccountOutput>;
+).annotate({ identifier: "AppServiceAccountOutput" }) as any as S.Schema<AppServiceAccountOutput>;
 
 /** A list of the authorization server IDs */
 export type CreateAssociatedServersRequestTrustedList = Array<string>;
@@ -6816,9 +6476,7 @@ export const ResourceServerJsonWebKey = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(JsonWebKeyStatus),
     use: S.optional(JsonWebKeyUse),
   }),
-).annotate({
-  identifier: "ResourceServerJsonWebKey",
-}) as any as S.Schema<ResourceServerJsonWebKey>;
+).annotate({ identifier: "ResourceServerJsonWebKey" }) as any as S.Schema<ResourceServerJsonWebKey>;
 
 export type ResourceServerJsonWebKeysKeysList = Array<ResourceServerJsonWebKey>;
 export const ResourceServerJsonWebKeysKeysList = /*@__PURE__*/ S.Array(
@@ -6875,9 +6533,7 @@ export const AuthServerLinks = /*@__PURE__*/ S.suspend(() =>
     rotateKey: S.optional(HrefObjectSelfLink),
     scopes: S.optional(HrefObjectSelfLink),
   }),
-).annotate({
-  identifier: "AuthServerLinks",
-}) as any as S.Schema<AuthServerLinks>;
+).annotate({ identifier: "AuthServerLinks" }) as any as S.Schema<AuthServerLinks>;
 
 export interface AuthorizationServer {
   accessTokenEncryptedResponseAlgorithm?: AccessTokenKeyEncryptionAlgorithm;
@@ -6919,9 +6575,7 @@ export const AuthorizationServer = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(LifecycleStatus),
     _links: S.optional(AuthServerLinks),
   }),
-).annotate({
-  identifier: "AuthorizationServer",
-}) as any as S.Schema<AuthorizationServer>;
+).annotate({ identifier: "AuthorizationServer" }) as any as S.Schema<AuthorizationServer>;
 
 export type CreateAssociatedServersResponseBodyList = Array<AuthorizationServer>;
 export const CreateAssociatedServersResponseBodyList = /*@__PURE__*/ S.Array(
@@ -6958,9 +6612,7 @@ export const AuthenticatorLinksInput = /*@__PURE__*/ S.suspend(() =>
     deactivate: S.optional(HrefObjectSelfLinkInput),
     methods: S.optional(HrefObjectSelfLinkInput),
   }),
-).annotate({
-  identifier: "AuthenticatorLinksInput",
-}) as any as S.Schema<AuthenticatorLinksInput>;
+).annotate({ identifier: "AuthenticatorLinksInput" }) as any as S.Schema<AuthenticatorLinksInput>;
 
 export interface CreateAuthenticatorRequest {
   /** Whether to execute the activation lifecycle operation when Okta creates the authenticator */
@@ -6998,9 +6650,7 @@ export const AuthenticatorProfile = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     phoneNumber: S.String,
   }),
-).annotate({
-  identifier: "AuthenticatorProfile",
-}) as any as S.Schema<AuthenticatorProfile>;
+).annotate({ identifier: "AuthenticatorProfile" }) as any as S.Schema<AuthenticatorProfile>;
 
 export interface CreateAuthenticatorEnrollmentRequest {
   /** ID of an existing Okta user */
@@ -7075,9 +6725,7 @@ export const AuthenticatorEnrollment = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(AuthenticatorType),
     _links: S.optional(AuthenticatorEnrollmentLinks),
   }),
-).annotate({
-  identifier: "AuthenticatorEnrollment",
-}) as any as S.Schema<AuthenticatorEnrollment>;
+).annotate({ identifier: "AuthenticatorEnrollment" }) as any as S.Schema<AuthenticatorEnrollment>;
 
 /** The recipients that the tokens are intended for. This becomes the `aud` claim in an access token. Okta currently supports only one audience. */
 export type CreateAuthorizationServerRequestAudiencesList = Array<string>;
@@ -7147,9 +6795,7 @@ export const AuthServerLinksInput = /*@__PURE__*/ S.suspend(() =>
     rotateKey: S.optional(HrefObjectSelfLinkInput),
     scopes: S.optional(HrefObjectSelfLinkInput),
   }),
-).annotate({
-  identifier: "AuthServerLinksInput",
-}) as any as S.Schema<AuthServerLinksInput>;
+).annotate({ identifier: "AuthServerLinksInput" }) as any as S.Schema<AuthServerLinksInput>;
 
 export interface CreateAuthorizationServerRequest {
   accessTokenEncryptedResponseAlgorithm?: AccessTokenKeyEncryptionAlgorithm | (string & {});
@@ -7207,9 +6853,7 @@ export const ClientPolicyCondition = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     include: S.optional(ClientPolicyConditionIncludeList),
   }),
-).annotate({
-  identifier: "ClientPolicyCondition",
-}) as any as S.Schema<ClientPolicyCondition>;
+).annotate({ identifier: "ClientPolicyCondition" }) as any as S.Schema<ClientPolicyCondition>;
 
 export interface AuthorizationServerPolicyConditions {
   clients?: ClientPolicyCondition;
@@ -7638,9 +7282,7 @@ export const CreateBrandRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.String,
   }).pipe(T.Http({ method: "POST", uri: "/api/v1/brands", code: 200 })),
-).annotate({
-  identifier: "CreateBrandRequest",
-}) as any as S.Schema<CreateBrandRequest>;
+).annotate({ identifier: "CreateBrandRequest" }) as any as S.Schema<CreateBrandRequest>;
 
 export interface DefaultApp {
   /** ID for the App instance */
@@ -7732,9 +7374,7 @@ export const CAPTCHAInstanceOutput = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(CAPTCHAType),
     _links: S.optional(LinksSelf),
   }),
-).annotate({
-  identifier: "CAPTCHAInstanceOutput",
-}) as any as S.Schema<CAPTCHAInstanceOutput>;
+).annotate({ identifier: "CAPTCHAInstanceOutput" }) as any as S.Schema<CAPTCHAInstanceOutput>;
 
 /** Specifies a password for a user > **Note:** For information on defaults and configuring your password policies, see [Configure the password authenticator](https://help.okta.com/okta_help.htm?type=oie&id=ext-configure-password) in the help documentation. */
 export interface OrgCreationAdminCredentialsPassword {
@@ -7782,9 +7422,7 @@ export const OrgCreationAdminProfile = /*@__PURE__*/ S.suspend(() =>
     email: S.String,
     login: S.String,
   }),
-).annotate({
-  identifier: "OrgCreationAdminProfile",
-}) as any as S.Schema<OrgCreationAdminProfile>;
+).annotate({ identifier: "OrgCreationAdminProfile" }) as any as S.Schema<OrgCreationAdminProfile>;
 
 /** Profile and credential information for the first super admin user of the child org. If you plan to configure and manage the org programmatically, create a system user with a dedicated email address and a strong password. > **Note:** If you don't provide `credentials`, the super admin user is prompted to set up their credentials when they sign in to the org for the first time. */
 export interface OrgCreationAdmin {
@@ -7798,9 +7436,7 @@ export const OrgCreationAdmin = /*@__PURE__*/ S.suspend(() =>
     credentials: S.optional(OrgCreationAdminCredentials),
     profile: OrgCreationAdminProfile,
   }),
-).annotate({
-  identifier: "OrgCreationAdmin",
-}) as any as S.Schema<OrgCreationAdmin>;
+).annotate({ identifier: "OrgCreationAdmin" }) as any as S.Schema<OrgCreationAdmin>;
 
 /** Edition for the org. `SKU` is the only supported value. */
 export type CreateChildOrgRequestEdition = "SKU";
@@ -7825,9 +7461,7 @@ export const CreateChildOrgRequest = /*@__PURE__*/ S.suspend(() =>
     subdomain: S.String,
     website: S.optional(S.String),
   }).pipe(T.Http({ method: "POST", uri: "/api/v1/orgs", code: 200 })),
-).annotate({
-  identifier: "CreateChildOrgRequest",
-}) as any as S.Schema<CreateChildOrgRequest>;
+).annotate({ identifier: "CreateChildOrgRequest" }) as any as S.Schema<CreateChildOrgRequest>;
 
 /** Edition for the org. `SKU` is the only supported value. */
 export type ChildOrgOutputEdition = "SKU";
@@ -7918,13 +7552,7 @@ export const CreateCrossAppAccessConnectionRequest = /*@__PURE__*/ S.suspend(() 
     requestingAppInstanceId: S.optional(S.String),
     resourceAppInstanceId: S.optional(S.String),
     status: S.optional(CreateCrossAppAccessConnectionRequestStatus),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v1/apps/{appId}/cwo/connections",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/api/v1/apps/{appId}/cwo/connections", code: 200 })),
 ).annotate({
   identifier: "CreateCrossAppAccessConnectionRequest",
 }) as any as S.Schema<CreateCrossAppAccessConnectionRequest>;
@@ -8013,11 +7641,7 @@ export const CreateCustomAAGUIDRequest = /*@__PURE__*/ S.suspend(() =>
     attestationRootCertificates: S.optional(AttestationRootCertificatesRequest),
     authenticatorCharacteristics: S.optional(AAGUIDAuthenticatorCharacteristics),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v1/authenticators/{authenticatorId}/aaguids",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/api/v1/authenticators/{authenticatorId}/aaguids", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateCustomAAGUIDRequest",
@@ -8114,9 +7738,7 @@ export const DNSRecordDomains = /*@__PURE__*/ S.suspend(() =>
     recordType: S.optional(DNSRecordTypeDomains),
     values: S.optional(DNSRecordDomainsValuesList),
   }),
-).annotate({
-  identifier: "DNSRecordDomains",
-}) as any as S.Schema<DNSRecordDomains>;
+).annotate({ identifier: "DNSRecordDomains" }) as any as S.Schema<DNSRecordDomains>;
 
 export type DomainResponseDnsRecordsList = Array<DNSRecordDomains>;
 export const DomainResponseDnsRecordsList = /*@__PURE__*/ S.Array(
@@ -8306,9 +7928,7 @@ export const DeviceAssurance = /*@__PURE__*/ S.suspend(() =>
     platform: S.optional(Platform),
     _links: S.optional(LinksSelf),
   }),
-).annotate({
-  identifier: "DeviceAssurance",
-}) as any as S.Schema<DeviceAssurance>;
+).annotate({ identifier: "DeviceAssurance" }) as any as S.Schema<DeviceAssurance>;
 
 /** Represents how the device posture check is rendered in device assurance policies */
 export type DevicePostureChecksMappingType = "CHECKBOX" | "TEXTBOX";
@@ -8435,9 +8055,7 @@ export const DevicePostureCheck = /*@__PURE__*/ S.suspend(() =>
     variableName: S.optional(S.String),
     _links: S.optional(LinksSelf),
   }),
-).annotate({
-  identifier: "DevicePostureCheck",
-}) as any as S.Schema<DevicePostureCheck>;
+).annotate({ identifier: "DevicePostureCheck" }) as any as S.Schema<DevicePostureCheck>;
 
 export interface CreateEmailCustomizationRequestLinks {
   self?: HrefObjectSelfLinkInput;
@@ -8567,9 +8185,7 @@ export const CreateEmailDomainRequest = /*@__PURE__*/ S.suspend(() =>
     domain: S.String,
     validationSubdomain: S.optional(S.String),
   }).pipe(T.Http({ method: "POST", uri: "/api/v1/email-domains", code: 200 })),
-).annotate({
-  identifier: "CreateEmailDomainRequest",
-}) as any as S.Schema<CreateEmailDomainRequest>;
+).annotate({ identifier: "CreateEmailDomainRequest" }) as any as S.Schema<CreateEmailDomainRequest>;
 
 export type EmailDomainDNSRecordType = "CNAME" | "TXT";
 export const EmailDomainDNSRecordType = S.String;
@@ -8585,9 +8201,7 @@ export const EmailDomainDNSRecord = /*@__PURE__*/ S.suspend(() =>
     recordType: S.optional(EmailDomainDNSRecordType),
     verificationValue: S.optional(S.String),
   }),
-).annotate({
-  identifier: "EmailDomainDNSRecord",
-}) as any as S.Schema<EmailDomainDNSRecord>;
+).annotate({ identifier: "EmailDomainDNSRecord" }) as any as S.Schema<EmailDomainDNSRecord>;
 
 export type CreateEmailDomainResponseDnsValidationRecordsList = Array<EmailDomainDNSRecord>;
 export const CreateEmailDomainResponseDnsValidationRecordsList = /*@__PURE__*/ S.Array(
@@ -8650,9 +8264,7 @@ export const CreateEmailServerRequest = /*@__PURE__*/ S.suspend(() =>
     port: S.Number,
     username: S.String,
   }).pipe(T.Http({ method: "POST", uri: "/api/v1/email-servers", code: 200 })),
-).annotate({
-  identifier: "CreateEmailServerRequest",
-}) as any as S.Schema<CreateEmailServerRequest>;
+).annotate({ identifier: "CreateEmailServerRequest" }) as any as S.Schema<CreateEmailServerRequest>;
 
 export interface BaseEmailServer {
   /** Human-readable name for your SMTP server */
@@ -8679,9 +8291,7 @@ export const BaseEmailServer = /*@__PURE__*/ S.suspend(() =>
     port: S.optional(S.Number),
     username: S.optional(S.String),
   }),
-).annotate({
-  identifier: "BaseEmailServer",
-}) as any as S.Schema<BaseEmailServer>;
+).annotate({ identifier: "BaseEmailServer" }) as any as S.Schema<BaseEmailServer>;
 
 /** The authentication scheme used for this request. To use Basic Auth for authentication, set `type` to `HEADER`, `key` to `Authorization`, and `value` to the Base64-encoded string of "username:password". Ensure that you include the scheme (including space) as part of the `value` parameter. For example, `Basic YWRtaW46c3VwZXJzZWNyZXQ=`. */
 export interface EventHookChannelConfigAuthScheme {
@@ -8702,9 +8312,9 @@ export const EventHookChannelConfigAuthScheme = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<EventHookChannelConfigAuthScheme>;
 
 /** Optional list of key/value pairs for headers that can be sent with the request to the external service. For example, `X-Other-Header` is an example of an optional header, with a value of `my-header-value`, that you want Okta to pass to your external service. */
-export type EventHookChannelConfigInputHeadersList = Array<EventHookChannelConfigHeader>;
+export type EventHookChannelConfigInputHeadersList = Array<EventHookChannelConfigHeader | null>;
 export const EventHookChannelConfigInputHeadersList = /*@__PURE__*/ S.Array(
-  EventHookChannelConfigHeader,
+  S.NullOr(EventHookChannelConfigHeader),
 ) as any as S.Schema<EventHookChannelConfigInputHeadersList>;
 
 export interface EventHookChannelConfigInput {
@@ -8736,9 +8346,7 @@ export const EventHookChannelInput = /*@__PURE__*/ S.suspend(() =>
     type: EventHookChannelType,
     version: S.String,
   }),
-).annotate({
-  identifier: "EventHookChannelInput",
-}) as any as S.Schema<EventHookChannelInput>;
+).annotate({ identifier: "EventHookChannelInput" }) as any as S.Schema<EventHookChannelInput>;
 
 export interface EventHookFilterMapObjectConditionInput {
   /** The Okta Expression language statement that filters the event type */
@@ -8780,9 +8388,7 @@ export const EventHookFiltersInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     eventFilterMap: S.optional(EventHookFilterMapInput),
   }),
-).annotate({
-  identifier: "EventHookFiltersInput",
-}) as any as S.Schema<EventHookFiltersInput>;
+).annotate({ identifier: "EventHookFiltersInput" }) as any as S.Schema<EventHookFiltersInput>;
 
 export interface EventSubscriptionsInput {
   filter?: EventHookFiltersInput | null;
@@ -8795,9 +8401,7 @@ export const EventSubscriptionsInput = /*@__PURE__*/ S.suspend(() =>
     items: EventHookSubscribedEventTypes,
     type: EventSubscriptionType,
   }),
-).annotate({
-  identifier: "EventSubscriptionsInput",
-}) as any as S.Schema<EventSubscriptionsInput>;
+).annotate({ identifier: "EventSubscriptionsInput" }) as any as S.Schema<EventSubscriptionsInput>;
 
 export interface CreateEventHookRequestLinks {
   self?: HrefObjectSelfLinkInput;
@@ -8831,9 +8435,7 @@ export const CreateEventHookRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     _links: S.optional(CreateEventHookRequestLinks),
   }).pipe(T.Http({ method: "POST", uri: "/api/v1/eventHooks", code: 200 })),
-).annotate({
-  identifier: "CreateEventHookRequest",
-}) as any as S.Schema<CreateEventHookRequest>;
+).annotate({ identifier: "CreateEventHookRequest" }) as any as S.Schema<CreateEventHookRequest>;
 
 export interface CreateFederatedClaimRequest {
   /** Application ID */
@@ -8848,13 +8450,7 @@ export const CreateFederatedClaimRequest = /*@__PURE__*/ S.suspend(() =>
     appId: S.String.pipe(T.Label()),
     expression: S.optional(S.String),
     name: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v1/apps/{appId}/federated-claims",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/api/v1/apps/{appId}/federated-claims", code: 200 })),
 ).annotate({
   identifier: "CreateFederatedClaimRequest",
 }) as any as S.Schema<CreateFederatedClaimRequest>;
@@ -8908,9 +8504,7 @@ export const IAMBundleEntitlement = /*@__PURE__*/ S.suspend(() =>
     role: S.optional(S.String),
     targets: S.optional(IAMBundleEntitlementTargetsList),
   }),
-).annotate({
-  identifier: "IAMBundleEntitlement",
-}) as any as S.Schema<IAMBundleEntitlement>;
+).annotate({ identifier: "IAMBundleEntitlement" }) as any as S.Schema<IAMBundleEntitlement>;
 
 /** List of entitlements to include in the governance bundle */
 export type CreateGovernanceBundleRequestEntitlementsList = Array<IAMBundleEntitlement>;
@@ -8931,13 +8525,7 @@ export const CreateGovernanceBundleRequest = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(S.String),
     entitlements: S.optional(CreateGovernanceBundleRequestEntitlementsList),
     name: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v1/iam/governance/bundles",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/api/v1/iam/governance/bundles", code: 200 })),
 ).annotate({
   identifier: "CreateGovernanceBundleRequest",
 }) as any as S.Schema<CreateGovernanceBundleRequest>;
@@ -8955,9 +8543,7 @@ export const GovernanceBundleLinks = /*@__PURE__*/ S.suspend(() =>
     entitlements: S.optional(HrefObjectSelfLink),
     self: S.optional(HrefObjectSelfLink),
   }),
-).annotate({
-  identifier: "GovernanceBundleLinks",
-}) as any as S.Schema<GovernanceBundleLinks>;
+).annotate({ identifier: "GovernanceBundleLinks" }) as any as S.Schema<GovernanceBundleLinks>;
 
 export interface GovernanceBundle {
   /** Description of the governance bundle */
@@ -8982,9 +8568,7 @@ export const GovernanceBundle = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(S.String),
     _links: S.optional(GovernanceBundleLinks),
   }),
-).annotate({
-  identifier: "GovernanceBundle",
-}) as any as S.Schema<GovernanceBundle>;
+).annotate({ identifier: "GovernanceBundle" }) as any as S.Schema<GovernanceBundle>;
 
 /** The type of the app configuration */
 export type AppConfigType = "ACTIVE_DIRECTORY";
@@ -9024,13 +8608,7 @@ export const CreateGroupPushMappingRequest = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(GroupPushMappingStatusUpsert),
     targetGroupId: S.optional(S.String),
     targetGroupName: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v1/apps/{appId}/group-push/mappings",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/api/v1/apps/{appId}/group-push/mappings", code: 200 })),
 ).annotate({
   identifier: "CreateGroupPushMappingRequest",
 }) as any as S.Schema<CreateGroupPushMappingRequest>;
@@ -9051,9 +8629,7 @@ export const GroupPushMappingLinks = /*@__PURE__*/ S.suspend(() =>
     sourceGroup: S.optional(HrefObjectSelfLink),
     targetGroup: S.optional(HrefObjectSelfLink),
   }),
-).annotate({
-  identifier: "GroupPushMappingLinks",
-}) as any as S.Schema<GroupPushMappingLinks>;
+).annotate({ identifier: "GroupPushMappingLinks" }) as any as S.Schema<GroupPushMappingLinks>;
 
 export interface GroupPushMapping {
   appConfig?: AppConfig;
@@ -9088,9 +8664,7 @@ export const GroupPushMapping = /*@__PURE__*/ S.suspend(() =>
     targetGroupId: S.optional(S.String),
     _links: S.optional(GroupPushMappingLinks),
   }),
-).annotate({
-  identifier: "GroupPushMapping",
-}) as any as S.Schema<GroupPushMapping>;
+).annotate({ identifier: "GroupPushMapping" }) as any as S.Schema<GroupPushMapping>;
 
 /** Array of `groupIds` to which users are added */
 export type GroupRuleGroupAssignmentGroupIdsList = Array<string>;
@@ -9107,9 +8681,7 @@ export const GroupRuleGroupAssignment = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     groupIds: S.optional(GroupRuleGroupAssignmentGroupIdsList),
   }),
-).annotate({
-  identifier: "GroupRuleGroupAssignment",
-}) as any as S.Schema<GroupRuleGroupAssignment>;
+).annotate({ identifier: "GroupRuleGroupAssignment" }) as any as S.Schema<GroupRuleGroupAssignment>;
 
 /** Defines which users and groups to assign */
 export interface GroupRuleAction {
@@ -9119,9 +8691,7 @@ export const GroupRuleAction = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     assignUserToGroups: S.optional(GroupRuleGroupAssignment),
   }),
-).annotate({
-  identifier: "GroupRuleAction",
-}) as any as S.Schema<GroupRuleAction>;
+).annotate({ identifier: "GroupRuleAction" }) as any as S.Schema<GroupRuleAction>;
 
 /** Defines Okta specific [group-rules expression](https://developer.okta.com/docs/reference/okta-expression-language/#expressions-in-group-rules) */
 export interface GroupRuleExpression {
@@ -9135,9 +8705,7 @@ export const GroupRuleExpression = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     value: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GroupRuleExpression",
-}) as any as S.Schema<GroupRuleExpression>;
+).annotate({ identifier: "GroupRuleExpression" }) as any as S.Schema<GroupRuleExpression>;
 
 /** Currently not supported */
 export type GroupRuleGroupConditionExcludeList = Array<string>;
@@ -9154,9 +8722,7 @@ export const GroupRuleGroupCondition = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     exclude: S.optional(GroupRuleGroupConditionExcludeList),
   }),
-).annotate({
-  identifier: "GroupRuleGroupCondition",
-}) as any as S.Schema<GroupRuleGroupCondition>;
+).annotate({ identifier: "GroupRuleGroupCondition" }) as any as S.Schema<GroupRuleGroupCondition>;
 
 /** Excluded `userIds` when processing rules */
 export type GroupRuleUserConditionExcludeList = Array<string>;
@@ -9173,9 +8739,7 @@ export const GroupRuleUserCondition = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     exclude: S.optional(GroupRuleUserConditionExcludeList),
   }),
-).annotate({
-  identifier: "GroupRuleUserCondition",
-}) as any as S.Schema<GroupRuleUserCondition>;
+).annotate({ identifier: "GroupRuleUserCondition" }) as any as S.Schema<GroupRuleUserCondition>;
 
 /** Defines conditions for `people` in a group rule */
 export interface GroupRulePeopleCondition {
@@ -9187,9 +8751,7 @@ export const GroupRulePeopleCondition = /*@__PURE__*/ S.suspend(() =>
     groups: S.optional(GroupRuleGroupCondition),
     users: S.optional(GroupRuleUserCondition),
   }),
-).annotate({
-  identifier: "GroupRulePeopleCondition",
-}) as any as S.Schema<GroupRulePeopleCondition>;
+).annotate({ identifier: "GroupRulePeopleCondition" }) as any as S.Schema<GroupRulePeopleCondition>;
 
 /** Defines group rule conditions */
 export interface GroupRuleConditions {
@@ -9201,9 +8763,7 @@ export const GroupRuleConditions = /*@__PURE__*/ S.suspend(() =>
     expression: S.optional(GroupRuleExpression),
     people: S.optional(GroupRulePeopleCondition),
   }),
-).annotate({
-  identifier: "GroupRuleConditions",
-}) as any as S.Schema<GroupRuleConditions>;
+).annotate({ identifier: "GroupRuleConditions" }) as any as S.Schema<GroupRuleConditions>;
 
 export type CreateGroupRuleRequestType = "group_rule";
 export const CreateGroupRuleRequestType = S.String;
@@ -9222,18 +8782,14 @@ export const CreateGroupRuleRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(CreateGroupRuleRequestType),
   }).pipe(T.Http({ method: "POST", uri: "/api/v1/groups/rules", code: 200 })),
-).annotate({
-  identifier: "CreateGroupRuleRequest",
-}) as any as S.Schema<CreateGroupRuleRequest>;
+).annotate({ identifier: "CreateGroupRuleRequest" }) as any as S.Schema<CreateGroupRuleRequest>;
 
 /** Status of group rule. You can't update the status of a rule from `INACTIVE` to `ACTIVE`. You must use the activate and deactivate lifecycle operations. */
 export type GroupRuleStatus = "ACTIVE" | "INACTIVE" | "INVALID";
 export const GroupRuleStatus = S.String;
 
 /** A mapping of group IDs to group names */
-export type GroupRuleEmbeddedGroupIdToGroupNameMapMap = {
-  [key: string]: string | undefined;
-};
+export type GroupRuleEmbeddedGroupIdToGroupNameMapMap = { [key: string]: string | undefined };
 export const GroupRuleEmbeddedGroupIdToGroupNameMapMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -9248,9 +8804,7 @@ export const GroupRuleEmbedded = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     groupIdToGroupNameMap: S.optional(GroupRuleEmbeddedGroupIdToGroupNameMapMap),
   }),
-).annotate({
-  identifier: "GroupRuleEmbedded",
-}) as any as S.Schema<GroupRuleEmbedded>;
+).annotate({ identifier: "GroupRuleEmbedded" }) as any as S.Schema<GroupRuleEmbedded>;
 
 export interface GroupRule {
   actions?: GroupRuleAction;
@@ -9291,9 +8845,7 @@ export const CreateHookKeyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.optional(S.String),
   }).pipe(T.Http({ method: "POST", uri: "/api/v1/hook-keys", code: 200 })),
-).annotate({
-  identifier: "CreateHookKeyRequest",
-}) as any as S.Schema<CreateHookKeyRequest>;
+).annotate({ identifier: "CreateHookKeyRequest" }) as any as S.Schema<CreateHookKeyRequest>;
 
 /** The Public Key Details are defined in the `_embedded` property of the Key object. */
 export interface Embedded {
@@ -9347,9 +8899,7 @@ export const DetailedHookKeyInstance = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     _embedded: S.optional(Embedded),
   }),
-).annotate({
-  identifier: "DetailedHookKeyInstance",
-}) as any as S.Schema<DetailedHookKeyInstance>;
+).annotate({ identifier: "DetailedHookKeyInstance" }) as any as S.Schema<DetailedHookKeyInstance>;
 
 /** IdP-specific protocol settings for endpoints, bindings, and algorithms used to connect with the IdP and validate messages */
 export type CreateIdentityProviderRequestProtocol =
@@ -9499,9 +9049,7 @@ export const GroupsResponseSchema = /*@__PURE__*/ S.suspend(() =>
     id: S.optional(S.String),
     profile: S.optional(GroupsResponseSchemaProfile),
   }),
-).annotate({
-  identifier: "GroupsResponseSchema",
-}) as any as S.Schema<GroupsResponseSchema>;
+).annotate({ identifier: "GroupsResponseSchema" }) as any as S.Schema<GroupsResponseSchema>;
 
 export interface CreateIdentitySourceGroupsMembershipsRequest {
   /** The ID of the identity source for which the session is created */
@@ -9585,9 +9133,7 @@ export const IdentitySourceSession = /*@__PURE__*/ S.suspend(() =>
     lastUpdated: S.optional(S.String),
     status: S.optional(IdentitySourceSessionStatus),
   }),
-).annotate({
-  identifier: "IdentitySourceSession",
-}) as any as S.Schema<IdentitySourceSession>;
+).annotate({ identifier: "IdentitySourceSession" }) as any as S.Schema<IdentitySourceSession>;
 
 export interface IdentitySourceUserProfileForUpsertRequired {
   /** Email address of the user */
@@ -9632,11 +9178,7 @@ export const CreateIdentitySourceUserRequest = /*@__PURE__*/ S.suspend(() =>
     externalId: S.optional(S.String),
     profile: S.optional(IdentitySourceUserProfileForUpsertRequired),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v1/identity-sources/{identitySourceId}/users",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/api/v1/identity-sources/{identitySourceId}/users", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateIdentitySourceUserRequest",
@@ -9659,9 +9201,7 @@ export const InlineHookChannelCreate = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(InlineHookChannelType),
     version: S.optional(S.String),
   }),
-).annotate({
-  identifier: "InlineHookChannelCreate",
-}) as any as S.Schema<InlineHookChannelCreate>;
+).annotate({ identifier: "InlineHookChannelCreate" }) as any as S.Schema<InlineHookChannelCreate>;
 
 export interface CreateInlineHookRequest {
   channel?: InlineHookChannelCreate;
@@ -9678,9 +9218,7 @@ export const CreateInlineHookRequest = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(InlineHookType),
     version: S.optional(S.String),
   }).pipe(T.Http({ method: "POST", uri: "/api/v1/inlineHooks", code: 200 })),
-).annotate({
-  identifier: "CreateInlineHookRequest",
-}) as any as S.Schema<CreateInlineHookRequest>;
+).annotate({ identifier: "CreateInlineHookRequest" }) as any as S.Schema<CreateInlineHookRequest>;
 
 export interface InlineHookLinksCreate {
   self?: HrefObjectSelfLink;
@@ -9695,9 +9233,7 @@ export const InlineHookLinksCreate = /*@__PURE__*/ S.suspend(() =>
     deactivate: S.optional(HrefObjectSelfLink),
     execute: S.optional(HrefObjectSelfLink),
   }),
-).annotate({
-  identifier: "InlineHookLinksCreate",
-}) as any as S.Schema<InlineHookLinksCreate>;
+).annotate({ identifier: "InlineHookLinksCreate" }) as any as S.Schema<InlineHookLinksCreate>;
 
 /** An inline hook object that specifies the details of the inline hook */
 export interface InlineHookCreateResponse {
@@ -9728,9 +9264,7 @@ export const InlineHookCreateResponse = /*@__PURE__*/ S.suspend(() =>
     version: S.optional(S.String),
     _links: S.optional(InlineHookLinksCreate),
   }),
-).annotate({
-  identifier: "InlineHookCreateResponse",
-}) as any as S.Schema<InlineHookCreateResponse>;
+).annotate({ identifier: "InlineHookCreateResponse" }) as any as S.Schema<InlineHookCreateResponse>;
 
 export interface CreateInterclientTrustMappingRequest {
   /** Application ID */
@@ -9743,11 +9277,7 @@ export const CreateInterclientTrustMappingRequest = /*@__PURE__*/ S.suspend(() =
     appId: S.String.pipe(T.Label()),
     id: S.optional(S.String),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v1/apps/{appId}/interclient-allowed-apps",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/api/v1/apps/{appId}/interclient-allowed-apps", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateInterclientTrustMappingRequest",
@@ -9779,9 +9309,7 @@ export const InterclientTrustMapping = /*@__PURE__*/ S.suspend(() =>
     orgId: S.optional(S.String),
     trustedAppInstanceId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "InterclientTrustMapping",
-}) as any as S.Schema<InterclientTrustMapping>;
+).annotate({ identifier: "InterclientTrustMapping" }) as any as S.Schema<InterclientTrustMapping>;
 
 /** The object type for this relationship */
 export type LinkedObjectDetailsType = "USER";
@@ -9803,9 +9331,7 @@ export const LinkedObjectDetails = /*@__PURE__*/ S.suspend(() =>
     title: S.String,
     type: LinkedObjectDetailsType,
   }),
-).annotate({
-  identifier: "LinkedObjectDetails",
-}) as any as S.Schema<LinkedObjectDetails>;
+).annotate({ identifier: "LinkedObjectDetails" }) as any as S.Schema<LinkedObjectDetails>;
 
 /** Specifies link relations (see [Web Linking](https://www.rfc-editor.org/rfc/rfc8288)) available for the current status of an application using the [JSON Hypertext Application Language](https://datatracker.ietf.org/doc/html/draft-kelly-json-hal-06) specification. This object is used for dynamic discovery of related resources and lifecycle operations. */
 export type LinkedObjectLinksSelfInput = AppUserPasswordCredentialOutput;
@@ -9821,13 +9347,7 @@ export const CreateLinkedObjectDefinitionRequest = /*@__PURE__*/ S.suspend(() =>
     associated: S.optional(LinkedObjectDetails),
     primary: S.optional(LinkedObjectDetails),
     _links: S.optional(AppUserPasswordCredentialOutput),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v1/meta/schemas/user/linkedObjects",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/api/v1/meta/schemas/user/linkedObjects", code: 200 })),
 ).annotate({
   identifier: "CreateLinkedObjectDefinitionRequest",
 }) as any as S.Schema<CreateLinkedObjectDefinitionRequest>;
@@ -9843,9 +9363,7 @@ export const LinkedObjectLinksSelf = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     self: S.optional(HrefObjectSelfLinkInput),
   }),
-).annotate({
-  identifier: "LinkedObjectLinksSelf",
-}) as any as S.Schema<LinkedObjectLinksSelf>;
+).annotate({ identifier: "LinkedObjectLinksSelf" }) as any as S.Schema<LinkedObjectLinksSelf>;
 
 export interface LinkedObject {
   associated?: LinkedObjectDetails;
@@ -9869,9 +9387,7 @@ export const CreateLogStreamRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     type: LogStreamType,
   }).pipe(T.Http({ method: "POST", uri: "/api/v1/logStreams", code: 200 })),
-).annotate({
-  identifier: "CreateLogStreamRequest",
-}) as any as S.Schema<CreateLogStreamRequest>;
+).annotate({ identifier: "CreateLogStreamRequest" }) as any as S.Schema<CreateLogStreamRequest>;
 
 export interface CreateNetworkZoneRequest {
   /** Unique name for this Network Zone */
@@ -9889,9 +9405,7 @@ export const CreateNetworkZoneRequest = /*@__PURE__*/ S.suspend(() =>
     usage: S.optional(NetworkZoneUsage),
     _links: S.optional(LinksSelfAndLifecycleInput),
   }).pipe(T.Http({ method: "POST", uri: "/api/v1/zones", code: 200 })),
-).annotate({
-  identifier: "CreateNetworkZoneRequest",
-}) as any as S.Schema<CreateNetworkZoneRequest>;
+).annotate({ identifier: "CreateNetworkZoneRequest" }) as any as S.Schema<CreateNetworkZoneRequest>;
 
 /** Specifies whether the Claim is for an access token (`RESOURCE`) or an ID token (`IDENTITY`) */
 export type OAuth2ClaimType = "IDENTITY" | "RESOURCE";
@@ -9910,9 +9424,7 @@ export const OAuth2ClaimConditions = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     scopes: S.optional(OAuth2ClaimConditionsScopesList),
   }),
-).annotate({
-  identifier: "OAuth2ClaimConditions",
-}) as any as S.Schema<OAuth2ClaimConditions>;
+).annotate({ identifier: "OAuth2ClaimConditions" }) as any as S.Schema<OAuth2ClaimConditions>;
 
 /** Specifies the type of group filter if `valueType` is `GROUPS` If `valueType` is `GROUPS`, then the groups returned are filtered according to the value of `group_filter_type`. If you have complex filters for Groups, you can [create a Groups allowlist](https://developer.okta.com/docs/guides/customize-tokens-groups-claim/main/) to put them all in a Claim. */
 export type OAuth2ClaimGroupFilterType = "CONTAINS" | "EQUALS" | "REGEX" | "STARTS_WITH";
@@ -9958,9 +9470,7 @@ export const CreateOAuth2ClaimRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "CreateOAuth2ClaimRequest",
-}) as any as S.Schema<CreateOAuth2ClaimRequest>;
+).annotate({ identifier: "CreateOAuth2ClaimRequest" }) as any as S.Schema<CreateOAuth2ClaimRequest>;
 
 export interface OAuth2Claim {
   /** Specifies whether to include Claims in the token. The value is always `TRUE` for access token Claims. If the value is set to `FALSE` for an ID token claim, the Claim isn't included in the ID token when the token is requested with the access token or with the `authorization_code`. The client instead uses the access token to get Claims from the `/userinfo` endpoint. */
@@ -10013,13 +9523,7 @@ export const CreateOAuth2ClientSecretRequest = /*@__PURE__*/ S.suspend(() =>
     appId: S.String.pipe(T.Label()),
     client_secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
     status: S.optional(CreateOAuth2ClientSecretRequestStatus),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v1/apps/{appId}/credentials/secrets",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/api/v1/apps/{appId}/credentials/secrets", code: 200 })),
 ).annotate({
   identifier: "CreateOAuth2ClientSecretRequest",
 }) as any as S.Schema<CreateOAuth2ClientSecretRequest>;
@@ -10068,9 +9572,7 @@ export const CreateOAuth2ScopeRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "CreateOAuth2ScopeRequest",
-}) as any as S.Schema<CreateOAuth2ScopeRequest>;
+).annotate({ identifier: "CreateOAuth2ScopeRequest" }) as any as S.Schema<CreateOAuth2ScopeRequest>;
 
 export interface OAuth2Scope {
   consent?: OAuth2ScopeConsentType;
@@ -10138,11 +9640,7 @@ export const CreateOktaManagedUserAccountRequest = /*@__PURE__*/ S.suspend(() =>
     ownerGroupIds: S.optional(CreateOktaManagedUserAccountRequestOwnerGroupIdsList),
     ownerUserIds: S.optional(CreateOktaManagedUserAccountRequestOwnerUserIdsList),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/privileged-access/api/v1/okta-service-accounts",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/privileged-access/api/v1/okta-service-accounts", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateOktaManagedUserAccountRequest",
@@ -10228,13 +9726,9 @@ export const CreatePolicyRequest = /*@__PURE__*/ S.suspend(() =>
     system: S.optional(S.Boolean),
     type: PolicyType,
   }).pipe(T.Http({ method: "POST", uri: "/api/v1/policies", code: 200 })),
-).annotate({
-  identifier: "CreatePolicyRequest",
-}) as any as S.Schema<CreatePolicyRequest>;
+).annotate({ identifier: "CreatePolicyRequest" }) as any as S.Schema<CreatePolicyRequest>;
 
-export type CreateOrUpdatePolicyEmbeddedMap = {
-  [key: string]: unknown | undefined;
-};
+export type CreateOrUpdatePolicyEmbeddedMap = { [key: string]: unknown | undefined };
 export const CreateOrUpdatePolicyEmbeddedMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -10274,9 +9768,7 @@ export const CreateOrUpdatePolicy = /*@__PURE__*/ S.suspend(() =>
     _embedded: S.optional(CreateOrUpdatePolicyEmbeddedMap),
     _links: S.optional(PolicyLinks),
   }),
-).annotate({
-  identifier: "CreateOrUpdatePolicy",
-}) as any as S.Schema<CreateOrUpdatePolicy>;
+).annotate({ identifier: "CreateOrUpdatePolicy" }) as any as S.Schema<CreateOrUpdatePolicy>;
 
 /** Rule type */
 export type PolicyRuleType =
@@ -10320,16 +9812,8 @@ export const CreatePolicyRuleRequest = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(S.Unknown),
     system: S.optional(S.Boolean),
     type: S.optional(PolicyRuleType),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v1/policies/{policyId}/rules",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "CreatePolicyRuleRequest",
-}) as any as S.Schema<CreatePolicyRuleRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/api/v1/policies/{policyId}/rules", code: 200 })),
+).annotate({ identifier: "CreatePolicyRuleRequest" }) as any as S.Schema<CreatePolicyRuleRequest>;
 
 export interface PolicyRule {
   /** Timestamp when the rule was created */
@@ -10379,9 +9863,7 @@ export const PolicyContextDevice = /*@__PURE__*/ S.suspend(() =>
     managed: S.optional(S.Boolean),
     assuranceId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PolicyContextDevice",
-}) as any as S.Schema<PolicyContextDevice>;
+).annotate({ identifier: "PolicyContextDevice" }) as any as S.Schema<PolicyContextDevice>;
 
 export type PolicyContextGroupsIdsList = Array<string>;
 export const PolicyContextGroupsIdsList = /*@__PURE__*/ S.Array(
@@ -10396,9 +9878,7 @@ export const PolicyContextGroups = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ids: PolicyContextGroupsIdsList,
   }),
-).annotate({
-  identifier: "PolicyContextGroups",
-}) as any as S.Schema<PolicyContextGroups>;
+).annotate({ identifier: "PolicyContextGroups" }) as any as S.Schema<PolicyContextGroups>;
 
 export type PolicyContextRiskLevel = "LOW" | "MEDIUM" | "HIGH";
 export const PolicyContextRiskLevel = S.String;
@@ -10416,9 +9896,7 @@ export const PolicyContextRisk = /*@__PURE__*/ S.suspend(() =>
     level: S.optional(PolicyContextRiskLevel),
     minRiskLevel: S.optional(PolicyContextRiskMinRiskLevel),
   }),
-).annotate({
-  identifier: "PolicyContextRisk",
-}) as any as S.Schema<PolicyContextRisk>;
+).annotate({ identifier: "PolicyContextRisk" }) as any as S.Schema<PolicyContextRisk>;
 
 /** The user ID for the simulate operation. Only user IDs or Group IDs are allowed, not both. */
 export interface PolicyContextUser {
@@ -10429,9 +9907,7 @@ export const PolicyContextUser = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String,
   }),
-).annotate({
-  identifier: "PolicyContextUser",
-}) as any as S.Schema<PolicyContextUser>;
+).annotate({ identifier: "PolicyContextUser" }) as any as S.Schema<PolicyContextUser>;
 
 export type PolicyContextZonesIdsList = Array<string>;
 export const PolicyContextZonesIdsList = /*@__PURE__*/ S.Array(
@@ -10446,9 +9922,7 @@ export const PolicyContextZones = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ids: S.optional(PolicyContextZonesIdsList),
   }),
-).annotate({
-  identifier: "PolicyContextZones",
-}) as any as S.Schema<PolicyContextZones>;
+).annotate({ identifier: "PolicyContextZones" }) as any as S.Schema<PolicyContextZones>;
 
 export interface PolicyContext {
   device?: PolicyContextDevice;
@@ -10501,9 +9975,7 @@ export const SimulatePolicyBody = /*@__PURE__*/ S.suspend(() =>
     policyContext: S.optional(PolicyContext),
     policyTypes: S.optional(SimulatePolicyBodyPolicyTypesList),
   }),
-).annotate({
-  identifier: "SimulatePolicyBody",
-}) as any as S.Schema<SimulatePolicyBody>;
+).annotate({ identifier: "SimulatePolicyBody" }) as any as S.Schema<SimulatePolicyBody>;
 
 export type CreatePolicySimulationRequestBodyList = Array<SimulatePolicyBody>;
 export const CreatePolicySimulationRequestBodyList = /*@__PURE__*/ S.Array(
@@ -10538,9 +10010,7 @@ export const SimulateResultConditions = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(SimulateResultStatus),
     type: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SimulateResultConditions",
-}) as any as S.Schema<SimulateResultConditions>;
+).annotate({ identifier: "SimulateResultConditions" }) as any as S.Schema<SimulateResultConditions>;
 
 /** List of all conditions involved for this policy evaluation */
 export type SimulateResultPoliciesItemsConditionsList = Array<SimulateResultConditions>;
@@ -10570,9 +10040,7 @@ export const SimulateResultRules = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     status: S.optional(SimulateResultStatus),
   }),
-).annotate({
-  identifier: "SimulateResultRules",
-}) as any as S.Schema<SimulateResultRules>;
+).annotate({ identifier: "SimulateResultRules" }) as any as S.Schema<SimulateResultRules>;
 
 export type SimulateResultPoliciesItemsRulesList = Array<SimulateResultRules>;
 export const SimulateResultPoliciesItemsRulesList = /*@__PURE__*/ S.Array(
@@ -10686,13 +10154,7 @@ export const CreatePrincipalRateLimitEntityRequest = /*@__PURE__*/ S.suspend(() 
     defaultPercentage: S.optional(S.Number),
     principalId: S.String,
     principalType: PrincipalType,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v1/principal-rate-limits",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/api/v1/principal-rate-limits", code: 200 })),
 ).annotate({
   identifier: "CreatePrincipalRateLimitEntityRequest",
 }) as any as S.Schema<CreatePrincipalRateLimitEntityRequest>;
@@ -10731,9 +10193,7 @@ export const PrincipalRateLimitEntity = /*@__PURE__*/ S.suspend(() =>
     principalId: S.String,
     principalType: PrincipalType,
   }),
-).annotate({
-  identifier: "PrincipalRateLimitEntity",
-}) as any as S.Schema<PrincipalRateLimitEntity>;
+).annotate({ identifier: "PrincipalRateLimitEntity" }) as any as S.Schema<PrincipalRateLimitEntity>;
 
 export type ProviderType = "APNS" | "FCM";
 export const ProviderType = S.String;
@@ -10805,9 +10265,7 @@ export const CreateRealmRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     profile: S.optional(RealmProfile),
   }).pipe(T.Http({ method: "POST", uri: "/api/v1/realms", code: 200 })),
-).annotate({
-  identifier: "CreateRealmRequest",
-}) as any as S.Schema<CreateRealmRequest>;
+).annotate({ identifier: "CreateRealmRequest" }) as any as S.Schema<CreateRealmRequest>;
 
 export interface Realm {
   /** Timestamp when the realm was created */
@@ -10841,9 +10299,7 @@ export const AssignUserToRealm = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     realmId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AssignUserToRealm",
-}) as any as S.Schema<AssignUserToRealm>;
+).annotate({ identifier: "AssignUserToRealm" }) as any as S.Schema<AssignUserToRealm>;
 
 /** Action to apply to a user */
 export interface Actions {
@@ -10938,9 +10394,7 @@ export const RealmAssignment = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(LifecycleStatus),
     _links: S.optional(LinksSelf),
   }),
-).annotate({
-  identifier: "RealmAssignment",
-}) as any as S.Schema<RealmAssignment>;
+).annotate({ identifier: "RealmAssignment" }) as any as S.Schema<RealmAssignment>;
 
 /** The endpoint (URL) that references all resource objects included in the resource set. Resources are identified by either an Okta Resource Name (ORN) or by a REST URL format. See [Okta Resource Name](/openapi/okta-management/guides/roles/#okta-resource-name-orn). */
 export type CreateResourceSetRequestResourcesList = Array<string>;
@@ -10962,9 +10416,7 @@ export const CreateResourceSetRequest = /*@__PURE__*/ S.suspend(() =>
     label: S.String,
     resources: CreateResourceSetRequestResourcesList,
   }).pipe(T.Http({ method: "POST", uri: "/api/v1/iam/resource-sets", code: 200 })),
-).annotate({
-  identifier: "CreateResourceSetRequest",
-}) as any as S.Schema<CreateResourceSetRequest>;
+).annotate({ identifier: "CreateResourceSetRequest" }) as any as S.Schema<CreateResourceSetRequest>;
 
 /** URLs to user and/or group instances that are assigned to the role */
 export type CreateResourceSetBindingRequestMembersList = Array<string>;
@@ -11016,9 +10468,7 @@ export const CreateRoleRequest = /*@__PURE__*/ S.suspend(() =>
     label: S.String,
     permissions: CreateRoleRequestPermissionsList,
   }).pipe(T.Http({ method: "POST", uri: "/api/v1/iam/roles", code: 200 })),
-).annotate({
-  identifier: "CreateRoleRequest",
-}) as any as S.Schema<CreateRoleRequest>;
+).annotate({ identifier: "CreateRoleRequest" }) as any as S.Schema<CreateRoleRequest>;
 
 export interface IamRoleLinks {
   self?: HrefObjectSelfLink;
@@ -11056,18 +10506,14 @@ export const IamRole = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "IamRole" }) as any as S.Schema<IamRole>;
 
 /** Exclude attributes with specific values for the permission */
-export type PermissionConditionsExcludeMap = {
-  [key: string]: unknown | undefined;
-};
+export type PermissionConditionsExcludeMap = { [key: string]: unknown | undefined };
 export const PermissionConditionsExcludeMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
 ) as any as S.Schema<PermissionConditionsExcludeMap>;
 
 /** Include attributes with specific values for the permission */
-export type PermissionConditionsIncludeMap = {
-  [key: string]: unknown | undefined;
-};
+export type PermissionConditionsIncludeMap = { [key: string]: unknown | undefined };
 export const PermissionConditionsIncludeMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -11085,9 +10531,7 @@ export const PermissionConditions = /*@__PURE__*/ S.suspend(() =>
     exclude: S.optional(S.NullOr(PermissionConditionsExcludeMap)),
     include: S.optional(S.NullOr(PermissionConditionsIncludeMap)),
   }),
-).annotate({
-  identifier: "PermissionConditions",
-}) as any as S.Schema<PermissionConditions>;
+).annotate({ identifier: "PermissionConditions" }) as any as S.Schema<PermissionConditions>;
 
 export interface CreateRolePermissionRequest {
   /** `id` or `label` of the role */
@@ -11166,13 +10610,7 @@ export const CreateSecurityEventsProviderInstanceRequest = /*@__PURE__*/ S.suspe
     name: S.String,
     settings: CreateSecurityEventsProviderInstanceRequestSettings,
     type: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v1/security-events-providers",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/api/v1/security-events-providers", code: 200 })),
 ).annotate({
   identifier: "CreateSecurityEventsProviderInstanceRequest",
 }) as any as S.Schema<CreateSecurityEventsProviderInstanceRequest>;
@@ -11196,9 +10634,7 @@ export const CreateSmsTemplateRequest = /*@__PURE__*/ S.suspend(() =>
     translations: S.optional(S.Unknown),
     type: S.optional(SmsTemplateType),
   }).pipe(T.Http({ method: "POST", uri: "/api/v1/templates/sms", code: 200 })),
-).annotate({
-  identifier: "CreateSmsTemplateRequest",
-}) as any as S.Schema<CreateSmsTemplateRequest>;
+).annotate({ identifier: "CreateSmsTemplateRequest" }) as any as S.Schema<CreateSmsTemplateRequest>;
 
 export interface SmsTemplate {
   created?: string;
@@ -11271,9 +10707,7 @@ export const CreateSsfStreamRequest = /*@__PURE__*/ S.suspend(() =>
     events_requested: CreateSsfStreamRequestEventsRequestedList,
     format: S.optional(CreateSsfStreamRequestFormat),
   }).pipe(T.Http({ method: "POST", uri: "/api/v1/ssf/stream", code: 200 })),
-).annotate({
-  identifier: "CreateSsfStreamRequest",
-}) as any as S.Schema<CreateSsfStreamRequest>;
+).annotate({ identifier: "CreateSsfStreamRequest" }) as any as S.Schema<CreateSsfStreamRequest>;
 
 export type StreamConfigurationAudCase1List = Array<string>;
 export const StreamConfigurationAudCase1List = /*@__PURE__*/ S.Array(
@@ -11337,9 +10771,7 @@ export const StreamConfiguration = /*@__PURE__*/ S.suspend(() =>
     min_verification_interval: S.optional(S.NullOr(S.Number)),
     stream_id: S.optional(S.String),
   }),
-).annotate({
-  identifier: "StreamConfiguration",
-}) as any as S.Schema<StreamConfiguration>;
+).annotate({ identifier: "StreamConfiguration" }) as any as S.Schema<StreamConfiguration>;
 
 /** Defines the authenticator specific parameters */
 export interface AuthenticatorProfileTacRequest {
@@ -11469,9 +10901,7 @@ export const UIElementOptions = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     format: S.optional(UIElementOptionsFormat),
   }),
-).annotate({
-  identifier: "UIElementOptions",
-}) as any as S.Schema<UIElementOptions>;
+).annotate({ identifier: "UIElementOptions" }) as any as S.Schema<UIElementOptions>;
 
 /** Specifies the configuration of an input field on an enrollment form */
 export interface UIElement {
@@ -11524,9 +10954,7 @@ export const CreateUISchemaRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     uiSchema: S.optional(UISchemaObject),
   }).pipe(T.Http({ method: "POST", uri: "/api/v1/meta/uischemas", code: 200 })),
-).annotate({
-  identifier: "CreateUISchemaRequest",
-}) as any as S.Schema<CreateUISchemaRequest>;
+).annotate({ identifier: "CreateUISchemaRequest" }) as any as S.Schema<CreateUISchemaRequest>;
 
 export interface UISchemasResponseObject {
   /** Timestamp when the UI Schema was created (ISO 86001) */
@@ -11546,9 +10974,7 @@ export const UISchemasResponseObject = /*@__PURE__*/ S.suspend(() =>
     uiSchema: UISchemaObject,
     _links: LinksSelf,
   }),
-).annotate({
-  identifier: "UISchemasResponseObject",
-}) as any as S.Schema<UISchemasResponseObject>;
+).annotate({ identifier: "UISchemasResponseObject" }) as any as S.Schema<UISchemasResponseObject>;
 
 export type UserNextLogin = "changePassword";
 export const UserNextLogin = S.String;
@@ -11590,9 +11016,7 @@ export const UserCredentialsWritable = /*@__PURE__*/ S.suspend(() =>
     provider: S.optional(AuthenticationProviderWritable),
     recovery_question: S.optional(RecoveryQuestionCredential),
   }),
-).annotate({
-  identifier: "UserCredentialsWritable",
-}) as any as S.Schema<UserCredentialsWritable>;
+).annotate({ identifier: "UserCredentialsWritable" }) as any as S.Schema<UserCredentialsWritable>;
 
 /** The list of group IDs of groups that the user is added to at the time of creation */
 export type CreateUserRequestGroupIdsList = Array<string>;
@@ -11710,9 +11134,7 @@ export const CreateUserRequestType = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CreateUserRequestType",
-}) as any as S.Schema<CreateUserRequestType>;
+).annotate({ identifier: "CreateUserRequestType" }) as any as S.Schema<CreateUserRequestType>;
 
 export interface CreateUserRequest {
   /** Executes an [activation lifecycle](https://developer.okta.com/docs/api/openapi/okta-management/management/userlifecycle/activateuser) operation when creating the user */
@@ -11741,9 +11163,7 @@ export const CreateUserRequest = /*@__PURE__*/ S.suspend(() =>
     realmId: S.optional(S.String),
     type: S.optional(CreateUserRequestType),
   }).pipe(T.Http({ method: "POST", uri: "/api/v1/users", code: 200 })),
-).annotate({
-  identifier: "CreateUserRequest",
-}) as any as S.Schema<CreateUserRequest>;
+).annotate({ identifier: "CreateUserRequest" }) as any as S.Schema<CreateUserRequest>;
 
 /** The current status of the user. The status of a user changes in response to explicit events, such as admin-driven lifecycle changes, user login, or self-service password recovery. Okta doesn't asynchronously sweep through users and update their password expiry state, for example. Instead, Okta evaluates password policy at login time, notices the password has expired, and moves the user to the expired state. When running reports, remember that the data is valid as of the last login or lifecycle event for that user. > **Note:** The `ACTIVATING` status is a transitional status that occurs when a user is being activated but hasn't completed the activation process. This status isn't directly settable through the API, nor should you use it for any of your user management workflows. */
 export type UserStatus =
@@ -11822,9 +11242,7 @@ export const UserOutputLinks = /*@__PURE__*/ S.suspend(() =>
     unlock: S.optional(HrefObjectSelfLink),
     type: S.optional(HrefObjectSelfLink),
   }),
-).annotate({
-  identifier: "UserOutputLinks",
-}) as any as S.Schema<UserOutputLinks>;
+).annotate({ identifier: "UserOutputLinks" }) as any as S.Schema<UserOutputLinks>;
 
 export interface UserOutput {
   /** The timestamp when the user status transitioned to `ACTIVE` */
@@ -11887,9 +11305,7 @@ export const UserTypeLinksInput = /*@__PURE__*/ S.suspend(() =>
     self: S.optional(HrefObjectSelfLinkInput),
     schema: S.optional(HrefObjectSelfLinkInput),
   }),
-).annotate({
-  identifier: "UserTypeLinksInput",
-}) as any as S.Schema<UserTypeLinksInput>;
+).annotate({ identifier: "UserTypeLinksInput" }) as any as S.Schema<UserTypeLinksInput>;
 
 export interface CreateUserTypeRequest {
   /** The human-readable description of the user type */
@@ -11907,9 +11323,7 @@ export const CreateUserTypeRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     _links: S.optional(UserTypeLinksInput),
   }).pipe(T.Http({ method: "POST", uri: "/api/v1/meta/types/user", code: 200 })),
-).annotate({
-  identifier: "CreateUserTypeRequest",
-}) as any as S.Schema<CreateUserTypeRequest>;
+).annotate({ identifier: "CreateUserTypeRequest" }) as any as S.Schema<CreateUserTypeRequest>;
 
 export type UserTypeLinksSchema = HrefObjectSelfLink;
 export const UserTypeLinksSchema = HrefObjectSelfLink;
@@ -12010,13 +11424,7 @@ export interface DeactivateApplicationRequest {
 export const DeactivateApplicationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     appId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v1/apps/{appId}/lifecycle/deactivate",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/api/v1/apps/{appId}/lifecycle/deactivate", code: 200 })),
 ).annotate({
   identifier: "DeactivateApplicationRequest",
 }) as any as S.Schema<DeactivateApplicationRequest>;
@@ -12236,15 +11644,9 @@ export const DeactivateDeviceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     deviceId: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v1/devices/{deviceId}/lifecycle/deactivate",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/api/v1/devices/{deviceId}/lifecycle/deactivate", code: 200 }),
   ),
-).annotate({
-  identifier: "DeactivateDeviceRequest",
-}) as any as S.Schema<DeactivateDeviceRequest>;
+).annotate({ identifier: "DeactivateDeviceRequest" }) as any as S.Schema<DeactivateDeviceRequest>;
 
 export interface DeactivateDeviceResponse {}
 export const DeactivateDeviceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -12317,13 +11719,7 @@ export interface DeactivateIdentityProviderRequest {
 export const DeactivateIdentityProviderRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     idpId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v1/idps/{idpId}/lifecycle/deactivate",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/api/v1/idps/{idpId}/lifecycle/deactivate", code: 200 })),
 ).annotate({
   identifier: "DeactivateIdentityProviderRequest",
 }) as any as S.Schema<DeactivateIdentityProviderRequest>;
@@ -12372,11 +11768,7 @@ export const DeactivateNetworkZoneRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     zoneId: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v1/zones/{zoneId}/lifecycle/deactivate",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/api/v1/zones/{zoneId}/lifecycle/deactivate", code: 200 }),
   ),
 ).annotate({
   identifier: "DeactivateNetworkZoneRequest",
@@ -12460,15 +11852,9 @@ export const DeactivatePolicyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     policyId: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v1/policies/{policyId}/lifecycle/deactivate",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/api/v1/policies/{policyId}/lifecycle/deactivate", code: 200 }),
   ),
-).annotate({
-  identifier: "DeactivatePolicyRequest",
-}) as any as S.Schema<DeactivatePolicyRequest>;
+).annotate({ identifier: "DeactivatePolicyRequest" }) as any as S.Schema<DeactivatePolicyRequest>;
 
 export interface DeactivatePolicyResponse {}
 export const DeactivatePolicyResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -12572,16 +11958,8 @@ export const DeactivateUserRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
     sendEmail: S.optional(S.Boolean.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v1/users/{id}/lifecycle/deactivate",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "DeactivateUserRequest",
-}) as any as S.Schema<DeactivateUserRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/api/v1/users/{id}/lifecycle/deactivate", code: 200 })),
+).annotate({ identifier: "DeactivateUserRequest" }) as any as S.Schema<DeactivateUserRequest>;
 
 export interface DeactivateUserResponse {}
 export const DeactivateUserResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -12599,11 +11977,7 @@ export const DeleteAgentPoolsUpdateRequest = /*@__PURE__*/ S.suspend(() =>
     poolId: S.String.pipe(T.Label()),
     updateId: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/v1/agentPools/{poolId}/updates/{updateId}",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/api/v1/agentPools/{poolId}/updates/{updateId}", code: 200 }),
   ),
 ).annotate({
   identifier: "DeleteAgentPoolsUpdateRequest",
@@ -12637,9 +12011,7 @@ export const DeleteAllCustomizationsRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface DeleteAllCustomizationsResponse {}
 export const DeleteAllCustomizationsResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "DeleteAllCustomizationsResponse",
-  },
+  { identifier: "DeleteAllCustomizationsResponse" },
 ) as any as S.Schema<DeleteAllCustomizationsResponse>;
 
 export interface DeleteApiServiceIntegrationInstanceRequest {
@@ -12703,9 +12075,7 @@ export const DeleteApplicationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     appId: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "DELETE", uri: "/api/v1/apps/{appId}", code: 200 })),
-).annotate({
-  identifier: "DeleteApplicationRequest",
-}) as any as S.Schema<DeleteApplicationRequest>;
+).annotate({ identifier: "DeleteApplicationRequest" }) as any as S.Schema<DeleteApplicationRequest>;
 
 export interface DeleteApplicationResponse {}
 export const DeleteApplicationResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -12720,11 +12090,7 @@ export const DeleteAppServiceAccountRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/privileged-access/api/v1/service-accounts/{id}",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/privileged-access/api/v1/service-accounts/{id}", code: 200 }),
   ),
 ).annotate({
   identifier: "DeleteAppServiceAccountRequest",
@@ -12732,9 +12098,7 @@ export const DeleteAppServiceAccountRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface DeleteAppServiceAccountResponse {}
 export const DeleteAppServiceAccountResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "DeleteAppServiceAccountResponse",
-  },
+  { identifier: "DeleteAppServiceAccountResponse" },
 ) as any as S.Schema<DeleteAppServiceAccountResponse>;
 
 export interface DeleteAssociatedServerRequest {
@@ -12799,11 +12163,7 @@ export const DeleteAuthorizationServerRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     authServerId: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/v1/authorizationServers/{authServerId}",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/api/v1/authorizationServers/{authServerId}", code: 200 }),
   ),
 ).annotate({
   identifier: "DeleteAuthorizationServerRequest",
@@ -12882,13 +12242,7 @@ export interface DeleteBehaviorDetectionRuleRequest {
 export const DeleteBehaviorDetectionRuleRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     behaviorId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/v1/behaviors/{behaviorId}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/api/v1/behaviors/{behaviorId}", code: 200 })),
 ).annotate({
   identifier: "DeleteBehaviorDetectionRuleRequest",
 }) as any as S.Schema<DeleteBehaviorDetectionRuleRequest>;
@@ -12917,9 +12271,7 @@ export const DeleteBindingRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "DeleteBindingRequest",
-}) as any as S.Schema<DeleteBindingRequest>;
+).annotate({ identifier: "DeleteBindingRequest" }) as any as S.Schema<DeleteBindingRequest>;
 
 export interface DeleteBindingResponse {}
 export const DeleteBindingResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -12934,9 +12286,7 @@ export const DeleteBrandRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     brandId: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "DELETE", uri: "/api/v1/brands/{brandId}", code: 200 })),
-).annotate({
-  identifier: "DeleteBrandRequest",
-}) as any as S.Schema<DeleteBrandRequest>;
+).annotate({ identifier: "DeleteBrandRequest" }) as any as S.Schema<DeleteBrandRequest>;
 
 export interface DeleteBrandResponse {}
 export const DeleteBrandResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -12994,9 +12344,7 @@ export const DeleteBrandThemeFaviconRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface DeleteBrandThemeFaviconResponse {}
 export const DeleteBrandThemeFaviconResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "DeleteBrandThemeFaviconResponse",
-  },
+  { identifier: "DeleteBrandThemeFaviconResponse" },
 ) as any as S.Schema<DeleteBrandThemeFaviconResponse>;
 
 export interface DeleteBrandThemeLogoRequest {
@@ -13010,11 +12358,7 @@ export const DeleteBrandThemeLogoRequest = /*@__PURE__*/ S.suspend(() =>
     brandId: S.String.pipe(T.Label()),
     themeId: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/v1/brands/{brandId}/themes/{themeId}/logo",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/api/v1/brands/{brandId}/themes/{themeId}/logo", code: 200 }),
   ),
 ).annotate({
   identifier: "DeleteBrandThemeLogoRequest",
@@ -13032,13 +12376,7 @@ export interface DeleteCaptchaInstanceRequest {
 export const DeleteCaptchaInstanceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     captchaId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/v1/captchas/{captchaId}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/api/v1/captchas/{captchaId}", code: 200 })),
 ).annotate({
   identifier: "DeleteCaptchaInstanceRequest",
 }) as any as S.Schema<DeleteCaptchaInstanceRequest>;
@@ -13127,11 +12465,7 @@ export const DeleteCustomizedErrorPageRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     brandId: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/v1/brands/{brandId}/pages/error/customized",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/api/v1/brands/{brandId}/pages/error/customized", code: 200 }),
   ),
 ).annotate({
   identifier: "DeleteCustomizedErrorPageRequest",
@@ -13202,9 +12536,7 @@ export const DeleteDeviceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     deviceId: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "DELETE", uri: "/api/v1/devices/{deviceId}", code: 200 })),
-).annotate({
-  identifier: "DeleteDeviceRequest",
-}) as any as S.Schema<DeleteDeviceRequest>;
+).annotate({ identifier: "DeleteDeviceRequest" }) as any as S.Schema<DeleteDeviceRequest>;
 
 export interface DeleteDeviceResponse {}
 export const DeleteDeviceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -13219,11 +12551,7 @@ export const DeleteDeviceAssurancePolicyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     deviceAssuranceId: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/v1/device-assurances/{deviceAssuranceId}",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/api/v1/device-assurances/{deviceAssuranceId}", code: 200 }),
   ),
 ).annotate({
   identifier: "DeleteDeviceAssurancePolicyRequest",
@@ -13244,11 +12572,7 @@ export const DeleteDevicePostureCheckRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     postureCheckId: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/v1/device-posture-checks/{postureCheckId}",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/api/v1/device-posture-checks/{postureCheckId}", code: 200 }),
   ),
 ).annotate({
   identifier: "DeleteDevicePostureCheckRequest",
@@ -13311,16 +12635,8 @@ export const DeleteEmailDomainRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     emailDomainId: S.String.pipe(T.Label()),
     expand: S.optional(DeleteEmailDomainRequestExpandList.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/v1/email-domains/{emailDomainId}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "DeleteEmailDomainRequest",
-}) as any as S.Schema<DeleteEmailDomainRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/api/v1/email-domains/{emailDomainId}", code: 200 })),
+).annotate({ identifier: "DeleteEmailDomainRequest" }) as any as S.Schema<DeleteEmailDomainRequest>;
 
 export interface DeleteEmailDomainResponse {}
 export const DeleteEmailDomainResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -13333,16 +12649,8 @@ export interface DeleteEmailServerRequest {
 export const DeleteEmailServerRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     emailServerId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/v1/email-servers/{emailServerId}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "DeleteEmailServerRequest",
-}) as any as S.Schema<DeleteEmailServerRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/api/v1/email-servers/{emailServerId}", code: 200 })),
+).annotate({ identifier: "DeleteEmailServerRequest" }) as any as S.Schema<DeleteEmailServerRequest>;
 
 export interface DeleteEmailServerResponse {}
 export const DeleteEmailServerResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -13356,16 +12664,8 @@ export interface DeleteEventHookRequest {
 export const DeleteEventHookRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     eventHookId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/v1/eventHooks/{eventHookId}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "DeleteEventHookRequest",
-}) as any as S.Schema<DeleteEventHookRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/api/v1/eventHooks/{eventHookId}", code: 200 })),
+).annotate({ identifier: "DeleteEventHookRequest" }) as any as S.Schema<DeleteEventHookRequest>;
 
 export interface DeleteEventHookResponse {}
 export const DeleteEventHookResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -13383,11 +12683,7 @@ export const DeleteFederatedClaimRequest = /*@__PURE__*/ S.suspend(() =>
     appId: S.String.pipe(T.Label()),
     claimId: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/v1/apps/{appId}/federated-claims/{claimId}",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/api/v1/apps/{appId}/federated-claims/{claimId}", code: 200 }),
   ),
 ).annotate({
   identifier: "DeleteFederatedClaimRequest",
@@ -13406,11 +12702,7 @@ export const DeleteGovernanceBundleRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     bundleId: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/v1/iam/governance/bundles/{bundleId}",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/api/v1/iam/governance/bundles/{bundleId}", code: 200 }),
   ),
 ).annotate({
   identifier: "DeleteGovernanceBundleRequest",
@@ -13429,9 +12721,7 @@ export const DeleteGroupRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     groupId: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "DELETE", uri: "/api/v1/groups/{groupId}", code: 200 })),
-).annotate({
-  identifier: "DeleteGroupRequest",
-}) as any as S.Schema<DeleteGroupRequest>;
+).annotate({ identifier: "DeleteGroupRequest" }) as any as S.Schema<DeleteGroupRequest>;
 
 export interface DeleteGroupResponse {}
 export const DeleteGroupResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -13449,15 +12739,9 @@ export const DeleteGroupOwnerRequest = /*@__PURE__*/ S.suspend(() =>
     groupId: S.String.pipe(T.Label()),
     ownerId: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/v1/groups/{groupId}/owners/{ownerId}",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/api/v1/groups/{groupId}/owners/{ownerId}", code: 200 }),
   ),
-).annotate({
-  identifier: "DeleteGroupOwnerRequest",
-}) as any as S.Schema<DeleteGroupOwnerRequest>;
+).annotate({ identifier: "DeleteGroupOwnerRequest" }) as any as S.Schema<DeleteGroupOwnerRequest>;
 
 export interface DeleteGroupOwnerResponse {}
 export const DeleteGroupOwnerResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -13503,16 +12787,8 @@ export const DeleteGroupRuleRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     groupRuleId: S.String.pipe(T.Label()),
     removeUsers: S.optional(S.Boolean.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/v1/groups/rules/{groupRuleId}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "DeleteGroupRuleRequest",
-}) as any as S.Schema<DeleteGroupRuleRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/api/v1/groups/rules/{groupRuleId}", code: 200 })),
+).annotate({ identifier: "DeleteGroupRuleRequest" }) as any as S.Schema<DeleteGroupRuleRequest>;
 
 export interface DeleteGroupRuleResponse {}
 export const DeleteGroupRuleResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -13527,9 +12803,7 @@ export const DeleteHookKeyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "DELETE", uri: "/api/v1/hook-keys/{id}", code: 200 })),
-).annotate({
-  identifier: "DeleteHookKeyRequest",
-}) as any as S.Schema<DeleteHookKeyRequest>;
+).annotate({ identifier: "DeleteHookKeyRequest" }) as any as S.Schema<DeleteHookKeyRequest>;
 
 export interface DeleteHookKeyResponse {}
 export const DeleteHookKeyResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -13560,13 +12834,7 @@ export interface DeleteIdentityProviderKeyRequest {
 export const DeleteIdentityProviderKeyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     kid: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/v1/idps/credentials/keys/{kid}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/api/v1/idps/credentials/keys/{kid}", code: 200 })),
 ).annotate({
   identifier: "DeleteIdentityProviderKeyRequest",
 }) as any as S.Schema<DeleteIdentityProviderKeyRequest>;
@@ -13700,16 +12968,8 @@ export interface DeleteInlineHookRequest {
 export const DeleteInlineHookRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     inlineHookId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/v1/inlineHooks/{inlineHookId}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "DeleteInlineHookRequest",
-}) as any as S.Schema<DeleteInlineHookRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/api/v1/inlineHooks/{inlineHookId}", code: 200 })),
+).annotate({ identifier: "DeleteInlineHookRequest" }) as any as S.Schema<DeleteInlineHookRequest>;
 
 export interface DeleteInlineHookResponse {}
 export const DeleteInlineHookResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -13755,15 +13015,9 @@ export const DeletejwkRequest = /*@__PURE__*/ S.suspend(() =>
     appId: S.String.pipe(T.Label()),
     keyId: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/v1/apps/{appId}/credentials/jwks/{keyId}",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/api/v1/apps/{appId}/credentials/jwks/{keyId}", code: 200 }),
   ),
-).annotate({
-  identifier: "DeletejwkRequest",
-}) as any as S.Schema<DeletejwkRequest>;
+).annotate({ identifier: "DeletejwkRequest" }) as any as S.Schema<DeletejwkRequest>;
 
 export interface DeletejwkResponse {}
 export const DeletejwkResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -13830,16 +13084,8 @@ export interface DeleteLogStreamRequest {
 export const DeleteLogStreamRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     logStreamId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/v1/logStreams/{logStreamId}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "DeleteLogStreamRequest",
-}) as any as S.Schema<DeleteLogStreamRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/api/v1/logStreams/{logStreamId}", code: 200 })),
+).annotate({ identifier: "DeleteLogStreamRequest" }) as any as S.Schema<DeleteLogStreamRequest>;
 
 export interface DeleteLogStreamResponse {}
 export const DeleteLogStreamResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -13854,9 +13100,7 @@ export const DeleteNetworkZoneRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     zoneId: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "DELETE", uri: "/api/v1/zones/{zoneId}", code: 200 })),
-).annotate({
-  identifier: "DeleteNetworkZoneRequest",
-}) as any as S.Schema<DeleteNetworkZoneRequest>;
+).annotate({ identifier: "DeleteNetworkZoneRequest" }) as any as S.Schema<DeleteNetworkZoneRequest>;
 
 export interface DeleteNetworkZoneResponse {}
 export const DeleteNetworkZoneResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -13880,9 +13124,7 @@ export const DeleteOAuth2ClaimRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "DeleteOAuth2ClaimRequest",
-}) as any as S.Schema<DeleteOAuth2ClaimRequest>;
+).annotate({ identifier: "DeleteOAuth2ClaimRequest" }) as any as S.Schema<DeleteOAuth2ClaimRequest>;
 
 export interface DeleteOAuth2ClaimResponse {}
 export const DeleteOAuth2ClaimResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -13962,9 +13204,7 @@ export const DeleteOAuth2ScopeRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "DeleteOAuth2ScopeRequest",
-}) as any as S.Schema<DeleteOAuth2ScopeRequest>;
+).annotate({ identifier: "DeleteOAuth2ScopeRequest" }) as any as S.Schema<DeleteOAuth2ScopeRequest>;
 
 export interface DeleteOAuth2ScopeResponse {}
 export const DeleteOAuth2ScopeResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -14018,9 +13258,7 @@ export const DeletePolicyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     policyId: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "DELETE", uri: "/api/v1/policies/{policyId}", code: 200 })),
-).annotate({
-  identifier: "DeletePolicyRequest",
-}) as any as S.Schema<DeletePolicyRequest>;
+).annotate({ identifier: "DeletePolicyRequest" }) as any as S.Schema<DeletePolicyRequest>;
 
 export interface DeletePolicyResponse {}
 export const DeletePolicyResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -14066,15 +13304,9 @@ export const DeletePolicyRuleRequest = /*@__PURE__*/ S.suspend(() =>
     policyId: S.String.pipe(T.Label()),
     ruleId: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/v1/policies/{policyId}/rules/{ruleId}",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/api/v1/policies/{policyId}/rules/{ruleId}", code: 200 }),
   ),
-).annotate({
-  identifier: "DeletePolicyRuleRequest",
-}) as any as S.Schema<DeletePolicyRuleRequest>;
+).annotate({ identifier: "DeletePolicyRuleRequest" }) as any as S.Schema<DeletePolicyRuleRequest>;
 
 export interface DeletePolicyRuleResponse {}
 export const DeletePolicyRuleResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -14089,11 +13321,7 @@ export const DeletePreviewErrorPageRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     brandId: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/v1/brands/{brandId}/pages/error/preview",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/api/v1/brands/{brandId}/pages/error/preview", code: 200 }),
   ),
 ).annotate({
   identifier: "DeletePreviewErrorPageRequest",
@@ -14112,11 +13340,7 @@ export const DeletePreviewSignInPageRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     brandId: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/v1/brands/{brandId}/pages/sign-in/preview",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/api/v1/brands/{brandId}/pages/sign-in/preview", code: 200 }),
   ),
 ).annotate({
   identifier: "DeletePreviewSignInPageRequest",
@@ -14124,9 +13348,7 @@ export const DeletePreviewSignInPageRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface DeletePreviewSignInPageResponse {}
 export const DeletePreviewSignInPageResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "DeletePreviewSignInPageResponse",
-  },
+  { identifier: "DeletePreviewSignInPageResponse" },
 ) as any as S.Schema<DeletePreviewSignInPageResponse>;
 
 export interface DeletePushProviderRequest {
@@ -14136,13 +13358,7 @@ export interface DeletePushProviderRequest {
 export const DeletePushProviderRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     pushProviderId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/v1/push-providers/{pushProviderId}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/api/v1/push-providers/{pushProviderId}", code: 200 })),
 ).annotate({
   identifier: "DeletePushProviderRequest",
 }) as any as S.Schema<DeletePushProviderRequest>;
@@ -14160,9 +13376,7 @@ export const DeleteRealmRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     realmId: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "DELETE", uri: "/api/v1/realms/{realmId}", code: 200 })),
-).annotate({
-  identifier: "DeleteRealmRequest",
-}) as any as S.Schema<DeleteRealmRequest>;
+).annotate({ identifier: "DeleteRealmRequest" }) as any as S.Schema<DeleteRealmRequest>;
 
 export interface DeleteRealmResponse {}
 export const DeleteRealmResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -14176,13 +13390,7 @@ export interface DeleteRealmAssignmentRequest {
 export const DeleteRealmAssignmentRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     assignmentId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/v1/realm-assignments/{assignmentId}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/api/v1/realm-assignments/{assignmentId}", code: 200 })),
 ).annotate({
   identifier: "DeleteRealmAssignmentRequest",
 }) as any as S.Schema<DeleteRealmAssignmentRequest>;
@@ -14206,9 +13414,7 @@ export const DeleteResourceSetRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "DeleteResourceSetRequest",
-}) as any as S.Schema<DeleteResourceSetRequest>;
+).annotate({ identifier: "DeleteResourceSetRequest" }) as any as S.Schema<DeleteResourceSetRequest>;
 
 export interface DeleteResourceSetResponse {}
 export const DeleteResourceSetResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -14250,16 +13456,8 @@ export interface DeleteRoleRequest {
 export const DeleteRoleRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     roleIdOrLabel: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/v1/iam/roles/{roleIdOrLabel}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "DeleteRoleRequest",
-}) as any as S.Schema<DeleteRoleRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/api/v1/iam/roles/{roleIdOrLabel}", code: 200 })),
+).annotate({ identifier: "DeleteRoleRequest" }) as any as S.Schema<DeleteRoleRequest>;
 
 export interface DeleteRoleResponse {}
 export const DeleteRoleResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -14350,16 +13548,8 @@ export interface DeleteSmsTemplateRequest {
 export const DeleteSmsTemplateRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     templateId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/v1/templates/sms/{templateId}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "DeleteSmsTemplateRequest",
-}) as any as S.Schema<DeleteSmsTemplateRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/api/v1/templates/sms/{templateId}", code: 200 })),
+).annotate({ identifier: "DeleteSmsTemplateRequest" }) as any as S.Schema<DeleteSmsTemplateRequest>;
 
 export interface DeleteSmsTemplateResponse {}
 export const DeleteSmsTemplateResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -14374,9 +13564,7 @@ export const DeleteSsfStreamRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     stream_id: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "DELETE", uri: "/api/v1/ssf/stream", code: 200 })),
-).annotate({
-  identifier: "DeleteSsfStreamRequest",
-}) as any as S.Schema<DeleteSsfStreamRequest>;
+).annotate({ identifier: "DeleteSsfStreamRequest" }) as any as S.Schema<DeleteSsfStreamRequest>;
 
 export interface DeleteSsfStreamResponse {}
 export const DeleteSsfStreamResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -14390,13 +13578,7 @@ export interface DeleteTrustedOriginRequest {
 export const DeleteTrustedOriginRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     trustedOriginId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/v1/trustedOrigins/{trustedOriginId}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/api/v1/trustedOrigins/{trustedOriginId}", code: 200 })),
 ).annotate({
   identifier: "DeleteTrustedOriginRequest",
 }) as any as S.Schema<DeleteTrustedOriginRequest>;
@@ -14414,9 +13596,7 @@ export const DeleteUISchemasRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "DELETE", uri: "/api/v1/meta/uischemas/{id}", code: 200 })),
-).annotate({
-  identifier: "DeleteUISchemasRequest",
-}) as any as S.Schema<DeleteUISchemasRequest>;
+).annotate({ identifier: "DeleteUISchemasRequest" }) as any as S.Schema<DeleteUISchemasRequest>;
 
 export interface DeleteUISchemasResponse {}
 export const DeleteUISchemasResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -14434,9 +13614,7 @@ export const DeleteUserRequest = /*@__PURE__*/ S.suspend(() =>
     id: S.String.pipe(T.Label()),
     sendEmail: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(T.Http({ method: "DELETE", uri: "/api/v1/users/{id}", code: 200 })),
-).annotate({
-  identifier: "DeleteUserRequest",
-}) as any as S.Schema<DeleteUserRequest>;
+).annotate({ identifier: "DeleteUserRequest" }) as any as S.Schema<DeleteUserRequest>;
 
 export interface DeleteUserResponse {}
 export const DeleteUserResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -14449,16 +13627,8 @@ export interface DeleteUserTypeRequest {
 export const DeleteUserTypeRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     typeId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/v1/meta/types/user/{typeId}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "DeleteUserTypeRequest",
-}) as any as S.Schema<DeleteUserTypeRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/api/v1/meta/types/user/{typeId}", code: 200 })),
+).annotate({ identifier: "DeleteUserTypeRequest" }) as any as S.Schema<DeleteUserTypeRequest>;
 
 export interface DeleteUserTypeResponse {}
 export const DeleteUserTypeResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -14537,16 +13707,8 @@ export const EnrollFactorRequest = /*@__PURE__*/ S.suspend(() =>
     factorType: S.optional(UserFactorType),
     profile: S.optional(S.Unknown),
     provider: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v1/users/{userId}/factors",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "EnrollFactorRequest",
-}) as any as S.Schema<EnrollFactorRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/api/v1/users/{userId}/factors", code: 200 })),
+).annotate({ identifier: "EnrollFactorRequest" }) as any as S.Schema<EnrollFactorRequest>;
 
 /** Status of the factor */
 export type UserFactorStatus =
@@ -14632,9 +13794,7 @@ export const UserFactorLinks = /*@__PURE__*/ S.suspend(() =>
     user: S.optional(HrefObjectSelfLink),
     verify: S.optional(HrefObjectSelfLink),
   }),
-).annotate({
-  identifier: "UserFactorLinks",
-}) as any as S.Schema<UserFactorLinks>;
+).annotate({ identifier: "UserFactorLinks" }) as any as S.Schema<UserFactorLinks>;
 
 export interface UserFactor {
   /** Timestamp when the factor was enrolled */
@@ -14695,13 +13855,7 @@ export const EnrollPreregistrationEnrollmentRequest = /*@__PURE__*/ S.suspend(()
     fulfillmentProvider: S.optional(EnrollPreregistrationEnrollmentRequestFulfillmentProvider),
     userId: S.optional(S.String),
     yubicoTransportKeyJWK: S.optional(ECKeyJWK),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/webauthn-registration/api/v1/enroll",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/webauthn-registration/api/v1/enroll", code: 200 })),
 ).annotate({
   identifier: "EnrollPreregistrationEnrollmentRequest",
 }) as any as S.Schema<EnrollPreregistrationEnrollmentRequest>;
@@ -14721,9 +13875,7 @@ export const WebAuthnCredRequest = /*@__PURE__*/ S.suspend(() =>
     credRequestJwe: S.optional(S.String),
     keyId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "WebAuthnCredRequest",
-}) as any as S.Schema<WebAuthnCredRequest>;
+).annotate({ identifier: "WebAuthnCredRequest" }) as any as S.Schema<WebAuthnCredRequest>;
 
 /** List of credential requests for the fulfillment provider */
 export type EnrollmentInitializationResponseCredRequestsList = Array<WebAuthnCredRequest>;
@@ -14801,9 +13953,7 @@ export const InlineHookRequestObject = /*@__PURE__*/ S.suspend(() =>
     method: S.optional(S.String),
     url: S.optional(InlineHookRequestObjectUrl),
   }),
-).annotate({
-  identifier: "InlineHookRequestObject",
-}) as any as S.Schema<InlineHookRequestObject>;
+).annotate({ identifier: "InlineHookRequestObject" }) as any as S.Schema<InlineHookRequestObject>;
 
 export interface PasswordImportRequestDataContextCredential {
   /** The `username` that the user supplied when attempting to sign in to Okta. */
@@ -14954,9 +14104,7 @@ export const TelephonyRequestData = /*@__PURE__*/ S.suspend(() =>
     messageProfile: S.optional(TelephonyRequestDataMessageProfile),
     userProfile: S.optional(TelephonyRequestDataUserProfile),
   }),
-).annotate({
-  identifier: "TelephonyRequestData",
-}) as any as S.Schema<TelephonyRequestData>;
+).annotate({ identifier: "TelephonyRequestData" }) as any as S.Schema<TelephonyRequestData>;
 
 /** Telephony inline hook request body */
 export interface TelephonyRequestExecute {
@@ -14990,9 +14138,7 @@ export const TelephonyRequestExecute = /*@__PURE__*/ S.suspend(() =>
     requestType: S.optional(S.String),
     source: S.optional(S.String),
   }),
-).annotate({
-  identifier: "TelephonyRequestExecute",
-}) as any as S.Schema<TelephonyRequestExecute>;
+).annotate({ identifier: "TelephonyRequestExecute" }) as any as S.Schema<TelephonyRequestExecute>;
 
 /** The type of registration hook. Use either `self.service.registration` or `progressive.profile`. */
 export type RegistrationInlineHookRequestType = "progressive.profile" | "self.service.registration";
@@ -15197,9 +14343,7 @@ export const TokenProtocolRequest = /*@__PURE__*/ S.suspend(() =>
     scope: S.optional(S.String),
     state: S.optional(S.String),
   }),
-).annotate({
-  identifier: "TokenProtocolRequest",
-}) as any as S.Schema<TokenProtocolRequest>;
+).annotate({ identifier: "TokenProtocolRequest" }) as any as S.Schema<TokenProtocolRequest>;
 
 /** The refresh token */
 export interface RefreshToken {
@@ -15414,9 +14558,7 @@ export const TokenRequestInputData = /*@__PURE__*/ S.suspend(() =>
     access: S.optional(TokenRequestInputDataAccess),
     refresh_token: S.optional(RefreshToken),
   }),
-).annotate({
-  identifier: "TokenRequestInputData",
-}) as any as S.Schema<TokenRequestInputData>;
+).annotate({ identifier: "TokenRequestInputData" }) as any as S.Schema<TokenRequestInputData>;
 
 /** Token inline hook request */
 export interface TokenRequestInput {
@@ -15447,9 +14589,7 @@ export const TokenRequestInput = /*@__PURE__*/ S.suspend(() =>
     eventType: S.optional(S.String),
     source: S.optional(S.String),
   }),
-).annotate({
-  identifier: "TokenRequestInput",
-}) as any as S.Schema<TokenRequestInput>;
+).annotate({ identifier: "TokenRequestInput" }) as any as S.Schema<TokenRequestInput>;
 
 /** The authentication method reference */
 export type SAMLPayloadExecuteInputDataContextSessionAmrList = Array<string>;
@@ -15811,9 +14951,7 @@ export const SAMLPayloadExecuteInput = /*@__PURE__*/ S.suspend(() =>
     eventType: S.optional(S.String),
     source: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SAMLPayloadExecuteInput",
-}) as any as S.Schema<SAMLPayloadExecuteInput>;
+).annotate({ identifier: "SAMLPayloadExecuteInput" }) as any as S.Schema<SAMLPayloadExecuteInput>;
 
 /** The current default action that results when Okta imports a user. The two possible values are `CREATE_USER` and `LINK_USER`. You can change the action that is taken by means of the commands object you return. */
 export type UserImportRequestDataActionResult = "CREATE_USER" | "LINK_USER";
@@ -15833,9 +14971,7 @@ export const UserImportRequestDataAction = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UserImportRequestDataAction>;
 
 /** Provides the name-value pairs of the attributes contained in the app user profile of the user who is being imported. You can change the values of attributes in the user's app profile by means of the `commands` object you return. If you change attributes in the app profile, they then flow through to the Okta user profile, based on matching and mapping rules. */
-export type UserImportRequestDataAppUserProfileMap = {
-  [key: string]: string | undefined;
-};
+export type UserImportRequestDataAppUserProfileMap = { [key: string]: string | undefined };
 export const UserImportRequestDataAppUserProfileMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -15854,9 +14990,7 @@ export const UserImportRequestDataAppUser = /*@__PURE__*/ S.suspend(() =>
   identifier: "UserImportRequestDataAppUser",
 }) as any as S.Schema<UserImportRequestDataAppUser>;
 
-export type UserImportRequestDataContextConflictsItemMap = {
-  [key: string]: unknown | undefined;
-};
+export type UserImportRequestDataContextConflictsItemMap = { [key: string]: unknown | undefined };
 export const UserImportRequestDataContextConflictsItemMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -15911,9 +15045,7 @@ export const UserImportRequestDataContextJob = /*@__PURE__*/ S.suspend(() =>
   identifier: "UserImportRequestDataContextJob",
 }) as any as S.Schema<UserImportRequestDataContextJob>;
 
-export type UserImportRequestDataContextMatchesItemMap = {
-  [key: string]: unknown | undefined;
-};
+export type UserImportRequestDataContextMatchesItemMap = { [key: string]: unknown | undefined };
 export const UserImportRequestDataContextMatchesItemMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -15926,9 +15058,7 @@ export const UserImportRequestDataContextMatchesList = /*@__PURE__*/ S.Array(
   UserImportRequestDataContextMatchesItemMap,
 ) as any as S.Schema<UserImportRequestDataContextMatchesList>;
 
-export type UserImportRequestDataContextPolicyItemMap = {
-  [key: string]: unknown | undefined;
-};
+export type UserImportRequestDataContextPolicyItemMap = { [key: string]: unknown | undefined };
 export const UserImportRequestDataContextPolicyItemMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -15966,9 +15096,7 @@ export const UserImportRequestDataContext = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UserImportRequestDataContext>;
 
 /** The `data.user.profile` contains the name-value pairs of the attributes in the user profile. If the user has been matched to an existing Okta user, a `data.user.id` object is included, containing the unique identifier of the Okta user profile. You can change the values of the attributes by means of the `commands` object you return. */
-export type UserImportRequestDataUserProfileMap = {
-  [key: string]: string | undefined;
-};
+export type UserImportRequestDataUserProfileMap = { [key: string]: string | undefined };
 export const UserImportRequestDataUserProfileMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -16003,9 +15131,7 @@ export const UserImportRequestData = /*@__PURE__*/ S.suspend(() =>
     context: S.optional(UserImportRequestDataContext),
     user: S.optional(UserImportRequestDataUser),
   }),
-).annotate({
-  identifier: "UserImportRequestData",
-}) as any as S.Schema<UserImportRequestData>;
+).annotate({ identifier: "UserImportRequestData" }) as any as S.Schema<UserImportRequestData>;
 
 /** User import inline hook request */
 export interface UserImportRequestExecute {
@@ -16036,9 +15162,7 @@ export const UserImportRequestExecute = /*@__PURE__*/ S.suspend(() =>
     eventType: S.optional(S.String),
     source: S.optional(S.String),
   }),
-).annotate({
-  identifier: "UserImportRequestExecute",
-}) as any as S.Schema<UserImportRequestExecute>;
+).annotate({ identifier: "UserImportRequestExecute" }) as any as S.Schema<UserImportRequestExecute>;
 
 export type ExecuteInlineHookRequestBody =
   | PasswordImportRequestExecute
@@ -16059,16 +15183,8 @@ export const ExecuteInlineHookRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     inlineHookId: S.String.pipe(T.Label()),
     body: ExecuteInlineHookRequestBody.pipe(T.HttpBody()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v1/inlineHooks/{inlineHookId}/execute",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ExecuteInlineHookRequest",
-}) as any as S.Schema<ExecuteInlineHookRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/api/v1/inlineHooks/{inlineHookId}/execute", code: 200 })),
+).annotate({ identifier: "ExecuteInlineHookRequest" }) as any as S.Schema<ExecuteInlineHookRequest>;
 
 export type PasswordImportResponseCommandsItemValueCredential = "UNVERIFIED" | "VERIFIED";
 export const PasswordImportResponseCommandsItemValueCredential = S.String;
@@ -16115,9 +15231,7 @@ export const PasswordImportResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     commands: S.optional(PasswordImportResponseCommandsList),
   }),
-).annotate({
-  identifier: "PasswordImportResponse",
-}) as any as S.Schema<PasswordImportResponse>;
+).annotate({ identifier: "PasswordImportResponse" }) as any as S.Schema<PasswordImportResponse>;
 
 /** Status of telephony callout */
 export type TelephonyResponseCommandsItemValueItemStatus = "SUCCESSFUL" | "PENDING" | "FAILED";
@@ -16180,9 +15294,7 @@ export const TelephonyResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     commands: S.optional(TelephonyResponseCommandsList),
   }),
-).annotate({
-  identifier: "TelephonyResponse",
-}) as any as S.Schema<TelephonyResponse>;
+).annotate({ identifier: "TelephonyResponse" }) as any as S.Schema<TelephonyResponse>;
 
 export type RegistrationInlineHookResponseCommandsList = Array<unknown>;
 export const RegistrationInlineHookResponseCommandsList = /*@__PURE__*/ S.Array(
@@ -16260,9 +15372,7 @@ export const TokenHookResponseError = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     errorSummary: S.optional(S.String),
   }),
-).annotate({
-  identifier: "TokenHookResponseError",
-}) as any as S.Schema<TokenHookResponseError>;
+).annotate({ identifier: "TokenHookResponseError" }) as any as S.Schema<TokenHookResponseError>;
 
 /** For the token inline hook, the `commands` and `error` objects that you can return in the JSON payload of your response are defined in the following sections. > **Note:** The size of your response payload must be less than 256 KB. */
 export interface TokenHookResponse {
@@ -16276,9 +15386,7 @@ export const TokenHookResponse = /*@__PURE__*/ S.suspend(() =>
     commands: S.optional(TokenHookResponseCommandsList),
     error: S.optional(TokenHookResponseError),
   }),
-).annotate({
-  identifier: "TokenHookResponse",
-}) as any as S.Schema<TokenHookResponse>;
+).annotate({ identifier: "TokenHookResponse" }) as any as S.Schema<TokenHookResponse>;
 
 /** The value of the claim that you add or replace, and can also include other attributes. If adding to a claim, add another `value` attribute residing within an array called `attributeValues`. See the following examples: #### Simple value (integer or string) `"value": 300` or `"value": "replacementString"` #### Attribute value (object) ` "value": { "authContextClassRef": "replacementValue" }` #### AttributeValues array value (object) ` "value": { "attributes": { "NameFormat": "urn:oasis:names:tc:SAML:2.0:attrname-format:basic" }, "attributeValues": [ {"attributes": { "xsi:type": "xs:string" }, "value": "4321"} ] }` */
 export type SAMLHookResponseCommandsItemValueItemValue = string | number | unknown;
@@ -16337,9 +15445,7 @@ export const SAMLHookResponseError = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     errorSummary: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SAMLHookResponseError",
-}) as any as S.Schema<SAMLHookResponseError>;
+).annotate({ identifier: "SAMLHookResponseError" }) as any as S.Schema<SAMLHookResponseError>;
 
 export interface SAMLHookResponse {
   /** The `commands` object is where you tell Okta to add additional claims to the assertion or to modify the existing assertion statements. `commands` is an array, allowing you to send multiple commands. In each array element, include a `type` property and a `value` property. The `type` property is where you specify which of the supported commands you want to execute, and `value` is where you supply an operand for that command. In the case of the SAML assertion inline hook, the `value` property is itself a nested object, in which you specify a particular operation, a path to act on, and a value. */
@@ -16352,9 +15458,7 @@ export const SAMLHookResponse = /*@__PURE__*/ S.suspend(() =>
     commands: S.optional(SAMLHookResponseCommandsList),
     error: S.optional(SAMLHookResponseError),
   }),
-).annotate({
-  identifier: "SAMLHookResponse",
-}) as any as S.Schema<SAMLHookResponse>;
+).annotate({ identifier: "SAMLHookResponse" }) as any as S.Schema<SAMLHookResponse>;
 
 /** The command types supported for the import inline hook. When using the `com.okta.action.update` command to specify that the user should be treated as a match, you need to also provide a `com.okta.user.update` command that sets the ID of the Okta user. */
 export type UserImportResponseCommandsItemType =
@@ -16365,9 +15469,7 @@ export type UserImportResponseCommandsItemType =
 export const UserImportResponseCommandsItemType = S.String;
 
 /** The `value` object is the parameter to pass to the command. In the case of the `com.okta.appUser.profile.update` and `com.okta.user.profile.update` commands, the parameter should be a list of one or more profile attributes and the values you wish to set them to. In the case of the `com.okta.action.update` command, the parameter should be a `result` property set to either `CREATE_USER` or `LINK_USER`. */
-export type UserImportResponseCommandsItemValueMap = {
-  [key: string]: string | undefined;
-};
+export type UserImportResponseCommandsItemValueMap = { [key: string]: string | undefined };
 export const UserImportResponseCommandsItemValueMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -16409,9 +15511,7 @@ export const UserImportResponse = /*@__PURE__*/ S.suspend(() =>
     commands: S.optional(UserImportResponseCommandsList),
     error: S.optional(SAMLHookResponseError),
   }),
-).annotate({
-  identifier: "UserImportResponse",
-}) as any as S.Schema<UserImportResponse>;
+).annotate({ identifier: "UserImportResponse" }) as any as S.Schema<UserImportResponse>;
 
 export type ExecuteInlineHookResponseBody =
   | PasswordImportResponse
@@ -16437,13 +15537,7 @@ export interface ExecuteRealmAssignmentRequest {
 export const ExecuteRealmAssignmentRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     assignmentId: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v1/realm-assignments/operations",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/api/v1/realm-assignments/operations", code: 200 })),
 ).annotate({
   identifier: "ExecuteRealmAssignmentRequest",
 }) as any as S.Schema<ExecuteRealmAssignmentRequest>;
@@ -16560,15 +15654,9 @@ export const ExpirePasswordRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v1/users/{id}/lifecycle/expire_password",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/api/v1/users/{id}/lifecycle/expire_password", code: 200 }),
   ),
-).annotate({
-  identifier: "ExpirePasswordRequest",
-}) as any as S.Schema<ExpirePasswordRequest>;
+).annotate({ identifier: "ExpirePasswordRequest" }) as any as S.Schema<ExpirePasswordRequest>;
 
 export interface ExpirePasswordWithTempPasswordRequest {
   /** An ID, login, or login shortname (as long as the shortname is unambiguous) of an existing Okta user */
@@ -16618,9 +15706,7 @@ export const ForgotPasswordRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "ForgotPasswordRequest",
-}) as any as S.Schema<ForgotPasswordRequest>;
+).annotate({ identifier: "ForgotPasswordRequest" }) as any as S.Schema<ForgotPasswordRequest>;
 
 export interface ForgotPasswordResponse {
   resetPasswordUrl?: string | Redacted.Redacted<string>;
@@ -16629,9 +15715,7 @@ export const ForgotPasswordResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     resetPasswordUrl: S.optional(S.String.pipe(T.SensitiveValue({}))),
   }),
-).annotate({
-  identifier: "ForgotPasswordResponse",
-}) as any as S.Schema<ForgotPasswordResponse>;
+).annotate({ identifier: "ForgotPasswordResponse" }) as any as S.Schema<ForgotPasswordResponse>;
 
 export interface ForgotPasswordSetNewPasswordRequest {
   /** ID of an existing Okta user */
@@ -16668,11 +15752,7 @@ export const GenerateApplicationKeyRequest = /*@__PURE__*/ S.suspend(() =>
     appId: S.String.pipe(T.Label()),
     validityYears: S.Number.pipe(T.Query()),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v1/apps/{appId}/credentials/keys/generate",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/api/v1/apps/{appId}/credentials/keys/generate", code: 200 }),
   ),
 ).annotate({
   identifier: "GenerateApplicationKeyRequest",
@@ -16701,9 +15781,7 @@ export const CsrMetadataSubject = /*@__PURE__*/ S.suspend(() =>
     organizationName: S.optional(S.String),
     stateOrProvinceName: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CsrMetadataSubject",
-}) as any as S.Schema<CsrMetadataSubject>;
+).annotate({ identifier: "CsrMetadataSubject" }) as any as S.Schema<CsrMetadataSubject>;
 
 /** DNS names of the subject */
 export type CsrMetadataSubjectAltNamesDnsNamesList = Array<string>;
@@ -16734,13 +15812,7 @@ export const GenerateCsrForApplicationRequest = /*@__PURE__*/ S.suspend(() =>
     appId: S.String.pipe(T.Label()),
     subject: S.optional(CsrMetadataSubject),
     subjectAltNames: S.optional(CsrMetadataSubjectAltNames),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v1/apps/{appId}/credentials/csrs",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/api/v1/apps/{appId}/credentials/csrs", code: 200 })),
 ).annotate({
   identifier: "GenerateCsrForApplicationRequest",
 }) as any as S.Schema<GenerateCsrForApplicationRequest>;
@@ -16761,9 +15833,7 @@ export const CsrPublishHrefHints = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     allow: S.optional(CsrPublishHrefHintsAllowList),
   }),
-).annotate({
-  identifier: "CsrPublishHrefHints",
-}) as any as S.Schema<CsrPublishHrefHints>;
+).annotate({ identifier: "CsrPublishHrefHints" }) as any as S.Schema<CsrPublishHrefHints>;
 
 /** Link to publish CSR */
 export interface HrefCsrPublishLink {
@@ -16776,9 +15846,7 @@ export const HrefCsrPublishLink = /*@__PURE__*/ S.suspend(() =>
     hints: S.optional(CsrPublishHrefHints),
     href: S.String,
   }),
-).annotate({
-  identifier: "HrefCsrPublishLink",
-}) as any as S.Schema<HrefCsrPublishLink>;
+).annotate({ identifier: "HrefCsrPublishLink" }) as any as S.Schema<HrefCsrPublishLink>;
 
 export type CsrSelfHrefHintsAllowItem = "GET" | "DELETE";
 export const CsrSelfHrefHintsAllowItem = S.String;
@@ -16796,9 +15864,7 @@ export const CsrSelfHrefHints = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     allow: S.optional(CsrSelfHrefHintsAllowList),
   }),
-).annotate({
-  identifier: "CsrSelfHrefHints",
-}) as any as S.Schema<CsrSelfHrefHints>;
+).annotate({ identifier: "CsrSelfHrefHints" }) as any as S.Schema<CsrSelfHrefHints>;
 
 /** Link to the resource (self) */
 export interface HrefCsrSelfLink {
@@ -16811,9 +15877,7 @@ export const HrefCsrSelfLink = /*@__PURE__*/ S.suspend(() =>
     hints: S.optional(CsrSelfHrefHints),
     href: S.String,
   }),
-).annotate({
-  identifier: "HrefCsrSelfLink",
-}) as any as S.Schema<HrefCsrSelfLink>;
+).annotate({ identifier: "HrefCsrSelfLink" }) as any as S.Schema<HrefCsrSelfLink>;
 
 /** Specifies link relations (see [Web Linking](https://www.rfc-editor.org/rfc/rfc8288)) available for the current status of a CSR object using the [JSON Hypertext Application Language](https://datatracker.ietf.org/doc/html/draft-kelly-json-hal-06) specification. This object is used for dynamic discovery of related resources and lifecycle operations. */
 export interface CSRLinks {
@@ -16855,13 +15919,7 @@ export const GenerateCsrForIdentityProviderRequest = /*@__PURE__*/ S.suspend(() 
     idpId: S.String.pipe(T.Label()),
     subject: S.optional(CsrMetadataSubject),
     subjectAltNames: S.optional(CsrMetadataSubjectAltNames),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v1/idps/{idpId}/credentials/csrs",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/api/v1/idps/{idpId}/credentials/csrs", code: 200 })),
 ).annotate({
   identifier: "GenerateCsrForIdentityProviderRequest",
 }) as any as S.Schema<GenerateCsrForIdentityProviderRequest>;
@@ -16969,11 +16027,7 @@ export const GenerateIdentityProviderSigningKeyRequest = /*@__PURE__*/ S.suspend
     idpId: S.String.pipe(T.Label()),
     validityYears: S.Number.pipe(T.Query()),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v1/idps/{idpId}/credentials/keys/generate",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/api/v1/idps/{idpId}/credentials/keys/generate", code: 200 }),
   ),
 ).annotate({
   identifier: "GenerateIdentityProviderSigningKeyRequest",
@@ -16982,9 +16036,7 @@ export const GenerateIdentityProviderSigningKeyRequest = /*@__PURE__*/ S.suspend
 export interface GetAerialConsentRequest {}
 export const GetAerialConsentRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/api/v1/org/privacy/aerial", code: 200 })),
-).annotate({
-  identifier: "GetAerialConsentRequest",
-}) as any as S.Schema<GetAerialConsentRequest>;
+).annotate({ identifier: "GetAerialConsentRequest" }) as any as S.Schema<GetAerialConsentRequest>;
 
 export type HrefObjectRevokeAerialConsent = HrefObjectSelfLink;
 export const HrefObjectRevokeAerialConsent = HrefObjectSelfLink;
@@ -17018,9 +16070,7 @@ export const OrgAerialConsentDetails = /*@__PURE__*/ S.suspend(() =>
     grantedDate: S.optional(S.String),
     _links: S.optional(LinksAerialConsentGranted),
   }),
-).annotate({
-  identifier: "OrgAerialConsentDetails",
-}) as any as S.Schema<OrgAerialConsentDetails>;
+).annotate({ identifier: "OrgAerialConsentDetails" }) as any as S.Schema<OrgAerialConsentDetails>;
 
 export interface GetAgentPoolsUpdateInstanceRequest {
   /** ID of the agent pool for which the settings apply to */
@@ -17033,11 +16083,7 @@ export const GetAgentPoolsUpdateInstanceRequest = /*@__PURE__*/ S.suspend(() =>
     poolId: S.String.pipe(T.Label()),
     updateId: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/agentPools/{poolId}/updates/{updateId}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/v1/agentPools/{poolId}/updates/{updateId}", code: 200 }),
   ),
 ).annotate({
   identifier: "GetAgentPoolsUpdateInstanceRequest",
@@ -17051,11 +16097,7 @@ export const GetAgentPoolsUpdateSettingsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     poolId: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/agentPools/{poolId}/updates/settings",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/v1/agentPools/{poolId}/updates/settings", code: 200 }),
   ),
 ).annotate({
   identifier: "GetAgentPoolsUpdateSettingsRequest",
@@ -17128,13 +16170,7 @@ export const GetAllCrossAppAccessConnectionsRequest = /*@__PURE__*/ S.suspend(()
     activeAppsOnly: S.optional(S.Boolean.pipe(T.Query())),
     requestingAppName: S.optional(S.String.pipe(T.Query())),
     resourceAppName: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/apps/{appId}/cwo/connections",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/v1/apps/{appId}/cwo/connections", code: 200 })),
 ).annotate({
   identifier: "GetAllCrossAppAccessConnectionsRequest",
 }) as any as S.Schema<GetAllCrossAppAccessConnectionsRequest>;
@@ -17176,13 +16212,7 @@ export const GetAllWellKnownURIsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     brandId: S.String.pipe(T.Label()),
     expand: S.optional(GetAllWellKnownURIsRequestExpandList.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/brands/{brandId}/well-known-uris",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/v1/brands/{brandId}/well-known-uris", code: 200 })),
 ).annotate({
   identifier: "GetAllWellKnownURIsRequest",
 }) as any as S.Schema<GetAllWellKnownURIsRequest>;
@@ -17292,9 +16322,7 @@ export const WellKnownURIsRootLinks = /*@__PURE__*/ S.suspend(() =>
     assetlinks_json: S.optional(HrefObjectSelfLink.pipe(T.Body("assetlinks.json"))),
     webauthn: S.optional(HrefObjectSelfLink),
   }),
-).annotate({
-  identifier: "WellKnownURIsRootLinks",
-}) as any as S.Schema<WellKnownURIsRootLinks>;
+).annotate({ identifier: "WellKnownURIsRootLinks" }) as any as S.Schema<WellKnownURIsRootLinks>;
 
 export interface WellKnownURIsRoot {
   _embedded?: WellKnownURIsRootEmbedded;
@@ -17305,9 +16333,7 @@ export const WellKnownURIsRoot = /*@__PURE__*/ S.suspend(() =>
     _embedded: S.optional(WellKnownURIsRootEmbedded),
     _links: S.optional(WellKnownURIsRootLinks),
   }),
-).annotate({
-  identifier: "WellKnownURIsRoot",
-}) as any as S.Schema<WellKnownURIsRoot>;
+).annotate({ identifier: "WellKnownURIsRoot" }) as any as S.Schema<WellKnownURIsRoot>;
 
 export interface GetApiServiceIntegrationInstanceRequest {
   /** `id` of the API Service Integration instance */
@@ -17317,11 +16343,7 @@ export const GetApiServiceIntegrationInstanceRequest = /*@__PURE__*/ S.suspend((
   S.Struct({
     apiServiceId: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/integrations/api/v1/api-services/{apiServiceId}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/integrations/api/v1/api-services/{apiServiceId}", code: 200 }),
   ),
 ).annotate({
   identifier: "GetApiServiceIntegrationInstanceRequest",
@@ -17374,16 +16396,8 @@ export interface GetApiTokenRequest {
 export const GetApiTokenRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     apiTokenId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/api-tokens/{apiTokenId}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetApiTokenRequest",
-}) as any as S.Schema<GetApiTokenRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/v1/api-tokens/{apiTokenId}", code: 200 })),
+).annotate({ identifier: "GetApiTokenRequest" }) as any as S.Schema<GetApiTokenRequest>;
 
 /** List of included IP network zones */
 export type ApiTokenNetworkIncludeList = Array<string>;
@@ -17412,9 +16426,7 @@ export const ApiTokenNetwork = /*@__PURE__*/ S.suspend(() =>
     include: S.optional(ApiTokenNetworkIncludeList),
     exclude: S.optional(ApiTokenNetworkExcludeList),
   }),
-).annotate({
-  identifier: "ApiTokenNetwork",
-}) as any as S.Schema<ApiTokenNetwork>;
+).annotate({ identifier: "ApiTokenNetwork" }) as any as S.Schema<ApiTokenNetwork>;
 
 /** An API token for an Okta User. This token is NOT scoped any further and can be used for any API the user has permissions to call. */
 export interface ApiToken {
@@ -17448,11 +16460,7 @@ export const ApiToken = /*@__PURE__*/ S.suspend(() =>
 export interface GetAppleAppSiteAssociationWellKnownURIRequest {}
 export const GetAppleAppSiteAssociationWellKnownURIRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/.well-known/apple-app-site-association",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/.well-known/apple-app-site-association", code: 200 }),
   ),
 ).annotate({
   identifier: "GetAppleAppSiteAssociationWellKnownURIRequest",
@@ -17476,9 +16484,7 @@ export const GetApplicationRequest = /*@__PURE__*/ S.suspend(() =>
     appId: S.String.pipe(T.Label()),
     expand: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/api/v1/apps/{appId}", code: 200 })),
-).annotate({
-  identifier: "GetApplicationRequest",
-}) as any as S.Schema<GetApplicationRequest>;
+).annotate({ identifier: "GetApplicationRequest" }) as any as S.Schema<GetApplicationRequest>;
 
 export interface GetApplicationGroupAssignmentRequest {
   /** Application ID */
@@ -17493,13 +16499,7 @@ export const GetApplicationGroupAssignmentRequest = /*@__PURE__*/ S.suspend(() =
     appId: S.String.pipe(T.Label()),
     groupId: S.String.pipe(T.Label()),
     expand: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/apps/{appId}/groups/{groupId}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/v1/apps/{appId}/groups/{groupId}", code: 200 })),
 ).annotate({
   identifier: "GetApplicationGroupAssignmentRequest",
 }) as any as S.Schema<GetApplicationGroupAssignmentRequest>;
@@ -17515,15 +16515,9 @@ export const GetApplicationKeyRequest = /*@__PURE__*/ S.suspend(() =>
     appId: S.String.pipe(T.Label()),
     keyId: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/apps/{appId}/credentials/keys/{keyId}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/v1/apps/{appId}/credentials/keys/{keyId}", code: 200 }),
   ),
-).annotate({
-  identifier: "GetApplicationKeyRequest",
-}) as any as S.Schema<GetApplicationKeyRequest>;
+).annotate({ identifier: "GetApplicationKeyRequest" }) as any as S.Schema<GetApplicationKeyRequest>;
 
 export interface GetApplicationUserRequest {
   /** Application ID */
@@ -17538,13 +16532,7 @@ export const GetApplicationUserRequest = /*@__PURE__*/ S.suspend(() =>
     appId: S.String.pipe(T.Label()),
     userId: S.String.pipe(T.Label()),
     expand: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/apps/{appId}/users/{userId}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/v1/apps/{appId}/users/{userId}", code: 200 })),
 ).annotate({
   identifier: "GetApplicationUserRequest",
 }) as any as S.Schema<GetApplicationUserRequest>;
@@ -17556,13 +16544,7 @@ export interface GetApplicationUserSchemaRequest {
 export const GetApplicationUserSchemaRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     appId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/meta/schemas/apps/{appId}/default",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/v1/meta/schemas/apps/{appId}/default", code: 200 })),
 ).annotate({
   identifier: "GetApplicationUserSchemaRequest",
 }) as any as S.Schema<GetApplicationUserSchemaRequest>;
@@ -17657,9 +16639,7 @@ export const UserSchemaAttributeEnum = /*@__PURE__*/ S.suspend(() =>
     const: S.optional(S.String),
     title: S.optional(S.String),
   }),
-).annotate({
-  identifier: "UserSchemaAttributeEnum",
-}) as any as S.Schema<UserSchemaAttributeEnum>;
+).annotate({ identifier: "UserSchemaAttributeEnum" }) as any as S.Schema<UserSchemaAttributeEnum>;
 
 /** Non-empty array of valid JSON schemas. The `oneOf` key is only supported in conjunction with `enum` and provides a mechanism to return a display name for the `enum` value.<br> Each schema has the following format: ``` { "const": "enumValue", "title": "display name" } ``` When `enum` is used in conjunction with `oneOf`, you must keep the set of enumerated values and their order.<br> For example: ``` "enum": ["S","M","L","XL"], "oneOf": [ {"const": "S", "title": "Small"}, {"const": "M", "title": "Medium"}, {"const": "L", "title": "Large"}, {"const": "XL", "title": "Extra Large"} ] ``` */
 export type UserSchemaAttributeOneOfList = Array<UserSchemaAttributeEnum>;
@@ -17752,9 +16732,7 @@ export const UserSchemaAttribute = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(UserSchemaAttributeType),
     unique: S.optional(S.NullOr(S.Boolean)),
   }),
-).annotate({
-  identifier: "UserSchemaAttribute",
-}) as any as S.Schema<UserSchemaAttribute>;
+).annotate({ identifier: "UserSchemaAttribute" }) as any as S.Schema<UserSchemaAttribute>;
 
 export interface UserSchemaBaseProperties {
   /** City or locality component of the user's address (`locality`) */
@@ -17854,9 +16832,7 @@ export const UserSchemaBaseProperties = /*@__PURE__*/ S.suspend(() =>
     userType: S.optional(UserSchemaAttribute),
     zipCode: S.optional(UserSchemaAttribute),
   }),
-).annotate({
-  identifier: "UserSchemaBaseProperties",
-}) as any as S.Schema<UserSchemaBaseProperties>;
+).annotate({ identifier: "UserSchemaBaseProperties" }) as any as S.Schema<UserSchemaBaseProperties>;
 
 /** A collection indicating required property names */
 export type UserSchemaBaseRequiredList = Array<string>;
@@ -17885,9 +16861,7 @@ export const UserSchemaBase = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "UserSchemaBase" }) as any as S.Schema<UserSchemaBase>;
 
 /** The `#custom` object properties */
-export type UserSchemaPublicPropertiesMap = {
-  [key: string]: UserSchemaAttribute | undefined;
-};
+export type UserSchemaPublicPropertiesMap = { [key: string]: UserSchemaAttribute | undefined };
 export const UserSchemaPublicPropertiesMap = /*@__PURE__*/ S.Record(
   S.String,
   UserSchemaAttribute,
@@ -17917,9 +16891,7 @@ export const UserSchemaPublic = /*@__PURE__*/ S.suspend(() =>
     required: S.optional(UserSchemaPublicRequiredList),
     type: S.optional(S.String),
   }),
-).annotate({
-  identifier: "UserSchemaPublic",
-}) as any as S.Schema<UserSchemaPublic>;
+).annotate({ identifier: "UserSchemaPublic" }) as any as S.Schema<UserSchemaPublic>;
 
 export interface UserSchemaDefinitions {
   base?: UserSchemaBase;
@@ -17930,9 +16902,7 @@ export const UserSchemaDefinitions = /*@__PURE__*/ S.suspend(() =>
     base: S.optional(UserSchemaBase),
     custom: S.optional(UserSchemaPublic),
   }),
-).annotate({
-  identifier: "UserSchemaDefinitions",
-}) as any as S.Schema<UserSchemaDefinitions>;
+).annotate({ identifier: "UserSchemaDefinitions" }) as any as S.Schema<UserSchemaDefinitions>;
 
 export interface UserSchemaPropertiesProfileItem {
   _ref?: string;
@@ -17968,9 +16938,7 @@ export const UserSchemaProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     profile: S.optional(UserSchemaPropertiesProfile),
   }),
-).annotate({
-  identifier: "UserSchemaProperties",
-}) as any as S.Schema<UserSchemaProperties>;
+).annotate({ identifier: "UserSchemaProperties" }) as any as S.Schema<UserSchemaProperties>;
 
 export interface UserSchema {
   /** JSON schema version identifier */
@@ -18016,11 +16984,7 @@ export const GetAppServiceAccountRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/privileged-access/api/v1/service-accounts/{id}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/privileged-access/api/v1/service-accounts/{id}", code: 200 }),
   ),
 ).annotate({
   identifier: "GetAppServiceAccountRequest",
@@ -18053,16 +17017,8 @@ export interface GetAuthenticatorRequest {
 export const GetAuthenticatorRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     authenticatorId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/authenticators/{authenticatorId}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetAuthenticatorRequest",
-}) as any as S.Schema<GetAuthenticatorRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/v1/authenticators/{authenticatorId}", code: 200 })),
+).annotate({ identifier: "GetAuthenticatorRequest" }) as any as S.Schema<GetAuthenticatorRequest>;
 
 export type GetAuthenticatorEnrollmentRequestDiscloseIdentifiersItem = "phone";
 export const GetAuthenticatorEnrollmentRequestDiscloseIdentifiersItem = S.String;
@@ -18142,11 +17098,7 @@ export const GetAuthenticatorMethodRequest = /*@__PURE__*/ S.suspend(() =>
 export interface GetAuthenticatorSettingsRequest {}
 export const GetAuthenticatorSettingsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/attack-protection/api/v1/authenticator-settings",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/attack-protection/api/v1/authenticator-settings", code: 200 }),
   ),
 ).annotate({
   identifier: "GetAuthenticatorSettingsRequest",
@@ -18171,13 +17123,7 @@ export interface GetAuthorizationServerRequest {
 export const GetAuthorizationServerRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     authServerId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/authorizationServers/{authServerId}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/v1/authorizationServers/{authServerId}", code: 200 })),
 ).annotate({
   identifier: "GetAuthorizationServerRequest",
 }) as any as S.Schema<GetAuthorizationServerRequest>;
@@ -18339,11 +17285,7 @@ export const GetAuthorizationServerPolicyRuleRequest = /*@__PURE__*/ S.suspend((
 export interface GetAutoAssignAdminAppSettingRequest {}
 export const GetAutoAssignAdminAppSettingRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/org/settings/autoAssignAdminAppSetting",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/v1/org/settings/autoAssignAdminAppSetting", code: 200 }),
   ),
 ).annotate({
   identifier: "GetAutoAssignAdminAppSettingRequest",
@@ -18391,9 +17333,7 @@ export const GetBindingRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetBindingRequest",
-}) as any as S.Schema<GetBindingRequest>;
+).annotate({ identifier: "GetBindingRequest" }) as any as S.Schema<GetBindingRequest>;
 
 export type HrefObjectMembersLink = HrefObjectSelfLink;
 export const HrefObjectMembersLink = HrefObjectSelfLink;
@@ -18430,11 +17370,7 @@ export const ResourceSetBindingResponse = /*@__PURE__*/ S.suspend(() =>
 export interface GetBotProtectionConfigurationRequest {}
 export const GetBotProtectionConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/bot-protection/configuration",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/v1/bot-protection/configuration", code: 200 }),
   ),
 ).annotate({
   identifier: "GetBotProtectionConfigurationRequest",
@@ -18502,9 +17438,7 @@ export const GetBrandRequest = /*@__PURE__*/ S.suspend(() =>
     brandId: S.String.pipe(T.Label()),
     expand: S.optional(GetBrandRequestExpandList.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/api/v1/brands/{brandId}", code: 200 })),
-).annotate({
-  identifier: "GetBrandRequest",
-}) as any as S.Schema<GetBrandRequest>;
+).annotate({ identifier: "GetBrandRequest" }) as any as S.Schema<GetBrandRequest>;
 
 /** Variant for email templates. You can publish a theme for email templates with different combinations of assets. Variants are preset combinations of those assets. */
 export type EmailTemplateTouchPointVariant = "FULL_THEME" | "OKTA_DEFAULT";
@@ -18610,9 +17544,7 @@ export const EmailDomainResponse = /*@__PURE__*/ S.suspend(() =>
     validationStatus: S.optional(EmailDomainStatus),
     validationSubdomain: S.optional(S.String),
   }),
-).annotate({
-  identifier: "EmailDomainResponse",
-}) as any as S.Schema<EmailDomainResponse>;
+).annotate({ identifier: "EmailDomainResponse" }) as any as S.Schema<EmailDomainResponse>;
 
 export interface GetBrandResponseEmbedded {
   themes?: GetBrandResponseEmbeddedThemesList;
@@ -18625,9 +17557,7 @@ export const GetBrandResponseEmbedded = /*@__PURE__*/ S.suspend(() =>
     domains: S.optional(GetBrandResponseEmbeddedDomainsList),
     emailDomain: S.optional(EmailDomainResponse),
   }),
-).annotate({
-  identifier: "GetBrandResponseEmbedded",
-}) as any as S.Schema<GetBrandResponseEmbedded>;
+).annotate({ identifier: "GetBrandResponseEmbedded" }) as any as S.Schema<GetBrandResponseEmbedded>;
 
 export interface GetBrandResponseLinks {
   self?: HrefObjectSelfLink;
@@ -18638,9 +17568,7 @@ export const GetBrandResponseLinks = /*@__PURE__*/ S.suspend(() =>
     self: S.optional(HrefObjectSelfLink),
     themes: S.optional(HrefObjectSelfLink),
   }),
-).annotate({
-  identifier: "GetBrandResponseLinks",
-}) as any as S.Schema<GetBrandResponseLinks>;
+).annotate({ identifier: "GetBrandResponseLinks" }) as any as S.Schema<GetBrandResponseLinks>;
 
 export interface GetBrandResponse {
   /** Consent for updating the custom privacy URL. Not required when resetting the URL. */
@@ -18676,9 +17604,7 @@ export const GetBrandResponse = /*@__PURE__*/ S.suspend(() =>
     _embedded: S.optional(GetBrandResponseEmbedded),
     _links: S.optional(GetBrandResponseLinks),
   }),
-).annotate({
-  identifier: "GetBrandResponse",
-}) as any as S.Schema<GetBrandResponse>;
+).annotate({ identifier: "GetBrandResponse" }) as any as S.Schema<GetBrandResponse>;
 
 export interface GetBrandThemeRequest {
   /** The ID of the brand */
@@ -18690,16 +17616,8 @@ export const GetBrandThemeRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     brandId: S.String.pipe(T.Label()),
     themeId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/brands/{brandId}/themes/{themeId}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetBrandThemeRequest",
-}) as any as S.Schema<GetBrandThemeRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/v1/brands/{brandId}/themes/{themeId}", code: 200 })),
+).annotate({ identifier: "GetBrandThemeRequest" }) as any as S.Schema<GetBrandThemeRequest>;
 
 export type GetBrandWellKnownURIRequestPath =
   | "apple-app-site-association"
@@ -18743,11 +17661,7 @@ export const GetCaptchaInstanceRequest = /*@__PURE__*/ S.suspend(() =>
 export interface GetClientPrivilegesSettingRequest {}
 export const GetClientPrivilegesSettingRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/org/settings/clientPrivilegesSetting",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/v1/org/settings/clientPrivilegesSetting", code: 200 }),
   ),
 ).annotate({
   identifier: "GetClientPrivilegesSettingRequest",
@@ -18770,9 +17684,7 @@ export const GetClientRoleRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetClientRoleRequest",
-}) as any as S.Schema<GetClientRoleRequest>;
+).annotate({ identifier: "GetClientRoleRequest" }) as any as S.Schema<GetClientRoleRequest>;
 
 export type GetClientRoleResponseBody = StandardRole | CustomRole;
 export const GetClientRoleResponseBody = S.Unknown as any as S.Schema<GetClientRoleResponseBody>;
@@ -18780,9 +17692,7 @@ export const GetClientRoleResponseBody = S.Unknown as any as S.Schema<GetClientR
 export type GetClientRoleResponse = GetClientRoleResponseBody;
 export const GetClientRoleResponse = /*@__PURE__*/ S.suspend(() =>
   GetClientRoleResponseBody.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "GetClientRoleResponse",
-}) as any as S.Schema<GetClientRoleResponse>;
+).annotate({ identifier: "GetClientRoleResponse" }) as any as S.Schema<GetClientRoleResponse>;
 
 export interface GetCrossAppAccessConnectionRequest {
   /** Application ID */
@@ -18816,11 +17726,7 @@ export const GetCsrForApplicationRequest = /*@__PURE__*/ S.suspend(() =>
     appId: S.String.pipe(T.Label()),
     csrId: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/apps/{appId}/credentials/csrs/{csrId}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/v1/apps/{appId}/credentials/csrs/{csrId}", code: 200 }),
   ),
 ).annotate({
   identifier: "GetCsrForApplicationRequest",
@@ -18837,11 +17743,7 @@ export const GetCsrForIdentityProviderRequest = /*@__PURE__*/ S.suspend(() =>
     idpId: S.String.pipe(T.Label()),
     idpCsrId: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/idps/{idpId}/credentials/csrs/{idpCsrId}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/v1/idps/{idpId}/credentials/csrs/{idpCsrId}", code: 200 }),
   ),
 ).annotate({
   identifier: "GetCsrForIdentityProviderRequest",
@@ -18904,9 +17806,7 @@ export const GetCustomAAGUIDRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetCustomAAGUIDRequest",
-}) as any as S.Schema<GetCustomAAGUIDRequest>;
+).annotate({ identifier: "GetCustomAAGUIDRequest" }) as any as S.Schema<GetCustomAAGUIDRequest>;
 
 export interface GetCustomDomainRequest {
   /** `id` of the Domain */
@@ -18916,9 +17816,7 @@ export const GetCustomDomainRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     domainId: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/api/v1/domains/{domainId}", code: 200 })),
-).annotate({
-  identifier: "GetCustomDomainRequest",
-}) as any as S.Schema<GetCustomDomainRequest>;
+).annotate({ identifier: "GetCustomDomainRequest" }) as any as S.Schema<GetCustomDomainRequest>;
 
 export interface GetCustomizationPreviewRequest {
   /** The ID of the brand */
@@ -18959,9 +17857,7 @@ export const EmailPreviewLinks = /*@__PURE__*/ S.suspend(() =>
     test: S.optional(HrefObjectSelfLink),
     defaultContent: S.optional(HrefObjectSelfLink),
   }),
-).annotate({
-  identifier: "EmailPreviewLinks",
-}) as any as S.Schema<EmailPreviewLinks>;
+).annotate({ identifier: "EmailPreviewLinks" }) as any as S.Schema<EmailPreviewLinks>;
 
 export interface EmailPreview {
   /** The email's HTML body */
@@ -18986,11 +17882,7 @@ export const GetCustomizedErrorPageRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     brandId: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/brands/{brandId}/pages/error/customized",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/v1/brands/{brandId}/pages/error/customized", code: 200 }),
   ),
 ).annotate({
   identifier: "GetCustomizedErrorPageRequest",
@@ -19041,15 +17933,542 @@ export const GetCustomizedSignInPageRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     brandId: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/brands/{brandId}/pages/sign-in/customized",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/v1/brands/{brandId}/pages/sign-in/customized", code: 200 }),
   ),
 ).annotate({
   identifier: "GetCustomizedSignInPageRequest",
 }) as any as S.Schema<GetCustomizedSignInPageRequest>;
+
+export interface WidgetConfigurationAssets {
+  baseUrl?: string;
+}
+export const WidgetConfigurationAssets = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    baseUrl: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "WidgetConfigurationAssets",
+}) as any as S.Schema<WidgetConfigurationAssets>;
+
+/** Color customizations for the Sign-In Widget */
+export interface WidgetConfigurationColors {
+  /** Primary brand color (hex value, e.g. "#1662dd") */
+  brand?: string;
+}
+export const WidgetConfigurationColors = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    brand: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "WidgetConfigurationColors",
+}) as any as S.Schema<WidgetConfigurationColors>;
+
+export interface WidgetConfigurationFeatures {
+  router?: boolean;
+  securityImage?: boolean;
+  rememberMe?: boolean;
+  autoPush?: boolean;
+  smsRecovery?: boolean;
+  callRecovery?: boolean;
+  emailRecovery?: boolean;
+  webauthn?: boolean;
+  selfServiceUnlock?: boolean;
+  multiOptionalFactorEnroll?: boolean;
+  deviceFingerprinting?: boolean;
+  hideSignOutLinkInMFA?: boolean;
+  hideBackToSignInForReset?: boolean;
+  customExpiredPassword?: boolean;
+  registration?: boolean;
+  idpDiscovery?: boolean;
+  passwordlessAuth?: boolean;
+  showPasswordToggleOnSignInPage?: boolean;
+  trackTypingPattern?: boolean;
+  redirectByFormSubmit?: boolean;
+  sameDeviceOVEnrollmentEnabled?: boolean;
+  useDeviceFingerprintForSecurityImage?: boolean;
+  showPasswordRequirementsAsHtmlList?: boolean;
+  mfaOnlyFlow?: boolean;
+}
+export const WidgetConfigurationFeatures = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    router: S.optional(S.Boolean),
+    securityImage: S.optional(S.Boolean),
+    rememberMe: S.optional(S.Boolean),
+    autoPush: S.optional(S.Boolean),
+    smsRecovery: S.optional(S.Boolean),
+    callRecovery: S.optional(S.Boolean),
+    emailRecovery: S.optional(S.Boolean),
+    webauthn: S.optional(S.Boolean),
+    selfServiceUnlock: S.optional(S.Boolean),
+    multiOptionalFactorEnroll: S.optional(S.Boolean),
+    deviceFingerprinting: S.optional(S.Boolean),
+    hideSignOutLinkInMFA: S.optional(S.Boolean),
+    hideBackToSignInForReset: S.optional(S.Boolean),
+    customExpiredPassword: S.optional(S.Boolean),
+    registration: S.optional(S.Boolean),
+    idpDiscovery: S.optional(S.Boolean),
+    passwordlessAuth: S.optional(S.Boolean),
+    showPasswordToggleOnSignInPage: S.optional(S.Boolean),
+    trackTypingPattern: S.optional(S.Boolean),
+    redirectByFormSubmit: S.optional(S.Boolean),
+    sameDeviceOVEnrollmentEnabled: S.optional(S.Boolean),
+    useDeviceFingerprintForSecurityImage: S.optional(S.Boolean),
+    showPasswordRequirementsAsHtmlList: S.optional(S.Boolean),
+    mfaOnlyFlow: S.optional(S.Boolean),
+  }),
+).annotate({
+  identifier: "WidgetConfigurationFeatures",
+}) as any as S.Schema<WidgetConfigurationFeatures>;
+
+export type WidgetConfigurationHcaptchaScriptParamsMap = { [key: string]: string | undefined };
+export const WidgetConfigurationHcaptchaScriptParamsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.String,
+) as any as S.Schema<WidgetConfigurationHcaptchaScriptParamsMap>;
+
+export interface WidgetConfigurationHcaptcha {
+  scriptSource?: string;
+  scriptParams?: WidgetConfigurationHcaptchaScriptParamsMap;
+}
+export const WidgetConfigurationHcaptcha = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    scriptSource: S.optional(S.String),
+    scriptParams: S.optional(WidgetConfigurationHcaptchaScriptParamsMap),
+  }),
+).annotate({
+  identifier: "WidgetConfigurationHcaptcha",
+}) as any as S.Schema<WidgetConfigurationHcaptcha>;
+
+export interface WidgetConfigurationHelpLinksFactorPage {
+  text: string;
+  href: string;
+  target?: string;
+}
+export const WidgetConfigurationHelpLinksFactorPage = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    text: S.String,
+    href: S.String,
+    target: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "WidgetConfigurationHelpLinksFactorPage",
+}) as any as S.Schema<WidgetConfigurationHelpLinksFactorPage>;
+
+export type WidgetConfigurationHelpLinksCustomItem = WidgetConfigurationHelpLinksFactorPage;
+export const WidgetConfigurationHelpLinksCustomItem = WidgetConfigurationHelpLinksFactorPage;
+
+export type WidgetConfigurationHelpLinksCustomList = Array<WidgetConfigurationHelpLinksFactorPage>;
+export const WidgetConfigurationHelpLinksCustomList = /*@__PURE__*/ S.Array(
+  WidgetConfigurationHelpLinksFactorPage,
+) as any as S.Schema<WidgetConfigurationHelpLinksCustomList>;
+
+export interface WidgetConfigurationHelpLinks {
+  help?: string;
+  forgotPassword?: string | Redacted.Redacted<string>;
+  factorPage?: WidgetConfigurationHelpLinksFactorPage;
+  unlock?: string;
+  custom?: WidgetConfigurationHelpLinksCustomList;
+}
+export const WidgetConfigurationHelpLinks = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    help: S.optional(S.String),
+    forgotPassword: S.optional(S.String.pipe(T.SensitiveValue({}))),
+    factorPage: S.optional(WidgetConfigurationHelpLinksFactorPage),
+    unlock: S.optional(S.String),
+    custom: S.optional(WidgetConfigurationHelpLinksCustomList),
+  }),
+).annotate({
+  identifier: "WidgetConfigurationHelpLinks",
+}) as any as S.Schema<WidgetConfigurationHelpLinks>;
+
+export type WidgetConfigurationI18nValueMap = { [key: string]: string | undefined };
+export const WidgetConfigurationI18nValueMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.String,
+) as any as S.Schema<WidgetConfigurationI18nValueMap>;
+
+/** Internationalization overrides. Keys are locale codes (e.g. "en", "ja", "fr"), values are objects mapping i18n keys to string overrides. */
+export type WidgetConfigurationI18n = {
+  [key: string]: WidgetConfigurationI18nValueMap | undefined;
+};
+export const WidgetConfigurationI18n = /*@__PURE__*/ S.Record(
+  S.String,
+  WidgetConfigurationI18nValueMap,
+) as any as S.Schema<WidgetConfigurationI18n>;
+
+export interface WidgetConfigurationRecaptcha {
+  scriptSource?: string;
+}
+export const WidgetConfigurationRecaptcha = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    scriptSource: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "WidgetConfigurationRecaptcha",
+}) as any as S.Schema<WidgetConfigurationRecaptcha>;
+
+/** Design tokens for customizing the Sign-In Widget appearance */
+export interface WidgetConfigurationThemeTokens {
+  BorderColorDangerControl?: string;
+  BorderColorDangerDark?: string;
+  BorderColorDangerLight?: string;
+  BorderColorDisabled?: string;
+  BorderColorDisplay?: string;
+  BorderColorPrimaryControl?: string;
+  BorderColorPrimaryDark?: string;
+  BorderRadiusMain?: string;
+  BorderRadiusTight?: string;
+  BorderStyleMain?: string;
+  BorderWidthMain?: string;
+  FocusOutlineColorPrimary?: string;
+  FocusOutlineOffsetMain?: string;
+  FocusOutlineOffsetTight?: string;
+  FocusOutlineStyle?: string;
+  FocusOutlineWidthMain?: string;
+  FocusOutlineWidthTight?: string;
+  HueBlue100?: string;
+  HueBlue200?: string;
+  HueBlue300?: string;
+  HueBlue400?: string;
+  HueBlue50?: string;
+  HueBlue500?: string;
+  HueBlue600?: string;
+  HueBlue700?: string;
+  HueBlue800?: string;
+  HueBlue900?: string;
+  HueGreen100?: string;
+  HueGreen200?: string;
+  HueGreen300?: string;
+  HueGreen400?: string;
+  HueGreen50?: string;
+  HueGreen500?: string;
+  HueGreen600?: string;
+  HueGreen700?: string;
+  HueGreen800?: string;
+  HueGreen900?: string;
+  HueNeutral100?: string;
+  HueNeutral200?: string;
+  HueNeutral300?: string;
+  HueNeutral400?: string;
+  HueNeutral50?: string;
+  HueNeutral500?: string;
+  HueNeutral600?: string;
+  HueNeutral700?: string;
+  HueNeutral800?: string;
+  HueNeutral900?: string;
+  HueNeutralWhite?: string;
+  HueRed100?: string;
+  HueRed200?: string;
+  HueRed300?: string;
+  HueRed400?: string;
+  HueRed50?: string;
+  HueRed500?: string;
+  HueRed600?: string;
+  HueRed700?: string;
+  HueRed800?: string;
+  HueRed900?: string;
+  HueYellow100?: string;
+  HueYellow200?: string;
+  HueYellow300?: string;
+  HueYellow400?: string;
+  HueYellow50?: string;
+  HueYellow500?: string;
+  HueYellow600?: string;
+  HueYellow700?: string;
+  HueYellow800?: string;
+  HueYellow900?: string;
+  PaletteDangerDark?: string;
+  PaletteDangerDarker?: string;
+  PaletteDangerHeading?: string;
+  PaletteDangerHighlight?: string;
+  PaletteDangerLight?: string;
+  PaletteDangerLighter?: string;
+  PaletteDangerMain?: string;
+  PaletteDangerText?: string;
+  PalettePrimaryDark?: string;
+  PalettePrimaryDarker?: string;
+  PalettePrimaryHeading?: string;
+  PalettePrimaryHighlight?: string;
+  PalettePrimaryLight?: string;
+  PalettePrimaryLighter?: string;
+  PalettePrimaryMain?: string;
+  PalettePrimaryText?: string;
+  PaletteSuccessDark?: string;
+  PaletteSuccessDarker?: string;
+  PaletteSuccessHeading?: string;
+  PaletteSuccessHighlight?: string;
+  PaletteSuccessLight?: string;
+  PaletteSuccessLighter?: string;
+  PaletteSuccessMain?: string;
+  PaletteSuccessText?: string;
+  PaletteWarningDark?: string;
+  PaletteWarningDarker?: string;
+  PaletteWarningHeading?: string;
+  PaletteWarningHighlight?: string;
+  PaletteWarningLight?: string;
+  PaletteWarningLighter?: string;
+  PaletteWarningMain?: string;
+  PaletteWarningText?: string;
+  Spacing0?: string;
+  Spacing1?: string;
+  Spacing2?: string;
+  Spacing3?: string;
+  Spacing4?: string;
+  Spacing5?: string;
+  Spacing6?: string;
+  Spacing7?: string;
+  Spacing8?: string;
+  Spacing9?: string;
+  TransitionDurationMain?: string;
+  TypographyColorAction?: string;
+  TypographyColorBody?: string;
+  TypographyColorDanger?: string;
+  TypographyColorDisabled?: string;
+  TypographyColorHeading?: string;
+  TypographyColorInverse?: string;
+  TypographyColorSubordinate?: string;
+  TypographyColorSuccess?: string;
+  TypographyColorSupport?: string;
+  TypographyColorWarning?: string;
+  TypographyFamilyBody?: string;
+  TypographyFamilyButton?: string;
+  TypographyFamilyHeading?: string;
+  /** Unitless line-height multiplier for body text (e.g. 1.5) */
+  TypographyLineHeightBody?: number;
+  /** Unitless line-height multiplier for heading 1 */
+  TypographyLineHeightHeading1?: number;
+  /** Unitless line-height multiplier for heading 2 */
+  TypographyLineHeightHeading2?: number;
+  /** Unitless line-height multiplier for heading 3 */
+  TypographyLineHeightHeading3?: number;
+  /** Unitless line-height multiplier for heading 4 */
+  TypographyLineHeightHeading4?: number;
+  /** Unitless line-height multiplier for heading 5 */
+  TypographyLineHeightHeading5?: number;
+  /** Unitless line-height multiplier for heading 6 */
+  TypographyLineHeightHeading6?: number;
+  /** Unitless line-height multiplier for overline text */
+  TypographyLineHeightOverline?: number;
+  /** Unitless line-height multiplier for UI text */
+  TypographyLineHeightUi?: number;
+  TypographyLineLengthMax?: string;
+  TypographySizeBody?: string;
+  TypographySizeHeading1?: string;
+  TypographySizeHeading2?: string;
+  TypographySizeHeading3?: string;
+  TypographySizeHeading4?: string;
+  TypographySizeHeading5?: string;
+  TypographySizeHeading6?: string;
+  TypographySizeSubordinate?: string;
+  TypographyWeightBody?: string;
+  TypographyWeightBodyBold?: string;
+  TypographyWeightHeading?: string;
+  TypographyWeightHeadingBold?: string;
+}
+export const WidgetConfigurationThemeTokens = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    BorderColorDangerControl: S.optional(S.String),
+    BorderColorDangerDark: S.optional(S.String),
+    BorderColorDangerLight: S.optional(S.String),
+    BorderColorDisabled: S.optional(S.String),
+    BorderColorDisplay: S.optional(S.String),
+    BorderColorPrimaryControl: S.optional(S.String),
+    BorderColorPrimaryDark: S.optional(S.String),
+    BorderRadiusMain: S.optional(S.String),
+    BorderRadiusTight: S.optional(S.String),
+    BorderStyleMain: S.optional(S.String),
+    BorderWidthMain: S.optional(S.String),
+    FocusOutlineColorPrimary: S.optional(S.String),
+    FocusOutlineOffsetMain: S.optional(S.String),
+    FocusOutlineOffsetTight: S.optional(S.String),
+    FocusOutlineStyle: S.optional(S.String),
+    FocusOutlineWidthMain: S.optional(S.String),
+    FocusOutlineWidthTight: S.optional(S.String),
+    HueBlue100: S.optional(S.String),
+    HueBlue200: S.optional(S.String),
+    HueBlue300: S.optional(S.String),
+    HueBlue400: S.optional(S.String),
+    HueBlue50: S.optional(S.String),
+    HueBlue500: S.optional(S.String),
+    HueBlue600: S.optional(S.String),
+    HueBlue700: S.optional(S.String),
+    HueBlue800: S.optional(S.String),
+    HueBlue900: S.optional(S.String),
+    HueGreen100: S.optional(S.String),
+    HueGreen200: S.optional(S.String),
+    HueGreen300: S.optional(S.String),
+    HueGreen400: S.optional(S.String),
+    HueGreen50: S.optional(S.String),
+    HueGreen500: S.optional(S.String),
+    HueGreen600: S.optional(S.String),
+    HueGreen700: S.optional(S.String),
+    HueGreen800: S.optional(S.String),
+    HueGreen900: S.optional(S.String),
+    HueNeutral100: S.optional(S.String),
+    HueNeutral200: S.optional(S.String),
+    HueNeutral300: S.optional(S.String),
+    HueNeutral400: S.optional(S.String),
+    HueNeutral50: S.optional(S.String),
+    HueNeutral500: S.optional(S.String),
+    HueNeutral600: S.optional(S.String),
+    HueNeutral700: S.optional(S.String),
+    HueNeutral800: S.optional(S.String),
+    HueNeutral900: S.optional(S.String),
+    HueNeutralWhite: S.optional(S.String),
+    HueRed100: S.optional(S.String),
+    HueRed200: S.optional(S.String),
+    HueRed300: S.optional(S.String),
+    HueRed400: S.optional(S.String),
+    HueRed50: S.optional(S.String),
+    HueRed500: S.optional(S.String),
+    HueRed600: S.optional(S.String),
+    HueRed700: S.optional(S.String),
+    HueRed800: S.optional(S.String),
+    HueRed900: S.optional(S.String),
+    HueYellow100: S.optional(S.String),
+    HueYellow200: S.optional(S.String),
+    HueYellow300: S.optional(S.String),
+    HueYellow400: S.optional(S.String),
+    HueYellow50: S.optional(S.String),
+    HueYellow500: S.optional(S.String),
+    HueYellow600: S.optional(S.String),
+    HueYellow700: S.optional(S.String),
+    HueYellow800: S.optional(S.String),
+    HueYellow900: S.optional(S.String),
+    PaletteDangerDark: S.optional(S.String),
+    PaletteDangerDarker: S.optional(S.String),
+    PaletteDangerHeading: S.optional(S.String),
+    PaletteDangerHighlight: S.optional(S.String),
+    PaletteDangerLight: S.optional(S.String),
+    PaletteDangerLighter: S.optional(S.String),
+    PaletteDangerMain: S.optional(S.String),
+    PaletteDangerText: S.optional(S.String),
+    PalettePrimaryDark: S.optional(S.String),
+    PalettePrimaryDarker: S.optional(S.String),
+    PalettePrimaryHeading: S.optional(S.String),
+    PalettePrimaryHighlight: S.optional(S.String),
+    PalettePrimaryLight: S.optional(S.String),
+    PalettePrimaryLighter: S.optional(S.String),
+    PalettePrimaryMain: S.optional(S.String),
+    PalettePrimaryText: S.optional(S.String),
+    PaletteSuccessDark: S.optional(S.String),
+    PaletteSuccessDarker: S.optional(S.String),
+    PaletteSuccessHeading: S.optional(S.String),
+    PaletteSuccessHighlight: S.optional(S.String),
+    PaletteSuccessLight: S.optional(S.String),
+    PaletteSuccessLighter: S.optional(S.String),
+    PaletteSuccessMain: S.optional(S.String),
+    PaletteSuccessText: S.optional(S.String),
+    PaletteWarningDark: S.optional(S.String),
+    PaletteWarningDarker: S.optional(S.String),
+    PaletteWarningHeading: S.optional(S.String),
+    PaletteWarningHighlight: S.optional(S.String),
+    PaletteWarningLight: S.optional(S.String),
+    PaletteWarningLighter: S.optional(S.String),
+    PaletteWarningMain: S.optional(S.String),
+    PaletteWarningText: S.optional(S.String),
+    Spacing0: S.optional(S.String),
+    Spacing1: S.optional(S.String),
+    Spacing2: S.optional(S.String),
+    Spacing3: S.optional(S.String),
+    Spacing4: S.optional(S.String),
+    Spacing5: S.optional(S.String),
+    Spacing6: S.optional(S.String),
+    Spacing7: S.optional(S.String),
+    Spacing8: S.optional(S.String),
+    Spacing9: S.optional(S.String),
+    TransitionDurationMain: S.optional(S.String),
+    TypographyColorAction: S.optional(S.String),
+    TypographyColorBody: S.optional(S.String),
+    TypographyColorDanger: S.optional(S.String),
+    TypographyColorDisabled: S.optional(S.String),
+    TypographyColorHeading: S.optional(S.String),
+    TypographyColorInverse: S.optional(S.String),
+    TypographyColorSubordinate: S.optional(S.String),
+    TypographyColorSuccess: S.optional(S.String),
+    TypographyColorSupport: S.optional(S.String),
+    TypographyColorWarning: S.optional(S.String),
+    TypographyFamilyBody: S.optional(S.String),
+    TypographyFamilyButton: S.optional(S.String),
+    TypographyFamilyHeading: S.optional(S.String),
+    TypographyLineHeightBody: S.optional(S.Number),
+    TypographyLineHeightHeading1: S.optional(S.Number),
+    TypographyLineHeightHeading2: S.optional(S.Number),
+    TypographyLineHeightHeading3: S.optional(S.Number),
+    TypographyLineHeightHeading4: S.optional(S.Number),
+    TypographyLineHeightHeading5: S.optional(S.Number),
+    TypographyLineHeightHeading6: S.optional(S.Number),
+    TypographyLineHeightOverline: S.optional(S.Number),
+    TypographyLineHeightUi: S.optional(S.Number),
+    TypographyLineLengthMax: S.optional(S.String),
+    TypographySizeBody: S.optional(S.String),
+    TypographySizeHeading1: S.optional(S.String),
+    TypographySizeHeading2: S.optional(S.String),
+    TypographySizeHeading3: S.optional(S.String),
+    TypographySizeHeading4: S.optional(S.String),
+    TypographySizeHeading5: S.optional(S.String),
+    TypographySizeHeading6: S.optional(S.String),
+    TypographySizeSubordinate: S.optional(S.String),
+    TypographyWeightBody: S.optional(S.String),
+    TypographyWeightBodyBold: S.optional(S.String),
+    TypographyWeightHeading: S.optional(S.String),
+    TypographyWeightHeadingBold: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "WidgetConfigurationThemeTokens",
+}) as any as S.Schema<WidgetConfigurationThemeTokens>;
+
+export interface WidgetConfigurationTheme {
+  tokens?: WidgetConfigurationThemeTokens;
+}
+export const WidgetConfigurationTheme = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    tokens: S.optional(WidgetConfigurationThemeTokens),
+  }),
+).annotate({ identifier: "WidgetConfigurationTheme" }) as any as S.Schema<WidgetConfigurationTheme>;
+
+/** <x-lifecycle-container><x-lifecycle class="ea"></x-lifecycle> <x-lifecycle class="oie"></x-lifecycle></x-lifecycle-container>The Sign-In Widget configuration object containing branding, features, theme tokens, and other customization settings. */
+export interface WidgetConfiguration {
+  assets?: WidgetConfigurationAssets;
+  /** Brand name displayed on the widget */
+  brandName?: string;
+  /** Color customizations for the Sign-In Widget */
+  colors?: WidgetConfigurationColors;
+  features?: WidgetConfigurationFeatures;
+  hcaptcha?: WidgetConfigurationHcaptcha;
+  helpLinks?: WidgetConfigurationHelpLinks;
+  /** Support phone number displayed on the widget */
+  helpSupportNumber?: string;
+  i18n?: WidgetConfigurationI18n;
+  /** Language code for the widget */
+  language?: string;
+  /** URL for the logo displayed on the Sign-In Widget */
+  logo?: string;
+  /** Alt text for the logo */
+  logoText?: string;
+  recaptcha?: WidgetConfigurationRecaptcha;
+  /** Custom sign-out URL */
+  signOutLink?: string;
+  theme?: WidgetConfigurationTheme;
+}
+export const WidgetConfiguration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    assets: S.optional(WidgetConfigurationAssets),
+    brandName: S.optional(S.String),
+    colors: S.optional(WidgetConfigurationColors),
+    features: S.optional(WidgetConfigurationFeatures),
+    hcaptcha: S.optional(WidgetConfigurationHcaptcha),
+    helpLinks: S.optional(WidgetConfigurationHelpLinks),
+    helpSupportNumber: S.optional(S.String),
+    i18n: S.optional(WidgetConfigurationI18n),
+    language: S.optional(S.String),
+    logo: S.optional(S.String),
+    logoText: S.optional(S.String),
+    recaptcha: S.optional(WidgetConfigurationRecaptcha),
+    signOutLink: S.optional(S.String),
+    theme: S.optional(WidgetConfigurationTheme),
+  }),
+).annotate({ identifier: "WidgetConfiguration" }) as any as S.Schema<WidgetConfiguration>;
 
 /** The generation of the Sign-in Widget */
 export type WidgetGeneration = "G2" | "G3";
@@ -19091,9 +18510,7 @@ export const GracePeriodRequiredSoon = /*@__PURE__*/ S.suspend(() =>
     gracePeriodRequiredSoonCustomLinkUrl: S.optional(S.String),
     gracePeriodRequiredSoonDescription: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GracePeriodRequiredSoon",
-}) as any as S.Schema<GracePeriodRequiredSoon>;
+).annotate({ identifier: "GracePeriodRequiredSoon" }) as any as S.Schema<GracePeriodRequiredSoon>;
 
 export interface GetCustomizedSignInPageResponseWidgetCustomizations {
   /** The label for the sign in widget */
@@ -19177,6 +18594,7 @@ export interface GetCustomizedSignInPageResponse {
   /** The HTML for the page */
   pageContent?: string;
   contentSecurityPolicySetting?: ContentSecurityPolicySetting;
+  widgetConfiguration?: WidgetConfiguration;
   widgetCustomizations?: GetCustomizedSignInPageResponseWidgetCustomizations;
   widgetVersion?: string;
 }
@@ -19184,6 +18602,7 @@ export const GetCustomizedSignInPageResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     pageContent: S.optional(S.String),
     contentSecurityPolicySetting: S.optional(ContentSecurityPolicySetting),
+    widgetConfiguration: S.optional(WidgetConfiguration),
     widgetCustomizations: S.optional(GetCustomizedSignInPageResponseWidgetCustomizations),
     widgetVersion: S.optional(S.String),
   }),
@@ -19217,11 +18636,7 @@ export const GetDefaultErrorPageRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     brandId: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/brands/{brandId}/pages/error/default",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/v1/brands/{brandId}/pages/error/default", code: 200 }),
   ),
 ).annotate({
   identifier: "GetDefaultErrorPageRequest",
@@ -19248,13 +18663,7 @@ export interface GetDefaultProvisioningConnectionForApplicationRequest {
 export const GetDefaultProvisioningConnectionForApplicationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     appId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/apps/{appId}/connections/default",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/v1/apps/{appId}/connections/default", code: 200 })),
 ).annotate({
   identifier: "GetDefaultProvisioningConnectionForApplicationRequest",
 }) as any as S.Schema<GetDefaultProvisioningConnectionForApplicationRequest>;
@@ -19321,9 +18730,7 @@ export const HrefHintsGuidanceObject = /*@__PURE__*/ S.suspend(() =>
     allow: S.optional(HrefHintsGuidanceObjectAllowList),
     guidance: S.optional(HrefHintsGuidanceObjectGuidanceList),
   }),
-).annotate({
-  identifier: "HrefHintsGuidanceObject",
-}) as any as S.Schema<HrefHintsGuidanceObject>;
+).annotate({ identifier: "HrefHintsGuidanceObject" }) as any as S.Schema<HrefHintsGuidanceObject>;
 
 /** Link to authorize scopes */
 export interface HrefObjectAuthorizeLink {
@@ -19336,9 +18743,7 @@ export const HrefObjectAuthorizeLink = /*@__PURE__*/ S.suspend(() =>
     hints: S.optional(HrefHintsGuidanceObject),
     href: S.String,
   }),
-).annotate({
-  identifier: "HrefObjectAuthorizeLink",
-}) as any as S.Schema<HrefObjectAuthorizeLink>;
+).annotate({ identifier: "HrefObjectAuthorizeLink" }) as any as S.Schema<HrefObjectAuthorizeLink>;
 
 export interface LinksSelfLifecycleAndAuthorize {
   self?: HrefObjectSelfLink;
@@ -19385,11 +18790,7 @@ export const GetDefaultSignInPageRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     brandId: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/brands/{brandId}/pages/sign-in/default",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/v1/brands/{brandId}/pages/sign-in/default", code: 200 }),
   ),
 ).annotate({
   identifier: "GetDefaultSignInPageRequest",
@@ -19404,6 +18805,7 @@ export interface GetDefaultSignInPageResponse {
   /** The HTML for the page */
   pageContent?: string;
   contentSecurityPolicySetting?: ContentSecurityPolicySetting;
+  widgetConfiguration?: WidgetConfiguration;
   widgetCustomizations?: GetCustomizedSignInPageResponseWidgetCustomizations;
   widgetVersion?: string;
 }
@@ -19411,6 +18813,7 @@ export const GetDefaultSignInPageResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     pageContent: S.optional(S.String),
     contentSecurityPolicySetting: S.optional(ContentSecurityPolicySetting),
+    widgetConfiguration: S.optional(WidgetConfiguration),
     widgetCustomizations: S.optional(GetCustomizedSignInPageResponseWidgetCustomizations),
     widgetVersion: S.optional(S.String),
   }),
@@ -19426,9 +18829,7 @@ export const GetDeviceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     deviceId: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/api/v1/devices/{deviceId}", code: 200 })),
-).annotate({
-  identifier: "GetDeviceRequest",
-}) as any as S.Schema<GetDeviceRequest>;
+).annotate({ identifier: "GetDeviceRequest" }) as any as S.Schema<GetDeviceRequest>;
 
 /** Type of encryption used on the device > **Note:** The following values map to Disk Encryption ON: `FULL`, `USER`, `ALL_INTERNAL_VOLUMES`. All other values map to Disk Encryption OFF. */
 export type DiskEncryptionTypeDef =
@@ -19508,9 +18909,7 @@ export const DeviceDisplayName = /*@__PURE__*/ S.suspend(() =>
     sensitive: S.optional(S.Boolean),
     value: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DeviceDisplayName",
-}) as any as S.Schema<DeviceDisplayName>;
+).annotate({ identifier: "DeviceDisplayName" }) as any as S.Schema<DeviceDisplayName>;
 
 /** The state object of the device */
 export type DeviceStatus = "ACTIVE" | "DEACTIVATED" | "SUSPENDED" | "UNSUSPENDED";
@@ -19553,9 +18952,7 @@ export const OktaVerifyPayload = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     clientVersion: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OktaVerifyPayload",
-}) as any as S.Schema<OktaVerifyPayload>;
+).annotate({ identifier: "OktaVerifyPayload" }) as any as S.Schema<OktaVerifyPayload>;
 
 export interface DeviceProvider {
   payload?: OktaVerifyPayload;
@@ -19610,9 +19007,7 @@ export const GetDeviceResponse = /*@__PURE__*/ S.suspend(() =>
     _links: S.optional(LinksSelfAndFullUsersLifecycle),
     providers: S.optional(GetDeviceResponseProvidersList),
   }),
-).annotate({
-  identifier: "GetDeviceResponse",
-}) as any as S.Schema<GetDeviceResponse>;
+).annotate({ identifier: "GetDeviceResponse" }) as any as S.Schema<GetDeviceResponse>;
 
 export interface GetDeviceAssurancePolicyRequest {
   /** Id of the device assurance policy */
@@ -19622,11 +19017,7 @@ export const GetDeviceAssurancePolicyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     deviceAssuranceId: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/device-assurances/{deviceAssuranceId}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/v1/device-assurances/{deviceAssuranceId}", code: 200 }),
   ),
 ).annotate({
   identifier: "GetDeviceAssurancePolicyRequest",
@@ -19640,11 +19031,7 @@ export const GetDeviceIntegrationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     deviceIntegrationId: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/device-integrations/{deviceIntegrationId}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/v1/device-integrations/{deviceIntegrationId}", code: 200 }),
   ),
 ).annotate({
   identifier: "GetDeviceIntegrationRequest",
@@ -19700,9 +19087,7 @@ export const OSAccountDisplayName = /*@__PURE__*/ S.suspend(() =>
     sensitive: S.optional(S.Boolean),
     value: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OSAccountDisplayName",
-}) as any as S.Schema<OSAccountDisplayName>;
+).annotate({ identifier: "OSAccountDisplayName" }) as any as S.Schema<OSAccountDisplayName>;
 
 /** Status of the OS account */
 export type OSAccountWindowsOutputStatus = "ACTIVE" | "DELETED";
@@ -19771,9 +19156,7 @@ export const AccountLinkedEnrollment = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(AccountLinkedEnrollmentType),
     _embedded: S.optional(AccountLinkedEnrollmentEmbedded),
   }),
-).annotate({
-  identifier: "AccountLinkedEnrollment",
-}) as any as S.Schema<AccountLinkedEnrollment>;
+).annotate({ identifier: "AccountLinkedEnrollment" }) as any as S.Schema<AccountLinkedEnrollment>;
 
 /** Enrollments linked to this OS account */
 export type OSAccountEmbeddedOutputAccountLinkedEnrollmentsList = Array<AccountLinkedEnrollment>;
@@ -19799,9 +19182,7 @@ export const OSAccountEmbeddedOutput = /*@__PURE__*/ S.suspend(() =>
     accountLinkedEnrollments: S.optional(OSAccountEmbeddedOutputAccountLinkedEnrollmentsList),
     users: S.optional(OSAccountEmbeddedOutputUsersList),
   }),
-).annotate({
-  identifier: "OSAccountEmbeddedOutput",
-}) as any as S.Schema<OSAccountEmbeddedOutput>;
+).annotate({ identifier: "OSAccountEmbeddedOutput" }) as any as S.Schema<OSAccountEmbeddedOutput>;
 
 export interface OSAccountLinks {
   device?: HrefObjectSelfLink;
@@ -19847,9 +19228,7 @@ export const WindowsOSAccountProfile = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(WindowsOSAccountProfileType),
     upn: S.optional(S.String),
   }),
-).annotate({
-  identifier: "WindowsOSAccountProfile",
-}) as any as S.Schema<WindowsOSAccountProfile>;
+).annotate({ identifier: "WindowsOSAccountProfile" }) as any as S.Schema<WindowsOSAccountProfile>;
 
 export interface OSAccountWindowsOutput {
   /** Timestamp when the OS account was created */
@@ -19891,9 +19270,7 @@ export const OSAccountWindowsOutput = /*@__PURE__*/ S.suspend(() =>
     _links: OSAccountLinks,
     profile: WindowsOSAccountProfile,
   }),
-).annotate({
-  identifier: "OSAccountWindowsOutput",
-}) as any as S.Schema<OSAccountWindowsOutput>;
+).annotate({ identifier: "OSAccountWindowsOutput" }) as any as S.Schema<OSAccountWindowsOutput>;
 
 /** Status of the OS account */
 export type OSAccountMacOSOutputStatus = "ACTIVE" | "DELETED";
@@ -19920,9 +19297,7 @@ export const MacOSAccountProfile = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(MacOSAccountProfileType),
     username: S.optional(S.String),
   }),
-).annotate({
-  identifier: "MacOSAccountProfile",
-}) as any as S.Schema<MacOSAccountProfile>;
+).annotate({ identifier: "MacOSAccountProfile" }) as any as S.Schema<MacOSAccountProfile>;
 
 export interface OSAccountMacOSOutput {
   /** Timestamp when the OS account was created */
@@ -19964,9 +19339,7 @@ export const OSAccountMacOSOutput = /*@__PURE__*/ S.suspend(() =>
     _links: OSAccountLinks,
     profile: MacOSAccountProfile,
   }),
-).annotate({
-  identifier: "OSAccountMacOSOutput",
-}) as any as S.Schema<OSAccountMacOSOutput>;
+).annotate({ identifier: "OSAccountMacOSOutput" }) as any as S.Schema<OSAccountMacOSOutput>;
 
 export type GetDeviceOSAccountResponseBody = OSAccountWindowsOutput | OSAccountMacOSOutput;
 export const GetDeviceOSAccountResponseBody =
@@ -19987,11 +19360,7 @@ export const GetDevicePostureCheckRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     postureCheckId: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/device-posture-checks/{postureCheckId}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/v1/device-posture-checks/{postureCheckId}", code: 200 }),
   ),
 ).annotate({
   identifier: "GetDevicePostureCheckRequest",
@@ -20000,9 +19369,7 @@ export const GetDevicePostureCheckRequest = /*@__PURE__*/ S.suspend(() =>
 export interface GetDRStatusRequest {}
 export const GetDRStatusRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/api/v1/dr/status", code: 200 })),
-).annotate({
-  identifier: "GetDRStatusRequest",
-}) as any as S.Schema<GetDRStatusRequest>;
+).annotate({ identifier: "GetDRStatusRequest" }) as any as S.Schema<GetDRStatusRequest>;
 
 /** Status whether a domain has been failed over or not */
 export interface DRStatusItem {
@@ -20032,9 +19399,7 @@ export const GetDRStatusResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     status: S.optional(GetDRStatusResponseStatusList),
   }),
-).annotate({
-  identifier: "GetDRStatusResponse",
-}) as any as S.Schema<GetDRStatusResponse>;
+).annotate({ identifier: "GetDRStatusResponse" }) as any as S.Schema<GetDRStatusResponse>;
 
 export interface GetDRStatusByDomainRequest {
   /** The Okta domain name of your org or one of your custom domains */
@@ -20211,16 +19576,8 @@ export const GetEmailDomainRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     emailDomainId: S.String.pipe(T.Label()),
     expand: S.optional(GetEmailDomainRequestExpandList.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/email-domains/{emailDomainId}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetEmailDomainRequest",
-}) as any as S.Schema<GetEmailDomainRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/v1/email-domains/{emailDomainId}", code: 200 })),
+).annotate({ identifier: "GetEmailDomainRequest" }) as any as S.Schema<GetEmailDomainRequest>;
 
 export type GetEmailDomainResponseDnsValidationRecordsList = Array<EmailDomainDNSRecord>;
 export const GetEmailDomainResponseDnsValidationRecordsList = /*@__PURE__*/ S.Array(
@@ -20265,9 +19622,7 @@ export const GetEmailDomainResponse = /*@__PURE__*/ S.suspend(() =>
     validationSubdomain: S.optional(S.String),
     _embedded: S.optional(GetEmailDomainResponseEmbedded),
   }),
-).annotate({
-  identifier: "GetEmailDomainResponse",
-}) as any as S.Schema<GetEmailDomainResponse>;
+).annotate({ identifier: "GetEmailDomainResponse" }) as any as S.Schema<GetEmailDomainResponse>;
 
 export interface GetEmailServerRequest {
   emailServerId: string;
@@ -20275,16 +19630,8 @@ export interface GetEmailServerRequest {
 export const GetEmailServerRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     emailServerId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/email-servers/{emailServerId}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetEmailServerRequest",
-}) as any as S.Schema<GetEmailServerRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/v1/email-servers/{emailServerId}", code: 200 })),
+).annotate({ identifier: "GetEmailServerRequest" }) as any as S.Schema<GetEmailServerRequest>;
 
 export interface GetEmailSettingsRequest {
   /** The ID of the brand */
@@ -20303,9 +19650,7 @@ export const GetEmailSettingsRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetEmailSettingsRequest",
-}) as any as S.Schema<GetEmailSettingsRequest>;
+).annotate({ identifier: "GetEmailSettingsRequest" }) as any as S.Schema<GetEmailSettingsRequest>;
 
 export type EmailSettingsResponseRecipients = "ALL_USERS" | "ADMINS_ONLY" | "NO_USERS";
 export const EmailSettingsResponseRecipients = S.String;
@@ -20332,9 +19677,7 @@ export const EmailSettingsResponse = /*@__PURE__*/ S.suspend(() =>
     recipients: S.optional(EmailSettingsResponseRecipients),
     _links: S.optional(EmailSettingsResponseLinks),
   }),
-).annotate({
-  identifier: "EmailSettingsResponse",
-}) as any as S.Schema<EmailSettingsResponse>;
+).annotate({ identifier: "EmailSettingsResponse" }) as any as S.Schema<EmailSettingsResponse>;
 
 export type GetEmailTemplateRequestExpandItem = "settings" | "customizationCount";
 export const GetEmailTemplateRequestExpandItem = S.String;
@@ -20366,9 +19709,7 @@ export const GetEmailTemplateRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetEmailTemplateRequest",
-}) as any as S.Schema<GetEmailTemplateRequest>;
+).annotate({ identifier: "GetEmailTemplateRequest" }) as any as S.Schema<GetEmailTemplateRequest>;
 
 export interface EmailTemplateResponseEmbedded {
   settings?: EmailSettingsResponse;
@@ -20414,9 +19755,7 @@ export const EmailTemplateResponse = /*@__PURE__*/ S.suspend(() =>
     _embedded: S.optional(EmailTemplateResponseEmbedded),
     _links: S.optional(EmailTemplateResponseLinks),
   }),
-).annotate({
-  identifier: "EmailTemplateResponse",
-}) as any as S.Schema<EmailTemplateResponse>;
+).annotate({ identifier: "EmailTemplateResponse" }) as any as S.Schema<EmailTemplateResponse>;
 
 export type GetErrorPageRequestExpandItem =
   | "default"
@@ -20441,16 +19780,8 @@ export const GetErrorPageRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     brandId: S.String.pipe(T.Label()),
     expand: S.optional(GetErrorPageRequestExpandList.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/brands/{brandId}/pages/error",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetErrorPageRequest",
-}) as any as S.Schema<GetErrorPageRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/v1/brands/{brandId}/pages/error", code: 200 })),
+).annotate({ identifier: "GetErrorPageRequest" }) as any as S.Schema<GetErrorPageRequest>;
 
 export interface CustomizablePage {
   /** The HTML for the page */
@@ -20460,9 +19791,7 @@ export const CustomizablePage = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     pageContent: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CustomizablePage",
-}) as any as S.Schema<CustomizablePage>;
+).annotate({ identifier: "CustomizablePage" }) as any as S.Schema<CustomizablePage>;
 
 export interface PageRootEmbedded {
   default?: CustomizablePage;
@@ -20479,9 +19808,7 @@ export const PageRootEmbedded = /*@__PURE__*/ S.suspend(() =>
     preview: S.optional(CustomizablePage),
     previewUrl: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PageRootEmbedded",
-}) as any as S.Schema<PageRootEmbedded>;
+).annotate({ identifier: "PageRootEmbedded" }) as any as S.Schema<PageRootEmbedded>;
 
 export interface PageRootLinks {
   self?: HrefObjectSelfLink;
@@ -20516,16 +19843,8 @@ export interface GetEventHookRequest {
 export const GetEventHookRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     eventHookId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/eventHooks/{eventHookId}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetEventHookRequest",
-}) as any as S.Schema<GetEventHookRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/v1/eventHooks/{eventHookId}", code: 200 })),
+).annotate({ identifier: "GetEventHookRequest" }) as any as S.Schema<GetEventHookRequest>;
 
 export interface GetFactorRequest {
   /** ID of an existing Okta user */
@@ -20537,16 +19856,8 @@ export const GetFactorRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     userId: S.String.pipe(T.Label()),
     factorId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/users/{userId}/factors/{factorId}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetFactorRequest",
-}) as any as S.Schema<GetFactorRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/v1/users/{userId}/factors/{factorId}", code: 200 })),
+).annotate({ identifier: "GetFactorRequest" }) as any as S.Schema<GetFactorRequest>;
 
 export interface GetFactorTransactionStatusRequest {
   /** ID of an existing Okta user */
@@ -20601,9 +19912,7 @@ export const GetFeatureRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     featureId: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/api/v1/features/{featureId}", code: 200 })),
-).annotate({
-  identifier: "GetFeatureRequest",
-}) as any as S.Schema<GetFeatureRequest>;
+).annotate({ identifier: "GetFeatureRequest" }) as any as S.Schema<GetFeatureRequest>;
 
 /** Indicates the release state of the feature */
 export type FeatureStageState = "CLOSED" | "OPEN";
@@ -20642,9 +19951,7 @@ export const FeatureLinksDependents = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     href: S.optional(S.String),
   }),
-).annotate({
-  identifier: "FeatureLinksDependents",
-}) as any as S.Schema<FeatureLinksDependents>;
+).annotate({ identifier: "FeatureLinksDependents" }) as any as S.Schema<FeatureLinksDependents>;
 
 /** Link to feature dependencies */
 export type FeatureLinksDependencies = FeatureLinksDependents;
@@ -20706,13 +20013,7 @@ export const GetFeatureForApplicationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     appId: S.String.pipe(T.Label()),
     featureName: GetFeatureForApplicationRequestFeatureName.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/apps/{appId}/features/{featureName}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/v1/apps/{appId}/features/{featureName}", code: 200 })),
 ).annotate({
   identifier: "GetFeatureForApplicationRequest",
 }) as any as S.Schema<GetFeatureForApplicationRequest>;
@@ -20739,9 +20040,7 @@ export const ApplicationFeature = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(S.Unknown),
     _links: S.optional(LinksSelf),
   }),
-).annotate({
-  identifier: "ApplicationFeature",
-}) as any as S.Schema<ApplicationFeature>;
+).annotate({ identifier: "ApplicationFeature" }) as any as S.Schema<ApplicationFeature>;
 
 export interface GetFederatedClaimRequest {
   /** Application ID */
@@ -20754,15 +20053,9 @@ export const GetFederatedClaimRequest = /*@__PURE__*/ S.suspend(() =>
     appId: S.String.pipe(T.Label()),
     claimId: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/apps/{appId}/federated-claims/{claimId}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/v1/apps/{appId}/federated-claims/{claimId}", code: 200 }),
   ),
-).annotate({
-  identifier: "GetFederatedClaimRequest",
-}) as any as S.Schema<GetFederatedClaimRequest>;
+).annotate({ identifier: "GetFederatedClaimRequest" }) as any as S.Schema<GetFederatedClaimRequest>;
 
 export interface FederatedClaimRequestBody {
   /** The Okta Expression Language expression to be evaluated at runtime */
@@ -20786,13 +20079,7 @@ export interface GetFirstPartyAppSettingsRequest {
 export const GetFirstPartyAppSettingsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     appName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/first-party-app-settings/{appName}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/v1/first-party-app-settings/{appName}", code: 200 })),
 ).annotate({
   identifier: "GetFirstPartyAppSettingsRequest",
 }) as any as S.Schema<GetFirstPartyAppSettingsRequest>;
@@ -20809,9 +20096,7 @@ export const AdminConsoleSettings = /*@__PURE__*/ S.suspend(() =>
     sessionIdleTimeoutMinutes: S.optional(S.Number),
     sessionMaxLifetimeMinutes: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "AdminConsoleSettings",
-}) as any as S.Schema<AdminConsoleSettings>;
+).annotate({ identifier: "AdminConsoleSettings" }) as any as S.Schema<AdminConsoleSettings>;
 
 export interface GetGovernanceBundleRequest {
   /** The `id` of a bundle */
@@ -20820,13 +20105,7 @@ export interface GetGovernanceBundleRequest {
 export const GetGovernanceBundleRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     bundleId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/iam/governance/bundles/{bundleId}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/v1/iam/governance/bundles/{bundleId}", code: 200 })),
 ).annotate({
   identifier: "GetGovernanceBundleRequest",
 }) as any as S.Schema<GetGovernanceBundleRequest>;
@@ -20839,9 +20118,7 @@ export const GetGroupRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     groupId: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/api/v1/groups/{groupId}", code: 200 })),
-).annotate({
-  identifier: "GetGroupRequest",
-}) as any as S.Schema<GetGroupRequest>;
+).annotate({ identifier: "GetGroupRequest" }) as any as S.Schema<GetGroupRequest>;
 
 export interface GetGroupAssignedRoleRequest {
   /** The `id` of the group */
@@ -20854,11 +20131,7 @@ export const GetGroupAssignedRoleRequest = /*@__PURE__*/ S.suspend(() =>
     groupId: S.String.pipe(T.Label()),
     roleAssignmentId: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/groups/{groupId}/roles/{roleAssignmentId}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/v1/groups/{groupId}/roles/{roleAssignmentId}", code: 200 }),
   ),
 ).annotate({
   identifier: "GetGroupAssignedRoleRequest",
@@ -20900,9 +20173,7 @@ export const GetGroupAttributeQueryResultRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetGroupAttributeQueryResultRequest>;
 
 /** Map of requested attributes and their values */
-export type GroupProfileResultProfileMap = {
-  [key: string]: unknown | undefined;
-};
+export type GroupProfileResultProfileMap = { [key: string]: unknown | undefined };
 export const GroupProfileResultProfileMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -20919,9 +20190,7 @@ export const GroupProfileResult = /*@__PURE__*/ S.suspend(() =>
     id: S.optional(S.String),
     profile: S.optional(GroupProfileResultProfileMap),
   }),
-).annotate({
-  identifier: "GroupProfileResult",
-}) as any as S.Schema<GroupProfileResult>;
+).annotate({ identifier: "GroupProfileResult" }) as any as S.Schema<GroupProfileResult>;
 
 export interface GetGroupPushMappingRequest {
   /** Application ID */
@@ -20957,29 +20226,15 @@ export const GetGroupRuleRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     groupRuleId: S.String.pipe(T.Label()),
     expand: S.optional(GetGroupRuleRequestExpand.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/groups/rules/{groupRuleId}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetGroupRuleRequest",
-}) as any as S.Schema<GetGroupRuleRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/v1/groups/rules/{groupRuleId}", code: 200 })),
+).annotate({ identifier: "GetGroupRuleRequest" }) as any as S.Schema<GetGroupRuleRequest>;
 
 export interface GetGroupSchemaRequest {}
 export const GetGroupSchemaRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/meta/schemas/group/default",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/v1/meta/schemas/group/default", code: 200 }),
   ),
-).annotate({
-  identifier: "GetGroupSchemaRequest",
-}) as any as S.Schema<GetGroupSchemaRequest>;
+).annotate({ identifier: "GetGroupSchemaRequest" }) as any as S.Schema<GetGroupSchemaRequest>;
 
 export type GroupSchemaAttributeEnumItem = string | number;
 export const GroupSchemaAttributeEnumItem =
@@ -21012,9 +20267,7 @@ export const UserSchemaAttributeItems = /*@__PURE__*/ S.suspend(() =>
     oneOf: S.optional(UserSchemaAttributeItemsOneOfList),
     type: S.optional(S.String),
   }),
-).annotate({
-  identifier: "UserSchemaAttributeItems",
-}) as any as S.Schema<UserSchemaAttributeItems>;
+).annotate({ identifier: "UserSchemaAttributeItems" }) as any as S.Schema<UserSchemaAttributeItems>;
 
 /** Non-empty array of valid JSON schemas. The `oneOf` key is only supported in conjunction with `enum` and provides a mechanism to return a display name for the `enum` value.<br> Each schema has the following format: ``` { "const": "enumValue", "title": "display name" } ``` When `enum` is used in conjunction with `oneOf`, you must keep the set of enumerated values and their order.<br> For example: ``` "enum": ["S","M","L","XL"], "oneOf": [ {"const": "S", "title": "Small"}, {"const": "M", "title": "Medium"}, {"const": "L", "title": "Large"}, {"const": "XL", "title": "Extra Large"} ] ``` */
 export type GroupSchemaAttributeOneOfList = Array<UserSchemaAttributeEnum>;
@@ -21083,9 +20336,7 @@ export const GroupSchemaAttribute = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(UserSchemaAttributeType),
     unique: S.optional(S.NullOr(S.Boolean)),
   }),
-).annotate({
-  identifier: "GroupSchemaAttribute",
-}) as any as S.Schema<GroupSchemaAttribute>;
+).annotate({ identifier: "GroupSchemaAttribute" }) as any as S.Schema<GroupSchemaAttribute>;
 
 /** All Okta-defined profile properties are defined in a profile subschema with the resolution scope `#base`. These properties can't be removed or edited, regardless of any attempt to do so. */
 export interface GroupSchemaBaseProperties {
@@ -21126,14 +20377,10 @@ export const GroupSchemaBase = /*@__PURE__*/ S.suspend(() =>
     required: S.optional(GroupSchemaBaseRequiredList),
     type: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GroupSchemaBase",
-}) as any as S.Schema<GroupSchemaBase>;
+).annotate({ identifier: "GroupSchemaBase" }) as any as S.Schema<GroupSchemaBase>;
 
 /** The `#custom` object properties */
-export type GroupSchemaCustomPropertiesMap = {
-  [key: string]: GroupSchemaAttribute | undefined;
-};
+export type GroupSchemaCustomPropertiesMap = { [key: string]: GroupSchemaAttribute | undefined };
 export const GroupSchemaCustomPropertiesMap = /*@__PURE__*/ S.Record(
   S.String,
   GroupSchemaAttribute,
@@ -21163,9 +20410,7 @@ export const GroupSchemaCustom = /*@__PURE__*/ S.suspend(() =>
     required: S.optional(GroupSchemaCustomRequiredList),
     type: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GroupSchemaCustom",
-}) as any as S.Schema<GroupSchemaCustom>;
+).annotate({ identifier: "GroupSchemaCustom" }) as any as S.Schema<GroupSchemaCustom>;
 
 export interface GroupSchemaDefinitions {
   base?: GroupSchemaBase;
@@ -21176,9 +20421,7 @@ export const GroupSchemaDefinitions = /*@__PURE__*/ S.suspend(() =>
     base: S.optional(GroupSchemaBase),
     custom: S.optional(GroupSchemaCustom),
   }),
-).annotate({
-  identifier: "GroupSchemaDefinitions",
-}) as any as S.Schema<GroupSchemaDefinitions>;
+).annotate({ identifier: "GroupSchemaDefinitions" }) as any as S.Schema<GroupSchemaDefinitions>;
 
 export interface GroupSchema {
   /** JSON schema version identifier */
@@ -21226,9 +20469,7 @@ export const GetHookKeyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/api/v1/hook-keys/{id}", code: 200 })),
-).annotate({
-  identifier: "GetHookKeyRequest",
-}) as any as S.Schema<GetHookKeyRequest>;
+).annotate({ identifier: "GetHookKeyRequest" }) as any as S.Schema<GetHookKeyRequest>;
 
 /** The `id` property in the response as `id` serves as the unique ID for the key, which you can specify when invoking other CRUD operations. The `keyId` provided in the response is the alias of the public key that you can use to get details of the public key data in a separate call. */
 export interface HookKey {
@@ -21278,30 +20519,20 @@ export const GetIdentityProviderApplicationUserRequest = /*@__PURE__*/ S.suspend
   S.Struct({
     idpId: S.String.pipe(T.Label()),
     userId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/idps/{idpId}/users/{userId}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/v1/idps/{idpId}/users/{userId}", code: 200 })),
 ).annotate({
   identifier: "GetIdentityProviderApplicationUserRequest",
 }) as any as S.Schema<GetIdentityProviderApplicationUserRequest>;
 
 /** IdP-specific profile for the user. IdP user profiles are IdP-specific but may be customized by the Profile Editor in the Admin Console. > **Note:** Okta variable names have reserved characters that may conflict with the name of an IdP assertion attribute. You can use the **External name** to define the attribute name as defined in an IdP assertion such as a SAML attribute name. */
-export type IdentityProviderApplicationUserProfileMap = {
-  [key: string]: unknown | undefined;
-};
+export type IdentityProviderApplicationUserProfileMap = { [key: string]: unknown | undefined };
 export const IdentityProviderApplicationUserProfileMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
 ) as any as S.Schema<IdentityProviderApplicationUserProfileMap>;
 
 /** Embedded resources related to the IdP user */
-export type IdentityProviderApplicationUserEmbeddedMap = {
-  [key: string]: unknown | undefined;
-};
+export type IdentityProviderApplicationUserEmbeddedMap = { [key: string]: unknown | undefined };
 export const IdentityProviderApplicationUserEmbeddedMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -21363,13 +20594,7 @@ export interface GetIdentityProviderKeyRequest {
 export const GetIdentityProviderKeyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     kid: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/idps/credentials/keys/{kid}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/v1/idps/credentials/keys/{kid}", code: 200 })),
 ).annotate({
   identifier: "GetIdentityProviderKeyRequest",
 }) as any as S.Schema<GetIdentityProviderKeyRequest>;
@@ -21384,13 +20609,7 @@ export const GetIdentityProviderSigningKeyRequest = /*@__PURE__*/ S.suspend(() =
   S.Struct({
     idpId: S.String.pipe(T.Label()),
     kid: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/idps/{idpId}/credentials/keys/{kid}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/v1/idps/{idpId}/credentials/keys/{kid}", code: 200 })),
 ).annotate({
   identifier: "GetIdentityProviderSigningKeyRequest",
 }) as any as S.Schema<GetIdentityProviderSigningKeyRequest>;
@@ -21553,9 +20772,7 @@ export const UserResponseSchema = /*@__PURE__*/ S.suspend(() =>
     lastUpdated: S.optional(S.String),
     profile: S.optional(IdentitySourceUserProfileForUpsert),
   }),
-).annotate({
-  identifier: "UserResponseSchema",
-}) as any as S.Schema<UserResponseSchema>;
+).annotate({ identifier: "UserResponseSchema" }) as any as S.Schema<UserResponseSchema>;
 
 export interface GetInlineHookRequest {
   /** `id` of the inline hook */
@@ -21564,16 +20781,8 @@ export interface GetInlineHookRequest {
 export const GetInlineHookRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     inlineHookId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/inlineHooks/{inlineHookId}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetInlineHookRequest",
-}) as any as S.Schema<GetInlineHookRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/v1/inlineHooks/{inlineHookId}", code: 200 })),
+).annotate({ identifier: "GetInlineHookRequest" }) as any as S.Schema<GetInlineHookRequest>;
 
 export interface GetJwkRequest {
   /** Application ID */
@@ -21586,11 +20795,7 @@ export const GetJwkRequest = /*@__PURE__*/ S.suspend(() =>
     appId: S.String.pipe(T.Label()),
     keyId: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/apps/{appId}/credentials/jwks/{keyId}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/v1/apps/{appId}/credentials/jwks/{keyId}", code: 200 }),
   ),
 ).annotate({ identifier: "GetJwkRequest" }) as any as S.Schema<GetJwkRequest>;
 
@@ -21629,16 +20834,8 @@ export interface GetLogStreamRequest {
 export const GetLogStreamRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     logStreamId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/logStreams/{logStreamId}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetLogStreamRequest",
-}) as any as S.Schema<GetLogStreamRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/v1/logStreams/{logStreamId}", code: 200 })),
+).annotate({ identifier: "GetLogStreamRequest" }) as any as S.Schema<GetLogStreamRequest>;
 
 /** Specifies the streaming provider used Supported providers: * `aws_eventbridge` ([AWS EventBridge](https://aws.amazon.com/eventbridge)) * `splunk_cloud_logstreaming` ([Splunk Cloud](https://www.splunk.com/en_us/software/splunk-cloud-platform.html)) Select the provider type to see provider-specific configurations in the `settings` property: */
 export type GetLogStreamSchemaRequestLogStreamType =
@@ -21653,11 +20850,7 @@ export const GetLogStreamSchemaRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     logStreamType: GetLogStreamSchemaRequestLogStreamType.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/meta/schemas/logStream/{logStreamType}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/v1/meta/schemas/logStream/{logStreamType}", code: 200 }),
   ),
 ).annotate({
   identifier: "GetLogStreamSchemaRequest",
@@ -21709,9 +20902,7 @@ export const LogStreamSchema = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     _links: S.optional(LinksSelf),
   }),
-).annotate({
-  identifier: "LogStreamSchema",
-}) as any as S.Schema<LogStreamSchema>;
+).annotate({ identifier: "LogStreamSchema" }) as any as S.Schema<LogStreamSchema>;
 
 export interface GetMemberOfBindingRequest {
   /** `id` or `label` of the resource set */
@@ -21753,9 +20944,7 @@ export const ResourceSetBindingMember = /*@__PURE__*/ S.suspend(() =>
     lastUpdated: S.optional(S.String),
     _links: S.optional(LinksSelf),
   }),
-).annotate({
-  identifier: "ResourceSetBindingMember",
-}) as any as S.Schema<ResourceSetBindingMember>;
+).annotate({ identifier: "ResourceSetBindingMember" }) as any as S.Schema<ResourceSetBindingMember>;
 
 export interface GetNetworkZoneRequest {
   /** `id` of the Network Zone */
@@ -21765,9 +20954,7 @@ export const GetNetworkZoneRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     zoneId: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/api/v1/zones/{zoneId}", code: 200 })),
-).annotate({
-  identifier: "GetNetworkZoneRequest",
-}) as any as S.Schema<GetNetworkZoneRequest>;
+).annotate({ identifier: "GetNetworkZoneRequest" }) as any as S.Schema<GetNetworkZoneRequest>;
 
 export interface GetOAuth2ClaimRequest {
   /** `id` of the Authorization Server */
@@ -21786,9 +20973,7 @@ export const GetOAuth2ClaimRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetOAuth2ClaimRequest",
-}) as any as S.Schema<GetOAuth2ClaimRequest>;
+).annotate({ identifier: "GetOAuth2ClaimRequest" }) as any as S.Schema<GetOAuth2ClaimRequest>;
 
 export interface GetOAuth2ClientSecretRequest {
   /** Application ID */
@@ -21849,9 +21034,7 @@ export const GetOAuth2ScopeRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetOAuth2ScopeRequest",
-}) as any as S.Schema<GetOAuth2ScopeRequest>;
+).annotate({ identifier: "GetOAuth2ScopeRequest" }) as any as S.Schema<GetOAuth2ScopeRequest>;
 
 export interface GetOAuth2TokenForApplicationRequest {
   /** Application ID */
@@ -21866,13 +21049,7 @@ export const GetOAuth2TokenForApplicationRequest = /*@__PURE__*/ S.suspend(() =>
     appId: S.String.pipe(T.Label()),
     tokenId: S.String.pipe(T.Label()),
     expand: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/apps/{appId}/tokens/{tokenId}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/v1/apps/{appId}/tokens/{tokenId}", code: 200 })),
 ).annotate({
   identifier: "GetOAuth2TokenForApplicationRequest",
 }) as any as S.Schema<GetOAuth2TokenForApplicationRequest>;
@@ -21935,9 +21112,7 @@ export const OAuth2RefreshTokenScope = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     _links: S.optional(OAuth2RefreshTokenScopeLinks),
   }),
-).annotate({
-  identifier: "OAuth2RefreshTokenScope",
-}) as any as S.Schema<OAuth2RefreshTokenScope>;
+).annotate({ identifier: "OAuth2RefreshTokenScope" }) as any as S.Schema<OAuth2RefreshTokenScope>;
 
 /** The scope objects attached to the Token */
 export type OAuth2RefreshTokenEmbeddedScopesList = Array<OAuth2RefreshTokenScope>;
@@ -22015,9 +21190,7 @@ export const OAuth2RefreshTokenLinks = /*@__PURE__*/ S.suspend(() =>
     user: S.optional(OfflineAccessScopeResourceHrefObject),
     authorizationServer: S.optional(OfflineAccessScopeResourceHrefObject),
   }),
-).annotate({
-  identifier: "OAuth2RefreshTokenLinks",
-}) as any as S.Schema<OAuth2RefreshTokenLinks>;
+).annotate({ identifier: "OAuth2RefreshTokenLinks" }) as any as S.Schema<OAuth2RefreshTokenLinks>;
 
 export interface OAuth2RefreshToken {
   /** Client ID */
@@ -22053,18 +21226,12 @@ export const OAuth2RefreshToken = /*@__PURE__*/ S.suspend(() =>
     _embedded: S.optional(OAuth2RefreshTokenEmbedded),
     _links: S.optional(OAuth2RefreshTokenLinks),
   }),
-).annotate({
-  identifier: "OAuth2RefreshToken",
-}) as any as S.Schema<OAuth2RefreshToken>;
+).annotate({ identifier: "OAuth2RefreshToken" }) as any as S.Schema<OAuth2RefreshToken>;
 
 export interface GetOktaCommunicationSettingsRequest {}
 export const GetOktaCommunicationSettingsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/org/privacy/oktaCommunication",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/v1/org/privacy/oktaCommunication", code: 200 }),
   ),
 ).annotate({
   identifier: "GetOktaCommunicationSettingsRequest",
@@ -22126,9 +21293,7 @@ export const GetOktaManagedUserAccountRequest = /*@__PURE__*/ S.suspend(() =>
 export interface GetOptInStatusRequest {}
 export const GetOptInStatusRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/api/v1/iam/governance/optIn", code: 200 })),
-).annotate({
-  identifier: "GetOptInStatusRequest",
-}) as any as S.Schema<GetOptInStatusRequest>;
+).annotate({ identifier: "GetOptInStatusRequest" }) as any as S.Schema<GetOptInStatusRequest>;
 
 /** The entitlement management opt-in status for the Admin Console */
 export type OptInStatusResponseOptInStatus = "OPTING_IN" | "OPTED_IN" | "OPTING_OUT" | "OPTED_OUT";
@@ -22145,9 +21310,7 @@ export const OptInStatusResponseLinks = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     optInStatus: S.optional(HrefObjectSelfLink),
   }),
-).annotate({
-  identifier: "OptInStatusResponseLinks",
-}) as any as S.Schema<OptInStatusResponseLinks>;
+).annotate({ identifier: "OptInStatusResponseLinks" }) as any as S.Schema<OptInStatusResponseLinks>;
 
 export interface OptInStatusResponse {
   /** The entitlement management opt-in status for the Admin Console */
@@ -22160,9 +21323,7 @@ export const OptInStatusResponse = /*@__PURE__*/ S.suspend(() =>
     optInStatus: S.optional(OptInStatusResponseOptInStatus),
     _links: S.optional(OptInStatusResponseLinks),
   }),
-).annotate({
-  identifier: "OptInStatusResponse",
-}) as any as S.Schema<OptInStatusResponse>;
+).annotate({ identifier: "OptInStatusResponse" }) as any as S.Schema<OptInStatusResponse>;
 
 export interface GetOrgCaptchaSettingsRequest {}
 export const GetOrgCaptchaSettingsRequest = /*@__PURE__*/ S.suspend(() =>
@@ -22198,9 +21359,7 @@ export const OrgCAPTCHASettings = /*@__PURE__*/ S.suspend(() =>
     enabledPages: S.optional(OrgCAPTCHASettingsEnabledPagesList),
     _links: S.optional(LinksSelf),
   }),
-).annotate({
-  identifier: "OrgCAPTCHASettings",
-}) as any as S.Schema<OrgCAPTCHASettings>;
+).annotate({ identifier: "OrgCAPTCHASettings" }) as any as S.Schema<OrgCAPTCHASettings>;
 
 /** Type of contact */
 export type GetOrgContactUserRequestContactType = "BILLING" | "TECHNICAL";
@@ -22212,16 +21371,8 @@ export interface GetOrgContactUserRequest {
 export const GetOrgContactUserRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     contactType: GetOrgContactUserRequestContactType.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/org/contacts/{contactType}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetOrgContactUserRequest",
-}) as any as S.Schema<GetOrgContactUserRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/v1/org/contacts/{contactType}", code: 200 })),
+).annotate({ identifier: "GetOrgContactUserRequest" }) as any as S.Schema<GetOrgContactUserRequest>;
 
 /** Specifies link relations (see [Web Linking](https://www.rfc-editor.org/rfc/rfc8288)) available for the contact type user object using the [JSON Hypertext Application Language](https://datatracker.ietf.org/doc/html/draft-kelly-json-hal-06) specification */
 export interface OrgContactUserLinks {
@@ -22231,9 +21382,7 @@ export const OrgContactUserLinks = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     user: S.optional(HrefObjectSelfLink),
   }),
-).annotate({
-  identifier: "OrgContactUserLinks",
-}) as any as S.Schema<OrgContactUserLinks>;
+).annotate({ identifier: "OrgContactUserLinks" }) as any as S.Schema<OrgContactUserLinks>;
 
 export interface OrgContactUser {
   /** Contact user ID */
@@ -22250,13 +21399,7 @@ export const OrgContactUser = /*@__PURE__*/ S.suspend(() =>
 
 export interface GetOrgOktaSupportSettingsRequest {}
 export const GetOrgOktaSupportSettingsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/org/privacy/oktaSupport",
-      code: 200,
-    }),
-  ),
+  S.Struct({}).pipe(T.Http({ method: "GET", uri: "/api/v1/org/privacy/oktaSupport", code: 200 })),
 ).annotate({
   identifier: "GetOrgOktaSupportSettingsRequest",
 }) as any as S.Schema<GetOrgOktaSupportSettingsRequest>;
@@ -22323,9 +21466,7 @@ export const OrgOktaSupportSettingsObj = /*@__PURE__*/ S.suspend(() =>
 export interface GetOrgPreferencesRequest {}
 export const GetOrgPreferencesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/api/v1/org/preferences", code: 200 })),
-).annotate({
-  identifier: "GetOrgPreferencesRequest",
-}) as any as S.Schema<GetOrgPreferencesRequest>;
+).annotate({ identifier: "GetOrgPreferencesRequest" }) as any as S.Schema<GetOrgPreferencesRequest>;
 
 export type OrgPreferencesLinksHideEndUserFooter = HrefObjectSelfLink;
 export const OrgPreferencesLinksHideEndUserFooter = HrefObjectSelfLink;
@@ -22343,9 +21484,7 @@ export const OrgPreferencesLinks = /*@__PURE__*/ S.suspend(() =>
     hideEndUserFooter: S.optional(HrefObjectSelfLink),
     showEndUserFooter: S.optional(HrefObjectSelfLink),
   }),
-).annotate({
-  identifier: "OrgPreferencesLinks",
-}) as any as S.Schema<OrgPreferencesLinks>;
+).annotate({ identifier: "OrgPreferencesLinks" }) as any as S.Schema<OrgPreferencesLinks>;
 
 export interface OrgPreferences {
   /** Indicates if the footer is shown on the End-User Dashboard */
@@ -22363,9 +21502,7 @@ export const OrgPreferences = /*@__PURE__*/ S.suspend(() =>
 export interface GetOrgSettingsRequest {}
 export const GetOrgSettingsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/api/v1/org", code: 200 })),
-).annotate({
-  identifier: "GetOrgSettingsRequest",
-}) as any as S.Schema<GetOrgSettingsRequest>;
+).annotate({ identifier: "GetOrgSettingsRequest" }) as any as S.Schema<GetOrgSettingsRequest>;
 
 /** Status of org */
 export type OrgSettingStatus = "ACTIVE" | "INACTIVE";
@@ -22407,9 +21544,7 @@ export const OrgGeneralSettingLinks = /*@__PURE__*/ S.suspend(() =>
     preferences: S.optional(HrefObjectSelfLink),
     uploadLogo: S.optional(HrefObjectSelfLink),
   }),
-).annotate({
-  identifier: "OrgGeneralSettingLinks",
-}) as any as S.Schema<OrgGeneralSettingLinks>;
+).annotate({ identifier: "OrgGeneralSettingLinks" }) as any as S.Schema<OrgGeneralSettingLinks>;
 
 export interface OrgSetting {
   /** Primary address of the organization associated with the org */
@@ -22481,9 +21616,7 @@ export const GetPolicyRequest = /*@__PURE__*/ S.suspend(() =>
     policyId: S.String.pipe(T.Label()),
     expand: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/api/v1/policies/{policyId}", code: 200 })),
-).annotate({
-  identifier: "GetPolicyRequest",
-}) as any as S.Schema<GetPolicyRequest>;
+).annotate({ identifier: "GetPolicyRequest" }) as any as S.Schema<GetPolicyRequest>;
 
 export interface GetPolicyMappingRequest {
   /** `id` of the policy */
@@ -22496,15 +21629,9 @@ export const GetPolicyMappingRequest = /*@__PURE__*/ S.suspend(() =>
     policyId: S.String.pipe(T.Label()),
     mappingId: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/policies/{policyId}/mappings/{mappingId}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/v1/policies/{policyId}/mappings/{mappingId}", code: 200 }),
   ),
-).annotate({
-  identifier: "GetPolicyMappingRequest",
-}) as any as S.Schema<GetPolicyMappingRequest>;
+).annotate({ identifier: "GetPolicyMappingRequest" }) as any as S.Schema<GetPolicyMappingRequest>;
 
 export type PolicyMappingLinksApplication = HrefObjectSelfLink;
 export const PolicyMappingLinksApplication = HrefObjectSelfLink;
@@ -22523,9 +21650,7 @@ export const PolicyMappingLinks = /*@__PURE__*/ S.suspend(() =>
     application: S.optional(HrefObjectSelfLink),
     policy: S.optional(HrefObjectSelfLink),
   }),
-).annotate({
-  identifier: "PolicyMappingLinks",
-}) as any as S.Schema<PolicyMappingLinks>;
+).annotate({ identifier: "PolicyMappingLinks" }) as any as S.Schema<PolicyMappingLinks>;
 
 export interface PolicyMapping {
   id?: string;
@@ -22548,16 +21673,8 @@ export const GetPolicyRuleRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     policyId: S.String.pipe(T.Label()),
     ruleId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/policies/{policyId}/rules/{ruleId}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetPolicyRuleRequest",
-}) as any as S.Schema<GetPolicyRuleRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/v1/policies/{policyId}/rules/{ruleId}", code: 200 })),
+).annotate({ identifier: "GetPolicyRuleRequest" }) as any as S.Schema<GetPolicyRuleRequest>;
 
 export interface GetPreviewErrorPageRequest {
   /** The ID of the brand */
@@ -22567,11 +21684,7 @@ export const GetPreviewErrorPageRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     brandId: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/brands/{brandId}/pages/error/preview",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/v1/brands/{brandId}/pages/error/preview", code: 200 }),
   ),
 ).annotate({
   identifier: "GetPreviewErrorPageRequest",
@@ -22599,11 +21712,7 @@ export const GetPreviewSignInPageRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     brandId: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/brands/{brandId}/pages/sign-in/preview",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/v1/brands/{brandId}/pages/sign-in/preview", code: 200 }),
   ),
 ).annotate({
   identifier: "GetPreviewSignInPageRequest",
@@ -22618,6 +21727,7 @@ export interface GetPreviewSignInPageResponse {
   /** The HTML for the page */
   pageContent?: string;
   contentSecurityPolicySetting?: ContentSecurityPolicySetting;
+  widgetConfiguration?: WidgetConfiguration;
   widgetCustomizations?: GetCustomizedSignInPageResponseWidgetCustomizations;
   widgetVersion?: string;
 }
@@ -22625,6 +21735,7 @@ export const GetPreviewSignInPageResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     pageContent: S.optional(S.String),
     contentSecurityPolicySetting: S.optional(ContentSecurityPolicySetting),
+    widgetConfiguration: S.optional(WidgetConfiguration),
     widgetCustomizations: S.optional(GetCustomizedSignInPageResponseWidgetCustomizations),
     widgetVersion: S.optional(S.String),
   }),
@@ -22658,9 +21769,7 @@ export const GetProfileMappingRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     mappingId: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/api/v1/mappings/{mappingId}", code: 200 })),
-).annotate({
-  identifier: "GetProfileMappingRequest",
-}) as any as S.Schema<GetProfileMappingRequest>;
+).annotate({ identifier: "GetProfileMappingRequest" }) as any as S.Schema<GetProfileMappingRequest>;
 
 /** Indicates whether to update target properties for user create and update or just for user create. - Having a pushStatus of `PUSH` causes properties in the target to be updated on create and update. - Having a pushStatus of `DONT_PUSH` causes properties in the target to be updated only on create. */
 export type ProfileMappingPropertyPushStatus = "DONT_PUSH" | "PUSH";
@@ -22677,9 +21786,7 @@ export const ProfileMappingProperty = /*@__PURE__*/ S.suspend(() =>
     expression: S.optional(S.String),
     pushStatus: S.optional(ProfileMappingPropertyPushStatus),
   }),
-).annotate({
-  identifier: "ProfileMappingProperty",
-}) as any as S.Schema<ProfileMappingProperty>;
+).annotate({ identifier: "ProfileMappingProperty" }) as any as S.Schema<ProfileMappingProperty>;
 
 export type SourceLinksSchema = HrefObjectSelfLink;
 export const SourceLinksSchema = HrefObjectSelfLink;
@@ -22704,9 +21811,7 @@ export const ProfileMappingSource = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     _links: S.optional(UserTypeLinks),
   }),
-).annotate({
-  identifier: "ProfileMappingSource",
-}) as any as S.Schema<ProfileMappingSource>;
+).annotate({ identifier: "ProfileMappingSource" }) as any as S.Schema<ProfileMappingSource>;
 
 /** The parameter is the target of a profile mapping and is a valid [JSON Schema Draft 4](https://datatracker.ietf.org/doc/html/draft-zyp-json-schema-04) document with the following properties. The data type can be an app instance or an Okta object. > **Note:** If the target is Okta and the UserTypes feature isn't enabled, then the target `_links` only has a link to the schema. */
 export interface ProfileMappingTarget {
@@ -22725,9 +21830,7 @@ export const ProfileMappingTarget = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     _links: S.optional(UserTypeLinks),
   }),
-).annotate({
-  identifier: "ProfileMappingTarget",
-}) as any as S.Schema<ProfileMappingTarget>;
+).annotate({ identifier: "ProfileMappingTarget" }) as any as S.Schema<ProfileMappingTarget>;
 
 /** The profile mapping object describes a mapping between an Okta user's and an app user's properties using [JSON Schema Draft 4](https://datatracker.ietf.org/doc/html/draft-zyp-json-schema-04). > **Note:** Same type source/target mappings aren't supported by this API. Profile mappings must be between Okta and an app. */
 export interface ProfileMapping {
@@ -22755,16 +21858,8 @@ export interface GetPublicKeyRequest {
 export const GetPublicKeyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     keyId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/hook-keys/public/{keyId}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetPublicKeyRequest",
-}) as any as S.Schema<GetPublicKeyRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/v1/hook-keys/public/{keyId}", code: 200 })),
+).annotate({ identifier: "GetPublicKeyRequest" }) as any as S.Schema<GetPublicKeyRequest>;
 
 export interface GetPushProviderRequest {
   /** Id of the push provider */
@@ -22773,25 +21868,13 @@ export interface GetPushProviderRequest {
 export const GetPushProviderRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     pushProviderId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/push-providers/{pushProviderId}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetPushProviderRequest",
-}) as any as S.Schema<GetPushProviderRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/v1/push-providers/{pushProviderId}", code: 200 })),
+).annotate({ identifier: "GetPushProviderRequest" }) as any as S.Schema<GetPushProviderRequest>;
 
 export interface GetRateLimitSettingsAdminNotificationsRequest {}
 export const GetRateLimitSettingsAdminNotificationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/rate-limit-settings/admin-notifications",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/v1/rate-limit-settings/admin-notifications", code: 200 }),
   ),
 ).annotate({
   identifier: "GetRateLimitSettingsAdminNotificationsRequest",
@@ -22811,11 +21894,7 @@ export const RateLimitAdminNotifications = /*@__PURE__*/ S.suspend(() =>
 export interface GetRateLimitSettingsPerClientRequest {}
 export const GetRateLimitSettingsPerClientRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/rate-limit-settings/per-client",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/v1/rate-limit-settings/per-client", code: 200 }),
   ),
 ).annotate({
   identifier: "GetRateLimitSettingsPerClientRequest",
@@ -22858,11 +21937,7 @@ export const PerClientRateLimitSettings = /*@__PURE__*/ S.suspend(() =>
 export interface GetRateLimitSettingsWarningThresholdRequest {}
 export const GetRateLimitSettingsWarningThresholdRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/rate-limit-settings/warning-threshold",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/v1/rate-limit-settings/warning-threshold", code: 200 }),
   ),
 ).annotate({
   identifier: "GetRateLimitSettingsWarningThresholdRequest",
@@ -22888,9 +21963,7 @@ export const GetRealmRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     realmId: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/api/v1/realms/{realmId}", code: 200 })),
-).annotate({
-  identifier: "GetRealmRequest",
-}) as any as S.Schema<GetRealmRequest>;
+).annotate({ identifier: "GetRealmRequest" }) as any as S.Schema<GetRealmRequest>;
 
 export interface GetRealmAssignmentRequest {
   /** ID of the realm assignment */
@@ -22899,13 +21972,7 @@ export interface GetRealmAssignmentRequest {
 export const GetRealmAssignmentRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     assignmentId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/realm-assignments/{assignmentId}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/v1/realm-assignments/{assignmentId}", code: 200 })),
 ).annotate({
   identifier: "GetRealmAssignmentRequest",
 }) as any as S.Schema<GetRealmAssignmentRequest>;
@@ -22972,15 +22039,9 @@ export const GetResourceSetRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     resourceSetIdOrLabel: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/iam/resource-sets/{resourceSetIdOrLabel}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/v1/iam/resource-sets/{resourceSetIdOrLabel}", code: 200 }),
   ),
-).annotate({
-  identifier: "GetResourceSetRequest",
-}) as any as S.Schema<GetResourceSetRequest>;
+).annotate({ identifier: "GetResourceSetRequest" }) as any as S.Schema<GetResourceSetRequest>;
 
 export interface GetResourceSetResourceRequest {
   /** `id` or `label` of the resource set */
@@ -23010,13 +22071,7 @@ export interface GetRoleRequest {
 export const GetRoleRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     roleIdOrLabel: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/iam/roles/{roleIdOrLabel}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/v1/iam/roles/{roleIdOrLabel}", code: 200 })),
 ).annotate({ identifier: "GetRoleRequest" }) as any as S.Schema<GetRoleRequest>;
 
 export interface GetRoleAssignmentGovernanceGrantRequest {
@@ -23082,9 +22137,7 @@ export const RoleGovernanceSource = /*@__PURE__*/ S.suspend(() =>
     type: GovernanceSourceType,
     _links: S.optional(RoleGovernanceSourceLinks),
   }),
-).annotate({
-  identifier: "RoleGovernanceSource",
-}) as any as S.Schema<RoleGovernanceSource>;
+).annotate({ identifier: "RoleGovernanceSource" }) as any as S.Schema<RoleGovernanceSource>;
 
 export interface GetRoleAssignmentGovernanceGrantResourcesRequest {
   /** ID of an existing Okta user */
@@ -23122,9 +22175,7 @@ export const RoleGovernanceResource = /*@__PURE__*/ S.suspend(() =>
     label: S.optional(S.String),
     resource: S.optional(S.String),
   }),
-).annotate({
-  identifier: "RoleGovernanceResource",
-}) as any as S.Schema<RoleGovernanceResource>;
+).annotate({ identifier: "RoleGovernanceResource" }) as any as S.Schema<RoleGovernanceResource>;
 
 export type RoleGovernanceResourcesResourcesList = Array<RoleGovernanceResource>;
 export const RoleGovernanceResourcesResourcesList = /*@__PURE__*/ S.Array(
@@ -23154,9 +22205,7 @@ export const RoleGovernanceResources = /*@__PURE__*/ S.suspend(() =>
     resources: S.optional(RoleGovernanceResourcesResourcesList),
     _links: S.optional(RoleGovernanceResourcesLinks),
   }),
-).annotate({
-  identifier: "RoleGovernanceResources",
-}) as any as S.Schema<RoleGovernanceResources>;
+).annotate({ identifier: "RoleGovernanceResources" }) as any as S.Schema<RoleGovernanceResources>;
 
 export interface GetRolePermissionRequest {
   /** `id` or `label` of the role */
@@ -23175,9 +22224,7 @@ export const GetRolePermissionRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetRolePermissionRequest",
-}) as any as S.Schema<GetRolePermissionRequest>;
+).annotate({ identifier: "GetRolePermissionRequest" }) as any as S.Schema<GetRolePermissionRequest>;
 
 export interface PermissionLinks {
   self?: HrefObjectSelfLink;
@@ -23188,9 +22235,7 @@ export const PermissionLinks = /*@__PURE__*/ S.suspend(() =>
     self: S.optional(HrefObjectSelfLink),
     role: S.optional(HrefObjectSelfLink),
   }),
-).annotate({
-  identifier: "PermissionLinks",
-}) as any as S.Schema<PermissionLinks>;
+).annotate({ identifier: "PermissionLinks" }) as any as S.Schema<PermissionLinks>;
 
 export interface Permission {
   conditions?: PermissionConditions | null;
@@ -23308,11 +22353,7 @@ export const GetRootBrandWellKnownURIRequest = /*@__PURE__*/ S.suspend(() =>
     path: GetRootBrandWellKnownURIRequestPath.pipe(T.Label()),
     expand: S.optional(GetRootBrandWellKnownURIRequestExpandList.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/brands/{brandId}/well-known-uris/{path}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/v1/brands/{brandId}/well-known-uris/{path}", code: 200 }),
   ),
 ).annotate({
   identifier: "GetRootBrandWellKnownURIRequest",
@@ -23331,13 +22372,7 @@ export const GetScopeConsentGrantRequest = /*@__PURE__*/ S.suspend(() =>
     appId: S.String.pipe(T.Label()),
     grantId: S.String.pipe(T.Label()),
     expand: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/apps/{appId}/grants/{grantId}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/v1/apps/{appId}/grants/{grantId}", code: 200 })),
 ).annotate({
   identifier: "GetScopeConsentGrantRequest",
 }) as any as S.Schema<GetScopeConsentGrantRequest>;
@@ -23449,9 +22484,7 @@ export const OAuth2ScopeConsentGrant = /*@__PURE__*/ S.suspend(() =>
     _embedded: S.optional(OAuth2ScopeConsentGrantEmbedded),
     _links: S.optional(OAuth2ScopeConsentGrantLinks),
   }),
-).annotate({
-  identifier: "OAuth2ScopeConsentGrant",
-}) as any as S.Schema<OAuth2ScopeConsentGrant>;
+).annotate({ identifier: "OAuth2ScopeConsentGrant" }) as any as S.Schema<OAuth2ScopeConsentGrant>;
 
 export interface GetSecurityEventsProviderInstanceRequest {
   /** `id` of the security events provider instance */
@@ -23479,9 +22512,7 @@ export const GetSessionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     sessionId: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/api/v1/sessions/{sessionId}", code: 200 })),
-).annotate({
-  identifier: "GetSessionRequest",
-}) as any as S.Schema<GetSessionRequest>;
+).annotate({ identifier: "GetSessionRequest" }) as any as S.Schema<GetSessionRequest>;
 
 export type SessionAuthenticationMethod =
   | "fpt"
@@ -23514,9 +22545,7 @@ export const SessionIdentityProvider = /*@__PURE__*/ S.suspend(() =>
     id: S.optional(S.String),
     type: S.optional(SessionIdentityProviderType),
   }),
-).annotate({
-  identifier: "SessionIdentityProvider",
-}) as any as S.Schema<SessionIdentityProvider>;
+).annotate({ identifier: "SessionIdentityProvider" }) as any as S.Schema<SessionIdentityProvider>;
 
 export type SessionStatus = "ACTIVE" | "MFA_ENROLL" | "MFA_REQUIRED";
 export const SessionStatus = S.String;
@@ -23581,16 +22610,8 @@ export const GetSignInPageRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     brandId: S.String.pipe(T.Label()),
     expand: S.optional(GetSignInPageRequestExpandList.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/brands/{brandId}/pages/sign-in",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetSignInPageRequest",
-}) as any as S.Schema<GetSignInPageRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/v1/brands/{brandId}/pages/sign-in", code: 200 })),
+).annotate({ identifier: "GetSignInPageRequest" }) as any as S.Schema<GetSignInPageRequest>;
 
 export interface GetSignOutPageSettingsRequest {
   /** The ID of the brand */
@@ -23600,11 +22621,7 @@ export const GetSignOutPageSettingsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     brandId: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/brands/{brandId}/pages/sign-out/customized",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/v1/brands/{brandId}/pages/sign-out/customized", code: 200 }),
   ),
 ).annotate({
   identifier: "GetSignOutPageSettingsRequest",
@@ -23631,16 +22648,8 @@ export interface GetSmsTemplateRequest {
 export const GetSmsTemplateRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     templateId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/templates/sms/{templateId}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetSmsTemplateRequest",
-}) as any as S.Schema<GetSmsTemplateRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/v1/templates/sms/{templateId}", code: 200 })),
+).annotate({ identifier: "GetSmsTemplateRequest" }) as any as S.Schema<GetSmsTemplateRequest>;
 
 export interface GetSsfStreamsRequest {
   /** The ID of the specified SSF stream configuration */
@@ -23650,9 +22659,7 @@ export const GetSsfStreamsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     stream_id: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/api/v1/ssf/stream", code: 200 })),
-).annotate({
-  identifier: "GetSsfStreamsRequest",
-}) as any as S.Schema<GetSsfStreamsRequest>;
+).annotate({ identifier: "GetSsfStreamsRequest" }) as any as S.Schema<GetSsfStreamsRequest>;
 
 export type GetSsfStreamsResponseBodyCase0List = Array<StreamConfiguration>;
 export const GetSsfStreamsResponseBodyCase0List = /*@__PURE__*/ S.Array(
@@ -23665,9 +22672,7 @@ export const GetSsfStreamsResponseBody = S.Unknown as any as S.Schema<GetSsfStre
 export type GetSsfStreamsResponse = GetSsfStreamsResponseBody;
 export const GetSsfStreamsResponse = /*@__PURE__*/ S.suspend(() =>
   GetSsfStreamsResponseBody.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "GetSsfStreamsResponse",
-}) as any as S.Schema<GetSsfStreamsResponse>;
+).annotate({ identifier: "GetSsfStreamsResponse" }) as any as S.Schema<GetSsfStreamsResponse>;
 
 export interface GetSsfStreamStatusRequest {
   /** The ID of the specified SSF stream configuration */
@@ -23823,11 +22828,7 @@ export const GetSubscriptionsNotificationTypeUserRequest = /*@__PURE__*/ S.suspe
 export interface GetThirdPartyAdminSettingRequest {}
 export const GetThirdPartyAdminSettingRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/org/orgSettings/thirdPartyAdminSetting",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/v1/org/orgSettings/thirdPartyAdminSetting", code: 200 }),
   ),
 ).annotate({
   identifier: "GetThirdPartyAdminSettingRequest",
@@ -23842,9 +22843,7 @@ export const ThirdPartyAdminSetting = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     thirdPartyAdmin: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "ThirdPartyAdminSetting",
-}) as any as S.Schema<ThirdPartyAdminSetting>;
+).annotate({ identifier: "ThirdPartyAdminSetting" }) as any as S.Schema<ThirdPartyAdminSetting>;
 
 export interface GetTrustedOriginRequest {
   /** `id` of the trusted origin */
@@ -23853,16 +22852,8 @@ export interface GetTrustedOriginRequest {
 export const GetTrustedOriginRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     trustedOriginId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/trustedOrigins/{trustedOriginId}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetTrustedOriginRequest",
-}) as any as S.Schema<GetTrustedOriginRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/v1/trustedOrigins/{trustedOriginId}", code: 200 })),
+).annotate({ identifier: "GetTrustedOriginRequest" }) as any as S.Schema<GetTrustedOriginRequest>;
 
 export interface GetUISchemaRequest {
   /** The unique ID of the UI Schema */
@@ -23872,9 +22863,7 @@ export const GetUISchemaRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/api/v1/meta/uischemas/{id}", code: 200 })),
-).annotate({
-  identifier: "GetUISchemaRequest",
-}) as any as S.Schema<GetUISchemaRequest>;
+).annotate({ identifier: "GetUISchemaRequest" }) as any as S.Schema<GetUISchemaRequest>;
 
 export interface GetUserRequest {
   /** An ID, login, or login shortname (as long as the shortname is unambiguous) of an existing Okta user */
@@ -23955,9 +22944,7 @@ export const GetUserResponse = /*@__PURE__*/ S.suspend(() =>
     _embedded: S.optional(GetUserResponseEmbeddedMap),
     _links: S.optional(UserOutputLinks),
   }),
-).annotate({
-  identifier: "GetUserResponse",
-}) as any as S.Schema<GetUserResponse>;
+).annotate({ identifier: "GetUserResponse" }) as any as S.Schema<GetUserResponse>;
 
 export interface GetUserAssignedRoleRequest {
   /** ID of an existing Okta user */
@@ -23970,11 +22957,7 @@ export const GetUserAssignedRoleRequest = /*@__PURE__*/ S.suspend(() =>
     userId: S.String.pipe(T.Label()),
     roleAssignmentId: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/users/{userId}/roles/{roleAssignmentId}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/v1/users/{userId}/roles/{roleAssignmentId}", code: 200 }),
   ),
 ).annotate({
   identifier: "GetUserAssignedRoleRequest",
@@ -24027,9 +23010,7 @@ export const LinksGovernanceSources = /*@__PURE__*/ S.suspend(() =>
     assignee: S.optional(HrefObjectSelfLink),
     self: S.optional(HrefObjectSelfLink),
   }),
-).annotate({
-  identifier: "LinksGovernanceSources",
-}) as any as S.Schema<LinksGovernanceSources>;
+).annotate({ identifier: "LinksGovernanceSources" }) as any as S.Schema<LinksGovernanceSources>;
 
 /** List of all user role governance sources */
 export interface RoleGovernance {
@@ -24050,13 +23031,7 @@ export interface GetUserClassificationRequest {
 export const GetUserClassificationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     userId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/users/{userId}/classification",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/v1/users/{userId}/classification", code: 200 })),
 ).annotate({
   identifier: "GetUserClassificationRequest",
 }) as any as S.Schema<GetUserClassificationRequest>;
@@ -24075,9 +23050,7 @@ export const UserClassification = /*@__PURE__*/ S.suspend(() =>
     lastUpdated: S.optional(S.String),
     type: S.optional(ClassificationType),
   }),
-).annotate({
-  identifier: "UserClassification",
-}) as any as S.Schema<UserClassification>;
+).annotate({ identifier: "UserClassification" }) as any as S.Schema<UserClassification>;
 
 export interface GetUserGrantRequest {
   /** ID of an existing Okta user */
@@ -24092,25 +23065,13 @@ export const GetUserGrantRequest = /*@__PURE__*/ S.suspend(() =>
     userId: S.String.pipe(T.Label()),
     grantId: S.String.pipe(T.Label()),
     expand: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/users/{userId}/grants/{grantId}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetUserGrantRequest",
-}) as any as S.Schema<GetUserGrantRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/v1/users/{userId}/grants/{grantId}", code: 200 })),
+).annotate({ identifier: "GetUserGrantRequest" }) as any as S.Schema<GetUserGrantRequest>;
 
 export interface GetUserLockoutSettingsRequest {}
 export const GetUserLockoutSettingsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/attack-protection/api/v1/user-lockout-settings",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/attack-protection/api/v1/user-lockout-settings", code: 200 }),
   ),
 ).annotate({
   identifier: "GetUserLockoutSettingsRequest",
@@ -24124,9 +23085,7 @@ export const UserLockoutSettings = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     preventBruteForceLockoutFromUnknownDevices: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "UserLockoutSettings",
-}) as any as S.Schema<UserLockoutSettings>;
+).annotate({ identifier: "UserLockoutSettings" }) as any as S.Schema<UserLockoutSettings>;
 
 export interface GetUserProvisioningConnectionJWKSRequest {
   /** Application ID */
@@ -24136,11 +23095,7 @@ export const GetUserProvisioningConnectionJWKSRequest = /*@__PURE__*/ S.suspend(
   S.Struct({
     appId: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/apps/{appId}/connections/default/jwks",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/v1/apps/{appId}/connections/default/jwks", code: 200 }),
   ),
 ).annotate({
   identifier: "GetUserProvisioningConnectionJWKSRequest",
@@ -24181,9 +23136,7 @@ export const GetUserRiskRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     userId: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/api/v1/users/{userId}/risk", code: 200 })),
-).annotate({
-  identifier: "GetUserRiskRequest",
-}) as any as S.Schema<GetUserRiskRequest>;
+).annotate({ identifier: "GetUserRiskRequest" }) as any as S.Schema<GetUserRiskRequest>;
 
 /** The risk level associated with the user */
 export type UserRiskLevelAll = "HIGH" | "LOW" | "MEDIUM" | "NONE";
@@ -24198,9 +23151,7 @@ export const UserRiskGetResponseLinks = /*@__PURE__*/ S.suspend(() =>
     self: S.optional(HrefObjectSelfLink),
     user: S.optional(HrefObjectSelfLink),
   }),
-).annotate({
-  identifier: "UserRiskGetResponseLinks",
-}) as any as S.Schema<UserRiskGetResponseLinks>;
+).annotate({ identifier: "UserRiskGetResponseLinks" }) as any as S.Schema<UserRiskGetResponseLinks>;
 
 export interface UserRiskGetResponse {
   riskLevel?: UserRiskLevelAll;
@@ -24211,9 +23162,7 @@ export const UserRiskGetResponse = /*@__PURE__*/ S.suspend(() =>
     riskLevel: S.optional(UserRiskLevelAll),
     _links: S.optional(UserRiskGetResponseLinks),
   }),
-).annotate({
-  identifier: "UserRiskGetResponse",
-}) as any as S.Schema<UserRiskGetResponse>;
+).annotate({ identifier: "UserRiskGetResponse" }) as any as S.Schema<UserRiskGetResponse>;
 
 export interface GetUserSchemaRequest {
   /** Schema ID. You can also use `default` to refer to the default user type schema. */
@@ -24222,16 +23171,8 @@ export interface GetUserSchemaRequest {
 export const GetUserSchemaRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     schemaId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/meta/schemas/user/{schemaId}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetUserSchemaRequest",
-}) as any as S.Schema<GetUserSchemaRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/v1/meta/schemas/user/{schemaId}", code: 200 })),
+).annotate({ identifier: "GetUserSchemaRequest" }) as any as S.Schema<GetUserSchemaRequest>;
 
 export interface GetUserTypeRequest {
   typeId: string;
@@ -24239,16 +23180,8 @@ export interface GetUserTypeRequest {
 export const GetUserTypeRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     typeId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/meta/types/user/{typeId}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetUserTypeRequest",
-}) as any as S.Schema<GetUserTypeRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/v1/meta/types/user/{typeId}", code: 200 })),
+).annotate({ identifier: "GetUserTypeRequest" }) as any as S.Schema<GetUserTypeRequest>;
 
 export interface GetWebAuthnWellKnownURIRequest {}
 export const GetWebAuthnWellKnownURIRequest = /*@__PURE__*/ S.suspend(() =>
@@ -24272,11 +23205,7 @@ export const GetWellKnownAppAuthenticatorConfigurationRequest = /*@__PURE__*/ S.
   S.Struct({
     oauthClientId: S.String.pipe(T.Query()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/.well-known/app-authenticator-configuration",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/.well-known/app-authenticator-configuration", code: 200 }),
   ),
 ).annotate({
   identifier: "GetWellKnownAppAuthenticatorConfigurationRequest",
@@ -24333,9 +23262,7 @@ export const SupportedMethodsSettings = /*@__PURE__*/ S.suspend(() =>
     algorithms: S.optional(SupportedMethodsSettingsAlgorithmsList),
     transactionTypes: S.optional(SupportedMethodsSettingsTransactionTypesList),
   }),
-).annotate({
-  identifier: "SupportedMethodsSettings",
-}) as any as S.Schema<SupportedMethodsSettings>;
+).annotate({ identifier: "SupportedMethodsSettings" }) as any as S.Schema<SupportedMethodsSettings>;
 
 /** The type of authenticator method */
 export type SupportedMethodsType = "push";
@@ -24354,9 +23281,7 @@ export const SupportedMethods = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(S.Unknown),
     type: S.optional(SupportedMethodsType),
   }),
-).annotate({
-  identifier: "SupportedMethods",
-}) as any as S.Schema<SupportedMethods>;
+).annotate({ identifier: "SupportedMethods" }) as any as S.Schema<SupportedMethods>;
 
 export type WellKnownAppAuthenticatorConfigurationSupportedMethodsList = Array<SupportedMethods>;
 export const WellKnownAppAuthenticatorConfigurationSupportedMethodsList = /*@__PURE__*/ S.Array(
@@ -24461,9 +23386,7 @@ export const WellKnownOrgMetadata = /*@__PURE__*/ S.suspend(() =>
     pipeline: S.optional(PipelineType),
     _links: S.optional(WellKnownOrgMetadataLinks),
   }),
-).annotate({
-  identifier: "WellKnownOrgMetadata",
-}) as any as S.Schema<WellKnownOrgMetadata>;
+).annotate({ identifier: "WellKnownOrgMetadata" }) as any as S.Schema<WellKnownOrgMetadata>;
 
 export interface GetWellknownSsfMetadataRequest {}
 export const GetWellknownSsfMetadataRequest = /*@__PURE__*/ S.suspend(() =>
@@ -24530,9 +23453,7 @@ export const WellKnownSSFMetadata = /*@__PURE__*/ S.suspend(() =>
     spec_version: S.optional(S.String),
     verification_endpoint: S.optional(S.String),
   }),
-).annotate({
-  identifier: "WellKnownSSFMetadata",
-}) as any as S.Schema<WellKnownSSFMetadata>;
+).annotate({ identifier: "WellKnownSSFMetadata" }) as any as S.Schema<WellKnownSSFMetadata>;
 
 export interface GetYubikeyOtpTokenByIdRequest {
   /** The YubiKey OTP token ID */
@@ -24542,20 +23463,14 @@ export const GetYubikeyOtpTokenByIdRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     tokenId: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/org/factors/yubikey_token/tokens/{tokenId}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/v1/org/factors/yubikey_token/tokens/{tokenId}", code: 200 }),
   ),
 ).annotate({
   identifier: "GetYubikeyOtpTokenByIdRequest",
 }) as any as S.Schema<GetYubikeyOtpTokenByIdRequest>;
 
 /** Specified profile information for token */
-export type UserFactorYubikeyOtpTokenProfileMap = {
-  [key: string]: unknown | undefined;
-};
+export type UserFactorYubikeyOtpTokenProfileMap = { [key: string]: unknown | undefined };
 export const UserFactorYubikeyOtpTokenProfileMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -24571,9 +23486,7 @@ export type UserFactorYubikeyOtpTokenStatus =
   | "INACTIVE";
 export const UserFactorYubikeyOtpTokenStatus = S.String;
 
-export type UserFactorYubikeyOtpTokenEmbeddedMap = {
-  [key: string]: unknown | undefined;
-};
+export type UserFactorYubikeyOtpTokenEmbeddedMap = { [key: string]: unknown | undefined };
 export const UserFactorYubikeyOtpTokenEmbeddedMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -24617,13 +23530,7 @@ export interface GrantAerialConsentRequest {
 export const GrantAerialConsentRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     accountId: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v1/org/privacy/aerial/grant",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/api/v1/org/privacy/aerial/grant", code: 200 })),
 ).annotate({
   identifier: "GrantAerialConsentRequest",
 }) as any as S.Schema<GrantAerialConsentRequest>;
@@ -24687,13 +23594,7 @@ export const LinkUserToIdentityProviderRequest = /*@__PURE__*/ S.suspend(() =>
     idpId: S.String.pipe(T.Label()),
     userId: S.String.pipe(T.Label()),
     externalId: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v1/idps/{idpId}/users/{userId}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/api/v1/idps/{idpId}/users/{userId}", code: 200 })),
 ).annotate({
   identifier: "LinkUserToIdentityProviderRequest",
 }) as any as S.Schema<LinkUserToIdentityProviderRequest>;
@@ -24706,11 +23607,7 @@ export const ListActiveIdentityProviderSigningKeyRequest = /*@__PURE__*/ S.suspe
   S.Struct({
     idpId: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/idps/{idpId}/credentials/keys/active",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/v1/idps/{idpId}/credentials/keys/active", code: 200 }),
   ),
 ).annotate({
   identifier: "ListActiveIdentityProviderSigningKeyRequest",
@@ -24743,9 +23640,7 @@ export const ListAgentPoolsRequest = /*@__PURE__*/ S.suspend(() =>
     poolType: S.optional(AgentType.pipe(T.Query())),
     after: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/api/v1/agentPools", code: 200 })),
-).annotate({
-  identifier: "ListAgentPoolsRequest",
-}) as any as S.Schema<ListAgentPoolsRequest>;
+).annotate({ identifier: "ListAgentPoolsRequest" }) as any as S.Schema<ListAgentPoolsRequest>;
 
 export type AgentPoolAgentsList = Array<Agent>;
 export const AgentPoolAgentsList = /*@__PURE__*/ S.Array(
@@ -24788,9 +23683,7 @@ export const ListAgentPoolsResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListAgentPoolsResponse = ListAgentPoolsResponseBodyList;
 export const ListAgentPoolsResponse = /*@__PURE__*/ S.suspend(() =>
   ListAgentPoolsResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListAgentPoolsResponse",
-}) as any as S.Schema<ListAgentPoolsResponse>;
+).annotate({ identifier: "ListAgentPoolsResponse" }) as any as S.Schema<ListAgentPoolsResponse>;
 
 export interface ListAgentPoolsUpdatesRequest {
   /** ID of the agent pool for which the settings apply to */
@@ -24802,13 +23695,7 @@ export const ListAgentPoolsUpdatesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     poolId: S.String.pipe(T.Label()),
     scheduled: S.optional(S.Boolean.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/agentPools/{poolId}/updates",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/v1/agentPools/{poolId}/updates", code: 200 })),
 ).annotate({
   identifier: "ListAgentPoolsUpdatesRequest",
 }) as any as S.Schema<ListAgentPoolsUpdatesRequest>;
@@ -24833,11 +23720,7 @@ export const ListAllCustomAAGUIDsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     authenticatorId: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/authenticators/{authenticatorId}/aaguids",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/v1/authenticators/{authenticatorId}/aaguids", code: 200 }),
   ),
 ).annotate({
   identifier: "ListAllCustomAAGUIDsRequest",
@@ -24914,13 +23797,7 @@ export interface ListApiServiceIntegrationInstancesRequest {
 export const ListApiServiceIntegrationInstancesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     after: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/integrations/api/v1/api-services",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/integrations/api/v1/api-services", code: 200 })),
 ).annotate({
   identifier: "ListApiServiceIntegrationInstancesRequest",
 }) as any as S.Schema<ListApiServiceIntegrationInstancesRequest>;
@@ -24974,9 +23851,7 @@ export const ListApiServiceIntegrationInstanceSecretsResponse = /*@__PURE__*/ S.
 export interface ListApiTokensRequest {}
 export const ListApiTokensRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/api/v1/api-tokens", code: 200 })),
-).annotate({
-  identifier: "ListApiTokensRequest",
-}) as any as S.Schema<ListApiTokensRequest>;
+).annotate({ identifier: "ListApiTokensRequest" }) as any as S.Schema<ListApiTokensRequest>;
 
 export type ListApiTokensResponseBodyList = Array<ApiToken>;
 export const ListApiTokensResponseBodyList = /*@__PURE__*/ S.Array(
@@ -24986,9 +23861,7 @@ export const ListApiTokensResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListApiTokensResponse = ListApiTokensResponseBodyList;
 export const ListApiTokensResponse = /*@__PURE__*/ S.suspend(() =>
   ListApiTokensResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListApiTokensResponse",
-}) as any as S.Schema<ListApiTokensResponse>;
+).annotate({ identifier: "ListApiTokensResponse" }) as any as S.Schema<ListApiTokensResponse>;
 
 export interface ListApplicationGroupAssignmentsRequest {
   /** Application ID */
@@ -25034,13 +23907,7 @@ export interface ListApplicationKeysRequest {
 export const ListApplicationKeysRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     appId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/apps/{appId}/credentials/keys",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/v1/apps/{appId}/credentials/keys", code: 200 })),
 ).annotate({
   identifier: "ListApplicationKeysRequest",
 }) as any as S.Schema<ListApplicationKeysRequest>;
@@ -25086,9 +23953,7 @@ export const ListApplicationsRequest = /*@__PURE__*/ S.suspend(() =>
     expand: S.optional(S.String.pipe(T.Query())),
     includeNonDeleted: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/api/v1/apps", code: 200 })),
-).annotate({
-  identifier: "ListApplicationsRequest",
-}) as any as S.Schema<ListApplicationsRequest>;
+).annotate({ identifier: "ListApplicationsRequest" }) as any as S.Schema<ListApplicationsRequest>;
 
 export type ListApplicationsResponseBodyList = Array<Application>;
 export const ListApplicationsResponseBodyList = /*@__PURE__*/ S.Array(
@@ -25098,9 +23963,7 @@ export const ListApplicationsResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListApplicationsResponse = ListApplicationsResponseBodyList;
 export const ListApplicationsResponse = /*@__PURE__*/ S.suspend(() =>
   ListApplicationsResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListApplicationsResponse",
-}) as any as S.Schema<ListApplicationsResponse>;
+).annotate({ identifier: "ListApplicationsResponse" }) as any as S.Schema<ListApplicationsResponse>;
 
 export interface ListApplicationTargetsForApplicationAdministratorRoleForGroupRequest {
   /** The `id` of the group */
@@ -25238,9 +24101,7 @@ export const ListAppLinksRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/api/v1/users/{id}/appLinks", code: 200 })),
-).annotate({
-  identifier: "ListAppLinksRequest",
-}) as any as S.Schema<ListAppLinksRequest>;
+).annotate({ identifier: "ListAppLinksRequest" }) as any as S.Schema<ListAppLinksRequest>;
 
 export interface AssignedAppLink {
   appAssignmentId?: string;
@@ -25267,9 +24128,7 @@ export const AssignedAppLink = /*@__PURE__*/ S.suspend(() =>
     logoUrl: S.optional(S.String),
     sortOrder: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "AssignedAppLink",
-}) as any as S.Schema<AssignedAppLink>;
+).annotate({ identifier: "AssignedAppLink" }) as any as S.Schema<AssignedAppLink>;
 
 export type ListAppLinksResponseBodyList = Array<AssignedAppLink>;
 export const ListAppLinksResponseBodyList = /*@__PURE__*/ S.Array(
@@ -25279,9 +24138,7 @@ export const ListAppLinksResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListAppLinksResponse = ListAppLinksResponseBodyList;
 export const ListAppLinksResponse = /*@__PURE__*/ S.suspend(() =>
   ListAppLinksResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListAppLinksResponse",
-}) as any as S.Schema<ListAppLinksResponse>;
+).annotate({ identifier: "ListAppLinksResponse" }) as any as S.Schema<ListAppLinksResponse>;
 
 export interface ListAppServiceAccountsRequest {
   /** A limit on the number of objects to return */
@@ -25296,13 +24153,7 @@ export const ListAppServiceAccountsRequest = /*@__PURE__*/ S.suspend(() =>
     limit: S.optional(S.Number.pipe(T.Query())),
     after: S.optional(S.String.pipe(T.Query())),
     match: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/privileged-access/api/v1/service-accounts",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/privileged-access/api/v1/service-accounts", code: 200 })),
 ).annotate({
   identifier: "ListAppServiceAccountsRequest",
 }) as any as S.Schema<ListAppServiceAccountsRequest>;
@@ -25371,13 +24222,7 @@ export const ListAssignedApplicationsForGroupRequest = /*@__PURE__*/ S.suspend((
     groupId: S.String.pipe(T.Label()),
     after: S.optional(S.String.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/groups/{groupId}/apps",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/v1/groups/{groupId}/apps", code: 200 })),
 ).annotate({
   identifier: "ListAssignedApplicationsForGroupRequest",
 }) as any as S.Schema<ListAssignedApplicationsForGroupRequest>;
@@ -25493,11 +24338,7 @@ export const ListAuthenticatorEnrollmentsRequest = /*@__PURE__*/ S.suspend(() =>
       ListAuthenticatorEnrollmentsRequestDiscloseIdentifiersList.pipe(T.Query()),
     ),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/users/{userId}/authenticator-enrollments",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/v1/users/{userId}/authenticator-enrollments", code: 200 }),
   ),
 ).annotate({
   identifier: "ListAuthenticatorEnrollmentsRequest",
@@ -25511,11 +24352,7 @@ export const ListAuthenticatorMethodsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     authenticatorId: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/authenticators/{authenticatorId}/methods",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/v1/authenticators/{authenticatorId}/methods", code: 200 }),
   ),
 ).annotate({
   identifier: "ListAuthenticatorMethodsRequest",
@@ -25768,9 +24605,7 @@ export const ListBindingsRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "ListBindingsRequest",
-}) as any as S.Schema<ListBindingsRequest>;
+).annotate({ identifier: "ListBindingsRequest" }) as any as S.Schema<ListBindingsRequest>;
 
 export interface ResourceSetBindingRoleLinks {
   self?: HrefObjectSelfLink;
@@ -25795,9 +24630,7 @@ export const ResourceSetBindingRole = /*@__PURE__*/ S.suspend(() =>
     id: S.optional(S.String),
     _links: S.optional(ResourceSetBindingRoleLinks),
   }),
-).annotate({
-  identifier: "ResourceSetBindingRole",
-}) as any as S.Schema<ResourceSetBindingRole>;
+).annotate({ identifier: "ResourceSetBindingRole" }) as any as S.Schema<ResourceSetBindingRole>;
 
 /** Roles associated with the resource set binding. If there are more than 100 bindings for the specified resource set, then the `_links.next` resource is returned with the next list of bindings. */
 export type ResourceSetBindingsRolesList = Array<ResourceSetBindingRole>;
@@ -25819,9 +24652,7 @@ export const ResourceSetBindingsLinks = /*@__PURE__*/ S.suspend(() =>
     next: S.optional(HrefObjectSelfLink),
     resource_set: S.optional(HrefObjectSelfLink.pipe(T.Body("resource-set"))),
   }),
-).annotate({
-  identifier: "ResourceSetBindingsLinks",
-}) as any as S.Schema<ResourceSetBindingsLinks>;
+).annotate({ identifier: "ResourceSetBindingsLinks" }) as any as S.Schema<ResourceSetBindingsLinks>;
 
 export interface ResourceSetBindings {
   /** Roles associated with the resource set binding. If there are more than 100 bindings for the specified resource set, then the `_links.next` resource is returned with the next list of bindings. */
@@ -25833,9 +24664,7 @@ export const ResourceSetBindings = /*@__PURE__*/ S.suspend(() =>
     roles: S.optional(ResourceSetBindingsRolesList),
     _links: S.optional(ResourceSetBindingsLinks),
   }),
-).annotate({
-  identifier: "ResourceSetBindings",
-}) as any as S.Schema<ResourceSetBindings>;
+).annotate({ identifier: "ResourceSetBindings" }) as any as S.Schema<ResourceSetBindings>;
 
 export interface ListBrandDomainsRequest {
   /** The ID of the brand */
@@ -25844,16 +24673,8 @@ export interface ListBrandDomainsRequest {
 export const ListBrandDomainsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     brandId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/brands/{brandId}/domains",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ListBrandDomainsRequest",
-}) as any as S.Schema<ListBrandDomainsRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/v1/brands/{brandId}/domains", code: 200 })),
+).annotate({ identifier: "ListBrandDomainsRequest" }) as any as S.Schema<ListBrandDomainsRequest>;
 
 /** Each element of the array defines an individual domain */
 export type BrandDomainsDomainsList = Array<DomainResponse>;
@@ -25897,9 +24718,7 @@ export const ListBrandsRequest = /*@__PURE__*/ S.suspend(() =>
     limit: S.optional(S.Number.pipe(T.Query())),
     q: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/api/v1/brands", code: 200 })),
-).annotate({
-  identifier: "ListBrandsRequest",
-}) as any as S.Schema<ListBrandsRequest>;
+).annotate({ identifier: "ListBrandsRequest" }) as any as S.Schema<ListBrandsRequest>;
 
 export type BrandWithEmbeddedEmbeddedThemesList = Array<ThemeResponse>;
 export const BrandWithEmbeddedEmbeddedThemesList = /*@__PURE__*/ S.Array(
@@ -25963,9 +24782,7 @@ export const BrandWithEmbedded = /*@__PURE__*/ S.suspend(() =>
     _embedded: S.optional(BrandWithEmbeddedEmbedded),
     _links: S.optional(GetBrandResponseLinks),
   }),
-).annotate({
-  identifier: "BrandWithEmbedded",
-}) as any as S.Schema<BrandWithEmbedded>;
+).annotate({ identifier: "BrandWithEmbedded" }) as any as S.Schema<BrandWithEmbedded>;
 
 export type ListBrandsResponseBodyList = Array<BrandWithEmbedded>;
 export const ListBrandsResponseBodyList = /*@__PURE__*/ S.Array(
@@ -25975,9 +24792,7 @@ export const ListBrandsResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListBrandsResponse = ListBrandsResponseBodyList;
 export const ListBrandsResponse = /*@__PURE__*/ S.suspend(() =>
   ListBrandsResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListBrandsResponse",
-}) as any as S.Schema<ListBrandsResponse>;
+).annotate({ identifier: "ListBrandsResponse" }) as any as S.Schema<ListBrandsResponse>;
 
 export interface ListBrandThemesRequest {
   /** The ID of the brand */
@@ -25986,16 +24801,8 @@ export interface ListBrandThemesRequest {
 export const ListBrandThemesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     brandId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/brands/{brandId}/themes",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ListBrandThemesRequest",
-}) as any as S.Schema<ListBrandThemesRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/v1/brands/{brandId}/themes", code: 200 })),
+).annotate({ identifier: "ListBrandThemesRequest" }) as any as S.Schema<ListBrandThemesRequest>;
 
 export type ListBrandThemesResponseBodyList = Array<ThemeResponse>;
 export const ListBrandThemesResponseBodyList = /*@__PURE__*/ S.Array(
@@ -26005,9 +24812,7 @@ export const ListBrandThemesResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListBrandThemesResponse = ListBrandThemesResponseBodyList;
 export const ListBrandThemesResponse = /*@__PURE__*/ S.suspend(() =>
   ListBrandThemesResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListBrandThemesResponse",
-}) as any as S.Schema<ListBrandThemesResponse>;
+).annotate({ identifier: "ListBrandThemesResponse" }) as any as S.Schema<ListBrandThemesResponse>;
 
 export interface ListBundleEntitlementsRequest {
   /** The `id` of a bundle */
@@ -26044,9 +24849,7 @@ export const BundleEntitlementLinks = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     values: S.optional(HrefObjectSelfLink),
   }),
-).annotate({
-  identifier: "BundleEntitlementLinks",
-}) as any as S.Schema<BundleEntitlementLinks>;
+).annotate({ identifier: "BundleEntitlementLinks" }) as any as S.Schema<BundleEntitlementLinks>;
 
 /** An entitlement in a governance bundle */
 export interface BundleEntitlement {
@@ -26069,9 +24872,7 @@ export const BundleEntitlement = /*@__PURE__*/ S.suspend(() =>
     role: S.optional(S.String),
     _links: S.optional(BundleEntitlementLinks),
   }),
-).annotate({
-  identifier: "BundleEntitlement",
-}) as any as S.Schema<BundleEntitlement>;
+).annotate({ identifier: "BundleEntitlement" }) as any as S.Schema<BundleEntitlement>;
 
 /** List of bundle entitlements */
 export type BundleEntitlementsResponseEntitlementsList = Array<BundleEntitlement>;
@@ -26151,9 +24952,7 @@ export const EntitlementValueLinks = /*@__PURE__*/ S.suspend(() =>
     app: S.optional(HrefObjectSelfLink),
     resource_set: S.optional(HrefObjectSelfLink.pipe(T.Body("resource-set"))),
   }),
-).annotate({
-  identifier: "EntitlementValueLinks",
-}) as any as S.Schema<EntitlementValueLinks>;
+).annotate({ identifier: "EntitlementValueLinks" }) as any as S.Schema<EntitlementValueLinks>;
 
 export interface EntitlementValue {
   /** Entitlement value ID */
@@ -26172,9 +24971,7 @@ export const EntitlementValue = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(S.String),
     _links: S.optional(EntitlementValueLinks),
   }),
-).annotate({
-  identifier: "EntitlementValue",
-}) as any as S.Schema<EntitlementValue>;
+).annotate({ identifier: "EntitlementValue" }) as any as S.Schema<EntitlementValue>;
 
 /** List of entitlement values for a bundle entitlement */
 export type EntitlementValuesResponseEntitlementValuesList = Array<EntitlementValue>;
@@ -26239,13 +25036,7 @@ export interface ListCsrsForApplicationRequest {
 export const ListCsrsForApplicationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     appId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/apps/{appId}/credentials/csrs",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/v1/apps/{appId}/credentials/csrs", code: 200 })),
 ).annotate({
   identifier: "ListCsrsForApplicationRequest",
 }) as any as S.Schema<ListCsrsForApplicationRequest>;
@@ -26269,13 +25060,7 @@ export interface ListCsrsForIdentityProviderRequest {
 export const ListCsrsForIdentityProviderRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     idpId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/idps/{idpId}/credentials/csrs",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/v1/idps/{idpId}/credentials/csrs", code: 200 })),
 ).annotate({
   identifier: "ListCsrsForIdentityProviderRequest",
 }) as any as S.Schema<ListCsrsForIdentityProviderRequest>;
@@ -26295,9 +25080,7 @@ export const ListCsrsForIdentityProviderResponse = /*@__PURE__*/ S.suspend(() =>
 export interface ListCustomDomainsRequest {}
 export const ListCustomDomainsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/api/v1/domains", code: 200 })),
-).annotate({
-  identifier: "ListCustomDomainsRequest",
-}) as any as S.Schema<ListCustomDomainsRequest>;
+).annotate({ identifier: "ListCustomDomainsRequest" }) as any as S.Schema<ListCustomDomainsRequest>;
 
 /** Each element of the array defines an individual domain */
 export type DomainListResponseDomainsList = Array<DomainResponse>;
@@ -26314,18 +25097,12 @@ export const DomainListResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     domains: S.optional(DomainListResponseDomainsList),
   }),
-).annotate({
-  identifier: "DomainListResponse",
-}) as any as S.Schema<DomainListResponse>;
+).annotate({ identifier: "DomainListResponse" }) as any as S.Schema<DomainListResponse>;
 
 export interface ListDefaultDevicePostureChecksRequest {}
 export const ListDefaultDevicePostureChecksRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/device-posture-checks/default",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/v1/device-posture-checks/default", code: 200 }),
   ),
 ).annotate({
   identifier: "ListDefaultDevicePostureChecksRequest",
@@ -26401,13 +25178,7 @@ export const ListDeviceOSAccountsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     deviceId: S.String.pipe(T.Label()),
     expand: S.optional(ListDeviceOSAccountsRequestExpandList.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/devices/{deviceId}/os-accounts",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/v1/devices/{deviceId}/os-accounts", code: 200 })),
 ).annotate({
   identifier: "ListDeviceOSAccountsRequest",
 }) as any as S.Schema<ListDeviceOSAccountsRequest>;
@@ -26466,9 +25237,7 @@ export const ListDevicesRequest = /*@__PURE__*/ S.suspend(() =>
     search: S.optional(S.String.pipe(T.Query())),
     expand: S.optional(ListDevicesRequestExpand.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/api/v1/devices", code: 200 })),
-).annotate({
-  identifier: "ListDevicesRequest",
-}) as any as S.Schema<ListDevicesRequest>;
+).annotate({ identifier: "ListDevicesRequest" }) as any as S.Schema<ListDevicesRequest>;
 
 /** The management status of the device */
 export type DeviceUserOutputManagementStatus = "MANAGED" | "NOT_MANAGED";
@@ -26494,9 +25263,7 @@ export const DeviceUserOutput = /*@__PURE__*/ S.suspend(() =>
     screenLockType: S.optional(DeviceUserOutputScreenLockType),
     user: S.optional(UserOutput),
   }),
-).annotate({
-  identifier: "DeviceUserOutput",
-}) as any as S.Schema<DeviceUserOutput>;
+).annotate({ identifier: "DeviceUserOutput" }) as any as S.Schema<DeviceUserOutput>;
 
 /** Users for the device */
 export type DeviceListOutputEmbeddedUsersList = Array<DeviceUserOutput>;
@@ -26513,9 +25280,7 @@ export const DeviceListOutputEmbedded = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     users: S.optional(DeviceListOutputEmbeddedUsersList),
   }),
-).annotate({
-  identifier: "DeviceListOutputEmbedded",
-}) as any as S.Schema<DeviceListOutputEmbedded>;
+).annotate({ identifier: "DeviceListOutputEmbedded" }) as any as S.Schema<DeviceListOutputEmbedded>;
 
 export interface DeviceListOutput {
   /** Timestamp when the device was created */
@@ -26549,9 +25314,7 @@ export const DeviceListOutput = /*@__PURE__*/ S.suspend(() =>
     _links: S.optional(LinksSelfAndFullUsersLifecycle),
     _embedded: S.optional(DeviceListOutputEmbedded),
   }),
-).annotate({
-  identifier: "DeviceListOutput",
-}) as any as S.Schema<DeviceListOutput>;
+).annotate({ identifier: "DeviceListOutput" }) as any as S.Schema<DeviceListOutput>;
 
 export type ListDevicesResponseBodyList = Array<DeviceListOutput>;
 export const ListDevicesResponseBodyList = /*@__PURE__*/ S.Array(
@@ -26561,9 +25324,7 @@ export const ListDevicesResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListDevicesResponse = ListDevicesResponseBodyList;
 export const ListDevicesResponse = /*@__PURE__*/ S.suspend(() =>
   ListDevicesResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListDevicesResponse",
-}) as any as S.Schema<ListDevicesResponse>;
+).annotate({ identifier: "ListDevicesResponse" }) as any as S.Schema<ListDevicesResponse>;
 
 export interface ListDeviceUsersRequest {
   /** `id` of the device */
@@ -26572,16 +25333,8 @@ export interface ListDeviceUsersRequest {
 export const ListDeviceUsersRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     deviceId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/devices/{deviceId}/users",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ListDeviceUsersRequest",
-}) as any as S.Schema<ListDeviceUsersRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/v1/devices/{deviceId}/users", code: 200 })),
+).annotate({ identifier: "ListDeviceUsersRequest" }) as any as S.Schema<ListDeviceUsersRequest>;
 
 export type ListDeviceUsersResponseBodyList = Array<DeviceUserOutput>;
 export const ListDeviceUsersResponseBodyList = /*@__PURE__*/ S.Array(
@@ -26591,9 +25344,7 @@ export const ListDeviceUsersResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListDeviceUsersResponse = ListDeviceUsersResponseBodyList;
 export const ListDeviceUsersResponse = /*@__PURE__*/ S.suspend(() =>
   ListDeviceUsersResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListDeviceUsersResponse",
-}) as any as S.Schema<ListDeviceUsersResponse>;
+).annotate({ identifier: "ListDeviceUsersResponse" }) as any as S.Schema<ListDeviceUsersResponse>;
 
 export interface ListEmailCustomizationsRequest {
   /** The ID of the brand */
@@ -26652,9 +25403,7 @@ export const EmailCustomization = /*@__PURE__*/ S.suspend(() =>
     lastUpdated: S.optional(S.String),
     _links: S.optional(CreateEmailCustomizationResponseLinks),
   }),
-).annotate({
-  identifier: "EmailCustomization",
-}) as any as S.Schema<EmailCustomization>;
+).annotate({ identifier: "EmailCustomization" }) as any as S.Schema<EmailCustomization>;
 
 export type ListEmailCustomizationsResponseBodyList = Array<EmailCustomization>;
 export const ListEmailCustomizationsResponseBodyList = /*@__PURE__*/ S.Array(
@@ -26686,9 +25435,7 @@ export const ListEmailDomainsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     expand: S.optional(ListEmailDomainsRequestExpandList.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/api/v1/email-domains", code: 200 })),
-).annotate({
-  identifier: "ListEmailDomainsRequest",
-}) as any as S.Schema<ListEmailDomainsRequest>;
+).annotate({ identifier: "ListEmailDomainsRequest" }) as any as S.Schema<ListEmailDomainsRequest>;
 
 export type EmailDomainResponseWithEmbeddedDnsValidationRecordsList = Array<EmailDomainDNSRecord>;
 export const EmailDomainResponseWithEmbeddedDnsValidationRecordsList = /*@__PURE__*/ S.Array(
@@ -26745,16 +25492,12 @@ export const ListEmailDomainsResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListEmailDomainsResponse = ListEmailDomainsResponseBodyList;
 export const ListEmailDomainsResponse = /*@__PURE__*/ S.suspend(() =>
   ListEmailDomainsResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListEmailDomainsResponse",
-}) as any as S.Schema<ListEmailDomainsResponse>;
+).annotate({ identifier: "ListEmailDomainsResponse" }) as any as S.Schema<ListEmailDomainsResponse>;
 
 export interface ListEmailServersRequest {}
 export const ListEmailServersRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/api/v1/email-servers", code: 200 })),
-).annotate({
-  identifier: "ListEmailServersRequest",
-}) as any as S.Schema<ListEmailServersRequest>;
+).annotate({ identifier: "ListEmailServersRequest" }) as any as S.Schema<ListEmailServersRequest>;
 
 /** List of enrolled SMTP servers */
 export type EmailServerListResponseEmailServersList = Array<BaseEmailServer>;
@@ -26772,9 +25515,7 @@ export const EmailServerListResponse = /*@__PURE__*/ S.suspend(() =>
       EmailServerListResponseEmailServersList.pipe(T.Body("email-servers")),
     ),
   }),
-).annotate({
-  identifier: "EmailServerListResponse",
-}) as any as S.Schema<EmailServerListResponse>;
+).annotate({ identifier: "EmailServerListResponse" }) as any as S.Schema<EmailServerListResponse>;
 
 export type ListEmailTemplatesRequestExpandItem = "settings" | "customizationCount";
 export const ListEmailTemplatesRequestExpandItem = S.String;
@@ -26802,13 +25543,7 @@ export const ListEmailTemplatesRequest = /*@__PURE__*/ S.suspend(() =>
     after: S.optional(S.String.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
     expand: S.optional(ListEmailTemplatesRequestExpandList.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/brands/{brandId}/templates/email",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/v1/brands/{brandId}/templates/email", code: 200 })),
 ).annotate({
   identifier: "ListEmailTemplatesRequest",
 }) as any as S.Schema<ListEmailTemplatesRequest>;
@@ -26828,9 +25563,7 @@ export const ListEmailTemplatesResponse = /*@__PURE__*/ S.suspend(() =>
 export interface ListEventHooksRequest {}
 export const ListEventHooksRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/api/v1/eventHooks", code: 200 })),
-).annotate({
-  identifier: "ListEventHooksRequest",
-}) as any as S.Schema<ListEventHooksRequest>;
+).annotate({ identifier: "ListEventHooksRequest" }) as any as S.Schema<ListEventHooksRequest>;
 
 export type ListEventHooksResponseBodyList = Array<EventHookOutput>;
 export const ListEventHooksResponseBodyList = /*@__PURE__*/ S.Array(
@@ -26840,9 +25573,7 @@ export const ListEventHooksResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListEventHooksResponse = ListEventHooksResponseBodyList;
 export const ListEventHooksResponse = /*@__PURE__*/ S.suspend(() =>
   ListEventHooksResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListEventHooksResponse",
-}) as any as S.Schema<ListEventHooksResponse>;
+).annotate({ identifier: "ListEventHooksResponse" }) as any as S.Schema<ListEventHooksResponse>;
 
 export interface ListFactorsRequest {
   /** ID of an existing Okta user */
@@ -26852,9 +25583,7 @@ export const ListFactorsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     userId: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/api/v1/users/{userId}/factors", code: 200 })),
-).annotate({
-  identifier: "ListFactorsRequest",
-}) as any as S.Schema<ListFactorsRequest>;
+).annotate({ identifier: "ListFactorsRequest" }) as any as S.Schema<ListFactorsRequest>;
 
 export type ListFactorsResponseBodyList = Array<UserFactor>;
 export const ListFactorsResponseBodyList = /*@__PURE__*/ S.Array(
@@ -26864,9 +25593,7 @@ export const ListFactorsResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListFactorsResponse = ListFactorsResponseBodyList;
 export const ListFactorsResponse = /*@__PURE__*/ S.suspend(() =>
   ListFactorsResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListFactorsResponse",
-}) as any as S.Schema<ListFactorsResponse>;
+).annotate({ identifier: "ListFactorsResponse" }) as any as S.Schema<ListFactorsResponse>;
 
 export interface ListFeatureDependenciesRequest {
   /** `id` of the feature */
@@ -26875,13 +25602,7 @@ export interface ListFeatureDependenciesRequest {
 export const ListFeatureDependenciesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     featureId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/features/{featureId}/dependencies",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/v1/features/{featureId}/dependencies", code: 200 })),
 ).annotate({
   identifier: "ListFeatureDependenciesRequest",
 }) as any as S.Schema<ListFeatureDependenciesRequest>;
@@ -26905,13 +25626,7 @@ export interface ListFeatureDependentsRequest {
 export const ListFeatureDependentsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     featureId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/features/{featureId}/dependents",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/v1/features/{featureId}/dependents", code: 200 })),
 ).annotate({
   identifier: "ListFeatureDependentsRequest",
 }) as any as S.Schema<ListFeatureDependentsRequest>;
@@ -26931,9 +25646,7 @@ export const ListFeatureDependentsResponse = /*@__PURE__*/ S.suspend(() =>
 export interface ListFeaturesRequest {}
 export const ListFeaturesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/api/v1/features", code: 200 })),
-).annotate({
-  identifier: "ListFeaturesRequest",
-}) as any as S.Schema<ListFeaturesRequest>;
+).annotate({ identifier: "ListFeaturesRequest" }) as any as S.Schema<ListFeaturesRequest>;
 
 export type ListFeaturesResponseBodyList = Array<Feature>;
 export const ListFeaturesResponseBodyList = /*@__PURE__*/ S.Array(
@@ -26943,9 +25656,7 @@ export const ListFeaturesResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListFeaturesResponse = ListFeaturesResponseBodyList;
 export const ListFeaturesResponse = /*@__PURE__*/ S.suspend(() =>
   ListFeaturesResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListFeaturesResponse",
-}) as any as S.Schema<ListFeaturesResponse>;
+).annotate({ identifier: "ListFeaturesResponse" }) as any as S.Schema<ListFeaturesResponse>;
 
 export interface ListFeaturesForApplicationRequest {
   /** Application ID */
@@ -26978,13 +25689,7 @@ export interface ListFederatedClaimsRequest {
 export const ListFederatedClaimsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     appId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/apps/{appId}/federated-claims",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/v1/apps/{appId}/federated-claims", code: 200 })),
 ).annotate({
   identifier: "ListFederatedClaimsRequest",
 }) as any as S.Schema<ListFederatedClaimsRequest>;
@@ -27059,11 +25764,7 @@ export const ListGrantsForUserAndClientRequest = /*@__PURE__*/ S.suspend(() =>
     after: S.optional(S.String.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/users/{userId}/clients/{clientId}/grants",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/v1/users/{userId}/clients/{clientId}/grants", code: 200 }),
   ),
 ).annotate({
   identifier: "ListGrantsForUserAndClientRequest",
@@ -27129,16 +25830,8 @@ export const ListGroupOwnersRequest = /*@__PURE__*/ S.suspend(() =>
     search: S.optional(S.String.pipe(T.Query())),
     after: S.optional(S.String.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/groups/{groupId}/owners",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ListGroupOwnersRequest",
-}) as any as S.Schema<ListGroupOwnersRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/v1/groups/{groupId}/owners", code: 200 })),
+).annotate({ identifier: "ListGroupOwnersRequest" }) as any as S.Schema<ListGroupOwnersRequest>;
 
 export type ListGroupOwnersResponseBodyList = Array<GroupOwner>;
 export const ListGroupOwnersResponseBodyList = /*@__PURE__*/ S.Array(
@@ -27148,9 +25841,7 @@ export const ListGroupOwnersResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListGroupOwnersResponse = ListGroupOwnersResponseBodyList;
 export const ListGroupOwnersResponse = /*@__PURE__*/ S.suspend(() =>
   ListGroupOwnersResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListGroupOwnersResponse",
-}) as any as S.Schema<ListGroupOwnersResponse>;
+).annotate({ identifier: "ListGroupOwnersResponse" }) as any as S.Schema<ListGroupOwnersResponse>;
 
 export interface ListGroupPushMappingsRequest {
   /** Application ID */
@@ -27174,13 +25865,7 @@ export const ListGroupPushMappingsRequest = /*@__PURE__*/ S.suspend(() =>
     lastUpdated: S.optional(S.String.pipe(T.Query())),
     sourceGroupId: S.optional(S.String.pipe(T.Query())),
     status: S.optional(GroupPushMappingStatus.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/apps/{appId}/group-push/mappings",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/v1/apps/{appId}/group-push/mappings", code: 200 })),
 ).annotate({
   identifier: "ListGroupPushMappingsRequest",
 }) as any as S.Schema<ListGroupPushMappingsRequest>;
@@ -27217,9 +25902,7 @@ export const ListGroupRulesRequest = /*@__PURE__*/ S.suspend(() =>
     search: S.optional(S.String.pipe(T.Query())),
     expand: S.optional(ListGroupRulesRequestExpand.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/api/v1/groups/rules", code: 200 })),
-).annotate({
-  identifier: "ListGroupRulesRequest",
-}) as any as S.Schema<ListGroupRulesRequest>;
+).annotate({ identifier: "ListGroupRulesRequest" }) as any as S.Schema<ListGroupRulesRequest>;
 
 export type ListGroupRulesResponseBodyList = Array<GroupRule>;
 export const ListGroupRulesResponseBodyList = /*@__PURE__*/ S.Array(
@@ -27229,9 +25912,7 @@ export const ListGroupRulesResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListGroupRulesResponse = ListGroupRulesResponseBodyList;
 export const ListGroupRulesResponse = /*@__PURE__*/ S.suspend(() =>
   ListGroupRulesResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListGroupRulesResponse",
-}) as any as S.Schema<ListGroupRulesResponse>;
+).annotate({ identifier: "ListGroupRulesResponse" }) as any as S.Schema<ListGroupRulesResponse>;
 
 export interface ListGroupsRequest {
   /** Searches for groups with a supported [filtering](https://developer.okta.com/docs/api/#filter) expression for all properties except for `_embedded`, `_links`, and `objectClass`. Okta recommends this query parameter because it provides the largest range of search options and optimal performance. This operation supports [pagination](https://developer.okta.com/docs/api/#pagination). The `search` string requires [URL encoding](https://developer.mozilla.org/en-US/docs/Glossary/Percent-encoding). For example, `search=type eq "OKTA_GROUP"` is encoded as `search=type+eq+%22OKTA_GROUP%22`. This operation searches many properties: * Any group profile attribute, including imported app group profile attributes. * The top-level properties: `id`, `created`, `lastMembershipUpdated`, `lastUpdated`, and `type`. * The [source](/openapi/okta-management/management/group/listgroups#group/listgroups/t=response&c=200&path=_links/source) of groups with type of `APP_GROUP`, accessed as `source.id`. You can also use the `sortBy` and `sortOrder` parameters. Searches for groups can be filtered by the following operators: `sw`, `eq`, and `co`. You can only use `co` with these select profile attributes: `profile.name` and `profile.description`. See [Operators](https://developer.okta.com/docs/api/#operators). */
@@ -27262,9 +25943,7 @@ export const ListGroupsRequest = /*@__PURE__*/ S.suspend(() =>
     sortBy: S.optional(S.String.pipe(T.Query())),
     sortOrder: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/api/v1/groups", code: 200 })),
-).annotate({
-  identifier: "ListGroupsRequest",
-}) as any as S.Schema<ListGroupsRequest>;
+).annotate({ identifier: "ListGroupsRequest" }) as any as S.Schema<ListGroupsRequest>;
 
 export type ListGroupsResponseBodyList = Array<Group>;
 export const ListGroupsResponseBodyList = /*@__PURE__*/ S.Array(
@@ -27274,9 +25953,7 @@ export const ListGroupsResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListGroupsResponse = ListGroupsResponseBodyList;
 export const ListGroupsResponse = /*@__PURE__*/ S.suspend(() =>
   ListGroupsResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListGroupsResponse",
-}) as any as S.Schema<ListGroupsResponse>;
+).annotate({ identifier: "ListGroupsResponse" }) as any as S.Schema<ListGroupsResponse>;
 
 export interface ListGroupTargetRoleForClientRequest {
   /** `client_id` of the app */
@@ -27409,9 +26086,7 @@ export const ListGroupUsersRequest = /*@__PURE__*/ S.suspend(() =>
     after: S.optional(S.String.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/api/v1/groups/{groupId}/users", code: 200 })),
-).annotate({
-  identifier: "ListGroupUsersRequest",
-}) as any as S.Schema<ListGroupUsersRequest>;
+).annotate({ identifier: "ListGroupUsersRequest" }) as any as S.Schema<ListGroupUsersRequest>;
 
 export type ListGroupUsersResponseBodyList = Array<UserOutput>;
 export const ListGroupUsersResponseBodyList = /*@__PURE__*/ S.Array(
@@ -27421,16 +26096,12 @@ export const ListGroupUsersResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListGroupUsersResponse = ListGroupUsersResponseBodyList;
 export const ListGroupUsersResponse = /*@__PURE__*/ S.suspend(() =>
   ListGroupUsersResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListGroupUsersResponse",
-}) as any as S.Schema<ListGroupUsersResponse>;
+).annotate({ identifier: "ListGroupUsersResponse" }) as any as S.Schema<ListGroupUsersResponse>;
 
 export interface ListHookKeysRequest {}
 export const ListHookKeysRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/api/v1/hook-keys", code: 200 })),
-).annotate({
-  identifier: "ListHookKeysRequest",
-}) as any as S.Schema<ListHookKeysRequest>;
+).annotate({ identifier: "ListHookKeysRequest" }) as any as S.Schema<ListHookKeysRequest>;
 
 export type ListHookKeysResponseBodyList = Array<HookKey>;
 export const ListHookKeysResponseBodyList = /*@__PURE__*/ S.Array(
@@ -27440,9 +26111,7 @@ export const ListHookKeysResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListHookKeysResponse = ListHookKeysResponseBodyList;
 export const ListHookKeysResponse = /*@__PURE__*/ S.suspend(() =>
   ListHookKeysResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListHookKeysResponse",
-}) as any as S.Schema<ListHookKeysResponse>;
+).annotate({ identifier: "ListHookKeysResponse" }) as any as S.Schema<ListHookKeysResponse>;
 
 export interface ListIdentityProviderApplicationUsersRequest {
   /** `id` of IdP */
@@ -27549,13 +26218,7 @@ export interface ListIdentityProviderSigningKeysRequest {
 export const ListIdentityProviderSigningKeysRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     idpId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/idps/{idpId}/credentials/keys",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/v1/idps/{idpId}/credentials/keys", code: 200 })),
 ).annotate({
   identifier: "ListIdentityProviderSigningKeysRequest",
 }) as any as S.Schema<ListIdentityProviderSigningKeysRequest>;
@@ -27620,9 +26283,7 @@ export const ListInlineHooksRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     type: S.optional(ListInlineHooksRequestType.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/api/v1/inlineHooks", code: 200 })),
-).annotate({
-  identifier: "ListInlineHooksRequest",
-}) as any as S.Schema<ListInlineHooksRequest>;
+).annotate({ identifier: "ListInlineHooksRequest" }) as any as S.Schema<ListInlineHooksRequest>;
 
 export type ListInlineHooksResponseBodyList = Array<InlineHook>;
 export const ListInlineHooksResponseBodyList = /*@__PURE__*/ S.Array(
@@ -27632,9 +26293,7 @@ export const ListInlineHooksResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListInlineHooksResponse = ListInlineHooksResponseBodyList;
 export const ListInlineHooksResponse = /*@__PURE__*/ S.suspend(() =>
   ListInlineHooksResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListInlineHooksResponse",
-}) as any as S.Schema<ListInlineHooksResponse>;
+).annotate({ identifier: "ListInlineHooksResponse" }) as any as S.Schema<ListInlineHooksResponse>;
 
 export interface ListInterclientAllowedApplicationsRequest {
   /** Application ID */
@@ -27644,11 +26303,7 @@ export const ListInterclientAllowedApplicationsRequest = /*@__PURE__*/ S.suspend
   S.Struct({
     appId: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/apps/{appId}/interclient-allowed-apps",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/v1/apps/{appId}/interclient-allowed-apps", code: 200 }),
   ),
 ).annotate({
   identifier: "ListInterclientAllowedApplicationsRequest",
@@ -27676,11 +26331,7 @@ export const ListInterclientTargetApplicationsRequest = /*@__PURE__*/ S.suspend(
   S.Struct({
     appId: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/apps/{appId}/interclient-target-apps",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/v1/apps/{appId}/interclient-target-apps", code: 200 }),
   ),
 ).annotate({
   identifier: "ListInterclientTargetApplicationsRequest",
@@ -27707,13 +26358,7 @@ export interface ListJwkRequest {
 export const ListJwkRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     appId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/apps/{appId}/credentials/jwks",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/v1/apps/{appId}/credentials/jwks", code: 200 })),
 ).annotate({ identifier: "ListJwkRequest" }) as any as S.Schema<ListJwkRequest>;
 
 export type ListJwkResponseBodyItem =
@@ -27729,18 +26374,12 @@ export const ListJwkResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListJwkResponse = ListJwkResponseBodyList;
 export const ListJwkResponse = /*@__PURE__*/ S.suspend(() =>
   ListJwkResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListJwkResponse",
-}) as any as S.Schema<ListJwkResponse>;
+).annotate({ identifier: "ListJwkResponse" }) as any as S.Schema<ListJwkResponse>;
 
 export interface ListLinkedObjectDefinitionsRequest {}
 export const ListLinkedObjectDefinitionsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/meta/schemas/user/linkedObjects",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/v1/meta/schemas/user/linkedObjects", code: 200 }),
   ),
 ).annotate({
   identifier: "ListLinkedObjectDefinitionsRequest",
@@ -27830,9 +26469,7 @@ export const ListLogEventsRequest = /*@__PURE__*/ S.suspend(() =>
     limit: S.optional(S.Number.pipe(T.Query())),
     sortOrder: S.optional(ListLogEventsRequestSortOrder.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/api/v1/logs", code: 200 })),
-).annotate({
-  identifier: "ListLogEventsRequest",
-}) as any as S.Schema<ListLogEventsRequest>;
+).annotate({ identifier: "ListLogEventsRequest" }) as any as S.Schema<ListLogEventsRequest>;
 
 /** Further details about the actor */
 export type LogActorDetailEntryMap = { [key: string]: unknown | undefined };
@@ -27938,9 +26575,7 @@ export const LogAuthenticationContext = /*@__PURE__*/ S.suspend(() =>
     interface: S.optional(S.String),
     issuer: S.optional(LogIssuer),
   }),
-).annotate({
-  identifier: "LogAuthenticationContext",
-}) as any as S.Schema<LogAuthenticationContext>;
+).annotate({ identifier: "LogAuthenticationContext" }) as any as S.Schema<LogAuthenticationContext>;
 
 /** The latitude and longitude of the geolocation where an action was performed. The object is formatted according to the [ISO 6709](https://www.iso.org/obp/ui/fr/#iso:std:iso:6709:ed-3:v1:en) standard. */
 export interface LogGeolocation {
@@ -27976,9 +26611,7 @@ export const LogGeographicalContext = /*@__PURE__*/ S.suspend(() =>
     postalCode: S.optional(S.String),
     state: S.optional(S.String),
   }),
-).annotate({
-  identifier: "LogGeographicalContext",
-}) as any as S.Schema<LogGeographicalContext>;
+).annotate({ identifier: "LogGeographicalContext" }) as any as S.Schema<LogGeographicalContext>;
 
 /** "A user agent is software (a software agent) that is acting on behalf of a user." ([Definition of User Agent](https://developer.mozilla.org/en-US/docs/Glossary/User_agent)) In the Okta event data object, the `UserAgent` object provides specifications about the client software that makes event-triggering HTTP requests. User agent identification is often useful for identifying interoperability problems between servers and clients, and also for browser and operating system usage analytics. */
 export interface LogUserAgent {
@@ -28022,9 +26655,7 @@ export const LogClient = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "LogClient" }) as any as S.Schema<LogClient>;
 
 /** A dynamic field that contains miscellaneous information that is dependent on the event type. */
-export type LogDebugContextDebugDataMap = {
-  [key: string]: unknown | undefined;
-};
+export type LogDebugContextDebugDataMap = { [key: string]: unknown | undefined };
 export const LogDebugContextDebugDataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -28039,9 +26670,7 @@ export const LogDebugContext = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     debugData: S.optional(LogDebugContextDebugDataMap),
   }),
-).annotate({
-  identifier: "LogDebugContext",
-}) as any as S.Schema<LogDebugContext>;
+).annotate({ identifier: "LogDebugContext" }) as any as S.Schema<LogDebugContext>;
 
 /** Result of the action */
 export type LogOutcomeResult =
@@ -28096,9 +26725,7 @@ export const LogIpServiceCategory = /*@__PURE__*/ S.suspend(() =>
     operator: S.optional(S.NullOr(S.String)),
     type: S.optional(S.NullOr(LogIpServiceCategoryType)),
   }),
-).annotate({
-  identifier: "LogIpServiceCategory",
-}) as any as S.Schema<LogIpServiceCategory>;
+).annotate({ identifier: "LogIpServiceCategory" }) as any as S.Schema<LogIpServiceCategory>;
 
 /** The associated IP service categories for the IP address */
 export type LogIpDetailsIpServiceCategoriesList = Array<LogIpServiceCategory>;
@@ -28179,9 +26806,7 @@ export const LogBotProtection = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     level: S.optional(S.NullOr(LogBotProtectionLevel)),
   }),
-).annotate({
-  identifier: "LogBotProtection",
-}) as any as S.Schema<LogBotProtection>;
+).annotate({ identifier: "LogBotProtection" }) as any as S.Schema<LogBotProtection>;
 
 /** The risk level associated with the request */
 export type LogRiskLevel = "LOW" | "MEDIUM" | "HIGH";
@@ -28239,9 +26864,7 @@ export const LogUserBehavior = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.NullOr(S.String)),
     result: S.optional(S.NullOr(LogUserBehaviorResult)),
   }),
-).annotate({
-  identifier: "LogUserBehavior",
-}) as any as S.Schema<LogUserBehavior>;
+).annotate({ identifier: "LogUserBehavior" }) as any as S.Schema<LogUserBehavior>;
 
 /** The result of the user behavior detection models associated with the event */
 export type LogSecurityContextUserBehaviorsList = Array<LogUserBehavior>;
@@ -28279,27 +26902,21 @@ export const LogSecurityContext = /*@__PURE__*/ S.suspend(() =>
     risk: S.optional(S.NullOr(LogRisk)),
     userBehaviors: S.optional(S.NullOr(LogSecurityContextUserBehaviorsList)),
   }),
-).annotate({
-  identifier: "LogSecurityContext",
-}) as any as S.Schema<LogSecurityContext>;
+).annotate({ identifier: "LogSecurityContext" }) as any as S.Schema<LogSecurityContext>;
 
 /** Indicates how severe the event is */
 export type LogSeverity = "DEBUG" | "ERROR" | "INFO" | "WARN";
 export const LogSeverity = S.String;
 
 /** The original properties of the target */
-export type LogTargetChangeDetailsFromMap = {
-  [key: string]: unknown | undefined;
-};
+export type LogTargetChangeDetailsFromMap = { [key: string]: unknown | undefined };
 export const LogTargetChangeDetailsFromMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
 ) as any as S.Schema<LogTargetChangeDetailsFromMap>;
 
 /** The updated properties of the target */
-export type LogTargetChangeDetailsToMap = {
-  [key: string]: unknown | undefined;
-};
+export type LogTargetChangeDetailsToMap = { [key: string]: unknown | undefined };
 export const LogTargetChangeDetailsToMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -28317,9 +26934,7 @@ export const LogTargetChangeDetails = /*@__PURE__*/ S.suspend(() =>
     from: S.optional(LogTargetChangeDetailsFromMap),
     to: S.optional(LogTargetChangeDetailsToMap),
   }),
-).annotate({
-  identifier: "LogTargetChangeDetails",
-}) as any as S.Schema<LogTargetChangeDetails>;
+).annotate({ identifier: "LogTargetChangeDetails" }) as any as S.Schema<LogTargetChangeDetails>;
 
 /** Further details on the target */
 export type LogTargetDetailEntryMap = { [key: string]: unknown | undefined };
@@ -28437,9 +27052,7 @@ export const ListLogEventsResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListLogEventsResponse = ListLogEventsResponseBodyList;
 export const ListLogEventsResponse = /*@__PURE__*/ S.suspend(() =>
   ListLogEventsResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListLogEventsResponse",
-}) as any as S.Schema<ListLogEventsResponse>;
+).annotate({ identifier: "ListLogEventsResponse" }) as any as S.Schema<ListLogEventsResponse>;
 
 export interface ListLogStreamsRequest {
   /** The cursor to use for pagination. It is an opaque string that specifies your current location in the list and is obtained from the `Link` response header. See [Pagination](https://developer.okta.com/docs/api/#pagination) and [Link header](https://developer.okta.com/docs/api/#link-header). */
@@ -28455,9 +27068,7 @@ export const ListLogStreamsRequest = /*@__PURE__*/ S.suspend(() =>
     limit: S.optional(S.Number.pipe(T.Query())),
     filter: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/api/v1/logStreams", code: 200 })),
-).annotate({
-  identifier: "ListLogStreamsRequest",
-}) as any as S.Schema<ListLogStreamsRequest>;
+).annotate({ identifier: "ListLogStreamsRequest" }) as any as S.Schema<ListLogStreamsRequest>;
 
 export type ListLogStreamsResponseBodyList = Array<LogStream>;
 export const ListLogStreamsResponseBodyList = /*@__PURE__*/ S.Array(
@@ -28467,9 +27078,7 @@ export const ListLogStreamsResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListLogStreamsResponse = ListLogStreamsResponseBodyList;
 export const ListLogStreamsResponse = /*@__PURE__*/ S.suspend(() =>
   ListLogStreamsResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListLogStreamsResponse",
-}) as any as S.Schema<ListLogStreamsResponse>;
+).annotate({ identifier: "ListLogStreamsResponse" }) as any as S.Schema<ListLogStreamsResponse>;
 
 export interface ListLogStreamSchemasRequest {}
 export const ListLogStreamSchemasRequest = /*@__PURE__*/ S.suspend(() =>
@@ -28566,9 +27175,7 @@ export const ListNetworkZonesRequest = /*@__PURE__*/ S.suspend(() =>
     limit: S.optional(S.Number.pipe(T.Query())),
     filter: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/api/v1/zones", code: 200 })),
-).annotate({
-  identifier: "ListNetworkZonesRequest",
-}) as any as S.Schema<ListNetworkZonesRequest>;
+).annotate({ identifier: "ListNetworkZonesRequest" }) as any as S.Schema<ListNetworkZonesRequest>;
 
 export type ListNetworkZonesResponseBodyList = Array<NetworkZone>;
 export const ListNetworkZonesResponseBodyList = /*@__PURE__*/ S.Array(
@@ -28578,9 +27185,7 @@ export const ListNetworkZonesResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListNetworkZonesResponse = ListNetworkZonesResponseBodyList;
 export const ListNetworkZonesResponse = /*@__PURE__*/ S.suspend(() =>
   ListNetworkZonesResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListNetworkZonesResponse",
-}) as any as S.Schema<ListNetworkZonesResponse>;
+).annotate({ identifier: "ListNetworkZonesResponse" }) as any as S.Schema<ListNetworkZonesResponse>;
 
 export interface ListOAuth2ClaimsRequest {
   /** `id` of the Authorization Server */
@@ -28590,15 +27195,9 @@ export const ListOAuth2ClaimsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     authServerId: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/authorizationServers/{authServerId}/claims",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/v1/authorizationServers/{authServerId}/claims", code: 200 }),
   ),
-).annotate({
-  identifier: "ListOAuth2ClaimsRequest",
-}) as any as S.Schema<ListOAuth2ClaimsRequest>;
+).annotate({ identifier: "ListOAuth2ClaimsRequest" }) as any as S.Schema<ListOAuth2ClaimsRequest>;
 
 export type ListOAuth2ClaimsResponseBodyList = Array<OAuth2Claim>;
 export const ListOAuth2ClaimsResponseBodyList = /*@__PURE__*/ S.Array(
@@ -28608,9 +27207,7 @@ export const ListOAuth2ClaimsResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListOAuth2ClaimsResponse = ListOAuth2ClaimsResponseBodyList;
 export const ListOAuth2ClaimsResponse = /*@__PURE__*/ S.suspend(() =>
   ListOAuth2ClaimsResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListOAuth2ClaimsResponse",
-}) as any as S.Schema<ListOAuth2ClaimsResponse>;
+).annotate({ identifier: "ListOAuth2ClaimsResponse" }) as any as S.Schema<ListOAuth2ClaimsResponse>;
 
 export interface ListOAuth2ClientSecretsRequest {
   /** Application ID */
@@ -28619,13 +27216,7 @@ export interface ListOAuth2ClientSecretsRequest {
 export const ListOAuth2ClientSecretsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     appId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/apps/{appId}/credentials/secrets",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/v1/apps/{appId}/credentials/secrets", code: 200 })),
 ).annotate({
   identifier: "ListOAuth2ClientSecretsRequest",
 }) as any as S.Schema<ListOAuth2ClientSecretsRequest>;
@@ -28679,9 +27270,7 @@ export const OAuth2ClientLinks = /*@__PURE__*/ S.suspend(() =>
     grants: S.optional(FeatureLinksDependents),
     tokens: S.optional(FeatureLinksDependents),
   }),
-).annotate({
-  identifier: "OAuth2ClientLinks",
-}) as any as S.Schema<OAuth2ClientLinks>;
+).annotate({ identifier: "OAuth2ClientLinks" }) as any as S.Schema<OAuth2ClientLinks>;
 
 export interface OAuth2Client {
   /** Unique key for the client application. The `client_id` is immutable. */
@@ -28768,15 +27357,9 @@ export const ListOAuth2ScopesRequest = /*@__PURE__*/ S.suspend(() =>
     after: S.optional(S.String.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/authorizationServers/{authServerId}/scopes",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/v1/authorizationServers/{authServerId}/scopes", code: 200 }),
   ),
-).annotate({
-  identifier: "ListOAuth2ScopesRequest",
-}) as any as S.Schema<ListOAuth2ScopesRequest>;
+).annotate({ identifier: "ListOAuth2ScopesRequest" }) as any as S.Schema<ListOAuth2ScopesRequest>;
 
 export type ListOAuth2ScopesResponseBodyList = Array<OAuth2Scope>;
 export const ListOAuth2ScopesResponseBodyList = /*@__PURE__*/ S.Array(
@@ -28786,9 +27369,7 @@ export const ListOAuth2ScopesResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListOAuth2ScopesResponse = ListOAuth2ScopesResponseBodyList;
 export const ListOAuth2ScopesResponse = /*@__PURE__*/ S.suspend(() =>
   ListOAuth2ScopesResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListOAuth2ScopesResponse",
-}) as any as S.Schema<ListOAuth2ScopesResponse>;
+).annotate({ identifier: "ListOAuth2ScopesResponse" }) as any as S.Schema<ListOAuth2ScopesResponse>;
 
 export interface ListOAuth2TokensForApplicationRequest {
   /** Application ID */
@@ -28837,11 +27418,7 @@ export const ListOktaManagedUserAccountsRequest = /*@__PURE__*/ S.suspend(() =>
     after: S.optional(S.String.pipe(T.Query())),
     match: S.optional(S.String.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/privileged-access/api/v1/okta-service-accounts",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/privileged-access/api/v1/okta-service-accounts", code: 200 }),
   ),
 ).annotate({
   identifier: "ListOktaManagedUserAccountsRequest",
@@ -28862,11 +27439,7 @@ export const ListOktaManagedUserAccountsResponse = /*@__PURE__*/ S.suspend(() =>
 export interface ListOktaSupportCasesRequest {}
 export const ListOktaSupportCasesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/org/privacy/oktaSupport/cases",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/v1/org/privacy/oktaSupport/cases", code: 200 }),
   ),
 ).annotate({
   identifier: "ListOktaSupportCasesRequest",
@@ -28924,9 +27497,7 @@ export const OktaSupportCase = /*@__PURE__*/ S.suspend(() =>
     selfAssigned: S.optional(OktaSupportCaseSelfAssigned),
     subject: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OktaSupportCase",
-}) as any as S.Schema<OktaSupportCase>;
+).annotate({ identifier: "OktaSupportCase" }) as any as S.Schema<OktaSupportCase>;
 
 export type OktaSupportCasesSupportCasesList = Array<OktaSupportCase>;
 export const OktaSupportCasesSupportCasesList = /*@__PURE__*/ S.Array(
@@ -28940,9 +27511,7 @@ export const OktaSupportCases = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     supportCases: S.optional(OktaSupportCasesSupportCasesList),
   }),
-).annotate({
-  identifier: "OktaSupportCases",
-}) as any as S.Schema<OktaSupportCases>;
+).annotate({ identifier: "OktaSupportCases" }) as any as S.Schema<OktaSupportCases>;
 
 export interface ListOrgContactTypesRequest {}
 export const ListOrgContactTypesRequest = /*@__PURE__*/ S.suspend(() =>
@@ -28981,9 +27550,7 @@ export const OrgBillingContactType = /*@__PURE__*/ S.suspend(() =>
     contactType: S.optional(OrgContactType),
     _links: S.optional(OrgBillingContactTypeLinks),
   }),
-).annotate({
-  identifier: "OrgBillingContactType",
-}) as any as S.Schema<OrgBillingContactType>;
+).annotate({ identifier: "OrgBillingContactType" }) as any as S.Schema<OrgBillingContactType>;
 
 export type OrgTechnicalContactTypeLinksTechnical = HrefObjectSelfLink;
 export const OrgTechnicalContactTypeLinksTechnical = HrefObjectSelfLink;
@@ -29011,9 +27578,7 @@ export const OrgTechnicalContactType = /*@__PURE__*/ S.suspend(() =>
     contactType: S.optional(OrgContactType),
     _links: S.optional(OrgTechnicalContactTypeLinks),
   }),
-).annotate({
-  identifier: "OrgTechnicalContactType",
-}) as any as S.Schema<OrgTechnicalContactType>;
+).annotate({ identifier: "OrgTechnicalContactType" }) as any as S.Schema<OrgTechnicalContactType>;
 
 export type OrgContactTypeObj = OrgBillingContactType | OrgTechnicalContactType;
 export const OrgContactTypeObj = S.Unknown as any as S.Schema<OrgContactTypeObj>;
@@ -29029,38 +27594,6 @@ export const ListOrgContactTypesResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "ListOrgContactTypesResponse",
 }) as any as S.Schema<ListOrgContactTypesResponse>;
-
-export interface ListPersonalAppsExportBlockListRequest {}
-export const ListPersonalAppsExportBlockListRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/okta-personal-settings/api/v1/export-blocklists",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ListPersonalAppsExportBlockListRequest",
-}) as any as S.Schema<ListPersonalAppsExportBlockListRequest>;
-
-/** List of blocked email domains */
-export type PersonalAppsBlockListDomainsList = Array<string>;
-export const PersonalAppsBlockListDomainsList = /*@__PURE__*/ S.Array(
-  S.String,
-) as any as S.Schema<PersonalAppsBlockListDomainsList>;
-
-/** Defines a list of email domains with a subset of the properties for each domain */
-export interface PersonalAppsBlockList {
-  /** List of blocked email domains */
-  domains?: PersonalAppsBlockListDomainsList;
-}
-export const PersonalAppsBlockList = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domains: S.optional(PersonalAppsBlockListDomainsList),
-  }),
-).annotate({
-  identifier: "PersonalAppsBlockList",
-}) as any as S.Schema<PersonalAppsBlockList>;
 
 export interface ListPoliciesRequest {
   /** Specifies the type of policy to return */
@@ -29090,9 +27623,7 @@ export const ListPoliciesRequest = /*@__PURE__*/ S.suspend(() =>
     resourceId: S.optional(S.String.pipe(T.Query())),
     after: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/api/v1/policies", code: 200 })),
-).annotate({
-  identifier: "ListPoliciesRequest",
-}) as any as S.Schema<ListPoliciesRequest>;
+).annotate({ identifier: "ListPoliciesRequest" }) as any as S.Schema<ListPoliciesRequest>;
 
 export type ListPoliciesResponseBodyList = Array<Policy>;
 export const ListPoliciesResponseBodyList = /*@__PURE__*/ S.Array(
@@ -29102,9 +27633,7 @@ export const ListPoliciesResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListPoliciesResponse = ListPoliciesResponseBodyList;
 export const ListPoliciesResponse = /*@__PURE__*/ S.suspend(() =>
   ListPoliciesResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListPoliciesResponse",
-}) as any as S.Schema<ListPoliciesResponse>;
+).annotate({ identifier: "ListPoliciesResponse" }) as any as S.Schema<ListPoliciesResponse>;
 
 export interface ListPolicyMappingsRequest {
   /** `id` of the policy */
@@ -29113,13 +27642,7 @@ export interface ListPolicyMappingsRequest {
 export const ListPolicyMappingsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     policyId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/policies/{policyId}/mappings",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/v1/policies/{policyId}/mappings", code: 200 })),
 ).annotate({
   identifier: "ListPolicyMappingsRequest",
 }) as any as S.Schema<ListPolicyMappingsRequest>;
@@ -29146,16 +27669,8 @@ export const ListPolicyRulesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     policyId: S.String.pipe(T.Label()),
     limit: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/policies/{policyId}/rules",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ListPolicyRulesRequest",
-}) as any as S.Schema<ListPolicyRulesRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/v1/policies/{policyId}/rules", code: 200 })),
+).annotate({ identifier: "ListPolicyRulesRequest" }) as any as S.Schema<ListPolicyRulesRequest>;
 
 export type ListPolicyRulesResponseBodyList = Array<PolicyRule>;
 export const ListPolicyRulesResponseBodyList = /*@__PURE__*/ S.Array(
@@ -29165,9 +27680,7 @@ export const ListPolicyRulesResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListPolicyRulesResponse = ListPolicyRulesResponseBodyList;
 export const ListPolicyRulesResponse = /*@__PURE__*/ S.suspend(() =>
   ListPolicyRulesResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListPolicyRulesResponse",
-}) as any as S.Schema<ListPolicyRulesResponse>;
+).annotate({ identifier: "ListPolicyRulesResponse" }) as any as S.Schema<ListPolicyRulesResponse>;
 
 export interface ListPrincipalRateLimitEntitiesRequest {
   /** Filters the list of principal rate limit entities by the provided principal type (`principalType`). For example, `filter=principalType eq "SSWS_TOKEN"` or `filter=principalType eq "OAUTH_CLIENT"`. */
@@ -29182,13 +27695,7 @@ export const ListPrincipalRateLimitEntitiesRequest = /*@__PURE__*/ S.suspend(() 
     filter: S.String.pipe(T.Query()),
     after: S.optional(S.String.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/principal-rate-limits",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/v1/principal-rate-limits", code: 200 })),
 ).annotate({
   identifier: "ListPrincipalRateLimitEntitiesRequest",
 }) as any as S.Schema<ListPrincipalRateLimitEntitiesRequest>;
@@ -29241,9 +27748,7 @@ export const ListProfileMappings = /*@__PURE__*/ S.suspend(() =>
     target: S.optional(ProfileMappingTarget),
     _links: S.optional(LinksSelf),
   }),
-).annotate({
-  identifier: "ListProfileMappings",
-}) as any as S.Schema<ListProfileMappings>;
+).annotate({ identifier: "ListProfileMappings" }) as any as S.Schema<ListProfileMappings>;
 
 export type ListProfileMappingsResponseBodyList = Array<ListProfileMappings>;
 export const ListProfileMappingsResponseBodyList = /*@__PURE__*/ S.Array(
@@ -29265,9 +27770,7 @@ export const ListPushProvidersRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     type: S.optional(ProviderType.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/api/v1/push-providers", code: 200 })),
-).annotate({
-  identifier: "ListPushProvidersRequest",
-}) as any as S.Schema<ListPushProvidersRequest>;
+).annotate({ identifier: "ListPushProvidersRequest" }) as any as S.Schema<ListPushProvidersRequest>;
 
 export type ListPushProvidersResponseBodyList = Array<PushProvider>;
 export const ListPushProvidersResponseBodyList = /*@__PURE__*/ S.Array(
@@ -29291,13 +27794,7 @@ export const ListRealmAssignmentOperationsRequest = /*@__PURE__*/ S.suspend(() =
   S.Struct({
     limit: S.optional(S.Number.pipe(T.Query())),
     after: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/realm-assignments/operations",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/v1/realm-assignments/operations", code: 200 })),
 ).annotate({
   identifier: "ListRealmAssignmentOperationsRequest",
 }) as any as S.Schema<ListRealmAssignmentOperationsRequest>;
@@ -29434,9 +27931,7 @@ export const ListRealmsRequest = /*@__PURE__*/ S.suspend(() =>
     sortBy: S.optional(S.String.pipe(T.Query())),
     sortOrder: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/api/v1/realms", code: 200 })),
-).annotate({
-  identifier: "ListRealmsRequest",
-}) as any as S.Schema<ListRealmsRequest>;
+).annotate({ identifier: "ListRealmsRequest" }) as any as S.Schema<ListRealmsRequest>;
 
 export type ListRealmsResponseBodyList = Array<Realm>;
 export const ListRealmsResponseBodyList = /*@__PURE__*/ S.Array(
@@ -29446,9 +27941,7 @@ export const ListRealmsResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListRealmsResponse = ListRealmsResponseBodyList;
 export const ListRealmsResponse = /*@__PURE__*/ S.suspend(() =>
   ListRealmsResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListRealmsResponse",
-}) as any as S.Schema<ListRealmsResponse>;
+).annotate({ identifier: "ListRealmsResponse" }) as any as S.Schema<ListRealmsResponse>;
 
 export interface ListRefreshTokensForAuthorizationServerAndClientRequest {
   /** `id` of the Authorization Server */
@@ -29515,11 +28008,7 @@ export const ListRefreshTokensForUserAndClientRequest = /*@__PURE__*/ S.suspend(
     after: S.optional(S.String.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/users/{userId}/clients/{clientId}/tokens",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/v1/users/{userId}/clients/{clientId}/tokens", code: 200 }),
   ),
 ).annotate({
   identifier: "ListRefreshTokensForUserAndClientRequest",
@@ -29589,9 +28078,7 @@ export const ResourceSetResources = /*@__PURE__*/ S.suspend(() =>
     resources: S.optional(ResourceSetResourcesResourcesList),
     _links: S.optional(ResourceSetResourcesLinks),
   }),
-).annotate({
-  identifier: "ResourceSetResources",
-}) as any as S.Schema<ResourceSetResources>;
+).annotate({ identifier: "ResourceSetResources" }) as any as S.Schema<ResourceSetResources>;
 
 export interface ListResourceSetsRequest {
   /** The cursor to use for pagination. It is an opaque string that specifies your current location in the list and is obtained from the `Link` response header. See [Pagination](https://developer.okta.com/docs/api/#pagination) and [Link header](https://developer.okta.com/docs/api/#link-header). */
@@ -29601,9 +28088,7 @@ export const ListResourceSetsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     after: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/api/v1/iam/resource-sets", code: 200 })),
-).annotate({
-  identifier: "ListResourceSetsRequest",
-}) as any as S.Schema<ListResourceSetsRequest>;
+).annotate({ identifier: "ListResourceSetsRequest" }) as any as S.Schema<ListResourceSetsRequest>;
 
 export type ResourceSetsResourceSetsList = Array<ResourceSet>;
 export const ResourceSetsResourceSetsList = /*@__PURE__*/ S.Array(
@@ -29639,11 +28124,7 @@ export const ListRolePermissionsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     roleIdOrLabel: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/iam/roles/{roleIdOrLabel}/permissions",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/v1/iam/roles/{roleIdOrLabel}/permissions", code: 200 }),
   ),
 ).annotate({
   identifier: "ListRolePermissionsRequest",
@@ -29674,9 +28155,7 @@ export const ListRolesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     after: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/api/v1/iam/roles", code: 200 })),
-).annotate({
-  identifier: "ListRolesRequest",
-}) as any as S.Schema<ListRolesRequest>;
+).annotate({ identifier: "ListRolesRequest" }) as any as S.Schema<ListRolesRequest>;
 
 export type IamRolesRolesList = Array<IamRole>;
 export const IamRolesRolesList = /*@__PURE__*/ S.Array(
@@ -29701,13 +28180,7 @@ export interface ListRolesForClientRequest {
 export const ListRolesForClientRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     clientId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/oauth2/v1/clients/{clientId}/roles",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/oauth2/v1/clients/{clientId}/roles", code: 200 })),
 ).annotate({
   identifier: "ListRolesForClientRequest",
 }) as any as S.Schema<ListRolesForClientRequest>;
@@ -29757,13 +28230,7 @@ export const ListScopeConsentGrantsResponse = /*@__PURE__*/ S.suspend(() =>
 
 export interface ListSecurityEventsProviderInstancesRequest {}
 export const ListSecurityEventsProviderInstancesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/security-events-providers",
-      code: 200,
-    }),
-  ),
+  S.Struct({}).pipe(T.Http({ method: "GET", uri: "/api/v1/security-events-providers", code: 200 })),
 ).annotate({
   identifier: "ListSecurityEventsProviderInstancesRequest",
 }) as any as S.Schema<ListSecurityEventsProviderInstancesRequest>;
@@ -29789,9 +28256,7 @@ export const ListSmsTemplatesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     templateType: S.optional(SmsTemplateType.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/api/v1/templates/sms", code: 200 })),
-).annotate({
-  identifier: "ListSmsTemplatesRequest",
-}) as any as S.Schema<ListSmsTemplatesRequest>;
+).annotate({ identifier: "ListSmsTemplatesRequest" }) as any as S.Schema<ListSmsTemplatesRequest>;
 
 export type ListSmsTemplatesResponseBodyList = Array<SmsTemplate>;
 export const ListSmsTemplatesResponseBodyList = /*@__PURE__*/ S.Array(
@@ -29801,9 +28266,7 @@ export const ListSmsTemplatesResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListSmsTemplatesResponse = ListSmsTemplatesResponseBodyList;
 export const ListSmsTemplatesResponse = /*@__PURE__*/ S.suspend(() =>
   ListSmsTemplatesResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListSmsTemplatesResponse",
-}) as any as S.Schema<ListSmsTemplatesResponse>;
+).annotate({ identifier: "ListSmsTemplatesResponse" }) as any as S.Schema<ListSmsTemplatesResponse>;
 
 export interface ListSocialAuthTokensRequest {
   /** `id` of IdP */
@@ -29855,9 +28318,7 @@ export const SocialAuthToken = /*@__PURE__*/ S.suspend(() =>
     tokenAuthScheme: S.optional(S.String),
     tokenType: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SocialAuthToken",
-}) as any as S.Schema<SocialAuthToken>;
+).annotate({ identifier: "SocialAuthToken" }) as any as S.Schema<SocialAuthToken>;
 
 export type ListSocialAuthTokensResponseBodyList = Array<SocialAuthToken>;
 export const ListSocialAuthTokensResponseBodyList = /*@__PURE__*/ S.Array(
@@ -29878,13 +28339,7 @@ export interface ListSubscriptionsRoleRequest {
 export const ListSubscriptionsRoleRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     roleRef: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/roles/{roleRef}/subscriptions",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/v1/roles/{roleRef}/subscriptions", code: 200 })),
 ).annotate({
   identifier: "ListSubscriptionsRoleRequest",
 }) as any as S.Schema<ListSubscriptionsRoleRequest>;
@@ -29907,13 +28362,7 @@ export interface ListSubscriptionsUserRequest {
 export const ListSubscriptionsUserRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     userId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/users/{userId}/subscriptions",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/v1/users/{userId}/subscriptions", code: 200 })),
 ).annotate({
   identifier: "ListSubscriptionsUserRequest",
 }) as any as S.Schema<ListSubscriptionsUserRequest>;
@@ -29937,13 +28386,7 @@ export interface ListSupportedFactorsRequest {
 export const ListSupportedFactorsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     userId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/users/{userId}/factors/catalog",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/v1/users/{userId}/factors/catalog", code: 200 })),
 ).annotate({
   identifier: "ListSupportedFactorsRequest",
 }) as any as S.Schema<ListSupportedFactorsRequest>;
@@ -29964,9 +28407,7 @@ export type UserFactorProvider =
 export const UserFactorProvider = S.String;
 
 /** Embedded resources related to the factor */
-export type UserFactorSupportedEmbeddedMap = {
-  [key: string]: unknown | undefined;
-};
+export type UserFactorSupportedEmbeddedMap = { [key: string]: unknown | undefined };
 export const UserFactorSupportedEmbeddedMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -29994,9 +28435,7 @@ export const UserFactorSupported = /*@__PURE__*/ S.suspend(() =>
     _embedded: S.optional(UserFactorSupportedEmbeddedMap),
     _links: S.optional(UserFactorLinks),
   }),
-).annotate({
-  identifier: "UserFactorSupported",
-}) as any as S.Schema<UserFactorSupported>;
+).annotate({ identifier: "UserFactorSupported" }) as any as S.Schema<UserFactorSupported>;
 
 export type ListSupportedFactorsResponseBodyList = Array<UserFactorSupported>;
 export const ListSupportedFactorsResponseBodyList = /*@__PURE__*/ S.Array(
@@ -30017,13 +28456,7 @@ export interface ListSupportedSecurityQuestionsRequest {
 export const ListSupportedSecurityQuestionsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     userId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/users/{userId}/factors/questions",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/v1/users/{userId}/factors/questions", code: 200 })),
 ).annotate({
   identifier: "ListSupportedSecurityQuestionsRequest",
 }) as any as S.Schema<ListSupportedSecurityQuestionsRequest>;
@@ -30116,9 +28549,7 @@ export const ListTrustedOriginsResponse = /*@__PURE__*/ S.suspend(() =>
 export interface ListUISchemasRequest {}
 export const ListUISchemasRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/api/v1/meta/uischemas", code: 200 })),
-).annotate({
-  identifier: "ListUISchemasRequest",
-}) as any as S.Schema<ListUISchemasRequest>;
+).annotate({ identifier: "ListUISchemasRequest" }) as any as S.Schema<ListUISchemasRequest>;
 
 export type ListUISchemasResponseBodyList = Array<UISchemasResponseObject>;
 export const ListUISchemasResponseBodyList = /*@__PURE__*/ S.Array(
@@ -30128,9 +28559,7 @@ export const ListUISchemasResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListUISchemasResponse = ListUISchemasResponseBodyList;
 export const ListUISchemasResponse = /*@__PURE__*/ S.suspend(() =>
   ListUISchemasResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListUISchemasResponse",
-}) as any as S.Schema<ListUISchemasResponse>;
+).annotate({ identifier: "ListUISchemasResponse" }) as any as S.Schema<ListUISchemasResponse>;
 
 export interface ListUserBlocksRequest {
   /** An ID, login, or login shortname (as long as the shortname is unambiguous) of an existing Okta user */
@@ -30140,9 +28569,7 @@ export const ListUserBlocksRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/api/v1/users/{id}/blocks", code: 200 })),
-).annotate({
-  identifier: "ListUserBlocksRequest",
-}) as any as S.Schema<ListUserBlocksRequest>;
+).annotate({ identifier: "ListUserBlocksRequest" }) as any as S.Schema<ListUserBlocksRequest>;
 
 /** The devices that the block applies to */
 export type UserBlockAppliesTo = "ANY_DEVICES" | "UNKNOWN_DEVICES";
@@ -30174,9 +28601,7 @@ export const ListUserBlocksResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListUserBlocksResponse = ListUserBlocksResponseBodyList;
 export const ListUserBlocksResponse = /*@__PURE__*/ S.suspend(() =>
   ListUserBlocksResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListUserBlocksResponse",
-}) as any as S.Schema<ListUserBlocksResponse>;
+).annotate({ identifier: "ListUserBlocksResponse" }) as any as S.Schema<ListUserBlocksResponse>;
 
 export interface ListUserClientsRequest {
   /** ID of an existing Okta user */
@@ -30186,9 +28611,7 @@ export const ListUserClientsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     userId: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/api/v1/users/{userId}/clients", code: 200 })),
-).annotate({
-  identifier: "ListUserClientsRequest",
-}) as any as S.Schema<ListUserClientsRequest>;
+).annotate({ identifier: "ListUserClientsRequest" }) as any as S.Schema<ListUserClientsRequest>;
 
 export type ListUserClientsResponseBodyList = Array<OAuth2Client>;
 export const ListUserClientsResponseBodyList = /*@__PURE__*/ S.Array(
@@ -30198,9 +28621,7 @@ export const ListUserClientsResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListUserClientsResponse = ListUserClientsResponseBodyList;
 export const ListUserClientsResponse = /*@__PURE__*/ S.suspend(() =>
   ListUserClientsResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListUserClientsResponse",
-}) as any as S.Schema<ListUserClientsResponse>;
+).annotate({ identifier: "ListUserClientsResponse" }) as any as S.Schema<ListUserClientsResponse>;
 
 export interface ListUserDevicesRequest {
   /** ID of an existing Okta user */
@@ -30210,9 +28631,7 @@ export const ListUserDevicesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     userId: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/api/v1/users/{userId}/devices", code: 200 })),
-).annotate({
-  identifier: "ListUserDevicesRequest",
-}) as any as S.Schema<ListUserDevicesRequest>;
+).annotate({ identifier: "ListUserDevicesRequest" }) as any as S.Schema<ListUserDevicesRequest>;
 
 export interface Device {
   /** Timestamp when the device was created */
@@ -30268,9 +28687,7 @@ export const ListUserDevicesResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListUserDevicesResponse = ListUserDevicesResponseBodyList;
 export const ListUserDevicesResponse = /*@__PURE__*/ S.suspend(() =>
   ListUserDevicesResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListUserDevicesResponse",
-}) as any as S.Schema<ListUserDevicesResponse>;
+).annotate({ identifier: "ListUserDevicesResponse" }) as any as S.Schema<ListUserDevicesResponse>;
 
 export interface ListUserGrantsRequest {
   /** ID of an existing Okta user */
@@ -30292,9 +28709,7 @@ export const ListUserGrantsRequest = /*@__PURE__*/ S.suspend(() =>
     after: S.optional(S.String.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/api/v1/users/{userId}/grants", code: 200 })),
-).annotate({
-  identifier: "ListUserGrantsRequest",
-}) as any as S.Schema<ListUserGrantsRequest>;
+).annotate({ identifier: "ListUserGrantsRequest" }) as any as S.Schema<ListUserGrantsRequest>;
 
 export type ListUserGrantsResponseBodyList = Array<OAuth2ScopeConsentGrant>;
 export const ListUserGrantsResponseBodyList = /*@__PURE__*/ S.Array(
@@ -30304,9 +28719,7 @@ export const ListUserGrantsResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListUserGrantsResponse = ListUserGrantsResponseBodyList;
 export const ListUserGrantsResponse = /*@__PURE__*/ S.suspend(() =>
   ListUserGrantsResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListUserGrantsResponse",
-}) as any as S.Schema<ListUserGrantsResponse>;
+).annotate({ identifier: "ListUserGrantsResponse" }) as any as S.Schema<ListUserGrantsResponse>;
 
 export interface ListUserGroupsRequest {
   /** An ID, login, or login shortname (as long as the shortname is unambiguous) of an existing Okta user */
@@ -30316,9 +28729,7 @@ export const ListUserGroupsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/api/v1/users/{id}/groups", code: 200 })),
-).annotate({
-  identifier: "ListUserGroupsRequest",
-}) as any as S.Schema<ListUserGroupsRequest>;
+).annotate({ identifier: "ListUserGroupsRequest" }) as any as S.Schema<ListUserGroupsRequest>;
 
 export type ListUserGroupsResponseBodyList = Array<Group>;
 export const ListUserGroupsResponseBodyList = /*@__PURE__*/ S.Array(
@@ -30328,9 +28739,7 @@ export const ListUserGroupsResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListUserGroupsResponse = ListUserGroupsResponseBodyList;
 export const ListUserGroupsResponse = /*@__PURE__*/ S.suspend(() =>
   ListUserGroupsResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListUserGroupsResponse",
-}) as any as S.Schema<ListUserGroupsResponse>;
+).annotate({ identifier: "ListUserGroupsResponse" }) as any as S.Schema<ListUserGroupsResponse>;
 
 export interface ListUserIdentityProvidersRequest {
   /** An ID, login, or login shortname (as long as the shortname is unambiguous) of an existing Okta user */
@@ -30388,9 +28797,7 @@ export const ListUsersRequest = /*@__PURE__*/ S.suspend(() =>
     fields: S.optional(S.String.pipe(T.Query())),
     expand: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/api/v1/users", code: 200 })),
-).annotate({
-  identifier: "ListUsersRequest",
-}) as any as S.Schema<ListUsersRequest>;
+).annotate({ identifier: "ListUsersRequest" }) as any as S.Schema<ListUsersRequest>;
 
 export type ListUsersResponseBodyList = Array<UserOutput>;
 export const ListUsersResponseBodyList = /*@__PURE__*/ S.Array(
@@ -30400,9 +28807,7 @@ export const ListUsersResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListUsersResponse = ListUsersResponseBodyList;
 export const ListUsersResponse = /*@__PURE__*/ S.suspend(() =>
   ListUsersResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListUsersResponse",
-}) as any as S.Schema<ListUsersResponse>;
+).annotate({ identifier: "ListUsersResponse" }) as any as S.Schema<ListUsersResponse>;
 
 export interface ListUsersWithRoleAssignmentsRequest {
   /** Specifies the pagination cursor for the next page of targets */
@@ -30428,9 +28833,7 @@ export const LinksSelfAndRoles = /*@__PURE__*/ S.suspend(() =>
     self: S.optional(HrefObjectSelfLink),
     roles: S.optional(HrefObjectSelfLink),
   }),
-).annotate({
-  identifier: "LinksSelfAndRoles",
-}) as any as S.Schema<LinksSelfAndRoles>;
+).annotate({ identifier: "LinksSelfAndRoles" }) as any as S.Schema<LinksSelfAndRoles>;
 
 export interface RoleAssignedUser {
   /** The ID of the user */
@@ -30445,9 +28848,7 @@ export const RoleAssignedUser = /*@__PURE__*/ S.suspend(() =>
     orn: S.optional(S.String),
     _links: S.optional(LinksSelfAndRoles),
   }),
-).annotate({
-  identifier: "RoleAssignedUser",
-}) as any as S.Schema<RoleAssignedUser>;
+).annotate({ identifier: "RoleAssignedUser" }) as any as S.Schema<RoleAssignedUser>;
 
 export type RoleAssignedUsersValueList = Array<RoleAssignedUser>;
 export const RoleAssignedUsersValueList = /*@__PURE__*/ S.Array(
@@ -30470,16 +28871,12 @@ export const RoleAssignedUsers = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(RoleAssignedUsersValueList),
     _links: S.optional(LinksNext),
   }),
-).annotate({
-  identifier: "RoleAssignedUsers",
-}) as any as S.Schema<RoleAssignedUsers>;
+).annotate({ identifier: "RoleAssignedUsers" }) as any as S.Schema<RoleAssignedUsers>;
 
 export interface ListUserTypesRequest {}
 export const ListUserTypesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/api/v1/meta/types/user", code: 200 })),
-).annotate({
-  identifier: "ListUserTypesRequest",
-}) as any as S.Schema<ListUserTypesRequest>;
+).annotate({ identifier: "ListUserTypesRequest" }) as any as S.Schema<ListUserTypesRequest>;
 
 export type ListUserTypesResponseBodyList = Array<UserType>;
 export const ListUserTypesResponseBodyList = /*@__PURE__*/ S.Array(
@@ -30489,9 +28886,7 @@ export const ListUserTypesResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListUserTypesResponse = ListUserTypesResponseBodyList;
 export const ListUserTypesResponse = /*@__PURE__*/ S.suspend(() =>
   ListUserTypesResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListUserTypesResponse",
-}) as any as S.Schema<ListUserTypesResponse>;
+).annotate({ identifier: "ListUserTypesResponse" }) as any as S.Schema<ListUserTypesResponse>;
 
 export interface ListWebAuthnPreregistrationFactorsRequest {
   /** ID of an existing Okta user */
@@ -30606,13 +29001,7 @@ export const ListYubikeyOtpTokensRequest = /*@__PURE__*/ S.suspend(() =>
     limit: S.optional(S.Number.pipe(T.Query())),
     sortBy: S.optional(ListYubikeyOtpTokensRequestSortBy.pipe(T.Query())),
     sortOrder: S.optional(ListYubikeyOtpTokensRequestSortOrder.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/org/factors/yubikey_token/tokens",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/v1/org/factors/yubikey_token/tokens", code: 200 })),
 ).annotate({
   identifier: "ListYubikeyOtpTokensRequest",
 }) as any as S.Schema<ListYubikeyOtpTokensRequest>;
@@ -30645,13 +29034,7 @@ export const MapResourceToPolicyRequest = /*@__PURE__*/ S.suspend(() =>
     policyId: S.String.pipe(T.Label()),
     resourceId: S.optional(S.String),
     resourceType: S.optional(PolicyMappingResourceType),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v1/policies/{policyId}/mappings",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/api/v1/policies/{policyId}/mappings", code: 200 })),
 ).annotate({
   identifier: "MapResourceToPolicyRequest",
 }) as any as S.Schema<MapResourceToPolicyRequest>;
@@ -30664,11 +29047,7 @@ export const OptInRequest = /*@__PURE__*/ S.suspend(() =>
 export interface OptInUsersToOktaCommunicationEmailsRequest {}
 export const OptInUsersToOktaCommunicationEmailsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v1/org/privacy/oktaCommunication/optIn",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/api/v1/org/privacy/oktaCommunication/optIn", code: 200 }),
   ),
 ).annotate({
   identifier: "OptInUsersToOktaCommunicationEmailsRequest",
@@ -30682,11 +29061,7 @@ export const OptOutRequest = /*@__PURE__*/ S.suspend(() =>
 export interface OptOutUsersFromOktaCommunicationEmailsRequest {}
 export const OptOutUsersFromOktaCommunicationEmailsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v1/org/privacy/oktaCommunication/optOut",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/api/v1/org/privacy/oktaCommunication/optOut", code: 200 }),
   ),
 ).annotate({
   identifier: "OptOutUsersFromOktaCommunicationEmailsRequest",
@@ -30701,13 +29076,7 @@ export const PreviewSAMLmetadataForApplicationRequest = /*@__PURE__*/ S.suspend(
   S.Struct({
     appId: S.String.pipe(T.Label()),
     kid: S.String.pipe(T.Query()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/v1/apps/{appId}/sso/saml/metadata",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/v1/apps/{appId}/sso/saml/metadata", code: 200 })),
 ).annotate({
   identifier: "PreviewSAMLmetadataForApplicationRequest",
 }) as any as S.Schema<PreviewSAMLmetadataForApplicationRequest>;
@@ -30763,13 +29132,7 @@ export const PublishCsrFromApplicationRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface PublishSecurityEventTokensRequest {}
 export const PublishSecurityEventTokensRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/security/api/v1/security-events",
-      code: 200,
-    }),
-  ),
+  S.Struct({}).pipe(T.Http({ method: "POST", uri: "/security/api/v1/security-events", code: 200 })),
 ).annotate({
   identifier: "PublishSecurityEventTokensRequest",
 }) as any as S.Schema<PublishSecurityEventTokensRequest>;
@@ -30791,16 +29154,8 @@ export const ReactivateUserRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
     sendEmail: S.optional(S.Boolean.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v1/users/{id}/lifecycle/reactivate",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ReactivateUserRequest",
-}) as any as S.Schema<ReactivateUserRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/api/v1/users/{id}/lifecycle/reactivate", code: 200 })),
+).annotate({ identifier: "ReactivateUserRequest" }) as any as S.Schema<ReactivateUserRequest>;
 
 export interface RefreshSessionRequest {
   /** `id` of the session */
@@ -30810,15 +29165,9 @@ export const RefreshSessionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     sessionId: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v1/sessions/{sessionId}/lifecycle/refresh",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/api/v1/sessions/{sessionId}/lifecycle/refresh", code: 200 }),
   ),
-).annotate({
-  identifier: "RefreshSessionRequest",
-}) as any as S.Schema<RefreshSessionRequest>;
+).annotate({ identifier: "RefreshSessionRequest" }) as any as S.Schema<RefreshSessionRequest>;
 
 export interface RemoveAppTargetInstanceRoleForClientRequest {
   /** `client_id` of the app */
@@ -30917,9 +29266,7 @@ export const RemoveGroupTargetRoleFromClientResponse = /*@__PURE__*/ S.suspend((
 }) as any as S.Schema<RemoveGroupTargetRoleFromClientResponse>;
 
 /** Contains any valid JSON schema for specifying properties that can be referenced from a request (only available to OAuth 2.0 client apps). For example, add an app manager contact email address or define an allowlist of groups that you can then reference using the Okta Expression Language `getFilteredGroups` function. > **Notes:** > * `profile` isn't encrypted, so don't store sensitive data in it. > * `profile` doesn't limit the level of nesting in the JSON schema you created, but there is a practical size limit. Okta recommends a JSON schema size of 1 MB or less for best performance. */
-export type ReplaceApplicationRequestProfileMap = {
-  [key: string]: unknown | undefined;
-};
+export type ReplaceApplicationRequestProfileMap = { [key: string]: unknown | undefined };
 export const ReplaceApplicationRequestProfileMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -30972,13 +29319,7 @@ export const ReplaceAuthenticatorRequest = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(S.Unknown),
     type: S.optional(AuthenticatorType),
     _links: S.optional(AuthenticatorLinksInput),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/api/v1/authenticators/{authenticatorId}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/api/v1/authenticators/{authenticatorId}", code: 200 })),
 ).annotate({
   identifier: "ReplaceAuthenticatorRequest",
 }) as any as S.Schema<ReplaceAuthenticatorRequest>;
@@ -31036,11 +29377,7 @@ export const ReplaceAuthenticatorSettingsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     verifyKnowledgeSecondWhen2faRequired: S.optional(S.Boolean),
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/attack-protection/api/v1/authenticator-settings",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/attack-protection/api/v1/authenticator-settings", code: 200 }),
   ),
 ).annotate({
   identifier: "ReplaceAuthenticatorSettingsRequest",
@@ -31087,13 +29424,7 @@ export const ReplaceAuthorizationServerRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     status: S.optional(LifecycleStatus),
     _links: S.optional(AuthServerLinksInput),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/api/v1/authorizationServers/{authServerId}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/api/v1/authorizationServers/{authServerId}", code: 200 })),
 ).annotate({
   identifier: "ReplaceAuthorizationServerRequest",
 }) as any as S.Schema<ReplaceAuthorizationServerRequest>;
@@ -31288,37 +29619,6 @@ export const ReplaceBehaviorDetectionRuleRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "ReplaceBehaviorDetectionRuleRequest",
 }) as any as S.Schema<ReplaceBehaviorDetectionRuleRequest>;
 
-/** List of blocked email domains */
-export type ReplaceBlockedEmailDomainsRequestDomainsList = Array<string>;
-export const ReplaceBlockedEmailDomainsRequestDomainsList = /*@__PURE__*/ S.Array(
-  S.String,
-) as any as S.Schema<ReplaceBlockedEmailDomainsRequestDomainsList>;
-
-export interface ReplaceBlockedEmailDomainsRequest {
-  /** List of blocked email domains */
-  domains?: ReplaceBlockedEmailDomainsRequestDomainsList;
-}
-export const ReplaceBlockedEmailDomainsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domains: S.optional(ReplaceBlockedEmailDomainsRequestDomainsList),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/okta-personal-settings/api/v1/export-blocklists",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ReplaceBlockedEmailDomainsRequest",
-}) as any as S.Schema<ReplaceBlockedEmailDomainsRequest>;
-
-export interface ReplaceBlockedEmailDomainsResponse {}
-export const ReplaceBlockedEmailDomainsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "ReplaceBlockedEmailDomainsResponse",
-}) as any as S.Schema<ReplaceBlockedEmailDomainsResponse>;
-
 export interface ReplaceBrandRequest {
   /** The ID of the brand */
   brandId: string;
@@ -31346,9 +29646,7 @@ export const ReplaceBrandRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     removePoweredByOkta: S.optional(S.Boolean),
   }).pipe(T.Http({ method: "PUT", uri: "/api/v1/brands/{brandId}", code: 200 })),
-).annotate({
-  identifier: "ReplaceBrandRequest",
-}) as any as S.Schema<ReplaceBrandRequest>;
+).annotate({ identifier: "ReplaceBrandRequest" }) as any as S.Schema<ReplaceBrandRequest>;
 
 export interface ReplaceBrandThemeRequest {
   /** The ID of the brand */
@@ -31382,16 +29680,8 @@ export const ReplaceBrandThemeRequest = /*@__PURE__*/ S.suspend(() =>
     secondaryColorContrastHex: S.optional(S.String),
     secondaryColorHex: S.String,
     signInPageTouchPointVariant: SignInPageTouchPointVariant,
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/api/v1/brands/{brandId}/themes/{themeId}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ReplaceBrandThemeRequest",
-}) as any as S.Schema<ReplaceBrandThemeRequest>;
+  }).pipe(T.Http({ method: "PUT", uri: "/api/v1/brands/{brandId}/themes/{themeId}", code: 200 })),
+).annotate({ identifier: "ReplaceBrandThemeRequest" }) as any as S.Schema<ReplaceBrandThemeRequest>;
 
 export type ReplaceBrandWellKnownURIRequestPath =
   | "apple-app-site-association"
@@ -31502,11 +29792,7 @@ export const ReplaceCustomizedErrorPageRequest = /*@__PURE__*/ S.suspend(() =>
     pageContent: S.optional(S.String),
     contentSecurityPolicySetting: S.optional(ContentSecurityPolicySetting),
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/api/v1/brands/{brandId}/pages/error/customized",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/api/v1/brands/{brandId}/pages/error/customized", code: 200 }),
   ),
 ).annotate({
   identifier: "ReplaceCustomizedErrorPageRequest",
@@ -31610,6 +29896,7 @@ export interface ReplaceCustomizedSignInPageRequest {
   /** The HTML for the page */
   pageContent?: string;
   contentSecurityPolicySetting?: ContentSecurityPolicySetting;
+  widgetConfiguration?: WidgetConfiguration;
   widgetCustomizations?: ReplaceCustomizedSignInPageRequestWidgetCustomizations;
   widgetVersion?: string;
 }
@@ -31618,14 +29905,11 @@ export const ReplaceCustomizedSignInPageRequest = /*@__PURE__*/ S.suspend(() =>
     brandId: S.String.pipe(T.Label()),
     pageContent: S.optional(S.String),
     contentSecurityPolicySetting: S.optional(ContentSecurityPolicySetting),
+    widgetConfiguration: S.optional(WidgetConfiguration),
     widgetCustomizations: S.optional(ReplaceCustomizedSignInPageRequestWidgetCustomizations),
     widgetVersion: S.optional(S.String),
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/api/v1/brands/{brandId}/pages/sign-in/customized",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/api/v1/brands/{brandId}/pages/sign-in/customized", code: 200 }),
   ),
 ).annotate({
   identifier: "ReplaceCustomizedSignInPageRequest",
@@ -31640,6 +29924,7 @@ export interface ReplaceCustomizedSignInPageResponse {
   /** The HTML for the page */
   pageContent?: string;
   contentSecurityPolicySetting?: ContentSecurityPolicySetting;
+  widgetConfiguration?: WidgetConfiguration;
   widgetCustomizations?: GetCustomizedSignInPageResponseWidgetCustomizations;
   widgetVersion?: string;
 }
@@ -31647,6 +29932,7 @@ export const ReplaceCustomizedSignInPageResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     pageContent: S.optional(S.String),
     contentSecurityPolicySetting: S.optional(ContentSecurityPolicySetting),
+    widgetConfiguration: S.optional(WidgetConfiguration),
     widgetCustomizations: S.optional(GetCustomizedSignInPageResponseWidgetCustomizations),
     widgetVersion: S.optional(S.String),
   }),
@@ -31678,11 +29964,7 @@ export const ReplaceDeviceAssurancePolicyRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     platform: S.optional(Platform),
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/api/v1/device-assurances/{deviceAssuranceId}",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/api/v1/device-assurances/{deviceAssuranceId}", code: 200 }),
   ),
 ).annotate({
   identifier: "ReplaceDeviceAssurancePolicyRequest",
@@ -31716,11 +29998,7 @@ export const ReplaceDevicePostureCheckRequest = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(DevicePostureChecksType),
     variableName: S.optional(S.String),
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/api/v1/device-posture-checks/{postureCheckId}",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/api/v1/device-posture-checks/{postureCheckId}", code: 200 }),
   ),
 ).annotate({
   identifier: "ReplaceDevicePostureCheckRequest",
@@ -31823,13 +30101,7 @@ export const ReplaceEmailDomainRequest = /*@__PURE__*/ S.suspend(() =>
     expand: S.optional(ReplaceEmailDomainRequestExpandList.pipe(T.Query())),
     displayName: S.String,
     userName: S.String,
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/api/v1/email-domains/{emailDomainId}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/api/v1/email-domains/{emailDomainId}", code: 200 })),
 ).annotate({
   identifier: "ReplaceEmailDomainRequest",
 }) as any as S.Schema<ReplaceEmailDomainRequest>;
@@ -31923,16 +30195,8 @@ export const ReplaceEventHookRequest = /*@__PURE__*/ S.suspend(() =>
     events: EventSubscriptionsInput,
     name: S.String,
     _links: S.optional(CreateEventHookRequestLinks),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/api/v1/eventHooks/{eventHookId}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ReplaceEventHookRequest",
-}) as any as S.Schema<ReplaceEventHookRequest>;
+  }).pipe(T.Http({ method: "PUT", uri: "/api/v1/eventHooks/{eventHookId}", code: 200 })),
+).annotate({ identifier: "ReplaceEventHookRequest" }) as any as S.Schema<ReplaceEventHookRequest>;
 
 export interface ReplaceExistingIdentitySourceUserRequest {
   /** The ID of the identity source for which the session is created */
@@ -31974,11 +30238,7 @@ export const ReplaceFederatedClaimRequest = /*@__PURE__*/ S.suspend(() =>
     expression: S.optional(S.String),
     name: S.optional(S.String),
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/api/v1/apps/{appId}/federated-claims/{claimId}",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/api/v1/apps/{appId}/federated-claims/{claimId}", code: 200 }),
   ),
 ).annotate({
   identifier: "ReplaceFederatedClaimRequest",
@@ -31997,13 +30257,7 @@ export const ReplaceFirstPartyAppSettingsRequest = /*@__PURE__*/ S.suspend(() =>
     appName: S.String.pipe(T.Label()),
     sessionIdleTimeoutMinutes: S.optional(S.Number),
     sessionMaxLifetimeMinutes: S.optional(S.Number),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/api/v1/first-party-app-settings/{appName}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/api/v1/first-party-app-settings/{appName}", code: 200 })),
 ).annotate({
   identifier: "ReplaceFirstPartyAppSettingsRequest",
 }) as any as S.Schema<ReplaceFirstPartyAppSettingsRequest>;
@@ -32030,13 +30284,7 @@ export const ReplaceGovernanceBundleRequest = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(S.String),
     entitlements: S.optional(ReplaceGovernanceBundleRequestEntitlementsList),
     name: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/api/v1/iam/governance/bundles/{bundleId}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/api/v1/iam/governance/bundles/{bundleId}", code: 200 })),
 ).annotate({
   identifier: "ReplaceGovernanceBundleRequest",
 }) as any as S.Schema<ReplaceGovernanceBundleRequest>;
@@ -32051,9 +30299,7 @@ export const ReplaceGroupRequest = /*@__PURE__*/ S.suspend(() =>
     groupId: S.String.pipe(T.Label()),
     profile: S.optional(OktaUserGroupProfile),
   }).pipe(T.Http({ method: "PUT", uri: "/api/v1/groups/{groupId}", code: 200 })),
-).annotate({
-  identifier: "ReplaceGroupRequest",
-}) as any as S.Schema<ReplaceGroupRequest>;
+).annotate({ identifier: "ReplaceGroupRequest" }) as any as S.Schema<ReplaceGroupRequest>;
 
 export interface ReplaceGroupRuleRequest {
   /** The `id` of the group rule */
@@ -32074,16 +30320,8 @@ export const ReplaceGroupRuleRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     status: S.optional(GroupRuleStatus),
     type: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/api/v1/groups/rules/{groupRuleId}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ReplaceGroupRuleRequest",
-}) as any as S.Schema<ReplaceGroupRuleRequest>;
+  }).pipe(T.Http({ method: "PUT", uri: "/api/v1/groups/rules/{groupRuleId}", code: 200 })),
+).annotate({ identifier: "ReplaceGroupRuleRequest" }) as any as S.Schema<ReplaceGroupRuleRequest>;
 
 export interface ReplaceHookKeyRequest {
   /** ID of the Hook Key */
@@ -32096,9 +30334,7 @@ export const ReplaceHookKeyRequest = /*@__PURE__*/ S.suspend(() =>
     id: S.String.pipe(T.Label()),
     name: S.optional(S.String),
   }).pipe(T.Http({ method: "PUT", uri: "/api/v1/hook-keys/{id}", code: 200 })),
-).annotate({
-  identifier: "ReplaceHookKeyRequest",
-}) as any as S.Schema<ReplaceHookKeyRequest>;
+).annotate({ identifier: "ReplaceHookKeyRequest" }) as any as S.Schema<ReplaceHookKeyRequest>;
 
 /** IdP-specific protocol settings for endpoints, bindings, and algorithms used to connect with the IdP and validate messages */
 export type ReplaceIdentityProviderRequestProtocol =
@@ -32167,13 +30403,7 @@ export const ReplaceIdentityProviderKeyRequest = /*@__PURE__*/ S.suspend(() =>
     use: S.optional(S.String),
     x5c: S.optional(X5c),
     x5t_S256: S.optional(S.String.pipe(T.Body("x5t#S256"))),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/api/v1/idps/credentials/keys/{kid}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/api/v1/idps/credentials/keys/{kid}", code: 200 })),
 ).annotate({
   identifier: "ReplaceIdentityProviderKeyRequest",
 }) as any as S.Schema<ReplaceIdentityProviderKeyRequest>;
@@ -32193,16 +30423,8 @@ export const ReplaceInlineHookRequest = /*@__PURE__*/ S.suspend(() =>
     channel: S.optional(InlineHookChannelCreate),
     name: S.optional(S.String),
     version: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/api/v1/inlineHooks/{inlineHookId}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ReplaceInlineHookRequest",
-}) as any as S.Schema<ReplaceInlineHookRequest>;
+  }).pipe(T.Http({ method: "PUT", uri: "/api/v1/inlineHooks/{inlineHookId}", code: 200 })),
+).annotate({ identifier: "ReplaceInlineHookRequest" }) as any as S.Schema<ReplaceInlineHookRequest>;
 
 export interface ReplaceLogStreamRequest {
   /** Unique identifier for the log stream */
@@ -32215,16 +30437,8 @@ export const ReplaceLogStreamRequest = /*@__PURE__*/ S.suspend(() =>
     logStreamId: S.String.pipe(T.Label()),
     name: S.String,
     type: LogStreamType,
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/api/v1/logStreams/{logStreamId}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ReplaceLogStreamRequest",
-}) as any as S.Schema<ReplaceLogStreamRequest>;
+  }).pipe(T.Http({ method: "PUT", uri: "/api/v1/logStreams/{logStreamId}", code: 200 })),
+).annotate({ identifier: "ReplaceLogStreamRequest" }) as any as S.Schema<ReplaceLogStreamRequest>;
 
 export interface ReplaceNetworkZoneRequest {
   /** `id` of the Network Zone */
@@ -32335,34 +30549,6 @@ export const ReplaceOAuth2ScopeRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "ReplaceOAuth2ScopeRequest",
 }) as any as S.Schema<ReplaceOAuth2ScopeRequest>;
 
-export interface ReplaceOktaPersonalAdminSettingsRequest {
-  /** Allow entry points for an Okta Personal account in a Workforce org */
-  enableEnduserEntryPoints?: boolean;
-  /** Allow users to migrate apps from a Workforce account to an Okta Personal account */
-  enableExportApps?: boolean;
-}
-export const ReplaceOktaPersonalAdminSettingsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    enableEnduserEntryPoints: S.optional(S.Boolean),
-    enableExportApps: S.optional(S.Boolean),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/okta-personal-settings/api/v1/edit-feature",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ReplaceOktaPersonalAdminSettingsRequest",
-}) as any as S.Schema<ReplaceOktaPersonalAdminSettingsRequest>;
-
-export interface ReplaceOktaPersonalAdminSettingsResponse {}
-export const ReplaceOktaPersonalAdminSettingsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "ReplaceOktaPersonalAdminSettingsResponse",
-}) as any as S.Schema<ReplaceOktaPersonalAdminSettingsResponse>;
-
 /** Type of contact */
 export type ReplaceOrgContactUserRequestContactType = "BILLING" | "TECHNICAL";
 export const ReplaceOrgContactUserRequestContactType = S.String;
@@ -32376,13 +30562,7 @@ export const ReplaceOrgContactUserRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     contactType: ReplaceOrgContactUserRequestContactType.pipe(T.Label()),
     userId: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/api/v1/org/contacts/{contactType}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/api/v1/org/contacts/{contactType}", code: 200 })),
 ).annotate({
   identifier: "ReplaceOrgContactUserRequest",
 }) as any as S.Schema<ReplaceOrgContactUserRequest>;
@@ -32453,9 +30633,7 @@ export const ReplacePolicyRequest = /*@__PURE__*/ S.suspend(() =>
     system: S.optional(S.Boolean),
     type: PolicyType,
   }).pipe(T.Http({ method: "PUT", uri: "/api/v1/policies/{policyId}", code: 200 })),
-).annotate({
-  identifier: "ReplacePolicyRequest",
-}) as any as S.Schema<ReplacePolicyRequest>;
+).annotate({ identifier: "ReplacePolicyRequest" }) as any as S.Schema<ReplacePolicyRequest>;
 
 export interface ReplacePolicyRuleRequest {
   /** `id` of the policy */
@@ -32480,16 +30658,8 @@ export const ReplacePolicyRuleRequest = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(S.Unknown),
     system: S.optional(S.Boolean),
     type: S.optional(PolicyRuleType),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/api/v1/policies/{policyId}/rules/{ruleId}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ReplacePolicyRuleRequest",
-}) as any as S.Schema<ReplacePolicyRuleRequest>;
+  }).pipe(T.Http({ method: "PUT", uri: "/api/v1/policies/{policyId}/rules/{ruleId}", code: 200 })),
+).annotate({ identifier: "ReplacePolicyRuleRequest" }) as any as S.Schema<ReplacePolicyRuleRequest>;
 
 export interface ReplacePreviewErrorPageRequest {
   /** The ID of the brand */
@@ -32504,11 +30674,7 @@ export const ReplacePreviewErrorPageRequest = /*@__PURE__*/ S.suspend(() =>
     pageContent: S.optional(S.String),
     contentSecurityPolicySetting: S.optional(ContentSecurityPolicySetting),
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/api/v1/brands/{brandId}/pages/error/preview",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/api/v1/brands/{brandId}/pages/error/preview", code: 200 }),
   ),
 ).annotate({
   identifier: "ReplacePreviewErrorPageRequest",
@@ -32539,6 +30705,7 @@ export interface ReplacePreviewSignInPageRequest {
   /** The HTML for the page */
   pageContent?: string;
   contentSecurityPolicySetting?: ContentSecurityPolicySetting;
+  widgetConfiguration?: WidgetConfiguration;
   widgetCustomizations?: ReplaceCustomizedSignInPageRequestWidgetCustomizations;
   widgetVersion?: string;
 }
@@ -32547,14 +30714,11 @@ export const ReplacePreviewSignInPageRequest = /*@__PURE__*/ S.suspend(() =>
     brandId: S.String.pipe(T.Label()),
     pageContent: S.optional(S.String),
     contentSecurityPolicySetting: S.optional(ContentSecurityPolicySetting),
+    widgetConfiguration: S.optional(WidgetConfiguration),
     widgetCustomizations: S.optional(ReplaceCustomizedSignInPageRequestWidgetCustomizations),
     widgetVersion: S.optional(S.String),
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/api/v1/brands/{brandId}/pages/sign-in/preview",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/api/v1/brands/{brandId}/pages/sign-in/preview", code: 200 }),
   ),
 ).annotate({
   identifier: "ReplacePreviewSignInPageRequest",
@@ -32569,6 +30733,7 @@ export interface ReplacePreviewSignInPageResponse {
   /** The HTML for the page */
   pageContent?: string;
   contentSecurityPolicySetting?: ContentSecurityPolicySetting;
+  widgetConfiguration?: WidgetConfiguration;
   widgetCustomizations?: GetCustomizedSignInPageResponseWidgetCustomizations;
   widgetVersion?: string;
 }
@@ -32576,6 +30741,7 @@ export const ReplacePreviewSignInPageResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     pageContent: S.optional(S.String),
     contentSecurityPolicySetting: S.optional(ContentSecurityPolicySetting),
+    widgetConfiguration: S.optional(WidgetConfiguration),
     widgetCustomizations: S.optional(GetCustomizedSignInPageResponseWidgetCustomizations),
     widgetVersion: S.optional(S.String),
   }),
@@ -32624,13 +30790,7 @@ export const ReplacePushProviderRequest = /*@__PURE__*/ S.suspend(() =>
     pushProviderId: S.String.pipe(T.Label()),
     name: S.optional(S.String),
     providerType: S.optional(ProviderType),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/api/v1/push-providers/{pushProviderId}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/api/v1/push-providers/{pushProviderId}", code: 200 })),
 ).annotate({
   identifier: "ReplacePushProviderRequest",
 }) as any as S.Schema<ReplacePushProviderRequest>;
@@ -32642,11 +30802,7 @@ export const ReplaceRateLimitSettingsAdminNotificationsRequest = /*@__PURE__*/ S
   S.Struct({
     notificationsEnabled: S.Boolean,
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/api/v1/rate-limit-settings/admin-notifications",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/api/v1/rate-limit-settings/admin-notifications", code: 200 }),
   ),
 ).annotate({
   identifier: "ReplaceRateLimitSettingsAdminNotificationsRequest",
@@ -32679,13 +30835,7 @@ export const ReplaceRateLimitSettingsPerClientRequest = /*@__PURE__*/ S.suspend(
   S.Struct({
     defaultMode: PerClientRateLimitMode,
     useCaseModeOverrides: S.optional(ReplaceRateLimitSettingsPerClientRequestUseCaseModeOverrides),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/api/v1/rate-limit-settings/per-client",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/api/v1/rate-limit-settings/per-client", code: 200 })),
 ).annotate({
   identifier: "ReplaceRateLimitSettingsPerClientRequest",
 }) as any as S.Schema<ReplaceRateLimitSettingsPerClientRequest>;
@@ -32698,11 +30848,7 @@ export const ReplaceRateLimitSettingsWarningThresholdRequest = /*@__PURE__*/ S.s
   S.Struct({
     warningThreshold: S.Number,
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/api/v1/rate-limit-settings/warning-threshold",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/api/v1/rate-limit-settings/warning-threshold", code: 200 }),
   ),
 ).annotate({
   identifier: "ReplaceRateLimitSettingsWarningThresholdRequest",
@@ -32718,9 +30864,7 @@ export const ReplaceRealmRequest = /*@__PURE__*/ S.suspend(() =>
     realmId: S.String.pipe(T.Label()),
     profile: S.optional(RealmProfile),
   }).pipe(T.Http({ method: "PUT", uri: "/api/v1/realms/{realmId}", code: 200 })),
-).annotate({
-  identifier: "ReplaceRealmRequest",
-}) as any as S.Schema<ReplaceRealmRequest>;
+).annotate({ identifier: "ReplaceRealmRequest" }) as any as S.Schema<ReplaceRealmRequest>;
 
 export interface ReplaceRealmAssignmentRequest {
   /** ID of the realm assignment */
@@ -32738,13 +30882,7 @@ export const ReplaceRealmAssignmentRequest = /*@__PURE__*/ S.suspend(() =>
     conditions: S.optional(Conditions),
     name: S.optional(S.String),
     priority: S.optional(S.Number),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/api/v1/realm-assignments/{assignmentId}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/api/v1/realm-assignments/{assignmentId}", code: 200 })),
 ).annotate({
   identifier: "ReplaceRealmAssignmentRequest",
 }) as any as S.Schema<ReplaceRealmAssignmentRequest>;
@@ -32786,11 +30924,7 @@ export const ReplaceResourceSetRequest = /*@__PURE__*/ S.suspend(() =>
     label: S.optional(S.String),
     _links: S.optional(ReplaceResourceSetRequestLinks),
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/api/v1/iam/resource-sets/{resourceSetIdOrLabel}",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/api/v1/iam/resource-sets/{resourceSetIdOrLabel}", code: 200 }),
   ),
 ).annotate({
   identifier: "ReplaceResourceSetRequest",
@@ -32832,16 +30966,8 @@ export const ReplaceRoleRequest = /*@__PURE__*/ S.suspend(() =>
     roleIdOrLabel: S.String.pipe(T.Label()),
     description: S.String,
     label: S.String,
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/api/v1/iam/roles/{roleIdOrLabel}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ReplaceRoleRequest",
-}) as any as S.Schema<ReplaceRoleRequest>;
+  }).pipe(T.Http({ method: "PUT", uri: "/api/v1/iam/roles/{roleIdOrLabel}", code: 200 })),
+).annotate({ identifier: "ReplaceRoleRequest" }) as any as S.Schema<ReplaceRoleRequest>;
 
 export interface ReplaceRolePermissionRequest {
   /** `id` or `label` of the role */
@@ -32912,11 +31038,7 @@ export const ReplaceSignOutPageSettingsRequest = /*@__PURE__*/ S.suspend(() =>
     type: HostedPageType,
     url: S.optional(S.String),
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/api/v1/brands/{brandId}/pages/sign-out/customized",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/api/v1/brands/{brandId}/pages/sign-out/customized", code: 200 }),
   ),
 ).annotate({
   identifier: "ReplaceSignOutPageSettingsRequest",
@@ -32939,13 +31061,7 @@ export const ReplaceSmsTemplateRequest = /*@__PURE__*/ S.suspend(() =>
     template: S.optional(S.String),
     translations: S.optional(S.Unknown),
     type: S.optional(SmsTemplateType),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/api/v1/templates/sms/{templateId}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/api/v1/templates/sms/{templateId}", code: 200 })),
 ).annotate({
   identifier: "ReplaceSmsTemplateRequest",
 }) as any as S.Schema<ReplaceSmsTemplateRequest>;
@@ -33035,9 +31151,7 @@ export const ReplaceSsfStreamRequest = /*@__PURE__*/ S.suspend(() =>
     min_verification_interval: S.optional(S.NullOr(S.Number)),
     stream_id: S.optional(S.String),
   }).pipe(T.Http({ method: "PUT", uri: "/api/v1/ssf/stream", code: 200 })),
-).annotate({
-  identifier: "ReplaceSsfStreamRequest",
-}) as any as S.Schema<ReplaceSsfStreamRequest>;
+).annotate({ identifier: "ReplaceSsfStreamRequest" }) as any as S.Schema<ReplaceSsfStreamRequest>;
 
 export interface ReplaceTrustedOriginRequest {
   /** `id` of the trusted origin */
@@ -33062,13 +31176,7 @@ export const ReplaceTrustedOriginRequest = /*@__PURE__*/ S.suspend(() =>
     scopes: S.optional(TrustedOriginScopes),
     status: S.optional(LifecycleStatus),
     _links: S.optional(LinksSelfAndLifecycleInput),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/api/v1/trustedOrigins/{trustedOriginId}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/api/v1/trustedOrigins/{trustedOriginId}", code: 200 })),
 ).annotate({
   identifier: "ReplaceTrustedOriginRequest",
 }) as any as S.Schema<ReplaceTrustedOriginRequest>;
@@ -33083,9 +31191,7 @@ export const ReplaceUISchemasRequest = /*@__PURE__*/ S.suspend(() =>
     id: S.String.pipe(T.Label()),
     uiSchema: S.optional(UISchemaObject),
   }).pipe(T.Http({ method: "PUT", uri: "/api/v1/meta/uischemas/{id}", code: 200 })),
-).annotate({
-  identifier: "ReplaceUISchemasRequest",
-}) as any as S.Schema<ReplaceUISchemasRequest>;
+).annotate({ identifier: "ReplaceUISchemasRequest" }) as any as S.Schema<ReplaceUISchemasRequest>;
 
 /** Specifies primary authentication and recovery credentials for a user. Credential types and requirements vary depending on the provider and security policy of the org. */
 export interface UserCredentialsInput {
@@ -33097,9 +31203,7 @@ export const UserCredentialsInput = /*@__PURE__*/ S.suspend(() =>
     password: S.optional(PasswordCredential),
     recovery_question: S.optional(RecoveryQuestionCredential),
   }),
-).annotate({
-  identifier: "UserCredentialsInput",
-}) as any as S.Schema<UserCredentialsInput>;
+).annotate({ identifier: "UserCredentialsInput" }) as any as S.Schema<UserCredentialsInput>;
 
 /** The ID of the user type. Add this value if you want to create a user with a non-default [User Type](https://developer.okta.com/docs/api/openapi/okta-management/management/tag/UserType/). The user type determines which [schema](https://developer.okta.com/docs/api/openapi/okta-management/management/tag/Schema/) applies to that user. After a user has been created, the user can only be assigned a different user type by an admin through a full replacement (`PUT`) operation. */
 export type ReplaceUserRequestType = CreateUserRequestType;
@@ -33126,9 +31230,7 @@ export const ReplaceUserRequest = /*@__PURE__*/ S.suspend(() =>
     realmId: S.optional(S.String),
     type: S.optional(CreateUserRequestType),
   }).pipe(T.Http({ method: "PUT", uri: "/api/v1/users/{id}", code: 200 })),
-).annotate({
-  identifier: "ReplaceUserRequest",
-}) as any as S.Schema<ReplaceUserRequest>;
+).annotate({ identifier: "ReplaceUserRequest" }) as any as S.Schema<ReplaceUserRequest>;
 
 export interface ReplaceUserClassificationRequest {
   /** ID of an existing Okta user */
@@ -33139,13 +31241,7 @@ export const ReplaceUserClassificationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     userId: S.String.pipe(T.Label()),
     type: S.optional(ClassificationType),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/api/v1/users/{userId}/classification",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/api/v1/users/{userId}/classification", code: 200 })),
 ).annotate({
   identifier: "ReplaceUserClassificationRequest",
 }) as any as S.Schema<ReplaceUserClassificationRequest>;
@@ -33158,11 +31254,7 @@ export const ReplaceUserLockoutSettingsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     preventBruteForceLockoutFromUnknownDevices: S.optional(S.Boolean),
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/attack-protection/api/v1/user-lockout-settings",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/attack-protection/api/v1/user-lockout-settings", code: 200 }),
   ),
 ).annotate({
   identifier: "ReplaceUserLockoutSettingsRequest",
@@ -33183,16 +31275,8 @@ export const ReplaceUserTypeRequest = /*@__PURE__*/ S.suspend(() =>
     description: S.String,
     displayName: S.String,
     name: S.String,
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/api/v1/meta/types/user/{typeId}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ReplaceUserTypeRequest",
-}) as any as S.Schema<ReplaceUserTypeRequest>;
+  }).pipe(T.Http({ method: "PUT", uri: "/api/v1/meta/types/user/{typeId}", code: 200 })),
+).annotate({ identifier: "ReplaceUserTypeRequest" }) as any as S.Schema<ReplaceUserTypeRequest>;
 
 /** Type of the factor */
 export type ResendEnrollFactorRequestFactorType = "call" | "email" | "sms";
@@ -33215,11 +31299,7 @@ export const ResendEnrollFactorRequest = /*@__PURE__*/ S.suspend(() =>
     templateId: S.optional(S.String.pipe(T.Query())),
     factorType: S.optional(ResendEnrollFactorRequestFactorType),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v1/users/{userId}/factors/{factorId}/resend",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/api/v1/users/{userId}/factors/{factorId}/resend", code: 200 }),
   ),
 ).annotate({
   identifier: "ResendEnrollFactorRequest",
@@ -33237,9 +31317,7 @@ export const ResendUserFactor = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     factorType: S.optional(ResendUserFactorFactorType),
   }),
-).annotate({
-  identifier: "ResendUserFactor",
-}) as any as S.Schema<ResendUserFactor>;
+).annotate({ identifier: "ResendUserFactor" }) as any as S.Schema<ResendUserFactor>;
 
 export interface ResetFactorsRequest {
   /** An ID, login, or login shortname (as long as the shortname is unambiguous) of an existing Okta user */
@@ -33248,16 +31326,8 @@ export interface ResetFactorsRequest {
 export const ResetFactorsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v1/users/{id}/lifecycle/reset_factors",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ResetFactorsRequest",
-}) as any as S.Schema<ResetFactorsRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/api/v1/users/{id}/lifecycle/reset_factors", code: 200 })),
+).annotate({ identifier: "ResetFactorsRequest" }) as any as S.Schema<ResetFactorsRequest>;
 
 export interface ResetFactorsResponse {}
 export const ResetFactorsResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -33277,15 +31347,9 @@ export const ResetPasswordRequest = /*@__PURE__*/ S.suspend(() =>
     sendEmail: S.Boolean.pipe(T.Query()),
     revokeSessions: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v1/users/{id}/lifecycle/reset_password",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/api/v1/users/{id}/lifecycle/reset_password", code: 200 }),
   ),
-).annotate({
-  identifier: "ResetPasswordRequest",
-}) as any as S.Schema<ResetPasswordRequest>;
+).annotate({ identifier: "ResetPasswordRequest" }) as any as S.Schema<ResetPasswordRequest>;
 
 export interface ResetPasswordToken {
   resetPasswordUrl?: string | Redacted.Redacted<string>;
@@ -33294,9 +31358,7 @@ export const ResetPasswordToken = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     resetPasswordUrl: S.optional(S.String.pipe(T.SensitiveValue({}))),
   }),
-).annotate({
-  identifier: "ResetPasswordToken",
-}) as any as S.Schema<ResetPasswordToken>;
+).annotate({ identifier: "ResetPasswordToken" }) as any as S.Schema<ResetPasswordToken>;
 
 export interface ResumeAgentPoolsUpdateRequest {
   /** ID of the agent pool for which the settings apply to */
@@ -33347,13 +31409,7 @@ export interface RevokeAerialConsentRequest {
 export const RevokeAerialConsentRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     accountId: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v1/org/privacy/aerial/revoke",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/api/v1/org/privacy/aerial/revoke", code: 200 })),
 ).annotate({
   identifier: "RevokeAerialConsentRequest",
 }) as any as S.Schema<RevokeAerialConsentRequest>;
@@ -33379,9 +31435,7 @@ export const OrgAerialConsentRevoked = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     _links: S.optional(LinksAerialConsentRevoked),
   }),
-).annotate({
-  identifier: "OrgAerialConsentRevoked",
-}) as any as S.Schema<OrgAerialConsentRevoked>;
+).annotate({ identifier: "OrgAerialConsentRevoked" }) as any as S.Schema<OrgAerialConsentRevoked>;
 
 export interface RevokeApiTokenRequest {
   /** id of the API Token */
@@ -33390,16 +31444,8 @@ export interface RevokeApiTokenRequest {
 export const RevokeApiTokenRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     apiTokenId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/v1/api-tokens/{apiTokenId}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "RevokeApiTokenRequest",
-}) as any as S.Schema<RevokeApiTokenRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/api/v1/api-tokens/{apiTokenId}", code: 200 })),
+).annotate({ identifier: "RevokeApiTokenRequest" }) as any as S.Schema<RevokeApiTokenRequest>;
 
 export interface RevokeApiTokenResponse {}
 export const RevokeApiTokenResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -33445,11 +31491,7 @@ export const RevokeCsrFromApplicationRequest = /*@__PURE__*/ S.suspend(() =>
     appId: S.String.pipe(T.Label()),
     csrId: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/v1/apps/{appId}/credentials/csrs/{csrId}",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/api/v1/apps/{appId}/credentials/csrs/{csrId}", code: 200 }),
   ),
 ).annotate({
   identifier: "RevokeCsrFromApplicationRequest",
@@ -33512,13 +31554,7 @@ export const RevokeOAuth2TokenForApplicationRequest = /*@__PURE__*/ S.suspend(()
   S.Struct({
     appId: S.String.pipe(T.Label()),
     tokenId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/v1/apps/{appId}/tokens/{tokenId}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/api/v1/apps/{appId}/tokens/{tokenId}", code: 200 })),
 ).annotate({
   identifier: "RevokeOAuth2TokenForApplicationRequest",
 }) as any as S.Schema<RevokeOAuth2TokenForApplicationRequest>;
@@ -33537,13 +31573,7 @@ export interface RevokeOAuth2TokensForApplicationRequest {
 export const RevokeOAuth2TokensForApplicationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     appId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/v1/apps/{appId}/tokens",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/api/v1/apps/{appId}/tokens", code: 200 })),
 ).annotate({
   identifier: "RevokeOAuth2TokensForApplicationRequest",
 }) as any as S.Schema<RevokeOAuth2TokensForApplicationRequest>;
@@ -33626,22 +31656,14 @@ export const RevokeScopeConsentGrantRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     appId: S.String.pipe(T.Label()),
     grantId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/v1/apps/{appId}/grants/{grantId}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/api/v1/apps/{appId}/grants/{grantId}", code: 200 })),
 ).annotate({
   identifier: "RevokeScopeConsentGrantRequest",
 }) as any as S.Schema<RevokeScopeConsentGrantRequest>;
 
 export interface RevokeScopeConsentGrantResponse {}
 export const RevokeScopeConsentGrantResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "RevokeScopeConsentGrantResponse",
-  },
+  { identifier: "RevokeScopeConsentGrantResponse" },
 ) as any as S.Schema<RevokeScopeConsentGrantResponse>;
 
 export interface RevokeSessionRequest {
@@ -33651,16 +31673,8 @@ export interface RevokeSessionRequest {
 export const RevokeSessionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     sessionId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/v1/sessions/{sessionId}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "RevokeSessionRequest",
-}) as any as S.Schema<RevokeSessionRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/api/v1/sessions/{sessionId}", code: 200 })),
+).annotate({ identifier: "RevokeSessionRequest" }) as any as S.Schema<RevokeSessionRequest>;
 
 export interface RevokeSessionResponse {}
 export const RevokeSessionResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -33736,16 +31750,8 @@ export const RevokeUserGrantRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     userId: S.String.pipe(T.Label()),
     grantId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/v1/users/{userId}/grants/{grantId}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "RevokeUserGrantRequest",
-}) as any as S.Schema<RevokeUserGrantRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/api/v1/users/{userId}/grants/{grantId}", code: 200 })),
+).annotate({ identifier: "RevokeUserGrantRequest" }) as any as S.Schema<RevokeUserGrantRequest>;
 
 export interface RevokeUserGrantResponse {}
 export const RevokeUserGrantResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -33759,16 +31765,8 @@ export interface RevokeUserGrantsRequest {
 export const RevokeUserGrantsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     userId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/v1/users/{userId}/grants",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "RevokeUserGrantsRequest",
-}) as any as S.Schema<RevokeUserGrantsRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/api/v1/users/{userId}/grants", code: 200 })),
+).annotate({ identifier: "RevokeUserGrantsRequest" }) as any as S.Schema<RevokeUserGrantsRequest>;
 
 export interface RevokeUserGrantsResponse {}
 export const RevokeUserGrantsResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -33788,13 +31786,7 @@ export const RevokeUserSessionsRequest = /*@__PURE__*/ S.suspend(() =>
     userId: S.String.pipe(T.Label()),
     oauthTokens: S.optional(S.Boolean.pipe(T.Query())),
     forgetDevices: S.optional(S.Boolean.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/v1/users/{userId}/sessions",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/api/v1/users/{userId}/sessions", code: 200 })),
 ).annotate({
   identifier: "RevokeUserSessionsRequest",
 }) as any as S.Schema<RevokeUserSessionsRequest>;
@@ -33857,13 +31849,7 @@ export const SendPinRequest = /*@__PURE__*/ S.suspend(() =>
     authenticatorEnrollmentId: S.optional(S.String),
     fulfillmentProvider: S.optional(SendPinRequestFulfillmentProvider),
     userId: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/webauthn-registration/api/v1/send-pin",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/webauthn-registration/api/v1/send-pin", code: 200 })),
 ).annotate({ identifier: "SendPinRequest" }) as any as S.Schema<SendPinRequest>;
 
 export interface SendPinResponse {}
@@ -33929,9 +31915,7 @@ export const SendTestEmailRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "SendTestEmailRequest",
-}) as any as S.Schema<SendTestEmailRequest>;
+).annotate({ identifier: "SendTestEmailRequest" }) as any as S.Schema<SendTestEmailRequest>;
 
 export interface SendTestEmailResponse {}
 export const SendTestEmailResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -33959,11 +31943,7 @@ export const SetAsPrimaryCustomTelephonyCredentialRequest = /*@__PURE__*/ S.susp
 export interface SetOrgHideOktaUIFooterRequest {}
 export const SetOrgHideOktaUIFooterRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v1/org/preferences/hideEndUserFooter",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/api/v1/org/preferences/hideEndUserFooter", code: 200 }),
   ),
 ).annotate({
   identifier: "SetOrgHideOktaUIFooterRequest",
@@ -33972,11 +31952,7 @@ export const SetOrgHideOktaUIFooterRequest = /*@__PURE__*/ S.suspend(() =>
 export interface SetOrgShowOktaUIFooterRequest {}
 export const SetOrgShowOktaUIFooterRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v1/org/preferences/showEndUserFooter",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/api/v1/org/preferences/showEndUserFooter", code: 200 }),
   ),
 ).annotate({
   identifier: "SetOrgShowOktaUIFooterRequest",
@@ -34017,9 +31993,7 @@ export const FailbackRequestSchema = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     domains: S.optional(FailbackRequestSchemaDomainsList),
   }),
-).annotate({
-  identifier: "FailbackRequestSchema",
-}) as any as S.Schema<FailbackRequestSchema>;
+).annotate({ identifier: "FailbackRequestSchema" }) as any as S.Schema<FailbackRequestSchema>;
 
 export type StartOrgFailbackRequestBody = FailbackRequestSchema | unknown;
 export const StartOrgFailbackRequestBody =
@@ -34032,9 +32006,7 @@ export const StartOrgFailbackRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     body: S.optional(StartOrgFailbackRequestBody.pipe(T.HttpBody())),
   }).pipe(T.Http({ method: "POST", uri: "/api/v1/dr/failback", code: 200 })),
-).annotate({
-  identifier: "StartOrgFailbackRequest",
-}) as any as S.Schema<StartOrgFailbackRequest>;
+).annotate({ identifier: "StartOrgFailbackRequest" }) as any as S.Schema<StartOrgFailbackRequest>;
 
 export interface StartOrgFailbackResponseResultsItem {
   /** Domain for your org */
@@ -34065,9 +32037,7 @@ export const StartOrgFailbackResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     results: S.optional(StartOrgFailbackResponseResultsList),
   }),
-).annotate({
-  identifier: "StartOrgFailbackResponse",
-}) as any as S.Schema<StartOrgFailbackResponse>;
+).annotate({ identifier: "StartOrgFailbackResponse" }) as any as S.Schema<StartOrgFailbackResponse>;
 
 /** The Okta domain to failover */
 export type FailoverRequestSchemaDomainsList = Array<string>;
@@ -34083,9 +32053,7 @@ export const FailoverRequestSchema = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     domains: S.optional(FailoverRequestSchemaDomainsList),
   }),
-).annotate({
-  identifier: "FailoverRequestSchema",
-}) as any as S.Schema<FailoverRequestSchema>;
+).annotate({ identifier: "FailoverRequestSchema" }) as any as S.Schema<FailoverRequestSchema>;
 
 export type StartOrgFailoverRequestBody = FailoverRequestSchema | unknown;
 export const StartOrgFailoverRequestBody =
@@ -34098,9 +32066,7 @@ export const StartOrgFailoverRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     body: S.optional(StartOrgFailoverRequestBody.pipe(T.HttpBody())),
   }).pipe(T.Http({ method: "POST", uri: "/api/v1/dr/failover", code: 200 })),
-).annotate({
-  identifier: "StartOrgFailoverRequest",
-}) as any as S.Schema<StartOrgFailoverRequest>;
+).annotate({ identifier: "StartOrgFailoverRequest" }) as any as S.Schema<StartOrgFailoverRequest>;
 
 export interface StartOrgFailoverResponseResultsItem {
   /** Domain for your org */
@@ -34131,9 +32097,7 @@ export const StartOrgFailoverResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     results: S.optional(StartOrgFailoverResponseResultsList),
   }),
-).annotate({
-  identifier: "StartOrgFailoverResponse",
-}) as any as S.Schema<StartOrgFailoverResponse>;
+).annotate({ identifier: "StartOrgFailoverResponse" }) as any as S.Schema<StartOrgFailoverResponse>;
 
 export interface StopAgentPoolsUpdateRequest {
   /** ID of the agent pool for which the settings apply to */
@@ -34288,15 +32252,9 @@ export const SuspendDeviceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     deviceId: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v1/devices/{deviceId}/lifecycle/suspend",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/api/v1/devices/{deviceId}/lifecycle/suspend", code: 200 }),
   ),
-).annotate({
-  identifier: "SuspendDeviceRequest",
-}) as any as S.Schema<SuspendDeviceRequest>;
+).annotate({ identifier: "SuspendDeviceRequest" }) as any as S.Schema<SuspendDeviceRequest>;
 
 export interface SuspendDeviceResponse {}
 export const SuspendDeviceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -34310,16 +32268,8 @@ export interface SuspendUserRequest {
 export const SuspendUserRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v1/users/{id}/lifecycle/suspend",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "SuspendUserRequest",
-}) as any as S.Schema<SuspendUserRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/api/v1/users/{id}/lifecycle/suspend", code: 200 })),
+).annotate({ identifier: "SuspendUserRequest" }) as any as S.Schema<SuspendUserRequest>;
 
 export interface SuspendUserResponse {}
 export const SuspendUserResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -34338,16 +32288,8 @@ export const TestEmailServerRequest = /*@__PURE__*/ S.suspend(() =>
     emailServerId: S.String.pipe(T.Label()),
     fromAddress: S.String,
     toAddress: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v1/email-servers/{emailServerId}/test",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "TestEmailServerRequest",
-}) as any as S.Schema<TestEmailServerRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/api/v1/email-servers/{emailServerId}/test", code: 200 })),
+).annotate({ identifier: "TestEmailServerRequest" }) as any as S.Schema<TestEmailServerRequest>;
 
 export interface TestEmailServerResponse {}
 export const TestEmailServerResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -34432,13 +32374,7 @@ export const UnassignApplicationFromGroupRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     appId: S.String.pipe(T.Label()),
     groupId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/v1/apps/{appId}/groups/{groupId}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/api/v1/apps/{appId}/groups/{groupId}", code: 200 })),
 ).annotate({
   identifier: "UnassignApplicationFromGroupRequest",
 }) as any as S.Schema<UnassignApplicationFromGroupRequest>;
@@ -34641,11 +32577,7 @@ export const UnassignRoleFromUserRequest = /*@__PURE__*/ S.suspend(() =>
     userId: S.String.pipe(T.Label()),
     roleAssignmentId: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/v1/users/{userId}/roles/{roleAssignmentId}",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/api/v1/users/{userId}/roles/{roleAssignmentId}", code: 200 }),
   ),
 ).annotate({
   identifier: "UnassignRoleFromUserRequest",
@@ -34669,13 +32601,7 @@ export const UnassignUserFromApplicationRequest = /*@__PURE__*/ S.suspend(() =>
     appId: S.String.pipe(T.Label()),
     userId: S.String.pipe(T.Label()),
     sendEmail: S.optional(S.Boolean.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/v1/apps/{appId}/users/{userId}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/api/v1/apps/{appId}/users/{userId}", code: 200 })),
 ).annotate({
   identifier: "UnassignUserFromApplicationRequest",
 }) as any as S.Schema<UnassignUserFromApplicationRequest>;
@@ -34697,13 +32623,7 @@ export const UnassignUserFromGroupRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     groupId: S.String.pipe(T.Label()),
     userId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/v1/groups/{groupId}/users/{userId}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/api/v1/groups/{groupId}/users/{userId}", code: 200 })),
 ).annotate({
   identifier: "UnassignUserFromGroupRequest",
 }) as any as S.Schema<UnassignUserFromGroupRequest>;
@@ -34727,15 +32647,9 @@ export const UnenrollFactorRequest = /*@__PURE__*/ S.suspend(() =>
     factorId: S.String.pipe(T.Label()),
     removeRecoveryEnrollment: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/v1/users/{userId}/factors/{factorId}",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/api/v1/users/{userId}/factors/{factorId}", code: 200 }),
   ),
-).annotate({
-  identifier: "UnenrollFactorRequest",
-}) as any as S.Schema<UnenrollFactorRequest>;
+).annotate({ identifier: "UnenrollFactorRequest" }) as any as S.Schema<UnenrollFactorRequest>;
 
 export interface UnenrollFactorResponse {}
 export const UnenrollFactorResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -34752,13 +32666,7 @@ export const UnlinkUserFromIdentityProviderRequest = /*@__PURE__*/ S.suspend(() 
   S.Struct({
     idpId: S.String.pipe(T.Label()),
     userId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/v1/idps/{idpId}/users/{userId}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/api/v1/idps/{idpId}/users/{userId}", code: 200 })),
 ).annotate({
   identifier: "UnlinkUserFromIdentityProviderRequest",
 }) as any as S.Schema<UnlinkUserFromIdentityProviderRequest>;
@@ -34777,16 +32685,8 @@ export interface UnlockUserRequest {
 export const UnlockUserRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v1/users/{id}/lifecycle/unlock",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "UnlockUserRequest",
-}) as any as S.Schema<UnlockUserRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/api/v1/users/{id}/lifecycle/unlock", code: 200 })),
+).annotate({ identifier: "UnlockUserRequest" }) as any as S.Schema<UnlockUserRequest>;
 
 export interface UnlockUserResponse {}
 export const UnlockUserResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -34888,15 +32788,9 @@ export const UnsuspendDeviceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     deviceId: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v1/devices/{deviceId}/lifecycle/unsuspend",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/api/v1/devices/{deviceId}/lifecycle/unsuspend", code: 200 }),
   ),
-).annotate({
-  identifier: "UnsuspendDeviceRequest",
-}) as any as S.Schema<UnsuspendDeviceRequest>;
+).annotate({ identifier: "UnsuspendDeviceRequest" }) as any as S.Schema<UnsuspendDeviceRequest>;
 
 export interface UnsuspendDeviceResponse {}
 export const UnsuspendDeviceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -34910,16 +32804,8 @@ export interface UnsuspendUserRequest {
 export const UnsuspendUserRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v1/users/{id}/lifecycle/unsuspend",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "UnsuspendUserRequest",
-}) as any as S.Schema<UnsuspendUserRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/api/v1/users/{id}/lifecycle/unsuspend", code: 200 })),
+).annotate({ identifier: "UnsuspendUserRequest" }) as any as S.Schema<UnsuspendUserRequest>;
 
 export interface UnsuspendUserResponse {}
 export const UnsuspendUserResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -34968,11 +32854,7 @@ export const UpdateAgentPoolsUpdateRequest = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(AgentUpdateJobStatus),
     targetVersion: S.optional(S.String),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v1/agentPools/{poolId}/updates/{updateId}",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/api/v1/agentPools/{poolId}/updates/{updateId}", code: 200 }),
   ),
 ).annotate({
   identifier: "UpdateAgentPoolsUpdateRequest",
@@ -35002,11 +32884,7 @@ export const UpdateAgentPoolsUpdateSettingsRequest = /*@__PURE__*/ S.suspend(() 
     poolName: S.optional(S.String),
     releaseChannel: S.optional(ReleaseChannel),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v1/agentPools/{poolId}/updates/settings",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/api/v1/agentPools/{poolId}/updates/settings", code: 200 }),
   ),
 ).annotate({
   identifier: "UpdateAgentPoolsUpdateSettingsRequest",
@@ -35051,13 +32929,7 @@ export const UpdateApplicationUserRequest = /*@__PURE__*/ S.suspend(() =>
     appId: S.String.pipe(T.Label()),
     userId: S.String.pipe(T.Label()),
     body: AppUserUpdateRequest.pipe(T.HttpBody()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v1/apps/{appId}/users/{userId}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/api/v1/apps/{appId}/users/{userId}", code: 200 })),
 ).annotate({
   identifier: "UpdateApplicationUserRequest",
 }) as any as S.Schema<UpdateApplicationUserRequest>;
@@ -35071,14 +32943,10 @@ export const UserSchemaBaseInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     properties: S.optional(UserSchemaBaseProperties),
   }),
-).annotate({
-  identifier: "UserSchemaBaseInput",
-}) as any as S.Schema<UserSchemaBaseInput>;
+).annotate({ identifier: "UserSchemaBaseInput" }) as any as S.Schema<UserSchemaBaseInput>;
 
 /** The `#custom` object properties */
-export type UserSchemaPublicInputPropertiesMap = {
-  [key: string]: UserSchemaAttribute | undefined;
-};
+export type UserSchemaPublicInputPropertiesMap = { [key: string]: UserSchemaAttribute | undefined };
 export const UserSchemaPublicInputPropertiesMap = /*@__PURE__*/ S.Record(
   S.String,
   UserSchemaAttribute,
@@ -35093,9 +32961,7 @@ export const UserSchemaPublicInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     properties: S.optional(UserSchemaPublicInputPropertiesMap),
   }),
-).annotate({
-  identifier: "UserSchemaPublicInput",
-}) as any as S.Schema<UserSchemaPublicInput>;
+).annotate({ identifier: "UserSchemaPublicInput" }) as any as S.Schema<UserSchemaPublicInput>;
 
 export interface UserSchemaDefinitionsInput {
   base?: UserSchemaBaseInput;
@@ -35126,13 +32992,7 @@ export const UpdateApplicationUserProfileRequest = /*@__PURE__*/ S.suspend(() =>
     definitions: S.optional(UserSchemaDefinitionsInput),
     properties: S.optional(UserSchemaProperties),
     title: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v1/meta/schemas/apps/{appId}/default",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/api/v1/meta/schemas/apps/{appId}/default", code: 200 })),
 ).annotate({
   identifier: "UpdateApplicationUserProfileRequest",
 }) as any as S.Schema<UpdateApplicationUserProfileRequest>;
@@ -35169,11 +33029,7 @@ export const UpdateAppServiceAccountRequest = /*@__PURE__*/ S.suspend(() =>
     ownerGroupIds: S.optional(UpdateAppServiceAccountRequestOwnerGroupIdsList),
     ownerUserIds: S.optional(UpdateAppServiceAccountRequestOwnerUserIdsList),
   }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/privileged-access/api/v1/service-accounts/{id}",
-      code: 200,
-    }),
+    T.Http({ method: "PATCH", uri: "/privileged-access/api/v1/service-accounts/{id}", code: 200 }),
   ),
 ).annotate({
   identifier: "UpdateAppServiceAccountRequest",
@@ -35187,11 +33043,7 @@ export const UpdateAutoAssignAdminAppSettingRequest = /*@__PURE__*/ S.suspend(()
   S.Struct({
     autoAssignAdminAppSetting: S.optional(S.Boolean),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v1/org/settings/autoAssignAdminAppSetting",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/api/v1/org/settings/autoAssignAdminAppSetting", code: 200 }),
   ),
 ).annotate({
   identifier: "UpdateAutoAssignAdminAppSettingRequest",
@@ -35218,13 +33070,7 @@ export const UpdateBotProtectionConfigurationRequest = /*@__PURE__*/ S.suspend((
     level: BotProtectionLevel,
     mode: BotProtectionMode,
     supportedFlows: S.optional(UpdateBotProtectionConfigurationRequestSupportedFlowsList),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v1/bot-protection/configuration",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/api/v1/bot-protection/configuration", code: 200 })),
 ).annotate({
   identifier: "UpdateBotProtectionConfigurationRequest",
 }) as any as S.Schema<UpdateBotProtectionConfigurationRequest>;
@@ -35451,13 +33297,7 @@ export const UpdateDefaultProvisioningConnectionForApplicationRequest = /*@__PUR
       appId: S.String.pipe(T.Label()),
       activate: S.optional(S.Boolean.pipe(T.Query())),
       body: UpdateDefaultProvisioningConnectionForApplicationRequestBody.pipe(T.HttpBody()),
-    }).pipe(
-      T.Http({
-        method: "POST",
-        uri: "/api/v1/apps/{appId}/connections/default",
-        code: 200,
-      }),
-    ),
+    }).pipe(T.Http({ method: "POST", uri: "/api/v1/apps/{appId}/connections/default", code: 200 })),
 ).annotate({
   identifier: "UpdateDefaultProvisioningConnectionForApplicationRequest",
 }) as any as S.Schema<UpdateDefaultProvisioningConnectionForApplicationRequest>;
@@ -35485,16 +33325,8 @@ export const UpdateEmailServerRequest = /*@__PURE__*/ S.suspend(() =>
     host: S.optional(S.String),
     port: S.optional(S.Number),
     username: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/api/v1/email-servers/{emailServerId}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "UpdateEmailServerRequest",
-}) as any as S.Schema<UpdateEmailServerRequest>;
+  }).pipe(T.Http({ method: "PATCH", uri: "/api/v1/email-servers/{emailServerId}", code: 200 })),
+).annotate({ identifier: "UpdateEmailServerRequest" }) as any as S.Schema<UpdateEmailServerRequest>;
 
 /** Key name of the feature | Feature name | Description | | --------- | ------------- | | USER_PROVISIONING | User profiles are pushed from Okta to the third-party app. Represents the **To App** provisioning feature setting in the Admin Console. | | INBOUND_PROVISIONING | User profiles are imported from the third-party app into Okta. This feature represents the **To Okta** provisioning feature setting in the Admin Console. | Select the feature: */
 export type UpdateFeatureForApplicationRequestFeatureName =
@@ -35522,9 +33354,7 @@ export const CapabilitiesCreateObject = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     lifecycleCreate: S.optional(LifecycleCreateSettingObject),
   }),
-).annotate({
-  identifier: "CapabilitiesCreateObject",
-}) as any as S.Schema<CapabilitiesCreateObject>;
+).annotate({ identifier: "CapabilitiesCreateObject" }) as any as S.Schema<CapabilitiesCreateObject>;
 
 /** Determines whether deprovisioning occurs when the app is unassigned */
 export type LifecycleDeactivateSettingObject = LifecycleCreateSettingObject;
@@ -35550,9 +33380,7 @@ export const PasswordSettingObject = /*@__PURE__*/ S.suspend(() =>
     seed: S.optional(SeedEnum),
     status: S.optional(S.Unknown),
   }),
-).annotate({
-  identifier: "PasswordSettingObject",
-}) as any as S.Schema<PasswordSettingObject>;
+).annotate({ identifier: "PasswordSettingObject" }) as any as S.Schema<PasswordSettingObject>;
 
 /** This setting determines whether a user in the app gets updated when they're updated in Okta. If enabled, Okta updates a user's attributes in the app when the app is assigned. Future changes made to the Okta user's profile automatically overwrite the corresponding attribute value in the app. */
 export type ProfileSettingObject = LifecycleCreateSettingObject;
@@ -35570,9 +33398,7 @@ export const CapabilitiesUpdateObject = /*@__PURE__*/ S.suspend(() =>
     password: S.optional(PasswordSettingObject),
     profile: S.optional(LifecycleCreateSettingObject),
   }),
-).annotate({
-  identifier: "CapabilitiesUpdateObject",
-}) as any as S.Schema<CapabilitiesUpdateObject>;
+).annotate({ identifier: "CapabilitiesUpdateObject" }) as any as S.Schema<CapabilitiesUpdateObject>;
 
 /** Defines the configurations for the USER_PROVISIONING feature */
 export interface CapabilitiesObject {
@@ -35584,9 +33410,7 @@ export const CapabilitiesObject = /*@__PURE__*/ S.suspend(() =>
     create: S.optional(CapabilitiesCreateObject),
     update: S.optional(CapabilitiesUpdateObject),
   }),
-).annotate({
-  identifier: "CapabilitiesObject",
-}) as any as S.Schema<CapabilitiesObject>;
+).annotate({ identifier: "CapabilitiesObject" }) as any as S.Schema<CapabilitiesObject>;
 
 /** Determines the attribute to match users */
 export type CapabilitiesImportRulesUserCreateAndMatchObjectExactMatchCriteria =
@@ -35668,9 +33492,7 @@ export const ImportScheduleObject = /*@__PURE__*/ S.suspend(() =>
     incrementalImport: S.optional(ImportScheduleObjectFullImport),
     status: S.optional(EnabledStatus),
   }),
-).annotate({
-  identifier: "ImportScheduleObject",
-}) as any as S.Schema<ImportScheduleObject>;
+).annotate({ identifier: "ImportScheduleObject" }) as any as S.Schema<ImportScheduleObject>;
 
 /** Determines the username format when users sign in to Okta */
 export type ImportUsernameObjectUsernameFormat = "EMAIL" | "CUSTOM";
@@ -35688,9 +33510,7 @@ export const ImportUsernameObject = /*@__PURE__*/ S.suspend(() =>
     userNameExpression: S.optional(S.String),
     usernameFormat: ImportUsernameObjectUsernameFormat,
   }),
-).annotate({
-  identifier: "ImportUsernameObject",
-}) as any as S.Schema<ImportUsernameObject>;
+).annotate({ identifier: "ImportUsernameObject" }) as any as S.Schema<ImportUsernameObject>;
 
 /** Defines import settings */
 export interface CapabilitiesImportSettingsObject {
@@ -35738,13 +33558,7 @@ export const UpdateFeatureForApplicationRequest = /*@__PURE__*/ S.suspend(() =>
     appId: S.String.pipe(T.Label()),
     featureName: UpdateFeatureForApplicationRequestFeatureName.pipe(T.Label()),
     body: UpdateFeatureForApplicationRequestBody.pipe(T.HttpBody()),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/api/v1/apps/{appId}/features/{featureName}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/api/v1/apps/{appId}/features/{featureName}", code: 200 })),
 ).annotate({
   identifier: "UpdateFeatureForApplicationRequest",
 }) as any as S.Schema<UpdateFeatureForApplicationRequest>;
@@ -35765,13 +33579,7 @@ export const UpdateFeatureLifecycleRequest = /*@__PURE__*/ S.suspend(() =>
     featureId: S.String.pipe(T.Label()),
     lifecycle: UpdateFeatureLifecycleRequestLifecycle.pipe(T.Label()),
     mode: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v1/features/{featureId}/{lifecycle}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/api/v1/features/{featureId}/{lifecycle}", code: 200 })),
 ).annotate({
   identifier: "UpdateFeatureLifecycleRequest",
 }) as any as S.Schema<UpdateFeatureLifecycleRequest>;
@@ -35794,9 +33602,7 @@ export const JsonPatchOperation = /*@__PURE__*/ S.suspend(() =>
     path: S.optional(S.String),
     value: S.optional(S.Unknown),
   }),
-).annotate({
-  identifier: "JsonPatchOperation",
-}) as any as S.Schema<JsonPatchOperation>;
+).annotate({ identifier: "JsonPatchOperation" }) as any as S.Schema<JsonPatchOperation>;
 
 export type UpdateGroupAssignmentToApplicationRequestBodyList = Array<JsonPatchOperation>;
 export const UpdateGroupAssignmentToApplicationRequestBodyList = /*@__PURE__*/ S.Array(
@@ -35815,13 +33621,7 @@ export const UpdateGroupAssignmentToApplicationRequest = /*@__PURE__*/ S.suspend
     appId: S.String.pipe(T.Label()),
     groupId: S.String.pipe(T.Label()),
     body: S.optional(UpdateGroupAssignmentToApplicationRequestBodyList.pipe(T.HttpBody())),
-  }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/api/v1/apps/{appId}/groups/{groupId}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PATCH", uri: "/api/v1/apps/{appId}/groups/{groupId}", code: 200 })),
 ).annotate({
   identifier: "UpdateGroupAssignmentToApplicationRequest",
 }) as any as S.Schema<UpdateGroupAssignmentToApplicationRequest>;
@@ -35866,11 +33666,7 @@ export const UpdateGroupMembershipRequest = /*@__PURE__*/ S.suspend(() =>
     id: S.String,
     parameters: Parameters,
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v1/directories/{appInstanceId}/groups/modify",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/api/v1/directories/{appInstanceId}/groups/modify", code: 200 }),
   ),
 ).annotate({
   identifier: "UpdateGroupMembershipRequest",
@@ -35913,9 +33709,7 @@ export const GroupSchemaBaseInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     properties: S.optional(GroupSchemaBaseProperties),
   }),
-).annotate({
-  identifier: "GroupSchemaBaseInput",
-}) as any as S.Schema<GroupSchemaBaseInput>;
+).annotate({ identifier: "GroupSchemaBaseInput" }) as any as S.Schema<GroupSchemaBaseInput>;
 
 /** The `#custom` object properties */
 export type GroupSchemaCustomInputPropertiesMap = {
@@ -35935,9 +33729,7 @@ export const GroupSchemaCustomInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     properties: S.optional(GroupSchemaCustomInputPropertiesMap),
   }),
-).annotate({
-  identifier: "GroupSchemaCustomInput",
-}) as any as S.Schema<GroupSchemaCustomInput>;
+).annotate({ identifier: "GroupSchemaCustomInput" }) as any as S.Schema<GroupSchemaCustomInput>;
 
 export interface GroupSchemaDefinitionsInput {
   base?: GroupSchemaBaseInput;
@@ -35967,16 +33759,8 @@ export const UpdateGroupSchemaRequest = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(S.String),
     properties: S.optional(UserSchemaProperties),
     title: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v1/meta/schemas/group/default",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "UpdateGroupSchemaRequest",
-}) as any as S.Schema<UpdateGroupSchemaRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/api/v1/meta/schemas/group/default", code: 200 })),
+).annotate({ identifier: "UpdateGroupSchemaRequest" }) as any as S.Schema<UpdateGroupSchemaRequest>;
 
 export interface UpdateIdentitySourceGroupsRequest {
   /** The ID of the identity source for which the session is created */
@@ -36042,16 +33826,8 @@ export const UpdateInlineHookRequest = /*@__PURE__*/ S.suspend(() =>
     channel: S.optional(InlineHookChannelCreate),
     name: S.optional(S.String),
     version: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v1/inlineHooks/{inlineHookId}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "UpdateInlineHookRequest",
-}) as any as S.Schema<UpdateInlineHookRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/api/v1/inlineHooks/{inlineHookId}", code: 200 })),
+).annotate({ identifier: "UpdateInlineHookRequest" }) as any as S.Schema<UpdateInlineHookRequest>;
 
 /** A list of IDs of the Okta groups who own the Okta managed user account */
 export type UpdateOktaManagedUserAccountRequestOwnerGroupIdsList = Array<string>;
@@ -36183,9 +33959,7 @@ export const UpdateOrgSettingsRequest = /*@__PURE__*/ S.suspend(() =>
     supportPhoneNumber: S.optional(S.String),
     website: S.optional(S.String),
   }).pipe(T.Http({ method: "POST", uri: "/api/v1/org", code: 200 })),
-).annotate({
-  identifier: "UpdateOrgSettingsRequest",
-}) as any as S.Schema<UpdateOrgSettingsRequest>;
+).annotate({ identifier: "UpdateOrgSettingsRequest" }) as any as S.Schema<UpdateOrgSettingsRequest>;
 
 export interface UpdatePauseAgentPoolRequest {
   /** ID of the agent pool for which the settings apply to */
@@ -36239,16 +34013,8 @@ export const UpdateSmsTemplateRequest = /*@__PURE__*/ S.suspend(() =>
     template: S.optional(S.String),
     translations: S.optional(S.Unknown),
     type: S.optional(SmsTemplateType),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v1/templates/sms/{templateId}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "UpdateSmsTemplateRequest",
-}) as any as S.Schema<UpdateSmsTemplateRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/api/v1/templates/sms/{templateId}", code: 200 })),
+).annotate({ identifier: "UpdateSmsTemplateRequest" }) as any as S.Schema<UpdateSmsTemplateRequest>;
 
 export type UpdateSsfStreamRequestAudCase1List = Array<string>;
 export const UpdateSsfStreamRequestAudCase1List = /*@__PURE__*/ S.Array(
@@ -36312,9 +34078,7 @@ export const UpdateSsfStreamRequest = /*@__PURE__*/ S.suspend(() =>
     min_verification_interval: S.optional(S.NullOr(S.Number)),
     stream_id: S.optional(S.String),
   }).pipe(T.Http({ method: "PATCH", uri: "/api/v1/ssf/stream", code: 200 })),
-).annotate({
-  identifier: "UpdateSsfStreamRequest",
-}) as any as S.Schema<UpdateSsfStreamRequest>;
+).annotate({ identifier: "UpdateSsfStreamRequest" }) as any as S.Schema<UpdateSsfStreamRequest>;
 
 export interface UpdateThirdPartyAdminSettingRequest {
   /** Indicates if the third-party admin functionality is enabled */
@@ -36324,11 +34088,7 @@ export const UpdateThirdPartyAdminSettingRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     thirdPartyAdmin: S.optional(S.Boolean),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v1/org/orgSettings/thirdPartyAdminSetting",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/api/v1/org/orgSettings/thirdPartyAdminSetting", code: 200 }),
   ),
 ).annotate({
   identifier: "UpdateThirdPartyAdminSettingRequest",
@@ -36359,9 +34119,7 @@ export const UpdateUserRequest = /*@__PURE__*/ S.suspend(() =>
     realmId: S.optional(S.String),
     type: S.optional(CreateUserRequestType),
   }).pipe(T.Http({ method: "POST", uri: "/api/v1/users/{id}", code: 200 })),
-).annotate({
-  identifier: "UpdateUserRequest",
-}) as any as S.Schema<UpdateUserRequest>;
+).annotate({ identifier: "UpdateUserRequest" }) as any as S.Schema<UpdateUserRequest>;
 
 export interface UpdateUserProfileRequest {
   /** Schema ID. You can also use `default` to refer to the default user type schema. */
@@ -36379,16 +34137,8 @@ export const UpdateUserProfileRequest = /*@__PURE__*/ S.suspend(() =>
     definitions: S.optional(UserSchemaDefinitionsInput),
     properties: S.optional(UserSchemaProperties),
     title: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v1/meta/schemas/user/{schemaId}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "UpdateUserProfileRequest",
-}) as any as S.Schema<UpdateUserProfileRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/api/v1/meta/schemas/user/{schemaId}", code: 200 })),
+).annotate({ identifier: "UpdateUserProfileRequest" }) as any as S.Schema<UpdateUserProfileRequest>;
 
 export interface UpdateUserTypeRequest {
   typeId: string;
@@ -36402,16 +34152,8 @@ export const UpdateUserTypeRequest = /*@__PURE__*/ S.suspend(() =>
     typeId: S.String.pipe(T.Label()),
     description: S.optional(S.String),
     displayName: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v1/meta/types/user/{typeId}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "UpdateUserTypeRequest",
-}) as any as S.Schema<UpdateUserTypeRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/api/v1/meta/types/user/{typeId}", code: 200 })),
+).annotate({ identifier: "UpdateUserTypeRequest" }) as any as S.Schema<UpdateUserTypeRequest>;
 
 export interface UploadApplicationLogoRequest {
   /** Application ID */
@@ -36471,9 +34213,7 @@ export const ImageUploadResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     url: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ImageUploadResponse",
-}) as any as S.Schema<ImageUploadResponse>;
+).annotate({ identifier: "ImageUploadResponse" }) as any as S.Schema<ImageUploadResponse>;
 
 export interface UploadBrandThemeFaviconRequest {
   /** The ID of the brand */
@@ -36910,13 +34650,7 @@ export const UploadYubikeyOtpTokenSeedRequest = /*@__PURE__*/ S.suspend(() =>
     publicId: S.optional(S.String),
     privateId: S.optional(S.String),
     aesKey: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v1/org/factors/yubikey_token/tokens",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/api/v1/org/factors/yubikey_token/tokens", code: 200 })),
 ).annotate({
   identifier: "UploadYubikeyOtpTokenSeedRequest",
 }) as any as S.Schema<UploadYubikeyOtpTokenSeedRequest>;
@@ -36968,16 +34702,8 @@ export const UpsertApiTokenRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     network: S.optional(UpsertApiTokenRequestNetwork),
     userId: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/api/v1/api-tokens/{apiTokenId}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "UpsertApiTokenRequest",
-}) as any as S.Schema<UpsertApiTokenRequest>;
+  }).pipe(T.Http({ method: "PUT", uri: "/api/v1/api-tokens/{apiTokenId}", code: 200 })),
+).annotate({ identifier: "UpsertApiTokenRequest" }) as any as S.Schema<UpsertApiTokenRequest>;
 
 /** Certificate type */
 export type DomainCertificateType = "PEM";
@@ -37001,16 +34727,8 @@ export const UpsertCertificateRequest = /*@__PURE__*/ S.suspend(() =>
     certificateChain: S.String,
     privateKey: S.String.pipe(T.SensitiveValue({})),
     type: DomainCertificateType,
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/api/v1/domains/{domainId}/certificate",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "UpsertCertificateRequest",
-}) as any as S.Schema<UpsertCertificateRequest>;
+  }).pipe(T.Http({ method: "PUT", uri: "/api/v1/domains/{domainId}/certificate", code: 200 })),
+).annotate({ identifier: "UpsertCertificateRequest" }) as any as S.Schema<UpsertCertificateRequest>;
 
 export interface UpsertCertificateResponse {}
 export const UpsertCertificateResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -37035,9 +34753,7 @@ export const UpsertUserRiskRequest = /*@__PURE__*/ S.suspend(() =>
     riskLevel: UpsertUserRiskRequestRiskLevel,
     riskReason: S.optional(S.String),
   }).pipe(T.Http({ method: "PUT", uri: "/api/v1/users/{userId}/risk", code: 200 })),
-).annotate({
-  identifier: "UpsertUserRiskRequest",
-}) as any as S.Schema<UpsertUserRiskRequest>;
+).annotate({ identifier: "UpsertUserRiskRequest" }) as any as S.Schema<UpsertUserRiskRequest>;
 
 /** The risk level associated with the user */
 export type UserRiskLevelPut = "HIGH" | "LOW" | "MEDIUM";
@@ -37057,9 +34773,7 @@ export const UserRiskPutResponse = /*@__PURE__*/ S.suspend(() =>
     riskLevel: S.optional(UserRiskLevelPut),
     _links: S.optional(UserRiskGetResponseLinks),
   }),
-).annotate({
-  identifier: "UserRiskPutResponse",
-}) as any as S.Schema<UserRiskPutResponse>;
+).annotate({ identifier: "UserRiskPutResponse" }) as any as S.Schema<UserRiskPutResponse>;
 
 export interface VerifyDomainRequest {
   /** `id` of the Domain */
@@ -37068,16 +34782,8 @@ export interface VerifyDomainRequest {
 export const VerifyDomainRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     domainId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v1/domains/{domainId}/verify",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "VerifyDomainRequest",
-}) as any as S.Schema<VerifyDomainRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/api/v1/domains/{domainId}/verify", code: 200 })),
+).annotate({ identifier: "VerifyDomainRequest" }) as any as S.Schema<VerifyDomainRequest>;
 
 export interface VerifyEmailDomainRequest {
   emailDomainId: string;
@@ -37086,15 +34792,9 @@ export const VerifyEmailDomainRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     emailDomainId: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v1/email-domains/{emailDomainId}/verify",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/api/v1/email-domains/{emailDomainId}/verify", code: 200 }),
   ),
-).annotate({
-  identifier: "VerifyEmailDomainRequest",
-}) as any as S.Schema<VerifyEmailDomainRequest>;
+).annotate({ identifier: "VerifyEmailDomainRequest" }) as any as S.Schema<VerifyEmailDomainRequest>;
 
 export type VerifyEmailDomainResponseDnsValidationRecordsList = Array<EmailDomainDNSRecord>;
 export const VerifyEmailDomainResponseDnsValidationRecordsList = /*@__PURE__*/ S.Array(
@@ -37133,15 +34833,9 @@ export const VerifyEventHookRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     eventHookId: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v1/eventHooks/{eventHookId}/lifecycle/verify",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/api/v1/eventHooks/{eventHookId}/lifecycle/verify", code: 200 }),
   ),
-).annotate({
-  identifier: "VerifyEventHookRequest",
-}) as any as S.Schema<VerifyEventHookRequest>;
+).annotate({ identifier: "VerifyEventHookRequest" }) as any as S.Schema<VerifyEventHookRequest>;
 
 /** Verifies an OTP sent by a `call` factor challenge. If you omit `passCode` in the request, a new OTP is sent to the phone. */
 export type UserFactorVerifyRequestCase0 = UserFactorActivateRequestCase0;
@@ -37256,15 +34950,9 @@ export const VerifyFactorRequest = /*@__PURE__*/ S.suspend(() =>
     tokenLifetimeSeconds: S.optional(S.Number.pipe(T.Query())),
     body: S.optional(UserFactorVerifyRequest.pipe(T.HttpBody())),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v1/users/{userId}/factors/{factorId}/verify",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/api/v1/users/{userId}/factors/{factorId}/verify", code: 200 }),
   ),
-).annotate({
-  identifier: "VerifyFactorRequest",
-}) as any as S.Schema<VerifyFactorRequest>;
+).annotate({ identifier: "VerifyFactorRequest" }) as any as S.Schema<VerifyFactorRequest>;
 
 /** Result of a factor verification */
 export type UserFactorVerifyResult =
@@ -37279,20 +34967,16 @@ export type UserFactorVerifyResult =
   | "TIME_WINDOW_EXCEEDED";
 export const UserFactorVerifyResult = S.String;
 
-export type UserFactorVerifyResponseProfileMap = {
-  [key: string]: unknown | undefined;
-};
+export type UserFactorVerifyResponseProfileMap = { [key: string]: unknown | undefined };
 export const UserFactorVerifyResponseProfileMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
 ) as any as S.Schema<UserFactorVerifyResponseProfileMap>;
 
-export type UserFactorVerifyResponseEmbeddedMap = {
-  [key: string]: unknown | undefined;
-};
+export type UserFactorVerifyResponseEmbeddedMap = { [key: string]: unknown | null | undefined };
 export const UserFactorVerifyResponseEmbeddedMap = /*@__PURE__*/ S.Record(
   S.String,
-  S.Unknown,
+  S.NullOr(S.Unknown),
 ) as any as S.Schema<UserFactorVerifyResponseEmbeddedMap>;
 
 export interface UserFactorVerifyResponse {
@@ -37314,9 +34998,7 @@ export const UserFactorVerifyResponse = /*@__PURE__*/ S.suspend(() =>
     _embedded: S.optional(UserFactorVerifyResponseEmbeddedMap),
     _links: S.optional(UserFactorLinks),
   }),
-).annotate({
-  identifier: "UserFactorVerifyResponse",
-}) as any as S.Schema<UserFactorVerifyResponse>;
+).annotate({ identifier: "UserFactorVerifyResponse" }) as any as S.Schema<UserFactorVerifyResponse>;
 
 /** Application name for the provisioning connection */
 export type VerifyProvisioningConnectionForApplicationRequestAppName =
@@ -37340,11 +35022,7 @@ export const VerifyProvisioningConnectionForApplicationRequest = /*@__PURE__*/ S
     code: S.optional(S.String.pipe(T.Query())),
     state: S.optional(S.String.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v1/apps/{appName}/{appId}/oauth2/callback",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/api/v1/apps/{appName}/{appId}/oauth2/callback", code: 200 }),
   ),
 ).annotate({
   identifier: "VerifyProvisioningConnectionForApplicationRequest",
@@ -37378,9 +35056,7 @@ export const VerifyRpIdDomainRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "VerifyRpIdDomainRequest",
-}) as any as S.Schema<VerifyRpIdDomainRequest>;
+).annotate({ identifier: "VerifyRpIdDomainRequest" }) as any as S.Schema<VerifyRpIdDomainRequest>;
 
 export interface VerifyRpIdDomainResponse {}
 export const VerifyRpIdDomainResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -37397,16 +35073,8 @@ export const VerifySsfStreamRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     state: S.optional(S.String),
     stream_id: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/v1/ssf/stream/verification",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "VerifySsfStreamRequest",
-}) as any as S.Schema<VerifySsfStreamRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/api/v1/ssf/stream/verification", code: 200 })),
+).annotate({ identifier: "VerifySsfStreamRequest" }) as any as S.Schema<VerifySsfStreamRequest>;
 
 export interface VerifySsfStreamResponse {}
 export const VerifySsfStreamResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -44928,21 +42596,6 @@ export const listOrgContactTypes: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type ListPersonalAppsExportBlockListError = Forbidden | NotFound | OktaOpError;
-/** List all blocked email domains Lists all blocked email domains which are excluded from app migration */
-export const listPersonalAppsExportBlockList: API.OperationMethod<
-  ListPersonalAppsExportBlockListRequest,
-  PersonalAppsBlockList,
-  ListPersonalAppsExportBlockListError,
-  OktaOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: ListPersonalAppsExportBlockListRequest,
-  output: PersonalAppsBlockList,
-  errors: [Forbidden, NotFound, UnknownOktaError],
-  protocol: OktaProtocol,
-  retry: Retry.Retry,
-}));
-
 export type ListPoliciesError = Forbidden | OktaOpError;
 /** List all policies Lists all policies with the specified type */
 export const listPolicies: API.OperationMethod<
@@ -45835,21 +43488,6 @@ export const replaceBehaviorDetectionRule: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type ReplaceBlockedEmailDomainsError = Forbidden | NotFound | OktaOpError;
-/** Replace the blocked email domains Replaces the list of blocked email domains which are excluded from app migration */
-export const replaceBlockedEmailDomains: API.OperationMethod<
-  ReplaceBlockedEmailDomainsRequest,
-  ReplaceBlockedEmailDomainsResponse,
-  ReplaceBlockedEmailDomainsError,
-  OktaOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: ReplaceBlockedEmailDomainsRequest,
-  output: ReplaceBlockedEmailDomainsResponse,
-  errors: [Forbidden, NotFound, UnknownOktaError],
-  protocol: OktaProtocol,
-  retry: Retry.Retry,
-}));
-
 export type ReplaceBrandError = BadRequest | Forbidden | NotFound | OktaOpError;
 /** Replace a brand Replaces a brand by `brandId` Passing an invalid `brandId` returns a `404 Not Found` status code with the error code `E0000007`. Not providing `agreeToCustomPrivacyPolicy` with `customPrivacyPolicyUrl` returns a `400 Bad Request` status code with the error code `E0000001`. */
 export const replaceBrand: API.OperationMethod<
@@ -46277,21 +43915,6 @@ export const replaceOAuth2Scope: API.OperationMethod<
   input: ReplaceOAuth2ScopeRequest,
   output: OAuth2Scope,
   errors: [BadRequest, Forbidden, NotFound, UnknownOktaError],
-  protocol: OktaProtocol,
-  retry: Retry.Retry,
-}));
-
-export type ReplaceOktaPersonalAdminSettingsError = Forbidden | NotFound | OktaOpError;
-/** Replace the Okta Personal admin settings Replaces Okta Personal admin settings in a Workforce org */
-export const replaceOktaPersonalAdminSettings: API.OperationMethod<
-  ReplaceOktaPersonalAdminSettingsRequest,
-  ReplaceOktaPersonalAdminSettingsResponse,
-  ReplaceOktaPersonalAdminSettingsError,
-  OktaOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: ReplaceOktaPersonalAdminSettingsRequest,
-  output: ReplaceOktaPersonalAdminSettingsResponse,
-  errors: [Forbidden, NotFound, UnknownOktaError],
   protocol: OktaProtocol,
   retry: Retry.Retry,
 }));

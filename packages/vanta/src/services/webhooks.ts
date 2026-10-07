@@ -50,9 +50,7 @@ export const V1ControlCommentCreatedRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface V1ControlCommentCreatedResponse {}
 export const V1ControlCommentCreatedResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "V1ControlCommentCreatedResponse",
-  },
+  { identifier: "V1ControlCommentCreatedResponse" },
 ) as any as S.Schema<V1ControlCommentCreatedResponse>;
 
 export interface V1ControlCommentDeletedRequestControl {
@@ -88,9 +86,7 @@ export const V1ControlCommentDeletedRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface V1ControlCommentDeletedResponse {}
 export const V1ControlCommentDeletedResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "V1ControlCommentDeletedResponse",
-  },
+  { identifier: "V1ControlCommentDeletedResponse" },
 ) as any as S.Schema<V1ControlCommentDeletedResponse>;
 
 export interface V1ControlCommentUpdatedRequestControl {
@@ -126,9 +122,7 @@ export const V1ControlCommentUpdatedRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface V1ControlCommentUpdatedResponse {}
 export const V1ControlCommentUpdatedResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "V1ControlCommentUpdatedResponse",
-  },
+  { identifier: "V1ControlCommentUpdatedResponse" },
 ) as any as S.Schema<V1ControlCommentUpdatedResponse>;
 
 export interface V1EvidenceCommentCreatedRequestEvidence {
@@ -233,9 +227,7 @@ export const V1EvidenceCreatedRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     evidence: V1EvidenceCommentCreatedRequestEvidence,
   }).pipe(T.Http({ method: "POST", uri: "/v1.evidence.created", code: 200 })),
-).annotate({
-  identifier: "V1EvidenceCreatedRequest",
-}) as any as S.Schema<V1EvidenceCreatedRequest>;
+).annotate({ identifier: "V1EvidenceCreatedRequest" }) as any as S.Schema<V1EvidenceCreatedRequest>;
 
 export interface V1EvidenceCreatedResponse {}
 export const V1EvidenceCreatedResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -254,9 +246,7 @@ export const V1EvidenceDeletedRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     evidence: V1EvidenceCommentCreatedRequestEvidence,
   }).pipe(T.Http({ method: "POST", uri: "/v1.evidence.deleted", code: 200 })),
-).annotate({
-  identifier: "V1EvidenceDeletedRequest",
-}) as any as S.Schema<V1EvidenceDeletedRequest>;
+).annotate({ identifier: "V1EvidenceDeletedRequest" }) as any as S.Schema<V1EvidenceDeletedRequest>;
 
 export interface V1EvidenceDeletedResponse {}
 export const V1EvidenceDeletedResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -317,9 +307,7 @@ export const V1EvidenceStatusChangedRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface V1EvidenceStatusChangedResponse {}
 export const V1EvidenceStatusChangedResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "V1EvidenceStatusChangedResponse",
-  },
+  { identifier: "V1EvidenceStatusChangedResponse" },
 ) as any as S.Schema<V1EvidenceStatusChangedResponse>;
 
 export interface V1InformationRequestCommentCreatedRequestInformationRequest {
@@ -351,13 +339,7 @@ export const V1InformationRequestCommentCreatedRequest = /*@__PURE__*/ S.suspend
   S.Struct({
     informationRequest: V1InformationRequestCommentCreatedRequestInformationRequest,
     comment: V1ControlCommentCreatedRequestComment,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v1.information-request.comment.created",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/v1.information-request.comment.created", code: 200 })),
 ).annotate({
   identifier: "V1InformationRequestCommentCreatedRequest",
 }) as any as S.Schema<V1InformationRequestCommentCreatedRequest>;
@@ -387,13 +369,7 @@ export const V1InformationRequestCommentDeletedRequest = /*@__PURE__*/ S.suspend
   S.Struct({
     informationRequest: V1InformationRequestCommentCreatedRequestInformationRequest,
     comment: V1ControlCommentCreatedRequestComment,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v1.information-request.comment.deleted",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/v1.information-request.comment.deleted", code: 200 })),
 ).annotate({
   identifier: "V1InformationRequestCommentDeletedRequest",
 }) as any as S.Schema<V1InformationRequestCommentDeletedRequest>;
@@ -423,13 +399,7 @@ export const V1InformationRequestCommentUpdatedRequest = /*@__PURE__*/ S.suspend
   S.Struct({
     informationRequest: V1InformationRequestCommentCreatedRequestInformationRequest,
     comment: V1ControlCommentCreatedRequestComment,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v1.information-request.comment.updated",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/v1.information-request.comment.updated", code: 200 })),
 ).annotate({
   identifier: "V1InformationRequestCommentUpdatedRequest",
 }) as any as S.Schema<V1InformationRequestCommentUpdatedRequest>;
@@ -466,13 +436,7 @@ export const V1InformationRequestEvidenceCreatedRequest = /*@__PURE__*/ S.suspen
   S.Struct({
     informationRequest: V1InformationRequestCommentCreatedRequestInformationRequest,
     evidence: V1InformationRequestEvidenceCreatedRequestEvidence,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v1.information-request.evidence.created",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/v1.information-request.evidence.created", code: 200 })),
 ).annotate({
   identifier: "V1InformationRequestEvidenceCreatedRequest",
 }) as any as S.Schema<V1InformationRequestEvidenceCreatedRequest>;
@@ -502,13 +466,7 @@ export const V1InformationRequestEvidenceDeletedRequest = /*@__PURE__*/ S.suspen
   S.Struct({
     informationRequest: V1InformationRequestCommentCreatedRequestInformationRequest,
     evidence: V1InformationRequestEvidenceCreatedRequestEvidence,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v1.information-request.evidence.deleted",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/v1.information-request.evidence.deleted", code: 200 })),
 ).annotate({
   identifier: "V1InformationRequestEvidenceDeletedRequest",
 }) as any as S.Schema<V1InformationRequestEvidenceDeletedRequest>;
@@ -564,13 +522,7 @@ export interface V1InformationRequestStatusChangedRequest {
 export const V1InformationRequestStatusChangedRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     informationRequest: V1InformationRequestStatusChangedRequestInformationRequest,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v1.information-request.status-changed",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/v1.information-request.status-changed", code: 200 })),
 ).annotate({
   identifier: "V1InformationRequestStatusChangedRequest",
 }) as any as S.Schema<V1InformationRequestStatusChangedRequest>;
@@ -675,13 +627,7 @@ export const V1QuestionnaireExportCompletedRequest = /*@__PURE__*/ S.suspend(() 
   S.Struct({
     questionnaire: V1QuestionnaireExportCompletedRequestQuestionnaire,
     export: V1QuestionnaireExportCompletedRequestExport,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v1.questionnaire.export-completed",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/v1.questionnaire.export-completed", code: 200 })),
 ).annotate({
   identifier: "V1QuestionnaireExportCompletedRequest",
 }) as any as S.Schema<V1QuestionnaireExportCompletedRequest>;
@@ -734,13 +680,7 @@ export const V1QuestionnaireExportFailedRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     questionnaire: V1QuestionnaireExportCompletedRequestQuestionnaire,
     export: V1QuestionnaireExportFailedRequestExport,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v1.questionnaire.export-failed",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/v1.questionnaire.export-failed", code: 200 })),
 ).annotate({
   identifier: "V1QuestionnaireExportFailedRequest",
 }) as any as S.Schema<V1QuestionnaireExportFailedRequest>;
@@ -794,13 +734,7 @@ export interface V1QuestionnaireStatusChangedRequest {
 export const V1QuestionnaireStatusChangedRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     questionnaire: V1QuestionnaireStatusChangedRequestQuestionnaire,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v1.questionnaire.status-changed",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/v1.questionnaire.status-changed", code: 200 })),
 ).annotate({
   identifier: "V1QuestionnaireStatusChangedRequest",
 }) as any as S.Schema<V1QuestionnaireStatusChangedRequest>;
@@ -858,13 +792,7 @@ export const V1TrustCenterAccessRequestApprovedRequest = /*@__PURE__*/ S.suspend
     trustCenter: V1TrustCenterAccessRequestApprovedRequestTrustCenter,
     accessRequest: V1TrustCenterAccessRequestApprovedRequestAccessRequest,
     viewer: V1TrustCenterAccessRequestApprovedRequestViewer,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v1.trust-center.access-request.approved",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/v1.trust-center.access-request.approved", code: 200 })),
 ).annotate({
   identifier: "V1TrustCenterAccessRequestApprovedRequest",
 }) as any as S.Schema<V1TrustCenterAccessRequestApprovedRequest>;
@@ -894,13 +822,7 @@ export const V1TrustCenterAccessRequestDeniedRequest = /*@__PURE__*/ S.suspend((
   S.Struct({
     trustCenter: V1TrustCenterAccessRequestApprovedRequestTrustCenter,
     accessRequest: V1TrustCenterAccessRequestApprovedRequestAccessRequest,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v1.trust-center.access-request.denied",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/v1.trust-center.access-request.denied", code: 200 })),
 ).annotate({
   identifier: "V1TrustCenterAccessRequestDeniedRequest",
 }) as any as S.Schema<V1TrustCenterAccessRequestDeniedRequest>;
@@ -930,13 +852,7 @@ export const V1TrustCenterAccessRequestReceivedRequest = /*@__PURE__*/ S.suspend
   S.Struct({
     trustCenter: V1TrustCenterAccessRequestApprovedRequestTrustCenter,
     accessRequest: V1TrustCenterAccessRequestApprovedRequestAccessRequest,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v1.trust-center.access-request.received",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/v1.trust-center.access-request.received", code: 200 })),
 ).annotate({
   identifier: "V1TrustCenterAccessRequestReceivedRequest",
 }) as any as S.Schema<V1TrustCenterAccessRequestReceivedRequest>;
@@ -1000,9 +916,7 @@ export const V1VendorDecisionCreatedRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface V1VendorDecisionCreatedResponse {}
 export const V1VendorDecisionCreatedResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "V1VendorDecisionCreatedResponse",
-  },
+  { identifier: "V1VendorDecisionCreatedResponse" },
 ) as any as S.Schema<V1VendorDecisionCreatedResponse>;
 
 export type V1ControlCommentCreatedError = VantaOpError;
@@ -1096,7 +1010,7 @@ export const v1EvidenceCommentUpdated: API.OperationMethod<
 }));
 
 export type V1EvidenceCreatedError = VantaOpError;
-/** Evidence created Fires when an audit evidence item comes into scope for an audit, including when a previously removed item re-enters scope after soft-delete. Evidence items are derived from the customer's compliance program, so this event means "a new item is now in scope for this audit", not "a customer uploaded a file". A brand-new item starts in `NOT_READY_FOR_AUDIT` with no files; wait for [`v1.evidence.status-changed`](/reference/webhooks/v1-evidence-status-changed) before requesting URLs. A re-scoped item retains its previous status and files. It may already be in `READY_FOR_AUDIT` or another state, and no follow-up status-change event is guaranteed. **This event does not replace the initial sync.** Items can come into scope from the moment the audit exists, which is normally before your access to the audit begins, and events from before that point are not delivered or replayed. Always perform a full traversal of `GET /audits/{auditId}/evidence` when you first pick up an audit, then rely on this event for items that come into scope afterwards. */
+/** Evidence created Fires when an audit evidence item comes into scope for an audit, including when a previously removed item re-enters scope after soft-delete. Evidence items are derived from the customer's compliance program, so this event means "a new item is now in scope for this audit", not "a customer uploaded a file". A brand-new item starts in `NOT_READY_FOR_AUDIT` with no files; wait for [`v1.evidence.status-changed`](/api-reference/evidence/evidence-status-changed) before requesting URLs. A re-scoped item retains its previous status and files. It may already be in `READY_FOR_AUDIT` or another state, and no follow-up status-change event is guaranteed. **This event does not replace the initial sync.** Items can come into scope from the moment the audit exists, which is normally before your access to the audit begins, and events from before that point are not delivered or replayed. Always perform a full traversal of `GET /audits/{auditId}/evidence` when you first pick up an audit, then rely on this event for items that come into scope afterwards. */
 export const v1EvidenceCreated: API.OperationMethod<
   V1EvidenceCreatedRequest,
   V1EvidenceCreatedResponse,
@@ -1111,7 +1025,7 @@ export const v1EvidenceCreated: API.OperationMethod<
 }));
 
 export type V1EvidenceDeletedError = VantaOpError;
-/** Evidence deleted Fires when an audit evidence item leaves scope for an audit. Fires once per item. The item is soft-deleted rather than removed: `GET /audits/{auditId}/evidence` still returns it, with a non-null `deletionDate`. Stop requesting URLs for the item. If the item later returns to scope, Vanta emits a fresh [`v1.evidence.created`](/reference/webhooks/v1-evidence-created) event and clears `deletionDate`. */
+/** Evidence deleted Fires when an audit evidence item leaves scope for an audit. Fires once per item. The item is soft-deleted rather than removed: `GET /audits/{auditId}/evidence` still returns it, with a non-null `deletionDate`. Stop requesting URLs for the item. If the item later returns to scope, Vanta emits a fresh [`v1.evidence.created`](/api-reference/evidence/evidence-created) event and clears `deletionDate`. */
 export const v1EvidenceDeleted: API.OperationMethod<
   V1EvidenceDeletedRequest,
   V1EvidenceDeletedResponse,
@@ -1126,7 +1040,7 @@ export const v1EvidenceDeleted: API.OperationMethod<
 }));
 
 export type V1EvidenceStatusChangedError = VantaOpError;
-/** Evidence status changed Fires when an existing audit evidence item changes status. `oldStatus` and `newStatus` always describe a transition of an item that already exists. See [`v1.evidence.created`](/reference/webhooks/v1-evidence-created) for the event that fires when an item first comes into scope for an audit. **Ready-to-review signal:** a `newStatus` of `READY_FOR_AUDIT` means the customer has provided evidence for the item and it is ready for the auditor to review. **When it fires:** once per evidence item, each time its status changes. Status can also change on its own as the customer's compliance posture changes, so an item may move from `READY_FOR_AUDIT` back to `NOT_READY_FOR_AUDIT` without an explicit auditor action. `oldStatus` and `newStatus` can be equal. A newly detected document re-fires this event with both fields set to the item's current status (for example, `READY_FOR_AUDIT`, `ACCEPTED`, or `FLAGGED`). Treat that as a signal that the item's files may have changed and re-fetch its URLs. Do not discard events where the status is unchanged. **Status values:** - `NOT_READY_FOR_AUDIT` — the item is not yet ready for the auditor; required evidence is missing or does not meet the requirement. - `READY_FOR_AUDIT` — the customer has provided the evidence and it is ready for the auditor to review. - `ACCEPTED` — the auditor reviewed the item and accepted it. - `FLAGGED` — the auditor reviewed the item and flagged an issue for the customer to address; once the customer addresses it the item returns to `READY_FOR_AUDIT`. - `NA` — the item is not applicable to this audit. A typical lifecycle is `NOT_READY_FOR_AUDIT → READY_FOR_AUDIT → ACCEPTED` (or `→ FLAGGED`, which returns to `READY_FOR_AUDIT` once the customer addresses the issue). `INITIALIZED` is an internal status and is never delivered — `oldStatus` and `newStatus` are always one of the values above. */
+/** Evidence status changed Fires when an existing audit evidence item changes status. `oldStatus` and `newStatus` always describe a transition of an item that already exists. See [`v1.evidence.created`](/api-reference/evidence/evidence-created) for the event that fires when an item first comes into scope for an audit. **Ready-to-review signal:** a `newStatus` of `READY_FOR_AUDIT` means the customer has provided evidence for the item and it is ready for the auditor to review. **When it fires:** once per evidence item, each time its status changes. Status can also change on its own as the customer's compliance posture changes, so an item may move from `READY_FOR_AUDIT` back to `NOT_READY_FOR_AUDIT` without an explicit auditor action. `oldStatus` and `newStatus` can be equal. A newly detected document re-fires this event with both fields set to the item's current status (for example, `READY_FOR_AUDIT`, `ACCEPTED`, or `FLAGGED`). Treat that as a signal that the item's files may have changed and re-fetch its URLs. Do not discard events where the status is unchanged. **Status values:** - `NOT_READY_FOR_AUDIT` — the item is not yet ready for the auditor; required evidence is missing or does not meet the requirement. - `READY_FOR_AUDIT` — the customer has provided the evidence and it is ready for the auditor to review. - `ACCEPTED` — the auditor reviewed the item and accepted it. - `FLAGGED` — the auditor reviewed the item and flagged an issue for the customer to address; once the customer addresses it the item returns to `READY_FOR_AUDIT`. - `NA` — the item is not applicable to this audit. A typical lifecycle is `NOT_READY_FOR_AUDIT → READY_FOR_AUDIT → ACCEPTED` (or `→ FLAGGED`, which returns to `READY_FOR_AUDIT` once the customer addresses the issue). `INITIALIZED` is an internal status and is never delivered — `oldStatus` and `newStatus` are always one of the values above. */
 export const v1EvidenceStatusChanged: API.OperationMethod<
   V1EvidenceStatusChangedRequest,
   V1EvidenceStatusChangedResponse,
@@ -1141,7 +1055,7 @@ export const v1EvidenceStatusChanged: API.OperationMethod<
 }));
 
 export type V1InformationRequestCommentCreatedError = VantaOpError;
-/** Information request comment created Fires when a comment is created on an information request. Fires once per comment. The payload contains only identifiers; fetch the comment body from the information request comments endpoint (`GET /v1/audits/{auditId}/information-requests/{requestId}/comments`). */
+/** Information request comment created Fires when a comment is created on an information request. Fires once per comment. Fetch the comment body with `GET /v1/audits/{auditId}/information-requests/{requestId}/comments/{commentId}`. The information request may be deleted between this event and your fetch. If the fetch returns a 4xx HTTP error, check the request's `deletionDate` in the information-request list. If set, treat the request and all its comments and evidence as deleted in your system. */
 export const v1InformationRequestCommentCreated: API.OperationMethod<
   V1InformationRequestCommentCreatedRequest,
   V1InformationRequestCommentCreatedResponse,
@@ -1156,7 +1070,7 @@ export const v1InformationRequestCommentCreated: API.OperationMethod<
 }));
 
 export type V1InformationRequestCommentDeletedError = VantaOpError;
-/** Information request comment deleted Fires when a comment is deleted from an information request. Fires once per comment deletion. The payload contains only identifiers; the deleted comment is still returned by the information request comments endpoint (`GET /v1/audits/{auditId}/information-requests/{requestId}/comments`) as a soft-deleted record with a non-null `deletionDate`. */
+/** Information request comment deleted Fires once when a comment is deleted from an information request. Remove the comment from your system using the IDs in this event. */
 export const v1InformationRequestCommentDeleted: API.OperationMethod<
   V1InformationRequestCommentDeletedRequest,
   V1InformationRequestCommentDeletedResponse,
@@ -1171,7 +1085,7 @@ export const v1InformationRequestCommentDeleted: API.OperationMethod<
 }));
 
 export type V1InformationRequestCommentUpdatedError = VantaOpError;
-/** Information request comment updated Fires when a comment on an information request is updated. Fires once per comment update. The payload contains only identifiers; fetch the current comment body from the information request comments endpoint (`GET /v1/audits/{auditId}/information-requests/{requestId}/comments`). */
+/** Information request comment updated Fires when a comment on an information request is updated. Fires once per comment update. Fetch the comment body with `GET /v1/audits/{auditId}/information-requests/{requestId}/comments/{commentId}`. The information request may be deleted between this event and your fetch. If the fetch returns a 4xx HTTP error, check the request's `deletionDate` in the information-request list. If set, treat the request and all its comments and evidence as deleted in your system. */
 export const v1InformationRequestCommentUpdated: API.OperationMethod<
   V1InformationRequestCommentUpdatedRequest,
   V1InformationRequestCommentUpdatedResponse,

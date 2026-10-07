@@ -70,28 +70,24 @@ export const AuthorizationCodeParams = /*@__PURE__*/ S.suspend(() =>
     code: S.String,
     grant_type: AuthorizationCodeParamsGrantType,
   }),
-).annotate({
-  identifier: "AuthorizationCodeParams",
-}) as any as S.Schema<AuthorizationCodeParams>;
+).annotate({ identifier: "AuthorizationCodeParams" }) as any as S.Schema<AuthorizationCodeParams>;
 
 /** The Authorization flow */
 export type ClientCredentialsParamsGrantType = "client_credentials";
 export const ClientCredentialsParamsGrantType = S.String;
 
 export interface ClientCredentialsParams {
-  /** The client id generated during registration */
-  client_id: string;
+  /** The client id generated during registration. Optional here - it can instead be sent via the Basic auth header, which is always required for this grant type. */
+  client_id?: string;
   /** The Authorization flow */
   grant_type: ClientCredentialsParamsGrantType;
 }
 export const ClientCredentialsParams = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    client_id: S.String,
+    client_id: S.optional(S.String),
     grant_type: ClientCredentialsParamsGrantType,
   }),
-).annotate({
-  identifier: "ClientCredentialsParams",
-}) as any as S.Schema<ClientCredentialsParams>;
+).annotate({ identifier: "ClientCredentialsParams" }) as any as S.Schema<ClientCredentialsParams>;
 
 /** The Authorization flow */
 export type RefreshTokenParamsGrantType = "refresh_token";
@@ -108,9 +104,7 @@ export const RefreshTokenParams = /*@__PURE__*/ S.suspend(() =>
     grant_type: RefreshTokenParamsGrantType,
     refresh_token: S.String.pipe(T.SensitiveValue({})),
   }),
-).annotate({
-  identifier: "RefreshTokenParams",
-}) as any as S.Schema<RefreshTokenParams>;
+).annotate({ identifier: "RefreshTokenParams" }) as any as S.Schema<RefreshTokenParams>;
 
 /** The Assertion flow grant type */
 export type AssertionTokenParamsGrantType = "urn:ietf:params:oauth:grant-type:jwt-bearer";
@@ -128,9 +122,7 @@ export const AssertionTokenParams = /*@__PURE__*/ S.suspend(() =>
     assertion: S.String,
     grant_type: AssertionTokenParamsGrantType,
   }),
-).annotate({
-  identifier: "AssertionTokenParams",
-}) as any as S.Schema<AssertionTokenParams>;
+).annotate({ identifier: "AssertionTokenParams" }) as any as S.Schema<AssertionTokenParams>;
 
 export type OAuth2TokenParams =
   | AuthorizationCodeParams
@@ -191,9 +183,7 @@ export const BaseTokenResponse = /*@__PURE__*/ S.suspend(() =>
     expires_in: S.optional(S.Number),
     token_type: S.optional(S.String),
   }),
-).annotate({
-  identifier: "BaseTokenResponse",
-}) as any as S.Schema<BaseTokenResponse>;
+).annotate({ identifier: "BaseTokenResponse" }) as any as S.Schema<BaseTokenResponse>;
 
 export interface RefreshTokenResponse {
   /** A JWT token. */
@@ -212,9 +202,7 @@ export const RefreshTokenResponse = /*@__PURE__*/ S.suspend(() =>
     token_type: S.optional(S.String),
     refresh_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
   }),
-).annotate({
-  identifier: "RefreshTokenResponse",
-}) as any as S.Schema<RefreshTokenResponse>;
+).annotate({ identifier: "RefreshTokenResponse" }) as any as S.Schema<RefreshTokenResponse>;
 
 export type OAuth2Tokens = AuthorizationCodeResponse | BaseTokenResponse | RefreshTokenResponse;
 export const OAuth2Tokens = S.Unknown as any as S.Schema<OAuth2Tokens>;
@@ -264,9 +252,7 @@ export const CreateBulkEmploymentJobRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface CreateBulkEmploymentJobResponse {}
 export const CreateBulkEmploymentJobResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "CreateBulkEmploymentJobResponse",
-  },
+  { identifier: "CreateBulkEmploymentJobResponse" },
 ) as any as S.Schema<CreateBulkEmploymentJobResponse>;
 
 /** Use latest version */
@@ -336,12 +322,12 @@ export interface CreateCompanyRequest {
   name: string;
   /** A phone number the company can be contacted with. */
   phone_number?: string;
-  /** The company registration number. This field or `tax_number` (but not both) should be submitted. */
-  registration_number?: string;
-  /** The tax identifier of the company. This field or `registration_number` (but not both) should be submitted. */
-  tax_number?: string;
   /** Date and time the Terms of Service were accepted. To ensure users read the most recent version of Remote's Terms of Service, their action cannot have been done more than fifteen minutes ago. The UTC offset must be included in the ISO 8601 format: `YYYY-MM-DD HOURS:MINUTES:SECONDSZ` */
   terms_of_service_accepted_at: string;
+  /** The tax identifier of the company. Exactly one of this field or `registration_number` must be submitted, not both. */
+  tax_number?: string;
+  /** The company registration number. Exactly one of this field or `tax_number` must be submitted, not both. */
+  registration_number?: string;
 }
 export const CreateCompanyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -364,13 +350,11 @@ export const CreateCompanyRequest = /*@__PURE__*/ S.suspend(() =>
     external_id: S.optional(S.String),
     name: S.String,
     phone_number: S.optional(S.String),
-    registration_number: S.optional(S.String),
-    tax_number: S.optional(S.String),
     terms_of_service_accepted_at: S.String,
+    tax_number: S.optional(S.String),
+    registration_number: S.optional(S.String),
   }).pipe(T.Http({ method: "POST", uri: "/v1/companies", code: 200 })),
-).annotate({
-  identifier: "CreateCompanyRequest",
-}) as any as S.Schema<CreateCompanyRequest>;
+).annotate({ identifier: "CreateCompanyRequest" }) as any as S.Schema<CreateCompanyRequest>;
 
 /** The credit risk status of the company default legal entity. - `not_started`: The credit risk assessment has not started yet. - `ready`: The credit risk assessment is ready to be started. - `in_progress`: The automated credit risk assessment is in progress. - `referred`: The credit risk assessment has been referred to a human reviewer. - `fail`: The credit risk assessment has failed and the company will be archived. - `deposit_required`: The company default legal entity requires a deposit before onboarding new employees. - `no_deposit_required`: The company default legal entity does not require a deposit before onboarding new employees. */
 export type CompanyDefaultLegalEntityCreditRiskStatus =
@@ -455,9 +439,7 @@ export const CompanyResponseData = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     company: S.optional(Company),
   }),
-).annotate({
-  identifier: "CompanyResponseData",
-}) as any as S.Schema<CompanyResponseData>;
+).annotate({ identifier: "CompanyResponseData" }) as any as S.Schema<CompanyResponseData>;
 
 /** Shows a company */
 export interface CompanyResponse {
@@ -467,9 +449,7 @@ export const CompanyResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     data: CompanyResponseData,
   }),
-).annotate({
-  identifier: "CompanyResponse",
-}) as any as S.Schema<CompanyResponse>;
+).annotate({ identifier: "CompanyResponse" }) as any as S.Schema<CompanyResponse>;
 
 /** Shows a company with its refresh and access tokens. Please contact Remote if you need the tokens when creating a company. */
 export interface CompanyWithTokensResponse {
@@ -496,9 +476,7 @@ export const CompanyCreationResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     data: S.optional(CompanyCreationResponseData),
   }),
-).annotate({
-  identifier: "CompanyCreationResponse",
-}) as any as S.Schema<CompanyCreationResponse>;
+).annotate({ identifier: "CompanyCreationResponse" }) as any as S.Schema<CompanyCreationResponse>;
 
 export interface CreateCompanyCreateTokenRequest {
   /** The ID of the company */
@@ -510,13 +488,7 @@ export const CreateCompanyCreateTokenRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     company_id: S.String.pipe(T.Label()),
     scope: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v1/companies/{company_id}/create-token",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/v1/companies/{company_id}/create-token", code: 200 })),
 ).annotate({
   identifier: "CreateCompanyCreateTokenRequest",
 }) as any as S.Schema<CreateCompanyCreateTokenRequest>;
@@ -536,9 +508,7 @@ export const CompanyTokenResponse = /*@__PURE__*/ S.suspend(() =>
     expires_in: S.Number,
     refresh_token: S.String.pipe(T.SensitiveValue({})),
   }),
-).annotate({
-  identifier: "CompanyTokenResponse",
-}) as any as S.Schema<CompanyTokenResponse>;
+).annotate({ identifier: "CompanyTokenResponse" }) as any as S.Schema<CompanyTokenResponse>;
 
 export interface CreateCompanyDepartmentRequest {
   /** The Company ID. Required in all cases, whether the API credentials have access to multiple companies or just one. */
@@ -569,9 +539,7 @@ export const CompanyDepartment = /*@__PURE__*/ S.suspend(() =>
     id: S.String,
     name: S.String,
   }),
-).annotate({
-  identifier: "CompanyDepartment",
-}) as any as S.Schema<CompanyDepartment>;
+).annotate({ identifier: "CompanyDepartment" }) as any as S.Schema<CompanyDepartment>;
 
 export interface CompanyDepartmentCreatedResponse {
   company_department?: CompanyDepartment;
@@ -664,9 +632,7 @@ export const CompanyManagerData = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     company_manager: CompanyManager,
   }),
-).annotate({
-  identifier: "CompanyManagerData",
-}) as any as S.Schema<CompanyManagerData>;
+).annotate({ identifier: "CompanyManagerData" }) as any as S.Schema<CompanyManagerData>;
 
 /** Parameters for creating a pricing plan without a partner template */
 export interface CreatePricingPlanWithoutPartnerTemplateParams {
@@ -718,13 +684,7 @@ export const CreateCompanyPricingPlanRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     company_id: S.String.pipe(T.Label()),
     body: CreatePricingPlanParams.pipe(T.HttpBody()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v1/companies/{company_id}/pricing-plans",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/v1/companies/{company_id}/pricing-plans", code: 200 })),
 ).annotate({
   identifier: "CreateCompanyPricingPlanRequest",
 }) as any as S.Schema<CreateCompanyPricingPlanRequest>;
@@ -741,9 +701,7 @@ export const CurrencyDefinition = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     symbol: S.String,
   }),
-).annotate({
-  identifier: "CurrencyDefinition",
-}) as any as S.Schema<CurrencyDefinition>;
+).annotate({ identifier: "CurrencyDefinition" }) as any as S.Schema<CurrencyDefinition>;
 
 /** A monetary amount with its currency, used for pricing plan costs. */
 export interface Price {
@@ -905,9 +863,7 @@ export const SalaryDecreaseDetails = /*@__PURE__*/ S.suspend(() =>
     salary_decrease_reason_description: S.optional(S.NullOr(S.String)),
     was_employee_informed: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SalaryDecreaseDetails",
-}) as any as S.Schema<SalaryDecreaseDetails>;
+).annotate({ identifier: "SalaryDecreaseDetails" }) as any as S.Schema<SalaryDecreaseDetails>;
 
 /** The details of the requested changes for the contract amendment. */
 export interface RequestDetails {
@@ -963,9 +919,7 @@ export const ContractAmendment = /*@__PURE__*/ S.suspend(() =>
     submitted_at: S.String,
     zendesk_ticket_url: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "ContractAmendment",
-}) as any as S.Schema<ContractAmendment>;
+).annotate({ identifier: "ContractAmendment" }) as any as S.Schema<ContractAmendment>;
 
 export interface ContractAmendmentResponseData {
   contract_amendment: ContractAmendment;
@@ -1018,13 +972,7 @@ export const CreateContractAmendmentsAutomatableRequest = /*@__PURE__*/ S.suspen
     amendment_contract_id: S.String,
     contract_amendment: S.Unknown,
     employment_id: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v1/contract-amendments/automatable",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/v1/contract-amendments/automatable", code: 200 })),
 ).annotate({
   identifier: "CreateContractAmendmentsAutomatableRequest",
 }) as any as S.Schema<CreateContractAmendmentsAutomatableRequest>;
@@ -1055,6 +1003,12 @@ export const ContractAmendmentAutomatableResponse = /*@__PURE__*/ S.suspend(() =
 ).annotate({
   identifier: "ContractAmendmentAutomatableResponse",
 }) as any as S.Schema<ContractAmendmentAutomatableResponse>;
+
+/** The two calendar days of the month on which invoices are generated. Only applies when `periodicity` is `semi_monthly`; must be omitted (or `null`) for every other periodicity. When omitted for a `semi_monthly` schedule, the two days are derived from `start_date`: the start day and the day 14 days apart from it. Supply this field only to pick a cycle other than that default. One of the two days must be the day of `start_date`, the days must be distinct, and they cannot resolve to the same day within a month. */
+export type ContractorInvoiceScheduleCustomDays = Array<number>;
+export const ContractorInvoiceScheduleCustomDays = /*@__PURE__*/ S.Array(
+  S.Number,
+) as any as S.Schema<ContractorInvoiceScheduleCustomDays>;
 
 /** Line Item schema for a Contractor Invoice Schedule */
 export interface ContractorInvoiceScheduleItem {
@@ -1089,13 +1043,14 @@ export const ContractorInvoiceSchedulePeriodicity = S.String;
 /** Payload shape used to create invoice schedules. */
 export interface ContractorInvoiceScheduleCreateParams {
   currency: string | null;
+  custom_days?: ContractorInvoiceScheduleCustomDays | null;
   /** Employment identifier */
   employment_id: string;
   /** List of invoice items that composes the overall invoice amount. */
   items: ContractorInvoiceScheduleCreateParamsItemsList;
   /** Custom defined note. */
   note?: string;
-  /** Count of invoices that should be generated during schedule lifetime. */
+  /** Count of invoices that should be generated during schedule lifetime. Omit for a schedule that repeats indefinitely. A one-off invoice is expressed as `nr_occurrences: 1` — there is no `one_time` periodicity. Pair it with any `periodicity` (`monthly` is conventional); the schedule completes after its single invoice, so the cadence never applies. */
   nr_occurrences?: number;
   /** Invoice identifier. */
   number?: string;
@@ -1106,6 +1061,7 @@ export interface ContractorInvoiceScheduleCreateParams {
 export const ContractorInvoiceScheduleCreateParams = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     currency: S.NullOr(S.String),
+    custom_days: S.optional(S.NullOr(ContractorInvoiceScheduleCustomDays)),
     employment_id: S.String,
     items: ContractorInvoiceScheduleCreateParamsItemsList,
     note: S.optional(S.String),
@@ -1134,13 +1090,7 @@ export const CreateContractorInvoiceScheduleRequest = /*@__PURE__*/ S.suspend(()
   S.Struct({
     contractor_invoice_schedules:
       CreateContractorInvoiceScheduleRequestContractorInvoiceSchedulesList,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v1/contractor-invoice-schedules",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/v1/contractor-invoice-schedules", code: 200 })),
 ).annotate({
   identifier: "CreateContractorInvoiceScheduleRequest",
 }) as any as S.Schema<CreateContractorInvoiceScheduleRequest>;
@@ -1150,6 +1100,12 @@ export const ContractorInvoiceScheduleCreateResponseFailureErrorsCurrencyList =
   /*@__PURE__*/ S.Array(
     S.String,
   ) as any as S.Schema<ContractorInvoiceScheduleCreateResponseFailureErrorsCurrencyList>;
+
+export type ContractorInvoiceScheduleCreateResponseFailureErrorsCustomDaysList = Array<string>;
+export const ContractorInvoiceScheduleCreateResponseFailureErrorsCustomDaysList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<ContractorInvoiceScheduleCreateResponseFailureErrorsCustomDaysList>;
 
 export type ContractorInvoiceScheduleCreateResponseFailureErrorsEmploymentIdList = Array<string>;
 export const ContractorInvoiceScheduleCreateResponseFailureErrorsEmploymentIdList =
@@ -1222,6 +1178,7 @@ export const ContractorInvoiceScheduleCreateResponseFailureErrorsStartDateList =
 
 export interface ContractorInvoiceScheduleCreateResponseFailureErrors {
   currency?: ContractorInvoiceScheduleCreateResponseFailureErrorsCurrencyList;
+  custom_days?: ContractorInvoiceScheduleCreateResponseFailureErrorsCustomDaysList;
   employment_id?: ContractorInvoiceScheduleCreateResponseFailureErrorsEmploymentIdList;
   items?: ContractorInvoiceScheduleCreateResponseFailureErrorsItemsList;
   note?: ContractorInvoiceScheduleCreateResponseFailureErrorsNoteList;
@@ -1233,6 +1190,7 @@ export interface ContractorInvoiceScheduleCreateResponseFailureErrors {
 export const ContractorInvoiceScheduleCreateResponseFailureErrors = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     currency: S.optional(ContractorInvoiceScheduleCreateResponseFailureErrorsCurrencyList),
+    custom_days: S.optional(ContractorInvoiceScheduleCreateResponseFailureErrorsCustomDaysList),
     employment_id: S.optional(ContractorInvoiceScheduleCreateResponseFailureErrorsEmploymentIdList),
     items: S.optional(ContractorInvoiceScheduleCreateResponseFailureErrorsItemsList),
     note: S.optional(ContractorInvoiceScheduleCreateResponseFailureErrorsNoteList),
@@ -1257,6 +1215,7 @@ export const ContractorInvoiceScheduleCreateResponseFailureItemsList = /*@__PURE
 /** Set of invoice schedule attributes with failed validation. */
 export interface ContractorInvoiceScheduleCreateResponseFailure {
   currency: string | null;
+  custom_days?: ContractorInvoiceScheduleCustomDays | null;
   /** Employment identifier */
   employment_id: string;
   errors: ContractorInvoiceScheduleCreateResponseFailureErrors;
@@ -1264,7 +1223,7 @@ export interface ContractorInvoiceScheduleCreateResponseFailure {
   items: ContractorInvoiceScheduleCreateResponseFailureItemsList;
   /** Custom defined note. */
   note?: string;
-  /** Count of invoices that should be generated during schedule lifetime. */
+  /** Count of invoices that should be generated during schedule lifetime. Omit for a schedule that repeats indefinitely. A one-off invoice is expressed as `nr_occurrences: 1` — there is no `one_time` periodicity. Pair it with any `periodicity` (`monthly` is conventional); the schedule completes after its single invoice, so the cadence never applies. */
   nr_occurrences?: number;
   /** Invoice identifier. */
   number?: string;
@@ -1275,6 +1234,7 @@ export interface ContractorInvoiceScheduleCreateResponseFailure {
 export const ContractorInvoiceScheduleCreateResponseFailure = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     currency: S.NullOr(S.String),
+    custom_days: S.optional(S.NullOr(ContractorInvoiceScheduleCustomDays)),
     employment_id: S.String,
     errors: ContractorInvoiceScheduleCreateResponseFailureErrors,
     items: ContractorInvoiceScheduleCreateResponseFailureItemsList,
@@ -1304,6 +1264,7 @@ export const ContractorInvoiceScheduleCreateResponseSuccessItemsList = /*@__PURE
 /** Set of invoice schedule attributes that were successfully created. */
 export interface ContractorInvoiceScheduleCreateResponseSuccess {
   currency: string | null;
+  custom_days?: ContractorInvoiceScheduleCustomDays | null;
   /** Employment identifier */
   employment_id: string;
   id: string;
@@ -1311,7 +1272,7 @@ export interface ContractorInvoiceScheduleCreateResponseSuccess {
   items: ContractorInvoiceScheduleCreateResponseSuccessItemsList;
   /** Custom defined note. */
   note?: string;
-  /** Count of invoices that should be generated during schedule lifetime. */
+  /** Count of invoices that should be generated during schedule lifetime. Omit for a schedule that repeats indefinitely. A one-off invoice is expressed as `nr_occurrences: 1` — there is no `one_time` periodicity. Pair it with any `periodicity` (`monthly` is conventional); the schedule completes after its single invoice, so the cadence never applies. */
   nr_occurrences?: number;
   /** Invoice identifier. */
   number?: string;
@@ -1322,6 +1283,7 @@ export interface ContractorInvoiceScheduleCreateResponseSuccess {
 export const ContractorInvoiceScheduleCreateResponseSuccess = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     currency: S.NullOr(S.String),
+    custom_days: S.optional(S.NullOr(ContractorInvoiceScheduleCustomDays)),
     employment_id: S.String,
     id: S.String,
     items: ContractorInvoiceScheduleCreateResponseSuccessItemsList,
@@ -1404,13 +1366,7 @@ export const CreateContractorsEligibilityQuestionnaireRequest = /*@__PURE__*/ S.
     employment_slug: S.String,
     responses: CreateContractorsEligibilityQuestionnaireRequestResponsesMap,
     type: CreateContractorsEligibilityQuestionnaireRequestType,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v1/contractors/eligibility-questionnaire",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/v1/contractors/eligibility-questionnaire", code: 200 })),
 ).annotate({
   identifier: "CreateContractorsEligibilityQuestionnaireRequest",
 }) as any as S.Schema<CreateContractorsEligibilityQuestionnaireRequest>;
@@ -1438,9 +1394,7 @@ export const EligibilityQuestionnaire = /*@__PURE__*/ S.suspend(() =>
     submitted_at: S.String,
     type: EligibilityQuestionnaireType,
   }),
-).annotate({
-  identifier: "EligibilityQuestionnaire",
-}) as any as S.Schema<EligibilityQuestionnaire>;
+).annotate({ identifier: "EligibilityQuestionnaire" }) as any as S.Schema<EligibilityQuestionnaire>;
 
 export interface EligibilityQuestionnaireResponse {
   data: EligibilityQuestionnaire;
@@ -1477,8 +1431,12 @@ export const CreateContractorsEmploymentContractDocumentRequest = /*@__PURE__*/ 
   identifier: "CreateContractorsEmploymentContractDocumentRequest",
 }) as any as S.Schema<CreateContractorsEmploymentContractDocumentRequest>;
 
-/** The signing status of a contract document. - `draft`: The document is being prepared and has not been sent for signing. - `awaiting_signatures`: The document has been sent and is waiting for one or more parties to sign. - `finished`: All required signatures have been collected and the contract is fully executed. */
-export type ContractorContractDocumentStatus = "draft" | "awaiting_signatures" | "finished";
+/** The signing status of a contract document. - `draft`: The document is being prepared and has not been sent for signing. - `awaiting_signatures`: The document has been sent and is waiting for one or more parties to sign. - `deadline_passed`: The signing deadline passed before all required signatures were collected. - `finished`: All required signatures have been collected and the contract is fully executed. */
+export type ContractorContractDocumentStatus =
+  | "draft"
+  | "awaiting_signatures"
+  | "deadline_passed"
+  | "finished";
 export const ContractorContractDocumentStatus = S.String;
 
 /** A contract document for a contractor employment, tracking its signing status. */
@@ -1492,9 +1450,7 @@ export const ContractDocument = /*@__PURE__*/ S.suspend(() =>
     id: S.String,
     status: ContractorContractDocumentStatus,
   }),
-).annotate({
-  identifier: "ContractDocument",
-}) as any as S.Schema<ContractDocument>;
+).annotate({ identifier: "ContractDocument" }) as any as S.Schema<ContractDocument>;
 
 export interface CreateContractDocumentResponseData {
   contract_document: ContractDocument;
@@ -1551,9 +1507,7 @@ export const SuccessResponseData = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     status: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SuccessResponseData",
-}) as any as S.Schema<SuccessResponseData>;
+).annotate({ identifier: "SuccessResponseData" }) as any as S.Schema<SuccessResponseData>;
 
 /** A generic success response returned by operations that don't produce a specific resource (e.g., updates, deletes). */
 export interface SuccessResponse {
@@ -1563,9 +1517,7 @@ export const SuccessResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     data: SuccessResponseData,
   }),
-).annotate({
-  identifier: "SuccessResponse",
-}) as any as S.Schema<SuccessResponse>;
+).annotate({ identifier: "SuccessResponse" }) as any as S.Schema<SuccessResponse>;
 
 export interface CreateContractorsEmploymentContractorCorSubscriptionRequest {
   /** Employment ID */
@@ -1736,9 +1688,7 @@ export const HoursAndMinutes = /*@__PURE__*/ S.suspend(() =>
     hours: S.optional(S.Number),
     minutes: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "HoursAndMinutes",
-}) as any as S.Schema<HoursAndMinutes>;
+).annotate({ identifier: "HoursAndMinutes" }) as any as S.Schema<HoursAndMinutes>;
 
 /** The category of time being tracked. One of `regular_hours`, `on_call`, `break`. */
 export type ContractorTimeTrackingType = "regular_hours" | "on_call" | "break";
@@ -1764,9 +1714,7 @@ export const ContractorTimeTracking = /*@__PURE__*/ S.suspend(() =>
     total_hours: HoursAndMinutes,
     type: ContractorTimeTrackingType,
   }),
-).annotate({
-  identifier: "ContractorTimeTracking",
-}) as any as S.Schema<ContractorTimeTracking>;
+).annotate({ identifier: "ContractorTimeTracking" }) as any as S.Schema<ContractorTimeTracking>;
 
 /** The individual time tracking entries that make up this timesheet. */
 export type ContractorTimesheetTimeTrackingsList = Array<ContractorTimeTracking>;
@@ -1807,9 +1755,7 @@ export const ContractorTimesheet = /*@__PURE__*/ S.suspend(() =>
     time_trackings: ContractorTimesheetTimeTrackingsList,
     total_hours: HoursAndMinutes,
   }),
-).annotate({
-  identifier: "ContractorTimesheet",
-}) as any as S.Schema<ContractorTimesheet>;
+).annotate({ identifier: "ContractorTimesheet" }) as any as S.Schema<ContractorTimesheet>;
 
 export interface ContractorTimesheetResponseData {
   timesheet: ContractorTimesheet;
@@ -1876,9 +1822,7 @@ export const CostCalculatorDiscount = /*@__PURE__*/ S.suspend(() =>
     quoted_amount: S.optional(S.Number),
     text: S.String,
   }),
-).annotate({
-  identifier: "CostCalculatorDiscount",
-}) as any as S.Schema<CostCalculatorDiscount>;
+).annotate({ identifier: "CostCalculatorDiscount" }) as any as S.Schema<CostCalculatorDiscount>;
 
 export type EmploymentTermType = "fixed" | "indefinite";
 export const EmploymentTermType = S.String;
@@ -1958,13 +1902,7 @@ export const CreateCostCalculatorEstimationRequest = /*@__PURE__*/ S.suspend(() 
     include_cost_breakdowns: S.optional(S.Boolean),
     include_management_fee: S.optional(S.Boolean),
     include_premium_benefits: S.optional(S.Boolean),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v1/cost-calculator/estimation",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/v1/cost-calculator/estimation", code: 200 })),
 ).annotate({
   identifier: "CreateCostCalculatorEstimationRequest",
 }) as any as S.Schema<CreateCostCalculatorEstimationRequest>;
@@ -2019,9 +1957,7 @@ export const CostCalculatorCost = /*@__PURE__*/ S.suspend(() =>
     zendesk_article_id: S.NullOr(S.String),
     zendesk_article_url: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "CostCalculatorCost",
-}) as any as S.Schema<CostCalculatorCost>;
+).annotate({ identifier: "CostCalculatorCost" }) as any as S.Schema<CostCalculatorCost>;
 
 /** The list of all annual benefit costs */
 export type CostCalculatorCostsAnnualBenefitsBreakdownList = Array<CostCalculatorCost>;
@@ -2187,9 +2123,7 @@ export const CostCalculatorCosts = /*@__PURE__*/ S.suspend(() =>
     monthly_tce: S.Number,
     monthly_total: S.Number,
   }),
-).annotate({
-  identifier: "CostCalculatorCosts",
-}) as any as S.Schema<CostCalculatorCosts>;
+).annotate({ identifier: "CostCalculatorCosts" }) as any as S.Schema<CostCalculatorCosts>;
 
 export type MinimalRegionChildRegionsList = Array<MinimalRegion>;
 export const MinimalRegionChildRegionsList = /*@__PURE__*/ S.Array(
@@ -2245,9 +2179,7 @@ export const CostCalculatorEmployment = /*@__PURE__*/ S.suspend(() =>
     region: MinimalRegion,
     regional_currency_costs: CostCalculatorCosts,
   }),
-).annotate({
-  identifier: "CostCalculatorEmployment",
-}) as any as S.Schema<CostCalculatorEmployment>;
+).annotate({ identifier: "CostCalculatorEmployment" }) as any as S.Schema<CostCalculatorEmployment>;
 
 export type CostCalculatorEstimateResponseDataEmploymentsList = Array<CostCalculatorEmployment>;
 export const CostCalculatorEstimateResponseDataEmploymentsList = /*@__PURE__*/ S.Array(
@@ -2310,13 +2242,7 @@ export const CreateCostCalculatorEstimationCsvRequest = /*@__PURE__*/ S.suspend(
     include_cost_breakdowns: S.optional(S.Boolean),
     include_management_fee: S.optional(S.Boolean),
     include_premium_benefits: S.optional(S.Boolean),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v1/cost-calculator/estimation-csv",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/v1/cost-calculator/estimation-csv", code: 200 })),
 ).annotate({
   identifier: "CreateCostCalculatorEstimationCsvRequest",
 }) as any as S.Schema<CreateCostCalculatorEstimationCsvRequest>;
@@ -2377,13 +2303,7 @@ export const CreateCostCalculatorEstimationPdfRequest = /*@__PURE__*/ S.suspend(
     include_cost_breakdowns: S.optional(S.Boolean),
     include_management_fee: S.optional(S.Boolean),
     include_premium_benefits: S.optional(S.Boolean),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v1/cost-calculator/estimation-pdf",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/v1/cost-calculator/estimation-pdf", code: 200 })),
 ).annotate({
   identifier: "CreateCostCalculatorEstimationPdfRequest",
 }) as any as S.Schema<CreateCostCalculatorEstimationPdfRequest>;
@@ -2415,13 +2335,7 @@ export const CreateCurrencyConverterEffectiveRequest = /*@__PURE__*/ S.suspend((
     amount: S.Number,
     source_currency: S.String,
     target_currency: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v1/currency-converter/effective",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/v1/currency-converter/effective", code: 200 })),
 ).annotate({
   identifier: "CreateCurrencyConverterEffectiveRequest",
 }) as any as S.Schema<CreateCurrencyConverterEffectiveRequest>;
@@ -2445,9 +2359,7 @@ export const ConvertCurrency = /*@__PURE__*/ S.suspend(() =>
     target_amount: S.Number,
     target_currency: CurrencyDefinition,
   }),
-).annotate({
-  identifier: "ConvertCurrency",
-}) as any as S.Schema<ConvertCurrency>;
+).annotate({ identifier: "ConvertCurrency" }) as any as S.Schema<ConvertCurrency>;
 
 export interface ConvertCurrencyResponseData {
   conversion_data: ConvertCurrency;
@@ -2468,9 +2380,7 @@ export const ConvertCurrencyResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     data: ConvertCurrencyResponseData,
   }),
-).annotate({
-  identifier: "ConvertCurrencyResponse",
-}) as any as S.Schema<ConvertCurrencyResponse>;
+).annotate({ identifier: "ConvertCurrencyResponse" }) as any as S.Schema<ConvertCurrencyResponse>;
 
 export interface CreateCurrencyConverterRawRequest {
   /** The amount to convert in cents */
@@ -2543,9 +2453,7 @@ export const SingleSelectMetadata = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     options: SingleSelectMetadataOptionsList,
   }),
-).annotate({
-  identifier: "SingleSelectMetadata",
-}) as any as S.Schema<SingleSelectMetadata>;
+).annotate({ identifier: "SingleSelectMetadata" }) as any as S.Schema<SingleSelectMetadata>;
 
 export type CreateSingleSelectCustomFieldDefinitionParamsType = "single_select";
 export const CreateSingleSelectCustomFieldDefinitionParamsType = S.String;
@@ -2623,9 +2531,7 @@ export const CreateCustomFieldRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     body: CreateCustomFieldDefinitionParams.pipe(T.HttpBody()),
   }).pipe(T.Http({ method: "POST", uri: "/v1/custom-fields", code: 200 })),
-).annotate({
-  identifier: "CreateCustomFieldRequest",
-}) as any as S.Schema<CreateCustomFieldRequest>;
+).annotate({ identifier: "CreateCustomFieldRequest" }) as any as S.Schema<CreateCustomFieldRequest>;
 
 /** The datatype of the custom field */
 export type CustomFieldDataType =
@@ -2665,9 +2571,7 @@ export const EmploymentCustomField = /*@__PURE__*/ S.suspend(() =>
     type: CustomFieldDataType,
     visibility_scope: CustomFieldVisibilityScope,
   }),
-).annotate({
-  identifier: "EmploymentCustomField",
-}) as any as S.Schema<EmploymentCustomField>;
+).annotate({ identifier: "EmploymentCustomField" }) as any as S.Schema<EmploymentCustomField>;
 
 export interface CreateEmploymentCustomFieldResponseData {
   custom_field: EmploymentCustomField;
@@ -2699,7 +2603,7 @@ export interface CreateDocumentRequest {
   file: string;
   /** A more specific classification within the type (e.g., "ir_35" for a UK contractor tax determination). */
   sub_type?: string;
-  /** The broad category of the file (e.g., "contract", "id", "tax_form"). */
+  /** The broad category of the file (e.g., "contract", "id", "tax_document"). */
   type?: string;
 }
 export const CreateDocumentRequest = /*@__PURE__*/ S.suspend(() =>
@@ -2708,19 +2612,10 @@ export const CreateDocumentRequest = /*@__PURE__*/ S.suspend(() =>
     file: S.String,
     sub_type: S.optional(S.String),
     type: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v1/documents",
-      code: 200,
-      contentType: "multipart",
-    }),
-  ),
-).annotate({
-  identifier: "CreateDocumentRequest",
-}) as any as S.Schema<CreateDocumentRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/v1/documents", code: 200, contentType: "multipart" })),
+).annotate({ identifier: "CreateDocumentRequest" }) as any as S.Schema<CreateDocumentRequest>;
 
-/** A file associated with an employment, such as a contract, tax form, or identity document. */
+/** A file associated with an employment, such as a contract, tax document, or identity document. */
 export interface File {
   /** The unique identifier (UUID) of the file. */
   id: string;
@@ -2729,7 +2624,7 @@ export interface File {
   name: string;
   /** A more specific classification of the file within its type (e.g., "personal_id" within type "id", or "ir_35" within type "contract"). Null if no sub-type applies. */
   sub_type?: string | null;
-  /** The broad category of the file (e.g., "id", "contract", "tax_form"). */
+  /** The broad category of the file (e.g., "id", "contract", "tax_document"). */
   type: string;
 }
 export const File = /*@__PURE__*/ S.suspend(() =>
@@ -2749,9 +2644,7 @@ export const UploadFileResponseData = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     file: File,
   }),
-).annotate({
-  identifier: "UploadFileResponseData",
-}) as any as S.Schema<UploadFileResponseData>;
+).annotate({ identifier: "UploadFileResponseData" }) as any as S.Schema<UploadFileResponseData>;
 
 /** Response returned after successfully uploading a file. */
 export interface UploadFileResponse {
@@ -2761,16 +2654,14 @@ export const UploadFileResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     data: S.optional(UploadFileResponseData),
   }),
-).annotate({
-  identifier: "UploadFileResponse",
-}) as any as S.Schema<UploadFileResponse>;
+).annotate({ identifier: "UploadFileResponse" }) as any as S.Schema<UploadFileResponse>;
 
 export interface CreateEmployeeDocumentRequest {
   /** The file content, base64-encoded. */
   file: string;
   /** A more specific classification within the type. */
   sub_type?: string;
-  /** The broad category of the file (e.g., "id", "tax_form"). */
+  /** The broad category of the file (e.g., "id", "tax_document"). */
   type?: string;
 }
 export const CreateEmployeeDocumentRequest = /*@__PURE__*/ S.suspend(() =>
@@ -2779,12 +2670,7 @@ export const CreateEmployeeDocumentRequest = /*@__PURE__*/ S.suspend(() =>
     sub_type: S.optional(S.String),
     type: S.optional(S.String),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v1/employee/documents",
-      code: 200,
-      contentType: "multipart",
-    }),
+    T.Http({ method: "POST", uri: "/v1/employee/documents", code: 200, contentType: "multipart" }),
   ),
 ).annotate({
   identifier: "CreateEmployeeDocumentRequest",
@@ -2885,9 +2771,7 @@ export const TimeoffDocumentParams = /*@__PURE__*/ S.suspend(() =>
     content: S.String,
     name: S.String,
   }),
-).annotate({
-  identifier: "TimeoffDocumentParams",
-}) as any as S.Schema<TimeoffDocumentParams>;
+).annotate({ identifier: "TimeoffDocumentParams" }) as any as S.Schema<TimeoffDocumentParams>;
 
 /** Timeoff days params */
 export interface TimeoffDaysParams {
@@ -2899,9 +2783,7 @@ export const TimeoffDaysParams = /*@__PURE__*/ S.suspend(() =>
     day: S.optional(S.String),
     hours: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "TimeoffDaysParams",
-}) as any as S.Schema<TimeoffDaysParams>;
+).annotate({ identifier: "TimeoffDaysParams" }) as any as S.Schema<TimeoffDaysParams>;
 
 export type CreateEmployeeTimeoffRequestTimeoffDaysList = Array<TimeoffDaysParams>;
 export const CreateEmployeeTimeoffRequestTimeoffDaysList = /*@__PURE__*/ S.Array(
@@ -2931,7 +2813,8 @@ export const CreateEmployeeTimeoffRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "CreateEmployeeTimeoffRequest",
 }) as any as S.Schema<CreateEmployeeTimeoffRequest>;
 
-export type TimeoffType =
+/** The type of leave a time off record or leave policy represents. Responses may return any of these values. The set is a superset of the values accepted when creating a time off record (see `TimeoffType`): employments on the newer leave-type model can hold leave types that are not bookable by name. */
+export type ResponseTimeoffType =
   | "time_off"
   | "sick_leave"
   | "public_holiday"
@@ -2949,21 +2832,51 @@ export type TimeoffType =
   | "rtt"
   | "casual_leave"
   | "rol"
-  | "ex_festivita";
-export const TimeoffType = S.String;
+  | "ex_festivita"
+  | "civic_duty"
+  | "adoption"
+  | "caregiver"
+  | "transfer"
+  | "exam"
+  | "monkhood"
+  | "marriage"
+  | "sterilization"
+  | "celebration"
+  | "blood_donation"
+  | "health_day"
+  | "special"
+  | "career"
+  | "study"
+  | "voluntary"
+  | "adv"
+  | "public_duties"
+  | "force_majeure"
+  | "medical_visits"
+  | "marriage_child"
+  | "breastfeeding"
+  | "maternity_paid"
+  | "maternity_unpaid"
+  | "paternity_paid"
+  | "paternity_unpaid"
+  | "pregnancy_leave"
+  | "business_trip_eu"
+  | "business_trip_non_eu"
+  | "training"
+  | "sustainable_employability";
+export const ResponseTimeoffType = S.String;
 
 /** The leave policy associated with a time off request. Policies define the rules and entitlements for specific types of leave. */
 export interface LeavePolicy {
   /** The unique identifier (slug) of the specific policy variant. */
   leave_policy_variant_slug: string;
-  leave_type: TimeoffType;
+  leave_type: ResponseTimeoffType;
   /** The display name of the leave policy (e.g., "Self-Care", "Annual Leave"). */
   name: string;
 }
 export const LeavePolicy = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     leave_policy_variant_slug: S.String,
-    leave_type: TimeoffType,
+    leave_type: ResponseTimeoffType,
     name: S.String,
   }),
 ).annotate({ identifier: "LeavePolicy" }) as any as S.Schema<LeavePolicy>;
@@ -3018,7 +2931,7 @@ export interface Timeoff {
   /** The unique identifier (UUID) of the time off record. */
   id: string;
   leave_policy: LeavePolicy;
-  /** UUID of the custom company leave policy variant associated with this time off. Null for standard leave types. */
+  /** Identifier of the leave policy this time off was booked against. For employments on the leave-type model this is the leave type's UUID, the same value `GET /leave-policies/details/{employment_id}` returns and `POST /timeoff` accepts. Otherwise it is the UUID of the custom company leave policy variant, and is null for standard leave types. */
   leave_policy_variant_id?: string | null;
   /** Optional notes provided by the employee when requesting the time off. */
   notes?: string | null;
@@ -3028,7 +2941,7 @@ export interface Timeoff {
   status: TimeoffStatus;
   /** The individual days and hours within this time off period. */
   timeoff_days: TimeoffTimeoffDaysList;
-  timeoff_type: TimeoffType;
+  timeoff_type: ResponseTimeoffType;
   timezone: string;
   /** The total number of minutes taken off across all `timeoff_days`. Always equals the sum of the per-day `minutes` values. */
   total_minutes: number;
@@ -3050,7 +2963,7 @@ export const Timeoff = /*@__PURE__*/ S.suspend(() =>
     start_date: S.String,
     status: TimeoffStatus,
     timeoff_days: TimeoffTimeoffDaysList,
-    timeoff_type: TimeoffType,
+    timeoff_type: ResponseTimeoffType,
     timezone: S.String,
     total_minutes: S.Number,
   }),
@@ -3063,9 +2976,7 @@ export const TimeoffResponseData = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     timeoff: Timeoff,
   }),
-).annotate({
-  identifier: "TimeoffResponseData",
-}) as any as S.Schema<TimeoffResponseData>;
+).annotate({ identifier: "TimeoffResponseData" }) as any as S.Schema<TimeoffResponseData>;
 
 /** Timeoff response */
 export interface TimeoffResponse {
@@ -3075,9 +2986,7 @@ export const TimeoffResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     data: TimeoffResponseData,
   }),
-).annotate({
-  identifier: "TimeoffResponse",
-}) as any as S.Schema<TimeoffResponse>;
+).annotate({ identifier: "TimeoffResponse" }) as any as S.Schema<TimeoffResponse>;
 
 export interface CreateEmployeeTimeoffCancelRequest {
   /** Timeoff ID */
@@ -3088,13 +2997,7 @@ export const CreateEmployeeTimeoffCancelRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
     cancel_reason: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v1/employee/timeoff/{id}/cancel",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/v1/employee/timeoff/{id}/cancel", code: 200 })),
 ).annotate({
   identifier: "CreateEmployeeTimeoffCancelRequest",
 }) as any as S.Schema<CreateEmployeeTimeoffCancelRequest>;
@@ -3152,9 +3055,7 @@ export const CreateEmploymentRequest = /*@__PURE__*/ S.suspend(() =>
     partner_external_id: S.optional(S.NullOr(S.String)),
     type: S.optional(CreateEmploymentRequestType),
   }).pipe(T.Http({ method: "POST", uri: "/v1/employments", code: 200 })),
-).annotate({
-  identifier: "CreateEmploymentRequest",
-}) as any as S.Schema<CreateEmploymentRequest>;
+).annotate({ identifier: "CreateEmploymentRequest" }) as any as S.Schema<CreateEmploymentRequest>;
 
 /** The stage of employment lifecycle. When it's `onboarded` means the employee is ready to commence or has already commenced. */
 export type EmploymentLifecycleStage =
@@ -3217,9 +3118,7 @@ export const EmploymentBasicResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(EmploymentBasicResponseType),
     updated_at: S.optional(S.String),
   }),
-).annotate({
-  identifier: "EmploymentBasicResponse",
-}) as any as S.Schema<EmploymentBasicResponse>;
+).annotate({ identifier: "EmploymentBasicResponse" }) as any as S.Schema<EmploymentBasicResponse>;
 
 export interface EmploymentCreationResponseData {
   employment?: EmploymentBasicResponse;
@@ -3305,11 +3204,7 @@ export const CreateEmploymentContractOriginRequest = /*@__PURE__*/ S.suspend(() 
     contract_origin: CreateEmploymentContractOriginRequestContractOrigin,
     template_type: CreateEmploymentContractOriginRequestTemplateType,
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v1/employments/{employment_id}/contract-origin",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/v1/employments/{employment_id}/contract-origin", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateEmploymentContractOriginRequest",
@@ -3534,7 +3429,7 @@ export const CreateEmploymentEngagementAgreementDetailRequestEngagementAgreement
 export interface CreateEmploymentEngagementAgreementDetailRequest {
   /** Employment ID */
   employment_id: string;
-  /** Engagement agreement details params. As its properties may vary depending on the country, you must query the [Show form schema](#tag/Countries/operation/get_show_engagement_agreement_details_country) endpoint passing the country code. */
+  /** Engagement agreement details params. As its properties may vary depending on the country, you must query the [Show form schema](#tag/Countries/operation/get_v1_countries_country_code_form) endpoint passing the country code and the `engagement_agreement_details` form name. */
   engagement_agreement_details: CreateEmploymentEngagementAgreementDetailRequestEngagementAgreementDetails;
 }
 export const CreateEmploymentEngagementAgreementDetailRequest = /*@__PURE__*/ S.suspend(() =>
@@ -3672,7 +3567,7 @@ export const CreateEmploymentEngagementAgreementDetailRequestEngagementAgreement
 export interface CreateEmploymentEngagementAgreementDetailRequest2 {
   /** Employment ID */
   employment_id: string;
-  /** Engagement agreement details params. As its properties may vary depending on the country, you must query the [Show form schema](#tag/Countries/operation/get_show_engagement_agreement_details_country) endpoint passing the country code. */
+  /** Engagement agreement details params. As its properties may vary depending on the country, you must query the [Show form schema](#tag/Countries/operation/get_v1_countries_country_code_form) endpoint passing the country code and the `engagement_agreement_details` form name. */
   engagement_agreement_details: CreateEmploymentEngagementAgreementDetailRequestEngagementAgreementDetails2;
 }
 export const CreateEmploymentEngagementAgreementDetailRequest2 = /*@__PURE__*/ S.suspend(() =>
@@ -3698,16 +3593,102 @@ export interface CreateEmploymentInviteRequest {
 export const CreateEmploymentInviteRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     employment_id: S.String.pipe(T.Label()),
+  }).pipe(T.Http({ method: "POST", uri: "/v1/employments/{employment_id}/invite", code: 200 })),
+).annotate({
+  identifier: "CreateEmploymentInviteRequest",
+}) as any as S.Schema<CreateEmploymentInviteRequest>;
+
+/** Whether the role requires working onsite. */
+export type CreateEmploymentJobTitleEligibilityCheckRequestRoleIsOnsite =
+  | "yes"
+  | "no"
+  | "not_applicable";
+export const CreateEmploymentJobTitleEligibilityCheckRequestRoleIsOnsite = S.String;
+
+/** Whether the role requires a professional license. */
+export type CreateEmploymentJobTitleEligibilityCheckRequestRoleRequiresLicense =
+  | "yes"
+  | "no"
+  | "not_applicable";
+export const CreateEmploymentJobTitleEligibilityCheckRequestRoleRequiresLicense = S.String;
+
+export interface CreateEmploymentJobTitleEligibilityCheckRequest {
+  /** Employment ID */
+  employment_id: string;
+  /** The job title to check. Defaults to the employment's current job title when omitted. */
+  job_title?: string;
+  /** A description of the role. Required when the job title alone is inconclusive; the response says so. The minimum acceptable length is country-dependent: the contract-details schema for the employment's country is the authority, and some countries (the USA among them) require a substantially longer description than others. */
+  role_description?: string;
+  /** Whether the role requires working onsite. */
+  role_is_onsite?: CreateEmploymentJobTitleEligibilityCheckRequestRoleIsOnsite | (string & {});
+  /** Whether the role requires a professional license. */
+  role_requires_license?:
+    | CreateEmploymentJobTitleEligibilityCheckRequestRoleRequiresLicense
+    | (string & {});
+}
+export const CreateEmploymentJobTitleEligibilityCheckRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    employment_id: S.String.pipe(T.Label()),
+    job_title: S.optional(S.String),
+    role_description: S.optional(S.String),
+    role_is_onsite: S.optional(CreateEmploymentJobTitleEligibilityCheckRequestRoleIsOnsite),
+    role_requires_license: S.optional(
+      CreateEmploymentJobTitleEligibilityCheckRequestRoleRequiresLicense,
+    ),
   }).pipe(
     T.Http({
       method: "POST",
-      uri: "/v1/employments/{employment_id}/invite",
+      uri: "/v2/employments/{employment_id}/job-title-eligibility-check",
       code: 200,
     }),
   ),
 ).annotate({
-  identifier: "CreateEmploymentInviteRequest",
-}) as any as S.Schema<CreateEmploymentInviteRequest>;
+  identifier: "CreateEmploymentJobTitleEligibilityCheckRequest",
+}) as any as S.Schema<CreateEmploymentJobTitleEligibilityCheckRequest>;
+
+/** The eligibility verdict for the submitted job title and role. `eligible` means contract details can be submitted as normal. `not_eligible` means Remote cannot employ this role: the title has to change. `needs_review` means submitting will place the employment in a human review before the employee can be invited. `eligible_with_risk_acknowledgement` means the submission must carry `employer_acknowledges_risk` set to `acknowledged`. `not_assessed` means the check did not run for this employment and no verdict was formed, so treat it as unknown rather than as a pass: submitting is not blocked, but nothing has screened the title. When the verdict is `eligible_with_risk_acknowledgement`, present Remote's responsibility statement to the employer and obtain their acceptance before sending `employer_acknowledges_risk`. Sending it asserts that the employer was informed of, and accepted, responsibility for, as applicable, employee safety, training, health checks, any incidents connected to the employee's work environment, and the employee holding the licensing the role requires. */
+export type JobTitleEligibilityCheckVerdict =
+  | "eligible"
+  | "not_eligible"
+  | "needs_review"
+  | "eligible_with_risk_acknowledgement"
+  | "not_assessed";
+export const JobTitleEligibilityCheckVerdict = S.String;
+
+export interface JobTitleEligibilityCheck {
+  /** The identifier of the recorded check. When present it is **required**: send it back as `additional_job_title_eligibility_check_slug` when submitting contract details, or the submission is rejected. Run this check again if the job title or any role answer changes, since the identifier only vouches for the answers it was given. `null` when the job title alone settled the verdict and there is nothing to send. */
+  check_id?: string | null;
+  /** The eligibility verdict for the submitted job title and role. `eligible` means contract details can be submitted as normal. `not_eligible` means Remote cannot employ this role: the title has to change. `needs_review` means submitting will place the employment in a human review before the employee can be invited. `eligible_with_risk_acknowledgement` means the submission must carry `employer_acknowledges_risk` set to `acknowledged`. `not_assessed` means the check did not run for this employment and no verdict was formed, so treat it as unknown rather than as a pass: submitting is not blocked, but nothing has screened the title. When the verdict is `eligible_with_risk_acknowledgement`, present Remote's responsibility statement to the employer and obtain their acceptance before sending `employer_acknowledges_risk`. Sending it asserts that the employer was informed of, and accepted, responsibility for, as applicable, employee safety, training, health checks, any incidents connected to the employee's work environment, and the employee holding the licensing the role requires. */
+  verdict: JobTitleEligibilityCheckVerdict;
+}
+export const JobTitleEligibilityCheck = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    check_id: S.optional(S.NullOr(S.String)),
+    verdict: JobTitleEligibilityCheckVerdict,
+  }),
+).annotate({ identifier: "JobTitleEligibilityCheck" }) as any as S.Schema<JobTitleEligibilityCheck>;
+
+export interface JobTitleEligibilityCheckResponseData {
+  job_title_eligibility_check: JobTitleEligibilityCheck;
+}
+export const JobTitleEligibilityCheckResponseData = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    job_title_eligibility_check: JobTitleEligibilityCheck,
+  }),
+).annotate({
+  identifier: "JobTitleEligibilityCheckResponseData",
+}) as any as S.Schema<JobTitleEligibilityCheckResponseData>;
+
+export interface JobTitleEligibilityCheckResponse {
+  data: JobTitleEligibilityCheckResponseData;
+}
+export const JobTitleEligibilityCheckResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    data: JobTitleEligibilityCheckResponseData,
+  }),
+).annotate({
+  identifier: "JobTitleEligibilityCheckResponse",
+}) as any as S.Schema<JobTitleEligibilityCheckResponse>;
 
 /** Categories allowed for an expense (legacy, deprecated).<br/> Note: `coworking`, `home_office`, `phone_utilities`, `travel` are deprecated and will be removed in the future. */
 export type CreateExpensRequestCategory =
@@ -3783,9 +3764,7 @@ export const CreateExpensRequest = /*@__PURE__*/ S.suspend(() =>
     timezone: S.optional(S.String),
     title: S.String,
   }).pipe(T.Http({ method: "POST", uri: "/v1/expenses", code: 200 })),
-).annotate({
-  identifier: "CreateExpensRequest",
-}) as any as S.Schema<CreateExpensRequest>;
+).annotate({ identifier: "CreateExpensRequest" }) as any as S.Schema<CreateExpensRequest>;
 
 /** Categories allowed for an expense (legacy, deprecated) */
 export type ExpenseCategory =
@@ -3832,9 +3811,7 @@ export const ExpenseExpenseCategory = /*@__PURE__*/ S.suspend(() =>
     slug: S.optional(S.String),
     title: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ExpenseExpenseCategory",
-}) as any as S.Schema<ExpenseExpenseCategory>;
+).annotate({ identifier: "ExpenseExpenseCategory" }) as any as S.Schema<ExpenseExpenseCategory>;
 
 /** Uploaded receipt files for this expense. Maximum 5 receipts. */
 export type ExpenseReceiptsList = Array<File>;
@@ -3857,9 +3834,7 @@ export const ExpenseReviewer = /*@__PURE__*/ S.suspend(() =>
     user_id: S.optional(S.String),
     user_name: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ExpenseReviewer",
-}) as any as S.Schema<ExpenseReviewer>;
+).annotate({ identifier: "ExpenseReviewer" }) as any as S.Schema<ExpenseReviewer>;
 
 /** The current status of the expense. - `pending`: Submitted and awaiting approval. - `approved`: Approved by a reviewer and queued for reimbursement. - `declined`: Declined by a reviewer. See `reason` for details. - `canceled`: Canceled by the employee before approval. - `processing`: Being processed as part of a payroll run. - `reimbursed`: Successfully reimbursed to the employee. */
 export type ExpenseStatus =
@@ -4056,9 +4031,7 @@ export const ExpenseResponseData = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     expense: ExpenseOrDraft,
   }),
-).annotate({
-  identifier: "ExpenseResponseData",
-}) as any as S.Schema<ExpenseResponseData>;
+).annotate({ identifier: "ExpenseResponseData" }) as any as S.Schema<ExpenseResponseData>;
 
 /** Response containing a single expense record. */
 export interface ExpenseResponse {
@@ -4068,9 +4041,7 @@ export const ExpenseResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     data: ExpenseResponseData,
   }),
-).annotate({
-  identifier: "ExpenseResponse",
-}) as any as S.Schema<ExpenseResponse>;
+).annotate({ identifier: "ExpenseResponse" }) as any as S.Schema<ExpenseResponse>;
 
 export interface CreateIdentityVerificationDeclineRequest {
   /** Employment ID */
@@ -4080,11 +4051,7 @@ export const CreateIdentityVerificationDeclineRequest = /*@__PURE__*/ S.suspend(
   S.Struct({
     employment_id: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v1/identity-verification/{employment_id}/decline",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/v1/identity-verification/{employment_id}/decline", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateIdentityVerificationDeclineRequest",
@@ -4098,11 +4065,7 @@ export const CreateIdentityVerificationVerifyRequest = /*@__PURE__*/ S.suspend((
   S.Struct({
     employment_id: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v1/identity-verification/{employment_id}/verify",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/v1/identity-verification/{employment_id}/verify", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateIdentityVerificationVerifyRequest",
@@ -4159,9 +4122,7 @@ export const CreateIncentiveRequest = /*@__PURE__*/ S.suspend(() =>
     period_start: S.optional(S.NullOr(S.String)),
     type: CreateIncentiveRequestType,
   }).pipe(T.Http({ method: "POST", uri: "/v1/incentives", code: 200 })),
-).annotate({
-  identifier: "CreateIncentiveRequest",
-}) as any as S.Schema<CreateIncentiveRequest>;
+).annotate({ identifier: "CreateIncentiveRequest" }) as any as S.Schema<CreateIncentiveRequest>;
 
 /** An incentive (bonus, commission, or other additional payment) for an employee. Incentives are paid out through payroll on the next applicable cycle after the effective date. */
 export interface Incentive {
@@ -4219,9 +4180,7 @@ export const IncentiveResponseData = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     incentive: Incentive,
   }),
-).annotate({
-  identifier: "IncentiveResponseData",
-}) as any as S.Schema<IncentiveResponseData>;
+).annotate({ identifier: "IncentiveResponseData" }) as any as S.Schema<IncentiveResponseData>;
 
 /** Response containing a single incentive record. */
 export interface IncentiveResponse {
@@ -4231,9 +4190,7 @@ export const IncentiveResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     data: S.optional(IncentiveResponseData),
   }),
-).annotate({
-  identifier: "IncentiveResponse",
-}) as any as S.Schema<IncentiveResponse>;
+).annotate({ identifier: "IncentiveResponse" }) as any as S.Schema<IncentiveResponse>;
 
 export type CreateIncentivesRecurringRequestType =
   | "acting_up_allowance"
@@ -4344,9 +4301,7 @@ export const RecurringIncentive = /*@__PURE__*/ S.suspend(() =>
     status: RecurringIncentiveStatus,
     type: RecurringIncentiveType,
   }),
-).annotate({
-  identifier: "RecurringIncentive",
-}) as any as S.Schema<RecurringIncentive>;
+).annotate({ identifier: "RecurringIncentive" }) as any as S.Schema<RecurringIncentive>;
 
 export interface RecurringIncentiveResponseData {
   recurring_incentive: RecurringIncentive;
@@ -4371,6 +4326,64 @@ export const RecurringIncentiveResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "RecurringIncentiveResponse",
 }) as any as S.Schema<RecurringIncentiveResponse>;
 
+/** Whether the role is onsite. */
+export type CreateJobTitleScreeningRequestItemsItemRoleIsOnsite = "yes" | "no" | "not_applicable";
+export const CreateJobTitleScreeningRequestItemsItemRoleIsOnsite = S.String;
+
+/** Whether the role requires a license. */
+export type CreateJobTitleScreeningRequestItemsItemRoleRequiresLicense =
+  | "yes"
+  | "no"
+  | "not_applicable";
+export const CreateJobTitleScreeningRequestItemsItemRoleRequiresLicense = S.String;
+
+export interface CreateJobTitleScreeningRequestItemsItem {
+  /** The job title to screen. */
+  job_title: string;
+  /** The role description. */
+  role_description?: string;
+  /** Whether the role is onsite. */
+  role_is_onsite?: CreateJobTitleScreeningRequestItemsItemRoleIsOnsite | (string & {});
+  /** Whether the role requires a license. */
+  role_requires_license?:
+    | CreateJobTitleScreeningRequestItemsItemRoleRequiresLicense
+    | (string & {});
+}
+export const CreateJobTitleScreeningRequestItemsItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    job_title: S.String,
+    role_description: S.optional(S.String),
+    role_is_onsite: S.optional(CreateJobTitleScreeningRequestItemsItemRoleIsOnsite),
+    role_requires_license: S.optional(CreateJobTitleScreeningRequestItemsItemRoleRequiresLicense),
+  }),
+).annotate({
+  identifier: "CreateJobTitleScreeningRequestItemsItem",
+}) as any as S.Schema<CreateJobTitleScreeningRequestItemsItem>;
+
+/** The job titles to screen. `role_description`, `role_is_onsite` and `role_requires_license` are optional but must be provided together; when present they allow an ambiguous title to be resolved without a human review. */
+export type CreateJobTitleScreeningRequestItemsList =
+  Array<CreateJobTitleScreeningRequestItemsItem>;
+export const CreateJobTitleScreeningRequestItemsList = /*@__PURE__*/ S.Array(
+  CreateJobTitleScreeningRequestItemsItem,
+) as any as S.Schema<CreateJobTitleScreeningRequestItemsList>;
+
+export interface CreateJobTitleScreeningRequest {
+  /** The job titles to screen. `role_description`, `role_is_onsite` and `role_requires_license` are optional but must be provided together; when present they allow an ambiguous title to be resolved without a human review. */
+  items: CreateJobTitleScreeningRequestItemsList;
+}
+export const CreateJobTitleScreeningRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    items: CreateJobTitleScreeningRequestItemsList,
+  }).pipe(T.Http({ method: "POST", uri: "/v1/job-title-screenings", code: 200 })),
+).annotate({
+  identifier: "CreateJobTitleScreeningRequest",
+}) as any as S.Schema<CreateJobTitleScreeningRequest>;
+
+export interface CreateJobTitleScreeningResponse {}
+export const CreateJobTitleScreeningResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
+  { identifier: "CreateJobTitleScreeningResponse" },
+) as any as S.Schema<CreateJobTitleScreeningResponse>;
+
 export interface MagicLinkParamsCase0 {
   /** The path to which the user will be redirected to after login. This field has a max length of 2000 characters. If not specified, `/dashboard` will be used by default. Must begin with a forward slash (`/`) and, at least one path segment is required (`/dashboard` e.g.). An ending forward slash (`/`) is not allowed and path segments can only include alphanumeric characters, underscore (`_`) and hyphen (`-`). An optional query string can be specified too. If present, the query string must start with a question mark (`?`) and must include at least one key value pair. Both, keys and values, can only include alphanumeric characters, underscore (`_`), hyphen (`-`) or percent encoded values such as `%20` (space character). Additional key value pairs are allowed using ampersand (`&`). Query keys require at least one alphanumeric, underscore (`_`), hyphen (`-`) or valid percent encoded. Query values are optional, the actual value may be empty and the equals sign (`=`) may be missing too. Some **Valid** examples for `path`: - o `/dashboard` - o `/dashboard/people/new/full_time/663e0b79-c893-45ff-a1b2-f6dcabc098b5` - o `/dashboard/people/hiring?filters%5B0%5D%5Bid%5D=status&filters%5B0%5D%5Bvalue%5D=active` - o `/dashboard?key=value&foo=bar` Some **Invalid** examples for `path`: - x `missing_forward_slash` - x `/invalid//path` - x `//some` - x `/?key=value` - x `/some/i.n:valid*` - x `/invalid/end/slash/` - x `/some?malformed_percent_encoded_key%1=value` */
   path?: string;
@@ -4381,9 +4394,7 @@ export const MagicLinkParamsCase0 = /*@__PURE__*/ S.suspend(() =>
     path: S.optional(S.String),
     user_id: S.String,
   }),
-).annotate({
-  identifier: "MagicLinkParamsCase0",
-}) as any as S.Schema<MagicLinkParamsCase0>;
+).annotate({ identifier: "MagicLinkParamsCase0" }) as any as S.Schema<MagicLinkParamsCase0>;
 
 export interface MagicLinkParamsCase1 {
   employment_id: string;
@@ -4395,9 +4406,7 @@ export const MagicLinkParamsCase1 = /*@__PURE__*/ S.suspend(() =>
     employment_id: S.String,
     path: S.optional(S.String),
   }),
-).annotate({
-  identifier: "MagicLinkParamsCase1",
-}) as any as S.Schema<MagicLinkParamsCase1>;
+).annotate({ identifier: "MagicLinkParamsCase1" }) as any as S.Schema<MagicLinkParamsCase1>;
 
 /** Magic link params */
 export type MagicLinkParams = MagicLinkParamsCase0 | MagicLinkParamsCase1;
@@ -4410,9 +4419,7 @@ export const CreateMagicLinkRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     body: MagicLinkParams.pipe(T.HttpBody()),
   }).pipe(T.Http({ method: "POST", uri: "/v1/magic-link", code: 200 })),
-).annotate({
-  identifier: "CreateMagicLinkRequest",
-}) as any as S.Schema<CreateMagicLinkRequest>;
+).annotate({ identifier: "CreateMagicLinkRequest" }) as any as S.Schema<CreateMagicLinkRequest>;
 
 export interface MagicLinkResponseData {
   url: string;
@@ -4421,9 +4428,7 @@ export const MagicLinkResponseData = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     url: S.String,
   }),
-).annotate({
-  identifier: "MagicLinkResponseData",
-}) as any as S.Schema<MagicLinkResponseData>;
+).annotate({ identifier: "MagicLinkResponseData" }) as any as S.Schema<MagicLinkResponseData>;
 
 export interface MagicLinkResponse {
   data: MagicLinkResponseData;
@@ -4432,9 +4437,7 @@ export const MagicLinkResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     data: MagicLinkResponseData,
   }),
-).annotate({
-  identifier: "MagicLinkResponse",
-}) as any as S.Schema<MagicLinkResponse>;
+).annotate({ identifier: "MagicLinkResponse" }) as any as S.Schema<MagicLinkResponse>;
 
 /** Remote advises not to inform the employee of their termination until we review your request for legal risks. When we approve your request, you can inform the employee and we’ll take it from there. This field is only required if employee was informed before creating the offboarding request. */
 export interface TerminationDetailsParamsEmployeeAwareness {
@@ -4508,9 +4511,7 @@ export const OffboardingFile = /*@__PURE__*/ S.suspend(() =>
     content: S.String,
     name: S.String,
   }),
-).annotate({
-  identifier: "OffboardingFile",
-}) as any as S.Schema<OffboardingFile>;
+).annotate({ identifier: "OffboardingFile" }) as any as S.Schema<OffboardingFile>;
 
 /** Any supporting documents regarding the termination reason */
 export type TerminationDetailsParamsTerminationReasonFilesList = Array<OffboardingFile>;
@@ -4571,9 +4572,7 @@ export const TerminationDetailsParams = /*@__PURE__*/ S.suspend(() =>
     will_challenge_termination: S.Boolean,
     will_challenge_termination_description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "TerminationDetailsParams",
-}) as any as S.Schema<TerminationDetailsParams>;
+).annotate({ identifier: "TerminationDetailsParams" }) as any as S.Schema<TerminationDetailsParams>;
 
 /** The type of the offboarding request. For now, only `termination` is allowed. */
 export type CreateOffboardingRequestType = "termination";
@@ -4592,9 +4591,7 @@ export const CreateOffboardingRequest = /*@__PURE__*/ S.suspend(() =>
     termination_details: TerminationDetailsParams,
     type: CreateOffboardingRequestType,
   }).pipe(T.Http({ method: "POST", uri: "/v1/offboardings", code: 200 })),
-).annotate({
-  identifier: "CreateOffboardingRequest",
-}) as any as S.Schema<CreateOffboardingRequest>;
+).annotate({ identifier: "CreateOffboardingRequest" }) as any as S.Schema<CreateOffboardingRequest>;
 
 /** The reason the employee gave for their resignation. */
 export type ResignationOffboardingResignationReason =
@@ -4680,9 +4677,7 @@ export const ResignationOffboarding = /*@__PURE__*/ S.suspend(() =>
     termination_date: S.NullOr(S.String),
     type: ResignationOffboardingType,
   }),
-).annotate({
-  identifier: "ResignationOffboarding",
-}) as any as S.Schema<ResignationOffboarding>;
+).annotate({ identifier: "ResignationOffboarding" }) as any as S.Schema<ResignationOffboarding>;
 
 /** Details about whether and when the employee was informed about their termination. Only present if the employee was informed before the offboarding request was submitted. */
 export interface TerminationOffboardingEmployeeAwareness {
@@ -4815,9 +4810,7 @@ export const TerminationOffboarding = /*@__PURE__*/ S.suspend(() =>
     will_challenge_termination: S.Boolean,
     will_challenge_termination_description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "TerminationOffboarding",
-}) as any as S.Schema<TerminationOffboarding>;
+).annotate({ identifier: "TerminationOffboarding" }) as any as S.Schema<TerminationOffboarding>;
 
 export type ResignationOrTerminationOffboarding = ResignationOffboarding | TerminationOffboarding;
 export const ResignationOrTerminationOffboarding =
@@ -4841,9 +4834,7 @@ export const OffboardingResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     data: S.optional(Offboarding),
   }),
-).annotate({
-  identifier: "OffboardingResponse",
-}) as any as S.Schema<OffboardingResponse>;
+).annotate({ identifier: "OffboardingResponse" }) as any as S.Schema<OffboardingResponse>;
 
 export interface CreateOnboardingEmploymentPreOnboardingDocumentSignRequest {
   /** Employment ID */
@@ -4933,12 +4924,15 @@ export interface CreateOnboardingEmploymentPreOnboardingRequirementDocumentReque
   employment_id: string;
   /** Pre-onboarding requirement slug */
   requirement_slug: string;
+  /** When `true`, skips the email that asks the company signatory to sign the newly created document. Signature reminders are still sent while the document remains unsigned. The company signatory is the authenticated user when they are allowed to sign, otherwise the company's legal representative or owner. This parameter only takes effect when the signatory is the authenticated user, who is about to sign the document themselves. When the signatory is someone else, they are emailed right away as usual, since they still need to know about the document. */
+  skip_initial_signature_email?: boolean;
 }
 export const CreateOnboardingEmploymentPreOnboardingRequirementDocumentRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       employment_id: S.String.pipe(T.Label()),
       requirement_slug: S.String.pipe(T.Label()),
+      skip_initial_signature_email: S.optional(S.Boolean.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "POST",
@@ -4979,53 +4973,59 @@ export const CreatePreOnboardingDocumentResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "CreatePreOnboardingDocumentResponse",
 }) as any as S.Schema<CreatePreOnboardingDocumentResponse>;
 
-export interface PayItemProviderData {
-  /** Correction date for a previously submitted day (YYYY-MM-DD) */
+export interface PayItemProviderDataParams {
+  /** **Deprecated — renamed to `correction_effective_date`**, which this value backfills. `correction_effective_date` wins when both are sent. */
   adjustment_effective_date?: string;
+  /** Set this only on a correction: the original working day being corrected (YYYY-MM-DD). Its presence is what marks the pay item as a correction rather than an original submission. */
+  correction_effective_date?: string;
   /** Hourly rate in cents */
   hourly_rate?: number;
   hourly_rate_currency_code?: string | null;
-  /** Whether payout_amount should be considered a deduction */
+  /** **Deprecated — accepted and ignored.** Express a deduction as a negative `amount`. */
   is_deduction?: boolean;
   /** Overtime rate multiplier (e.g. 1.5) */
   pay_rate?: number;
-  /** Associated payout or deduction in cents */
+  /** **Deprecated — accepted and ignored.** The payout value belongs in the pay item's own `amount`. */
   payout_amount?: number;
-  payout_currency_code?: string | null;
+  /** **Deprecated — accepted and ignored.** The payout currency belongs in the pay item's own `currency`. */
+  payout_currency_code?: string;
   /** Shift identifier from partner system */
   shift_code?: string;
   /** Expected work day duration in seconds */
   work_day_duration?: number;
 }
-export const PayItemProviderData = /*@__PURE__*/ S.suspend(() =>
+export const PayItemProviderDataParams = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     adjustment_effective_date: S.optional(S.String),
+    correction_effective_date: S.optional(S.String),
     hourly_rate: S.optional(S.Number),
     hourly_rate_currency_code: S.optional(S.NullOr(S.String)),
     is_deduction: S.optional(S.Boolean),
     pay_rate: S.optional(S.Number),
     payout_amount: S.optional(S.Number),
-    payout_currency_code: S.optional(S.NullOr(S.String)),
+    payout_currency_code: S.optional(S.String),
     shift_code: S.optional(S.String),
     work_day_duration: S.optional(S.Number),
   }),
 ).annotate({
-  identifier: "PayItemProviderData",
-}) as any as S.Schema<PayItemProviderData>;
+  identifier: "PayItemProviderDataParams",
+}) as any as S.Schema<PayItemProviderDataParams>;
 
 export interface PayItemParams {
-  /** Value of the pay item. Its unit depends on the `type` of the pay code (see GET /v1/companies/:company_id/legal-entities/:legal_entity_id/pay-codes): `amount` in cents, `percentage` in basis points, `unit` as a raw count, `hours` as a whole number of hours, `duration` in seconds. Must be non-zero; negative values are allowed for corrections. */
+  /** Value of the pay item. Its unit depends on the `type` of the pay code (see GET /v1/companies/:company_id/legal-entities/:legal_entity_id/pay-codes): `amount` in cents, `percentage` in basis points, `unit` as a raw count, `hours` as a whole number of hours, `duration` in seconds. Must not be zero. **Negative values are supported.** A positive `amount` adds value; a negative `amount` takes value away. Send a negative `amount` to submit a deduction, or to correct an earlier submission downwards. This applies to every pay code, whatever its unit — including hours-based codes such as `working_hours`. For example: - `-5000` on an `amount` code (cents) deducts 50.00 from pay. - `-3` on an hours-based code such as `working_hours` removes 3 hours reported in error. */
   amount: number;
   /** Pay item type code. Mutually exclusive with `external_import_code` — provide exactly one. */
   code?: string;
   currency?: string | null;
-  /** Working day date (YYYY-MM-DD) */
+  /** Date the pay item is applied on (YYYY-MM-DD). For an original submission this is the day worked; for a correction it is the day the correction is submitted, so the pay item lands in the right payroll run. The day being corrected goes in `provider_data.correction_effective_date`. On a leave-of-absence pay item this is the first day of the leave period, whose last day goes in `end_date`. */
   effective_date: string;
   /** Employment UUID. Only Global Payroll employments are supported. */
   employment_id: string;
+  /** Last day of a leave period, inclusive (YYYY-MM-DD). Set this only on leave-of-absence pay codes — parental, sick, maternity, unpaid leave and similar — where the pay item covers a period rather than a single day, and `effective_date` is the first day of that period. Leave it off ordinary time & attendance items such as worked hours, overtime or allowances, which apply to a single day. */
+  end_date?: string | null;
   /** Partner-defined pay element identifier, as configured on the legal entity pay element. Mutually exclusive with `code` — provide exactly one. */
   external_import_code?: string;
-  provider_data?: PayItemProviderData;
+  provider_data?: PayItemProviderDataParams;
 }
 export const PayItemParams = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -5034,8 +5034,9 @@ export const PayItemParams = /*@__PURE__*/ S.suspend(() =>
     currency: S.optional(S.NullOr(S.String)),
     effective_date: S.String,
     employment_id: S.String,
+    end_date: S.optional(S.NullOr(S.String)),
     external_import_code: S.optional(S.String),
-    provider_data: S.optional(PayItemProviderData),
+    provider_data: S.optional(PayItemProviderDataParams),
   }),
 ).annotate({ identifier: "PayItemParams" }) as any as S.Schema<PayItemParams>;
 
@@ -5055,92 +5056,42 @@ export const CreatePayItemsBulkRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "CreatePayItemsBulkRequest",
 }) as any as S.Schema<CreatePayItemsBulkRequest>;
 
-export interface UnprocessableEntityResponseCase0 {
+export interface PayItemBulkCreateFailureDetail {
+  /** Stable, machine-parseable failure reason. */
+  code: string;
+  /** Human-readable detail for the failure reason. */
+  message: string;
+}
+export const PayItemBulkCreateFailureDetail = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    code: S.String,
+    message: S.String,
+  }),
+).annotate({
+  identifier: "PayItemBulkCreateFailureDetail",
+}) as any as S.Schema<PayItemBulkCreateFailureDetail>;
+
+export interface PayItemBulkCreateFailuresErrorCase2 {
   errors: unknown;
 }
-export const UnprocessableEntityResponseCase0 = /*@__PURE__*/ S.suspend(() =>
+export const PayItemBulkCreateFailuresErrorCase2 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     errors: S.Unknown,
   }),
 ).annotate({
-  identifier: "UnprocessableEntityResponseCase0",
-}) as any as S.Schema<UnprocessableEntityResponseCase0>;
+  identifier: "PayItemBulkCreateFailuresErrorCase2",
+}) as any as S.Schema<PayItemBulkCreateFailuresErrorCase2>;
 
-export interface ParameterError {
-  /** An error code that describes the nature of the error. */
-  code: string;
-  /** A developer friendly error message that gives details on what the error was and how it may be remedied. */
-  message: string;
-  /** The parameter that lead to the error message. */
-  param: string;
-}
-export const ParameterError = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    code: S.String,
-    message: S.String,
-    param: S.String,
-  }),
-).annotate({ identifier: "ParameterError" }) as any as S.Schema<ParameterError>;
-
-export type UnprocessableEntityResponseCase1MessageCase2List = Array<ParameterError>;
-export const UnprocessableEntityResponseCase1MessageCase2List = /*@__PURE__*/ S.Array(
-  ParameterError,
-) as any as S.Schema<UnprocessableEntityResponseCase1MessageCase2List>;
-
-export interface ActionError {
-  /** The action that lead to the error message. */
-  action: string;
-  /** An error code that describes the nature of the error. */
-  code: string;
-  /** A developer friendly error message that gives details on what the error was and how it may be remedied. */
-  message: string;
-}
-export const ActionError = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    action: S.String,
-    code: S.String,
-    message: S.String,
-  }),
-).annotate({ identifier: "ActionError" }) as any as S.Schema<ActionError>;
-
-export type UnprocessableEntityResponseCase1MessageCase4List = Array<ActionError>;
-export const UnprocessableEntityResponseCase1MessageCase4List = /*@__PURE__*/ S.Array(
-  ActionError,
-) as any as S.Schema<UnprocessableEntityResponseCase1MessageCase4List>;
-
-export type UnprocessableEntityResponseCase1Message =
+/** Failure reason. Includes `employment_not_global_payroll` when the provided employment is not Global Payroll, `pay_item_code_not_allowed` / `pay_item_external_import_code_not_allowed` when the given identifier does not resolve to an allowed pay element, and `effective_date_after_termination_date` (as a `code`/`message` pair) when a `time_attendance` pay item's `effective_date` falls after the employment's termination date. */
+export type PayItemBulkCreateFailuresError =
   | string
-  | ParameterError
-  | UnprocessableEntityResponseCase1MessageCase2List
-  | ActionError
-  | UnprocessableEntityResponseCase1MessageCase4List;
-export const UnprocessableEntityResponseCase1Message =
-  S.Unknown as any as S.Schema<UnprocessableEntityResponseCase1Message>;
-
-export interface UnprocessableEntityResponseCase1 {
-  message: UnprocessableEntityResponseCase1Message;
-}
-export const UnprocessableEntityResponseCase1 = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    message: UnprocessableEntityResponseCase1Message,
-  }),
-).annotate({
-  identifier: "UnprocessableEntityResponseCase1",
-}) as any as S.Schema<UnprocessableEntityResponseCase1>;
-
-export type UnprocessableEntityResponse =
-  | UnprocessableEntityResponseCase0
-  | UnprocessableEntityResponseCase1;
-export const UnprocessableEntityResponse =
-  S.Unknown as any as S.Schema<UnprocessableEntityResponse>;
-
-/** Failure reason. Includes `employment_not_global_payroll` when the provided employment is not Global Payroll, and `pay_item_code_not_allowed` / `pay_item_external_import_code_not_allowed` when the given identifier does not resolve to an allowed pay element. */
-export type PayItemBulkCreateFailuresError = string | UnprocessableEntityResponse;
+  | PayItemBulkCreateFailureDetail
+  | PayItemBulkCreateFailuresErrorCase2;
 export const PayItemBulkCreateFailuresError =
   S.Unknown as any as S.Schema<PayItemBulkCreateFailuresError>;
 
 export interface PayItemBulkCreateFailures {
-  /** Failure reason. Includes `employment_not_global_payroll` when the provided employment is not Global Payroll, and `pay_item_code_not_allowed` / `pay_item_external_import_code_not_allowed` when the given identifier does not resolve to an allowed pay element. */
+  /** Failure reason. Includes `employment_not_global_payroll` when the provided employment is not Global Payroll, `pay_item_code_not_allowed` / `pay_item_external_import_code_not_allowed` when the given identifier does not resolve to an allowed pay element, and `effective_date_after_termination_date` (as a `code`/`message` pair) when a `time_attendance` pay item's `effective_date` falls after the employment's termination date. */
   error?: PayItemBulkCreateFailuresError;
   row_number?: number;
 }
@@ -5158,6 +5109,30 @@ export const BulkCreatePayItemsResponseDataFailuresList = /*@__PURE__*/ S.Array(
   PayItemBulkCreateFailures,
 ) as any as S.Schema<BulkCreatePayItemsResponseDataFailuresList>;
 
+export interface PayItemProviderData {
+  /** Set this only on a correction: the original working day being corrected (YYYY-MM-DD). Its presence is what marks the pay item as a correction rather than an original submission. */
+  correction_effective_date?: string;
+  /** Hourly rate in cents */
+  hourly_rate?: number;
+  hourly_rate_currency_code?: string | null;
+  /** Overtime rate multiplier (e.g. 1.5) */
+  pay_rate?: number;
+  /** Shift identifier from partner system */
+  shift_code?: string;
+  /** Expected work day duration in seconds */
+  work_day_duration?: number;
+}
+export const PayItemProviderData = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    correction_effective_date: S.optional(S.String),
+    hourly_rate: S.optional(S.Number),
+    hourly_rate_currency_code: S.optional(S.NullOr(S.String)),
+    pay_rate: S.optional(S.Number),
+    shift_code: S.optional(S.String),
+    work_day_duration: S.optional(S.Number),
+  }),
+).annotate({ identifier: "PayItemProviderData" }) as any as S.Schema<PayItemProviderData>;
+
 /** Ids of pay items this one has replaced, oldest first. Empty if this pay item has never been edited. */
 export type PayItemReplacedIdsList = Array<string>;
 export const PayItemReplacedIdsList = /*@__PURE__*/ S.Array(
@@ -5169,10 +5144,12 @@ export interface PayItem {
   amount: number;
   /** Pay item type code */
   code: string;
-  /** Working day date (YYYY-MM-DD) */
+  /** Date the pay item is applied on (YYYY-MM-DD) — the day worked, the day a correction was submitted, or the first day of a leave period. */
   effective_date: string;
   /** Employment UUID */
   employment_id: string;
+  /** Last day of a leave period, inclusive (YYYY-MM-DD). Only for Leave-of-absence pay codes; Leave empty for other pay codes. */
+  end_date: string | null;
   /** Pay item's unique identifier */
   id: string;
   provider_data: PayItemProviderData;
@@ -5185,6 +5162,7 @@ export const PayItem = /*@__PURE__*/ S.suspend(() =>
     code: S.String,
     effective_date: S.String,
     employment_id: S.String,
+    end_date: S.NullOr(S.String),
     id: S.String,
     provider_data: PayItemProviderData,
     replaced_ids: PayItemReplacedIdsList,
@@ -5248,11 +5226,7 @@ export const CreatePayrollRunGlReportRequest = /*@__PURE__*/ S.suspend(() =>
     payroll_run_id: S.String.pipe(T.Label()),
     type: CreatePayrollRunGlReportRequestType,
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v1/payroll-runs/{payroll_run_id}/gl-reports",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/v1/payroll-runs/{payroll_run_id}/gl-reports", code: 200 }),
   ),
 ).annotate({
   identifier: "CreatePayrollRunGlReportRequest",
@@ -5293,9 +5267,7 @@ export const GLReportResponseData = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     gl_report: S.optional(GLReport),
   }),
-).annotate({
-  identifier: "GLReportResponseData",
-}) as any as S.Schema<GLReportResponseData>;
+).annotate({ identifier: "GLReportResponseData" }) as any as S.Schema<GLReportResponseData>;
 
 export interface GLReportResponse {
   data?: GLReportResponseData;
@@ -5304,9 +5276,7 @@ export const GLReportResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     data: S.optional(GLReportResponseData),
   }),
-).annotate({
-  identifier: "GLReportResponse",
-}) as any as S.Schema<GLReportResponse>;
+).annotate({ identifier: "GLReportResponse" }) as any as S.Schema<GLReportResponse>;
 
 export interface CreateProbationCompletionLetterRequest {
   /** The employment ID. */
@@ -5315,18 +5285,12 @@ export interface CreateProbationCompletionLetterRequest {
 export const CreateProbationCompletionLetterRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     employment_id: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v1/probation-completion-letter",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/v1/probation-completion-letter", code: 200 })),
 ).annotate({
   identifier: "CreateProbationCompletionLetterRequest",
 }) as any as S.Schema<CreateProbationCompletionLetterRequest>;
 
-/** A file associated with an employment, such as a contract, tax form, or identity document. */
+/** A file associated with an employment, such as a contract, tax document, or identity document. */
 export type ProbationCompletionLetterFile = File;
 export const ProbationCompletionLetterFile = File;
 
@@ -5394,9 +5358,7 @@ export const ProbationExtensionFile = /*@__PURE__*/ S.suspend(() =>
     content: S.String,
     name: S.String,
   }),
-).annotate({
-  identifier: "ProbationExtensionFile",
-}) as any as S.Schema<ProbationExtensionFile>;
+).annotate({ identifier: "ProbationExtensionFile" }) as any as S.Schema<ProbationExtensionFile>;
 
 export interface CreateProbationExtensionRequest {
   /** Any additional details that need to be considered for the probation extension. */
@@ -5455,9 +5417,7 @@ export const ProbationExtension = /*@__PURE__*/ S.suspend(() =>
     submitted_at: S.String,
     zendesk_ticket_url: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "ProbationExtension",
-}) as any as S.Schema<ProbationExtension>;
+).annotate({ identifier: "ProbationExtension" }) as any as S.Schema<ProbationExtension>;
 
 export interface ProbationExtensionResponseData {
   probation_extension: ProbationExtension;
@@ -5482,6 +5442,112 @@ export const ProbationExtensionResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "ProbationExtensionResponse",
 }) as any as S.Schema<ProbationExtensionResponse>;
 
+export interface CreateProjectRequest {
+  /** Code/identifier of the project. Must be unique within the company. */
+  code: string;
+  /** Description of the project. */
+  description?: string | null;
+  /** Date when the project ends. */
+  end_date?: string | null;
+  /** Name of the project. */
+  name: string;
+  /** Date when the project starts. */
+  start_date?: string | null;
+}
+export const CreateProjectRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    code: S.String,
+    description: S.optional(S.NullOr(S.String)),
+    end_date: S.optional(S.NullOr(S.String)),
+    name: S.String,
+    start_date: S.optional(S.NullOr(S.String)),
+  }).pipe(T.Http({ method: "POST", uri: "/v1/projects", code: 200 })),
+).annotate({ identifier: "CreateProjectRequest" }) as any as S.Schema<CreateProjectRequest>;
+
+/** A project's budget: amount and its currency. */
+export interface ProjectBudget {
+  /** Budget amount, in cents. */
+  amount: number;
+  currency: string | null;
+}
+export const ProjectBudget = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    amount: S.Number,
+    currency: S.NullOr(S.String),
+  }),
+).annotate({ identifier: "ProjectBudget" }) as any as S.Schema<ProjectBudget>;
+
+/** User IDs of the company admins assigned as the project's leads. These are user IDs, unlike `team_member_ids`, which are employment IDs. */
+export type ProjectLeadIdsList = Array<string>;
+export const ProjectLeadIdsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<ProjectLeadIdsList>;
+
+export type ProjectStatus = "active" | "archived" | "completed";
+export const ProjectStatus = S.String;
+
+/** Employment IDs of the contractors assigned to the project as team members. These are employment IDs, unlike `lead_ids`, which are user IDs. */
+export type ProjectTeamMemberIdsList = Array<string>;
+export const ProjectTeamMemberIdsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<ProjectTeamMemberIdsList>;
+
+/** Company project */
+export interface Project {
+  /** A project's budget: amount and its currency. */
+  budget: ProjectBudget | null;
+  /** Code/identifier of the project. */
+  code: string;
+  /** Description of the project. */
+  description?: string | null;
+  /** Date when the project ends. */
+  end_date?: string | null;
+  /** Project identifier. */
+  id: string;
+  /** User IDs of the company admins assigned as the project's leads. These are user IDs, unlike `team_member_ids`, which are employment IDs. */
+  lead_ids: ProjectLeadIdsList;
+  /** Name of the project. */
+  name: string;
+  /** Date when the project starts. */
+  start_date?: string | null;
+  status: ProjectStatus;
+  /** Employment IDs of the contractors assigned to the project as team members. These are employment IDs, unlike `lead_ids`, which are user IDs. */
+  team_member_ids: ProjectTeamMemberIdsList;
+}
+export const Project = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    budget: S.NullOr(ProjectBudget),
+    code: S.String,
+    description: S.optional(S.NullOr(S.String)),
+    end_date: S.optional(S.NullOr(S.String)),
+    id: S.String,
+    lead_ids: ProjectLeadIdsList,
+    name: S.String,
+    start_date: S.optional(S.NullOr(S.String)),
+    status: ProjectStatus,
+    team_member_ids: ProjectTeamMemberIdsList,
+  }),
+).annotate({ identifier: "Project" }) as any as S.Schema<Project>;
+
+export interface ProjectResponseData {
+  project?: Project;
+}
+export const ProjectResponseData = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    project: S.optional(Project),
+  }),
+).annotate({ identifier: "ProjectResponseData" }) as any as S.Schema<ProjectResponseData>;
+
+/** Response schema for a single company project. */
+export interface ProjectResponse {
+  data: ProjectResponseData;
+}
+export const ProjectResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    data: ProjectResponseData,
+  }),
+).annotate({ identifier: "ProjectResponse" }) as any as S.Schema<ProjectResponse>;
+
 export interface CreateRiskReserveRequest {
   /** The unique identifier (UUID) of the employment to create a risk reserve for. The employment must exist and be in a state that allows risk reserve creation. */
   employment_slug: string;
@@ -5490,9 +5556,7 @@ export const CreateRiskReserveRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     employment_slug: S.String,
   }).pipe(T.Http({ method: "POST", uri: "/v1/risk-reserve", code: 200 })),
-).annotate({
-  identifier: "CreateRiskReserveRequest",
-}) as any as S.Schema<CreateRiskReserveRequest>;
+).annotate({ identifier: "CreateRiskReserveRequest" }) as any as S.Schema<CreateRiskReserveRequest>;
 
 export interface CreateSandboxBenefitRenewalRequestRequest {
   /** The unique identifier (UUID) of the benefit group to create a renewal request for. */
@@ -5501,13 +5565,7 @@ export interface CreateSandboxBenefitRenewalRequestRequest {
 export const CreateSandboxBenefitRenewalRequestRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     benefit_group_id: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v1/sandbox/benefit-renewal-requests",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/v1/sandbox/benefit-renewal-requests", code: 200 })),
 ).annotate({
   identifier: "CreateSandboxBenefitRenewalRequestRequest",
 }) as any as S.Schema<CreateSandboxBenefitRenewalRequestRequest>;
@@ -5651,11 +5709,7 @@ export const CreateSandboxCompanyLegalEntityRequest = /*@__PURE__*/ S.suspend(()
     company_id: S.String.pipe(T.Label()),
     country_code: S.String,
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v1/sandbox/companies/{company_id}/legal-entities",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/v1/sandbox/companies/{company_id}/legal-entities", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateSandboxCompanyLegalEntityRequest",
@@ -5797,7 +5851,7 @@ export const MoneyResponse = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "MoneyResponse" }) as any as S.Schema<MoneyResponse>;
 
-/** How often the contractor is paid. Always null for `one_off` rates. */
+/** How often the contractor is paid. Always null for `one_off` rates. Can be null for a recurring rate when the company did not record a frequency. */
 export type ContractorRatePayFrequency = "weekly" | "bi_weekly" | "semi_monthly" | "monthly";
 export const ContractorRatePayFrequency = S.String;
 
@@ -5805,7 +5859,7 @@ export const ContractorRatePayFrequency = S.String;
 export type ContractorRateType = "hourly" | "daily" | "weekly" | "monthly" | "one_off";
 export const ContractorRateType = S.String;
 
-/** A rate configured for a contractor, with the dates of the contract it is paid under. `type` discriminates the payment mode: `one_off` is a single payment on completion of services; any other value is paid per pay period, where `type` is the calculation unit and `pay_frequency` the invoicing cadence. `type` and `pay_frequency` are open enums: new values may be added, so treat an unrecognised value as opaque rather than an error. */
+/** A rate configured for a contractor, with the dates of the contract it is paid under and, when a Statement of Work established it, that Statement of Work's service dates. `type` discriminates the payment mode: `one_off` is a single payment on completion of services; any other value is paid per pay period, where `type` is the calculation unit and `pay_frequency` the invoicing cadence. `type` and `pay_frequency` list every value Remote stores. A new value is announced as an API change before it appears. */
 export interface ContractorRate {
   amount: MoneyResponse;
   /** Expiration date of the contractor's active contract (or the last active one for ended engagements). This is not a termination date. Null for an open-ended contract, and when the contractor has no contract on record. */
@@ -5814,8 +5868,12 @@ export interface ContractorRate {
   contract_start_date: string | null;
   /** Unique identifier of the rate. */
   id: string;
-  /** How often the contractor is paid. Always null for `one_off` rates. */
+  /** How often the contractor is paid. Always null for `one_off` rates. Can be null for a recurring rate when the company did not record a frequency. */
   pay_frequency: ContractorRatePayFrequency | null;
+  /** Planned end date of those services. The engagement continues month to month after it until the Statement of Work is replaced or ended, so the rate stays listed. Null for open-ended services and whenever `service_start_date` is null. */
+  service_end_date: string | null;
+  /** Date the services under the Statement of Work that established this rate begin. Null when no Statement of Work record established the rate: one the company recorded itself, or one signed before Remote recorded service terms. */
+  service_start_date: string | null;
   /** The unit the amount is paid per. */
   type: ContractorRateType;
 }
@@ -5826,6 +5884,8 @@ export const ContractorRate = /*@__PURE__*/ S.suspend(() =>
     contract_start_date: S.NullOr(S.String),
     id: S.String,
     pay_frequency: S.NullOr(ContractorRatePayFrequency),
+    service_end_date: S.NullOr(S.String),
+    service_start_date: S.NullOr(S.String),
     type: ContractorRateType,
   }),
 ).annotate({ identifier: "ContractorRate" }) as any as S.Schema<ContractorRate>;
@@ -5886,6 +5946,117 @@ export const CreateSandboxEmploymentRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "CreateSandboxEmploymentRequest",
 }) as any as S.Schema<CreateSandboxEmploymentRequest>;
 
+/** The verdict the employment's next contract-details submission should act on. */
+export type CreateSandboxEmploymentJobTitleEligibilityCheckRequestVerdict =
+  | "eligible"
+  | "not_eligible"
+  | "needs_review"
+  | "eligible_with_risk_acknowledgement";
+export const CreateSandboxEmploymentJobTitleEligibilityCheckRequestVerdict = S.String;
+
+export interface CreateSandboxEmploymentJobTitleEligibilityCheckRequest {
+  /** Employment ID */
+  employment_id: string;
+  /** The job title to record the verdict against. Defaults to the employment's current one. */
+  job_title?: string;
+  /** The role description the submission will carry. A submission carrying a different one is rejected, because the recorded verdict no longer describes what was sent. */
+  role_description: string;
+  /** The verdict the employment's next contract-details submission should act on. */
+  verdict: CreateSandboxEmploymentJobTitleEligibilityCheckRequestVerdict | (string & {});
+}
+export const CreateSandboxEmploymentJobTitleEligibilityCheckRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    employment_id: S.String.pipe(T.Label()),
+    job_title: S.optional(S.String),
+    role_description: S.String,
+    verdict: CreateSandboxEmploymentJobTitleEligibilityCheckRequestVerdict,
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/v1/sandbox/employments/{employment_id}/job-title-eligibility-check",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "CreateSandboxEmploymentJobTitleEligibilityCheckRequest",
+}) as any as S.Schema<CreateSandboxEmploymentJobTitleEligibilityCheckRequest>;
+
+export interface CreateSandboxEmploymentJobTitleReviewApproveRequest {
+  /** Employment ID */
+  employment_id: string;
+  /** The reviewer's notes, recorded on the employment as a Remote admin's would be. */
+  notes?: string;
+}
+export const CreateSandboxEmploymentJobTitleReviewApproveRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    employment_id: S.String.pipe(T.Label()),
+    notes: S.optional(S.String),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/v1/sandbox/employments/{employment_id}/job-title-review/approve",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "CreateSandboxEmploymentJobTitleReviewApproveRequest",
+}) as any as S.Schema<CreateSandboxEmploymentJobTitleReviewApproveRequest>;
+
+export interface JobTitleReviewDecisionResponseDataJobTitleReview {
+  /** The employment's status after the decision. An approval restores the status the employment held before it entered review. */
+  employment_status: string;
+}
+export const JobTitleReviewDecisionResponseDataJobTitleReview = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    employment_status: S.String,
+  }),
+).annotate({
+  identifier: "JobTitleReviewDecisionResponseDataJobTitleReview",
+}) as any as S.Schema<JobTitleReviewDecisionResponseDataJobTitleReview>;
+
+export interface JobTitleReviewDecisionResponseData {
+  job_title_review: JobTitleReviewDecisionResponseDataJobTitleReview;
+}
+export const JobTitleReviewDecisionResponseData = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    job_title_review: JobTitleReviewDecisionResponseDataJobTitleReview,
+  }),
+).annotate({
+  identifier: "JobTitleReviewDecisionResponseData",
+}) as any as S.Schema<JobTitleReviewDecisionResponseData>;
+
+export interface JobTitleReviewDecisionResponse {
+  data: JobTitleReviewDecisionResponseData;
+}
+export const JobTitleReviewDecisionResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    data: JobTitleReviewDecisionResponseData,
+  }),
+).annotate({
+  identifier: "JobTitleReviewDecisionResponse",
+}) as any as S.Schema<JobTitleReviewDecisionResponse>;
+
+export interface CreateSandboxEmploymentJobTitleReviewRejectRequest {
+  /** Employment ID */
+  employment_id: string;
+  /** The reviewer's notes, recorded on the employment as a Remote admin's would be. */
+  notes?: string;
+}
+export const CreateSandboxEmploymentJobTitleReviewRejectRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    employment_id: S.String.pipe(T.Label()),
+    notes: S.optional(S.String),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/v1/sandbox/employments/{employment_id}/job-title-review/reject",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "CreateSandboxEmploymentJobTitleReviewRejectRequest",
+}) as any as S.Schema<CreateSandboxEmploymentJobTitleReviewRejectRequest>;
+
 export type WebhookTriggerEmploymentParamsEventType =
   | "background_check.status.updated"
   | "benefit_renewal_request.created"
@@ -5896,6 +6067,7 @@ export type WebhookTriggerEmploymentParamsEventType =
   | "company.manager_updated"
   | "company.owner_changed"
   | "company.archived"
+  | "company.hard_deleted"
   | "company.eor_hiring.additional_information_required"
   | "company.eor_hiring.reserve_payment_requested"
   | "company.eor_hiring.no_reserve_payment_requested"
@@ -5911,8 +6083,10 @@ export type WebhookTriggerEmploymentParamsEventType =
   | "contract.termination_date_reached"
   | "contract_document.status.changed"
   | "contractor_invoice.employer_paid"
+  | "contractor_invoice.funds_returned"
   | "contractor_invoice.issued"
   | "contractor_invoice.paid_out"
+  | "contractor_invoice.pay_out_failed"
   | "contractor_invoice.payment_initiated"
   | "custom_field.value_updated"
   | "employment.benefits.selected"
@@ -5934,6 +6108,10 @@ export type WebhookTriggerEmploymentParamsEventType =
   | "employment.cor_hiring.proof_of_payment_submitted"
   | "employment.eor_hiring.proof_of_payment_accepted"
   | "employment.eor_hiring.proof_of_payment_submitted"
+  | "employment.hard_deleted"
+  | "employment.job_title_review.approved"
+  | "employment.job_title_review.rejected"
+  | "employment.job_title_review.started"
   | "employment.no_longer_eligible_for_onboarding_cancellation"
   | "employment.onboarding_task.completed"
   | "employment.onboarding.cancelled"
@@ -6020,7 +6198,16 @@ export type WebhookTriggerBillingParamsDocumentType =
   | "reconciliation_invoice"
   | "supplemental_service_credit_note"
   | "prefunding_credit_note"
-  | "reconciliation_credit_note";
+  | "reconciliation_credit_note"
+  | "credit_note"
+  | "eor_reserve_credit_note"
+  | "contractor_management_invoice"
+  | "cor_service_invoice"
+  | "eor_reserve_invoice"
+  | "payroll_service_invoice"
+  | "remote_plan_invoice"
+  | "peo_payroll_invoice"
+  | "peo_service_invoice";
 export const WebhookTriggerBillingParamsDocumentType = S.String;
 
 export type WebhookTriggerBillingParamsEventType = "billing_document.issued";
@@ -6049,13 +6236,7 @@ export interface CreateSandboxWebhookCallbacksTriggerRequest {
 export const CreateSandboxWebhookCallbacksTriggerRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     body: S.optional(WebhookTriggerParams.pipe(T.HttpBody())),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v1/sandbox/webhook-callbacks/trigger",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/v1/sandbox/webhook-callbacks/trigger", code: 200 })),
 ).annotate({
   identifier: "CreateSandboxWebhookCallbacksTriggerRequest",
 }) as any as S.Schema<CreateSandboxWebhookCallbacksTriggerRequest>;
@@ -6159,9 +6340,7 @@ export const CreateSdkTelemetryErrorRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface CreateSdkTelemetryErrorResponse {}
 export const CreateSdkTelemetryErrorResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "CreateSdkTelemetryErrorResponse",
-  },
+  { identifier: "CreateSdkTelemetryErrorResponse" },
 ) as any as S.Schema<CreateSdkTelemetryErrorResponse>;
 
 export interface CreateSsoConfigurationRequest {
@@ -6217,6 +6396,28 @@ export const CreateTimeoffRequestTimeoffDaysList = /*@__PURE__*/ S.Array(
   TimeoffDaysParams,
 ) as any as S.Schema<CreateTimeoffRequestTimeoffDaysList>;
 
+/** The type of leave accepted when creating a time off record. It is fixed once the record exists and cannot be changed by updating it. */
+export type TimeoffType =
+  | "time_off"
+  | "sick_leave"
+  | "public_holiday"
+  | "unpaid_leave"
+  | "extended_leave"
+  | "in_lieu_time"
+  | "maternity_leave"
+  | "paternity_leave"
+  | "parental_leave"
+  | "bereavement"
+  | "military_leave"
+  | "other"
+  | "paid_time_off"
+  | "custom_company_leave"
+  | "rtt"
+  | "casual_leave"
+  | "rol"
+  | "ex_festivita";
+export const TimeoffType = S.String;
+
 export type CreateTimeoffRequestStatus = "approved";
 export const CreateTimeoffRequestStatus = S.String;
 
@@ -6224,7 +6425,7 @@ export interface CreateTimeoffRequest {
   document?: TimeoffDocumentParams;
   employment_id: string;
   end_date: string;
-  /** UUID of a custom company leave policy assigned to the employment. Use this field instead of `timeoff_type` when creating time off against a custom leave policy. Discover available custom leave policy UUIDs via `GET /v1/leave-policies/details/{employment_id}`. */
+  /** UUID of a leave policy assigned to the employment. Use this field instead of `timeoff_type` to book against a specific policy; for employments on the leave-type model it is the only way to target one. Discover the available UUIDs via `GET /v1/leave-policies/details/{employment_id}`. */
   leave_policy_variant_id?: string;
   notes?: string;
   start_date: string;
@@ -6250,9 +6451,7 @@ export const CreateTimeoffRequest = /*@__PURE__*/ S.suspend(() =>
     approver_id: S.NullOr(S.String),
     status: CreateTimeoffRequestStatus,
   }).pipe(T.Http({ method: "POST", uri: "/v1/timeoff", code: 200 })),
-).annotate({
-  identifier: "CreateTimeoffRequest",
-}) as any as S.Schema<CreateTimeoffRequest>;
+).annotate({ identifier: "CreateTimeoffRequest" }) as any as S.Schema<CreateTimeoffRequest>;
 
 export interface CreateTimeoffApproveRequest {
   /** Time Off ID */
@@ -6263,13 +6462,7 @@ export const CreateTimeoffApproveRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     timeoff_id: S.String.pipe(T.Label()),
     approver_id: S.NullOr(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v1/timeoff/{timeoff_id}/approve",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/v1/timeoff/{timeoff_id}/approve", code: 200 })),
 ).annotate({
   identifier: "CreateTimeoffApproveRequest",
 }) as any as S.Schema<CreateTimeoffApproveRequest>;
@@ -6283,13 +6476,7 @@ export const CreateTimeoffCancelRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     timeoff_id: S.String.pipe(T.Label()),
     cancel_reason: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v1/timeoff/{timeoff_id}/cancel",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/v1/timeoff/{timeoff_id}/cancel", code: 200 })),
 ).annotate({
   identifier: "CreateTimeoffCancelRequest",
 }) as any as S.Schema<CreateTimeoffCancelRequest>;
@@ -6302,11 +6489,7 @@ export const CreateTimeoffCancelRequestApproveRequest = /*@__PURE__*/ S.suspend(
   S.Struct({
     timeoff_id: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v1/timeoff/{timeoff_id}/cancel-request/approve",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/v1/timeoff/{timeoff_id}/cancel-request/approve", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateTimeoffCancelRequestApproveRequest",
@@ -6322,11 +6505,7 @@ export const CreateTimeoffCancelRequestDeclineRequest = /*@__PURE__*/ S.suspend(
     timeoff_id: S.String.pipe(T.Label()),
     decline_reason: S.NullOr(S.String),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v1/timeoff/{timeoff_id}/cancel-request/decline",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/v1/timeoff/{timeoff_id}/cancel-request/decline", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateTimeoffCancelRequestDeclineRequest",
@@ -6341,13 +6520,7 @@ export const CreateTimeoffDeclineRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     timeoff_id: S.String.pipe(T.Label()),
     decline_reason: S.NullOr(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v1/timeoff/{timeoff_id}/decline",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/v1/timeoff/{timeoff_id}/decline", code: 200 })),
 ).annotate({
   identifier: "CreateTimeoffDeclineRequest",
 }) as any as S.Schema<CreateTimeoffDeclineRequest>;
@@ -6359,13 +6532,7 @@ export interface CreateTimesheetApproveRequest {
 export const CreateTimesheetApproveRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     timesheet_id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v1/timesheets/{timesheet_id}/approve",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/v1/timesheets/{timesheet_id}/approve", code: 200 })),
 ).annotate({
   identifier: "CreateTimesheetApproveRequest",
 }) as any as S.Schema<CreateTimesheetApproveRequest>;
@@ -6401,9 +6568,7 @@ export const MinimalTimesheet = /*@__PURE__*/ S.suspend(() =>
     status: TimesheetStatus,
     submitted_at: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "MinimalTimesheet",
-}) as any as S.Schema<MinimalTimesheet>;
+).annotate({ identifier: "MinimalTimesheet" }) as any as S.Schema<MinimalTimesheet>;
 
 export interface MinimalTimesheetResponseData {
   timesheet: MinimalTimesheet;
@@ -6424,9 +6589,7 @@ export const MinimalTimesheetResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     data: S.optional(MinimalTimesheetResponseData),
   }),
-).annotate({
-  identifier: "MinimalTimesheetResponse",
-}) as any as S.Schema<MinimalTimesheetResponse>;
+).annotate({ identifier: "MinimalTimesheetResponse" }) as any as S.Schema<MinimalTimesheetResponse>;
 
 export interface CreateTimesheetSendBackRequest {
   /** Timesheet ID */
@@ -6438,13 +6601,7 @@ export const CreateTimesheetSendBackRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     timesheet_id: S.String.pipe(T.Label()),
     sent_back_reason: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v1/timesheets/{timesheet_id}/send-back",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/v1/timesheets/{timesheet_id}/send-back", code: 200 })),
 ).annotate({
   identifier: "CreateTimesheetSendBackRequest",
 }) as any as S.Schema<CreateTimesheetSendBackRequest>;
@@ -6465,9 +6622,7 @@ export const SentBackTimesheet = /*@__PURE__*/ S.suspend(() =>
     sent_back_reason: S.String,
     status: TimesheetStatus,
   }),
-).annotate({
-  identifier: "SentBackTimesheet",
-}) as any as S.Schema<SentBackTimesheet>;
+).annotate({ identifier: "SentBackTimesheet" }) as any as S.Schema<SentBackTimesheet>;
 
 export interface SentBackTimesheetResponseData {
   timesheet: SentBackTimesheet;
@@ -6503,6 +6658,7 @@ export type CreateWebhookCallbackRequestSubscribedEventsItem =
   | "company.manager_updated"
   | "company.owner_changed"
   | "company.archived"
+  | "company.hard_deleted"
   | "company.eor_hiring.additional_information_required"
   | "company.eor_hiring.reserve_payment_requested"
   | "company.eor_hiring.no_reserve_payment_requested"
@@ -6518,8 +6674,10 @@ export type CreateWebhookCallbackRequestSubscribedEventsItem =
   | "contract.termination_date_reached"
   | "contract_document.status.changed"
   | "contractor_invoice.employer_paid"
+  | "contractor_invoice.funds_returned"
   | "contractor_invoice.issued"
   | "contractor_invoice.paid_out"
+  | "contractor_invoice.pay_out_failed"
   | "contractor_invoice.payment_initiated"
   | "custom_field.value_updated"
   | "employment.benefits.selected"
@@ -6541,6 +6699,10 @@ export type CreateWebhookCallbackRequestSubscribedEventsItem =
   | "employment.cor_hiring.proof_of_payment_submitted"
   | "employment.eor_hiring.proof_of_payment_accepted"
   | "employment.eor_hiring.proof_of_payment_submitted"
+  | "employment.hard_deleted"
+  | "employment.job_title_review.approved"
+  | "employment.job_title_review.rejected"
+  | "employment.job_title_review.started"
   | "employment.no_longer_eligible_for_onboarding_cancellation"
   | "employment.onboarding_task.completed"
   | "employment.onboarding.cancelled"
@@ -6642,6 +6804,7 @@ export type WebhookCallbackSubscribedEventsItem =
   | "company.manager_updated"
   | "company.owner_changed"
   | "company.archived"
+  | "company.hard_deleted"
   | "company.eor_hiring.additional_information_required"
   | "company.eor_hiring.reserve_payment_requested"
   | "company.eor_hiring.no_reserve_payment_requested"
@@ -6657,8 +6820,10 @@ export type WebhookCallbackSubscribedEventsItem =
   | "contract.termination_date_reached"
   | "contract_document.status.changed"
   | "contractor_invoice.employer_paid"
+  | "contractor_invoice.funds_returned"
   | "contractor_invoice.issued"
   | "contractor_invoice.paid_out"
+  | "contractor_invoice.pay_out_failed"
   | "contractor_invoice.payment_initiated"
   | "custom_field.value_updated"
   | "employment.benefits.selected"
@@ -6680,6 +6845,10 @@ export type WebhookCallbackSubscribedEventsItem =
   | "employment.cor_hiring.proof_of_payment_submitted"
   | "employment.eor_hiring.proof_of_payment_accepted"
   | "employment.eor_hiring.proof_of_payment_submitted"
+  | "employment.hard_deleted"
+  | "employment.job_title_review.approved"
+  | "employment.job_title_review.rejected"
+  | "employment.job_title_review.started"
   | "employment.no_longer_eligible_for_onboarding_cancellation"
   | "employment.onboarding_task.completed"
   | "employment.onboarding.cancelled"
@@ -6772,9 +6941,7 @@ export const WebhookCallback = /*@__PURE__*/ S.suspend(() =>
     subscribed_events: S.optional(WebhookCallbackSubscribedEventsList),
     url: S.String,
   }),
-).annotate({
-  identifier: "WebhookCallback",
-}) as any as S.Schema<WebhookCallback>;
+).annotate({ identifier: "WebhookCallback" }) as any as S.Schema<WebhookCallback>;
 
 export interface WebhookCallbackResponseData {
   webhook_callback: WebhookCallback;
@@ -6795,9 +6962,7 @@ export const WebhookCallbackResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     data: WebhookCallbackResponseData,
   }),
-).annotate({
-  identifier: "WebhookCallbackResponse",
-}) as any as S.Schema<WebhookCallbackResponse>;
+).annotate({ identifier: "WebhookCallbackResponse" }) as any as S.Schema<WebhookCallbackResponse>;
 
 /** A list of webhook event IDs to replay. */
 export type IdsRequiredParamsIdsList = Array<string>;
@@ -6813,9 +6978,7 @@ export const IdsRequiredParams = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ids: IdsRequiredParamsIdsList,
   }),
-).annotate({
-  identifier: "IdsRequiredParams",
-}) as any as S.Schema<IdsRequiredParams>;
+).annotate({ identifier: "IdsRequiredParams" }) as any as S.Schema<IdsRequiredParams>;
 
 export interface BeforeAfterRequiredParams {
   /** Only replay events triggered after this timestamp (ISO 8601). */
@@ -6863,13 +7026,7 @@ export interface DeleteCompanyManagerRequest {
 export const DeleteCompanyManagerRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     user_id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/v1/company-managers/{user_id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/v1/company-managers/{user_id}", code: 200 })),
 ).annotate({
   identifier: "DeleteCompanyManagerRequest",
 }) as any as S.Schema<DeleteCompanyManagerRequest>;
@@ -6908,9 +7065,7 @@ export const DeleteIncentiveRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "DELETE", uri: "/v1/incentives/{id}", code: 200 })),
-).annotate({
-  identifier: "DeleteIncentiveRequest",
-}) as any as S.Schema<DeleteIncentiveRequest>;
+).annotate({ identifier: "DeleteIncentiveRequest" }) as any as S.Schema<DeleteIncentiveRequest>;
 
 export interface DeleteIncentivesRecurringRequest {
   /** Recurring Incentive ID */
@@ -6919,13 +7074,7 @@ export interface DeleteIncentivesRecurringRequest {
 export const DeleteIncentivesRecurringRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/v1/incentives/recurring/{id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/v1/incentives/recurring/{id}", code: 200 })),
 ).annotate({
   identifier: "DeleteIncentivesRecurringRequest",
 }) as any as S.Schema<DeleteIncentivesRecurringRequest>;
@@ -6992,9 +7141,7 @@ export const DeletePayItemRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "DELETE", uri: "/v1/pay-items/{id}", code: 200 })),
-).annotate({
-  identifier: "DeletePayItemRequest",
-}) as any as S.Schema<DeletePayItemRequest>;
+).annotate({ identifier: "DeletePayItemRequest" }) as any as S.Schema<DeletePayItemRequest>;
 
 export interface DeleteSandboxEmploymentRequest {
   /** Employment ID */
@@ -7003,13 +7150,7 @@ export interface DeleteSandboxEmploymentRequest {
 export const DeleteSandboxEmploymentRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     employment_id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/v1/sandbox/employments/{employment_id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/v1/sandbox/employments/{employment_id}", code: 200 })),
 ).annotate({
   identifier: "DeleteSandboxEmploymentRequest",
 }) as any as S.Schema<DeleteSandboxEmploymentRequest>;
@@ -7026,12 +7167,82 @@ export const DeleteWebhookCallbackRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteWebhookCallbackRequest",
 }) as any as S.Schema<DeleteWebhookCallbackRequest>;
 
+export interface GetAdpSubscriptionCancellationsRequest {
+  /** URL ADP provides to fetch the event payload from. Absent for ADP's own connectivity/test calls, which are acked without a fetch. */
+  eventUrl?: string;
+}
+export const GetAdpSubscriptionCancellationsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    eventUrl: S.optional(S.String.pipe(T.Query())),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/adp/subscription-cancellations", code: 200 })),
+).annotate({
+  identifier: "GetAdpSubscriptionCancellationsRequest",
+}) as any as S.Schema<GetAdpSubscriptionCancellationsRequest>;
+
+export interface GetAdpSubscriptionChangesRequest {
+  /** URL ADP provides to fetch the event payload from. Absent for ADP's own connectivity/test calls, which are acked without a fetch. */
+  eventUrl?: string;
+}
+export const GetAdpSubscriptionChangesRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    eventUrl: S.optional(S.String.pipe(T.Query())),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/adp/subscription-changes", code: 200 })),
+).annotate({
+  identifier: "GetAdpSubscriptionChangesRequest",
+}) as any as S.Schema<GetAdpSubscriptionChangesRequest>;
+
+export interface GetAdpSubscriptionOrdersRequest {
+  /** URL ADP provides to fetch the event payload from. Absent for ADP's own connectivity/test calls, which are acked without a fetch. */
+  eventUrl?: string;
+}
+export const GetAdpSubscriptionOrdersRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    eventUrl: S.optional(S.String.pipe(T.Query())),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/adp/subscription-orders", code: 200 })),
+).annotate({
+  identifier: "GetAdpSubscriptionOrdersRequest",
+}) as any as S.Schema<GetAdpSubscriptionOrdersRequest>;
+
+export interface GetAdpSubscriptionStatusRequest {
+  /** URL ADP provides to fetch the event payload from. Absent for ADP's own connectivity/test calls, which are acked without a fetch. */
+  eventUrl?: string;
+}
+export const GetAdpSubscriptionStatusRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    eventUrl: S.optional(S.String.pipe(T.Query())),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/adp/subscription-status", code: 200 })),
+).annotate({
+  identifier: "GetAdpSubscriptionStatusRequest",
+}) as any as S.Schema<GetAdpSubscriptionStatusRequest>;
+
+export interface GetAdpUserAssignmentsRequest {
+  /** URL ADP provides to fetch the event payload from. Absent for ADP's own connectivity/test calls, which are acked without a fetch. */
+  eventUrl?: string;
+}
+export const GetAdpUserAssignmentsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    eventUrl: S.optional(S.String.pipe(T.Query())),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/adp/user-assignments", code: 200 })),
+).annotate({
+  identifier: "GetAdpUserAssignmentsRequest",
+}) as any as S.Schema<GetAdpUserAssignmentsRequest>;
+
+export interface GetAdpUserUnassignmentsRequest {
+  /** URL ADP provides to fetch the event payload from. Absent for ADP's own connectivity/test calls, which are acked without a fetch. */
+  eventUrl?: string;
+}
+export const GetAdpUserUnassignmentsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    eventUrl: S.optional(S.String.pipe(T.Query())),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/adp/user-unassignments", code: 200 })),
+).annotate({
+  identifier: "GetAdpUserUnassignmentsRequest",
+}) as any as S.Schema<GetAdpUserUnassignmentsRequest>;
+
 export interface GetBenefitOffersRequest {}
 export const GetBenefitOffersRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v1/benefit-offers", code: 200 })),
-).annotate({
-  identifier: "GetBenefitOffersRequest",
-}) as any as S.Schema<GetBenefitOffersRequest>;
+).annotate({ identifier: "GetBenefitOffersRequest" }) as any as S.Schema<GetBenefitOffersRequest>;
 
 /** A category of benefits (e.g., "Health", "Dental", "Life Insurance") with a defined policy period. Each group contains one or more tiers representing different coverage levels. */
 export interface BenefitGroup {
@@ -7065,14 +7276,12 @@ export const BenefitProvider = /*@__PURE__*/ S.suspend(() =>
     id: S.String,
     name: S.String,
   }),
-).annotate({
-  identifier: "BenefitProvider",
-}) as any as S.Schema<BenefitProvider>;
+).annotate({ identifier: "BenefitProvider" }) as any as S.Schema<BenefitProvider>;
 
 /** The insurance carriers or providers associated with this tier. */
-export type BenefitTierProvidersList = Array<BenefitProvider>;
+export type BenefitTierProvidersList = Array<BenefitProvider | null>;
 export const BenefitTierProvidersList = /*@__PURE__*/ S.Array(
-  BenefitProvider,
+  S.NullOr(BenefitProvider),
 ) as any as S.Schema<BenefitTierProvidersList>;
 
 /** A specific coverage level within a benefit group. For example, a "Health" benefit group might have tiers like "Basic", "Standard", and "Premium", each with different coverage and providers. */
@@ -7196,9 +7405,7 @@ export const CountrySubdivision = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     subdivision_type: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CountrySubdivision",
-}) as any as S.Schema<CountrySubdivision>;
+).annotate({ identifier: "CountrySubdivision" }) as any as S.Schema<CountrySubdivision>;
 
 /** Administrative subdivisions of the country (e.g., states, provinces, districts). Null if the country has no subdivisions relevant to Remote's services. */
 export type CountryCountrySubdivisionsList = Array<CountrySubdivision>;
@@ -7273,9 +7480,7 @@ export const BenefitOffersEmployment = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     surname: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "BenefitOffersEmployment",
-}) as any as S.Schema<BenefitOffersEmployment>;
+).annotate({ identifier: "BenefitOffersEmployment" }) as any as S.Schema<BenefitOffersEmployment>;
 
 export interface BenefitOffersByEmployment {
   benefit_offers: BenefitOffersByEmploymentBenefitOffersList;
@@ -7329,11 +7534,7 @@ export const BenefitOfferByEmploymentResponse = /*@__PURE__*/ S.suspend(() =>
 export interface GetBenefitOffersCountrySummariesRequest {}
 export const GetBenefitOffersCountrySummariesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/benefit-offers/country-summaries",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/v1/benefit-offers/country-summaries", code: 200 }),
   ),
 ).annotate({
   identifier: "GetBenefitOffersCountrySummariesRequest",
@@ -7363,9 +7564,7 @@ export const OfferedBenefitTier = /*@__PURE__*/ S.suspend(() =>
     benefit_tier: BenefitTier,
     employee_stats: EmployeeStats,
   }),
-).annotate({
-  identifier: "OfferedBenefitTier",
-}) as any as S.Schema<OfferedBenefitTier>;
+).annotate({ identifier: "OfferedBenefitTier" }) as any as S.Schema<OfferedBenefitTier>;
 
 /** The individual tiers within this group that have been offered, each with their own enrollment statistics. */
 export type OfferedBenefitGroupOfferedBenefitTiersList = Array<OfferedBenefitTier>;
@@ -7386,9 +7585,7 @@ export const OfferedBenefitGroup = /*@__PURE__*/ S.suspend(() =>
     employee_stats: EmployeeStats,
     offered_benefit_tiers: OfferedBenefitGroupOfferedBenefitTiersList,
   }),
-).annotate({
-  identifier: "OfferedBenefitGroup",
-}) as any as S.Schema<OfferedBenefitGroup>;
+).annotate({ identifier: "OfferedBenefitGroup" }) as any as S.Schema<OfferedBenefitGroup>;
 
 /** All benefit groups that have been offered to employees in this country. */
 export type CountrySummaryOfferedBenefitGroupsList = Array<OfferedBenefitGroup>;
@@ -7440,9 +7637,7 @@ export const CountrySummariesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     data: CountrySummariesResponseData,
   }),
-).annotate({
-  identifier: "CountrySummariesResponse",
-}) as any as S.Schema<CountrySummariesResponse>;
+).annotate({ identifier: "CountrySummariesResponse" }) as any as S.Schema<CountrySummariesResponse>;
 
 export interface GetBenefitRenewalRequestRequest {
   /** Benefit Renewal Request Id */
@@ -7584,20 +7779,17 @@ export const BenefitRenewalRequestsBenefitRenewalRequestFormResponse = /*@__PURE
 export interface GetBillingDocumentRequest {
   /** The billing document's ID */
   billing_document_id: string;
+  /** The company the accessed resource belongs to. Send it whenever you know which one you mean. Requests that don't resolve to a company fail with "Company not found". */
+  company_id?: string;
   /** When true, includes billing document items whose type is not part of the standard set for the invoice type. */
   include_unrecognized_types?: boolean;
 }
 export const GetBillingDocumentRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     billing_document_id: S.String.pipe(T.Label()),
+    company_id: S.optional(S.String.pipe(T.Query())),
     include_unrecognized_types: S.optional(S.Boolean.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/billing-documents/{billing_document_id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/billing-documents/{billing_document_id}", code: 200 })),
 ).annotate({
   identifier: "GetBillingDocumentRequest",
 }) as any as S.Schema<GetBillingDocumentRequest>;
@@ -7669,9 +7861,7 @@ export const BillingDocument = /*@__PURE__*/ S.suspend(() =>
     items: BillingDocumentItemsList,
     total: S.Number,
   }),
-).annotate({
-  identifier: "BillingDocument",
-}) as any as S.Schema<BillingDocument>;
+).annotate({ identifier: "BillingDocument" }) as any as S.Schema<BillingDocument>;
 
 export interface BillingDocumentResponseData {
   billing_document: BillingDocument;
@@ -7692,14 +7882,12 @@ export const BillingDocumentResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     data: BillingDocumentResponseData,
   }),
-).annotate({
-  identifier: "BillingDocumentResponse",
-}) as any as S.Schema<BillingDocumentResponse>;
+).annotate({ identifier: "BillingDocumentResponse" }) as any as S.Schema<BillingDocumentResponse>;
 
 export interface GetBillingDocumentBreakdownRequest {
   /** The billing document's ID */
   billing_document_id: string;
-  /** Filters the results by the type of the billing breakdown item. Matched exactly against the `type` field of the returned items, so unrecognised values yield an empty list. Card spend is reported as `Card expenses`, separately from payroll-reimbursed `Expenses`. */
+  /** Filters the results by the type of the billing breakdown item. Matched exactly against the `type` field of the returned items, so unrecognised values yield an empty list. Card spend is reported as `Card expenses`, separately from payroll-reimbursed `Expenses`. Other Compensation is reported as `Other compensation`, separately from `Base salary`. Payslip benefits can be returned as `Payslip benefits` for existing breakdown items, or as `Payslip Benefit Cash` and `Payslip Benefit Non-Cash` for newly generated items. */
   type?: string;
 }
 export const GetBillingDocumentBreakdownRequest = /*@__PURE__*/ S.suspend(() =>
@@ -7802,11 +7990,7 @@ export const GetBillingDocumentPdfRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     billing_document_id: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/billing-documents/{billing_document_id}/pdf",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/v1/billing-documents/{billing_document_id}/pdf", code: 200 }),
   ),
 ).annotate({
   identifier: "GetBillingDocumentPdfRequest",
@@ -7819,9 +8003,29 @@ export const GetBillingDocumentPdfResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetBillingDocumentPdfResponse",
 }) as any as S.Schema<GetBillingDocumentPdfResponse>;
 
+export type GetBillingDocumentsRequestType =
+  | "reconciliation_credit_note"
+  | "credit_note"
+  | "prefunding_credit_note"
+  | "eor_reserve_credit_note"
+  | "supplemental_service_credit_note"
+  | "reconciliation_invoice"
+  | "contractor_management_invoice"
+  | "cor_service_invoice"
+  | "eor_reserve_invoice"
+  | "prefunding_invoice"
+  | "supplemental_service_invoice"
+  | "payroll_service_invoice"
+  | "remote_plan_invoice"
+  | "peo_payroll_invoice"
+  | "peo_service_invoice";
+export const GetBillingDocumentsRequestType = S.String;
+
 export interface GetBillingDocumentsRequest {
   /** The month for the billing documents (in ISO-8601 format) */
   period?: string;
+  /** Filters the results by the type of the billing document. Matches the response's `billing_document_type` field. */
+  type?: GetBillingDocumentsRequestType | (string & {});
   /** Starts fetching records after the given page */
   page?: number;
   /** Number of items per page */
@@ -7830,6 +8034,7 @@ export interface GetBillingDocumentsRequest {
 export const GetBillingDocumentsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     period: S.optional(S.String.pipe(T.Query())),
+    type: S.optional(GetBillingDocumentsRequestType.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
     page_size: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/v1/billing-documents", code: 200 })),
@@ -7838,10 +8043,21 @@ export const GetBillingDocumentsRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetBillingDocumentsRequest>;
 
 export type BillingDocumentsResponseDataBillingDocumentsItemBillingDocumentType =
+  | "reconciliation_credit_note"
+  | "credit_note"
+  | "prefunding_credit_note"
+  | "eor_reserve_credit_note"
+  | "supplemental_service_credit_note"
   | "reconciliation_invoice"
+  | "contractor_management_invoice"
+  | "cor_service_invoice"
+  | "eor_reserve_invoice"
   | "prefunding_invoice"
   | "supplemental_service_invoice"
-  | "reconciliation_credit_note";
+  | "payroll_service_invoice"
+  | "remote_plan_invoice"
+  | "peo_payroll_invoice"
+  | "peo_service_invoice";
 export const BillingDocumentsResponseDataBillingDocumentsItemBillingDocumentType = S.String;
 
 export interface BillingDocumentsResponseDataBillingDocumentsItem {
@@ -7900,9 +8116,7 @@ export const BillingDocumentsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     data: BillingDocumentsResponseData,
   }),
-).annotate({
-  identifier: "BillingDocumentsResponse",
-}) as any as S.Schema<BillingDocumentsResponse>;
+).annotate({ identifier: "BillingDocumentsResponse" }) as any as S.Schema<BillingDocumentsResponse>;
 
 export interface GetBulkEmploymentJobRequest {
   /** Bulk employment job id */
@@ -7911,13 +8125,7 @@ export interface GetBulkEmploymentJobRequest {
 export const GetBulkEmploymentJobRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     job_id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/bulk-employment-jobs/{job_id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/bulk-employment-jobs/{job_id}", code: 200 })),
 ).annotate({
   identifier: "GetBulkEmploymentJobRequest",
 }) as any as S.Schema<GetBulkEmploymentJobRequest>;
@@ -8034,9 +8242,7 @@ export const PersonalDetails = /*@__PURE__*/ S.suspend(() =>
     surname: S.optional(S.NullOr(S.String)),
     title: S.optional(S.NullOr(PersonalDetailsTitle)),
   }),
-).annotate({
-  identifier: "PersonalDetails",
-}) as any as S.Schema<PersonalDetails>;
+).annotate({ identifier: "PersonalDetails" }) as any as S.Schema<PersonalDetails>;
 
 export type MinimalUserStatus =
   | "active"
@@ -8045,6 +8251,7 @@ export type MinimalUserStatus =
   | "inactive"
   | "draft"
   | "created"
+  | "invited"
   | "initiated";
 export const MinimalUserStatus = S.String;
 
@@ -8120,9 +8327,7 @@ export const AccountsAccount = /*@__PURE__*/ S.suspend(() =>
     slug: S.String,
     status: S.optional(AccountsAccountStatus),
   }),
-).annotate({
-  identifier: "AccountsAccount",
-}) as any as S.Schema<AccountsAccount>;
+).annotate({ identifier: "AccountsAccount" }) as any as S.Schema<AccountsAccount>;
 
 export type AccountsAssignedRolesItemDataScope =
   | "all"
@@ -8132,12 +8337,12 @@ export type AccountsAssignedRolesItemDataScope =
   | "rps"
   | "secondary_reports"
   | "direct_reports"
-  | "assigned_billing_legal_entities"
+  | "direct_and_indirect_reports"
   | "employment_countries"
   | "employment_departments"
-  | "direct_and_indirect_reports"
   | "employment_company_structure_nodes"
-  | "onboarding_reports";
+  | "onboarding_reports"
+  | "assigned_billing_legal_entities";
 export const AccountsAssignedRolesItemDataScope = S.String;
 
 export type AccountsAssignedRolesItemType = "default" | "custom" | "template" | "owner";
@@ -8180,17 +8385,24 @@ export const AccountUserIntegrationUserIntegration = /*@__PURE__*/ S.suspend(() 
 export type AccountUserIntegrationUserRole = "employee" | "employer";
 export const AccountUserIntegrationUserRole = S.String;
 
+/** Whether the employee should be synced to Remote based on the sync_to_remote flag in the external HRIS */
+export type AccountUserIntegrationUserSyncToRemoteStatus = "enabled" | "disabled";
+export const AccountUserIntegrationUserSyncToRemoteStatus = S.String;
+
 export interface AccountUserIntegrationUser {
   external_user_id: string;
   integration: AccountUserIntegrationUserIntegration;
   /** Whether this mapping represents a synced employee or a company admin */
   role: AccountUserIntegrationUserRole;
+  /** Whether the employee should be synced to Remote based on the sync_to_remote flag in the external HRIS */
+  sync_to_remote_status?: AccountUserIntegrationUserSyncToRemoteStatus | null;
 }
 export const AccountUserIntegrationUser = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     external_user_id: S.String,
     integration: AccountUserIntegrationUserIntegration,
     role: AccountUserIntegrationUserRole,
+    sync_to_remote_status: S.optional(S.NullOr(AccountUserIntegrationUserSyncToRemoteStatus)),
   }),
 ).annotate({
   identifier: "AccountUserIntegrationUser",
@@ -8339,9 +8551,7 @@ export const BulkEmploymentImportJob = /*@__PURE__*/ S.suspend(() =>
     total_count: S.Number,
     updated_at: S.String,
   }),
-).annotate({
-  identifier: "BulkEmploymentImportJob",
-}) as any as S.Schema<BulkEmploymentImportJob>;
+).annotate({ identifier: "BulkEmploymentImportJob" }) as any as S.Schema<BulkEmploymentImportJob>;
 
 export interface BulkEmploymentImportJobResponse {
   data: BulkEmploymentImportJob;
@@ -8367,16 +8577,59 @@ export const GetBulkEmploymentJobRowsRequest = /*@__PURE__*/ S.suspend(() =>
     job_id: S.String.pipe(T.Label()),
     page: S.optional(S.Number.pipe(T.Query())),
     page_size: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/bulk-employment-jobs/{job_id}/rows",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/bulk-employment-jobs/{job_id}/rows", code: 200 })),
 ).annotate({
   identifier: "GetBulkEmploymentJobRowsRequest",
 }) as any as S.Schema<GetBulkEmploymentJobRowsRequest>;
+
+/** The stage of the import job. * `creation` - The import job is in the creation stage, which means the rows are being created. * `column_mapping` - The import job is in the column mapping stage, which means the CSV headers are being mapped to JSON schema fields. * `validation` - The import job is in the validation stage, which means the rows are being validated. * `submission` - The import job is in the submission stage, which means the rows are being submitted. */
+export type ImportJobRowsResponseDataAggregatesTeamMemberCountsJobStage =
+  | "creation"
+  | "column_mapping"
+  | "validation"
+  | "submission";
+export const ImportJobRowsResponseDataAggregatesTeamMemberCountsJobStage = S.String;
+
+/** Distinct team members across the complete import job, counted once even when they are split across several table records. `needs_changes` and `ready_to_submit` are mutually exclusive; `successfully_assigned` and `failed_to_assign` are subsets of `ready_to_submit`. The counts describe the job as of `job_stage`: the same rows count as needing changes before submission and as failed to assign afterwards. */
+export interface ImportJobRowsResponseDataAggregatesTeamMemberCounts {
+  /** Team members with at least one row that failed to be assigned */
+  failed_to_assign: number;
+  /** The stage of the import job. * `creation` - The import job is in the creation stage, which means the rows are being created. * `column_mapping` - The import job is in the column mapping stage, which means the CSV headers are being mapped to JSON schema fields. * `validation` - The import job is in the validation stage, which means the rows are being validated. * `submission` - The import job is in the submission stage, which means the rows are being submitted. */
+  job_stage: ImportJobRowsResponseDataAggregatesTeamMemberCountsJobStage;
+  /** Team members with at least one row that needs changes before the job can be submitted */
+  needs_changes: number;
+  /** Team members with nothing blocking submission, and at least one row to submit */
+  ready_to_submit: number;
+  /** Team members whose rows have all been assigned, with no failures */
+  successfully_assigned: number;
+  /** Distinct team members in the job. Rows with no employee are counted as one unidentified team member */
+  total: number;
+}
+export const ImportJobRowsResponseDataAggregatesTeamMemberCounts = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    failed_to_assign: S.Number,
+    job_stage: ImportJobRowsResponseDataAggregatesTeamMemberCountsJobStage,
+    needs_changes: S.Number,
+    ready_to_submit: S.Number,
+    successfully_assigned: S.Number,
+    total: S.Number,
+  }),
+).annotate({
+  identifier: "ImportJobRowsResponseDataAggregatesTeamMemberCounts",
+}) as any as S.Schema<ImportJobRowsResponseDataAggregatesTeamMemberCounts>;
+
+/** Import-type-specific aggregates computed over the complete import job */
+export interface ImportJobRowsResponseDataAggregates {
+  /** Distinct team members across the complete import job, counted once even when they are split across several table records. `needs_changes` and `ready_to_submit` are mutually exclusive; `successfully_assigned` and `failed_to_assign` are subsets of `ready_to_submit`. The counts describe the job as of `job_stage`: the same rows count as needing changes before submission and as failed to assign afterwards. */
+  team_member_counts?: ImportJobRowsResponseDataAggregatesTeamMemberCounts;
+}
+export const ImportJobRowsResponseDataAggregates = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    team_member_counts: S.optional(ImportJobRowsResponseDataAggregatesTeamMemberCounts),
+  }),
+).annotate({
+  identifier: "ImportJobRowsResponseDataAggregates",
+}) as any as S.Schema<ImportJobRowsResponseDataAggregates>;
 
 export interface ImportJobRowsResponseDataCountsByColumnValue {
   error: number;
@@ -8446,9 +8699,7 @@ export type ImportJobRowErrorsValue = ImportJobRowErrorsValueCase0List | unknown
 export const ImportJobRowErrorsValue = S.Unknown as any as S.Schema<ImportJobRowErrorsValue>;
 
 /** Fields with their error messages */
-export type ImportJobRowErrorsMap = {
-  [key: string]: ImportJobRowErrorsValue | undefined;
-};
+export type ImportJobRowErrorsMap = { [key: string]: ImportJobRowErrorsValue | undefined };
 export const ImportJobRowErrorsMap = /*@__PURE__*/ S.Record(
   S.String,
   ImportJobRowErrorsValue,
@@ -8495,9 +8746,7 @@ export const ImportJobRowMetadata = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     login_email_signals: S.optional(ImportJobRowMetadataLoginEmailSignals),
   }),
-).annotate({
-  identifier: "ImportJobRowMetadata",
-}) as any as S.Schema<ImportJobRowMetadata>;
+).annotate({ identifier: "ImportJobRowMetadata" }) as any as S.Schema<ImportJobRowMetadata>;
 
 export interface ImportJobRowRowErrorDetailsAmbiguousItemCreatedBy {
   name: string;
@@ -8583,9 +8832,7 @@ export const ImportJobRowError = /*@__PURE__*/ S.suspend(() =>
     field_name: S.optional(S.NullOr(S.String)),
     messages: ImportJobRowErrorMessagesList,
   }),
-).annotate({
-  identifier: "ImportJobRowError",
-}) as any as S.Schema<ImportJobRowError>;
+).annotate({ identifier: "ImportJobRowError" }) as any as S.Schema<ImportJobRowError>;
 
 export type ImportJobRowSubmissionErrorsList = Array<ImportJobRowError>;
 export const ImportJobRowSubmissionErrorsList = /*@__PURE__*/ S.Array(
@@ -8601,6 +8848,8 @@ export interface ImportJobRow {
   row_error_details?: ImportJobRowRowErrorDetails;
   row_errors?: unknown;
   row_number: number;
+  /** The id of the schema variant this row's fields follow, a key of `row_schema_variants` on the job-scoped json-schema response. `null` when the row uses the job-level schema. Only present for job types with per-row schema variants. */
+  schema_variant_id?: string | null;
   status?: ImportJobRowStatus;
   submission_errors?: ImportJobRowSubmissionErrorsList;
 }
@@ -8612,6 +8861,7 @@ export const ImportJobRow = /*@__PURE__*/ S.suspend(() =>
     row_error_details: S.optional(ImportJobRowRowErrorDetails),
     row_errors: S.optional(S.Unknown),
     row_number: S.Number,
+    schema_variant_id: S.optional(S.NullOr(S.String)),
     status: S.optional(ImportJobRowStatus),
     submission_errors: S.optional(ImportJobRowSubmissionErrorsList),
   }),
@@ -8676,6 +8926,8 @@ export const ImportJobRowsResponseDataRows = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ImportJobRowsResponseDataRows>;
 
 export interface ImportJobRowsResponseData {
+  /** Import-type-specific aggregates computed over the complete import job */
+  aggregates?: ImportJobRowsResponseDataAggregates;
   /** Per-column error and valid row counts across all rows, keyed by the column's field path */
   counts_by_column?: ImportJobRowsResponseDataCountsByColumnMap;
   counts_by_status: ImportJobRowsResponseDataCountsByStatus;
@@ -8687,6 +8939,7 @@ export interface ImportJobRowsResponseData {
 }
 export const ImportJobRowsResponseData = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    aggregates: S.optional(ImportJobRowsResponseDataAggregates),
     counts_by_column: S.optional(ImportJobRowsResponseDataCountsByColumnMap),
     counts_by_status: ImportJobRowsResponseDataCountsByStatus,
     current_page: S.Number,
@@ -8706,9 +8959,7 @@ export const ImportJobRowsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     data: ImportJobRowsResponseData,
   }),
-).annotate({
-  identifier: "ImportJobRowsResponse",
-}) as any as S.Schema<ImportJobRowsResponse>;
+).annotate({ identifier: "ImportJobRowsResponse" }) as any as S.Schema<ImportJobRowsResponse>;
 
 export interface GetCompaniesRequest {
   /** External ID */
@@ -8718,9 +8969,7 @@ export const GetCompaniesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     external_id: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/v1/companies", code: 200 })),
-).annotate({
-  identifier: "GetCompaniesRequest",
-}) as any as S.Schema<GetCompaniesRequest>;
+).annotate({ identifier: "GetCompaniesRequest" }) as any as S.Schema<GetCompaniesRequest>;
 
 export type CompaniesResponseCompaniesList = Array<Company>;
 export const CompaniesResponseCompaniesList = /*@__PURE__*/ S.Array(
@@ -8735,9 +8984,7 @@ export const CompaniesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     companies: S.optional(CompaniesResponseCompaniesList),
   }),
-).annotate({
-  identifier: "CompaniesResponse",
-}) as any as S.Schema<CompaniesResponse>;
+).annotate({ identifier: "CompaniesResponse" }) as any as S.Schema<CompaniesResponse>;
 
 export type GetCompaniesSchemaRequestForm = "address_details";
 export const GetCompaniesSchemaRequestForm = S.String;
@@ -8778,9 +9025,7 @@ export const CompanyFormResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     data: S.optional(S.Unknown),
   }),
-).annotate({
-  identifier: "CompanyFormResponse",
-}) as any as S.Schema<CompanyFormResponse>;
+).annotate({ identifier: "CompanyFormResponse" }) as any as S.Schema<CompanyFormResponse>;
 
 export interface GetCompanyRequest {
   /** Company ID */
@@ -8790,9 +9035,7 @@ export const GetCompanyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     company_id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/v1/companies/{company_id}", code: 200 })),
-).annotate({
-  identifier: "GetCompanyRequest",
-}) as any as S.Schema<GetCompanyRequest>;
+).annotate({ identifier: "GetCompanyRequest" }) as any as S.Schema<GetCompanyRequest>;
 
 export interface GetCompanyActionsRequest {
   /** Company ID */
@@ -8801,16 +9044,8 @@ export interface GetCompanyActionsRequest {
 export const GetCompanyActionsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     company_id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/companies/{company_id}/actions",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetCompanyActionsRequest",
-}) as any as S.Schema<GetCompanyActionsRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/v1/companies/{company_id}/actions", code: 200 })),
+).annotate({ identifier: "GetCompanyActionsRequest" }) as any as S.Schema<GetCompanyActionsRequest>;
 
 /** The action the company still needs to complete. */
 export type CompanyActionType = "verify_company" | "setup_remote_payments";
@@ -8857,9 +9092,7 @@ export const CompanyActionsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     data: CompanyActionsResponseData,
   }),
-).annotate({
-  identifier: "CompanyActionsResponse",
-}) as any as S.Schema<CompanyActionsResponse>;
+).annotate({ identifier: "CompanyActionsResponse" }) as any as S.Schema<CompanyActionsResponse>;
 
 export interface GetCompanyComplianceProfileRequest {
   /** Company ID */
@@ -8869,11 +9102,7 @@ export const GetCompanyComplianceProfileRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     company_id: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/companies/{company_id}/compliance-profile",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/v1/companies/{company_id}/compliance-profile", code: 200 }),
   ),
 ).annotate({
   identifier: "GetCompanyComplianceProfileRequest",
@@ -8912,9 +9141,7 @@ export const CompanyComplianceProfile = /*@__PURE__*/ S.suspend(() =>
     credit_risk_status: CompanyComplianceProfileCreditRiskStatus,
     kyb_status: CompanyComplianceProfileKybStatus,
   }),
-).annotate({
-  identifier: "CompanyComplianceProfile",
-}) as any as S.Schema<CompanyComplianceProfile>;
+).annotate({ identifier: "CompanyComplianceProfile" }) as any as S.Schema<CompanyComplianceProfile>;
 
 export interface CompanyComplianceProfileResponseData {
   compliance_profile: CompanyComplianceProfile;
@@ -8958,11 +9185,7 @@ export const GetCompanyCostCenterAllocationsRequest = /*@__PURE__*/ S.suspend(()
     page: S.optional(S.Number.pipe(T.Query())),
     page_size: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/company/{company_id}/cost-center-allocations",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/v1/company/{company_id}/cost-center-allocations", code: 200 }),
   ),
 ).annotate({
   identifier: "GetCompanyCostCenterAllocationsRequest",
@@ -9012,9 +9235,7 @@ export const CostCenterAllocation = /*@__PURE__*/ S.suspend(() =>
     percentage: S.Number,
     status: CostCenterAllocationStatus,
   }),
-).annotate({
-  identifier: "CostCenterAllocation",
-}) as any as S.Schema<CostCenterAllocation>;
+).annotate({ identifier: "CostCenterAllocation" }) as any as S.Schema<CostCenterAllocation>;
 
 /** The cost center allocations for this employment. */
 export type EmploymentWithCostCenterAllocationsCostCenterAllocationsList =
@@ -9102,9 +9323,7 @@ export const CompanyCurrency = /*@__PURE__*/ S.suspend(() =>
     code: S.String,
     slug: S.String,
   }),
-).annotate({
-  identifier: "CompanyCurrency",
-}) as any as S.Schema<CompanyCurrency>;
+).annotate({ identifier: "CompanyCurrency" }) as any as S.Schema<CompanyCurrency>;
 
 export type CompanyCurrenciesResponseDataCompanyCurrenciesList = Array<CompanyCurrency>;
 export const CompanyCurrenciesResponseDataCompanyCurrenciesList = /*@__PURE__*/ S.Array(
@@ -9239,9 +9458,7 @@ export const OnboardingReservesStatus = /*@__PURE__*/ S.suspend(() =>
     policies: OnboardingReservesStatusPoliciesList,
     status: OnboardingReservesStatusStatus,
   }),
-).annotate({
-  identifier: "OnboardingReservesStatus",
-}) as any as S.Schema<OnboardingReservesStatus>;
+).annotate({ identifier: "OnboardingReservesStatus" }) as any as S.Schema<OnboardingReservesStatus>;
 
 export interface OnboardingReservesStatusResponse {
   data: OnboardingReservesStatus;
@@ -9267,13 +9484,7 @@ export const GetCompanyLegalEntitiesRequest = /*@__PURE__*/ S.suspend(() =>
     company_id: S.String.pipe(T.Label()),
     page: S.optional(S.Number.pipe(T.Query())),
     page_size: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/companies/{company_id}/legal-entities",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/companies/{company_id}/legal-entities", code: 200 })),
 ).annotate({
   identifier: "GetCompanyLegalEntitiesRequest",
 }) as any as S.Schema<GetCompanyLegalEntitiesRequest>;
@@ -9298,9 +9509,7 @@ export const CompanyLegalEntity = /*@__PURE__*/ S.suspend(() =>
     is_default: S.optional(S.Boolean),
     name: S.String,
   }),
-).annotate({
-  identifier: "CompanyLegalEntity",
-}) as any as S.Schema<CompanyLegalEntity>;
+).annotate({ identifier: "CompanyLegalEntity" }) as any as S.Schema<CompanyLegalEntity>;
 
 export type ListCompanyLegalEntitiesResponseDataLegalEntitiesList = Array<CompanyLegalEntity>;
 export const ListCompanyLegalEntitiesResponseDataLegalEntitiesList = /*@__PURE__*/ S.Array(
@@ -9559,9 +9768,7 @@ export const ListPayCodesResponseData = /*@__PURE__*/ S.suspend(() =>
     total_count: S.optional(S.Number),
     total_pages: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "ListPayCodesResponseData",
-}) as any as S.Schema<ListPayCodesResponseData>;
+).annotate({ identifier: "ListPayCodesResponseData" }) as any as S.Schema<ListPayCodesResponseData>;
 
 /** Response schema listing many pay_codes */
 export interface ListPayCodesResponse {
@@ -9571,9 +9778,7 @@ export const ListPayCodesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     data: S.optional(ListPayCodesResponseData),
   }),
-).annotate({
-  identifier: "ListPayCodesResponse",
-}) as any as S.Schema<ListPayCodesResponse>;
+).annotate({ identifier: "ListPayCodesResponse" }) as any as S.Schema<ListPayCodesResponse>;
 
 export interface GetCompanyManagerRequest {
   /** User ID */
@@ -9583,9 +9788,7 @@ export const GetCompanyManagerRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     user_id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/v1/company-managers/{user_id}", code: 200 })),
-).annotate({
-  identifier: "GetCompanyManagerRequest",
-}) as any as S.Schema<GetCompanyManagerRequest>;
+).annotate({ identifier: "GetCompanyManagerRequest" }) as any as S.Schema<GetCompanyManagerRequest>;
 
 export interface CompanyManagerResponse {
   data: CompanyManagerData;
@@ -9594,9 +9797,7 @@ export const CompanyManagerResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     data: CompanyManagerData,
   }),
-).annotate({
-  identifier: "CompanyManagerResponse",
-}) as any as S.Schema<CompanyManagerResponse>;
+).annotate({ identifier: "CompanyManagerResponse" }) as any as S.Schema<CompanyManagerResponse>;
 
 export interface GetCompanyManagersRequest {
   /** A Company ID to filter the results (only applicable for Integration Partners). */
@@ -9649,9 +9850,7 @@ export const CompanyManagersResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     data: S.optional(CompanyManagersResponseData),
   }),
-).annotate({
-  identifier: "CompanyManagersResponse",
-}) as any as S.Schema<CompanyManagersResponse>;
+).annotate({ identifier: "CompanyManagersResponse" }) as any as S.Schema<CompanyManagersResponse>;
 
 export interface GetCompanyPricingPlansRequest {
   /** Company ID */
@@ -9660,13 +9859,7 @@ export interface GetCompanyPricingPlansRequest {
 export const GetCompanyPricingPlansRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     company_id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/companies/{company_id}/pricing-plans",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/companies/{company_id}/pricing-plans", code: 200 })),
 ).annotate({
   identifier: "GetCompanyPricingPlansRequest",
 }) as any as S.Schema<GetCompanyPricingPlansRequest>;
@@ -9706,13 +9899,7 @@ export interface GetCompanyProductPricesRequest {
 export const GetCompanyProductPricesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     company_id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/companies/{company_id}/product-prices",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/companies/{company_id}/product-prices", code: 200 })),
 ).annotate({
   identifier: "GetCompanyProductPricesRequest",
 }) as any as S.Schema<GetCompanyProductPricesRequest>;
@@ -9767,11 +9954,7 @@ export const GetCompanyWebhookCallbacksRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     company_id: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/companies/{company_id}/webhook-callbacks",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/v1/companies/{company_id}/webhook-callbacks", code: 200 }),
   ),
 ).annotate({
   identifier: "GetCompanyWebhookCallbacksRequest",
@@ -9863,9 +10046,7 @@ export const MinimalContractAmendment = /*@__PURE__*/ S.suspend(() =>
     status: ContractAmendmentStatus,
     submitted_at: S.String,
   }),
-).annotate({
-  identifier: "MinimalContractAmendment",
-}) as any as S.Schema<MinimalContractAmendment>;
+).annotate({ identifier: "MinimalContractAmendment" }) as any as S.Schema<MinimalContractAmendment>;
 
 export type ListContractAmendmentResponseDataContractAmendmentsList =
   Array<MinimalContractAmendment>;
@@ -9983,9 +10164,7 @@ export const ContractorInvoiceItem = /*@__PURE__*/ S.suspend(() =>
     description: S.String,
     type: ContractorInvoiceItemType,
   }),
-).annotate({
-  identifier: "ContractorInvoiceItem",
-}) as any as S.Schema<ContractorInvoiceItem>;
+).annotate({ identifier: "ContractorInvoiceItem" }) as any as S.Schema<ContractorInvoiceItem>;
 
 /** Invoice line items. */
 export type ContractorInvoiceItemsList = Array<ContractorInvoiceItem>;
@@ -9996,6 +10175,48 @@ export const ContractorInvoiceItemsList = /*@__PURE__*/ S.Array(
 /** Payment method used for the payout: local (e.g. bank transfer), swift (SHA), or swift_our (OUR). Only present for guaranteed payout invoices. */
 export type ContractorInvoicePayOutMethod = "local" | "swift" | "swift_our";
 export const ContractorInvoicePayOutMethod = S.String;
+
+/** How Remote collects this payment: `bank_transfer` when the company wires it, `direct_debit` for a mandate-based collection, `card`, `prefunding_credit` when prefunded balance covers it, and `other` for anything else. Wire when this reads `bank_transfer`; Remote collects `direct_debit`, `card` and `prefunding_credit` itself and a transfer would pay twice. `not_selected` means Remote has not recorded a collection method: for Contractor of Record that lasts until the company starts the payment, so confirm the arrangement before wiring. */
+export type ContractorInvoicePayInMethod =
+  | "bank_transfer"
+  | "direct_debit"
+  | "card"
+  | "prefunding_credit"
+  | "other"
+  | "not_selected";
+export const ContractorInvoicePayInMethod = S.String;
+
+/** Where the payment stands: `awaiting_payment` means Remote has not received the funds and the payment is still expected, `processing` that a collection is in flight, and `paid` that Remote has received the funds. `partially_paid` means Remote received some of the amount but not all of it, because the company underpaid or part of a collection failed after the rest settled; `amount_due` still shows the original total rather than what remains, and Remote follows up with the company on the outstanding balance directly. `blocked` means the payment is on a compliance hold: the reference stays valid, and the payment returns to `awaiting_payment` once Remote lifts it. */
+export type ContractorInvoicePaymentStatus =
+  | "awaiting_payment"
+  | "partially_paid"
+  | "blocked"
+  | "processing"
+  | "paid";
+export const ContractorInvoicePaymentStatus = S.String;
+
+/** The payment that settles this invoice, or `null` while no payment does. `reference` is the transaction receipt (TR) number for Contractor Management and the Remote invoice number for Contractor of Record; it changes when a payment is reset and re-initiated. `amount_due` is the total of the payment this invoice belongs to, shared by every invoice in it. `status` says where the payment stands and `pay_in_method` how Remote collects it; the invoice's pay-in details are the authority on whether and where to wire. */
+export interface ContractorInvoicePayment {
+  amount_due: number;
+  /** The billing document's public id. Set only for Contractor-of-Record invoices, null otherwise. */
+  billing_document_id: string | null;
+  currency: string | null;
+  due_date: string | null;
+  pay_in_method: ContractorInvoicePayInMethod;
+  reference: string;
+  status: ContractorInvoicePaymentStatus;
+}
+export const ContractorInvoicePayment = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    amount_due: S.Number,
+    billing_document_id: S.NullOr(S.String),
+    currency: S.NullOr(S.String),
+    due_date: S.NullOr(S.String),
+    pay_in_method: ContractorInvoicePayInMethod,
+    reference: S.String,
+    status: ContractorInvoicePaymentStatus,
+  }),
+).annotate({ identifier: "ContractorInvoicePayment" }) as any as S.Schema<ContractorInvoicePayment>;
 
 /** Entity responsible for paying the SWIFT fee. Only present when processing_fee is set. */
 export type ContractorInvoiceProcessingFeePayer = "company" | "contractor";
@@ -10052,6 +10273,7 @@ export interface ContractorInvoice {
   paid_out_at?: string | null;
   /** Payment method used for the payout: local (e.g. bank transfer), swift (SHA), or swift_our (OUR). Only present for guaranteed payout invoices. */
   pay_out_method?: ContractorInvoicePayOutMethod | null;
+  payment?: ContractorInvoicePayment | null;
   /** SWIFT fee amount in cents. Only present when pay_out_method is swift or swift_our. */
   processing_fee?: number | null;
   /** Currency code of the SWIFT fee. Only present when processing_fee is set. */
@@ -10083,6 +10305,7 @@ export const ContractorInvoice = /*@__PURE__*/ S.suspend(() =>
     number: S.optional(S.NullOr(S.String)),
     paid_out_at: S.optional(S.NullOr(S.String)),
     pay_out_method: S.optional(S.NullOr(ContractorInvoicePayOutMethod)),
+    payment: S.optional(S.NullOr(ContractorInvoicePayment)),
     processing_fee: S.optional(S.NullOr(S.Number)),
     processing_fee_currency: S.optional(S.NullOr(S.String)),
     processing_fee_payer: S.optional(S.NullOr(ContractorInvoiceProcessingFeePayer)),
@@ -10092,9 +10315,7 @@ export const ContractorInvoice = /*@__PURE__*/ S.suspend(() =>
     target_amount: S.optional(S.NullOr(S.Number)),
     target_currency: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "ContractorInvoice",
-}) as any as S.Schema<ContractorInvoice>;
+).annotate({ identifier: "ContractorInvoice" }) as any as S.Schema<ContractorInvoice>;
 
 export interface ContractorInvoiceResponseData {
   contractor_invoice: ContractorInvoice;
@@ -10224,13 +10445,7 @@ export interface GetContractorInvoiceScheduleRequest {
 export const GetContractorInvoiceScheduleRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/contractor-invoice-schedules/{id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/contractor-invoice-schedules/{id}", code: 200 })),
 ).annotate({
   identifier: "GetContractorInvoiceScheduleRequest",
 }) as any as S.Schema<GetContractorInvoiceScheduleRequest>;
@@ -10256,6 +10471,7 @@ export const ContractorInvoiceScheduleStatus = S.String;
 /** Contractor Invoice Schedule. */
 export interface ContractorInvoiceSchedule {
   currency: string | null;
+  custom_days?: ContractorInvoiceScheduleCustomDays | null;
   /** Employment identifier. */
   employment_id: string;
   /** Schedule identifier. */
@@ -10280,6 +10496,7 @@ export interface ContractorInvoiceSchedule {
 export const ContractorInvoiceSchedule = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     currency: S.NullOr(S.String),
+    custom_days: S.optional(S.NullOr(ContractorInvoiceScheduleCustomDays)),
     employment_id: S.String,
     id: S.String,
     items: ContractorInvoiceScheduleItemsList,
@@ -10381,13 +10598,7 @@ export const GetContractorInvoiceSchedulesRequest = /*@__PURE__*/ S.suspend(() =
     order: S.optional(GetContractorInvoiceSchedulesRequestOrder.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
     page_size: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/contractor-invoice-schedules",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/contractor-invoice-schedules", code: 200 })),
 ).annotate({
   identifier: "GetContractorInvoiceSchedulesRequest",
 }) as any as S.Schema<GetContractorInvoiceSchedulesRequest>;
@@ -10455,13 +10666,7 @@ export const GetContractorsCorTerminationRequestsRequest = /*@__PURE__*/ S.suspe
     status: S.optional(GetContractorsCorTerminationRequestsRequestStatus.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
     page_size: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/contractors/cor-termination-requests",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/contractors/cor-termination-requests", code: 200 })),
 ).annotate({
   identifier: "GetContractorsCorTerminationRequestsRequest",
 }) as any as S.Schema<GetContractorsCorTerminationRequestsRequest>;
@@ -10499,9 +10704,7 @@ export const CorTerminationRequest = /*@__PURE__*/ S.suspend(() =>
     status: CorTerminationRequestStatus,
     termination_date: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "CorTerminationRequest",
-}) as any as S.Schema<CorTerminationRequest>;
+).annotate({ identifier: "CorTerminationRequest" }) as any as S.Schema<CorTerminationRequest>;
 
 export type IndexCorTerminationRequestsResponseDataTerminationRequestsList =
   Array<CorTerminationRequest>;
@@ -10654,9 +10857,7 @@ export const ContractDocumentResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     data: ContractDocumentResponseData,
   }),
-).annotate({
-  identifier: "ContractDocumentResponse",
-}) as any as S.Schema<ContractDocumentResponse>;
+).annotate({ identifier: "ContractDocumentResponse" }) as any as S.Schema<ContractDocumentResponse>;
 
 export interface GetContractorsEmploymentContractorCurrenciesRequest {
   /** Employment ID */
@@ -10688,9 +10889,7 @@ export const ContractorCurrencyItem = /*@__PURE__*/ S.suspend(() =>
     code: S.String,
     source: S.String,
   }),
-).annotate({
-  identifier: "ContractorCurrencyItem",
-}) as any as S.Schema<ContractorCurrencyItem>;
+).annotate({ identifier: "ContractorCurrencyItem" }) as any as S.Schema<ContractorCurrencyItem>;
 
 export type ContractorCurrencyResponseDataList = Array<ContractorCurrencyItem>;
 export const ContractorCurrencyResponseDataList = /*@__PURE__*/ S.Array(
@@ -10853,11 +11052,7 @@ export const GetContractorsEmploymentRatesRequest = /*@__PURE__*/ S.suspend(() =
   S.Struct({
     employment_id: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/contractors/employments/{employment_id}/rates",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/v1/contractors/employments/{employment_id}/rates", code: 200 }),
   ),
 ).annotate({
   identifier: "GetContractorsEmploymentRatesRequest",
@@ -10917,11 +11112,7 @@ export const GetContractorsSchemasEligibilityQuestionnaireRequest = /*@__PURE__*
       GetContractorsSchemasEligibilityQuestionnaireRequestJsonSchemaVersion.pipe(T.Query()),
     ),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/contractors/schemas/eligibility-questionnaire",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/v1/contractors/schemas/eligibility-questionnaire", code: 200 }),
   ),
 ).annotate({
   identifier: "GetContractorsSchemasEligibilityQuestionnaireRequest",
@@ -11030,20 +11221,12 @@ export const GetCostCalculatorRegionFieldsRequest = /*@__PURE__*/ S.suspend(() =
   S.Struct({
     slug: S.String.pipe(T.Label()),
     include_premium_benefits: S.optional(S.Boolean.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/cost-calculator/regions/{slug}/fields",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/cost-calculator/regions/{slug}/fields", code: 200 })),
 ).annotate({
   identifier: "GetCostCalculatorRegionFieldsRequest",
 }) as any as S.Schema<GetCostCalculatorRegionFieldsRequest>;
 
-export type JSONSchemaResponseDataSchemaPropertiesMap = {
-  [key: string]: unknown | undefined;
-};
+export type JSONSchemaResponseDataSchemaPropertiesMap = { [key: string]: unknown | undefined };
 export const JSONSchemaResponseDataSchemaPropertiesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -11084,9 +11267,7 @@ export const JSONSchemaResponseData = /*@__PURE__*/ S.suspend(() =>
     schema: S.optional(JSONSchemaResponseDataSchema),
     version: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "JSONSchemaResponseData",
-}) as any as S.Schema<JSONSchemaResponseData>;
+).annotate({ identifier: "JSONSchemaResponseData" }) as any as S.Schema<JSONSchemaResponseData>;
 
 /** JSON Schema Response */
 export interface JSONSchemaResponse {
@@ -11097,16 +11278,12 @@ export const JSONSchemaResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     data: S.optional(JSONSchemaResponseData),
   }),
-).annotate({
-  identifier: "JSONSchemaResponse",
-}) as any as S.Schema<JSONSchemaResponse>;
+).annotate({ identifier: "JSONSchemaResponse" }) as any as S.Schema<JSONSchemaResponse>;
 
 export interface GetCountriesRequest {}
 export const GetCountriesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v1/countries", code: 200 })),
-).annotate({
-  identifier: "GetCountriesRequest",
-}) as any as S.Schema<GetCountriesRequest>;
+).annotate({ identifier: "GetCountriesRequest" }) as any as S.Schema<GetCountriesRequest>;
 
 export type CountriesResponseDataList = Array<Country>;
 export const CountriesResponseDataList = /*@__PURE__*/ S.Array(
@@ -11121,9 +11298,7 @@ export const CountriesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     data: S.optional(CountriesResponseDataList),
   }),
-).annotate({
-  identifier: "CountriesResponse",
-}) as any as S.Schema<CountriesResponse>;
+).annotate({ identifier: "CountriesResponse" }) as any as S.Schema<CountriesResponse>;
 
 /** Use latest version */
 export type GetCountryRequestJsonSchemaVersionCase1 = "latest";
@@ -11158,16 +11333,8 @@ export const GetCountryRequest = /*@__PURE__*/ S.suspend(() =>
     only_for_testing_include_scheduled_benefit_groups: S.optional(S.Boolean.pipe(T.Query())),
     skip_benefits: S.optional(S.Boolean.pipe(T.Query())),
     json_schema_version: S.optional(GetCountryRequestJsonSchemaVersion.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/countries/{country_code}/{form}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetCountryRequest",
-}) as any as S.Schema<GetCountryRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/v1/countries/{country_code}/{form}", code: 200 })),
+).annotate({ identifier: "GetCountryRequest" }) as any as S.Schema<GetCountryRequest>;
 
 /** Object with required and optional fields, its descriptions and suggested presentation */
 export interface CountryFormResponse {
@@ -11177,9 +11344,7 @@ export const CountryFormResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     data: S.optional(S.Unknown),
   }),
-).annotate({
-  identifier: "CountryFormResponse",
-}) as any as S.Schema<CountryFormResponse>;
+).annotate({ identifier: "CountryFormResponse" }) as any as S.Schema<CountryFormResponse>;
 
 /** Use latest version */
 export type GetCountryContractorContractDetailsRequestJsonSchemaVersionCase1 = "latest";
@@ -11194,7 +11359,7 @@ export const GetCountryContractorContractDetailsRequestJsonSchemaVersion =
 export interface GetCountryContractorContractDetailsRequest {
   /** Country code according to ISO 3-digit alphabetic codes */
   country_code: string;
-  /** Employment ID */
+  /** Employment ID. Tailors the schema to the employment (e.g. Contractor of Record fields) and, for a caller permitted to read the contractor's compensation, sets `default` values on its fields from the contractor's current contract. */
   employment_id?: string;
   /** Version of the form schema */
   json_schema_version?: GetCountryContractorContractDetailsRequestJsonSchemaVersion;
@@ -11218,9 +11383,7 @@ export const GetCountryContractorContractDetailsRequest = /*@__PURE__*/ S.suspen
 }) as any as S.Schema<GetCountryContractorContractDetailsRequest>;
 
 /** Contract details schema object with variable fields based on country */
-export type ContractorContractDetailsResponseDataSchemaMap = {
-  [key: string]: unknown | undefined;
-};
+export type ContractorContractDetailsResponseDataSchemaMap = { [key: string]: unknown | undefined };
 export const ContractorContractDetailsResponseDataSchemaMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -11255,62 +11418,6 @@ export const ContractorContractDetailsResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "ContractorContractDetailsResponse",
 }) as any as S.Schema<ContractorContractDetailsResponse>;
 
-export interface GetCountryEngagementAgreementDetailsRequest {
-  /** Country code according to ISO 3-digit alphabetic codes */
-  country_code: string;
-}
-export const GetCountryEngagementAgreementDetailsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    country_code: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/countries/{country_code}/engagement-agreement-details",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetCountryEngagementAgreementDetailsRequest",
-}) as any as S.Schema<GetCountryEngagementAgreementDetailsRequest>;
-
-/** Engagement agreement details schema object with variable fields based on country */
-export type EngagementAgreementDetailsResponseDataSchemaMap = {
-  [key: string]: unknown | undefined;
-};
-export const EngagementAgreementDetailsResponseDataSchemaMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.Unknown,
-) as any as S.Schema<EngagementAgreementDetailsResponseDataSchemaMap>;
-
-/** Engagement agreement details response data */
-export interface EngagementAgreementDetailsResponseData {
-  /** Engagement agreement details schema object with variable fields based on country */
-  schema: EngagementAgreementDetailsResponseDataSchemaMap;
-  /** JSON schema version number */
-  version: number;
-}
-export const EngagementAgreementDetailsResponseData = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    schema: EngagementAgreementDetailsResponseDataSchemaMap,
-    version: S.Number,
-  }),
-).annotate({
-  identifier: "EngagementAgreementDetailsResponseData",
-}) as any as S.Schema<EngagementAgreementDetailsResponseData>;
-
-/** Response for engagement agreement details */
-export interface EngagementAgreementDetailsResponse {
-  /** Engagement agreement details response data */
-  data?: EngagementAgreementDetailsResponseData;
-}
-export const EngagementAgreementDetailsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    data: S.optional(EngagementAgreementDetailsResponseData),
-  }),
-).annotate({
-  identifier: "EngagementAgreementDetailsResponse",
-}) as any as S.Schema<EngagementAgreementDetailsResponse>;
-
 export interface GetCountryHolidayRequest {
   /** Country code according to ISO 3166-1 3-digit alphabetic codes */
   country_code: string;
@@ -11325,15 +11432,9 @@ export const GetCountryHolidayRequest = /*@__PURE__*/ S.suspend(() =>
     year: S.String.pipe(T.Label()),
     country_subdivision_code: S.optional(S.String.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/countries/{country_code}/holidays/{year}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/v1/countries/{country_code}/holidays/{year}", code: 200 }),
   ),
-).annotate({
-  identifier: "GetCountryHolidayRequest",
-}) as any as S.Schema<GetCountryHolidayRequest>;
+).annotate({ identifier: "GetCountryHolidayRequest" }) as any as S.Schema<GetCountryHolidayRequest>;
 
 export interface Holiday {
   /** Date of the holiday */
@@ -11367,9 +11468,7 @@ export const HolidaysResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     data: S.optional(HolidaysResponseDataList),
   }),
-).annotate({
-  identifier: "HolidaysResponse",
-}) as any as S.Schema<HolidaysResponse>;
+).annotate({ identifier: "HolidaysResponse" }) as any as S.Schema<HolidaysResponse>;
 
 export type GetCountryLegalEntityFormRequestProductType = "peo" | "global_payroll" | "e2e_payroll";
 export const GetCountryLegalEntityFormRequestProductType = S.String;
@@ -11417,6 +11516,8 @@ export const GetCountryLegalEntityFormRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetCountryLegalEntityFormRequest>;
 
 export interface GetCustomFieldsRequest {
+  /** The company the accessed resource belongs to. Send it whenever you know which one you mean. Requests that don't resolve to a company fail with "Company not found". */
+  company_id?: string;
   /** Starts fetching records after the given page */
   page?: number;
   /** Number of items per page */
@@ -11424,12 +11525,11 @@ export interface GetCustomFieldsRequest {
 }
 export const GetCustomFieldsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    company_id: S.optional(S.String.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
     page_size: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/v1/custom-fields", code: 200 })),
-).annotate({
-  identifier: "GetCustomFieldsRequest",
-}) as any as S.Schema<GetCustomFieldsRequest>;
+).annotate({ identifier: "GetCustomFieldsRequest" }) as any as S.Schema<GetCustomFieldsRequest>;
 
 export type ListEmploymentCustomFieldsResponseDataCustomFieldsList = Array<EmploymentCustomField>;
 export const ListEmploymentCustomFieldsResponseDataCustomFieldsList = /*@__PURE__*/ S.Array(
@@ -11622,9 +11722,7 @@ export const DirectOffboarding = /*@__PURE__*/ S.suspend(() =>
     termination_date: S.optional(S.NullOr(S.String)),
     type: DirectOffboardingType,
   }),
-).annotate({
-  identifier: "DirectOffboarding",
-}) as any as S.Schema<DirectOffboarding>;
+).annotate({ identifier: "DirectOffboarding" }) as any as S.Schema<DirectOffboarding>;
 
 export type ListDirectOffboardingResponseDataDirectOffboardingsList = Array<DirectOffboarding>;
 export const ListDirectOffboardingResponseDataDirectOffboardingsList = /*@__PURE__*/ S.Array(
@@ -11700,20 +11798,19 @@ export type EmploymentDetailsOnlyResponseDataEmploymentContractOrigin =
   | "provided_by_customer";
 export const EmploymentDetailsOnlyResponseDataEmploymentContractOrigin = S.String;
 
-/** The current status of the employment record. - `active`: The employee is fully onboarded and actively working. - `created`: The employment has been created but onboarding has not started. - `pre_hire`: A pre-hire employment record, created before formal onboarding begins. - `created_awaiting_reserve`: The employment is created but waiting for a risk reserve deposit to be paid. - `created_reserve_paid`: The risk reserve has been paid and the employment can proceed with onboarding. - `initiated`: Onboarding has been started by the employer. - `invited`: The employee has been invited to complete their self-enrollment on Remote. - `pending`: The employment is pending review or further action before it can become active. - `review`: The employment is under review by Remote (e.g., contract or compliance review). - `archived`: The employment has been terminated or offboarded. - `deleted`: The employment record has been deleted. */
+/** The current status of the employment record. - `active`: The employee is fully onboarded and actively working. - `created`: The employment has been created but onboarding has not started. - `pre_hire`: A pre-hire employment record, created before formal onboarding begins. - `created_awaiting_reserve`: The employment is created but waiting for a risk reserve deposit to be paid. - `created_reserve_paid`: The risk reserve has been paid and the employment can proceed with onboarding. - `initiated`: Onboarding has been started by the employer. - `invited`: The employee has been invited to complete their self-enrollment on Remote. - `pending`: The employment is pending review or further action before it can become active. - `review`: The employment is under review by Remote (e.g., contract or compliance review). - `job_title_review`: The job title is pending verification by Remote; once approved, the employment returns to `created`. - `pending_post_self_enrollment_actions`: Self-enrollment is complete, but some actions are still missing before the employment can be activated. - `archived`: The employment has been terminated or offboarded. - `deleted`: The employment record has been deleted. */
 export type EmploymentStatus =
   | "active"
   | "created"
-  | "pre_hire"
   | "created_awaiting_reserve"
   | "created_reserve_paid"
   | "initiated"
   | "invited"
   | "pending"
+  | "pre_hire"
   | "review"
   | "job_title_review"
   | "pending_post_self_enrollment_actions"
-  | "offboarding"
   | "archived"
   | "deleted";
 export const EmploymentStatus = S.String;
@@ -11726,8 +11823,15 @@ export type EmploymentDetailsOnlyResponseDataEmploymentType =
   | "global_payroll_employee";
 export const EmploymentDetailsOnlyResponseDataEmploymentType = S.String;
 
-/** The status of the user account associated with this employment. - `active`: The user account is active and the user can log in. - `created`: The user account has been created but not yet activated. - `initiated`: The user has been invited but has not completed registration. - `cancelled`: The user account was cancelled before activation. - `inactive`: The user account has been deactivated (e.g., after offboarding). - `deleted`: The user account has been deleted. */
-export type UserStatus = "active" | "created" | "initiated" | "cancelled" | "inactive" | "deleted";
+/** The status of the user account associated with this employment. - `active`: The user account is active and the user can log in. - `created`: The user account has been created but not yet activated. - `invited`: The user has been invited but has not accepted the invitation yet. - `initiated`: The user has been invited but has not completed registration. - `cancelled`: The user account was cancelled before activation. - `inactive`: The user account has been deactivated (e.g., after offboarding). - `deleted`: The user account has been deleted. */
+export type UserStatus =
+  | "active"
+  | "created"
+  | "invited"
+  | "initiated"
+  | "cancelled"
+  | "inactive"
+  | "deleted";
 export const UserStatus = S.String;
 
 export interface EmploymentDetailsOnlyResponseDataEmployment {
@@ -11896,9 +12000,7 @@ export const DownloadDocumentResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     data: DownloadDocumentResponseData,
   }),
-).annotate({
-  identifier: "DownloadDocumentResponse",
-}) as any as S.Schema<DownloadDocumentResponse>;
+).annotate({ identifier: "DownloadDocumentResponse" }) as any as S.Schema<DownloadDocumentResponse>;
 
 export type GetEmployeeDocumentsRequestSortBy =
   | "description"
@@ -11978,9 +12080,7 @@ export const ListDocumentsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     data: S.optional(ListDocumentsResponseData),
   }),
-).annotate({
-  identifier: "ListDocumentsResponse",
-}) as any as S.Schema<ListDocumentsResponse>;
+).annotate({ identifier: "ListDocumentsResponse" }) as any as S.Schema<ListDocumentsResponse>;
 
 /** Use latest version */
 export type GetEmployeeEmergencyContactRequestEmergencyContactDetailsJsonSchemaVersionCase1 =
@@ -12018,13 +12118,7 @@ export const GetEmployeeExpenseCategoriesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     include_parents: S.optional(S.Boolean.pipe(T.Query())),
     expense_id: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/employee/expense-categories",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/employee/expense-categories", code: 200 })),
 ).annotate({
   identifier: "GetEmployeeExpenseCategoriesRequest",
 }) as any as S.Schema<GetEmployeeExpenseCategoriesRequest>;
@@ -12084,9 +12178,7 @@ export const ExpenseCategoryNode = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(S.String),
     title: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ExpenseCategoryNode",
-}) as any as S.Schema<ExpenseCategoryNode>;
+).annotate({ identifier: "ExpenseCategoryNode" }) as any as S.Schema<ExpenseCategoryNode>;
 
 export type ListExpenseCategoriesResponseDataList = Array<ExpenseCategoryNode>;
 export const ListExpenseCategoriesResponseDataList = /*@__PURE__*/ S.Array(
@@ -12126,6 +12218,7 @@ export const GetEmployeeLeavePoliciesRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetEmployeeLeavePoliciesRequest",
 }) as any as S.Schema<GetEmployeeLeavePoliciesRequest>;
 
+/** The type of leave a time off record or leave policy represents. Responses may return any of these values. The set is a superset of the values accepted when creating a time off record (see `TimeoffType`): employments on the newer leave-type model can hold leave types that are not bookable by name. */
 export type LeavePolicyDetailsLeavePolicyVariantIdCase1 =
   | "time_off"
   | "sick_leave"
@@ -12144,7 +12237,37 @@ export type LeavePolicyDetailsLeavePolicyVariantIdCase1 =
   | "rtt"
   | "casual_leave"
   | "rol"
-  | "ex_festivita";
+  | "ex_festivita"
+  | "civic_duty"
+  | "adoption"
+  | "caregiver"
+  | "transfer"
+  | "exam"
+  | "monkhood"
+  | "marriage"
+  | "sterilization"
+  | "celebration"
+  | "blood_donation"
+  | "health_day"
+  | "special"
+  | "career"
+  | "study"
+  | "voluntary"
+  | "adv"
+  | "public_duties"
+  | "force_majeure"
+  | "medical_visits"
+  | "marriage_child"
+  | "breastfeeding"
+  | "maternity_paid"
+  | "maternity_unpaid"
+  | "paternity_paid"
+  | "paternity_unpaid"
+  | "pregnancy_leave"
+  | "business_trip_eu"
+  | "business_trip_non_eu"
+  | "training"
+  | "sustainable_employability";
 export const LeavePolicyDetailsLeavePolicyVariantIdCase1 = S.String;
 
 /** The ID of the leave policy variant */
@@ -12170,9 +12293,7 @@ export const LeavePolicyDetails = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     uses_accrual_as_balance: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "LeavePolicyDetails",
-}) as any as S.Schema<LeavePolicyDetails>;
+).annotate({ identifier: "LeavePolicyDetails" }) as any as S.Schema<LeavePolicyDetails>;
 
 export type ListLeavePoliciesDetailsResponseDataList = Array<LeavePolicyDetails>;
 export const ListLeavePoliciesDetailsResponseDataList = /*@__PURE__*/ S.Array(
@@ -12194,11 +12315,7 @@ export const ListLeavePoliciesDetailsResponse = /*@__PURE__*/ S.suspend(() =>
 export interface GetEmployeeLeavePoliciesSummaryRequest {}
 export const GetEmployeeLeavePoliciesSummaryRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/employee/leave-policies/summary",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/v1/employee/leave-policies/summary", code: 200 }),
   ),
 ).annotate({
   identifier: "GetEmployeeLeavePoliciesSummaryRequest",
@@ -12270,9 +12387,7 @@ export const LeavePolicySummaryBooked = /*@__PURE__*/ S.suspend(() =>
     hours: S.Number,
     type: LeavePolicySummaryBookedType,
   }),
-).annotate({
-  identifier: "LeavePolicySummaryBooked",
-}) as any as S.Schema<LeavePolicySummaryBooked>;
+).annotate({ identifier: "LeavePolicySummaryBooked" }) as any as S.Schema<LeavePolicySummaryBooked>;
 
 /** The current entitlement is the accrued time entitled for the employee plus any other extra entitlements (such as carryover). */
 export type LeavePolicySummaryCurrentEntitlement =
@@ -12281,6 +12396,7 @@ export type LeavePolicySummaryCurrentEntitlement =
 export const LeavePolicySummaryCurrentEntitlement =
   S.Unknown as any as S.Schema<LeavePolicySummaryCurrentEntitlement>;
 
+/** The type of leave a time off record or leave policy represents. Responses may return any of these values. The set is a superset of the values accepted when creating a time off record (see `TimeoffType`): employments on the newer leave-type model can hold leave types that are not bookable by name. */
 export type EmployeeLeavePolicyLeavePolicyVariantIdCase1 =
   | "time_off"
   | "sick_leave"
@@ -12299,7 +12415,37 @@ export type EmployeeLeavePolicyLeavePolicyVariantIdCase1 =
   | "rtt"
   | "casual_leave"
   | "rol"
-  | "ex_festivita";
+  | "ex_festivita"
+  | "civic_duty"
+  | "adoption"
+  | "caregiver"
+  | "transfer"
+  | "exam"
+  | "monkhood"
+  | "marriage"
+  | "sterilization"
+  | "celebration"
+  | "blood_donation"
+  | "health_day"
+  | "special"
+  | "career"
+  | "study"
+  | "voluntary"
+  | "adv"
+  | "public_duties"
+  | "force_majeure"
+  | "medical_visits"
+  | "marriage_child"
+  | "breastfeeding"
+  | "maternity_paid"
+  | "maternity_unpaid"
+  | "paternity_paid"
+  | "paternity_unpaid"
+  | "pregnancy_leave"
+  | "business_trip_eu"
+  | "business_trip_non_eu"
+  | "training"
+  | "sustainable_employability";
 export const EmployeeLeavePolicyLeavePolicyVariantIdCase1 = S.String;
 
 /** The ID of the leave policy variant */
@@ -12317,7 +12463,7 @@ export interface EmployeeLeavePolicy {
   description: string | null;
   /** The ID of the leave policy variant */
   leave_policy_variant_id: EmployeeLeavePolicyLeavePolicyVariantId;
-  leave_type: TimeoffType;
+  leave_type: ResponseTimeoffType;
   name: string;
   unit: EmployeeLeavePolicyUnit;
 }
@@ -12325,13 +12471,11 @@ export const EmployeeLeavePolicy = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     description: S.NullOr(S.String),
     leave_policy_variant_id: EmployeeLeavePolicyLeavePolicyVariantId,
-    leave_type: TimeoffType,
+    leave_type: ResponseTimeoffType,
     name: S.String,
     unit: EmployeeLeavePolicyUnit,
   }),
-).annotate({
-  identifier: "EmployeeLeavePolicy",
-}) as any as S.Schema<EmployeeLeavePolicy>;
+).annotate({ identifier: "EmployeeLeavePolicy" }) as any as S.Schema<EmployeeLeavePolicy>;
 
 export type LeavePolicySummaryPendingApprovalType = "limited";
 export const LeavePolicySummaryPendingApprovalType = S.String;
@@ -12367,9 +12511,7 @@ export const LeavePolicySummaryTaken = /*@__PURE__*/ S.suspend(() =>
     hours: S.Number,
     type: LeavePolicySummaryTakenType,
   }),
-).annotate({
-  identifier: "LeavePolicySummaryTaken",
-}) as any as S.Schema<LeavePolicySummaryTaken>;
+).annotate({ identifier: "LeavePolicySummaryTaken" }) as any as S.Schema<LeavePolicySummaryTaken>;
 
 export type LeavePolicySummaryUpcomingApprovedType = "limited";
 export const LeavePolicySummaryUpcomingApprovedType = S.String;
@@ -12424,9 +12566,7 @@ export const LeavePolicySummaryUsed = /*@__PURE__*/ S.suspend(() =>
     hours: S.Number,
     type: LeavePolicySummaryUsedType,
   }),
-).annotate({
-  identifier: "LeavePolicySummaryUsed",
-}) as any as S.Schema<LeavePolicySummaryUsed>;
+).annotate({ identifier: "LeavePolicySummaryUsed" }) as any as S.Schema<LeavePolicySummaryUsed>;
 
 /** Leave Policy Summary */
 export interface LeavePolicySummary {
@@ -12468,9 +12608,7 @@ export const LeavePolicySummary = /*@__PURE__*/ S.suspend(() =>
     used: LeavePolicySummaryUsed,
     working_hours_per_day: S.Number,
   }),
-).annotate({
-  identifier: "LeavePolicySummary",
-}) as any as S.Schema<LeavePolicySummary>;
+).annotate({ identifier: "LeavePolicySummary" }) as any as S.Schema<LeavePolicySummary>;
 
 export type ListLeavePoliciesSummaryResponseDataList = Array<LeavePolicySummary>;
 export const ListLeavePoliciesSummaryResponseDataList = /*@__PURE__*/ S.Array(
@@ -12514,9 +12652,7 @@ export const PayslipFileCurrency = /*@__PURE__*/ S.suspend(() =>
     code: S.NullOr(S.String),
     symbol: S.String,
   }),
-).annotate({
-  identifier: "PayslipFileCurrency",
-}) as any as S.Schema<PayslipFileCurrency>;
+).annotate({ identifier: "PayslipFileCurrency" }) as any as S.Schema<PayslipFileCurrency>;
 
 /** Net salary amount including source/converted amounts, currencies and conversion rate. Shape produced by `Tiger.Billing.Value.Amount.build/1`. */
 export interface PayslipFileNetSalary {
@@ -12534,9 +12670,7 @@ export const PayslipFileNetSalary = /*@__PURE__*/ S.suspend(() =>
     rate: S.optional(S.String),
     source_amount: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "PayslipFileNetSalary",
-}) as any as S.Schema<PayslipFileNetSalary>;
+).annotate({ identifier: "PayslipFileNetSalary" }) as any as S.Schema<PayslipFileNetSalary>;
 
 /** A single payslip file with its associated payroll run metadata. */
 export interface PayslipFile {
@@ -12592,9 +12726,7 @@ export const ListPayslipFilesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     data: S.optional(ListPayslipFilesResponseData),
   }),
-).annotate({
-  identifier: "ListPayslipFilesResponse",
-}) as any as S.Schema<ListPayslipFilesResponse>;
+).annotate({ identifier: "ListPayslipFilesResponse" }) as any as S.Schema<ListPayslipFilesResponse>;
 
 export interface GetEmployeePayslipsRequest {
   /** Starts fetching records after the given page */
@@ -12623,9 +12755,7 @@ export const PayslipItemFile = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     slug: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PayslipItemFile",
-}) as any as S.Schema<PayslipItemFile>;
+).annotate({ identifier: "PayslipItemFile" }) as any as S.Schema<PayslipItemFile>;
 
 /** Payroll run metadata */
 export interface PayslipItemPayrollRun {
@@ -12641,9 +12771,7 @@ export const PayslipItemPayrollRun = /*@__PURE__*/ S.suspend(() =>
     period_start: S.optional(S.String),
     type: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PayslipItemPayrollRun",
-}) as any as S.Schema<PayslipItemPayrollRun>;
+).annotate({ identifier: "PayslipItemPayrollRun" }) as any as S.Schema<PayslipItemPayrollRun>;
 
 /** Payslip data */
 export interface PayslipItemPayslip {
@@ -12661,9 +12789,7 @@ export const PayslipItemPayslip = /*@__PURE__*/ S.suspend(() =>
     net_salary: S.optional(S.NullOr(S.Unknown)),
     slug: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PayslipItemPayslip",
-}) as any as S.Schema<PayslipItemPayslip>;
+).annotate({ identifier: "PayslipItemPayslip" }) as any as S.Schema<PayslipItemPayslip>;
 
 /** A payslip with file, payslip, payroll run, and payroll output metadata. */
 export interface PayslipItem {
@@ -12750,13 +12876,7 @@ export const GetEmployeePersonalDetailsRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface GetEmployeePersonalInformationRequest {}
 export const GetEmployeePersonalInformationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/employee/personal-information",
-      code: 200,
-    }),
-  ),
+  S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v1/employee/personal-information", code: 200 })),
 ).annotate({
   identifier: "GetEmployeePersonalInformationRequest",
 }) as any as S.Schema<GetEmployeePersonalInformationRequest>;
@@ -12797,9 +12917,7 @@ export const ListTimeoffResponseData = /*@__PURE__*/ S.suspend(() =>
     total_count: S.optional(S.Number),
     total_pages: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "ListTimeoffResponseData",
-}) as any as S.Schema<ListTimeoffResponseData>;
+).annotate({ identifier: "ListTimeoffResponseData" }) as any as S.Schema<ListTimeoffResponseData>;
 
 /** Response schema listing many timeoffs */
 export interface ListTimeoffResponse {
@@ -12809,9 +12927,7 @@ export const ListTimeoffResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     data: S.optional(ListTimeoffResponseData),
   }),
-).annotate({
-  identifier: "ListTimeoffResponse",
-}) as any as S.Schema<ListTimeoffResponse>;
+).annotate({ identifier: "ListTimeoffResponse" }) as any as S.Schema<ListTimeoffResponse>;
 
 export interface GetEmployeeTimesheetsRequest {
   /** Starts fetching records after the given page */
@@ -12838,16 +12954,8 @@ export const GetEmploymentRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     employment_id: S.String.pipe(T.Label()),
     exclude_files: S.optional(S.Boolean.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/employments/{employment_id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetEmploymentRequest",
-}) as any as S.Schema<GetEmploymentRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/v1/employments/{employment_id}", code: 200 })),
+).annotate({ identifier: "GetEmploymentRequest" }) as any as S.Schema<GetEmploymentRequest>;
 
 /** How often Remote bills the employer for management fees. Annual billing typically offers a discount. */
 export type PricingPlanDetailsFrequency = "annually" | "monthly";
@@ -12862,9 +12970,7 @@ export const PricingPlanDetails = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     frequency: PricingPlanDetailsFrequency,
   }),
-).annotate({
-  identifier: "PricingPlanDetails",
-}) as any as S.Schema<PricingPlanDetails>;
+).annotate({ identifier: "PricingPlanDetails" }) as any as S.Schema<PricingPlanDetails>;
 
 /** For the employment types `contractor`, `global_payroll_employee` and `direct_employee`, only [List employments](#operation/get_index_employment) and [Show employment](#operation/get_show_employment) operations are available. */
 export type EmploymentShowResponseDataEmploymentType =
@@ -12876,11 +12982,14 @@ export const EmploymentShowResponseDataEmploymentType = S.String;
 
 /** Contractor-specific settings. Only present for contractor employments. */
 export interface EmploymentShowResponseDataEmploymentContractorSettings {
+  /** Whether the contractor charges VAT on their invoices. Set by the contractor. Only used for Contractor Management and Contractor Management Plus. */
+  charges_vat?: boolean;
   /** Whether the contractor requires work confirmation before submitting invoices. */
   requires_work_confirmation?: boolean;
 }
 export const EmploymentShowResponseDataEmploymentContractorSettings = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    charges_vat: S.optional(S.Boolean),
     requires_work_confirmation: S.optional(S.Boolean),
   }),
 ).annotate({
@@ -13024,9 +13133,7 @@ export const NullableCountry = /*@__PURE__*/ S.suspend(() =>
     subregion: S.optional(S.NullOr(S.String)),
     supported_json_schemas: S.optional(NullableCountrySupportedJsonSchemasList),
   }),
-).annotate({
-  identifier: "NullableCountry",
-}) as any as S.Schema<NullableCountry>;
+).annotate({ identifier: "NullableCountry" }) as any as S.Schema<NullableCountry>;
 
 export type EmploymentShowResponseDataEmploymentBankAccountDetailsList = Array<unknown>;
 export const EmploymentShowResponseDataEmploymentBankAccountDetailsList = /*@__PURE__*/ S.Array(
@@ -13055,9 +13162,7 @@ export const TaskDescription = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(S.String),
     status: S.optional(TaskDescriptionStatus),
   }),
-).annotate({
-  identifier: "TaskDescription",
-}) as any as S.Schema<TaskDescription>;
+).annotate({ identifier: "TaskDescription" }) as any as S.Schema<TaskDescription>;
 
 /** All tasks that need to be completed before marking the employment as ready */
 export interface OnboardingTasks {
@@ -13083,9 +13188,7 @@ export const OnboardingTasks = /*@__PURE__*/ S.suspend(() =>
     personal_details: TaskDescription,
     pricing_plan_details: TaskDescription,
   }),
-).annotate({
-  identifier: "OnboardingTasks",
-}) as any as S.Schema<OnboardingTasks>;
+).annotate({ identifier: "OnboardingTasks" }) as any as S.Schema<OnboardingTasks>;
 
 export interface EmploymentShowResponseDataEmployment {
   /** Personal details information. Its properties may vary depending on the country. */
@@ -13248,9 +13351,7 @@ export const EmploymentShowResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     data: EmploymentShowResponseData,
   }),
-).annotate({
-  identifier: "EmploymentShowResponse",
-}) as any as S.Schema<EmploymentShowResponse>;
+).annotate({ identifier: "EmploymentShowResponse" }) as any as S.Schema<EmploymentShowResponse>;
 
 export interface GetEmploymentBackgroundCheckRequest {
   /** Employment Id */
@@ -13387,6 +13488,8 @@ export interface GetEmploymentBasicInformationRequest {
   employment_id: string;
   /** Version of the employment_basic_information form schema */
   employment_basic_information_json_schema_version?: GetEmploymentBasicInformationRequestEmploymentBasicInformationJsonSchemaVersion;
+  /** When true, returns `tax_servicing_countries` grouped into global/regions/subregions instead of a flat list of country names. */
+  group_tax_servicing_countries?: boolean;
 }
 export const GetEmploymentBasicInformationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -13396,12 +13499,9 @@ export const GetEmploymentBasicInformationRequest = /*@__PURE__*/ S.suspend(() =
         T.Query(),
       ),
     ),
+    group_tax_servicing_countries: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v2/employments/{employment_id}/basic-information",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/v2/employments/{employment_id}/basic-information", code: 200 }),
   ),
 ).annotate({
   identifier: "GetEmploymentBasicInformationRequest",
@@ -13421,11 +13521,7 @@ export const GetEmploymentBenefitOffersRequest = /*@__PURE__*/ S.suspend(() =>
     page: S.optional(S.Number.pipe(T.Query())),
     page_size: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/employments/{employment_id}/benefit-offers",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/v1/employments/{employment_id}/benefit-offers", code: 200 }),
   ),
 ).annotate({
   identifier: "GetEmploymentBenefitOffersRequest",
@@ -13627,9 +13723,7 @@ export const GetEmploymentCompanyStructureNodesRequest = /*@__PURE__*/ S.suspend
 }) as any as S.Schema<GetEmploymentCompanyStructureNodesRequest>;
 
 /** Arbitrary attributes including legal entity code */
-export type CompanyStructureNodeAttributesMap = {
-  [key: string]: unknown | undefined;
-};
+export type CompanyStructureNodeAttributesMap = { [key: string]: unknown | undefined };
 export const CompanyStructureNodeAttributesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -13649,9 +13743,7 @@ export const CompanyStructureNodeCompanyStructure = /*@__PURE__*/ S.suspend(() =
 }) as any as S.Schema<CompanyStructureNodeCompanyStructure>;
 
 /** Arbitrary attributes including cost_center */
-export type CompanyStructureNodeParentAttributesMap = {
-  [key: string]: unknown | undefined;
-};
+export type CompanyStructureNodeParentAttributesMap = { [key: string]: unknown | undefined };
 export const CompanyStructureNodeParentAttributesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -13687,9 +13779,7 @@ export const CompanyStructureNode = /*@__PURE__*/ S.suspend(() =>
     id: S.String,
     parent: S.optional(S.NullOr(CompanyStructureNodeParent)),
   }),
-).annotate({
-  identifier: "CompanyStructureNode",
-}) as any as S.Schema<CompanyStructureNode>;
+).annotate({ identifier: "CompanyStructureNode" }) as any as S.Schema<CompanyStructureNode>;
 
 export type CompanyStructureNodesResponseDataCompanyStructureNodesList =
   Array<CompanyStructureNode>;
@@ -13755,11 +13845,7 @@ export const GetEmploymentContractDocumentsRequest = /*@__PURE__*/ S.suspend(() 
     page: S.optional(S.Number.pipe(T.Query())),
     page_size: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/employments/{employment_id}/contract-documents",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/v1/employments/{employment_id}/contract-documents", code: 200 }),
   ),
 ).annotate({
   identifier: "GetEmploymentContractDocumentsRequest",
@@ -13835,9 +13921,7 @@ export const ContractDocumentItem = /*@__PURE__*/ S.suspend(() =>
     type: S.String,
     updated_at: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "ContractDocumentItem",
-}) as any as S.Schema<ContractDocumentItem>;
+).annotate({ identifier: "ContractDocumentItem" }) as any as S.Schema<ContractDocumentItem>;
 
 /** Array of contract documents */
 export type IndexContractDocumentsContractDocumentsList = Array<ContractDocumentItem>;
@@ -13863,9 +13947,7 @@ export const IndexContractDocuments = /*@__PURE__*/ S.suspend(() =>
     total_count: S.Number,
     total_pages: S.Number,
   }),
-).annotate({
-  identifier: "IndexContractDocuments",
-}) as any as S.Schema<IndexContractDocuments>;
+).annotate({ identifier: "IndexContractDocuments" }) as any as S.Schema<IndexContractDocuments>;
 
 /** Paginated list of contract documents */
 export interface IndexContractDocumentsResponse {
@@ -13945,9 +14027,7 @@ export const EmploymentContract = /*@__PURE__*/ S.suspend(() =>
     job_title: S.String,
     status: EmploymentContractStatus,
   }),
-).annotate({
-  identifier: "EmploymentContract",
-}) as any as S.Schema<EmploymentContract>;
+).annotate({ identifier: "EmploymentContract" }) as any as S.Schema<EmploymentContract>;
 
 export type ListEmploymentContractResponseDataEmploymentContractsList = Array<EmploymentContract>;
 export const ListEmploymentContractResponseDataEmploymentContractsList = /*@__PURE__*/ S.Array(
@@ -14009,9 +14089,7 @@ export const ContractPendingChanges = /*@__PURE__*/ S.suspend(() =>
     effective_at: S.String,
     pending_action_for_activation: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "ContractPendingChanges",
-}) as any as S.Schema<ContractPendingChanges>;
+).annotate({ identifier: "ContractPendingChanges" }) as any as S.Schema<ContractPendingChanges>;
 
 export type EmploymentContractPendingChangesResponseDataPendingChangesList =
   Array<ContractPendingChanges>;
@@ -14108,11 +14186,7 @@ export const GetEmploymentCustomFieldsRequest = /*@__PURE__*/ S.suspend(() =>
     page: S.optional(S.Number.pipe(T.Query())),
     page_size: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/employments/{employment_id}/custom-fields",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/v1/employments/{employment_id}/custom-fields", code: 200 }),
   ),
 ).annotate({
   identifier: "GetEmploymentCustomFieldsRequest",
@@ -14460,20 +14534,78 @@ export const GetEmploymentFilesRequest = /*@__PURE__*/ S.suspend(() =>
     sub_type: S.optional(S.String.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
     page_size: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/employments/{employment_id}/files",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/employments/{employment_id}/files", code: 200 })),
 ).annotate({
   identifier: "GetEmploymentFilesRequest",
 }) as any as S.Schema<GetEmploymentFilesRequest>;
 
-export type ListFilesResponseDataFilesList = Array<File>;
+/** The broad category of the file. Contractor Services Agreements (CSAs) are reported here with type "contract" — see the /contract-documents endpoint for contract-document-specific types. */
+export type EmploymentFileType =
+  | "annual_leave"
+  | "background_check"
+  | "bank_account_holder_name"
+  | "bereavement_leave"
+  | "contractor_invoice"
+  | "direct_offboarding"
+  | "document_scan"
+  | "expense"
+  | "external_contract"
+  | "generic_employment_document"
+  | "health_check"
+  | "i9_document"
+  | "id"
+  | "job"
+  | "leave_of_absence"
+  | "marriage_leave"
+  | "maternity_leave"
+  | "occupational_risk"
+  | "offboarding"
+  | "other"
+  | "parental_leave"
+  | "paternity_leave"
+  | "performance_review"
+  | "personal"
+  | "safety_training"
+  | "sick_leave"
+  | "time_attendance"
+  | "timeoff"
+  | "unpaid_leave"
+  | "vehicle_document"
+  | "work_confirmation"
+  | "contract"
+  | "document"
+  | "portugal_training_certificate"
+  | "tax_document"
+  | "termination_reason_file"
+  | "timesheet"
+  | "visa";
+export const EmploymentFileType = S.String;
+
+/** A file associated with an employment, such as a contract, tax document, or identity document. */
+export interface EmploymentFile {
+  /** The unique identifier (UUID) of the file. */
+  id: string;
+  inserted_at: string;
+  /** The file name including extension (e.g., "id.pdf", "contract.pdf"). */
+  name: string;
+  /** A more specific classification of the file within its type (e.g., "personal_id" within type "id", or "ir_35" within type "contract"). Null if no sub-type applies. */
+  sub_type?: string | null;
+  /** The broad category of the file. Contractor Services Agreements (CSAs) are reported here with type "contract" — see the /contract-documents endpoint for contract-document-specific types. */
+  type: EmploymentFileType;
+}
+export const EmploymentFile = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    inserted_at: S.String,
+    name: S.String,
+    sub_type: S.optional(S.NullOr(S.String)),
+    type: EmploymentFileType,
+  }),
+).annotate({ identifier: "EmploymentFile" }) as any as S.Schema<EmploymentFile>;
+
+export type ListFilesResponseDataFilesList = Array<EmploymentFile>;
 export const ListFilesResponseDataFilesList = /*@__PURE__*/ S.Array(
-  File,
+  EmploymentFile,
 ) as any as S.Schema<ListFilesResponseDataFilesList>;
 
 export interface ListFilesResponseData {
@@ -14492,9 +14624,7 @@ export const ListFilesResponseData = /*@__PURE__*/ S.suspend(() =>
     total_count: S.optional(S.Number),
     total_pages: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "ListFilesResponseData",
-}) as any as S.Schema<ListFilesResponseData>;
+).annotate({ identifier: "ListFilesResponseData" }) as any as S.Schema<ListFilesResponseData>;
 
 /** Response schema listing many files */
 export interface ListFilesResponse {
@@ -14504,9 +14634,7 @@ export const ListFilesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     data: S.optional(ListFilesResponseData),
   }),
-).annotate({
-  identifier: "ListFilesResponse",
-}) as any as S.Schema<ListFilesResponse>;
+).annotate({ identifier: "ListFilesResponse" }) as any as S.Schema<ListFilesResponse>;
 
 export interface GetEmploymentJobRequest {
   /** Employment ID */
@@ -14515,16 +14643,8 @@ export interface GetEmploymentJobRequest {
 export const GetEmploymentJobRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     employment_id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/employments/{employment_id}/job",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetEmploymentJobRequest",
-}) as any as S.Schema<GetEmploymentJobRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/v1/employments/{employment_id}/job", code: 200 })),
+).annotate({ identifier: "GetEmploymentJobRequest" }) as any as S.Schema<GetEmploymentJobRequest>;
 
 /** A reference to a related job classification entity (job family, sub-family, career track, or job level). Null if not assigned. */
 export interface JobAssociation {
@@ -14568,9 +14688,7 @@ export const JobCustomFieldValuesItem = /*@__PURE__*/ S.suspend(() =>
     definition: S.optional(JobCustomFieldValuesItemDefinition),
     value: S.optional(JobCustomFieldValuesItemValue),
   }),
-).annotate({
-  identifier: "JobCustomFieldValuesItem",
-}) as any as S.Schema<JobCustomFieldValuesItem>;
+).annotate({ identifier: "JobCustomFieldValuesItem" }) as any as S.Schema<JobCustomFieldValuesItem>;
 
 export type JobCustomFieldValuesList = Array<JobCustomFieldValuesItem>;
 export const JobCustomFieldValuesList = /*@__PURE__*/ S.Array(
@@ -14617,9 +14735,7 @@ export const EmploymentJobResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     data: Job,
   }),
-).annotate({
-  identifier: "EmploymentJobResponse",
-}) as any as S.Schema<EmploymentJobResponse>;
+).annotate({ identifier: "EmploymentJobResponse" }) as any as S.Schema<EmploymentJobResponse>;
 
 export interface GetEmploymentOnboardingStepsRequest {
   /** Employment ID */
@@ -14629,11 +14745,7 @@ export const GetEmploymentOnboardingStepsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     employment_id: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/employments/{employment_id}/onboarding-steps",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/v1/employments/{employment_id}/onboarding-steps", code: 200 }),
   ),
 ).annotate({
   identifier: "GetEmploymentOnboardingStepsRequest",
@@ -14743,7 +14855,9 @@ export interface GetEmploymentsRequest {
   company_id?: string;
   /** Filters the results by employments whose login email matches the value */
   email?: string;
-  /** Filters the results by employments whose status matches the value. Supports multiple values separated by commas. Also supports the value `incomplete` to get all employments that are not onboarded yet. */
+  /** Filters the results by the employee's name. Each whitespace-separated word is matched partially, ignoring casing and accents, so `grace hop` matches "Gráce Brewster Murray Hopper". */
+  name?: string;
+  /** Filters the results by employments whose status matches the value. Supports multiple values separated by commas. Also supports the value `incomplete` to get all employments that are not onboarded yet. Allowed values: `active`, `created`, `created_awaiting_reserve`, `created_reserve_paid`, `initiated`, `invited`, `pending`, `pre_hire`, `review`, `job_title_review`, `pending_post_self_enrollment_actions`, `archived`, `incomplete`. Any other value returns a `422`. Offboarded employments have the status `archived`. */
   status?: string;
   /** Filters the results by employments whose employment product type matches the value */
   employment_type?: string;
@@ -14762,6 +14876,7 @@ export const GetEmploymentsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     company_id: S.optional(S.String.pipe(T.Query())),
     email: S.optional(S.String.pipe(T.Query())),
+    name: S.optional(S.String.pipe(T.Query())),
     status: S.optional(S.String.pipe(T.Query())),
     employment_type: S.optional(S.String.pipe(T.Query())),
     employment_model: S.optional(GetEmploymentsRequestEmploymentModel.pipe(T.Query())),
@@ -14770,9 +14885,7 @@ export const GetEmploymentsRequest = /*@__PURE__*/ S.suspend(() =>
     page: S.optional(S.Number.pipe(T.Query())),
     page_size: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/v1/employments", code: 200 })),
-).annotate({
-  identifier: "GetEmploymentsRequest",
-}) as any as S.Schema<GetEmploymentsRequest>;
+).annotate({ identifier: "GetEmploymentsRequest" }) as any as S.Schema<GetEmploymentsRequest>;
 
 /** The employment model. `eor` (Employer of Record), `peo` (Professional Employer Organization), or `global_payroll`. */
 export type MinimalEmploymentEmploymentModel = "eor" | "peo" | "global_payroll";
@@ -14839,9 +14952,7 @@ export const MinimalEmployment = /*@__PURE__*/ S.suspend(() =>
     work_address_details: S.Unknown,
     work_email: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "MinimalEmployment",
-}) as any as S.Schema<MinimalEmployment>;
+).annotate({ identifier: "MinimalEmployment" }) as any as S.Schema<MinimalEmployment>;
 
 export type ListEmploymentsResponseDataEmploymentsList = Array<MinimalEmployment>;
 export const ListEmploymentsResponseDataEmploymentsList = /*@__PURE__*/ S.Array(
@@ -14876,9 +14987,7 @@ export const ListEmploymentsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     data: S.optional(ListEmploymentsResponseData),
   }),
-).annotate({
-  identifier: "ListEmploymentsResponse",
-}) as any as S.Schema<ListEmploymentsResponse>;
+).annotate({ identifier: "ListEmploymentsResponse" }) as any as S.Schema<ListEmploymentsResponse>;
 
 export interface GetEmploymentsBulkRequest {
   /** Company ID */
@@ -14953,9 +15062,7 @@ export const EmploymentContractorRate = /*@__PURE__*/ S.suspend(() =>
     slug: S.optional(S.String),
     type: S.optional(EmploymentContractorRateType),
   }),
-).annotate({
-  identifier: "EmploymentContractorRate",
-}) as any as S.Schema<EmploymentContractorRate>;
+).annotate({ identifier: "EmploymentContractorRate" }) as any as S.Schema<EmploymentContractorRate>;
 
 /** For the employment models `peo` and `global_payroll`, only [List employments](#operation/get_index_employment) and [Show employment](#operation/get_show_employment) operations are available. */
 export type EmploymentEmploymentModel = "global_payroll" | "peo" | "eor";
@@ -15126,9 +15233,7 @@ export const EmploymentsBulkResponse = /*@__PURE__*/ S.suspend(() =>
     data: EmploymentsBulkResponseDataList,
     next_cursor: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "EmploymentsBulkResponse",
-}) as any as S.Schema<EmploymentsBulkResponse>;
+).annotate({ identifier: "EmploymentsBulkResponse" }) as any as S.Schema<EmploymentsBulkResponse>;
 
 export interface GetExpensRequest {
   /** Expense ID */
@@ -15138,9 +15243,7 @@ export const GetExpensRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/v1/expenses/{id}", code: 200 })),
-).annotate({
-  identifier: "GetExpensRequest",
-}) as any as S.Schema<GetExpensRequest>;
+).annotate({ identifier: "GetExpensRequest" }) as any as S.Schema<GetExpensRequest>;
 
 export interface GetExpensesRequest {
   /** Starts fetching records after the given page */
@@ -15153,9 +15256,7 @@ export const GetExpensesRequest = /*@__PURE__*/ S.suspend(() =>
     page: S.optional(S.Number.pipe(T.Query())),
     page_size: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/v1/expenses", code: 200 })),
-).annotate({
-  identifier: "GetExpensesRequest",
-}) as any as S.Schema<GetExpensesRequest>;
+).annotate({ identifier: "GetExpensesRequest" }) as any as S.Schema<GetExpensesRequest>;
 
 export type ListExpenseResponseDataExpensesList = Array<ExpenseOrDraft>;
 export const ListExpenseResponseDataExpensesList = /*@__PURE__*/ S.Array(
@@ -15178,9 +15279,7 @@ export const ListExpenseResponseData = /*@__PURE__*/ S.suspend(() =>
     total_count: S.optional(S.Number),
     total_pages: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "ListExpenseResponseData",
-}) as any as S.Schema<ListExpenseResponseData>;
+).annotate({ identifier: "ListExpenseResponseData" }) as any as S.Schema<ListExpenseResponseData>;
 
 /** Response schema listing many expenses */
 export interface ListExpenseResponse {
@@ -15190,9 +15289,7 @@ export const ListExpenseResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     data: S.optional(ListExpenseResponseData),
   }),
-).annotate({
-  identifier: "ListExpenseResponse",
-}) as any as S.Schema<ListExpenseResponse>;
+).annotate({ identifier: "ListExpenseResponse" }) as any as S.Schema<ListExpenseResponse>;
 
 export interface GetExpensesCategoriesRequest {
   /** The employment ID for which to list categories. Required if neither expense_id nor country_code is provided. */
@@ -15226,15 +15323,9 @@ export const GetExpensReceiptRequest = /*@__PURE__*/ S.suspend(() =>
     expense_id: S.String.pipe(T.Label()),
     receipt_id: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/expenses/{expense_id}/receipts/{receipt_id}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/v1/expenses/{expense_id}/receipts/{receipt_id}", code: 200 }),
   ),
-).annotate({
-  identifier: "GetExpensReceiptRequest",
-}) as any as S.Schema<GetExpensReceiptRequest>;
+).annotate({ identifier: "GetExpensReceiptRequest" }) as any as S.Schema<GetExpensReceiptRequest>;
 
 export interface GetExpensReceiptResponse {}
 export const GetExpensReceiptResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -15279,9 +15370,7 @@ export const DownloadFileResponseData = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     file: DownloadFileResponseDataFile,
   }),
-).annotate({
-  identifier: "DownloadFileResponseData",
-}) as any as S.Schema<DownloadFileResponseData>;
+).annotate({ identifier: "DownloadFileResponseData" }) as any as S.Schema<DownloadFileResponseData>;
 
 /** Response containing the file's metadata and its base64-encoded content for download. */
 export interface DownloadFileResponse {
@@ -15291,9 +15380,7 @@ export const DownloadFileResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     data: DownloadFileResponseData,
   }),
-).annotate({
-  identifier: "DownloadFileResponse",
-}) as any as S.Schema<DownloadFileResponse>;
+).annotate({ identifier: "DownloadFileResponse" }) as any as S.Schema<DownloadFileResponse>;
 
 export interface GetHelpCenterArticleRequest {
   /** Help Center Article Zendesk ID */
@@ -15325,9 +15412,7 @@ export const HelpCenterArticle = /*@__PURE__*/ S.suspend(() =>
     title: S.String,
     zendesk_id: S.Number,
   }),
-).annotate({
-  identifier: "HelpCenterArticle",
-}) as any as S.Schema<HelpCenterArticle>;
+).annotate({ identifier: "HelpCenterArticle" }) as any as S.Schema<HelpCenterArticle>;
 
 export interface HelpCenterArticleResponseData {
   help_center_article: HelpCenterArticle;
@@ -15374,9 +15459,7 @@ export const IdentityIntegration = /*@__PURE__*/ S.suspend(() =>
     display_name: S.String,
     name: S.String,
   }),
-).annotate({
-  identifier: "IdentityIntegration",
-}) as any as S.Schema<IdentityIntegration>;
+).annotate({ identifier: "IdentityIntegration" }) as any as S.Schema<IdentityIntegration>;
 
 export interface IdentityClientCredentialsResponseData {
   /** The OAuth2 client ID used to obtain this token. */
@@ -15416,9 +15499,7 @@ export const IdentityCompany = /*@__PURE__*/ S.suspend(() =>
     id: S.String,
     name: S.String,
   }),
-).annotate({
-  identifier: "IdentityCompany",
-}) as any as S.Schema<IdentityCompany>;
+).annotate({ identifier: "IdentityCompany" }) as any as S.Schema<IdentityCompany>;
 
 /** The user (company manager) associated with the current authentication token. Represents the person who authorized access to the company's data. */
 export interface IdentityUser {
@@ -15516,22 +15597,16 @@ export interface GetIdentityVerificationRequest {
 export const GetIdentityVerificationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     employment_id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/identity-verification/{employment_id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/identity-verification/{employment_id}", code: 200 })),
 ).annotate({
   identifier: "GetIdentityVerificationRequest",
 }) as any as S.Schema<GetIdentityVerificationRequest>;
 
-/** A file associated with an employment, such as a contract, tax form, or identity document. */
+/** A file associated with an employment, such as a contract, tax document, or identity document. */
 export type EmploymentDocument = File;
 export const EmploymentDocument = File;
 
-/** A file associated with an employment, such as a contract, tax form, or identity document. */
+/** A file associated with an employment, such as a contract, tax document, or identity document. */
 export type EmploymentImage = File;
 export const EmploymentImage = File;
 
@@ -15549,9 +15624,7 @@ export const IdentityVerification = /*@__PURE__*/ S.suspend(() =>
     employment_image: S.NullOr(File),
     status: S.String,
   }),
-).annotate({
-  identifier: "IdentityVerification",
-}) as any as S.Schema<IdentityVerification>;
+).annotate({ identifier: "IdentityVerification" }) as any as S.Schema<IdentityVerification>;
 
 export interface IdentityVerificationResponseData {
   identity_verification_data?: IdentityVerification;
@@ -15584,9 +15657,7 @@ export const GetIncentiveRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/v1/incentives/{id}", code: 200 })),
-).annotate({
-  identifier: "GetIncentiveRequest",
-}) as any as S.Schema<GetIncentiveRequest>;
+).annotate({ identifier: "GetIncentiveRequest" }) as any as S.Schema<GetIncentiveRequest>;
 
 export interface GetIncentivesRequest {
   /** Filter by Employment ID */
@@ -15611,9 +15682,7 @@ export const GetIncentivesRequest = /*@__PURE__*/ S.suspend(() =>
     page: S.optional(S.Number.pipe(T.Query())),
     page_size: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/v1/incentives", code: 200 })),
-).annotate({
-  identifier: "GetIncentivesRequest",
-}) as any as S.Schema<GetIncentivesRequest>;
+).annotate({ identifier: "GetIncentivesRequest" }) as any as S.Schema<GetIncentivesRequest>;
 
 export type ListIncentivesResponseDataIncentivesList = Array<Incentive>;
 export const ListIncentivesResponseDataIncentivesList = /*@__PURE__*/ S.Array(
@@ -15648,9 +15717,7 @@ export const ListIncentivesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     data: S.optional(ListIncentivesResponseData),
   }),
-).annotate({
-  identifier: "ListIncentivesResponse",
-}) as any as S.Schema<ListIncentivesResponse>;
+).annotate({ identifier: "ListIncentivesResponse" }) as any as S.Schema<ListIncentivesResponse>;
 
 export interface GetIncentivesRecurringRequest {
   /** Filter by recurring incentive status: active or deactive. */
@@ -15713,6 +15780,109 @@ export const ListRecurringIncentivesResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "ListRecurringIncentivesResponse",
 }) as any as S.Schema<ListRecurringIncentivesResponse>;
 
+export interface GetJobTitleScreeningRequest {
+  /** Job title screening id */
+  id: string;
+}
+export const GetJobTitleScreeningRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String.pipe(T.Label()),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/job-title-screenings/{id}", code: 200 })),
+).annotate({
+  identifier: "GetJobTitleScreeningRequest",
+}) as any as S.Schema<GetJobTitleScreeningRequest>;
+
+/** Whether the role is onsite, if provided. */
+export type JobTitleScreeningItemRoleIsOnsite = "yes" | "no" | "not_applicable";
+export const JobTitleScreeningItemRoleIsOnsite = S.String;
+
+/** Whether the role requires a license, if provided. */
+export type JobTitleScreeningItemRoleRequiresLicense = "yes" | "no" | "not_applicable";
+export const JobTitleScreeningItemRoleRequiresLicense = S.String;
+
+/** The screening verdict. `pending` while the screening is processing; `eligible` and `not_eligible` are definitive; `needs_review` means the title will require a human review during onboarding; `eligible_with_risk_acknowledgement` means the title is eligible once the employer acknowledges the risk during onboarding. Verdicts are advisory and reflect the eligibility policy at the time of screening: the policy evolves over time and the same checks re-run during onboarding, so the onboarding outcome may differ from an earlier screening verdict for the same title. */
+export type JobTitleScreeningItemVerdict =
+  | "pending"
+  | "eligible"
+  | "not_eligible"
+  | "needs_review"
+  | "eligible_with_risk_acknowledgement";
+export const JobTitleScreeningItemVerdict = S.String;
+
+export interface JobTitleScreeningItem {
+  /** The screened job title. */
+  job_title: string;
+  /** The role description, if provided. */
+  role_description?: string | null;
+  /** Whether the role is onsite, if provided. */
+  role_is_onsite?: JobTitleScreeningItemRoleIsOnsite | null;
+  /** Whether the role requires a license, if provided. */
+  role_requires_license?: JobTitleScreeningItemRoleRequiresLicense | null;
+  /** The screening verdict. `pending` while the screening is processing; `eligible` and `not_eligible` are definitive; `needs_review` means the title will require a human review during onboarding; `eligible_with_risk_acknowledgement` means the title is eligible once the employer acknowledges the risk during onboarding. Verdicts are advisory and reflect the eligibility policy at the time of screening: the policy evolves over time and the same checks re-run during onboarding, so the onboarding outcome may differ from an earlier screening verdict for the same title. */
+  verdict: JobTitleScreeningItemVerdict;
+}
+export const JobTitleScreeningItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    job_title: S.String,
+    role_description: S.optional(S.NullOr(S.String)),
+    role_is_onsite: S.optional(S.NullOr(JobTitleScreeningItemRoleIsOnsite)),
+    role_requires_license: S.optional(S.NullOr(JobTitleScreeningItemRoleRequiresLicense)),
+    verdict: JobTitleScreeningItemVerdict,
+  }),
+).annotate({ identifier: "JobTitleScreeningItem" }) as any as S.Schema<JobTitleScreeningItem>;
+
+export type JobTitleScreeningItemsList = Array<JobTitleScreeningItem>;
+export const JobTitleScreeningItemsList = /*@__PURE__*/ S.Array(
+  JobTitleScreeningItem,
+) as any as S.Schema<JobTitleScreeningItemsList>;
+
+/** The processing status of the screening request. Poll until `completed` or `failed`. A `failed` screening gave up after retries; unscreened items stay `pending` and the batch should be resubmitted as a new screening. */
+export type JobTitleScreeningStatus = "processing" | "completed" | "failed";
+export const JobTitleScreeningStatus = S.String;
+
+export interface JobTitleScreening {
+  /** The timestamp when the screening request was created. */
+  created_at: string;
+  /** The unique identifier (UUID) of the screening request. */
+  id: string;
+  items: JobTitleScreeningItemsList;
+  /** The processing status of the screening request. Poll until `completed` or `failed`. A `failed` screening gave up after retries; unscreened items stay `pending` and the batch should be resubmitted as a new screening. */
+  status: JobTitleScreeningStatus;
+  /** The timestamp of the last update to the screening request. */
+  updated_at: string;
+}
+export const JobTitleScreening = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    created_at: S.String,
+    id: S.String,
+    items: JobTitleScreeningItemsList,
+    status: JobTitleScreeningStatus,
+    updated_at: S.String,
+  }),
+).annotate({ identifier: "JobTitleScreening" }) as any as S.Schema<JobTitleScreening>;
+
+export interface JobTitleScreeningResponseData {
+  job_title_screening?: JobTitleScreening;
+}
+export const JobTitleScreeningResponseData = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    job_title_screening: S.optional(JobTitleScreening),
+  }),
+).annotate({
+  identifier: "JobTitleScreeningResponseData",
+}) as any as S.Schema<JobTitleScreeningResponseData>;
+
+export interface JobTitleScreeningResponse {
+  data?: JobTitleScreeningResponseData;
+}
+export const JobTitleScreeningResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    data: S.optional(JobTitleScreeningResponseData),
+  }),
+).annotate({
+  identifier: "JobTitleScreeningResponse",
+}) as any as S.Schema<JobTitleScreeningResponse>;
+
 export interface GetLeavePoliciesDetailRequest {
   /** Employment ID */
   employment_id: string;
@@ -15720,13 +15890,7 @@ export interface GetLeavePoliciesDetailRequest {
 export const GetLeavePoliciesDetailRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     employment_id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/leave-policies/details/{employment_id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/leave-policies/details/{employment_id}", code: 200 })),
 ).annotate({
   identifier: "GetLeavePoliciesDetailRequest",
 }) as any as S.Schema<GetLeavePoliciesDetailRequest>;
@@ -15738,13 +15902,7 @@ export interface GetLeavePoliciesSummaryRequest {
 export const GetLeavePoliciesSummaryRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     employment_id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/leave-policies/summary/{employment_id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/leave-policies/summary/{employment_id}", code: 200 })),
 ).annotate({
   identifier: "GetLeavePoliciesSummaryRequest",
 }) as any as S.Schema<GetLeavePoliciesSummaryRequest>;
@@ -15757,9 +15915,7 @@ export const GetOffboardingRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/v1/offboardings/{id}", code: 200 })),
-).annotate({
-  identifier: "GetOffboardingRequest",
-}) as any as S.Schema<GetOffboardingRequest>;
+).annotate({ identifier: "GetOffboardingRequest" }) as any as S.Schema<GetOffboardingRequest>;
 
 export interface GetOffboardingByIdRequest {
   /** Offboarding ID */
@@ -15823,9 +15979,7 @@ export const V2TerminationRequest = /*@__PURE__*/ S.suspend(() =>
     will_challenge_termination: S.optional(S.NullOr(S.Boolean)),
     will_challenge_termination_description: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "V2TerminationRequest",
-}) as any as S.Schema<V2TerminationRequest>;
+).annotate({ identifier: "V2TerminationRequest" }) as any as S.Schema<V2TerminationRequest>;
 
 /** Snapshot of the inputs submitted when a `resignation` offboarding was created. These fields do not change as the offboarding progresses. */
 export interface V2ResignationRequest {
@@ -15845,9 +15999,7 @@ export const V2ResignationRequest = /*@__PURE__*/ S.suspend(() =>
     proposed_last_working_day: S.optional(S.NullOr(S.String)),
     reason_description: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "V2ResignationRequest",
-}) as any as S.Schema<V2ResignationRequest>;
+).annotate({ identifier: "V2ResignationRequest" }) as any as S.Schema<V2ResignationRequest>;
 
 /** The shape depends on the originating request: offboardings that originated from a termination carry a `V2TerminationRequest`; those that originated from a resignation carry a `V2ResignationRequest`. */
 export type V2OffboardingRequest = V2TerminationRequest | V2ResignationRequest;
@@ -15920,9 +16072,7 @@ export const V2OffboardingResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     data: S.optional(V2OffboardingResponseData),
   }),
-).annotate({
-  identifier: "V2OffboardingResponse",
-}) as any as S.Schema<V2OffboardingResponse>;
+).annotate({ identifier: "V2OffboardingResponse" }) as any as S.Schema<V2OffboardingResponse>;
 
 export interface GetOffboardingsRequest {
   /** Filter by Employment ID */
@@ -15944,9 +16094,7 @@ export const GetOffboardingsRequest = /*@__PURE__*/ S.suspend(() =>
     page: S.optional(S.Number.pipe(T.Query())),
     page_size: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/v1/offboardings", code: 200 })),
-).annotate({
-  identifier: "GetOffboardingsRequest",
-}) as any as S.Schema<GetOffboardingsRequest>;
+).annotate({ identifier: "GetOffboardingsRequest" }) as any as S.Schema<GetOffboardingsRequest>;
 
 export type ListOffboardingResponseDataOffboardingsList =
   Array<ResignationOrTerminationOffboarding>;
@@ -15982,9 +16130,7 @@ export const ListOffboardingResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     data: S.optional(ListOffboardingResponseData),
   }),
-).annotate({
-  identifier: "ListOffboardingResponse",
-}) as any as S.Schema<ListOffboardingResponse>;
+).annotate({ identifier: "ListOffboardingResponse" }) as any as S.Schema<ListOffboardingResponse>;
 
 export type GetOffboardingsRequestType =
   | "termination"
@@ -16015,9 +16161,7 @@ export const GetOffboardingsRequest2 = /*@__PURE__*/ S.suspend(() =>
     page: S.optional(S.Number.pipe(T.Query())),
     page_size: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/v2/offboardings", code: 200 })),
-).annotate({
-  identifier: "GetOffboardingsRequest2",
-}) as any as S.Schema<GetOffboardingsRequest2>;
+).annotate({ identifier: "GetOffboardingsRequest2" }) as any as S.Schema<GetOffboardingsRequest2>;
 
 export type V2ListOffboardingResponseDataOffboardingsList = Array<V2Offboarding>;
 export const V2ListOffboardingResponseDataOffboardingsList = /*@__PURE__*/ S.Array(
@@ -16070,11 +16214,7 @@ export const GetOffboardingsEmploymentRequest = /*@__PURE__*/ S.suspend(() =>
     page: S.optional(S.Number.pipe(T.Query())),
     page_size: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/offboardings/employments/{employment_id}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/v1/offboardings/employments/{employment_id}", code: 200 }),
   ),
 ).annotate({
   identifier: "GetOffboardingsEmploymentRequest",
@@ -16211,9 +16351,7 @@ export const PreOnboardingRequirement = /*@__PURE__*/ S.suspend(() =>
     supports_redlining: S.NullOr(S.Boolean),
     type: PreOnboardingRequirementType,
   }),
-).annotate({
-  identifier: "PreOnboardingRequirement",
-}) as any as S.Schema<PreOnboardingRequirement>;
+).annotate({ identifier: "PreOnboardingRequirement" }) as any as S.Schema<PreOnboardingRequirement>;
 
 export type IndexPreOnboardingRequirementsResponseDataList = Array<PreOnboardingRequirement>;
 export const IndexPreOnboardingRequirementsResponseDataList = /*@__PURE__*/ S.Array(
@@ -16235,6 +16373,8 @@ export const IndexPreOnboardingRequirementsResponse = /*@__PURE__*/ S.suspend(()
 export interface GetPayItemsRequest {
   /** Filter by employment slug */
   employment_slug?: string;
+  /** Filter by legal entity ID */
+  legal_entity_id?: string;
   /** Filter pay items with effective_date >= given date (YYYY-MM-DD) */
   effective_from?: string;
   /** Filter pay items with effective_date <= given date (YYYY-MM-DD) */
@@ -16247,26 +16387,25 @@ export interface GetPayItemsRequest {
 export const GetPayItemsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     employment_slug: S.optional(S.String.pipe(T.Query())),
+    legal_entity_id: S.optional(S.String.pipe(T.Query())),
     effective_from: S.optional(S.String.pipe(T.Query())),
     effective_to: S.optional(S.String.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
     page_size: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/v1/pay-items", code: 200 })),
-).annotate({
-  identifier: "GetPayItemsRequest",
-}) as any as S.Schema<GetPayItemsRequest>;
+).annotate({ identifier: "GetPayItemsRequest" }) as any as S.Schema<GetPayItemsRequest>;
 
 /** List of pay items */
-export type ListPayItemsResponseDataDataList = Array<PayItem>;
-export const ListPayItemsResponseDataDataList = /*@__PURE__*/ S.Array(
+export type ListPayItemsResponseDataPayItemsList = Array<PayItem>;
+export const ListPayItemsResponseDataPayItemsList = /*@__PURE__*/ S.Array(
   PayItem,
-) as any as S.Schema<ListPayItemsResponseDataDataList>;
+) as any as S.Schema<ListPayItemsResponseDataPayItemsList>;
 
 export interface ListPayItemsResponseData {
   /** Current page number */
   current_page: number;
   /** List of pay items */
-  data: ListPayItemsResponseDataDataList;
+  pay_items: ListPayItemsResponseDataPayItemsList;
   /** Total number of pay items */
   total_count: number;
   /** Total number of pages */
@@ -16275,13 +16414,11 @@ export interface ListPayItemsResponseData {
 export const ListPayItemsResponseData = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     current_page: S.Number,
-    data: ListPayItemsResponseDataDataList,
+    pay_items: ListPayItemsResponseDataPayItemsList,
     total_count: S.Number,
     total_pages: S.Number,
   }),
-).annotate({
-  identifier: "ListPayItemsResponseData",
-}) as any as S.Schema<ListPayItemsResponseData>;
+).annotate({ identifier: "ListPayItemsResponseData" }) as any as S.Schema<ListPayItemsResponseData>;
 
 export interface ListPayItemsResponse {
   data: ListPayItemsResponseData;
@@ -16290,9 +16427,7 @@ export const ListPayItemsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     data: ListPayItemsResponseData,
   }),
-).annotate({
-  identifier: "ListPayItemsResponse",
-}) as any as S.Schema<ListPayItemsResponse>;
+).annotate({ identifier: "ListPayItemsResponse" }) as any as S.Schema<ListPayItemsResponse>;
 
 export interface GetPayrollCalendarRequest {
   /** The cycle for which to list the payroll calendars. Format: YYYY-MM */
@@ -16351,9 +16486,7 @@ export const PayrollCalendar = /*@__PURE__*/ S.suspend(() =>
     cycles: PayrollCalendarCyclesList,
     owned_by_remote: S.Boolean,
   }),
-).annotate({
-  identifier: "PayrollCalendar",
-}) as any as S.Schema<PayrollCalendar>;
+).annotate({ identifier: "PayrollCalendar" }) as any as S.Schema<PayrollCalendar>;
 
 export type PayrollCalendarsResponseDataPayrollCalendarsList = Array<PayrollCalendar>;
 export const PayrollCalendarsResponseDataPayrollCalendarsList = /*@__PURE__*/ S.Array(
@@ -16388,9 +16521,7 @@ export const PayrollCalendarsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     data: S.optional(PayrollCalendarsResponseData),
   }),
-).annotate({
-  identifier: "PayrollCalendarsResponse",
-}) as any as S.Schema<PayrollCalendarsResponse>;
+).annotate({ identifier: "PayrollCalendarsResponse" }) as any as S.Schema<PayrollCalendarsResponse>;
 
 export interface GetPayrollCalendarsRequest {
   /** Filter payroll calendars by country code */
@@ -16431,9 +16562,7 @@ export const PayrollCalendarEOR = /*@__PURE__*/ S.suspend(() =>
     cycles: PayrollCalendarEORCyclesList,
     id: S.String,
   }),
-).annotate({
-  identifier: "PayrollCalendarEOR",
-}) as any as S.Schema<PayrollCalendarEOR>;
+).annotate({ identifier: "PayrollCalendarEOR" }) as any as S.Schema<PayrollCalendarEOR>;
 
 export type PayrollCalendarsEORResponseDataPayrollCalendarsList = Array<PayrollCalendarEOR>;
 export const PayrollCalendarsEORResponseDataPayrollCalendarsList = /*@__PURE__*/ S.Array(
@@ -16479,16 +16608,8 @@ export interface GetPayrollRunRequest {
 export const GetPayrollRunRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     payroll_run_id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/payroll-runs/{payroll_run_id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetPayrollRunRequest",
-}) as any as S.Schema<GetPayrollRunRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/v1/payroll-runs/{payroll_run_id}", code: 200 })),
+).annotate({ identifier: "GetPayrollRunRequest" }) as any as S.Schema<GetPayrollRunRequest>;
 
 /** The employee's base salary component for this payroll period. When the payroll run is in `preparing` or `processing` status, this is an estimate that may change after final payroll calculations. Amount in cents. */
 export interface EmployeeDetailsBaseSalary {
@@ -16587,9 +16708,7 @@ export const EmployeeDetails = /*@__PURE__*/ S.suspend(() =>
     payslip_id: S.NullOr(S.String),
     total_cost: EmployeeDetailsBaseSalary,
   }),
-).annotate({
-  identifier: "EmployeeDetails",
-}) as any as S.Schema<EmployeeDetails>;
+).annotate({ identifier: "EmployeeDetails" }) as any as S.Schema<EmployeeDetails>;
 
 /** Per-employee cost breakdown for this payroll run. Deprecated — use the dedicated `GET /v1/payroll-runs/{payroll_run_id}/employee-details` endpoint instead, which supports pagination. */
 export type PayrollRunEmployeeDetailsList = Array<EmployeeDetails>;
@@ -16613,6 +16732,7 @@ export type PayrollRunType =
   | "one_off"
   | "pro_forma"
   | "tax_documents"
+  | "year_end_reports"
   | "expenses"
   | "parallel";
 export const PayrollRunType = S.String;
@@ -16680,9 +16800,7 @@ export const PayrollRunResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     payroll_run: S.optional(PayrollRun),
   }),
-).annotate({
-  identifier: "PayrollRunResponse",
-}) as any as S.Schema<PayrollRunResponse>;
+).annotate({ identifier: "PayrollRunResponse" }) as any as S.Schema<PayrollRunResponse>;
 
 export interface GetPayrollRunEmployeeDetailsRequest {
   /** Payroll run ID */
@@ -16698,11 +16816,7 @@ export const GetPayrollRunEmployeeDetailsRequest = /*@__PURE__*/ S.suspend(() =>
     page: S.optional(S.Number.pipe(T.Query())),
     page_size: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/payroll-runs/{payroll_run_id}/employee-details",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/v1/payroll-runs/{payroll_run_id}/employee-details", code: 200 }),
   ),
 ).annotate({
   identifier: "GetPayrollRunEmployeeDetailsRequest",
@@ -16734,9 +16848,7 @@ export const EmployeeDetailsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     data: EmployeeDetailsResponseData,
   }),
-).annotate({
-  identifier: "EmployeeDetailsResponse",
-}) as any as S.Schema<EmployeeDetailsResponse>;
+).annotate({ identifier: "EmployeeDetailsResponse" }) as any as S.Schema<EmployeeDetailsResponse>;
 
 export interface GetPayrollRunGlReportRequest {
   /** The payroll run's ID */
@@ -16801,9 +16913,7 @@ export const GetPayrollRunsRequest = /*@__PURE__*/ S.suspend(() =>
     page: S.optional(S.Number.pipe(T.Query())),
     page_size: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/v1/payroll-runs", code: 200 })),
-).annotate({
-  identifier: "GetPayrollRunsRequest",
-}) as any as S.Schema<GetPayrollRunsRequest>;
+).annotate({ identifier: "GetPayrollRunsRequest" }) as any as S.Schema<GetPayrollRunsRequest>;
 
 /** The current status of the payroll run. - `preparing`: The payroll run is being assembled. Costs are estimates. - `processing`: Submitted for processing. Costs are still estimates. - `completed`: Processing is complete. Costs are final. - `finalized`: Payments have been or will be disbursed. - `waiting_for_customer_approval`: Requires company approval before proceeding. - `rejected`: Rejected during approval and needs revision. */
 export type MinimalPayrollRunStatus =
@@ -16821,6 +16931,7 @@ export type MinimalPayrollRunType =
   | "one_off"
   | "pro_forma"
   | "tax_documents"
+  | "year_end_reports"
   | "expenses"
   | "parallel";
 export const MinimalPayrollRunType = S.String;
@@ -16857,9 +16968,7 @@ export const MinimalPayrollRun = /*@__PURE__*/ S.suspend(() =>
     total_payroll_cost: S.Number,
     type: MinimalPayrollRunType,
   }),
-).annotate({
-  identifier: "MinimalPayrollRun",
-}) as any as S.Schema<MinimalPayrollRun>;
+).annotate({ identifier: "MinimalPayrollRun" }) as any as S.Schema<MinimalPayrollRun>;
 
 /** List of payroll runs matching the query filters. */
 export type ListPayrollRunResponsePayrollRunsList = Array<MinimalPayrollRun>;
@@ -16876,9 +16985,7 @@ export const ListPayrollRunResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     payroll_runs: S.optional(ListPayrollRunResponsePayrollRunsList),
   }),
-).annotate({
-  identifier: "ListPayrollRunResponse",
-}) as any as S.Schema<ListPayrollRunResponse>;
+).annotate({ identifier: "ListPayrollRunResponse" }) as any as S.Schema<ListPayrollRunResponse>;
 
 export interface GetPayslipPdfRequest {
   /** Payslip ID */
@@ -16888,16 +16995,12 @@ export const GetPayslipPdfRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     payslip_id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/v1/payslips/{payslip_id}/pdf", code: 200 })),
-).annotate({
-  identifier: "GetPayslipPdfRequest",
-}) as any as S.Schema<GetPayslipPdfRequest>;
+).annotate({ identifier: "GetPayslipPdfRequest" }) as any as S.Schema<GetPayslipPdfRequest>;
 
 export type GetPayslipPdfResponse = string;
 export const GetPayslipPdfResponse = /*@__PURE__*/ S.suspend(() =>
   S.String.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "GetPayslipPdfResponse",
-}) as any as S.Schema<GetPayslipPdfResponse>;
+).annotate({ identifier: "GetPayslipPdfResponse" }) as any as S.Schema<GetPayslipPdfResponse>;
 
 export interface GetPayslipsRequest {
   /** Employment ID */
@@ -16925,15 +17028,13 @@ export const GetPayslipsRequest = /*@__PURE__*/ S.suspend(() =>
     page: S.optional(S.Number.pipe(T.Query())),
     page_size: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/v1/payslips", code: 200 })),
-).annotate({
-  identifier: "GetPayslipsRequest",
-}) as any as S.Schema<GetPayslipsRequest>;
+).annotate({ identifier: "GetPayslipsRequest" }) as any as S.Schema<GetPayslipsRequest>;
 
 /** A payslip issued to an employee for a specific payroll period. */
 export interface Payslip {
   /** The unique identifier (UUID) of the employment this payslip belongs to. */
   employment_id: string;
-  expected_payout_date?: string;
+  expected_payout_date?: string | null;
   /** The unique identifier (UUID) of the payslip. */
   id: string;
   /** The date the payslip was issued. */
@@ -16946,7 +17047,7 @@ export interface Payslip {
 export const Payslip = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     employment_id: S.String,
-    expected_payout_date: S.optional(S.String),
+    expected_payout_date: S.optional(S.NullOr(S.String)),
     id: S.String,
     issued_at: S.String,
     net_pay_converted_amount: S.optional(S.Number),
@@ -16975,9 +17076,7 @@ export const ListPayslipsResponseData = /*@__PURE__*/ S.suspend(() =>
     total_count: S.optional(S.Number),
     total_pages: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "ListPayslipsResponseData",
-}) as any as S.Schema<ListPayslipsResponseData>;
+).annotate({ identifier: "ListPayslipsResponseData" }) as any as S.Schema<ListPayslipsResponseData>;
 
 /** Response schema listing many payslips */
 export interface ListPayslipsResponse {
@@ -16987,18 +17086,12 @@ export const ListPayslipsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     data: S.optional(ListPayslipsResponseData),
   }),
-).annotate({
-  identifier: "ListPayslipsResponse",
-}) as any as S.Schema<ListPayslipsResponse>;
+).annotate({ identifier: "ListPayslipsResponse" }) as any as S.Schema<ListPayslipsResponse>;
 
 export interface GetPricingPlanPartnerTemplatesRequest {}
 export const GetPricingPlanPartnerTemplatesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/pricing-plan-partner-templates",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/v1/pricing-plan-partner-templates", code: 200 }),
   ),
 ).annotate({
   identifier: "GetPricingPlanPartnerTemplatesRequest",
@@ -17066,13 +17159,7 @@ export interface GetProbationCompletionLetterRequest {
 export const GetProbationCompletionLetterRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/probation-completion-letter/{id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/probation-completion-letter/{id}", code: 200 })),
 ).annotate({
   identifier: "GetProbationCompletionLetterRequest",
 }) as any as S.Schema<GetProbationCompletionLetterRequest>;
@@ -17089,6 +17176,103 @@ export const GetProbationExtensionRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetProbationExtensionRequest",
 }) as any as S.Schema<GetProbationExtensionRequest>;
 
+export interface GetProjectRequest {
+  /** Project identifier */
+  id: string;
+}
+export const GetProjectRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String.pipe(T.Label()),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/projects/{id}", code: 200 })),
+).annotate({ identifier: "GetProjectRequest" }) as any as S.Schema<GetProjectRequest>;
+
+export interface GetProjectEligibleLeadsRequest {}
+export const GetProjectEligibleLeadsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v1/project-eligible-leads", code: 200 })),
+).annotate({
+  identifier: "GetProjectEligibleLeadsRequest",
+}) as any as S.Schema<GetProjectEligibleLeadsRequest>;
+
+/** A user eligible to be assigned as a project lead */
+export interface EligibleLead {
+  /** User identifier. */
+  id: string;
+  /** Name of the user. */
+  name: string;
+}
+export const EligibleLead = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    name: S.String,
+  }),
+).annotate({ identifier: "EligibleLead" }) as any as S.Schema<EligibleLead>;
+
+export type ListEligibleLeadsResponseDataList = Array<EligibleLead>;
+export const ListEligibleLeadsResponseDataList = /*@__PURE__*/ S.Array(
+  EligibleLead,
+) as any as S.Schema<ListEligibleLeadsResponseDataList>;
+
+/** List of users eligible to be assigned as project leads. */
+export interface ListEligibleLeadsResponse {
+  data: ListEligibleLeadsResponseDataList;
+}
+export const ListEligibleLeadsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    data: ListEligibleLeadsResponseDataList,
+  }),
+).annotate({
+  identifier: "ListEligibleLeadsResponse",
+}) as any as S.Schema<ListEligibleLeadsResponse>;
+
+export interface GetProjectsRequest {
+  /** Filters projects by status. */
+  status?: ProjectStatus | (string & {});
+  /** Starts fetching records after the given page */
+  page?: number;
+  /** Number of items per page */
+  page_size?: number;
+}
+export const GetProjectsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    status: S.optional(ProjectStatus.pipe(T.Query())),
+    page: S.optional(S.Number.pipe(T.Query())),
+    page_size: S.optional(S.Number.pipe(T.Query())),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/projects", code: 200 })),
+).annotate({ identifier: "GetProjectsRequest" }) as any as S.Schema<GetProjectsRequest>;
+
+export type ListProjectsResponseDataProjectsList = Array<Project>;
+export const ListProjectsResponseDataProjectsList = /*@__PURE__*/ S.Array(
+  Project,
+) as any as S.Schema<ListProjectsResponseDataProjectsList>;
+
+export interface ListProjectsResponseData {
+  /** The current page among all of the total_pages */
+  current_page?: number;
+  projects?: ListProjectsResponseDataProjectsList;
+  /** The total number of records in the result */
+  total_count?: number;
+  /** The total number of pages the user can go through */
+  total_pages?: number;
+}
+export const ListProjectsResponseData = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    current_page: S.optional(S.Number),
+    projects: S.optional(ListProjectsResponseDataProjectsList),
+    total_count: S.optional(S.Number),
+    total_pages: S.optional(S.Number),
+  }),
+).annotate({ identifier: "ListProjectsResponseData" }) as any as S.Schema<ListProjectsResponseData>;
+
+/** Paginated response schema listing company projects. */
+export interface ListProjectsResponse {
+  data?: ListProjectsResponseData;
+}
+export const ListProjectsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    data: S.optional(ListProjectsResponseData),
+  }),
+).annotate({ identifier: "ListProjectsResponse" }) as any as S.Schema<ListProjectsResponse>;
+
 export interface GetResignationRequest {
   /** Offboarding request ID */
   offboarding_request_id: string;
@@ -17096,16 +17280,8 @@ export interface GetResignationRequest {
 export const GetResignationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     offboarding_request_id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/resignations/{offboarding_request_id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetResignationRequest",
-}) as any as S.Schema<GetResignationRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/v1/resignations/{offboarding_request_id}", code: 200 })),
+).annotate({ identifier: "GetResignationRequest" }) as any as S.Schema<GetResignationRequest>;
 
 /** Resignation details for an employee who resigned before their employment start date. Contains basic contract and resignation information only. */
 export interface ResignationBeforeStartDate {
@@ -17196,9 +17372,7 @@ export const ResignationResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     data: S.optional(Resignation),
   }),
-).annotate({
-  identifier: "ResignationResponse",
-}) as any as S.Schema<ResignationResponse>;
+).annotate({ identifier: "ResignationResponse" }) as any as S.Schema<ResignationResponse>;
 
 export interface GetResignationResignationLetterRequest {
   /** Offboarding request ID */
@@ -17233,9 +17407,7 @@ export const GetScimGroupRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/v1/scim/v2/Groups/{id}", code: 200 })),
-).annotate({
-  identifier: "GetScimGroupRequest",
-}) as any as S.Schema<GetScimGroupRequest>;
+).annotate({ identifier: "GetScimGroupRequest" }) as any as S.Schema<GetScimGroupRequest>;
 
 export interface IntegrationsScimGroupMembersItem {
   /** URI of the user resource */
@@ -17304,9 +17476,7 @@ export const IntegrationsScimGroup = /*@__PURE__*/ S.suspend(() =>
     meta: S.optional(IntegrationsScimGroupMeta),
     schemas: IntegrationsScimGroupSchemasList,
   }),
-).annotate({
-  identifier: "IntegrationsScimGroup",
-}) as any as S.Schema<IntegrationsScimGroup>;
+).annotate({ identifier: "IntegrationsScimGroup" }) as any as S.Schema<IntegrationsScimGroup>;
 
 export interface GetScimGroupsRequest {
   /** 1-based index of the first result */
@@ -17322,9 +17492,7 @@ export const GetScimGroupsRequest = /*@__PURE__*/ S.suspend(() =>
     count: S.optional(S.Number.pipe(T.Query())),
     filter: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/v1/scim/v2/Groups", code: 200 })),
-).annotate({
-  identifier: "GetScimGroupsRequest",
-}) as any as S.Schema<GetScimGroupsRequest>;
+).annotate({ identifier: "GetScimGroupsRequest" }) as any as S.Schema<GetScimGroupsRequest>;
 
 /** Array of group resources */
 export type IntegrationsScimGroupListResponseResourcesList = Array<IntegrationsScimGroup>;
@@ -17370,9 +17538,7 @@ export const GetScimUserRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/v1/scim/v2/Users/{id}", code: 200 })),
-).annotate({
-  identifier: "GetScimUserRequest",
-}) as any as S.Schema<GetScimUserRequest>;
+).annotate({ identifier: "GetScimUserRequest" }) as any as S.Schema<GetScimUserRequest>;
 
 export interface IntegrationsScimUserEmailsItem {
   /** Whether this is the primary email */
@@ -17417,9 +17583,7 @@ export const IntegrationsScimUserName = /*@__PURE__*/ S.suspend(() =>
     givenName: S.String,
     honorificPrefix: S.optional(S.String),
   }),
-).annotate({
-  identifier: "IntegrationsScimUserName",
-}) as any as S.Schema<IntegrationsScimUserName>;
+).annotate({ identifier: "IntegrationsScimUserName" }) as any as S.Schema<IntegrationsScimUserName>;
 
 /** SCIM schema identifiers */
 export type IntegrationsScimUserSchemasList = Array<string>;
@@ -17505,9 +17669,7 @@ export const IntegrationsScimUser = /*@__PURE__*/ S.suspend(() =>
     ),
     userName: S.String,
   }),
-).annotate({
-  identifier: "IntegrationsScimUser",
-}) as any as S.Schema<IntegrationsScimUser>;
+).annotate({ identifier: "IntegrationsScimUser" }) as any as S.Schema<IntegrationsScimUser>;
 
 export interface GetScimUsersRequest {
   /** 1-based index of the first result */
@@ -17523,9 +17685,7 @@ export const GetScimUsersRequest = /*@__PURE__*/ S.suspend(() =>
     count: S.optional(S.Number.pipe(T.Query())),
     filter: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/v1/scim/v2/Users", code: 200 })),
-).annotate({
-  identifier: "GetScimUsersRequest",
-}) as any as S.Schema<GetScimUsersRequest>;
+).annotate({ identifier: "GetScimUsersRequest" }) as any as S.Schema<GetScimUsersRequest>;
 
 /** Array of user resources */
 export type IntegrationsScimUserListResponseResourcesList = Array<IntegrationsScimUser>;
@@ -17588,9 +17748,7 @@ export const SSOConfiguration = /*@__PURE__*/ S.suspend(() =>
     identity_provider_url: S.String,
     sso_url: S.String,
   }),
-).annotate({
-  identifier: "SSOConfiguration",
-}) as any as S.Schema<SSOConfiguration>;
+).annotate({ identifier: "SSOConfiguration" }) as any as S.Schema<SSOConfiguration>;
 
 /** SSO Configuration response */
 export interface SSOConfigurationResponse {
@@ -17600,9 +17758,7 @@ export const SSOConfigurationResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     data: S.optional(SSOConfiguration),
   }),
-).annotate({
-  identifier: "SSOConfigurationResponse",
-}) as any as S.Schema<SSOConfigurationResponse>;
+).annotate({ identifier: "SSOConfigurationResponse" }) as any as S.Schema<SSOConfigurationResponse>;
 
 export interface GetSsoConfigurationDetailsRequest {}
 export const GetSsoConfigurationDetailsRequest = /*@__PURE__*/ S.suspend(() =>
@@ -17623,9 +17779,7 @@ export const SSOConfigurationDetails = /*@__PURE__*/ S.suspend(() =>
     audience_uri: S.String,
     sso_url: S.String,
   }),
-).annotate({
-  identifier: "SSOConfigurationDetails",
-}) as any as S.Schema<SSOConfigurationDetails>;
+).annotate({ identifier: "SSOConfigurationDetails" }) as any as S.Schema<SSOConfigurationDetails>;
 
 /** SSO Configuration Details response */
 export interface SSOConfigurationDetailsResponse {
@@ -17657,9 +17811,7 @@ export const GetTestSchemaRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     json_schema_version: S.optional(GetTestSchemaRequestJsonSchemaVersion.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/v1/test-schema", code: 200 })),
-).annotate({
-  identifier: "GetTestSchemaRequest",
-}) as any as S.Schema<GetTestSchemaRequest>;
+).annotate({ identifier: "GetTestSchemaRequest" }) as any as S.Schema<GetTestSchemaRequest>;
 
 /** The current status of a time off request. - `requested`: The employee has submitted a time off request and it is awaiting approval. - `approved`: The time off request has been approved by a manager. - `cancelled`: The time off request was cancelled by the employee or an admin. - `declined`: The time off request was declined by a manager. - `taken`: The approved time off has been taken (the dates have passed). - `cancel_requested`: The employee has requested cancellation of a previously approved time off, pending manager approval. */
 export type TimeoffStatus2 =
@@ -17680,8 +17832,8 @@ export const GetTimeoffRequestSortBy = S.String;
 export interface GetTimeoffRequest {
   /** Only show time off for a specific employment */
   employment_id?: string;
-  /** Filter time off by its type */
-  timeoff_type?: TimeoffType | (string & {});
+  /** Filter time off by its type. Accepts every value a time off record may carry. */
+  timeoff_type?: ResponseTimeoffType | (string & {});
   /** Filter time off by its status */
   status?: TimeoffStatus2 | (string & {});
   /** ISO 8601 date. When combined with `end_date`, returns all time off records that overlap the `[start_date, end_date]` window — including records that only partially overlap at either boundary. When used alone, returns records whose `start_date` is on or after this date. */
@@ -17700,7 +17852,7 @@ export interface GetTimeoffRequest {
 export const GetTimeoffRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     employment_id: S.optional(S.String.pipe(T.Query())),
-    timeoff_type: S.optional(TimeoffType.pipe(T.Query())),
+    timeoff_type: S.optional(ResponseTimeoffType.pipe(T.Query())),
     status: S.optional(TimeoffStatus2.pipe(T.Query())),
     start_date: S.optional(S.String.pipe(T.Query())),
     end_date: S.optional(S.String.pipe(T.Query())),
@@ -17709,9 +17861,7 @@ export const GetTimeoffRequest = /*@__PURE__*/ S.suspend(() =>
     page: S.optional(S.Number.pipe(T.Query())),
     page_size: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/v1/timeoff", code: 200 })),
-).annotate({
-  identifier: "GetTimeoffRequest",
-}) as any as S.Schema<GetTimeoffRequest>;
+).annotate({ identifier: "GetTimeoffRequest" }) as any as S.Schema<GetTimeoffRequest>;
 
 export interface GetTimeoffByIdRequest {
   /** Timeoff ID */
@@ -17721,9 +17871,7 @@ export const GetTimeoffByIdRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/v1/timeoff/{id}", code: 200 })),
-).annotate({
-  identifier: "GetTimeoffByIdRequest",
-}) as any as S.Schema<GetTimeoffByIdRequest>;
+).annotate({ identifier: "GetTimeoffByIdRequest" }) as any as S.Schema<GetTimeoffByIdRequest>;
 
 /** Optional query parameter for the List Time Off Types endpoint. - `contractor` — time off types for contractor employments (e.g. includes `time_off`). - `full_time` — time off types for full-time employments (e.g. includes `paid_time_off`). When omitted, the response is unchanged from previous API versions (full-time types). */
 export type TimeoffTypesEmploymentType = "contractor" | "full_time";
@@ -17737,9 +17885,7 @@ export const GetTimeoffTypesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     type: S.optional(TimeoffTypesEmploymentType.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/v1/timeoff/types", code: 200 })),
-).annotate({
-  identifier: "GetTimeoffTypesRequest",
-}) as any as S.Schema<GetTimeoffTypesRequest>;
+).annotate({ identifier: "GetTimeoffTypesRequest" }) as any as S.Schema<GetTimeoffTypesRequest>;
 
 /** A single time off type with name and description */
 export interface TimeoffTypeResponse {
@@ -17751,9 +17897,7 @@ export const TimeoffTypeResponse = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(S.NullOr(S.String)),
     name: TimeoffType,
   }),
-).annotate({
-  identifier: "TimeoffTypeResponse",
-}) as any as S.Schema<TimeoffTypeResponse>;
+).annotate({ identifier: "TimeoffTypeResponse" }) as any as S.Schema<TimeoffTypeResponse>;
 
 /** List of time off types available for the requested employment type */
 export type ListTimeoffTypesResponseDataTimeoffTypesList = Array<TimeoffTypeResponse>;
@@ -17781,9 +17925,7 @@ export const ListTimeoffTypesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     data: S.optional(ListTimeoffTypesResponseData),
   }),
-).annotate({
-  identifier: "ListTimeoffTypesResponse",
-}) as any as S.Schema<ListTimeoffTypesResponse>;
+).annotate({ identifier: "ListTimeoffTypesResponse" }) as any as S.Schema<ListTimeoffTypesResponse>;
 
 export interface GetTimesheetRequest {
   /** Timesheet ID */
@@ -17793,9 +17935,7 @@ export const GetTimesheetRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/v1/timesheets/{id}", code: 200 })),
-).annotate({
-  identifier: "GetTimesheetRequest",
-}) as any as S.Schema<GetTimesheetRequest>;
+).annotate({ identifier: "GetTimesheetRequest" }) as any as S.Schema<GetTimesheetRequest>;
 
 /** Hours breakdown by type of day (regular working day, weekend, or public holiday) for a specific time of day (day or night). */
 export interface TypeOfDayBreakdown {
@@ -17809,9 +17949,7 @@ export const TypeOfDayBreakdown = /*@__PURE__*/ S.suspend(() =>
     regular: HoursAndMinutes,
     weekend: HoursAndMinutes,
   }),
-).annotate({
-  identifier: "TypeOfDayBreakdown",
-}) as any as S.Schema<TypeOfDayBreakdown>;
+).annotate({ identifier: "TypeOfDayBreakdown" }) as any as S.Schema<TypeOfDayBreakdown>;
 
 /** Detailed hours breakdown for a time tracking entry, split by time of day (day vs night) and then by type of day (regular, weekend, holiday). Useful for calculating overtime, night shift premiums, and holiday pay. */
 export interface TimeBreakdown {
@@ -17940,9 +18078,7 @@ export const TimesheetResponseData = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     timesheet: Timesheet,
   }),
-).annotate({
-  identifier: "TimesheetResponseData",
-}) as any as S.Schema<TimesheetResponseData>;
+).annotate({ identifier: "TimesheetResponseData" }) as any as S.Schema<TimesheetResponseData>;
 
 /** Response containing a full timesheet with all hour breakdowns and time tracking entries. */
 export interface TimesheetResponse {
@@ -17952,9 +18088,7 @@ export const TimesheetResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     data: S.optional(TimesheetResponseData),
   }),
-).annotate({
-  identifier: "TimesheetResponse",
-}) as any as S.Schema<TimesheetResponse>;
+).annotate({ identifier: "TimesheetResponse" }) as any as S.Schema<TimesheetResponse>;
 
 export type GetTimesheetsRequestOrder = "asc" | "desc";
 export const GetTimesheetsRequestOrder = S.String;
@@ -17982,9 +18116,7 @@ export const GetTimesheetsRequest = /*@__PURE__*/ S.suspend(() =>
     page: S.optional(S.Number.pipe(T.Query())),
     page_size: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/v1/timesheets", code: 200 })),
-).annotate({
-  identifier: "GetTimesheetsRequest",
-}) as any as S.Schema<GetTimesheetsRequest>;
+).annotate({ identifier: "GetTimesheetsRequest" }) as any as S.Schema<GetTimesheetsRequest>;
 
 export type ListTimesheetsResponseDataTimesheetsList = Array<Timesheet>;
 export const ListTimesheetsResponseDataTimesheetsList = /*@__PURE__*/ S.Array(
@@ -18019,9 +18151,7 @@ export const ListTimesheetsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     data: S.optional(ListTimesheetsResponseData),
   }),
-).annotate({
-  identifier: "ListTimesheetsResponse",
-}) as any as S.Schema<ListTimesheetsResponse>;
+).annotate({ identifier: "ListTimesheetsResponse" }) as any as S.Schema<ListTimesheetsResponse>;
 
 export interface GetTravelLetterRequestRequest {
   /** travel letter request ID */
@@ -18030,13 +18160,7 @@ export interface GetTravelLetterRequestRequest {
 export const GetTravelLetterRequestRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/travel-letter-requests/{id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/travel-letter-requests/{id}", code: 200 })),
 ).annotate({
   identifier: "GetTravelLetterRequestRequest",
 }) as any as S.Schema<GetTravelLetterRequestRequest>;
@@ -18056,9 +18180,7 @@ export const TravelLetterUser = /*@__PURE__*/ S.suspend(() =>
     id: S.String,
     name: S.String,
   }),
-).annotate({
-  identifier: "TravelLetterUser",
-}) as any as S.Schema<TravelLetterUser>;
+).annotate({ identifier: "TravelLetterUser" }) as any as S.Schema<TravelLetterUser>;
 
 /** Who is responsible for accommodation costs during the trip. Set by the employer during approval. Null if not yet approved. */
 export type TravelLetterRequestResponsibleForAccommodationCost = "employee" | "employer";
@@ -18144,9 +18266,7 @@ export const TravelLetterRequest = /*@__PURE__*/ S.suspend(() =>
     travel_reason_details: S.String,
     user: S.NullOr(TravelLetterUser),
   }),
-).annotate({
-  identifier: "TravelLetterRequest",
-}) as any as S.Schema<TravelLetterRequest>;
+).annotate({ identifier: "TravelLetterRequest" }) as any as S.Schema<TravelLetterRequest>;
 
 export interface TravelLetterResponseData {
   travel_letter_request: TravelLetterRequest;
@@ -18155,9 +18275,7 @@ export const TravelLetterResponseData = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     travel_letter_request: TravelLetterRequest,
   }),
-).annotate({
-  identifier: "TravelLetterResponseData",
-}) as any as S.Schema<TravelLetterResponseData>;
+).annotate({ identifier: "TravelLetterResponseData" }) as any as S.Schema<TravelLetterResponseData>;
 
 /** Schema for travel letter request */
 export interface TravelLetterResponse {
@@ -18167,9 +18285,7 @@ export const TravelLetterResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     data: TravelLetterResponseData,
   }),
-).annotate({
-  identifier: "TravelLetterResponse",
-}) as any as S.Schema<TravelLetterResponse>;
+).annotate({ identifier: "TravelLetterResponse" }) as any as S.Schema<TravelLetterResponse>;
 
 export type GetTravelLetterRequestsRequestStatus =
   | "pending"
@@ -18253,6 +18369,146 @@ export const ListTravelLettersResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "ListTravelLettersResponse",
 }) as any as S.Schema<ListTravelLettersResponse>;
 
+export interface GetV1ContractorInvoicesIdPayInDetailsRequest {
+  /** Contractor invoice identifier */
+  id: string;
+}
+export const GetV1ContractorInvoicesIdPayInDetailsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String.pipe(T.Label()),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/contractor-invoices/{id}/pay-in-details", code: 200 })),
+).annotate({
+  identifier: "GetV1ContractorInvoicesIdPayInDetailsRequest",
+}) as any as S.Schema<GetV1ContractorInvoicesIdPayInDetailsRequest>;
+
+/** The address the rail publishes with the account, or `null` when it publishes none. `name` is who the rail named on the address, usually its owner, but some accounts pair Remote's entity name with the bank's street, so do not derive whose premises these are from `name` alone. A null `name` means the rail did not say whose address it is. */
+export interface PayInBankAccountAddress {
+  city: string | null;
+  country: string | null;
+  /** The name the rail attached to the address, usually its owner (the bank, or the account holder), though not guaranteed to match the street beside it. Null when the rail publishes an address without naming anyone. */
+  name: string | null;
+  postal_code: string | null;
+  state: string | null;
+  street: string | null;
+}
+export const PayInBankAccountAddress = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    city: S.NullOr(S.String),
+    country: S.NullOr(S.String),
+    name: S.NullOr(S.String),
+    postal_code: S.NullOr(S.String),
+    state: S.NullOr(S.String),
+    street: S.NullOr(S.String),
+  }),
+).annotate({ identifier: "PayInBankAccountAddress" }) as any as S.Schema<PayInBankAccountAddress>;
+
+/** Details of charge to select when sending the wire, so the full amount reaches Remote. */
+export type PayInBankAccountCharge = "OUR" | "BEN" | "SHA";
+export const PayInBankAccountCharge = S.String;
+
+/** One of Remote's receiving accounts for this payment. Every key is always present and is `null` when the account does not carry it, so a program can bind to a fixed key set. This differs from the employer API's pay-in details in three ways: `address` is an object rather than a formatted string, each identifier has exactly one spelling, and the key set never varies by rail. */
+export interface PayInBankAccount {
+  account_holder: string | null;
+  account_number: string | null;
+  ach_routing_number: string | null;
+  address: PayInBankAccountAddress | null;
+  bank_code: string | null;
+  bank_name: string | null;
+  branch_code: string | null;
+  branch_name: string | null;
+  bsb_code: string | null;
+  /** Details of charge to select when sending the wire, so the full amount reaches Remote. */
+  charge: PayInBankAccountCharge;
+  clearing_code: string | null;
+  cnaps_code: string | null;
+  iban: string | null;
+  ifsc: string | null;
+  institution_number: string | null;
+  intermediary_bank_code: string | null;
+  sort_code: string | null;
+  swift: string | null;
+  transit_number: string | null;
+  wire_routing_number: string | null;
+}
+export const PayInBankAccount = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    account_holder: S.NullOr(S.String),
+    account_number: S.NullOr(S.String),
+    ach_routing_number: S.NullOr(S.String),
+    address: S.NullOr(PayInBankAccountAddress),
+    bank_code: S.NullOr(S.String),
+    bank_name: S.NullOr(S.String),
+    branch_code: S.NullOr(S.String),
+    branch_name: S.NullOr(S.String),
+    bsb_code: S.NullOr(S.String),
+    charge: PayInBankAccountCharge,
+    clearing_code: S.NullOr(S.String),
+    cnaps_code: S.NullOr(S.String),
+    iban: S.NullOr(S.String),
+    ifsc: S.NullOr(S.String),
+    institution_number: S.NullOr(S.String),
+    intermediary_bank_code: S.NullOr(S.String),
+    sort_code: S.NullOr(S.String),
+    swift: S.NullOr(S.String),
+    transit_number: S.NullOr(S.String),
+    wire_routing_number: S.NullOr(S.String),
+  }),
+).annotate({ identifier: "PayInBankAccount" }) as any as S.Schema<PayInBankAccount>;
+
+/** Remote's receiving accounts for this payment, present while `status` is `awaiting_payment` and the rail can publish them. Null for every other status, including `partially_paid`: `amount_due` there overstates what remains, so wiring against it would pay twice, and Remote follows up with the balance directly. Whether you should wire is a separate question that `pay_in_method` answers: Remote collects direct debit, card and prefunded payments itself. */
+export type ContractorInvoicePayInDetailsBankAccountsList = Array<PayInBankAccount>;
+export const ContractorInvoicePayInDetailsBankAccountsList = /*@__PURE__*/ S.Array(
+  PayInBankAccount,
+) as any as S.Schema<ContractorInvoicePayInDetailsBankAccountsList>;
+
+/** What the company needs to pay this invoice: the payment it belongs to, how that payment is collected, and Remote's receiving accounts for it. `bank_accounts` is null once the funds are in flight or received, while the payment is on a compliance hold (`status: blocked`) or partly paid (`status: partially_paid`), and whenever Remote can publish no account. `pay_in_method` says whether a transfer is yours to send. */
+export interface ContractorInvoicePayInDetails {
+  amount_due: number;
+  /** Remote's receiving accounts for this payment, present while `status` is `awaiting_payment` and the rail can publish them. Null for every other status, including `partially_paid`: `amount_due` there overstates what remains, so wiring against it would pay twice, and Remote follows up with the balance directly. Whether you should wire is a separate question that `pay_in_method` answers: Remote collects direct debit, card and prefunded payments itself. */
+  bank_accounts: ContractorInvoicePayInDetailsBankAccountsList | null;
+  currency: string | null;
+  due_date: string | null;
+  pay_in_method: ContractorInvoicePayInMethod;
+  reference: string;
+  status: ContractorInvoicePaymentStatus;
+}
+export const ContractorInvoicePayInDetails = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    amount_due: S.Number,
+    bank_accounts: S.NullOr(ContractorInvoicePayInDetailsBankAccountsList),
+    currency: S.NullOr(S.String),
+    due_date: S.NullOr(S.String),
+    pay_in_method: ContractorInvoicePayInMethod,
+    reference: S.String,
+    status: ContractorInvoicePaymentStatus,
+  }),
+).annotate({
+  identifier: "ContractorInvoicePayInDetails",
+}) as any as S.Schema<ContractorInvoicePayInDetails>;
+
+export interface ContractorInvoicePayInDetailsResponseData {
+  pay_in_details: ContractorInvoicePayInDetails;
+}
+export const ContractorInvoicePayInDetailsResponseData = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    pay_in_details: ContractorInvoicePayInDetails,
+  }),
+).annotate({
+  identifier: "ContractorInvoicePayInDetailsResponseData",
+}) as any as S.Schema<ContractorInvoicePayInDetailsResponseData>;
+
+/** Response schema to show the pay-in details of a Contractor Invoice */
+export interface ContractorInvoicePayInDetailsResponse {
+  data: ContractorInvoicePayInDetailsResponseData;
+}
+export const ContractorInvoicePayInDetailsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    data: ContractorInvoicePayInDetailsResponseData,
+  }),
+).annotate({
+  identifier: "ContractorInvoicePayInDetailsResponse",
+}) as any as S.Schema<ContractorInvoicePayInDetailsResponse>;
+
 export type GetWebhookEventsRequestOrder = "asc" | "desc";
 export const GetWebhookEventsRequestOrder = S.String;
 
@@ -18291,9 +18547,7 @@ export const GetWebhookEventsRequest = /*@__PURE__*/ S.suspend(() =>
     page: S.optional(S.Number.pipe(T.Query())),
     page_size: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/v1/webhook-events", code: 200 })),
-).annotate({
-  identifier: "GetWebhookEventsRequest",
-}) as any as S.Schema<GetWebhookEventsRequest>;
+).annotate({ identifier: "GetWebhookEventsRequest" }) as any as S.Schema<GetWebhookEventsRequest>;
 
 export interface WebhookEvent {
   /** The unique identifier (UUID) of the company this event belongs to. */
@@ -18364,13 +18618,7 @@ export interface GetWorkAuthorizationRequestRequest {
 export const GetWorkAuthorizationRequestRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/work-authorization-requests/{id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/work-authorization-requests/{id}", code: 200 })),
 ).annotate({
   identifier: "GetWorkAuthorizationRequestRequest",
 }) as any as S.Schema<GetWorkAuthorizationRequestRequest>;
@@ -18431,9 +18679,7 @@ export const WorkAuthorizationRequest = /*@__PURE__*/ S.suspend(() =>
     will_negotiate_or_sign_contracts: S.NullOr(S.Boolean),
     work_location: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "WorkAuthorizationRequest",
-}) as any as S.Schema<WorkAuthorizationRequest>;
+).annotate({ identifier: "WorkAuthorizationRequest" }) as any as S.Schema<WorkAuthorizationRequest>;
 
 export interface WorkAuthorizationRequestResponseData {
   work_authorization_request: WorkAuthorizationRequest;
@@ -18498,13 +18744,7 @@ export const GetWorkAuthorizationRequestsRequest = /*@__PURE__*/ S.suspend(() =>
     sort_by: S.optional(GetWorkAuthorizationRequestsRequestSortBy.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
     page_size: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/work-authorization-requests",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/work-authorization-requests", code: 200 })),
 ).annotate({
   identifier: "GetWorkAuthorizationRequestsRequest",
 }) as any as S.Schema<GetWorkAuthorizationRequestsRequest>;
@@ -18768,13 +19008,7 @@ export const PatchV1CompanyManagersUserId2Request = /*@__PURE__*/ S.suspend(() =
   S.Struct({
     user_id: S.String.pipe(T.Label()),
     billing_contact_for: PatchV1CompanyManagersUserId2RequestBillingContactForList,
-  }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/v1/company-managers/{user_id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PATCH", uri: "/v1/company-managers/{user_id}", code: 200 })),
 ).annotate({
   identifier: "PatchV1CompanyManagersUserId2Request",
 }) as any as S.Schema<PatchV1CompanyManagersUserId2Request>;
@@ -18797,6 +19031,7 @@ export interface PatchV1ContractorInvoiceSchedulesIdRequest {
   /** Resource unique identifier */
   id: string;
   currency?: string | null;
+  custom_days?: ContractorInvoiceScheduleCustomDays | null;
   /** List of invoice items that composes the overall invoice amount. */
   items?: PatchV1ContractorInvoiceSchedulesIdRequestItemsList;
   /** Custom defined note. */
@@ -18813,6 +19048,7 @@ export const PatchV1ContractorInvoiceSchedulesIdRequest = /*@__PURE__*/ S.suspen
   S.Struct({
     id: S.String.pipe(T.Label()),
     currency: S.optional(S.NullOr(S.String)),
+    custom_days: S.optional(S.NullOr(ContractorInvoiceScheduleCustomDays)),
     items: S.optional(PatchV1ContractorInvoiceSchedulesIdRequestItemsList),
     note: S.optional(S.NullOr(S.String)),
     nr_occurrences: S.optional(S.NullOr(S.Number)),
@@ -18820,13 +19056,7 @@ export const PatchV1ContractorInvoiceSchedulesIdRequest = /*@__PURE__*/ S.suspen
     periodicity: S.optional(ContractorInvoiceSchedulePeriodicity),
     start_date: S.optional(S.String),
     status: S.optional(PatchV1ContractorInvoiceSchedulesIdRequestStatus),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/v1/contractor-invoice-schedules/{id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/v1/contractor-invoice-schedules/{id}", code: 200 })),
 ).annotate({
   identifier: "PatchV1ContractorInvoiceSchedulesIdRequest",
 }) as any as S.Schema<PatchV1ContractorInvoiceSchedulesIdRequest>;
@@ -18849,6 +19079,7 @@ export interface PatchV1ContractorInvoiceSchedulesId2Request {
   /** Resource unique identifier */
   id: string;
   currency?: string | null;
+  custom_days?: ContractorInvoiceScheduleCustomDays | null;
   /** List of invoice items that composes the overall invoice amount. */
   items?: PatchV1ContractorInvoiceSchedulesId2RequestItemsList;
   /** Custom defined note. */
@@ -18865,6 +19096,7 @@ export const PatchV1ContractorInvoiceSchedulesId2Request = /*@__PURE__*/ S.suspe
   S.Struct({
     id: S.String.pipe(T.Label()),
     currency: S.optional(S.NullOr(S.String)),
+    custom_days: S.optional(S.NullOr(ContractorInvoiceScheduleCustomDays)),
     items: S.optional(PatchV1ContractorInvoiceSchedulesId2RequestItemsList),
     note: S.optional(S.NullOr(S.String)),
     nr_occurrences: S.optional(S.NullOr(S.Number)),
@@ -18872,13 +19104,7 @@ export const PatchV1ContractorInvoiceSchedulesId2Request = /*@__PURE__*/ S.suspe
     periodicity: S.optional(ContractorInvoiceSchedulePeriodicity),
     start_date: S.optional(S.String),
     status: S.optional(PatchV1ContractorInvoiceSchedulesId2RequestStatus),
-  }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/v1/contractor-invoice-schedules/{id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PATCH", uri: "/v1/contractor-invoice-schedules/{id}", code: 200 })),
 ).annotate({
   identifier: "PatchV1ContractorInvoiceSchedulesId2Request",
 }) as any as S.Schema<PatchV1ContractorInvoiceSchedulesId2Request>;
@@ -19232,13 +19458,7 @@ export const PatchV1EmploymentsEmploymentIdRequest = /*@__PURE__*/ S.suspend(() 
     pricing_plan_details: S.optional(S.Unknown),
     type: S.optional(PatchV1EmploymentsEmploymentIdRequestType),
     work_email: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/v1/employments/{employment_id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/v1/employments/{employment_id}", code: 200 })),
 ).annotate({
   identifier: "PatchV1EmploymentsEmploymentIdRequest",
 }) as any as S.Schema<PatchV1EmploymentsEmploymentIdRequest>;
@@ -19250,9 +19470,7 @@ export const EmploymentResponseData = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     employment: S.optional(Employment),
   }),
-).annotate({
-  identifier: "EmploymentResponseData",
-}) as any as S.Schema<EmploymentResponseData>;
+).annotate({ identifier: "EmploymentResponseData" }) as any as S.Schema<EmploymentResponseData>;
 
 /** Response containing the full employment record after an update operation. */
 export interface EmploymentResponse {
@@ -19262,9 +19480,7 @@ export const EmploymentResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     data: EmploymentResponseData,
   }),
-).annotate({
-  identifier: "EmploymentResponse",
-}) as any as S.Schema<EmploymentResponse>;
+).annotate({ identifier: "EmploymentResponse" }) as any as S.Schema<EmploymentResponse>;
 
 /** Use latest version */
 export type PatchV1EmploymentsEmploymentId2RequestAddressDetailsJsonSchemaVersionCase1 = "latest";
@@ -19487,13 +19703,7 @@ export const PatchV1EmploymentsEmploymentId2Request = /*@__PURE__*/ S.suspend(()
     pricing_plan_details: S.optional(S.Unknown),
     type: S.optional(PatchV1EmploymentsEmploymentId2RequestType),
     work_email: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/v1/employments/{employment_id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PATCH", uri: "/v1/employments/{employment_id}", code: 200 })),
 ).annotate({
   identifier: "PatchV1EmploymentsEmploymentId2Request",
 }) as any as S.Schema<PatchV1EmploymentsEmploymentId2Request>;
@@ -19509,9 +19719,7 @@ export const ApproveExpenseParams = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     status: ApproveExpenseParamsStatus,
   }),
-).annotate({
-  identifier: "ApproveExpenseParams",
-}) as any as S.Schema<ApproveExpenseParams>;
+).annotate({ identifier: "ApproveExpenseParams" }) as any as S.Schema<ApproveExpenseParams>;
 
 export type DeclineExpenseParamsStatus = "declined";
 export const DeclineExpenseParamsStatus = S.String;
@@ -19527,9 +19735,7 @@ export const DeclineExpenseParams = /*@__PURE__*/ S.suspend(() =>
     reason: S.String,
     status: DeclineExpenseParamsStatus,
   }),
-).annotate({
-  identifier: "DeclineExpenseParams",
-}) as any as S.Schema<DeclineExpenseParams>;
+).annotate({ identifier: "DeclineExpenseParams" }) as any as S.Schema<DeclineExpenseParams>;
 
 /** Update expense params */
 export type UpdateExpenseParams = ApproveExpenseParams | DeclineExpenseParams;
@@ -19545,9 +19751,7 @@ export const PatchV1ExpensesIdRequest = /*@__PURE__*/ S.suspend(() =>
     id: S.String.pipe(T.Label()),
     body: S.optional(UpdateExpenseParams.pipe(T.HttpBody())),
   }).pipe(T.Http({ method: "PUT", uri: "/v1/expenses/{id}", code: 200 })),
-).annotate({
-  identifier: "PatchV1ExpensesIdRequest",
-}) as any as S.Schema<PatchV1ExpensesIdRequest>;
+).annotate({ identifier: "PatchV1ExpensesIdRequest" }) as any as S.Schema<PatchV1ExpensesIdRequest>;
 
 export interface PatchV1ExpensesId2Request {
   /** Expense ID */
@@ -19636,13 +19840,7 @@ export const PatchV1SandboxEmploymentsEmploymentIdRequest = /*@__PURE__*/ S.susp
     employment_id: S.String.pipe(T.Label()),
     provisional_start_date: S.optional(S.String),
     status: S.optional(EmploymentStatus),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/v1/sandbox/employments/{employment_id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/v1/sandbox/employments/{employment_id}", code: 200 })),
 ).annotate({
   identifier: "PatchV1SandboxEmploymentsEmploymentIdRequest",
 }) as any as S.Schema<PatchV1SandboxEmploymentsEmploymentIdRequest>;
@@ -19658,13 +19856,7 @@ export const PatchV1SandboxEmploymentsEmploymentId2Request = /*@__PURE__*/ S.sus
     employment_id: S.String.pipe(T.Label()),
     provisional_start_date: S.optional(S.String),
     status: S.optional(EmploymentStatus),
-  }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/v1/sandbox/employments/{employment_id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PATCH", uri: "/v1/sandbox/employments/{employment_id}", code: 200 })),
 ).annotate({
   identifier: "PatchV1SandboxEmploymentsEmploymentId2Request",
 }) as any as S.Schema<PatchV1SandboxEmploymentsEmploymentId2Request>;
@@ -19692,7 +19884,6 @@ export interface PatchV1TimeoffIdRequest {
   start_date?: string;
   status?: PatchV1TimeoffIdRequestStatus | (string & {});
   timeoff_days?: PatchV1TimeoffIdRequestTimeoffDaysList;
-  timeoff_type?: TimeoffType | (string & {});
   timezone?: string;
 }
 export const PatchV1TimeoffIdRequest = /*@__PURE__*/ S.suspend(() =>
@@ -19708,12 +19899,9 @@ export const PatchV1TimeoffIdRequest = /*@__PURE__*/ S.suspend(() =>
     start_date: S.optional(S.String),
     status: S.optional(PatchV1TimeoffIdRequestStatus),
     timeoff_days: S.optional(PatchV1TimeoffIdRequestTimeoffDaysList),
-    timeoff_type: S.optional(TimeoffType),
     timezone: S.optional(S.String),
   }).pipe(T.Http({ method: "PUT", uri: "/v1/timeoff/{id}", code: 200 })),
-).annotate({
-  identifier: "PatchV1TimeoffIdRequest",
-}) as any as S.Schema<PatchV1TimeoffIdRequest>;
+).annotate({ identifier: "PatchV1TimeoffIdRequest" }) as any as S.Schema<PatchV1TimeoffIdRequest>;
 
 export type PatchV1TimeoffId2RequestStatus = "approved" | "cancelled";
 export const PatchV1TimeoffId2RequestStatus = S.String;
@@ -19738,7 +19926,6 @@ export interface PatchV1TimeoffId2Request {
   start_date?: string;
   status?: PatchV1TimeoffId2RequestStatus | (string & {});
   timeoff_days?: PatchV1TimeoffId2RequestTimeoffDaysList;
-  timeoff_type?: TimeoffType | (string & {});
   timezone?: string;
 }
 export const PatchV1TimeoffId2Request = /*@__PURE__*/ S.suspend(() =>
@@ -19754,12 +19941,9 @@ export const PatchV1TimeoffId2Request = /*@__PURE__*/ S.suspend(() =>
     start_date: S.optional(S.String),
     status: S.optional(PatchV1TimeoffId2RequestStatus),
     timeoff_days: S.optional(PatchV1TimeoffId2RequestTimeoffDaysList),
-    timeoff_type: S.optional(TimeoffType),
     timezone: S.optional(S.String),
   }).pipe(T.Http({ method: "PATCH", uri: "/v1/timeoff/{id}", code: 200 })),
-).annotate({
-  identifier: "PatchV1TimeoffId2Request",
-}) as any as S.Schema<PatchV1TimeoffId2Request>;
+).annotate({ identifier: "PatchV1TimeoffId2Request" }) as any as S.Schema<PatchV1TimeoffId2Request>;
 
 export type ApprovedTravelLetterResponsibleForAccommodationCost = "employee" | "employer";
 export const ApprovedTravelLetterResponsibleForAccommodationCost = S.String;
@@ -19791,9 +19975,7 @@ export const ApprovedTravelLetter = /*@__PURE__*/ S.suspend(() =>
     responsible_for_travel_cost: ApprovedTravelLetterResponsibleForTravelCost,
     status: ApprovedTravelLetterStatus,
   }),
-).annotate({
-  identifier: "ApprovedTravelLetter",
-}) as any as S.Schema<ApprovedTravelLetter>;
+).annotate({ identifier: "ApprovedTravelLetter" }) as any as S.Schema<ApprovedTravelLetter>;
 
 export type DeclinedTravelLetterStatus = "declined_by_manager";
 export const DeclinedTravelLetterStatus = S.String;
@@ -19810,9 +19992,7 @@ export const DeclinedTravelLetter = /*@__PURE__*/ S.suspend(() =>
     reason: S.String,
     status: DeclinedTravelLetterStatus,
   }),
-).annotate({
-  identifier: "DeclinedTravelLetter",
-}) as any as S.Schema<DeclinedTravelLetter>;
+).annotate({ identifier: "DeclinedTravelLetter" }) as any as S.Schema<DeclinedTravelLetter>;
 
 /** Schema for updating travel letter request parameters */
 export type UpdateTravelLetterRequestParams = ApprovedTravelLetter | DeclinedTravelLetter;
@@ -19828,13 +20008,7 @@ export const PatchV1TravelLetterRequestsIdRequest = /*@__PURE__*/ S.suspend(() =
   S.Struct({
     id: S.String.pipe(T.Label()),
     body: UpdateTravelLetterRequestParams.pipe(T.HttpBody()),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/v1/travel-letter-requests/{id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/v1/travel-letter-requests/{id}", code: 200 })),
 ).annotate({
   identifier: "PatchV1TravelLetterRequestsIdRequest",
 }) as any as S.Schema<PatchV1TravelLetterRequestsIdRequest>;
@@ -19848,13 +20022,7 @@ export const PatchV1TravelLetterRequestsId2Request = /*@__PURE__*/ S.suspend(() 
   S.Struct({
     id: S.String.pipe(T.Label()),
     body: UpdateTravelLetterRequestParams.pipe(T.HttpBody()),
-  }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/v1/travel-letter-requests/{id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PATCH", uri: "/v1/travel-letter-requests/{id}", code: 200 })),
 ).annotate({
   identifier: "PatchV1TravelLetterRequestsId2Request",
 }) as any as S.Schema<PatchV1TravelLetterRequestsId2Request>;
@@ -19872,9 +20040,7 @@ export const ApprovedWorkAuthozation = /*@__PURE__*/ S.suspend(() =>
     employer_special_instructions: S.optional(S.NullOr(S.String)),
     status: ApprovedWorkAuthozationStatus,
   }),
-).annotate({
-  identifier: "ApprovedWorkAuthozation",
-}) as any as S.Schema<ApprovedWorkAuthozation>;
+).annotate({ identifier: "ApprovedWorkAuthozation" }) as any as S.Schema<ApprovedWorkAuthozation>;
 
 export type DeclinedWorkAuthozationStatus = "declined_by_manager";
 export const DeclinedWorkAuthozationStatus = S.String;
@@ -19891,9 +20057,7 @@ export const DeclinedWorkAuthozation = /*@__PURE__*/ S.suspend(() =>
     reason: S.String,
     status: DeclinedWorkAuthozationStatus,
   }),
-).annotate({
-  identifier: "DeclinedWorkAuthozation",
-}) as any as S.Schema<DeclinedWorkAuthozation>;
+).annotate({ identifier: "DeclinedWorkAuthozation" }) as any as S.Schema<DeclinedWorkAuthozation>;
 
 /** Schema for updating a work authorization request */
 export type UpdateWorkAuthorizationRequestParams =
@@ -19911,13 +20075,7 @@ export const PatchV1WorkAuthorizationRequestsIdRequest = /*@__PURE__*/ S.suspend
   S.Struct({
     id: S.String.pipe(T.Label()),
     body: UpdateWorkAuthorizationRequestParams.pipe(T.HttpBody()),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/v1/work-authorization-requests/{id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/v1/work-authorization-requests/{id}", code: 200 })),
 ).annotate({
   identifier: "PatchV1WorkAuthorizationRequestsIdRequest",
 }) as any as S.Schema<PatchV1WorkAuthorizationRequestsIdRequest>;
@@ -19931,13 +20089,7 @@ export const PatchV1WorkAuthorizationRequestsId2Request = /*@__PURE__*/ S.suspen
   S.Struct({
     id: S.String.pipe(T.Label()),
     body: UpdateWorkAuthorizationRequestParams.pipe(T.HttpBody()),
-  }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/v1/work-authorization-requests/{id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PATCH", uri: "/v1/work-authorization-requests/{id}", code: 200 })),
 ).annotate({
   identifier: "PatchV1WorkAuthorizationRequestsId2Request",
 }) as any as S.Schema<PatchV1WorkAuthorizationRequestsId2Request>;
@@ -19964,13 +20116,7 @@ export const PatchV2EmploymentsEmploymentIdRequest = /*@__PURE__*/ S.suspend(() 
     manager_id: S.optional(S.String),
     partner_external_id: S.optional(S.NullOr(S.String)),
     work_email: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/v2/employments/{employment_id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/v2/employments/{employment_id}", code: 200 })),
 ).annotate({
   identifier: "PatchV2EmploymentsEmploymentIdRequest",
 }) as any as S.Schema<PatchV2EmploymentsEmploymentIdRequest>;
@@ -19997,13 +20143,7 @@ export const PatchV2EmploymentsEmploymentId2Request = /*@__PURE__*/ S.suspend(()
     manager_id: S.optional(S.String),
     partner_external_id: S.optional(S.NullOr(S.String)),
     work_email: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/v2/employments/{employment_id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PATCH", uri: "/v2/employments/{employment_id}", code: 200 })),
 ).annotate({
   identifier: "PatchV2EmploymentsEmploymentId2Request",
 }) as any as S.Schema<PatchV2EmploymentsEmploymentId2Request>;
@@ -20278,13 +20418,7 @@ export const PutEmployeeStateTaxRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     jurisdiction: S.String.pipe(T.Label()),
     state_taxes: S.Unknown,
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/v1/employee/state-taxes/{jurisdiction}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/v1/employee/state-taxes/{jurisdiction}", code: 200 })),
 ).annotate({
   identifier: "PutEmployeeStateTaxRequest",
 }) as any as S.Schema<PutEmployeeStateTaxRequest>;
@@ -20315,11 +20449,7 @@ export const PutEmploymentAddressDetailsRequest = /*@__PURE__*/ S.suspend(() =>
     ),
     address_details: S.Unknown,
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/v2/employments/{employment_id}/address-details",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/v2/employments/{employment_id}/address-details", code: 200 }),
   ),
 ).annotate({
   identifier: "PutEmploymentAddressDetailsRequest",
@@ -20387,19 +20517,18 @@ export const PutEmploymentBankAccountDetailsRequest = /*@__PURE__*/ S.suspend(()
 export interface PutEmploymentBasicInformationRequest {
   /** Employment ID */
   employment_id: string;
+  /** When true, returns `tax_servicing_countries` grouped into global/regions/subregions instead of a flat list of country names. */
+  group_tax_servicing_countries?: boolean;
   /** Employment basic information. As its properties may vary depending on the country, you must query the [Show form schema](#tag/Countries/operation/get_show_form_country) endpoint passing the country code and `employment_basic_information` as path parameters. */
   basic_information: unknown;
 }
 export const PutEmploymentBasicInformationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     employment_id: S.String.pipe(T.Label()),
+    group_tax_servicing_countries: S.optional(S.Boolean.pipe(T.Query())),
     basic_information: S.Unknown,
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/v1/employments/{employment_id}/basic-information",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/v1/employments/{employment_id}/basic-information", code: 200 }),
   ),
 ).annotate({
   identifier: "PutEmploymentBasicInformationRequest",
@@ -20422,6 +20551,8 @@ export interface PutEmploymentBasicInformationRequest2 {
   employment_id: string;
   /** Version of the employment_basic_information form schema */
   employment_basic_information_json_schema_version?: PutEmploymentBasicInformationRequestEmploymentBasicInformationJsonSchemaVersion;
+  /** When true, returns `tax_servicing_countries` grouped into global/regions/subregions instead of a flat list of country names. */
+  group_tax_servicing_countries?: boolean;
   /** Employment basic information. As its properties may vary depending on the country, you must query the [Show form schema](#tag/Countries/operation/get_show_form_country) endpoint passing the country code and `employment_basic_information` as path parameters. */
   basic_information: unknown;
 }
@@ -20433,13 +20564,10 @@ export const PutEmploymentBasicInformationRequest2 = /*@__PURE__*/ S.suspend(() 
         T.Query(),
       ),
     ),
+    group_tax_servicing_countries: S.optional(S.Boolean.pipe(T.Query())),
     basic_information: S.Unknown,
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/v2/employments/{employment_id}/basic-information",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/v2/employments/{employment_id}/basic-information", code: 200 }),
   ),
 ).annotate({
   identifier: "PutEmploymentBasicInformationRequest2",
@@ -20468,11 +20596,7 @@ export const PutEmploymentBenefitOffersRequest = /*@__PURE__*/ S.suspend(() =>
       PutEmploymentBenefitOffersRequestJsonSchemaVersion.pipe(T.Query()),
     ),
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/v1/employments/{employment_id}/benefit-offers",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/v1/employments/{employment_id}/benefit-offers", code: 200 }),
   ),
 ).annotate({
   identifier: "PutEmploymentBenefitOffersRequest",
@@ -20535,7 +20659,7 @@ export interface PutEmploymentContractDetailsRequest {
   contract_details_json_schema_version?: PutEmploymentContractDetailsRequestContractDetailsJsonSchemaVersion;
   /** Skips the dynamic benefits part of the schema if set. To be used when benefits are set via its own API. */
   skip_benefits?: boolean;
-  /** Contract information. As its properties may vary depending on the country, you must query the [Show form schema](#tag/Countries/operation/get_show_form_country) endpoint passing the country code and `contract_details` as path parameters. */
+  /** Contract information. As its properties may vary depending on the country, you must query the [Show form schema](#tag/Countries/operation/get_show_form_country) endpoint passing the country code and `contract_details` as path parameters. When the job title eligibility check requires an acknowledgement, present Remote's responsibility statement to the employer and obtain their acceptance before sending `employer_acknowledges_risk` as `acknowledged`. Sending it asserts that the employer was informed of, and accepted, responsibility for, as applicable, employee safety, training, health checks, any incidents connected to the employee's work environment, and the employee holding the licensing the role requires. */
   contract_details: unknown;
 }
 export const PutEmploymentContractDetailsRequest = /*@__PURE__*/ S.suspend(() =>
@@ -20547,11 +20671,7 @@ export const PutEmploymentContractDetailsRequest = /*@__PURE__*/ S.suspend(() =>
     skip_benefits: S.optional(S.Boolean.pipe(T.Query())),
     contract_details: S.Unknown,
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/v2/employments/{employment_id}/contract-details",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/v2/employments/{employment_id}/contract-details", code: 200 }),
   ),
 ).annotate({
   identifier: "PutEmploymentContractDetailsRequest",
@@ -20585,11 +20705,7 @@ export const PutEmploymentEmergencyContactRequest = /*@__PURE__*/ S.suspend(() =
     ),
     emergency_contact_details: S.Unknown,
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/v2/employments/{employment_id}/emergency-contact",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/v2/employments/{employment_id}/emergency-contact", code: 200 }),
   ),
 ).annotate({
   identifier: "PutEmploymentEmergencyContactRequest",
@@ -20606,11 +20722,7 @@ export const PutEmploymentFederalTaxesRequest = /*@__PURE__*/ S.suspend(() =>
     employment_id: S.String.pipe(T.Label()),
     federal_taxes: S.Unknown,
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/v1/employments/{employment_id}/federal-taxes",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/v1/employments/{employment_id}/federal-taxes", code: 200 }),
   ),
 ).annotate({
   identifier: "PutEmploymentFederalTaxesRequest",
@@ -20627,11 +20739,7 @@ export const PutEmploymentFederalTaxesRequest2 = /*@__PURE__*/ S.suspend(() =>
     employment_id: S.String.pipe(T.Label()),
     federal_taxes: S.Unknown,
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/v2/employments/{employment_id}/federal-taxes",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/v2/employments/{employment_id}/federal-taxes", code: 200 }),
   ),
 ).annotate({
   identifier: "PutEmploymentFederalTaxesRequest2",
@@ -20648,11 +20756,7 @@ export const PutEmploymentPersonalDetailsRequest = /*@__PURE__*/ S.suspend(() =>
     employment_id: S.String.pipe(T.Label()),
     personal_details: S.Unknown,
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/v1/employments/{employment_id}/personal-details",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/v1/employments/{employment_id}/personal-details", code: 200 }),
   ),
 ).annotate({
   identifier: "PutEmploymentPersonalDetailsRequest",
@@ -20684,11 +20788,7 @@ export const PutEmploymentPersonalDetailsRequest2 = /*@__PURE__*/ S.suspend(() =
     ),
     personal_details: S.Unknown,
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/v2/employments/{employment_id}/personal-details",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/v2/employments/{employment_id}/personal-details", code: 200 }),
   ),
 ).annotate({
   identifier: "PutEmploymentPersonalDetailsRequest2",
@@ -20852,11 +20952,7 @@ export const PutResignationValidateRequest = /*@__PURE__*/ S.suspend(() =>
     offboarding_request_id: S.String.pipe(T.Label()),
     body: ValidateResignationRequestParams.pipe(T.HttpBody()),
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/v1/resignations/{offboarding_request_id}/validate",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/v1/resignations/{offboarding_request_id}/validate", code: 200 }),
   ),
 ).annotate({
   identifier: "PutResignationValidateRequest",
@@ -20962,13 +21058,7 @@ export const UpdateCancelOnboardingRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     employment_id: S.String.pipe(T.Label()),
     async: S.optional(S.Boolean.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v1/cancel-onboarding/{employment_id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/v1/cancel-onboarding/{employment_id}", code: 200 })),
 ).annotate({
   identifier: "UpdateCancelOnboardingRequest",
 }) as any as S.Schema<UpdateCancelOnboardingRequest>;
@@ -20976,22 +21066,23 @@ export const UpdateCancelOnboardingRequest = /*@__PURE__*/ S.suspend(() =>
 export interface UpdatePayItemRequest {
   /** Pay item ID */
   id: string;
-  /** Value of the pay item. See PayItemParams.amount for unit details. Must be non-zero; negative values are allowed for corrections. */
+  /** Value of the pay item. See PayItemParams.amount for unit details. Must not be zero. Negative values are supported: send a negative `amount` to submit a deduction or to correct an earlier submission downwards — for any pay code, including hours-based ones such as `working_hours`. */
   amount?: number;
-  /** Working day date (YYYY-MM-DD) */
+  /** Date the pay item is applied on (YYYY-MM-DD) — the day worked, the day a correction was submitted, or the first day of a leave period. */
   effective_date?: string;
-  provider_data?: PayItemProviderData;
+  /** Last day of a leave period, inclusive (YYYY-MM-DD). Leave-of-absence pay codes only; send `null` to clear it. */
+  end_date?: string | null;
+  provider_data?: PayItemProviderDataParams;
 }
 export const UpdatePayItemRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
     amount: S.optional(S.Number),
     effective_date: S.optional(S.String),
-    provider_data: S.optional(PayItemProviderData),
+    end_date: S.optional(S.NullOr(S.String)),
+    provider_data: S.optional(PayItemProviderDataParams),
   }).pipe(T.Http({ method: "PATCH", uri: "/v1/pay-items/{id}", code: 200 })),
-).annotate({
-  identifier: "UpdatePayItemRequest",
-}) as any as S.Schema<UpdatePayItemRequest>;
+).annotate({ identifier: "UpdatePayItemRequest" }) as any as S.Schema<UpdatePayItemRequest>;
 
 export interface PayItemResponseData {
   pay_item: PayItem;
@@ -21000,9 +21091,7 @@ export const PayItemResponseData = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     pay_item: PayItem,
   }),
-).annotate({
-  identifier: "PayItemResponseData",
-}) as any as S.Schema<PayItemResponseData>;
+).annotate({ identifier: "PayItemResponseData" }) as any as S.Schema<PayItemResponseData>;
 
 export interface PayItemResponse {
   data: PayItemResponseData;
@@ -21011,9 +21100,49 @@ export const PayItemResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     data: PayItemResponseData,
   }),
-).annotate({
-  identifier: "PayItemResponse",
-}) as any as S.Schema<PayItemResponse>;
+).annotate({ identifier: "PayItemResponse" }) as any as S.Schema<PayItemResponse>;
+
+/** User IDs of the company admins to assign as the project's leads, replacing the current set. These are user IDs, unlike `team_member_ids`, which are employment IDs. */
+export type UpdateProjectRequestLeadIdsList = Array<string>;
+export const UpdateProjectRequestLeadIdsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<UpdateProjectRequestLeadIdsList>;
+
+/** Employment IDs of the contractors to assign as the project's team members, replacing the current set. These are employment IDs, unlike `lead_ids`, which are user IDs. Each must be an active contractor of the project's company. */
+export type UpdateProjectRequestTeamMemberIdsList = Array<string>;
+export const UpdateProjectRequestTeamMemberIdsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<UpdateProjectRequestTeamMemberIdsList>;
+
+export interface UpdateProjectRequest {
+  /** Project identifier */
+  id: string;
+  /** Description of the project. */
+  description?: string | null;
+  /** Date when the project ends. */
+  end_date?: string | null;
+  /** User IDs of the company admins to assign as the project's leads, replacing the current set. These are user IDs, unlike `team_member_ids`, which are employment IDs. */
+  lead_ids?: UpdateProjectRequestLeadIdsList;
+  /** Name of the project. */
+  name?: string;
+  /** Date when the project starts. */
+  start_date?: string | null;
+  status?: ProjectStatus | (string & {});
+  /** Employment IDs of the contractors to assign as the project's team members, replacing the current set. These are employment IDs, unlike `lead_ids`, which are user IDs. Each must be an active contractor of the project's company. */
+  team_member_ids?: UpdateProjectRequestTeamMemberIdsList;
+}
+export const UpdateProjectRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String.pipe(T.Label()),
+    description: S.optional(S.NullOr(S.String)),
+    end_date: S.optional(S.NullOr(S.String)),
+    lead_ids: S.optional(UpdateProjectRequestLeadIdsList),
+    name: S.optional(S.String),
+    start_date: S.optional(S.NullOr(S.String)),
+    status: S.optional(ProjectStatus),
+    team_member_ids: S.optional(UpdateProjectRequestTeamMemberIdsList),
+  }).pipe(T.Http({ method: "PATCH", uri: "/v1/projects/{id}", code: 200 })),
+).annotate({ identifier: "UpdateProjectRequest" }) as any as S.Schema<UpdateProjectRequest>;
 
 /** The setting to be enabled. */
 export type UpdateWebhookCallbackRequestSubscribedEventsItem =
@@ -21026,6 +21155,7 @@ export type UpdateWebhookCallbackRequestSubscribedEventsItem =
   | "company.manager_updated"
   | "company.owner_changed"
   | "company.archived"
+  | "company.hard_deleted"
   | "company.eor_hiring.additional_information_required"
   | "company.eor_hiring.reserve_payment_requested"
   | "company.eor_hiring.no_reserve_payment_requested"
@@ -21041,8 +21171,10 @@ export type UpdateWebhookCallbackRequestSubscribedEventsItem =
   | "contract.termination_date_reached"
   | "contract_document.status.changed"
   | "contractor_invoice.employer_paid"
+  | "contractor_invoice.funds_returned"
   | "contractor_invoice.issued"
   | "contractor_invoice.paid_out"
+  | "contractor_invoice.pay_out_failed"
   | "contractor_invoice.payment_initiated"
   | "custom_field.value_updated"
   | "employment.benefits.selected"
@@ -21064,6 +21196,10 @@ export type UpdateWebhookCallbackRequestSubscribedEventsItem =
   | "employment.cor_hiring.proof_of_payment_submitted"
   | "employment.eor_hiring.proof_of_payment_accepted"
   | "employment.eor_hiring.proof_of_payment_submitted"
+  | "employment.hard_deleted"
+  | "employment.job_title_review.approved"
+  | "employment.job_title_review.rejected"
+  | "employment.job_title_review.started"
   | "employment.no_longer_eligible_for_onboarding_cancellation"
   | "employment.onboarding_task.completed"
   | "employment.onboarding.cancelled"
@@ -21162,7 +21298,7 @@ export type CreateAuthOauth2TokenError =
   | NotFound
   | UnprocessableEntity
   | RemoteOpError;
-/** Token Endpoint to exchange tokens in the Authorization Code, Assertion Flow, Client Credentials and Refresh Token flows */
+/** Token Endpoint to exchange tokens in the Authorization Code, Assertion Flow, Client Credentials and Refresh Token flows. For backward compatibility, this endpoint returns `400` with `invalid_grant` in some cases where RFC 6749 would use `invalid_client` (invalid client credentials) or `unauthorized_client` (the integration is not allowed to use the grant type). Use `error_description` to tell these cases apart. ## Authentication This endpoint requires the following token type: - **Basic authentication** (`BasicAuth`) — using the `CLIENT_ID` as login and the `CLIENT_SECRET` as password. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). */
 export const createAuthOauth2Token: API.OperationMethod<
   CreateAuthOauth2TokenRequest,
   CreateAuthOauth2TokenResponse,
@@ -21181,7 +21317,7 @@ export type CreateBulkEmploymentJobError =
   | Forbidden
   | UnprocessableEntity
   | RemoteOpError;
-/** Create bulk employment job Creates a job to bulk-create employments for multiple employees at once. Each employee payload must match the employment schema for the selected country. ## Scopes */
+/** Create bulk employment job Creates a job to bulk-create employments for multiple employees at once. Each employee payload must match the employment schema for the selected country. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const createBulkEmploymentJob: API.OperationMethod<
   CreateBulkEmploymentJobRequest,
   CreateBulkEmploymentJobResponse,
@@ -21201,7 +21337,7 @@ export type CreateCompanyError =
   | Conflict
   | UnprocessableEntity
   | RemoteOpError;
-/** Create a company Creates a new company. ### Creating a company with only the required request body parameters When you call this endpoint and omit all the optional parameters in the request body, the following resources get created upon a successful response: * A new company with status `pending`. * A company owner for the new company with status `initiated`. See the [update a company endpoint](#tag/Companies/operation/patch_update_company) for more details on how to get your company and its owner to `active` status. If you'd like to create a company and its owner with `active` status in a single request, please provide the optional `address_details` parameter as well. ### Accepting the Terms of Service A required step for creating a company in Remote is to accept our Terms of Service (ToS). Company managers need to be aware of our Terms of Service and Privacy Policy, hence **it's the responsibility of our partners to advise and ensure company managers read and accept the ToS**. The terms have to be accepted only once, before creating a company, and the Remote API will collect the acceptance timestamp as its confirmation. To ensure users read the most recent version of Remote's Terms of Service, their **acceptance must be done within the last fifteen minutes prior the company creation action**. To retrieve this information, partners can provide an element with any text and a description explaining that by performing that action they are accepting Remote's Term of Service. For instance, the partner can add a checkbox or a "Create Remote Account" button followed by a description saying "By creating an account, you agree to [Remote's Terms of Service](https://remote.com/terms-of-service). Also see Remote's [Privacy Policy](https://remote.com/privacy-policy)". ## Scopes */
+/** Create a company Creates a new company. ### Creating a company with only the required request body parameters When you call this endpoint and omit all the optional parameters in the request body, the following resources get created upon a successful response: * A new company with status `pending`. * A company owner for the new company with status `initiated`. See the [update a company endpoint](#tag/Companies/operation/patch_update_company) for more details on how to get your company and its owner to `active` status. If you'd like to create a company and its owner with `active` status in a single request, please provide the optional `address_details` parameter as well. ### Accepting the Terms of Service A required step for creating a company in Remote is to accept our Terms of Service (ToS). Company managers need to be aware of our Terms of Service and Privacy Policy, hence **it's the responsibility of our partners to advise and ensure company managers read and accept the ToS**. The terms have to be accepted only once, before creating a company, and the Remote API will collect the acceptance timestamp as its confirmation. To ensure users read the most recent version of Remote's Terms of Service, their **acceptance must be done within the last fifteen minutes prior the company creation action**. To retrieve this information, partners can provide an element with any text and a description explaining that by performing that action they are accepting Remote's Term of Service. For instance, the partner can add a checkbox or a "Create Remote Account" button followed by a description saying "By creating an account, you agree to [Remote's Terms of Service](https://remote.com/terms-of-service). Also see Remote's [Privacy Policy](https://remote.com/privacy-policy)". ## Authentication This endpoint requires the following token type: - **Client credentials access token** (`OAuth2ClientCredentials`) — obtained through the Client Credentials flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). ## Scopes */
 export const createCompany: API.OperationMethod<
   CreateCompanyRequest,
   CompanyCreationResponse,
@@ -21216,7 +21352,7 @@ export const createCompany: API.OperationMethod<
 }));
 
 export type CreateCompanyCreateTokenError = NotFound | UnprocessableEntity | RemoteOpError;
-/** Create a new token for a company Creates new tokens for a given company */
+/** Create a new token for a company Creates new tokens for a given company ## Authentication This endpoint requires the following token type: - **Client credentials access token** (`OAuth2ClientCredentials`) — obtained through the Client Credentials flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). */
 export const createCompanyCreateToken: API.OperationMethod<
   CreateCompanyCreateTokenRequest,
   CompanyTokenResponse,
@@ -21231,7 +21367,7 @@ export const createCompanyCreateToken: API.OperationMethod<
 }));
 
 export type CreateCompanyDepartmentError = NotFound | UnprocessableEntity | RemoteOpError;
-/** Create New Department Creates a new department in the specified company. Department names may be non-unique and must be non-empty with no more than 255 characters (Unicode code points). ## Scopes */
+/** Create New Department Creates a new department in the specified company. Department names may be non-unique and must be non-empty with no more than 255 characters (Unicode code points). ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const createCompanyDepartment: API.OperationMethod<
   CreateCompanyDepartmentRequest,
   CompanyDepartmentCreatedResponse,
@@ -21246,7 +21382,7 @@ export const createCompanyDepartment: API.OperationMethod<
 }));
 
 export type CreateCompanyManagerError = BadRequest | NotFound | UnprocessableEntity | RemoteOpError;
-/** Create and invite a Company Manager Create a Company Manager and sends the invitation email for signing in to the Remote Platform. ## Scopes */
+/** Create and invite a Company Manager Create a Company Manager and sends the invitation email for signing in to the Remote Platform. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const createCompanyManager: API.OperationMethod<
   CreateCompanyManagerRequest,
   CompanyManagerData,
@@ -21261,7 +21397,7 @@ export const createCompanyManager: API.OperationMethod<
 }));
 
 export type CreateCompanyPricingPlanError = NotFound | UnprocessableEntity | RemoteOpError;
-/** Create a pricing plan for a company Create a pricing plan for a company, in order to do that we have 2 ways: 1. Create a pricing plan from a partner template 2. Create a pricing plan from a product price The pricing plan is always created in the company's desired currency. ## Scopes */
+/** Create a pricing plan for a company Create a pricing plan for a company, in order to do that we have 2 ways: 1. Create a pricing plan from a partner template 2. Create a pricing plan from a product price The pricing plan is always created in the company's desired currency. ## Authentication This endpoint requires the following token type: - **Client credentials access token** (`OAuth2ClientCredentials`) — obtained through the Client Credentials flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). ## Scopes */
 export const createCompanyPricingPlan: API.OperationMethod<
   CreateCompanyPricingPlanRequest,
   CreatePricingPlanResponse,
@@ -21276,7 +21412,7 @@ export const createCompanyPricingPlan: API.OperationMethod<
 }));
 
 export type CreateContractAmendmentError = NotFound | UnprocessableEntity | RemoteOpError;
-/** Create Contract Amendment Creates a Contract Amendment request. This endpoint requires and returns country-specific data. The exact required and returned fields will vary depending on which country the employment is in. To see the list of parameters for each country, see the **Show form schema** endpoint under the [Contract Amendments](#tag/Contract-Amendments) category. Please note that the compliance requirements for each country are subject to change according to local laws. Given its continual updates, using Remote's [json-schema-form](https://developer.remote.com/docs/how-json-schemas-work) should be considered in order to avoid compliance issues and to have the latest version of a country requirements. If you are using this endpoint to build an integration, make sure you are dynamically collecting or displaying the latest parameters for each country by querying the _"Show form schema"_ endpoint. For more information on JSON Schemas, see the **How JSON Schemas work** documentation. To learn how you can dynamically generate forms to display in your UI, see the documentation for the [json-schema-form](https://developer.remote.com/docs/how-json-schemas-work) tool. ## Scopes */
+/** Create Contract Amendment Creates a Contract Amendment request. This endpoint requires and returns country-specific data. The exact required and returned fields will vary depending on which country the employment is in. To see the list of parameters for each country, see the **Show form schema** endpoint under the [Contract Amendments](#tag/Contract-Amendments) category. Please note that the compliance requirements for each country are subject to change according to local laws. Given its continual updates, using Remote's [json-schema-form](https://developer.remote.com/docs/how-json-schemas-work) should be considered in order to avoid compliance issues and to have the latest version of a country requirements. If you are using this endpoint to build an integration, make sure you are dynamically collecting or displaying the latest parameters for each country by querying the _"Show form schema"_ endpoint. For more information on JSON Schemas, see the **How JSON Schemas work** documentation. To learn how you can dynamically generate forms to display in your UI, see the documentation for the [json-schema-form](https://developer.remote.com/docs/how-json-schemas-work) tool. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const createContractAmendment: API.OperationMethod<
   CreateContractAmendmentRequest,
   ContractAmendmentResponse,
@@ -21294,7 +21430,7 @@ export type CreateContractAmendmentsAutomatableError =
   | NotFound
   | UnprocessableEntity
   | RemoteOpError;
-/** Automatable Contract Amendment Check if a contract amendment request is automatable. If the contract amendment request is automatable, then after submission, it will instantly amend the employee's contract and send them an updated document. This endpoint requires and returns country-specific data. The exact required and returned fields will vary depending on which country the employment is in. To see the list of parameters for each country, see the **Show form schema** endpoint under the [Contract Amendments](#tag/Contract-Amendments) category. Please note that the compliance requirements for each country are subject to change according to local laws. Given its continual updates, using Remote's [json-schema-form](https://developer.remote.com/docs/how-json-schemas-work) should be considered in order to avoid compliance issues and to have the latest version of a country requirements. If you are using this endpoint to build an integration, make sure you are dynamically collecting or displaying the latest parameters for each country by querying the _"Show form schema"_ endpoint. For more information on JSON Schemas, see the **How JSON Schemas work** documentation. To learn how you can dynamically generate forms to display in your UI, see the documentation for the [json-schema-form](https://developer.remote.com/docs/how-json-schemas-work) tool. ## Scopes */
+/** Automatable Contract Amendment Check if a contract amendment request is automatable. If the contract amendment request is automatable, then after submission, it will instantly amend the employee's contract and send them an updated document. This endpoint requires and returns country-specific data. The exact required and returned fields will vary depending on which country the employment is in. To see the list of parameters for each country, see the **Show form schema** endpoint under the [Contract Amendments](#tag/Contract-Amendments) category. Please note that the compliance requirements for each country are subject to change according to local laws. Given its continual updates, using Remote's [json-schema-form](https://developer.remote.com/docs/how-json-schemas-work) should be considered in order to avoid compliance issues and to have the latest version of a country requirements. If you are using this endpoint to build an integration, make sure you are dynamically collecting or displaying the latest parameters for each country by querying the _"Show form schema"_ endpoint. For more information on JSON Schemas, see the **How JSON Schemas work** documentation. To learn how you can dynamically generate forms to display in your UI, see the documentation for the [json-schema-form](https://developer.remote.com/docs/how-json-schemas-work) tool. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const createContractAmendmentsAutomatable: API.OperationMethod<
   CreateContractAmendmentsAutomatableRequest,
   ContractAmendmentAutomatableResponse,
@@ -21313,7 +21449,7 @@ export type CreateContractorInvoiceScheduleError =
   | NotFound
   | UnprocessableEntity
   | RemoteOpError;
-/** Create Contractor Invoice Schedules Creates many invoice schedules records. It's supposed to return two lists: one containing created records, and another one containing the schedules that failed to be inserted. ## Scopes */
+/** Create Contractor Invoice Schedules Creates many invoice schedules records. It's supposed to return two lists: one containing created records, and another one containing the schedules that failed to be inserted. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const createContractorInvoiceSchedule: API.OperationMethod<
   CreateContractorInvoiceScheduleRequest,
   CreateContractorInvoiceScheduleResponse,
@@ -21332,7 +21468,7 @@ export type CreateContractorsEligibilityQuestionnaireError =
   | Conflict
   | UnprocessableEntity
   | RemoteOpError;
-/** Submit eligibility questionnaire Submits an eligibility questionnaire for a contractor employment. The questionnaire determines if the contractor is eligible for certain products or features. The responses are validated against the JSON schema for the questionnaire type. **Requirements:** - Employment must be of type `contractor` - Employment must be in `created` status - Responses must conform to the questionnaire JSON schema ## Scopes */
+/** Submit eligibility questionnaire Submits an eligibility questionnaire for a contractor employment. The questionnaire determines if the contractor is eligible for certain products or features. The responses are validated against the JSON schema for the questionnaire type. **Requirements:** - Employment must be of type `contractor` - Employment must be in `created` status - Responses must conform to the questionnaire JSON schema ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const createContractorsEligibilityQuestionnaire: API.OperationMethod<
   CreateContractorsEligibilityQuestionnaireRequest,
   EligibilityQuestionnaireResponse,
@@ -21350,7 +21486,7 @@ export type CreateContractorsEmploymentContractDocumentError =
   | NotFound
   | UnprocessableEntity
   | RemoteOpError;
-/** Create a contract document for a contractor Create a contract document for a contractor. ## Scopes */
+/** Create a contract document for a contractor Create a contract document for a contractor. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const createContractorsEmploymentContractDocument: API.OperationMethod<
   CreateContractorsEmploymentContractDocumentRequest,
   CreateContractDocumentResponse,
@@ -21368,7 +21504,7 @@ export type CreateContractorsEmploymentContractDocumentSignError =
   | BadRequest
   | Forbidden
   | RemoteOpError;
-/** Sign a document for a contractor ## Scopes */
+/** Sign a document for a contractor ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const createContractorsEmploymentContractDocumentSign: API.OperationMethod<
   CreateContractorsEmploymentContractDocumentSignRequest,
   SuccessResponse,
@@ -21388,7 +21524,7 @@ export type CreateContractorsEmploymentContractorCorSubscriptionError =
   | NotFound
   | UnprocessableEntity
   | RemoteOpError;
-/** Create contractor of record subscription intent Assigns Contractor of Record subscription in pending state to employment. Once risk analysis is performed, subscription may start upon contract signing, or might be denied. Requires a non-blocking eligibility questionnaire to be submitted before creating the subscription intent. ## Scopes */
+/** Create contractor of record subscription intent Assigns Contractor of Record subscription in pending state to employment. Once risk analysis is performed, subscription may start upon contract signing, or might be denied. Requires a non-blocking eligibility questionnaire to be submitted before creating the subscription intent. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const createContractorsEmploymentContractorCorSubscription: API.OperationMethod<
   CreateContractorsEmploymentContractorCorSubscriptionRequest,
   SuccessResponse,
@@ -21406,7 +21542,7 @@ export type CreateContractorsEmploymentContractorPlusSubscriptionError =
   | BadRequest
   | Forbidden
   | RemoteOpError;
-/** Manage contractor plus subscription Endpoint that can be used to upgrade, assign or downgrade a contractor's subscription. This can be used when company admins desire to assign someone to the Contractor Plus plan, but also to change the contractor's subscription between Plus and Standard. ## Scopes */
+/** Manage contractor plus subscription Endpoint that can be used to upgrade, assign or downgrade a contractor's subscription. This can be used when company admins desire to assign someone to the Contractor Plus plan, but also to change the contractor's subscription between Plus and Standard. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const createContractorsEmploymentContractorPlusSubscription: API.OperationMethod<
   CreateContractorsEmploymentContractorPlusSubscriptionRequest,
   SuccessResponse,
@@ -21426,7 +21562,7 @@ export type CreateContractorsEmploymentCorTerminationRequestError =
   | NotFound
   | UnprocessableEntity
   | RemoteOpError;
-/** Create a contractor of record (COR) termination request Initiates a termination request for a Contractor of Record employment. When a termination request is sent, a stop work order is issued and the contractor remains active until a final invoice is paid or waived. Currently, only Contractor of Record employments can be terminated. ## Scopes */
+/** Create a contractor of record (COR) termination request Initiates a termination request for a Contractor of Record employment. When a termination request is sent, a stop work order is issued and the contractor remains active until a final invoice is paid or waived. Currently, only Contractor of Record employments can be terminated. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const createContractorsEmploymentCorTerminationRequest: API.OperationMethod<
   CreateContractorsEmploymentCorTerminationRequestRequest,
   CorTerminationRequestCreatedResponse,
@@ -21446,7 +21582,7 @@ export type CreateContractorsEmploymentTimesheetError =
   | NotFound
   | UnprocessableEntity
   | RemoteOpError;
-/** Create a contractor timesheet Creates a timesheet on behalf of a contractor employment. The submitted hours are immediately available to the contractor in the Remote UI for self-serve invoice creation (Invoices → Create invoice → "Use Time Tracking"). This endpoint is restricted to contractor employments. Calls against EOR or Global Payroll employments are rejected with `422`. ## Scopes */
+/** Create a contractor timesheet Creates a timesheet on behalf of a contractor employment. The submitted hours are immediately available to the contractor in the Remote UI for self-serve invoice creation (Invoices → Create invoice → "Use Time Tracking"). This endpoint is restricted to contractor employments. Calls against EOR or Global Payroll employments are rejected with `422`. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const createContractorsEmploymentTimesheet: API.OperationMethod<
   CreateContractorsEmploymentTimesheetRequest,
   ContractorTimesheetResponse,
@@ -21461,7 +21597,7 @@ export const createContractorsEmploymentTimesheet: API.OperationMethod<
 }));
 
 export type CreateCostCalculatorEstimationError = NotFound | UnprocessableEntity | RemoteOpError;
-/** Creates a cost estimation of employments */
+/** Creates a cost estimation of employments ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Client credentials access token** (`OAuth2ClientCredentials`) — obtained through the Client Credentials flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). - **Client token** (`ClientToken`) — a partner `client_token`, accepted only on marketing endpoints. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). */
 export const createCostCalculatorEstimation: API.OperationMethod<
   CreateCostCalculatorEstimationRequest,
   CostCalculatorEstimateResponse,
@@ -21476,7 +21612,7 @@ export const createCostCalculatorEstimation: API.OperationMethod<
 }));
 
 export type CreateCostCalculatorEstimationCsvError = NotFound | UnprocessableEntity | RemoteOpError;
-/** Creates a CSV cost estimation of employments Creates CSV cost estimation of employments */
+/** Creates a CSV cost estimation of employments Creates CSV cost estimation of employments ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Client credentials access token** (`OAuth2ClientCredentials`) — obtained through the Client Credentials flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). - **Client token** (`ClientToken`) — a partner `client_token`, accepted only on marketing endpoints. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). */
 export const createCostCalculatorEstimationCsv: API.OperationMethod<
   CreateCostCalculatorEstimationCsvRequest,
   CostCalculatorEstimateCSVResponse,
@@ -21491,7 +21627,7 @@ export const createCostCalculatorEstimationCsv: API.OperationMethod<
 }));
 
 export type CreateCostCalculatorEstimationPdfError = NotFound | UnprocessableEntity | RemoteOpError;
-/** Creates PDF cost estimation of employments Creates a PDF cost estimation of employments based on the provided parameters. */
+/** Creates PDF cost estimation of employments Creates a PDF cost estimation of employments based on the provided parameters. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Client credentials access token** (`OAuth2ClientCredentials`) — obtained through the Client Credentials flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). - **Client token** (`ClientToken`) — a partner `client_token`, accepted only on marketing endpoints. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). */
 export const createCostCalculatorEstimationPdf: API.OperationMethod<
   CreateCostCalculatorEstimationPdfRequest,
   CostCalculatorEstimatePDFResponse,
@@ -21506,7 +21642,7 @@ export const createCostCalculatorEstimationPdf: API.OperationMethod<
 }));
 
 export type CreateCurrencyConverterEffectiveError = NotFound | UnprocessableEntity | RemoteOpError;
-/** Convert currency using dynamic rates Convert currency using the rates Remote applies during employment creation and invoicing. ## Scopes */
+/** Convert currency using dynamic rates Convert currency using the rates Remote applies during employment creation and invoicing. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Client credentials access token** (`OAuth2ClientCredentials`) — obtained through the Client Credentials flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Client token** (`ClientToken`) — a partner `client_token`, accepted only on marketing endpoints. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). ## Scopes */
 export const createCurrencyConverterEffective: API.OperationMethod<
   CreateCurrencyConverterEffectiveRequest,
   ConvertCurrencyResponse,
@@ -21521,7 +21657,7 @@ export const createCurrencyConverterEffective: API.OperationMethod<
 }));
 
 export type CreateCurrencyConverterRawError = NotFound | UnprocessableEntity | RemoteOpError;
-/** Convert currency using flat rates Convert currency using FX rates used in Remote’s estimation tools. These rates are not guaranteed to match final onboarding or contract rates. ## Scopes */
+/** Convert currency using flat rates Convert currency using FX rates used in Remote’s estimation tools. These rates are not guaranteed to match final onboarding or contract rates. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Client credentials access token** (`OAuth2ClientCredentials`) — obtained through the Client Credentials flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Client token** (`ClientToken`) — a partner `client_token`, accepted only on marketing endpoints. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). ## Scopes */
 export const createCurrencyConverterRaw: API.OperationMethod<
   CreateCurrencyConverterRawRequest,
   ConvertCurrencyResponse,
@@ -21536,7 +21672,7 @@ export const createCurrencyConverterRaw: API.OperationMethod<
 }));
 
 export type CreateCustomFieldError = NotFound | UnprocessableEntity | RemoteOpError;
-/** Create Custom Field Definition Creates a new custom field definition. ## Scopes */
+/** Create Custom Field Definition Creates a new custom field definition. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const createCustomField: API.OperationMethod<
   CreateCustomFieldRequest,
   CreateEmploymentCustomFieldResponse,
@@ -21551,7 +21687,7 @@ export const createCustomField: API.OperationMethod<
 }));
 
 export type CreateDocumentError = NotFound | UnprocessableEntity | RemoteOpError;
-/** Upload file Uploads a file associated with a specified employment. Please contact api-support@remote.com to request access to this endpoint. ## Scopes */
+/** Upload file Uploads a file associated with a specified employment. Please contact api-support@remote.com to request access to this endpoint. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const createDocument: API.OperationMethod<
   CreateDocumentRequest,
   UploadFileResponse,
@@ -21571,7 +21707,7 @@ export type CreateEmployeeDocumentError =
   | NotFound
   | UnprocessableEntity
   | RemoteOpError;
-/** Upload employee file Uploads a file owned by the authenticated employee, for example identity documents or tax forms. ## Scopes */
+/** Upload employee file Uploads a file owned by the authenticated employee, for example identity documents or tax forms. ## Authentication This endpoint requires the following token type: - **Employee-scoped access token** (`OAuth2Assertion`) — obtained through the `urn:ietf:params:oauth:grant-type:jwt-bearer` grant. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). ## Scopes */
 export const createEmployeeDocument: API.OperationMethod<
   CreateEmployeeDocumentRequest,
   UploadFileResponse,
@@ -21590,7 +21726,7 @@ export type CreateEmployeeExpensError =
   | Forbidden
   | UnprocessableEntity
   | RemoteOpError;
-/** Create an expense for the authenticated employee Creates a new expense record for the current employee. ## Scopes */
+/** Create an expense for the authenticated employee Creates a new expense record for the current employee. ## Authentication This endpoint requires the following token type: - **Employee-scoped access token** (`OAuth2Assertion`) — obtained through the `urn:ietf:params:oauth:grant-type:jwt-bearer` grant. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). ## Scopes */
 export const createEmployeeExpens: API.OperationMethod<
   CreateEmployeeExpensRequest,
   SuccessResponse,
@@ -21609,7 +21745,7 @@ export type CreateEmployeeTimeoffError =
   | NotFound
   | UnprocessableEntity
   | RemoteOpError;
-/** Create a Pending Time Off Creates a pending Time Off record ## Scopes */
+/** Create a Pending Time Off Creates a pending Time Off record ## Authentication This endpoint requires the following token type: - **Employee-scoped access token** (`OAuth2Assertion`) — obtained through the `urn:ietf:params:oauth:grant-type:jwt-bearer` grant. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). ## Scopes */
 export const createEmployeeTimeoff: API.OperationMethod<
   CreateEmployeeTimeoffRequest,
   TimeoffResponse,
@@ -21628,7 +21764,7 @@ export type CreateEmployeeTimeoffCancelError =
   | NotFound
   | UnprocessableEntity
   | RemoteOpError;
-/** Cancel Time Off as Employee Cancels a Time Off record as Employee ## Scopes */
+/** Cancel Time Off as Employee Cancels a Time Off record as Employee ## Authentication This endpoint requires the following token type: - **Employee-scoped access token** (`OAuth2Assertion`) — obtained through the `urn:ietf:params:oauth:grant-type:jwt-bearer` grant. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). ## Scopes */
 export const createEmployeeTimeoffCancel: API.OperationMethod<
   CreateEmployeeTimeoffCancelRequest,
   TimeoffResponse,
@@ -21648,7 +21784,7 @@ export type CreateEmploymentError =
   | Conflict
   | UnprocessableEntity
   | RemoteOpError;
-/** Create employment Creates an employment. We support creating employees and contractors. ## Global Payroll Employees To create a Global Payroll employee, pass `global_payroll_employee` as the `type` parameter, and provide the id of the specific legal entity that the employee will be engaged by and billed to as the `engaged_by_legal_entity_id` parameter. ## HRIS Employees To create a HRIS employee, pass `hris` as the `type` parameter. This endpoint requires and returns country-specific data. The exact required and returned fields will vary depending on which country the employment is in. To see the list of parameters for each country, see the **Show form schema** endpoint under the [Countries](#tag/Countries) category. Please note that the compliance requirements for each country are subject to change according to local laws. Given its continual updates, using Remote's [json-schema-form](https://developer.remote.com/docs/how-json-schemas-work) should be considered in order to avoid compliance issues and to have the latest version of a country requirements. If you are using this endpoint to build an integration, make sure you are dynamically collecting or displaying the latest parameters for each country by querying the _"Show form schema"_ endpoint. For more information on JSON Schemas, see the **How JSON Schemas work** documentation. To learn how you can dynamically generate forms to display in your UI, see the documentation for the [json-schema-form](https://developer.remote.com/docs/how-json-schemas-work) tool. ## Scopes */
+/** Create employment Creates an employment. We support creating employees and contractors. ## Global Payroll Employees To create a Global Payroll employee, pass `global_payroll_employee` as the `type` parameter, and provide the id of the specific legal entity that the employee will be engaged by and billed to as the `engaged_by_legal_entity_id` parameter. ## HRIS Employees To create a HRIS employee, pass `hris` as the `type` parameter. This endpoint requires and returns country-specific data. The exact required and returned fields will vary depending on which country the employment is in. To see the list of parameters for each country, see the **Show form schema** endpoint under the [Countries](#tag/Countries) category. Please note that the compliance requirements for each country are subject to change according to local laws. Given its continual updates, using Remote's [json-schema-form](https://developer.remote.com/docs/how-json-schemas-work) should be considered in order to avoid compliance issues and to have the latest version of a country requirements. If you are using this endpoint to build an integration, make sure you are dynamically collecting or displaying the latest parameters for each country by querying the _"Show form schema"_ endpoint. For more information on JSON Schemas, see the **How JSON Schemas work** documentation. To learn how you can dynamically generate forms to display in your UI, see the documentation for the [json-schema-form](https://developer.remote.com/docs/how-json-schemas-work) tool. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const createEmployment: API.OperationMethod<
   CreateEmploymentRequest,
   EmploymentCreationResponse,
@@ -21666,7 +21802,7 @@ export type CreateEmploymentContractEligibilityError =
   | BadRequest
   | UnprocessableEntity
   | RemoteOpError;
-/** Create contract eligibility Create contract eligibility for an employment. This will create a new contract eligibility for the employment. ## Scopes */
+/** Create contract eligibility Create contract eligibility for an employment. This will create a new contract eligibility for the employment. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const createEmploymentContractEligibility: API.OperationMethod<
   CreateEmploymentContractEligibilityRequest,
   SuccessResponse,
@@ -21685,7 +21821,7 @@ export type CreateEmploymentContractOriginError =
   | Conflict
   | UnprocessableEntity
   | RemoteOpError;
-/** Set contract origin for a contractor employment Sets the `contract_origin` for a contractor employment. * `remote_contract` — Remote provides and manages the contract (a contract document is created) * `custom_remote_contract` — A customised Remote contract is used (a contract document is created) * `provided_by_customer` — The employer provides their own contract (no contract document is created) When `provided_by_customer` is selected, the contractor can be invited without completing the `contract_details` onboarding step. ## Scopes */
+/** Set contract origin for a contractor employment Sets the `contract_origin` for a contractor employment. * `remote_contract` — Remote provides and manages the contract (a contract document is created) * `custom_remote_contract` — A customised Remote contract is used (a contract document is created) * `provided_by_customer` — The employer provides their own contract (no contract document is created) When `provided_by_customer` is selected, the contractor can be invited without completing the `contract_details` onboarding step. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const createEmploymentContractOrigin: API.OperationMethod<
   CreateEmploymentContractOriginRequest,
   SuccessResponse,
@@ -21704,7 +21840,7 @@ export type CreateEmploymentContractorInvoicesPreviewError =
   | NotFound
   | UnprocessableEntity
   | RemoteOpError;
-/** Preview a Contractor Invoice Returns a base64-encoded PDF preview of a contractor invoice built from the given parameters. The document is a draft and is not persisted. ## Scopes */
+/** Preview a Contractor Invoice Returns a base64-encoded PDF preview of a contractor invoice built from the given parameters. The document is a draft and is not persisted. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const createEmploymentContractorInvoicesPreview: API.OperationMethod<
   CreateEmploymentContractorInvoicesPreviewRequest,
   ContractorInvoicePreviewResponse,
@@ -21725,7 +21861,7 @@ export type CreateEmploymentEngagementAgreementDetailError =
   | Conflict
   | UnprocessableEntity
   | RemoteOpError;
-/** Upsert engagement agreement details Creates or updates the engagement agreement details for an employment. This endpoint requires country-specific data. The exact required fields will vary depending on which country the employment is in. To see the list of parameters for each country, see the **Show form schema** endpoint under the [Countries](#tag/Countries) category. Please note that compliance requirements for each country are subject to change according to local laws. Using Remote's [json-schema-form](https://developer.remote.com/docs/how-json-schemas-work) is recommended to avoid compliance issues and to have the latest version of a country's requirements. ## Scopes */
+/** Upsert engagement agreement details Creates or updates the engagement agreement details for an employment. This endpoint requires country-specific data. The exact required fields will vary depending on which country the employment is in. To see the list of parameters for each country, see the **Show form schema** endpoint under the [Countries](#tag/Countries) category. Please note that compliance requirements for each country are subject to change according to local laws. Using Remote's [json-schema-form](https://developer.remote.com/docs/how-json-schemas-work) is recommended to avoid compliance issues and to have the latest version of a country's requirements. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const createEmploymentEngagementAgreementDetail: API.OperationMethod<
   CreateEmploymentEngagementAgreementDetailRequest,
   SuccessResponse,
@@ -21746,7 +21882,7 @@ export type CreateEmploymentEngagementAgreementDetail2Error =
   | Conflict
   | UnprocessableEntity
   | RemoteOpError;
-/** Upsert engagement agreement details Creates or updates the engagement agreement details for an employment. This endpoint requires country-specific data. The exact required fields will vary depending on which country the employment is in. To see the list of parameters for each country, see the **Show form schema** endpoint under the [Countries](#tag/Countries) category. Please note that compliance requirements for each country are subject to change according to local laws. Using Remote's [json-schema-form](https://developer.remote.com/docs/how-json-schemas-work) is recommended to avoid compliance issues and to have the latest version of a country's requirements. ## Scopes */
+/** Upsert engagement agreement details Creates or updates the engagement agreement details for an employment. This endpoint requires country-specific data. The exact required fields will vary depending on which country the employment is in. To see the list of parameters for each country, see the **Show form schema** endpoint under the [Countries](#tag/Countries) category. Please note that compliance requirements for each country are subject to change according to local laws. Using Remote's [json-schema-form](https://developer.remote.com/docs/how-json-schemas-work) is recommended to avoid compliance issues and to have the latest version of a country's requirements. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const createEmploymentEngagementAgreementDetail2: API.OperationMethod<
   CreateEmploymentEngagementAgreementDetailRequest2,
   SuccessResponse,
@@ -21765,7 +21901,7 @@ export type CreateEmploymentInviteError =
   | Conflict
   | UnprocessableEntity
   | RemoteOpError;
-/** Invite employment Invite an employment to start the self-enrollment. Requirements for the invitation to succeed: * Employment needs to have the following JSON Schema forms filled: `contract_details` and `pricing_plan_details` * `provisional_start_date` must consider the minimum onboarding time of the employment's country If there are validations errors, they are returned with a Conflict HTTP Status (409) and a descriptive message. HTTP Status OK (200) is returned in case of success. In case of the following error message: `"Please reselect benefits - the previous selection is no longer available"` it means that the benefit options have been updated and the employment's benefits are no longer compliant with the new schema. In this case, reselect benefits by updating `contract_details` JSON Schema form. ## Scopes */
+/** Invite employment Invite an employment to start the self-enrollment. Requirements for the invitation to succeed: * Employment needs to have the following JSON Schema forms filled: `contract_details` and `pricing_plan_details` * `provisional_start_date` must consider the minimum onboarding time of the employment's country If there are validations errors, they are returned with a Conflict HTTP Status (409) and a descriptive message. HTTP Status OK (200) is returned in case of success. In case of the following error message: `"Please reselect benefits - the previous selection is no longer available"` it means that the benefit options have been updated and the employment's benefits are no longer compliant with the new schema. In this case, reselect benefits by updating `contract_details` JSON Schema form. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const createEmploymentInvite: API.OperationMethod<
   CreateEmploymentInviteRequest,
   SuccessResponse,
@@ -21779,8 +21915,28 @@ export const createEmploymentInvite: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type CreateEmploymentJobTitleEligibilityCheckError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | RemoteOpError;
+/** Check job title eligibility Checks whether Remote can employ the given job title and role for this employment, and returns the verdict without changing anything. Call this before submitting contract details. The verdict tells you whether the submission will succeed, be rejected, need a risk acknowledgement, or place the employment into a human review; and the returned `check_id` lets the submission reuse the verdict instead of recalculating it. Calling this repeatedly with the same job title and role answers is cheap: the recorded check is reused. Changing any of them produces a fresh verdict. `role_is_onsite` and `role_requires_license` are answered here rather than in the contract-details submission, which no longer asks for them and takes the returned `check_id` instead. `role_description` stays part of contract details in its own right. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
+export const createEmploymentJobTitleEligibilityCheck: API.OperationMethod<
+  CreateEmploymentJobTitleEligibilityCheckRequest,
+  JobTitleEligibilityCheckResponse,
+  CreateEmploymentJobTitleEligibilityCheckError,
+  RemoteOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateEmploymentJobTitleEligibilityCheckRequest,
+  output: JobTitleEligibilityCheckResponse,
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownRemoteError],
+  protocol: RemoteProtocol,
+  retry: Retry.Retry,
+}));
+
 export type CreateExpensError = BadRequest | NotFound | UnprocessableEntity | RemoteOpError;
-/** Create expense Creates an **approved** expense ## Scopes */
+/** Create expense Creates an **approved** expense ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const createExpens: API.OperationMethod<
   CreateExpensRequest,
   ExpenseResponse,
@@ -21795,7 +21951,7 @@ export const createExpens: API.OperationMethod<
 }));
 
 export type CreateIdentityVerificationDeclineError = NotFound | UnprocessableEntity | RemoteOpError;
-/** Decline Identity Verification Declines the identity verification of an employee. ## Scopes */
+/** Decline Identity Verification Declines the identity verification of an employee. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const createIdentityVerificationDecline: API.OperationMethod<
   CreateIdentityVerificationDeclineRequest,
   SuccessResponse,
@@ -21810,7 +21966,7 @@ export const createIdentityVerificationDecline: API.OperationMethod<
 }));
 
 export type CreateIdentityVerificationVerifyError = NotFound | UnprocessableEntity | RemoteOpError;
-/** Verify Employment Identity Endpoint to confirms the employment profile is from the actual employee ## Scopes */
+/** Verify Employment Identity Endpoint to confirms the employment profile is from the actual employee ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const createIdentityVerificationVerify: API.OperationMethod<
   CreateIdentityVerificationVerifyRequest,
   SuccessResponse,
@@ -21825,7 +21981,7 @@ export const createIdentityVerificationVerify: API.OperationMethod<
 }));
 
 export type CreateIncentiveError = BadRequest | NotFound | UnprocessableEntity | RemoteOpError;
-/** Create Incentive Creates an Incentive. Incentives use the currency of the employment specified provided in the `employment_id` field. ## Scopes */
+/** Create Incentive Creates an Incentive. Incentives use the currency of the employment specified provided in the `employment_id` field. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const createIncentive: API.OperationMethod<
   CreateIncentiveRequest,
   IncentiveResponse,
@@ -21844,7 +22000,7 @@ export type CreateIncentivesRecurringError =
   | NotFound
   | UnprocessableEntity
   | RemoteOpError;
-/** Create Recurring Incentive Create a Recurring Incentive, that is, a monthly paid incentive. Incentives use the currency of the employment specified provided in the `employment_id` field. ## Scopes */
+/** Create Recurring Incentive Create a Recurring Incentive, that is, a monthly paid incentive. Incentives use the currency of the employment specified provided in the `employment_id` field. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const createIncentivesRecurring: API.OperationMethod<
   CreateIncentivesRecurringRequest,
   RecurringIncentiveResponse,
@@ -21858,8 +22014,27 @@ export const createIncentivesRecurring: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type CreateJobTitleScreeningError =
+  | BadRequest
+  | Forbidden
+  | UnprocessableEntity
+  | RemoteOpError;
+/** Create a job title screening Screens a batch of job titles for EOR hiring eligibility, before any company or employment exists. Callable with an integration (client credentials) token or a company-scoped token issued through the integration; screenings belong to the integration either way. Returns immediately with a `processing` screening — poll the show endpoint until `status` is `completed`. Verdicts are advisory and reflect the eligibility policy at the time of screening: the policy evolves over time and the same checks re-run during onboarding, so the onboarding outcome may differ from an earlier screening verdict for the same title. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Client credentials access token** (`OAuth2ClientCredentials`) — obtained through the Client Credentials flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). */
+export const createJobTitleScreening: API.OperationMethod<
+  CreateJobTitleScreeningRequest,
+  CreateJobTitleScreeningResponse,
+  CreateJobTitleScreeningError,
+  RemoteOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateJobTitleScreeningRequest,
+  output: CreateJobTitleScreeningResponse,
+  errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownRemoteError],
+  protocol: RemoteProtocol,
+  retry: Retry.Retry,
+}));
+
 export type CreateMagicLinkError = UnprocessableEntity | RemoteOpError;
-/** Magic links generator Generates a magic link for a passwordless authentication. To create a magic link for a company admin, you need to provide the `user_id` parameter. To create a magic link for an employee, you need to provide the `employment_id` parameter. ## Scopes */
+/** Magic links generator Generates a magic link for a passwordless authentication. To create a magic link for a company admin, you need to provide the `user_id` parameter. To create a magic link for an employee, you need to provide the `employment_id` parameter. ## Authentication This endpoint requires the following token type: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). ## Scopes */
 export const createMagicLink: API.OperationMethod<
   CreateMagicLinkRequest,
   MagicLinkResponse,
@@ -21874,7 +22049,7 @@ export const createMagicLink: API.OperationMethod<
 }));
 
 export type CreateOffboardingError = BadRequest | NotFound | UnprocessableEntity | RemoteOpError;
-/** Create Offboarding Creates an Offboarding request ## Scopes */
+/** Create Offboarding Creates an Offboarding request ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const createOffboarding: API.OperationMethod<
   CreateOffboardingRequest,
   OffboardingResponse,
@@ -21894,7 +22069,7 @@ export type CreateOnboardingEmploymentPreOnboardingDocumentSignError =
   | NotFound
   | UnprocessableEntity
   | RemoteOpError;
-/** Sign a pre-onboarding document Signs the latest contract document associated with the given pre-onboarding document on behalf of the company signatory. ## Scopes */
+/** Sign a pre-onboarding document Signs the latest contract document associated with the given pre-onboarding document on behalf of the company signatory. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const createOnboardingEmploymentPreOnboardingDocumentSign: API.OperationMethod<
   CreateOnboardingEmploymentPreOnboardingDocumentSignRequest,
   SuccessResponse,
@@ -21913,7 +22088,7 @@ export type CreateOnboardingEmploymentPreOnboardingRequirementAcknowledgeError =
   | NotFound
   | UnprocessableEntity
   | RemoteOpError;
-/** Acknowledge a pre-onboarding acknowledgement requirement Records an acknowledgement for an acknowledgement requirement. Rejected if the requirement is blocked by an unmet dependency or has already been acknowledged. ## Scopes */
+/** Acknowledge a pre-onboarding acknowledgement requirement Records an acknowledgement for an acknowledgement requirement. Rejected if the requirement is blocked by an unmet dependency or has already been acknowledged. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const createOnboardingEmploymentPreOnboardingRequirementAcknowledge: API.OperationMethod<
   CreateOnboardingEmploymentPreOnboardingRequirementAcknowledgeRequest,
   CreatePreOnboardingAcknowledgementResponse,
@@ -21932,7 +22107,7 @@ export type CreateOnboardingEmploymentPreOnboardingRequirementDocumentError =
   | NotFound
   | UnprocessableEntity
   | RemoteOpError;
-/** Find or create a document for a pre-onboarding requirement Finds an existing unsigned pre-onboarding document for the given document requirement, or creates a new one. Idempotent: repeated calls return the same document until it is signed. ## Scopes */
+/** Find or create a document for a pre-onboarding requirement Finds an existing unsigned pre-onboarding document for the given document requirement, or creates a new one. Idempotent: repeated calls return the same document until it is signed. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const createOnboardingEmploymentPreOnboardingRequirementDocument: API.OperationMethod<
   CreateOnboardingEmploymentPreOnboardingRequirementDocumentRequest,
   CreatePreOnboardingDocumentResponse,
@@ -21952,7 +22127,7 @@ export type CreatePayItemsBulkError =
   | Conflict
   | UnprocessableEntity
   | RemoteOpError;
-/** Bulk Create Pay Items Bulk creates pay items for employments. Supports up to 500 items per request. Each item must supply exactly one of `code` or `external_import_code` to identify the pay element. Integration-specific fields (shift code, currency, pay amount, etc.) go in the `provider_data` object. Only Global Payroll employments are supported. Non-GP employments are returned as `employment_not_global_payroll`. ## Scopes */
+/** Bulk Create Pay Items Bulk creates pay items for employments. Supports up to 500 items per request. Each item must supply exactly one of `code` or `external_import_code` to identify the pay element. Integration-specific fields (shift code, currency, pay amount, etc.) go in the `provider_data` object. Only Global Payroll employments are supported. Non-GP employments are returned as `employment_not_global_payroll`. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const createPayItemsBulk: API.OperationMethod<
   CreatePayItemsBulkRequest,
   BulkCreatePayItemsResponse,
@@ -21967,7 +22142,7 @@ export const createPayItemsBulk: API.OperationMethod<
 }));
 
 export type CreatePayrollRunGlReportError = NotFound | UnprocessableEntity | RemoteOpError;
-/** Create a GL report Triggers generation of a General Ledger report for the given payroll run and type. Returns immediately with a `pending` report — poll `show` until `status` is `completed`, then call `download`. ## Scopes */
+/** Create a GL report Triggers generation of a General Ledger report for the given payroll run and type. Returns immediately with a `pending` report — poll `show` until `status` is `completed`, then call `download`. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const createPayrollRunGlReport: API.OperationMethod<
   CreatePayrollRunGlReportRequest,
   GLReportResponse,
@@ -21982,7 +22157,7 @@ export const createPayrollRunGlReport: API.OperationMethod<
 }));
 
 export type CreateProbationCompletionLetterError = NotFound | UnprocessableEntity | RemoteOpError;
-/** Create probation completion letter Create a new probation completion letter request. ## Scopes */
+/** Create probation completion letter Create a new probation completion letter request. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const createProbationCompletionLetter: API.OperationMethod<
   CreateProbationCompletionLetterRequest,
   ProbationCompletionLetterResponse,
@@ -22001,7 +22176,7 @@ export type CreateProbationExtensionError =
   | NotFound
   | UnprocessableEntity
   | RemoteOpError;
-/** Create Probation Extension Create a probation extension request. ## Scopes */
+/** Create Probation Extension Create a probation extension request. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const createProbationExtension: API.OperationMethod<
   CreateProbationExtensionRequest,
   ProbationExtensionResponse,
@@ -22015,8 +22190,23 @@ export const createProbationExtension: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type CreateProjectError = Forbidden | UnprocessableEntity | RemoteOpError;
+/** Create a company project Creates a new contractor project for your company. ## Authentication This endpoint requires the following token type: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). ## Scopes */
+export const createProject: API.OperationMethod<
+  CreateProjectRequest,
+  ProjectResponse,
+  CreateProjectError,
+  RemoteOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateProjectRequest,
+  output: ProjectResponse,
+  errors: [Forbidden, UnprocessableEntity, UnknownRemoteError],
+  protocol: RemoteProtocol,
+  retry: Retry.Retry,
+}));
+
 export type CreateRiskReserveError = NotFound | UnprocessableEntity | RemoteOpError;
-/** Create risk reserve Create a new risk reserve ## Scopes */
+/** Create risk reserve Create a new risk reserve ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const createRiskReserve: API.OperationMethod<
   CreateRiskReserveRequest,
   SuccessResponse,
@@ -22034,7 +22224,7 @@ export type CreateSandboxBenefitRenewalRequestError =
   | BadRequest
   | UnprocessableEntity
   | RemoteOpError;
-/** Creates a Benefit Renewal Request Creates a Benefit Renewal Request for a specific Benefit Group. This endpoint is only available in Sandbox, otherwise it will respond with a 404. */
+/** Creates a Benefit Renewal Request Creates a Benefit Renewal Request for a specific Benefit Group. This endpoint is only available in Sandbox, otherwise it will respond with a 404. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). */
 export const createSandboxBenefitRenewalRequest: API.OperationMethod<
   CreateSandboxBenefitRenewalRequestRequest,
   BenefitRenewalRequestsCreateBenefitRenewalRequestResponse,
@@ -22053,7 +22243,7 @@ export type CreateSandboxCompanyBypassEligibilityCheckError =
   | NotFound
   | UnprocessableEntity
   | RemoteOpError;
-/** Pass KYB Pass KYB and credit risk for a company without the intervention of a Remote admin. This endpoint is only available in Sandbox, otherwise it will respond with a 404. */
+/** Pass KYB Pass KYB and credit risk for a company without the intervention of a Remote admin. This endpoint is only available in Sandbox, otherwise it will respond with a 404. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). */
 export const createSandboxCompanyBypassEligibilityCheck: API.OperationMethod<
   CreateSandboxCompanyBypassEligibilityCheckRequest,
   SuccessResponse,
@@ -22072,7 +22262,7 @@ export type CreateSandboxCompanyLegalEntityError =
   | NotFound
   | UnprocessableEntity
   | RemoteOpError;
-/** Create a legal entity Create a new legal entity for a company in a given country, with KYB automatically passed. The entity is created with active status and can be set as the company's default using the reassign default entity endpoint. This endpoint is only available in Sandbox, otherwise it will respond with a 404. */
+/** Create a legal entity Create a new legal entity for a company in a given country, with KYB automatically passed. The entity is created with active status and can be set as the company's default using the reassign default entity endpoint. This endpoint is only available in Sandbox, otherwise it will respond with a 404. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). */
 export const createSandboxCompanyLegalEntity: API.OperationMethod<
   CreateSandboxCompanyLegalEntityRequest,
   CreateSandboxCompanyLegalEntityResponse,
@@ -22091,7 +22281,7 @@ export type CreateSandboxCompanyLegalEntityActivateGlobalPayrollError =
   | NotFound
   | UnprocessableEntity
   | RemoteOpError;
-/** Activate Global Payroll for a legal entity Enables the Global Payroll product on a legal entity so that GP employees can be created against it. Performs three idempotent steps: * Adds the Global Payroll product to the company. * Flips `global_payroll_enabled` on the legal entity's settings. * Ensures a Global Payroll pricing plan exists for the legal entity's country. This endpoint is only available in Sandbox, otherwise it will respond with a 404. */
+/** Activate Global Payroll for a legal entity Enables the Global Payroll product on a legal entity so that GP employees can be created against it. Performs three idempotent steps: * Adds the Global Payroll product to the company. * Flips `global_payroll_enabled` on the legal entity's settings. * Ensures a Global Payroll pricing plan exists for the legal entity's country. This endpoint is only available in Sandbox, otherwise it will respond with a 404. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). */
 export const createSandboxCompanyLegalEntityActivateGlobalPayroll: API.OperationMethod<
   CreateSandboxCompanyLegalEntityActivateGlobalPayrollRequest,
   SuccessResponse,
@@ -22110,7 +22300,7 @@ export type CreateSandboxCompanyLegalEntitySetCreditRiskStatusError =
   | NotFound
   | UnprocessableEntity
   | RemoteOpError;
-/** Set company credit risk status Sets the credit risk status of a specific legal entity to any valid credit risk status. Use this endpoint to test hiring flows affected by credit risk, without needing Remote admin intervention. This endpoint is only available in Sandbox, otherwise it will respond with a 404. */
+/** Set company credit risk status Sets the credit risk status of a specific legal entity to any valid credit risk status. Use this endpoint to test hiring flows affected by credit risk, without needing Remote admin intervention. This endpoint is only available in Sandbox, otherwise it will respond with a 404. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). */
 export const createSandboxCompanyLegalEntitySetCreditRiskStatus: API.OperationMethod<
   CreateSandboxCompanyLegalEntitySetCreditRiskStatusRequest,
   SuccessResponse,
@@ -22129,7 +22319,7 @@ export type CreateSandboxContractorsEmploymentRateError =
   | NotFound
   | UnprocessableEntity
   | RemoteOpError;
-/** Seed a contractor rate Creates or replaces the contractor's rate, so that the rate endpoints can be exercised without going through contract signature. The currency is derived from the legal entity the contractor is paid in by. A rate in a currency the contractor cannot be paid in is rejected with `422`. This endpoint is only available in Sandbox, otherwise it will respond with a 404. */
+/** Seed a contractor rate Sets the contractor's main rate, the same way an employer's rate edit does. A main rate without a `service_start_date` is updated in place and keeps its `id`. A main rate with one belongs to a Statement of Work and is kept: seeding adds a new main rate beside it, and the list endpoint returns both while that Statement of Work is in force. This lets the rate endpoints be exercised without going through contract signature. Contractor Management Plus contractors cannot be seeded: the endpoint returns `422`. The currency is derived from the legal entity the contractor is paid in by. A rate in a currency the contractor cannot be paid in is rejected with `422`. This endpoint is only available in Sandbox, otherwise it will respond with a 404. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). */
 export const createSandboxContractorsEmploymentRate: API.OperationMethod<
   CreateSandboxContractorsEmploymentRateRequest,
   SandboxContractorRateResponse,
@@ -22148,7 +22338,7 @@ export type CreateSandboxEmploymentError =
   | NotFound
   | UnprocessableEntity
   | RemoteOpError;
-/** Create employment Creates an employment without provisional_start_date validation. This endpoint is only available in Sandbox and allows creating employments which `provisional_start_date` is in the past. This is especially helpful for: * Testing the Timeoff Balance endpoints * Testing the Offboarding endpoints * Testing features around probation periods This endpoint will respond with a 404 outside of the Sandbox environment. For creating an employment's parameters outside of testing purposes, use [this Employment create endpoint](#operation/post_create_employment) */
+/** Create employment Creates an employment without provisional_start_date validation. This endpoint is only available in Sandbox and allows creating employments which `provisional_start_date` is in the past. This is especially helpful for: * Testing the Timeoff Balance endpoints * Testing the Offboarding endpoints * Testing features around probation periods This endpoint will respond with a 404 outside of the Sandbox environment. For creating an employment's parameters outside of testing purposes, use [this Employment create endpoint](#operation/post_create_employment) ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). */
 export const createSandboxEmployment: API.OperationMethod<
   CreateSandboxEmploymentRequest,
   EmploymentCreationResponse,
@@ -22162,11 +22352,68 @@ export const createSandboxEmployment: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type CreateSandboxEmploymentJobTitleEligibilityCheckError =
+  | BadRequest
+  | NotFound
+  | UnprocessableEntity
+  | RemoteOpError;
+/** Set job title eligibility verdict Sets the job title eligibility verdict the employment's next contract-details submission will act on, so the flow that verdict drives can be tested without an AI call deciding the outcome. Use it to reach an outcome on demand: a submission that passes, one rejected as not eligible, one that must carry `employer_acknowledges_risk`, or one that places the employment into a human review and emits the review webhooks. The response is the same as the real [job title eligibility check endpoint](#operation/post_create_employment_job_title_eligibility_check). Send the returned `check_id` back as `additional_job_title_eligibility_check_slug` when submitting contract details, exactly as you would in production. `role_description` must be the one the submission will carry, since the submission verifies that the recorded verdict still describes what was sent. A `not_assessed` verdict means the check does not apply to this employment at all — not a draft, a PEO employment, a country or hiring model that does not screen job titles, or an integration that bypasses the check — and nothing was recorded. The stage of the check that screens the job title alone is shared by every company in the environment, so setting a verdict takes over that job title's screen for all of them. This endpoint is only available in Sandbox, otherwise it will respond with a 404. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). */
+export const createSandboxEmploymentJobTitleEligibilityCheck: API.OperationMethod<
+  CreateSandboxEmploymentJobTitleEligibilityCheckRequest,
+  JobTitleEligibilityCheckResponse,
+  CreateSandboxEmploymentJobTitleEligibilityCheckError,
+  RemoteOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateSandboxEmploymentJobTitleEligibilityCheckRequest,
+  output: JobTitleEligibilityCheckResponse,
+  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownRemoteError],
+  protocol: RemoteProtocol,
+  retry: Retry.Retry,
+}));
+
+export type CreateSandboxEmploymentJobTitleReviewApproveError =
+  | BadRequest
+  | NotFound
+  | UnprocessableEntity
+  | RemoteOpError;
+/** Approve job title review Approves the job title review an employment is in, without the intervention of a Remote admin, so the integration can be tested against the decision it will see in production. The employment returns to the status it held before it entered review, and an `employment.job_title_review.approved` webhook event is emitted. Responds with 422 when the employment is not in a job title review. This endpoint is only available in Sandbox, otherwise it will respond with a 404. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). */
+export const createSandboxEmploymentJobTitleReviewApprove: API.OperationMethod<
+  CreateSandboxEmploymentJobTitleReviewApproveRequest,
+  JobTitleReviewDecisionResponse,
+  CreateSandboxEmploymentJobTitleReviewApproveError,
+  RemoteOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateSandboxEmploymentJobTitleReviewApproveRequest,
+  output: JobTitleReviewDecisionResponse,
+  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownRemoteError],
+  protocol: RemoteProtocol,
+  retry: Retry.Retry,
+}));
+
+export type CreateSandboxEmploymentJobTitleReviewRejectError =
+  | BadRequest
+  | NotFound
+  | UnprocessableEntity
+  | RemoteOpError;
+/** Reject job title review Rejects the job title review an employment is in, without the intervention of a Remote admin, so the integration can be tested against the decision it will see in production. The employment is archived, and an `employment.job_title_review.rejected` webhook event is emitted. Responds with 422 when the employment is not in a job title review. This endpoint is only available in Sandbox, otherwise it will respond with a 404. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). */
+export const createSandboxEmploymentJobTitleReviewReject: API.OperationMethod<
+  CreateSandboxEmploymentJobTitleReviewRejectRequest,
+  JobTitleReviewDecisionResponse,
+  CreateSandboxEmploymentJobTitleReviewRejectError,
+  RemoteOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateSandboxEmploymentJobTitleReviewRejectRequest,
+  output: JobTitleReviewDecisionResponse,
+  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownRemoteError],
+  protocol: RemoteProtocol,
+  retry: Retry.Retry,
+}));
+
 export type CreateSandboxWebhookCallbacksTriggerError =
   | NotFound
   | UnprocessableEntity
   | RemoteOpError;
-/** Trigger a Webhook Triggers a callback previously registered for webhooks. Use this endpoint to emit a webhook for testing in the Sandbox environment. This endpoint will respond with a 404 outside of the Sandbox environment. */
+/** Trigger a Webhook Triggers a callback previously registered for webhooks. Use this endpoint to emit a webhook for testing in the Sandbox environment. This endpoint will respond with a 404 outside of the Sandbox environment. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). */
 export const createSandboxWebhookCallbacksTrigger: API.OperationMethod<
   CreateSandboxWebhookCallbacksTriggerRequest,
   SuccessResponse,
@@ -22181,7 +22428,7 @@ export const createSandboxWebhookCallbacksTrigger: API.OperationMethod<
 }));
 
 export type CreateSdkTelemetryErrorError = BadRequest | RemoteOpError;
-/** Report SDK errors Receives error telemetry from the frontend SDK. Errors are logged to observability backend for monitoring and debugging. */
+/** Report SDK errors Receives error telemetry from the frontend SDK. Errors are logged to observability backend for monitoring and debugging. ## Authentication This endpoint accepts any one of the following token types: - **Client credentials access token** (`OAuth2ClientCredentials`) — obtained through the Client Credentials flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Client token** (`ClientToken`) — a partner `client_token`, accepted only on marketing endpoints. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). */
 export const createSdkTelemetryError: API.OperationMethod<
   CreateSdkTelemetryErrorRequest,
   CreateSdkTelemetryErrorResponse,
@@ -22201,7 +22448,7 @@ export type CreateSsoConfigurationError =
   | Conflict
   | UnprocessableEntity
   | RemoteOpError;
-/** Create the SSO Configuration Creates the SSO Configuration for the company. ## Scopes */
+/** Create the SSO Configuration Creates the SSO Configuration for the company. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const createSsoConfiguration: API.OperationMethod<
   CreateSsoConfigurationRequest,
   CreateSSOConfigurationResponse,
@@ -22216,7 +22463,7 @@ export const createSsoConfiguration: API.OperationMethod<
 }));
 
 export type CreateTimeoffError = BadRequest | NotFound | UnprocessableEntity | RemoteOpError;
-/** Create Time Off Creates a Time Off record ## Scopes */
+/** Create Time Off Creates a Time Off record ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const createTimeoff: API.OperationMethod<
   CreateTimeoffRequest,
   TimeoffResponse,
@@ -22231,7 +22478,7 @@ export const createTimeoff: API.OperationMethod<
 }));
 
 export type CreateTimeoffApproveError = BadRequest | NotFound | UnprocessableEntity | RemoteOpError;
-/** Approve Time Off Approve a time off request. ## Scopes */
+/** Approve Time Off Approve a time off request. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const createTimeoffApprove: API.OperationMethod<
   CreateTimeoffApproveRequest,
   TimeoffResponse,
@@ -22246,7 +22493,7 @@ export const createTimeoffApprove: API.OperationMethod<
 }));
 
 export type CreateTimeoffCancelError = BadRequest | NotFound | UnprocessableEntity | RemoteOpError;
-/** Cancel Time Off Cancel a time off request that was already approved. ## Scopes */
+/** Cancel Time Off Cancel a time off request that was already approved. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const createTimeoffCancel: API.OperationMethod<
   CreateTimeoffCancelRequest,
   TimeoffResponse,
@@ -22261,7 +22508,7 @@ export const createTimeoffCancel: API.OperationMethod<
 }));
 
 export type CreateTimeoffCancelRequestApproveError = UnprocessableEntity | RemoteOpError;
-/** Approve a time off cancellation request Approve a time off cancellation request. In order to approve a time off cancellation request, the timeoff status must be `cancel_requested`. ## Scopes */
+/** Approve a time off cancellation request Approve a time off cancellation request. In order to approve a time off cancellation request, the timeoff status must be `cancel_requested`. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const createTimeoffCancelRequestApprove: API.OperationMethod<
   CreateTimeoffCancelRequestApproveRequest,
   SuccessResponse,
@@ -22276,7 +22523,7 @@ export const createTimeoffCancelRequestApprove: API.OperationMethod<
 }));
 
 export type CreateTimeoffCancelRequestDeclineError = Conflict | UnprocessableEntity | RemoteOpError;
-/** Decline a time off cancellation request Decline a time off cancellation request. ## Scopes */
+/** Decline a time off cancellation request Decline a time off cancellation request. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const createTimeoffCancelRequestDecline: API.OperationMethod<
   CreateTimeoffCancelRequestDeclineRequest,
   SuccessResponse,
@@ -22291,7 +22538,7 @@ export const createTimeoffCancelRequestDecline: API.OperationMethod<
 }));
 
 export type CreateTimeoffDeclineError = BadRequest | NotFound | UnprocessableEntity | RemoteOpError;
-/** Decline Time Off Decline a time off request. Please note that only time off requests on the `requested` status can be declined. ## Scopes */
+/** Decline Time Off Decline a time off request. Please note that only time off requests on the `requested` status can be declined. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const createTimeoffDecline: API.OperationMethod<
   CreateTimeoffDeclineRequest,
   TimeoffResponse,
@@ -22306,7 +22553,7 @@ export const createTimeoffDecline: API.OperationMethod<
 }));
 
 export type CreateTimesheetApproveError = NotFound | UnprocessableEntity | RemoteOpError;
-/** Approve timesheet Approves the given timesheet. ## Scopes */
+/** Approve timesheet Approves the given timesheet. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const createTimesheetApprove: API.OperationMethod<
   CreateTimesheetApproveRequest,
   MinimalTimesheetResponse,
@@ -22321,7 +22568,7 @@ export const createTimesheetApprove: API.OperationMethod<
 }));
 
 export type CreateTimesheetSendBackError = NotFound | UnprocessableEntity | RemoteOpError;
-/** Send back a timesheet for review or modification Sends the given timesheet back to the employee for review or modification. ## Scopes */
+/** Send back a timesheet for review or modification Sends the given timesheet back to the employee for review or modification. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const createTimesheetSendBack: API.OperationMethod<
   CreateTimesheetSendBackRequest,
   SentBackTimesheetResponse,
@@ -22336,7 +22583,7 @@ export const createTimesheetSendBack: API.OperationMethod<
 }));
 
 export type CreateWebhookCallbackError = NotFound | UnprocessableEntity | RemoteOpError;
-/** Create a Webhook Callback Register a callback to be used for webhooks ## Scopes */
+/** Create a Webhook Callback Register a callback to be used for webhooks ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Client credentials access token** (`OAuth2ClientCredentials`) — obtained through the Client Credentials flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const createWebhookCallback: API.OperationMethod<
   CreateWebhookCallbackRequest,
   WebhookCallbackResponse,
@@ -22351,7 +22598,7 @@ export const createWebhookCallback: API.OperationMethod<
 }));
 
 export type CreateWebhookEventsReplayError = NotFound | UnprocessableEntity | RemoteOpError;
-/** Replay Webhook Events Replay webhook events ## Scopes */
+/** Replay Webhook Events Replay webhook events ## Authentication This endpoint requires the following token type: - **Client credentials access token** (`OAuth2ClientCredentials`) — obtained through the Client Credentials flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). ## Scopes */
 export const createWebhookEventsReplay: API.OperationMethod<
   CreateWebhookEventsReplayRequest,
   SuccessResponse,
@@ -22366,7 +22613,7 @@ export const createWebhookEventsReplay: API.OperationMethod<
 }));
 
 export type DeleteCompanyManagerError = BadRequest | NotFound | UnprocessableEntity | RemoteOpError;
-/** Deletes a Company Manager user Deletes a Company Manager user ## Scopes */
+/** Deletes a Company Manager user Deletes a Company Manager user ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const deleteCompanyManager: API.OperationMethod<
   DeleteCompanyManagerRequest,
   SuccessResponse,
@@ -22385,7 +22632,7 @@ export type DeleteContractorsEmploymentContractorCorSubscriptionError =
   | NotFound
   | UnprocessableEntity
   | RemoteOpError;
-/** Delete contractor of record subscription intent Deletes Contractor of Record subscription intent. ## Scopes */
+/** Delete contractor of record subscription intent Deletes Contractor of Record subscription intent. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const deleteContractorsEmploymentContractorCorSubscription: API.OperationMethod<
   DeleteContractorsEmploymentContractorCorSubscriptionRequest,
   DeleteContractorsEmploymentContractorCorSubscriptionResponse,
@@ -22405,7 +22652,7 @@ export type DeleteIncentiveError =
   | Conflict
   | UnprocessableEntity
   | RemoteOpError;
-/** Delete an Incentive Delete an incentive. `one_time` incentives that have the following status **CANNOT** be deleted: * `processing` * `paid` ## Scopes */
+/** Delete an Incentive Delete an incentive. `one_time` incentives that have the following status **CANNOT** be deleted: * `processing` * `paid` ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const deleteIncentive: API.OperationMethod<
   DeleteIncentiveRequest,
   SuccessResponse,
@@ -22424,7 +22671,7 @@ export type DeleteIncentivesRecurringError =
   | NotFound
   | UnprocessableEntity
   | RemoteOpError;
-/** Delete a Recurring Incentive Delete a Recurring Incentive, that is, a monthly paid incentive. Internally, Remote schedules upcoming incentives. As such, when you attempt to delete a recurring incentive, Remote will **ONLY** delete scheduled incentives with the `pending` status. Incentives payments that are already scheduled and cannot be deleted will be included in the response, in case you need to reference them. ## Scopes */
+/** Delete a Recurring Incentive Delete a Recurring Incentive, that is, a monthly paid incentive. Internally, Remote schedules upcoming incentives. As such, when you attempt to delete a recurring incentive, Remote will **ONLY** delete scheduled incentives with the `pending` status. Incentives payments that are already scheduled and cannot be deleted will be included in the response, in case you need to reference them. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const deleteIncentivesRecurring: API.OperationMethod<
   DeleteIncentivesRecurringRequest,
   DeleteRecurringIncentiveResponse,
@@ -22443,7 +22690,7 @@ export type DeleteOnboardingEmploymentPreOnboardingRequirementAcknowledgeError =
   | NotFound
   | UnprocessableEntity
   | RemoteOpError;
-/** Remove a pre-onboarding acknowledgement Removes a previously recorded acknowledgement. Rejected once a requirement that depends on this acknowledgement has been signed/completed. ## Scopes */
+/** Remove a pre-onboarding acknowledgement Removes a previously recorded acknowledgement. Rejected once a requirement that depends on this acknowledgement has been signed/completed. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const deleteOnboardingEmploymentPreOnboardingRequirementAcknowledge: API.OperationMethod<
   DeleteOnboardingEmploymentPreOnboardingRequirementAcknowledgeRequest,
   SuccessResponse,
@@ -22463,7 +22710,7 @@ export type DeletePayItemError =
   | Conflict
   | UnprocessableEntity
   | RemoteOpError;
-/** Delete a Pay Item Archives a pay item. Cannot delete pay items linked to a payroll adjustment, salary pay items, pay items automatically created from an external source, or pay items whose payroll run is no longer in preparation. ## Scopes */
+/** Delete a Pay Item Archives a pay item. Cannot delete pay items linked to a payroll adjustment, salary pay items, pay items automatically created from an external source, or pay items whose payroll run is no longer in preparation. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const deletePayItem: API.OperationMethod<
   DeletePayItemRequest,
   SuccessResponse,
@@ -22482,7 +22729,7 @@ export type DeleteSandboxEmploymentError =
   | NotFound
   | UnprocessableEntity
   | RemoteOpError;
-/** Archive employment Archives an employment, setting its status to `archived`. This endpoint is only available in Sandbox and allows partners to clean up test employees during automated E2E testing without requiring Remote manual intervention. This endpoint will respond with a 404 outside of the Sandbox environment. */
+/** Archive employment Archives an employment, setting its status to `archived`. This endpoint is only available in Sandbox and allows partners to clean up test employees during automated E2E testing without requiring Remote manual intervention. This endpoint will respond with a 404 outside of the Sandbox environment. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). */
 export const deleteSandboxEmployment: API.OperationMethod<
   DeleteSandboxEmploymentRequest,
   SuccessResponse,
@@ -22497,7 +22744,7 @@ export const deleteSandboxEmployment: API.OperationMethod<
 }));
 
 export type DeleteWebhookCallbackError = NotFound | UnprocessableEntity | RemoteOpError;
-/** Delete a Webhook Callback Delete a callback previously registered for webhooks ## Scopes */
+/** Delete a Webhook Callback Delete a callback previously registered for webhooks ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const deleteWebhookCallback: API.OperationMethod<
   DeleteWebhookCallbackRequest,
   SuccessResponse,
@@ -22511,8 +22758,98 @@ export const deleteWebhookCallback: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type GetAdpSubscriptionCancellationsError = UnprocessableEntity | RemoteOpError;
+/** Receive an ADP Marketplace subscription-cancel event Called by ADP Marketplace when a customer cancels their subscription. ## Authentication This endpoint requires the following token type: - **Client credentials access token** (`OAuth2ClientCredentials`) — obtained through the Client Credentials flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). */
+export const getAdpSubscriptionCancellations: API.OperationMethod<
+  GetAdpSubscriptionCancellationsRequest,
+  SuccessResponse,
+  GetAdpSubscriptionCancellationsError,
+  RemoteOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetAdpSubscriptionCancellationsRequest,
+  output: SuccessResponse,
+  errors: [UnprocessableEntity, UnknownRemoteError],
+  protocol: RemoteProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetAdpSubscriptionChangesError = UnprocessableEntity | RemoteOpError;
+/** Receive an ADP Marketplace subscription-change event Called by ADP Marketplace when a customer changes their subscription (e.g. edition or user count). ## Authentication This endpoint requires the following token type: - **Client credentials access token** (`OAuth2ClientCredentials`) — obtained through the Client Credentials flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). */
+export const getAdpSubscriptionChanges: API.OperationMethod<
+  GetAdpSubscriptionChangesRequest,
+  SuccessResponse,
+  GetAdpSubscriptionChangesError,
+  RemoteOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetAdpSubscriptionChangesRequest,
+  output: SuccessResponse,
+  errors: [UnprocessableEntity, UnknownRemoteError],
+  protocol: RemoteProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetAdpSubscriptionOrdersError = UnprocessableEntity | RemoteOpError;
+/** Receive an ADP Marketplace subscription-order event Called by ADP Marketplace when a customer subscribes to Remote's listing. ## Authentication This endpoint requires the following token type: - **Client credentials access token** (`OAuth2ClientCredentials`) — obtained through the Client Credentials flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). */
+export const getAdpSubscriptionOrders: API.OperationMethod<
+  GetAdpSubscriptionOrdersRequest,
+  SuccessResponse,
+  GetAdpSubscriptionOrdersError,
+  RemoteOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetAdpSubscriptionOrdersRequest,
+  output: SuccessResponse,
+  errors: [UnprocessableEntity, UnknownRemoteError],
+  protocol: RemoteProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetAdpSubscriptionStatusError = UnprocessableEntity | RemoteOpError;
+/** Receive an ADP Marketplace subscription-status event Called by ADP Marketplace when a subscription's status changes (e.g. trial ended, suspended). ## Authentication This endpoint requires the following token type: - **Client credentials access token** (`OAuth2ClientCredentials`) — obtained through the Client Credentials flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). */
+export const getAdpSubscriptionStatus: API.OperationMethod<
+  GetAdpSubscriptionStatusRequest,
+  SuccessResponse,
+  GetAdpSubscriptionStatusError,
+  RemoteOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetAdpSubscriptionStatusRequest,
+  output: SuccessResponse,
+  errors: [UnprocessableEntity, UnknownRemoteError],
+  protocol: RemoteProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetAdpUserAssignmentsError = UnprocessableEntity | RemoteOpError;
+/** Receive an ADP Marketplace user-assignment event Called by ADP Marketplace when a user is assigned to manage the subscription. ## Authentication This endpoint requires the following token type: - **Client credentials access token** (`OAuth2ClientCredentials`) — obtained through the Client Credentials flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). */
+export const getAdpUserAssignments: API.OperationMethod<
+  GetAdpUserAssignmentsRequest,
+  SuccessResponse,
+  GetAdpUserAssignmentsError,
+  RemoteOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetAdpUserAssignmentsRequest,
+  output: SuccessResponse,
+  errors: [UnprocessableEntity, UnknownRemoteError],
+  protocol: RemoteProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetAdpUserUnassignmentsError = UnprocessableEntity | RemoteOpError;
+/** Receive an ADP Marketplace user-unassignment event Called by ADP Marketplace when a user is unassigned from managing the subscription. ## Authentication This endpoint requires the following token type: - **Client credentials access token** (`OAuth2ClientCredentials`) — obtained through the Client Credentials flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). */
+export const getAdpUserUnassignments: API.OperationMethod<
+  GetAdpUserUnassignmentsRequest,
+  SuccessResponse,
+  GetAdpUserUnassignmentsError,
+  RemoteOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetAdpUserUnassignmentsRequest,
+  output: SuccessResponse,
+  errors: [UnprocessableEntity, UnknownRemoteError],
+  protocol: RemoteProtocol,
+  retry: Retry.Retry,
+}));
+
 export type GetBenefitOffersError = NotFound | RemoteOpError;
-/** List Benefit Offers By Employment List benefit offers by employment. ## Scopes */
+/** List Benefit Offers By Employment List benefit offers by employment. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const getBenefitOffers: API.OperationMethod<
   GetBenefitOffersRequest,
   BenefitOfferByEmploymentResponse,
@@ -22527,7 +22864,7 @@ export const getBenefitOffers: API.OperationMethod<
 }));
 
 export type GetBenefitOffersCountrySummariesError = NotFound | UnprocessableEntity | RemoteOpError;
-/** List Benefit Offers List benefit offers for each country. ## Scopes */
+/** List Benefit Offers List benefit offers for each country. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const getBenefitOffersCountrySummaries: API.OperationMethod<
   GetBenefitOffersCountrySummariesRequest,
   CountrySummariesResponse,
@@ -22542,7 +22879,7 @@ export const getBenefitOffersCountrySummaries: API.OperationMethod<
 }));
 
 export type GetBenefitRenewalRequestError = NotFound | UnprocessableEntity | RemoteOpError;
-/** Show Benefit Renewal Request Show Benefit Renewal Request details. ## Scopes */
+/** Show Benefit Renewal Request Show Benefit Renewal Request details. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const getBenefitRenewalRequest: API.OperationMethod<
   GetBenefitRenewalRequestRequest,
   BenefitRenewalRequestsBenefitRenewalRequestResponse,
@@ -22561,7 +22898,7 @@ export type GetBenefitRenewalRequestsError =
   | NotFound
   | UnprocessableEntity
   | RemoteOpError;
-/** List Benefit Renewal Requests List Benefit Renewal Requests for each country. ## Scopes */
+/** List Benefit Renewal Requests List Benefit Renewal Requests for each country. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const getBenefitRenewalRequests: API.OperationMethod<
   GetBenefitRenewalRequestsRequest,
   BenefitRenewalRequestsListBenefitRenewalRequestResponse,
@@ -22576,7 +22913,7 @@ export const getBenefitRenewalRequests: API.OperationMethod<
 }));
 
 export type GetBenefitRenewalRequestSchemaError = NotFound | UnprocessableEntity | RemoteOpError;
-/** Show benefit renewal request schema Returns the json schema of the `benefit_renewal_request` form for a specific request. This endpoint requires a company access token, as forms are dependent on certain properties of companies and their current employments. ## Scopes */
+/** Show benefit renewal request schema Returns the json schema of the `benefit_renewal_request` form for a specific request. This endpoint requires a company access token, as forms are dependent on certain properties of companies and their current employments. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const getBenefitRenewalRequestSchema: API.OperationMethod<
   GetBenefitRenewalRequestSchemaRequest,
   BenefitRenewalRequestsBenefitRenewalRequestFormResponse,
@@ -22591,7 +22928,7 @@ export const getBenefitRenewalRequestSchema: API.OperationMethod<
 }));
 
 export type GetBillingDocumentError = BadRequest | NotFound | UnprocessableEntity | RemoteOpError;
-/** Show Billing Document Shows a billing document details. Please contact api-support@remote.com to request access to this endpoint. ## Scopes */
+/** Show Billing Document. Requires a token issued via the authorization_code grant (company_manager role) — not usable with a client_credentials (integration) token. Shows a billing document details. Please contact api-support@remote.com to request access to this endpoint. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const getBillingDocument: API.OperationMethod<
   GetBillingDocumentRequest,
   BillingDocumentResponse,
@@ -22610,7 +22947,7 @@ export type GetBillingDocumentBreakdownError =
   | NotFound
   | UnprocessableEntity
   | RemoteOpError;
-/** Get Billing Document Breakdown Get billing document breakdown ## Scopes */
+/** Get Billing Document Breakdown. Requires a token issued via the authorization_code grant (company_manager role) — not usable with a client_credentials (integration) token. Get billing document breakdown ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const getBillingDocumentBreakdown: API.OperationMethod<
   GetBillingDocumentBreakdownRequest,
   BillingDocumentBreakdownResponse,
@@ -22625,7 +22962,7 @@ export const getBillingDocumentBreakdown: API.OperationMethod<
 }));
 
 export type GetBillingDocumentPdfError = NotFound | UnprocessableEntity | RemoteOpError;
-/** Download a billing document PDF Downloads a billing document PDF ## Scopes */
+/** Download a billing document PDF Downloads a billing document PDF ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const getBillingDocumentPdf: API.OperationMethod<
   GetBillingDocumentPdfRequest,
   GetBillingDocumentPdfResponse,
@@ -22640,7 +22977,7 @@ export const getBillingDocumentPdf: API.OperationMethod<
 }));
 
 export type GetBillingDocumentsError = NotFound | UnprocessableEntity | RemoteOpError;
-/** List Billing Documents List billing documents for a company ## Scopes */
+/** List Billing Documents List billing documents for a company ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const getBillingDocuments: API.OperationMethod<
   GetBillingDocumentsRequest,
   BillingDocumentsResponse,
@@ -22655,7 +22992,7 @@ export const getBillingDocuments: API.OperationMethod<
 }));
 
 export type GetBulkEmploymentJobError = BadRequest | Forbidden | NotFound | RemoteOpError;
-/** Show bulk employment job ## Scopes */
+/** Show bulk employment job ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const getBulkEmploymentJob: API.OperationMethod<
   GetBulkEmploymentJobRequest,
   BulkEmploymentImportJobResponse,
@@ -22670,7 +23007,7 @@ export const getBulkEmploymentJob: API.OperationMethod<
 }));
 
 export type GetBulkEmploymentJobRowsError = BadRequest | Forbidden | NotFound | RemoteOpError;
-/** List bulk employment rows Returns grouped bulk employment rows, including field-level validation errors in `errors`, row-level failures in `row_errors`, and submission-phase failures in `submission_errors`. If a row passes validation but later fails during Global Payroll activation, that failure is surfaced here after submission rather than in the initial create response. ## Scopes */
+/** List bulk employment rows Returns grouped bulk employment rows, including field-level validation errors in `errors`, row-level failures in `row_errors`, and submission-phase failures in `submission_errors`. If a row passes validation but later fails during Global Payroll activation, that failure is surfaced here after submission rather than in the initial create response. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const getBulkEmploymentJobRows: API.OperationMethod<
   GetBulkEmploymentJobRowsRequest,
   ImportJobRowsResponse,
@@ -22685,7 +23022,7 @@ export const getBulkEmploymentJobRows: API.OperationMethod<
 }));
 
 export type GetCompaniesError = NotFound | UnprocessableEntity | RemoteOpError;
-/** List all companies List all companies that authorized your integration to act on their behalf. In other words, these are all the companies that your integration can manage. Any company that has completed the authorization flow for your integration will be included in the response. ## Scopes */
+/** List all companies List all companies that authorized your integration to act on their behalf. In other words, these are all the companies that your integration can manage. Any company that has completed the authorization flow for your integration will be included in the response. ## Authentication This endpoint requires the following token type: - **Client credentials access token** (`OAuth2ClientCredentials`) — obtained through the Client Credentials flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). ## Scopes */
 export const getCompanies: API.OperationMethod<
   GetCompaniesRequest,
   CompaniesResponse,
@@ -22700,7 +23037,7 @@ export const getCompanies: API.OperationMethod<
 }));
 
 export type GetCompaniesSchemaError = NotFound | UnprocessableEntity | RemoteOpError;
-/** Show form schema Returns the json schema of the requested company form. Currently only supports the `address_details` form. ## Scopes */
+/** Show form schema Returns the json schema of the requested company form. Currently only supports the `address_details` form. ## Authentication This endpoint requires the following token type: - **Client credentials access token** (`OAuth2ClientCredentials`) — obtained through the Client Credentials flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). ## Scopes */
 export const getCompaniesSchema: API.OperationMethod<
   GetCompaniesSchemaRequest,
   CompanyFormResponse,
@@ -22715,7 +23052,7 @@ export const getCompaniesSchema: API.OperationMethod<
 }));
 
 export type GetCompanyError = BadRequest | NotFound | UnprocessableEntity | RemoteOpError;
-/** Show a company Given an ID, shows a company. If the used access token was issued by the OAuth 2.0 Authorization Code flow, then only the associated company can be accessed through the endpoint. ## Scopes */
+/** Show a company Given an ID, shows a company. If the used access token was issued by the OAuth 2.0 Authorization Code flow, then only the associated company can be accessed through the endpoint. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Client credentials access token** (`OAuth2ClientCredentials`) — obtained through the Client Credentials flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). ## Scopes */
 export const getCompany: API.OperationMethod<
   GetCompanyRequest,
   CompanyResponse,
@@ -22730,7 +23067,7 @@ export const getCompany: API.OperationMethod<
 }));
 
 export type GetCompanyActionsError = BadRequest | NotFound | UnprocessableEntity | RemoteOpError;
-/** List a company's pending actions Given a company ID, returns the company-level actions still pending for the company — for example company verification and Remote Payments setup. The list can be empty or contain one or more actions; `setup_remote_payments` is returned once per legal entity that needs it. ## Scopes */
+/** List a company's pending actions Given a company ID, returns the company-level actions still pending for the company — for example company verification and Remote Payments setup. The list can be empty or contain one or more actions; `setup_remote_payments` is returned once per legal entity that needs it. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Client credentials access token** (`OAuth2ClientCredentials`) — obtained through the Client Credentials flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). ## Scopes */
 export const getCompanyActions: API.OperationMethod<
   GetCompanyActionsRequest,
   CompanyActionsResponse,
@@ -22745,7 +23082,7 @@ export const getCompanyActions: API.OperationMethod<
 }));
 
 export type GetCompanyComplianceProfileError = Forbidden | NotFound | RemoteOpError;
-/** Get Company Compliance Profile Returns the KYB and credit risk status for the company's default legal entity. ## Scopes */
+/** Get Company Compliance Profile Returns the KYB and credit risk status for the company's default legal entity. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Client credentials access token** (`OAuth2ClientCredentials`) — obtained through the Client Credentials flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). ## Scopes */
 export const getCompanyComplianceProfile: API.OperationMethod<
   GetCompanyComplianceProfileRequest,
   CompanyComplianceProfileResponse,
@@ -22764,7 +23101,7 @@ export type GetCompanyCostCenterAllocationsError =
   | Forbidden
   | UnprocessableEntity
   | RemoteOpError;
-/** List cost center allocations for a company Lists all employments under a company with their cost center allocations, grouped by employment. Each entry includes the employment's legal entity IDs and the list of cost center allocations assigned to it, with each allocation's cost center, allocated percentage, and effective period. Employments with no cost center allocations are included with an empty list. Use the `status` query parameter to return only `active`, `scheduled`, or `expired` allocations. When omitted, all allocations are returned. ## Scopes */
+/** List cost center allocations for a company Lists all employments under a company with their cost center allocations, grouped by employment. Each entry includes the employment's legal entity IDs and the list of cost center allocations assigned to it, with each allocation's cost center, allocated percentage, and effective period. Employments with no cost center allocations are included with an empty list. Use the `status` query parameter to return only `active`, `scheduled`, or `expired` allocations. When omitted, all allocations are returned. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const getCompanyCostCenterAllocations: API.OperationMethod<
   GetCompanyCostCenterAllocationsRequest,
   ListCompanyCostCenterAllocationsResponse,
@@ -22779,7 +23116,7 @@ export const getCompanyCostCenterAllocations: API.OperationMethod<
 }));
 
 export type GetCompanyCurrenciesError = NotFound | RemoteOpError;
-/** List company supported currencies List company supported currencies ## Scopes */
+/** List company supported currencies List company supported currencies ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Client credentials access token** (`OAuth2ClientCredentials`) — obtained through the Client Credentials flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Client token** (`ClientToken`) — a partner `client_token`, accepted only on marketing endpoints. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). ## Scopes */
 export const getCompanyCurrencies: API.OperationMethod<
   GetCompanyCurrenciesRequest,
   CompanyCurrenciesResponse,
@@ -22794,7 +23131,7 @@ export const getCompanyCurrencies: API.OperationMethod<
 }));
 
 export type GetCompanyDepartmentsError = NotFound | UnprocessableEntity | RemoteOpError;
-/** List Company Departments Lists all departments for the authorized company specified in the request. ## Scopes */
+/** List Company Departments Lists all departments for the authorized company specified in the request. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const getCompanyDepartments: API.OperationMethod<
   GetCompanyDepartmentsRequest,
   ListCompanyDepartmentsPaginatedResponse,
@@ -22812,7 +23149,7 @@ export type GetCompanyEmploymentOnboardingReservesStatusError =
   | Forbidden
   | NotFound
   | RemoteOpError;
-/** Get Onboarding Reserves Status for Employment Returns the onboarding reserves status for a specific employment. The status is the same as the credit risk status but takes the onboarding reserves policies into account. ## Scopes */
+/** Get Onboarding Reserves Status for Employment Returns the onboarding reserves status for a specific employment. The status is the same as the credit risk status but takes the onboarding reserves policies into account. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Client credentials access token** (`OAuth2ClientCredentials`) — obtained through the Client Credentials flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). ## Scopes */
 export const getCompanyEmploymentOnboardingReservesStatus: API.OperationMethod<
   GetCompanyEmploymentOnboardingReservesStatusRequest,
   OnboardingReservesStatusResponse,
@@ -22827,7 +23164,7 @@ export const getCompanyEmploymentOnboardingReservesStatus: API.OperationMethod<
 }));
 
 export type GetCompanyLegalEntitiesError = NotFound | RemoteOpError;
-/** List Company Legal Entities Lists all active legal entities for the authorized company specified in the request. ## Scopes */
+/** List Company Legal Entities Lists all active legal entities for the authorized company specified in the request. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Client credentials access token** (`OAuth2ClientCredentials`) — obtained through the Client Credentials flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). ## Scopes */
 export const getCompanyLegalEntities: API.OperationMethod<
   GetCompanyLegalEntitiesRequest,
   ListCompanyLegalEntitiesResponse,
@@ -22842,7 +23179,7 @@ export const getCompanyLegalEntities: API.OperationMethod<
 }));
 
 export type GetCompanyLegalEntityAdministrativeDetailsError = NotFound | RemoteOpError;
-/** Show Legal Entity Administrative details Show administrative details of legal entity for the authorized company specified in the request. ## Scopes */
+/** Show Legal Entity Administrative details Show administrative details of legal entity for the authorized company specified in the request. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Client credentials access token** (`OAuth2ClientCredentials`) — obtained through the Client Credentials flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). ## Scopes */
 export const getCompanyLegalEntityAdministrativeDetails: API.OperationMethod<
   GetCompanyLegalEntityAdministrativeDetailsRequest,
   GetCompanyLegalEntityAdministrativeDetailsResponse,
@@ -22857,7 +23194,7 @@ export const getCompanyLegalEntityAdministrativeDetails: API.OperationMethod<
 }));
 
 export type GetCompanyLegalEntityContractorEligibilityError = NotFound | RemoteOpError;
-/** Show contractor eligibility and COR-supported countries for legal entity Returns which contractor products (standard, plus, cor) the legal entity is eligible to use, and the list of country codes where COR is supported for this legal entity. COR-supported countries exclude sanctioned and signup-prevented countries and apply entity rules (same-country, local-to-local). When the legal entity is not COR-eligible, `cor_supported_country_codes` is an empty list. ## Scopes */
+/** Show contractor eligibility and COR-supported countries for legal entity Returns which contractor products (standard, plus, cor) the legal entity is eligible to use, and the list of country codes where COR is supported for this legal entity. COR-supported countries exclude sanctioned and signup-prevented countries and apply entity rules (same-country, local-to-local). When the legal entity is not COR-eligible, `cor_supported_country_codes` is an empty list. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Client credentials access token** (`OAuth2ClientCredentials`) — obtained through the Client Credentials flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). ## Scopes */
 export const getCompanyLegalEntityContractorEligibility: API.OperationMethod<
   GetCompanyLegalEntityContractorEligibilityRequest,
   ContractorEligibilityResponse,
@@ -22872,7 +23209,7 @@ export const getCompanyLegalEntityContractorEligibility: API.OperationMethod<
 }));
 
 export type GetCompanyLegalEntityPayCodesError = Forbidden | NotFound | RemoteOpError;
-/** List Pay Codes Lists pay codes available for a legal entity. Pay codes represent the allowed pay element types that can be submitted via `POST /v1/pay-items/bulk`. ## Scopes */
+/** List Pay Codes Lists pay codes available for a legal entity. Pay codes represent the allowed pay element types that can be submitted via `POST /v1/pay-items/bulk`. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Client credentials access token** (`OAuth2ClientCredentials`) — obtained through the Client Credentials flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). ## Scopes */
 export const getCompanyLegalEntityPayCodes: API.OperationMethod<
   GetCompanyLegalEntityPayCodesRequest,
   ListPayCodesResponse,
@@ -22887,7 +23224,7 @@ export const getCompanyLegalEntityPayCodes: API.OperationMethod<
 }));
 
 export type GetCompanyManagerError = BadRequest | NotFound | UnprocessableEntity | RemoteOpError;
-/** Show company manager user Shows a single company manager user ## Scopes */
+/** Show company manager user Shows a single company manager user ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const getCompanyManager: API.OperationMethod<
   GetCompanyManagerRequest,
   CompanyManagerResponse,
@@ -22902,7 +23239,7 @@ export const getCompanyManager: API.OperationMethod<
 }));
 
 export type GetCompanyManagersError = BadRequest | NotFound | UnprocessableEntity | RemoteOpError;
-/** List Company Managers List all company managers of an integration. If filtered by the company_id param, it lists only company managers belonging to the specified company. ## Scopes */
+/** List Company Managers List all company managers of an integration. If filtered by the company_id param, it lists only company managers belonging to the specified company. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const getCompanyManagers: API.OperationMethod<
   GetCompanyManagersRequest,
   CompanyManagersResponse,
@@ -22917,7 +23254,7 @@ export const getCompanyManagers: API.OperationMethod<
 }));
 
 export type GetCompanyPricingPlansError = NotFound | UnprocessableEntity | RemoteOpError;
-/** List pricing plans List all pricing plans for a company. Currently the endpoint only returns the pricing plans for the EOR monthly product and the contractor products (Standard, Plus and COR). ## Scopes */
+/** List pricing plans List all pricing plans for a company. Currently the endpoint only returns the pricing plans for the EOR monthly product and the contractor products (Standard, Plus and COR). ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Client credentials access token** (`OAuth2ClientCredentials`) — obtained through the Client Credentials flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). ## Scopes */
 export const getCompanyPricingPlans: API.OperationMethod<
   GetCompanyPricingPlansRequest,
   ListCompanyPricingPlansResponse,
@@ -22932,7 +23269,7 @@ export const getCompanyPricingPlans: API.OperationMethod<
 }));
 
 export type GetCompanyProductPricesError = NotFound | UnprocessableEntity | RemoteOpError;
-/** Show product prices in the company's desired currency list product prices in the company's desired currency. the endpoint currently only returns the product prices for the EOR monthly product and the contractor products (Standard, Plus and COR). the product prices are then used to create a pricing plan for the company. ## Scopes */
+/** Show product prices in the company's desired currency list product prices in the company's desired currency. the endpoint currently only returns the product prices for the EOR monthly product and the contractor products (Standard, Plus and COR). the product prices are then used to create a pricing plan for the company. ## Authentication This endpoint requires the following token type: - **Client credentials access token** (`OAuth2ClientCredentials`) — obtained through the Client Credentials flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). ## Scopes */
 export const getCompanyProductPrices: API.OperationMethod<
   GetCompanyProductPricesRequest,
   ListProductPricesResponse,
@@ -22947,7 +23284,7 @@ export const getCompanyProductPrices: API.OperationMethod<
 }));
 
 export type GetCompanyWebhookCallbacksError = NotFound | RemoteOpError;
-/** List Webhook Callbacks List callbacks for a given company ## Scopes */
+/** List Webhook Callbacks List callbacks for a given company ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const getCompanyWebhookCallbacks: API.OperationMethod<
   GetCompanyWebhookCallbacksRequest,
   ListWebhookCallbacksResponse,
@@ -22962,7 +23299,7 @@ export const getCompanyWebhookCallbacks: API.OperationMethod<
 }));
 
 export type GetContractAmendmentError = NotFound | UnprocessableEntity | RemoteOpError;
-/** Show Contract Amendment Show a single Contract Amendment request. ## Scopes */
+/** Show Contract Amendment Show a single Contract Amendment request. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const getContractAmendment: API.OperationMethod<
   GetContractAmendmentRequest,
   ContractAmendmentResponse,
@@ -22977,7 +23314,7 @@ export const getContractAmendment: API.OperationMethod<
 }));
 
 export type GetContractAmendmentsError = NotFound | UnprocessableEntity | RemoteOpError;
-/** List Contract Amendment List Contract Amendment requests. ## Scopes */
+/** List Contract Amendment. Requires a token issued via the authorization_code grant (company_manager role) — not usable with a client_credentials (integration) token. List Contract Amendment requests. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const getContractAmendments: API.OperationMethod<
   GetContractAmendmentsRequest,
   ListContractAmendmentResponse,
@@ -22992,7 +23329,7 @@ export const getContractAmendments: API.OperationMethod<
 }));
 
 export type GetContractAmendmentsSchemaError = NotFound | UnprocessableEntity | RemoteOpError;
-/** Show form schema Returns the json schema of the `contract_amendment` form for a specific employment. This endpoint requires a company access token, as forms are dependent on certain properties of companies and their current employments. ## Scopes */
+/** Show form schema Returns the json schema of the `contract_amendment` form for a specific employment. This endpoint requires a company access token, as forms are dependent on certain properties of companies and their current employments. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const getContractAmendmentsSchema: API.OperationMethod<
   GetContractAmendmentsSchemaRequest,
   ContractAmendmentFormResponse,
@@ -23007,7 +23344,7 @@ export const getContractAmendmentsSchema: API.OperationMethod<
 }));
 
 export type GetContractorInvoiceError = Forbidden | NotFound | UnprocessableEntity | RemoteOpError;
-/** Show Contractor Invoice Shows a single Contractor Invoice record. ## Scopes */
+/** Show Contractor Invoice Shows a single Contractor Invoice record. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const getContractorInvoice: API.OperationMethod<
   GetContractorInvoiceRequest,
   ContractorInvoiceResponse,
@@ -23022,7 +23359,7 @@ export const getContractorInvoice: API.OperationMethod<
 }));
 
 export type GetContractorInvoicesError = Forbidden | NotFound | UnprocessableEntity | RemoteOpError;
-/** List Contractor Invoices Lists Contractor Invoice records. ## Scopes */
+/** List Contractor Invoices. Requires a token issued via the authorization_code grant (company_manager role) — not usable with a client_credentials (integration) token. Lists Contractor Invoice records. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const getContractorInvoices: API.OperationMethod<
   GetContractorInvoicesRequest,
   ListContractorInvoicesResponse,
@@ -23042,7 +23379,7 @@ export type GetContractorInvoiceScheduleError =
   | NotFound
   | UnprocessableEntity
   | RemoteOpError;
-/** Show Contractor Invoice Schedule Shows a single Contractor Invoice Schedule record ## Scopes */
+/** Show Contractor Invoice Schedule Shows a single Contractor Invoice Schedule record ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const getContractorInvoiceSchedule: API.OperationMethod<
   GetContractorInvoiceScheduleRequest,
   ContractorInvoiceScheduleResponse,
@@ -23057,7 +23394,7 @@ export const getContractorInvoiceSchedule: API.OperationMethod<
 }));
 
 export type GetContractorInvoiceSchedulesError = Forbidden | NotFound | RemoteOpError;
-/** List Contractor Invoice Schedules Lists Contractor Invoice Schedule records. ## Scopes */
+/** List Contractor Invoice Schedules Lists Contractor Invoice Schedule records. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const getContractorInvoiceSchedules: API.OperationMethod<
   GetContractorInvoiceSchedulesRequest,
   ListContractorInvoiceSchedulesResponse,
@@ -23072,7 +23409,7 @@ export const getContractorInvoiceSchedules: API.OperationMethod<
 }));
 
 export type GetContractorsCorTerminationRequestsError = Forbidden | NotFound | RemoteOpError;
-/** List contractor of record (COR) termination requests Lists Contractor of Record termination requests for your company, optionally filtered by employment and status. ## Scopes */
+/** List contractor of record (COR) termination requests Lists Contractor of Record termination requests for your company, optionally filtered by employment and status. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const getContractorsCorTerminationRequests: API.OperationMethod<
   GetContractorsCorTerminationRequestsRequest,
   IndexCorTerminationRequestsResponse,
@@ -23090,7 +23427,7 @@ export type GetContractorsEmploymentContractDocumentError =
   | NotFound
   | UnprocessableEntity
   | RemoteOpError;
-/** Return a base64 encoded version of the contract document ## Scopes */
+/** Return a base64 encoded version of the contract document ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const getContractorsEmploymentContractDocument: API.OperationMethod<
   GetContractorsEmploymentContractDocumentRequest,
   ContractDocumentResponse,
@@ -23108,7 +23445,7 @@ export type GetContractorsEmploymentContractorCurrenciesError =
   | Forbidden
   | NotFound
   | RemoteOpError;
-/** List all currencies for the contractor The currencies are listed in the following order: 1. billing currency of the company 2. currencies of contractor’s existing withdrawal methods 3. currency of the contractor’s country 4. the rest, alphabetical. ## Scopes */
+/** List all currencies for the contractor The currencies are listed in the following order: 1. billing currency of the company 2. currencies of contractor’s existing withdrawal methods 3. currency of the contractor’s country 4. the rest, alphabetical. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const getContractorsEmploymentContractorCurrencies: API.OperationMethod<
   GetContractorsEmploymentContractorCurrenciesRequest,
   ContractorCurrencyResponse,
@@ -23126,7 +23463,7 @@ export type GetContractorsEmploymentContractorSubscriptionsError =
   | Forbidden
   | NotFound
   | RemoteOpError;
-/** List contractor subscriptions Endpoint that can be used to list contractor subscriptions. ## Scopes */
+/** List contractor subscriptions Endpoint that can be used to list contractor subscriptions. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const getContractorsEmploymentContractorSubscriptions: API.OperationMethod<
   GetContractorsEmploymentContractorSubscriptionsRequest,
   ContractorSubscriptionSummariesResponse,
@@ -23144,7 +23481,7 @@ export type GetContractorsEmploymentCorTerminationRequestError =
   | Forbidden
   | NotFound
   | RemoteOpError;
-/** Show a contractor of record (COR) termination request Retrieves a Contractor of Record termination request by ID. ## Scopes */
+/** Show a contractor of record (COR) termination request Retrieves a Contractor of Record termination request by ID. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const getContractorsEmploymentCorTerminationRequest: API.OperationMethod<
   GetContractorsEmploymentCorTerminationRequestRequest,
   CorTerminationRequestResponse,
@@ -23163,7 +23500,7 @@ export type GetContractorsEmploymentRatesError =
   | NotFound
   | UnprocessableEntity
   | RemoteOpError;
-/** List the rates of a contractor Lists the rates configured for a contractor, whatever the origin of their contract: rates agreed through a Remote-managed services agreement and statement of work, and rates recorded by the company on its own paper, are returned in the same shape. What the response contains: - The **configured** rate — not amounts that were scheduled, invoiced, or paid. - **Effective** rates only. Terms of a statement of work that has not been signed yet are not included. - The stored rate, even when the contractor's contract has already expired. `contract_start_date` and `contract_expiration_date` describe the contract the rate is paid under, not where the rate came from. `type` and `pay_frequency` are open enums, so treat an unrecognised value as opaque rather than an error. See the field descriptions for how each is derived. A contractor with no rate, and an employment that is not a contractor, both return an empty list. ## Scopes */
+/** List the rates of a contractor Lists the rates configured for a contractor, whatever the origin of their contract: rates agreed through a Remote-managed services agreement and statement of work, and rates recorded by the company on its own paper, are returned in the same shape. What the response contains: - The **configured** rate — not amounts that were scheduled, invoiced, or paid. - The contractor's main rate, the one Show Employment returns as `contractor_rate`. It can belong to a Statement of Work whose services have not started yet. When a Statement of Work established it, its `service_start_date` says when it applies. - The rate of every signed Statement of Work that has not been replaced or ended, including one whose services have not started. A Statement of Work past its planned end date keeps its rate listed: the engagement continues month to month until it is replaced or ended. - Not listed: rates of replaced or ended Statements of Work other than the main rate, terms of an unsigned Statement of Work, and a rate a later edit or signature replaced, unless a Statement of Work still in force established it, in which case both the new and the original rate are listed. - The stored rate, even when the contractor's contract has already expired. `contract_start_date` and `contract_expiration_date` describe the contract the rate is paid under, not where the rate came from; `service_start_date` and `service_end_date` describe the Statement of Work that established the rate and are null when none did. `type` and `pay_frequency` list every value Remote stores; a new value is announced as an API change. See the field descriptions for how each is derived. A contractor with no rate, and an employment that is not a contractor, both return an empty list. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const getContractorsEmploymentRates: API.OperationMethod<
   GetContractorsEmploymentRatesRequest,
   ListContractorRatesResponse,
@@ -23181,7 +23518,7 @@ export type GetContractorsSchemasEligibilityQuestionnaireError =
   | Forbidden
   | UnprocessableEntity
   | RemoteOpError;
-/** Get eligibility questionnaire schema Returns the JSON schema for the eligibility questionnaire by type. The schema defines the structure and validation rules for the questionnaire responses. Supports versioning to allow for schema evolution while maintaining backwards compatibility. ## Scopes */
+/** Get eligibility questionnaire schema Returns the JSON schema for the eligibility questionnaire by type. The schema defines the structure and validation rules for the questionnaire responses. Supports versioning to allow for schema evolution while maintaining backwards compatibility. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const getContractorsSchemasEligibilityQuestionnaire: API.OperationMethod<
   GetContractorsSchemasEligibilityQuestionnaireRequest,
   EligibilityQuestionnaireJSONSchemaResponse,
@@ -23196,7 +23533,7 @@ export const getContractorsSchemasEligibilityQuestionnaire: API.OperationMethod<
 }));
 
 export type GetCostCalculatorCountriesError = RemoteOpError;
-/** List countries for Cost Calculator Lists countries available for cost calculation */
+/** List countries for Cost Calculator Lists countries available for cost calculation ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Client credentials access token** (`OAuth2ClientCredentials`) — obtained through the Client Credentials flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). - **Client token** (`ClientToken`) — a partner `client_token`, accepted only on marketing endpoints. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). */
 export const getCostCalculatorCountries: API.OperationMethod<
   GetCostCalculatorCountriesRequest,
   CostCalculatorListCountryResponse,
@@ -23211,7 +23548,7 @@ export const getCostCalculatorCountries: API.OperationMethod<
 }));
 
 export type GetCostCalculatorRegionFieldsError = RemoteOpError;
-/** Show region fields Returns required fields JSON Schema for a given region. These are required in order to calculate the cost of employment for the region. These fields are based on employer contributions that are associated with the region or any of it's parent regions. */
+/** Show region fields Returns required fields JSON Schema for a given region. These are required in order to calculate the cost of employment for the region. These fields are based on employer contributions that are associated with the region or any of it's parent regions. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Client credentials access token** (`OAuth2ClientCredentials`) — obtained through the Client Credentials flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). - **Client token** (`ClientToken`) — a partner `client_token`, accepted only on marketing endpoints. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). */
 export const getCostCalculatorRegionFields: API.OperationMethod<
   GetCostCalculatorRegionFieldsRequest,
   JSONSchemaResponse,
@@ -23226,7 +23563,7 @@ export const getCostCalculatorRegionFields: API.OperationMethod<
 }));
 
 export type GetCountriesError = BadRequest | NotFound | UnprocessableEntity | RemoteOpError;
-/** List countries Returns the countries supported by Remote API, alphabetically ordered. The supported list accounts for creating employment with basic information and it does not imply fully onboarding employment via JSON Schema. The countries present in the list are the ones where creating a company is allowed. ## Scopes */
+/** List countries Returns the countries supported by Remote API, alphabetically ordered. The supported list accounts for creating employment with basic information and it does not imply fully onboarding employment via JSON Schema. The countries present in the list are the ones where creating a company is allowed. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Client credentials access token** (`OAuth2ClientCredentials`) — obtained through the Client Credentials flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const getCountries: API.OperationMethod<
   GetCountriesRequest,
   CountriesResponse,
@@ -23241,7 +23578,7 @@ export const getCountries: API.OperationMethod<
 }));
 
 export type GetCountryError = BadRequest | NotFound | UnprocessableEntity | RemoteOpError;
-/** Show form schema Returns the json schema of a supported form. Possible form names are: ``` - address_details - administrative_details - bank_account_details - employment_basic_information - contractor_basic_information - contractor_contract_details - billing_address_details - contract_details - emergency_contact - emergency_contact_details - employment_document_details - engagement_agreement_details - personal_details - pricing_plan_details - company_basic_information - global_payroll_administrative_details - global_payroll_bank_account_details - global_payroll_basic_information - global_payroll_contract_details - global_payroll_federal_taxes - global_payroll_state_taxes - global_payroll_personal_details - benefit_renewal_request - hris_personal_details ``` Most forms require a company access token, as they are dependent on certain properties of companies and their current employments. However, the `address_details` and `company_basic_information` forms can be accessed using client_credentials authentication (without a company). ## Scopes */
+/** Show form schema Returns the json schema of a supported form. Possible form names are: ``` - address_details - administrative_details - bank_account_details - employment_basic_information - contractor_basic_information - contractor_contract_details - billing_address_details - contract_details - emergency_contact - emergency_contact_details - employment_document_details - engagement_agreement_details - personal_details - pricing_plan_details - company_basic_information - global_payroll_administrative_details - global_payroll_bank_account_details - global_payroll_basic_information - global_payroll_contract_details - global_payroll_federal_taxes - global_payroll_state_taxes - global_payroll_personal_details - benefit_renewal_request - hris_personal_details ``` Most forms require a company access token, as they are dependent on certain properties of companies and their current employments. However, the `address_details` and `company_basic_information` forms can be accessed using client_credentials authentication (without a company). ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Client credentials access token** (`OAuth2ClientCredentials`) — obtained through the Client Credentials flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const getCountry: API.OperationMethod<
   GetCountryRequest,
   CountryFormResponse,
@@ -23260,7 +23597,7 @@ export type GetCountryContractorContractDetailsError =
   | NotFound
   | UnprocessableEntity
   | RemoteOpError;
-/** Show contractor contract details Returns the contract details JSON Schema for contractors given a country ## Scopes */
+/** Show contractor contract details Returns the contract details JSON Schema for contractors given a country. When `employment_id` refers to a contractor employment, the schema's fields carry `default` values sourced from the contractor's current contract — the payment terms from the stored contract details or, absent those, the contractor's rate — so a new contract document form can be prefilled with them. Those defaults are compensation data and require one of `documents-management:create`, `people-contracts:create` or `hiring:update`. Without them the schema is returned without `default` values, so the form renders blank rather than failing. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const getCountryContractorContractDetails: API.OperationMethod<
   GetCountryContractorContractDetailsRequest,
   ContractorContractDetailsResponse,
@@ -23274,27 +23611,8 @@ export const getCountryContractorContractDetails: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type GetCountryEngagementAgreementDetailsError =
-  | BadRequest
-  | NotFound
-  | UnprocessableEntity
-  | RemoteOpError;
-/** Show engagement agreement details Returns the engagement agreement details JSON Schema for a country. Only DEU country is supported for now. ## Scopes */
-export const getCountryEngagementAgreementDetails: API.OperationMethod<
-  GetCountryEngagementAgreementDetailsRequest,
-  EngagementAgreementDetailsResponse,
-  GetCountryEngagementAgreementDetailsError,
-  RemoteOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: GetCountryEngagementAgreementDetailsRequest,
-  output: EngagementAgreementDetailsResponse,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownRemoteError],
-  protocol: RemoteProtocol,
-  retry: Retry.Retry,
-}));
-
 export type GetCountryHolidayError = NotFound | UnprocessableEntity | RemoteOpError;
-/** List all holidays of a country List all holidays of a country for a specific year. Optionally, it can be filtered by country subdivision. ## Scopes */
+/** List all holidays of a country List all holidays of a country for a specific year. Optionally, it can be filtered by country subdivision. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Client credentials access token** (`OAuth2ClientCredentials`) — obtained through the Client Credentials flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const getCountryHoliday: API.OperationMethod<
   GetCountryHolidayRequest,
   HolidaysResponse,
@@ -23313,7 +23631,7 @@ export type GetCountryLegalEntityFormError =
   | NotFound
   | UnprocessableEntity
   | RemoteOpError;
-/** Show legal entity administrative details form schema Returns the json schema of a supported form. Possible form names are: ``` - administrative_details ``` Most forms require a company access token, as they are dependent on certain properties of companies and their current employments. ## Scopes */
+/** Show legal entity administrative details form schema Returns the json schema of a supported form. Possible form names are: ``` - administrative_details ``` Most forms require a company access token, as they are dependent on certain properties of companies and their current employments. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Client credentials access token** (`OAuth2ClientCredentials`) — obtained through the Client Credentials flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const getCountryLegalEntityForm: API.OperationMethod<
   GetCountryLegalEntityFormRequest,
   CountryFormResponse,
@@ -23328,7 +23646,7 @@ export const getCountryLegalEntityForm: API.OperationMethod<
 }));
 
 export type GetCustomFieldsError = NotFound | UnprocessableEntity | RemoteOpError;
-/** Lists custom fields definitions Returns custom fields definitions ## Scopes */
+/** Lists custom fields definitions Returns custom fields definitions ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const getCustomFields: API.OperationMethod<
   GetCustomFieldsRequest,
   ListEmploymentCustomFieldsResponse,
@@ -23343,7 +23661,7 @@ export const getCustomFields: API.OperationMethod<
 }));
 
 export type GetCustomFieldValueError = NotFound | UnprocessableEntity | RemoteOpError;
-/** Show a custom field value Returns a custom field value for a given employment ## Scopes */
+/** Show a custom field value Returns a custom field value for a given employment ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const getCustomFieldValue: API.OperationMethod<
   GetCustomFieldValueRequest,
   EmploymentCustomFieldValueResponse,
@@ -23358,7 +23676,7 @@ export const getCustomFieldValue: API.OperationMethod<
 }));
 
 export type GetDirectOffboardingsError = Forbidden | NotFound | UnprocessableEntity | RemoteOpError;
-/** List Direct Offboardings Lists offboardings for global payroll employments, optionally filtered by employment ID. ## Scopes */
+/** List Direct Offboardings Lists offboardings for global payroll employments, optionally filtered by employment ID. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const getDirectOffboardings: API.OperationMethod<
   GetDirectOffboardingsRequest,
   ListDirectOffboardingResponse,
@@ -23373,7 +23691,7 @@ export const getDirectOffboardings: API.OperationMethod<
 }));
 
 export type GetEmployeeAddressError = BadRequest | Forbidden | NotFound | RemoteOpError;
-/** Show employee address Returns the authenticated employee's residential address. The employment is derived from the access token's subject — there is no employment id in the path. This endpoint requires country-specific data. The exact required fields vary depending on which country the authenticated employee's employment is in. Query the [Show form schema](#tag/Countries/operation/get_show_form_country) endpoint with `address_details` as the form name to discover the schema for a given country. ## Scopes */
+/** Show employee address Returns the authenticated employee's residential address. The employment is derived from the access token's subject — there is no employment id in the path. This endpoint requires country-specific data. The exact required fields vary depending on which country the authenticated employee's employment is in. Query the [Show form schema](#tag/Countries/operation/get_show_form_country) endpoint with `address_details` as the form name to discover the schema for a given country. ## Authentication This endpoint requires the following token type: - **Employee-scoped access token** (`OAuth2Assertion`) — obtained through the `urn:ietf:params:oauth:grant-type:jwt-bearer` grant. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). ## Scopes */
 export const getEmployeeAddress: API.OperationMethod<
   GetEmployeeAddressRequest,
   EmploymentDetailsOnlyResponse,
@@ -23388,7 +23706,7 @@ export const getEmployeeAddress: API.OperationMethod<
 }));
 
 export type GetEmployeeBankAccountError = BadRequest | Forbidden | NotFound | RemoteOpError;
-/** Show employee bank account Returns the authenticated employee's bank account details. This endpoint requires and returns country-specific data. The exact fields vary depending on which country the authenticated employee's employment is in. Query the [Show form schema](#tag/Countries/operation/get_show_form_country) endpoint with `bank_account_details` as the form name to discover the schema for a given country. ## Scopes */
+/** Show employee bank account Returns the authenticated employee's bank account details. This endpoint requires and returns country-specific data. The exact fields vary depending on which country the authenticated employee's employment is in. Query the [Show form schema](#tag/Countries/operation/get_show_form_country) endpoint with `bank_account_details` as the form name to discover the schema for a given country. ## Authentication This endpoint requires the following token type: - **Employee-scoped access token** (`OAuth2Assertion`) — obtained through the `urn:ietf:params:oauth:grant-type:jwt-bearer` grant. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). ## Scopes */
 export const getEmployeeBankAccount: API.OperationMethod<
   GetEmployeeBankAccountRequest,
   EmploymentDetailsOnlyResponse,
@@ -23403,7 +23721,7 @@ export const getEmployeeBankAccount: API.OperationMethod<
 }));
 
 export type GetEmployeeCurrentError = Forbidden | RemoteOpError;
-/** Get employee token identity Returns user and company information for the authenticated employee. */
+/** Get employee token identity Returns user and company information for the authenticated employee. ## Authentication This endpoint requires the following token type: - **Employee-scoped access token** (`OAuth2Assertion`) — obtained through the `urn:ietf:params:oauth:grant-type:jwt-bearer` grant. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). */
 export const getEmployeeCurrent: API.OperationMethod<
   GetEmployeeCurrentRequest,
   SuccessResponse,
@@ -23418,7 +23736,7 @@ export const getEmployeeCurrent: API.OperationMethod<
 }));
 
 export type GetEmployeeDocumentError = NotFound | UnprocessableEntity | RemoteOpError;
-/** Download a document for the employee ## Scopes */
+/** Download a document for the employee ## Authentication This endpoint requires the following token type: - **Employee-scoped access token** (`OAuth2Assertion`) — obtained through the `urn:ietf:params:oauth:grant-type:jwt-bearer` grant. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). ## Scopes */
 export const getEmployeeDocument: API.OperationMethod<
   GetEmployeeDocumentRequest,
   DownloadDocumentResponse,
@@ -23433,7 +23751,7 @@ export const getEmployeeDocument: API.OperationMethod<
 }));
 
 export type GetEmployeeDocumentsError = Forbidden | NotFound | RemoteOpError;
-/** Indexes all the documents for the employee ## Scopes */
+/** Indexes all the documents for the employee ## Authentication This endpoint requires the following token type: - **Employee-scoped access token** (`OAuth2Assertion`) — obtained through the `urn:ietf:params:oauth:grant-type:jwt-bearer` grant. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). ## Scopes */
 export const getEmployeeDocuments: API.OperationMethod<
   GetEmployeeDocumentsRequest,
   ListDocumentsResponse,
@@ -23448,7 +23766,7 @@ export const getEmployeeDocuments: API.OperationMethod<
 }));
 
 export type GetEmployeeEmergencyContactError = BadRequest | Forbidden | NotFound | RemoteOpError;
-/** Show employee emergency contact Returns the authenticated employee's emergency contact. The employment is derived from the access token's subject — there is no employment id in the path. This endpoint requires country-specific data. The exact required fields vary depending on which country the authenticated employee's employment is in. Query the [Show form schema](#tag/Countries/operation/get_show_form_country) endpoint with `emergency_contact_details` as the form name to discover the schema for a given country. ## Scopes */
+/** Show employee emergency contact Returns the authenticated employee's emergency contact. The employment is derived from the access token's subject — there is no employment id in the path. This endpoint requires country-specific data. The exact required fields vary depending on which country the authenticated employee's employment is in. Query the [Show form schema](#tag/Countries/operation/get_show_form_country) endpoint with `emergency_contact_details` as the form name to discover the schema for a given country. ## Authentication This endpoint requires the following token type: - **Employee-scoped access token** (`OAuth2Assertion`) — obtained through the `urn:ietf:params:oauth:grant-type:jwt-bearer` grant. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). ## Scopes */
 export const getEmployeeEmergencyContact: API.OperationMethod<
   GetEmployeeEmergencyContactRequest,
   EmploymentDetailsOnlyResponse,
@@ -23463,7 +23781,7 @@ export const getEmployeeEmergencyContact: API.OperationMethod<
 }));
 
 export type GetEmployeeExpenseCategoriesError = Forbidden | NotFound | RemoteOpError;
-/** List expense categories for the authenticated employee Returns the flat list of expense categories applicable to the current employee. Only active categories are returned, filtered by the employee's country / legal-entity visibility rules. Leaf nodes have `is_selectable: true`; parent nodes are excluded unless `include_parents=true`. ## Scopes */
+/** List expense categories for the authenticated employee Returns the flat list of expense categories applicable to the current employee. Only active categories are returned, filtered by the employee's country / legal-entity visibility rules. Leaf nodes have `is_selectable: true`; parent nodes are excluded unless `include_parents=true`. ## Authentication This endpoint requires the following token type: - **Employee-scoped access token** (`OAuth2Assertion`) — obtained through the `urn:ietf:params:oauth:grant-type:jwt-bearer` grant. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). ## Scopes */
 export const getEmployeeExpenseCategories: API.OperationMethod<
   GetEmployeeExpenseCategoriesRequest,
   ListExpenseCategoriesResponse,
@@ -23478,7 +23796,7 @@ export const getEmployeeExpenseCategories: API.OperationMethod<
 }));
 
 export type GetEmployeeExpensesError = Forbidden | NotFound | RemoteOpError;
-/** List expenses for the authenticated employee Returns a paginated list of expenses belonging to the current employee. ## Scopes */
+/** List expenses for the authenticated employee Returns a paginated list of expenses belonging to the current employee. ## Authentication This endpoint requires the following token type: - **Employee-scoped access token** (`OAuth2Assertion`) — obtained through the `urn:ietf:params:oauth:grant-type:jwt-bearer` grant. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). ## Scopes */
 export const getEmployeeExpenses: API.OperationMethod<
   GetEmployeeExpensesRequest,
   SuccessResponse,
@@ -23493,7 +23811,7 @@ export const getEmployeeExpenses: API.OperationMethod<
 }));
 
 export type GetEmployeeIncentivesError = Forbidden | NotFound | RemoteOpError;
-/** List incentives for the authenticated employee Returns all incentives for the authenticated employee. ## Scopes */
+/** List incentives for the authenticated employee Returns all incentives for the authenticated employee. ## Authentication This endpoint requires the following token type: - **Employee-scoped access token** (`OAuth2Assertion`) — obtained through the `urn:ietf:params:oauth:grant-type:jwt-bearer` grant. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). ## Scopes */
 export const getEmployeeIncentives: API.OperationMethod<
   GetEmployeeIncentivesRequest,
   SuccessResponse,
@@ -23508,7 +23826,7 @@ export const getEmployeeIncentives: API.OperationMethod<
 }));
 
 export type GetEmployeeLeavePoliciesError = NotFound | RemoteOpError;
-/** List Employee Leave Policies List the leave policies for the current employee ## Scopes */
+/** List Employee Leave Policies List the leave policies for the current employee ## Authentication This endpoint requires the following token type: - **Employee-scoped access token** (`OAuth2Assertion`) — obtained through the `urn:ietf:params:oauth:grant-type:jwt-bearer` grant. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). ## Scopes */
 export const getEmployeeLeavePolicies: API.OperationMethod<
   GetEmployeeLeavePoliciesRequest,
   ListLeavePoliciesDetailsResponse,
@@ -23523,7 +23841,7 @@ export const getEmployeeLeavePolicies: API.OperationMethod<
 }));
 
 export type GetEmployeeLeavePoliciesSummaryError = NotFound | RemoteOpError;
-/** List Employee Leave Policies Summary List the leave policies summary (balances and entitlements) for the current employee ## Scopes */
+/** List Employee Leave Policies Summary List the leave policies summary (balances and entitlements) for the current employee ## Authentication This endpoint requires the following token type: - **Employee-scoped access token** (`OAuth2Assertion`) — obtained through the `urn:ietf:params:oauth:grant-type:jwt-bearer` grant. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). ## Scopes */
 export const getEmployeeLeavePoliciesSummary: API.OperationMethod<
   GetEmployeeLeavePoliciesSummaryRequest,
   ListLeavePoliciesSummaryResponse,
@@ -23538,7 +23856,7 @@ export const getEmployeeLeavePoliciesSummary: API.OperationMethod<
 }));
 
 export type GetEmployeePayslipFilesError = Forbidden | NotFound | RemoteOpError;
-/** List payslip files for the authenticated employee Returns a paginated list of payslip files belonging to the current employee. ## Scopes */
+/** List payslip files for the authenticated employee Returns a paginated list of payslip files belonging to the current employee. ## Authentication This endpoint requires the following token type: - **Employee-scoped access token** (`OAuth2Assertion`) — obtained through the `urn:ietf:params:oauth:grant-type:jwt-bearer` grant. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). ## Scopes */
 export const getEmployeePayslipFiles: API.OperationMethod<
   GetEmployeePayslipFilesRequest,
   ListPayslipFilesResponse,
@@ -23553,7 +23871,7 @@ export const getEmployeePayslipFiles: API.OperationMethod<
 }));
 
 export type GetEmployeePayslipsError = Forbidden | NotFound | RemoteOpError;
-/** List approved payslip files for the authenticated employee Returns a paginated list of payslip files belonging to the current employee. ## Scopes */
+/** List approved payslip files for the authenticated employee Returns a paginated list of payslip files belonging to the current employee. ## Authentication This endpoint requires the following token type: - **Employee-scoped access token** (`OAuth2Assertion`) — obtained through the `urn:ietf:params:oauth:grant-type:jwt-bearer` grant. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). ## Scopes */
 export const getEmployeePayslips: API.OperationMethod<
   GetEmployeePayslipsRequest,
   ListEmployeePayslipsResponse,
@@ -23568,7 +23886,7 @@ export const getEmployeePayslips: API.OperationMethod<
 }));
 
 export type GetEmployeePersonalDetailsError = BadRequest | Forbidden | NotFound | RemoteOpError;
-/** Show employee personal details Returns the authenticated employee's personal details. This endpoint requires country-specific data. Query the [Show form schema](#tag/Countries/operation/get_show_form_country) endpoint with `personal_details` as the form name to discover the schema for a given country. ## Scopes */
+/** Show employee personal details Returns the authenticated employee's personal details. This endpoint requires country-specific data. Query the [Show form schema](#tag/Countries/operation/get_show_form_country) endpoint with `personal_details` as the form name to discover the schema for a given country. ## Authentication This endpoint requires the following token type: - **Employee-scoped access token** (`OAuth2Assertion`) — obtained through the `urn:ietf:params:oauth:grant-type:jwt-bearer` grant. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). ## Scopes */
 export const getEmployeePersonalDetails: API.OperationMethod<
   GetEmployeePersonalDetailsRequest,
   EmploymentDetailsOnlyResponse,
@@ -23583,7 +23901,7 @@ export const getEmployeePersonalDetails: API.OperationMethod<
 }));
 
 export type GetEmployeePersonalInformationError = Forbidden | NotFound | RemoteOpError;
-/** Show personal information for the authenticated employee Returns personal information for the authenticated employee. ## Scopes */
+/** Show personal information for the authenticated employee Returns personal information for the authenticated employee. ## Authentication This endpoint requires the following token type: - **Employee-scoped access token** (`OAuth2Assertion`) — obtained through the `urn:ietf:params:oauth:grant-type:jwt-bearer` grant. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). ## Scopes */
 export const getEmployeePersonalInformation: API.OperationMethod<
   GetEmployeePersonalInformationRequest,
   SuccessResponse,
@@ -23598,7 +23916,7 @@ export const getEmployeePersonalInformation: API.OperationMethod<
 }));
 
 export type GetEmployeeTimeoffError = BadRequest | NotFound | RemoteOpError;
-/** List employee time offs Lists the current employee's time off records ## Scopes */
+/** List employee time offs Lists the current employee's time off records ## Authentication This endpoint requires the following token type: - **Employee-scoped access token** (`OAuth2Assertion`) — obtained through the `urn:ietf:params:oauth:grant-type:jwt-bearer` grant. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). ## Scopes */
 export const getEmployeeTimeoff: API.OperationMethod<
   GetEmployeeTimeoffRequest,
   ListTimeoffResponse,
@@ -23613,7 +23931,7 @@ export const getEmployeeTimeoff: API.OperationMethod<
 }));
 
 export type GetEmployeeTimesheetsError = Forbidden | NotFound | RemoteOpError;
-/** List timesheets for the authenticated employee Returns a paginated list of timesheets for the authenticated employee. ## Scopes */
+/** List timesheets for the authenticated employee Returns a paginated list of timesheets for the authenticated employee. ## Authentication This endpoint requires the following token type: - **Employee-scoped access token** (`OAuth2Assertion`) — obtained through the `urn:ietf:params:oauth:grant-type:jwt-bearer` grant. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). ## Scopes */
 export const getEmployeeTimesheets: API.OperationMethod<
   GetEmployeeTimesheetsRequest,
   SuccessResponse,
@@ -23633,7 +23951,7 @@ export type GetEmploymentError =
   | Conflict
   | UnprocessableEntity
   | RemoteOpError;
-/** Show employment Shows all the information of an employment. This endpoint requires and returns country-specific data. The exact required and returned fields will vary depending on which country the employment is in. To see the list of parameters for each country, see the **Show form schema** endpoint under the [Countries](#tag/Countries) category. Please note that the compliance requirements for each country are subject to change according to local laws. Given its continual updates, using Remote's [json-schema-form](https://developer.remote.com/docs/how-json-schemas-work) should be considered in order to avoid compliance issues and to have the latest version of a country requirements. If you are using this endpoint to build an integration, make sure you are dynamically collecting or displaying the latest parameters for each country by querying the _"Show form schema"_ endpoint. For more information on JSON Schemas, see the **How JSON Schemas work** documentation. To learn how you can dynamically generate forms to display in your UI, see the documentation for the [json-schema-form](https://developer.remote.com/docs/how-json-schemas-work) tool. ## Scopes */
+/** Show employment Shows all the information of an employment. This endpoint requires and returns country-specific data. The exact required and returned fields will vary depending on which country the employment is in. To see the list of parameters for each country, see the **Show form schema** endpoint under the [Countries](#tag/Countries) category. Please note that the compliance requirements for each country are subject to change according to local laws. Given its continual updates, using Remote's [json-schema-form](https://developer.remote.com/docs/how-json-schemas-work) should be considered in order to avoid compliance issues and to have the latest version of a country requirements. If you are using this endpoint to build an integration, make sure you are dynamically collecting or displaying the latest parameters for each country by querying the _"Show form schema"_ endpoint. For more information on JSON Schemas, see the **How JSON Schemas work** documentation. To learn how you can dynamically generate forms to display in your UI, see the documentation for the [json-schema-form](https://developer.remote.com/docs/how-json-schemas-work) tool. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const getEmployment: API.OperationMethod<
   GetEmploymentRequest,
   EmploymentShowResponse,
@@ -23648,7 +23966,7 @@ export const getEmployment: API.OperationMethod<
 }));
 
 export type GetEmploymentBackgroundCheckError = NotFound | UnprocessableEntity | RemoteOpError;
-/** Show Background Check Show Background Check details for a given employment and background check request. ## Scopes */
+/** Show Background Check Show Background Check details for a given employment and background check request. ## Authentication This endpoint requires the following token type: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). ## Scopes */
 export const getEmploymentBackgroundCheck: API.OperationMethod<
   GetEmploymentBackgroundCheckRequest,
   BackgroundChecksBackgroundCheckResponse,
@@ -23668,7 +23986,7 @@ export type GetEmploymentBasicInformationError =
   | NotFound
   | UnprocessableEntity
   | RemoteOpError;
-/** Get basic information Returns the employment's basic information. This endpoint requires and returns country-specific data. The exact required and returned fields will vary depending on which country the employment is in. To see the list of parameters for each country, see the **Show form schema** endpoint under the [Countries](#tag/Countries) category. Please note that the compliance requirements for each country are subject to change according to local laws. Given its continual updates, using Remote's [json-schema-form](https://developer.remote.com/docs/how-json-schemas-work) should be considered in order to avoid compliance issues and to have the latest version of a country requirements. If you are using this endpoint to build an integration, make sure you are dynamically collecting or displaying the latest parameters for each country by querying the _"Show form schema"_ endpoint. For more information on JSON Schemas, see the **How JSON Schemas work** documentation. To learn how you can dynamically generate forms to display in your UI, see the documentation for the [json-schema-form](https://developer.remote.com/docs/how-json-schemas-work) tool. ## Scopes */
+/** Get basic information Returns the employment's basic information. This endpoint requires and returns country-specific data. The exact required and returned fields will vary depending on which country the employment is in. To see the list of parameters for each country, see the **Show form schema** endpoint under the [Countries](#tag/Countries) category. Please note that the compliance requirements for each country are subject to change according to local laws. Given its continual updates, using Remote's [json-schema-form](https://developer.remote.com/docs/how-json-schemas-work) should be considered in order to avoid compliance issues and to have the latest version of a country requirements. If you are using this endpoint to build an integration, make sure you are dynamically collecting or displaying the latest parameters for each country by querying the _"Show form schema"_ endpoint. For more information on JSON Schemas, see the **How JSON Schemas work** documentation. To learn how you can dynamically generate forms to display in your UI, see the documentation for the [json-schema-form](https://developer.remote.com/docs/how-json-schemas-work) tool. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const getEmploymentBasicInformation: API.OperationMethod<
   GetEmploymentBasicInformationRequest,
   EmploymentDetailsOnlyResponse,
@@ -23687,7 +24005,7 @@ export type GetEmploymentBenefitOffersError =
   | NotFound
   | UnprocessableEntity
   | RemoteOpError;
-/** Get employment benefit offers ## Scopes */
+/** Get employment benefit offers ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const getEmploymentBenefitOffers: API.OperationMethod<
   GetEmploymentBenefitOffersRequest,
   EmploymentsBenefitOffersListBenefitOffers,
@@ -23706,7 +24024,7 @@ export type GetEmploymentBenefitOffersSchemaError =
   | NotFound
   | UnprocessableEntity
   | RemoteOpError;
-/** Get a employment benefit offers JSON schema ## Scopes */
+/** Get a employment benefit offers JSON schema ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const getEmploymentBenefitOffersSchema: API.OperationMethod<
   GetEmploymentBenefitOffersSchemaRequest,
   UnifiedEmploymentsBenefitOffersJSONSchemaResponse,
@@ -23724,7 +24042,7 @@ export type GetEmploymentCompanyStructureNodesError =
   | NotFound
   | UnprocessableEntity
   | RemoteOpError;
-/** List company structure nodes Shows all the company structure nodes of an employment. ## Scopes */
+/** List company structure nodes Shows all the company structure nodes of an employment. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const getEmploymentCompanyStructureNodes: API.OperationMethod<
   GetEmploymentCompanyStructureNodesRequest,
   CompanyStructureNodesResponse,
@@ -23739,7 +24057,7 @@ export const getEmploymentCompanyStructureNodes: API.OperationMethod<
 }));
 
 export type GetEmploymentContractDocumentsError = NotFound | UnprocessableEntity | RemoteOpError;
-/** List contract documents for an employment Only contractor employment types are supported. Lists contract documents for a specific employment with pagination, filtering by status, and sorted by updated_at descending (latest first). ## Scopes */
+/** List contract documents for an employment Only contractor employment types are supported. Lists contract documents for a specific employment with pagination, filtering by status, and sorted by updated_at descending (latest first). ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const getEmploymentContractDocuments: API.OperationMethod<
   GetEmploymentContractDocumentsRequest,
   IndexContractDocumentsResponse,
@@ -23758,7 +24076,7 @@ export type GetEmploymentContractsError =
   | NotFound
   | UnprocessableEntity
   | RemoteOpError;
-/** List Employment Contract. Get the employment contract history for a given employment. If `only_active` is true, it will return only the active or last active contract. ## Scopes */
+/** List Employment Contract. Get the employment contract history for a given employment. If `only_active` is true, it will return only the active or last active contract. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const getEmploymentContracts: API.OperationMethod<
   GetEmploymentContractsRequest,
   ListEmploymentContractResponse,
@@ -23777,7 +24095,7 @@ export type GetEmploymentContractsEmploymentPendingChangesError =
   | NotFound
   | UnprocessableEntity
   | RemoteOpError;
-/** Get employment contract pending changes Get all the pending changes (waiting for aproval or signature) for the employment contract. ## Scopes */
+/** Get employment contract pending changes Get all the pending changes (waiting for aproval or signature) for the employment contract. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const getEmploymentContractsEmploymentPendingChanges: API.OperationMethod<
   GetEmploymentContractsEmploymentPendingChangesRequest,
   EmploymentContractPendingChangesResponse,
@@ -23797,7 +24115,7 @@ export type GetEmploymentCostCenterAllocationsError =
   | NotFound
   | UnprocessableEntity
   | RemoteOpError;
-/** List cost center allocations for an employment Lists the cost center allocations for an employment. Each allocation includes the cost center, the allocated percentage, and its effective period. An employment with no cost center assigned returns an empty list. Use the `status` query parameter to return only `active`, `scheduled`, or `expired` allocations. When omitted, all allocations are returned. ## Scopes */
+/** List cost center allocations for an employment Lists the cost center allocations for an employment. Each allocation includes the cost center, the allocated percentage, and its effective period. An employment with no cost center assigned returns an empty list. Use the `status` query parameter to return only `active`, `scheduled`, or `expired` allocations. When omitted, all allocations are returned. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const getEmploymentCostCenterAllocations: API.OperationMethod<
   GetEmploymentCostCenterAllocationsRequest,
   ListCostCenterAllocationsResponse,
@@ -23812,7 +24130,7 @@ export const getEmploymentCostCenterAllocations: API.OperationMethod<
 }));
 
 export type GetEmploymentCustomFieldsError = NotFound | UnprocessableEntity | RemoteOpError;
-/** List custom field value for an employment Returns a list of custom field values for a given employment ## Scopes */
+/** List custom field value for an employment Returns a list of custom field values for a given employment ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const getEmploymentCustomFields: API.OperationMethod<
   GetEmploymentCustomFieldsRequest,
   ListEmploymentCustomFieldValuePaginatedResponse,
@@ -23830,7 +24148,7 @@ export type GetEmploymentEmploymentAgreementDownloadError =
   | NotFound
   | UnprocessableEntity
   | RemoteOpError;
-/** Download the Employment Agreement for an employment Downloads a PDF of the auto-generated Employment Agreement for an employment. The document is rendered as a draft (no signatures) and is not persisted. EA preview is only available for countries that have a published Employment Agreement automation template — see the `employment_agreement_preview_available` flag on the [Countries](#tag/Countries) endpoint. ## Scopes */
+/** Download the Employment Agreement for an employment Downloads a PDF of the auto-generated Employment Agreement for an employment. The document is rendered as a draft (no signatures) and is not persisted. EA preview is only available for countries that have a published Employment Agreement automation template — see the `employment_agreement_preview_available` flag on the [Countries](#tag/Countries) endpoint. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const getEmploymentEmploymentAgreementDownload: API.OperationMethod<
   GetEmploymentEmploymentAgreementDownloadRequest,
   GetEmploymentEmploymentAgreementDownloadResponse,
@@ -23848,7 +24166,7 @@ export type GetEmploymentEmploymentAgreementPreviewError =
   | NotFound
   | UnprocessableEntity
   | RemoteOpError;
-/** Preview the Employment Agreement for an employment Returns a base64-encoded PDF preview of the auto-generated Employment Agreement for an employment. The document is rendered as a draft (no signatures) and is not persisted. EA preview is only available for countries that have a published Employment Agreement automation template — see the `employment_agreement_preview_available` flag on the [Countries](#tag/Countries) endpoint. ## Scopes */
+/** Preview the Employment Agreement for an employment Returns a base64-encoded PDF preview of the auto-generated Employment Agreement for an employment. The document is rendered as a draft (no signatures) and is not persisted. EA preview is only available for countries that have a published Employment Agreement automation template — see the `employment_agreement_preview_available` flag on the [Countries](#tag/Countries) endpoint. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const getEmploymentEmploymentAgreementPreview: API.OperationMethod<
   GetEmploymentEmploymentAgreementPreviewRequest,
   EmploymentAgreementPreviewResponse,
@@ -23868,7 +24186,7 @@ export type GetEmploymentEngagementAgreementDetailsError =
   | NotFound
   | UnprocessableEntity
   | RemoteOpError;
-/** Get engagement agreement details Returns the engagement agreement details for an employment. ## Scopes */
+/** Get engagement agreement details Returns the engagement agreement details for an employment. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const getEmploymentEngagementAgreementDetails: API.OperationMethod<
   GetEmploymentEngagementAgreementDetailsRequest,
   EmploymentEngagementAgreementDetailsResponse,
@@ -23888,7 +24206,7 @@ export type GetEmploymentEngagementAgreementDetails2Error =
   | NotFound
   | UnprocessableEntity
   | RemoteOpError;
-/** Get engagement agreement details Returns the engagement agreement details for an employment. ## Scopes */
+/** Get engagement agreement details Returns the engagement agreement details for an employment. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const getEmploymentEngagementAgreementDetails2: API.OperationMethod<
   GetEmploymentEngagementAgreementDetailsRequest2,
   EmploymentEngagementAgreementDetailsResponse,
@@ -23903,7 +24221,7 @@ export const getEmploymentEngagementAgreementDetails2: API.OperationMethod<
 }));
 
 export type GetEmploymentFilesError = NotFound | UnprocessableEntity | RemoteOpError;
-/** List employment files Lists files associated with a specific employment. Supports filtering by file type and sub_type. ## Scopes */
+/** List employment files Lists files associated with a specific employment. Supports filtering by file type and sub_type. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const getEmploymentFiles: API.OperationMethod<
   GetEmploymentFilesRequest,
   ListFilesResponse,
@@ -23918,7 +24236,7 @@ export const getEmploymentFiles: API.OperationMethod<
 }));
 
 export type GetEmploymentJobError = NotFound | UnprocessableEntity | RemoteOpError;
-/** Show employment job Shows an employment job details. ## Scopes */
+/** Show employment job Shows an employment job details. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const getEmploymentJob: API.OperationMethod<
   GetEmploymentJobRequest,
   EmploymentJobResponse,
@@ -23933,7 +24251,7 @@ export const getEmploymentJob: API.OperationMethod<
 }));
 
 export type GetEmploymentOnboardingStepsError = NotFound | RemoteOpError;
-/** Show onboarding steps for an employment Returns onboarding steps and substeps in a hierarchical, ordered structure. ## Scopes */
+/** Show onboarding steps for an employment Returns onboarding steps and substeps in a hierarchical, ordered structure. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const getEmploymentOnboardingSteps: API.OperationMethod<
   GetEmploymentOnboardingStepsRequest,
   EmploymentOnboardingStepsResponse,
@@ -23953,7 +24271,7 @@ export type GetEmploymentsError =
   | Conflict
   | UnprocessableEntity
   | RemoteOpError;
-/** List employments Lists all employments, except for the deleted ones. This endpoint requires and returns country-specific data. The exact required and returned fields will vary depending on which country the employment is in. To see the list of parameters for each country, see the **Show form schema** endpoint under the [Countries](#tag/Countries) category. Please note that the compliance requirements for each country are subject to change according to local laws. Given its continual updates, using Remote's [json-schema-form](https://developer.remote.com/docs/how-json-schemas-work) should be considered in order to avoid compliance issues and to have the latest version of a country requirements. If you are using this endpoint to build an integration, make sure you are dynamically collecting or displaying the latest parameters for each country by querying the _"Show form schema"_ endpoint. For more information on JSON Schemas, see the **How JSON Schemas work** documentation. To learn how you can dynamically generate forms to display in your UI, see the documentation for the [json-schema-form](https://developer.remote.com/docs/how-json-schemas-work) tool. */
+/** List employments Lists all employments, except for the deleted ones. This endpoint requires and returns country-specific data. The exact required and returned fields will vary depending on which country the employment is in. To see the list of parameters for each country, see the **Show form schema** endpoint under the [Countries](#tag/Countries) category. Please note that the compliance requirements for each country are subject to change according to local laws. Given its continual updates, using Remote's [json-schema-form](https://developer.remote.com/docs/how-json-schemas-work) should be considered in order to avoid compliance issues and to have the latest version of a country requirements. If you are using this endpoint to build an integration, make sure you are dynamically collecting or displaying the latest parameters for each country by querying the _"Show form schema"_ endpoint. For more information on JSON Schemas, see the **How JSON Schemas work** documentation. To learn how you can dynamically generate forms to display in your UI, see the documentation for the [json-schema-form](https://developer.remote.com/docs/how-json-schemas-work) tool. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const getEmployments: API.OperationMethod<
   GetEmploymentsRequest,
   ListEmploymentsResponse,
@@ -23968,7 +24286,7 @@ export const getEmployments: API.OperationMethod<
 }));
 
 export type GetEmploymentsBulkError = BadRequest | Forbidden | RemoteOpError;
-/** Bulk list employments Lists full-detail employments for the company scope, page-by-page via an opaque cursor. Each employment is the same shape returned by Show employment, except files are excluded to avoid a per-employment file lookup; use the Show employment endpoint to fetch files for a specific employment. The `files` field is always `null` on this endpoint. Pass the `next_cursor` value from a page's response as the `cursor` query parameter to fetch the next page. `next_cursor` is `null` once the last page has been reached. ## Scopes */
+/** Bulk list employments Lists full-detail employments for the company scope, page-by-page via an opaque cursor. Each employment is the same shape returned by Show employment, except files are excluded to avoid a per-employment file lookup; use the Show employment endpoint to fetch files for a specific employment. The `files` field is always `null` on this endpoint. Pass the `next_cursor` value from a page's response as the `cursor` query parameter to fetch the next page. `next_cursor` is `null` once the last page has been reached. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Client credentials access token** (`OAuth2ClientCredentials`) — obtained through the Client Credentials flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const getEmploymentsBulk: API.OperationMethod<
   GetEmploymentsBulkRequest,
   EmploymentsBulkResponse,
@@ -23983,7 +24301,7 @@ export const getEmploymentsBulk: API.OperationMethod<
 }));
 
 export type GetExpensError = BadRequest | NotFound | UnprocessableEntity | RemoteOpError;
-/** Show expense Shows a single expense record ## Scopes */
+/** Show expense Shows a single expense record ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const getExpens: API.OperationMethod<
   GetExpensRequest,
   ExpenseResponse,
@@ -23998,7 +24316,7 @@ export const getExpens: API.OperationMethod<
 }));
 
 export type GetExpensesError = BadRequest | NotFound | UnprocessableEntity | RemoteOpError;
-/** List expenses Lists all expenses records ## Scopes */
+/** List expenses Lists all expenses records ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const getExpenses: API.OperationMethod<
   GetExpensesRequest,
   ListExpenseResponse,
@@ -24017,7 +24335,7 @@ export type GetExpensesCategoriesError =
   | NotFound
   | UnprocessableEntity
   | RemoteOpError;
-/** List expense categories Lists the effective hierarchy of expense categories. At least one of employment_id, expense_id, or country_code must be provided. */
+/** List expense categories Lists the effective hierarchy of expense categories. At least one of employment_id, expense_id, or country_code must be provided. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). */
 export const getExpensesCategories: API.OperationMethod<
   GetExpensesCategoriesRequest,
   ListExpenseCategoriesResponse,
@@ -24037,7 +24355,7 @@ export type GetExpensReceiptError =
   | NotFound
   | UnprocessableEntity
   | RemoteOpError;
-/** Download a receipt by id Download a receipt by id. ## Scopes */
+/** Download a receipt by id Download a receipt by id. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const getExpensReceipt: API.OperationMethod<
   GetExpensReceiptRequest,
   GetExpensReceiptResponse,
@@ -24052,7 +24370,7 @@ export const getExpensReceipt: API.OperationMethod<
 }));
 
 export type GetFileError = NotFound | UnprocessableEntity | RemoteOpError;
-/** Download file Downloads a file. ## Scopes */
+/** Download file Downloads a file. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const getFile: API.OperationMethod<
   GetFileRequest,
   DownloadFileResponse,
@@ -24067,7 +24385,7 @@ export const getFile: API.OperationMethod<
 }));
 
 export type GetHelpCenterArticleError = NotFound | RemoteOpError;
-/** Get Help Center Article Get a help center article by its ID ## Scopes */
+/** Get Help Center Article Get a help center article by its ID ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Client credentials access token** (`OAuth2ClientCredentials`) — obtained through the Client Credentials flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). ## Scopes */
 export const getHelpCenterArticle: API.OperationMethod<
   GetHelpCenterArticleRequest,
   HelpCenterArticleResponse,
@@ -24082,7 +24400,7 @@ export const getHelpCenterArticle: API.OperationMethod<
 }));
 
 export type GetIdentityCurrentError = BadRequest | NotFound | UnprocessableEntity | RemoteOpError;
-/** Get token identity Shows information about the entities that can be controlled by the current auth token. */
+/** Get token identity Shows information about the entities that can be controlled by the current auth token. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Client credentials access token** (`OAuth2ClientCredentials`) — obtained through the Client Credentials flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). */
 export const getIdentityCurrent: API.OperationMethod<
   GetIdentityCurrentRequest,
   GetIdentityCurrentResponse,
@@ -24097,7 +24415,7 @@ export const getIdentityCurrent: API.OperationMethod<
 }));
 
 export type GetIdentityVerificationError = NotFound | UnprocessableEntity | RemoteOpError;
-/** Get Employment Profile Gets necessary information to perform the identity verification of an employee. ## Scopes */
+/** Get Employment Profile Gets necessary information to perform the identity verification of an employee. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const getIdentityVerification: API.OperationMethod<
   GetIdentityVerificationRequest,
   IdentityVerificationResponse,
@@ -24112,7 +24430,7 @@ export const getIdentityVerification: API.OperationMethod<
 }));
 
 export type GetIncentiveError = BadRequest | NotFound | UnprocessableEntity | RemoteOpError;
-/** Show Incentive Show an Incentive's details ## Scopes */
+/** Show Incentive Show an Incentive's details ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const getIncentive: API.OperationMethod<
   GetIncentiveRequest,
   IncentiveResponse,
@@ -24127,7 +24445,7 @@ export const getIncentive: API.OperationMethod<
 }));
 
 export type GetIncentivesError = BadRequest | NotFound | UnprocessableEntity | RemoteOpError;
-/** List Incentives Lists all Incentives of a company ## Scopes */
+/** List Incentives Lists all Incentives of a company ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const getIncentives: API.OperationMethod<
   GetIncentivesRequest,
   ListIncentivesResponse,
@@ -24146,7 +24464,7 @@ export type GetIncentivesRecurringError =
   | NotFound
   | UnprocessableEntity
   | RemoteOpError;
-/** List Recurring Incentive List all Recurring Incentives of a company. ## Scopes */
+/** List Recurring Incentive List all Recurring Incentives of a company. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const getIncentivesRecurring: API.OperationMethod<
   GetIncentivesRecurringRequest,
   ListRecurringIncentivesResponse,
@@ -24160,8 +24478,23 @@ export const getIncentivesRecurring: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type GetJobTitleScreeningError = Forbidden | NotFound | RemoteOpError;
+/** Show a job title screening Shows a job title screening and its per-item verdicts. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Client credentials access token** (`OAuth2ClientCredentials`) — obtained through the Client Credentials flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). */
+export const getJobTitleScreening: API.OperationMethod<
+  GetJobTitleScreeningRequest,
+  JobTitleScreeningResponse,
+  GetJobTitleScreeningError,
+  RemoteOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetJobTitleScreeningRequest,
+  output: JobTitleScreeningResponse,
+  errors: [Forbidden, NotFound, UnknownRemoteError],
+  protocol: RemoteProtocol,
+  retry: Retry.Retry,
+}));
+
 export type GetLeavePoliciesDetailError = NotFound | UnprocessableEntity | RemoteOpError;
-/** List Leave Policies Details Describe the leave policies (custom or not) for a given employment ## Scopes */
+/** List Leave Policies Details Describe the leave policies (custom or not) for a given employment ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const getLeavePoliciesDetail: API.OperationMethod<
   GetLeavePoliciesDetailRequest,
   ListLeavePoliciesDetailsResponse,
@@ -24176,7 +24509,7 @@ export const getLeavePoliciesDetail: API.OperationMethod<
 }));
 
 export type GetLeavePoliciesSummaryError = NotFound | UnprocessableEntity | RemoteOpError;
-/** List Leave Policies Summary List all the data related to time off for a given employment ## Scopes */
+/** List Leave Policies Summary List all the data related to time off for a given employment ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const getLeavePoliciesSummary: API.OperationMethod<
   GetLeavePoliciesSummaryRequest,
   ListLeavePoliciesSummaryResponse,
@@ -24191,7 +24524,7 @@ export const getLeavePoliciesSummary: API.OperationMethod<
 }));
 
 export type GetOffboardingError = BadRequest | NotFound | UnprocessableEntity | RemoteOpError;
-/** Show Offboarding Shows an Offboarding request. ## Scopes */
+/** Show Offboarding Shows an Offboarding request. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const getOffboarding: API.OperationMethod<
   GetOffboardingRequest,
   OffboardingResponse,
@@ -24206,7 +24539,7 @@ export const getOffboarding: API.OperationMethod<
 }));
 
 export type GetOffboardingByIdError = BadRequest | NotFound | UnprocessableEntity | RemoteOpError;
-/** Show Offboarding (v2) Returns a single offboarding by its ID. ## Scopes */
+/** Show Offboarding (v2) Returns a single offboarding by its ID. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const getOffboardingById: API.OperationMethod<
   GetOffboardingByIdRequest,
   V2OffboardingResponse,
@@ -24221,7 +24554,7 @@ export const getOffboardingById: API.OperationMethod<
 }));
 
 export type GetOffboardingsError = BadRequest | NotFound | UnprocessableEntity | RemoteOpError;
-/** List Offboarding Lists Offboarding requests. ## Scopes */
+/** List Offboarding Lists Offboarding requests. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const getOffboardings: API.OperationMethod<
   GetOffboardingsRequest,
   ListOffboardingResponse,
@@ -24236,7 +24569,7 @@ export const getOffboardings: API.OperationMethod<
 }));
 
 export type GetOffboardings2Error = BadRequest | NotFound | UnprocessableEntity | RemoteOpError;
-/** List Offboardings (v2) Lists offboardings for a company. ## Scopes */
+/** List Offboardings (v2). Requires a token issued via the authorization_code grant (company_manager role) — not usable with a client_credentials (integration) token. Lists offboardings for a company. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const getOffboardings2: API.OperationMethod<
   GetOffboardingsRequest2,
   V2ListOffboardingResponse,
@@ -24255,7 +24588,7 @@ export type GetOffboardingsEmploymentError =
   | NotFound
   | UnprocessableEntity
   | RemoteOpError;
-/** List Offboardings for Employment Lists Offboarding requests for a specific employment. ## Scopes */
+/** List Offboardings for Employment Lists Offboarding requests for a specific employment. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const getOffboardingsEmployment: API.OperationMethod<
   GetOffboardingsEmploymentRequest,
   ListOffboardingResponse,
@@ -24273,7 +24606,7 @@ export type GetOnboardingEmploymentPreOnboardingDocumentError =
   | Forbidden
   | NotFound
   | RemoteOpError;
-/** Retrieve a pre-onboarding document with its rendered PDF content Returns the rendered contract PDF (base64-encoded) and the list of signatories for the given pre-onboarding document. The `content` field is prefixed with `data:application/pdf;base64,` so it can be embedded directly in a document viewer. ## Scopes */
+/** Retrieve a pre-onboarding document with its rendered PDF content Returns the rendered contract PDF (base64-encoded) and the list of signatories for the given pre-onboarding document. The `content` field is prefixed with `data:application/pdf;base64,` so it can be embedded directly in a document viewer. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const getOnboardingEmploymentPreOnboardingDocument: API.OperationMethod<
   GetOnboardingEmploymentPreOnboardingDocumentRequest,
   ShowPreOnboardingDocumentResponse,
@@ -24291,7 +24624,7 @@ export type GetOnboardingEmploymentPreOnboardingRequirementsError =
   | Forbidden
   | NotFound
   | RemoteOpError;
-/** List pre-onboarding requirements for an employment Returns the list of pre-onboarding requirements — both documents (e.g. master service agreements, individual labour agreements) and acknowledgements — that must be fulfilled before the given employment can be onboarded. Each requirement carries its `type`, current `status`, and the requirement it `depends_on` (if any). ## Scopes */
+/** List pre-onboarding requirements for an employment Returns the list of pre-onboarding requirements — both documents (e.g. master service agreements, individual labour agreements) and acknowledgements — that must be fulfilled before the given employment can be onboarded. Each requirement carries its `type`, current `status`, and the requirement it `depends_on` (if any). ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const getOnboardingEmploymentPreOnboardingRequirements: API.OperationMethod<
   GetOnboardingEmploymentPreOnboardingRequirementsRequest,
   IndexPreOnboardingRequirementsResponse,
@@ -24306,7 +24639,7 @@ export const getOnboardingEmploymentPreOnboardingRequirements: API.OperationMeth
 }));
 
 export type GetPayItemsError = Forbidden | NotFound | UnprocessableEntity | RemoteOpError;
-/** List Pay Items Lists pay items for a company with optional filtering by employment, date range, and pagination. ## Scopes */
+/** List Pay Items Lists pay items for a company with optional filtering by employment, legal entity, date range, and pagination. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const getPayItems: API.OperationMethod<
   GetPayItemsRequest,
   ListPayItemsResponse,
@@ -24321,7 +24654,7 @@ export const getPayItems: API.OperationMethod<
 }));
 
 export type GetPayrollCalendarError = NotFound | UnprocessableEntity | RemoteOpError;
-/** List Company Payroll Calendar List all payroll calendars for the company within the requested cycle. ## Scopes */
+/** List Company Payroll Calendar List all payroll calendars for the company within the requested cycle. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const getPayrollCalendar: API.OperationMethod<
   GetPayrollCalendarRequest,
   PayrollCalendarsResponse,
@@ -24336,7 +24669,7 @@ export const getPayrollCalendar: API.OperationMethod<
 }));
 
 export type GetPayrollCalendarsError = NotFound | UnprocessableEntity | RemoteOpError;
-/** List EOR Payroll Calendar List all active payroll calendars for EOR. ## Scopes */
+/** List EOR Payroll Calendar List all active payroll calendars for EOR. ## Authentication This endpoint requires the following token type: - **Client credentials access token** (`OAuth2ClientCredentials`) — obtained through the Client Credentials flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). ## Scopes */
 export const getPayrollCalendars: API.OperationMethod<
   GetPayrollCalendarsRequest,
   PayrollCalendarsEORResponse,
@@ -24351,7 +24684,7 @@ export const getPayrollCalendars: API.OperationMethod<
 }));
 
 export type GetPayrollRunError = NotFound | UnprocessableEntity | RemoteOpError;
-/** Show Company Payroll Runs Given an ID, shows a payroll run. `employee_details` field is deprecated in favour of the `employee_details` endpoint and will be removed in the future. ## Scopes */
+/** Show Company Payroll Runs Given an ID, shows a payroll run. `employee_details` field is deprecated in favour of the `employee_details` endpoint and will be removed in the future. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const getPayrollRun: API.OperationMethod<
   GetPayrollRunRequest,
   PayrollRunResponse,
@@ -24366,7 +24699,7 @@ export const getPayrollRun: API.OperationMethod<
 }));
 
 export type GetPayrollRunEmployeeDetailsError = NotFound | UnprocessableEntity | RemoteOpError;
-/** Get Employee Details for a Payroll Run Gets the employee details for a payroll run ## Scopes */
+/** Get Employee Details for a Payroll Run Gets the employee details for a payroll run ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const getPayrollRunEmployeeDetails: API.OperationMethod<
   GetPayrollRunEmployeeDetailsRequest,
   EmployeeDetailsResponse,
@@ -24381,7 +24714,7 @@ export const getPayrollRunEmployeeDetails: API.OperationMethod<
 }));
 
 export type GetPayrollRunGlReportError = NotFound | RemoteOpError;
-/** Show a GL report Returns the current status of a GL report. Poll until `status` is `completed`, then call `download`. ## Scopes */
+/** Show a GL report Returns the current status of a GL report. Poll until `status` is `completed`, then call `download`. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const getPayrollRunGlReport: API.OperationMethod<
   GetPayrollRunGlReportRequest,
   GLReportResponse,
@@ -24396,7 +24729,7 @@ export const getPayrollRunGlReport: API.OperationMethod<
 }));
 
 export type GetPayrollRunGlReportDownloadError = NotFound | RemoteOpError;
-/** Download a GL report Downloads the generated GL report as a CSV file. The report must have `status: completed` before calling this endpoint. ## Scopes */
+/** Download a GL report Downloads the generated GL report as a CSV file. The report must have `status: completed` before calling this endpoint. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const getPayrollRunGlReportDownload: API.OperationMethod<
   GetPayrollRunGlReportDownloadRequest,
   GetPayrollRunGlReportDownloadResponse,
@@ -24411,7 +24744,7 @@ export const getPayrollRunGlReportDownload: API.OperationMethod<
 }));
 
 export type GetPayrollRunsError = NotFound | UnprocessableEntity | RemoteOpError;
-/** List Company Payroll Runs Lists all payroll runs for a company ## Scopes */
+/** List Company Payroll Runs Lists all payroll runs for a company ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const getPayrollRuns: API.OperationMethod<
   GetPayrollRunsRequest,
   ListPayrollRunResponse,
@@ -24426,7 +24759,7 @@ export const getPayrollRuns: API.OperationMethod<
 }));
 
 export type GetPayslipPdfError = BadRequest | NotFound | UnprocessableEntity | RemoteOpError;
-/** Download payslip in the PDF format Given a Payslip ID, downloads a payslip. It is important to note that each country has a different payslip format and they are not authored by Remote. ## Scopes */
+/** Download payslip in the PDF format Given a Payslip ID, downloads a payslip. It is important to note that each country has a different payslip format and they are not authored by Remote. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const getPayslipPdf: API.OperationMethod<
   GetPayslipPdfRequest,
   GetPayslipPdfResponse,
@@ -24441,7 +24774,7 @@ export const getPayslipPdf: API.OperationMethod<
 }));
 
 export type GetPayslipsError = BadRequest | NotFound | UnprocessableEntity | RemoteOpError;
-/** List payslips Lists all payslips belonging to a company. Can also filter for a single employment belonging to that company. ## Scopes */
+/** List payslips Lists all payslips belonging to a company. Can also filter for a single employment belonging to that company. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const getPayslips: API.OperationMethod<
   GetPayslipsRequest,
   ListPayslipsResponse,
@@ -24456,7 +24789,7 @@ export const getPayslips: API.OperationMethod<
 }));
 
 export type GetPricingPlanPartnerTemplatesError = NotFound | UnprocessableEntity | RemoteOpError;
-/** List pricing plan partner templates List all pricing plan partner templates. ## Scopes */
+/** List pricing plan partner templates List all pricing plan partner templates. ## Authentication This endpoint requires the following token type: - **Client credentials access token** (`OAuth2ClientCredentials`) — obtained through the Client Credentials flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). ## Scopes */
 export const getPricingPlanPartnerTemplates: API.OperationMethod<
   GetPricingPlanPartnerTemplatesRequest,
   ListPricingPlanPartnerTemplatesResponse,
@@ -24471,7 +24804,7 @@ export const getPricingPlanPartnerTemplates: API.OperationMethod<
 }));
 
 export type GetProbationCompletionLetterError = NotFound | UnprocessableEntity | RemoteOpError;
-/** Show probation completion letter Show a single probation completion letter. ## Scopes */
+/** Show probation completion letter Show a single probation completion letter. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const getProbationCompletionLetter: API.OperationMethod<
   GetProbationCompletionLetterRequest,
   ProbationCompletionLetterResponse,
@@ -24486,7 +24819,7 @@ export const getProbationCompletionLetter: API.OperationMethod<
 }));
 
 export type GetProbationExtensionError = NotFound | UnprocessableEntity | RemoteOpError;
-/** Show Probation Extension Shows a Probation Extension Request. ## Scopes */
+/** Show Probation Extension Shows a Probation Extension Request. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const getProbationExtension: API.OperationMethod<
   GetProbationExtensionRequest,
   ProbationExtensionResponse,
@@ -24500,8 +24833,53 @@ export const getProbationExtension: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type GetProjectError = Forbidden | NotFound | UnprocessableEntity | RemoteOpError;
+/** Show a single company project Shows a single contractor project by its ID. ## Authentication This endpoint requires the following token type: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). ## Scopes */
+export const getProject: API.OperationMethod<
+  GetProjectRequest,
+  ProjectResponse,
+  GetProjectError,
+  RemoteOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetProjectRequest,
+  output: ProjectResponse,
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownRemoteError],
+  protocol: RemoteProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetProjectEligibleLeadsError = Forbidden | NotFound | RemoteOpError;
+/** List eligible project leads Lists the users eligible to be assigned as a lead for a company's projects. ## Authentication This endpoint requires the following token type: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). ## Scopes */
+export const getProjectEligibleLeads: API.OperationMethod<
+  GetProjectEligibleLeadsRequest,
+  ListEligibleLeadsResponse,
+  GetProjectEligibleLeadsError,
+  RemoteOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetProjectEligibleLeadsRequest,
+  output: ListEligibleLeadsResponse,
+  errors: [Forbidden, NotFound, UnknownRemoteError],
+  protocol: RemoteProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetProjectsError = Forbidden | NotFound | UnprocessableEntity | RemoteOpError;
+/** List company projects Lists a company's contractor projects. ## Authentication This endpoint requires the following token type: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). ## Scopes */
+export const getProjects: API.OperationMethod<
+  GetProjectsRequest,
+  ListProjectsResponse,
+  GetProjectsError,
+  RemoteOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetProjectsRequest,
+  output: ListProjectsResponse,
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownRemoteError],
+  protocol: RemoteProtocol,
+  retry: Retry.Retry,
+}));
+
 export type GetResignationError = BadRequest | NotFound | UnprocessableEntity | RemoteOpError;
-/** Show Resignation Shows the details of a resignation with status `submitted`. ## Scopes */
+/** Show Resignation Shows the details of a resignation with status `submitted`. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const getResignation: API.OperationMethod<
   GetResignationRequest,
   ResignationResponse,
@@ -24521,7 +24899,7 @@ export type GetResignationResignationLetterError =
   | NotFound
   | UnprocessableEntity
   | RemoteOpError;
-/** Download a resignation letter Downloads a resignation letter from an employment request. ## Scopes */
+/** Download a resignation letter Downloads a resignation letter from an employment request. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const getResignationResignationLetter: API.OperationMethod<
   GetResignationResignationLetterRequest,
   GetResignationResignationLetterResponse,
@@ -24536,7 +24914,7 @@ export const getResignationResignationLetter: API.OperationMethod<
 }));
 
 export type GetScimGroupError = Forbidden | NotFound | RemoteOpError;
-/** Get group by ID via SCIM v2.0 Retrieves a single group (department) for the authenticated company by group ID */
+/** Get group by ID via SCIM v2.0 Retrieves a single group (department) for the authenticated company by group ID ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Client credentials access token** (`OAuth2ClientCredentials`) — obtained through the Client Credentials flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). */
 export const getScimGroup: API.OperationMethod<
   GetScimGroupRequest,
   IntegrationsScimGroup,
@@ -24551,7 +24929,7 @@ export const getScimGroup: API.OperationMethod<
 }));
 
 export type GetScimGroupsError = BadRequest | Forbidden | NotFound | RemoteOpError;
-/** List groups via SCIM v2.0 Retrieves a list of groups (departments) for the authenticated company following SCIM 2.0 standard */
+/** List groups via SCIM v2.0 Retrieves a list of groups (departments) for the authenticated company following SCIM 2.0 standard ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Client credentials access token** (`OAuth2ClientCredentials`) — obtained through the Client Credentials flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). */
 export const getScimGroups: API.OperationMethod<
   GetScimGroupsRequest,
   IntegrationsScimGroupListResponse,
@@ -24566,7 +24944,7 @@ export const getScimGroups: API.OperationMethod<
 }));
 
 export type GetScimUserError = Forbidden | NotFound | RemoteOpError;
-/** Get user by ID via SCIM v2.0 Retrieves a single user for the authenticated company by user ID */
+/** Get user by ID via SCIM v2.0 Retrieves a single user for the authenticated company by user ID ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Client credentials access token** (`OAuth2ClientCredentials`) — obtained through the Client Credentials flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). */
 export const getScimUser: API.OperationMethod<
   GetScimUserRequest,
   IntegrationsScimUser,
@@ -24581,7 +24959,7 @@ export const getScimUser: API.OperationMethod<
 }));
 
 export type GetScimUsersError = BadRequest | Forbidden | NotFound | RemoteOpError;
-/** List users via SCIM v2.0 Retrieves a list of users for the authenticated company following SCIM 2.0 standard */
+/** List users via SCIM v2.0 Retrieves a list of users for the authenticated company following SCIM 2.0 standard ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Client credentials access token** (`OAuth2ClientCredentials`) — obtained through the Client Credentials flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). */
 export const getScimUsers: API.OperationMethod<
   GetScimUsersRequest,
   IntegrationsScimUserListResponse,
@@ -24596,7 +24974,7 @@ export const getScimUsers: API.OperationMethod<
 }));
 
 export type GetSsoConfigurationError = BadRequest | NotFound | RemoteOpError;
-/** Show the current SSO Configuration Shows the current SSO Configuration for the company. ## Scopes */
+/** Show the current SSO Configuration Shows the current SSO Configuration for the company. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const getSsoConfiguration: API.OperationMethod<
   GetSsoConfigurationRequest,
   SSOConfigurationResponse,
@@ -24611,7 +24989,7 @@ export const getSsoConfiguration: API.OperationMethod<
 }));
 
 export type GetSsoConfigurationDetailsError = BadRequest | NotFound | RemoteOpError;
-/** Show the SSO Configuration Details Shows the SSO Configuration details for the company. ## Scopes */
+/** Show the SSO Configuration Details Shows the SSO Configuration details for the company. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const getSsoConfigurationDetails: API.OperationMethod<
   GetSsoConfigurationDetailsRequest,
   SSOConfigurationDetailsResponse,
@@ -24626,7 +25004,7 @@ export const getSsoConfigurationDetails: API.OperationMethod<
 }));
 
 export type GetTestSchemaError = RemoteOpError;
-/** Get a mock JSON Schema Get a mock JSON Schema for testing purposes */
+/** Get a mock JSON Schema Get a mock JSON Schema for testing purposes ## Authentication This endpoint requires the following token type: - **Client credentials access token** (`OAuth2ClientCredentials`) — obtained through the Client Credentials flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). */
 export const getTestSchema: API.OperationMethod<
   GetTestSchemaRequest,
   CompanyFormResponse,
@@ -24641,7 +25019,7 @@ export const getTestSchema: API.OperationMethod<
 }));
 
 export type GetTimeoffError = BadRequest | NotFound | UnprocessableEntity | RemoteOpError;
-/** List Time Off Lists all Time Off records. ## Scopes */
+/** List Time Off Lists all Time Off records. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const getTimeoff: API.OperationMethod<
   GetTimeoffRequest,
   ListTimeoffResponse,
@@ -24656,7 +25034,7 @@ export const getTimeoff: API.OperationMethod<
 }));
 
 export type GetTimeoffByIdError = BadRequest | NotFound | UnprocessableEntity | RemoteOpError;
-/** Show Time Off Shows a single Time Off record ## Scopes */
+/** Show Time Off Shows a single Time Off record ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const getTimeoffById: API.OperationMethod<
   GetTimeoffByIdRequest,
   TimeoffResponse,
@@ -24671,7 +25049,7 @@ export const getTimeoffById: API.OperationMethod<
 }));
 
 export type GetTimeoffTypesError = BadRequest | NotFound | UnprocessableEntity | RemoteOpError;
-/** List Time Off Types Lists all time off types that can be used for the `timeoff_type` parameter. **Backward compatibility:** Calling this endpoint without the `type` query parameter returns the same response as before (time off types for full-time employments). Existing integrations do not need to change. Optionally, pass `type=contractor` to get time off types for contractor employments, or `type=full_time` for full-time employments (same as omitting the parameter). ## Scopes */
+/** List Time Off Types Lists all time off types that can be used for the `timeoff_type` parameter. **Backward compatibility:** Calling this endpoint without the `type` query parameter returns the same response as before (time off types for full-time employments). Existing integrations do not need to change. Optionally, pass `type=contractor` to get time off types for contractor employments, or `type=full_time` for full-time employments (same as omitting the parameter). ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const getTimeoffTypes: API.OperationMethod<
   GetTimeoffTypesRequest,
   ListTimeoffTypesResponse,
@@ -24686,7 +25064,7 @@ export const getTimeoffTypes: API.OperationMethod<
 }));
 
 export type GetTimesheetError = NotFound | UnprocessableEntity | RemoteOpError;
-/** Show timesheet Shows a timesheet by its ID. ## Scopes */
+/** Show timesheet Shows a timesheet by its ID. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const getTimesheet: API.OperationMethod<
   GetTimesheetRequest,
   TimesheetResponse,
@@ -24701,7 +25079,7 @@ export const getTimesheet: API.OperationMethod<
 }));
 
 export type GetTimesheetsError = NotFound | UnprocessableEntity | RemoteOpError;
-/** List timesheets Lists all timesheets. ## Scopes */
+/** List timesheets Lists all timesheets. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const getTimesheets: API.OperationMethod<
   GetTimesheetsRequest,
   ListTimesheetsResponse,
@@ -24716,7 +25094,7 @@ export const getTimesheets: API.OperationMethod<
 }));
 
 export type GetTravelLetterRequestError = NotFound | UnprocessableEntity | RemoteOpError;
-/** Show travel letter request Show a single travel letter request. ## Scopes */
+/** Show travel letter request Show a single travel letter request. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const getTravelLetterRequest: API.OperationMethod<
   GetTravelLetterRequestRequest,
   TravelLetterResponse,
@@ -24731,7 +25109,7 @@ export const getTravelLetterRequest: API.OperationMethod<
 }));
 
 export type GetTravelLetterRequestsError = NotFound | UnprocessableEntity | RemoteOpError;
-/** List travel letter requests List travel letter requests. ## Scopes */
+/** List travel letter requests List travel letter requests. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const getTravelLetterRequests: API.OperationMethod<
   GetTravelLetterRequestsRequest,
   ListTravelLettersResponse,
@@ -24745,8 +25123,28 @@ export const getTravelLetterRequests: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type GetV1ContractorInvoicesIdPayInDetailsError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | RemoteOpError;
+/** Show Contractor Invoice pay-in details Shows how the payment that collects a Contractor Invoice is paid in, and where to send it. `bank_accounts` carries Remote's receiving accounts while `status` is `awaiting_payment`. It is null once the funds are in flight or received, while the payment sits on a compliance hold (`blocked`) or is partly paid (`partially_paid`, where `amount_due` overstates what remains and Remote follows up with the balance directly), and whenever Remote has no account to publish. `pay_in_method` says whether a transfer is yours to send at all: Remote collects `direct_debit`, `card` and `prefunding_credit` payments itself, and a transfer would pay the same invoices twice. That holds after a failed or disputed collection too: the payment reads `awaiting_payment` with its method unchanged until the company retries it in Remote, so a failed debit is not an invitation to wire, even when accounts are present. Accounts can differ from one payment to the next, so read them before every transfer rather than storing them. The endpoint answers 404 only while no payment stands behind the invoice. A passing database fault surfaces as a 504 or a 500; retry either. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
+export const getV1ContractorInvoicesIdPayInDetails: API.OperationMethod<
+  GetV1ContractorInvoicesIdPayInDetailsRequest,
+  ContractorInvoicePayInDetailsResponse,
+  GetV1ContractorInvoicesIdPayInDetailsError,
+  RemoteOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetV1ContractorInvoicesIdPayInDetailsRequest,
+  output: ContractorInvoicePayInDetailsResponse,
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownRemoteError],
+  protocol: RemoteProtocol,
+  retry: Retry.Retry,
+}));
+
 export type GetWebhookEventsError = NotFound | UnprocessableEntity | RemoteOpError;
-/** List Webhook Events List all webhook events ## Scopes */
+/** List Webhook Events List all webhook events ## Authentication This endpoint requires the following token type: - **Client credentials access token** (`OAuth2ClientCredentials`) — obtained through the Client Credentials flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). ## Scopes */
 export const getWebhookEvents: API.OperationMethod<
   GetWebhookEventsRequest,
   ListWebhookEventsResponse,
@@ -24761,7 +25159,7 @@ export const getWebhookEvents: API.OperationMethod<
 }));
 
 export type GetWorkAuthorizationRequestError = NotFound | UnprocessableEntity | RemoteOpError;
-/** Show work authorization request Show a single work authorization request. ## Scopes */
+/** Show work authorization request Show a single work authorization request. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const getWorkAuthorizationRequest: API.OperationMethod<
   GetWorkAuthorizationRequestRequest,
   WorkAuthorizationRequestResponse,
@@ -24776,7 +25174,7 @@ export const getWorkAuthorizationRequest: API.OperationMethod<
 }));
 
 export type GetWorkAuthorizationRequestsError = NotFound | UnprocessableEntity | RemoteOpError;
-/** List work authorization requests List work authorization requests. ## Scopes */
+/** List work authorization requests List work authorization requests. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const getWorkAuthorizationRequests: API.OperationMethod<
   GetWorkAuthorizationRequestsRequest,
   ListWorkAuthorizationRequestsResponse,
@@ -24795,7 +25193,7 @@ export type PatchV1CompaniesCompanyIdError =
   | NotFound
   | UnprocessableEntity
   | RemoteOpError;
-/** Update a company Given an ID and a request object with new information, updates a company. ### Getting a company and its owner to `active` status If you created a company using the [create a company endpoint](#tag/Companies/operation/post_create_company) without all the required request body parameters, you can use this endpoint to provide the missing data. Once the company and its owner have all the necessary data, both their statuses will be set to `active` and the company onboarding will be marked as "completed". The following constitutes a company with "all the necessary data": * Complete `address`, with valid `address`, `postal_code`, `country` and `state` parameters (Varies by country. Use the [show form schema endpoint](#tag/Countries/operation/get_show_form_country) to see which address parameters are required). * Company `tax_number` or `registration_number` is not nil * Company `name` is not nil (already required when creating the company) * Company has a `desired_currency` in their bank account (already required when creating the company) * Company has accepted terms of service (already required when creating the company) ## Scopes */
+/** Update a company Given an ID and a request object with new information, updates a company. ### Getting a company and its owner to `active` status If you created a company using the [create a company endpoint](#tag/Companies/operation/post_create_company) without all the required request body parameters, you can use this endpoint to provide the missing data. Once the company and its owner have all the necessary data, both their statuses will be set to `active` and the company onboarding will be marked as "completed". The following constitutes a company with "all the necessary data": * Complete `address`, with valid `address`, `postal_code`, `country` and `state` parameters (Varies by country. Use the [show form schema endpoint](#tag/Countries/operation/get_show_form_country) to see which address parameters are required). * Company `tax_number` or `registration_number` is not nil * Company `name` is not nil (already required when creating the company) * Company has a `desired_currency` in their bank account (already required when creating the company) * Company has accepted terms of service (already required when creating the company) ## Authentication This endpoint requires the following token type: - **Client credentials access token** (`OAuth2ClientCredentials`) — obtained through the Client Credentials flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). ## Scopes */
 export const patchV1CompaniesCompanyId: API.OperationMethod<
   PatchV1CompaniesCompanyIdRequest,
   CompanyResponse,
@@ -24814,7 +25212,7 @@ export type PatchV1CompaniesCompanyId2Error =
   | NotFound
   | UnprocessableEntity
   | RemoteOpError;
-/** Update a company Given an ID and a request object with new information, updates a company. ### Getting a company and its owner to `active` status If you created a company using the [create a company endpoint](#tag/Companies/operation/post_create_company) without all the required request body parameters, you can use this endpoint to provide the missing data. Once the company and its owner have all the necessary data, both their statuses will be set to `active` and the company onboarding will be marked as "completed". The following constitutes a company with "all the necessary data": * Complete `address`, with valid `address`, `postal_code`, `country` and `state` parameters (Varies by country. Use the [show form schema endpoint](#tag/Countries/operation/get_show_form_country) to see which address parameters are required). * Company `tax_number` or `registration_number` is not nil * Company `name` is not nil (already required when creating the company) * Company has a `desired_currency` in their bank account (already required when creating the company) * Company has accepted terms of service (already required when creating the company) ## Scopes */
+/** Update a company Given an ID and a request object with new information, updates a company. ### Getting a company and its owner to `active` status If you created a company using the [create a company endpoint](#tag/Companies/operation/post_create_company) without all the required request body parameters, you can use this endpoint to provide the missing data. Once the company and its owner have all the necessary data, both their statuses will be set to `active` and the company onboarding will be marked as "completed". The following constitutes a company with "all the necessary data": * Complete `address`, with valid `address`, `postal_code`, `country` and `state` parameters (Varies by country. Use the [show form schema endpoint](#tag/Countries/operation/get_show_form_country) to see which address parameters are required). * Company `tax_number` or `registration_number` is not nil * Company `name` is not nil (already required when creating the company) * Company has a `desired_currency` in their bank account (already required when creating the company) * Company has accepted terms of service (already required when creating the company) ## Authentication This endpoint requires the following token type: - **Client credentials access token** (`OAuth2ClientCredentials`) — obtained through the Client Credentials flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). ## Scopes */
 export const patchV1CompaniesCompanyId2: API.OperationMethod<
   PatchV1CompaniesCompanyId2Request,
   CompanyResponse,
@@ -24833,7 +25231,7 @@ export type PatchV1CompanyManagersUserIdError =
   | NotFound
   | UnprocessableEntity
   | RemoteOpError;
-/** Update a Company Manager's billing contact assignment Assigns or unassigns a Company Manager as the billing contact (primary or additional) for one or more legal entities. ## Scopes */
+/** Update a Company Manager's billing contact assignment Assigns or unassigns a Company Manager as the billing contact (primary or additional) for one or more legal entities. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const patchV1CompanyManagersUserId: API.OperationMethod<
   PatchV1CompanyManagersUserIdRequest,
   CompanyManagerResponse,
@@ -24852,7 +25250,7 @@ export type PatchV1CompanyManagersUserId2Error =
   | NotFound
   | UnprocessableEntity
   | RemoteOpError;
-/** Update a Company Manager's billing contact assignment Assigns or unassigns a Company Manager as the billing contact (primary or additional) for one or more legal entities. ## Scopes */
+/** Update a Company Manager's billing contact assignment Assigns or unassigns a Company Manager as the billing contact (primary or additional) for one or more legal entities. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const patchV1CompanyManagersUserId2: API.OperationMethod<
   PatchV1CompanyManagersUserId2Request,
   CompanyManagerResponse,
@@ -24871,7 +25269,7 @@ export type PatchV1ContractorInvoiceSchedulesIdError =
   | NotFound
   | UnprocessableEntity
   | RemoteOpError;
-/** Updates Contractor Invoice Schedule Updates a contractor invoice schedule record ## Scopes */
+/** Updates Contractor Invoice Schedule Updates a contractor invoice schedule record ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const patchV1ContractorInvoiceSchedulesId: API.OperationMethod<
   PatchV1ContractorInvoiceSchedulesIdRequest,
   ContractorInvoiceScheduleResponse,
@@ -24890,7 +25288,7 @@ export type PatchV1ContractorInvoiceSchedulesId2Error =
   | NotFound
   | UnprocessableEntity
   | RemoteOpError;
-/** Updates Contractor Invoice Schedule Updates a contractor invoice schedule record ## Scopes */
+/** Updates Contractor Invoice Schedule Updates a contractor invoice schedule record ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const patchV1ContractorInvoiceSchedulesId2: API.OperationMethod<
   PatchV1ContractorInvoiceSchedulesId2Request,
   ContractorInvoiceScheduleResponse,
@@ -24909,7 +25307,7 @@ export type PatchV1CustomFieldsCustomFieldIdValuesEmploymentIdError =
   | NotFound
   | UnprocessableEntity
   | RemoteOpError;
-/** Update a Custom Field Value Updates a custom field value for a given employment. ## Scopes */
+/** Update a Custom Field Value Updates a custom field value for a given employment. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const patchV1CustomFieldsCustomFieldIdValuesEmploymentId: API.OperationMethod<
   PatchV1CustomFieldsCustomFieldIdValuesEmploymentIdRequest,
   EmploymentCustomFieldValueResponse,
@@ -24928,7 +25326,7 @@ export type PatchV1CustomFieldsCustomFieldIdValuesEmploymentId2Error =
   | NotFound
   | UnprocessableEntity
   | RemoteOpError;
-/** Update a Custom Field Value Updates a custom field value for a given employment. ## Scopes */
+/** Update a Custom Field Value Updates a custom field value for a given employment. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const patchV1CustomFieldsCustomFieldIdValuesEmploymentId2: API.OperationMethod<
   PatchV1CustomFieldsCustomFieldIdValuesEmploymentId2Request,
   EmploymentCustomFieldValueResponse,
@@ -24947,7 +25345,7 @@ export type PatchV1EmployeeTimeoffIdError =
   | NotFound
   | UnprocessableEntity
   | RemoteOpError;
-/** Update Time Off as Employee Updates a Time Off record as Employee ## Scopes */
+/** Update Time Off as Employee Updates a Time Off record as Employee ## Authentication This endpoint requires the following token type: - **Employee-scoped access token** (`OAuth2Assertion`) — obtained through the `urn:ietf:params:oauth:grant-type:jwt-bearer` grant. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). ## Scopes */
 export const patchV1EmployeeTimeoffId: API.OperationMethod<
   PatchV1EmployeeTimeoffIdRequest,
   TimeoffResponse,
@@ -24966,7 +25364,7 @@ export type PatchV1EmployeeTimeoffId2Error =
   | NotFound
   | UnprocessableEntity
   | RemoteOpError;
-/** Update Time Off as Employee Updates a Time Off record as Employee ## Scopes */
+/** Update Time Off as Employee Updates a Time Off record as Employee ## Authentication This endpoint requires the following token type: - **Employee-scoped access token** (`OAuth2Assertion`) — obtained through the `urn:ietf:params:oauth:grant-type:jwt-bearer` grant. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). ## Scopes */
 export const patchV1EmployeeTimeoffId2: API.OperationMethod<
   PatchV1EmployeeTimeoffId2Request,
   TimeoffResponse,
@@ -24986,7 +25384,7 @@ export type PatchV1EmploymentsEmploymentIdError =
   | Conflict
   | UnprocessableEntity
   | RemoteOpError;
-/** Update employment Updates an employment. **For `created` employments:** You can change all basic params and onboarding tasks or perform a per onboarding task update. You can also update basic_information. **For `active` employments:** You can update the manager (`manager_id` field), emergency_contact_details, address_details and work_email. **For `invited` employments:** You can update the work_email. After onboarding, only a limited set of employment data will be available for updates, such as `emergency_contact_details`. If you want to provide additional information for an employment, please make sure to do so **before** the employee is invited. We block updates to some employment data because employees need to agree to amendments in certain cases, such as when there are changes to their contract_details. Currently, these amendments can only be done through the Remote UI. It is possible to update the `external_id` of the employment for all employment statuses. The same applies to `partner_external_id`, the reference code private to the calling integration. Omit the field to leave it unchanged; send `null` to clear it. ## Global Payroll Employees To update a Global Payment employment your input data must comply with the global payroll json schemas. **For `active` employments:** In addition to the above list, you can update personal_details. ## Direct Employees To update an HRIS employment your input data must comply with the HRIS json schemas. This endpoint requires and returns country-specific data. The exact required and returned fields will vary depending on which country the employment is in. To see the list of parameters for each country, see the **Show form schema** endpoint under the [Countries](#tag/Countries) category. Please note that the compliance requirements for each country are subject to change according to local laws. Given its continual updates, using Remote's [json-schema-form](https://developer.remote.com/docs/how-json-schemas-work) should be considered in order to avoid compliance issues and to have the latest version of a country requirements. If you are using this endpoint to build an integration, make sure you are dynamically collecting or displaying the latest parameters for each country by querying the _"Show form schema"_ endpoint. For more information on JSON Schemas, see the **How JSON Schemas work** documentation. To learn how you can dynamically generate forms to display in your UI, see the documentation for the [json-schema-form](https://developer.remote.com/docs/how-json-schemas-work) tool. Please contact Remote if you need to update contractors via API since it's currently not supported. ## Scopes */
+/** Update employment Updates an employment. **For `created` employments:** You can change all basic params and onboarding tasks or perform a per onboarding task update. You can also update basic_information. **For `active` employments:** You can update the manager (`manager_id` field), emergency_contact_details, address_details and work_email. **For `invited` employments:** You can update the work_email. After onboarding, only a limited set of employment data will be available for updates, such as `emergency_contact_details`. If you want to provide additional information for an employment, please make sure to do so **before** the employee is invited. We block updates to some employment data because employees need to agree to amendments in certain cases, such as when there are changes to their contract_details. Currently, these amendments can only be done through the Remote UI. It is possible to update the `external_id` of the employment for all employment statuses. The same applies to `partner_external_id`, the reference code private to the calling integration. Omit the field to leave it unchanged; send `null` to clear it. ## Global Payroll Employees To update a Global Payment employment your input data must comply with the global payroll json schemas. **For `active` employments:** In addition to the above list, you can update personal_details. ## Direct Employees To update an HRIS employment your input data must comply with the HRIS json schemas. This endpoint requires and returns country-specific data. The exact required and returned fields will vary depending on which country the employment is in. To see the list of parameters for each country, see the **Show form schema** endpoint under the [Countries](#tag/Countries) category. Please note that the compliance requirements for each country are subject to change according to local laws. Given its continual updates, using Remote's [json-schema-form](https://developer.remote.com/docs/how-json-schemas-work) should be considered in order to avoid compliance issues and to have the latest version of a country requirements. If you are using this endpoint to build an integration, make sure you are dynamically collecting or displaying the latest parameters for each country by querying the _"Show form schema"_ endpoint. For more information on JSON Schemas, see the **How JSON Schemas work** documentation. To learn how you can dynamically generate forms to display in your UI, see the documentation for the [json-schema-form](https://developer.remote.com/docs/how-json-schemas-work) tool. Please contact Remote if you need to update contractors via API since it's currently not supported. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const patchV1EmploymentsEmploymentId: API.OperationMethod<
   PatchV1EmploymentsEmploymentIdRequest,
   EmploymentResponse,
@@ -25006,7 +25404,7 @@ export type PatchV1EmploymentsEmploymentId2Error =
   | Conflict
   | UnprocessableEntity
   | RemoteOpError;
-/** Update employment Updates an employment. **For `created` employments:** You can change all basic params and onboarding tasks or perform a per onboarding task update. You can also update basic_information. **For `active` employments:** You can update the manager (`manager_id` field), emergency_contact_details, address_details and work_email. **For `invited` employments:** You can update the work_email. After onboarding, only a limited set of employment data will be available for updates, such as `emergency_contact_details`. If you want to provide additional information for an employment, please make sure to do so **before** the employee is invited. We block updates to some employment data because employees need to agree to amendments in certain cases, such as when there are changes to their contract_details. Currently, these amendments can only be done through the Remote UI. It is possible to update the `external_id` of the employment for all employment statuses. The same applies to `partner_external_id`, the reference code private to the calling integration. Omit the field to leave it unchanged; send `null` to clear it. ## Global Payroll Employees To update a Global Payment employment your input data must comply with the global payroll json schemas. **For `active` employments:** In addition to the above list, you can update personal_details. ## Direct Employees To update an HRIS employment your input data must comply with the HRIS json schemas. This endpoint requires and returns country-specific data. The exact required and returned fields will vary depending on which country the employment is in. To see the list of parameters for each country, see the **Show form schema** endpoint under the [Countries](#tag/Countries) category. Please note that the compliance requirements for each country are subject to change according to local laws. Given its continual updates, using Remote's [json-schema-form](https://developer.remote.com/docs/how-json-schemas-work) should be considered in order to avoid compliance issues and to have the latest version of a country requirements. If you are using this endpoint to build an integration, make sure you are dynamically collecting or displaying the latest parameters for each country by querying the _"Show form schema"_ endpoint. For more information on JSON Schemas, see the **How JSON Schemas work** documentation. To learn how you can dynamically generate forms to display in your UI, see the documentation for the [json-schema-form](https://developer.remote.com/docs/how-json-schemas-work) tool. Please contact Remote if you need to update contractors via API since it's currently not supported. ## Scopes */
+/** Update employment Updates an employment. **For `created` employments:** You can change all basic params and onboarding tasks or perform a per onboarding task update. You can also update basic_information. **For `active` employments:** You can update the manager (`manager_id` field), emergency_contact_details, address_details and work_email. **For `invited` employments:** You can update the work_email. After onboarding, only a limited set of employment data will be available for updates, such as `emergency_contact_details`. If you want to provide additional information for an employment, please make sure to do so **before** the employee is invited. We block updates to some employment data because employees need to agree to amendments in certain cases, such as when there are changes to their contract_details. Currently, these amendments can only be done through the Remote UI. It is possible to update the `external_id` of the employment for all employment statuses. The same applies to `partner_external_id`, the reference code private to the calling integration. Omit the field to leave it unchanged; send `null` to clear it. ## Global Payroll Employees To update a Global Payment employment your input data must comply with the global payroll json schemas. **For `active` employments:** In addition to the above list, you can update personal_details. ## Direct Employees To update an HRIS employment your input data must comply with the HRIS json schemas. This endpoint requires and returns country-specific data. The exact required and returned fields will vary depending on which country the employment is in. To see the list of parameters for each country, see the **Show form schema** endpoint under the [Countries](#tag/Countries) category. Please note that the compliance requirements for each country are subject to change according to local laws. Given its continual updates, using Remote's [json-schema-form](https://developer.remote.com/docs/how-json-schemas-work) should be considered in order to avoid compliance issues and to have the latest version of a country requirements. If you are using this endpoint to build an integration, make sure you are dynamically collecting or displaying the latest parameters for each country by querying the _"Show form schema"_ endpoint. For more information on JSON Schemas, see the **How JSON Schemas work** documentation. To learn how you can dynamically generate forms to display in your UI, see the documentation for the [json-schema-form](https://developer.remote.com/docs/how-json-schemas-work) tool. Please contact Remote if you need to update contractors via API since it's currently not supported. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const patchV1EmploymentsEmploymentId2: API.OperationMethod<
   PatchV1EmploymentsEmploymentId2Request,
   EmploymentResponse,
@@ -25026,7 +25424,7 @@ export type PatchV1ExpensesIdError =
   | Conflict
   | UnprocessableEntity
   | RemoteOpError;
-/** Update an expense Updates an expense ## Scopes */
+/** Update an expense Updates an expense ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const patchV1ExpensesId: API.OperationMethod<
   PatchV1ExpensesIdRequest,
   ExpenseResponse,
@@ -25046,7 +25444,7 @@ export type PatchV1ExpensesId2Error =
   | Conflict
   | UnprocessableEntity
   | RemoteOpError;
-/** Update an expense Updates an expense ## Scopes */
+/** Update an expense Updates an expense ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const patchV1ExpensesId2: API.OperationMethod<
   PatchV1ExpensesId2Request,
   ExpenseResponse,
@@ -25066,7 +25464,7 @@ export type PatchV1IncentivesIdError =
   | Conflict
   | UnprocessableEntity
   | RemoteOpError;
-/** Update Incentive Updates an Incentive. Incentives use the currency of the employment specified provided in the `employment_id` field. The API doesn't support updating paid incentives. ## Scopes */
+/** Update Incentive Updates an Incentive. Incentives use the currency of the employment specified provided in the `employment_id` field. The API doesn't support updating paid incentives. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const patchV1IncentivesId: API.OperationMethod<
   PatchV1IncentivesIdRequest,
   IncentiveResponse,
@@ -25086,7 +25484,7 @@ export type PatchV1IncentivesId2Error =
   | Conflict
   | UnprocessableEntity
   | RemoteOpError;
-/** Update Incentive Updates an Incentive. Incentives use the currency of the employment specified provided in the `employment_id` field. The API doesn't support updating paid incentives. ## Scopes */
+/** Update Incentive Updates an Incentive. Incentives use the currency of the employment specified provided in the `employment_id` field. The API doesn't support updating paid incentives. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const patchV1IncentivesId2: API.OperationMethod<
   PatchV1IncentivesId2Request,
   IncentiveResponse,
@@ -25106,7 +25504,7 @@ export type PatchV1SandboxEmploymentsEmploymentIdError =
   | Conflict
   | UnprocessableEntity
   | RemoteOpError;
-/** Update employment Updates an employment. Use this endpoint to: - modify employment states for testing - Backdate employment start dates This endpoint will respond with a 404 outside of the Sandbox environment. `partner_external_id` cannot be updated here and is ignored if sent, like any other unsupported field. Set it with `PATCH /api/eor/v1/employments/{employment_id}` instead. For updating an employment's parameters outside of testing purposes, use [this Employment update endpoint](#operation/patch_update_employment). */
+/** Update employment Updates an employment. Use this endpoint to: - modify employment states for testing - Backdate employment start dates This endpoint will respond with a 404 outside of the Sandbox environment. `partner_external_id` cannot be updated here and is ignored if sent, like any other unsupported field. Set it with `PATCH /api/eor/v1/employments/{employment_id}` instead. For updating an employment's parameters outside of testing purposes, use [this Employment update endpoint](#operation/patch_update_employment). ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). */
 export const patchV1SandboxEmploymentsEmploymentId: API.OperationMethod<
   PatchV1SandboxEmploymentsEmploymentIdRequest,
   EmploymentResponse,
@@ -25126,7 +25524,7 @@ export type PatchV1SandboxEmploymentsEmploymentId2Error =
   | Conflict
   | UnprocessableEntity
   | RemoteOpError;
-/** Update employment Updates an employment. Use this endpoint to: - modify employment states for testing - Backdate employment start dates This endpoint will respond with a 404 outside of the Sandbox environment. `partner_external_id` cannot be updated here and is ignored if sent, like any other unsupported field. Set it with `PATCH /api/eor/v1/employments/{employment_id}` instead. For updating an employment's parameters outside of testing purposes, use [this Employment update endpoint](#operation/patch_update_employment). */
+/** Update employment Updates an employment. Use this endpoint to: - modify employment states for testing - Backdate employment start dates This endpoint will respond with a 404 outside of the Sandbox environment. `partner_external_id` cannot be updated here and is ignored if sent, like any other unsupported field. Set it with `PATCH /api/eor/v1/employments/{employment_id}` instead. For updating an employment's parameters outside of testing purposes, use [this Employment update endpoint](#operation/patch_update_employment). ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). */
 export const patchV1SandboxEmploymentsEmploymentId2: API.OperationMethod<
   PatchV1SandboxEmploymentsEmploymentId2Request,
   EmploymentResponse,
@@ -25141,7 +25539,7 @@ export const patchV1SandboxEmploymentsEmploymentId2: API.OperationMethod<
 }));
 
 export type PatchV1TimeoffIdError = BadRequest | NotFound | UnprocessableEntity | RemoteOpError;
-/** Update Time Off Updates a Time Off record. Warning: Updating the status of a time off through this endpoint is deprecated and will be removed on January 13, 2025. To approve or cancel an approved time off, use the `/approve` and `/cancel` endpoints instead. ## Scopes */
+/** Update Time Off Updates a Time Off record. Warning: Updating the status of a time off through this endpoint is deprecated and will be removed on January 13, 2025. To approve or cancel an approved time off, use the `/approve` and `/cancel` endpoints instead. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const patchV1TimeoffId: API.OperationMethod<
   PatchV1TimeoffIdRequest,
   TimeoffResponse,
@@ -25156,7 +25554,7 @@ export const patchV1TimeoffId: API.OperationMethod<
 }));
 
 export type PatchV1TimeoffId2Error = BadRequest | NotFound | UnprocessableEntity | RemoteOpError;
-/** Update Time Off Updates a Time Off record. Warning: Updating the status of a time off through this endpoint is deprecated and will be removed on January 13, 2025. To approve or cancel an approved time off, use the `/approve` and `/cancel` endpoints instead. ## Scopes */
+/** Update Time Off Updates a Time Off record. Warning: Updating the status of a time off through this endpoint is deprecated and will be removed on January 13, 2025. To approve or cancel an approved time off, use the `/approve` and `/cancel` endpoints instead. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const patchV1TimeoffId2: API.OperationMethod<
   PatchV1TimeoffId2Request,
   TimeoffResponse,
@@ -25171,7 +25569,7 @@ export const patchV1TimeoffId2: API.OperationMethod<
 }));
 
 export type PatchV1TravelLetterRequestsIdError = NotFound | UnprocessableEntity | RemoteOpError;
-/** Updates a travel letter request Updates a travel letter request ## Scopes */
+/** Updates a travel letter request Updates a travel letter request ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const patchV1TravelLetterRequestsId: API.OperationMethod<
   PatchV1TravelLetterRequestsIdRequest,
   TravelLetterResponse,
@@ -25186,7 +25584,7 @@ export const patchV1TravelLetterRequestsId: API.OperationMethod<
 }));
 
 export type PatchV1TravelLetterRequestsId2Error = NotFound | UnprocessableEntity | RemoteOpError;
-/** Updates a travel letter request Updates a travel letter request ## Scopes */
+/** Updates a travel letter request Updates a travel letter request ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const patchV1TravelLetterRequestsId2: API.OperationMethod<
   PatchV1TravelLetterRequestsId2Request,
   TravelLetterResponse,
@@ -25204,7 +25602,7 @@ export type PatchV1WorkAuthorizationRequestsIdError =
   | NotFound
   | UnprocessableEntity
   | RemoteOpError;
-/** Update work authorization request Updates a work authorization request. ## Scopes */
+/** Update work authorization request Updates a work authorization request. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const patchV1WorkAuthorizationRequestsId: API.OperationMethod<
   PatchV1WorkAuthorizationRequestsIdRequest,
   WorkAuthorizationRequestResponse,
@@ -25222,7 +25620,7 @@ export type PatchV1WorkAuthorizationRequestsId2Error =
   | NotFound
   | UnprocessableEntity
   | RemoteOpError;
-/** Update work authorization request Updates a work authorization request. ## Scopes */
+/** Update work authorization request Updates a work authorization request. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const patchV1WorkAuthorizationRequestsId2: API.OperationMethod<
   PatchV1WorkAuthorizationRequestsId2Request,
   WorkAuthorizationRequestResponse,
@@ -25242,7 +25640,7 @@ export type PatchV2EmploymentsEmploymentIdError =
   | Conflict
   | UnprocessableEntity
   | RemoteOpError;
-/** Update employment */
+/** Update employment ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const patchV2EmploymentsEmploymentId: API.OperationMethod<
   PatchV2EmploymentsEmploymentIdRequest,
   EmploymentResponse,
@@ -25262,7 +25660,7 @@ export type PatchV2EmploymentsEmploymentId2Error =
   | Conflict
   | UnprocessableEntity
   | RemoteOpError;
-/** Update employment */
+/** Update employment ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const patchV2EmploymentsEmploymentId2: API.OperationMethod<
   PatchV2EmploymentsEmploymentId2Request,
   EmploymentResponse,
@@ -25277,7 +25675,7 @@ export const patchV2EmploymentsEmploymentId2: API.OperationMethod<
 }));
 
 export type PostV1CurrencyConverterEffective2Error = NotFound | UnprocessableEntity | RemoteOpError;
-/** Convert currency using dynamic rates Convert currency using the rates Remote applies during employment creation and invoicing. ## Scopes */
+/** Convert currency using dynamic rates Convert currency using the rates Remote applies during employment creation and invoicing. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Client credentials access token** (`OAuth2ClientCredentials`) — obtained through the Client Credentials flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Client token** (`ClientToken`) — a partner `client_token`, accepted only on marketing endpoints. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). ## Scopes */
 export const postV1CurrencyConverterEffective2: API.OperationMethod<
   PostV1CurrencyConverterEffective2Request,
   ConvertCurrencyResponse,
@@ -25295,7 +25693,7 @@ export type PostV1EmploymentsEmploymentIdRiskReserveProofOfPaymentsError =
   | NotFound
   | UnprocessableEntity
   | RemoteOpError;
-/** Submit risk reserve proof of payment Submits a proof of payment document for a risk reserve associated with an employment. Triggers an `employment.cor_hiring.proof_of_payment_submitted` webhook event. ## Scopes */
+/** Submit risk reserve proof of payment Submits a proof of payment document for a risk reserve associated with an employment. Triggers an `employment.cor_hiring.proof_of_payment_submitted` webhook event. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const postV1EmploymentsEmploymentIdRiskReserveProofOfPayments: API.OperationMethod<
   PostV1EmploymentsEmploymentIdRiskReserveProofOfPaymentsRequest,
   RiskReserveProofOfPaymentResponse,
@@ -25314,7 +25712,7 @@ export type PostV1SandboxEmploymentsEmploymentIdRiskReserveProofOfPaymentsApprov
   | NotFound
   | UnprocessableEntity
   | RemoteOpError;
-/** Approve risk reserve proof of payment Approves a risk reserve proof of payment without the intervention of a Remote admin. Triggers an `employment.cor_hiring.proof_of_payment_accepted` webhook event. This endpoint is only available in Sandbox, otherwise it will respond with a 404. */
+/** Approve risk reserve proof of payment Approves a risk reserve proof of payment without the intervention of a Remote admin. Triggers an `employment.cor_hiring.proof_of_payment_accepted` webhook event. This endpoint is only available in Sandbox, otherwise it will respond with a 404. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). */
 export const postV1SandboxEmploymentsEmploymentIdRiskReserveProofOfPaymentsApprove: API.OperationMethod<
   PostV1SandboxEmploymentsEmploymentIdRiskReserveProofOfPaymentsApproveRequest,
   RiskReserveProofOfPaymentResponse,
@@ -25333,7 +25731,7 @@ export type PutCompanyLegalEntityAdministrativeDetailsError =
   | Conflict
   | UnprocessableEntity
   | RemoteOpError;
-/** Update Legal Entity Administrative details Update administrative details of legal entity for the authorized company specified in the request. ## Scopes */
+/** Update Legal Entity Administrative details Update administrative details of legal entity for the authorized company specified in the request. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Client credentials access token** (`OAuth2ClientCredentials`) — obtained through the Client Credentials flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). ## Scopes */
 export const putCompanyLegalEntityAdministrativeDetails: API.OperationMethod<
   PutCompanyLegalEntityAdministrativeDetailsRequest,
   PutCompanyLegalEntityAdministrativeDetailsResponse,
@@ -25353,7 +25751,7 @@ export type PutEmployeeAddressError =
   | NotFound
   | UnprocessableEntity
   | RemoteOpError;
-/** Update employee address Updates the authenticated employee's residential address. The employment is derived from the access token's subject — there is no employment id in the path. The token must be an employee-role token (typically obtained via the OAuth2 assertion grant with subject `urn:remote-api:employee:employment:<employment_id>`). This endpoint requires country-specific data. The exact required fields vary depending on which country the authenticated employee's employment is in. Query the [Show form schema](#tag/Countries/operation/get_show_form_country) endpoint with `address_details` as the form name to discover the schema for a given country. ## Scopes */
+/** Update employee address Updates the authenticated employee's residential address. The address is replaced: optional fields that aren't sent are cleared. The employment is derived from the access token's subject — there is no employment id in the path. The token must be an employee-role token (typically obtained via the OAuth2 assertion grant with subject `urn:remote-api:employee:employment:<employment_id>`). This endpoint requires country-specific data. The exact required fields vary depending on which country the authenticated employee's employment is in. Query the [Show form schema](#tag/Countries/operation/get_show_form_country) endpoint with `address_details` as the form name to discover the schema for a given country. ## Authentication This endpoint requires the following token type: - **Employee-scoped access token** (`OAuth2Assertion`) — obtained through the `urn:ietf:params:oauth:grant-type:jwt-bearer` grant. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). ## Scopes */
 export const putEmployeeAddress: API.OperationMethod<
   PutEmployeeAddressRequest,
   EmploymentDetailsOnlyResponse,
@@ -25373,7 +25771,7 @@ export type PutEmployeeBankAccountError =
   | NotFound
   | UnprocessableEntity
   | RemoteOpError;
-/** Update employee bank account Upserts the authenticated employee's bank account details. This endpoint requires and returns country-specific data. The exact fields vary depending on which country the authenticated employee's employment is in. Query the [Show form schema](#tag/Countries/operation/get_show_form_country) endpoint with `bank_account_details` as the form name to discover the schema for a given country. ## Scopes */
+/** Update employee bank account Upserts the authenticated employee's bank account details. This endpoint requires and returns country-specific data. The exact fields vary depending on which country the authenticated employee's employment is in. Query the [Show form schema](#tag/Countries/operation/get_show_form_country) endpoint with `bank_account_details` as the form name to discover the schema for a given country. ## Authentication This endpoint requires the following token type: - **Employee-scoped access token** (`OAuth2Assertion`) — obtained through the `urn:ietf:params:oauth:grant-type:jwt-bearer` grant. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). ## Scopes */
 export const putEmployeeBankAccount: API.OperationMethod<
   PutEmployeeBankAccountRequest,
   EmploymentDetailsOnlyResponse,
@@ -25393,7 +25791,7 @@ export type PutEmployeeEmergencyContactError =
   | NotFound
   | UnprocessableEntity
   | RemoteOpError;
-/** Update employee emergency contact Updates the authenticated employee's emergency contact. The employment is derived from the access token's subject — there is no employment id in the path. The token must be an employee-role token (typically obtained via the OAuth2 assertion grant with subject `urn:remote-api:employee:employment:<employment_id>`). This endpoint requires country-specific data. The exact required fields vary depending on which country the authenticated employee's employment is in. Query the [Show form schema](#tag/Countries/operation/get_show_form_country) endpoint with `emergency_contact_details` as the form name to discover the schema for a given country. ## Scopes */
+/** Update employee emergency contact Updates the authenticated employee's emergency contact. The employment is derived from the access token's subject — there is no employment id in the path. The token must be an employee-role token (typically obtained via the OAuth2 assertion grant with subject `urn:remote-api:employee:employment:<employment_id>`). This endpoint requires country-specific data. The exact required fields vary depending on which country the authenticated employee's employment is in. Query the [Show form schema](#tag/Countries/operation/get_show_form_country) endpoint with `emergency_contact_details` as the form name to discover the schema for a given country. ## Authentication This endpoint requires the following token type: - **Employee-scoped access token** (`OAuth2Assertion`) — obtained through the `urn:ietf:params:oauth:grant-type:jwt-bearer` grant. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). ## Scopes */
 export const putEmployeeEmergencyContact: API.OperationMethod<
   PutEmployeeEmergencyContactRequest,
   EmploymentDetailsOnlyResponse,
@@ -25413,7 +25811,7 @@ export type PutEmployeeFederalTaxesError =
   | NotFound
   | UnprocessableEntity
   | RemoteOpError;
-/** Submit employee federal taxes Submits the authenticated employee's US federal tax (W-4) details. Available for US Global Payroll employees once they reach the post-enrollment state. Calls made before then return a 404. This endpoint requires country-specific data. Query the [Show form schema](#tag/Countries/operation/get_show_form_country) endpoint with `global_payroll_federal_taxes` as the form name to discover the schema for a given country. ## Scopes */
+/** Submit employee federal taxes Submits the authenticated employee's US federal tax (W-4) details. Available for US Global Payroll employees once they reach the post-enrollment state. Calls made before then return a 404. This endpoint requires country-specific data. Query the [Show form schema](#tag/Countries/operation/get_show_form_country) endpoint with `global_payroll_federal_taxes` as the form name to discover the schema for a given country. ## Authentication This endpoint requires the following token type: - **Employee-scoped access token** (`OAuth2Assertion`) — obtained through the `urn:ietf:params:oauth:grant-type:jwt-bearer` grant. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). ## Scopes */
 export const putEmployeeFederalTaxes: API.OperationMethod<
   PutEmployeeFederalTaxesRequest,
   SuccessResponse,
@@ -25433,7 +25831,7 @@ export type PutEmployeePersonalDetailsError =
   | NotFound
   | UnprocessableEntity
   | RemoteOpError;
-/** Update employee personal details Updates the authenticated employee's personal details (date of birth, national ID, nationality, etc.). This endpoint requires country-specific data. Query the [Show form schema](#tag/Countries/operation/get_show_form_country) endpoint with `personal_details` as the form name to discover the schema for a given country. ## Scopes */
+/** Update employee personal details Updates the authenticated employee's personal details (date of birth, national ID, nationality, etc.). This endpoint requires country-specific data. Query the [Show form schema](#tag/Countries/operation/get_show_form_country) endpoint with `personal_details` as the form name to discover the schema for a given country. ## Authentication This endpoint requires the following token type: - **Employee-scoped access token** (`OAuth2Assertion`) — obtained through the `urn:ietf:params:oauth:grant-type:jwt-bearer` grant. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). ## Scopes */
 export const putEmployeePersonalDetails: API.OperationMethod<
   PutEmployeePersonalDetailsRequest,
   EmploymentDetailsOnlyResponse,
@@ -25453,7 +25851,7 @@ export type PutEmployeeStateTaxError =
   | NotFound
   | UnprocessableEntity
   | RemoteOpError;
-/** Submit employee state taxes Submits the authenticated employee's US state tax withholding answers for a single jurisdiction (e.g. `NY`). Available for US Global Payroll employees once they reach the post-enrollment state, at which point the per-jurisdiction state tax task exists. This endpoint requires country/jurisdiction-specific data. Query the [Show form schema](#tag/Countries/operation/get_show_form_country) endpoint with `global_payroll_state_taxes` as the form name to discover the schema for a given country. ## Scopes */
+/** Submit employee state taxes Submits the authenticated employee's US state tax withholding answers for a single jurisdiction (e.g. `NY`). Available for US Global Payroll employees once they reach the post-enrollment state, at which point the per-jurisdiction state tax task exists. This endpoint requires country/jurisdiction-specific data. Query the [Show form schema](#tag/Countries/operation/get_show_form_country) endpoint with `global_payroll_state_taxes` as the form name to discover the schema for a given country. ## Authentication This endpoint requires the following token type: - **Employee-scoped access token** (`OAuth2Assertion`) — obtained through the `urn:ietf:params:oauth:grant-type:jwt-bearer` grant. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). ## Scopes */
 export const putEmployeeStateTax: API.OperationMethod<
   PutEmployeeStateTaxRequest,
   SuccessResponse,
@@ -25474,7 +25872,7 @@ export type PutEmploymentAddressDetailsError =
   | Conflict
   | UnprocessableEntity
   | RemoteOpError;
-/** Update address details Updates employment's address details. This endpoint requires and returns country-specific data. The exact required and returned fields will vary depending on which country the employment is in. To see the list of parameters for each country, see the **Show form schema** endpoint under the [Countries](#tag/Countries) category. Please note that the compliance requirements for each country are subject to change according to local laws. Given its continual updates, using Remote's [json-schema-form](https://developer.remote.com/docs/how-json-schemas-work) should be considered in order to avoid compliance issues and to have the latest version of a country requirements. If you are using this endpoint to build an integration, make sure you are dynamically collecting or displaying the latest parameters for each country by querying the _"Show form schema"_ endpoint. For more information on JSON Schemas, see the **How JSON Schemas work** documentation. To learn how you can dynamically generate forms to display in your UI, see the documentation for the [json-schema-form](https://developer.remote.com/docs/how-json-schemas-form) tool. ## Scopes */
+/** Update address details Updates employment's address details. The address is replaced: optional fields that aren't sent are cleared. This endpoint requires and returns country-specific data. The exact required and returned fields will vary depending on which country the employment is in. To see the list of parameters for each country, see the **Show form schema** endpoint under the [Countries](#tag/Countries) category. Please note that the compliance requirements for each country are subject to change according to local laws. Given its continual updates, using Remote's [json-schema-form](https://developer.remote.com/docs/how-json-schemas-work) should be considered in order to avoid compliance issues and to have the latest version of a country requirements. If you are using this endpoint to build an integration, make sure you are dynamically collecting or displaying the latest parameters for each country by querying the _"Show form schema"_ endpoint. For more information on JSON Schemas, see the **How JSON Schemas work** documentation. To learn how you can dynamically generate forms to display in your UI, see the documentation for the [json-schema-form](https://developer.remote.com/docs/how-json-schemas-form) tool. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const putEmploymentAddressDetails: API.OperationMethod<
   PutEmploymentAddressDetailsRequest,
   EmploymentDetailsOnlyResponse,
@@ -25495,7 +25893,7 @@ export type PutEmploymentAdministrativeDetailsError =
   | Conflict
   | UnprocessableEntity
   | RemoteOpError;
-/** Update administrative details Updates employment's administrative details. This endpoint requires and returns country-specific data. The exact required and returned fields will vary depending on which country the employment is in. To see the list of parameters for each country, see the **Show form schema** endpoint under the [Countries](#tag/Countries) category. Please note that the compliance requirements for each country are subject to change according to local laws. Given its continual updates, using Remote's [json-schema-form](https://developer.remote.com/docs/how-json-schemas-work) should be considered in order to avoid compliance issues and to have the latest version of a country requirements. If you are using this endpoint to build an integration, make sure you are dynamically collecting or displaying the latest parameters for each country by querying the _"Show form schema"_ endpoint. For more information on JSON Schemas, see the **How JSON Schemas work** documentation. To learn how you can dynamically generate forms to display in your UI, see the documentation for the [json-schema-form](https://developer.remote.com/docs/how-json-schemas-form) tool. ## Scopes */
+/** Update administrative details Updates employment's administrative details. This endpoint requires and returns country-specific data. The exact required and returned fields will vary depending on which country the employment is in. To see the list of parameters for each country, see the **Show form schema** endpoint under the [Countries](#tag/Countries) category. Please note that the compliance requirements for each country are subject to change according to local laws. Given its continual updates, using Remote's [json-schema-form](https://developer.remote.com/docs/how-json-schemas-work) should be considered in order to avoid compliance issues and to have the latest version of a country requirements. If you are using this endpoint to build an integration, make sure you are dynamically collecting or displaying the latest parameters for each country by querying the _"Show form schema"_ endpoint. For more information on JSON Schemas, see the **How JSON Schemas work** documentation. To learn how you can dynamically generate forms to display in your UI, see the documentation for the [json-schema-form](https://developer.remote.com/docs/how-json-schemas-form) tool. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const putEmploymentAdministrativeDetails: API.OperationMethod<
   PutEmploymentAdministrativeDetailsRequest,
   EmploymentDetailsOnlyResponse,
@@ -25516,7 +25914,7 @@ export type PutEmploymentBankAccountDetailsError =
   | Conflict
   | UnprocessableEntity
   | RemoteOpError;
-/** Update bank account details Updates employment's bank account details. This endpoint requires and returns country-specific data. The exact required and returned fields will vary depending on which country the employment is in. To see the list of parameters for each country, see the **Show form schema** endpoint under the [Countries](#tag/Countries) category. Please note that the compliance requirements for each country are subject to change according to local laws. Given its continual updates, using Remote's [json-schema-form](https://developer.remote.com/docs/how-json-schemas-work) should be considered in order to avoid compliance issues and to have the latest version of a country requirements. If you are using this endpoint to build an integration, make sure you are dynamically collecting or displaying the latest parameters for each country by querying the _"Show form schema"_ endpoint. For more information on JSON Schemas, see the **How JSON Schemas work** documentation. To learn how you can dynamically generate forms to display in your UI, see the documentation for the [json-schema-form](https://developer.remote.com/docs/how-json-schemas-form) tool. ## Scopes */
+/** Update bank account details Updates employment's bank account details. This endpoint requires and returns country-specific data. The exact required and returned fields will vary depending on which country the employment is in. To see the list of parameters for each country, see the **Show form schema** endpoint under the [Countries](#tag/Countries) category. Please note that the compliance requirements for each country are subject to change according to local laws. Given its continual updates, using Remote's [json-schema-form](https://developer.remote.com/docs/how-json-schemas-work) should be considered in order to avoid compliance issues and to have the latest version of a country requirements. If you are using this endpoint to build an integration, make sure you are dynamically collecting or displaying the latest parameters for each country by querying the _"Show form schema"_ endpoint. For more information on JSON Schemas, see the **How JSON Schemas work** documentation. To learn how you can dynamically generate forms to display in your UI, see the documentation for the [json-schema-form](https://developer.remote.com/docs/how-json-schemas-form) tool. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const putEmploymentBankAccountDetails: API.OperationMethod<
   PutEmploymentBankAccountDetailsRequest,
   EmploymentDetailsOnlyResponse,
@@ -25536,7 +25934,7 @@ export type PutEmploymentBasicInformationError =
   | Conflict
   | UnprocessableEntity
   | RemoteOpError;
-/** Update basic information Updates employment's basic information. Supported employment statuses: `created`, `job_title_review`, `created_reserve_paid`, `created_awaiting_reserve`. This endpoint requires and returns country-specific data. The exact required and returned fields will vary depending on which country the employment is in. To see the list of parameters for each country, see the **Show form schema** endpoint under the [Countries](#tag/Countries) category. Please note that the compliance requirements for each country are subject to change according to local laws. Given its continual updates, using Remote's [json-schema-form](https://developer.remote.com/docs/how-json-schemas-work) should be considered in order to avoid compliance issues and to have the latest version of a country requirements. If you are using this endpoint to build an integration, make sure you are dynamically collecting or displaying the latest parameters for each country by querying the _"Show form schema"_ endpoint. For more information on JSON Schemas, see the **How JSON Schemas work** documentation. To learn how you can dynamically generate forms to display in your UI, see the documentation for the [json-schema-form](https://developer.remote.com/docs/how-json-schemas-work) tool. ## Scopes */
+/** Update basic information Updates employment's basic information. Supported employment statuses: `created`, `job_title_review`, `created_reserve_paid`, `created_awaiting_reserve`. This endpoint requires and returns country-specific data. The exact required and returned fields will vary depending on which country the employment is in. To see the list of parameters for each country, see the **Show form schema** endpoint under the [Countries](#tag/Countries) category. Please note that the compliance requirements for each country are subject to change according to local laws. Given its continual updates, using Remote's [json-schema-form](https://developer.remote.com/docs/how-json-schemas-work) should be considered in order to avoid compliance issues and to have the latest version of a country requirements. If you are using this endpoint to build an integration, make sure you are dynamically collecting or displaying the latest parameters for each country by querying the _"Show form schema"_ endpoint. For more information on JSON Schemas, see the **How JSON Schemas work** documentation. To learn how you can dynamically generate forms to display in your UI, see the documentation for the [json-schema-form](https://developer.remote.com/docs/how-json-schemas-work) tool. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const putEmploymentBasicInformation: API.OperationMethod<
   PutEmploymentBasicInformationRequest,
   EmploymentResponse,
@@ -25556,7 +25954,7 @@ export type PutEmploymentBasicInformation2Error =
   | Conflict
   | UnprocessableEntity
   | RemoteOpError;
-/** Update basic information Updates employment's basic information. Supported employment statuses: `created`, `job_title_review`, `created_reserve_paid`, `created_awaiting_reserve`. This endpoint requires and returns country-specific data. The exact required and returned fields will vary depending on which country the employment is in. To see the list of parameters for each country, see the **Show form schema** endpoint under the [Countries](#tag/Countries) category. Please note that the compliance requirements for each country are subject to change according to local laws. Given its continual updates, using Remote's [json-schema-form](https://developer.remote.com/docs/how-json-schemas-work) should be considered in order to avoid compliance issues and to have the latest version of a country requirements. If you are using this endpoint to build an integration, make sure you are dynamically collecting or displaying the latest parameters for each country by querying the _"Show form schema"_ endpoint. For more information on JSON Schemas, see the **How JSON Schemas work** documentation. To learn how you can dynamically generate forms to display in your UI, see the documentation for the [json-schema-form](https://developer.remote.com/docs/how-json-schemas-work) tool. ## Scopes */
+/** Update basic information Updates employment's basic information. Supported employment statuses: `created`, `job_title_review`, `created_reserve_paid`, `created_awaiting_reserve`. This endpoint requires and returns country-specific data. The exact required and returned fields will vary depending on which country the employment is in. To see the list of parameters for each country, see the **Show form schema** endpoint under the [Countries](#tag/Countries) category. Please note that the compliance requirements for each country are subject to change according to local laws. Given its continual updates, using Remote's [json-schema-form](https://developer.remote.com/docs/how-json-schemas-work) should be considered in order to avoid compliance issues and to have the latest version of a country requirements. If you are using this endpoint to build an integration, make sure you are dynamically collecting or displaying the latest parameters for each country by querying the _"Show form schema"_ endpoint. For more information on JSON Schemas, see the **How JSON Schemas work** documentation. To learn how you can dynamically generate forms to display in your UI, see the documentation for the [json-schema-form](https://developer.remote.com/docs/how-json-schemas-work) tool. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const putEmploymentBasicInformation2: API.OperationMethod<
   PutEmploymentBasicInformationRequest2,
   EmploymentDetailsOnlyResponse,
@@ -25575,7 +25973,7 @@ export type PutEmploymentBenefitOffersError =
   | NotFound
   | UnprocessableEntity
   | RemoteOpError;
-/** Upserts employment benefit offers */
+/** Upserts employment benefit offers ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const putEmploymentBenefitOffers: API.OperationMethod<
   PutEmploymentBenefitOffersRequest,
   SuccessResponse,
@@ -25596,7 +25994,7 @@ export type PutEmploymentBillingAddressDetailsError =
   | Conflict
   | UnprocessableEntity
   | RemoteOpError;
-/** Update billing address details Updates employment's billing address details. This endpoint requires and returns country-specific data. The exact required and returned fields will vary depending on which country the employment is in. To see the list of parameters for each country, see the **Show form schema** endpoint under the [Countries](#tag/Countries) category. Please note that the compliance requirements for each country are subject to change according to local laws. Given its continual updates, using Remote's [json-schema-form](https://developer.remote.com/docs/how-json-schemas-work) should be considered in order to avoid compliance issues and to have the latest version of a country requirements. If you are using this endpoint to build an integration, make sure you are dynamically collecting or displaying the latest parameters for each country by querying the _"Show form schema"_ endpoint. For more information on JSON Schemas, see the **How JSON Schemas work** documentation. To learn how you can dynamically generate forms to display in your UI, see the documentation for the [json-schema-form](https://developer.remote.com/docs/how-json-schemas-form) tool. ## Scopes */
+/** Update billing address details Updates employment's billing address details. The billing address is replaced: optional fields that aren't sent are cleared. This endpoint requires and returns country-specific data. The exact required and returned fields will vary depending on which country the employment is in. To see the list of parameters for each country, see the **Show form schema** endpoint under the [Countries](#tag/Countries) category. Please note that the compliance requirements for each country are subject to change according to local laws. Given its continual updates, using Remote's [json-schema-form](https://developer.remote.com/docs/how-json-schemas-work) should be considered in order to avoid compliance issues and to have the latest version of a country requirements. If you are using this endpoint to build an integration, make sure you are dynamically collecting or displaying the latest parameters for each country by querying the _"Show form schema"_ endpoint. For more information on JSON Schemas, see the **How JSON Schemas work** documentation. To learn how you can dynamically generate forms to display in your UI, see the documentation for the [json-schema-form](https://developer.remote.com/docs/how-json-schemas-form) tool. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const putEmploymentBillingAddressDetails: API.OperationMethod<
   PutEmploymentBillingAddressDetailsRequest,
   EmploymentDetailsOnlyResponse,
@@ -25617,7 +26015,7 @@ export type PutEmploymentContractDetailsError =
   | Conflict
   | UnprocessableEntity
   | RemoteOpError;
-/** Update contract details Updates employment's contract details. This endpoint requires and returns country-specific data. The exact required and returned fields will vary depending on which country the employment is in. To see the list of parameters for each country, see the **Show form schema** endpoint under the [Countries](#tag/Countries) category. Please note that the compliance requirements for each country are subject to change according to local laws. Given its continual updates, using Remote's [json-schema-form](https://developer.remote.com/docs/how-json-schemas-work) should be considered in order to avoid compliance issues and to have the latest version of a country requirements. If you are using this endpoint to build an integration, make sure you are dynamically collecting or displaying the latest parameters for each country by querying the _"Show form schema"_ endpoint. For more information on JSON Schemas, see the **How JSON Schemas work** documentation. To learn how you can dynamically generate forms to display in your UI, see the documentation for the [json-schema-form](https://developer.remote.com/docs/how-json-schemas-form) tool. ## Scopes */
+/** Update contract details Updates employment's contract details. A job title eligibility check verdict is required before contract details can be submitted. Run `POST /api/eor/v2/employments/{employment_id}/job-title-eligibility-check` first and send the `check_id` it returns as `additional_job_title_eligibility_check_slug`. A missing verdict, or one recorded against a different job title or role answer, is rejected — the check is never evaluated as part of this request. This endpoint requires and returns country-specific data. The exact required and returned fields will vary depending on which country the employment is in. To see the list of parameters for each country, see the **Show form schema** endpoint under the [Countries](#tag/Countries) category. Please note that the compliance requirements for each country are subject to change according to local laws. Given its continual updates, using Remote's [json-schema-form](https://developer.remote.com/docs/how-json-schemas-work) should be considered in order to avoid compliance issues and to have the latest version of a country requirements. If you are using this endpoint to build an integration, make sure you are dynamically collecting or displaying the latest parameters for each country by querying the _"Show form schema"_ endpoint. For more information on JSON Schemas, see the **How JSON Schemas work** documentation. To learn how you can dynamically generate forms to display in your UI, see the documentation for the [json-schema-form](https://developer.remote.com/docs/how-json-schemas-form) tool. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const putEmploymentContractDetails: API.OperationMethod<
   PutEmploymentContractDetailsRequest,
   EmploymentDetailsOnlyResponse,
@@ -25638,7 +26036,7 @@ export type PutEmploymentEmergencyContactError =
   | Conflict
   | UnprocessableEntity
   | RemoteOpError;
-/** Update emergency contact Updates the employment's emergency contact details. This endpoint requires country-specific data. Query the **Show form schema** endpoint passing the country code and `emergency_contact_details` as path parameters to see the required fields for a given country. ## Scopes */
+/** Update emergency contact Updates the employment's emergency contact details. This endpoint requires country-specific data. Query the **Show form schema** endpoint passing the country code and `emergency_contact_details` as path parameters to see the required fields for a given country. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const putEmploymentEmergencyContact: API.OperationMethod<
   PutEmploymentEmergencyContactRequest,
   EmploymentDetailsOnlyResponse,
@@ -25659,7 +26057,7 @@ export type PutEmploymentFederalTaxesError =
   | Conflict
   | UnprocessableEntity
   | RemoteOpError;
-/** Update federal taxes Updates employment's federal taxes. Requirements to update federal taxes successfully: * Employment should be Global Payroll * Employment should be in the post-enrollment state * Employment should belong to USA This endpoint requires and returns country-specific data. The exact required and returned fields will vary depending on which country the employment is in. To see the list of parameters for each country, see the **Show form schema** endpoint under the [Countries](#tag/Countries) category. Please note that the compliance requirements for each country are subject to change according to local laws. Given its continual updates, using Remote's [json-schema-form](https://developer.remote.com/docs/how-json-schemas-work) should be considered in order to avoid compliance issues and to have the latest version of a country requirements. If you are using this endpoint to build an integration, make sure you are dynamically collecting or displaying the latest parameters for each country by querying the _"Show form schema"_ endpoint. For more information on JSON Schemas, see the **How JSON Schemas work** documentation. To learn how you can dynamically generate forms to display in your UI, see the documentation for the [json-schema-form](https://developer.remote.com/docs/how-json-schemas-work) tool. ## Scopes */
+/** Update federal taxes Updates employment's federal taxes. Requirements to update federal taxes successfully: * Employment should be Global Payroll * Employment should be in the post-enrollment state * Employment should belong to USA This endpoint requires and returns country-specific data. The exact required and returned fields will vary depending on which country the employment is in. To see the list of parameters for each country, see the **Show form schema** endpoint under the [Countries](#tag/Countries) category. Please note that the compliance requirements for each country are subject to change according to local laws. Given its continual updates, using Remote's [json-schema-form](https://developer.remote.com/docs/how-json-schemas-work) should be considered in order to avoid compliance issues and to have the latest version of a country requirements. If you are using this endpoint to build an integration, make sure you are dynamically collecting or displaying the latest parameters for each country by querying the _"Show form schema"_ endpoint. For more information on JSON Schemas, see the **How JSON Schemas work** documentation. To learn how you can dynamically generate forms to display in your UI, see the documentation for the [json-schema-form](https://developer.remote.com/docs/how-json-schemas-work) tool. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const putEmploymentFederalTaxes: API.OperationMethod<
   PutEmploymentFederalTaxesRequest,
   SuccessResponse,
@@ -25680,7 +26078,7 @@ export type PutEmploymentFederalTaxes2Error =
   | Conflict
   | UnprocessableEntity
   | RemoteOpError;
-/** Update federal taxes Updates employment's federal taxes. Requirements to update federal taxes successfully: * Employment should be Global Payroll * Employment should be in the post-enrollment state * Employment should belong to USA This endpoint requires and returns country-specific data. The exact required and returned fields will vary depending on which country the employment is in. To see the list of parameters for each country, see the **Show form schema** endpoint under the [Countries](#tag/Countries) category. Please note that the compliance requirements for each country are subject to change according to local laws. Given its continual updates, using Remote's [json-schema-form](https://developer.remote.com/docs/how-json-schemas-work) should be considered in order to avoid compliance issues and to have the latest version of a country requirements. If you are using this endpoint to build an integration, make sure you are dynamically collecting or displaying the latest parameters for each country by querying the _"Show form schema"_ endpoint. For more information on JSON Schemas, see the **How JSON Schemas work** documentation. To learn how you can dynamically generate forms to display in your UI, see the documentation for the [json-schema-form](https://developer.remote.com/docs/how-json-schemas-work) tool. ## Scopes */
+/** Update federal taxes Updates employment's federal taxes. Requirements to update federal taxes successfully: * Employment should be Global Payroll * Employment should be in the post-enrollment state * Employment should belong to USA This endpoint requires and returns country-specific data. The exact required and returned fields will vary depending on which country the employment is in. To see the list of parameters for each country, see the **Show form schema** endpoint under the [Countries](#tag/Countries) category. Please note that the compliance requirements for each country are subject to change according to local laws. Given its continual updates, using Remote's [json-schema-form](https://developer.remote.com/docs/how-json-schemas-work) should be considered in order to avoid compliance issues and to have the latest version of a country requirements. If you are using this endpoint to build an integration, make sure you are dynamically collecting or displaying the latest parameters for each country by querying the _"Show form schema"_ endpoint. For more information on JSON Schemas, see the **How JSON Schemas work** documentation. To learn how you can dynamically generate forms to display in your UI, see the documentation for the [json-schema-form](https://developer.remote.com/docs/how-json-schemas-work) tool. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const putEmploymentFederalTaxes2: API.OperationMethod<
   PutEmploymentFederalTaxesRequest2,
   SuccessResponse,
@@ -25700,7 +26098,7 @@ export type PutEmploymentPersonalDetailsError =
   | Conflict
   | UnprocessableEntity
   | RemoteOpError;
-/** Update personal details Updates employment's personal details. This endpoint requires and returns country-specific data. The exact required and returned fields will vary depending on which country the employment is in. To see the list of parameters for each country, see the **Show form schema** endpoint under the [Countries](#tag/Countries) category. Please note that the compliance requirements for each country are subject to change according to local laws. Given its continual updates, using Remote's [json-schema-form](https://developer.remote.com/docs/how-json-schemas-work) should be considered in order to avoid compliance issues and to have the latest version of a country requirements. If you are using this endpoint to build an integration, make sure you are dynamically collecting or displaying the latest parameters for each country by querying the _"Show form schema"_ endpoint. For more information on JSON Schemas, see the **How JSON Schemas work** documentation. To learn how you can dynamically generate forms to display in your UI, see the documentation for the [json-schema-form](https://developer.remote.com/docs/how-json-schemas-form) tool. ## Scopes */
+/** Update personal details Updates employment's personal details. This endpoint requires and returns country-specific data. The exact required and returned fields will vary depending on which country the employment is in. To see the list of parameters for each country, see the **Show form schema** endpoint under the [Countries](#tag/Countries) category. Please note that the compliance requirements for each country are subject to change according to local laws. Given its continual updates, using Remote's [json-schema-form](https://developer.remote.com/docs/how-json-schemas-work) should be considered in order to avoid compliance issues and to have the latest version of a country requirements. If you are using this endpoint to build an integration, make sure you are dynamically collecting or displaying the latest parameters for each country by querying the _"Show form schema"_ endpoint. For more information on JSON Schemas, see the **How JSON Schemas work** documentation. To learn how you can dynamically generate forms to display in your UI, see the documentation for the [json-schema-form](https://developer.remote.com/docs/how-json-schemas-form) tool. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const putEmploymentPersonalDetails: API.OperationMethod<
   PutEmploymentPersonalDetailsRequest,
   EmploymentResponse,
@@ -25721,7 +26119,7 @@ export type PutEmploymentPersonalDetails2Error =
   | Conflict
   | UnprocessableEntity
   | RemoteOpError;
-/** Update personal details Updates employment's personal details. This endpoint requires and returns country-specific data. The exact required and returned fields will vary depending on which country the employment is in. To see the list of parameters for each country, see the **Show form schema** endpoint under the [Countries](#tag/Countries) category. Please note that the compliance requirements for each country are subject to change according to local laws. Given its continual updates, using Remote's [json-schema-form](https://developer.remote.com/docs/how-json-schemas-work) should be considered in order to avoid compliance issues and to have the latest version of a country requirements. If you are using this endpoint to build an integration, make sure you are dynamically collecting or displaying the latest parameters for each country by querying the _"Show form schema"_ endpoint. For more information on JSON Schemas, see the **How JSON Schemas work** documentation. To learn how you can dynamically generate forms to display in your UI, see the documentation for the [json-schema-form](https://developer.remote.com/docs/how-json-schemas-form) tool. ## Scopes */
+/** Update personal details Updates employment's personal details. This endpoint requires and returns country-specific data. The exact required and returned fields will vary depending on which country the employment is in. To see the list of parameters for each country, see the **Show form schema** endpoint under the [Countries](#tag/Countries) category. Please note that the compliance requirements for each country are subject to change according to local laws. Given its continual updates, using Remote's [json-schema-form](https://developer.remote.com/docs/how-json-schemas-work) should be considered in order to avoid compliance issues and to have the latest version of a country requirements. If you are using this endpoint to build an integration, make sure you are dynamically collecting or displaying the latest parameters for each country by querying the _"Show form schema"_ endpoint. For more information on JSON Schemas, see the **How JSON Schemas work** documentation. To learn how you can dynamically generate forms to display in your UI, see the documentation for the [json-schema-form](https://developer.remote.com/docs/how-json-schemas-form) tool. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const putEmploymentPersonalDetails2: API.OperationMethod<
   PutEmploymentPersonalDetailsRequest2,
   EmploymentDetailsOnlyResponse,
@@ -25742,7 +26140,7 @@ export type PutEmploymentPricingPlanDetailsError =
   | Conflict
   | UnprocessableEntity
   | RemoteOpError;
-/** Update pricing plan details Updates the pricing plan for an employment. The frequency determines how often Remote bills the employer for management fees. Annual billing typically offers a discount. ## Scopes */
+/** Update pricing plan details Updates the pricing plan for an employment. The frequency determines how often Remote bills the employer for management fees. Annual billing typically offers a discount. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const putEmploymentPricingPlanDetails: API.OperationMethod<
   PutEmploymentPricingPlanDetailsRequest,
   EmploymentDetailsOnlyResponse,
@@ -25761,7 +26159,7 @@ export type PutResignationValidateError =
   | NotFound
   | UnprocessableEntity
   | RemoteOpError;
-/** Validate resignation request Validates a resignation employment request ## Scopes */
+/** Validate resignation request Validates a resignation employment request ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const putResignationValidate: API.OperationMethod<
   PutResignationValidateRequest,
   SuccessResponse,
@@ -25780,7 +26178,7 @@ export type PutSandboxCompanyDefaultLegalEntityError =
   | NotFound
   | UnprocessableEntity
   | RemoteOpError;
-/** Reassign default legal entity Set a different legal entity as the company's default entity. The default entity is used when creating new employments without an explicit entity. This endpoint is only available in Sandbox, otherwise it will respond with a 404. */
+/** Reassign default legal entity Set a different legal entity as the company's default entity. The default entity is used when creating new employments without an explicit entity. This endpoint is only available in Sandbox, otherwise it will respond with a 404. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). */
 export const putSandboxCompanyDefaultLegalEntity: API.OperationMethod<
   PutSandboxCompanyDefaultLegalEntityRequest,
   SuccessResponse,
@@ -25799,7 +26197,7 @@ export type PutSandboxContractAmendmentApproveError =
   | NotFound
   | UnprocessableEntity
   | RemoteOpError;
-/** Approve Contract Amendment Approves a contract amendment request without the intervention of a Remote admin. Approvals done via this endpoint are effective immediately, regardless of the effective date entered on the contract amendment creation. This endpoint is only available in Sandbox, otherwise it will respond with a 404. */
+/** Approve Contract Amendment Approves a contract amendment request without the intervention of a Remote admin. Approvals done via this endpoint are effective immediately, regardless of the effective date entered on the contract amendment creation. This endpoint is only available in Sandbox, otherwise it will respond with a 404. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). */
 export const putSandboxContractAmendmentApprove: API.OperationMethod<
   PutSandboxContractAmendmentApproveRequest,
   ContractAmendmentResponse,
@@ -25818,7 +26216,7 @@ export type PutSandboxContractAmendmentCancelError =
   | NotFound
   | UnprocessableEntity
   | RemoteOpError;
-/** Cancel Contract Amendment Use this endpoint to cancel an existing contract amendment request. This endpoint is only available in Sandbox, otherwise it will respond with a 404. */
+/** Cancel Contract Amendment Use this endpoint to cancel an existing contract amendment request. This endpoint is only available in Sandbox, otherwise it will respond with a 404. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). */
 export const putSandboxContractAmendmentCancel: API.OperationMethod<
   PutSandboxContractAmendmentCancelRequest,
   SuccessResponse,
@@ -25833,7 +26231,7 @@ export const putSandboxContractAmendmentCancel: API.OperationMethod<
 }));
 
 export type UpdateBenefitRenewalRequestError = UnprocessableEntity | RemoteOpError;
-/** Updates a Benefit Renewal Request Response Updates a Benefit Renewal Request with the given response. ## Scopes */
+/** Updates a Benefit Renewal Request Response Updates a Benefit Renewal Request with the given response. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const updateBenefitRenewalRequest: API.OperationMethod<
   UpdateBenefitRenewalRequestRequest,
   SuccessResponse,
@@ -25848,7 +26246,7 @@ export const updateBenefitRenewalRequest: API.OperationMethod<
 }));
 
 export type UpdateCancelOnboardingError = BadRequest | UnprocessableEntity | RemoteOpError;
-/** Cancel onboarding Cancel onboarding. Requirements for the cancellation to succeed: * Employment has to be in `invited`, `created`, `created_awaiting_reserve`, `created_reserve_paid`, `pre_hire` status * Employee must not have signed the employment contract ## Scopes */
+/** Cancel onboarding Cancel onboarding. Requirements for the cancellation to succeed: * Employment has to be in `invited`, `created`, `created_awaiting_reserve`, `created_reserve_paid`, `pre_hire` status * Employee must not have signed the employment contract ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const updateCancelOnboarding: API.OperationMethod<
   UpdateCancelOnboardingRequest,
   SuccessResponse,
@@ -25869,7 +26267,7 @@ export type UpdatePayItemError =
   | Conflict
   | UnprocessableEntity
   | RemoteOpError;
-/** Update a Pay Item Updates a pay item. Editing a pay item archives the existing one and creates a new one with a new `id` — use the response's `replaced_ids` to reconcile with the id you had stored. Only the fields provided are changed. Cannot update pay items linked to a payroll adjustment, salary pay items, pay items automatically created from an external source, or pay items whose payroll run is no longer in preparation. ## Scopes */
+/** Update a Pay Item Updates a pay item. Editing a pay item archives the existing one and creates a new one with a new `id` — use the response's `replaced_ids` to reconcile with the id you had stored. Only the fields provided are changed. Cannot update pay items linked to a payroll adjustment, salary pay items, pay items automatically created from an external source, or pay items whose payroll run is no longer in preparation. ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const updatePayItem: API.OperationMethod<
   UpdatePayItemRequest,
   PayItemResponse,
@@ -25883,8 +26281,23 @@ export const updatePayItem: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type UpdateProjectError = Forbidden | NotFound | UnprocessableEntity | RemoteOpError;
+/** Update a company project Updates a single contractor project by its ID. Omitted fields are left unchanged. `lead_ids` and `team_member_ids` are replaced wholesale when present, so send the complete desired list rather than only the additions, and send an empty list to remove everyone. Read the project first to get its current membership. ## Authentication This endpoint requires the following token type: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). ## Scopes */
+export const updateProject: API.OperationMethod<
+  UpdateProjectRequest,
+  ProjectResponse,
+  UpdateProjectError,
+  RemoteOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: UpdateProjectRequest,
+  output: ProjectResponse,
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownRemoteError],
+  protocol: RemoteProtocol,
+  retry: Retry.Retry,
+}));
+
 export type UpdateWebhookCallbackError = NotFound | UnprocessableEntity | RemoteOpError;
-/** Update a Webhook Callback Update a callback previously registered for webhooks ## Scopes */
+/** Update a Webhook Callback Update a callback previously registered for webhooks ## Authentication This endpoint accepts any one of the following token types: - **Company-scoped access token** (`OAuth2AuthorizationCode`) — obtained through the Authorization Code flow or the Refresh Token flow. See [Authentication for partners](https://developer.remote.com/docs/authentication-for-partners). - **Customer API token** (`CustomerAPIToken`) — generated by the customer on their Integration Settings page. See [Authorization for customers](https://developer.remote.com/docs/authorization-for-customers). ## Scopes */
 export const updateWebhookCallback: API.OperationMethod<
   UpdateWebhookCallbackRequest,
   WebhookCallbackResponse,

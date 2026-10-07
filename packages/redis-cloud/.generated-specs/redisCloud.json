@@ -3153,6 +3153,12 @@
             "smithy.api#enumValue": "FIXED_DATABASE_MEMCACHED_PROTOCOL_IS_NOT_SUPPORTED_FOR_REDIS_FLEX"
           }
         },
+        "FIXED_DATABASE_MEMCACHED_PROTOCOL_IS_NOT_SUPPORTED_FOR_FREE_PLAN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "FIXED_DATABASE_MEMCACHED_PROTOCOL_IS_NOT_SUPPORTED_FOR_FREE_PLAN"
+          }
+        },
         "FIXED_DATABASE_NUMBER_OF_SHARDS_IS_NOT_SUPPORTED_FOR_THIS_ACCOUNT": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -4005,6 +4011,120 @@
             "smithy.api#enumValue": "ACTIVE_ACTIVE_GCP_EXTERNAL_CLOUD_ACCOUNT_NOT_SUPPORTED"
           }
         },
+        "DB_ENDPOINTS_SERVICE_NOT_FOUND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "DB_ENDPOINTS_SERVICE_NOT_FOUND"
+          }
+        },
+        "ENDPOINTS_REDIRECTION_NOT_FOUND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ENDPOINTS_REDIRECTION_NOT_FOUND"
+          }
+        },
+        "DATABASE_TRAFFIC_STATE_NOT_FOUND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "DATABASE_TRAFFIC_STATE_NOT_FOUND"
+          }
+        },
+        "ENDPOINTS_REDIRECTION_SOURCE_HAS_NO_ENDPOINTS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ENDPOINTS_REDIRECTION_SOURCE_HAS_NO_ENDPOINTS"
+          }
+        },
+        "ENDPOINTS_REDIRECTION_TARGET_HAS_NO_ENDPOINTS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ENDPOINTS_REDIRECTION_TARGET_HAS_NO_ENDPOINTS"
+          }
+        },
+        "ENDPOINTS_REDIRECTION_ALREADY_EXISTS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ENDPOINTS_REDIRECTION_ALREADY_EXISTS"
+          }
+        },
+        "DATABASE_IN_ACTIVE_ENDPOINTS_REDIRECTION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "DATABASE_IN_ACTIVE_ENDPOINTS_REDIRECTION"
+          }
+        },
+        "ENDPOINTS_REDIRECTION_NOT_LATEST": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ENDPOINTS_REDIRECTION_NOT_LATEST"
+          }
+        },
+        "ENDPOINTS_REDIRECTION_NOT_COMPLETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ENDPOINTS_REDIRECTION_NOT_COMPLETED"
+          }
+        },
+        "ENDPOINTS_REDIRECTION_INVALID_ENDPOINT_TYPE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ENDPOINTS_REDIRECTION_INVALID_ENDPOINT_TYPE"
+          }
+        },
+        "ENDPOINTS_REDIRECTION_DATABASES_NOT_COMPATIBLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ENDPOINTS_REDIRECTION_DATABASES_NOT_COMPATIBLE"
+          }
+        },
+        "ENDPOINTS_REDIRECTION_DATABASE_STATE_NOT_SUPPORTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ENDPOINTS_REDIRECTION_DATABASE_STATE_NOT_SUPPORTED"
+          }
+        },
+        "ENDPOINTS_REDIRECTION_CONNECTIVITY_MISMATCH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ENDPOINTS_REDIRECTION_CONNECTIVITY_MISMATCH"
+          }
+        },
+        "ENDPOINTS_REDIRECTION_REVERT_WINDOW_EXCEEDED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ENDPOINTS_REDIRECTION_REVERT_WINDOW_EXCEEDED"
+          }
+        },
+        "ENDPOINTS_REDIRECTION_ACCOUNT_MISMATCH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ENDPOINTS_REDIRECTION_ACCOUNT_MISMATCH"
+          }
+        },
+        "ENDPOINTS_REDIRECTION_DNS_SERVICE_NOT_AVAILABLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ENDPOINTS_REDIRECTION_DNS_SERVICE_NOT_AVAILABLE"
+          }
+        },
+        "DATABASE_TRAFFIC_RESUME_IN_PROGRESS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "DATABASE_TRAFFIC_RESUME_IN_PROGRESS"
+          }
+        },
+        "DATABASE_TRAFFIC_NOT_STOPPED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "DATABASE_TRAFFIC_NOT_STOPPED"
+          }
+        },
+        "DATABASE_TRAFFIC_RESUME_NOT_ELIGIBLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "DATABASE_TRAFFIC_RESUME_NOT_ELIGIBLE"
+          }
+        },
         "DEDICATED_SUBSCRIPTION_PREFERRED_AZ_INVALID_VALUE": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -4213,6 +4333,36 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "COST_REPORT_FUTURE_DATES_NOT_ALLOWED"
+          }
+        },
+        "AGENT_MEMORY_IS_DISABLED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "AGENT_MEMORY_IS_DISABLED"
+          }
+        },
+        "AGENT_MEMORY_STORE_INVALID_REQUEST": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "AGENT_MEMORY_STORE_INVALID_REQUEST"
+          }
+        },
+        "AGENT_MEMORY_STORE_NOT_FOUND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "AGENT_MEMORY_STORE_NOT_FOUND"
+          }
+        },
+        "AGENT_MEMORY_STORE_FORBIDDEN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "AGENT_MEMORY_STORE_FORBIDDEN"
+          }
+        },
+        "AGENT_MEMORY_STORE_DEPENDENCY_FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "AGENT_MEMORY_STORE_DEPENDENCY_FAILED"
           }
         }
       },
@@ -14175,6 +14325,946 @@
         "smithy.api#documentation": "Back up Pro database\n\nManually back up the specified Pro database to a backup path. By default, backups will be stored in the 'remoteBackup' location for this database."
       }
     },
+    "com.rediscloud.api#MemoryStoreListResponse": {
+      "type": "structure",
+      "members": {
+        "data": {
+          "target": "com.rediscloud.api#MemoryStoreListResponseDataList"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "List of memory stores"
+      }
+    },
+    "com.rediscloud.api#MemoryStoreSummary": {
+      "type": "structure",
+      "members": {
+        "storeId": {
+          "target": "smithy.api#String"
+        },
+        "name": {
+          "target": "smithy.api#String"
+        },
+        "createdAt": {
+          "target": "smithy.api#String"
+        },
+        "databaseId": {
+          "target": "smithy.api#String"
+        },
+        "databaseName": {
+          "target": "smithy.api#String"
+        },
+        "subscriptionId": {
+          "target": "smithy.api#String"
+        },
+        "extractionStrategy": {
+          "target": "com.rediscloud.api#MemoryStoreSummaryExtractionStrategy",
+          "traits": {
+            "smithy.api#documentation": "How long-term memories are extracted from sessions. INSTRUCT uses LLM tool calling to create, update and delete granular memories"
+          }
+        },
+        "summarization": {
+          "target": "com.rediscloud.api#MemoryStoreSummarizationConfig"
+        },
+        "llm": {
+          "target": "com.rediscloud.api#MemoryStoreModelStatus"
+        },
+        "status": {
+          "target": "com.rediscloud.api#MemoryStoreSummaryStatus",
+          "traits": {
+            "smithy.api#documentation": "Lifecycle status of the memory store"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.rediscloud.api#MemoryStoreSummaryExtractionStrategy": {
+      "type": "enum",
+      "members": {
+        "INSTRUCT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "INSTRUCT"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "How long-term memories are extracted from sessions. INSTRUCT uses LLM tool calling to create, update and delete granular memories"
+      }
+    },
+    "com.rediscloud.api#MemoryStoreSummarizationConfig": {
+      "type": "structure",
+      "members": {
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether summarization is enabled for the store. Required",
+            "smithy.api#required": {}
+          }
+        },
+        "triggerStrategy": {
+          "target": "com.rediscloud.api#MemoryStoreSummarizationConfigTriggerStrategy",
+          "traits": {
+            "smithy.api#documentation": "What triggers a summarization cycle. Defaults to event_count"
+          }
+        },
+        "eventCount": {
+          "target": "com.rediscloud.api#MemoryStoreSummarizationThresholdConfig"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Session summarization. When enabled, long sessions are periodically condensed into a running summary while the most recent events are retained. When omitted on create, nothing is stored and the store uses the deployment's default summarization settings, which GET returns as the store's summarization"
+      }
+    },
+    "com.rediscloud.api#MemoryStoreSummarizationConfigTriggerStrategy": {
+      "type": "enum",
+      "members": {
+        "EVENT_COUNT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "event_count"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "What triggers a summarization cycle. Defaults to event_count"
+      }
+    },
+    "com.rediscloud.api#MemoryStoreSummarizationThresholdConfig": {
+      "type": "structure",
+      "members": {
+        "threshold": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of active session events that triggers a summarization cycle (0-10000). Must be greater than retainCount. Required",
+            "smithy.api#required": {}
+          }
+        },
+        "retainCount": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of most recent events kept unsummarized after each cycle (0-10000); everything older is condensed into the running summary. Must be less than threshold. Required",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Event-count trigger for session summarization. threshold must be greater than retainCount"
+      }
+    },
+    "com.rediscloud.api#MemoryStoreModelStatus": {
+      "type": "structure",
+      "members": {
+        "provider": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Model provider in use"
+          }
+        },
+        "model": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Model in use"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Resolved model in use for one purpose. Present only on stores with an explicit model selection"
+      }
+    },
+    "com.rediscloud.api#MemoryStoreSummaryStatus": {
+      "type": "enum",
+      "members": {
+        "PROVISIONING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PROVISIONING"
+          }
+        },
+        "READY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "READY"
+          }
+        },
+        "UNAVAILABLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "UNAVAILABLE"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Lifecycle status of the memory store"
+      }
+    },
+    "com.rediscloud.api#MemoryStoreListResponseDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.rediscloud.api#MemoryStoreSummary"
+      },
+      "traits": {}
+    },
+    "com.rediscloud.api#ListMemoryStores": {
+      "type": "operation",
+      "input": {
+        "target": "smithy.api#Unit"
+      },
+      "output": {
+        "target": "com.rediscloud.api#MemoryStoreListResponse"
+      },
+      "errors": [
+        {
+          "target": "com.rediscloud.api#BadRequest"
+        },
+        {
+          "target": "com.rediscloud.api#Forbidden"
+        },
+        {
+          "target": "com.rediscloud.api#NotFound"
+        },
+        {
+          "target": "com.rediscloud.api#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/memory-stores",
+          "code": 200
+        },
+        "smithy.api#documentation": "List memory stores\n\nList the Agent Memory stores for the account"
+      }
+    },
+    "com.rediscloud.api#MemoryStoreShortMemoryConfig": {
+      "type": "structure",
+      "members": {
+        "ttlSeconds": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Time-to-live of short-term memory entries, in seconds (1 second to 1 year). Required",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Short-term (working) memory configuration"
+      }
+    },
+    "com.rediscloud.api#MemoryStoreLongTermMemoryCreateConfig": {
+      "type": "structure",
+      "members": {
+        "ttlSeconds": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Time-to-live of long-term memory entries, in seconds (1 second to 1 year). Required",
+            "smithy.api#required": {}
+          }
+        },
+        "embedding": {
+          "target": "com.rediscloud.api#MemoryStoreModelConfig"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Long-term (persistent) memory configuration accepted on creation. When omitted, the store uses the default long-term memory TTL of 1 year"
+      }
+    },
+    "com.rediscloud.api#MemoryStoreModelConfig": {
+      "type": "structure",
+      "members": {
+        "provider": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Model provider. Validated against the providers supported by the Agent Memory service. Immutable after creation"
+          }
+        },
+        "model": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Model name as advertised by the provider. Required on create. On update, omit to keep the current model; the LLM model may be changed within the stored provider, the embedding model may not"
+          }
+        },
+        "credentials": {
+          "target": "com.rediscloud.api#MemoryStoreModelCredentials"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Requested model selection for one purpose (LLM or embedding). On create, llm and longTermMemory.embedding must be supplied together to opt the store into customer-selected models; supplying only one is rejected. Omitting both keeps the platform-owned configuration, and such a store cannot be moved onto customer-selected models later: an update with llm is rejected with /errors/model-config-immutable"
+      }
+    },
+    "com.rediscloud.api#MemoryStoreModelCredentials": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.rediscloud.api#MemoryStoreModelCredentialsType",
+          "traits": {
+            "smithy.api#documentation": "How the supplied secret is interpreted. Required",
+            "smithy.api#required": {}
+          }
+        },
+        "apiKey": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The provider API key. Required on create. On update an omitted or blank value keeps the current key, so only the key being rotated needs to be sent",
+            "smithy.api#sensitive": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Customer-supplied credential for a model provider. Write-only: never returned by any operation"
+      }
+    },
+    "com.rediscloud.api#MemoryStoreModelCredentialsType": {
+      "type": "enum",
+      "members": {
+        "APIKEY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "apiKey"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "How the supplied secret is interpreted. Required"
+      }
+    },
+    "com.rediscloud.api#CreateMemoryStoreRequestExtractionStrategy": {
+      "type": "enum",
+      "members": {
+        "INSTRUCT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "INSTRUCT"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "How long-term memories are extracted from sessions. INSTRUCT uses LLM tool calling to create, update and delete granular memories"
+      }
+    },
+    "com.rediscloud.api#MemoryStoreLongTermMemoryExclusions": {
+      "type": "structure",
+      "members": {
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Master toggle gating enforcement of all exclusion groups. Required",
+            "smithy.api#required": {}
+          }
+        },
+        "semantic": {
+          "target": "com.rediscloud.api#MemoryStoreSemanticExclusionConfig"
+        },
+        "builtInDetectors": {
+          "target": "com.rediscloud.api#MemoryStoreBuiltInDetectorsConfig"
+        },
+        "customDetectors": {
+          "target": "com.rediscloud.api#MemoryStoreCustomDetectorsConfig"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Store-level policy that keeps sensitive data out of long-term memory. When omitted on create, no policy is stored. On update, the policy is replaced as a whole but nested content that is omitted is preserved, so prefer read-modify-write of the complete policy. Disabling sets enabled=false; a stored policy cannot be removed"
+      }
+    },
+    "com.rediscloud.api#MemoryStoreSemanticExclusionConfig": {
+      "type": "structure",
+      "members": {
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether semantic exclusion is enabled. Required",
+            "smithy.api#required": {}
+          }
+        },
+        "prompt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Customer-authored instruction describing what must not be remembered (max 2000 characters). On update, omit to keep the stored prompt"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Advisory, LLM-mediated exclusion of sensitive content from long-term memory"
+      }
+    },
+    "com.rediscloud.api#MemoryStoreBuiltInDetectorsConfig": {
+      "type": "structure",
+      "members": {
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Toggle for the whole built-in group. False leaves the selections stored but inactive. Required",
+            "smithy.api#required": {}
+          }
+        },
+        "detectors": {
+          "target": "com.rediscloud.api#MemoryStoreBuiltInDetectorsConfigDetectorsList",
+          "traits": {
+            "smithy.api#documentation": "Selected detectors. On update, omitting this list keeps the stored selections; a non-empty list replaces them wholesale; an explicitly empty list clears them"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Deterministic detection using platform-owned built-in detectors. Nothing is selected by default"
+      }
+    },
+    "com.rediscloud.api#MemoryStoreDetectorSelection": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Built-in detector ID from the Agent Memory detector catalog: credit-card, email, ip-address, phone or us-ssn. Unknown IDs are rejected. Required",
+            "smithy.api#required": {}
+          }
+        },
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether this detector is active. A disabled selection is still stored. Required",
+            "smithy.api#required": {}
+          }
+        },
+        "action": {
+          "target": "com.rediscloud.api#MemoryStoreDetectorSelectionAction",
+          "traits": {
+            "smithy.api#documentation": "What happens to a memory this detector matches. Defaults to redact. When several detectors disagree, drop wins"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "One selected platform built-in detector"
+      }
+    },
+    "com.rediscloud.api#MemoryStoreDetectorSelectionAction": {
+      "type": "enum",
+      "members": {
+        "REDACT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "redact"
+          }
+        },
+        "DROP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "drop"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "What happens to a memory this detector matches. Defaults to redact. When several detectors disagree, drop wins"
+      }
+    },
+    "com.rediscloud.api#MemoryStoreBuiltInDetectorsConfigDetectorsList": {
+      "type": "list",
+      "member": {
+        "target": "com.rediscloud.api#MemoryStoreDetectorSelection"
+      },
+      "traits": {
+        "smithy.api#documentation": "Selected detectors. On update, omitting this list keeps the stored selections; a non-empty list replaces them wholesale; an explicitly empty list clears them"
+      }
+    },
+    "com.rediscloud.api#MemoryStoreCustomDetectorsConfig": {
+      "type": "structure",
+      "members": {
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Toggle for the whole custom group. False leaves the detectors stored but inactive. Required",
+            "smithy.api#required": {}
+          }
+        },
+        "detectors": {
+          "target": "com.rediscloud.api#MemoryStoreCustomDetectorsConfigDetectorsList",
+          "traits": {
+            "smithy.api#documentation": "Authored detectors (at most 32). On update, omitting this list keeps the stored detectors; a non-empty list replaces them wholesale; an explicitly empty list clears them"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Deterministic detection using customer-authored detectors stored on the store. Evaluated together with the built-in detectors as one set"
+      }
+    },
+    "com.rediscloud.api#MemoryStoreCustomDetector": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Detector name (1-64 characters, starts with a letter, then letters, digits, underscores or dashes). Reported with every match; must be unique in the store and must not collide with a built-in detector ID. Required",
+            "smithy.api#required": {}
+          }
+        },
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether this detector is active. A disabled detector is still stored and validated. Required",
+            "smithy.api#required": {}
+          }
+        },
+        "action": {
+          "target": "com.rediscloud.api#MemoryStoreCustomDetectorAction",
+          "traits": {
+            "smithy.api#documentation": "What happens to a memory this detector matches. Defaults to redact"
+          }
+        },
+        "matcher": {
+          "target": "com.rediscloud.api#MemoryStoreMatcherSpec",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "One customer-authored detector"
+      }
+    },
+    "com.rediscloud.api#MemoryStoreCustomDetectorAction": {
+      "type": "enum",
+      "members": {
+        "REDACT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "redact"
+          }
+        },
+        "DROP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "drop"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "What happens to a memory this detector matches. Defaults to redact"
+      }
+    },
+    "com.rediscloud.api#MemoryStoreMatcherSpec": {
+      "type": "structure",
+      "members": {
+        "kind": {
+          "target": "com.rediscloud.api#MemoryStoreMatcherSpecKind",
+          "traits": {
+            "smithy.api#documentation": "Matching technique. Required",
+            "smithy.api#required": {}
+          }
+        },
+        "regex": {
+          "target": "com.rediscloud.api#MemoryStoreRegexSpec"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "How a custom detector decides what to match. Exactly the block named by kind must be present"
+      }
+    },
+    "com.rediscloud.api#MemoryStoreMatcherSpecKind": {
+      "type": "enum",
+      "members": {
+        "REGEX": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "regex"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Matching technique. Required"
+      }
+    },
+    "com.rediscloud.api#MemoryStoreRegexSpec": {
+      "type": "structure",
+      "members": {
+        "pattern": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Pattern in RE2 syntax (1-512 characters). Lookaround and backreferences are not supported. Rejected if it does not compile or can match empty text. Required",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Regular expression matcher"
+      }
+    },
+    "com.rediscloud.api#MemoryStoreCustomDetectorsConfigDetectorsList": {
+      "type": "list",
+      "member": {
+        "target": "com.rediscloud.api#MemoryStoreCustomDetector"
+      },
+      "traits": {
+        "smithy.api#documentation": "Authored detectors (at most 32). On update, omitting this list keeps the stored detectors; a non-empty list replaces them wholesale; an explicitly empty list clears them"
+      }
+    },
+    "com.rediscloud.api#MemoryStoreCustomMemoryType": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique type name within the store (1-64 characters, starts with a letter, then letters, digits, underscores or dashes). Must not collide with the built-in types semantic, episodic, message and session_summary_view. Required",
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Human-readable description of what this type captures (1-200 characters). Required",
+            "smithy.api#required": {}
+          }
+        },
+        "fields": {
+          "target": "com.rediscloud.api#MemoryStoreCustomMemoryTypeFieldsList",
+          "traits": {
+            "smithy.api#documentation": "Structured fields of a record of this type. Optional; a type without fields accepts direct writes without structured attributes"
+          }
+        },
+        "extractionStrategy": {
+          "target": "com.rediscloud.api#MemoryStoreCustomExtractionStrategy"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A custom category of long-term memory with its structured fields and optional extraction strategy. Name, description and fields are immutable once registered"
+      }
+    },
+    "com.rediscloud.api#MemoryStoreCustomField": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Field name (1-64 characters, starts with a letter, then letters, digits, underscores or dashes). Required",
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Human-readable description of the field (1-200 characters). Required",
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "com.rediscloud.api#MemoryStoreCustomFieldType",
+          "traits": {
+            "smithy.api#documentation": "Field data type. Required",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A structured field of a custom memory type"
+      }
+    },
+    "com.rediscloud.api#MemoryStoreCustomFieldType": {
+      "type": "enum",
+      "members": {
+        "STR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "str"
+          }
+        },
+        "INT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "int"
+          }
+        },
+        "FLOAT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "float"
+          }
+        },
+        "BOOL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bool"
+          }
+        },
+        "LIST_STR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "list[str]"
+          }
+        },
+        "LIST_FLOAT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "list[float]"
+          }
+        },
+        "OBJECT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "object"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Field data type. Required"
+      }
+    },
+    "com.rediscloud.api#MemoryStoreCustomMemoryTypeFieldsList": {
+      "type": "list",
+      "member": {
+        "target": "com.rediscloud.api#MemoryStoreCustomField"
+      },
+      "traits": {
+        "smithy.api#documentation": "Structured fields of a record of this type. Optional; a type without fields accepts direct writes without structured attributes"
+      }
+    },
+    "com.rediscloud.api#MemoryStoreCustomExtractionStrategy": {
+      "type": "structure",
+      "members": {
+        "prompt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Prompt used to extract memories of this type. Required",
+            "smithy.api#required": {}
+          }
+        },
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether extraction for this type is active. Defaults to true"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "How memories of a custom type are extracted from session events"
+      }
+    },
+    "com.rediscloud.api#CreateMemoryStoreRequestCustomMemoryTypesList": {
+      "type": "list",
+      "member": {
+        "target": "com.rediscloud.api#MemoryStoreCustomMemoryType"
+      },
+      "traits": {
+        "smithy.api#documentation": "Optional. Custom memory types to register on the store (at most 3 per store). When omitted only the built-in types are available"
+      }
+    },
+    "com.rediscloud.api#MemoryStoreExtractionCadenceConfig": {
+      "type": "structure",
+      "members": {
+        "activeIntervalSeconds": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Interval in seconds between extraction runs while a session is active (60-600). Required",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "How often the long-term memory extraction pipeline runs. Optional on both create and update"
+      }
+    },
+    "com.rediscloud.api#CreateMemoryStoreRequest": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Memory store name",
+            "smithy.api#required": {}
+          }
+        },
+        "databaseId": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "ID of the database used by the memory store",
+            "smithy.api#required": {}
+          }
+        },
+        "shortMemory": {
+          "target": "com.rediscloud.api#MemoryStoreShortMemoryConfig"
+        },
+        "longTermMemory": {
+          "target": "com.rediscloud.api#MemoryStoreLongTermMemoryCreateConfig"
+        },
+        "llm": {
+          "target": "com.rediscloud.api#MemoryStoreModelConfig"
+        },
+        "extractionStrategy": {
+          "target": "com.rediscloud.api#CreateMemoryStoreRequestExtractionStrategy",
+          "traits": {
+            "smithy.api#documentation": "How long-term memories are extracted from sessions. INSTRUCT uses LLM tool calling to create, update and delete granular memories"
+          }
+        },
+        "summarization": {
+          "target": "com.rediscloud.api#MemoryStoreSummarizationConfig"
+        },
+        "longTermMemoryExclusions": {
+          "target": "com.rediscloud.api#MemoryStoreLongTermMemoryExclusions"
+        },
+        "customMemoryTypes": {
+          "target": "com.rediscloud.api#CreateMemoryStoreRequestCustomMemoryTypesList",
+          "traits": {
+            "smithy.api#documentation": "Optional. Custom memory types to register on the store (at most 3 per store). When omitted only the built-in types are available"
+          }
+        },
+        "extractionCadence": {
+          "target": "com.rediscloud.api#MemoryStoreExtractionCadenceConfig"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.rediscloud.api#CreateMemoryStore": {
+      "type": "operation",
+      "input": {
+        "target": "com.rediscloud.api#CreateMemoryStoreRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "errors": [
+        {
+          "target": "com.rediscloud.api#BadRequest"
+        },
+        {
+          "target": "com.rediscloud.api#Forbidden"
+        },
+        {
+          "target": "com.rediscloud.api#NotFound"
+        },
+        {
+          "target": "com.rediscloud.api#Conflict"
+        },
+        {
+          "target": "com.rediscloud.api#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v1/memory-stores",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create memory store\n\nCreate an Agent Memory store on the database identified by database Id. The request is accepted and processed asynchronously: errors reported by the Agent Memory service are returned in the task status (see GET /tasks/{taskId}), not in this response"
+      }
+    },
+    "com.rediscloud.api#ListMemoryStoreApiKeysRequest": {
+      "type": "structure",
+      "members": {
+        "storeId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Memory store ID."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.rediscloud.api#ListMemoryStoreApiKeys": {
+      "type": "operation",
+      "input": {
+        "target": "com.rediscloud.api#ListMemoryStoreApiKeysRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "errors": [
+        {
+          "target": "com.rediscloud.api#BadRequest"
+        },
+        {
+          "target": "com.rediscloud.api#Forbidden"
+        },
+        {
+          "target": "com.rediscloud.api#NotFound"
+        },
+        {
+          "target": "com.rediscloud.api#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/memory-stores/{storeId}/api-keys",
+          "code": 200
+        },
+        "smithy.api#documentation": "List memory store API keys\n\nList the API keys of the Agent Memory store identified by store Id. Key values are obfuscated"
+      }
+    },
+    "com.rediscloud.api#CreateMemoryStoreApiKeyRequest": {
+      "type": "structure",
+      "members": {
+        "storeId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Memory store ID."
+          }
+        },
+        "keyName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the API key.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.rediscloud.api#MemoryStoreApiKeyCreateResponse": {
+      "type": "structure",
+      "members": {
+        "apiKey": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Generated API key. Returned only once.",
+            "smithy.api#sensitive": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "New memory store API key"
+      }
+    },
+    "com.rediscloud.api#CreateMemoryStoreApiKey": {
+      "type": "operation",
+      "input": {
+        "target": "com.rediscloud.api#CreateMemoryStoreApiKeyRequest"
+      },
+      "output": {
+        "target": "com.rediscloud.api#MemoryStoreApiKeyCreateResponse"
+      },
+      "errors": [
+        {
+          "target": "com.rediscloud.api#BadRequest"
+        },
+        {
+          "target": "com.rediscloud.api#Forbidden"
+        },
+        {
+          "target": "com.rediscloud.api#NotFound"
+        },
+        {
+          "target": "com.rediscloud.api#Conflict"
+        },
+        {
+          "target": "com.rediscloud.api#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v1/memory-stores/{storeId}/api-keys",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create memory store API key\n\nCreate an API key for the Agent Memory store identified by store Id. The generated key value is returned once and cannot be retrieved again"
+      }
+    },
     "com.rediscloud.api#FixedSubscriptions": {
       "type": "structure",
       "members": {
@@ -16342,6 +17432,454 @@
           "code": 200
         },
         "smithy.api#documentation": "Create Redis ACL rule\n\nCreates a new Redis ACL rule."
+      }
+    },
+    "com.rediscloud.api#GetMemoryStoreRequest": {
+      "type": "structure",
+      "members": {
+        "storeId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Memory store ID."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.rediscloud.api#MemoryStoreResponse": {
+      "type": "structure",
+      "members": {
+        "storeId": {
+          "target": "smithy.api#String"
+        },
+        "name": {
+          "target": "smithy.api#String"
+        },
+        "createdAt": {
+          "target": "smithy.api#String"
+        },
+        "databaseId": {
+          "target": "smithy.api#String"
+        },
+        "databaseName": {
+          "target": "smithy.api#String"
+        },
+        "databaseProvider": {
+          "target": "smithy.api#String"
+        },
+        "databaseRegion": {
+          "target": "smithy.api#String"
+        },
+        "databaseAccessCidrs": {
+          "target": "com.rediscloud.api#MemoryStoreResponseDatabaseAccessCidrsList"
+        },
+        "subscriptionId": {
+          "target": "smithy.api#String"
+        },
+        "shortMemory": {
+          "target": "com.rediscloud.api#MemoryStoreShortMemoryConfig"
+        },
+        "longTermMemory": {
+          "target": "com.rediscloud.api#MemoryStoreLongTermMemoryStatus"
+        },
+        "llm": {
+          "target": "com.rediscloud.api#MemoryStoreModelStatus"
+        },
+        "endpoint": {
+          "target": "smithy.api#String"
+        },
+        "endpoints": {
+          "target": "com.rediscloud.api#MemoryStoreResponseEndpointsList"
+        },
+        "extractionStrategy": {
+          "target": "com.rediscloud.api#MemoryStoreResponseExtractionStrategy",
+          "traits": {
+            "smithy.api#documentation": "How long-term memories are extracted from sessions. INSTRUCT uses LLM tool calling to create, update and delete granular memories"
+          }
+        },
+        "summarization": {
+          "target": "com.rediscloud.api#MemoryStoreSummarizationConfig"
+        },
+        "longTermMemoryExclusions": {
+          "target": "com.rediscloud.api#MemoryStoreLongTermMemoryExclusions"
+        },
+        "customMemoryTypes": {
+          "target": "com.rediscloud.api#MemoryStoreResponseCustomMemoryTypesList"
+        },
+        "extractionCadence": {
+          "target": "com.rediscloud.api#MemoryStoreExtractionCadenceConfig"
+        },
+        "status": {
+          "target": "com.rediscloud.api#MemoryStoreResponseStatus",
+          "traits": {
+            "smithy.api#documentation": "Lifecycle status of the memory store"
+          }
+        },
+        "errorMessage": {
+          "target": "smithy.api#String"
+        },
+        "errorMessageTimestamp": {
+          "target": "smithy.api#Double"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Memory store configuration and status"
+      }
+    },
+    "com.rediscloud.api#MemoryStoreResponseDatabaseAccessCidrsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.rediscloud.api#MemoryStoreLongTermMemoryStatus": {
+      "type": "structure",
+      "members": {
+        "ttlSeconds": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Time-to-live of long-term memory entries, in seconds"
+          }
+        },
+        "embedding": {
+          "target": "com.rediscloud.api#MemoryStoreModelStatus"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Long-term memory configuration as stored"
+      }
+    },
+    "com.rediscloud.api#MemoryStoreEndpoint": {
+      "type": "structure",
+      "members": {
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Endpoint URL"
+          }
+        },
+        "provider": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Cloud provider hosting the endpoint"
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Cloud region of the endpoint"
+          }
+        },
+        "egressIps": {
+          "target": "com.rediscloud.api#MemoryStoreEndpointEgressIpsList",
+          "traits": {
+            "smithy.api#documentation": "Egress IP addresses used by the endpoint"
+          }
+        },
+        "isAccessible": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the endpoint is reachable from the store's database network"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A regional endpoint through which the memory store is served"
+      }
+    },
+    "com.rediscloud.api#MemoryStoreEndpointEgressIpsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Egress IP addresses used by the endpoint"
+      }
+    },
+    "com.rediscloud.api#MemoryStoreResponseEndpointsList": {
+      "type": "list",
+      "member": {
+        "target": "com.rediscloud.api#MemoryStoreEndpoint"
+      },
+      "traits": {}
+    },
+    "com.rediscloud.api#MemoryStoreResponseExtractionStrategy": {
+      "type": "enum",
+      "members": {
+        "INSTRUCT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "INSTRUCT"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "How long-term memories are extracted from sessions. INSTRUCT uses LLM tool calling to create, update and delete granular memories"
+      }
+    },
+    "com.rediscloud.api#MemoryStoreResponseCustomMemoryTypesList": {
+      "type": "list",
+      "member": {
+        "target": "com.rediscloud.api#MemoryStoreCustomMemoryType"
+      },
+      "traits": {}
+    },
+    "com.rediscloud.api#MemoryStoreResponseStatus": {
+      "type": "enum",
+      "members": {
+        "PROVISIONING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PROVISIONING"
+          }
+        },
+        "READY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "READY"
+          }
+        },
+        "UNAVAILABLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "UNAVAILABLE"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Lifecycle status of the memory store"
+      }
+    },
+    "com.rediscloud.api#GetMemoryStore": {
+      "type": "operation",
+      "input": {
+        "target": "com.rediscloud.api#GetMemoryStoreRequest"
+      },
+      "output": {
+        "target": "com.rediscloud.api#MemoryStoreResponse"
+      },
+      "errors": [
+        {
+          "target": "com.rediscloud.api#BadRequest"
+        },
+        {
+          "target": "com.rediscloud.api#Forbidden"
+        },
+        {
+          "target": "com.rediscloud.api#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/memory-stores/{storeId}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get memory store\n\nGet the Agent Memory store identified by store Id"
+      }
+    },
+    "com.rediscloud.api#MemoryStoreLongTermMemoryUpdateConfig": {
+      "type": "structure",
+      "members": {
+        "ttlSeconds": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "New time-to-live of long-term memory entries, in seconds (1 second to 1 year). Omit to leave unchanged"
+          }
+        },
+        "embedding": {
+          "target": "com.rediscloud.api#MemoryStoreModelConfig"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Long-term memory configuration accepted on update. Only the TTL and the embedding credential can change"
+      }
+    },
+    "com.rediscloud.api#UpdateMemoryStoreRequestAddCustomMemoryTypesList": {
+      "type": "list",
+      "member": {
+        "target": "com.rediscloud.api#MemoryStoreCustomMemoryType"
+      },
+      "traits": {
+        "smithy.api#documentation": "Optional. New custom memory types to append to the store's registry. A store may define at most 3 custom memory types in total, including those already registered. Existing types cannot be redefined"
+      }
+    },
+    "com.rediscloud.api#MemoryStoreTypeStrategyUpdate": {
+      "type": "structure",
+      "members": {
+        "typeName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the existing custom memory type to edit. Required",
+            "smithy.api#required": {}
+          }
+        },
+        "prompt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Replacement extraction prompt. Omit to leave unchanged"
+          }
+        },
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Replacement enabled flag. Omit to leave unchanged"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Edit of the extraction strategy of an existing custom memory type. Only the prompt and the enabled flag may change; the type's name, description and fields are immutable"
+      }
+    },
+    "com.rediscloud.api#UpdateMemoryStoreRequestUpdateCustomMemoryTypeStrategiesList": {
+      "type": "list",
+      "member": {
+        "target": "com.rediscloud.api#MemoryStoreTypeStrategyUpdate"
+      },
+      "traits": {
+        "smithy.api#documentation": "Optional. Extraction strategy edits (prompt and enabled flag) for existing custom memory types"
+      }
+    },
+    "com.rediscloud.api#UpdateMemoryStoreRequest": {
+      "type": "structure",
+      "members": {
+        "storeId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Memory store ID."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional. New memory store name (1-64 characters)"
+          }
+        },
+        "shortMemory": {
+          "target": "com.rediscloud.api#MemoryStoreShortMemoryConfig"
+        },
+        "longTermMemory": {
+          "target": "com.rediscloud.api#MemoryStoreLongTermMemoryUpdateConfig"
+        },
+        "llm": {
+          "target": "com.rediscloud.api#MemoryStoreModelConfig"
+        },
+        "summarization": {
+          "target": "com.rediscloud.api#MemoryStoreSummarizationConfig"
+        },
+        "longTermMemoryExclusions": {
+          "target": "com.rediscloud.api#MemoryStoreLongTermMemoryExclusions"
+        },
+        "addCustomMemoryTypes": {
+          "target": "com.rediscloud.api#UpdateMemoryStoreRequestAddCustomMemoryTypesList",
+          "traits": {
+            "smithy.api#documentation": "Optional. New custom memory types to append to the store's registry. A store may define at most 3 custom memory types in total, including those already registered. Existing types cannot be redefined"
+          }
+        },
+        "updateCustomMemoryTypeStrategies": {
+          "target": "com.rediscloud.api#UpdateMemoryStoreRequestUpdateCustomMemoryTypeStrategiesList",
+          "traits": {
+            "smithy.api#documentation": "Optional. Extraction strategy edits (prompt and enabled flag) for existing custom memory types"
+          }
+        },
+        "extractionCadence": {
+          "target": "com.rediscloud.api#MemoryStoreExtractionCadenceConfig"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.rediscloud.api#UpdateMemoryStore": {
+      "type": "operation",
+      "input": {
+        "target": "com.rediscloud.api#UpdateMemoryStoreRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "errors": [
+        {
+          "target": "com.rediscloud.api#BadRequest"
+        },
+        {
+          "target": "com.rediscloud.api#Forbidden"
+        },
+        {
+          "target": "com.rediscloud.api#NotFound"
+        },
+        {
+          "target": "com.rediscloud.api#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/v1/memory-stores/{storeId}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Update memory store\n\nUpdate the configuration of the Agent Memory store identified by store Id. The request is accepted and processed asynchronously: errors reported by the Agent Memory service are returned in the task status (see GET /tasks/{taskId}), not in this response"
+      }
+    },
+    "com.rediscloud.api#DeleteMemoryStoreRequest": {
+      "type": "structure",
+      "members": {
+        "storeId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Memory store ID."
+          }
+        },
+        "flush": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "flush",
+            "smithy.api#documentation": "Whether to flush all data from the database before deleting the memory store"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.rediscloud.api#DeleteMemoryStore": {
+      "type": "operation",
+      "input": {
+        "target": "com.rediscloud.api#DeleteMemoryStoreRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "errors": [
+        {
+          "target": "com.rediscloud.api#BadRequest"
+        },
+        {
+          "target": "com.rediscloud.api#Forbidden"
+        },
+        {
+          "target": "com.rediscloud.api#NotFound"
+        },
+        {
+          "target": "com.rediscloud.api#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/v1/memory-stores/{storeId}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Delete memory store\n\nDelete the Agent Memory store identified by store Id. The request is accepted and processed asynchronously: errors reported by the Agent Memory service are returned in the task status (see GET /tasks/{taskId}), not in this response"
       }
     },
     "com.rediscloud.api#AccountUsers": {
@@ -18860,6 +20398,155 @@
         "smithy.api#documentation": "Get current account\n\nGets information on this account."
       }
     },
+    "com.rediscloud.api#EmptyMemoryStoreRequest": {
+      "type": "structure",
+      "members": {
+        "storeId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Memory store ID."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.rediscloud.api#EmptyMemoryStore": {
+      "type": "operation",
+      "input": {
+        "target": "com.rediscloud.api#EmptyMemoryStoreRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "errors": [
+        {
+          "target": "com.rediscloud.api#BadRequest"
+        },
+        {
+          "target": "com.rediscloud.api#Forbidden"
+        },
+        {
+          "target": "com.rediscloud.api#NotFound"
+        },
+        {
+          "target": "com.rediscloud.api#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/v1/memory-stores/{storeId}/session-memory",
+          "code": 200
+        },
+        "smithy.api#documentation": "Empty memory store session memory\n\nClear the session (working) memory of the Agent Memory store identified by store Id. The request is accepted and processed asynchronously: errors reported by the Agent Memory service are returned in the task status (see GET /tasks/{taskId}), not in this response"
+      }
+    },
+    "com.rediscloud.api#FlushMemoryStoreRequest": {
+      "type": "structure",
+      "members": {
+        "storeId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Memory store ID."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.rediscloud.api#FlushMemoryStore": {
+      "type": "operation",
+      "input": {
+        "target": "com.rediscloud.api#FlushMemoryStoreRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "errors": [
+        {
+          "target": "com.rediscloud.api#BadRequest"
+        },
+        {
+          "target": "com.rediscloud.api#Forbidden"
+        },
+        {
+          "target": "com.rediscloud.api#NotFound"
+        },
+        {
+          "target": "com.rediscloud.api#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/v1/memory-stores/{storeId}/entries",
+          "code": 200
+        },
+        "smithy.api#documentation": "Flush memory store entries\n\nClear all working memory sessions and long-term memories from the Agent Memory store identified by store Id. The request is accepted and processed asynchronously: errors reported by the Agent Memory service are returned in the task status (see GET /tasks/{taskId}), not in this response"
+      }
+    },
+    "com.rediscloud.api#DeleteMemoryStoreApiKeyRequest": {
+      "type": "structure",
+      "members": {
+        "storeId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Memory store ID."
+          }
+        },
+        "apiKeyId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Memory store API key ID."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.rediscloud.api#DeleteMemoryStoreApiKey": {
+      "type": "operation",
+      "input": {
+        "target": "com.rediscloud.api#DeleteMemoryStoreApiKeyRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "errors": [
+        {
+          "target": "com.rediscloud.api#BadRequest"
+        },
+        {
+          "target": "com.rediscloud.api#Forbidden"
+        },
+        {
+          "target": "com.rediscloud.api#NotFound"
+        },
+        {
+          "target": "com.rediscloud.api#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/v1/memory-stores/{storeId}/api-keys/{apiKeyId}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Delete memory store API key\n\nDelete the API key identified by API key Id from the Agent Memory store identified by store Id"
+      }
+    },
     "com.rediscloud.api#BadRequest": {
       "type": "structure",
       "members": {},
@@ -19245,6 +20932,18 @@
           "target": "com.rediscloud.api#BackupDatabase"
         },
         {
+          "target": "com.rediscloud.api#ListMemoryStores"
+        },
+        {
+          "target": "com.rediscloud.api#CreateMemoryStore"
+        },
+        {
+          "target": "com.rediscloud.api#ListMemoryStoreApiKeys"
+        },
+        {
+          "target": "com.rediscloud.api#CreateMemoryStoreApiKey"
+        },
+        {
           "target": "com.rediscloud.api#GetAllSubscriptions1"
         },
         {
@@ -19309,6 +21008,15 @@
         },
         {
           "target": "com.rediscloud.api#CreateRedisRule"
+        },
+        {
+          "target": "com.rediscloud.api#GetMemoryStore"
+        },
+        {
+          "target": "com.rediscloud.api#UpdateMemoryStore"
+        },
+        {
+          "target": "com.rediscloud.api#DeleteMemoryStore"
         },
         {
           "target": "com.rediscloud.api#GetAllUsers"
@@ -19420,6 +21128,15 @@
         },
         {
           "target": "com.rediscloud.api#GetCurrentAccount"
+        },
+        {
+          "target": "com.rediscloud.api#EmptyMemoryStore"
+        },
+        {
+          "target": "com.rediscloud.api#FlushMemoryStore"
+        },
+        {
+          "target": "com.rediscloud.api#DeleteMemoryStoreApiKey"
         }
       ],
       "traits": {

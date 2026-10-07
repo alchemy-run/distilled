@@ -53,9 +53,7 @@ export const ApproveEntryRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "POST", uri: "/entries/{id}/approve", code: 200 })),
-).annotate({
-  identifier: "ApproveEntryRequest",
-}) as any as S.Schema<ApproveEntryRequest>;
+).annotate({ identifier: "ApproveEntryRequest" }) as any as S.Schema<ApproveEntryRequest>;
 
 export interface ApproveEntryResponse {
   /** The ID of the job. */
@@ -65,9 +63,7 @@ export const ApproveEntryResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     job_id: S.String,
   }),
-).annotate({
-  identifier: "ApproveEntryResponse",
-}) as any as S.Schema<ApproveEntryResponse>;
+).annotate({ identifier: "ApproveEntryResponse" }) as any as S.Schema<ApproveEntryResponse>;
 
 export interface DenyEntryRequest {
   /** The unique identifier of the waitlist entry to deny. */
@@ -77,9 +73,7 @@ export const DenyEntryRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "POST", uri: "/entries/{id}/deny", code: 200 })),
-).annotate({
-  identifier: "DenyEntryRequest",
-}) as any as S.Schema<DenyEntryRequest>;
+).annotate({ identifier: "DenyEntryRequest" }) as any as S.Schema<DenyEntryRequest>;
 
 /** The response from a custom field on checkout */
 export interface EntryCustomFieldResponsesItem {
@@ -192,9 +186,7 @@ export const GetEntryRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/entries/{id}", code: 200 })),
-).annotate({
-  identifier: "GetEntryRequest",
-}) as any as S.Schema<GetEntryRequest>;
+).annotate({ identifier: "GetEntryRequest" }) as any as S.Schema<GetEntryRequest>;
 
 /** The direction of the sort. */
 export type Direction = "asc" | "desc";
@@ -251,9 +243,7 @@ export const ListEntryRequest = /*@__PURE__*/ S.suspend(() =>
     created_before: S.optional(S.String.pipe(T.Query())),
     created_after: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/entries", code: 200 })),
-).annotate({
-  identifier: "ListEntryRequest",
-}) as any as S.Schema<ListEntryRequest>;
+).annotate({ identifier: "ListEntryRequest" }) as any as S.Schema<ListEntryRequest>;
 
 /** The waitlisted plan that this entry is a signup for. */
 export type EntryListItemPlan = EntryPlan;
@@ -330,9 +320,7 @@ export const ListEntryResponse = /*@__PURE__*/ S.suspend(() =>
     data: ListEntryResponseDataList,
     page_info: PageInfo,
   }),
-).annotate({
-  identifier: "ListEntryResponse",
-}) as any as S.Schema<ListEntryResponse>;
+).annotate({ identifier: "ListEntryResponse" }) as any as S.Schema<ListEntryResponse>;
 
 export type ApproveEntryError =
   | BadRequest

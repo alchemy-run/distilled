@@ -18,15 +18,9 @@ export const SearchDocRequest = /*@__PURE__*/ S.suspend(() =>
     project_id: S.String.pipe(T.Label()),
     query: S.String,
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/projects/{project_id}/mcp_tools/docs_search/",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/api/projects/{project_id}/mcp_tools/docs_search/", code: 200 }),
   ),
-).annotate({
-  identifier: "SearchDocRequest",
-}) as any as S.Schema<SearchDocRequest>;
+).annotate({ identifier: "SearchDocRequest" }) as any as S.Schema<SearchDocRequest>;
 
 export interface DocsSearchResponse {
   /** Markdown-formatted documentation results. Each block has a title, URL and excerpt; an empty result set returns guidance to navigate to https://posthog.com/docs. */
@@ -36,9 +30,7 @@ export const DocsSearchResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     content: S.String,
   }),
-).annotate({
-  identifier: "DocsSearchResponse",
-}) as any as S.Schema<DocsSearchResponse>;
+).annotate({ identifier: "DocsSearchResponse" }) as any as S.Schema<DocsSearchResponse>;
 
 export type SearchDocError = PosthogOpError;
 /** Search PostHog documentation Run a hybrid (semantic + full-text) RAG search over the PostHog documentation via Inkeep. Returns a markdown body with title, URL, and excerpt for each match for the agent to cite back to the user. */

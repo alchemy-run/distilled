@@ -69,28 +69,6 @@ export type DatastoreStateEnum =
   | "DELETING";
 export const DatastoreStateEnum = S.String;
 
-export type StringList = Array<string>;
-export const StringList = /*@__PURE__*/ S.Array(S.String) as any as S.Schema<StringList>;
-
-/** Third party file service configuration */
-export interface ThirdPartyFileService {
-  /** Required. Required to identify vpc peering used for NFS access network name of NFS's vpc e.g. projects/project-id/global/networks/my-network_id */
-  network?: string;
-  /** Required. Required Mount Folder name */
-  fileShare?: string;
-  /** Required. Server IP addresses of the NFS file service. NFS v3, provide a single IP address or DNS name. Multiple servers can be supported in future when NFS 4.1 protocol support is enabled. */
-  servers?: StringList;
-}
-export const ThirdPartyFileService = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    network: S.optional(S.String),
-    fileShare: S.optional(S.String),
-    servers: S.optional(StringList),
-  }),
-).annotate({
-  identifier: "ThirdPartyFileService",
-}) as any as S.Schema<ThirdPartyFileService>;
-
 /** Volume message captures user inputs for creation of file services managed by GCVE */
 export interface GoogleVmwareFileService {}
 export const GoogleVmwareFileService = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -99,34 +77,52 @@ export const GoogleVmwareFileService = /*@__PURE__*/ S.suspend(() => S.Struct({}
 
 /** Google service file service configuration */
 export interface GoogleFileService {
-  /** Google netapp volume resource name e.g. projects/my-project/locations/me-west1-b/volumes/my-volume */
-  netappVolume?: string;
   /** Google filestore instance resource name e.g. projects/my-project/locations/me-west1-b/instances/my-instance */
   filestoreInstance?: string;
+  /** Google netapp volume resource name e.g. projects/my-project/locations/me-west1-b/volumes/my-volume */
+  netappVolume?: string;
 }
 export const GoogleFileService = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    netappVolume: S.optional(S.String),
     filestoreInstance: S.optional(S.String),
+    netappVolume: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GoogleFileService",
-}) as any as S.Schema<GoogleFileService>;
+).annotate({ identifier: "GoogleFileService" }) as any as S.Schema<GoogleFileService>;
+
+export type StringList = Array<string>;
+export const StringList = /*@__PURE__*/ S.Array(S.String) as any as S.Schema<StringList>;
+
+/** Third party file service configuration */
+export interface ThirdPartyFileService {
+  /** Required. Required Mount Folder name */
+  fileShare?: string;
+  /** Required. Server IP addresses of the NFS file service. NFS v3, provide a single IP address or DNS name. Multiple servers can be supported in future when NFS 4.1 protocol support is enabled. */
+  servers?: StringList;
+  /** Required. Required to identify vpc peering used for NFS access network name of NFS's vpc e.g. projects/project-id/global/networks/my-network_id */
+  network?: string;
+}
+export const ThirdPartyFileService = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    fileShare: S.optional(S.String),
+    servers: S.optional(StringList),
+    network: S.optional(S.String),
+  }),
+).annotate({ identifier: "ThirdPartyFileService" }) as any as S.Schema<ThirdPartyFileService>;
 
 /** The NFS datastore configuration. */
 export interface NfsDatastore {
-  /** Third party file service configuration */
-  thirdPartyFileService?: ThirdPartyFileService;
   /** GCVE file service configuration */
   googleVmwareFileService?: GoogleVmwareFileService;
   /** Google file service configuration */
   googleFileService?: GoogleFileService;
+  /** Third party file service configuration */
+  thirdPartyFileService?: ThirdPartyFileService;
 }
 export const NfsDatastore = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    thirdPartyFileService: S.optional(ThirdPartyFileService),
     googleVmwareFileService: S.optional(GoogleVmwareFileService),
     googleFileService: S.optional(GoogleFileService),
+    thirdPartyFileService: S.optional(ThirdPartyFileService),
   }),
 ).annotate({ identifier: "NfsDatastore" }) as any as S.Schema<NfsDatastore>;
 
@@ -134,52 +130,52 @@ export const NfsDatastore = /*@__PURE__*/ S.suspend(() =>
 export interface Datastore {
   /** Output only. The state of the Datastore. */
   state?: DatastoreStateEnum | (string & {});
-  /** Optional. Checksum that may be sent on update and delete requests to ensure that the user-provided value is up to date before the server processes a request. The server computes checksums based on the value of other fields in the request. */
-  etag?: string;
-  /** Output only. Creation time of this resource. */
-  createTime?: string;
-  /** Required. Settings for the NFS datastore. */
-  nfsDatastore?: NfsDatastore;
-  /** Optional. User-provided description for this datastore */
-  description?: string;
   /** Output only. System-generated unique identifier for the resource. */
   uid?: string;
-  /** Output only. Clusters to which the datastore is attached. */
-  clusters?: StringList;
+  /** Optional. Checksum that may be sent on update and delete requests to ensure that the user-provided value is up to date before the server processes a request. The server computes checksums based on the value of other fields in the request. */
+  etag?: string;
   /** Output only. Last update time of this resource. */
   updateTime?: string;
+  /** Required. Settings for the NFS datastore. */
+  nfsDatastore?: NfsDatastore;
+  /** Output only. Creation time of this resource. */
+  createTime?: string;
+  /** Optional. User-provided description for this datastore */
+  description?: string;
+  /** Output only. Clusters to which the datastore is attached. */
+  clusters?: StringList;
   /** Output only. Identifier. The resource name of this datastore. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1/datastores/datastore` */
   name?: string;
 }
 export const Datastore = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     state: S.optional(DatastoreStateEnum),
-    etag: S.optional(S.String),
-    createTime: S.optional(S.String),
-    nfsDatastore: S.optional(NfsDatastore),
-    description: S.optional(S.String),
     uid: S.optional(S.String),
-    clusters: S.optional(StringList),
+    etag: S.optional(S.String),
     updateTime: S.optional(S.String),
+    nfsDatastore: S.optional(NfsDatastore),
+    createTime: S.optional(S.String),
+    description: S.optional(S.String),
+    clusters: S.optional(StringList),
     name: S.optional(S.String),
   }),
 ).annotate({ identifier: "Datastore" }) as any as S.Schema<Datastore>;
 
 export interface CreateProjectsLocationsDatastoresRequest {
-  /** Optional. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
-  /** Required. The resource name of the location to create the new datastore in. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1` */
-  parent: string;
   /** Required. The user-provided identifier of the datastore to be created. This identifier must be unique among each `Datastore` within the parent and becomes the final token in the name URI. The identifier must meet the following requirements: * Only contains 1-63 alphanumeric characters and hyphens * Begins with an alphabetical character * Ends with a non-hyphen character * Not formatted as a UUID * Complies with [RFC 1034](https://datatracker.ietf.org/doc/html/rfc1034) (section 3.5) */
   datastoreId?: string;
+  /** Required. The resource name of the location to create the new datastore in. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1` */
+  parent: string;
+  /** Optional. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string;
   /** Request body */
   body?: Datastore;
 }
 export const CreateProjectsLocationsDatastoresRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    requestId: S.optional(S.String.pipe(T.Query())),
-    parent: S.String.pipe(T.Label()),
     datastoreId: S.optional(S.String.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
+    requestId: S.optional(S.String.pipe(T.Query())),
     body: S.optional(Datastore.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -205,51 +201,43 @@ export const DocumentMapList = /*@__PURE__*/ S.Array(
 
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
 export interface Status {
-  /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
-  details?: DocumentMapList;
-  /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
-  message?: string;
   /** The status code, which should be an enum value of google.rpc.Code. */
   code?: number;
+  /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
+  message?: string;
+  /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
+  details?: DocumentMapList;
 }
 export const Status = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    details: S.optional(DocumentMapList),
-    message: S.optional(S.String),
     code: S.optional(S.Number),
+    message: S.optional(S.String),
+    details: S.optional(DocumentMapList),
   }),
 ).annotate({ identifier: "Status" }) as any as S.Schema<Status>;
 
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
-  /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
-  name?: string;
-  /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
-  metadata?: DocumentMap;
-  /** The error result of the operation in case of failure or cancellation. */
-  error?: Status;
-  /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
-  done?: boolean;
   /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
   response?: DocumentMap;
+  /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
+  metadata?: DocumentMap;
+  /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
+  done?: boolean;
+  /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
+  name?: string;
+  /** The error result of the operation in case of failure or cancellation. */
+  error?: Status;
 }
 export const Operation = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.optional(S.String),
-    metadata: S.optional(DocumentMap),
-    error: S.optional(Status),
-    done: S.optional(S.Boolean),
     response: S.optional(DocumentMap),
+    metadata: S.optional(DocumentMap),
+    done: S.optional(S.Boolean),
+    name: S.optional(S.String),
+    error: S.optional(Status),
   }),
 ).annotate({ identifier: "Operation" }) as any as S.Schema<Operation>;
-
-export type NetworkPeeringStateEnum =
-  | "STATE_UNSPECIFIED"
-  | "INACTIVE"
-  | "ACTIVE"
-  | "CREATING"
-  | "DELETING";
-export const NetworkPeeringStateEnum = S.String;
 
 export type NetworkPeeringPeerNetworkTypeEnum =
   | "PEER_NETWORK_TYPE_UNSPECIFIED"
@@ -263,59 +251,67 @@ export type NetworkPeeringPeerNetworkTypeEnum =
   | "GOOGLE_CLOUD_FILESTORE_INSTANCES";
 export const NetworkPeeringPeerNetworkTypeEnum = S.String;
 
+export type NetworkPeeringStateEnum =
+  | "STATE_UNSPECIFIED"
+  | "INACTIVE"
+  | "ACTIVE"
+  | "CREATING"
+  | "DELETING";
+export const NetworkPeeringStateEnum = S.String;
+
 /** Details of a network peering. */
 export interface NetworkPeering {
-  /** Optional. True if full mesh connectivity is created and managed automatically between peered networks; false otherwise. Currently this field is always true because Google Compute Engine automatically creates and manages subnetwork routes between two VPC networks when peering state is 'ACTIVE'. */
-  exchangeSubnetRoutes?: boolean;
-  /** Output only. Identifier. The resource name of the network peering. NetworkPeering is a global resource and location can only be global. Resource names are scheme-less URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/global/networkPeerings/my-peering` */
-  name?: string;
+  /** Required. The relative resource name of the network to peer with a standard VMware Engine network. The provided network can be a consumer VPC network or another standard VMware Engine network. If the `peer_network_type` is VMWARE_ENGINE_NETWORK, specify the name in the form: `projects/{project}/locations/global/vmwareEngineNetworks/{vmware_engine_network_id}`. Otherwise specify the name in the form: `projects/{project}/global/networks/{network_id}`, where `{project}` can either be a project number or a project ID. */
+  peerNetwork?: string;
+  /** Output only. Last update time of this resource. */
+  updateTime?: string;
   /** Output only. Creation time of this resource. */
   createTime?: string;
-  /** Optional. True if all subnet routes with public IP address range are imported; false otherwise. The default value is true. IPv4 special-use ranges (https://en.wikipedia.org/wiki/IPv4#Special_addresses) are always imported to peers and are not controlled by this field. */
-  importCustomRoutesWithPublicIp?: boolean;
-  /** Optional. True if custom routes are imported from the peered network; false otherwise. The default value is true. */
-  importCustomRoutes?: boolean;
-  /** Output only. State of the network peering. This field has a value of 'ACTIVE' when there's a matching configuration in the peer network. New values may be added to this enum when appropriate. */
-  state?: NetworkPeeringStateEnum | (string & {});
   /** Optional. True if custom routes are exported to the peered network; false otherwise. The default value is true. */
   exportCustomRoutes?: boolean;
   /** Output only. System-generated unique identifier for the resource. */
   uid?: string;
-  /** Output only. Output Only. Details about the current state of the network peering. */
-  stateDetails?: string;
-  /** Required. The relative resource name of the network to peer with a standard VMware Engine network. The provided network can be a consumer VPC network or another standard VMware Engine network. If the `peer_network_type` is VMWARE_ENGINE_NETWORK, specify the name in the form: `projects/{project}/locations/global/vmwareEngineNetworks/{vmware_engine_network_id}`. Otherwise specify the name in the form: `projects/{project}/global/networks/{network_id}`, where `{project}` can either be a project number or a project ID. */
-  peerNetwork?: string;
-  /** Optional. True if all subnet routes with a public IP address range are exported; false otherwise. The default value is true. IPv4 special-use ranges (https://en.wikipedia.org/wiki/IPv4#Special_addresses) are always exported to peers and are not controlled by this field. */
-  exportCustomRoutesWithPublicIp?: boolean;
   /** Required. The type of the network to peer with the VMware Engine network. */
   peerNetworkType?: NetworkPeeringPeerNetworkTypeEnum | (string & {});
   /** Optional. Maximum transmission unit (MTU) in bytes. The default value is `1500`. If a value of `0` is provided for this field, VMware Engine uses the default value instead. */
   peerMtu?: number;
-  /** Required. The relative resource name of the VMware Engine network. Specify the name in the following form: `projects/{project}/locations/{location}/vmwareEngineNetworks/{vmware_engine_network_id}` where `{project}` can either be a project number or a project ID. */
-  vmwareEngineNetwork?: string;
-  /** Output only. Last update time of this resource. */
-  updateTime?: string;
   /** Optional. User-provided description for this network peering. */
   description?: string;
+  /** Output only. Identifier. The resource name of the network peering. NetworkPeering is a global resource and location can only be global. Resource names are scheme-less URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/global/networkPeerings/my-peering` */
+  name?: string;
+  /** Required. The relative resource name of the VMware Engine network. Specify the name in the following form: `projects/{project}/locations/{location}/vmwareEngineNetworks/{vmware_engine_network_id}` where `{project}` can either be a project number or a project ID. */
+  vmwareEngineNetwork?: string;
+  /** Optional. True if full mesh connectivity is created and managed automatically between peered networks; false otherwise. Currently this field is always true because Google Compute Engine automatically creates and manages subnetwork routes between two VPC networks when peering state is 'ACTIVE'. */
+  exchangeSubnetRoutes?: boolean;
+  /** Output only. State of the network peering. This field has a value of 'ACTIVE' when there's a matching configuration in the peer network. New values may be added to this enum when appropriate. */
+  state?: NetworkPeeringStateEnum | (string & {});
+  /** Output only. Output Only. Details about the current state of the network peering. */
+  stateDetails?: string;
+  /** Optional. True if custom routes are imported from the peered network; false otherwise. The default value is true. */
+  importCustomRoutes?: boolean;
+  /** Optional. True if all subnet routes with public IP address range are imported; false otherwise. The default value is true. IPv4 special-use ranges (https://en.wikipedia.org/wiki/IPv4#Special_addresses) are always imported to peers and are not controlled by this field. */
+  importCustomRoutesWithPublicIp?: boolean;
+  /** Optional. True if all subnet routes with a public IP address range are exported; false otherwise. The default value is true. IPv4 special-use ranges (https://en.wikipedia.org/wiki/IPv4#Special_addresses) are always exported to peers and are not controlled by this field. */
+  exportCustomRoutesWithPublicIp?: boolean;
 }
 export const NetworkPeering = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    exchangeSubnetRoutes: S.optional(S.Boolean),
-    name: S.optional(S.String),
+    peerNetwork: S.optional(S.String),
+    updateTime: S.optional(S.String),
     createTime: S.optional(S.String),
-    importCustomRoutesWithPublicIp: S.optional(S.Boolean),
-    importCustomRoutes: S.optional(S.Boolean),
-    state: S.optional(NetworkPeeringStateEnum),
     exportCustomRoutes: S.optional(S.Boolean),
     uid: S.optional(S.String),
-    stateDetails: S.optional(S.String),
-    peerNetwork: S.optional(S.String),
-    exportCustomRoutesWithPublicIp: S.optional(S.Boolean),
     peerNetworkType: S.optional(NetworkPeeringPeerNetworkTypeEnum),
     peerMtu: S.optional(S.Number),
-    vmwareEngineNetwork: S.optional(S.String),
-    updateTime: S.optional(S.String),
     description: S.optional(S.String),
+    name: S.optional(S.String),
+    vmwareEngineNetwork: S.optional(S.String),
+    exchangeSubnetRoutes: S.optional(S.Boolean),
+    state: S.optional(NetworkPeeringStateEnum),
+    stateDetails: S.optional(S.String),
+    importCustomRoutes: S.optional(S.Boolean),
+    importCustomRoutesWithPublicIp: S.optional(S.Boolean),
+    exportCustomRoutesWithPublicIp: S.optional(S.Boolean),
   }),
 ).annotate({ identifier: "NetworkPeering" }) as any as S.Schema<NetworkPeering>;
 
@@ -372,49 +368,49 @@ export const NetworkService = /*@__PURE__*/ S.suspend(() =>
 
 /** Represents a network policy resource. Network policies are regional resources. You can use a network policy to enable or disable internet access and external IP access. Network policies are associated with a VMware Engine network, which might span across regions. For a given region, a network policy applies to all private clouds in the VMware Engine network associated with the policy. */
 export interface NetworkPolicy {
-  /** Output only. The canonical name of the VMware Engine network in the form: `projects/{project_number}/locations/{location}/vmwareEngineNetworks/{vmware_engine_network_id}` */
-  vmwareEngineNetworkCanonical?: string;
+  /** Network service that allows External IP addresses to be assigned to VMware workloads. This service can only be enabled when `internet_access` is also enabled. */
+  externalIp?: NetworkService;
+  /** Output only. Creation time of this resource. */
+  createTime?: string;
   /** Optional. The relative resource name of the VMware Engine network. Specify the name in the following form: `projects/{project}/locations/{location}/vmwareEngineNetworks/{vmware_engine_network_id}` where `{project}` can either be a project number or a project ID. */
   vmwareEngineNetwork?: string;
   /** Output only. System-generated unique identifier for the resource. */
   uid?: string;
-  /** Output only. Identifier. The resource name of this network policy. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1/networkPolicies/my-network-policy` */
-  name?: string;
-  /** Output only. Creation time of this resource. */
-  createTime?: string;
-  /** Network service that allows External IP addresses to be assigned to VMware workloads. This service can only be enabled when `internet_access` is also enabled. */
-  externalIp?: NetworkService;
-  /** Network service that allows VMware workloads to access the internet. */
-  internetAccess?: NetworkService;
   /** Required. IP address range in CIDR notation used to create internet access and external IP access. An RFC 1918 CIDR block, with a "/26" prefix, is required. The range cannot overlap with any prefixes either in the consumer VPC network or in use by the private clouds attached to that VPC network. */
   edgeServicesCidr?: string;
   /** Output only. Last update time of this resource. */
   updateTime?: string;
+  /** Output only. Identifier. The resource name of this network policy. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1/networkPolicies/my-network-policy` */
+  name?: string;
+  /** Network service that allows VMware workloads to access the internet. */
+  internetAccess?: NetworkService;
   /** Optional. User-provided description for this network policy. */
   description?: string;
+  /** Output only. The canonical name of the VMware Engine network in the form: `projects/{project_number}/locations/{location}/vmwareEngineNetworks/{vmware_engine_network_id}` */
+  vmwareEngineNetworkCanonical?: string;
 }
 export const NetworkPolicy = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    vmwareEngineNetworkCanonical: S.optional(S.String),
+    externalIp: S.optional(NetworkService),
+    createTime: S.optional(S.String),
     vmwareEngineNetwork: S.optional(S.String),
     uid: S.optional(S.String),
-    name: S.optional(S.String),
-    createTime: S.optional(S.String),
-    externalIp: S.optional(NetworkService),
-    internetAccess: S.optional(NetworkService),
     edgeServicesCidr: S.optional(S.String),
     updateTime: S.optional(S.String),
+    name: S.optional(S.String),
+    internetAccess: S.optional(NetworkService),
     description: S.optional(S.String),
+    vmwareEngineNetworkCanonical: S.optional(S.String),
   }),
 ).annotate({ identifier: "NetworkPolicy" }) as any as S.Schema<NetworkPolicy>;
 
 export interface CreateProjectsLocationsNetworkPoliciesRequest {
   /** Required. The user-provided identifier of the network policy to be created. This identifier must be unique within parent `projects/{my-project}/locations/{us-central1}/networkPolicies` and becomes the final token in the name URI. The identifier must meet the following requirements: * Only contains 1-63 alphanumeric characters and hyphens * Begins with an alphabetical character * Ends with a non-hyphen character * Not formatted as a UUID * Complies with [RFC 1034](https://datatracker.ietf.org/doc/html/rfc1034) (section 3.5) */
   networkPolicyId?: string;
-  /** Required. The resource name of the location (region) to create the new network policy in. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1` */
-  parent: string;
   /** Optional. If set to `true`, only validates the request but doesn’t execute the request. If set to `false`, validates and executes the request. */
   validateOnly?: boolean;
+  /** Required. The resource name of the location (region) to create the new network policy in. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1` */
+  parent: string;
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server guarantees that a request doesn't result in creation of duplicate commitments for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
   /** Request body */
@@ -423,8 +419,8 @@ export interface CreateProjectsLocationsNetworkPoliciesRequest {
 export const CreateProjectsLocationsNetworkPoliciesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     networkPolicyId: S.optional(S.String.pipe(T.Query())),
-    parent: S.String.pipe(T.Label()),
     validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
     requestId: S.optional(S.String.pipe(T.Query())),
     body: S.optional(NetworkPolicy.pipe(T.HttpBody())),
   }).pipe(
@@ -440,26 +436,23 @@ export const CreateProjectsLocationsNetworkPoliciesRequest = /*@__PURE__*/ S.sus
 
 /** An IP range provided in any one of the supported formats. */
 export interface IpRange {
-  /** A single IP address. For example: `10.0.0.5`. */
-  ipAddress?: string;
   /** The name of an `ExternalAddress` resource. The external address must have been reserved in the scope of this external access rule's parent network policy. Provide the external address name in the form of `projects/{project}/locations/{location}/privateClouds/{private_cloud}/externalAddresses/{external_address}`. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud/externalAddresses/my-address`. */
   externalAddress?: string;
+  /** A single IP address. For example: `10.0.0.5`. */
+  ipAddress?: string;
   /** An IP address range in the CIDR format. For example: `10.0.0.0/24`. */
   ipAddressRange?: string;
 }
 export const IpRange = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    ipAddress: S.optional(S.String),
     externalAddress: S.optional(S.String),
+    ipAddress: S.optional(S.String),
     ipAddressRange: S.optional(S.String),
   }),
 ).annotate({ identifier: "IpRange" }) as any as S.Schema<IpRange>;
 
 export type IpRangeList = Array<IpRange>;
 export const IpRangeList = /*@__PURE__*/ S.Array(IpRange) as any as S.Schema<IpRangeList>;
-
-export type ExternalAccessRuleActionEnum = "ACTION_UNSPECIFIED" | "ALLOW" | "DENY";
-export const ExternalAccessRuleActionEnum = S.String;
 
 export type ExternalAccessRuleStateEnum =
   | "STATE_UNSPECIFIED"
@@ -469,74 +462,75 @@ export type ExternalAccessRuleStateEnum =
   | "DELETING";
 export const ExternalAccessRuleStateEnum = S.String;
 
+export type ExternalAccessRuleActionEnum = "ACTION_UNSPECIFIED" | "ALLOW" | "DENY";
+export const ExternalAccessRuleActionEnum = S.String;
+
 /** External access firewall rules for filtering incoming traffic destined to `ExternalAddress` resources. */
 export interface ExternalAccessRule {
-  /** A list of destination ports to which the external access rule applies. This field is only applicable for the UDP or TCP protocol. Each entry must be either an integer or a range. For example: `["22"]`, `["80","443"]`, or `["12345-12349"]`. To match all destination ports, specify `["0-65535"]`. */
-  destinationPorts?: StringList;
-  /** A list of source ports to which the external access rule applies. This field is only applicable for the UDP or TCP protocol. Each entry must be either an integer or a range. For example: `["22"]`, `["80","443"]`, or `["12345-12349"]`. To match all source ports, specify `["0-65535"]`. */
-  sourcePorts?: StringList;
-  /** Output only. Last update time of this resource. */
-  updateTime?: string;
-  /** External access rule priority, which determines the external access rule to use when multiple rules apply. If multiple rules have the same priority, their ordering is non-deterministic. If specific ordering is required, assign unique priorities to enforce such ordering. The external access rule priority is an integer from 100 to 4096, both inclusive. Lower integers indicate higher precedence. For example, a rule with priority `100` has higher precedence than a rule with priority `101`. */
-  priority?: number;
-  /** Output only. System-generated unique identifier for the resource. */
-  uid?: string;
-  /** If destination ranges are specified, the external access rule applies only to the traffic that has a destination IP address in these ranges. The specified IP addresses must have reserved external IP addresses in the scope of the parent network policy. To match all external IP addresses in the scope of the parent network policy, specify `0.0.0.0/0`. To match a specific external IP address, specify it using the `IpRange.external_address` property. */
-  destinationIpRanges?: IpRangeList;
-  /** Output only. The resource name of this external access rule. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1/networkPolicies/my-policy/externalAccessRules/my-rule` */
-  name?: string;
-  /** If source ranges are specified, the external access rule applies only to traffic that has a source IP address in these ranges. These ranges can either be expressed in the CIDR format or as an IP address. As only inbound rules are supported, `ExternalAddress` resources cannot be the source IP addresses of an external access rule. To match all source addresses, specify `0.0.0.0/0`. */
-  sourceIpRanges?: IpRangeList;
-  /** The action that the external access rule performs. */
-  action?: ExternalAccessRuleActionEnum | (string & {});
-  /** Output only. The state of the resource. */
-  state?: ExternalAccessRuleStateEnum | (string & {});
   /** Output only. Creation time of this resource. */
   createTime?: string;
-  /** The IP protocol to which the external access rule applies. This value can be one of the following three protocol strings (not case-sensitive): `tcp`, `udp`, or `icmp`. */
-  ipProtocol?: string;
+  /** A list of source ports to which the external access rule applies. This field is only applicable for the UDP or TCP protocol. Each entry must be either an integer or a range. For example: `["22"]`, `["80","443"]`, or `["12345-12349"]`. To match all source ports, specify `["0-65535"]`. */
+  sourcePorts?: StringList;
+  /** Output only. The resource name of this external access rule. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1/networkPolicies/my-policy/externalAccessRules/my-rule` */
+  name?: string;
+  /** Output only. System-generated unique identifier for the resource. */
+  uid?: string;
+  /** Output only. Last update time of this resource. */
+  updateTime?: string;
+  /** If source ranges are specified, the external access rule applies only to traffic that has a source IP address in these ranges. These ranges can either be expressed in the CIDR format or as an IP address. As only inbound rules are supported, `ExternalAddress` resources cannot be the source IP addresses of an external access rule. To match all source addresses, specify `0.0.0.0/0`. */
+  sourceIpRanges?: IpRangeList;
   /** User-provided description for this external access rule. */
   description?: string;
+  /** A list of destination ports to which the external access rule applies. This field is only applicable for the UDP or TCP protocol. Each entry must be either an integer or a range. For example: `["22"]`, `["80","443"]`, or `["12345-12349"]`. To match all destination ports, specify `["0-65535"]`. */
+  destinationPorts?: StringList;
+  /** The IP protocol to which the external access rule applies. This value can be one of the following three protocol strings (not case-sensitive): `tcp`, `udp`, or `icmp`. */
+  ipProtocol?: string;
+  /** Output only. The state of the resource. */
+  state?: ExternalAccessRuleStateEnum | (string & {});
+  /** If destination ranges are specified, the external access rule applies only to the traffic that has a destination IP address in these ranges. The specified IP addresses must have reserved external IP addresses in the scope of the parent network policy. To match all external IP addresses in the scope of the parent network policy, specify `0.0.0.0/0`. To match a specific external IP address, specify it using the `IpRange.external_address` property. */
+  destinationIpRanges?: IpRangeList;
+  /** The action that the external access rule performs. */
+  action?: ExternalAccessRuleActionEnum | (string & {});
+  /** External access rule priority, which determines the external access rule to use when multiple rules apply. If multiple rules have the same priority, their ordering is non-deterministic. If specific ordering is required, assign unique priorities to enforce such ordering. The external access rule priority is an integer from 100 to 4096, both inclusive. Lower integers indicate higher precedence. For example, a rule with priority `100` has higher precedence than a rule with priority `101`. */
+  priority?: number;
 }
 export const ExternalAccessRule = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    destinationPorts: S.optional(StringList),
-    sourcePorts: S.optional(StringList),
-    updateTime: S.optional(S.String),
-    priority: S.optional(S.Number),
-    uid: S.optional(S.String),
-    destinationIpRanges: S.optional(IpRangeList),
-    name: S.optional(S.String),
-    sourceIpRanges: S.optional(IpRangeList),
-    action: S.optional(ExternalAccessRuleActionEnum),
-    state: S.optional(ExternalAccessRuleStateEnum),
     createTime: S.optional(S.String),
-    ipProtocol: S.optional(S.String),
+    sourcePorts: S.optional(StringList),
+    name: S.optional(S.String),
+    uid: S.optional(S.String),
+    updateTime: S.optional(S.String),
+    sourceIpRanges: S.optional(IpRangeList),
     description: S.optional(S.String),
+    destinationPorts: S.optional(StringList),
+    ipProtocol: S.optional(S.String),
+    state: S.optional(ExternalAccessRuleStateEnum),
+    destinationIpRanges: S.optional(IpRangeList),
+    action: S.optional(ExternalAccessRuleActionEnum),
+    priority: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "ExternalAccessRule",
-}) as any as S.Schema<ExternalAccessRule>;
+).annotate({ identifier: "ExternalAccessRule" }) as any as S.Schema<ExternalAccessRule>;
 
 export interface CreateProjectsLocationsNetworkPoliciesExternalAccessRulesRequest {
-  /** Required. The user-provided identifier of the `ExternalAccessRule` to be created. This identifier must be unique among `ExternalAccessRule` resources within the parent and becomes the final token in the name URI. The identifier must meet the following requirements: * Only contains 1-63 alphanumeric characters and hyphens * Begins with an alphabetical character * Ends with a non-hyphen character * Not formatted as a UUID * Complies with [RFC 1034](https://datatracker.ietf.org/doc/html/rfc1034) (section 3.5) */
-  externalAccessRuleId?: string;
-  /** Optional. If set to `true`, only validates the request but doesn’t execute the request. If set to `false`, validates and executes the request. */
-  validateOnly?: boolean;
   /** Required. The resource name of the network policy to create a new external access firewall rule in. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1/networkPolicies/my-policy` */
   parent: string;
   /** A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server guarantees that a request doesn't result in creation of duplicate commitments for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if the original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
+  /** Required. The user-provided identifier of the `ExternalAccessRule` to be created. This identifier must be unique among `ExternalAccessRule` resources within the parent and becomes the final token in the name URI. The identifier must meet the following requirements: * Only contains 1-63 alphanumeric characters and hyphens * Begins with an alphabetical character * Ends with a non-hyphen character * Not formatted as a UUID * Complies with [RFC 1034](https://datatracker.ietf.org/doc/html/rfc1034) (section 3.5) */
+  externalAccessRuleId?: string;
+  /** Optional. If set to `true`, only validates the request but doesn’t execute the request. If set to `false`, validates and executes the request. */
+  validateOnly?: boolean;
   /** Request body */
   body?: ExternalAccessRule;
 }
 export const CreateProjectsLocationsNetworkPoliciesExternalAccessRulesRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      externalAccessRuleId: S.optional(S.String.pipe(T.Query())),
-      validateOnly: S.optional(S.Boolean.pipe(T.Query())),
       parent: S.String.pipe(T.Label()),
       requestId: S.optional(S.String.pipe(T.Query())),
+      externalAccessRuleId: S.optional(S.String.pipe(T.Query())),
+      validateOnly: S.optional(S.Boolean.pipe(T.Query())),
       body: S.optional(ExternalAccessRule.pipe(T.HttpBody())),
     }).pipe(
       T.Http({
@@ -549,40 +543,43 @@ export const CreateProjectsLocationsNetworkPoliciesExternalAccessRulesRequest =
     identifier: "CreateProjectsLocationsNetworkPoliciesExternalAccessRulesRequest",
   }) as any as S.Schema<CreateProjectsLocationsNetworkPoliciesExternalAccessRulesRequest>;
 
-export type HcxStateEnum = "STATE_UNSPECIFIED" | "ACTIVE" | "CREATING" | "ACTIVATING";
-export const HcxStateEnum = S.String;
+export type PrivateCloudTypeEnum = "STANDARD" | "TIME_LIMITED" | "STRETCHED";
+export const PrivateCloudTypeEnum = S.String;
 
-/** Details about a HCX Cloud Manager appliance. */
-export interface Hcx {
-  /** Internal IP address of the appliance. */
-  internalIp?: string;
-  /** Version of the appliance. */
-  version?: string;
-  /** Fully qualified domain name of the appliance. */
-  fqdn?: string;
-  /** Output only. The state of the appliance. */
-  state?: HcxStateEnum | (string & {});
+/** Network configuration in the consumer project with which the peering has to be done. */
+export interface NetworkConfig {
+  /** Output only. The IP address layout version of the management IP address range. Possible versions include: * `managementIpAddressLayoutVersion=1`: Indicates the legacy IP address layout used by some existing private clouds. This is no longer supported for new private clouds as it does not support all features. * `managementIpAddressLayoutVersion=2`: Indicates the latest IP address layout used by all newly created private clouds. This version supports all current features. */
+  managementIpAddressLayoutVersion?: number;
+  /** Optional. The relative resource name of the VMware Engine network attached to the private cloud. Specify the name in the following form: `projects/{project}/locations/{location}/vmwareEngineNetworks/{vmware_engine_network_id}` where `{project}` can either be a project number or a project ID. */
+  vmwareEngineNetwork?: string;
+  /** Output only. DNS Server IP of the Private Cloud. All DNS queries can be forwarded to this address for name resolution of Private Cloud's management entities like vCenter, NSX-T Manager and ESXi hosts. */
+  dnsServerIp?: string;
+  /** Required. Management CIDR used by VMware management appliances. */
+  managementCidr?: string;
+  /** Output only. The canonical name of the VMware Engine network in the form: `projects/{project_number}/locations/{location}/vmwareEngineNetworks/{vmware_engine_network_id}` */
+  vmwareEngineNetworkCanonical?: string;
 }
-export const Hcx = /*@__PURE__*/ S.suspend(() =>
+export const NetworkConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    internalIp: S.optional(S.String),
-    version: S.optional(S.String),
-    fqdn: S.optional(S.String),
-    state: S.optional(HcxStateEnum),
+    managementIpAddressLayoutVersion: S.optional(S.Number),
+    vmwareEngineNetwork: S.optional(S.String),
+    dnsServerIp: S.optional(S.String),
+    managementCidr: S.optional(S.String),
+    vmwareEngineNetworkCanonical: S.optional(S.String),
   }),
-).annotate({ identifier: "Hcx" }) as any as S.Schema<Hcx>;
+).annotate({ identifier: "NetworkConfig" }) as any as S.Schema<NetworkConfig>;
 
 /** Information about the type and number of nodes associated with the cluster. */
 export interface NodeTypeConfig {
-  /** Optional. Customized number of cores available to each node of the type. This number must always be one of `nodeType.availableCustomCoreCounts`. If zero is provided max value from `nodeType.availableCustomCoreCounts` will be used. */
-  customCoreCount?: number;
   /** Required. The number of nodes of this type in the cluster */
   nodeCount?: number;
+  /** Optional. Customized number of cores available to each node of the type. This number must always be one of `nodeType.availableCustomCoreCounts`. If zero is provided max value from `nodeType.availableCustomCoreCounts` will be used. */
+  customCoreCount?: number;
 }
 export const NodeTypeConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    customCoreCount: S.optional(S.Number),
     nodeCount: S.optional(S.Number),
+    customCoreCount: S.optional(S.Number),
   }),
 ).annotate({ identifier: "NodeTypeConfig" }) as any as S.Schema<NodeTypeConfig>;
 
@@ -594,97 +591,34 @@ export const NodeTypeConfigMap = /*@__PURE__*/ S.Record(
 
 /** Configuration of a stretched cluster. */
 export interface StretchedClusterConfig {
-  /** Required. Additional zone for a higher level of availability and load balancing. Specify the resource name of a zone that belongs to the region of the private cloud. For example: `projects/{project}/locations/europe-west3-b` where `{project}` can either be a project number or a project ID. */
-  secondaryLocation?: string;
-  /** Required. Zone that will remain operational when connection between the two zones is lost. Specify the resource name of a zone that belongs to the region of the private cloud. For example: `projects/{project}/locations/europe-west3-a` where `{project}` can either be a project number or a project ID. */
+  /** Required. Zone that will remain operational when connection between the two zones is lost. Specify the resource name or ID of a zone that belongs to the region of the private cloud. For example: `projects/{project}/locations/europe-west3-a` or `europe-west3-a`, where `{project}` can either be a project number or a project ID. */
   preferredLocation?: string;
+  /** Required. Additional zone for a higher level of availability and load balancing. Specify the resource name or ID of a zone that belongs to the region of the private cloud. For example: `projects/{project}/locations/europe-west3-b` or `europe-west3-b`, where `{project}` can either be a project number or a project ID. */
+  secondaryLocation?: string;
 }
 export const StretchedClusterConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    secondaryLocation: S.optional(S.String),
     preferredLocation: S.optional(S.String),
+    secondaryLocation: S.optional(S.String),
   }),
-).annotate({
-  identifier: "StretchedClusterConfig",
-}) as any as S.Schema<StretchedClusterConfig>;
+).annotate({ identifier: "StretchedClusterConfig" }) as any as S.Schema<StretchedClusterConfig>;
 
 /** Management cluster configuration. */
 export interface ManagementCluster {
   /** Required. The map of cluster node types in this cluster, where the key is canonical identifier of the node type (corresponds to the `NodeType`). */
   nodeTypeConfigs?: NodeTypeConfigMap;
-  /** Required. The user-provided identifier of the new `Cluster`. The identifier must meet the following requirements: * Only contains 1-63 alphanumeric characters and hyphens * Begins with an alphabetical character * Ends with a non-hyphen character * Not formatted as a UUID * Complies with [RFC 1034](https://datatracker.ietf.org/doc/html/rfc1034) (section 3.5) */
-  clusterId?: string;
   /** Optional. Configuration of a stretched cluster. Required for STRETCHED private clouds. */
   stretchedClusterConfig?: StretchedClusterConfig;
+  /** Required. The user-provided identifier of the new `Cluster`. The identifier must meet the following requirements: * Only contains 1-63 alphanumeric characters and hyphens * Begins with an alphabetical character * Ends with a non-hyphen character * Not formatted as a UUID * Complies with [RFC 1034](https://datatracker.ietf.org/doc/html/rfc1034) (section 3.5) */
+  clusterId?: string;
 }
 export const ManagementCluster = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     nodeTypeConfigs: S.optional(NodeTypeConfigMap),
-    clusterId: S.optional(S.String),
     stretchedClusterConfig: S.optional(StretchedClusterConfig),
+    clusterId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ManagementCluster",
-}) as any as S.Schema<ManagementCluster>;
-
-/** Network configuration in the consumer project with which the peering has to be done. */
-export interface NetworkConfig {
-  /** Output only. The canonical name of the VMware Engine network in the form: `projects/{project_number}/locations/{location}/vmwareEngineNetworks/{vmware_engine_network_id}` */
-  vmwareEngineNetworkCanonical?: string;
-  /** Output only. DNS Server IP of the Private Cloud. All DNS queries can be forwarded to this address for name resolution of Private Cloud's management entities like vCenter, NSX-T Manager and ESXi hosts. */
-  dnsServerIp?: string;
-  /** Required. Management CIDR used by VMware management appliances. */
-  managementCidr?: string;
-  /** Output only. The IP address layout version of the management IP address range. Possible versions include: * `managementIpAddressLayoutVersion=1`: Indicates the legacy IP address layout used by some existing private clouds. This is no longer supported for new private clouds as it does not support all features. * `managementIpAddressLayoutVersion=2`: Indicates the latest IP address layout used by all newly created private clouds. This version supports all current features. */
-  managementIpAddressLayoutVersion?: number;
-  /** Optional. The relative resource name of the VMware Engine network attached to the private cloud. Specify the name in the following form: `projects/{project}/locations/{location}/vmwareEngineNetworks/{vmware_engine_network_id}` where `{project}` can either be a project number or a project ID. */
-  vmwareEngineNetwork?: string;
-}
-export const NetworkConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    vmwareEngineNetworkCanonical: S.optional(S.String),
-    dnsServerIp: S.optional(S.String),
-    managementCidr: S.optional(S.String),
-    managementIpAddressLayoutVersion: S.optional(S.Number),
-    vmwareEngineNetwork: S.optional(S.String),
-  }),
-).annotate({ identifier: "NetworkConfig" }) as any as S.Schema<NetworkConfig>;
-
-export type NsxStateEnum = "STATE_UNSPECIFIED" | "ACTIVE" | "CREATING";
-export const NsxStateEnum = S.String;
-
-/** Details about a NSX Manager appliance. */
-export interface Nsx {
-  /** Version of the appliance. */
-  version?: string;
-  /** Output only. The state of the appliance. */
-  state?: NsxStateEnum | (string & {});
-  /** Internal IP address of the appliance. */
-  internalIp?: string;
-  /** Fully qualified domain name of the appliance. */
-  fqdn?: string;
-}
-export const Nsx = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    version: S.optional(S.String),
-    state: S.optional(NsxStateEnum),
-    internalIp: S.optional(S.String),
-    fqdn: S.optional(S.String),
-  }),
-).annotate({ identifier: "Nsx" }) as any as S.Schema<Nsx>;
-
-export type PrivateCloudStateEnum =
-  | "STATE_UNSPECIFIED"
-  | "ACTIVE"
-  | "CREATING"
-  | "UPDATING"
-  | "FAILED"
-  | "DELETED"
-  | "PURGING";
-export const PrivateCloudStateEnum = S.String;
-
-export type PrivateCloudTypeEnum = "STANDARD" | "TIME_LIMITED" | "STRETCHED";
-export const PrivateCloudTypeEnum = S.String;
+).annotate({ identifier: "ManagementCluster" }) as any as S.Schema<ManagementCluster>;
 
 export type VcenterStateEnum = "STATE_UNSPECIFIED" | "ACTIVE" | "CREATING";
 export const VcenterStateEnum = S.String;
@@ -693,21 +627,44 @@ export const VcenterStateEnum = S.String;
 export interface Vcenter {
   /** Version of the appliance. */
   version?: string;
-  /** Output only. The state of the appliance. */
-  state?: VcenterStateEnum | (string & {});
   /** Fully qualified domain name of the appliance. */
   fqdn?: string;
   /** Internal IP address of the appliance. */
   internalIp?: string;
+  /** Output only. The state of the appliance. */
+  state?: VcenterStateEnum | (string & {});
 }
 export const Vcenter = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     version: S.optional(S.String),
-    state: S.optional(VcenterStateEnum),
     fqdn: S.optional(S.String),
     internalIp: S.optional(S.String),
+    state: S.optional(VcenterStateEnum),
   }),
 ).annotate({ identifier: "Vcenter" }) as any as S.Schema<Vcenter>;
+
+export type NsxStateEnum = "STATE_UNSPECIFIED" | "ACTIVE" | "CREATING";
+export const NsxStateEnum = S.String;
+
+/** Details about a NSX Manager appliance. */
+export interface Nsx {
+  /** Internal IP address of the appliance. */
+  internalIp?: string;
+  /** Version of the appliance. */
+  version?: string;
+  /** Output only. The state of the appliance. */
+  state?: NsxStateEnum | (string & {});
+  /** Fully qualified domain name of the appliance. */
+  fqdn?: string;
+}
+export const Nsx = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    internalIp: S.optional(S.String),
+    version: S.optional(S.String),
+    state: S.optional(NsxStateEnum),
+    fqdn: S.optional(S.String),
+  }),
+).annotate({ identifier: "Nsx" }) as any as S.Schema<Nsx>;
 
 export type EncryptionConfigTypeEnum = "TYPE_UNSPECIFIED" | "CMEK" | "LEGACY_CMEK" | "OTHER";
 export const EncryptionConfigTypeEnum = S.String;
@@ -724,60 +681,91 @@ export const EncryptionConfig = /*@__PURE__*/ S.suspend(() =>
     cryptoKeyName: S.optional(S.String),
     type: S.optional(EncryptionConfigTypeEnum),
   }),
-).annotate({
-  identifier: "EncryptionConfig",
-}) as any as S.Schema<EncryptionConfig>;
+).annotate({ identifier: "EncryptionConfig" }) as any as S.Schema<EncryptionConfig>;
+
+export type PrivateCloudStateEnum =
+  | "STATE_UNSPECIFIED"
+  | "ACTIVE"
+  | "CREATING"
+  | "UPDATING"
+  | "FAILED"
+  | "DELETED"
+  | "PURGING";
+export const PrivateCloudStateEnum = S.String;
+
+export type HcxStateEnum = "STATE_UNSPECIFIED" | "ACTIVE" | "CREATING" | "ACTIVATING";
+export const HcxStateEnum = S.String;
+
+/** Details about a HCX Cloud Manager appliance. */
+export interface Hcx {
+  /** Output only. The state of the appliance. */
+  state?: HcxStateEnum | (string & {});
+  /** Version of the appliance. */
+  version?: string;
+  /** Fully qualified domain name of the appliance. */
+  fqdn?: string;
+  /** Internal IP address of the appliance. */
+  internalIp?: string;
+}
+export const Hcx = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    state: S.optional(HcxStateEnum),
+    version: S.optional(S.String),
+    fqdn: S.optional(S.String),
+    internalIp: S.optional(S.String),
+  }),
+).annotate({ identifier: "Hcx" }) as any as S.Schema<Hcx>;
 
 /** Represents a private cloud resource. Private clouds of type `STANDARD` and `TIME_LIMITED` are zonal resources, `STRETCHED` private clouds are regional. */
 export interface PrivateCloud {
-  /** Output only. HCX appliance. */
-  hcx?: Hcx;
-  /** Required. Input only. The management cluster for this private cloud. This field is required during creation of the private cloud to provide details for the default cluster. The following fields can't be changed after private cloud creation: `ManagementCluster.clusterId`, `ManagementCluster.nodeTypeId`. */
-  managementCluster?: ManagementCluster;
-  /** Output only. Time when the resource was scheduled for deletion. */
-  deleteTime?: string;
-  /** Required. Network configuration of the private cloud. */
-  networkConfig?: NetworkConfig;
-  /** Output only. Last update time of this resource. */
-  updateTime?: string;
-  /** Output only. Time when the resource will be irreversibly deleted. */
-  expireTime?: string;
-  /** User-provided description for this private cloud. */
-  description?: string;
-  /** Output only. NSX appliance. */
-  nsx?: Nsx;
-  /** Output only. State of the resource. New values may be added to this enum when appropriate. */
-  state?: PrivateCloudStateEnum | (string & {});
-  /** Output only. Identifier. The resource name of this private cloud. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud` */
-  name?: string;
-  /** Output only. System-generated unique identifier for the resource. */
-  uid?: string;
   /** Output only. Creation time of this resource. */
   createTime?: string;
   /** Optional. Type of the private cloud. Defaults to STANDARD. */
   type?: PrivateCloudTypeEnum | (string & {});
+  /** Required. Network configuration of the private cloud. */
+  networkConfig?: NetworkConfig;
+  /** Output only. Identifier. The resource name of this private cloud. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud` */
+  name?: string;
+  /** Required. Input only. The management cluster for this private cloud. This field is required during creation of the private cloud to provide details for the default cluster. The following fields can't be changed after private cloud creation: `ManagementCluster.clusterId`, `ManagementCluster.nodeTypeId`. */
+  managementCluster?: ManagementCluster;
   /** Output only. Vcenter appliance. */
   vcenter?: Vcenter;
+  /** Output only. NSX appliance. */
+  nsx?: Nsx;
   /** Optional. Encryption configuration for the private cloud. If this field is left unspecified, Google default encryption is used. */
   encryptionConfig?: EncryptionConfig;
+  /** Output only. Time when the resource will be irreversibly deleted. */
+  expireTime?: string;
+  /** Output only. Last update time of this resource. */
+  updateTime?: string;
+  /** Output only. State of the resource. New values may be added to this enum when appropriate. */
+  state?: PrivateCloudStateEnum | (string & {});
+  /** User-provided description for this private cloud. */
+  description?: string;
+  /** Output only. Time when the resource was scheduled for deletion. */
+  deleteTime?: string;
+  /** Output only. HCX appliance. */
+  hcx?: Hcx;
+  /** Output only. System-generated unique identifier for the resource. */
+  uid?: string;
 }
 export const PrivateCloud = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    hcx: S.optional(Hcx),
-    managementCluster: S.optional(ManagementCluster),
-    deleteTime: S.optional(S.String),
-    networkConfig: S.optional(NetworkConfig),
-    updateTime: S.optional(S.String),
-    expireTime: S.optional(S.String),
-    description: S.optional(S.String),
-    nsx: S.optional(Nsx),
-    state: S.optional(PrivateCloudStateEnum),
-    name: S.optional(S.String),
-    uid: S.optional(S.String),
     createTime: S.optional(S.String),
     type: S.optional(PrivateCloudTypeEnum),
+    networkConfig: S.optional(NetworkConfig),
+    name: S.optional(S.String),
+    managementCluster: S.optional(ManagementCluster),
     vcenter: S.optional(Vcenter),
+    nsx: S.optional(Nsx),
     encryptionConfig: S.optional(EncryptionConfig),
+    expireTime: S.optional(S.String),
+    updateTime: S.optional(S.String),
+    state: S.optional(PrivateCloudStateEnum),
+    description: S.optional(S.String),
+    deleteTime: S.optional(S.String),
+    hcx: S.optional(Hcx),
+    uid: S.optional(S.String),
   }),
 ).annotate({ identifier: "PrivateCloud" }) as any as S.Schema<PrivateCloud>;
 
@@ -813,28 +801,28 @@ export const CreateProjectsLocationsPrivateCloudsRequest = /*@__PURE__*/ S.suspe
 
 /** Thresholds define the utilization of resources triggering scale-out and scale-in operations. */
 export interface Thresholds {
-  /** Required. The utilization triggering the scale-in operation in percent. */
-  scaleIn?: number;
   /** Required. The utilization triggering the scale-out operation in percent. */
   scaleOut?: number;
+  /** Required. The utilization triggering the scale-in operation in percent. */
+  scaleIn?: number;
 }
 export const Thresholds = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    scaleIn: S.optional(S.Number),
     scaleOut: S.optional(S.Number),
+    scaleIn: S.optional(S.Number),
   }),
 ).annotate({ identifier: "Thresholds" }) as any as S.Schema<Thresholds>;
 
 /** Autoscaling policy describes the behavior of the autoscaling with respect to the resource utilization. The scale-out operation is initiated if the utilization exceeds ANY of the respective thresholds. The scale-in operation is initiated if the utilization is below ALL of the respective thresholds. */
 export interface AutoscalingPolicy {
-  /** Required. The canonical identifier of the node type to add or remove. Corresponds to the `NodeType`. */
-  nodeTypeId?: string;
+  /** Optional. Utilization thresholds pertaining to amount of granted memory. */
+  grantedMemoryThresholds?: Thresholds;
   /** Optional. Utilization thresholds pertaining to CPU utilization. */
   cpuThresholds?: Thresholds;
   /** Required. Number of nodes to add to a cluster during a scale-out operation. Must be divisible by 2 for stretched clusters. During a scale-in operation only one node (or 2 for stretched clusters) are removed in a single iteration. */
   scaleOutSize?: number;
-  /** Optional. Utilization thresholds pertaining to amount of granted memory. */
-  grantedMemoryThresholds?: Thresholds;
+  /** Required. The canonical identifier of the node type to add or remove. Corresponds to the `NodeType`. */
+  nodeTypeId?: string;
   /** Optional. Utilization thresholds pertaining to amount of consumed storage. */
   storageThresholds?: Thresholds;
   /** Optional. Utilization thresholds pertaining to amount of consumed memory. */
@@ -842,20 +830,16 @@ export interface AutoscalingPolicy {
 }
 export const AutoscalingPolicy = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    nodeTypeId: S.optional(S.String),
+    grantedMemoryThresholds: S.optional(Thresholds),
     cpuThresholds: S.optional(Thresholds),
     scaleOutSize: S.optional(S.Number),
-    grantedMemoryThresholds: S.optional(Thresholds),
+    nodeTypeId: S.optional(S.String),
     storageThresholds: S.optional(Thresholds),
     consumedMemoryThresholds: S.optional(Thresholds),
   }),
-).annotate({
-  identifier: "AutoscalingPolicy",
-}) as any as S.Schema<AutoscalingPolicy>;
+).annotate({ identifier: "AutoscalingPolicy" }) as any as S.Schema<AutoscalingPolicy>;
 
-export type AutoscalingPolicyMap = {
-  [key: string]: AutoscalingPolicy | undefined;
-};
+export type AutoscalingPolicyMap = { [key: string]: AutoscalingPolicy | undefined };
 export const AutoscalingPolicyMap = /*@__PURE__*/ S.Record(
   S.String,
   AutoscalingPolicy,
@@ -879,18 +863,7 @@ export const AutoscalingSettings = /*@__PURE__*/ S.suspend(() =>
     coolDownPeriod: S.optional(S.String),
     minClusterNodeCount: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "AutoscalingSettings",
-}) as any as S.Schema<AutoscalingSettings>;
-
-export type ClusterStateEnum =
-  | "STATE_UNSPECIFIED"
-  | "ACTIVE"
-  | "CREATING"
-  | "UPDATING"
-  | "DELETING"
-  | "REPAIRING";
-export const ClusterStateEnum = S.String;
+).annotate({ identifier: "AutoscalingSettings" }) as any as S.Schema<AutoscalingSettings>;
 
 export type DatastoreMountConfigNfsVersionEnum = "NFS_VERSION_UNSPECIFIED" | "NFS_V3";
 export const DatastoreMountConfigNfsVersionEnum = S.String;
@@ -905,113 +878,118 @@ export const DatastoreMountConfigAccessModeEnum = S.String;
 export interface DatastoreNetwork {
   /** Optional. MTU value is set on the VMKernel adapter for the NFS traffic. By default standard 1500 MTU size is set in MountDatastore API which is good for typical setups. However google VPC networks supports jumbo MTU 8896. We recommend to tune this value based on the NFS traffic performance. Performance can be determined using benchmarking I/O tools like fio (Flexible I/O Tester) utility. */
   mtu?: number;
-  /** Output only. The resource name of the network peering, used to access the file share by clients on private cloud. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. e.g. projects/my-project/locations/us-central1/networkPeerings/my-network-peering */
-  networkPeering?: string;
   /** Required. The resource name of the subnet Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. e.g. projects/my-project/locations/us-central1/subnets/my-subnet */
   subnet?: string;
   /** Optional. connection_count is used to set multiple connections from NFS client on ESXi host to NFS server. A higher number of connections results in better performance on datastores. In MountDatastore API by default max 4 connections are configured. User can set value of connection_count between 1 to 4. Connection_count is supported from vsphere 8.0u1 for earlier version 1 connection count is set on the ESXi hosts. */
   connectionCount?: number;
+  /** Output only. The resource name of the network peering, used to access the file share by clients on private cloud. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. e.g. projects/my-project/locations/us-central1/networkPeerings/my-network-peering */
+  networkPeering?: string;
 }
 export const DatastoreNetwork = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     mtu: S.optional(S.Number),
-    networkPeering: S.optional(S.String),
     subnet: S.optional(S.String),
     connectionCount: S.optional(S.Number),
+    networkPeering: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DatastoreNetwork",
-}) as any as S.Schema<DatastoreNetwork>;
+).annotate({ identifier: "DatastoreNetwork" }) as any as S.Schema<DatastoreNetwork>;
 
 /** The Datastore Mount configuration */
 export interface DatastoreMountConfig {
   /** Optional. The NFS protocol supported by the NFS volume. Default value used will be NFS_V3 */
   nfsVersion?: DatastoreMountConfigNfsVersionEnum | (string & {});
-  /** Output only. Server IP addresses of the NFS volume. For NFS 3, you can only provide a single server IP address or DNS names. */
-  servers?: StringList;
-  /** Required. The resource name of the datastore to mount. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1/datastores/my-datastore` */
-  datastore?: string;
-  /** Optional. The access mode of the NFS volume. Optional. Default value used will be READ_WRITE */
-  accessMode?: DatastoreMountConfigAccessModeEnum | (string & {});
-  /** Required. The network configuration for the datastore. */
-  datastoreNetwork?: DatastoreNetwork;
   /** Output only. File share name. */
   fileShare?: string;
+  /** Output only. Server IP addresses of the NFS volume. For NFS 3, you can only provide a single server IP address or DNS names. */
+  servers?: StringList;
+  /** Optional. The access mode of the NFS volume. Optional. Default value used will be READ_WRITE */
+  accessMode?: DatastoreMountConfigAccessModeEnum | (string & {});
+  /** Required. The resource name of the datastore to mount. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1/datastores/my-datastore` */
+  datastore?: string;
+  /** Required. The network configuration for the datastore. */
+  datastoreNetwork?: DatastoreNetwork;
 }
 export const DatastoreMountConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     nfsVersion: S.optional(DatastoreMountConfigNfsVersionEnum),
-    servers: S.optional(StringList),
-    datastore: S.optional(S.String),
-    accessMode: S.optional(DatastoreMountConfigAccessModeEnum),
-    datastoreNetwork: S.optional(DatastoreNetwork),
     fileShare: S.optional(S.String),
+    servers: S.optional(StringList),
+    accessMode: S.optional(DatastoreMountConfigAccessModeEnum),
+    datastore: S.optional(S.String),
+    datastoreNetwork: S.optional(DatastoreNetwork),
   }),
-).annotate({
-  identifier: "DatastoreMountConfig",
-}) as any as S.Schema<DatastoreMountConfig>;
+).annotate({ identifier: "DatastoreMountConfig" }) as any as S.Schema<DatastoreMountConfig>;
 
 export type DatastoreMountConfigList = Array<DatastoreMountConfig>;
 export const DatastoreMountConfigList = /*@__PURE__*/ S.Array(
   DatastoreMountConfig,
 ) as any as S.Schema<DatastoreMountConfigList>;
 
+export type ClusterStateEnum =
+  | "STATE_UNSPECIFIED"
+  | "ACTIVE"
+  | "CREATING"
+  | "UPDATING"
+  | "DELETING"
+  | "REPAIRING";
+export const ClusterStateEnum = S.String;
+
 /** A cluster in a private cloud. */
 export interface Cluster {
-  /** Output only. True if the cluster is a management cluster; false otherwise. There can only be one management cluster in a private cloud and it has to be the first one. */
-  management?: boolean;
-  /** Optional. Configuration of the autoscaling applied to this cluster. */
-  autoscalingSettings?: AutoscalingSettings;
-  /** Output only. Last update time of this resource. */
-  updateTime?: string;
   /** Output only. Creation time of this resource. */
   createTime?: string;
+  /** Optional. Configuration of the autoscaling applied to this cluster. */
+  autoscalingSettings?: AutoscalingSettings;
   /** Optional. Configuration of a stretched cluster. Required for clusters that belong to a STRETCHED private cloud. */
   stretchedClusterConfig?: StretchedClusterConfig;
-  /** Required. The map of cluster node types in this cluster, where the key is canonical identifier of the node type (corresponds to the `NodeType`). */
-  nodeTypeConfigs?: NodeTypeConfigMap;
-  /** Output only. State of the resource. */
-  state?: ClusterStateEnum | (string & {});
-  /** Output only. Identifier. The resource name of this cluster. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud/clusters/my-cluster` */
-  name?: string;
   /** Output only. Configuration of a mounted datastore. */
   datastoreMountConfig?: DatastoreMountConfigList;
   /** Output only. System-generated unique identifier for the resource. */
   uid?: string;
+  /** Output only. Last update time of this resource. */
+  updateTime?: string;
+  /** Required. The map of cluster node types in this cluster, where the key is canonical identifier of the node type (corresponds to the `NodeType`). */
+  nodeTypeConfigs?: NodeTypeConfigMap;
+  /** Output only. True if the cluster is a management cluster; false otherwise. There can only be one management cluster in a private cloud and it has to be the first one. */
+  management?: boolean;
+  /** Output only. State of the resource. */
+  state?: ClusterStateEnum | (string & {});
+  /** Output only. Identifier. The resource name of this cluster. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud/clusters/my-cluster` */
+  name?: string;
 }
 export const Cluster = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    management: S.optional(S.Boolean),
-    autoscalingSettings: S.optional(AutoscalingSettings),
-    updateTime: S.optional(S.String),
     createTime: S.optional(S.String),
+    autoscalingSettings: S.optional(AutoscalingSettings),
     stretchedClusterConfig: S.optional(StretchedClusterConfig),
-    nodeTypeConfigs: S.optional(NodeTypeConfigMap),
-    state: S.optional(ClusterStateEnum),
-    name: S.optional(S.String),
     datastoreMountConfig: S.optional(DatastoreMountConfigList),
     uid: S.optional(S.String),
+    updateTime: S.optional(S.String),
+    nodeTypeConfigs: S.optional(NodeTypeConfigMap),
+    management: S.optional(S.Boolean),
+    state: S.optional(ClusterStateEnum),
+    name: S.optional(S.String),
   }),
 ).annotate({ identifier: "Cluster" }) as any as S.Schema<Cluster>;
 
 export interface CreateProjectsLocationsPrivateCloudsClustersRequest {
-  /** Optional. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
   /** Optional. If set to `true`, only validates the request but doesn’t execute the request. If set to `false`, validates and executes the request. */
   validateOnly?: boolean;
-  /** Required. The user-provided identifier of the new `Cluster`. This identifier must be unique among clusters within the parent and becomes the final token in the name URI. The identifier must meet the following requirements: * Only contains 1-63 alphanumeric characters and hyphens * Begins with an alphabetical character * Ends with a non-hyphen character * Not formatted as a UUID * Complies with [RFC 1034](https://datatracker.ietf.org/doc/html/rfc1034) (section 3.5) */
-  clusterId?: string;
   /** Required. The resource name of the private cloud to create a new cluster in. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud` */
   parent: string;
+  /** Optional. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string;
+  /** Required. The user-provided identifier of the new `Cluster`. This identifier must be unique among clusters within the parent and becomes the final token in the name URI. The identifier must meet the following requirements: * Only contains 1-63 alphanumeric characters and hyphens * Begins with an alphabetical character * Ends with a non-hyphen character * Not formatted as a UUID * Complies with [RFC 1034](https://datatracker.ietf.org/doc/html/rfc1034) (section 3.5) */
+  clusterId?: string;
   /** Request body */
   body?: Cluster;
 }
 export const CreateProjectsLocationsPrivateCloudsClustersRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    requestId: S.optional(S.String.pipe(T.Query())),
     validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-    clusterId: S.optional(S.String.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
+    requestId: S.optional(S.String.pipe(T.Query())),
+    clusterId: S.optional(S.String.pipe(T.Query())),
     body: S.optional(Cluster.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -1036,55 +1014,53 @@ export const ExternalAddressStateEnum = S.String;
 export interface ExternalAddress {
   /** Output only. System-generated unique identifier for the resource. */
   uid?: string;
+  /** Output only. Last update time of this resource. */
+  updateTime?: string;
   /** Output only. Identifier. The resource name of this external IP address. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud/externalAddresses/my-address` */
   name?: string;
-  /** Output only. Creation time of this resource. */
-  createTime?: string;
   /** Output only. The external IP address of a workload VM. */
   externalIp?: string;
   /** User-provided description for this resource. */
   description?: string;
   /** Output only. The state of the resource. */
   state?: ExternalAddressStateEnum | (string & {});
-  /** Output only. Last update time of this resource. */
-  updateTime?: string;
+  /** Output only. Creation time of this resource. */
+  createTime?: string;
   /** The internal IP address of a workload VM. */
   internalIp?: string;
 }
 export const ExternalAddress = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     uid: S.optional(S.String),
+    updateTime: S.optional(S.String),
     name: S.optional(S.String),
-    createTime: S.optional(S.String),
     externalIp: S.optional(S.String),
     description: S.optional(S.String),
     state: S.optional(ExternalAddressStateEnum),
-    updateTime: S.optional(S.String),
+    createTime: S.optional(S.String),
     internalIp: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ExternalAddress",
-}) as any as S.Schema<ExternalAddress>;
+).annotate({ identifier: "ExternalAddress" }) as any as S.Schema<ExternalAddress>;
 
 export interface CreateProjectsLocationsPrivateCloudsExternalAddressesRequest {
-  /** Required. The resource name of the private cloud to create a new external IP address in. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud` */
-  parent: string;
-  /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server guarantees that a request doesn't result in creation of duplicate commitments for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if the original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
   /** Required. The user-provided identifier of the `ExternalAddress` to be created. This identifier must be unique among `ExternalAddress` resources within the parent and becomes the final token in the name URI. The identifier must meet the following requirements: * Only contains 1-63 alphanumeric characters and hyphens * Begins with an alphabetical character * Ends with a non-hyphen character * Not formatted as a UUID * Complies with [RFC 1034](https://datatracker.ietf.org/doc/html/rfc1034) (section 3.5) */
   externalAddressId?: string;
+  /** Required. The resource name of the private cloud to create a new external IP address in. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud` */
+  parent: string;
   /** Optional. If set to `true`, only validates the request but doesn’t execute the request. If set to `false`, validates and executes the request. */
   validateOnly?: boolean;
+  /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server guarantees that a request doesn't result in creation of duplicate commitments for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if the original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string;
   /** Request body */
   body?: ExternalAddress;
 }
 export const CreateProjectsLocationsPrivateCloudsExternalAddressesRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      parent: S.String.pipe(T.Label()),
-      requestId: S.optional(S.String.pipe(T.Query())),
       externalAddressId: S.optional(S.String.pipe(T.Query())),
+      parent: S.String.pipe(T.Label()),
       validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+      requestId: S.optional(S.String.pipe(T.Query())),
       body: S.optional(ExternalAddress.pipe(T.HttpBody())),
     }).pipe(
       T.Http({
@@ -1102,45 +1078,43 @@ export const HcxActivationKeyStateEnum = S.String;
 
 /** HCX activation key. A default key is created during private cloud provisioning, but this behavior is subject to change and you should always verify active keys. Use VmwareEngine.ListHcxActivationKeys to retrieve existing keys and VmwareEngine.CreateHcxActivationKey to create new ones. */
 export interface HcxActivationKey {
-  /** Output only. State of HCX activation key. */
-  state?: HcxActivationKeyStateEnum | (string & {});
-  /** Output only. System-generated unique identifier for the resource. */
-  uid?: string;
   /** Output only. Creation time of HCX activation key. */
   createTime?: string;
   /** Output only. The resource name of this HcxActivationKey. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1/privateClouds/my-cloud/hcxActivationKeys/my-key` */
   name?: string;
   /** Output only. HCX activation key. */
   activationKey?: string;
+  /** Output only. System-generated unique identifier for the resource. */
+  uid?: string;
+  /** Output only. State of HCX activation key. */
+  state?: HcxActivationKeyStateEnum | (string & {});
 }
 export const HcxActivationKey = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    state: S.optional(HcxActivationKeyStateEnum),
-    uid: S.optional(S.String),
     createTime: S.optional(S.String),
     name: S.optional(S.String),
     activationKey: S.optional(S.String),
+    uid: S.optional(S.String),
+    state: S.optional(HcxActivationKeyStateEnum),
   }),
-).annotate({
-  identifier: "HcxActivationKey",
-}) as any as S.Schema<HcxActivationKey>;
+).annotate({ identifier: "HcxActivationKey" }) as any as S.Schema<HcxActivationKey>;
 
 export interface CreateProjectsLocationsPrivateCloudsHcxActivationKeysRequest {
+  /** Required. The user-provided identifier of the `HcxActivationKey` to be created. This identifier must be unique among `HcxActivationKey` resources within the parent and becomes the final token in the name URI. The identifier must meet the following requirements: * Only contains 1-63 alphanumeric characters and hyphens * Begins with an alphabetical character * Ends with a non-hyphen character * Not formatted as a UUID * Complies with [RFC 1034](https://datatracker.ietf.org/doc/html/rfc1034) (section 3.5) */
+  hcxActivationKeyId?: string;
   /** Required. The resource name of the private cloud to create the key for. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1/privateClouds/my-cloud` */
   parent: string;
   /** A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server guarantees that a request doesn't result in creation of duplicate commitments for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
-  /** Required. The user-provided identifier of the `HcxActivationKey` to be created. This identifier must be unique among `HcxActivationKey` resources within the parent and becomes the final token in the name URI. The identifier must meet the following requirements: * Only contains 1-63 alphanumeric characters and hyphens * Begins with an alphabetical character * Ends with a non-hyphen character * Not formatted as a UUID * Complies with [RFC 1034](https://datatracker.ietf.org/doc/html/rfc1034) (section 3.5) */
-  hcxActivationKeyId?: string;
   /** Request body */
   body?: HcxActivationKey;
 }
 export const CreateProjectsLocationsPrivateCloudsHcxActivationKeysRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
+      hcxActivationKeyId: S.optional(S.String.pipe(T.Query())),
       parent: S.String.pipe(T.Label()),
       requestId: S.optional(S.String.pipe(T.Query())),
-      hcxActivationKeyId: S.optional(S.String.pipe(T.Query())),
       body: S.optional(HcxActivationKey.pipe(T.HttpBody())),
     }).pipe(
       T.Http({
@@ -1167,52 +1141,52 @@ export const LoggingServerSourceTypeEnum = S.String;
 
 /** Logging server to receive vCenter or ESXi logs. */
 export interface LoggingServer {
-  /** Output only. System-generated unique identifier for the resource. */
-  uid?: string;
-  /** Output only. Creation time of this resource. */
-  createTime?: string;
-  /** Required. Protocol used by vCenter to send logs to a logging server. */
-  protocol?: LoggingServerProtocolEnum | (string & {});
-  /** Required. Fully-qualified domain name (FQDN) or IP Address of the logging server. */
-  hostname?: string;
-  /** Output only. The resource name of this logging server. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud/loggingServers/my-logging-server` */
-  name?: string;
-  /** Required. Port number at which the logging server receives logs. */
-  port?: number;
   /** Output only. Last update time of this resource. */
   updateTime?: string;
+  /** Output only. System-generated unique identifier for the resource. */
+  uid?: string;
+  /** Required. Protocol used by vCenter to send logs to a logging server. */
+  protocol?: LoggingServerProtocolEnum | (string & {});
   /** Required. The type of component that produces logs that will be forwarded to this logging server. */
   sourceType?: LoggingServerSourceTypeEnum | (string & {});
+  /** Required. Port number at which the logging server receives logs. */
+  port?: number;
+  /** Required. Fully-qualified domain name (FQDN) or IP Address of the logging server. */
+  hostname?: string;
+  /** Output only. Creation time of this resource. */
+  createTime?: string;
+  /** Output only. The resource name of this logging server. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud/loggingServers/my-logging-server` */
+  name?: string;
 }
 export const LoggingServer = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    uid: S.optional(S.String),
-    createTime: S.optional(S.String),
-    protocol: S.optional(LoggingServerProtocolEnum),
-    hostname: S.optional(S.String),
-    name: S.optional(S.String),
-    port: S.optional(S.Number),
     updateTime: S.optional(S.String),
+    uid: S.optional(S.String),
+    protocol: S.optional(LoggingServerProtocolEnum),
     sourceType: S.optional(LoggingServerSourceTypeEnum),
+    port: S.optional(S.Number),
+    hostname: S.optional(S.String),
+    createTime: S.optional(S.String),
+    name: S.optional(S.String),
   }),
 ).annotate({ identifier: "LoggingServer" }) as any as S.Schema<LoggingServer>;
 
 export interface CreateProjectsLocationsPrivateCloudsLoggingServersRequest {
+  /** Required. The resource name of the private cloud to create a new Logging Server in. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud` */
+  parent: string;
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server guarantees that a request doesn't result in creation of duplicate commitments for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
   /** Required. The user-provided identifier of the `LoggingServer` to be created. This identifier must be unique among `LoggingServer` resources within the parent and becomes the final token in the name URI. The identifier must meet the following requirements: * Only contains 1-63 alphanumeric characters and hyphens * Begins with an alphabetical character * Ends with a non-hyphen character * Not formatted as a UUID * Complies with [RFC 1034](https://datatracker.ietf.org/doc/html/rfc1034) (section 3.5) */
   loggingServerId?: string;
-  /** Required. The resource name of the private cloud to create a new Logging Server in. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud` */
-  parent: string;
   /** Request body */
   body?: LoggingServer;
 }
 export const CreateProjectsLocationsPrivateCloudsLoggingServersRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
+      parent: S.String.pipe(T.Label()),
       requestId: S.optional(S.String.pipe(T.Query())),
       loggingServerId: S.optional(S.String.pipe(T.Query())),
-      parent: S.String.pipe(T.Label()),
       body: S.optional(LoggingServer.pipe(T.HttpBody())),
     }).pipe(
       T.Http({
@@ -1238,35 +1212,33 @@ export const ManagementDnsZoneBindingStateEnum = S.String;
 export interface ManagementDnsZoneBinding {
   /** Output only. Creation time of this resource. */
   createTime?: string;
-  /** User-provided description for this resource. */
-  description?: string;
-  /** Network to bind is a VMware Engine network. Specify the name in the following form for VMware engine network: `projects/{project}/locations/global/vmwareEngineNetworks/{vmware_engine_network_id}`. `{project}` can either be a project number or a project ID. */
-  vmwareEngineNetwork?: string;
-  /** Output only. The resource name of this binding. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud/managementDnsZoneBindings/my-management-dns-zone-binding` */
-  name?: string;
-  /** Output only. System-generated unique identifier for the resource. */
-  uid?: string;
-  /** Network to bind is a standard consumer VPC. Specify the name in the following form for consumer VPC network: `projects/{project}/global/networks/{network_id}`. `{project}` can either be a project number or a project ID. */
-  vpcNetwork?: string;
   /** Output only. Last update time of this resource. */
   updateTime?: string;
+  /** Network to bind is a standard consumer VPC. Specify the name in the following form for consumer VPC network: `projects/{project}/global/networks/{network_id}`. `{project}` can either be a project number or a project ID. */
+  vpcNetwork?: string;
+  /** Output only. The resource name of this binding. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud/managementDnsZoneBindings/my-management-dns-zone-binding` */
+  name?: string;
+  /** User-provided description for this resource. */
+  description?: string;
+  /** Output only. System-generated unique identifier for the resource. */
+  uid?: string;
   /** Output only. The state of the resource. */
   state?: ManagementDnsZoneBindingStateEnum | (string & {});
+  /** Network to bind is a VMware Engine network. Specify the name in the following form for VMware engine network: `projects/{project}/locations/global/vmwareEngineNetworks/{vmware_engine_network_id}`. `{project}` can either be a project number or a project ID. */
+  vmwareEngineNetwork?: string;
 }
 export const ManagementDnsZoneBinding = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     createTime: S.optional(S.String),
-    description: S.optional(S.String),
-    vmwareEngineNetwork: S.optional(S.String),
-    name: S.optional(S.String),
-    uid: S.optional(S.String),
-    vpcNetwork: S.optional(S.String),
     updateTime: S.optional(S.String),
+    vpcNetwork: S.optional(S.String),
+    name: S.optional(S.String),
+    description: S.optional(S.String),
+    uid: S.optional(S.String),
     state: S.optional(ManagementDnsZoneBindingStateEnum),
+    vmwareEngineNetwork: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ManagementDnsZoneBinding",
-}) as any as S.Schema<ManagementDnsZoneBinding>;
+).annotate({ identifier: "ManagementDnsZoneBinding" }) as any as S.Schema<ManagementDnsZoneBinding>;
 
 export interface CreateProjectsLocationsPrivateCloudsManagementDnsZoneBindingsRequest {
   /** Required. The user-provided identifier of the `ManagementDnsZoneBinding` resource to be created. This identifier must be unique among `ManagementDnsZoneBinding` resources within the parent and becomes the final token in the name URI. The identifier must meet the following requirements: * Only contains 1-63 alphanumeric characters and hyphens * Begins with an alphabetical character * Ends with a non-hyphen character * Not formatted as a UUID * Complies with [RFC 1034](https://datatracker.ietf.org/doc/html/rfc1034) (section 3.5) */
@@ -1296,22 +1268,11 @@ export const CreateProjectsLocationsPrivateCloudsManagementDnsZoneBindingsReques
     identifier: "CreateProjectsLocationsPrivateCloudsManagementDnsZoneBindingsRequest",
   }) as any as S.Schema<CreateProjectsLocationsPrivateCloudsManagementDnsZoneBindingsRequest>;
 
-export type PrivateConnectionTypeEnum =
-  | "TYPE_UNSPECIFIED"
-  | "PRIVATE_SERVICE_ACCESS"
-  | "NETAPP_CLOUD_VOLUMES"
-  | "DELL_POWERSCALE"
-  | "THIRD_PARTY_SERVICE";
-export const PrivateConnectionTypeEnum = S.String;
-
 export type PrivateConnectionPeeringStateEnum =
   | "PEERING_STATE_UNSPECIFIED"
   | "PEERING_ACTIVE"
   | "PEERING_INACTIVE";
 export const PrivateConnectionPeeringStateEnum = S.String;
-
-export type PrivateConnectionRoutingModeEnum = "ROUTING_MODE_UNSPECIFIED" | "GLOBAL" | "REGIONAL";
-export const PrivateConnectionRoutingModeEnum = S.String;
 
 export type PrivateConnectionStateEnum =
   | "STATE_UNSPECIFIED"
@@ -1323,73 +1284,82 @@ export type PrivateConnectionStateEnum =
   | "FAILED";
 export const PrivateConnectionStateEnum = S.String;
 
+export type PrivateConnectionTypeEnum =
+  | "TYPE_UNSPECIFIED"
+  | "PRIVATE_SERVICE_ACCESS"
+  | "NETAPP_CLOUD_VOLUMES"
+  | "DELL_POWERSCALE"
+  | "THIRD_PARTY_SERVICE";
+export const PrivateConnectionTypeEnum = S.String;
+
+export type PrivateConnectionRoutingModeEnum = "ROUTING_MODE_UNSPECIFIED" | "GLOBAL" | "REGIONAL";
+export const PrivateConnectionRoutingModeEnum = S.String;
+
 /** Private connection resource that provides connectivity for VMware Engine private clouds. */
 export interface PrivateConnection {
-  /** Output only. System-generated unique identifier for the resource. */
-  uid?: string;
-  /** Required. Private connection type. */
-  type?: PrivateConnectionTypeEnum | (string & {});
-  /** Required. Service network to create private connection. Specify the name in the following form: `projects/{project}/global/networks/{network_id}` For type = PRIVATE_SERVICE_ACCESS, this field represents servicenetworking VPC, e.g. projects/project-tp/global/networks/servicenetworking. For type = NETAPP_CLOUD_VOLUME, this field represents NetApp service VPC, e.g. projects/project-tp/global/networks/netapp-tenant-vpc. For type = DELL_POWERSCALE, this field represent Dell service VPC, e.g. projects/project-tp/global/networks/dell-tenant-vpc. For type= THIRD_PARTY_SERVICE, this field could represent a consumer VPC or any other producer VPC to which the VMware Engine Network needs to be connected, e.g. projects/project/global/networks/vpc. */
-  serviceNetwork?: string;
-  /** Optional. User-provided description for this private connection. */
-  description?: string;
   /** Output only. Peering state between service network and VMware Engine network. */
   peeringState?: PrivateConnectionPeeringStateEnum | (string & {});
-  /** Output only. The canonical name of the VMware Engine network in the form: `projects/{project_number}/locations/{location}/vmwareEngineNetworks/{vmware_engine_network_id}` */
-  vmwareEngineNetworkCanonical?: string;
-  /** Output only. Creation time of this resource. */
-  createTime?: string;
-  /** Output only. The resource name of the private connection. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1/privateConnections/my-connection` */
-  name?: string;
-  /** Optional. Routing Mode. Default value is set to GLOBAL. For type = PRIVATE_SERVICE_ACCESS, this field can be set to GLOBAL or REGIONAL, for other types only GLOBAL is supported. */
-  routingMode?: PrivateConnectionRoutingModeEnum | (string & {});
-  /** Output only. State of the private connection. */
-  state?: PrivateConnectionStateEnum | (string & {});
-  /** Output only. Last update time of this resource. */
-  updateTime?: string;
-  /** Output only. VPC network peering id between given network VPC and VMwareEngineNetwork. */
-  peeringId?: string;
   /** Required. The relative resource name of Legacy VMware Engine network. Specify the name in the following form: `projects/{project}/locations/{location}/vmwareEngineNetworks/{vmware_engine_network_id}` where `{project}`, `{location}` will be same as specified in private connection resource name and `{vmware_engine_network_id}` will be in the form of `{location}`-default e.g. projects/project/locations/us-central1/vmwareEngineNetworks/us-central1-default. */
   vmwareEngineNetwork?: string;
+  /** Output only. Last update time of this resource. */
+  updateTime?: string;
+  /** Output only. The resource name of the private connection. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1/privateConnections/my-connection` */
+  name?: string;
+  /** Output only. State of the private connection. */
+  state?: PrivateConnectionStateEnum | (string & {});
+  /** Required. Service network to create private connection. Specify the name in the following form: `projects/{project}/global/networks/{network_id}` For type = PRIVATE_SERVICE_ACCESS, this field represents servicenetworking VPC, e.g. projects/project-tp/global/networks/servicenetworking. For type = NETAPP_CLOUD_VOLUME, this field represents NetApp service VPC, e.g. projects/project-tp/global/networks/netapp-tenant-vpc. For type = DELL_POWERSCALE, this field represent Dell service VPC, e.g. projects/project-tp/global/networks/dell-tenant-vpc. For type= THIRD_PARTY_SERVICE, this field could represent a consumer VPC or any other producer VPC to which the VMware Engine Network needs to be connected, e.g. projects/project/global/networks/vpc. */
+  serviceNetwork?: string;
+  /** Required. Private connection type. */
+  type?: PrivateConnectionTypeEnum | (string & {});
+  /** Output only. Creation time of this resource. */
+  createTime?: string;
+  /** Output only. VPC network peering id between given network VPC and VMwareEngineNetwork. */
+  peeringId?: string;
+  /** Output only. System-generated unique identifier for the resource. */
+  uid?: string;
+  /** Output only. The canonical name of the VMware Engine network in the form: `projects/{project_number}/locations/{location}/vmwareEngineNetworks/{vmware_engine_network_id}` */
+  vmwareEngineNetworkCanonical?: string;
+  /** Optional. User-provided description for this private connection. */
+  description?: string;
+  /** Optional. Routing Mode. Default value is set to GLOBAL. For type = PRIVATE_SERVICE_ACCESS, this field can be set to GLOBAL or REGIONAL, for other types only GLOBAL is supported. */
+  routingMode?: PrivateConnectionRoutingModeEnum | (string & {});
 }
 export const PrivateConnection = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    uid: S.optional(S.String),
-    type: S.optional(PrivateConnectionTypeEnum),
-    serviceNetwork: S.optional(S.String),
-    description: S.optional(S.String),
     peeringState: S.optional(PrivateConnectionPeeringStateEnum),
-    vmwareEngineNetworkCanonical: S.optional(S.String),
-    createTime: S.optional(S.String),
-    name: S.optional(S.String),
-    routingMode: S.optional(PrivateConnectionRoutingModeEnum),
-    state: S.optional(PrivateConnectionStateEnum),
-    updateTime: S.optional(S.String),
-    peeringId: S.optional(S.String),
     vmwareEngineNetwork: S.optional(S.String),
+    updateTime: S.optional(S.String),
+    name: S.optional(S.String),
+    state: S.optional(PrivateConnectionStateEnum),
+    serviceNetwork: S.optional(S.String),
+    type: S.optional(PrivateConnectionTypeEnum),
+    createTime: S.optional(S.String),
+    peeringId: S.optional(S.String),
+    uid: S.optional(S.String),
+    vmwareEngineNetworkCanonical: S.optional(S.String),
+    description: S.optional(S.String),
+    routingMode: S.optional(PrivateConnectionRoutingModeEnum),
   }),
-).annotate({
-  identifier: "PrivateConnection",
-}) as any as S.Schema<PrivateConnection>;
+).annotate({ identifier: "PrivateConnection" }) as any as S.Schema<PrivateConnection>;
 
 export interface CreateProjectsLocationsPrivateConnectionsRequest {
+  /** Required. The user-provided identifier of the new private connection. This identifier must be unique among private connection resources within the parent and becomes the final token in the name URI. The identifier must meet the following requirements: * Only contains 1-63 alphanumeric characters and hyphens * Begins with an alphabetical character * Ends with a non-hyphen character * Not formatted as a UUID * Complies with [RFC 1034](https://datatracker.ietf.org/doc/html/rfc1034) (section 3.5) */
+  privateConnectionId?: string;
   /** Required. The resource name of the location to create the new private connection in. Private connection is a regional resource. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1` */
   parent: string;
   /** Optional. If set to `true`, only validates the request but doesn’t execute the request. If set to `false`, validates and executes the request. */
   validateOnly?: boolean;
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server guarantees that a request doesn't result in creation of duplicate commitments for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
-  /** Required. The user-provided identifier of the new private connection. This identifier must be unique among private connection resources within the parent and becomes the final token in the name URI. The identifier must meet the following requirements: * Only contains 1-63 alphanumeric characters and hyphens * Begins with an alphabetical character * Ends with a non-hyphen character * Not formatted as a UUID * Complies with [RFC 1034](https://datatracker.ietf.org/doc/html/rfc1034) (section 3.5) */
-  privateConnectionId?: string;
   /** Request body */
   body?: PrivateConnection;
 }
 export const CreateProjectsLocationsPrivateConnectionsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    privateConnectionId: S.optional(S.String.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
     validateOnly: S.optional(S.Boolean.pipe(T.Query())),
     requestId: S.optional(S.String.pipe(T.Query())),
-    privateConnectionId: S.optional(S.String.pipe(T.Query())),
     body: S.optional(PrivateConnection.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -1435,59 +1405,57 @@ export const VmwareEngineNetworkStateEnum = S.String;
 
 /** VMware Engine network resource that provides connectivity for VMware Engine private clouds. */
 export interface VmwareEngineNetwork {
+  /** Output only. System-generated unique identifier for the resource. */
+  uid?: string;
+  /** Output only. VMware Engine service VPC networks that provide connectivity from a private cloud to customer projects, the internet, and other Google Cloud services. */
+  vpcNetworks?: VpcNetworkList;
+  /** Checksum that may be sent on update and delete requests to ensure that the user-provided value is up to date before the server processes a request. The server computes checksums based on the value of other fields in the request. */
+  etag?: string;
+  /** Output only. Last update time of this resource. */
+  updateTime?: string;
+  /** User-provided description for this VMware Engine network. */
+  description?: string;
+  /** Required. VMware Engine network type. */
+  type?: VmwareEngineNetworkTypeEnum | (string & {});
+  /** Output only. State of the VMware Engine network. */
+  state?: VmwareEngineNetworkStateEnum | (string & {});
   /** Output only. Creation time of this resource. */
   createTime?: string;
   /** Output only. Identifier. The resource name of the VMware Engine network. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/global/vmwareEngineNetworks/my-network` */
   name?: string;
-  /** Output only. VMware Engine service VPC networks that provide connectivity from a private cloud to customer projects, the internet, and other Google Cloud services. */
-  vpcNetworks?: VpcNetworkList;
-  /** Required. VMware Engine network type. */
-  type?: VmwareEngineNetworkTypeEnum | (string & {});
-  /** Output only. System-generated unique identifier for the resource. */
-  uid?: string;
-  /** User-provided description for this VMware Engine network. */
-  description?: string;
-  /** Output only. Last update time of this resource. */
-  updateTime?: string;
-  /** Checksum that may be sent on update and delete requests to ensure that the user-provided value is up to date before the server processes a request. The server computes checksums based on the value of other fields in the request. */
-  etag?: string;
-  /** Output only. State of the VMware Engine network. */
-  state?: VmwareEngineNetworkStateEnum | (string & {});
 }
 export const VmwareEngineNetwork = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    uid: S.optional(S.String),
+    vpcNetworks: S.optional(VpcNetworkList),
+    etag: S.optional(S.String),
+    updateTime: S.optional(S.String),
+    description: S.optional(S.String),
+    type: S.optional(VmwareEngineNetworkTypeEnum),
+    state: S.optional(VmwareEngineNetworkStateEnum),
     createTime: S.optional(S.String),
     name: S.optional(S.String),
-    vpcNetworks: S.optional(VpcNetworkList),
-    type: S.optional(VmwareEngineNetworkTypeEnum),
-    uid: S.optional(S.String),
-    description: S.optional(S.String),
-    updateTime: S.optional(S.String),
-    etag: S.optional(S.String),
-    state: S.optional(VmwareEngineNetworkStateEnum),
   }),
-).annotate({
-  identifier: "VmwareEngineNetwork",
-}) as any as S.Schema<VmwareEngineNetwork>;
+).annotate({ identifier: "VmwareEngineNetwork" }) as any as S.Schema<VmwareEngineNetwork>;
 
 export interface CreateProjectsLocationsVmwareEngineNetworksRequest {
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server guarantees that a request doesn't result in creation of duplicate commitments for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
-  /** Required. The resource name of the location to create the new VMware Engine network in. A VMware Engine network of type `LEGACY` is a regional resource, and a VMware Engine network of type `STANDARD` is a global resource. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/global` */
-  parent: string;
-  /** Required. The user-provided identifier of the new VMware Engine network. This identifier must be unique among VMware Engine network resources within the parent and becomes the final token in the name URI. The identifier must meet the following requirements: * For networks of type LEGACY, adheres to the format: `{region-id}-default`. Replace `{region-id}` with the region where you want to create the VMware Engine network. For example, "us-central1-default". * Only contains 1-63 alphanumeric characters and hyphens * Begins with an alphabetical character * Ends with a non-hyphen character * Not formatted as a UUID * Complies with [RFC 1034](https://datatracker.ietf.org/doc/html/rfc1034) (section 3.5) */
-  vmwareEngineNetworkId?: string;
   /** Optional. If set to `true`, only validates the request but doesn’t execute the request. If set to `false`, validates and executes the request. */
   validateOnly?: boolean;
+  /** Required. The user-provided identifier of the new VMware Engine network. This identifier must be unique among VMware Engine network resources within the parent and becomes the final token in the name URI. The identifier must meet the following requirements: * For networks of type LEGACY, adheres to the format: `{region-id}-default`. Replace `{region-id}` with the region where you want to create the VMware Engine network. For example, "us-central1-default". * Only contains 1-63 alphanumeric characters and hyphens * Begins with an alphabetical character * Ends with a non-hyphen character * Not formatted as a UUID * Complies with [RFC 1034](https://datatracker.ietf.org/doc/html/rfc1034) (section 3.5) */
+  vmwareEngineNetworkId?: string;
+  /** Required. The resource name of the location to create the new VMware Engine network in. A VMware Engine network of type `LEGACY` is a regional resource, and a VMware Engine network of type `STANDARD` is a global resource. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/global` */
+  parent: string;
   /** Request body */
   body?: VmwareEngineNetwork;
 }
 export const CreateProjectsLocationsVmwareEngineNetworksRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     requestId: S.optional(S.String.pipe(T.Query())),
-    parent: S.String.pipe(T.Label()),
-    vmwareEngineNetworkId: S.optional(S.String.pipe(T.Query())),
     validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+    vmwareEngineNetworkId: S.optional(S.String.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
     body: S.optional(VmwareEngineNetwork.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -1501,18 +1469,18 @@ export const CreateProjectsLocationsVmwareEngineNetworksRequest = /*@__PURE__*/ 
 }) as any as S.Schema<CreateProjectsLocationsVmwareEngineNetworksRequest>;
 
 export interface DeleteProjectsLocationsDatastoresRequest {
-  /** Required. The resource name of the Datastore to be deleted. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1/datastore/my-datastore` */
-  name: string;
   /** Optional. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
   /** Optional. Checksum used to ensure that the user-provided value is up to date before the server processes the request. The server compares provided checksum with the current checksum of the resource. If the user-provided value is out of date, this request returns an `ABORTED` error. */
   etag?: string;
+  /** Required. The resource name of the Datastore to be deleted. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1/datastore/my-datastore` */
+  name: string;
 }
 export const DeleteProjectsLocationsDatastoresRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.String.pipe(T.Label()),
     requestId: S.optional(S.String.pipe(T.Query())),
     etag: S.optional(S.String.pipe(T.Query())),
+    name: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "DELETE",
@@ -1613,21 +1581,21 @@ export const Empty = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
 }) as any as S.Schema<Empty>;
 
 export interface DeleteProjectsLocationsPrivateCloudsRequest {
-  /** Optional. If set to true, cascade delete is enabled and all children of this private cloud resource are also deleted. When this flag is set to false, the private cloud will not be deleted if there are any children other than the management cluster. The management cluster is always deleted. */
-  force?: boolean;
-  /** Optional. Time delay of the deletion specified in hours. The default value is `3`. Specifying a non-zero value for this field changes the value of `PrivateCloud.state` to `DELETED` and sets `expire_time` to the planned deletion time. Deletion can be cancelled before `expire_time` elapses using VmwareEngine.UndeletePrivateCloud. Specifying a value of `0` for this field instead begins the deletion process and ceases billing immediately. During the final deletion process, the value of `PrivateCloud.state` becomes `PURGING`. */
-  delayHours?: number;
   /** Optional. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
+  /** Optional. If set to true, cascade delete is enabled and all children of this private cloud resource are also deleted. When this flag is set to false, the private cloud will not be deleted if there are any children other than the management cluster. The management cluster is always deleted. */
+  force?: boolean;
   /** Required. The resource name of the private cloud to delete. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud` */
   name: string;
+  /** Optional. Time delay of the deletion specified in hours. The default value is `3`. Specifying a non-zero value for this field changes the value of `PrivateCloud.state` to `DELETED` and sets `expire_time` to the planned deletion time. Deletion can be cancelled before `expire_time` elapses using VmwareEngine.UndeletePrivateCloud. Specifying a value of `0` for this field instead begins the deletion process and ceases billing immediately. During the final deletion process, the value of `PrivateCloud.state` becomes `PURGING`. */
+  delayHours?: number;
 }
 export const DeleteProjectsLocationsPrivateCloudsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    force: S.optional(S.Boolean.pipe(T.Query())),
-    delayHours: S.optional(S.Number.pipe(T.Query())),
     requestId: S.optional(S.String.pipe(T.Query())),
+    force: S.optional(S.Boolean.pipe(T.Query())),
     name: S.String.pipe(T.Label()),
+    delayHours: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "DELETE",
@@ -1683,16 +1651,16 @@ export const DeleteProjectsLocationsPrivateCloudsExternalAddressesRequest = /*@_
 }) as any as S.Schema<DeleteProjectsLocationsPrivateCloudsExternalAddressesRequest>;
 
 export interface DeleteProjectsLocationsPrivateCloudsLoggingServersRequest {
-  /** Required. The resource name of the logging server to delete. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud/loggingServers/my-logging-server` */
-  name: string;
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server guarantees that a request doesn't result in creation of duplicate commitments for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
+  /** Required. The resource name of the logging server to delete. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud/loggingServers/my-logging-server` */
+  name: string;
 }
 export const DeleteProjectsLocationsPrivateCloudsLoggingServersRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      name: S.String.pipe(T.Label()),
       requestId: S.optional(S.String.pipe(T.Query())),
+      name: S.String.pipe(T.Label()),
     }).pipe(
       T.Http({
         method: "DELETE",
@@ -1750,16 +1718,16 @@ export const DeleteProjectsLocationsPrivateConnectionsRequest = /*@__PURE__*/ S.
 export interface DeleteProjectsLocationsVmwareEngineNetworksRequest {
   /** Optional. Checksum used to ensure that the user-provided value is up to date before the server processes the request. The server compares provided checksum with the current checksum of the resource. If the user-provided value is out of date, this request returns an `ABORTED` error. */
   etag?: string;
-  /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server guarantees that a request doesn't result in creation of duplicate commitments for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
   /** Required. The resource name of the VMware Engine network to be deleted. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/global/vmwareEngineNetworks/my-network` */
   name: string;
+  /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server guarantees that a request doesn't result in creation of duplicate commitments for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string;
 }
 export const DeleteProjectsLocationsVmwareEngineNetworksRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     etag: S.optional(S.String.pipe(T.Query())),
-    requestId: S.optional(S.String.pipe(T.Query())),
     name: S.String.pipe(T.Label()),
+    requestId: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "DELETE",
@@ -1825,27 +1793,23 @@ export const GetDnsBindPermissionProjectsLocationsRequest = /*@__PURE__*/ S.susp
   S.Struct({
     name: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "v1/{+name}",
-      baseUrl: "https://vmwareengine.googleapis.com/",
-    }),
+    T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://vmwareengine.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "GetDnsBindPermissionProjectsLocationsRequest",
 }) as any as S.Schema<GetDnsBindPermissionProjectsLocationsRequest>;
 
-/** Users/Service accounts which have access for DNS binding on the intranet VPC corresponding to the consumer project. */
+/** Users/Service accounts which have access for DNS binding on the intranet VPC corresponding to the consumer project. Principal can be a user or a service account. For example: For specifying user `user@example.com` use `{"user": "user@example.com"}` and for specifying service account `service-account@gserviceaccount.com` use `{"serviceAccount": "service-account@gserviceaccount.com"}`. */
 export interface Principal {
-  /** The user who needs to be granted permission. */
-  user?: string;
   /** The service account which needs to be granted the permission. */
   serviceAccount?: string;
+  /** The user who needs to be granted permission. */
+  user?: string;
 }
 export const Principal = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    user: S.optional(S.String),
     serviceAccount: S.optional(S.String),
+    user: S.optional(S.String),
   }),
 ).annotate({ identifier: "Principal" }) as any as S.Schema<Principal>;
 
@@ -1854,19 +1818,17 @@ export const PrincipalList = /*@__PURE__*/ S.Array(Principal) as any as S.Schema
 
 /** DnsBindPermission resource that contains the accounts having the consumer DNS bind permission on the corresponding intranet VPC of the consumer project. */
 export interface DnsBindPermission {
-  /** Required. Output only. The name of the resource which stores the users/service accounts having the permission to bind to the corresponding intranet VPC of the consumer project. DnsBindPermission is a global resource and location can only be global. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/global/dnsBindPermission` */
-  name?: string;
   /** Output only. Users/Service accounts which have access for binding on the intranet VPC project corresponding to the consumer project. */
   principals?: PrincipalList;
+  /** Required. Output only. The name of the resource which stores the users/service accounts having the permission to bind to the corresponding intranet VPC of the consumer project. DnsBindPermission is a global resource and location can only be global. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/global/dnsBindPermission` */
+  name?: string;
 }
 export const DnsBindPermission = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.optional(S.String),
     principals: S.optional(PrincipalList),
+    name: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DnsBindPermission",
-}) as any as S.Schema<DnsBindPermission>;
+).annotate({ identifier: "DnsBindPermission" }) as any as S.Schema<DnsBindPermission>;
 
 export interface GetDnsForwardingProjectsLocationsPrivateCloudsRequest {
   /** Required. The resource name of a `DnsForwarding` to retrieve. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud/dnsForwarding` */
@@ -1876,11 +1838,7 @@ export const GetDnsForwardingProjectsLocationsPrivateCloudsRequest = /*@__PURE__
   S.Struct({
     name: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "v1/{+name}",
-      baseUrl: "https://vmwareengine.googleapis.com/",
-    }),
+    T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://vmwareengine.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "GetDnsForwardingProjectsLocationsPrivateCloudsRequest",
@@ -1888,15 +1846,15 @@ export const GetDnsForwardingProjectsLocationsPrivateCloudsRequest = /*@__PURE__
 
 /** A forwarding rule is a mapping of a `domain` to `name_servers`. This mapping allows VMware Engine to resolve domains for attached private clouds by forwarding DNS requests for a given domain to the specified nameservers. */
 export interface ForwardingRule {
-  /** Required. List of DNS servers to use for domain resolution */
-  nameServers?: StringList;
   /** Required. Domain used to resolve a `name_servers` list. */
   domain?: string;
+  /** Required. List of DNS servers to use for domain resolution */
+  nameServers?: StringList;
 }
 export const ForwardingRule = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    nameServers: S.optional(StringList),
     domain: S.optional(S.String),
+    nameServers: S.optional(StringList),
   }),
 ).annotate({ identifier: "ForwardingRule" }) as any as S.Schema<ForwardingRule>;
 
@@ -1907,34 +1865,34 @@ export const ForwardingRuleList = /*@__PURE__*/ S.Array(
 
 /** DNS forwarding config. This config defines a list of domain to name server mappings, and is attached to the private cloud for custom domain resolution. */
 export interface DnsForwarding {
-  /** Output only. Identifier. The resource name of this DNS profile. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud/dnsForwarding` */
-  name?: string;
-  /** Required. List of domain mappings to configure */
-  forwardingRules?: ForwardingRuleList;
   /** Output only. Last update time of this resource. */
   updateTime?: string;
+  /** Output only. Identifier. The resource name of this DNS profile. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud/dnsForwarding` */
+  name?: string;
   /** Output only. Creation time of this resource. */
   createTime?: string;
+  /** Required. List of domain mappings to configure */
+  forwardingRules?: ForwardingRuleList;
 }
 export const DnsForwarding = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.optional(S.String),
-    forwardingRules: S.optional(ForwardingRuleList),
     updateTime: S.optional(S.String),
+    name: S.optional(S.String),
     createTime: S.optional(S.String),
+    forwardingRules: S.optional(ForwardingRuleList),
   }),
 ).annotate({ identifier: "DnsForwarding" }) as any as S.Schema<DnsForwarding>;
 
 export interface GetIamPolicyProjectsLocationsPrivateCloudsRequest {
-  /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
-  resource: string;
   /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
   "options.requestedPolicyVersion"?: number;
+  /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+  resource: string;
 }
 export const GetIamPolicyProjectsLocationsPrivateCloudsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    resource: S.String.pipe(T.Label()),
     "options.requestedPolicyVersion": S.optional(S.Number.pipe(T.Query())),
+    resource: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -1945,46 +1903,6 @@ export const GetIamPolicyProjectsLocationsPrivateCloudsRequest = /*@__PURE__*/ S
 ).annotate({
   identifier: "GetIamPolicyProjectsLocationsPrivateCloudsRequest",
 }) as any as S.Schema<GetIamPolicyProjectsLocationsPrivateCloudsRequest>;
-
-/** Represents a textual expression in the Common Expression Language (CEL) syntax. CEL is a C-like expression language. The syntax and semantics of CEL are documented at https://github.com/google/cel-spec. Example (Comparison): title: "Summary size limit" description: "Determines if a summary is less than 100 chars" expression: "document.summary.size() < 100" Example (Equality): title: "Requestor is owner" description: "Determines if requestor is the document owner" expression: "document.owner == request.auth.claims.email" Example (Logic): title: "Public documents" description: "Determine whether the document should be publicly visible" expression: "document.type != 'private' && document.type != 'internal'" Example (Data Manipulation): title: "Notification string" description: "Create a notification string with a timestamp." expression: "'New message received at ' + string(document.create_time)" The exact variables and functions that may be referenced within an expression are determined by the service that evaluates it. See the service documentation for additional information. */
-export interface Expr {
-  /** Optional. String indicating the location of the expression for error reporting, e.g. a file name and a position in the file. */
-  location?: string;
-  /** Optional. Description of the expression. This is a longer text which describes the expression, e.g. when hovered over it in a UI. */
-  description?: string;
-  /** Optional. Title for the expression, i.e. a short string describing its purpose. This can be used e.g. in UIs which allow to enter the expression. */
-  title?: string;
-  /** Textual representation of an expression in Common Expression Language syntax. */
-  expression?: string;
-}
-export const Expr = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    location: S.optional(S.String),
-    description: S.optional(S.String),
-    title: S.optional(S.String),
-    expression: S.optional(S.String),
-  }),
-).annotate({ identifier: "Expr" }) as any as S.Schema<Expr>;
-
-/** Associates `members`, or principals, with a `role`. */
-export interface Binding {
-  /** Specifies the principals requesting access for a Google Cloud resource. `members` can have the following values: * `allUsers`: A special identifier that represents anyone who is on the internet; with or without a Google account. * `allAuthenticatedUsers`: A special identifier that represents anyone who is authenticated with a Google account or a service account. Does not include identities that come from external identity providers (IdPs) through identity federation. * `user:{emailid}`: An email address that represents a specific Google account. For example, `alice@example.com` . * `serviceAccount:{emailid}`: An email address that represents a Google service account. For example, `my-other-app@appspot.gserviceaccount.com`. * `serviceAccount:{projectid}.svc.id.goog[{namespace}/{kubernetes-sa}]`: An identifier for a [Kubernetes service account](https://cloud.google.com/kubernetes-engine/docs/how-to/kubernetes-service-accounts). For example, `my-project.svc.id.goog[my-namespace/my-kubernetes-sa]`. * `group:{emailid}`: An email address that represents a Google group. For example, `admins@example.com`. * `domain:{domain}`: The G Suite domain (primary) that represents all the users of that domain. For example, `google.com` or `example.com`. * `principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workforce identity pool. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/group/{group_id}`: All workforce identities in a group. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All workforce identities with a specific attribute value. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/*`: All identities in a workforce identity pool. * `principal://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workload identity pool. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/group/{group_id}`: A workload identity pool group. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All identities in a workload identity pool with a certain attribute. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/*`: All identities in a workload identity pool. * `deleted:user:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a user that has been recently deleted. For example, `alice@example.com?uid=123456789012345678901`. If the user is recovered, this value reverts to `user:{emailid}` and the recovered user retains the role in the binding. * `deleted:serviceAccount:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a service account that has been recently deleted. For example, `my-other-app@appspot.gserviceaccount.com?uid=123456789012345678901`. If the service account is undeleted, this value reverts to `serviceAccount:{emailid}` and the undeleted service account retains the role in the binding. * `deleted:group:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a Google group that has been recently deleted. For example, `admins@example.com?uid=123456789012345678901`. If the group is recovered, this value reverts to `group:{emailid}` and the recovered group retains the role in the binding. * `deleted:principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: Deleted single identity in a workforce identity pool. For example, `deleted:principal://iam.googleapis.com/locations/global/workforcePools/my-pool-id/subject/my-subject-attribute-value`. */
-  members?: StringList;
-  /** The condition that is associated with this binding. If the condition evaluates to `true`, then this binding applies to the current request. If the condition evaluates to `false`, then this binding does not apply to the current request. However, a different role binding might grant the same role to one or more of the principals in this binding. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  condition?: Expr;
-  /** Role that is assigned to the list of `members`, or principals. For example, `roles/viewer`, `roles/editor`, or `roles/owner`. For an overview of the IAM roles and permissions, see the [IAM documentation](https://cloud.google.com/iam/docs/roles-overview). For a list of the available pre-defined roles, see [here](https://cloud.google.com/iam/docs/understanding-roles). */
-  role?: string;
-}
-export const Binding = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    members: S.optional(StringList),
-    condition: S.optional(Expr),
-    role: S.optional(S.String),
-  }),
-).annotate({ identifier: "Binding" }) as any as S.Schema<Binding>;
-
-export type BindingList = Array<Binding>;
-export const BindingList = /*@__PURE__*/ S.Array(Binding) as any as S.Schema<BindingList>;
 
 export type AuditLogConfigLogTypeEnum =
   | "LOG_TYPE_UNSPECIFIED"
@@ -2014,15 +1932,15 @@ export const AuditLogConfigList = /*@__PURE__*/ S.Array(
 
 /** Specifies the audit configuration for a service. The configuration determines which permission types are logged, and what identities, if any, are exempted from logging. An AuditConfig must have one or more AuditLogConfigs. If there are AuditConfigs for both `allServices` and a specific service, the union of the two AuditConfigs is used for that service: the log_types specified in each AuditConfig are enabled, and the exempted_members in each AuditLogConfig are exempted. Example Policy with multiple AuditConfigs: { "audit_configs": [ { "service": "allServices", "audit_log_configs": [ { "log_type": "DATA_READ", "exempted_members": [ "user:jose@example.com" ] }, { "log_type": "DATA_WRITE" }, { "log_type": "ADMIN_READ" } ] }, { "service": "sampleservice.googleapis.com", "audit_log_configs": [ { "log_type": "DATA_READ" }, { "log_type": "DATA_WRITE", "exempted_members": [ "user:aliya@example.com" ] } ] } ] } For sampleservice, this policy enables DATA_READ, DATA_WRITE and ADMIN_READ logging. It also exempts `jose@example.com` from DATA_READ logging, and `aliya@example.com` from DATA_WRITE logging. */
 export interface AuditConfig {
-  /** Specifies a service that will be enabled for audit logging. For example, `storage.googleapis.com`, `cloudsql.googleapis.com`. `allServices` is a special value that covers all services. */
-  service?: string;
   /** The configuration for logging of each type of permission. */
   auditLogConfigs?: AuditLogConfigList;
+  /** Specifies a service that will be enabled for audit logging. For example, `storage.googleapis.com`, `cloudsql.googleapis.com`. `allServices` is a special value that covers all services. */
+  service?: string;
 }
 export const AuditConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    service: S.optional(S.String),
     auditLogConfigs: S.optional(AuditLogConfigList),
+    service: S.optional(S.String),
   }),
 ).annotate({ identifier: "AuditConfig" }) as any as S.Schema<AuditConfig>;
 
@@ -2031,23 +1949,63 @@ export const AuditConfigList = /*@__PURE__*/ S.Array(
   AuditConfig,
 ) as any as S.Schema<AuditConfigList>;
 
+/** Represents a textual expression in the Common Expression Language (CEL) syntax. CEL is a C-like expression language. The syntax and semantics of CEL are documented at https://github.com/google/cel-spec. Example (Comparison): title: "Summary size limit" description: "Determines if a summary is less than 100 chars" expression: "document.summary.size() < 100" Example (Equality): title: "Requestor is owner" description: "Determines if requestor is the document owner" expression: "document.owner == request.auth.claims.email" Example (Logic): title: "Public documents" description: "Determine whether the document should be publicly visible" expression: "document.type != 'private' && document.type != 'internal'" Example (Data Manipulation): title: "Notification string" description: "Create a notification string with a timestamp." expression: "'New message received at ' + string(document.create_time)" The exact variables and functions that may be referenced within an expression are determined by the service that evaluates it. See the service documentation for additional information. */
+export interface Expr {
+  /** Textual representation of an expression in Common Expression Language syntax. */
+  expression?: string;
+  /** Optional. Title for the expression, i.e. a short string describing its purpose. This can be used e.g. in UIs which allow to enter the expression. */
+  title?: string;
+  /** Optional. Description of the expression. This is a longer text which describes the expression, e.g. when hovered over it in a UI. */
+  description?: string;
+  /** Optional. String indicating the location of the expression for error reporting, e.g. a file name and a position in the file. */
+  location?: string;
+}
+export const Expr = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    expression: S.optional(S.String),
+    title: S.optional(S.String),
+    description: S.optional(S.String),
+    location: S.optional(S.String),
+  }),
+).annotate({ identifier: "Expr" }) as any as S.Schema<Expr>;
+
+/** Associates `members`, or principals, with a `role`. */
+export interface Binding {
+  /** The condition that is associated with this binding. If the condition evaluates to `true`, then this binding applies to the current request. If the condition evaluates to `false`, then this binding does not apply to the current request. However, a different role binding might grant the same role to one or more of the principals in this binding. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
+  condition?: Expr;
+  /** Role that is assigned to the list of `members`, or principals. For example, `roles/viewer`, `roles/editor`, or `roles/owner`. For an overview of the IAM roles and permissions, see the [IAM documentation](https://cloud.google.com/iam/docs/roles-overview). For a list of the available pre-defined roles, see [here](https://cloud.google.com/iam/docs/understanding-roles). */
+  role?: string;
+  /** Specifies the principals requesting access for a Google Cloud resource. `members` can have the following values: * `allUsers`: A special identifier that represents anyone who is on the internet; with or without a Google account. * `allAuthenticatedUsers`: A special identifier that represents anyone who is authenticated with a Google account or a service account. Does not include identities that come from external identity providers (IdPs) through identity federation. * `user:{emailid}`: An email address that represents a specific Google account. For example, `alice@example.com` . * `serviceAccount:{emailid}`: An email address that represents a Google service account. For example, `my-other-app@appspot.gserviceaccount.com`. * `serviceAccount:{projectid}.svc.id.goog[{namespace}/{kubernetes-sa}]`: An identifier for a [Kubernetes service account](https://cloud.google.com/kubernetes-engine/docs/how-to/kubernetes-service-accounts). For example, `my-project.svc.id.goog[my-namespace/my-kubernetes-sa]`. * `group:{emailid}`: An email address that represents a Google group. For example, `admins@example.com`. * `domain:{domain}`: The G Suite domain (primary) that represents all the users of that domain. For example, `google.com` or `example.com`. * `principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workforce identity pool. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/group/{group_id}`: All workforce identities in a group. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All workforce identities with a specific attribute value. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/*`: All identities in a workforce identity pool. * `principal://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workload identity pool. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/group/{group_id}`: A workload identity pool group. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All identities in a workload identity pool with a certain attribute. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/*`: All identities in a workload identity pool. * `deleted:user:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a user that has been recently deleted. For example, `alice@example.com?uid=123456789012345678901`. If the user is recovered, this value reverts to `user:{emailid}` and the recovered user retains the role in the binding. * `deleted:serviceAccount:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a service account that has been recently deleted. For example, `my-other-app@appspot.gserviceaccount.com?uid=123456789012345678901`. If the service account is undeleted, this value reverts to `serviceAccount:{emailid}` and the undeleted service account retains the role in the binding. * `deleted:group:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a Google group that has been recently deleted. For example, `admins@example.com?uid=123456789012345678901`. If the group is recovered, this value reverts to `group:{emailid}` and the recovered group retains the role in the binding. * `deleted:principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: Deleted single identity in a workforce identity pool. For example, `deleted:principal://iam.googleapis.com/locations/global/workforcePools/my-pool-id/subject/my-subject-attribute-value`. */
+  members?: StringList;
+}
+export const Binding = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    condition: S.optional(Expr),
+    role: S.optional(S.String),
+    members: S.optional(StringList),
+  }),
+).annotate({ identifier: "Binding" }) as any as S.Schema<Binding>;
+
+export type BindingList = Array<Binding>;
+export const BindingList = /*@__PURE__*/ S.Array(Binding) as any as S.Schema<BindingList>;
+
 /** An Identity and Access Management (IAM) policy, which specifies access controls for Google Cloud resources. A `Policy` is a collection of `bindings`. A `binding` binds one or more `members`, or principals, to a single `role`. Principals can be user accounts, service accounts, Google groups, and domains (such as G Suite). A `role` is a named list of permissions; each `role` can be an IAM predefined role or a user-created custom role. For some types of Google Cloud resources, a `binding` can also specify a `condition`, which is a logical expression that allows access to a resource only if the expression evaluates to `true`. A condition can add constraints based on attributes of the request, the resource, or both. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). **JSON example:** ``` { "bindings": [ { "role": "roles/resourcemanager.organizationAdmin", "members": [ "user:mike@example.com", "group:admins@example.com", "domain:google.com", "serviceAccount:my-project-id@appspot.gserviceaccount.com" ] }, { "role": "roles/resourcemanager.organizationViewer", "members": [ "user:eve@example.com" ], "condition": { "title": "expirable access", "description": "Does not grant access after Sep 2020", "expression": "request.time < timestamp('2020-10-01T00:00:00.000Z')", } } ], "etag": "BwWWja0YfJA=", "version": 3 } ``` **YAML example:** ``` bindings: - members: - user:mike@example.com - group:admins@example.com - domain:google.com - serviceAccount:my-project-id@appspot.gserviceaccount.com role: roles/resourcemanager.organizationAdmin - members: - user:eve@example.com role: roles/resourcemanager.organizationViewer condition: title: expirable access description: Does not grant access after Sep 2020 expression: request.time < timestamp('2020-10-01T00:00:00.000Z') etag: BwWWja0YfJA= version: 3 ``` For a description of IAM and its features, see the [IAM documentation](https://cloud.google.com/iam/docs/). */
 export interface Policy {
-  /** `etag` is used for optimistic concurrency control as a way to help prevent simultaneous updates of a policy from overwriting each other. It is strongly suggested that systems make use of the `etag` in the read-modify-write cycle to perform policy updates in order to avoid race conditions: An `etag` is returned in the response to `getIamPolicy`, and systems are expected to put that etag in the request to `setIamPolicy` to ensure that their change will be applied to the same version of the policy. **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. */
-  etag?: string;
   /** Specifies the format of the policy. Valid values are `0`, `1`, and `3`. Requests that specify an invalid value are rejected. Any operation that affects conditional role bindings must specify version `3`. This requirement applies to the following operations: * Getting a policy that includes a conditional role binding * Adding a conditional role binding to a policy * Changing a conditional role binding in a policy * Removing any role binding, with or without a condition, from a policy that includes conditions **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. If a policy does not include any conditions, operations on that policy may specify any valid version or leave the field unset. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
   version?: number;
-  /** Associates a list of `members`, or principals, with a `role`. Optionally, may specify a `condition` that determines how and when the `bindings` are applied. Each of the `bindings` must contain at least one principal. The `bindings` in a `Policy` can refer to up to 1,500 principals; up to 250 of these principals can be Google groups. Each occurrence of a principal counts towards these limits. For example, if the `bindings` grant 50 different roles to `user:alice@example.com`, and not to any other principal, then you can add another 1,450 principals to the `bindings` in the `Policy`. */
-  bindings?: BindingList;
+  /** `etag` is used for optimistic concurrency control as a way to help prevent simultaneous updates of a policy from overwriting each other. It is strongly suggested that systems make use of the `etag` in the read-modify-write cycle to perform policy updates in order to avoid race conditions: An `etag` is returned in the response to `getIamPolicy`, and systems are expected to put that etag in the request to `setIamPolicy` to ensure that their change will be applied to the same version of the policy. **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. */
+  etag?: string;
   /** Specifies cloud audit logging configuration for this policy. */
   auditConfigs?: AuditConfigList;
+  /** Associates a list of `members`, or principals, with a `role`. Optionally, may specify a `condition` that determines how and when the `bindings` are applied. Each of the `bindings` must contain at least one principal. The `bindings` in a `Policy` can refer to up to 1,500 principals; up to 250 of these principals can be Google groups. Each occurrence of a principal counts towards these limits. For example, if the `bindings` grant 50 different roles to `user:alice@example.com`, and not to any other principal, then you can add another 1,450 principals to the `bindings` in the `Policy`. */
+  bindings?: BindingList;
 }
 export const Policy = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    etag: S.optional(S.String),
     version: S.optional(S.Number),
-    bindings: S.optional(BindingList),
+    etag: S.optional(S.String),
     auditConfigs: S.optional(AuditConfigList),
+    bindings: S.optional(BindingList),
   }),
 ).annotate({ identifier: "Policy" }) as any as S.Schema<Policy>;
 
@@ -2074,16 +2032,16 @@ export const GetIamPolicyProjectsLocationsPrivateCloudsClustersRequest = /*@__PU
 }) as any as S.Schema<GetIamPolicyProjectsLocationsPrivateCloudsClustersRequest>;
 
 export interface GetIamPolicyProjectsLocationsPrivateCloudsHcxActivationKeysRequest {
-  /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  "options.requestedPolicyVersion"?: number;
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
+  /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
+  "options.requestedPolicyVersion"?: number;
 }
 export const GetIamPolicyProjectsLocationsPrivateCloudsHcxActivationKeysRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      "options.requestedPolicyVersion": S.optional(S.Number.pipe(T.Query())),
       resource: S.String.pipe(T.Label()),
+      "options.requestedPolicyVersion": S.optional(S.Number.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "GET",
@@ -2125,9 +2083,7 @@ export const Vmwareengine_Credentials = /*@__PURE__*/ S.suspend(() =>
     username: S.optional(S.String),
     password: S.optional(S.String),
   }),
-).annotate({
-  identifier: "Vmwareengine_Credentials",
-}) as any as S.Schema<Vmwareengine_Credentials>;
+).annotate({ identifier: "Vmwareengine_Credentials" }) as any as S.Schema<Vmwareengine_Credentials>;
 
 export interface GetProjectsLocationsRequest {
   /** Resource name for the location. */
@@ -2137,11 +2093,7 @@ export const GetProjectsLocationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "v1/{+name}",
-      baseUrl: "https://vmwareengine.googleapis.com/",
-    }),
+    T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://vmwareengine.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "GetProjectsLocationsRequest",
@@ -2152,24 +2104,24 @@ export const StringMap = /*@__PURE__*/ S.Record(S.String, S.String) as any as S.
 
 /** A resource that represents a Google Cloud location. */
 export interface Location {
-  /** The friendly name for this location, typically a nearby city name. For example, "Tokyo". */
-  displayName?: string;
-  /** Cross-service attributes for the location. For example {"cloud.googleapis.com/region": "us-east1"} */
-  labels?: StringMap;
-  /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
-  name?: string;
   /** The canonical id for this location. For example: `"us-east1"`. */
   locationId?: string;
   /** Service-specific metadata. For example the available capacity at the given location. */
   metadata?: DocumentMap;
+  /** Cross-service attributes for the location. For example {"cloud.googleapis.com/region": "us-east1"} */
+  labels?: StringMap;
+  /** The friendly name for this location, typically a nearby city name. For example, "Tokyo". */
+  displayName?: string;
+  /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
+  name?: string;
 }
 export const Location = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    displayName: S.optional(S.String),
-    labels: S.optional(StringMap),
-    name: S.optional(S.String),
     locationId: S.optional(S.String),
     metadata: S.optional(DocumentMap),
+    labels: S.optional(StringMap),
+    displayName: S.optional(S.String),
+    name: S.optional(S.String),
   }),
 ).annotate({ identifier: "Location" }) as any as S.Schema<Location>;
 
@@ -2181,11 +2133,7 @@ export const GetProjectsLocationsAnnouncementsRequest = /*@__PURE__*/ S.suspend(
   S.Struct({
     name: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "v1/{+name}",
-      baseUrl: "https://vmwareengine.googleapis.com/",
-    }),
+    T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://vmwareengine.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "GetProjectsLocationsAnnouncementsRequest",
@@ -2201,42 +2149,42 @@ export const AnnouncementStateEnum = S.String;
 
 /** Announcement for the resources of Vmware Engine. */
 export interface Announcement {
-  /** Output only. Creation time of this resource. It also serves as start time of notification. */
-  createTime?: string;
-  /** Output only. Description of the announcement. */
-  description?: string;
-  /** Required. Code of the announcement. Indicates the presence of a VMware Engine related announcement and corresponds to a related message in the `description` field. */
-  code?: string;
-  /** Output only. State of the resource. New values may be added to this enum when appropriate. */
-  state?: AnnouncementStateEnum;
-  /** Output only. Target Resource Type defines the type of the target for the announcement */
-  targetResourceType?: string;
-  /** Optional. Activity type of the announcement There can be only one active announcement for a given activity type and target resource. */
-  activityType?: string;
-  /** Output only. The resource name of the announcement. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-west1-a/announcements/my-announcement-id` */
-  name?: string;
-  /** A Private Cloud resource name. */
-  privateCloud?: string;
   /** Output only. Last update time of this resource. */
   updateTime?: string;
-  /** A Cluster resource name. */
-  cluster?: string;
+  /** Output only. Description of the announcement. */
+  description?: string;
+  /** Output only. State of the resource. New values may be added to this enum when appropriate. */
+  state?: AnnouncementStateEnum;
   /** Output only. Additional structured details about this announcement. */
   metadata?: StringMap;
+  /** A Cluster resource name. */
+  cluster?: string;
+  /** Optional. Activity type of the announcement There can be only one active announcement for a given activity type and target resource. */
+  activityType?: string;
+  /** Output only. Target Resource Type defines the type of the target for the announcement */
+  targetResourceType?: string;
+  /** A Private Cloud resource name. */
+  privateCloud?: string;
+  /** Output only. Creation time of this resource. It also serves as start time of notification. */
+  createTime?: string;
+  /** Output only. The resource name of the announcement. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-west1-a/announcements/my-announcement-id` */
+  name?: string;
+  /** Required. Code of the announcement. Indicates the presence of a VMware Engine related announcement and corresponds to a related message in the `description` field. */
+  code?: string;
 }
 export const Announcement = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    createTime: S.optional(S.String),
-    description: S.optional(S.String),
-    code: S.optional(S.String),
-    state: S.optional(AnnouncementStateEnum),
-    targetResourceType: S.optional(S.String),
-    activityType: S.optional(S.String),
-    name: S.optional(S.String),
-    privateCloud: S.optional(S.String),
     updateTime: S.optional(S.String),
-    cluster: S.optional(S.String),
+    description: S.optional(S.String),
+    state: S.optional(AnnouncementStateEnum),
     metadata: S.optional(StringMap),
+    cluster: S.optional(S.String),
+    activityType: S.optional(S.String),
+    targetResourceType: S.optional(S.String),
+    privateCloud: S.optional(S.String),
+    createTime: S.optional(S.String),
+    name: S.optional(S.String),
+    code: S.optional(S.String),
   }),
 ).annotate({ identifier: "Announcement" }) as any as S.Schema<Announcement>;
 
@@ -2248,11 +2196,7 @@ export const GetProjectsLocationsDatastoresRequest = /*@__PURE__*/ S.suspend(() 
   S.Struct({
     name: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "v1/{+name}",
-      baseUrl: "https://vmwareengine.googleapis.com/",
-    }),
+    T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://vmwareengine.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "GetProjectsLocationsDatastoresRequest",
@@ -2266,11 +2210,7 @@ export const GetProjectsLocationsNetworkPeeringsRequest = /*@__PURE__*/ S.suspen
   S.Struct({
     name: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "v1/{+name}",
-      baseUrl: "https://vmwareengine.googleapis.com/",
-    }),
+    T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://vmwareengine.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "GetProjectsLocationsNetworkPeeringsRequest",
@@ -2284,11 +2224,7 @@ export const GetProjectsLocationsNetworkPoliciesRequest = /*@__PURE__*/ S.suspen
   S.Struct({
     name: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "v1/{+name}",
-      baseUrl: "https://vmwareengine.googleapis.com/",
-    }),
+    T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://vmwareengine.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "GetProjectsLocationsNetworkPoliciesRequest",
@@ -2303,11 +2239,7 @@ export const GetProjectsLocationsNetworkPoliciesExternalAccessRulesRequest =
     S.Struct({
       name: S.String.pipe(T.Label()),
     }).pipe(
-      T.Http({
-        method: "GET",
-        uri: "v1/{+name}",
-        baseUrl: "https://vmwareengine.googleapis.com/",
-      }),
+      T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://vmwareengine.googleapis.com/" }),
     ),
   ).annotate({
     identifier: "GetProjectsLocationsNetworkPoliciesExternalAccessRulesRequest",
@@ -2321,15 +2253,14 @@ export const GetProjectsLocationsNodeTypesRequest = /*@__PURE__*/ S.suspend(() =
   S.Struct({
     name: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "v1/{+name}",
-      baseUrl: "https://vmwareengine.googleapis.com/",
-    }),
+    T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://vmwareengine.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "GetProjectsLocationsNodeTypesRequest",
 }) as any as S.Schema<GetProjectsLocationsNodeTypesRequest>;
+
+export type IntegerList = Array<number>;
+export const IntegerList = /*@__PURE__*/ S.Array(S.Number) as any as S.Schema<IntegerList>;
 
 export type NodeTypeCapabilitiesItemEnum = "CAPABILITY_UNSPECIFIED" | "STRETCHED_CLUSTERS";
 export const NodeTypeCapabilitiesItemEnum = S.String;
@@ -2342,47 +2273,44 @@ export const NodeTypeCapabilitiesItemEnumList = /*@__PURE__*/ S.Array(
 export type NodeTypeKindEnum = "KIND_UNSPECIFIED" | "STANDARD" | "STORAGE_ONLY";
 export const NodeTypeKindEnum = S.String;
 
-export type IntegerList = Array<number>;
-export const IntegerList = /*@__PURE__*/ S.Array(S.Number) as any as S.Schema<IntegerList>;
-
 /** Describes node type. */
 export interface NodeType {
+  /** Output only. The friendly name for this node type. For example: ve1-standard-72 */
+  displayName?: string;
+  /** Output only. The canonical identifier of the node type (corresponds to the `NodeType`). For example: standard-72. */
+  nodeTypeId?: string;
+  /** Output only. The amount of physical memory available, defined in GB. */
+  memoryGb?: number;
+  /** Output only. The total number of CPU cores in a single node. */
+  totalCoreCount?: number;
+  /** Output only. The amount of storage available, defined in GB. */
+  diskSizeGb?: number;
+  /** Output only. The total number of virtual CPUs in a single node. */
+  virtualCpuCount?: number;
+  /** Output only. Families of the node type. For node types to be in the same cluster they must share at least one element in the `families`. */
+  families?: StringList;
+  /** Output only. The resource name of this node type. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-proj/locations/us-central1-a/nodeTypes/standard-72` */
+  name?: string;
+  /** Output only. List of possible values of custom core count. */
+  availableCustomCoreCounts?: IntegerList;
   /** Output only. Capabilities of this node type. */
   capabilities?: NodeTypeCapabilitiesItemEnumList;
   /** Output only. The type of the resource. */
   kind?: NodeTypeKindEnum;
-  /** Output only. The friendly name for this node type. For example: ve1-standard-72 */
-  displayName?: string;
-  /** Output only. The total number of virtual CPUs in a single node. */
-  virtualCpuCount?: number;
-  /** Output only. The canonical identifier of the node type (corresponds to the `NodeType`). For example: standard-72. */
-  nodeTypeId?: string;
-  /** Output only. List of possible values of custom core count. */
-  availableCustomCoreCounts?: IntegerList;
-  /** Output only. The amount of storage available, defined in GB. */
-  diskSizeGb?: number;
-  /** Output only. The total number of CPU cores in a single node. */
-  totalCoreCount?: number;
-  /** Output only. The amount of physical memory available, defined in GB. */
-  memoryGb?: number;
-  /** Output only. The resource name of this node type. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-proj/locations/us-central1-a/nodeTypes/standard-72` */
-  name?: string;
-  /** Output only. Families of the node type. For node types to be in the same cluster they must share at least one element in the `families`. */
-  families?: StringList;
 }
 export const NodeType = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    displayName: S.optional(S.String),
+    nodeTypeId: S.optional(S.String),
+    memoryGb: S.optional(S.Number),
+    totalCoreCount: S.optional(S.Number),
+    diskSizeGb: S.optional(S.Number),
+    virtualCpuCount: S.optional(S.Number),
+    families: S.optional(StringList),
+    name: S.optional(S.String),
+    availableCustomCoreCounts: S.optional(IntegerList),
     capabilities: S.optional(NodeTypeCapabilitiesItemEnumList),
     kind: S.optional(NodeTypeKindEnum),
-    displayName: S.optional(S.String),
-    virtualCpuCount: S.optional(S.Number),
-    nodeTypeId: S.optional(S.String),
-    availableCustomCoreCounts: S.optional(IntegerList),
-    diskSizeGb: S.optional(S.Number),
-    totalCoreCount: S.optional(S.Number),
-    memoryGb: S.optional(S.Number),
-    name: S.optional(S.String),
-    families: S.optional(StringList),
   }),
 ).annotate({ identifier: "NodeType" }) as any as S.Schema<NodeType>;
 
@@ -2394,11 +2322,7 @@ export const GetProjectsLocationsOperationsRequest = /*@__PURE__*/ S.suspend(() 
   S.Struct({
     name: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "v1/{+name}",
-      baseUrl: "https://vmwareengine.googleapis.com/",
-    }),
+    T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://vmwareengine.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "GetProjectsLocationsOperationsRequest",
@@ -2412,11 +2336,7 @@ export const GetProjectsLocationsPrivateCloudsRequest = /*@__PURE__*/ S.suspend(
   S.Struct({
     name: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "v1/{+name}",
-      baseUrl: "https://vmwareengine.googleapis.com/",
-    }),
+    T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://vmwareengine.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "GetProjectsLocationsPrivateCloudsRequest",
@@ -2430,11 +2350,7 @@ export const GetProjectsLocationsPrivateCloudsClustersRequest = /*@__PURE__*/ S.
   S.Struct({
     name: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "v1/{+name}",
-      baseUrl: "https://vmwareengine.googleapis.com/",
-    }),
+    T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://vmwareengine.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "GetProjectsLocationsPrivateCloudsClustersRequest",
@@ -2448,11 +2364,7 @@ export const GetProjectsLocationsPrivateCloudsClustersNodesRequest = /*@__PURE__
   S.Struct({
     name: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "v1/{+name}",
-      baseUrl: "https://vmwareengine.googleapis.com/",
-    }),
+    T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://vmwareengine.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "GetProjectsLocationsPrivateCloudsClustersNodesRequest",
@@ -2463,30 +2375,30 @@ export const NodeStateEnum = S.String;
 
 /** Node in a cluster. */
 export interface Node {
-  /** Output only. The version number of the VMware ESXi management component in this cluster. */
-  version?: string;
-  /** Output only. Internal IP address of the node. */
-  internalIp?: string;
-  /** Output only. Customized number of cores */
-  customCoreCount?: string;
   /** Output only. The state of the appliance. */
   state?: NodeStateEnum;
-  /** Output only. Fully qualified domain name of the node. */
-  fqdn?: string;
-  /** Output only. The canonical identifier of the node type (corresponds to the `NodeType`). For example: standard-72. */
-  nodeTypeId?: string;
+  /** Output only. Customized number of cores */
+  customCoreCount?: string;
+  /** Output only. Internal IP address of the node. */
+  internalIp?: string;
   /** Output only. The resource name of this node. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: projects/my-project/locations/us-central1-a/privateClouds/my-cloud/clusters/my-cluster/nodes/my-node */
   name?: string;
+  /** Output only. Fully qualified domain name of the node. */
+  fqdn?: string;
+  /** Output only. The version number of the VMware ESXi management component in this cluster. */
+  version?: string;
+  /** Output only. The canonical identifier of the node type (corresponds to the `NodeType`). For example: standard-72. */
+  nodeTypeId?: string;
 }
 export const Node = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    version: S.optional(S.String),
-    internalIp: S.optional(S.String),
-    customCoreCount: S.optional(S.String),
     state: S.optional(NodeStateEnum),
-    fqdn: S.optional(S.String),
-    nodeTypeId: S.optional(S.String),
+    customCoreCount: S.optional(S.String),
+    internalIp: S.optional(S.String),
     name: S.optional(S.String),
+    fqdn: S.optional(S.String),
+    version: S.optional(S.String),
+    nodeTypeId: S.optional(S.String),
   }),
 ).annotate({ identifier: "Node" }) as any as S.Schema<Node>;
 
@@ -2499,11 +2411,7 @@ export const GetProjectsLocationsPrivateCloudsExternalAddressesRequest = /*@__PU
     S.Struct({
       name: S.String.pipe(T.Label()),
     }).pipe(
-      T.Http({
-        method: "GET",
-        uri: "v1/{+name}",
-        baseUrl: "https://vmwareengine.googleapis.com/",
-      }),
+      T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://vmwareengine.googleapis.com/" }),
     ),
 ).annotate({
   identifier: "GetProjectsLocationsPrivateCloudsExternalAddressesRequest",
@@ -2518,11 +2426,7 @@ export const GetProjectsLocationsPrivateCloudsHcxActivationKeysRequest = /*@__PU
     S.Struct({
       name: S.String.pipe(T.Label()),
     }).pipe(
-      T.Http({
-        method: "GET",
-        uri: "v1/{+name}",
-        baseUrl: "https://vmwareengine.googleapis.com/",
-      }),
+      T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://vmwareengine.googleapis.com/" }),
     ),
 ).annotate({
   identifier: "GetProjectsLocationsPrivateCloudsHcxActivationKeysRequest",
@@ -2536,11 +2440,7 @@ export const GetProjectsLocationsPrivateCloudsLoggingServersRequest = /*@__PURE_
   S.Struct({
     name: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "v1/{+name}",
-      baseUrl: "https://vmwareengine.googleapis.com/",
-    }),
+    T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://vmwareengine.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "GetProjectsLocationsPrivateCloudsLoggingServersRequest",
@@ -2555,11 +2455,7 @@ export const GetProjectsLocationsPrivateCloudsManagementDnsZoneBindingsRequest =
     S.Struct({
       name: S.String.pipe(T.Label()),
     }).pipe(
-      T.Http({
-        method: "GET",
-        uri: "v1/{+name}",
-        baseUrl: "https://vmwareengine.googleapis.com/",
-      }),
+      T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://vmwareengine.googleapis.com/" }),
     ),
   ).annotate({
     identifier: "GetProjectsLocationsPrivateCloudsManagementDnsZoneBindingsRequest",
@@ -2573,11 +2469,7 @@ export const GetProjectsLocationsPrivateCloudsSubnetsRequest = /*@__PURE__*/ S.s
   S.Struct({
     name: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "v1/{+name}",
-      baseUrl: "https://vmwareengine.googleapis.com/",
-    }),
+    T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://vmwareengine.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "GetProjectsLocationsPrivateCloudsSubnetsRequest",
@@ -2595,26 +2487,26 @@ export const SubnetStateEnum = S.String;
 
 /** Subnet in a private cloud. Either `management` subnets (such as vMotion) that are read-only, or `userDefined`, which can also be updated. */
 export interface Subnet {
+  /** The IP address range of the subnet in CIDR format '10.0.0.0/24'. */
+  ipCidrRange?: string;
   /** Output only. Identifier. The resource name of this subnet. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud/subnets/my-subnet` */
   name?: string;
+  /** Output only. VLAN ID of the VLAN on which the subnet is configured */
+  vlanId?: number;
   /** Output only. The type of the subnet. For example "management" or "userDefined". */
   type?: string;
   /** Output only. The state of the resource. */
   state?: SubnetStateEnum | (string & {});
-  /** Output only. VLAN ID of the VLAN on which the subnet is configured */
-  vlanId?: number;
-  /** The IP address range of the subnet in CIDR format '10.0.0.0/24'. */
-  ipCidrRange?: string;
   /** The IP address of the gateway of this subnet. Must fall within the IP prefix defined above. */
   gatewayIp?: string;
 }
 export const Subnet = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    ipCidrRange: S.optional(S.String),
     name: S.optional(S.String),
+    vlanId: S.optional(S.Number),
     type: S.optional(S.String),
     state: S.optional(SubnetStateEnum),
-    vlanId: S.optional(S.Number),
-    ipCidrRange: S.optional(S.String),
     gatewayIp: S.optional(S.String),
   }),
 ).annotate({ identifier: "Subnet" }) as any as S.Schema<Subnet>;
@@ -2627,66 +2519,23 @@ export const GetProjectsLocationsPrivateCloudsUpgradesRequest = /*@__PURE__*/ S.
   S.Struct({
     name: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "v1/{+name}",
-      baseUrl: "https://vmwareengine.googleapis.com/",
-    }),
+    T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://vmwareengine.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "GetProjectsLocationsPrivateCloudsUpgradesRequest",
 }) as any as S.Schema<GetProjectsLocationsPrivateCloudsUpgradesRequest>;
 
-export type TimeWindowDayOfWeekEnum =
-  | "DAY_OF_WEEK_UNSPECIFIED"
-  | "MONDAY"
-  | "TUESDAY"
-  | "WEDNESDAY"
-  | "THURSDAY"
-  | "FRIDAY"
-  | "SATURDAY"
-  | "SUNDAY";
-export const TimeWindowDayOfWeekEnum = S.String;
-
-/** Represents a time of day. The date and time zone are either not significant or are specified elsewhere. An API may choose to allow leap seconds. Related types are google.type.Date and `google.protobuf.Timestamp`. */
-export interface TimeOfDay {
-  /** Seconds of a minute. Must be greater than or equal to 0 and typically must be less than or equal to 59. An API may allow the value 60 if it allows leap-seconds. */
-  seconds?: number;
-  /** Minutes of an hour. Must be greater than or equal to 0 and less than or equal to 59. */
-  minutes?: number;
-  /** Hours of a day in 24 hour format. Must be greater than or equal to 0 and typically must be less than or equal to 23. An API may choose to allow the value "24:00:00" for scenarios like business closing time. */
-  hours?: number;
-  /** Fractions of seconds, in nanoseconds. Must be greater than or equal to 0 and less than or equal to 999,999,999. */
-  nanos?: number;
-}
-export const TimeOfDay = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    seconds: S.optional(S.Number),
-    minutes: S.optional(S.Number),
-    hours: S.optional(S.Number),
-    nanos: S.optional(S.Number),
-  }),
-).annotate({ identifier: "TimeOfDay" }) as any as S.Schema<TimeOfDay>;
-
-/** Represents the time window to perform upgrade activities. */
-export interface TimeWindow {
-  /** Required. The duration of the window. The max allowed duration for any window is 24 hours. */
-  duration?: string;
-  /** Required. Day of the week for this window. */
-  dayOfWeek?: TimeWindowDayOfWeekEnum | (string & {});
-  /** Required. Time in UTC when the window starts. */
-  startTime?: TimeOfDay;
-}
-export const TimeWindow = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    duration: S.optional(S.String),
-    dayOfWeek: S.optional(TimeWindowDayOfWeekEnum),
-    startTime: S.optional(TimeOfDay),
-  }),
-).annotate({ identifier: "TimeWindow" }) as any as S.Schema<TimeWindow>;
-
-export type TimeWindowList = Array<TimeWindow>;
-export const TimeWindowList = /*@__PURE__*/ S.Array(TimeWindow) as any as S.Schema<TimeWindowList>;
+export type UpgradeStateEnum =
+  | "STATE_UNSPECIFIED"
+  | "SCHEDULED"
+  | "ONGOING"
+  | "SUCCEEDED"
+  | "PAUSED"
+  | "FAILED"
+  | "CANCELLING"
+  | "CANCELLED"
+  | "RESCHEDULING";
+export const UpgradeStateEnum = S.String;
 
 /** Represents a time interval, encoded as a Timestamp start (inclusive) and a Timestamp end (exclusive). The start must be less than or equal to the end. When the start equals the end, the interval is empty (matches no time). When both start and end are unspecified, the interval matches any time. */
 export interface Interval {
@@ -2702,19 +2551,25 @@ export const Interval = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "Interval" }) as any as S.Schema<Interval>;
 
-export type ScheduleLastEditorEnum = "EDITOR_UNSPECIFIED" | "SYSTEM" | "USER";
-export const ScheduleLastEditorEnum = S.String;
-
-export type WeeklyTimeIntervalEndDayEnum =
-  | "DAY_OF_WEEK_UNSPECIFIED"
-  | "MONDAY"
-  | "TUESDAY"
-  | "WEDNESDAY"
-  | "THURSDAY"
-  | "FRIDAY"
-  | "SATURDAY"
-  | "SUNDAY";
-export const WeeklyTimeIntervalEndDayEnum = S.String;
+/** Represents a time of day. The date and time zone are either not significant or are specified elsewhere. An API may choose to allow leap seconds. Related types are google.type.Date and `google.protobuf.Timestamp`. */
+export interface TimeOfDay {
+  /** Minutes of an hour. Must be greater than or equal to 0 and less than or equal to 59. */
+  minutes?: number;
+  /** Seconds of a minute. Must be greater than or equal to 0 and typically must be less than or equal to 59. An API may allow the value 60 if it allows leap-seconds. */
+  seconds?: number;
+  /** Hours of a day in 24 hour format. Must be greater than or equal to 0 and typically must be less than or equal to 23. An API may choose to allow the value "24:00:00" for scenarios like business closing time. */
+  hours?: number;
+  /** Fractions of seconds, in nanoseconds. Must be greater than or equal to 0 and less than or equal to 999,999,999. */
+  nanos?: number;
+}
+export const TimeOfDay = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    minutes: S.optional(S.Number),
+    seconds: S.optional(S.Number),
+    hours: S.optional(S.Number),
+    nanos: S.optional(S.Number),
+  }),
+).annotate({ identifier: "TimeOfDay" }) as any as S.Schema<TimeOfDay>;
 
 export type WeeklyTimeIntervalStartDayEnum =
   | "DAY_OF_WEEK_UNSPECIFIED"
@@ -2727,27 +2582,36 @@ export type WeeklyTimeIntervalStartDayEnum =
   | "SUNDAY";
 export const WeeklyTimeIntervalStartDayEnum = S.String;
 
+export type WeeklyTimeIntervalEndDayEnum =
+  | "DAY_OF_WEEK_UNSPECIFIED"
+  | "MONDAY"
+  | "TUESDAY"
+  | "WEDNESDAY"
+  | "THURSDAY"
+  | "FRIDAY"
+  | "SATURDAY"
+  | "SUNDAY";
+export const WeeklyTimeIntervalEndDayEnum = S.String;
+
 /** Represents a time interval, spanning across days of the week. Until local timezones are supported, this interval is in UTC. */
 export interface WeeklyTimeInterval {
-  /** Output only. The day on which the interval ends. Can be same as start day. */
-  endDay?: WeeklyTimeIntervalEndDayEnum | (string & {});
   /** Output only. The time on the end day at which the interval ends. */
   endTime?: TimeOfDay;
-  /** Output only. The day on which the interval starts. */
-  startDay?: WeeklyTimeIntervalStartDayEnum | (string & {});
   /** Output only. The time on the start day at which the interval starts. */
   startTime?: TimeOfDay;
+  /** Output only. The day on which the interval starts. */
+  startDay?: WeeklyTimeIntervalStartDayEnum | (string & {});
+  /** Output only. The day on which the interval ends. Can be same as start day. */
+  endDay?: WeeklyTimeIntervalEndDayEnum | (string & {});
 }
 export const WeeklyTimeInterval = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    endDay: S.optional(WeeklyTimeIntervalEndDayEnum),
     endTime: S.optional(TimeOfDay),
-    startDay: S.optional(WeeklyTimeIntervalStartDayEnum),
     startTime: S.optional(TimeOfDay),
+    startDay: S.optional(WeeklyTimeIntervalStartDayEnum),
+    endDay: S.optional(WeeklyTimeIntervalEndDayEnum),
   }),
-).annotate({
-  identifier: "WeeklyTimeInterval",
-}) as any as S.Schema<WeeklyTimeInterval>;
+).annotate({ identifier: "WeeklyTimeInterval" }) as any as S.Schema<WeeklyTimeInterval>;
 
 export type WeeklyTimeIntervalList = Array<WeeklyTimeInterval>;
 export const WeeklyTimeIntervalList = /*@__PURE__*/ S.Array(
@@ -2756,26 +2620,62 @@ export const WeeklyTimeIntervalList = /*@__PURE__*/ S.Array(
 
 /** Constraints to be applied while editing a schedule. These constraints ensure that `Upgrade` specific requirements are met. */
 export interface Constraints {
-  /** Output only. Output Only. A list of intervals in which maintenance windows are not allowed. Any time window that overlaps with any of these intervals will be considered invalid. */
-  disallowedIntervals?: WeeklyTimeIntervalList;
   /** Output only. The minimum number of weekly hours must be allotted for the upgrade activities. This is just a minimum; the schedule can assign more weekly hours. */
   minHoursWeek?: number;
-  /** Output only. Output Only. The user can only reschedule an upgrade that starts within this range. */
-  rescheduleDateRange?: Interval;
   /** Output only. Minimum number of hours must be allotted for the upgrade activities for each selected day. This is a minimum; the upgrade schedule can allot more hours for the given day. */
   minHoursDay?: number;
+  /** Output only. Output Only. The user can only reschedule an upgrade that starts within this range. */
+  rescheduleDateRange?: Interval;
+  /** Output only. Output Only. A list of intervals in which maintenance windows are not allowed. Any time window that overlaps with any of these intervals will be considered invalid. */
+  disallowedIntervals?: WeeklyTimeIntervalList;
 }
 export const Constraints = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    disallowedIntervals: S.optional(WeeklyTimeIntervalList),
     minHoursWeek: S.optional(S.Number),
-    rescheduleDateRange: S.optional(Interval),
     minHoursDay: S.optional(S.Number),
+    rescheduleDateRange: S.optional(Interval),
+    disallowedIntervals: S.optional(WeeklyTimeIntervalList),
   }),
 ).annotate({ identifier: "Constraints" }) as any as S.Schema<Constraints>;
 
+export type TimeWindowDayOfWeekEnum =
+  | "DAY_OF_WEEK_UNSPECIFIED"
+  | "MONDAY"
+  | "TUESDAY"
+  | "WEDNESDAY"
+  | "THURSDAY"
+  | "FRIDAY"
+  | "SATURDAY"
+  | "SUNDAY";
+export const TimeWindowDayOfWeekEnum = S.String;
+
+/** Represents the time window to perform upgrade activities. */
+export interface TimeWindow {
+  /** Required. Day of the week for this window. */
+  dayOfWeek?: TimeWindowDayOfWeekEnum | (string & {});
+  /** Required. Time in UTC when the window starts. */
+  startTime?: TimeOfDay;
+  /** Required. The duration of the window. The max allowed duration for any window is 24 hours. */
+  duration?: string;
+}
+export const TimeWindow = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    dayOfWeek: S.optional(TimeWindowDayOfWeekEnum),
+    startTime: S.optional(TimeOfDay),
+    duration: S.optional(S.String),
+  }),
+).annotate({ identifier: "TimeWindow" }) as any as S.Schema<TimeWindow>;
+
+export type TimeWindowList = Array<TimeWindow>;
+export const TimeWindowList = /*@__PURE__*/ S.Array(TimeWindow) as any as S.Schema<TimeWindowList>;
+
+export type ScheduleLastEditorEnum = "EDITOR_UNSPECIFIED" | "SYSTEM" | "USER";
+export const ScheduleLastEditorEnum = S.String;
+
 /** Schedule for the upgrade. */
 export interface Schedule {
+  /** Output only. Output Only. Constraints applied to the schedule. These constraints should be applicable at the time of any rescheduling. */
+  constraints?: Constraints;
   /** Required. The scheduled start time for the upgrade. */
   startTime?: string;
   /** Required. Weekly time windows for upgrade activities. The server performs upgrade activities during these time windows to minimize disruptions. */
@@ -2784,30 +2684,16 @@ export interface Schedule {
   editWindow?: Interval;
   /** Output only. Output Only. Indicates who most recently edited the upgrade schedule. The value is updated whenever the upgrade is rescheduled. */
   lastEditor?: ScheduleLastEditorEnum | (string & {});
-  /** Output only. Output Only. Constraints applied to the schedule. These constraints should be applicable at the time of any rescheduling. */
-  constraints?: Constraints;
 }
 export const Schedule = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    constraints: S.optional(Constraints),
     startTime: S.optional(S.String),
     weeklyWindows: S.optional(TimeWindowList),
     editWindow: S.optional(Interval),
     lastEditor: S.optional(ScheduleLastEditorEnum),
-    constraints: S.optional(Constraints),
   }),
 ).annotate({ identifier: "Schedule" }) as any as S.Schema<Schedule>;
-
-export type UpgradeStateEnum =
-  | "STATE_UNSPECIFIED"
-  | "SCHEDULED"
-  | "ONGOING"
-  | "SUCCEEDED"
-  | "PAUSED"
-  | "FAILED"
-  | "CANCELLING"
-  | "CANCELLED"
-  | "RESCHEDULING";
-export const UpgradeStateEnum = S.String;
 
 export type UpgradeTypeEnum =
   | "TYPE_UNSPECIFIED"
@@ -2860,9 +2746,7 @@ export const VmwareUpgradeComponent = /*@__PURE__*/ S.suspend(() =>
     componentType: S.optional(VmwareUpgradeComponentComponentTypeEnum),
     state: S.optional(VmwareUpgradeComponentStateEnum),
   }),
-).annotate({
-  identifier: "VmwareUpgradeComponent",
-}) as any as S.Schema<VmwareUpgradeComponent>;
+).annotate({ identifier: "VmwareUpgradeComponent" }) as any as S.Schema<VmwareUpgradeComponent>;
 
 export type VmwareUpgradeComponentList = Array<VmwareUpgradeComponent>;
 export const VmwareUpgradeComponentList = /*@__PURE__*/ S.Array(
@@ -2871,54 +2755,54 @@ export const VmwareUpgradeComponentList = /*@__PURE__*/ S.Array(
 
 /** Describes Private cloud Upgrade. */
 export interface Upgrade {
-  /** Output only. Output Only. The description of the upgrade. This is used to provide additional information about the private cloud upgrade, such as the upgrade's purpose, the changes included in the upgrade, or any other relevant information about the upgrade. */
-  description?: string;
-  /** Output only. Output Only. Last update time of this resource. */
-  updateTime?: string;
-  /** Output only. */
-  version?: string;
-  /** Output only. Output Only. The start version */
-  startVersion?: string;
-  /** Schedule details for the upgrade. */
-  schedule?: Schedule;
-  /** Output only. The current state of the upgrade. */
-  state?: UpgradeStateEnum | (string & {});
-  /** Output only. Identifier. The resource name of the private cloud `Upgrade`. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-west1-a/privateClouds/my-cloud/upgrades/my-upgrade` */
-  name?: string;
-  /** Output only. Output Only. Creation time of this resource. */
-  createTime?: string;
   /** Output only. Output Only. End time of the upgrade. */
   endTime?: string;
-  /** Output only. Output Only. The type of upgrade. */
-  type?: UpgradeTypeEnum | (string & {});
+  /** Output only. Output Only. The description of the upgrade. This is used to provide additional information about the private cloud upgrade, such as the upgrade's purpose, the changes included in the upgrade, or any other relevant information about the upgrade. */
+  description?: string;
+  /** Output only. The current state of the upgrade. */
+  state?: UpgradeStateEnum | (string & {});
   /** Output only. Output Only. The target version */
   targetVersion?: string;
-  /** Output only. System-generated unique identifier for the resource. */
-  uid?: string;
+  /** Schedule details for the upgrade. */
+  schedule?: Schedule;
   /** Output only. Output Only. The estimated total duration of the upgrade. This information can be used to plan or schedule upgrades to minimize disruptions. Please note that the estimated duration is only an estimate. The actual upgrade duration may vary. */
   estimatedDuration?: string;
-  /** Output only. Output Only. The list of component upgrades. */
-  componentUpgrades?: VmwareUpgradeComponentList;
+  /** Output only. Output Only. Last update time of this resource. */
+  updateTime?: string;
   /** The etag for the upgrade resource. If this is provided on update, it must match the server's etag. */
   etag?: string;
+  /** Output only. Output Only. The type of upgrade. */
+  type?: UpgradeTypeEnum | (string & {});
+  /** Output only. Identifier. The resource name of the private cloud `Upgrade`. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-west1-a/privateClouds/my-cloud/upgrades/my-upgrade` */
+  name?: string;
+  /** Output only. */
+  version?: string;
+  /** Output only. System-generated unique identifier for the resource. */
+  uid?: string;
+  /** Output only. Output Only. Creation time of this resource. */
+  createTime?: string;
+  /** Output only. Output Only. The list of component upgrades. */
+  componentUpgrades?: VmwareUpgradeComponentList;
+  /** Output only. Output Only. The start version */
+  startVersion?: string;
 }
 export const Upgrade = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    description: S.optional(S.String),
-    updateTime: S.optional(S.String),
-    version: S.optional(S.String),
-    startVersion: S.optional(S.String),
-    schedule: S.optional(Schedule),
-    state: S.optional(UpgradeStateEnum),
-    name: S.optional(S.String),
-    createTime: S.optional(S.String),
     endTime: S.optional(S.String),
-    type: S.optional(UpgradeTypeEnum),
+    description: S.optional(S.String),
+    state: S.optional(UpgradeStateEnum),
     targetVersion: S.optional(S.String),
-    uid: S.optional(S.String),
+    schedule: S.optional(Schedule),
     estimatedDuration: S.optional(S.String),
-    componentUpgrades: S.optional(VmwareUpgradeComponentList),
+    updateTime: S.optional(S.String),
     etag: S.optional(S.String),
+    type: S.optional(UpgradeTypeEnum),
+    name: S.optional(S.String),
+    version: S.optional(S.String),
+    uid: S.optional(S.String),
+    createTime: S.optional(S.String),
+    componentUpgrades: S.optional(VmwareUpgradeComponentList),
+    startVersion: S.optional(S.String),
   }),
 ).annotate({ identifier: "Upgrade" }) as any as S.Schema<Upgrade>;
 
@@ -2930,11 +2814,7 @@ export const GetProjectsLocationsPrivateConnectionsRequest = /*@__PURE__*/ S.sus
   S.Struct({
     name: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "v1/{+name}",
-      baseUrl: "https://vmwareengine.googleapis.com/",
-    }),
+    T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://vmwareengine.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "GetProjectsLocationsPrivateConnectionsRequest",
@@ -2948,27 +2828,23 @@ export const GetProjectsLocationsVmwareEngineNetworksRequest = /*@__PURE__*/ S.s
   S.Struct({
     name: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "v1/{+name}",
-      baseUrl: "https://vmwareengine.googleapis.com/",
-    }),
+    T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://vmwareengine.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "GetProjectsLocationsVmwareEngineNetworksRequest",
 }) as any as S.Schema<GetProjectsLocationsVmwareEngineNetworksRequest>;
 
 export interface GetVcenterCredentialsProjectsLocationsPrivateCloudsRequest {
-  /** Optional. The username of the user to be queried for credentials. The default value of this field is CloudOwner@gve.local. The provided value must be one of the following: CloudOwner@gve.local, solution-user-01@gve.local, solution-user-02@gve.local, solution-user-03@gve.local, solution-user-04@gve.local, solution-user-05@gve.local, zertoadmin@gve.local. */
-  username?: string;
   /** Required. The resource name of the private cloud to be queried for credentials. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud` */
   privateCloud: string;
+  /** Optional. The username of the user to be queried for credentials. The default value of this field is CloudOwner@gve.local. The provided value must be one of the following: CloudOwner@gve.local, solution-user-01@gve.local, solution-user-02@gve.local, solution-user-03@gve.local, solution-user-04@gve.local, solution-user-05@gve.local, zertoadmin@gve.local. */
+  username?: string;
 }
 export const GetVcenterCredentialsProjectsLocationsPrivateCloudsRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      username: S.optional(S.String.pipe(T.Query())),
       privateCloud: S.String.pipe(T.Label()),
+      username: S.optional(S.String.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "GET",
@@ -2982,15 +2858,15 @@ export const GetVcenterCredentialsProjectsLocationsPrivateCloudsRequest = /*@__P
 
 /** Request message for VmwareEngine.GrantDnsBindPermission */
 export interface GrantDnsBindPermissionRequest {
-  /** Required. The consumer provided user/service account which needs to be granted permission to bind with the intranet VPC corresponding to the consumer project. */
-  principal?: Principal;
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server guarantees that a request doesn't result in creation of duplicate commitments for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
+  /** Required. The consumer provided user/service account which needs to be granted permission to bind with the intranet VPC corresponding to the consumer project. Principal can be a user or a service account. For example, to specify the user `user@example.com`, use `"principal": {"user": "user@example.com"}` and to specify the service account `service-account@gserviceaccount.com`, use `"principal": {"serviceAccount": "service-account@gserviceaccount.com"}`. */
+  principal?: Principal;
 }
 export const GrantDnsBindPermissionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    principal: S.optional(Principal),
     requestId: S.optional(S.String),
+    principal: S.optional(Principal),
   }),
 ).annotate({
   identifier: "GrantDnsBindPermissionRequest",
@@ -3018,24 +2894,24 @@ export const GrantProjectsLocationsDnsBindPermissionRequest = /*@__PURE__*/ S.su
 }) as any as S.Schema<GrantProjectsLocationsDnsBindPermissionRequest>;
 
 export interface ListProjectsLocationsRequest {
+  /** Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage. */
+  extraLocationTypes?: StringList;
+  /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
+  pageToken?: string;
+  /** The maximum number of results to return. If not set, the service selects a default. */
+  pageSize?: number;
   /** The resource that owns the locations collection, if applicable. */
   name: string;
   /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
   filter?: string;
-  /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
-  pageToken?: string;
-  /** Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage. */
-  extraLocationTypes?: StringList;
-  /** The maximum number of results to return. If not set, the service selects a default. */
-  pageSize?: number;
 }
 export const ListProjectsLocationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    extraLocationTypes: S.optional(StringList.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
     name: S.String.pipe(T.Label()),
     filter: S.optional(S.String.pipe(T.Query())),
-    pageToken: S.optional(S.String.pipe(T.Query())),
-    extraLocationTypes: S.optional(StringList.pipe(T.Query())),
-    pageSize: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -3052,39 +2928,37 @@ export const LocationList = /*@__PURE__*/ S.Array(Location) as any as S.Schema<L
 
 /** The response message for Locations.ListLocations. */
 export interface ListLocationsResponse {
-  /** A list of locations that matches the specified filter in the request. */
-  locations?: LocationList;
   /** The standard List next-page token. */
   nextPageToken?: string;
+  /** A list of locations that matches the specified filter in the request. */
+  locations?: LocationList;
 }
 export const ListLocationsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    locations: S.optional(LocationList),
     nextPageToken: S.optional(S.String),
+    locations: S.optional(LocationList),
   }),
-).annotate({
-  identifier: "ListLocationsResponse",
-}) as any as S.Schema<ListLocationsResponse>;
+).annotate({ identifier: "ListLocationsResponse" }) as any as S.Schema<ListLocationsResponse>;
 
 export interface ListProjectsLocationsAnnouncementsRequest {
-  /** A filter expression that matches resources returned in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be `=`, `!=`, `>`, or `<`. For example, if you are filtering a list of announcement runs, you can exclude the ones named `example-announcement` by specifying `name != "example-announcement"`. You can also filter nested fields. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (name = "example-announcement") (createTime > "2021-04-12T08:15:10.40Z") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (name = "announcement-1") AND (createTime > "2021-04-12T08:15:10.40Z") OR (name = "announcement-2") ``` */
-  filter?: string;
-  /** Required. The resource name of the location to be queried for announcements. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-west1-a` */
-  parent: string;
-  /** Sorts list results by a certain order. By default, returned results are ordered by `name` in ascending order. You can also sort results in descending order based on the `name` value using `orderBy="name desc"`. Currently, only ordering by `name` is supported. */
-  orderBy?: string;
-  /** A page token, received from a previous `ListAnnouncements` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListAnnouncements` must match the call that provided the page token. */
-  pageToken?: string;
   /** The maximum number of announcements to return in one page. The service may return fewer than this value. The maximum value is coerced to 1000. The default value of this field is 500. */
   pageSize?: number;
+  /** Sorts list results by a certain order. By default, returned results are ordered by `name` in ascending order. You can also sort results in descending order based on the `name` value using `orderBy="name desc"`. Currently, only ordering by `name` is supported. */
+  orderBy?: string;
+  /** A filter expression that matches resources returned in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be `=`, `!=`, `>`, or `<`. For example, if you are filtering a list of announcement runs, you can exclude the ones named `example-announcement` by specifying `name != "example-announcement"`. You can also filter nested fields. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (name = "example-announcement") (createTime > "2021-04-12T08:15:10.40Z") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (name = "announcement-1") AND (createTime > "2021-04-12T08:15:10.40Z") OR (name = "announcement-2") ``` */
+  filter?: string;
+  /** A page token, received from a previous `ListAnnouncements` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListAnnouncements` must match the call that provided the page token. */
+  pageToken?: string;
+  /** Required. The resource name of the location to be queried for announcements. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-west1-a` */
+  parent: string;
 }
 export const ListProjectsLocationsAnnouncementsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    filter: S.optional(S.String.pipe(T.Query())),
-    parent: S.String.pipe(T.Label()),
-    orderBy: S.optional(S.String.pipe(T.Query())),
-    pageToken: S.optional(S.String.pipe(T.Query())),
     pageSize: S.optional(S.Number.pipe(T.Query())),
+    orderBy: S.optional(S.String.pipe(T.Query())),
+    filter: S.optional(S.String.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -3105,42 +2979,42 @@ export const AnnouncementList = /*@__PURE__*/ S.Array(
 export interface ListAnnouncementsResponse {
   /** list of unreachable locations */
   unreachable?: StringList;
-  /** A list of announcement runs. */
-  announcements?: AnnouncementList;
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
   nextPageToken?: string;
+  /** A list of announcement runs. */
+  announcements?: AnnouncementList;
 }
 export const ListAnnouncementsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     unreachable: S.optional(StringList),
-    announcements: S.optional(AnnouncementList),
     nextPageToken: S.optional(S.String),
+    announcements: S.optional(AnnouncementList),
   }),
 ).annotate({
   identifier: "ListAnnouncementsResponse",
 }) as any as S.Schema<ListAnnouncementsResponse>;
 
 export interface ListProjectsLocationsDatastoresRequest {
-  /** Required. The resource name of the location to query for Datastores. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1` */
-  parent: string;
-  /** Optional. The maximum number of results to return in one page. The maximum value is coerced to 1000. The default value of this field is 500. */
-  pageSize?: number;
-  /** Optional. A page token, received from a previous `ListDatastores` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListDatastores` must match the call that provided the page token. */
-  pageToken?: string;
-  /** Optional. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
   /** Optional. A filter expression that matches resources returned in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be `=`, `!=`, `>`, or `<`. For example, if you are filtering a list of datastores, you can exclude the ones named `example-datastore` by specifying `name != "example-datastore"`. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (name = "example-datastore") (createTime > "2021-04-12T08:15:10.40Z") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (name = "example-datastore-1") AND (createTime > "2021-04-12T08:15:10.40Z") OR (name = "example-datastore-2") ``` */
   filter?: string;
+  /** Optional. A page token, received from a previous `ListDatastores` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListDatastores` must match the call that provided the page token. */
+  pageToken?: string;
+  /** Required. The resource name of the location to query for Datastores. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1` */
+  parent: string;
+  /** Optional. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string;
+  /** Optional. The maximum number of results to return in one page. The maximum value is coerced to 1000. The default value of this field is 500. */
+  pageSize?: number;
   /** Optional. Sorts list results by a certain order. By default, returned results are ordered by `name` in ascending order. You can also sort results in descending order based on the `name` value using `orderBy="name desc"`. Currently, only ordering by `name` is supported. */
   orderBy?: string;
 }
 export const ListProjectsLocationsDatastoresRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    parent: S.String.pipe(T.Label()),
-    pageSize: S.optional(S.Number.pipe(T.Query())),
-    pageToken: S.optional(S.String.pipe(T.Query())),
-    requestId: S.optional(S.String.pipe(T.Query())),
     filter: S.optional(S.String.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
+    requestId: S.optional(S.String.pipe(T.Query())),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
     orderBy: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
@@ -3158,42 +3032,40 @@ export const DatastoreList = /*@__PURE__*/ S.Array(Datastore) as any as S.Schema
 
 /** Response message for VmwareEngine.ListDatastores */
 export interface ListDatastoresResponse {
-  /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
-  /** Unreachable resources. */
-  unreachable?: StringList;
   /** A list of Datastores. */
   datastores?: DatastoreList;
+  /** Unreachable resources. */
+  unreachable?: StringList;
+  /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
+  nextPageToken?: string;
 }
 export const ListDatastoresResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    nextPageToken: S.optional(S.String),
-    unreachable: S.optional(StringList),
     datastores: S.optional(DatastoreList),
+    unreachable: S.optional(StringList),
+    nextPageToken: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListDatastoresResponse",
-}) as any as S.Schema<ListDatastoresResponse>;
+).annotate({ identifier: "ListDatastoresResponse" }) as any as S.Schema<ListDatastoresResponse>;
 
 export interface ListProjectsLocationsNetworkPeeringsRequest {
   /** Sorts list results by a certain order. By default, returned results are ordered by `name` in ascending order. You can also sort results in descending order based on the `name` value using `orderBy="name desc"`. Currently, only ordering by `name` is supported. */
   orderBy?: string;
-  /** A filter expression that matches resources returned in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be `=`, `!=`, `>`, or `<`. For example, if you are filtering a list of network peerings, you can exclude the ones named `example-peering` by specifying `name != "example-peering"`. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (name = "example-peering") (createTime > "2021-04-12T08:15:10.40Z") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (name = "example-peering-1") AND (createTime > "2021-04-12T08:15:10.40Z") OR (name = "example-peering-2") ``` */
-  filter?: string;
   /** The maximum number of network peerings to return in one page. The maximum value is coerced to 1000. The default value of this field is 500. */
   pageSize?: number;
-  /** Required. The resource name of the location (global) to query for network peerings. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/global` */
-  parent: string;
   /** A page token, received from a previous `ListNetworkPeerings` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListNetworkPeerings` must match the call that provided the page token. */
   pageToken?: string;
+  /** Required. The resource name of the location (global) to query for network peerings. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/global` */
+  parent: string;
+  /** A filter expression that matches resources returned in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be `=`, `!=`, `>`, or `<`. For example, if you are filtering a list of network peerings, you can exclude the ones named `example-peering` by specifying `name != "example-peering"`. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (name = "example-peering") (createTime > "2021-04-12T08:15:10.40Z") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (name = "example-peering-1") AND (createTime > "2021-04-12T08:15:10.40Z") OR (name = "example-peering-2") ``` */
+  filter?: string;
 }
 export const ListProjectsLocationsNetworkPeeringsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     orderBy: S.optional(S.String.pipe(T.Query())),
-    filter: S.optional(S.String.pipe(T.Query())),
     pageSize: S.optional(S.Number.pipe(T.Query())),
-    parent: S.String.pipe(T.Label()),
     pageToken: S.optional(S.String.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
+    filter: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -3212,18 +3084,18 @@ export const NetworkPeeringList = /*@__PURE__*/ S.Array(
 
 /** Response message for VmwareEngine.ListNetworkPeerings */
 export interface ListNetworkPeeringsResponse {
-  /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
   /** A list of network peerings. */
   networkPeerings?: NetworkPeeringList;
   /** Unreachable resources. */
   unreachable?: StringList;
+  /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
+  nextPageToken?: string;
 }
 export const ListNetworkPeeringsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    nextPageToken: S.optional(S.String),
     networkPeerings: S.optional(NetworkPeeringList),
     unreachable: S.optional(StringList),
+    nextPageToken: S.optional(S.String),
   }),
 ).annotate({
   identifier: "ListNetworkPeeringsResponse",
@@ -3232,10 +3104,10 @@ export const ListNetworkPeeringsResponse = /*@__PURE__*/ S.suspend(() =>
 export interface ListProjectsLocationsNetworkPeeringsPeeringRoutesRequest {
   /** A page token, received from a previous `ListPeeringRoutes` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListPeeringRoutes` must match the call that provided the page token. */
   pageToken?: string;
-  /** The maximum number of peering routes to return in one page. The service may return fewer than this value. The maximum value is coerced to 1000. The default value of this field is 500. */
-  pageSize?: number;
   /** Required. The resource name of the network peering to retrieve peering routes from. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/global/networkPeerings/my-peering` */
   parent: string;
+  /** The maximum number of peering routes to return in one page. The service may return fewer than this value. The maximum value is coerced to 1000. The default value of this field is 500. */
+  pageSize?: number;
   /** A filter expression that matches resources returned in the response. Currently, only filtering on the `direction` field is supported. To return routes imported from the peer network, provide "direction=INCOMING". To return routes exported from the VMware Engine network, provide "direction=OUTGOING". Other filter expressions return an error. */
   filter?: string;
 }
@@ -3243,8 +3115,8 @@ export const ListProjectsLocationsNetworkPeeringsPeeringRoutesRequest = /*@__PUR
   () =>
     S.Struct({
       pageToken: S.optional(S.String.pipe(T.Query())),
-      pageSize: S.optional(S.Number.pipe(T.Query())),
       parent: S.String.pipe(T.Label()),
+      pageSize: S.optional(S.Number.pipe(T.Query())),
       filter: S.optional(S.String.pipe(T.Query())),
     }).pipe(
       T.Http({
@@ -3269,27 +3141,27 @@ export const PeeringRouteTypeEnum = S.String;
 
 /** Exchanged network peering route. */
 export interface PeeringRoute {
-  /** Output only. The priority of the peering route. */
-  priority?: string;
-  /** Output only. Region containing the next hop of the peering route. This field only applies to dynamic routes in the peer VPC network. */
-  nextHopRegion?: string;
   /** Output only. Direction of the routes exchanged with the peer network, from the VMware Engine network perspective: * Routes of direction `INCOMING` are imported from the peer network. * Routes of direction `OUTGOING` are exported from the intranet VPC network of the VMware Engine network. */
   direction?: PeeringRouteDirectionEnum;
-  /** Output only. Type of the route in the peer VPC network. */
-  type?: PeeringRouteTypeEnum;
+  /** Output only. The priority of the peering route. */
+  priority?: string;
   /** Output only. Destination range of the peering route in CIDR notation. */
   destRange?: string;
   /** Output only. True if the peering route has been imported from a peered VPC network; false otherwise. The import happens if the field `NetworkPeering.importCustomRoutes` is true for this network, `NetworkPeering.exportCustomRoutes` is true for the peer VPC network, and the import does not result in a route conflict. */
   imported?: boolean;
+  /** Output only. Region containing the next hop of the peering route. This field only applies to dynamic routes in the peer VPC network. */
+  nextHopRegion?: string;
+  /** Output only. Type of the route in the peer VPC network. */
+  type?: PeeringRouteTypeEnum;
 }
 export const PeeringRoute = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    priority: S.optional(S.String),
-    nextHopRegion: S.optional(S.String),
     direction: S.optional(PeeringRouteDirectionEnum),
-    type: S.optional(PeeringRouteTypeEnum),
+    priority: S.optional(S.String),
     destRange: S.optional(S.String),
     imported: S.optional(S.Boolean),
+    nextHopRegion: S.optional(S.String),
+    type: S.optional(PeeringRouteTypeEnum),
   }),
 ).annotate({ identifier: "PeeringRoute" }) as any as S.Schema<PeeringRoute>;
 
@@ -3315,24 +3187,24 @@ export const ListPeeringRoutesResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListPeeringRoutesResponse>;
 
 export interface ListProjectsLocationsNetworkPoliciesRequest {
-  /** A filter expression that matches resources returned in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be `=`, `!=`, `>`, or `<`. For example, if you are filtering a list of network policies, you can exclude the ones named `example-policy` by specifying `name != "example-policy"`. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (name = "example-policy") (createTime > "2021-04-12T08:15:10.40Z") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (name = "example-policy-1") AND (createTime > "2021-04-12T08:15:10.40Z") OR (name = "example-policy-2") ``` */
-  filter?: string;
-  /** Sorts list results by a certain order. By default, returned results are ordered by `name` in ascending order. You can also sort results in descending order based on the `name` value using `orderBy="name desc"`. Currently, only ordering by `name` is supported. */
-  orderBy?: string;
-  /** A page token, received from a previous `ListNetworkPolicies` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListNetworkPolicies` must match the call that provided the page token. */
-  pageToken?: string;
-  /** Required. The resource name of the location (region) to query for network policies. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1` */
-  parent: string;
   /** The maximum number of network policies to return in one page. The service may return fewer than this value. The maximum value is coerced to 1000. The default value of this field is 500. */
   pageSize?: number;
+  /** A page token, received from a previous `ListNetworkPolicies` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListNetworkPolicies` must match the call that provided the page token. */
+  pageToken?: string;
+  /** A filter expression that matches resources returned in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be `=`, `!=`, `>`, or `<`. For example, if you are filtering a list of network policies, you can exclude the ones named `example-policy` by specifying `name != "example-policy"`. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (name = "example-policy") (createTime > "2021-04-12T08:15:10.40Z") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (name = "example-policy-1") AND (createTime > "2021-04-12T08:15:10.40Z") OR (name = "example-policy-2") ``` */
+  filter?: string;
+  /** Required. The resource name of the location (region) to query for network policies. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1` */
+  parent: string;
+  /** Sorts list results by a certain order. By default, returned results are ordered by `name` in ascending order. You can also sort results in descending order based on the `name` value using `orderBy="name desc"`. Currently, only ordering by `name` is supported. */
+  orderBy?: string;
 }
 export const ListProjectsLocationsNetworkPoliciesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    filter: S.optional(S.String.pipe(T.Query())),
-    orderBy: S.optional(S.String.pipe(T.Query())),
-    pageToken: S.optional(S.String.pipe(T.Query())),
-    parent: S.String.pipe(T.Label()),
     pageSize: S.optional(S.Number.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
+    filter: S.optional(S.String.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
+    orderBy: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -3351,43 +3223,43 @@ export const NetworkPolicyList = /*@__PURE__*/ S.Array(
 
 /** Response message for VmwareEngine.ListNetworkPolicies */
 export interface ListNetworkPoliciesResponse {
-  /** A token, which can be send as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
   /** A list of network policies. */
   networkPolicies?: NetworkPolicyList;
   /** Locations that could not be reached when making an aggregated query using wildcards. */
   unreachable?: StringList;
+  /** A token, which can be send as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
+  nextPageToken?: string;
 }
 export const ListNetworkPoliciesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    nextPageToken: S.optional(S.String),
     networkPolicies: S.optional(NetworkPolicyList),
     unreachable: S.optional(StringList),
+    nextPageToken: S.optional(S.String),
   }),
 ).annotate({
   identifier: "ListNetworkPoliciesResponse",
 }) as any as S.Schema<ListNetworkPoliciesResponse>;
 
 export interface ListProjectsLocationsNetworkPoliciesExternalAccessRulesRequest {
-  /** A filter expression that matches resources returned in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be `=`, `!=`, `>`, or `<`. For example, if you are filtering a list of external access rules, you can exclude the ones named `example-rule` by specifying `name != "example-rule"`. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (name = "example-rule") (createTime > "2021-04-12T08:15:10.40Z") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (name = "example-rule-1") AND (createTime > "2021-04-12T08:15:10.40Z") OR (name = "example-rule-2") ``` */
-  filter?: string;
   /** Sorts list results by a certain order. By default, returned results are ordered by `name` in ascending order. You can also sort results in descending order based on the `name` value using `orderBy="name desc"`. Currently, only ordering by `name` is supported. */
   orderBy?: string;
-  /** Required. The resource name of the network policy to query for external access firewall rules. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1/networkPolicies/my-policy` */
-  parent: string;
   /** A page token, received from a previous `ListExternalAccessRulesRequest` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListExternalAccessRulesRequest` must match the call that provided the page token. */
   pageToken?: string;
+  /** Required. The resource name of the network policy to query for external access firewall rules. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1/networkPolicies/my-policy` */
+  parent: string;
   /** The maximum number of external access rules to return in one page. The service may return fewer than this value. The maximum value is coerced to 1000. The default value of this field is 500. */
   pageSize?: number;
+  /** A filter expression that matches resources returned in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be `=`, `!=`, `>`, or `<`. For example, if you are filtering a list of external access rules, you can exclude the ones named `example-rule` by specifying `name != "example-rule"`. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (name = "example-rule") (createTime > "2021-04-12T08:15:10.40Z") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (name = "example-rule-1") AND (createTime > "2021-04-12T08:15:10.40Z") OR (name = "example-rule-2") ``` */
+  filter?: string;
 }
 export const ListProjectsLocationsNetworkPoliciesExternalAccessRulesRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      filter: S.optional(S.String.pipe(T.Query())),
       orderBy: S.optional(S.String.pipe(T.Query())),
-      parent: S.String.pipe(T.Label()),
       pageToken: S.optional(S.String.pipe(T.Query())),
+      parent: S.String.pipe(T.Label()),
       pageSize: S.optional(S.Number.pipe(T.Query())),
+      filter: S.optional(S.String.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "GET",
@@ -3406,39 +3278,39 @@ export const ExternalAccessRuleList = /*@__PURE__*/ S.Array(
 
 /** Response message for VmwareEngine.ListExternalAccessRules */
 export interface ListExternalAccessRulesResponse {
-  /** A list of external access firewall rules. */
-  externalAccessRules?: ExternalAccessRuleList;
   /** Locations that could not be reached when making an aggregated query using wildcards. */
   unreachable?: StringList;
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
   nextPageToken?: string;
+  /** A list of external access firewall rules. */
+  externalAccessRules?: ExternalAccessRuleList;
 }
 export const ListExternalAccessRulesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    externalAccessRules: S.optional(ExternalAccessRuleList),
     unreachable: S.optional(StringList),
     nextPageToken: S.optional(S.String),
+    externalAccessRules: S.optional(ExternalAccessRuleList),
   }),
 ).annotate({
   identifier: "ListExternalAccessRulesResponse",
 }) as any as S.Schema<ListExternalAccessRulesResponse>;
 
 export interface ListProjectsLocationsNodeTypesRequest {
-  /** A filter expression that matches resources returned in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be `=`, `!=`, `>`, or `<`. For example, if you are filtering a list of node types, you can exclude the ones named `standard-72` by specifying `name != "standard-72"`. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (name = "standard-72") (virtual_cpu_count > 2) ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (name = "standard-96") AND (virtual_cpu_count > 2) OR (name = "standard-72") ``` */
-  filter?: string;
   /** The maximum number of node types to return in one page. The service may return fewer than this value. The maximum value is coerced to 1000. The default value of this field is 500. */
   pageSize?: number;
-  /** Required. The resource name of the location to be queried for node types. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a` */
-  parent: string;
+  /** A filter expression that matches resources returned in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be `=`, `!=`, `>`, or `<`. For example, if you are filtering a list of node types, you can exclude the ones named `standard-72` by specifying `name != "standard-72"`. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (name = "standard-72") (virtual_cpu_count > 2) ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (name = "standard-96") AND (virtual_cpu_count > 2) OR (name = "standard-72") ``` */
+  filter?: string;
   /** A page token, received from a previous `ListNodeTypes` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListNodeTypes` must match the call that provided the page token. */
   pageToken?: string;
+  /** Required. The resource name of the location to be queried for node types. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a` */
+  parent: string;
 }
 export const ListProjectsLocationsNodeTypesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    filter: S.optional(S.String.pipe(T.Query())),
     pageSize: S.optional(S.Number.pipe(T.Query())),
-    parent: S.String.pipe(T.Label()),
+    filter: S.optional(S.String.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -3468,29 +3340,27 @@ export const ListNodeTypesResponse = /*@__PURE__*/ S.suspend(() =>
     unreachable: S.optional(StringList),
     nextPageToken: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListNodeTypesResponse",
-}) as any as S.Schema<ListNodeTypesResponse>;
+).annotate({ identifier: "ListNodeTypesResponse" }) as any as S.Schema<ListNodeTypesResponse>;
 
 export interface ListProjectsLocationsOperationsRequest {
-  /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
-  returnPartialSuccess?: boolean;
-  /** The standard list page size. */
-  pageSize?: number;
-  /** The standard list filter. */
-  filter?: string;
-  /** The name of the operation's parent resource. */
-  name: string;
   /** The standard list page token. */
   pageToken?: string;
+  /** The standard list filter. */
+  filter?: string;
+  /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
+  returnPartialSuccess?: boolean;
+  /** The name of the operation's parent resource. */
+  name: string;
+  /** The standard list page size. */
+  pageSize?: number;
 }
 export const ListProjectsLocationsOperationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
-    pageSize: S.optional(S.Number.pipe(T.Query())),
-    filter: S.optional(S.String.pipe(T.Query())),
-    name: S.String.pipe(T.Label()),
     pageToken: S.optional(S.String.pipe(T.Query())),
+    filter: S.optional(S.String.pipe(T.Query())),
+    returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
+    name: S.String.pipe(T.Label()),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -3507,42 +3377,40 @@ export const OperationList = /*@__PURE__*/ S.Array(Operation) as any as S.Schema
 
 /** The response message for Operations.ListOperations. */
 export interface ListOperationsResponse {
-  /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
-  unreachable?: StringList;
-  /** A list of operations that matches the specified filter in the request. */
-  operations?: OperationList;
   /** The standard List next-page token. */
   nextPageToken?: string;
+  /** A list of operations that matches the specified filter in the request. */
+  operations?: OperationList;
+  /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
+  unreachable?: StringList;
 }
 export const ListOperationsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    unreachable: S.optional(StringList),
-    operations: S.optional(OperationList),
     nextPageToken: S.optional(S.String),
+    operations: S.optional(OperationList),
+    unreachable: S.optional(StringList),
   }),
-).annotate({
-  identifier: "ListOperationsResponse",
-}) as any as S.Schema<ListOperationsResponse>;
+).annotate({ identifier: "ListOperationsResponse" }) as any as S.Schema<ListOperationsResponse>;
 
 export interface ListProjectsLocationsPrivateCloudsRequest {
-  /** Required. The resource name of the private cloud to be queried for clusters. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a` */
-  parent: string;
-  /** A filter expression that matches resources returned in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be `=`, `!=`, `>`, or `<`. For example, if you are filtering a list of private clouds, you can exclude the ones named `example-pc` by specifying `name != "example-pc"`. You can also filter nested fields. For example, you could specify `networkConfig.managementCidr = "192.168.0.0/24"` to include private clouds only if they have a matching address in their network configuration. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (name = "example-pc") (createTime > "2021-04-12T08:15:10.40Z") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (name = "private-cloud-1") AND (createTime > "2021-04-12T08:15:10.40Z") OR (name = "private-cloud-2") ``` */
-  filter?: string;
-  /** The maximum number of private clouds to return in one page. The service may return fewer than this value. The maximum value is coerced to 1000. The default value of this field is 500. */
-  pageSize?: number;
-  /** A page token, received from a previous `ListPrivateClouds` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListPrivateClouds` must match the call that provided the page token. */
-  pageToken?: string;
   /** Sorts list results by a certain order. By default, returned results are ordered by `name` in ascending order. You can also sort results in descending order based on the `name` value using `orderBy="name desc"`. Currently, only ordering by `name` is supported. */
   orderBy?: string;
+  /** The maximum number of private clouds to return in one page. The service may return fewer than this value. The maximum value is coerced to 1000. The default value of this field is 500. */
+  pageSize?: number;
+  /** A filter expression that matches resources returned in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be `=`, `!=`, `>`, or `<`. For example, if you are filtering a list of private clouds, you can exclude the ones named `example-pc` by specifying `name != "example-pc"`. You can also filter nested fields. For example, you could specify `networkConfig.managementCidr = "192.168.0.0/24"` to include private clouds only if they have a matching address in their network configuration. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (name = "example-pc") (createTime > "2021-04-12T08:15:10.40Z") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (name = "private-cloud-1") AND (createTime > "2021-04-12T08:15:10.40Z") OR (name = "private-cloud-2") ``` */
+  filter?: string;
+  /** A page token, received from a previous `ListPrivateClouds` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListPrivateClouds` must match the call that provided the page token. */
+  pageToken?: string;
+  /** Required. The resource name of the private cloud to be queried for clusters. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a` */
+  parent: string;
 }
 export const ListProjectsLocationsPrivateCloudsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    parent: S.String.pipe(T.Label()),
-    filter: S.optional(S.String.pipe(T.Query())),
-    pageSize: S.optional(S.Number.pipe(T.Query())),
-    pageToken: S.optional(S.String.pipe(T.Query())),
     orderBy: S.optional(S.String.pipe(T.Query())),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
+    filter: S.optional(S.String.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -3563,40 +3431,40 @@ export const PrivateCloudList = /*@__PURE__*/ S.Array(
 export interface ListPrivateCloudsResponse {
   /** Locations that could not be reached when making an aggregated query using wildcards. */
   unreachable?: StringList;
-  /** A list of private clouds. */
-  privateClouds?: PrivateCloudList;
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
   nextPageToken?: string;
+  /** A list of private clouds. */
+  privateClouds?: PrivateCloudList;
 }
 export const ListPrivateCloudsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     unreachable: S.optional(StringList),
-    privateClouds: S.optional(PrivateCloudList),
     nextPageToken: S.optional(S.String),
+    privateClouds: S.optional(PrivateCloudList),
   }),
 ).annotate({
   identifier: "ListPrivateCloudsResponse",
 }) as any as S.Schema<ListPrivateCloudsResponse>;
 
 export interface ListProjectsLocationsPrivateCloudsClustersRequest {
-  /** The maximum number of clusters to return in one page. The service may return fewer than this value. The maximum value is coerced to 1000. The default value of this field is 500. */
-  pageSize?: number;
-  /** Required. The resource name of the private cloud to query for clusters. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud` */
-  parent: string;
-  /** A page token, received from a previous `ListClusters` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListClusters` must match the call that provided the page token. */
-  pageToken?: string;
   /** Sorts list results by a certain order. By default, returned results are ordered by `name` in ascending order. You can also sort results in descending order based on the `name` value using `orderBy="name desc"`. Currently, only ordering by `name` is supported. */
   orderBy?: string;
   /** To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (name = "example-cluster") (nodeCount = "3") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (name = "example-cluster-1") AND (createTime > "2021-04-12T08:15:10.40Z") OR (name = "example-cluster-2") ``` */
   filter?: string;
+  /** A page token, received from a previous `ListClusters` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListClusters` must match the call that provided the page token. */
+  pageToken?: string;
+  /** Required. The resource name of the private cloud to query for clusters. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud` */
+  parent: string;
+  /** The maximum number of clusters to return in one page. The service may return fewer than this value. The maximum value is coerced to 1000. The default value of this field is 500. */
+  pageSize?: number;
 }
 export const ListProjectsLocationsPrivateCloudsClustersRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pageSize: S.optional(S.Number.pipe(T.Query())),
-    parent: S.String.pipe(T.Label()),
-    pageToken: S.optional(S.String.pipe(T.Query())),
     orderBy: S.optional(S.String.pipe(T.Query())),
     filter: S.optional(S.String.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -3613,22 +3481,20 @@ export const ClusterList = /*@__PURE__*/ S.Array(Cluster) as any as S.Schema<Clu
 
 /** Response message for VmwareEngine.ListClusters */
 export interface ListClustersResponse {
+  /** Locations that could not be reached when making an aggregated query using wildcards. */
+  unreachable?: StringList;
   /** A list of private cloud clusters. */
   clusters?: ClusterList;
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
   nextPageToken?: string;
-  /** Locations that could not be reached when making an aggregated query using wildcards. */
-  unreachable?: StringList;
 }
 export const ListClustersResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    unreachable: S.optional(StringList),
     clusters: S.optional(ClusterList),
     nextPageToken: S.optional(S.String),
-    unreachable: S.optional(StringList),
   }),
-).annotate({
-  identifier: "ListClustersResponse",
-}) as any as S.Schema<ListClustersResponse>;
+).annotate({ identifier: "ListClustersResponse" }) as any as S.Schema<ListClustersResponse>;
 
 export interface ListProjectsLocationsPrivateCloudsClustersNodesRequest {
   /** The maximum number of nodes to return in one page. The service may return fewer than this value. The maximum value is coerced to 1000. The default value of this field is 500. */
@@ -3659,29 +3525,27 @@ export const NodeList = /*@__PURE__*/ S.Array(Node) as any as S.Schema<NodeList>
 
 /** Response message for VmwareEngine.ListNodes */
 export interface ListNodesResponse {
-  /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
   /** The nodes. */
   nodes?: NodeList;
+  /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
+  nextPageToken?: string;
 }
 export const ListNodesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    nextPageToken: S.optional(S.String),
     nodes: S.optional(NodeList),
+    nextPageToken: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListNodesResponse",
-}) as any as S.Schema<ListNodesResponse>;
+).annotate({ identifier: "ListNodesResponse" }) as any as S.Schema<ListNodesResponse>;
 
 export interface ListProjectsLocationsPrivateCloudsExternalAddressesRequest {
   /** Required. The resource name of the private cloud to be queried for external IP addresses. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud` */
   parent: string;
-  /** A page token, received from a previous `ListExternalAddresses` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListExternalAddresses` must match the call that provided the page token. */
-  pageToken?: string;
   /** A filter expression that matches resources returned in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be `=`, `!=`, `>`, or `<`. For example, if you are filtering a list of IP addresses, you can exclude the ones named `example-ip` by specifying `name != "example-ip"`. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (name = "example-ip") (createTime > "2021-04-12T08:15:10.40Z") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (name = "example-ip-1") AND (createTime > "2021-04-12T08:15:10.40Z") OR (name = "example-ip-2") ``` */
   filter?: string;
   /** Sorts list results by a certain order. By default, returned results are ordered by `name` in ascending order. You can also sort results in descending order based on the `name` value using `orderBy="name desc"`. Currently, only ordering by `name` is supported. */
   orderBy?: string;
+  /** A page token, received from a previous `ListExternalAddresses` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListExternalAddresses` must match the call that provided the page token. */
+  pageToken?: string;
   /** The maximum number of external IP addresses to return in one page. The service may return fewer than this value. The maximum value is coerced to 1000. The default value of this field is 500. */
   pageSize?: number;
 }
@@ -3689,9 +3553,9 @@ export const ListProjectsLocationsPrivateCloudsExternalAddressesRequest = /*@__P
   () =>
     S.Struct({
       parent: S.String.pipe(T.Label()),
-      pageToken: S.optional(S.String.pipe(T.Query())),
       filter: S.optional(S.String.pipe(T.Query())),
       orderBy: S.optional(S.String.pipe(T.Query())),
+      pageToken: S.optional(S.String.pipe(T.Query())),
       pageSize: S.optional(S.Number.pipe(T.Query())),
     }).pipe(
       T.Http({
@@ -3706,17 +3570,17 @@ export const ListProjectsLocationsPrivateCloudsExternalAddressesRequest = /*@__P
 
 /** Response message for VmwareEngine.ListExternalAddresses */
 export interface ListExternalAddressesResponse {
-  /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
   /** Locations that could not be reached when making an aggregated query using wildcards. */
   unreachable?: StringList;
+  /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
+  nextPageToken?: string;
   /** A list of external IP addresses. */
   externalAddresses?: ExternalAddressList;
 }
 export const ListExternalAddressesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    nextPageToken: S.optional(S.String),
     unreachable: S.optional(StringList),
+    nextPageToken: S.optional(S.String),
     externalAddresses: S.optional(ExternalAddressList),
   }),
 ).annotate({
@@ -3724,19 +3588,19 @@ export const ListExternalAddressesResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListExternalAddressesResponse>;
 
 export interface ListProjectsLocationsPrivateCloudsHcxActivationKeysRequest {
-  /** A page token, received from a previous `ListHcxActivationKeys` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListHcxActivationKeys` must match the call that provided the page token. */
-  pageToken?: string;
   /** Required. The resource name of the private cloud to be queried for HCX activation keys. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1/privateClouds/my-cloud` */
   parent: string;
   /** The maximum number of HCX activation keys to return in one page. The service may return fewer than this value. The maximum value is coerced to 1000. The default value of this field is 500. */
   pageSize?: number;
+  /** A page token, received from a previous `ListHcxActivationKeys` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListHcxActivationKeys` must match the call that provided the page token. */
+  pageToken?: string;
 }
 export const ListProjectsLocationsPrivateCloudsHcxActivationKeysRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      pageToken: S.optional(S.String.pipe(T.Query())),
       parent: S.String.pipe(T.Label()),
       pageSize: S.optional(S.Number.pipe(T.Query())),
+      pageToken: S.optional(S.String.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "GET",
@@ -3757,40 +3621,40 @@ export const HcxActivationKeyList = /*@__PURE__*/ S.Array(
 export interface ListHcxActivationKeysResponse {
   /** Locations that could not be reached when making an aggregated query using wildcards. */
   unreachable?: StringList;
-  /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
   /** List of HCX activation keys. */
   hcxActivationKeys?: HcxActivationKeyList;
+  /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
+  nextPageToken?: string;
 }
 export const ListHcxActivationKeysResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     unreachable: S.optional(StringList),
-    nextPageToken: S.optional(S.String),
     hcxActivationKeys: S.optional(HcxActivationKeyList),
+    nextPageToken: S.optional(S.String),
   }),
 ).annotate({
   identifier: "ListHcxActivationKeysResponse",
 }) as any as S.Schema<ListHcxActivationKeysResponse>;
 
 export interface ListProjectsLocationsPrivateCloudsLoggingServersRequest {
-  /** The maximum number of logging servers to return in one page. The service may return fewer than this value. The maximum value is coerced to 1000. The default value of this field is 500. */
-  pageSize?: number;
-  /** A page token, received from a previous `ListLoggingServersRequest` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListLoggingServersRequest` must match the call that provided the page token. */
-  pageToken?: string;
-  /** Required. The resource name of the private cloud to be queried for logging servers. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud` */
-  parent: string;
   /** Sorts list results by a certain order. By default, returned results are ordered by `name` in ascending order. You can also sort results in descending order based on the `name` value using `orderBy="name desc"`. Currently, only ordering by `name` is supported. */
   orderBy?: string;
+  /** The maximum number of logging servers to return in one page. The service may return fewer than this value. The maximum value is coerced to 1000. The default value of this field is 500. */
+  pageSize?: number;
   /** A filter expression that matches resources returned in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be `=`, `!=`, `>`, or `<`. For example, if you are filtering a list of logging servers, you can exclude the ones named `example-server` by specifying `name != "example-server"`. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (name = "example-server") (createTime > "2021-04-12T08:15:10.40Z") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (name = "example-server-1") AND (createTime > "2021-04-12T08:15:10.40Z") OR (name = "example-server-2") ``` */
   filter?: string;
+  /** Required. The resource name of the private cloud to be queried for logging servers. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud` */
+  parent: string;
+  /** A page token, received from a previous `ListLoggingServersRequest` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListLoggingServersRequest` must match the call that provided the page token. */
+  pageToken?: string;
 }
 export const ListProjectsLocationsPrivateCloudsLoggingServersRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pageSize: S.optional(S.Number.pipe(T.Query())),
-    pageToken: S.optional(S.String.pipe(T.Query())),
-    parent: S.String.pipe(T.Label()),
     orderBy: S.optional(S.String.pipe(T.Query())),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
     filter: S.optional(S.String.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
+    pageToken: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -3809,42 +3673,42 @@ export const LoggingServerList = /*@__PURE__*/ S.Array(
 
 /** Response message for VmwareEngine.ListLoggingServers */
 export interface ListLoggingServersResponse {
+  /** A token, which can be send as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
+  nextPageToken?: string;
   /** Locations that could not be reached when making an aggregated query using wildcards. */
   unreachable?: StringList;
   /** A list of Logging Servers. */
   loggingServers?: LoggingServerList;
-  /** A token, which can be send as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
 }
 export const ListLoggingServersResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    nextPageToken: S.optional(S.String),
     unreachable: S.optional(StringList),
     loggingServers: S.optional(LoggingServerList),
-    nextPageToken: S.optional(S.String),
   }),
 ).annotate({
   identifier: "ListLoggingServersResponse",
 }) as any as S.Schema<ListLoggingServersResponse>;
 
 export interface ListProjectsLocationsPrivateCloudsManagementDnsZoneBindingsRequest {
-  /** Sorts list results by a certain order. By default, returned results are ordered by `name` in ascending order. You can also sort results in descending order based on the `name` value using `orderBy="name desc"`. Currently, only ordering by `name` is supported. */
-  orderBy?: string;
   /** A page token, received from a previous `ListManagementDnsZoneBindings` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListManagementDnsZoneBindings` must match the call that provided the page token. */
   pageToken?: string;
-  /** A filter expression that matches resources returned in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be `=`, `!=`, `>`, or `<`. For example, if you are filtering a list of Management DNS Zone Bindings, you can exclude the ones named `example-management-dns-zone-binding` by specifying `name != "example-management-dns-zone-binding"`. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (name = "example-management-dns-zone-binding") (createTime > "2021-04-12T08:15:10.40Z") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (name = "example-management-dns-zone-binding-1") AND (createTime > "2021-04-12T08:15:10.40Z") OR (name = "example-management-dns-zone-binding-2") ``` */
-  filter?: string;
+  /** Sorts list results by a certain order. By default, returned results are ordered by `name` in ascending order. You can also sort results in descending order based on the `name` value using `orderBy="name desc"`. Currently, only ordering by `name` is supported. */
+  orderBy?: string;
   /** The maximum number of management DNS zone bindings to return in one page. The service may return fewer than this value. The maximum value is coerced to 1000. The default value of this field is 500. */
   pageSize?: number;
+  /** A filter expression that matches resources returned in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be `=`, `!=`, `>`, or `<`. For example, if you are filtering a list of Management DNS Zone Bindings, you can exclude the ones named `example-management-dns-zone-binding` by specifying `name != "example-management-dns-zone-binding"`. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (name = "example-management-dns-zone-binding") (createTime > "2021-04-12T08:15:10.40Z") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (name = "example-management-dns-zone-binding-1") AND (createTime > "2021-04-12T08:15:10.40Z") OR (name = "example-management-dns-zone-binding-2") ``` */
+  filter?: string;
   /** Required. The resource name of the private cloud to be queried for management DNS zone bindings. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud` */
   parent: string;
 }
 export const ListProjectsLocationsPrivateCloudsManagementDnsZoneBindingsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      orderBy: S.optional(S.String.pipe(T.Query())),
       pageToken: S.optional(S.String.pipe(T.Query())),
-      filter: S.optional(S.String.pipe(T.Query())),
+      orderBy: S.optional(S.String.pipe(T.Query())),
       pageSize: S.optional(S.Number.pipe(T.Query())),
+      filter: S.optional(S.String.pipe(T.Query())),
       parent: S.String.pipe(T.Label()),
     }).pipe(
       T.Http({
@@ -3864,36 +3728,36 @@ export const ManagementDnsZoneBindingList = /*@__PURE__*/ S.Array(
 
 /** Response message for VmwareEngine.ListManagementDnsZoneBindings */
 export interface ListManagementDnsZoneBindingsResponse {
+  /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
+  nextPageToken?: string;
   /** Locations that could not be reached when making an aggregated query using wildcards. */
   unreachable?: StringList;
   /** A list of management DNS zone bindings. */
   managementDnsZoneBindings?: ManagementDnsZoneBindingList;
-  /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
 }
 export const ListManagementDnsZoneBindingsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    nextPageToken: S.optional(S.String),
     unreachable: S.optional(StringList),
     managementDnsZoneBindings: S.optional(ManagementDnsZoneBindingList),
-    nextPageToken: S.optional(S.String),
   }),
 ).annotate({
   identifier: "ListManagementDnsZoneBindingsResponse",
 }) as any as S.Schema<ListManagementDnsZoneBindingsResponse>;
 
 export interface ListProjectsLocationsPrivateCloudsSubnetsRequest {
-  /** Required. The resource name of the private cloud to be queried for subnets. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud` */
-  parent: string;
   /** A page token, received from a previous `ListSubnetsRequest` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListSubnetsRequest` must match the call that provided the page token. */
   pageToken?: string;
   /** The maximum number of subnets to return in one page. The service may return fewer than this value. The maximum value is coerced to 1000. The default value of this field is 500. */
   pageSize?: number;
+  /** Required. The resource name of the private cloud to be queried for subnets. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud` */
+  parent: string;
 }
 export const ListProjectsLocationsPrivateCloudsSubnetsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    parent: S.String.pipe(T.Label()),
     pageToken: S.optional(S.String.pipe(T.Query())),
     pageSize: S.optional(S.Number.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -3910,42 +3774,40 @@ export const SubnetList = /*@__PURE__*/ S.Array(Subnet) as any as S.Schema<Subne
 
 /** Response message for VmwareEngine.ListSubnets */
 export interface ListSubnetsResponse {
-  /** A list of subnets. */
-  subnets?: SubnetList;
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
   nextPageToken?: string;
+  /** A list of subnets. */
+  subnets?: SubnetList;
   /** Locations that could not be reached when making an aggregated query using wildcards. */
   unreachable?: StringList;
 }
 export const ListSubnetsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    subnets: S.optional(SubnetList),
     nextPageToken: S.optional(S.String),
+    subnets: S.optional(SubnetList),
     unreachable: S.optional(StringList),
   }),
-).annotate({
-  identifier: "ListSubnetsResponse",
-}) as any as S.Schema<ListSubnetsResponse>;
+).annotate({ identifier: "ListSubnetsResponse" }) as any as S.Schema<ListSubnetsResponse>;
 
 export interface ListProjectsLocationsPrivateCloudsUpgradesRequest {
-  /** Sorts list results by a certain order. By default, returned results are ordered by `name` in ascending order. You can also sort results in descending order based on the `name` value using `orderBy="name desc"`. Currently, only ordering by `name` is supported. */
-  orderBy?: string;
   /** Required. Query a list of `Upgrades` for the given private cloud resource name. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-west1-a/privateClouds/my-cloud` */
   parent: string;
-  /** The maximum number of `Upgrades` to return in one page. The service may return fewer resources than this value. The maximum value is coerced to 1000. The default value of this field is 500. */
-  pageSize?: number;
   /** A filter expression that matches resources returned in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be `=`, `!=`, `>`, or `<`. For example, if you are filtering a list of upgrades, you can exclude the ones named `example-upgrade1` by specifying `name != "example-upgrade1"`. You can also filter nested fields. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (name = "example-upgrade") (createTime > "2021-04-12T08:15:10.40Z") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (name = "upgrade-1") AND (createTime > "2021-04-12T08:15:10.40Z") OR (name = "upgrade-2") ``` */
   filter?: string;
+  /** Sorts list results by a certain order. By default, returned results are ordered by `name` in ascending order. You can also sort results in descending order based on the `name` value using `orderBy="name desc"`. Currently, only ordering by `name` is supported. */
+  orderBy?: string;
   /** A page token, received from a previous `ListUpgrades` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListUpgrades` must match the call that provided the page token. */
   pageToken?: string;
+  /** The maximum number of `Upgrades` to return in one page. The service may return fewer resources than this value. The maximum value is coerced to 1000. The default value of this field is 500. */
+  pageSize?: number;
 }
 export const ListProjectsLocationsPrivateCloudsUpgradesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    orderBy: S.optional(S.String.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
-    pageSize: S.optional(S.Number.pipe(T.Query())),
     filter: S.optional(S.String.pipe(T.Query())),
+    orderBy: S.optional(S.String.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -3964,40 +3826,38 @@ export const UpgradeList = /*@__PURE__*/ S.Array(Upgrade) as any as S.Schema<Upg
 export interface ListUpgradesResponse {
   /** A list of `Upgrades`. */
   upgrades?: UpgradeList;
-  /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
   /** List of unreachable resources. */
   unreachable?: StringList;
+  /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
+  nextPageToken?: string;
 }
 export const ListUpgradesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     upgrades: S.optional(UpgradeList),
-    nextPageToken: S.optional(S.String),
     unreachable: S.optional(StringList),
+    nextPageToken: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListUpgradesResponse",
-}) as any as S.Schema<ListUpgradesResponse>;
+).annotate({ identifier: "ListUpgradesResponse" }) as any as S.Schema<ListUpgradesResponse>;
 
 export interface ListProjectsLocationsPrivateConnectionsRequest {
-  /** A page token, received from a previous `ListPrivateConnections` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListPrivateConnections` must match the call that provided the page token. */
-  pageToken?: string;
-  /** The maximum number of private connections to return in one page. The maximum value is coerced to 1000. The default value of this field is 500. */
-  pageSize?: number;
   /** Sorts list results by a certain order. By default, returned results are ordered by `name` in ascending order. You can also sort results in descending order based on the `name` value using `orderBy="name desc"`. Currently, only ordering by `name` is supported. */
   orderBy?: string;
-  /** Required. The resource name of the location to query for private connections. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1` */
-  parent: string;
   /** A filter expression that matches resources returned in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be `=`, `!=`, `>`, or `<`. For example, if you are filtering a list of private connections, you can exclude the ones named `example-connection` by specifying `name != "example-connection"`. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (name = "example-connection") (createTime > "2022-09-22T08:15:10.40Z") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (name = "example-connection-1") AND (createTime > "2021-04-12T08:15:10.40Z") OR (name = "example-connection-2") ``` */
   filter?: string;
+  /** A page token, received from a previous `ListPrivateConnections` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListPrivateConnections` must match the call that provided the page token. */
+  pageToken?: string;
+  /** Required. The resource name of the location to query for private connections. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1` */
+  parent: string;
+  /** The maximum number of private connections to return in one page. The maximum value is coerced to 1000. The default value of this field is 500. */
+  pageSize?: number;
 }
 export const ListProjectsLocationsPrivateConnectionsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pageToken: S.optional(S.String.pipe(T.Query())),
-    pageSize: S.optional(S.Number.pipe(T.Query())),
     orderBy: S.optional(S.String.pipe(T.Query())),
-    parent: S.String.pipe(T.Label()),
     filter: S.optional(S.String.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -4016,17 +3876,17 @@ export const PrivateConnectionList = /*@__PURE__*/ S.Array(
 
 /** Response message for VmwareEngine.ListPrivateConnections */
 export interface ListPrivateConnectionsResponse {
-  /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
   /** A list of private connections. */
   privateConnections?: PrivateConnectionList;
+  /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
+  nextPageToken?: string;
   /** Unreachable resources. */
   unreachable?: StringList;
 }
 export const ListPrivateConnectionsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    nextPageToken: S.optional(S.String),
     privateConnections: S.optional(PrivateConnectionList),
+    nextPageToken: S.optional(S.String),
     unreachable: S.optional(StringList),
   }),
 ).annotate({
@@ -4034,19 +3894,19 @@ export const ListPrivateConnectionsResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListPrivateConnectionsResponse>;
 
 export interface ListProjectsLocationsPrivateConnectionsPeeringRoutesRequest {
-  /** A page token, received from a previous `ListPrivateConnectionPeeringRoutes` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListPrivateConnectionPeeringRoutes` must match the call that provided the page token. */
-  pageToken?: string;
   /** Required. The resource name of the private connection to retrieve peering routes from. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-west1/privateConnections/my-connection` */
   parent: string;
   /** The maximum number of peering routes to return in one page. The service may return fewer than this value. The maximum value is coerced to 1000. The default value of this field is 500. */
   pageSize?: number;
+  /** A page token, received from a previous `ListPrivateConnectionPeeringRoutes` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListPrivateConnectionPeeringRoutes` must match the call that provided the page token. */
+  pageToken?: string;
 }
 export const ListProjectsLocationsPrivateConnectionsPeeringRoutesRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      pageToken: S.optional(S.String.pipe(T.Query())),
       parent: S.String.pipe(T.Label()),
       pageSize: S.optional(S.Number.pipe(T.Query())),
+      pageToken: S.optional(S.String.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "GET",
@@ -4060,27 +3920,27 @@ export const ListProjectsLocationsPrivateConnectionsPeeringRoutesRequest = /*@__
 
 /** Response message for VmwareEngine.ListPrivateConnectionPeeringRoutes */
 export interface ListPrivateConnectionPeeringRoutesResponse {
-  /** A list of peering routes. */
-  peeringRoutes?: PeeringRouteList;
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
   nextPageToken?: string;
+  /** A list of peering routes. */
+  peeringRoutes?: PeeringRouteList;
 }
 export const ListPrivateConnectionPeeringRoutesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    peeringRoutes: S.optional(PeeringRouteList),
     nextPageToken: S.optional(S.String),
+    peeringRoutes: S.optional(PeeringRouteList),
   }),
 ).annotate({
   identifier: "ListPrivateConnectionPeeringRoutesResponse",
 }) as any as S.Schema<ListPrivateConnectionPeeringRoutesResponse>;
 
 export interface ListProjectsLocationsVmwareEngineNetworksRequest {
+  /** Sorts list results by a certain order. By default, returned results are ordered by `name` in ascending order. You can also sort results in descending order based on the `name` value using `orderBy="name desc"`. Currently, only ordering by `name` is supported. */
+  orderBy?: string;
   /** The maximum number of results to return in one page. The maximum value is coerced to 1000. The default value of this field is 500. */
   pageSize?: number;
   /** A page token, received from a previous `ListVmwareEngineNetworks` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListVmwareEngineNetworks` must match the call that provided the page token. */
   pageToken?: string;
-  /** Sorts list results by a certain order. By default, returned results are ordered by `name` in ascending order. You can also sort results in descending order based on the `name` value using `orderBy="name desc"`. Currently, only ordering by `name` is supported. */
-  orderBy?: string;
   /** Required. The resource name of the location to query for VMware Engine networks. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/global` */
   parent: string;
   /** A filter expression that matches resources returned in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be `=`, `!=`, `>`, or `<`. For example, if you are filtering a list of network peerings, you can exclude the ones named `example-network` by specifying `name != "example-network"`. To filter on multiple expressions, provide each separate expression within parentheses. For example: ``` (name = "example-network") (createTime > "2021-04-12T08:15:10.40Z") ``` By default, each expression is an `AND` expression. However, you can include `AND` and `OR` expressions explicitly. For example: ``` (name = "example-network-1") AND (createTime > "2021-04-12T08:15:10.40Z") OR (name = "example-network-2") ``` */
@@ -4088,9 +3948,9 @@ export interface ListProjectsLocationsVmwareEngineNetworksRequest {
 }
 export const ListProjectsLocationsVmwareEngineNetworksRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    orderBy: S.optional(S.String.pipe(T.Query())),
     pageSize: S.optional(S.Number.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
-    orderBy: S.optional(S.String.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
     filter: S.optional(S.String.pipe(T.Query())),
   }).pipe(
@@ -4111,18 +3971,18 @@ export const VmwareEngineNetworkList = /*@__PURE__*/ S.Array(
 
 /** Response message for VmwareEngine.ListVmwareEngineNetworks */
 export interface ListVmwareEngineNetworksResponse {
+  /** A list of VMware Engine networks. */
+  vmwareEngineNetworks?: VmwareEngineNetworkList;
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
   nextPageToken?: string;
   /** Unreachable resources. */
   unreachable?: StringList;
-  /** A list of VMware Engine networks. */
-  vmwareEngineNetworks?: VmwareEngineNetworkList;
 }
 export const ListVmwareEngineNetworksResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    vmwareEngineNetworks: S.optional(VmwareEngineNetworkList),
     nextPageToken: S.optional(S.String),
     unreachable: S.optional(StringList),
-    vmwareEngineNetworks: S.optional(VmwareEngineNetworkList),
   }),
 ).annotate({
   identifier: "ListVmwareEngineNetworksResponse",
@@ -4130,18 +3990,18 @@ export const ListVmwareEngineNetworksResponse = /*@__PURE__*/ S.suspend(() =>
 
 /** Request message for VmwareEngine.MigrateManagementVms */
 export interface MigrateManagementVmsRequest {
-  /** Optional. Checksum used to ensure that the user-provided value is up to date before the server processes the request. The server compares provided checksum with the current checksum of the resource. If the user-provided value is out of date, this request returns an `ABORTED` error. */
-  etag?: string;
   /** Required. The user-provided identifier of the workload cluster to which the management VMs are to be migrated. The cluster must be in the same private cloud as the one specified in `name`, and must be a workload cluster. The eventual cluster name will be constructed from the private cloud name and this cluster ID. */
   clusterId?: string;
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server guarantees that a request doesn't result in creation of duplicate commitments for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if the original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
+  /** Optional. Checksum used to ensure that the user-provided value is up to date before the server processes the request. The server compares provided checksum with the current checksum of the resource. If the user-provided value is out of date, this request returns an `ABORTED` error. */
+  etag?: string;
 }
 export const MigrateManagementVmsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    etag: S.optional(S.String),
     clusterId: S.optional(S.String),
     requestId: S.optional(S.String),
+    etag: S.optional(S.String),
   }),
 ).annotate({
   identifier: "MigrateManagementVmsRequest",
@@ -4171,25 +4031,23 @@ export const MigrateManagementVmsProjectsLocationsPrivateCloudsRequest = /*@__PU
 
 /** Mount Datastore Request message */
 export interface MountDatastoreRequest {
-  /** Optional. If set to `true`, only validates the request but doesn’t execute the request. If set to `false`, validates and executes the request. */
-  validateOnly?: boolean;
   /** Required. The datastore mount configuration. */
   datastoreMountConfig?: DatastoreMountConfig;
   /** Optional. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
   /** Optional. If set to true, the colocation requirement will be ignored. If set to false, the colocation requirement will be enforced. If not set, the colocation requirement will be enforced. Colocation requirement is the requirement that the cluster must be in the same region/zone of datastore(regional/zonal datastore). */
   ignoreColocation?: boolean;
+  /** Optional. If set to `true`, only validates the request but doesn’t execute the request. If set to `false`, validates and executes the request. */
+  validateOnly?: boolean;
 }
 export const MountDatastoreRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    validateOnly: S.optional(S.Boolean),
     datastoreMountConfig: S.optional(DatastoreMountConfig),
     requestId: S.optional(S.String),
     ignoreColocation: S.optional(S.Boolean),
+    validateOnly: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "MountDatastoreRequest",
-}) as any as S.Schema<MountDatastoreRequest>;
+).annotate({ identifier: "MountDatastoreRequest" }) as any as S.Schema<MountDatastoreRequest>;
 
 export interface MountDatastoreProjectsLocationsPrivateCloudsClustersRequest {
   /** Required. The resource name of the cluster to mount the datastore. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud/clusters/my-cluster` */
@@ -4216,109 +4074,97 @@ export const MountDatastoreProjectsLocationsPrivateCloudsClustersRequest = /*@__
 export interface PatchProjectsLocationsDatastoresRequest {
   /** Optional. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
-  /** Optional. Field mask is used to specify the fields to be overwritten in the Datastore resource by the update. The fields specified in the `update_mask` are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
-  updateMask?: string;
   /** Output only. Identifier. The resource name of this datastore. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1/datastores/datastore` */
   name: string;
+  /** Optional. Field mask is used to specify the fields to be overwritten in the Datastore resource by the update. The fields specified in the `update_mask` are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
+  updateMask?: string;
   /** Request body */
   body?: Datastore;
 }
 export const PatchProjectsLocationsDatastoresRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     requestId: S.optional(S.String.pipe(T.Query())),
-    updateMask: S.optional(S.String.pipe(T.Query())),
     name: S.String.pipe(T.Label()),
+    updateMask: S.optional(S.String.pipe(T.Query())),
     body: S.optional(Datastore.pipe(T.HttpBody())),
   }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "v1/{+name}",
-      baseUrl: "https://vmwareengine.googleapis.com/",
-    }),
+    T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://vmwareengine.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "PatchProjectsLocationsDatastoresRequest",
 }) as any as S.Schema<PatchProjectsLocationsDatastoresRequest>;
 
 export interface PatchProjectsLocationsNetworkPeeringsRequest {
-  /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server guarantees that a request doesn't result in creation of duplicate commitments for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
-  /** Optional. If set to `true`, only validates the request but doesn’t execute the request. If set to `false`, validates and executes the request. */
-  validateOnly?: boolean;
   /** Required. Field mask is used to specify the fields to be overwritten in the `NetworkPeering` resource by the update. The fields specified in the `update_mask` are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string;
   /** Output only. Identifier. The resource name of the network peering. NetworkPeering is a global resource and location can only be global. Resource names are scheme-less URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/global/networkPeerings/my-peering` */
   name: string;
+  /** Optional. If set to `true`, only validates the request but doesn’t execute the request. If set to `false`, validates and executes the request. */
+  validateOnly?: boolean;
+  /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server guarantees that a request doesn't result in creation of duplicate commitments for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string;
   /** Request body */
   body?: NetworkPeering;
 }
 export const PatchProjectsLocationsNetworkPeeringsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    requestId: S.optional(S.String.pipe(T.Query())),
-    validateOnly: S.optional(S.Boolean.pipe(T.Query())),
     updateMask: S.optional(S.String.pipe(T.Query())),
     name: S.String.pipe(T.Label()),
+    validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+    requestId: S.optional(S.String.pipe(T.Query())),
     body: S.optional(NetworkPeering.pipe(T.HttpBody())),
   }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "v1/{+name}",
-      baseUrl: "https://vmwareengine.googleapis.com/",
-    }),
+    T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://vmwareengine.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "PatchProjectsLocationsNetworkPeeringsRequest",
 }) as any as S.Schema<PatchProjectsLocationsNetworkPeeringsRequest>;
 
 export interface PatchProjectsLocationsNetworkPoliciesRequest {
-  /** Optional. If set to `true`, only validates the request but doesn’t execute the request. If set to `false`, validates and executes the request. */
-  validateOnly?: boolean;
-  /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server guarantees that a request doesn't result in creation of duplicate commitments for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
   /** Output only. Identifier. The resource name of this network policy. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1/networkPolicies/my-network-policy` */
   name: string;
+  /** Optional. If set to `true`, only validates the request but doesn’t execute the request. If set to `false`, validates and executes the request. */
+  validateOnly?: boolean;
   /** Required. Field mask is used to specify the fields to be overwritten in the `NetworkPolicy` resource by the update. The fields specified in the `update_mask` are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string;
+  /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server guarantees that a request doesn't result in creation of duplicate commitments for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string;
   /** Request body */
   body?: NetworkPolicy;
 }
 export const PatchProjectsLocationsNetworkPoliciesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-    requestId: S.optional(S.String.pipe(T.Query())),
     name: S.String.pipe(T.Label()),
+    validateOnly: S.optional(S.Boolean.pipe(T.Query())),
     updateMask: S.optional(S.String.pipe(T.Query())),
+    requestId: S.optional(S.String.pipe(T.Query())),
     body: S.optional(NetworkPolicy.pipe(T.HttpBody())),
   }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "v1/{+name}",
-      baseUrl: "https://vmwareengine.googleapis.com/",
-    }),
+    T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://vmwareengine.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "PatchProjectsLocationsNetworkPoliciesRequest",
 }) as any as S.Schema<PatchProjectsLocationsNetworkPoliciesRequest>;
 
 export interface PatchProjectsLocationsNetworkPoliciesExternalAccessRulesRequest {
-  /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server guarantees that a request doesn't result in creation of duplicate commitments for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if the original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
-  /** Required. Field mask is used to specify the fields to be overwritten in the `ExternalAccessRule` resource by the update. The fields specified in the `update_mask` are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
-  updateMask?: string;
-  /** Output only. The resource name of this external access rule. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1/networkPolicies/my-policy/externalAccessRules/my-rule` */
-  name: string;
   /** Optional. If set to `true`, only validates the request but doesn’t execute the// request. If set to `false`, validates and executes the request. */
   validateOnly?: boolean;
+  /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server guarantees that a request doesn't result in creation of duplicate commitments for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if the original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string;
+  /** Output only. The resource name of this external access rule. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1/networkPolicies/my-policy/externalAccessRules/my-rule` */
+  name: string;
+  /** Required. Field mask is used to specify the fields to be overwritten in the `ExternalAccessRule` resource by the update. The fields specified in the `update_mask` are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
+  updateMask?: string;
   /** Request body */
   body?: ExternalAccessRule;
 }
 export const PatchProjectsLocationsNetworkPoliciesExternalAccessRulesRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      requestId: S.optional(S.String.pipe(T.Query())),
-      updateMask: S.optional(S.String.pipe(T.Query())),
-      name: S.String.pipe(T.Label()),
       validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+      requestId: S.optional(S.String.pipe(T.Query())),
+      name: S.String.pipe(T.Label()),
+      updateMask: S.optional(S.String.pipe(T.Query())),
       body: S.optional(ExternalAccessRule.pipe(T.HttpBody())),
     }).pipe(
       T.Http({
@@ -4332,72 +4178,64 @@ export const PatchProjectsLocationsNetworkPoliciesExternalAccessRulesRequest =
   }) as any as S.Schema<PatchProjectsLocationsNetworkPoliciesExternalAccessRulesRequest>;
 
 export interface PatchProjectsLocationsPrivateCloudsRequest {
-  /** Output only. Identifier. The resource name of this private cloud. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud` */
-  name: string;
   /** Optional. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
   /** Optional. If set to `true`, only validates the request but doesn’t execute the request. If set to `false`, validates and executes the request. */
   validateOnly?: boolean;
-  /** Required. Field mask is used to specify the fields to be overwritten in the `PrivateCloud` resource by the update. The fields specified in `updateMask` are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
+  /** Output only. Identifier. The resource name of this private cloud. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud` */
+  name: string;
+  /** Required. Field mask is used to specify the fields to be overwritten in the `PrivateCloud` resource by the update. The fields specified in `updateMask` are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then only the description field will be overwritten. */
   updateMask?: string;
   /** Request body */
   body?: PrivateCloud;
 }
 export const PatchProjectsLocationsPrivateCloudsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.String.pipe(T.Label()),
     requestId: S.optional(S.String.pipe(T.Query())),
     validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+    name: S.String.pipe(T.Label()),
     updateMask: S.optional(S.String.pipe(T.Query())),
     body: S.optional(PrivateCloud.pipe(T.HttpBody())),
   }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "v1/{+name}",
-      baseUrl: "https://vmwareengine.googleapis.com/",
-    }),
+    T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://vmwareengine.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "PatchProjectsLocationsPrivateCloudsRequest",
 }) as any as S.Schema<PatchProjectsLocationsPrivateCloudsRequest>;
 
 export interface PatchProjectsLocationsPrivateCloudsClustersRequest {
+  /** Optional. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string;
+  /** Output only. Identifier. The resource name of this cluster. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud/clusters/my-cluster` */
+  name: string;
   /** Required. Field mask is used to specify the fields to be overwritten in the `Cluster` resource by the update. The fields specified in the `updateMask` are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string;
   /** Optional. If set to `true`, only validates the request but doesn’t execute the request. If set to `false`, validates and executes the request. */
   validateOnly?: boolean;
-  /** Output only. Identifier. The resource name of this cluster. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud/clusters/my-cluster` */
-  name: string;
-  /** Optional. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
   /** Request body */
   body?: Cluster;
 }
 export const PatchProjectsLocationsPrivateCloudsClustersRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    requestId: S.optional(S.String.pipe(T.Query())),
+    name: S.String.pipe(T.Label()),
     updateMask: S.optional(S.String.pipe(T.Query())),
     validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-    name: S.String.pipe(T.Label()),
-    requestId: S.optional(S.String.pipe(T.Query())),
     body: S.optional(Cluster.pipe(T.HttpBody())),
   }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "v1/{+name}",
-      baseUrl: "https://vmwareengine.googleapis.com/",
-    }),
+    T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://vmwareengine.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "PatchProjectsLocationsPrivateCloudsClustersRequest",
 }) as any as S.Schema<PatchProjectsLocationsPrivateCloudsClustersRequest>;
 
 export interface PatchProjectsLocationsPrivateCloudsExternalAddressesRequest {
-  /** Optional. If set to `true`, only validates the request but doesn’t execute the request. If set to `false`, validates and executes the request. */
-  validateOnly?: boolean;
   /** Output only. Identifier. The resource name of this external IP address. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud/externalAddresses/my-address` */
   name: string;
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server guarantees that a request doesn't result in creation of duplicate commitments for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if the original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
+  /** Optional. If set to `true`, only validates the request but doesn’t execute the request. If set to `false`, validates and executes the request. */
+  validateOnly?: boolean;
   /** Required. Field mask is used to specify the fields to be overwritten in the `ExternalAddress` resource by the update. The fields specified in the `update_mask` are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string;
   /** Request body */
@@ -4406,9 +4244,9 @@ export interface PatchProjectsLocationsPrivateCloudsExternalAddressesRequest {
 export const PatchProjectsLocationsPrivateCloudsExternalAddressesRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      validateOnly: S.optional(S.Boolean.pipe(T.Query())),
       name: S.String.pipe(T.Label()),
       requestId: S.optional(S.String.pipe(T.Query())),
+      validateOnly: S.optional(S.Boolean.pipe(T.Query())),
       updateMask: S.optional(S.String.pipe(T.Query())),
       body: S.optional(ExternalAddress.pipe(T.HttpBody())),
     }).pipe(
@@ -4423,21 +4261,21 @@ export const PatchProjectsLocationsPrivateCloudsExternalAddressesRequest = /*@__
 }) as any as S.Schema<PatchProjectsLocationsPrivateCloudsExternalAddressesRequest>;
 
 export interface PatchProjectsLocationsPrivateCloudsLoggingServersRequest {
+  /** Output only. The resource name of this logging server. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud/loggingServers/my-logging-server` */
+  name: string;
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server guarantees that a request doesn't result in creation of duplicate commitments for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
   /** Required. Field mask is used to specify the fields to be overwritten in the `LoggingServer` resource by the update. The fields specified in the `update_mask` are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string;
-  /** Output only. The resource name of this logging server. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud/loggingServers/my-logging-server` */
-  name: string;
   /** Request body */
   body?: LoggingServer;
 }
 export const PatchProjectsLocationsPrivateCloudsLoggingServersRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
+      name: S.String.pipe(T.Label()),
       requestId: S.optional(S.String.pipe(T.Query())),
       updateMask: S.optional(S.String.pipe(T.Query())),
-      name: S.String.pipe(T.Label()),
       body: S.optional(LoggingServer.pipe(T.HttpBody())),
     }).pipe(
       T.Http({
@@ -4453,10 +4291,10 @@ export const PatchProjectsLocationsPrivateCloudsLoggingServersRequest = /*@__PUR
 export interface PatchProjectsLocationsPrivateCloudsManagementDnsZoneBindingsRequest {
   /** Required. Field mask is used to specify the fields to be overwritten in the `ManagementDnsZoneBinding` resource by the update. The fields specified in the `update_mask` are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string;
-  /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server guarantees that a request doesn't result in creation of duplicate commitments for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if the original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
   /** Output only. The resource name of this binding. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud/managementDnsZoneBindings/my-management-dns-zone-binding` */
   name: string;
+  /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server guarantees that a request doesn't result in creation of duplicate commitments for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if the original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string;
   /** Request body */
   body?: ManagementDnsZoneBinding;
 }
@@ -4464,8 +4302,8 @@ export const PatchProjectsLocationsPrivateCloudsManagementDnsZoneBindingsRequest
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       updateMask: S.optional(S.String.pipe(T.Query())),
-      requestId: S.optional(S.String.pipe(T.Query())),
       name: S.String.pipe(T.Label()),
+      requestId: S.optional(S.String.pipe(T.Query())),
       body: S.optional(ManagementDnsZoneBinding.pipe(T.HttpBody())),
     }).pipe(
       T.Http({
@@ -4479,24 +4317,20 @@ export const PatchProjectsLocationsPrivateCloudsManagementDnsZoneBindingsRequest
   }) as any as S.Schema<PatchProjectsLocationsPrivateCloudsManagementDnsZoneBindingsRequest>;
 
 export interface PatchProjectsLocationsPrivateCloudsSubnetsRequest {
-  /** Required. Field mask is used to specify the fields to be overwritten in the `Subnet` resource by the update. The fields specified in the `update_mask` are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
-  updateMask?: string;
   /** Output only. Identifier. The resource name of this subnet. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud/subnets/my-subnet` */
   name: string;
+  /** Required. Field mask is used to specify the fields to be overwritten in the `Subnet` resource by the update. The fields specified in the `update_mask` are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
+  updateMask?: string;
   /** Request body */
   body?: Subnet;
 }
 export const PatchProjectsLocationsPrivateCloudsSubnetsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    updateMask: S.optional(S.String.pipe(T.Query())),
     name: S.String.pipe(T.Label()),
+    updateMask: S.optional(S.String.pipe(T.Query())),
     body: S.optional(Subnet.pipe(T.HttpBody())),
   }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "v1/{+name}",
-      baseUrl: "https://vmwareengine.googleapis.com/",
-    }),
+    T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://vmwareengine.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "PatchProjectsLocationsPrivateCloudsSubnetsRequest",
@@ -4519,53 +4353,45 @@ export const PatchProjectsLocationsPrivateCloudsUpgradesRequest = /*@__PURE__*/ 
     requestId: S.optional(S.String.pipe(T.Query())),
     body: S.optional(Upgrade.pipe(T.HttpBody())),
   }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "v1/{+name}",
-      baseUrl: "https://vmwareengine.googleapis.com/",
-    }),
+    T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://vmwareengine.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "PatchProjectsLocationsPrivateCloudsUpgradesRequest",
 }) as any as S.Schema<PatchProjectsLocationsPrivateCloudsUpgradesRequest>;
 
 export interface PatchProjectsLocationsPrivateConnectionsRequest {
-  /** Optional. If set to `true`, only validates the request but doesn’t execute the request. If set to `false`, validates and executes the request. */
-  validateOnly?: boolean;
-  /** Required. Field mask is used to specify the fields to be overwritten in the `PrivateConnection` resource by the update. The fields specified in the `update_mask` are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
-  updateMask?: string;
-  /** Output only. The resource name of the private connection. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1/privateConnections/my-connection` */
-  name: string;
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server guarantees that a request doesn't result in creation of duplicate commitments for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
+  /** Optional. If set to `true`, only validates the request but doesn’t execute the request. If set to `false`, validates and executes the request. */
+  validateOnly?: boolean;
+  /** Output only. The resource name of the private connection. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1/privateConnections/my-connection` */
+  name: string;
+  /** Required. Field mask is used to specify the fields to be overwritten in the `PrivateConnection` resource by the update. The fields specified in the `update_mask` are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
+  updateMask?: string;
   /** Request body */
   body?: PrivateConnection;
 }
 export const PatchProjectsLocationsPrivateConnectionsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-    updateMask: S.optional(S.String.pipe(T.Query())),
-    name: S.String.pipe(T.Label()),
     requestId: S.optional(S.String.pipe(T.Query())),
+    validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+    name: S.String.pipe(T.Label()),
+    updateMask: S.optional(S.String.pipe(T.Query())),
     body: S.optional(PrivateConnection.pipe(T.HttpBody())),
   }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "v1/{+name}",
-      baseUrl: "https://vmwareengine.googleapis.com/",
-    }),
+    T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://vmwareengine.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "PatchProjectsLocationsPrivateConnectionsRequest",
 }) as any as S.Schema<PatchProjectsLocationsPrivateConnectionsRequest>;
 
 export interface PatchProjectsLocationsVmwareEngineNetworksRequest {
-  /** Output only. Identifier. The resource name of the VMware Engine network. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/global/vmwareEngineNetworks/my-network` */
-  name: string;
   /** Optional. If set to `true`, only validates the request but doesn’t execute the request. If set to `false`, validates and executes the request. */
   validateOnly?: boolean;
   /** Required. Field mask is used to specify the fields to be overwritten in the VMware Engine network resource by the update. The fields specified in the `update_mask` are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. Only the following fields can be updated: `description`. */
   updateMask?: string;
+  /** Output only. Identifier. The resource name of the VMware Engine network. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/global/vmwareEngineNetworks/my-network` */
+  name: string;
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server guarantees that a request doesn't result in creation of duplicate commitments for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
   /** Request body */
@@ -4573,17 +4399,13 @@ export interface PatchProjectsLocationsVmwareEngineNetworksRequest {
 }
 export const PatchProjectsLocationsVmwareEngineNetworksRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.String.pipe(T.Label()),
     validateOnly: S.optional(S.Boolean.pipe(T.Query())),
     updateMask: S.optional(S.String.pipe(T.Query())),
+    name: S.String.pipe(T.Label()),
     requestId: S.optional(S.String.pipe(T.Query())),
     body: S.optional(VmwareEngineNetwork.pipe(T.HttpBody())),
   }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "v1/{+name}",
-      baseUrl: "https://vmwareengine.googleapis.com/",
-    }),
+    T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://vmwareengine.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "PatchProjectsLocationsVmwareEngineNetworksRequest",
@@ -4736,19 +4558,31 @@ export const ResetVcenterCredentialsProjectsLocationsPrivateCloudsRequest = /*@_
 }) as any as S.Schema<ResetVcenterCredentialsProjectsLocationsPrivateCloudsRequest>;
 
 /** Request message for VmwareEngine.RevokeDnsBindPermission */
-export type RevokeDnsBindPermissionRequest = GrantDnsBindPermissionRequest;
-export const RevokeDnsBindPermissionRequest = GrantDnsBindPermissionRequest;
+export interface RevokeDnsBindPermissionRequest {
+  /** Required. The consumer provided user/service account which needs to be granted permission to bind with the intranet VPC corresponding to the consumer project. Principal can be a user or a service account. For example, to specify the user `user@example.com`, use `"principal": {"user": "user@example.com"}` and to specify the service account `service-account@gserviceaccount.com`, use `"principal": {"serviceAccount": "service-account@gserviceaccount.com"}`. */
+  principal?: Principal;
+  /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server guarantees that a request doesn't result in creation of duplicate commitments for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string;
+}
+export const RevokeDnsBindPermissionRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    principal: S.optional(Principal),
+    requestId: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "RevokeDnsBindPermissionRequest",
+}) as any as S.Schema<RevokeDnsBindPermissionRequest>;
 
 export interface RevokeProjectsLocationsDnsBindPermissionRequest {
   /** Required. The name of the resource which stores the users/service accounts having the permission to bind to the corresponding intranet VPC of the consumer project. DnsBindPermission is a global resource. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/global/dnsBindPermission` */
   name: string;
   /** Request body */
-  body?: GrantDnsBindPermissionRequest;
+  body?: RevokeDnsBindPermissionRequest;
 }
 export const RevokeProjectsLocationsDnsBindPermissionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.String.pipe(T.Label()),
-    body: S.optional(GrantDnsBindPermissionRequest.pipe(T.HttpBody())),
+    body: S.optional(RevokeDnsBindPermissionRequest.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
       method: "POST",
@@ -4762,19 +4596,17 @@ export const RevokeProjectsLocationsDnsBindPermissionRequest = /*@__PURE__*/ S.s
 
 /** Request message for `SetIamPolicy` method. */
 export interface SetIamPolicyRequest {
-  /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
-  updateMask?: string;
   /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
   policy?: Policy;
+  /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
+  updateMask?: string;
 }
 export const SetIamPolicyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    updateMask: S.optional(S.String),
     policy: S.optional(Policy),
+    updateMask: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SetIamPolicyRequest",
-}) as any as S.Schema<SetIamPolicyRequest>;
+).annotate({ identifier: "SetIamPolicyRequest" }) as any as S.Schema<SetIamPolicyRequest>;
 
 export interface SetIamPolicyProjectsLocationsPrivateCloudsRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
@@ -4981,9 +4813,7 @@ export const UnmountDatastoreRequest = /*@__PURE__*/ S.suspend(() =>
     datastore: S.optional(S.String),
     requestId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "UnmountDatastoreRequest",
-}) as any as S.Schema<UnmountDatastoreRequest>;
+).annotate({ identifier: "UnmountDatastoreRequest" }) as any as S.Schema<UnmountDatastoreRequest>;
 
 export interface UnmountDatastoreProjectsLocationsPrivateCloudsClustersRequest {
   /** Required. The resource name of the cluster to unmount the datastore. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud/clusters/my-cluster` */
@@ -5010,10 +4840,10 @@ export const UnmountDatastoreProjectsLocationsPrivateCloudsClustersRequest =
 export interface UpdateDnsForwardingProjectsLocationsPrivateCloudsRequest {
   /** Output only. Identifier. The resource name of this DNS profile. Resource names are schemeless URIs that follow the conventions in https://cloud.google.com/apis/design/resource_names. For example: `projects/my-project/locations/us-central1-a/privateClouds/my-cloud/dnsForwarding` */
   name: string;
-  /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server guarantees that a request doesn't result in creation of duplicate commitments for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
   /** Required. Field mask is used to specify the fields to be overwritten in the `DnsForwarding` resource by the update. The fields specified in the `update_mask` are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string;
+  /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server guarantees that a request doesn't result in creation of duplicate commitments for at least 60 minutes. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string;
   /** Request body */
   body?: DnsForwarding;
 }
@@ -5021,8 +4851,8 @@ export const UpdateDnsForwardingProjectsLocationsPrivateCloudsRequest = /*@__PUR
   () =>
     S.Struct({
       name: S.String.pipe(T.Label()),
-      requestId: S.optional(S.String.pipe(T.Query())),
       updateMask: S.optional(S.String.pipe(T.Query())),
+      requestId: S.optional(S.String.pipe(T.Query())),
       body: S.optional(DnsForwarding.pipe(T.HttpBody())),
     }).pipe(
       T.Http({
@@ -5532,10 +5362,7 @@ export const fetchExternalAddressesProjectsLocationsNetworkPolicies: API.Paginat
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type GetDnsBindPermissionProjectsLocationsError = NotFound | Forbidden | GcpOpError;
@@ -5989,10 +5816,7 @@ export const listProjectsLocations: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListProjectsLocationsAnnouncementsError = NotFound | Forbidden | GcpOpError;
@@ -6009,10 +5833,7 @@ export const listProjectsLocationsAnnouncements: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListProjectsLocationsDatastoresError = NotFound | Forbidden | GcpOpError;
@@ -6029,10 +5850,7 @@ export const listProjectsLocationsDatastores: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListProjectsLocationsNetworkPeeringsError = NotFound | Forbidden | GcpOpError;
@@ -6049,10 +5867,7 @@ export const listProjectsLocationsNetworkPeerings: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListProjectsLocationsNetworkPeeringsPeeringRoutesError =
@@ -6072,10 +5887,7 @@ export const listProjectsLocationsNetworkPeeringsPeeringRoutes: API.PaginatedOpe
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListProjectsLocationsNetworkPoliciesError = NotFound | Forbidden | GcpOpError;
@@ -6092,10 +5904,7 @@ export const listProjectsLocationsNetworkPolicies: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListProjectsLocationsNetworkPoliciesExternalAccessRulesError =
@@ -6115,10 +5924,7 @@ export const listProjectsLocationsNetworkPoliciesExternalAccessRules: API.Pagina
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListProjectsLocationsNodeTypesError = NotFound | Forbidden | GcpOpError;
@@ -6135,10 +5941,7 @@ export const listProjectsLocationsNodeTypes: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListProjectsLocationsOperationsError = NotFound | Forbidden | GcpOpError;
@@ -6155,10 +5958,7 @@ export const listProjectsLocationsOperations: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListProjectsLocationsPrivateCloudsError = NotFound | Forbidden | GcpOpError;
@@ -6175,10 +5975,7 @@ export const listProjectsLocationsPrivateClouds: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListProjectsLocationsPrivateCloudsClustersError = NotFound | Forbidden | GcpOpError;
@@ -6195,10 +5992,7 @@ export const listProjectsLocationsPrivateCloudsClusters: API.PaginatedOperationM
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListProjectsLocationsPrivateCloudsClustersNodesError =
@@ -6218,10 +6012,7 @@ export const listProjectsLocationsPrivateCloudsClustersNodes: API.PaginatedOpera
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListProjectsLocationsPrivateCloudsExternalAddressesError =
@@ -6241,10 +6032,7 @@ export const listProjectsLocationsPrivateCloudsExternalAddresses: API.PaginatedO
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListProjectsLocationsPrivateCloudsHcxActivationKeysError =
@@ -6264,10 +6052,7 @@ export const listProjectsLocationsPrivateCloudsHcxActivationKeys: API.PaginatedO
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListProjectsLocationsPrivateCloudsLoggingServersError =
@@ -6287,10 +6072,7 @@ export const listProjectsLocationsPrivateCloudsLoggingServers: API.PaginatedOper
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListProjectsLocationsPrivateCloudsManagementDnsZoneBindingsError =
@@ -6310,10 +6092,7 @@ export const listProjectsLocationsPrivateCloudsManagementDnsZoneBindings: API.Pa
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListProjectsLocationsPrivateCloudsSubnetsError = NotFound | Forbidden | GcpOpError;
@@ -6330,10 +6109,7 @@ export const listProjectsLocationsPrivateCloudsSubnets: API.PaginatedOperationMe
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListProjectsLocationsPrivateCloudsUpgradesError = NotFound | Forbidden | GcpOpError;
@@ -6350,10 +6126,7 @@ export const listProjectsLocationsPrivateCloudsUpgrades: API.PaginatedOperationM
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListProjectsLocationsPrivateConnectionsError = NotFound | Forbidden | GcpOpError;
@@ -6370,10 +6143,7 @@ export const listProjectsLocationsPrivateConnections: API.PaginatedOperationMeth
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListProjectsLocationsPrivateConnectionsPeeringRoutesError =
@@ -6393,10 +6163,7 @@ export const listProjectsLocationsPrivateConnectionsPeeringRoutes: API.Paginated
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListProjectsLocationsVmwareEngineNetworksError = NotFound | Forbidden | GcpOpError;
@@ -6413,10 +6180,7 @@ export const listProjectsLocationsVmwareEngineNetworks: API.PaginatedOperationMe
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type MigrateManagementVmsProjectsLocationsPrivateCloudsError =
@@ -6545,7 +6309,7 @@ export type PatchProjectsLocationsPrivateCloudsError =
   | BadRequest
   | Conflict
   | GcpOpError;
-/** Modifies a `PrivateCloud` resource. Only the following fields can be updated: `description`. Only fields specified in `updateMask` are applied. During operation processing, the resource is temporarily in the `ACTIVE` state before the operation fully completes. For that period of time, you can't update the resource. Use the operation status to determine when the processing fully completes. */
+/** Modifies a `PrivateCloud` resource. Only the following fields can be updated: `description`, `encryption_config`. If `updateMask` is provided, only fields specified in it are applied. If `updateMask` is not provided, the default behavior is to update the `description`. It is advised to provide an `updateMask` to avoid confusion. During operation processing, the resource is temporarily in the `ACTIVE` state before the operation fully completes. For that period of time, you can't update the resource. Use the operation status to determine when the processing fully completes. */
 export const patchProjectsLocationsPrivateClouds: API.OperationMethod<
   PatchProjectsLocationsPrivateCloudsRequest,
   Operation,

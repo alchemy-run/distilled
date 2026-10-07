@@ -154,13 +154,7 @@ export const CreateOrgPrivateRegistryRequest = /*@__PURE__*/ S.suspend(() =>
     api_host: S.optional(S.String),
     workload_identity_provider: S.optional(S.String),
     service_account: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/orgs/{org}/private-registries",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/orgs/{org}/private-registries", code: 200 })),
 ).annotate({
   identifier: "CreateOrgPrivateRegistryRequest",
 }) as any as S.Schema<CreateOrgPrivateRegistryRequest>;
@@ -306,11 +300,7 @@ export const DeleteOrgPrivateRegistryRequest = /*@__PURE__*/ S.suspend(() =>
     org: S.String.pipe(T.Label()),
     secret_name: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/orgs/{org}/private-registries/{secret_name}",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/orgs/{org}/private-registries/{secret_name}", code: 200 }),
   ),
 ).annotate({
   identifier: "DeleteOrgPrivateRegistryRequest",
@@ -334,11 +324,7 @@ export const GetOrgPrivateRegistryRequest = /*@__PURE__*/ S.suspend(() =>
     org: S.String.pipe(T.Label()),
     secret_name: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/orgs/{org}/private-registries/{secret_name}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/orgs/{org}/private-registries/{secret_name}", code: 200 }),
   ),
 ).annotate({
   identifier: "GetOrgPrivateRegistryRequest",
@@ -465,16 +451,8 @@ export interface GetOrgPublicKeyRequest {
 export const GetOrgPublicKeyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     org: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/orgs/{org}/private-registries/public-key",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetOrgPublicKeyRequest",
-}) as any as S.Schema<GetOrgPublicKeyRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/orgs/{org}/private-registries/public-key", code: 200 })),
+).annotate({ identifier: "GetOrgPublicKeyRequest" }) as any as S.Schema<GetOrgPublicKeyRequest>;
 
 export interface GetOrgPublicKeyResponse {
   /** The identifier for the key. */
@@ -487,9 +465,7 @@ export const GetOrgPublicKeyResponse = /*@__PURE__*/ S.suspend(() =>
     key_id: S.String,
     key: S.String,
   }),
-).annotate({
-  identifier: "GetOrgPublicKeyResponse",
-}) as any as S.Schema<GetOrgPublicKeyResponse>;
+).annotate({ identifier: "GetOrgPublicKeyResponse" }) as any as S.Schema<GetOrgPublicKeyResponse>;
 
 export interface ListOrgPrivateRegistriesRequest {
   /** The organization name. The name is not case sensitive. */
@@ -651,11 +627,7 @@ export const UpdateOrgPrivateRegistryRequest = /*@__PURE__*/ S.suspend(() =>
     workload_identity_provider: S.optional(S.String),
     service_account: S.optional(S.String),
   }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/orgs/{org}/private-registries/{secret_name}",
-      code: 200,
-    }),
+    T.Http({ method: "PATCH", uri: "/orgs/{org}/private-registries/{secret_name}", code: 200 }),
   ),
 ).annotate({
   identifier: "UpdateOrgPrivateRegistryRequest",

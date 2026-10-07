@@ -47,9 +47,7 @@ export const LLMTaggerConfig = /*@__PURE__*/ S.suspend(() =>
     min_tags: S.optional(S.Number),
     max_tags: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "LLMTaggerConfig",
-}) as any as S.Schema<LLMTaggerConfig>;
+).annotate({ identifier: "LLMTaggerConfig" }) as any as S.Schema<LLMTaggerConfig>;
 
 /** Optional tag whitelist. Leave empty to allow any tag returned by the Hog code. */
 export type HogTaggerConfigTagsList = Array<TagDefinition>;
@@ -68,16 +66,12 @@ export const HogTaggerConfig = /*@__PURE__*/ S.suspend(() =>
     source: S.String,
     tags: S.optional(HogTaggerConfigTagsList),
   }),
-).annotate({
-  identifier: "HogTaggerConfig",
-}) as any as S.Schema<HogTaggerConfig>;
+).annotate({ identifier: "HogTaggerConfig" }) as any as S.Schema<HogTaggerConfig>;
 
 export type TaggerConfig = LLMTaggerConfig | HogTaggerConfig;
 export const TaggerConfig = S.Unknown as any as S.Schema<TaggerConfig>;
 
-export type TaggerConditionPropertiesItemMap = {
-  [key: string]: unknown | undefined;
-};
+export type TaggerConditionPropertiesItemMap = { [key: string]: unknown | undefined };
 export const TaggerConditionPropertiesItemMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -103,9 +97,7 @@ export const TaggerCondition = /*@__PURE__*/ S.suspend(() =>
     rollout_percentage: S.optional(S.Number),
     properties: S.optional(TaggerConditionPropertiesList),
   }),
-).annotate({
-  identifier: "TaggerCondition",
-}) as any as S.Schema<TaggerCondition>;
+).annotate({ identifier: "TaggerCondition" }) as any as S.Schema<TaggerCondition>;
 
 /** Conditions that scope when the tagger runs */
 export type CreateTaggerRequestConditionsList = Array<TaggerCondition>;
@@ -113,8 +105,8 @@ export const CreateTaggerRequestConditionsList = /*@__PURE__*/ S.Array(
   TaggerCondition,
 ) as any as S.Schema<CreateTaggerRequestConditionsList>;
 
-/** * `openai` - Openai * `anthropic` - Anthropic * `gemini` - Gemini * `openrouter` - Openrouter * `fireworks` - Fireworks * `azure_openai` - Azure OpenAI * `together_ai` - Together AI * `minimax` - MiniMax * `zeabur` - Zeabur AI Hub */
-export type LLMProviderEnum =
+/** * `openai` - Openai * `anthropic` - Anthropic * `gemini` - Gemini * `openrouter` - Openrouter * `fireworks` - Fireworks * `azure_openai` - Azure OpenAI * `together_ai` - Together AI * `minimax` - MiniMax * `zeabur` - Zeabur AI Hub * `openai_compatible` - OpenAI-compatible */
+export type LLMCompletionProviderEnum =
   | "openai"
   | "anthropic"
   | "gemini"
@@ -123,12 +115,13 @@ export type LLMProviderEnum =
   | "azure_openai"
   | "together_ai"
   | "minimax"
-  | "zeabur";
-export const LLMProviderEnum = S.String;
+  | "zeabur"
+  | "openai_compatible";
+export const LLMCompletionProviderEnum = S.String;
 
 export interface TaggerModelConfigurationWrite {
-  /** LLM provider to use for this tagger. * `openai` - Openai * `anthropic` - Anthropic * `gemini` - Gemini * `openrouter` - Openrouter * `fireworks` - Fireworks * `azure_openai` - Azure OpenAI * `together_ai` - Together AI * `minimax` - MiniMax * `zeabur` - Zeabur AI Hub */
-  provider: LLMProviderEnum | (string & {});
+  /** LLM provider to use for this tagger. * `openai` - Openai * `anthropic` - Anthropic * `gemini` - Gemini * `openrouter` - Openrouter * `fireworks` - Fireworks * `azure_openai` - Azure OpenAI * `together_ai` - Together AI * `minimax` - MiniMax * `zeabur` - Zeabur AI Hub * `openai_compatible` - OpenAI-compatible */
+  provider: LLMCompletionProviderEnum | (string & {});
   /** Provider model identifier to use for this tagger. */
   model: string;
   /** Existing LLM provider key UUID for the current project. Do not invent this value; use a real provider key ID returned by PostHog, or omit/null when no provider key should be pinned. */
@@ -136,7 +129,7 @@ export interface TaggerModelConfigurationWrite {
 }
 export const TaggerModelConfigurationWrite = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    provider: LLMProviderEnum,
+    provider: LLMCompletionProviderEnum,
     model: S.String,
     provider_key_id: S.optional(S.NullOr(S.String)),
   }),
@@ -167,16 +160,8 @@ export const CreateTaggerRequest = /*@__PURE__*/ S.suspend(() =>
     tagger_config: TaggerConfig,
     conditions: S.optional(CreateTaggerRequestConditionsList),
     model_configuration: S.optional(S.NullOr(TaggerModelConfigurationWrite)),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/projects/{project_id}/taggers/",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "CreateTaggerRequest",
-}) as any as S.Schema<CreateTaggerRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/api/projects/{project_id}/taggers/", code: 200 })),
+).annotate({ identifier: "CreateTaggerRequest" }) as any as S.Schema<CreateTaggerRequest>;
 
 /** Conditions that scope when the tagger runs */
 export type TaggerConditionsList = Array<TaggerCondition>;
@@ -186,8 +171,8 @@ export const TaggerConditionsList = /*@__PURE__*/ S.Array(
 
 /** Nested serializer for model configuration. */
 export interface TaggerModelConfiguration {
-  /** LLM provider to use for this tagger. * `openai` - Openai * `anthropic` - Anthropic * `gemini` - Gemini * `openrouter` - Openrouter * `fireworks` - Fireworks * `azure_openai` - Azure OpenAI * `together_ai` - Together AI * `minimax` - MiniMax * `zeabur` - Zeabur AI Hub */
-  provider: LLMProviderEnum;
+  /** LLM provider to use for this tagger. * `openai` - Openai * `anthropic` - Anthropic * `gemini` - Gemini * `openrouter` - Openrouter * `fireworks` - Fireworks * `azure_openai` - Azure OpenAI * `together_ai` - Together AI * `minimax` - MiniMax * `zeabur` - Zeabur AI Hub * `openai_compatible` - OpenAI-compatible */
+  provider: LLMCompletionProviderEnum;
   /** Provider model identifier to use for this tagger. */
   model: string;
   /** Existing LLM provider key UUID for the current project. Do not invent this value; use a real provider key ID returned by PostHog, or omit/null when no provider key should be pinned. */
@@ -196,14 +181,12 @@ export interface TaggerModelConfiguration {
 }
 export const TaggerModelConfiguration = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    provider: LLMProviderEnum,
+    provider: LLMCompletionProviderEnum,
     model: S.String,
     provider_key_id: S.optional(S.NullOr(S.String)),
     provider_key_name: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "TaggerModelConfiguration",
-}) as any as S.Schema<TaggerModelConfiguration>;
+).annotate({ identifier: "TaggerModelConfiguration" }) as any as S.Schema<TaggerModelConfiguration>;
 
 export type UserBasicHedgehogConfigMap = { [key: string]: unknown | undefined };
 export const UserBasicHedgehogConfigMap = /*@__PURE__*/ S.Record(
@@ -300,9 +283,7 @@ export const TestHogTaggerTag = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "TestHogTaggerTag",
-}) as any as S.Schema<TestHogTaggerTag>;
+).annotate({ identifier: "TestHogTaggerTag" }) as any as S.Schema<TestHogTaggerTag>;
 
 /** Optional tag whitelist. Returned tags outside this list are filtered out. */
 export type CreateTaggersTestHogRequestTagsList = Array<TestHogTaggerTag>;
@@ -327,11 +308,7 @@ export const CreateTaggersTestHogRequest = /*@__PURE__*/ S.suspend(() =>
     sample_count: S.optional(S.Number),
     tags: S.optional(CreateTaggersTestHogRequestTagsList),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/projects/{project_id}/taggers/test_hog/",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/api/projects/{project_id}/taggers/test_hog/", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateTaggersTestHogRequest",
@@ -369,9 +346,7 @@ export const TestHogTaggerResultItem = /*@__PURE__*/ S.suspend(() =>
     reasoning: S.String,
     error: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "TestHogTaggerResultItem",
-}) as any as S.Schema<TestHogTaggerResultItem>;
+).annotate({ identifier: "TestHogTaggerResultItem" }) as any as S.Schema<TestHogTaggerResultItem>;
 
 /** Per-event Hog tagger test results. */
 export type TestHogTaggerResponseResultsList = Array<TestHogTaggerResultItem>;
@@ -390,9 +365,7 @@ export const TestHogTaggerResponse = /*@__PURE__*/ S.suspend(() =>
     results: TestHogTaggerResponseResultsList,
     message: S.optional(S.String),
   }),
-).annotate({
-  identifier: "TestHogTaggerResponse",
-}) as any as S.Schema<TestHogTaggerResponse>;
+).annotate({ identifier: "TestHogTaggerResponse" }) as any as S.Schema<TestHogTaggerResponse>;
 
 export interface GetTaggerRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -404,16 +377,8 @@ export const GetTaggerRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project_id: S.String.pipe(T.Label()),
     id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/taggers/{id}/",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetTaggerRequest",
-}) as any as S.Schema<GetTaggerRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/projects/{project_id}/taggers/{id}/", code: 200 })),
+).annotate({ identifier: "GetTaggerRequest" }) as any as S.Schema<GetTaggerRequest>;
 
 export type ListTaggersRequestIdInList = Array<string>;
 export const ListTaggersRequestIdInList = /*@__PURE__*/ S.Array(
@@ -459,16 +424,8 @@ export const ListTaggersRequest = /*@__PURE__*/ S.suspend(() =>
     offset: S.optional(S.Number.pipe(T.Query())),
     order_by: S.optional(ListTaggersRequestOrderByList.pipe(T.Query())),
     search: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/taggers/",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ListTaggersRequest",
-}) as any as S.Schema<ListTaggersRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/projects/{project_id}/taggers/", code: 200 })),
+).annotate({ identifier: "ListTaggersRequest" }) as any as S.Schema<ListTaggersRequest>;
 
 export type PaginatedTaggerListResultsList = Array<Tagger>;
 export const PaginatedTaggerListResultsList = /*@__PURE__*/ S.Array(
@@ -488,9 +445,7 @@ export const PaginatedTaggerList = /*@__PURE__*/ S.suspend(() =>
     previous: S.optional(S.NullOr(S.String)),
     results: PaginatedTaggerListResultsList,
   }),
-).annotate({
-  identifier: "PaginatedTaggerList",
-}) as any as S.Schema<PaginatedTaggerList>;
+).annotate({ identifier: "PaginatedTaggerList" }) as any as S.Schema<PaginatedTaggerList>;
 
 export interface TaggersDestroyRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -502,16 +457,8 @@ export const TaggersDestroyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project_id: S.String.pipe(T.Label()),
     id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/projects/{project_id}/taggers/{id}/",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "TaggersDestroyRequest",
-}) as any as S.Schema<TaggersDestroyRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/api/projects/{project_id}/taggers/{id}/", code: 200 })),
+).annotate({ identifier: "TaggersDestroyRequest" }) as any as S.Schema<TaggersDestroyRequest>;
 
 export interface TaggersDestroyResponse {}
 export const TaggersDestroyResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -552,16 +499,8 @@ export const UpdateTaggerRequest = /*@__PURE__*/ S.suspend(() =>
     conditions: S.optional(UpdateTaggerRequestConditionsList),
     model_configuration: S.optional(S.NullOr(TaggerModelConfigurationWrite)),
     deleted: S.optional(S.Boolean),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/api/projects/{project_id}/taggers/{id}/",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "UpdateTaggerRequest",
-}) as any as S.Schema<UpdateTaggerRequest>;
+  }).pipe(T.Http({ method: "PUT", uri: "/api/projects/{project_id}/taggers/{id}/", code: 200 })),
+).annotate({ identifier: "UpdateTaggerRequest" }) as any as S.Schema<UpdateTaggerRequest>;
 
 /** Conditions that scope when the tagger runs */
 export type UpdateTaggersPartialRequestConditionsList = Array<TaggerCondition>;
@@ -597,13 +536,7 @@ export const UpdateTaggersPartialRequest = /*@__PURE__*/ S.suspend(() =>
     conditions: S.optional(UpdateTaggersPartialRequestConditionsList),
     model_configuration: S.optional(S.NullOr(TaggerModelConfigurationWrite)),
     deleted: S.optional(S.Boolean),
-  }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/api/projects/{project_id}/taggers/{id}/",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PATCH", uri: "/api/projects/{project_id}/taggers/{id}/", code: 200 })),
 ).annotate({
   identifier: "UpdateTaggersPartialRequest",
 }) as any as S.Schema<UpdateTaggersPartialRequest>;

@@ -74,9 +74,7 @@ export const MessageSuppression = /*@__PURE__*/ S.suspend(() =>
     created_at: S.String,
     updated_at: S.String,
   }),
-).annotate({
-  identifier: "MessageSuppression",
-}) as any as S.Schema<MessageSuppression>;
+).annotate({ identifier: "MessageSuppression" }) as any as S.Schema<MessageSuppression>;
 
 export type PaginatedMessageSuppressionResultsList = Array<MessageSuppression>;
 export const PaginatedMessageSuppressionResultsList = /*@__PURE__*/ S.Array(

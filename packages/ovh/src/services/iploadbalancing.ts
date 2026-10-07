@@ -83,11 +83,7 @@ export const ConfirmIpLoadbalancingTerminationRequest = /*@__PURE__*/ S.suspend(
     reason: S.optional(ServiceTerminationReasonEnum),
     token: S.String,
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/ipLoadbalancing/{serviceName}/confirmTermination",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/ipLoadbalancing/{serviceName}/confirmTermination", code: 200 }),
   ),
 ).annotate({
   identifier: "ConfirmIpLoadbalancingTerminationRequest",
@@ -117,11 +113,7 @@ export const CreateIpLoadbalancingChangeContactRequest = /*@__PURE__*/ S.suspend
     contactBilling: S.optional(S.String),
     contactTech: S.optional(S.String),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/ipLoadbalancing/{serviceName}/changeContact",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/ipLoadbalancing/{serviceName}/changeContact", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateIpLoadbalancingChangeContactRequest",
@@ -157,11 +149,7 @@ export const CreateIpLoadbalancingFreeCertificateRequest = /*@__PURE__*/ S.suspe
     serviceName: S.String.pipe(T.Label()),
     fqdn: CreateIpLoadbalancingFreeCertificateRequestFqdnList,
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/ipLoadbalancing/{serviceName}/freeCertificate",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/ipLoadbalancing/{serviceName}/freeCertificate", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateIpLoadbalancingFreeCertificateRequest",
@@ -231,9 +219,7 @@ export const IpLoadbalancingTaskTask = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(IpLoadbalancingTaskStatusEnum),
     zones: S.optional(IpLoadbalancingTaskTaskZonesList),
   }),
-).annotate({
-  identifier: "IpLoadbalancingTaskTask",
-}) as any as S.Schema<IpLoadbalancingTaskTask>;
+).annotate({ identifier: "IpLoadbalancingTaskTask" }) as any as S.Schema<IpLoadbalancingTaskTask>;
 
 /** Possible values for load balancing balance algorithm */
 export type IpLoadbalancingBalanceHTTPEnum =
@@ -337,13 +323,7 @@ export const CreateIpLoadbalancingHttpFarmRequest = /*@__PURE__*/ S.suspend(() =
     stickiness: S.optional(IpLoadbalancingStickinessHTTPEnum),
     vrackNetworkId: S.optional(S.Number),
     zone: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/ipLoadbalancing/{serviceName}/http/farm",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/ipLoadbalancing/{serviceName}/http/farm", code: 200 })),
 ).annotate({
   identifier: "CreateIpLoadbalancingHttpFarmRequest",
 }) as any as S.Schema<CreateIpLoadbalancingHttpFarmRequest>;
@@ -664,11 +644,7 @@ export const CreateIpLoadbalancingHttpFrontendRequest = /*@__PURE__*/ S.suspend(
     ssl: S.optional(S.Boolean),
     zone: S.String,
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/ipLoadbalancing/{serviceName}/http/frontend",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/ipLoadbalancing/{serviceName}/http/frontend", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateIpLoadbalancingHttpFrontendRequest",
@@ -911,13 +887,7 @@ export const CreateIpLoadbalancingHttpRouteRequest = /*@__PURE__*/ S.suspend(() 
     displayName: S.optional(S.String),
     frontendId: S.optional(S.Number),
     weight: S.optional(S.Number),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/ipLoadbalancing/{serviceName}/http/route",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/ipLoadbalancing/{serviceName}/http/route", code: 200 })),
 ).annotate({
   identifier: "CreateIpLoadbalancingHttpRouteRequest",
 }) as any as S.Schema<CreateIpLoadbalancingHttpRouteRequest>;
@@ -958,9 +928,7 @@ export const IpLoadbalancingRouteRule = /*@__PURE__*/ S.suspend(() =>
     ruleId: S.optional(S.Number),
     subField: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "IpLoadbalancingRouteRule",
-}) as any as S.Schema<IpLoadbalancingRouteRule>;
+).annotate({ identifier: "IpLoadbalancingRouteRule" }) as any as S.Schema<IpLoadbalancingRouteRule>;
 
 /** List of rules to match to trigger action */
 export type IpLoadbalancingRouteHttpRouteHttpRulesList = Array<IpLoadbalancingRouteRule>;
@@ -1092,11 +1060,7 @@ export const CreateIpLoadbalancingLogSubscriptionRequest = /*@__PURE__*/ S.suspe
     kind: S.String,
     streamId: S.String,
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/ipLoadbalancing/{serviceName}/log/subscription",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/ipLoadbalancing/{serviceName}/log/subscription", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateIpLoadbalancingLogSubscriptionRequest",
@@ -1128,13 +1092,7 @@ export const CreateIpLoadbalancingLogUrlRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     kind: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/ipLoadbalancing/{serviceName}/log/url",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/ipLoadbalancing/{serviceName}/log/url", code: 200 })),
 ).annotate({
   identifier: "CreateIpLoadbalancingLogUrlRequest",
 }) as any as S.Schema<CreateIpLoadbalancingLogUrlRequest>;
@@ -1151,9 +1109,7 @@ export const IpLoadbalancingLogUrl = /*@__PURE__*/ S.suspend(() =>
     expirationDate: S.optional(S.String),
     url: S.optional(S.String),
   }),
-).annotate({
-  identifier: "IpLoadbalancingLogUrl",
-}) as any as S.Schema<IpLoadbalancingLogUrl>;
+).annotate({ identifier: "IpLoadbalancingLogUrl" }) as any as S.Schema<IpLoadbalancingLogUrl>;
 
 export interface CreateIpLoadbalancingSslRequest {
   /** The internal name of your IP load balancing */
@@ -1174,13 +1130,7 @@ export const CreateIpLoadbalancingSslRequest = /*@__PURE__*/ S.suspend(() =>
     chain: S.optional(S.String),
     displayName: S.optional(S.String),
     key: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/ipLoadbalancing/{serviceName}/ssl",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/ipLoadbalancing/{serviceName}/ssl", code: 200 })),
 ).annotate({
   identifier: "CreateIpLoadbalancingSslRequest",
 }) as any as S.Schema<CreateIpLoadbalancingSslRequest>;
@@ -1225,9 +1175,7 @@ export const IpLoadbalancingSslSsl = /*@__PURE__*/ S.suspend(() =>
     subject: S.optional(S.String),
     type: S.optional(S.NullOr(IpLoadbalancingSslTypeEnum)),
   }),
-).annotate({
-  identifier: "IpLoadbalancingSslSsl",
-}) as any as S.Schema<IpLoadbalancingSslSsl>;
+).annotate({ identifier: "IpLoadbalancingSslSsl" }) as any as S.Schema<IpLoadbalancingSslSsl>;
 
 /** Possible values for load balancing balance algorithm */
 export type IpLoadbalancingBalanceTCPEnum = "first" | "leastconn" | "roundrobin" | "source";
@@ -1265,13 +1213,7 @@ export const CreateIpLoadbalancingTcpFarmRequest = /*@__PURE__*/ S.suspend(() =>
     stickiness: S.optional(IpLoadbalancingStickinessTCPEnum),
     vrackNetworkId: S.optional(S.Number),
     zone: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/ipLoadbalancing/{serviceName}/tcp/farm",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/ipLoadbalancing/{serviceName}/tcp/farm", code: 200 })),
 ).annotate({
   identifier: "CreateIpLoadbalancingTcpFarmRequest",
 }) as any as S.Schema<CreateIpLoadbalancingTcpFarmRequest>;
@@ -1508,11 +1450,7 @@ export const CreateIpLoadbalancingTcpFrontendRequest = /*@__PURE__*/ S.suspend((
     ssl: S.optional(S.Boolean),
     zone: S.String,
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/ipLoadbalancing/{serviceName}/tcp/frontend",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/ipLoadbalancing/{serviceName}/tcp/frontend", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateIpLoadbalancingTcpFrontendRequest",
@@ -1657,13 +1595,7 @@ export const CreateIpLoadbalancingTcpRouteRequest = /*@__PURE__*/ S.suspend(() =
     displayName: S.optional(S.String),
     frontendId: S.optional(S.Number),
     weight: S.optional(S.Number),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/ipLoadbalancing/{serviceName}/tcp/route",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/ipLoadbalancing/{serviceName}/tcp/route", code: 200 })),
 ).annotate({
   identifier: "CreateIpLoadbalancingTcpRouteRequest",
 }) as any as S.Schema<CreateIpLoadbalancingTcpRouteRequest>;
@@ -1763,13 +1695,7 @@ export const CreateIpLoadbalancingUdpFarmRequest = /*@__PURE__*/ S.suspend(() =>
     port: S.Number,
     vrackNetworkId: S.optional(S.Number),
     zone: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/ipLoadbalancing/{serviceName}/udp/farm",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/ipLoadbalancing/{serviceName}/udp/farm", code: 200 })),
 ).annotate({
   identifier: "CreateIpLoadbalancingUdpFarmRequest",
 }) as any as S.Schema<CreateIpLoadbalancingUdpFarmRequest>;
@@ -1892,11 +1818,7 @@ export const CreateIpLoadbalancingUdpFrontendRequest = /*@__PURE__*/ S.suspend((
     port: S.String,
     zone: S.String,
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/ipLoadbalancing/{serviceName}/udp/frontend",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/ipLoadbalancing/{serviceName}/udp/frontend", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateIpLoadbalancingUdpFrontendRequest",
@@ -1968,11 +1890,7 @@ export const CreateIpLoadbalancingVrackNetworkRequest = /*@__PURE__*/ S.suspend(
     subnet: S.String,
     vlan: S.optional(S.Number),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/ipLoadbalancing/{serviceName}/vrack/network",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/ipLoadbalancing/{serviceName}/vrack/network", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateIpLoadbalancingVrackNetworkRequest",
@@ -2236,13 +2154,7 @@ export const DeleteIpLoadbalancingSslRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     id: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/ipLoadbalancing/{serviceName}/ssl/{id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/ipLoadbalancing/{serviceName}/ssl/{id}", code: 200 })),
 ).annotate({
   identifier: "DeleteIpLoadbalancingSslRequest",
 }) as any as S.Schema<DeleteIpLoadbalancingSslRequest>;
@@ -2585,9 +2497,7 @@ export const IamResourceMetadata = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(S.NullOr(IamResourceMetadataTagsMap)),
     urn: S.optional(S.String),
   }),
-).annotate({
-  identifier: "IamResourceMetadata",
-}) as any as S.Schema<IamResourceMetadata>;
+).annotate({ identifier: "IamResourceMetadata" }) as any as S.Schema<IamResourceMetadata>;
 
 /** Available additional zone to order for a Load Balancer */
 export interface IpLoadbalancingOrderableZone {
@@ -2679,9 +2589,7 @@ export const IpLoadbalancingIpWithIAM = /*@__PURE__*/ S.suspend(() =>
     vrackName: S.optional(S.NullOr(S.String)),
     zone: S.optional(IpLoadbalancingIpWithIAMZoneList),
   }),
-).annotate({
-  identifier: "IpLoadbalancingIpWithIAM",
-}) as any as S.Schema<IpLoadbalancingIpWithIAM>;
+).annotate({ identifier: "IpLoadbalancingIpWithIAM" }) as any as S.Schema<IpLoadbalancingIpWithIAM>;
 
 export interface GetIpLoadbalancingHttpFarmRequest {
   /** The internal name of your IP load balancing */
@@ -2694,11 +2602,7 @@ export const GetIpLoadbalancingHttpFarmRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     farmId: S.Number.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/ipLoadbalancing/{serviceName}/http/farm/{farmId}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/ipLoadbalancing/{serviceName}/http/farm/{farmId}", code: 200 }),
   ),
 ).annotate({
   identifier: "GetIpLoadbalancingHttpFarmRequest",
@@ -2831,11 +2735,7 @@ export const GetIpLoadbalancingLogKindRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     name: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/ipLoadbalancing/{serviceName}/log/kind/{name}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/ipLoadbalancing/{serviceName}/log/kind/{name}", code: 200 }),
   ),
 ).annotate({
   identifier: "GetIpLoadbalancingLogKindRequest",
@@ -2950,13 +2850,7 @@ export interface GetIpLoadbalancingMetricsTokenRequest {
 export const GetIpLoadbalancingMetricsTokenRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/ipLoadbalancing/{serviceName}/metricsToken",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/ipLoadbalancing/{serviceName}/metricsToken", code: 200 })),
 ).annotate({
   identifier: "GetIpLoadbalancingMetricsTokenRequest",
 }) as any as S.Schema<GetIpLoadbalancingMetricsTokenRequest>;
@@ -2987,13 +2881,7 @@ export const GetIpLoadbalancingQuotaRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     zone: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/ipLoadbalancing/{serviceName}/quota/{zone}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/ipLoadbalancing/{serviceName}/quota/{zone}", code: 200 })),
 ).annotate({
   identifier: "GetIpLoadbalancingQuotaRequest",
 }) as any as S.Schema<GetIpLoadbalancingQuotaRequest>;
@@ -3037,11 +2925,7 @@ export const GetIpLoadbalancingQuotaHistoryRequest = /*@__PURE__*/ S.suspend(() 
     serviceName: S.String.pipe(T.Label()),
     id: S.Number.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/ipLoadbalancing/{serviceName}/quotaHistory/{id}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/ipLoadbalancing/{serviceName}/quotaHistory/{id}", code: 200 }),
   ),
 ).annotate({
   identifier: "GetIpLoadbalancingQuotaHistoryRequest",
@@ -3082,13 +2966,7 @@ export interface GetIpLoadbalancingServiceInfosRequest {
 export const GetIpLoadbalancingServiceInfosRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/ipLoadbalancing/{serviceName}/serviceInfos",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/ipLoadbalancing/{serviceName}/serviceInfos", code: 200 })),
 ).annotate({
   identifier: "GetIpLoadbalancingServiceInfosRequest",
 }) as any as S.Schema<GetIpLoadbalancingServiceInfosRequest>;
@@ -3120,9 +2998,7 @@ export const ServiceRenewType = /*@__PURE__*/ S.suspend(() =>
     manualPayment: S.optional(S.NullOr(S.Boolean)),
     period: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "ServiceRenewType",
-}) as any as S.Schema<ServiceRenewType>;
+).annotate({ identifier: "ServiceRenewType" }) as any as S.Schema<ServiceRenewType>;
 
 /** Detailed renewal type of a service */
 export type ServiceRenewalTypeEnum =
@@ -3180,9 +3056,7 @@ export const ServicesService = /*@__PURE__*/ S.suspend(() =>
     serviceId: S.optional(S.Number),
     status: S.optional(ServiceStateEnum),
   }),
-).annotate({
-  identifier: "ServicesService",
-}) as any as S.Schema<ServicesService>;
+).annotate({ identifier: "ServicesService" }) as any as S.Schema<ServicesService>;
 
 export interface GetIpLoadbalancingSslRequest {
   /** The internal name of your IP load balancing */
@@ -3194,13 +3068,7 @@ export const GetIpLoadbalancingSslRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     id: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/ipLoadbalancing/{serviceName}/ssl/{id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/ipLoadbalancing/{serviceName}/ssl/{id}", code: 200 })),
 ).annotate({
   identifier: "GetIpLoadbalancingSslRequest",
 }) as any as S.Schema<GetIpLoadbalancingSslRequest>;
@@ -3212,13 +3080,7 @@ export interface GetIpLoadbalancingStatusRequest {
 export const GetIpLoadbalancingStatusRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/ipLoadbalancing/{serviceName}/status",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/ipLoadbalancing/{serviceName}/status", code: 200 })),
 ).annotate({
   identifier: "GetIpLoadbalancingStatusRequest",
 }) as any as S.Schema<GetIpLoadbalancingStatusRequest>;
@@ -3296,9 +3158,7 @@ export const IpLoadbalancingStatus = /*@__PURE__*/ S.suspend(() =>
     servers: S.optional(IpLoadbalancingStatusComponent),
     service: S.optional(IpLoadbalancingStatusService),
   }),
-).annotate({
-  identifier: "IpLoadbalancingStatus",
-}) as any as S.Schema<IpLoadbalancingStatus>;
+).annotate({ identifier: "IpLoadbalancingStatus" }) as any as S.Schema<IpLoadbalancingStatus>;
 
 export interface GetIpLoadbalancingTaskRequest {
   /** The internal name of your IP load balancing */
@@ -3310,13 +3170,7 @@ export const GetIpLoadbalancingTaskRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     id: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/ipLoadbalancing/{serviceName}/task/{id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/ipLoadbalancing/{serviceName}/task/{id}", code: 200 })),
 ).annotate({
   identifier: "GetIpLoadbalancingTaskRequest",
 }) as any as S.Schema<GetIpLoadbalancingTaskRequest>;
@@ -3332,11 +3186,7 @@ export const GetIpLoadbalancingTcpFarmRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     farmId: S.Number.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/ipLoadbalancing/{serviceName}/tcp/farm/{farmId}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/ipLoadbalancing/{serviceName}/tcp/farm/{farmId}", code: 200 }),
   ),
 ).annotate({
   identifier: "GetIpLoadbalancingTcpFarmRequest",
@@ -3424,11 +3274,7 @@ export const GetIpLoadbalancingTcpRouteRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     routeId: S.Number.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/ipLoadbalancing/{serviceName}/tcp/route/{routeId}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/ipLoadbalancing/{serviceName}/tcp/route/{routeId}", code: 200 }),
   ),
 ).annotate({
   identifier: "GetIpLoadbalancingTcpRouteRequest",
@@ -3469,11 +3315,7 @@ export const GetIpLoadbalancingUdpFarmRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     farmId: S.Number.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/ipLoadbalancing/{serviceName}/udp/farm/{farmId}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/ipLoadbalancing/{serviceName}/udp/farm/{farmId}", code: 200 }),
   ),
 ).annotate({
   identifier: "GetIpLoadbalancingUdpFarmRequest",
@@ -3592,13 +3434,7 @@ export const GetIpLoadbalancingZoneRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     name: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/ipLoadbalancing/{serviceName}/zone/{name}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/ipLoadbalancing/{serviceName}/zone/{name}", code: 200 })),
 ).annotate({
   identifier: "GetIpLoadbalancingZoneRequest",
 }) as any as S.Schema<GetIpLoadbalancingZoneRequest>;
@@ -3615,9 +3451,7 @@ export const IpLoadbalancingZoneZone = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     state: S.optional(S.String),
   }),
-).annotate({
-  identifier: "IpLoadbalancingZoneZone",
-}) as any as S.Schema<IpLoadbalancingZoneZone>;
+).annotate({ identifier: "IpLoadbalancingZoneZone" }) as any as S.Schema<IpLoadbalancingZoneZone>;
 
 /** Resource tag filter */
 export interface IamResourceTagFilterInput {}
@@ -3670,11 +3504,7 @@ export const ListIpLoadbalancingAvailableFarmProbesRequest = /*@__PURE__*/ S.sus
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/ipLoadbalancing/{serviceName}/availableFarmProbes",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/ipLoadbalancing/{serviceName}/availableFarmProbes", code: 200 }),
   ),
 ).annotate({
   identifier: "ListIpLoadbalancingAvailableFarmProbesRequest",
@@ -3748,11 +3578,7 @@ export const ListIpLoadbalancingAvailableFarmTypeRequest = /*@__PURE__*/ S.suspe
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/ipLoadbalancing/{serviceName}/availableFarmType",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/ipLoadbalancing/{serviceName}/availableFarmType", code: 200 }),
   ),
 ).annotate({
   identifier: "ListIpLoadbalancingAvailableFarmTypeRequest",
@@ -3870,11 +3696,7 @@ export const ListIpLoadbalancingAvailableRouteRulesRequest = /*@__PURE__*/ S.sus
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/ipLoadbalancing/{serviceName}/availableRouteRules",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/ipLoadbalancing/{serviceName}/availableRouteRules", code: 200 }),
   ),
 ).annotate({
   identifier: "ListIpLoadbalancingAvailableRouteRulesRequest",
@@ -3944,13 +3766,7 @@ export const ListIpLoadbalancingDefinedFarmsRequest = /*@__PURE__*/ S.suspend(()
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     vrackNetworkId: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/ipLoadbalancing/{serviceName}/definedFarms",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/ipLoadbalancing/{serviceName}/definedFarms", code: 200 })),
 ).annotate({
   identifier: "ListIpLoadbalancingDefinedFarmsRequest",
 }) as any as S.Schema<ListIpLoadbalancingDefinedFarmsRequest>;
@@ -3976,11 +3792,7 @@ export const ListIpLoadbalancingDefinedFrontendsRequest = /*@__PURE__*/ S.suspen
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/ipLoadbalancing/{serviceName}/definedFrontends",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/ipLoadbalancing/{serviceName}/definedFrontends", code: 200 }),
   ),
 ).annotate({
   identifier: "ListIpLoadbalancingDefinedFrontendsRequest",
@@ -4011,11 +3823,7 @@ export const ListIpLoadbalancingDefinedRoutesRequest = /*@__PURE__*/ S.suspend((
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/ipLoadbalancing/{serviceName}/definedRoutes",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/ipLoadbalancing/{serviceName}/definedRoutes", code: 200 }),
   ),
 ).annotate({
   identifier: "ListIpLoadbalancingDefinedRoutesRequest",
@@ -4060,13 +3868,7 @@ export interface ListIpLoadbalancingFailoverRequest {
 export const ListIpLoadbalancingFailoverRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/ipLoadbalancing/{serviceName}/failover",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/ipLoadbalancing/{serviceName}/failover", code: 200 })),
 ).annotate({
   identifier: "ListIpLoadbalancingFailoverRequest",
 }) as any as S.Schema<ListIpLoadbalancingFailoverRequest>;
@@ -4096,13 +3898,7 @@ export const ListIpLoadbalancingHttpFarmRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     vrackNetworkId: S.optional(S.Number.pipe(T.Query())),
     zone: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/ipLoadbalancing/{serviceName}/http/farm",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/ipLoadbalancing/{serviceName}/http/farm", code: 200 })),
 ).annotate({
   identifier: "ListIpLoadbalancingHttpFarmRequest",
 }) as any as S.Schema<ListIpLoadbalancingHttpFarmRequest>;
@@ -4222,11 +4018,7 @@ export const ListIpLoadbalancingHttpFrontendRequest = /*@__PURE__*/ S.suspend(()
     port: S.optional(S.String.pipe(T.Query())),
     zone: S.optional(S.String.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/ipLoadbalancing/{serviceName}/http/frontend",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/ipLoadbalancing/{serviceName}/http/frontend", code: 200 }),
   ),
 ).annotate({
   identifier: "ListIpLoadbalancingHttpFrontendRequest",
@@ -4255,13 +4047,7 @@ export const ListIpLoadbalancingHttpRouteRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     frontendId: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/ipLoadbalancing/{serviceName}/http/route",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/ipLoadbalancing/{serviceName}/http/route", code: 200 })),
 ).annotate({
   identifier: "ListIpLoadbalancingHttpRouteRequest",
 }) as any as S.Schema<ListIpLoadbalancingHttpRouteRequest>;
@@ -4319,13 +4105,7 @@ export interface ListIpLoadbalancingLogKindRequest {
 export const ListIpLoadbalancingLogKindRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/ipLoadbalancing/{serviceName}/log/kind",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/ipLoadbalancing/{serviceName}/log/kind", code: 200 })),
 ).annotate({
   identifier: "ListIpLoadbalancingLogKindRequest",
 }) as any as S.Schema<ListIpLoadbalancingLogKindRequest>;
@@ -4353,11 +4133,7 @@ export const ListIpLoadbalancingLogSubscriptionRequest = /*@__PURE__*/ S.suspend
     serviceName: S.String.pipe(T.Label()),
     kind: S.optional(S.String.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/ipLoadbalancing/{serviceName}/log/subscription",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/ipLoadbalancing/{serviceName}/log/subscription", code: 200 }),
   ),
 ).annotate({
   identifier: "ListIpLoadbalancingLogSubscriptionRequest",
@@ -4383,13 +4159,7 @@ export interface ListIpLoadbalancingNatIpRequest {
 export const ListIpLoadbalancingNatIpRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/ipLoadbalancing/{serviceName}/natIp",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/ipLoadbalancing/{serviceName}/natIp", code: 200 })),
 ).annotate({
   identifier: "ListIpLoadbalancingNatIpRequest",
 }) as any as S.Schema<ListIpLoadbalancingNatIpRequest>;
@@ -4409,9 +4179,7 @@ export const IpLoadbalancingNatIps = /*@__PURE__*/ S.suspend(() =>
     ip: S.optional(IpLoadbalancingNatIpsIpList),
     zone: S.optional(S.String),
   }),
-).annotate({
-  identifier: "IpLoadbalancingNatIps",
-}) as any as S.Schema<IpLoadbalancingNatIps>;
+).annotate({ identifier: "IpLoadbalancingNatIps" }) as any as S.Schema<IpLoadbalancingNatIps>;
 
 export type ListIpLoadbalancingNatIpResponseBodyList = Array<IpLoadbalancingNatIps>;
 export const ListIpLoadbalancingNatIpResponseBodyList = /*@__PURE__*/ S.Array(
@@ -4433,11 +4201,7 @@ export const ListIpLoadbalancingPendingChangesRequest = /*@__PURE__*/ S.suspend(
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/ipLoadbalancing/{serviceName}/pendingChanges",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/ipLoadbalancing/{serviceName}/pendingChanges", code: 200 }),
   ),
 ).annotate({
   identifier: "ListIpLoadbalancingPendingChangesRequest",
@@ -4480,13 +4244,7 @@ export interface ListIpLoadbalancingQuotaRequest {
 export const ListIpLoadbalancingQuotaRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/ipLoadbalancing/{serviceName}/quota",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/ipLoadbalancing/{serviceName}/quota", code: 200 })),
 ).annotate({
   identifier: "ListIpLoadbalancingQuotaRequest",
 }) as any as S.Schema<ListIpLoadbalancingQuotaRequest>;
@@ -4519,13 +4277,7 @@ export const ListIpLoadbalancingQuotaHistoryRequest = /*@__PURE__*/ S.suspend(()
     historizedDate_from: S.optional(S.String.pipe(T.Query("historizedDate.from"))),
     historizedDate_to: S.optional(S.String.pipe(T.Query("historizedDate.to"))),
     zone: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/ipLoadbalancing/{serviceName}/quotaHistory",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/ipLoadbalancing/{serviceName}/quotaHistory", code: 200 })),
 ).annotate({
   identifier: "ListIpLoadbalancingQuotaHistoryRequest",
 }) as any as S.Schema<ListIpLoadbalancingQuotaHistoryRequest>;
@@ -4562,13 +4314,7 @@ export const ListIpLoadbalancingSslRequest = /*@__PURE__*/ S.suspend(() =>
     fingerprint: S.optional(S.String.pipe(T.Query())),
     serial: S.optional(S.String.pipe(T.Query())),
     type: S.optional(IpLoadbalancingSslTypeEnum.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/ipLoadbalancing/{serviceName}/ssl",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/ipLoadbalancing/{serviceName}/ssl", code: 200 })),
 ).annotate({
   identifier: "ListIpLoadbalancingSslRequest",
 }) as any as S.Schema<ListIpLoadbalancingSslRequest>;
@@ -4610,13 +4356,7 @@ export const ListIpLoadbalancingTaskRequest = /*@__PURE__*/ S.suspend(() =>
     doneDate_from: S.optional(S.String.pipe(T.Query("doneDate.from"))),
     doneDate_to: S.optional(S.String.pipe(T.Query("doneDate.to"))),
     status: S.optional(IpLoadbalancingTaskStatusEnum.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/ipLoadbalancing/{serviceName}/task",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/ipLoadbalancing/{serviceName}/task", code: 200 })),
 ).annotate({
   identifier: "ListIpLoadbalancingTaskRequest",
 }) as any as S.Schema<ListIpLoadbalancingTaskRequest>;
@@ -4646,13 +4386,7 @@ export const ListIpLoadbalancingTcpFarmRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     vrackNetworkId: S.optional(S.Number.pipe(T.Query())),
     zone: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/ipLoadbalancing/{serviceName}/tcp/farm",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/ipLoadbalancing/{serviceName}/tcp/farm", code: 200 })),
 ).annotate({
   identifier: "ListIpLoadbalancingTcpFarmRequest",
 }) as any as S.Schema<ListIpLoadbalancingTcpFarmRequest>;
@@ -4768,13 +4502,7 @@ export const ListIpLoadbalancingTcpFrontendRequest = /*@__PURE__*/ S.suspend(() 
     defaultSslId: S.optional(S.Number.pipe(T.Query())),
     port: S.optional(S.String.pipe(T.Query())),
     zone: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/ipLoadbalancing/{serviceName}/tcp/frontend",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/ipLoadbalancing/{serviceName}/tcp/frontend", code: 200 })),
 ).annotate({
   identifier: "ListIpLoadbalancingTcpFrontendRequest",
 }) as any as S.Schema<ListIpLoadbalancingTcpFrontendRequest>;
@@ -4801,13 +4529,7 @@ export const ListIpLoadbalancingTcpRouteRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     frontendId: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/ipLoadbalancing/{serviceName}/tcp/route",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/ipLoadbalancing/{serviceName}/tcp/route", code: 200 })),
 ).annotate({
   identifier: "ListIpLoadbalancingTcpRouteRequest",
 }) as any as S.Schema<ListIpLoadbalancingTcpRouteRequest>;
@@ -4871,13 +4593,7 @@ export const ListIpLoadbalancingUdpFarmRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     vrackNetworkId: S.optional(S.Number.pipe(T.Query())),
     zone: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/ipLoadbalancing/{serviceName}/udp/farm",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/ipLoadbalancing/{serviceName}/udp/farm", code: 200 })),
 ).annotate({
   identifier: "ListIpLoadbalancingUdpFarmRequest",
 }) as any as S.Schema<ListIpLoadbalancingUdpFarmRequest>;
@@ -4950,13 +4666,7 @@ export const ListIpLoadbalancingUdpFrontendRequest = /*@__PURE__*/ S.suspend(() 
     defaultFarmId: S.optional(S.Number.pipe(T.Query())),
     port: S.optional(S.String.pipe(T.Query())),
     zone: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/ipLoadbalancing/{serviceName}/udp/frontend",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/ipLoadbalancing/{serviceName}/udp/frontend", code: 200 })),
 ).annotate({
   identifier: "ListIpLoadbalancingUdpFrontendRequest",
 }) as any as S.Schema<ListIpLoadbalancingUdpFrontendRequest>;
@@ -4987,11 +4697,7 @@ export const ListIpLoadbalancingVrackNetworkRequest = /*@__PURE__*/ S.suspend(()
     subnet: S.optional(S.String.pipe(T.Query())),
     vlan: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/ipLoadbalancing/{serviceName}/vrack/network",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/ipLoadbalancing/{serviceName}/vrack/network", code: 200 }),
   ),
 ).annotate({
   identifier: "ListIpLoadbalancingVrackNetworkRequest",
@@ -5017,13 +4723,7 @@ export interface ListIpLoadbalancingVrackStatusRequest {
 export const ListIpLoadbalancingVrackStatusRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/ipLoadbalancing/{serviceName}/vrack/status",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/ipLoadbalancing/{serviceName}/vrack/status", code: 200 })),
 ).annotate({
   identifier: "ListIpLoadbalancingVrackStatusRequest",
 }) as any as S.Schema<ListIpLoadbalancingVrackStatusRequest>;
@@ -5115,13 +4815,7 @@ export interface ListIpLoadbalancingZoneRequest {
 export const ListIpLoadbalancingZoneRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/ipLoadbalancing/{serviceName}/zone",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/ipLoadbalancing/{serviceName}/zone", code: 200 })),
 ).annotate({
   identifier: "ListIpLoadbalancingZoneRequest",
 }) as any as S.Schema<ListIpLoadbalancingZoneRequest>;
@@ -5190,11 +4884,7 @@ export const PutIpLoadbalancingHttpFarmRequest = /*@__PURE__*/ S.suspend(() =>
     stickiness: S.optional(S.NullOr(IpLoadbalancingStickinessHTTPEnum)),
     vrackNetworkId: S.optional(S.NullOr(S.Number)),
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/ipLoadbalancing/{serviceName}/http/farm/{farmId}",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/ipLoadbalancing/{serviceName}/http/farm/{farmId}", code: 200 }),
   ),
 ).annotate({
   identifier: "PutIpLoadbalancingHttpFarmRequest",
@@ -5464,22 +5154,14 @@ export const PutIpLoadbalancingQuotaRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     zone: S.String.pipe(T.Label()),
     alert: S.optional(S.NullOr(S.Number)),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/ipLoadbalancing/{serviceName}/quota/{zone}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/ipLoadbalancing/{serviceName}/quota/{zone}", code: 200 })),
 ).annotate({
   identifier: "PutIpLoadbalancingQuotaRequest",
 }) as any as S.Schema<PutIpLoadbalancingQuotaRequest>;
 
 export interface PutIpLoadbalancingQuotaResponse {}
 export const PutIpLoadbalancingQuotaResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "PutIpLoadbalancingQuotaResponse",
-  },
+  { identifier: "PutIpLoadbalancingQuotaResponse" },
 ) as any as S.Schema<PutIpLoadbalancingQuotaResponse>;
 
 export interface PutIpLoadbalancingServiceInfosRequest {
@@ -5492,13 +5174,7 @@ export const PutIpLoadbalancingServiceInfosRequest = /*@__PURE__*/ S.suspend(() 
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     renew: S.optional(S.NullOr(ServiceRenewType)),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/ipLoadbalancing/{serviceName}/serviceInfos",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/ipLoadbalancing/{serviceName}/serviceInfos", code: 200 })),
 ).annotate({
   identifier: "PutIpLoadbalancingServiceInfosRequest",
 }) as any as S.Schema<PutIpLoadbalancingServiceInfosRequest>;
@@ -5523,13 +5199,7 @@ export const PutIpLoadbalancingSslRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     id: S.Number.pipe(T.Label()),
     displayName: S.optional(S.NullOr(S.String)),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/ipLoadbalancing/{serviceName}/ssl/{id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/ipLoadbalancing/{serviceName}/ssl/{id}", code: 200 })),
 ).annotate({
   identifier: "PutIpLoadbalancingSslRequest",
 }) as any as S.Schema<PutIpLoadbalancingSslRequest>;
@@ -5568,11 +5238,7 @@ export const PutIpLoadbalancingTcpFarmRequest = /*@__PURE__*/ S.suspend(() =>
     stickiness: S.optional(S.NullOr(IpLoadbalancingStickinessTCPEnum)),
     vrackNetworkId: S.optional(S.NullOr(S.Number)),
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/ipLoadbalancing/{serviceName}/tcp/farm/{farmId}",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/ipLoadbalancing/{serviceName}/tcp/farm/{farmId}", code: 200 }),
   ),
 ).annotate({
   identifier: "PutIpLoadbalancingTcpFarmRequest",
@@ -5745,11 +5411,7 @@ export const PutIpLoadbalancingTcpRouteRequest = /*@__PURE__*/ S.suspend(() =>
     frontendId: S.optional(S.NullOr(S.Number)),
     weight: S.optional(S.Number),
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/ipLoadbalancing/{serviceName}/tcp/route/{routeId}",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/ipLoadbalancing/{serviceName}/tcp/route/{routeId}", code: 200 }),
   ),
 ).annotate({
   identifier: "PutIpLoadbalancingTcpRouteRequest",
@@ -5831,11 +5493,7 @@ export const PutIpLoadbalancingUdpFarmRequest = /*@__PURE__*/ S.suspend(() =>
     port: S.optional(S.Number),
     vrackNetworkId: S.optional(S.NullOr(S.Number)),
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/ipLoadbalancing/{serviceName}/udp/farm/{farmId}",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/ipLoadbalancing/{serviceName}/udp/farm/{farmId}", code: 200 }),
   ),
 ).annotate({
   identifier: "PutIpLoadbalancingUdpFarmRequest",
@@ -5987,13 +5645,7 @@ export const RefreshIpLoadbalancingRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     zone: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/ipLoadbalancing/{serviceName}/refresh",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/ipLoadbalancing/{serviceName}/refresh", code: 200 })),
 ).annotate({
   identifier: "RefreshIpLoadbalancingRequest",
 }) as any as S.Schema<RefreshIpLoadbalancingRequest>;
@@ -6005,13 +5657,7 @@ export interface TerminateIpLoadbalancingRequest {
 export const TerminateIpLoadbalancingRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/ipLoadbalancing/{serviceName}/terminate",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/ipLoadbalancing/{serviceName}/terminate", code: 200 })),
 ).annotate({
   identifier: "TerminateIpLoadbalancingRequest",
 }) as any as S.Schema<TerminateIpLoadbalancingRequest>;

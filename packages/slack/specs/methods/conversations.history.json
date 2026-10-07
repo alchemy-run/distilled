@@ -183,6 +183,11 @@
           "desc": "Unix timestamp of when the user joined the channel",
           "example": "1562002086"
         }
+      },
+      "date_joined": {
+        "type": "integer",
+        "desc": "Unix timestamp of when the user joined the channel",
+        "example": "1562002086"
       }
     }
   },
@@ -207,6 +212,9 @@
     },
     "not_in_channel": {
       "desc": "The token used does not have access to the proper channel. Only user tokens can access public channels they are not in."
+    },
+    "restricted_action": {
+      "desc": "User does not have permission to perform this action."
     }
   }
 }

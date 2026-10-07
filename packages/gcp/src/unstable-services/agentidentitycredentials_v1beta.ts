@@ -63,19 +63,19 @@ export class NotFound
 
 /** Request message for `FinalizeCredentials`. */
 export interface GoogleCloudAgentidentitycredentialsV1beta_FinalizeCredentialsRequest {
+  /** Required. The encrypted state passed back from the consent flow. */
+  userIdValidationState?: string;
   /** Required. The identity of the end user. */
   userId?: string;
   /** Required. The same `consent_nonce` value that was provided during retrieval in the [UriConsentRequired](https://cloud.google.com/iam/docs/reference/agentidentitycredentials/rest/v1/projects.locations.authProviders.credentials/retrieve#UriConsentRequired) metadata. */
   consentNonce?: string;
-  /** Required. The encrypted state passed back from the consent flow. */
-  userIdValidationState?: string;
 }
 export const GoogleCloudAgentidentitycredentialsV1beta_FinalizeCredentialsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
+      userIdValidationState: S.optional(S.String),
       userId: S.optional(S.String),
       consentNonce: S.optional(S.String),
-      userIdValidationState: S.optional(S.String),
     }),
   ).annotate({
     identifier: "GoogleCloudAgentidentitycredentialsV1beta_FinalizeCredentialsRequest",
@@ -117,58 +117,49 @@ export const StringList = /*@__PURE__*/ S.Array(S.String) as any as S.Schema<Str
 
 /** Request message for `RetrieveCredentials`. */
 export interface GoogleCloudAgentidentitycredentialsV1beta_RetrieveCredentialsRequest {
-  /** Optional. The URI to redirect the user to after consent is completed. This field is required for auth providers using the 3-legged OAuth flow. For other auth provider types, this field is unused but not rejected. */
-  continueUri?: string;
   /** Required. The identity of the end user. */
   userId?: string;
   /** Optional. The OAuth scopes required for this access. */
   scopes?: StringList;
+  /** Optional. The URI to redirect the user to after consent is completed. This field is required for auth providers using the 3-legged OAuth flow. For other auth provider types, this field is unused but not rejected. */
+  continueUri?: string;
   /** Optional. Input only. Set this field only if the previous token was expired or invalid. This value must be the full, previously returned token string. Setting this field triggers a refresh of the access token with a stored refresh token, if possible, or a new consent flow. */
   forceRefreshToken?: string;
 }
 export const GoogleCloudAgentidentitycredentialsV1beta_RetrieveCredentialsRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      continueUri: S.optional(S.String),
       userId: S.optional(S.String),
       scopes: S.optional(StringList),
+      continueUri: S.optional(S.String),
       forceRefreshToken: S.optional(S.String),
     }),
   ).annotate({
     identifier: "GoogleCloudAgentidentitycredentialsV1beta_RetrieveCredentialsRequest",
   }) as any as S.Schema<GoogleCloudAgentidentitycredentialsV1beta_RetrieveCredentialsRequest>;
 
-export interface RetrieveProjectsLocationsAuthProvidersCredentialsRequest {
+export interface GetProjectsLocationsAuthProvidersCredentialsRequest {
   /** Required. The resource name of the auth provider. Format: `projects/{project}/locations/{location}/authProviders/{auth_provider}` */
   authProvider: string;
   /** Request body */
   body?: GoogleCloudAgentidentitycredentialsV1beta_RetrieveCredentialsRequest;
 }
-export const RetrieveProjectsLocationsAuthProvidersCredentialsRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      authProvider: S.String.pipe(T.Label()),
-      body: S.optional(
-        GoogleCloudAgentidentitycredentialsV1beta_RetrieveCredentialsRequest.pipe(T.HttpBody()),
-      ),
-    }).pipe(
-      T.Http({
-        method: "POST",
-        uri: "v1beta/{+authProvider}/credentials:retrieve",
-        baseUrl: "https://agentidentitycredentials.googleapis.com/",
-      }),
+export const GetProjectsLocationsAuthProvidersCredentialsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    authProvider: S.String.pipe(T.Label()),
+    body: S.optional(
+      GoogleCloudAgentidentitycredentialsV1beta_RetrieveCredentialsRequest.pipe(T.HttpBody()),
     ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "v1beta/{+authProvider}/credentials:retrieve",
+      baseUrl: "https://agentidentitycredentials.googleapis.com/",
+    }),
+  ),
 ).annotate({
-  identifier: "RetrieveProjectsLocationsAuthProvidersCredentialsRequest",
-}) as any as S.Schema<RetrieveProjectsLocationsAuthProvidersCredentialsRequest>;
-
-/** Indicates that the credential retrieval is pending. The caller should retry the `RetrieveCredentials` request after some time. */
-export interface GoogleCloudAgentidentitycredentialsV1beta_Pending {}
-export const GoogleCloudAgentidentitycredentialsV1beta_Pending = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "GoogleCloudAgentidentitycredentialsV1beta_Pending",
-}) as any as S.Schema<GoogleCloudAgentidentitycredentialsV1beta_Pending>;
+  identifier: "GetProjectsLocationsAuthProvidersCredentialsRequest",
+}) as any as S.Schema<GetProjectsLocationsAuthProvidersCredentialsRequest>;
 
 /** Indicates that the user must visit the provided URI to consent to delegate permission to the agent to act on their behalf. The caller can either poll the `RetrieveCredentials` method, or await the /ValidateUserId callback. */
 export interface GoogleCloudAgentidentitycredentialsV1beta_UriConsentRequired {
@@ -192,25 +183,33 @@ export const GoogleCloudAgentidentitycredentialsV1beta_UriConsentRequired = /*@_
 
 /** Message indicating successful retrieval of credentials. */
 export interface GoogleCloudAgentidentitycredentialsV1beta_Success {
-  /** The HTTP header name where the token should be placed. */
-  header?: string;
-  /** The expiration time of the token. This does not guarantee that the token will be valid until this time, since the token could be revoked earlier. There could also be clock skew between the auth provider and the client so it may expire slightly earlier. If not set, the token might be permanent or it may be that the service does not (or cannot) know when it will expire. */
-  expireTime?: string;
-  /** The retrieved access token or credential for the end user. On an MCP tool call, for an invalid token the OAuth spec states that this should return `401` or `403`, but MCP servers may implement this differently. If you get any flavor of `PERMISSION_DENIED`, retry your original request to `RetrieveCredentials` with force_refresh_token set to the expired/invalid token string, which will fetch a new token or initiate a new consent flow. */
-  token?: string;
   /** The scopes actually associated with the retrieved token. End users may have rejected some requested scopes, or the third-party authorization servers can return a different set of scopes than what was asked for. Callers should verify that all required scopes for their intended use are included in this list. */
   scopes?: StringList;
+  /** The retrieved access token or credential for the end user. On an MCP tool call, for an invalid token the OAuth spec states that this should return `401` or `403`, but MCP servers may implement this differently. If you get any flavor of `PERMISSION_DENIED`, retry your original request to `RetrieveCredentials` with force_refresh_token set to the expired/invalid token string, which will fetch a new token or initiate a new consent flow. */
+  token?: string;
+  /** The expiration time of the token. This does not guarantee that the token will be valid until this time, since the token could be revoked earlier. There could also be clock skew between the auth provider and the client so it may expire slightly earlier. If not set, the token might be permanent or it may be that the service does not (or cannot) know when it will expire. */
+  expireTime?: string;
+  /** The HTTP header name where the token should be placed. */
+  header?: string;
 }
 export const GoogleCloudAgentidentitycredentialsV1beta_Success = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    header: S.optional(S.String),
-    expireTime: S.optional(S.String),
-    token: S.optional(S.String),
     scopes: S.optional(StringList),
+    token: S.optional(S.String),
+    expireTime: S.optional(S.String),
+    header: S.optional(S.String),
   }),
 ).annotate({
   identifier: "GoogleCloudAgentidentitycredentialsV1beta_Success",
 }) as any as S.Schema<GoogleCloudAgentidentitycredentialsV1beta_Success>;
+
+/** Indicates that the credential retrieval is pending. The caller should retry the `RetrieveCredentials` request after some time. */
+export interface GoogleCloudAgentidentitycredentialsV1beta_Pending {}
+export const GoogleCloudAgentidentitycredentialsV1beta_Pending = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "GoogleCloudAgentidentitycredentialsV1beta_Pending",
+}) as any as S.Schema<GoogleCloudAgentidentitycredentialsV1beta_Pending>;
 
 /** Indicates the user has rejected the permission delegation or canceled the request. */
 export type GoogleCloudAgentidentitycredentialsV1beta_ConsentRejected =
@@ -220,21 +219,21 @@ export const GoogleCloudAgentidentitycredentialsV1beta_ConsentRejected =
 
 /** Response message for `RetrieveCredentials`. Contains the access tokens and related artifacts. */
 export interface GoogleCloudAgentidentitycredentialsV1beta_RetrieveCredentialsResponse {
-  /** Message indicating credential retrieval is pending. */
-  pending?: GoogleCloudAgentidentitycredentialsV1beta_Pending;
   /** Message indicating URI-based consent is required. */
   uriConsentRequired?: GoogleCloudAgentidentitycredentialsV1beta_UriConsentRequired;
   /** Message indicating credentials were successfully retrieved. */
   success?: GoogleCloudAgentidentitycredentialsV1beta_Success;
+  /** Message indicating credential retrieval is pending. */
+  pending?: GoogleCloudAgentidentitycredentialsV1beta_Pending;
   /** Message indicating consent was rejected. */
   consentRejected?: GoogleCloudAgentidentitycredentialsV1beta_Pending;
 }
 export const GoogleCloudAgentidentitycredentialsV1beta_RetrieveCredentialsResponse =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      pending: S.optional(GoogleCloudAgentidentitycredentialsV1beta_Pending),
       uriConsentRequired: S.optional(GoogleCloudAgentidentitycredentialsV1beta_UriConsentRequired),
       success: S.optional(GoogleCloudAgentidentitycredentialsV1beta_Success),
+      pending: S.optional(GoogleCloudAgentidentitycredentialsV1beta_Pending),
       consentRejected: S.optional(GoogleCloudAgentidentitycredentialsV1beta_Pending),
     }),
   ).annotate({
@@ -261,20 +260,20 @@ export const finalizeProjectsLocationsAuthProvidersCredentials: API.OperationMet
   retry: Retry.Retry,
 }));
 
-export type RetrieveProjectsLocationsAuthProvidersCredentialsError =
+export type GetProjectsLocationsAuthProvidersCredentialsError =
   | NotFound
   | Forbidden
   | BadRequest
   | Conflict
   | GcpOpError;
 /** Retrieves authorization credentials for an auth provider, or indicates what action needs to be taken to obtain credentials. If the `token` field in the response is populated, credential retrieval was successful. If one of the fields in the `result` oneof is populated, further action is required to obtain credentials, such as redirecting the user for consent. View comments on `RetrieveCredentialsResponse` for more information. */
-export const retrieveProjectsLocationsAuthProvidersCredentials: API.OperationMethod<
-  RetrieveProjectsLocationsAuthProvidersCredentialsRequest,
+export const getProjectsLocationsAuthProvidersCredentials: API.OperationMethod<
+  GetProjectsLocationsAuthProvidersCredentialsRequest,
   GoogleCloudAgentidentitycredentialsV1beta_RetrieveCredentialsResponse,
-  RetrieveProjectsLocationsAuthProvidersCredentialsError,
+  GetProjectsLocationsAuthProvidersCredentialsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: RetrieveProjectsLocationsAuthProvidersCredentialsRequest,
+  input: GetProjectsLocationsAuthProvidersCredentialsRequest,
   output: GoogleCloudAgentidentitycredentialsV1beta_RetrieveCredentialsResponse,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,

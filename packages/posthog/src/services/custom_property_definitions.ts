@@ -53,9 +53,7 @@ export const CustomPropertyOption = /*@__PURE__*/ S.suspend(() =>
     label: S.String,
     color: CustomPropertyOptionColorEnum,
   }),
-).annotate({
-  identifier: "CustomPropertyOption",
-}) as any as S.Schema<CustomPropertyOption>;
+).annotate({ identifier: "CustomPropertyOption" }) as any as S.Schema<CustomPropertyOption>;
 
 /** For select properties: the allowed options. Required (non-empty) when display_type is 'select'; cleared server-side for other types. */
 export type CreateCustomPropertyDefinitionRequestOptionsList = Array<CustomPropertyOption>;
@@ -178,9 +176,7 @@ export const CustomPropertySyncRun = /*@__PURE__*/ S.suspend(() =>
     error: S.NullOr(S.String),
     created_at: S.String,
   }),
-).annotate({
-  identifier: "CustomPropertySyncRun",
-}) as any as S.Schema<CustomPropertySyncRun>;
+).annotate({ identifier: "CustomPropertySyncRun" }) as any as S.Schema<CustomPropertySyncRun>;
 
 /** Binds warehouse columns to a custom property definition. Account sources read a materialized view column and sync onto matching accounts; person and group sources read either an imported warehouse table or a materialized view, and sync onto matching persons or groups on every warehouse run of what they read. */
 export interface CustomPropertySource {
@@ -195,7 +191,7 @@ export interface CustomPropertySource {
   source_column?: string | null;
   /** Person and group sources only: {warehouse_column: property_name} mapping the columns this source writes onto the person or group. */
   column_property_map?: unknown;
-  /** Person and group sources only: {warehouse_column: description} giving each mapped column a human-facing description, seeded from the warehouse column's information_schema description. Optional per column. Create-only. */
+  /** Person and group sources only: {warehouse_column: description} giving each mapped column a human-facing description, seeded from the warehouse column's information_schema description. Optional per column. */
   column_descriptions?: unknown;
   /** Column whose value identifies the target: an account's external_id for account sources, the person's distinct_id for person sources, or the group key for group sources. */
   key_column: string;
@@ -247,9 +243,7 @@ export const CustomPropertySource = /*@__PURE__*/ S.suspend(() =>
     table_name: S.NullOr(S.String),
     saved_query_name: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "CustomPropertySource",
-}) as any as S.Schema<CustomPropertySource>;
+).annotate({ identifier: "CustomPropertySource" }) as any as S.Schema<CustomPropertySource>;
 
 /** A place that uses a custom property definition (read-only). */
 export interface CustomPropertyReference {
@@ -269,9 +263,7 @@ export const CustomPropertyReference = /*@__PURE__*/ S.suspend(() =>
     status: S.String,
     type: S.String,
   }),
-).annotate({
-  identifier: "CustomPropertyReference",
-}) as any as S.Schema<CustomPropertyReference>;
+).annotate({ identifier: "CustomPropertyReference" }) as any as S.Schema<CustomPropertyReference>;
 
 /** Workflows that use this property, resolved by definition id when the caller can view workflows. */
 export type CustomPropertyDefinitionReferencesList = Array<CustomPropertyReference>;
@@ -326,9 +318,7 @@ export const CustomPropertyDefinition = /*@__PURE__*/ S.suspend(() =>
     references: CustomPropertyDefinitionReferencesList,
     has_workflow_reference: S.Boolean,
   }),
-).annotate({
-  identifier: "CustomPropertyDefinition",
-}) as any as S.Schema<CustomPropertyDefinition>;
+).annotate({ identifier: "CustomPropertyDefinition" }) as any as S.Schema<CustomPropertyDefinition>;
 
 export interface CustomPropertyDefinitionsDestroyRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */

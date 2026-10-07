@@ -877,7 +877,7 @@
           "uri": "/assistant.threads.setStatus",
           "code": 200
         },
-        "smithy.api#documentation": "Set the status for an AI assistant thread.\n\nRequired scopes — bot: `chat:write`\n\nRate limit tier: 5\n\nMethod-specific errors (the `error` slug on the SlackError):\n  - `channel_not_found` — Error returned when given an invalid channel_id\n  - `invalid_thread_ts` — Error returned when given an invalid thread_ts\n  - `reserved_username` — Reserved usernames are not allowed to be used.\n\nSee https://docs.slack.dev/reference/methods/assistant.threads.setStatus"
+        "smithy.api#documentation": "Set the status for an AI assistant thread.\n\nRequired scopes — bot: `chat:write`\n\nRate limit tier: 5\n\nMethod-specific errors (the `error` slug on the SlackError):\n  - `channel_not_found` — Error returned when given an invalid channel_id\n  - `invalid_thread_ts` — Error returned when given an invalid thread_ts\n  - `reserved_username` — Reserved usernames are not allowed to be used.\n  - `method_not_supported_for_channel_type` — This type of conversation cannot be used with this method. Use `agents.sessions.setStatus` to set status in a session channel.\n\nSee https://docs.slack.dev/reference/methods/assistant.threads.setStatus"
       }
     },
     "com.slack.assistant#SetSuggestedPromptsRequest": {
@@ -893,7 +893,7 @@
         "thread_ts": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Message timestamp of the thread to set suggested prompts for."
+            "smithy.api#documentation": "Message timestamp of the thread to set suggested prompts for. If not provided, the prompts will be set for the latest message in the channel."
           }
         },
         "prompts": {
@@ -943,7 +943,7 @@
           "uri": "/assistant.threads.setSuggestedPrompts",
           "code": 200
         },
-        "smithy.api#documentation": "Set suggested prompts for the given assistant thread\n\nRequired scopes — bot: `assistant:write`\n\nRate limit tier: 4\n\nMethod-specific errors (the `error` slug on the SlackError):\n  - `invalid_thread_ts` — Thread not found\n  - `channel_not_found` — Error returned when given an invalid channel_id\n  - `message_not_found` — Error returned when given an invalid message\n  - `not_agent_app` — This method requires the app to be configured as an agent. Enable the Agent feature in your app configuration at https://api.slack.com/apps.\n\nSee https://docs.slack.dev/reference/methods/assistant.threads.setSuggestedPrompts"
+        "smithy.api#documentation": "Set suggested prompts for the given assistant thread\n\nRequired scopes — bot: `assistant:write`\n\nRate limit tier: 4\n\nMethod-specific errors (the `error` slug on the SlackError):\n  - `invalid_thread_ts` — Thread not found\n  - `missing_thread_ts` — Missing thread_ts\n  - `channel_not_found` — Error returned when given an invalid channel_id\n  - `message_not_found` — Error returned when given an invalid message\n  - `not_agent_app` — This method requires the app to be configured as an agent. Enable the Agent feature in your app configuration at https://api.slack.com/apps.\n  - `static_prompts_configured` — Suggested prompts can't be set dynamically without thread_ts because the app already has static suggested prompts configured. Remove the static prompts in your app configuration to set them via this method without thread_ts.\n\nSee https://docs.slack.dev/reference/methods/assistant.threads.setSuggestedPrompts"
       }
     },
     "com.slack.assistant#SetTitleRequest": {

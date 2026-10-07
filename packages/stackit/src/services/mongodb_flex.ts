@@ -38,7 +38,7 @@ export class NotFound
   ) {}
 
 export type CloneInstanceRequestRegion = "eu01" | "eu02";
-export const CloneInstanceRequestRegion = /*@__PURE__*/ S.String;
+export const CloneInstanceRequestRegion = S.String;
 
 export interface CloneInstanceRequest {
   /** project id */
@@ -63,9 +63,7 @@ export const CloneInstanceRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://mongodb-flex-service.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "CloneInstanceRequest",
-}) as any as S.Schema<CloneInstanceRequest>;
+).annotate({ identifier: "CloneInstanceRequest" }) as any as S.Schema<CloneInstanceRequest>;
 
 export interface CloneInstanceResponse {
   instanceId?: string;
@@ -74,12 +72,10 @@ export const CloneInstanceResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     instanceId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CloneInstanceResponse",
-}) as any as S.Schema<CloneInstanceResponse>;
+).annotate({ identifier: "CloneInstanceResponse" }) as any as S.Schema<CloneInstanceResponse>;
 
 export type CreateInstanceRequestRegion = "eu01" | "eu02";
-export const CreateInstanceRequestRegion = /*@__PURE__*/ S.String;
+export const CreateInstanceRequestRegion = S.String;
 
 export type ACLItemsList = Array<string>;
 export const ACLItemsList = /*@__PURE__*/ S.Array(S.String) as any as S.Schema<ACLItemsList>;
@@ -94,17 +90,13 @@ export const ACL = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "ACL" }) as any as S.Schema<ACL>;
 
 /** Labels field is not certain/clear */
-export type CreateInstanceRequestLabelsMap = {
-  [key: string]: string | undefined;
-};
+export type CreateInstanceRequestLabelsMap = { [key: string]: string | undefined };
 export const CreateInstanceRequestLabelsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
 ) as any as S.Schema<CreateInstanceRequestLabelsMap>;
 
-export type CreateInstanceRequestOptionsMap = {
-  [key: string]: string | undefined;
-};
+export type CreateInstanceRequestOptionsMap = { [key: string]: string | undefined };
 export const CreateInstanceRequestOptionsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -159,9 +151,7 @@ export const CreateInstanceRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://mongodb-flex-service.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "CreateInstanceRequest",
-}) as any as S.Schema<CreateInstanceRequest>;
+).annotate({ identifier: "CreateInstanceRequest" }) as any as S.Schema<CreateInstanceRequest>;
 
 export interface CreateInstanceResponse {
   id?: string;
@@ -170,12 +160,10 @@ export const CreateInstanceResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CreateInstanceResponse",
-}) as any as S.Schema<CreateInstanceResponse>;
+).annotate({ identifier: "CreateInstanceResponse" }) as any as S.Schema<CreateInstanceResponse>;
 
 export type CreateUserRequestRegion = "eu01" | "eu02";
-export const CreateUserRequestRegion = /*@__PURE__*/ S.String;
+export const CreateUserRequestRegion = S.String;
 
 /** The roles defined for a user. Currently only one role in the list is supported, therefore only the first role from this list is used. The *roles* attribute can contain the following values: 'read', 'readWrite', 'readAnyDatabase', 'readWriteAnyDatabase', 'stackitAdmin'. **The 'readAnyDatabase', 'readWriteAnyDatabase' and 'stackitAdmin' roles will always be created in the admin database.** */
 export type CreateUserRequestRolesList = Array<string>;
@@ -211,9 +199,7 @@ export const CreateUserRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://mongodb-flex-service.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "CreateUserRequest",
-}) as any as S.Schema<CreateUserRequest>;
+).annotate({ identifier: "CreateUserRequest" }) as any as S.Schema<CreateUserRequest>;
 
 /** The roles defined for a user. Currently only one role in the list is supported, therefore only the first role from this list is used. The *roles* attribute can contain the following values: 'read', 'readWrite', 'readAnyDatabase', 'readWriteAnyDatabase', 'stackitAdmin'. **The 'readAnyDatabase', 'readWriteAnyDatabase' and 'stackitAdmin' roles will always be created in the admin database.** */
 export type UserRolesList = Array<string>;
@@ -250,12 +236,10 @@ export const CreateUserResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     item: S.optional(User),
   }),
-).annotate({
-  identifier: "CreateUserResponse",
-}) as any as S.Schema<CreateUserResponse>;
+).annotate({ identifier: "CreateUserResponse" }) as any as S.Schema<CreateUserResponse>;
 
 export type DeleteInstanceRequestRegion = "eu01" | "eu02";
-export const DeleteInstanceRequestRegion = /*@__PURE__*/ S.String;
+export const DeleteInstanceRequestRegion = S.String;
 
 export interface DeleteInstanceRequest {
   /** project id */
@@ -278,9 +262,7 @@ export const DeleteInstanceRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://mongodb-flex-service.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "DeleteInstanceRequest",
-}) as any as S.Schema<DeleteInstanceRequest>;
+).annotate({ identifier: "DeleteInstanceRequest" }) as any as S.Schema<DeleteInstanceRequest>;
 
 export interface DeleteInstanceResponse {}
 export const DeleteInstanceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -288,7 +270,7 @@ export const DeleteInstanceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})
 }) as any as S.Schema<DeleteInstanceResponse>;
 
 export type DeleteUserRequestRegion = "eu01" | "eu02";
-export const DeleteUserRequestRegion = /*@__PURE__*/ S.String;
+export const DeleteUserRequestRegion = S.String;
 
 export interface DeleteUserRequest {
   /** project id */
@@ -314,9 +296,7 @@ export const DeleteUserRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://mongodb-flex-service.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "DeleteUserRequest",
-}) as any as S.Schema<DeleteUserRequest>;
+).annotate({ identifier: "DeleteUserRequest" }) as any as S.Schema<DeleteUserRequest>;
 
 export interface DeleteUserResponse {}
 export const DeleteUserResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -324,7 +304,7 @@ export const DeleteUserResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).an
 }) as any as S.Schema<DeleteUserResponse>;
 
 export type GetBackupRequestRegion = "eu01" | "eu02";
-export const GetBackupRequestRegion = /*@__PURE__*/ S.String;
+export const GetBackupRequestRegion = S.String;
 
 export interface GetBackupRequest {
   /** project id */
@@ -350,9 +330,7 @@ export const GetBackupRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://mongodb-flex-service.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "GetBackupRequest",
-}) as any as S.Schema<GetBackupRequest>;
+).annotate({ identifier: "GetBackupRequest" }) as any as S.Schema<GetBackupRequest>;
 
 export type BackupLabelsList = Array<string>;
 export const BackupLabelsList = /*@__PURE__*/ S.Array(
@@ -395,12 +373,10 @@ export const GetBackupResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     item: S.optional(Backup),
   }),
-).annotate({
-  identifier: "GetBackupResponse",
-}) as any as S.Schema<GetBackupResponse>;
+).annotate({ identifier: "GetBackupResponse" }) as any as S.Schema<GetBackupResponse>;
 
 export type GetInstanceRequestRegion = "eu01" | "eu02";
-export const GetInstanceRequestRegion = /*@__PURE__*/ S.String;
+export const GetInstanceRequestRegion = S.String;
 
 export interface GetInstanceRequest {
   /** project id */
@@ -423,9 +399,7 @@ export const GetInstanceRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://mongodb-flex-service.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "GetInstanceRequest",
-}) as any as S.Schema<GetInstanceRequest>;
+).annotate({ identifier: "GetInstanceRequest" }) as any as S.Schema<GetInstanceRequest>;
 
 export interface Flavor {
   cpu?: number;
@@ -450,7 +424,7 @@ export const InstanceOptionsMap = /*@__PURE__*/ S.Record(
 
 /** The current status of the instance. */
 export type InstanceStatus = "READY" | "PENDING" | "PROCESSING" | "FAILED" | "UNKNOWN";
-export const InstanceStatus = /*@__PURE__*/ S.String;
+export const InstanceStatus = S.String;
 
 export interface Instance {
   acl?: ACL;
@@ -487,12 +461,10 @@ export const InstanceResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     item: S.optional(Instance),
   }),
-).annotate({
-  identifier: "InstanceResponse",
-}) as any as S.Schema<InstanceResponse>;
+).annotate({ identifier: "InstanceResponse" }) as any as S.Schema<InstanceResponse>;
 
 export type GetUserRequestRegion = "eu01" | "eu02";
-export const GetUserRequestRegion = /*@__PURE__*/ S.String;
+export const GetUserRequestRegion = S.String;
 
 export interface GetUserRequest {
   /** project id */
@@ -544,9 +516,7 @@ export const InstanceResponseUser = /*@__PURE__*/ S.suspend(() =>
     roles: S.optional(InstanceResponseUserRolesList),
     username: S.optional(S.String),
   }),
-).annotate({
-  identifier: "InstanceResponseUser",
-}) as any as S.Schema<InstanceResponseUser>;
+).annotate({ identifier: "InstanceResponseUser" }) as any as S.Schema<InstanceResponseUser>;
 
 export interface GetUserResponse {
   item?: InstanceResponseUser;
@@ -555,12 +525,10 @@ export const GetUserResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     item: S.optional(InstanceResponseUser),
   }),
-).annotate({
-  identifier: "GetUserResponse",
-}) as any as S.Schema<GetUserResponse>;
+).annotate({ identifier: "GetUserResponse" }) as any as S.Schema<GetUserResponse>;
 
 export type ListAdvisorSlowQueriesRequestRegion = "eu01" | "eu02";
-export const ListAdvisorSlowQueriesRequestRegion = /*@__PURE__*/ S.String;
+export const ListAdvisorSlowQueriesRequestRegion = S.String;
 
 export interface ListAdvisorSlowQueriesRequest {
   /** project id */
@@ -619,7 +587,7 @@ export const HandlersInstancesSlowQueriesResponse = /*@__PURE__*/ S.suspend(() =
 }) as any as S.Schema<HandlersInstancesSlowQueriesResponse>;
 
 export type ListBackupsRequestRegion = "eu01" | "eu02";
-export const ListBackupsRequestRegion = /*@__PURE__*/ S.String;
+export const ListBackupsRequestRegion = S.String;
 
 export interface ListBackupsRequest {
   /** project id */
@@ -642,9 +610,7 @@ export const ListBackupsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://mongodb-flex-service.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "ListBackupsRequest",
-}) as any as S.Schema<ListBackupsRequest>;
+).annotate({ identifier: "ListBackupsRequest" }) as any as S.Schema<ListBackupsRequest>;
 
 export type ListBackupsResponseItemsList = Array<Backup>;
 export const ListBackupsResponseItemsList = /*@__PURE__*/ S.Array(
@@ -660,12 +626,10 @@ export const ListBackupsResponse = /*@__PURE__*/ S.suspend(() =>
     count: S.optional(S.Number),
     items: S.optional(ListBackupsResponseItemsList),
   }),
-).annotate({
-  identifier: "ListBackupsResponse",
-}) as any as S.Schema<ListBackupsResponse>;
+).annotate({ identifier: "ListBackupsResponse" }) as any as S.Schema<ListBackupsResponse>;
 
 export type ListFlavorsRequestRegion = "eu01" | "eu02";
-export const ListFlavorsRequestRegion = /*@__PURE__*/ S.String;
+export const ListFlavorsRequestRegion = S.String;
 
 export interface ListFlavorsRequest {
   /** project id */
@@ -685,9 +649,7 @@ export const ListFlavorsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://mongodb-flex-service.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "ListFlavorsRequest",
-}) as any as S.Schema<ListFlavorsRequest>;
+).annotate({ identifier: "ListFlavorsRequest" }) as any as S.Schema<ListFlavorsRequest>;
 
 export type InstanceFlavorCategoriesList = Array<string>;
 export const InstanceFlavorCategoriesList = /*@__PURE__*/ S.Array(
@@ -723,12 +685,10 @@ export const ListFlavorsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     flavors: S.optional(ListFlavorsResponseFlavorsList),
   }),
-).annotate({
-  identifier: "ListFlavorsResponse",
-}) as any as S.Schema<ListFlavorsResponse>;
+).annotate({ identifier: "ListFlavorsResponse" }) as any as S.Schema<ListFlavorsResponse>;
 
 export type ListInstancesRequestRegion = "eu01" | "eu02";
-export const ListInstancesRequestRegion = /*@__PURE__*/ S.String;
+export const ListInstancesRequestRegion = S.String;
 
 export interface ListInstancesRequest {
   /** project id */
@@ -751,13 +711,11 @@ export const ListInstancesRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://mongodb-flex-service.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "ListInstancesRequest",
-}) as any as S.Schema<ListInstancesRequest>;
+).annotate({ identifier: "ListInstancesRequest" }) as any as S.Schema<ListInstancesRequest>;
 
 /** The current status of the instance. */
 export type InstanceListInstanceStatus = "READY" | "PENDING" | "PROCESSING" | "FAILED" | "UNKNOWN";
-export const InstanceListInstanceStatus = /*@__PURE__*/ S.String;
+export const InstanceListInstanceStatus = S.String;
 
 export interface InstanceListInstance {
   id?: string;
@@ -771,9 +729,7 @@ export const InstanceListInstance = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     status: S.optional(InstanceListInstanceStatus),
   }),
-).annotate({
-  identifier: "InstanceListInstance",
-}) as any as S.Schema<InstanceListInstance>;
+).annotate({ identifier: "InstanceListInstance" }) as any as S.Schema<InstanceListInstance>;
 
 export type ListInstancesResponseItemsList = Array<InstanceListInstance>;
 export const ListInstancesResponseItemsList = /*@__PURE__*/ S.Array(
@@ -789,12 +745,10 @@ export const ListInstancesResponse = /*@__PURE__*/ S.suspend(() =>
     count: S.optional(S.Number),
     items: S.optional(ListInstancesResponseItemsList),
   }),
-).annotate({
-  identifier: "ListInstancesResponse",
-}) as any as S.Schema<ListInstancesResponse>;
+).annotate({ identifier: "ListInstancesResponse" }) as any as S.Schema<ListInstancesResponse>;
 
 export type ListMetricsRequestRegion = "eu01" | "eu02";
-export const ListMetricsRequestRegion = /*@__PURE__*/ S.String;
+export const ListMetricsRequestRegion = S.String;
 
 export interface ListMetricsRequest {
   /** project id */
@@ -832,9 +786,7 @@ export const ListMetricsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://mongodb-flex-service.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "ListMetricsRequest",
-}) as any as S.Schema<ListMetricsRequest>;
+).annotate({ identifier: "ListMetricsRequest" }) as any as S.Schema<ListMetricsRequest>;
 
 export interface DataPoint {
   timestamp?: string;
@@ -893,12 +845,10 @@ export const ListMetricsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     hosts: S.optional(ListMetricsResponseHostsList),
   }),
-).annotate({
-  identifier: "ListMetricsResponse",
-}) as any as S.Schema<ListMetricsResponse>;
+).annotate({ identifier: "ListMetricsResponse" }) as any as S.Schema<ListMetricsResponse>;
 
 export type ListRestoreJobsRequestRegion = "eu01" | "eu02";
-export const ListRestoreJobsRequestRegion = /*@__PURE__*/ S.String;
+export const ListRestoreJobsRequestRegion = S.String;
 
 export interface ListRestoreJobsRequest {
   /** project id */
@@ -921,9 +871,7 @@ export const ListRestoreJobsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://mongodb-flex-service.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "ListRestoreJobsRequest",
-}) as any as S.Schema<ListRestoreJobsRequest>;
+).annotate({ identifier: "ListRestoreJobsRequest" }) as any as S.Schema<ListRestoreJobsRequest>;
 
 export interface RestoreInstanceStatus {
   backupID?: string;
@@ -940,9 +888,7 @@ export const RestoreInstanceStatus = /*@__PURE__*/ S.suspend(() =>
     instanceId: S.optional(S.String),
     status: S.optional(S.String),
   }),
-).annotate({
-  identifier: "RestoreInstanceStatus",
-}) as any as S.Schema<RestoreInstanceStatus>;
+).annotate({ identifier: "RestoreInstanceStatus" }) as any as S.Schema<RestoreInstanceStatus>;
 
 export type ListRestoreJobsResponseItemsList = Array<RestoreInstanceStatus>;
 export const ListRestoreJobsResponseItemsList = /*@__PURE__*/ S.Array(
@@ -956,12 +902,10 @@ export const ListRestoreJobsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     items: S.optional(ListRestoreJobsResponseItemsList),
   }),
-).annotate({
-  identifier: "ListRestoreJobsResponse",
-}) as any as S.Schema<ListRestoreJobsResponse>;
+).annotate({ identifier: "ListRestoreJobsResponse" }) as any as S.Schema<ListRestoreJobsResponse>;
 
 export type ListStoragesRequestRegion = "eu01" | "eu02";
-export const ListStoragesRequestRegion = /*@__PURE__*/ S.String;
+export const ListStoragesRequestRegion = S.String;
 
 export interface ListStoragesRequest {
   /** project id */
@@ -984,9 +928,7 @@ export const ListStoragesRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://mongodb-flex-service.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "ListStoragesRequest",
-}) as any as S.Schema<ListStoragesRequest>;
+).annotate({ identifier: "ListStoragesRequest" }) as any as S.Schema<ListStoragesRequest>;
 
 export type ListStoragesResponseStorageClassesList = Array<string>;
 export const ListStoragesResponseStorageClassesList = /*@__PURE__*/ S.Array(
@@ -1013,12 +955,10 @@ export const ListStoragesResponse = /*@__PURE__*/ S.suspend(() =>
     storageClasses: S.optional(ListStoragesResponseStorageClassesList),
     storageRange: S.optional(StorageRange),
   }),
-).annotate({
-  identifier: "ListStoragesResponse",
-}) as any as S.Schema<ListStoragesResponse>;
+).annotate({ identifier: "ListStoragesResponse" }) as any as S.Schema<ListStoragesResponse>;
 
 export type ListSuggestedIndexesRequestRegion = "eu01" | "eu02";
-export const ListSuggestedIndexesRequestRegion = /*@__PURE__*/ S.String;
+export const ListSuggestedIndexesRequestRegion = S.String;
 
 export interface ListSuggestedIndexesRequest {
   /** project id */
@@ -1068,9 +1008,7 @@ export const MongodbatlasStats = /*@__PURE__*/ S.suspend(() =>
     nScanned: S.optional(S.Number),
     ts: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "MongodbatlasStats",
-}) as any as S.Schema<MongodbatlasStats>;
+).annotate({ identifier: "MongodbatlasStats" }) as any as S.Schema<MongodbatlasStats>;
 
 export interface MongodbatlasOperation {
   /** Documents containing the search criteria used by the query. */
@@ -1086,9 +1024,7 @@ export const MongodbatlasOperation = /*@__PURE__*/ S.suspend(() =>
     raw: S.optional(S.String),
     stats: S.optional(MongodbatlasStats),
   }),
-).annotate({
-  identifier: "MongodbatlasOperation",
-}) as any as S.Schema<MongodbatlasOperation>;
+).annotate({ identifier: "MongodbatlasOperation" }) as any as S.Schema<MongodbatlasOperation>;
 
 /** It represents documents with specific information and log lines for individual queries. */
 export type ShapeOperationsList = Array<MongodbatlasOperation>;
@@ -1189,7 +1125,7 @@ export const HandlersInstancesSuggestedIndexesResponse = /*@__PURE__*/ S.suspend
 }) as any as S.Schema<HandlersInstancesSuggestedIndexesResponse>;
 
 export type ListUsersRequestRegion = "eu01" | "eu02";
-export const ListUsersRequestRegion = /*@__PURE__*/ S.String;
+export const ListUsersRequestRegion = S.String;
 
 export interface ListUsersRequest {
   /** project id */
@@ -1212,9 +1148,7 @@ export const ListUsersRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://mongodb-flex-service.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "ListUsersRequest",
-}) as any as S.Schema<ListUsersRequest>;
+).annotate({ identifier: "ListUsersRequest" }) as any as S.Schema<ListUsersRequest>;
 
 export interface ListUser {
   id?: string;
@@ -1241,12 +1175,10 @@ export const ListUsersResponse = /*@__PURE__*/ S.suspend(() =>
     count: S.optional(S.Number),
     items: S.optional(ListUsersResponseItemsList),
   }),
-).annotate({
-  identifier: "ListUsersResponse",
-}) as any as S.Schema<ListUsersResponse>;
+).annotate({ identifier: "ListUsersResponse" }) as any as S.Schema<ListUsersResponse>;
 
 export type ListVersionsRequestRegion = "eu01" | "eu02";
-export const ListVersionsRequestRegion = /*@__PURE__*/ S.String;
+export const ListVersionsRequestRegion = S.String;
 
 export interface ListVersionsRequest {
   /** project id */
@@ -1266,9 +1198,7 @@ export const ListVersionsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://mongodb-flex-service.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "ListVersionsRequest",
-}) as any as S.Schema<ListVersionsRequest>;
+).annotate({ identifier: "ListVersionsRequest" }) as any as S.Schema<ListVersionsRequest>;
 
 export type ListVersionsResponseVersionsList = Array<string>;
 export const ListVersionsResponseVersionsList = /*@__PURE__*/ S.Array(
@@ -1282,25 +1212,19 @@ export const ListVersionsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     versions: S.optional(ListVersionsResponseVersionsList),
   }),
-).annotate({
-  identifier: "ListVersionsResponse",
-}) as any as S.Schema<ListVersionsResponse>;
+).annotate({ identifier: "ListVersionsResponse" }) as any as S.Schema<ListVersionsResponse>;
 
 export type PartialUpdateInstanceRequestRegion = "eu01" | "eu02";
-export const PartialUpdateInstanceRequestRegion = /*@__PURE__*/ S.String;
+export const PartialUpdateInstanceRequestRegion = S.String;
 
 /** Labels field is not certain/clear */
-export type PartialUpdateInstanceRequestLabelsMap = {
-  [key: string]: string | undefined;
-};
+export type PartialUpdateInstanceRequestLabelsMap = { [key: string]: string | undefined };
 export const PartialUpdateInstanceRequestLabelsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
 ) as any as S.Schema<PartialUpdateInstanceRequestLabelsMap>;
 
-export type PartialUpdateInstanceRequestOptionsMap = {
-  [key: string]: string | undefined;
-};
+export type PartialUpdateInstanceRequestOptionsMap = { [key: string]: string | undefined };
 export const PartialUpdateInstanceRequestOptionsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1357,12 +1281,10 @@ export const UpdateInstanceResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     item: S.optional(Instance),
   }),
-).annotate({
-  identifier: "UpdateInstanceResponse",
-}) as any as S.Schema<UpdateInstanceResponse>;
+).annotate({ identifier: "UpdateInstanceResponse" }) as any as S.Schema<UpdateInstanceResponse>;
 
 export type PartialUpdateUserRequestRegion = "eu01" | "eu02";
-export const PartialUpdateUserRequestRegion = /*@__PURE__*/ S.String;
+export const PartialUpdateUserRequestRegion = S.String;
 
 /** The roles defined for a user. Currently only one role in the list is supported, therefore only the first role from this list is used. The *roles* attribute can contain the following values: 'read', 'readWrite', 'readAnyDatabase', 'readWriteAnyDatabase', 'stackitAdmin'. **The 'readAnyDatabase', 'readWriteAnyDatabase' and 'stackitAdmin' roles will always be created in the admin database.** */
 export type PartialUpdateUserRequestRolesList = Array<string>;
@@ -1399,9 +1321,7 @@ export const PartialUpdateUserRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://mongodb-flex-service.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "PartialUpdateUserRequest",
-}) as any as S.Schema<PartialUpdateUserRequest>;
+).annotate({ identifier: "PartialUpdateUserRequest" }) as any as S.Schema<PartialUpdateUserRequest>;
 
 export interface PartialUpdateUserResponse {}
 export const PartialUpdateUserResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1409,7 +1329,7 @@ export const PartialUpdateUserResponse = /*@__PURE__*/ S.suspend(() => S.Struct(
 }) as any as S.Schema<PartialUpdateUserResponse>;
 
 export type ResetUserRequestRegion = "eu01" | "eu02";
-export const ResetUserRequestRegion = /*@__PURE__*/ S.String;
+export const ResetUserRequestRegion = S.String;
 
 export interface ResetUserRequest {
   /** project id */
@@ -1435,12 +1355,10 @@ export const ResetUserRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://mongodb-flex-service.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "ResetUserRequest",
-}) as any as S.Schema<ResetUserRequest>;
+).annotate({ identifier: "ResetUserRequest" }) as any as S.Schema<ResetUserRequest>;
 
 export type RestoreInstanceRequestRegion = "eu01" | "eu02";
-export const RestoreInstanceRequestRegion = /*@__PURE__*/ S.String;
+export const RestoreInstanceRequestRegion = S.String;
 
 export interface RestoreInstanceRequest {
   /** project id */
@@ -1465,9 +1383,7 @@ export const RestoreInstanceRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://mongodb-flex-service.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "RestoreInstanceRequest",
-}) as any as S.Schema<RestoreInstanceRequest>;
+).annotate({ identifier: "RestoreInstanceRequest" }) as any as S.Schema<RestoreInstanceRequest>;
 
 export interface RestoreInstanceResponse {
   item?: RestoreInstanceStatus;
@@ -1476,12 +1392,10 @@ export const RestoreInstanceResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     item: S.optional(RestoreInstanceStatus),
   }),
-).annotate({
-  identifier: "RestoreInstanceResponse",
-}) as any as S.Schema<RestoreInstanceResponse>;
+).annotate({ identifier: "RestoreInstanceResponse" }) as any as S.Schema<RestoreInstanceResponse>;
 
 export type UpdateBackupScheduleRequestRegion = "eu01" | "eu02";
-export const UpdateBackupScheduleRequestRegion = /*@__PURE__*/ S.String;
+export const UpdateBackupScheduleRequestRegion = S.String;
 
 export interface UpdateBackupScheduleRequest {
   /** project id */
@@ -1540,20 +1454,16 @@ export const BackupSchedule = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "BackupSchedule" }) as any as S.Schema<BackupSchedule>;
 
 export type UpdateInstanceRequestRegion = "eu01" | "eu02";
-export const UpdateInstanceRequestRegion = /*@__PURE__*/ S.String;
+export const UpdateInstanceRequestRegion = S.String;
 
 /** Labels field is not certain/clear */
-export type UpdateInstanceRequestLabelsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateInstanceRequestLabelsMap = { [key: string]: string | undefined };
 export const UpdateInstanceRequestLabelsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
 ) as any as S.Schema<UpdateInstanceRequestLabelsMap>;
 
-export type UpdateInstanceRequestOptionsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateInstanceRequestOptionsMap = { [key: string]: string | undefined };
 export const UpdateInstanceRequestOptionsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1599,12 +1509,10 @@ export const UpdateInstanceRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://mongodb-flex-service.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "UpdateInstanceRequest",
-}) as any as S.Schema<UpdateInstanceRequest>;
+).annotate({ identifier: "UpdateInstanceRequest" }) as any as S.Schema<UpdateInstanceRequest>;
 
 export type UpdateUserRequestRegion = "eu01" | "eu02";
-export const UpdateUserRequestRegion = /*@__PURE__*/ S.String;
+export const UpdateUserRequestRegion = S.String;
 
 /** The roles defined for a user. Currently only one role in the list is supported, therefore only the first role from this list is used. The *roles* attribute can contain the following values: 'read', 'readWrite', 'readAnyDatabase', 'readWriteAnyDatabase', 'stackitAdmin'. **The 'readAnyDatabase', 'readWriteAnyDatabase' and 'stackitAdmin' roles will always be created in the admin database.** */
 export type UpdateUserRequestRolesList = Array<string>;
@@ -1641,9 +1549,7 @@ export const UpdateUserRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://mongodb-flex-service.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "UpdateUserRequest",
-}) as any as S.Schema<UpdateUserRequest>;
+).annotate({ identifier: "UpdateUserRequest" }) as any as S.Schema<UpdateUserRequest>;
 
 export interface UpdateUserResponse {}
 export const UpdateUserResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({

@@ -38,19 +38,19 @@ export class NotFound
 export interface QueryFoldersLocationsActivityTypesActivitiesRequest {
   /** Optional. The maximum number of results to return from this request. Max limit is 1000. Non-positive values are ignored. The presence of `nextPageToken` in the response indicates that more results might be available. */
   pageSize?: number;
-  /** Optional. If present, then retrieve the next batch of results from the preceding call to this method. `pageToken` must be the value of `nextPageToken` from the previous response. The values of other method parameters should be identical to those in the previous call. */
-  pageToken?: string;
   /** Required. The container resource on which to execute the request. Acceptable formats: `projects/[PROJECT_ID|PROJECT_NUMBER]/locations/[LOCATION]/activityTypes/[ACTIVITY_TYPE]` LOCATION here refers to GCP Locations: https://cloud.google.com/about/locations/ */
   parent: string;
   /** Optional. Optional filter expression to restrict the activities returned. Supported filters are: - service_account_last_authn.full_resource_name {=} - service_account_key_last_authn.full_resource_name {=} */
   filter?: string;
+  /** Optional. If present, then retrieve the next batch of results from the preceding call to this method. `pageToken` must be the value of `nextPageToken` from the previous response. The values of other method parameters should be identical to those in the previous call. */
+  pageToken?: string;
 }
 export const QueryFoldersLocationsActivityTypesActivitiesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     pageSize: S.optional(S.Number.pipe(T.Query())),
-    pageToken: S.optional(S.String.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
     filter: S.optional(S.String.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -62,45 +62,45 @@ export const QueryFoldersLocationsActivityTypesActivitiesRequest = /*@__PURE__*/
   identifier: "QueryFoldersLocationsActivityTypesActivitiesRequest",
 }) as any as S.Schema<QueryFoldersLocationsActivityTypesActivitiesRequest>;
 
+/** Represents data observation period. */
+export interface GoogleCloudPolicyanalyzerV1beta1ObservationPeriod {
+  /** The observation start time. */
+  startTime?: string;
+  /** The observation end time. */
+  endTime?: string;
+}
+export const GoogleCloudPolicyanalyzerV1beta1ObservationPeriod = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    startTime: S.optional(S.String),
+    endTime: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "GoogleCloudPolicyanalyzerV1beta1ObservationPeriod",
+}) as any as S.Schema<GoogleCloudPolicyanalyzerV1beta1ObservationPeriod>;
+
 export type DocumentMap = { [key: string]: unknown | undefined };
 export const DocumentMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
 ) as any as S.Schema<DocumentMap>;
 
-/** Represents data observation period. */
-export interface GoogleCloudPolicyanalyzerV1beta1ObservationPeriod {
-  /** The observation end time. */
-  endTime?: string;
-  /** The observation start time. */
-  startTime?: string;
-}
-export const GoogleCloudPolicyanalyzerV1beta1ObservationPeriod = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    endTime: S.optional(S.String),
-    startTime: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GoogleCloudPolicyanalyzerV1beta1ObservationPeriod",
-}) as any as S.Schema<GoogleCloudPolicyanalyzerV1beta1ObservationPeriod>;
-
 /** Represents Activity on a GCP resource over specific observation period. */
 export interface GoogleCloudPolicyanalyzerV1beta1Activity {
-  /** The type of the activity. */
-  activityType?: string;
-  /** A struct of custom fields to explain the activity. */
-  activity?: DocumentMap;
-  /** The data observation period to build the activity. */
-  observationPeriod?: GoogleCloudPolicyanalyzerV1beta1ObservationPeriod;
   /** The full resource name that identifies the resource. For examples of full resource names for Google Cloud services, see https://cloud.google.com/iam/help/troubleshooter/full-resource-names. */
   fullResourceName?: string;
+  /** The type of the activity. */
+  activityType?: string;
+  /** The data observation period to build the activity. */
+  observationPeriod?: GoogleCloudPolicyanalyzerV1beta1ObservationPeriod;
+  /** A struct of custom fields to explain the activity. */
+  activity?: DocumentMap;
 }
 export const GoogleCloudPolicyanalyzerV1beta1Activity = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    activityType: S.optional(S.String),
-    activity: S.optional(DocumentMap),
-    observationPeriod: S.optional(GoogleCloudPolicyanalyzerV1beta1ObservationPeriod),
     fullResourceName: S.optional(S.String),
+    activityType: S.optional(S.String),
+    observationPeriod: S.optional(GoogleCloudPolicyanalyzerV1beta1ObservationPeriod),
+    activity: S.optional(DocumentMap),
   }),
 ).annotate({
   identifier: "GoogleCloudPolicyanalyzerV1beta1Activity",
@@ -114,15 +114,15 @@ export const GoogleCloudPolicyanalyzerV1beta1ActivityList = /*@__PURE__*/ S.Arra
 
 /** Response to the `QueryActivity` method. */
 export interface GoogleCloudPolicyanalyzerV1beta1QueryActivityResponse {
-  /** If there might be more results than those appearing in this response, then `nextPageToken` is included. To get the next set of results, call this method again using the value of `nextPageToken` as `pageToken`. */
-  nextPageToken?: string;
   /** The set of activities that match the filter included in the request. */
   activities?: GoogleCloudPolicyanalyzerV1beta1ActivityList;
+  /** If there might be more results than those appearing in this response, then `nextPageToken` is included. To get the next set of results, call this method again using the value of `nextPageToken` as `pageToken`. */
+  nextPageToken?: string;
 }
 export const GoogleCloudPolicyanalyzerV1beta1QueryActivityResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    nextPageToken: S.optional(S.String),
     activities: S.optional(GoogleCloudPolicyanalyzerV1beta1ActivityList),
+    nextPageToken: S.optional(S.String),
   }),
 ).annotate({
   identifier: "GoogleCloudPolicyanalyzerV1beta1QueryActivityResponse",
@@ -159,19 +159,19 @@ export const QueryOrganizationsLocationsActivityTypesActivitiesRequest = /*@__PU
 export interface QueryProjectsLocationsActivityTypesActivitiesRequest {
   /** Optional. The maximum number of results to return from this request. Max limit is 1000. Non-positive values are ignored. The presence of `nextPageToken` in the response indicates that more results might be available. */
   pageSize?: number;
+  /** Optional. If present, then retrieve the next batch of results from the preceding call to this method. `pageToken` must be the value of `nextPageToken` from the previous response. The values of other method parameters should be identical to those in the previous call. */
+  pageToken?: string;
   /** Required. The container resource on which to execute the request. Acceptable formats: `projects/[PROJECT_ID|PROJECT_NUMBER]/locations/[LOCATION]/activityTypes/[ACTIVITY_TYPE]` LOCATION here refers to GCP Locations: https://cloud.google.com/about/locations/ */
   parent: string;
   /** Optional. Optional filter expression to restrict the activities returned. Supported filters are: - service_account_last_authn.full_resource_name {=} - service_account_key_last_authn.full_resource_name {=} */
   filter?: string;
-  /** Optional. If present, then retrieve the next batch of results from the preceding call to this method. `pageToken` must be the value of `nextPageToken` from the previous response. The values of other method parameters should be identical to those in the previous call. */
-  pageToken?: string;
 }
 export const QueryProjectsLocationsActivityTypesActivitiesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     pageSize: S.optional(S.Number.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
     filter: S.optional(S.String.pipe(T.Query())),
-    pageToken: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -197,10 +197,7 @@ export const queryFoldersLocationsActivityTypesActivities: API.PaginatedOperatio
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type QueryOrganizationsLocationsActivityTypesActivitiesError =
@@ -220,10 +217,7 @@ export const queryOrganizationsLocationsActivityTypesActivities: API.PaginatedOp
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type QueryProjectsLocationsActivityTypesActivitiesError = NotFound | Forbidden | GcpOpError;
@@ -240,8 +234,5 @@ export const queryProjectsLocationsActivityTypesActivities: API.PaginatedOperati
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;

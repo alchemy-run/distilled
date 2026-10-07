@@ -42,6 +42,24 @@
       },
       "traits": {}
     },
+    "com.posthog.canvases#ListCanvasesRequestOrdering": {
+      "type": "enum",
+      "members": {
+        "CREATED_AT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "-created_at"
+          }
+        },
+        "UPDATED_AT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "-updated_at"
+          }
+        }
+      },
+      "traits": {}
+    },
     "com.posthog.canvases#ListCanvasesRequest": {
       "type": "structure",
       "members": {
@@ -79,6 +97,13 @@
           "traits": {
             "smithy.api#httpQuery": "offset",
             "smithy.api#documentation": "The initial index from which to return the results."
+          }
+        },
+        "ordering": {
+          "target": "com.posthog.canvases#ListCanvasesRequestOrdering",
+          "traits": {
+            "smithy.api#httpQuery": "ordering",
+            "smithy.api#documentation": "Sort order. -created_at (default) puts the newest canvases first. -updated_at puts the most recently changed canvases first."
           }
         },
         "search": {
@@ -159,12 +184,6 @@
           }
         },
         "template_id": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "context": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
@@ -653,12 +672,6 @@
             "smithy.api#documentation": "Updated display name."
           }
         },
-        "context": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Updated author context markdown."
-          }
-        },
         "description": {
           "target": "smithy.api#String",
           "traits": {
@@ -697,6 +710,11 @@
       "output": {
         "target": "com.posthog.canvases#Canvas"
       },
+      "errors": [
+        {
+          "target": "com.posthog.canvases#Forbidden"
+        }
+      ],
       "traits": {
         "smithy.api#http": {
           "method": "PATCH",
@@ -872,6 +890,13 @@
             "smithy.api#httpLabel": {},
             "smithy.api#required": {},
             "smithy.api#documentation": "A UUID string identifying this canvas."
+          }
+        },
+        "scope": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "scope",
+            "smithy.api#documentation": "\"slim\" returns only what rendering needs — the live build, the head version's builds, and anything still in flight — instead of the full recent-build history. Any other value (or none) returns the full window."
           }
         },
         "version_id": {
@@ -1261,7 +1286,7 @@
           "uri": "/api/projects/{project_id}/canvases/{id}/builds/",
           "code": 200
         },
-        "smithy.api#documentation": "Read the canvas's build lifecycle: live pointers plus recent builds.\n\nA publish queues a build; poll this until it is ready (the live pointer\nadvances) or failed (fix the error diagnostics and publish again — the\nlast good build stays live)."
+        "smithy.api#documentation": "Read the canvas's build lifecycle: live pointers plus recent builds.\n\nA publish queues a build; poll this until it is ready (the live pointer\nadvances) or failed (fix the error diagnostics and publish again — the\nlast good build stays live). Send the response's ETag back as\nIf-None-Match to make the poll revalidate without a body."
       }
     },
     "com.posthog.canvases#CanvasBuildActionActionEnum": {
@@ -1347,6 +1372,614 @@
           "code": 200
         },
         "smithy.api#documentation": "Apply a lifecycle action (retry, pin, unpin, cancel) to one build."
+      }
+    },
+    "com.posthog.canvases#ListCanvasesCommentsRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "A UUID string identifying this canvas."
+          }
+        },
+        "cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "cursor",
+            "smithy.api#documentation": "Opaque cursor returned by the previous page."
+          }
+        },
+        "include_resolved": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "include_resolved",
+            "smithy.api#documentation": "Whether to include resolved comment threads."
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit",
+            "smithy.api#documentation": "Maximum number of root comments to return."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.canvases#CanvasCommentsResponse": {
+      "type": "structure",
+      "members": {
+        "comments": {
+          "target": "com.posthog.canvases#CanvasCommentsResponseCommentsList",
+          "traits": {
+            "smithy.api#documentation": "Root comments on the canvas, newest first.",
+            "smithy.api#required": {}
+          }
+        },
+        "next": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Opaque cursor for the next page, or null.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.canvases#CanvasCommentSummary": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Root comment id.",
+            "smithy.api#required": {}
+          }
+        },
+        "content": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Bounded excerpt of the root comment body.",
+            "smithy.api#required": {}
+          }
+        },
+        "content_truncated": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the root comment body has more content.",
+            "smithy.api#required": {}
+          }
+        },
+        "selected_text": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Text selected when the comment was created.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the root comment was created.",
+            "smithy.api#required": {}
+          }
+        },
+        "reply_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of human replies.",
+            "smithy.api#required": {}
+          }
+        },
+        "resolved": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the comment thread is resolved.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.canvases#CanvasCommentsResponseCommentsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.canvases#CanvasCommentSummary"
+      },
+      "traits": {
+        "smithy.api#documentation": "Root comments on the canvas, newest first."
+      }
+    },
+    "com.posthog.canvases#ListCanvasesComments": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.canvases#ListCanvasesCommentsRequest"
+      },
+      "output": {
+        "target": "com.posthog.canvases#CanvasCommentsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/canvases/{id}/comments/",
+          "code": 200
+        },
+        "smithy.api#documentation": "The comment threads on this canvas, newest first. Open threads only unless include_resolved is set."
+      }
+    },
+    "com.posthog.canvases#GetCanvasesCommentRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "A UUID string identifying this canvas."
+          }
+        },
+        "root_comment_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "comment_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "comment_id",
+            "smithy.api#documentation": "Comment id whose truncated body should continue. Use with content_offset."
+          }
+        },
+        "content_offset": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "content_offset",
+            "smithy.api#documentation": "Byte offset returned as content_next_offset for the selected comment."
+          }
+        },
+        "cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "cursor",
+            "smithy.api#documentation": "Opaque cursor returned by the previous page."
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit",
+            "smithy.api#documentation": "Maximum number of comments in the thread to return."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.canvases#CanvasCommentDetail": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Root comment id.",
+            "smithy.api#required": {}
+          }
+        },
+        "resolved": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the comment thread is resolved.",
+            "smithy.api#required": {}
+          }
+        },
+        "comments": {
+          "target": "com.posthog.canvases#CanvasCommentDetailCommentsList",
+          "traits": {
+            "smithy.api#documentation": "Comments in this page, oldest first.",
+            "smithy.api#required": {}
+          }
+        },
+        "next": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Opaque cursor for the next page, or null.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.canvases#CanvasCommentEntry": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Comment id.",
+            "smithy.api#required": {}
+          }
+        },
+        "content": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Byte-bounded comment body chunk.",
+            "smithy.api#required": {}
+          }
+        },
+        "content_truncated": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether this comment body has more content.",
+            "smithy.api#required": {}
+          }
+        },
+        "content_next_offset": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Byte offset for the next body chunk, or null when complete.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "author": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Display name of the comment author.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the comment was created.",
+            "smithy.api#required": {}
+          }
+        },
+        "anchor": {
+          "target": "com.posthog.canvases#CanvasCommentAnchor",
+          "traits": {
+            "smithy.api#documentation": "Normalized text or region anchor.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "canvas_version_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Canvas version that was live when the comment was written.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.canvases#CanvasCommentAnchor": {
+      "type": "structure",
+      "members": {
+        "kind": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Anchor kind: text or region."
+          }
+        },
+        "quote": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Selected text."
+          }
+        },
+        "prefix": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Text immediately before the selection."
+          }
+        },
+        "suffix": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Text immediately after the selection."
+          }
+        },
+        "start": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Selection start offset."
+          }
+        },
+        "end": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Selection end offset."
+          }
+        },
+        "x": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Horizontal region position."
+          }
+        },
+        "y": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Vertical region position."
+          }
+        },
+        "width": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Region width."
+          }
+        },
+        "height": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Region height."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.canvases#CanvasCommentDetailCommentsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.canvases#CanvasCommentEntry"
+      },
+      "traits": {
+        "smithy.api#documentation": "Comments in this page, oldest first."
+      }
+    },
+    "com.posthog.canvases#GetCanvasesComment": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.canvases#GetCanvasesCommentRequest"
+      },
+      "output": {
+        "target": "com.posthog.canvases#CanvasCommentDetail"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/canvases/{id}/comments/{root_comment_id}/",
+          "code": 200
+        },
+        "smithy.api#documentation": "One comment thread on this canvas: the root comment and its replies, oldest first."
+      }
+    },
+    "com.posthog.canvases#CanvasesConnectorsCallRequestArgumentsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "Tool arguments, validated against the tool's input schema."
+      }
+    },
+    "com.posthog.canvases#CanvasesConnectorsCallRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "A UUID string identifying this canvas."
+          }
+        },
+        "approval_token": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Single-use token from a needs_approval response. Submit only after the viewer approves this exact call. Expires after 15 minutes."
+          }
+        },
+        "provider": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Declared provider id, e.g. 'github'.",
+            "smithy.api#required": {}
+          }
+        },
+        "tool": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Declared tool name, e.g. 'list_pull_requests'.",
+            "smithy.api#required": {}
+          }
+        },
+        "arguments": {
+          "target": "com.posthog.canvases#CanvasesConnectorsCallRequestArgumentsMap",
+          "traits": {
+            "smithy.api#documentation": "Tool arguments, validated against the tool's input schema."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.canvases#CanvasConnectorCallResult": {
+      "type": "structure",
+      "members": {
+        "approval_token": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Host-only, single-use approval token bound to this viewer, connection, canvas version, tool, and arguments. Never forward it to the canvas iframe.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "status": {
+          "target": "com.posthog.canvases#ConnectorCallStatusEnum",
+          "traits": {
+            "smithy.api#documentation": "'ok' carries a result. 'not_connected' and 'needs_reauth' mean the viewer must connect the provider at connect_path. 'blocked' is team policy. 'write_blocked' is a tool that may write. 'needs_approval' requires the viewer to approve this call in the host. 'upstream_error' is a failure at the provider.\n\n* `ok` - Ok\n* `not_connected` - Not Connected\n* `needs_reauth` - Needs Reauth\n* `needs_approval` - Needs Approval\n* `blocked` - Blocked\n* `tool_missing` - Tool Missing\n* `write_blocked` - Write Blocked\n* `upstream_error` - Upstream Error",
+            "smithy.api#required": {}
+          }
+        },
+        "result": {
+          "target": "com.posthog.canvases#CanvasConnectorCallResultResultMap",
+          "traits": {
+            "smithy.api#documentation": "Tool output. Native tools return their documented shape; MCP tools return {content, structured_content, is_error}.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "detail": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Human-readable explanation for a non-ok status.",
+            "smithy.api#required": {}
+          }
+        },
+        "truncated": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "True when the result exceeded the size cap and was cut to a preview.",
+            "smithy.api#required": {}
+          }
+        },
+        "connect_path": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "In-app path where the viewer can connect the provider, when that would help.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Result of one connector call. `status` is 'ok' when `result` holds the tool's output."
+      }
+    },
+    "com.posthog.canvases#ConnectorCallStatusEnum": {
+      "type": "enum",
+      "members": {
+        "OK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ok"
+          }
+        },
+        "NOT_CONNECTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "not_connected"
+          }
+        },
+        "NEEDS_REAUTH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "needs_reauth"
+          }
+        },
+        "NEEDS_APPROVAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "needs_approval"
+          }
+        },
+        "BLOCKED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "blocked"
+          }
+        },
+        "TOOL_MISSING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tool_missing"
+          }
+        },
+        "WRITE_BLOCKED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "write_blocked"
+          }
+        },
+        "UPSTREAM_ERROR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "upstream_error"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `ok` - Ok\n* `not_connected` - Not Connected\n* `needs_reauth` - Needs Reauth\n* `needs_approval` - Needs Approval\n* `blocked` - Blocked\n* `tool_missing` - Tool Missing\n* `write_blocked` - Write Blocked\n* `upstream_error` - Upstream Error"
+      }
+    },
+    "com.posthog.canvases#CanvasConnectorCallResultResultMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "Tool output. Native tools return their documented shape; MCP tools return {content, structured_content, is_error}."
+      }
+    },
+    "com.posthog.canvases#CanvasesConnectorsCall": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.canvases#CanvasesConnectorsCallRequest"
+      },
+      "output": {
+        "target": "com.posthog.canvases#CanvasConnectorCallResult"
+      },
+      "errors": [
+        {
+          "target": "com.posthog.canvases#BadRequest"
+        },
+        {
+          "target": "com.posthog.canvases#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/canvases/{id}/connectors/call/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Call one declared connector tool as the viewer.\n\nThe canvas must declare the provider and tool in capabilities.connectors\n(the reviewed permission boundary); the call runs with the viewer's own\nconnection, so two viewers of the same canvas see their own data."
       }
     },
     "com.posthog.canvases#CanvasSourceProject": {
@@ -1558,6 +2191,12 @@
           "traits": {
             "smithy.api#required": {}
           }
+        },
+        "connectors": {
+          "target": "com.posthog.canvases#CanvasCapabilitiesConnectorsList",
+          "traits": {
+            "smithy.api#documentation": "Third-party providers the canvas reads through ph.connectors, each with the tools it may call. Every call runs with the viewer's own connection; declaring one shows it in the promote review."
+          }
         }
       },
       "traits": {}
@@ -1671,6 +2310,46 @@
         "target": "smithy.api#String"
       },
       "traits": {}
+    },
+    "com.posthog.canvases#CanvasConnectorDeclaration": {
+      "type": "structure",
+      "members": {
+        "provider": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Connector provider id: a native provider such as 'github', or 'mcp:<server host>' (e.g. 'mcp:mcp.calendly.com') for a server the viewer connected in the MCP store.",
+            "smithy.api#required": {}
+          }
+        },
+        "tools": {
+          "target": "com.posthog.canvases#CanvasConnectorDeclarationToolsList",
+          "traits": {
+            "smithy.api#documentation": "Tool names the canvas may call on this provider. Read-only tools only.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "One provider a canvas may call through ph.connectors, with the tools it may use."
+      }
+    },
+    "com.posthog.canvases#CanvasConnectorDeclarationToolsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Tool names the canvas may call on this provider. Read-only tools only."
+      }
+    },
+    "com.posthog.canvases#CanvasCapabilitiesConnectorsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.canvases#CanvasConnectorDeclaration"
+      },
+      "traits": {
+        "smithy.api#documentation": "Third-party providers the canvas reads through ph.connectors, each with the tools it may call. Every call runs with the viewer's own connection; declaring one shows it in the promote review."
+      }
     },
     "com.posthog.canvases#CreateCanvasesDraftRequest": {
       "type": "structure",
@@ -1812,6 +2491,13 @@
             "smithy.api#documentation": "Action verbs the draft newly declares it may invoke via ph.actions.",
             "smithy.api#required": {}
           }
+        },
+        "connectors_added": {
+          "target": "com.posthog.canvases#CanvasCapabilityWideningConnectorsAddedList",
+          "traits": {
+            "smithy.api#documentation": "Connector providers and tools the draft newly declares it may call via ph.connectors.",
+            "smithy.api#required": {}
+          }
         }
       },
       "traits": {
@@ -1863,6 +2549,15 @@
         "smithy.api#documentation": "Action verbs the draft newly declares it may invoke via ph.actions."
       }
     },
+    "com.posthog.canvases#CanvasCapabilityWideningConnectorsAddedList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.canvases#CanvasConnectorDeclaration"
+      },
+      "traits": {
+        "smithy.api#documentation": "Connector providers and tools the draft newly declares it may call via ph.connectors."
+      }
+    },
     "com.posthog.canvases#CreateCanvasesDraft": {
       "type": "operation",
       "input": {
@@ -1903,55 +2598,11 @@
             "smithy.api#required": {},
             "smithy.api#documentation": "A UUID string identifying this canvas."
           }
-        },
-        "limit": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "smithy.api#httpQuery": "limit",
-            "smithy.api#documentation": "Number of results to return per page."
-          }
-        },
-        "offset": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "smithy.api#httpQuery": "offset",
-            "smithy.api#documentation": "The initial index from which to return the results."
-          }
         }
       },
       "traits": {
         "smithy.api#input": {}
       }
-    },
-    "com.posthog.canvases#PaginatedCanvasDraftList": {
-      "type": "structure",
-      "members": {
-        "count": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "next": {
-          "target": "smithy.api#String",
-          "traits": {
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "previous": {
-          "target": "smithy.api#String",
-          "traits": {
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "results": {
-          "target": "com.posthog.canvases#PaginatedCanvasDraftListResultsList",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        }
-      },
-      "traits": {}
     },
     "com.posthog.canvases#CanvasDraft": {
       "type": "structure",
@@ -2007,12 +2658,27 @@
         "smithy.api#documentation": "A staged draft version and the status of its latest build. Preview a\ndraft's files with `source?version_id=`, then make it live with `promote`."
       }
     },
-    "com.posthog.canvases#PaginatedCanvasDraftListResultsList": {
+    "com.posthog.canvases#GetCanvasesDraftResponseBodyList": {
       "type": "list",
       "member": {
         "target": "com.posthog.canvases#CanvasDraft"
       },
       "traits": {}
+    },
+    "com.posthog.canvases#GetCanvasesDraftResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "com.posthog.canvases#GetCanvasesDraftResponseBodyList",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
     },
     "com.posthog.canvases#GetCanvasesDraft": {
       "type": "operation",
@@ -2020,7 +2686,7 @@
         "target": "com.posthog.canvases#GetCanvasesDraftRequest"
       },
       "output": {
-        "target": "com.posthog.canvases#PaginatedCanvasDraftList"
+        "target": "com.posthog.canvases#GetCanvasesDraftResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -2034,23 +2700,85 @@
     "com.posthog.canvases#CanvasSourceEditOperation": {
       "type": "structure",
       "members": {
+        "op": {
+          "target": "com.posthog.canvases#CanvasSourceEditOpEnum",
+          "traits": {
+            "smithy.api#documentation": "What to do. 'str_replace' replaces old_string with new_string inside the file: the default for changing an existing file. 'write' sets the file's complete content (new files, full rewrites). 'delete' removes the file. 'rename' moves it to new_path. When omitted, it follows the fields sent: old_string or new_string means 'str_replace', new_path means 'rename', non-null content means 'write', and content null means 'delete'. An operation with none of these fields is rejected.\n\n* `write` - Write\n* `delete` - Delete\n* `rename` - Rename\n* `str_replace` - Str Replace"
+          }
+        },
         "path": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Project-relative path of the file to write or delete (e.g. \"src/canvas.tsx\").",
+            "smithy.api#documentation": "Project-relative path of the file to edit (e.g. \"src/canvas.tsx\").",
             "smithy.api#required": {}
           }
         },
         "content": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The file's complete new content. Null (or omitted) deletes the file.",
+            "smithy.api#documentation": "For 'write': the file's complete new content.",
             "com.distilled.openapi#nullable": {}
+          }
+        },
+        "old_string": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "For 'str_replace': the exact text to replace, copied from the file with a few surrounding lines so it matches one place only. If whitespace differs slightly, a unique line-by-line match is still accepted."
+          }
+        },
+        "new_string": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "For 'str_replace': the text that replaces old_string. An empty string deletes old_string."
+          }
+        },
+        "replace_all": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "For 'str_replace': replace every exact match of old_string instead of requiring exactly one."
+          }
+        },
+        "new_path": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "For 'rename': the file's new project-relative path."
           }
         }
       },
       "traits": {
-        "smithy.api#documentation": "One per-file edit: set a file's content, or delete it."
+        "smithy.api#documentation": "One file edit: replace text in a file, write a whole file, delete it, or rename it."
+      }
+    },
+    "com.posthog.canvases#CanvasSourceEditOpEnum": {
+      "type": "enum",
+      "members": {
+        "WRITE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "write"
+          }
+        },
+        "DELETE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "delete"
+          }
+        },
+        "RENAME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rename"
+          }
+        },
+        "STR_REPLACE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "str_replace"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `write` - Write\n* `delete` - Delete\n* `rename` - Rename\n* `str_replace` - Str Replace"
       }
     },
     "com.posthog.canvases#CanvasesEditCreateRequestOperationsList": {
@@ -2059,7 +2787,7 @@
         "target": "com.posthog.canvases#CanvasSourceEditOperation"
       },
       "traits": {
-        "smithy.api#documentation": "Edits applied in order to the canvas's current source project."
+        "smithy.api#documentation": "Edits applied in order to the canvas's current source project, all or nothing. May be empty when the edit only changes capabilities."
       }
     },
     "com.posthog.canvases#CanvasesEditCreateRequest": {
@@ -2084,8 +2812,13 @@
         "operations": {
           "target": "com.posthog.canvases#CanvasesEditCreateRequestOperationsList",
           "traits": {
-            "smithy.api#documentation": "Edits applied in order to the canvas's current source project.",
-            "smithy.api#required": {}
+            "smithy.api#documentation": "Edits applied in order to the canvas's current source project, all or nothing. May be empty when the edit only changes capabilities."
+          }
+        },
+        "capabilities": {
+          "target": "com.posthog.canvases#CanvasCapabilities",
+          "traits": {
+            "smithy.api#documentation": "The project's complete new capabilities, replacing the current ones in the same publish. Send it when the change needs a capability the canvas does not declare yet, for example a new ph.state scope, insight, capture event, or network origin. Copy the current capabilities from canvas-source-retrieve and change only what you need. Omit to keep the current capabilities."
           }
         },
         "prompt": {
@@ -2134,6 +2867,13 @@
           "target": "com.posthog.canvases#CanvasSourcePublishResponseDiagnosticsList",
           "traits": {
             "smithy.api#documentation": "Advisory (warning-severity) diagnostics recorded for the published project.",
+            "smithy.api#required": {}
+          }
+        },
+        "build": {
+          "target": "com.posthog.canvases#CanvasPublishedBuild",
+          "traits": {
+            "smithy.api#documentation": "The queued build. The server waits a few seconds for it, so it is often already terminal.",
             "smithy.api#required": {}
           }
         }
@@ -2217,6 +2957,44 @@
         "smithy.api#documentation": "Advisory (warning-severity) diagnostics recorded for the published project."
       }
     },
+    "com.posthog.canvases#CanvasPublishedBuild": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The build's id.",
+            "smithy.api#required": {}
+          }
+        },
+        "build_status": {
+          "target": "com.posthog.canvases#BuildStatusEnum",
+          "traits": {
+            "smithy.api#documentation": "'ready': the build finished. The canvas is live with this version when canvas.published_build_id equals this id; then you do not need canvas-builds-retrieve. 'failed': fix the error diagnostics and save again. 'queued' or 'building': poll canvas-builds-retrieve until the build is terminal.\n\n* `queued` - queued\n* `building` - building\n* `ready` - ready\n* `failed` - failed",
+            "smithy.api#required": {}
+          }
+        },
+        "diagnostics": {
+          "target": "com.posthog.canvases#CanvasPublishedBuildDiagnosticsList",
+          "traits": {
+            "smithy.api#documentation": "Structured diagnostics recorded by the build (errors explain a failed status).",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The build a publish queued, as it stood when the response was sent."
+      }
+    },
+    "com.posthog.canvases#CanvasPublishedBuildDiagnosticsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.canvases#CanvasDiagnostic"
+      },
+      "traits": {
+        "smithy.api#documentation": "Structured diagnostics recorded by the build (errors explain a failed status)."
+      }
+    },
     "com.posthog.canvases#CanvasesEditCreate": {
       "type": "operation",
       "input": {
@@ -2230,6 +3008,9 @@
           "target": "com.posthog.canvases#BadRequest"
         },
         {
+          "target": "com.posthog.canvases#Forbidden"
+        },
+        {
           "target": "com.posthog.canvases#Conflict"
         }
       ],
@@ -2239,7 +3020,7 @@
           "uri": "/api/projects/{project_id}/canvases/{id}/edit/",
           "code": 200
         },
-        "smithy.api#documentation": "Publish per-file edits against the canvas's current source project.\n\nDiff-aware alternative to sending the complete project: each operation\nsets a file's content or (content null) deletes it, applied to the head\nthe caller read. `expected_current_version_id` is mandatory here —\nrelative edits against an unverified base could silently merge into\nsomeone else's newer work."
+        "smithy.api#documentation": "Publish file edits against the canvas's current source project.\n\nDiff-aware alternative to sending the complete project: operations\nreplace text inside a file, write, delete, or rename files, applied in\norder to the head the caller read. `expected_current_version_id` is mandatory here —\nrelative edits against an unverified base could silently merge into\nsomeone else's newer work."
       }
     },
     "com.posthog.canvases#GetCanvasesLayoutRequest": {
@@ -2261,6 +3042,13 @@
             "smithy.api#documentation": "A UUID string identifying this canvas."
           }
         },
+        "include_components": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "include_components",
+            "smithy.api#documentation": "Also return the renderable build (with signed artifact URL) of every component the layout's live placements reference, so a grid renders from this one call."
+          }
+        },
         "version_id": {
           "target": "smithy.api#String",
           "traits": {
@@ -2273,7 +3061,7 @@
         "smithy.api#input": {}
       }
     },
-    "com.posthog.canvases#CanvasLayoutResponse": {
+    "com.posthog.canvases#CanvasLayoutWithComponentsResponse": {
       "type": "structure",
       "members": {
         "canvas": {
@@ -2297,10 +3085,16 @@
             "smithy.api#required": {},
             "com.distilled.openapi#nullable": {}
           }
+        },
+        "component_lifecycles": {
+          "target": "com.posthog.canvases#CanvasLayoutWithComponentsResponseComponentLifecyclesList",
+          "traits": {
+            "smithy.api#documentation": "One entry per distinct (component, pinned version) the layout's live placements reference, present only when the request passes include_components. Components the caller may not see are omitted."
+          }
         }
       },
       "traits": {
-        "smithy.api#documentation": "A grid canvas's layout plus the version pointer edits must be based on."
+        "smithy.api#documentation": "The layout response, plus (when requested) the renderable build of every\ncomponent the layout places — so a grid opens on one round trip instead of\none builds fetch per placement."
       }
     },
     "com.posthog.canvases#CanvasLayout": {
@@ -2551,13 +3345,77 @@
         "smithy.api#documentation": "The placed widgets, at most 24. Placements may not overlap or extend past the grid."
       }
     },
+    "com.posthog.canvases#CanvasComponentLifecycle": {
+      "type": "structure",
+      "members": {
+        "canvas_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Id of the component canvas.",
+            "smithy.api#required": {}
+          }
+        },
+        "requested_version_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The source version the placement pins, or null when it follows the latest.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "published_build_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Id of the component's live build. Null until a build completes.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "current_version_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Id of the source version the component's head points at.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "builds": {
+          "target": "com.posthog.canvases#CanvasComponentLifecycleBuildsList",
+          "traits": {
+            "smithy.api#documentation": "The build the placement renders (live, or the pinned version's retained build). Empty when none is renderable.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The renderable build of one component referenced by a grid layout, shaped\nlike the builds endpoint's response so clients reuse one lifecycle reader."
+      }
+    },
+    "com.posthog.canvases#CanvasComponentLifecycleBuildsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.canvases#CanvasBuild"
+      },
+      "traits": {
+        "smithy.api#documentation": "The build the placement renders (live, or the pinned version's retained build). Empty when none is renderable."
+      }
+    },
+    "com.posthog.canvases#CanvasLayoutWithComponentsResponseComponentLifecyclesList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.canvases#CanvasComponentLifecycle"
+      },
+      "traits": {
+        "smithy.api#documentation": "One entry per distinct (component, pinned version) the layout's live placements reference, present only when the request passes include_components. Components the caller may not see are omitted."
+      }
+    },
     "com.posthog.canvases#GetCanvasesLayout": {
       "type": "operation",
       "input": {
         "target": "com.posthog.canvases#GetCanvasesLayoutRequest"
       },
       "output": {
-        "target": "com.posthog.canvases#CanvasLayoutResponse"
+        "target": "com.posthog.canvases#CanvasLayoutWithComponentsResponse"
       },
       "errors": [
         {
@@ -3030,6 +3888,9 @@
           "target": "com.posthog.canvases#BadRequest"
         },
         {
+          "target": "com.posthog.canvases#Forbidden"
+        },
+        {
           "target": "com.posthog.canvases#Conflict"
         }
       ],
@@ -3413,16 +4274,16 @@
     "com.posthog.canvases#GetCanvasesStateRequestScope": {
       "type": "enum",
       "members": {
-        "SHARED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "shared"
-          }
-        },
         "USER": {
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "user"
+          }
+        },
+        "SHARED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "shared"
           }
         }
       },
@@ -3447,11 +4308,46 @@
             "smithy.api#documentation": "A UUID string identifying this canvas."
           }
         },
+        "key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "key",
+            "smithy.api#documentation": "Only read this exact key."
+          }
+        },
+        "key_prefix": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "key_prefix",
+            "smithy.api#documentation": "Only read entries whose key starts with this prefix."
+          }
+        },
+        "keys_only": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "keys_only",
+            "smithy.api#documentation": "True returns a key inventory without stored values."
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit",
+            "smithy.api#documentation": "Maximum entries per page. Omit for the full state. Prefer an inventory and state/value for large values."
+          }
+        },
+        "offset": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "offset",
+            "smithy.api#documentation": "Entry offset from next_offset. Keep filters unchanged between pages."
+          }
+        },
         "scope": {
           "target": "com.posthog.canvases#GetCanvasesStateRequestScope",
           "traits": {
             "smithy.api#httpQuery": "scope",
-            "smithy.api#documentation": "Only return entries in this scope."
+            "smithy.api#documentation": "Only read this scope.\n\n* `user` - user\n* `shared` - shared"
           }
         }
       },
@@ -3466,6 +4362,21 @@
           "target": "com.posthog.canvases#CanvasStateResponseEntriesList",
           "traits": {
             "smithy.api#documentation": "The canvas's shared entries plus the caller's own user-scoped entries.",
+            "smithy.api#required": {}
+          }
+        },
+        "next_offset": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Next entry offset, or null when complete.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "complete": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "True when no further entries remain for this selection.",
             "smithy.api#required": {}
           }
         }
@@ -3494,8 +4405,7 @@
         "value": {
           "target": "smithy.api#Document",
           "traits": {
-            "smithy.api#documentation": "The stored JSON value.",
-            "smithy.api#required": {}
+            "smithy.api#documentation": "The stored JSON value. Omitted from a key inventory."
           }
         },
         "updated_at": {
@@ -3609,6 +4519,176 @@
           "code": 200
         },
         "smithy.api#documentation": "Write one key of the canvas's runtime state, or delete it with a null value."
+      }
+    },
+    "com.posthog.canvases#GetCanvasesStateValueRequestScope": {
+      "type": "enum",
+      "members": {
+        "USER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "user"
+          }
+        },
+        "SHARED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "shared"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.canvases#GetCanvasesStateValueRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "A UUID string identifying this canvas."
+          }
+        },
+        "key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "key",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Exact key to read."
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit",
+            "smithy.api#documentation": "Maximum JSON characters in this response."
+          }
+        },
+        "offset": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "offset",
+            "smithy.api#documentation": "Character offset from next_offset."
+          }
+        },
+        "revision": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "revision",
+            "smithy.api#documentation": "Revision from the first chunk. Required when offset is greater than zero."
+          }
+        },
+        "scope": {
+          "target": "com.posthog.canvases#GetCanvasesStateValueRequestScope",
+          "traits": {
+            "smithy.api#httpQuery": "scope",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Scope of the value to read.\n\n* `user` - user\n* `shared` - shared"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.canvases#CanvasStateValueResponse": {
+      "type": "structure",
+      "members": {
+        "scope": {
+          "target": "com.posthog.canvases#CanvasStateScopeEnum",
+          "traits": {
+            "smithy.api#documentation": "Scope of this value.\n\n* `user` - user\n* `shared` - shared",
+            "smithy.api#required": {}
+          }
+        },
+        "key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Key of this value.",
+            "smithy.api#required": {}
+          }
+        },
+        "value_json": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A chunk of JSON text. Join all chunks in order, then parse the complete JSON.",
+            "smithy.api#required": {}
+          }
+        },
+        "revision": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Content revision. Pass it on subsequent reads; a changed value returns 409.",
+            "smithy.api#required": {}
+          }
+        },
+        "offset": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Character offset of this chunk.",
+            "smithy.api#required": {}
+          }
+        },
+        "total_length": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Character length of the complete JSON text.",
+            "smithy.api#required": {}
+          }
+        },
+        "next_offset": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Next character offset, or null when complete.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "complete": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "True when no further chunks remain. Earlier chunks are still needed when offset is nonzero.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.canvases#GetCanvasesStateValue": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.canvases#GetCanvasesStateValueRequest"
+      },
+      "output": {
+        "target": "com.posthog.canvases#CanvasStateValueResponse"
+      },
+      "errors": [
+        {
+          "target": "com.posthog.canvases#BadRequest"
+        },
+        {
+          "target": "com.posthog.canvases#NotFound"
+        },
+        {
+          "target": "com.posthog.canvases#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/canvases/{id}/state/value/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Canvases: agent-built sandboxed browser apps, filed into channels.\n\nSource is versioned per publish and built server-side; the canvas app\nrenders the published build's artifact from the isolated artifact origin."
       }
     },
     "com.posthog.canvases#CanvasesValidateCreateRequest": {
@@ -3842,6 +4922,122 @@
         "smithy.api#documentation": "The canvas's published source-version history, newest first (metadata only).\n\nDrafts are excluded: they are staged versions that have never been the\nhead, so they are not part of the undo/revert timeline. Fetch a draft's\nfiles with `source?version_id=` to preview it before promoting."
       }
     },
+    "com.posthog.canvases#GetCanvasesViewRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "A UUID string identifying this canvas."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.canvases#CanvasViewResponse": {
+      "type": "structure",
+      "members": {
+        "canvas": {
+          "target": "com.posthog.canvases#Canvas",
+          "traits": {
+            "smithy.api#documentation": "The canvas record.",
+            "smithy.api#required": {}
+          }
+        },
+        "published_build": {
+          "target": "com.posthog.canvases#CanvasBuild",
+          "traits": {
+            "smithy.api#documentation": "The live build with its signed artifact URL. Null until a build completes.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "current_version_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Id of the source version the canvas's head points at. Null before the first publish.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "has_active_build": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "True while a build is queued or running — poll the builds endpoint until it settles.",
+            "smithy.api#required": {}
+          }
+        },
+        "source": {
+          "target": "com.posthog.canvases#CanvasSourceProject",
+          "traits": {
+            "smithy.api#documentation": "The head source project, present only when the canvas has no live build to render (the client-side fallback tier). Null otherwise, and always null for grid canvases.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "layout": {
+          "target": "com.posthog.canvases#CanvasLayout",
+          "traits": {
+            "smithy.api#documentation": "For grid canvases: the head layout document. Null for other kinds.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "component_lifecycles": {
+          "target": "com.posthog.canvases#CanvasViewResponseComponentLifecyclesList",
+          "traits": {
+            "smithy.api#documentation": "For grid canvases: the renderable build of every component the layout's live placements reference, so the grid renders from this one call. Absent for other kinds."
+          }
+        },
+        "sandbox_document_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "URL of the sandbox document that renders the head source project in an iframe, served from the artifact origin. Load it by URL, not as srcdoc. Null when artifact delivery is unavailable.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Everything a client needs to open a canvas, in one round trip.\n\nReplaces the record → builds → source waterfall: the record, the live\nbuild (with its signed artifact URL), and — only when there is nothing\nbuilt to render — the head source project (freeform/component) or the\nlayout document (grid)."
+      }
+    },
+    "com.posthog.canvases#CanvasViewResponseComponentLifecyclesList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.canvases#CanvasComponentLifecycle"
+      },
+      "traits": {
+        "smithy.api#documentation": "For grid canvases: the renderable build of every component the layout's live placements reference, so the grid renders from this one call. Absent for other kinds."
+      }
+    },
+    "com.posthog.canvases#GetCanvasesView": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.canvases#GetCanvasesViewRequest"
+      },
+      "output": {
+        "target": "com.posthog.canvases#CanvasViewResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/canvases/{id}/view/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Everything needed to open the canvas, in one round trip.\n\nReturns the record, the live build (with its signed artifact URL), and —\nonly when there is nothing built to render — the head source project\n(freeform/component) or the layout document (grid). Send the response's\nETag back as If-None-Match to revalidate without a body."
+      }
+    },
     "com.posthog.canvases#GetCanvasesActionRequest": {
       "type": "structure",
       "members": {
@@ -3933,6 +5129,210 @@
           "code": 200
         },
         "smithy.api#documentation": "List the action registry: every verb a canvas may declare and invoke."
+      }
+    },
+    "com.posthog.canvases#GetCanvasesConnectorRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "mcp_hosts": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "mcp_hosts",
+            "smithy.api#documentation": "Comma-separated MCP server hosts to include (e.g. 'mcp.calendly.com'). Defaults to every server the caller has connected in the MCP store."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.canvases#CanvasConnectorsResponse": {
+      "type": "structure",
+      "members": {
+        "connectors": {
+          "target": "com.posthog.canvases#CanvasConnectorsResponseConnectorsList",
+          "traits": {
+            "smithy.api#documentation": "Native providers first, then the requested MCP hosts.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The connector catalog: every provider a canvas may declare and call."
+      }
+    },
+    "com.posthog.canvases#CanvasConnector": {
+      "type": "structure",
+      "members": {
+        "provider": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Provider id to declare and call, e.g. 'github' or 'mcp:mcp.calendly.com'.",
+            "smithy.api#required": {}
+          }
+        },
+        "display_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Display name of the provider.",
+            "smithy.api#required": {}
+          }
+        },
+        "kind": {
+          "target": "com.posthog.canvases#ConnectorKindEnum",
+          "traits": {
+            "smithy.api#documentation": "'native' runs through a PostHog personal integration; 'mcp' through an MCP store installation.\n\n* `native` - Native\n* `mcp` - Mcp",
+            "smithy.api#required": {}
+          }
+        },
+        "connected": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "True when the caller has a usable connection. Null in the static catalog returned to sandbox authors.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "connect_path": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "In-app path where the caller connects this provider.",
+            "smithy.api#required": {}
+          }
+        },
+        "tools": {
+          "target": "com.posthog.canvases#CanvasConnectorToolsList",
+          "traits": {
+            "smithy.api#documentation": "Tools the caller's connection exposes, sorted by name.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "One connector provider, with the caller's connection state and the tools it exposes."
+      }
+    },
+    "com.posthog.canvases#ConnectorKindEnum": {
+      "type": "enum",
+      "members": {
+        "NATIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "native"
+          }
+        },
+        "MCP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mcp"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `native` - Native\n* `mcp` - Mcp"
+      }
+    },
+    "com.posthog.canvases#CanvasConnectorTool": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Tool name, as passed to ph.connectors.call.",
+            "smithy.api#required": {}
+          }
+        },
+        "summary": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "One line naming what the tool reads.",
+            "smithy.api#required": {}
+          }
+        },
+        "is_read_only": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "True when the tool only reads. Canvases may call read-only tools.",
+            "smithy.api#required": {}
+          }
+        },
+        "input_schema": {
+          "target": "com.posthog.canvases#CanvasConnectorToolInputSchemaMap",
+          "traits": {
+            "smithy.api#documentation": "JSON Schema of the tool's arguments object.",
+            "smithy.api#required": {}
+          }
+        },
+        "usage": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Authoring docs: argument and result shape, limits, and behavior.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "One tool a connector provider exposes to canvases."
+      }
+    },
+    "com.posthog.canvases#CanvasConnectorToolInputSchemaMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "JSON Schema of the tool's arguments object."
+      }
+    },
+    "com.posthog.canvases#CanvasConnectorToolsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.canvases#CanvasConnectorTool"
+      },
+      "traits": {
+        "smithy.api#documentation": "Tools the caller's connection exposes, sorted by name."
+      }
+    },
+    "com.posthog.canvases#CanvasConnectorsResponseConnectorsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.canvases#CanvasConnector"
+      },
+      "traits": {
+        "smithy.api#documentation": "Native providers first, then the requested MCP hosts."
+      }
+    },
+    "com.posthog.canvases#GetCanvasesConnector": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.canvases#GetCanvasesConnectorRequest"
+      },
+      "output": {
+        "target": "com.posthog.canvases#CanvasConnectorsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.posthog.canvases#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/canvases/connectors/",
+          "code": 200
+        },
+        "smithy.api#documentation": "List the connector catalog: every provider and tool a canvas may declare, with the caller's connection state.\n\nAuthoring agents read this to write ph.connectors.call sites and the\nmatching capabilities.connectors declarations. Sandbox tokens receive\nonly static native tools, with no connection lookup or MCP installation data."
       }
     },
     "com.posthog.canvases#CreateCanvasesHomeRequest": {
@@ -4054,6 +5454,15 @@
           "target": "com.posthog.canvases#CreateCanvasesBuildAction"
         },
         {
+          "target": "com.posthog.canvases#ListCanvasesComments"
+        },
+        {
+          "target": "com.posthog.canvases#GetCanvasesComment"
+        },
+        {
+          "target": "com.posthog.canvases#CanvasesConnectorsCall"
+        },
+        {
           "target": "com.posthog.canvases#CreateCanvasesDraft"
         },
         {
@@ -4102,13 +5511,22 @@
           "target": "com.posthog.canvases#SetCanvasesState"
         },
         {
+          "target": "com.posthog.canvases#GetCanvasesStateValue"
+        },
+        {
           "target": "com.posthog.canvases#CanvasesValidateCreate"
         },
         {
           "target": "com.posthog.canvases#GetCanvasesVersion"
         },
         {
+          "target": "com.posthog.canvases#GetCanvasesView"
+        },
+        {
           "target": "com.posthog.canvases#GetCanvasesAction"
+        },
+        {
+          "target": "com.posthog.canvases#GetCanvasesConnector"
         },
         {
           "target": "com.posthog.canvases#CreateCanvasesHome"

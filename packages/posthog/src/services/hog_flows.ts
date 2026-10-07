@@ -48,8 +48,8 @@ export class NotFound
 export type HogFlowStateEnum = "draft" | "active" | "archived";
 export const HogFlowStateEnum = S.String;
 
-/** * `loops` - Loops */
-export type HogFlowOriginProductEnum = "loops";
+/** * `loops` - Loops * `broadcasts` - Broadcasts */
+export type HogFlowOriginProductEnum = "loops" | "broadcasts";
 export const HogFlowOriginProductEnum = S.String;
 
 export interface HogFlowMasking {
@@ -71,9 +71,7 @@ export const HogFlowMasking = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "HogFlowMasking" }) as any as S.Schema<HogFlowMasking>;
 
-export type HogFlowConversionFiltersItemMap = {
-  [key: string]: unknown | undefined;
-};
+export type HogFlowConversionFiltersItemMap = { [key: string]: unknown | undefined };
 export const HogFlowConversionFiltersItemMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -94,9 +92,7 @@ export type HogFunctionFiltersSourceEnum =
   | "data-warehouse-view";
 export const HogFunctionFiltersSourceEnum = S.String;
 
-export type HogFunctionFiltersActionsItemMap = {
-  [key: string]: unknown | undefined;
-};
+export type HogFunctionFiltersActionsItemMap = { [key: string]: unknown | undefined };
 export const HogFunctionFiltersActionsItemMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -107,9 +103,7 @@ export const HogFunctionFiltersActionsList = /*@__PURE__*/ S.Array(
   HogFunctionFiltersActionsItemMap,
 ) as any as S.Schema<HogFunctionFiltersActionsList>;
 
-export type HogFunctionFiltersEventsItemMap = {
-  [key: string]: unknown | undefined;
-};
+export type HogFunctionFiltersEventsItemMap = { [key: string]: unknown | undefined };
 export const HogFunctionFiltersEventsItemMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -120,9 +114,7 @@ export const HogFunctionFiltersEventsList = /*@__PURE__*/ S.Array(
   HogFunctionFiltersEventsItemMap,
 ) as any as S.Schema<HogFunctionFiltersEventsList>;
 
-export type HogFunctionFiltersDataWarehouseItemMap = {
-  [key: string]: unknown | undefined;
-};
+export type HogFunctionFiltersDataWarehouseItemMap = { [key: string]: unknown | undefined };
 export const HogFunctionFiltersDataWarehouseItemMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -133,9 +125,7 @@ export const HogFunctionFiltersDataWarehouseList = /*@__PURE__*/ S.Array(
   HogFunctionFiltersDataWarehouseItemMap,
 ) as any as S.Schema<HogFunctionFiltersDataWarehouseList>;
 
-export type HogFunctionFiltersPropertiesItemMap = {
-  [key: string]: unknown | undefined;
-};
+export type HogFunctionFiltersPropertiesItemMap = { [key: string]: unknown | undefined };
 export const HogFunctionFiltersPropertiesItemMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -156,6 +146,7 @@ export interface HogFunctionFilters {
   transpiled?: unknown;
   filter_test_accounts?: boolean;
   bytecode_error?: string;
+  bytecode_contract?: string;
 }
 export const HogFunctionFilters = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -168,10 +159,9 @@ export const HogFunctionFilters = /*@__PURE__*/ S.suspend(() =>
     transpiled: S.optional(S.Unknown),
     filter_test_accounts: S.optional(S.Boolean),
     bytecode_error: S.optional(S.String),
+    bytecode_contract: S.optional(S.String),
   }),
-).annotate({
-  identifier: "HogFunctionFilters",
-}) as any as S.Schema<HogFunctionFilters>;
+).annotate({ identifier: "HogFunctionFilters" }) as any as S.Schema<HogFunctionFilters>;
 
 export interface HogFlowConversionEvent {
   /** Event/action filters for this conversion event, same shape as trigger filters: {events: [{id, name, type: 'events', properties?: [<cond>]}], actions?: [...], properties?: [<cond>]}. bytecode is compiled server-side. */
@@ -181,9 +171,7 @@ export const HogFlowConversionEvent = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     filters: HogFunctionFilters,
   }),
-).annotate({
-  identifier: "HogFlowConversionEvent",
-}) as any as S.Schema<HogFlowConversionEvent>;
+).annotate({ identifier: "HogFlowConversionEvent" }) as any as S.Schema<HogFlowConversionEvent>;
 
 /** Event-based conversion goals: [{filters: {events: [{id, name, type: 'events'}], ...}}]. */
 export type HogFlowConversionEventsList = Array<HogFlowConversionEvent>;
@@ -196,8 +184,8 @@ export interface HogFlowConversion {
   filters?: HogFlowConversionFiltersList;
   /** Event-based conversion goals: [{filters: {events: [{id, name, type: 'events'}], ...}}]. */
   events?: HogFlowConversionEventsList;
-  /** Conversion window in minutes after a person enters the workflow. null = no explicit window. */
-  window_minutes?: number | null;
+  /** How long after entering the workflow a conversion still counts, as a duration string: '7d', '12h', '30m', '45s'. Same form the delay steps use. Must be longer than zero, and at most '365d'. Omit it to use the default of 90 days. */
+  window?: string | null;
   /** Compiled server-side from 'filters'. Do not set; ignored if sent. */
   bytecode?: unknown;
 }
@@ -205,12 +193,10 @@ export const HogFlowConversion = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     filters: S.optional(HogFlowConversionFiltersList),
     events: S.optional(HogFlowConversionEventsList),
-    window_minutes: S.optional(S.NullOr(S.Number)),
+    window: S.optional(S.NullOr(S.String)),
     bytecode: S.optional(S.Unknown),
   }),
-).annotate({
-  identifier: "HogFlowConversion",
-}) as any as S.Schema<HogFlowConversion>;
+).annotate({ identifier: "HogFlowConversion" }) as any as S.Schema<HogFlowConversion>;
 
 /** * `exit_on_conversion` - Conversion * `exit_on_trigger_not_matched` - Trigger Not Matched * `exit_on_trigger_not_matched_or_conversion` - Trigger Not Matched Or Conversion * `exit_only_at_end` - Only At End */
 export type ExitConditionEnum =
@@ -221,19 +207,19 @@ export type ExitConditionEnum =
 export const ExitConditionEnum = S.String;
 
 /** * `minute` - minute * `hour` - hour */
-export type PeriodEnum = "minute" | "hour";
-export const PeriodEnum = S.String;
+export type HogFlowEmailSendingRateLimitPeriodEnum = "minute" | "hour";
+export const HogFlowEmailSendingRateLimitPeriodEnum = S.String;
 
 export interface HogFlowEmailSendingRateLimit {
   /** Maximum number of emails this workflow sends per period. */
   count: number;
   /** Window the count applies to. Sends over the limit are delayed until capacity frees up, not dropped. * `minute` - minute * `hour` - hour */
-  period: PeriodEnum | (string & {});
+  period: HogFlowEmailSendingRateLimitPeriodEnum | (string & {});
 }
 export const HogFlowEmailSendingRateLimit = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     count: S.Number,
-    period: PeriodEnum,
+    period: HogFlowEmailSendingRateLimitPeriodEnum,
   }),
 ).annotate({
   identifier: "HogFlowEmailSendingRateLimit",
@@ -288,9 +274,7 @@ export type HogFlowActionTypeEnum =
 export const HogFlowActionTypeEnum = S.String;
 
 /** Config for every action type except wait_until_condition — see the field description for per-type shapes. */
-export type HogFlowActionConfigCase0Map = {
-  [key: string]: unknown | undefined;
-};
+export type HogFlowActionConfigCase0Map = { [key: string]: unknown | undefined };
 export const HogFlowActionConfigCase0Map = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -348,11 +332,9 @@ export const HogFlowActionConfigCase1 = /*@__PURE__*/ S.suspend(() =>
     events: S.optional(HogFlowActionConfigCase1EventsList),
     max_wait_duration: S.String,
   }),
-).annotate({
-  identifier: "HogFlowActionConfigCase1",
-}) as any as S.Schema<HogFlowActionConfigCase1>;
+).annotate({ identifier: "HogFlowActionConfigCase1" }) as any as S.Schema<HogFlowActionConfigCase1>;
 
-/** Type-specific config keyed by action type. trigger: {type: event|webhook|manual|batch|schedule|tracking_pixel|internal-event, filters?}. internal-event requires filters.events naming one or more allowed event ids, and runs once for each matching event on the internal-events stream. Runs are person-less, so person-dependent steps are rejected. $slack_message_received takes filters: {properties: [<cond>]} over the message properties (channel, user, bot_id, text, subtype, is_thread_reply), and requires an exact-match channel filter; without one it runs on every message in every connected channel. $github_event_received takes filters: {properties: [<cond>]} over the delivery properties (repository, event_type, action, sender, bot_sender, own_app, author_association, actor_access, title, body, review_state, branch, repository_visibility), and requires exact-match repository and event_type filters; without them it runs on every delivery from every connected repository. webhook and manual triggers also require template_id: 'template-source-webhook', and tracking_pixel requires template_id: 'template-source-webhook-pixel'. filters shape: {events: [{id, name, type:'events', properties:[<cond>]}], properties:[<cond>], actions:[...], filter_test_accounts:<bool>}. <cond>: {key, value, operator, type: event|person|group}, or {key: 'id', type: 'cohort', value: <cohort_id>, operator: 'in'} to reference a cohort. batch triggers may set filters.audience_type: 'persons' (default) or 'accounts'. An accounts audience fans out one run per customer analytics account and takes account filters instead: properties entries of type 'account_custom_property' (key = definition id), plus tag_names: [<str>], assigned_to_user_ids: [<int>], all_roles_unassigned: <bool>. function*: {template_id, inputs: {<key>: {value: <str>}}}. Wrap values in {value:...} to enable hog templating ({person.x}, {event.x}); flat strings won't interpolate. function_email also accepts tracking_enabled?: <bool> (default true) - when false, no open pixel is injected, links are not rewritten, and the send skips ESP-level open/click tracking, so opens and clicks are not recorded for that step (delivery/bounce/unsubscribe still are). Dictionary input values are template strings too — write booleans/numbers as single-expression templates ('{true}', '{42}'), which evaluate to the typed value. delay: waits a fixed span or until a per-person/-event date — set EXACTLY ONE of delay_duration or delay_until. {delay_duration: '<number><unit>'} where unit is s|m|h|d. Fractions OK ('1.5d'=36h). Per-unit max s<=60, m<=60, h<=24, d<=30; values above are SILENTLY CLAMPED. Max 30d. delay_until: {expression: '<SQL>', offset?: '<±number><unit>'} waits until the date expression evaluates to (an ISO string, unix seconds, or a date value all resolve to the same instant); offset is a signed duration shifting it ('-1d' a day before, '2h' two hours after). expression is compiled server-side, so any bytecode sent with it is discarded. A person property is person.properties.<key>; an event property is properties.<key>, as the 'event.' prefix resolves to nothing and aborts the run. Optional timezone (IANA name), use_person_timezone (read $geoip_time_zone) and fallback_timezone decide which zone a date with no offset of its own is read in; a date that states an offset, and unix seconds, ignore them. Default UTC. Optional sibling max_delay_duration (default 30d, same '<number><unit>' format) caps how far past the step's start the wait may run. conditional_branch: {conditions: [{filters}, ...]}. Index N matches the 'branch' edge with index:N. random_cohort_branch: {cohorts: [{percentage: <number>, name?}, ...]}. Index N matches the 'branch' edge with index:N; percentages are relative weights, so they should sum to 100 but a total above or below that still splits traffic in the given proportions. wait_until_condition: {condition: {filters}, events?: [{filters: {events: [{id, name, type: 'events'}], actions?: [...]}, name?}], max_wait_duration: <duration>} (same rules as delay). Continues when condition.filters match OR any events entry fires; each events entry must target at least one event or action. On resolution (a condition match or any events entry firing) it advances via the 'branch' edge with index:0; the max_wait_duration timeout falls through the 'continue' edge. exit: {reason}. */
+/** Type-specific config keyed by action type. trigger: {type: event|webhook|manual|batch|schedule|tracking_pixel|internal-event, filters?}. An active event trigger must name at least one event, action or property filter; with filters.source 'person-updates' that means at least one property filter. internal-event requires filters.events naming one or more allowed event ids, and runs once for each matching event on the internal-events stream. Runs are person-less, so person-dependent steps are rejected. $slack_message_received takes filters: {properties: [<cond>]} over the message properties (channel, user, bot_id, text, subtype, is_thread_reply), and requires an exact-match channel filter; without one it runs on every message in every connected channel. $github_event_received takes filters: {properties: [<cond>]} over the delivery properties (repository, event_type, action, sender, bot_sender, own_app, author_association, actor_access, title, body, review_state, branch, repository_visibility), and requires exact-match repository and event_type filters; without them it runs on every delivery from every connected repository. webhook and manual triggers also require template_id: 'template-source-webhook', and tracking_pixel requires template_id: 'template-source-webhook-pixel'. filters shape: {events: [{id, name, type:'events', properties:[<cond>]}], properties:[<cond>], actions:[...], filter_test_accounts:<bool>}. <cond>: {key, value, operator, type: event|person|group}, or {key: 'id', type: 'cohort', value: <cohort_id>, operator: 'in'} to reference a cohort. batch triggers may set filters.audience_type: 'persons' (default) or 'accounts'. An accounts audience fans out one run per customer analytics account and takes account filters instead: properties entries of type 'account_custom_property' (key = definition id), plus tag_names: [<str>], assignment_status: 'all'|'assigned'|'unassigned', and assigned_to_user_ids: [<int>] when assignment_status is 'assigned'. all_roles_unassigned remains accepted for workflows saved before assignment_status was added. function*: {template_id, inputs: {<key>: {value: <str>}}}. Wrap values in {value:...} to enable hog templating ({person.x}, {event.x}); flat strings won't interpolate. function_email also accepts tracking_enabled?: <bool> (default true) - when false, no open pixel is injected, links are not rewritten, and the send skips ESP-level open/click tracking, so opens and clicks are not recorded for that step (delivery/bounce/unsubscribe still are). Dictionary input values are template strings too — write booleans/numbers as single-expression templates ('{true}', '{42}'), which evaluate to the typed value. delay: waits a fixed span or until a per-person/-event date — set EXACTLY ONE of delay_duration or delay_until. {delay_duration: '<number><unit>'} where unit is s|m|h|d. Fractions OK ('1.5d'=36h). Per-unit max s<=60, m<=60, h<=24, d<=30; values above are SILENTLY CLAMPED. Max 30d. delay_until: {expression: '<SQL>', offset?: '<±number><unit>'} waits until the date expression evaluates to (an ISO string, unix seconds, or a date value all resolve to the same instant); offset is a signed duration shifting it ('-1d' a day before, '2h' two hours after). expression is compiled server-side, so any bytecode sent with it is discarded. A person property is person.properties.<key>; an event property is properties.<key>, as the 'event.' prefix resolves to nothing and aborts the run. Optional timezone (IANA name), use_person_timezone (read $geoip_time_zone) and fallback_timezone decide which zone a date with no offset of its own is read in; a date that states an offset, and unix seconds, ignore them. Default UTC. Optional sibling max_delay_duration (default 30d, same '<number><unit>' format) caps how far past the step's start the wait may run. conditional_branch: {conditions: [{filters}, ...]}. Index N matches the 'branch' edge with index:N. random_cohort_branch: {cohorts: [{percentage: <number>, name?}, ...]}. Index N matches the 'branch' edge with index:N; percentages are relative weights, so they should sum to 100 but a total above or below that still splits traffic in the given proportions. wait_until_condition: {condition: {filters}, events?: [{filters: {events: [{id, name, type: 'events'}], actions?: [...]}, name?}], max_wait_duration: <duration>} (same rules as delay). Continues when condition.filters match OR any events entry fires; each events entry must target at least one event or action. On resolution (a condition match or any events entry firing) it advances via the 'branch' edge with index:0; the max_wait_duration timeout falls through the 'continue' edge. exit: {reason}. */
 export type HogFlowActionConfig = HogFlowActionConfigCase0Map | HogFlowActionConfigCase1;
 export const HogFlowActionConfig = S.Unknown as any as S.Schema<HogFlowActionConfig>;
 
@@ -373,7 +355,7 @@ export interface HogFlowAction {
   filters?: HogFunctionFilters | null;
   /** One of: trigger | function | function_email | function_sms | function_push | delay | wait_until_condition | wait_until_time_window | conditional_branch | random_cohort_branch | exit. * `trigger` - trigger * `function` - function * `function_email` - function_email * `function_sms` - function_sms * `function_push` - function_push * `delay` - delay * `wait_until_condition` - wait_until_condition * `wait_until_time_window` - wait_until_time_window * `conditional_branch` - conditional_branch * `random_cohort_branch` - random_cohort_branch * `exit` - exit */
   type?: HogFlowActionTypeEnum | (string & {});
-  /** Type-specific config keyed by action type. trigger: {type: event|webhook|manual|batch|schedule|tracking_pixel|internal-event, filters?}. internal-event requires filters.events naming one or more allowed event ids, and runs once for each matching event on the internal-events stream. Runs are person-less, so person-dependent steps are rejected. $slack_message_received takes filters: {properties: [<cond>]} over the message properties (channel, user, bot_id, text, subtype, is_thread_reply), and requires an exact-match channel filter; without one it runs on every message in every connected channel. $github_event_received takes filters: {properties: [<cond>]} over the delivery properties (repository, event_type, action, sender, bot_sender, own_app, author_association, actor_access, title, body, review_state, branch, repository_visibility), and requires exact-match repository and event_type filters; without them it runs on every delivery from every connected repository. webhook and manual triggers also require template_id: 'template-source-webhook', and tracking_pixel requires template_id: 'template-source-webhook-pixel'. filters shape: {events: [{id, name, type:'events', properties:[<cond>]}], properties:[<cond>], actions:[...], filter_test_accounts:<bool>}. <cond>: {key, value, operator, type: event|person|group}, or {key: 'id', type: 'cohort', value: <cohort_id>, operator: 'in'} to reference a cohort. batch triggers may set filters.audience_type: 'persons' (default) or 'accounts'. An accounts audience fans out one run per customer analytics account and takes account filters instead: properties entries of type 'account_custom_property' (key = definition id), plus tag_names: [<str>], assigned_to_user_ids: [<int>], all_roles_unassigned: <bool>. function*: {template_id, inputs: {<key>: {value: <str>}}}. Wrap values in {value:...} to enable hog templating ({person.x}, {event.x}); flat strings won't interpolate. function_email also accepts tracking_enabled?: <bool> (default true) - when false, no open pixel is injected, links are not rewritten, and the send skips ESP-level open/click tracking, so opens and clicks are not recorded for that step (delivery/bounce/unsubscribe still are). Dictionary input values are template strings too — write booleans/numbers as single-expression templates ('{true}', '{42}'), which evaluate to the typed value. delay: waits a fixed span or until a per-person/-event date — set EXACTLY ONE of delay_duration or delay_until. {delay_duration: '<number><unit>'} where unit is s|m|h|d. Fractions OK ('1.5d'=36h). Per-unit max s<=60, m<=60, h<=24, d<=30; values above are SILENTLY CLAMPED. Max 30d. delay_until: {expression: '<SQL>', offset?: '<±number><unit>'} waits until the date expression evaluates to (an ISO string, unix seconds, or a date value all resolve to the same instant); offset is a signed duration shifting it ('-1d' a day before, '2h' two hours after). expression is compiled server-side, so any bytecode sent with it is discarded. A person property is person.properties.<key>; an event property is properties.<key>, as the 'event.' prefix resolves to nothing and aborts the run. Optional timezone (IANA name), use_person_timezone (read $geoip_time_zone) and fallback_timezone decide which zone a date with no offset of its own is read in; a date that states an offset, and unix seconds, ignore them. Default UTC. Optional sibling max_delay_duration (default 30d, same '<number><unit>' format) caps how far past the step's start the wait may run. conditional_branch: {conditions: [{filters}, ...]}. Index N matches the 'branch' edge with index:N. random_cohort_branch: {cohorts: [{percentage: <number>, name?}, ...]}. Index N matches the 'branch' edge with index:N; percentages are relative weights, so they should sum to 100 but a total above or below that still splits traffic in the given proportions. wait_until_condition: {condition: {filters}, events?: [{filters: {events: [{id, name, type: 'events'}], actions?: [...]}, name?}], max_wait_duration: <duration>} (same rules as delay). Continues when condition.filters match OR any events entry fires; each events entry must target at least one event or action. On resolution (a condition match or any events entry firing) it advances via the 'branch' edge with index:0; the max_wait_duration timeout falls through the 'continue' edge. exit: {reason}. */
+  /** Type-specific config keyed by action type. trigger: {type: event|webhook|manual|batch|schedule|tracking_pixel|internal-event, filters?}. An active event trigger must name at least one event, action or property filter; with filters.source 'person-updates' that means at least one property filter. internal-event requires filters.events naming one or more allowed event ids, and runs once for each matching event on the internal-events stream. Runs are person-less, so person-dependent steps are rejected. $slack_message_received takes filters: {properties: [<cond>]} over the message properties (channel, user, bot_id, text, subtype, is_thread_reply), and requires an exact-match channel filter; without one it runs on every message in every connected channel. $github_event_received takes filters: {properties: [<cond>]} over the delivery properties (repository, event_type, action, sender, bot_sender, own_app, author_association, actor_access, title, body, review_state, branch, repository_visibility), and requires exact-match repository and event_type filters; without them it runs on every delivery from every connected repository. webhook and manual triggers also require template_id: 'template-source-webhook', and tracking_pixel requires template_id: 'template-source-webhook-pixel'. filters shape: {events: [{id, name, type:'events', properties:[<cond>]}], properties:[<cond>], actions:[...], filter_test_accounts:<bool>}. <cond>: {key, value, operator, type: event|person|group}, or {key: 'id', type: 'cohort', value: <cohort_id>, operator: 'in'} to reference a cohort. batch triggers may set filters.audience_type: 'persons' (default) or 'accounts'. An accounts audience fans out one run per customer analytics account and takes account filters instead: properties entries of type 'account_custom_property' (key = definition id), plus tag_names: [<str>], assignment_status: 'all'|'assigned'|'unassigned', and assigned_to_user_ids: [<int>] when assignment_status is 'assigned'. all_roles_unassigned remains accepted for workflows saved before assignment_status was added. function*: {template_id, inputs: {<key>: {value: <str>}}}. Wrap values in {value:...} to enable hog templating ({person.x}, {event.x}); flat strings won't interpolate. function_email also accepts tracking_enabled?: <bool> (default true) - when false, no open pixel is injected, links are not rewritten, and the send skips ESP-level open/click tracking, so opens and clicks are not recorded for that step (delivery/bounce/unsubscribe still are). Dictionary input values are template strings too — write booleans/numbers as single-expression templates ('{true}', '{42}'), which evaluate to the typed value. delay: waits a fixed span or until a per-person/-event date — set EXACTLY ONE of delay_duration or delay_until. {delay_duration: '<number><unit>'} where unit is s|m|h|d. Fractions OK ('1.5d'=36h). Per-unit max s<=60, m<=60, h<=24, d<=30; values above are SILENTLY CLAMPED. Max 30d. delay_until: {expression: '<SQL>', offset?: '<±number><unit>'} waits until the date expression evaluates to (an ISO string, unix seconds, or a date value all resolve to the same instant); offset is a signed duration shifting it ('-1d' a day before, '2h' two hours after). expression is compiled server-side, so any bytecode sent with it is discarded. A person property is person.properties.<key>; an event property is properties.<key>, as the 'event.' prefix resolves to nothing and aborts the run. Optional timezone (IANA name), use_person_timezone (read $geoip_time_zone) and fallback_timezone decide which zone a date with no offset of its own is read in; a date that states an offset, and unix seconds, ignore them. Default UTC. Optional sibling max_delay_duration (default 30d, same '<number><unit>' format) caps how far past the step's start the wait may run. conditional_branch: {conditions: [{filters}, ...]}. Index N matches the 'branch' edge with index:N. random_cohort_branch: {cohorts: [{percentage: <number>, name?}, ...]}. Index N matches the 'branch' edge with index:N; percentages are relative weights, so they should sum to 100 but a total above or below that still splits traffic in the given proportions. wait_until_condition: {condition: {filters}, events?: [{filters: {events: [{id, name, type: 'events'}], actions?: [...]}, name?}], max_wait_duration: <duration>} (same rules as delay). Continues when condition.filters match OR any events entry fires; each events entry must target at least one event or action. On resolution (a condition match or any events entry firing) it advances via the 'branch' edge with index:0; the max_wait_duration timeout falls through the 'continue' edge. exit: {reason}. */
   config?: HogFlowActionConfig;
   /** Output variable for downstream actions: {key, result_path?, spread?, label?} or a list of those. */
   output_variable?: unknown;
@@ -400,9 +382,7 @@ export const CreateHogFlowRequestActionsList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<CreateHogFlowRequestActionsList>;
 
 /** Variable: {key, type: string|number|boolean, default}. */
-export type CreateHogFlowRequestVariablesItemMap = {
-  [key: string]: string | undefined;
-};
+export type CreateHogFlowRequestVariablesItemMap = { [key: string]: string | undefined };
 export const CreateHogFlowRequestVariablesItemMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -423,11 +403,11 @@ export interface CreateHogFlowRequest {
   description?: string;
   /** draft (no execution), active (live), archived (disabled). * `draft` - Draft * `active` - Active * `archived` - Archived */
   status?: HogFlowStateEnum | (string & {});
-  /** Product surface that owns this workflow (e.g. `loops` for Desktop loops). Set only when creating a workflow. Filter the list with `?origin_product=`. * `loops` - Loops */
+  /** Product surface that owns this workflow (e.g. `loops` for Desktop loops). Set only when creating a workflow. Filter the list with `?origin_product=`. * `loops` - Loops * `broadcasts` - Broadcasts */
   origin_product?: HogFlowOriginProductEnum | (string & {}) | null;
   /** Optional dedup/throttle on an already-matched trigger: {hash: <HogQL template>, ttl: <seconds, 60-94608000>, threshold?: <int>}. Without threshold: fire once per hash, then suppress repeats within ttl (hash '{person.id}' = once per person per ttl). With threshold N: fire once per N matches of the same hash — a sampler, the 1st then every Nth. Throttles an already-qualifying trigger; it doesn't decide who enters. Server compiles bytecode from hash; omit to disable. */
   trigger_masking?: HogFlowMasking | null;
-  /** Conversion goal. filters: ARRAY of property conditions [{key, value, operator, type: event|person|group}]; events: event-based goals [{filters: {events: [...]}}]; window_minutes: minutes after entry. Required for exit_on_conversion / exit_on_trigger_not_matched_or_conversion. bytecode compiled server-side. */
+  /** Conversion goal. filters: ARRAY of property conditions [{key, value, operator, type: event|person|group}]; events: event-based goals [{filters: {events: [...]}}]; window: how long after entry a conversion counts, as a duration string such as '7d' or '12h', maximum '365d'. Required for exit_on_conversion / exit_on_trigger_not_matched_or_conversion. bytecode compiled server-side. */
   conversion?: HogFlowConversion | null;
   /** exit_only_at_end: only at exit node (default). exit_on_conversion: also on conversion (needs 'conversion'; silent no-op otherwise). exit_on_trigger_not_matched: also when trigger filter stops matching. exit_on_trigger_not_matched_or_conversion: both (needs 'conversion'). * `exit_on_conversion` - Conversion * `exit_on_trigger_not_matched` - Trigger Not Matched * `exit_on_trigger_not_matched_or_conversion` - Trigger Not Matched Or Conversion * `exit_only_at_end` - Only At End */
   exit_condition?: ExitConditionEnum | (string & {});
@@ -454,16 +434,8 @@ export const CreateHogFlowRequest = /*@__PURE__*/ S.suspend(() =>
     edges: S.optional(CreateHogFlowRequestEdgesList),
     actions: S.optional(CreateHogFlowRequestActionsList),
     variables: S.optional(CreateHogFlowRequestVariablesList),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/projects/{project_id}/hog_flows/",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "CreateHogFlowRequest",
-}) as any as S.Schema<CreateHogFlowRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/api/projects/{project_id}/hog_flows/", code: 200 })),
+).annotate({ identifier: "CreateHogFlowRequest" }) as any as S.Schema<CreateHogFlowRequest>;
 
 export type UserBasicHedgehogConfigMap = { [key: string]: unknown | undefined };
 export const UserBasicHedgehogConfigMap = /*@__PURE__*/ S.Record(
@@ -574,9 +546,7 @@ export const HogFlowSchedule = /*@__PURE__*/ S.suspend(() =>
     created_at: S.optional(S.String),
     updated_at: S.optional(S.String),
   }),
-).annotate({
-  identifier: "HogFlowSchedule",
-}) as any as S.Schema<HogFlowSchedule>;
+).annotate({ identifier: "HogFlowSchedule" }) as any as S.Schema<HogFlowSchedule>;
 
 /** Recurring schedules attached to this workflow (read-only here; manage via the schedules sub-resource). A batch/schedule workflow only fires when it's active AND has an active schedule. Empty for non-scheduled workflows. */
 export type HogFlowSchedulesList = Array<HogFlowSchedule>;
@@ -591,6 +561,22 @@ export const HogFlowActionRedirectsMap = /*@__PURE__*/ S.Record(
   S.String,
 ) as any as S.Schema<HogFlowActionRedirectsMap>;
 
+export interface HogFlowLastRun {
+  /** The task this run belongs to. */
+  task_id: string;
+  /** Status of the task's newest run: not_started, queued, in_progress, completed, failed or cancelled. */
+  status: string;
+  /** When the run started, or when the task was created if it has no run yet. */
+  ran_at: string;
+}
+export const HogFlowLastRun = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    task_id: S.String,
+    status: S.String,
+    ran_at: S.String,
+  }),
+).annotate({ identifier: "HogFlowLastRun" }) as any as S.Schema<HogFlowLastRun>;
+
 /** Mixin for serializers to add user access control fields */
 export interface HogFlow {
   id?: string;
@@ -601,7 +587,7 @@ export interface HogFlow {
   version?: number;
   /** draft (no execution), active (live), archived (disabled). * `draft` - Draft * `active` - Active * `archived` - Archived */
   status?: HogFlowStateEnum;
-  /** Product surface that owns this workflow (e.g. `loops` for Desktop loops). Set only when creating a workflow. Filter the list with `?origin_product=`. * `loops` - Loops */
+  /** Product surface that owns this workflow (e.g. `loops` for Desktop loops). Set only when creating a workflow. Filter the list with `?origin_product=`. * `loops` - Loops * `broadcasts` - Broadcasts */
   origin_product?: HogFlowOriginProductEnum | null;
   created_at?: string;
   created_by?: UserBasic | null;
@@ -609,7 +595,7 @@ export interface HogFlow {
   trigger?: unknown;
   /** Optional dedup/throttle on an already-matched trigger: {hash: <HogQL template>, ttl: <seconds, 60-94608000>, threshold?: <int>}. Without threshold: fire once per hash, then suppress repeats within ttl (hash '{person.id}' = once per person per ttl). With threshold N: fire once per N matches of the same hash — a sampler, the 1st then every Nth. Throttles an already-qualifying trigger; it doesn't decide who enters. Server compiles bytecode from hash; omit to disable. */
   trigger_masking?: HogFlowMasking | null;
-  /** Conversion goal. filters: ARRAY of property conditions [{key, value, operator, type: event|person|group}]; events: event-based goals [{filters: {events: [...]}}]; window_minutes: minutes after entry. Required for exit_on_conversion / exit_on_trigger_not_matched_or_conversion. bytecode compiled server-side. */
+  /** Conversion goal. filters: ARRAY of property conditions [{key, value, operator, type: event|person|group}]; events: event-based goals [{filters: {events: [...]}}]; window: how long after entry a conversion counts, as a duration string such as '7d' or '12h', maximum '365d'. Required for exit_on_conversion / exit_on_trigger_not_matched_or_conversion. bytecode compiled server-side. */
   conversion?: HogFlowConversion | null;
   /** exit_only_at_end: only at exit node (default). exit_on_conversion: also on conversion (needs 'conversion'; silent no-op otherwise). exit_on_trigger_not_matched: also when trigger filter stops matching. exit_on_trigger_not_matched_or_conversion: both (needs 'conversion'). * `exit_on_conversion` - Conversion * `exit_on_trigger_not_matched` - Trigger Not Matched * `exit_on_trigger_not_matched_or_conversion` - Trigger Not Matched Or Conversion * `exit_only_at_end` - Only At End */
   exit_condition?: ExitConditionEnum;
@@ -633,6 +619,18 @@ export interface HogFlow {
   draft_updated_at?: string | null;
   /** Skip-forward map for deleted steps: {deleted_action_id: next surviving action_id}. Maintained automatically when a live graph edit deletes actions, so in-flight runs parked on a deleted step continue at its surviving successor instead of exiting. Null when no live deletions have occurred. */
   action_redirects?: HogFlowActionRedirectsMap | null;
+  /** When PostHog paused this workflow's email automatically because its spam complaint or hard bounce rate crossed a threshold. Null when sending is not paused. Read-only: only the resume_email_sending endpoint clears a pause, so a normal update or publish can't lift it. */
+  email_sending_paused_at?: string | null;
+  /** Plain-language reason for the pause, naming the signal and the window. Empty when not paused. */
+  email_sending_paused_reason?: string;
+  /** Who paused it: "auto" for the deliverability detector, "staff" for PostHog staff. A staff pause can only be resumed by staff, so the resume endpoint refuses it. Empty when not paused. */
+  email_sending_paused_by?: string;
+  /** True when only PostHog staff can lift the current pause: staff placed it, or it landed shortly after a resume, so another self-serve resume is not offered. False when not paused or when the resume endpoint would accept the caller. */
+  email_sending_pause_requires_support?: boolean;
+  /** When sending was last resumed. Every detector window starts after this, so resuming does not immediately re-trip on the feedback that caused the pause. Null if never paused. */
+  email_sending_resumed_at?: string | null;
+  /** Newest task this loop workflow created, as its last run. Null when the workflow is not a loop or has not run. */
+  last_run?: HogFlowLastRun | null;
 }
 export const HogFlow = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -660,6 +658,12 @@ export const HogFlow = /*@__PURE__*/ S.suspend(() =>
     draft: S.optional(S.Unknown),
     draft_updated_at: S.optional(S.NullOr(S.String)),
     action_redirects: S.optional(S.NullOr(HogFlowActionRedirectsMap)),
+    email_sending_paused_at: S.optional(S.NullOr(S.String)),
+    email_sending_paused_reason: S.optional(S.String),
+    email_sending_paused_by: S.optional(S.String),
+    email_sending_pause_requires_support: S.optional(S.Boolean),
+    email_sending_resumed_at: S.optional(S.NullOr(S.String)),
+    last_run: S.optional(S.NullOr(HogFlowLastRun)),
   }),
 ).annotate({ identifier: "HogFlow" }) as any as S.Schema<HogFlow>;
 
@@ -704,6 +708,7 @@ export const CreateHogFlowsBatchJobRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<CreateHogFlowsBatchJobRequest>;
 
 export interface HogFlowBatchJob {
+  /** ID of the batch run. */
   id: string;
   /** Not currently tracked — stays at its initial value. Use the workflow logs/metrics endpoints for run outcome. * `waiting` - Waiting * `queued` - Queued * `active` - Active * `completed` - Completed * `cancelled` - Cancelled * `failed` - Failed */
   status?: HogFlowBatchJobStateEnum;
@@ -713,8 +718,11 @@ export interface HogFlowBatchJob {
   filters: unknown;
   /** Variable value overrides applied to this run. */
   variables?: unknown;
+  /** When the batch run was created. */
   created_at: string;
+  /** User who started the batch run. */
   created_by: UserBasic;
+  /** When the batch run was last updated. */
   updated_at: string;
 }
 export const HogFlowBatchJob = /*@__PURE__*/ S.suspend(() =>
@@ -728,9 +736,7 @@ export const HogFlowBatchJob = /*@__PURE__*/ S.suspend(() =>
     created_by: UserBasic,
     updated_at: S.String,
   }),
-).annotate({
-  identifier: "HogFlowBatchJob",
-}) as any as S.Schema<HogFlowBatchJob>;
+).annotate({ identifier: "HogFlowBatchJob" }) as any as S.Schema<HogFlowBatchJob>;
 
 export interface CreateHogFlowsDiscardDraftRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -766,9 +772,7 @@ export const HogFlowInputActionsList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<HogFlowInputActionsList>;
 
 /** Variable: {key, type: string|number|boolean, default}. */
-export type HogFlowInputVariablesItemMap = {
-  [key: string]: string | undefined;
-};
+export type HogFlowInputVariablesItemMap = { [key: string]: string | undefined };
 export const HogFlowInputVariablesItemMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -788,11 +792,11 @@ export interface HogFlowInput {
   description?: string;
   /** draft (no execution), active (live), archived (disabled). * `draft` - Draft * `active` - Active * `archived` - Archived */
   status?: HogFlowStateEnum | (string & {});
-  /** Product surface that owns this workflow (e.g. `loops` for Desktop loops). Set only when creating a workflow. Filter the list with `?origin_product=`. * `loops` - Loops */
+  /** Product surface that owns this workflow (e.g. `loops` for Desktop loops). Set only when creating a workflow. Filter the list with `?origin_product=`. * `loops` - Loops * `broadcasts` - Broadcasts */
   origin_product?: HogFlowOriginProductEnum | (string & {}) | null;
   /** Optional dedup/throttle on an already-matched trigger: {hash: <HogQL template>, ttl: <seconds, 60-94608000>, threshold?: <int>}. Without threshold: fire once per hash, then suppress repeats within ttl (hash '{person.id}' = once per person per ttl). With threshold N: fire once per N matches of the same hash — a sampler, the 1st then every Nth. Throttles an already-qualifying trigger; it doesn't decide who enters. Server compiles bytecode from hash; omit to disable. */
   trigger_masking?: HogFlowMasking | null;
-  /** Conversion goal. filters: ARRAY of property conditions [{key, value, operator, type: event|person|group}]; events: event-based goals [{filters: {events: [...]}}]; window_minutes: minutes after entry. Required for exit_on_conversion / exit_on_trigger_not_matched_or_conversion. bytecode compiled server-side. */
+  /** Conversion goal. filters: ARRAY of property conditions [{key, value, operator, type: event|person|group}]; events: event-based goals [{filters: {events: [...]}}]; window: how long after entry a conversion counts, as a duration string such as '7d' or '12h', maximum '365d'. Required for exit_on_conversion / exit_on_trigger_not_matched_or_conversion. bytecode compiled server-side. */
   conversion?: HogFlowConversion | null;
   /** exit_only_at_end: only at exit node (default). exit_on_conversion: also on conversion (needs 'conversion'; silent no-op otherwise). exit_on_trigger_not_matched: also when trigger filter stops matching. exit_on_trigger_not_matched_or_conversion: both (needs 'conversion'). * `exit_on_conversion` - Conversion * `exit_on_trigger_not_matched` - Trigger Not Matched * `exit_on_trigger_not_matched_or_conversion` - Trigger Not Matched Or Conversion * `exit_only_at_end` - Only At End */
   exit_condition?: ExitConditionEnum | (string & {});
@@ -822,9 +826,7 @@ export const HogFlowInput = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "HogFlowInput" }) as any as S.Schema<HogFlowInput>;
 
 /** Test trigger payload, typically {event, person, groups}. Shape it like the trigger's real payload: an event matching the trigger filters for event triggers, or for an internal-event trigger an event named in its filters.events (e.g. $slack_message_received with Slack properties like channel, user, text, ts) and no person. */
-export type CreateHogFlowsInvocationRequestGlobalsMap = {
-  [key: string]: unknown | undefined;
-};
+export type CreateHogFlowsInvocationRequestGlobalsMap = { [key: string]: unknown | undefined };
 export const CreateHogFlowsInvocationRequestGlobalsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -872,6 +874,158 @@ export const CreateHogFlowsInvocationResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "CreateHogFlowsInvocationResponse",
 }) as any as S.Schema<CreateHogFlowsInvocationResponse>;
+
+export interface CreateHogFlowsOptimizationRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** A UUID string identifying this hog flow. */
+  id: string;
+  /** Whether PostHog may suggest changes to this workflow. */
+  enabled: boolean;
+}
+export const CreateHogFlowsOptimizationRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    project_id: S.String.pipe(T.Label()),
+    id: S.String.pipe(T.Label()),
+    enabled: S.Boolean,
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/api/projects/{project_id}/hog_flows/{id}/optimization/",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "CreateHogFlowsOptimizationRequest",
+}) as any as S.Schema<CreateHogFlowsOptimizationRequest>;
+
+export interface HogFlowOptimization {
+  /** Whether PostHog may suggest changes to this workflow. */
+  enabled: boolean;
+}
+export const HogFlowOptimization = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    enabled: S.Boolean,
+  }),
+).annotate({ identifier: "HogFlowOptimization" }) as any as S.Schema<HogFlowOptimization>;
+
+/** Only the workflow content fields this proposal changes. Approving merges them over the live content to build the staged draft, so unrelated parts of the workflow stay as they are. In `actions`, send each step you change with its `id` and only the fields you change; they merge into the live step, and a null field deletes it. */
+export type CreateHogFlowsProposalRequestContentMap = { [key: string]: unknown | undefined };
+export const CreateHogFlowsProposalRequestContentMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.Unknown,
+) as any as S.Schema<CreateHogFlowsProposalRequestContentMap>;
+
+/** The metric numbers behind the proposal, so a human can judge it without re-deriving them. */
+export type CreateHogFlowsProposalRequestEvidenceMap = { [key: string]: unknown | undefined };
+export const CreateHogFlowsProposalRequestEvidenceMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.Unknown,
+) as any as S.Schema<CreateHogFlowsProposalRequestEvidenceMap>;
+
+export interface CreateHogFlowsProposalRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** A UUID string identifying this hog flow. */
+  id: string;
+  /** Short summary of the proposed change. */
+  title: string;
+  /** Why this change is worth making, in prose a human reads. */
+  rationale: string;
+  /** Only the workflow content fields this proposal changes. Approving merges them over the live content to build the staged draft, so unrelated parts of the workflow stay as they are. In `actions`, send each step you change with its `id` and only the fields you change; they merge into the live step, and a null field deletes it. */
+  content: CreateHogFlowsProposalRequestContentMap;
+  /** The metric numbers behind the proposal, so a human can judge it without re-deriving them. */
+  evidence?: CreateHogFlowsProposalRequestEvidenceMap;
+  /** Workflow version this was authored against, as read from the workflow. It is the snapshot approve compares against to tell whether someone edited the same steps or fields since, and a defaulted version would read as current however long the producer took. */
+  base_version: number;
+  /** The step this is about. Send it for a change to one step: both the evidence and the outcome then read that step's metrics, so a change to one email in a sequence is not measured against the rest. Leave it out only for a change that spans the workflow, such as its exit condition or a step being taken out, which is measured on the workflow's own numbers. */
+  step_id?: string | null;
+  /** Stable id of the producing agent run or finding. Posting the same one twice returns the existing proposal instead of creating a duplicate. */
+  source_id?: string | null;
+}
+export const CreateHogFlowsProposalRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    project_id: S.String.pipe(T.Label()),
+    id: S.String.pipe(T.Label()),
+    title: S.String,
+    rationale: S.String,
+    content: CreateHogFlowsProposalRequestContentMap,
+    evidence: S.optional(CreateHogFlowsProposalRequestEvidenceMap),
+    base_version: S.Number,
+    step_id: S.optional(S.NullOr(S.String)),
+    source_id: S.optional(S.NullOr(S.String)),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/api/projects/{project_id}/hog_flows/{id}/proposals/",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "CreateHogFlowsProposalRequest",
+}) as any as S.Schema<CreateHogFlowsProposalRequest>;
+
+/** Only the content fields the proposal changes. Valid keys: actions, edges, trigger_masking, conversion, exit_condition, email_sending_rate_limit, variables. Each value has the same shape as on the workflow itself. */
+export type WorkflowProposalContentMap = { [key: string]: unknown | undefined };
+export const WorkflowProposalContentMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.Unknown,
+) as any as S.Schema<WorkflowProposalContentMap>;
+
+/** The numbers behind the proposal, read back by name. Five keys are required: `metric`, the metric name; `current_value`, its value as a number (a rate as a fraction, 0.0865, never a string); `unit`, either `rate` or `count`, since 1.0 is either every message or one of them; `n`, the denominator that value was computed over; and `guardrails`, a list of {metric, value, n, unit} counter-metrics read over the same window, empty only if none apply. PostHog then reads the step's own metrics at `base_version` when the suggestion is filed and stores them under `measured`; the page shows that reading and flags a disagreement with yours. Also conventional: target_value, window, query, app_source_id. A rate with no denominator lets a reviewer mistake noise for a result, a target with no counter-metrics hides a change that lifts one number by harming another, and a number under a key of your own reads to a person as no evidence at all. */
+export type WorkflowProposalEvidenceMap = { [key: string]: unknown | undefined };
+export const WorkflowProposalEvidenceMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.Unknown,
+) as any as S.Schema<WorkflowProposalEvidenceMap>;
+
+/** * `suggested` - Suggested * `approved` - Approved * `rejected` - Rejected * `applied` - Applied */
+export type WorkflowProposalStatusEnum = "suggested" | "approved" | "rejected" | "applied";
+export const WorkflowProposalStatusEnum = S.String;
+
+export interface WorkflowProposal {
+  id: string;
+  /** Short summary of the proposed change. */
+  title: string;
+  /** Why the producer thinks this change is worth making. */
+  rationale: string;
+  /** Only the content fields the proposal changes. Valid keys: actions, edges, trigger_masking, conversion, exit_condition, email_sending_rate_limit, variables. Each value has the same shape as on the workflow itself. */
+  content: WorkflowProposalContentMap;
+  /** The numbers behind the proposal, read back by name. Five keys are required: `metric`, the metric name; `current_value`, its value as a number (a rate as a fraction, 0.0865, never a string); `unit`, either `rate` or `count`, since 1.0 is either every message or one of them; `n`, the denominator that value was computed over; and `guardrails`, a list of {metric, value, n, unit} counter-metrics read over the same window, empty only if none apply. PostHog then reads the step's own metrics at `base_version` when the suggestion is filed and stores them under `measured`; the page shows that reading and flags a disagreement with yours. Also conventional: target_value, window, query, app_source_id. A rate with no denominator lets a reviewer mistake noise for a result, a target with no counter-metrics hides a change that lifts one number by harming another, and a number under a key of your own reads to a person as no evidence at all. */
+  evidence: WorkflowProposalEvidenceMap;
+  /** The workflow step this is about. Set for a change to one step: the evidence and the outcome then read that step's metrics, so a change to one email in a sequence is not measured against the rest. Null only for a change that spans the workflow, such as its exit condition or a step being taken out, which is measured on the workflow's own numbers. */
+  step_id: string | null;
+  /** Live workflow version this was authored against. Approving compares the steps and fields this changes against that version to tell whether somebody else already changed them. */
+  base_version: number;
+  /** Whether approving this would undo an edit made since it was proposed. False while the workflow only changed elsewhere, because approving merges only what the proposal changes. */
+  is_stale: boolean;
+  status: WorkflowProposalStatusEnum;
+  /** Stable id of the producing agent run or finding, e.g. 'run:<run id>:finding:<finding id>'. */
+  source_id: string | null;
+  created_at: string;
+  resolved_at: string | null;
+  resolved_by: UserBasic | null;
+  /** Workflow version the approved change went live as. */
+  applied_version: number | null;
+}
+export const WorkflowProposal = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    title: S.String,
+    rationale: S.String,
+    content: WorkflowProposalContentMap,
+    evidence: WorkflowProposalEvidenceMap,
+    step_id: S.NullOr(S.String),
+    base_version: S.Number,
+    is_stale: S.Boolean,
+    status: WorkflowProposalStatusEnum,
+    source_id: S.NullOr(S.String),
+    created_at: S.String,
+    resolved_at: S.NullOr(S.String),
+    resolved_by: S.NullOr(UserBasic),
+    applied_version: S.NullOr(S.Number),
+  }),
+).annotate({ identifier: "WorkflowProposal" }) as any as S.Schema<WorkflowProposal>;
 
 /** * `running` - running * `succeeded` - succeeded * `failed` - failed * `canceled` - canceled */
 export type HogInvocationRerunFilterStatusEnum = "running" | "succeeded" | "failed" | "canceled";
@@ -927,9 +1081,7 @@ export const HogInvocationRerunFilter = /*@__PURE__*/ S.suspend(() =>
     max_count: S.optional(S.Number),
     invocation_ids: S.optional(HogInvocationRerunFilterInvocationIdsList),
   }),
-).annotate({
-  identifier: "HogInvocationRerunFilter",
-}) as any as S.Schema<HogInvocationRerunFilter>;
+).annotate({ identifier: "HogInvocationRerunFilter" }) as any as S.Schema<HogInvocationRerunFilter>;
 
 export interface CreateHogFlowsRerunRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -945,11 +1097,7 @@ export const CreateHogFlowsRerunRequest = /*@__PURE__*/ S.suspend(() =>
     id: S.String.pipe(T.Label()),
     filter: HogInvocationRerunFilter,
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/projects/{project_id}/hog_flows/{id}/rerun/",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/api/projects/{project_id}/hog_flows/{id}/rerun/", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateHogFlowsRerunRequest",
@@ -975,9 +1123,7 @@ export const HogInvocationRerunResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<HogInvocationRerunResponse>;
 
 /** Variable value overrides, merged with the workflow's own variable defaults for this run only. */
-export type CreateHogFlowsRunRequestVariablesMap = {
-  [key: string]: unknown | undefined;
-};
+export type CreateHogFlowsRunRequestVariablesMap = { [key: string]: unknown | undefined };
 export const CreateHogFlowsRunRequestVariablesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -997,15 +1143,9 @@ export const CreateHogFlowsRunRequest = /*@__PURE__*/ S.suspend(() =>
     id: S.String.pipe(T.Label()),
     variables: S.optional(CreateHogFlowsRunRequestVariablesMap),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/projects/{project_id}/hog_flows/{id}/run/",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/api/projects/{project_id}/hog_flows/{id}/run/", code: 200 }),
   ),
-).annotate({
-  identifier: "CreateHogFlowsRunRequest",
-}) as any as S.Schema<CreateHogFlowsRunRequest>;
+).annotate({ identifier: "CreateHogFlowsRunRequest" }) as any as S.Schema<CreateHogFlowsRunRequest>;
 
 export interface HogFlowRunResponse {
   /** 'queued' once the invocation has been queued for execution. */
@@ -1018,9 +1158,7 @@ export const HogFlowRunResponse = /*@__PURE__*/ S.suspend(() =>
     status: S.String,
     invocation_id: S.String,
   }),
-).annotate({
-  identifier: "HogFlowRunResponse",
-}) as any as S.Schema<HogFlowRunResponse>;
+).annotate({ identifier: "HogFlowRunResponse" }) as any as S.Schema<HogFlowRunResponse>;
 
 export interface CreateHogFlowsScheduleRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -1056,9 +1194,7 @@ export const CreateHogFlowsScheduleRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<CreateHogFlowsScheduleRequest>;
 
 /** Property filters to apply */
-export type CreateHogFlowsUserBlastRadiusRequestFiltersMap = {
-  [key: string]: unknown | undefined;
-};
+export type CreateHogFlowsUserBlastRadiusRequestFiltersMap = { [key: string]: unknown | undefined };
 export const CreateHogFlowsUserBlastRadiusRequestFiltersMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -1130,16 +1266,8 @@ export const GetHogFlowRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project_id: S.String.pipe(T.Label()),
     id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/hog_flows/{id}/",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetHogFlowRequest",
-}) as any as S.Schema<GetHogFlowRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/projects/{project_id}/hog_flows/{id}/", code: 200 })),
+).annotate({ identifier: "GetHogFlowRequest" }) as any as S.Schema<GetHogFlowRequest>;
 
 export interface GetHogFlowsAssetRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -1179,15 +1307,9 @@ export const GetHogFlowsAssetRequest = /*@__PURE__*/ S.suspend(() =>
     parent_run_id: S.optional(S.String.pipe(T.Query())),
     search: S.optional(S.String.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/hog_flows/{id}/assets/",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/projects/{project_id}/hog_flows/{id}/assets/", code: 200 }),
   ),
-).annotate({
-  identifier: "GetHogFlowsAssetRequest",
-}) as any as S.Schema<GetHogFlowsAssetRequest>;
+).annotate({ identifier: "GetHogFlowsAssetRequest" }) as any as S.Schema<GetHogFlowsAssetRequest>;
 
 export interface MessageAsset {
   /** The workflow run this email was sent in. */
@@ -1240,9 +1362,7 @@ export const GetHogFlowsAssetResponseBodyList = /*@__PURE__*/ S.Array(
 export type GetHogFlowsAssetResponse = GetHogFlowsAssetResponseBodyList;
 export const GetHogFlowsAssetResponse = /*@__PURE__*/ S.suspend(() =>
   GetHogFlowsAssetResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "GetHogFlowsAssetResponse",
-}) as any as S.Schema<GetHogFlowsAssetResponse>;
+).annotate({ identifier: "GetHogFlowsAssetResponse" }) as any as S.Schema<GetHogFlowsAssetResponse>;
 
 export interface GetHogFlowsAssetContentRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -1273,9 +1393,7 @@ export const GetHogFlowsAssetContentRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface GetHogFlowsAssetContentResponse {}
 export const GetHogFlowsAssetContentResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "GetHogFlowsAssetContentResponse",
-  },
+  { identifier: "GetHogFlowsAssetContentResponse" },
 ) as any as S.Schema<GetHogFlowsAssetContentResponse>;
 
 export interface GetHogFlowsEmailSendingSuspensionRequest {
@@ -1383,9 +1501,7 @@ export const HogInvocationResult = /*@__PURE__*/ S.suspend(() =>
     attempts: S.Number,
     is_retry: S.Boolean,
   }),
-).annotate({
-  identifier: "HogInvocationResult",
-}) as any as S.Schema<HogInvocationResult>;
+).annotate({ identifier: "HogInvocationResult" }) as any as S.Schema<HogInvocationResult>;
 
 export type GetHogFlowsInvocationResultResponseBodyList = Array<HogInvocationResult>;
 export const GetHogFlowsInvocationResultResponseBodyList = /*@__PURE__*/ S.Array(
@@ -1423,9 +1539,7 @@ export const GetHogFlowsInvocationResultRequest2 = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetHogFlowsInvocationResultRequest2>;
 
 /** The triggering payload (event/person/groups) the run executed against, as a JSON object. */
-export type HogInvocationResultDetailInvocationGlobalsMap = {
-  [key: string]: unknown | undefined;
-};
+export type HogInvocationResultDetailInvocationGlobalsMap = { [key: string]: unknown | undefined };
 export const HogInvocationResultDetailInvocationGlobalsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -1544,15 +1658,9 @@ export const GetHogFlowsLogRequest = /*@__PURE__*/ S.suspend(() =>
     limit: S.optional(S.Number.pipe(T.Query())),
     search: S.optional(S.String.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/hog_flows/{id}/logs/",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/projects/{project_id}/hog_flows/{id}/logs/", code: 200 }),
   ),
-).annotate({
-  identifier: "GetHogFlowsLogRequest",
-}) as any as S.Schema<GetHogFlowsLogRequest>;
+).annotate({ identifier: "GetHogFlowsLogRequest" }) as any as S.Schema<GetHogFlowsLogRequest>;
 
 export interface GetHogFlowsLogResponse {}
 export const GetHogFlowsLogResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1597,11 +1705,7 @@ export const GetHogFlowsMetricsRequest = /*@__PURE__*/ S.suspend(() =>
     kind: S.optional(S.String.pipe(T.Query())),
     name: S.optional(S.String.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/hog_flows/{id}/metrics/",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/projects/{project_id}/hog_flows/{id}/metrics/", code: 200 }),
   ),
 ).annotate({
   identifier: "GetHogFlowsMetricsRequest",
@@ -1626,9 +1730,7 @@ export const AppMetricSeries = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     values: S.optional(AppMetricSeriesValuesList),
   }),
-).annotate({
-  identifier: "AppMetricSeries",
-}) as any as S.Schema<AppMetricSeries>;
+).annotate({ identifier: "AppMetricSeries" }) as any as S.Schema<AppMetricSeries>;
 
 export type AppMetricsResponseSeriesList = Array<AppMetricSeries>;
 export const AppMetricsResponseSeriesList = /*@__PURE__*/ S.Array(
@@ -1644,9 +1746,7 @@ export const AppMetricsResponse = /*@__PURE__*/ S.suspend(() =>
     labels: S.optional(AppMetricsResponseLabelsList),
     series: S.optional(AppMetricsResponseSeriesList),
   }),
-).annotate({
-  identifier: "AppMetricsResponse",
-}) as any as S.Schema<AppMetricsResponse>;
+).annotate({ identifier: "AppMetricsResponse" }) as any as S.Schema<AppMetricsResponse>;
 
 export interface GetHogFlowsMetricsGlobalRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -1686,9 +1786,7 @@ export const WorkflowStatsRow = /*@__PURE__*/ S.suspend(() =>
     succeeded: S.Number,
     failed: S.Number,
   }),
-).annotate({
-  identifier: "WorkflowStatsRow",
-}) as any as S.Schema<WorkflowStatsRow>;
+).annotate({ identifier: "WorkflowStatsRow" }) as any as S.Schema<WorkflowStatsRow>;
 
 export type GetHogFlowsMetricsGlobalResponseBodyList = Array<WorkflowStatsRow>;
 export const GetHogFlowsMetricsGlobalResponseBodyList = /*@__PURE__*/ S.Array(
@@ -1750,9 +1848,7 @@ export const GetHogFlowsMetricsTotalRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetHogFlowsMetricsTotalRequest",
 }) as any as S.Schema<GetHogFlowsMetricsTotalRequest>;
 
-export type AppMetricsTotalsResponseTotalsMap = {
-  [key: string]: number | undefined;
-};
+export type AppMetricsTotalsResponseTotalsMap = { [key: string]: number | undefined };
 export const AppMetricsTotalsResponseTotalsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Number,
@@ -1765,9 +1861,268 @@ export const AppMetricsTotalsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     totals: S.optional(AppMetricsTotalsResponseTotalsMap),
   }),
+).annotate({ identifier: "AppMetricsTotalsResponse" }) as any as S.Schema<AppMetricsTotalsResponse>;
+
+export type GetHogFlowsMetricsVersionRequestBreakdownBy = "name" | "kind";
+export const GetHogFlowsMetricsVersionRequestBreakdownBy = S.String;
+
+export type GetHogFlowsMetricsVersionRequestInterval = "hour" | "day" | "week";
+export const GetHogFlowsMetricsVersionRequestInterval = S.String;
+
+export interface GetHogFlowsMetricsVersionRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** A UUID string identifying this hog flow. */
+  id: string;
+  /** Start of the time range. Accepts relative formats like '-7d', '-24h' or ISO 8601 timestamps. Defaults to '-7d'. */
+  after?: string;
+  /** End of the time range. Same format as 'after'. Defaults to now. */
+  before?: string;
+  /** Group the series by metric 'name' or 'kind'. Defaults to 'kind'. * `name` - name * `kind` - kind */
+  breakdown_by?: GetHogFlowsMetricsVersionRequestBreakdownBy | (string & {});
+  /** Filter metrics to a specific execution instance. */
+  instance_id?: string;
+  /** Time bucket size for the series. One of: hour, day, week. Defaults to 'day'. * `hour` - hour * `day` - day * `week` - week */
+  interval?: GetHogFlowsMetricsVersionRequestInterval | (string & {});
+  /** Comma-separated metric kinds to filter by, e.g. 'success,failure'. */
+  kind?: string;
+  /** Comma-separated metric names to filter by. */
+  name?: string;
+  /** Read one workflow version's series: every run of that version, keyed on the workflow. The unversioned read keys batch and broadcast runs on the run instead, so it is not the sum of the versions; compare versions with each other, not with it. */
+  version: number;
+}
+export const GetHogFlowsMetricsVersionRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    project_id: S.String.pipe(T.Label()),
+    id: S.String.pipe(T.Label()),
+    after: S.optional(S.String.pipe(T.Query())),
+    before: S.optional(S.String.pipe(T.Query())),
+    breakdown_by: S.optional(GetHogFlowsMetricsVersionRequestBreakdownBy.pipe(T.Query())),
+    instance_id: S.optional(S.String.pipe(T.Query())),
+    interval: S.optional(GetHogFlowsMetricsVersionRequestInterval.pipe(T.Query())),
+    kind: S.optional(S.String.pipe(T.Query())),
+    name: S.optional(S.String.pipe(T.Query())),
+    version: S.Number.pipe(T.Query()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/api/projects/{project_id}/hog_flows/{id}/metrics/version/",
+      code: 200,
+    }),
+  ),
 ).annotate({
-  identifier: "AppMetricsTotalsResponse",
-}) as any as S.Schema<AppMetricsTotalsResponse>;
+  identifier: "GetHogFlowsMetricsVersionRequest",
+}) as any as S.Schema<GetHogFlowsMetricsVersionRequest>;
+
+export interface GetHogFlowsOptimizationRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** A UUID string identifying this hog flow. */
+  id: string;
+}
+export const GetHogFlowsOptimizationRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    project_id: S.String.pipe(T.Label()),
+    id: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/api/projects/{project_id}/hog_flows/{id}/optimization/",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "GetHogFlowsOptimizationRequest",
+}) as any as S.Schema<GetHogFlowsOptimizationRequest>;
+
+export interface GetHogFlowsProposalRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** A UUID string identifying this hog flow. */
+  id: string;
+  /** Proposal to fetch. */
+  proposal_id: string;
+}
+export const GetHogFlowsProposalRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    project_id: S.String.pipe(T.Label()),
+    id: S.String.pipe(T.Label()),
+    proposal_id: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/api/projects/{project_id}/hog_flows/{id}/proposals/{proposal_id}/",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "GetHogFlowsProposalRequest",
+}) as any as S.Schema<GetHogFlowsProposalRequest>;
+
+export interface GetHogFlowsProposalsOutcomeRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** A UUID string identifying this hog flow. */
+  id: string;
+  /** Proposal to read outcomes for. */
+  proposal_id: string;
+}
+export const GetHogFlowsProposalsOutcomeRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    project_id: S.String.pipe(T.Label()),
+    id: S.String.pipe(T.Label()),
+    proposal_id: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/api/projects/{project_id}/hog_flows/{id}/proposals/{proposal_id}/outcome/",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "GetHogFlowsProposalsOutcomeRequest",
+}) as any as S.Schema<GetHogFlowsProposalsOutcomeRequest>;
+
+export interface WorkflowVersionChange {
+  /** Step the field belongs to, or null for a workflow field. */
+  step_name: string | null;
+  /** What changed, as a person reads it, e.g. 'email > subject'. */
+  field: string;
+  /** Value in the version before this one. */
+  before: string | null;
+  /** Value this version published. */
+  after: string | null;
+  /** Whether the suggestion is what changed this field. */
+  from_suggestion: boolean;
+}
+export const WorkflowVersionChange = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    step_name: S.NullOr(S.String),
+    field: S.String,
+    before: S.NullOr(S.String),
+    after: S.NullOr(S.String),
+    from_suggestion: S.Boolean,
+  }),
+).annotate({ identifier: "WorkflowVersionChange" }) as any as S.Schema<WorkflowVersionChange>;
+
+/** What this version changed against the version before it. */
+export type WorkflowProposalVersionOutcomeChangesList = Array<WorkflowVersionChange>;
+export const WorkflowProposalVersionOutcomeChangesList = /*@__PURE__*/ S.Array(
+  WorkflowVersionChange,
+) as any as S.Schema<WorkflowProposalVersionOutcomeChangesList>;
+
+/** Every version summed into these numbers. The after side runs on while later versions keep the change. */
+export type WorkflowProposalVersionOutcomeVersionsList = Array<number>;
+export const WorkflowProposalVersionOutcomeVersionsList = /*@__PURE__*/ S.Array(
+  S.Number,
+) as any as S.Schema<WorkflowProposalVersionOutcomeVersionsList>;
+
+export interface WorkflowProposalMetric {
+  /** What was measured, e.g. 'email open rate'. */
+  metric: string;
+  /** The rate over the window, or null when there was nothing to divide. */
+  value: number | null;
+  /** Observations the rate was computed over. */
+  n: number;
+  /** True when n is too small for the rate to mean anything. Show it labelled, not as a finding. */
+  below_minimum_sample: boolean;
+}
+export const WorkflowProposalMetric = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    metric: S.String,
+    value: S.NullOr(S.Number),
+    n: S.Number,
+    below_minimum_sample: S.Boolean,
+  }),
+).annotate({ identifier: "WorkflowProposalMetric" }) as any as S.Schema<WorkflowProposalMetric>;
+
+/** Counter-metrics over the same window, so a harmful win is visible. */
+export type WorkflowProposalVersionOutcomeGuardrailsList = Array<WorkflowProposalMetric>;
+export const WorkflowProposalVersionOutcomeGuardrailsList = /*@__PURE__*/ S.Array(
+  WorkflowProposalMetric,
+) as any as S.Schema<WorkflowProposalVersionOutcomeGuardrailsList>;
+
+export interface WorkflowProposalVersionOutcome {
+  /** Workflow version these numbers belong to. */
+  version: number;
+  /** Whether the suggestion went live as this version. */
+  applied?: boolean;
+  /** Whether the suggestion was written against this version. */
+  proposed_against?: boolean;
+  /** Whether this version still holds what the suggestion changed. */
+  carries_change?: boolean;
+  /** Whether this version also changed something the suggestion did not, which the numbers cannot separate. */
+  other_changes?: boolean;
+  /** What this version changed against the version before it. */
+  changes?: WorkflowProposalVersionOutcomeChangesList;
+  /** When this version went live. */
+  published_at?: string | null;
+  /** Who published this version. */
+  published_by?: UserBasic | null;
+  /** Every version summed into these numbers. The after side runs on while later versions keep the change. */
+  versions?: WorkflowProposalVersionOutcomeVersionsList;
+  /** The metric the suggestion aimed at. */
+  target: WorkflowProposalMetric;
+  /** The rate read beside the target, so a lift in one is visible against the other. */
+  secondary?: WorkflowProposalMetric;
+  /** Click-through rate over the same window and denominator, since opens alone can move without clicks. */
+  click_through: WorkflowProposalMetric;
+  /** Counter-metrics over the same window, so a harmful win is visible. */
+  guardrails: WorkflowProposalVersionOutcomeGuardrailsList;
+}
+export const WorkflowProposalVersionOutcome = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    version: S.Number,
+    applied: S.optional(S.Boolean),
+    proposed_against: S.optional(S.Boolean),
+    carries_change: S.optional(S.Boolean),
+    other_changes: S.optional(S.Boolean),
+    changes: S.optional(WorkflowProposalVersionOutcomeChangesList),
+    published_at: S.optional(S.NullOr(S.String)),
+    published_by: S.optional(S.NullOr(UserBasic)),
+    versions: S.optional(WorkflowProposalVersionOutcomeVersionsList),
+    target: WorkflowProposalMetric,
+    secondary: S.optional(WorkflowProposalMetric),
+    click_through: WorkflowProposalMetric,
+    guardrails: WorkflowProposalVersionOutcomeGuardrailsList,
+  }),
+).annotate({
+  identifier: "WorkflowProposalVersionOutcome",
+}) as any as S.Schema<WorkflowProposalVersionOutcome>;
+
+/** Every published version around the change, each read over its own time live, so a later edit shows up as its own point rather than ending the comparison. */
+export type WorkflowProposalOutcomeVersionsList = Array<WorkflowProposalVersionOutcome>;
+export const WorkflowProposalOutcomeVersionsList = /*@__PURE__*/ S.Array(
+  WorkflowProposalVersionOutcome,
+) as any as S.Schema<WorkflowProposalOutcomeVersionsList>;
+
+/** Counter-metrics that cannot be read yet, named so their absence is not read as zero. */
+export type WorkflowProposalOutcomeUnavailableGuardrailsList = Array<string>;
+export const WorkflowProposalOutcomeUnavailableGuardrailsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<WorkflowProposalOutcomeUnavailableGuardrailsList>;
+
+export interface WorkflowProposalOutcome {
+  /** Every published version around the change, each read over its own time live, so a later edit shows up as its own point rather than ending the comparison. */
+  versions: WorkflowProposalOutcomeVersionsList;
+  /** The version the change was proposed against. */
+  before: WorkflowProposalVersionOutcome | null;
+  /** The versions that carried the change. Null until the proposal is applied. */
+  after: WorkflowProposalVersionOutcome | null;
+  /** The version that changed what the suggestion changed, which is where the after side stops. Null while the change is still live. */
+  change_ended_at_version: number | null;
+  /** Counter-metrics that cannot be read yet, named so their absence is not read as zero. */
+  unavailable_guardrails: WorkflowProposalOutcomeUnavailableGuardrailsList;
+}
+export const WorkflowProposalOutcome = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    versions: WorkflowProposalOutcomeVersionsList,
+    before: S.NullOr(WorkflowProposalVersionOutcome),
+    after: S.NullOr(WorkflowProposalVersionOutcome),
+    change_ended_at_version: S.NullOr(S.Number),
+    unavailable_guardrails: WorkflowProposalOutcomeUnavailableGuardrailsList,
+  }),
+).annotate({ identifier: "WorkflowProposalOutcome" }) as any as S.Schema<WorkflowProposalOutcome>;
 
 export interface GetHogFlowsReputationRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -1780,11 +2135,7 @@ export const GetHogFlowsReputationRequest = /*@__PURE__*/ S.suspend(() =>
     project_id: S.String.pipe(T.Label()),
     search: S.optional(S.String.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/hog_flows/reputation/",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/projects/{project_id}/hog_flows/reputation/", code: 200 }),
   ),
 ).annotate({
   identifier: "GetHogFlowsReputationRequest",
@@ -1832,9 +2183,7 @@ export const AwsTenantFinding = /*@__PURE__*/ S.suspend(() =>
     description: S.String,
     last_updated_at: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "AwsTenantFinding",
-}) as any as S.Schema<AwsTenantFinding>;
+).annotate({ identifier: "AwsTenantFinding" }) as any as S.Schema<AwsTenantFinding>;
 
 /** Open findings, if any, with AWS's remediation guidance. */
 export type AwsTenantReputationFindingsList = Array<AwsTenantFinding>;
@@ -1857,9 +2206,7 @@ export const AwsTenantReputation = /*@__PURE__*/ S.suspend(() =>
     sending_status: SendingStatusEnum,
     findings: AwsTenantReputationFindingsList,
   }),
-).annotate({
-  identifier: "AwsTenantReputation",
-}) as any as S.Schema<AwsTenantReputation>;
+).annotate({ identifier: "AwsTenantReputation" }) as any as S.Schema<AwsTenantReputation>;
 
 /** Bounce/complaint rates over the last 30 days of workflow email, computed on the fly from app metrics. */
 export interface EmailSendingRates {
@@ -1876,9 +2223,7 @@ export const EmailSendingRates = /*@__PURE__*/ S.suspend(() =>
     complaint_rate: S.Number,
     emails_sent: S.Number,
   }),
-).annotate({
-  identifier: "EmailSendingRates",
-}) as any as S.Schema<EmailSendingRates>;
+).annotate({ identifier: "EmailSendingRates" }) as any as S.Schema<EmailSendingRates>;
 
 /** Bounce/complaint rates over the last 30 days of workflow email, computed on the fly from app metrics. */
 export interface WorkflowEmailSendingRates {
@@ -1892,6 +2237,12 @@ export interface WorkflowEmailSendingRates {
   hog_flow_id: string;
   /** Display name of the workflow; empty for unnamed workflows. */
   hog_flow_name: string;
+  /** True when PostHog paused this workflow's email automatically because its complaint or hard bounce rate crossed a threshold. Independent of the AWS tenant verdict and of the project-wide suspension. */
+  email_sending_paused: boolean;
+  /** When the pause started; null when not paused. */
+  email_sending_paused_at: string | null;
+  /** Plain-language reason for the pause, naming the signal and the window. Empty when not paused. */
+  email_sending_paused_reason: string;
 }
 export const WorkflowEmailSendingRates = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1900,6 +2251,9 @@ export const WorkflowEmailSendingRates = /*@__PURE__*/ S.suspend(() =>
     emails_sent: S.Number,
     hog_flow_id: S.String,
     hog_flow_name: S.String,
+    email_sending_paused: S.Boolean,
+    email_sending_paused_at: S.NullOr(S.String),
+    email_sending_paused_reason: S.String,
   }),
 ).annotate({
   identifier: "WorkflowEmailSendingRates",
@@ -1911,37 +2265,11 @@ export const TeamEmailReputationResponseWorkflowsList = /*@__PURE__*/ S.Array(
   WorkflowEmailSendingRates,
 ) as any as S.Schema<TeamEmailReputationResponseWorkflowsList>;
 
-/** Rates AWS did not return for this provider, from `delivery`, `bounce` and `complaint`. A rate named here is missing, not zero, and the UI says so rather than showing a number. */
+/** Rates AWS did not return for this provider, from `delivery`, `bounce`, `transient_bounce` and `complaint`. A rate named here is missing, not zero, and the UI says so rather than showing a number. */
 export type IspSendingHealthUnavailableList = Array<string>;
 export const IspSendingHealthUnavailableList = /*@__PURE__*/ S.Array(
   S.String,
 ) as any as S.Schema<IspSendingHealthUnavailableList>;
-
-/** One bucket of a provider's sending history. */
-export interface IspDailyPoint {
-  /** Bucket date, as an ISO 8601 calendar date. */
-  date: string;
-  /** Emails sent to this provider on this date. */
-  emails_sent: number;
-  /** Emails this provider accepted on this date, divided by emails sent to it (0-1). */
-  delivery_rate: number;
-  /** Hard bounces at this provider on this date, divided by emails sent to it (0-1). */
-  bounce_rate: number;
-}
-export const IspDailyPoint = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    date: S.String,
-    emails_sent: S.Number,
-    delivery_rate: S.Number,
-    bounce_rate: S.Number,
-  }),
-).annotate({ identifier: "IspDailyPoint" }) as any as S.Schema<IspDailyPoint>;
-
-/** Sending history for this provider, oldest first, so a drop can be dated rather than averaged into the window. Dates this provider received nothing are omitted. */
-export type IspSendingHealthDailyList = Array<IspDailyPoint>;
-export const IspSendingHealthDailyList = /*@__PURE__*/ S.Array(
-  IspDailyPoint,
-) as any as S.Schema<IspSendingHealthDailyList>;
 
 /** How one mailbox provider treated this project's email, from AWS SES's own delivery data. */
 export interface IspSendingHealth {
@@ -1953,12 +2281,14 @@ export interface IspSendingHealth {
   delivery_rate: number | null;
   /** Hard (permanent) bounces at this provider, divided by emails sent to it (0-1). Null when the underlying metric could not be loaded from AWS. */
   bounce_rate: number | null;
+  /** Soft (transient) bounces at this provider, divided by emails sent to it (0-1). These are deferrals the provider may accept on a retry, such as a full mailbox, greylisting or rate limiting, so they are counted apart from permanent bounces. Null when the underlying metric could not be loaded from AWS. */
+  transient_bounce_rate: number | null;
   /** Spam complaints from this provider, divided by the deliveries it reports complaints for (0-1). Null when there is no rate to state — the provider runs no feedback loop, or nothing was delivered — and also when the metric could not be loaded from AWS. */
   complaint_rate: number | null;
-  /** Rates AWS did not return for this provider, from `delivery`, `bounce` and `complaint`. A rate named here is missing, not zero, and the UI says so rather than showing a number. */
+  /** Deliveries the provider reports complaints for, which is what `complaint_rate` divides by. Far smaller than `emails_sent`, so a caller deciding whether the rate rests on enough volume has to weigh it against this. Zero when there is no base. */
+  complaint_base: number;
+  /** Rates AWS did not return for this provider, from `delivery`, `bounce`, `transient_bounce` and `complaint`. A rate named here is missing, not zero, and the UI says so rather than showing a number. */
   unavailable: IspSendingHealthUnavailableList;
-  /** Sending history for this provider, oldest first, so a drop can be dated rather than averaged into the window. Dates this provider received nothing are omitted. */
-  daily: IspSendingHealthDailyList;
 }
 export const IspSendingHealth = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1966,13 +2296,12 @@ export const IspSendingHealth = /*@__PURE__*/ S.suspend(() =>
     emails_sent: S.Number,
     delivery_rate: S.NullOr(S.Number),
     bounce_rate: S.NullOr(S.Number),
+    transient_bounce_rate: S.NullOr(S.Number),
     complaint_rate: S.NullOr(S.Number),
+    complaint_base: S.Number,
     unavailable: IspSendingHealthUnavailableList,
-    daily: IspSendingHealthDailyList,
   }),
-).annotate({
-  identifier: "IspSendingHealth",
-}) as any as S.Schema<IspSendingHealth>;
+).annotate({ identifier: "IspSendingHealth" }) as any as S.Schema<IspSendingHealth>;
 
 /** Sending health per mailbox provider, busiest first. Empty when the caller lacks project-wide workflow access, no sending domain is verified, or AWS has no data yet. */
 export type TeamEmailReputationResponseIspsList = Array<IspSendingHealth>;
@@ -2022,9 +2351,7 @@ export const EmailSendingAllowance = /*@__PURE__*/ S.suspend(() =>
     emails_sent_last_day: S.Number,
     enforced: S.Boolean,
   }),
-).annotate({
-  identifier: "EmailSendingAllowance",
-}) as any as S.Schema<EmailSendingAllowance>;
+).annotate({ identifier: "EmailSendingAllowance" }) as any as S.Schema<EmailSendingAllowance>;
 
 export interface TeamEmailReputationResponse {
   /** Sending health as judged and enforced by AWS SES for this project's tenant; null when the caller lacks project-wide workflow access, no tenant is provisioned, or AWS is unreachable. */
@@ -2104,9 +2431,7 @@ export const HogFlowRevision = /*@__PURE__*/ S.suspend(() =>
     created_by: S.NullOr(UserBasic),
     content: S.Unknown,
   }),
-).annotate({
-  identifier: "HogFlowRevision",
-}) as any as S.Schema<HogFlowRevision>;
+).annotate({ identifier: "HogFlowRevision" }) as any as S.Schema<HogFlowRevision>;
 
 export interface HogFlowsBatchJobsCancelCreateRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -2167,9 +2492,7 @@ export const HogFlowsBulkDeleteCreateRequestActionsList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<HogFlowsBulkDeleteCreateRequestActionsList>;
 
 /** Variable: {key, type: string|number|boolean, default}. */
-export type HogFlowsBulkDeleteCreateRequestVariablesItemMap = {
-  [key: string]: string | undefined;
-};
+export type HogFlowsBulkDeleteCreateRequestVariablesItemMap = { [key: string]: string | undefined };
 export const HogFlowsBulkDeleteCreateRequestVariablesItemMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2191,11 +2514,11 @@ export interface HogFlowsBulkDeleteCreateRequest {
   description?: string;
   /** draft (no execution), active (live), archived (disabled). * `draft` - Draft * `active` - Active * `archived` - Archived */
   status?: HogFlowStateEnum | (string & {});
-  /** Product surface that owns this workflow (e.g. `loops` for Desktop loops). Set only when creating a workflow. Filter the list with `?origin_product=`. * `loops` - Loops */
+  /** Product surface that owns this workflow (e.g. `loops` for Desktop loops). Set only when creating a workflow. Filter the list with `?origin_product=`. * `loops` - Loops * `broadcasts` - Broadcasts */
   origin_product?: HogFlowOriginProductEnum | (string & {}) | null;
   /** Optional dedup/throttle on an already-matched trigger: {hash: <HogQL template>, ttl: <seconds, 60-94608000>, threshold?: <int>}. Without threshold: fire once per hash, then suppress repeats within ttl (hash '{person.id}' = once per person per ttl). With threshold N: fire once per N matches of the same hash — a sampler, the 1st then every Nth. Throttles an already-qualifying trigger; it doesn't decide who enters. Server compiles bytecode from hash; omit to disable. */
   trigger_masking?: HogFlowMasking | null;
-  /** Conversion goal. filters: ARRAY of property conditions [{key, value, operator, type: event|person|group}]; events: event-based goals [{filters: {events: [...]}}]; window_minutes: minutes after entry. Required for exit_on_conversion / exit_on_trigger_not_matched_or_conversion. bytecode compiled server-side. */
+  /** Conversion goal. filters: ARRAY of property conditions [{key, value, operator, type: event|person|group}]; events: event-based goals [{filters: {events: [...]}}]; window: how long after entry a conversion counts, as a duration string such as '7d' or '12h', maximum '365d'. Required for exit_on_conversion / exit_on_trigger_not_matched_or_conversion. bytecode compiled server-side. */
   conversion?: HogFlowConversion | null;
   /** exit_only_at_end: only at exit node (default). exit_on_conversion: also on conversion (needs 'conversion'; silent no-op otherwise). exit_on_trigger_not_matched: also when trigger filter stops matching. exit_on_trigger_not_matched_or_conversion: both (needs 'conversion'). * `exit_on_conversion` - Conversion * `exit_on_trigger_not_matched` - Trigger Not Matched * `exit_on_trigger_not_matched_or_conversion` - Trigger Not Matched Or Conversion * `exit_only_at_end` - Only At End */
   exit_condition?: ExitConditionEnum | (string & {});
@@ -2223,11 +2546,7 @@ export const HogFlowsBulkDeleteCreateRequest = /*@__PURE__*/ S.suspend(() =>
     actions: S.optional(HogFlowsBulkDeleteCreateRequestActionsList),
     variables: S.optional(HogFlowsBulkDeleteCreateRequestVariablesList),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/projects/{project_id}/hog_flows/bulk_delete/",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/api/projects/{project_id}/hog_flows/bulk_delete/", code: 200 }),
   ),
 ).annotate({
   identifier: "HogFlowsBulkDeleteCreateRequest",
@@ -2244,15 +2563,9 @@ export const HogFlowsDestroyRequest = /*@__PURE__*/ S.suspend(() =>
     project_id: S.String.pipe(T.Label()),
     id: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/projects/{project_id}/hog_flows/{id}/",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/api/projects/{project_id}/hog_flows/{id}/", code: 200 }),
   ),
-).annotate({
-  identifier: "HogFlowsDestroyRequest",
-}) as any as S.Schema<HogFlowsDestroyRequest>;
+).annotate({ identifier: "HogFlowsDestroyRequest" }) as any as S.Schema<HogFlowsDestroyRequest>;
 
 export interface HogFlowsDestroyResponse {}
 export const HogFlowsDestroyResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2310,6 +2623,60 @@ export const HogInvocationCancelResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "HogInvocationCancelResponse",
 }) as any as S.Schema<HogInvocationCancelResponse>;
+
+export interface HogFlowsProposalsApproveCreateRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** A UUID string identifying this hog flow. */
+  id: string;
+  /** Proposal to approve. */
+  proposal_id: string;
+  /** Replace the open staged draft with this proposal's content. Without it, approving while a draft is open returns 409. */
+  overwrite?: boolean;
+  /** The draft_updated_at of the staged draft this overwrite was confirmed against. A draft with a different stamp returns 409 instead of being overwritten. Omit to overwrite unconditionally. */
+  expected_draft_updated_at?: string | null;
+}
+export const HogFlowsProposalsApproveCreateRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    project_id: S.String.pipe(T.Label()),
+    id: S.String.pipe(T.Label()),
+    proposal_id: S.String.pipe(T.Label()),
+    overwrite: S.optional(S.Boolean),
+    expected_draft_updated_at: S.optional(S.NullOr(S.String)),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/api/projects/{project_id}/hog_flows/{id}/proposals/{proposal_id}/approve/",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "HogFlowsProposalsApproveCreateRequest",
+}) as any as S.Schema<HogFlowsProposalsApproveCreateRequest>;
+
+export interface HogFlowsProposalsRejectCreateRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** A UUID string identifying this hog flow. */
+  id: string;
+  /** Proposal to reject. */
+  proposal_id: string;
+}
+export const HogFlowsProposalsRejectCreateRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    project_id: S.String.pipe(T.Label()),
+    id: S.String.pipe(T.Label()),
+    proposal_id: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/api/projects/{project_id}/hog_flows/{id}/proposals/{proposal_id}/reject/",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "HogFlowsProposalsRejectCreateRequest",
+}) as any as S.Schema<HogFlowsProposalsRejectCreateRequest>;
 
 export interface HogFlowsPublishCreateRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -2457,9 +2824,7 @@ export const HogFlowPublishImpact = /*@__PURE__*/ S.suspend(() =>
     empty_variables: HogFlowPublishImpactEmptyVariablesList,
     schedule_conflicts: HogFlowPublishImpactScheduleConflictsList,
   }),
-).annotate({
-  identifier: "HogFlowPublishImpact",
-}) as any as S.Schema<HogFlowPublishImpact>;
+).annotate({ identifier: "HogFlowPublishImpact" }) as any as S.Schema<HogFlowPublishImpact>;
 
 export interface HogFlowPublishResponse {
   /** Whether the draft was applied to the live workflow. */
@@ -2484,9 +2849,7 @@ export const HogFlowPublishResponse = /*@__PURE__*/ S.suspend(() =>
     impact: S.NullOr(HogFlowPublishImpact),
     workflow: S.optional(S.NullOr(HogFlow)),
   }),
-).annotate({
-  identifier: "HogFlowPublishResponse",
-}) as any as S.Schema<HogFlowPublishResponse>;
+).annotate({ identifier: "HogFlowPublishResponse" }) as any as S.Schema<HogFlowPublishResponse>;
 
 export interface HogFlowsRevisionsRestoreCreateRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -2548,18 +2911,19 @@ export const HogFlowsSchedulesDestroyResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "HogFlowsSchedulesDestroyResponse",
 }) as any as S.Schema<HogFlowsSchedulesDestroyResponse>;
 
-export type ListHogFlowsRequestOriginProduct = "loops";
+export type ListHogFlowsRequestOriginProduct = "broadcasts" | "loops";
 export const ListHogFlowsRequestOriginProduct = S.String;
 
 export type ListHogFlowsRequestStatus = "active" | "archived" | "draft";
 export const ListHogFlowsRequestStatus = S.String;
 
-export type ListHogFlowsRequestType = "automation" | "messaging";
-export const ListHogFlowsRequestType = S.String;
-
 export interface ListHogFlowsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
+  /** Pass `true` to return broadcasts plus the ordinary workflows the broadcasts UI can render: a batch trigger and a single email step. */
+  broadcast_eligible?: boolean;
+  /** Comma-separated broadcast statuses as the broadcasts UI shows them: draft, scheduled, sending, sent, failed, archived. Scheduled, sending, sent and failed come from the latest run and whether a schedule still has sends to come. */
+  broadcast_status?: string;
   created_at?: string;
   /** Filter to workflows created by the user with this uuid. */
   created_by?: string;
@@ -2568,42 +2932,39 @@ export interface ListHogFlowsRequest {
   limit?: number;
   /** The initial index from which to return the results. */
   offset?: number;
+  /** Only workflows someone turned suggestions on for. */
+  optimization_enabled?: boolean;
   /** Filter to workflows owned by a product surface, e.g. `loops` for Desktop loops. */
   origin_product?: ListHogFlowsRequestOriginProduct | (string & {});
-  /** Case-insensitive search across workflow name and description. */
+  /** Case-insensitive search. Matches workflow name and description first; only when nothing matches those, it matches step names and the subject line, preheader and body text of email steps, in both the live workflow and its pending draft. */
   search?: string;
   /** * `draft` - Draft * `active` - Active * `archived` - Archived */
   status?: ListHogFlowsRequestStatus | (string & {});
   /** Filter by trigger config as a JSON object. Returns workflows whose trigger contains the given object, e.g. {"type": "event"}. */
   trigger?: string;
-  /** Filter by workflow type. `messaging` returns workflows with an email, SMS, or push action; `automation` returns the rest. */
-  type?: ListHogFlowsRequestType | (string & {});
+  /** Comma-separated workflow types. `loop` and `broadcast` return the workflows those surfaces own; `messaging` returns the remaining workflows with an email, SMS, or push action, and `automation` the rest. */
+  type?: string;
   updated_at?: string;
 }
 export const ListHogFlowsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project_id: S.String.pipe(T.Label()),
+    broadcast_eligible: S.optional(S.Boolean.pipe(T.Query())),
+    broadcast_status: S.optional(S.String.pipe(T.Query())),
     created_at: S.optional(S.String.pipe(T.Query())),
     created_by: S.optional(S.String.pipe(T.Query())),
     id: S.optional(S.String.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
     offset: S.optional(S.Number.pipe(T.Query())),
+    optimization_enabled: S.optional(S.Boolean.pipe(T.Query())),
     origin_product: S.optional(ListHogFlowsRequestOriginProduct.pipe(T.Query())),
     search: S.optional(S.String.pipe(T.Query())),
     status: S.optional(ListHogFlowsRequestStatus.pipe(T.Query())),
     trigger: S.optional(S.String.pipe(T.Query())),
-    type: S.optional(ListHogFlowsRequestType.pipe(T.Query())),
+    type: S.optional(S.String.pipe(T.Query())),
     updated_at: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/hog_flows/",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ListHogFlowsRequest",
-}) as any as S.Schema<ListHogFlowsRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/projects/{project_id}/hog_flows/", code: 200 })),
+).annotate({ identifier: "ListHogFlowsRequest" }) as any as S.Schema<ListHogFlowsRequest>;
 
 /** Mixin for serializers to add user access control fields */
 export interface HogFlowMinimal {
@@ -2623,11 +2984,19 @@ export interface HogFlowMinimal {
   email_sending_rate_limit?: unknown;
   edges?: unknown;
   actions?: unknown;
+  /** Staged content changes awaiting publish — a full snapshot of the workflow's actions, edges and settings. Null when there's nothing staged. Test it with a use_draft test run, then promote it with the publish endpoint or throw it away with discard_draft. */
+  draft?: unknown;
   abort_action?: string | null;
   variables?: unknown;
   billable_action_types?: unknown;
   /** The effective access level the user has for this object */
   user_access_level?: string | null;
+  /** Newest task this loop workflow created, as its last run. Null when the workflow is not a loop or has not run. */
+  last_run?: HogFlowLastRun | null;
+  /** How many suggested changes are waiting for a person on this workflow. Counted on the list only. */
+  pending_suggestions?: number | null;
+  /** Whether someone turned suggestions on for this workflow. Read on the list only. */
+  suggestions_enabled?: boolean | null;
 }
 export const HogFlowMinimal = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2647,10 +3016,14 @@ export const HogFlowMinimal = /*@__PURE__*/ S.suspend(() =>
     email_sending_rate_limit: S.optional(S.Unknown),
     edges: S.optional(S.Unknown),
     actions: S.optional(S.Unknown),
+    draft: S.optional(S.Unknown),
     abort_action: S.optional(S.NullOr(S.String)),
     variables: S.optional(S.Unknown),
     billable_action_types: S.optional(S.Unknown),
     user_access_level: S.optional(S.NullOr(S.String)),
+    last_run: S.optional(S.NullOr(HogFlowLastRun)),
+    pending_suggestions: S.optional(S.NullOr(S.Number)),
+    suggestions_enabled: S.optional(S.NullOr(S.Boolean)),
   }),
 ).annotate({ identifier: "HogFlowMinimal" }) as any as S.Schema<HogFlowMinimal>;
 
@@ -2709,6 +3082,61 @@ export const ListHogFlowsBatchJobsResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "ListHogFlowsBatchJobsResponse",
 }) as any as S.Schema<ListHogFlowsBatchJobsResponse>;
 
+export type ListHogFlowsProposalsRequestStatus = "applied" | "approved" | "rejected" | "suggested";
+export const ListHogFlowsProposalsRequestStatus = S.String;
+
+export interface ListHogFlowsProposalsRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** A UUID string identifying this hog flow. */
+  id: string;
+  /** Number of results to return per page. */
+  limit?: number;
+  /** The initial index from which to return the results. */
+  offset?: number;
+  /** Only return proposals in this status (suggested, approved, rejected, applied). */
+  status?: ListHogFlowsProposalsRequestStatus | (string & {});
+}
+export const ListHogFlowsProposalsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    project_id: S.String.pipe(T.Label()),
+    id: S.String.pipe(T.Label()),
+    limit: S.optional(S.Number.pipe(T.Query())),
+    offset: S.optional(S.Number.pipe(T.Query())),
+    status: S.optional(ListHogFlowsProposalsRequestStatus.pipe(T.Query())),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/api/projects/{project_id}/hog_flows/{id}/proposals/",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "ListHogFlowsProposalsRequest",
+}) as any as S.Schema<ListHogFlowsProposalsRequest>;
+
+export type PaginatedWorkflowProposalListResultsList = Array<WorkflowProposal>;
+export const PaginatedWorkflowProposalListResultsList = /*@__PURE__*/ S.Array(
+  WorkflowProposal,
+) as any as S.Schema<PaginatedWorkflowProposalListResultsList>;
+
+export interface PaginatedWorkflowProposalList {
+  count: number;
+  next?: string | null;
+  previous?: string | null;
+  results: PaginatedWorkflowProposalListResultsList;
+}
+export const PaginatedWorkflowProposalList = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    count: S.Number,
+    next: S.optional(S.NullOr(S.String)),
+    previous: S.optional(S.NullOr(S.String)),
+    results: PaginatedWorkflowProposalListResultsList,
+  }),
+).annotate({
+  identifier: "PaginatedWorkflowProposalList",
+}) as any as S.Schema<PaginatedWorkflowProposalList>;
+
 export interface ListHogFlowsRevisionsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
@@ -2748,9 +3176,7 @@ export const HogFlowRevisionBasic = /*@__PURE__*/ S.suspend(() =>
     created_at: S.String,
     created_by: S.NullOr(UserBasic),
   }),
-).annotate({
-  identifier: "HogFlowRevisionBasic",
-}) as any as S.Schema<HogFlowRevisionBasic>;
+).annotate({ identifier: "HogFlowRevisionBasic" }) as any as S.Schema<HogFlowRevisionBasic>;
 
 export type PaginatedHogFlowRevisionBasicListResultsList = Array<HogFlowRevisionBasic>;
 export const PaginatedHogFlowRevisionBasicListResultsList = /*@__PURE__*/ S.Array(
@@ -2807,6 +3233,47 @@ export const ListHogFlowsSchedulesResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "ListHogFlowsSchedulesResponse",
 }) as any as S.Schema<ListHogFlowsSchedulesResponse>;
 
+export interface ResumeHogFlowEmailSendingRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** A UUID string identifying this hog flow. */
+  id: string;
+}
+export const ResumeHogFlowEmailSendingRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    project_id: S.String.pipe(T.Label()),
+    id: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/api/projects/{project_id}/hog_flows/{id}/resume_email_sending/",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "ResumeHogFlowEmailSendingRequest",
+}) as any as S.Schema<ResumeHogFlowEmailSendingRequest>;
+
+/** Whether PostHog paused this one workflow's email sending, and why. */
+export interface WorkflowEmailPauseStatus {
+  /** True while this workflow's email is paused because its spam complaint or hard bounce rate crossed a threshold. Other workflows in the project keep sending. */
+  email_sending_paused: boolean;
+  /** When the pause started; null when not paused. */
+  email_sending_paused_at: string | null;
+  /** Plain-language reason for the pause, naming the signal and the window. Empty when not paused. */
+  email_sending_paused_reason: string;
+  /** When sending was last resumed. Detector windows start after this, so resuming does not immediately re-trip on older feedback. Null if never paused. */
+  email_sending_resumed_at: string | null;
+}
+export const WorkflowEmailPauseStatus = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    email_sending_paused: S.Boolean,
+    email_sending_paused_at: S.NullOr(S.String),
+    email_sending_paused_reason: S.String,
+    email_sending_resumed_at: S.NullOr(S.String),
+  }),
+).annotate({ identifier: "WorkflowEmailPauseStatus" }) as any as S.Schema<WorkflowEmailPauseStatus>;
+
 /** Graph edges: [{from, to, type: 'continue'|'branch', index?}]. 'continue' = fall-through (sequential, or no-match path of conditional_branch). 'branch' requires 'index': matches config.conditions[index] on conditional_branch / wait_until_condition. Every non-exit action needs a reachable next action ('No next action found' otherwise). */
 export type UpdateHogFlowRequestEdgesList = Array<HogFlowEdge>;
 export const UpdateHogFlowRequestEdgesList = /*@__PURE__*/ S.Array(
@@ -2820,9 +3287,7 @@ export const UpdateHogFlowRequestActionsList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<UpdateHogFlowRequestActionsList>;
 
 /** Variable: {key, type: string|number|boolean, default}. */
-export type UpdateHogFlowRequestVariablesItemMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateHogFlowRequestVariablesItemMap = { [key: string]: string | undefined };
 export const UpdateHogFlowRequestVariablesItemMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2847,7 +3312,7 @@ export interface UpdateHogFlowRequest {
   status?: HogFlowStateEnum | (string & {});
   /** Optional dedup/throttle on an already-matched trigger: {hash: <HogQL template>, ttl: <seconds, 60-94608000>, threshold?: <int>}. Without threshold: fire once per hash, then suppress repeats within ttl (hash '{person.id}' = once per person per ttl). With threshold N: fire once per N matches of the same hash — a sampler, the 1st then every Nth. Throttles an already-qualifying trigger; it doesn't decide who enters. Server compiles bytecode from hash; omit to disable. */
   trigger_masking?: HogFlowMasking | null;
-  /** Conversion goal. filters: ARRAY of property conditions [{key, value, operator, type: event|person|group}]; events: event-based goals [{filters: {events: [...]}}]; window_minutes: minutes after entry. Required for exit_on_conversion / exit_on_trigger_not_matched_or_conversion. bytecode compiled server-side. */
+  /** Conversion goal. filters: ARRAY of property conditions [{key, value, operator, type: event|person|group}]; events: event-based goals [{filters: {events: [...]}}]; window: how long after entry a conversion counts, as a duration string such as '7d' or '12h', maximum '365d'. Required for exit_on_conversion / exit_on_trigger_not_matched_or_conversion. bytecode compiled server-side. */
   conversion?: HogFlowConversion | null;
   /** exit_only_at_end: only at exit node (default). exit_on_conversion: also on conversion (needs 'conversion'; silent no-op otherwise). exit_on_trigger_not_matched: also when trigger filter stops matching. exit_on_trigger_not_matched_or_conversion: both (needs 'conversion'). * `exit_on_conversion` - Conversion * `exit_on_trigger_not_matched` - Trigger Not Matched * `exit_on_trigger_not_matched_or_conversion` - Trigger Not Matched Or Conversion * `exit_only_at_end` - Only At End */
   exit_condition?: ExitConditionEnum | (string & {});
@@ -2874,16 +3339,8 @@ export const UpdateHogFlowRequest = /*@__PURE__*/ S.suspend(() =>
     edges: S.optional(UpdateHogFlowRequestEdgesList),
     actions: UpdateHogFlowRequestActionsList,
     variables: S.optional(UpdateHogFlowRequestVariablesList),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/api/projects/{project_id}/hog_flows/{id}/",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "UpdateHogFlowRequest",
-}) as any as S.Schema<UpdateHogFlowRequest>;
+  }).pipe(T.Http({ method: "PUT", uri: "/api/projects/{project_id}/hog_flows/{id}/", code: 200 })),
+).annotate({ identifier: "UpdateHogFlowRequest" }) as any as S.Schema<UpdateHogFlowRequest>;
 
 /** Graph edges: [{from, to, type: 'continue'|'branch', index?}]. 'continue' = fall-through (sequential, or no-match path of conditional_branch). 'branch' requires 'index': matches config.conditions[index] on conditional_branch / wait_until_condition. Every non-exit action needs a reachable next action ('No next action found' otherwise). */
 export type HogFlowUpdateEdgesList = Array<HogFlowEdge>;
@@ -2898,9 +3355,7 @@ export const HogFlowUpdateActionsList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<HogFlowUpdateActionsList>;
 
 /** Variable: {key, type: string|number|boolean, default}. */
-export type HogFlowUpdateVariablesItemMap = {
-  [key: string]: string | undefined;
-};
+export type HogFlowUpdateVariablesItemMap = { [key: string]: string | undefined };
 export const HogFlowUpdateVariablesItemMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2919,9 +3374,7 @@ export const HogFlowUpdateSchedulesList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<HogFlowUpdateSchedulesList>;
 
 /** Skip-forward map for deleted steps: {deleted_action_id: next surviving action_id}. Maintained automatically when a live graph edit deletes actions, so in-flight runs parked on a deleted step continue at its surviving successor instead of exiting. Null when no live deletions have occurred. */
-export type HogFlowUpdateActionRedirectsMap = {
-  [key: string]: string | undefined;
-};
+export type HogFlowUpdateActionRedirectsMap = { [key: string]: string | undefined };
 export const HogFlowUpdateActionRedirectsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2937,7 +3390,7 @@ export interface HogFlowUpdate {
   version: number;
   /** draft (no execution), active (live), archived (disabled). * `draft` - Draft * `active` - Active * `archived` - Archived */
   status?: HogFlowStateEnum;
-  /** Product surface that owns this workflow. This value cannot change after creation. * `loops` - Loops */
+  /** Product surface that owns this workflow. This value cannot change after creation. * `loops` - Loops * `broadcasts` - Broadcasts */
   origin_product: HogFlowOriginProductEnum | null;
   created_at: string;
   created_by: UserBasic;
@@ -2945,7 +3398,7 @@ export interface HogFlowUpdate {
   trigger: unknown;
   /** Optional dedup/throttle on an already-matched trigger: {hash: <HogQL template>, ttl: <seconds, 60-94608000>, threshold?: <int>}. Without threshold: fire once per hash, then suppress repeats within ttl (hash '{person.id}' = once per person per ttl). With threshold N: fire once per N matches of the same hash — a sampler, the 1st then every Nth. Throttles an already-qualifying trigger; it doesn't decide who enters. Server compiles bytecode from hash; omit to disable. */
   trigger_masking?: HogFlowMasking | null;
-  /** Conversion goal. filters: ARRAY of property conditions [{key, value, operator, type: event|person|group}]; events: event-based goals [{filters: {events: [...]}}]; window_minutes: minutes after entry. Required for exit_on_conversion / exit_on_trigger_not_matched_or_conversion. bytecode compiled server-side. */
+  /** Conversion goal. filters: ARRAY of property conditions [{key, value, operator, type: event|person|group}]; events: event-based goals [{filters: {events: [...]}}]; window: how long after entry a conversion counts, as a duration string such as '7d' or '12h', maximum '365d'. Required for exit_on_conversion / exit_on_trigger_not_matched_or_conversion. bytecode compiled server-side. */
   conversion?: HogFlowConversion | null;
   /** exit_only_at_end: only at exit node (default). exit_on_conversion: also on conversion (needs 'conversion'; silent no-op otherwise). exit_on_trigger_not_matched: also when trigger filter stops matching. exit_on_trigger_not_matched_or_conversion: both (needs 'conversion'). * `exit_on_conversion` - Conversion * `exit_on_trigger_not_matched` - Trigger Not Matched * `exit_on_trigger_not_matched_or_conversion` - Trigger Not Matched Or Conversion * `exit_only_at_end` - Only At End */
   exit_condition?: ExitConditionEnum;
@@ -2969,6 +3422,18 @@ export interface HogFlowUpdate {
   draft_updated_at: string | null;
   /** Skip-forward map for deleted steps: {deleted_action_id: next surviving action_id}. Maintained automatically when a live graph edit deletes actions, so in-flight runs parked on a deleted step continue at its surviving successor instead of exiting. Null when no live deletions have occurred. */
   action_redirects: HogFlowUpdateActionRedirectsMap | null;
+  /** When PostHog paused this workflow's email automatically because its spam complaint or hard bounce rate crossed a threshold. Null when sending is not paused. Read-only: only the resume_email_sending endpoint clears a pause, so a normal update or publish can't lift it. */
+  email_sending_paused_at: string | null;
+  /** Plain-language reason for the pause, naming the signal and the window. Empty when not paused. */
+  email_sending_paused_reason: string;
+  /** Who paused it: "auto" for the deliverability detector, "staff" for PostHog staff. A staff pause can only be resumed by staff, so the resume endpoint refuses it. Empty when not paused. */
+  email_sending_paused_by: string;
+  /** True when only PostHog staff can lift the current pause: staff placed it, or it landed shortly after a resume, so another self-serve resume is not offered. False when not paused or when the resume endpoint would accept the caller. */
+  email_sending_pause_requires_support: boolean;
+  /** When sending was last resumed. Every detector window starts after this, so resuming does not immediately re-trip on the feedback that caused the pause. Null if never paused. */
+  email_sending_resumed_at: string | null;
+  /** Newest task this loop workflow created, as its last run. Null when the workflow is not a loop or has not run. */
+  last_run: HogFlowLastRun | null;
 }
 export const HogFlowUpdate = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2996,6 +3461,12 @@ export const HogFlowUpdate = /*@__PURE__*/ S.suspend(() =>
     draft: S.Unknown,
     draft_updated_at: S.NullOr(S.String),
     action_redirects: S.NullOr(HogFlowUpdateActionRedirectsMap),
+    email_sending_paused_at: S.NullOr(S.String),
+    email_sending_paused_reason: S.String,
+    email_sending_paused_by: S.String,
+    email_sending_pause_requires_support: S.Boolean,
+    email_sending_resumed_at: S.NullOr(S.String),
+    last_run: S.NullOr(HogFlowLastRun),
   }),
 ).annotate({ identifier: "HogFlowUpdate" }) as any as S.Schema<HogFlowUpdate>;
 
@@ -3038,9 +3509,7 @@ export const DesignOperation = /*@__PURE__*/ S.suspend(() =>
     row: S.optional(S.Unknown),
     index: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "DesignOperation",
-}) as any as S.Schema<DesignOperation>;
+).annotate({ identifier: "DesignOperation" }) as any as S.Schema<DesignOperation>;
 
 /** Ordered design edits applied atomically to this step's email design - the same operations as the email template patch. The result is re-rendered to HTML server-side, so the sent email always matches the patched design. */
 export type UpdateHogFlowsActionsEmailPartialRequestOperationsList = Array<DesignOperation>;
@@ -3120,9 +3589,7 @@ export const HogFlowGraphOperation = /*@__PURE__*/ S.suspend(() =>
     edge: S.optional(HogFlowEdge),
     edges: S.optional(HogFlowGraphOperationEdgesList),
   }),
-).annotate({
-  identifier: "HogFlowGraphOperation",
-}) as any as S.Schema<HogFlowGraphOperation>;
+).annotate({ identifier: "HogFlowGraphOperation" }) as any as S.Schema<HogFlowGraphOperation>;
 
 /** Ordered graph edits applied atomically to a draft workflow: the stored graph is read, the ops are applied in order, the result is fully validated, and it's saved only if valid — otherwise the workflow is unchanged. Reference nodes/edges by id so you never resend the whole graph. The full updated workflow is returned. */
 export type UpdateHogFlowsGraphPartialRequestOperationsList = Array<HogFlowGraphOperation>;
@@ -3147,11 +3614,7 @@ export const UpdateHogFlowsGraphPartialRequest = /*@__PURE__*/ S.suspend(() =>
     base_updated_at: S.optional(S.String),
     operations: S.optional(UpdateHogFlowsGraphPartialRequestOperationsList),
   }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/api/projects/{project_id}/hog_flows/{id}/graph/",
-      code: 200,
-    }),
+    T.Http({ method: "PATCH", uri: "/api/projects/{project_id}/hog_flows/{id}/graph/", code: 200 }),
   ),
 ).annotate({
   identifier: "UpdateHogFlowsGraphPartialRequest",
@@ -3170,9 +3633,7 @@ export const UpdateHogFlowsPartialRequestActionsList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<UpdateHogFlowsPartialRequestActionsList>;
 
 /** Variable: {key, type: string|number|boolean, default}. */
-export type UpdateHogFlowsPartialRequestVariablesItemMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateHogFlowsPartialRequestVariablesItemMap = { [key: string]: string | undefined };
 export const UpdateHogFlowsPartialRequestVariablesItemMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3198,7 +3659,7 @@ export interface UpdateHogFlowsPartialRequest {
   status?: HogFlowStateEnum | (string & {});
   /** Optional dedup/throttle on an already-matched trigger: {hash: <HogQL template>, ttl: <seconds, 60-94608000>, threshold?: <int>}. Without threshold: fire once per hash, then suppress repeats within ttl (hash '{person.id}' = once per person per ttl). With threshold N: fire once per N matches of the same hash — a sampler, the 1st then every Nth. Throttles an already-qualifying trigger; it doesn't decide who enters. Server compiles bytecode from hash; omit to disable. */
   trigger_masking?: HogFlowMasking | null;
-  /** Conversion goal. filters: ARRAY of property conditions [{key, value, operator, type: event|person|group}]; events: event-based goals [{filters: {events: [...]}}]; window_minutes: minutes after entry. Required for exit_on_conversion / exit_on_trigger_not_matched_or_conversion. bytecode compiled server-side. */
+  /** Conversion goal. filters: ARRAY of property conditions [{key, value, operator, type: event|person|group}]; events: event-based goals [{filters: {events: [...]}}]; window: how long after entry a conversion counts, as a duration string such as '7d' or '12h', maximum '365d'. Required for exit_on_conversion / exit_on_trigger_not_matched_or_conversion. bytecode compiled server-side. */
   conversion?: HogFlowConversion | null;
   /** exit_only_at_end: only at exit node (default). exit_on_conversion: also on conversion (needs 'conversion'; silent no-op otherwise). exit_on_trigger_not_matched: also when trigger filter stops matching. exit_on_trigger_not_matched_or_conversion: both (needs 'conversion'). * `exit_on_conversion` - Conversion * `exit_on_trigger_not_matched` - Trigger Not Matched * `exit_on_trigger_not_matched_or_conversion` - Trigger Not Matched Or Conversion * `exit_only_at_end` - Only At End */
   exit_condition?: ExitConditionEnum | (string & {});
@@ -3226,11 +3687,7 @@ export const UpdateHogFlowsPartialRequest = /*@__PURE__*/ S.suspend(() =>
     actions: S.optional(UpdateHogFlowsPartialRequestActionsList),
     variables: S.optional(UpdateHogFlowsPartialRequestVariablesList),
   }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/api/projects/{project_id}/hog_flows/{id}/",
-      code: 200,
-    }),
+    T.Http({ method: "PATCH", uri: "/api/projects/{project_id}/hog_flows/{id}/", code: 200 }),
   ),
 ).annotate({
   identifier: "UpdateHogFlowsPartialRequest",
@@ -3323,6 +3780,36 @@ export const createHogFlowsInvocation: API.OperationMethod<
   input: CreateHogFlowsInvocationRequest,
   output: CreateHogFlowsInvocationResponse,
   errors: [BadRequest, Forbidden, NotFound],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
+export type CreateHogFlowsOptimizationError = PosthogOpError;
+/** Whether PostHog may suggest changes to this workflow. Turning it off stops new suggestions. Suggestions already made are left alone: someone still has them to resolve. */
+export const createHogFlowsOptimization: API.OperationMethod<
+  CreateHogFlowsOptimizationRequest,
+  HogFlowOptimization,
+  CreateHogFlowsOptimizationError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateHogFlowsOptimizationRequest,
+  output: HogFlowOptimization,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
+export type CreateHogFlowsProposalError = PosthogOpError;
+/** Agent-authored changes to this workflow, awaiting a human's decision. Creating one stages nothing: a proposal only reaches the workflow's draft once a human approves it, and only reaches the live config once someone publishes that draft. */
+export const createHogFlowsProposal: API.OperationMethod<
+  CreateHogFlowsProposalRequest,
+  WorkflowProposal,
+  CreateHogFlowsProposalError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateHogFlowsProposalRequest,
+  output: WorkflowProposal,
+  errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
 }));
@@ -3541,6 +4028,65 @@ export const getHogFlowsMetricsTotal: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type GetHogFlowsMetricsVersionError = PosthogOpError;
+/** One published version's series. Every hog flow metric is mirrored under `hog_flow_version` with the version appended to the id, which is what makes "before and after this change" answerable at all. The unversioned read keys batch and broadcast runs on the run instead, so it is not the sum of the versions. */
+export const getHogFlowsMetricsVersion: API.OperationMethod<
+  GetHogFlowsMetricsVersionRequest,
+  AppMetricsResponse,
+  GetHogFlowsMetricsVersionError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetHogFlowsMetricsVersionRequest,
+  output: AppMetricsResponse,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetHogFlowsOptimizationError = PosthogOpError;
+/** Whether PostHog may suggest changes to this workflow. Turning it off stops new suggestions. Suggestions already made are left alone: someone still has them to resolve. */
+export const getHogFlowsOptimization: API.OperationMethod<
+  GetHogFlowsOptimizationRequest,
+  HogFlowOptimization,
+  GetHogFlowsOptimizationError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetHogFlowsOptimizationRequest,
+  output: HogFlowOptimization,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetHogFlowsProposalError = PosthogOpError;
+export const getHogFlowsProposal: API.OperationMethod<
+  GetHogFlowsProposalRequest,
+  WorkflowProposal,
+  GetHogFlowsProposalError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetHogFlowsProposalRequest,
+  output: WorkflowProposal,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetHogFlowsProposalsOutcomeError = PosthogOpError;
+/** What the change did: the target metric and its counter-metrics, before and after. Both sides are read from the per-version metric series, so "before" is the version the suggestion was written against and "after" is the version it went live as. Each number carries its own `n`, and anything under the minimum sample is flagged rather than presented as a result — a verdict off twenty sends is the loop's most embarrassing failure mode. Comparing two windows is not a controlled experiment; that is what the A/B step is for. */
+export const getHogFlowsProposalsOutcome: API.OperationMethod<
+  GetHogFlowsProposalsOutcomeRequest,
+  WorkflowProposalOutcome,
+  GetHogFlowsProposalsOutcomeError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetHogFlowsProposalsOutcomeRequest,
+  output: WorkflowProposalOutcome,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
 export type GetHogFlowsReputationError = PosthogOpError;
 /** Bounce/complaint rates for this project's workflow email over the last 30 days, computed on the fly from app metrics (a project-wide aggregate plus per-workflow rows, worst first, capped), together with the authoritative AWS SES tenant verdict — sending status and open reputation findings. Our rates are the per-workflow diagnosis; AWS judges and enforces. */
 export const getHogFlowsReputation: API.OperationMethod<
@@ -3628,6 +4174,34 @@ export const hogFlowsInvocationsCancelCreate: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type HogFlowsProposalsApproveCreateError = PosthogOpError;
+export const hogFlowsProposalsApproveCreate: API.OperationMethod<
+  HogFlowsProposalsApproveCreateRequest,
+  WorkflowProposal,
+  HogFlowsProposalsApproveCreateError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: HogFlowsProposalsApproveCreateRequest,
+  output: WorkflowProposal,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
+export type HogFlowsProposalsRejectCreateError = PosthogOpError;
+export const hogFlowsProposalsRejectCreate: API.OperationMethod<
+  HogFlowsProposalsRejectCreateRequest,
+  WorkflowProposal,
+  HogFlowsProposalsRejectCreateError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: HogFlowsProposalsRejectCreateRequest,
+  output: WorkflowProposal,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
 export type HogFlowsPublishCreateError = PosthogOpError;
 export const hogFlowsPublishCreate: API.OperationMethod<
   HogFlowsPublishCreateRequest,
@@ -3698,6 +4272,21 @@ export const listHogFlowsBatchJobs: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type ListHogFlowsProposalsError = PosthogOpError;
+/** Agent-authored changes to this workflow, awaiting a human's decision. Creating one stages nothing: a proposal only reaches the workflow's draft once a human approves it, and only reaches the live config once someone publishes that draft. */
+export const listHogFlowsProposals: API.OperationMethod<
+  ListHogFlowsProposalsRequest,
+  PaginatedWorkflowProposalList,
+  ListHogFlowsProposalsError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListHogFlowsProposalsRequest,
+  output: PaginatedWorkflowProposalList,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
 export type ListHogFlowsRevisionsError = PosthogOpError;
 export const listHogFlowsRevisions: API.OperationMethod<
   ListHogFlowsRevisionsRequest,
@@ -3722,6 +4311,21 @@ export const listHogFlowsSchedules: API.OperationMethod<
   input: ListHogFlowsSchedulesRequest,
   output: ListHogFlowsSchedulesResponse,
   errors: [BadRequest, Forbidden, NotFound],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ResumeHogFlowEmailSendingError = PosthogOpError;
+/** Resume email sending for a workflow PostHog paused automatically. Self-serve on purpose. Resuming re-arms the detector rather than exempting the workflow, so a workflow that is still generating complaints or hard bounces pauses again within minutes, while a customer who has cleaned up their audience does not have to wait on support. */
+export const resumeHogFlowEmailSending: API.OperationMethod<
+  ResumeHogFlowEmailSendingRequest,
+  WorkflowEmailPauseStatus,
+  ResumeHogFlowEmailSendingError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ResumeHogFlowEmailSendingRequest,
+  output: WorkflowEmailPauseStatus,
+  errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
 }));

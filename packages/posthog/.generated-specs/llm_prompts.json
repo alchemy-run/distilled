@@ -169,6 +169,13 @@
             "smithy.api#documentation": "Filter prompts by the ID of the user who created them."
           }
         },
+        "label": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "label",
+            "smithy.api#documentation": "Return each prompt at the version this label points to, e.g. 'production'. Prompts that do not carry the label are omitted. If omitted, the latest version of every prompt is returned."
+          }
+        },
         "limit": {
           "target": "smithy.api#Integer",
           "traits": {
@@ -188,6 +195,13 @@
           "traits": {
             "smithy.api#httpQuery": "order_by",
             "smithy.api#documentation": "Field to sort the prompt list by. Prefix with '-' for descending order.\n\n* `name` - name\n* `-name` - -name\n* `created_at` - created_at\n* `-created_at` - -created_at\n* `updated_at` - updated_at\n* `-updated_at` - -updated_at\n* `version` - version\n* `-version` - -version\n* `latest_version` - latest_version\n* `-latest_version` - -latest_version\n* `version_count` - version_count\n* `-version_count` - -version_count\n* `first_version_created_at` - first_version_created_at\n* `-first_version_created_at` - -first_version_created_at\n* `prompt_size_bytes` - prompt_size_bytes\n* `-prompt_size_bytes` - -prompt_size_bytes"
+          }
+        },
+        "resolve": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "resolve",
+            "smithy.api#documentation": "Replace @@@prompt:...@@@ references with the referenced prompts' content in labeled results with full content. Set to false to get the raw text with the reference tags."
           }
         },
         "search": {
@@ -311,6 +325,12 @@
         },
         "all_labels": {
           "target": "com.posthog.llm_prompts#LLMPromptListAllLabelsList"
+        },
+        "resolved_references": {
+          "target": "com.posthog.llm_prompts#LLMPromptListResolvedReferencesList",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
         }
       },
       "traits": {}
@@ -514,6 +534,41 @@
       "type": "list",
       "member": {
         "target": "com.posthog.llm_prompts#LLMPromptLabelSummary"
+      },
+      "traits": {}
+    },
+    "com.posthog.llm_prompts#LLMPromptResolvedReference": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the referenced prompt that was spliced in.",
+            "smithy.api#required": {}
+          }
+        },
+        "version": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Exact version whose content was spliced in.",
+            "smithy.api#required": {}
+          }
+        },
+        "label": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Label the reference used, or null when it pinned a version directly.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.llm_prompts#LLMPromptListResolvedReferencesList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.llm_prompts#LLMPromptResolvedReference"
       },
       "traits": {}
     },
@@ -750,6 +805,13 @@
             "smithy.api#documentation": "Fetch the version this label currently points to, e.g. 'production'. Lowercase letters, numbers, dots, hyphens and underscores. Mutually exclusive with version."
           }
         },
+        "resolve": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "resolve",
+            "smithy.api#documentation": "Replace @@@prompt:...@@@ references with the referenced prompts' content before returning. Set to false to get the raw text with the reference tags, e.g. for editing or export. Only applies when content is 'full'."
+          }
+        },
         "version": {
           "target": "smithy.api#Integer",
           "traits": {
@@ -805,6 +867,12 @@
             "smithy.api#documentation": "The label this prompt was fetched by. Only present when fetching with the label parameter."
           }
         },
+        "resolved_references": {
+          "target": "com.posthog.llm_prompts#LLMPromptPublicResolvedReferencesList",
+          "traits": {
+            "smithy.api#documentation": "The exact prompt versions spliced into the returned content, in order of first appearance. Empty when the prompt has no references. Only present when references were resolved."
+          }
+        },
         "created_at": {
           "target": "smithy.api#String"
         },
@@ -836,6 +904,15 @@
       },
       "traits": {
         "smithy.api#documentation": "Flat list of markdown headings parsed from the prompt. Useful as a lightweight table of contents."
+      }
+    },
+    "com.posthog.llm_prompts#LLMPromptPublicResolvedReferencesList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.llm_prompts#LLMPromptResolvedReference"
+      },
+      "traits": {
+        "smithy.api#documentation": "The exact prompt versions spliced into the returned content, in order of first appearance. Empty when the prompt has no references. Only present when references were resolved."
       }
     },
     "com.posthog.llm_prompts#GetLlmPromptsName": {
@@ -982,6 +1059,11 @@
       "output": {
         "target": "smithy.api#Unit"
       },
+      "errors": [
+        {
+          "target": "com.posthog.llm_prompts#Conflict"
+        }
+      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -1130,6 +1212,11 @@
       "output": {
         "target": "com.posthog.llm_prompts#LLMPromptLabel"
       },
+      "errors": [
+        {
+          "target": "com.posthog.llm_prompts#BadRequest"
+        }
+      ],
       "traits": {
         "smithy.api#http": {
           "method": "PUT",
@@ -1176,6 +1263,11 @@
       "output": {
         "target": "smithy.api#Unit"
       },
+      "errors": [
+        {
+          "target": "com.posthog.llm_prompts#Conflict"
+        }
+      ],
       "traits": {
         "smithy.api#http": {
           "method": "DELETE",
@@ -1259,6 +1351,12 @@
           "traits": {
             "smithy.api#documentation": "All labels on this prompt with the version each one currently points to, across all versions (not just the returned page)."
           }
+        },
+        "referenced_by": {
+          "target": "com.posthog.llm_prompts#LLMPromptResolveResponseReferencedByList",
+          "traits": {
+            "smithy.api#documentation": "Prompts whose latest or labeled version references this prompt, with the label or version each reference uses. Empty when nothing references this prompt. At most 100 entries, ordered by prompt name."
+          }
         }
       },
       "traits": {}
@@ -1324,6 +1422,44 @@
         "smithy.api#documentation": "All labels on this prompt with the version each one currently points to, across all versions (not just the returned page)."
       }
     },
+    "com.posthog.llm_prompts#LLMPromptReferencedBy": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Prompt whose latest or labeled version references this prompt.",
+            "smithy.api#required": {}
+          }
+        },
+        "label": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Label of this prompt the reference follows, or null when it pins a version.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "version": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Version of this prompt the reference pins, or null when it follows a label.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.llm_prompts#LLMPromptResolveResponseReferencedByList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.llm_prompts#LLMPromptReferencedBy"
+      },
+      "traits": {
+        "smithy.api#documentation": "Prompts whose latest or labeled version references this prompt, with the label or version each reference uses. Empty when nothing references this prompt. At most 100 entries, ordered by prompt name."
+      }
+    },
     "com.posthog.llm_prompts#GetLlmPromptsResolveName": {
       "type": "operation",
       "input": {
@@ -1338,6 +1474,32 @@
           "uri": "/api/projects/{project_id}/llm_prompts/resolve/name/{prompt_name}/",
           "code": 200
         }
+      }
+    },
+    "com.posthog.llm_prompts#Conflict": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 409,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 409
+          }
+        ]
+      }
+    },
+    "com.posthog.llm_prompts#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
       }
     },
     "com.posthog.llm_prompts#LlmPrompts": {

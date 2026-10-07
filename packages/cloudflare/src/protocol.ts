@@ -24,6 +24,7 @@ import {
   bodySymbol,
   headerSymbol,
   keyDictionarySymbol,
+  labelSymbol,
   responseCodeSymbol,
 } from "@distilled.cloud/core/trait";
 /**
@@ -75,6 +76,7 @@ import {
   binaryResponseBodySymbol,
   envelopePayloadRootSymbol,
   envelopePayloadSymbol,
+  hostSymbol,
   resultInfoSymbol,
 } from "./traits.ts";
 
@@ -221,6 +223,32 @@ const camelToSnake = (key: string): string =>
 const bearerPrefixAuthorization = (name: string, value: string): string =>
   name === "authorization" && !/^Bearer\s/i.test(value) ? `Bearer ${value}` : value;
 
+/**
+ * The origin of an operation marked `T.Host(template)`, with its `{name}`
+ * placeholders filled from the input's `Label(name)` members; undefined for
+ * every other operation (they use the credentials' API base URL). A label
+ * that only names the host is still consumed by `buildRequest`, so it never
+ * leaks into the body.
+ */
+const hostFor = (input: unknown, inputAst: AST.AST): string | undefined => {
+  const template = getAnn(inputAst, hostSymbol) as string | undefined;
+  if (template === undefined) return undefined;
+  const values = (input ?? {}) as Record<string, unknown>;
+  let host = template;
+  for (const prop of getProps(inputAst)) {
+    if (!hasPropAnn(prop, labelSymbol)) continue;
+    const value = values[String(prop.name)];
+    if (value === undefined) continue;
+    host = host.replace(`{${nameOf(prop, labelSymbol)}}`, () => encodeURIComponent(String(value)));
+  }
+  if (/\{[^}]+\}/.test(host)) {
+    // A required label left unset — the same codegen/caller bug a missing
+    // path label is, surfaced as a defect by the calling Effect.
+    throw new Error(`operation input is missing a host label for ${template}`);
+  }
+  return host;
+};
+
 // The protocol layer is memoized per process by `API.make` (see
 // `OperationConfig.protocol`), so the build must not capture credentials —
 // `encode` resolves Credentials from the calling fiber's context on
@@ -239,7 +267,7 @@ const encode = ({ input, inputAst }: { readonly input: unknown; readonly inputAs
     return buildRequest({
       input,
       inputAst,
-      baseUrl: creds.apiBaseUrl,
+      baseUrl: hostFor(input, inputAst) ?? creds.apiBaseUrl,
       headers: formatHeaders(creds),
       mapMemberHeader: bearerPrefixAuthorization,
       unknownKeyToWire: camelToSnake,
@@ -339,7 +367,15 @@ const makeDecode =
       // then throttling, then HTTP-status classes, then the unknown fallback.
       const failed = status >= 400 || (!nonJson && json.success === false);
       if (failed) {
-        const rawErrors = !nonJson && Array.isArray(json.errors) ? json.errors : [];
+        // The v4 envelope carries `errors: [...]`; K2's produce endpoint
+        // answers with a single `error: { code, message, retryable }`.
+        const rawErrors = nonJson
+          ? []
+          : Array.isArray(json.errors)
+            ? json.errors
+            : json.error !== null && typeof json.error === "object"
+              ? [json.error]
+              : [];
         const first = rawErrors[0] as { code?: number; message?: string } | undefined;
         // Cloudflare sometimes omits the code entirely (e.g. webhook errors);
         // treat missing code as 0 so `{ code: 0 }` matchers can match.

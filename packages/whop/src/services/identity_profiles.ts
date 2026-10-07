@@ -273,9 +273,7 @@ export const IdentityProfile = /*@__PURE__*/ S.suspend(() =>
     updated_at: S.String,
     verifications: IdentityProfileVerificationsList,
   }),
-).annotate({
-  identifier: "IdentityProfile",
-}) as any as S.Schema<IdentityProfile>;
+).annotate({ identifier: "IdentityProfile" }) as any as S.Schema<IdentityProfile>;
 
 /** The kind of identity profile (individual vs business). */
 export type IdentityProfileKinds = "individual" | "business";
@@ -395,9 +393,7 @@ export const IdentityProfileListItem = /*@__PURE__*/ S.suspend(() =>
     updated_at: S.String,
     verifications: IdentityProfileListItemVerificationsList,
   }),
-).annotate({
-  identifier: "IdentityProfileListItem",
-}) as any as S.Schema<IdentityProfileListItem>;
+).annotate({ identifier: "IdentityProfileListItem" }) as any as S.Schema<IdentityProfileListItem>;
 
 /** A list of nodes. */
 export type ListIdentityProfileResponseDataList = Array<IdentityProfileListItem>;
@@ -455,13 +451,7 @@ export const ListVerificationsIdentityProfileRequest = /*@__PURE__*/ S.suspend((
     before: S.optional(S.String.pipe(T.Query())),
     first: S.optional(S.Number.pipe(T.Query())),
     last: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/identity_profiles/{id}/verifications",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/identity_profiles/{id}/verifications", code: 200 })),
 ).annotate({
   identifier: "ListVerificationsIdentityProfileRequest",
 }) as any as S.Schema<ListVerificationsIdentityProfileRequest>;

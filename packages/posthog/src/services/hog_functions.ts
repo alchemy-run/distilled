@@ -35,7 +35,7 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
-/** * `destination` - Destination * `site_destination` - Site Destination * `internal_destination` - Internal Destination * `source_webhook` - Source Webhook * `warehouse_source_webhook` - Warehouse Source Webhook * `site_app` - Site App * `transformation` - Transformation * `transformation_log` - Transformation Log */
+/** * `destination` - Destination * `site_destination` - Site Destination * `internal_destination` - Internal Destination * `source_webhook` - Source Webhook * `warehouse_source_webhook` - Warehouse Source Webhook * `site_app` - Site App * `transformation` - Transformation * `transformation_log` - Transformation Log * `legacy_destination` - Legacy Destination */
 export type HogFunctionTypeEnum =
   | "destination"
   | "site_destination"
@@ -44,7 +44,8 @@ export type HogFunctionTypeEnum =
   | "warehouse_source_webhook"
   | "site_app"
   | "transformation"
-  | "transformation_log";
+  | "transformation_log"
+  | "legacy_destination";
 export const HogFunctionTypeEnum = S.String;
 
 /** * `string` - string * `number` - number * `boolean` - boolean * `dictionary` - dictionary * `choice` - choice * `json` - json * `integration` - integration * `integration_multi` - integration_multi * `integration_field` - integration_field * `email` - email * `native_email` - native_email * `posthog_assignee` - posthog_assignee * `posthog_ticket_tags` - posthog_ticket_tags * `posthog_business_hours` - posthog_business_hours * `non_failure_status_codes` - non_failure_status_codes * `customer_analytics_account_properties` - customer_analytics_account_properties * `customer_analytics_account_relationships` - customer_analytics_account_relationships * `task_model` - task_model * `task_repository` - task_repository * `task_mcp_installations` - task_mcp_installations * `signals_scout` - signals_scout * `task_skills` - task_skills */
@@ -73,9 +74,7 @@ export type InputsSchemaItemTypeEnum =
   | "task_skills";
 export const InputsSchemaItemTypeEnum = S.String;
 
-export type InputsSchemaItemChoicesItemMap = {
-  [key: string]: unknown | undefined;
-};
+export type InputsSchemaItemChoicesItemMap = { [key: string]: unknown | undefined };
 export const InputsSchemaItemChoicesItemMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -129,9 +128,7 @@ export const InputsSchemaItem = /*@__PURE__*/ S.suspend(() =>
     requiredScopes: S.optional(S.String),
     templating: S.optional(InputsSchemaItemTemplating),
   }),
-).annotate({
-  identifier: "InputsSchemaItem",
-}) as any as S.Schema<InputsSchemaItem>;
+).annotate({ identifier: "InputsSchemaItem" }) as any as S.Schema<InputsSchemaItem>;
 
 /** Schema defining the configurable input parameters for this function. */
 export type CreateHogFunctionRequestInputsSchemaList = Array<InputsSchemaItem>;
@@ -152,14 +149,10 @@ export const InputsItemInput = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(S.Unknown),
     templating: S.optional(HogFunctionTemplatingEnum),
   }),
-).annotate({
-  identifier: "InputsItemInput",
-}) as any as S.Schema<InputsItemInput>;
+).annotate({ identifier: "InputsItemInput" }) as any as S.Schema<InputsItemInput>;
 
 /** Values for each input defined in inputs_schema. */
-export type CreateHogFunctionRequestInputsMap = {
-  [key: string]: InputsItemInput | undefined;
-};
+export type CreateHogFunctionRequestInputsMap = { [key: string]: InputsItemInput | undefined };
 export const CreateHogFunctionRequestInputsMap = /*@__PURE__*/ S.Record(
   S.String,
   InputsItemInput,
@@ -174,9 +167,7 @@ export type HogFunctionFiltersSourceEnum =
   | "data-warehouse-view";
 export const HogFunctionFiltersSourceEnum = S.String;
 
-export type HogFunctionFiltersActionsItemMap = {
-  [key: string]: unknown | undefined;
-};
+export type HogFunctionFiltersActionsItemMap = { [key: string]: unknown | undefined };
 export const HogFunctionFiltersActionsItemMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -187,9 +178,7 @@ export const HogFunctionFiltersActionsList = /*@__PURE__*/ S.Array(
   HogFunctionFiltersActionsItemMap,
 ) as any as S.Schema<HogFunctionFiltersActionsList>;
 
-export type HogFunctionFiltersEventsItemMap = {
-  [key: string]: unknown | undefined;
-};
+export type HogFunctionFiltersEventsItemMap = { [key: string]: unknown | undefined };
 export const HogFunctionFiltersEventsItemMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -200,9 +189,7 @@ export const HogFunctionFiltersEventsList = /*@__PURE__*/ S.Array(
   HogFunctionFiltersEventsItemMap,
 ) as any as S.Schema<HogFunctionFiltersEventsList>;
 
-export type HogFunctionFiltersDataWarehouseItemMap = {
-  [key: string]: unknown | undefined;
-};
+export type HogFunctionFiltersDataWarehouseItemMap = { [key: string]: unknown | undefined };
 export const HogFunctionFiltersDataWarehouseItemMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -213,9 +200,7 @@ export const HogFunctionFiltersDataWarehouseList = /*@__PURE__*/ S.Array(
   HogFunctionFiltersDataWarehouseItemMap,
 ) as any as S.Schema<HogFunctionFiltersDataWarehouseList>;
 
-export type HogFunctionFiltersPropertiesItemMap = {
-  [key: string]: unknown | undefined;
-};
+export type HogFunctionFiltersPropertiesItemMap = { [key: string]: unknown | undefined };
 export const HogFunctionFiltersPropertiesItemMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -236,6 +221,7 @@ export interface HogFunctionFilters {
   transpiled?: unknown;
   filter_test_accounts?: boolean;
   bytecode_error?: string;
+  bytecode_contract?: string;
 }
 export const HogFunctionFilters = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -248,10 +234,9 @@ export const HogFunctionFilters = /*@__PURE__*/ S.suspend(() =>
     transpiled: S.optional(S.Unknown),
     filter_test_accounts: S.optional(S.Boolean),
     bytecode_error: S.optional(S.String),
+    bytecode_contract: S.optional(S.String),
   }),
-).annotate({
-  identifier: "HogFunctionFilters",
-}) as any as S.Schema<HogFunctionFilters>;
+).annotate({ identifier: "HogFunctionFilters" }) as any as S.Schema<HogFunctionFilters>;
 
 export interface HogFunctionMasking {
   /** Time-to-live in seconds for the masking cache (60–86400). */
@@ -270,18 +255,14 @@ export const HogFunctionMasking = /*@__PURE__*/ S.suspend(() =>
     hash: S.optional(S.String),
     bytecode: S.optional(S.Unknown),
   }),
-).annotate({
-  identifier: "HogFunctionMasking",
-}) as any as S.Schema<HogFunctionMasking>;
+).annotate({ identifier: "HogFunctionMasking" }) as any as S.Schema<HogFunctionMasking>;
 
 export type MappingsInputInputsSchemaList = Array<InputsSchemaItem>;
 export const MappingsInputInputsSchemaList = /*@__PURE__*/ S.Array(
   InputsSchemaItem,
 ) as any as S.Schema<MappingsInputInputsSchemaList>;
 
-export type MappingsInputInputsMap = {
-  [key: string]: InputsItemInput | undefined;
-};
+export type MappingsInputInputsMap = { [key: string]: InputsItemInput | undefined };
 export const MappingsInputInputsMap = /*@__PURE__*/ S.Record(
   S.String,
   InputsItemInput,
@@ -311,7 +292,7 @@ export const CreateHogFunctionRequestMappingsList = /*@__PURE__*/ S.Array(
 export interface CreateHogFunctionRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
-  /** Function type: destination, site_destination, internal_destination, source_webhook, warehouse_source_webhook, site_app, transformation, or transformation_log. * `destination` - Destination * `site_destination` - Site Destination * `internal_destination` - Internal Destination * `source_webhook` - Source Webhook * `warehouse_source_webhook` - Warehouse Source Webhook * `site_app` - Site App * `transformation` - Transformation * `transformation_log` - Transformation Log */
+  /** Function type: destination, site_destination, internal_destination, source_webhook, warehouse_source_webhook, site_app, transformation, or transformation_log. * `destination` - Destination * `site_destination` - Site Destination * `internal_destination` - Internal Destination * `source_webhook` - Source Webhook * `warehouse_source_webhook` - Warehouse Source Webhook * `site_app` - Site App * `transformation` - Transformation * `transformation_log` - Transformation Log * `legacy_destination` - Legacy Destination */
   type?: HogFunctionTypeEnum | (string & {}) | null;
   /** Display name for the function. */
   name?: string | null;
@@ -362,16 +343,8 @@ export const CreateHogFunctionRequest = /*@__PURE__*/ S.suspend(() =>
     execution_order: S.optional(S.NullOr(S.Number)),
     _create_in_folder: S.optional(S.String),
     base_updated_at: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/projects/{project_id}/hog_functions/",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "CreateHogFunctionRequest",
-}) as any as S.Schema<CreateHogFunctionRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/api/projects/{project_id}/hog_functions/", code: 200 })),
+).annotate({ identifier: "CreateHogFunctionRequest" }) as any as S.Schema<CreateHogFunctionRequest>;
 
 export type UserBasicHedgehogConfigMap = { [key: string]: unknown | undefined };
 export const UserBasicHedgehogConfigMap = /*@__PURE__*/ S.Record(
@@ -439,6 +412,7 @@ export interface InputsItem {
   value?: unknown;
   templating?: HogFunctionTemplatingEnum;
   bytecode?: InputsItemBytecodeList;
+  bytecode_contract?: string;
   order?: number;
   transpiled?: unknown;
 }
@@ -447,15 +421,14 @@ export const InputsItem = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(S.Unknown),
     templating: S.optional(HogFunctionTemplatingEnum),
     bytecode: S.optional(InputsItemBytecodeList),
+    bytecode_contract: S.optional(S.String),
     order: S.optional(S.Number),
     transpiled: S.optional(S.Unknown),
   }),
 ).annotate({ identifier: "InputsItem" }) as any as S.Schema<InputsItem>;
 
 /** Values for each input defined in inputs_schema. */
-export type HogFunctionOutputInputsMap = {
-  [key: string]: InputsItem | undefined;
-};
+export type HogFunctionOutputInputsMap = { [key: string]: InputsItem | undefined };
 export const HogFunctionOutputInputsMap = /*@__PURE__*/ S.Record(
   S.String,
   InputsItem,
@@ -573,9 +546,7 @@ export const HogFunctionTemplate = /*@__PURE__*/ S.suspend(() =>
     masking: S.optional(S.Unknown),
     mapping_templates: S.optional(S.NullOr(HogFunctionTemplateMappingTemplatesList)),
   }),
-).annotate({
-  identifier: "HogFunctionTemplate",
-}) as any as S.Schema<HogFunctionTemplate>;
+).annotate({ identifier: "HogFunctionTemplate" }) as any as S.Schema<HogFunctionTemplate>;
 
 /** * `0` - 0 * `1` - 1 * `2` - 2 * `3` - 3 * `11` - 11 * `12` - 12 */
 export type HogFunctionStatusStateEnum = 0 | 1 | 2 | 3 | 11 | 12;
@@ -590,16 +561,14 @@ export const HogFunctionStatus = /*@__PURE__*/ S.suspend(() =>
     state: S.optional(HogFunctionStatusStateEnum),
     tokens: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "HogFunctionStatus",
-}) as any as S.Schema<HogFunctionStatus>;
+).annotate({ identifier: "HogFunctionStatus" }) as any as S.Schema<HogFunctionStatus>;
 
 export type SearchMatchTypeEnum = "exact" | "similar";
 export const SearchMatchTypeEnum = S.String;
 
 export interface HogFunctionOutput {
   id?: string;
-  /** Function type: destination, site_destination, internal_destination, source_webhook, warehouse_source_webhook, site_app, transformation, or transformation_log. * `destination` - Destination * `site_destination` - Site Destination * `internal_destination` - Internal Destination * `source_webhook` - Source Webhook * `warehouse_source_webhook` - Warehouse Source Webhook * `site_app` - Site App * `transformation` - Transformation * `transformation_log` - Transformation Log */
+  /** Function type: destination, site_destination, internal_destination, source_webhook, warehouse_source_webhook, site_app, transformation, or transformation_log. * `destination` - Destination * `site_destination` - Site Destination * `internal_destination` - Internal Destination * `source_webhook` - Source Webhook * `warehouse_source_webhook` - Warehouse Source Webhook * `site_app` - Site App * `transformation` - Transformation * `transformation_log` - Transformation Log * `legacy_destination` - Legacy Destination */
   type?: HogFunctionTypeEnum | null;
   /** Display name for the function. */
   name?: string | null;
@@ -668,9 +637,7 @@ export const HogFunctionOutput = /*@__PURE__*/ S.suspend(() =>
     draft: S.optional(S.Unknown),
     draft_updated_at: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "HogFunctionOutput",
-}) as any as S.Schema<HogFunctionOutput>;
+).annotate({ identifier: "HogFunctionOutput" }) as any as S.Schema<HogFunctionOutput>;
 
 export interface CreateHogFunctionsDiscardDraftRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -700,9 +667,7 @@ export const HogFunctionInputInputsSchemaList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<HogFunctionInputInputsSchemaList>;
 
 /** Values for each input defined in inputs_schema. */
-export type HogFunctionInputInputsMap = {
-  [key: string]: InputsItemInput | undefined;
-};
+export type HogFunctionInputInputsMap = { [key: string]: InputsItemInput | undefined };
 export const HogFunctionInputInputsMap = /*@__PURE__*/ S.Record(
   S.String,
   InputsItemInput,
@@ -715,7 +680,7 @@ export const HogFunctionInputMappingsList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<HogFunctionInputMappingsList>;
 
 export interface HogFunctionInput {
-  /** Function type: destination, site_destination, internal_destination, source_webhook, warehouse_source_webhook, site_app, transformation, or transformation_log. * `destination` - Destination * `site_destination` - Site Destination * `internal_destination` - Internal Destination * `source_webhook` - Source Webhook * `warehouse_source_webhook` - Warehouse Source Webhook * `site_app` - Site App * `transformation` - Transformation * `transformation_log` - Transformation Log */
+  /** Function type: destination, site_destination, internal_destination, source_webhook, warehouse_source_webhook, site_app, transformation, or transformation_log. * `destination` - Destination * `site_destination` - Site Destination * `internal_destination` - Internal Destination * `source_webhook` - Source Webhook * `warehouse_source_webhook` - Warehouse Source Webhook * `site_app` - Site App * `transformation` - Transformation * `transformation_log` - Transformation Log * `legacy_destination` - Legacy Destination */
   type?: HogFunctionTypeEnum | (string & {}) | null;
   /** Display name for the function. */
   name?: string | null;
@@ -766,14 +731,10 @@ export const HogFunctionInput = /*@__PURE__*/ S.suspend(() =>
     _create_in_folder: S.optional(S.String),
     base_updated_at: S.optional(S.String),
   }),
-).annotate({
-  identifier: "HogFunctionInput",
-}) as any as S.Schema<HogFunctionInput>;
+).annotate({ identifier: "HogFunctionInput" }) as any as S.Schema<HogFunctionInput>;
 
 /** Mock global variables available during test invocation. */
-export type CreateHogFunctionsInvocationRequestGlobalsMap = {
-  [key: string]: unknown | undefined;
-};
+export type CreateHogFunctionsInvocationRequestGlobalsMap = { [key: string]: unknown | undefined };
 export const CreateHogFunctionsInvocationRequestGlobalsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -905,9 +866,7 @@ export const HogInvocationRerunFilter = /*@__PURE__*/ S.suspend(() =>
     max_count: S.optional(S.Number),
     invocation_ids: S.optional(HogInvocationRerunFilterInvocationIdsList),
   }),
-).annotate({
-  identifier: "HogInvocationRerunFilter",
-}) as any as S.Schema<HogInvocationRerunFilter>;
+).annotate({ identifier: "HogInvocationRerunFilter" }) as any as S.Schema<HogInvocationRerunFilter>;
 
 export interface CreateHogFunctionsRerunRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -963,15 +922,9 @@ export const GetHogFunctionRequest = /*@__PURE__*/ S.suspend(() =>
     project_id: S.String.pipe(T.Label()),
     id: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/hog_functions/{id}/",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/projects/{project_id}/hog_functions/{id}/", code: 200 }),
   ),
-).annotate({
-  identifier: "GetHogFunctionRequest",
-}) as any as S.Schema<GetHogFunctionRequest>;
+).annotate({ identifier: "GetHogFunctionRequest" }) as any as S.Schema<GetHogFunctionRequest>;
 
 export interface GetHogFunctionsIconRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -981,11 +934,7 @@ export const GetHogFunctionsIconRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project_id: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/hog_functions/icon/",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/projects/{project_id}/hog_functions/icon/", code: 200 }),
   ),
 ).annotate({
   identifier: "GetHogFunctionsIconRequest",
@@ -1004,11 +953,7 @@ export const GetHogFunctionsIconRequest2 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project_id: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/hog_functions/icons/",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/projects/{project_id}/hog_functions/icons/", code: 200 }),
   ),
 ).annotate({
   identifier: "GetHogFunctionsIconRequest2",
@@ -1116,9 +1061,7 @@ export const HogFunctionMaskedSecret = /*@__PURE__*/ S.suspend(() =>
     input_keys: HogFunctionMaskedSecretInputKeysList,
     draft_input_keys: HogFunctionMaskedSecretDraftInputKeysList,
   }),
-).annotate({
-  identifier: "HogFunctionMaskedSecret",
-}) as any as S.Schema<HogFunctionMaskedSecret>;
+).annotate({ identifier: "HogFunctionMaskedSecret" }) as any as S.Schema<HogFunctionMaskedSecret>;
 
 export type GetHogFunctionsMaskedSecretResponseBodyList = Array<HogFunctionMaskedSecret>;
 export const GetHogFunctionsMaskedSecretResponseBodyList = /*@__PURE__*/ S.Array(
@@ -1199,9 +1142,7 @@ export const AppMetricSeries = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     values: S.optional(AppMetricSeriesValuesList),
   }),
-).annotate({
-  identifier: "AppMetricSeries",
-}) as any as S.Schema<AppMetricSeries>;
+).annotate({ identifier: "AppMetricSeries" }) as any as S.Schema<AppMetricSeries>;
 
 export type AppMetricsResponseSeriesList = Array<AppMetricSeries>;
 export const AppMetricsResponseSeriesList = /*@__PURE__*/ S.Array(
@@ -1217,9 +1158,7 @@ export const AppMetricsResponse = /*@__PURE__*/ S.suspend(() =>
     labels: S.optional(AppMetricsResponseLabelsList),
     series: S.optional(AppMetricsResponseSeriesList),
   }),
-).annotate({
-  identifier: "AppMetricsResponse",
-}) as any as S.Schema<AppMetricsResponse>;
+).annotate({ identifier: "AppMetricsResponse" }) as any as S.Schema<AppMetricsResponse>;
 
 export type GetHogFunctionsMetricsTotalRequestBreakdownBy = "name" | "kind";
 export const GetHogFunctionsMetricsTotalRequestBreakdownBy = S.String;
@@ -1269,9 +1208,7 @@ export const GetHogFunctionsMetricsTotalRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetHogFunctionsMetricsTotalRequest",
 }) as any as S.Schema<GetHogFunctionsMetricsTotalRequest>;
 
-export type AppMetricsTotalsResponseTotalsMap = {
-  [key: string]: number | undefined;
-};
+export type AppMetricsTotalsResponseTotalsMap = { [key: string]: number | undefined };
 export const AppMetricsTotalsResponseTotalsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Number,
@@ -1284,9 +1221,7 @@ export const AppMetricsTotalsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     totals: S.optional(AppMetricsTotalsResponseTotalsMap),
   }),
-).annotate({
-  identifier: "AppMetricsTotalsResponse",
-}) as any as S.Schema<AppMetricsTotalsResponse>;
+).annotate({ identifier: "AppMetricsTotalsResponse" }) as any as S.Schema<AppMetricsTotalsResponse>;
 
 export interface GetHogFunctionsRevisionRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -1327,9 +1262,7 @@ export const HogFunctionRevision = /*@__PURE__*/ S.suspend(() =>
     created_by: S.NullOr(UserBasic),
     content: S.Unknown,
   }),
-).annotate({
-  identifier: "HogFunctionRevision",
-}) as any as S.Schema<HogFunctionRevision>;
+).annotate({ identifier: "HogFunctionRevision" }) as any as S.Schema<HogFunctionRevision>;
 
 export interface HogFunctionsDestroyRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -1342,11 +1275,7 @@ export const HogFunctionsDestroyRequest = /*@__PURE__*/ S.suspend(() =>
     project_id: S.String.pipe(T.Label()),
     id: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/projects/{project_id}/hog_functions/{id}/",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/api/projects/{project_id}/hog_functions/{id}/", code: 200 }),
   ),
 ).annotate({
   identifier: "HogFunctionsDestroyRequest",
@@ -1383,7 +1312,7 @@ export interface HogFunctionsEnableBackfillsCreateRequest {
   project_id: string;
   /** A UUID string identifying this hog function. */
   id: string;
-  /** Function type: destination, site_destination, internal_destination, source_webhook, warehouse_source_webhook, site_app, transformation, or transformation_log. * `destination` - Destination * `site_destination` - Site Destination * `internal_destination` - Internal Destination * `source_webhook` - Source Webhook * `warehouse_source_webhook` - Warehouse Source Webhook * `site_app` - Site App * `transformation` - Transformation * `transformation_log` - Transformation Log */
+  /** Function type: destination, site_destination, internal_destination, source_webhook, warehouse_source_webhook, site_app, transformation, or transformation_log. * `destination` - Destination * `site_destination` - Site Destination * `internal_destination` - Internal Destination * `source_webhook` - Source Webhook * `warehouse_source_webhook` - Warehouse Source Webhook * `site_app` - Site App * `transformation` - Transformation * `transformation_log` - Transformation Log * `legacy_destination` - Legacy Destination */
   type?: HogFunctionTypeEnum | (string & {}) | null;
   /** Display name for the function. */
   name?: string | null;
@@ -1568,16 +1497,8 @@ export const ListHogFunctionsRequest = /*@__PURE__*/ S.suspend(() =>
     offset: S.optional(S.Number.pipe(T.Query())),
     type: S.optional(ListHogFunctionsRequestTypeList.pipe(T.Query())),
     updated_at: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/hog_functions/",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ListHogFunctionsRequest",
-}) as any as S.Schema<ListHogFunctionsRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/projects/{project_id}/hog_functions/", code: 200 })),
+).annotate({ identifier: "ListHogFunctionsRequest" }) as any as S.Schema<ListHogFunctionsRequest>;
 
 export interface HogFunctionMinimal {
   id?: string;
@@ -1618,9 +1539,7 @@ export const HogFunctionMinimal = /*@__PURE__*/ S.suspend(() =>
     search_match_type: S.optional(S.NullOr(SearchMatchTypeEnum)),
     draft_updated_at: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "HogFunctionMinimal",
-}) as any as S.Schema<HogFunctionMinimal>;
+).annotate({ identifier: "HogFunctionMinimal" }) as any as S.Schema<HogFunctionMinimal>;
 
 export type PaginatedHogFunctionMinimalListResultsList = Array<HogFunctionMinimal>;
 export const PaginatedHogFunctionMinimalListResultsList = /*@__PURE__*/ S.Array(
@@ -1683,9 +1602,7 @@ export const HogFunctionRevisionBasic = /*@__PURE__*/ S.suspend(() =>
     created_at: S.String,
     created_by: S.NullOr(UserBasic),
   }),
-).annotate({
-  identifier: "HogFunctionRevisionBasic",
-}) as any as S.Schema<HogFunctionRevisionBasic>;
+).annotate({ identifier: "HogFunctionRevisionBasic" }) as any as S.Schema<HogFunctionRevisionBasic>;
 
 export type PaginatedHogFunctionRevisionBasicListResultsList = Array<HogFunctionRevisionBasic>;
 export const PaginatedHogFunctionRevisionBasicListResultsList = /*@__PURE__*/ S.Array(
@@ -1716,9 +1633,7 @@ export const UpdateHogFunctionRequestInputsSchemaList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<UpdateHogFunctionRequestInputsSchemaList>;
 
 /** Values for each input defined in inputs_schema. */
-export type UpdateHogFunctionRequestInputsMap = {
-  [key: string]: InputsItemInput | undefined;
-};
+export type UpdateHogFunctionRequestInputsMap = { [key: string]: InputsItemInput | undefined };
 export const UpdateHogFunctionRequestInputsMap = /*@__PURE__*/ S.Record(
   S.String,
   InputsItemInput,
@@ -1735,7 +1650,7 @@ export interface UpdateHogFunctionRequest {
   project_id: string;
   /** A UUID string identifying this hog function. */
   id: string;
-  /** Function type: destination, site_destination, internal_destination, source_webhook, warehouse_source_webhook, site_app, transformation, or transformation_log. * `destination` - Destination * `site_destination` - Site Destination * `internal_destination` - Internal Destination * `source_webhook` - Source Webhook * `warehouse_source_webhook` - Warehouse Source Webhook * `site_app` - Site App * `transformation` - Transformation * `transformation_log` - Transformation Log */
+  /** Function type: destination, site_destination, internal_destination, source_webhook, warehouse_source_webhook, site_app, transformation, or transformation_log. * `destination` - Destination * `site_destination` - Site Destination * `internal_destination` - Internal Destination * `source_webhook` - Source Webhook * `warehouse_source_webhook` - Warehouse Source Webhook * `site_app` - Site App * `transformation` - Transformation * `transformation_log` - Transformation Log * `legacy_destination` - Legacy Destination */
   type?: HogFunctionTypeEnum | (string & {}) | null;
   /** Display name for the function. */
   name?: string | null;
@@ -1788,15 +1703,9 @@ export const UpdateHogFunctionRequest = /*@__PURE__*/ S.suspend(() =>
     _create_in_folder: S.optional(S.String),
     base_updated_at: S.optional(S.String),
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/api/projects/{project_id}/hog_functions/{id}/",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/api/projects/{project_id}/hog_functions/{id}/", code: 200 }),
   ),
-).annotate({
-  identifier: "UpdateHogFunctionRequest",
-}) as any as S.Schema<UpdateHogFunctionRequest>;
+).annotate({ identifier: "UpdateHogFunctionRequest" }) as any as S.Schema<UpdateHogFunctionRequest>;
 
 /** Schema defining the configurable input parameters for this function. */
 export type UpdateHogFunctionsPartialRequestInputsSchemaList = Array<InputsSchemaItem>;
@@ -1824,7 +1733,7 @@ export interface UpdateHogFunctionsPartialRequest {
   project_id: string;
   /** A UUID string identifying this hog function. */
   id: string;
-  /** Function type: destination, site_destination, internal_destination, source_webhook, warehouse_source_webhook, site_app, transformation, or transformation_log. * `destination` - Destination * `site_destination` - Site Destination * `internal_destination` - Internal Destination * `source_webhook` - Source Webhook * `warehouse_source_webhook` - Warehouse Source Webhook * `site_app` - Site App * `transformation` - Transformation * `transformation_log` - Transformation Log */
+  /** Function type: destination, site_destination, internal_destination, source_webhook, warehouse_source_webhook, site_app, transformation, or transformation_log. * `destination` - Destination * `site_destination` - Site Destination * `internal_destination` - Internal Destination * `source_webhook` - Source Webhook * `warehouse_source_webhook` - Warehouse Source Webhook * `site_app` - Site App * `transformation` - Transformation * `transformation_log` - Transformation Log * `legacy_destination` - Legacy Destination */
   type?: HogFunctionTypeEnum | (string & {}) | null;
   /** Display name for the function. */
   name?: string | null;
@@ -1877,11 +1786,7 @@ export const UpdateHogFunctionsPartialRequest = /*@__PURE__*/ S.suspend(() =>
     _create_in_folder: S.optional(S.String),
     base_updated_at: S.optional(S.String),
   }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/api/projects/{project_id}/hog_functions/{id}/",
-      code: 200,
-    }),
+    T.Http({ method: "PATCH", uri: "/api/projects/{project_id}/hog_functions/{id}/", code: 200 }),
   ),
 ).annotate({
   identifier: "UpdateHogFunctionsPartialRequest",

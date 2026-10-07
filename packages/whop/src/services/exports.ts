@@ -113,9 +113,7 @@ export const CreateExportRequest = /*@__PURE__*/ S.suspend(() =>
     timezone: S.optional(S.String),
     idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
   }).pipe(T.Http({ method: "POST", uri: "/exports", code: 200 })),
-).annotate({
-  identifier: "CreateExportRequest",
-}) as any as S.Schema<CreateExportRequest>;
+).annotate({ identifier: "CreateExportRequest" }) as any as S.Schema<CreateExportRequest>;
 
 /** The resource that was exported, e.g. `receipts`, `members`, or `payouts`. */
 export type ExportResource =
@@ -202,9 +200,7 @@ export const GetExportRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/exports/{id}", code: 200 })),
-).annotate({
-  identifier: "GetExportRequest",
-}) as any as S.Schema<GetExportRequest>;
+).annotate({ identifier: "GetExportRequest" }) as any as S.Schema<GetExportRequest>;
 
 export type ListExportsRequestResource =
   | "ad_campaigns"
@@ -287,9 +283,7 @@ export const ListExportsRequest = /*@__PURE__*/ S.suspend(() =>
     order: S.optional(ListExportsRequestOrder.pipe(T.Query())),
     direction: S.optional(ListExportsRequestDirection.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/exports", code: 200 })),
-).annotate({
-  identifier: "ListExportsRequest",
-}) as any as S.Schema<ListExportsRequest>;
+).annotate({ identifier: "ListExportsRequest" }) as any as S.Schema<ListExportsRequest>;
 
 export type ListExportsResponseDataList = Array<Export>;
 export const ListExportsResponseDataList = /*@__PURE__*/ S.Array(
@@ -322,9 +316,7 @@ export const ListExportsResponse = /*@__PURE__*/ S.suspend(() =>
     data: ListExportsResponseDataList,
     page_info: ListExportsResponsePageInfo,
   }),
-).annotate({
-  identifier: "ListExportsResponse",
-}) as any as S.Schema<ListExportsResponse>;
+).annotate({ identifier: "ListExportsResponse" }) as any as S.Schema<ListExportsResponse>;
 
 export type CreateExportError = BadRequest | Forbidden | Conflict | WhopOpError;
 /** Create Export Starts an asynchronous CSV export of a resource for an account. Returns the export in `pending`; poll `GET /exports/{id}` until `download_url` is set. */

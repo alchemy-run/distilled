@@ -98,6 +98,13 @@
             "smithy.api#documentation": "Filter to experiments whose metrics reference this event name. Matches events used directly in metric queries as well as events behind any actions those metrics reference."
           }
         },
+        "excluded_tags": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "excluded_tags",
+            "smithy.api#documentation": "JSON-encoded list of tag names. Excludes experiments carrying any of the given tags, even when they also carry non-excluded tags."
+          }
+        },
         "feature_flag_id": {
           "target": "smithy.api#Integer",
           "traits": {
@@ -145,6 +152,13 @@
           "traits": {
             "smithy.api#httpQuery": "status",
             "smithy.api#documentation": "Filter by experiment status. \"running\", \"paused\", and \"exposure_frozen\" are mutually exclusive: \"running\" returns launched experiments with an active feature flag, \"paused\" returns launched experiments whose feature flag is deactivated, and \"exposure_frozen\" returns launched experiments whose exposure was frozen to the already-enrolled cohort while metrics keep flowing. \"complete\" is an alias for \"stopped\". \"all\" disables status filtering."
+          }
+        },
+        "tags": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "tags",
+            "smithy.api#documentation": "JSON-encoded list of tag names. Returns experiments carrying at least one of the given tags, e.g. `[\"growth\", \"checkout\"]`."
           }
         }
       },
@@ -335,6 +349,12 @@
             "smithy.api#documentation": "The effective access level the user has for this object",
             "smithy.api#required": {},
             "com.distilled.openapi#nullable": {}
+          }
+        },
+        "tags": {
+          "target": "com.posthog.experiments#ExperimentBasicTagsList",
+          "traits": {
+            "smithy.api#documentation": "Organizational tags for this experiment (up to 100, 255 characters each)."
           }
         }
       },
@@ -1624,6 +1644,15 @@
       },
       "traits": {}
     },
+    "com.posthog.experiments#ExperimentBasicTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Organizational tags for this experiment (up to 100, 255 characters each)."
+      }
+    },
     "com.posthog.experiments#PaginatedExperimentBasicListResultsList": {
       "type": "list",
       "member": {
@@ -1885,7 +1914,7 @@
           }
         },
         "kind": {
-          "target": "com.posthog.experiments#Kind1",
+          "target": "com.posthog.experiments#Kind2",
           "traits": {
             "smithy.api#documentation": "Defaults to 'ExperimentEventExposureConfig' when omitted. Pass 'ActionsNode' for an action-based exposure.",
             "com.distilled.openapi#nullable": {}
@@ -1900,7 +1929,7 @@
       },
       "traits": {}
     },
-    "com.posthog.experiments#Kind1": {
+    "com.posthog.experiments#Kind2": {
       "type": "enum",
       "members": {
         "EXPERIMENTEVENTEXPOSURECONFIG": {
@@ -4065,7 +4094,14 @@
         "conversion_window": {
           "target": "smithy.api#Integer",
           "traits": {
-            "smithy.api#documentation": "Conversion window duration.",
+            "smithy.api#documentation": "Only count metric events within this many units after the user's first exposure. Requires conversion_window_unit: a window without a unit is ignored and the metric counts events until the experiment ends. Omit both to count until the experiment ends.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "conversion_window_unit": {
+          "target": "com.posthog.experiments#FunnelConversionWindowTimeUnit",
+          "traits": {
+            "smithy.api#documentation": "Unit for conversion_window: 'second', 'minute', 'hour', 'day', 'week' or 'month'. Required when conversion_window is set.",
             "com.distilled.openapi#nullable": {}
           }
         },
@@ -4080,6 +4116,13 @@
           "target": "com.posthog.experiments#ExperimentMetricOutlierHandling",
           "traits": {
             "smithy.api#documentation": "For ratio metrics: winsorization applied to the denominator aggregate. Leave unset for a binomial-style denominator, which is never clamped.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "funnel_order_type": {
+          "target": "com.posthog.experiments#StepOrderValue",
+          "traits": {
+            "smithy.api#documentation": "For funnel metrics: how the steps must occur. 'ordered' (default) or 'unordered'. Do not use 'strict': experiment funnels give wrong counts with it.",
             "com.distilled.openapi#nullable": {}
           }
         },
@@ -4164,9 +4207,9 @@
           }
         },
         "start_event": {
-          "target": "com.posthog.experiments#ExperimentApiEventSource",
+          "target": "com.posthog.experiments#ExperimentApiRetentionStart",
           "traits": {
-            "smithy.api#documentation": "For retention metrics: start event.",
+            "smithy.api#documentation": "For retention metrics: start event. Pass {\"kind\": \"ExperimentExposureNode\"} to start retention from the experiment's exposure event; a conversion window or 'last_seen' start_handling is rejected then, because the start is always the user's first exposure.",
             "com.distilled.openapi#nullable": {}
           }
         },
@@ -4218,7 +4261,7 @@
           }
         },
         "kind": {
-          "target": "com.posthog.experiments#Kind"
+          "target": "com.posthog.experiments#Kind1"
         },
         "math": {
           "target": "com.posthog.experiments#ExperimentMetricMathType",
@@ -4258,7 +4301,7 @@
       },
       "traits": {}
     },
-    "com.posthog.experiments#Kind": {
+    "com.posthog.experiments#Kind1": {
       "type": "enum",
       "members": {
         "EVENTSNODE": {
@@ -4379,6 +4422,48 @@
       },
       "traits": {}
     },
+    "com.posthog.experiments#FunnelConversionWindowTimeUnit": {
+      "type": "enum",
+      "members": {
+        "SECOND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "second"
+          }
+        },
+        "MINUTE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "minute"
+          }
+        },
+        "HOUR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "hour"
+          }
+        },
+        "DAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "day"
+          }
+        },
+        "WEEK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "week"
+          }
+        },
+        "MONTH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "month"
+          }
+        }
+      },
+      "traits": {}
+    },
     "com.posthog.experiments#ExperimentMetricOutlierHandling": {
       "type": "structure",
       "members": {
@@ -4400,6 +4485,30 @@
           "traits": {
             "smithy.api#documentation": "Winsorization upper percentile bound, as a fraction in [0, 1] (e.g. 0.99 for the 99th percentile).",
             "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.experiments#StepOrderValue": {
+      "type": "enum",
+      "members": {
+        "STRICT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "strict"
+          }
+        },
+        "UNORDERED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unordered"
+          }
+        },
+        "ORDERED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ordered"
           }
         }
       },
@@ -4453,52 +4562,103 @@
       },
       "traits": {}
     },
-    "com.posthog.experiments#FunnelConversionWindowTimeUnit": {
-      "type": "enum",
+    "com.posthog.experiments#ExperimentApiMetricSeriesList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.experiments#ExperimentApiEventSource"
+      },
+      "traits": {}
+    },
+    "com.posthog.experiments#ExperimentApiRetentionStart": {
+      "type": "structure",
       "members": {
-        "SECOND": {
-          "target": "smithy.api#Unit",
+        "event": {
+          "target": "smithy.api#String",
           "traits": {
-            "smithy.api#enumValue": "second"
+            "smithy.api#documentation": "Event name, e.g. '$pageview'. Required for EventsNode.",
+            "com.distilled.openapi#nullable": {}
           }
         },
-        "MINUTE": {
-          "target": "smithy.api#Unit",
+        "id": {
+          "target": "smithy.api#Integer",
           "traits": {
-            "smithy.api#enumValue": "minute"
+            "smithy.api#documentation": "Action ID. Required for ActionsNode.",
+            "com.distilled.openapi#nullable": {}
           }
         },
-        "HOUR": {
-          "target": "smithy.api#Unit",
+        "kind": {
+          "target": "com.posthog.experiments#Kind3",
           "traits": {
-            "smithy.api#enumValue": "hour"
+            "smithy.api#documentation": "Pass 'ExperimentExposureNode' to start retention from the experiment's own exposure event; the other fields then stay unset.",
+            "smithy.api#required": {}
           }
         },
-        "DAY": {
-          "target": "smithy.api#Unit",
+        "math": {
+          "target": "com.posthog.experiments#ExperimentMetricMathType",
           "traits": {
-            "smithy.api#enumValue": "day"
+            "smithy.api#documentation": "How to aggregate this source. Defaults to 'total' (event count). Use 'sum' together with math_property to aggregate a numeric property — e.g. a ratio numerator of revenue per order. Other options: 'avg', 'min', 'max', 'unique_session', 'dau', 'unique_group', 'hogql'.",
+            "com.distilled.openapi#nullable": {}
           }
         },
-        "WEEK": {
-          "target": "smithy.api#Unit",
+        "math_group_type_index": {
+          "target": "com.posthog.experiments#MathGroupTypeIndex",
           "traits": {
-            "smithy.api#enumValue": "week"
+            "smithy.api#documentation": "Group type index to aggregate over. Required when math is 'unique_group'.",
+            "com.distilled.openapi#nullable": {}
           }
         },
-        "MONTH": {
-          "target": "smithy.api#Unit",
+        "math_hogql": {
+          "target": "smithy.api#String",
           "traits": {
-            "smithy.api#enumValue": "month"
+            "smithy.api#documentation": "HogQL aggregation expression. Required when math is 'hogql' — without it the metric silently falls back to a plain count/sum.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "math_property": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Numeric event property to aggregate when math is 'sum', 'avg', 'min', or 'max' (e.g. 'revenue').",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "properties": {
+          "target": "com.posthog.experiments#ExperimentApiRetentionStartPropertiesList",
+          "traits": {
+            "smithy.api#documentation": "Event property filters to narrow which events are counted.",
+            "com.distilled.openapi#nullable": {}
           }
         }
       },
       "traits": {}
     },
-    "com.posthog.experiments#ExperimentApiMetricSeriesList": {
+    "com.posthog.experiments#Kind3": {
+      "type": "enum",
+      "members": {
+        "EVENTSNODE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "EventsNode"
+          }
+        },
+        "ACTIONSNODE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ActionsNode"
+          }
+        },
+        "EXPERIMENTEXPOSURENODE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ExperimentExposureNode"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.experiments#ExperimentApiRetentionStartPropertiesList": {
       "type": "list",
       "member": {
-        "target": "com.posthog.experiments#ExperimentApiEventSource"
+        "target": "com.posthog.experiments#EventPropertyFilter"
       },
       "traits": {}
     },
@@ -4520,6 +4680,24 @@
       },
       "traits": {}
     },
+    "com.posthog.experiments#CreateExperimentRequestPrimaryMetricsOrderedUuidsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Display order of the primary metrics, as metric uuids. This is a display hint only: a metric not in the list renders after the listed ones in stored order, and an entry that matches no metric is ignored. Send it only to reorder metrics. Adding or removing metrics does not need it."
+      }
+    },
+    "com.posthog.experiments#CreateExperimentRequestSecondaryMetricsOrderedUuidsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Display order of the secondary metrics, as metric uuids. This is a display hint only: a metric not in the list renders after the listed ones in stored order, and an entry that matches no metric is ignored. Send it only to reorder metrics. Adding or removing metrics does not need it."
+      }
+    },
     "com.posthog.experiments#CreateExperimentRequestOriginalExperimentMap": {
       "type": "map",
       "key": {
@@ -4530,6 +4708,15 @@
       },
       "traits": {
         "smithy.api#documentation": "The experiment state as the client last read it, used together with `version` to resolve concurrent edits: metric collections merge per metric uuid, and any other field the update carries merges per field against its base value here (only a same-field double edit fails). Relevant keys are metrics, metrics_secondary, saved_metrics_ids, plus the last-read values of whichever scalar fields the update writes; unknown keys are ignored. Changed fields without a base value — and, without this object, any version mismatch — fail with HTTP 409."
+      }
+    },
+    "com.posthog.experiments#CreateExperimentRequestTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Organizational tags for this experiment (up to 100, 255 characters each)."
       }
     },
     "com.posthog.experiments#CreateExperimentRequest": {
@@ -4652,7 +4839,7 @@
         "metrics": {
           "target": "com.posthog.experiments#ExperimentApiMetricsList",
           "traits": {
-            "smithy.api#documentation": "Primary experiment metrics. Each metric must have kind='ExperimentMetric' and a metric_type: 'mean' (set source to an EventsNode with an event name), 'funnel' (set series to an array of EventsNode steps), 'ratio' (set numerator and denominator EventsNode entries), or 'retention' (set start_event and completion_event). Use the read-data-schema tool with query kind 'events' to find available events in the project.",
+            "smithy.api#documentation": "Primary experiment metrics. Each metric must have kind='ExperimentMetric' and a metric_type: 'mean' (set source to an EventsNode with an event name), 'funnel' (set series to an array of EventsNode steps), 'ratio' (set numerator and denominator EventsNode entries), or 'retention' (set start_event and completion_event; pass start_event {\"kind\": \"ExperimentExposureNode\"} to start retention from the experiment's exposure event). Use the read-data-schema tool with query kind 'events' to find available events in the project.",
             "com.distilled.openapi#nullable": {}
           }
         },
@@ -4700,10 +4887,18 @@
           }
         },
         "primary_metrics_ordered_uuids": {
-          "target": "smithy.api#Document"
+          "target": "com.posthog.experiments#CreateExperimentRequestPrimaryMetricsOrderedUuidsList",
+          "traits": {
+            "smithy.api#documentation": "Display order of the primary metrics, as metric uuids. This is a display hint only: a metric not in the list renders after the listed ones in stored order, and an entry that matches no metric is ignored. Send it only to reorder metrics. Adding or removing metrics does not need it.",
+            "com.distilled.openapi#nullable": {}
+          }
         },
         "secondary_metrics_ordered_uuids": {
-          "target": "smithy.api#Document"
+          "target": "com.posthog.experiments#CreateExperimentRequestSecondaryMetricsOrderedUuidsList",
+          "traits": {
+            "smithy.api#documentation": "Display order of the secondary metrics, as metric uuids. This is a display hint only: a metric not in the list renders after the listed ones in stored order, and an entry that matches no metric is ignored. Send it only to reorder metrics. Adding or removing metrics does not need it.",
+            "com.distilled.openapi#nullable": {}
+          }
         },
         "only_count_matured_users": {
           "target": "smithy.api#Boolean"
@@ -4726,6 +4921,12 @@
           "traits": {
             "smithy.api#documentation": "The experiment state as the client last read it, used together with `version` to resolve concurrent edits: metric collections merge per metric uuid, and any other field the update carries merges per field against its base value here (only a same-field double edit fails). Relevant keys are metrics, metrics_secondary, saved_metrics_ids, plus the last-read values of whichever scalar fields the update writes; unknown keys are ignored. Changed fields without a base value — and, without this object, any version mismatch — fail with HTTP 409.",
             "com.distilled.openapi#nullable": {}
+          }
+        },
+        "tags": {
+          "target": "com.posthog.experiments#CreateExperimentRequestTagsList",
+          "traits": {
+            "smithy.api#documentation": "Organizational tags for this experiment (up to 100, 255 characters each)."
           }
         }
       },
@@ -4867,7 +5068,7 @@
         "metrics": {
           "target": "com.posthog.experiments#ExperimentApiMetricsList",
           "traits": {
-            "smithy.api#documentation": "Primary experiment metrics. Each metric must have kind='ExperimentMetric' and a metric_type: 'mean' (set source to an EventsNode with an event name), 'funnel' (set series to an array of EventsNode steps), 'ratio' (set numerator and denominator EventsNode entries), or 'retention' (set start_event and completion_event). Use the read-data-schema tool with query kind 'events' to find available events in the project.",
+            "smithy.api#documentation": "Primary experiment metrics. Each metric must have kind='ExperimentMetric' and a metric_type: 'mean' (set source to an EventsNode with an event name), 'funnel' (set series to an array of EventsNode steps), 'ratio' (set numerator and denominator EventsNode entries), or 'retention' (set start_event and completion_event; pass start_event {\"kind\": \"ExperimentExposureNode\"} to start retention from the experiment's exposure event). Use the read-data-schema tool with query kind 'events' to find available events in the project.",
             "com.distilled.openapi#nullable": {}
           }
         },
@@ -4913,10 +5114,18 @@
           }
         },
         "primary_metrics_ordered_uuids": {
-          "target": "smithy.api#Document"
+          "target": "com.posthog.experiments#ExperimentOutputPrimaryMetricsOrderedUuidsList",
+          "traits": {
+            "smithy.api#documentation": "Display order of the primary metrics, as metric uuids. This is a display hint only: a metric not in the list renders after the listed ones in stored order, and an entry that matches no metric is ignored. Send it only to reorder metrics. Adding or removing metrics does not need it.",
+            "com.distilled.openapi#nullable": {}
+          }
         },
         "secondary_metrics_ordered_uuids": {
-          "target": "smithy.api#Document"
+          "target": "com.posthog.experiments#ExperimentOutputSecondaryMetricsOrderedUuidsList",
+          "traits": {
+            "smithy.api#documentation": "Display order of the secondary metrics, as metric uuids. This is a display hint only: a metric not in the list renders after the listed ones in stored order, and an entry that matches no metric is ignored. Send it only to reorder metrics. Adding or removing metrics does not need it.",
+            "com.distilled.openapi#nullable": {}
+          }
         },
         "only_count_matured_users": {
           "target": "smithy.api#Boolean"
@@ -4957,6 +5166,12 @@
           "traits": {
             "smithy.api#documentation": "The effective access level the user has for this object",
             "com.distilled.openapi#nullable": {}
+          }
+        },
+        "tags": {
+          "target": "com.posthog.experiments#ExperimentOutputTagsList",
+          "traits": {
+            "smithy.api#documentation": "Organizational tags for this experiment (up to 100, 255 characters each)."
           }
         }
       },
@@ -5014,6 +5229,33 @@
       },
       "traits": {
         "smithy.api#documentation": "IDs of shared saved metrics to attach to this experiment. Each item has 'id' (saved metric ID) and 'metadata' with 'type' (primary or secondary)."
+      }
+    },
+    "com.posthog.experiments#ExperimentOutputPrimaryMetricsOrderedUuidsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Display order of the primary metrics, as metric uuids. This is a display hint only: a metric not in the list renders after the listed ones in stored order, and an entry that matches no metric is ignored. Send it only to reorder metrics. Adding or removing metrics does not need it."
+      }
+    },
+    "com.posthog.experiments#ExperimentOutputSecondaryMetricsOrderedUuidsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Display order of the secondary metrics, as metric uuids. This is a display hint only: a metric not in the list renders after the listed ones in stored order, and an entry that matches no metric is ignored. Send it only to reorder metrics. Adding or removing metrics does not need it."
+      }
+    },
+    "com.posthog.experiments#ExperimentOutputTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Organizational tags for this experiment (up to 100, 255 characters each)."
       }
     },
     "com.posthog.experiments#CreateExperiment": {
@@ -5111,6 +5353,24 @@
         "smithy.api#documentation": "IDs of shared saved metrics to attach to this experiment. Each item has 'id' (saved metric ID) and 'metadata' with 'type' (primary or secondary)."
       }
     },
+    "com.posthog.experiments#UpdateExperimentRequestPrimaryMetricsOrderedUuidsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Display order of the primary metrics, as metric uuids. This is a display hint only: a metric not in the list renders after the listed ones in stored order, and an entry that matches no metric is ignored. Send it only to reorder metrics. Adding or removing metrics does not need it."
+      }
+    },
+    "com.posthog.experiments#UpdateExperimentRequestSecondaryMetricsOrderedUuidsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Display order of the secondary metrics, as metric uuids. This is a display hint only: a metric not in the list renders after the listed ones in stored order, and an entry that matches no metric is ignored. Send it only to reorder metrics. Adding or removing metrics does not need it."
+      }
+    },
     "com.posthog.experiments#UpdateExperimentRequestOriginalExperimentMap": {
       "type": "map",
       "key": {
@@ -5121,6 +5381,15 @@
       },
       "traits": {
         "smithy.api#documentation": "The experiment state as the client last read it, used together with `version` to resolve concurrent edits: metric collections merge per metric uuid, and any other field the update carries merges per field against its base value here (only a same-field double edit fails). Relevant keys are metrics, metrics_secondary, saved_metrics_ids, plus the last-read values of whichever scalar fields the update writes; unknown keys are ignored. Changed fields without a base value — and, without this object, any version mismatch — fail with HTTP 409."
+      }
+    },
+    "com.posthog.experiments#UpdateExperimentRequestTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Organizational tags for this experiment (up to 100, 255 characters each)."
       }
     },
     "com.posthog.experiments#UpdateExperimentRequest": {
@@ -5251,7 +5520,7 @@
         "metrics": {
           "target": "com.posthog.experiments#ExperimentApiMetricsList",
           "traits": {
-            "smithy.api#documentation": "Primary experiment metrics. Each metric must have kind='ExperimentMetric' and a metric_type: 'mean' (set source to an EventsNode with an event name), 'funnel' (set series to an array of EventsNode steps), 'ratio' (set numerator and denominator EventsNode entries), or 'retention' (set start_event and completion_event). Use the read-data-schema tool with query kind 'events' to find available events in the project.",
+            "smithy.api#documentation": "Primary experiment metrics. Each metric must have kind='ExperimentMetric' and a metric_type: 'mean' (set source to an EventsNode with an event name), 'funnel' (set series to an array of EventsNode steps), 'ratio' (set numerator and denominator EventsNode entries), or 'retention' (set start_event and completion_event; pass start_event {\"kind\": \"ExperimentExposureNode\"} to start retention from the experiment's exposure event). Use the read-data-schema tool with query kind 'events' to find available events in the project.",
             "com.distilled.openapi#nullable": {}
           }
         },
@@ -5299,10 +5568,18 @@
           }
         },
         "primary_metrics_ordered_uuids": {
-          "target": "smithy.api#Document"
+          "target": "com.posthog.experiments#UpdateExperimentRequestPrimaryMetricsOrderedUuidsList",
+          "traits": {
+            "smithy.api#documentation": "Display order of the primary metrics, as metric uuids. This is a display hint only: a metric not in the list renders after the listed ones in stored order, and an entry that matches no metric is ignored. Send it only to reorder metrics. Adding or removing metrics does not need it.",
+            "com.distilled.openapi#nullable": {}
+          }
         },
         "secondary_metrics_ordered_uuids": {
-          "target": "smithy.api#Document"
+          "target": "com.posthog.experiments#UpdateExperimentRequestSecondaryMetricsOrderedUuidsList",
+          "traits": {
+            "smithy.api#documentation": "Display order of the secondary metrics, as metric uuids. This is a display hint only: a metric not in the list renders after the listed ones in stored order, and an entry that matches no metric is ignored. Send it only to reorder metrics. Adding or removing metrics does not need it.",
+            "com.distilled.openapi#nullable": {}
+          }
         },
         "only_count_matured_users": {
           "target": "smithy.api#Boolean"
@@ -5325,6 +5602,12 @@
           "traits": {
             "smithy.api#documentation": "The experiment state as the client last read it, used together with `version` to resolve concurrent edits: metric collections merge per metric uuid, and any other field the update carries merges per field against its base value here (only a same-field double edit fails). Relevant keys are metrics, metrics_secondary, saved_metrics_ids, plus the last-read values of whichever scalar fields the update writes; unknown keys are ignored. Changed fields without a base value — and, without this object, any version mismatch — fail with HTTP 409.",
             "com.distilled.openapi#nullable": {}
+          }
+        },
+        "tags": {
+          "target": "com.posthog.experiments#UpdateExperimentRequestTagsList",
+          "traits": {
+            "smithy.api#documentation": "Organizational tags for this experiment (up to 100, 255 characters each)."
           }
         }
       },
@@ -5378,6 +5661,24 @@
         "smithy.api#documentation": "IDs of shared saved metrics to attach to this experiment. Each item has 'id' (saved metric ID) and 'metadata' with 'type' (primary or secondary)."
       }
     },
+    "com.posthog.experiments#UpdateExperimentsPartialRequestPrimaryMetricsOrderedUuidsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Display order of the primary metrics, as metric uuids. This is a display hint only: a metric not in the list renders after the listed ones in stored order, and an entry that matches no metric is ignored. Send it only to reorder metrics. Adding or removing metrics does not need it."
+      }
+    },
+    "com.posthog.experiments#UpdateExperimentsPartialRequestSecondaryMetricsOrderedUuidsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Display order of the secondary metrics, as metric uuids. This is a display hint only: a metric not in the list renders after the listed ones in stored order, and an entry that matches no metric is ignored. Send it only to reorder metrics. Adding or removing metrics does not need it."
+      }
+    },
     "com.posthog.experiments#UpdateExperimentsPartialRequestOriginalExperimentMap": {
       "type": "map",
       "key": {
@@ -5388,6 +5689,15 @@
       },
       "traits": {
         "smithy.api#documentation": "The experiment state as the client last read it, used together with `version` to resolve concurrent edits: metric collections merge per metric uuid, and any other field the update carries merges per field against its base value here (only a same-field double edit fails). Relevant keys are metrics, metrics_secondary, saved_metrics_ids, plus the last-read values of whichever scalar fields the update writes; unknown keys are ignored. Changed fields without a base value — and, without this object, any version mismatch — fail with HTTP 409."
+      }
+    },
+    "com.posthog.experiments#UpdateExperimentsPartialRequestTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Organizational tags for this experiment (up to 100, 255 characters each)."
       }
     },
     "com.posthog.experiments#UpdateExperimentsPartialRequest": {
@@ -5516,7 +5826,7 @@
         "metrics": {
           "target": "com.posthog.experiments#ExperimentApiMetricsList",
           "traits": {
-            "smithy.api#documentation": "Primary experiment metrics. Each metric must have kind='ExperimentMetric' and a metric_type: 'mean' (set source to an EventsNode with an event name), 'funnel' (set series to an array of EventsNode steps), 'ratio' (set numerator and denominator EventsNode entries), or 'retention' (set start_event and completion_event). Use the read-data-schema tool with query kind 'events' to find available events in the project.",
+            "smithy.api#documentation": "Primary experiment metrics. Each metric must have kind='ExperimentMetric' and a metric_type: 'mean' (set source to an EventsNode with an event name), 'funnel' (set series to an array of EventsNode steps), 'ratio' (set numerator and denominator EventsNode entries), or 'retention' (set start_event and completion_event; pass start_event {\"kind\": \"ExperimentExposureNode\"} to start retention from the experiment's exposure event). Use the read-data-schema tool with query kind 'events' to find available events in the project.",
             "com.distilled.openapi#nullable": {}
           }
         },
@@ -5564,10 +5874,18 @@
           }
         },
         "primary_metrics_ordered_uuids": {
-          "target": "smithy.api#Document"
+          "target": "com.posthog.experiments#UpdateExperimentsPartialRequestPrimaryMetricsOrderedUuidsList",
+          "traits": {
+            "smithy.api#documentation": "Display order of the primary metrics, as metric uuids. This is a display hint only: a metric not in the list renders after the listed ones in stored order, and an entry that matches no metric is ignored. Send it only to reorder metrics. Adding or removing metrics does not need it.",
+            "com.distilled.openapi#nullable": {}
+          }
         },
         "secondary_metrics_ordered_uuids": {
-          "target": "smithy.api#Document"
+          "target": "com.posthog.experiments#UpdateExperimentsPartialRequestSecondaryMetricsOrderedUuidsList",
+          "traits": {
+            "smithy.api#documentation": "Display order of the secondary metrics, as metric uuids. This is a display hint only: a metric not in the list renders after the listed ones in stored order, and an entry that matches no metric is ignored. Send it only to reorder metrics. Adding or removing metrics does not need it.",
+            "com.distilled.openapi#nullable": {}
+          }
         },
         "only_count_matured_users": {
           "target": "smithy.api#Boolean"
@@ -5590,6 +5908,12 @@
           "traits": {
             "smithy.api#documentation": "The experiment state as the client last read it, used together with `version` to resolve concurrent edits: metric collections merge per metric uuid, and any other field the update carries merges per field against its base value here (only a same-field double edit fails). Relevant keys are metrics, metrics_secondary, saved_metrics_ids, plus the last-read values of whichever scalar fields the update writes; unknown keys are ignored. Changed fields without a base value — and, without this object, any version mismatch — fail with HTTP 409.",
             "com.distilled.openapi#nullable": {}
+          }
+        },
+        "tags": {
+          "target": "com.posthog.experiments#UpdateExperimentsPartialRequestTagsList",
+          "traits": {
+            "smithy.api#documentation": "Organizational tags for this experiment (up to 100, 255 characters each)."
           }
         }
       },
@@ -5780,7 +6104,7 @@
         "client": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "API client that triggered the activity, from the x-posthog-client request header (e.g. 'mcp'). Null for requests that did not send the header.",
+            "smithy.api#documentation": "API client that triggered the activity. Self-reported through the x-posthog-client request header (e.g. 'mcp'), or 'scout:<skill_name>' when a scout run made the change, which the server derives from the run's own token. Null for requests that did neither.",
             "com.distilled.openapi#nullable": {}
           }
         }
@@ -6044,6 +6368,24 @@
         "smithy.api#documentation": "IDs of shared saved metrics to attach to this experiment. Each item has 'id' (saved metric ID) and 'metadata' with 'type' (primary or secondary)."
       }
     },
+    "com.posthog.experiments#ExperimentsCreateExposureCohortForExperimentCreateRequestPrimaryMetricsOrderedUuidsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Display order of the primary metrics, as metric uuids. This is a display hint only: a metric not in the list renders after the listed ones in stored order, and an entry that matches no metric is ignored. Send it only to reorder metrics. Adding or removing metrics does not need it."
+      }
+    },
+    "com.posthog.experiments#ExperimentsCreateExposureCohortForExperimentCreateRequestSecondaryMetricsOrderedUuidsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Display order of the secondary metrics, as metric uuids. This is a display hint only: a metric not in the list renders after the listed ones in stored order, and an entry that matches no metric is ignored. Send it only to reorder metrics. Adding or removing metrics does not need it."
+      }
+    },
     "com.posthog.experiments#ExperimentsCreateExposureCohortForExperimentCreateRequestOriginalExperimentMap": {
       "type": "map",
       "key": {
@@ -6054,6 +6396,15 @@
       },
       "traits": {
         "smithy.api#documentation": "The experiment state as the client last read it, used together with `version` to resolve concurrent edits: metric collections merge per metric uuid, and any other field the update carries merges per field against its base value here (only a same-field double edit fails). Relevant keys are metrics, metrics_secondary, saved_metrics_ids, plus the last-read values of whichever scalar fields the update writes; unknown keys are ignored. Changed fields without a base value — and, without this object, any version mismatch — fail with HTTP 409."
+      }
+    },
+    "com.posthog.experiments#ExperimentsCreateExposureCohortForExperimentCreateRequestTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Organizational tags for this experiment (up to 100, 255 characters each)."
       }
     },
     "com.posthog.experiments#ExperimentsCreateExposureCohortForExperimentCreateRequest": {
@@ -6176,7 +6527,7 @@
         "metrics": {
           "target": "com.posthog.experiments#ExperimentApiMetricsList",
           "traits": {
-            "smithy.api#documentation": "Primary experiment metrics. Each metric must have kind='ExperimentMetric' and a metric_type: 'mean' (set source to an EventsNode with an event name), 'funnel' (set series to an array of EventsNode steps), 'ratio' (set numerator and denominator EventsNode entries), or 'retention' (set start_event and completion_event). Use the read-data-schema tool with query kind 'events' to find available events in the project.",
+            "smithy.api#documentation": "Primary experiment metrics. Each metric must have kind='ExperimentMetric' and a metric_type: 'mean' (set source to an EventsNode with an event name), 'funnel' (set series to an array of EventsNode steps), 'ratio' (set numerator and denominator EventsNode entries), or 'retention' (set start_event and completion_event; pass start_event {\"kind\": \"ExperimentExposureNode\"} to start retention from the experiment's exposure event). Use the read-data-schema tool with query kind 'events' to find available events in the project.",
             "com.distilled.openapi#nullable": {}
           }
         },
@@ -6224,10 +6575,18 @@
           }
         },
         "primary_metrics_ordered_uuids": {
-          "target": "smithy.api#Document"
+          "target": "com.posthog.experiments#ExperimentsCreateExposureCohortForExperimentCreateRequestPrimaryMetricsOrderedUuidsList",
+          "traits": {
+            "smithy.api#documentation": "Display order of the primary metrics, as metric uuids. This is a display hint only: a metric not in the list renders after the listed ones in stored order, and an entry that matches no metric is ignored. Send it only to reorder metrics. Adding or removing metrics does not need it.",
+            "com.distilled.openapi#nullable": {}
+          }
         },
         "secondary_metrics_ordered_uuids": {
-          "target": "smithy.api#Document"
+          "target": "com.posthog.experiments#ExperimentsCreateExposureCohortForExperimentCreateRequestSecondaryMetricsOrderedUuidsList",
+          "traits": {
+            "smithy.api#documentation": "Display order of the secondary metrics, as metric uuids. This is a display hint only: a metric not in the list renders after the listed ones in stored order, and an entry that matches no metric is ignored. Send it only to reorder metrics. Adding or removing metrics does not need it.",
+            "com.distilled.openapi#nullable": {}
+          }
         },
         "only_count_matured_users": {
           "target": "smithy.api#Boolean"
@@ -6250,6 +6609,12 @@
           "traits": {
             "smithy.api#documentation": "The experiment state as the client last read it, used together with `version` to resolve concurrent edits: metric collections merge per metric uuid, and any other field the update carries merges per field against its base value here (only a same-field double edit fails). Relevant keys are metrics, metrics_secondary, saved_metrics_ids, plus the last-read values of whichever scalar fields the update writes; unknown keys are ignored. Changed fields without a base value — and, without this object, any version mismatch — fail with HTTP 409.",
             "com.distilled.openapi#nullable": {}
+          }
+        },
+        "tags": {
+          "target": "com.posthog.experiments#ExperimentsCreateExposureCohortForExperimentCreateRequestTagsList",
+          "traits": {
+            "smithy.api#documentation": "Organizational tags for this experiment (up to 100, 255 characters each)."
           }
         }
       },
@@ -6303,6 +6668,24 @@
         "smithy.api#documentation": "IDs of shared saved metrics to attach to this experiment. Each item has 'id' (saved metric ID) and 'metadata' with 'type' (primary or secondary)."
       }
     },
+    "com.posthog.experiments#ExperimentsDuplicateCreateRequestPrimaryMetricsOrderedUuidsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Display order of the primary metrics, as metric uuids. This is a display hint only: a metric not in the list renders after the listed ones in stored order, and an entry that matches no metric is ignored. Send it only to reorder metrics. Adding or removing metrics does not need it."
+      }
+    },
+    "com.posthog.experiments#ExperimentsDuplicateCreateRequestSecondaryMetricsOrderedUuidsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Display order of the secondary metrics, as metric uuids. This is a display hint only: a metric not in the list renders after the listed ones in stored order, and an entry that matches no metric is ignored. Send it only to reorder metrics. Adding or removing metrics does not need it."
+      }
+    },
     "com.posthog.experiments#ExperimentsDuplicateCreateRequestOriginalExperimentMap": {
       "type": "map",
       "key": {
@@ -6313,6 +6696,15 @@
       },
       "traits": {
         "smithy.api#documentation": "The experiment state as the client last read it, used together with `version` to resolve concurrent edits: metric collections merge per metric uuid, and any other field the update carries merges per field against its base value here (only a same-field double edit fails). Relevant keys are metrics, metrics_secondary, saved_metrics_ids, plus the last-read values of whichever scalar fields the update writes; unknown keys are ignored. Changed fields without a base value — and, without this object, any version mismatch — fail with HTTP 409."
+      }
+    },
+    "com.posthog.experiments#ExperimentsDuplicateCreateRequestTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Organizational tags for this experiment (up to 100, 255 characters each)."
       }
     },
     "com.posthog.experiments#ExperimentsDuplicateCreateRequest": {
@@ -6435,7 +6827,7 @@
         "metrics": {
           "target": "com.posthog.experiments#ExperimentApiMetricsList",
           "traits": {
-            "smithy.api#documentation": "Primary experiment metrics. Each metric must have kind='ExperimentMetric' and a metric_type: 'mean' (set source to an EventsNode with an event name), 'funnel' (set series to an array of EventsNode steps), 'ratio' (set numerator and denominator EventsNode entries), or 'retention' (set start_event and completion_event). Use the read-data-schema tool with query kind 'events' to find available events in the project.",
+            "smithy.api#documentation": "Primary experiment metrics. Each metric must have kind='ExperimentMetric' and a metric_type: 'mean' (set source to an EventsNode with an event name), 'funnel' (set series to an array of EventsNode steps), 'ratio' (set numerator and denominator EventsNode entries), or 'retention' (set start_event and completion_event; pass start_event {\"kind\": \"ExperimentExposureNode\"} to start retention from the experiment's exposure event). Use the read-data-schema tool with query kind 'events' to find available events in the project.",
             "com.distilled.openapi#nullable": {}
           }
         },
@@ -6483,10 +6875,18 @@
           }
         },
         "primary_metrics_ordered_uuids": {
-          "target": "smithy.api#Document"
+          "target": "com.posthog.experiments#ExperimentsDuplicateCreateRequestPrimaryMetricsOrderedUuidsList",
+          "traits": {
+            "smithy.api#documentation": "Display order of the primary metrics, as metric uuids. This is a display hint only: a metric not in the list renders after the listed ones in stored order, and an entry that matches no metric is ignored. Send it only to reorder metrics. Adding or removing metrics does not need it.",
+            "com.distilled.openapi#nullable": {}
+          }
         },
         "secondary_metrics_ordered_uuids": {
-          "target": "smithy.api#Document"
+          "target": "com.posthog.experiments#ExperimentsDuplicateCreateRequestSecondaryMetricsOrderedUuidsList",
+          "traits": {
+            "smithy.api#documentation": "Display order of the secondary metrics, as metric uuids. This is a display hint only: a metric not in the list renders after the listed ones in stored order, and an entry that matches no metric is ignored. Send it only to reorder metrics. Adding or removing metrics does not need it.",
+            "com.distilled.openapi#nullable": {}
+          }
         },
         "only_count_matured_users": {
           "target": "smithy.api#Boolean"
@@ -6509,6 +6909,12 @@
           "traits": {
             "smithy.api#documentation": "The experiment state as the client last read it, used together with `version` to resolve concurrent edits: metric collections merge per metric uuid, and any other field the update carries merges per field against its base value here (only a same-field double edit fails). Relevant keys are metrics, metrics_secondary, saved_metrics_ids, plus the last-read values of whichever scalar fields the update writes; unknown keys are ignored. Changed fields without a base value — and, without this object, any version mismatch — fail with HTTP 409.",
             "com.distilled.openapi#nullable": {}
+          }
+        },
+        "tags": {
+          "target": "com.posthog.experiments#ExperimentsDuplicateCreateRequestTagsList",
+          "traits": {
+            "smithy.api#documentation": "Organizational tags for this experiment (up to 100, 255 characters each)."
           }
         }
       },
@@ -6580,7 +6986,7 @@
         "open_cleanup_pr": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "When true, open a draft pull request that removes the experiment's feature-flag code from the linked repository. Requires the requesting user to have access to PostHog Desktop (403 otherwise). Only acts for allowlisted teams; ignored otherwise."
+            "smithy.api#documentation": "When true, open a draft pull request that removes the experiment's feature-flag code from the linked repository. A personal API key needs the task:write scope (403 otherwise). Skipped when the conclusion is empty, or when no connected repository can be resolved."
           }
         },
         "repository": {
@@ -6913,6 +7319,77 @@
         "smithy.api#documentation": "Freeze exposure on a running experiment while metrics keep flowing.\n\nSnapshots the already-exposed users into a static cohort and narrows the\nlinked feature flag so only those users keep matching — new users can no\nlonger enter the experiment. ``end_date`` is left null so long-term metrics\n(revenue/LTV/renewals/retention) keep accumulating. Enrolled users keep\ntheir assigned variant. The serialized status becomes 'exposure_frozen'.\n\nReturns 400 if the experiment is not running, exposure is already frozen,\nthe experiment is group-aggregated (group flags cannot be frozen with a\nperson cohort), or the exposed set is too large to snapshot synchronously."
       }
     },
+    "com.posthog.experiments#GetExperimentsInSessionExposureRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "A unique integer value identifying this experiment."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.experiments#ExperimentInSessionExposure": {
+      "type": "structure",
+      "members": {
+        "available": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the in-session exposure scope can answer for this experiment. Mirrors the recordings query, which refuses `experiment_exposure.in_session` exactly when this is false.",
+            "smithy.api#required": {}
+          }
+        },
+        "unavailable_reason": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Why the in-session scope can't answer for this experiment, worded for display next to the disabled option. Null when available.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "uses_stamped_fallback": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "True when in-session evidence is the stamped `$feature/<flag_key>` property, which means the flag was active in the session, rather than the exposure event itself being captured there. Copy must not claim the exposure was captured in the session when this is set.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "How the recordings tab's in-session exposure scope reads on this experiment."
+      }
+    },
+    "com.posthog.experiments#GetExperimentsInSessionExposure": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.experiments#GetExperimentsInSessionExposureRequest"
+      },
+      "output": {
+        "target": "com.posthog.experiments#ExperimentInSessionExposure"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/experiments/{id}/in_session_exposure/",
+          "code": 200
+        },
+        "smithy.api#documentation": "How the recordings tab's in-session exposure scope reads on this experiment.\n\nResolved through the same seam as the recordings query's `in_session` refusal, so the\nscope control disables exactly what a query would be refused for, and the copy can say\nwhen sessions are matched on the stamped flag property rather than on the exposure event.\nPostgres reads only, so it can serve the tab's mount path."
+      }
+    },
     "com.posthog.experiments#CreateExperimentsLaunchRequest": {
       "type": "structure",
       "members": {
@@ -6962,7 +7439,7 @@
         "smithy.api#documentation": "Launch a draft experiment.\n\nValidates the experiment is in draft state, activates its linked feature flag,\nsets start_date to the current server time, and transitions the experiment to running.\nReturns 400 if the experiment has already been launched or if the feature flag\nconfiguration is invalid (e.g. fewer than 2 variants)."
       }
     },
-    "com.posthog.experiments#ExperimentMetricsRecalculationTriggerEnum": {
+    "com.posthog.experiments#ExperimentMetricsRecalculationRequestTriggerEnum": {
       "type": "enum",
       "members": {
         "MANUAL": {
@@ -6971,10 +7448,10 @@
             "smithy.api#enumValue": "manual"
           }
         },
-        "AGENT_MCP": {
+        "MANUAL_RETRY": {
           "target": "smithy.api#Unit",
           "traits": {
-            "smithy.api#enumValue": "agent_mcp"
+            "smithy.api#enumValue": "manual_retry"
           }
         },
         "COLD_RUN": {
@@ -6983,16 +7460,10 @@
             "smithy.api#enumValue": "cold_run"
           }
         },
-        "STALE_REFRESH": {
+        "HEAL_LATEST_RUN": {
           "target": "smithy.api#Unit",
           "traits": {
-            "smithy.api#enumValue": "stale_refresh"
-          }
-        },
-        "AUTO_REFRESH": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "auto_refresh"
+            "smithy.api#enumValue": "heal_latest_run"
           }
         },
         "EXPERIMENT_CONFIG_CHANGE": {
@@ -7006,34 +7477,10 @@
           "traits": {
             "smithy.api#enumValue": "metric_config_change"
           }
-        },
-        "CONFIG_CHANGE": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "config_change"
-          }
-        },
-        "EXPERIMENT_LAUNCH": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "experiment_launch"
-          }
-        },
-        "EXPERIMENT_STOP": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "experiment_stop"
-          }
-        },
-        "EXPERIMENT_UPDATE": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "experiment_update"
-          }
         }
       },
       "traits": {
-        "smithy.api#documentation": "* `manual` - Manual\n* `agent_mcp` - Agent (MCP)\n* `cold_run` - Cold Run\n* `stale_refresh` - Stale Refresh\n* `auto_refresh` - Auto Refresh\n* `experiment_config_change` - Experiment Config Change\n* `metric_config_change` - Metric Config Change\n* `config_change` - Config Change\n* `experiment_launch` - Experiment Launch\n* `experiment_stop` - Experiment Stop\n* `experiment_update` - Experiment Update"
+        "smithy.api#documentation": "* `manual` - Manual\n* `manual_retry` - Manual Retry\n* `cold_run` - Cold Run\n* `heal_latest_run` - Heal Latest Run\n* `experiment_config_change` - Experiment Config Change\n* `metric_config_change` - Metric Config Change"
       }
     },
     "com.posthog.experiments#CreateExperimentsMetricsRecalculationRequest": {
@@ -7056,9 +7503,9 @@
           }
         },
         "trigger": {
-          "target": "com.posthog.experiments#ExperimentMetricsRecalculationTriggerEnum",
+          "target": "com.posthog.experiments#ExperimentMetricsRecalculationRequestTriggerEnum",
           "traits": {
-            "smithy.api#documentation": "What triggered this recalculation (manual is the default for user-initiated runs)\n\n* `manual` - Manual\n* `agent_mcp` - Agent (MCP)\n* `cold_run` - Cold Run\n* `stale_refresh` - Stale Refresh\n* `auto_refresh` - Auto Refresh\n* `experiment_config_change` - Experiment Config Change\n* `metric_config_change` - Metric Config Change\n* `config_change` - Config Change\n* `experiment_launch` - Experiment Launch\n* `experiment_stop` - Experiment Stop\n* `experiment_update` - Experiment Update"
+            "smithy.api#documentation": "What triggered this recalculation (manual is the default for user-initiated runs). Only client triggers are accepted; agent_mcp, timeseries_sync and scheduled are set by the server.\n\n* `manual` - Manual\n* `manual_retry` - Manual Retry\n* `cold_run` - Cold Run\n* `heal_latest_run` - Heal Latest Run\n* `experiment_config_change` - Experiment Config Change\n* `metric_config_change` - Metric Config Change"
           }
         }
       },
@@ -7066,7 +7513,7 @@
         "smithy.api#input": {}
       }
     },
-    "com.posthog.experiments#ExperimentMetricsRecalculation": {
+    "com.posthog.experiments#ExperimentMetricsRecalculationJob": {
       "type": "structure",
       "members": {
         "id": {
@@ -7114,21 +7561,7 @@
         "metric_errors": {
           "target": "smithy.api#Document",
           "traits": {
-            "smithy.api#documentation": "Map of metric_uuid to error details",
-            "smithy.api#required": {}
-          }
-        },
-        "metric_retries": {
-          "target": "smithy.api#Document",
-          "traits": {
-            "smithy.api#documentation": "Transient retry state per metric_uuid: {attempt, max_attempts, error_type, message, next_retry_at}. message is a user-safe description of the error that triggered the retry. Present only while a metric is between failed attempts; cleared when it succeeds or fails terminally, so treat entries for metrics that already have a result as stale.",
-            "smithy.api#required": {}
-          }
-        },
-        "trigger": {
-          "target": "com.posthog.experiments#ExperimentMetricsRecalculationTriggerEnum",
-          "traits": {
-            "smithy.api#documentation": "What triggered this recalculation\n\n* `manual` - Manual\n* `agent_mcp` - Agent (MCP)\n* `cold_run` - Cold Run\n* `stale_refresh` - Stale Refresh\n* `auto_refresh` - Auto Refresh\n* `experiment_config_change` - Experiment Config Change\n* `metric_config_change` - Metric Config Change\n* `config_change` - Config Change\n* `experiment_launch` - Experiment Launch\n* `experiment_stop` - Experiment Stop\n* `experiment_update` - Experiment Update",
+            "smithy.api#documentation": "Terminal failure per metric_uuid: {step, message, error_type, retriable, timestamp}. retriable is true when a transient error exhausted its attempts, so a heal_latest_run or manual_retry can succeed; false when the metric config, the data, or a resource limit must change first",
             "smithy.api#required": {}
           }
         },
@@ -7169,46 +7602,10 @@
             "smithy.api#documentation": "True if returning an existing job rather than a newly created one",
             "smithy.api#required": {}
           }
-        },
-        "active_run": {
-          "target": "com.posthog.experiments#ActiveRecalculationRun",
-          "traits": {
-            "smithy.api#documentation": "Run currently executing for this experiment, if any; poll it by id for live progress",
-            "smithy.api#required": {},
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "result_source": {
-          "target": "com.posthog.experiments#ResultSourceEnum",
-          "traits": {
-            "smithy.api#documentation": "Where these results came from: 'recalculation' for a real metrics-recalculation run, 'timeseries_fallback' for a cold-start placeholder built from the latest daily timeseries data.\n\n* `recalculation` - recalculation\n* `timeseries_fallback` - timeseries_fallback",
-            "smithy.api#required": {}
-          }
-        },
-        "results": {
-          "target": "com.posthog.experiments#ExperimentMetricsRecalculationResultsList",
-          "traits": {
-            "smithy.api#documentation": "Per-metric results computed by this run, scoped by the run's recalc fingerprint",
-            "smithy.api#required": {}
-          }
-        },
-        "rows_read": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "smithy.api#documentation": "Rows read by the run's metric queries so far, both finished and currently running. Cumulative and roughly monotonic across the run; the primary live progress signal",
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "estimated_rows_total": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "smithy.api#documentation": "ClickHouse's total_rows_approx across running queries plus the final read_rows of finished ones. A soft ceiling revised mid-scan, so it can exceed or trail rows_read; treat rows_read as the reliable signal",
-            "com.distilled.openapi#nullable": {}
-          }
         }
       },
       "traits": {
-        "smithy.api#documentation": "Serializer for metrics recalculation status responses."
+        "smithy.api#documentation": "POST response: the job just queued, or the one already active. It carries no results or live progress yet."
       }
     },
     "com.posthog.experiments#MetricsRecalculationStatusEnum": {
@@ -7243,46 +7640,169 @@
         "smithy.api#documentation": "* `pending` - Pending\n* `in_progress` - In Progress\n* `completed` - Completed\n* `failed` - Failed"
       }
     },
-    "com.posthog.experiments#ActiveRecalculationRun": {
+    "com.posthog.experiments#CreateExperimentsMetricsRecalculation": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.experiments#CreateExperimentsMetricsRecalculationRequest"
+      },
+      "output": {
+        "target": "com.posthog.experiments#ExperimentMetricsRecalculationJob"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/experiments/{id}/metrics_recalculation/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Trigger a batch recalculation of all metrics for this experiment.\n\nReturns 201 with the new pending recalculation, or 200 with the active one if a recalculation is\nalready pending or in progress for this experiment. The response payload intentionally does not\ninclude the `results` array — at POST time the workflow has just been queued and no per-metric\nresults exist yet. Clients should poll `GET metrics_recalculation/{id}/` for results as the workflow\nprogresses."
+      }
+    },
+    "com.posthog.experiments#GetExperimentsMetricsRecalculationRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "A unique integer value identifying this experiment."
+          }
+        },
+        "recalculation_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "UUID of the recalculation run to fetch. This is the run's own id, not the experiment id."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.experiments#ExperimentMetricsRecalculationRun": {
       "type": "structure",
       "members": {
         "id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Identifier of the run that is still executing",
+            "smithy.api#documentation": "Unique identifier for this recalculation job",
+            "smithy.api#required": {}
+          }
+        },
+        "experiment_id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "ID of the experiment being recalculated",
             "smithy.api#required": {}
           }
         },
         "status": {
           "target": "com.posthog.experiments#MetricsRecalculationStatusEnum",
           "traits": {
-            "smithy.api#documentation": "Status of the executing run (pending or in_progress)\n\n* `pending` - Pending\n* `in_progress` - In Progress\n* `completed` - Completed\n* `failed` - Failed",
+            "smithy.api#documentation": "Current status of the recalculation job\n\n* `pending` - Pending\n* `in_progress` - In Progress\n* `completed` - Completed\n* `failed` - Failed",
             "smithy.api#required": {}
           }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "Pointer to a recalculation run that is still executing, surfaced alongside the latest terminal results."
-      }
-    },
-    "com.posthog.experiments#ResultSourceEnum": {
-      "type": "enum",
-      "members": {
-        "RECALCULATION": {
-          "target": "smithy.api#Unit",
+        },
+        "total_metrics": {
+          "target": "smithy.api#Integer",
           "traits": {
-            "smithy.api#enumValue": "recalculation"
+            "smithy.api#documentation": "Total number of metrics to recalculate",
+            "smithy.api#required": {}
           }
         },
-        "TIMESERIES_FALLBACK": {
-          "target": "smithy.api#Unit",
+        "completed_metrics": {
+          "target": "smithy.api#Integer",
           "traits": {
-            "smithy.api#enumValue": "timeseries_fallback"
+            "smithy.api#documentation": "Number of metrics with a COMPLETED result row in this run (derived, not stored)",
+            "smithy.api#required": {}
+          }
+        },
+        "failed_metrics": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of failed metrics in this run (derived): FAILED result rows plus discovery-step failures that never made it to a result row",
+            "smithy.api#required": {}
+          }
+        },
+        "metric_errors": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Terminal failure per metric_uuid: {step, message, error_type, retriable, timestamp}. retriable is true when a transient error exhausted its attempts, so a heal_latest_run or manual_retry can succeed; false when the metric config, the data, or a resource limit must change first",
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the job was created",
+            "smithy.api#required": {}
+          }
+        },
+        "started_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When processing started",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "completed_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When processing completed",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "query_to": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Upper time bound the metrics in this run were calculated against (the data freshness cutoff). Shared by every metric in the run; null until processing starts",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "metric_retries": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Transient retry state per metric_uuid: {attempt, max_attempts, error_type, message, next_retry_at}. message is a user-safe description of the error that triggered the retry. Present only while a metric is between failed attempts; cleared when it succeeds or fails terminally, so treat entries for metrics that already have a result as stale.",
+            "smithy.api#required": {}
+          }
+        },
+        "results": {
+          "target": "com.posthog.experiments#ExperimentMetricsRecalculationRunResultsList",
+          "traits": {
+            "smithy.api#documentation": "Per-metric results computed by this run, scoped by the run's recalc fingerprint",
+            "smithy.api#required": {}
+          }
+        },
+        "rows_read": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Rows read by the run's metric queries so far, both finished and currently running. Cumulative and roughly monotonic across the run; the primary live progress signal",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "estimated_rows_total": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "ClickHouse's total_rows_approx across running queries plus the final read_rows of finished ones. A soft ceiling revised mid-scan, so it can exceed or trail rows_read; treat rows_read as the reliable signal",
+            "com.distilled.openapi#nullable": {}
           }
         }
       },
       "traits": {
-        "smithy.api#documentation": "* `recalculation` - recalculation\n* `timeseries_fallback` - timeseries_fallback"
+        "smithy.api#documentation": "GET by id: one run with its per-metric results, retry state and live query progress."
       }
     },
     "com.posthog.experiments#MetricRecalculationResult": {
@@ -7348,7 +7868,7 @@
         "smithy.api#documentation": "* `pending` - pending\n* `completed` - completed\n* `failed` - failed"
       }
     },
-    "com.posthog.experiments#ExperimentMetricsRecalculationResultsList": {
+    "com.posthog.experiments#ExperimentMetricsRecalculationRunResultsList": {
       "type": "list",
       "member": {
         "target": "com.posthog.experiments#MetricRecalculationResult"
@@ -7357,62 +7877,13 @@
         "smithy.api#documentation": "Per-metric results computed by this run, scoped by the run's recalc fingerprint"
       }
     },
-    "com.posthog.experiments#CreateExperimentsMetricsRecalculation": {
-      "type": "operation",
-      "input": {
-        "target": "com.posthog.experiments#CreateExperimentsMetricsRecalculationRequest"
-      },
-      "output": {
-        "target": "com.posthog.experiments#ExperimentMetricsRecalculation"
-      },
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/experiments/{id}/metrics_recalculation/",
-          "code": 200
-        },
-        "smithy.api#documentation": "Trigger a batch recalculation of all metrics for this experiment.\n\nReturns 201 with the new pending recalculation, or 200 with the active one if a recalculation is\nalready pending or in progress for this experiment. The response payload intentionally does not\ninclude the `results` array — at POST time the workflow has just been queued and no per-metric\nresults exist yet. Clients should poll `GET metrics_recalculation/{id}/` for results as the workflow\nprogresses."
-      }
-    },
-    "com.posthog.experiments#GetExperimentsMetricsRecalculationRequest": {
-      "type": "structure",
-      "members": {
-        "project_id": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {},
-            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
-          }
-        },
-        "id": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {},
-            "smithy.api#documentation": "A unique integer value identifying this experiment."
-          }
-        },
-        "recalculation_id": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {},
-            "smithy.api#documentation": "UUID of the recalculation run to fetch. This is the run's own id, not the experiment id."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#input": {}
-      }
-    },
     "com.posthog.experiments#GetExperimentsMetricsRecalculation": {
       "type": "operation",
       "input": {
         "target": "com.posthog.experiments#GetExperimentsMetricsRecalculationRequest"
       },
       "output": {
-        "target": "com.posthog.experiments#ExperimentMetricsRecalculation"
+        "target": "com.posthog.experiments#ExperimentMetricsRecalculationRun"
       },
       "errors": [
         {
@@ -7452,13 +7923,195 @@
         "smithy.api#input": {}
       }
     },
+    "com.posthog.experiments#ExperimentMetricsRecalculationLatest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique identifier for this recalculation job",
+            "smithy.api#required": {}
+          }
+        },
+        "experiment_id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "ID of the experiment being recalculated",
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "com.posthog.experiments#MetricsRecalculationStatusEnum",
+          "traits": {
+            "smithy.api#documentation": "Current status of the recalculation job\n\n* `pending` - Pending\n* `in_progress` - In Progress\n* `completed` - Completed\n* `failed` - Failed",
+            "smithy.api#required": {}
+          }
+        },
+        "total_metrics": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Total number of metrics to recalculate",
+            "smithy.api#required": {}
+          }
+        },
+        "completed_metrics": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of metrics with a COMPLETED result row in this run (derived, not stored)",
+            "smithy.api#required": {}
+          }
+        },
+        "failed_metrics": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of failed metrics in this run (derived): FAILED result rows plus discovery-step failures that never made it to a result row",
+            "smithy.api#required": {}
+          }
+        },
+        "metric_errors": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Terminal failure per metric_uuid: {step, message, error_type, retriable, timestamp}. retriable is true when a transient error exhausted its attempts, so a heal_latest_run or manual_retry can succeed; false when the metric config, the data, or a resource limit must change first",
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the job was created",
+            "smithy.api#required": {}
+          }
+        },
+        "started_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When processing started",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "completed_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When processing completed",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "query_to": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Upper time bound the metrics in this run were calculated against (the data freshness cutoff). Shared by every metric in the run; null until processing starts",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "metric_retries": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Transient retry state per metric_uuid: {attempt, max_attempts, error_type, message, next_retry_at}. message is a user-safe description of the error that triggered the retry. Present only while a metric is between failed attempts; cleared when it succeeds or fails terminally, so treat entries for metrics that already have a result as stale.",
+            "smithy.api#required": {}
+          }
+        },
+        "results": {
+          "target": "com.posthog.experiments#ExperimentMetricsRecalculationLatestResultsList",
+          "traits": {
+            "smithy.api#documentation": "Per-metric results computed by this run, scoped by the run's recalc fingerprint",
+            "smithy.api#required": {}
+          }
+        },
+        "rows_read": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Rows read by the run's metric queries so far, both finished and currently running. Cumulative and roughly monotonic across the run; the primary live progress signal",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "estimated_rows_total": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "ClickHouse's total_rows_approx across running queries plus the final read_rows of finished ones. A soft ceiling revised mid-scan, so it can exceed or trail rows_read; treat rows_read as the reliable signal",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "active_run": {
+          "target": "com.posthog.experiments#ActiveRecalculationRun",
+          "traits": {
+            "smithy.api#documentation": "Run currently executing for this experiment, if any; poll it by id for live progress",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "result_source": {
+          "target": "com.posthog.experiments#ResultSourceEnum",
+          "traits": {
+            "smithy.api#documentation": "Where these results came from: 'recalculation' for a real metrics-recalculation run, 'timeseries_fallback' for a cold-start placeholder built from the latest daily timeseries data.\n\n* `recalculation` - recalculation\n* `timeseries_fallback` - timeseries_fallback",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "GET latest: the newest terminal run, or the timeseries fallback, plus a pointer to any active run."
+      }
+    },
+    "com.posthog.experiments#ExperimentMetricsRecalculationLatestResultsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.experiments#MetricRecalculationResult"
+      },
+      "traits": {
+        "smithy.api#documentation": "Per-metric results computed by this run, scoped by the run's recalc fingerprint"
+      }
+    },
+    "com.posthog.experiments#ActiveRecalculationRun": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier of the run that is still executing",
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "com.posthog.experiments#MetricsRecalculationStatusEnum",
+          "traits": {
+            "smithy.api#documentation": "Status of the executing run (pending or in_progress)\n\n* `pending` - Pending\n* `in_progress` - In Progress\n* `completed` - Completed\n* `failed` - Failed",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Pointer to a recalculation run that is still executing, surfaced alongside the latest terminal results."
+      }
+    },
+    "com.posthog.experiments#ResultSourceEnum": {
+      "type": "enum",
+      "members": {
+        "RECALCULATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "recalculation"
+          }
+        },
+        "TIMESERIES_FALLBACK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "timeseries_fallback"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `recalculation` - recalculation\n* `timeseries_fallback` - timeseries_fallback"
+      }
+    },
     "com.posthog.experiments#GetExperimentsMetricsRecalculationLatest": {
       "type": "operation",
       "input": {
         "target": "com.posthog.experiments#GetExperimentsMetricsRecalculationLatestRequest"
       },
       "output": {
-        "target": "com.posthog.experiments#ExperimentMetricsRecalculation"
+        "target": "com.posthog.experiments#ExperimentMetricsRecalculationLatest"
       },
       "errors": [
         {
@@ -7472,6 +8125,47 @@
           "code": 200
         },
         "smithy.api#documentation": "Mixin for ViewSets to handle approval-gate exceptions raised from decorated serializers.\n\nIntercepts ApprovalRequired (409) and PolicyConflict (400) raised by the @approval_gate\ndecorator on serializer methods and converts them into the same responses the viewset path\nproduces (see decorators._result_to_response), so both paths share one contract."
+      }
+    },
+    "com.posthog.experiments#ExperimentsMigrateCreateRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "A unique integer value identifying this experiment."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.experiments#ExperimentsMigrateCreate": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.experiments#ExperimentsMigrateCreateRequest"
+      },
+      "output": {
+        "target": "com.posthog.experiments#ExperimentOutput"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/experiments/{id}/migrate/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Move a legacy experiment onto the new experiments engine.\n\nCreates a new experiment with the same configuration and its metrics converted\nto the new format, and returns it. The legacy experiment is left untouched and\nkeeps its results, so the project ends up with two experiments. Both point at\nthe same feature flag, so no new rollout is needed and users keep the variant\nthey already have.\n\nLegacy shared metrics used by the experiment are converted as part of the same\ncall. Each one gets a new shared metric, and the new experiment links to that.\n\nCalling this again returns the experiment created the first time instead of\nmaking another copy.\n\nReturns 400 if the experiment already uses the new engine."
       }
     },
     "com.posthog.experiments#CreateExperimentsPauseRequest": {
@@ -7541,6 +8235,24 @@
         "smithy.api#documentation": "IDs of shared saved metrics to attach to this experiment. Each item has 'id' (saved metric ID) and 'metadata' with 'type' (primary or secondary)."
       }
     },
+    "com.posthog.experiments#CreateExperimentsRecalculateTimeseriesRequestPrimaryMetricsOrderedUuidsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Display order of the primary metrics, as metric uuids. This is a display hint only: a metric not in the list renders after the listed ones in stored order, and an entry that matches no metric is ignored. Send it only to reorder metrics. Adding or removing metrics does not need it."
+      }
+    },
+    "com.posthog.experiments#CreateExperimentsRecalculateTimeseriesRequestSecondaryMetricsOrderedUuidsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Display order of the secondary metrics, as metric uuids. This is a display hint only: a metric not in the list renders after the listed ones in stored order, and an entry that matches no metric is ignored. Send it only to reorder metrics. Adding or removing metrics does not need it."
+      }
+    },
     "com.posthog.experiments#CreateExperimentsRecalculateTimeseriesRequestOriginalExperimentMap": {
       "type": "map",
       "key": {
@@ -7551,6 +8263,15 @@
       },
       "traits": {
         "smithy.api#documentation": "The experiment state as the client last read it, used together with `version` to resolve concurrent edits: metric collections merge per metric uuid, and any other field the update carries merges per field against its base value here (only a same-field double edit fails). Relevant keys are metrics, metrics_secondary, saved_metrics_ids, plus the last-read values of whichever scalar fields the update writes; unknown keys are ignored. Changed fields without a base value — and, without this object, any version mismatch — fail with HTTP 409."
+      }
+    },
+    "com.posthog.experiments#CreateExperimentsRecalculateTimeseriesRequestTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Organizational tags for this experiment (up to 100, 255 characters each)."
       }
     },
     "com.posthog.experiments#CreateExperimentsRecalculateTimeseriesRequest": {
@@ -7673,7 +8394,7 @@
         "metrics": {
           "target": "com.posthog.experiments#ExperimentApiMetricsList",
           "traits": {
-            "smithy.api#documentation": "Primary experiment metrics. Each metric must have kind='ExperimentMetric' and a metric_type: 'mean' (set source to an EventsNode with an event name), 'funnel' (set series to an array of EventsNode steps), 'ratio' (set numerator and denominator EventsNode entries), or 'retention' (set start_event and completion_event). Use the read-data-schema tool with query kind 'events' to find available events in the project.",
+            "smithy.api#documentation": "Primary experiment metrics. Each metric must have kind='ExperimentMetric' and a metric_type: 'mean' (set source to an EventsNode with an event name), 'funnel' (set series to an array of EventsNode steps), 'ratio' (set numerator and denominator EventsNode entries), or 'retention' (set start_event and completion_event; pass start_event {\"kind\": \"ExperimentExposureNode\"} to start retention from the experiment's exposure event). Use the read-data-schema tool with query kind 'events' to find available events in the project.",
             "com.distilled.openapi#nullable": {}
           }
         },
@@ -7721,10 +8442,18 @@
           }
         },
         "primary_metrics_ordered_uuids": {
-          "target": "smithy.api#Document"
+          "target": "com.posthog.experiments#CreateExperimentsRecalculateTimeseriesRequestPrimaryMetricsOrderedUuidsList",
+          "traits": {
+            "smithy.api#documentation": "Display order of the primary metrics, as metric uuids. This is a display hint only: a metric not in the list renders after the listed ones in stored order, and an entry that matches no metric is ignored. Send it only to reorder metrics. Adding or removing metrics does not need it.",
+            "com.distilled.openapi#nullable": {}
+          }
         },
         "secondary_metrics_ordered_uuids": {
-          "target": "smithy.api#Document"
+          "target": "com.posthog.experiments#CreateExperimentsRecalculateTimeseriesRequestSecondaryMetricsOrderedUuidsList",
+          "traits": {
+            "smithy.api#documentation": "Display order of the secondary metrics, as metric uuids. This is a display hint only: a metric not in the list renders after the listed ones in stored order, and an entry that matches no metric is ignored. Send it only to reorder metrics. Adding or removing metrics does not need it.",
+            "com.distilled.openapi#nullable": {}
+          }
         },
         "only_count_matured_users": {
           "target": "smithy.api#Boolean"
@@ -7747,6 +8476,12 @@
           "traits": {
             "smithy.api#documentation": "The experiment state as the client last read it, used together with `version` to resolve concurrent edits: metric collections merge per metric uuid, and any other field the update carries merges per field against its base value here (only a same-field double edit fails). Relevant keys are metrics, metrics_secondary, saved_metrics_ids, plus the last-read values of whichever scalar fields the update writes; unknown keys are ignored. Changed fields without a base value — and, without this object, any version mismatch — fail with HTTP 409.",
             "com.distilled.openapi#nullable": {}
+          }
+        },
+        "tags": {
+          "target": "com.posthog.experiments#CreateExperimentsRecalculateTimeseriesRequestTagsList",
+          "traits": {
+            "smithy.api#documentation": "Organizational tags for this experiment (up to 100, 255 characters each)."
           }
         }
       },
@@ -7999,14 +8734,14 @@
         "date_from": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Start of the window scanned: the experiment's run window, clamped to its most recent 30 days. Matches outside it are not returned.",
+            "smithy.api#documentation": "Start of the window scanned, never before the experiment started. At most 30 days before date_to when the scan found an exposure to anchor on. When it found none, how far back the search for one reached, which the project's recording retention bounds. Matches outside the window are not returned.",
             "smithy.api#required": {}
           }
         },
         "date_to": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "End of the window scanned: the experiment's end date, or now while it runs.",
+            "smithy.api#documentation": "End of the window scanned: 24 hours after the latest exposure captured in a session, capped at the experiment's end date or now. The pad covers the metric events a session fires after its exposure. The scan ends at the experiment's end date, or now while it runs, when that exposure can't be located, so an experiment whose exposures stopped long ago is still scanned where its sessions are.",
             "smithy.api#required": {}
           }
         },
@@ -8161,7 +8896,7 @@
         "variants": {
           "target": "com.posthog.experiments#ExperimentSessionEventDeltaResponseVariantsList",
           "traits": {
-            "smithy.api#documentation": "Every variant's compared population, in the flag's variant order.",
+            "smithy.api#documentation": "Every variant the analysis compares, with its population, in the flag's variant order. A variant the experiment excludes never appears here, because the analysis does not count it either, so read a missing key as excluded rather than as zero people.",
             "smithy.api#required": {}
           }
         },
@@ -8189,14 +8924,14 @@
         "date_from": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Start of what was actually compared. The requested window is the experiment's run window clamped to its most recent 14 days (2 when sessions are matched on the stamped flag property, which no event name can prune a scan on), but a busy experiment reaches the session ceiling long before that, and this reports where the compared sessions really begin - often hours rather than days back. Display this, not the experiment's own dates.",
+            "smithy.api#documentation": "When the earliest compared person was first exposed. The comparison takes the most recently exposed people, newest first, until it has as many as one comparison covers or their first sessions span 14 days of events, so on a busy experiment this is hours rather than days before date_to, and on an experiment that stopped enrolling it can be long before the experiment's end. Display this, not the experiment's own dates. Equal to date_to when nobody has been exposed yet.",
             "smithy.api#required": {}
           }
         },
         "date_to": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "End of what was compared: the experiment's end date, or now while it runs.",
+            "smithy.api#documentation": "One minute past the newest compared person's first exposure. Nobody first exposed between date_from and date_to was passed over, so the pair is a stretch of enrollment rather than a hull around scattered people. It bounds who was selected, not who was read: variants[].persons counts only those who then had a session. While an experiment runs this sits about an hour before now, because the newest hour of enrollment is held back until those people's first sessions have finished rather than read half-way through. Sessions reach past it, up to 24 hours after each person's own exposure, so this is not the end of the events that were read.",
             "smithy.api#required": {}
           }
         },
@@ -8210,14 +8945,14 @@
         "used_exposure_fallback": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "True when the compared sessions were matched on the stamped $feature/<flag key> event property instead of the exposure event, because the default exposure event has only ever been captured server-side and can never match a session. The sessions then mean 'the flag was active in this session', and the variant comes from the flag's value on each event, so a returning user can be counted under a variant they were re-bucketed into later.",
+            "smithy.api#documentation": "Always false. The compared population is the exposed population the experiment's results count, matched to sessions by person, so no stamped-property fallback exists any more. The field stays for compatibility with existing readers.",
             "smithy.api#required": {}
           }
         },
         "sessions_truncated": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "True when the experiment had more exposed sessions in the requested window than one comparison covers, so the most recent ones were used and date_from is later than the experiment's own window. Every variant is still covered over the same stretch of time.",
+            "smithy.api#documentation": "True when more people were exposed than one comparison covers, so the most recently exposed were used and people exposed before date_from were left out. Every variant is still covered over the same stretch of enrollment. Named for the session ceiling it used to report; the name is kept for existing readers.",
             "smithy.api#required": {}
           }
         },
@@ -8252,14 +8987,14 @@
         "too_early": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "True when fewer than two variants have min_variant_persons exposed people, so no comparison exists and cards is empty. Show the variants' counts alongside it: an empty shelf presented without them would read as 'the variants behaved identically'. Read empty_reason before telling anyone to check back: this is also true when the variants are empty because no exposure in the window carried a session, which empty_reason reports as 'no_session_linked_exposures' and which more time does not fix on its own.",
+            "smithy.api#documentation": "True when fewer than two variants have min_variant_persons exposed people, so no comparison exists and cards is empty. Show the variants' counts alongside it: an empty shelf presented without them would read as 'the variants behaved identically'. Read empty_reason and sessions_truncated before telling anyone to check back: this is also true when the variants are empty because the people exposed have no sessions we can see, which empty_reason reports as 'no_session_linked_exposures' and which more time fixes only while those people were exposed less than a day ago. And when sessions_truncated is true, only people exposed between date_from and date_to were compared, so more time helps only if more people are exposed within a stretch that long.",
             "smithy.api#required": {}
           }
         },
         "empty_reason": {
           "target": "com.posthog.experiments#ExperimentWatchEmptyReasonEnum",
           "traits": {
-            "smithy.api#documentation": "Why cards is empty, and null whenever cards is not empty. Report which of the four happened rather than reporting an empty shelf, because they ask different things of the reader. 'too_early': fewer than two variants have min_variant_persons exposed people, so nothing was compared yet and the answer can still change. 'no_separation': the variants were compared and no event told them apart, which is a result rather than a failure. 'no_recordings': events did tell the variants apart, but no recording behind them can be opened, so the project's session replay sampling and retention are what decide whether this surface can ever show anything. 'no_session_linked_exposures': people were exposed between date_from and date_to, and not one exposure carried a session id, so there was nothing to compare. Only that window was checked, so say so. It is how exposure is captured rather than a wait: exposures captured from a client-side SDK carry a session and exposures captured server-side do not, so more of the same capture yields more of the same. Point at capturing exposure from a client-side SDK before telling anyone to check back. Never fill an empty shelf with the experiment's metrics: shortcut cards to those metrics' events are withheld here for exactly that reason.\n\n* `too_early` - too_early\n* `no_separation` - no_separation\n* `no_recordings` - no_recordings\n* `no_session_linked_exposures` - no_session_linked_exposures",
+            "smithy.api#documentation": "Why cards is empty, and null whenever cards is not empty. Report which of the four happened rather than reporting an empty shelf, because they ask different things of the reader. 'too_early': fewer than two variants have min_variant_persons exposed people, so nothing was compared yet. The answer can still change unless sessions_truncated is true, in which case only the people exposed between date_from and date_to were compared and more time helps only if more people are exposed within a stretch that long; a rollout split that changed during the run lands here too, and the experiment's exposure chart is where that shows. 'no_separation': the variants were compared and no event told them apart, which is a result rather than a failure. 'no_recordings': events did tell the variants apart, but no recording behind them can be opened, so the project's session replay sampling and retention are what decide whether this surface can ever show anything. 'no_session_linked_exposures': the people exposed between date_from and date_to had no session we can see since being exposed, looking up to 24 hours after each exposure, so there was nothing to compare. Two things reach this state, and they ask for different answers: no browser or mobile SDK is capturing events, because sessions exist nowhere else, or the exposed people have not come back. While the experiment runs the read stops at the time of the request, so people exposed less than a day ago are judged on less than a day and can still return. Check which one before telling anyone to check back, because more exposures captured the same way yield more of the same. Never fill an empty shelf with the experiment's metrics: shortcut cards to those metrics' events are withheld here for exactly that reason.\n\n* `too_early` - too_early\n* `no_separation` - no_separation\n* `no_recordings` - no_recordings\n* `no_session_linked_exposures` - no_session_linked_exposures",
             "smithy.api#required": {},
             "com.distilled.openapi#nullable": {}
           }
@@ -8421,7 +9156,7 @@
         "reason": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Everything this recording carries that earned it the place, ready to render as-is, for example '6 rage clicks, 6 errors' or '1 error, did this 4 times'. Every signal the session shows is listed, so the phrase is the whole picture rather than the single strongest part of it. Friction counts cover the whole session; 'did this N times' counts the card's own event. Not a comparison and not a reason the card exists.",
+            "smithy.api#documentation": "Everything this recording carries that earned it the place, ready to render as-is, for example '6 rage clicks, 6 errors' or '1 error, did this 4 times'. Every signal the session shows is listed, so the phrase is the whole picture rather than the single strongest part of it. Friction counts run from the moment the person was exposed to the end of the session, so friction before they met the variant is left out; 'did this N times' counts the card's own event. Not a comparison and not a reason the card exists.",
             "smithy.api#required": {}
           }
         }
@@ -8461,14 +9196,14 @@
         "persons": {
           "target": "smithy.api#Integer",
           "traits": {
-            "smithy.api#documentation": "Exposed people the comparison covered for this variant. People rather than sessions because a variant can change how often the flag is evaluated again later, which moves a variant's session count without anyone behaving differently. Each person is read from the first session the comparison covers them in, so every variant gets the same amount of behavior per person.",
+            "smithy.api#documentation": "Exposed people the comparison read for this variant: the most recently exposed people, each read from their first session after being exposed. Someone selected who had no session in that horizon is not counted here, so this sits at or below the variant's enrollment between date_from and date_to. People rather than sessions because a variant can change how often the flag is evaluated again later, which moves a variant's session count without anyone behaving differently. One session each, from the moment of exposure on, so every variant gets the same amount of behavior per person.",
             "smithy.api#required": {}
           }
         },
         "sessions": {
           "target": "smithy.api#Integer",
           "traits": {
-            "smithy.api#documentation": "Exposed sessions those people were seen in, which is more than the comparison reads: it says how much recorded material sits behind the variant.",
+            "smithy.api#documentation": "Sessions those people had within 24 hours of being exposed, and before the experiment ended or this request was made, which is more than the comparison reads: it says how much recorded material sits behind the variant.",
             "smithy.api#required": {}
           }
         }
@@ -8483,7 +9218,7 @@
         "target": "com.posthog.experiments#ExperimentWatchVariant"
       },
       "traits": {
-        "smithy.api#documentation": "Every variant's compared population, in the flag's variant order."
+        "smithy.api#documentation": "Every variant the analysis compares, with its population, in the flag's variant order. A variant the experiment excludes never appears here, because the analysis does not count it either, so read a missing key as excluded rather than as zero people."
       }
     },
     "com.posthog.experiments#ExperimentWatchMultipleVariantHandlingEnum": {
@@ -8600,7 +9335,7 @@
         "open_cleanup_pr": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "When true, open a draft pull request that removes the experiment's feature-flag code from the linked repository. Requires the requesting user to have access to PostHog Desktop (403 otherwise). Only acts for allowlisted teams; ignored otherwise."
+            "smithy.api#documentation": "When true, open a draft pull request that removes the experiment's feature-flag code from the linked repository. A personal API key needs the task:write scope (403 otherwise). Skipped when the conclusion is empty, or when no connected repository can be resolved."
           }
         },
         "repository": {
@@ -8809,6 +9544,158 @@
           "code": 200
         },
         "smithy.api#documentation": "Reopen enrollment on an exposure-frozen experiment.\n\nRemoves the snapshot-cohort condition and freeze markers from every release\ngroup, restoring the flag's original targeting: new users can enroll again\nand already-enrolled users keep their assigned variant. The snapshot cohort\nis soft-deleted. The serialized status returns to 'running'.\n\nReturns 400 if the experiment is not running or its exposure is not frozen."
+      }
+    },
+    "com.posthog.experiments#ExperimentsBulkUpdateTagsCreateRequestIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Integer"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of object IDs to update tags on."
+      }
+    },
+    "com.posthog.experiments#BulkUpdateTagsActionEnum": {
+      "type": "enum",
+      "members": {
+        "ADD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "add"
+          }
+        },
+        "REMOVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "remove"
+          }
+        },
+        "SET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "set"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `add` - add\n* `remove` - remove\n* `set` - set"
+      }
+    },
+    "com.posthog.experiments#ExperimentsBulkUpdateTagsCreateRequestTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Tag names to add, remove, or set (up to 100 per request, 255 characters each)."
+      }
+    },
+    "com.posthog.experiments#ExperimentsBulkUpdateTagsCreateRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "ids": {
+          "target": "com.posthog.experiments#ExperimentsBulkUpdateTagsCreateRequestIdsList",
+          "traits": {
+            "smithy.api#documentation": "List of object IDs to update tags on."
+          }
+        },
+        "action": {
+          "target": "com.posthog.experiments#BulkUpdateTagsActionEnum",
+          "traits": {
+            "smithy.api#documentation": "'add' merges with existing tags, 'remove' deletes specific tags, 'set' replaces all tags.\n\n* `add` - add\n* `remove` - remove\n* `set` - set"
+          }
+        },
+        "tags": {
+          "target": "com.posthog.experiments#ExperimentsBulkUpdateTagsCreateRequestTagsList",
+          "traits": {
+            "smithy.api#documentation": "Tag names to add, remove, or set (up to 100 per request, 255 characters each)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.experiments#BulkUpdateTagsResponse": {
+      "type": "structure",
+      "members": {
+        "updated": {
+          "target": "com.posthog.experiments#BulkUpdateTagsResponseUpdatedList"
+        },
+        "skipped": {
+          "target": "com.posthog.experiments#BulkUpdateTagsResponseSkippedList"
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.experiments#BulkUpdateTagsItem": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#Integer"
+        },
+        "tags": {
+          "target": "com.posthog.experiments#BulkUpdateTagsItemTagsList"
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.experiments#BulkUpdateTagsItemTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.posthog.experiments#BulkUpdateTagsResponseUpdatedList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.experiments#BulkUpdateTagsItem"
+      },
+      "traits": {}
+    },
+    "com.posthog.experiments#BulkUpdateTagsError": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#Integer"
+        },
+        "reason": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.experiments#BulkUpdateTagsResponseSkippedList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.experiments#BulkUpdateTagsError"
+      },
+      "traits": {}
+    },
+    "com.posthog.experiments#ExperimentsBulkUpdateTagsCreate": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.experiments#ExperimentsBulkUpdateTagsCreateRequest"
+      },
+      "output": {
+        "target": "com.posthog.experiments#BulkUpdateTagsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/experiments/bulk_update_tags/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Bulk update tags on multiple objects.\n\nPAT access: this action has no ``required_scopes=`` on the decorator —\ninheriting viewsets must add ``\"bulk_update_tags\"`` to their\n``scope_object_write_actions`` list to accept personal API keys.\nWithout that opt-in, ``APIScopePermission`` rejects PAT requests with\n\"This action does not support personal API key access\". Done per-viewset\nso granting ``<scope>:write`` for one resource doesn't leak access to\nsibling resources that share this mixin.\n\nAccepts:\n- {\"ids\": [...], \"action\": \"add\"|\"remove\"|\"set\", \"tags\": [\"tag1\", \"tag2\"]}\n\nActions:\n- \"add\": Add tags to existing tags on each object\n- \"remove\": Remove specific tags from each object\n- \"set\": Replace all tags on each object with the provided list"
       }
     },
     "com.posthog.experiments#MetricTypeEnum": {
@@ -9148,6 +10035,186 @@
           "code": 200
         },
         "smithy.api#documentation": "Create an experiment that compares N versions of an LLM prompt using a metric template.\n\nThe user picks 2+ versions of an existing LLMPrompt and 1+ metric templates\n(cost / latency / eval_pass_rate). The endpoint builds the matching variants\n(control + test-N, each named after its prompt version) and attaches one\nmetric per selected template, each scoped to the prompt's $ai_prompt_name.\nResulting experiment is in draft state."
+      }
+    },
+    "com.posthog.experiments#GetExperimentsMatchingIdsRequestStatus": {
+      "type": "enum",
+      "members": {
+        "ALL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "all"
+          }
+        },
+        "COMPLETE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "complete"
+          }
+        },
+        "DRAFT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "draft"
+          }
+        },
+        "EXPOSURE_FROZEN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "exposure_frozen"
+          }
+        },
+        "PAUSED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "paused"
+          }
+        },
+        "RUNNING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "running"
+          }
+        },
+        "STOPPED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "stopped"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.experiments#GetExperimentsMatchingIdsRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "archived": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "archived",
+            "smithy.api#documentation": "Filter by archived state. Defaults to non-archived experiments only."
+          }
+        },
+        "created_by_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "created_by_id",
+            "smithy.api#documentation": "Filter to experiments created by the given user(s). Accepts a single user ID, or a JSON-encoded / comma-separated list of user IDs to match any of them."
+          }
+        },
+        "event": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "event",
+            "smithy.api#documentation": "Filter to experiments whose metrics reference this event name. Matches events used directly in metric queries as well as events behind any actions those metrics reference."
+          }
+        },
+        "excluded_tags": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "excluded_tags",
+            "smithy.api#documentation": "JSON-encoded list of tag names. Excludes experiments carrying any of the given tags, even when they also carry non-excluded tags."
+          }
+        },
+        "feature_flag_id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "feature_flag_id",
+            "smithy.api#documentation": "Filter to experiments linked to the given feature flag ID."
+          }
+        },
+        "order": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "order",
+            "smithy.api#documentation": "Field to order by. Prefix with '-' for descending. Allowlisted fields include name, created_at, updated_at, start_date, end_date, duration, and status."
+          }
+        },
+        "prompt_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "prompt_name",
+            "smithy.api#documentation": "Filter to experiments created from an LLM prompt with this name. Matches experiments whose parameters.prompt_metadata.name equals the given value."
+          }
+        },
+        "search": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "search",
+            "smithy.api#documentation": "Free-text search applied to the experiment name (case-insensitive)."
+          }
+        },
+        "status": {
+          "target": "com.posthog.experiments#GetExperimentsMatchingIdsRequestStatus",
+          "traits": {
+            "smithy.api#httpQuery": "status",
+            "smithy.api#documentation": "Filter by experiment status. \"running\", \"paused\", and \"exposure_frozen\" are mutually exclusive: \"running\" returns launched experiments with an active feature flag, \"paused\" returns launched experiments whose feature flag is deactivated, and \"exposure_frozen\" returns launched experiments whose exposure was frozen to the already-enrolled cohort while metrics keep flowing. \"complete\" is an alias for \"stopped\". \"all\" disables status filtering."
+          }
+        },
+        "tags": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "tags",
+            "smithy.api#documentation": "JSON-encoded list of tag names. Returns experiments carrying at least one of the given tags, e.g. `[\"growth\", \"checkout\"]`."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.experiments#ExperimentMatchingIdsResponse": {
+      "type": "structure",
+      "members": {
+        "ids": {
+          "target": "com.posthog.experiments#ExperimentMatchingIdsResponseIdsList",
+          "traits": {
+            "smithy.api#documentation": "IDs of all experiments matching the current list filters that the user can edit.",
+            "smithy.api#required": {}
+          }
+        },
+        "total": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of matching editable experiments.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.experiments#ExperimentMatchingIdsResponseIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Integer"
+      },
+      "traits": {
+        "smithy.api#documentation": "IDs of all experiments matching the current list filters that the user can edit."
+      }
+    },
+    "com.posthog.experiments#GetExperimentsMatchingIds": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.experiments#GetExperimentsMatchingIdsRequest"
+      },
+      "output": {
+        "target": "com.posthog.experiments#ExperimentMatchingIdsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/experiments/matching_ids/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get IDs of all experiments matching the current list filters.\nAccepts the same query params as the list endpoint and returns only\nIDs of experiments the user has permission to edit."
       }
     },
     "com.posthog.experiments#GetExperimentsPromptTemplateRequest": {
@@ -9651,6 +10718,1694 @@
         "smithy.api#documentation": "Resolve experiment context for a batch of session recordings.\n\nBatch variant of `session_context`, used to prefetch the replay player's experiments\nbox for a whole recordings list in one request. POST because the id list doesn't fit a\nquery string; the endpoint only reads. Already-computed sessions are served from (and\ncold ones written to) the same short-lived per-viewer cache the single-session endpoint\nuses, so opening any prefetched recording renders its context instantly. Sessions whose\nrecording metadata doesn't exist yet are omitted from the response, as are recordings\nthe caller can't access and sessions beyond the batch's recording-day budget (each\ndistinct recording day costs its own set of ClickHouse scans, so only the most recent\ndays are computed per request)."
       }
     },
+    "com.posthog.experiments#ExperimentSetupPropertyFilterList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.experiments#ExperimentSetupPropertyFilterListItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "Event or person property filters that narrow which events are counted."
+      }
+    },
+    "com.posthog.experiments#ExperimentSetupPropertyFilterListItem": {
+      "type": "union",
+      "members": {
+        "EventPropertyFilter": {
+          "target": "com.posthog.experiments#EventPropertyFilter"
+        },
+        "PersonPropertyFilter": {
+          "target": "com.posthog.experiments#PersonPropertyFilter"
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.experiments#CreateExperimentsSetupContextRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "target_event": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Event that marks a visit to the surface under test, for example '$pageview' or '$screen'. Needed for target_surface and for the baseline in candidate_metric.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "target_url_contains": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Only counts target events whose $current_url contains this text, ignoring case. Needs target_event to be '$pageview'.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "target_properties": {
+          "target": "com.posthog.experiments#ExperimentSetupPropertyFilterList",
+          "traits": {
+            "smithy.api#documentation": "Event or person property filters that narrow the target event, for example an exact $host and $pathname for one page. At most 10 filters, and each needs type 'event' or 'person'. Needs target_event. Combines with target_url_contains.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "metric_event": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Event of the candidate primary metric. With target_event, candidate_metric returns a baseline. Without it, candidate_metric returns only the event's volume. Also marks the shared metrics that count this event.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "metric_properties": {
+          "target": "com.posthog.experiments#ExperimentSetupPropertyFilterList",
+          "traits": {
+            "smithy.api#documentation": "Event or person property filters that narrow the metric event, for the metric that counts only some of its occurrences. At most 10 filters, and each needs type 'event' or 'person'. Needs metric_event.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "previous_experiments_limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "How many experiments to return, most recently launched first, then drafts, 1 to 25."
+          }
+        },
+        "shared_metrics_limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "How many shared metrics to return, most reused first, 1 to 25."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.experiments#ExperimentSetupContextResponse": {
+      "type": "structure",
+      "members": {
+        "team_defaults": {
+          "target": "com.posthog.experiments#ExperimentSetupTeamDefaultsSection",
+          "traits": {
+            "smithy.api#documentation": "The project's experiment defaults.",
+            "smithy.api#required": {}
+          }
+        },
+        "sdk_profile": {
+          "target": "com.posthog.experiments#ExperimentSetupSdkProfileSection",
+          "traits": {
+            "smithy.api#documentation": "Which SDKs call feature flags and where flags are evaluated.",
+            "smithy.api#required": {}
+          }
+        },
+        "target_surface": {
+          "target": "com.posthog.experiments#ExperimentSetupTargetSurfaceSection",
+          "traits": {
+            "smithy.api#documentation": "Traffic on the surface under test.",
+            "smithy.api#required": {}
+          }
+        },
+        "candidate_metric": {
+          "target": "com.posthog.experiments#ExperimentSetupCandidateMetricSection",
+          "traits": {
+            "smithy.api#documentation": "Traffic and baseline of the candidate primary metric.",
+            "smithy.api#required": {}
+          }
+        },
+        "previous_experiments": {
+          "target": "com.posthog.experiments#ExperimentSetupPreviousExperimentsSection",
+          "traits": {
+            "smithy.api#documentation": "Recent experiments in the project.",
+            "smithy.api#required": {}
+          }
+        },
+        "shared_metrics": {
+          "target": "com.posthog.experiments#ExperimentSetupSharedMetricsSection",
+          "traits": {
+            "smithy.api#documentation": "Most reused shared metrics.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Facts about the project that decide how to configure a new experiment. Facts only, no\nrecommendations."
+      }
+    },
+    "com.posthog.experiments#ExperimentSetupTeamDefaultsSection": {
+      "type": "structure",
+      "members": {
+        "status": {
+          "target": "com.posthog.experiments#SetupContextSectionStatusEnum",
+          "traits": {
+            "smithy.api#documentation": "'ok' when data holds the section. 'skipped' when an input the section needs was not passed. 'timed_out' when the query was too expensive to finish. 'error' when the read failed. Every status other than 'ok' leaves data null, and the other sections are still valid.\n\n* `ok` - Ok\n* `skipped` - Skipped\n* `timed_out` - Timed Out\n* `error` - Error",
+            "smithy.api#required": {}
+          }
+        },
+        "data": {
+          "target": "com.posthog.experiments#ExperimentSetupTeamDefaults",
+          "traits": {
+            "smithy.api#documentation": "The team's experiment defaults.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.experiments#SetupContextSectionStatusEnum": {
+      "type": "enum",
+      "members": {
+        "OK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ok"
+          }
+        },
+        "SKIPPED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "skipped"
+          }
+        },
+        "TIMED_OUT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "timed_out"
+          }
+        },
+        "ERROR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "error"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `ok` - Ok\n* `skipped` - Skipped\n* `timed_out` - Timed Out\n* `error` - Error"
+      }
+    },
+    "com.posthog.experiments#ExperimentSetupTeamDefaults": {
+      "type": "structure",
+      "members": {
+        "stats_method": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Default statistical method for new experiments: 'bayesian' or 'frequentist'.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "confidence_level": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Default confidence level for new experiments, for example 0.95. Null when unset.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "minimum_detectable_effect": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The team's default minimum detectable effect, as a percentage. Null when the team has not set one; product_default_minimum_detectable_effect applies then.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "product_default_minimum_detectable_effect": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The minimum detectable effect, as a percentage, that applies when the team has no default.",
+            "smithy.api#required": {}
+          }
+        },
+        "product_default_stats_method": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The statistical method that applies when the team has no default.",
+            "smithy.api#required": {}
+          }
+        },
+        "product_default_confidence_level": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The confidence level that applies when the team has no default. Both methods use the same one.",
+            "smithy.api#required": {}
+          }
+        },
+        "only_count_matured_users": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Default for counting only users whose metric window has fully passed.",
+            "smithy.api#required": {}
+          }
+        },
+        "cuped_enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Default for CUPED variance reduction on new experiments.",
+            "smithy.api#required": {}
+          }
+        },
+        "sequential_testing_enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Default for sequential testing. Applies only to the frequentist method.",
+            "smithy.api#required": {}
+          }
+        },
+        "flags_persistence_default": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Default for persisting flag values across authentication steps on new flags. It becomes the flag's ensure_experience_continuity.",
+            "smithy.api#required": {}
+          }
+        },
+        "test_account_filter_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "How many filters the team uses to identify internal and test users.",
+            "smithy.api#required": {}
+          }
+        },
+        "new_experiments_filter_test_accounts": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "A new experiment filters test accounts this way unless its own exposure criteria say otherwise. It does not follow the project's insight default.",
+            "smithy.api#required": {}
+          }
+        },
+        "default_exposure_event": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The exposure event a new experiment launched now counts by default: '$experiment_exposure' or '$feature_flag_called'.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.experiments#ExperimentSetupSdkProfileSection": {
+      "type": "structure",
+      "members": {
+        "status": {
+          "target": "com.posthog.experiments#SetupContextSectionStatusEnum",
+          "traits": {
+            "smithy.api#documentation": "'ok' when data holds the section. 'skipped' when an input the section needs was not passed. 'timed_out' when the query was too expensive to finish. 'error' when the read failed. Every status other than 'ok' leaves data null, and the other sections are still valid.\n\n* `ok` - Ok\n* `skipped` - Skipped\n* `timed_out` - Timed Out\n* `error` - Error",
+            "smithy.api#required": {}
+          }
+        },
+        "data": {
+          "target": "com.posthog.experiments#ExperimentSetupSdkProfile",
+          "traits": {
+            "smithy.api#documentation": "Which SDKs send multivariate flag calls, across the whole project.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.experiments#ExperimentSetupSdkProfile": {
+      "type": "structure",
+      "members": {
+        "window_days": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Days of flag calls read, ending now.",
+            "smithy.api#required": {}
+          }
+        },
+        "source_event": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The event read: '$experiment_exposure' when the project receives it, otherwise '$feature_flag_called'. Only one is read, because one copies the other, and only multivariate responses count either way. This says what the project's events carry today, so it can differ from team_defaults.default_exposure_event, which says what a new experiment would count.",
+            "smithy.api#required": {}
+          }
+        },
+        "computed_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the numbers were computed. They are cached for hours.",
+            "smithy.api#required": {}
+          }
+        },
+        "libs": {
+          "target": "com.posthog.experiments#ExperimentSetupSdkProfileLibsList",
+          "traits": {
+            "smithy.api#documentation": "One row per SDK, most calls first.",
+            "smithy.api#required": {}
+          }
+        },
+        "libs_truncated": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "True when more SDKs sent flag calls than libs lists.",
+            "smithy.api#required": {}
+          }
+        },
+        "flags_seen": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Distinct multivariate flag keys called in the window.",
+            "smithy.api#required": {}
+          }
+        },
+        "flags_evaluated_on_server_and_web": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "How many of those flag keys were called by both a server SDK and the web SDK.",
+            "smithy.api#required": {}
+          }
+        },
+        "evaluated_on_server_and_web": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "True when at least one flag key was called by both a server SDK and the web SDK. The same flag decided on the server and read in the browser can bucket one user into two variants.",
+            "smithy.api#required": {}
+          }
+        },
+        "libs_on_any_event": {
+          "target": "com.posthog.experiments#ExperimentSetupSdkProfileLibsOnAnyEventList",
+          "traits": {
+            "smithy.api#documentation": "Up to 10 SDKs seen on any event over the last day, most events first. Set only when libs is empty, so a project creating its first experiment still says which platforms it sends from. Null when flag calls exist, and null when this extra read timed out.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "libs_on_any_event_truncated": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "True when more SDKs sent events than libs_on_any_event lists. False when it is null.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.experiments#ExperimentSetupSdkLib": {
+      "type": "structure",
+      "members": {
+        "lib": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The $lib value of the SDK, for example 'web'.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "category": {
+          "target": "com.posthog.experiments#SdkLibCategoryEnum",
+          "traits": {
+            "smithy.api#documentation": "'web' for the JavaScript web SDK, 'mobile', 'server', or 'other' for libraries not classified.\n\n* `web` - Web\n* `mobile` - Mobile\n* `server` - Server\n* `other` - Other",
+            "smithy.api#required": {}
+          }
+        },
+        "calls": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Multivariate flag calls this SDK sent in the window.",
+            "smithy.api#required": {}
+          }
+        },
+        "distinct_ids": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Distinct ids that sent those calls.",
+            "smithy.api#required": {}
+          }
+        },
+        "device_id_share": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Share of calls that carry a $device_id. 0 when this SDK never sends one, as server SDKs don't.",
+            "smithy.api#required": {}
+          }
+        },
+        "locally_evaluated_share": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Share of calls evaluated locally in the SDK instead of by the flags service. Null when no call from this SDK reported it, as the web SDK doesn't.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "anonymous_share": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Share of distinct ids that were anonymous, among those that report whether they are identified. Null when no call from this SDK reported it.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.experiments#SdkLibCategoryEnum": {
+      "type": "enum",
+      "members": {
+        "WEB": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "web"
+          }
+        },
+        "MOBILE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mobile"
+          }
+        },
+        "SERVER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "server"
+          }
+        },
+        "OTHER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "other"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `web` - Web\n* `mobile` - Mobile\n* `server` - Server\n* `other` - Other"
+      }
+    },
+    "com.posthog.experiments#ExperimentSetupSdkProfileLibsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.experiments#ExperimentSetupSdkLib"
+      },
+      "traits": {
+        "smithy.api#documentation": "One row per SDK, most calls first."
+      }
+    },
+    "com.posthog.experiments#ExperimentSetupLibActivity": {
+      "type": "structure",
+      "members": {
+        "lib": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The $lib value of the SDK, for example 'web'.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "category": {
+          "target": "com.posthog.experiments#SdkLibCategoryEnum",
+          "traits": {
+            "smithy.api#documentation": "'web', 'mobile', 'server', or 'other'.\n\n* `web` - Web\n* `mobile` - Mobile\n* `server` - Server\n* `other` - Other",
+            "smithy.api#required": {}
+          }
+        },
+        "events": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Events this SDK sent in the window, of any kind.",
+            "smithy.api#required": {}
+          }
+        },
+        "distinct_ids": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Distinct ids that sent those events.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.experiments#ExperimentSetupSdkProfileLibsOnAnyEventList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.experiments#ExperimentSetupLibActivity"
+      },
+      "traits": {
+        "smithy.api#documentation": "Up to 10 SDKs seen on any event over the last day, most events first. Set only when libs is empty, so a project creating its first experiment still says which platforms it sends from. Null when flag calls exist, and null when this extra read timed out."
+      }
+    },
+    "com.posthog.experiments#ExperimentSetupTargetSurfaceSection": {
+      "type": "structure",
+      "members": {
+        "status": {
+          "target": "com.posthog.experiments#SetupContextSectionStatusEnum",
+          "traits": {
+            "smithy.api#documentation": "'ok' when data holds the section. 'skipped' when an input the section needs was not passed. 'timed_out' when the query was too expensive to finish. 'error' when the read failed. Every status other than 'ok' leaves data null, and the other sections are still valid.\n\n* `ok` - Ok\n* `skipped` - Skipped\n* `timed_out` - Timed Out\n* `error` - Error",
+            "smithy.api#required": {}
+          }
+        },
+        "data": {
+          "target": "com.posthog.experiments#ExperimentSetupTargetSurface",
+          "traits": {
+            "smithy.api#documentation": "Traffic on the target surface. Skipped without target_event.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.experiments#ExperimentSetupTargetSurface": {
+      "type": "structure",
+      "members": {
+        "window_days": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Days of target events read, ending now.",
+            "smithy.api#required": {}
+          }
+        },
+        "source_event": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The target event that was counted.",
+            "smithy.api#required": {}
+          }
+        },
+        "target_url_contains": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The URL filter that was applied, or null.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "target_properties": {
+          "target": "com.posthog.experiments#ExperimentSetupPropertyFilterList",
+          "traits": {
+            "smithy.api#documentation": "The property filters that were applied to the target event. Empty when none were passed.",
+            "smithy.api#required": {}
+          }
+        },
+        "computed_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the numbers were computed. They are cached for an hour.",
+            "smithy.api#required": {}
+          }
+        },
+        "test_accounts_filtered": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether test accounts were left out. It follows the default a new experiment gets, so the counts match the population that experiment analyzes. False when the project defines no test-account filters.",
+            "smithy.api#required": {}
+          }
+        },
+        "unique_persons": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Persons who sent the target event in the window.",
+            "smithy.api#required": {}
+          }
+        },
+        "exposures_per_day_estimate": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "unique_persons divided by window_days. Pass it as exposure_rate_per_day to experiment-calculate-running-time, scaled by the share of traffic the experiment will include.",
+            "smithy.api#required": {}
+          }
+        },
+        "libs": {
+          "target": "com.posthog.experiments#ExperimentSetupTargetSurfaceLibsList",
+          "traits": {
+            "smithy.api#documentation": "Up to 5 SDKs, most persons reached first.",
+            "smithy.api#required": {}
+          }
+        },
+        "libs_truncated": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "True when more SDKs sent target events than libs lists.",
+            "smithy.api#required": {}
+          }
+        },
+        "anonymous_share": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Among all distinct ids that report whether they are identified, whichever SDK they came from, the share that was anonymous. Null when no target event reported it.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "device_id_share": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Share of all target events that carry a $device_id. Null when there were no target events.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.experiments#ExperimentSetupLibReach": {
+      "type": "structure",
+      "members": {
+        "lib": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The $lib value that sent the target events.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "category": {
+          "target": "com.posthog.experiments#SdkLibCategoryEnum",
+          "traits": {
+            "smithy.api#documentation": "'web', 'mobile', 'server', or 'other'.\n\n* `web` - Web\n* `mobile` - Mobile\n* `server` - Server\n* `other` - Other",
+            "smithy.api#required": {}
+          }
+        },
+        "unique_persons": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Persons who sent the target event from this SDK.",
+            "smithy.api#required": {}
+          }
+        },
+        "anonymous_share": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Among this SDK's distinct ids that report whether they are identified, the share that was anonymous. Null when no target event from this SDK reported it.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "device_id_share": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Share of this SDK's target events that carry a $device_id. 0 when it never sends one.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.experiments#ExperimentSetupTargetSurfaceLibsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.experiments#ExperimentSetupLibReach"
+      },
+      "traits": {
+        "smithy.api#documentation": "Up to 5 SDKs, most persons reached first."
+      }
+    },
+    "com.posthog.experiments#ExperimentSetupCandidateMetricSection": {
+      "type": "structure",
+      "members": {
+        "status": {
+          "target": "com.posthog.experiments#SetupContextSectionStatusEnum",
+          "traits": {
+            "smithy.api#documentation": "'ok' when data holds the section. 'skipped' when an input the section needs was not passed. 'timed_out' when the query was too expensive to finish. 'error' when the read failed. Every status other than 'ok' leaves data null, and the other sections are still valid.\n\n* `ok` - Ok\n* `skipped` - Skipped\n* `timed_out` - Timed Out\n* `error` - Error",
+            "smithy.api#required": {}
+          }
+        },
+        "data": {
+          "target": "com.posthog.experiments#ExperimentSetupCandidateMetric",
+          "traits": {
+            "smithy.api#documentation": "Baseline of the candidate metric. Skipped without metric_event.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.experiments#ExperimentSetupCandidateMetric": {
+      "type": "structure",
+      "members": {
+        "window_days": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Days of events read, ending now.",
+            "smithy.api#required": {}
+          }
+        },
+        "source_event": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The metric event that was counted.",
+            "smithy.api#required": {}
+          }
+        },
+        "metric_properties": {
+          "target": "com.posthog.experiments#ExperimentSetupPropertyFilterList",
+          "traits": {
+            "smithy.api#documentation": "The property filters that were applied to the metric event. Empty when none were passed.",
+            "smithy.api#required": {}
+          }
+        },
+        "target_event": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The target event the baseline starts from, or null when none was passed.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "computed_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the numbers were computed. They are cached for an hour.",
+            "smithy.api#required": {}
+          }
+        },
+        "test_accounts_filtered": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether test accounts were left out. It follows the default a new experiment gets, so the baseline matches the population that experiment analyzes. False when the project defines no test-account filters.",
+            "smithy.api#required": {}
+          }
+        },
+        "persons_reached": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Persons who sent the target event. Null without target_event.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "persons_converted": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Persons who sent the metric event at or after their first target event. Null without target_event.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "conversion_rate": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "persons_converted divided by persons_reached. Null without target_event.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "funnel_baseline_stats": {
+          "target": "com.posthog.experiments#ExperimentSetupFunnelBaseline",
+          "traits": {
+            "smithy.api#documentation": "Pass as baseline_stats to experiment-calculate-running-time with metric_type 'funnel'. Null without target_event.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "mean_count_baseline_stats": {
+          "target": "com.posthog.experiments#ExperimentSetupMeanCountBaseline",
+          "traits": {
+            "smithy.api#documentation": "Pass as baseline_stats to experiment-calculate-running-time with metric_type 'mean_count'. It counts metric events in the whole window, not only after the first target event, so it can overstate the baseline. Null without target_event.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "note": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "What the mean count baseline counts.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "event_volume": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Metric events in the window, with metric_properties applied. 0 means the event did not occur under those filters, so check the event name before you trust a conversion_rate of 0.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "unique_persons": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Persons who sent the metric event, with metric_properties applied.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.experiments#ExperimentSetupFunnelBaseline": {
+      "type": "structure",
+      "members": {
+        "number_of_samples": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Persons who reached the target.",
+            "smithy.api#required": {}
+          }
+        },
+        "sum": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Persons who converted.",
+            "smithy.api#required": {}
+          }
+        },
+        "step_counts": {
+          "target": "com.posthog.experiments#ExperimentSetupFunnelBaselineStepCountsList",
+          "traits": {
+            "smithy.api#documentation": "One entry: the persons who converted.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.experiments#ExperimentSetupFunnelBaselineStepCountsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Double"
+      },
+      "traits": {
+        "smithy.api#documentation": "One entry: the persons who converted."
+      }
+    },
+    "com.posthog.experiments#ExperimentSetupMeanCountBaseline": {
+      "type": "structure",
+      "members": {
+        "number_of_samples": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Persons who reached the target.",
+            "smithy.api#required": {}
+          }
+        },
+        "sum": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Metric events those persons sent in the whole window.",
+            "smithy.api#required": {}
+          }
+        },
+        "sum_squares": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Sum over persons of their metric event count squared.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.experiments#ExperimentSetupPreviousExperimentsSection": {
+      "type": "structure",
+      "members": {
+        "status": {
+          "target": "com.posthog.experiments#SetupContextSectionStatusEnum",
+          "traits": {
+            "smithy.api#documentation": "'ok' when data holds the section. 'skipped' when an input the section needs was not passed. 'timed_out' when the query was too expensive to finish. 'error' when the read failed. Every status other than 'ok' leaves data null, and the other sections are still valid.\n\n* `ok` - Ok\n* `skipped` - Skipped\n* `timed_out` - Timed Out\n* `error` - Error",
+            "smithy.api#required": {}
+          }
+        },
+        "data": {
+          "target": "com.posthog.experiments#ExperimentSetupPreviousExperiments",
+          "traits": {
+            "smithy.api#documentation": "How the project's recent experiments were set up and how they went.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.experiments#ExperimentSetupPreviousExperiments": {
+      "type": "structure",
+      "members": {
+        "experiments": {
+          "target": "com.posthog.experiments#ExperimentSetupPreviousExperimentsExperimentsList",
+          "traits": {
+            "smithy.api#documentation": "Most recently launched first, then drafts. Archived experiments are included, deleted ones are not.",
+            "smithy.api#required": {}
+          }
+        },
+        "summary": {
+          "target": "com.posthog.experiments#ExperimentSetupPreviousExperimentsSummary",
+          "traits": {
+            "smithy.api#documentation": "Counts over the listed experiments.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.experiments#ExperimentSetupPreviousExperiment": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Experiment id.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Experiment name.",
+            "smithy.api#required": {}
+          }
+        },
+        "state": {
+          "target": "com.posthog.experiments#PreviousExperimentStateEnum",
+          "traits": {
+            "smithy.api#documentation": "'draft', 'running', 'paused' (running with its flag turned off), 'exposure_frozen' (running with enrollment closed to the already-exposed users) or 'stopped'.\n\n* `draft` - Draft\n* `running` - Running\n* `paused` - Paused\n* `exposure_frozen` - Exposure Frozen\n* `stopped` - Stopped",
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the experiment was created.",
+            "smithy.api#required": {}
+          }
+        },
+        "start_date": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When it launched. Null for drafts.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "end_date": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When it ended. Null unless stopped.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "conclusion": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The recorded conclusion, for example 'won' or 'inconclusive', or null.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "feature_flag_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Key of the feature flag the experiment runs on.",
+            "smithy.api#required": {}
+          }
+        },
+        "variant_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Variants on the flag, control included.",
+            "smithy.api#required": {}
+          }
+        },
+        "split_even": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether variants split traffic evenly, read from the flag as it stands now. 34/33/33 counts as even. Null on a boolean flag, which has no variants, and null when serving_single_variant is set.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "serving_single_variant": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The one variant the flag now serves to everyone it matches, or null. Shipping a variant rewrites the flag this way, so the split the experiment ran with cannot be read from the flag any more. Only a launched experiment can be shipped, so a draft at 100/0 reports its split as it stands.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "rollout_percentage": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Rollout percentage of the flag's first release condition, read from the flag as it stands now.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "multiple_variant_handling": {
+          "target": "com.posthog.experiments#ExperimentWatchMultipleVariantHandlingEnum",
+          "traits": {
+            "smithy.api#documentation": "How users seen in several variants are analyzed, with the default resolved.\n\n* `exclude` - exclude\n* `first_seen` - first_seen",
+            "smithy.api#required": {}
+          }
+        },
+        "multiple_variant_handling_set": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the experiment sets multiple_variant_handling itself instead of using the default.",
+            "smithy.api#required": {}
+          }
+        },
+        "ensure_experience_continuity": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the flag keeps a user's variant across authentication steps, read from the flag as it stands now.",
+            "smithy.api#required": {}
+          }
+        },
+        "bucketing_identifier": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "What the flag buckets users on: 'distinct_id' (default) or 'device_id'. Read from the flag as it stands now.",
+            "smithy.api#required": {}
+          }
+        },
+        "evaluation_runtime": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Where the flag may be evaluated: 'server', 'client' or 'all'. Read from the flag as it stands now.",
+            "smithy.api#required": {}
+          }
+        },
+        "group_aggregation": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the flag buckets groups instead of persons.",
+            "smithy.api#required": {}
+          }
+        },
+        "custom_exposure_event": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "An exposure event other than the default one, or null. A default event narrowed by exposure_property_filters is still the default event, so it stays null here.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "custom_exposure_action_id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Action used as the custom exposure, or null.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "exposure_property_filters": {
+          "target": "com.posthog.experiments#ExperimentSetupStoredPropertyFilterList",
+          "traits": {
+            "smithy.api#documentation": "Property filters the exposure is narrowed by, whichever event it counts. An experiment that counts exposure only where $pathname is '/' is the precedent for a new test on that page. Any filter type can appear, cohorts included. Empty when the exposure is not narrowed.",
+            "smithy.api#required": {}
+          }
+        },
+        "activation_event": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Event a user must send after their first exposure event before they count as exposed, or null. This is activation mode, which sits on top of the default exposure event.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "activation_action_id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Action used for activation instead of an event, or null.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "filter_test_accounts": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether exposures leave out test accounts.",
+            "smithy.api#required": {}
+          }
+        },
+        "primary_metric_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Primary metrics, shared ones included.",
+            "smithy.api#required": {}
+          }
+        },
+        "secondary_metric_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Secondary metrics, shared ones included.",
+            "smithy.api#required": {}
+          }
+        },
+        "shared_metric_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Shared metrics attached to the experiment.",
+            "smithy.api#required": {}
+          }
+        },
+        "primary_metric_types": {
+          "target": "com.posthog.experiments#ExperimentSetupPreviousExperimentPrimaryMetricTypesList",
+          "traits": {
+            "smithy.api#documentation": "metric_type of each primary metric, for example 'mean', 'funnel', 'ratio' or 'retention'.",
+            "smithy.api#required": {}
+          }
+        },
+        "primary_metric_events": {
+          "target": "com.posthog.experiments#ExperimentSetupPreviousExperimentPrimaryMetricEventsList",
+          "traits": {
+            "smithy.api#documentation": "Event names the primary metrics count.",
+            "smithy.api#required": {}
+          }
+        },
+        "primary_metric_action_ids": {
+          "target": "com.posthog.experiments#ExperimentSetupPreviousExperimentPrimaryMetricActionIdsList",
+          "traits": {
+            "smithy.api#documentation": "Actions the primary metrics count.",
+            "smithy.api#required": {}
+          }
+        },
+        "minimum_detectable_effect": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Minimum detectable effect saved from the running time calculator, or null.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "stats_method": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "'bayesian' or 'frequentist'.",
+            "smithy.api#required": {}
+          }
+        },
+        "has_holdout": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the experiment uses a holdout group.",
+            "smithy.api#required": {}
+          }
+        },
+        "outcome": {
+          "target": "com.posthog.experiments#ExperimentSetupOutcome",
+          "traits": {
+            "smithy.api#documentation": "From the completed result that covers the latest data in the experiment's current run. A funnel or a mean primary metric is chosen over a retention or a ratio one, because only its samples are the analyzed population. Null when no result exists for that run, which is also the case for older metric definitions that results are never stored for.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.experiments#PreviousExperimentStateEnum": {
+      "type": "enum",
+      "members": {
+        "DRAFT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "draft"
+          }
+        },
+        "RUNNING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "running"
+          }
+        },
+        "PAUSED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "paused"
+          }
+        },
+        "EXPOSURE_FROZEN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "exposure_frozen"
+          }
+        },
+        "STOPPED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "stopped"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `draft` - Draft\n* `running` - Running\n* `paused` - Paused\n* `exposure_frozen` - Exposure Frozen\n* `stopped` - Stopped"
+      }
+    },
+    "com.posthog.experiments#ExperimentSetupStoredPropertyFilterList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.experiments#ExperimentSetupStoredPropertyFilterListItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "Property filters as an experiment stored them. Any filter type can appear, cohorts included."
+      }
+    },
+    "com.posthog.experiments#ExperimentSetupStoredPropertyFilterListItem": {
+      "type": "union",
+      "members": {
+        "EventPropertyFilter": {
+          "target": "com.posthog.experiments#EventPropertyFilter"
+        },
+        "PersonPropertyFilter": {
+          "target": "com.posthog.experiments#PersonPropertyFilter"
+        },
+        "PersonMetadataPropertyFilter": {
+          "target": "com.posthog.experiments#PersonMetadataPropertyFilter"
+        },
+        "ElementPropertyFilter": {
+          "target": "com.posthog.experiments#ElementPropertyFilter"
+        },
+        "EventMetadataPropertyFilter": {
+          "target": "com.posthog.experiments#EventMetadataPropertyFilter"
+        },
+        "SessionPropertyFilter": {
+          "target": "com.posthog.experiments#SessionPropertyFilter"
+        },
+        "CohortPropertyFilter": {
+          "target": "com.posthog.experiments#CohortPropertyFilter"
+        },
+        "RecordingPropertyFilter": {
+          "target": "com.posthog.experiments#RecordingPropertyFilter"
+        },
+        "LogEntryPropertyFilter": {
+          "target": "com.posthog.experiments#LogEntryPropertyFilter"
+        },
+        "GroupPropertyFilter": {
+          "target": "com.posthog.experiments#GroupPropertyFilter"
+        },
+        "FeaturePropertyFilter": {
+          "target": "com.posthog.experiments#FeaturePropertyFilter"
+        },
+        "FlagPropertyFilter": {
+          "target": "com.posthog.experiments#FlagPropertyFilter"
+        },
+        "HogQLPropertyFilter": {
+          "target": "com.posthog.experiments#HogQLPropertyFilter"
+        },
+        "EmptyPropertyFilter": {
+          "target": "com.posthog.experiments#EmptyPropertyFilter"
+        },
+        "DataWarehousePropertyFilter": {
+          "target": "com.posthog.experiments#DataWarehousePropertyFilter"
+        },
+        "DataWarehousePersonPropertyFilter": {
+          "target": "com.posthog.experiments#DataWarehousePersonPropertyFilter"
+        },
+        "ErrorTrackingIssueFilter": {
+          "target": "com.posthog.experiments#ErrorTrackingIssueFilter"
+        },
+        "LogPropertyFilter": {
+          "target": "com.posthog.experiments#LogPropertyFilter"
+        },
+        "MetricPropertyFilter": {
+          "target": "com.posthog.experiments#MetricPropertyFilter"
+        },
+        "SpanPropertyFilter": {
+          "target": "com.posthog.experiments#SpanPropertyFilter"
+        },
+        "RevenueAnalyticsPropertyFilter": {
+          "target": "com.posthog.experiments#RevenueAnalyticsPropertyFilter"
+        },
+        "AccountCustomPropertyFilter": {
+          "target": "com.posthog.experiments#AccountCustomPropertyFilter"
+        },
+        "WorkflowVariablePropertyFilter": {
+          "target": "com.posthog.experiments#WorkflowVariablePropertyFilter"
+        },
+        "BehavioralPropertyFilter": {
+          "target": "com.posthog.experiments#BehavioralPropertyFilter"
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.experiments#ExperimentSetupPreviousExperimentPrimaryMetricTypesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "metric_type of each primary metric, for example 'mean', 'funnel', 'ratio' or 'retention'."
+      }
+    },
+    "com.posthog.experiments#ExperimentSetupPreviousExperimentPrimaryMetricEventsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Event names the primary metrics count."
+      }
+    },
+    "com.posthog.experiments#ExperimentSetupPreviousExperimentPrimaryMetricActionIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Integer"
+      },
+      "traits": {
+        "smithy.api#documentation": "Actions the primary metrics count."
+      }
+    },
+    "com.posthog.experiments#ExperimentSetupOutcome": {
+      "type": "structure",
+      "members": {
+        "metric_type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "metric_type of the metric this outcome describes: 'funnel', 'mean', 'ratio' or 'retention'.",
+            "smithy.api#required": {}
+          }
+        },
+        "metric_samples": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Units the result counted across all variants. What a unit is depends on metric_type, so read analyzed_exposures where you need exposures. Null when the result stores no sample counts.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "analyzed_exposures": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "metric_samples, but only where the metric type makes it the analyzed population: 'funnel' and 'mean'. Users seen in several variants are left out under the default handling, so it can be lower than exposures. Null for 'retention', whose samples are the units that did the start event, and for 'ratio', whose samples are not exposures either. Also null when the result stores no sample counts, which is not the same as analyzing nobody.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "control_baseline_value": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "What control measured: a conversion rate for 'funnel', an average per unit for 'mean'. Compare it with the rate on the surface itself to see whether the exposure was diluted by users who never reached the surface. Null for other metric types and when control analyzed no units.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "any_variant_significant": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether any variant was significant on that metric in that result.",
+            "smithy.api#required": {}
+          }
+        },
+        "result_completed_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When that result was computed.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "result_data_through": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The last moment the result covers. A backfill writes an older day with a recent completed_at, so this says how current the numbers are.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.experiments#ExperimentSetupPreviousExperimentsExperimentsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.experiments#ExperimentSetupPreviousExperiment"
+      },
+      "traits": {
+        "smithy.api#documentation": "Most recently launched first, then drafts. Archived experiments are included, deleted ones are not."
+      }
+    },
+    "com.posthog.experiments#ExperimentSetupPreviousExperimentsSummary": {
+      "type": "structure",
+      "members": {
+        "total": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Experiments listed.",
+            "smithy.api#required": {}
+          }
+        },
+        "launched": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Listed experiments that launched.",
+            "smithy.api#required": {}
+          }
+        },
+        "launched_without_results": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Launched experiments with no completed result.",
+            "smithy.api#required": {}
+          }
+        },
+        "launched_with_unknown_analyzed_exposures": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Launched experiments whose result says nothing about exposures: it stores no sample counts, or its metric is a retention or a ratio one, whose samples are not exposures.",
+            "smithy.api#required": {}
+          }
+        },
+        "launched_with_zero_analyzed_exposures": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Launched experiments whose latest result analyzed no one.",
+            "smithy.api#required": {}
+          }
+        },
+        "launched_with_under_100_analyzed_exposures": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Launched experiments whose latest result analyzed fewer than 100 units, zero included.",
+            "smithy.api#required": {}
+          }
+        },
+        "using_device_id_bucketing": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Experiments that bucket on device id.",
+            "smithy.api#required": {}
+          }
+        },
+        "using_persistence": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Experiments that keep variants across authentication steps.",
+            "smithy.api#required": {}
+          }
+        },
+        "using_custom_exposure": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Experiments with a custom exposure event or action.",
+            "smithy.api#required": {}
+          }
+        },
+        "using_exposure_property_filters": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Experiments whose exposure is narrowed by property filters.",
+            "smithy.api#required": {}
+          }
+        },
+        "using_activation": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Experiments that use an activation event or action.",
+            "smithy.api#required": {}
+          }
+        },
+        "using_uneven_split": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Experiments whose variants split traffic unevenly. A flag that now serves one variant is left out, because its split no longer says what the experiment ran with.",
+            "smithy.api#required": {}
+          }
+        },
+        "serving_single_variant": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Launched experiments whose flag now serves one variant to everyone it matches, usually after shipping.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.experiments#ExperimentSetupSharedMetricsSection": {
+      "type": "structure",
+      "members": {
+        "status": {
+          "target": "com.posthog.experiments#SetupContextSectionStatusEnum",
+          "traits": {
+            "smithy.api#documentation": "'ok' when data holds the section. 'skipped' when an input the section needs was not passed. 'timed_out' when the query was too expensive to finish. 'error' when the read failed. Every status other than 'ok' leaves data null, and the other sections are still valid.\n\n* `ok` - Ok\n* `skipped` - Skipped\n* `timed_out` - Timed Out\n* `error` - Error",
+            "smithy.api#required": {}
+          }
+        },
+        "data": {
+          "target": "com.posthog.experiments#ExperimentSetupSharedMetrics",
+          "traits": {
+            "smithy.api#documentation": "Shared metrics the project reuses.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.experiments#ExperimentSetupSharedMetrics": {
+      "type": "structure",
+      "members": {
+        "metric_event": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The metric_event that was matched, or null.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "metric_event_match_truncated": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "True when the project has more shared metrics than the event match could read, so a match further down the list may be missing. Matching is capped for cost.",
+            "smithy.api#required": {}
+          }
+        },
+        "metrics": {
+          "target": "com.posthog.experiments#ExperimentSetupSharedMetricsMetricsList",
+          "traits": {
+            "smithy.api#documentation": "Metrics that match metric_event first, then most reused. A use counts when it is on an experiment you can open and that is not deleted, so the counts follow your access.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.experiments#ExperimentSetupSharedMetric": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Shared metric id, to attach it instead of creating an inline metric.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Shared metric name.",
+            "smithy.api#required": {}
+          }
+        },
+        "metric_type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "'mean', 'funnel', 'ratio' or 'retention', or null for older metrics.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "events": {
+          "target": "com.posthog.experiments#ExperimentSetupSharedMetricEventsList",
+          "traits": {
+            "smithy.api#documentation": "Event names the metric counts.",
+            "smithy.api#required": {}
+          }
+        },
+        "action_ids": {
+          "target": "com.posthog.experiments#ExperimentSetupSharedMetricActionIdsList",
+          "traits": {
+            "smithy.api#documentation": "Actions the metric counts.",
+            "smithy.api#required": {}
+          }
+        },
+        "used_as_primary": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Experiments that use it as a primary metric.",
+            "smithy.api#required": {}
+          }
+        },
+        "used_as_secondary": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Experiments that use it as a secondary metric.",
+            "smithy.api#required": {}
+          }
+        },
+        "last_used_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When it was last attached to an experiment, or null.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "matches_metric_event": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the metric counts metric_event, directly or through an action. Null when no metric_event was passed.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "metric_event_roles": {
+          "target": "com.posthog.experiments#ExperimentSetupSharedMetricMetricEventRolesList",
+          "traits": {
+            "smithy.api#documentation": "Where metric_event sits in the metric: 'funnel_step' and 'funnel_final_step' for a funnel, 'mean_source', 'ratio_numerator', 'ratio_denominator', 'retention_start' or 'retention_completion'. A metric that only starts from the event is a different precedent from one that converts on it. Empty when the metric does not count it, and null when no metric_event was passed.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.experiments#ExperimentSetupSharedMetricEventsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Event names the metric counts."
+      }
+    },
+    "com.posthog.experiments#ExperimentSetupSharedMetricActionIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Integer"
+      },
+      "traits": {
+        "smithy.api#documentation": "Actions the metric counts."
+      }
+    },
+    "com.posthog.experiments#ExperimentSetupSharedMetricMetricEventRolesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Where metric_event sits in the metric: 'funnel_step' and 'funnel_final_step' for a funnel, 'mean_source', 'ratio_numerator', 'ratio_denominator', 'retention_start' or 'retention_completion'. A metric that only starts from the event is a different precedent from one that converts on it. Empty when the metric does not count it, and null when no metric_event was passed."
+      }
+    },
+    "com.posthog.experiments#ExperimentSetupSharedMetricsMetricsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.experiments#ExperimentSetupSharedMetric"
+      },
+      "traits": {
+        "smithy.api#documentation": "Metrics that match metric_event first, then most reused. A use counts when it is on an experiment you can open and that is not deleted, so the counts follow your access."
+      }
+    },
+    "com.posthog.experiments#CreateExperimentsSetupContext": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.experiments#CreateExperimentsSetupContextRequest"
+      },
+      "output": {
+        "target": "com.posthog.experiments#ExperimentSetupContextResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/experiments/setup_context/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Facts about this project that decide how to configure a new experiment.\n\nReturns the team's experiment defaults, which SDKs call feature flags, traffic on a target\nsurface, the baseline of a candidate metric, how recent experiments were set up, and the\nmost reused shared metrics. Each section has its own status, so a slow or failed read\nleaves the others valid. POST because the inputs describe a plan rather than a resource;\nthe endpoint only reads."
+      }
+    },
     "com.posthog.experiments#GetExperimentsStatRequest": {
       "type": "structure",
       "members": {
@@ -9781,6 +12536,9 @@
           "target": "com.posthog.experiments#CreateExperimentsFreezeExposure"
         },
         {
+          "target": "com.posthog.experiments#GetExperimentsInSessionExposure"
+        },
+        {
           "target": "com.posthog.experiments#CreateExperimentsLaunch"
         },
         {
@@ -9791,6 +12549,9 @@
         },
         {
           "target": "com.posthog.experiments#GetExperimentsMetricsRecalculationLatest"
+        },
+        {
+          "target": "com.posthog.experiments#ExperimentsMigrateCreate"
         },
         {
           "target": "com.posthog.experiments#CreateExperimentsPause"
@@ -9823,10 +12584,16 @@
           "target": "com.posthog.experiments#CreateExperimentsUnfreezeExposure"
         },
         {
+          "target": "com.posthog.experiments#ExperimentsBulkUpdateTagsCreate"
+        },
+        {
           "target": "com.posthog.experiments#CreateExperimentsCalculateRunningTime"
         },
         {
           "target": "com.posthog.experiments#ExperimentsCreateFromPromptCreate"
+        },
+        {
+          "target": "com.posthog.experiments#GetExperimentsMatchingIds"
         },
         {
           "target": "com.posthog.experiments#GetExperimentsPromptTemplate"
@@ -9836,6 +12603,9 @@
         },
         {
           "target": "com.posthog.experiments#CreateExperimentsSessionContext"
+        },
+        {
+          "target": "com.posthog.experiments#CreateExperimentsSetupContext"
         },
         {
           "target": "com.posthog.experiments#GetExperimentsStat"

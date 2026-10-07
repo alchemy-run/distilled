@@ -95,21 +95,19 @@ export const BulkUpdateStatusResponse = /*@__PURE__*/ S.suspend(() =>
     updated: S.Number,
     ids: BulkUpdateStatusResponseIdsList,
   }),
-).annotate({
-  identifier: "BulkUpdateStatusResponse",
-}) as any as S.Schema<BulkUpdateStatusResponse>;
+).annotate({ identifier: "BulkUpdateStatusResponse" }) as any as S.Schema<BulkUpdateStatusResponse>;
 
-/** List of object IDs to update tags on. */
-export type ConversationsTicketsBulkUpdateTagsCreateRequestIdsList = Array<number>;
+/** List of object UUIDs to update tags on. */
+export type ConversationsTicketsBulkUpdateTagsCreateRequestIdsList = Array<string>;
 export const ConversationsTicketsBulkUpdateTagsCreateRequestIdsList = /*@__PURE__*/ S.Array(
-  S.Number,
+  S.String,
 ) as any as S.Schema<ConversationsTicketsBulkUpdateTagsCreateRequestIdsList>;
 
 /** * `add` - add * `remove` - remove * `set` - set */
 export type BulkUpdateTagsActionEnum = "add" | "remove" | "set";
 export const BulkUpdateTagsActionEnum = S.String;
 
-/** Tag names to add, remove, or set. */
+/** Tag names to add, remove, or set (up to 100 per request, 255 characters each). */
 export type ConversationsTicketsBulkUpdateTagsCreateRequestTagsList = Array<string>;
 export const ConversationsTicketsBulkUpdateTagsCreateRequestTagsList = /*@__PURE__*/ S.Array(
   S.String,
@@ -118,19 +116,19 @@ export const ConversationsTicketsBulkUpdateTagsCreateRequestTagsList = /*@__PURE
 export interface ConversationsTicketsBulkUpdateTagsCreateRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
-  /** List of object IDs to update tags on. */
-  ids?: ConversationsTicketsBulkUpdateTagsCreateRequestIdsList;
+  /** List of object UUIDs to update tags on. */
+  ids: ConversationsTicketsBulkUpdateTagsCreateRequestIdsList;
   /** 'add' merges with existing tags, 'remove' deletes specific tags, 'set' replaces all tags. * `add` - add * `remove` - remove * `set` - set */
-  action?: BulkUpdateTagsActionEnum | (string & {});
-  /** Tag names to add, remove, or set. */
-  tags?: ConversationsTicketsBulkUpdateTagsCreateRequestTagsList;
+  action: BulkUpdateTagsActionEnum | (string & {});
+  /** Tag names to add, remove, or set (up to 100 per request, 255 characters each). */
+  tags: ConversationsTicketsBulkUpdateTagsCreateRequestTagsList;
 }
 export const ConversationsTicketsBulkUpdateTagsCreateRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project_id: S.String.pipe(T.Label()),
-    ids: S.optional(ConversationsTicketsBulkUpdateTagsCreateRequestIdsList),
-    action: S.optional(BulkUpdateTagsActionEnum),
-    tags: S.optional(ConversationsTicketsBulkUpdateTagsCreateRequestTagsList),
+    ids: ConversationsTicketsBulkUpdateTagsCreateRequestIdsList,
+    action: BulkUpdateTagsActionEnum,
+    tags: ConversationsTicketsBulkUpdateTagsCreateRequestTagsList,
   }).pipe(
     T.Http({
       method: "POST",
@@ -142,59 +140,64 @@ export const ConversationsTicketsBulkUpdateTagsCreateRequest = /*@__PURE__*/ S.s
   identifier: "ConversationsTicketsBulkUpdateTagsCreateRequest",
 }) as any as S.Schema<ConversationsTicketsBulkUpdateTagsCreateRequest>;
 
-export type BulkUpdateTagsItemTagsList = Array<string>;
-export const BulkUpdateTagsItemTagsList = /*@__PURE__*/ S.Array(
+/** The object's full tag list after the update. */
+export type BulkUpdateTagsUUIDItemTagsList = Array<string>;
+export const BulkUpdateTagsUUIDItemTagsList = /*@__PURE__*/ S.Array(
   S.String,
-) as any as S.Schema<BulkUpdateTagsItemTagsList>;
+) as any as S.Schema<BulkUpdateTagsUUIDItemTagsList>;
 
-export interface BulkUpdateTagsItem {
-  id?: number;
-  tags?: BulkUpdateTagsItemTagsList;
+export interface BulkUpdateTagsUUIDItem {
+  /** UUID of the object whose tags were updated. */
+  id: string;
+  /** The object's full tag list after the update. */
+  tags: BulkUpdateTagsUUIDItemTagsList;
 }
-export const BulkUpdateTagsItem = /*@__PURE__*/ S.suspend(() =>
+export const BulkUpdateTagsUUIDItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    id: S.optional(S.Number),
-    tags: S.optional(BulkUpdateTagsItemTagsList),
+    id: S.String,
+    tags: BulkUpdateTagsUUIDItemTagsList,
+  }),
+).annotate({ identifier: "BulkUpdateTagsUUIDItem" }) as any as S.Schema<BulkUpdateTagsUUIDItem>;
+
+/** Objects whose tags were successfully updated. */
+export type BulkUpdateTagsUUIDResponseUpdatedList = Array<BulkUpdateTagsUUIDItem>;
+export const BulkUpdateTagsUUIDResponseUpdatedList = /*@__PURE__*/ S.Array(
+  BulkUpdateTagsUUIDItem,
+) as any as S.Schema<BulkUpdateTagsUUIDResponseUpdatedList>;
+
+export interface BulkUpdateTagsUUIDError {
+  /** UUID of the object that was skipped. */
+  id: string;
+  /** Why the object was skipped, e.g. 'Not found or no edit access'. */
+  reason: string;
+}
+export const BulkUpdateTagsUUIDError = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    reason: S.String,
+  }),
+).annotate({ identifier: "BulkUpdateTagsUUIDError" }) as any as S.Schema<BulkUpdateTagsUUIDError>;
+
+/** Objects that were skipped, with a reason each. */
+export type BulkUpdateTagsUUIDResponseSkippedList = Array<BulkUpdateTagsUUIDError>;
+export const BulkUpdateTagsUUIDResponseSkippedList = /*@__PURE__*/ S.Array(
+  BulkUpdateTagsUUIDError,
+) as any as S.Schema<BulkUpdateTagsUUIDResponseSkippedList>;
+
+export interface BulkUpdateTagsUUIDResponse {
+  /** Objects whose tags were successfully updated. */
+  updated: BulkUpdateTagsUUIDResponseUpdatedList;
+  /** Objects that were skipped, with a reason each. */
+  skipped: BulkUpdateTagsUUIDResponseSkippedList;
+}
+export const BulkUpdateTagsUUIDResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    updated: BulkUpdateTagsUUIDResponseUpdatedList,
+    skipped: BulkUpdateTagsUUIDResponseSkippedList,
   }),
 ).annotate({
-  identifier: "BulkUpdateTagsItem",
-}) as any as S.Schema<BulkUpdateTagsItem>;
-
-export type BulkUpdateTagsResponseUpdatedList = Array<BulkUpdateTagsItem>;
-export const BulkUpdateTagsResponseUpdatedList = /*@__PURE__*/ S.Array(
-  BulkUpdateTagsItem,
-) as any as S.Schema<BulkUpdateTagsResponseUpdatedList>;
-
-export interface BulkUpdateTagsError {
-  id?: number;
-  reason?: string;
-}
-export const BulkUpdateTagsError = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.Number),
-    reason: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "BulkUpdateTagsError",
-}) as any as S.Schema<BulkUpdateTagsError>;
-
-export type BulkUpdateTagsResponseSkippedList = Array<BulkUpdateTagsError>;
-export const BulkUpdateTagsResponseSkippedList = /*@__PURE__*/ S.Array(
-  BulkUpdateTagsError,
-) as any as S.Schema<BulkUpdateTagsResponseSkippedList>;
-
-export interface BulkUpdateTagsResponse {
-  updated?: BulkUpdateTagsResponseUpdatedList;
-  skipped?: BulkUpdateTagsResponseSkippedList;
-}
-export const BulkUpdateTagsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    updated: S.optional(BulkUpdateTagsResponseUpdatedList),
-    skipped: S.optional(BulkUpdateTagsResponseSkippedList),
-  }),
-).annotate({
-  identifier: "BulkUpdateTagsResponse",
-}) as any as S.Schema<BulkUpdateTagsResponse>;
+  identifier: "BulkUpdateTagsUUIDResponse",
+}) as any as S.Schema<BulkUpdateTagsUUIDResponse>;
 
 export interface ConversationsTicketsDestroyRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -323,6 +326,44 @@ export const CreateConversationsTicketsAiFeedbackResponse = /*@__PURE__*/ S.susp
   identifier: "CreateConversationsTicketsAiFeedbackResponse",
 }) as any as S.Schema<CreateConversationsTicketsAiFeedbackResponse>;
 
+/** * `used` - used * `edited` - edited */
+export type AiDraftHumanOutcomeEnum = "used" | "edited";
+export const AiDraftHumanOutcomeEnum = S.String;
+
+export interface CreateConversationsTicketsAiHumanOutcomeRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** The ticket's UUID or its numeric ticket number. */
+  id: string;
+  /** ID of the private AI draft being adopted. */
+  message_id: string;
+  /** used when the human inserts the draft as-is; edited after they change it in the composer. * `used` - used * `edited` - edited */
+  outcome: AiDraftHumanOutcomeEnum | (string & {});
+}
+export const CreateConversationsTicketsAiHumanOutcomeRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    project_id: S.String.pipe(T.Label()),
+    id: S.String.pipe(T.Label()),
+    message_id: S.String,
+    outcome: AiDraftHumanOutcomeEnum,
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/api/projects/{project_id}/conversations/tickets/{id}/ai_human_outcome/",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "CreateConversationsTicketsAiHumanOutcomeRequest",
+}) as any as S.Schema<CreateConversationsTicketsAiHumanOutcomeRequest>;
+
+export interface CreateConversationsTicketsAiHumanOutcomeResponse {}
+export const CreateConversationsTicketsAiHumanOutcomeResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "CreateConversationsTicketsAiHumanOutcomeResponse",
+}) as any as S.Schema<CreateConversationsTicketsAiHumanOutcomeResponse>;
+
 /** Tags to apply to the new ticket, e.g. to mark its source. Each is normalized (lowercased, trimmed). Up to 100. */
 export type CreateConversationsTicketsComposeRequestTagsList = Array<string>;
 export const CreateConversationsTicketsComposeRequestTagsList = /*@__PURE__*/ S.Array(
@@ -379,9 +420,82 @@ export const ComposeTicketResponse = /*@__PURE__*/ S.suspend(() =>
     id: S.String,
     ticket_number: S.Number,
   }),
+).annotate({ identifier: "ComposeTicketResponse" }) as any as S.Schema<ComposeTicketResponse>;
+
+export interface CreateConversationsTicketsNoteRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** The ticket's UUID or its numeric ticket number. */
+  id: string;
+  /** Note content in markdown. The note is visible to your team only and is never sent to the customer. */
+  message: string;
+  /** Optional TipTap rich content JSON for the note. Omit it to show the markdown message. */
+  rich_content?: unknown;
+}
+export const CreateConversationsTicketsNoteRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    project_id: S.String.pipe(T.Label()),
+    id: S.String.pipe(T.Label()),
+    message: S.String,
+    rich_content: S.optional(S.Unknown),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/api/projects/{project_id}/conversations/tickets/{id}/notes/",
+      code: 200,
+    }),
+  ),
 ).annotate({
-  identifier: "ComposeTicketResponse",
-}) as any as S.Schema<ComposeTicketResponse>;
+  identifier: "CreateConversationsTicketsNoteRequest",
+}) as any as S.Schema<CreateConversationsTicketsNoteRequest>;
+
+/** * `customer_message` - Customer message * `sent_reply` - Sent reply * `internal_note` - Internal note * `ai_draft` - AI draft */
+export type TicketMessageTypeEnum =
+  | "customer_message"
+  | "sent_reply"
+  | "internal_note"
+  | "ai_draft";
+export const TicketMessageTypeEnum = S.String;
+
+/** A single message in a ticket thread (output-only). */
+export interface TicketMessage {
+  /** Message (comment) UUID. */
+  id: string;
+  /** What the message is, and whether it was sent to the customer. customer_message: written by the customer. sent_reply: a reply sent to the customer by a teammate, a workflow or the AI. It does not confirm that the customer received it, because delivery can fail. internal_note: a note for the team only. It was never sent to the customer. ai_draft: a reply or question the AI wrote for a teammate to review. It was never sent to the customer. * `customer_message` - Customer message * `sent_reply` - Sent reply * `internal_note` - Internal note * `ai_draft` - AI draft */
+  message_type: TicketMessageTypeEnum;
+  /** Plain-text message body. */
+  content: string;
+  /** TipTap rich content JSON, if any. */
+  rich_content: unknown;
+  /** One of: customer, support, AI. */
+  author_type: string;
+  /** Display name of the author. */
+  author_name: string;
+  /** Email of the authoring PostHog user, when the message was written by one (support replies and internal notes). Null for customer and AI messages. */
+  author_email: string | null;
+  /** True for internal notes not visible to the customer. */
+  is_private: boolean;
+  /** True when the complete inbound email body can be retrieved. */
+  has_full_email_content: boolean;
+  /** Edit count. 0 means never edited. */
+  version: number;
+  created_at: string;
+}
+export const TicketMessage = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    message_type: TicketMessageTypeEnum,
+    content: S.String,
+    rich_content: S.Unknown,
+    author_type: S.String,
+    author_name: S.String,
+    author_email: S.NullOr(S.String),
+    is_private: S.Boolean,
+    has_full_email_content: S.Boolean,
+    version: S.Number,
+    created_at: S.String,
+  }),
+).annotate({ identifier: "TicketMessage" }) as any as S.Schema<TicketMessage>;
 
 export interface CreateConversationsTicketsReplyRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -413,43 +527,6 @@ export const CreateConversationsTicketsReplyRequest = /*@__PURE__*/ S.suspend(()
   identifier: "CreateConversationsTicketsReplyRequest",
 }) as any as S.Schema<CreateConversationsTicketsReplyRequest>;
 
-/** A single message in a ticket thread (output-only). */
-export interface TicketMessage {
-  /** Message (comment) UUID. */
-  id: string;
-  /** Plain-text message body. */
-  content: string;
-  /** TipTap rich content JSON, if any. */
-  rich_content: unknown;
-  /** One of: customer, support, AI. */
-  author_type: string;
-  /** Display name of the author. */
-  author_name: string;
-  /** Email of the authoring PostHog user, when the message was written by one (support replies and internal notes). Null for customer and AI messages. */
-  author_email: string | null;
-  /** True for internal notes not visible to the customer. */
-  is_private: boolean;
-  /** True when the complete inbound email body can be retrieved. */
-  has_full_email_content: boolean;
-  /** Edit count. 0 means never edited. */
-  version: number;
-  created_at: string;
-}
-export const TicketMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    content: S.String,
-    rich_content: S.Unknown,
-    author_type: S.String,
-    author_name: S.String,
-    author_email: S.NullOr(S.String),
-    is_private: S.Boolean,
-    has_full_email_content: S.Boolean,
-    version: S.Number,
-    created_at: S.String,
-  }),
-).annotate({ identifier: "TicketMessage" }) as any as S.Schema<TicketMessage>;
-
 /** Ticket statuses to include. Empty or omitted means all statuses. */
 export type TicketViewFiltersStatusList = Array<TicketStatusEnum | (string & {})>;
 export const TicketViewFiltersStatusList = /*@__PURE__*/ S.Array(
@@ -474,18 +551,22 @@ export const TicketChannelFilterEnum = S.String;
 export type TicketSlaFilterEnum = "breached" | "at-risk" | "on-track" | "all";
 export const TicketSlaFilterEnum = S.String;
 
-/** * `persisted` - persisted * `escalated_with_best` - escalated_with_best * `escalated_no_reply` - escalated_no_reply * `skipped_unactionable` - skipped_unactionable * `blocked_unsafe` - blocked_unsafe * `blocked_unsafe_reply` - blocked_unsafe_reply * `in_progress` - in_progress */
+/** * `persisted` - persisted * `suggested` - suggested * `escalated_with_findings` - escalated_with_findings * `escalated_with_best` - escalated_with_best * `escalated_no_reply` - escalated_no_reply * `skipped_unactionable` - skipped_unactionable * `blocked_unsafe` - blocked_unsafe * `blocked_unsafe_reply` - blocked_unsafe_reply * `clarified` - clarified * `suggested_clarification` - suggested_clarification * `in_progress` - in_progress */
 export type AiTriageResultEnum =
   | "persisted"
+  | "suggested"
+  | "escalated_with_findings"
   | "escalated_with_best"
   | "escalated_no_reply"
   | "skipped_unactionable"
   | "blocked_unsafe"
   | "blocked_unsafe_reply"
+  | "clarified"
+  | "suggested_clarification"
   | "in_progress";
 export const AiTriageResultEnum = S.String;
 
-/** AI triage outcomes to include. 'in_progress' matches tickets still being triaged. */
+/** AI triage outcomes to include. 'in_progress' matches tickets still being triaged. Valid values: persisted, suggested, escalated_with_findings, escalated_with_best, escalated_no_reply, skipped_unactionable, blocked_unsafe, blocked_unsafe_reply, clarified, suggested_clarification, in_progress. */
 export type TicketViewFiltersAiTriageResultList = Array<AiTriageResultEnum | (string & {})>;
 export const TicketViewFiltersAiTriageResultList = /*@__PURE__*/ S.Array(
   AiTriageResultEnum,
@@ -520,7 +601,7 @@ export type TicketViewFiltersAssigneeItem =
 export const TicketViewFiltersAssigneeItem =
   S.Unknown as any as S.Schema<TicketViewFiltersAssigneeItem>;
 
-/** Assignees to match (any of): 'unassigned', 'me' (resolved to the requesting user), or an object with type ('user' or 'role') and id. The legacy single-value shape is accepted and normalized to a list. */
+/** Assignees to match (any of): 'unassigned', 'me' (resolved to the requesting user), or an object with type ('user' or 'role') and id. Send a list. Views saved earlier can hold a single value instead of a list, or the value 'all'. Wrap a single value in a list, and replace 'all' with an empty list to apply no assignee filter. */
 export type TicketViewFiltersAssigneeList = Array<TicketViewFiltersAssigneeItem>;
 export const TicketViewFiltersAssigneeList = /*@__PURE__*/ S.Array(
   TicketViewFiltersAssigneeItem,
@@ -557,9 +638,7 @@ export const TicketViewSorting = /*@__PURE__*/ S.suspend(() =>
     columnKey: S.String,
     order: TicketSortOrderEnum,
   }),
-).annotate({
-  identifier: "TicketViewSorting",
-}) as any as S.Schema<TicketViewSorting>;
+).annotate({ identifier: "TicketViewSorting" }) as any as S.Schema<TicketViewSorting>;
 
 /** Canonical shape of a saved ticket view's filters. Every field is optional; an omitted field (or an 'all' sentinel) leaves that dimension unfiltered. */
 export interface TicketViewFilters {
@@ -571,9 +650,9 @@ export interface TicketViewFilters {
   channel?: TicketChannelFilterEnum | (string & {});
   /** SLA state: 'breached' is past due, 'at-risk' is due within the next hour, 'on-track' has more than an hour remaining. 'all' disables the filter. * `breached` - breached * `at-risk` - at-risk * `on-track` - on-track * `all` - all */
   sla?: TicketSlaFilterEnum | (string & {});
-  /** AI triage outcomes to include. 'in_progress' matches tickets still being triaged. */
+  /** AI triage outcomes to include. 'in_progress' matches tickets still being triaged. Valid values: persisted, suggested, escalated_with_findings, escalated_with_best, escalated_no_reply, skipped_unactionable, blocked_unsafe, blocked_unsafe_reply, clarified, suggested_clarification, in_progress. */
   aiTriageResult?: TicketViewFiltersAiTriageResultList;
-  /** Assignees to match (any of): 'unassigned', 'me' (resolved to the requesting user), or an object with type ('user' or 'role') and id. The legacy single-value shape is accepted and normalized to a list. */
+  /** Assignees to match (any of): 'unassigned', 'me' (resolved to the requesting user), or an object with type ('user' or 'role') and id. Send a list. Views saved earlier can hold a single value instead of a list, or the value 'all'. Wrap a single value in a list, and replace 'all' with an empty list to apply no assignee filter. */
   assignee?: TicketViewFiltersAssigneeList;
   /** Tag names to match, combined according to tagsMatch. */
   tags?: TicketViewFiltersTagsList;
@@ -606,13 +685,12 @@ export const TicketViewFilters = /*@__PURE__*/ S.suspend(() =>
     sorting: S.optional(S.NullOr(TicketViewSorting)),
     search: S.optional(S.String),
   }),
-).annotate({
-  identifier: "TicketViewFilters",
-}) as any as S.Schema<TicketViewFilters>;
+).annotate({ identifier: "TicketViewFilters" }) as any as S.Schema<TicketViewFilters>;
 
 export interface CreateConversationsViewRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
+  /** Display name of the view, as it appears in the ticket views list. */
   name?: string;
   /** Saved ticket filter criteria: status, priority, channel, sla, aiTriageResult, assignee, tags, tagsMatch, tagsExclude, dateFrom, dateTo, sorting, and search. */
   filters?: TicketViewFilters;
@@ -626,11 +704,7 @@ export const CreateConversationsViewRequest = /*@__PURE__*/ S.suspend(() =>
     filters: S.optional(TicketViewFilters),
     is_favorited: S.optional(S.Boolean),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/projects/{project_id}/conversations/views/",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/api/projects/{project_id}/conversations/views/", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateConversationsViewRequest",
@@ -688,12 +762,17 @@ export const UserBasic = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "UserBasic" }) as any as S.Schema<UserBasic>;
 
 export interface TicketView {
+  /** Internal UUID of the view. */
   id?: string;
+  /** Stable short identifier for the view. Use it to address the view in this API, to open it at /support/tickets?view=<short_id>, and as the `view` parameter when listing tickets. */
   short_id?: string;
+  /** Display name of the view, as it appears in the ticket views list. */
   name?: string;
   /** Saved ticket filter criteria: status, priority, channel, sla, aiTriageResult, assignee, tags, tagsMatch, tagsExclude, dateFrom, dateTo, sorting, and search. */
   filters?: TicketViewFilters;
+  /** When the view was created. */
   created_at?: string;
+  /** The user who created this view. */
   created_by?: UserBasic | null;
   /** Whether the current user has favorited this view. Favorited views sort to the top of the list. Favorites are personal to each user. */
   is_favorited?: boolean;
@@ -709,6 +788,52 @@ export const TicketView = /*@__PURE__*/ S.suspend(() =>
     is_favorited: S.optional(S.Boolean),
   }),
 ).annotate({ identifier: "TicketView" }) as any as S.Schema<TicketView>;
+
+export interface GetConversationsAiReplyPlaybookRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+}
+export const GetConversationsAiReplyPlaybookRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    project_id: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/api/projects/{project_id}/conversations/ai_reply_playbook/",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "GetConversationsAiReplyPlaybookRequest",
+}) as any as S.Schema<GetConversationsAiReplyPlaybookRequest>;
+
+export interface AIReplyPlaybook {
+  /** Repo default instructions, plus the PostHog overlay when docs_source is posthog. */
+  inherited_instructions: string;
+  /** Team addendum on top of the inherited playbook. Null means the team inherits the default instructions. */
+  custom_instructions: string | null;
+  /** True when a non-empty custom addendum is saved for this team. */
+  is_customized: boolean;
+  /** Version of the generic default playbook layer currently in the repo. */
+  default_version: number;
+  /** Version of the PostHog overlay when docs_source is posthog; null otherwise. */
+  posthog_overlay_version: number | null;
+  /** Documentation source for this team. 'posthog' enables PostHog docs-search and the PostHog overlay. */
+  docs_source: string | null;
+  /** Maximum character length for ai_reply_custom_instructions. */
+  max_chars: number;
+}
+export const AIReplyPlaybook = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    inherited_instructions: S.String,
+    custom_instructions: S.NullOr(S.String),
+    is_customized: S.Boolean,
+    default_version: S.Number,
+    posthog_overlay_version: S.NullOr(S.Number),
+    docs_source: S.NullOr(S.String),
+    max_chars: S.Number,
+  }),
+).annotate({ identifier: "AIReplyPlaybook" }) as any as S.Schema<AIReplyPlaybook>;
 
 export interface GetConversationsTicketRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -777,9 +902,21 @@ export const TicketAssignment = /*@__PURE__*/ S.suspend(() =>
     user: S.optional(S.NullOr(TicketAssignmentUserMap)),
     role: S.optional(S.NullOr(TicketAssignmentRoleMap)),
   }),
-).annotate({
-  identifier: "TicketAssignment",
-}) as any as S.Schema<TicketAssignment>;
+).annotate({ identifier: "TicketAssignment" }) as any as S.Schema<TicketAssignment>;
+
+/** Context captured with the ticket. Values are strings, numbers or booleans. Keys are whatever the widget sent, commonly current_url, replay_url, browser, os and sdk_version. */
+export interface TicketSessionContext {
+  /** Page the reporter was on. */
+  current_url?: string;
+  /** Replay of the session the ticket came from. */
+  replay_url?: string;
+}
+export const TicketSessionContext = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    current_url: S.optional(S.String),
+    replay_url: S.optional(S.String),
+  }),
+).annotate({ identifier: "TicketSessionContext" }) as any as S.Schema<TicketSessionContext>;
 
 export type TicketPersonDistinctIdsList = Array<string>;
 export const TicketPersonDistinctIdsList = /*@__PURE__*/ S.Array(
@@ -833,7 +970,7 @@ export interface Ticket {
   identity_verified?: boolean | null;
   ai_resolved?: boolean;
   escalation_reason?: string | null;
-  /** AI support pipeline triage and outcome (status, result, ticket_type, confidence, attempts, etc.). */
+  /** AI support pipeline triage and outcome (status, result, ticket_type, confidence, attempts, verdict, blocker, sources). Retrieve hydrates sources from citations. */
   ai_triage?: unknown;
   created_at?: string;
   updated_at?: string;
@@ -843,7 +980,8 @@ export interface Ticket {
   unread_team_count?: number;
   unread_customer_count?: number;
   session_id?: string | null;
-  session_context?: unknown;
+  /** Context captured with the ticket. Values are strings, numbers or booleans. Keys are whatever the widget sent, commonly current_url, replay_url, browser, os and sdk_version. */
+  session_context?: TicketSessionContext;
   /** SLA deadline set via workflows. Null means no SLA. */
   sla_due_at?: string | null;
   snoozed_until?: string | null;
@@ -889,7 +1027,7 @@ export const Ticket = /*@__PURE__*/ S.suspend(() =>
     unread_team_count: S.optional(S.Number),
     unread_customer_count: S.optional(S.Number),
     session_id: S.optional(S.NullOr(S.String)),
-    session_context: S.optional(S.Unknown),
+    session_context: S.optional(TicketSessionContext),
     sla_due_at: S.optional(S.NullOr(S.String)),
     snoozed_until: S.optional(S.NullOr(S.String)),
     slack_channel_id: S.optional(S.NullOr(S.String)),
@@ -942,9 +1080,7 @@ export const TicketFullEmail = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     content: S.String,
   }),
-).annotate({
-  identifier: "TicketFullEmail",
-}) as any as S.Schema<TicketFullEmail>;
+).annotate({ identifier: "TicketFullEmail" }) as any as S.Schema<TicketFullEmail>;
 
 export interface GetConversationsViewRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -965,6 +1101,51 @@ export const GetConversationsViewRequest = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "GetConversationsViewRequest",
 }) as any as S.Schema<GetConversationsViewRequest>;
+
+export interface ListConversationsAiContextAccountPropertiesRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+}
+export const ListConversationsAiContextAccountPropertiesRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    project_id: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/api/projects/{project_id}/conversations/ai_context_account_properties/",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "ListConversationsAiContextAccountPropertiesRequest",
+}) as any as S.Schema<ListConversationsAiContextAccountPropertiesRequest>;
+
+export interface AIContextAccountProperty {
+  /** Customer analytics account property definition id. */
+  id: string;
+  /** Display name of the account property. */
+  name: string;
+}
+export const AIContextAccountProperty = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    name: S.String,
+  }),
+).annotate({ identifier: "AIContextAccountProperty" }) as any as S.Schema<AIContextAccountProperty>;
+
+export type ListConversationsAiContextAccountPropertiesResponseBodyList =
+  Array<AIContextAccountProperty>;
+export const ListConversationsAiContextAccountPropertiesResponseBodyList = /*@__PURE__*/ S.Array(
+  AIContextAccountProperty,
+) as any as S.Schema<ListConversationsAiContextAccountPropertiesResponseBodyList>;
+
+export type ListConversationsAiContextAccountPropertiesResponse =
+  ListConversationsAiContextAccountPropertiesResponseBodyList;
+export const ListConversationsAiContextAccountPropertiesResponse = /*@__PURE__*/ S.suspend(() =>
+  ListConversationsAiContextAccountPropertiesResponseBodyList.pipe(T.RawResponseRoot()),
+).annotate({
+  identifier: "ListConversationsAiContextAccountPropertiesResponse",
+}) as any as S.Schema<ListConversationsAiContextAccountPropertiesResponse>;
 
 export type ListConversationsTicketsRequestChannelDetail =
   | "github_issue"
@@ -1002,7 +1183,7 @@ export const ListConversationsTicketsRequestSla = S.String;
 export interface ListConversationsTicketsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
-  /** Filter by AI triage outcome. Accepts a single value or a comma-separated list. Valid values: `persisted`, `escalated_with_best`, `escalated_no_reply`, `skipped_unactionable`, `blocked_unsafe`, `blocked_unsafe_reply`, `in_progress`. */
+  /** Filter by AI triage outcome. Accepts a single value or a comma-separated list. Valid values: `persisted`, `suggested`, `escalated_with_findings`, `escalated_with_best`, `escalated_no_reply`, `skipped_unactionable`, `blocked_unsafe`, `blocked_unsafe_reply`, `clarified`, `suggested_clarification`, `in_progress`. */
   ai_triage_result?: string;
   /** Filter by assignee. Accepts a single value or a comma-separated list (matches any, max 100 entries). Each entry is `unassigned` (no assignee), `me` (the requesting user), `user:<user_id>`, or `role:<role_uuid>`, e.g. `assignee=unassigned,user:123`. */
   assignee?: string;
@@ -1067,11 +1248,7 @@ export const ListConversationsTicketsRequest = /*@__PURE__*/ S.suspend(() =>
     tags_exclude: S.optional(S.String.pipe(T.Query())),
     view: S.optional(S.String.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/conversations/tickets/",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/projects/{project_id}/conversations/tickets/", code: 200 }),
   ),
 ).annotate({
   identifier: "ListConversationsTicketsRequest",
@@ -1095,9 +1272,7 @@ export const PaginatedTicketList = /*@__PURE__*/ S.suspend(() =>
     previous: S.optional(S.NullOr(S.String)),
     results: S.optional(PaginatedTicketListResultsList),
   }),
-).annotate({
-  identifier: "PaginatedTicketList",
-}) as any as S.Schema<PaginatedTicketList>;
+).annotate({ identifier: "PaginatedTicketList" }) as any as S.Schema<PaginatedTicketList>;
 
 export interface ListConversationsTicketsMessagesRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -1162,11 +1337,7 @@ export const ListConversationsViewsRequest = /*@__PURE__*/ S.suspend(() =>
     limit: S.optional(S.Number.pipe(T.Query())),
     offset: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/conversations/views/",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/projects/{project_id}/conversations/views/", code: 200 }),
   ),
 ).annotate({
   identifier: "ListConversationsViewsRequest",
@@ -1190,9 +1361,7 @@ export const PaginatedTicketViewList = /*@__PURE__*/ S.suspend(() =>
     previous: S.optional(S.NullOr(S.String)),
     results: S.optional(PaginatedTicketViewListResultsList),
   }),
-).annotate({
-  identifier: "PaginatedTicketViewList",
-}) as any as S.Schema<PaginatedTicketViewList>;
+).annotate({ identifier: "PaginatedTicketViewList" }) as any as S.Schema<PaginatedTicketViewList>;
 
 /** Ticket priority: low, medium, high, or critical. Pass null to clear it. * `low` - Low * `medium` - Medium * `high` - High * `critical` - Critical */
 export type UpdateConversationsTicketRequestPriority = TicketPriorityEnum | BlankEnum;
@@ -1379,6 +1548,7 @@ export interface UpdateConversationsViewsPartialRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   short_id: string;
+  /** Display name of the view, as it appears in the ticket views list. */
   name?: string;
   /** Saved ticket filter criteria: status, priority, channel, sla, aiTriageResult, assignee, tags, tagsMatch, tagsExclude, dateFrom, dateTo, sorting, and search. */
   filters?: TicketViewFilters;
@@ -1426,12 +1596,12 @@ export type ConversationsTicketsBulkUpdateTagsCreateError =
 /** Bulk update tags on multiple objects. PAT access: this action has no ``required_scopes=`` on the decorator — inheriting viewsets must add ``"bulk_update_tags"`` to their ``scope_object_write_actions`` list to accept personal API keys. Without that opt-in, ``APIScopePermission`` rejects PAT requests with "This action does not support personal API key access". Done per-viewset so granting ``<scope>:write`` for one resource doesn't leak access to sibling resources that share this mixin. Accepts: - {"ids": [...], "action": "add"|"remove"|"set", "tags": ["tag1", "tag2"]} Actions: - "add": Add tags to existing tags on each object - "remove": Remove specific tags from each object - "set": Replace all tags on each object with the provided list */
 export const conversationsTicketsBulkUpdateTagsCreate: API.OperationMethod<
   ConversationsTicketsBulkUpdateTagsCreateRequest,
-  BulkUpdateTagsResponse,
+  BulkUpdateTagsUUIDResponse,
   ConversationsTicketsBulkUpdateTagsCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: ConversationsTicketsBulkUpdateTagsCreateRequest,
-  output: BulkUpdateTagsResponse,
+  output: BulkUpdateTagsUUIDResponse,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1499,8 +1669,23 @@ export const createConversationsTicketsAiFeedback: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type CreateConversationsTicketsComposeError = BadRequest | PosthogOpError;
-/** Create a new outbound ticket and send the first message to the customer. */
+export type CreateConversationsTicketsAiHumanOutcomeError = Conflict | PosthogOpError;
+/** Record that a human used or edited the latest AI draft. */
+export const createConversationsTicketsAiHumanOutcome: API.OperationMethod<
+  CreateConversationsTicketsAiHumanOutcomeRequest,
+  CreateConversationsTicketsAiHumanOutcomeResponse,
+  CreateConversationsTicketsAiHumanOutcomeError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateConversationsTicketsAiHumanOutcomeRequest,
+  output: CreateConversationsTicketsAiHumanOutcomeResponse,
+  errors: [Conflict],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
+export type CreateConversationsTicketsComposeError = BadRequest | Conflict | PosthogOpError;
+/** Create a new outbound ticket and send the first message to the customer. Idempotent within a short window: an identical compose retried while the first is still in flight returns 409, and one retried after it committed returns the same ticket with a 200. Only a genuinely new request creates a ticket and emails the customer. */
 export const createConversationsTicketsCompose: API.OperationMethod<
   CreateConversationsTicketsComposeRequest,
   ComposeTicketResponse,
@@ -1509,7 +1694,22 @@ export const createConversationsTicketsCompose: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateConversationsTicketsComposeRequest,
   output: ComposeTicketResponse,
-  errors: [BadRequest],
+  errors: [BadRequest, Conflict],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
+export type CreateConversationsTicketsNoteError = BadRequest | Conflict | PosthogOpError;
+/** Add a private note to a ticket. The note is visible to your team only. The request has no privacy field, so this endpoint never sends anything to the customer. */
+export const createConversationsTicketsNote: API.OperationMethod<
+  CreateConversationsTicketsNoteRequest,
+  TicketMessage,
+  CreateConversationsTicketsNoteError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateConversationsTicketsNoteRequest,
+  output: TicketMessage,
+  errors: [BadRequest, Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
 }));
@@ -1544,6 +1744,21 @@ export const createConversationsView: API.OperationMethod<
   input: CreateConversationsViewRequest,
   output: TicketView,
   errors: [BadRequest, Forbidden, NotFound],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetConversationsAiReplyPlaybookError = PosthogOpError;
+/** Inherited support-reply playbook for this project, plus the team's custom addendum if any. */
+export const getConversationsAiReplyPlaybook: API.OperationMethod<
+  GetConversationsAiReplyPlaybookRequest,
+  AIReplyPlaybook,
+  GetConversationsAiReplyPlaybookError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetConversationsAiReplyPlaybookRequest,
+  output: AIReplyPlaybook,
+  errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
 }));
@@ -1588,6 +1803,21 @@ export const getConversationsView: API.OperationMethod<
   input: GetConversationsViewRequest,
   output: TicketView,
   errors: [Forbidden, NotFound],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListConversationsAiContextAccountPropertiesError = PosthogOpError;
+/** Account-target Customer analytics properties that can be included in AI reply context. Capped at the first 500 properties by name. */
+export const listConversationsAiContextAccountProperties: API.OperationMethod<
+  ListConversationsAiContextAccountPropertiesRequest,
+  ListConversationsAiContextAccountPropertiesResponse,
+  ListConversationsAiContextAccountPropertiesError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListConversationsAiContextAccountPropertiesRequest,
+  output: ListConversationsAiContextAccountPropertiesResponse,
+  errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
 }));

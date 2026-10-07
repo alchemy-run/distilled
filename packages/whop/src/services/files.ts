@@ -74,9 +74,7 @@ export const CompleteFileRequest = /*@__PURE__*/ S.suspend(() =>
     multipart_upload_id: S.String,
     idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
   }).pipe(T.Http({ method: "POST", uri: "/files/{id}/complete", code: 200 })),
-).annotate({
-  identifier: "CompleteFileRequest",
-}) as any as S.Schema<CompleteFileRequest>;
+).annotate({ identifier: "CompleteFileRequest" }) as any as S.Schema<CompleteFileRequest>;
 
 export interface FileMultipartUrl {
   /** The 1-based index of this part within the multipart upload. */
@@ -89,9 +87,7 @@ export const FileMultipartUrl = /*@__PURE__*/ S.suspend(() =>
     part_number: S.Number,
     url: S.String,
   }),
-).annotate({
-  identifier: "FileMultipartUrl",
-}) as any as S.Schema<FileMultipartUrl>;
+).annotate({ identifier: "FileMultipartUrl" }) as any as S.Schema<FileMultipartUrl>;
 
 export type FileMultipartUploadUrlsList = Array<FileMultipartUrl>;
 export const FileMultipartUploadUrlsList = /*@__PURE__*/ S.Array(
@@ -178,9 +174,7 @@ export const CreateFileRequest = /*@__PURE__*/ S.suspend(() =>
     visibility: S.optional(CreateFileRequestVisibility),
     idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
   }).pipe(T.Http({ method: "POST", uri: "/files", code: 200 })),
-).annotate({
-  identifier: "CreateFileRequest",
-}) as any as S.Schema<CreateFileRequest>;
+).annotate({ identifier: "CreateFileRequest" }) as any as S.Schema<CreateFileRequest>;
 
 export interface GetFileRequest {
   /** The unique identifier of the file, prefixed `file_`. */
@@ -229,9 +223,7 @@ export const ListFilesRequest = /*@__PURE__*/ S.suspend(() =>
     last: S.optional(S.Number.pipe(T.Query())),
     before: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/files", code: 200 })),
-).annotate({
-  identifier: "ListFilesRequest",
-}) as any as S.Schema<ListFilesRequest>;
+).annotate({ identifier: "ListFilesRequest" }) as any as S.Schema<ListFilesRequest>;
 
 export type ListFilesResponseDataList = Array<File>;
 export const ListFilesResponseDataList = /*@__PURE__*/ S.Array(
@@ -264,9 +256,7 @@ export const ListFilesResponse = /*@__PURE__*/ S.suspend(() =>
     data: ListFilesResponseDataList,
     page_info: ListFilesResponsePageInfo,
   }),
-).annotate({
-  identifier: "ListFilesResponse",
-}) as any as S.Schema<ListFilesResponse>;
+).annotate({ identifier: "ListFilesResponse" }) as any as S.Schema<ListFilesResponse>;
 
 export type CompleteFileError = BadRequest | NotFound | Conflict | WhopOpError;
 /** Complete File Multipart Upload Assembles the parts of a multipart upload after every part has been PUT to its presigned URL. Pass the `multipart_upload_id` from Create File and each part's `ETag` response header. */

@@ -7,6 +7,10 @@ import * as T from "../traits.ts";
 
 export type { PosthogOpError, PosthogOpContext };
 
+/** * `bot` - SupportHog * `user` - The person who created it */
+export type AnnouncementSendAsEnum = "bot" | "user";
+export const AnnouncementSendAsEnum = S.String;
+
 /** Slack channel IDs to send to. Each must be a channel the SupportHog bot is a member of; names are resolved server-side. */
 export type CreateAnnouncementRequestChannelsList = Array<string>;
 export const CreateAnnouncementRequestChannelsList = /*@__PURE__*/ S.Array(
@@ -18,6 +22,8 @@ export interface CreateAnnouncementRequest {
   project_id: string;
   /** Message body to send, rendered as Slack mrkdwn. */
   message: string;
+  /** Slack identity the message is posted under: 'bot' posts as SupportHog, 'user' posts under the Slack name and avatar of the person sending it (matched by their PostHog email). * `bot` - SupportHog * `user` - The person who created it */
+  send_as?: AnnouncementSendAsEnum | (string & {});
   /** Slack channel IDs to send to. Each must be a channel the SupportHog bot is a member of; names are resolved server-side. */
   channels: CreateAnnouncementRequestChannelsList;
 }
@@ -25,14 +31,9 @@ export const CreateAnnouncementRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project_id: S.String.pipe(T.Label()),
     message: S.String,
+    send_as: S.optional(AnnouncementSendAsEnum),
     channels: CreateAnnouncementRequestChannelsList,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/projects/{project_id}/announcements/",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/api/projects/{project_id}/announcements/", code: 200 })),
 ).annotate({
   identifier: "CreateAnnouncementRequest",
 }) as any as S.Schema<CreateAnnouncementRequest>;
@@ -121,9 +122,7 @@ export const AnnouncementDelivery = /*@__PURE__*/ S.suspend(() =>
     slack_message_ts: S.String,
     sent_at: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "AnnouncementDelivery",
-}) as any as S.Schema<AnnouncementDelivery>;
+).annotate({ identifier: "AnnouncementDelivery" }) as any as S.Schema<AnnouncementDelivery>;
 
 /** Per-channel delivery rows, one per selected Slack channel. */
 export type AnnouncementOutputDeliveriesList = Array<AnnouncementDelivery>;
@@ -139,6 +138,10 @@ export interface AnnouncementOutput {
   message: string;
   /** Overall status: pending, sending, sent, partially_failed, or failed. * `pending` - Pending * `sending` - Sending * `sent` - Sent * `partially_failed` - Partially failed * `failed` - Failed */
   status: AnnouncementStatusEnum;
+  /** Slack identity the message is posted under: 'bot' posts as SupportHog, 'user' posts under the Slack name and avatar of the person sending it (matched by their PostHog email). * `bot` - SupportHog * `user` - The person who created it */
+  send_as?: AnnouncementSendAsEnum;
+  /** Slack display name the message was posted under when send_as is 'user'; empty otherwise. */
+  sender_display_name: string;
   /** Number of channels this announcement targets. */
   total_channels: number;
   /** Number of channels the message was successfully delivered to. */
@@ -159,6 +162,8 @@ export const AnnouncementOutput = /*@__PURE__*/ S.suspend(() =>
     short_id: S.String,
     message: S.String,
     status: AnnouncementStatusEnum,
+    send_as: S.optional(AnnouncementSendAsEnum),
+    sender_display_name: S.String,
     total_channels: S.Number,
     sent_count: S.Number,
     failed_count: S.Number,
@@ -167,9 +172,7 @@ export const AnnouncementOutput = /*@__PURE__*/ S.suspend(() =>
     created_by: UserBasic,
     deliveries: AnnouncementOutputDeliveriesList,
   }),
-).annotate({
-  identifier: "AnnouncementOutput",
-}) as any as S.Schema<AnnouncementOutput>;
+).annotate({ identifier: "AnnouncementOutput" }) as any as S.Schema<AnnouncementOutput>;
 
 export interface GetAnnouncementRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -187,9 +190,7 @@ export const GetAnnouncementRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetAnnouncementRequest",
-}) as any as S.Schema<GetAnnouncementRequest>;
+).annotate({ identifier: "GetAnnouncementRequest" }) as any as S.Schema<GetAnnouncementRequest>;
 
 export interface ListAnnouncementsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -204,16 +205,8 @@ export const ListAnnouncementsRequest = /*@__PURE__*/ S.suspend(() =>
     project_id: S.String.pipe(T.Label()),
     limit: S.optional(S.Number.pipe(T.Query())),
     offset: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/announcements/",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ListAnnouncementsRequest",
-}) as any as S.Schema<ListAnnouncementsRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/projects/{project_id}/announcements/", code: 200 })),
+).annotate({ identifier: "ListAnnouncementsRequest" }) as any as S.Schema<ListAnnouncementsRequest>;
 
 export type PaginatedAnnouncementListOutputResultsList = Array<AnnouncementOutput>;
 export const PaginatedAnnouncementListOutputResultsList = /*@__PURE__*/ S.Array(
@@ -245,11 +238,7 @@ export const ListAnnouncementsChannelsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project_id: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/announcements/channels/",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/projects/{project_id}/announcements/channels/", code: 200 }),
   ),
 ).annotate({
   identifier: "ListAnnouncementsChannelsRequest",
@@ -272,9 +261,7 @@ export const AnnouncementChannel = /*@__PURE__*/ S.suspend(() =>
     is_member: S.Boolean,
     customer_name: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "AnnouncementChannel",
-}) as any as S.Schema<AnnouncementChannel>;
+).annotate({ identifier: "AnnouncementChannel" }) as any as S.Schema<AnnouncementChannel>;
 
 export type ListAnnouncementsChannelsResponseBodyList = Array<AnnouncementChannel>;
 export const ListAnnouncementsChannelsResponseBodyList = /*@__PURE__*/ S.Array(

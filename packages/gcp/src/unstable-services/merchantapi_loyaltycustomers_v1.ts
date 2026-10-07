@@ -61,49 +61,6 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
-/** Represents a customer’s physical address. */
-export interface AddressInfo {
-  /** Optional. The Unicode country/region code (CLDR) of the customer, such as "US" or "CH". This field is case-insensitive. For more information, see https://cldr.unicode.org/ and https://www.unicode.org/cldr/charts/latest/supplemental/territory_containment_un_m_49.html. */
-  regionCode?: string;
-  /** Optional. The given name of the customer. */
-  givenName?: string;
-  /** Optional. The family name of the customer. */
-  familyName?: string;
-  /** Optional. The postal code (zip code) of the customer. **Format Rules:** * **United States:** 5-digit zip codes (e.g., "94108"). */
-  postalCode?: string;
-  /** Optional. The state or province of the customer. */
-  state?: string;
-  /** Optional. The city of the customer. */
-  city?: string;
-}
-export const AddressInfo = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    regionCode: S.optional(S.String),
-    givenName: S.optional(S.String),
-    familyName: S.optional(S.String),
-    postalCode: S.optional(S.String),
-    state: S.optional(S.String),
-    city: S.optional(S.String),
-  }),
-).annotate({ identifier: "AddressInfo" }) as any as S.Schema<AddressInfo>;
-
-/** The user identifiers associated with the customer. At least one of the fields within this message must be provided. */
-export interface UserIdentifier {
-  /** Optional. The customer’s email address. */
-  emailAddress?: string;
-  /** Optional. The customer’s physical address. */
-  address?: AddressInfo;
-  /** Optional. The customer's phone number, in [E.164 format](https://support.google.com/google-ads/answer/16355235) (e.g., "+16502530000"). */
-  phoneNumber?: string;
-}
-export const UserIdentifier = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    emailAddress: S.optional(S.String),
-    address: S.optional(AddressInfo),
-    phoneNumber: S.optional(S.String),
-  }),
-).annotate({ identifier: "UserIdentifier" }) as any as S.Schema<UserIdentifier>;
-
 export type LoyaltyCustomerLoyaltyTierEnum =
   | "LOYALTY_TIER_UNSPECIFIED"
   | "TIER1"
@@ -116,24 +73,65 @@ export type LoyaltyCustomerLoyaltyTierEnum =
   | "NON_MEMBER";
 export const LoyaltyCustomerLoyaltyTierEnum = S.String;
 
+/** Represents a customer’s physical address. */
+export interface AddressInfo {
+  /** Optional. The given name of the customer. */
+  givenName?: string;
+  /** Optional. The city of the customer. */
+  city?: string;
+  /** Optional. The state or province of the customer. */
+  state?: string;
+  /** Optional. The family name of the customer. */
+  familyName?: string;
+  /** Optional. The Unicode country/region code (CLDR) of the customer, such as "US" or "CH". This field is case-insensitive. For more information, see https://cldr.unicode.org/ and https://www.unicode.org/cldr/charts/latest/supplemental/territory_containment_un_m_49.html. */
+  regionCode?: string;
+  /** Optional. The postal code (zip code) of the customer. **Format Rules:** * **United States:** 5-digit zip codes (e.g., "94108"). */
+  postalCode?: string;
+}
+export const AddressInfo = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    givenName: S.optional(S.String),
+    city: S.optional(S.String),
+    state: S.optional(S.String),
+    familyName: S.optional(S.String),
+    regionCode: S.optional(S.String),
+    postalCode: S.optional(S.String),
+  }),
+).annotate({ identifier: "AddressInfo" }) as any as S.Schema<AddressInfo>;
+
+/** The user identifiers associated with the customer. At least one of the fields within this message must be provided. */
+export interface UserIdentifier {
+  /** Optional. The customer's phone number, in [E.164 format](https://support.google.com/google-ads/answer/16355235) (e.g., "+16502530000"). */
+  phoneNumber?: string;
+  /** Optional. The customer’s physical address. */
+  address?: AddressInfo;
+  /** Optional. The customer’s email address. */
+  emailAddress?: string;
+}
+export const UserIdentifier = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    phoneNumber: S.optional(S.String),
+    address: S.optional(AddressInfo),
+    emailAddress: S.optional(S.String),
+  }),
+).annotate({ identifier: "UserIdentifier" }) as any as S.Schema<UserIdentifier>;
+
 /** Represents a customer’s loyalty information. Represents loyalty customer data in `ManageLoyaltyCustomerMatch` API, but is not a resource that can be retrieved or listed by other methods. */
 export interface LoyaltyCustomer {
-  /** Required. The identifiers for the customer. */
-  userIdentifier?: UserIdentifier;
-  /** Optional. The point balance of the loyalty customer. */
-  pointBalance?: string;
   /** Required. The tier label of the loyalty tier the customer belongs to. */
   loyaltyTier?: LoyaltyCustomerLoyaltyTierEnum | (string & {});
+  /** Optional. The point balance of the loyalty customer. */
+  pointBalance?: string;
+  /** Required. The identifiers for the customer. */
+  userIdentifier?: UserIdentifier;
 }
 export const LoyaltyCustomer = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    userIdentifier: S.optional(UserIdentifier),
-    pointBalance: S.optional(S.String),
     loyaltyTier: S.optional(LoyaltyCustomerLoyaltyTierEnum),
+    pointBalance: S.optional(S.String),
+    userIdentifier: S.optional(UserIdentifier),
   }),
-).annotate({
-  identifier: "LoyaltyCustomer",
-}) as any as S.Schema<LoyaltyCustomer>;
+).annotate({ identifier: "LoyaltyCustomer" }) as any as S.Schema<LoyaltyCustomer>;
 
 /** Request message for the ManageLoyaltyCustomerMatch method. */
 export interface ManageLoyaltyCustomerMatchRequest {
@@ -188,7 +186,7 @@ export type ManageAccountsLoyaltyCustomersError =
   | BadRequest
   | Conflict
   | GcpOpError;
-/** Manages (inserts, updates, or removes) a customer's loyalty tier information. This method serves as a single interface for all changes to a customer's loyalty status. The specific action (insert, update, or remove) is determined by the current state of the merchant-to-customer association and the `loyalty_tier` value provided in the request. **Operation Logic:** * **Upsert (Insert/Update):** Providing any valid tier other than `NON_MEMBER` will associate the customer with that tier. If an association already exists, it will be updated; otherwise, a new one will be created. * **Removal:** Setting `loyalty_tier` to `NON_MEMBER` will remove any existing loyalty association for the customer. **Privacy Note:** To protect user privacy, this method consistently returns a `200 OK` status with a default `LoyaltyCustomer` response if the customer's identifier cannot be matched to a Google account or if the user has not opted into loyalty personalization. */
+/** Manages (inserts, updates, or removes) a customer's loyalty tier information. This method serves as a single interface for all changes to a customer's loyalty status. The specific action (insert, update, or remove) is determined by the current state of the merchant-to-customer association and the `loyalty_tier` value provided in the request. For more information on how to use this method, see [Overview of the loyalty customer match service](/merchant/api/guides/loyalty/customer-match-service). **Operation Logic:** * **Upsert (Insert/Update):** Providing any valid tier other than `NON_MEMBER` will associate the customer with that tier. If an association already exists, it will be updated; otherwise, a new one will be created. * **Removal:** Setting `loyalty_tier` to `NON_MEMBER` will remove any existing loyalty association for the customer. **Privacy Note:** To protect user privacy, this method consistently returns a `200 OK` status with a default `LoyaltyCustomer` response if the customer's identifier cannot be matched to a Google account or if the user has not opted into loyalty personalization. */
 export const manageAccountsLoyaltyCustomers: API.OperationMethod<
   ManageAccountsLoyaltyCustomersRequest,
   ManageLoyaltyCustomerMatchResponse,

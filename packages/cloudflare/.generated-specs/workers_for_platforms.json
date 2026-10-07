@@ -24925,6 +24925,15 @@
         "smithy.api#output": {}
       }
     },
+    "com.cloudflare.workers_for_platforms#ContainerImageMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      }
+    },
     "com.cloudflare.workers_for_platforms#PutDispatchNamespaceScriptMetadataStringList": {
       "type": "list",
       "member": {
@@ -25862,6 +25871,41 @@
         }
       }
     },
+    "com.cloudflare.workers_for_platforms#PutDispatchNamespaceScriptBindingK2Type": {
+      "type": "enum",
+      "members": {
+        "K2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "k2"
+          }
+        }
+      }
+    },
+    "com.cloudflare.workers_for_platforms#PutDispatchNamespaceScriptBindingK2": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "stream": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of a K2 stream owned by the account deploying the Worker (32 lowercase hex characters)."
+          }
+        },
+        "type": {
+          "target": "com.cloudflare.workers_for_platforms#PutDispatchNamespaceScriptBindingK2Type",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
     "com.cloudflare.workers_for_platforms#PutDispatchNamespaceScriptBindingQueueType": {
       "type": "enum",
       "members": {
@@ -26657,6 +26701,9 @@
         },
         "case37": {
           "target": "com.cloudflare.workers_for_platforms#PutDispatchNamespaceScriptBindingStream"
+        },
+        "case38": {
+          "target": "com.cloudflare.workers_for_platforms#PutDispatchNamespaceScriptBindingK2"
         }
       }
     },
@@ -27142,6 +27189,15 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String"
+        },
+        "images": {
+          "target": "com.cloudflare.workers_for_platforms#ContainerImageMap",
+          "traits": {
+            "com.cloudflare.protocols#keyDictionary": {}
           }
         }
       }

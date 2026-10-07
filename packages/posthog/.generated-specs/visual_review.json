@@ -93,6 +93,9 @@
         "enable_pr_comments": {
           "target": "smithy.api#Boolean"
         },
+        "debt_digest_enabled": {
+          "target": "smithy.api#Boolean"
+        },
         "created_at": {
           "target": "smithy.api#String"
         }
@@ -282,6 +285,14 @@
         "enable_pr_comments": {
           "target": "smithy.api#Boolean",
           "traits": {
+            "smithy.api#documentation": "Post a pull request comment when a run finds visual changes to review.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "debt_digest_enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Post the visual review debt digest to the Slack channels of the teams that own the snapshots. Off by default. The digest goes out every Monday morning.",
             "com.distilled.openapi#nullable": {}
           }
         }
@@ -379,6 +390,13 @@
           "traits": {
             "smithy.api#documentation": "Active quarantine details when `is_quarantined` is true. Null otherwise.",
             "com.distilled.openapi#nullable": {}
+          }
+        },
+        "active_variants_current_baseline": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Accepted variants still recorded against this baseline's current hash. Unlike the 30-day and 90-day counts, this has no time window: an accepted variant keeps matching without a new record. A baseline change resets it to zero.",
+            "smithy.api#required": {}
           }
         },
         "identifier": {
@@ -577,6 +595,13 @@
             "smithy.api#required": {}
           }
         },
+        "variant_pileups": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Baselines carrying three or more accepted variants of their current hash.",
+            "smithy.api#required": {}
+          }
+        },
         "all_snapshots": {
           "target": "smithy.api#Integer",
           "traits": {
@@ -628,7 +653,7 @@
           "uri": "/api/projects/{project_id}/visual_review/repos/{id}/baselines/",
           "code": 200
         },
-        "smithy.api#documentation": "Snapshots overview for a repo: every identifier with a current baseline (latest non-superseded master/main run per run_type), plus tolerate counts, active quarantine state, and a 30-day stability sparkline. Capped at 5000 entries — sets `truncated` and returns the most recently active when exceeded. Filtering / faceting / search are all done client-side; this endpoint takes no filter query params."
+        "smithy.api#documentation": "Snapshots overview for a repo: every identifier with a current baseline (latest non-superseded master/main run per run_type), plus tolerate counts, active quarantine state, and a 30-day stability sparkline. Capped at 7500 entries — sets `truncated` and returns the most recently active when exceeded. Filtering / faceting / search are all done client-side; this endpoint takes no filter query params."
       }
     },
     "com.posthog.visual_review#GetVisualReviewReposFlakinessRequest": {
@@ -803,6 +828,13 @@
           "target": "com.posthog.visual_review#BaselineQuarantineSummary",
           "traits": {
             "smithy.api#documentation": "Active quarantine details when `is_quarantined` is true. Null otherwise.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "owner_team": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Slug of the team that owns the file this snapshot's story lives in, from the repository's ownership files. `unowned` when no entry covers the file. Null when ownership is unknown: the snapshot is not a Storybook snapshot, the newest default-branch run sent no story index, the story is not in it, or the ownership files could not be read.",
             "com.distilled.openapi#nullable": {}
           }
         },
@@ -1214,6 +1246,13 @@
             "smithy.api#documentation": "Why this snapshot is being quarantined."
           }
         },
+        "expires_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the quarantine lifts itself, as an ISO 8601 datetime. Through MCP an omitted or later expiry becomes 30 days from now; anywhere else omitting it means no expiry.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
         "source_run_id": {
           "target": "smithy.api#String",
           "traits": {
@@ -1221,10 +1260,10 @@
             "com.distilled.openapi#nullable": {}
           }
         },
-        "expires_at": {
-          "target": "smithy.api#String",
+        "notify_owners": {
+          "target": "smithy.api#Boolean",
           "traits": {
-            "com.distilled.openapi#nullable": {}
+            "smithy.api#documentation": "Post the quarantine to the Slack channel of the team that owns the story, naming the user who quarantined it. Only Storybook snapshots have an owning team. Best effort: skipped when the story has no owning team or the project has no Slack integration."
           }
         }
       },
@@ -1379,6 +1418,194 @@
         "smithy.api#documentation": "Serve a snapshot thumbnail by identifier. Returns WebP with ETag caching."
       }
     },
+    "com.posthog.visual_review#GetVisualReviewReposTolerationPileupRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "include_quarantined": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "include_quarantined",
+            "smithy.api#documentation": "Keep snapshots that an active quarantine already covers. They are marked with `is_quarantined`. Set to false to see only piles nobody has acted on yet."
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit",
+            "smithy.api#documentation": "Maximum number of snapshots to return. `total` and `truncated` say whether more matched."
+          }
+        },
+        "min_automatic_tolerations": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "min_automatic_tolerations",
+            "smithy.api#documentation": "Also list a snapshot when it collected at least this many automatic tolerations in the window. An automatic toleration is a rendering under both diff thresholds, so it never blocked anybody; many of them still mean the story is unstable. Omit to ignore automatic tolerations when deciding what to list. With 10, the list matches the Tolerate dialog's quarantine suggestion."
+          }
+        },
+        "min_tolerations": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "min_tolerations",
+            "smithy.api#documentation": "List a snapshot when a person or agent tolerated it at least this many times in the window. The default, 3, is the weekly debt digest's rule. Lower it to see snapshots that are starting to pile up, raise it to see only the worst ones."
+          }
+        },
+        "run_type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "run_type",
+            "smithy.api#documentation": "Only list snapshots of this run type, for example `storybook` or `playwright`."
+          }
+        },
+        "window_days": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "window_days",
+            "smithy.api#documentation": "How many days back to count tolerations. Defaults to 30."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.visual_review#TolerationPileups": {
+      "type": "structure",
+      "members": {
+        "entries": {
+          "target": "com.posthog.visual_review#TolerationPileupsEntriesList",
+          "traits": {
+            "smithy.api#documentation": "Matching snapshots, most manual tolerations first.",
+            "smithy.api#required": {}
+          }
+        },
+        "window_days": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Length of the counting window in days that was applied.",
+            "smithy.api#required": {}
+          }
+        },
+        "min_tolerations": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Manual toleration threshold that was applied.",
+            "smithy.api#required": {}
+          }
+        },
+        "min_automatic_tolerations": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Automatic toleration threshold that was applied, or null when none was.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "total": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "How many snapshots matched before `limit` was applied.",
+            "smithy.api#required": {}
+          }
+        },
+        "truncated": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "True when `limit` cut the list short.",
+            "smithy.api#required": {}
+          }
+        },
+        "generated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the list was computed.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.visual_review#TolerationPileupEntry": {
+      "type": "structure",
+      "members": {
+        "identifier": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Snapshot identifier, for example a Storybook story id plus theme.",
+            "smithy.api#required": {}
+          }
+        },
+        "run_type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Run type the snapshot belongs to, for example `storybook`.",
+            "smithy.api#required": {}
+          }
+        },
+        "intentional_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Tolerations a person or agent recorded for this snapshot in the window, across every baseline. Each one accepted a different exact rendering, so a high count means the snapshot renders differently from run to run.",
+            "smithy.api#required": {}
+          }
+        },
+        "automatic_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Automatic tolerations in the window: renderings that came in under both diff thresholds.",
+            "smithy.api#required": {}
+          }
+        },
+        "is_quarantined": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether an active quarantine already covers this snapshot, so it no longer blocks pull requests.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.visual_review#TolerationPileupsEntriesList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.visual_review#TolerationPileupEntry"
+      },
+      "traits": {
+        "smithy.api#documentation": "Matching snapshots, most manual tolerations first."
+      }
+    },
+    "com.posthog.visual_review#GetVisualReviewReposTolerationPileup": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.visual_review#GetVisualReviewReposTolerationPileupRequest"
+      },
+      "output": {
+        "target": "com.posthog.visual_review#TolerationPileups"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/visual_review/repos/{id}/toleration-pileups/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Snapshots that keep getting tolerated, counted across baselines, most manual tolerations first. A toleration accepts one exact rendering, so a snapshot that keeps needing them renders differently from run to run, and the fix belongs in the story. With no parameters this is the weekly debt digest's rule (3 or more tolerations by a person or agent in 30 days), except that quarantined snapshots are kept and marked with `is_quarantined`. The list is small and returns fast; start here to find flaky stories worth fixing, then read one snapshot's history with the per-snapshot tools."
+      }
+    },
     "com.posthog.visual_review#ListVisualReviewReposRunsRequest": {
       "type": "structure",
       "members": {
@@ -1463,6 +1690,12 @@
             "com.distilled.openapi#nullable": {}
           }
         },
+        "purpose": {
+          "target": "com.posthog.visual_review#PurposeEnum",
+          "traits": {
+            "smithy.api#documentation": "Why CI submitted the run. `review` runs gate the PR and need approval. `observe` runs are tracking-only, for example default-branch pushes and merge-queue runs, and can never be approved.\n\n* `review` - review\n* `observe` - observe"
+          }
+        },
         "search_match_type": {
           "target": "com.posthog.visual_review#SearchMatchTypeEnum",
           "traits": {
@@ -1535,6 +1768,26 @@
         }
       },
       "traits": {}
+    },
+    "com.posthog.visual_review#PurposeEnum": {
+      "type": "enum",
+      "members": {
+        "REVIEW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "review"
+          }
+        },
+        "OBSERVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "observe"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `review` - review\n* `observe` - observe"
+      }
     },
     "com.posthog.visual_review#SearchMatchTypeEnum": {
       "type": "enum",
@@ -1759,6 +2012,12 @@
             "com.distilled.openapi#nullable": {}
           }
         },
+        "row_shift": {
+          "target": "com.posthog.visual_review#RowShift",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
         "run_id": {
           "target": "smithy.api#String"
         },
@@ -1836,6 +2095,103 @@
         }
       },
       "traits": {}
+    },
+    "com.posthog.visual_review#RowShift": {
+      "type": "structure",
+      "members": {
+        "bands": {
+          "target": "com.posthog.visual_review#RowShiftBandsList",
+          "traits": {
+            "smithy.api#documentation": "Where the shift happened, in current-image coordinates.",
+            "smithy.api#required": {}
+          }
+        },
+        "inserted_rows": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Rows the current image gained.",
+            "smithy.api#required": {}
+          }
+        },
+        "deleted_rows": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Rows the current image lost.",
+            "smithy.api#required": {}
+          }
+        },
+        "residual_percentage": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Percentage of pixels that differ inside the rows present in both images, 0 to 100. Excludes the shift itself. The stored diff_percentage adds the area of the rows the shift added or removed, and that combined number is what the pixel threshold judges.",
+            "smithy.api#required": {}
+          }
+        },
+        "raw_diff_percentage": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Percentage of pixels that differ without alignment, which is what the shift would have cost.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.visual_review#ShiftBand": {
+      "type": "structure",
+      "members": {
+        "y": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "First row of the band, in current-image coordinates.",
+            "smithy.api#required": {}
+          }
+        },
+        "rows": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "How many rows the band covers.",
+            "smithy.api#required": {}
+          }
+        },
+        "kind": {
+          "target": "com.posthog.visual_review#ShiftBandKindEnum",
+          "traits": {
+            "smithy.api#documentation": "'inserted' when the current image gained these rows, 'deleted' when it lost them. A deleted band has no rows of its own in the current image, so its y is the seam the removed rows left behind.\n\n* `inserted` - inserted\n* `deleted` - deleted",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.visual_review#ShiftBandKindEnum": {
+      "type": "enum",
+      "members": {
+        "INSERTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "inserted"
+          }
+        },
+        "DELETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "deleted"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `inserted` - inserted\n* `deleted` - deleted"
+      }
+    },
+    "com.posthog.visual_review#RowShiftBandsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.visual_review#ShiftBand"
+      },
+      "traits": {
+        "smithy.api#documentation": "Where the shift happened, in current-image coordinates."
+      }
     },
     "com.posthog.visual_review#PaginatedSnapshotHistoryEntryListResultsList": {
       "type": "list",
@@ -2240,6 +2596,12 @@
         },
         "baseline_hashes": {
           "target": "com.posthog.visual_review#VisualReviewRunsAddSnapshotsCreateRequestBaselineHashesMap"
+        },
+        "story_index_hash": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "SHA-256 of the story-to-file map the CLI built from the Storybook index.json of this run's build. Every shard of a run sends the same value. Empty when the run sends no map."
+          }
         }
       },
       "traits": {
@@ -2249,6 +2611,13 @@
     "com.posthog.visual_review#AddSnapshotsResult": {
       "type": "structure",
       "members": {
+        "story_index_upload": {
+          "target": "com.posthog.visual_review#UploadTarget",
+          "traits": {
+            "smithy.api#documentation": "Where to upload the story-to-file map, as a presigned POST with a JSON body. Null when the request sent no map, or the store already holds a map with that hash.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
         "added": {
           "target": "smithy.api#Integer"
         },
@@ -2375,7 +2744,7 @@
           "uri": "/api/projects/{project_id}/visual_review/runs/{id}/approve/",
           "code": 200
         },
-        "smithy.api#documentation": "Mark snapshots reviewed (DB only).\n\nRecords the per-snapshot \"Accept change\" decision. Does not commit the baseline\nor change the GitHub gate — call finalize to ship the run. Works on a quarantined\nsnapshot too: a quarantined NEW snapshot approved here is committed by finalize,\nwhich gives a quarantined story a baseline entry without lifting the quarantine."
+        "smithy.api#documentation": "Mark snapshots reviewed (DB only).\n\nRecords the per-snapshot \"Accept change\" decision. Does not commit the baseline\nor change the GitHub gate — call finalize to ship the run. Works on a quarantined\nsnapshot too: a quarantined snapshot approved here is committed by finalize, which\nupdates a quarantined story's baseline entry without lifting the quarantine."
       }
     },
     "com.posthog.visual_review#CreateVisualReviewRunsCompleteRequest": {
@@ -2394,6 +2763,12 @@
           "traits": {
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
+          }
+        },
+        "check_run_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Numeric GitHub Actions job ID of the CI job that completes the run, from `${{ job.check_run_id }}`. Recompute re-runs this job, so it re-reads the verdict without capturing the snapshots again. Omit it outside GitHub Actions."
           }
         }
       },
@@ -2453,13 +2828,13 @@
         "commit_to_github": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Whether the server commits the approved baseline to the PR branch and greens the gate (the normal path — leave true). Set false only for tooling that commits the baseline itself: the server skips the commit and returns the signed YAML in `baseline_content` instead. With false, the gate is NOT greened and `metadata.baseline_commit_sha` is absent."
+            "smithy.api#documentation": "Whether the server commits the approved baseline to the PR branch and greens the gate (the normal path — leave true). Set false only for tooling that commits the baseline itself: the server skips the commit and returns the signed YAML in `baseline_content` instead. With false, the gate is NOT greened, `metadata.baseline_commit_sha` is absent, and no post-approval PR comment is posted."
           }
         },
         "add_images_to_comment_on_pr": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Whether to embed the before/after snapshot images in the post-approval PR comment. The comment itself is always posted (when the run was initiated from a GitHub review prompt and the repo has PR comments enabled); this flag only controls the images. Defaults false — the comment stays a text summary unless the reviewer opts in to attach the snapshots."
+            "smithy.api#documentation": "Whether to embed the before/after snapshot images in the post-approval PR comment. The comment itself is posted when the repo has PR comments enabled and `commit_to_github` is true: it updates the run's review prompt when the run has one, and posts a new comment when it does not. This flag only controls the images. Defaults false — the comment stays a text summary unless the reviewer opts in to attach the snapshots."
           }
         }
       },
@@ -2499,7 +2874,314 @@
           "uri": "/api/projects/{project_id}/visual_review/runs/{id}/finalize/",
           "code": 200
         },
-        "smithy.api#documentation": "Finalize a fully-reviewed run: commit the approved baseline and green the gate.\n\nCommits exactly the snapshots approved in the DB (tolerated ones keep their baseline)\nand only succeeds once every changed/new snapshot is resolved. With approve_all=true,\nany still-pending changed/new snapshot is approved first; quarantined snapshots are\nskipped, but a quarantined NEW snapshot approved by identifier is still committed.\nWith commit_to_github=false the server returns the signed baseline YAML instead of\ncommitting it."
+        "smithy.api#documentation": "Finalize a fully-reviewed run: commit the approved baseline and green the gate.\n\nCommits exactly the snapshots approved in the DB (tolerated ones keep their baseline)\nand only succeeds once every changed/new snapshot is resolved. With approve_all=true,\nany still-pending changed/new snapshot is approved first; quarantined snapshots are\nskipped, but a quarantined snapshot approved by identifier is still committed.\nWith commit_to_github=false the server returns the signed baseline YAML instead of\ncommitting it."
+      }
+    },
+    "com.posthog.visual_review#CreateVisualReviewRunsLiftOnMergeRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "identifier": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier of a quarantined snapshot in this run, such as a Storybook story ID. The snapshot's picture is what a default-branch run must render for the quarantine to lift. An unchanged snapshot uses its baseline. A changed or new snapshot must be approved first, because requesting a lift never approves a picture.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.visual_review#QuarantineLiftEntry": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "UUID of the lift request.",
+            "smithy.api#required": {}
+          }
+        },
+        "quarantine_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "UUID of the quarantine event this request lifts. A later quarantine of the same snapshot is a different event.",
+            "smithy.api#required": {}
+          }
+        },
+        "identifier": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Snapshot identifier under quarantine.",
+            "smithy.api#required": {}
+          }
+        },
+        "run_type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Run type of the quarantine, for example storybook.",
+            "smithy.api#required": {}
+          }
+        },
+        "pr_number": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Pull request whose merge the lift waits for.",
+            "smithy.api#required": {}
+          }
+        },
+        "expected_hash": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Content hash a default-branch run must render, against a baseline entry with the same hash, for the lift to apply.",
+            "smithy.api#required": {}
+          }
+        },
+        "state": {
+          "target": "com.posthog.visual_review#QuarantineLiftStateEnum",
+          "traits": {
+            "smithy.api#documentation": "`pending` waits for the merge and a matching default-branch run. `applied` lifted the quarantine. `cancelled` was withdrawn, or the pull request closed without merging into the run's branch. `superseded` means the quarantine ended some other way, or another request lifted it.\n\n* `pending` - pending\n* `applied` - applied\n* `cancelled` - cancelled\n* `superseded` - superseded",
+            "smithy.api#required": {}
+          }
+        },
+        "detail": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The latest verification outcome, in plain words.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the lift was requested.",
+            "smithy.api#required": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the request last changed.",
+            "smithy.api#required": {}
+          }
+        },
+        "resolved_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the request left `pending`. Null while it waits.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "source_run_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Run the lift was requested from. Null after that run is deleted.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "requested_by": {
+          "target": "com.posthog.visual_review#UserBasicInfo",
+          "traits": {
+            "smithy.api#documentation": "User who requested the lift, or on whose behalf an agent did.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "merge_commit_sha": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Merge commit of the pull request. Set when the lift applies.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "lifted_at_sha": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Commit of the default-branch run that proved the fix and lifted the quarantine. A branch that does not contain it still treats the snapshot as quarantined.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "source": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Who requested the lift: `human` for a person in the UI, `agent` for an agent through MCP.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.visual_review#QuarantineLiftStateEnum": {
+      "type": "enum",
+      "members": {
+        "PENDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pending"
+          }
+        },
+        "APPLIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "applied"
+          }
+        },
+        "CANCELLED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cancelled"
+          }
+        },
+        "SUPERSEDED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "superseded"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `pending` - pending\n* `applied` - applied\n* `cancelled` - cancelled\n* `superseded` - superseded"
+      }
+    },
+    "com.posthog.visual_review#CreateVisualReviewRunsLiftOnMerge": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.visual_review#CreateVisualReviewRunsLiftOnMergeRequest"
+      },
+      "output": {
+        "target": "com.posthog.visual_review#QuarantineLiftEntry"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/visual_review/runs/{id}/lift_on_merge/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Lift a quarantined snapshot's quarantine once this run's pull request merges. The lift applies only after a default-branch run that contains the merge renders the expected picture, and the baseline entry holds that same picture. Requesting a lift never approves a picture: approve a changed or new snapshot by identifier first. Requesting again from the same pull request replaces the pending request."
+      }
+    },
+    "com.posthog.visual_review#ListVisualReviewRunsQuarantineLiftsRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.visual_review#ListVisualReviewRunsQuarantineLiftsResponseBodyList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.visual_review#QuarantineLiftEntry"
+      },
+      "traits": {}
+    },
+    "com.posthog.visual_review#ListVisualReviewRunsQuarantineLiftsResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "com.posthog.visual_review#ListVisualReviewRunsQuarantineLiftsResponseBodyList",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.posthog.visual_review#ListVisualReviewRunsQuarantineLifts": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.visual_review#ListVisualReviewRunsQuarantineLiftsRequest"
+      },
+      "output": {
+        "target": "com.posthog.visual_review#ListVisualReviewRunsQuarantineLiftsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/visual_review/runs/{id}/quarantine_lifts/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Every request to lift a quarantine when this run's pull request merges, newest first, in any state. Empty for a run without a pull request."
+      }
+    },
+    "com.posthog.visual_review#VisualReviewRunsQuarantineLiftsCancelCreateRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "request_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "UUID of a pending lift request for this run's pull request."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.visual_review#VisualReviewRunsQuarantineLiftsCancelCreate": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.visual_review#VisualReviewRunsQuarantineLiftsCancelCreateRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/visual_review/runs/{id}/quarantine_lifts/{request_id}/cancel/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Withdraw a pending request to lift a quarantine when this run's pull request merges."
       }
     },
     "com.posthog.visual_review#CreateVisualReviewRunsRecomputeRequest": {
@@ -2589,7 +3271,8 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpLabel": {},
-            "smithy.api#required": {}
+            "smithy.api#required": {},
+            "smithy.api#documentation": "UUID of the visual review run to look the snapshot up from. This is a run id, not the `id` of a snapshot inside that run. The run supplies the repo and run type to search, so the `identifier` query parameter is required alongside it."
           }
         },
         "identifier": {
@@ -2597,7 +3280,7 @@
           "traits": {
             "smithy.api#httpQuery": "identifier",
             "smithy.api#required": {},
-            "smithy.api#documentation": "Snapshot identifier"
+            "smithy.api#documentation": "Identifier of the snapshot to look up, for example a Storybook story id plus theme. Read it from the `identifier` field of a snapshot in the run. It is a name rather than a UUID, and it is required in addition to the run id in the path."
           }
         },
         "limit": {
@@ -2665,6 +3348,13 @@
             "smithy.api#required": {}
           }
         },
+        "exclude_unchanged": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "exclude_unchanged",
+            "smithy.api#documentation": "Whether to leave out snapshots whose result is `unchanged`. Defaults to false. Pass true to list only the changed, new and removed snapshots, which is what a review needs. A large run holds thousands of unchanged snapshots and few changes."
+          }
+        },
         "include_quarantined": {
           "target": "smithy.api#Boolean",
           "traits": {
@@ -2684,6 +3374,20 @@
           "traits": {
             "smithy.api#httpQuery": "offset",
             "smithy.api#documentation": "The initial index from which to return the results."
+          }
+        },
+        "quarantined_only": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "quarantined_only",
+            "smithy.api#documentation": "Whether to list only the snapshots whose identifier is currently quarantined. Defaults to false. When true, `include_quarantined` is ignored and quarantined snapshots are returned. Combine with `exclude_unchanged=false` to find a quarantined story that rendered `unchanged`, which is the snapshot to request a lift on merge for."
+          }
+        },
+        "snapshot_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "snapshot_id",
+            "smithy.api#documentation": "Return only the snapshot with this id, read from the `id` field of a snapshot in the run. Use it to fetch one snapshot without listing the whole run."
           }
         }
       },
@@ -2715,7 +3419,7 @@
         "quarantined_count": {
           "target": "smithy.api#Integer",
           "traits": {
-            "smithy.api#documentation": "Count of this run's snapshots whose identifier is currently quarantined. Excluded from results unless include_quarantined=true is passed."
+            "smithy.api#documentation": "Count of this run's snapshots that match the other filters and whose identifier is currently quarantined. Excluded from results unless include_quarantined=true is passed."
           }
         }
       },
@@ -2750,6 +3454,12 @@
         },
         "cluster_summary": {
           "target": "com.posthog.visual_review#ClusterSummary",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "row_shift": {
+          "target": "com.posthog.visual_review#RowShift",
           "traits": {
             "com.distilled.openapi#nullable": {}
           }
@@ -3016,7 +3726,8 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpLabel": {},
-            "smithy.api#required": {}
+            "smithy.api#required": {},
+            "smithy.api#documentation": "UUID of the visual review run to look the snapshot up from. This is a run id, not the `id` of a snapshot inside that run. The run supplies the repo and run type to search, so the `identifier` query parameter is required alongside it."
           }
         },
         "identifier": {
@@ -3024,7 +3735,7 @@
           "traits": {
             "smithy.api#httpQuery": "identifier",
             "smithy.api#required": {},
-            "smithy.api#documentation": "Snapshot identifier"
+            "smithy.api#documentation": "Identifier of the snapshot to look up, for example a Storybook story id plus theme. Read it from the `identifier` field of a snapshot in the run. It is a name rather than a UUID, and it is required in addition to the run id in the path."
           }
         },
         "limit": {
@@ -3253,6 +3964,9 @@
           "target": "com.posthog.visual_review#GetVisualReviewReposThumbnail"
         },
         {
+          "target": "com.posthog.visual_review#GetVisualReviewReposTolerationPileup"
+        },
+        {
           "target": "com.posthog.visual_review#ListVisualReviewReposRuns"
         },
         {
@@ -3281,6 +3995,15 @@
         },
         {
           "target": "com.posthog.visual_review#CreateVisualReviewRunsFinalize"
+        },
+        {
+          "target": "com.posthog.visual_review#CreateVisualReviewRunsLiftOnMerge"
+        },
+        {
+          "target": "com.posthog.visual_review#ListVisualReviewRunsQuarantineLifts"
+        },
+        {
+          "target": "com.posthog.visual_review#VisualReviewRunsQuarantineLiftsCancelCreate"
         },
         {
           "target": "com.posthog.visual_review#CreateVisualReviewRunsRecompute"

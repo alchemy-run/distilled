@@ -876,9 +876,7 @@ export const CreateInvoiceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     body: CreateInvoiceRequestBody.pipe(T.HttpBody()),
   }).pipe(T.Http({ method: "POST", uri: "/invoices", code: 200 })),
-).annotate({
-  identifier: "CreateInvoiceRequest",
-}) as any as S.Schema<CreateInvoiceRequest>;
+).annotate({ identifier: "CreateInvoiceRequest" }) as any as S.Schema<CreateInvoiceRequest>;
 
 /** The company that issued this invoice. */
 export interface InvoiceCompany {
@@ -909,9 +907,7 @@ export const InvoiceCurrentPlan = /*@__PURE__*/ S.suspend(() =>
     formatted_price: S.String,
     id: S.String,
   }),
-).annotate({
-  identifier: "InvoiceCurrentPlan",
-}) as any as S.Schema<InvoiceCurrentPlan>;
+).annotate({ identifier: "InvoiceCurrentPlan" }) as any as S.Schema<InvoiceCurrentPlan>;
 
 /** A line item on an invoice, representing a single charge with a label, quantity, and unit price. */
 export interface InvoiceLineItemsItem {
@@ -934,9 +930,7 @@ export const InvoiceLineItemsItem = /*@__PURE__*/ S.suspend(() =>
     total: S.Number,
     unit_price: S.Number,
   }),
-).annotate({
-  identifier: "InvoiceLineItemsItem",
-}) as any as S.Schema<InvoiceLineItemsItem>;
+).annotate({ identifier: "InvoiceLineItemsItem" }) as any as S.Schema<InvoiceLineItemsItem>;
 
 /** Optional line items that break down the invoice total into individual charges. */
 export type InvoiceLineItemsList = Array<InvoiceLineItemsItem>;
@@ -974,9 +968,7 @@ export const InvoiceMailingAddress = /*@__PURE__*/ S.suspend(() =>
     postal_code: S.NullOr(S.String),
     state: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "InvoiceMailingAddress",
-}) as any as S.Schema<InvoiceMailingAddress>;
+).annotate({ identifier: "InvoiceMailingAddress" }) as any as S.Schema<InvoiceMailingAddress>;
 
 /** The member that the invoice was created for. Null when the invoice is addressed to an email address with no member record behind it. */
 export interface InvoiceMember {
@@ -1123,16 +1115,12 @@ export const DeleteInvoiceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "DELETE", uri: "/invoices/{id}", code: 200 })),
-).annotate({
-  identifier: "DeleteInvoiceRequest",
-}) as any as S.Schema<DeleteInvoiceRequest>;
+).annotate({ identifier: "DeleteInvoiceRequest" }) as any as S.Schema<DeleteInvoiceRequest>;
 
 export type DeleteInvoiceResponse = boolean;
 export const DeleteInvoiceResponse = /*@__PURE__*/ S.suspend(() =>
   S.Boolean.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "DeleteInvoiceResponse",
-}) as any as S.Schema<DeleteInvoiceResponse>;
+).annotate({ identifier: "DeleteInvoiceResponse" }) as any as S.Schema<DeleteInvoiceResponse>;
 
 export interface GetInvoiceRequest {
   /** The unique identifier of the invoice, or a secure token. */
@@ -1142,9 +1130,7 @@ export const GetInvoiceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/invoices/{id}", code: 200 })),
-).annotate({
-  identifier: "GetInvoiceRequest",
-}) as any as S.Schema<GetInvoiceRequest>;
+).annotate({ identifier: "GetInvoiceRequest" }) as any as S.Schema<GetInvoiceRequest>;
 
 /** The direction of the sort. */
 export type Direction = "asc" | "desc";
@@ -1203,9 +1189,7 @@ export const ListInvoiceRequest = /*@__PURE__*/ S.suspend(() =>
     created_before: S.optional(S.String.pipe(T.Query())),
     created_after: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/invoices", code: 200 })),
-).annotate({
-  identifier: "ListInvoiceRequest",
-}) as any as S.Schema<ListInvoiceRequest>;
+).annotate({ identifier: "ListInvoiceRequest" }) as any as S.Schema<ListInvoiceRequest>;
 
 /** The plan that this invoice charges for. */
 export interface InvoiceListItemCurrentPlan {
@@ -1251,9 +1235,7 @@ export const InvoiceListItemUser = /*@__PURE__*/ S.suspend(() =>
     name: S.NullOr(S.String),
     username: S.String,
   }),
-).annotate({
-  identifier: "InvoiceListItemUser",
-}) as any as S.Schema<InvoiceListItemUser>;
+).annotate({ identifier: "InvoiceListItemUser" }) as any as S.Schema<InvoiceListItemUser>;
 
 /** An invoice represents an itemized bill sent by a company to a customer for a specific product and plan, tracking the amount owed, due date, and payment status. */
 export interface InvoiceListItem {
@@ -1294,9 +1276,7 @@ export const InvoiceListItem = /*@__PURE__*/ S.suspend(() =>
     status: InvoiceStatuses,
     user: S.NullOr(InvoiceListItemUser),
   }),
-).annotate({
-  identifier: "InvoiceListItem",
-}) as any as S.Schema<InvoiceListItem>;
+).annotate({ identifier: "InvoiceListItem" }) as any as S.Schema<InvoiceListItem>;
 
 /** A list of nodes. */
 export type ListInvoiceResponseDataList = Array<InvoiceListItem>;
@@ -1335,9 +1315,7 @@ export const ListInvoiceResponse = /*@__PURE__*/ S.suspend(() =>
     data: ListInvoiceResponseDataList,
     page_info: PageInfo,
   }),
-).annotate({
-  identifier: "ListInvoiceResponse",
-}) as any as S.Schema<ListInvoiceResponse>;
+).annotate({ identifier: "ListInvoiceResponse" }) as any as S.Schema<ListInvoiceResponse>;
 
 export interface MarkPaidInvoiceRequest {
   /** The unique identifier of the invoice to mark as paid. */
@@ -1347,16 +1325,12 @@ export const MarkPaidInvoiceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "POST", uri: "/invoices/{id}/mark_paid", code: 200 })),
-).annotate({
-  identifier: "MarkPaidInvoiceRequest",
-}) as any as S.Schema<MarkPaidInvoiceRequest>;
+).annotate({ identifier: "MarkPaidInvoiceRequest" }) as any as S.Schema<MarkPaidInvoiceRequest>;
 
 export type MarkPaidInvoiceResponse = boolean;
 export const MarkPaidInvoiceResponse = /*@__PURE__*/ S.suspend(() =>
   S.Boolean.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "MarkPaidInvoiceResponse",
-}) as any as S.Schema<MarkPaidInvoiceResponse>;
+).annotate({ identifier: "MarkPaidInvoiceResponse" }) as any as S.Schema<MarkPaidInvoiceResponse>;
 
 export interface MarkUncollectibleInvoiceRequest {
   /** The unique identifier of the invoice to mark as uncollectible. */
@@ -1365,13 +1339,7 @@ export interface MarkUncollectibleInvoiceRequest {
 export const MarkUncollectibleInvoiceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/invoices/{id}/mark_uncollectible",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/invoices/{id}/mark_uncollectible", code: 200 })),
 ).annotate({
   identifier: "MarkUncollectibleInvoiceRequest",
 }) as any as S.Schema<MarkUncollectibleInvoiceRequest>;
@@ -1391,16 +1359,12 @@ export const ResendInvoiceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "POST", uri: "/invoices/{id}/resend", code: 200 })),
-).annotate({
-  identifier: "ResendInvoiceRequest",
-}) as any as S.Schema<ResendInvoiceRequest>;
+).annotate({ identifier: "ResendInvoiceRequest" }) as any as S.Schema<ResendInvoiceRequest>;
 
 export type ResendInvoiceResponse = boolean;
 export const ResendInvoiceResponse = /*@__PURE__*/ S.suspend(() =>
   S.Boolean.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ResendInvoiceResponse",
-}) as any as S.Schema<ResendInvoiceResponse>;
+).annotate({ identifier: "ResendInvoiceResponse" }) as any as S.Schema<ResendInvoiceResponse>;
 
 /** Inline billing address to create or update a mailing address for this invoice. */
 export type UpdateInvoiceRequestBillingAddress = CreateInvoiceRequestBodyCase0BillingAddress;
@@ -1522,9 +1486,7 @@ export const UpdateInvoiceRequestPlan = /*@__PURE__*/ S.suspend(() =>
     unlimited_stock: S.optional(S.NullOr(S.Boolean)),
     visibility: S.optional(S.NullOr(Visibility)),
   }),
-).annotate({
-  identifier: "UpdateInvoiceRequestPlan",
-}) as any as S.Schema<UpdateInvoiceRequestPlan>;
+).annotate({ identifier: "UpdateInvoiceRequestPlan" }) as any as S.Schema<UpdateInvoiceRequestPlan>;
 
 export interface UpdateInvoiceRequest {
   /** The unique identifier of the invoice to update. */
@@ -1576,9 +1538,7 @@ export const UpdateInvoiceRequest = /*@__PURE__*/ S.suspend(() =>
     product_id: S.optional(S.NullOr(S.String)),
     subscription_billing_anchor_at: S.optional(S.NullOr(S.String)),
   }).pipe(T.Http({ method: "PATCH", uri: "/invoices/{id}", code: 200 })),
-).annotate({
-  identifier: "UpdateInvoiceRequest",
-}) as any as S.Schema<UpdateInvoiceRequest>;
+).annotate({ identifier: "UpdateInvoiceRequest" }) as any as S.Schema<UpdateInvoiceRequest>;
 
 export interface VoidInvoiceRequest {
   /** The unique identifier of the invoice to void. */
@@ -1588,16 +1548,12 @@ export const VoidInvoiceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "POST", uri: "/invoices/{id}/void", code: 200 })),
-).annotate({
-  identifier: "VoidInvoiceRequest",
-}) as any as S.Schema<VoidInvoiceRequest>;
+).annotate({ identifier: "VoidInvoiceRequest" }) as any as S.Schema<VoidInvoiceRequest>;
 
 export type VoidInvoiceResponse = boolean;
 export const VoidInvoiceResponse = /*@__PURE__*/ S.suspend(() =>
   S.Boolean.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "VoidInvoiceResponse",
-}) as any as S.Schema<VoidInvoiceResponse>;
+).annotate({ identifier: "VoidInvoiceResponse" }) as any as S.Schema<VoidInvoiceResponse>;
 
 export type CreateInvoiceError =
   | BadRequest

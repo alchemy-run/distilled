@@ -141,9 +141,7 @@ export type Currencies =
 export const Currencies = S.String;
 
 /** Custom metadata to attach to the setup intent. */
-export type CreateSetupIntentRequestBodyCase0MetadataMap = {
-  [key: string]: unknown | undefined;
-};
+export type CreateSetupIntentRequestBodyCase0MetadataMap = { [key: string]: unknown | undefined };
 export const CreateSetupIntentRequestBodyCase0MetadataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -178,9 +176,7 @@ export const CreateSetupIntentRequestBodyCase0 = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<CreateSetupIntentRequestBodyCase0>;
 
 /** Custom metadata to attach to the setup intent. */
-export type CreateSetupIntentRequestBodyCase1MetadataMap = {
-  [key: string]: unknown | undefined;
-};
+export type CreateSetupIntentRequestBodyCase1MetadataMap = { [key: string]: unknown | undefined };
 export const CreateSetupIntentRequestBodyCase1MetadataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -228,9 +224,7 @@ export const CreateSetupIntentRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     body: CreateSetupIntentRequestBody.pipe(T.HttpBody()),
   }).pipe(T.Http({ method: "POST", uri: "/setup_intents", code: 200 })),
-).annotate({
-  identifier: "CreateSetupIntentRequest",
-}) as any as S.Schema<CreateSetupIntentRequest>;
+).annotate({ identifier: "CreateSetupIntentRequest" }) as any as S.Schema<CreateSetupIntentRequest>;
 
 /** The checkout session configuration associated with this setup intent. Null if no checkout session was used. */
 export interface CreateSetupIntentResponseCheckoutConfiguration {
@@ -297,9 +291,7 @@ export const CreateSetupIntentResponseMember = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<CreateSetupIntentResponseMember>;
 
 /** Custom key-value pairs attached to this setup intent. Null if no metadata was provided. */
-export type CreateSetupIntentResponseMetadataMap = {
-  [key: string]: unknown | undefined;
-};
+export type CreateSetupIntentResponseMetadataMap = { [key: string]: unknown | undefined };
 export const CreateSetupIntentResponseMetadataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -608,9 +600,7 @@ export const GetSetupIntentRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/setup_intents/{id}", code: 200 })),
-).annotate({
-  identifier: "GetSetupIntentRequest",
-}) as any as S.Schema<GetSetupIntentRequest>;
+).annotate({ identifier: "GetSetupIntentRequest" }) as any as S.Schema<GetSetupIntentRequest>;
 
 /** The checkout session configuration associated with this setup intent. Null if no checkout session was used. */
 export type SetupIntentCheckoutConfiguration = CreateSetupIntentResponseCheckoutConfiguration;
@@ -694,13 +684,7 @@ export interface GetStatusSetupIntentRequest {
 export const GetStatusSetupIntentRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     setup_intent_id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/setup_intents/{setup_intent_id}/status",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/setup_intents/{setup_intent_id}/status", code: 200 })),
 ).annotate({
   identifier: "GetStatusSetupIntentRequest",
 }) as any as S.Schema<GetStatusSetupIntentRequest>;
@@ -716,9 +700,7 @@ export const SetupLastSetupError = /*@__PURE__*/ S.suspend(() =>
     code: S.NullOr(S.String),
     message: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "SetupLastSetupError",
-}) as any as S.Schema<SetupLastSetupError>;
+).annotate({ identifier: "SetupLastSetupError" }) as any as S.Schema<SetupLastSetupError>;
 
 export interface PaymentNextActionRedirectData {
   /** The widest the provider's page lays out usefully, in CSS pixels — cap a frame or dialog presenting it at this width. `null` when the page fills whatever width it is given. */
@@ -877,9 +859,7 @@ export const PaymentQrInstructions = /*@__PURE__*/ S.suspend(() =>
     kind: PaymentQrInstructionsKind,
     qr: PaymentQr,
   }),
-).annotate({
-  identifier: "PaymentQrInstructions",
-}) as any as S.Schema<PaymentQrInstructions>;
+).annotate({ identifier: "PaymentQrInstructions" }) as any as S.Schema<PaymentQrInstructions>;
 
 export interface PaymentBankTransfer {
   /** The account to send to, in the local scheme's format — `account_number_label` says what to call it. */
@@ -940,9 +920,7 @@ export const PaymentBankTransfer = /*@__PURE__*/ S.suspend(() =>
     secondary_account_number: S.optional(S.String),
     secondary_account_number_label: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PaymentBankTransfer",
-}) as any as S.Schema<PaymentBankTransfer>;
+).annotate({ identifier: "PaymentBankTransfer" }) as any as S.Schema<PaymentBankTransfer>;
 
 /** Always `bank_transfer`: account details the buyer sends money to from their own bank. */
 export type PaymentBankTransferInstructionsKind = "bank_transfer";
@@ -1105,9 +1083,7 @@ export const ListSetupIntentRequest = /*@__PURE__*/ S.suspend(() =>
     created_before: S.optional(S.String.pipe(T.Query())),
     created_after: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/setup_intents", code: 200 })),
-).annotate({
-  identifier: "ListSetupIntentRequest",
-}) as any as S.Schema<ListSetupIntentRequest>;
+).annotate({ identifier: "ListSetupIntentRequest" }) as any as S.Schema<ListSetupIntentRequest>;
 
 /** The checkout session configuration associated with this setup intent. Null if no checkout session was used. */
 export type SetupIntentListItemCheckoutConfiguration =
@@ -1128,9 +1104,7 @@ export type SetupIntentListItemMember = CreateSetupIntentResponseMember;
 export const SetupIntentListItemMember = CreateSetupIntentResponseMember;
 
 /** Custom key-value pairs attached to this setup intent. Null if no metadata was provided. */
-export type SetupIntentListItemMetadataMap = {
-  [key: string]: unknown | undefined;
-};
+export type SetupIntentListItemMetadataMap = { [key: string]: unknown | undefined };
 export const SetupIntentListItemMetadataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -1183,9 +1157,7 @@ export const SetupIntentListItem = /*@__PURE__*/ S.suspend(() =>
     payment_method: S.NullOr(CreateSetupIntentResponsePaymentMethod),
     status: SetupIntentStatuses,
   }),
-).annotate({
-  identifier: "SetupIntentListItem",
-}) as any as S.Schema<SetupIntentListItem>;
+).annotate({ identifier: "SetupIntentListItem" }) as any as S.Schema<SetupIntentListItem>;
 
 /** A list of nodes. */
 export type ListSetupIntentResponseDataList = Array<SetupIntentListItem>;
@@ -1224,9 +1196,7 @@ export const ListSetupIntentResponse = /*@__PURE__*/ S.suspend(() =>
     data: ListSetupIntentResponseDataList,
     page_info: PageInfo,
   }),
-).annotate({
-  identifier: "ListSetupIntentResponse",
-}) as any as S.Schema<ListSetupIntentResponse>;
+).annotate({ identifier: "ListSetupIntentResponse" }) as any as S.Schema<ListSetupIntentResponse>;
 
 export interface UpdateReturnUrlSetupIntentRequest {
   /** The unique identifier of the setup intent. */
@@ -1239,11 +1209,7 @@ export const UpdateReturnUrlSetupIntentRequest = /*@__PURE__*/ S.suspend(() =>
     setup_intent_id: S.String.pipe(T.Label()),
     return_url: S.String,
   }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/setup_intents/{setup_intent_id}/return_url",
-      code: 200,
-    }),
+    T.Http({ method: "PATCH", uri: "/setup_intents/{setup_intent_id}/return_url", code: 200 }),
   ),
 ).annotate({
   identifier: "UpdateReturnUrlSetupIntentRequest",

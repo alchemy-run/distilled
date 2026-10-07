@@ -78,9 +78,7 @@ export const CreateCardRequest = /*@__PURE__*/ S.suspend(() =>
     user_id: S.optional(S.String),
     idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
   }).pipe(T.Http({ method: "POST", uri: "/cards", code: 200 })),
-).annotate({
-  identifier: "CreateCardRequest",
-}) as any as S.Schema<CreateCardRequest>;
+).annotate({ identifier: "CreateCardRequest" }) as any as S.Schema<CreateCardRequest>;
 
 /** The billing address. */
 export interface CreateCardResponseBilling {
@@ -131,9 +129,7 @@ export const CreateCardResponseLimit = /*@__PURE__*/ S.suspend(() =>
     amount: S.Number,
     frequency: CreateCardResponseLimitFrequency,
   }),
-).annotate({
-  identifier: "CreateCardResponseLimit",
-}) as any as S.Schema<CreateCardResponseLimit>;
+).annotate({ identifier: "CreateCardResponseLimit" }) as any as S.Schema<CreateCardResponseLimit>;
 
 export type CreateCardResponseObject = "card";
 export const CreateCardResponseObject = S.String;
@@ -217,9 +213,7 @@ export const CreateCardResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.NullOr(CreateCardResponseType),
     user_id: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "CreateCardResponse",
-}) as any as S.Schema<CreateCardResponse>;
+).annotate({ identifier: "CreateCardResponse" }) as any as S.Schema<CreateCardResponse>;
 
 export interface GetCardRequest {
   /** Card ID to retrieve, prefixed `icrd_`. */
@@ -262,9 +256,7 @@ export const GetCardResponseLimit = /*@__PURE__*/ S.suspend(() =>
     amount: S.Number,
     frequency: GetCardResponseLimitFrequency,
   }),
-).annotate({
-  identifier: "GetCardResponseLimit",
-}) as any as S.Schema<GetCardResponseLimit>;
+).annotate({ identifier: "GetCardResponseLimit" }) as any as S.Schema<GetCardResponseLimit>;
 
 export type GetCardResponseObject = "card";
 export const GetCardResponseObject = S.String;
@@ -330,9 +322,7 @@ export const GetCardResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.NullOr(GetCardResponseType),
     user_id: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "GetCardResponse",
-}) as any as S.Schema<GetCardResponse>;
+).annotate({ identifier: "GetCardResponse" }) as any as S.Schema<GetCardResponse>;
 
 export interface GetCardTransactionRequest {
   /** The card transaction ID, prefixed `citx_`. */
@@ -413,9 +403,7 @@ export const CardTransaction = /*@__PURE__*/ S.suspend(() =>
     transaction_type: CardTransactionTransactionType,
     usd_amount: S.NullOr(S.Number),
   }),
-).annotate({
-  identifier: "CardTransaction",
-}) as any as S.Schema<CardTransaction>;
+).annotate({ identifier: "CardTransaction" }) as any as S.Schema<CardTransaction>;
 
 export interface ListCardsRequest {
   /** The owning account ID (a biz_ identifier). Provide this or user_id. */
@@ -428,9 +416,7 @@ export const ListCardsRequest = /*@__PURE__*/ S.suspend(() =>
     account_id: S.optional(S.String.pipe(T.Query())),
     user_id: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/cards", code: 200 })),
-).annotate({
-  identifier: "ListCardsRequest",
-}) as any as S.Schema<ListCardsRequest>;
+).annotate({ identifier: "ListCardsRequest" }) as any as S.Schema<ListCardsRequest>;
 
 /** The billing address. */
 export type ListCardsResponseDataItemBilling = CreateCardResponseBilling;
@@ -546,9 +532,7 @@ export const ListCardsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     data: ListCardsResponseDataList,
   }),
-).annotate({
-  identifier: "ListCardsResponse",
-}) as any as S.Schema<ListCardsResponse>;
+).annotate({ identifier: "ListCardsResponse" }) as any as S.Schema<ListCardsResponse>;
 
 export type ListCardTransactionsRequestTransactionIdsList = Array<string>;
 export const ListCardTransactionsRequestTransactionIdsList = /*@__PURE__*/ S.Array(
@@ -681,9 +665,7 @@ export const UpdateCardRequestBilling = /*@__PURE__*/ S.suspend(() =>
     postal_code: S.String,
     region: S.String,
   }),
-).annotate({
-  identifier: "UpdateCardRequestBilling",
-}) as any as S.Schema<UpdateCardRequestBilling>;
+).annotate({ identifier: "UpdateCardRequestBilling" }) as any as S.Schema<UpdateCardRequestBilling>;
 
 /** The window the spend limit applies to. */
 export type UpdateCardRequestSpendLimitFrequency = "daily" | "weekly" | "monthly" | "one_time";
@@ -730,9 +712,7 @@ export const UpdateCardRequest = /*@__PURE__*/ S.suspend(() =>
     transaction_limit: S.optional(S.Number),
     user_id: S.optional(S.String),
   }).pipe(T.Http({ method: "PATCH", uri: "/cards/{id}", code: 200 })),
-).annotate({
-  identifier: "UpdateCardRequest",
-}) as any as S.Schema<UpdateCardRequest>;
+).annotate({ identifier: "UpdateCardRequest" }) as any as S.Schema<UpdateCardRequest>;
 
 /** The billing address. */
 export type UpdateCardResponseBilling = CreateCardResponseBilling;
@@ -759,9 +739,7 @@ export const UpdateCardResponseLimit = /*@__PURE__*/ S.suspend(() =>
     amount: S.Number,
     frequency: UpdateCardResponseLimitFrequency,
   }),
-).annotate({
-  identifier: "UpdateCardResponseLimit",
-}) as any as S.Schema<UpdateCardResponseLimit>;
+).annotate({ identifier: "UpdateCardResponseLimit" }) as any as S.Schema<UpdateCardResponseLimit>;
 
 export type UpdateCardResponseObject = "card";
 export const UpdateCardResponseObject = S.String;
@@ -827,9 +805,7 @@ export const UpdateCardResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.NullOr(UpdateCardResponseType),
     user_id: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "UpdateCardResponse",
-}) as any as S.Schema<UpdateCardResponse>;
+).annotate({ identifier: "UpdateCardResponse" }) as any as S.Schema<UpdateCardResponse>;
 
 export type CreateCardError = BadRequest | Forbidden | NotFound | Conflict | WhopOpError;
 /** Create Card Issue a virtual card, or apply for card issuing. */

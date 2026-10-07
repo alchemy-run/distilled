@@ -54,7 +54,7 @@ export type EnvVarType =
   | "ENV_FROM_SOURCE_TYPE_UNSPECIFIED"
   | "ENV_FROM_SOURCE_TYPE_MANUAL"
   | "ENV_FROM_SOURCE_TYPE_SECRET";
-export const EnvVarType = /*@__PURE__*/ S.String;
+export const EnvVarType = S.String;
 
 /** EnvVar defines a single environment variable. */
 export interface EnvVar {
@@ -123,16 +123,19 @@ export const NetworkIngressAclList = /*@__PURE__*/ S.Array(
 export interface Network {
   /** Allowed destination CIDRs for Ingress traffic. */
   ingressAcl?: NetworkIngressAclList;
+  /** Internal port number for inter application communication. */
+  internalPort?: number;
   /** Port number. */
   port?: number;
   /** Whether the application should be accessible from the internet. */
-  publicIngress: boolean;
+  publicIngress?: boolean;
 }
 export const Network = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ingressAcl: S.optional(NetworkIngressAclList),
+    internalPort: S.optional(S.Number),
     port: S.optional(S.Number),
-    publicIngress: S.Boolean,
+    publicIngress: S.optional(S.Boolean),
   }),
 ).annotate({ identifier: "Network" }) as any as S.Schema<Network>;
 
@@ -153,7 +156,7 @@ export const ApplicationRegistryCredentialsAuth = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ApplicationRegistryCredentialsAuth>;
 
 export type ApplicationRegistryAuthType = "AUTH_TYPE_NONE" | "AUTH_TYPE_CREDENTIALS";
-export const ApplicationRegistryAuthType = /*@__PURE__*/ S.String;
+export const ApplicationRegistryAuthType = S.String;
 
 export interface ApplicationRegistry {
   credentials?: ApplicationRegistryCredentialsAuth;
@@ -164,9 +167,7 @@ export const ApplicationRegistry = /*@__PURE__*/ S.suspend(() =>
     credentials: S.optional(ApplicationRegistryCredentialsAuth),
     type: ApplicationRegistryAuthType,
   }),
-).annotate({
-  identifier: "ApplicationRegistry",
-}) as any as S.Schema<ApplicationRegistry>;
+).annotate({ identifier: "ApplicationRegistry" }) as any as S.Schema<ApplicationRegistry>;
 
 /** Image registry configuration for the application. */
 export type CreateApplicationRequestRegistryList = Array<ApplicationRegistry>;
@@ -182,7 +183,7 @@ export type CurrentStatus =
   | "CURRENT_STATUS_FAILED"
   | "CURRENT_STATUS_IDLE"
   | "CURRENT_STATUS_NONE";
-export const CurrentStatus = /*@__PURE__*/ S.String;
+export const CurrentStatus = S.String;
 
 export interface RuntimeStatusInput {
   currentStatus?: CurrentStatus | (string & {});
@@ -191,9 +192,7 @@ export const RuntimeStatusInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     currentStatus: S.optional(CurrentStatus),
   }),
-).annotate({
-  identifier: "RuntimeStatusInput",
-}) as any as S.Schema<RuntimeStatusInput>;
+).annotate({ identifier: "RuntimeStatusInput" }) as any as S.Schema<RuntimeStatusInput>;
 
 /** CustomRuleParameter defines a single scaler parameter. */
 export interface CustomRuleParameter {
@@ -205,9 +204,7 @@ export const CustomRuleParameter = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     value: S.String,
   }),
-).annotate({
-  identifier: "CustomRuleParameter",
-}) as any as S.Schema<CustomRuleParameter>;
+).annotate({ identifier: "CustomRuleParameter" }) as any as S.Schema<CustomRuleParameter>;
 
 /** Scaler parameters. */
 export type CustomScaleRuleParametersList = Array<CustomRuleParameter>;
@@ -227,9 +224,7 @@ export const CustomRuleSecretMapping = /*@__PURE__*/ S.suspend(() =>
     parameter: S.String,
     secret: S.String.pipe(T.SensitiveValue({})),
   }),
-).annotate({
-  identifier: "CustomRuleSecretMapping",
-}) as any as S.Schema<CustomRuleSecretMapping>;
+).annotate({ identifier: "CustomRuleSecretMapping" }) as any as S.Schema<CustomRuleSecretMapping>;
 
 /** Secret mappings for the scaler. */
 export type CustomScaleRuleSecretsMappingList = Array<CustomRuleSecretMapping>;
@@ -252,9 +247,7 @@ export const CustomScaleRule = /*@__PURE__*/ S.suspend(() =>
     secretsMapping: S.optional(CustomScaleRuleSecretsMappingList),
     type: S.String,
   }),
-).annotate({
-  identifier: "CustomScaleRule",
-}) as any as S.Schema<CustomScaleRule>;
+).annotate({ identifier: "CustomScaleRule" }) as any as S.Schema<CustomScaleRule>;
 
 /** HttpScaleRule defines parameters for HTTP-based scaling. */
 export interface HttpScaleRule {
@@ -272,7 +265,7 @@ export const HttpScaleRule = /*@__PURE__*/ S.suspend(() =>
 
 /** - RULE_TYPE_UNSPECIFIED: Used as zero value. - RULE_TYPE_HTTP: HTTP scaling rule. - RULE_TYPE_CUSTOM: Custom scaling rule (e.g. KEDA). */
 export type RuleType = "RULE_TYPE_UNSPECIFIED" | "RULE_TYPE_HTTP" | "RULE_TYPE_CUSTOM";
-export const RuleType = /*@__PURE__*/ S.String;
+export const RuleType = S.String;
 
 /** ScaleRule defines one autoscaling trigger. */
 export interface ScaleRule {
@@ -330,7 +323,7 @@ export const ManualScaling = /*@__PURE__*/ S.suspend(() =>
 
 /** - SCALING_TYPE_UNSPECIFIED: Used as zero value. - SCALING_TYPE_AUTO: Auto scaling based on rules. - SCALING_TYPE_MANUAL: Manual scaling with fixed number of instances. */
 export type ScalingType = "SCALING_TYPE_UNSPECIFIED" | "SCALING_TYPE_AUTO" | "SCALING_TYPE_MANUAL";
-export const ScalingType = /*@__PURE__*/ S.String;
+export const ScalingType = S.String;
 
 /** Scaling configuration for the application. */
 export interface Scaling {
@@ -358,9 +351,7 @@ export const ApplicationSecret = /*@__PURE__*/ S.suspend(() =>
     key: S.String,
     value: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ApplicationSecret",
-}) as any as S.Schema<ApplicationSecret>;
+).annotate({ identifier: "ApplicationSecret" }) as any as S.Schema<ApplicationSecret>;
 
 /** Secrets associated with the application. */
 export type CreateApplicationRequestSecretsList = Array<ApplicationSecret>;
@@ -377,7 +368,7 @@ export interface CreateApplicationRequest {
   containers: CreateApplicationRequestContainersList;
   /** Human-readable display name. */
   displayName: string;
-  network: Network;
+  network?: Network;
   /** Image registry configuration for the application. */
   registry?: CreateApplicationRequestRegistryList;
   runtimeStatus?: RuntimeStatusInput;
@@ -393,7 +384,7 @@ export const CreateApplicationRequest = /*@__PURE__*/ S.suspend(() =>
     environmentId: S.String.pipe(T.Label()),
     containers: CreateApplicationRequestContainersList,
     displayName: S.String,
-    network: Network,
+    network: S.optional(Network),
     registry: S.optional(CreateApplicationRequestRegistryList),
     runtimeStatus: S.optional(RuntimeStatusInput),
     scaling: Scaling,
@@ -407,9 +398,7 @@ export const CreateApplicationRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://sca.api.{region}stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "CreateApplicationRequest",
-}) as any as S.Schema<CreateApplicationRequest>;
+).annotate({ identifier: "CreateApplicationRequest" }) as any as S.Schema<CreateApplicationRequest>;
 
 /** Containers to deploy for the application. */
 export type ApplicationContainersList = Array<Container>;
@@ -434,7 +423,7 @@ export type InstanceStatus =
   | "INSTANCE_STATUS_PROGRESSING"
   | "INSTANCE_STATUS_RUNNING"
   | "INSTANCE_STATUS_FAILED";
-export const InstanceStatus = /*@__PURE__*/ S.String;
+export const InstanceStatus = S.String;
 
 /** Application instance summary. */
 export interface Instance {
@@ -465,6 +454,8 @@ export interface RuntimeStatus {
   /** Failure reasons collected from workload conditions. */
   failureReasons?: RuntimeStatusFailureReasonsList;
   instances?: RuntimeStatusInstancesList;
+  /** Internal URL for the running application. */
+  internalUrl?: string;
   /** Last time the application was deployed. */
   lastDeployment?: string;
   /** Known URLs for the running application. */
@@ -475,6 +466,7 @@ export const RuntimeStatus = /*@__PURE__*/ S.suspend(() =>
     currentStatus: S.optional(CurrentStatus),
     failureReasons: S.optional(RuntimeStatusFailureReasonsList),
     instances: S.optional(RuntimeStatusInstancesList),
+    internalUrl: S.optional(S.String),
     lastDeployment: S.optional(S.String),
     urls: S.optional(RuntimeStatusUrlsList),
   }),
@@ -498,7 +490,7 @@ export interface Application {
   environmentName?: string;
   /** Application identifier, for example: 00000000-0000-0000-0000-000000000000. */
   id?: string;
-  network: Network;
+  network?: Network;
   /** Image registry configuration for the application. */
   registry?: ApplicationRegistryList;
   runtimeStatus?: RuntimeStatus;
@@ -515,7 +507,7 @@ export const Application = /*@__PURE__*/ S.suspend(() =>
     environmentId: S.optional(S.String),
     environmentName: S.optional(S.String),
     id: S.optional(S.String),
-    network: Network,
+    network: S.optional(Network),
     registry: S.optional(ApplicationRegistryList),
     runtimeStatus: S.optional(RuntimeStatus),
     scaling: Scaling,
@@ -524,16 +516,25 @@ export const Application = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "Application" }) as any as S.Schema<Application>;
 
+/** - ENVIRONMENT_STATUS_UNSPECIFIED: Used as zero value. - ENVIRONMENT_STATUS_PROGRESSING: Environment is being created. - ENVIRONMENT_STATUS_CREATED: Environment is successfully created. */
+export type EnvironmentStatus =
+  | "ENVIRONMENT_STATUS_UNSPECIFIED"
+  | "ENVIRONMENT_STATUS_PROGRESSING"
+  | "ENVIRONMENT_STATUS_CREATED";
+export const EnvironmentStatus = S.String;
+
 export interface CreateEnvironmentRequest {
   /** Parent project resource name to create under */
   projectId: string;
   /** Human-readable display name. */
   displayName: string;
+  status?: EnvironmentStatus | (string & {});
 }
 export const CreateEnvironmentRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     projectId: S.String.pipe(T.Label()),
     displayName: S.String,
+    status: S.optional(EnvironmentStatus),
   }).pipe(
     T.Http({
       method: "POST",
@@ -542,9 +543,7 @@ export const CreateEnvironmentRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://sca.api.{region}stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "CreateEnvironmentRequest",
-}) as any as S.Schema<CreateEnvironmentRequest>;
+).annotate({ identifier: "CreateEnvironmentRequest" }) as any as S.Schema<CreateEnvironmentRequest>;
 
 /** Environment describes an isolated container scope within a project. */
 export interface Environment {
@@ -556,6 +555,7 @@ export interface Environment {
   displayName: string;
   /** Environment identifier, for example: default. */
   id?: string;
+  status?: EnvironmentStatus;
 }
 export const Environment = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -563,6 +563,7 @@ export const Environment = /*@__PURE__*/ S.suspend(() =>
     default: S.optional(S.Boolean),
     displayName: S.String,
     id: S.optional(S.String),
+    status: S.optional(EnvironmentStatus),
   }),
 ).annotate({ identifier: "Environment" }) as any as S.Schema<Environment>;
 
@@ -587,9 +588,7 @@ export const DeleteApplicationRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://sca.api.{region}stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "DeleteApplicationRequest",
-}) as any as S.Schema<DeleteApplicationRequest>;
+).annotate({ identifier: "DeleteApplicationRequest" }) as any as S.Schema<DeleteApplicationRequest>;
 
 export interface GetApplicationRequest {
   /** Project to fetch the application from. */
@@ -612,9 +611,7 @@ export const GetApplicationRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://sca.api.{region}stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "GetApplicationRequest",
-}) as any as S.Schema<GetApplicationRequest>;
+).annotate({ identifier: "GetApplicationRequest" }) as any as S.Schema<GetApplicationRequest>;
 
 export interface GetApplicationEventsRequest {
   /** Project to fetch the application from. */
@@ -753,9 +750,7 @@ export const GetEnvironmentRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://sca.api.{region}stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "GetEnvironmentRequest",
-}) as any as S.Schema<GetEnvironmentRequest>;
+).annotate({ identifier: "GetEnvironmentRequest" }) as any as S.Schema<GetEnvironmentRequest>;
 
 export interface GetOverviewRequest {
   /** Parent project resource name to list under. */
@@ -772,9 +767,7 @@ export const GetOverviewRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://sca.api.{region}stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "GetOverviewRequest",
-}) as any as S.Schema<GetOverviewRequest>;
+).annotate({ identifier: "GetOverviewRequest" }) as any as S.Schema<GetOverviewRequest>;
 
 /** Summary describes the current status of a project. */
 export interface Summary {
@@ -798,9 +791,7 @@ export const GetOverviewResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     summary: Summary,
   }),
-).annotate({
-  identifier: "GetOverviewResponse",
-}) as any as S.Schema<GetOverviewResponse>;
+).annotate({ identifier: "GetOverviewResponse" }) as any as S.Schema<GetOverviewResponse>;
 
 export interface ListApplicationsRequest {
   /** Project to list the applications in. */
@@ -820,9 +811,7 @@ export const ListApplicationsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://sca.api.{region}stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "ListApplicationsRequest",
-}) as any as S.Schema<ListApplicationsRequest>;
+).annotate({ identifier: "ListApplicationsRequest" }) as any as S.Schema<ListApplicationsRequest>;
 
 /** ApplicationSummary describes a summary of an application. */
 export interface ApplicationSummary {
@@ -840,6 +829,8 @@ export interface ApplicationSummary {
   id?: string;
   /** Application's running instances. */
   instances?: number;
+  /** Application's internal URL. */
+  internalUrl?: string;
   /** Date of the last moment the application got the running status in RFC3339 format. */
   lastDeployment?: string;
   status?: CurrentStatus;
@@ -857,14 +848,13 @@ export const ApplicationSummary = /*@__PURE__*/ S.suspend(() =>
     environmentName: S.optional(S.String),
     id: S.optional(S.String),
     instances: S.optional(S.Number),
+    internalUrl: S.optional(S.String),
     lastDeployment: S.optional(S.String),
     status: S.optional(CurrentStatus),
     stopped: S.optional(S.Boolean),
     url: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ApplicationSummary",
-}) as any as S.Schema<ApplicationSummary>;
+).annotate({ identifier: "ApplicationSummary" }) as any as S.Schema<ApplicationSummary>;
 
 /** Applications under the requested parent. */
 export type ListApplicationsResponseItemsList = Array<ApplicationSummary>;
@@ -881,9 +871,7 @@ export const ListApplicationsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     items: S.optional(ListApplicationsResponseItemsList),
   }),
-).annotate({
-  identifier: "ListApplicationsResponse",
-}) as any as S.Schema<ListApplicationsResponse>;
+).annotate({ identifier: "ListApplicationsResponse" }) as any as S.Schema<ListApplicationsResponse>;
 
 export interface ListEnvironmentsRequest {
   /** Parent project resource name to list under. */
@@ -900,9 +888,7 @@ export const ListEnvironmentsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://sca.api.{region}stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "ListEnvironmentsRequest",
-}) as any as S.Schema<ListEnvironmentsRequest>;
+).annotate({ identifier: "ListEnvironmentsRequest" }) as any as S.Schema<ListEnvironmentsRequest>;
 
 /** Environment summary. */
 export interface EnvironmentSummary {
@@ -925,9 +911,7 @@ export const EnvironmentSummary = /*@__PURE__*/ S.suspend(() =>
     displayName: S.optional(S.String),
     id: S.optional(S.String),
   }),
-).annotate({
-  identifier: "EnvironmentSummary",
-}) as any as S.Schema<EnvironmentSummary>;
+).annotate({ identifier: "EnvironmentSummary" }) as any as S.Schema<EnvironmentSummary>;
 
 /** Environments under the requested parent. */
 export type ListEnvironmentsResponseItemsList = Array<EnvironmentSummary>;
@@ -944,9 +928,7 @@ export const ListEnvironmentsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     items: S.optional(ListEnvironmentsResponseItemsList),
   }),
-).annotate({
-  identifier: "ListEnvironmentsResponse",
-}) as any as S.Schema<ListEnvironmentsResponse>;
+).annotate({ identifier: "ListEnvironmentsResponse" }) as any as S.Schema<ListEnvironmentsResponse>;
 
 export interface ListProjectApplicationsRequest {
   /** Project to list the applications in. */
@@ -1022,9 +1004,7 @@ export const UpdateApplicationRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://sca.api.{region}stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "UpdateApplicationRequest",
-}) as any as S.Schema<UpdateApplicationRequest>;
+).annotate({ identifier: "UpdateApplicationRequest" }) as any as S.Schema<UpdateApplicationRequest>;
 
 export type CreateApplicationError = BadRequest | Conflict | StackitOpError;
 /** Creates a new application within a environment. */
@@ -1087,7 +1067,7 @@ export const getApplication: API.OperationMethod<
 }));
 
 export type GetApplicationEventsError = NotFound | StackitOpError;
-/** GetApplicationEvents retrieves events of an application. */
+/** Retrieves events of an application. */
 export const getApplicationEvents: API.OperationMethod<
   GetApplicationEventsRequest,
   GetApplicationEventsResponse,
@@ -1102,7 +1082,7 @@ export const getApplicationEvents: API.OperationMethod<
 }));
 
 export type GetApplicationLogsError = BadRequest | NotFound | StackitOpError;
-/** GetApplicationLogs retrieves logs of an application. */
+/** Retrieves logs of an application. */
 export const getApplicationLogs: API.OperationMethod<
   GetApplicationLogsRequest,
   GetApplicationLogsResponse,
@@ -1132,6 +1112,7 @@ export const getEnvironment: API.OperationMethod<
 }));
 
 export type GetOverviewError = StackitOpError;
+/** Retrieves the overview for an environment. */
 export const getOverview: API.OperationMethod<
   GetOverviewRequest,
   GetOverviewResponse,

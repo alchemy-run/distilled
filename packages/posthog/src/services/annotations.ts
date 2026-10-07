@@ -46,11 +46,7 @@ export const AnnotationsDestroyRequest = /*@__PURE__*/ S.suspend(() =>
     project_id: S.String.pipe(T.Label()),
     id: S.Number.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/projects/{project_id}/annotations/{id}/",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/api/projects/{project_id}/annotations/{id}/", code: 200 }),
   ),
 ).annotate({
   identifier: "AnnotationsDestroyRequest",
@@ -108,16 +104,8 @@ export const CreateAnnotationRequest = /*@__PURE__*/ S.suspend(() =>
     scope: S.optional(AnnotationScopeEnum),
     emoji: S.optional(S.NullOr(S.String)),
     hidden_in_user_interface: S.optional(S.NullOr(S.Boolean)),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/projects/{project_id}/annotations/",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "CreateAnnotationRequest",
-}) as any as S.Schema<CreateAnnotationRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/api/projects/{project_id}/annotations/", code: 200 })),
+).annotate({ identifier: "CreateAnnotationRequest" }) as any as S.Schema<CreateAnnotationRequest>;
 
 export type UserBasicHedgehogConfigMap = { [key: string]: unknown | undefined };
 export const UserBasicHedgehogConfigMap = /*@__PURE__*/ S.Record(
@@ -231,15 +219,9 @@ export const GetAnnotationRequest = /*@__PURE__*/ S.suspend(() =>
     project_id: S.String.pipe(T.Label()),
     id: S.Number.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/annotations/{id}/",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/projects/{project_id}/annotations/{id}/", code: 200 }),
   ),
-).annotate({
-  identifier: "GetAnnotationRequest",
-}) as any as S.Schema<GetAnnotationRequest>;
+).annotate({ identifier: "GetAnnotationRequest" }) as any as S.Schema<GetAnnotationRequest>;
 
 export interface ListAnnotationsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -257,16 +239,8 @@ export const ListAnnotationsRequest = /*@__PURE__*/ S.suspend(() =>
     limit: S.optional(S.Number.pipe(T.Query())),
     offset: S.optional(S.Number.pipe(T.Query())),
     search: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/annotations/",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ListAnnotationsRequest",
-}) as any as S.Schema<ListAnnotationsRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/projects/{project_id}/annotations/", code: 200 })),
+).annotate({ identifier: "ListAnnotationsRequest" }) as any as S.Schema<ListAnnotationsRequest>;
 
 export type PaginatedAnnotationListResultsList = Array<Annotation>;
 export const PaginatedAnnotationListResultsList = /*@__PURE__*/ S.Array(
@@ -286,9 +260,7 @@ export const PaginatedAnnotationList = /*@__PURE__*/ S.suspend(() =>
     previous: S.optional(S.NullOr(S.String)),
     results: S.optional(PaginatedAnnotationListResultsList),
   }),
-).annotate({
-  identifier: "PaginatedAnnotationList",
-}) as any as S.Schema<PaginatedAnnotationList>;
+).annotate({ identifier: "PaginatedAnnotationList" }) as any as S.Schema<PaginatedAnnotationList>;
 
 export interface UpdateAnnotationRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -328,15 +300,9 @@ export const UpdateAnnotationRequest = /*@__PURE__*/ S.suspend(() =>
     emoji: S.optional(S.NullOr(S.String)),
     hidden_in_user_interface: S.optional(S.NullOr(S.Boolean)),
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/api/projects/{project_id}/annotations/{id}/",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/api/projects/{project_id}/annotations/{id}/", code: 200 }),
   ),
-).annotate({
-  identifier: "UpdateAnnotationRequest",
-}) as any as S.Schema<UpdateAnnotationRequest>;
+).annotate({ identifier: "UpdateAnnotationRequest" }) as any as S.Schema<UpdateAnnotationRequest>;
 
 export interface UpdateAnnotationsPartialRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -376,11 +342,7 @@ export const UpdateAnnotationsPartialRequest = /*@__PURE__*/ S.suspend(() =>
     emoji: S.optional(S.NullOr(S.String)),
     hidden_in_user_interface: S.optional(S.NullOr(S.Boolean)),
   }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/api/projects/{project_id}/annotations/{id}/",
-      code: 200,
-    }),
+    T.Http({ method: "PATCH", uri: "/api/projects/{project_id}/annotations/{id}/", code: 200 }),
   ),
 ).annotate({
   identifier: "UpdateAnnotationsPartialRequest",

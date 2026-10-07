@@ -63,9 +63,7 @@ export const CreateInstanceRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://edge.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "CreateInstanceRequest",
-}) as any as S.Schema<CreateInstanceRequest>;
+).annotate({ identifier: "CreateInstanceRequest" }) as any as S.Schema<CreateInstanceRequest>;
 
 export interface IpAllowListEntry {
   /** ISO-8601 timestamp of when the entry was created. */
@@ -87,9 +85,7 @@ export const IpAllowListEntry = /*@__PURE__*/ S.suspend(() =>
     updatedAt: S.optional(S.String),
     uuid: S.String,
   }),
-).annotate({
-  identifier: "IpAllowListEntry",
-}) as any as S.Schema<IpAllowListEntry>;
+).annotate({ identifier: "IpAllowListEntry" }) as any as S.Schema<IpAllowListEntry>;
 
 export type AclIpAllowListList = Array<IpAllowListEntry>;
 export const AclIpAllowListList = /*@__PURE__*/ S.Array(
@@ -108,7 +104,7 @@ export const Acl = /*@__PURE__*/ S.suspend(() =>
 
 /** The current status of the instance. */
 export type InstanceStatus = "error" | "reconciling" | "active" | "deleting";
-export const InstanceStatus = /*@__PURE__*/ S.String;
+export const InstanceStatus = S.String;
 
 export interface Instance {
   acl?: Acl;
@@ -161,9 +157,7 @@ export const DeleteInstanceRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://edge.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "DeleteInstanceRequest",
-}) as any as S.Schema<DeleteInstanceRequest>;
+).annotate({ identifier: "DeleteInstanceRequest" }) as any as S.Schema<DeleteInstanceRequest>;
 
 export interface DeleteInstanceResponse {}
 export const DeleteInstanceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -221,9 +215,7 @@ export const GetInstanceRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://edge.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "GetInstanceRequest",
-}) as any as S.Schema<GetInstanceRequest>;
+).annotate({ identifier: "GetInstanceRequest" }) as any as S.Schema<GetInstanceRequest>;
 
 export interface GetInstanceByNameRequest {
   /** The STACKIT portal project UUID the instance is part of. */
@@ -246,9 +238,7 @@ export const GetInstanceByNameRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://edge.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "GetInstanceByNameRequest",
-}) as any as S.Schema<GetInstanceByNameRequest>;
+).annotate({ identifier: "GetInstanceByNameRequest" }) as any as S.Schema<GetInstanceByNameRequest>;
 
 export interface GetKubeconfigByInstanceIdRequest {
   /** The STACKIT portal project UUID the instance is part of. */
@@ -421,9 +411,7 @@ export const KubernetesReleaseList = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     k8s_releases: KubernetesReleaseListK8sReleasesList,
   }),
-).annotate({
-  identifier: "KubernetesReleaseList",
-}) as any as S.Schema<KubernetesReleaseList>;
+).annotate({ identifier: "KubernetesReleaseList" }) as any as S.Schema<KubernetesReleaseList>;
 
 export interface ListInstancesRequest {
   /** The STACKIT portal project UUID the instance is part of. */
@@ -443,9 +431,7 @@ export const ListInstancesRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://edge.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "ListInstancesRequest",
-}) as any as S.Schema<ListInstancesRequest>;
+).annotate({ identifier: "ListInstancesRequest" }) as any as S.Schema<ListInstancesRequest>;
 
 export type InstanceListInstancesList = Array<Instance>;
 export const InstanceListInstancesList = /*@__PURE__*/ S.Array(
@@ -476,9 +462,7 @@ export const ListPlansProjectRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://edge.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "ListPlansProjectRequest",
-}) as any as S.Schema<ListPlansProjectRequest>;
+).annotate({ identifier: "ListPlansProjectRequest" }) as any as S.Schema<ListPlansProjectRequest>;
 
 export interface Plan {
   /** Description */
@@ -543,9 +527,7 @@ export const UpdateInstanceRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://edge.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "UpdateInstanceRequest",
-}) as any as S.Schema<UpdateInstanceRequest>;
+).annotate({ identifier: "UpdateInstanceRequest" }) as any as S.Schema<UpdateInstanceRequest>;
 
 export interface UpdateInstanceResponse {}
 export const UpdateInstanceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({

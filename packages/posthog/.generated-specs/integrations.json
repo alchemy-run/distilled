@@ -159,6 +159,12 @@
             "smithy.api#enumValue": "google-sheets"
           }
         },
+        "HELPSCOUT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "helpscout"
+          }
+        },
         "HUBSPOT": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -291,6 +297,12 @@
             "smithy.api#enumValue": "twilio"
           }
         },
+        "TWITTER_ADS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "twitter-ads"
+          }
+        },
         "VERCEL": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -321,7 +333,7 @@
           "target": "com.posthog.integrations#ListIntegrationsRequestKind",
           "traits": {
             "smithy.api#httpQuery": "kind",
-            "smithy.api#documentation": "* `anthropic` - Anthropic\n* `apns` - Apple Push\n* `aws-redshift` - Aws Redshift\n* `aws-s3` - Aws S3\n* `azure-blob` - Azure Blob\n* `bing-ads` - Bing Ads\n* `clickup` - Clickup\n* `customerio-app` - Customerio App\n* `customerio-track` - Customerio Track\n* `customerio-webhook` - Customerio Webhook\n* `databricks` - Databricks\n* `email` - Email\n* `firebase` - Firebase\n* `github` - Github\n* `gitlab` - Gitlab\n* `google-ads` - Google Ads\n* `google-analytics` - Google Analytics\n* `google-calendar` - Google Calendar\n* `google-cloud-service-account` - Google Cloud Service Account\n* `google-cloud-storage` - Google Cloud Storage\n* `google-pubsub` - Google Pubsub\n* `google-search-console` - Google Search Console\n* `google-sheets` - Google Sheets\n* `hubspot` - Hubspot\n* `instagram` - Instagram\n* `intercom` - Intercom\n* `jira` - Jira\n* `linear` - Linear\n* `linkedin-ads` - Linkedin Ads\n* `meta-ads` - Meta Ads\n* `pardot` - Pardot\n* `pinterest-ads` - Pinterest Ads\n* `postgresql` - Postgresql\n* `posthog` - Posthog\n* `reddit-ads` - Reddit Ads\n* `resend` - Resend\n* `s3-compatible` - S3 Compatible\n* `salesforce` - Salesforce\n* `slack` - Slack\n* `slack-posthog-code` - Slack Posthog Code\n* `snapchat` - Snapchat\n* `snowflake` - Snowflake\n* `stripe` - Stripe\n* `tiktok-ads` - Tiktok Ads\n* `twilio` - Twilio\n* `vercel` - Vercel\n* `youtube-analytics` - Youtube Analytics"
+            "smithy.api#documentation": "* `anthropic` - Anthropic\n* `apns` - Apple Push\n* `aws-redshift` - Aws Redshift\n* `aws-s3` - Aws S3\n* `azure-blob` - Azure Blob\n* `bing-ads` - Bing Ads\n* `clickup` - Clickup\n* `customerio-app` - Customerio App\n* `customerio-track` - Customerio Track\n* `customerio-webhook` - Customerio Webhook\n* `databricks` - Databricks\n* `email` - Email\n* `firebase` - Firebase\n* `github` - Github\n* `gitlab` - Gitlab\n* `google-ads` - Google Ads\n* `google-analytics` - Google Analytics\n* `google-calendar` - Google Calendar\n* `google-cloud-service-account` - Google Cloud Service Account\n* `google-cloud-storage` - Google Cloud Storage\n* `google-pubsub` - Google Pubsub\n* `google-search-console` - Google Search Console\n* `google-sheets` - Google Sheets\n* `helpscout` - Helpscout\n* `hubspot` - Hubspot\n* `instagram` - Instagram\n* `intercom` - Intercom\n* `jira` - Jira\n* `linear` - Linear\n* `linkedin-ads` - Linkedin Ads\n* `meta-ads` - Meta Ads\n* `pardot` - Pardot\n* `pinterest-ads` - Pinterest Ads\n* `postgresql` - Postgresql\n* `posthog` - Posthog\n* `reddit-ads` - Reddit Ads\n* `twitter-ads` - Twitter Ads\n* `resend` - Resend\n* `s3-compatible` - S3 Compatible\n* `salesforce` - Salesforce\n* `slack` - Slack\n* `slack-posthog-code` - Slack Posthog Code\n* `snapchat` - Snapchat\n* `snowflake` - Snowflake\n* `stripe` - Stripe\n* `tiktok-ads` - Tiktok Ads\n* `twilio` - Twilio\n* `vercel` - Vercel\n* `youtube-analytics` - Youtube Analytics"
           }
         },
         "limit": {
@@ -560,6 +572,12 @@
             "smithy.api#enumValue": "google-sheets"
           }
         },
+        "HELPSCOUT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "helpscout"
+          }
+        },
         "HUBSPOT": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -630,6 +648,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "reddit-ads"
+          }
+        },
+        "TWITTER_ADS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "twitter-ads"
           }
         },
         "RESEND": {
@@ -706,7 +730,7 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "* `anthropic` - Anthropic\n* `apns` - Apple Push\n* `aws-redshift` - Aws Redshift\n* `aws-s3` - Aws S3\n* `azure-blob` - Azure Blob\n* `bing-ads` - Bing Ads\n* `clickup` - Clickup\n* `customerio-app` - Customerio App\n* `customerio-track` - Customerio Track\n* `customerio-webhook` - Customerio Webhook\n* `databricks` - Databricks\n* `email` - Email\n* `firebase` - Firebase\n* `github` - Github\n* `gitlab` - Gitlab\n* `google-ads` - Google Ads\n* `google-analytics` - Google Analytics\n* `google-calendar` - Google Calendar\n* `google-cloud-service-account` - Google Cloud Service Account\n* `google-cloud-storage` - Google Cloud Storage\n* `google-pubsub` - Google Pubsub\n* `google-search-console` - Google Search Console\n* `google-sheets` - Google Sheets\n* `hubspot` - Hubspot\n* `instagram` - Instagram\n* `intercom` - Intercom\n* `jira` - Jira\n* `linear` - Linear\n* `linkedin-ads` - Linkedin Ads\n* `meta-ads` - Meta Ads\n* `pardot` - Pardot\n* `pinterest-ads` - Pinterest Ads\n* `postgresql` - Postgresql\n* `posthog` - Posthog\n* `reddit-ads` - Reddit Ads\n* `resend` - Resend\n* `s3-compatible` - S3 Compatible\n* `salesforce` - Salesforce\n* `slack` - Slack\n* `slack-posthog-code` - Slack Posthog Code\n* `snapchat` - Snapchat\n* `snowflake` - Snowflake\n* `stripe` - Stripe\n* `tiktok-ads` - Tiktok Ads\n* `twilio` - Twilio\n* `vercel` - Vercel\n* `youtube-analytics` - Youtube Analytics"
+        "smithy.api#documentation": "* `anthropic` - Anthropic\n* `apns` - Apple Push\n* `aws-redshift` - Aws Redshift\n* `aws-s3` - Aws S3\n* `azure-blob` - Azure Blob\n* `bing-ads` - Bing Ads\n* `clickup` - Clickup\n* `customerio-app` - Customerio App\n* `customerio-track` - Customerio Track\n* `customerio-webhook` - Customerio Webhook\n* `databricks` - Databricks\n* `email` - Email\n* `firebase` - Firebase\n* `github` - Github\n* `gitlab` - Gitlab\n* `google-ads` - Google Ads\n* `google-analytics` - Google Analytics\n* `google-calendar` - Google Calendar\n* `google-cloud-service-account` - Google Cloud Service Account\n* `google-cloud-storage` - Google Cloud Storage\n* `google-pubsub` - Google Pubsub\n* `google-search-console` - Google Search Console\n* `google-sheets` - Google Sheets\n* `helpscout` - Helpscout\n* `hubspot` - Hubspot\n* `instagram` - Instagram\n* `intercom` - Intercom\n* `jira` - Jira\n* `linear` - Linear\n* `linkedin-ads` - Linkedin Ads\n* `meta-ads` - Meta Ads\n* `pardot` - Pardot\n* `pinterest-ads` - Pinterest Ads\n* `postgresql` - Postgresql\n* `posthog` - Posthog\n* `reddit-ads` - Reddit Ads\n* `twitter-ads` - Twitter Ads\n* `resend` - Resend\n* `s3-compatible` - S3 Compatible\n* `salesforce` - Salesforce\n* `slack` - Slack\n* `slack-posthog-code` - Slack Posthog Code\n* `snapchat` - Snapchat\n* `snowflake` - Snowflake\n* `stripe` - Stripe\n* `tiktok-ads` - Tiktok Ads\n* `twilio` - Twilio\n* `vercel` - Vercel\n* `youtube-analytics` - Youtube Analytics"
       }
     },
     "com.posthog.integrations#UserBasic": {
@@ -1712,6 +1736,13 @@
             "smithy.api#documentation": "A unique integer value identifying this integration."
           }
         },
+        "compact": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "compact",
+            "smithy.api#documentation": "When true, return only id, name, and full_name for each repository. Use it to list large rosters in fewer, smaller pages."
+          }
+        },
         "limit": {
           "target": "smithy.api#Integer",
           "traits": {
@@ -1748,6 +1779,13 @@
           "target": "smithy.api#Boolean",
           "traits": {
             "smithy.api#documentation": "Whether more repositories are available beyond this page."
+          }
+        },
+        "next_offset": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The offset to pass to get the next page, or null when this page is the last one.",
+            "com.distilled.openapi#nullable": {}
           }
         },
         "total": {
@@ -2758,6 +2796,35 @@
     "com.posthog.integrations#GitHubAvailableInstallationsResponse": {
       "type": "structure",
       "members": {
+        "discovery_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Correlation ID for this discovery response.",
+            "smithy.api#required": {}
+          }
+        },
+        "discovered_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Time this discovery completed.",
+            "smithy.api#required": {}
+          }
+        },
+        "personal_github_login": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "GitHub identity of the credential used for personal discovery.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "personal_discovery_status": {
+          "target": "com.posthog.integrations#GitHubPersonalDiscoveryStatusEnum",
+          "traits": {
+            "smithy.api#documentation": "Whether personal discovery succeeded, has no connection, or is unavailable.\n\n* `ok` - Ok\n* `not_connected` - Not Connected\n* `unavailable` - Unavailable",
+            "smithy.api#required": {}
+          }
+        },
         "installations": {
           "target": "com.posthog.integrations#GitHubAvailableInstallationsResponseInstallationsList",
           "traits": {
@@ -2774,6 +2841,32 @@
         }
       },
       "traits": {}
+    },
+    "com.posthog.integrations#GitHubPersonalDiscoveryStatusEnum": {
+      "type": "enum",
+      "members": {
+        "OK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ok"
+          }
+        },
+        "NOT_CONNECTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "not_connected"
+          }
+        },
+        "UNAVAILABLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unavailable"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `ok` - Ok\n* `not_connected` - Not Connected\n* `unavailable` - Unavailable"
+      }
     },
     "com.posthog.integrations#GitHubAvailableInstallation": {
       "type": "structure",
@@ -2805,6 +2898,14 @@
           "target": "smithy.api#Integer",
           "traits": {
             "smithy.api#documentation": "A project in the organization that already has this installation linked. Null when the installation isn't linked to any project yet — it was found via the user's personal GitHub link and can be adopted by linking it here.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "source_team_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the project in source_team_id, so the picker can say where the installation comes from. Null for an installation no project has linked yet.",
             "smithy.api#required": {},
             "com.distilled.openapi#nullable": {}
           }
@@ -2849,6 +2950,13 @@
             "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
           }
         },
+        "discovery_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Discovery response ID for diagnostics only; grants no authority.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
         "source_team_id": {
           "target": "smithy.api#Integer",
           "traits": {
@@ -2859,7 +2967,8 @@
         "installation_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "GitHub installation ID to link; resolved within the organization when source_team_id is omitted."
+            "smithy.api#documentation": "GitHub installation ID to link; resolved within the organization when source_team_id is omitted.",
+            "com.distilled.openapi#nullable": {}
           }
         }
       },
@@ -3021,7 +3130,7 @@
         "kind": {
           "target": "com.posthog.integrations#IntegrationKindEnum",
           "traits": {
-            "smithy.api#documentation": "The kind of integration the member is requesting be connected (e.g. 'slack', 'github').\n\n* `anthropic` - Anthropic\n* `apns` - Apple Push\n* `aws-redshift` - Aws Redshift\n* `aws-s3` - Aws S3\n* `azure-blob` - Azure Blob\n* `bing-ads` - Bing Ads\n* `clickup` - Clickup\n* `customerio-app` - Customerio App\n* `customerio-track` - Customerio Track\n* `customerio-webhook` - Customerio Webhook\n* `databricks` - Databricks\n* `email` - Email\n* `firebase` - Firebase\n* `github` - Github\n* `gitlab` - Gitlab\n* `google-ads` - Google Ads\n* `google-analytics` - Google Analytics\n* `google-calendar` - Google Calendar\n* `google-cloud-service-account` - Google Cloud Service Account\n* `google-cloud-storage` - Google Cloud Storage\n* `google-pubsub` - Google Pubsub\n* `google-search-console` - Google Search Console\n* `google-sheets` - Google Sheets\n* `hubspot` - Hubspot\n* `instagram` - Instagram\n* `intercom` - Intercom\n* `jira` - Jira\n* `linear` - Linear\n* `linkedin-ads` - Linkedin Ads\n* `meta-ads` - Meta Ads\n* `pardot` - Pardot\n* `pinterest-ads` - Pinterest Ads\n* `postgresql` - Postgresql\n* `posthog` - Posthog\n* `reddit-ads` - Reddit Ads\n* `resend` - Resend\n* `s3-compatible` - S3 Compatible\n* `salesforce` - Salesforce\n* `slack` - Slack\n* `slack-posthog-code` - Slack Posthog Code\n* `snapchat` - Snapchat\n* `snowflake` - Snowflake\n* `stripe` - Stripe\n* `tiktok-ads` - Tiktok Ads\n* `twilio` - Twilio\n* `vercel` - Vercel\n* `youtube-analytics` - Youtube Analytics",
+            "smithy.api#documentation": "The kind of integration the member is requesting be connected (e.g. 'slack', 'github').\n\n* `anthropic` - Anthropic\n* `apns` - Apple Push\n* `aws-redshift` - Aws Redshift\n* `aws-s3` - Aws S3\n* `azure-blob` - Azure Blob\n* `bing-ads` - Bing Ads\n* `clickup` - Clickup\n* `customerio-app` - Customerio App\n* `customerio-track` - Customerio Track\n* `customerio-webhook` - Customerio Webhook\n* `databricks` - Databricks\n* `email` - Email\n* `firebase` - Firebase\n* `github` - Github\n* `gitlab` - Gitlab\n* `google-ads` - Google Ads\n* `google-analytics` - Google Analytics\n* `google-calendar` - Google Calendar\n* `google-cloud-service-account` - Google Cloud Service Account\n* `google-cloud-storage` - Google Cloud Storage\n* `google-pubsub` - Google Pubsub\n* `google-search-console` - Google Search Console\n* `google-sheets` - Google Sheets\n* `helpscout` - Helpscout\n* `hubspot` - Hubspot\n* `instagram` - Instagram\n* `intercom` - Intercom\n* `jira` - Jira\n* `linear` - Linear\n* `linkedin-ads` - Linkedin Ads\n* `meta-ads` - Meta Ads\n* `pardot` - Pardot\n* `pinterest-ads` - Pinterest Ads\n* `postgresql` - Postgresql\n* `posthog` - Posthog\n* `reddit-ads` - Reddit Ads\n* `twitter-ads` - Twitter Ads\n* `resend` - Resend\n* `s3-compatible` - S3 Compatible\n* `salesforce` - Salesforce\n* `slack` - Slack\n* `slack-posthog-code` - Slack Posthog Code\n* `snapchat` - Snapchat\n* `snowflake` - Snowflake\n* `stripe` - Stripe\n* `tiktok-ads` - Tiktok Ads\n* `twilio` - Twilio\n* `vercel` - Vercel\n* `youtube-analytics` - Youtube Analytics",
             "smithy.api#required": {}
           }
         },

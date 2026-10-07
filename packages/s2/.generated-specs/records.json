@@ -116,6 +116,13 @@
             "smithy.api#httpHeader": "s2-encryption-key",
             "smithy.api#documentation": "Encryption key material for append and read operations.\nProvide base64-encoded key when stream encryption is enabled."
           }
+        },
+        "s2StreamConfig": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "s2-stream-config",
+            "smithy.api#documentation": "JSON-encoded `StreamConfig` to apply if the stream is created on append or read.\nUnset fields inherit the basin's default stream configuration.\nIgnored if the stream already exists.\nCompact JSON is preferred."
+          }
         }
       },
       "traits": {
@@ -306,6 +313,13 @@
           "traits": {
             "smithy.api#httpHeader": "s2-encryption-key",
             "smithy.api#documentation": "Encryption key material for append and read operations.\nProvide base64-encoded key when stream encryption is enabled."
+          }
+        },
+        "s2StreamConfig": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "s2-stream-config",
+            "smithy.api#documentation": "JSON-encoded `StreamConfig` to apply if the stream is created on append or read.\nUnset fields inherit the basin's default stream configuration.\nIgnored if the stream already exists.\nCompact JSON is preferred."
           }
         },
         "fencing_token": {

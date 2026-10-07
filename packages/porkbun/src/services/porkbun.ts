@@ -19,6 +19,15 @@ export class BadRequest
     [{ status: 400 }],
   ) {}
 
+export class Conflict
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
+      code: S.Number,
+      message: S.String,
+    }).pipe(C.withConflictError),
+    [{ status: 409 }],
+  ) {}
+
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
@@ -36,6 +45,83 @@ export class NotFound
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
   ) {}
+
+export interface AccountVerifyPhoneConfirmRequest {
+  /** The code the person received, exactly as texted. Case does not matter. */
+  code: string;
+}
+export const AccountVerifyPhoneConfirmRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    code: S.String,
+  }).pipe(T.Http({ method: "POST", uri: "/account/verifyPhone/confirm", code: 200 })),
+).annotate({
+  identifier: "AccountVerifyPhoneConfirmRequest",
+}) as any as S.Schema<AccountVerifyPhoneConfirmRequest>;
+
+export interface AccountVerifyPhoneConfirmResponse {
+  status?: string;
+  verified?: boolean;
+  alreadyVerified?: boolean;
+  emailVerified?: boolean;
+  message?: string;
+}
+export const AccountVerifyPhoneConfirmResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    status: S.optional(S.String),
+    verified: S.optional(S.Boolean),
+    alreadyVerified: S.optional(S.Boolean),
+    emailVerified: S.optional(S.Boolean),
+    message: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "AccountVerifyPhoneConfirmResponse",
+}) as any as S.Schema<AccountVerifyPhoneConfirmResponse>;
+
+/** `call` reads the code out by voice, for when a text does not arrive. */
+export type AccountVerifyPhoneSendRequestChannel = "sms" | "call";
+export const AccountVerifyPhoneSendRequestChannel = S.String;
+
+export interface AccountVerifyPhoneSendRequest {
+  /** `call` reads the code out by voice, for when a text does not arrive. */
+  channel?: AccountVerifyPhoneSendRequestChannel | (string & {});
+  dryRun?: boolean;
+}
+export const AccountVerifyPhoneSendRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    channel: S.optional(AccountVerifyPhoneSendRequestChannel),
+    dryRun: S.optional(S.Boolean),
+  }).pipe(T.Http({ method: "POST", uri: "/account/verifyPhone/send", code: 200 })),
+).annotate({
+  identifier: "AccountVerifyPhoneSendRequest",
+}) as any as S.Schema<AccountVerifyPhoneSendRequest>;
+
+export interface AccountVerifyPhoneSendResponse {
+  status?: string;
+  sent?: boolean;
+  codeAlreadySent?: boolean;
+  alreadyVerified?: boolean;
+  channel?: string;
+  /** The number, masked (`+1 ••• 42`). */
+  sentTo?: string;
+  expiresInMinutes?: number;
+  retryAfterSeconds?: number;
+  message?: string;
+}
+export const AccountVerifyPhoneSendResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    status: S.optional(S.String),
+    sent: S.optional(S.Boolean),
+    codeAlreadySent: S.optional(S.Boolean),
+    alreadyVerified: S.optional(S.Boolean),
+    channel: S.optional(S.String),
+    sentTo: S.optional(S.String),
+    expiresInMinutes: S.optional(S.Number),
+    retryAfterSeconds: S.optional(S.Number),
+    message: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "AccountVerifyPhoneSendResponse",
+}) as any as S.Schema<AccountVerifyPhoneSendResponse>;
 
 /** PKCE challenge method. Only S256 is supported. */
 export type ApikeyRequestRequestCodeChallengeMethod = "S256";
@@ -61,9 +147,7 @@ export const ApikeyRequestRequest = /*@__PURE__*/ S.suspend(() =>
     sandbox: S.optional(S.Boolean),
     returnUrl: S.optional(S.String),
   }).pipe(T.Http({ method: "POST", uri: "/apikey/request", code: 200 })),
-).annotate({
-  identifier: "ApikeyRequestRequest",
-}) as any as S.Schema<ApikeyRequestRequest>;
+).annotate({ identifier: "ApikeyRequestRequest" }) as any as S.Schema<ApikeyRequestRequest>;
 
 /** Which delivery flow this request uses. 'pkce' when a codeChallenge was supplied (the secret is returned once via /apikey/retrieve to the verifier holder); 'legacy' otherwise (the secret is shown only in the browser). */
 export type ApikeyRequestResponseDeliveryMode = "legacy" | "pkce";
@@ -91,9 +175,454 @@ export const ApikeyRequestResponse = /*@__PURE__*/ S.suspend(() =>
     deliveryMode: S.optional(ApikeyRequestResponseDeliveryMode),
     message: S.optional(S.String),
   }),
+).annotate({ identifier: "ApikeyRequestResponse" }) as any as S.Schema<ApikeyRequestResponse>;
+
+/** Domains to check, e.g. ["example.com", "example.net"]. Duplicates are removed. */
+export type BulkDomainCheckDomainRequestDomainsList = Array<string>;
+export const BulkDomainCheckDomainRequestDomainsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<BulkDomainCheckDomainRequestDomainsList>;
+
+export interface BulkDomainCheckDomainRequest {
+  /** Domains to check, e.g. ["example.com", "example.net"]. Duplicates are removed. */
+  domains: BulkDomainCheckDomainRequestDomainsList;
+}
+export const BulkDomainCheckDomainRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    domains: BulkDomainCheckDomainRequestDomainsList,
+  }).pipe(T.Http({ method: "POST", uri: "/domain/checkDomain", code: 200 })),
 ).annotate({
-  identifier: "ApikeyRequestResponse",
-}) as any as S.Schema<ApikeyRequestResponse>;
+  identifier: "BulkDomainCheckDomainRequest",
+}) as any as S.Schema<BulkDomainCheckDomainRequest>;
+
+/** Keyed by domain name; each value has the same shape as the single-check `response` object */
+export type BulkDomainCheckDomainResponseDomainsMap = { [key: string]: unknown | undefined };
+export const BulkDomainCheckDomainResponseDomainsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.Unknown,
+) as any as S.Schema<BulkDomainCheckDomainResponseDomainsMap>;
+
+/** The registry did not answer for these. NOT a statement of availability - retry them. */
+export type BulkDomainCheckDomainResponseUnresolvedList = Array<string>;
+export const BulkDomainCheckDomainResponseUnresolvedList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<BulkDomainCheckDomainResponseUnresolvedList>;
+
+/** Entries that could not be checked, each with a reason */
+export type BulkDomainCheckDomainResponseInvalidList = Array<unknown>;
+export const BulkDomainCheckDomainResponseInvalidList = /*@__PURE__*/ S.Array(
+  S.Unknown,
+) as any as S.Schema<BulkDomainCheckDomainResponseInvalidList>;
+
+export interface BulkDomainCheckDomainResponse {
+  status?: string;
+  /** How many domains were answered */
+  checked?: number;
+  /** Keyed by domain name; each value has the same shape as the single-check `response` object */
+  domains?: BulkDomainCheckDomainResponseDomainsMap;
+  /** The registry did not answer for these. NOT a statement of availability - retry them. */
+  unresolved?: BulkDomainCheckDomainResponseUnresolvedList;
+  /** Entries that could not be checked, each with a reason */
+  invalid?: BulkDomainCheckDomainResponseInvalidList;
+  /** Bulk budget usage; `countedIn` is "domains" */
+  limits?: unknown;
+}
+export const BulkDomainCheckDomainResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    status: S.optional(S.String),
+    checked: S.optional(S.Number),
+    domains: S.optional(BulkDomainCheckDomainResponseDomainsMap),
+    unresolved: S.optional(BulkDomainCheckDomainResponseUnresolvedList),
+    invalid: S.optional(BulkDomainCheckDomainResponseInvalidList),
+    limits: S.optional(S.Unknown),
+  }),
+).annotate({
+  identifier: "BulkDomainCheckDomainResponse",
+}) as any as S.Schema<BulkDomainCheckDomainResponse>;
+
+/** Optional. `"usdc"` pays for this purchase directly in USDC on Base over x402 instead of from account credit. The first call answers HTTP 402 (`PAYMENT_REQUIRED`) with Coinbase's terms in the `PAYMENT-REQUIRED` header and charges nothing; an x402 client pays and repeats the same request with a `PAYMENT-SIGNATURE` header, and the purchase completes in that call. If it then fails, the payment stays on the account as account credit; it is not sent back to the wallet. If your wallet pays URLs itself instead, pay the 402's `x402Url` (or have a person pay `payUrl`) and repeat the request with `usdcCheckoutId`. See the guide: https://porkbun.com/llms/guides/pay-with-usdc-x402 */
+export type CloseoutBuyRequestPayWith = "usdc";
+export const CloseoutBuyRequestPayWith = S.String;
+
+export interface CloseoutBuyRequest {
+  domain: string;
+  /** Exact totalPrice in integer US cents, from /closeout/get/{domain}. Use 0 only with dryRun to request a quote. */
+  cost: number;
+  /** Optional. `"usdc"` pays for this purchase directly in USDC on Base over x402 instead of from account credit. The first call answers HTTP 402 (`PAYMENT_REQUIRED`) with Coinbase's terms in the `PAYMENT-REQUIRED` header and charges nothing; an x402 client pays and repeats the same request with a `PAYMENT-SIGNATURE` header, and the purchase completes in that call. If it then fails, the payment stays on the account as account credit; it is not sent back to the wallet. If your wallet pays URLs itself instead, pay the 402's `x402Url` (or have a person pay `payUrl`) and repeat the request with `usdcCheckoutId`. See the guide: https://porkbun.com/llms/guides/pay-with-usdc-x402 */
+  payWith?: CloseoutBuyRequestPayWith | (string & {});
+  /** With `payWith: "usdc"`: the `checkoutId` from an earlier `PAYMENT_REQUIRED`, once its `x402Url` or `payUrl` has been paid. Send it with otherwise the same request; the purchase completes if the checkout is paid and was opened for this purchase. */
+  usdcCheckoutId?: string;
+  /** Validate and price without charging or claiming. */
+  dryRun?: boolean;
+}
+export const CloseoutBuyRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    domain: S.String.pipe(T.Label()),
+    cost: S.Number,
+    payWith: S.optional(CloseoutBuyRequestPayWith),
+    usdcCheckoutId: S.optional(S.String),
+    dryRun: S.optional(S.Boolean),
+  }).pipe(T.Http({ method: "POST", uri: "/closeout/buy/{domain}", code: 200 })),
+).annotate({ identifier: "CloseoutBuyRequest" }) as any as S.Schema<CloseoutBuyRequest>;
+
+export interface CloseoutBuyResponse {
+  status?: string;
+  domain?: string;
+  orderId?: number;
+  closeoutId?: number;
+  closeoutPrice?: number;
+  renewalPrice?: number;
+  totalPrice?: number;
+  message?: string;
+}
+export const CloseoutBuyResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    status: S.optional(S.String),
+    domain: S.optional(S.String),
+    orderId: S.optional(S.Number),
+    closeoutId: S.optional(S.Number),
+    closeoutPrice: S.optional(S.Number),
+    renewalPrice: S.optional(S.Number),
+    totalPrice: S.optional(S.Number),
+    message: S.optional(S.String),
+  }),
+).annotate({ identifier: "CloseoutBuyResponse" }) as any as S.Schema<CloseoutBuyResponse>;
+
+export interface CloudflareCreateRecordRequest {
+  domain: string;
+  /** A, AAAA, CNAME, TXT, MX, NS, PTR or SPF for a plain `content` value. Structured types (SRV, CAA, TLSA…) need `data` instead. */
+  type: string;
+  /** `@` for the apex, a bare label (`www`) is expanded, or a full hostname. */
+  name?: string;
+  /** The value the record points at. */
+  content?: string;
+  /** 1 = automatic (Cloudflare's default), otherwise 60–86400. */
+  ttl?: number;
+  /** Required for MX; lower is preferred. */
+  priority?: number;
+  /** Orange cloud. A/AAAA/CNAME only. */
+  proxied?: boolean;
+  /** Free-text note stored on the record (100 chars). */
+  comment?: string;
+  /** Structured value for record types Cloudflare models as an object (SRV, CAA…), passed through as given. */
+  data?: unknown;
+  dryRun?: boolean;
+}
+export const CloudflareCreateRecordRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    domain: S.String.pipe(T.Label()),
+    type: S.String,
+    name: S.optional(S.String),
+    content: S.optional(S.String),
+    ttl: S.optional(S.Number),
+    priority: S.optional(S.Number),
+    proxied: S.optional(S.Boolean),
+    comment: S.optional(S.String),
+    data: S.optional(S.Unknown),
+    dryRun: S.optional(S.Boolean),
+  }).pipe(T.Http({ method: "POST", uri: "/cloudflare/createRecord/{domain}", code: 200 })),
+).annotate({
+  identifier: "CloudflareCreateRecordRequest",
+}) as any as S.Schema<CloudflareCreateRecordRequest>;
+
+export type CloudflareCreateRecordResponse = unknown;
+export const CloudflareCreateRecordResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Unknown.pipe(T.RawResponseRoot()),
+).annotate({
+  identifier: "CloudflareCreateRecordResponse",
+}) as any as S.Schema<CloudflareCreateRecordResponse>;
+
+export interface CloudflareDeleteRecordRequest {
+  domain: string;
+  /** Cloudflare record id from /cloudflare/getRecords. */
+  recordId: string;
+  dryRun?: boolean;
+}
+export const CloudflareDeleteRecordRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    domain: S.String.pipe(T.Label()),
+    recordId: S.String.pipe(T.Label()),
+    dryRun: S.optional(S.Boolean),
+  }).pipe(
+    T.Http({ method: "POST", uri: "/cloudflare/deleteRecord/{domain}/{recordId}", code: 200 }),
+  ),
+).annotate({
+  identifier: "CloudflareDeleteRecordRequest",
+}) as any as S.Schema<CloudflareDeleteRecordRequest>;
+
+export type CloudflareDeleteRecordResponse = unknown;
+export const CloudflareDeleteRecordResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Unknown.pipe(T.RawResponseRoot()),
+).annotate({
+  identifier: "CloudflareDeleteRecordResponse",
+}) as any as S.Schema<CloudflareDeleteRecordResponse>;
+
+export interface CloudflareEditRecordRequest {
+  domain: string;
+  /** Cloudflare record id from /cloudflare/getRecords. */
+  recordId: string;
+  /** A, AAAA, CNAME, TXT, MX, NS, PTR or SPF for a plain `content` value. Structured types (SRV, CAA, TLSA…) need `data` instead. */
+  type?: string;
+  /** `@` for the apex, a bare label (`www`) is expanded, or a full hostname. */
+  name?: string;
+  /** The value the record points at. */
+  content?: string;
+  /** 1 = automatic (Cloudflare's default), otherwise 60–86400. */
+  ttl?: number;
+  /** Required for MX; lower is preferred. */
+  priority?: number;
+  /** Orange cloud. A/AAAA/CNAME only. */
+  proxied?: boolean;
+  /** Free-text note stored on the record (100 chars). */
+  comment?: string;
+  /** Structured value for record types Cloudflare models as an object (SRV, CAA…), passed through as given. */
+  data?: unknown;
+  dryRun?: boolean;
+}
+export const CloudflareEditRecordRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    domain: S.String.pipe(T.Label()),
+    recordId: S.String.pipe(T.Label()),
+    type: S.optional(S.String),
+    name: S.optional(S.String),
+    content: S.optional(S.String),
+    ttl: S.optional(S.Number),
+    priority: S.optional(S.Number),
+    proxied: S.optional(S.Boolean),
+    comment: S.optional(S.String),
+    data: S.optional(S.Unknown),
+    dryRun: S.optional(S.Boolean),
+  }).pipe(T.Http({ method: "POST", uri: "/cloudflare/editRecord/{domain}/{recordId}", code: 200 })),
+).annotate({
+  identifier: "CloudflareEditRecordRequest",
+}) as any as S.Schema<CloudflareEditRecordRequest>;
+
+export type CloudflareEditRecordResponse = unknown;
+export const CloudflareEditRecordResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Unknown.pipe(T.RawResponseRoot()),
+).annotate({
+  identifier: "CloudflareEditRecordResponse",
+}) as any as S.Schema<CloudflareEditRecordResponse>;
+
+export interface CloudflareGetConnectionRequest {}
+export const CloudflareGetConnectionRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}).pipe(T.Http({ method: "GET", uri: "/cloudflare/getConnection", code: 200 })),
+).annotate({
+  identifier: "CloudflareGetConnectionRequest",
+}) as any as S.Schema<CloudflareGetConnectionRequest>;
+
+export type CloudflareGetConnectionResponse = unknown;
+export const CloudflareGetConnectionResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Unknown.pipe(T.RawResponseRoot()),
+).annotate({
+  identifier: "CloudflareGetConnectionResponse",
+}) as any as S.Schema<CloudflareGetConnectionResponse>;
+
+export interface CloudflareGetQueueRequest {}
+export const CloudflareGetQueueRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}).pipe(T.Http({ method: "GET", uri: "/cloudflare/getQueue", code: 200 })),
+).annotate({
+  identifier: "CloudflareGetQueueRequest",
+}) as any as S.Schema<CloudflareGetQueueRequest>;
+
+export type CloudflareGetQueueResponse = unknown;
+export const CloudflareGetQueueResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Unknown.pipe(T.RawResponseRoot()),
+).annotate({
+  identifier: "CloudflareGetQueueResponse",
+}) as any as S.Schema<CloudflareGetQueueResponse>;
+
+export interface CloudflareGetRecordsRequest {
+  domain: string;
+}
+export const CloudflareGetRecordsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    domain: S.String.pipe(T.Label()),
+  }).pipe(T.Http({ method: "GET", uri: "/cloudflare/getRecords/{domain}", code: 200 })),
+).annotate({
+  identifier: "CloudflareGetRecordsRequest",
+}) as any as S.Schema<CloudflareGetRecordsRequest>;
+
+export type CloudflareGetRecordsResponse = unknown;
+export const CloudflareGetRecordsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Unknown.pipe(T.RawResponseRoot()),
+).annotate({
+  identifier: "CloudflareGetRecordsResponse",
+}) as any as S.Schema<CloudflareGetRecordsResponse>;
+
+export interface CloudflareGetZoneRequest {
+  domain: string;
+}
+export const CloudflareGetZoneRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    domain: S.String.pipe(T.Label()),
+  }).pipe(T.Http({ method: "GET", uri: "/cloudflare/getZone/{domain}", code: 200 })),
+).annotate({ identifier: "CloudflareGetZoneRequest" }) as any as S.Schema<CloudflareGetZoneRequest>;
+
+export type CloudflareGetZoneResponse = unknown;
+export const CloudflareGetZoneResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Unknown.pipe(T.RawResponseRoot()),
+).annotate({
+  identifier: "CloudflareGetZoneResponse",
+}) as any as S.Schema<CloudflareGetZoneResponse>;
+
+export interface CloudflareGetZoneSettingsRequest {
+  domain: string;
+}
+export const CloudflareGetZoneSettingsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    domain: S.String.pipe(T.Label()),
+  }).pipe(T.Http({ method: "GET", uri: "/cloudflare/getZoneSettings/{domain}", code: 200 })),
+).annotate({
+  identifier: "CloudflareGetZoneSettingsRequest",
+}) as any as S.Schema<CloudflareGetZoneSettingsRequest>;
+
+export type CloudflareGetZoneSettingsResponse = unknown;
+export const CloudflareGetZoneSettingsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Unknown.pipe(T.RawResponseRoot()),
+).annotate({
+  identifier: "CloudflareGetZoneSettingsResponse",
+}) as any as S.Schema<CloudflareGetZoneSettingsResponse>;
+
+export interface CloudflareInventoryRequest {}
+export const CloudflareInventoryRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}).pipe(T.Http({ method: "GET", uri: "/cloudflare/inventory", code: 200 })),
+).annotate({
+  identifier: "CloudflareInventoryRequest",
+}) as any as S.Schema<CloudflareInventoryRequest>;
+
+export type CloudflareInventoryResponse = unknown;
+export const CloudflareInventoryResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Unknown.pipe(T.RawResponseRoot()),
+).annotate({
+  identifier: "CloudflareInventoryResponse",
+}) as any as S.Schema<CloudflareInventoryResponse>;
+
+export interface CloudflareRollbackRequest {
+  domain: string;
+}
+export const CloudflareRollbackRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    domain: S.String.pipe(T.Label()),
+  }).pipe(T.Http({ method: "POST", uri: "/cloudflare/rollback/{domain}", code: 200 })),
+).annotate({
+  identifier: "CloudflareRollbackRequest",
+}) as any as S.Schema<CloudflareRollbackRequest>;
+
+export type CloudflareRollbackResponse = unknown;
+export const CloudflareRollbackResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Unknown.pipe(T.RawResponseRoot()),
+).annotate({
+  identifier: "CloudflareRollbackResponse",
+}) as any as S.Schema<CloudflareRollbackResponse>;
+
+/** Optional. Limit to these names; "@" = apex, bare labels are expanded. */
+export type CloudflareSetProxyRequestRecordsList = Array<string>;
+export const CloudflareSetProxyRequestRecordsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<CloudflareSetProxyRequestRecordsList>;
+
+export interface CloudflareSetProxyRequest {
+  domain: string;
+  /** true = proxy through Cloudflare (orange cloud); false = DNS-only (grey cloud). */
+  enabled: boolean;
+  /** Optional. Limit to these names; "@" = apex, bare labels are expanded. */
+  records?: CloudflareSetProxyRequestRecordsList;
+  dryRun?: boolean;
+}
+export const CloudflareSetProxyRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    domain: S.String.pipe(T.Label()),
+    enabled: S.Boolean,
+    records: S.optional(CloudflareSetProxyRequestRecordsList),
+    dryRun: S.optional(S.Boolean),
+  }).pipe(T.Http({ method: "POST", uri: "/cloudflare/setProxy/{domain}", code: 200 })),
+).annotate({
+  identifier: "CloudflareSetProxyRequest",
+}) as any as S.Schema<CloudflareSetProxyRequest>;
+
+export type CloudflareSetProxyResponse = unknown;
+export const CloudflareSetProxyResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Unknown.pipe(T.RawResponseRoot()),
+).annotate({
+  identifier: "CloudflareSetProxyResponse",
+}) as any as S.Schema<CloudflareSetProxyResponse>;
+
+export type CloudflareSetZoneSettingsRequestSsl = "off" | "flexible" | "full" | "strict";
+export const CloudflareSetZoneSettingsRequestSsl = S.String;
+
+export type CloudflareSetZoneSettingsRequestAlwaysUseHttps = "on" | "off";
+export const CloudflareSetZoneSettingsRequestAlwaysUseHttps = S.String;
+
+export type CloudflareSetZoneSettingsRequestAutomaticHttpsRewrites = "on" | "off";
+export const CloudflareSetZoneSettingsRequestAutomaticHttpsRewrites = S.String;
+
+export type CloudflareSetZoneSettingsRequestMinTlsVersion = "1.0" | "1.1" | "1.2" | "1.3";
+export const CloudflareSetZoneSettingsRequestMinTlsVersion = S.String;
+
+export type CloudflareSetZoneSettingsRequestDevelopmentMode = "on" | "off";
+export const CloudflareSetZoneSettingsRequestDevelopmentMode = S.String;
+
+export type CloudflareSetZoneSettingsRequestCacheLevel = "aggressive" | "basic" | "simplified";
+export const CloudflareSetZoneSettingsRequestCacheLevel = S.String;
+
+export interface CloudflareSetZoneSettingsRequest {
+  domain: string;
+  ssl?: CloudflareSetZoneSettingsRequestSsl | (string & {});
+  always_use_https?: CloudflareSetZoneSettingsRequestAlwaysUseHttps | (string & {});
+  automatic_https_rewrites?: CloudflareSetZoneSettingsRequestAutomaticHttpsRewrites | (string & {});
+  min_tls_version?: CloudflareSetZoneSettingsRequestMinTlsVersion | (string & {});
+  development_mode?: CloudflareSetZoneSettingsRequestDevelopmentMode | (string & {});
+  cache_level?: CloudflareSetZoneSettingsRequestCacheLevel | (string & {});
+  dryRun?: boolean;
+}
+export const CloudflareSetZoneSettingsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    domain: S.String.pipe(T.Label()),
+    ssl: S.optional(CloudflareSetZoneSettingsRequestSsl),
+    always_use_https: S.optional(CloudflareSetZoneSettingsRequestAlwaysUseHttps),
+    automatic_https_rewrites: S.optional(CloudflareSetZoneSettingsRequestAutomaticHttpsRewrites),
+    min_tls_version: S.optional(CloudflareSetZoneSettingsRequestMinTlsVersion),
+    development_mode: S.optional(CloudflareSetZoneSettingsRequestDevelopmentMode),
+    cache_level: S.optional(CloudflareSetZoneSettingsRequestCacheLevel),
+    dryRun: S.optional(S.Boolean),
+  }).pipe(T.Http({ method: "POST", uri: "/cloudflare/setZoneSettings/{domain}", code: 200 })),
+).annotate({
+  identifier: "CloudflareSetZoneSettingsRequest",
+}) as any as S.Schema<CloudflareSetZoneSettingsRequest>;
+
+export type CloudflareSetZoneSettingsResponse = unknown;
+export const CloudflareSetZoneSettingsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Unknown.pipe(T.RawResponseRoot()),
+).annotate({
+  identifier: "CloudflareSetZoneSettingsResponse",
+}) as any as S.Schema<CloudflareSetZoneSettingsResponse>;
+
+/** Domain names to move. A comma-separated string is also accepted. */
+export type ConnectCloudflareRequestDomainsList = Array<string>;
+export const ConnectCloudflareRequestDomainsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<ConnectCloudflareRequestDomainsList>;
+
+export interface ConnectCloudflareRequest {
+  /** Domain names to move. A comma-separated string is also accepted. */
+  domains: ConnectCloudflareRequestDomainsList;
+  /** Validate and return per-domain verdicts without queueing. */
+  dryRun?: boolean;
+}
+export const ConnectCloudflareRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    domains: ConnectCloudflareRequestDomainsList,
+    dryRun: S.optional(S.Boolean),
+  }).pipe(T.Http({ method: "POST", uri: "/cloudflare/connect", code: 200 })),
+).annotate({ identifier: "ConnectCloudflareRequest" }) as any as S.Schema<ConnectCloudflareRequest>;
+
+export type ConnectCloudflareResponse = unknown;
+export const ConnectCloudflareResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Unknown.pipe(T.RawResponseRoot()),
+).annotate({
+  identifier: "ConnectCloudflareResponse",
+}) as any as S.Schema<ConnectCloudflareResponse>;
 
 export interface CreateAccountInviteRequest {
   /** Email address to pre-fill on the registration form (optional) */
@@ -175,27 +704,35 @@ export const CreateDnsRequest = /*@__PURE__*/ S.suspend(() =>
     notes: S.optional(S.String),
     dryRun: S.optional(S.Boolean),
   }).pipe(T.Http({ method: "POST", uri: "/dns/create/{domain}", code: 200 })),
-).annotate({
-  identifier: "CreateDnsRequest",
-}) as any as S.Schema<CreateDnsRequest>;
+).annotate({ identifier: "CreateDnsRequest" }) as any as S.Schema<CreateDnsRequest>;
+
+/** Advisory, and present only when there is something to say. It never means the call failed. The one to handle: a DNS write is accepted and stored even when the domain is NOT delegated to our nameservers -- we keep the zone ready in case the delegation comes back -- so the write changed nothing that resolves, and this field says so. Show these to the user as written. */
+export type DnsWriteWarnings = Array<string>;
+export const DnsWriteWarnings = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<DnsWriteWarnings>;
 
 export interface CreateDnsResponse {
   status?: string;
   /** The numeric ID of the newly created record */
   id?: string;
+  warnings?: DnsWriteWarnings;
 }
 export const CreateDnsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     status: S.optional(S.String),
     id: S.optional(S.String),
+    warnings: S.optional(DnsWriteWarnings),
   }),
-).annotate({
-  identifier: "CreateDnsResponse",
-}) as any as S.Schema<CreateDnsResponse>;
+).annotate({ identifier: "CreateDnsResponse" }) as any as S.Schema<CreateDnsResponse>;
 
 /** Must be 'yes' or '1' to confirm agreement to the Domain Name Registration Agreement, Product Terms of Service, Privacy Policy, and automatic renewal terms. */
 export type CreateDomainRequestAgreeToTerms = "yes" | "1";
 export const CreateDomainRequestAgreeToTerms = S.String;
+
+/** Optional. `"usdc"` pays for this purchase directly in USDC on Base over x402 instead of from account credit. The first call answers HTTP 402 (`PAYMENT_REQUIRED`) with Coinbase's terms in the `PAYMENT-REQUIRED` header and charges nothing; an x402 client pays and repeats the same request with a `PAYMENT-SIGNATURE` header, and the purchase completes in that call. If it then fails, the payment stays on the account as account credit; it is not sent back to the wallet. If your wallet pays URLs itself instead, pay the 402's `x402Url` (or have a person pay `payUrl`) and repeat the request with `usdcCheckoutId`. See the guide: https://porkbun.com/llms/guides/pay-with-usdc-x402 */
+export type CreateDomainRequestPayWith = "usdc";
+export const CreateDomainRequestPayWith = S.String;
 
 export interface CreateDomainRequest {
   domain: string;
@@ -205,7 +742,11 @@ export interface CreateDomainRequest {
   agreeToTerms: CreateDomainRequestAgreeToTerms | (string & {});
   /** Optional. Override WHOIS privacy for this registration. When omitted, the account-level default is used (set under Account Security Settings on porkbun.com/account — defaults to enabled). Pass `true` to force-enable privacy or `false` to register with public contact info. Strings `"on"`/`"off"`, `"true"`/`"false"`, `"yes"`/`"no"`, `"1"`/`"0"` are also accepted. Has no effect on TLDs that don't support WHOIS privacy (privacy stays off regardless). */
   whoisPrivacy?: boolean;
-  /** Optional. When true, runs all pre-flight validation (availability, pricing, cost match, eligibility, funds, spend limit) and returns a preview with `dryRun: true` and `wouldSucceed` WITHOUT creating an order or charging. Nothing is registered and the rate-limit budget is not consumed. Use it to safely confirm an operation before committing. */
+  /** Optional. `"usdc"` pays for this purchase directly in USDC on Base over x402 instead of from account credit. The first call answers HTTP 402 (`PAYMENT_REQUIRED`) with Coinbase's terms in the `PAYMENT-REQUIRED` header and charges nothing; an x402 client pays and repeats the same request with a `PAYMENT-SIGNATURE` header, and the purchase completes in that call. If it then fails, the payment stays on the account as account credit; it is not sent back to the wallet. If your wallet pays URLs itself instead, pay the 402's `x402Url` (or have a person pay `payUrl`) and repeat the request with `usdcCheckoutId`. See the guide: https://porkbun.com/llms/guides/pay-with-usdc-x402 */
+  payWith?: CreateDomainRequestPayWith | (string & {});
+  /** With `payWith: "usdc"`: the `checkoutId` from an earlier `PAYMENT_REQUIRED`, once its `x402Url` or `payUrl` has been paid. Send it with otherwise the same request; the purchase completes if the checkout is paid and was opened for this purchase. */
+  usdcCheckoutId?: string;
+  /** Optional. When true, runs all pre-flight validation (availability, pricing, cost match, eligibility, funds, monthly spend limit, including the $100 default when none is set) and returns a preview with `dryRun: true` and `wouldSucceed` WITHOUT creating an order or charging. Nothing is registered and the rate-limit budget is not consumed. Use it to safely confirm an operation before committing. */
   dryRun?: boolean;
 }
 export const CreateDomainRequest = /*@__PURE__*/ S.suspend(() =>
@@ -214,11 +755,11 @@ export const CreateDomainRequest = /*@__PURE__*/ S.suspend(() =>
     cost: S.Number,
     agreeToTerms: CreateDomainRequestAgreeToTerms,
     whoisPrivacy: S.optional(S.Boolean),
+    payWith: S.optional(CreateDomainRequestPayWith),
+    usdcCheckoutId: S.optional(S.String),
     dryRun: S.optional(S.Boolean),
   }).pipe(T.Http({ method: "POST", uri: "/domain/create/{domain}", code: 200 })),
-).annotate({
-  identifier: "CreateDomainRequest",
-}) as any as S.Schema<CreateDomainRequest>;
+).annotate({ identifier: "CreateDomainRequest" }) as any as S.Schema<CreateDomainRequest>;
 
 /** Create-attempt rate limit state */
 export interface CreateDomainResponseLimitsAttempts {
@@ -306,9 +847,7 @@ export const CreateDomainResponse = /*@__PURE__*/ S.suspend(() =>
     ttlRemaining: S.optional(S.Number),
     requestId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CreateDomainResponse",
-}) as any as S.Schema<CreateDomainResponse>;
+).annotate({ identifier: "CreateDomainResponse" }) as any as S.Schema<CreateDomainResponse>;
 
 export type DryRunPreviewResponseOperation = "registration" | "renewal" | "transfer";
 export const DryRunPreviewResponseOperation = S.String;
@@ -369,9 +908,7 @@ export const DryRunPreviewResponse = /*@__PURE__*/ S.suspend(() =>
     message: S.optional(S.String),
     requestId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DryRunPreviewResponse",
-}) as any as S.Schema<DryRunPreviewResponse>;
+).annotate({ identifier: "DryRunPreviewResponse" }) as any as S.Schema<DryRunPreviewResponse>;
 
 export type CreateDomainResponseBody = CreateDomainResponse | DryRunPreviewResponse;
 export const CreateDomainResponseBody = S.Unknown as any as S.Schema<CreateDomainResponseBody>;
@@ -379,9 +916,7 @@ export const CreateDomainResponseBody = S.Unknown as any as S.Schema<CreateDomai
 export type CreateDomainResponse2 = CreateDomainResponseBody;
 export const CreateDomainResponse2 = /*@__PURE__*/ S.suspend(() =>
   CreateDomainResponseBody.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "CreateDomainResponse2",
-}) as any as S.Schema<CreateDomainResponse2>;
+).annotate({ identifier: "CreateDomainResponse2" }) as any as S.Schema<CreateDomainResponse2>;
 
 /** The hosting plan SKU to provision. Discover the provisionable SKUs (and each one’s price/interval/trial) via GET /hosting/plans, then pass the row’s `sku`. Currently Secure Static Hosting: PIXIESECURESTATICM2 ($3.00/mo) or PIXIESECURESTATICY2 ($30.00/yr). */
 export type CreateHostingRequestSku = "PIXIESECURESTATICM2" | "PIXIESECURESTATICY2";
@@ -389,6 +924,10 @@ export const CreateHostingRequestSku = S.String;
 
 export type CreateHostingRequestAgreeToTerms = "yes";
 export const CreateHostingRequestAgreeToTerms = S.String;
+
+/** Optional. `"usdc"` pays for this purchase directly in USDC on Base over x402 instead of from account credit. The first call answers HTTP 402 (`PAYMENT_REQUIRED`) with Coinbase's terms in the `PAYMENT-REQUIRED` header and charges nothing; an x402 client pays and repeats the same request with a `PAYMENT-SIGNATURE` header, and the purchase completes in that call. If it then fails, the payment stays on the account as account credit; it is not sent back to the wallet. If your wallet pays URLs itself instead, pay the 402's `x402Url` (or have a person pay `payUrl`) and repeat the request with `usdcCheckoutId`. See the guide: https://porkbun.com/llms/guides/pay-with-usdc-x402 */
+export type CreateHostingRequestPayWith = "usdc";
+export const CreateHostingRequestPayWith = S.String;
 
 export interface CreateHostingRequest {
   domain: string;
@@ -399,6 +938,10 @@ export interface CreateHostingRequest {
   agreeToTerms: CreateHostingRequestAgreeToTerms | (string & {});
   /** Required (true) when the domain is not already on Porkbun nameservers — provisioning will switch them. */
   agreeToNameserverChange?: boolean;
+  /** Optional. `"usdc"` pays for this purchase directly in USDC on Base over x402 instead of from account credit. The first call answers HTTP 402 (`PAYMENT_REQUIRED`) with Coinbase's terms in the `PAYMENT-REQUIRED` header and charges nothing; an x402 client pays and repeats the same request with a `PAYMENT-SIGNATURE` header, and the purchase completes in that call. If it then fails, the payment stays on the account as account credit; it is not sent back to the wallet. If your wallet pays URLs itself instead, pay the 402's `x402Url` (or have a person pay `payUrl`) and repeat the request with `usdcCheckoutId`. See the guide: https://porkbun.com/llms/guides/pay-with-usdc-x402 */
+  payWith?: CreateHostingRequestPayWith | (string & {});
+  /** With `payWith: "usdc"`: the `checkoutId` from an earlier `PAYMENT_REQUIRED`, once its `x402Url` or `payUrl` has been paid. Send it with otherwise the same request; the purchase completes if the checkout is paid and was opened for this purchase. */
+  usdcCheckoutId?: string;
   /** Validate + preview without provisioning or charging. */
   dryRun?: boolean;
 }
@@ -409,11 +952,11 @@ export const CreateHostingRequest = /*@__PURE__*/ S.suspend(() =>
     acknowledgedCost: S.Number,
     agreeToTerms: CreateHostingRequestAgreeToTerms,
     agreeToNameserverChange: S.optional(S.Boolean),
+    payWith: S.optional(CreateHostingRequestPayWith),
+    usdcCheckoutId: S.optional(S.String),
     dryRun: S.optional(S.Boolean),
   }).pipe(T.Http({ method: "POST", uri: "/hosting/create/{domain}", code: 200 })),
-).annotate({
-  identifier: "CreateHostingRequest",
-}) as any as S.Schema<CreateHostingRequest>;
+).annotate({ identifier: "CreateHostingRequest" }) as any as S.Schema<CreateHostingRequest>;
 
 export type CreateHostingResponseHostingStatus = "ACTIVE" | "PENDING";
 export const CreateHostingResponseHostingStatus = S.String;
@@ -478,9 +1021,7 @@ export const CreateHostingResponse = /*@__PURE__*/ S.suspend(() =>
     cost: S.optional(CreateHostingResponseCost),
     message: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CreateHostingResponse",
-}) as any as S.Schema<CreateHostingResponse>;
+).annotate({ identifier: "CreateHostingResponse" }) as any as S.Schema<CreateHostingResponse>;
 
 /** Event types to subscribe to. Omit, or pass ["*"], for all events. Prefix wildcards like "dns.*" are allowed. */
 export type CreateWebhookRequestEventsList = Array<string>;
@@ -489,7 +1030,7 @@ export const CreateWebhookRequestEventsList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<CreateWebhookRequestEventsList>;
 
 export interface CreateWebhookRequest {
-  /** HTTPS URL to deliver events to. */
+  /** HTTPS endpoint that receives the signed POST. Port 443 only, and the hostname must resolve to a public internet address — private/loopback/reserved targets are refused. */
   url: string;
   /** Event types to subscribe to. Omit, or pass ["*"], for all events. Prefix wildcards like "dns.*" are allowed. */
   events?: CreateWebhookRequestEventsList;
@@ -499,9 +1040,7 @@ export const CreateWebhookRequest = /*@__PURE__*/ S.suspend(() =>
     url: S.String,
     events: S.optional(CreateWebhookRequestEventsList),
   }).pipe(T.Http({ method: "POST", uri: "/webhook/create", code: 200 })),
-).annotate({
-  identifier: "CreateWebhookRequest",
-}) as any as S.Schema<CreateWebhookRequest>;
+).annotate({ identifier: "CreateWebhookRequest" }) as any as S.Schema<CreateWebhookRequest>;
 
 /** Subscribed event types, or ["*"] for all. */
 export type WebhookEndpointEventsList = Array<string>;
@@ -548,9 +1087,7 @@ export const WebhookEndpoint = /*@__PURE__*/ S.suspend(() =>
     lastError: S.optional(S.NullOr(S.String)),
     createDate: S.optional(S.String),
   }),
-).annotate({
-  identifier: "WebhookEndpoint",
-}) as any as S.Schema<WebhookEndpoint>;
+).annotate({ identifier: "WebhookEndpoint" }) as any as S.Schema<WebhookEndpoint>;
 
 export interface WebhookEndpointResponse {
   status?: string;
@@ -561,9 +1098,7 @@ export const WebhookEndpointResponse = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(S.String),
     endpoint: S.optional(WebhookEndpoint),
   }),
-).annotate({
-  identifier: "WebhookEndpointResponse",
-}) as any as S.Schema<WebhookEndpointResponse>;
+).annotate({ identifier: "WebhookEndpointResponse" }) as any as S.Schema<WebhookEndpointResponse>;
 
 export interface DeleteDnsRequest {
   domain: string;
@@ -575,14 +1110,13 @@ export const DeleteDnsRequest = /*@__PURE__*/ S.suspend(() =>
     domain: S.String.pipe(T.Label()),
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "POST", uri: "/dns/delete/{domain}/{id}", code: 200 })),
-).annotate({
-  identifier: "DeleteDnsRequest",
-}) as any as S.Schema<DeleteDnsRequest>;
+).annotate({ identifier: "DeleteDnsRequest" }) as any as S.Schema<DeleteDnsRequest>;
 
 export type BasicResponseStatus = "SUCCESS" | "ERROR";
 export const BasicResponseStatus = S.String;
 
 export interface BasicResponse {
+  warnings?: DnsWriteWarnings;
   status: BasicResponseStatus;
   /** Human-readable message. Present on ERROR, sometimes on SUCCESS. */
   message?: string;
@@ -591,6 +1125,7 @@ export interface BasicResponse {
 }
 export const BasicResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    warnings: S.optional(DnsWriteWarnings),
     status: BasicResponseStatus,
     message: S.optional(S.String),
     code: S.optional(S.String),
@@ -604,9 +1139,7 @@ export const DeleteHostingRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     domain: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "POST", uri: "/hosting/delete/{domain}", code: 200 })),
-).annotate({
-  identifier: "DeleteHostingRequest",
-}) as any as S.Schema<DeleteHostingRequest>;
+).annotate({ identifier: "DeleteHostingRequest" }) as any as S.Schema<DeleteHostingRequest>;
 
 export interface DeleteWebhookRequest {
   /** Endpoint id. */
@@ -616,9 +1149,7 @@ export const DeleteWebhookRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.Number,
   }).pipe(T.Http({ method: "POST", uri: "/webhook/delete", code: 200 })),
-).annotate({
-  identifier: "DeleteWebhookRequest",
-}) as any as S.Schema<DeleteWebhookRequest>;
+).annotate({ identifier: "DeleteWebhookRequest" }) as any as S.Schema<DeleteWebhookRequest>;
 
 export interface DeleteWebhookResponse {
   status?: string;
@@ -629,9 +1160,7 @@ export const DeleteWebhookResponse = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(S.String),
     message: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DeleteWebhookResponse",
-}) as any as S.Schema<DeleteWebhookResponse>;
+).annotate({ identifier: "DeleteWebhookResponse" }) as any as S.Schema<DeleteWebhookResponse>;
 
 export interface DeployHostingRequestFilesItem {
   path?: string;
@@ -661,9 +1190,7 @@ export const DeployHostingRequest = /*@__PURE__*/ S.suspend(() =>
     domain: S.String.pipe(T.Label()),
     files: DeployHostingRequestFilesList,
   }).pipe(T.Http({ method: "POST", uri: "/hosting/deploy/{domain}", code: 200 })),
-).annotate({
-  identifier: "DeployHostingRequest",
-}) as any as S.Schema<DeployHostingRequest>;
+).annotate({ identifier: "DeployHostingRequest" }) as any as S.Schema<DeployHostingRequest>;
 
 export type DeployHostingResponseDeployedList = Array<string>;
 export const DeployHostingResponseDeployedList = /*@__PURE__*/ S.Array(
@@ -699,9 +1226,21 @@ export const DeployHostingResponse = /*@__PURE__*/ S.suspend(() =>
     deployed: S.optional(DeployHostingResponseDeployedList),
     skipped: S.optional(DeployHostingResponseSkippedList),
   }),
+).annotate({ identifier: "DeployHostingResponse" }) as any as S.Schema<DeployHostingResponse>;
+
+export interface DisconnectCloudflareRequest {}
+export const DisconnectCloudflareRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}).pipe(T.Http({ method: "POST", uri: "/cloudflare/disconnect", code: 200 })),
 ).annotate({
-  identifier: "DeployHostingResponse",
-}) as any as S.Schema<DeployHostingResponse>;
+  identifier: "DisconnectCloudflareRequest",
+}) as any as S.Schema<DisconnectCloudflareRequest>;
+
+export type DisconnectCloudflareResponse = unknown;
+export const DisconnectCloudflareResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Unknown.pipe(T.RawResponseRoot()),
+).annotate({
+  identifier: "DisconnectCloudflareResponse",
+}) as any as S.Schema<DisconnectCloudflareResponse>;
 
 export interface DnsCreateDnssecRecordRequest {
   domain: string;
@@ -736,16 +1275,32 @@ export const DnsCreateDnssecRecordRequest = /*@__PURE__*/ S.suspend(() =>
     keyDataProtocol: S.optional(S.String),
     keyDataAlgo: S.optional(S.String),
     keyDataPubKey: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/dns/createDnssecRecord/{domain}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/dns/createDnssecRecord/{domain}", code: 200 })),
 ).annotate({
   identifier: "DnsCreateDnssecRecordRequest",
 }) as any as S.Schema<DnsCreateDnssecRecordRequest>;
+
+export type DnsCreateDnssecRecordResponseStatus = "SUCCESS" | "ERROR";
+export const DnsCreateDnssecRecordResponseStatus = S.String;
+
+export interface DnsCreateDnssecRecordResponse {
+  warnings?: DnsWriteWarnings;
+  status: DnsCreateDnssecRecordResponseStatus;
+  /** Human-readable message. Present on ERROR, sometimes on SUCCESS. */
+  message?: string;
+  /** Machine-readable error code. Present when status is ERROR. */
+  code?: string;
+}
+export const DnsCreateDnssecRecordResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    warnings: S.optional(DnsWriteWarnings),
+    status: DnsCreateDnssecRecordResponseStatus,
+    message: S.optional(S.String),
+    code: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "DnsCreateDnssecRecordResponse",
+}) as any as S.Schema<DnsCreateDnssecRecordResponse>;
 
 export interface DnsDeleteByNameTypeRequest {
   domain: string;
@@ -759,11 +1314,7 @@ export const DnsDeleteByNameTypeRequest = /*@__PURE__*/ S.suspend(() =>
     type: S.String.pipe(T.Label()),
     subdomain: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/dns/deleteByNameType/{domain}/{type}/{subdomain}",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/dns/deleteByNameType/{domain}/{type}/{subdomain}", code: 200 }),
   ),
 ).annotate({
   identifier: "DnsDeleteByNameTypeRequest",
@@ -778,16 +1329,87 @@ export const DnsDeleteDnssecRecordRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     domain: S.String.pipe(T.Label()),
     keytag: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/dns/deleteDnssecRecord/{domain}/{keytag}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/dns/deleteDnssecRecord/{domain}/{keytag}", code: 200 })),
 ).annotate({
   identifier: "DnsDeleteDnssecRecordRequest",
 }) as any as S.Schema<DnsDeleteDnssecRecordRequest>;
+
+export interface DnsDiffRequest {
+  domain: string;
+  /** A restore point id from GET /dns/history/{domain}. */
+  snapshotId: number;
+}
+export const DnsDiffRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    domain: S.String.pipe(T.Label()),
+    snapshotId: S.Number.pipe(T.Label()),
+  }).pipe(T.Http({ method: "GET", uri: "/dns/diff/{domain}/{snapshotId}", code: 200 })),
+).annotate({ identifier: "DnsDiffRequest" }) as any as S.Schema<DnsDiffRequest>;
+
+export interface DnsDiffResponseSnapshot {
+  id?: number;
+  takenAt?: string;
+  reason?: string;
+}
+export const DnsDiffResponseSnapshot = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.Number),
+    takenAt: S.optional(S.String),
+    reason: S.optional(S.String),
+  }),
+).annotate({ identifier: "DnsDiffResponseSnapshot" }) as any as S.Schema<DnsDiffResponseSnapshot>;
+
+export interface DnsHistoryRecord {
+  /** Fully qualified. */
+  name?: string;
+  type?: string;
+  /** For masked records (parking, ALIAS, HTTPS) this is the value you configured, not the internal host it resolves to. */
+  content?: string;
+  ttl?: number;
+  prio?: number | null;
+}
+export const DnsHistoryRecord = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    type: S.optional(S.String),
+    content: S.optional(S.String),
+    ttl: S.optional(S.Number),
+    prio: S.optional(S.NullOr(S.Number)),
+  }),
+).annotate({ identifier: "DnsHistoryRecord" }) as any as S.Schema<DnsHistoryRecord>;
+
+/** In the restore point, not live. A restore adds these back. */
+export type DnsDiffResponseMissingList = Array<DnsHistoryRecord>;
+export const DnsDiffResponseMissingList = /*@__PURE__*/ S.Array(
+  DnsHistoryRecord,
+) as any as S.Schema<DnsDiffResponseMissingList>;
+
+/** Live, not in the restore point. A restore leaves these alone unless prune is true. */
+export type DnsDiffResponseExtraList = Array<DnsHistoryRecord>;
+export const DnsDiffResponseExtraList = /*@__PURE__*/ S.Array(
+  DnsHistoryRecord,
+) as any as S.Schema<DnsDiffResponseExtraList>;
+
+export interface DnsDiffResponse {
+  status?: string;
+  domain?: string;
+  snapshot?: DnsDiffResponseSnapshot;
+  /** In the restore point, not live. A restore adds these back. */
+  missing?: DnsDiffResponseMissingList;
+  /** Live, not in the restore point. A restore leaves these alone unless prune is true. */
+  extra?: DnsDiffResponseExtraList;
+  inSync?: boolean;
+}
+export const DnsDiffResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    status: S.optional(S.String),
+    domain: S.optional(S.String),
+    snapshot: S.optional(DnsDiffResponseSnapshot),
+    missing: S.optional(DnsDiffResponseMissingList),
+    extra: S.optional(DnsDiffResponseExtraList),
+    inSync: S.optional(S.Boolean),
+  }),
+).annotate({ identifier: "DnsDiffResponse" }) as any as S.Schema<DnsDiffResponse>;
 
 export interface DnsEditByNameTypeRequest {
   domain: string;
@@ -813,15 +1435,9 @@ export const DnsEditByNameTypeRequest = /*@__PURE__*/ S.suspend(() =>
     prio: S.optional(S.Number),
     notes: S.optional(S.String),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/dns/editByNameType/{domain}/{type}/{subdomain}",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/dns/editByNameType/{domain}/{type}/{subdomain}", code: 200 }),
   ),
-).annotate({
-  identifier: "DnsEditByNameTypeRequest",
-}) as any as S.Schema<DnsEditByNameTypeRequest>;
+).annotate({ identifier: "DnsEditByNameTypeRequest" }) as any as S.Schema<DnsEditByNameTypeRequest>;
 
 export interface DnsGetDnssecRecordsRequest {
   domain: string;
@@ -829,13 +1445,7 @@ export interface DnsGetDnssecRecordsRequest {
 export const DnsGetDnssecRecordsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     domain: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/dns/getDnssecRecords/{domain}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/dns/getDnssecRecords/{domain}", code: 200 })),
 ).annotate({
   identifier: "DnsGetDnssecRecordsRequest",
 }) as any as S.Schema<DnsGetDnssecRecordsRequest>;
@@ -883,6 +1493,149 @@ export const DnsGetDnssecRecordsResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "DnsGetDnssecRecordsResponse",
 }) as any as S.Schema<DnsGetDnssecRecordsResponse>;
 
+export interface DnsHistoryRequest {
+  domain: string;
+}
+export const DnsHistoryRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    domain: S.String.pipe(T.Label()),
+  }).pipe(T.Http({ method: "GET", uri: "/dns/history/{domain}", code: 200 })),
+).annotate({ identifier: "DnsHistoryRequest" }) as any as S.Schema<DnsHistoryRequest>;
+
+export interface DnsHistoryResponseRestorePointsItem {
+  /** Pass this to /dns/diff and /dns/restore. */
+  id?: number;
+  takenAt?: string;
+  /** Why it was taken: before-create, before-edit, before-delete, before-wipe, before-restore-{id}, or a reason supplied by support. */
+  reason?: string;
+  /** auto (taken by the platform before a write), api, cli or archiveDns. */
+  source?: string;
+  /** The size of the zone AS IT WAS at that moment, not now. */
+  recordCount?: number;
+  /** True when the live zone is identical to this point, so you can see where you are without diffing. */
+  matchesLive?: boolean;
+}
+export const DnsHistoryResponseRestorePointsItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.Number),
+    takenAt: S.optional(S.String),
+    reason: S.optional(S.String),
+    source: S.optional(S.String),
+    recordCount: S.optional(S.Number),
+    matchesLive: S.optional(S.Boolean),
+  }),
+).annotate({
+  identifier: "DnsHistoryResponseRestorePointsItem",
+}) as any as S.Schema<DnsHistoryResponseRestorePointsItem>;
+
+/** Newest first, up to 50. */
+export type DnsHistoryResponseRestorePointsList = Array<DnsHistoryResponseRestorePointsItem>;
+export const DnsHistoryResponseRestorePointsList = /*@__PURE__*/ S.Array(
+  DnsHistoryResponseRestorePointsItem,
+) as any as S.Schema<DnsHistoryResponseRestorePointsList>;
+
+export interface DnsHistoryResponse {
+  status?: string;
+  domain?: string;
+  /** Newest first, up to 50. */
+  restorePoints?: DnsHistoryResponseRestorePointsList;
+}
+export const DnsHistoryResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    status: S.optional(S.String),
+    domain: S.optional(S.String),
+    restorePoints: S.optional(DnsHistoryResponseRestorePointsList),
+  }),
+).annotate({ identifier: "DnsHistoryResponse" }) as any as S.Schema<DnsHistoryResponse>;
+
+export type DnsPreflightRequestIntent =
+  | "general"
+  | "move-nameservers"
+  | "transfer-out"
+  | "enable-dnssec";
+export const DnsPreflightRequestIntent = S.String;
+
+export interface DnsPreflightRequest {
+  domain: string;
+  /** What you are about to do. One of general, move-nameservers, transfer-out, enable-dnssec. May also be sent in the request body. */
+  intent?: DnsPreflightRequestIntent | (string & {});
+}
+export const DnsPreflightRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    domain: S.String.pipe(T.Label()),
+    intent: S.optional(DnsPreflightRequestIntent.pipe(T.Query())),
+  }).pipe(T.Http({ method: "GET", uri: "/dns/preflight/{domain}", code: 200 })),
+).annotate({ identifier: "DnsPreflightRequest" }) as any as S.Schema<DnsPreflightRequest>;
+
+/** Check ids that will break something. Read these first. */
+export type DnsPreflightResponseBlockersList = Array<string>;
+export const DnsPreflightResponseBlockersList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<DnsPreflightResponseBlockersList>;
+
+/** Will not break outright, but usually what the customer asks about next. */
+export type DnsPreflightResponseWarningsList = Array<string>;
+export const DnsPreflightResponseWarningsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<DnsPreflightResponseWarningsList>;
+
+export type DnsPreflightResponseChecksItemSeverity = "blocker" | "warning" | "info";
+export const DnsPreflightResponseChecksItemSeverity = S.String;
+
+export interface DnsPreflightResponseChecksItem {
+  id?: string;
+  severity?: DnsPreflightResponseChecksItemSeverity;
+  ok?: boolean;
+  title?: string;
+  /** The reasoning, including the rule it comes from. */
+  detail?: string;
+  /** What to do about it. Absent on checks that passed. */
+  next_action?: string;
+}
+export const DnsPreflightResponseChecksItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    severity: S.optional(DnsPreflightResponseChecksItemSeverity),
+    ok: S.optional(S.Boolean),
+    title: S.optional(S.String),
+    detail: S.optional(S.String),
+    next_action: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "DnsPreflightResponseChecksItem",
+}) as any as S.Schema<DnsPreflightResponseChecksItem>;
+
+/** Every check that ran, passing ones included, so a caller can show what was verified rather than only what failed. */
+export type DnsPreflightResponseChecksList = Array<DnsPreflightResponseChecksItem>;
+export const DnsPreflightResponseChecksList = /*@__PURE__*/ S.Array(
+  DnsPreflightResponseChecksItem,
+) as any as S.Schema<DnsPreflightResponseChecksList>;
+
+export interface DnsPreflightResponse {
+  status?: string;
+  domain?: string;
+  intent?: string;
+  /** True only when there are no blockers AND no warnings. */
+  safe?: boolean;
+  /** Check ids that will break something. Read these first. */
+  blockers?: DnsPreflightResponseBlockersList;
+  /** Will not break outright, but usually what the customer asks about next. */
+  warnings?: DnsPreflightResponseWarningsList;
+  /** Every check that ran, passing ones included, so a caller can show what was verified rather than only what failed. */
+  checks?: DnsPreflightResponseChecksList;
+}
+export const DnsPreflightResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    status: S.optional(S.String),
+    domain: S.optional(S.String),
+    intent: S.optional(S.String),
+    safe: S.optional(S.Boolean),
+    blockers: S.optional(DnsPreflightResponseBlockersList),
+    warnings: S.optional(DnsPreflightResponseWarningsList),
+    checks: S.optional(DnsPreflightResponseChecksList),
+  }),
+).annotate({ identifier: "DnsPreflightResponse" }) as any as S.Schema<DnsPreflightResponse>;
+
 export interface DnsRetrieveByIdRequest {
   domain: string;
   /** Numeric DNS record ID */
@@ -893,9 +1646,7 @@ export const DnsRetrieveByIdRequest = /*@__PURE__*/ S.suspend(() =>
     domain: S.String.pipe(T.Label()),
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "POST", uri: "/dns/retrieve/{domain}/{id}", code: 200 })),
-).annotate({
-  identifier: "DnsRetrieveByIdRequest",
-}) as any as S.Schema<DnsRetrieveByIdRequest>;
+).annotate({ identifier: "DnsRetrieveByIdRequest" }) as any as S.Schema<DnsRetrieveByIdRequest>;
 
 /** Whether Cloudflare proxy is enabled for this domain */
 export type DnsRecordsResponseCloudflare = "enabled" | "disabled";
@@ -948,9 +1699,7 @@ export const DnsRecordsResponse = /*@__PURE__*/ S.suspend(() =>
     cloudflare: S.optional(DnsRecordsResponseCloudflare),
     records: DnsRecordsResponseRecordsList,
   }),
-).annotate({
-  identifier: "DnsRecordsResponse",
-}) as any as S.Schema<DnsRecordsResponse>;
+).annotate({ identifier: "DnsRecordsResponse" }) as any as S.Schema<DnsRecordsResponse>;
 
 export interface DnsRetrieveByNameTypeRequest {
   domain: string;
@@ -974,6 +1723,56 @@ export const DnsRetrieveByNameTypeRequest = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "DnsRetrieveByNameTypeRequest",
 }) as any as S.Schema<DnsRetrieveByNameTypeRequest>;
+
+export interface DnsScanRequest {
+  domain: string;
+}
+export const DnsScanRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    domain: S.String.pipe(T.Label()),
+  }).pipe(T.Http({ method: "GET", uri: "/dns/scan/{domain}", code: 200 })),
+).annotate({ identifier: "DnsScanRequest" }) as any as S.Schema<DnsScanRequest>;
+
+export interface DnsRecordInput {
+  /** Subdomain prefix only, or empty string for the apex. `@` and a fully-qualified name are both accepted and normalised. */
+  name?: string;
+  /** Record type. NS and SOA are ignored on import. */
+  type?: string;
+  content?: string;
+  /** Raised to the API minimum if lower. */
+  ttl?: number;
+  /** Priority, for MX and SRV. */
+  prio?: number | null;
+}
+export const DnsRecordInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    type: S.optional(S.String),
+    content: S.optional(S.String),
+    ttl: S.optional(S.Number),
+    prio: S.optional(S.NullOr(S.Number)),
+  }),
+).annotate({ identifier: "DnsRecordInput" }) as any as S.Schema<DnsRecordInput>;
+
+export type DnsScanResponseRecordsList = Array<DnsRecordInput>;
+export const DnsScanResponseRecordsList = /*@__PURE__*/ S.Array(
+  DnsRecordInput,
+) as any as S.Schema<DnsScanResponseRecordsList>;
+
+export interface DnsScanResponse {
+  status?: string;
+  domain?: string;
+  recordCount?: number;
+  records?: DnsScanResponseRecordsList;
+}
+export const DnsScanResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    status: S.optional(S.String),
+    domain: S.optional(S.String),
+    recordCount: S.optional(S.Number),
+    records: S.optional(DnsScanResponseRecordsList),
+  }),
+).annotate({ identifier: "DnsScanResponse" }) as any as S.Schema<DnsScanResponse>;
 
 /** Redirect kind. 'permanent' = HTTP 301; 'temporary' = HTTP 302 (default); 'masked' = loads the destination in a frame (URL masking). For a precise code — including a 307 temporary redirect — use `redirectType`. */
 export type DomainAddUrlForwardRequestType = "temporary" | "permanent" | "masked";
@@ -1015,16 +1814,55 @@ export const DomainAddUrlForwardRequest = /*@__PURE__*/ S.suspend(() =>
     redirectType: S.optional(DomainAddUrlForwardRequestRedirectType),
     includePath: DomainAddUrlForwardRequestIncludePath,
     wildcard: DomainAddUrlForwardRequestWildcard,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/domain/addUrlForward/{domain}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/domain/addUrlForward/{domain}", code: 200 })),
 ).annotate({
   identifier: "DomainAddUrlForwardRequest",
 }) as any as S.Schema<DomainAddUrlForwardRequest>;
+
+export interface DomainCancelTransferRequest {
+  /** Domain name. */
+  domain: string;
+}
+export const DomainCancelTransferRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    domain: S.String.pipe(T.Label()),
+  }).pipe(T.Http({ method: "POST", uri: "/domain/cancelTransfer/{domain}", code: 200 })),
+).annotate({
+  identifier: "DomainCancelTransferRequest",
+}) as any as S.Schema<DomainCancelTransferRequest>;
+
+export interface DomainCancelTransferResponse {
+  status?: string;
+  domain?: string;
+  cancelled?: boolean;
+  previousStatus?: string;
+  transferStatus?: string;
+  withdrawnAtRegistry?: boolean;
+  registryResultCode?: string;
+  registryCode?: string;
+  refunded?: boolean;
+  refundAmount?: number;
+  orderId?: number;
+  message?: string;
+}
+export const DomainCancelTransferResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    status: S.optional(S.String),
+    domain: S.optional(S.String),
+    cancelled: S.optional(S.Boolean),
+    previousStatus: S.optional(S.String),
+    transferStatus: S.optional(S.String),
+    withdrawnAtRegistry: S.optional(S.Boolean),
+    registryResultCode: S.optional(S.String),
+    registryCode: S.optional(S.String),
+    refunded: S.optional(S.Boolean),
+    refundAmount: S.optional(S.Number),
+    orderId: S.optional(S.Number),
+    message: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "DomainCancelTransferResponse",
+}) as any as S.Schema<DomainCancelTransferResponse>;
 
 export interface DomainCheckDomainRequest {
   domain: string;
@@ -1033,9 +1871,7 @@ export const DomainCheckDomainRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     domain: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "POST", uri: "/domain/checkDomain/{domain}", code: 200 })),
-).annotate({
-  identifier: "DomainCheckDomainRequest",
-}) as any as S.Schema<DomainCheckDomainRequest>;
+).annotate({ identifier: "DomainCheckDomainRequest" }) as any as S.Schema<DomainCheckDomainRequest>;
 
 /** Whether the domain is available for registration */
 export type CheckDomainResponseResponseAvail = "yes" | "no";
@@ -1153,9 +1989,7 @@ export const CheckDomainResponse = /*@__PURE__*/ S.suspend(() =>
     limits: S.optional(CheckDomainResponseLimits),
     ttlRemaining: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "CheckDomainResponse",
-}) as any as S.Schema<CheckDomainResponse>;
+).annotate({ identifier: "CheckDomainResponse" }) as any as S.Schema<CheckDomainResponse>;
 
 /** Array of IP addresses (IPv4 and/or IPv6) to associate with the host record */
 export type DomainCreateGlueRequestIpsList = Array<string>;
@@ -1175,16 +2009,8 @@ export const DomainCreateGlueRequest = /*@__PURE__*/ S.suspend(() =>
     domain: S.String.pipe(T.Label()),
     subdomain: S.String.pipe(T.Label()),
     ips: DomainCreateGlueRequestIpsList,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/domain/createGlue/{domain}/{subdomain}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "DomainCreateGlueRequest",
-}) as any as S.Schema<DomainCreateGlueRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/domain/createGlue/{domain}/{subdomain}", code: 200 })),
+).annotate({ identifier: "DomainCreateGlueRequest" }) as any as S.Schema<DomainCreateGlueRequest>;
 
 export interface DomainDeleteGlueRequest {
   domain: string;
@@ -1194,16 +2020,8 @@ export const DomainDeleteGlueRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     domain: S.String.pipe(T.Label()),
     subdomain: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/domain/deleteGlue/{domain}/{subdomain}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "DomainDeleteGlueRequest",
-}) as any as S.Schema<DomainDeleteGlueRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/domain/deleteGlue/{domain}/{subdomain}", code: 200 })),
+).annotate({ identifier: "DomainDeleteGlueRequest" }) as any as S.Schema<DomainDeleteGlueRequest>;
 
 export interface DomainDeleteUrlForwardRequest {
   domain: string;
@@ -1214,13 +2032,7 @@ export const DomainDeleteUrlForwardRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     domain: S.String.pipe(T.Label()),
     id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/domain/deleteUrlForward/{domain}/{id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/domain/deleteUrlForward/{domain}/{id}", code: 200 })),
 ).annotate({
   identifier: "DomainDeleteUrlForwardRequest",
 }) as any as S.Schema<DomainDeleteUrlForwardRequest>;
@@ -1232,9 +2044,7 @@ export const DomainGetContactsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     domain: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/domain/getContacts/{domain}", code: 200 })),
-).annotate({
-  identifier: "DomainGetContactsRequest",
-}) as any as S.Schema<DomainGetContactsRequest>;
+).annotate({ identifier: "DomainGetContactsRequest" }) as any as S.Schema<DomainGetContactsRequest>;
 
 /** A domain contact. On update, a provided role requires firstName, address1, city, postalCode, country, phone, phoneCountryCode, and email. Country is an ISO 3166-1 alpha-2 code; phoneCountryCode is the numeric calling code (e.g. "1", "44"). state may be empty where not applicable. */
 export interface DomainContact {
@@ -1313,9 +2123,7 @@ export const DomainGetGlueRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     domain: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "POST", uri: "/domain/getGlue/{domain}", code: 200 })),
-).annotate({
-  identifier: "DomainGetGlueRequest",
-}) as any as S.Schema<DomainGetGlueRequest>;
+).annotate({ identifier: "DomainGetGlueRequest" }) as any as S.Schema<DomainGetGlueRequest>;
 
 /** Two-element array: [0] full hostname string, [1] IP addresses object */
 export type DomainGetGlueResponseHostsItemList = Array<unknown>;
@@ -1339,9 +2147,7 @@ export const DomainGetGlueResponse = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(S.String),
     hosts: S.optional(DomainGetGlueResponseHostsList),
   }),
-).annotate({
-  identifier: "DomainGetGlueResponse",
-}) as any as S.Schema<DomainGetGlueResponse>;
+).annotate({ identifier: "DomainGetGlueResponse" }) as any as S.Schema<DomainGetGlueResponse>;
 
 export interface DomainGetNsRequest {
   domain: string;
@@ -1350,9 +2156,7 @@ export const DomainGetNsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     domain: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "POST", uri: "/domain/getNs/{domain}", code: 200 })),
-).annotate({
-  identifier: "DomainGetNsRequest",
-}) as any as S.Schema<DomainGetNsRequest>;
+).annotate({ identifier: "DomainGetNsRequest" }) as any as S.Schema<DomainGetNsRequest>;
 
 export type DomainGetNsResponseNsList = Array<string>;
 export const DomainGetNsResponseNsList = /*@__PURE__*/ S.Array(
@@ -1368,9 +2172,7 @@ export const DomainGetNsResponse = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(S.String),
     ns: S.optional(DomainGetNsResponseNsList),
   }),
-).annotate({
-  identifier: "DomainGetNsResponse",
-}) as any as S.Schema<DomainGetNsResponse>;
+).annotate({ identifier: "DomainGetNsResponse" }) as any as S.Schema<DomainGetNsResponse>;
 
 export interface DomainGetRegistrationRequirementsRequest {
   /** TLD without a leading dot, e.g. `com`, `us`, `ca`. */
@@ -1379,13 +2181,7 @@ export interface DomainGetRegistrationRequirementsRequest {
 export const DomainGetRegistrationRequirementsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     tld: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/domain/getRegistrationRequirements/{tld}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/domain/getRegistrationRequirements/{tld}", code: 200 })),
 ).annotate({
   identifier: "DomainGetRegistrationRequirementsRequest",
 }) as any as S.Schema<DomainGetRegistrationRequirementsRequest>;
@@ -1428,19 +2224,59 @@ export const DomainGetRegistrationRequirementsResponse = /*@__PURE__*/ S.suspend
   identifier: "DomainGetRegistrationRequirementsResponse",
 }) as any as S.Schema<DomainGetRegistrationRequirementsResponse>;
 
+export interface DomainGetTransferSetupRequest {
+  /** Domain name. */
+  domain: string;
+}
+export const DomainGetTransferSetupRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    domain: S.String.pipe(T.Label()),
+  }).pipe(T.Http({ method: "GET", uri: "/domain/getTransferSetup/{domain}", code: 200 })),
+).annotate({
+  identifier: "DomainGetTransferSetupRequest",
+}) as any as S.Schema<DomainGetTransferSetupRequest>;
+
+export type DomainGetTransferSetupResponsePorkbunNameserversList = Array<string>;
+export const DomainGetTransferSetupResponsePorkbunNameserversList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<DomainGetTransferSetupResponsePorkbunNameserversList>;
+
+export interface DomainGetTransferSetupResponse {
+  status?: string;
+  domain?: string;
+  transfer?: unknown;
+  held?: number;
+  zoneReady?: number;
+  recordCount?: number;
+  delegation?: unknown;
+  dnssec?: number;
+  nextStep?: unknown;
+  porkbunNameservers?: DomainGetTransferSetupResponsePorkbunNameserversList;
+}
+export const DomainGetTransferSetupResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    status: S.optional(S.String),
+    domain: S.optional(S.String),
+    transfer: S.optional(S.Unknown),
+    held: S.optional(S.Number),
+    zoneReady: S.optional(S.Number),
+    recordCount: S.optional(S.Number),
+    delegation: S.optional(S.Unknown),
+    dnssec: S.optional(S.Number),
+    nextStep: S.optional(S.Unknown),
+    porkbunNameservers: S.optional(DomainGetTransferSetupResponsePorkbunNameserversList),
+  }),
+).annotate({
+  identifier: "DomainGetTransferSetupResponse",
+}) as any as S.Schema<DomainGetTransferSetupResponse>;
+
 export interface DomainGetUrlForwardingRequest {
   domain: string;
 }
 export const DomainGetUrlForwardingRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     domain: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/domain/getUrlForwarding/{domain}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/domain/getUrlForwarding/{domain}", code: 200 })),
 ).annotate({
   identifier: "DomainGetUrlForwardingRequest",
 }) as any as S.Schema<DomainGetUrlForwardingRequest>;
@@ -1500,9 +2336,37 @@ export const GetUrlForwardingResponse = /*@__PURE__*/ S.suspend(() =>
     status: S.String,
     forwards: GetUrlForwardingResponseForwardsList,
   }),
+).annotate({ identifier: "GetUrlForwardingResponse" }) as any as S.Schema<GetUrlForwardingResponse>;
+
+export interface DomainStartTransferRequest {
+  /** Domain name. */
+  domain: string;
+  /** Release even though the zone is empty. Use only when the domain needs no DNS here. */
+  force?: boolean;
+}
+export const DomainStartTransferRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    domain: S.String.pipe(T.Label()),
+    force: S.optional(S.Boolean),
+  }).pipe(T.Http({ method: "POST", uri: "/domain/startTransfer/{domain}", code: 200 })),
 ).annotate({
-  identifier: "GetUrlForwardingResponse",
-}) as any as S.Schema<GetUrlForwardingResponse>;
+  identifier: "DomainStartTransferRequest",
+}) as any as S.Schema<DomainStartTransferRequest>;
+
+export interface DomainStartTransferResponse {
+  status?: string;
+  domain?: string;
+  message?: string;
+}
+export const DomainStartTransferResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    status: S.optional(S.String),
+    domain: S.optional(S.String),
+    message: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "DomainStartTransferResponse",
+}) as any as S.Schema<DomainStartTransferResponse>;
 
 /** Auto-renew status to set */
 export type DomainUpdateAutoRenewRequestStatus = "on" | "off";
@@ -1527,13 +2391,7 @@ export const DomainUpdateAutoRenewRequest = /*@__PURE__*/ S.suspend(() =>
     domain: S.String.pipe(T.Label()),
     status: DomainUpdateAutoRenewRequestStatus,
     domains: S.optional(DomainUpdateAutoRenewRequestDomainsList),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/domain/updateAutoRenew/{domain}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/domain/updateAutoRenew/{domain}", code: 200 })),
 ).annotate({
   identifier: "DomainUpdateAutoRenewRequest",
 }) as any as S.Schema<DomainUpdateAutoRenewRequest>;
@@ -1602,13 +2460,7 @@ export const DomainUpdateContactsRequest = /*@__PURE__*/ S.suspend(() =>
     contact: S.optional(DomainContact),
     dryRun: S.optional(S.Boolean),
     addressValidationChoice: S.optional(DomainUpdateContactsRequestAddressValidationChoice),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/domain/updateContacts/{domain}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/domain/updateContacts/{domain}", code: 200 })),
 ).annotate({
   identifier: "DomainUpdateContactsRequest",
 }) as any as S.Schema<DomainUpdateContactsRequest>;
@@ -1645,16 +2497,8 @@ export const DomainUpdateGlueRequest = /*@__PURE__*/ S.suspend(() =>
     domain: S.String.pipe(T.Label()),
     subdomain: S.String.pipe(T.Label()),
     ips: DomainUpdateGlueRequestIpsList,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/domain/updateGlue/{domain}/{subdomain}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "DomainUpdateGlueRequest",
-}) as any as S.Schema<DomainUpdateGlueRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/domain/updateGlue/{domain}/{subdomain}", code: 200 })),
+).annotate({ identifier: "DomainUpdateGlueRequest" }) as any as S.Schema<DomainUpdateGlueRequest>;
 
 /** Ordered array of nameserver hostnames */
 export type DomainUpdateNsRequestNsList = Array<string>;
@@ -1672,9 +2516,43 @@ export const DomainUpdateNsRequest = /*@__PURE__*/ S.suspend(() =>
     domain: S.String.pipe(T.Label()),
     ns: DomainUpdateNsRequestNsList,
   }).pipe(T.Http({ method: "POST", uri: "/domain/updateNs/{domain}", code: 200 })),
+).annotate({ identifier: "DomainUpdateNsRequest" }) as any as S.Schema<DomainUpdateNsRequest>;
+
+export interface DomainUpdateTransferAuthCodeRequest {
+  /** Domain name. */
+  domain: string;
+  /** The replacement authorization code, exactly as the losing registrar issued it. Never interpolate this into a shell command. */
+  authCode: string;
+}
+export const DomainUpdateTransferAuthCodeRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    domain: S.String.pipe(T.Label()),
+    authCode: S.String,
+  }).pipe(T.Http({ method: "POST", uri: "/domain/updateTransferAuthCode/{domain}", code: 200 })),
 ).annotate({
-  identifier: "DomainUpdateNsRequest",
-}) as any as S.Schema<DomainUpdateNsRequest>;
+  identifier: "DomainUpdateTransferAuthCodeRequest",
+}) as any as S.Schema<DomainUpdateTransferAuthCodeRequest>;
+
+export interface DomainUpdateTransferAuthCodeResponse {
+  status?: string;
+  domain?: string;
+  authCodeValid?: boolean;
+  previousStatus?: string;
+  transferStatus?: string;
+  message?: string;
+}
+export const DomainUpdateTransferAuthCodeResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    status: S.optional(S.String),
+    domain: S.optional(S.String),
+    authCodeValid: S.optional(S.Boolean),
+    previousStatus: S.optional(S.String),
+    transferStatus: S.optional(S.String),
+    message: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "DomainUpdateTransferAuthCodeResponse",
+}) as any as S.Schema<DomainUpdateTransferAuthCodeResponse>;
 
 /** DNS record type */
 export type EditDnsRequestType =
@@ -1700,9 +2578,9 @@ export interface EditDnsRequest {
   /** Subdomain for the record. Do not include the domain name itself. */
   name?: string;
   /** DNS record type */
-  type: EditDnsRequestType | (string & {});
+  type?: EditDnsRequestType | (string & {});
   /** The record value */
-  content: string;
+  content?: string;
   /** Time to live in seconds (optional) */
   ttl?: number;
   /** Priority for MX/SRV records (optional) */
@@ -1715,8 +2593,8 @@ export const EditDnsRequest = /*@__PURE__*/ S.suspend(() =>
     domain: S.String.pipe(T.Label()),
     id: S.String.pipe(T.Label()),
     name: S.optional(S.String),
-    type: EditDnsRequestType,
-    content: S.String,
+    type: S.optional(EditDnsRequestType),
+    content: S.optional(S.String),
     ttl: S.optional(S.Number),
     prio: S.optional(S.Number),
     notes: S.optional(S.String),
@@ -1734,9 +2612,7 @@ export const EmailSetPasswordRequest = /*@__PURE__*/ S.suspend(() =>
     emailAddress: S.String,
     password: S.String.pipe(T.SensitiveValue({})),
   }).pipe(T.Http({ method: "POST", uri: "/email/setPassword", code: 200 })),
-).annotate({
-  identifier: "EmailSetPasswordRequest",
-}) as any as S.Schema<EmailSetPasswordRequest>;
+).annotate({ identifier: "EmailSetPasswordRequest" }) as any as S.Schema<EmailSetPasswordRequest>;
 
 export interface GetAccountInviteStatusRequest {
   /** The `inviteToken` returned by `/account/invite` */
@@ -1782,9 +2658,7 @@ export const GetApikeyRequest = /*@__PURE__*/ S.suspend(() =>
     requestToken: S.String,
     codeVerifier: S.optional(S.String),
   }).pipe(T.Http({ method: "POST", uri: "/apikey/retrieve", code: 200 })),
-).annotate({
-  identifier: "GetApikeyRequest",
-}) as any as S.Schema<GetApikeyRequest>;
+).annotate({ identifier: "GetApikeyRequest" }) as any as S.Schema<GetApikeyRequest>;
 
 export type GetApikeyResponseStatus = "SUCCESS" | "PENDING" | "ERROR";
 export const GetApikeyResponseStatus = S.String;
@@ -1807,22 +2681,18 @@ export const GetApikeyResponse = /*@__PURE__*/ S.suspend(() =>
     message: S.optional(S.String),
     code: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GetApikeyResponse",
-}) as any as S.Schema<GetApikeyResponse>;
+).annotate({ identifier: "GetApikeyResponse" }) as any as S.Schema<GetApikeyResponse>;
 
 export interface GetApiSettingsRequest {}
 export const GetApiSettingsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/account/apiSettings", code: 200 })),
-).annotate({
-  identifier: "GetApiSettingsRequest",
-}) as any as S.Schema<GetApiSettingsRequest>;
+).annotate({ identifier: "GetApiSettingsRequest" }) as any as S.Schema<GetApiSettingsRequest>;
 
 export type ApiSettingsResponseStatus = "SUCCESS" | "ERROR";
 export const ApiSettingsResponseStatus = S.String;
 
 export interface ApiSettingsResponseSettings {
-  /** Maximum API spend per calendar month in cents. `null` means no limit. */
+  /** The monthly spend limit the account holder set, in cents. `null` means none is set; `spendLimit` shows what is actually enforced. */
   monthlySpendLimit?: number | null;
   /** Send an alert email when balance drops below this amount (cents). `null` = disabled. */
   lowBalanceAlert?: number | null;
@@ -1845,28 +2715,128 @@ export const ApiSettingsResponseSettings = /*@__PURE__*/ S.suspend(() =>
   identifier: "ApiSettingsResponseSettings",
 }) as any as S.Schema<ApiSettingsResponseSettings>;
 
+/** `account`: the account holder's own limit. `default`: none set, so the $100 default applies. `none`: none set and the account bought over the API before the default existed (2026-10-03), so purchases are not capped. */
+export type ApiSettingsResponseSpendLimitSource = "account" | "default" | "none";
+export const ApiSettingsResponseSpendLimitSource = S.String;
+
+/** The monthly cap on API purchases actually enforced (registrations, renewals, transfers, closeouts, paid hosting). */
+export interface ApiSettingsResponseSpendLimit {
+  /** Cents. `null` means no cap. */
+  limit?: number | null;
+  /** `account`: the account holder's own limit. `default`: none set, so the $100 default applies. `none`: none set and the account bought over the API before the default existed (2026-10-03), so purchases are not capped. */
+  source?: ApiSettingsResponseSpendLimitSource;
+  /** API spending this calendar month, in cents. */
+  spent?: number;
+  /** Cents left this month, or `null` with no cap. */
+  remaining?: number | null;
+}
+export const ApiSettingsResponseSpendLimit = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    limit: S.optional(S.NullOr(S.Number)),
+    source: S.optional(ApiSettingsResponseSpendLimitSource),
+    spent: S.optional(S.Number),
+    remaining: S.optional(S.NullOr(S.Number)),
+  }),
+).annotate({
+  identifier: "ApiSettingsResponseSpendLimit",
+}) as any as S.Schema<ApiSettingsResponseSpendLimit>;
+
+export type ApiSettingsResponseTopupLimitSource = "account" | "default";
+export const ApiSettingsResponseTopupLimitSource = S.String;
+
+/** The monthly cap on credit added over the API: card top-ups, auto top-ups set off by an API purchase, MPP and USDC together. */
+export interface ApiSettingsResponseTopupLimit {
+  /** Cents: the monthly spend limit, or $100 when none is set. */
+  limit?: number;
+  source?: ApiSettingsResponseTopupLimitSource;
+  /** Credit added over the API this calendar month, in cents. */
+  added?: number | null;
+}
+export const ApiSettingsResponseTopupLimit = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    limit: S.optional(S.Number),
+    source: S.optional(ApiSettingsResponseTopupLimitSource),
+    added: S.optional(S.NullOr(S.Number)),
+  }),
+).annotate({
+  identifier: "ApiSettingsResponseTopupLimit",
+}) as any as S.Schema<ApiSettingsResponseTopupLimit>;
+
 export interface ApiSettingsResponse {
   status?: ApiSettingsResponseStatus;
   settings?: ApiSettingsResponseSettings;
   /** Total API spend in the current calendar month, in cents. */
   monthlySpend?: number;
+  /** The monthly cap on API purchases actually enforced (registrations, renewals, transfers, closeouts, paid hosting). */
+  spendLimit?: ApiSettingsResponseSpendLimit;
+  /** The monthly cap on credit added over the API: card top-ups, auto top-ups set off by an API purchase, MPP and USDC together. */
+  topupLimit?: ApiSettingsResponseTopupLimit;
 }
 export const ApiSettingsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     status: S.optional(ApiSettingsResponseStatus),
     settings: S.optional(ApiSettingsResponseSettings),
     monthlySpend: S.optional(S.Number),
+    spendLimit: S.optional(ApiSettingsResponseSpendLimit),
+    topupLimit: S.optional(ApiSettingsResponseTopupLimit),
   }),
-).annotate({
-  identifier: "ApiSettingsResponse",
-}) as any as S.Schema<ApiSettingsResponse>;
+).annotate({ identifier: "ApiSettingsResponse" }) as any as S.Schema<ApiSettingsResponse>;
+
+export interface GetAutoTopupRequest {}
+export const GetAutoTopupRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}).pipe(T.Http({ method: "GET", uri: "/account/autoTopup", code: 200 })),
+).annotate({ identifier: "GetAutoTopupRequest" }) as any as S.Schema<GetAutoTopupRequest>;
+
+/** Advisory. Present when the settings cannot do anything as they stand, e.g. no payment method is saved. */
+export type AutoTopupResponseWarningsList = Array<string>;
+export const AutoTopupResponseWarningsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<AutoTopupResponseWarningsList>;
+
+export interface AutoTopupResponse {
+  status?: string;
+  enabled?: boolean;
+  /** Balance in cents below which a top-up fires; null when auto top-up is off. */
+  threshold?: number | null;
+  /** Configured amount to add, in cents; null when never set. */
+  amount?: number | null;
+  /** What POST /account/topup would charge right now: the configured amount, or the $50 default. */
+  effectiveAmount?: number;
+  /** The platform default used when the account has configured nothing. */
+  defaultAmount?: number;
+  /** False means nothing can be charged and auto top-up cannot fire, whatever the settings say. */
+  paymentMethodOnFile?: boolean;
+  /** Current account credit, in cents. */
+  balance?: number;
+  chargesToday?: number;
+  chargesThisMonth?: number;
+  maxChargesPerDay?: number;
+  maxChargesPerMonth?: number;
+  /** Advisory. Present when the settings cannot do anything as they stand, e.g. no payment method is saved. */
+  warnings?: AutoTopupResponseWarningsList;
+}
+export const AutoTopupResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    status: S.optional(S.String),
+    enabled: S.optional(S.Boolean),
+    threshold: S.optional(S.NullOr(S.Number)),
+    amount: S.optional(S.NullOr(S.Number)),
+    effectiveAmount: S.optional(S.Number),
+    defaultAmount: S.optional(S.Number),
+    paymentMethodOnFile: S.optional(S.Boolean),
+    balance: S.optional(S.Number),
+    chargesToday: S.optional(S.Number),
+    chargesThisMonth: S.optional(S.Number),
+    maxChargesPerDay: S.optional(S.Number),
+    maxChargesPerMonth: S.optional(S.Number),
+    warnings: S.optional(AutoTopupResponseWarningsList),
+  }),
+).annotate({ identifier: "AutoTopupResponse" }) as any as S.Schema<AutoTopupResponse>;
 
 export interface GetBalanceRequest {}
 export const GetBalanceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/account/balance", code: 200 })),
-).annotate({
-  identifier: "GetBalanceRequest",
-}) as any as S.Schema<GetBalanceRequest>;
+).annotate({ identifier: "GetBalanceRequest" }) as any as S.Schema<GetBalanceRequest>;
 
 export type BalanceResponseStatus = "SUCCESS" | "ERROR";
 export const BalanceResponseStatus = S.String;
@@ -1884,9 +2854,97 @@ export const BalanceResponse = /*@__PURE__*/ S.suspend(() =>
     balance: S.optional(S.Number),
     display: S.optional(S.String),
   }),
-).annotate({
-  identifier: "BalanceResponse",
-}) as any as S.Schema<BalanceResponse>;
+).annotate({ identifier: "BalanceResponse" }) as any as S.Schema<BalanceResponse>;
+
+export interface GetCloseoutRequest {
+  domain: string;
+}
+export const GetCloseoutRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    domain: S.String.pipe(T.Label()),
+  }).pipe(T.Http({ method: "GET", uri: "/closeout/get/{domain}", code: 200 })),
+).annotate({ identifier: "GetCloseoutRequest" }) as any as S.Schema<GetCloseoutRequest>;
+
+export interface CloseoutItem {
+  /** Provider id for this listing. */
+  closeoutId?: number;
+  domain?: string;
+  tld?: string;
+  /** Current closeout price, integer US cents. Descends on a schedule. */
+  price?: number;
+  /** The provider's own renewal figure. Indicative only — the amount actually charged is `renewalPrice` from /closeout/get/{domain}, which uses Porkbun pricing. */
+  providerRenewalPrice?: number | null;
+  /** Porkbun's renewal or transfer price for the year included. Only returned by /closeout/get/{domain}. */
+  renewalPrice?: number | null;
+  /** price + renewalPrice. What /closeout/buy charges. Only returned by /closeout/get/{domain}. */
+  totalPrice?: number | null;
+  /** True when the name is already at Porkbun (renewed rather than transferred in). Only returned by /closeout/get/{domain}. */
+  localDomain?: boolean | null;
+  /** Domain age in years. */
+  age?: number | null;
+  /** Original registration date, ISO 8601 UTC. */
+  registrationDate?: string | null;
+  /** When the listing ends, ISO 8601 UTC. */
+  endTime?: string | null;
+  nameLength?: number | null;
+  isIdn?: boolean;
+  /** Third-party appraisal in US cents. Provider-supplied; treat as a weak signal. */
+  estibotAppraisal?: number | null;
+  monthlyVisitors?: number | null;
+  inboundLinks?: number | null;
+  expiredRevenue?: number | null;
+  /** How many other TLDs the same SLD is registered in. */
+  otherTldCount?: number | null;
+}
+export const CloseoutItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    closeoutId: S.optional(S.Number),
+    domain: S.optional(S.String),
+    tld: S.optional(S.String),
+    price: S.optional(S.Number),
+    providerRenewalPrice: S.optional(S.NullOr(S.Number)),
+    renewalPrice: S.optional(S.NullOr(S.Number)),
+    totalPrice: S.optional(S.NullOr(S.Number)),
+    localDomain: S.optional(S.NullOr(S.Boolean)),
+    age: S.optional(S.NullOr(S.Number)),
+    registrationDate: S.optional(S.NullOr(S.String)),
+    endTime: S.optional(S.NullOr(S.String)),
+    nameLength: S.optional(S.NullOr(S.Number)),
+    isIdn: S.optional(S.Boolean),
+    estibotAppraisal: S.optional(S.NullOr(S.Number)),
+    monthlyVisitors: S.optional(S.NullOr(S.Number)),
+    inboundLinks: S.optional(S.NullOr(S.Number)),
+    expiredRevenue: S.optional(S.NullOr(S.Number)),
+    otherTldCount: S.optional(S.NullOr(S.Number)),
+  }),
+).annotate({ identifier: "CloseoutItem" }) as any as S.Schema<CloseoutItem>;
+
+export interface GetCloseoutResponse {
+  status?: string;
+  available?: boolean;
+  closeout?: CloseoutItem;
+}
+export const GetCloseoutResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    status: S.optional(S.String),
+    available: S.optional(S.Boolean),
+    closeout: S.optional(CloseoutItem),
+  }),
+).annotate({ identifier: "GetCloseoutResponse" }) as any as S.Schema<GetCloseoutResponse>;
+
+export interface GetCloudflareRequest {
+  domain: string;
+}
+export const GetCloudflareRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    domain: S.String.pipe(T.Label()),
+  }).pipe(T.Http({ method: "GET", uri: "/cloudflare/get/{domain}", code: 200 })),
+).annotate({ identifier: "GetCloudflareRequest" }) as any as S.Schema<GetCloudflareRequest>;
+
+export type GetCloudflareResponse = unknown;
+export const GetCloudflareResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Unknown.pipe(T.RawResponseRoot()),
+).annotate({ identifier: "GetCloudflareResponse" }) as any as S.Schema<GetCloudflareResponse>;
 
 export interface GetDnsRequest {
   domain: string;
@@ -1907,9 +2965,7 @@ export const GetDnsRecordByIdRequest = /*@__PURE__*/ S.suspend(() =>
     domain: S.String.pipe(T.Label()),
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/dns/retrieve/{domain}/{id}", code: 200 })),
-).annotate({
-  identifier: "GetDnsRecordByIdRequest",
-}) as any as S.Schema<GetDnsRecordByIdRequest>;
+).annotate({ identifier: "GetDnsRecordByIdRequest" }) as any as S.Schema<GetDnsRecordByIdRequest>;
 
 export interface GetDnsRecordsRequest {
   domain: string;
@@ -1918,9 +2974,7 @@ export const GetDnsRecordsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     domain: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/dns/retrieve/{domain}", code: 200 })),
-).annotate({
-  identifier: "GetDnsRecordsRequest",
-}) as any as S.Schema<GetDnsRecordsRequest>;
+).annotate({ identifier: "GetDnsRecordsRequest" }) as any as S.Schema<GetDnsRecordsRequest>;
 
 export interface GetDnsRecordsByNameTypeRequest {
   domain: string;
@@ -1952,9 +3006,7 @@ export const GetDnssecRecordsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     domain: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/dns/getDnssecRecords/{domain}", code: 200 })),
-).annotate({
-  identifier: "GetDnssecRecordsRequest",
-}) as any as S.Schema<GetDnssecRecordsRequest>;
+).annotate({ identifier: "GetDnssecRecordsRequest" }) as any as S.Schema<GetDnssecRecordsRequest>;
 
 export type GetDnssecRecordsResponseRecordsValue = DnsGetDnssecRecordsResponseRecordsValue;
 export const GetDnssecRecordsResponseRecordsValue = DnsGetDnssecRecordsResponseRecordsValue;
@@ -1978,9 +3030,7 @@ export const GetDnssecRecordsResponse = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(S.String),
     records: S.optional(GetDnssecRecordsResponseRecordsMap),
   }),
-).annotate({
-  identifier: "GetDnssecRecordsResponse",
-}) as any as S.Schema<GetDnssecRecordsResponse>;
+).annotate({ identifier: "GetDnssecRecordsResponse" }) as any as S.Schema<GetDnssecRecordsResponse>;
 
 export type GetDomainRequestIncludeLabels = "yes" | "no";
 export const GetDomainRequestIncludeLabels = S.String;
@@ -1996,9 +3046,7 @@ export const GetDomainRequest = /*@__PURE__*/ S.suspend(() =>
     domain: S.String.pipe(T.Label()),
     includeLabels: S.optional(GetDomainRequestIncludeLabels.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/domain/get/{domain}", code: 200 })),
-).annotate({
-  identifier: "GetDomainRequest",
-}) as any as S.Schema<GetDomainRequest>;
+).annotate({ identifier: "GetDomainRequest" }) as any as S.Schema<GetDomainRequest>;
 
 export interface GetDomainResponseDomain {
   domain?: string;
@@ -2025,9 +3073,7 @@ export const GetDomainResponseDomain = /*@__PURE__*/ S.suspend(() =>
     apiAccess: S.optional(S.Number),
     notLocal: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "GetDomainResponseDomain",
-}) as any as S.Schema<GetDomainResponseDomain>;
+).annotate({ identifier: "GetDomainResponseDomain" }) as any as S.Schema<GetDomainResponseDomain>;
 
 export interface GetDomainResponse {
   status?: string;
@@ -2038,9 +3084,7 @@ export const GetDomainResponse = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(S.String),
     domain: S.optional(GetDomainResponseDomain),
   }),
-).annotate({
-  identifier: "GetDomainResponse",
-}) as any as S.Schema<GetDomainResponse>;
+).annotate({ identifier: "GetDomainResponse" }) as any as S.Schema<GetDomainResponse>;
 
 export interface GetDomainGlueRequest {
   domain: string;
@@ -2049,9 +3093,7 @@ export const GetDomainGlueRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     domain: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/domain/getGlue/{domain}", code: 200 })),
-).annotate({
-  identifier: "GetDomainGlueRequest",
-}) as any as S.Schema<GetDomainGlueRequest>;
+).annotate({ identifier: "GetDomainGlueRequest" }) as any as S.Schema<GetDomainGlueRequest>;
 
 /** Two-element array: [0] full hostname string, [1] IP addresses object */
 export type GetDomainGlueResponseHostsItemList = Array<unknown>;
@@ -2075,9 +3117,7 @@ export const GetDomainGlueResponse = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(S.String),
     hosts: S.optional(GetDomainGlueResponseHostsList),
   }),
-).annotate({
-  identifier: "GetDomainGlueResponse",
-}) as any as S.Schema<GetDomainGlueResponse>;
+).annotate({ identifier: "GetDomainGlueResponse" }) as any as S.Schema<GetDomainGlueResponse>;
 
 export interface GetDomainNsRequest {
   domain: string;
@@ -2086,9 +3126,7 @@ export const GetDomainNsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     domain: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/domain/getNs/{domain}", code: 200 })),
-).annotate({
-  identifier: "GetDomainNsRequest",
-}) as any as S.Schema<GetDomainNsRequest>;
+).annotate({ identifier: "GetDomainNsRequest" }) as any as S.Schema<GetDomainNsRequest>;
 
 export type GetDomainNsResponseNsList = Array<string>;
 export const GetDomainNsResponseNsList = /*@__PURE__*/ S.Array(
@@ -2104,9 +3142,7 @@ export const GetDomainNsResponse = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(S.String),
     ns: S.optional(GetDomainNsResponseNsList),
   }),
-).annotate({
-  identifier: "GetDomainNsResponse",
-}) as any as S.Schema<GetDomainNsResponse>;
+).annotate({ identifier: "GetDomainNsResponse" }) as any as S.Schema<GetDomainNsResponse>;
 
 export type GetDomainsRequestIncludeLabels = "yes" | "no";
 export const GetDomainsRequestIncludeLabels = S.String;
@@ -2163,9 +3199,7 @@ export const GetDomainsRequest = /*@__PURE__*/ S.suspend(() =>
     sortName: S.optional(GetDomainsRequestSortName.pipe(T.Query())),
     sortDirection: S.optional(GetDomainsRequestSortDirection.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/domain/listAll", code: 200 })),
-).annotate({
-  identifier: "GetDomainsRequest",
-}) as any as S.Schema<GetDomainsRequest>;
+).annotate({ identifier: "GetDomainsRequest" }) as any as S.Schema<GetDomainsRequest>;
 
 export interface DomainListAllResponseDomainsItemLabelsItem {
   id?: string;
@@ -2244,9 +3278,7 @@ export const DomainListAllResponse = /*@__PURE__*/ S.suspend(() =>
     count: S.optional(S.Number),
     domains: DomainListAllResponseDomainsList,
   }),
-).annotate({
-  identifier: "DomainListAllResponse",
-}) as any as S.Schema<DomainListAllResponse>;
+).annotate({ identifier: "DomainListAllResponse" }) as any as S.Schema<DomainListAllResponse>;
 
 export interface GetDomainUrlForwardingRequest {
   domain: string;
@@ -2254,13 +3286,7 @@ export interface GetDomainUrlForwardingRequest {
 export const GetDomainUrlForwardingRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     domain: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/domain/getUrlForwarding/{domain}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/domain/getUrlForwarding/{domain}", code: 200 })),
 ).annotate({
   identifier: "GetDomainUrlForwardingRequest",
 }) as any as S.Schema<GetDomainUrlForwardingRequest>;
@@ -2272,9 +3298,7 @@ export const GetHostingRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     domain: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/hosting/get/{domain}", code: 200 })),
-).annotate({
-  identifier: "GetHostingRequest",
-}) as any as S.Schema<GetHostingRequest>;
+).annotate({ identifier: "GetHostingRequest" }) as any as S.Schema<GetHostingRequest>;
 
 export interface GetHostingResponseHosting {
   domain?: string;
@@ -2315,9 +3339,174 @@ export const GetHostingResponse = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(S.String),
     hosting: S.optional(S.NullOr(GetHostingResponseHosting)),
   }),
+).annotate({ identifier: "GetHostingResponse" }) as any as S.Schema<GetHostingResponse>;
+
+export interface GetInvoiceRequest {
+  /** Invoice (order) ID, from `GET /account/invoices`. */
+  orderId: number;
+}
+export const GetInvoiceRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    orderId: S.Number.pipe(T.Label()),
+  }).pipe(T.Http({ method: "GET", uri: "/account/invoice/{orderId}", code: 200 })),
+).annotate({ identifier: "GetInvoiceRequest" }) as any as S.Schema<GetInvoiceRequest>;
+
+export type GetInvoiceResponseInvoiceState = "PAID" | "PARTIALLY_REFUNDED" | "REFUNDED" | "UNPAID";
+export const GetInvoiceResponseInvoiceState = S.String;
+
+export interface GetInvoiceResponseInvoiceBillTo {
+  company?: string | null;
+  name?: string | null;
+  address?: string | null;
+  vat?: string | null;
+}
+export const GetInvoiceResponseInvoiceBillTo = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    company: S.optional(S.NullOr(S.String)),
+    name: S.optional(S.NullOr(S.String)),
+    address: S.optional(S.NullOr(S.String)),
+    vat: S.optional(S.NullOr(S.String)),
+  }),
 ).annotate({
-  identifier: "GetHostingResponse",
-}) as any as S.Schema<GetHostingResponse>;
+  identifier: "GetInvoiceResponseInvoiceBillTo",
+}) as any as S.Schema<GetInvoiceResponseInvoiceBillTo>;
+
+export type GetInvoiceResponseInvoicePaymentMethodsList = Array<string>;
+export const GetInvoiceResponseInvoicePaymentMethodsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<GetInvoiceResponseInvoicePaymentMethodsList>;
+
+export type GetInvoiceResponseInvoiceItemsItemStatus =
+  | "SUCCESS"
+  | "NOT_PROCESSED"
+  | "REFUNDED"
+  | "REFUND"
+  | "COUPON";
+export const GetInvoiceResponseInvoiceItemsItemStatus = S.String;
+
+export type GetInvoiceResponseInvoiceItemsItemTagsList = Array<string>;
+export const GetInvoiceResponseInvoiceItemsItemTagsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<GetInvoiceResponseInvoiceItemsItemTagsList>;
+
+export interface GetInvoiceResponseInvoiceItemsItem {
+  domain?: string;
+  product?: string;
+  type?: string;
+  years?: number | null;
+  /** Resulting domain expiry, on lines that buy a domain term. */
+  expires?: string | null;
+  status?: GetInvoiceResponseInvoiceItemsItemStatus;
+  price_cents?: number;
+  /** Discount on this line; on a REFUND line, the amount refunded. */
+  discount_cents?: number;
+  tags?: GetInvoiceResponseInvoiceItemsItemTagsList;
+}
+export const GetInvoiceResponseInvoiceItemsItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    domain: S.optional(S.String),
+    product: S.optional(S.String),
+    type: S.optional(S.String),
+    years: S.optional(S.NullOr(S.Number)),
+    expires: S.optional(S.NullOr(S.String)),
+    status: S.optional(GetInvoiceResponseInvoiceItemsItemStatus),
+    price_cents: S.optional(S.Number),
+    discount_cents: S.optional(S.Number),
+    tags: S.optional(GetInvoiceResponseInvoiceItemsItemTagsList),
+  }),
+).annotate({
+  identifier: "GetInvoiceResponseInvoiceItemsItem",
+}) as any as S.Schema<GetInvoiceResponseInvoiceItemsItem>;
+
+export type GetInvoiceResponseInvoiceItemsList = Array<GetInvoiceResponseInvoiceItemsItem>;
+export const GetInvoiceResponseInvoiceItemsList = /*@__PURE__*/ S.Array(
+  GetInvoiceResponseInvoiceItemsItem,
+) as any as S.Schema<GetInvoiceResponseInvoiceItemsList>;
+
+export interface GetInvoiceResponseInvoice {
+  id?: number;
+  date?: string;
+  state?: GetInvoiceResponseInvoiceState;
+  billTo?: GetInvoiceResponseInvoiceBillTo;
+  paymentMethods?: GetInvoiceResponseInvoicePaymentMethodsList;
+  items?: GetInvoiceResponseInvoiceItemsList;
+  gross_cents?: number;
+  refunded_cents?: number;
+  total_cents?: number;
+  total?: string;
+  currency?: string;
+  url?: string | null;
+  pdfUrl?: string | null;
+  /** Downloads the PDF without signing in, for 15 minutes (null on a sandbox key). The link to hand a user. */
+  downloadUrl?: string | null;
+  /** When downloadUrl stops working (ISO 8601). */
+  downloadExpires?: string | null;
+}
+export const GetInvoiceResponseInvoice = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.Number),
+    date: S.optional(S.String),
+    state: S.optional(GetInvoiceResponseInvoiceState),
+    billTo: S.optional(GetInvoiceResponseInvoiceBillTo),
+    paymentMethods: S.optional(GetInvoiceResponseInvoicePaymentMethodsList),
+    items: S.optional(GetInvoiceResponseInvoiceItemsList),
+    gross_cents: S.optional(S.Number),
+    refunded_cents: S.optional(S.Number),
+    total_cents: S.optional(S.Number),
+    total: S.optional(S.String),
+    currency: S.optional(S.String),
+    url: S.optional(S.NullOr(S.String)),
+    pdfUrl: S.optional(S.NullOr(S.String)),
+    downloadUrl: S.optional(S.NullOr(S.String)),
+    downloadExpires: S.optional(S.NullOr(S.String)),
+  }),
+).annotate({
+  identifier: "GetInvoiceResponseInvoice",
+}) as any as S.Schema<GetInvoiceResponseInvoice>;
+
+export interface GetInvoiceResponse {
+  status?: string;
+  invoice?: GetInvoiceResponseInvoice;
+}
+export const GetInvoiceResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    status: S.optional(S.String),
+    invoice: S.optional(GetInvoiceResponseInvoice),
+  }),
+).annotate({ identifier: "GetInvoiceResponse" }) as any as S.Schema<GetInvoiceResponse>;
+
+export interface GetInvoicePdfRequest {
+  /** Invoice (order) ID, from `GET /account/invoices`. */
+  orderId: number;
+}
+export const GetInvoicePdfRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    orderId: S.Number.pipe(T.Label()),
+  }).pipe(T.Http({ method: "GET", uri: "/account/invoicePdf/{orderId}", code: 200 })),
+).annotate({ identifier: "GetInvoicePdfRequest" }) as any as S.Schema<GetInvoicePdfRequest>;
+
+export interface GetInvoicePdfResponse {
+  status?: string;
+  filename?: string;
+  contentType?: string;
+  sizeBytes?: number;
+  contentBase64?: string;
+  /** Downloads the PDF without signing in, for 15 minutes (null on a sandbox key). The link to hand a user. */
+  downloadUrl?: string | null;
+  /** When downloadUrl stops working (ISO 8601). */
+  downloadExpires?: string | null;
+}
+export const GetInvoicePdfResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    status: S.optional(S.String),
+    filename: S.optional(S.String),
+    contentType: S.optional(S.String),
+    sizeBytes: S.optional(S.Number),
+    contentBase64: S.optional(S.String),
+    downloadUrl: S.optional(S.NullOr(S.String)),
+    downloadExpires: S.optional(S.NullOr(S.String)),
+  }),
+).annotate({ identifier: "GetInvoicePdfResponse" }) as any as S.Schema<GetInvoicePdfResponse>;
 
 export interface GetIpRequest {}
 export const GetIpRequest = /*@__PURE__*/ S.suspend(() =>
@@ -2360,27 +3549,35 @@ export const GetPingResponse = /*@__PURE__*/ S.suspend(() =>
     xForwardedFor: S.optional(S.String),
     credentialsValid: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "GetPingResponse",
-}) as any as S.Schema<GetPingResponse>;
+).annotate({ identifier: "GetPingResponse" }) as any as S.Schema<GetPingResponse>;
 
-/** Optional array of TLDs to filter results. If omitted, all supported TLDs are returned. */
-export type GetPricingRequestTldsList = Array<string>;
-export const GetPricingRequestTldsList = /*@__PURE__*/ S.Array(
+export type GetPricingRequestTldsCase0List = Array<string>;
+export const GetPricingRequestTldsCase0List = /*@__PURE__*/ S.Array(
   S.String,
-) as any as S.Schema<GetPricingRequestTldsList>;
+) as any as S.Schema<GetPricingRequestTldsCase0List>;
+
+/** Optional TLDs to price: an array, or a comma-separated string. If neither `tld` nor `tlds` is given (or both are empty), all supported TLDs are returned. */
+export type GetPricingRequestTlds = GetPricingRequestTldsCase0List | string;
+export const GetPricingRequestTlds = S.Unknown as any as S.Schema<GetPricingRequestTlds>;
 
 export interface GetPricingRequest {
-  /** Optional array of TLDs to filter results. If omitted, all supported TLDs are returned. */
-  tlds?: GetPricingRequestTldsList;
+  /** Optional single TLD to price, e.g. `io`. Combines with `tlds`. */
+  tld?: string;
+  /** Optional TLDs to price: an array, or a comma-separated string. If neither `tld` nor `tlds` is given (or both are empty), all supported TLDs are returned. */
+  tlds?: GetPricingRequestTlds;
 }
 export const GetPricingRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    tlds: S.optional(GetPricingRequestTldsList),
+    tld: S.optional(S.String),
+    tlds: S.optional(GetPricingRequestTlds),
   }).pipe(T.Http({ method: "POST", uri: "/pricing/get", code: 200 })),
-).annotate({
-  identifier: "GetPricingRequest",
-}) as any as S.Schema<GetPricingRequest>;
+).annotate({ identifier: "GetPricingRequest" }) as any as S.Schema<GetPricingRequest>;
+
+/** Present only when a filter named TLDs Porkbun does not sell: those names, as sent. They are not in `pricing`. */
+export type GetPricingResponseUnsupportedList = Array<string>;
+export const GetPricingResponseUnsupportedList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<GetPricingResponseUnsupportedList>;
 
 export type GetPricingResponsePricingValueCouponsValueFirstYearOnly = "yes" | "no";
 export const GetPricingResponsePricingValueCouponsValueFirstYearOnly = S.String;
@@ -2445,24 +3642,37 @@ export const GetPricingResponsePricingMap = /*@__PURE__*/ S.Record(
 
 export interface GetPricingResponse {
   status?: string;
+  /** Present only when a filter named TLDs Porkbun does not sell: those names, as sent. They are not in `pricing`. */
+  unsupported?: GetPricingResponseUnsupportedList;
   /** Object keyed by TLD string */
   pricing?: GetPricingResponsePricingMap;
 }
 export const GetPricingResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     status: S.optional(S.String),
+    unsupported: S.optional(GetPricingResponseUnsupportedList),
     pricing: S.optional(GetPricingResponsePricingMap),
   }),
-).annotate({
-  identifier: "GetPricingResponse",
-}) as any as S.Schema<GetPricingResponse>;
+).annotate({ identifier: "GetPricingResponse" }) as any as S.Schema<GetPricingResponse>;
 
-export interface GetPricingGetRequest {}
+export interface GetPricingGetRequest {
+  /** One TLD to price, e.g. `io`. */
+  tld?: string;
+  /** Comma-separated TLDs to price, e.g. `com,io,dev`. Omit (with `tld`) for every TLD. */
+  tlds?: string;
+}
 export const GetPricingGetRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(T.Http({ method: "GET", uri: "/pricing/get", code: 200 })),
-).annotate({
-  identifier: "GetPricingGetRequest",
-}) as any as S.Schema<GetPricingGetRequest>;
+  S.Struct({
+    tld: S.optional(S.String.pipe(T.Query())),
+    tlds: S.optional(S.String.pipe(T.Query())),
+  }).pipe(T.Http({ method: "GET", uri: "/pricing/get", code: 200 })),
+).annotate({ identifier: "GetPricingGetRequest" }) as any as S.Schema<GetPricingGetRequest>;
+
+/** Present only when a filter named TLDs Porkbun does not sell: those names, as sent. They are not in `pricing`. */
+export type GetPricingGetResponseUnsupportedList = Array<string>;
+export const GetPricingGetResponseUnsupportedList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<GetPricingGetResponseUnsupportedList>;
 
 export type GetPricingGetResponsePricingValueCouponsValueFirstYearOnly = "yes" | "no";
 export const GetPricingGetResponsePricingValueCouponsValueFirstYearOnly = S.String;
@@ -2527,17 +3737,18 @@ export const GetPricingGetResponsePricingMap = /*@__PURE__*/ S.Record(
 
 export interface GetPricingGetResponse {
   status?: string;
+  /** Present only when a filter named TLDs Porkbun does not sell: those names, as sent. They are not in `pricing`. */
+  unsupported?: GetPricingGetResponseUnsupportedList;
   /** Object keyed by TLD string */
   pricing?: GetPricingGetResponsePricingMap;
 }
 export const GetPricingGetResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     status: S.optional(S.String),
+    unsupported: S.optional(GetPricingGetResponseUnsupportedList),
     pricing: S.optional(GetPricingGetResponsePricingMap),
   }),
-).annotate({
-  identifier: "GetPricingGetResponse",
-}) as any as S.Schema<GetPricingGetResponse>;
+).annotate({ identifier: "GetPricingGetResponse" }) as any as S.Schema<GetPricingGetResponse>;
 
 export interface GetSslRequest {
   domain: string;
@@ -2573,9 +3784,7 @@ export const GetSslRetrieveRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     domain: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/ssl/retrieve/{domain}", code: 200 })),
-).annotate({
-  identifier: "GetSslRetrieveRequest",
-}) as any as S.Schema<GetSslRetrieveRequest>;
+).annotate({ identifier: "GetSslRetrieveRequest" }) as any as S.Schema<GetSslRetrieveRequest>;
 
 export interface GetSslRetrieveResponse {
   status?: string;
@@ -2593,9 +3802,7 @@ export const GetSslRetrieveResponse = /*@__PURE__*/ S.suspend(() =>
     privatekey: S.optional(S.String.pipe(T.SensitiveValue({}))),
     publickey: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GetSslRetrieveResponse",
-}) as any as S.Schema<GetSslRetrieveResponse>;
+).annotate({ identifier: "GetSslRetrieveResponse" }) as any as S.Schema<GetSslRetrieveResponse>;
 
 export interface GetTransferGetRequest {
   /** The domain name (e.g. `example.com`). */
@@ -2605,9 +3812,7 @@ export const GetTransferGetRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     domain: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/domain/getTransfer/{domain}", code: 200 })),
-).annotate({
-  identifier: "GetTransferGetRequest",
-}) as any as S.Schema<GetTransferGetRequest>;
+).annotate({ identifier: "GetTransferGetRequest" }) as any as S.Schema<GetTransferGetRequest>;
 
 export type GetTransferResponseStatus = "SUCCESS" | "ERROR";
 export const GetTransferResponseStatus = S.String;
@@ -2650,9 +3855,7 @@ export const GetTransferResponse = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(GetTransferResponseStatus),
     transfer: S.optional(GetTransferResponseTransfer),
   }),
-).annotate({
-  identifier: "GetTransferResponse",
-}) as any as S.Schema<GetTransferResponse>;
+).annotate({ identifier: "GetTransferResponse" }) as any as S.Schema<GetTransferResponse>;
 
 export interface GetWebhookRequest {
   id: number;
@@ -2661,9 +3864,7 @@ export const GetWebhookRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.Number.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/webhook/get/{id}", code: 200 })),
-).annotate({
-  identifier: "GetWebhookRequest",
-}) as any as S.Schema<GetWebhookRequest>;
+).annotate({ identifier: "GetWebhookRequest" }) as any as S.Schema<GetWebhookRequest>;
 
 /** Least privilege by default. `editor` = content only (recommended for agents). `administrator` = full control incl. plugin install; requires acknowledgeFullAccess. */
 export type HostingCreateWpCredentialsRequestRole = "editor" | "administrator";
@@ -2687,13 +3888,7 @@ export const HostingCreateWpCredentialsRequest = /*@__PURE__*/ S.suspend(() =>
     acknowledgeFullAccess: S.optional(S.Boolean),
     name: S.optional(S.String),
     dryRun: S.optional(S.Boolean),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/hosting/createWpCredentials/{domain}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/hosting/createWpCredentials/{domain}", code: 200 })),
 ).annotate({
   identifier: "HostingCreateWpCredentialsRequest",
 }) as any as S.Schema<HostingCreateWpCredentialsRequest>;
@@ -2738,15 +3933,16 @@ export const HostingCreateWpCredentialsResponse = /*@__PURE__*/ S.suspend(() =>
 export interface HostingDeleteFileRequest {
   domain: string;
   path: string;
+  /** Delete a directory together with everything in it (up to 2,000 items per call; call again to continue). Without it, a non-empty directory returns HOSTING_DIR_NOT_EMPTY. */
+  recursive?: boolean;
 }
 export const HostingDeleteFileRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     domain: S.String.pipe(T.Label()),
     path: S.String,
+    recursive: S.optional(S.Boolean),
   }).pipe(T.Http({ method: "POST", uri: "/hosting/deleteFile/{domain}", code: 200 })),
-).annotate({
-  identifier: "HostingDeleteFileRequest",
-}) as any as S.Schema<HostingDeleteFileRequest>;
+).annotate({ identifier: "HostingDeleteFileRequest" }) as any as S.Schema<HostingDeleteFileRequest>;
 
 export interface HostingDeleteFileResponse {
   status?: string;
@@ -2777,13 +3973,7 @@ export const HostingDeleteWpCredentialsRequest = /*@__PURE__*/ S.suspend(() =>
     all: S.optional(S.Boolean),
     wpUser: S.optional(S.String),
     dryRun: S.optional(S.Boolean),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/hosting/deleteWpCredentials/{domain}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/hosting/deleteWpCredentials/{domain}", code: 200 })),
 ).annotate({
   identifier: "HostingDeleteWpCredentialsRequest",
 }) as any as S.Schema<HostingDeleteWpCredentialsRequest>;
@@ -2810,9 +4000,7 @@ export const HostingFilesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     domain: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/hosting/files/{domain}", code: 200 })),
-).annotate({
-  identifier: "HostingFilesRequest",
-}) as any as S.Schema<HostingFilesRequest>;
+).annotate({ identifier: "HostingFilesRequest" }) as any as S.Schema<HostingFilesRequest>;
 
 export type HostingFilesResponseFilesList = Array<string>;
 export const HostingFilesResponseFilesList = /*@__PURE__*/ S.Array(
@@ -2830,9 +4018,7 @@ export const HostingFilesResponse = /*@__PURE__*/ S.suspend(() =>
     path: S.optional(S.String),
     files: S.optional(HostingFilesResponseFilesList),
   }),
-).annotate({
-  identifier: "HostingFilesResponse",
-}) as any as S.Schema<HostingFilesResponse>;
+).annotate({ identifier: "HostingFilesResponse" }) as any as S.Schema<HostingFilesResponse>;
 
 export interface HostingGetWpCredentialsRequest {
   domain: string;
@@ -2842,13 +4028,7 @@ export const HostingGetWpCredentialsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     domain: S.String.pipe(T.Label()),
     wpUser: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/hosting/getWpCredentials/{domain}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/hosting/getWpCredentials/{domain}", code: 200 })),
 ).annotate({
   identifier: "HostingGetWpCredentialsRequest",
 }) as any as S.Schema<HostingGetWpCredentialsRequest>;
@@ -2882,9 +4062,7 @@ export const HostingMakeDirRequest = /*@__PURE__*/ S.suspend(() =>
     domain: S.String.pipe(T.Label()),
     path: S.String,
   }).pipe(T.Http({ method: "POST", uri: "/hosting/makeDir/{domain}", code: 200 })),
-).annotate({
-  identifier: "HostingMakeDirRequest",
-}) as any as S.Schema<HostingMakeDirRequest>;
+).annotate({ identifier: "HostingMakeDirRequest" }) as any as S.Schema<HostingMakeDirRequest>;
 
 export interface HostingMakeDirResponse {
   status?: string;
@@ -2895,16 +4073,12 @@ export const HostingMakeDirResponse = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(S.String),
     created: S.optional(S.String),
   }),
-).annotate({
-  identifier: "HostingMakeDirResponse",
-}) as any as S.Schema<HostingMakeDirResponse>;
+).annotate({ identifier: "HostingMakeDirResponse" }) as any as S.Schema<HostingMakeDirResponse>;
 
 export interface HostingPlansRequest {}
 export const HostingPlansRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/hosting/plans", code: 200 })),
-).annotate({
-  identifier: "HostingPlansRequest",
-}) as any as S.Schema<HostingPlansRequest>;
+).annotate({ identifier: "HostingPlansRequest" }) as any as S.Schema<HostingPlansRequest>;
 
 export interface HostingPlansResponsePlansItem {
   product?: string;
@@ -2948,9 +4122,52 @@ export const HostingPlansResponse = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(S.String),
     plans: S.optional(HostingPlansResponsePlansList),
   }),
-).annotate({
-  identifier: "HostingPlansResponse",
-}) as any as S.Schema<HostingPlansResponse>;
+).annotate({ identifier: "HostingPlansResponse" }) as any as S.Schema<HostingPlansResponse>;
+
+/** Records to create. Omit to import what a scan discovers. NS and SOA entries are ignored — they describe the delegation, not the zone contents. */
+export type ImportDnsRequestRecordsList = Array<DnsRecordInput>;
+export const ImportDnsRequestRecordsList = /*@__PURE__*/ S.Array(
+  DnsRecordInput,
+) as any as S.Schema<ImportDnsRequestRecordsList>;
+
+export interface ImportDnsRequest {
+  domain: string;
+  /** Records to create. Omit to import what a scan discovers. NS and SOA entries are ignored — they describe the delegation, not the zone contents. */
+  records?: ImportDnsRequestRecordsList;
+}
+export const ImportDnsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    domain: S.String.pipe(T.Label()),
+    records: S.optional(ImportDnsRequestRecordsList),
+  }).pipe(T.Http({ method: "POST", uri: "/dns/import/{domain}", code: 200 })),
+).annotate({ identifier: "ImportDnsRequest" }) as any as S.Schema<ImportDnsRequest>;
+
+export type ImportDnsResponseFailuresList = Array<unknown>;
+export const ImportDnsResponseFailuresList = /*@__PURE__*/ S.Array(
+  S.Unknown,
+) as any as S.Schema<ImportDnsResponseFailuresList>;
+
+export interface ImportDnsResponse {
+  status?: string;
+  domain?: string;
+  created?: number;
+  /** Already present, so nothing needed doing. */
+  skipped?: number;
+  failed?: number;
+  failures?: ImportDnsResponseFailuresList;
+  warnings?: DnsWriteWarnings;
+}
+export const ImportDnsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    status: S.optional(S.String),
+    domain: S.optional(S.String),
+    created: S.optional(S.Number),
+    skipped: S.optional(S.Number),
+    failed: S.optional(S.Number),
+    failures: S.optional(ImportDnsResponseFailuresList),
+    warnings: S.optional(DnsWriteWarnings),
+  }),
+).annotate({ identifier: "ImportDnsResponse" }) as any as S.Schema<ImportDnsResponse>;
 
 /** Return label metadata for each domain. Defaults to no. */
 export type ListDomainsRequestIncludeLabels = "yes" | "no";
@@ -3013,9 +4230,94 @@ export const ListDomainsRequest = /*@__PURE__*/ S.suspend(() =>
     sortName: S.optional(ListDomainsRequestSortName),
     sortDirection: S.optional(ListDomainsRequestSortDirection),
   }).pipe(T.Http({ method: "POST", uri: "/domain/listAll", code: 200 })),
+).annotate({ identifier: "ListDomainsRequest" }) as any as S.Schema<ListDomainsRequest>;
+
+export interface ListInvoicesRequest {
+  /** Only invoices from this year, e.g. 2026. */
+  year?: number;
+  /** Offset for paging. */
+  start?: number;
+  limit?: number;
+}
+export const ListInvoicesRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    year: S.optional(S.Number.pipe(T.Query())),
+    start: S.optional(S.Number.pipe(T.Query())),
+    limit: S.optional(S.Number.pipe(T.Query())),
+  }).pipe(T.Http({ method: "GET", uri: "/account/invoices", code: 200 })),
+).annotate({ identifier: "ListInvoicesRequest" }) as any as S.Schema<ListInvoicesRequest>;
+
+export type ListInvoicesResponseInvoicesItemState =
+  | "PAID"
+  | "PARTIALLY_REFUNDED"
+  | "REFUNDED"
+  | "UNPAID";
+export const ListInvoicesResponseInvoicesItemState = S.String;
+
+/** Up to 10 domains on the invoice. */
+export type ListInvoicesResponseInvoicesItemDomainsList = Array<string>;
+export const ListInvoicesResponseInvoicesItemDomainsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<ListInvoicesResponseInvoicesItemDomainsList>;
+
+export interface ListInvoicesResponseInvoicesItem {
+  id?: number;
+  date?: string;
+  state?: ListInvoicesResponseInvoicesItemState;
+  total_cents?: number;
+  total?: string;
+  itemCount?: number;
+  /** Up to 10 domains on the invoice. */
+  domains?: ListInvoicesResponseInvoicesItemDomainsList;
+  /** The invoice page on porkbun.com (null on a sandbox key). */
+  url?: string | null;
+}
+export const ListInvoicesResponseInvoicesItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.Number),
+    date: S.optional(S.String),
+    state: S.optional(ListInvoicesResponseInvoicesItemState),
+    total_cents: S.optional(S.Number),
+    total: S.optional(S.String),
+    itemCount: S.optional(S.Number),
+    domains: S.optional(ListInvoicesResponseInvoicesItemDomainsList),
+    url: S.optional(S.NullOr(S.String)),
+  }),
 ).annotate({
-  identifier: "ListDomainsRequest",
-}) as any as S.Schema<ListDomainsRequest>;
+  identifier: "ListInvoicesResponseInvoicesItem",
+}) as any as S.Schema<ListInvoicesResponseInvoicesItem>;
+
+export type ListInvoicesResponseInvoicesList = Array<ListInvoicesResponseInvoicesItem>;
+export const ListInvoicesResponseInvoicesList = /*@__PURE__*/ S.Array(
+  ListInvoicesResponseInvoicesItem,
+) as any as S.Schema<ListInvoicesResponseInvoicesList>;
+
+/** Years that have invoices. */
+export type ListInvoicesResponseYearsList = Array<number>;
+export const ListInvoicesResponseYearsList = /*@__PURE__*/ S.Array(
+  S.Number,
+) as any as S.Schema<ListInvoicesResponseYearsList>;
+
+export interface ListInvoicesResponse {
+  status?: string;
+  invoices?: ListInvoicesResponseInvoicesList;
+  /** How many invoices match (for paging). */
+  total?: number;
+  start?: number;
+  limit?: number;
+  /** Years that have invoices. */
+  years?: ListInvoicesResponseYearsList;
+}
+export const ListInvoicesResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    status: S.optional(S.String),
+    invoices: S.optional(ListInvoicesResponseInvoicesList),
+    total: S.optional(S.Number),
+    start: S.optional(S.Number),
+    limit: S.optional(S.Number),
+    years: S.optional(ListInvoicesResponseYearsList),
+  }),
+).annotate({ identifier: "ListInvoicesResponse" }) as any as S.Schema<ListInvoicesResponse>;
 
 /** Filter to listings under these TLDs (without the leading dot). */
 export type ListMarketplaceListingsRequestTldsList = Array<string>;
@@ -3200,9 +4502,7 @@ export const ListMarketplaceListingsGetResponse = /*@__PURE__*/ S.suspend(() =>
 export interface ListTransfersGetRequest {}
 export const ListTransfersGetRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/domain/listTransfers", code: 200 })),
-).annotate({
-  identifier: "ListTransfersGetRequest",
-}) as any as S.Schema<ListTransfersGetRequest>;
+).annotate({ identifier: "ListTransfersGetRequest" }) as any as S.Schema<ListTransfersGetRequest>;
 
 export type ListTransfersResponseStatus = "SUCCESS" | "ERROR";
 export const ListTransfersResponseStatus = S.String;
@@ -3250,16 +4550,12 @@ export const ListTransfersResponse = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(ListTransfersResponseStatus),
     transfers: S.optional(ListTransfersResponseTransfersList),
   }),
-).annotate({
-  identifier: "ListTransfersResponse",
-}) as any as S.Schema<ListTransfersResponse>;
+).annotate({ identifier: "ListTransfersResponse" }) as any as S.Schema<ListTransfersResponse>;
 
 export interface ListWebhookRequest {}
 export const ListWebhookRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/webhook/list", code: 200 })),
-).annotate({
-  identifier: "ListWebhookRequest",
-}) as any as S.Schema<ListWebhookRequest>;
+).annotate({ identifier: "ListWebhookRequest" }) as any as S.Schema<ListWebhookRequest>;
 
 export type WebhookListResponseEndpointsList = Array<WebhookEndpoint>;
 export const WebhookListResponseEndpointsList = /*@__PURE__*/ S.Array(
@@ -3275,16 +4571,12 @@ export const WebhookListResponse = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(S.String),
     endpoints: S.optional(WebhookListResponseEndpointsList),
   }),
-).annotate({
-  identifier: "WebhookListResponse",
-}) as any as S.Schema<WebhookListResponse>;
+).annotate({ identifier: "WebhookListResponse" }) as any as S.Schema<WebhookListResponse>;
 
 export interface MockDirectoryRequest {}
 export const MockDirectoryRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/mock", code: 200 })),
-).annotate({
-  identifier: "MockDirectoryRequest",
-}) as any as S.Schema<MockDirectoryRequest>;
+).annotate({ identifier: "MockDirectoryRequest" }) as any as S.Schema<MockDirectoryRequest>;
 
 export interface MockDirectoryResponseEndpointsItem {
   method?: string;
@@ -3321,9 +4613,7 @@ export const MockDirectoryResponse = /*@__PURE__*/ S.suspend(() =>
     count: S.optional(S.Number),
     endpoints: S.optional(MockDirectoryResponseEndpointsList),
   }),
-).annotate({
-  identifier: "MockDirectoryResponse",
-}) as any as S.Schema<MockDirectoryResponse>;
+).annotate({ identifier: "MockDirectoryResponse" }) as any as S.Schema<MockDirectoryResponse>;
 
 export type MockEndpointRequestStatus = "error";
 export const MockEndpointRequestStatus = S.String;
@@ -3339,16 +4629,12 @@ export const MockEndpointRequest = /*@__PURE__*/ S.suspend(() =>
     path: S.String.pipe(T.Label()),
     status: S.optional(MockEndpointRequestStatus.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/mock/{path}", code: 200 })),
-).annotate({
-  identifier: "MockEndpointRequest",
-}) as any as S.Schema<MockEndpointRequest>;
+).annotate({ identifier: "MockEndpointRequest" }) as any as S.Schema<MockEndpointRequest>;
 
 export type MockEndpointResponse = unknown;
 export const MockEndpointResponse = /*@__PURE__*/ S.suspend(() =>
   S.Unknown.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "MockEndpointResponse",
-}) as any as S.Schema<MockEndpointResponse>;
+).annotate({ identifier: "MockEndpointResponse" }) as any as S.Schema<MockEndpointResponse>;
 
 export interface PingRequest {}
 export const PingRequest = /*@__PURE__*/ S.suspend(() =>
@@ -3378,10 +4664,34 @@ export const PostIpRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "POST", uri: "/ip", code: 200 })),
 ).annotate({ identifier: "PostIpRequest" }) as any as S.Schema<PostIpRequest>;
 
+export interface PreviewCloudflareRequest {
+  domain: string;
+}
+export const PreviewCloudflareRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    domain: S.String.pipe(T.Label()),
+  }).pipe(T.Http({ method: "GET", uri: "/cloudflare/preview/{domain}", code: 200 })),
+).annotate({ identifier: "PreviewCloudflareRequest" }) as any as S.Schema<PreviewCloudflareRequest>;
+
+export type PreviewCloudflareResponse = unknown;
+export const PreviewCloudflareResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Unknown.pipe(T.RawResponseRoot()),
+).annotate({
+  identifier: "PreviewCloudflareResponse",
+}) as any as S.Schema<PreviewCloudflareResponse>;
+
+/** Optional. `"usdc"` pays for this purchase directly in USDC on Base over x402 instead of from account credit. The first call answers HTTP 402 (`PAYMENT_REQUIRED`) with Coinbase's terms in the `PAYMENT-REQUIRED` header and charges nothing; an x402 client pays and repeats the same request with a `PAYMENT-SIGNATURE` header, and the purchase completes in that call. If it then fails, the payment stays on the account as account credit; it is not sent back to the wallet. If your wallet pays URLs itself instead, pay the 402's `x402Url` (or have a person pay `payUrl`) and repeat the request with `usdcCheckoutId`. See the guide: https://porkbun.com/llms/guides/pay-with-usdc-x402 */
+export type RenewDomainRequestPayWith = "usdc";
+export const RenewDomainRequestPayWith = S.String;
+
 export interface RenewDomainRequest {
   domain: string;
   /** The renewal cost in pennies (USD cents). Must exactly equal the total price for the domain at its minimum renewal duration. Obtain this from /domain/checkDomain first. */
   cost: number;
+  /** Optional. `"usdc"` pays for this purchase directly in USDC on Base over x402 instead of from account credit. The first call answers HTTP 402 (`PAYMENT_REQUIRED`) with Coinbase's terms in the `PAYMENT-REQUIRED` header and charges nothing; an x402 client pays and repeats the same request with a `PAYMENT-SIGNATURE` header, and the purchase completes in that call. If it then fails, the payment stays on the account as account credit; it is not sent back to the wallet. If your wallet pays URLs itself instead, pay the 402's `x402Url` (or have a person pay `payUrl`) and repeat the request with `usdcCheckoutId`. See the guide: https://porkbun.com/llms/guides/pay-with-usdc-x402 */
+  payWith?: RenewDomainRequestPayWith | (string & {});
+  /** With `payWith: "usdc"`: the `checkoutId` from an earlier `PAYMENT_REQUIRED`, once its `x402Url` or `payUrl` has been paid. Send it with otherwise the same request; the purchase completes if the checkout is paid and was opened for this purchase. */
+  usdcCheckoutId?: string;
   /** Optional. When true, runs all pre-flight validation and returns a preview with `dryRun: true` and `wouldSucceed` WITHOUT renewing or charging. Nothing changes and the rate-limit budget is not consumed. */
   dryRun?: boolean;
 }
@@ -3389,11 +4699,11 @@ export const RenewDomainRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     domain: S.String.pipe(T.Label()),
     cost: S.Number,
+    payWith: S.optional(RenewDomainRequestPayWith),
+    usdcCheckoutId: S.optional(S.String),
     dryRun: S.optional(S.Boolean),
   }).pipe(T.Http({ method: "POST", uri: "/domain/renew/{domain}", code: 200 })),
-).annotate({
-  identifier: "RenewDomainRequest",
-}) as any as S.Schema<RenewDomainRequest>;
+).annotate({ identifier: "RenewDomainRequest" }) as any as S.Schema<RenewDomainRequest>;
 
 export type RenewDomainResponseLimitsAttempts = CreateDomainResponseLimitsAttempts;
 export const RenewDomainResponseLimitsAttempts = CreateDomainResponseLimitsAttempts;
@@ -3446,9 +4756,7 @@ export const RenewDomainResponse = /*@__PURE__*/ S.suspend(() =>
     ttlRemaining: S.optional(S.Number),
     requestId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "RenewDomainResponse",
-}) as any as S.Schema<RenewDomainResponse>;
+).annotate({ identifier: "RenewDomainResponse" }) as any as S.Schema<RenewDomainResponse>;
 
 export type RenewDomainResponseBody = RenewDomainResponse | DryRunPreviewResponse;
 export const RenewDomainResponseBody = S.Unknown as any as S.Schema<RenewDomainResponseBody>;
@@ -3456,9 +4764,7 @@ export const RenewDomainResponseBody = S.Unknown as any as S.Schema<RenewDomainR
 export type RenewDomainResponse2 = RenewDomainResponseBody;
 export const RenewDomainResponse2 = /*@__PURE__*/ S.suspend(() =>
   RenewDomainResponseBody.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "RenewDomainResponse2",
-}) as any as S.Schema<RenewDomainResponse2>;
+).annotate({ identifier: "RenewDomainResponse2" }) as any as S.Schema<RenewDomainResponse2>;
 
 export interface ResendWebhookRequest {
   /** Endpoint id. */
@@ -3468,9 +4774,7 @@ export const ResendWebhookRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.Number,
   }).pipe(T.Http({ method: "POST", uri: "/webhook/resend", code: 200 })),
-).annotate({
-  identifier: "ResendWebhookRequest",
-}) as any as S.Schema<ResendWebhookRequest>;
+).annotate({ identifier: "ResendWebhookRequest" }) as any as S.Schema<ResendWebhookRequest>;
 
 /** PENDING (queued/awaiting retry), PROCESSING (in flight), DELIVERED (2xx), or FAILED (gave up after max attempts). */
 export type WebhookDeliveryStatus = "PENDING" | "PROCESSING" | "DELIVERED" | "FAILED";
@@ -3519,9 +4823,7 @@ export const WebhookDelivery = /*@__PURE__*/ S.suspend(() =>
     deliveredDate: S.optional(S.NullOr(S.String)),
     payload: S.optional(S.Unknown),
   }),
-).annotate({
-  identifier: "WebhookDelivery",
-}) as any as S.Schema<WebhookDelivery>;
+).annotate({ identifier: "WebhookDelivery" }) as any as S.Schema<WebhookDelivery>;
 
 export interface WebhookResendResponse {
   status?: string;
@@ -3534,16 +4836,12 @@ export const WebhookResendResponse = /*@__PURE__*/ S.suspend(() =>
     delivery: S.optional(WebhookDelivery),
     message: S.optional(S.String),
   }),
-).annotate({
-  identifier: "WebhookResendResponse",
-}) as any as S.Schema<WebhookResendResponse>;
+).annotate({ identifier: "WebhookResendResponse" }) as any as S.Schema<WebhookResendResponse>;
 
 export interface ResetSandboxRequest {}
 export const ResetSandboxRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "POST", uri: "/sandbox/reset", code: 200 })),
-).annotate({
-  identifier: "ResetSandboxRequest",
-}) as any as S.Schema<ResetSandboxRequest>;
+).annotate({ identifier: "ResetSandboxRequest" }) as any as S.Schema<ResetSandboxRequest>;
 
 export interface ResetSandboxResponse {
   status?: string;
@@ -3560,9 +4858,88 @@ export const ResetSandboxResponse = /*@__PURE__*/ S.suspend(() =>
     balance: S.optional(S.Number),
     sandbox: S.optional(S.Boolean),
   }),
+).annotate({ identifier: "ResetSandboxResponse" }) as any as S.Schema<ResetSandboxResponse>;
+
+export interface RestoreDnsRequest {
+  domain: string;
+  /** The restore point to go back to, from GET /dns/history/{domain}. */
+  snapshotId: number;
+  /** Also delete live records that are not in the restore point. Default false, which only adds back what is missing. */
+  prune?: boolean;
+  /** Report what would change without changing anything. */
+  dryRun?: boolean;
+}
+export const RestoreDnsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    domain: S.String.pipe(T.Label()),
+    snapshotId: S.Number,
+    prune: S.optional(S.Boolean),
+    dryRun: S.optional(S.Boolean),
+  }).pipe(T.Http({ method: "POST", uri: "/dns/restore/{domain}", code: 200 })),
+).annotate({ identifier: "RestoreDnsRequest" }) as any as S.Schema<RestoreDnsRequest>;
+
+export interface DnsRestoreResponseFailedItem {
+  name?: string;
+  type?: string;
+  reason?: string;
+}
+export const DnsRestoreResponseFailedItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    type: S.optional(S.String),
+    reason: S.optional(S.String),
+  }),
 ).annotate({
-  identifier: "ResetSandboxResponse",
-}) as any as S.Schema<ResetSandboxResponse>;
+  identifier: "DnsRestoreResponseFailedItem",
+}) as any as S.Schema<DnsRestoreResponseFailedItem>;
+
+/** Records that could not be recreated, with the reason. Parking and other masked types are managed elsewhere and cannot be restored this way. */
+export type DnsRestoreResponseFailedList = Array<DnsRestoreResponseFailedItem>;
+export const DnsRestoreResponseFailedList = /*@__PURE__*/ S.Array(
+  DnsRestoreResponseFailedItem,
+) as any as S.Schema<DnsRestoreResponseFailedList>;
+
+export interface DnsRestoreResponse {
+  warnings?: DnsWriteWarnings;
+  status?: string;
+  domain?: string;
+  /** The restore point used. */
+  restoredFrom?: number;
+  /** A new restore point holding the state from immediately BEFORE this restore. Restore that to undo this. */
+  previousStateSavedAs?: number | null;
+  /** Records added back. A true count -- anything that could not be recreated is in `failed` instead. */
+  restored?: number;
+  /** Records deleted, which is always 0 unless prune was true. */
+  removed?: number;
+  /** Records that could not be recreated, with the reason. Parking and other masked types are managed elsewhere and cannot be restored this way. */
+  failed?: DnsRestoreResponseFailedList;
+}
+export const DnsRestoreResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    warnings: S.optional(DnsWriteWarnings),
+    status: S.optional(S.String),
+    domain: S.optional(S.String),
+    restoredFrom: S.optional(S.Number),
+    previousStateSavedAs: S.optional(S.NullOr(S.Number)),
+    restored: S.optional(S.Number),
+    removed: S.optional(S.Number),
+    failed: S.optional(DnsRestoreResponseFailedList),
+  }),
+).annotate({ identifier: "DnsRestoreResponse" }) as any as S.Schema<DnsRestoreResponse>;
+
+export interface RetryCloudflareRequest {
+  domain: string;
+}
+export const RetryCloudflareRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    domain: S.String.pipe(T.Label()),
+  }).pipe(T.Http({ method: "POST", uri: "/cloudflare/retry/{domain}", code: 200 })),
+).annotate({ identifier: "RetryCloudflareRequest" }) as any as S.Schema<RetryCloudflareRequest>;
+
+export type RetryCloudflareResponse = unknown;
+export const RetryCloudflareResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Unknown.pipe(T.RawResponseRoot()),
+).annotate({ identifier: "RetryCloudflareResponse" }) as any as S.Schema<RetryCloudflareResponse>;
 
 export interface SandboxTopupRequest {
   /** Fake credit to add in US cents (default 100000; max 1000000). */
@@ -3572,9 +4949,7 @@ export const SandboxTopupRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     amount: S.optional(S.Number),
   }).pipe(T.Http({ method: "POST", uri: "/sandbox/topup", code: 200 })),
-).annotate({
-  identifier: "SandboxTopupRequest",
-}) as any as S.Schema<SandboxTopupRequest>;
+).annotate({ identifier: "SandboxTopupRequest" }) as any as S.Schema<SandboxTopupRequest>;
 
 export interface SandboxTopupResponse {
   status?: string;
@@ -3591,9 +4966,7 @@ export const SandboxTopupResponse = /*@__PURE__*/ S.suspend(() =>
     display: S.optional(S.String),
     sandbox: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "SandboxTopupResponse",
-}) as any as S.Schema<SandboxTopupResponse>;
+).annotate({ identifier: "SandboxTopupResponse" }) as any as S.Schema<SandboxTopupResponse>;
 
 /** Event type to emit. */
 export type SandboxTriggerWebhookRequestEventType =
@@ -3642,6 +5015,90 @@ export const SandboxTriggerWebhookResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "SandboxTriggerWebhookResponse",
 }) as any as S.Schema<SandboxTriggerWebhookResponse>;
 
+export interface SearchCloseoutRequest {
+  /** Keyword match on the domain name. */
+  query?: string;
+  /** Single TLD, with or without the leading dot. Omit to search all. */
+  tld?: string;
+  /** Exact SLD character count. */
+  nameLength?: number;
+  /** Minimum domain age in years. Pair with sortName=registrationDate to find aged names. */
+  ageMin?: number;
+  /** Maximum domain age in years. */
+  ageMax?: number;
+  /** Minimum closeout price, integer US cents. Converted to whole dollars for the provider, rounding outward so the range never excludes an item inside it. */
+  priceMin?: number;
+  /** Maximum closeout price, integer US cents. */
+  priceMax?: number;
+  /** One of: domain, endTime, price, revenue, visitors, inboundLinks, registrationDate. Ascending on registrationDate means oldest registration first, which is how you find aged names. Ascending on revenue, visitors or inboundLinks puts the domains with no recorded figure first (they return null) — use desc on those to see the highest values; the response carries a `warnings` entry reminding you. */
+  sortName?: string;
+  /** `asc` or `desc`. */
+  sortDirection?: string;
+  /** Offset for paging. Default 0. */
+  start?: number;
+  /** Rows per page, 1-500. Default 100. */
+  limit?: number;
+}
+export const SearchCloseoutRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    query: S.optional(S.String.pipe(T.Query())),
+    tld: S.optional(S.String.pipe(T.Query())),
+    nameLength: S.optional(S.Number.pipe(T.Query())),
+    ageMin: S.optional(S.Number.pipe(T.Query())),
+    ageMax: S.optional(S.Number.pipe(T.Query())),
+    priceMin: S.optional(S.Number.pipe(T.Query())),
+    priceMax: S.optional(S.Number.pipe(T.Query())),
+    sortName: S.optional(S.String.pipe(T.Query())),
+    sortDirection: S.optional(S.String.pipe(T.Query())),
+    start: S.optional(S.Number.pipe(T.Query())),
+    limit: S.optional(S.Number.pipe(T.Query())),
+  }).pipe(T.Http({ method: "GET", uri: "/closeout/search", code: 200 })),
+).annotate({ identifier: "SearchCloseoutRequest" }) as any as S.Schema<SearchCloseoutRequest>;
+
+export type SearchCloseoutResponseCloseoutsList = Array<CloseoutItem>;
+export const SearchCloseoutResponseCloseoutsList = /*@__PURE__*/ S.Array(
+  CloseoutItem,
+) as any as S.Schema<SearchCloseoutResponseCloseoutsList>;
+
+export interface SearchCloseoutResponse {
+  status?: string;
+  count?: number;
+  /** Size of the filtered set, for paging. */
+  totalAvailable?: number;
+  start?: number;
+  limit?: number;
+  closeouts?: SearchCloseoutResponseCloseoutsList;
+}
+export const SearchCloseoutResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    status: S.optional(S.String),
+    count: S.optional(S.Number),
+    totalAvailable: S.optional(S.Number),
+    start: S.optional(S.Number),
+    limit: S.optional(S.Number),
+    closeouts: S.optional(SearchCloseoutResponseCloseoutsList),
+  }),
+).annotate({ identifier: "SearchCloseoutResponse" }) as any as S.Schema<SearchCloseoutResponse>;
+
+export interface SetAutoTopupRequest {
+  /** Turn auto top-up on or off. Omit to change only the amount. */
+  enabled: boolean;
+  /** Balance in integer US cents below which a top-up fires. Required when enabling, and meaningless without it. */
+  threshold?: number;
+  /** What a top-up adds, in integer US cents. Can be sent on its own; required when enabling if none is on file. Over the API: 500-50000. */
+  amount?: number;
+  /** Validate only; change nothing. */
+  dryRun?: boolean;
+}
+export const SetAutoTopupRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    enabled: S.Boolean,
+    threshold: S.optional(S.Number),
+    amount: S.optional(S.Number),
+    dryRun: S.optional(S.Boolean),
+  }).pipe(T.Http({ method: "POST", uri: "/account/autoTopup", code: 200 })),
+).annotate({ identifier: "SetAutoTopupRequest" }) as any as S.Schema<SetAutoTopupRequest>;
+
 export interface TestWebhookRequest {
   /** Endpoint id. */
   id: number;
@@ -3650,9 +5107,7 @@ export const TestWebhookRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.Number,
   }).pipe(T.Http({ method: "POST", uri: "/webhook/test", code: 200 })),
-).annotate({
-  identifier: "TestWebhookRequest",
-}) as any as S.Schema<TestWebhookRequest>;
+).annotate({ identifier: "TestWebhookRequest" }) as any as S.Schema<TestWebhookRequest>;
 
 export interface WebhookTestResponse {
   status?: string;
@@ -3666,9 +5121,187 @@ export const WebhookTestResponse = /*@__PURE__*/ S.suspend(() =>
     eventId: S.optional(S.String),
     message: S.optional(S.String),
   }),
+).annotate({ identifier: "WebhookTestResponse" }) as any as S.Schema<WebhookTestResponse>;
+
+export interface TopupAccountCreditRequest {
+  /** Optional one-off amount in integer US cents (500-50000). Omit to charge the amount the account has configured, which is the common case. A supplied amount does NOT change the stored setting — use it instead of rewriting the customer's configuration for a single charge. */
+  amount?: number;
+  /** Preview the charge without making it. */
+  dryRun?: boolean;
+}
+export const TopupAccountCreditRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    amount: S.optional(S.Number),
+    dryRun: S.optional(S.Boolean),
+  }).pipe(T.Http({ method: "POST", uri: "/account/topup", code: 200 })),
 ).annotate({
-  identifier: "WebhookTestResponse",
-}) as any as S.Schema<WebhookTestResponse>;
+  identifier: "TopupAccountCreditRequest",
+}) as any as S.Schema<TopupAccountCreditRequest>;
+
+export interface TopupAccountCreditResponse {
+  status?: string;
+  /** Amount charged, in cents. */
+  charged?: number;
+  chargedDisplay?: string;
+  /** Account credit balance after the top-up, in cents. */
+  balance?: number;
+  balanceDisplay?: string;
+  /** The captured order recorded for the purchase, 0 if order creation failed (the credit is granted either way). */
+  orderId?: number;
+  /** True when the account had no configured amount and the $50 default was charged. */
+  usedDefaultAmount?: boolean;
+  chargesToday?: number;
+  chargesThisMonth?: number;
+  /** Sandbox only: credit was granted without charging a card. */
+  simulated?: boolean;
+  message?: string;
+}
+export const TopupAccountCreditResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    status: S.optional(S.String),
+    charged: S.optional(S.Number),
+    chargedDisplay: S.optional(S.String),
+    balance: S.optional(S.Number),
+    balanceDisplay: S.optional(S.String),
+    orderId: S.optional(S.Number),
+    usedDefaultAmount: S.optional(S.Boolean),
+    chargesToday: S.optional(S.Number),
+    chargesThisMonth: S.optional(S.Number),
+    simulated: S.optional(S.Boolean),
+    message: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "TopupAccountCreditResponse",
+}) as any as S.Schema<TopupAccountCreditResponse>;
+
+export interface TopupCryptoRequest {
+  /** Checkout amount in integer US cents, $1.00 to $500.00 (100 = $1.00). Credit is this less Coinbase's fee of about 1%. */
+  amount: number;
+  /** Check eligibility only; creates no checkout. */
+  dryRun?: boolean;
+}
+export const TopupCryptoRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    amount: S.Number,
+    dryRun: S.optional(S.Boolean),
+  }).pipe(T.Http({ method: "POST", uri: "/account/topupCrypto", code: 200 })),
+).annotate({ identifier: "TopupCryptoRequest" }) as any as S.Schema<TopupCryptoRequest>;
+
+export interface TopupCryptoResponse {
+  status?: string;
+  checkoutId?: string;
+  amount_cents?: number;
+  /** Coinbase's fee, about 1%, estimated high. */
+  estimatedFee_cents?: number;
+  /** Credit the account gets once it is paid. */
+  estimatedCredit_cents?: number;
+  currency?: string;
+  network?: string;
+  /** Coinbase-hosted page for a person to pay. */
+  payUrl?: string;
+  /** x402 payment URL an agent's wallet pays directly. */
+  x402Url?: string | null;
+  expiresAt?: string | null;
+  message?: string;
+}
+export const TopupCryptoResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    status: S.optional(S.String),
+    checkoutId: S.optional(S.String),
+    amount_cents: S.optional(S.Number),
+    estimatedFee_cents: S.optional(S.Number),
+    estimatedCredit_cents: S.optional(S.Number),
+    currency: S.optional(S.String),
+    network: S.optional(S.String),
+    payUrl: S.optional(S.String),
+    x402Url: S.optional(S.NullOr(S.String)),
+    expiresAt: S.optional(S.NullOr(S.String)),
+    message: S.optional(S.String),
+  }),
+).annotate({ identifier: "TopupCryptoResponse" }) as any as S.Schema<TopupCryptoResponse>;
+
+export interface TopupCryptoStatusRequest {
+  checkoutId: string;
+}
+export const TopupCryptoStatusRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    checkoutId: S.String.pipe(T.Label()),
+  }).pipe(T.Http({ method: "GET", uri: "/account/topupCryptoStatus/{checkoutId}", code: 200 })),
+).annotate({ identifier: "TopupCryptoStatusRequest" }) as any as S.Schema<TopupCryptoStatusRequest>;
+
+export type TopupCryptoStatusResponseState =
+  | "ACTIVE"
+  | "PROCESSING"
+  | "COMPLETED"
+  | "EXPIRED"
+  | "FAILED"
+  | "DEACTIVATED";
+export const TopupCryptoStatusResponseState = S.String;
+
+export interface TopupCryptoStatusResponse {
+  status?: string;
+  checkoutId?: string;
+  state?: TopupCryptoStatusResponseState;
+  credited?: boolean;
+  balance_cents?: number;
+  balance?: string;
+}
+export const TopupCryptoStatusResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    status: S.optional(S.String),
+    checkoutId: S.optional(S.String),
+    state: S.optional(TopupCryptoStatusResponseState),
+    credited: S.optional(S.Boolean),
+    balance_cents: S.optional(S.Number),
+    balance: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "TopupCryptoStatusResponse",
+}) as any as S.Schema<TopupCryptoStatusResponse>;
+
+export interface TopupMppRequest {
+  /** Credit to add, in integer US cents. */
+  amount: number;
+  /** Check eligibility and limits only. */
+  dryRun?: boolean;
+}
+export const TopupMppRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    amount: S.Number,
+    dryRun: S.optional(S.Boolean),
+  }).pipe(T.Http({ method: "POST", uri: "/account/topupMpp", code: 200 })),
+).annotate({ identifier: "TopupMppRequest" }) as any as S.Schema<TopupMppRequest>;
+
+export type TopupMppResponseMethodsList = Array<string>;
+export const TopupMppResponseMethodsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<TopupMppResponseMethodsList>;
+
+export interface TopupMppResponse {
+  status?: string;
+  amount_cents?: number;
+  /** Signed MPP payment URL; POST it with an MPP client. */
+  payUrl?: string;
+  expiresAt?: string;
+  protocol?: string;
+  methods?: TopupMppResponseMethodsList;
+  message?: string;
+}
+export const TopupMppResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    status: S.optional(S.String),
+    amount_cents: S.optional(S.Number),
+    payUrl: S.optional(S.String),
+    expiresAt: S.optional(S.String),
+    protocol: S.optional(S.String),
+    methods: S.optional(TopupMppResponseMethodsList),
+    message: S.optional(S.String),
+  }),
+).annotate({ identifier: "TopupMppResponse" }) as any as S.Schema<TopupMppResponse>;
+
+/** Optional. `"usdc"` pays for this purchase directly in USDC on Base over x402 instead of from account credit. The first call answers HTTP 402 (`PAYMENT_REQUIRED`) with Coinbase's terms in the `PAYMENT-REQUIRED` header and charges nothing; an x402 client pays and repeats the same request with a `PAYMENT-SIGNATURE` header, and the purchase completes in that call. If it then fails, the payment stays on the account as account credit; it is not sent back to the wallet. If your wallet pays URLs itself instead, pay the 402's `x402Url` (or have a person pay `payUrl`) and repeat the request with `usdcCheckoutId`. See the guide: https://porkbun.com/llms/guides/pay-with-usdc-x402 */
+export type TransferDomainRequestPayWith = "usdc";
+export const TransferDomainRequestPayWith = S.String;
 
 export interface TransferDomainRequest {
   /** The domain name to transfer (e.g. `example.com`). */
@@ -3677,6 +5310,12 @@ export interface TransferDomainRequest {
   authCode: string;
   /** The transfer cost in cents as returned by the pricing API. Must match exactly. */
   cost: number;
+  /** Charge the transfer but hold it at `PENDINGDNS` instead of releasing it to the registry, so the DNS zone can be built before the domain moves. This is the no-downtime path: hold, then `POST /domain/prepareTransfer/{domain}`, then load records with `/dns/import/{domain}`, then `POST /domain/startTransfer/{domain}`. Nothing releases a held transfer on a timer. Not available for .uk or Handshake TLDs, which return `TRANSFER_HOLD_NOT_AVAILABLE` and are not charged. */
+  holdForDnsSetup?: boolean;
+  /** Optional. `"usdc"` pays for this purchase directly in USDC on Base over x402 instead of from account credit. The first call answers HTTP 402 (`PAYMENT_REQUIRED`) with Coinbase's terms in the `PAYMENT-REQUIRED` header and charges nothing; an x402 client pays and repeats the same request with a `PAYMENT-SIGNATURE` header, and the purchase completes in that call. If it then fails, the payment stays on the account as account credit; it is not sent back to the wallet. If your wallet pays URLs itself instead, pay the 402's `x402Url` (or have a person pay `payUrl`) and repeat the request with `usdcCheckoutId`. See the guide: https://porkbun.com/llms/guides/pay-with-usdc-x402 */
+  payWith?: TransferDomainRequestPayWith | (string & {});
+  /** With `payWith: "usdc"`: the `checkoutId` from an earlier `PAYMENT_REQUIRED`, once its `x402Url` or `payUrl` has been paid. Send it with otherwise the same request; the purchase completes if the checkout is paid and was opened for this purchase. */
+  usdcCheckoutId?: string;
   /** Optional. When true, runs all pre-flight validation and returns a preview with `dryRun: true` and `wouldSucceed` WITHOUT initiating the transfer or charging. Nothing changes and the rate-limit budget is not consumed. */
   dryRun?: boolean;
 }
@@ -3685,11 +5324,12 @@ export const TransferDomainRequest = /*@__PURE__*/ S.suspend(() =>
     domain: S.String.pipe(T.Label()),
     authCode: S.String,
     cost: S.Number,
+    holdForDnsSetup: S.optional(S.Boolean),
+    payWith: S.optional(TransferDomainRequestPayWith),
+    usdcCheckoutId: S.optional(S.String),
     dryRun: S.optional(S.Boolean),
   }).pipe(T.Http({ method: "POST", uri: "/domain/transfer/{domain}", code: 200 })),
-).annotate({
-  identifier: "TransferDomainRequest",
-}) as any as S.Schema<TransferDomainRequest>;
+).annotate({ identifier: "TransferDomainRequest" }) as any as S.Schema<TransferDomainRequest>;
 
 export type TransferDomainResponseStatus = "SUCCESS" | "ERROR";
 export const TransferDomainResponseStatus = S.String;
@@ -3732,9 +5372,7 @@ export const TransferDomainResponse = /*@__PURE__*/ S.suspend(() =>
     limits: S.optional(TransferDomainResponseLimits),
     requestId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "TransferDomainResponse",
-}) as any as S.Schema<TransferDomainResponse>;
+).annotate({ identifier: "TransferDomainResponse" }) as any as S.Schema<TransferDomainResponse>;
 
 export type TransferDomainResponseBody = TransferDomainResponse | DryRunPreviewResponse;
 export const TransferDomainResponseBody = S.Unknown as any as S.Schema<TransferDomainResponseBody>;
@@ -3742,9 +5380,45 @@ export const TransferDomainResponseBody = S.Unknown as any as S.Schema<TransferD
 export type TransferDomainResponse2 = TransferDomainResponseBody;
 export const TransferDomainResponse2 = /*@__PURE__*/ S.suspend(() =>
   TransferDomainResponseBody.pipe(T.RawResponseRoot()),
+).annotate({ identifier: "TransferDomainResponse2" }) as any as S.Schema<TransferDomainResponse2>;
+
+export interface TransferDomainPrepareRequest {
+  /** Domain name. */
+  domain: string;
+}
+export const TransferDomainPrepareRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    domain: S.String.pipe(T.Label()),
+  }).pipe(T.Http({ method: "POST", uri: "/domain/prepareTransfer/{domain}", code: 200 })),
 ).annotate({
-  identifier: "TransferDomainResponse2",
-}) as any as S.Schema<TransferDomainResponse2>;
+  identifier: "TransferDomainPrepareRequest",
+}) as any as S.Schema<TransferDomainPrepareRequest>;
+
+export type TransferDomainPrepareResponsePorkbunNameserversList = Array<string>;
+export const TransferDomainPrepareResponsePorkbunNameserversList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<TransferDomainPrepareResponsePorkbunNameserversList>;
+
+export interface TransferDomainPrepareResponse {
+  status?: string;
+  domain?: string;
+  zoneReady?: boolean;
+  recordCount?: number;
+  message?: string;
+  porkbunNameservers?: TransferDomainPrepareResponsePorkbunNameserversList;
+}
+export const TransferDomainPrepareResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    status: S.optional(S.String),
+    domain: S.optional(S.String),
+    zoneReady: S.optional(S.Boolean),
+    recordCount: S.optional(S.Number),
+    message: S.optional(S.String),
+    porkbunNameservers: S.optional(TransferDomainPrepareResponsePorkbunNameserversList),
+  }),
+).annotate({
+  identifier: "TransferDomainPrepareResponse",
+}) as any as S.Schema<TransferDomainPrepareResponse>;
 
 /** Replacement event subscription list (optional). */
 export type UpdateWebhookRequestEventsList = Array<string>;
@@ -3759,7 +5433,7 @@ export const UpdateWebhookRequestStatus = S.String;
 export interface UpdateWebhookRequest {
   /** Endpoint id to update. */
   id: number;
-  /** New HTTPS URL (optional). */
+  /** HTTPS endpoint that receives the signed POST. Port 443 only, and the hostname must resolve to a public internet address — private/loopback/reserved targets are refused. */
   url?: string;
   /** Replacement event subscription list (optional). */
   events?: UpdateWebhookRequestEventsList;
@@ -3773,9 +5447,7 @@ export const UpdateWebhookRequest = /*@__PURE__*/ S.suspend(() =>
     events: S.optional(UpdateWebhookRequestEventsList),
     status: S.optional(UpdateWebhookRequestStatus),
   }).pipe(T.Http({ method: "POST", uri: "/webhook/update", code: 200 })),
-).annotate({
-  identifier: "UpdateWebhookRequest",
-}) as any as S.Schema<UpdateWebhookRequest>;
+).annotate({ identifier: "UpdateWebhookRequest" }) as any as S.Schema<UpdateWebhookRequest>;
 
 export type WebhookDeliveriesRequestStatus = "PENDING" | "PROCESSING" | "DELIVERED" | "FAILED";
 export const WebhookDeliveriesRequestStatus = S.String;
@@ -3797,9 +5469,7 @@ export const WebhookDeliveriesRequest = /*@__PURE__*/ S.suspend(() =>
     start: S.optional(S.Number.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/webhook/deliveries", code: 200 })),
-).annotate({
-  identifier: "WebhookDeliveriesRequest",
-}) as any as S.Schema<WebhookDeliveriesRequest>;
+).annotate({ identifier: "WebhookDeliveriesRequest" }) as any as S.Schema<WebhookDeliveriesRequest>;
 
 /** Newest first. The bulky `payload` field is omitted here. */
 export type WebhookDeliveryListResponseDeliveriesList = Array<WebhookDelivery>;
@@ -3839,9 +5509,7 @@ export const WebhookDeliveryRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.Number.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/webhook/delivery/{id}", code: 200 })),
-).annotate({
-  identifier: "WebhookDeliveryRequest",
-}) as any as S.Schema<WebhookDeliveryRequest>;
+).annotate({ identifier: "WebhookDeliveryRequest" }) as any as S.Schema<WebhookDeliveryRequest>;
 
 export interface WebhookDeliveryResponse {
   status?: string;
@@ -3852,16 +5520,12 @@ export const WebhookDeliveryResponse = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(S.String),
     delivery: S.optional(WebhookDelivery),
   }),
-).annotate({
-  identifier: "WebhookDeliveryResponse",
-}) as any as S.Schema<WebhookDeliveryResponse>;
+).annotate({ identifier: "WebhookDeliveryResponse" }) as any as S.Schema<WebhookDeliveryResponse>;
 
 export interface WebhookEventTypesRequest {}
 export const WebhookEventTypesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/webhook/eventTypes", code: 200 })),
-).annotate({
-  identifier: "WebhookEventTypesRequest",
-}) as any as S.Schema<WebhookEventTypesRequest>;
+).annotate({ identifier: "WebhookEventTypesRequest" }) as any as S.Schema<WebhookEventTypesRequest>;
 
 export type WebhookEventTypesResponseEventTypesList = Array<string>;
 export const WebhookEventTypesResponseEventTypesList = /*@__PURE__*/ S.Array(
@@ -3893,6 +5557,36 @@ export const WebhookRotateSecretRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "WebhookRotateSecretRequest",
 }) as any as S.Schema<WebhookRotateSecretRequest>;
 
+export type AccountVerifyPhoneConfirmError = PorkbunOpError;
+/** Confirm the phone verification code Marks the account's phone number verified with the code from `POST /account/verifyPhone/send`. A wrong or expired code returns `PHONE_CODE_INVALID`; 10 wrong codes in an hour lock it for the hour (`PHONE_VERIFY_LIMIT`). The response says whether the email address is verified too, since purchases need both; the email is verified by the link in the verification email. */
+export const accountVerifyPhoneConfirm: API.OperationMethod<
+  AccountVerifyPhoneConfirmRequest,
+  AccountVerifyPhoneConfirmResponse,
+  AccountVerifyPhoneConfirmError,
+  PorkbunOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: AccountVerifyPhoneConfirmRequest,
+  output: AccountVerifyPhoneConfirmResponse,
+  errors: [UnknownPorkbunError],
+  protocol: PorkbunProtocol,
+  retry: Retry.Retry,
+}));
+
+export type AccountVerifyPhoneSendError = PorkbunOpError;
+/** Text a verification code to the account's phone Purchases and top-ups need a verified email address and phone number, and accounts are not asked to verify the phone at signup, so `VERIFICATION_REQUIRED` is often the first error a new account sees. This texts (or calls) a code to the phone number already on the account; ask the person for it and pass it to `POST /account/verifyPhone/confirm`. The number cannot be chosen or changed over the API. One live code at a time: a second request within 10 minutes returns `codeAlreadySent` instead of texting again (send `"channel": "call"` if the text never arrived). Up to 5 sends a day (`PHONE_VERIFY_LIMIT`). Numbers in countries where the website requires a CAPTCHA for phone verification, or accounts with no phone number, get `PHONE_VERIFY_UNAVAILABLE` and verify on the website. Already verified: `alreadyVerified: true`. Not available on sandbox keys. */
+export const accountVerifyPhoneSend: API.OperationMethod<
+  AccountVerifyPhoneSendRequest,
+  AccountVerifyPhoneSendResponse,
+  AccountVerifyPhoneSendError,
+  PorkbunOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: AccountVerifyPhoneSendRequest,
+  output: AccountVerifyPhoneSendResponse,
+  errors: [UnknownPorkbunError],
+  protocol: PorkbunProtocol,
+  retry: Retry.Retry,
+}));
+
 export type ApikeyRequestError = BadRequest | PorkbunOpError;
 /** Initiate an API key authorization request Initiate an API key authorization flow. No credentials are required. Returns a `requestToken` and `authUrl` that the account holder must visit (while logged in to Porkbun in that browser) to approve the request. The `authUrl` is valid for **30 minutes** (long enough for a brand-new user to create an account and verify their email); if it lapses, call this endpoint again for a fresh token. After approval, call `/apikey/retrieve` to get the public API key. By default (legacy flow) the secret API key is shown only once, in the user's browser, and must be pasted into the application manually. To let an agent receive the secret without a browser copy, supply a PKCE `codeChallenge` (see the parameter below): the key is then minted lazily and BOTH keys are returned once from `/apikey/retrieve` to the caller presenting the matching `codeVerifier`. **Rate limit:** 20 requests per IP per 3600 seconds. SANDBOX: pass `sandbox: true` to skip approval and get a sandbox key pair back immediately (both `apikey` and `secretapikey` in the response, plus `sandbox: true`). */
 export const apikeyRequest: API.OperationMethod<
@@ -3904,6 +5598,231 @@ export const apikeyRequest: API.OperationMethod<
   input: ApikeyRequestRequest,
   output: ApikeyRequestResponse,
   errors: [BadRequest, UnknownPorkbunError],
+  protocol: PorkbunProtocol,
+  retry: Retry.Retry,
+}));
+
+export type BulkDomainCheckDomainError = BadRequest | PorkbunOpError;
+/** Check several domains at once Check availability and pricing for up to 25 domains in one call. Same endpoint as the single check, with a `domains` array in the body and no domain in the path. **Prefer this over looping the single check.** Checks are chunked per registry, so a batch is materially less work for us than the same names one at a time, and the budget reflects that: this draws on a separate allowance of **200 domains per 60 seconds** per account, against 10 checks per 10 seconds for the single form. Counting is per DOMAIN, not per request, so 25 domains spends 25 of the 200. **Sustained bulk checking.** An account that checks about 1,800 names over three hours while registering little of what it checks (fewer than one domain per 200 names over a day) is treated as scanning for the next 24 hours: its checks, single and bulk, on every API version, share a budget of 50 names per 5 minutes. Over it, the call is refused whole with `RATE_LIMIT_EXCEEDED`, `reason: "SUSTAINED_BULK_CHECKING"` and `retryAfter`; nothing is part-answered. Normal use, including checking a long list of candidate names once, is nowhere near this. Accounts that buy (100 or more registrations in a year) and affiliates sending orders are never treated as scanning, and a per-key limit from support overrides it. **Partial results are normal and must be read.** Three lists come back and they mean different things: - `domains` - answered, keyed by domain name, each value identical in shape to the single-check `response`. - `invalid` - entries that are not checkable at all (not a domain, unsupported TLD). One typo does not fail the call; the other names are still answered. - `unresolved` - the registry did not answer in time. These are **neither available nor taken**; treating them as unavailable is wrong. Retry them. Duplicates are removed before the budget is charged. If more than 25 remain, nothing is checked and `BULK_CHECK_TOO_MANY` is returned rather than a truncated answer. **Latency.** This is synchronous: one request, one complete answer, no polling. 25 domains across 25 different TLDs measures around 3 seconds, because the connection manager fans a batch that fits under every registry's cap out as a single command. A few registries cap low and **.de accepts one domain per command**, so a batch heavy in those becomes several sequential commands; if that would need more than 4, the call is refused with `BULK_CHECK_TOO_SLOW` rather than left to time out mid-response. */
+export const bulkDomainCheckDomain: API.OperationMethod<
+  BulkDomainCheckDomainRequest,
+  BulkDomainCheckDomainResponse,
+  BulkDomainCheckDomainError,
+  PorkbunOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: BulkDomainCheckDomainRequest,
+  output: BulkDomainCheckDomainResponse,
+  errors: [BadRequest, UnknownPorkbunError],
+  protocol: PorkbunProtocol,
+  retry: Retry.Retry,
+}));
+
+export type CloseoutBuyError = BadRequest | Forbidden | NotFound | Conflict | PorkbunOpError;
+/** Buy a closeout outright **Spends account credit, or pays directly in USDC with `"payWith": "usdc"` (HTTP 402, then repeat with `PAYMENT-SIGNATURE`; kept as account credit if the claim fails).** Counts toward the monthly API spend limit. Buys a closeout at its current price and claims the name with the provider in one call. Send `cost` as the exact `totalPrice` from `/closeout/get/{domain}`; any other value is refused with `COST_MISMATCH` so a caller can never be charged a price it did not name. `dryRun: true` with `cost: 0` returns a quote and charges nothing. Honours `Idempotency-Key`. **The domain does not arrive immediately.** Claiming reserves it; the provider then has to release it, which usually takes a few days. Poll `/domain/listAll` or subscribe to the `domain.registered` webhook rather than expecting it in your account when this returns. Every post-charge failure refunds automatically and says so via `refunded: true` — including losing the race to another buyer (`CLOSEOUT_UNAVAILABLE`) and the price moving between quote and claim (`COST_MISMATCH`). Closeouts are first-come at a fixed price, so a lost race is not worth retrying on the same name. Not available with a sandbox key (`SANDBOX_UNSUPPORTED`): the inventory provider has no test environment, so a purchase cannot be rehearsed without claiming a real name. Use `dryRun` against a live key instead — it validates and prices without charging. Eligibility is the same as registering a domain, plus verified email and phone. There is no account-age or prior-order requirement — a first-time customer can buy a closeout, which matters because listings are first-come and often gone within minutes. An account that support has blocked from auctions and closeouts (past-due invoices, or an auction terms violation) returns `CLOSEOUT_NOT_ELIGIBLE`, which is not retryable. */
+export const closeoutBuy: API.OperationMethod<
+  CloseoutBuyRequest,
+  CloseoutBuyResponse,
+  CloseoutBuyError,
+  PorkbunOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CloseoutBuyRequest,
+  output: CloseoutBuyResponse,
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownPorkbunError],
+  protocol: PorkbunProtocol,
+  retry: Retry.Retry,
+}));
+
+export type CloudflareCreateRecordError = PorkbunOpError;
+/** Create a DNS record in the domain's Cloudflare zone **This writes to the Cloudflare zone that actually answers for the domain**, unlike `/dns/*`, which manages Porkbun's nameservers and no longer affects resolution once a domain has moved. `name` accepts `@` for the apex or a bare label. MX requires `priority`. `proxied` applies to A/AAAA/CNAME only. Supports `dryRun`. */
+export const cloudflareCreateRecord: API.OperationMethod<
+  CloudflareCreateRecordRequest,
+  CloudflareCreateRecordResponse,
+  CloudflareCreateRecordError,
+  PorkbunOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CloudflareCreateRecordRequest,
+  output: CloudflareCreateRecordResponse,
+  errors: [UnknownPorkbunError],
+  protocol: PorkbunProtocol,
+  retry: Retry.Retry,
+}));
+
+export type CloudflareDeleteRecordError = PorkbunOpError;
+/** Delete a DNS record from the domain's Cloudflare zone **This writes to the Cloudflare zone that actually answers for the domain**, unlike `/dns/*`, which manages Porkbun's nameservers and no longer affects resolution once a domain has moved. The record is read before deletion, so the response reports exactly what was removed and a bad id fails before anything is destroyed. Supports `dryRun`. */
+export const cloudflareDeleteRecord: API.OperationMethod<
+  CloudflareDeleteRecordRequest,
+  CloudflareDeleteRecordResponse,
+  CloudflareDeleteRecordError,
+  PorkbunOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CloudflareDeleteRecordRequest,
+  output: CloudflareDeleteRecordResponse,
+  errors: [UnknownPorkbunError],
+  protocol: PorkbunProtocol,
+  retry: Retry.Retry,
+}));
+
+export type CloudflareEditRecordError = PorkbunOpError;
+/** Update a DNS record in the domain's Cloudflare zone **This writes to the Cloudflare zone that actually answers for the domain**, unlike `/dns/*`, which manages Porkbun's nameservers and no longer affects resolution once a domain has moved. Partial update: fields you omit keep their current value. The response carries both the new record and the `previous` one. Supports `dryRun`. */
+export const cloudflareEditRecord: API.OperationMethod<
+  CloudflareEditRecordRequest,
+  CloudflareEditRecordResponse,
+  CloudflareEditRecordError,
+  PorkbunOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CloudflareEditRecordRequest,
+  output: CloudflareEditRecordResponse,
+  errors: [UnknownPorkbunError],
+  protocol: PorkbunProtocol,
+  retry: Retry.Retry,
+}));
+
+export type CloudflareGetConnectionError = PorkbunOpError;
+/** Check the Cloudflare account connection (poll target) Whether this account has an active Cloudflare grant, and which Cloudflare account it points at. **This is the poll target for the connect flow.** Minting the grant is a human action: Cloudflare's consent screen has to be completed in a browser, and the authorization is bound to the Porkbun web session that started it, so it cannot be driven over the API. When `connected` is `false` the response carries a `connectUrl` — send the account owner there, then poll this endpoint until `connected` is `true`. Also available via POST. */
+export const cloudflareGetConnection: API.OperationMethod<
+  CloudflareGetConnectionRequest,
+  CloudflareGetConnectionResponse,
+  CloudflareGetConnectionError,
+  PorkbunOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CloudflareGetConnectionRequest,
+  output: CloudflareGetConnectionResponse,
+  errors: [UnknownPorkbunError],
+  protocol: PorkbunProtocol,
+  retry: Retry.Retry,
+}));
+
+export type CloudflareGetQueueError = PorkbunOpError;
+/** List every Cloudflare move for the account Every Cloudflare move this account has requested, with status and message. Queue rows are never deleted, so this doubles as the audit trail. Also available via POST. **Status values** (poll until one of the terminal ones): Poll on a sensible interval (a few seconds early on, then back off) — a zone typically leaves `queued` within seconds but can sit in `setup` or `activating` while Cloudflare provisions the zone and DNS propagates. */
+export const cloudflareGetQueue: API.OperationMethod<
+  CloudflareGetQueueRequest,
+  CloudflareGetQueueResponse,
+  CloudflareGetQueueError,
+  PorkbunOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CloudflareGetQueueRequest,
+  output: CloudflareGetQueueResponse,
+  errors: [UnknownPorkbunError],
+  protocol: PorkbunProtocol,
+  retry: Retry.Retry,
+}));
+
+export type CloudflareGetRecordsError = PorkbunOpError;
+/** List the domain's live DNS records at Cloudflare The domain's DNS records **as Cloudflare currently holds them**, each with its `proxied` flag and whether it is `proxiable` at all. Once a domain has moved, this is the authoritative record set — `/dns/retrieve` reads the Porkbun zone, which is no longer the one answering queries. Requires the move to have finished (`ZONE_NOT_READY` otherwise). Also available via POST. */
+export const cloudflareGetRecords: API.OperationMethod<
+  CloudflareGetRecordsRequest,
+  CloudflareGetRecordsResponse,
+  CloudflareGetRecordsError,
+  PorkbunOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CloudflareGetRecordsRequest,
+  output: CloudflareGetRecordsResponse,
+  errors: [UnknownPorkbunError],
+  protocol: PorkbunProtocol,
+  retry: Retry.Retry,
+}));
+
+export type CloudflareGetZoneError = PorkbunOpError;
+/** Get live zone state from Cloudflare (and detect nameserver drift) What **Cloudflare** says about the zone right now — status, paused, its nameservers, activation date — as opposed to what our queue row remembers. These drift: if the nameservers are repointed elsewhere after the move, our row still reads `done` while Cloudflare has stopped answering for the domain. The response includes the live public nameservers and a `nameserversDrifted` boolean so you don't have to diff them. Also available via POST. */
+export const cloudflareGetZone: API.OperationMethod<
+  CloudflareGetZoneRequest,
+  CloudflareGetZoneResponse,
+  CloudflareGetZoneError,
+  PorkbunOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CloudflareGetZoneRequest,
+  output: CloudflareGetZoneResponse,
+  errors: [UnknownPorkbunError],
+  protocol: PorkbunProtocol,
+  retry: Retry.Retry,
+}));
+
+export type CloudflareGetZoneSettingsError = PorkbunOpError;
+/** Read the zone settings that matter after a move The Cloudflare zone settings worth caring about post-migration: `ssl`, `always_use_https`, `automatic_https_rewrites`, `min_tls_version`, `development_mode`, `cache_level`. The important one is **`ssl`**: `flexible` means Cloudflare fetches your origin over plain HTTP while visitors see a padlock, so the response warns when it is `off` or `flexible`. Also available via POST. If the account's Cloudflare authorization predates this feature it will not carry the `zone-settings.write` scope, and this returns `CLOUDFLARE_REAUTHORIZE_REQUIRED` with a `connectUrl`. Reconnecting is the same one-click browser flow and does not disturb domains already moved. */
+export const cloudflareGetZoneSettings: API.OperationMethod<
+  CloudflareGetZoneSettingsRequest,
+  CloudflareGetZoneSettingsResponse,
+  CloudflareGetZoneSettingsError,
+  PorkbunOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CloudflareGetZoneSettingsRequest,
+  output: CloudflareGetZoneSettingsResponse,
+  errors: [UnknownPorkbunError],
+  protocol: PorkbunProtocol,
+  retry: Retry.Retry,
+}));
+
+export type CloudflareInventoryError = PorkbunOpError;
+/** List every domain with its Cloudflare eligibility Every domain in the account with a `state` (`eligible`, `warn`, `blocked`, `connected`, `inprogress`) and a human-readable `reason`. Read this **before** queueing to see what will be skipped and why. Works even with no Cloudflare connection yet, so an agent can plan while the owner is still authorizing. Also available via POST. */
+export const cloudflareInventory: API.OperationMethod<
+  CloudflareInventoryRequest,
+  CloudflareInventoryResponse,
+  CloudflareInventoryError,
+  PorkbunOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CloudflareInventoryRequest,
+  output: CloudflareInventoryResponse,
+  errors: [UnknownPorkbunError],
+  protocol: PorkbunProtocol,
+  retry: Retry.Retry,
+}));
+
+export type CloudflareRollbackError = PorkbunOpError;
+/** Undo a completed move (restore Porkbun nameservers) Point the domain's nameservers back at Porkbun, restoring the DNS we still hold. The Cloudflare zone is deliberately left in place — deleting a zone in someone's own Cloudflare account is theirs to do. Fails with `ROLLBACK_FAILED` if we never moved the domain, it is already back on Porkbun nameservers, or it is being worked on right now. Supports `dryRun`. */
+export const cloudflareRollback: API.OperationMethod<
+  CloudflareRollbackRequest,
+  CloudflareRollbackResponse,
+  CloudflareRollbackError,
+  PorkbunOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CloudflareRollbackRequest,
+  output: CloudflareRollbackResponse,
+  errors: [UnknownPorkbunError],
+  protocol: PorkbunProtocol,
+  retry: Retry.Retry,
+}));
+
+export type CloudflareSetProxyError = PorkbunOpError;
+/** Turn the Cloudflare proxy (orange cloud) on or off Set `proxied` on the domain's Cloudflare DNS records. **The move itself always imports records DNS-only (grey cloud), on purpose** — changing how traffic is served at the same time as changing who serves DNS gives you two variables to debug at once. Proxying is therefore a separate, explicit step, best done after you've confirmed the site still works. Defaults to every proxiable record; pass `records` to target specific names (`"@"` means the apex, a bare label like `"www"` is expanded). Only A, AAAA and CNAME can be proxied — anything else is reported under `skipped` with a reason rather than failing the call. Records already in the requested state are skipped too. Proxying hides the origin IP, so if the zone's MX points at a hostname you are proxying, mail to it breaks; that case comes back in `warnings`. Supports `dryRun`. Rate limit: 60 changes per account per hour (these calls go to Cloudflare under Porkbun's OAuth client). */
+export const cloudflareSetProxy: API.OperationMethod<
+  CloudflareSetProxyRequest,
+  CloudflareSetProxyResponse,
+  CloudflareSetProxyError,
+  PorkbunOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CloudflareSetProxyRequest,
+  output: CloudflareSetProxyResponse,
+  errors: [UnknownPorkbunError],
+  protocol: PorkbunProtocol,
+  retry: Retry.Retry,
+}));
+
+export type CloudflareSetZoneSettingsError = PorkbunOpError;
+/** Change zone settings (allowlisted) Set one or more of the allowlisted zone settings. This is an allowlist rather than a passthrough — Cloudflare exposes hundreds of settings and WAF/firewall/security controls are deliberately out of scope for this API. Prefer `ssl: "full"`; `flexible` is an invisible downgrade for visitors. Supports `dryRun`. Rate limit: shares the 60/hour Cloudflare-write budget. If the account's Cloudflare authorization predates this feature it will not carry the `zone-settings.write` scope, and this returns `CLOUDFLARE_REAUTHORIZE_REQUIRED` with a `connectUrl`. Reconnecting is the same one-click browser flow and does not disturb domains already moved. */
+export const cloudflareSetZoneSettings: API.OperationMethod<
+  CloudflareSetZoneSettingsRequest,
+  CloudflareSetZoneSettingsResponse,
+  CloudflareSetZoneSettingsError,
+  PorkbunOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CloudflareSetZoneSettingsRequest,
+  output: CloudflareSetZoneSettingsResponse,
+  errors: [UnknownPorkbunError],
+  protocol: PorkbunProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ConnectCloudflareError = PorkbunOpError;
+/** Queue domains to move to the customer's Cloudflare account Queue one or many domains. For each one we create the zone in the customer's own Cloudflare account, copy across the DNS records we hold, and repoint the registry nameservers at Cloudflare. **Asynchronous.** Work runs on a background job over the next few minutes, so a successful call means *queued*, never *connected* — poll `/cloudflare/getQueue` or `/cloudflare/get/{domain}`. **`skipped` is a normal outcome, not an error.** DNSSEC live, custom nameservers, already connected, already in progress: each domain comes back under `queued`, `skipped` or `alreadyQueued` with its own reason. Read the reasons rather than treating a non-empty `skipped` as failure. Eligibility, ownership and nameserver state are re-checked immediately before each domain is acted on, so a domain accepted here can still be skipped later. Re-submitting a domain is safe: the queue row is the unit of truth and is updated in place. Supports `dryRun: true`, which returns the same per-domain verdicts without queueing anything. Requires an active Cloudflare connection (`CLOUDFLARE_NOT_CONNECTED` otherwise). Limits: 500 domains per call, 2000 domains per account per hour. After queueing, poll `/cloudflare/get/{domain}`: the row moves `queued` → `working` → `setup` → `activating` → `connected`. `setup` means Cloudflare has the zone but has not provisioned it yet, so the nameservers have deliberately not been touched. `activating` means the nameservers are already repointed and Cloudflare is confirming the zone, which can take a while as DNS propagates. */
+export const connectCloudflare: API.OperationMethod<
+  ConnectCloudflareRequest,
+  ConnectCloudflareResponse,
+  ConnectCloudflareError,
+  PorkbunOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ConnectCloudflareRequest,
+  output: ConnectCloudflareResponse,
+  errors: [UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
 }));
@@ -3939,7 +5858,7 @@ export const createDns: API.OperationMethod<
 }));
 
 export type CreateDomainError = BadRequest | PorkbunOpError;
-/** Register a domain Register a domain using account credit. Requirements: - Account email and phone must be verified - Account must have sufficient credit - `agreeToTerms` must be `'yes'` or `'1'` - `cost` must equal the current price for the domain's minimum registration duration (in pennies) - Account must have placed at least one previous domain registration - Premium domains cannot be registered via API Registrations are always for the registry-minimum duration (usually 1 year). **WHOIS privacy.** WHOIS privacy is automatically enabled on new registrations (when the TLD supports it). Pass the optional `whoisPrivacy` field to override this on a per-registration basis, or change the account-level default under Account Security Settings on porkbun.com/account. **Rate limits (both apply):** - Attempt limit (default: 1 attempt per 10 seconds per account) - Success limit (default: 50 successful registrations per 86400 seconds per account) Both limits are configurable per API key and their current values are returned in the `limits` field of the response. ## Dry run Add `dryRun: true` to validate everything and preview the cost WITHOUT registering or charging — nothing is created. Example response: ```json { "status": "SUCCESS", "dryRun": true, "wouldSucceed": true, "operation": "registration", "domain": "example.com", "tld": "com", "available": "available", "premium": false, "duration": 1, "cost": 973, "costDisplay": "$9.73", "balance": 5000, "sufficientFunds": true, "message": "Dry run: this registration would succeed and cost $9.73. No order was created and no charge was made.", "requestId": "019e04fa-258d-7d11-aa86-4d5795c3fe8f" } ``` */
+/** Register a domain Register a domain, paid from account credit or directly in USDC. Requirements: - Account email and phone must be verified - Enough **prepaid credit** to cover the price, or `"payWith": "usdc"` to pay directly (see "Paying for it" below) - `agreeToTerms` must be `'yes'` or `'1'` - `cost` must equal the current price for the domain's minimum registration duration (in pennies) - Premium domains cannot be registered via API, and a single order cannot exceed $100 (`ORDER_TOO_LARGE`) ## Paying for it Two ways: from prepaid account credit (the default), or directly in USDC. **From account credit.** No card on file is charged at purchase time - the thing most first-time callers get wrong, because having a card saved is not enough; the balance has to be there before the call. - Read the balance with `GET /account/balance` (cents, plus a display string). - Add to it: `POST /account/topup` charges a saved card now (with the account holder's OK); `POST /account/topupMpp` returns a link an agent pays with the user's card from a Stripe Link agent wallet; `POST /account/topupCrypto` opens a USDC checkout an agent's wallet can pay over x402; or the account holder adds credit at https://porkbun.com/account/credit. - Turn on **auto top-up** at https://porkbun.com/account/api so a saved card refills the balance when it drops below a threshold. The hands-off option for an agent that registers on its own. - Rehearse with `dryRun: true`, which reports `cost`, `balance`, `sufficientFunds` and, when short, `shortfall`. A purchase attempted without enough credit returns `INSUFFICIENT_FUNDS` carrying `cost`, `balance`, `shortfall`, `topUpAvailable` and `usdcAmountToCover` in cents, and a message naming them. **Directly in USDC (x402).** Add `"payWith": "usdc"`. After every check passes, the call answers HTTP 402 `PAYMENT_REQUIRED` with Coinbase's x402 terms in the `PAYMENT-REQUIRED` header and charges nothing. An x402 client pays them and repeats the same request with a `PAYMENT-SIGNATURE` header, and the registration completes in that call, with the receipt in `PAYMENT-RESPONSE`. No credit is needed. If the registration fails after payment, the payment is not sent back to the wallet: it stays on the account as credit (`payment.keptAsCredit` and `balance_cents` in the error), ready to retry from credit. Guide: https://porkbun.com/llms/guides/pay-with-usdc-x402 **Monthly limit.** Either way, purchases count toward the account's monthly API spend limit, $100 a month until the account holder sets their own at https://porkbun.com/account/api (`MONTHLY_SPEND_LIMIT_EXCEEDED`). Guide: https://porkbun.com/llms/guides/spend-limits Registrations are always for the registry-minimum duration (usually 1 year). **WHOIS privacy.** WHOIS privacy is automatically enabled on new registrations (when the TLD supports it). Pass the optional `whoisPrivacy` field to override this on a per-registration basis, or change the account-level default under Account Security Settings on porkbun.com/account. **Rate limits (both apply):** - Attempt limit (default: 1 attempt per second per account) - Success limit (default: 1000 successful registrations per 86400 seconds per account) Both limits are configurable per API key and their current values are returned in the `limits` field of the response. ## Dry run Add `dryRun: true` to validate everything and preview the cost WITHOUT registering or charging — nothing is created. Send `cost: 0` with it to be quoted rather than having to match a price you do not know yet, and note that a dry run is answered even when the balance is too low: `wouldSucceed` comes back false with `shortfall` saying by how much. Example response: ```json { "status": "SUCCESS", "dryRun": true, "wouldSucceed": true, "operation": "registration", "domain": "example.com", "tld": "com", "available": "available", "premium": false, "duration": 1, "cost": 973, "costDisplay": "$9.73", "balance": 5000, "sufficientFunds": true, "message": "Dry run: this registration would succeed and cost $9.73. No order was created and no charge was made.", "requestId": "019e04fa-258d-7d11-aa86-4d5795c3fe8f" } ``` */
 export const createDomain: API.OperationMethod<
   CreateDomainRequest,
   CreateDomainResponse2,
@@ -3954,7 +5873,7 @@ export const createDomain: API.OperationMethod<
 }));
 
 export type CreateHostingError = BadRequest | PorkbunOpError;
-/** Provision hosting — a static site or a WordPress site **Applies to:** Both products — the `sku` decides which. Provision hosting (Secure Static Hosting or Cloud for WordPress) for a domain in the account. The FIRST provision for a domain starts a **15-day free trial** ($0 now) that **auto-renews** at the plan price when the trial ends; a re-provision after deprovision is charged immediately to account credit (one free trial per domain). Provisioning **switches the domain to Porkbun nameservers** if it isn't already — pass `agreeToNameserverChange: true` to allow that. Supports `dryRun`. Remote setup can be async: `status` may be `PENDING` — poll `/hosting/get` until `ACTIVE` before deploying. **Cloud for WordPress:** pass a `CLOUDWORDPRESS…` sku to provision a managed WordPress site instead of static hosting. The file endpoints (deploy/files/deleteFile/makeDir) do not apply — manage the site through WordPress, using `/hosting/createWpCredentials/{domain}` for REST API credentials. **Rate limit:** 10 provisions per account per hour (`dryRun` calls are free). */
+/** Provision hosting — a static site or a WordPress site **Applies to:** Both products — the `sku` decides which. Provision hosting (Secure Static Hosting or Cloud for WordPress) for a domain in the account. The FIRST provision for a domain starts a **15-day free trial** ($0 now) that **auto-renews** at the plan price when the trial ends; a re-provision after deprovision is charged immediately, to account credit or directly in USDC with `"payWith": "usdc"` (HTTP 402, then repeat with `PAYMENT-SIGNATURE`; kept as account credit if provisioning fails), and counts toward the monthly API spend limit (one free trial per domain). Provisioning **switches the domain to Porkbun nameservers** if it isn't already — pass `agreeToNameserverChange: true` to allow that. Supports `dryRun`. Remote setup can be async: `status` may be `PENDING` — poll `/hosting/get` until `ACTIVE` before deploying. **Cloud for WordPress:** pass a `CLOUDWORDPRESS…` sku to provision a managed WordPress site instead of static hosting. The file endpoints (deploy/files/deleteFile/makeDir) do not apply — manage the site through WordPress, using `/hosting/createWpCredentials/{domain}` for REST API credentials. **Rate limit:** 10 provisions per account per hour (`dryRun` calls are free). */
 export const createHosting: API.OperationMethod<
   CreateHostingRequest,
   CreateHostingResponse,
@@ -3969,7 +5888,7 @@ export const createHosting: API.OperationMethod<
 }));
 
 export type CreateWebhookError = BadRequest | PorkbunOpError;
-/** Create a webhook endpoint Register an HTTPS endpoint to receive signed event payloads. The response includes the generated `secret` — store it securely; it is the HMAC key used to verify the `X-Porkbun-Signature` header. Omit `events` (or pass `["*"]`) to subscribe to all event types. Maximum 20 endpoints per account. */
+/** Create a webhook endpoint Register an HTTPS endpoint to receive signed event payloads. The response includes the generated `secret` — store it securely; it is the HMAC key used to verify the `X-Porkbun-Signature` header. Omit `events` (or pass `["*"]`) to subscribe to all event types. Maximum 20 endpoints per account. **URL requirements:** the endpoint must be an `https://` URL on the standard port 443, with a hostname that resolves to a public internet address. Private, loopback, link-local, CGNAT and other reserved ranges are refused (`INVALID_WEBHOOK_URL`) because Porkbun delivers from inside its own network. Credentials in the URL (`https://user:pass@host`) are also refused — authenticate the receiver by verifying the `X-Porkbun-Signature` HMAC instead. A hostname that does not resolve yet is accepted, so you can register the endpoint before the receiver is deployed, but delivery is re-checked against these rules immediately before each request. */
 export const createWebhook: API.OperationMethod<
   CreateWebhookRequest,
   WebhookEndpointResponse,
@@ -4043,16 +5962,31 @@ export const deployHosting: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type DisconnectCloudflareError = PorkbunOpError;
+/** Remove the stored Cloudflare connection Revoke and forget this account's Cloudflare grant. Domains already moved stay on Cloudflare and keep resolving; this only stops us making further changes on the customer's behalf. Reconnecting requires the browser authorization again. Supports `dryRun`. */
+export const disconnectCloudflare: API.OperationMethod<
+  DisconnectCloudflareRequest,
+  DisconnectCloudflareResponse,
+  DisconnectCloudflareError,
+  PorkbunOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: DisconnectCloudflareRequest,
+  output: DisconnectCloudflareResponse,
+  errors: [UnknownPorkbunError],
+  protocol: PorkbunProtocol,
+  retry: Retry.Retry,
+}));
+
 export type DnsCreateDnssecRecordError = BadRequest | PorkbunOpError;
-/** Create DNSSEC record Create a DNSSEC DS or key record at the registry. DNSSEC requirements vary by registry — `keyTag`, `alg`, `digestType`, and `digest` are the minimum required fields. Key data fields are optional and will be omitted if not accepted by the registry. */
+/** Create DNSSEC record Create a DNSSEC DS or key record at the registry. DNSSEC requirements vary by registry — `keyTag`, `alg`, `digestType`, and `digest` are the minimum required fields. Key data fields are optional and will be omitted if not accepted by the registry. Algorithm and digest type are validated against the registry's own policy before the request is sent. Registries are retiring the values deprecated by RFC 9904/9905/9906 on different schedules, so what is accepted depends on the TLD: a value one registry has already dropped may still be accepted by another. A value the registry no longer accepts returns `DNSSEC_ALGORITHM_DEPRECATED`; one that still works but is being retired returns `status: SUCCESS` with a `warnings` array. Use algorithm 8 (RSA/SHA-256) or 13 (ECDSA/SHA-256) with digest type 2 (SHA-256) to be accepted everywhere. Existing DNSSEC records keep resolving regardless, and can always be deleted. */
 export const dnsCreateDnssecRecord: API.OperationMethod<
   DnsCreateDnssecRecordRequest,
-  BasicResponse,
+  DnsCreateDnssecRecordResponse,
   DnsCreateDnssecRecordError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: DnsCreateDnssecRecordRequest,
-  output: BasicResponse,
+  output: DnsCreateDnssecRecordResponse,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -4088,6 +6022,21 @@ export const dnsDeleteDnssecRecord: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type DnsDiffError = NotFound | PorkbunOpError;
+/** Compare a restore point with the live zone What changed between a restore point and the zone as it stands now. - `missing` -- in the restore point, not live. These are the records a restore would add back. - `extra` -- live, not in the restore point. A restore leaves these alone unless you pass `prune`. - `inSync` -- true when neither list has anything in it. Records are compared on **name, type, content and priority**, not on id: an id means nothing across a delete and re-create, and what anyone means by "the same record" is the data. SOA and NS are excluded from both lists because they are the zone's own scaffolding. For masked records (parking, `ALIAS`, `HTTPS`) the value shown is the one you configured, not the internal host it resolves to. */
+export const dnsDiff: API.OperationMethod<
+  DnsDiffRequest,
+  DnsDiffResponse,
+  DnsDiffError,
+  PorkbunOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: DnsDiffRequest,
+  output: DnsDiffResponse,
+  errors: [NotFound, UnknownPorkbunError],
+  protocol: PorkbunProtocol,
+  retry: Retry.Retry,
+}));
+
 export type DnsEditByNameTypeError = BadRequest | PorkbunOpError;
 /** Edit DNS records by name and type Replace the content of all records matching the given subdomain and type. SOA and NS records cannot be edited with this method (use edit by ID instead). */
 export const dnsEditByNameType: API.OperationMethod<
@@ -4114,6 +6063,36 @@ export const dnsGetDnssecRecords: API.OperationMethod<
   input: DnsGetDnssecRecordsRequest,
   output: DnsGetDnssecRecordsResponse,
   errors: [BadRequest, UnknownPorkbunError],
+  protocol: PorkbunProtocol,
+  retry: Retry.Retry,
+}));
+
+export type DnsHistoryError = PorkbunOpError;
+/** List restore points for a zone Every version of a zone we still hold, newest first. **DNS is the only part of a stack with no undo, and this is it.** If a record was deleted or edited by mistake, you do not have to know what it used to say -- ask for the restore points, diff one against the live zone, and put it back. Restore points are taken automatically: before the **first** write to a zone in each hour (so a session of edits costs one point, not one per record), before any bulk import or zone wipe, and before any restore. `recordCount` is the size of the zone **as it was at that moment**, not now. `matchesLive` tells you which point the zone currently sits on without diffing each one. Up to 50 are returned. */
+export const dnsHistory: API.OperationMethod<
+  DnsHistoryRequest,
+  DnsHistoryResponse,
+  DnsHistoryError,
+  PorkbunOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: DnsHistoryRequest,
+  output: DnsHistoryResponse,
+  errors: [UnknownPorkbunError],
+  protocol: PorkbunProtocol,
+  retry: Retry.Retry,
+}));
+
+export type DnsPreflightError = PorkbunOpError;
+/** Check whether a change will break the domain Read-only. Answers the question of whether a change is about to break the domain, before you change delegation, transfer it out, or turn DNSSEC on. It changes nothing and spends nothing. **Every check here comes from an incident we actually had**, which is the point: these are the failures where a zone looks fine and stops working anyway, and nobody can say why afterwards. Each finding names the rule it comes from and carries a `next_action`, so it argues its case rather than asserting a verdict. Pass `intent` to scope it: `general` (default) runs everything applicable, `move-nameservers` adds the delegation checks, `transfer-out` adds the checks that matter when leaving, `enable-dnssec` the DNSSEC ones. Read `blockers` first -- those will break something. `warnings` will not break outright but are usually what the customer asks about next. `safe` is true only when both lists are empty. */
+export const dnsPreflight: API.OperationMethod<
+  DnsPreflightRequest,
+  DnsPreflightResponse,
+  DnsPreflightError,
+  PorkbunOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: DnsPreflightRequest,
+  output: DnsPreflightResponse,
+  errors: [UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
 }));
@@ -4148,6 +6127,21 @@ export const dnsRetrieveByNameType: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type DnsScanError = BadRequest | PorkbunOpError;
+/** Discover the records a domain currently publishes Query a domain's **live authoritative nameservers** and return the records they answer with, writing nothing. This is what makes an inbound transfer non-destructive: a transfer moves only the delegation — EPP carries no zone data — so once the losing registrar stops answering for the zone, whatever it published is gone and unrecoverable. Run this **before** the nameservers move, then pass the result to `/dns/import/{domain}`. The scan probes a wide list of well-known names (apex, common subdomains, MX, DKIM selectors, provider verification hosts) and consolidates wildcards. It cannot enumerate a zone — DNS has no listing operation and AXFR is universally refused — so treat it as thorough but **not exhaustive**. If the old registrar exposes the zone through its own API, that is authoritative: read it with your own credentials (they never need to reach Porkbun) and POST those records to `/dns/import` instead. Metered separately at 20 calls per hour per account, because each call is roughly 90 DNS lookups. */
+export const dnsScan: API.OperationMethod<
+  DnsScanRequest,
+  DnsScanResponse,
+  DnsScanError,
+  PorkbunOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: DnsScanRequest,
+  output: DnsScanResponse,
+  errors: [BadRequest, UnknownPorkbunError],
+  protocol: PorkbunProtocol,
+  retry: Retry.Retry,
+}));
+
 export type DomainAddUrlForwardError = BadRequest | PorkbunOpError;
 /** Add URL forward Add a URL forward for a domain or subdomain. */
 export const domainAddUrlForward: API.OperationMethod<
@@ -4163,8 +6157,23 @@ export const domainAddUrlForward: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type DomainCancelTransferError = BadRequest | PorkbunOpError;
+/** Cancel an inbound transfer and refund it Cancel a pending inbound transfer and refund the order. The sequence is deliberate: mark the transfer cancelled locally, withdraw it at the registry, **verify** the registry actually accepted the withdrawal, and only then refund. If the registry state cannot be confirmed the local row is restored and `TRANSFER_STATE_UNCONFIRMED` is returned rather than refunding a transfer that may still be live. The response reports `withdrawnAtRegistry`, `registryResultCode`, `refunded` and `refundAmount` so you can see exactly how far it got. Supports `dryRun`. */
+export const domainCancelTransfer: API.OperationMethod<
+  DomainCancelTransferRequest,
+  DomainCancelTransferResponse,
+  DomainCancelTransferError,
+  PorkbunOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: DomainCancelTransferRequest,
+  output: DomainCancelTransferResponse,
+  errors: [BadRequest, UnknownPorkbunError],
+  protocol: PorkbunProtocol,
+  retry: Retry.Retry,
+}));
+
 export type DomainCheckDomainError = BadRequest | PorkbunOpError;
-/** Check domain availability Check if a domain is available for registration and retrieve current pricing. Includes registration, renewal, and transfer prices. **Rate limit:** Configurable per API key. Default is 1 check per 10 seconds per account. Rate limit usage is returned in the `limits` field of the response. */
+/** Check domain availability Check if a domain is available for registration and retrieve current pricing. Includes registration, renewal, and transfer prices. **Rate limit:** Configurable per API key. Default is 10 checks per 10 seconds per account (raised from 1 per 10 seconds in 3.29). The window is intentionally 10 seconds rather than 1, so a batch of candidate names can be checked back-to-back. `/domain/checkSingleDomain` draws on the same budget. Rate limit usage is returned in the `limits` field of the response. **Sustained bulk checking.** An account that checks about 1,800 names over three hours while registering little of what it checks (fewer than one domain per 200 names over a day) is treated as scanning for the next 24 hours: its checks, single and bulk, on every API version, share a budget of 50 names per 5 minutes. Over it, the call is refused whole with `RATE_LIMIT_EXCEEDED`, `reason: "SUSTAINED_BULK_CHECKING"` and `retryAfter`; nothing is part-answered. Normal use, including checking a long list of candidate names once, is nowhere near this. Accounts that buy (100 or more registrations in a year) and affiliates sending orders are never treated as scanning, and a per-key limit from support overrides it. */
 export const domainCheckDomain: API.OperationMethod<
   DomainCheckDomainRequest,
   CheckDomainResponse,
@@ -4254,7 +6263,7 @@ export const domainGetGlue: API.OperationMethod<
 }));
 
 export type DomainGetNsError = BadRequest | PorkbunOpError;
-/** Get nameservers Retrieve the authoritative nameservers listed at the registry for the domain. Supports both GET (with header auth) and POST (with body or header auth). */
+/** Get nameservers Retrieve the authoritative nameservers listed at the registry for the domain. Supports both GET (with header auth) and POST (with body or header auth). **Nameservers are an unordered set.** This reads live from the registry, and registries are free to return the set in any order — so the order here will often differ from the order you sent to `/domain/updateNs`. Order carries no meaning in DNS (an NS RRset is unordered, RFC 1034/2181) and is not preserved by the parent zone. Compare nameservers as a set; if you are writing a Terraform provider or similar, model this as a set, not an ordered list, or every plan will show phantom drift. */
 export const domainGetNs: API.OperationMethod<
   DomainGetNsRequest,
   DomainGetNsResponse,
@@ -4283,6 +6292,21 @@ export const domainGetRegistrationRequirements: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type DomainGetTransferSetupError = BadRequest | PorkbunOpError;
+/** State of an in-flight inbound transfer Where a pending inbound transfer is and what it is waiting on: whether it is held at `PENDINGDNS`, whether its DNS zone exists, how many records are in it, what the domain currently delegates to, and the next step to take. Use it to resume a no-downtime transfer without keeping state of your own. */
+export const domainGetTransferSetup: API.OperationMethod<
+  DomainGetTransferSetupRequest,
+  DomainGetTransferSetupResponse,
+  DomainGetTransferSetupError,
+  PorkbunOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: DomainGetTransferSetupRequest,
+  output: DomainGetTransferSetupResponse,
+  errors: [BadRequest, UnknownPorkbunError],
+  protocol: PorkbunProtocol,
+  retry: Retry.Retry,
+}));
+
 export type DomainGetUrlForwardingError = BadRequest | PorkbunOpError;
 /** List URL forwards Retrieve all active URL forwards for a domain. Supports both GET (with header auth) and POST (with body or header auth). */
 export const domainGetUrlForwarding: API.OperationMethod<
@@ -4293,6 +6317,21 @@ export const domainGetUrlForwarding: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DomainGetUrlForwardingRequest,
   output: GetUrlForwardingResponse,
+  errors: [BadRequest, UnknownPorkbunError],
+  protocol: PorkbunProtocol,
+  retry: Retry.Retry,
+}));
+
+export type DomainStartTransferError = BadRequest | PorkbunOpError;
+/** Release a held transfer to the registry Release a transfer held at `PENDINGDNS` into the registry pipeline. Nothing releases a held transfer on a timer — this call is the only thing that does. Refuses with `TRANSFER_ZONE_EMPTY` if the zone has no records, which is the outage the hold exists to prevent. Pass `force: true` only if the domain genuinely needs no DNS at Porkbun. Supports `dryRun`. */
+export const domainStartTransfer: API.OperationMethod<
+  DomainStartTransferRequest,
+  DomainStartTransferResponse,
+  DomainStartTransferError,
+  PorkbunOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: DomainStartTransferRequest,
+  output: DomainStartTransferResponse,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -4314,7 +6353,7 @@ export const domainUpdateAutoRenew: API.OperationMethod<
 }));
 
 export type DomainUpdateContactsError = BadRequest | PorkbunOpError;
-/** Update domain contacts Edit the domain's contacts. Send a `contacts` object keyed by role (`registrant`, `admin`, `tech`, `billing`) containing ANY subset of roles — unspecified roles keep their current values — or a single `contact` object to apply to all four. Behaves like the website: on thick TLDs the change is pushed to the registry, and a **registrant** change (name/organization/email) triggers the same material-change record and new-owner notice/verification email (no 60-day transfer lock is imposed). Per-TLD extension data (e.g. .us nexus, .ca legalType) is preserved. Supports `dryRun`. **Address-validated TLDs.** On a **registrant** change for a TLD that requires a validated address (`.de`, `.nrw`, `.uk`/`.co.uk`/…, `.us`, `.ca`, `.nyc`, `.au`, `.eu`, `.in`/`.co.in`/…, `.nz`/`.co.nz`/…), the API runs Google Address Validation (per-account rate-limited + 24h cached). If the address needs correction the call returns `ADDRESS_VALIDATION_REQUIRED` with a `suggestedAddress` and `addressValidationStatus`; re-submit with `addressValidationChoice` = `accept_suggestion` (save the standardized address) or `use_as_entered` (keep yours — stays blocked if a real correction was offered). For `.de`, DENIC registry verification is then attempted automatically (address-fingerprint / email); if it still needs a proof-of-address document upload, that is completed at porkbun.com. **Still not supported via API:** a registrant name/organization change on a `.au` domain is an auDA paid ownership trade and returns `REGISTRANT_CHANGE_NOT_SUPPORTED` (do it at porkbun.com). Admin/tech/billing edits are unaffected everywhere. */
+/** Update domain contacts Edit the domain's contacts. Send a `contacts` object keyed by role (`registrant`, `admin`, `tech`, `billing`) containing ANY subset of roles — unspecified roles keep their current values — or a single `contact` object to apply to all four. Behaves like the website: on thick TLDs the change is pushed to the registry, and a **registrant** change (name/organization/email) triggers the same material-change record and new-owner notice/verification email (no 60-day transfer lock is imposed). Per-TLD extension data (e.g. .us nexus, .ca legalType) is preserved. Supports `dryRun`. **`state` is matched against the official list for the country**, the same list the website's dropdown is built from, so case, accents and short codes all work: `NEW JERSEY`, `new jersey` and `NJ` are all stored as `New Jersey`, and `MEXICO CITY` as `Mexico City`. This matters because some registries validate the field and compare it case sensitively — .mx refuses `NEW JERSEY` and requires `Ciudad de México` for Mexico City, which Porkbun substitutes for you. For a TLD whose registry validates the field (currently the .mx family) a state that matches nothing is refused up front with `INVALID_STATE`, and the response lists every accepted value for that country in `validStates` — better than the registry's own "Object does not exist". For every other TLD an unrecognised state is sent through unchanged rather than rewritten. If a registry then refuses it, the contact is NOT created and no contacts are changed; the error names the registry's complaint. **Address-validated TLDs.** On a **registrant** change for a TLD that requires a validated address (`.de`, `.nrw`, `.uk`/`.co.uk`/…, `.us`, `.ca`, `.nyc`, `.au`, `.eu`, `.in`/`.co.in`/…, `.nz`/`.co.nz`/…), the API runs Google Address Validation (per-account rate-limited + 24h cached). If the address needs correction the call returns `ADDRESS_VALIDATION_REQUIRED` with a `suggestedAddress` and `addressValidationStatus`; re-submit with `addressValidationChoice` = `accept_suggestion` (save the standardized address) or `use_as_entered` (keep yours — stays blocked if a real correction was offered). For `.de`, DENIC registry verification is then attempted automatically (address-fingerprint / email); if it still needs a proof-of-address document upload, that is completed at porkbun.com. **Still not supported via API:** a registrant name/organization change on a `.au` domain is an auDA paid ownership trade and returns `REGISTRANT_CHANGE_NOT_SUPPORTED` (do it at porkbun.com). Admin/tech/billing edits are unaffected everywhere. */
 export const domainUpdateContacts: API.OperationMethod<
   DomainUpdateContactsRequest,
   DomainUpdateContactsResponse,
@@ -4344,7 +6383,7 @@ export const domainUpdateGlue: API.OperationMethod<
 }));
 
 export type DomainUpdateNsError = BadRequest | PorkbunOpError;
-/** Update nameservers Update the nameservers for the domain at the registry. */
+/** Update nameservers Update the nameservers for the domain at the registry. The list you send is applied as a set — the registry may store and return it in a different order, so do not expect `/domain/getNs` to echo your ordering back. See `/domain/getNs`. */
 export const domainUpdateNs: API.OperationMethod<
   DomainUpdateNsRequest,
   BasicResponse,
@@ -4358,8 +6397,23 @@ export const domainUpdateNs: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type DomainUpdateTransferAuthCodeError = BadRequest | PorkbunOpError;
+/** Replace the auth code on a stuck transfer Replace the authorization code on an inbound transfer that stalled because the code was wrong, and re-queue it — instead of cancelling, refunding and re-submitting. The new code is validated against the registry before it is stored, so a bad code is rejected here (`INVALID_AUTH_CODE`) rather than failing again later. Only transfers in a repairable state qualify; anything else returns `TRANSFER_NOT_REPAIRABLE`. Supports `dryRun`. */
+export const domainUpdateTransferAuthCode: API.OperationMethod<
+  DomainUpdateTransferAuthCodeRequest,
+  DomainUpdateTransferAuthCodeResponse,
+  DomainUpdateTransferAuthCodeError,
+  PorkbunOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: DomainUpdateTransferAuthCodeRequest,
+  output: DomainUpdateTransferAuthCodeResponse,
+  errors: [BadRequest, UnknownPorkbunError],
+  protocol: PorkbunProtocol,
+  retry: Retry.Retry,
+}));
+
 export type EditDnsError = BadRequest | PorkbunOpError;
-/** Edit DNS record by ID Edit a specific DNS record by its numeric ID. SOA and default Porkbun NS records cannot be edited. */
+/** Edit DNS record by ID Edit a specific DNS record by its numeric ID. Send only the fields you want to change: any field left out keeps its current value (send `"name": ""` to move the record to the apex). SOA and default Porkbun NS records cannot be edited. */
 export const editDns: API.OperationMethod<
   EditDnsRequest,
   BasicResponse,
@@ -4419,7 +6473,7 @@ export const getApikey: API.OperationMethod<
 }));
 
 export type GetApiSettingsError = PorkbunOpError;
-/** Get API spend settings Returns the account's API spend control settings and current month's spend total. All amounts are in cents. Authenticate using `X-API-Key` and `X-Secret-API-Key` headers, or `Authorization: Bearer <token>`. */
+/** Get API spend settings Returns the account's API spend control settings, this month's spend, and the limits actually enforced: `spendLimit` on purchases and `topupLimit` on credit added over the API. The account holder sets the limit on the website (https://porkbun.com/account/api); it cannot be changed over the API. All amounts are in cents. Authenticate using `X-API-Key` and `X-Secret-API-Key` headers, or `Authorization: Bearer <token>`. */
 export const getApiSettings: API.OperationMethod<
   GetApiSettingsRequest,
   ApiSettingsResponse,
@@ -4428,6 +6482,21 @@ export const getApiSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetApiSettingsRequest,
   output: ApiSettingsResponse,
+  errors: [UnknownPorkbunError],
+  protocol: PorkbunProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetAutoTopupError = PorkbunOpError;
+/** Read auto top-up settings What auto top-up is set to, whether a payment method is on file, and what `POST /account/topup` would charge right now (`effectiveAmount`). Auto top-up is how unattended work stops dead-ending on `INSUFFICIENT_FUNDS`: when an order drops the balance below `threshold`, Porkbun charges the saved payment method for `amount` and adds the credit. If `paymentMethodOnFile` is false the settings are inert and the response says so in `warnings` — a card can only be saved on the website, never over the API. */
+export const getAutoTopup: API.OperationMethod<
+  GetAutoTopupRequest,
+  AutoTopupResponse,
+  GetAutoTopupError,
+  PorkbunOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetAutoTopupRequest,
+  output: AutoTopupResponse,
   errors: [UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -4443,6 +6512,36 @@ export const getBalance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetBalanceRequest,
   output: BalanceResponse,
+  errors: [UnknownPorkbunError],
+  protocol: PorkbunProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetCloseoutError = NotFound | PorkbunOpError;
+/** One closeout, with the binding total A single closeout plus `totalPrice` — the closeout price plus the registration year that comes with it. That total is what `/closeout/buy` will charge and what it expects back as `cost`. `localDomain` tells you which side of the pricing you are on: true means the name is already at Porkbun and is renewed, false means it is transferred in. `available` is false once somebody has claimed it. */
+export const getCloseout: API.OperationMethod<
+  GetCloseoutRequest,
+  GetCloseoutResponse,
+  GetCloseoutError,
+  PorkbunOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetCloseoutRequest,
+  output: GetCloseoutResponse,
+  errors: [NotFound, UnknownPorkbunError],
+  protocol: PorkbunProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetCloudflareError = PorkbunOpError;
+/** Get the Cloudflare move status for one domain Status of a single domain's move, including the zone id once created and the nameservers we replaced (kept so the move can be undone). `NOT_QUEUED` if the domain has never been queued. Also available via POST. **Status values** (poll until one of the terminal ones): Poll on a sensible interval (a few seconds early on, then back off) — a zone typically leaves `queued` within seconds but can sit in `setup` or `activating` while Cloudflare provisions the zone and DNS propagates. */
+export const getCloudflare: API.OperationMethod<
+  GetCloudflareRequest,
+  GetCloudflareResponse,
+  GetCloudflareError,
+  PorkbunOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetCloudflareRequest,
+  output: GetCloudflareResponse,
   errors: [UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -4554,7 +6653,7 @@ export const getDomainGlue: API.OperationMethod<
 }));
 
 export type GetDomainNsError = BadRequest | PorkbunOpError;
-/** Get nameservers Retrieve the authoritative nameservers listed at the registry for the domain. Supports both GET (with header auth) and POST (with body or header auth). */
+/** Get nameservers Retrieve the authoritative nameservers listed at the registry for the domain. Supports both GET (with header auth) and POST (with body or header auth). **Nameservers are an unordered set.** This reads live from the registry, and registries are free to return the set in any order — so the order here will often differ from the order you sent to `/domain/updateNs`. Order carries no meaning in DNS (an NS RRset is unordered, RFC 1034/2181) and is not preserved by the parent zone. Compare nameservers as a set; if you are writing a Terraform provider or similar, model this as a set, not an ordered list, or every plan will show phantom drift. */
 export const getDomainNs: API.OperationMethod<
   GetDomainNsRequest,
   GetDomainNsResponse,
@@ -4613,6 +6712,36 @@ export const getHosting: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type GetInvoiceError = NotFound | PorkbunOpError;
+/** Get an invoice One invoice as data: bill-to details, payment method (card brand and last four only), each line with its term and resulting domain expiry, and gross, refunded and net totals. The same figures as the PDF. */
+export const getInvoice: API.OperationMethod<
+  GetInvoiceRequest,
+  GetInvoiceResponse,
+  GetInvoiceError,
+  PorkbunOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetInvoiceRequest,
+  output: GetInvoiceResponse,
+  errors: [NotFound, UnknownPorkbunError],
+  protocol: PorkbunProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetInvoicePdfError = NotFound | PorkbunOpError;
+/** Download an invoice PDF The invoice as a PDF, base64-encoded in `contentBase64`: the same document as Download PDF on porkbun.com. Decode it and save it as `filename`. */
+export const getInvoicePdf: API.OperationMethod<
+  GetInvoicePdfRequest,
+  GetInvoicePdfResponse,
+  GetInvoicePdfError,
+  PorkbunOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetInvoicePdfRequest,
+  output: GetInvoicePdfResponse,
+  errors: [NotFound, UnknownPorkbunError],
+  protocol: PorkbunProtocol,
+  retry: Retry.Retry,
+}));
+
 export type GetIpError = PorkbunOpError;
 /** Get caller IP address Returns the caller's public IP address. No credentials required. Use the `api-ipv4.porkbun.com` hostname if you need to force an IPv4 address. */
 export const getIp: API.OperationMethod<GetIpRequest, IpResponse, GetIpError, PorkbunOpContext> =
@@ -4639,8 +6768,8 @@ export const getPing: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type GetPricingError = PorkbunOpError;
-/** Retrieve domain pricing (public) Retrieve default domain pricing information for all supported TLDs. Does not require authentication. Prices are in US dollars. */
+export type GetPricingError = BadRequest | PorkbunOpError;
+/** Retrieve domain pricing (public) Retrieve default domain pricing information for all supported TLDs, or only the ones you ask for. Does not require authentication. Prices are in US dollars. Filter with `tld` (one TLD) and/or `tlds` (several). Names are case-insensitive, a leading dot is ignored, and IDN TLDs may be sent in Unicode or punycode (`みんな` or `xn--q9jyb4c`). A TLD Porkbun does not sell is left out of `pricing` and listed in `unsupported`; if none of the requested TLDs is sold the response is `INVALID_TLD` (HTTP 400). No filter returns every TLD. */
 export const getPricing: API.OperationMethod<
   GetPricingRequest,
   GetPricingResponse,
@@ -4649,13 +6778,13 @@ export const getPricing: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetPricingRequest,
   output: GetPricingResponse,
-  errors: [UnknownPorkbunError],
+  errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetPricingGetError = PorkbunOpError;
-/** Retrieve domain pricing (public) Retrieve default domain pricing information for all supported TLDs. Does not require authentication. Prices are in US dollars. This GET form returns pricing for all TLDs. To filter by specific TLDs, use `POST /pricing/get` with a `tlds` array in the request body. */
+export type GetPricingGetError = BadRequest | PorkbunOpError;
+/** Retrieve domain pricing (public) Retrieve default domain pricing information for all supported TLDs, or only the ones you ask for. Does not require authentication. Prices are in US dollars. Filter with `tld` (one TLD) and/or `tlds` (several). Names are case-insensitive, a leading dot is ignored, and IDN TLDs may be sent in Unicode or punycode (`みんな` or `xn--q9jyb4c`). A TLD Porkbun does not sell is left out of `pricing` and listed in `unsupported`; if none of the requested TLDs is sold the response is `INVALID_TLD` (HTTP 400). No filter returns every TLD. On GET, `tlds` is comma-separated: `?tlds=com,io,dev`. */
 export const getPricingGet: API.OperationMethod<
   GetPricingGetRequest,
   GetPricingGetResponse,
@@ -4664,7 +6793,7 @@ export const getPricingGet: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetPricingGetRequest,
   output: GetPricingGetResponse,
-  errors: [UnknownPorkbunError],
+  errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
 }));
@@ -4745,7 +6874,7 @@ export const hostingCreateWpCredentials: API.OperationMethod<
 }));
 
 export type HostingDeleteFileError = BadRequest | PorkbunOpError;
-/** Delete a site file (static hosting only) **Applies to:** Secure Static Hosting only — a WordPress site returns `NOT_SUPPORTED_FOR_PRODUCT`. Delete a file (or empty directory) at `path` in the domain's hosting space. */
+/** Delete a site file (static hosting only) **Applies to:** Secure Static Hosting only — a WordPress site returns `NOT_SUPPORTED_FOR_PRODUCT`. Delete a file or directory at `path` in the domain's hosting space. Idempotent: a path that is already gone returns `SUCCESS` with `alreadyAbsent: true`. A directory that still has files returns `HOSTING_DIR_NOT_EMPTY` with its `contents`, unless `recursive: true` is sent, which deletes it with everything inside (the site root can never be deleted). */
 export const hostingDeleteFile: API.OperationMethod<
   HostingDeleteFileRequest,
   HostingDeleteFileResponse,
@@ -4834,6 +6963,21 @@ export const hostingPlans: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type ImportDnsError = BadRequest | PorkbunOpError;
+/** Bulk-create DNS records (transfer restore) Create many records in one call, so a domain arriving from another registrar keeps resolving instead of going dark. Send `records` to import an exact list — the better path when the old registrar has an API you can read with your own credentials. Omit `records` entirely and whatever `/dns/scan/{domain}` can discover is imported instead. **Idempotent.** A record that already exists is counted in `skipped`, not `failed`, so this is safe to re-run and safe to use as a converge step. Records that fail individually are listed in `failures` while the rest still import; the call only errors outright if nothing was importable. Imported records do nothing until the domain actually points at the Porkbun nameservers — check `/domain/getNs/{domain}` and set them with `/domain/updateNs/{domain}`. Maximum 500 records per call. Supports `dryRun`. */
+export const importDns: API.OperationMethod<
+  ImportDnsRequest,
+  ImportDnsResponse,
+  ImportDnsError,
+  PorkbunOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ImportDnsRequest,
+  output: ImportDnsResponse,
+  errors: [BadRequest, UnknownPorkbunError],
+  protocol: PorkbunProtocol,
+  retry: Retry.Retry,
+}));
+
 export type ListDomainsError = BadRequest | PorkbunOpError;
 /** List all domains Retrieve domains in the authenticated account. Results are returned in chunks of up to 1000 domains. Use `start` to paginate. **Filtering:** all filter parameters are optional. Combine them freely. - `domain` — exact match (returns 0 or 1) - `nameContains` — substring search - `tlds` — limit to these TLDs - `expiringWithinDays` — only domains expiring within N days - `autoRenew` — `yes` / `no` - `apiAccess` — `yes` / `no` (filter to domains the API key can operate on) - `sortName` — `domain` / `tld` / `create_date` / `expire_date` - `sortDirection` — `asc` / `desc` Supports both GET (with header auth) and POST (with body or header auth). For multi-value `tlds` on GET, use bracket syntax: `?tlds[]=com&tlds[]=io`. */
 export const listDomains: API.OperationMethod<
@@ -4845,6 +6989,21 @@ export const listDomains: API.OperationMethod<
   input: ListDomainsRequest,
   output: DomainListAllResponse,
   errors: [BadRequest, UnknownPorkbunError],
+  protocol: PorkbunProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListInvoicesError = PorkbunOpError;
+/** List invoices The account's invoices (one per order), newest first, like the orders page on porkbun.com. `total_cents` is what the customer was left paying: refunds are netted out, and `state` says whether the invoice is paid, refunded or partially refunded. Any of the account's API keys can read them. */
+export const listInvoices: API.OperationMethod<
+  ListInvoicesRequest,
+  ListInvoicesResponse,
+  ListInvoicesError,
+  PorkbunOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListInvoicesRequest,
+  output: ListInvoicesResponse,
+  errors: [UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
 }));
@@ -4961,8 +7120,23 @@ export const postIp: API.OperationMethod<PostIpRequest, IpResponse, PostIpError,
     retry: Retry.Retry,
   }));
 
+export type PreviewCloudflareError = PorkbunOpError;
+/** Preview exactly which records a move would copy Which DNS records we would create in Cloudflare for this domain, and which we would drop, **without queueing anything**. The honest answer to "what will this do to my DNS" before committing. Records are always created DNS-only (grey cloud); use `/cloudflare/setProxy` afterwards to turn the proxy on. Also available via POST. */
+export const previewCloudflare: API.OperationMethod<
+  PreviewCloudflareRequest,
+  PreviewCloudflareResponse,
+  PreviewCloudflareError,
+  PorkbunOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: PreviewCloudflareRequest,
+  output: PreviewCloudflareResponse,
+  errors: [UnknownPorkbunError],
+  protocol: PorkbunProtocol,
+  retry: Retry.Retry,
+}));
+
 export type RenewDomainError = BadRequest | PorkbunOpError;
-/** Renew a domain Renew a domain using account credit. Requirements: - Domain must be in your account and active - Domain must be opted in to API access - Account email and phone must be verified - Account must have sufficient credit - `cost` must equal the current renewal price for the domain's minimum renewal duration (in pennies) - Domain must have been registered more than 30 days ago (checked against the domain's creation date) - Domain must not have been successfully renewed within the last 30 days - Premium renewals are not currently supported via API Renewals are always for the registry-minimum duration (usually 1 year). Use `/domain/checkDomain/{domain}` with `priceType=renewal` to get the current price before renewing. **Rate limits (both apply):** - Attempt limit (default: 1 attempt per 10 seconds per account) - Success limit (default: 50 successful renewals per 86400 seconds per account) Both limits are configurable per API key and their current values are returned in the `limits` field of the response. ## Dry run Add `dryRun: true` to validate everything and preview the cost WITHOUT renewing or charging — nothing is created. Example response: ```json { "status": "SUCCESS", "dryRun": true, "wouldSucceed": true, "operation": "renewal", "domain": "example.com", "tld": "com", "available": "unavailable", "premium": false, "duration": 1, "cost": 1099, "costDisplay": "$10.99", "balance": 5000, "sufficientFunds": true, "message": "Dry run: this renewal would succeed and cost $10.99. No order was created and no charge was made.", "requestId": "019e04fa-3c11-7a02-9bd2-1f7c0e4a8b55" } ``` */
+/** Renew a domain Renew a domain, paid from account credit or directly in USDC. Requirements: - Domain must be in your account and active - Domain must be opted in to API access - Account email and phone must be verified - Sufficient account credit, or `"payWith": "usdc"` to pay directly - `cost` must equal the current renewal price for the domain's minimum renewal duration (in pennies) - Domain must have been registered more than 30 days ago (checked against the domain's creation date) - Domain must not have been successfully renewed within the last 30 days - Premium renewals are not currently supported via API Renewals are always for the registry-minimum duration (usually 1 year). Use `/domain/checkDomain/{domain}` with `priceType=renewal` to get the current price before renewing. **Rate limits (both apply):** - Attempt limit (default: 1 attempt per second per account) - Success limit (default: 1000 successful renewals per 86400 seconds per account) Both limits are configurable per API key and their current values are returned in the `limits` field of the response. ## Dry run Add `dryRun: true` to validate everything and preview the cost WITHOUT renewing or charging — nothing is created. Example response: ```json { "status": "SUCCESS", "dryRun": true, "wouldSucceed": true, "operation": "renewal", "domain": "example.com", "tld": "com", "available": "unavailable", "premium": false, "duration": 1, "cost": 1099, "costDisplay": "$10.99", "balance": 5000, "sufficientFunds": true, "message": "Dry run: this renewal would succeed and cost $10.99. No order was created and no charge was made.", "requestId": "019e04fa-3c11-7a02-9bd2-1f7c0e4a8b55" } ``` **Paying for it.** Two ways. **From prepaid account credit** (the default): no card on file is charged at purchase time, so the balance has to be there first. Read it with `GET /account/balance`; add to it with `POST /account/topup` (a saved card, with the account holder's OK), `POST /account/topupMpp` (the user's card from a Stripe Link agent wallet), `POST /account/topupCrypto` (USDC) or at https://porkbun.com/account/credit, and auto top-up at https://porkbun.com/account/api keeps it filled. Too little credit returns `INSUFFICIENT_FUNDS` with `cost`, `balance`, `shortfall` and `usdcAmountToCover` in cents. **Or directly in USDC:** add `"payWith": "usdc"` and an x402 client pays the HTTP 402 this returns (`PAYMENT_REQUIRED`, terms in the `PAYMENT-REQUIRED` header) and repeats the request with `PAYMENT-SIGNATURE`; no credit is needed, and if the purchase fails the payment stays on the account as credit (https://porkbun.com/llms/guides/pay-with-usdc-x402). Either way the account's monthly API spend limit applies ($100 a month until the account holder sets their own; `MONTHLY_SPEND_LIMIT_EXCEEDED`). `dryRun: true` reports cost and balance without charging, and `dryRun` with `cost: 0` returns a quote. */
 export const renewDomain: API.OperationMethod<
   RenewDomainRequest,
   RenewDomainResponse2,
@@ -5006,6 +7180,36 @@ export const resetSandbox: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type RestoreDnsError = NotFound | PorkbunOpError;
+/** Restore a zone to a previous state Put a zone back to a restore point. **What it does by default:** adds back every record in the restore point that is not live now. It does **not** remove records you have added since -- pass `prune: true` for that. "Restore my records" usually means "put back what I lost", not "delete everything I have done since", so the destructive half is opt-in. **This is itself reversible.** The zone's current state is snapshotted before anything changes and the new point's id comes back as `previousStateSavedAs`, so an unwanted restore is undone by restoring that. **Read `failed`.** Parking records and other masked types (`ALIAS`, `HTTPS`) are managed by another part of the platform and cannot be recreated this way. They come back named in `failed` rather than being counted as restored, so `restored` is a true count. SOA and NS are never touched. Supports `dryRun: true`, which reports exactly what would be added and removed and changes nothing. */
+export const restoreDns: API.OperationMethod<
+  RestoreDnsRequest,
+  DnsRestoreResponse,
+  RestoreDnsError,
+  PorkbunOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: RestoreDnsRequest,
+  output: DnsRestoreResponse,
+  errors: [NotFound, UnknownPorkbunError],
+  protocol: PorkbunProtocol,
+  retry: Retry.Retry,
+}));
+
+export type RetryCloudflareError = PorkbunOpError;
+/** Retry a failed or skipped domain Put a domain that failed or was skipped back in the queue. Fails with `RETRY_FAILED` if it is already connected, already in progress, or no longer in the account. Supports `dryRun`. */
+export const retryCloudflare: API.OperationMethod<
+  RetryCloudflareRequest,
+  RetryCloudflareResponse,
+  RetryCloudflareError,
+  PorkbunOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: RetryCloudflareRequest,
+  output: RetryCloudflareResponse,
+  errors: [UnknownPorkbunError],
+  protocol: PorkbunProtocol,
+  retry: Retry.Retry,
+}));
+
 export type SandboxTopupError = PorkbunOpError;
 /** Sandbox: add fake credit Sandbox only (requires a `pk1_sb_` key). Grants fake account credit so paid operations can keep being exercised after funds run out. Optional `amount` in US cents (default 100000 = $1000, capped 1,000,000). */
 export const sandboxTopup: API.OperationMethod<
@@ -5036,6 +7240,36 @@ export const sandboxTriggerWebhook: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type SearchCloseoutError = BadRequest | PorkbunOpError;
+/** Search expired-domain closeouts Search the closeout inventory. Closeouts are expired domains that did not sell at auction and are now offered at a fixed, descending price — there is no bidding, the first buyer at the current price takes the name. Every filter is optional; with none you get the first page of the whole list plus `totalAvailable`. Page with `start`/`limit` until `start >= totalAvailable`. **`age` and `registrationDate` are on every row and both are sortable.** On the website the inventory is paginated by price tier and registration date is not shown, so finding aged names means walking several tier pages and then doing a WHOIS lookup per candidate. `sortName=registrationDate&sortDirection=asc` returns the oldest registrations first in one call. `price` is the closeout price alone. The binding total adds the renewal or transfer year you are also buying, and comes from `/closeout/get/{domain}` — it cannot be derived from search results, because a domain already at Porkbun is renewed while anything else is transferred in, and those are priced differently. */
+export const searchCloseout: API.OperationMethod<
+  SearchCloseoutRequest,
+  SearchCloseoutResponse,
+  SearchCloseoutError,
+  PorkbunOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: SearchCloseoutRequest,
+  output: SearchCloseoutResponse,
+  errors: [BadRequest, UnknownPorkbunError],
+  protocol: PorkbunProtocol,
+  retry: Retry.Retry,
+}));
+
+export type SetAutoTopupError = BadRequest | PorkbunOpError;
+/** Configure auto top-up Set the top-up amount, and/or switch auto top-up on or off. `amount` stands on its own. It is what a top-up adds, and `POST /account/topup` charges the same figure on demand, so setting it without automating anything is a normal call: `{"amount": 10000}`. `enabled: true` additionally makes it fire by itself and requires `threshold` (the balance, in integer US cents, below which a top-up happens) plus an amount — either in the same call or already on file. `enabled: false` stops it firing on a threshold and **keeps the amount**, because on-demand top-ups still use it. **`amount` set over the API is capped at $500** ($5 minimum), because that value is also what `POST /account/topup` charges — an API key free to set it to anything would be setting its own limit, which is not a limit. A larger amount set by the account holder at porkbun.com/account/api is honoured as-is. No card is touched here, and one cannot be added over the API. Supports `dryRun`. */
+export const setAutoTopup: API.OperationMethod<
+  SetAutoTopupRequest,
+  AutoTopupResponse,
+  SetAutoTopupError,
+  PorkbunOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: SetAutoTopupRequest,
+  output: AutoTopupResponse,
+  errors: [BadRequest, UnknownPorkbunError],
+  protocol: PorkbunProtocol,
+  retry: Retry.Retry,
+}));
+
 export type TestWebhookError = BadRequest | NotFound | PorkbunOpError;
 /** Send a test event Enqueue a `webhook.test` event to the endpoint so you can confirm reachability and that your signature verification works. The endpoint must be ACTIVE. Delivery is asynchronous (usually within a minute). */
 export const testWebhook: API.OperationMethod<
@@ -5051,8 +7285,68 @@ export const testWebhook: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type TopupAccountCreditError = BadRequest | PorkbunOpError;
+/** Top up account credit now **Charges the saved payment method** and adds the money to account credit immediately. The call that unblocks work already in progress: enabling auto top-up does nothing until the next order trips the threshold, which is no help to a caller holding an `INSUFFICIENT_FUNDS` response right now. **`amount` is optional.** Omitted, it charges the account's configured top-up amount, or $50 if the account has never set one — `amountSource` in the response says which of `configured`, `default` or `request` applied. Supplied, it charges that figure for this call only and leaves the stored setting alone, which is the point: an agent could always have written the amount to `/account/autoTopup` first, and making it do that turns a one-off charge into a silent edit of a setting the customer owns. The card itself can only be saved outside the API, and a supplied amount is held to the same 500–50000 cent range as one set through `/account/autoTopup`. On top of that the dollars are bounded by the month: the account's **monthly spend limit** caps top-ups as well as domain spend (it is the account saying how much the API may move, and a card charge is the API moving money), and an account that has never set one still gets a $100/month ceiling. Card, auto top-ups set off by an API purchase, MPP and USDC all count toward it — `monthlyCeiling` and `ceilingSource` on `GET /account/autoTopup` say which is in force. Top-ups are also limited to 5 per day and 20 per month (`TOPUP_LIMIT_EXCEEDED`), and every successful charge emails the account holder. Errors that matter: `NO_PAYMENT_METHOD` (nothing saved to charge — the account holder has to save a card or buy credit on the website), `CARD_DECLINED` (nothing was added; the card needs attention), `TOPUP_FAILED` (nothing was charged; retry once). With a sandbox key this grants simulated credit and charges nothing (`simulated: true`). Supports `dryRun`, which previews the amount and charges nothing in any environment. Honours `Idempotency-Key`. */
+export const topupAccountCredit: API.OperationMethod<
+  TopupAccountCreditRequest,
+  TopupAccountCreditResponse,
+  TopupAccountCreditError,
+  PorkbunOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: TopupAccountCreditRequest,
+  output: TopupAccountCreditResponse,
+  errors: [BadRequest, UnknownPorkbunError],
+  protocol: PorkbunProtocol,
+  retry: Retry.Retry,
+}));
+
+export type TopupCryptoError = PorkbunOpError;
+/** Top up credit with USDC (x402) Opens a Coinbase checkout to add account credit with USDC on Base, the same as Use Crypto on porkbun.com. Nothing is charged by this call. Pay it either way: - `x402Url`: an AI agent with a wallet pays it directly over x402 (a gasless USDC transfer on Base, no page or person involved). This is how an agent gets past `INSUFFICIENT_FUNDS` on an account with no saved card. - `payUrl`: a Coinbase page where a person pays. Credit is added when the payment confirms (usually within a minute), less Coinbase's fee of about 1% (`estimatedFee_cents`, `estimatedCredit_cents`). To cover an `INSUFFICIENT_FUNDS` shortfall exactly, open the checkout for its `usdcAmountToCover`. Check `GET /account/topupCryptoStatus/{checkoutId}`. Payments are on-chain and cannot be reversed. Needs a verified email and phone and an account that is not bank-transfer-only (`CRYPTO_NOT_AVAILABLE` otherwise). Up to 10 checkouts per account per day. USDC counts toward the same monthly ceiling as card and MPP top-ups (the monthly spend limit, or $100 when none is set), checked when the checkout is opened, with unpaid checkouts from the last day counted as if paid (`TOPUP_LIMIT_EXCEEDED`). Not available on sandbox keys (`SANDBOX_UNSUPPORTED`; use `/sandbox/topup`). */
+export const topupCrypto: API.OperationMethod<
+  TopupCryptoRequest,
+  TopupCryptoResponse,
+  TopupCryptoError,
+  PorkbunOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: TopupCryptoRequest,
+  output: TopupCryptoResponse,
+  errors: [UnknownPorkbunError],
+  protocol: PorkbunProtocol,
+  retry: Retry.Retry,
+}));
+
+export type TopupCryptoStatusError = NotFound | PorkbunOpError;
+/** Status of a USDC top-up Whether a checkout from `POST /account/topupCrypto` has been paid and credited. `state`: ACTIVE (not paid), PROCESSING (paid, being credited), COMPLETED (credited), EXPIRED or FAILED. Returns the current balance too. */
+export const topupCryptoStatus: API.OperationMethod<
+  TopupCryptoStatusRequest,
+  TopupCryptoStatusResponse,
+  TopupCryptoStatusError,
+  PorkbunOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: TopupCryptoStatusRequest,
+  output: TopupCryptoStatusResponse,
+  errors: [NotFound, UnknownPorkbunError],
+  protocol: PorkbunProtocol,
+  retry: Retry.Retry,
+}));
+
+export type TopupMppError = PorkbunOpError;
+/** Top up credit with the user's card, paid by an agent (MPP) Returns a signed, single-use payment link (valid 15 minutes, bound to this account and amount) that an AI agent pays with the user's **card** over MPP, the Machine Payments Protocol (mpp.dev), using a Stripe Shared Payment Token from its agent wallet (Stripe's Link Agent Wallet). No card needs to be saved at Porkbun. Nothing is charged by this call. The agent's MPP client requests `payUrl` (POST) and gets HTTP `402` with a `WWW-Authenticate: Payment` challenge (`method="stripe"`, `intent="charge"`); its wallet mints a token for the user's card, the client retries with `Authorization: Payment <credential>`, and the credit is added at once: the response carries `credited_cents` and the new `balance_cents`, with a `Payment-Receipt` header. For example: `npx @stripe/link-cli mpp pay <payUrl> -X POST --context "..."`. Link refuses a `--context` shorter than 100 characters: it is what the user reads when approving the spend, so say what it is for and the dollar amount, worded fresh for each payment (Link can refuse an identical repeat). Same limits as card top-ups (`POST /account/topup`): $5-$500, the monthly ceiling, 5 a day and 20 a month (`TOPUP_LIMIT_EXCEEDED`). Not available on sandbox keys (`SANDBOX_UNSUPPORTED`). */
+export const topupMpp: API.OperationMethod<
+  TopupMppRequest,
+  TopupMppResponse,
+  TopupMppError,
+  PorkbunOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: TopupMppRequest,
+  output: TopupMppResponse,
+  errors: [UnknownPorkbunError],
+  protocol: PorkbunProtocol,
+  retry: Retry.Retry,
+}));
+
 export type TransferDomainError = PorkbunOpError;
-/** Initiate a domain transfer Initiates an inbound domain transfer to Porkbun using account credit. The transfer is processed asynchronously and typically takes 5–7 days to complete. **Requirements:** - Account email and phone must be verified. - Sufficient account credit to cover the transfer cost. - Domain must not already be in your account. - No other active transfer for the same domain. - `.uk` and manage-only TLDs are not supported via API. - Premium domain transfers are not supported via API. ## Dry run Add `dryRun: true` to validate everything and preview the cost WITHOUT initiating the transfer or charging — nothing is created. Example response: ```json { "status": "SUCCESS", "dryRun": true, "wouldSucceed": true, "operation": "transfer", "domain": "example.com", "tld": "com", "available": "unavailable", "premium": false, "duration": 1, "cost": 999, "costDisplay": "$9.99", "balance": 5000, "sufficientFunds": true, "message": "Dry run: this transfer would succeed and cost $9.99. No order was created and no charge was made.", "requestId": "019e04fa-5f22-7c93-8a41-2e9d0b3f6c77" } ``` */
+/** Initiate a domain transfer Initiates an inbound domain transfer to Porkbun, paid from account credit or directly in USDC. The transfer is processed asynchronously and typically takes 5–7 days to complete. **Requirements:** - Account email and phone must be verified. - Sufficient account credit to cover the transfer cost, or `"payWith": "usdc"` to pay directly. - Domain must not already be in your account. - No other active transfer for the same domain. - `.uk` and manage-only TLDs are not supported via API. - Premium domain transfers are not supported via API. - Some registries refuse registrant contacts on temporary or encrypted email providers and suspend domains that use one. `.in` and its second levels are the first; a transfer whose registrant contact uses one is refused with `REGISTRANT_EMAIL_NOT_ACCEPTED` before any charge. This is about the contact recorded on the domain, not about who hosts mail for it. ## Dry run Add `dryRun: true` to validate everything and preview the cost WITHOUT initiating the transfer or charging — nothing is created. Example response: ```json { "status": "SUCCESS", "dryRun": true, "wouldSucceed": true, "operation": "transfer", "domain": "example.com", "tld": "com", "available": "unavailable", "premium": false, "duration": 1, "cost": 999, "costDisplay": "$9.99", "balance": 5000, "sufficientFunds": true, "message": "Dry run: this transfer would succeed and cost $9.99. No order was created and no charge was made.", "requestId": "019e04fa-5f22-7c93-8a41-2e9d0b3f6c77" } ``` **Paying for it.** Two ways. **From prepaid account credit** (the default): no card on file is charged at purchase time, so the balance has to be there first. Read it with `GET /account/balance`; add to it with `POST /account/topup` (a saved card, with the account holder's OK), `POST /account/topupMpp` (the user's card from a Stripe Link agent wallet), `POST /account/topupCrypto` (USDC) or at https://porkbun.com/account/credit, and auto top-up at https://porkbun.com/account/api keeps it filled. Too little credit returns `INSUFFICIENT_FUNDS` with `cost`, `balance`, `shortfall` and `usdcAmountToCover` in cents. **Or directly in USDC:** add `"payWith": "usdc"` and an x402 client pays the HTTP 402 this returns (`PAYMENT_REQUIRED`, terms in the `PAYMENT-REQUIRED` header) and repeats the request with `PAYMENT-SIGNATURE`; no credit is needed, and if the purchase fails the payment stays on the account as credit (https://porkbun.com/llms/guides/pay-with-usdc-x402). Either way the account's monthly API spend limit applies ($100 a month until the account holder sets their own; `MONTHLY_SPEND_LIMIT_EXCEEDED`). `dryRun: true` reports cost and balance without charging, and `dryRun` with `cost: 0` returns a quote. */
 export const transferDomain: API.OperationMethod<
   TransferDomainRequest,
   TransferDomainResponse2,
@@ -5066,8 +7360,23 @@ export const transferDomain: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type TransferDomainPrepareError = BadRequest | PorkbunOpError;
+/** Create the DNS zone for a held transfer Create the Porkbun DNS zone for a domain whose inbound transfer is held at `PENDINGDNS`, so records can be added **before** the domain moves. The zone is created deliberately rather than as a side effect of the first record write. Returns the Porkbun nameservers to point the domain at. Then load the zone with `/dns/import/{domain}` (or the `/dns/*` endpoints) and release with `/domain/startTransfer/{domain}`. Supports `dryRun`. */
+export const transferDomainPrepare: API.OperationMethod<
+  TransferDomainPrepareRequest,
+  TransferDomainPrepareResponse,
+  TransferDomainPrepareError,
+  PorkbunOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: TransferDomainPrepareRequest,
+  output: TransferDomainPrepareResponse,
+  errors: [BadRequest, UnknownPorkbunError],
+  protocol: PorkbunProtocol,
+  retry: Retry.Retry,
+}));
+
 export type UpdateWebhookError = BadRequest | NotFound | PorkbunOpError;
-/** Update a webhook endpoint Update an endpoint's URL, event subscriptions, and/or status. Only the supplied fields change. Set `status` to `DISABLED` to pause deliveries or `ACTIVE` to resume (resuming also resets the consecutive-failure counter). */
+/** Update a webhook endpoint Update an endpoint's URL, event subscriptions, and/or status. Only the supplied fields change. Set `status` to `DISABLED` to pause deliveries or `ACTIVE` to resume (resuming also resets the consecutive-failure counter). **URL requirements:** the endpoint must be an `https://` URL on the standard port 443, with a hostname that resolves to a public internet address. Private, loopback, link-local, CGNAT and other reserved ranges are refused (`INVALID_WEBHOOK_URL`) because Porkbun delivers from inside its own network. Credentials in the URL (`https://user:pass@host`) are also refused — authenticate the receiver by verifying the `X-Porkbun-Signature` HMAC instead. A hostname that does not resolve yet is accepted, so you can register the endpoint before the receiver is deployed, but delivery is re-checked against these rules immediately before each request. */
 export const updateWebhook: API.OperationMethod<
   UpdateWebhookRequest,
   WebhookEndpointResponse,

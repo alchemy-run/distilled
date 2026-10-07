@@ -332,9 +332,7 @@ export const CreateAdRequestLeadForm = /*@__PURE__*/ S.suspend(() =>
     privacy_policy: S.optional(CreateAdRequestLeadFormPrivacyPolicy),
     questions: S.optional(CreateAdRequestLeadFormQuestionsList),
   }),
-).annotate({
-  identifier: "CreateAdRequestLeadForm",
-}) as any as S.Schema<CreateAdRequestLeadForm>;
+).annotate({ identifier: "CreateAdRequestLeadForm" }) as any as S.Schema<CreateAdRequestLeadForm>;
 
 /** Click-to-message welcome copy: the greeting (message) and the ice-breaker prompt (keyword). */
 export interface CreateAdRequestMessagingConfig {
@@ -437,9 +435,7 @@ export const CreateAdRequest = /*@__PURE__*/ S.suspend(() =>
     url_parameters: S.optional(S.Unknown),
     idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
   }).pipe(T.Http({ method: "POST", uri: "/ads", code: 200 })),
-).annotate({
-  identifier: "CreateAdRequest",
-}) as any as S.Schema<CreateAdRequest>;
+).annotate({ identifier: "CreateAdRequest" }) as any as S.Schema<CreateAdRequest>;
 
 export interface AdEntityReference {
   /** The referenced entity's id. */
@@ -449,9 +445,7 @@ export const AdEntityReference = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String,
   }),
-).annotate({
-  identifier: "AdEntityReference",
-}) as any as S.Schema<AdEntityReference>;
+).annotate({ identifier: "AdEntityReference" }) as any as S.Schema<AdEntityReference>;
 
 /** The call-to-action button shown on the ad. */
 export type AdCallToAction =
@@ -583,9 +577,7 @@ export const AdPlatformIssue = /*@__PURE__*/ S.suspend(() =>
     resource_id: S.NullOr(S.String),
     resource_type: AdPlatformIssueResourceType,
   }),
-).annotate({
-  identifier: "AdPlatformIssue",
-}) as any as S.Schema<AdPlatformIssue>;
+).annotate({ identifier: "AdPlatformIssue" }) as any as S.Schema<AdPlatformIssue>;
 
 export type AdIssuesList = Array<AdPlatformIssue>;
 export const AdIssuesList = /*@__PURE__*/ S.Array(AdPlatformIssue) as any as S.Schema<AdIssuesList>;
@@ -607,9 +599,7 @@ export const AdLeadFormCompletion = /*@__PURE__*/ S.suspend(() =>
     headline: S.NullOr(S.String),
     url: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "AdLeadFormCompletion",
-}) as any as S.Schema<AdLeadFormCompletion>;
+).annotate({ identifier: "AdLeadFormCompletion" }) as any as S.Schema<AdLeadFormCompletion>;
 
 export interface AdLeadFormDisclaimerCheckbox {
   /** Whether the checkbox starts ticked. */
@@ -650,9 +640,7 @@ export const AdLeadFormDisclaimer = /*@__PURE__*/ S.suspend(() =>
     checkboxes: AdLeadFormDisclaimerCheckboxesList,
     title: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "AdLeadFormDisclaimer",
-}) as any as S.Schema<AdLeadFormDisclaimer>;
+).annotate({ identifier: "AdLeadFormDisclaimer" }) as any as S.Schema<AdLeadFormDisclaimer>;
 
 /** `more_volume` is quickest to submit; `higher_intent` adds a confirmation step before submission. */
 export type AdLeadFormFormType = "more_volume" | "higher_intent";
@@ -669,9 +657,7 @@ export const AdLeadFormIntro = /*@__PURE__*/ S.suspend(() =>
     description: S.NullOr(S.String),
     headline: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "AdLeadFormIntro",
-}) as any as S.Schema<AdLeadFormIntro>;
+).annotate({ identifier: "AdLeadFormIntro" }) as any as S.Schema<AdLeadFormIntro>;
 
 export interface AdLeadFormPrivacyPolicy {
   /** Link text shown for the policy. `null` uses the platform default. */
@@ -684,9 +670,7 @@ export const AdLeadFormPrivacyPolicy = /*@__PURE__*/ S.suspend(() =>
     link_text: S.NullOr(S.String),
     url: S.String,
   }),
-).annotate({
-  identifier: "AdLeadFormPrivacyPolicy",
-}) as any as S.Schema<AdLeadFormPrivacyPolicy>;
+).annotate({ identifier: "AdLeadFormPrivacyPolicy" }) as any as S.Schema<AdLeadFormPrivacyPolicy>;
 
 /** What happens when the choice is selected. */
 export type AdLeadFormOptionLogicAction = "go_to_question" | "submit_form" | "close_form";
@@ -706,9 +690,7 @@ export const AdLeadFormOptionLogic = /*@__PURE__*/ S.suspend(() =>
     target_end_page_index: S.optional(S.Number),
     target_question_index: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "AdLeadFormOptionLogic",
-}) as any as S.Schema<AdLeadFormOptionLogic>;
+).annotate({ identifier: "AdLeadFormOptionLogic" }) as any as S.Schema<AdLeadFormOptionLogic>;
 
 export interface AdLeadFormQuestionOption {
   /** Stable identifier the choice's answers are stored under. Absent for simple choices. */
@@ -724,9 +706,7 @@ export const AdLeadFormQuestionOption = /*@__PURE__*/ S.suspend(() =>
     logic: S.optional(AdLeadFormOptionLogic),
     value: S.String,
   }),
-).annotate({
-  identifier: "AdLeadFormQuestionOption",
-}) as any as S.Schema<AdLeadFormQuestionOption>;
+).annotate({ identifier: "AdLeadFormQuestionOption" }) as any as S.Schema<AdLeadFormQuestionOption>;
 
 export type AdLeadFormQuestionOptionsList = Array<AdLeadFormQuestionOption>;
 export const AdLeadFormQuestionOptionsList = /*@__PURE__*/ S.Array(
@@ -749,9 +729,7 @@ export const AdLeadFormQuestion = /*@__PURE__*/ S.suspend(() =>
     options: S.optional(AdLeadFormQuestionOptionsList),
     type: S.String,
   }),
-).annotate({
-  identifier: "AdLeadFormQuestion",
-}) as any as S.Schema<AdLeadFormQuestion>;
+).annotate({ identifier: "AdLeadFormQuestion" }) as any as S.Schema<AdLeadFormQuestion>;
 
 export type AdLeadFormQuestionsList = Array<AdLeadFormQuestion>;
 export const AdLeadFormQuestionsList = /*@__PURE__*/ S.Array(
@@ -799,9 +777,7 @@ export const AdMessagingConfig = /*@__PURE__*/ S.suspend(() =>
     keyword: S.NullOr(S.String),
     message: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "AdMessagingConfig",
-}) as any as S.Schema<AdMessagingConfig>;
+).annotate({ identifier: "AdMessagingConfig" }) as any as S.Schema<AdMessagingConfig>;
 
 /** Identifies the network that owns `existing_post_id`; `null` when the ad uses uploaded creatives. */
 export type AdPostSource = "facebook" | "instagram";
@@ -1051,9 +1027,7 @@ export const DeleteAdRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "DELETE", uri: "/ads/{id}", code: 200 })),
-).annotate({
-  identifier: "DeleteAdRequest",
-}) as any as S.Schema<DeleteAdRequest>;
+).annotate({ identifier: "DeleteAdRequest" }) as any as S.Schema<DeleteAdRequest>;
 
 export interface DeleteAdResponse {
   /** Always true. */
@@ -1066,9 +1040,7 @@ export const DeleteAdResponse = /*@__PURE__*/ S.suspend(() =>
     deleted: S.Boolean,
     id: S.String,
   }),
-).annotate({
-  identifier: "DeleteAdResponse",
-}) as any as S.Schema<DeleteAdResponse>;
+).annotate({ identifier: "DeleteAdResponse" }) as any as S.Schema<DeleteAdResponse>;
 
 export interface DuplicateAdRequest {
   /** The ad ID. */
@@ -1090,9 +1062,7 @@ export const DuplicateAdRequest = /*@__PURE__*/ S.suspend(() =>
     target_ad_group_id: S.optional(S.String),
     idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
   }).pipe(T.Http({ method: "POST", uri: "/ads/{id}/duplicate", code: 200 })),
-).annotate({
-  identifier: "DuplicateAdRequest",
-}) as any as S.Schema<DuplicateAdRequest>;
+).annotate({ identifier: "DuplicateAdRequest" }) as any as S.Schema<DuplicateAdRequest>;
 
 export type DuplicateAdResponseDataList = Array<Ad>;
 export const DuplicateAdResponseDataList = /*@__PURE__*/ S.Array(
@@ -1106,9 +1076,7 @@ export const DuplicateAdResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     data: DuplicateAdResponseDataList,
   }),
-).annotate({
-  identifier: "DuplicateAdResponse",
-}) as any as S.Schema<DuplicateAdResponse>;
+).annotate({ identifier: "DuplicateAdResponse" }) as any as S.Schema<DuplicateAdResponse>;
 
 export type GetAdRequestAttributionModel = "last_touch" | "first_touch";
 export const GetAdRequestAttributionModel = S.String;
@@ -1253,9 +1221,7 @@ export const ListAdsResponsePageInfo = /*@__PURE__*/ S.suspend(() =>
     has_previous_page: S.Boolean,
     start_cursor: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "ListAdsResponsePageInfo",
-}) as any as S.Schema<ListAdsResponsePageInfo>;
+).annotate({ identifier: "ListAdsResponsePageInfo" }) as any as S.Schema<ListAdsResponsePageInfo>;
 
 export interface ListAdsResponse {
   data: ListAdsResponseDataList;
@@ -1266,9 +1232,7 @@ export const ListAdsResponse = /*@__PURE__*/ S.suspend(() =>
     data: ListAdsResponseDataList,
     page_info: ListAdsResponsePageInfo,
   }),
-).annotate({
-  identifier: "ListAdsResponse",
-}) as any as S.Schema<ListAdsResponse>;
+).annotate({ identifier: "ListAdsResponse" }) as any as S.Schema<ListAdsResponse>;
 
 export interface PauseAdRequest {
   /** The ad ID. */
@@ -1294,9 +1258,7 @@ export const UnpauseAdRequest = /*@__PURE__*/ S.suspend(() =>
     id: S.String.pipe(T.Label()),
     idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
   }).pipe(T.Http({ method: "POST", uri: "/ads/{id}/unpause", code: 200 })),
-).annotate({
-  identifier: "UnpauseAdRequest",
-}) as any as S.Schema<UnpauseAdRequest>;
+).annotate({ identifier: "UnpauseAdRequest" }) as any as S.Schema<UnpauseAdRequest>;
 
 /** The call-to-action button shown on the ad. */
 export type UpdateAdRequestCallToAction =
@@ -1534,9 +1496,7 @@ export const UpdateAdRequestLeadForm = /*@__PURE__*/ S.suspend(() =>
     privacy_policy: S.optional(CreateAdRequestLeadFormPrivacyPolicy),
     questions: S.optional(UpdateAdRequestLeadFormQuestionsList),
   }),
-).annotate({
-  identifier: "UpdateAdRequestLeadForm",
-}) as any as S.Schema<UpdateAdRequestLeadForm>;
+).annotate({ identifier: "UpdateAdRequestLeadForm" }) as any as S.Schema<UpdateAdRequestLeadForm>;
 
 /** Click-to-message welcome copy: the greeting (message) and the ice-breaker prompt (keyword). */
 export type UpdateAdRequestMessagingConfig = CreateAdRequestMessagingConfig;
@@ -1614,9 +1574,7 @@ export const UpdateAdRequest = /*@__PURE__*/ S.suspend(() =>
     url: S.optional(S.String),
     url_parameters: S.optional(S.Unknown),
   }).pipe(T.Http({ method: "PATCH", uri: "/ads/{id}", code: 200 })),
-).annotate({
-  identifier: "UpdateAdRequest",
-}) as any as S.Schema<UpdateAdRequest>;
+).annotate({ identifier: "UpdateAdRequest" }) as any as S.Schema<UpdateAdRequest>;
 
 export type CreateAdError = BadRequest | NotFound | Conflict | WhopOpError;
 /** Create an Ad Creates an ad in an ad group. */

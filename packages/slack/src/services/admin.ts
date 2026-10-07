@@ -20,9 +20,7 @@ export const AddAliasRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.String.pipe(T.Query()),
     alias_for: S.String.pipe(T.Query()),
   }).pipe(T.Http({ method: "GET", uri: "/admin.emoji.addAlias", code: 200 })),
-).annotate({
-  identifier: "AddAliasRequest",
-}) as any as S.Schema<AddAliasRequest>;
+).annotate({ identifier: "AddAliasRequest" }) as any as S.Schema<AddAliasRequest>;
 
 export interface AddAliasResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -32,9 +30,7 @@ export const AddAliasResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ok: S.Boolean,
   }),
-).annotate({
-  identifier: "AddAliasResponse",
-}) as any as S.Schema<AddAliasResponse>;
+).annotate({ identifier: "AddAliasResponse" }) as any as S.Schema<AddAliasResponse>;
 
 /** List of user IDs to allow for named_entities visibility */
 export type AddAppsPermissionsRequestUserIdsList = Array<string>;
@@ -48,6 +44,12 @@ export const AddAppsPermissionsRequestUsergroupIdsList = /*@__PURE__*/ S.Array(
   S.String,
 ) as any as S.Schema<AddAppsPermissionsRequestUsergroupIdsList>;
 
+/** List of encoded channel IDs to add to the channel restriction list. Interpretation depends on the app's `channel_restriction_mode`, which is configured via the `admin.apps.permissions.set` method. */
+export type AddAppsPermissionsRequestChannelIdsList = Array<string>;
+export const AddAppsPermissionsRequestChannelIdsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<AddAppsPermissionsRequestChannelIdsList>;
+
 export interface AddAppsPermissionsRequest {
   /** Encoded ID of the app */
   app_id: string;
@@ -55,12 +57,15 @@ export interface AddAppsPermissionsRequest {
   user_ids?: AddAppsPermissionsRequestUserIdsList;
   /** List of encoded usergroup IDs */
   usergroup_ids?: AddAppsPermissionsRequestUsergroupIdsList;
+  /** List of encoded channel IDs to add to the channel restriction list. Interpretation depends on the app's `channel_restriction_mode`, which is configured via the `admin.apps.permissions.set` method. */
+  channel_ids?: AddAppsPermissionsRequestChannelIdsList;
 }
 export const AddAppsPermissionsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     app_id: S.String,
     user_ids: S.optional(AddAppsPermissionsRequestUserIdsList),
     usergroup_ids: S.optional(AddAppsPermissionsRequestUsergroupIdsList),
+    channel_ids: S.optional(AddAppsPermissionsRequestChannelIdsList),
   }).pipe(T.Http({ method: "POST", uri: "/admin.apps.permissions.add", code: 200 })),
 ).annotate({
   identifier: "AddAppsPermissionsRequest",
@@ -104,9 +109,7 @@ export const AddAssignmentsRequest = /*@__PURE__*/ S.suspend(() =>
     entity_ids: AddAssignmentsRequestEntityIdsList,
     user_ids: AddAssignmentsRequestUserIdsList,
   }).pipe(T.Http({ method: "POST", uri: "/admin.roles.addAssignments", code: 200 })),
-).annotate({
-  identifier: "AddAssignmentsRequest",
-}) as any as S.Schema<AddAssignmentsRequest>;
+).annotate({ identifier: "AddAssignmentsRequest" }) as any as S.Schema<AddAssignmentsRequest>;
 
 export interface AddAssignmentsResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -119,9 +122,7 @@ export const AddAssignmentsResponse = /*@__PURE__*/ S.suspend(() =>
     ok: S.Boolean,
     error: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AddAssignmentsResponse",
-}) as any as S.Schema<AddAssignmentsResponse>;
+).annotate({ identifier: "AddAssignmentsResponse" }) as any as S.Schema<AddAssignmentsResponse>;
 
 /** Comma separated string of channel IDs. */
 export type AddChannelsRequestChannelIdsList = Array<string>;
@@ -143,21 +144,13 @@ export const AddChannelsRequest = /*@__PURE__*/ S.suspend(() =>
     team_id: S.optional(S.String),
     channel_ids: AddChannelsRequestChannelIdsList,
   }).pipe(T.Http({ method: "POST", uri: "/admin.usergroups.addChannels", code: 200 })),
-).annotate({
-  identifier: "AddChannelsRequest",
-}) as any as S.Schema<AddChannelsRequest>;
+).annotate({ identifier: "AddChannelsRequest" }) as any as S.Schema<AddChannelsRequest>;
 
 /** List of channel IDs that are not valid for this action */
 export type AddChannelsResponseInvalidChannelsList = Array<string>;
 export const AddChannelsResponseInvalidChannelsList = /*@__PURE__*/ S.Array(
   S.String,
 ) as any as S.Schema<AddChannelsResponseInvalidChannelsList>;
-
-/** List of user IDs who would exceed their channel limit */
-export type AddChannelsResponseChannelLimitUserIdsList = Array<string>;
-export const AddChannelsResponseChannelLimitUserIdsList = /*@__PURE__*/ S.Array(
-  S.String,
-) as any as S.Schema<AddChannelsResponseChannelLimitUserIdsList>;
 
 export interface AddChannelsResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -166,19 +159,14 @@ export interface AddChannelsResponse {
   error?: string;
   /** List of channel IDs that are not valid for this action */
   invalid_channels?: AddChannelsResponseInvalidChannelsList;
-  /** List of user IDs who would exceed their channel limit */
-  channel_limit_user_ids?: AddChannelsResponseChannelLimitUserIdsList;
 }
 export const AddChannelsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ok: S.Boolean,
     error: S.optional(S.String),
     invalid_channels: S.optional(AddChannelsResponseInvalidChannelsList),
-    channel_limit_user_ids: S.optional(AddChannelsResponseChannelLimitUserIdsList),
   }),
-).annotate({
-  identifier: "AddChannelsResponse",
-}) as any as S.Schema<AddChannelsResponse>;
+).annotate({ identifier: "AddChannelsResponse" }) as any as S.Schema<AddChannelsResponse>;
 
 export interface AddEmojiRequest {
   /** The name of the emoji to be added (using lower-case letters only). Colons (`:myemoji:`) around the value are not required, although they may be included. */
@@ -191,9 +179,7 @@ export const AddEmojiRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.String.pipe(T.Query()),
     url: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/admin.emoji.add", code: 200 })),
-).annotate({
-  identifier: "AddEmojiRequest",
-}) as any as S.Schema<AddEmojiRequest>;
+).annotate({ identifier: "AddEmojiRequest" }) as any as S.Schema<AddEmojiRequest>;
 
 export interface AddEmojiResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -203,9 +189,7 @@ export const AddEmojiResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ok: S.Boolean,
   }),
-).annotate({
-  identifier: "AddEmojiResponse",
-}) as any as S.Schema<AddEmojiResponse>;
+).annotate({ identifier: "AddEmojiResponse" }) as any as S.Schema<AddEmojiResponse>;
 
 export interface AddGroupRequest {
   /** The workspace where the channel exists. This argument is required for channels only tied to one workspace, and optional for channels that are shared across an organization. */
@@ -221,15 +205,9 @@ export const AddGroupRequest = /*@__PURE__*/ S.suspend(() =>
     group_id: S.String.pipe(T.Query()),
     channel_id: S.String.pipe(T.Query()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/admin.conversations.restrictAccess.addGroup",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/admin.conversations.restrictAccess.addGroup", code: 200 }),
   ),
-).annotate({
-  identifier: "AddGroupRequest",
-}) as any as S.Schema<AddGroupRequest>;
+).annotate({ identifier: "AddGroupRequest" }) as any as S.Schema<AddGroupRequest>;
 
 export interface AddGroupResponse {
   ok: boolean;
@@ -238,9 +216,7 @@ export const AddGroupResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ok: S.Boolean,
   }),
-).annotate({
-  identifier: "AddGroupResponse",
-}) as any as S.Schema<AddGroupResponse>;
+).annotate({ identifier: "AddGroupResponse" }) as any as S.Schema<AddGroupResponse>;
 
 /** A comma separated list of encoded team (workspace) IDs. Each workspace *MUST* belong to the organization associated with the token. */
 export type AddTeamsRequestTeamIdsList = Array<string>;
@@ -262,9 +238,7 @@ export const AddTeamsRequest = /*@__PURE__*/ S.suspend(() =>
     team_ids: AddTeamsRequestTeamIdsList,
     auto_provision: S.optional(S.Boolean),
   }).pipe(T.Http({ method: "POST", uri: "/admin.usergroups.addTeams", code: 200 })),
-).annotate({
-  identifier: "AddTeamsRequest",
-}) as any as S.Schema<AddTeamsRequest>;
+).annotate({ identifier: "AddTeamsRequest" }) as any as S.Schema<AddTeamsRequest>;
 
 export interface AddTeamsResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -274,9 +248,69 @@ export const AddTeamsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ok: S.Boolean,
   }),
+).annotate({ identifier: "AddTeamsResponse" }) as any as S.Schema<AddTeamsResponse>;
+
+/** The encoded user IDs to add to the usergroup, provided as a JSON array or a comma-separated string. */
+export type AddUsersRequestUsersList = Array<string>;
+export const AddUsersRequestUsersList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<AddUsersRequestUsersList>;
+
+export interface AddUsersRequest {
+  /** ID of the usergroup to add users to */
+  id: string;
+  /** The encoded user IDs to add to the usergroup, provided as a JSON array or a comma-separated string. */
+  users: AddUsersRequestUsersList;
+}
+export const AddUsersRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    users: AddUsersRequestUsersList,
+  }).pipe(T.Http({ method: "POST", uri: "/admin.usergroups.addUsers", code: 200 })),
+).annotate({ identifier: "AddUsersRequest" }) as any as S.Schema<AddUsersRequest>;
+
+export type AddUsersResponseInvalidUsersItemReason =
+  | "guest_user"
+  | "deleted_user"
+  | "user_not_found"
+  | "insert_failed"
+  | "channel_limit_exceeded"
+  | "multi_workspace_idp_group"
+  | "usergroup_limit_exceeded";
+export const AddUsersResponseInvalidUsersItemReason = S.String;
+
+export interface AddUsersResponseInvalidUsersItem {
+  user_id: string;
+  reason: AddUsersResponseInvalidUsersItemReason;
+}
+export const AddUsersResponseInvalidUsersItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    user_id: S.String,
+    reason: AddUsersResponseInvalidUsersItemReason,
+  }),
 ).annotate({
-  identifier: "AddTeamsResponse",
-}) as any as S.Schema<AddTeamsResponse>;
+  identifier: "AddUsersResponseInvalidUsersItem",
+}) as any as S.Schema<AddUsersResponseInvalidUsersItem>;
+
+export type AddUsersResponseInvalidUsersList = Array<AddUsersResponseInvalidUsersItem>;
+export const AddUsersResponseInvalidUsersList = /*@__PURE__*/ S.Array(
+  AddUsersResponseInvalidUsersItem,
+) as any as S.Schema<AddUsersResponseInvalidUsersList>;
+
+export interface AddUsersResponse {
+  /** Always `true` (a failed call raises a typed error instead). */
+  ok: boolean;
+  /** A string representation of the error type */
+  error?: string;
+  invalid_users?: AddUsersResponseInvalidUsersList;
+}
+export const AddUsersResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ok: S.Boolean,
+    error: S.optional(S.String),
+    invalid_users: S.optional(AddUsersResponseInvalidUsersList),
+  }),
+).annotate({ identifier: "AddUsersResponse" }) as any as S.Schema<AddUsersResponse>;
 
 /** Array of workflow IDs to edit; max 50 */
 export type AddWorkflowsCollaboratorRequestWorkflowIdsList = Array<string>;
@@ -300,13 +334,7 @@ export const AddWorkflowsCollaboratorRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     workflow_ids: AddWorkflowsCollaboratorRequestWorkflowIdsList,
     collaborator_ids: AddWorkflowsCollaboratorRequestCollaboratorIdsList,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/admin.workflows.collaborators.add",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/admin.workflows.collaborators.add", code: 200 })),
 ).annotate({
   identifier: "AddWorkflowsCollaboratorRequest",
 }) as any as S.Schema<AddWorkflowsCollaboratorRequest>;
@@ -332,7 +360,7 @@ export interface AnalyticsMessagesActivityRequest {
   latest_ts?: string;
   /** Paginate through collections of data by setting the `cursor` parameter to a `next_cursor` attribute returned by a previous request's `response_metadata`. Default value fetches the first "page" of the collection. */
   cursor?: string;
-  /** Maximum number of entries to return. The maximum limit is 100. */
+  /** Maximum number of entries to return. Defaults to 50 if not passed. Max allowed is 100. */
   limit?: number;
 }
 export const AnalyticsMessagesActivityRequest = /*@__PURE__*/ S.suspend(() =>
@@ -342,13 +370,7 @@ export const AnalyticsMessagesActivityRequest = /*@__PURE__*/ S.suspend(() =>
     latest_ts: S.optional(S.String.pipe(T.Query())),
     cursor: S.optional(S.String.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/admin.analytics.messages.activity",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/admin.analytics.messages.activity", code: 200 })),
 ).annotate({
   identifier: "AnalyticsMessagesActivityRequest",
 }) as any as S.Schema<AnalyticsMessagesActivityRequest>;
@@ -390,7 +412,7 @@ export interface AnalyticsMessagesMetadataRequest {
   oldest_ts?: string;
   /** Most recent timestamp to include in the results. If not passed, defaults to current time. */
   latest_ts?: string;
-  /** Paginate through collections of data by setting the `cursor` parameter to a `next_cursor` attribute returned by a previous request's `response_metadata`. Default value fetches the first "page" of the collection. See [pagination](#pagination) for more details. */
+  /** Paginate through collections of data by setting the `cursor` parameter to a `next_cursor` attribute returned by a previous request's `response_metadata`. Default value fetches the first "page" of the collection. See [pagination](https://docs.slack.dev/apis/web-api/pagination) for more detail. */
   cursor?: string;
 }
 export const AnalyticsMessagesMetadataRequest = /*@__PURE__*/ S.suspend(() =>
@@ -399,13 +421,7 @@ export const AnalyticsMessagesMetadataRequest = /*@__PURE__*/ S.suspend(() =>
     oldest_ts: S.optional(S.String.pipe(T.Query())),
     latest_ts: S.optional(S.String.pipe(T.Query())),
     cursor: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/admin.analytics.messages.metadata",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/admin.analytics.messages.metadata", code: 200 })),
 ).annotate({
   identifier: "AnalyticsMessagesMetadataRequest",
 }) as any as S.Schema<AnalyticsMessagesMetadataRequest>;
@@ -583,9 +599,7 @@ export const ApproveAppRequest = /*@__PURE__*/ S.suspend(() =>
     user_scopes: S.optional(S.String),
     bot_scopes: S.optional(S.String),
   }).pipe(T.Http({ method: "POST", uri: "/admin.apps.approve", code: 200 })),
-).annotate({
-  identifier: "ApproveAppRequest",
-}) as any as S.Schema<ApproveAppRequest>;
+).annotate({ identifier: "ApproveAppRequest" }) as any as S.Schema<ApproveAppRequest>;
 
 export interface ApproveAppResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -595,9 +609,7 @@ export const ApproveAppResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ok: S.Boolean,
   }),
-).annotate({
-  identifier: "ApproveAppResponse",
-}) as any as S.Schema<ApproveAppResponse>;
+).annotate({ identifier: "ApproveAppResponse" }) as any as S.Schema<ApproveAppResponse>;
 
 export interface ApproveInviteRequestRequest {
   /** ID for the workspace where the invite request was made. */
@@ -643,9 +655,7 @@ export const AppsRestrictRequest = /*@__PURE__*/ S.suspend(() =>
     team_id: S.optional(S.String),
     enterprise_id: S.optional(S.String),
   }).pipe(T.Http({ method: "POST", uri: "/admin.apps.restrict", code: 200 })),
-).annotate({
-  identifier: "AppsRestrictRequest",
-}) as any as S.Schema<AppsRestrictRequest>;
+).annotate({ identifier: "AppsRestrictRequest" }) as any as S.Schema<AppsRestrictRequest>;
 
 export interface AppsRestrictResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -655,9 +665,7 @@ export const AppsRestrictResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ok: S.Boolean,
   }),
-).annotate({
-  identifier: "AppsRestrictResponse",
-}) as any as S.Schema<AppsRestrictResponse>;
+).annotate({ identifier: "AppsRestrictResponse" }) as any as S.Schema<AppsRestrictResponse>;
 
 export interface ArchiveConversationRequest {
   /** The channel to archive. */
@@ -701,16 +709,8 @@ export const AssignEntitiesRequest = /*@__PURE__*/ S.suspend(() =>
     policy_name: S.String,
     entity_type: S.Unknown,
     entity_ids: AssignEntitiesRequestEntityIdsList,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/admin.auth.policy.assignEntities",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "AssignEntitiesRequest",
-}) as any as S.Schema<AssignEntitiesRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/admin.auth.policy.assignEntities", code: 200 })),
+).annotate({ identifier: "AssignEntitiesRequest" }) as any as S.Schema<AssignEntitiesRequest>;
 
 export interface AssignEntitiesResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -723,9 +723,7 @@ export const AssignEntitiesResponse = /*@__PURE__*/ S.suspend(() =>
     ok: S.Boolean,
     entity_total_count: S.Number,
   }),
-).annotate({
-  identifier: "AssignEntitiesResponse",
-}) as any as S.Schema<AssignEntitiesResponse>;
+).annotate({ identifier: "AssignEntitiesResponse" }) as any as S.Schema<AssignEntitiesResponse>;
 
 export interface AssignUserRequest {
   /** The ID (`T1234`) of the workspace. */
@@ -747,9 +745,7 @@ export const AssignUserRequest = /*@__PURE__*/ S.suspend(() =>
     is_ultra_restricted: S.optional(S.Boolean),
     channel_ids: S.optional(S.String),
   }).pipe(T.Http({ method: "POST", uri: "/admin.users.assign", code: 200 })),
-).annotate({
-  identifier: "AssignUserRequest",
-}) as any as S.Schema<AssignUserRequest>;
+).annotate({ identifier: "AssignUserRequest" }) as any as S.Schema<AssignUserRequest>;
 
 export interface AssignUserResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -759,9 +755,7 @@ export const AssignUserResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ok: S.Boolean,
   }),
-).annotate({
-  identifier: "AssignUserResponse",
-}) as any as S.Schema<AssignUserResponse>;
+).annotate({ identifier: "AssignUserResponse" }) as any as S.Schema<AssignUserResponse>;
 
 /** An array of channel IDs to archive. No more than 100 items are allowed. */
 export type BulkArchiveRequestChannelIdsList = Array<string>;
@@ -784,9 +778,7 @@ export const BulkArchiveRequest = /*@__PURE__*/ S.suspend(() =>
       contentType: "form-urlencoded",
     }),
   ),
-).annotate({
-  identifier: "BulkArchiveRequest",
-}) as any as S.Schema<BulkArchiveRequest>;
+).annotate({ identifier: "BulkArchiveRequest" }) as any as S.Schema<BulkArchiveRequest>;
 
 /** The reason the channel was not added */
 export type BulkArchiveResponseNotAddedItemErrorsList = Array<string>;
@@ -827,9 +819,7 @@ export const BulkArchiveResponse = /*@__PURE__*/ S.suspend(() =>
     bulk_action_id: S.String,
     not_added: BulkArchiveResponseNotAddedList,
   }),
-).annotate({
-  identifier: "BulkArchiveResponse",
-}) as any as S.Schema<BulkArchiveResponse>;
+).annotate({ identifier: "BulkArchiveResponse" }) as any as S.Schema<BulkArchiveResponse>;
 
 /** An array of channel IDs. */
 export type BulkDeleteRequestChannelIdsList = Array<string>;
@@ -852,9 +842,7 @@ export const BulkDeleteRequest = /*@__PURE__*/ S.suspend(() =>
       contentType: "form-urlencoded",
     }),
   ),
-).annotate({
-  identifier: "BulkDeleteRequest",
-}) as any as S.Schema<BulkDeleteRequest>;
+).annotate({ identifier: "BulkDeleteRequest" }) as any as S.Schema<BulkDeleteRequest>;
 
 /** The reason the channel was not added */
 export type BulkDeleteResponseNotAddedItemErrorsList = Array<string>;
@@ -895,9 +883,7 @@ export const BulkDeleteResponse = /*@__PURE__*/ S.suspend(() =>
     bulk_action_id: S.String,
     not_added: BulkDeleteResponseNotAddedList,
   }),
-).annotate({
-  identifier: "BulkDeleteResponse",
-}) as any as S.Schema<BulkDeleteResponse>;
+).annotate({ identifier: "BulkDeleteResponse" }) as any as S.Schema<BulkDeleteResponse>;
 
 /** An array of channel IDs. */
 export type BulkMoveRequestChannelIdsList = Array<string>;
@@ -923,9 +909,7 @@ export const BulkMoveRequest = /*@__PURE__*/ S.suspend(() =>
       contentType: "form-urlencoded",
     }),
   ),
-).annotate({
-  identifier: "BulkMoveRequest",
-}) as any as S.Schema<BulkMoveRequest>;
+).annotate({ identifier: "BulkMoveRequest" }) as any as S.Schema<BulkMoveRequest>;
 
 /** The reason the channel was not added */
 export type BulkMoveResponseNotAddedItemErrorsList = Array<string>;
@@ -966,9 +950,7 @@ export const BulkMoveResponse = /*@__PURE__*/ S.suspend(() =>
     bulk_action_id: S.String,
     not_added: BulkMoveResponseNotAddedList,
   }),
-).annotate({
-  identifier: "BulkMoveResponse",
-}) as any as S.Schema<BulkMoveResponse>;
+).annotate({ identifier: "BulkMoveResponse" }) as any as S.Schema<BulkMoveResponse>;
 
 export type BulkSetExcludeFromSlackAiRequestChannelIdsList = Array<string>;
 export const BulkSetExcludeFromSlackAiRequestChannelIdsList = /*@__PURE__*/ S.Array(
@@ -986,11 +968,7 @@ export const BulkSetExcludeFromSlackAiRequest = /*@__PURE__*/ S.suspend(() =>
     channel_ids: BulkSetExcludeFromSlackAiRequestChannelIdsList.pipe(T.Query()),
     exclude: S.Boolean.pipe(T.Query()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/admin.conversations.bulkSetExcludeFromSlackAi",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/admin.conversations.bulkSetExcludeFromSlackAi", code: 200 }),
   ),
 ).annotate({
   identifier: "BulkSetExcludeFromSlackAiRequest",
@@ -1040,6 +1018,76 @@ export const BulkSetExcludeFromSlackAiResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "BulkSetExcludeFromSlackAiResponse",
 }) as any as S.Schema<BulkSetExcludeFromSlackAiResponse>;
 
+/** An array of channel IDs on which to set the property. */
+export type BulkSetPropertiesRequestChannelIdsList = Array<string>;
+export const BulkSetPropertiesRequestChannelIdsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<BulkSetPropertiesRequestChannelIdsList>;
+
+export interface BulkSetPropertiesRequest {
+  /** An array of channel IDs on which to set the property. */
+  channel_ids: BulkSetPropertiesRequestChannelIdsList;
+  /** The property for this channel in a key value format. Only one property can be updated at a time */
+  property: string;
+}
+export const BulkSetPropertiesRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    channel_ids: BulkSetPropertiesRequestChannelIdsList,
+    property: S.String,
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/admin.conversations.bulkSetProperties",
+      code: 200,
+      contentType: "form-urlencoded",
+    }),
+  ),
+).annotate({ identifier: "BulkSetPropertiesRequest" }) as any as S.Schema<BulkSetPropertiesRequest>;
+
+/** The reasons the channel was not updated */
+export type BulkSetPropertiesResponseNotUpdatedItemErrorsList = Array<string>;
+export const BulkSetPropertiesResponseNotUpdatedItemErrorsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<BulkSetPropertiesResponseNotUpdatedItemErrorsList>;
+
+export interface BulkSetPropertiesResponseNotUpdatedItem {
+  channel_id: string;
+  /** The reasons the channel was not updated */
+  errors: BulkSetPropertiesResponseNotUpdatedItemErrorsList;
+}
+export const BulkSetPropertiesResponseNotUpdatedItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    channel_id: S.String,
+    errors: BulkSetPropertiesResponseNotUpdatedItemErrorsList,
+  }),
+).annotate({
+  identifier: "BulkSetPropertiesResponseNotUpdatedItem",
+}) as any as S.Schema<BulkSetPropertiesResponseNotUpdatedItem>;
+
+/** Channels that could not be updated, with reasons */
+export type BulkSetPropertiesResponseNotUpdatedList =
+  Array<BulkSetPropertiesResponseNotUpdatedItem>;
+export const BulkSetPropertiesResponseNotUpdatedList = /*@__PURE__*/ S.Array(
+  BulkSetPropertiesResponseNotUpdatedItem,
+) as any as S.Schema<BulkSetPropertiesResponseNotUpdatedList>;
+
+export interface BulkSetPropertiesResponse {
+  /** Always `true` (a failed call raises a typed error instead). */
+  ok: boolean;
+  bulk_action_id: string;
+  /** Channels that could not be updated, with reasons */
+  not_updated: BulkSetPropertiesResponseNotUpdatedList;
+}
+export const BulkSetPropertiesResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ok: S.Boolean,
+    bulk_action_id: S.String,
+    not_updated: BulkSetPropertiesResponseNotUpdatedList,
+  }),
+).annotate({
+  identifier: "BulkSetPropertiesResponse",
+}) as any as S.Schema<BulkSetPropertiesResponse>;
+
 export interface CancelAppsRequestRequest {
   /** The id of the request to cancel. */
   request_id: string;
@@ -1054,9 +1102,7 @@ export const CancelAppsRequestRequest = /*@__PURE__*/ S.suspend(() =>
     team_id: S.optional(S.String),
     enterprise_id: S.optional(S.String),
   }).pipe(T.Http({ method: "POST", uri: "/admin.apps.requests.cancel", code: 200 })),
-).annotate({
-  identifier: "CancelAppsRequestRequest",
-}) as any as S.Schema<CancelAppsRequestRequest>;
+).annotate({ identifier: "CancelAppsRequestRequest" }) as any as S.Schema<CancelAppsRequestRequest>;
 
 export interface CancelAppsRequestResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -1084,9 +1130,7 @@ export const ClearResolutionRequest = /*@__PURE__*/ S.suspend(() =>
     team_id: S.optional(S.String),
     enterprise_id: S.optional(S.String),
   }).pipe(T.Http({ method: "POST", uri: "/admin.apps.clearResolution", code: 200 })),
-).annotate({
-  identifier: "ClearResolutionRequest",
-}) as any as S.Schema<ClearResolutionRequest>;
+).annotate({ identifier: "ClearResolutionRequest" }) as any as S.Schema<ClearResolutionRequest>;
 
 export interface ClearResolutionResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -1096,9 +1140,7 @@ export const ClearResolutionResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ok: S.Boolean,
   }),
-).annotate({
-  identifier: "ClearResolutionResponse",
-}) as any as S.Schema<ClearResolutionResponse>;
+).annotate({ identifier: "ClearResolutionResponse" }) as any as S.Schema<ClearResolutionResponse>;
 
 /** The IDs of users you'd like to clear session settings for. */
 export type ClearSettingsRequestUserIdsList = Array<string>;
@@ -1113,16 +1155,8 @@ export interface ClearSettingsRequest {
 export const ClearSettingsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     user_ids: ClearSettingsRequestUserIdsList,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/admin.users.session.clearSettings",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ClearSettingsRequest",
-}) as any as S.Schema<ClearSettingsRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/admin.users.session.clearSettings", code: 200 })),
+).annotate({ identifier: "ClearSettingsRequest" }) as any as S.Schema<ClearSettingsRequest>;
 
 export interface ClearSettingsResponse {
   ok: boolean;
@@ -1131,9 +1165,7 @@ export const ClearSettingsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ok: S.Boolean,
   }),
-).annotate({
-  identifier: "ClearSettingsResponse",
-}) as any as S.Schema<ClearSettingsResponse>;
+).annotate({ identifier: "ClearSettingsResponse" }) as any as S.Schema<ClearSettingsResponse>;
 
 export interface ConvertToPrivateRequest {
   /** The channel to convert to private. */
@@ -1145,16 +1177,8 @@ export const ConvertToPrivateRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     channel_id: S.String,
     name: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/admin.conversations.convertToPrivate",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ConvertToPrivateRequest",
-}) as any as S.Schema<ConvertToPrivateRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/admin.conversations.convertToPrivate", code: 200 })),
+).annotate({ identifier: "ConvertToPrivateRequest" }) as any as S.Schema<ConvertToPrivateRequest>;
 
 export interface ConvertToPrivateResponse {
   ok: boolean;
@@ -1163,9 +1187,7 @@ export const ConvertToPrivateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ok: S.Boolean,
   }),
-).annotate({
-  identifier: "ConvertToPrivateResponse",
-}) as any as S.Schema<ConvertToPrivateResponse>;
+).annotate({ identifier: "ConvertToPrivateResponse" }) as any as S.Schema<ConvertToPrivateResponse>;
 
 export interface ConvertToPublicRequest {
   /** The channel to convert to public. */
@@ -1174,16 +1196,8 @@ export interface ConvertToPublicRequest {
 export const ConvertToPublicRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     channel_id: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/admin.conversations.convertToPublic",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ConvertToPublicRequest",
-}) as any as S.Schema<ConvertToPublicRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/admin.conversations.convertToPublic", code: 200 })),
+).annotate({ identifier: "ConvertToPublicRequest" }) as any as S.Schema<ConvertToPublicRequest>;
 
 export interface ConvertToPublicResponse {
   ok: boolean;
@@ -1192,9 +1206,7 @@ export const ConvertToPublicResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ok: S.Boolean,
   }),
-).annotate({
-  identifier: "ConvertToPublicResponse",
-}) as any as S.Schema<ConvertToPublicResponse>;
+).annotate({ identifier: "ConvertToPublicResponse" }) as any as S.Schema<ConvertToPublicResponse>;
 
 /** A list of [IDP Groups](https://slack.com/help/articles/115001435788-Connect-identity-provider-groups-to-your-Enterprise-organization) ids that the primary usergroup is to be barriered from. */
 export type CreateBarrierRequestBarrieredFromUsergroupIdsList = Array<string>;
@@ -1234,9 +1246,7 @@ export const CreateBarrierRequest = /*@__PURE__*/ S.suspend(() =>
       contentType: "form-urlencoded",
     }),
   ),
-).annotate({
-  identifier: "CreateBarrierRequest",
-}) as any as S.Schema<CreateBarrierRequest>;
+).annotate({ identifier: "CreateBarrierRequest" }) as any as S.Schema<CreateBarrierRequest>;
 
 export interface CreateBarrierResponse {
   ok: boolean;
@@ -1247,9 +1257,7 @@ export const CreateBarrierResponse = /*@__PURE__*/ S.suspend(() =>
     ok: S.Boolean,
     barrier: S.Unknown,
   }),
-).annotate({
-  identifier: "CreateBarrierResponse",
-}) as any as S.Schema<CreateBarrierResponse>;
+).annotate({ identifier: "CreateBarrierResponse" }) as any as S.Schema<CreateBarrierResponse>;
 
 export interface CreateConversationRequest {
   /** Name of the public or private channel to create. */
@@ -1301,16 +1309,8 @@ export const CreateForObjectsRequest = /*@__PURE__*/ S.suspend(() =>
     object_id: S.String,
     salesforce_org_id: S.String,
     invite_object_team: S.optional(S.Boolean),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/admin.conversations.createForObjects",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "CreateForObjectsRequest",
-}) as any as S.Schema<CreateForObjectsRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/admin.conversations.createForObjects", code: 200 })),
+).annotate({ identifier: "CreateForObjectsRequest" }) as any as S.Schema<CreateForObjectsRequest>;
 
 export interface CreateForObjectsResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -1323,9 +1323,7 @@ export const CreateForObjectsResponse = /*@__PURE__*/ S.suspend(() =>
     ok: S.Boolean,
     channel_id: S.String,
   }),
-).annotate({
-  identifier: "CreateForObjectsResponse",
-}) as any as S.Schema<CreateForObjectsResponse>;
+).annotate({ identifier: "CreateForObjectsResponse" }) as any as S.Schema<CreateForObjectsResponse>;
 
 export interface CreateTeamRequest {
   /** Team domain (for example, slacksoftballteam). Domains are limited to 21 characters. */
@@ -1344,9 +1342,7 @@ export const CreateTeamRequest = /*@__PURE__*/ S.suspend(() =>
     team_description: S.optional(S.String),
     team_discoverability: S.optional(S.String),
   }).pipe(T.Http({ method: "POST", uri: "/admin.teams.create", code: 200 })),
-).annotate({
-  identifier: "CreateTeamRequest",
-}) as any as S.Schema<CreateTeamRequest>;
+).annotate({ identifier: "CreateTeamRequest" }) as any as S.Schema<CreateTeamRequest>;
 
 export interface CreateTeamResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -1358,9 +1354,41 @@ export const CreateTeamResponse = /*@__PURE__*/ S.suspend(() =>
     ok: S.Boolean,
     team: S.String,
   }),
-).annotate({
-  identifier: "CreateTeamResponse",
-}) as any as S.Schema<CreateTeamResponse>;
+).annotate({ identifier: "CreateTeamResponse" }) as any as S.Schema<CreateTeamResponse>;
+
+export interface CreateUsergroupRequest {
+  /** Unique name for the usergroup */
+  name: string;
+  /** Optional handle used to mention the usergroup in channel, must be unique */
+  handle?: string;
+  /** Optional purpose that describes what the usergroup is about */
+  purpose?: string;
+  /** Configure whether or not this usergroup should be visible in the client */
+  is_visible?: boolean;
+}
+export const CreateUsergroupRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    handle: S.optional(S.String),
+    purpose: S.optional(S.String),
+    is_visible: S.optional(S.Boolean),
+  }).pipe(T.Http({ method: "POST", uri: "/admin.usergroups.create", code: 200 })),
+).annotate({ identifier: "CreateUsergroupRequest" }) as any as S.Schema<CreateUsergroupRequest>;
+
+export interface CreateUsergroupResponse {
+  /** Always `true` (a failed call raises a typed error instead). */
+  ok: boolean;
+  /** A string representation of the error type */
+  error?: string;
+  subteam?: unknown;
+}
+export const CreateUsergroupResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ok: S.Boolean,
+    error: S.optional(S.String),
+    subteam: S.optional(S.Unknown),
+  }),
+).annotate({ identifier: "CreateUsergroupResponse" }) as any as S.Schema<CreateUsergroupResponse>;
 
 export interface DeleteBarrierRequest {
   /** The ID of the barrier you're trying to delete */
@@ -1377,9 +1405,7 @@ export const DeleteBarrierRequest = /*@__PURE__*/ S.suspend(() =>
       contentType: "form-urlencoded",
     }),
   ),
-).annotate({
-  identifier: "DeleteBarrierRequest",
-}) as any as S.Schema<DeleteBarrierRequest>;
+).annotate({ identifier: "DeleteBarrierRequest" }) as any as S.Schema<DeleteBarrierRequest>;
 
 export interface DeleteBarrierResponse {
   ok: boolean;
@@ -1388,9 +1414,7 @@ export const DeleteBarrierResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ok: S.Boolean,
   }),
-).annotate({
-  identifier: "DeleteBarrierResponse",
-}) as any as S.Schema<DeleteBarrierResponse>;
+).annotate({ identifier: "DeleteBarrierResponse" }) as any as S.Schema<DeleteBarrierResponse>;
 
 export interface DeleteConversationRequest {
   /** The channel to delete. */
@@ -1431,16 +1455,8 @@ export const DisconnectSharedRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     channel_id: S.String,
     leaving_team_ids: S.optional(DisconnectSharedRequestLeavingTeamIdsList),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/admin.conversations.disconnectShared",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "DisconnectSharedRequest",
-}) as any as S.Schema<DisconnectSharedRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/admin.conversations.disconnectShared", code: 200 })),
+).annotate({ identifier: "DisconnectSharedRequest" }) as any as S.Schema<DisconnectSharedRequest>;
 
 export interface DisconnectSharedResponse {
   ok: boolean;
@@ -1449,9 +1465,7 @@ export const DisconnectSharedResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ok: S.Boolean,
   }),
-).annotate({
-  identifier: "DisconnectSharedResponse",
-}) as any as S.Schema<DisconnectSharedResponse>;
+).annotate({ identifier: "DisconnectSharedResponse" }) as any as S.Schema<DisconnectSharedResponse>;
 
 export interface ExportUsersUnsupportedVersionRequest {
   /** Unix timestamp of a date to start looking for user sessions. If not provided will start six months ago. */
@@ -1487,6 +1501,28 @@ export const ExportUsersUnsupportedVersionResponse = /*@__PURE__*/ S.suspend(() 
   identifier: "ExportUsersUnsupportedVersionResponse",
 }) as any as S.Schema<ExportUsersUnsupportedVersionResponse>;
 
+export interface FetchUsergroupRequest {
+  /** ID of the usergroup to fetch */
+  id: string;
+}
+export const FetchUsergroupRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+  }).pipe(T.Http({ method: "POST", uri: "/admin.usergroups.fetch", code: 200 })),
+).annotate({ identifier: "FetchUsergroupRequest" }) as any as S.Schema<FetchUsergroupRequest>;
+
+export interface FetchUsergroupResponse {
+  /** Always `true` (a failed call raises a typed error instead). */
+  ok: boolean;
+  subteam: unknown;
+}
+export const FetchUsergroupResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ok: S.Boolean,
+    subteam: S.Unknown,
+  }),
+).annotate({ identifier: "FetchUsergroupResponse" }) as any as S.Schema<FetchUsergroupResponse>;
+
 export interface GetConversationPrefsRequest {
   /** The channel to get preferences for. */
   channel_id: string;
@@ -1494,13 +1530,7 @@ export interface GetConversationPrefsRequest {
 export const GetConversationPrefsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     channel_id: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/admin.conversations.getConversationPrefs",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/admin.conversations.getConversationPrefs", code: 200 })),
 ).annotate({
   identifier: "GetConversationPrefsRequest",
 }) as any as S.Schema<GetConversationPrefsRequest>;
@@ -1648,13 +1678,7 @@ export interface GetCustomRetentionRequest {
 export const GetCustomRetentionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     channel_id: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/admin.conversations.getCustomRetention",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/admin.conversations.getCustomRetention", code: 200 })),
 ).annotate({
   identifier: "GetCustomRetentionRequest",
 }) as any as S.Schema<GetCustomRetentionRequest>;
@@ -1693,16 +1717,8 @@ export const GetEntitiesRequest = /*@__PURE__*/ S.suspend(() =>
     entity_type: S.optional(S.Unknown),
     limit: S.optional(S.Number),
     cursor: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/admin.auth.policy.getEntities",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetEntitiesRequest",
-}) as any as S.Schema<GetEntitiesRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/admin.auth.policy.getEntities", code: 200 })),
+).annotate({ identifier: "GetEntitiesRequest" }) as any as S.Schema<GetEntitiesRequest>;
 
 /** Pagination metadata. An empty `next_cursor` means the last page. */
 export type GetEntitiesResponseResponseMetadata = AnalyticsMessagesActivityResponseResponseMetadata;
@@ -1750,24 +1766,20 @@ export const GetEntitiesResponse = /*@__PURE__*/ S.suspend(() =>
     entities: GetEntitiesResponseEntitiesList,
     entity_total_count: S.Number,
   }),
-).annotate({
-  identifier: "GetEntitiesResponse",
-}) as any as S.Schema<GetEntitiesResponse>;
+).annotate({ identifier: "GetEntitiesResponse" }) as any as S.Schema<GetEntitiesResponse>;
 
 export interface GetExpirationRequest {
   /** The ID of the guest user to get the expiration for. */
-  user_id?: string;
+  user_id: string;
   /** If an org token is passed in and this team is on the org, it will operate on the workspace level on the specified team. Otherwise it will operate on the org or team in context. */
   target_team?: string;
 }
 export const GetExpirationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    user_id: S.optional(S.String.pipe(T.Query())),
+    user_id: S.String.pipe(T.Query()),
     target_team: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/admin.users.getExpiration", code: 200 })),
-).annotate({
-  identifier: "GetExpirationRequest",
-}) as any as S.Schema<GetExpirationRequest>;
+).annotate({ identifier: "GetExpirationRequest" }) as any as S.Schema<GetExpirationRequest>;
 
 export interface GetExpirationResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -1777,9 +1789,7 @@ export const GetExpirationResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ok: S.Boolean,
   }),
-).annotate({
-  identifier: "GetExpirationResponse",
-}) as any as S.Schema<GetExpirationResponse>;
+).annotate({ identifier: "GetExpirationResponse" }) as any as S.Schema<GetExpirationResponse>;
 
 export interface GetFileRequest {
   /** Date to retrieve the analytics data for, expressed as `YYYY-MM-DD` in UTC. Required unless `metadata_only` is set to true. */
@@ -1800,18 +1810,12 @@ export const GetFileRequest = /*@__PURE__*/ S.suspend(() =>
 export type GetFileResponse = unknown;
 export const GetFileResponse = /*@__PURE__*/ S.suspend(() =>
   S.Unknown.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "GetFileResponse",
-}) as any as S.Schema<GetFileResponse>;
+).annotate({ identifier: "GetFileResponse" }) as any as S.Schema<GetFileResponse>;
 
 export interface GetItemRequest {}
 export const GetItemRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/admin.audit.anomaly.allow.getItem",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/admin.audit.anomaly.allow.getItem", code: 200 }),
   ),
 ).annotate({ identifier: "GetItemRequest" }) as any as S.Schema<GetItemRequest>;
 
@@ -1841,9 +1845,7 @@ export const GetItemResponse = /*@__PURE__*/ S.suspend(() =>
     trusted_cidr: S.optional(GetItemResponseTrustedCidrList),
     trusted_asns: S.optional(GetItemResponseTrustedAsnsList),
   }),
-).annotate({
-  identifier: "GetItemResponse",
-}) as any as S.Schema<GetItemResponse>;
+).annotate({ identifier: "GetItemResponse" }) as any as S.Schema<GetItemResponse>;
 
 /** The IDs of users you'd like to fetch session settings for. Note: if a user does not have any active sessions, they will not be returned in the response. */
 export type GetSettingsRequestUserIdsList = Array<string>;
@@ -1858,16 +1860,8 @@ export interface GetSettingsRequest {
 export const GetSettingsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     user_ids: GetSettingsRequestUserIdsList,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/admin.users.session.getSettings",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetSettingsRequest",
-}) as any as S.Schema<GetSettingsRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/admin.users.session.getSettings", code: 200 })),
+).annotate({ identifier: "GetSettingsRequest" }) as any as S.Schema<GetSettingsRequest>;
 
 export interface GetSettingsResponseSessionSettingsItem {
   /** Encoded ID of the user */
@@ -1911,9 +1905,7 @@ export const GetSettingsResponse = /*@__PURE__*/ S.suspend(() =>
     session_settings: S.optional(GetSettingsResponseSessionSettingsList),
     no_settings_applied: S.optional(GetSettingsResponseNoSettingsAppliedList),
   }),
-).annotate({
-  identifier: "GetSettingsResponse",
-}) as any as S.Schema<GetSettingsResponse>;
+).annotate({ identifier: "GetSettingsResponse" }) as any as S.Schema<GetSettingsResponse>;
 
 export interface GetTeamsRequest {
   /** The channel to determine connected workspaces within the organization for. */
@@ -1929,9 +1921,7 @@ export const GetTeamsRequest = /*@__PURE__*/ S.suspend(() =>
     cursor: S.optional(S.String),
     limit: S.optional(S.Number),
   }).pipe(T.Http({ method: "POST", uri: "/admin.conversations.getTeams", code: 200 })),
-).annotate({
-  identifier: "GetTeamsRequest",
-}) as any as S.Schema<GetTeamsRequest>;
+).annotate({ identifier: "GetTeamsRequest" }) as any as S.Schema<GetTeamsRequest>;
 
 /** Pagination metadata. An empty `next_cursor` means the last page. */
 export type GetTeamsResponseResponseMetadata = AnalyticsMessagesActivityResponseResponseMetadata;
@@ -1947,13 +1937,9 @@ export const GetTeamsResponse = /*@__PURE__*/ S.suspend(() =>
     ok: S.Boolean,
     response_metadata: S.optional(AnalyticsMessagesActivityResponseResponseMetadata),
   }),
-).annotate({
-  identifier: "GetTeamsResponse",
-}) as any as S.Schema<GetTeamsResponse>;
+).annotate({ identifier: "GetTeamsResponse" }) as any as S.Schema<GetTeamsResponse>;
 
 export interface InvalidateUsersSessionRequest {
-  /** ID of the workspace that the session belongs to. */
-  team_id?: string;
   /** ID of the user that the session belongs to. */
   user_id: string;
   /** ID of the session to invalidate. */
@@ -1961,16 +1947,9 @@ export interface InvalidateUsersSessionRequest {
 }
 export const InvalidateUsersSessionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    team_id: S.optional(S.String),
     user_id: S.String,
     session_id: S.Number,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/admin.users.session.invalidate",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/admin.users.session.invalidate", code: 200 })),
 ).annotate({
   identifier: "InvalidateUsersSessionRequest",
 }) as any as S.Schema<InvalidateUsersSessionRequest>;
@@ -2081,9 +2060,7 @@ export const InviteUserRequest = /*@__PURE__*/ S.suspend(() =>
     guest_expiration_ts: S.optional(S.String),
     email_password_policy_enabled: S.optional(S.Boolean),
   }).pipe(T.Http({ method: "POST", uri: "/admin.users.invite", code: 200 })),
-).annotate({
-  identifier: "InviteUserRequest",
-}) as any as S.Schema<InviteUserRequest>;
+).annotate({ identifier: "InviteUserRequest" }) as any as S.Schema<InviteUserRequest>;
 
 export interface InviteUserResponse {
   ok: boolean;
@@ -2092,9 +2069,7 @@ export const InviteUserResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ok: S.Boolean,
   }),
-).annotate({
-  identifier: "InviteUserResponse",
-}) as any as S.Schema<InviteUserResponse>;
+).annotate({ identifier: "InviteUserResponse" }) as any as S.Schema<InviteUserResponse>;
 
 export interface LinkObjectsRequest {
   /** Channel ID for Slack channel that will be linked to a Salesforce record. */
@@ -2109,16 +2084,8 @@ export const LinkObjectsRequest = /*@__PURE__*/ S.suspend(() =>
     channel: S.String,
     record_id: S.String,
     salesforce_org_id: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/admin.conversations.linkObjects",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "LinkObjectsRequest",
-}) as any as S.Schema<LinkObjectsRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/admin.conversations.linkObjects", code: 200 })),
+).annotate({ identifier: "LinkObjectsRequest" }) as any as S.Schema<LinkObjectsRequest>;
 
 export interface LinkObjectsResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -2128,9 +2095,7 @@ export const LinkObjectsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ok: S.Boolean,
   }),
-).annotate({
-  identifier: "LinkObjectsResponse",
-}) as any as S.Schema<LinkObjectsResponse>;
+).annotate({ identifier: "LinkObjectsResponse" }) as any as S.Schema<LinkObjectsResponse>;
 
 /** The direction you want the data sorted by (always by timestamp) */
 export type ListAppsActivitiesRequestSortDirection = "asc" | "desc";
@@ -2237,9 +2202,7 @@ export const ListAppsApprovedRequest = /*@__PURE__*/ S.suspend(() =>
     enterprise_id: S.optional(S.String.pipe(T.Query())),
     certified: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/admin.apps.approved.list", code: 200 })),
-).annotate({
-  identifier: "ListAppsApprovedRequest",
-}) as any as S.Schema<ListAppsApprovedRequest>;
+).annotate({ identifier: "ListAppsApprovedRequest" }) as any as S.Schema<ListAppsApprovedRequest>;
 
 export type ListAppsApprovedResponseApprovedAppsList = Array<unknown>;
 export const ListAppsApprovedResponseApprovedAppsList = /*@__PURE__*/ S.Array(
@@ -2265,9 +2228,7 @@ export const ListAppsApprovedResponse = /*@__PURE__*/ S.suspend(() =>
     approved_apps: ListAppsApprovedResponseApprovedAppsList,
     response_metadata: S.optional(AnalyticsMessagesActivityResponseResponseMetadata),
   }),
-).annotate({
-  identifier: "ListAppsApprovedResponse",
-}) as any as S.Schema<ListAppsApprovedResponse>;
+).annotate({ identifier: "ListAppsApprovedResponse" }) as any as S.Schema<ListAppsApprovedResponse>;
 
 export interface ListAppsMcpServersRequest {
   /** The maximum number of items to return. Must be between 1 - 1000 both inclusive. */
@@ -2346,13 +2307,7 @@ export interface ListAppsMcpServersPermissionsRequest {
 export const ListAppsMcpServersPermissionsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     app_id: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/admin.apps.mcp.servers.permissions.list",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/admin.apps.mcp.servers.permissions.list", code: 200 })),
 ).annotate({
   identifier: "ListAppsMcpServersPermissionsRequest",
 }) as any as S.Schema<ListAppsMcpServersPermissionsRequest>;
@@ -2418,9 +2373,7 @@ export const ListAppsRequestsRequest = /*@__PURE__*/ S.suspend(() =>
     enterprise_id: S.optional(S.String.pipe(T.Query())),
     certified: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/admin.apps.requests.list", code: 200 })),
-).annotate({
-  identifier: "ListAppsRequestsRequest",
-}) as any as S.Schema<ListAppsRequestsRequest>;
+).annotate({ identifier: "ListAppsRequestsRequest" }) as any as S.Schema<ListAppsRequestsRequest>;
 
 export type ListAppsRequestsResponseAppRequestsList = Array<unknown>;
 export const ListAppsRequestsResponseAppRequestsList = /*@__PURE__*/ S.Array(
@@ -2446,9 +2399,7 @@ export const ListAppsRequestsResponse = /*@__PURE__*/ S.suspend(() =>
     app_requests: ListAppsRequestsResponseAppRequestsList,
     response_metadata: S.optional(AnalyticsMessagesActivityResponseResponseMetadata),
   }),
-).annotate({
-  identifier: "ListAppsRequestsResponse",
-}) as any as S.Schema<ListAppsRequestsResponse>;
+).annotate({ identifier: "ListAppsRequestsResponse" }) as any as S.Schema<ListAppsRequestsResponse>;
 
 export interface ListAppsRestrictedRequest {
   /** The maximum number of items to return. Must be between 1 - 1000 both inclusive. */
@@ -2530,9 +2481,7 @@ export const ListAssignmentsRequest = /*@__PURE__*/ S.suspend(() =>
     entity_ids: S.optional(ListAssignmentsRequestEntityIdsList.pipe(T.Query())),
     sort_dir: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/admin.roles.listAssignments", code: 200 })),
-).annotate({
-  identifier: "ListAssignmentsRequest",
-}) as any as S.Schema<ListAssignmentsRequest>;
+).annotate({ identifier: "ListAssignmentsRequest" }) as any as S.Schema<ListAssignmentsRequest>;
 
 export interface ListAssignmentsResponseRoleAssignmentsItem {
   /** ID of the role that is assigned */
@@ -2583,9 +2532,7 @@ export const ListAssignmentsResponse = /*@__PURE__*/ S.suspend(() =>
     role_assignments: ListAssignmentsResponseRoleAssignmentsList,
     response_metadata: S.optional(AnalyticsMessagesActivityResponseResponseMetadata),
   }),
-).annotate({
-  identifier: "ListAssignmentsResponse",
-}) as any as S.Schema<ListAssignmentsResponse>;
+).annotate({ identifier: "ListAssignmentsResponse" }) as any as S.Schema<ListAssignmentsResponse>;
 
 export interface ListBarriersRequest {
   /** The maximum number of items to return. Must be between 1 - 1000 both inclusive */
@@ -2598,9 +2545,7 @@ export const ListBarriersRequest = /*@__PURE__*/ S.suspend(() =>
     limit: S.optional(S.Number.pipe(T.Query())),
     cursor: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/admin.barriers.list", code: 200 })),
-).annotate({
-  identifier: "ListBarriersRequest",
-}) as any as S.Schema<ListBarriersRequest>;
+).annotate({ identifier: "ListBarriersRequest" }) as any as S.Schema<ListBarriersRequest>;
 
 export type ListBarriersResponseBarriersList = Array<unknown>;
 export const ListBarriersResponseBarriersList = /*@__PURE__*/ S.Array(
@@ -2625,9 +2570,7 @@ export const ListBarriersResponse = /*@__PURE__*/ S.suspend(() =>
     barriers: ListBarriersResponseBarriersList,
     response_metadata: S.optional(AnalyticsMessagesActivityResponseResponseMetadata),
   }),
-).annotate({
-  identifier: "ListBarriersResponse",
-}) as any as S.Schema<ListBarriersResponse>;
+).annotate({ identifier: "ListBarriersResponse" }) as any as S.Schema<ListBarriersResponse>;
 
 export interface ListChannelsRequest {
   /** ID of the IDP group to list default channels for. */
@@ -2642,16 +2585,8 @@ export const ListChannelsRequest = /*@__PURE__*/ S.suspend(() =>
     usergroup_id: S.String,
     team_id: S.optional(S.String),
     include_num_members: S.optional(S.Boolean),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/admin.usergroups.listChannels",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ListChannelsRequest",
-}) as any as S.Schema<ListChannelsRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/admin.usergroups.listChannels", code: 200 })),
+).annotate({ identifier: "ListChannelsRequest" }) as any as S.Schema<ListChannelsRequest>;
 
 export type ListChannelsResponseChannelsList = Array<string>;
 export const ListChannelsResponseChannelsList = /*@__PURE__*/ S.Array(
@@ -2671,9 +2606,7 @@ export const ListChannelsResponse = /*@__PURE__*/ S.suspend(() =>
     channels: ListChannelsResponseChannelsList,
     error: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListChannelsResponse",
-}) as any as S.Schema<ListChannelsResponse>;
+).annotate({ identifier: "ListChannelsResponse" }) as any as S.Schema<ListChannelsResponse>;
 
 export interface ListEmojiRequest {
   /** Set `cursor` to `next_cursor` returned by the previous call to list items in the next page */
@@ -2686,9 +2619,7 @@ export const ListEmojiRequest = /*@__PURE__*/ S.suspend(() =>
     cursor: S.optional(S.String.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/admin.emoji.list", code: 200 })),
-).annotate({
-  identifier: "ListEmojiRequest",
-}) as any as S.Schema<ListEmojiRequest>;
+).annotate({ identifier: "ListEmojiRequest" }) as any as S.Schema<ListEmojiRequest>;
 
 export type ListEmojiResponseEmojiMap = { [key: string]: unknown | undefined };
 export const ListEmojiResponseEmojiMap = /*@__PURE__*/ S.Record(
@@ -2713,9 +2644,7 @@ export const ListEmojiResponse = /*@__PURE__*/ S.suspend(() =>
     emoji: ListEmojiResponseEmojiMap,
     response_metadata: S.optional(AnalyticsMessagesActivityResponseResponseMetadata),
   }),
-).annotate({
-  identifier: "ListEmojiResponse",
-}) as any as S.Schema<ListEmojiResponse>;
+).annotate({ identifier: "ListEmojiResponse" }) as any as S.Schema<ListEmojiResponse>;
 
 /** Comma-separated array of app IDs to get functions for; max 50. */
 export type ListFunctionsRequestAppIdsList = Array<string>;
@@ -2728,7 +2657,7 @@ export interface ListFunctionsRequest {
   team_id?: string;
   /** Comma-separated array of app IDs to get functions for; max 50. */
   app_ids: ListFunctionsRequestAppIdsList;
-  /** Whether to also include functions that are not yet distributed to any users in the function count. This is needed for admins that are approving an app request and will only work if the team owns the app. */
+  /** Whether to also include functions that are not yet distributed to any users in the function list. This is needed for admins that are approving an app request and will only work if the team owns the app. */
   include_non_distributed_functions?: boolean;
   /** Set `cursor` to `next_cursor` returned by the previous call to list items in the next page. */
   cursor?: string;
@@ -2743,9 +2672,7 @@ export const ListFunctionsRequest = /*@__PURE__*/ S.suspend(() =>
     cursor: S.optional(S.String),
     limit: S.optional(S.Number),
   }).pipe(T.Http({ method: "POST", uri: "/admin.functions.list", code: 200 })),
-).annotate({
-  identifier: "ListFunctionsRequest",
-}) as any as S.Schema<ListFunctionsRequest>;
+).annotate({ identifier: "ListFunctionsRequest" }) as any as S.Schema<ListFunctionsRequest>;
 
 export type ListFunctionsResponseFunctionsList = Array<unknown>;
 export const ListFunctionsResponseFunctionsList = /*@__PURE__*/ S.Array(
@@ -2771,9 +2698,7 @@ export const ListFunctionsResponse = /*@__PURE__*/ S.suspend(() =>
     functions: ListFunctionsResponseFunctionsList,
     response_metadata: S.optional(AnalyticsMessagesActivityResponseResponseMetadata),
   }),
-).annotate({
-  identifier: "ListFunctionsResponse",
-}) as any as S.Schema<ListFunctionsResponse>;
+).annotate({ identifier: "ListFunctionsResponse" }) as any as S.Schema<ListFunctionsResponse>;
 
 export interface ListGroupsRequest {
   channel_id: string;
@@ -2785,15 +2710,9 @@ export const ListGroupsRequest = /*@__PURE__*/ S.suspend(() =>
     channel_id: S.String.pipe(T.Query()),
     team_id: S.optional(S.String.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/admin.conversations.restrictAccess.listGroups",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/admin.conversations.restrictAccess.listGroups", code: 200 }),
   ),
-).annotate({
-  identifier: "ListGroupsRequest",
-}) as any as S.Schema<ListGroupsRequest>;
+).annotate({ identifier: "ListGroupsRequest" }) as any as S.Schema<ListGroupsRequest>;
 
 export type ListGroupsResponseGroupIdsList = Array<string>;
 export const ListGroupsResponseGroupIdsList = /*@__PURE__*/ S.Array(
@@ -2809,9 +2728,7 @@ export const ListGroupsResponse = /*@__PURE__*/ S.suspend(() =>
     ok: S.Boolean,
     group_ids: ListGroupsResponseGroupIdsList,
   }),
-).annotate({
-  identifier: "ListGroupsResponse",
-}) as any as S.Schema<ListGroupsResponse>;
+).annotate({ identifier: "ListGroupsResponse" }) as any as S.Schema<ListGroupsResponse>;
 
 export interface ListInviteRequestsRequest {
   /** ID for the workspace where the invite requests were made. */
@@ -2872,13 +2789,7 @@ export const ListInviteRequestsApprovedRequest = /*@__PURE__*/ S.suspend(() =>
     team_id: S.optional(S.String),
     cursor: S.optional(S.String),
     limit: S.optional(S.Number),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/admin.inviteRequests.approved.list",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/admin.inviteRequests.approved.list", code: 200 })),
 ).annotate({
   identifier: "ListInviteRequestsApprovedRequest",
 }) as any as S.Schema<ListInviteRequestsApprovedRequest>;
@@ -2924,13 +2835,7 @@ export const ListInviteRequestsDeniedRequest = /*@__PURE__*/ S.suspend(() =>
     team_id: S.optional(S.String),
     cursor: S.optional(S.String),
     limit: S.optional(S.Number),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/admin.inviteRequests.denied.list",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/admin.inviteRequests.denied.list", code: 200 })),
 ).annotate({
   identifier: "ListInviteRequestsDeniedRequest",
 }) as any as S.Schema<ListInviteRequestsDeniedRequest>;
@@ -3054,9 +2959,7 @@ export const ListTeamsRequest = /*@__PURE__*/ S.suspend(() =>
     limit: S.optional(S.Number),
     cursor: S.optional(S.String),
   }).pipe(T.Http({ method: "POST", uri: "/admin.teams.list", code: 200 })),
-).annotate({
-  identifier: "ListTeamsRequest",
-}) as any as S.Schema<ListTeamsRequest>;
+).annotate({ identifier: "ListTeamsRequest" }) as any as S.Schema<ListTeamsRequest>;
 
 export interface ListTeamsResponseTeamsItemPrimaryOwner {
   /** Encoded user ID of the primary owner of the workspace */
@@ -3118,9 +3021,7 @@ export const ListTeamsResponse = /*@__PURE__*/ S.suspend(() =>
     teams: ListTeamsResponseTeamsList,
     response_metadata: S.optional(AnalyticsMessagesActivityResponseResponseMetadata),
   }),
-).annotate({
-  identifier: "ListTeamsResponse",
-}) as any as S.Schema<ListTeamsResponse>;
+).annotate({ identifier: "ListTeamsResponse" }) as any as S.Schema<ListTeamsResponse>;
 
 export interface ListTeamsAdminsRequest {
   /** The maximum number of items to return. */
@@ -3135,9 +3036,7 @@ export const ListTeamsAdminsRequest = /*@__PURE__*/ S.suspend(() =>
     cursor: S.optional(S.String.pipe(T.Query())),
     team_id: S.String.pipe(T.Query()),
   }).pipe(T.Http({ method: "GET", uri: "/admin.teams.admins.list", code: 200 })),
-).annotate({
-  identifier: "ListTeamsAdminsRequest",
-}) as any as S.Schema<ListTeamsAdminsRequest>;
+).annotate({ identifier: "ListTeamsAdminsRequest" }) as any as S.Schema<ListTeamsAdminsRequest>;
 
 export type ListTeamsAdminsResponseAdminIdsList = Array<string>;
 export const ListTeamsAdminsResponseAdminIdsList = /*@__PURE__*/ S.Array(
@@ -3163,9 +3062,7 @@ export const ListTeamsAdminsResponse = /*@__PURE__*/ S.suspend(() =>
     admin_ids: ListTeamsAdminsResponseAdminIdsList,
     response_metadata: S.optional(AnalyticsMessagesActivityResponseResponseMetadata),
   }),
-).annotate({
-  identifier: "ListTeamsAdminsResponse",
-}) as any as S.Schema<ListTeamsAdminsResponse>;
+).annotate({ identifier: "ListTeamsAdminsResponse" }) as any as S.Schema<ListTeamsAdminsResponse>;
 
 export interface ListTeamsOwnersRequest {
   team_id: string;
@@ -3180,9 +3077,7 @@ export const ListTeamsOwnersRequest = /*@__PURE__*/ S.suspend(() =>
     limit: S.optional(S.Number.pipe(T.Query())),
     cursor: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/admin.teams.owners.list", code: 200 })),
-).annotate({
-  identifier: "ListTeamsOwnersRequest",
-}) as any as S.Schema<ListTeamsOwnersRequest>;
+).annotate({ identifier: "ListTeamsOwnersRequest" }) as any as S.Schema<ListTeamsOwnersRequest>;
 
 export type ListTeamsOwnersResponseOwnerIdsList = Array<string>;
 export const ListTeamsOwnersResponseOwnerIdsList = /*@__PURE__*/ S.Array(
@@ -3208,9 +3103,7 @@ export const ListTeamsOwnersResponse = /*@__PURE__*/ S.suspend(() =>
     owner_ids: ListTeamsOwnersResponseOwnerIdsList,
     response_metadata: S.optional(AnalyticsMessagesActivityResponseResponseMetadata),
   }),
-).annotate({
-  identifier: "ListTeamsOwnersResponse",
-}) as any as S.Schema<ListTeamsOwnersResponse>;
+).annotate({ identifier: "ListTeamsOwnersResponse" }) as any as S.Schema<ListTeamsOwnersResponse>;
 
 export interface ListUsersRequest {
   /** The ID (T1234) of a workspace. Filters results to just the specified workspace. */
@@ -3221,7 +3114,7 @@ export interface ListUsersRequest {
   is_active?: boolean;
   /** Only applies with org token and no team_id. If true, return `workspaces` for a user even if they may be deactivated on them. If false, return `workspaces` for a user only when user is active on them. Default is false. */
   include_deactivated_user_workspaces?: boolean;
-  /** If true, returns only guests and their expiration dates that belong to the team_id */
+  /** If true, returns only guests and their expiration dates that belong to the team_id. */
   only_guests?: boolean;
   /** If true, only admin users will be returned (excludes owners). Returns all admins and owners when combined with `include_owners`. Cannot be used together with `only_guests`. */
   include_admins?: boolean;
@@ -3241,9 +3134,7 @@ export const ListUsersRequest = /*@__PURE__*/ S.suspend(() =>
     include_owners: S.optional(S.Boolean),
     limit: S.optional(S.Number),
   }).pipe(T.Http({ method: "POST", uri: "/admin.users.list", code: 200 })),
-).annotate({
-  identifier: "ListUsersRequest",
-}) as any as S.Schema<ListUsersRequest>;
+).annotate({ identifier: "ListUsersRequest" }) as any as S.Schema<ListUsersRequest>;
 
 /** Roles that a user has */
 export type ListUsersResponseUsersItemRolesList = Array<string>;
@@ -3345,9 +3236,7 @@ export const ListUsersResponse = /*@__PURE__*/ S.suspend(() =>
     users: ListUsersResponseUsersList,
     response_metadata: S.optional(AnalyticsMessagesActivityResponseResponseMetadata),
   }),
-).annotate({
-  identifier: "ListUsersResponse",
-}) as any as S.Schema<ListUsersResponse>;
+).annotate({ identifier: "ListUsersResponse" }) as any as S.Schema<ListUsersResponse>;
 
 export interface ListUsersSessionRequest {
   /** The ID of the workspace you'd like active sessions for. If you pass a `team_id`, you'll need to pass a `user_id` as well. */
@@ -3366,9 +3255,7 @@ export const ListUsersSessionRequest = /*@__PURE__*/ S.suspend(() =>
     limit: S.optional(S.Number),
     cursor: S.optional(S.String),
   }).pipe(T.Http({ method: "POST", uri: "/admin.users.session.list", code: 200 })),
-).annotate({
-  identifier: "ListUsersSessionRequest",
-}) as any as S.Schema<ListUsersSessionRequest>;
+).annotate({ identifier: "ListUsersSessionRequest" }) as any as S.Schema<ListUsersSessionRequest>;
 
 /** Pagination metadata. An empty `next_cursor` means the last page. */
 export type ListUsersSessionResponseResponseMetadata =
@@ -3467,9 +3354,7 @@ export const ListUsersSessionResponse = /*@__PURE__*/ S.suspend(() =>
     response_metadata: S.optional(AnalyticsMessagesActivityResponseResponseMetadata),
     active_sessions: ListUsersSessionResponseActiveSessionsList,
   }),
-).annotate({
-  identifier: "ListUsersSessionResponse",
-}) as any as S.Schema<ListUsersSessionResponse>;
+).annotate({ identifier: "ListUsersSessionResponse" }) as any as S.Schema<ListUsersSessionResponse>;
 
 /** An array of app IDs to get app configs for */
 export type LookupAppsConfigRequestAppIdsList = Array<string>;
@@ -3503,9 +3388,7 @@ export const LookupAppsConfigRequest = /*@__PURE__*/ S.suspend(() =>
     app_ids: S.optional(LookupAppsConfigRequestAppIdsList),
     rich_link_preview_types: S.optional(LookupAppsConfigRequestRichLinkPreviewTypesList),
   }).pipe(T.Http({ method: "POST", uri: "/admin.apps.config.lookup", code: 200 })),
-).annotate({
-  identifier: "LookupAppsConfigRequest",
-}) as any as S.Schema<LookupAppsConfigRequest>;
+).annotate({ identifier: "LookupAppsConfigRequest" }) as any as S.Schema<LookupAppsConfigRequest>;
 
 export type LookupAppsConfigResponseConfigsItemWorkflowAuthStrategy =
   | "builder_choice"
@@ -3542,9 +3425,7 @@ export const LookupAppsConfigResponse = /*@__PURE__*/ S.suspend(() =>
     ok: S.Boolean,
     configs: LookupAppsConfigResponseConfigsList,
   }),
-).annotate({
-  identifier: "LookupAppsConfigResponse",
-}) as any as S.Schema<LookupAppsConfigResponse>;
+).annotate({ identifier: "LookupAppsConfigResponse" }) as any as S.Schema<LookupAppsConfigResponse>;
 
 /** Array of team IDs to filter by */
 export type LookupConversationRequestTeamIdsList = Array<string>;
@@ -3624,13 +3505,7 @@ export interface LookupFunctionsPermissionsRequest {
 export const LookupFunctionsPermissionsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     function_ids: LookupFunctionsPermissionsRequestFunctionIdsList,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/admin.functions.permissions.lookup",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/admin.functions.permissions.lookup", code: 200 })),
 ).annotate({
   identifier: "LookupFunctionsPermissionsRequest",
 }) as any as S.Schema<LookupFunctionsPermissionsRequest>;
@@ -3643,17 +3518,13 @@ export const LookupFunctionsPermissionsResponsePermissionsMap = /*@__PURE__*/ S.
   S.Unknown,
 ) as any as S.Schema<LookupFunctionsPermissionsResponsePermissionsMap>;
 
-export type LookupFunctionsPermissionsResponseMetadataMap = {
-  [key: string]: unknown | undefined;
-};
+export type LookupFunctionsPermissionsResponseMetadataMap = { [key: string]: unknown | undefined };
 export const LookupFunctionsPermissionsResponseMetadataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
 ) as any as S.Schema<LookupFunctionsPermissionsResponseMetadataMap>;
 
-export type LookupFunctionsPermissionsResponseErrorsMap = {
-  [key: string]: unknown | undefined;
-};
+export type LookupFunctionsPermissionsResponseErrorsMap = { [key: string]: unknown | undefined };
 export const LookupFunctionsPermissionsResponseErrorsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -3693,24 +3564,28 @@ export const LookupWorkflowsPermissionsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     workflow_ids: LookupWorkflowsPermissionsRequestWorkflowIdsList,
     max_workflow_triggers: S.optional(S.Number),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/admin.workflows.permissions.lookup",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/admin.workflows.permissions.lookup", code: 200 })),
 ).annotate({
   identifier: "LookupWorkflowsPermissionsRequest",
 }) as any as S.Schema<LookupWorkflowsPermissionsRequest>;
 
+export type LookupWorkflowsPermissionsResponsePermissionsMap = {
+  [key: string]: unknown | undefined;
+};
+export const LookupWorkflowsPermissionsResponsePermissionsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.Unknown,
+) as any as S.Schema<LookupWorkflowsPermissionsResponsePermissionsMap>;
+
 export interface LookupWorkflowsPermissionsResponse {
   /** Always `true` (a failed call raises a typed error instead). */
   ok: boolean;
+  permissions: LookupWorkflowsPermissionsResponsePermissionsMap;
 }
 export const LookupWorkflowsPermissionsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ok: S.Boolean,
+    permissions: LookupWorkflowsPermissionsResponsePermissionsMap,
   }),
 ).annotate({
   identifier: "LookupWorkflowsPermissionsResponse",
@@ -3785,6 +3660,12 @@ export const RemoveAppsPermissionsRequestUsergroupIdsList = /*@__PURE__*/ S.Arra
   S.String,
 ) as any as S.Schema<RemoveAppsPermissionsRequestUsergroupIdsList>;
 
+/** List of encoded channel IDs to remove from the channel restriction list. Interpretation depends on the app's `channel_restriction_mode`, which is configured via the `admin.apps.permissions.set` method. */
+export type RemoveAppsPermissionsRequestChannelIdsList = Array<string>;
+export const RemoveAppsPermissionsRequestChannelIdsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<RemoveAppsPermissionsRequestChannelIdsList>;
+
 export interface RemoveAppsPermissionsRequest {
   /** Encoded ID of the app */
   app_id: string;
@@ -3792,19 +3673,16 @@ export interface RemoveAppsPermissionsRequest {
   user_ids?: RemoveAppsPermissionsRequestUserIdsList;
   /** List of encoded usergroup IDs */
   usergroup_ids?: RemoveAppsPermissionsRequestUsergroupIdsList;
+  /** List of encoded channel IDs to remove from the channel restriction list. Interpretation depends on the app's `channel_restriction_mode`, which is configured via the `admin.apps.permissions.set` method. */
+  channel_ids?: RemoveAppsPermissionsRequestChannelIdsList;
 }
 export const RemoveAppsPermissionsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     app_id: S.String,
     user_ids: S.optional(RemoveAppsPermissionsRequestUserIdsList),
     usergroup_ids: S.optional(RemoveAppsPermissionsRequestUsergroupIdsList),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/admin.apps.permissions.remove",
-      code: 200,
-    }),
-  ),
+    channel_ids: S.optional(RemoveAppsPermissionsRequestChannelIdsList),
+  }).pipe(T.Http({ method: "POST", uri: "/admin.apps.permissions.remove", code: 200 })),
 ).annotate({
   identifier: "RemoveAppsPermissionsRequest",
 }) as any as S.Schema<RemoveAppsPermissionsRequest>;
@@ -3846,16 +3724,8 @@ export const RemoveAssignmentsRequest = /*@__PURE__*/ S.suspend(() =>
     role_id: S.String,
     entity_ids: RemoveAssignmentsRequestEntityIdsList,
     user_ids: RemoveAssignmentsRequestUserIdsList,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/admin.roles.removeAssignments",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "RemoveAssignmentsRequest",
-}) as any as S.Schema<RemoveAssignmentsRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/admin.roles.removeAssignments", code: 200 })),
+).annotate({ identifier: "RemoveAssignmentsRequest" }) as any as S.Schema<RemoveAssignmentsRequest>;
 
 export interface RemoveAssignmentsResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -3888,16 +3758,8 @@ export const RemoveChannelsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     usergroup_id: S.String,
     channel_ids: RemoveChannelsRequestChannelIdsList,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/admin.usergroups.removeChannels",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "RemoveChannelsRequest",
-}) as any as S.Schema<RemoveChannelsRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/admin.usergroups.removeChannels", code: 200 })),
+).annotate({ identifier: "RemoveChannelsRequest" }) as any as S.Schema<RemoveChannelsRequest>;
 
 /** List of channel IDs that are not valid for this action */
 export type RemoveChannelsResponseInvalidChannelsList = Array<string>;
@@ -3919,9 +3781,7 @@ export const RemoveChannelsResponse = /*@__PURE__*/ S.suspend(() =>
     error: S.optional(S.String),
     invalid_channels: S.optional(RemoveChannelsResponseInvalidChannelsList),
   }),
-).annotate({
-  identifier: "RemoveChannelsResponse",
-}) as any as S.Schema<RemoveChannelsResponse>;
+).annotate({ identifier: "RemoveChannelsResponse" }) as any as S.Schema<RemoveChannelsResponse>;
 
 export interface RemoveCustomRetentionRequest {
   /** The conversation to set the retention policy for. */
@@ -3930,13 +3790,7 @@ export interface RemoveCustomRetentionRequest {
 export const RemoveCustomRetentionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     channel_id: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/admin.conversations.removeCustomRetention",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/admin.conversations.removeCustomRetention", code: 200 })),
 ).annotate({
   identifier: "RemoveCustomRetentionRequest",
 }) as any as S.Schema<RemoveCustomRetentionRequest>;
@@ -3961,9 +3815,7 @@ export const RemoveEmojiRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.String.pipe(T.Query()),
   }).pipe(T.Http({ method: "GET", uri: "/admin.emoji.remove", code: 200 })),
-).annotate({
-  identifier: "RemoveEmojiRequest",
-}) as any as S.Schema<RemoveEmojiRequest>;
+).annotate({ identifier: "RemoveEmojiRequest" }) as any as S.Schema<RemoveEmojiRequest>;
 
 export interface RemoveEmojiResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -3973,9 +3825,7 @@ export const RemoveEmojiResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ok: S.Boolean,
   }),
-).annotate({
-  identifier: "RemoveEmojiResponse",
-}) as any as S.Schema<RemoveEmojiResponse>;
+).annotate({ identifier: "RemoveEmojiResponse" }) as any as S.Schema<RemoveEmojiResponse>;
 
 /** Encoded IDs of the entities you'd like to remove from the policy. */
 export type RemoveEntitiesRequestEntityIdsList = Array<string>;
@@ -3996,16 +3846,8 @@ export const RemoveEntitiesRequest = /*@__PURE__*/ S.suspend(() =>
     policy_name: S.String,
     entity_type: S.Unknown,
     entity_ids: RemoveEntitiesRequestEntityIdsList,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/admin.auth.policy.removeEntities",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "RemoveEntitiesRequest",
-}) as any as S.Schema<RemoveEntitiesRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/admin.auth.policy.removeEntities", code: 200 })),
+).annotate({ identifier: "RemoveEntitiesRequest" }) as any as S.Schema<RemoveEntitiesRequest>;
 
 export interface RemoveEntitiesResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -4018,9 +3860,7 @@ export const RemoveEntitiesResponse = /*@__PURE__*/ S.suspend(() =>
     ok: S.Boolean,
     entity_total_count: S.Number,
   }),
-).annotate({
-  identifier: "RemoveEntitiesResponse",
-}) as any as S.Schema<RemoveEntitiesResponse>;
+).annotate({ identifier: "RemoveEntitiesResponse" }) as any as S.Schema<RemoveEntitiesResponse>;
 
 export interface RemoveGroupRequest {
   /** The workspace where the channel exists. This argument is required for channels only tied to one workspace, and optional for channels that are shared across an organization. */
@@ -4036,15 +3876,9 @@ export const RemoveGroupRequest = /*@__PURE__*/ S.suspend(() =>
     group_id: S.String.pipe(T.Query()),
     channel_id: S.String.pipe(T.Query()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/admin.conversations.restrictAccess.removeGroup",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/admin.conversations.restrictAccess.removeGroup", code: 200 }),
   ),
-).annotate({
-  identifier: "RemoveGroupRequest",
-}) as any as S.Schema<RemoveGroupRequest>;
+).annotate({ identifier: "RemoveGroupRequest" }) as any as S.Schema<RemoveGroupRequest>;
 
 export interface RemoveGroupResponse {
   ok: boolean;
@@ -4053,9 +3887,36 @@ export const RemoveGroupResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ok: S.Boolean,
   }),
-).annotate({
-  identifier: "RemoveGroupResponse",
-}) as any as S.Schema<RemoveGroupResponse>;
+).annotate({ identifier: "RemoveGroupResponse" }) as any as S.Schema<RemoveGroupResponse>;
+
+/** A comma separated list of encoded team (workspace) IDs. Each workspace *MUST* belong to the organization associated with the token. */
+export type RemoveTeamsRequestTeamIdsList = Array<string>;
+export const RemoveTeamsRequestTeamIdsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<RemoveTeamsRequestTeamIdsList>;
+
+export interface RemoveTeamsRequest {
+  /** An encoded usergroup (IDP Group) ID. */
+  usergroup_id: string;
+  /** A comma separated list of encoded team (workspace) IDs. Each workspace *MUST* belong to the organization associated with the token. */
+  team_ids: RemoveTeamsRequestTeamIdsList;
+}
+export const RemoveTeamsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    usergroup_id: S.String,
+    team_ids: RemoveTeamsRequestTeamIdsList,
+  }).pipe(T.Http({ method: "POST", uri: "/admin.usergroups.removeTeams", code: 200 })),
+).annotate({ identifier: "RemoveTeamsRequest" }) as any as S.Schema<RemoveTeamsRequest>;
+
+export interface RemoveTeamsResponse {
+  /** Always `true` (a failed call raises a typed error instead). */
+  ok: boolean;
+}
+export const RemoveTeamsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ok: S.Boolean,
+  }),
+).annotate({ identifier: "RemoveTeamsResponse" }) as any as S.Schema<RemoveTeamsResponse>;
 
 export interface RemoveUserRequest {
   /** The ID (`T1234`) of the workspace. */
@@ -4068,9 +3929,7 @@ export const RemoveUserRequest = /*@__PURE__*/ S.suspend(() =>
     team_id: S.String,
     user_id: S.String,
   }).pipe(T.Http({ method: "POST", uri: "/admin.users.remove", code: 200 })),
-).annotate({
-  identifier: "RemoveUserRequest",
-}) as any as S.Schema<RemoveUserRequest>;
+).annotate({ identifier: "RemoveUserRequest" }) as any as S.Schema<RemoveUserRequest>;
 
 export interface RemoveUserResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -4080,9 +3939,36 @@ export const RemoveUserResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ok: S.Boolean,
   }),
-).annotate({
-  identifier: "RemoveUserResponse",
-}) as any as S.Schema<RemoveUserResponse>;
+).annotate({ identifier: "RemoveUserResponse" }) as any as S.Schema<RemoveUserResponse>;
+
+/** The encoded user IDs to remove from the usergroup, provided as a JSON array or a comma-separated string. */
+export type RemoveUsersRequestUsersList = Array<string>;
+export const RemoveUsersRequestUsersList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<RemoveUsersRequestUsersList>;
+
+export interface RemoveUsersRequest {
+  /** ID of the usergroup to remove users from */
+  id: string;
+  /** The encoded user IDs to remove from the usergroup, provided as a JSON array or a comma-separated string. */
+  users: RemoveUsersRequestUsersList;
+}
+export const RemoveUsersRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    users: RemoveUsersRequestUsersList,
+  }).pipe(T.Http({ method: "POST", uri: "/admin.usergroups.removeUsers", code: 200 })),
+).annotate({ identifier: "RemoveUsersRequest" }) as any as S.Schema<RemoveUsersRequest>;
+
+export interface RemoveUsersResponse {
+  /** Always `true` (a failed call raises a typed error instead). */
+  ok: boolean;
+}
+export const RemoveUsersResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ok: S.Boolean,
+  }),
+).annotate({ identifier: "RemoveUsersResponse" }) as any as S.Schema<RemoveUsersResponse>;
 
 /** Array of workflow IDs to edit; max 50 */
 export type RemoveWorkflowsCollaboratorRequestWorkflowIdsList = Array<string>;
@@ -4106,13 +3992,7 @@ export const RemoveWorkflowsCollaboratorRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     workflow_ids: RemoveWorkflowsCollaboratorRequestWorkflowIdsList,
     collaborator_ids: RemoveWorkflowsCollaboratorRequestCollaboratorIdsList,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/admin.workflows.collaborators.remove",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/admin.workflows.collaborators.remove", code: 200 })),
 ).annotate({
   identifier: "RemoveWorkflowsCollaboratorRequest",
 }) as any as S.Schema<RemoveWorkflowsCollaboratorRequest>;
@@ -4165,9 +4045,7 @@ export const RenameEmojiRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.String.pipe(T.Query()),
     new_name: S.String.pipe(T.Query()),
   }).pipe(T.Http({ method: "GET", uri: "/admin.emoji.rename", code: 200 })),
-).annotate({
-  identifier: "RenameEmojiRequest",
-}) as any as S.Schema<RenameEmojiRequest>;
+).annotate({ identifier: "RenameEmojiRequest" }) as any as S.Schema<RenameEmojiRequest>;
 
 export interface RenameEmojiResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -4177,9 +4055,7 @@ export const RenameEmojiResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ok: S.Boolean,
   }),
-).annotate({
-  identifier: "RenameEmojiResponse",
-}) as any as S.Schema<RenameEmojiResponse>;
+).annotate({ identifier: "RenameEmojiResponse" }) as any as S.Schema<RenameEmojiResponse>;
 
 /** The list of up to 1,000 user IDs to wipe sessions for */
 export type ResetBulkRequestUserIdsList = Array<string>;
@@ -4200,16 +4076,8 @@ export const ResetBulkRequest = /*@__PURE__*/ S.suspend(() =>
     user_ids: ResetBulkRequestUserIdsList,
     mobile_only: S.optional(S.Boolean),
     web_only: S.optional(S.Boolean),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/admin.users.session.resetBulk",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ResetBulkRequest",
-}) as any as S.Schema<ResetBulkRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/admin.users.session.resetBulk", code: 200 })),
+).annotate({ identifier: "ResetBulkRequest" }) as any as S.Schema<ResetBulkRequest>;
 
 export interface ResetBulkResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -4219,9 +4087,7 @@ export const ResetBulkResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ok: S.Boolean,
   }),
-).annotate({
-  identifier: "ResetBulkResponse",
-}) as any as S.Schema<ResetBulkResponse>;
+).annotate({ identifier: "ResetBulkResponse" }) as any as S.Schema<ResetBulkResponse>;
 
 export interface ResetUsersSessionRequest {
   /** The ID of the user to wipe sessions for */
@@ -4237,9 +4103,7 @@ export const ResetUsersSessionRequest = /*@__PURE__*/ S.suspend(() =>
     mobile_only: S.optional(S.Boolean),
     web_only: S.optional(S.Boolean),
   }).pipe(T.Http({ method: "POST", uri: "/admin.users.session.reset", code: 200 })),
-).annotate({
-  identifier: "ResetUsersSessionRequest",
-}) as any as S.Schema<ResetUsersSessionRequest>;
+).annotate({ identifier: "ResetUsersSessionRequest" }) as any as S.Schema<ResetUsersSessionRequest>;
 
 export interface ResetUsersSessionResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -4419,9 +4283,7 @@ export const SearchWorkflowRequest = /*@__PURE__*/ S.suspend(() =>
     publish_status: S.optional(SearchWorkflowRequestPublishStatus),
     step_function_ids: S.optional(SearchWorkflowRequestStepFunctionIdsList),
   }).pipe(T.Http({ method: "POST", uri: "/admin.workflows.search", code: 200 })),
-).annotate({
-  identifier: "SearchWorkflowRequest",
-}) as any as S.Schema<SearchWorkflowRequest>;
+).annotate({ identifier: "SearchWorkflowRequest" }) as any as S.Schema<SearchWorkflowRequest>;
 
 export type SearchWorkflowResponseWorkflowsList = Array<unknown>;
 export const SearchWorkflowResponseWorkflowsList = /*@__PURE__*/ S.Array(
@@ -4450,9 +4312,7 @@ export const SearchWorkflowResponse = /*@__PURE__*/ S.suspend(() =>
     response_metadata: S.optional(AnalyticsMessagesActivityResponseResponseMetadata),
     total_found: S.Number,
   }),
-).annotate({
-  identifier: "SearchWorkflowResponse",
-}) as any as S.Schema<SearchWorkflowResponse>;
+).annotate({ identifier: "SearchWorkflowResponse" }) as any as S.Schema<SearchWorkflowResponse>;
 
 export interface SetAdminRequest {
   /** The ID of the workspace or organization. */
@@ -4465,9 +4325,7 @@ export const SetAdminRequest = /*@__PURE__*/ S.suspend(() =>
     team_id: S.String,
     user_id: S.String,
   }).pipe(T.Http({ method: "POST", uri: "/admin.users.setAdmin", code: 200 })),
-).annotate({
-  identifier: "SetAdminRequest",
-}) as any as S.Schema<SetAdminRequest>;
+).annotate({ identifier: "SetAdminRequest" }) as any as S.Schema<SetAdminRequest>;
 
 export interface SetAdminResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -4477,9 +4335,7 @@ export const SetAdminResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ok: S.Boolean,
   }),
-).annotate({
-  identifier: "SetAdminResponse",
-}) as any as S.Schema<SetAdminResponse>;
+).annotate({ identifier: "SetAdminResponse" }) as any as S.Schema<SetAdminResponse>;
 
 /** The workflow auth permission. Can be one of `builder_choice` or `end_user_only`. */
 export type SetAppsConfigRequestWorkflowAuthStrategy = "builder_choice" | "end_user_only";
@@ -4538,9 +4394,7 @@ export const SetAppsConfigRequest = /*@__PURE__*/ S.suspend(() =>
     rich_link_preview_type: S.optional(SetAppsConfigRequestRichLinkPreviewType),
     domain_restrictions: S.optional(SetAppsConfigRequestDomainRestrictions),
   }).pipe(T.Http({ method: "POST", uri: "/admin.apps.config.set", code: 200 })),
-).annotate({
-  identifier: "SetAppsConfigRequest",
-}) as any as S.Schema<SetAppsConfigRequest>;
+).annotate({ identifier: "SetAppsConfigRequest" }) as any as S.Schema<SetAppsConfigRequest>;
 
 export interface SetAppsConfigResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -4550,9 +4404,7 @@ export const SetAppsConfigResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ok: S.Boolean,
   }),
-).annotate({
-  identifier: "SetAppsConfigResponse",
-}) as any as S.Schema<SetAppsConfigResponse>;
+).annotate({ identifier: "SetAppsConfigResponse" }) as any as S.Schema<SetAppsConfigResponse>;
 
 /** The type of permission that defines who can use this MCP server */
 export type SetAppsMcpServersPermissionsRequestPermissionType =
@@ -4593,13 +4445,7 @@ export const SetAppsMcpServersPermissionsRequest = /*@__PURE__*/ S.suspend(() =>
     permission_type: SetAppsMcpServersPermissionsRequestPermissionType,
     user_ids: S.optional(SetAppsMcpServersPermissionsRequestUserIdsList),
     usergroup_ids: S.optional(SetAppsMcpServersPermissionsRequestUsergroupIdsList),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/admin.apps.mcp.servers.permissions.set",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/admin.apps.mcp.servers.permissions.set", code: 200 })),
 ).annotate({
   identifier: "SetAppsMcpServersPermissionsRequest",
 }) as any as S.Schema<SetAppsMcpServersPermissionsRequest>;
@@ -4632,6 +4478,19 @@ export const SetAppsPermissionsRequestUsergroupIdsList = /*@__PURE__*/ S.Array(
   S.String,
 ) as any as S.Schema<SetAppsPermissionsRequestUsergroupIdsList>;
 
+/** The mode that defines where the app can be used in channels */
+export type SetAppsPermissionsRequestChannelRestrictionMode =
+  | "all_channels"
+  | "specific_channels"
+  | "all_channels_except";
+export const SetAppsPermissionsRequestChannelRestrictionMode = S.String;
+
+/** List of encoded channel IDs for channel restrictions. Semantics depend on channel_restriction_mode: allowlist for specific_channels, exclusion list for all_channels_except */
+export type SetAppsPermissionsRequestChannelIdsList = Array<string>;
+export const SetAppsPermissionsRequestChannelIdsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<SetAppsPermissionsRequestChannelIdsList>;
+
 export interface SetAppsPermissionsRequest {
   /** Encoded ID of the app */
   app_id: string;
@@ -4641,6 +4500,10 @@ export interface SetAppsPermissionsRequest {
   user_ids?: SetAppsPermissionsRequestUserIdsList;
   /** List of encoded usergroup IDs */
   usergroup_ids?: SetAppsPermissionsRequestUsergroupIdsList;
+  /** The mode that defines where the app can be used in channels */
+  channel_restriction_mode?: SetAppsPermissionsRequestChannelRestrictionMode | (string & {});
+  /** List of encoded channel IDs for channel restrictions. Semantics depend on channel_restriction_mode: allowlist for specific_channels, exclusion list for all_channels_except */
+  channel_ids?: SetAppsPermissionsRequestChannelIdsList;
 }
 export const SetAppsPermissionsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -4648,6 +4511,8 @@ export const SetAppsPermissionsRequest = /*@__PURE__*/ S.suspend(() =>
     permission_type: SetAppsPermissionsRequestPermissionType,
     user_ids: S.optional(SetAppsPermissionsRequestUserIdsList),
     usergroup_ids: S.optional(SetAppsPermissionsRequestUsergroupIdsList),
+    channel_restriction_mode: S.optional(SetAppsPermissionsRequestChannelRestrictionMode),
+    channel_ids: S.optional(SetAppsPermissionsRequestChannelIdsList),
   }).pipe(T.Http({ method: "POST", uri: "/admin.apps.permissions.set", code: 200 })),
 ).annotate({
   identifier: "SetAppsPermissionsRequest",
@@ -4675,13 +4540,7 @@ export const SetConversationPrefsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     channel_id: S.String,
     prefs: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/admin.conversations.setConversationPrefs",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/admin.conversations.setConversationPrefs", code: 200 })),
 ).annotate({
   identifier: "SetConversationPrefsRequest",
 }) as any as S.Schema<SetConversationPrefsRequest>;
@@ -4707,13 +4566,7 @@ export const SetCustomRetentionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     channel_id: S.String,
     duration_days: S.Number,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/admin.conversations.setCustomRetention",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/admin.conversations.setCustomRetention", code: 200 })),
 ).annotate({
   identifier: "SetCustomRetentionRequest",
 }) as any as S.Schema<SetCustomRetentionRequest>;
@@ -4745,13 +4598,7 @@ export const SetDefaultChannelsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     team_id: S.String.pipe(T.Query()),
     channel_ids: SetDefaultChannelsRequestChannelIdsList.pipe(T.Query()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/admin.teams.settings.setDefaultChannels",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/admin.teams.settings.setDefaultChannels", code: 200 })),
 ).annotate({
   identifier: "SetDefaultChannelsRequest",
 }) as any as S.Schema<SetDefaultChannelsRequest>;
@@ -4778,16 +4625,8 @@ export const SetDescriptionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     team_id: S.String,
     description: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/admin.teams.settings.setDescription",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "SetDescriptionRequest",
-}) as any as S.Schema<SetDescriptionRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/admin.teams.settings.setDescription", code: 200 })),
+).annotate({ identifier: "SetDescriptionRequest" }) as any as S.Schema<SetDescriptionRequest>;
 
 export interface SetDescriptionResponse {
   ok: boolean;
@@ -4796,9 +4635,7 @@ export const SetDescriptionResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ok: S.Boolean,
   }),
-).annotate({
-  identifier: "SetDescriptionResponse",
-}) as any as S.Schema<SetDescriptionResponse>;
+).annotate({ identifier: "SetDescriptionResponse" }) as any as S.Schema<SetDescriptionResponse>;
 
 export interface SetDiscoverabilityRequest {
   /** The ID of the workspace to set discoverability on. */
@@ -4810,13 +4647,7 @@ export const SetDiscoverabilityRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     team_id: S.String,
     discoverability: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/admin.teams.settings.setDiscoverability",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/admin.teams.settings.setDiscoverability", code: 200 })),
 ).annotate({
   identifier: "SetDiscoverabilityRequest",
 }) as any as S.Schema<SetDiscoverabilityRequest>;
@@ -4846,9 +4677,7 @@ export const SetExpirationRequest = /*@__PURE__*/ S.suspend(() =>
     user_id: S.String,
     expiration_ts: S.Number,
   }).pipe(T.Http({ method: "POST", uri: "/admin.users.setExpiration", code: 200 })),
-).annotate({
-  identifier: "SetExpirationRequest",
-}) as any as S.Schema<SetExpirationRequest>;
+).annotate({ identifier: "SetExpirationRequest" }) as any as S.Schema<SetExpirationRequest>;
 
 export interface SetExpirationResponse {
   ok: boolean;
@@ -4857,9 +4686,7 @@ export const SetExpirationResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ok: S.Boolean,
   }),
-).annotate({
-  identifier: "SetExpirationResponse",
-}) as any as S.Schema<SetExpirationResponse>;
+).annotate({ identifier: "SetExpirationResponse" }) as any as S.Schema<SetExpirationResponse>;
 
 /** The function visibility. */
 export type SetFunctionsPermissionsRequestVisibility =
@@ -4870,9 +4697,9 @@ export type SetFunctionsPermissionsRequestVisibility =
 export const SetFunctionsPermissionsRequestVisibility = S.String;
 
 /** List of user IDs to allow for `named_entities` visibility. */
-export type SetFunctionsPermissionsRequestUserIdsList = Array<unknown>;
+export type SetFunctionsPermissionsRequestUserIdsList = Array<string>;
 export const SetFunctionsPermissionsRequestUserIdsList = /*@__PURE__*/ S.Array(
-  S.Unknown,
+  S.String,
 ) as any as S.Schema<SetFunctionsPermissionsRequestUserIdsList>;
 
 export type SetFunctionsPermissionsRequestPermissionsItemVisibility =
@@ -4883,13 +4710,14 @@ export const SetFunctionsPermissionsRequestPermissionsItemVisibility = S.String;
 
 export type SetFunctionsPermissionsRequestPermissionsItemPermissionType =
   | "slack_function"
-  | "private_channel_access";
+  | "private_channel_access"
+  | "connector_resource";
 export const SetFunctionsPermissionsRequestPermissionsItemPermissionType = S.String;
 
 /** List of user IDs to allow for `named_entities` visibility. */
-export type SetFunctionsPermissionsRequestPermissionsItemUserIdsList = Array<unknown>;
+export type SetFunctionsPermissionsRequestPermissionsItemUserIdsList = Array<string>;
 export const SetFunctionsPermissionsRequestPermissionsItemUserIdsList = /*@__PURE__*/ S.Array(
-  S.Unknown,
+  S.String,
 ) as any as S.Schema<SetFunctionsPermissionsRequestPermissionsItemUserIdsList>;
 
 export interface SetFunctionsPermissionsRequestPermissionsItem {
@@ -4931,13 +4759,7 @@ export const SetFunctionsPermissionsRequest = /*@__PURE__*/ S.suspend(() =>
     visibility: S.optional(SetFunctionsPermissionsRequestVisibility),
     user_ids: S.optional(SetFunctionsPermissionsRequestUserIdsList),
     permissions: S.optional(SetFunctionsPermissionsRequestPermissionsList),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/admin.functions.permissions.set",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/admin.functions.permissions.set", code: 200 })),
 ).annotate({
   identifier: "SetFunctionsPermissionsRequest",
 }) as any as S.Schema<SetFunctionsPermissionsRequest>;
@@ -4975,9 +4797,7 @@ export const SetIconResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ok: S.Boolean,
   }),
-).annotate({
-  identifier: "SetIconResponse",
-}) as any as S.Schema<SetIconResponse>;
+).annotate({ identifier: "SetIconResponse" }) as any as S.Schema<SetIconResponse>;
 
 export interface SetNameRequest {
   /** ID for the workspace to set the name for. */
@@ -4999,9 +4819,7 @@ export const SetNameResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ok: S.Boolean,
   }),
-).annotate({
-  identifier: "SetNameResponse",
-}) as any as S.Schema<SetNameResponse>;
+).annotate({ identifier: "SetNameResponse" }) as any as S.Schema<SetNameResponse>;
 
 export interface SetOwnerRequest {
   /** The ID of the workspace or organization. */
@@ -5014,9 +4832,7 @@ export const SetOwnerRequest = /*@__PURE__*/ S.suspend(() =>
     team_id: S.String,
     user_id: S.String,
   }).pipe(T.Http({ method: "POST", uri: "/admin.users.setOwner", code: 200 })),
-).annotate({
-  identifier: "SetOwnerRequest",
-}) as any as S.Schema<SetOwnerRequest>;
+).annotate({ identifier: "SetOwnerRequest" }) as any as S.Schema<SetOwnerRequest>;
 
 export interface SetOwnerResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -5026,9 +4842,7 @@ export const SetOwnerResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ok: S.Boolean,
   }),
-).annotate({
-  identifier: "SetOwnerResponse",
-}) as any as S.Schema<SetOwnerResponse>;
+).annotate({ identifier: "SetOwnerResponse" }) as any as S.Schema<SetOwnerResponse>;
 
 export interface SetRegularRequest {
   /** The ID of the workspace or organization. */
@@ -5041,9 +4855,7 @@ export const SetRegularRequest = /*@__PURE__*/ S.suspend(() =>
     team_id: S.String,
     user_id: S.String,
   }).pipe(T.Http({ method: "POST", uri: "/admin.users.setRegular", code: 200 })),
-).annotate({
-  identifier: "SetRegularRequest",
-}) as any as S.Schema<SetRegularRequest>;
+).annotate({ identifier: "SetRegularRequest" }) as any as S.Schema<SetRegularRequest>;
 
 export interface SetRegularResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -5053,9 +4865,7 @@ export const SetRegularResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ok: S.Boolean,
   }),
-).annotate({
-  identifier: "SetRegularResponse",
-}) as any as S.Schema<SetRegularResponse>;
+).annotate({ identifier: "SetRegularResponse" }) as any as S.Schema<SetRegularResponse>;
 
 /** The list of up to 1,000 user IDs to apply the session settings for */
 export type SetSettingsRequestUserIdsList = Array<string>;
@@ -5076,16 +4886,8 @@ export const SetSettingsRequest = /*@__PURE__*/ S.suspend(() =>
     user_ids: SetSettingsRequestUserIdsList,
     duration: S.optional(S.Number),
     desktop_app_browser_quit: S.optional(S.Boolean),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/admin.users.session.setSettings",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "SetSettingsRequest",
-}) as any as S.Schema<SetSettingsRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/admin.users.session.setSettings", code: 200 })),
+).annotate({ identifier: "SetSettingsRequest" }) as any as S.Schema<SetSettingsRequest>;
 
 export interface SetSettingsResponse {
   ok: boolean;
@@ -5094,9 +4896,7 @@ export const SetSettingsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ok: S.Boolean,
   }),
-).annotate({
-  identifier: "SetSettingsResponse",
-}) as any as S.Schema<SetSettingsResponse>;
+).annotate({ identifier: "SetSettingsResponse" }) as any as S.Schema<SetSettingsResponse>;
 
 /** A comma-separated list of workspaces to which the channel should be shared. Not required if the channel is being shared org-wide. */
 export type SetTeamsRequestTargetTeamIdsList = Array<string>;
@@ -5121,9 +4921,7 @@ export const SetTeamsRequest = /*@__PURE__*/ S.suspend(() =>
     target_team_ids: S.optional(SetTeamsRequestTargetTeamIdsList),
     org_channel: S.optional(S.Boolean),
   }).pipe(T.Http({ method: "POST", uri: "/admin.conversations.setTeams", code: 200 })),
-).annotate({
-  identifier: "SetTeamsRequest",
-}) as any as S.Schema<SetTeamsRequest>;
+).annotate({ identifier: "SetTeamsRequest" }) as any as S.Schema<SetTeamsRequest>;
 
 export interface SetTeamsResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -5135,9 +4933,7 @@ export const SetTeamsResponse = /*@__PURE__*/ S.suspend(() =>
     ok: S.Boolean,
     channel: S.String,
   }),
-).annotate({
-  identifier: "SetTeamsResponse",
-}) as any as S.Schema<SetTeamsResponse>;
+).annotate({ identifier: "SetTeamsResponse" }) as any as S.Schema<SetTeamsResponse>;
 
 /** The function visibility */
 export type SetWorkflowsTriggersTypesPermissionsRequestVisibility =
@@ -5190,11 +4986,7 @@ export const SetWorkflowsTriggersTypesPermissionsRequest = /*@__PURE__*/ S.suspe
     user_ids: S.optional(SetWorkflowsTriggersTypesPermissionsRequestUserIdsList),
     permissions: S.optional(SetWorkflowsTriggersTypesPermissionsRequestPermissions),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/admin.workflows.triggers.types.permissions.set",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/admin.workflows.triggers.types.permissions.set", code: 200 }),
   ),
 ).annotate({
   identifier: "SetWorkflowsTriggersTypesPermissionsRequest",
@@ -5219,9 +5011,7 @@ export const TeamsSettingsInfoRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     team_id: S.String,
   }).pipe(T.Http({ method: "POST", uri: "/admin.teams.settings.info", code: 200 })),
-).annotate({
-  identifier: "TeamsSettingsInfoRequest",
-}) as any as S.Schema<TeamsSettingsInfoRequest>;
+).annotate({ identifier: "TeamsSettingsInfoRequest" }) as any as S.Schema<TeamsSettingsInfoRequest>;
 
 export type TeamsSettingsInfoResponseTeamItemDefaultChannelsList = Array<unknown>;
 export const TeamsSettingsInfoResponseTeamItemDefaultChannelsList = /*@__PURE__*/ S.Array(
@@ -5278,13 +5068,7 @@ export interface UnarchiveConversationRequest {
 export const UnarchiveConversationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     channel_id: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/admin.conversations.unarchive",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/admin.conversations.unarchive", code: 200 })),
 ).annotate({
   identifier: "UnarchiveConversationRequest",
 }) as any as S.Schema<UnarchiveConversationRequest>;
@@ -5314,9 +5098,7 @@ export const UninstallAppRequest = /*@__PURE__*/ S.suspend(() =>
     team_ids: S.optional(S.String),
     enterprise_id: S.optional(S.String),
   }).pipe(T.Http({ method: "POST", uri: "/admin.apps.uninstall", code: 200 })),
-).annotate({
-  identifier: "UninstallAppRequest",
-}) as any as S.Schema<UninstallAppRequest>;
+).annotate({ identifier: "UninstallAppRequest" }) as any as S.Schema<UninstallAppRequest>;
 
 export interface UninstallAppResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -5326,9 +5108,7 @@ export const UninstallAppResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ok: S.Boolean,
   }),
-).annotate({
-  identifier: "UninstallAppResponse",
-}) as any as S.Schema<UninstallAppResponse>;
+).annotate({ identifier: "UninstallAppResponse" }) as any as S.Schema<UninstallAppResponse>;
 
 export interface UnlinkObjectsRequest {
   /** Channel ID for Slack channel that will be unlinked from the Salesforce record. */
@@ -5340,16 +5120,8 @@ export const UnlinkObjectsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     channel: S.String,
     new_name: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/admin.conversations.unlinkObjects",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "UnlinkObjectsRequest",
-}) as any as S.Schema<UnlinkObjectsRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/admin.conversations.unlinkObjects", code: 200 })),
+).annotate({ identifier: "UnlinkObjectsRequest" }) as any as S.Schema<UnlinkObjectsRequest>;
 
 export interface UnlinkObjectsResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -5359,9 +5131,7 @@ export const UnlinkObjectsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ok: S.Boolean,
   }),
-).annotate({
-  identifier: "UnlinkObjectsResponse",
-}) as any as S.Schema<UnlinkObjectsResponse>;
+).annotate({ identifier: "UnlinkObjectsResponse" }) as any as S.Schema<UnlinkObjectsResponse>;
 
 /** Array of workflow IDs to unpublish */
 export type UnpublishWorkflowRequestWorkflowIdsList = Array<string>;
@@ -5377,9 +5147,7 @@ export const UnpublishWorkflowRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     workflow_ids: UnpublishWorkflowRequestWorkflowIdsList,
   }).pipe(T.Http({ method: "POST", uri: "/admin.workflows.unpublish", code: 200 })),
-).annotate({
-  identifier: "UnpublishWorkflowRequest",
-}) as any as S.Schema<UnpublishWorkflowRequest>;
+).annotate({ identifier: "UnpublishWorkflowRequest" }) as any as S.Schema<UnpublishWorkflowRequest>;
 
 export interface UnpublishWorkflowResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -5434,9 +5202,7 @@ export const UpdateBarrierRequest = /*@__PURE__*/ S.suspend(() =>
       contentType: "form-urlencoded",
     }),
   ),
-).annotate({
-  identifier: "UpdateBarrierRequest",
-}) as any as S.Schema<UpdateBarrierRequest>;
+).annotate({ identifier: "UpdateBarrierRequest" }) as any as S.Schema<UpdateBarrierRequest>;
 
 export interface UpdateBarrierResponse {
   ok: boolean;
@@ -5447,9 +5213,7 @@ export const UpdateBarrierResponse = /*@__PURE__*/ S.suspend(() =>
     ok: S.Boolean,
     barrier: S.Unknown,
   }),
-).annotate({
-  identifier: "UpdateBarrierResponse",
-}) as any as S.Schema<UpdateBarrierResponse>;
+).annotate({ identifier: "UpdateBarrierResponse" }) as any as S.Schema<UpdateBarrierResponse>;
 
 /** allow list of IPv4 addresses using cidr notation in the Enterprise organization configuration */
 export type UpdateItemRequestTrustedCidrList = Array<string>;
@@ -5473,16 +5237,8 @@ export const UpdateItemRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     trusted_cidr: S.optional(UpdateItemRequestTrustedCidrList),
     trusted_asns: S.optional(UpdateItemRequestTrustedAsnsList),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/admin.audit.anomaly.allow.updateItem",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "UpdateItemRequest",
-}) as any as S.Schema<UpdateItemRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/admin.audit.anomaly.allow.updateItem", code: 200 })),
+).annotate({ identifier: "UpdateItemRequest" }) as any as S.Schema<UpdateItemRequest>;
 
 export interface UpdateItemResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -5492,9 +5248,106 @@ export const UpdateItemResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ok: S.Boolean,
   }),
+).annotate({ identifier: "UpdateItemResponse" }) as any as S.Schema<UpdateItemResponse>;
+
+export interface UpdateUsergroupRequest {
+  /** ID of the usergroup to update */
+  id: string;
+  /** The name of the group. */
+  name?: string;
+  /** The handle used for mentioning the group in a channel, must be unique. */
+  handle?: string;
+  /** The usergroup's purpose or description. */
+  description?: string;
+  /** Configure whether or not this usergroup should be visible in the client. */
+  is_visible?: boolean;
+}
+export const UpdateUsergroupRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    name: S.optional(S.String),
+    handle: S.optional(S.String),
+    description: S.optional(S.String),
+    is_visible: S.optional(S.Boolean),
+  }).pipe(T.Http({ method: "POST", uri: "/admin.usergroups.update", code: 200 })),
+).annotate({ identifier: "UpdateUsergroupRequest" }) as any as S.Schema<UpdateUsergroupRequest>;
+
+/** List of user IDs who would exceed their channel limit */
+export type UpdateUsergroupResponseChannelLimitUserIdsList = Array<string>;
+export const UpdateUsergroupResponseChannelLimitUserIdsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<UpdateUsergroupResponseChannelLimitUserIdsList>;
+
+export interface UpdateUsergroupResponse {
+  /** Always `true` (a failed call raises a typed error instead). */
+  ok: boolean;
+  subteam?: unknown;
+  /** List of user IDs who would exceed their channel limit */
+  channel_limit_user_ids?: UpdateUsergroupResponseChannelLimitUserIdsList;
+}
+export const UpdateUsergroupResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ok: S.Boolean,
+    subteam: S.optional(S.Unknown),
+    channel_limit_user_ids: S.optional(UpdateUsergroupResponseChannelLimitUserIdsList),
+  }),
+).annotate({ identifier: "UpdateUsergroupResponse" }) as any as S.Schema<UpdateUsergroupResponse>;
+
+export interface UploadUsersRequest {
+  /** ID of the usergroup to upload users to */
+  id: string;
+  /** Csv of users to upload in format member id, email */
+  file?: unknown;
+}
+export const UploadUsersRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    file: S.optional(S.Unknown),
+  }).pipe(T.Http({ method: "POST", uri: "/admin.usergroups.uploadUsers", code: 200 })),
+).annotate({ identifier: "UploadUsersRequest" }) as any as S.Schema<UploadUsersRequest>;
+
+export type UploadUsersResponseInvalidUsersItemReason =
+  | "guest_user"
+  | "deleted_user"
+  | "user_not_found"
+  | "insert_failed"
+  | "channel_limit_exceeded"
+  | "multi_workspace_idp_group"
+  | "usergroup_limit_exceeded";
+export const UploadUsersResponseInvalidUsersItemReason = S.String;
+
+export interface UploadUsersResponseInvalidUsersItem {
+  user_id: string;
+  reason: UploadUsersResponseInvalidUsersItemReason;
+}
+export const UploadUsersResponseInvalidUsersItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    user_id: S.String,
+    reason: UploadUsersResponseInvalidUsersItemReason,
+  }),
 ).annotate({
-  identifier: "UpdateItemResponse",
-}) as any as S.Schema<UpdateItemResponse>;
+  identifier: "UploadUsersResponseInvalidUsersItem",
+}) as any as S.Schema<UploadUsersResponseInvalidUsersItem>;
+
+export type UploadUsersResponseInvalidUsersList = Array<UploadUsersResponseInvalidUsersItem>;
+export const UploadUsersResponseInvalidUsersList = /*@__PURE__*/ S.Array(
+  UploadUsersResponseInvalidUsersItem,
+) as any as S.Schema<UploadUsersResponseInvalidUsersList>;
+
+export interface UploadUsersResponse {
+  /** Always `true` (a failed call raises a typed error instead). */
+  ok: boolean;
+  /** How many users were successfully added */
+  successful_user_count: number;
+  invalid_users?: UploadUsersResponseInvalidUsersList;
+}
+export const UploadUsersResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ok: S.Boolean,
+    successful_user_count: S.Number,
+    invalid_users: S.optional(UploadUsersResponseInvalidUsersList),
+  }),
+).annotate({ identifier: "UploadUsersResponse" }) as any as S.Schema<UploadUsersResponse>;
 
 export type AddAliasError = SlackOpError;
 /** Add an emoji alias. Required scopes — user: `admin.teams:write` Rate limit tier: 2 Method-specific errors (the `error` slug on the SlackError): - `emoji_limit_reached` — Unable to add emoji due to limit reached. - `error_bad_name_i18n` — Value passed for `name` was invalid. - `error_invalid_alias` — Value passed for `alias_for` does not exist. - `error_missing_name` — Value passed for `name` is missing or empty. - `error_name_taken` — Value passed for `name` already exists. - `error_name_taken_i18n` — The name has already been taken by another emoji, in the international set. Emoji must have unique names. - `failed_to_alias_emoji` — Failed to alias the specified emoji. - `feature_not_enabled` — The Admin APIs feature is not enabled for this team. - `no_alias_selected` — Value passed for `alias_for` was invalid. - `not_an_admin` — This method is only accessible by org owners and Admins. See https://docs.slack.dev/reference/methods/admin.emoji.addAlias */
@@ -5512,7 +5365,7 @@ export const addAlias: API.OperationMethod<
 }));
 
 export type AddAppsPermissionsError = SlackOpError;
-/** Grant permission for entities to access an app that has its permission type set to named_entities Required scopes — user: `admin.apps:write` Rate limit tier: 2 Method-specific errors (the `error` slug on the SlackError): - `invalid_auth` — Invalid authorization token - `access_denied` — This actor does not have access to the permissions on this resource. - `invalid_permission_type` — This app requires permission_type to be set as named_entities before adding users. - `no_valid_named_entities` — None of the provided named entities were valid - `too_many_named_entities` — Too many named entities passed into the app permissions setting. - `app_not_found` — This app does not exist. - `not_an_enterprise` — This feature is only available on Enterprise Grid plans. - `app_acl_not_found` — This app does not have an ACL. - `internal_error` — Internal error - `user_not_found` — Value passed for `user_ids` was invalid. - `invalid_entities` — Invalid entities. - `invalid_channel_restriction_mode` — Cannot add channels when channel_restriction_mode is all_channels. Use set to configure a restriction mode first. - `channel_not_found` — One or more channel IDs are not valid. - `failed_to_update_channels` — An error occurred while updating the channel restriction list. See https://docs.slack.dev/reference/methods/admin.apps.permissions.add */
+/** Grant permission for entities to access an app that has its permission type set to named_entities Required scopes — user: `admin.apps:write` Rate limit tier: 2 Method-specific errors (the `error` slug on the SlackError): - `invalid_auth` — Invalid authorization token - `access_denied` — This actor does not have access to the permissions on this resource. - `invalid_permission_type` — This app requires permission_type to be set as named_entities before adding users. - `no_valid_named_entities` — None of the provided named entities were valid - `too_many_named_entities` — Too many named entities passed into the app permissions setting. - `app_not_found` — This app does not exist. - `not_an_enterprise` — This feature is only available on Enterprise Grid plans. - `app_acl_not_found` — This app does not have an ACL. - `internal_error` — Internal error - `user_not_found` — Value passed for `user_ids` was invalid. - `invalid_entities` — Invalid entities. - `invalid_channel_restriction_mode` — Cannot add channels when channel_restriction_mode is all_channels. Use set to configure a restriction mode first. - `channel_not_found` — One or more channel IDs are not valid. - `failed_to_update_channels` — An error occurred while updating the channel restriction list. - `restricted_action` — User does not have permission to perform this action. See https://docs.slack.dev/reference/methods/admin.apps.permissions.add */
 export const addAppsPermissions: API.OperationMethod<
   AddAppsPermissionsRequest,
   AddAppsPermissionsResponse,
@@ -5587,7 +5440,7 @@ export const addGroup: API.OperationMethod<
 }));
 
 export type AddTeamsError = SlackOpError;
-/** Associate one or more default workspaces with an organization-wide IDP group. Required scopes — user: `admin.teams:write` Rate limit tier: 2 Method-specific errors (the `error` slug on the SlackError): - `auto_provision_failure` — A failure occurred while assigning IDP group members to a specific workspace; see `errors` element for a list of failed team IDs. - `internal_error` — An unexpected error occurred. - `invalid_team_ids` — One or more team IDs provided were invalid; see the `errors` field in the response for the list of invalid team IDs. - `multi_workspace_restriction` — The IDP group has members that cannot be linked to more than one workspace. - `no_team_ids_given` — The `team_ids` parameter was empty. - `restricted_action` — The calling user cannot update the specified usergroup. - `team_limit_exceeded` — The number of teams associated with the org group would exceed the limit. - `usergroup_not_found` — `usergroup_id` wasn't found. See https://docs.slack.dev/reference/methods/admin.usergroups.addTeams */
+/** Associate one or more default workspaces with an organization-wide IDP group. Required scopes — user: `admin.teams:write` Rate limit tier: 2 Method-specific errors (the `error` slug on the SlackError): - `auto_provision_failure` — A failure occurred while assigning IDP group members to a specific workspace; see `errors` element for a list of failed team IDs. - `internal_error` — An unexpected error occurred. - `invalid_team_ids` — One or more team IDs provided were invalid; see the `errors` field in the response for the list of invalid team IDs. - `multi_workspace_restriction` — The IDP group has members that cannot be linked to more than one workspace. - `no_team_ids_given` — The `team_ids` parameter was empty. - `restricted_action` — The calling user cannot update the specified usergroup. - `team_limit_exceeded` — The number of teams associated with the org group would exceed the limit. - `usergroup_not_found` — `usergroup_id` wasn't found. - `auto_provision_required` — The IDP group requires a mandatory workspace link, so `auto_provision` must be `true`. - `workspace_not_eligible` — The workspace is not eligible to be linked to this IDP group; it is not on the org's allow-list of eligible workspaces. See https://docs.slack.dev/reference/methods/admin.usergroups.addTeams */
 export const addTeams: API.OperationMethod<
   AddTeamsRequest,
   AddTeamsResponse,
@@ -5596,6 +5449,21 @@ export const addTeams: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: AddTeamsRequest,
   output: AddTeamsResponse,
+  errors: [SlackError, SlackRateLimited],
+  protocol: SlackProtocol,
+  retry: Retry.Retry,
+}));
+
+export type AddUsersError = SlackOpError;
+/** Add members to an existing organizational usergroup. This method is only available to Enterprise Grid organizations. Required scopes — user: `admin.usergroups:write` Rate limit tier: 2 Method-specific errors (the `error` slug on the SlackError): - `feature_not_enabled` — The Admin APIs feature is not enabled for this workspace. - `invalid_auth` — The workspace specified is not part of this organization. - `restricted_action` — The calling user cannot modify the specified usergroup, or the usergroup's membership is managed by an identity provider (IdP) and can only be changed through SCIM. - `not_an_enterprise` — The token passed in does not belong to an Enterprise organization. - `invalid_usergroup` — A usergroup with the specified ID does not exist. - `invalid_users` — One or more users provided can not be added to the usergroup. - `user_not_found` — One or more users provided are invalid or are not a member of the organization. - `member_count_would_exceed_visible_limit` — The usergroup is visible and the member count would exceed the limit. - `cannot_modify_role_admin` — The user does not have permission to modify the roles admin role. See https://docs.slack.dev/reference/methods/admin.usergroups.addUsers */
+export const addUsers: API.OperationMethod<
+  AddUsersRequest,
+  AddUsersResponse,
+  AddUsersError,
+  SlackOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: AddUsersRequest,
+  output: AddUsersResponse,
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
@@ -5617,7 +5485,7 @@ export const addWorkflowsCollaborator: API.OperationMethod<
 }));
 
 export type AnalyticsMessagesActivityError = SlackOpError;
-/** Retrieves activity metrics for messages from a given channel. Required scopes — user: `admin.analytics:read` Rate limit tier: 2 Method-specific errors (the `error` slug on the SlackError): - `channel_not_found` — The specified channel was not found. - `invalid_arguments` — Required arguments either were not provided or contain invalid values. - `restricted_action` — The token does not have permission to access this resource. - `not_an_enterprise` — The user token does not belong to an enterprise. - `restricted_plan_level` — The enterprise plan level does not have access to this feature. See https://docs.slack.dev/reference/methods/admin.analytics.messages.activity */
+/** Retrieves activity metrics for messages from a given channel. Required scopes — user: `admin.analytics:read` Rate limit tier: 2 Method-specific errors (the `error` slug on the SlackError): - `channel_not_found` — The specified channel was not found. - `invalid_arguments` — Required arguments either were not provided or contain invalid values. - `restricted_action` — The token does not have permission to access this resource. - `not_an_enterprise` — The user token does not belong to an enterprise. - `restricted_plan_level` — The enterprise plan level does not have access to this feature. - `rate_limited` — Too many requests in a short amount of time. See https://docs.slack.dev/reference/methods/admin.analytics.messages.activity */
 export const analyticsMessagesActivity: API.OperationMethod<
   AnalyticsMessagesActivityRequest,
   AnalyticsMessagesActivityResponse,
@@ -5632,7 +5500,7 @@ export const analyticsMessagesActivity: API.OperationMethod<
 }));
 
 export type AnalyticsMessagesMetadataError = SlackOpError;
-/** Retrieves metadata for a list of messages from a given channel. Required scopes — user: `admin.analytics:read` Method-specific errors (the `error` slug on the SlackError): - `channel_not_found` — The specified channel was not found - `invalid_arguments` — Required arguments either were not provided or contain invalid values. - `not_an_enterprise` — The user token does not belong to an enterprise. - `analytics_unavailable` — We were unable to find analytics for you. - `admin_analytics_disabled` — We're having issues returning your analytics. Please wait and try again. - `restricted_plan_level` — This feature is not available for your current product plan. - `different_team_owns_message_metadata_for_channel` — Message metadata must be accessed by an actor from the same team that owns the channel. This may be the org or a specific enterprise workspace. See https://docs.slack.dev/reference/methods/admin.analytics.messages.metadata */
+/** Retrieves metadata for a list of messages from a given channel. Required scopes — user: `admin.analytics:read` Method-specific errors (the `error` slug on the SlackError): - `channel_not_found` — The specified channel was not found - `invalid_arguments` — Required arguments either were not provided or contain invalid values. - `not_an_enterprise` — The user token does not belong to an enterprise. - `analytics_unavailable` — We were unable to find analytics for you. - `admin_analytics_disabled` — We're having issues returning your analytics. Please wait and try again. - `restricted_plan_level` — This feature is not available for your current product plan. - `different_team_owns_message_metadata_for_channel` — Message metadata must be accessed by an actor from the same team that owns the channel. This may be the org or a specific enterprise workspace. - `rate_limited` — Too many requests in a short amount of time. See https://docs.slack.dev/reference/methods/admin.analytics.messages.metadata */
 export const analyticsMessagesMetadata: API.PaginatedOperationMethod<
   AnalyticsMessagesMetadataRequest,
   AnalyticsMessagesMetadataResponse,
@@ -5732,7 +5600,7 @@ export const assignEntities: API.OperationMethod<
 }));
 
 export type AssignUserError = SlackOpError;
-/** Add an Enterprise user to a workspace. Required scopes — user: `admin.users:write` Rate limit tier: 2 Method-specific errors (the `error` slug on the SlackError): - `feature_not_enabled` — The Admin APIs feature is not enabled for this team - `invalid_role_for_user` — The requested status is incompatible with the user's role on another workspace. - `invited_user_not_created` — The invited user could not be created. - `invited_user_not_reactivated` — The invited user could not be reactivated. - `invitor_cannot_see_channel` — The invitor is not part of one or many channels that the user was requested to be added to - `not_an_admin` — This method wasn't called by an admin. - `team_not_found` — `team_id was not found. - `user_already_team_member` — The given user is already active on the given team. - `user_is_bot` — The given user is a bot from an app. This api only works with humans. - `user_not_found` — `user_id` was not found. See https://docs.slack.dev/reference/methods/admin.users.assign */
+/** Add an Enterprise user to a workspace. Required scopes — user: `admin.users:write` Rate limit tier: 2 Method-specific errors (the `error` slug on the SlackError): - `feature_not_enabled` — The Admin APIs feature is not enabled for this team - `invalid_role_for_user` — The requested status is incompatible with the user's role on another workspace. - `invited_user_not_created` — The invited user could not be created. - `invited_user_not_reactivated` — The invited user could not be reactivated. - `invitor_cannot_see_channel` — The invitor is not part of one or many channels that the user was requested to be added to - `not_an_admin` — This method wasn't called by an admin. - `team_not_found` — `team_id was not found. - `too_many_channels` — The user was requested to be added to more channels than is allowed. - `user_already_team_member` — The given user is already active on the given team. - `user_is_bot` — The given user is a bot from an app. This api only works with humans. - `user_not_found` — `user_id` was not found. - `user_cannot_be_added_to_workspace` — The user can't be added to this workspace because of their account type or the workspace's configuration. See https://docs.slack.dev/reference/methods/admin.users.assign */
 export const assignUser: API.OperationMethod<
   AssignUserRequest,
   AssignUserResponse,
@@ -5792,7 +5660,7 @@ export const bulkMove: API.OperationMethod<
 }));
 
 export type BulkSetExcludeFromSlackAiError = SlackOpError;
-/** Exclude channels from Slack AI in bulk Required scopes — user: `admin.conversations:write` Rate limit tier: 2 Method-specific errors (the `error` slug on the SlackError): - `action_already_in_progress` — Another bulk action request is currently in progress - `internal_error` — Something unexpected happened, try again in a little bit. Sorry for that! - `no_valid_channels` — All input channels are invalid - `restricted_action` — User does not have permission to perform this action - `feature_not_enabled` — The feature is not enabled See https://docs.slack.dev/reference/methods/admin.conversations.bulkSetExcludeFromSlackAi */
+/** Exclude channels from Slack AI in bulk. Required scopes — user: `admin.conversations:write` Rate limit tier: 2 Method-specific errors (the `error` slug on the SlackError): - `action_already_in_progress` — Another bulk action request is currently in progress - `internal_error` — Something unexpected happened, try again in a little bit. Sorry for that! - `no_valid_channels` — All input channels are invalid - `restricted_action` — User does not have permission to perform this action - `feature_not_enabled` — The feature is not enabled - `disallowed_action` — This property cannot be set on DMs or MPDMs. See https://docs.slack.dev/reference/methods/admin.conversations.bulkSetExcludeFromSlackAi */
 export const bulkSetExcludeFromSlackAi: API.OperationMethod<
   BulkSetExcludeFromSlackAiRequest,
   BulkSetExcludeFromSlackAiResponse,
@@ -5801,6 +5669,21 @@ export const bulkSetExcludeFromSlackAi: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: BulkSetExcludeFromSlackAiRequest,
   output: BulkSetExcludeFromSlackAiResponse,
+  errors: [SlackError, SlackRateLimited],
+  protocol: SlackProtocol,
+  retry: Retry.Retry,
+}));
+
+export type BulkSetPropertiesError = SlackOpError;
+/** Set properties on channels in bulk. Required scopes — user: `admin.conversations:write` Rate limit tier: 2 Method-specific errors (the `error` slug on the SlackError): - `action_already_in_progress` — Another bulk action request is currently in progress - `invalid_arguments` — The property argument is not a valid JSON object representing a channel property. - `internal_error` — Something unexpected happened, try again in a little bit. Sorry for that! - `no_valid_channels` — All input channels are invalid - `restricted_action` — User does not have permission to perform this action - `feature_not_enabled` — The feature is not enabled - `disallowed_action` — This property cannot be set on this channel type. - `restricted_plan_level` — This API is only available to Enterprise+ customers. - `too_many_properties` — Only one channel property can be updated at a time. - `property_not_allowed` — The property passed in is not allowed to be updated. See https://docs.slack.dev/reference/methods/admin.conversations.bulkSetProperties */
+export const bulkSetProperties: API.OperationMethod<
+  BulkSetPropertiesRequest,
+  BulkSetPropertiesResponse,
+  BulkSetPropertiesError,
+  SlackOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: BulkSetPropertiesRequest,
+  output: BulkSetPropertiesResponse,
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
@@ -5912,7 +5795,7 @@ export const createConversation: API.OperationMethod<
 }));
 
 export type CreateForObjectsError = SlackOpError;
-/** Create a Salesforce channel for the corresponding object provided. Required scopes — user: `admin.conversations:manage_objects` Rate limit tier: 2 Method-specific errors (the `error` slug on the SlackError): - `restricted_action` — User does not have access to perform this action. - `record_not_found` — Value passed for `object_id` is invalid. - `invalid_org_id` — Value passed for `salesforce_org_id` is invalid. - `feature_not_enabled` — Feature not enabled. - `channel_already_exists` — Object is linked to a different channel. - `missing_record_channel_config` — Record Channels are not enabled for the given object type. See https://docs.slack.dev/reference/methods/admin.conversations.createForObjects */
+/** Create a Salesforce channel for the corresponding object provided. Required scopes — user: `admin.conversations:manage_objects` Rate limit tier: 2 Method-specific errors (the `error` slug on the SlackError): - `restricted_action` — User does not have access to perform this action. - `record_not_found` — Value passed for `salesforce_org_id` or `object_id` is invalid. - `feature_not_enabled` — Feature not enabled. - `channel_already_exists` — Object is linked to a different channel. - `missing_record_channel_config` — Record Channels are not enabled for the given object type. See https://docs.slack.dev/reference/methods/admin.conversations.createForObjects */
 export const createForObjects: API.OperationMethod<
   CreateForObjectsRequest,
   CreateForObjectsResponse,
@@ -5936,6 +5819,21 @@ export const createTeam: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateTeamRequest,
   output: CreateTeamResponse,
+  errors: [SlackError, SlackRateLimited],
+  protocol: SlackProtocol,
+  retry: Retry.Retry,
+}));
+
+export type CreateUsergroupError = SlackOpError;
+/** Create a new organizational usergroup. This method is only available to Enterprise Grid organizations. Required scopes — user: `admin.usergroups:write` Rate limit tier: 1 Method-specific errors (the `error` slug on the SlackError): - `feature_not_enabled` — The Admin APIs feature is not enabled for this workspace. - `invalid_auth` — The workspace specified is not part of this organization. - `restricted_action` — The calling user is not allowed to create usergroups. - `not_an_enterprise` — The token passed in does not belong to an Enterprise organization. - `name_already_exists` — The name specified is used by another usergroup and cannot be created. - `handle_already_exists` — The handle specified is used by another usergroup or entity and cannot be created. See https://docs.slack.dev/reference/methods/admin.usergroups.create */
+export const createUsergroup: API.OperationMethod<
+  CreateUsergroupRequest,
+  CreateUsergroupResponse,
+  CreateUsergroupError,
+  SlackOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateUsergroupRequest,
+  output: CreateUsergroupResponse,
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
@@ -5996,6 +5894,21 @@ export const exportUsersUnsupportedVersion: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ExportUsersUnsupportedVersionRequest,
   output: ExportUsersUnsupportedVersionResponse,
+  errors: [SlackError, SlackRateLimited],
+  protocol: SlackProtocol,
+  retry: Retry.Retry,
+}));
+
+export type FetchUsergroupError = SlackOpError;
+/** Fetch an organizational usergroup. Required scopes — user: `admin.usergroups:read` Rate limit tier: 1 Method-specific errors (the `error` slug on the SlackError): - `feature_not_enabled` — The Admin APIs feature is not enabled for this workspace. - `invalid_auth` — The workspace specified is not part of this organization. - `restricted_action` — The calling user is not allowed to view the specified usergroup. - `not_an_enterprise` — The token passed in does not belong to an Enterprise organization. - `invalid_usergroup` — A usergroup with the specified ID does not exist. See https://docs.slack.dev/reference/methods/admin.usergroups.fetch */
+export const fetchUsergroup: API.OperationMethod<
+  FetchUsergroupRequest,
+  FetchUsergroupResponse,
+  FetchUsergroupError,
+  SlackOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: FetchUsergroupRequest,
+  output: FetchUsergroupResponse,
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
@@ -6316,7 +6229,7 @@ export const listAppsPermissions: API.OperationMethod<
 }));
 
 export type ListAppsRequestsError = SlackOpError;
-/** List app requests for a team/workspace. Required scopes — user: `admin.apps:read` Rate limit tier: 2 Method-specific errors (the `error` slug on the SlackError): - `app_management_app_not_installed_on_org` — The app management app must be installed on the org. - `enterprise_not_found` — Returned when enterprise id is not found. - `feature_not_enabled` — Returned when the Admin APIs feature is not enabled for this team - `invalid_cursor` — Value passed for `cursor` was not valid or is no longer valid. - `invalid_auth` — invalid token or actor does not have access - `not_allowed` — The user is not allowed to access this API method - `not_an_admin` — This method is only accessible by org owners and admins - `restricted_action` — The action is restricted for this team - `user_is_restricted` — This method is only accessible by org owners, admins, and integration managers - `no_team_or_enterprise_provided` — Must provide team ID or enterprise ID - `team_not_found` — Returned when team id is not found. - `too_many_teams_provided` — Please provide only `team_id` OR `enterprise_id` See https://docs.slack.dev/reference/methods/admin.apps.requests.list */
+/** List app requests for a team/workspace. Required scopes — user: `admin.apps:read` Rate limit tier: 2 Method-specific errors (the `error` slug on the SlackError): - `app_management_app_not_installed_on_org` — The app management app must be installed on the org. - `enterprise_not_found` — Returned when enterprise id is not found. - `feature_not_enabled` — Returned when the Admin APIs feature is not enabled for this team - `invalid_cursor` — Value passed for `cursor` was not valid or is no longer valid. - `invalid_auth` — invalid token or actor does not have access - `not_allowed` — The user is not allowed to access this API method - `not_an_admin` — This method is only accessible by org owners and admins - `restricted_action` — The action is restricted for this team - `user_is_restricted` — This method is only accessible by org owners, admins, and integration managers - `no_team_or_enterprise_provided` — Must provide team ID or enterprise ID - `team_not_found` — Returned when team id is not found. - `too_many_teams_provided` — Please provide only `team_id` OR `enterprise_id` - `invalid_scopes` — One or more of the given scopes is not a recognized OAuth scope See https://docs.slack.dev/reference/methods/admin.apps.requests.list */
 export const listAppsRequests: API.PaginatedOperationMethod<
   ListAppsRequestsRequest,
   ListAppsRequestsResponse,
@@ -6811,7 +6724,7 @@ export const lookupWorkflowsTriggersTypesPermissions: API.OperationMethod<
 }));
 
 export type RemoveAppsPermissionsError = SlackOpError;
-/** Revoke an entity's access to an app that has its permission type set to named_entities Required scopes — user: `admin.apps:write` Rate limit tier: 2 Method-specific errors (the `error` slug on the SlackError): - `invalid_auth` — Invalid authorization token - `access_denied` — This actor does not have access to the permissions on this resource. - `named_entities_cannot_be_empty` — There must be at least one valid named entity - `app_not_found` — This app does not exist. - `not_an_enterprise` — This feature is only available on Enterprise Grid plans. - `invalid_permission_type` — This app requires permission_type to be set as named_entities before removing users. - `too_many_named_entities` — Too many named entities passed into the app permissions setting. - `app_acl_not_found` — This app does not have an ACL. - `internal_error` — Internal error - `user_not_found` — Value passed for `user_ids` was invalid. - `invalid_channel_restriction_mode` — Cannot remove channels when channel_restriction_mode is all_channels. - `channel_not_found` — One or more channel IDs are not valid. - `failed_to_update_channels` — An error occurred while updating the channel restriction list. See https://docs.slack.dev/reference/methods/admin.apps.permissions.remove */
+/** Revoke an entity's access to an app that has its permission type set to named_entities Required scopes — user: `admin.apps:write` Rate limit tier: 2 Method-specific errors (the `error` slug on the SlackError): - `invalid_auth` — Invalid authorization token - `access_denied` — This actor does not have access to the permissions on this resource. - `named_entities_cannot_be_empty` — There must be at least one valid named entity - `app_not_found` — This app does not exist. - `not_an_enterprise` — This feature is only available on Enterprise Grid plans. - `invalid_permission_type` — This app requires permission_type to be set as named_entities before removing users. - `too_many_named_entities` — Too many named entities passed into the app permissions setting. - `app_acl_not_found` — This app does not have an ACL. - `internal_error` — Internal error - `user_not_found` — Value passed for `user_ids` was invalid. - `invalid_channel_restriction_mode` — Cannot remove channels when channel_restriction_mode is all_channels. - `channel_not_found` — One or more channel IDs are not valid. - `failed_to_update_channels` — An error occurred while updating the channel restriction list. - `restricted_action` — User does not have permission to perform this action. See https://docs.slack.dev/reference/methods/admin.apps.permissions.remove */
 export const removeAppsPermissions: API.OperationMethod<
   RemoveAppsPermissionsRequest,
   RemoveAppsPermissionsResponse,
@@ -6826,7 +6739,7 @@ export const removeAppsPermissions: API.OperationMethod<
 }));
 
 export type RemoveAssignmentsError = SlackOpError;
-/** Removes a set of users from a role for the given scopes and entities Required scopes — user: `admin.roles:write` Rate limit tier: 2 Method-specific errors (the `error` slug on the SlackError): - `failed_for_some_entities` — At least one role scope ID was invalid - `failed_for_some_users` — At least one user ID was invalid - `failed_for_some_users_and_entities` — At least one role scope ID was invalid - `feature_not_enabled` — This API is currently not enabled. - `invalid_actor` — This API is only enabled for the Admins/Owners. - `invalid_role_id` — The role type passed does not exist. - `no_valid_entities` — None of the entities passed were valid. - `no_valid_users` — None of the users passed were valid. - `too_many_entities` — More than 10 role scopes were passed. - `too_many_users` — More than 10 users were passed. - `cannot_modify_role_admin` — Cannot modify role admin. See https://docs.slack.dev/reference/methods/admin.roles.removeAssignments */
+/** Removes a set of users from a role for the given scopes and entities Required scopes — user: `admin.roles:write` Rate limit tier: 2 Method-specific errors (the `error` slug on the SlackError): - `failed_for_some_entities` — At least one role scope ID was invalid - `failed_for_some_users` — At least one user ID was invalid - `failed_for_some_users_and_entities` — At least one role scope ID was invalid - `feature_not_enabled` — This API is currently not enabled. - `invalid_actor` — This API is only enabled for the Admins/Owners. - `invalid_role_id` — The role type passed does not exist. - `no_valid_entities` — None of the entities passed were valid. - `no_valid_users` — None of the users passed were valid. - `too_many_entities` — More than 10 role scopes were passed. - `too_many_users` — More than 10 users were passed. - `cannot_modify_role_admin` — The user does not have permission to modify the admin role. See https://docs.slack.dev/reference/methods/admin.roles.removeAssignments */
 export const removeAssignments: API.OperationMethod<
   RemoveAssignmentsRequest,
   RemoveAssignmentsResponse,
@@ -6915,6 +6828,21 @@ export const removeGroup: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type RemoveTeamsError = SlackOpError;
+/** Remove one or more default workspaces from an organization-wide IDP Group or Admin Group. Required scopes — user: `admin.teams:write` Rate limit tier: 2 Method-specific errors (the `error` slug on the SlackError): - `internal_error` — An unexpected error occurred. - `invalid_team_ids` — One or more team IDs provided were invalid; see the `errors` field in the response for the list of invalid team IDs. - `no_team_ids_given` — The `team_ids` parameter was empty. - `usergroup_not_found` — `usergroup_id` wasn't found. - `restricted_action` — The calling user cannot update the specified usergroup. See https://docs.slack.dev/reference/methods/admin.usergroups.removeTeams */
+export const removeTeams: API.OperationMethod<
+  RemoveTeamsRequest,
+  RemoveTeamsResponse,
+  RemoveTeamsError,
+  SlackOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: RemoveTeamsRequest,
+  output: RemoveTeamsResponse,
+  errors: [SlackError, SlackRateLimited],
+  protocol: SlackProtocol,
+  retry: Retry.Retry,
+}));
+
 export type RemoveUserError = SlackOpError;
 /** Remove a user from a workspace. Required scopes — user: `admin.users:write` Rate limit tier: 2 Method-specific errors (the `error` slug on the SlackError): - `cannot_modify_primary_owner` — The primary owner cannot be modified. - `failed_to_remove_user_from_workspace` — Removing this user from the workspace failed. - `feature_not_enabled` — The Admin APIs feature is not enabled for this team. - `invalid_auth` — The request could not be authorized - `invalid_permissions` — This method is only accessible by org owners and admins. - `team_not_found` — `team_id` was not found. - `user_already_deleted` — The requested user has already been marked as deleted. - `user_not_found` — The user was not found. See https://docs.slack.dev/reference/methods/admin.users.remove */
 export const removeUser: API.OperationMethod<
@@ -6925,6 +6853,21 @@ export const removeUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: RemoveUserRequest,
   output: RemoveUserResponse,
+  errors: [SlackError, SlackRateLimited],
+  protocol: SlackProtocol,
+  retry: Retry.Retry,
+}));
+
+export type RemoveUsersError = SlackOpError;
+/** Remove members from an existing organizational usergroup. This method is only available to Enterprise Grid organizations. Required scopes — user: `admin.usergroups:write` Rate limit tier: 2 Method-specific errors (the `error` slug on the SlackError): - `feature_not_enabled` — The Admin APIs feature is not enabled for this workspace. - `invalid_auth` — The workspace specified is not part of this organization. - `restricted_action` — The calling user cannot modify the specified usergroup, or the usergroup's membership is managed by an identity provider (IdP) and can only be changed through SCIM. - `not_an_enterprise` — The token passed in does not belong to an Enterprise organization. - `invalid_usergroup` — A usergroup with the specified ID does not exist. - `invalid_users` — One or more users provided can not be removed from the usergroup. - `user_not_found` — One or more users provided are invalid or are not a member of the organization. See https://docs.slack.dev/reference/methods/admin.usergroups.removeUsers */
+export const removeUsers: API.OperationMethod<
+  RemoveUsersRequest,
+  RemoveUsersResponse,
+  RemoveUsersError,
+  SlackOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: RemoveUsersRequest,
+  output: RemoveUsersResponse,
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
@@ -6946,7 +6889,7 @@ export const removeWorkflowsCollaborator: API.OperationMethod<
 }));
 
 export type RenameConversationError = SlackOpError;
-/** Rename a public or private channel. Required scopes — user: `admin.conversations:write` Rate limit tier: 2 Method-specific errors (the `error` slug on the SlackError): - `channel_not_found` — The value passed for `channel_id` was invalid. - `channel_type_not_supported` — The provided `channel_id` was a DM, MPDM, or the 'general' channel. - `could_not_rename_channel` — The channel could not be renamed. - `default_org_wide_channel` — The default org-wide channel can't be renamed. - `feature_not_enabled` — The token provided doesn't have access to this method. - `invalid_name_maxlength` — The channel name exceeds the maximum allowed length. - `name_taken` — The channel's name is already being used elsewhere. - `restricted_action` — A workspace preference prevents the authenticated user from renaming a channel. See https://docs.slack.dev/reference/methods/admin.conversations.rename */
+/** Rename a public or private channel. Required scopes — user: `admin.conversations:write` Rate limit tier: 2 Method-specific errors (the `error` slug on the SlackError): - `channel_not_found` — The value passed for `channel_id` was invalid. - `channel_type_not_supported` — The provided `channel_id` was a DM, MPDM, or the 'general' channel. - `could_not_rename_channel` — The channel could not be renamed. - `default_org_wide_channel` — The default org-wide channel can't be renamed. - `feature_not_enabled` — The token provided doesn't have access to this method. - `invalid_name_maxlength` — The channel name exceeds the maximum allowed length. - `name_taken` — The channel's name is already being used elsewhere. - `restricted_action` — A workspace preference prevents the authenticated user from renaming a channel. - `external_channel_migrating` — The channel is an externally shared channel that is currently being migrated and can't be renamed. - `not_supported` — This type of channel doesn't support renaming through this method. See https://docs.slack.dev/reference/methods/admin.conversations.rename */
 export const renameConversation: API.OperationMethod<
   RenameConversationRequest,
   RenameConversationResponse,
@@ -7103,7 +7046,7 @@ export const setAppsMcpServersPermissions: API.OperationMethod<
 }));
 
 export type SetAppsPermissionsError = SlackOpError;
-/** Set the permission type for who can access an app Required scopes — user: `admin.apps:write` Rate limit tier: 2 Method-specific errors (the `error` slug on the SlackError): - `invalid_auth` — Invalid authorization token - `access_denied` — This actor does not have access to the permissions on this resource. - `invalid_permission_type` — This app requires permission_type to be set as named_entities before adding users. - `named_entities_cannot_be_empty` — Must pass at least one valid named entity. - `no_valid_named_entities` — None of the provided named entities were valid - `too_many_named_entities` — Too many named_entities passed into the app permissions setting. - `app_not_found` — This app does not exist. - `not_an_enterprise` — This feature is only available on Enterprise Grid plans. - `user_not_found` — This actor does not have access to at least one valid named entity. - `usergroup_not_found` — The usergroup is not valid. - `invalid_channel_restriction_mode` — The channel_restriction_mode value is not valid. - `channel_ids_required` — channel_ids is required when channel_restriction_mode is specific_channels or all_channels_except. - `channel_not_found` — One or more channel IDs are not valid. See https://docs.slack.dev/reference/methods/admin.apps.permissions.set */
+/** Set the permission type for who can access an app Required scopes — user: `admin.apps:write` Rate limit tier: 2 Method-specific errors (the `error` slug on the SlackError): - `invalid_auth` — Invalid authorization token - `access_denied` — This actor does not have access to the permissions on this resource. - `invalid_permission_type` — This app requires permission_type to be set as named_entities before adding users. - `named_entities_cannot_be_empty` — Must pass at least one valid named entity. - `no_valid_named_entities` — None of the provided named entities were valid - `too_many_named_entities` — Too many named_entities passed into the app permissions setting. - `app_not_found` — This app does not exist. - `not_an_enterprise` — This feature is only available on Enterprise Grid plans. - `user_not_found` — This actor does not have access to at least one valid named entity. - `usergroup_not_found` — The usergroup is not valid. - `invalid_channel_restriction_mode` — The channel_restriction_mode value is not valid. - `channel_ids_required` — channel_ids is required when channel_restriction_mode is specific_channels or all_channels_except. - `channel_not_found` — One or more channel IDs are not valid. - `restricted_action` — User does not have permission to perform this action. - `channel_restrictions_not_available` — Channel restrictions are not available for this workspace. - `channel_restriction_requires_app_access` — Channel access cannot be configured while the app is set to no_one, since the app can't be used in any channel. See https://docs.slack.dev/reference/methods/admin.apps.permissions.set */
 export const setAppsPermissions: API.OperationMethod<
   SetAppsPermissionsRequest,
   SetAppsPermissionsResponse,
@@ -7253,7 +7196,7 @@ export const setName: API.OperationMethod<
 }));
 
 export type SetOwnerError = SlackOpError;
-/** Set an existing regular user or admin to be a workspace or org owner. Required scopes — user: `admin.users:write` Rate limit tier: 2 Method-specific errors (the `error` slug on the SlackError): - `cannot_modify_primary_owner` — The primary owner cannot be modified. - `failed_to_set_user_to_owner` — The change to the user's role failed. - `failed_to_set_owner_on_workspaces` — Failed to set the user as an owner on all workspaces. - `feature_not_enabled` — The Admin APIs feature is not enabled for this team. - `invalid_role_for_user` — The user cannot be made into an owner. - `not_an_admin` — This method can only be accessed by org owners and admins. - `not_an_owner` — This method can only be accessed by org owners. The app's installing user must retain org owner status for this method to function. - `not_supported` — This is not a supported action. - `team_not_found` — `team_id` was not found. - `user_must_be_in_workspace` — This user must be a member of at least one workspace. - `user_not_found` — The requested user was not found. See https://docs.slack.dev/reference/methods/admin.users.setOwner */
+/** Set an existing regular user or admin to be a workspace or org owner. Required scopes — user: `admin.users:write` Rate limit tier: 2 Method-specific errors (the `error` slug on the SlackError): - `cannot_modify_primary_owner` — The primary owner cannot be modified. - `failed_to_set_user_to_owner` — The change to the user's role failed. - `failed_to_set_owner_on_workspaces` — Failed to set the user as an owner on all workspaces. - `feature_not_enabled` — The Admin APIs feature is not enabled for this team. - `invalid_role_for_user` — The user cannot be made into an owner. - `not_an_admin` — This method can only be accessed by org owners and admins. - `not_supported` — This is not a supported action. - `team_not_found` — `team_id` was not found. - `user_must_be_in_workspace` — This user must be a member of at least one workspace. - `user_not_found` — The requested user was not found. See https://docs.slack.dev/reference/methods/admin.users.setOwner */
 export const setOwner: API.OperationMethod<
   SetOwnerRequest,
   SetOwnerResponse,
@@ -7427,6 +7370,36 @@ export const updateItem: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateItemRequest,
   output: UpdateItemResponse,
+  errors: [SlackError, SlackRateLimited],
+  protocol: SlackProtocol,
+  retry: Retry.Retry,
+}));
+
+export type UpdateUsergroupError = SlackOpError;
+/** Update one or more properties of an existing organizational usergroup. Required scopes — user: `admin.usergroups:write` Rate limit tier: 1 Method-specific errors (the `error` slug on the SlackError): - `feature_not_enabled` — The Admin APIs feature is not enabled for this workspace. - `invalid_auth` — The workspace specified is not part of this organization. - `restricted_action` — The calling user cannot modify the specified usergroup, or the usergroup is managed by an identity provider (IdP) and its name cannot be changed through this API. - `not_an_enterprise` — The token passed in does not belong to an Enterprise organization. - `invalid_usergroup` — A usergroup with the specified ID does not exist. - `name_already_exists` — The name specified is used by another usergroup and cannot be updated. - `handle_already_exists` — The handle specified is used by another usergroup or entity and cannot be updated. - `visible_group_needs_handle` — Tried to set the group to visible but did not provide a handle. - `too_many_usergroup_members_to_make_visible` — Tried to set the group to visible but the group has too many members - `user_channel_limit_exceeded` — Adding these channels would cause one or more members to exceed their channel limit. - `cannot_modify_pref_after_creation` — This preference can only be set when the group is created and cannot be changed afterward. See https://docs.slack.dev/reference/methods/admin.usergroups.update */
+export const updateUsergroup: API.OperationMethod<
+  UpdateUsergroupRequest,
+  UpdateUsergroupResponse,
+  UpdateUsergroupError,
+  SlackOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: UpdateUsergroupRequest,
+  output: UpdateUsergroupResponse,
+  errors: [SlackError, SlackRateLimited],
+  protocol: SlackProtocol,
+  retry: Retry.Retry,
+}));
+
+export type UploadUsersError = SlackOpError;
+/** Add members to an existing organizational usergroup in bulk via CSV upload. This method is only available to Enterprise Grid organizations. Required scopes — user: `admin.usergroups:write` Rate limit tier: 2 Method-specific errors (the `error` slug on the SlackError): - `feature_not_enabled` — The Admin APIs feature is not enabled for this workspace. - `invalid_auth` — The workspace specified is not part of this organization. - `restricted_action` — The calling user cannot modify the specified usergroup, or the usergroup's membership is managed by an identity provider (IdP) and can only be changed through SCIM. - `not_an_enterprise` — The token passed in does not belong to an Enterprise organization. - `invalid_usergroup` — A usergroup with the specified ID does not exist. - `no_valid_users` — There were no valid users provided in the csv. - `unable_to_parse_csv` — Could not parse the uploaded csv. - `member_count_would_exceed_visible_limit` — The usergroup is visible and the member count would exceed the limit. - `cannot_modify_role_admin` — The user does not have permission to modify the roles admin role. See https://docs.slack.dev/reference/methods/admin.usergroups.uploadUsers */
+export const uploadUsers: API.OperationMethod<
+  UploadUsersRequest,
+  UploadUsersResponse,
+  UploadUsersError,
+  SlackOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: UploadUsersRequest,
+  output: UploadUsersResponse,
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,

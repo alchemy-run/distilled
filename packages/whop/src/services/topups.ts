@@ -155,9 +155,7 @@ export const CreateTopupRequest = /*@__PURE__*/ S.suspend(() =>
     currency: Currencies,
     payment_method_id: S.String,
   }).pipe(T.Http({ method: "POST", uri: "/topups", code: 200 })),
-).annotate({
-  identifier: "CreateTopupRequest",
-}) as any as S.Schema<CreateTopupRequest>;
+).annotate({ identifier: "CreateTopupRequest" }) as any as S.Schema<CreateTopupRequest>;
 
 /** The status of a receipt */
 export type ReceiptStatus =

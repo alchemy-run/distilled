@@ -1,0 +1,190 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.posthog.feature_flag_request_usage#ListFeatureFlagRequestUsageRequestTimeInterval": {
+      "type": "enum",
+      "members": {
+        "HOUR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "hour"
+          }
+        },
+        "DAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "day"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.feature_flag_request_usage#ListFeatureFlagRequestUsageRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "date_from": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "date_from",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Inclusive start of the usage period."
+          }
+        },
+        "date_to": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "date_to",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Exclusive end of the usage period."
+          }
+        },
+        "time_interval": {
+          "target": "com.posthog.feature_flag_request_usage#ListFeatureFlagRequestUsageRequestTimeInterval",
+          "traits": {
+            "smithy.api#httpQuery": "time_interval",
+            "smithy.api#documentation": "Time bucket used to group request usage. Hourly queries are limited to 8 days.\n\n* `hour` - hour\n* `day` - day"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.feature_flag_request_usage#FeatureFlagRequestUsageResponse": {
+      "type": "structure",
+      "members": {
+        "results": {
+          "target": "com.posthog.feature_flag_request_usage#FeatureFlagRequestUsageResponseResultsList",
+          "traits": {
+            "smithy.api#documentation": "Feature flag request usage by SDK.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.feature_flag_request_usage#FeatureFlagRequestUsageItem": {
+      "type": "structure",
+      "members": {
+        "request_type": {
+          "target": "com.posthog.feature_flag_request_usage#FeatureFlagRequestTypeEnum",
+          "traits": {
+            "smithy.api#documentation": "Remote flag evaluation or local flag-definition request.\n\n* `remote_evaluation` - remote_evaluation\n* `local_evaluation` - local_evaluation",
+            "smithy.api#required": {}
+          }
+        },
+        "bucket": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Start of the UTC billing-aggregation bucket. Hourly buckets approximate request time.",
+            "smithy.api#required": {}
+          }
+        },
+        "sdk": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "SDK family parsed from the request user agent.",
+            "smithy.api#required": {}
+          }
+        },
+        "request_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of billable requests in this bucket.",
+            "smithy.api#required": {}
+          }
+        },
+        "billing_units": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Estimated billing units. Local evaluation requests count as 10 units each.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.feature_flag_request_usage#FeatureFlagRequestTypeEnum": {
+      "type": "enum",
+      "members": {
+        "REMOTE_EVALUATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "remote_evaluation"
+          }
+        },
+        "LOCAL_EVALUATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "local_evaluation"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `remote_evaluation` - remote_evaluation\n* `local_evaluation` - local_evaluation"
+      }
+    },
+    "com.posthog.feature_flag_request_usage#FeatureFlagRequestUsageResponseResultsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.feature_flag_request_usage#FeatureFlagRequestUsageItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "Feature flag request usage by SDK."
+      }
+    },
+    "com.posthog.feature_flag_request_usage#ListFeatureFlagRequestUsage": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.feature_flag_request_usage#ListFeatureFlagRequestUsageRequest"
+      },
+      "output": {
+        "target": "com.posthog.feature_flag_request_usage#FeatureFlagRequestUsageResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/feature_flag_request_usage/",
+          "code": 200
+        }
+      }
+    },
+    "com.posthog.feature_flag_request_usage#FeatureFlagRequestUsage": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.posthog.feature_flag_request_usage#ListFeatureFlagRequestUsage"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "PostHog API"
+      }
+    }
+  }
+}

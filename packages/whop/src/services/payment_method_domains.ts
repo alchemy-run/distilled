@@ -97,9 +97,7 @@ export const PaymentMethodDomain = /*@__PURE__*/ S.suspend(() =>
     status: PaymentMethodDomainStatus,
     updated_at: S.String,
   }),
-).annotate({
-  identifier: "PaymentMethodDomain",
-}) as any as S.Schema<PaymentMethodDomain>;
+).annotate({ identifier: "PaymentMethodDomain" }) as any as S.Schema<PaymentMethodDomain>;
 
 export interface DeletePaymentMethodDomainRequest {
   /** The unique identifier of the payment method domain, prefixed `pmd_`. */
@@ -108,13 +106,7 @@ export interface DeletePaymentMethodDomainRequest {
 export const DeletePaymentMethodDomainRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/payment_method_domains/{id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/payment_method_domains/{id}", code: 200 })),
 ).annotate({
   identifier: "DeletePaymentMethodDomainRequest",
 }) as any as S.Schema<DeletePaymentMethodDomainRequest>;
@@ -246,13 +238,7 @@ export const VerifyPaymentMethodDomainRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
     idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/payment_method_domains/{id}/verify",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/payment_method_domains/{id}/verify", code: 200 })),
 ).annotate({
   identifier: "VerifyPaymentMethodDomainRequest",
 }) as any as S.Schema<VerifyPaymentMethodDomainRequest>;

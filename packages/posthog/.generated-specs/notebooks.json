@@ -359,7 +359,7 @@
         "value": {
           "target": "smithy.api#Document",
           "traits": {
-            "smithy.api#documentation": "The variable's current value. A 'date' accepts an absolute date or a relative expression ('-7d', 'mStart'), resolved against the project timezone."
+            "smithy.api#documentation": "The variable's current value. A 'date' is an absolute date or datetime in ISO 8601 form ('2025-01-31', '2025-01-31T09:00:00Z'); relative expressions such as '-7d' are rejected."
           }
         }
       },
@@ -397,7 +397,7 @@
         "content": {
           "target": "smithy.api#Document",
           "traits": {
-            "smithy.api#documentation": "Notebook content as a ProseMirror JSON document structure."
+            "smithy.api#documentation": "Notebook content as a ProseMirror JSON document. On create, the server stores it as a markdown notebook: one ph-markdown-notebook node that holds the converted markdown."
           }
         },
         "text_content": {
@@ -458,7 +458,7 @@
         "content": {
           "target": "smithy.api#Document",
           "traits": {
-            "smithy.api#documentation": "Notebook content as a ProseMirror JSON document structure."
+            "smithy.api#documentation": "Notebook content as a ProseMirror JSON document. On create, the server stores it as a markdown notebook: one ph-markdown-notebook node that holds the converted markdown."
           }
         },
         "text_content": {
@@ -948,7 +948,7 @@
         "content": {
           "target": "smithy.api#Document",
           "traits": {
-            "smithy.api#documentation": "Notebook content as a ProseMirror JSON document structure."
+            "smithy.api#documentation": "Notebook content as a ProseMirror JSON document. On create, the server stores it as a markdown notebook: one ph-markdown-notebook node that holds the converted markdown."
           }
         },
         "text_content": {
@@ -1049,7 +1049,7 @@
         "content": {
           "target": "smithy.api#Document",
           "traits": {
-            "smithy.api#documentation": "Notebook content as a ProseMirror JSON document structure."
+            "smithy.api#documentation": "Notebook content as a ProseMirror JSON document. On create, the server stores it as a markdown notebook: one ph-markdown-notebook node that holds the converted markdown."
           }
         },
         "text_content": {
@@ -1530,16 +1530,7 @@
         "smithy.api#documentation": "The API for interacting with Notebooks. This feature is in early access and the API can have breaking changes without announcement."
       }
     },
-    "com.posthog.notebooks#NotebooksHogqlExecuteCreateRequestVariablesList": {
-      "type": "list",
-      "member": {
-        "target": "com.posthog.notebooks#NotebookVariable"
-      },
-      "traits": {
-        "smithy.api#documentation": "Notebook-level variables, in display order. A SQL cell reads one as a `{name}` placeholder and a Python cell as a global. Names must be unique."
-      }
-    },
-    "com.posthog.notebooks#NotebooksHogqlExecuteCreateRequest": {
+    "com.posthog.notebooks#CreateNotebooksKernelCompleteRequest": {
       "type": "structure",
       "members": {
         "project_id": {
@@ -1557,78 +1548,96 @@
             "smithy.api#required": {}
           }
         },
-        "title": {
+        "code": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Title of the notebook.",
-            "com.distilled.openapi#nullable": {}
+            "smithy.api#documentation": "The full source of the cell being edited.",
+            "smithy.api#required": {}
           }
         },
-        "content": {
-          "target": "smithy.api#Document",
-          "traits": {
-            "smithy.api#documentation": "Notebook content as a ProseMirror JSON document structure."
-          }
-        },
-        "text_content": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Plain text representation of the notebook content for search.",
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "version": {
+        "cursor_pos": {
           "target": "smithy.api#Integer",
           "traits": {
-            "smithy.api#documentation": "Version number for optimistic concurrency control. Must match the current version when updating content."
+            "smithy.api#documentation": "Character offset of the cursor in `code`, counting from 0.",
+            "smithy.api#required": {}
           }
-        },
-        "deleted": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "smithy.api#documentation": "Whether the notebook has been soft-deleted."
-          }
-        },
-        "variables": {
-          "target": "com.posthog.notebooks#NotebooksHogqlExecuteCreateRequestVariablesList",
-          "traits": {
-            "smithy.api#documentation": "Notebook-level variables, in display order. A SQL cell reads one as a `{name}` placeholder and a Python cell as a global. Names must be unique."
-          }
-        },
-        "_create_in_folder": {
-          "target": "smithy.api#String"
         }
       },
       "traits": {
         "smithy.api#input": {}
       }
     },
-    "com.posthog.notebooks#NotebooksHogqlExecuteCreate": {
+    "com.posthog.notebooks#NotebookKernelCompleteResponse": {
+      "type": "structure",
+      "members": {
+        "matches": {
+          "target": "com.posthog.notebooks#NotebookKernelCompleteResponseMatchesList",
+          "traits": {
+            "smithy.api#documentation": "Completions from the live kernel's namespace. Empty when no kernel is running.",
+            "smithy.api#required": {}
+          }
+        },
+        "cursor_start": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Start offset of the text the completions replace.",
+            "smithy.api#required": {}
+          }
+        },
+        "cursor_end": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "End offset of the text the completions replace.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.notebooks#NotebookKernelCompletion": {
+      "type": "structure",
+      "members": {
+        "text": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The text that replaces `code[cursor_start:cursor_end]`.",
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "What the match names, as the kernel reports it: 'function', 'module', 'instance', … or blank.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.notebooks#NotebookKernelCompleteResponseMatchesList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.notebooks#NotebookKernelCompletion"
+      },
+      "traits": {
+        "smithy.api#documentation": "Completions from the live kernel's namespace. Empty when no kernel is running."
+      }
+    },
+    "com.posthog.notebooks#CreateNotebooksKernelComplete": {
       "type": "operation",
       "input": {
-        "target": "com.posthog.notebooks#NotebooksHogqlExecuteCreateRequest"
+        "target": "com.posthog.notebooks#CreateNotebooksKernelCompleteRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.posthog.notebooks#NotebookKernelCompleteResponse"
       },
-      "errors": [
-        {
-          "target": "com.posthog.notebooks#BadRequest"
-        },
-        {
-          "target": "com.posthog.notebooks#Forbidden"
-        },
-        {
-          "target": "com.posthog.notebooks#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
-          "uri": "/api/projects/{project_id}/notebooks/{short_id}/hogql/execute/",
+          "uri": "/api/projects/{project_id}/notebooks/{short_id}/kernel/complete/",
           "code": 200
         },
-        "smithy.api#documentation": "The API for interacting with Notebooks. This feature is in early access and the API can have breaking changes without announcement."
+        "smithy.api#documentation": "Completions for the cursor position in a Python cell, from the notebook's running kernel. Returns no matches when no kernel is running or the kernel is busy, and never starts one."
       }
     },
     "com.posthog.notebooks#CreateNotebooksKernelConfigRequest": {
@@ -1664,7 +1673,7 @@
         "idle_timeout_seconds": {
           "target": "smithy.api#Integer",
           "traits": {
-            "smithy.api#documentation": "Seconds of inactivity before the sandbox kernel shuts down."
+            "smithy.api#documentation": "Maximum lifetime of the sandbox kernel in seconds. It shuts down this long after it starts, even while in use. A running kernel keeps its current lifetime until it restarts."
           }
         }
       },
@@ -1692,7 +1701,7 @@
         "idle_timeout_seconds": {
           "target": "smithy.api#Integer",
           "traits": {
-            "smithy.api#documentation": "Configured idle timeout in seconds; null means the default.",
+            "smithy.api#documentation": "Configured maximum sandbox lifetime in seconds; null means the default.",
             "com.distilled.openapi#nullable": {}
           }
         },
@@ -1755,54 +1764,6 @@
         "smithy.api#documentation": "Set the notebook's kernel compute configuration. Applies at sandbox provision time: a currently running kernel keeps its resources until restarted."
       }
     },
-    "com.posthog.notebooks#GetNotebooksKernelDataframeRequest": {
-      "type": "structure",
-      "members": {
-        "project_id": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {},
-            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
-          }
-        },
-        "short_id": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {}
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#input": {}
-      }
-    },
-    "com.posthog.notebooks#GetNotebooksKernelDataframe": {
-      "type": "operation",
-      "input": {
-        "target": "com.posthog.notebooks#GetNotebooksKernelDataframeRequest"
-      },
-      "output": {
-        "target": "smithy.api#Unit"
-      },
-      "errors": [
-        {
-          "target": "com.posthog.notebooks#Forbidden"
-        },
-        {
-          "target": "com.posthog.notebooks#NotFound"
-        }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/api/projects/{project_id}/notebooks/{short_id}/kernel/dataframe/",
-          "code": 200
-        },
-        "smithy.api#documentation": "The API for interacting with Notebooks. This feature is in early access and the API can have breaking changes without announcement."
-      }
-    },
     "com.posthog.notebooks#NotebooksKernelExecuteCreateRequestVariablesList": {
       "type": "list",
       "member": {
@@ -1840,7 +1801,7 @@
         "content": {
           "target": "smithy.api#Document",
           "traits": {
-            "smithy.api#documentation": "Notebook content as a ProseMirror JSON document structure."
+            "smithy.api#documentation": "Notebook content as a ProseMirror JSON document. On create, the server stores it as a markdown notebook: one ph-markdown-notebook node that holds the converted markdown."
           }
         },
         "text_content": {
@@ -1904,16 +1865,7 @@
         "smithy.api#documentation": "The API for interacting with Notebooks. This feature is in early access and the API can have breaking changes without announcement."
       }
     },
-    "com.posthog.notebooks#NotebooksKernelExecuteStreamCreateRequestVariablesList": {
-      "type": "list",
-      "member": {
-        "target": "com.posthog.notebooks#NotebookVariable"
-      },
-      "traits": {
-        "smithy.api#documentation": "Notebook-level variables, in display order. A SQL cell reads one as a `{name}` placeholder and a Python cell as a global. Names must be unique."
-      }
-    },
-    "com.posthog.notebooks#NotebooksKernelExecuteStreamCreateRequest": {
+    "com.posthog.notebooks#CreateNotebooksKernelInspectRequest": {
       "type": "structure",
       "members": {
         "project_id": {
@@ -1931,78 +1883,66 @@
             "smithy.api#required": {}
           }
         },
-        "title": {
+        "code": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Title of the notebook.",
-            "com.distilled.openapi#nullable": {}
+            "smithy.api#documentation": "The full source of the cell being edited.",
+            "smithy.api#required": {}
           }
         },
-        "content": {
-          "target": "smithy.api#Document",
-          "traits": {
-            "smithy.api#documentation": "Notebook content as a ProseMirror JSON document structure."
-          }
-        },
-        "text_content": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Plain text representation of the notebook content for search.",
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "version": {
+        "cursor_pos": {
           "target": "smithy.api#Integer",
           "traits": {
-            "smithy.api#documentation": "Version number for optimistic concurrency control. Must match the current version when updating content."
+            "smithy.api#documentation": "Character offset of the cursor in `code`, counting from 0.",
+            "smithy.api#required": {}
           }
         },
-        "deleted": {
-          "target": "smithy.api#Boolean",
+        "detail_level": {
+          "target": "smithy.api#Integer",
           "traits": {
-            "smithy.api#documentation": "Whether the notebook has been soft-deleted."
+            "smithy.api#documentation": "0 for the signature and docstring, 1 to add the source when the kernel can find it."
           }
-        },
-        "variables": {
-          "target": "com.posthog.notebooks#NotebooksKernelExecuteStreamCreateRequestVariablesList",
-          "traits": {
-            "smithy.api#documentation": "Notebook-level variables, in display order. A SQL cell reads one as a `{name}` placeholder and a Python cell as a global. Names must be unique."
-          }
-        },
-        "_create_in_folder": {
-          "target": "smithy.api#String"
         }
       },
       "traits": {
         "smithy.api#input": {}
       }
     },
-    "com.posthog.notebooks#NotebooksKernelExecuteStreamCreate": {
+    "com.posthog.notebooks#NotebookKernelInspectResponse": {
+      "type": "structure",
+      "members": {
+        "found": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the kernel found an object at the cursor.",
+            "smithy.api#required": {}
+          }
+        },
+        "text": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The object's signature and docstring as plain text. Blank when not found.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.notebooks#CreateNotebooksKernelInspect": {
       "type": "operation",
       "input": {
-        "target": "com.posthog.notebooks#NotebooksKernelExecuteStreamCreateRequest"
+        "target": "com.posthog.notebooks#CreateNotebooksKernelInspectRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.posthog.notebooks#NotebookKernelInspectResponse"
       },
-      "errors": [
-        {
-          "target": "com.posthog.notebooks#BadRequest"
-        },
-        {
-          "target": "com.posthog.notebooks#Forbidden"
-        },
-        {
-          "target": "com.posthog.notebooks#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
-          "uri": "/api/projects/{project_id}/notebooks/{short_id}/kernel/execute/stream/",
+          "uri": "/api/projects/{project_id}/notebooks/{short_id}/kernel/inspect/",
           "code": 200
         },
-        "smithy.api#documentation": "The API for interacting with Notebooks. This feature is in early access and the API can have breaking changes without announcement."
+        "smithy.api#documentation": "The signature and docstring of the name at the cursor in a Python cell, from the notebook's running kernel. Returns found=false when no kernel is running or the kernel is busy."
       }
     },
     "com.posthog.notebooks#NotebooksKernelRestartCreateRequestVariablesList": {
@@ -2042,7 +1982,7 @@
         "content": {
           "target": "smithy.api#Document",
           "traits": {
-            "smithy.api#documentation": "Notebook content as a ProseMirror JSON document structure."
+            "smithy.api#documentation": "Notebook content as a ProseMirror JSON document. On create, the server stores it as a markdown notebook: one ph-markdown-notebook node that holds the converted markdown."
           }
         },
         "text_content": {
@@ -2143,7 +2083,7 @@
         "content": {
           "target": "smithy.api#Document",
           "traits": {
-            "smithy.api#documentation": "Notebook content as a ProseMirror JSON document structure."
+            "smithy.api#documentation": "Notebook content as a ProseMirror JSON document. On create, the server stores it as a markdown notebook: one ph-markdown-notebook node that holds the converted markdown."
           }
         },
         "text_content": {
@@ -2320,7 +2260,7 @@
         "idle_timeout_seconds": {
           "target": "smithy.api#Integer",
           "traits": {
-            "smithy.api#documentation": "Seconds of inactivity before the sandbox shuts down.",
+            "smithy.api#documentation": "Maximum lifetime of the sandbox in seconds. It shuts down this long after it starts, even while in use.",
             "com.distilled.openapi#nullable": {}
           }
         },
@@ -2469,7 +2409,7 @@
         "content": {
           "target": "smithy.api#Document",
           "traits": {
-            "smithy.api#documentation": "Notebook content as a ProseMirror JSON document structure."
+            "smithy.api#documentation": "Notebook content as a ProseMirror JSON document. On create, the server stores it as a markdown notebook: one ph-markdown-notebook node that holds the converted markdown."
           }
         },
         "text_content": {
@@ -2531,6 +2471,373 @@
           "code": 200
         },
         "smithy.api#documentation": "The API for interacting with Notebooks. This feature is in early access and the API can have breaking changes without announcement."
+      }
+    },
+    "com.posthog.notebooks#CreateNotebooksRunRequestVariablesList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.notebooks#NotebookVariable"
+      },
+      "traits": {
+        "smithy.api#documentation": "Replace the notebook's variables with this list before the run starts, so the results match what the document declares. Omit it to run with the variables already saved."
+      }
+    },
+    "com.posthog.notebooks#CreateNotebooksRunRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "short_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "include_prepared_insights": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Include prepared embedded insights when refreshing a dashboard widget. Requires notebook widgets to be enabled."
+          }
+        },
+        "variables": {
+          "target": "com.posthog.notebooks#CreateNotebooksRunRequestVariablesList",
+          "traits": {
+            "smithy.api#documentation": "Replace the notebook's variables with this list before the run starts, so the results match what the document declares. Omit it to run with the variables already saved."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.notebooks#NotebookRunStartResponse": {
+      "type": "structure",
+      "members": {
+        "run_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier of the whole-notebook run. Poll the run status endpoint with it until the status is terminal.",
+            "smithy.api#required": {}
+          }
+        },
+        "cell_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "How many cells the run will execute, frozen when it started.",
+            "smithy.api#required": {}
+          }
+        },
+        "starts_sandbox": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "True when this run has to provision a sandbox because it holds a Python cell and none is live for the caller. Tell the user what that costs.",
+            "smithy.api#required": {}
+          }
+        },
+        "sandbox_hourly_price": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "What the sandbox this run provisions costs per hour in USD. Null when the run needs no new sandbox, or when the backend is not charged.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.notebooks#CreateNotebooksRun": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.notebooks#CreateNotebooksRunRequest"
+      },
+      "output": {
+        "target": "com.posthog.notebooks#NotebookRunStartResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/notebooks/{short_id}/runs/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Run every SQL and Python cell of a markdown notebook, in document order, stopping at the first cell that does not finish. Returns as soon as the run starts; poll the run status endpoint until the status is terminal. Flag-gated (revamped-py-notebooks)."
+      }
+    },
+    "com.posthog.notebooks#GetNotebooksRunRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "short_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "run_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the whole-notebook run, as returned by the run endpoint."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.notebooks#NotebookRunStatusResponse": {
+      "type": "structure",
+      "members": {
+        "run_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier of the whole-notebook run.",
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Run state: 'running' (keep polling), or terminal — 'done', 'failed', or 'interrupted'.",
+            "smithy.api#required": {}
+          }
+        },
+        "trigger": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Which surface started the run: 'ui' or 'mcp'.",
+            "smithy.api#required": {}
+          }
+        },
+        "variables": {
+          "target": "com.posthog.notebooks#NotebookRunStatusResponseVariablesList",
+          "traits": {
+            "smithy.api#documentation": "The variable values this run bound, snapshotted when it started.",
+            "smithy.api#required": {}
+          }
+        },
+        "cell_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "How many cells the run executes.",
+            "smithy.api#required": {}
+          }
+        },
+        "current_index": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Position in the plan the run has reached, counting from 0.",
+            "smithy.api#required": {}
+          }
+        },
+        "current_node_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The cell the run is on; null once the plan is finished.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "failed_node_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The cell that stopped the run, when one did.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "error": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Why the run stopped, in one sentence a person can read.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "cells": {
+          "target": "com.posthog.notebooks#NotebookRunStatusResponseCellsList",
+          "traits": {
+            "smithy.api#documentation": "Every planned cell in run order, with the state of its run in this notebook run.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the run started.",
+            "smithy.api#required": {}
+          }
+        },
+        "finished_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the run reached a terminal state; null while running.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.notebooks#NotebookRunStatusResponseVariablesList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.notebooks#NotebookVariable"
+      },
+      "traits": {
+        "smithy.api#documentation": "The variable values this run bound, snapshotted when it started."
+      }
+    },
+    "com.posthog.notebooks#NotebookRunCell": {
+      "type": "structure",
+      "members": {
+        "node_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Durable cell identity, the same id the cell run endpoints take.",
+            "smithy.api#required": {}
+          }
+        },
+        "cell_type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Cell kind: 'sql' or 'python'.",
+            "smithy.api#required": {}
+          }
+        },
+        "dataframe_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name other cells reference this cell's result by; blank means display-only.",
+            "smithy.api#required": {}
+          }
+        },
+        "run_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "This cell's run in the whole-notebook run; null until the run reaches the cell.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "status": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The cell's own state: 'running', 'done', 'failed', or 'interrupted'; null before it starts.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "error": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Why this cell failed, when it did.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.notebooks#NotebookRunStatusResponseCellsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.notebooks#NotebookRunCell"
+      },
+      "traits": {
+        "smithy.api#documentation": "Every planned cell in run order, with the state of its run in this notebook run."
+      }
+    },
+    "com.posthog.notebooks#GetNotebooksRun": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.notebooks#GetNotebooksRunRequest"
+      },
+      "output": {
+        "target": "com.posthog.notebooks#NotebookRunStatusResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/notebooks/{short_id}/runs/{run_id}/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Read a whole-notebook run: its state, which cell it is on, and one line per planned cell. Carries no result rows — fetch a cell's result from the cell run result endpoint. Flag-gated (revamped-py-notebooks)."
+      }
+    },
+    "com.posthog.notebooks#CreateNotebooksRunsInterruptRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "short_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "run_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of the whole-notebook run, as returned by the run endpoint."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.notebooks#NotebookRunInterruptResponse": {
+      "type": "structure",
+      "members": {
+        "interrupted": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "True when this call stopped the run. False when it had already finished, which is not an error.",
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The run's state after the call: 'done', 'failed', or 'interrupted'.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.notebooks#CreateNotebooksRunsInterrupt": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.notebooks#CreateNotebooksRunsInterruptRequest"
+      },
+      "output": {
+        "target": "com.posthog.notebooks#NotebookRunInterruptResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/notebooks/{short_id}/runs/{run_id}/interrupt/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Stop a whole-notebook run and the cell it is on. Idempotent: stopping a run that already finished returns its outcome unchanged. Flag-gated (revamped-py-notebooks)."
       }
     },
     "com.posthog.notebooks#NotebookSQLV2NodeTypeEnum": {
@@ -2629,6 +2936,12 @@
           "traits": {
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
+          }
+        },
+        "reuse_results": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Reuse the requesting user's running or completed HogQL run with the same cell and resolved query from the last hour. Does not apply to token-only callers, kernel runs, or connection runs."
           }
         },
         "node_id": {
@@ -2733,7 +3046,7 @@
           "uri": "/api/projects/{project_id}/notebooks/{short_id}/sql_v2/run/",
           "code": 200
         },
-        "smithy.api#documentation": "Dispatch an asynchronous run of a notebook SQL or Python cell. Returns a run_id immediately; poll the run result endpoint until the status is terminal. One run at a time per notebook. Flag-gated (revamped-py-notebooks)."
+        "smithy.api#documentation": "Dispatch an asynchronous run of a notebook SQL or Python cell. Returns a run_id immediately; poll the run result endpoint until the status is terminal. One run at a time per notebook. Python notebooks enable all run types. Generated widgets enable HogQL runs without a connection or kernel."
       }
     },
     "com.posthog.notebooks#GetNotebooksSqlV2RunRequest": {
@@ -2832,6 +3145,12 @@
           "target": "com.posthog.notebooks#NotebookSQLV2EnvelopeMediaList",
           "traits": {
             "smithy.api#documentation": "Rich outputs from a Python node run, e.g. matplotlib figures as PNGs."
+          }
+        },
+        "result_text": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The plain-text form of a Python node's last expression, as Jupyter shows it under Out[n]. Absent when the cell ends in a statement, a None value, a semicolon, or a dataframe."
           }
         },
         "columns": {
@@ -3014,7 +3333,7 @@
           "uri": "/api/projects/{project_id}/notebooks/{short_id}/sql_v2/runs/{run_id}/",
           "code": 200
         },
-        "smithy.api#documentation": "Read a run's durable state: its status, and — once done or interrupted — the result envelope (columns, first rows, stdout/stderr, media, error). Poll until terminal. Flag-gated (revamped-py-notebooks)."
+        "smithy.api#documentation": "Read a run's durable state: its status, and — once done or interrupted — the result envelope (columns, first rows, stdout/stderr, media, error). Poll until terminal. Requires notebook and query read access, including after a notebook feature flag is disabled."
       }
     },
     "com.posthog.notebooks#CreateNotebooksSqlV2RunsInterruptRequest": {
@@ -3154,6 +3473,13 @@
             "smithy.api#required": {}
           }
         },
+        "variables": {
+          "target": "com.posthog.notebooks#NotebookSQLV2StateResponseVariablesList",
+          "traits": {
+            "smithy.api#documentation": "The notebook's declared variables, in display order. A SQL cell reads one as a `{name}` placeholder and a Python cell as a global; a cell that reads an undeclared name fails to run.",
+            "smithy.api#required": {}
+          }
+        },
         "cells": {
           "target": "com.posthog.notebooks#NotebookSQLV2StateResponseCellsList",
           "traits": {
@@ -3191,12 +3517,21 @@
         "idle_timeout_seconds": {
           "target": "smithy.api#Integer",
           "traits": {
-            "smithy.api#documentation": "Seconds of inactivity before the sandbox shuts down.",
+            "smithy.api#documentation": "Maximum lifetime of the sandbox in seconds. It shuts down this long after it starts, even while in use.",
             "com.distilled.openapi#nullable": {}
           }
         }
       },
       "traits": {}
+    },
+    "com.posthog.notebooks#NotebookSQLV2StateResponseVariablesList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.notebooks#NotebookVariable"
+      },
+      "traits": {
+        "smithy.api#documentation": "The notebook's declared variables, in display order. A SQL cell reads one as a `{name}` placeholder and a Python cell as a global; a cell that reads an undeclared name fails to run."
+      }
     },
     "com.posthog.notebooks#NotebookCellState": {
       "type": "structure",
@@ -3211,7 +3546,7 @@
         "cell_type": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Cell kind: 'sql', 'python', or 'saved_insight' (embedded insight, never runs).",
+            "smithy.api#documentation": "Cell kind: 'sql', 'python', 'saved_insight' (an insight with an optional prepared dataframe), or 'markdown' (prose, a heading, or a fenced block; never runs and joins no dependency graph).",
             "smithy.api#required": {}
           }
         },
@@ -3225,7 +3560,21 @@
         "code": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The cell's source, truncated with a marker past 8KB.",
+            "smithy.api#documentation": "The cell's source, truncated with a marker past 8KB. For a markdown cell this is the block's markdown.",
+            "smithy.api#required": {}
+          }
+        },
+        "start": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Offset where the cell's source starts in the notebook's markdown, in UTF-16 code units, the same unit the collaboration diffs use.",
+            "smithy.api#required": {}
+          }
+        },
+        "end": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Offset just past the cell's source, in UTF-16 code units, excluding the blank lines that separate it from the next cell.",
             "smithy.api#required": {}
           }
         },
@@ -3358,10 +3707,10 @@
           "uri": "/api/projects/{project_id}/notebooks/{short_id}/sql_v2/state/",
           "code": 200
         },
-        "smithy.api#documentation": "The full notebook view for agents: title, document source (markdown, or raw content for legacy rich-text notebooks), every cell with its dependency edges and derived run status (including staleness), and the kernel's runtime state and compute config. Flag-gated (revamped-py-notebooks)."
+        "smithy.api#documentation": "The full notebook view for agents: title, document source (markdown, or raw content for legacy rich-text notebooks), the notebook's declared variables, every cell with its dependency edges and derived run status (including staleness), and the kernel's runtime state and compute config. Flag-gated (revamped-py-notebooks)."
       }
     },
-    "com.posthog.notebooks#CancelNotebooksWidgetRequest": {
+    "com.posthog.notebooks#CreateNotebooksWidgetSnapshotRequest": {
       "type": "structure",
       "members": {
         "project_id": {
@@ -3382,15 +3731,421 @@
         "node_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {},
-            "smithy.api#documentation": "Stable identifier of the generated widget node."
+            "smithy.api#documentation": "Notebook widget node to add to a dashboard.",
+            "smithy.api#required": {}
           }
         },
-        "generation_id": {
+        "version_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Generation job to cancel.",
+            "smithy.api#documentation": "Immutable widget version to keep on the dashboard.",
+            "smithy.api#required": {}
+          }
+        },
+        "notebook_run_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Completed whole-notebook run supplying every input after refresh."
+          }
+        },
+        "previous_snapshot_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Snapshot being refreshed; its version and input mappings must match."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.notebooks#WidgetSnapshot": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Immutable snapshot containing the widget's saved dataframe results.",
+            "smithy.api#required": {}
+          }
+        },
+        "node_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Source widget node in the notebook.",
+            "smithy.api#required": {}
+          }
+        },
+        "version_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Pinned generated widget version.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When all dataframe results were saved.",
+            "smithy.api#required": {}
+          }
+        },
+        "frame_names": {
+          "target": "com.posthog.notebooks#WidgetSnapshotFrameNamesList",
+          "traits": {
+            "smithy.api#documentation": "Allowed dataframe slots.",
+            "smithy.api#required": {}
+          }
+        },
+        "input_bindings": {
+          "target": "com.posthog.notebooks#WidgetSnapshotInputBindingsMap",
+          "traits": {
+            "smithy.api#documentation": "Frozen input mappings and Hog transforms.",
+            "smithy.api#required": {}
+          }
+        },
+        "input_contract": {
+          "target": "com.posthog.notebooks#WidgetSnapshotInputContractList",
+          "traits": {
+            "smithy.api#documentation": "Pinned widget input schemas.",
+            "smithy.api#required": {}
+          }
+        },
+        "artifact_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Short-lived URL for the pinned widget build.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "build_hash": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Exact build hash used for execution consent.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "security_review": {
+          "target": "com.posthog.notebooks#WidgetSecurityReview",
+          "traits": {
+            "smithy.api#documentation": "Review of the pinned widget source.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.notebooks#WidgetSnapshotFrameNamesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Allowed dataframe slots."
+      }
+    },
+    "com.posthog.notebooks#WidgetSnapshotInputBindingsValue": {
+      "type": "structure",
+      "members": {
+        "source": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "hog": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.notebooks#WidgetSnapshotInputBindingsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.posthog.notebooks#WidgetSnapshotInputBindingsValue"
+      },
+      "traits": {
+        "smithy.api#documentation": "Frozen input mappings and Hog transforms."
+      }
+    },
+    "com.posthog.notebooks#WidgetInputContractItem": {
+      "type": "structure",
+      "members": {
+        "slot": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Stable logical input name used by the reusable widget.",
+            "smithy.api#required": {}
+          }
+        },
+        "sourceName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Original dataframe name when the widget was published.",
+            "smithy.api#required": {}
+          }
+        },
+        "columns": {
+          "target": "com.posthog.notebooks#WidgetInputContractItemColumnsList",
+          "traits": {
+            "smithy.api#documentation": "Columns the notebook-local binding must produce after its optional Hog mapping."
+          }
+        },
+        "schemaHash": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Hash of the expected column schema.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.notebooks#WidgetInputContractColumn": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Column name expected by the reusable widget.",
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Column type expected by the reusable widget.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.notebooks#WidgetInputContractItemColumnsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.notebooks#WidgetInputContractColumn"
+      },
+      "traits": {
+        "smithy.api#documentation": "Columns the notebook-local binding must produce after its optional Hog mapping."
+      }
+    },
+    "com.posthog.notebooks#WidgetSnapshotInputContractList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.notebooks#WidgetInputContractItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "Pinned widget input schemas."
+      }
+    },
+    "com.posthog.notebooks#WidgetSecurityReview": {
+      "type": "structure",
+      "members": {
+        "severity": {
+          "target": "com.posthog.notebooks#GeneratedWidgetVersionSecurityReviewSeverityEnum",
+          "traits": {
+            "smithy.api#documentation": "Highest severity found, or none when the review found no issues.\n\n* `none` - none\n* `low` - low\n* `medium` - medium\n* `high` - high\n* `critical` - critical",
+            "smithy.api#required": {}
+          }
+        },
+        "summary": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Concise result from the automated security review.",
+            "smithy.api#required": {}
+          }
+        },
+        "findings": {
+          "target": "com.posthog.notebooks#WidgetSecurityReviewFindingsList",
+          "traits": {
+            "smithy.api#documentation": "Potential security issues found in the source.",
+            "smithy.api#required": {}
+          }
+        },
+        "model": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Fast AI model used for the security review.",
+            "smithy.api#required": {}
+          }
+        },
+        "review_version": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Version of the security review instructions and parser.",
+            "smithy.api#required": {}
+          }
+        },
+        "reviewed_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When this exact widget source was reviewed.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.notebooks#GeneratedWidgetVersionSecurityReviewSeverityEnum": {
+      "type": "enum",
+      "members": {
+        "NONE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "none"
+          }
+        },
+        "LOW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "low"
+          }
+        },
+        "MEDIUM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "medium"
+          }
+        },
+        "HIGH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "high"
+          }
+        },
+        "CRITICAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "critical"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `none` - none\n* `low` - low\n* `medium` - medium\n* `high` - high\n* `critical` - critical"
+      }
+    },
+    "com.posthog.notebooks#WidgetSecurityFinding": {
+      "type": "structure",
+      "members": {
+        "severity": {
+          "target": "com.posthog.notebooks#ErrorTrackingIssueSeverityRuleEnum",
+          "traits": {
+            "smithy.api#documentation": "Severity of this potential security issue.\n\n* `low` - low\n* `medium` - medium\n* `high` - high\n* `critical` - critical",
+            "smithy.api#required": {}
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Short description of the potential security issue.",
+            "smithy.api#required": {}
+          }
+        },
+        "details": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Why the source may be unsafe and what it could do.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.notebooks#ErrorTrackingIssueSeverityRuleEnum": {
+      "type": "enum",
+      "members": {
+        "LOW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "low"
+          }
+        },
+        "MEDIUM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "medium"
+          }
+        },
+        "HIGH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "high"
+          }
+        },
+        "CRITICAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "critical"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `low` - low\n* `medium` - medium\n* `high` - high\n* `critical` - critical"
+      }
+    },
+    "com.posthog.notebooks#WidgetSecurityReviewFindingsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.notebooks#WidgetSecurityFinding"
+      },
+      "traits": {
+        "smithy.api#documentation": "Potential security issues found in the source."
+      }
+    },
+    "com.posthog.notebooks#CreateNotebooksWidgetSnapshot": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.notebooks#CreateNotebooksWidgetSnapshotRequest"
+      },
+      "output": {
+        "target": "com.posthog.notebooks#WidgetSnapshot"
+      },
+      "errors": [
+        {
+          "target": "com.posthog.notebooks#BadRequest"
+        },
+        {
+          "target": "com.posthog.notebooks#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/notebooks/{short_id}/widget_snapshots/",
+          "code": 200
+        },
+        "smithy.api#documentation": "The API for interacting with Notebooks. This feature is in early access and the API can have breaking changes without announcement."
+      }
+    },
+    "com.posthog.notebooks#GetNotebooksWidgetSnapshotRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "short_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "snapshot_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
         }
@@ -3399,32 +4154,24 @@
         "smithy.api#input": {}
       }
     },
-    "com.posthog.notebooks#CancelNotebooksWidget": {
+    "com.posthog.notebooks#GetNotebooksWidgetSnapshot": {
       "type": "operation",
       "input": {
-        "target": "com.posthog.notebooks#CancelNotebooksWidgetRequest"
+        "target": "com.posthog.notebooks#GetNotebooksWidgetSnapshotRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.posthog.notebooks#WidgetSnapshot"
       },
-      "errors": [
-        {
-          "target": "com.posthog.notebooks#BadRequest"
-        },
-        {
-          "target": "com.posthog.notebooks#NotFound"
-        }
-      ],
       "traits": {
         "smithy.api#http": {
-          "method": "POST",
-          "uri": "/api/projects/{project_id}/notebooks/{short_id}/widgets/{node_id}/cancel/",
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/notebooks/{short_id}/widget_snapshots/{snapshot_id}/",
           "code": 200
         },
         "smithy.api#documentation": "The API for interacting with Notebooks. This feature is in early access and the API can have breaking changes without announcement."
       }
     },
-    "com.posthog.notebooks#NotebooksWidgetFrameRequest": {
+    "com.posthog.notebooks#NotebooksWidgetSnapshotFrameRequest": {
       "type": "structure",
       "members": {
         "project_id": {
@@ -3442,44 +4189,46 @@
             "smithy.api#required": {}
           }
         },
-        "node_id": {
+        "snapshot_id": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpLabel": {},
-            "smithy.api#required": {},
-            "smithy.api#documentation": "Stable identifier of the generated widget node."
+            "smithy.api#required": {}
           }
         },
         "frame_name": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpLabel": {},
-            "smithy.api#required": {},
-            "smithy.api#documentation": "Allowed dataframe slot requested by the widget."
+            "smithy.api#required": {}
           }
         },
         "limit": {
           "target": "smithy.api#Integer",
           "traits": {
-            "smithy.api#httpQuery": "limit"
+            "smithy.api#httpQuery": "limit",
+            "smithy.api#documentation": "Maximum rows in this page."
           }
         },
         "offset": {
           "target": "smithy.api#Integer",
           "traits": {
-            "smithy.api#httpQuery": "offset"
+            "smithy.api#httpQuery": "offset",
+            "smithy.api#documentation": "Zero-based row offset."
           }
         },
         "run_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#httpQuery": "run_id"
+            "smithy.api#httpQuery": "run_id",
+            "smithy.api#documentation": "Completed run selected by the first page request."
           }
         },
         "version_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#httpQuery": "version_id"
+            "smithy.api#httpQuery": "version_id",
+            "smithy.api#documentation": "Version requesting the data."
           }
         }
       },
@@ -3600,6 +4349,741 @@
       },
       "traits": {
         "smithy.api#documentation": "Requested page of dataframe rows."
+      }
+    },
+    "com.posthog.notebooks#NotebooksWidgetSnapshotFrame": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.notebooks#NotebooksWidgetSnapshotFrameRequest"
+      },
+      "output": {
+        "target": "com.posthog.notebooks#WidgetFrame"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/notebooks/{short_id}/widget_snapshots/{snapshot_id}/frames/{frame_name}/",
+          "code": 200
+        },
+        "smithy.api#documentation": "The API for interacting with Notebooks. This feature is in early access and the API can have breaking changes without announcement."
+      }
+    },
+    "com.posthog.notebooks#PublishNotebooksWidgetSnapshotRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "short_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "node_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Notebook widget node to add to a dashboard.",
+            "smithy.api#required": {}
+          }
+        },
+        "version_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Immutable widget version to keep on the dashboard.",
+            "smithy.api#required": {}
+          }
+        },
+        "notebook_run_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Completed whole-notebook run supplying every input after refresh."
+          }
+        },
+        "previous_snapshot_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Snapshot being refreshed; its version and input mappings must match."
+          }
+        },
+        "dashboard_id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Dashboard to add the widget to."
+          }
+        },
+        "tile_id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Existing dashboard tile to refresh."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Title for a new dashboard widget."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.notebooks#PublishNotebooksWidgetSnapshot": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.notebooks#PublishNotebooksWidgetSnapshotRequest"
+      },
+      "output": {
+        "target": "com.posthog.notebooks#WidgetSnapshot"
+      },
+      "errors": [
+        {
+          "target": "com.posthog.notebooks#BadRequest"
+        },
+        {
+          "target": "com.posthog.notebooks#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/notebooks/{short_id}/widget_snapshots/publish/",
+          "code": 200
+        },
+        "smithy.api#documentation": "The API for interacting with Notebooks. This feature is in early access and the API can have breaking changes without announcement."
+      }
+    },
+    "com.posthog.notebooks#AttachNotebooksWidgetRequestInputBindingsValue": {
+      "type": "structure",
+      "members": {
+        "source": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "hog": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.notebooks#AttachNotebooksWidgetRequestInputBindingsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.posthog.notebooks#AttachNotebooksWidgetRequestInputBindingsValue"
+      },
+      "traits": {
+        "smithy.api#documentation": "Notebook-local input mappings keyed by contract slot. Each value names a source dataframe and may include pure Hog source for reshaping its rows."
+      }
+    },
+    "com.posthog.notebooks#AttachNotebooksWidgetRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "short_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "node_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Stable identifier of the generated widget node."
+          }
+        },
+        "widget_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Reusable widget to place in this notebook node.",
+            "smithy.api#required": {}
+          }
+        },
+        "version_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Version to pin, or null to follow the reusable widget's latest version.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "input_bindings": {
+          "target": "com.posthog.notebooks#AttachNotebooksWidgetRequestInputBindingsMap",
+          "traits": {
+            "smithy.api#documentation": "Notebook-local input mappings keyed by contract slot. Each value names a source dataframe and may include pure Hog source for reshaping its rows."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.notebooks#WidgetStatus": {
+      "type": "structure",
+      "members": {
+        "lifecycle_status": {
+          "target": "com.posthog.notebooks#LifecycleStatusEnum",
+          "traits": {
+            "smithy.api#documentation": "Current widget and preview state.\n\n* `awaiting_generation` - awaiting_generation\n* `generating` - generating\n* `building` - building\n* `ready` - ready\n* `failed` - failed\n* `incompatible` - incompatible",
+            "smithy.api#required": {}
+          }
+        },
+        "error_detail": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Actionable failure detail.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "error_code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Stable failure code for support and diagnostics.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "failure_phase": {
+          "target": "com.posthog.notebooks#FailurePhaseEnum",
+          "traits": {
+            "smithy.api#documentation": "Generation step that failed, if a generation job failed.\n\n* `generating_source` - generating_source\n* `reviewing_source` - reviewing_source\n* `publishing_source` - publishing_source\n* `unknown` - unknown",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "artifact_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Short-lived URL for the selected widget version's preview.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "frame_names": {
+          "target": "com.posthog.notebooks#WidgetStatusFrameNamesList",
+          "traits": {
+            "smithy.api#documentation": "Logical dataframe slots available to the selected version.",
+            "smithy.api#required": {}
+          }
+        },
+        "input_bindings": {
+          "target": "com.posthog.notebooks#WidgetStatusInputBindingsMap",
+          "traits": {
+            "smithy.api#documentation": "Notebook-local mapping from each logical widget input slot to a dataframe and optional Hog transform.",
+            "smithy.api#required": {}
+          }
+        },
+        "input_contract": {
+          "target": "com.posthog.notebooks#WidgetStatusInputContractList",
+          "traits": {
+            "smithy.api#documentation": "Logical dataframe slots and output schemas required by the selected widget version.",
+            "smithy.api#required": {}
+          }
+        },
+        "current_version_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Selected immutable widget version.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "pinned_version_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Version explicitly pinned for this notebook placement, or null when it follows the latest version.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "widget_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Reusable widget identity.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "instance_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Placement in this notebook.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "has_versions": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the widget has generated history.",
+            "smithy.api#required": {}
+          }
+        },
+        "active_job": {
+          "target": "com.posthog.notebooks#WidgetJob",
+          "traits": {
+            "smithy.api#documentation": "Active generation job, if any.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "security_review": {
+          "target": "com.posthog.notebooks#WidgetSecurityReview",
+          "traits": {
+            "smithy.api#documentation": "Automated review for the selected source, or null for a legacy unreviewed version.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "is_reusable": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether this widget identity is published in the reusable widget catalog.",
+            "smithy.api#required": {}
+          }
+        },
+        "build_hash": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Hex SHA-256 over the exact immutable artifact manifest selected for display.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.notebooks#LifecycleStatusEnum": {
+      "type": "enum",
+      "members": {
+        "AWAITING_GENERATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "awaiting_generation"
+          }
+        },
+        "GENERATING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "generating"
+          }
+        },
+        "BUILDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "building"
+          }
+        },
+        "READY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ready"
+          }
+        },
+        "FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "failed"
+          }
+        },
+        "INCOMPATIBLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "incompatible"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `awaiting_generation` - awaiting_generation\n* `generating` - generating\n* `building` - building\n* `ready` - ready\n* `failed` - failed\n* `incompatible` - incompatible"
+      }
+    },
+    "com.posthog.notebooks#FailurePhaseEnum": {
+      "type": "enum",
+      "members": {
+        "GENERATING_SOURCE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "generating_source"
+          }
+        },
+        "REVIEWING_SOURCE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "reviewing_source"
+          }
+        },
+        "PUBLISHING_SOURCE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "publishing_source"
+          }
+        },
+        "UNKNOWN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `generating_source` - generating_source\n* `reviewing_source` - reviewing_source\n* `publishing_source` - publishing_source\n* `unknown` - unknown"
+      }
+    },
+    "com.posthog.notebooks#WidgetStatusFrameNamesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Logical dataframe slots available to the selected version."
+      }
+    },
+    "com.posthog.notebooks#WidgetStatusInputBindingsValue": {
+      "type": "structure",
+      "members": {
+        "source": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "hog": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.notebooks#WidgetStatusInputBindingsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.posthog.notebooks#WidgetStatusInputBindingsValue"
+      },
+      "traits": {
+        "smithy.api#documentation": "Notebook-local mapping from each logical widget input slot to a dataframe and optional Hog transform."
+      }
+    },
+    "com.posthog.notebooks#WidgetStatusInputContractList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.notebooks#WidgetInputContractItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "Logical dataframe slots and output schemas required by the selected widget version."
+      }
+    },
+    "com.posthog.notebooks#WidgetJob": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Generation job identifier.",
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "com.posthog.notebooks#WidgetJobStatusEnum",
+          "traits": {
+            "smithy.api#documentation": "Current durable job state.\n\n* `queued` - queued\n* `generating` - generating\n* `publishing` - publishing",
+            "smithy.api#required": {}
+          }
+        },
+        "phase": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Current generation phase.",
+            "smithy.api#required": {}
+          }
+        },
+        "model": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "AI model processing the job.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the job was queued.",
+            "smithy.api#required": {}
+          }
+        },
+        "started_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When a worker started the job.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.notebooks#WidgetJobStatusEnum": {
+      "type": "enum",
+      "members": {
+        "QUEUED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "queued"
+          }
+        },
+        "GENERATING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "generating"
+          }
+        },
+        "PUBLISHING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "publishing"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `queued` - queued\n* `generating` - generating\n* `publishing` - publishing"
+      }
+    },
+    "com.posthog.notebooks#AttachNotebooksWidget": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.notebooks#AttachNotebooksWidgetRequest"
+      },
+      "output": {
+        "target": "com.posthog.notebooks#WidgetStatus"
+      },
+      "errors": [
+        {
+          "target": "com.posthog.notebooks#BadRequest"
+        },
+        {
+          "target": "com.posthog.notebooks#NotFound"
+        },
+        {
+          "target": "com.posthog.notebooks#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/notebooks/{short_id}/widgets/{node_id}/attach/",
+          "code": 200
+        },
+        "smithy.api#documentation": "The API for interacting with Notebooks. This feature is in early access and the API can have breaking changes without announcement."
+      }
+    },
+    "com.posthog.notebooks#CancelNotebooksWidgetRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "short_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "node_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Stable identifier of the generated widget node."
+          }
+        },
+        "generation_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Generation job to cancel.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.notebooks#CancelNotebooksWidget": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.notebooks#CancelNotebooksWidgetRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "errors": [
+        {
+          "target": "com.posthog.notebooks#BadRequest"
+        },
+        {
+          "target": "com.posthog.notebooks#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/notebooks/{short_id}/widgets/{node_id}/cancel/",
+          "code": 200
+        },
+        "smithy.api#documentation": "The API for interacting with Notebooks. This feature is in early access and the API can have breaking changes without announcement."
+      }
+    },
+    "com.posthog.notebooks#ForkNotebooksWidgetRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "short_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "node_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Stable identifier of the reusable widget node to fork."
+          }
+        },
+        "version_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Immutable version to fork, or null to copy the placement's pinned or latest version.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.notebooks#ForkNotebooksWidget": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.notebooks#ForkNotebooksWidgetRequest"
+      },
+      "output": {
+        "target": "com.posthog.notebooks#WidgetStatus"
+      },
+      "errors": [
+        {
+          "target": "com.posthog.notebooks#BadRequest"
+        },
+        {
+          "target": "com.posthog.notebooks#NotFound"
+        },
+        {
+          "target": "com.posthog.notebooks#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/notebooks/{short_id}/widgets/{node_id}/fork/",
+          "code": 200
+        },
+        "smithy.api#documentation": "The API for interacting with Notebooks. This feature is in early access and the API can have breaking changes without announcement."
+      }
+    },
+    "com.posthog.notebooks#NotebooksWidgetFrameRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "short_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "node_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Stable identifier of the generated widget node."
+          }
+        },
+        "frame_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Allowed dataframe slot requested by the widget."
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit"
+          }
+        },
+        "offset": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "offset"
+          }
+        },
+        "run_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "run_id"
+          }
+        },
+        "version_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "version_id"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
       }
     },
     "com.posthog.notebooks#NotebooksWidgetFrame": {
@@ -3782,6 +5266,471 @@
         "smithy.api#documentation": "The API for interacting with Notebooks. This feature is in early access and the API can have breaking changes without announcement."
       }
     },
+    "com.posthog.notebooks#PinNotebooksWidgetRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "short_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "node_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Stable identifier of the generated widget node."
+          }
+        },
+        "version_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Immutable version to pin, or null to follow the reusable widget's latest version.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.notebooks#PinNotebooksWidget": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.notebooks#PinNotebooksWidgetRequest"
+      },
+      "output": {
+        "target": "com.posthog.notebooks#WidgetStatus"
+      },
+      "errors": [
+        {
+          "target": "com.posthog.notebooks#BadRequest"
+        },
+        {
+          "target": "com.posthog.notebooks#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/notebooks/{short_id}/widgets/{node_id}/pin/",
+          "code": 200
+        },
+        "smithy.api#documentation": "The API for interacting with Notebooks. This feature is in early access and the API can have breaking changes without announcement."
+      }
+    },
+    "com.posthog.notebooks#PublishNotebooksWidgetRequestTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Searchable labels attached to the reusable widget."
+      }
+    },
+    "com.posthog.notebooks#PublishNotebooksWidgetRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "short_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "node_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Stable identifier of the generated widget node."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name shown in the reusable widget catalog.",
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Short explanation of what the reusable widget shows and when to use it."
+          }
+        },
+        "tags": {
+          "target": "com.posthog.notebooks#PublishNotebooksWidgetRequestTagsList",
+          "traits": {
+            "smithy.api#documentation": "Searchable labels attached to the reusable widget."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.notebooks#ReusableWidgetDetail": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Stable reusable widget identifier.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Catalog name of the reusable widget.",
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Description of the reusable widget.",
+            "smithy.api#required": {}
+          }
+        },
+        "tags": {
+          "target": "com.posthog.notebooks#ReusableWidgetDetailTagsList",
+          "traits": {
+            "smithy.api#documentation": "Searchable widget labels.",
+            "smithy.api#required": {}
+          }
+        },
+        "publication_status": {
+          "target": "com.posthog.notebooks#PublicationStatusEnum",
+          "traits": {
+            "smithy.api#documentation": "Catalog lifecycle of the reusable widget.\n\n* `published` - published\n* `deprecated` - deprecated",
+            "smithy.api#required": {}
+          }
+        },
+        "current_version": {
+          "target": "com.posthog.notebooks#ReusableWidgetVersionDetail",
+          "traits": {
+            "smithy.api#documentation": "Current reusable widget version.",
+            "smithy.api#required": {}
+          }
+        },
+        "pending_version": {
+          "target": "com.posthog.notebooks#ReusableWidgetVersionDetail",
+          "traits": {
+            "smithy.api#documentation": "Generated draft waiting for manual review, or null when no review is pending.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "version_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of immutable versions in this widget's history.",
+            "smithy.api#required": {}
+          }
+        },
+        "instance_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of notebook placements using this widget.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the widget identity was created.",
+            "smithy.api#required": {}
+          }
+        },
+        "published_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the widget became reusable.",
+            "smithy.api#required": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the reusable widget was last changed.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.notebooks#ReusableWidgetDetailTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Searchable widget labels."
+      }
+    },
+    "com.posthog.notebooks#PublicationStatusEnum": {
+      "type": "enum",
+      "members": {
+        "PUBLISHED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "published"
+          }
+        },
+        "DEPRECATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "deprecated"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `published` - published\n* `deprecated` - deprecated"
+      }
+    },
+    "com.posthog.notebooks#ReusableWidgetVersionDetail": {
+      "type": "structure",
+      "members": {
+        "generation_cost_usd": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Estimated generation charge in USD, including retries, security review, and the AI credit markup. Null when unavailable.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Immutable widget version identifier.",
+            "smithy.api#required": {}
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Title stored with this version.",
+            "smithy.api#required": {}
+          }
+        },
+        "version": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "One-based version number.",
+            "smithy.api#required": {}
+          }
+        },
+        "operation": {
+          "target": "com.posthog.notebooks#GeneratedWidgetVersionOperationEnum",
+          "traits": {
+            "smithy.api#documentation": "Action that created this version.\n\n* `initial` - initial\n* `regenerate` - regenerate\n* `improve` - improve\n* `revert` - revert",
+            "smithy.api#required": {}
+          }
+        },
+        "model": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "AI model that created this version, or null when none was recorded.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "artifact_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Short-lived URL for the current widget preview.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "build_status": {
+          "target": "com.posthog.notebooks#BuildStatusEnum",
+          "traits": {
+            "smithy.api#documentation": "Preview build state.\n\n* `queued` - queued\n* `building` - building\n* `ready` - ready\n* `failed` - failed",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "build_hash": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "SHA-256 integrity hash for the immutable preview artifact.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "frame_names": {
+          "target": "com.posthog.notebooks#ReusableWidgetVersionDetailFrameNamesList",
+          "traits": {
+            "smithy.api#documentation": "Logical dataframe slots accepted by this widget version.",
+            "smithy.api#required": {}
+          }
+        },
+        "input_contract": {
+          "target": "com.posthog.notebooks#ReusableWidgetVersionDetailInputContractList",
+          "traits": {
+            "smithy.api#documentation": "Dataframe slots and schemas expected by this widget version.",
+            "smithy.api#required": {}
+          }
+        },
+        "security_review": {
+          "target": "com.posthog.notebooks#WidgetSecurityReview",
+          "traits": {
+            "smithy.api#documentation": "Automated source review for this version, if available.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "has_demo_data": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether this version has saved demo data.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When this immutable version was created.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.notebooks#GeneratedWidgetVersionOperationEnum": {
+      "type": "enum",
+      "members": {
+        "INITIAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "initial"
+          }
+        },
+        "REGENERATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "regenerate"
+          }
+        },
+        "IMPROVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "improve"
+          }
+        },
+        "REVERT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "revert"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `initial` - initial\n* `regenerate` - regenerate\n* `improve` - improve\n* `revert` - revert"
+      }
+    },
+    "com.posthog.notebooks#BuildStatusEnum": {
+      "type": "enum",
+      "members": {
+        "QUEUED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "queued"
+          }
+        },
+        "BUILDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "building"
+          }
+        },
+        "READY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ready"
+          }
+        },
+        "FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "failed"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `queued` - queued\n* `building` - building\n* `ready` - ready\n* `failed` - failed"
+      }
+    },
+    "com.posthog.notebooks#ReusableWidgetVersionDetailFrameNamesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Logical dataframe slots accepted by this widget version."
+      }
+    },
+    "com.posthog.notebooks#ReusableWidgetVersionDetailInputContractList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.notebooks#WidgetInputContractItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "Dataframe slots and schemas expected by this widget version."
+      }
+    },
+    "com.posthog.notebooks#PublishNotebooksWidget": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.notebooks#PublishNotebooksWidgetRequest"
+      },
+      "output": {
+        "target": "com.posthog.notebooks#ReusableWidgetDetail"
+      },
+      "errors": [
+        {
+          "target": "com.posthog.notebooks#BadRequest"
+        },
+        {
+          "target": "com.posthog.notebooks#Forbidden"
+        },
+        {
+          "target": "com.posthog.notebooks#NotFound"
+        },
+        {
+          "target": "com.posthog.notebooks#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/notebooks/{short_id}/widgets/{node_id}/publish/",
+          "code": 200
+        },
+        "smithy.api#documentation": "The API for interacting with Notebooks. This feature is in early access and the API can have breaking changes without announcement."
+      }
+    },
     "com.posthog.notebooks#NotebooksWidgetRevertRequest": {
       "type": "structure",
       "members": {
@@ -3825,423 +5774,6 @@
       },
       "traits": {
         "smithy.api#input": {}
-      }
-    },
-    "com.posthog.notebooks#WidgetStatus": {
-      "type": "structure",
-      "members": {
-        "lifecycle_status": {
-          "target": "com.posthog.notebooks#LifecycleStatusEnum",
-          "traits": {
-            "smithy.api#documentation": "Current widget and preview state.\n\n* `awaiting_generation` - awaiting_generation\n* `generating` - generating\n* `building` - building\n* `ready` - ready\n* `failed` - failed\n* `incompatible` - incompatible",
-            "smithy.api#required": {}
-          }
-        },
-        "error_detail": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Actionable failure detail.",
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "error_code": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Stable failure code for support and diagnostics.",
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "failure_phase": {
-          "target": "com.posthog.notebooks#FailurePhaseEnum",
-          "traits": {
-            "smithy.api#documentation": "Generation step that failed, if a generation job failed.\n\n* `generating_source` - generating_source\n* `reviewing_source` - reviewing_source\n* `publishing_source` - publishing_source\n* `unknown` - unknown",
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "artifact_url": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Short-lived URL for the selected widget version's preview.",
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "frame_names": {
-          "target": "com.posthog.notebooks#WidgetStatusFrameNamesList",
-          "traits": {
-            "smithy.api#documentation": "Logical dataframe slots available to the selected version.",
-            "smithy.api#required": {}
-          }
-        },
-        "current_version_id": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Selected immutable widget version.",
-            "smithy.api#required": {},
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "widget_id": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Reusable widget identity.",
-            "smithy.api#required": {},
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "instance_id": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Placement in this notebook.",
-            "smithy.api#required": {},
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "has_versions": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "smithy.api#documentation": "Whether the widget has generated history.",
-            "smithy.api#required": {}
-          }
-        },
-        "active_job": {
-          "target": "com.posthog.notebooks#WidgetJob",
-          "traits": {
-            "smithy.api#documentation": "Active generation job, if any.",
-            "smithy.api#required": {},
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "security_review": {
-          "target": "com.posthog.notebooks#WidgetSecurityReview",
-          "traits": {
-            "smithy.api#documentation": "Automated review for the selected source, or null for a legacy unreviewed version.",
-            "smithy.api#required": {},
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "build_hash": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Hex SHA-256 over the exact immutable artifact manifest selected for display.",
-            "smithy.api#required": {},
-            "com.distilled.openapi#nullable": {}
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.posthog.notebooks#LifecycleStatusEnum": {
-      "type": "enum",
-      "members": {
-        "AWAITING_GENERATION": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "awaiting_generation"
-          }
-        },
-        "GENERATING": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "generating"
-          }
-        },
-        "BUILDING": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "building"
-          }
-        },
-        "READY": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "ready"
-          }
-        },
-        "FAILED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "failed"
-          }
-        },
-        "INCOMPATIBLE": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "incompatible"
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "* `awaiting_generation` - awaiting_generation\n* `generating` - generating\n* `building` - building\n* `ready` - ready\n* `failed` - failed\n* `incompatible` - incompatible"
-      }
-    },
-    "com.posthog.notebooks#FailurePhaseEnum": {
-      "type": "enum",
-      "members": {
-        "GENERATING_SOURCE": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "generating_source"
-          }
-        },
-        "REVIEWING_SOURCE": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "reviewing_source"
-          }
-        },
-        "PUBLISHING_SOURCE": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "publishing_source"
-          }
-        },
-        "UNKNOWN": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "unknown"
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "* `generating_source` - generating_source\n* `reviewing_source` - reviewing_source\n* `publishing_source` - publishing_source\n* `unknown` - unknown"
-      }
-    },
-    "com.posthog.notebooks#WidgetStatusFrameNamesList": {
-      "type": "list",
-      "member": {
-        "target": "smithy.api#String"
-      },
-      "traits": {
-        "smithy.api#documentation": "Logical dataframe slots available to the selected version."
-      }
-    },
-    "com.posthog.notebooks#WidgetJob": {
-      "type": "structure",
-      "members": {
-        "id": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Generation job identifier.",
-            "smithy.api#required": {}
-          }
-        },
-        "status": {
-          "target": "com.posthog.notebooks#WidgetJobStatusEnum",
-          "traits": {
-            "smithy.api#documentation": "Current durable job state.\n\n* `queued` - queued\n* `generating` - generating\n* `publishing` - publishing",
-            "smithy.api#required": {}
-          }
-        },
-        "phase": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Current generation phase.",
-            "smithy.api#required": {}
-          }
-        },
-        "model": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "AI model processing the job.",
-            "smithy.api#required": {}
-          }
-        },
-        "created_at": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "When the job was queued.",
-            "smithy.api#required": {}
-          }
-        },
-        "started_at": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "When a worker started the job.",
-            "smithy.api#required": {},
-            "com.distilled.openapi#nullable": {}
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.posthog.notebooks#WidgetJobStatusEnum": {
-      "type": "enum",
-      "members": {
-        "QUEUED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "queued"
-          }
-        },
-        "GENERATING": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "generating"
-          }
-        },
-        "PUBLISHING": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "publishing"
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "* `queued` - queued\n* `generating` - generating\n* `publishing` - publishing"
-      }
-    },
-    "com.posthog.notebooks#WidgetSecurityReview": {
-      "type": "structure",
-      "members": {
-        "severity": {
-          "target": "com.posthog.notebooks#GeneratedWidgetVersionSecurityReviewSeverityEnum",
-          "traits": {
-            "smithy.api#documentation": "Highest severity found, or none when the review found no issues.\n\n* `none` - none\n* `low` - low\n* `medium` - medium\n* `high` - high\n* `critical` - critical",
-            "smithy.api#required": {}
-          }
-        },
-        "summary": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Concise result from the automated security review.",
-            "smithy.api#required": {}
-          }
-        },
-        "findings": {
-          "target": "com.posthog.notebooks#WidgetSecurityReviewFindingsList",
-          "traits": {
-            "smithy.api#documentation": "Potential security issues found in the source.",
-            "smithy.api#required": {}
-          }
-        },
-        "model": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Fast AI model used for the security review.",
-            "smithy.api#required": {}
-          }
-        },
-        "review_version": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Version of the security review instructions and parser.",
-            "smithy.api#required": {}
-          }
-        },
-        "reviewed_at": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "When this exact widget source was reviewed.",
-            "smithy.api#required": {}
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.posthog.notebooks#GeneratedWidgetVersionSecurityReviewSeverityEnum": {
-      "type": "enum",
-      "members": {
-        "NONE": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "none"
-          }
-        },
-        "LOW": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "low"
-          }
-        },
-        "MEDIUM": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "medium"
-          }
-        },
-        "HIGH": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "high"
-          }
-        },
-        "CRITICAL": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "critical"
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "* `none` - none\n* `low` - low\n* `medium` - medium\n* `high` - high\n* `critical` - critical"
-      }
-    },
-    "com.posthog.notebooks#WidgetSecurityFinding": {
-      "type": "structure",
-      "members": {
-        "severity": {
-          "target": "com.posthog.notebooks#ErrorTrackingIssueSeverityRuleEnum",
-          "traits": {
-            "smithy.api#documentation": "Severity of this potential security issue.\n\n* `low` - low\n* `medium` - medium\n* `high` - high\n* `critical` - critical",
-            "smithy.api#required": {}
-          }
-        },
-        "title": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Short description of the potential security issue.",
-            "smithy.api#required": {}
-          }
-        },
-        "details": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Why the source may be unsafe and what it could do.",
-            "smithy.api#required": {}
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.posthog.notebooks#ErrorTrackingIssueSeverityRuleEnum": {
-      "type": "enum",
-      "members": {
-        "LOW": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "low"
-          }
-        },
-        "MEDIUM": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "medium"
-          }
-        },
-        "HIGH": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "high"
-          }
-        },
-        "CRITICAL": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "critical"
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "* `low` - low\n* `medium` - medium\n* `high` - high\n* `critical` - critical"
-      }
-    },
-    "com.posthog.notebooks#WidgetSecurityReviewFindingsList": {
-      "type": "list",
-      "member": {
-        "target": "com.posthog.notebooks#WidgetSecurityFinding"
-      },
-      "traits": {
-        "smithy.api#documentation": "Potential security issues found in the source."
       }
     },
     "com.posthog.notebooks#NotebooksWidgetRevert": {
@@ -4475,6 +6007,13 @@
     "com.posthog.notebooks#WidgetVersion": {
       "type": "structure",
       "members": {
+        "generation_cost_usd": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Estimated generation charge in USD, including retries, security review, and the AI credit markup. Null when unavailable.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
         "id": {
           "target": "smithy.api#String",
           "traits": {
@@ -4581,70 +6120,6 @@
         }
       },
       "traits": {}
-    },
-    "com.posthog.notebooks#GeneratedWidgetVersionOperationEnum": {
-      "type": "enum",
-      "members": {
-        "INITIAL": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "initial"
-          }
-        },
-        "REGENERATE": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "regenerate"
-          }
-        },
-        "IMPROVE": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "improve"
-          }
-        },
-        "REVERT": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "revert"
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "* `initial` - initial\n* `regenerate` - regenerate\n* `improve` - improve\n* `revert` - revert"
-      }
-    },
-    "com.posthog.notebooks#BuildStatusEnum": {
-      "type": "enum",
-      "members": {
-        "QUEUED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "queued"
-          }
-        },
-        "BUILDING": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "building"
-          }
-        },
-        "READY": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "ready"
-          }
-        },
-        "FAILED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "failed"
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "* `queued` - queued\n* `building` - building\n* `ready` - ready\n* `failed` - failed"
-      }
     },
     "com.posthog.notebooks#WidgetVersionFrameNamesList": {
       "type": "list",
@@ -4798,7 +6273,7 @@
         "allowed_idle_timeout_seconds": {
           "target": "com.posthog.notebooks#NotebookComputeOptionsResponseAllowedIdleTimeoutSecondsList",
           "traits": {
-            "smithy.api#documentation": "Idle timeouts in seconds the kernel config endpoint accepts.",
+            "smithy.api#documentation": "Maximum sandbox lifetimes in seconds that the kernel config endpoint accepts.",
             "smithy.api#required": {}
           }
         }
@@ -4886,7 +6361,7 @@
         "target": "smithy.api#Integer"
       },
       "traits": {
-        "smithy.api#documentation": "Idle timeouts in seconds the kernel config endpoint accepts."
+        "smithy.api#documentation": "Maximum sandbox lifetimes in seconds that the kernel config endpoint accepts."
       }
     },
     "com.posthog.notebooks#GetNotebooksKernelComputeOption": {
@@ -5049,19 +6524,16 @@
           "target": "com.posthog.notebooks#GetNotebooksCollabStream"
         },
         {
-          "target": "com.posthog.notebooks#NotebooksHogqlExecuteCreate"
+          "target": "com.posthog.notebooks#CreateNotebooksKernelComplete"
         },
         {
           "target": "com.posthog.notebooks#CreateNotebooksKernelConfig"
         },
         {
-          "target": "com.posthog.notebooks#GetNotebooksKernelDataframe"
-        },
-        {
           "target": "com.posthog.notebooks#NotebooksKernelExecuteCreate"
         },
         {
-          "target": "com.posthog.notebooks#NotebooksKernelExecuteStreamCreate"
+          "target": "com.posthog.notebooks#CreateNotebooksKernelInspect"
         },
         {
           "target": "com.posthog.notebooks#NotebooksKernelRestartCreate"
@@ -5076,6 +6548,15 @@
           "target": "com.posthog.notebooks#NotebooksKernelStopCreate"
         },
         {
+          "target": "com.posthog.notebooks#CreateNotebooksRun"
+        },
+        {
+          "target": "com.posthog.notebooks#GetNotebooksRun"
+        },
+        {
+          "target": "com.posthog.notebooks#CreateNotebooksRunsInterrupt"
+        },
+        {
           "target": "com.posthog.notebooks#CreateNotebooksSqlV2Run"
         },
         {
@@ -5088,13 +6569,37 @@
           "target": "com.posthog.notebooks#GetNotebooksSqlV2State"
         },
         {
+          "target": "com.posthog.notebooks#CreateNotebooksWidgetSnapshot"
+        },
+        {
+          "target": "com.posthog.notebooks#GetNotebooksWidgetSnapshot"
+        },
+        {
+          "target": "com.posthog.notebooks#NotebooksWidgetSnapshotFrame"
+        },
+        {
+          "target": "com.posthog.notebooks#PublishNotebooksWidgetSnapshot"
+        },
+        {
+          "target": "com.posthog.notebooks#AttachNotebooksWidget"
+        },
+        {
           "target": "com.posthog.notebooks#CancelNotebooksWidget"
+        },
+        {
+          "target": "com.posthog.notebooks#ForkNotebooksWidget"
         },
         {
           "target": "com.posthog.notebooks#NotebooksWidgetFrame"
         },
         {
           "target": "com.posthog.notebooks#GenerateNotebooksWidget"
+        },
+        {
+          "target": "com.posthog.notebooks#PinNotebooksWidget"
+        },
+        {
+          "target": "com.posthog.notebooks#PublishNotebooksWidget"
         },
         {
           "target": "com.posthog.notebooks#NotebooksWidgetRevert"

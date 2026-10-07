@@ -15,6 +15,10 @@ export const CreateRunnerRequestTagsList = /*@__PURE__*/ S.Array(
   S.String,
 ) as any as S.Schema<CreateRunnerRequestTagsList>;
 
+/** The sandbox class supported by the runner. Defaults to container when omitted or null. */
+export type CreateRunnerSandboxClass = "container" | "linux-vm" | "windows";
+export const CreateRunnerSandboxClass = S.String;
+
 export interface CreateRunnerRequest {
   /** Use with JWT to specify the organization ID */
   xDaytonaOrganizationID?: string;
@@ -22,6 +26,8 @@ export interface CreateRunnerRequest {
   name: string;
   /** Tags to associate with the runner */
   tags?: CreateRunnerRequestTagsList;
+  /** The sandbox class supported by the runner. Defaults to container when omitted or null. */
+  sandboxClass?: CreateRunnerSandboxClass | (string & {}) | null;
 }
 export const CreateRunnerRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -29,10 +35,9 @@ export const CreateRunnerRequest = /*@__PURE__*/ S.suspend(() =>
     regionId: S.String,
     name: S.String,
     tags: S.optional(CreateRunnerRequestTagsList),
+    sandboxClass: S.optional(S.NullOr(CreateRunnerSandboxClass)),
   }).pipe(T.Http({ method: "POST", uri: "/runners", code: 200 })),
-).annotate({
-  identifier: "CreateRunnerRequest",
-}) as any as S.Schema<CreateRunnerRequest>;
+).annotate({ identifier: "CreateRunnerRequest" }) as any as S.Schema<CreateRunnerRequest>;
 
 export interface CreateRunnerResponse {
   /** The ID of the runner */
@@ -45,9 +50,7 @@ export const CreateRunnerResponse = /*@__PURE__*/ S.suspend(() =>
     id: S.String,
     apiKey: S.String.pipe(T.SensitiveValue({})),
   }),
-).annotate({
-  identifier: "CreateRunnerResponse",
-}) as any as S.Schema<CreateRunnerResponse>;
+).annotate({ identifier: "CreateRunnerResponse" }) as any as S.Schema<CreateRunnerResponse>;
 
 export interface DeleteRunnerRequest {
   /** Runner ID */
@@ -63,9 +66,7 @@ export const DeleteRunnerRequest = /*@__PURE__*/ S.suspend(() =>
     force: S.optional(S.Boolean.pipe(T.Query())),
     xDaytonaOrganizationID: S.optional(S.String.pipe(T.Header("X-Daytona-Organization-ID"))),
   }).pipe(T.Http({ method: "DELETE", uri: "/runners/{id}", code: 200 })),
-).annotate({
-  identifier: "DeleteRunnerRequest",
-}) as any as S.Schema<DeleteRunnerRequest>;
+).annotate({ identifier: "DeleteRunnerRequest" }) as any as S.Schema<DeleteRunnerRequest>;
 
 export interface DeleteRunnerResponse {}
 export const DeleteRunnerResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -79,7 +80,7 @@ export const GetInfoForAuthenticatedRunnerRequest = /*@__PURE__*/ S.suspend(() =
   identifier: "GetInfoForAuthenticatedRunnerRequest",
 }) as any as S.Schema<GetInfoForAuthenticatedRunnerRequest>;
 
-export type SandboxClass = "linux-vm" | "container" | "android" | "windows";
+export type SandboxClass = "linux-vm" | "container" | "windows";
 export const SandboxClass = S.String;
 
 /** The state of the runner */
@@ -220,9 +221,7 @@ export const GetRunnerRequest = /*@__PURE__*/ S.suspend(() =>
     id: S.String.pipe(T.Label()),
     xDaytonaOrganizationID: S.optional(S.String.pipe(T.Header("X-Daytona-Organization-ID"))),
   }).pipe(T.Http({ method: "GET", uri: "/runners/{id}", code: 200 })),
-).annotate({
-  identifier: "GetRunnerRequest",
-}) as any as S.Schema<GetRunnerRequest>;
+).annotate({ identifier: "GetRunnerRequest" }) as any as S.Schema<GetRunnerRequest>;
 
 /** Tags associated with the runner */
 export type RunnerTagsList = Array<string>;
@@ -337,13 +336,7 @@ export interface GetRunnerBySandboxIdRequest {
 export const GetRunnerBySandboxIdRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     sandboxId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/runners/by-sandbox/{sandboxId}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/runners/by-sandbox/{sandboxId}", code: 200 })),
 ).annotate({
   identifier: "GetRunnerBySandboxIdRequest",
 }) as any as S.Schema<GetRunnerBySandboxIdRequest>;
@@ -356,9 +349,7 @@ export const GetRunnerFullByIdRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/runners/{id}/full", code: 200 })),
-).annotate({
-  identifier: "GetRunnerFullByIdRequest",
-}) as any as S.Schema<GetRunnerFullByIdRequest>;
+).annotate({ identifier: "GetRunnerFullByIdRequest" }) as any as S.Schema<GetRunnerFullByIdRequest>;
 
 export interface GetRunnersBySnapshotRefRequest {
   /** Snapshot ref */
@@ -386,9 +377,7 @@ export const RunnerSnapshotDto = /*@__PURE__*/ S.suspend(() =>
     runnerId: S.String,
     runnerDomain: S.optional(S.String),
   }),
-).annotate({
-  identifier: "RunnerSnapshotDto",
-}) as any as S.Schema<RunnerSnapshotDto>;
+).annotate({ identifier: "RunnerSnapshotDto" }) as any as S.Schema<RunnerSnapshotDto>;
 
 export type GetRunnersBySnapshotRefResponseBodyList = Array<RunnerSnapshotDto>;
 export const GetRunnersBySnapshotRefResponseBodyList = /*@__PURE__*/ S.Array(
@@ -433,9 +422,7 @@ export const ListRunnersRequest = /*@__PURE__*/ S.suspend(() =>
     regionId: S.optional(S.String.pipe(T.Query())),
     xDaytonaOrganizationID: S.optional(S.String.pipe(T.Header("X-Daytona-Organization-ID"))),
   }).pipe(T.Http({ method: "GET", uri: "/runners", code: 200 })),
-).annotate({
-  identifier: "ListRunnersRequest",
-}) as any as S.Schema<ListRunnersRequest>;
+).annotate({ identifier: "ListRunnersRequest" }) as any as S.Schema<ListRunnersRequest>;
 
 export type ListRunnersResponseBodyList = Array<Runner>;
 export const ListRunnersResponseBodyList = /*@__PURE__*/ S.Array(
@@ -445,9 +432,7 @@ export const ListRunnersResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListRunnersResponse = ListRunnersResponseBodyList;
 export const ListRunnersResponse = /*@__PURE__*/ S.suspend(() =>
   ListRunnersResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListRunnersResponse",
-}) as any as S.Schema<ListRunnersResponse>;
+).annotate({ identifier: "ListRunnersResponse" }) as any as S.Schema<ListRunnersResponse>;
 
 export interface RunnerHealthMetrics {
   /** Current CPU load average */
@@ -496,9 +481,7 @@ export const RunnerHealthMetrics = /*@__PURE__*/ S.suspend(() =>
     gpu: S.optional(S.Number),
     gpuType: S.optional(S.String),
   }),
-).annotate({
-  identifier: "RunnerHealthMetrics",
-}) as any as S.Schema<RunnerHealthMetrics>;
+).annotate({ identifier: "RunnerHealthMetrics" }) as any as S.Schema<RunnerHealthMetrics>;
 
 export interface RunnerServiceHealth {
   /** Name of the service being checked */
@@ -514,9 +497,7 @@ export const RunnerServiceHealth = /*@__PURE__*/ S.suspend(() =>
     healthy: S.Boolean,
     errorReason: S.optional(S.String),
   }),
-).annotate({
-  identifier: "RunnerServiceHealth",
-}) as any as S.Schema<RunnerServiceHealth>;
+).annotate({ identifier: "RunnerServiceHealth" }) as any as S.Schema<RunnerServiceHealth>;
 
 /** Health status of individual services on the runner */
 export type RunnerHealthcheckRequestServiceHealthList = Array<RunnerServiceHealth>;
@@ -547,9 +528,7 @@ export const RunnerHealthcheckRequest = /*@__PURE__*/ S.suspend(() =>
     apiUrl: S.optional(S.String),
     appVersion: S.String,
   }).pipe(T.Http({ method: "POST", uri: "/runners/healthcheck", code: 200 })),
-).annotate({
-  identifier: "RunnerHealthcheckRequest",
-}) as any as S.Schema<RunnerHealthcheckRequest>;
+).annotate({ identifier: "RunnerHealthcheckRequest" }) as any as S.Schema<RunnerHealthcheckRequest>;
 
 export interface RunnerHealthcheckResponse {}
 export const RunnerHealthcheckResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({

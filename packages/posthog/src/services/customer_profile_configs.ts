@@ -58,9 +58,7 @@ export const CustomerProfileConfig = /*@__PURE__*/ S.suspend(() =>
     created_at: S.optional(S.String),
     updated_at: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "CustomerProfileConfig",
-}) as any as S.Schema<CustomerProfileConfig>;
+).annotate({ identifier: "CustomerProfileConfig" }) as any as S.Schema<CustomerProfileConfig>;
 
 export interface CustomerProfileConfigsDestroyRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */

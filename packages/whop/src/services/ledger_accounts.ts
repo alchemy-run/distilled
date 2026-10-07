@@ -52,9 +52,7 @@ export const GetLedgerAccountRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/ledger_accounts/{id}", code: 200 })),
-).annotate({
-  identifier: "GetLedgerAccountRequest",
-}) as any as S.Schema<GetLedgerAccountRequest>;
+).annotate({ identifier: "GetLedgerAccountRequest" }) as any as S.Schema<GetLedgerAccountRequest>;
 
 /** The available currencies on the platform */
 export type Currencies =
@@ -200,9 +198,7 @@ export const LedgerAccountOwnerCase0 = /*@__PURE__*/ S.suspend(() =>
     typename: S.String,
     username: S.String,
   }),
-).annotate({
-  identifier: "LedgerAccountOwnerCase0",
-}) as any as S.Schema<LedgerAccountOwnerCase0>;
+).annotate({ identifier: "LedgerAccountOwnerCase0" }) as any as S.Schema<LedgerAccountOwnerCase0>;
 
 /** A company is a seller on Whop. Companies own products, manage members, and receive payouts. */
 export interface LedgerAccountOwnerCase1 {
@@ -222,9 +218,7 @@ export const LedgerAccountOwnerCase1 = /*@__PURE__*/ S.suspend(() =>
     title: S.String,
     typename: S.String,
   }),
-).annotate({
-  identifier: "LedgerAccountOwnerCase1",
-}) as any as S.Schema<LedgerAccountOwnerCase1>;
+).annotate({ identifier: "LedgerAccountOwnerCase1" }) as any as S.Schema<LedgerAccountOwnerCase1>;
 
 /** The owner of the ledger account. */
 export type LedgerAccountOwner = LedgerAccountOwnerCase0 | LedgerAccountOwnerCase1;

@@ -21422,6 +21422,786 @@
         "smithy.api#input": {}
       }
     },
+    "com.okta.management#WidgetConfiguration": {
+      "type": "structure",
+      "members": {
+        "assets": {
+          "target": "com.okta.management#WidgetConfigurationAssets"
+        },
+        "brandName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Brand name displayed on the widget"
+          }
+        },
+        "colors": {
+          "target": "com.okta.management#WidgetConfigurationColors",
+          "traits": {
+            "smithy.api#documentation": "Color customizations for the Sign-In Widget"
+          }
+        },
+        "features": {
+          "target": "com.okta.management#WidgetConfigurationFeatures"
+        },
+        "hcaptcha": {
+          "target": "com.okta.management#WidgetConfigurationHcaptcha"
+        },
+        "helpLinks": {
+          "target": "com.okta.management#WidgetConfigurationHelpLinks"
+        },
+        "helpSupportNumber": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Support phone number displayed on the widget"
+          }
+        },
+        "i18n": {
+          "target": "com.okta.management#WidgetConfigurationI18n"
+        },
+        "language": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Language code for the widget"
+          }
+        },
+        "logo": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "URL for the logo displayed on the Sign-In Widget"
+          }
+        },
+        "logoText": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Alt text for the logo"
+          }
+        },
+        "recaptcha": {
+          "target": "com.okta.management#WidgetConfigurationRecaptcha"
+        },
+        "signOutLink": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Custom sign-out URL"
+          }
+        },
+        "theme": {
+          "target": "com.okta.management#WidgetConfigurationTheme"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "<x-lifecycle-container><x-lifecycle class=\"ea\"></x-lifecycle> <x-lifecycle class=\"oie\"></x-lifecycle></x-lifecycle-container>The Sign-In Widget configuration object containing branding, features, theme tokens, and other customization settings."
+      }
+    },
+    "com.okta.management#WidgetConfigurationAssets": {
+      "type": "structure",
+      "members": {
+        "baseUrl": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.okta.management#WidgetConfigurationColors": {
+      "type": "structure",
+      "members": {
+        "brand": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Primary brand color (hex value, e.g. \"#1662dd\")"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Color customizations for the Sign-In Widget"
+      }
+    },
+    "com.okta.management#WidgetConfigurationFeatures": {
+      "type": "structure",
+      "members": {
+        "router": {
+          "target": "smithy.api#Boolean"
+        },
+        "securityImage": {
+          "target": "smithy.api#Boolean"
+        },
+        "rememberMe": {
+          "target": "smithy.api#Boolean"
+        },
+        "autoPush": {
+          "target": "smithy.api#Boolean"
+        },
+        "smsRecovery": {
+          "target": "smithy.api#Boolean"
+        },
+        "callRecovery": {
+          "target": "smithy.api#Boolean"
+        },
+        "emailRecovery": {
+          "target": "smithy.api#Boolean"
+        },
+        "webauthn": {
+          "target": "smithy.api#Boolean"
+        },
+        "selfServiceUnlock": {
+          "target": "smithy.api#Boolean"
+        },
+        "multiOptionalFactorEnroll": {
+          "target": "smithy.api#Boolean"
+        },
+        "deviceFingerprinting": {
+          "target": "smithy.api#Boolean"
+        },
+        "hideSignOutLinkInMFA": {
+          "target": "smithy.api#Boolean"
+        },
+        "hideBackToSignInForReset": {
+          "target": "smithy.api#Boolean"
+        },
+        "customExpiredPassword": {
+          "target": "smithy.api#Boolean"
+        },
+        "registration": {
+          "target": "smithy.api#Boolean"
+        },
+        "idpDiscovery": {
+          "target": "smithy.api#Boolean"
+        },
+        "passwordlessAuth": {
+          "target": "smithy.api#Boolean"
+        },
+        "showPasswordToggleOnSignInPage": {
+          "target": "smithy.api#Boolean"
+        },
+        "trackTypingPattern": {
+          "target": "smithy.api#Boolean"
+        },
+        "redirectByFormSubmit": {
+          "target": "smithy.api#Boolean"
+        },
+        "sameDeviceOVEnrollmentEnabled": {
+          "target": "smithy.api#Boolean"
+        },
+        "useDeviceFingerprintForSecurityImage": {
+          "target": "smithy.api#Boolean"
+        },
+        "showPasswordRequirementsAsHtmlList": {
+          "target": "smithy.api#Boolean"
+        },
+        "mfaOnlyFlow": {
+          "target": "smithy.api#Boolean"
+        }
+      },
+      "traits": {}
+    },
+    "com.okta.management#WidgetConfigurationHcaptchaScriptParamsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.okta.management#WidgetConfigurationHcaptcha": {
+      "type": "structure",
+      "members": {
+        "scriptSource": {
+          "target": "smithy.api#String"
+        },
+        "scriptParams": {
+          "target": "com.okta.management#WidgetConfigurationHcaptchaScriptParamsMap"
+        }
+      },
+      "traits": {}
+    },
+    "com.okta.management#WidgetConfigurationHelpLinksFactorPage": {
+      "type": "structure",
+      "members": {
+        "text": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "href": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "target": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.okta.management#WidgetConfigurationHelpLinksCustomItem": {
+      "type": "structure",
+      "members": {
+        "text": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "href": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "target": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.okta.management#WidgetConfigurationHelpLinksCustomList": {
+      "type": "list",
+      "member": {
+        "target": "com.okta.management#WidgetConfigurationHelpLinksCustomItem"
+      },
+      "traits": {}
+    },
+    "com.okta.management#WidgetConfigurationHelpLinks": {
+      "type": "structure",
+      "members": {
+        "help": {
+          "target": "smithy.api#String"
+        },
+        "forgotPassword": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#sensitive": {}
+          }
+        },
+        "factorPage": {
+          "target": "com.okta.management#WidgetConfigurationHelpLinksFactorPage"
+        },
+        "unlock": {
+          "target": "smithy.api#String"
+        },
+        "custom": {
+          "target": "com.okta.management#WidgetConfigurationHelpLinksCustomList"
+        }
+      },
+      "traits": {}
+    },
+    "com.okta.management#WidgetConfigurationI18n": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.okta.management#WidgetConfigurationI18nValueMap"
+      },
+      "traits": {
+        "smithy.api#documentation": "Internationalization overrides. Keys are locale codes (e.g. \"en\", \"ja\", \"fr\"), values are objects mapping i18n keys to string overrides."
+      }
+    },
+    "com.okta.management#WidgetConfigurationI18nValueMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.okta.management#WidgetConfigurationRecaptcha": {
+      "type": "structure",
+      "members": {
+        "scriptSource": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.okta.management#WidgetConfigurationThemeTokens": {
+      "type": "structure",
+      "members": {
+        "BorderColorDangerControl": {
+          "target": "smithy.api#String"
+        },
+        "BorderColorDangerDark": {
+          "target": "smithy.api#String"
+        },
+        "BorderColorDangerLight": {
+          "target": "smithy.api#String"
+        },
+        "BorderColorDisabled": {
+          "target": "smithy.api#String"
+        },
+        "BorderColorDisplay": {
+          "target": "smithy.api#String"
+        },
+        "BorderColorPrimaryControl": {
+          "target": "smithy.api#String"
+        },
+        "BorderColorPrimaryDark": {
+          "target": "smithy.api#String"
+        },
+        "BorderRadiusMain": {
+          "target": "smithy.api#String"
+        },
+        "BorderRadiusTight": {
+          "target": "smithy.api#String"
+        },
+        "BorderStyleMain": {
+          "target": "smithy.api#String"
+        },
+        "BorderWidthMain": {
+          "target": "smithy.api#String"
+        },
+        "FocusOutlineColorPrimary": {
+          "target": "smithy.api#String"
+        },
+        "FocusOutlineOffsetMain": {
+          "target": "smithy.api#String"
+        },
+        "FocusOutlineOffsetTight": {
+          "target": "smithy.api#String"
+        },
+        "FocusOutlineStyle": {
+          "target": "smithy.api#String"
+        },
+        "FocusOutlineWidthMain": {
+          "target": "smithy.api#String"
+        },
+        "FocusOutlineWidthTight": {
+          "target": "smithy.api#String"
+        },
+        "HueBlue100": {
+          "target": "smithy.api#String"
+        },
+        "HueBlue200": {
+          "target": "smithy.api#String"
+        },
+        "HueBlue300": {
+          "target": "smithy.api#String"
+        },
+        "HueBlue400": {
+          "target": "smithy.api#String"
+        },
+        "HueBlue50": {
+          "target": "smithy.api#String"
+        },
+        "HueBlue500": {
+          "target": "smithy.api#String"
+        },
+        "HueBlue600": {
+          "target": "smithy.api#String"
+        },
+        "HueBlue700": {
+          "target": "smithy.api#String"
+        },
+        "HueBlue800": {
+          "target": "smithy.api#String"
+        },
+        "HueBlue900": {
+          "target": "smithy.api#String"
+        },
+        "HueGreen100": {
+          "target": "smithy.api#String"
+        },
+        "HueGreen200": {
+          "target": "smithy.api#String"
+        },
+        "HueGreen300": {
+          "target": "smithy.api#String"
+        },
+        "HueGreen400": {
+          "target": "smithy.api#String"
+        },
+        "HueGreen50": {
+          "target": "smithy.api#String"
+        },
+        "HueGreen500": {
+          "target": "smithy.api#String"
+        },
+        "HueGreen600": {
+          "target": "smithy.api#String"
+        },
+        "HueGreen700": {
+          "target": "smithy.api#String"
+        },
+        "HueGreen800": {
+          "target": "smithy.api#String"
+        },
+        "HueGreen900": {
+          "target": "smithy.api#String"
+        },
+        "HueNeutral100": {
+          "target": "smithy.api#String"
+        },
+        "HueNeutral200": {
+          "target": "smithy.api#String"
+        },
+        "HueNeutral300": {
+          "target": "smithy.api#String"
+        },
+        "HueNeutral400": {
+          "target": "smithy.api#String"
+        },
+        "HueNeutral50": {
+          "target": "smithy.api#String"
+        },
+        "HueNeutral500": {
+          "target": "smithy.api#String"
+        },
+        "HueNeutral600": {
+          "target": "smithy.api#String"
+        },
+        "HueNeutral700": {
+          "target": "smithy.api#String"
+        },
+        "HueNeutral800": {
+          "target": "smithy.api#String"
+        },
+        "HueNeutral900": {
+          "target": "smithy.api#String"
+        },
+        "HueNeutralWhite": {
+          "target": "smithy.api#String"
+        },
+        "HueRed100": {
+          "target": "smithy.api#String"
+        },
+        "HueRed200": {
+          "target": "smithy.api#String"
+        },
+        "HueRed300": {
+          "target": "smithy.api#String"
+        },
+        "HueRed400": {
+          "target": "smithy.api#String"
+        },
+        "HueRed50": {
+          "target": "smithy.api#String"
+        },
+        "HueRed500": {
+          "target": "smithy.api#String"
+        },
+        "HueRed600": {
+          "target": "smithy.api#String"
+        },
+        "HueRed700": {
+          "target": "smithy.api#String"
+        },
+        "HueRed800": {
+          "target": "smithy.api#String"
+        },
+        "HueRed900": {
+          "target": "smithy.api#String"
+        },
+        "HueYellow100": {
+          "target": "smithy.api#String"
+        },
+        "HueYellow200": {
+          "target": "smithy.api#String"
+        },
+        "HueYellow300": {
+          "target": "smithy.api#String"
+        },
+        "HueYellow400": {
+          "target": "smithy.api#String"
+        },
+        "HueYellow50": {
+          "target": "smithy.api#String"
+        },
+        "HueYellow500": {
+          "target": "smithy.api#String"
+        },
+        "HueYellow600": {
+          "target": "smithy.api#String"
+        },
+        "HueYellow700": {
+          "target": "smithy.api#String"
+        },
+        "HueYellow800": {
+          "target": "smithy.api#String"
+        },
+        "HueYellow900": {
+          "target": "smithy.api#String"
+        },
+        "PaletteDangerDark": {
+          "target": "smithy.api#String"
+        },
+        "PaletteDangerDarker": {
+          "target": "smithy.api#String"
+        },
+        "PaletteDangerHeading": {
+          "target": "smithy.api#String"
+        },
+        "PaletteDangerHighlight": {
+          "target": "smithy.api#String"
+        },
+        "PaletteDangerLight": {
+          "target": "smithy.api#String"
+        },
+        "PaletteDangerLighter": {
+          "target": "smithy.api#String"
+        },
+        "PaletteDangerMain": {
+          "target": "smithy.api#String"
+        },
+        "PaletteDangerText": {
+          "target": "smithy.api#String"
+        },
+        "PalettePrimaryDark": {
+          "target": "smithy.api#String"
+        },
+        "PalettePrimaryDarker": {
+          "target": "smithy.api#String"
+        },
+        "PalettePrimaryHeading": {
+          "target": "smithy.api#String"
+        },
+        "PalettePrimaryHighlight": {
+          "target": "smithy.api#String"
+        },
+        "PalettePrimaryLight": {
+          "target": "smithy.api#String"
+        },
+        "PalettePrimaryLighter": {
+          "target": "smithy.api#String"
+        },
+        "PalettePrimaryMain": {
+          "target": "smithy.api#String"
+        },
+        "PalettePrimaryText": {
+          "target": "smithy.api#String"
+        },
+        "PaletteSuccessDark": {
+          "target": "smithy.api#String"
+        },
+        "PaletteSuccessDarker": {
+          "target": "smithy.api#String"
+        },
+        "PaletteSuccessHeading": {
+          "target": "smithy.api#String"
+        },
+        "PaletteSuccessHighlight": {
+          "target": "smithy.api#String"
+        },
+        "PaletteSuccessLight": {
+          "target": "smithy.api#String"
+        },
+        "PaletteSuccessLighter": {
+          "target": "smithy.api#String"
+        },
+        "PaletteSuccessMain": {
+          "target": "smithy.api#String"
+        },
+        "PaletteSuccessText": {
+          "target": "smithy.api#String"
+        },
+        "PaletteWarningDark": {
+          "target": "smithy.api#String"
+        },
+        "PaletteWarningDarker": {
+          "target": "smithy.api#String"
+        },
+        "PaletteWarningHeading": {
+          "target": "smithy.api#String"
+        },
+        "PaletteWarningHighlight": {
+          "target": "smithy.api#String"
+        },
+        "PaletteWarningLight": {
+          "target": "smithy.api#String"
+        },
+        "PaletteWarningLighter": {
+          "target": "smithy.api#String"
+        },
+        "PaletteWarningMain": {
+          "target": "smithy.api#String"
+        },
+        "PaletteWarningText": {
+          "target": "smithy.api#String"
+        },
+        "Spacing0": {
+          "target": "smithy.api#String"
+        },
+        "Spacing1": {
+          "target": "smithy.api#String"
+        },
+        "Spacing2": {
+          "target": "smithy.api#String"
+        },
+        "Spacing3": {
+          "target": "smithy.api#String"
+        },
+        "Spacing4": {
+          "target": "smithy.api#String"
+        },
+        "Spacing5": {
+          "target": "smithy.api#String"
+        },
+        "Spacing6": {
+          "target": "smithy.api#String"
+        },
+        "Spacing7": {
+          "target": "smithy.api#String"
+        },
+        "Spacing8": {
+          "target": "smithy.api#String"
+        },
+        "Spacing9": {
+          "target": "smithy.api#String"
+        },
+        "TransitionDurationMain": {
+          "target": "smithy.api#String"
+        },
+        "TypographyColorAction": {
+          "target": "smithy.api#String"
+        },
+        "TypographyColorBody": {
+          "target": "smithy.api#String"
+        },
+        "TypographyColorDanger": {
+          "target": "smithy.api#String"
+        },
+        "TypographyColorDisabled": {
+          "target": "smithy.api#String"
+        },
+        "TypographyColorHeading": {
+          "target": "smithy.api#String"
+        },
+        "TypographyColorInverse": {
+          "target": "smithy.api#String"
+        },
+        "TypographyColorSubordinate": {
+          "target": "smithy.api#String"
+        },
+        "TypographyColorSuccess": {
+          "target": "smithy.api#String"
+        },
+        "TypographyColorSupport": {
+          "target": "smithy.api#String"
+        },
+        "TypographyColorWarning": {
+          "target": "smithy.api#String"
+        },
+        "TypographyFamilyBody": {
+          "target": "smithy.api#String"
+        },
+        "TypographyFamilyButton": {
+          "target": "smithy.api#String"
+        },
+        "TypographyFamilyHeading": {
+          "target": "smithy.api#String"
+        },
+        "TypographyLineHeightBody": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Unitless line-height multiplier for body text (e.g. 1.5)"
+          }
+        },
+        "TypographyLineHeightHeading1": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Unitless line-height multiplier for heading 1"
+          }
+        },
+        "TypographyLineHeightHeading2": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Unitless line-height multiplier for heading 2"
+          }
+        },
+        "TypographyLineHeightHeading3": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Unitless line-height multiplier for heading 3"
+          }
+        },
+        "TypographyLineHeightHeading4": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Unitless line-height multiplier for heading 4"
+          }
+        },
+        "TypographyLineHeightHeading5": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Unitless line-height multiplier for heading 5"
+          }
+        },
+        "TypographyLineHeightHeading6": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Unitless line-height multiplier for heading 6"
+          }
+        },
+        "TypographyLineHeightOverline": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Unitless line-height multiplier for overline text"
+          }
+        },
+        "TypographyLineHeightUi": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Unitless line-height multiplier for UI text"
+          }
+        },
+        "TypographyLineLengthMax": {
+          "target": "smithy.api#String"
+        },
+        "TypographySizeBody": {
+          "target": "smithy.api#String"
+        },
+        "TypographySizeHeading1": {
+          "target": "smithy.api#String"
+        },
+        "TypographySizeHeading2": {
+          "target": "smithy.api#String"
+        },
+        "TypographySizeHeading3": {
+          "target": "smithy.api#String"
+        },
+        "TypographySizeHeading4": {
+          "target": "smithy.api#String"
+        },
+        "TypographySizeHeading5": {
+          "target": "smithy.api#String"
+        },
+        "TypographySizeHeading6": {
+          "target": "smithy.api#String"
+        },
+        "TypographySizeSubordinate": {
+          "target": "smithy.api#String"
+        },
+        "TypographyWeightBody": {
+          "target": "smithy.api#String"
+        },
+        "TypographyWeightBodyBold": {
+          "target": "smithy.api#String"
+        },
+        "TypographyWeightHeading": {
+          "target": "smithy.api#String"
+        },
+        "TypographyWeightHeadingBold": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Design tokens for customizing the Sign-In Widget appearance"
+      }
+    },
+    "com.okta.management#WidgetConfigurationTheme": {
+      "type": "structure",
+      "members": {
+        "tokens": {
+          "target": "com.okta.management#WidgetConfigurationThemeTokens"
+        }
+      },
+      "traits": {}
+    },
     "com.okta.management#WidgetGeneration": {
       "type": "enum",
       "members": {
@@ -21655,6 +22435,9 @@
         "contentSecurityPolicySetting": {
           "target": "com.okta.management#ContentSecurityPolicySetting"
         },
+        "widgetConfiguration": {
+          "target": "com.okta.management#WidgetConfiguration"
+        },
         "widgetCustomizations": {
           "target": "com.okta.management#GetCustomizedSignInPageResponseWidgetCustomizations"
         },
@@ -21856,6 +22639,9 @@
         "contentSecurityPolicySetting": {
           "target": "com.okta.management#ContentSecurityPolicySetting"
         },
+        "widgetConfiguration": {
+          "target": "com.okta.management#WidgetConfiguration"
+        },
         "widgetCustomizations": {
           "target": "com.okta.management#ReplaceCustomizedSignInPageRequestWidgetCustomizations"
         },
@@ -22023,6 +22809,9 @@
         },
         "contentSecurityPolicySetting": {
           "target": "com.okta.management#ContentSecurityPolicySetting"
+        },
+        "widgetConfiguration": {
+          "target": "com.okta.management#WidgetConfiguration"
         },
         "widgetCustomizations": {
           "target": "com.okta.management#ReplaceCustomizedSignInPageResponseWidgetCustomizations"
@@ -22277,6 +23066,9 @@
         "contentSecurityPolicySetting": {
           "target": "com.okta.management#ContentSecurityPolicySetting"
         },
+        "widgetConfiguration": {
+          "target": "com.okta.management#WidgetConfiguration"
+        },
         "widgetCustomizations": {
           "target": "com.okta.management#GetDefaultSignInPageResponseWidgetCustomizations"
         },
@@ -22486,6 +23278,9 @@
         "contentSecurityPolicySetting": {
           "target": "com.okta.management#ContentSecurityPolicySetting"
         },
+        "widgetConfiguration": {
+          "target": "com.okta.management#WidgetConfiguration"
+        },
         "widgetCustomizations": {
           "target": "com.okta.management#GetPreviewSignInPageResponseWidgetCustomizations"
         },
@@ -22687,6 +23482,9 @@
         "contentSecurityPolicySetting": {
           "target": "com.okta.management#ContentSecurityPolicySetting"
         },
+        "widgetConfiguration": {
+          "target": "com.okta.management#WidgetConfiguration"
+        },
         "widgetCustomizations": {
           "target": "com.okta.management#ReplacePreviewSignInPageRequestWidgetCustomizations"
         },
@@ -22854,6 +23652,9 @@
         },
         "contentSecurityPolicySetting": {
           "target": "com.okta.management#ContentSecurityPolicySetting"
+        },
+        "widgetConfiguration": {
+          "target": "com.okta.management#WidgetConfiguration"
         },
         "widgetCustomizations": {
           "target": "com.okta.management#ReplacePreviewSignInPageResponseWidgetCustomizations"
@@ -32161,7 +32962,10 @@
     "com.okta.management#EventHookChannelConfigOutputHeadersList": {
       "type": "list",
       "member": {
-        "target": "com.okta.management#EventHookChannelConfigHeader"
+        "target": "com.okta.management#EventHookChannelConfigHeader",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {
         "smithy.api#documentation": "Optional list of key/value pairs for headers that can be sent with the request to the external service. For example,\n`X-Other-Header` is an example of an optional header, with a value of `my-header-value`, that you want Okta to pass to your\nexternal service."
@@ -32460,7 +33264,10 @@
     "com.okta.management#EventHookChannelConfigInputHeadersList": {
       "type": "list",
       "member": {
-        "target": "com.okta.management#EventHookChannelConfigHeader"
+        "target": "com.okta.management#EventHookChannelConfigHeader",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {
         "smithy.api#documentation": "Optional list of key/value pairs for headers that can be sent with the request to the external service. For example,\n`X-Other-Header` is an example of an optional header, with a value of `my-header-value`, that you want Okta to pass to your\nexternal service."
@@ -72295,7 +73102,10 @@
         "target": "smithy.api#String"
       },
       "value": {
-        "target": "smithy.api#Document"
+        "target": "smithy.api#Document",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -76877,147 +77687,6 @@
         "smithy.api#documentation": "Unassign a client role group target\n\nUnassigns a Group target from a `USER_ADMIN`, `HELP_DESK_ADMIN`, or `GROUP_MEMBERSHIP_ADMIN` role assignment to a client app.\n\n> **Note:** You can't remove the last group target from a role assignment. If you need a role assignment that applies to all groups, delete the role assignment with the target and create another one. See [Unassign a client role](/openapi/okta-management/management/tags/roleassignmentclient/other/deleterolefromclient)."
       }
     },
-    "com.okta.management#ReplaceOktaPersonalAdminSettingsRequest": {
-      "type": "structure",
-      "members": {
-        "enableEnduserEntryPoints": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "smithy.api#documentation": "Allow entry points for an Okta Personal account in a Workforce org"
-          }
-        },
-        "enableExportApps": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "smithy.api#documentation": "Allow users to migrate apps from a Workforce account to an Okta Personal account"
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#input": {}
-      }
-    },
-    "com.okta.management#ReplaceOktaPersonalAdminSettings": {
-      "type": "operation",
-      "input": {
-        "target": "com.okta.management#ReplaceOktaPersonalAdminSettingsRequest"
-      },
-      "output": {
-        "target": "smithy.api#Unit"
-      },
-      "errors": [
-        {
-          "target": "com.okta.management#Forbidden"
-        },
-        {
-          "target": "com.okta.management#NotFound"
-        }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/okta-personal-settings/api/v1/edit-feature",
-          "code": 200
-        },
-        "smithy.api#documentation": "Replace the Okta Personal admin settings\n\nReplaces Okta Personal admin settings in a Workforce org"
-      }
-    },
-    "com.okta.management#PersonalAppsBlockList": {
-      "type": "structure",
-      "members": {
-        "domains": {
-          "target": "com.okta.management#PersonalAppsBlockListDomainsList",
-          "traits": {
-            "smithy.api#documentation": "List of blocked email domains"
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "Defines a list of email domains with a subset of the properties for each domain"
-      }
-    },
-    "com.okta.management#PersonalAppsBlockListDomainsList": {
-      "type": "list",
-      "member": {
-        "target": "smithy.api#String"
-      },
-      "traits": {
-        "smithy.api#documentation": "List of blocked email domains"
-      }
-    },
-    "com.okta.management#ListPersonalAppsExportBlockList": {
-      "type": "operation",
-      "input": {
-        "target": "smithy.api#Unit"
-      },
-      "output": {
-        "target": "com.okta.management#PersonalAppsBlockList"
-      },
-      "errors": [
-        {
-          "target": "com.okta.management#Forbidden"
-        },
-        {
-          "target": "com.okta.management#NotFound"
-        }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/okta-personal-settings/api/v1/export-blocklists",
-          "code": 200
-        },
-        "smithy.api#documentation": "List all blocked email domains\n\nLists all blocked email domains which are excluded from app migration"
-      }
-    },
-    "com.okta.management#ReplaceBlockedEmailDomainsRequestDomainsList": {
-      "type": "list",
-      "member": {
-        "target": "smithy.api#String"
-      },
-      "traits": {
-        "smithy.api#documentation": "List of blocked email domains"
-      }
-    },
-    "com.okta.management#ReplaceBlockedEmailDomainsRequest": {
-      "type": "structure",
-      "members": {
-        "domains": {
-          "target": "com.okta.management#ReplaceBlockedEmailDomainsRequestDomainsList",
-          "traits": {
-            "smithy.api#documentation": "List of blocked email domains"
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#input": {}
-      }
-    },
-    "com.okta.management#ReplaceBlockedEmailDomains": {
-      "type": "operation",
-      "input": {
-        "target": "com.okta.management#ReplaceBlockedEmailDomainsRequest"
-      },
-      "output": {
-        "target": "smithy.api#Unit"
-      },
-      "errors": [
-        {
-          "target": "com.okta.management#Forbidden"
-        },
-        {
-          "target": "com.okta.management#NotFound"
-        }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/okta-personal-settings/api/v1/export-blocklists",
-          "code": 200
-        },
-        "smithy.api#documentation": "Replace the blocked email domains\n\nReplaces the list of blocked email domains which are excluded from app migration"
-      }
-    },
     "com.okta.management#ListOktaManagedUserAccountsRequest": {
       "type": "structure",
       "members": {
@@ -78907,7 +79576,7 @@
     },
     "com.okta.management#Okta": {
       "type": "service",
-      "version": "2026.08.1",
+      "version": "2026.09.1",
       "operations": [
         {
           "target": "com.okta.management#GetWellKnownAppAuthenticatorConfiguration"
@@ -81035,15 +81704,6 @@
         },
         {
           "target": "com.okta.management#RemoveGroupTargetRoleFromClient"
-        },
-        {
-          "target": "com.okta.management#ReplaceOktaPersonalAdminSettings"
-        },
-        {
-          "target": "com.okta.management#ListPersonalAppsExportBlockList"
-        },
-        {
-          "target": "com.okta.management#ReplaceBlockedEmailDomains"
         },
         {
           "target": "com.okta.management#ListOktaManagedUserAccounts"

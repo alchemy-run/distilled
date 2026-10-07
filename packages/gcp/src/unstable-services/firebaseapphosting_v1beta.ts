@@ -85,6 +85,81 @@ export const Empty = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "Empty",
 }) as any as S.Schema<Empty>;
 
+export type StringMap = { [key: string]: string | undefined };
+export const StringMap = /*@__PURE__*/ S.Record(S.String, S.String) as any as S.Schema<StringMap>;
+
+export type EnvironmentVariableAvailabilityItemEnum =
+  | "AVAILABILITY_UNSPECIFIED"
+  | "BUILD"
+  | "RUNTIME";
+export const EnvironmentVariableAvailabilityItemEnum = S.String;
+
+export type EnvironmentVariableAvailabilityItemEnumList = Array<
+  EnvironmentVariableAvailabilityItemEnum | (string & {})
+>;
+export const EnvironmentVariableAvailabilityItemEnumList = /*@__PURE__*/ S.Array(
+  EnvironmentVariableAvailabilityItemEnum,
+) as any as S.Schema<EnvironmentVariableAvailabilityItemEnumList>;
+
+export type EnvironmentVariableOriginEnum =
+  | "ORIGIN_UNSPECIFIED"
+  | "BACKEND_OVERRIDES"
+  | "BUILD_CONFIG"
+  | "APPHOSTING_YAML"
+  | "FIREBASE_SYSTEM";
+export const EnvironmentVariableOriginEnum = S.String;
+
+/** Environment variables for this build. */
+export interface EnvironmentVariable {
+  /** Optional. Where this variable should be made available. If left unspecified, will be available in both BUILD and BACKEND. */
+  availability?: EnvironmentVariableAvailabilityItemEnumList;
+  /** Required. The name of the environment variable. The environment variables reserved by [Cloud Run](https://docs.cloud.google.com/run/docs/configuring/services/environment-variables#reserved) should not be set. Additionally, variable names cannot start with "X_FIREBASE_". */
+  variable?: string;
+  /** Output only. Specific detail about the source. For APPHOSTING_YAML origins, this will contain the exact filename, such as "apphosting.yaml" or "apphosting.staging.yaml". */
+  originFileName?: string;
+  /** Output only. The high-level origin category of the environment variable. */
+  origin?: EnvironmentVariableOriginEnum | (string & {});
+  /** A fully qualified secret version. The value of the secret will be accessed once while building the application and once per cold start of the container at runtime. The service account used by Cloud Build and by Cloud Run must each have the `secretmanager.versions.access` permission on the secret. */
+  secret?: string;
+  /** A plaintext value. This value is encrypted at rest, but all project readers can view the value when reading your backend configuration. */
+  value?: string;
+}
+export const EnvironmentVariable = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    availability: S.optional(EnvironmentVariableAvailabilityItemEnumList),
+    variable: S.optional(S.String),
+    originFileName: S.optional(S.String),
+    origin: S.optional(EnvironmentVariableOriginEnum),
+    secret: S.optional(S.String),
+    value: S.optional(S.String),
+  }),
+).annotate({ identifier: "EnvironmentVariable" }) as any as S.Schema<EnvironmentVariable>;
+
+export type EnvironmentVariableList = Array<EnvironmentVariable>;
+export const EnvironmentVariableList = /*@__PURE__*/ S.Array(
+  EnvironmentVariable,
+) as any as S.Schema<EnvironmentVariableList>;
+
+/** The connection to an external source repository to watch for event-driven updates to the backend. */
+export interface Codebase {
+  /** Required. The resource name for the Developer Connect [`gitRepositoryLink`](https://cloud.google.com/developer-connect/docs/api/reference/rest/v1/projects.locations.connections.gitRepositoryLinks) connected to this backend, in the format: `projects/{project}/locations/{location}/connections/{connection}/gitRepositoryLinks/{repositoryLink}` The connection for the `gitRepositoryLink` must made be using the Firebase App Hosting GitHub App via the Firebase Console. */
+  repository?: string;
+  /** Optional. If `repository` is provided, the directory relative to the root of the repository to use as the root for the deployed web app. Defaults to use the root of the repository if not provided. If deploying a [monorepo](https://firebase.google.com/docs/app-hosting/monorepos), this should be the directory that contains the `package.json` or `apphosting.yaml` file. */
+  rootDirectory?: string;
+}
+export const Codebase = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    repository: S.optional(S.String),
+    rootDirectory: S.optional(S.String),
+  }),
+).annotate({ identifier: "Codebase" }) as any as S.Schema<Codebase>;
+
+export type BackendServingLocalityEnum =
+  | "SERVING_LOCALITY_UNSPECIFIED"
+  | "REGIONAL_STRICT"
+  | "GLOBAL_ACCESS";
+export const BackendServingLocalityEnum = S.String;
+
 /** A managed Cloud Run [`service`](https://cloud.google.com/run/docs/reference/rest/v2/projects.locations.services#resource:-service). */
 export interface RunService {
   /** Optional. The name of the Cloud Run [`service`](https://cloud.google.com/run/docs/reference/rest/v2/projects.locations.services#resource:-service), in the format: `projects/{project}/locations/{location}/services/{serviceId}` */
@@ -105,77 +180,12 @@ export const ManagedResource = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     runService: S.optional(RunService),
   }),
-).annotate({
-  identifier: "ManagedResource",
-}) as any as S.Schema<ManagedResource>;
+).annotate({ identifier: "ManagedResource" }) as any as S.Schema<ManagedResource>;
 
 export type ManagedResourceList = Array<ManagedResource>;
 export const ManagedResourceList = /*@__PURE__*/ S.Array(
   ManagedResource,
 ) as any as S.Schema<ManagedResourceList>;
-
-export type EnvironmentVariableOriginEnum =
-  | "ORIGIN_UNSPECIFIED"
-  | "BACKEND_OVERRIDES"
-  | "BUILD_CONFIG"
-  | "APPHOSTING_YAML"
-  | "FIREBASE_SYSTEM";
-export const EnvironmentVariableOriginEnum = S.String;
-
-export type EnvironmentVariableAvailabilityItemEnum =
-  | "AVAILABILITY_UNSPECIFIED"
-  | "BUILD"
-  | "RUNTIME";
-export const EnvironmentVariableAvailabilityItemEnum = S.String;
-
-export type EnvironmentVariableAvailabilityItemEnumList = Array<
-  EnvironmentVariableAvailabilityItemEnum | (string & {})
->;
-export const EnvironmentVariableAvailabilityItemEnumList = /*@__PURE__*/ S.Array(
-  EnvironmentVariableAvailabilityItemEnum,
-) as any as S.Schema<EnvironmentVariableAvailabilityItemEnumList>;
-
-/** Environment variables for this build. */
-export interface EnvironmentVariable {
-  /** Output only. Specific detail about the source. For APPHOSTING_YAML origins, this will contain the exact filename, such as "apphosting.yaml" or "apphosting.staging.yaml". */
-  originFileName?: string;
-  /** Output only. The high-level origin category of the environment variable. */
-  origin?: EnvironmentVariableOriginEnum | (string & {});
-  /** A plaintext value. This value is encrypted at rest, but all project readers can view the value when reading your backend configuration. */
-  value?: string;
-  /** Optional. Where this variable should be made available. If left unspecified, will be available in both BUILD and BACKEND. */
-  availability?: EnvironmentVariableAvailabilityItemEnumList;
-  /** A fully qualified secret version. The value of the secret will be accessed once while building the application and once per cold start of the container at runtime. The service account used by Cloud Build and by Cloud Run must each have the `secretmanager.versions.access` permission on the secret. */
-  secret?: string;
-  /** Required. The name of the environment variable. The environment variables reserved by [Cloud Run](https://docs.cloud.google.com/run/docs/configuring/services/environment-variables#reserved) should not be set. Additionally, variable names cannot start with "X_FIREBASE_". */
-  variable?: string;
-}
-export const EnvironmentVariable = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    originFileName: S.optional(S.String),
-    origin: S.optional(EnvironmentVariableOriginEnum),
-    value: S.optional(S.String),
-    availability: S.optional(EnvironmentVariableAvailabilityItemEnumList),
-    secret: S.optional(S.String),
-    variable: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "EnvironmentVariable",
-}) as any as S.Schema<EnvironmentVariable>;
-
-export type EnvironmentVariableList = Array<EnvironmentVariable>;
-export const EnvironmentVariableList = /*@__PURE__*/ S.Array(
-  EnvironmentVariable,
-) as any as S.Schema<EnvironmentVariableList>;
-
-export type BackendServingLocalityEnum =
-  | "SERVING_LOCALITY_UNSPECIFIED"
-  | "REGIONAL_STRICT"
-  | "GLOBAL_ACCESS";
-export const BackendServingLocalityEnum = S.String;
-
-export type StringMap = { [key: string]: string | undefined };
-export const StringMap = /*@__PURE__*/ S.Record(S.String, S.String) as any as S.Schema<StringMap>;
 
 /** Runtime is a string that represents the runtime that is used to build the backend. Users can specify one of the following runtimes: nodejs20, nodejs22, nodejs24, nodejs. Runtime "nodejs" means that nodejs version will be determined at build time. If not specified or specified with a value that is not in the list above, the default runtime `nodejs` will be used and Automatic Base Image Updates will be disabled. See [Firebase documentation](https://firebase.google.com/docs/app-hosting/frameworks-tooling#managing_runtime_versions) for more details. */
 export interface BackendRuntime {
@@ -188,112 +198,98 @@ export const BackendRuntime = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "BackendRuntime" }) as any as S.Schema<BackendRuntime>;
 
-/** The connection to an external source repository to watch for event-driven updates to the backend. */
-export interface Codebase {
-  /** Required. The resource name for the Developer Connect [`gitRepositoryLink`](https://cloud.google.com/developer-connect/docs/api/reference/rest/v1/projects.locations.connections.gitRepositoryLinks) connected to this backend, in the format: `projects/{project}/locations/{location}/connections/{connection}/gitRepositoryLinks/{repositoryLink}` The connection for the `gitRepositoryLink` must made be using the Firebase App Hosting GitHub App via the Firebase Console. */
-  repository?: string;
-  /** Optional. If `repository` is provided, the directory relative to the root of the repository to use as the root for the deployed web app. Defaults to use the root of the repository if not provided. If deploying a [monorepo](https://firebase.google.com/docs/app-hosting/monorepos), this should be the directory that contains the `package.json` or `apphosting.yaml` file. */
-  rootDirectory?: string;
-}
-export const Codebase = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    repository: S.optional(S.String),
-    rootDirectory: S.optional(S.String),
-  }),
-).annotate({ identifier: "Codebase" }) as any as S.Schema<Codebase>;
-
 /** A backend is the primary resource of App Hosting. */
 export interface Backend {
-  /** Output only. Time at which the backend was created. */
-  createTime?: string;
-  /** Output only. A list of the resources managed by this backend. */
-  managedResources?: ManagedResourceList;
+  /** Output only. Time at which the backend was deleted. */
+  deleteTime?: string;
+  /** Required. The name of the service account used for Cloud Build and Cloud Run. Should have the role roles/firebaseapphosting.computeRunner or equivalent permissions. */
+  serviceAccount?: string;
+  /** Optional. Unstructured key value map that can be used to organize and categorize objects. */
+  labels?: StringMap;
   /** Optional. Override environment variables for this Backend. */
   overrideEnv?: EnvironmentVariableList;
-  /** Output only. System-assigned, unique identifier. */
-  uid?: string;
-  /** Output only. Time at which the backend was last updated. */
-  updateTime?: string;
-  /** Identifier. The resource name of the backend. Format: `projects/{project}/locations/{locationId}/backends/{backendId}`. */
-  name?: string;
+  /** Optional. The [ID of a Web App](https://firebase.google.com/docs/reference/firebase-management/rest/v1beta1/projects.webApps#WebApp.FIELDS.app_id) associated with the backend. */
+  appId?: string;
+  /** Output only. The primary URI to communicate with the backend. */
+  uri?: string;
+  /** Optional. The environment name of the backend, used to load environment variables from environment specific configuration. */
+  environment?: string;
+  /** Optional. If specified, the connection to an external source repository to watch for event-driven updates to the backend. */
+  codebase?: Codebase;
+  /** Optional. Unstructured key value map that may be set by external tools to store and arbitrary metadata. They are not queryable and should be preserved when modifying objects. */
+  annotations?: StringMap;
   /** Required. Immutable. Specifies how App Hosting will serve the content for this backend. It will either be contained to a single region (REGIONAL_STRICT) or allowed to use App Hosting's global-replicated serving infrastructure (GLOBAL_ACCESS). */
   servingLocality?: BackendServingLocalityEnum | (string & {});
   /** Optional. automatic_base_image_updates_disabled acts as a way for users to opt out of ABIU. */
   automaticBaseImageUpdatesDisabled?: boolean;
+  /** Optional. A field that, if true, indicates that incoming request logs are disabled for this backend. Incoming request logs are enabled by default. */
+  requestLogsDisabled?: boolean;
   /** Optional. Deprecated: Use `environment` instead. */
   mode?: string;
-  /** Required. The name of the service account used for Cloud Build and Cloud Run. Should have the role roles/firebaseapphosting.computeRunner or equivalent permissions. */
-  serviceAccount?: string;
-  /** Optional. Unstructured key value map that may be set by external tools to store and arbitrary metadata. They are not queryable and should be preserved when modifying objects. */
-  annotations?: StringMap;
-  /** Output only. The primary URI to communicate with the backend. */
-  uri?: string;
-  /** Optional. The [ID of a Web App](https://firebase.google.com/docs/reference/firebase-management/rest/v1beta1/projects.webApps#WebApp.FIELDS.app_id) associated with the backend. */
-  appId?: string;
+  /** Output only. A list of the resources managed by this backend. */
+  managedResources?: ManagedResourceList;
   /** Optional. The runtime that the backend will be built on. A default base_image will be chosen for a given runtime. */
   runtime?: BackendRuntime;
   /** Output only. Server-computed checksum based on other values; may be sent on update or delete to ensure operation is done on expected resource. */
   etag?: string;
-  /** Optional. The environment name of the backend, used to load environment variables from environment specific configuration. */
-  environment?: string;
-  /** Optional. Unstructured key value map that can be used to organize and categorize objects. */
-  labels?: StringMap;
-  /** Optional. A field that, if true, indicates that incoming request logs are disabled for this backend. Incoming request logs are enabled by default. */
-  requestLogsDisabled?: boolean;
-  /** Output only. A field that, if true, indicates that the system is working to make adjustments to the backend during a LRO. */
-  reconciling?: boolean;
   /** Optional. Human-readable name. 63 character limit. */
   displayName?: string;
-  /** Output only. Time at which the backend was deleted. */
-  deleteTime?: string;
-  /** Optional. If specified, the connection to an external source repository to watch for event-driven updates to the backend. */
-  codebase?: Codebase;
+  /** Output only. Time at which the backend was last updated. */
+  updateTime?: string;
+  /** Output only. Time at which the backend was created. */
+  createTime?: string;
+  /** Identifier. The resource name of the backend. Format: `projects/{project}/locations/{locationId}/backends/{backendId}`. */
+  name?: string;
+  /** Output only. System-assigned, unique identifier. */
+  uid?: string;
+  /** Output only. A field that, if true, indicates that the system is working to make adjustments to the backend during a LRO. */
+  reconciling?: boolean;
 }
 export const Backend = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    createTime: S.optional(S.String),
-    managedResources: S.optional(ManagedResourceList),
+    deleteTime: S.optional(S.String),
+    serviceAccount: S.optional(S.String),
+    labels: S.optional(StringMap),
     overrideEnv: S.optional(EnvironmentVariableList),
-    uid: S.optional(S.String),
-    updateTime: S.optional(S.String),
-    name: S.optional(S.String),
+    appId: S.optional(S.String),
+    uri: S.optional(S.String),
+    environment: S.optional(S.String),
+    codebase: S.optional(Codebase),
+    annotations: S.optional(StringMap),
     servingLocality: S.optional(BackendServingLocalityEnum),
     automaticBaseImageUpdatesDisabled: S.optional(S.Boolean),
+    requestLogsDisabled: S.optional(S.Boolean),
     mode: S.optional(S.String),
-    serviceAccount: S.optional(S.String),
-    annotations: S.optional(StringMap),
-    uri: S.optional(S.String),
-    appId: S.optional(S.String),
+    managedResources: S.optional(ManagedResourceList),
     runtime: S.optional(BackendRuntime),
     etag: S.optional(S.String),
-    environment: S.optional(S.String),
-    labels: S.optional(StringMap),
-    requestLogsDisabled: S.optional(S.Boolean),
-    reconciling: S.optional(S.Boolean),
     displayName: S.optional(S.String),
-    deleteTime: S.optional(S.String),
-    codebase: S.optional(Codebase),
+    updateTime: S.optional(S.String),
+    createTime: S.optional(S.String),
+    name: S.optional(S.String),
+    uid: S.optional(S.String),
+    reconciling: S.optional(S.Boolean),
   }),
 ).annotate({ identifier: "Backend" }) as any as S.Schema<Backend>;
 
 export interface CreateProjectsLocationsBackendsRequest {
-  /** Optional. Indicates that the request should be validated and default values populated, without persisting the request or creating any resources. */
-  validateOnly?: boolean;
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and t he request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
   /** Required. Id of the backend. Also used as the service ID for Cloud Run, and as part of the default domain name. */
   backendId?: string;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and t he request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string;
   /** Required. A parent name of the form `projects/{project}/locations/{locationId}`. */
   parent: string;
+  /** Optional. Indicates that the request should be validated and default values populated, without persisting the request or creating any resources. */
+  validateOnly?: boolean;
   /** Request body */
   body?: Backend;
 }
 export const CreateProjectsLocationsBackendsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-    requestId: S.optional(S.String.pipe(T.Query())),
     backendId: S.optional(S.String.pipe(T.Query())),
+    requestId: S.optional(S.String.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
+    validateOnly: S.optional(S.Boolean.pipe(T.Query())),
     body: S.optional(Backend.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -336,26 +332,198 @@ export const Status = /*@__PURE__*/ S.suspend(() =>
 
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
-  /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
-  metadata?: DocumentMap;
   /** The error result of the operation in case of failure or cancellation. */
   error?: Status;
-  /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
-  name?: string;
   /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
   response?: DocumentMap;
   /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
   done?: boolean;
+  /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
+  name?: string;
+  /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
+  metadata?: DocumentMap;
 }
 export const Operation = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    metadata: S.optional(DocumentMap),
     error: S.optional(Status),
-    name: S.optional(S.String),
     response: S.optional(DocumentMap),
     done: S.optional(S.Boolean),
+    name: S.optional(S.String),
+    metadata: S.optional(DocumentMap),
   }),
 ).annotate({ identifier: "Operation" }) as any as S.Schema<Operation>;
+
+/** The URI of an Artifact Registry [container image](https://cloud.google.com/artifact-registry/docs/reference/rest/v1/projects.locations.repositories.dockerImages) to use as the build source. */
+export interface ContainerSource {
+  /** Required. A URI representing a container for the backend to use. */
+  image?: string;
+}
+export const ContainerSource = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    image: S.optional(S.String),
+  }),
+).annotate({ identifier: "ContainerSource" }) as any as S.Schema<ContainerSource>;
+
+/** Configuration applied to the Cloud Run [`service`](https://cloud.google.com/run/docs/reference/rest/v2/projects.locations.services#resource:-service). */
+export interface RunConfig {
+  /** Optional. Number of Cloud Run instances to maintain at maximum for each revision. By default, each Cloud Run [`service`](https://cloud.google.com/run/docs/reference/rest/v2/projects.locations.services#resource:-service) scales out to Cloud Run's default of a maximum of 100 instances. The maximum max_instances limit is based on your quota. See https://cloud.google.com/run/docs/configuring/max-instances#limits. */
+  maxInstances?: number;
+  /** Optional. Number of CPUs used for each serving instance. By default, cpu defaults to the Cloud Run's default of 1.0. CPU can be set to value 1, 2, 4, 6, or 8 CPUs, and for less than 1 CPU, a value from 0.08 to less than 1.00, in increments of 0.01. If you set a value of less than 1 CPU, you must set concurrency to 1, and CPU will only be allocated during request processing. Increasing CPUs limit may require increase in memory limits: - 4 CPUs: at least 2 GiB - 6 CPUs: at least 4 GiB - 8 CPUs: at least 4 GiB */
+  cpu?: number;
+  /** Optional. Amount of memory allocated for each serving instance in MiB. By default, memory defaults to the Cloud Run's default where each instance is allocated 512 MiB of memory. Memory can be set to any integer value between 128 to 32768. Increasing memory limit may require increase in CPUs limits: - Over 4 GiB: at least 2 CPUs - Over 8 GiB: at least 4 CPUs - Over 16 GiB: at least 6 CPUs - Over 24 GiB: at least 8 CPUs */
+  memoryMib?: number;
+  /** Optional. Maximum number of requests that each Cloud Run instance can receive. By default, each instance can receive Cloud Run's default of up to 80 requests at the same time. Concurrency can be set to any integer value up to 1000. */
+  concurrency?: number;
+  /** Optional. Number of Cloud Run instances to maintain at minimum for each Cloud Run Service. By default, there are no minimum. Even if the service splits traffic across multiple revisions, the total number of instances for a service will be capped at this value. */
+  minInstances?: number;
+}
+export const RunConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    maxInstances: S.optional(S.Number),
+    cpu: S.optional(S.Number),
+    memoryMib: S.optional(S.Number),
+    concurrency: S.optional(S.Number),
+    minInstances: S.optional(S.Number),
+  }),
+).annotate({ identifier: "RunConfig" }) as any as S.Schema<RunConfig>;
+
+/** The URI of an storage archive to use as the build source. */
+export interface LocallyBuiltSource {
+  /** Optional. Additional configuration of the Cloud Run [`service`](https://cloud.google.com/run/docs/reference/rest/v2/projects.locations.services#resource:-service). */
+  runConfig?: RunConfig;
+  /** Optional. The directory relative to the root of the archive to use as the root for the deployed web app. Defaults to use the root of the repository if not provided. If deploying a [monorepo](https://firebase.google.com/docs/app-hosting/monorepos), this should be the directory that contains the built source of the app. */
+  rootDirectory?: string;
+  /** Optional. An optional message that describes the uploaded version of the source code. */
+  description?: string;
+  /** Optional. The command to run to start the app. If provided, it will override apphosting's default run commands. See [`Override build and run scripts`](https://firebase.google.com/docs/app-hosting/configure#override-scripts) */
+  runCommand?: string;
+  /** Optional. Supplied runtime environment variables for a specific build. Provided at Build creation time and immutable afterwards. */
+  env?: EnvironmentVariableList;
+  /** URI to an archive in Cloud Storage. The object must be a gzipped archive file (.tar.gz) containing source to deploy. */
+  userStorageUri?: string;
+}
+export const LocallyBuiltSource = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    runConfig: S.optional(RunConfig),
+    rootDirectory: S.optional(S.String),
+    description: S.optional(S.String),
+    runCommand: S.optional(S.String),
+    env: S.optional(EnvironmentVariableList),
+    userStorageUri: S.optional(S.String),
+  }),
+).annotate({ identifier: "LocallyBuiltSource" }) as any as S.Schema<LocallyBuiltSource>;
+
+/** Deprecated: Not used. Metadata for the user who started the build. */
+export interface SourceUserMetadata {
+  /** Output only. Deprecated: Not used. The URI of a profile photo associated with the user who created the build. */
+  imageUri?: string;
+  /** Output only. Deprecated: Not used. The user-chosen displayname. May be empty. */
+  displayName?: string;
+  /** Output only. Deprecated: Not used. The account email linked to the EUC that created the build. May be a service account or other robot account. */
+  email?: string;
+}
+export const SourceUserMetadata = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    imageUri: S.optional(S.String),
+    displayName: S.optional(S.String),
+    email: S.optional(S.String),
+  }),
+).annotate({ identifier: "SourceUserMetadata" }) as any as S.Schema<SourceUserMetadata>;
+
+/** The URI of an storage archive or a signed URL to use as the build source. */
+export interface ArchiveSource {
+  /** Optional. Deprecated: Not used. The author contained in the metadata of a version control change. */
+  author?: SourceUserMetadata;
+  /** Optional. The directory relative to the root of the archive to use as the root for the deployed web app. Defaults to use the root of the repository if not provided. If deploying a [monorepo](https://firebase.google.com/docs/app-hosting/monorepos), this should be the directory that contains the `package.json` or `apphosting.yaml` file. */
+  rootDirectory?: string;
+  /** Signed URL to an archive in a storage bucket. */
+  externalSignedUri?: string;
+  /** URI to an archive in Cloud Storage. The object must be a zipped (.zip) or gzipped archive file (.tar.gz) containing source to deploy. */
+  userStorageUri?: string;
+  /** Optional. An optional message that describes the uploaded version of the source code. */
+  description?: string;
+}
+export const ArchiveSource = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    author: S.optional(SourceUserMetadata),
+    rootDirectory: S.optional(S.String),
+    externalSignedUri: S.optional(S.String),
+    userStorageUri: S.optional(S.String),
+    description: S.optional(S.String),
+  }),
+).annotate({ identifier: "ArchiveSource" }) as any as S.Schema<ArchiveSource>;
+
+/** Version control metadata for a user associated with a resolved codebase. Currently assumes a Git user. */
+export interface UserMetadata {
+  /** Output only. The URI of an image file associated with the user's account in an external source control provider, if available. */
+  imageUri?: string;
+  /** Output only. The 'name' field in a Git user's git.config. Required by Git. */
+  displayName?: string;
+  /** Output only. The 'email' field in a Git user's git.config, if available. */
+  email?: string;
+}
+export const UserMetadata = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    imageUri: S.optional(S.String),
+    displayName: S.optional(S.String),
+    email: S.optional(S.String),
+  }),
+).annotate({ identifier: "UserMetadata" }) as any as S.Schema<UserMetadata>;
+
+/** A codebase source, representing the state of the codebase that the build will be created at. */
+export interface CodebaseSource {
+  /** Output only. The human-friendly name to use for this Codebase when displaying a build. We use the first eight characters of the SHA-1 hash for GitHub.com. */
+  displayName?: string;
+  /** Output only. The author contained in the metadata of a version control change. */
+  author?: UserMetadata;
+  /** Output only. The full SHA-1 hash of a Git commit, if available. */
+  hash?: string;
+  /** The commit in the codebase to build from. */
+  commit?: string;
+  /** Output only. The resource name for the Developer Connect [`gitRepositoryLink`](https://cloud.google.com/developer-connect/docs/api/reference/rest/v1/projects.locations.connections.gitRepositoryLinks) used for this build, in the format: `projects/{project}/locations/{location}/connections/{connection}/gitRepositoryLinks/{repositoryLink}` */
+  repository?: string;
+  /** Output only. The time the change was made. */
+  commitTime?: string;
+  /** Output only. A URI linking to the codebase on an hosting provider's website. May not be valid if the commit has been rebased or force-pushed out of existence in the linked repository. */
+  uri?: string;
+  /** The branch in the codebase to build from, using the latest commit. */
+  branch?: string;
+  /** Output only. The message of a codebase change. */
+  commitMessage?: string;
+}
+export const CodebaseSource = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    displayName: S.optional(S.String),
+    author: S.optional(UserMetadata),
+    hash: S.optional(S.String),
+    commit: S.optional(S.String),
+    repository: S.optional(S.String),
+    commitTime: S.optional(S.String),
+    uri: S.optional(S.String),
+    branch: S.optional(S.String),
+    commitMessage: S.optional(S.String),
+  }),
+).annotate({ identifier: "CodebaseSource" }) as any as S.Schema<CodebaseSource>;
+
+/** The source for the build. */
+export interface BuildSource {
+  /** An Artifact Registry container image source. */
+  container?: ContainerSource;
+  /** A source that was pre-built locally. */
+  locallyBuilt?: LocallyBuiltSource;
+  /** An archive source. */
+  archive?: ArchiveSource;
+  /** A codebase source. */
+  codebase?: CodebaseSource;
+}
+export const BuildSource = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    container: S.optional(ContainerSource),
+    locallyBuilt: S.optional(LocallyBuiltSource),
+    archive: S.optional(ArchiveSource),
+    codebase: S.optional(CodebaseSource),
+  }),
+).annotate({ identifier: "BuildSource" }) as any as S.Schema<BuildSource>;
 
 export type BuildErrorSourceEnum = "ERROR_SOURCE_UNSPECIFIED" | "CLOUD_BUILD" | "CLOUD_RUN";
 export const BuildErrorSourceEnum = S.String;
@@ -368,27 +536,42 @@ export const Firebaseapphosting_ErrorErrorSourceEnum = S.String;
 
 /** The container for the rpc status and source for any errors found during the build process. */
 export interface Firebaseapphosting_Error {
-  /** Output only. Resource link */
-  cloudResource?: string;
   /** Output only. The source of the error for the build, if in a `FAILED` state. */
   errorSource?: Firebaseapphosting_ErrorErrorSourceEnum | (string & {});
+  /** Output only. Resource link */
+  cloudResource?: string;
   /** Output only. A status and (human readable) error message for the build, if in a `FAILED` state. */
   error?: Status;
 }
 export const Firebaseapphosting_Error = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    cloudResource: S.optional(S.String),
     errorSource: S.optional(Firebaseapphosting_ErrorErrorSourceEnum),
+    cloudResource: S.optional(S.String),
     error: S.optional(Status),
   }),
-).annotate({
-  identifier: "Firebaseapphosting_Error",
-}) as any as S.Schema<Firebaseapphosting_Error>;
+).annotate({ identifier: "Firebaseapphosting_Error" }) as any as S.Schema<Firebaseapphosting_Error>;
 
 export type Firebaseapphosting_ErrorList = Array<Firebaseapphosting_Error>;
 export const Firebaseapphosting_ErrorList = /*@__PURE__*/ S.Array(
   Firebaseapphosting_Error,
 ) as any as S.Schema<Firebaseapphosting_ErrorList>;
+
+/** Additional configuration of the backend for this build. */
+export interface Config {
+  /** Optional. Additional configuration of the Cloud Run [`service`](https://cloud.google.com/run/docs/reference/rest/v2/projects.locations.services#resource:-service). */
+  runConfig?: RunConfig;
+  /** Optional. Supplied environment variables for a specific build. Provided at Build creation time and immutable afterwards. This field is only applicable for Builds using a build image - (e.g., ContainerSource or ArchiveSource with locally_built_source) Attempts to set this for other build types will result in an error */
+  env?: EnvironmentVariableList;
+  /** Output only. [OUTPUT_ONLY] This field represents all environment variables employed during both the build and runtime. This list reflects the result of merging variables from all sources (Backend.override_env, Build.Config.env, YAML, defaults, system). Each variable includes its `origin` */
+  effectiveEnv?: EnvironmentVariableList;
+}
+export const Config = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    runConfig: S.optional(RunConfig),
+    env: S.optional(EnvironmentVariableList),
+    effectiveEnv: S.optional(EnvironmentVariableList),
+  }),
+).annotate({ identifier: "Config" }) as any as S.Schema<Config>;
 
 export type BuildStateEnum =
   | "STATE_UNSPECIFIED"
@@ -401,284 +584,89 @@ export type BuildStateEnum =
   | "EXPIRED";
 export const BuildStateEnum = S.String;
 
-/** Version control metadata for a user associated with a resolved codebase. Currently assumes a Git user. */
-export interface UserMetadata {
-  /** Output only. The 'name' field in a Git user's git.config. Required by Git. */
-  displayName?: string;
-  /** Output only. The URI of an image file associated with the user's account in an external source control provider, if available. */
-  imageUri?: string;
-  /** Output only. The 'email' field in a Git user's git.config, if available. */
-  email?: string;
-}
-export const UserMetadata = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    displayName: S.optional(S.String),
-    imageUri: S.optional(S.String),
-    email: S.optional(S.String),
-  }),
-).annotate({ identifier: "UserMetadata" }) as any as S.Schema<UserMetadata>;
-
-/** A codebase source, representing the state of the codebase that the build will be created at. */
-export interface CodebaseSource {
-  /** Output only. The resource name for the Developer Connect [`gitRepositoryLink`](https://cloud.google.com/developer-connect/docs/api/reference/rest/v1/projects.locations.connections.gitRepositoryLinks) used for this build, in the format: `projects/{project}/locations/{location}/connections/{connection}/gitRepositoryLinks/{repositoryLink}` */
-  repository?: string;
-  /** The branch in the codebase to build from, using the latest commit. */
-  branch?: string;
-  /** Output only. The author contained in the metadata of a version control change. */
-  author?: UserMetadata;
-  /** Output only. The full SHA-1 hash of a Git commit, if available. */
-  hash?: string;
-  /** Output only. The human-friendly name to use for this Codebase when displaying a build. We use the first eight characters of the SHA-1 hash for GitHub.com. */
-  displayName?: string;
-  /** The commit in the codebase to build from. */
-  commit?: string;
-  /** Output only. The time the change was made. */
-  commitTime?: string;
-  /** Output only. The message of a codebase change. */
-  commitMessage?: string;
-  /** Output only. A URI linking to the codebase on an hosting provider's website. May not be valid if the commit has been rebased or force-pushed out of existence in the linked repository. */
-  uri?: string;
-}
-export const CodebaseSource = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    repository: S.optional(S.String),
-    branch: S.optional(S.String),
-    author: S.optional(UserMetadata),
-    hash: S.optional(S.String),
-    displayName: S.optional(S.String),
-    commit: S.optional(S.String),
-    commitTime: S.optional(S.String),
-    commitMessage: S.optional(S.String),
-    uri: S.optional(S.String),
-  }),
-).annotate({ identifier: "CodebaseSource" }) as any as S.Schema<CodebaseSource>;
-
-/** The URI of an Artifact Registry [container image](https://cloud.google.com/artifact-registry/docs/reference/rest/v1/projects.locations.repositories.dockerImages) to use as the build source. */
-export interface ContainerSource {
-  /** Required. A URI representing a container for the backend to use. */
-  image?: string;
-}
-export const ContainerSource = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    image: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ContainerSource",
-}) as any as S.Schema<ContainerSource>;
-
-/** Configuration applied to the Cloud Run [`service`](https://cloud.google.com/run/docs/reference/rest/v2/projects.locations.services#resource:-service). */
-export interface RunConfig {
-  /** Optional. Amount of memory allocated for each serving instance in MiB. By default, memory defaults to the Cloud Run's default where each instance is allocated 512 MiB of memory. Memory can be set to any integer value between 128 to 32768. Increasing memory limit may require increase in CPUs limits: - Over 4 GiB: at least 2 CPUs - Over 8 GiB: at least 4 CPUs - Over 16 GiB: at least 6 CPUs - Over 24 GiB: at least 8 CPUs */
-  memoryMib?: number;
-  /** Optional. Number of CPUs used for each serving instance. By default, cpu defaults to the Cloud Run's default of 1.0. CPU can be set to value 1, 2, 4, 6, or 8 CPUs, and for less than 1 CPU, a value from 0.08 to less than 1.00, in increments of 0.01. If you set a value of less than 1 CPU, you must set concurrency to 1, and CPU will only be allocated during request processing. Increasing CPUs limit may require increase in memory limits: - 4 CPUs: at least 2 GiB - 6 CPUs: at least 4 GiB - 8 CPUs: at least 4 GiB */
-  cpu?: number;
-  /** Optional. Maximum number of requests that each Cloud Run instance can receive. By default, each instance can receive Cloud Run's default of up to 80 requests at the same time. Concurrency can be set to any integer value up to 1000. */
-  concurrency?: number;
-  /** Optional. Number of Cloud Run instances to maintain at minimum for each Cloud Run Service. By default, there are no minimum. Even if the service splits traffic across multiple revisions, the total number of instances for a service will be capped at this value. */
-  minInstances?: number;
-  /** Optional. Number of Cloud Run instances to maintain at maximum for each revision. By default, each Cloud Run [`service`](https://cloud.google.com/run/docs/reference/rest/v2/projects.locations.services#resource:-service) scales out to Cloud Run's default of a maximum of 100 instances. The maximum max_instances limit is based on your quota. See https://cloud.google.com/run/docs/configuring/max-instances#limits. */
-  maxInstances?: number;
-}
-export const RunConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    memoryMib: S.optional(S.Number),
-    cpu: S.optional(S.Number),
-    concurrency: S.optional(S.Number),
-    minInstances: S.optional(S.Number),
-    maxInstances: S.optional(S.Number),
-  }),
-).annotate({ identifier: "RunConfig" }) as any as S.Schema<RunConfig>;
-
-/** The URI of an storage archive to use as the build source. */
-export interface LocallyBuiltSource {
-  /** Optional. An optional message that describes the uploaded version of the source code. */
-  description?: string;
-  /** URI to an archive in Cloud Storage. The object must be a gzipped archive file (.tar.gz) containing source to deploy. */
-  userStorageUri?: string;
-  /** Optional. The directory relative to the root of the archive to use as the root for the deployed web app. Defaults to use the root of the repository if not provided. If deploying a [monorepo](https://firebase.google.com/docs/app-hosting/monorepos), this should be the directory that contains the built source of the app. */
-  rootDirectory?: string;
-  /** Optional. The command to run to start the app. If provided, it will override apphosting's default run commands. See [`Override build and run scripts`](https://firebase.google.com/docs/app-hosting/configure#override-scripts) */
-  runCommand?: string;
-  /** Optional. Additional configuration of the Cloud Run [`service`](https://cloud.google.com/run/docs/reference/rest/v2/projects.locations.services#resource:-service). */
-  runConfig?: RunConfig;
-  /** Optional. Supplied runtime environment variables for a specific build. Provided at Build creation time and immutable afterwards. */
-  env?: EnvironmentVariableList;
-}
-export const LocallyBuiltSource = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    description: S.optional(S.String),
-    userStorageUri: S.optional(S.String),
-    rootDirectory: S.optional(S.String),
-    runCommand: S.optional(S.String),
-    runConfig: S.optional(RunConfig),
-    env: S.optional(EnvironmentVariableList),
-  }),
-).annotate({
-  identifier: "LocallyBuiltSource",
-}) as any as S.Schema<LocallyBuiltSource>;
-
-/** Deprecated: Not used. Metadata for the user who started the build. */
-export interface SourceUserMetadata {
-  /** Output only. Deprecated: Not used. The user-chosen displayname. May be empty. */
-  displayName?: string;
-  /** Output only. Deprecated: Not used. The account email linked to the EUC that created the build. May be a service account or other robot account. */
-  email?: string;
-  /** Output only. Deprecated: Not used. The URI of a profile photo associated with the user who created the build. */
-  imageUri?: string;
-}
-export const SourceUserMetadata = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    displayName: S.optional(S.String),
-    email: S.optional(S.String),
-    imageUri: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "SourceUserMetadata",
-}) as any as S.Schema<SourceUserMetadata>;
-
-/** The URI of an storage archive or a signed URL to use as the build source. */
-export interface ArchiveSource {
-  /** Signed URL to an archive in a storage bucket. */
-  externalSignedUri?: string;
-  /** Optional. Deprecated: Not used. The author contained in the metadata of a version control change. */
-  author?: SourceUserMetadata;
-  /** Optional. The directory relative to the root of the archive to use as the root for the deployed web app. Defaults to use the root of the repository if not provided. If deploying a [monorepo](https://firebase.google.com/docs/app-hosting/monorepos), this should be the directory that contains the `package.json` or `apphosting.yaml` file. */
-  rootDirectory?: string;
-  /** Optional. An optional message that describes the uploaded version of the source code. */
-  description?: string;
-  /** URI to an archive in Cloud Storage. The object must be a zipped (.zip) or gzipped archive file (.tar.gz) containing source to deploy. */
-  userStorageUri?: string;
-}
-export const ArchiveSource = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    externalSignedUri: S.optional(S.String),
-    author: S.optional(SourceUserMetadata),
-    rootDirectory: S.optional(S.String),
-    description: S.optional(S.String),
-    userStorageUri: S.optional(S.String),
-  }),
-).annotate({ identifier: "ArchiveSource" }) as any as S.Schema<ArchiveSource>;
-
-/** The source for the build. */
-export interface BuildSource {
-  /** A codebase source. */
-  codebase?: CodebaseSource;
-  /** An Artifact Registry container image source. */
-  container?: ContainerSource;
-  /** A source that was pre-built locally. */
-  locallyBuilt?: LocallyBuiltSource;
-  /** An archive source. */
-  archive?: ArchiveSource;
-}
-export const BuildSource = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    codebase: S.optional(CodebaseSource),
-    container: S.optional(ContainerSource),
-    locallyBuilt: S.optional(LocallyBuiltSource),
-    archive: S.optional(ArchiveSource),
-  }),
-).annotate({ identifier: "BuildSource" }) as any as S.Schema<BuildSource>;
-
-/** Additional configuration of the backend for this build. */
-export interface Config {
-  /** Output only. [OUTPUT_ONLY] This field represents all environment variables employed during both the build and runtime. This list reflects the result of merging variables from all sources (Backend.override_env, Build.Config.env, YAML, defaults, system). Each variable includes its `origin` */
-  effectiveEnv?: EnvironmentVariableList;
-  /** Optional. Additional configuration of the Cloud Run [`service`](https://cloud.google.com/run/docs/reference/rest/v2/projects.locations.services#resource:-service). */
-  runConfig?: RunConfig;
-  /** Optional. Supplied environment variables for a specific build. Provided at Build creation time and immutable afterwards. This field is only applicable for Builds using a build image - (e.g., ContainerSource or ArchiveSource with locally_built_source) Attempts to set this for other build types will result in an error */
-  env?: EnvironmentVariableList;
-}
-export const Config = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    effectiveEnv: S.optional(EnvironmentVariableList),
-    runConfig: S.optional(RunConfig),
-    env: S.optional(EnvironmentVariableList),
-  }),
-).annotate({ identifier: "Config" }) as any as S.Schema<Config>;
-
 /** A single build for a backend, at a specific point codebase reference tag and point in time. Encapsulates several resources, including an Artifact Registry container image, a Cloud Build invocation that built the image, and the Cloud Run revision that uses that image. */
 export interface Build {
-  /** Optional. Human-readable name. 63 character limit. */
-  displayName?: string;
-  /** Output only. Deprecated: Use `errors` instead. The source of the error for the build, if in a `FAILED` state. */
-  errorSource?: BuildErrorSourceEnum | (string & {});
-  /** Output only. A field that, if true, indicates that the build has an ongoing LRO. */
-  reconciling?: boolean;
-  /** Identifier. The resource name of the build. Format: `projects/{project}/locations/{locationId}/backends/{backendId}/builds/{buildId}`. */
-  name?: string;
-  /** Output only. The environment name of the backend when this build was created. */
-  environment?: string;
-  /** Output only. Time at which the build was created. */
-  createTime?: string;
-  /** Output only. Time at which the build was last updated. */
-  updateTime?: string;
-  /** Optional. Unstructured key value map that may be set by external tools to store and arbitrary metadata. They are not queryable and should be preserved when modifying objects. */
-  annotations?: StringMap;
   /** Output only. The location of the [Cloud Build logs](https://cloud.google.com/build/docs/view-build-results) for the build process. */
   buildLogsUri?: string;
-  /** Output only. A list of all errors that occurred during an App Hosting build. */
-  errors?: Firebaseapphosting_ErrorList;
-  /** Output only. Deprecated: Use `errors` instead. A status and (human readable) error message for the build, if in a `FAILED` state. */
-  error?: Status;
-  /** Optional. Unstructured key value map that can be used to organize and categorize objects. */
-  labels?: StringMap;
-  /** Output only. System-assigned, unique identifier. */
-  uid?: string;
-  /** Output only. The state of the build. */
-  state?: BuildStateEnum | (string & {});
+  /** Optional. Unstructured key value map that may be set by external tools to store and arbitrary metadata. They are not queryable and should be preserved when modifying objects. */
+  annotations?: StringMap;
   /** Required. Immutable. The source for the build. */
   source?: BuildSource;
-  /** Output only. Time at which the build was deleted. */
-  deleteTime?: string;
   /** Output only. The Artifact Registry [container image](https://cloud.google.com/artifact-registry/docs/reference/rest/v1/projects.locations.repositories.dockerImages) URI, used by the Cloud Run [`revision`](https://cloud.google.com/run/docs/reference/rest/v2/projects.locations.services.revisions) for this build. */
   image?: string;
+  /** Output only. Time at which the build was deleted. */
+  deleteTime?: string;
+  /** Optional. Unstructured key value map that can be used to organize and categorize objects. */
+  labels?: StringMap;
+  /** Output only. The environment name of the backend when this build was created. */
+  environment?: string;
+  /** Output only. Deprecated: Use `errors` instead. The source of the error for the build, if in a `FAILED` state. */
+  errorSource?: BuildErrorSourceEnum | (string & {});
+  /** Output only. System-assigned, unique identifier. */
+  uid?: string;
+  /** Output only. Time at which the build was last updated. */
+  updateTime?: string;
+  /** Output only. A list of all errors that occurred during an App Hosting build. */
+  errors?: Firebaseapphosting_ErrorList;
+  /** Output only. A field that, if true, indicates that the build has an ongoing LRO. */
+  reconciling?: boolean;
   /** Optional. Additional configuration of the service. */
   config?: Config;
+  /** Output only. The state of the build. */
+  state?: BuildStateEnum | (string & {});
+  /** Optional. Human-readable name. 63 character limit. */
+  displayName?: string;
+  /** Output only. Time at which the build was created. */
+  createTime?: string;
+  /** Identifier. The resource name of the build. Format: `projects/{project}/locations/{locationId}/backends/{backendId}/builds/{buildId}`. */
+  name?: string;
+  /** Output only. Deprecated: Use `errors` instead. A status and (human readable) error message for the build, if in a `FAILED` state. */
+  error?: Status;
   /** Output only. Server-computed checksum based on other values; may be sent on update or delete to ensure operation is done on expected resource. */
   etag?: string;
 }
 export const Build = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    displayName: S.optional(S.String),
-    errorSource: S.optional(BuildErrorSourceEnum),
-    reconciling: S.optional(S.Boolean),
-    name: S.optional(S.String),
-    environment: S.optional(S.String),
-    createTime: S.optional(S.String),
-    updateTime: S.optional(S.String),
-    annotations: S.optional(StringMap),
     buildLogsUri: S.optional(S.String),
-    errors: S.optional(Firebaseapphosting_ErrorList),
-    error: S.optional(Status),
-    labels: S.optional(StringMap),
-    uid: S.optional(S.String),
-    state: S.optional(BuildStateEnum),
+    annotations: S.optional(StringMap),
     source: S.optional(BuildSource),
-    deleteTime: S.optional(S.String),
     image: S.optional(S.String),
+    deleteTime: S.optional(S.String),
+    labels: S.optional(StringMap),
+    environment: S.optional(S.String),
+    errorSource: S.optional(BuildErrorSourceEnum),
+    uid: S.optional(S.String),
+    updateTime: S.optional(S.String),
+    errors: S.optional(Firebaseapphosting_ErrorList),
+    reconciling: S.optional(S.Boolean),
     config: S.optional(Config),
+    state: S.optional(BuildStateEnum),
+    displayName: S.optional(S.String),
+    createTime: S.optional(S.String),
+    name: S.optional(S.String),
+    error: S.optional(Status),
     etag: S.optional(S.String),
   }),
 ).annotate({ identifier: "Build" }) as any as S.Schema<Build>;
 
 export interface CreateProjectsLocationsBackendsBuildsRequest {
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string;
+  /** Required. Desired ID of the build being created. */
+  buildId?: string;
   /** Required. The parent backend in the format: `projects/{project}/locations/{locationId}/backends/{backendId}`. */
   parent: string;
   /** Optional. Indicates that the request should be validated and default values populated, without persisting the request or creating any resources. */
   validateOnly?: boolean;
-  /** Required. Desired ID of the build being created. */
-  buildId?: string;
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
   /** Request body */
   body?: Build;
 }
 export const CreateProjectsLocationsBackendsBuildsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    requestId: S.optional(S.String.pipe(T.Query())),
+    buildId: S.optional(S.String.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
     validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-    buildId: S.optional(S.String.pipe(T.Query())),
-    requestId: S.optional(S.String.pipe(T.Query())),
     body: S.optional(Build.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -690,6 +678,15 @@ export const CreateProjectsLocationsBackendsBuildsRequest = /*@__PURE__*/ S.susp
 ).annotate({
   identifier: "CreateProjectsLocationsBackendsBuildsRequest",
 }) as any as S.Schema<CreateProjectsLocationsBackendsBuildsRequest>;
+
+export type StatusList = Array<Status>;
+export const StatusList = /*@__PURE__*/ S.Array(Status) as any as S.Schema<StatusList>;
+
+export type DnsRecordRequiredActionEnum = "NONE" | "ADD" | "REMOVE";
+export const DnsRecordRequiredActionEnum = S.String;
+
+export type DnsRecordTypeEnum = "TYPE_UNSPECIFIED" | "A" | "CNAME" | "TXT" | "AAAA" | "CAA";
+export const DnsRecordTypeEnum = S.String;
 
 export type DnsRecordRelevantStateItemEnum =
   | "CUSTOM_DOMAIN_STATE_UNSPECIFIED"
@@ -705,32 +702,26 @@ export const DnsRecordRelevantStateItemEnumList = /*@__PURE__*/ S.Array(
   DnsRecordRelevantStateItemEnum,
 ) as any as S.Schema<DnsRecordRelevantStateItemEnumList>;
 
-export type DnsRecordRequiredActionEnum = "NONE" | "ADD" | "REMOVE";
-export const DnsRecordRequiredActionEnum = S.String;
-
-export type DnsRecordTypeEnum = "TYPE_UNSPECIFIED" | "A" | "CNAME" | "TXT" | "AAAA" | "CAA";
-export const DnsRecordTypeEnum = S.String;
-
 /** A representation of a DNS records for a domain. DNS records are resource records that define how systems and services should behave when handling requests for a domain. For example, when you add `A` records to your domain's DNS records, you're informing other systems (such as your users' web browsers) to contact those IPv4 addresses to retrieve resources relevant to your domain (such as your App Hosting files). */
 export interface DnsRecord {
-  /** Output only. An enum that indicates which state(s) this DNS record applies to. Populated for all records with an `ADD` or `REMOVE` required action. */
-  relevantState?: DnsRecordRelevantStateItemEnumList;
   /** Output only. An enum that indicates the a required action for this record. Populated when the record is part of a required change in a `DnsUpdates` `discovered` or `desired` record set. */
   requiredAction?: DnsRecordRequiredActionEnum | (string & {});
+  /** Output only. The domain the record pertains to, e.g. `foo.bar.com.`. */
+  domainName?: string;
   /** Output only. The record's type, which determines what data the record contains. */
   type?: DnsRecordTypeEnum | (string & {});
   /** Output only. The data of the record. The meaning of the value depends on record type: - A and AAAA: IP addresses for the domain. - CNAME: Another domain to check for records. - TXT: Arbitrary text strings associated with the domain. App Hosting uses TXT records to determine which Firebase projects have permission to act on the domain's behalf. - CAA: The record's flags, tag, and value, e.g. `0 issue "pki.goog"`. */
   rdata?: string;
-  /** Output only. The domain the record pertains to, e.g. `foo.bar.com.`. */
-  domainName?: string;
+  /** Output only. An enum that indicates which state(s) this DNS record applies to. Populated for all records with an `ADD` or `REMOVE` required action. */
+  relevantState?: DnsRecordRelevantStateItemEnumList;
 }
 export const DnsRecord = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    relevantState: S.optional(DnsRecordRelevantStateItemEnumList),
     requiredAction: S.optional(DnsRecordRequiredActionEnum),
+    domainName: S.optional(S.String),
     type: S.optional(DnsRecordTypeEnum),
     rdata: S.optional(S.String),
-    domainName: S.optional(S.String),
+    relevantState: S.optional(DnsRecordRelevantStateItemEnumList),
   }),
 ).annotate({ identifier: "DnsRecord" }) as any as S.Schema<DnsRecord>;
 
@@ -761,39 +752,26 @@ export const DnsRecordSetList = /*@__PURE__*/ S.Array(
 
 /** A set of DNS record updates that you should make to allow App Hosting to serve secure content in response to requests against your domain. These updates present the current state of your domain's and related subdomains' DNS records when App Hosting last queried them, and the desired set of records that App Hosting needs to see before your custom domain can be fully active. */
 export interface DnsUpdates {
-  /** Output only. The set of DNS records App Hosting discovered when inspecting a domain. */
-  discovered?: DnsRecordSetList;
-  /** Output only. The domain name the DNS updates pertain to. */
-  domainName?: string;
   /** Output only. The set of DNS records App Hosting needs in order to be able to serve secure content on the domain. */
   desired?: DnsRecordSetList;
   /** Output only. The last time App Hosting checked your custom domain's DNS records. */
   checkTime?: string;
+  /** Output only. The domain name the DNS updates pertain to. */
+  domainName?: string;
+  /** Output only. The set of DNS records App Hosting discovered when inspecting a domain. */
+  discovered?: DnsRecordSetList;
 }
 export const DnsUpdates = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    discovered: S.optional(DnsRecordSetList),
-    domainName: S.optional(S.String),
     desired: S.optional(DnsRecordSetList),
     checkTime: S.optional(S.String),
+    domainName: S.optional(S.String),
+    discovered: S.optional(DnsRecordSetList),
   }),
 ).annotate({ identifier: "DnsUpdates" }) as any as S.Schema<DnsUpdates>;
 
 export type DnsUpdatesList = Array<DnsUpdates>;
 export const DnsUpdatesList = /*@__PURE__*/ S.Array(DnsUpdates) as any as S.Schema<DnsUpdatesList>;
-
-export type StatusList = Array<Status>;
-export const StatusList = /*@__PURE__*/ S.Array(Status) as any as S.Schema<StatusList>;
-
-export type CustomDomainStatusHostStateEnum =
-  | "HOST_STATE_UNSPECIFIED"
-  | "HOST_UNHOSTED"
-  | "HOST_UNREACHABLE"
-  | "HOST_NON_FAH"
-  | "HOST_CONFLICT"
-  | "HOST_WRONG_SHARD"
-  | "HOST_ACTIVE";
-export const CustomDomainStatusHostStateEnum = S.String;
 
 export type CustomDomainStatusCertStateEnum =
   | "CERT_STATE_UNSPECIFIED"
@@ -815,33 +793,38 @@ export type CustomDomainStatusOwnershipStateEnum =
   | "OWNERSHIP_ACTIVE";
 export const CustomDomainStatusOwnershipStateEnum = S.String;
 
+export type CustomDomainStatusHostStateEnum =
+  | "HOST_STATE_UNSPECIFIED"
+  | "HOST_UNHOSTED"
+  | "HOST_UNREACHABLE"
+  | "HOST_NON_FAH"
+  | "HOST_CONFLICT"
+  | "HOST_WRONG_SHARD"
+  | "HOST_ACTIVE";
+export const CustomDomainStatusHostStateEnum = S.String;
+
 /** The status of a custom domain's linkage to a backend. */
 export interface CustomDomainStatus {
-  /** Output only. Lists the records that must added or removed to a custom domain's DNS in order to finish setup and start serving content. Field is present during onboarding. Also present after onboarding if one or more of the above states is not *_ACTIVE, indicating the domain's DNS records are in a bad state. */
-  requiredDnsUpdates?: DnsUpdatesList;
   /** Output only. A list of issues with domain configuration. Allows users to self-correct problems with DNS records. */
   issues?: StatusList;
-  /** Output only. Tracks whether a custom domain is detected as appropriately directing traffic to App Hosting. */
-  hostState?: CustomDomainStatusHostStateEnum | (string & {});
+  /** Output only. Lists the records that must added or removed to a custom domain's DNS in order to finish setup and start serving content. Field is present during onboarding. Also present after onboarding if one or more of the above states is not *_ACTIVE, indicating the domain's DNS records are in a bad state. */
+  requiredDnsUpdates?: DnsUpdatesList;
   /** Output only. Tracks SSL certificate status for the domain. */
   certState?: CustomDomainStatusCertStateEnum | (string & {});
   /** Output only. Tracks whether the backend is permitted to serve content on the domain, based off the domain's DNS records. */
   ownershipState?: CustomDomainStatusOwnershipStateEnum | (string & {});
+  /** Output only. Tracks whether a custom domain is detected as appropriately directing traffic to App Hosting. */
+  hostState?: CustomDomainStatusHostStateEnum | (string & {});
 }
 export const CustomDomainStatus = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    requiredDnsUpdates: S.optional(DnsUpdatesList),
     issues: S.optional(StatusList),
-    hostState: S.optional(CustomDomainStatusHostStateEnum),
+    requiredDnsUpdates: S.optional(DnsUpdatesList),
     certState: S.optional(CustomDomainStatusCertStateEnum),
     ownershipState: S.optional(CustomDomainStatusOwnershipStateEnum),
+    hostState: S.optional(CustomDomainStatusHostStateEnum),
   }),
-).annotate({
-  identifier: "CustomDomainStatus",
-}) as any as S.Schema<CustomDomainStatus>;
-
-export type DomainTypeEnum = "TYPE_UNSPECIFIED" | "DEFAULT" | "CUSTOM";
-export const DomainTypeEnum = S.String;
+).annotate({ identifier: "CustomDomainStatus" }) as any as S.Schema<CustomDomainStatus>;
 
 /** Specifies redirect behavior for a domain. */
 export interface Redirect {
@@ -866,60 +849,61 @@ export const ServingBehavior = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     redirect: S.optional(Redirect),
   }),
-).annotate({
-  identifier: "ServingBehavior",
-}) as any as S.Schema<ServingBehavior>;
+).annotate({ identifier: "ServingBehavior" }) as any as S.Schema<ServingBehavior>;
+
+export type DomainTypeEnum = "TYPE_UNSPECIFIED" | "DEFAULT" | "CUSTOM";
+export const DomainTypeEnum = S.String;
 
 /** A domain name that is associated with a backend. */
 export interface Domain {
-  /** Identifier. The resource name of the domain, e.g. `/projects/p/locations/l/backends/b/domains/foo.com` */
-  name?: string;
-  /** Output only. Time at which the domain was deleted. */
-  deleteTime?: string;
-  /** Output only. Time at which a soft-deleted domain will be purged, rendering in permanently deleted. */
-  purgeTime?: string;
-  /** Output only. Represents the state and configuration of a `CUSTOM` type domain. It is only present on Domains of that type. */
-  customDomainStatus?: CustomDomainStatus;
-  /** Output only. The type of the domain. */
-  type?: DomainTypeEnum | (string & {});
-  /** Optional. Whether the domain is disabled. Defaults to false. */
-  disabled?: boolean;
-  /** Optional. The serving behavior of the domain. If specified, the domain will serve content other than its backend's live content. */
-  serve?: ServingBehavior;
-  /** Output only. A field that, if true, indicates that the build has an ongoing LRO. */
-  reconciling?: boolean;
-  /** Optional. Mutable human-readable name for the domain. 63 character limit. e.g. `prod domain`. */
-  displayName?: string;
-  /** Optional. Labels as key value pairs. */
-  labels?: StringMap;
-  /** Optional. Annotations as key value pairs. */
-  annotations?: StringMap;
   /** Output only. Time at which the domain was created. */
   createTime?: string;
-  /** Output only. Server-computed checksum based on other values; may be sent on update or delete to ensure operation is done on expected resource. */
-  etag?: string;
-  /** Output only. System-assigned, unique identifier. */
-  uid?: string;
   /** Output only. Time at which the domain was last updated. */
   updateTime?: string;
+  /** Output only. Represents the state and configuration of a `CUSTOM` type domain. It is only present on Domains of that type. */
+  customDomainStatus?: CustomDomainStatus;
+  /** Optional. Annotations as key value pairs. */
+  annotations?: StringMap;
+  /** Identifier. The resource name of the domain, e.g. `/projects/p/locations/l/backends/b/domains/foo.com` */
+  name?: string;
+  /** Output only. Server-computed checksum based on other values; may be sent on update or delete to ensure operation is done on expected resource. */
+  etag?: string;
+  /** Optional. Labels as key value pairs. */
+  labels?: StringMap;
+  /** Optional. The serving behavior of the domain. If specified, the domain will serve content other than its backend's live content. */
+  serve?: ServingBehavior;
+  /** Output only. Time at which a soft-deleted domain will be purged, rendering in permanently deleted. */
+  purgeTime?: string;
+  /** Output only. The type of the domain. */
+  type?: DomainTypeEnum | (string & {});
+  /** Output only. A field that, if true, indicates that the build has an ongoing LRO. */
+  reconciling?: boolean;
+  /** Optional. Whether the domain is disabled. Defaults to false. */
+  disabled?: boolean;
+  /** Output only. System-assigned, unique identifier. */
+  uid?: string;
+  /** Output only. Time at which the domain was deleted. */
+  deleteTime?: string;
+  /** Optional. Mutable human-readable name for the domain. 63 character limit. e.g. `prod domain`. */
+  displayName?: string;
 }
 export const Domain = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.optional(S.String),
-    deleteTime: S.optional(S.String),
-    purgeTime: S.optional(S.String),
-    customDomainStatus: S.optional(CustomDomainStatus),
-    type: S.optional(DomainTypeEnum),
-    disabled: S.optional(S.Boolean),
-    serve: S.optional(ServingBehavior),
-    reconciling: S.optional(S.Boolean),
-    displayName: S.optional(S.String),
-    labels: S.optional(StringMap),
-    annotations: S.optional(StringMap),
     createTime: S.optional(S.String),
-    etag: S.optional(S.String),
-    uid: S.optional(S.String),
     updateTime: S.optional(S.String),
+    customDomainStatus: S.optional(CustomDomainStatus),
+    annotations: S.optional(StringMap),
+    name: S.optional(S.String),
+    etag: S.optional(S.String),
+    labels: S.optional(StringMap),
+    serve: S.optional(ServingBehavior),
+    purgeTime: S.optional(S.String),
+    type: S.optional(DomainTypeEnum),
+    reconciling: S.optional(S.Boolean),
+    disabled: S.optional(S.Boolean),
+    uid: S.optional(S.String),
+    deleteTime: S.optional(S.String),
+    displayName: S.optional(S.String),
   }),
 ).annotate({ identifier: "Domain" }) as any as S.Schema<Domain>;
 
@@ -928,10 +912,10 @@ export interface CreateProjectsLocationsBackendsDomainsRequest {
   requestId?: string;
   /** Required. The parent backend in the format: `projects/{project}/locations/{locationId}/backends/{backendId}`. */
   parent: string;
-  /** Required. Id of the domain to create. Must be a valid domain name. */
-  domainId?: string;
   /** Optional. Indicates that the request should be validated and default values populated, without persisting the request or creating any resources. */
   validateOnly?: boolean;
+  /** Required. Id of the domain to create. Must be a valid domain name. */
+  domainId?: string;
   /** Request body */
   body?: Domain;
 }
@@ -939,8 +923,8 @@ export const CreateProjectsLocationsBackendsDomainsRequest = /*@__PURE__*/ S.sus
   S.Struct({
     requestId: S.optional(S.String.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
-    domainId: S.optional(S.String.pipe(T.Query())),
     validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+    domainId: S.optional(S.String.pipe(T.Query())),
     body: S.optional(Domain.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -967,69 +951,69 @@ export const RolloutStateEnum = S.String;
 
 /** A single rollout of a build for a backend. */
 export interface Rollout {
+  /** Output only. The state of the rollout. */
+  state?: RolloutStateEnum | (string & {});
+  /** Optional. Human-readable name. 63 character limit. */
+  displayName?: string;
+  /** Required. Immutable. The name of a build that already exists. It doesn't have to be built; a rollout will wait for a build to be ready before updating traffic. */
+  build?: string;
   /** Output only. A field that, if true, indicates that the Rollout currently has an LRO. */
   reconciling?: boolean;
   /** Output only. System-assigned, unique identifier. */
   uid?: string;
-  /** Output only. The state of the rollout. */
-  state?: RolloutStateEnum | (string & {});
-  /** Output only. Server-computed checksum based on other values; may be sent on update or delete to ensure operation is done on expected resource. */
-  etag?: string;
-  /** Optional. Human-readable name. 63 character limit. */
-  displayName?: string;
-  /** Optional. Unstructured key value map that may be set by external tools to store and arbitrary metadata. They are not queryable and should be preserved when modifying objects. */
-  annotations?: StringMap;
-  /** Required. Immutable. The name of a build that already exists. It doesn't have to be built; a rollout will wait for a build to be ready before updating traffic. */
-  build?: string;
-  /** Output only. Time at which the rollout was created. */
-  createTime?: string;
   /** Output only. Time at which the rollout was last updated. */
   updateTime?: string;
-  /** Optional. Unstructured key value map that can be used to organize and categorize objects. */
-  labels?: StringMap;
-  /** Output only. Time at which the rollout was deleted. */
-  deleteTime?: string;
   /** Identifier. The resource name of the rollout. Format: `projects/{project}/locations/{locationId}/backends/{backendId}/rollouts/{rolloutId}`. */
   name?: string;
   /** Output only. A status and (human readable) error message for the rollout, if in a `FAILED` state. */
   error?: Status;
+  /** Output only. Time at which the rollout was created. */
+  createTime?: string;
+  /** Output only. Server-computed checksum based on other values; may be sent on update or delete to ensure operation is done on expected resource. */
+  etag?: string;
+  /** Output only. Time at which the rollout was deleted. */
+  deleteTime?: string;
+  /** Optional. Unstructured key value map that may be set by external tools to store and arbitrary metadata. They are not queryable and should be preserved when modifying objects. */
+  annotations?: StringMap;
+  /** Optional. Unstructured key value map that can be used to organize and categorize objects. */
+  labels?: StringMap;
 }
 export const Rollout = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    state: S.optional(RolloutStateEnum),
+    displayName: S.optional(S.String),
+    build: S.optional(S.String),
     reconciling: S.optional(S.Boolean),
     uid: S.optional(S.String),
-    state: S.optional(RolloutStateEnum),
-    etag: S.optional(S.String),
-    displayName: S.optional(S.String),
-    annotations: S.optional(StringMap),
-    build: S.optional(S.String),
-    createTime: S.optional(S.String),
     updateTime: S.optional(S.String),
-    labels: S.optional(StringMap),
-    deleteTime: S.optional(S.String),
     name: S.optional(S.String),
     error: S.optional(Status),
+    createTime: S.optional(S.String),
+    etag: S.optional(S.String),
+    deleteTime: S.optional(S.String),
+    annotations: S.optional(StringMap),
+    labels: S.optional(StringMap),
   }),
 ).annotate({ identifier: "Rollout" }) as any as S.Schema<Rollout>;
 
 export interface CreateProjectsLocationsBackendsRolloutsRequest {
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
-  /** Required. The parent backend in the format: `projects/{project}/locations/{locationId}/backends/{backendId}`. */
-  parent: string;
   /** Optional. Indicates that the request should be validated and default values populated, without persisting the request or creating any resources. */
   validateOnly?: boolean;
   /** Optional. Desired ID of the rollout being created. */
   rolloutId?: string;
+  /** Required. The parent backend in the format: `projects/{project}/locations/{locationId}/backends/{backendId}`. */
+  parent: string;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string;
   /** Request body */
   body?: Rollout;
 }
 export const CreateProjectsLocationsBackendsRolloutsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    requestId: S.optional(S.String.pipe(T.Query())),
-    parent: S.String.pipe(T.Label()),
     validateOnly: S.optional(S.Boolean.pipe(T.Query())),
     rolloutId: S.optional(S.String.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
+    requestId: S.optional(S.String.pipe(T.Query())),
     body: S.optional(Rollout.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -1045,22 +1029,22 @@ export const CreateProjectsLocationsBackendsRolloutsRequest = /*@__PURE__*/ S.su
 export interface DeleteProjectsLocationsBackendsRequest {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and t he request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
-  /** Optional. If the client provided etag is out of date, delete will be returned FAILED_PRECONDITION error. */
-  etag?: string;
+  /** Required. Name of the resource in the format: `projects/{project}/locations/{locationId}/backends/{backendId}`. */
+  name: string;
   /** Optional. If set to true, any resources for this backend will also be deleted. Otherwise, any children resources will block deletion. */
   force?: boolean;
   /** Optional. Indicates that the request should be validated, without persisting the request or updating any resources. */
   validateOnly?: boolean;
-  /** Required. Name of the resource in the format: `projects/{project}/locations/{locationId}/backends/{backendId}`. */
-  name: string;
+  /** Optional. If the client provided etag is out of date, delete will be returned FAILED_PRECONDITION error. */
+  etag?: string;
 }
 export const DeleteProjectsLocationsBackendsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     requestId: S.optional(S.String.pipe(T.Query())),
-    etag: S.optional(S.String.pipe(T.Query())),
+    name: S.String.pipe(T.Label()),
     force: S.optional(S.Boolean.pipe(T.Query())),
     validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-    name: S.String.pipe(T.Label()),
+    etag: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "DELETE",
@@ -1073,21 +1057,21 @@ export const DeleteProjectsLocationsBackendsRequest = /*@__PURE__*/ S.suspend(()
 }) as any as S.Schema<DeleteProjectsLocationsBackendsRequest>;
 
 export interface DeleteProjectsLocationsBackendsBuildsRequest {
-  /** Required. Name of the resource in the format: `projects/{project}/locations/{locationId}/backends/{backendId}/builds/{buildId}`. */
-  name: string;
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
   /** Optional. If the client provided etag is out of date, delete will be returned FAILED_PRECONDITION error. */
   etag?: string;
+  /** Required. Name of the resource in the format: `projects/{project}/locations/{locationId}/backends/{backendId}/builds/{buildId}`. */
+  name: string;
   /** Optional. Indicates that the request should be validated and default values populated, without persisting the request or deleting any resources. */
   validateOnly?: boolean;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string;
 }
 export const DeleteProjectsLocationsBackendsBuildsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.String.pipe(T.Label()),
-    requestId: S.optional(S.String.pipe(T.Query())),
     etag: S.optional(S.String.pipe(T.Query())),
+    name: S.String.pipe(T.Label()),
     validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+    requestId: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "DELETE",
@@ -1100,20 +1084,20 @@ export const DeleteProjectsLocationsBackendsBuildsRequest = /*@__PURE__*/ S.susp
 }) as any as S.Schema<DeleteProjectsLocationsBackendsBuildsRequest>;
 
 export interface DeleteProjectsLocationsBackendsDomainsRequest {
+  /** Required. Name of the resource in the format: `projects/{project}/locations/{locationId}/backends/{backendId}/domains/{domainId}`. */
+  name: string;
   /** Optional. If the client provided etag is out of date, delete will be returned FAILED_PRECONDITION error. */
   etag?: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
-  /** Required. Name of the resource in the format: `projects/{project}/locations/{locationId}/backends/{backendId}/domains/{domainId}`. */
-  name: string;
   /** Optional. Indicates that the request should be validated and default values populated, without persisting the request or deleting any resources. */
   validateOnly?: boolean;
 }
 export const DeleteProjectsLocationsBackendsDomainsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    name: S.String.pipe(T.Label()),
     etag: S.optional(S.String.pipe(T.Query())),
     requestId: S.optional(S.String.pipe(T.Query())),
-    name: S.String.pipe(T.Label()),
     validateOnly: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(
     T.Http({
@@ -1164,23 +1148,23 @@ export const GetProjectsLocationsRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** A resource that represents a Google Cloud location. */
 export interface Location {
-  /** The friendly name for this location, typically a nearby city name. For example, "Tokyo". */
-  displayName?: string;
-  /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
-  name?: string;
   /** Service-specific metadata. For example the available capacity at the given location. */
   metadata?: DocumentMap;
   /** The canonical id for this location. For example: `"us-east1"`. */
   locationId?: string;
+  /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
+  name?: string;
+  /** The friendly name for this location, typically a nearby city name. For example, "Tokyo". */
+  displayName?: string;
   /** Cross-service attributes for the location. For example {"cloud.googleapis.com/region": "us-east1"} */
   labels?: StringMap;
 }
 export const Location = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    displayName: S.optional(S.String),
-    name: S.optional(S.String),
     metadata: S.optional(DocumentMap),
     locationId: S.optional(S.String),
+    name: S.optional(S.String),
+    displayName: S.optional(S.String),
     labels: S.optional(StringMap),
   }),
 ).annotate({ identifier: "Location" }) as any as S.Schema<Location>;
@@ -1299,21 +1283,21 @@ export const PathList = /*@__PURE__*/ S.Array(Path) as any as S.Schema<PathList>
 export interface RolloutPolicy {
   /** Output only. If `disabled` is set, the time at which the automatic rollouts were disabled. */
   disabledTime?: string;
+  /** Optional. A list of file paths patterns to exclude from triggering a rollout. Patterns in this list take precedence over required_paths. **Note**: All paths must be in the ignored_paths in order for the rollout to be skipped. Limited to 100 paths. Example: ``` ignored_paths: { pattern: "foo/bar/excluded/*", type: "GLOB" } ``` */
+  ignoredPaths?: PathList;
   /** If set, specifies a branch that triggers a new build to be started with this policy. Otherwise, no automatic rollouts will happen. */
   codebaseBranch?: string;
   /** Optional. A list of file paths patterns that trigger a build and rollout if at least one of the changed files in the commit are present in this list. This field is optional; the rollout policy will default to triggering on all paths if both ignored_paths and required_paths are not populated. Limited to 100 paths. Example: ``` required_paths: { pattern: "foo/bar/*", type: "GLOB" } ``` */
   requiredPaths?: PathList;
-  /** Optional. A list of file paths patterns to exclude from triggering a rollout. Patterns in this list take precedence over required_paths. **Note**: All paths must be in the ignored_paths in order for the rollout to be skipped. Limited to 100 paths. Example: ``` ignored_paths: { pattern: "foo/bar/excluded/*", type: "GLOB" } ``` */
-  ignoredPaths?: PathList;
   /** Optional. A flag that, if true, prevents automatic rollouts from being created via this RolloutPolicy. */
   disabled?: boolean;
 }
 export const RolloutPolicy = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     disabledTime: S.optional(S.String),
+    ignoredPaths: S.optional(PathList),
     codebaseBranch: S.optional(S.String),
     requiredPaths: S.optional(PathList),
-    ignoredPaths: S.optional(PathList),
     disabled: S.optional(S.Boolean),
   }),
 ).annotate({ identifier: "RolloutPolicy" }) as any as S.Schema<RolloutPolicy>;
@@ -1350,42 +1334,42 @@ export const TrafficSet = /*@__PURE__*/ S.suspend(() =>
 
 /** Controls traffic configuration for the backend. */
 export interface Traffic {
-  /** Output only. System-assigned, unique identifier. */
-  uid?: string;
-  /** A rollout policy specifies how new builds and automatic deployments are created. */
-  rolloutPolicy?: RolloutPolicy;
-  /** Optional. Unstructured key value map that can be used to organize and categorize objects. */
-  labels?: StringMap;
-  /** Identifier. The resource name of the backend's traffic. Format: `projects/{project}/locations/{locationId}/backends/{backendId}/traffic`. */
-  name?: string;
-  /** Output only. A field that, if true, indicates that the system is working to make the backend's `current` match the requested `target` list. */
-  reconciling?: boolean;
-  /** Set to manually control the desired traffic for the backend. This will cause `current` to eventually match this value. The percentages must add up to 100%. */
-  target?: TrafficSet;
-  /** Output only. Time at which the backend was last updated. */
-  updateTime?: string;
   /** Output only. Time at which the backend was created. */
   createTime?: string;
-  /** Output only. Server-computed checksum based on other values; may be sent on update or delete to ensure operation is done on expected resource. */
-  etag?: string;
-  /** Output only. Current state of traffic allocation for the backend. When setting `target`, this field may differ for some time until the desired state is reached. */
-  current?: TrafficSet;
+  /** Output only. System-assigned, unique identifier. */
+  uid?: string;
+  /** Optional. Unstructured key value map that can be used to organize and categorize objects. */
+  labels?: StringMap;
+  /** Output only. A field that, if true, indicates that the system is working to make the backend's `current` match the requested `target` list. */
+  reconciling?: boolean;
+  /** Identifier. The resource name of the backend's traffic. Format: `projects/{project}/locations/{locationId}/backends/{backendId}/traffic`. */
+  name?: string;
+  /** A rollout policy specifies how new builds and automatic deployments are created. */
+  rolloutPolicy?: RolloutPolicy;
   /** Optional. Unstructured key value map that may be set by external tools to store and arbitrary metadata. They are not queryable and should be preserved when modifying objects. */
   annotations?: StringMap;
+  /** Set to manually control the desired traffic for the backend. This will cause `current` to eventually match this value. The percentages must add up to 100%. */
+  target?: TrafficSet;
+  /** Output only. Current state of traffic allocation for the backend. When setting `target`, this field may differ for some time until the desired state is reached. */
+  current?: TrafficSet;
+  /** Output only. Server-computed checksum based on other values; may be sent on update or delete to ensure operation is done on expected resource. */
+  etag?: string;
+  /** Output only. Time at which the backend was last updated. */
+  updateTime?: string;
 }
 export const Traffic = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    uid: S.optional(S.String),
-    rolloutPolicy: S.optional(RolloutPolicy),
-    labels: S.optional(StringMap),
-    name: S.optional(S.String),
-    reconciling: S.optional(S.Boolean),
-    target: S.optional(TrafficSet),
-    updateTime: S.optional(S.String),
     createTime: S.optional(S.String),
-    etag: S.optional(S.String),
-    current: S.optional(TrafficSet),
+    uid: S.optional(S.String),
+    labels: S.optional(StringMap),
+    reconciling: S.optional(S.Boolean),
+    name: S.optional(S.String),
+    rolloutPolicy: S.optional(RolloutPolicy),
     annotations: S.optional(StringMap),
+    target: S.optional(TrafficSet),
+    current: S.optional(TrafficSet),
+    etag: S.optional(S.String),
+    updateTime: S.optional(S.String),
   }),
 ).annotate({ identifier: "Traffic" }) as any as S.Schema<Traffic>;
 
@@ -1411,24 +1395,24 @@ export type StringList = Array<string>;
 export const StringList = /*@__PURE__*/ S.Array(S.String) as any as S.Schema<StringList>;
 
 export interface ListProjectsLocationsRequest {
-  /** The maximum number of results to return. If not set, the service selects a default. */
-  pageSize?: number;
-  /** Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage. */
-  extraLocationTypes?: StringList;
-  /** The resource that owns the locations collection, if applicable. */
-  name: string;
-  /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
-  pageToken?: string;
   /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
   filter?: string;
+  /** The resource that owns the locations collection, if applicable. */
+  name: string;
+  /** Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage. */
+  extraLocationTypes?: StringList;
+  /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
+  pageToken?: string;
+  /** The maximum number of results to return. If not set, the service selects a default. */
+  pageSize?: number;
 }
 export const ListProjectsLocationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pageSize: S.optional(S.Number.pipe(T.Query())),
-    extraLocationTypes: S.optional(StringList.pipe(T.Query())),
-    name: S.String.pipe(T.Label()),
-    pageToken: S.optional(S.String.pipe(T.Query())),
     filter: S.optional(S.String.pipe(T.Query())),
+    name: S.String.pipe(T.Label()),
+    extraLocationTypes: S.optional(StringList.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -1455,32 +1439,30 @@ export const ListLocationsResponse = /*@__PURE__*/ S.suspend(() =>
     locations: S.optional(LocationList),
     nextPageToken: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListLocationsResponse",
-}) as any as S.Schema<ListLocationsResponse>;
+).annotate({ identifier: "ListLocationsResponse" }) as any as S.Schema<ListLocationsResponse>;
 
 export interface ListProjectsLocationsBackendsRequest {
   /** Optional. The maximum number of results to return. If not set, the service selects a default. */
   pageSize?: number;
+  /** Required. A parent name of the form `projects/{project}/locations/{locationId}`. */
+  parent: string;
+  /** Optional. A filter to narrow down results to a preferred subset. Learn more about filtering in Google's [AIP 160 standard](https://google.aip.dev/160). */
+  filter?: string;
   /** Optional. Hint for how to order the results. Supported fields are `name` and `createTime`. To specify descending order, append a `desc` suffix. */
   orderBy?: string;
   /** Optional. A page token received from the nextPageToken field in the response. Send that page token to receive the subsequent page. */
   pageToken?: string;
-  /** Required. A parent name of the form `projects/{project}/locations/{locationId}`. */
-  parent: string;
   /** Optional. If true, the request returns soft-deleted resources that haven't been fully-deleted yet. */
   showDeleted?: boolean;
-  /** Optional. A filter to narrow down results to a preferred subset. Learn more about filtering in Google's [AIP 160 standard](https://google.aip.dev/160). */
-  filter?: string;
 }
 export const ListProjectsLocationsBackendsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     pageSize: S.optional(S.Number.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
+    filter: S.optional(S.String.pipe(T.Query())),
     orderBy: S.optional(S.String.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
-    parent: S.String.pipe(T.Label()),
     showDeleted: S.optional(S.Boolean.pipe(T.Query())),
-    filter: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -1510,19 +1492,17 @@ export const ListBackendsResponse = /*@__PURE__*/ S.suspend(() =>
     backends: S.optional(BackendList),
     nextPageToken: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListBackendsResponse",
-}) as any as S.Schema<ListBackendsResponse>;
+).annotate({ identifier: "ListBackendsResponse" }) as any as S.Schema<ListBackendsResponse>;
 
 export interface ListProjectsLocationsBackendsBuildsRequest {
-  /** Required. The parent backend in the form `projects/{project}/locations/{locationId}/backends/{backendId}`. */
-  parent: string;
   /** Optional. Hint for how to order the results. Supported fields are `name` and `createTime`. To specify descending order, append a `desc` suffix. */
   orderBy?: string;
-  /** Optional. A filter to narrow down results to a preferred subset. Learn more about filtering in Google's [AIP 160 standard](https://google.aip.dev/160). */
-  filter?: string;
   /** Optional. The maximum number of results to return. If not set, the service selects a default. */
   pageSize?: number;
+  /** Required. The parent backend in the form `projects/{project}/locations/{locationId}/backends/{backendId}`. */
+  parent: string;
+  /** Optional. A filter to narrow down results to a preferred subset. Learn more about filtering in Google's [AIP 160 standard](https://google.aip.dev/160). */
+  filter?: string;
   /** Optional. If true, the request returns soft-deleted resources that haven't been fully-deleted yet. */
   showDeleted?: boolean;
   /** Optional. A page token received from the nextPageToken field in the response. Send that page token to receive the subsequent page. */
@@ -1530,10 +1510,10 @@ export interface ListProjectsLocationsBackendsBuildsRequest {
 }
 export const ListProjectsLocationsBackendsBuildsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    parent: S.String.pipe(T.Label()),
     orderBy: S.optional(S.String.pipe(T.Query())),
-    filter: S.optional(S.String.pipe(T.Query())),
     pageSize: S.optional(S.Number.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
+    filter: S.optional(S.String.pipe(T.Query())),
     showDeleted: S.optional(S.Boolean.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
   }).pipe(
@@ -1554,43 +1534,41 @@ export const BuildList = /*@__PURE__*/ S.Array(Build) as any as S.Schema<BuildLi
 export interface ListBuildsResponse {
   /** Locations that could not be reached. */
   unreachable?: StringList;
-  /** The list of builds. */
-  builds?: BuildList;
   /** A token identifying the next page of results the server should return. */
   nextPageToken?: string;
+  /** The list of builds. */
+  builds?: BuildList;
 }
 export const ListBuildsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     unreachable: S.optional(StringList),
-    builds: S.optional(BuildList),
     nextPageToken: S.optional(S.String),
+    builds: S.optional(BuildList),
   }),
-).annotate({
-  identifier: "ListBuildsResponse",
-}) as any as S.Schema<ListBuildsResponse>;
+).annotate({ identifier: "ListBuildsResponse" }) as any as S.Schema<ListBuildsResponse>;
 
 export interface ListProjectsLocationsBackendsDomainsRequest {
-  /** Optional. A filter to narrow down results to a preferred subset. Learn more about filtering in Google's [AIP 160 standard](https://google.aip.dev/160). */
-  filter?: string;
-  /** Optional. The maximum number of results to return. If not set, the service selects a default. */
-  pageSize?: number;
-  /** Optional. A page token received from the nextPageToken field in the response. Send that page token to receive the subsequent page. */
-  pageToken?: string;
   /** Optional. Hint for how to order the results. Supported fields are `name` and `createTime`. To specify descending order, append a `desc` suffix. */
   orderBy?: string;
   /** Optional. If true, the request returns soft-deleted resources that haven't been fully-deleted yet. */
   showDeleted?: boolean;
   /** Required. The parent backend in the format: `projects/{project}/locations/{locationId}/backends/{backendId}`. */
   parent: string;
+  /** Optional. A filter to narrow down results to a preferred subset. Learn more about filtering in Google's [AIP 160 standard](https://google.aip.dev/160). */
+  filter?: string;
+  /** Optional. The maximum number of results to return. If not set, the service selects a default. */
+  pageSize?: number;
+  /** Optional. A page token received from the nextPageToken field in the response. Send that page token to receive the subsequent page. */
+  pageToken?: string;
 }
 export const ListProjectsLocationsBackendsDomainsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    filter: S.optional(S.String.pipe(T.Query())),
-    pageSize: S.optional(S.Number.pipe(T.Query())),
-    pageToken: S.optional(S.String.pipe(T.Query())),
     orderBy: S.optional(S.String.pipe(T.Query())),
     showDeleted: S.optional(S.Boolean.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
+    filter: S.optional(S.String.pipe(T.Query())),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -1620,32 +1598,30 @@ export const ListDomainsResponse = /*@__PURE__*/ S.suspend(() =>
     unreachable: S.optional(StringList),
     domains: S.optional(DomainList),
   }),
-).annotate({
-  identifier: "ListDomainsResponse",
-}) as any as S.Schema<ListDomainsResponse>;
+).annotate({ identifier: "ListDomainsResponse" }) as any as S.Schema<ListDomainsResponse>;
 
 export interface ListProjectsLocationsBackendsRolloutsRequest {
-  /** Optional. The maximum number of results to return. If not set, the service selects a default. */
-  pageSize?: number;
-  /** Optional. A filter to narrow down results to a preferred subset. Learn more about filtering in Google's [AIP 160 standard](https://google.aip.dev/160). */
-  filter?: string;
-  /** Optional. A page token received from the nextPageToken field in the response. Send that page token to receive the subsequent page. */
-  pageToken?: string;
-  /** Optional. If true, the request returns soft-deleted resources that haven't been fully-deleted yet. */
-  showDeleted?: boolean;
   /** Optional. Hint for how to order the results. Supported fields are `name` and `createTime`. To specify descending order, append a `desc` suffix. */
   orderBy?: string;
+  /** Optional. A page token received from the nextPageToken field in the response. Send that page token to receive the subsequent page. */
+  pageToken?: string;
   /** Required. The parent backend in the format: `projects/{project}/locations/{locationId}/backends/{backendId}`. */
   parent: string;
+  /** Optional. A filter to narrow down results to a preferred subset. Learn more about filtering in Google's [AIP 160 standard](https://google.aip.dev/160). */
+  filter?: string;
+  /** Optional. If true, the request returns soft-deleted resources that haven't been fully-deleted yet. */
+  showDeleted?: boolean;
+  /** Optional. The maximum number of results to return. If not set, the service selects a default. */
+  pageSize?: number;
 }
 export const ListProjectsLocationsBackendsRolloutsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pageSize: S.optional(S.Number.pipe(T.Query())),
-    filter: S.optional(S.String.pipe(T.Query())),
-    pageToken: S.optional(S.String.pipe(T.Query())),
-    showDeleted: S.optional(S.Boolean.pipe(T.Query())),
     orderBy: S.optional(S.String.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
+    filter: S.optional(S.String.pipe(T.Query())),
+    showDeleted: S.optional(S.Boolean.pipe(T.Query())),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -1664,39 +1640,37 @@ export const RolloutList = /*@__PURE__*/ S.Array(Rollout) as any as S.Schema<Rol
 export interface ListRolloutsResponse {
   /** Locations that could not be reached. */
   unreachable?: StringList;
-  /** A token identifying the next page of results the server should return. */
-  nextPageToken?: string;
   /** The list of rollouts. */
   rollouts?: RolloutList;
+  /** A token identifying the next page of results the server should return. */
+  nextPageToken?: string;
 }
 export const ListRolloutsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     unreachable: S.optional(StringList),
-    nextPageToken: S.optional(S.String),
     rollouts: S.optional(RolloutList),
+    nextPageToken: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListRolloutsResponse",
-}) as any as S.Schema<ListRolloutsResponse>;
+).annotate({ identifier: "ListRolloutsResponse" }) as any as S.Schema<ListRolloutsResponse>;
 
 export interface ListProjectsLocationsOperationsRequest {
-  /** The name of the operation's parent resource. */
-  name: string;
-  /** The standard list filter. */
-  filter?: string;
   /** The standard list page size. */
   pageSize?: number;
+  /** The standard list filter. */
+  filter?: string;
   /** The standard list page token. */
   pageToken?: string;
+  /** The name of the operation's parent resource. */
+  name: string;
   /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
   returnPartialSuccess?: boolean;
 }
 export const ListProjectsLocationsOperationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.String.pipe(T.Label()),
-    filter: S.optional(S.String.pipe(T.Query())),
     pageSize: S.optional(S.Number.pipe(T.Query())),
+    filter: S.optional(S.String.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
+    name: S.String.pipe(T.Label()),
     returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(
     T.Http({
@@ -1714,22 +1688,20 @@ export const OperationList = /*@__PURE__*/ S.Array(Operation) as any as S.Schema
 
 /** The response message for Operations.ListOperations. */
 export interface ListOperationsResponse {
-  /** The standard List next-page token. */
-  nextPageToken?: string;
-  /** A list of operations that matches the specified filter in the request. */
-  operations?: OperationList;
   /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
   unreachable?: StringList;
+  /** A list of operations that matches the specified filter in the request. */
+  operations?: OperationList;
+  /** The standard List next-page token. */
+  nextPageToken?: string;
 }
 export const ListOperationsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    nextPageToken: S.optional(S.String),
-    operations: S.optional(OperationList),
     unreachable: S.optional(StringList),
+    operations: S.optional(OperationList),
+    nextPageToken: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListOperationsResponse",
-}) as any as S.Schema<ListOperationsResponse>;
+).annotate({ identifier: "ListOperationsResponse" }) as any as S.Schema<ListOperationsResponse>;
 
 export interface ListProjectsLocationsSupportedRuntimesRequest {
   /** Optional. The suggested number of runtimes to return. This field is ignored. We return all runtimes in a single page regardless of the page size. */
@@ -1754,28 +1726,26 @@ export const ListProjectsLocationsSupportedRuntimesRequest = /*@__PURE__*/ S.sus
 
 /** Represents a single FAH supported runtime. Although instances of this resource are parented by a project and location, the set of available runtimes may vary across projects and locations, for example, during staged rollouts of new runtime support. */
 export interface SupportedRuntime {
-  /** Output only. The time at which this runtime will be decommissioned. After this date, the runtime can no longer be used for new builds. */
-  decommissionTime?: string;
-  /** Identifier. The resource name of the supported runtime. Format: projects/{project}/locations/{location}/supportedRuntimes/{runtime_id} */
-  name?: string;
-  /** Output only. True if Automatic Base Image Updates (ABIU) is supported for this runtime. */
-  automaticBaseImageUpdatesSupported?: boolean;
   /** Output only. The identifier of the runtime, e.g., "nodejs22". */
   runtimeId?: string;
+  /** Output only. True if Automatic Base Image Updates (ABIU) is supported for this runtime. */
+  automaticBaseImageUpdatesSupported?: boolean;
+  /** Identifier. The resource name of the supported runtime. Format: projects/{project}/locations/{location}/supportedRuntimes/{runtime_id} */
+  name?: string;
+  /** Output only. The time at which this runtime will be decommissioned. After this date, the runtime can no longer be used for new builds. */
+  decommissionTime?: string;
   /** Output only. The time at which this runtime will effectively be deprecated. After this date, the runtime is still usable but may not receive new features or updates. */
   deprecateTime?: string;
 }
 export const SupportedRuntime = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    decommissionTime: S.optional(S.String),
-    name: S.optional(S.String),
-    automaticBaseImageUpdatesSupported: S.optional(S.Boolean),
     runtimeId: S.optional(S.String),
+    automaticBaseImageUpdatesSupported: S.optional(S.Boolean),
+    name: S.optional(S.String),
+    decommissionTime: S.optional(S.String),
     deprecateTime: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SupportedRuntime",
-}) as any as S.Schema<SupportedRuntime>;
+).annotate({ identifier: "SupportedRuntime" }) as any as S.Schema<SupportedRuntime>;
 
 export type SupportedRuntimeList = Array<SupportedRuntime>;
 export const SupportedRuntimeList = /*@__PURE__*/ S.Array(
@@ -1796,26 +1766,26 @@ export const ListSupportedRuntimesResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListSupportedRuntimesResponse>;
 
 export interface PatchProjectsLocationsBackendsRequest {
-  /** Identifier. The resource name of the backend. Format: `projects/{project}/locations/{locationId}/backends/{backendId}`. */
-  name: string;
-  /** Optional. If set to true, and the backend is not found, a new backend will be created. */
-  allowMissing?: boolean;
-  /** Optional. Indicates that the request should be validated, without persisting the request or updating any resources. */
-  validateOnly?: boolean;
   /** Optional. Field mask is used to specify the fields to be overwritten in the backend resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string;
+  /** Optional. Indicates that the request should be validated, without persisting the request or updating any resources. */
+  validateOnly?: boolean;
+  /** Optional. If set to true, and the backend is not found, a new backend will be created. */
+  allowMissing?: boolean;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and t he request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
+  /** Identifier. The resource name of the backend. Format: `projects/{project}/locations/{locationId}/backends/{backendId}`. */
+  name: string;
   /** Request body */
   body?: Backend;
 }
 export const PatchProjectsLocationsBackendsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.String.pipe(T.Label()),
-    allowMissing: S.optional(S.Boolean.pipe(T.Query())),
-    validateOnly: S.optional(S.Boolean.pipe(T.Query())),
     updateMask: S.optional(S.String.pipe(T.Query())),
+    validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+    allowMissing: S.optional(S.Boolean.pipe(T.Query())),
     requestId: S.optional(S.String.pipe(T.Query())),
+    name: S.String.pipe(T.Label()),
     body: S.optional(Backend.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -1829,26 +1799,26 @@ export const PatchProjectsLocationsBackendsRequest = /*@__PURE__*/ S.suspend(() 
 }) as any as S.Schema<PatchProjectsLocationsBackendsRequest>;
 
 export interface PatchProjectsLocationsBackendsDomainsRequest {
-  /** Optional. Field mask is used to specify the fields to be overwritten in the Domain resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
-  updateMask?: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
   /** Optional. Indicates that the request should be validated and default values populated, without persisting the request or modifying any resources. */
   validateOnly?: boolean;
-  /** Identifier. The resource name of the domain, e.g. `/projects/p/locations/l/backends/b/domains/foo.com` */
-  name: string;
   /** Optional. If set to true, and the domain is not found, a new domain will be created. */
   allowMissing?: boolean;
+  /** Identifier. The resource name of the domain, e.g. `/projects/p/locations/l/backends/b/domains/foo.com` */
+  name: string;
+  /** Optional. Field mask is used to specify the fields to be overwritten in the Domain resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
+  updateMask?: string;
   /** Request body */
   body?: Domain;
 }
 export const PatchProjectsLocationsBackendsDomainsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    updateMask: S.optional(S.String.pipe(T.Query())),
     requestId: S.optional(S.String.pipe(T.Query())),
     validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-    name: S.String.pipe(T.Label()),
     allowMissing: S.optional(S.Boolean.pipe(T.Query())),
+    name: S.String.pipe(T.Label()),
+    updateMask: S.optional(S.String.pipe(T.Query())),
     body: S.optional(Domain.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -1864,10 +1834,10 @@ export const PatchProjectsLocationsBackendsDomainsRequest = /*@__PURE__*/ S.susp
 export interface PatchProjectsLocationsBackendsTrafficRequest {
   /** Optional. Indicates that the request should be validated, without persisting the request or updating any resources. */
   validateOnly?: boolean;
-  /** Identifier. The resource name of the backend's traffic. Format: `projects/{project}/locations/{locationId}/backends/{backendId}/traffic`. */
-  name: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and t he request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
+  /** Identifier. The resource name of the backend's traffic. Format: `projects/{project}/locations/{locationId}/backends/{backendId}/traffic`. */
+  name: string;
   /** Optional. Field mask is used to specify the fields to be overwritten in the traffic resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string;
   /** Request body */
@@ -1876,8 +1846,8 @@ export interface PatchProjectsLocationsBackendsTrafficRequest {
 export const PatchProjectsLocationsBackendsTrafficRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-    name: S.String.pipe(T.Label()),
     requestId: S.optional(S.String.pipe(T.Query())),
+    name: S.String.pipe(T.Label()),
     updateMask: S.optional(S.String.pipe(T.Query())),
     body: S.optional(Traffic.pipe(T.HttpBody())),
   }).pipe(
@@ -2190,10 +2160,7 @@ export const listProjectsLocations: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListProjectsLocationsBackendsError = NotFound | Forbidden | GcpOpError;
@@ -2210,10 +2177,7 @@ export const listProjectsLocationsBackends: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListProjectsLocationsBackendsBuildsError = NotFound | Forbidden | GcpOpError;
@@ -2230,10 +2194,7 @@ export const listProjectsLocationsBackendsBuilds: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListProjectsLocationsBackendsDomainsError = NotFound | Forbidden | GcpOpError;
@@ -2250,10 +2211,7 @@ export const listProjectsLocationsBackendsDomains: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListProjectsLocationsBackendsRolloutsError = NotFound | Forbidden | GcpOpError;
@@ -2270,10 +2228,7 @@ export const listProjectsLocationsBackendsRollouts: API.PaginatedOperationMethod
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListProjectsLocationsOperationsError = NotFound | Forbidden | GcpOpError;
@@ -2290,10 +2245,7 @@ export const listProjectsLocationsOperations: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListProjectsLocationsSupportedRuntimesError = NotFound | Forbidden | GcpOpError;

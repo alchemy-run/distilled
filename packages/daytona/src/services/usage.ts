@@ -22,11 +22,7 @@ export const GetOrganizationUsageAggregatedRequest = /*@__PURE__*/ S.suspend(() 
     from: S.String.pipe(T.Query()),
     to: S.String.pipe(T.Query()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/organization/{organizationId}/usage/aggregated",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/organization/{organizationId}/usage/aggregated", code: 200 }),
   ),
 ).annotate({
   identifier: "GetOrganizationUsageAggregatedRequest",
@@ -53,9 +49,7 @@ export const ModelsAggregatedUsage = /*@__PURE__*/ S.suspend(() =>
     totalPrice: S.optional(S.Number),
     totalRAMGBSeconds: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "ModelsAggregatedUsage",
-}) as any as S.Schema<ModelsAggregatedUsage>;
+).annotate({ identifier: "ModelsAggregatedUsage" }) as any as S.Schema<ModelsAggregatedUsage>;
 
 export interface ListOrganizationSandboxUsageRequest {
   /** Organization ID */
@@ -103,9 +97,7 @@ export const ModelsUsagePeriod = /*@__PURE__*/ S.suspend(() =>
     ramGB: S.optional(S.Number),
     startAt: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ModelsUsagePeriod",
-}) as any as S.Schema<ModelsUsagePeriod>;
+).annotate({ identifier: "ModelsUsagePeriod" }) as any as S.Schema<ModelsUsagePeriod>;
 
 export type ListOrganizationSandboxUsageResponseBodyList = Array<ModelsUsagePeriod>;
 export const ListOrganizationSandboxUsageResponseBodyList = /*@__PURE__*/ S.Array(
@@ -135,13 +127,7 @@ export const ListOrganizationUsageChartRequest = /*@__PURE__*/ S.suspend(() =>
     from: S.String.pipe(T.Query()),
     to: S.String.pipe(T.Query()),
     region: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/organization/{organizationId}/usage/chart",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/organization/{organizationId}/usage/chart", code: 200 })),
 ).annotate({
   identifier: "ListOrganizationUsageChartRequest",
 }) as any as S.Schema<ListOrganizationUsageChartRequest>;
@@ -165,9 +151,7 @@ export const ModelsUsageChartPoint = /*@__PURE__*/ S.suspend(() =>
     ramPrice: S.optional(S.Number),
     time: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ModelsUsageChartPoint",
-}) as any as S.Schema<ModelsUsageChartPoint>;
+).annotate({ identifier: "ModelsUsageChartPoint" }) as any as S.Schema<ModelsUsageChartPoint>;
 
 export type ListOrganizationUsageChartResponseBodyList = Array<ModelsUsageChartPoint>;
 export const ListOrganizationUsageChartResponseBodyList = /*@__PURE__*/ S.Array(
@@ -195,11 +179,7 @@ export const ListOrganizationUsageSandboxRequest = /*@__PURE__*/ S.suspend(() =>
     from: S.String.pipe(T.Query()),
     to: S.String.pipe(T.Query()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/organization/{organizationId}/usage/sandbox",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/organization/{organizationId}/usage/sandbox", code: 200 }),
   ),
 ).annotate({
   identifier: "ListOrganizationUsageSandboxRequest",
@@ -226,9 +206,7 @@ export const ModelsSandboxUsage = /*@__PURE__*/ S.suspend(() =>
     totalPrice: S.optional(S.Number),
     totalRAMGBSeconds: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "ModelsSandboxUsage",
-}) as any as S.Schema<ModelsSandboxUsage>;
+).annotate({ identifier: "ModelsSandboxUsage" }) as any as S.Schema<ModelsSandboxUsage>;
 
 export type ListOrganizationUsageSandboxResponseBodyList = Array<ModelsSandboxUsage>;
 export const ListOrganizationUsageSandboxResponseBodyList = /*@__PURE__*/ S.Array(

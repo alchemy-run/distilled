@@ -46,16 +46,8 @@ export const CreateEventSchemaRequest = /*@__PURE__*/ S.suspend(() =>
     project_id: S.String.pipe(T.Label()),
     event_definition: S.optional(S.String),
     property_group_id: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/projects/{project_id}/event_schemas/",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "CreateEventSchemaRequest",
-}) as any as S.Schema<CreateEventSchemaRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/api/projects/{project_id}/event_schemas/", code: 200 })),
+).annotate({ identifier: "CreateEventSchemaRequest" }) as any as S.Schema<CreateEventSchemaRequest>;
 
 /** * `DateTime` - DateTime * `String` - String * `Numeric` - Numeric * `Boolean` - Boolean * `Object` - Object */
 export type SchemaPropertyTypeEnum = "DateTime" | "String" | "Numeric" | "Boolean" | "Object";
@@ -100,9 +92,7 @@ export const EventDefinitionBasic = /*@__PURE__*/ S.suspend(() =>
     id: S.optional(S.String),
     name: S.optional(S.String),
   }),
-).annotate({
-  identifier: "EventDefinitionBasic",
-}) as any as S.Schema<EventDefinitionBasic>;
+).annotate({ identifier: "EventDefinitionBasic" }) as any as S.Schema<EventDefinitionBasic>;
 
 export type SchemaPropertyGroupEventsList = Array<EventDefinitionBasic>;
 export const SchemaPropertyGroupEventsList = /*@__PURE__*/ S.Array(
@@ -181,9 +171,7 @@ export const SchemaPropertyGroup = /*@__PURE__*/ S.suspend(() =>
     updated_at: S.optional(S.String),
     created_by: S.optional(S.NullOr(UserBasic)),
   }),
-).annotate({
-  identifier: "SchemaPropertyGroup",
-}) as any as S.Schema<SchemaPropertyGroup>;
+).annotate({ identifier: "SchemaPropertyGroup" }) as any as S.Schema<SchemaPropertyGroup>;
 
 export interface EventSchemaOutput {
   id?: string;
@@ -200,9 +188,7 @@ export const EventSchemaOutput = /*@__PURE__*/ S.suspend(() =>
     created_at: S.optional(S.String),
     updated_at: S.optional(S.String),
   }),
-).annotate({
-  identifier: "EventSchemaOutput",
-}) as any as S.Schema<EventSchemaOutput>;
+).annotate({ identifier: "EventSchemaOutput" }) as any as S.Schema<EventSchemaOutput>;
 
 export interface EventSchemasDestroyRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -215,11 +201,7 @@ export const EventSchemasDestroyRequest = /*@__PURE__*/ S.suspend(() =>
     project_id: S.String.pipe(T.Label()),
     id: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/projects/{project_id}/event_schemas/{id}/",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/api/projects/{project_id}/event_schemas/{id}/", code: 200 }),
   ),
 ).annotate({
   identifier: "EventSchemasDestroyRequest",
@@ -243,16 +225,8 @@ export const ListEventSchemasRequest = /*@__PURE__*/ S.suspend(() =>
     project_id: S.String.pipe(T.Label()),
     limit: S.optional(S.Number.pipe(T.Query())),
     offset: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/event_schemas/",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ListEventSchemasRequest",
-}) as any as S.Schema<ListEventSchemasRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/projects/{project_id}/event_schemas/", code: 200 })),
+).annotate({ identifier: "ListEventSchemasRequest" }) as any as S.Schema<ListEventSchemasRequest>;
 
 export type PaginatedEventSchemaListOutputResultsList = Array<EventSchemaOutput>;
 export const PaginatedEventSchemaListOutputResultsList = /*@__PURE__*/ S.Array(
@@ -291,15 +265,9 @@ export const UpdateEventSchemaRequest = /*@__PURE__*/ S.suspend(() =>
     event_definition: S.optional(S.String),
     property_group_id: S.optional(S.String),
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/api/projects/{project_id}/event_schemas/{id}/",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/api/projects/{project_id}/event_schemas/{id}/", code: 200 }),
   ),
-).annotate({
-  identifier: "UpdateEventSchemaRequest",
-}) as any as S.Schema<UpdateEventSchemaRequest>;
+).annotate({ identifier: "UpdateEventSchemaRequest" }) as any as S.Schema<UpdateEventSchemaRequest>;
 
 export interface UpdateEventSchemasPartialRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -316,11 +284,7 @@ export const UpdateEventSchemasPartialRequest = /*@__PURE__*/ S.suspend(() =>
     event_definition: S.optional(S.String),
     property_group_id: S.optional(S.String),
   }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/api/projects/{project_id}/event_schemas/{id}/",
-      code: 200,
-    }),
+    T.Http({ method: "PATCH", uri: "/api/projects/{project_id}/event_schemas/{id}/", code: 200 }),
   ),
 ).annotate({
   identifier: "UpdateEventSchemasPartialRequest",

@@ -568,7 +568,7 @@
           "uri": "/api/projects/{project_id}/web_analytics_achievements/record_visit/",
           "code": 200
         },
-        "smithy.api#documentation": "Record a Web analytics visit\n\nIdempotently records that the requesting user opened Web analytics today (team-local date) and schedules a debounced achievement recompute. Intended to be called once per session."
+        "smithy.api#documentation": "Record a Web analytics visit\n\nIdempotently records that the requesting user opened Web analytics today (team-local date) and refreshes the user's per-user achievement tracks. Intended to be called once per session."
       }
     },
     "com.posthog.web_analytics_achievements#WebAnalyticsAchievements": {

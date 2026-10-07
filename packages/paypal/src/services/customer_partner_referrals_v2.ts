@@ -138,9 +138,7 @@ export const PersonAddressDetail = /*@__PURE__*/ S.suspend(() =>
     address_details: S.optional(AddressDetails),
     type: PersonAddressType,
   }),
-).annotate({
-  identifier: "PersonAddressDetail",
-}) as any as S.Schema<PersonAddressDetail>;
+).annotate({ identifier: "PersonAddressDetail" }) as any as S.Schema<PersonAddressDetail>;
 
 /** The list of addresses associated with the person. */
 export type PersonAddressDetailList = Array<PersonAddressDetail>;
@@ -169,9 +167,7 @@ export const PersonPhoneDetail = /*@__PURE__*/ S.suspend(() =>
     extension_number: S.optional(S.String),
     type: PhoneType,
   }),
-).annotate({
-  identifier: "PersonPhoneDetail",
-}) as any as S.Schema<PersonPhoneDetail>;
+).annotate({ identifier: "PersonPhoneDetail" }) as any as S.Schema<PersonPhoneDetail>;
 
 /** The list of phone numbers associated with the person. */
 export type PersonPhoneDetailList = Array<PersonPhoneDetail>;
@@ -264,9 +260,7 @@ export const PersonDocumentInput = /*@__PURE__*/ S.suspend(() =>
     files: S.optional(FileReferenceList),
     type: S.optional(PersonDocumentType),
   }),
-).annotate({
-  identifier: "PersonDocumentInput",
-}) as any as S.Schema<PersonDocumentInput>;
+).annotate({ identifier: "PersonDocumentInput" }) as any as S.Schema<PersonDocumentInput>;
 
 /** A person's or party's related document data collected from the customer. For example SSN, ITIN, or business registration number collected from the user. <blockquote><strong>Note:</strong> This field is not applicable for POST [/v2/customer/partner-referrals](/docs/api/partner-referrals/v2/#partner-referrals_create) API calls.</blockquote> */
 export type PersonDocumentListInput = Array<PersonDocumentInput>;
@@ -300,9 +294,7 @@ export const IndividualOwnerInput = /*@__PURE__*/ S.suspend(() =>
     documents: S.optional(PersonDocumentListInput),
     type: S.optional(IndividualOwnerType),
   }),
-).annotate({
-  identifier: "IndividualOwnerInput",
-}) as any as S.Schema<IndividualOwnerInput>;
+).annotate({ identifier: "IndividualOwnerInput" }) as any as S.Schema<IndividualOwnerInput>;
 
 /** List of owners in the account. There should be only one primary account owner which is mentioned in their role_type. */
 export type IndividualOwnerListInput = Array<IndividualOwnerInput>;
@@ -361,9 +353,7 @@ export const BusinessTypeInfo = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(BusinessType),
     subtype: S.optional(BusinessSubType),
   }),
-).annotate({
-  identifier: "BusinessTypeInfo",
-}) as any as S.Schema<BusinessTypeInfo>;
+).annotate({ identifier: "BusinessTypeInfo" }) as any as S.Schema<BusinessTypeInfo>;
 
 /** The category, subcategory and MCC code of the business. */
 export interface BusinessIndustry {
@@ -380,9 +370,7 @@ export const BusinessIndustry = /*@__PURE__*/ S.suspend(() =>
     mcc_code: S.String,
     subcategory: S.String,
   }),
-).annotate({
-  identifier: "BusinessIndustry",
-}) as any as S.Schema<BusinessIndustry>;
+).annotate({ identifier: "BusinessIndustry" }) as any as S.Schema<BusinessIndustry>;
 
 /** Business incorporation information. */
 export interface BusinessEntityInputBusinessIncorporation {
@@ -415,9 +403,7 @@ export const BusinessNameDetail = /*@__PURE__*/ S.suspend(() =>
     business_name: S.optional(S.String),
     type: BusinessNameType,
   }),
-).annotate({
-  identifier: "BusinessNameDetail",
-}) as any as S.Schema<BusinessNameDetail>;
+).annotate({ identifier: "BusinessNameDetail" }) as any as S.Schema<BusinessNameDetail>;
 
 /** Name of the business. */
 export type BusinessNameDetailList = Array<BusinessNameDetail>;
@@ -486,9 +472,7 @@ export const BusinessAddressDetail = /*@__PURE__*/ S.suspend(() =>
     address_details: S.optional(AddressDetails),
     type: BusinessAddressType,
   }),
-).annotate({
-  identifier: "BusinessAddressDetail",
-}) as any as S.Schema<BusinessAddressDetail>;
+).annotate({ identifier: "BusinessAddressDetail" }) as any as S.Schema<BusinessAddressDetail>;
 
 /** List of addresses associated with the business entity. */
 export type BusinessAddressDetailList = Array<BusinessAddressDetail>;
@@ -517,9 +501,7 @@ export const BusinessPhoneDetail = /*@__PURE__*/ S.suspend(() =>
     extension_number: S.optional(S.String),
     type: BusinessPhoneType,
   }),
-).annotate({
-  identifier: "BusinessPhoneDetail",
-}) as any as S.Schema<BusinessPhoneDetail>;
+).annotate({ identifier: "BusinessPhoneDetail" }) as any as S.Schema<BusinessPhoneDetail>;
 
 /** List of phone number associated with the business. */
 export type BusinessPhoneDetailList = Array<BusinessPhoneDetail>;
@@ -568,9 +550,7 @@ export const BusinessDocumentInput = /*@__PURE__*/ S.suspend(() =>
     files: S.optional(FileReferenceList),
     type: S.optional(BusinessDocumentType),
   }),
-).annotate({
-  identifier: "BusinessDocumentInput",
-}) as any as S.Schema<BusinessDocumentInput>;
+).annotate({ identifier: "BusinessDocumentInput" }) as any as S.Schema<BusinessDocumentInput>;
 
 /** Business Party related Document data collected from the customer.. For example SSN, ITIN, Business registration number that were collected from the user. */
 export type BusinessDocumentListInput = Array<BusinessDocumentInput>;
@@ -666,9 +646,7 @@ export const BeneficialOwnersInput = /*@__PURE__*/ S.suspend(() =>
     individual_beneficial_owners: S.optional(IndividualBeneficialOwnerListInput),
     business_beneficial_owners: S.optional(BusinessBeneficialOwnerListInput),
   }),
-).annotate({
-  identifier: "BeneficialOwnersInput",
-}) as any as S.Schema<BeneficialOwnersInput>;
+).annotate({ identifier: "BeneficialOwnersInput" }) as any as S.Schema<BeneficialOwnersInput>;
 
 /** The currency and amount for a financial transaction, such as a balance or payment due. */
 export interface Money {
@@ -739,9 +717,7 @@ export const BusinessEntityInput = /*@__PURE__*/ S.suspend(() =>
     purpose_code: S.optional(S.Unknown),
     business_description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "BusinessEntityInput",
-}) as any as S.Schema<BusinessEntityInput>;
+).annotate({ identifier: "BusinessEntityInput" }) as any as S.Schema<BusinessEntityInput>;
 
 /** The preference to customize the web experience of the customer by overriding that is set at the Partner's Account. */
 export interface PartnerConfigOverride {
@@ -758,9 +734,7 @@ export const PartnerConfigOverride = /*@__PURE__*/ S.suspend(() =>
     return_url_description: S.optional(S.String),
     show_add_credit_card: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "PartnerConfigOverride",
-}) as any as S.Schema<PartnerConfigOverride>;
+).annotate({ identifier: "PartnerConfigOverride" }) as any as S.Schema<PartnerConfigOverride>;
 
 /** The type of bank account. */
 export type BankAccountType = "CHECKING" | "SAVINGS";
@@ -824,9 +798,7 @@ export const BankBranchLocation = /*@__PURE__*/ S.suspend(() =>
     postal_code: S.optional(S.String),
     country_code: S.String,
   }),
-).annotate({
-  identifier: "BankBranchLocation",
-}) as any as S.Schema<BankBranchLocation>;
+).annotate({ identifier: "BankBranchLocation" }) as any as S.Schema<BankBranchLocation>;
 
 /** Seller’s consent to operate on this financial instrument. */
 export interface Mandate {
@@ -879,9 +851,7 @@ export const FinancialInstruments = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     banks: S.optional(BankList),
   }),
-).annotate({
-  identifier: "FinancialInstruments",
-}) as any as S.Schema<FinancialInstruments>;
+).annotate({ identifier: "FinancialInstruments" }) as any as S.Schema<FinancialInstruments>;
 
 /** The operation to enable for the customer. To enable the collection of the API permissions that you require to integrate with the customer, specify `API_INTEGRATION`. `BANK_ADDITION` is supported only for the US. */
 export type OperationOperation =
@@ -946,9 +916,7 @@ export const FirstPartyDetails = /*@__PURE__*/ S.suspend(() =>
     features: RestEndpointFeaturesEnumList,
     seller_nonce: S.String,
   }),
-).annotate({
-  identifier: "FirstPartyDetails",
-}) as any as S.Schema<FirstPartyDetails>;
+).annotate({ identifier: "FirstPartyDetails" }) as any as S.Schema<FirstPartyDetails>;
 
 /** An array of features that partner can access, or use, in PayPal on behalf of the seller. The seller grants permission for these features to the partner. */
 export type RestApiIntegrationRestEndpointFeaturesEnumList = Array<
@@ -975,9 +943,7 @@ export const ThirdPartyDetails = /*@__PURE__*/ S.suspend(() =>
     signup_mode: S.optional(SignupMode),
     organization: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ThirdPartyDetails",
-}) as any as S.Schema<ThirdPartyDetails>;
+).annotate({ identifier: "ThirdPartyDetails" }) as any as S.Schema<ThirdPartyDetails>;
 
 /** The integration details for PayPal REST endpoints. */
 export interface RestApiIntegration {
@@ -995,9 +961,7 @@ export const RestApiIntegration = /*@__PURE__*/ S.suspend(() =>
     first_party_details: S.optional(FirstPartyDetails),
     third_party_details: S.optional(ThirdPartyDetails),
   }),
-).annotate({
-  identifier: "RestApiIntegration",
-}) as any as S.Schema<RestApiIntegration>;
+).annotate({ identifier: "RestApiIntegration" }) as any as S.Schema<RestApiIntegration>;
 
 /** The integration details for the partner and customer relationship. Required if `operation` is `API_INTEGRATION`. */
 export interface IntegrationDetails {
@@ -1009,9 +973,7 @@ export const IntegrationDetails = /*@__PURE__*/ S.suspend(() =>
     classic_api_integration: S.optional(S.Unknown),
     rest_api_integration: S.optional(RestApiIntegration),
   }),
-).annotate({
-  identifier: "IntegrationDetails",
-}) as any as S.Schema<IntegrationDetails>;
+).annotate({ identifier: "IntegrationDetails" }) as any as S.Schema<IntegrationDetails>;
 
 /** The preference that customizes the billing experience of the customer. */
 export interface BillingExperiencePreference {
@@ -1049,9 +1011,7 @@ export const BillingAgreement = /*@__PURE__*/ S.suspend(() =>
     approval_url: S.optional(S.String),
     ec_token: S.optional(S.String),
   }),
-).annotate({
-  identifier: "BillingAgreement",
-}) as any as S.Schema<BillingAgreement>;
+).annotate({ identifier: "BillingAgreement" }) as any as S.Schema<BillingAgreement>;
 
 /** The required operation to share data. */
 export interface Operation {
@@ -1214,9 +1174,7 @@ export const PayoutAttributes = /*@__PURE__*/ S.suspend(() =>
       CountryTransferMethodCurrencySelectionList,
     ),
   }),
-).annotate({
-  identifier: "PayoutAttributes",
-}) as any as S.Schema<PayoutAttributes>;
+).annotate({ identifier: "PayoutAttributes" }) as any as S.Schema<PayoutAttributes>;
 
 export interface CreatePartnerReferralRequest {
   individual_owners?: IndividualOwnerListInput;
@@ -1258,13 +1216,7 @@ export const CreatePartnerReferralRequest = /*@__PURE__*/ S.suspend(() =>
     legal_consents: LegalConsentList,
     payout_attributes: S.optional(PayoutAttributes),
     legal_country_code: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v2/customer/partner-referrals",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/v2/customer/partner-referrals", code: 200 })),
 ).annotate({
   identifier: "CreatePartnerReferralRequest",
 }) as any as S.Schema<CreatePartnerReferralRequest>;
@@ -1296,9 +1248,7 @@ export const LinkDescription = /*@__PURE__*/ S.suspend(() =>
     rel: S.String,
     method: S.optional(LinkDescriptionMethod),
   }),
-).annotate({
-  identifier: "LinkDescription",
-}) as any as S.Schema<LinkDescription>;
+).annotate({ identifier: "LinkDescription" }) as any as S.Schema<LinkDescription>;
 
 /** An array of request-related [HATEOAS links](/docs/api/overview/#hateoas-links). */
 export type DefinitionsLinkDescriptionList = Array<LinkDescription>;
@@ -1407,9 +1357,7 @@ export const IndividualOwner = /*@__PURE__*/ S.suspend(() =>
     documents: S.optional(PersonDocumentList),
     type: S.optional(IndividualOwnerType),
   }),
-).annotate({
-  identifier: "IndividualOwner",
-}) as any as S.Schema<IndividualOwner>;
+).annotate({ identifier: "IndividualOwner" }) as any as S.Schema<IndividualOwner>;
 
 /** List of owners in the account. There should be only one primary account owner which is mentioned in their role_type. */
 export type IndividualOwnerList = Array<IndividualOwner>;
@@ -1453,9 +1401,7 @@ export const BusinessDocument = /*@__PURE__*/ S.suspend(() =>
     links: S.optional(LinkDescriptionList),
     type: S.optional(BusinessDocumentType),
   }),
-).annotate({
-  identifier: "BusinessDocument",
-}) as any as S.Schema<BusinessDocument>;
+).annotate({ identifier: "BusinessDocument" }) as any as S.Schema<BusinessDocument>;
 
 /** Business Party related Document data collected from the customer.. For example SSN, ITIN, Business registration number that were collected from the user. */
 export type BusinessDocumentList = Array<BusinessDocument>;
@@ -1533,9 +1479,7 @@ export const BusinessBeneficialOwner = /*@__PURE__*/ S.suspend(() =>
     documents: S.optional(BusinessDocumentList),
     percentage_of_ownership: S.optional(S.String),
   }),
-).annotate({
-  identifier: "BusinessBeneficialOwner",
-}) as any as S.Schema<BusinessBeneficialOwner>;
+).annotate({ identifier: "BusinessBeneficialOwner" }) as any as S.Schema<BusinessBeneficialOwner>;
 
 /** Business beneficial owners. */
 export type BusinessBeneficialOwnerList = Array<BusinessBeneficialOwner>;
@@ -1553,9 +1497,7 @@ export const BeneficialOwners = /*@__PURE__*/ S.suspend(() =>
     individual_beneficial_owners: S.optional(IndividualBeneficialOwnerList),
     business_beneficial_owners: S.optional(BusinessBeneficialOwnerList),
   }),
-).annotate({
-  identifier: "BeneficialOwners",
-}) as any as S.Schema<BeneficialOwners>;
+).annotate({ identifier: "BeneficialOwners" }) as any as S.Schema<BeneficialOwners>;
 
 export interface BusinessEntity {
   /** Information related to the business like the nature of business, started date etc. */
@@ -1670,9 +1612,7 @@ export const ReferralDataResponse = /*@__PURE__*/ S.suspend(() =>
     referral_data: S.optional(ReferralData),
     links: S.optional(ReferralDataResponseDefinitionsLinkDescriptionList),
   }),
-).annotate({
-  identifier: "ReferralDataResponse",
-}) as any as S.Schema<ReferralDataResponse>;
+).annotate({ identifier: "ReferralDataResponse" }) as any as S.Schema<ReferralDataResponse>;
 
 export type CreatePartnerReferralError =
   | BadRequest

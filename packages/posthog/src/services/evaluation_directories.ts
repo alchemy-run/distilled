@@ -99,9 +99,7 @@ export const EvaluationDirectory = /*@__PURE__*/ S.suspend(() =>
     created_by: S.NullOr(UserBasic),
     evaluation_count: S.Number,
   }),
-).annotate({
-  identifier: "EvaluationDirectory",
-}) as any as S.Schema<EvaluationDirectory>;
+).annotate({ identifier: "EvaluationDirectory" }) as any as S.Schema<EvaluationDirectory>;
 
 export interface EvaluationDirectoriesDestroyRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -160,11 +158,7 @@ export const ListEvaluationDirectoriesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project_id: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/evaluation_directories/",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/projects/{project_id}/evaluation_directories/", code: 200 }),
   ),
 ).annotate({
   identifier: "ListEvaluationDirectoriesRequest",

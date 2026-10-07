@@ -18,6 +18,170 @@
     "distilled.finalized": true
   },
   "shapes": {
+    "com.vanta.manage_vanta#ListBusinessUnitsRequest": {
+      "type": "structure",
+      "members": {
+        "pageSize": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "pageSize"
+          }
+        },
+        "pageCursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "pageCursor"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.vanta.manage_vanta#PaginatedResponseBusinessUnit": {
+      "type": "structure",
+      "members": {
+        "results": {
+          "target": "com.vanta.manage_vanta#PaginatedResponseBusinessUnitResults",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vanta.manage_vanta#BusinessUnit": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The business unit's unique ID.",
+            "smithy.api#required": {}
+          }
+        },
+        "displayName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The business unit's display name.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vanta.manage_vanta#PaginatedResponseBusinessUnitResultsDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.vanta.manage_vanta#BusinessUnit"
+      },
+      "traits": {}
+    },
+    "com.vanta.manage_vanta#PageInfo": {
+      "type": "structure",
+      "members": {
+        "endCursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The cursor that points to the end of the current page, or null if there is no such cursor.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "hasNextPage": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Indicates if there is another page after the current page.",
+            "smithy.api#required": {}
+          }
+        },
+        "hasPreviousPage": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Indicates if there is a page before the current page.",
+            "smithy.api#required": {}
+          }
+        },
+        "startCursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The cursor that points to the start of the current page, or null if there is no such cursor.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Provides information about the pagination of a dataset."
+      }
+    },
+    "com.vanta.manage_vanta#PaginatedResponseBusinessUnitResults": {
+      "type": "structure",
+      "members": {
+        "data": {
+          "target": "com.vanta.manage_vanta#PaginatedResponseBusinessUnitResultsDataList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "pageInfo": {
+          "target": "com.vanta.manage_vanta#PageInfo",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vanta.manage_vanta#ListBusinessUnits": {
+      "type": "operation",
+      "input": {
+        "target": "com.vanta.manage_vanta#ListBusinessUnitsRequest"
+      },
+      "output": {
+        "target": "com.vanta.manage_vanta#PaginatedResponseBusinessUnit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/business-units",
+          "code": 200
+        },
+        "smithy.api#documentation": "List business units\n\nLists the business units for your organization.\nReturns 403 when business unit scoping is disabled for the domain."
+      }
+    },
+    "com.vanta.manage_vanta#GetBusinessUnitRequest": {
+      "type": "structure",
+      "members": {
+        "businessUnitId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.vanta.manage_vanta#GetBusinessUnit": {
+      "type": "operation",
+      "input": {
+        "target": "com.vanta.manage_vanta#GetBusinessUnitRequest"
+      },
+      "output": {
+        "target": "com.vanta.manage_vanta#BusinessUnit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/business-units/{businessUnitId}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get business unit by ID\n\nGet a business unit by ID.\nReturns 403 when business unit scoping is disabled for the domain."
+      }
+    },
     "com.vanta.manage_vanta#ListContractsRequest": {
       "type": "structure",
       "members": {
@@ -107,44 +271,6 @@
         "target": "com.vanta.manage_vanta#Contract"
       },
       "traits": {}
-    },
-    "com.vanta.manage_vanta#PageInfo": {
-      "type": "structure",
-      "members": {
-        "endCursor": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The cursor that points to the end of the current page, or null if there is no such cursor.",
-            "smithy.api#required": {},
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "hasNextPage": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "smithy.api#documentation": "Indicates if there is another page after the current page.",
-            "smithy.api#required": {}
-          }
-        },
-        "hasPreviousPage": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "smithy.api#documentation": "Indicates if there is a page before the current page.",
-            "smithy.api#required": {}
-          }
-        },
-        "startCursor": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The cursor that points to the start of the current page, or null if there is no such cursor.",
-            "smithy.api#required": {},
-            "com.distilled.openapi#nullable": {}
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "Provides information about the pagination of a dataset."
-      }
     },
     "com.vanta.manage_vanta#PaginatedResponseContractResults": {
       "type": "structure",
@@ -424,6 +550,13 @@
           "traits": {
             "smithy.api#documentation": "When the control was last modified. Returns null for Vanta library controls.",
             "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "implementationDetails": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "How the control is implemented.",
             "com.distilled.openapi#nullable": {}
           }
         }
@@ -1233,13 +1366,229 @@
         "smithy.api#input": {}
       }
     },
+    "com.vanta.manage_vanta#PaginatedResponseDeactivatedControl": {
+      "type": "structure",
+      "members": {
+        "results": {
+          "target": "com.vanta.manage_vanta#PaginatedResponseDeactivatedControlResults",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vanta.manage_vanta#DeactivatedControl": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The control's unique ID.",
+            "smithy.api#required": {}
+          }
+        },
+        "externalId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The control's external ID.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The control's name.",
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The control's description.",
+            "smithy.api#required": {}
+          }
+        },
+        "source": {
+          "target": "com.vanta.manage_vanta#ControlSource",
+          "traits": {
+            "smithy.api#documentation": "The control's source, either \"VANTA\" or \"CUSTOM\".",
+            "smithy.api#required": {}
+          }
+        },
+        "domains": {
+          "target": "com.vanta.manage_vanta#DeactivatedControlDomainsList",
+          "traits": {
+            "smithy.api#documentation": "The security domains that the control belongs to.",
+            "smithy.api#required": {}
+          }
+        },
+        "owner": {
+          "target": "com.vanta.manage_vanta#Owner",
+          "traits": {
+            "smithy.api#documentation": "The control's owner.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "role": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The control's GDPR role, if the control is a GDPR control.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "customFields": {
+          "target": "com.vanta.manage_vanta#DeactivatedControlCustomFieldsList",
+          "traits": {
+            "smithy.api#documentation": "The control's custom field values, if control custom fields is included in your Vanta instance.",
+            "smithy.api#required": {}
+          }
+        },
+        "creationDate": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the control was created. Returns null for Vanta library controls.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "modificationDate": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the control was last modified. Returns null for Vanta library controls.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "implementationDetails": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "How the control is implemented.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "frameworks": {
+          "target": "com.vanta.manage_vanta#DeactivatedControlFrameworksList",
+          "traits": {
+            "smithy.api#documentation": "The frameworks that the control is mapped to. Empty when the control maps to no framework the organization has enabled.",
+            "smithy.api#required": {}
+          }
+        },
+        "deactivationReason": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The reason given when the control was deactivated. Null when no reason was recorded, including for deactivations that predate the field.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vanta.manage_vanta#DeactivatedControlDomainsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "The security domains that the control belongs to."
+      }
+    },
+    "com.vanta.manage_vanta#DeactivatedControlCustomFieldsList": {
+      "type": "list",
+      "member": {
+        "target": "com.vanta.manage_vanta#CustomField"
+      },
+      "traits": {
+        "smithy.api#documentation": "The control's custom field values, if control custom fields is included in your Vanta instance."
+      }
+    },
+    "com.vanta.manage_vanta#DeactivatedControlFramework": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The framework's unique ID. Accepted by the `frameworkMatchesAny` filter on `GET /v1/controls`.",
+            "smithy.api#required": {}
+          }
+        },
+        "displayName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The framework's display name.",
+            "smithy.api#required": {}
+          }
+        },
+        "shorthandName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The short version of the framework's display name.",
+            "smithy.api#required": {}
+          }
+        },
+        "sections": {
+          "target": "com.vanta.manage_vanta#DeactivatedControlFrameworkSectionsList",
+          "traits": {
+            "smithy.api#documentation": "The shorthands of the framework's sections that the control maps to.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vanta.manage_vanta#DeactivatedControlFrameworkSectionsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "The shorthands of the framework's sections that the control maps to."
+      }
+    },
+    "com.vanta.manage_vanta#DeactivatedControlFrameworksList": {
+      "type": "list",
+      "member": {
+        "target": "com.vanta.manage_vanta#DeactivatedControlFramework"
+      },
+      "traits": {
+        "smithy.api#documentation": "The frameworks that the control is mapped to. Empty when the control maps to no framework the organization has enabled."
+      }
+    },
+    "com.vanta.manage_vanta#PaginatedResponseDeactivatedControlResultsDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.vanta.manage_vanta#DeactivatedControl"
+      },
+      "traits": {}
+    },
+    "com.vanta.manage_vanta#PaginatedResponseDeactivatedControlResults": {
+      "type": "structure",
+      "members": {
+        "data": {
+          "target": "com.vanta.manage_vanta#PaginatedResponseDeactivatedControlResultsDataList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "pageInfo": {
+          "target": "com.vanta.manage_vanta#PageInfo",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
     "com.vanta.manage_vanta#ListDeactivatedControls": {
       "type": "operation",
       "input": {
         "target": "com.vanta.manage_vanta#ListDeactivatedControlsRequest"
       },
       "output": {
-        "target": "com.vanta.manage_vanta#PaginatedResponseControl"
+        "target": "com.vanta.manage_vanta#PaginatedResponseDeactivatedControl"
       },
       "traits": {
         "smithy.api#http": {
@@ -1346,6 +1695,13 @@
           "traits": {
             "smithy.api#documentation": "When the control was last modified. Returns null for Vanta library controls.",
             "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "implementationDetails": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "How the control is implemented.",
             "com.distilled.openapi#nullable": {}
           }
         },
@@ -1477,6 +1833,12 @@
           "traits": {
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
+          }
+        },
+        "implementationDetails": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "How the control is implemented."
           }
         },
         "name": {
@@ -3165,6 +3527,12 @@
             "smithy.api#enumValue": "EXTRACTING_QUESTIONS"
           }
         },
+        "QUEUED_FOR_SECTION_EXTRACTION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "QUEUED_FOR_SECTION_EXTRACTION"
+          }
+        },
         "EXTRACTING_SECTIONS": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -3175,6 +3543,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "MAPPING_SECTIONS"
+          }
+        },
+        "QUEUED_FOR_ANSWERING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "QUEUED_FOR_ANSWERING"
           }
         },
         "GENERATING_ANSWERS": {
@@ -4624,12 +4998,6 @@
             "smithy.api#required": {}
           }
         },
-        "answer": {
-          "target": "com.vanta.manage_vanta#DeprecatedQAutoAnswerForAPI",
-          "traits": {
-            "smithy.api#documentation": "The current answer for the question."
-          }
-        },
         "editedBy": {
           "target": "com.vanta.manage_vanta#CustomerTrustUser",
           "traits": {
@@ -4672,7 +5040,7 @@
         "answerPartsValues": {
           "target": "com.vanta.manage_vanta#RecordStringAnswerPartValue",
           "traits": {
-            "smithy.api#documentation": "Flat map of part-id → current value (via `toAnswerPartsValues`).\nSame key set as `answerPartsSchema.properties`. Absent when the\nresponse has no stored parts."
+            "smithy.api#documentation": "Flat map of part-id → current value (via `toAnswerPartsValues`).\nSame key set as `answerPartsSchema.properties`, which each question\ndefines for itself. Absent when the response has no stored parts."
           }
         },
         "attachedEvidence": {
@@ -4699,56 +5067,6 @@
       "traits": {
         "smithy.api#documentation": "A questionnaire response without the fields that describe what the\nrequesting user may do with it. Surfaces that authenticate a client rather\nthan a user return this, since there is no user those fields could describe."
       }
-    },
-    "com.vanta.manage_vanta#DeprecatedQAutoAnswerForAPI": {
-      "type": "structure",
-      "members": {
-        "explanation": {
-          "target": "smithy.api#String",
-          "traits": {
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "multipleChoice": {
-          "target": "com.vanta.manage_vanta#QuestionnaireResponseMultipleChoiceAnswer",
-          "traits": {
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "multipleChoiceCustom": {
-          "target": "smithy.api#String",
-          "traits": {
-            "com.distilled.openapi#nullable": {}
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "Frozen local clone of the shared `QAutoAnswer` shape, scoped to the\ndeprecated REST `answer` field so that field's contract does not track\nchanges to the shared answer-library type. No longer populated at runtime;\nremoval is tracked by CTAUTO-1973."
-      }
-    },
-    "com.vanta.manage_vanta#QuestionnaireResponseMultipleChoiceAnswer": {
-      "type": "enum",
-      "members": {
-        "NO": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "NO"
-          }
-        },
-        "NOT_APPLICABLE": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "NOT_APPLICABLE"
-          }
-        },
-        "YES": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "YES"
-          }
-        }
-      },
-      "traits": {}
     },
     "com.vanta.manage_vanta#CustomerTrustUser": {
       "type": "structure",
@@ -5124,7 +5442,10 @@
     "com.vanta.manage_vanta#JSONSchema7EnumList": {
       "type": "list",
       "member": {
-        "target": "com.vanta.manage_vanta#JSONSchema7Type2"
+        "target": "com.vanta.manage_vanta#JSONSchema7Type2",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -5240,7 +5561,10 @@
         "target": "smithy.api#String"
       },
       "value": {
-        "target": "com.vanta.manage_vanta#AnswerPartValue"
+        "target": "com.vanta.manage_vanta#AnswerPartValue",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {
         "smithy.api#documentation": "Construct a type with a set of properties K of type T"
@@ -10457,18 +10781,21 @@
         "pointOfContactEmail": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "Email address of the group's point of contact. Must be an active administrator.",
             "com.distilled.openapi#nullable": {}
           }
         },
         "description": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "Description of the group.",
             "com.distilled.openapi#nullable": {}
           }
         },
         "name": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "Display name for the group. Must not duplicate an existing group's name.",
             "smithy.api#required": {}
           }
         }
@@ -10816,6 +11143,58 @@
           "code": 200
         },
         "smithy.api#documentation": "Get group by ID\n\nGet a group by ID."
+      }
+    },
+    "com.vanta.manage_vanta#UpdateGroupRequest": {
+      "type": "structure",
+      "members": {
+        "groupId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "pointOfContactEmail": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Email of an active Vanta user with the Admin role in the organization. Omit to preserve; pass null to clear.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "New description. Omit to preserve; pass null to clear.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "New display name. Omit to preserve. Names are trimmed, must be non-empty and unique, and cannot change for an IdP-managed group."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.vanta.manage_vanta#UpdateGroup": {
+      "type": "operation",
+      "input": {
+        "target": "com.vanta.manage_vanta#UpdateGroupRequest"
+      },
+      "output": {
+        "target": "com.vanta.manage_vanta#Group"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/groups/{groupId}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Update group\n\nPartially updates a group. At least one field must be provided."
       }
     },
     "com.vanta.manage_vanta#AddPeopleToGroupRequestUpdatesItem": {
@@ -12237,6 +12616,7 @@
         "id": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "ID of the person to add to the group.",
             "smithy.api#required": {}
           }
         }
@@ -16170,7 +16550,7 @@
           "uri": "/knowledge-base/answer-library/{id}/verify",
           "code": 200
         },
-        "smithy.api#documentation": "Verify Answer Library entry\n\nMark an Answer Library entry as verified. Stamps `lastVerifiedAt` to the\ncurrent time; the entry's question, answer, tags, owner, and expiration\nare left unchanged."
+        "smithy.api#documentation": "Verify Answer Library entry\n\nMark an Answer Library entry as verified. Stamps `lastVerifiedAt` to the\ncurrent time and uses the supplied expiration date or configured review cadence.\nThe entry's question, answer, tags, and owner are left unchanged."
       }
     },
     "com.vanta.manage_vanta#KnowledgeBaseResourceTypeFilter": {
@@ -17709,6 +18089,47 @@
         "smithy.api#documentation": "Get monitored computer by ID\n\nReturns a monitored computer by ID."
       }
     },
+    "com.vanta.manage_vanta#OrganizationIdentity": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "displayName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vanta.manage_vanta#GetOrganization": {
+      "type": "operation",
+      "input": {
+        "target": "smithy.api#Unit"
+      },
+      "output": {
+        "target": "com.vanta.manage_vanta#OrganizationIdentity"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/organization",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get connected organization\n\nReturns the organization selected by the authenticated token.\nRequires vanta-api.all:read or vanta-api.all:write. No organization selector\nis accepted.\nThe region is the organization's home AWS region identifier (for example,\nus-east-1), not the serving endpoint."
+      }
+    },
     "com.vanta.manage_vanta#ListPeopleRequestTasksSummaryStatusMatchesAnyList": {
       "type": "list",
       "member": {
@@ -17781,6 +18202,13 @@
       },
       "traits": {}
     },
+    "com.vanta.manage_vanta#ListPeopleRequestFrameworkIdMatchesAnyList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
     "com.vanta.manage_vanta#ListPeopleRequest": {
       "type": "structure",
       "members": {
@@ -17836,6 +18264,13 @@
           "traits": {
             "smithy.api#httpQuery": "employmentStatus",
             "smithy.api#documentation": "Filter people matching the given employment status."
+          }
+        },
+        "frameworkIdMatchesAny": {
+          "target": "com.vanta.manage_vanta#ListPeopleRequestFrameworkIdMatchesAnyList",
+          "traits": {
+            "smithy.api#httpQuery": "frameworkIdMatchesAny",
+            "smithy.api#documentation": "Filter people in scope for any of the given framework IDs. Non-viewable program scopes are ignored."
           }
         }
       },
@@ -18247,6 +18682,238 @@
           "code": 200
         },
         "smithy.api#documentation": "Set leave information\n\nSet leave information on a person. A person on leave is inactive in Vanta and will not\nbe considered in certain personnel-related tests. If the person has existing leave information, it will be\ncleared and replaced."
+      }
+    },
+    "com.vanta.manage_vanta#PersonnelNotificationSettings": {
+      "type": "union",
+      "members": {
+        "EnabledPersonnelNotificationSettings": {
+          "target": "com.vanta.manage_vanta#EnabledPersonnelNotificationSettings"
+        },
+        "DisabledPersonnelNotificationSettings": {
+          "target": "com.vanta.manage_vanta#DisabledPersonnelNotificationSettings"
+        }
+      },
+      "traits": {}
+    },
+    "com.vanta.manage_vanta#EnabledPersonnelNotificationSettings": {
+      "type": "structure",
+      "members": {
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "employeeDigestFrequency": {
+          "target": "com.vanta.manage_vanta#EnabledPersonnelNotificationSettingsEmployeeDigestFrequency",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "enabledChannels": {
+          "target": "com.vanta.manage_vanta#EnabledPersonnelNotificationSettingsEnabledChannelsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "nextReminderAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vanta.manage_vanta#NotificationFrequencyDAILY": {
+      "type": "enum",
+      "members": {
+        "DAILY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "DAILY"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vanta.manage_vanta#NotificationFrequencyWEEKLY": {
+      "type": "enum",
+      "members": {
+        "WEEKLY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "WEEKLY"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vanta.manage_vanta#EnabledPersonnelNotificationSettingsEmployeeDigestFrequency": {
+      "type": "union",
+      "members": {
+        "NotificationFrequencyDAILY": {
+          "target": "com.vanta.manage_vanta#NotificationFrequencyDAILY"
+        },
+        "NotificationFrequencyWEEKLY": {
+          "target": "com.vanta.manage_vanta#NotificationFrequencyWEEKLY"
+        }
+      },
+      "traits": {}
+    },
+    "com.vanta.manage_vanta#NotificationChannelType": {
+      "type": "enum",
+      "members": {
+        "EMAIL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "EMAIL"
+          }
+        },
+        "SLACK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SLACK"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vanta.manage_vanta#EnabledPersonnelNotificationSettingsEnabledChannelsList": {
+      "type": "list",
+      "member": {
+        "target": "com.vanta.manage_vanta#NotificationChannelType"
+      },
+      "traits": {}
+    },
+    "com.vanta.manage_vanta#DisabledPersonnelNotificationSettings": {
+      "type": "structure",
+      "members": {
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vanta.manage_vanta#GetSettingsResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "com.vanta.manage_vanta#PersonnelNotificationSettings",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.vanta.manage_vanta#GetSettings": {
+      "type": "operation",
+      "input": {
+        "target": "smithy.api#Unit"
+      },
+      "output": {
+        "target": "com.vanta.manage_vanta#GetSettingsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/personnel-notification-settings",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get personnel notification settings\n\nReturns the organization's personnel reminder and employee-digest settings."
+      }
+    },
+    "com.vanta.manage_vanta#NotificationFrequency": {
+      "type": "enum",
+      "members": {
+        "DAILY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "DAILY"
+          }
+        },
+        "NEVER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "NEVER"
+          }
+        },
+        "WEEKLY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "WEEKLY"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vanta.manage_vanta#UpdateSettingsRequestChannelsList": {
+      "type": "list",
+      "member": {
+        "target": "com.vanta.manage_vanta#NotificationChannelType"
+      },
+      "traits": {
+        "smithy.api#documentation": "Replaces the complete channel set. Omit to preserve it; an empty array disables reminders."
+      }
+    },
+    "com.vanta.manage_vanta#UpdateSettingsRequest": {
+      "type": "structure",
+      "members": {
+        "frequency": {
+          "target": "com.vanta.manage_vanta#NotificationFrequency",
+          "traits": {
+            "smithy.api#documentation": "Omit to preserve the current frequency. NEVER disables reminders."
+          }
+        },
+        "channels": {
+          "target": "com.vanta.manage_vanta#UpdateSettingsRequestChannelsList",
+          "traits": {
+            "smithy.api#documentation": "Replaces the complete channel set. Omit to preserve it; an empty array disables reminders."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.vanta.manage_vanta#UpdateSettingsResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "com.vanta.manage_vanta#PersonnelNotificationSettings",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.vanta.manage_vanta#UpdateSettings": {
+      "type": "operation",
+      "input": {
+        "target": "com.vanta.manage_vanta#UpdateSettingsRequest"
+      },
+      "output": {
+        "target": "com.vanta.manage_vanta#UpdateSettingsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/personnel-notification-settings",
+          "code": 200
+        },
+        "smithy.api#documentation": "Update personnel notification settings\n\nPartially updates the organization's personnel reminder and employee-digest settings.\nOmitted fields remain unchanged."
       }
     },
     "com.vanta.manage_vanta#ListPoliciesRequest": {
@@ -18696,6 +19363,165 @@
           "code": 200
         },
         "smithy.api#documentation": "Get policy by ID\n\nGets a policy by ID. Policy IDs can be found in Vanta in URL bar after /policies/."
+      }
+    },
+    "com.vanta.manage_vanta#ListProgramScopesRequestBusinessUnitIdMatchesAnyList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.vanta.manage_vanta#ListProgramScopesRequestFrameworkIdMatchesAnyList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.vanta.manage_vanta#ListProgramScopesRequest": {
+      "type": "structure",
+      "members": {
+        "pageSize": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "pageSize"
+          }
+        },
+        "pageCursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "pageCursor"
+          }
+        },
+        "businessUnitIdMatchesAny": {
+          "target": "com.vanta.manage_vanta#ListProgramScopesRequestBusinessUnitIdMatchesAnyList",
+          "traits": {
+            "smithy.api#httpQuery": "businessUnitIdMatchesAny",
+            "smithy.api#documentation": "Filter program scopes to those whose business unit ID matches any of the provided IDs."
+          }
+        },
+        "frameworkIdMatchesAny": {
+          "target": "com.vanta.manage_vanta#ListProgramScopesRequestFrameworkIdMatchesAnyList",
+          "traits": {
+            "smithy.api#httpQuery": "frameworkIdMatchesAny",
+            "smithy.api#documentation": "Filter program scopes to those whose framework ID matches any of the provided IDs."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.vanta.manage_vanta#PaginatedResponseProgramScope": {
+      "type": "structure",
+      "members": {
+        "results": {
+          "target": "com.vanta.manage_vanta#PaginatedResponseProgramScopeResults",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vanta.manage_vanta#ProgramScope": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "businessUnitId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "frameworkId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vanta.manage_vanta#PaginatedResponseProgramScopeResultsDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.vanta.manage_vanta#ProgramScope"
+      },
+      "traits": {}
+    },
+    "com.vanta.manage_vanta#PaginatedResponseProgramScopeResults": {
+      "type": "structure",
+      "members": {
+        "data": {
+          "target": "com.vanta.manage_vanta#PaginatedResponseProgramScopeResultsDataList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "pageInfo": {
+          "target": "com.vanta.manage_vanta#PageInfo",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vanta.manage_vanta#ListProgramScopes": {
+      "type": "operation",
+      "input": {
+        "target": "com.vanta.manage_vanta#ListProgramScopesRequest"
+      },
+      "output": {
+        "target": "com.vanta.manage_vanta#PaginatedResponseProgramScope"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/program-scopes",
+          "code": 200
+        },
+        "smithy.api#documentation": "List program scopes\n\nLists the program scopes for your organization. A program scope pairs a\nbusiness unit with a framework that business unit is in scope for.\nWhen business unit scoping is disabled, businessUnitId is null."
+      }
+    },
+    "com.vanta.manage_vanta#GetProgramScopeRequest": {
+      "type": "structure",
+      "members": {
+        "programScopeId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.vanta.manage_vanta#GetProgramScope": {
+      "type": "operation",
+      "input": {
+        "target": "com.vanta.manage_vanta#GetProgramScopeRequest"
+      },
+      "output": {
+        "target": "com.vanta.manage_vanta#ProgramScope"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/program-scopes/{programScopeId}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get program scope by ID\n\nGet a program scope by ID.\nWhen business unit scoping is disabled, businessUnitId is null."
       }
     },
     "com.vanta.manage_vanta#ListRiskScenarioRequestOwnerMatchesAnyList": {
@@ -19218,6 +20044,14 @@
             "smithy.api#documentation": "The date this risk was identified. Matches the \"Identified Date\" field in the Vanta UI. Set by the customer when a risk is created; defaults to the scenario's creation time when not explicitly provided.",
             "smithy.api#required": {}
           }
+        },
+        "scoreBreakdown": {
+          "target": "com.vanta.manage_vanta#RiskScenarioScoreBreakdownList",
+          "traits": {
+            "smithy.api#documentation": "Overall inherent score, dimensions, and nested factors, ordered parents before\nchildren and linked by `parentId`. `null` when Flexible Risk Scoring is off or\nthe scenario has no score or matching config. Closed beta.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
         }
       },
       "traits": {}
@@ -19293,6 +20127,128 @@
       },
       "traits": {
         "smithy.api#documentation": "The list of required approvers for this risk scenario."
+      }
+    },
+    "com.vanta.manage_vanta#ScoreBreakdownEntry": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Config node ID, unique within this breakdown. IDs can change when the scoring\nconfig is restructured; re-read the breakdown instead of storing them long-term.",
+            "smithy.api#required": {}
+          }
+        },
+        "kind": {
+          "target": "com.vanta.manage_vanta#ScoreBreakdownEntryKind",
+          "traits": {
+            "smithy.api#documentation": "Whether this entry is the overall score, a dimension, or a factor.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Display name of this node, from the scoring config.",
+            "smithy.api#required": {}
+          }
+        },
+        "score": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Entered or calculated value, which may be fractional. `null` when unscored,\nnot applicable, or no aggregate value is available; see `status` for leaf nodes.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "status": {
+          "target": "com.vanta.manage_vanta#ScoreBreakdownEntryStatus",
+          "traits": {
+            "smithy.api#documentation": "Scoring status for a directly scored node. `null` for aggregates; read their\nchildren's statuses instead.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "scoreLabel": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Matching option label for a directly scored node, or the register's range-band\nlabel for the overall score. `null` when no label applies, including non-root\naggregates and overall scores on registers using matrix-based severity.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "parentId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Parent entry's ID, or `null` for the overall score.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "One node in the inherent risk scoring tree. Entries are ordered parents before\nchildren, with `parentId` linking each child to its parent."
+      }
+    },
+    "com.vanta.manage_vanta#ScoreBreakdownEntryKind": {
+      "type": "enum",
+      "members": {
+        "SCORE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SCORE"
+          }
+        },
+        "DIMENSION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "DIMENSION"
+          }
+        },
+        "FACTOR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "FACTOR"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "`SCORE` is the root, `DIMENSION` is a direct child, and `FACTOR` is any deeper node."
+      }
+    },
+    "com.vanta.manage_vanta#ScoreBreakdownEntryStatus": {
+      "type": "enum",
+      "members": {
+        "SCORED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SCORED"
+          }
+        },
+        "MISSING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "MISSING"
+          }
+        },
+        "NOT_APPLICABLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "NOT_APPLICABLE"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "`SCORED` has an entered value; `MISSING` is unscored; `NOT_APPLICABLE`\nis excluded from its parent's calculation."
+      }
+    },
+    "com.vanta.manage_vanta#RiskScenarioScoreBreakdownList": {
+      "type": "list",
+      "member": {
+        "target": "com.vanta.manage_vanta#ScoreBreakdownEntry"
+      },
+      "traits": {
+        "smithy.api#documentation": "Overall inherent score, dimensions, and nested factors, ordered parents before\nchildren and linked by `parentId`. `null` when Flexible Risk Scoring is off or\nthe scenario has no score or matching config. Closed beta."
       }
     },
     "com.vanta.manage_vanta#PaginatedResponseRiskScenarioResultsDataList": {
@@ -21247,6 +22203,12 @@
           "traits": {
             "smithy.api#documentation": "Reason for denying the access request."
           }
+        },
+        "sendEmail": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether to email the requester to notify them that their request was\ndenied. The email includes the reason when one is provided. Defaults to\nfalse."
+          }
         }
       },
       "traits": {
@@ -21267,7 +22229,7 @@
           "uri": "/trust-centers/{slugId}/access-requests/{accessRequestId}/deny",
           "code": 200
         },
-        "smithy.api#documentation": "Deny Trust Center access request\n\nDenies an access request on a Trust Center."
+        "smithy.api#documentation": "Deny Trust Center access request\n\nDenies an access request on a Trust Center. The requester is only notified\nby email when `sendEmail` is true."
       }
     },
     "com.vanta.manage_vanta#ActivityEventType": {
@@ -21870,12 +22832,19 @@
         "smithy.api#input": {}
       }
     },
-    "com.vanta.manage_vanta#ArrayResponseTrustCenterComplianceFramework": {
+    "com.vanta.manage_vanta#TrustCenterComplianceFrameworkListResponse": {
       "type": "structure",
       "members": {
         "results": {
-          "target": "com.vanta.manage_vanta#ArrayResponseTrustCenterComplianceFrameworkResultsList",
+          "target": "com.vanta.manage_vanta#TrustCenterComplianceFrameworkListResponseResultsList",
           "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "isSectionVisible": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the compliance section is visible on the external Trust Center.",
             "smithy.api#required": {}
           }
         }
@@ -21918,7 +22887,7 @@
       },
       "traits": {}
     },
-    "com.vanta.manage_vanta#ArrayResponseTrustCenterComplianceFrameworkResultsList": {
+    "com.vanta.manage_vanta#TrustCenterComplianceFrameworkListResponseResultsList": {
       "type": "list",
       "member": {
         "target": "com.vanta.manage_vanta#TrustCenterComplianceFramework"
@@ -21931,7 +22900,7 @@
         "target": "com.vanta.manage_vanta#ListComplianceFrameworksRequest"
       },
       "output": {
-        "target": "com.vanta.manage_vanta#ArrayResponseTrustCenterComplianceFramework"
+        "target": "com.vanta.manage_vanta#TrustCenterComplianceFrameworkListResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -21955,6 +22924,18 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "aiuc1"
+          }
+        },
+        "AIUC1_26Q3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "aiuc1_26q3"
+          }
+        },
+        "ATC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "atc"
           }
         },
         "AUE8": {
@@ -22039,6 +23020,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "fedramp20x_2026"
+          }
+        },
+        "FEDRAMP20X_CLASSA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fedramp20x_classA"
           }
         },
         "GDPR": {
@@ -22335,6 +23322,18 @@
             "smithy.api#enumValue": "aiuc1"
           }
         },
+        "AIUC1_26Q3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "aiuc1_26q3"
+          }
+        },
+        "ATC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "atc"
+          }
+        },
         "AUE8": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -22417,6 +23416,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "fedramp20x_2026"
+          }
+        },
+        "FEDRAMP20X_CLASSA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fedramp20x_classA"
           }
         },
         "GDPR": {
@@ -28069,6 +29074,13 @@
             "smithy.api#documentation": "Risk level of this attribute.",
             "smithy.api#required": {}
           }
+        },
+        "riskSection": {
+          "target": "com.vanta.manage_vanta#VendorRiskSection",
+          "traits": {
+            "smithy.api#documentation": "Risk section this attribute belongs to.",
+            "smithy.api#required": {}
+          }
         }
       },
       "traits": {}
@@ -28081,6 +29093,26 @@
       "traits": {
         "smithy.api#documentation": "Vendor categories this risk attribute applies to."
       }
+    },
+    "com.vanta.manage_vanta#VendorRiskSection": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique identifier for the risk section.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Display name of the risk section.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
     },
     "com.vanta.manage_vanta#PaginatedResponseVendorRiskAttributeResultsDataList": {
       "type": "list",
@@ -28663,7 +29695,7 @@
         "status": {
           "target": "com.vanta.manage_vanta#VendorStatus",
           "traits": {
-            "smithy.api#documentation": "The current status of the vendor."
+            "smithy.api#documentation": "This field is ignored. Use `POST /vendors/{vendorId}/set-status` to change vendor status."
           }
         },
         "category": {
@@ -28852,11 +29884,11 @@
         "smithy.api#input": {}
       }
     },
-    "com.vanta.manage_vanta#PaginatedResponseVendorAssessment": {
+    "com.vanta.manage_vanta#PaginatedResponseVendorAssessmentWithQuestionnaire": {
       "type": "structure",
       "members": {
         "results": {
-          "target": "com.vanta.manage_vanta#PaginatedResponseVendorAssessmentResults",
+          "target": "com.vanta.manage_vanta#PaginatedResponseVendorAssessmentWithQuestionnaireResults",
           "traits": {
             "smithy.api#required": {}
           }
@@ -28864,7 +29896,7 @@
       },
       "traits": {}
     },
-    "com.vanta.manage_vanta#VendorAssessment": {
+    "com.vanta.manage_vanta#VendorAssessmentWithQuestionnaire": {
       "type": "structure",
       "members": {
         "id": {
@@ -28936,7 +29968,7 @@
           }
         },
         "decision": {
-          "target": "com.vanta.manage_vanta#VendorAssessmentDecision",
+          "target": "com.vanta.manage_vanta#VendorAssessmentWithQuestionnaireDecision",
           "traits": {
             "smithy.api#documentation": "An object containing information about the decision of the assessment.",
             "smithy.api#required": {},
@@ -28955,6 +29987,12 @@
           "traits": {
             "smithy.api#documentation": "The owner of this assessment, if assigned.",
             "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "questionnaire": {
+          "target": "com.vanta.manage_vanta#VendorAssessmentQuestionnaire",
+          "traits": {
             "com.distilled.openapi#nullable": {}
           }
         }
@@ -28987,7 +30025,7 @@
         "smithy.api#documentation": "The current decision made for an assessment:\n- APPROVED: The assessment has been approved.\n- NOT_APPROVED: The assessment has been marked not approved.\n- CONDITIONALLY_APPROVED: The assessment has been conditionally approved."
       }
     },
-    "com.vanta.manage_vanta#VendorAssessmentDecision": {
+    "com.vanta.manage_vanta#VendorAssessmentWithQuestionnaireDecision": {
       "type": "structure",
       "members": {
         "comments": {
@@ -29099,18 +30137,64 @@
       },
       "traits": {}
     },
-    "com.vanta.manage_vanta#PaginatedResponseVendorAssessmentResultsDataList": {
-      "type": "list",
-      "member": {
-        "target": "com.vanta.manage_vanta#VendorAssessment"
+    "com.vanta.manage_vanta#VendorAssessmentQuestionnaire": {
+      "type": "structure",
+      "members": {
+        "questionCounts": {
+          "target": "com.vanta.manage_vanta#VendorAssessmentQuestionCounts",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
       },
       "traits": {}
     },
-    "com.vanta.manage_vanta#PaginatedResponseVendorAssessmentResults": {
+    "com.vanta.manage_vanta#VendorAssessmentQuestionCounts": {
+      "type": "structure",
+      "members": {
+        "all": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The total number of visible questions.",
+            "smithy.api#required": {}
+          }
+        },
+        "needsReview": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The number of visible questions that need review.",
+            "smithy.api#required": {}
+          }
+        },
+        "notAnswered": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The number of visible questions without an answer.",
+            "smithy.api#required": {}
+          }
+        },
+        "flaggedByAI": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The number of visible questions flagged by Vanta AI.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vanta.manage_vanta#PaginatedResponseVendorAssessmentWithQuestionnaireResultsDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.vanta.manage_vanta#VendorAssessmentWithQuestionnaire"
+      },
+      "traits": {}
+    },
+    "com.vanta.manage_vanta#PaginatedResponseVendorAssessmentWithQuestionnaireResults": {
       "type": "structure",
       "members": {
         "data": {
-          "target": "com.vanta.manage_vanta#PaginatedResponseVendorAssessmentResultsDataList",
+          "target": "com.vanta.manage_vanta#PaginatedResponseVendorAssessmentWithQuestionnaireResultsDataList",
           "traits": {
             "smithy.api#required": {}
           }
@@ -29130,7 +30214,7 @@
         "target": "com.vanta.manage_vanta#GetAssessmentsByVendorIdRequest"
       },
       "output": {
-        "target": "com.vanta.manage_vanta#PaginatedResponseVendorAssessment"
+        "target": "com.vanta.manage_vanta#PaginatedResponseVendorAssessmentWithQuestionnaire"
       },
       "traits": {
         "smithy.api#http": {
@@ -29161,6 +30245,133 @@
       },
       "traits": {
         "smithy.api#input": {}
+      }
+    },
+    "com.vanta.manage_vanta#VendorAssessment": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique identifier for the assessment.",
+            "smithy.api#required": {}
+          }
+        },
+        "vendorId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique identifier for the vendor.",
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "com.vanta.manage_vanta#AssessmentStatus",
+          "traits": {
+            "smithy.api#documentation": "The lifecycle status of the assessment.",
+            "smithy.api#required": {}
+          }
+        },
+        "completedByUserId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The Vanta user ID of the person who completed this assessment.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "startDate": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The timestamp of when the assessment was started.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "dueDate": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The timestamp of when the assessment is due.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "overrideDueDate": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A manual override timestamp of when the assessment is due.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "completionDate": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The timestamp of when the assessment was marked as completed.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "createdDate": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The timestamp of when the assessment was created.",
+            "smithy.api#required": {}
+          }
+        },
+        "decision": {
+          "target": "com.vanta.manage_vanta#VendorAssessmentDecision",
+          "traits": {
+            "smithy.api#documentation": "An object containing information about the decision of the assessment.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "assessmentType": {
+          "target": "com.vanta.manage_vanta#AssessmentType",
+          "traits": {
+            "smithy.api#documentation": "The assessment type for this assessment.",
+            "smithy.api#required": {}
+          }
+        },
+        "owner": {
+          "target": "com.vanta.manage_vanta#AssessmentOwner",
+          "traits": {
+            "smithy.api#documentation": "The owner of this assessment, if assigned.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.vanta.manage_vanta#VendorAssessmentDecision": {
+      "type": "structure",
+      "members": {
+        "comments": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Comments about the assessment decision.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "lastUpdatedAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The timestamp of when the assessment decision was last set.",
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "com.vanta.manage_vanta#AssessmentDecision",
+          "traits": {
+            "smithy.api#documentation": "The status of the current decision.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "An object containing information about the decision of the assessment."
       }
     },
     "com.vanta.manage_vanta#GetAssessmentById": {
@@ -31624,6 +32835,12 @@
       "version": "1.0.0",
       "operations": [
         {
+          "target": "com.vanta.manage_vanta#ListBusinessUnits"
+        },
+        {
+          "target": "com.vanta.manage_vanta#GetBusinessUnit"
+        },
+        {
           "target": "com.vanta.manage_vanta#ListContracts"
         },
         {
@@ -31831,6 +33048,9 @@
           "target": "com.vanta.manage_vanta#GetGroup"
         },
         {
+          "target": "com.vanta.manage_vanta#UpdateGroup"
+        },
+        {
           "target": "com.vanta.manage_vanta#AddPeopleToGroup"
         },
         {
@@ -31927,6 +33147,9 @@
           "target": "com.vanta.manage_vanta#GetMonitoredComputer"
         },
         {
+          "target": "com.vanta.manage_vanta#GetOrganization"
+        },
+        {
           "target": "com.vanta.manage_vanta#ListPeople"
         },
         {
@@ -31951,10 +33174,22 @@
           "target": "com.vanta.manage_vanta#SetLeaveForPerson"
         },
         {
+          "target": "com.vanta.manage_vanta#GetSettings"
+        },
+        {
+          "target": "com.vanta.manage_vanta#UpdateSettings"
+        },
+        {
           "target": "com.vanta.manage_vanta#ListPolicies"
         },
         {
           "target": "com.vanta.manage_vanta#GetPolicy"
+        },
+        {
+          "target": "com.vanta.manage_vanta#ListProgramScopes"
+        },
+        {
+          "target": "com.vanta.manage_vanta#GetProgramScope"
         },
         {
           "target": "com.vanta.manage_vanta#ListRiskScenario"

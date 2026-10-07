@@ -78,9 +78,7 @@ export const CreateAccessKeyRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://object-storage.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "CreateAccessKeyRequest",
-}) as any as S.Schema<CreateAccessKeyRequest>;
+).annotate({ identifier: "CreateAccessKeyRequest" }) as any as S.Schema<CreateAccessKeyRequest>;
 
 export interface CreateAccessKeyResponse {
   /** Access key */
@@ -105,9 +103,7 @@ export const CreateAccessKeyResponse = /*@__PURE__*/ S.suspend(() =>
     project: S.String,
     secretAccessKey: S.String.pipe(T.SensitiveValue({})),
   }),
-).annotate({
-  identifier: "CreateAccessKeyResponse",
-}) as any as S.Schema<CreateAccessKeyResponse>;
+).annotate({ identifier: "CreateAccessKeyResponse" }) as any as S.Schema<CreateAccessKeyResponse>;
 
 export interface CreateBucketRequest {
   /** STACKIT project ID */
@@ -133,9 +129,7 @@ export const CreateBucketRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://object-storage.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "CreateBucketRequest",
-}) as any as S.Schema<CreateBucketRequest>;
+).annotate({ identifier: "CreateBucketRequest" }) as any as S.Schema<CreateBucketRequest>;
 
 export interface CreateBucketResponse {
   /** Name of the bucket */
@@ -148,9 +142,7 @@ export const CreateBucketResponse = /*@__PURE__*/ S.suspend(() =>
     bucket: S.String,
     project: S.String,
   }),
-).annotate({
-  identifier: "CreateBucketResponse",
-}) as any as S.Schema<CreateBucketResponse>;
+).annotate({ identifier: "CreateBucketResponse" }) as any as S.Schema<CreateBucketResponse>;
 
 export interface CreateComplianceLockRequest {
   /** STACKIT project ID */
@@ -185,9 +177,7 @@ export const ComplianceLockResponse = /*@__PURE__*/ S.suspend(() =>
     maxRetentionDays: S.Number,
     project: S.String,
   }),
-).annotate({
-  identifier: "ComplianceLockResponse",
-}) as any as S.Schema<ComplianceLockResponse>;
+).annotate({ identifier: "ComplianceLockResponse" }) as any as S.Schema<ComplianceLockResponse>;
 
 export interface CreateCredentialsGroupRequest {
   /** STACKIT project ID */
@@ -228,9 +218,7 @@ export const CredentialsGroup = /*@__PURE__*/ S.suspend(() =>
     displayName: S.String,
     urn: S.String,
   }),
-).annotate({
-  identifier: "CredentialsGroup",
-}) as any as S.Schema<CredentialsGroup>;
+).annotate({ identifier: "CredentialsGroup" }) as any as S.Schema<CredentialsGroup>;
 
 export interface CreateCredentialsGroupResponse {
   credentialsGroup: CredentialsGroup;
@@ -269,9 +257,7 @@ export const DeleteAccessKeyRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://object-storage.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "DeleteAccessKeyRequest",
-}) as any as S.Schema<DeleteAccessKeyRequest>;
+).annotate({ identifier: "DeleteAccessKeyRequest" }) as any as S.Schema<DeleteAccessKeyRequest>;
 
 export interface DeleteAccessKeyResponse {
   /** Identifies the pair of access key and secret access key for deletion */
@@ -284,9 +270,7 @@ export const DeleteAccessKeyResponse = /*@__PURE__*/ S.suspend(() =>
     keyId: S.String,
     project: S.String,
   }),
-).annotate({
-  identifier: "DeleteAccessKeyResponse",
-}) as any as S.Schema<DeleteAccessKeyResponse>;
+).annotate({ identifier: "DeleteAccessKeyResponse" }) as any as S.Schema<DeleteAccessKeyResponse>;
 
 export interface DeleteBucketRequest {
   /** STACKIT project ID */
@@ -309,9 +293,7 @@ export const DeleteBucketRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://object-storage.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "DeleteBucketRequest",
-}) as any as S.Schema<DeleteBucketRequest>;
+).annotate({ identifier: "DeleteBucketRequest" }) as any as S.Schema<DeleteBucketRequest>;
 
 export interface DeleteBucketResponse {
   /** Name of the bucket */
@@ -324,9 +306,7 @@ export const DeleteBucketResponse = /*@__PURE__*/ S.suspend(() =>
     bucket: S.String,
     project: S.String,
   }),
-).annotate({
-  identifier: "DeleteBucketResponse",
-}) as any as S.Schema<DeleteBucketResponse>;
+).annotate({ identifier: "DeleteBucketResponse" }) as any as S.Schema<DeleteBucketResponse>;
 
 export interface DeleteComplianceLockRequest {
   /** STACKIT project ID */
@@ -448,15 +428,22 @@ export const DisableServiceRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://object-storage.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "DisableServiceRequest",
-}) as any as S.Schema<DisableServiceRequest>;
+).annotate({ identifier: "DisableServiceRequest" }) as any as S.Schema<DisableServiceRequest>;
+
+/** Project labels */
+export type ProjectStatusLabelsMap = { [key: string]: string | undefined };
+export const ProjectStatusLabelsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.String,
+) as any as S.Schema<ProjectStatusLabelsMap>;
 
 /** The scope of a STACKIT project can be public (default) or can have client specific special requirements. */
 export type ProjectScope = "PUBLIC" | "SCHWARZ";
-export const ProjectScope = /*@__PURE__*/ S.String;
+export const ProjectScope = S.String;
 
 export interface ProjectStatus {
+  /** Project labels */
+  labels?: ProjectStatusLabelsMap;
   /** Project ID */
   project: string;
   /** Project Scope */
@@ -464,6 +451,7 @@ export interface ProjectStatus {
 }
 export const ProjectStatus = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    labels: S.optional(ProjectStatusLabelsMap),
     project: S.String,
     scope: ProjectScope,
   }),
@@ -487,9 +475,7 @@ export const EnableServiceRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://object-storage.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "EnableServiceRequest",
-}) as any as S.Schema<EnableServiceRequest>;
+).annotate({ identifier: "EnableServiceRequest" }) as any as S.Schema<EnableServiceRequest>;
 
 export interface GetBucketRequest {
   /** STACKIT project ID */
@@ -512,9 +498,7 @@ export const GetBucketRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://object-storage.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "GetBucketRequest",
-}) as any as S.Schema<GetBucketRequest>;
+).annotate({ identifier: "GetBucketRequest" }) as any as S.Schema<GetBucketRequest>;
 
 export interface Bucket {
   name: string;
@@ -546,9 +530,7 @@ export const GetBucketResponse = /*@__PURE__*/ S.suspend(() =>
     bucket: Bucket,
     project: S.String,
   }),
-).annotate({
-  identifier: "GetBucketResponse",
-}) as any as S.Schema<GetBucketResponse>;
+).annotate({ identifier: "GetBucketResponse" }) as any as S.Schema<GetBucketResponse>;
 
 export interface GetComplianceLockRequest {
   /** STACKIT project ID */
@@ -568,9 +550,7 @@ export const GetComplianceLockRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://object-storage.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "GetComplianceLockRequest",
-}) as any as S.Schema<GetComplianceLockRequest>;
+).annotate({ identifier: "GetComplianceLockRequest" }) as any as S.Schema<GetComplianceLockRequest>;
 
 export interface GetCredentialsGroupRequest {
   /** STACKIT project ID */
@@ -614,9 +594,7 @@ export const CredentialsGroupExtended = /*@__PURE__*/ S.suspend(() =>
     urn: S.String,
     userUrn: S.String,
   }),
-).annotate({
-  identifier: "CredentialsGroupExtended",
-}) as any as S.Schema<CredentialsGroupExtended>;
+).annotate({ identifier: "CredentialsGroupExtended" }) as any as S.Schema<CredentialsGroupExtended>;
 
 export interface GetCredentialsGroupResponse {
   credentialsGroup: CredentialsGroupExtended;
@@ -659,7 +637,7 @@ export const GetDefaultRetentionRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** The retention mode for default retention on a bucket. */
 export type RetentionMode = "COMPLIANCE" | "GOVERNANCE";
-export const RetentionMode = /*@__PURE__*/ S.String;
+export const RetentionMode = S.String;
 
 export interface DefaultRetentionResponse {
   /** Name of the bucket */
@@ -677,9 +655,7 @@ export const DefaultRetentionResponse = /*@__PURE__*/ S.suspend(() =>
     mode: RetentionMode,
     project: S.String,
   }),
-).annotate({
-  identifier: "DefaultRetentionResponse",
-}) as any as S.Schema<DefaultRetentionResponse>;
+).annotate({ identifier: "DefaultRetentionResponse" }) as any as S.Schema<DefaultRetentionResponse>;
 
 export interface GetServiceStatusRequest {
   /** STACKIT project ID */
@@ -699,9 +675,7 @@ export const GetServiceStatusRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://object-storage.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "GetServiceStatusRequest",
-}) as any as S.Schema<GetServiceStatusRequest>;
+).annotate({ identifier: "GetServiceStatusRequest" }) as any as S.Schema<GetServiceStatusRequest>;
 
 export interface ListAccessKeysRequest {
   /** STACKIT project ID */
@@ -723,9 +697,7 @@ export const ListAccessKeysRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://object-storage.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "ListAccessKeysRequest",
-}) as any as S.Schema<ListAccessKeysRequest>;
+).annotate({ identifier: "ListAccessKeysRequest" }) as any as S.Schema<ListAccessKeysRequest>;
 
 export interface AccessKey {
   displayName: string;
@@ -756,9 +728,7 @@ export const ListAccessKeysResponse = /*@__PURE__*/ S.suspend(() =>
     accessKeys: ListAccessKeysResponseAccessKeysList,
     project: S.String,
   }),
-).annotate({
-  identifier: "ListAccessKeysResponse",
-}) as any as S.Schema<ListAccessKeysResponse>;
+).annotate({ identifier: "ListAccessKeysResponse" }) as any as S.Schema<ListAccessKeysResponse>;
 
 export interface ListBucketsRequest {
   /** STACKIT project ID */
@@ -778,9 +748,7 @@ export const ListBucketsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://object-storage.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "ListBucketsRequest",
-}) as any as S.Schema<ListBucketsRequest>;
+).annotate({ identifier: "ListBucketsRequest" }) as any as S.Schema<ListBucketsRequest>;
 
 export type ListBucketsResponseBucketsList = Array<Bucket>;
 export const ListBucketsResponseBucketsList = /*@__PURE__*/ S.Array(
@@ -797,9 +765,7 @@ export const ListBucketsResponse = /*@__PURE__*/ S.suspend(() =>
     buckets: ListBucketsResponseBucketsList,
     project: S.String,
   }),
-).annotate({
-  identifier: "ListBucketsResponse",
-}) as any as S.Schema<ListBucketsResponse>;
+).annotate({ identifier: "ListBucketsResponse" }) as any as S.Schema<ListBucketsResponse>;
 
 export interface ListCredentialsGroupsRequest {
   /** STACKIT project ID */
@@ -871,6 +837,36 @@ export const SetDefaultRetentionRequest = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "SetDefaultRetentionRequest",
 }) as any as S.Schema<SetDefaultRetentionRequest>;
+
+/** Project labels */
+export type UpdateServiceRequestLabelsMap = { [key: string]: string | undefined };
+export const UpdateServiceRequestLabelsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.String,
+) as any as S.Schema<UpdateServiceRequestLabelsMap>;
+
+export interface UpdateServiceRequest {
+  /** STACKIT project ID */
+  projectId: string;
+  /** STACKIT Region */
+  region: string;
+  /** Project labels */
+  labels: UpdateServiceRequestLabelsMap;
+}
+export const UpdateServiceRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    projectId: S.String.pipe(T.Label()),
+    region: S.String.pipe(T.Label()),
+    labels: UpdateServiceRequestLabelsMap,
+  }).pipe(
+    T.Http({
+      method: "PUT",
+      uri: "/v2/project/{projectId}/regions/{region}",
+      code: 200,
+      baseUrl: "https://object-storage.api.stackit.cloud",
+    }),
+  ),
+).annotate({ identifier: "UpdateServiceRequest" }) as any as S.Schema<UpdateServiceRequest>;
 
 export type CreateAccessKeyError = Forbidden | NotFound | UnprocessableEntity | StackitOpError;
 /** Create Access Key Create an access key for the given project. */
@@ -1179,6 +1175,21 @@ export const setDefaultRetention: API.OperationMethod<
   input: SetDefaultRetentionRequest,
   output: DefaultRetentionResponse,
   errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
+  protocol: StackitProtocol,
+  retry: Retry.Retry,
+}));
+
+export type UpdateServiceError = Forbidden | NotFound | UnprocessableEntity | StackitOpError;
+/** Update Project Update project details. */
+export const updateService: API.OperationMethod<
+  UpdateServiceRequest,
+  ProjectStatus,
+  UpdateServiceError,
+  StackitOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: UpdateServiceRequest,
+  output: ProjectStatus,
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
 }));

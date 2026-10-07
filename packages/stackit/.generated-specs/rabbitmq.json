@@ -410,12 +410,6 @@
             "smithy.api#enumValue": "rabbitmq_stomp"
           }
         },
-        "RABBITMQ_TRACING": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "rabbitmq_tracing"
-          }
-        },
         "RABBITMQ_EVENT_EXCHANGE": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -2251,7 +2245,7 @@
     },
     "com.stackit.rabbitmq#Rabbitmq": {
       "type": "service",
-      "version": "2.2.0",
+      "version": "2.3.0",
       "operations": [
         {
           "target": "com.stackit.rabbitmq#ListInstances"

@@ -45,9 +45,7 @@ export const DndInfoResponse = /*@__PURE__*/ S.suspend(() =>
     snooze_is_indefinite: S.optional(S.Boolean),
     dnd_profile_status: S.optional(S.Unknown),
   }),
-).annotate({
-  identifier: "DndInfoResponse",
-}) as any as S.Schema<DndInfoResponse>;
+).annotate({ identifier: "DndInfoResponse" }) as any as S.Schema<DndInfoResponse>;
 
 export interface EndDndRequest {}
 export const EndDndRequest = /*@__PURE__*/ S.suspend(() =>
@@ -67,9 +65,7 @@ export const EndDndResponse = /*@__PURE__*/ S.suspend(() =>
 export interface EndSnoozeRequest {}
 export const EndSnoozeRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "POST", uri: "/dnd.endSnooze", code: 200 })),
-).annotate({
-  identifier: "EndSnoozeRequest",
-}) as any as S.Schema<EndSnoozeRequest>;
+).annotate({ identifier: "EndSnoozeRequest" }) as any as S.Schema<EndSnoozeRequest>;
 
 export interface EndSnoozeResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -93,9 +89,7 @@ export const EndSnoozeResponse = /*@__PURE__*/ S.suspend(() =>
     snooze_remaining: S.optional(S.Number),
     dnd_profile_status: S.optional(S.Unknown),
   }),
-).annotate({
-  identifier: "EndSnoozeResponse",
-}) as any as S.Schema<EndSnoozeResponse>;
+).annotate({ identifier: "EndSnoozeResponse" }) as any as S.Schema<EndSnoozeResponse>;
 
 export interface SetSnoozeRequest {
   /** This argument is required. Number of minutes, from now, to snooze until. */
@@ -105,9 +99,7 @@ export const SetSnoozeRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     num_minutes: S.String,
   }).pipe(T.Http({ method: "POST", uri: "/dnd.setSnooze", code: 200 })),
-).annotate({
-  identifier: "SetSnoozeRequest",
-}) as any as S.Schema<SetSnoozeRequest>;
+).annotate({ identifier: "SetSnoozeRequest" }) as any as S.Schema<SetSnoozeRequest>;
 
 export interface SetSnoozeResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -125,9 +117,7 @@ export const SetSnoozeResponse = /*@__PURE__*/ S.suspend(() =>
     snooze_remaining: S.optional(S.Number),
     snooze_is_indefinite: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "SetSnoozeResponse",
-}) as any as S.Schema<SetSnoozeResponse>;
+).annotate({ identifier: "SetSnoozeResponse" }) as any as S.Schema<SetSnoozeResponse>;
 
 export interface TeamInfoRequest {
   /** Comma-separated list of users to fetch Do Not Disturb status for */
@@ -140,9 +130,7 @@ export const TeamInfoRequest = /*@__PURE__*/ S.suspend(() =>
     users: S.String.pipe(T.Query()),
     team_id: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/dnd.teamInfo", code: 200 })),
-).annotate({
-  identifier: "TeamInfoRequest",
-}) as any as S.Schema<TeamInfoRequest>;
+).annotate({ identifier: "TeamInfoRequest" }) as any as S.Schema<TeamInfoRequest>;
 
 export type TeamInfoResponseUsersMap = { [key: string]: unknown | undefined };
 export const TeamInfoResponseUsersMap = /*@__PURE__*/ S.Record(
@@ -160,9 +148,7 @@ export const TeamInfoResponse = /*@__PURE__*/ S.suspend(() =>
     ok: S.Boolean,
     users: TeamInfoResponseUsersMap,
   }),
-).annotate({
-  identifier: "TeamInfoResponse",
-}) as any as S.Schema<TeamInfoResponse>;
+).annotate({ identifier: "TeamInfoResponse" }) as any as S.Schema<TeamInfoResponse>;
 
 export type DndInfoError = SlackOpError;
 /** Retrieves a user's current Do Not Disturb status. Required scopes — bot: `dnd:read`; user: `dnd:read` Rate limit tier: 3 Method-specific errors (the `error` slug on the SlackError): - `user_not_found` — Value passed for `user` was invalid. - `user_not_visible` — User is not visible for this request. See https://docs.slack.dev/reference/methods/dnd.info */

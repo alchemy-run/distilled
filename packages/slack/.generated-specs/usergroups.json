@@ -423,6 +423,15 @@
         "smithy.api#input": {}
       }
     },
+    "com.slack.usergroups#UpdateUsergroupResponseChannelLimitUserIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of user IDs who would exceed their channel limit"
+      }
+    },
     "com.slack.usergroups#UpdateUsergroupResponse": {
       "type": "structure",
       "members": {
@@ -437,6 +446,12 @@
           "target": "smithy.api#Document",
           "traits": {
             "smithy.api#required": {}
+          }
+        },
+        "channel_limit_user_ids": {
+          "target": "com.slack.usergroups#UpdateUsergroupResponseChannelLimitUserIdsList",
+          "traits": {
+            "smithy.api#documentation": "List of user IDs who would exceed their channel limit"
           }
         }
       },
@@ -458,7 +473,7 @@
           "uri": "/usergroups.update",
           "code": 200
         },
-        "smithy.api#documentation": "Update an existing User Group.\n\nRequired scopes — bot: `usergroups:write`; user: `usergroups:write`\n\nRate limit tier: 2\n\nMethod-specific errors (the `error` slug on the SlackError):\n  - `missing_argument` — A required argument is missing.\n  - `paid_teams_only` — This workspace does not have access to User Groups, as that feature is only available on Standard and above plans.\n  - `permission_denied` — The user does not have permission to update the User Group.\n  - `too_many_linked_channels` — This request exceeds the number of channels we supporting linking to a single usergroup.\n\nSee https://docs.slack.dev/reference/methods/usergroups.update"
+        "smithy.api#documentation": "Update an existing User Group.\n\nRequired scopes — bot: `usergroups:write`; user: `usergroups:write`\n\nRate limit tier: 2\n\nMethod-specific errors (the `error` slug on the SlackError):\n  - `missing_argument` — A required argument is missing.\n  - `paid_teams_only` — This workspace does not have access to User Groups, as that feature is only available on Standard and above plans.\n  - `permission_denied` — The user does not have permission to update the User Group.\n  - `too_many_linked_channels` — This request exceeds the number of channels we supporting linking to a single usergroup.\n  - `user_channel_limit_exceeded` — Adding these channels would cause one or more members to exceed their channel limit.\n\nSee https://docs.slack.dev/reference/methods/usergroups.update"
       }
     },
     "com.slack.usergroups#ListUsersRequest": {
@@ -635,7 +650,7 @@
           "uri": "/usergroups.users.update",
           "code": 200
         },
-        "smithy.api#documentation": "Update the list of users for a user group.\n\nRequired scopes — bot: `usergroups:write`; user: `usergroups:write`\n\nRate limit tier: 2\n\nMethod-specific errors (the `error` slug on the SlackError):\n  - `invalid_users` — Value passed for `users` was empty or invalid.\n  - `failed_for_some_users` — User(s) are not in the workspace where this usergroup exists\n  - `missing_argument` — A required argument is missing.\n  - `no_users_provided` — Either the `users` field wasn't provided or an empty value was passed.\n  - `permission_denied` — The user does not have permission to update the list of users for a user group. Check workspace settings to confirm whether the calling user has permission.\n  - `plan_upgrade_required` — This workspace does not have access to user groups, as that feature is only available on Standard and above plans.\n  - `subteam_max_users_exceeded` — Exceeds maximum supported number of users per subteam.\n\nSee https://docs.slack.dev/reference/methods/usergroups.users.update"
+        "smithy.api#documentation": "Update the list of users for a user group.\n\nRequired scopes — bot: `usergroups:write`; user: `usergroups:write`\n\nRate limit tier: 2\n\nMethod-specific errors (the `error` slug on the SlackError):\n  - `invalid_users` — Value passed for `users` was empty or invalid.\n  - `failed_for_some_users` — User(s) are not in the workspace where this usergroup exists\n  - `missing_argument` — A required argument is missing.\n  - `no_users_provided` — Either the `users` field wasn't provided or an empty value was passed.\n  - `permission_denied` — The user does not have permission to update the list of users for a user group. Check workspace settings to confirm whether the calling user has permission.\n  - `plan_upgrade_required` — This workspace does not have access to user groups, as that feature is only available on Standard and above plans.\n  - `subteam_max_users_exceeded` — Exceeds maximum supported number of users per subteam.\n  - `cannot_modify_role_admin` — The user does not have permission to modify the roles admin role.\n\nSee https://docs.slack.dev/reference/methods/usergroups.users.update"
       }
     },
     "com.slack.usergroups#Usergroups": {

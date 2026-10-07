@@ -1,5 +1,5 @@
 {
-  "desc": "Exclude channels from Slack AI in bulk",
+  "desc": "Exclude channels from Slack AI in bulk.",
   "http_method": "GET",
   "scope": {
     "user": [
@@ -90,6 +90,9 @@
     },
     "feature_not_enabled": {
       "desc": "The feature is not enabled"
+    },
+    "disallowed_action": {
+      "desc": "This property cannot be set on DMs or MPDMs."
     }
   }
 }

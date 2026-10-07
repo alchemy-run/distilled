@@ -79,9 +79,7 @@ export const GetApplicationsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://admin.googleapis.com/",
     }),
   ),
-).annotate({
-  identifier: "GetApplicationsRequest",
-}) as any as S.Schema<GetApplicationsRequest>;
+).annotate({ identifier: "GetApplicationsRequest" }) as any as S.Schema<GetApplicationsRequest>;
 
 export type StringList = Array<string>;
 export const StringList = /*@__PURE__*/ S.Array(S.String) as any as S.Schema<StringList>;
@@ -98,9 +96,7 @@ export const ApplicationTransferParam = /*@__PURE__*/ S.suspend(() =>
     key: S.optional(S.String),
     value: S.optional(StringList),
   }),
-).annotate({
-  identifier: "ApplicationTransferParam",
-}) as any as S.Schema<ApplicationTransferParam>;
+).annotate({ identifier: "ApplicationTransferParam" }) as any as S.Schema<ApplicationTransferParam>;
 
 export type ApplicationTransferParamList = Array<ApplicationTransferParam>;
 export const ApplicationTransferParamList = /*@__PURE__*/ S.Array(
@@ -109,24 +105,24 @@ export const ApplicationTransferParamList = /*@__PURE__*/ S.Array(
 
 /** Application resources represent applications installed on the domain that support transferring ownership of user data. */
 export interface Application {
+  /** Etag of the resource. */
+  etag?: string;
+  /** The list of all possible transfer parameters for this application. These parameters select which categories of the user's data to transfer. */
+  transferParams?: ApplicationTransferParamList;
+  /** The application's ID. Retrievable by using the [`applications.list()`](https://developers.google.com/workspace/admin/data-transfer/reference/rest/v1/applications/list) method. */
+  id?: string;
   /** The application's name. */
   name?: string;
   /** Identifies the resource as a DataTransfer Application Resource. */
   kind?: string;
-  /** Etag of the resource. */
-  etag?: string;
-  /** The application's ID. Retrievable by using the [`applications.list()`](https://developers.google.com/workspace/admin/data-transfer/reference/rest/v1/applications/list) method. */
-  id?: string;
-  /** The list of all possible transfer parameters for this application. These parameters select which categories of the user's data to transfer. */
-  transferParams?: ApplicationTransferParamList;
 }
 export const Application = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    etag: S.optional(S.String),
+    transferParams: S.optional(ApplicationTransferParamList),
+    id: S.optional(S.String),
     name: S.optional(S.String),
     kind: S.optional(S.String),
-    etag: S.optional(S.String),
-    id: S.optional(S.String),
-    transferParams: S.optional(ApplicationTransferParamList),
   }),
 ).annotate({ identifier: "Application" }) as any as S.Schema<Application>;
 
@@ -144,9 +140,7 @@ export const GetTransfersRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://admin.googleapis.com/",
     }),
   ),
-).annotate({
-  identifier: "GetTransfersRequest",
-}) as any as S.Schema<GetTransfersRequest>;
+).annotate({ identifier: "GetTransfersRequest" }) as any as S.Schema<GetTransfersRequest>;
 
 /** Template to map fields of ApplicationDataTransfer resource. */
 export interface ApplicationDataTransfer {
@@ -163,9 +157,7 @@ export const ApplicationDataTransfer = /*@__PURE__*/ S.suspend(() =>
     applicationTransferStatus: S.optional(S.String),
     applicationId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ApplicationDataTransfer",
-}) as any as S.Schema<ApplicationDataTransfer>;
+).annotate({ identifier: "ApplicationDataTransfer" }) as any as S.Schema<ApplicationDataTransfer>;
 
 export type ApplicationDataTransferList = Array<ApplicationDataTransfer>;
 export const ApplicationDataTransferList = /*@__PURE__*/ S.Array(
@@ -174,33 +166,33 @@ export const ApplicationDataTransferList = /*@__PURE__*/ S.Array(
 
 /** A Transfer resource represents the transfer of the ownership of user data between users. */
 export interface DataTransfer {
-  /** The list of per-application data transfer resources. It contains details of the applications associated with this transfer resource, and also specifies the applications for which data transfer has to be done at the time of the transfer resource creation. */
-  applicationDataTransfers?: ApplicationDataTransferList;
-  /** Read-only. The transfer's ID. */
-  id?: string;
-  /** Read-only. The time at which the data transfer was requested. */
-  requestTime?: string;
+  /** Identifies the resource as a DataTransfer request. */
+  kind?: string;
+  /** Read-only. Overall transfer status. */
+  overallTransferStatusCode?: string;
   /** ID of the user whose data is being transferred. */
   oldOwnerUserId?: string;
   /** ID of the user to whom the data is being transferred. */
   newOwnerUserId?: string;
-  /** Read-only. Overall transfer status. */
-  overallTransferStatusCode?: string;
-  /** Identifies the resource as a DataTransfer request. */
-  kind?: string;
+  /** The list of per-application data transfer resources. It contains details of the applications associated with this transfer resource, and also specifies the applications for which data transfer has to be done at the time of the transfer resource creation. */
+  applicationDataTransfers?: ApplicationDataTransferList;
+  /** Read-only. The time at which the data transfer was requested. */
+  requestTime?: string;
   /** ETag of the resource. */
   etag?: string;
+  /** Read-only. The transfer's ID. */
+  id?: string;
 }
 export const DataTransfer = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    applicationDataTransfers: S.optional(ApplicationDataTransferList),
-    id: S.optional(S.String),
-    requestTime: S.optional(S.String),
+    kind: S.optional(S.String),
+    overallTransferStatusCode: S.optional(S.String),
     oldOwnerUserId: S.optional(S.String),
     newOwnerUserId: S.optional(S.String),
-    overallTransferStatusCode: S.optional(S.String),
-    kind: S.optional(S.String),
+    applicationDataTransfers: S.optional(ApplicationDataTransferList),
+    requestTime: S.optional(S.String),
     etag: S.optional(S.String),
+    id: S.optional(S.String),
   }),
 ).annotate({ identifier: "DataTransfer" }) as any as S.Schema<DataTransfer>;
 
@@ -218,23 +210,21 @@ export const InsertTransfersRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://admin.googleapis.com/",
     }),
   ),
-).annotate({
-  identifier: "InsertTransfersRequest",
-}) as any as S.Schema<InsertTransfersRequest>;
+).annotate({ identifier: "InsertTransfersRequest" }) as any as S.Schema<InsertTransfersRequest>;
 
 export interface ListApplicationsRequest {
+  /** Immutable ID of the Google Workspace account. */
+  customerId?: string;
   /** Maximum number of results to return. Default is 100. */
   maxResults?: number;
   /** Token to specify next page in the list. */
   pageToken?: string;
-  /** Immutable ID of the Google Workspace account. */
-  customerId?: string;
 }
 export const ListApplicationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    customerId: S.optional(S.String.pipe(T.Query())),
     maxResults: S.optional(S.Number.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
-    customerId: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -242,9 +232,7 @@ export const ListApplicationsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://admin.googleapis.com/",
     }),
   ),
-).annotate({
-  identifier: "ListApplicationsRequest",
-}) as any as S.Schema<ListApplicationsRequest>;
+).annotate({ identifier: "ListApplicationsRequest" }) as any as S.Schema<ListApplicationsRequest>;
 
 export type ApplicationList = Array<Application>;
 export const ApplicationList = /*@__PURE__*/ S.Array(
@@ -257,21 +245,19 @@ export interface ApplicationsListResponse {
   kind?: string;
   /** ETag of the resource. */
   etag?: string;
-  /** The list of applications that support data transfer and are also installed for the customer. */
-  applications?: ApplicationList;
   /** Token to specify the next page in the list. */
   nextPageToken?: string;
+  /** The list of applications that support data transfer and are also installed for the customer. */
+  applications?: ApplicationList;
 }
 export const ApplicationsListResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     kind: S.optional(S.String),
     etag: S.optional(S.String),
-    applications: S.optional(ApplicationList),
     nextPageToken: S.optional(S.String),
+    applications: S.optional(ApplicationList),
   }),
-).annotate({
-  identifier: "ApplicationsListResponse",
-}) as any as S.Schema<ApplicationsListResponse>;
+).annotate({ identifier: "ApplicationsListResponse" }) as any as S.Schema<ApplicationsListResponse>;
 
 export interface ListTransfersRequest {
   /** Destination user's profile ID. */
@@ -280,21 +266,21 @@ export interface ListTransfersRequest {
   oldOwnerUserId?: string;
   /** Immutable ID of the Google Workspace account. */
   customerId?: string;
-  /** Status of the transfer. */
-  status?: string;
-  /** Token to specify the next page in the list. */
-  pageToken?: string;
   /** Maximum number of results to return. Default is 100. */
   maxResults?: number;
+  /** Token to specify the next page in the list. */
+  pageToken?: string;
+  /** Status of the transfer. */
+  status?: string;
 }
 export const ListTransfersRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     newOwnerUserId: S.optional(S.String.pipe(T.Query())),
     oldOwnerUserId: S.optional(S.String.pipe(T.Query())),
     customerId: S.optional(S.String.pipe(T.Query())),
-    status: S.optional(S.String.pipe(T.Query())),
-    pageToken: S.optional(S.String.pipe(T.Query())),
     maxResults: S.optional(S.Number.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
+    status: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -302,9 +288,7 @@ export const ListTransfersRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://admin.googleapis.com/",
     }),
   ),
-).annotate({
-  identifier: "ListTransfersRequest",
-}) as any as S.Schema<ListTransfersRequest>;
+).annotate({ identifier: "ListTransfersRequest" }) as any as S.Schema<ListTransfersRequest>;
 
 export type DataTransferList = Array<DataTransfer>;
 export const DataTransferList = /*@__PURE__*/ S.Array(
@@ -313,20 +297,20 @@ export const DataTransferList = /*@__PURE__*/ S.Array(
 
 /** Template for a collection of DataTransfer resources. */
 export interface DataTransfersListResponse {
-  /** List of data transfer requests. */
-  dataTransfers?: DataTransferList;
   /** Identifies the resource as a collection of data transfer requests. */
   kind?: string;
   /** ETag of the resource. */
   etag?: string;
+  /** List of data transfer requests. */
+  dataTransfers?: DataTransferList;
   /** Token to specify the next page in the list. */
   nextPageToken?: string;
 }
 export const DataTransfersListResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    dataTransfers: S.optional(DataTransferList),
     kind: S.optional(S.String),
     etag: S.optional(S.String),
+    dataTransfers: S.optional(DataTransferList),
     nextPageToken: S.optional(S.String),
   }),
 ).annotate({
@@ -397,10 +381,7 @@ export const listApplications: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListTransfersError = NotFound | Forbidden | GoogleWorkspaceOpError;
@@ -417,8 +398,5 @@ export const listTransfers: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;

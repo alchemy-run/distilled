@@ -210,15 +210,9 @@ export const AddFieldForOrgRequest = /*@__PURE__*/ S.suspend(() =>
     project_number: S.Number.pipe(T.Label()),
     body: AddFieldForOrgRequestBody.pipe(T.HttpBody()),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/orgs/{org}/projectsV2/{project_number}/fields",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/orgs/{org}/projectsV2/{project_number}/fields", code: 200 }),
   ),
-).annotate({
-  identifier: "AddFieldForOrgRequest",
-}) as any as S.Schema<AddFieldForOrgRequest>;
+).annotate({ identifier: "AddFieldForOrgRequest" }) as any as S.Schema<AddFieldForOrgRequest>;
 
 /** The field's data type. */
 export type ProjectsV2FieldDataType =
@@ -373,9 +367,7 @@ export const ProjectsV2Field = /*@__PURE__*/ S.suspend(() =>
     created_at: S.String,
     updated_at: S.String,
   }),
-).annotate({
-  identifier: "ProjectsV2Field",
-}) as any as S.Schema<ProjectsV2Field>;
+).annotate({ identifier: "ProjectsV2Field" }) as any as S.Schema<ProjectsV2Field>;
 
 /** The field's data type. */
 export type AddFieldForUserRequestBodyCase0DataType = "text" | "number" | "date";
@@ -471,9 +463,7 @@ export const AddFieldForUserRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "AddFieldForUserRequest",
-}) as any as S.Schema<AddFieldForUserRequest>;
+).annotate({ identifier: "AddFieldForUserRequest" }) as any as S.Schema<AddFieldForUserRequest>;
 
 /** The type of item to add to the project. Must be either Issue or PullRequest. */
 export type AddItemForOrgRequestType = "Issue" | "PullRequest";
@@ -505,15 +495,9 @@ export const AddItemForOrgRequest = /*@__PURE__*/ S.suspend(() =>
     repo: S.optional(S.String),
     number: S.optional(S.Number),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/orgs/{org}/projectsV2/{project_number}/items",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/orgs/{org}/projectsV2/{project_number}/items", code: 200 }),
   ),
-).annotate({
-  identifier: "AddItemForOrgRequest",
-}) as any as S.Schema<AddItemForOrgRequest>;
+).annotate({ identifier: "AddItemForOrgRequest" }) as any as S.Schema<AddItemForOrgRequest>;
 
 /** The reason for the current state */
 export type IssueStateReason = "completed" | "reopened" | "not_planned" | "duplicate";
@@ -569,9 +553,11 @@ export const NullableSimpleUser = /*@__PURE__*/ S.suspend(() =>
     starred_at: S.optional(S.String),
     user_view_type: S.optional(S.String),
   }),
-).annotate({
-  identifier: "NullableSimpleUser",
-}) as any as S.Schema<NullableSimpleUser>;
+).annotate({ identifier: "NullableSimpleUser" }) as any as S.Schema<NullableSimpleUser>;
+
+/** A GitHub user. */
+export type SimpleUser = NullableSimpleUser;
+export const SimpleUser = NullableSimpleUser;
 
 export interface IssueLabelsItemCase1 {
   id?: number;
@@ -581,6 +567,8 @@ export interface IssueLabelsItemCase1 {
   description?: string | null;
   color?: string | null;
   default?: boolean;
+  /** The user who archived the label, or `null` if it has not been archived. */
+  archived_by?: NullableSimpleUser | null;
 }
 export const IssueLabelsItemCase1 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -591,10 +579,9 @@ export const IssueLabelsItemCase1 = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(S.NullOr(S.String)),
     color: S.optional(S.NullOr(S.String)),
     default: S.optional(S.Boolean),
+    archived_by: S.optional(S.NullOr(NullableSimpleUser)),
   }),
-).annotate({
-  identifier: "IssueLabelsItemCase1",
-}) as any as S.Schema<IssueLabelsItemCase1>;
+).annotate({ identifier: "IssueLabelsItemCase1" }) as any as S.Schema<IssueLabelsItemCase1>;
 
 export type IssueLabelsItem = string | IssueLabelsItemCase1;
 export const IssueLabelsItem = S.Unknown as any as S.Schema<IssueLabelsItem>;
@@ -604,10 +591,6 @@ export type IssueLabelsList = Array<IssueLabelsItem>;
 export const IssueLabelsList = /*@__PURE__*/ S.Array(
   IssueLabelsItem,
 ) as any as S.Schema<IssueLabelsList>;
-
-/** A GitHub user. */
-export type SimpleUser = NullableSimpleUser;
-export const SimpleUser = NullableSimpleUser;
 
 export type IssueAssigneesList = Array<NullableSimpleUser>;
 export const IssueAssigneesList = /*@__PURE__*/ S.Array(
@@ -659,9 +642,7 @@ export const NullableMilestone = /*@__PURE__*/ S.suspend(() =>
     closed_at: S.NullOr(S.String),
     due_on: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "NullableMilestone",
-}) as any as S.Schema<NullableMilestone>;
+).annotate({ identifier: "NullableMilestone" }) as any as S.Schema<NullableMilestone>;
 
 export interface IssuePullRequest {
   merged_at?: string | null;
@@ -678,9 +659,7 @@ export const IssuePullRequest = /*@__PURE__*/ S.suspend(() =>
     patch_url: S.NullOr(S.String),
     url: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "IssuePullRequest",
-}) as any as S.Schema<IssuePullRequest>;
+).annotate({ identifier: "IssuePullRequest" }) as any as S.Schema<IssuePullRequest>;
 
 /** The color of the issue type. */
 export type IssueTypeColor =
@@ -744,9 +723,7 @@ export const NullableLicenseSimple = /*@__PURE__*/ S.suspend(() =>
     node_id: S.String,
     html_url: S.optional(S.String),
   }),
-).annotate({
-  identifier: "NullableLicenseSimple",
-}) as any as S.Schema<NullableLicenseSimple>;
+).annotate({ identifier: "NullableLicenseSimple" }) as any as S.Schema<NullableLicenseSimple>;
 
 export interface RepositoryPermissions {
   admin: boolean;
@@ -763,9 +740,7 @@ export const RepositoryPermissions = /*@__PURE__*/ S.suspend(() =>
     push: S.Boolean,
     maintain: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "RepositoryPermissions",
-}) as any as S.Schema<RepositoryPermissions>;
+).annotate({ identifier: "RepositoryPermissions" }) as any as S.Schema<RepositoryPermissions>;
 
 export type RepositoryTopicsList = Array<string>;
 export const RepositoryTopicsList = /*@__PURE__*/ S.Array(
@@ -1143,9 +1118,7 @@ export const NullableIntegration = /*@__PURE__*/ S.suspend(() =>
     events: NullableIntegrationEventsList,
     installations_count: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "NullableIntegration",
-}) as any as S.Schema<NullableIntegration>;
+).annotate({ identifier: "NullableIntegration" }) as any as S.Schema<NullableIntegration>;
 
 /** How the author is associated with the repository. */
 export type AuthorAssociation =
@@ -1197,9 +1170,7 @@ export const SubIssuesSummary = /*@__PURE__*/ S.suspend(() =>
     completed: S.Number,
     percent_completed: S.Number,
   }),
-).annotate({
-  identifier: "SubIssuesSummary",
-}) as any as S.Schema<SubIssuesSummary>;
+).annotate({ identifier: "SubIssuesSummary" }) as any as S.Schema<SubIssuesSummary>;
 
 /** Context around who pinned an issue comment and when it was pinned. */
 export interface NullablePinnedIssueComment {
@@ -1269,9 +1240,7 @@ export const NullableIssueComment = /*@__PURE__*/ S.suspend(() =>
     pin: S.optional(S.NullOr(NullablePinnedIssueComment)),
     minimized: S.optional(S.NullOr(NullableIssueCommentMinimized)),
   }),
-).annotate({
-  identifier: "NullableIssueComment",
-}) as any as S.Schema<NullableIssueComment>;
+).annotate({ identifier: "NullableIssueComment" }) as any as S.Schema<NullableIssueComment>;
 
 export interface IssueDependenciesSummary {
   blocked_by: number;
@@ -1286,9 +1255,7 @@ export const IssueDependenciesSummary = /*@__PURE__*/ S.suspend(() =>
     total_blocked_by: S.Number,
     total_blocking: S.Number,
   }),
-).annotate({
-  identifier: "IssueDependenciesSummary",
-}) as any as S.Schema<IssueDependenciesSummary>;
+).annotate({ identifier: "IssueDependenciesSummary" }) as any as S.Schema<IssueDependenciesSummary>;
 
 /** The data type of the issue field */
 export type IssueFieldValueDataType = "text" | "single_select" | "multi_select" | "number" | "date";
@@ -1352,9 +1319,7 @@ export const IssueFieldValue = /*@__PURE__*/ S.suspend(() =>
     single_select_option: S.optional(S.NullOr(IssueFieldValueSingleSelectOption)),
     multi_select_options: S.optional(S.NullOr(IssueFieldValueMultiSelectOptionsList)),
   }),
-).annotate({
-  identifier: "IssueFieldValue",
-}) as any as S.Schema<IssueFieldValue>;
+).annotate({ identifier: "IssueFieldValue" }) as any as S.Schema<IssueFieldValue>;
 
 export type IssueIssueFieldValuesList = Array<IssueFieldValue>;
 export const IssueIssueFieldValuesList = /*@__PURE__*/ S.Array(
@@ -1465,6 +1430,8 @@ export interface PullRequestSimpleLabelsItem {
   description: string;
   color: string;
   default: boolean;
+  /** The user who archived the label, or `null` if it has not been archived. */
+  archived_by: NullableSimpleUser | null;
 }
 export const PullRequestSimpleLabelsItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1475,6 +1442,7 @@ export const PullRequestSimpleLabelsItem = /*@__PURE__*/ S.suspend(() =>
     description: S.String,
     color: S.String,
     default: S.Boolean,
+    archived_by: S.NullOr(NullableSimpleUser),
   }),
 ).annotate({
   identifier: "PullRequestSimpleLabelsItem",
@@ -1510,9 +1478,7 @@ export const TeamPermissions = /*@__PURE__*/ S.suspend(() =>
     maintain: S.Boolean,
     admin: S.Boolean,
   }),
-).annotate({
-  identifier: "TeamPermissions",
-}) as any as S.Schema<TeamPermissions>;
+).annotate({ identifier: "TeamPermissions" }) as any as S.Schema<TeamPermissions>;
 
 /** The ownership type of the team */
 export type TeamType = "enterprise" | "organization";
@@ -1575,9 +1541,7 @@ export const NullableTeamSimple = /*@__PURE__*/ S.suspend(() =>
     organization_id: S.optional(S.Number),
     enterprise_id: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "NullableTeamSimple",
-}) as any as S.Schema<NullableTeamSimple>;
+).annotate({ identifier: "NullableTeamSimple" }) as any as S.Schema<NullableTeamSimple>;
 
 /** Groups of organization members that gives permissions on specified repositories. */
 export interface Team {
@@ -1647,9 +1611,7 @@ export const PullRequestSimpleHead = /*@__PURE__*/ S.suspend(() =>
     sha: S.String,
     user: S.NullOr(NullableSimpleUser),
   }),
-).annotate({
-  identifier: "PullRequestSimpleHead",
-}) as any as S.Schema<PullRequestSimpleHead>;
+).annotate({ identifier: "PullRequestSimpleHead" }) as any as S.Schema<PullRequestSimpleHead>;
 
 export type PullRequestSimpleBase = PullRequestSimpleHead;
 export const PullRequestSimpleBase = PullRequestSimpleHead;
@@ -1685,9 +1647,7 @@ export const PullRequestSimpleLinks = /*@__PURE__*/ S.suspend(() =>
     review_comment: Link,
     self: Link,
   }),
-).annotate({
-  identifier: "PullRequestSimpleLinks",
-}) as any as S.Schema<PullRequestSimpleLinks>;
+).annotate({ identifier: "PullRequestSimpleLinks" }) as any as S.Schema<PullRequestSimpleLinks>;
 
 /** The merge method to use. */
 export type AutoMergeMergeMethod = "merge" | "squash" | "rebase";
@@ -1723,9 +1683,7 @@ export const PullRequestStackBase = /*@__PURE__*/ S.suspend(() =>
     ref: S.String,
     sha: S.String,
   }),
-).annotate({
-  identifier: "PullRequestStackBase",
-}) as any as S.Schema<PullRequestStackBase>;
+).annotate({ identifier: "PullRequestStackBase" }) as any as S.Schema<PullRequestStackBase>;
 
 /** The stack information associated with a pull request. */
 export interface PullRequestStack {
@@ -1747,9 +1705,7 @@ export const PullRequestStack = /*@__PURE__*/ S.suspend(() =>
     id: S.optional(S.Number),
     number: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "PullRequestStack",
-}) as any as S.Schema<PullRequestStack>;
+).annotate({ identifier: "PullRequestStack" }) as any as S.Schema<PullRequestStack>;
 
 /** Pull Request Simple */
 export interface PullRequestSimple {
@@ -1832,9 +1788,7 @@ export const PullRequestSimple = /*@__PURE__*/ S.suspend(() =>
     stack: S.optional(S.NullOr(PullRequestStack)),
     draft: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "PullRequestSimple",
-}) as any as S.Schema<PullRequestSimple>;
+).annotate({ identifier: "PullRequestSimple" }) as any as S.Schema<PullRequestSimple>;
 
 /** A draft issue in a project */
 export interface ProjectsV2DraftIssue {
@@ -1862,9 +1816,7 @@ export const ProjectsV2DraftIssue = /*@__PURE__*/ S.suspend(() =>
     created_at: S.String,
     updated_at: S.String,
   }),
-).annotate({
-  identifier: "ProjectsV2DraftIssue",
-}) as any as S.Schema<ProjectsV2DraftIssue>;
+).annotate({ identifier: "ProjectsV2DraftIssue" }) as any as S.Schema<ProjectsV2DraftIssue>;
 
 /** The content represented by the item. */
 export type ProjectsV2ItemSimpleContent = Issue | PullRequestSimple | ProjectsV2DraftIssue;
@@ -1909,9 +1861,7 @@ export const ProjectsV2ItemSimple = /*@__PURE__*/ S.suspend(() =>
     project_url: S.optional(S.String),
     item_url: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ProjectsV2ItemSimple",
-}) as any as S.Schema<ProjectsV2ItemSimple>;
+).annotate({ identifier: "ProjectsV2ItemSimple" }) as any as S.Schema<ProjectsV2ItemSimple>;
 
 /** The type of item to add to the project. Must be either Issue or PullRequest. */
 export type AddItemForUserRequestType = "Issue" | "PullRequest";
@@ -1949,9 +1899,7 @@ export const AddItemForUserRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "AddItemForUserRequest",
-}) as any as S.Schema<AddItemForUserRequest>;
+).annotate({ identifier: "AddItemForUserRequest" }) as any as S.Schema<AddItemForUserRequest>;
 
 export interface CreateDraftItemForAuthenticatedUserRequest {
   /** The unique identifier of the user. */
@@ -1997,11 +1945,7 @@ export const CreateDraftItemForOrgRequest = /*@__PURE__*/ S.suspend(() =>
     title: S.String,
     body: S.optional(S.String),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/orgs/{org}/projectsV2/{project_number}/drafts",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/orgs/{org}/projectsV2/{project_number}/drafts", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateDraftItemForOrgRequest",
@@ -2076,15 +2020,9 @@ export const CreateViewForOrgRequest = /*@__PURE__*/ S.suspend(() =>
     group_by: S.optional(CreateViewForOrgRequestGroupByList),
     vertical_group_by: S.optional(CreateViewForOrgRequestVerticalGroupByList),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/orgs/{org}/projectsV2/{project_number}/views",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/orgs/{org}/projectsV2/{project_number}/views", code: 200 }),
   ),
-).annotate({
-  identifier: "CreateViewForOrgRequest",
-}) as any as S.Schema<CreateViewForOrgRequest>;
+).annotate({ identifier: "CreateViewForOrgRequest" }) as any as S.Schema<CreateViewForOrgRequest>;
 
 /** The layout of the view. */
 export type ProjectsV2ViewLayout = "table" | "board" | "roadmap";
@@ -2250,9 +2188,7 @@ export const CreateViewForUserRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "CreateViewForUserRequest",
-}) as any as S.Schema<CreateViewForUserRequest>;
+).annotate({ identifier: "CreateViewForUserRequest" }) as any as S.Schema<CreateViewForUserRequest>;
 
 export interface DeleteItemForOrgRequest {
   /** The organization name. The name is not case sensitive. */
@@ -2274,9 +2210,7 @@ export const DeleteItemForOrgRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "DeleteItemForOrgRequest",
-}) as any as S.Schema<DeleteItemForOrgRequest>;
+).annotate({ identifier: "DeleteItemForOrgRequest" }) as any as S.Schema<DeleteItemForOrgRequest>;
 
 export interface DeleteItemForOrgResponse {}
 export const DeleteItemForOrgResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2303,9 +2237,7 @@ export const DeleteItemForUserRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "DeleteItemForUserRequest",
-}) as any as S.Schema<DeleteItemForUserRequest>;
+).annotate({ identifier: "DeleteItemForUserRequest" }) as any as S.Schema<DeleteItemForUserRequest>;
 
 export interface DeleteItemForUserResponse {}
 export const DeleteItemForUserResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2332,9 +2264,7 @@ export const GetFieldForOrgRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetFieldForOrgRequest",
-}) as any as S.Schema<GetFieldForOrgRequest>;
+).annotate({ identifier: "GetFieldForOrgRequest" }) as any as S.Schema<GetFieldForOrgRequest>;
 
 export interface GetFieldForUserRequest {
   /** The handle for the GitHub user account. */
@@ -2356,9 +2286,7 @@ export const GetFieldForUserRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetFieldForUserRequest",
-}) as any as S.Schema<GetFieldForUserRequest>;
+).annotate({ identifier: "GetFieldForUserRequest" }) as any as S.Schema<GetFieldForUserRequest>;
 
 export interface GetForOrgRequest {
   /** The organization name. The name is not case sensitive. */
@@ -2370,16 +2298,8 @@ export const GetForOrgRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     org: S.String.pipe(T.Label()),
     project_number: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/orgs/{org}/projectsV2/{project_number}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetForOrgRequest",
-}) as any as S.Schema<GetForOrgRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/orgs/{org}/projectsV2/{project_number}", code: 200 })),
+).annotate({ identifier: "GetForOrgRequest" }) as any as S.Schema<GetForOrgRequest>;
 
 /** The current state of the project. */
 export type ProjectsV2State = "open" | "closed";
@@ -2499,15 +2419,9 @@ export const GetForUserRequest = /*@__PURE__*/ S.suspend(() =>
     username: S.String.pipe(T.Label()),
     project_number: S.Number.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/users/{username}/projectsV2/{project_number}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/users/{username}/projectsV2/{project_number}", code: 200 }),
   ),
-).annotate({
-  identifier: "GetForUserRequest",
-}) as any as S.Schema<GetForUserRequest>;
+).annotate({ identifier: "GetForUserRequest" }) as any as S.Schema<GetForUserRequest>;
 
 export type GetOrgItemRequestFieldsCase1List = Array<string>;
 export const GetOrgItemRequestFieldsCase1List = /*@__PURE__*/ S.Array(
@@ -2540,22 +2454,16 @@ export const GetOrgItemRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetOrgItemRequest",
-}) as any as S.Schema<GetOrgItemRequest>;
+).annotate({ identifier: "GetOrgItemRequest" }) as any as S.Schema<GetOrgItemRequest>;
 
 /** The content of the item, which varies by content type. */
-export type ProjectsV2ItemWithContentContentMap = {
-  [key: string]: unknown | undefined;
-};
+export type ProjectsV2ItemWithContentContentMap = { [key: string]: unknown | undefined };
 export const ProjectsV2ItemWithContentContentMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
 ) as any as S.Schema<ProjectsV2ItemWithContentContentMap>;
 
-export type ProjectsV2ItemWithContentFieldsItemMap = {
-  [key: string]: unknown | undefined;
-};
+export type ProjectsV2ItemWithContentFieldsItemMap = { [key: string]: unknown | undefined };
 export const ProjectsV2ItemWithContentFieldsItemMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -2639,9 +2547,7 @@ export const GetUserItemRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetUserItemRequest",
-}) as any as S.Schema<GetUserItemRequest>;
+).annotate({ identifier: "GetUserItemRequest" }) as any as S.Schema<GetUserItemRequest>;
 
 export interface ListFieldsForOrgRequest {
   /** The organization name. The name is not case sensitive. */
@@ -2663,15 +2569,9 @@ export const ListFieldsForOrgRequest = /*@__PURE__*/ S.suspend(() =>
     before: S.optional(S.String.pipe(T.Query())),
     after: S.optional(S.String.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/orgs/{org}/projectsV2/{project_number}/fields",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/orgs/{org}/projectsV2/{project_number}/fields", code: 200 }),
   ),
-).annotate({
-  identifier: "ListFieldsForOrgRequest",
-}) as any as S.Schema<ListFieldsForOrgRequest>;
+).annotate({ identifier: "ListFieldsForOrgRequest" }) as any as S.Schema<ListFieldsForOrgRequest>;
 
 export type ListFieldsForOrgResponseBodyList = Array<ProjectsV2Field>;
 export const ListFieldsForOrgResponseBodyList = /*@__PURE__*/ S.Array(
@@ -2681,9 +2581,7 @@ export const ListFieldsForOrgResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListFieldsForOrgResponse = ListFieldsForOrgResponseBodyList;
 export const ListFieldsForOrgResponse = /*@__PURE__*/ S.suspend(() =>
   ListFieldsForOrgResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListFieldsForOrgResponse",
-}) as any as S.Schema<ListFieldsForOrgResponse>;
+).annotate({ identifier: "ListFieldsForOrgResponse" }) as any as S.Schema<ListFieldsForOrgResponse>;
 
 export interface ListFieldsForUserRequest {
   /** The handle for the GitHub user account. */
@@ -2711,9 +2609,7 @@ export const ListFieldsForUserRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "ListFieldsForUserRequest",
-}) as any as S.Schema<ListFieldsForUserRequest>;
+).annotate({ identifier: "ListFieldsForUserRequest" }) as any as S.Schema<ListFieldsForUserRequest>;
 
 export type ListFieldsForUserResponseBodyList = Array<ProjectsV2Field>;
 export const ListFieldsForUserResponseBodyList = /*@__PURE__*/ S.Array(
@@ -2747,9 +2643,7 @@ export const ListForOrgRequest = /*@__PURE__*/ S.suspend(() =>
     after: S.optional(S.String.pipe(T.Query())),
     per_page: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/orgs/{org}/projectsV2", code: 200 })),
-).annotate({
-  identifier: "ListForOrgRequest",
-}) as any as S.Schema<ListForOrgRequest>;
+).annotate({ identifier: "ListForOrgRequest" }) as any as S.Schema<ListForOrgRequest>;
 
 export type ListForOrgResponseBodyList = Array<ProjectsV2>;
 export const ListForOrgResponseBodyList = /*@__PURE__*/ S.Array(
@@ -2759,9 +2653,7 @@ export const ListForOrgResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListForOrgResponse = ListForOrgResponseBodyList;
 export const ListForOrgResponse = /*@__PURE__*/ S.suspend(() =>
   ListForOrgResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListForOrgResponse",
-}) as any as S.Schema<ListForOrgResponse>;
+).annotate({ identifier: "ListForOrgResponse" }) as any as S.Schema<ListForOrgResponse>;
 
 export interface ListForUserRequest {
   /** The handle for the GitHub user account. */
@@ -2783,9 +2675,7 @@ export const ListForUserRequest = /*@__PURE__*/ S.suspend(() =>
     after: S.optional(S.String.pipe(T.Query())),
     per_page: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/users/{username}/projectsV2", code: 200 })),
-).annotate({
-  identifier: "ListForUserRequest",
-}) as any as S.Schema<ListForUserRequest>;
+).annotate({ identifier: "ListForUserRequest" }) as any as S.Schema<ListForUserRequest>;
 
 export type ListForUserResponseBodyList = Array<ProjectsV2>;
 export const ListForUserResponseBodyList = /*@__PURE__*/ S.Array(
@@ -2795,9 +2685,7 @@ export const ListForUserResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListForUserResponse = ListForUserResponseBodyList;
 export const ListForUserResponse = /*@__PURE__*/ S.suspend(() =>
   ListForUserResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListForUserResponse",
-}) as any as S.Schema<ListForUserResponse>;
+).annotate({ identifier: "ListForUserResponse" }) as any as S.Schema<ListForUserResponse>;
 
 export type ListItemsForOrgRequestFieldsCase1List = Array<string>;
 export const ListItemsForOrgRequestFieldsCase1List = /*@__PURE__*/ S.Array(
@@ -2834,15 +2722,9 @@ export const ListItemsForOrgRequest = /*@__PURE__*/ S.suspend(() =>
     after: S.optional(S.String.pipe(T.Query())),
     per_page: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/orgs/{org}/projectsV2/{project_number}/items",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/orgs/{org}/projectsV2/{project_number}/items", code: 200 }),
   ),
-).annotate({
-  identifier: "ListItemsForOrgRequest",
-}) as any as S.Schema<ListItemsForOrgRequest>;
+).annotate({ identifier: "ListItemsForOrgRequest" }) as any as S.Schema<ListItemsForOrgRequest>;
 
 export type ListItemsForOrgResponseBodyList = Array<ProjectsV2ItemWithContent>;
 export const ListItemsForOrgResponseBodyList = /*@__PURE__*/ S.Array(
@@ -2852,9 +2734,7 @@ export const ListItemsForOrgResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListItemsForOrgResponse = ListItemsForOrgResponseBodyList;
 export const ListItemsForOrgResponse = /*@__PURE__*/ S.suspend(() =>
   ListItemsForOrgResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListItemsForOrgResponse",
-}) as any as S.Schema<ListItemsForOrgResponse>;
+).annotate({ identifier: "ListItemsForOrgResponse" }) as any as S.Schema<ListItemsForOrgResponse>;
 
 export type ListItemsForUserRequestFieldsCase1List = Array<string>;
 export const ListItemsForUserRequestFieldsCase1List = /*@__PURE__*/ S.Array(
@@ -2897,9 +2777,7 @@ export const ListItemsForUserRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "ListItemsForUserRequest",
-}) as any as S.Schema<ListItemsForUserRequest>;
+).annotate({ identifier: "ListItemsForUserRequest" }) as any as S.Schema<ListItemsForUserRequest>;
 
 export type ListItemsForUserResponseBodyList = Array<ProjectsV2ItemWithContent>;
 export const ListItemsForUserResponseBodyList = /*@__PURE__*/ S.Array(
@@ -2909,9 +2787,7 @@ export const ListItemsForUserResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListItemsForUserResponse = ListItemsForUserResponseBodyList;
 export const ListItemsForUserResponse = /*@__PURE__*/ S.suspend(() =>
   ListItemsForUserResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListItemsForUserResponse",
-}) as any as S.Schema<ListItemsForUserResponse>;
+).annotate({ identifier: "ListItemsForUserResponse" }) as any as S.Schema<ListItemsForUserResponse>;
 
 export type ListViewItemsForOrgRequestFieldsCase1List = Array<string>;
 export const ListViewItemsForOrgRequestFieldsCase1List = /*@__PURE__*/ S.Array(
@@ -3076,9 +2952,7 @@ export const UpdateItemForOrgRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "UpdateItemForOrgRequest",
-}) as any as S.Schema<UpdateItemForOrgRequest>;
+).annotate({ identifier: "UpdateItemForOrgRequest" }) as any as S.Schema<UpdateItemForOrgRequest>;
 
 /** The new value for the field: - For text, number, and date fields, provide the new value directly. - For single select and iteration fields, provide the ID of the option or iteration. - To clear the field, set this to null. */
 export type UpdateItemForUserRequestFieldsItemValue = string | number;
@@ -3129,9 +3003,7 @@ export const UpdateItemForUserRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "UpdateItemForUserRequest",
-}) as any as S.Schema<UpdateItemForUserRequest>;
+).annotate({ identifier: "UpdateItemForUserRequest" }) as any as S.Schema<UpdateItemForUserRequest>;
 
 export type AddFieldForOrgError = Forbidden | UnprocessableEntity | GithubOpError;
 /** Add a field to an organization-owned project. Add a field to an organization-owned project. */

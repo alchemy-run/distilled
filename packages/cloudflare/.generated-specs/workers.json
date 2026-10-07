@@ -9326,6 +9326,15 @@
             "smithy.api#documentation": "Select which Durable Object class should get this container attached.",
             "smithy.api#required": {}
           }
+        },
+        "name": {
+          "target": "smithy.api#String"
+        },
+        "images": {
+          "target": "com.cloudflare.workers#ContainerImageMap",
+          "traits": {
+            "com.cloudflare.protocols#keyDictionary": {}
+          }
         }
       }
     },
@@ -12339,6 +12348,15 @@
           "traits": {
             "smithy.api#documentation": "Select which Durable Object class should get this container attached.",
             "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String"
+        },
+        "images": {
+          "target": "com.cloudflare.workers#ContainerImageMap",
+          "traits": {
+            "com.cloudflare.protocols#keyDictionary": {}
           }
         }
       }
@@ -16044,6 +16062,15 @@
             "smithy.api#documentation": "Select which Durable Object class should get this container attached.",
             "smithy.api#required": {}
           }
+        },
+        "name": {
+          "target": "smithy.api#String"
+        },
+        "images": {
+          "target": "com.cloudflare.workers#ContainerImageMap",
+          "traits": {
+            "com.cloudflare.protocols#keyDictionary": {}
+          }
         }
       }
     },
@@ -19736,6 +19763,15 @@
           "traits": {
             "smithy.api#documentation": "Select which Durable Object class should get this container attached.",
             "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String"
+        },
+        "images": {
+          "target": "com.cloudflare.workers#ContainerImageMap",
+          "traits": {
+            "com.cloudflare.protocols#keyDictionary": {}
           }
         }
       }
@@ -62249,6 +62285,9 @@
           "traits": {
             "smithy.api#documentation": "Usage model for the Worker invocations."
           }
+        },
+        "containers": {
+          "target": "com.cloudflare.workers#BetaWorkersVersionsCreateResponseContainersList"
         }
       }
     },
@@ -63581,6 +63620,9 @@
           "traits": {
             "smithy.api#documentation": "Usage model for the Worker invocations."
           }
+        },
+        "containers": {
+          "target": "com.cloudflare.workers#BetaWorkersVersionsGetResponseContainersList"
         }
       }
     },
@@ -72004,6 +72046,15 @@
         "smithy.api#output": {}
       }
     },
+    "com.cloudflare.workers#ContainerImageMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      }
+    },
     "com.cloudflare.workers#CreateAssetUploadBodyMap": {
       "type": "map",
       "key": {
@@ -74046,6 +74097,15 @@
           "traits": {
             "smithy.api#required": {}
           }
+        },
+        "name": {
+          "target": "smithy.api#String"
+        },
+        "images": {
+          "target": "com.cloudflare.workers#ContainerImageMap",
+          "traits": {
+            "com.cloudflare.protocols#keyDictionary": {}
+          }
         }
       }
     },
@@ -74755,6 +74815,15 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String"
+        },
+        "images": {
+          "target": "com.cloudflare.workers#ContainerImageMap",
+          "traits": {
+            "com.cloudflare.protocols#keyDictionary": {}
           }
         }
       }
@@ -75887,6 +75956,41 @@
         }
       }
     },
+    "com.cloudflare.workers#PutScriptBindingK2Type": {
+      "type": "enum",
+      "members": {
+        "K2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "k2"
+          }
+        }
+      }
+    },
+    "com.cloudflare.workers#PutScriptBindingK2": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "stream": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "smithy.api#documentation": "ID of a K2 stream owned by the account deploying the Worker (32 lowercase hex characters)."
+          }
+        },
+        "type": {
+          "target": "com.cloudflare.workers#PutScriptBindingK2Type",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
     "com.cloudflare.workers#PutScriptBindingQueueType": {
       "type": "enum",
       "members": {
@@ -76682,6 +76786,9 @@
         },
         "case37": {
           "target": "com.cloudflare.workers#PutScriptBindingStream"
+        },
+        "case38": {
+          "target": "com.cloudflare.workers#PutScriptBindingK2"
         }
       }
     },
@@ -77170,6 +77277,15 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String"
+        },
+        "images": {
+          "target": "com.cloudflare.workers#ContainerImageMap",
+          "traits": {
+            "com.cloudflare.protocols#keyDictionary": {}
           }
         }
       }

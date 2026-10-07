@@ -62,15 +62,15 @@ export class NotFound
   ) {}
 
 export interface DeletePublicationsReadersRequest {
-  /** Required. The resource name of the reader. Format: publications/{publication_id}/readers/{ppid} */
-  name: string;
   /** If set to true, any entitlements under the reader will also be purged. */
   force?: boolean;
+  /** Required. The resource name of the reader. Format: publications/{publication_id}/readers/{ppid} */
+  name: string;
 }
 export const DeletePublicationsReadersRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.String.pipe(T.Label()),
     force: S.optional(S.Boolean.pipe(T.Query())),
+    name: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "DELETE",
@@ -108,20 +108,20 @@ export const GetEntitlementsPublicationsReadersRequest = /*@__PURE__*/ S.suspend
 
 /** A single entitlement for a publication reader */
 export interface Entitlement {
-  /** A source-specific subscription token. This is an opaque string that the publisher provides to Google. This token is opaque and has no meaning to Google. */
-  subscriptionToken?: string;
-  /** The detail field can carry a description of the SKU that corresponds to what the user has been granted access to. This description, which is opaque to Google, can be displayed in the Google user subscription console for users who linked the subscription to a Google Account. Max 80 character limit. */
-  detail?: string;
   /** Optional. Expiration time of the entitlement. If unset, the entitlement does not expire (indefinite entitlement). We need to support indefinite entitlements for platform publishers. dd: go/rrm-sl-notedotcom Entitlements that have expired over 30 days will be purged. */
   expireTime?: string;
+  /** The detail field can carry a description of the SKU that corresponds to what the user has been granted access to. This description, which is opaque to Google, can be displayed in the Google user subscription console for users who linked the subscription to a Google Account. Max 80 character limit. */
+  detail?: string;
+  /** A source-specific subscription token. This is an opaque string that the publisher provides to Google. This token is opaque and has no meaning to Google. */
+  subscriptionToken?: string;
   /** Required. The publication's product ID that the user has access to. This is the same product ID as can be found in Schema.org markup (http://schema.org/productID). E.g. "dailybugle.com:basic" */
   productId?: string;
 }
 export const Entitlement = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    subscriptionToken: S.optional(S.String),
-    detail: S.optional(S.String),
     expireTime: S.optional(S.String),
+    detail: S.optional(S.String),
+    subscriptionToken: S.optional(S.String),
     productId: S.optional(S.String),
   }),
 ).annotate({ identifier: "Entitlement" }) as any as S.Schema<Entitlement>;
@@ -143,9 +143,7 @@ export const ReaderEntitlements = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     entitlements: S.optional(EntitlementList),
   }),
-).annotate({
-  identifier: "ReaderEntitlements",
-}) as any as S.Schema<ReaderEntitlements>;
+).annotate({ identifier: "ReaderEntitlements" }) as any as S.Schema<ReaderEntitlements>;
 
 export interface GetPublicationsReadersRequest {
   /** Required. The resource name of the reader. Format: publications/{publication_id}/readers/{ppid} */
@@ -167,39 +165,84 @@ export const GetPublicationsReadersRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** A reader of a publication. */
 export interface Reader {
-  /** Output only. The resource name of the reader. The last part of ppid in the resource name is the publisher provided id. */
-  name?: string;
+  /** Output only. The SwG publication id that the reader's subscription linking was originating from. */
+  originatingPublicationId?: string;
   /** Output only. The publisher provided id of the reader. */
   ppid?: string;
   /** Output only. Time the publication reader was created and associated with a Google user. */
   createTime?: string;
   /** Output only. The SwG publication id that the reader has linked their subscription to. */
   publicationId?: string;
-  /** Output only. The SwG publication id that the reader's subscription linking was originating from. */
-  originatingPublicationId?: string;
+  /** Output only. The resource name of the reader. The last part of ppid in the resource name is the publisher provided id. */
+  name?: string;
 }
 export const Reader = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.optional(S.String),
+    originatingPublicationId: S.optional(S.String),
     ppid: S.optional(S.String),
     createTime: S.optional(S.String),
     publicationId: S.optional(S.String),
-    originatingPublicationId: S.optional(S.String),
+    name: S.optional(S.String),
   }),
 ).annotate({ identifier: "Reader" }) as any as S.Schema<Reader>;
 
+export interface ListPublications_ReadersEntitlementsRequest {
+  /** Optional. A page token, received from a previous `ListReaderEntitlements` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListReaderEntitlements` must match the call that provided the page token. */
+  pageToken?: string;
+  /** Optional. The maximum number of entitlements to return. The service may return fewer than this value. If unspecified, at most 50 entitlements will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
+  pageSize?: number;
+  /** Required. The parent reader scope. Format: "publications/-/readers/{reader_id}" */
+  parent: string;
+}
+export const ListPublications_ReadersEntitlementsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    pageToken: S.optional(S.String.pipe(T.Query())),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "v1/{+parent}/entitlements",
+      baseUrl: "https://readerrevenuesubscriptionlinking.googleapis.com/",
+    }),
+  ),
+).annotate({
+  identifier: "ListPublications_ReadersEntitlementsRequest",
+}) as any as S.Schema<ListPublications_ReadersEntitlementsRequest>;
+
+export type ReaderEntitlementsList = Array<ReaderEntitlements>;
+export const ReaderEntitlementsList = /*@__PURE__*/ S.Array(
+  ReaderEntitlements,
+) as any as S.Schema<ReaderEntitlementsList>;
+
+/** Response containing the aggregated collection of matching ReaderEntitlements objects. */
+export interface ListReaderEntitlementsResponse {
+  /** The collection of ReaderEntitlements found across the scoped child publications. Every element's `name` field will contain the canonical sub-publication path, never the wildcard dash. */
+  readerEntitlements?: ReaderEntitlementsList;
+  /** A token that can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
+  nextPageToken?: string;
+}
+export const ListReaderEntitlementsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    readerEntitlements: S.optional(ReaderEntitlementsList),
+    nextPageToken: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ListReaderEntitlementsResponse",
+}) as any as S.Schema<ListReaderEntitlementsResponse>;
+
 export interface UpdateEntitlementsPublicationsReadersRequest {
-  /** Optional. The list of fields to update. Defaults to all fields. */
-  updateMask?: string;
   /** Output only. The resource name of the singleton. */
   name: string;
+  /** Optional. The list of fields to update. Defaults to all fields. */
+  updateMask?: string;
   /** Request body */
   body?: ReaderEntitlements;
 }
 export const UpdateEntitlementsPublicationsReadersRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    updateMask: S.optional(S.String.pipe(T.Query())),
     name: S.String.pipe(T.Label()),
+    updateMask: S.optional(S.String.pipe(T.Query())),
     body: S.optional(ReaderEntitlements.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -261,6 +304,23 @@ export const getPublicationsReaders: API.OperationMethod<
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
+
+export type ListPublications_ReadersEntitlementsError = NotFound | Forbidden | GcpOpError;
+/** Lists reader entitlements across parent publications via wildcard. - Returns PERMISSION_DENIED if the caller does not have access. - Returns NOT_FOUND if the reader does not exist. */
+export const listPublications_ReadersEntitlements: API.PaginatedOperationMethod<
+  ListPublications_ReadersEntitlementsRequest,
+  ListReaderEntitlementsResponse,
+  ListPublications_ReadersEntitlementsError,
+  GcpOpContext,
+  ListReaderEntitlementsResponse
+> = /*@__PURE__*/ API.makePaginated(() => ({
+  input: ListPublications_ReadersEntitlementsRequest,
+  output: ListReaderEntitlementsResponse,
+  errors: [NotFound, Forbidden, UnknownGCPError],
+  protocol: GcpProtocol,
+  retry: Retry.Retry,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
+})) as any;
 
 export type UpdateEntitlementsPublicationsReadersError =
   | NotFound

@@ -32,13 +32,7 @@ export const AssetReportAuditCopyCreateRequest = /*@__PURE__*/ S.suspend(() =>
     secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
     asset_report_token: S.String,
     auditor_id: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/asset_report/audit_copy/create",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/asset_report/audit_copy/create", code: 200 })),
 ).annotate({
   identifier: "AssetReportAuditCopyCreateRequest",
 }) as any as S.Schema<AssetReportAuditCopyCreateRequest>;
@@ -114,14 +108,12 @@ export const CategoryExpenses = /*@__PURE__*/ S.suspend(() =>
     unofficial_currency_code: S.optional(S.NullOr(S.String)),
     monthly_average: S.optional(S.NullOr(MonthlyAverage)),
   }),
-).annotate({
-  identifier: "CategoryExpenses",
-}) as any as S.Schema<CategoryExpenses>;
+).annotate({ identifier: "CategoryExpenses" }) as any as S.Schema<CategoryExpenses>;
 
 /** Detailed categories view of all the transactions that fall into the `BANK_PENALTIES` credit category within the given time window, across all the accounts in the report. */
-export type BankPenaltiesIndicatorsCategoryDetailsList = Array<CategoryExpenses>;
+export type BankPenaltiesIndicatorsCategoryDetailsList = Array<CategoryExpenses | null>;
 export const BankPenaltiesIndicatorsCategoryDetailsList = /*@__PURE__*/ S.Array(
-  CategoryExpenses,
+  S.NullOr(CategoryExpenses),
 ) as any as S.Schema<BankPenaltiesIndicatorsCategoryDetailsList>;
 
 /** A monetary amount with its associated currency information, supporting both official and unofficial currency codes. */
@@ -139,9 +131,7 @@ export const AmountWithCurrency = /*@__PURE__*/ S.suspend(() =>
     iso_currency_code: S.optional(S.NullOr(S.String)),
     unofficial_currency_code: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "AmountWithCurrency",
-}) as any as S.Schema<AmountWithCurrency>;
+).annotate({ identifier: "AmountWithCurrency" }) as any as S.Schema<AmountWithCurrency>;
 
 /** Monthly summary of transactions within a specific time period, showing aggregated amounts. */
 export interface MonthlySummary {
@@ -160,9 +150,9 @@ export const MonthlySummary = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "MonthlySummary" }) as any as S.Schema<MonthlySummary>;
 
 /** The monthly summaries of the transactions that fall into the `BANK_PENALTIES` credit category within the given time window, across all the accounts in the report. */
-export type BankPenaltiesIndicatorsMonthlySummariesList = Array<MonthlySummary>;
+export type BankPenaltiesIndicatorsMonthlySummariesList = Array<MonthlySummary | null>;
 export const BankPenaltiesIndicatorsMonthlySummariesList = /*@__PURE__*/ S.Array(
-  MonthlySummary,
+  S.NullOr(MonthlySummary),
 ) as any as S.Schema<BankPenaltiesIndicatorsMonthlySummariesList>;
 
 /** Insights into bank penalties and fees, including overdraft fees, NSF fees, and other bank-imposed charges. */
@@ -197,9 +187,7 @@ export const BankPenaltiesIndicators = /*@__PURE__*/ S.suspend(() =>
     days_since_last_occurrence: S.optional(S.NullOr(S.Number)),
     percentage_of_income: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "BankPenaltiesIndicators",
-}) as any as S.Schema<BankPenaltiesIndicators>;
+).annotate({ identifier: "BankPenaltiesIndicators" }) as any as S.Schema<BankPenaltiesIndicators>;
 
 /** Up to 3 top merchants that the user had the most transactions for in the given time window, in descending order of total spend. If the user has not spent money on any merchants in the given time window, this list will be empty. */
 export type GamblingIndicatorsTopMerchantsList = Array<string>;
@@ -208,9 +196,9 @@ export const GamblingIndicatorsTopMerchantsList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<GamblingIndicatorsTopMerchantsList>;
 
 /** The monthly summaries of the transactions that fall into the `GAMBLING` category within the given time window, across all the accounts in the report. */
-export type GamblingIndicatorsMonthlySummariesList = Array<MonthlySummary>;
+export type GamblingIndicatorsMonthlySummariesList = Array<MonthlySummary | null>;
 export const GamblingIndicatorsMonthlySummariesList = /*@__PURE__*/ S.Array(
-  MonthlySummary,
+  S.NullOr(MonthlySummary),
 ) as any as S.Schema<GamblingIndicatorsMonthlySummariesList>;
 
 /** Insights into gambling-related transactions, including frequency, amounts, and top merchants. */
@@ -245,14 +233,12 @@ export const GamblingIndicators = /*@__PURE__*/ S.suspend(() =>
     days_since_last_occurrence: S.optional(S.NullOr(S.Number)),
     percentage_of_income: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "GamblingIndicators",
-}) as any as S.Schema<GamblingIndicators>;
+).annotate({ identifier: "GamblingIndicators" }) as any as S.Schema<GamblingIndicators>;
 
 /** Detailed categories view of all the transactions that fall into the `LOAN_DISBURSEMENTS` credit category within the given time window, across all the accounts in the report. */
-export type LoanDisbursementsIndicatorsCategoryDetailsList = Array<CategoryExpenses>;
+export type LoanDisbursementsIndicatorsCategoryDetailsList = Array<CategoryExpenses | null>;
 export const LoanDisbursementsIndicatorsCategoryDetailsList = /*@__PURE__*/ S.Array(
-  CategoryExpenses,
+  S.NullOr(CategoryExpenses),
 ) as any as S.Schema<LoanDisbursementsIndicatorsCategoryDetailsList>;
 
 /** Up to 3 top service providers that the user had the most transactions for in the given time window, in descending order of total spend. If the user has not received money from any provider in the given time window, this list will be empty. */
@@ -262,9 +248,9 @@ export const LoanDisbursementsIndicatorsTopProvidersList = /*@__PURE__*/ S.Array
 ) as any as S.Schema<LoanDisbursementsIndicatorsTopProvidersList>;
 
 /** The monthly summaries of the transactions that fall into the `LOAN_DISBURSEMENTS` category within the given time window, across all the accounts in the report. */
-export type LoanDisbursementsIndicatorsMonthlySummariesList = Array<MonthlySummary>;
+export type LoanDisbursementsIndicatorsMonthlySummariesList = Array<MonthlySummary | null>;
 export const LoanDisbursementsIndicatorsMonthlySummariesList = /*@__PURE__*/ S.Array(
-  MonthlySummary,
+  S.NullOr(MonthlySummary),
 ) as any as S.Schema<LoanDisbursementsIndicatorsMonthlySummariesList>;
 
 /** Insights into loan disbursement transactions received by the user, tracking incoming funds from loan providers. */
@@ -307,9 +293,9 @@ export const LoanDisbursementsIndicators = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<LoanDisbursementsIndicators>;
 
 /** Detailed categories view of all the transactions that fall into the `LOAN_PAYMENTS` credit category within the given time window, across all the accounts in the report. */
-export type LoanPaymentsIndicatorsCategoryDetailsList = Array<CategoryExpenses>;
+export type LoanPaymentsIndicatorsCategoryDetailsList = Array<CategoryExpenses | null>;
 export const LoanPaymentsIndicatorsCategoryDetailsList = /*@__PURE__*/ S.Array(
-  CategoryExpenses,
+  S.NullOr(CategoryExpenses),
 ) as any as S.Schema<LoanPaymentsIndicatorsCategoryDetailsList>;
 
 /** Up to 3 top service providers that the user had the most transactions for in the given time window, in descending order of total spend. If the user has not spent money on any provider in the given time window, this list will be empty. */
@@ -319,9 +305,9 @@ export const LoanPaymentsIndicatorsTopProvidersList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<LoanPaymentsIndicatorsTopProvidersList>;
 
 /** The monthly summaries of the transactions that fall into the `LOAN_PAYMENTS` credit category within the given time window, across all the accounts in the report. */
-export type LoanPaymentsIndicatorsMonthlySummariesList = Array<MonthlySummary>;
+export type LoanPaymentsIndicatorsMonthlySummariesList = Array<MonthlySummary | null>;
 export const LoanPaymentsIndicatorsMonthlySummariesList = /*@__PURE__*/ S.Array(
-  MonthlySummary,
+  S.NullOr(MonthlySummary),
 ) as any as S.Schema<LoanPaymentsIndicatorsMonthlySummariesList>;
 
 /** Insights into loan payment transactions made by the user, tracking outgoing payments to loan providers. */
@@ -359,9 +345,7 @@ export const LoanPaymentsIndicators = /*@__PURE__*/ S.suspend(() =>
     days_since_last_occurrence: S.optional(S.NullOr(S.Number)),
     percentage_of_income: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "LoanPaymentsIndicators",
-}) as any as S.Schema<LoanPaymentsIndicators>;
+).annotate({ identifier: "LoanPaymentsIndicators" }) as any as S.Schema<LoanPaymentsIndicators>;
 
 /** Details about a specific occurrence of a negative balance period, including start and end dates. */
 export interface NegativeBalanceOccurrence {
@@ -382,9 +366,9 @@ export const NegativeBalanceOccurrence = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<NegativeBalanceOccurrence>;
 
 /** The summary of the negative balance occurrences for this account. If the user has not had a negative balance in the account in the given time window, this list will be empty. */
-export type NegativeBalanceInsightsOccurrencesList = Array<NegativeBalanceOccurrence>;
+export type NegativeBalanceInsightsOccurrencesList = Array<NegativeBalanceOccurrence | null>;
 export const NegativeBalanceInsightsOccurrencesList = /*@__PURE__*/ S.Array(
-  NegativeBalanceOccurrence,
+  S.NullOr(NegativeBalanceOccurrence),
 ) as any as S.Schema<NegativeBalanceInsightsOccurrencesList>;
 
 /** Insights into negative balance occurrences, including frequency, duration, and minimum balance details. */
@@ -404,9 +388,7 @@ export const NegativeBalanceInsights = /*@__PURE__*/ S.suspend(() =>
     minimum_balance: S.optional(S.NullOr(AmountWithCurrency)),
     occurrences: S.optional(NegativeBalanceInsightsOccurrencesList),
   }),
-).annotate({
-  identifier: "NegativeBalanceInsights",
-}) as any as S.Schema<NegativeBalanceInsights>;
+).annotate({ identifier: "NegativeBalanceInsights" }) as any as S.Schema<NegativeBalanceInsights>;
 
 /** Risk indicators focus on providing signal on the possibility of a borrower defaulting on their loan repayments by providing data points related to its payment behavior, debt, and other relevant financial information, helping lenders gauge the level of risk involved in a certain operation. */
 export interface RiskIndicators {
@@ -431,9 +413,9 @@ export type AmountWithCurrencyWithMonthlyAverage = AmountWithCurrency;
 export const AmountWithCurrencyWithMonthlyAverage = AmountWithCurrency;
 
 /** The primary credit categories of the expenses within the given time window, across all the accounts in the report. The categories are sorted in descending order by the total value spent. See the [category taxonomy](https://plaid.com/documents/credit-category-taxonomy.csv) for a full listing of category IDs. */
-export type ExpenditureSummaryTopCategoriesList = Array<CategoryExpenses>;
+export type ExpenditureSummaryTopCategoriesList = Array<CategoryExpenses | null>;
 export const ExpenditureSummaryTopCategoriesList = /*@__PURE__*/ S.Array(
-  CategoryExpenses,
+  S.NullOr(CategoryExpenses),
 ) as any as S.Schema<ExpenditureSummaryTopCategoriesList>;
 
 /** Summary statistics for a specific expenditure category, including total amount, monthly average, and percentage of income. */
@@ -462,14 +444,12 @@ export const ExpenditureSummary = /*@__PURE__*/ S.suspend(() =>
     percentage_of_income: S.optional(S.NullOr(S.Number)),
     top_categories: S.optional(ExpenditureSummaryTopCategoriesList),
   }),
-).annotate({
-  identifier: "ExpenditureSummary",
-}) as any as S.Schema<ExpenditureSummary>;
+).annotate({ identifier: "ExpenditureSummary" }) as any as S.Schema<ExpenditureSummary>;
 
 /** Up to 3 top categories of expenses in this group. */
-export type OutlierTransactionsInsightsTopCategoriesList = Array<CategoryExpenses>;
+export type OutlierTransactionsInsightsTopCategoriesList = Array<CategoryExpenses | null>;
 export const OutlierTransactionsInsightsTopCategoriesList = /*@__PURE__*/ S.Array(
-  CategoryExpenses,
+  S.NullOr(CategoryExpenses),
 ) as any as S.Schema<OutlierTransactionsInsightsTopCategoriesList>;
 
 /** Insights into unusually large transactions that exceed typical spending patterns for the account. */
@@ -511,9 +491,7 @@ export const ExpenditureInsights = /*@__PURE__*/ S.suspend(() =>
     transfers_out: S.optional(S.NullOr(ExpenditureSummary)),
     outlier_transactions: S.optional(S.NullOr(OutlierTransactionsInsights)),
   }),
-).annotate({
-  identifier: "ExpenditureInsights",
-}) as any as S.Schema<ExpenditureInsights>;
+).annotate({ identifier: "ExpenditureInsights" }) as any as S.Schema<ExpenditureInsights>;
 
 /** Comprehensive income analysis including total income, income excluding transfers, and inbound transfer amounts. */
 export interface IncomeInsights {
@@ -542,9 +520,7 @@ export const AffordabilityInsights = /*@__PURE__*/ S.suspend(() =>
     expenditure: S.optional(S.NullOr(ExpenditureInsights)),
     income: S.optional(S.NullOr(IncomeInsights)),
   }),
-).annotate({
-  identifier: "AffordabilityInsights",
-}) as any as S.Schema<AffordabilityInsights>;
+).annotate({ identifier: "AffordabilityInsights" }) as any as S.Schema<AffordabilityInsights>;
 
 /** This is a container object for all lending-related insights. This field will be returned only for European customers. */
 export interface AccountInsights {
@@ -556,9 +532,7 @@ export const AccountInsights = /*@__PURE__*/ S.suspend(() =>
     risk: S.optional(S.NullOr(RiskIndicators)),
     affordability: S.optional(S.NullOr(AffordabilityInsights)),
   }),
-).annotate({
-  identifier: "AccountInsights",
-}) as any as S.Schema<AccountInsights>;
+).annotate({ identifier: "AccountInsights" }) as any as S.Schema<AccountInsights>;
 
 /** The user object allows you to provide additional information about the user to be appended to the Asset Report. All fields are optional. The `first_name`, `last_name`, and `ssn` fields are required if you would like the Report to be eligible for Fannie Mae's Day 1 Certainty™ program. */
 export interface AssetReportUser {
@@ -587,9 +561,7 @@ export const AssetReportUser = /*@__PURE__*/ S.suspend(() =>
     phone_number: S.optional(S.NullOr(S.String)),
     email: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "AssetReportUser",
-}) as any as S.Schema<AssetReportUser>;
+).annotate({ identifier: "AssetReportUser" }) as any as S.Schema<AssetReportUser>;
 
 /** A set of fields describing the balance for an account. Balance information may be cached unless the balance object was returned by `/accounts/balance/get`. */
 export interface AssetReportAccountBalance {
@@ -639,7 +611,6 @@ export type AccountSubtype =
   | "cash isa"
   | "cash management"
   | "cd"
-  | "charge card"
   | "checking"
   | "commercial"
   | "commercial line of credit"
@@ -656,7 +627,6 @@ export type AccountSubtype =
   | "home equity"
   | "home equity loan"
   | "hsa"
-  | "installment"
   | "isa"
   | "ira"
   | "keogh"
@@ -877,9 +847,7 @@ export const AssetReportTransaction = /*@__PURE__*/ S.suspend(() =>
     transaction_type: S.optional(AssetReportTransactionType),
     income_source_id: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AssetReportTransaction",
-}) as any as S.Schema<AssetReportTransaction>;
+).annotate({ identifier: "AssetReportTransaction" }) as any as S.Schema<AssetReportTransaction>;
 
 /** Transaction history associated with the account. */
 export type AccountAssetsTransactionsList = Array<AssetReportTransaction>;
@@ -1020,12 +988,10 @@ export type InvestmentTransactionSubtype =
   | "dividend reinvestment"
   | "exercise"
   | "expire"
-  | "fund fee"
   | "interest"
   | "interest receivable"
   | "interest reinvestment"
   | "legal fee"
-  | "loan payment"
   | "long-term capital gain"
   | "long-term capital gain reinvestment"
   | "management fee"
@@ -1037,7 +1003,6 @@ export type InvestmentTransactionSubtype =
   | "pending credit"
   | "pending debit"
   | "qualified dividend"
-  | "rebalance"
   | "return of principal"
   | "request"
   | "sell"
@@ -1132,9 +1097,7 @@ export const AssetReportInvestments = /*@__PURE__*/ S.suspend(() =>
     securities: S.optional(AssetReportInvestmentsSecuritiesList),
     transactions: S.optional(AssetReportInvestmentsTransactionsList),
   }),
-).annotate({
-  identifier: "AssetReportInvestments",
-}) as any as S.Schema<AssetReportInvestments>;
+).annotate({ identifier: "AssetReportInvestments" }) as any as S.Schema<AssetReportInvestments>;
 
 /** A list of names associated with the account by the financial institution. In the case of a joint account, Plaid will make a best effort to report the names of all account holders. If an Item contains multiple accounts with different owner names, some institutions will report all names associated with the Item in each account's `names` array. */
 export type OwnerNamesList = Array<string>;
@@ -1199,7 +1162,7 @@ export interface AddressData {
   /** The region or state. In API versions 2018-05-22 and earlier, this field is called `state`. Example: `"NC"` */
   region: string | null;
   /** The full street address Example: `"564 Main Street, APT 15"` */
-  street: string;
+  street: string | null;
   /** The postal code. In API versions 2018-05-22 and earlier, this field is called `zip`. */
   postal_code: string | null;
   /** The ISO 3166-1 alpha-2 country code */
@@ -1209,7 +1172,7 @@ export const AddressData = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     city: S.NullOr(S.String),
     region: S.NullOr(S.String),
-    street: S.String,
+    street: S.NullOr(S.String),
     postal_code: S.NullOr(S.String),
     country: S.NullOr(S.String),
   }),
@@ -1282,9 +1245,7 @@ export const HistoricalBalance = /*@__PURE__*/ S.suspend(() =>
     iso_currency_code: S.NullOr(S.String),
     unofficial_currency_code: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "HistoricalBalance",
-}) as any as S.Schema<HistoricalBalance>;
+).annotate({ identifier: "HistoricalBalance" }) as any as S.Schema<HistoricalBalance>;
 
 /** Calculated data about the historical balances on the account. Available for `credit` and `depository` type accounts. */
 export type AccountAssetsHistoricalBalancesList = Array<HistoricalBalance>;
@@ -1368,9 +1329,7 @@ export const AssetReportItem = /*@__PURE__*/ S.suspend(() =>
     date_last_updated: S.String,
     accounts: AssetReportItemAccountsList,
   }),
-).annotate({
-  identifier: "AssetReportItem",
-}) as any as S.Schema<AssetReportItem>;
+).annotate({ identifier: "AssetReportItem" }) as any as S.Schema<AssetReportItem>;
 
 /** Data returned by Plaid about each of the Items included in the Asset Report. */
 export type AssetReportItemsList = Array<AssetReportItem>;
@@ -1554,9 +1513,7 @@ export const AssetReportGetResponse = /*@__PURE__*/ S.suspend(() =>
     warnings: AssetReportGetResponseWarningsList,
     request_id: S.String,
   }),
-).annotate({
-  identifier: "AssetReportGetResponse",
-}) as any as S.Schema<AssetReportGetResponse>;
+).annotate({ identifier: "AssetReportGetResponse" }) as any as S.Schema<AssetReportGetResponse>;
 
 /** An optional object to filter or add data to `/asset_report/get` results. If provided, must be non-`null`. */
 export interface AssetReportPDFGetRequestOptions {
@@ -1584,13 +1541,7 @@ export const AssetReportAuditCopyPdfGetRequest = /*@__PURE__*/ S.suspend(() =>
     secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
     audit_copy_token: S.String,
     options: S.optional(AssetReportPDFGetRequestOptions),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/asset_report/audit_copy/pdf/get",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/asset_report/audit_copy/pdf/get", code: 200 })),
 ).annotate({
   identifier: "AssetReportAuditCopyPdfGetRequest",
 }) as any as S.Schema<AssetReportAuditCopyPdfGetRequest>;
@@ -1613,13 +1564,7 @@ export const AssetReportAuditCopyRemoveRequest = /*@__PURE__*/ S.suspend(() =>
     client_id: S.optional(S.String),
     secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
     audit_copy_token: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/asset_report/audit_copy/remove",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/asset_report/audit_copy/remove", code: 200 })),
 ).annotate({
   identifier: "AssetReportAuditCopyRemoveRequest",
 }) as any as S.Schema<AssetReportAuditCopyRemoveRequest>;
@@ -1659,9 +1604,7 @@ export const AssetReportFilterRequest = /*@__PURE__*/ S.suspend(() =>
     asset_report_token: S.String,
     account_ids_to_exclude: AssetReportFilterRequestAccountIdsToExcludeList,
   }).pipe(T.Http({ method: "POST", uri: "/asset_report/filter", code: 200 })),
-).annotate({
-  identifier: "AssetReportFilterRequest",
-}) as any as S.Schema<AssetReportFilterRequest>;
+).annotate({ identifier: "AssetReportFilterRequest" }) as any as S.Schema<AssetReportFilterRequest>;
 
 /** AssetReportFilterResponse defines the response schema for `/asset_report/filter` */
 export interface AssetReportFilterResponse {
@@ -1701,9 +1644,7 @@ export const BetaIssuesV1MatchRequest = /*@__PURE__*/ S.suspend(() =>
     identifier_type: BetaIssuesV1MatchIdentifierType,
     identifier: S.String,
   }).pipe(T.Http({ method: "POST", uri: "/beta/issues/v1/match", code: 200 })),
-).annotate({
-  identifier: "BetaIssuesV1MatchRequest",
-}) as any as S.Schema<BetaIssuesV1MatchRequest>;
+).annotate({ identifier: "BetaIssuesV1MatchRequest" }) as any as S.Schema<BetaIssuesV1MatchRequest>;
 
 /** The customer-facing category of an issue. */
 export type BetaIssuesV1IssueType = "ERROR";
@@ -1752,9 +1693,7 @@ export const BetaIssuesV1IssueImpact = /*@__PURE__*/ S.suspend(() =>
     affected_new_item_count: S.Number,
     affected_existing_item_count: S.Number,
   }),
-).annotate({
-  identifier: "BetaIssuesV1IssueImpact",
-}) as any as S.Schema<BetaIssuesV1IssueImpact>;
+).annotate({ identifier: "BetaIssuesV1IssueImpact" }) as any as S.Schema<BetaIssuesV1IssueImpact>;
 
 /** A list of products that an institution can support. All Items must be initialized with at least one product. The Balance product is always available and does not need to be specified during initialization. */
 export type Products =
@@ -1885,9 +1824,7 @@ export const BetaIssuesV1Issue = /*@__PURE__*/ S.suspend(() =>
     affected_products: BetaIssuesV1IssueAffectedProductsList,
     resolution_log: BetaIssuesV1IssueResolutionLogList,
   }),
-).annotate({
-  identifier: "BetaIssuesV1Issue",
-}) as any as S.Schema<BetaIssuesV1Issue>;
+).annotate({ identifier: "BetaIssuesV1Issue" }) as any as S.Schema<BetaIssuesV1Issue>;
 
 /** Issues matched to the Item. An empty list indicates that no matching issues were found. */
 export type BetaIssuesV1MatchResponseIssuesList = Array<BetaIssuesV1Issue>;
@@ -1948,9 +1885,7 @@ export const CancelTransferRequest = /*@__PURE__*/ S.suspend(() =>
     originator_client_id: S.optional(S.NullOr(S.String)),
     reason_code: S.optional(ReasonCode),
   }).pipe(T.Http({ method: "POST", uri: "/transfer/cancel", code: 200 })),
-).annotate({
-  identifier: "CancelTransferRequest",
-}) as any as S.Schema<CancelTransferRequest>;
+).annotate({ identifier: "CancelTransferRequest" }) as any as S.Schema<CancelTransferRequest>;
 
 /** Defines the response schema for `/transfer/cancel` */
 export interface TransferCancelResponse {
@@ -1960,9 +1895,7 @@ export const TransferCancelResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     request_id: S.String,
   }),
-).annotate({
-  identifier: "TransferCancelResponse",
-}) as any as S.Schema<TransferCancelResponse>;
+).annotate({ identifier: "TransferCancelResponse" }) as any as S.Schema<TransferCancelResponse>;
 
 export interface CancelTransferAuthorizationRequest {
   client_id?: string;
@@ -1974,13 +1907,7 @@ export const CancelTransferAuthorizationRequest = /*@__PURE__*/ S.suspend(() =>
     client_id: S.optional(S.String),
     secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
     authorization_id: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/transfer/authorization/cancel",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/transfer/authorization/cancel", code: 200 })),
 ).annotate({
   identifier: "CancelTransferAuthorizationRequest",
 }) as any as S.Schema<CancelTransferAuthorizationRequest>;
@@ -2120,9 +2047,7 @@ export const CreateAssetReportRequest = /*@__PURE__*/ S.suspend(() =>
     days_requested: S.Number,
     options: S.optional(AssetReportCreateRequestOptions),
   }).pipe(T.Http({ method: "POST", uri: "/asset_report/create", code: 200 })),
-).annotate({
-  identifier: "CreateAssetReportRequest",
-}) as any as S.Schema<CreateAssetReportRequest>;
+).annotate({ identifier: "CreateAssetReportRequest" }) as any as S.Schema<CreateAssetReportRequest>;
 
 /** AssetReportCreateResponse defines the response schema for `/asset_report/create` */
 export interface AssetReportCreateResponse {
@@ -2366,13 +2291,7 @@ export const CreateBetaPartnerCustomerV1Request = /*@__PURE__*/ S.suspend(() =>
     redirect_uris: S.optional(CreateBetaPartnerCustomerV1RequestRedirectUrisList),
     bank_addendum_acceptance: S.optional(PartnerEndCustomerBankAddendumAcceptance),
     questionnaires: S.optional(PartnerEndCustomerQuestionnaires),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/beta/partner/customer/v1/create",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/beta/partner/customer/v1/create", code: 200 })),
 ).annotate({
   identifier: "CreateBetaPartnerCustomerV1Request",
 }) as any as S.Schema<CreateBetaPartnerCustomerV1Request>;
@@ -2387,9 +2306,7 @@ export type PartnerEndCustomerStatus =
 export const PartnerEndCustomerStatus = S.String;
 
 /** Mapping of product names to their current status. */
-export type PartnerEndCustomerProductStatuses = {
-  [key: string]: unknown | undefined;
-};
+export type PartnerEndCustomerProductStatuses = { [key: string]: unknown | undefined };
 export const PartnerEndCustomerProductStatuses = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -2489,9 +2406,7 @@ export const RequestBusinessAddress = /*@__PURE__*/ S.suspend(() =>
     postal_code: S.optional(S.NullOr(S.String)),
     country: S.String,
   }),
-).annotate({
-  identifier: "RequestBusinessAddress",
-}) as any as S.Schema<RequestBusinessAddress>;
+).annotate({ identifier: "RequestBusinessAddress" }) as any as S.Schema<RequestBusinessAddress>;
 
 /** Business information provided in the verification request */
 export interface BusinessVerificationCreateRequestBusiness {
@@ -2560,9 +2475,7 @@ export const ResponseBusinessAddress = /*@__PURE__*/ S.suspend(() =>
     postal_code: S.NullOr(S.String),
     country: S.String,
   }),
-).annotate({
-  identifier: "ResponseBusinessAddress",
-}) as any as S.Schema<ResponseBusinessAddress>;
+).annotate({ identifier: "ResponseBusinessAddress" }) as any as S.Schema<ResponseBusinessAddress>;
 
 /** The business information that was used to perform the verification search */
 export interface BusinessSearchTerms {
@@ -2583,9 +2496,7 @@ export const BusinessSearchTerms = /*@__PURE__*/ S.suspend(() =>
     phone_number: S.NullOr(S.String),
     email_address: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "BusinessSearchTerms",
-}) as any as S.Schema<BusinessSearchTerms>;
+).annotate({ identifier: "BusinessSearchTerms" }) as any as S.Schema<BusinessSearchTerms>;
 
 /** Status of the KYB (Know Your Business) identity assessment check */
 export type BusinessVerificationStatusKYBCheck = "active" | "success" | "failed";
@@ -2618,9 +2529,7 @@ export const ProviderBusinessName = /*@__PURE__*/ S.suspend(() =>
     is_primary: S.Boolean,
     name: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "ProviderBusinessName",
-}) as any as S.Schema<ProviderBusinessName>;
+).annotate({ identifier: "ProviderBusinessName" }) as any as S.Schema<ProviderBusinessName>;
 
 /** Names associated with the business. */
 export type BusinessKYBMatchDetailsNamesList = Array<ProviderBusinessName>;
@@ -2673,9 +2582,7 @@ export const ProviderBusinessAddress = /*@__PURE__*/ S.suspend(() =>
     country: S.String,
     is_primary: S.Boolean,
   }),
-).annotate({
-  identifier: "ProviderBusinessAddress",
-}) as any as S.Schema<ProviderBusinessAddress>;
+).annotate({ identifier: "ProviderBusinessAddress" }) as any as S.Schema<ProviderBusinessAddress>;
 
 /** Addresses associated with the business */
 export type BusinessKYBMatchDetailsAddressesList = Array<ProviderBusinessAddress>;
@@ -2692,9 +2599,7 @@ export const BusinessPhoneNumber = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     number: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "BusinessPhoneNumber",
-}) as any as S.Schema<BusinessPhoneNumber>;
+).annotate({ identifier: "BusinessPhoneNumber" }) as any as S.Schema<BusinessPhoneNumber>;
 
 /** Phone numbers associated with the business */
 export type BusinessKYBMatchDetailsPhoneNumbersList = Array<BusinessPhoneNumber>;
@@ -2711,9 +2616,7 @@ export const BusinessEmailAddress = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     email_address: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "BusinessEmailAddress",
-}) as any as S.Schema<BusinessEmailAddress>;
+).annotate({ identifier: "BusinessEmailAddress" }) as any as S.Schema<BusinessEmailAddress>;
 
 /** Email addresses associated with the business */
 export type BusinessKYBMatchDetailsEmailAddressesList = Array<BusinessEmailAddress>;
@@ -2730,9 +2633,7 @@ export const BusinessWebsite = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     url: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "BusinessWebsite",
-}) as any as S.Schema<BusinessWebsite>;
+).annotate({ identifier: "BusinessWebsite" }) as any as S.Schema<BusinessWebsite>;
 
 /** Websites associated with the business */
 export type BusinessKYBMatchDetailsWebsitesList = Array<BusinessWebsite>;
@@ -2765,9 +2666,7 @@ export const BusinessKYBMatchDetails = /*@__PURE__*/ S.suspend(() =>
     websites: BusinessKYBMatchDetailsWebsitesList,
     formation_date: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "BusinessKYBMatchDetails",
-}) as any as S.Schema<BusinessKYBMatchDetails>;
+).annotate({ identifier: "BusinessKYBMatchDetails" }) as any as S.Schema<BusinessKYBMatchDetails>;
 
 /** Results from the KYB (Know Your Business) identity verification check */
 export interface BusinessKYBCheck {
@@ -2788,9 +2687,7 @@ export const BusinessKYBCheck = /*@__PURE__*/ S.suspend(() =>
     website: BusinessFieldMatchSummary,
     match_details: S.NullOr(BusinessKYBMatchDetails),
   }),
-).annotate({
-  identifier: "BusinessKYBCheck",
-}) as any as S.Schema<BusinessKYBCheck>;
+).annotate({ identifier: "BusinessKYBCheck" }) as any as S.Schema<BusinessKYBCheck>;
 
 /** Status of the business risk assessment check */
 export type BusinessVerificationStatusRiskCheck = "active" | "success" | "failed";
@@ -2825,9 +2722,7 @@ export const BusinessRiskCheck = /*@__PURE__*/ S.suspend(() =>
     score: S.Number,
     industry_prediction: S.NullOr(BusinessIndustryPredictionNullable),
   }),
-).annotate({
-  identifier: "BusinessRiskCheck",
-}) as any as S.Schema<BusinessRiskCheck>;
+).annotate({ identifier: "BusinessRiskCheck" }) as any as S.Schema<BusinessRiskCheck>;
 
 /** Status of the digital presence check */
 export type BusinessVerificationStatusWebPresenceCheck =
@@ -2860,9 +2755,7 @@ export const BusinessWhoisRecord = /*@__PURE__*/ S.suspend(() =>
     domain_expires_at: S.NullOr(S.String),
     registrar: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "BusinessWhoisRecord",
-}) as any as S.Schema<BusinessWhoisRecord>;
+).annotate({ identifier: "BusinessWhoisRecord" }) as any as S.Schema<BusinessWhoisRecord>;
 
 /** SSL status for the business website. */
 export interface BusinessWebsiteSSL {
@@ -2872,9 +2765,7 @@ export const BusinessWebsiteSSL = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     is_valid: BusinessCheckBooleanStatus,
   }),
-).annotate({
-  identifier: "BusinessWebsiteSSL",
-}) as any as S.Schema<BusinessWebsiteSSL>;
+).annotate({ identifier: "BusinessWebsiteSSL" }) as any as S.Schema<BusinessWebsiteSSL>;
 
 /** Website analysis details if a website is found for the provided website in the search terms. */
 export interface BusinessWebsiteAnalysis {
@@ -2892,9 +2783,7 @@ export const BusinessWebsiteAnalysis = /*@__PURE__*/ S.suspend(() =>
     whois_record: BusinessWhoisRecord,
     ssl: BusinessWebsiteSSL,
   }),
-).annotate({
-  identifier: "BusinessWebsiteAnalysis",
-}) as any as S.Schema<BusinessWebsiteAnalysis>;
+).annotate({ identifier: "BusinessWebsiteAnalysis" }) as any as S.Schema<BusinessWebsiteAnalysis>;
 
 /** Results from the digital presence check. */
 export interface BusinessDigitalPresenceCheck {
@@ -2980,9 +2869,7 @@ export const CraCheckReportGSEOptions = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     report_types: CraCheckReportGSEOptionsReportTypesList,
   }),
-).annotate({
-  identifier: "CraCheckReportGSEOptions",
-}) as any as S.Schema<CraCheckReportGSEOptions>;
+).annotate({ identifier: "CraCheckReportGSEOptions" }) as any as S.Schema<CraCheckReportGSEOptions>;
 
 /** Type of home lending report. */
 export type CraCheckReportVerificationGetReportType = "VOA" | "EMPLOYMENT_REFRESH" | "INCOME";
@@ -3267,9 +3154,7 @@ export const IncomeInsightsFilter = /*@__PURE__*/ S.suspend(() =>
     included_categories: IncomeInsightsFilterIncludedCategoriesList,
     excluded_categories: S.optional(IncomeInsightsFilterExcludedCategoriesList),
   }),
-).annotate({
-  identifier: "IncomeInsightsFilter",
-}) as any as S.Schema<IncomeInsightsFilter>;
+).annotate({ identifier: "IncomeInsightsFilter" }) as any as S.Schema<IncomeInsightsFilter>;
 
 /** The version of Income Insights to use. This value is not shared across API calls for the same resource. If it is omitted from a request, the default version is used, even if a version was set in an earlier call such as `/link/token/create` or `/cra/check_report/create`. */
 export type IncomeInsightsVersion = "II2";
@@ -3362,9 +3247,283 @@ export const CraCheckReportCreateResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "CraCheckReportCreateResponse",
 }) as any as S.Schema<CraCheckReportCreateResponse>;
 
+/** Set to `cra_base_report` to request the Base Report product. */
+export type CraReportCreateBaseReportProductConfigProduct = "cra_base_report";
+export const CraReportCreateBaseReportProductConfigProduct = S.String;
+
+/** Configures how the Base Report product is generated. */
+export interface CraReportCreateBaseReportOptions {
+  /** Require the report to include identity information. If identity information is not available, report generation fails. */
+  require_identity?: boolean | null;
+}
+export const CraReportCreateBaseReportOptions = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    require_identity: S.optional(S.NullOr(S.Boolean)),
+  }),
+).annotate({
+  identifier: "CraReportCreateBaseReportOptions",
+}) as any as S.Schema<CraReportCreateBaseReportOptions>;
+
+/** Requests the given version of the Base Report product, optionally configuring how it is generated. */
+export interface CraReportCreateBaseReportProductConfig {
+  /** Set to `cra_base_report` to request the Base Report product. */
+  product: CraReportCreateBaseReportProductConfigProduct;
+  version: string;
+  options?: CraReportCreateBaseReportOptions | null;
+}
+export const CraReportCreateBaseReportProductConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    product: CraReportCreateBaseReportProductConfigProduct,
+    version: S.String,
+    options: S.optional(S.NullOr(CraReportCreateBaseReportOptions)),
+  }),
+).annotate({
+  identifier: "CraReportCreateBaseReportProductConfig",
+}) as any as S.Schema<CraReportCreateBaseReportProductConfig>;
+
+/** Set to `cra_cashflow_insights` to request the Cashflow Insights product. */
+export type CraReportCreateCashflowInsightsProductConfigProduct = "cra_cashflow_insights";
+export const CraReportCreateCashflowInsightsProductConfigProduct = S.String;
+
+/** Requests the given version of the Cashflow Insights product. Cashflow Insights accepts no additional configuration today. */
+export interface CraReportCreateCashflowInsightsProductConfig {
+  /** Set to `cra_cashflow_insights` to request the Cashflow Insights product. */
+  product: CraReportCreateCashflowInsightsProductConfigProduct;
+  version: string;
+}
+export const CraReportCreateCashflowInsightsProductConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    product: CraReportCreateCashflowInsightsProductConfigProduct,
+    version: S.String,
+  }),
+).annotate({
+  identifier: "CraReportCreateCashflowInsightsProductConfig",
+}) as any as S.Schema<CraReportCreateCashflowInsightsProductConfig>;
+
+/** Set to `cra_home_lending` to request the Home Lending product. */
+export type CraReportCreateHomeLendingProductConfigProduct = "cra_home_lending";
+export const CraReportCreateHomeLendingProductConfigProduct = S.String;
+
+/** A type of home lending report. */
+export type CraReportCreateHomeLendingReportType = "VOA" | "EMPLOYMENT_REFRESH" | "INCOME";
+export const CraReportCreateHomeLendingReportType = S.String;
+
+/** The home lending reports to generate. */
+export type CraReportCreateHomeLendingOptionsReportsRequestedList = Array<
+  CraReportCreateHomeLendingReportType | (string & {})
+>;
+export const CraReportCreateHomeLendingOptionsReportsRequestedList = /*@__PURE__*/ S.Array(
+  CraReportCreateHomeLendingReportType,
+) as any as S.Schema<CraReportCreateHomeLendingOptionsReportsRequestedList>;
+
+/** Configures the Employment Refresh report. */
+export interface CraReportCreateEmploymentRefreshOptions {
+  /** The number of days of data to request for the Employment Refresh report. Maximum is 731. */
+  days_requested: number;
+}
+export const CraReportCreateEmploymentRefreshOptions = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    days_requested: S.Number,
+  }),
+).annotate({
+  identifier: "CraReportCreateEmploymentRefreshOptions",
+}) as any as S.Schema<CraReportCreateEmploymentRefreshOptions>;
+
+/** Configures how the Home Lending product is generated. */
+export interface CraReportCreateHomeLendingOptions {
+  /** The home lending reports to generate. */
+  reports_requested: CraReportCreateHomeLendingOptionsReportsRequestedList;
+  employment_refresh_options?: CraReportCreateEmploymentRefreshOptions | null;
+}
+export const CraReportCreateHomeLendingOptions = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    reports_requested: CraReportCreateHomeLendingOptionsReportsRequestedList,
+    employment_refresh_options: S.optional(S.NullOr(CraReportCreateEmploymentRefreshOptions)),
+  }),
+).annotate({
+  identifier: "CraReportCreateHomeLendingOptions",
+}) as any as S.Schema<CraReportCreateHomeLendingOptions>;
+
+/** Requests the given version of the Home Lending product, optionally configuring how it is generated. */
+export interface CraReportCreateHomeLendingProductConfig {
+  /** Set to `cra_home_lending` to request the Home Lending product. */
+  product: CraReportCreateHomeLendingProductConfigProduct;
+  version: string;
+  options?: CraReportCreateHomeLendingOptions | null;
+}
+export const CraReportCreateHomeLendingProductConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    product: CraReportCreateHomeLendingProductConfigProduct,
+    version: S.String,
+    options: S.optional(S.NullOr(CraReportCreateHomeLendingOptions)),
+  }),
+).annotate({
+  identifier: "CraReportCreateHomeLendingProductConfig",
+}) as any as S.Schema<CraReportCreateHomeLendingProductConfig>;
+
+/** Set to `cra_income_insights` to request the Income Insights product. */
+export type CraReportCreateIncomeInsightsProductConfigProduct = "cra_income_insights";
+export const CraReportCreateIncomeInsightsProductConfigProduct = S.String;
+
+/** Configures how the Income Insights product is generated. */
+export interface CraReportCreateIncomeInsightsOptions {
+  income_insights_filter?: IncomeInsightsFilter | null;
+}
+export const CraReportCreateIncomeInsightsOptions = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    income_insights_filter: S.optional(S.NullOr(IncomeInsightsFilter)),
+  }),
+).annotate({
+  identifier: "CraReportCreateIncomeInsightsOptions",
+}) as any as S.Schema<CraReportCreateIncomeInsightsOptions>;
+
+/** Requests the given version of the Income Insights product, optionally configuring how it is generated. */
+export interface CraReportCreateIncomeInsightsProductConfig {
+  /** Set to `cra_income_insights` to request the Income Insights product. */
+  product: CraReportCreateIncomeInsightsProductConfigProduct;
+  version: string;
+  options?: CraReportCreateIncomeInsightsOptions | null;
+}
+export const CraReportCreateIncomeInsightsProductConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    product: CraReportCreateIncomeInsightsProductConfigProduct,
+    version: S.String,
+    options: S.optional(S.NullOr(CraReportCreateIncomeInsightsOptions)),
+  }),
+).annotate({
+  identifier: "CraReportCreateIncomeInsightsProductConfig",
+}) as any as S.Schema<CraReportCreateIncomeInsightsProductConfig>;
+
+/** Set to `cra_lend_score` to request the LendScore product. */
+export type CraReportCreateLendScoreProductConfigProduct = "cra_lend_score";
+export const CraReportCreateLendScoreProductConfigProduct = S.String;
+
+/** Requests the given version of the LendScore product. LendScore accepts no additional configuration today. */
+export interface CraReportCreateLendScoreProductConfig {
+  /** Set to `cra_lend_score` to request the LendScore product. */
+  product: CraReportCreateLendScoreProductConfigProduct;
+  version: string;
+}
+export const CraReportCreateLendScoreProductConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    product: CraReportCreateLendScoreProductConfigProduct,
+    version: S.String,
+  }),
+).annotate({
+  identifier: "CraReportCreateLendScoreProductConfig",
+}) as any as S.Schema<CraReportCreateLendScoreProductConfig>;
+
+/** Set to `cra_network_insights` to request the Network Insights product. */
+export type CraReportCreateNetworkInsightsProductConfigProduct = "cra_network_insights";
+export const CraReportCreateNetworkInsightsProductConfigProduct = S.String;
+
+/** Requests the given version of the Network Insights product. Network Insights accepts no additional configuration today. */
+export interface CraReportCreateNetworkInsightsProductConfig {
+  /** Set to `cra_network_insights` to request the Network Insights product. */
+  product: CraReportCreateNetworkInsightsProductConfigProduct;
+  version: string;
+}
+export const CraReportCreateNetworkInsightsProductConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    product: CraReportCreateNetworkInsightsProductConfigProduct,
+    version: S.String,
+  }),
+).annotate({
+  identifier: "CraReportCreateNetworkInsightsProductConfig",
+}) as any as S.Schema<CraReportCreateNetworkInsightsProductConfig>;
+
+/** Set to `cra_qualify` to request the Qualify product. */
+export type CraReportCreateQualifyProductConfigProduct = "cra_qualify";
+export const CraReportCreateQualifyProductConfigProduct = S.String;
+
+/** Requests the given version of the Qualify product. Qualify accepts no additional configuration today. */
+export interface CraReportCreateQualifyProductConfig {
+  /** Set to `cra_qualify` to request the Qualify product. */
+  product: CraReportCreateQualifyProductConfigProduct;
+  version: string;
+}
+export const CraReportCreateQualifyProductConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    product: CraReportCreateQualifyProductConfigProduct,
+    version: S.String,
+  }),
+).annotate({
+  identifier: "CraReportCreateQualifyProductConfig",
+}) as any as S.Schema<CraReportCreateQualifyProductConfig>;
+
+/** A Plaid Check product and version to generate for the report, with the options that apply to that product, selected by the `product` field. */
+export type CraReportProduct =
+  | CraReportCreateBaseReportProductConfig
+  | CraReportCreateCashflowInsightsProductConfig
+  | CraReportCreateHomeLendingProductConfig
+  | CraReportCreateIncomeInsightsProductConfig
+  | CraReportCreateLendScoreProductConfig
+  | CraReportCreateNetworkInsightsProductConfig
+  | CraReportCreateQualifyProductConfig;
+export const CraReportProduct = S.Unknown as any as S.Schema<CraReportProduct>;
+
+/** The Plaid Check products, versions, and options to generate for the report. */
+export type CreateCraReportRequestProductsList = Array<CraReportProduct>;
+export const CreateCraReportRequestProductsList = /*@__PURE__*/ S.Array(
+  CraReportProduct,
+) as any as S.Schema<CreateCraReportRequestProductsList>;
+
 /** Determines whose items are used. `PLAID_NETWORK` (default) uses the Plaid Network view of the user's profile. `CLIENT_USER` uses only the items linked by this client. */
 export type CraReportScope = "PLAID_NETWORK" | "CLIENT_USER";
 export const CraReportScope = S.String;
+
+/** The stage in the lending lifecycle that the report is for. */
+export type CraReportDecisionStage = "PREQUALIFICATION" | "DECISIONING" | "SERVICING";
+export const CraReportDecisionStage = S.String;
+
+export interface CreateCraReportRequest {
+  client_id?: string;
+  secret?: string | Redacted.Redacted<string>;
+  user_id: string;
+  /** The Plaid Check products, versions, and options to generate for the report. */
+  products: CreateCraReportRequestProductsList;
+  scope?: CraReportScope | (string & {});
+  decision_stage: CraReportDecisionStage | (string & {});
+  consumer_report_permissible_purpose: ConsumerReportPermissiblePurpose | (string & {});
+  /** Client-generated identifier, which can be used by lenders to track loan applications. */
+  client_report_id?: string | null;
+  /** The number of days of history to include in Plaid Check products. Maximum is 731; minimum is 180. If a value lower than 180 is provided, a minimum of 180 days of history will be requested. */
+  days_requested?: number | null;
+  /** The minimum number of days of data required for the report to be successfully generated. */
+  days_required?: number | null;
+  /** Indicates that investment data should be extracted from the linked account(s). */
+  include_investments?: boolean | null;
+  /** The destination URL to which the report's webhooks will be sent. */
+  webhook?: string;
+}
+export const CreateCraReportRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    client_id: S.optional(S.String),
+    secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
+    user_id: S.String,
+    products: CreateCraReportRequestProductsList,
+    scope: S.optional(CraReportScope),
+    decision_stage: CraReportDecisionStage,
+    consumer_report_permissible_purpose: ConsumerReportPermissiblePurpose,
+    client_report_id: S.optional(S.NullOr(S.String)),
+    days_requested: S.optional(S.NullOr(S.Number)),
+    days_required: S.optional(S.NullOr(S.Number)),
+    include_investments: S.optional(S.NullOr(S.Boolean)),
+    webhook: S.optional(S.String),
+  }).pipe(T.Http({ method: "POST", uri: "/cra/report/create", code: 200 })),
+).annotate({ identifier: "CreateCraReportRequest" }) as any as S.Schema<CreateCraReportRequest>;
+
+/** CraReportCreateResponse defines the response schema for `/cra/report/create`. */
+export interface CraReportCreateResponse {
+  report_id: unknown;
+  request_id: string;
+}
+export const CraReportCreateResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    report_id: S.Unknown,
+    request_id: S.String,
+  }),
+).annotate({ identifier: "CraReportCreateResponse" }) as any as S.Schema<CraReportCreateResponse>;
 
 /** The cadence at which products are generated and webhooks are fired. If the Qualify product is requested, cadence must be null or omitted, because Qualify's generation cadence is controlled by Plaid. */
 export type CraSubscriptionCadence = "DAILY";
@@ -3385,9 +3544,7 @@ export const CraQualifyProductConfig = /*@__PURE__*/ S.suspend(() =>
     product: CraQualifyProductConfigProduct,
     version: S.String,
   }),
-).annotate({
-  identifier: "CraQualifyProductConfig",
-}) as any as S.Schema<CraQualifyProductConfig>;
+).annotate({ identifier: "CraQualifyProductConfig" }) as any as S.Schema<CraQualifyProductConfig>;
 
 /** The Base Report product discriminator. */
 export type CraBaseReportProductConfigProduct = "cra_base_report";
@@ -3463,13 +3620,7 @@ export const CreateCraServicingSubscriptionRequest = /*@__PURE__*/ S.suspend(() 
     cadence: S.optional(S.NullOr(CraSubscriptionCadence)),
     webhook: S.optional(S.String),
     products: CreateCraServicingSubscriptionRequestProductsList,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/cra/servicing/subscription/create",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/cra/servicing/subscription/create", code: 200 })),
 ).annotate({
   identifier: "CreateCraServicingSubscriptionRequest",
 }) as any as S.Schema<CreateCraServicingSubscriptionRequest>;
@@ -3512,9 +3663,7 @@ export const CreateCreditRelayRequest = /*@__PURE__*/ S.suspend(() =>
     secondary_client_id: S.String,
     webhook: S.optional(S.NullOr(S.String)),
   }).pipe(T.Http({ method: "POST", uri: "/credit/relay/create", code: 200 })),
-).annotate({
-  identifier: "CreateCreditRelayRequest",
-}) as any as S.Schema<CreateCreditRelayRequest>;
+).annotate({ identifier: "CreateCreditRelayRequest" }) as any as S.Schema<CreateCreditRelayRequest>;
 
 /** CreditRelayCreateResponse defines the response schema for `/credit/relay/create` */
 export interface CreditRelayCreateResponse {
@@ -3530,6 +3679,17 @@ export const CreditRelayCreateResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "CreditRelayCreateResponse",
 }) as any as S.Schema<CreditRelayCreateResponse>;
+
+/** The language shown when the user starts this identity verification. If omitted or null, the language is detected from the user's browser settings, with English as the fallback. The user can select a different language during the session. An idempotent request that returns an existing identity verification does not change its language. Use a supported BCP 47 language tag, such as `fr-CA`. Unlike `/link/token/create`, this field requires a region-specific value rather than a two-letter language code such as `fr`. */
+export type IdentityVerificationLanguage =
+  | "en-US"
+  | "es-ES"
+  | "es-US"
+  | "fr-CA"
+  | "ja-JP"
+  | "pt-BR"
+  | "pt-PT";
+export const IdentityVerificationLanguage = S.String;
 
 /** You can use this field to pre-populate the user's legal name; if it is provided here, they will not be prompted to enter their name in the identity verification attempt. */
 export interface IdentityVerificationRequestUserName {
@@ -3649,6 +3809,7 @@ export interface CreateIdentityVerificationRequest {
   /** A flag specifying whether you would like Plaid to expose a shareable URL for the verification being created. */
   is_shareable: boolean;
   template_id: string;
+  language?: IdentityVerificationLanguage | (string & {}) | null;
   gave_consent: boolean;
   user?: IdentityVerificationCreateRequestUser | null;
   client_id?: string;
@@ -3661,6 +3822,7 @@ export const CreateIdentityVerificationRequest = /*@__PURE__*/ S.suspend(() =>
     user_id: S.optional(S.String),
     is_shareable: S.Boolean,
     template_id: S.String,
+    language: S.optional(S.NullOr(IdentityVerificationLanguage)),
     gave_consent: S.Boolean,
     user: S.optional(S.NullOr(IdentityVerificationCreateRequestUser)),
     client_id: S.optional(S.String),
@@ -3786,9 +3948,7 @@ export const PhysicalDocumentImages = /*@__PURE__*/ S.suspend(() =>
     cropped_back: S.NullOr(S.String),
     face: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "PhysicalDocumentImages",
-}) as any as S.Schema<PhysicalDocumentImages>;
+).annotate({ identifier: "PhysicalDocumentImages" }) as any as S.Schema<PhysicalDocumentImages>;
 
 /** The type of identity document detected in the images provided. Will always be one of the following values: `drivers_license` - A driver's license issued by the associated country, establishing identity without any guarantee as to citizenship, and granting driving privileges `id_card` - A general national identification card, distinct from driver's licenses as it only establishes identity `passport` - A travel passport issued by the associated country for one of its citizens `residence_permit_card` - An identity document issued by the associated country permitting a foreign citizen to <em>temporarily</em> reside there `resident_card` - An identity document issued by the associated country permitting a foreign citizen to <em>permanently</em> reside there `visa` - An identity document issued by the associated country permitting a foreign citizen entry for a short duration and for a specific purpose, typically no longer than 6 months Note: This value may be different from the ID type that the user selects within Link. For example, if they select "Driver's License" but then submit a picture of a passport, this field will say `passport` */
 export type PhysicalDocumentCategory =
@@ -3929,9 +4089,7 @@ export const FraudAnalysisDetails = /*@__PURE__*/ S.suspend(() =>
     detail_check: FraudCheckOutcome,
     issue_date_check: FraudCheckOutcomeWithNoData,
   }),
-).annotate({
-  identifier: "FraudAnalysisDetails",
-}) as any as S.Schema<FraudAnalysisDetails>;
+).annotate({ identifier: "FraudAnalysisDetails" }) as any as S.Schema<FraudAnalysisDetails>;
 
 /** The outcome of the image quality check. `success` - The check passed. `failed` - The check did not pass. */
 export type ImageQualityOutcome = "success" | "failed";
@@ -3952,9 +4110,7 @@ export const ImageQualityDetails = /*@__PURE__*/ S.suspend(() =>
     dimensions_check: ImageQualityOutcome,
     blur_check: ImageQualityOutcome,
   }),
-).annotate({
-  identifier: "ImageQualityDetails",
-}) as any as S.Schema<ImageQualityDetails>;
+).annotate({ identifier: "ImageQualityDetails" }) as any as S.Schema<ImageQualityDetails>;
 
 /** The outcome of the human review check, when available. The following values are possible: `success` - The document passed the check. `failed` - The document failed the check. `no_data` - The document was submitted, but the document specialist review was not completed in time. */
 export type HumanReviewStatus = "success" | "failed" | "no_data";
@@ -4035,9 +4191,7 @@ export const DocumentAnalysis = /*@__PURE__*/ S.suspend(() =>
     human_review: S.optional(S.NullOr(HumanReview)),
     aamva_verification: S.NullOr(AAMVAAnalysis),
   }),
-).annotate({
-  identifier: "DocumentAnalysis",
-}) as any as S.Schema<DocumentAnalysis>;
+).annotate({ identifier: "DocumentAnalysis" }) as any as S.Schema<DocumentAnalysis>;
 
 /** Images, extracted data, and analysis from a user's identity document */
 export interface DocumentaryVerificationDocument {
@@ -4080,9 +4234,7 @@ export const DocumentaryVerification = /*@__PURE__*/ S.suspend(() =>
     status: S.String,
     documents: DocumentaryVerificationDocumentsList,
   }),
-).annotate({
-  identifier: "DocumentaryVerification",
-}) as any as S.Schema<DocumentaryVerification>;
+).annotate({ identifier: "DocumentaryVerification" }) as any as S.Schema<DocumentaryVerification>;
 
 /** The outcome status for the associated Identity Verification attempt's `selfie_check` step. This field will always have the same value as `steps.selfie_check`. */
 export type SelfieCheckStatus = "success" | "failed";
@@ -4204,9 +4356,7 @@ export const SelfieCheckSelfie = /*@__PURE__*/ S.suspend(() =>
     capture: SelfieCapture,
     analysis: SelfieAnalysis,
   }),
-).annotate({
-  identifier: "SelfieCheckSelfie",
-}) as any as S.Schema<SelfieCheckSelfie>;
+).annotate({ identifier: "SelfieCheckSelfie" }) as any as S.Schema<SelfieCheckSelfie>;
 
 /** An array of selfies submitted to the `selfie_check` step. Each entry represents one user submission. */
 export type SelfieCheckSelfiesList = Array<SelfieCheckSelfie>;
@@ -4288,9 +4438,7 @@ export const KYCCheckAddressSummary = /*@__PURE__*/ S.suspend(() =>
     postal_code: S.optional(HiddenMatchSummaryCode),
     international_details: S.optional(S.NullOr(KYCCheckDetailsInternationalAddress)),
   }),
-).annotate({
-  identifier: "KYCCheckAddressSummary",
-}) as any as S.Schema<KYCCheckAddressSummary>;
+).annotate({ identifier: "KYCCheckAddressSummary" }) as any as S.Schema<KYCCheckAddressSummary>;
 
 /** Result summary object specifying how the `name` field matched. */
 export interface KYCCheckNameSummary {
@@ -4304,9 +4452,7 @@ export const KYCCheckNameSummary = /*@__PURE__*/ S.suspend(() =>
     given_name: S.optional(HiddenMatchSummaryCode),
     family_name: S.optional(HiddenMatchSummaryCode),
   }),
-).annotate({
-  identifier: "KYCCheckNameSummary",
-}) as any as S.Schema<KYCCheckNameSummary>;
+).annotate({ identifier: "KYCCheckNameSummary" }) as any as S.Schema<KYCCheckNameSummary>;
 
 /** Result summary object specifying how the `date_of_birth` field matched. */
 export interface KYCCheckDateOfBirthSummary {
@@ -4340,9 +4486,7 @@ export const KYCCheckPhoneSummary = /*@__PURE__*/ S.suspend(() =>
     summary: MatchSummaryCode,
     area_code: MatchSummaryCode,
   }),
-).annotate({
-  identifier: "KYCCheckPhoneSummary",
-}) as any as S.Schema<KYCCheckPhoneSummary>;
+).annotate({ identifier: "KYCCheckPhoneSummary" }) as any as S.Schema<KYCCheckPhoneSummary>;
 
 /** Additional information for the `kyc_check` (Data Source Verification) step. This field will be `null` unless `steps.kyc_check` has reached a terminal state of either `success` or `failed`. */
 export interface KYCCheckDetails {
@@ -4363,9 +4507,7 @@ export const KYCCheckDetails = /*@__PURE__*/ S.suspend(() =>
     id_number: BusinessFieldMatchSummary,
     phone_number: KYCCheckPhoneSummary,
   }),
-).annotate({
-  identifier: "KYCCheckDetails",
-}) as any as S.Schema<KYCCheckDetails>;
+).annotate({ identifier: "KYCCheckDetails" }) as any as S.Schema<KYCCheckDetails>;
 
 /** Field describing the overall user interaction signals of a behavior risk check. This value represents how familiar the user is with the personal data they provide, based on a number of signals that are collected during their session. `genuine` indicates the user has high familiarity with the data they are providing, and that fraud is unlikely. `neutral` indicates some signals are present in between `risky` and `genuine`, but there are not enough clear signals to determine an outcome. `risky` indicates the user has low familiarity with the data they are providing, and that fraud is likely. `no_data` indicates there is not sufficient information to give an accurate signal. */
 export type RiskCheckBehaviorUserInteractionsLabel = "genuine" | "neutral" | "risky" | "no_data";
@@ -4397,9 +4539,7 @@ export const RiskCheckBehavior = /*@__PURE__*/ S.suspend(() =>
     bot_detected: RiskCheckBehaviorBotDetectedLabel,
     risk_level: S.optional(RiskLevelWithNoData),
   }),
-).annotate({
-  identifier: "RiskCheckBehavior",
-}) as any as S.Schema<RiskCheckBehavior>;
+).annotate({ identifier: "RiskCheckBehavior" }) as any as S.Schema<RiskCheckBehavior>;
 
 /** SMTP-MX check to confirm the email address exists if known. */
 export type RiskCheckEmailIsDeliverableStatus = "yes" | "no" | "no_data";
@@ -4631,9 +4771,7 @@ export const RiskCheckDevice = /*@__PURE__*/ S.suspend(() =>
     risk_level: S.optional(RiskLevel),
     factors: S.optional(RiskCheckFactors),
   }),
-).annotate({
-  identifier: "RiskCheckDevice",
-}) as any as S.Schema<RiskCheckDevice>;
+).annotate({ identifier: "RiskCheckDevice" }) as any as S.Schema<RiskCheckDevice>;
 
 /** Array of result summary objects specifying values for `device` attributes of risk check. */
 export type RiskCheckDetailsDevicesList = Array<RiskCheckDevice>;
@@ -4681,9 +4819,7 @@ export const RiskCheckStolenIdentity = /*@__PURE__*/ S.suspend(() =>
     score: S.Number,
     risk_level: S.optional(RiskLevel),
   }),
-).annotate({
-  identifier: "RiskCheckStolenIdentity",
-}) as any as S.Schema<RiskCheckStolenIdentity>;
+).annotate({ identifier: "RiskCheckStolenIdentity" }) as any as S.Schema<RiskCheckStolenIdentity>;
 
 /** Result summary object capturing abuse signals related to `identity abuse`, e.g. stolen and synthetic identity fraud. These attributes are only available for US identities and some signals may not be available depending on what information was collected. */
 export interface RiskCheckIdentityAbuseSignals {
@@ -4709,9 +4845,7 @@ export const RiskCheckNetwork = /*@__PURE__*/ S.suspend(() =>
     risk_level: RiskLevel,
     factors: RiskCheckFactors,
   }),
-).annotate({
-  identifier: "RiskCheckNetwork",
-}) as any as S.Schema<RiskCheckNetwork>;
+).annotate({ identifier: "RiskCheckNetwork" }) as any as S.Schema<RiskCheckNetwork>;
 
 /** Result summary object specifying values for the `facial_duplicates` attributes of risk check. */
 export interface RiskCheckFacialDuplicate {
@@ -4727,9 +4861,7 @@ export const RiskCheckFacialDuplicate = /*@__PURE__*/ S.suspend(() =>
     similarity: S.Number,
     matched_after_completed: S.Boolean,
   }),
-).annotate({
-  identifier: "RiskCheckFacialDuplicate",
-}) as any as S.Schema<RiskCheckFacialDuplicate>;
+).annotate({ identifier: "RiskCheckFacialDuplicate" }) as any as S.Schema<RiskCheckFacialDuplicate>;
 
 /** The attributes related to the facial duplicates captured in risk check. */
 export type RiskCheckDetailsFacialDuplicatesList = Array<RiskCheckFacialDuplicate>;
@@ -4764,9 +4896,7 @@ export const RiskCheckDetails = /*@__PURE__*/ S.suspend(() =>
     facial_duplicates: RiskCheckDetailsFacialDuplicatesList,
     trust_index_score: S.NullOr(S.Number),
   }),
-).annotate({
-  identifier: "RiskCheckDetails",
-}) as any as S.Schema<RiskCheckDetails>;
+).annotate({ identifier: "RiskCheckDetails" }) as any as S.Schema<RiskCheckDetails>;
 
 /** The outcome status for the associated Identity Verification attempt's `verify_sms` step. This field will always have the same value as `steps.verify_sms`. */
 export type VerifySMSDetailsStatus = "success" | "failed";
@@ -4802,9 +4932,7 @@ export const SMSVerification = /*@__PURE__*/ S.suspend(() =>
     last_sent_at: S.NullOr(S.String),
     redacted_at: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "SMSVerification",
-}) as any as S.Schema<SMSVerification>;
+).annotate({ identifier: "SMSVerification" }) as any as S.Schema<SMSVerification>;
 
 /** An array where each entry represents a verification attempt for the `verify_sms` step. Each entry represents one user-submitted phone number. Phone number edits, and in some cases error handling due to edge cases like rate limiting, may generate additional verifications. */
 export type VerifySMSDetailsVerificationsList = Array<SMSVerification>;
@@ -4823,9 +4951,7 @@ export const VerifySMSDetails = /*@__PURE__*/ S.suspend(() =>
     status: VerifySMSDetailsStatus,
     verifications: VerifySMSDetailsVerificationsList,
   }),
-).annotate({
-  identifier: "VerifySMSDetails",
-}) as any as S.Schema<VerifySMSDetails>;
+).annotate({ identifier: "VerifySMSDetails" }) as any as S.Schema<VerifySMSDetails>;
 
 /** Represents Trust Index Subscore. */
 export interface TrustIndexSubscore {
@@ -4836,9 +4962,7 @@ export const TrustIndexSubscore = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     score: S.Number,
   }),
-).annotate({
-  identifier: "TrustIndexSubscore",
-}) as any as S.Schema<TrustIndexSubscore>;
+).annotate({ identifier: "TrustIndexSubscore" }) as any as S.Schema<TrustIndexSubscore>;
 
 /** Contains sub-score metadata. */
 export interface TrustIndexSubscores {
@@ -4850,9 +4974,7 @@ export const TrustIndexSubscores = /*@__PURE__*/ S.suspend(() =>
     device_and_connection: S.optional(S.NullOr(TrustIndexSubscore)),
     bank_account_insights: S.optional(S.NullOr(TrustIndexSubscore)),
   }),
-).annotate({
-  identifier: "TrustIndexSubscores",
-}) as any as S.Schema<TrustIndexSubscores>;
+).annotate({ identifier: "TrustIndexSubscores" }) as any as S.Schema<TrustIndexSubscores>;
 
 /** Represents a calculated Trust Index Score. */
 export interface TrustIndex {
@@ -4893,9 +5015,7 @@ export const IDVProtectEvent = /*@__PURE__*/ S.suspend(() =>
     trust_index: S.NullOr(TrustIndex),
     fraud_attributes: S.NullOr(FraudAttributes),
   }),
-).annotate({
-  identifier: "IDVProtectEvent",
-}) as any as S.Schema<IDVProtectEvent>;
+).annotate({ identifier: "IDVProtectEvent" }) as any as S.Schema<IDVProtectEvent>;
 
 /** An identity verification attempt represents a customer's attempt to verify their identity, reflecting the required steps for completing the session, the results for each step, and information collected in the process. */
 export interface IdentityVerificationCreateResponse {
@@ -4959,13 +5079,7 @@ export const CreateIdentityVerificationAutofillRequest = /*@__PURE__*/ S.suspend
     identity_verification_id: S.String,
     client_id: S.optional(S.String),
     secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/identity_verification/autofill/create",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/identity_verification/autofill/create", code: 200 })),
 ).annotate({
   identifier: "CreateIdentityVerificationAutofillRequest",
 }) as any as S.Schema<CreateIdentityVerificationAutofillRequest>;
@@ -5056,7 +5170,7 @@ export type CountryCode =
   | "FI";
 export const CountryCode = S.String;
 
-/** Specify an array of Plaid-supported country codes using the ISO-3166-1 alpha-2 country code standard. Institutions from all listed countries will be shown. For a complete mapping of supported products by country, see https://support.plaid.com/hc/en-us/articles/27895826947735-What-Plaid-products-are-supported-in-each-country-and-region. For access to additional countries beyond what you have been approved for, [contact sales](https://plaid.com/contact/), your account manager, or support. If using Identity Verification, `country_codes` should be set to the country where your company is based, not the country where your user is located. For all other products, `country_codes` represents the location of your user's financial institution. If Link is launched with multiple country codes, only products that you are enabled for in all countries will be used by Link. While all countries are enabled by default in Sandbox, in Production only the countries you have requested access for are shown. To request access to additional countries, [file a product access Support ticket](https://dashboard.plaid.com/support/new/product-and-development/product-troubleshooting/request-product-access) via the Plaid dashboard. If using a Link customization, make sure the country codes in the customization match those specified in `country_codes`, or the customization may not be applied. If using the Auth features Instant Match, Instant Micro-deposits, Same-Day Micro-deposits, Automated Micro-deposits, or Database Auth, `country_codes` must be set to `['US']`. */
+/** Specify an array of Plaid-supported country codes using the ISO-3166-1 alpha-2 country code standard. Institutions from all listed countries will be shown. For a complete mapping of supported products by country, see [What Plaid products are supported in each country and region?](https://support.plaid.com/hc/en-us/articles/27895826947735-What-Plaid-products-are-supported-in-each-country-and-region). For access to additional countries beyond what you have been approved for, [contact sales](https://plaid.com/contact/), your account manager, or support. If using Identity Verification, `country_codes` should be set to the country where your company is based, not the country where your user is located. For all other products, `country_codes` represents the location of your user's financial institution. If Link is launched with multiple country codes, only products that you are enabled for in all countries will be used by Link. While all countries are enabled by default in Sandbox, in Production only the countries you have requested access for are shown. To request access to additional countries, [file a product access Support ticket](https://dashboard.plaid.com/support/new/product-and-development/product-troubleshooting/request-product-access) via the Plaid dashboard. If using a Link customization, make sure the country codes in the customization match those specified in `country_codes`, or the customization may not be applied. If using the Auth features Instant Match, Instant Micro-deposits, Same-Day Micro-deposits, Automated Micro-deposits, or Database Auth, `country_codes` must be set to `['US']`. */
 export type CreateLinkTokenRequestCountryCodesList = Array<CountryCode | (string & {})>;
 export const CreateLinkTokenRequestCountryCodesList = /*@__PURE__*/ S.Array(
   CountryCode,
@@ -5212,12 +5326,10 @@ export const DepositoryFilter = /*@__PURE__*/ S.suspend(() =>
     account_subtypes: DepositoryAccountSubtypes,
     limited_purpose_types: S.optional(LimitedPurposeTypes),
   }),
-).annotate({
-  identifier: "DepositoryFilter",
-}) as any as S.Schema<DepositoryFilter>;
+).annotate({ identifier: "DepositoryFilter" }) as any as S.Schema<DepositoryFilter>;
 
 /** Valid account subtypes for credit accounts. For a list containing descriptions of each subtype, see [Account schemas](https://plaid.com/docs/api/accounts/#StandaloneAccountType-credit). */
-export type CreditAccountSubtype = "charge card" | "credit card" | "paypal" | "all";
+export type CreditAccountSubtype = "credit card" | "paypal" | "all";
 export const CreditAccountSubtype = S.String;
 
 /** An array of account subtypes to display in Link. If not specified, all account subtypes will be shown. For a full list of valid types and subtypes, see the [Account schema](https://plaid.com/docs/api/accounts#account-type-schema). */
@@ -5246,7 +5358,6 @@ export type LoanAccountSubtype =
   | "consumer"
   | "home equity"
   | "home equity loan"
-  | "installment"
   | "loan"
   | "mortgage"
   | "overdraft"
@@ -5349,9 +5460,7 @@ export const InvestmentFilter = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     account_subtypes: InvestmentAccountSubtypes,
   }),
-).annotate({
-  identifier: "InvestmentFilter",
-}) as any as S.Schema<InvestmentFilter>;
+).annotate({ identifier: "InvestmentFilter" }) as any as S.Schema<InvestmentFilter>;
 
 /** Valid account subtypes for other accounts. For a list containing descriptions of each subtype, see [Account schemas](https://plaid.com/docs/api/accounts/#StandaloneAccountType-other). */
 export type OtherAccountSubtype = "other" | "all";
@@ -5389,9 +5498,7 @@ export const LinkTokenAccountFilters = /*@__PURE__*/ S.suspend(() =>
     investment: S.optional(InvestmentFilter),
     other: S.optional(OtherFilter),
   }),
-).annotate({
-  identifier: "LinkTokenAccountFilters",
-}) as any as S.Schema<LinkTokenAccountFilters>;
+).annotate({ identifier: "LinkTokenAccountFilters" }) as any as S.Schema<LinkTokenAccountFilters>;
 
 /** Configuration parameters for EU flows */
 export interface LinkTokenEUConfig {
@@ -5402,9 +5509,7 @@ export const LinkTokenEUConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     headless: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "LinkTokenEUConfig",
-}) as any as S.Schema<LinkTokenEUConfig>;
+).annotate({ identifier: "LinkTokenEUConfig" }) as any as S.Schema<LinkTokenEUConfig>;
 
 /** Specifies options for initializing Link for use with the Pay By Bank flow. This is an optional field to configure the user experience, and currently requires the amount field to be set. */
 export interface LinkTokenCreateRequestPaymentConfiguration {
@@ -5791,6 +5896,41 @@ export const LinkTokenCreateRequestCraOptions = /*@__PURE__*/ S.suspend(() =>
   identifier: "LinkTokenCreateRequestCraOptions",
 }) as any as S.Schema<LinkTokenCreateRequestCraOptions>;
 
+/** The Plaid Check products, versions, and options to generate for the report. */
+export type LinkTokenCreateRequestCraReportParameterProductsList = Array<CraReportProduct>;
+export const LinkTokenCreateRequestCraReportParameterProductsList = /*@__PURE__*/ S.Array(
+  CraReportProduct,
+) as any as S.Schema<LinkTokenCreateRequestCraReportParameterProductsList>;
+
+/** Specifies the report parameters for Plaid Check products, mirroring the parameters accepted on `/cra/report/create`. */
+export interface LinkTokenCreateRequestCraReportParameter {
+  scope?: CraReportScope | (string & {});
+  decision_stage?: CraReportDecisionStage | (string & {});
+  /** Client-generated identifier, which can be used by lenders to track loan applications. */
+  client_report_id?: string | null;
+  /** The number of days of history to include in Plaid Check products. Maximum is 731; minimum is 180. If a value lower than 180 is provided, a minimum of 180 days of history will be requested. */
+  days_requested?: number | null;
+  /** The minimum number of days of data required for the report to be successfully generated. */
+  days_required?: number | null;
+  /** Indicates that investment data should be extracted from the linked account(s). */
+  include_investments?: boolean | null;
+  /** The Plaid Check products, versions, and options to generate for the report. */
+  products?: LinkTokenCreateRequestCraReportParameterProductsList;
+}
+export const LinkTokenCreateRequestCraReportParameter = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    scope: S.optional(CraReportScope),
+    decision_stage: S.optional(CraReportDecisionStage),
+    client_report_id: S.optional(S.NullOr(S.String)),
+    days_requested: S.optional(S.NullOr(S.Number)),
+    days_required: S.optional(S.NullOr(S.Number)),
+    include_investments: S.optional(S.NullOr(S.Boolean)),
+    products: S.optional(LinkTokenCreateRequestCraReportParameterProductsList),
+  }),
+).annotate({
+  identifier: "LinkTokenCreateRequestCraReportParameter",
+}) as any as S.Schema<LinkTokenCreateRequestCraReportParameter>;
+
 /** Specifies what type of [Reroute to Credentials](https://plaid.com/docs/auth/coverage/flow-options/#removing-manual-verification-entry-points-with-reroute-to-credentials) pane should be used in the Link session for the Same-Day Micro-deposits flow. Default behavior is `OPTIONAL`. */
 export type LinkTokenCreateRequestAuthRerouteToCredentials = "OFF" | "OPTIONAL" | "FORCED";
 export const LinkTokenCreateRequestAuthRerouteToCredentials = S.String;
@@ -5930,9 +6070,7 @@ export const LinkTokenInvestments = /*@__PURE__*/ S.suspend(() =>
     allow_unverified_crypto_wallets: S.optional(S.Boolean),
     allow_manual_entry: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "LinkTokenInvestments",
-}) as any as S.Schema<LinkTokenInvestments>;
+).annotate({ identifier: "LinkTokenInvestments" }) as any as S.Schema<LinkTokenInvestments>;
 
 /** Configuration parameters for the Investments Move product */
 export interface LinkTokenInvestmentsAuth {
@@ -5952,11 +6090,9 @@ export const LinkTokenInvestmentsAuth = /*@__PURE__*/ S.suspend(() =>
     stated_account_number_enabled: S.optional(S.NullOr(S.Boolean)),
     rollover_401k_enabled: S.optional(S.NullOr(S.Boolean)),
   }),
-).annotate({
-  identifier: "LinkTokenInvestmentsAuth",
-}) as any as S.Schema<LinkTokenInvestmentsAuth>;
+).annotate({ identifier: "LinkTokenInvestmentsAuth" }) as any as S.Schema<LinkTokenInvestmentsAuth>;
 
-/** How Plaid should deliver the Plaid Link session to the customer. Only available to customers enabled for Link Delivery (beta). To request Link Delivery access, contact your account manager. 'sms' will deliver via SMS. Must pass `user.phone_number`. 'email' will deliver via email. Must pass `user.email_address`. In the Sandbox environment, this field will be ignored; use the Production environment to test Link Delivery instead. */
+/** How Plaid should deliver the Plaid Link session to the customer. Only available to customers enabled for Link Delivery (beta). To request Link Delivery access, contact your account manager. `sms` will deliver via SMS. Must pass `user.phone_number`. `email` will deliver via email. Must pass `user.email_address`. In the Sandbox environment, this field will be ignored; use the Production environment to test Link Delivery instead. */
 export type HostedLinkDeliveryMethod = "sms" | "email";
 export const HostedLinkDeliveryMethod = S.String;
 
@@ -5987,9 +6123,7 @@ export const LinkTokenTransactions = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     days_requested: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "LinkTokenTransactions",
-}) as any as S.Schema<LinkTokenTransactions>;
+).annotate({ identifier: "LinkTokenTransactions" }) as any as S.Schema<LinkTokenTransactions>;
 
 /** Configuration parameters for the Cashflow Report product. Currently in closed beta. */
 export interface LinkTokenCashflowReport {
@@ -6000,9 +6134,7 @@ export const LinkTokenCashflowReport = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     days_requested: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "LinkTokenCashflowReport",
-}) as any as S.Schema<LinkTokenCashflowReport>;
+).annotate({ identifier: "LinkTokenCashflowReport" }) as any as S.Schema<LinkTokenCashflowReport>;
 
 /** An array of `account_ids`. Currently can only contain one `account_id`. Must be populated if using Document Upload. */
 export type LinkTokenCreateIdentityAccountIdsList = Array<string>;
@@ -6033,18 +6165,16 @@ export const LinkTokenCreateIdentity = /*@__PURE__*/ S.suspend(() =>
     account_ids: S.optional(LinkTokenCreateIdentityAccountIdsList),
     parsing_configs: S.optional(LinkTokenCreateIdentityParsingConfigsList),
   }),
-).annotate({
-  identifier: "LinkTokenCreateIdentity",
-}) as any as S.Schema<LinkTokenCreateIdentity>;
+).annotate({ identifier: "LinkTokenCreateIdentity" }) as any as S.Schema<LinkTokenCreateIdentity>;
 
 export interface CreateLinkTokenRequest {
   client_id?: string;
   secret?: string | Redacted.Redacted<string>;
   /** The name of your application, as it should be displayed in Link. Maximum length of 30 characters. If a value longer than 30 characters is provided, Link will display "This Application" instead. */
   client_name: string;
-  /** The language that Link should be displayed in. When initializing with Identity Verification, this field is not used; for more details, see [Identity Verification supported languages](https://plaid.com/docs/identity-verification/#supported-languages). Supported languages are: - Danish (`'da'`) - Dutch (`'nl'`) - English (`'en'`) - Estonian (`'et'`) - French (`'fr'`) - German (`'de'`) - Hindi (`'hi'`) - Italian (`'it'`) - Latvian (`'lv'`) - Lithuanian (`'lt'`) - Norwegian (`'no'`) - Polish (`'pl'`) - Portuguese (`'pt'`) - Romanian (`'ro'`) - Spanish (`'es'`) - Swedish (`'sv'`) - Vietnamese (`'vi'`) When using a Link customization, the language configured here must match the setting in the customization, or the customization will not be applied. */
+  /** The language that Link should be displayed in. When initializing with Identity Verification, this field is not used; for more details, see [Identity Verification supported languages](https://plaid.com/docs/identity-verification/#supported-languages). Supported languages are: - Danish (`'da'`) - Dutch (`'nl'`) - English (`'en'`) - Estonian (`'et'`) - French (`'fr'`) - German (`'de'`) - Haitian Creole (`'ht'`) - Hindi (`'hi'`) - Italian (`'it'`) - Latvian (`'lv'`) - Lithuanian (`'lt'`) - Norwegian (`'no'`) - Polish (`'pl'`) - Portuguese (`'pt'`) - Romanian (`'ro'`) - Spanish (`'es'`) - Swedish (`'sv'`) - Vietnamese (`'vi'`) When using a Link customization, the language configured here must match the setting in the customization, or the customization will not be applied. */
   language: string;
-  /** Specify an array of Plaid-supported country codes using the ISO-3166-1 alpha-2 country code standard. Institutions from all listed countries will be shown. For a complete mapping of supported products by country, see https://support.plaid.com/hc/en-us/articles/27895826947735-What-Plaid-products-are-supported-in-each-country-and-region. For access to additional countries beyond what you have been approved for, [contact sales](https://plaid.com/contact/), your account manager, or support. If using Identity Verification, `country_codes` should be set to the country where your company is based, not the country where your user is located. For all other products, `country_codes` represents the location of your user's financial institution. If Link is launched with multiple country codes, only products that you are enabled for in all countries will be used by Link. While all countries are enabled by default in Sandbox, in Production only the countries you have requested access for are shown. To request access to additional countries, [file a product access Support ticket](https://dashboard.plaid.com/support/new/product-and-development/product-troubleshooting/request-product-access) via the Plaid dashboard. If using a Link customization, make sure the country codes in the customization match those specified in `country_codes`, or the customization may not be applied. If using the Auth features Instant Match, Instant Micro-deposits, Same-Day Micro-deposits, Automated Micro-deposits, or Database Auth, `country_codes` must be set to `['US']`. */
+  /** Specify an array of Plaid-supported country codes using the ISO-3166-1 alpha-2 country code standard. Institutions from all listed countries will be shown. For a complete mapping of supported products by country, see [What Plaid products are supported in each country and region?](https://support.plaid.com/hc/en-us/articles/27895826947735-What-Plaid-products-are-supported-in-each-country-and-region). For access to additional countries beyond what you have been approved for, [contact sales](https://plaid.com/contact/), your account manager, or support. If using Identity Verification, `country_codes` should be set to the country where your company is based, not the country where your user is located. For all other products, `country_codes` represents the location of your user's financial institution. If Link is launched with multiple country codes, only products that you are enabled for in all countries will be used by Link. While all countries are enabled by default in Sandbox, in Production only the countries you have requested access for are shown. To request access to additional countries, [file a product access Support ticket](https://dashboard.plaid.com/support/new/product-and-development/product-troubleshooting/request-product-access) via the Plaid dashboard. If using a Link customization, make sure the country codes in the customization match those specified in `country_codes`, or the customization may not be applied. If using the Auth features Instant Match, Instant Micro-deposits, Same-Day Micro-deposits, Automated Micro-deposits, or Database Auth, `country_codes` must be set to `['US']`. */
   country_codes: CreateLinkTokenRequestCountryCodesList;
   user?: LinkTokenCreateRequestUser;
   /** A `user_id` generated using `/user/create`. Required for integrations that began using Plaid Protect, Multi-Item Link, or Plaid Check Consumer Report after December 10, 2025. Required for new integrations that use Payment Initiation, Variable Recurring Payments, or Virtual Accounts. For more details, see [New User APIs](https://plaid.com/docs/api/users/user-apis). One of either the `user_id` or the `user` field is required. */
@@ -6082,6 +6212,7 @@ export interface CreateLinkTokenRequest {
   base_report?: LinkTokenCreateRequestBaseReport;
   credit_partner_insights?: LinkTokenCreateRequestCreditPartnerInsights;
   cra_options?: LinkTokenCreateRequestCraOptions;
+  cra_report_parameter?: LinkTokenCreateRequestCraReportParameter;
   consumer_report_permissible_purpose?: ConsumerReportPermissiblePurpose | (string & {});
   auth?: LinkTokenCreateRequestAuth;
   transfer?: LinkTokenCreateRequestTransfer;
@@ -6141,6 +6272,7 @@ export const CreateLinkTokenRequest = /*@__PURE__*/ S.suspend(() =>
     base_report: S.optional(LinkTokenCreateRequestBaseReport),
     credit_partner_insights: S.optional(LinkTokenCreateRequestCreditPartnerInsights),
     cra_options: S.optional(LinkTokenCreateRequestCraOptions),
+    cra_report_parameter: S.optional(LinkTokenCreateRequestCraReportParameter),
     consumer_report_permissible_purpose: S.optional(ConsumerReportPermissiblePurpose),
     auth: S.optional(LinkTokenCreateRequestAuth),
     transfer: S.optional(LinkTokenCreateRequestTransfer),
@@ -6159,9 +6291,7 @@ export const CreateLinkTokenRequest = /*@__PURE__*/ S.suspend(() =>
     enable_multi_item_link: S.optional(S.Boolean),
     user_token: S.optional(S.String),
   }).pipe(T.Http({ method: "POST", uri: "/link/token/create", code: 200 })),
-).annotate({
-  identifier: "CreateLinkTokenRequest",
-}) as any as S.Schema<CreateLinkTokenRequest>;
+).annotate({ identifier: "CreateLinkTokenRequest" }) as any as S.Schema<CreateLinkTokenRequest>;
 
 /** LinkTokenCreateResponse defines the response schema for `/link/token/create` */
 export interface LinkTokenCreateResponse {
@@ -6182,9 +6312,7 @@ export const LinkTokenCreateResponse = /*@__PURE__*/ S.suspend(() =>
     hosted_link_url: S.optional(S.String),
     user_id: S.optional(S.String),
   }),
-).annotate({
-  identifier: "LinkTokenCreateResponse",
-}) as any as S.Schema<LinkTokenCreateResponse>;
+).annotate({ identifier: "LinkTokenCreateResponse" }) as any as S.Schema<LinkTokenCreateResponse>;
 
 /** The products to be enabled for the end customer. If empty or `null`, this field will default to the products enabled for the reseller at the time this endpoint is called. */
 export type CreatePartnerCustomerRequestProductsList = Array<Products | (string & {})>;
@@ -6471,9 +6599,7 @@ export const PaymentInitiationAddress = /*@__PURE__*/ S.suspend(() =>
     postal_code: S.String,
     country: S.String,
   }),
-).annotate({
-  identifier: "PaymentInitiationAddress",
-}) as any as S.Schema<PaymentInitiationAddress>;
+).annotate({ identifier: "PaymentInitiationAddress" }) as any as S.Schema<PaymentInitiationAddress>;
 
 /** The payer's phone numbers in E.164 format: +{countrycode}{number} */
 export type PaymentInitiationConsentPayerDetailsPhoneNumbersList = Array<string>;
@@ -6541,13 +6667,7 @@ export const CreatePaymentInitiationConsentRequest = /*@__PURE__*/ S.suspend(() 
     constraints: PaymentInitiationConsentConstraints,
     options: S.optional(S.NullOr(ExternalPaymentInitiationConsentOptions)),
     payer_details: S.optional(S.NullOr(PaymentInitiationConsentPayerDetails)),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/payment_initiation/consent/create",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/payment_initiation/consent/create", code: 200 })),
 ).annotate({
   identifier: "CreatePaymentInitiationConsentRequest",
 }) as any as S.Schema<CreatePaymentInitiationConsentRequest>;
@@ -6630,9 +6750,7 @@ export const ExternalPaymentOptions = /*@__PURE__*/ S.suspend(() =>
     bacs: S.optional(S.NullOr(PaymentInitiationOptionalRestrictionBacs)),
     scheme: S.optional(S.NullOr(PaymentScheme)),
   }),
-).annotate({
-  identifier: "ExternalPaymentOptions",
-}) as any as S.Schema<ExternalPaymentOptions>;
+).annotate({ identifier: "ExternalPaymentOptions" }) as any as S.Schema<ExternalPaymentOptions>;
 
 export interface CreatePaymentInitiationPaymentRequest {
   client_id?: string;
@@ -6657,13 +6775,7 @@ export const CreatePaymentInitiationPaymentRequest = /*@__PURE__*/ S.suspend(() 
     amount: PaymentAmount,
     schedule: S.optional(ExternalPaymentScheduleRequest),
     options: S.optional(S.NullOr(ExternalPaymentOptions)),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/payment_initiation/payment/create",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/payment_initiation/payment/create", code: 200 })),
 ).annotate({
   identifier: "CreatePaymentInitiationPaymentRequest",
 }) as any as S.Schema<CreatePaymentInitiationPaymentRequest>;
@@ -6711,13 +6823,7 @@ export const CreatePaymentInitiationRecipientRequest = /*@__PURE__*/ S.suspend((
     iban: S.optional(S.NullOr(S.String)),
     bacs: S.optional(S.NullOr(PaymentInitiationOptionalRestrictionBacs)),
     address: S.optional(S.NullOr(PaymentInitiationAddress)),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/payment_initiation/recipient/create",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/payment_initiation/recipient/create", code: 200 })),
 ).annotate({
   identifier: "CreatePaymentInitiationRecipientRequest",
 }) as any as S.Schema<CreatePaymentInitiationRecipientRequest>;
@@ -6750,13 +6856,7 @@ export const CreateProcessorApexProcessorTokenRequest = /*@__PURE__*/ S.suspend(
     secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
     access_token: S.String.pipe(T.SensitiveValue({})),
     account_id: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/processor/apex/processor_token/create",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/processor/apex/processor_token/create", code: 200 })),
 ).annotate({
   identifier: "CreateProcessorApexProcessorTokenRequest",
 }) as any as S.Schema<CreateProcessorApexProcessorTokenRequest>;
@@ -6790,11 +6890,7 @@ export const CreateProcessorStripeBankAccountTokenRequest = /*@__PURE__*/ S.susp
     access_token: S.String.pipe(T.SensitiveValue({})),
     account_id: S.String,
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/processor/stripe/bank_account_token/create",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/processor/stripe/bank_account_token/create", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateProcessorStripeBankAccountTokenRequest",
@@ -6865,7 +6961,7 @@ export type CreateProcessorTokenRequestProcessor =
   | "nuvei"
   | "layer"
   | "boom"
-  | "paynote"
+  | "seamlessach"
   | "stake"
   | "wedbush"
   | "esusu"
@@ -6900,7 +6996,10 @@ export type CreateProcessorTokenRequestProcessor =
   | "airwallex"
   | "cybrid"
   | "bizcap"
-  | "webull";
+  | "webull"
+  | "kikoff_enterprise"
+  | "adyen_ca"
+  | "bitgo";
 export const CreateProcessorTokenRequestProcessor = S.String;
 
 export interface CreateProcessorTokenRequest {
@@ -6938,6 +7037,10 @@ export const ProtectUser = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "ProtectUser" }) as any as S.Schema<ProtectUser>;
 
+/** Required when `is_taken` is `true`. Indicates if this would be a user's first or repeat cash-advance. `FIRST` - A user's first cash-advance. `REPEAT` - A user has previously taken out a cash-advance. */
+export type CashAdvanceType = "FIRST" | "REPEAT";
+export const CashAdvanceType = S.String;
+
 /** The outcome of a cash-advance decision. `APPROVED` - The cash-advance was approved. `DECLINED` - The cash-advance was declined. */
 export type CashAdvanceDecisionOutcome = "APPROVED" | "DECLINED";
 export const CashAdvanceDecisionOutcome = S.String;
@@ -6956,38 +7059,38 @@ export const Amount = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "Amount" }) as any as S.Schema<Amount>;
 
-/** The details of a cash-advance associated with an approved cash-advance decision. Required when a cash-advance has been approved. */
-export interface CashAdvanceDetails {
+/** The details of a cash-advance associated with the decision. Required when `is_taken` is `true`. */
+export interface CashAdvanceInfo {
   /** The amount a user was approved for in a cash-advance. */
   amount_approved: Amount;
   /** The amount a user is required to pay, including any fees or additional amounts. Required if `is_taken` is `true`. */
   amount_due?: Amount;
   /** The date the cash-advance is due, in ISO 8601 format (`YYYY-MM-DD`). Required if `is_taken` is `true`. */
   due_date?: string;
-  /** Whether the end user took the approved cash-advance. `True` if taken, `False` if not. */
-  is_taken: boolean;
 }
-export const CashAdvanceDetails = /*@__PURE__*/ S.suspend(() =>
+export const CashAdvanceInfo = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     amount_approved: Amount,
     amount_due: S.optional(Amount),
     due_date: S.optional(S.String),
-    is_taken: S.Boolean,
   }),
-).annotate({
-  identifier: "CashAdvanceDetails",
-}) as any as S.Schema<CashAdvanceDetails>;
+).annotate({ identifier: "CashAdvanceInfo" }) as any as S.Schema<CashAdvanceInfo>;
 
 export interface CreateProtectCashAdvanceDecisionRequest {
   client_id?: string;
   secret?: string | Redacted.Redacted<string>;
   user: ProtectUser;
-  /** Your unique identifier for a cash-advance. Provide when available. This should be the same id provided when recording a repayment. */
+  /** Your unique identifier for a cash-advance. Required when `is_taken` is `true`. This should be the same identifier provided when recording a repayment. */
   client_advance_id?: string | null;
+  advance_type?: CashAdvanceType | (string & {});
+  /** The number of cash-advances a user has previously taken. */
+  previous_advance_count?: number | null;
   /** The time the decision was made, in ISO 8601 / RFC 3339 format (`YYYY-MM-DDTHH:mm:ssZ`). */
   decision_time: string;
   decision: CashAdvanceDecisionOutcome | (string & {});
-  cash_advance?: CashAdvanceDetails | null;
+  /** Whether the end user took the cash-advance. Required when `decision` is APPROVED. When `true`, `client_advance_id` and `cash_advance` are required. */
+  is_taken?: boolean | null;
+  cash_advance?: CashAdvanceInfo | null;
 }
 export const CreateProtectCashAdvanceDecisionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -6995,16 +7098,13 @@ export const CreateProtectCashAdvanceDecisionRequest = /*@__PURE__*/ S.suspend((
     secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
     user: ProtectUser,
     client_advance_id: S.optional(S.NullOr(S.String)),
+    advance_type: S.optional(CashAdvanceType),
+    previous_advance_count: S.optional(S.NullOr(S.Number)),
     decision_time: S.String,
     decision: CashAdvanceDecisionOutcome,
-    cash_advance: S.optional(S.NullOr(CashAdvanceDetails)),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/protect/cash_advance/decision/create",
-      code: 200,
-    }),
-  ),
+    is_taken: S.optional(S.NullOr(S.Boolean)),
+    cash_advance: S.optional(S.NullOr(CashAdvanceInfo)),
+  }).pipe(T.Http({ method: "POST", uri: "/protect/cash_advance/decision/create", code: 200 })),
 ).annotate({
   identifier: "CreateProtectCashAdvanceDecisionRequest",
 }) as any as S.Schema<CreateProtectCashAdvanceDecisionRequest>;
@@ -7021,14 +7121,14 @@ export const ProtectCashAdvanceDecisionCreateResponse = /*@__PURE__*/ S.suspend(
   identifier: "ProtectCashAdvanceDecisionCreateResponse",
 }) as any as S.Schema<ProtectCashAdvanceDecisionCreateResponse>;
 
-/** The repayment status of a cash-advance. `REPAID` - The cash-advance has been fully repaid. `DELIVERED` - The cash-advance has been disbursed to the user and is still outstanding, but its due date has not yet passed. `UNPAID` - The cash-advance is past its due date and has not been repaid; the user is delinquent. */
-export type CashAdvanceRepaymentStatus = "REPAID" | "DELIVERED" | "UNPAID";
+/** The repayment status of a cash-advance. `REPAID` - The cash-advance has been fully repaid. `PARTIAL_PAYMENT` - A payment has been made on the cash-advance, but there is still an outstanding balance. `UNPAID` - The cash-advance is past its due date and has not been repaid; the user is delinquent. */
+export type CashAdvanceRepaymentStatus = "REPAID" | "PARTIAL_PAYMENT" | "UNPAID";
 export const CashAdvanceRepaymentStatus = S.String;
 
 /** The repayment details for a cash-advance. */
 export interface CashAdvanceRepayment {
-  /** The amount a user paid. */
-  amount_paid: Amount;
+  /** The amount a user paid. Required if there was a payment made. */
+  amount_paid?: Amount | null;
   /** The amount a user is required to pay, including any fees or additional amounts. */
   amount_due: Amount;
   /** The date the cash-advance is due, in ISO 8601 format (`YYYY-MM-DD`). */
@@ -7036,13 +7136,11 @@ export interface CashAdvanceRepayment {
 }
 export const CashAdvanceRepayment = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    amount_paid: Amount,
+    amount_paid: S.optional(S.NullOr(Amount)),
     amount_due: Amount,
     due_date: S.String,
   }),
-).annotate({
-  identifier: "CashAdvanceRepayment",
-}) as any as S.Schema<CashAdvanceRepayment>;
+).annotate({ identifier: "CashAdvanceRepayment" }) as any as S.Schema<CashAdvanceRepayment>;
 
 export interface CreateProtectCashAdvanceRepaymentRequest {
   client_id?: string;
@@ -7051,7 +7149,7 @@ export interface CreateProtectCashAdvanceRepaymentRequest {
   /** The client's unique identifier for the cash-advance. */
   client_advance_id: string;
   status: CashAdvanceRepaymentStatus | (string & {});
-  /** The time the repayment occurred, in ISO 8601 / RFC 3339 format (`YYYY-MM-DDTHH:mm:ssZ`). */
+  /** The time the repayment occurred. Required when `status` is `REPAID` or `PARTIAL_PAYMENT`. In ISO 8601 / RFC 3339 format (`YYYY-MM-DDTHH:mm:ssZ`). */
   repayment_time?: string | null;
   repayment: CashAdvanceRepayment;
 }
@@ -7064,13 +7162,7 @@ export const CreateProtectCashAdvanceRepaymentRequest = /*@__PURE__*/ S.suspend(
     status: CashAdvanceRepaymentStatus,
     repayment_time: S.optional(S.NullOr(S.String)),
     repayment: CashAdvanceRepayment,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/protect/cash_advance/repayment/create",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/protect/cash_advance/repayment/create", code: 200 })),
 ).annotate({
   identifier: "CreateProtectCashAdvanceRepaymentRequest",
 }) as any as S.Schema<CreateProtectCashAdvanceRepaymentRequest>;
@@ -7099,9 +7191,7 @@ export const ProtectIncidentAmount = /*@__PURE__*/ S.suspend(() =>
     iso_currency_code: S.optional(S.NullOr(S.String)),
     value: S.Number,
   }),
-).annotate({
-  identifier: "ProtectIncidentAmount",
-}) as any as S.Schema<ProtectIncidentAmount>;
+).annotate({ identifier: "ProtectIncidentAmount" }) as any as S.Schema<ProtectIncidentAmount>;
 
 /** Details about the incident event. */
 export interface ProtectIncidentEvent {
@@ -7135,9 +7225,7 @@ export const ProtectIncidentEvent = /*@__PURE__*/ S.suspend(() =>
     access_token: S.optional(S.NullOr(S.String)),
     item_id: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "ProtectIncidentEvent",
-}) as any as S.Schema<ProtectIncidentEvent>;
+).annotate({ identifier: "ProtectIncidentEvent" }) as any as S.Schema<ProtectIncidentEvent>;
 
 /** The confidence level of the incident report. `CONFIRMED` indicates the incident has been verified and definitively occurred. `SUSPECTED` indicates the incident is believed to have occurred but has not been fully verified. */
 export type ProtectReportConfidence = "CONFIRMED" | "SUSPECTED";
@@ -7192,9 +7280,7 @@ export const ProtectBankAccount = /*@__PURE__*/ S.suspend(() =>
     account_number: S.optional(S.NullOr(S.String)),
     routing_number: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "ProtectBankAccount",
-}) as any as S.Schema<ProtectBankAccount>;
+).annotate({ identifier: "ProtectBankAccount" }) as any as S.Schema<ProtectBankAccount>;
 
 export interface CreateProtectReportRequest {
   client_id?: string;
@@ -7270,13 +7356,7 @@ export const CreateSandboxProcessorTokenRequest = /*@__PURE__*/ S.suspend(() =>
     secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
     institution_id: S.String,
     options: S.optional(SandboxProcessorTokenCreateRequestOptions),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/sandbox/processor_token/create",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/sandbox/processor_token/create", code: 200 })),
 ).annotate({
   identifier: "CreateSandboxProcessorTokenRequest",
 }) as any as S.Schema<CreateSandboxProcessorTokenRequest>;
@@ -7304,11 +7384,11 @@ export const CreateSandboxPublicTokenRequestInitialProductsList = /*@__PURE__*/ 
 
 /** An optional set of parameters corresponding to transactions options. */
 export interface SandboxPublicTokenCreateRequestOptionsTransactions {
-  /** The earliest date for which to fetch transaction history. Dates should be formatted as YYYY-MM-DD. */
+  /** Use `days_requested` instead. This field has no effect on the amount of transaction history available on the Item. */
   start_date?: string;
-  /** The most recent date for which to fetch transaction history. Dates should be formatted as YYYY-MM-DD. */
+  /** Use `days_requested` instead. This field has no effect on the amount of transaction history available on the Item. */
   end_date?: string;
-  /** The maximum number of days of transaction history to request for the Transactions product. */
+  /** The maximum number of days of transaction history to request for the Transactions product, matching [`transactions.days_requested`](https://plaid.com/docs/api/link/#link-token-create-request-transactions-days-requested) on `/link/token/create`. If no value is specified, this defaults to 90 days. Once Transactions has been added to an Item, this value cannot be updated. */
   days_requested?: number;
 }
 export const SandboxPublicTokenCreateRequestOptionsTransactions = /*@__PURE__*/ S.suspend(() =>
@@ -7443,9 +7523,9 @@ export const SandboxPublicTokenCreateResponse = /*@__PURE__*/ S.suspend(() =>
 
 /** Data to populate as test transaction data. */
 export interface CustomSandboxTransaction {
-  /** The date of the transaction, in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) (YYYY-MM-DD) format. Transaction date must be the present date or a date up to 14 days in the past. Future dates are not allowed. */
+  /** The date of the transaction, in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) (YYYY-MM-DD) format. Transaction date must be the present date or a date up to 730 days in the past. Future dates are not allowed. */
   date_transacted: string;
-  /** The date the transaction posted, in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) (YYYY-MM-DD) format. Posted date must be the present date or a date up to 14 days in the past. Future dates are not allowed. */
+  /** The date the transaction posted, in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) (YYYY-MM-DD) format. Posted date must be the present date or a date up to 730 days in the past. Future dates are not allowed. */
   date_posted: string;
   /** The transaction amount. Can be negative. */
   amount: number;
@@ -7453,6 +7533,8 @@ export interface CustomSandboxTransaction {
   description: string;
   /** The ISO-4217 format currency code for the transaction. Defaults to USD. */
   iso_currency_code?: string;
+  /** The `account_id` of the account to add the transaction to, as returned by `/accounts/get`. If omitted, the transaction is added to the Item's checking account, or, for a custom Sandbox user, to the first depository account listed in its `override_accounts`, or its first account if it has no depository account. Student loan accounts don't accept custom transactions and return an `INVALID_ACCOUNT_ID` error. */
+  account_id?: string;
 }
 export const CustomSandboxTransaction = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -7461,10 +7543,9 @@ export const CustomSandboxTransaction = /*@__PURE__*/ S.suspend(() =>
     amount: S.Number,
     description: S.String,
     iso_currency_code: S.optional(S.String),
+    account_id: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CustomSandboxTransaction",
-}) as any as S.Schema<CustomSandboxTransaction>;
+).annotate({ identifier: "CustomSandboxTransaction" }) as any as S.Schema<CustomSandboxTransaction>;
 
 /** List of transactions to be added */
 export type CreateSandboxTransactionRequestTransactionsList = Array<CustomSandboxTransaction>;
@@ -7513,13 +7594,7 @@ export const CreateSandboxTransferTestClockRequest = /*@__PURE__*/ S.suspend(() 
     client_id: S.optional(S.String),
     secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
     virtual_time: S.optional(S.NullOr(S.String)),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/sandbox/transfer/test_clock/create",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/sandbox/transfer/test_clock/create", code: 200 })),
 ).annotate({
   identifier: "CreateSandboxTransferTestClockRequest",
 }) as any as S.Schema<CreateSandboxTransferTestClockRequest>;
@@ -7534,9 +7609,7 @@ export const TransferTestClock = /*@__PURE__*/ S.suspend(() =>
     test_clock_id: S.String,
     virtual_time: S.String,
   }),
-).annotate({
-  identifier: "TransferTestClock",
-}) as any as S.Schema<TransferTestClock>;
+).annotate({ identifier: "TransferTestClock" }) as any as S.Schema<TransferTestClock>;
 
 /** Defines the response schema for `/sandbox/transfer/test_clock/create` */
 export interface SandboxTransferTestClockCreateResponse {
@@ -7648,9 +7721,7 @@ export const TransactionsRuleDetails = /*@__PURE__*/ S.suspend(() =>
     type: TransactionsRuleType,
     query: S.String,
   }),
-).annotate({
-  identifier: "TransactionsRuleDetails",
-}) as any as S.Schema<TransactionsRuleDetails>;
+).annotate({ identifier: "TransactionsRuleDetails" }) as any as S.Schema<TransactionsRuleDetails>;
 
 export interface CreateTransactionsRuleRequest {
   client_id?: string;
@@ -7669,13 +7740,7 @@ export const CreateTransactionsRuleRequest = /*@__PURE__*/ S.suspend(() =>
     pfc_primary_category: S.String,
     pfc_detailed_category: S.String,
     rule_details: TransactionsRuleDetails,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/beta/transactions/rules/v1/create",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/beta/transactions/rules/v1/create", code: 200 })),
 ).annotate({
   identifier: "CreateTransactionsRuleRequest",
 }) as any as S.Schema<CreateTransactionsRuleRequest>;
@@ -7704,9 +7769,7 @@ export const TransactionsCategoryRule = /*@__PURE__*/ S.suspend(() =>
     pfc_detailed_category: S.optional(S.String),
     rule_details: S.optional(TransactionsRuleDetails),
   }),
-).annotate({
-  identifier: "TransactionsCategoryRule",
-}) as any as S.Schema<TransactionsCategoryRule>;
+).annotate({ identifier: "TransactionsCategoryRule" }) as any as S.Schema<TransactionsCategoryRule>;
 
 /** TransactionsRulesCreateResponse defines the response schema for `/beta/transactions/rules/v1/create` */
 export interface TransactionsRulesCreateResponse {
@@ -7831,9 +7894,7 @@ export const CreateTransferRequest = /*@__PURE__*/ S.suspend(() =>
     test_clock_id: S.optional(S.NullOr(S.String)),
     facilitator_fee: S.optional(S.String),
   }).pipe(T.Http({ method: "POST", uri: "/transfer/create", code: 200 })),
-).annotate({
-  identifier: "CreateTransferRequest",
-}) as any as S.Schema<CreateTransferRequest>;
+).annotate({ identifier: "CreateTransferRequest" }) as any as S.Schema<CreateTransferRequest>;
 
 /** The address associated with the account holder. */
 export interface TransferUserAddressInResponse {
@@ -7877,9 +7938,7 @@ export const TransferUserInResponse = /*@__PURE__*/ S.suspend(() =>
     email_address: S.NullOr(S.String),
     address: S.NullOr(TransferUserAddressInResponse),
   }),
-).annotate({
-  identifier: "TransferUserInResponse",
-}) as any as S.Schema<TransferUserInResponse>;
+).annotate({ identifier: "TransferUserInResponse" }) as any as S.Schema<TransferUserInResponse>;
 
 /** The status of the transfer. `pending`: A new transfer was created; it is in the pending state. `posted`: The transfer has been successfully submitted to the payment network. `settled`: The transfer was successfully completed by the payment network. Note that funds from received debits are not available to be moved out of the Ledger until the transfer reaches `funds_available` status. For credit transactions, `settled` means the funds have been delivered to the receiving bank account. This is the terminal state of a successful credit transfer. `funds_available`: Funds from the transfer have been released from hold and applied to the ledger's available balance. (Only applicable to ACH debits.) This is the terminal state of a successful debit transfer. `cancelled`: The transfer was cancelled by the client. This is the terminal state of a cancelled transfer. `failed`: The transfer failed, no funds were moved. This is the terminal state of a failed transfer. `returned`: A posted transfer was returned. This is the terminal state of a returned transfer. */
 export type TransferStatus =
@@ -7908,17 +7967,15 @@ export const TransferWireDetails = /*@__PURE__*/ S.suspend(() =>
     message_to_beneficiary: S.optional(S.NullOr(S.String)),
     wire_return_fee: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "TransferWireDetails",
-}) as any as S.Schema<TransferWireDetails>;
+).annotate({ identifier: "TransferWireDetails" }) as any as S.Schema<TransferWireDetails>;
 
-/** The failure reason if the event type for a transfer is `"failed"` or `"returned"`. Null value otherwise. */
+/** The failure reason if the event type for a transfer is `"failed"` or `"returned"`, or the adjustment reason if the event type is `"adjustment"`. Null value otherwise. */
 export interface TransferFailure {
   /** The failure code, e.g. `R01`. A failure code will be provided if and only if the transfer status is `returned`. See [ACH return codes](https://plaid.com/docs/errors/transfer/#ach-return-codes) for a full listing of ACH return codes and [RTP/RfP error codes](https://plaid.com/docs/errors/transfer/#rtprfp-error-codes) for RTP error codes. */
   failure_code?: string | null;
   /** The ACH return code, e.g. `R01`. A return code will be provided if and only if the transfer status is `returned`. For a full listing of ACH return codes, see [Transfer errors](https://plaid.com/docs/errors/transfer/#ach-return-codes). */
   ach_return_code?: string | null;
-  /** A human-readable description of the reason for the failure or reversal. */
+  /** A human-readable description of the reason for the failure, reversal, or adjustment. */
   description?: string;
 }
 export const TransferFailure = /*@__PURE__*/ S.suspend(() =>
@@ -7927,9 +7984,7 @@ export const TransferFailure = /*@__PURE__*/ S.suspend(() =>
     ach_return_code: S.optional(S.NullOr(S.String)),
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "TransferFailure",
-}) as any as S.Schema<TransferFailure>;
+).annotate({ identifier: "TransferFailure" }) as any as S.Schema<TransferFailure>;
 
 /** Indicates whether the transfer is guaranteed by Plaid (Guarantee customers only). This field will contain either `GUARANTEED` or `NOT_GUARANTEED` indicating whether Plaid will guarantee the transfer. */
 export type TransferAuthorizationGuaranteeDecision = "GUARANTEED" | "NOT_GUARANTEED";
@@ -7996,9 +8051,7 @@ export const TransferGuaranteeDetails = /*@__PURE__*/ S.suspend(() =>
     guaranteed_amount: S.String,
     schedule: TransferGuaranteeDetailsScheduleList,
   }),
-).annotate({
-  identifier: "TransferGuaranteeDetails",
-}) as any as S.Schema<TransferGuaranteeDetails>;
+).annotate({ identifier: "TransferGuaranteeDetails" }) as any as S.Schema<TransferGuaranteeDetails>;
 
 /** The status of the refund. `pending`: A new refund was created; it is in the pending state. `posted`: The refund has been successfully submitted to the payment network. `settled`: Credits have been refunded to the Plaid linked account. `cancelled`: The refund was cancelled by the client. `failed`: The refund has failed. `returned`: The refund was returned. */
 export type TransferRefundStatus =
@@ -8025,9 +8078,7 @@ export const TransferRefundFailure = /*@__PURE__*/ S.suspend(() =>
     ach_return_code: S.optional(S.NullOr(S.String)),
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "TransferRefundFailure",
-}) as any as S.Schema<TransferRefundFailure>;
+).annotate({ identifier: "TransferRefundFailure" }) as any as S.Schema<TransferRefundFailure>;
 
 /** Represents a refund within the Transfers API. */
 export interface TransferRefund {
@@ -8187,9 +8238,7 @@ export const TransferCreateResponse = /*@__PURE__*/ S.suspend(() =>
     transfer: Transfer,
     request_id: S.String,
   }),
-).annotate({
-  identifier: "TransferCreateResponse",
-}) as any as S.Schema<TransferCreateResponse>;
+).annotate({ identifier: "TransferCreateResponse" }) as any as S.Schema<TransferCreateResponse>;
 
 /** The legal name and other information for the account holder. If the account has multiple account holders, provide the information for the account holder on whose behalf the authorization is being requested. The `user.legal_name` field is required. Other fields are not currently used and are present to support planned future functionality. */
 export interface TransferAuthorizationUserInRequest {
@@ -8229,13 +8278,27 @@ export const TransferAuthorizationDevice = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<TransferAuthorizationDevice>;
 
 /** A free-form map of client-supplied risk-relevant context for this authorization. Plaid may use these attributes to inform future versions of our risk models. The following limitations apply: Keys must match the regular expression `^[A-Za-z0-9_.-]{1,40}$` Values must be strings (no nested objects, arrays, numbers, or booleans allowed; stringify non-string values client-side) Maximum of 50 key/value pairs Maximum value length of 500 characters Do not include personally identifiable information or other sensitive data. */
-export type TransferAuthorizationCustomAttributes = {
-  [key: string]: string | undefined;
-};
+export type TransferAuthorizationCustomAttributes = { [key: string]: string | undefined };
 export const TransferAuthorizationCustomAttributes = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
 ) as any as S.Schema<TransferAuthorizationCustomAttributes>;
+
+/** Typed attributes of the end user that Plaid models directly in transfer authorization decisioning. Use `custom_attributes` for any other risk-relevant context. */
+export interface TransferAuthorizationUserAttributes {
+  /** The date and time the end user created their account on your platform, in ISO 8601 format (`YYYY-MM-DDTHH:mm:ssZ`). This is the user's account with you, not a Plaid `account_id`. */
+  account_created_time?: string | null;
+  /** The total number of payments the end user has successfully completed on your platform since their account was created, across all payment methods. Excludes the payment being authorized, and excludes payments that were returned, charged back, or subsequently failed. */
+  successful_payment_count?: number | null;
+}
+export const TransferAuthorizationUserAttributes = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    account_created_time: S.optional(S.NullOr(S.String)),
+    successful_payment_count: S.optional(S.NullOr(S.Number)),
+  }),
+).annotate({
+  identifier: "TransferAuthorizationUserAttributes",
+}) as any as S.Schema<TransferAuthorizationUserAttributes>;
 
 export interface CreateTransferAuthorizationRequest {
   client_id?: string;
@@ -8274,6 +8337,7 @@ export interface CreateTransferAuthorizationRequest {
   /** The key of the Ruleset for the transaction. If not provided, Signal will use the `default` ruleset. */
   ruleset_key?: string | null;
   custom_attributes?: TransferAuthorizationCustomAttributes | null;
+  user_attributes?: TransferAuthorizationUserAttributes | null;
 }
 export const CreateTransferAuthorizationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -8303,13 +8367,8 @@ export const CreateTransferAuthorizationRequest = /*@__PURE__*/ S.suspend(() =>
     test_clock_id: S.optional(S.NullOr(S.String)),
     ruleset_key: S.optional(S.NullOr(S.String)),
     custom_attributes: S.optional(S.NullOr(TransferAuthorizationCustomAttributes)),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/transfer/authorization/create",
-      code: 200,
-    }),
-  ),
+    user_attributes: S.optional(S.NullOr(TransferAuthorizationUserAttributes)),
+  }).pipe(T.Http({ method: "POST", uri: "/transfer/authorization/create", code: 200 })),
 ).annotate({
   identifier: "CreateTransferAuthorizationRequest",
 }) as any as S.Schema<CreateTransferAuthorizationRequest>;
@@ -8514,9 +8573,7 @@ export const TransferAuthorization = /*@__PURE__*/ S.suspend(() =>
     payment_risk: S.NullOr(TransferAuthorizationPaymentRisk),
     proposed_transfer: TransferAuthorizationProposedTransfer,
   }),
-).annotate({
-  identifier: "TransferAuthorization",
-}) as any as S.Schema<TransferAuthorization>;
+).annotate({ identifier: "TransferAuthorization" }) as any as S.Schema<TransferAuthorization>;
 
 /** Defines the response schema for `/transfer/authorization/create` */
 export interface TransferAuthorizationCreateResponse {
@@ -8557,9 +8614,7 @@ export const TransferUserInRequest = /*@__PURE__*/ S.suspend(() =>
     email_address: S.optional(S.String),
     address: S.optional(TransferUserAddressInRequest),
   }),
-).annotate({
-  identifier: "TransferUserInRequest",
-}) as any as S.Schema<TransferUserInRequest>;
+).annotate({ identifier: "TransferUserInRequest" }) as any as S.Schema<TransferUserInRequest>;
 
 export interface CreateTransferIntentRequest {
   client_id?: string;
@@ -8650,9 +8705,7 @@ export const TransferIntentCreate = /*@__PURE__*/ S.suspend(() =>
     iso_currency_code: S.String,
     require_guarantee: S.optional(S.NullOr(S.Boolean)),
   }),
-).annotate({
-  identifier: "TransferIntentCreate",
-}) as any as S.Schema<TransferIntentCreate>;
+).annotate({ identifier: "TransferIntentCreate" }) as any as S.Schema<TransferIntentCreate>;
 
 /** Defines the response schema for `/transfer/intent/create` */
 export interface TransferIntentCreateResponse {
@@ -8734,11 +8787,7 @@ export const CreateTransferOriginatorFundingAccountRequest = /*@__PURE__*/ S.sus
     originator_client_id: S.String,
     funding_account: TransferFundingAccountWithDisplayName,
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/transfer/originator/funding_account/create",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/transfer/originator/funding_account/create", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateTransferOriginatorFundingAccountRequest",
@@ -8795,13 +8844,7 @@ export const CreateTransferPlatformOriginatorRequest = /*@__PURE__*/ S.suspend((
     tos_acceptance_metadata: TransferPlatformTOSAcceptanceMetadata,
     originator_reviewed_at: S.String,
     webhook: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/transfer/platform/originator/create",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/transfer/platform/originator/create", code: 200 })),
 ).annotate({
   identifier: "CreateTransferPlatformOriginatorRequest",
 }) as any as S.Schema<CreateTransferPlatformOriginatorRequest>;
@@ -8899,13 +8942,7 @@ export const CreateTransferPlatformPersonRequest = /*@__PURE__*/ S.suspend(() =>
     relationship_to_originator: S.optional(S.String),
     ownership_percentage: S.optional(S.Number),
     title: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/transfer/platform/person/create",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/transfer/platform/person/create", code: 200 })),
 ).annotate({
   identifier: "CreateTransferPlatformPersonRequest",
 }) as any as S.Schema<CreateTransferPlatformPersonRequest>;
@@ -8939,13 +8976,7 @@ export const CreateTransferQuestionnaireRequest = /*@__PURE__*/ S.suspend(() =>
     secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
     originator_client_id: S.String,
     redirect_uri: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/transfer/questionnaire/create",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/transfer/questionnaire/create", code: 200 })),
 ).annotate({
   identifier: "CreateTransferQuestionnaireRequest",
 }) as any as S.Schema<CreateTransferQuestionnaireRequest>;
@@ -9183,9 +9214,7 @@ export const ClientUserIdentityName = /*@__PURE__*/ S.suspend(() =>
     given_name: S.String,
     family_name: S.String,
   }),
-).annotate({
-  identifier: "ClientUserIdentityName",
-}) as any as S.Schema<ClientUserIdentityName>;
+).annotate({ identifier: "ClientUserIdentityName" }) as any as S.Schema<ClientUserIdentityName>;
 
 /** User email information. */
 export interface ClientUserIdentityEmail {
@@ -9199,9 +9228,7 @@ export const ClientUserIdentityEmail = /*@__PURE__*/ S.suspend(() =>
     data: S.String,
     primary: S.Boolean,
   }),
-).annotate({
-  identifier: "ClientUserIdentityEmail",
-}) as any as S.Schema<ClientUserIdentityEmail>;
+).annotate({ identifier: "ClientUserIdentityEmail" }) as any as S.Schema<ClientUserIdentityEmail>;
 
 /** The user's emails. */
 export type ClientUserIdentityEmailsList = Array<ClientUserIdentityEmail>;
@@ -9269,9 +9296,9 @@ export const ClientUserIdentityAddressesList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<ClientUserIdentityAddressesList>;
 
 /** The user's ID numbers. */
-export type ClientUserIdentityIdNumbersList = Array<UserIDNumber>;
+export type ClientUserIdentityIdNumbersList = Array<UserIDNumber | null>;
 export const ClientUserIdentityIdNumbersList = /*@__PURE__*/ S.Array(
-  UserIDNumber,
+  S.NullOr(UserIDNumber),
 ) as any as S.Schema<ClientUserIdentityIdNumbersList>;
 
 /** The identity fields associated with a user. For a user to be eligible for a Plaid Check Consumer Report, all fields are required except `id_number`. Providing a partial SSN is strongly recommended, and improves the accuracy of matching user records during compliance processes such as file disclosure, dispute, or security freeze requests. If creating a report that will be shared with GSEs such as Fannie or Freddie, a full Social Security Number must be provided via the `id_number` field. */
@@ -9297,9 +9324,7 @@ export const ClientUserIdentity = /*@__PURE__*/ S.suspend(() =>
     addresses: S.optional(ClientUserIdentityAddressesList),
     id_numbers: S.optional(ClientUserIdentityIdNumbersList),
   }),
-).annotate({
-  identifier: "ClientUserIdentity",
-}) as any as S.Schema<ClientUserIdentity>;
+).annotate({ identifier: "ClientUserIdentity" }) as any as S.Schema<ClientUserIdentity>;
 
 /** The user's phone number, in E.164 format: +{countrycode}{number}. For example: "+14157452130". Phone numbers provided in other formats will be parsed on a best-effort basis. Phone number input is validated against valid number ranges; number strings that do not match a real-world phone numbering scheme may cause the request to fail, even in the Sandbox test environment. */
 export type ConsumerReportUserIdentityPhoneNumbersList = Array<string>;
@@ -9368,9 +9393,7 @@ export const CreateUserRequest = /*@__PURE__*/ S.suspend(() =>
     consumer_report_user_identity: S.optional(S.NullOr(ConsumerReportUserIdentity)),
     with_upgraded_user: S.optional(S.Boolean),
   }).pipe(T.Http({ method: "POST", uri: "/user/create", code: 200 })),
-).annotate({
-  identifier: "CreateUserRequest",
-}) as any as S.Schema<CreateUserRequest>;
+).annotate({ identifier: "CreateUserRequest" }) as any as S.Schema<CreateUserRequest>;
 
 /** UserCreateResponse defines the response schema for `/user/create` */
 export interface UserCreateResponse {
@@ -9384,9 +9407,7 @@ export const UserCreateResponse = /*@__PURE__*/ S.suspend(() =>
     user_id: S.String,
     request_id: S.String,
   }),
-).annotate({
-  identifier: "UserCreateResponse",
-}) as any as S.Schema<UserCreateResponse>;
+).annotate({ identifier: "UserCreateResponse" }) as any as S.Schema<UserCreateResponse>;
 
 export interface CreateUserThirdPartyTokenRequest {
   client_id?: string;
@@ -9406,13 +9427,7 @@ export const CreateUserThirdPartyTokenRequest = /*@__PURE__*/ S.suspend(() =>
     third_party_client_id: S.String,
     expiration_time: S.optional(S.NullOr(S.String)),
     user_id: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/user/third_party_token/create",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/user/third_party_token/create", code: 200 })),
 ).annotate({
   identifier: "CreateUserThirdPartyTokenRequest",
 }) as any as S.Schema<CreateUserThirdPartyTokenRequest>;
@@ -9446,9 +9461,7 @@ export const CreateWalletRequest = /*@__PURE__*/ S.suspend(() =>
     secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
     iso_currency_code: WalletISOCurrencyCode,
   }).pipe(T.Http({ method: "POST", uri: "/wallet/create", code: 200 })),
-).annotate({
-  identifier: "CreateWalletRequest",
-}) as any as S.Schema<CreateWalletRequest>;
+).annotate({ identifier: "CreateWalletRequest" }) as any as S.Schema<CreateWalletRequest>;
 
 /** An object representing the e-wallet balance */
 export interface WalletBalance {
@@ -9482,9 +9495,7 @@ export const NumbersInternationalIBAN = /*@__PURE__*/ S.suspend(() =>
     iban: S.String,
     bic: S.String,
   }),
-).annotate({
-  identifier: "NumbersInternationalIBAN",
-}) as any as S.Schema<NumbersInternationalIBAN>;
+).annotate({ identifier: "NumbersInternationalIBAN" }) as any as S.Schema<NumbersInternationalIBAN>;
 
 /** An object representing the e-wallet account numbers */
 export interface WalletNumbers {
@@ -9521,9 +9532,7 @@ export const CreateWalletResponse = /*@__PURE__*/ S.suspend(() =>
     status: WalletStatus,
     request_id: S.String,
   }),
-).annotate({
-  identifier: "CreateWalletResponse",
-}) as any as S.Schema<CreateWalletResponse>;
+).annotate({ identifier: "CreateWalletResponse" }) as any as S.Schema<CreateWalletResponse>;
 
 /** Search inputs for creating an entity watchlist screening */
 export interface EntityWatchlistSearchTerms {
@@ -9561,13 +9570,7 @@ export const CreateWatchlistScreeningEntityRequest = /*@__PURE__*/ S.suspend(() 
     client_user_id: S.optional(S.String),
     client_id: S.optional(S.String),
     secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/watchlist_screening/entity/create",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/watchlist_screening/entity/create", code: 200 })),
 ).annotate({
   identifier: "CreateWatchlistScreeningEntityRequest",
 }) as any as S.Schema<CreateWatchlistScreeningEntityRequest>;
@@ -9677,13 +9680,7 @@ export const CreateWatchlistScreeningEntityReviewRequest = /*@__PURE__*/ S.suspe
     client_id: S.optional(S.String),
     secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
     entity_watchlist_screening_id: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/watchlist_screening/entity/review/create",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/watchlist_screening/entity/review/create", code: 200 })),
 ).annotate({
   identifier: "CreateWatchlistScreeningEntityReviewRequest",
 }) as any as S.Schema<CreateWatchlistScreeningEntityReviewRequest>;
@@ -9756,13 +9753,7 @@ export const CreateWatchlistScreeningIndividualRequest = /*@__PURE__*/ S.suspend
     client_user_id: S.optional(S.String),
     client_id: S.optional(S.String),
     secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/watchlist_screening/individual/create",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/watchlist_screening/individual/create", code: 200 })),
 ).annotate({
   identifier: "CreateWatchlistScreeningIndividualRequest",
 }) as any as S.Schema<CreateWatchlistScreeningIndividualRequest>;
@@ -9847,11 +9838,7 @@ export const CreateWatchlistScreeningIndividualReviewRequest = /*@__PURE__*/ S.s
     secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
     watchlist_screening_id: S.String,
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/watchlist_screening/individual/review/create",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/watchlist_screening/individual/review/create", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateWatchlistScreeningIndividualReviewRequest",
@@ -9912,13 +9899,7 @@ export const CreditAuditCopyTokenCreateRequest = /*@__PURE__*/ S.suspend(() =>
     client_id: S.optional(S.String),
     secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
     report_tokens: CreditAuditCopyTokenCreateRequestReportTokensList,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/credit/audit_copy_token/create",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/credit/audit_copy_token/create", code: 200 })),
 ).annotate({
   identifier: "CreditAuditCopyTokenCreateRequest",
 }) as any as S.Schema<CreditAuditCopyTokenCreateRequest>;
@@ -9958,13 +9939,7 @@ export const CreditAuditCopyTokenUpdateRequest = /*@__PURE__*/ S.suspend(() =>
     secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
     audit_copy_token: S.String,
     report_tokens: CreditAuditCopyTokenUpdateRequestReportTokensList,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/credit/audit_copy_token/update",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/credit/audit_copy_token/update", code: 200 })),
 ).annotate({
   identifier: "CreditAuditCopyTokenUpdateRequest",
 }) as any as S.Schema<CreditAuditCopyTokenUpdateRequest>;
@@ -9995,13 +9970,7 @@ export const CreditReportAuditCopyRemoveRequest = /*@__PURE__*/ S.suspend(() =>
     client_id: S.optional(S.String),
     secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
     audit_copy_token: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/credit/audit_copy_token/remove",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/credit/audit_copy_token/remove", code: 200 })),
 ).annotate({
   identifier: "CreditReportAuditCopyRemoveRequest",
 }) as any as S.Schema<CreditReportAuditCopyRemoveRequest>;
@@ -10031,13 +10000,7 @@ export const DeleteCraServicingSubscriptionRequest = /*@__PURE__*/ S.suspend(() 
     client_id: S.optional(S.String),
     secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
     subscription_id: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/cra/servicing/subscription/delete",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/cra/servicing/subscription/delete", code: 200 })),
 ).annotate({
   identifier: "DeleteCraServicingSubscriptionRequest",
 }) as any as S.Schema<DeleteCraServicingSubscriptionRequest>;
@@ -10070,9 +10033,7 @@ export const DownloadStatementRequest = /*@__PURE__*/ S.suspend(() =>
     secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
     statement_id: S.String,
   }).pipe(T.Http({ method: "POST", uri: "/statements/download", code: 200 })),
-).annotate({
-  identifier: "DownloadStatementRequest",
-}) as any as S.Schema<DownloadStatementRequest>;
+).annotate({ identifier: "DownloadStatementRequest" }) as any as S.Schema<DownloadStatementRequest>;
 
 export interface DownloadStatementResponse {}
 export const DownloadStatementResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -10096,13 +10057,7 @@ export const EnableBetaPartnerCustomerV1Request = /*@__PURE__*/ S.suspend(() =>
     secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
     end_customer_client_id: S.String,
     products: S.optional(EnableBetaPartnerCustomerV1RequestProductsList),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/beta/partner/customer/v1/enable",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/beta/partner/customer/v1/enable", code: 200 })),
 ).annotate({
   identifier: "EnableBetaPartnerCustomerV1Request",
 }) as any as S.Schema<EnableBetaPartnerCustomerV1Request>;
@@ -10184,11 +10139,7 @@ export const ExecutePaymentInitiationConsentPaymentRequest = /*@__PURE__*/ S.sus
     scope: S.optional(S.Unknown),
     processing_mode: S.optional(PaymentInitiationConsentProcessingMode),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/payment_initiation/consent/payment/execute",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/payment_initiation/consent/payment/execute", code: 200 }),
   ),
 ).annotate({
   identifier: "ExecutePaymentInitiationConsentPaymentRequest",
@@ -10322,6 +10273,10 @@ export const WalletTransactionCounterpartyNumbers = /*@__PURE__*/ S.suspend(() =
   identifier: "WalletTransactionCounterpartyNumbers",
 }) as any as S.Schema<WalletTransactionCounterpartyNumbers>;
 
+/** Whether the counterparty is a personal or a business account holder. Payee verification schemes match a different set of identifiers for a natural person and a legal entity. `personal`: the counterparty is an individual. `business`: the counterparty is a company. If this is omitted, a payee verification check on a GBP payout returns `CHECK_NOT_POSSIBLE`. Accepted on `/wallet/transaction/execute` and not returned on read endpoints. */
+export type WalletTransactionCounterpartyHolderCategory = "personal" | "business";
+export const WalletTransactionCounterpartyHolderCategory = S.String;
+
 /** An object representing the e-wallet transaction's counterparty */
 export interface WalletTransactionCounterparty {
   /** The name of the counterparty */
@@ -10330,6 +10285,9 @@ export interface WalletTransactionCounterparty {
   address?: PaymentInitiationAddress | null;
   /** The counterparty's birthdate, in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) (YYYY-MM-DD) format. */
   date_of_birth?: string | null;
+  holder_category?: WalletTransactionCounterpartyHolderCategory | (string & {});
+  /** Set to `true` if you have already verified that this counterparty owns the account, either through your own checks or through Plaid Auth or Identity. Plaid then skips its payee verification check. Whether Plaid runs a check is determined by Plaid configuration, so this field can only suppress a check and never request one. Only applies to GBP payouts. Accepted on `/wallet/transaction/execute` and not returned on read endpoints. */
+  is_verified?: boolean;
 }
 export const WalletTransactionCounterparty = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -10337,6 +10295,8 @@ export const WalletTransactionCounterparty = /*@__PURE__*/ S.suspend(() =>
     numbers: WalletTransactionCounterpartyNumbers,
     address: S.optional(S.NullOr(PaymentInitiationAddress)),
     date_of_birth: S.optional(S.NullOr(S.String)),
+    holder_category: S.optional(WalletTransactionCounterpartyHolderCategory),
+    is_verified: S.optional(S.Boolean),
   }),
 ).annotate({
   identifier: "WalletTransactionCounterparty",
@@ -10353,9 +10313,7 @@ export const WalletTransactionAmount = /*@__PURE__*/ S.suspend(() =>
     iso_currency_code: WalletISOCurrencyCode,
     value: S.Number,
   }),
-).annotate({
-  identifier: "WalletTransactionAmount",
-}) as any as S.Schema<WalletTransactionAmount>;
+).annotate({ identifier: "WalletTransactionAmount" }) as any as S.Schema<WalletTransactionAmount>;
 
 /** The original source of the funds. This field is required by local regulation for certain businesses (e.g. money remittance) to send payouts to recipients in the EU and UK. */
 export interface OriginatingFundSource {
@@ -10374,9 +10332,7 @@ export const OriginatingFundSource = /*@__PURE__*/ S.suspend(() =>
     account_number: S.String,
     bic: S.String,
   }),
-).annotate({
-  identifier: "OriginatingFundSource",
-}) as any as S.Schema<OriginatingFundSource>;
+).annotate({ identifier: "OriginatingFundSource" }) as any as S.Schema<OriginatingFundSource>;
 
 export interface ExecuteWalletTransactionRequest {
   client_id?: string;
@@ -10550,9 +10506,7 @@ export const FDXLifecycleEvent = /*@__PURE__*/ S.suspend(() =>
     initiator: S.optional(FDXPartyType),
     updatedTime: S.optional(S.String),
   }),
-).annotate({
-  identifier: "FDXLifecycleEvent",
-}) as any as S.Schema<FDXLifecycleEvent>;
+).annotate({ identifier: "FDXLifecycleEvent" }) as any as S.Schema<FDXLifecycleEvent>;
 
 /** Custom key-value pairs payload for a notification */
 export interface FDXNotificationPayload {
@@ -10567,9 +10521,7 @@ export const FDXNotificationPayload = /*@__PURE__*/ S.suspend(() =>
     idType: S.optional(FDXNotificationPayloadIdType),
     event: S.optional(FDXLifecycleEvent),
   }),
-).annotate({
-  identifier: "FDXNotificationPayload",
-}) as any as S.Schema<FDXNotificationPayload>;
+).annotate({ identifier: "FDXNotificationPayload" }) as any as S.Schema<FDXNotificationPayload>;
 
 /** HTTP Method to use for the request */
 export type FDXHateoasLinkAction = "GET" | "POST" | "PATCH" | "DELETE" | "PUT";
@@ -10639,9 +10591,7 @@ export const FdxNotificationsRequest = /*@__PURE__*/ S.suspend(() =>
     notificationPayload: FDXNotificationPayload,
     url: S.optional(FDXHateoasLink),
   }).pipe(T.Http({ method: "POST", uri: "/fdx/notifications", code: 200 })),
-).annotate({
-  identifier: "FdxNotificationsRequest",
-}) as any as S.Schema<FdxNotificationsRequest>;
+).annotate({ identifier: "FdxNotificationsRequest" }) as any as S.Schema<FdxNotificationsRequest>;
 
 export interface FdxNotificationsResponse {}
 export const FdxNotificationsResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -10680,9 +10630,7 @@ export const GetAccountRequest = /*@__PURE__*/ S.suspend(() =>
     access_token: S.String.pipe(T.SensitiveValue({})),
     options: S.optional(AccountsGetRequestOptions),
   }).pipe(T.Http({ method: "POST", uri: "/accounts/get", code: 200 })),
-).annotate({
-  identifier: "GetAccountRequest",
-}) as any as S.Schema<GetAccountRequest>;
+).annotate({ identifier: "GetAccountRequest" }) as any as S.Schema<GetAccountRequest>;
 
 /** A set of fields describing the balance for an account. For real-time values, use `/accounts/balance/get` or `/signal/evaluate` (with a Balance-only ruleset), which are fetched live from the institution at request time. Values returned by other endpoints may be cached, or adjusted by Plaid to reflect transaction activity received since the last refresh. */
 export interface AccountBalance {
@@ -10894,6 +10842,8 @@ export interface Item {
   consent_expiration_time: string | null;
   /** Indicates whether an Item requires user interaction to be updated, which can be the case for Items with some forms of two-factor authentication. `background` - Item can be updated in the background `user_present_required` - Item requires user interaction to be updated */
   update_type: ItemUpdateType;
+  /** The `item_id` of the Item that was created alongside this one in a single Link session. Only present for Items created in a hybrid Link flow that produces separate Plaid Inc and Plaid Check items; `null` for every other Item. */
+  paired_item_id?: string | null;
 }
 export const Item = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -10909,6 +10859,7 @@ export const Item = /*@__PURE__*/ S.suspend(() =>
     consented_products: S.optional(ItemConsentedProductsList),
     consent_expiration_time: S.NullOr(S.String),
     update_type: ItemUpdateType,
+    paired_item_id: S.optional(S.NullOr(S.String)),
   }),
 ).annotate({ identifier: "Item" }) as any as S.Schema<Item>;
 
@@ -10925,9 +10876,7 @@ export const AccountsGetResponse = /*@__PURE__*/ S.suspend(() =>
     item: Item,
     request_id: S.String,
   }),
-).annotate({
-  identifier: "AccountsGetResponse",
-}) as any as S.Schema<AccountsGetResponse>;
+).annotate({ identifier: "AccountsGetResponse" }) as any as S.Schema<AccountsGetResponse>;
 
 /** A list of `account_ids` to retrieve for the Item. The default value is `null`. Note: An error will be returned if a provided `account_id` is not associated with the Item. */
 export type AccountsBalanceGetRequestOptionsAccountIdsList = Array<string>;
@@ -10978,9 +10927,7 @@ export const GetApplicationRequest = /*@__PURE__*/ S.suspend(() =>
     secret: S.String.pipe(T.SensitiveValue({})),
     application_id: S.String,
   }).pipe(T.Http({ method: "POST", uri: "/application/get", code: 200 })),
-).annotate({
-  identifier: "GetApplicationRequest",
-}) as any as S.Schema<GetApplicationRequest>;
+).annotate({ identifier: "GetApplicationRequest" }) as any as S.Schema<GetApplicationRequest>;
 
 /** Metadata about the application */
 export interface Application {
@@ -11038,9 +10985,7 @@ export const ApplicationGetResponse = /*@__PURE__*/ S.suspend(() =>
     request_id: S.String,
     application: Application,
   }),
-).annotate({
-  identifier: "ApplicationGetResponse",
-}) as any as S.Schema<ApplicationGetResponse>;
+).annotate({ identifier: "ApplicationGetResponse" }) as any as S.Schema<ApplicationGetResponse>;
 
 /** An optional object to filter or add data to `/asset_report/get` results. If provided, must be non-`null`. */
 export interface AssetReportGetRequestOptions {
@@ -11077,9 +11022,7 @@ export const GetAssetReportRequest = /*@__PURE__*/ S.suspend(() =>
     fast_report: S.optional(S.Boolean),
     options: S.optional(AssetReportGetRequestOptions),
   }).pipe(T.Http({ method: "POST", uri: "/asset_report/get", code: 200 })),
-).annotate({
-  identifier: "GetAssetReportRequest",
-}) as any as S.Schema<GetAssetReportRequest>;
+).annotate({ identifier: "GetAssetReportRequest" }) as any as S.Schema<GetAssetReportRequest>;
 
 export interface GetAssetReportPdfRequest {
   client_id?: string;
@@ -11094,9 +11037,7 @@ export const GetAssetReportPdfRequest = /*@__PURE__*/ S.suspend(() =>
     asset_report_token: S.String,
     options: S.optional(AssetReportPDFGetRequestOptions),
   }).pipe(T.Http({ method: "POST", uri: "/asset_report/pdf/get", code: 200 })),
-).annotate({
-  identifier: "GetAssetReportPdfRequest",
-}) as any as S.Schema<GetAssetReportPdfRequest>;
+).annotate({ identifier: "GetAssetReportPdfRequest" }) as any as S.Schema<GetAssetReportPdfRequest>;
 
 export interface GetAssetReportPdfResponse {}
 export const GetAssetReportPdfResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -11118,9 +11059,7 @@ export const AuthGetRequestOptions = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     account_ids: S.optional(AuthGetRequestOptionsAccountIdsList),
   }),
-).annotate({
-  identifier: "AuthGetRequestOptions",
-}) as any as S.Schema<AuthGetRequestOptions>;
+).annotate({ identifier: "AuthGetRequestOptions" }) as any as S.Schema<AuthGetRequestOptions>;
 
 export interface GetAuthRequest {
   client_id?: string;
@@ -11219,9 +11158,7 @@ export const NumbersInternational = /*@__PURE__*/ S.suspend(() =>
     iban: S.String,
     bic: S.String,
   }),
-).annotate({
-  identifier: "NumbersInternational",
-}) as any as S.Schema<NumbersInternational>;
+).annotate({ identifier: "NumbersInternational" }) as any as S.Schema<NumbersInternational>;
 
 /** An array of IBAN numbers identifying accounts. */
 export type AuthGetNumbersInternationalList = Array<NumbersInternational>;
@@ -11287,9 +11224,7 @@ export const AuthGetResponse = /*@__PURE__*/ S.suspend(() =>
     item: Item,
     request_id: S.String,
   }),
-).annotate({
-  identifier: "AuthGetResponse",
-}) as any as S.Schema<AuthGetResponse>;
+).annotate({ identifier: "AuthGetResponse" }) as any as S.Schema<AuthGetResponse>;
 
 export interface GetBetaEwaReportV1Request {
   access_token: string | Redacted.Redacted<string>;
@@ -11330,10 +11265,10 @@ export const BetaEwaReportV1GetResponseEwaScoresList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<BetaEwaReportV1GetResponseEwaScoresList>;
 
 /** A set of attributes providing context about the factors that contributed to the EWA scores. Each key is the attribute name and the value is its numeric score, or null if the attribute could not be computed. */
-export type EwaAttributes = { [key: string]: number | undefined };
+export type EwaAttributes = { [key: string]: number | null | undefined };
 export const EwaAttributes = /*@__PURE__*/ S.Record(
   S.String,
-  S.Number,
+  S.NullOr(S.Number),
 ) as any as S.Schema<EwaAttributes>;
 
 /** BetaEwaReportV1GetResponse defines the response schema for `/beta/ewa_report/v1/get` */
@@ -11371,9 +11306,7 @@ export const GetBetaIssuesV1Request = /*@__PURE__*/ S.suspend(() =>
     secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
     issue_id: S.String,
   }).pipe(T.Http({ method: "POST", uri: "/beta/issues/v1/get", code: 200 })),
-).annotate({
-  identifier: "GetBetaIssuesV1Request",
-}) as any as S.Schema<GetBetaIssuesV1Request>;
+).annotate({ identifier: "GetBetaIssuesV1Request" }) as any as S.Schema<GetBetaIssuesV1Request>;
 
 /** The customer-visible effects of the issue. */
 export type GetBetaIssuesV1ResponseBehaviorsList = Array<BetaIssuesV1IssueBehavior>;
@@ -11449,9 +11382,7 @@ export const GetBetaIssuesV1Response = /*@__PURE__*/ S.suspend(() =>
     resolution_log: GetBetaIssuesV1ResponseResolutionLogList,
     request_id: S.String,
   }),
-).annotate({
-  identifier: "GetBetaIssuesV1Response",
-}) as any as S.Schema<GetBetaIssuesV1Response>;
+).annotate({ identifier: "GetBetaIssuesV1Response" }) as any as S.Schema<GetBetaIssuesV1Response>;
 
 export interface GetBetaPartnerCustomerV1Request {
   client_id?: string;
@@ -11486,9 +11417,7 @@ export const BetaPartnerEndCustomer = /*@__PURE__*/ S.suspend(() =>
     product_statuses: S.optional(PartnerEndCustomerProductStatuses),
     requirements_due: S.optional(PartnerEndCustomerRequirementsDue),
   }),
-).annotate({
-  identifier: "BetaPartnerEndCustomer",
-}) as any as S.Schema<BetaPartnerEndCustomer>;
+).annotate({ identifier: "BetaPartnerEndCustomer" }) as any as S.Schema<BetaPartnerEndCustomer>;
 
 /** Response schema for `/beta/partner/customer/v1/get`. */
 export interface BetaPartnerCustomerV1GetResponse {
@@ -11594,9 +11523,7 @@ export const GetCashflowReportRequest = /*@__PURE__*/ S.suspend(() =>
     cursor: S.optional(S.String),
     options: S.optional(CashflowReportGetRequestOptions),
   }).pipe(T.Http({ method: "POST", uri: "/cashflow_report/get", code: 200 })),
-).annotate({
-  identifier: "GetCashflowReportRequest",
-}) as any as S.Schema<GetCashflowReportRequest>;
+).annotate({ identifier: "GetCashflowReportRequest" }) as any as S.Schema<GetCashflowReportRequest>;
 
 /** Indicates an Item's micro-deposit-based verification or database verification status. This field is only populated when using Auth and falling back to micro-deposit or database verification. Possible values are: `pending_automatic_verification`: The Item is pending automatic verification. `pending_manual_verification`: The Item is pending manual micro-deposit verification. Items remain in this state until the user successfully verifies the code. `automatically_verified`: The Item has successfully been automatically verified. `manually_verified`: The Item has successfully been manually verified. `verification_expired`: Plaid was unable to automatically verify the deposit within 7 calendar days and will no longer attempt to validate the Item. Users may retry by submitting their information again through Link. `verification_failed`: The Item failed manual micro-deposit verification because the user exhausted all 3 verification attempts. Users may retry by submitting their information again through Link. `unsent`: The Item is pending micro-deposit verification, but Plaid has not yet sent the micro-deposit. `database_insights_fail`: The Item's numbers have been verified using Plaid's data sources and have signal for being invalid and/or have no signal for being valid. Typically this indicates that the routing number is invalid, the account number does not match the account number format associated with the routing number, or the account has been reported as closed or frozen. Only returned for Auth Items created via Database Auth. `database_insights_pass`: The Item's numbers have been verified using Plaid's data sources: the routing and account number match a routing and account number of an account recognized on the Plaid network, and the account is not known by Plaid to be frozen or closed. Only returned for Auth Items created via Database Auth. `database_insights_pass_with_caution`: The Item's numbers have been verified using Plaid's data sources and have some signal for being valid: the routing and account number were not recognized on the Plaid network, but the routing number is valid and the account number is a potential valid account number for that routing number. Only returned for Auth Items created via Database Auth. `database_matched`: (deprecated) The Item has successfully been verified using Plaid's data sources. Only returned for Auth Items created via Database Match. `null` or empty string: Neither micro-deposit-based verification nor database verification are being used for the Item. */
 export type BusinessAccountVerificationStatus =
@@ -11662,9 +11589,7 @@ export const BusinessAccount = /*@__PURE__*/ S.suspend(() =>
     holder_category: S.optional(S.NullOr(AccountHolderCategory)),
     owners: S.optional(BusinessAccountOwnersList),
   }),
-).annotate({
-  identifier: "BusinessAccount",
-}) as any as S.Schema<BusinessAccount>;
+).annotate({ identifier: "BusinessAccount" }) as any as S.Schema<BusinessAccount>;
 
 /** An array containing the `accounts` associated with the Item for which transactions are being returned. Each transaction can be mapped to its corresponding account via the `account_id` field. */
 export type CashflowReportGetResponseAccountsList = Array<BusinessAccount>;
@@ -11701,9 +11626,7 @@ export const PersonalFinanceCategory = /*@__PURE__*/ S.suspend(() =>
     confidence_level: S.optional(S.NullOr(S.String)),
     version: S.optional(PersonalFinanceCategoryVersion),
   }),
-).annotate({
-  identifier: "PersonalFinanceCategory",
-}) as any as S.Schema<PersonalFinanceCategory>;
+).annotate({ identifier: "PersonalFinanceCategory" }) as any as S.Schema<PersonalFinanceCategory>;
 
 /** Information describing the intent of the transaction. Most relevant for business finance use cases, but not limited to such use cases. */
 export interface BusinessFinanceCategory {
@@ -11720,9 +11643,7 @@ export const BusinessFinanceCategory = /*@__PURE__*/ S.suspend(() =>
     detailed: S.String,
     confidence_level: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "BusinessFinanceCategory",
-}) as any as S.Schema<BusinessFinanceCategory>;
+).annotate({ identifier: "BusinessFinanceCategory" }) as any as S.Schema<BusinessFinanceCategory>;
 
 /** An identifier classifying the transaction type. This field is populated for European institutions, as well as certain institutions in the United States. For institutions where this classification is not available, this field is set to `null`. `adjustment:` Bank adjustment `atm:` Cash deposit or withdrawal via an automated teller machine `bank charge:` Charge or fee levied by the institution `bill payment`: Payment of a bill `cash:` Cash deposit or withdrawal `cash advance:` Cash advance drawn against a credit card or line of credit `cashback:` Cash withdrawal while making a debit card purchase `cheque:` Document ordering the payment of money to another person or organization `direct debit:` Automatic withdrawal of funds initiated by a third party at a regular interval `interest:` Interest earned or incurred `late fee:` Fee associated with a late or past-due payment `membership fee:` Annual or recurring membership fee `payment:` One-off outbound payment not classified as a bill payment, direct debit, or standing order `purchase:` Purchase made with a debit or credit card `refund:` Merchant credit or return, such as a refund of a prior purchase `returned item fee:` Fee for a returned item, such as a returned check or stop payment `standing order:` Payment instructed by the account holder to a third party at a regular interval `transfer:` Transfer of money between accounts */
 export type TransactionCode =
@@ -11768,9 +11689,7 @@ export const CounterpartyNumbersBACS = /*@__PURE__*/ S.suspend(() =>
     account: S.optional(S.NullOr(S.String)),
     sort_code: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "CounterpartyNumbersBACS",
-}) as any as S.Schema<CounterpartyNumbersBACS>;
+).annotate({ identifier: "CounterpartyNumbersBACS" }) as any as S.Schema<CounterpartyNumbersBACS>;
 
 /** Account numbers using the International Bank Account Number and BIC/SWIFT code format. */
 export interface CounterpartyNumbersInternational {
@@ -11797,9 +11716,7 @@ export const CounterpartyNumbers = /*@__PURE__*/ S.suspend(() =>
     bacs: S.optional(S.NullOr(CounterpartyNumbersBACS)),
     international: S.optional(S.NullOr(CounterpartyNumbersInternational)),
   }),
-).annotate({
-  identifier: "CounterpartyNumbers",
-}) as any as S.Schema<CounterpartyNumbers>;
+).annotate({ identifier: "CounterpartyNumbers" }) as any as S.Schema<CounterpartyNumbers>;
 
 /** The counterparty, such as the merchant or financial institution, is extracted by Plaid from the raw description. */
 export interface TransactionCounterparty {
@@ -11826,9 +11743,7 @@ export const TransactionCounterparty = /*@__PURE__*/ S.suspend(() =>
     confidence_level: S.optional(S.NullOr(S.String)),
     account_numbers: S.optional(S.NullOr(CounterpartyNumbers)),
   }),
-).annotate({
-  identifier: "TransactionCounterparty",
-}) as any as S.Schema<TransactionCounterparty>;
+).annotate({ identifier: "TransactionCounterparty" }) as any as S.Schema<TransactionCounterparty>;
 
 /** The counterparties present in the transaction. Counterparties, such as the merchant or the financial institution, are extracted by Plaid from the raw description. */
 export type CashflowReportTransactionCounterpartiesList = Array<TransactionCounterparty>;
@@ -12209,13 +12124,7 @@ export const GetCashflowReportTransactionRequest = /*@__PURE__*/ S.suspend(() =>
     count: S.optional(S.Number),
     cursor: S.optional(S.String),
     options: S.optional(CashflowReportTransactionsGetRequestOptions),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/cashflow_report/transactions/get",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/cashflow_report/transactions/get", code: 200 })),
 ).annotate({
   identifier: "GetCashflowReportTransactionRequest",
 }) as any as S.Schema<GetCashflowReportTransactionRequest>;
@@ -12273,9 +12182,7 @@ export const GetConsentEventRequest = /*@__PURE__*/ S.suspend(() =>
     secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
     access_token: S.String.pipe(T.SensitiveValue({})),
   }).pipe(T.Http({ method: "POST", uri: "/consent/events/get", code: 200 })),
-).annotate({
-  identifier: "GetConsentEventRequest",
-}) as any as S.Schema<GetConsentEventRequest>;
+).annotate({ identifier: "GetConsentEventRequest" }) as any as S.Schema<GetConsentEventRequest>;
 
 /** A broad categorization of the consent event. */
 export type ConsentEventType = "CONSENT_GRANTED" | "CONSENT_REVOKED" | "CONSENT_UPDATED";
@@ -12328,9 +12235,7 @@ export const ConsentedAccount = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(AccountType),
     subtype: S.optional(S.NullOr(AccountSubtype)),
   }),
-).annotate({
-  identifier: "ConsentedAccount",
-}) as any as S.Schema<ConsentedAccount>;
+).annotate({ identifier: "ConsentedAccount" }) as any as S.Schema<ConsentedAccount>;
 
 /** An array containing the accounts associated with the Item for which authorizations are granted. */
 export type ConsentEventConsentedAccountsList = Array<ConsentedAccount>;
@@ -12390,9 +12295,7 @@ export const ConsentEventsGetResponse = /*@__PURE__*/ S.suspend(() =>
     request_id: S.String,
     consent_events: ConsentEventsGetResponseConsentEventsList,
   }),
-).annotate({
-  identifier: "ConsentEventsGetResponse",
-}) as any as S.Schema<ConsentEventsGetResponse>;
+).annotate({ identifier: "ConsentEventsGetResponse" }) as any as S.Schema<ConsentEventsGetResponse>;
 
 export interface GetConsumerReportPdfRequest {
   client_id?: string;
@@ -12441,6 +12344,7 @@ export interface GetCraCheckReportBaseReportRequest {
   user_tier?: CraUserTier | (string & {}) | null;
   /** The CRA report token (formatted `cra-report-<env>-<uuid>`) identifying a specific consumer report. When provided alongside `consumer_report_permissible_purpose`, pins retrieval to that report and stamps its permissible purpose. If omitted, the most recently generated report for the user is returned. */
   report_id?: string;
+  /** The permissible purpose under which the consumer report is being retrieved. */
   consumer_report_permissible_purpose?: CraCheckReportPermissiblePurpose | (string & {});
 }
 export const GetCraCheckReportBaseReportRequest = /*@__PURE__*/ S.suspend(() =>
@@ -12454,13 +12358,7 @@ export const GetCraCheckReportBaseReportRequest = /*@__PURE__*/ S.suspend(() =>
     user_tier: S.optional(S.NullOr(CraUserTier)),
     report_id: S.optional(S.String),
     consumer_report_permissible_purpose: S.optional(CraCheckReportPermissiblePurpose),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/cra/check_report/base_report/get",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/cra/check_report/base_report/get", code: 200 })),
 ).annotate({
   identifier: "GetCraCheckReportBaseReportRequest",
 }) as any as S.Schema<GetCraCheckReportBaseReportRequest>;
@@ -12552,9 +12450,7 @@ export const ConsumerDispute = /*@__PURE__*/ S.suspend(() =>
     category: ConsumerDisputeCategory,
     statement: S.String,
   }),
-).annotate({
-  identifier: "ConsumerDispute",
-}) as any as S.Schema<ConsumerDispute>;
+).annotate({ identifier: "ConsumerDispute" }) as any as S.Schema<ConsumerDispute>;
 
 /** The information about previously submitted valid dispute statements by the consumer */
 export type BaseReportAccountConsumerDisputesList = Array<ConsumerDispute>;
@@ -12647,11 +12543,9 @@ export const BaseReportTransaction = /*@__PURE__*/ S.suspend(() =>
     category_id: S.optional(S.NullOr(S.String)),
     personal_finance_category: S.optional(S.NullOr(PersonalFinanceCategory)),
   }),
-).annotate({
-  identifier: "BaseReportTransaction",
-}) as any as S.Schema<BaseReportTransaction>;
+).annotate({ identifier: "BaseReportTransaction" }) as any as S.Schema<BaseReportTransaction>;
 
-/** Transaction history associated with the account. Transaction history returned by endpoints such as `/transactions/get` or `/investments/transactions/get` will be returned in the top-level `transactions` field instead. Some transactions may have their details masked in accordance to the FCRA. These will appear with a `credit_category` of `MASKED_TRANSACTION_CATEGORY`. */
+/** Transaction history associated with the account. Transaction history returned by endpoints such as `/transactions/get` or `/investments/transactions/get` will be returned in the top-level `transactions` field instead. Some transactions may have their details masked in accordance with the FCRA. These will appear with a `credit_category` of `MASKED_TRANSACTION_CATEGORY`. */
 export type BaseReportAccountTransactionsList = Array<BaseReportTransaction>;
 export const BaseReportAccountTransactionsList = /*@__PURE__*/ S.Array(
   BaseReportTransaction,
@@ -12876,9 +12770,7 @@ export const BaseReportAttributes = /*@__PURE__*/ S.suspend(() =>
     total_outflow_amount_60d: S.optional(S.NullOr(CashflowReportMonthlySummaryStartingBalance)),
     total_outflow_amount_90d: S.optional(S.NullOr(CashflowReportMonthlySummaryStartingBalance)),
   }),
-).annotate({
-  identifier: "BaseReportAttributes",
-}) as any as S.Schema<BaseReportAttributes>;
+).annotate({ identifier: "BaseReportAttributes" }) as any as S.Schema<BaseReportAttributes>;
 
 /** Base Report information about an account */
 export interface BaseReportAccount {
@@ -12898,7 +12790,7 @@ export interface BaseReportAccount {
   subtype: AccountSubtype | null;
   /** The duration of transaction history available within this report for this Item, typically defined as the time since the date of the earliest transaction in that account. */
   days_available: number;
-  /** Transaction history associated with the account. Transaction history returned by endpoints such as `/transactions/get` or `/investments/transactions/get` will be returned in the top-level `transactions` field instead. Some transactions may have their details masked in accordance to the FCRA. These will appear with a `credit_category` of `MASKED_TRANSACTION_CATEGORY`. */
+  /** Transaction history associated with the account. Transaction history returned by endpoints such as `/transactions/get` or `/investments/transactions/get` will be returned in the top-level `transactions` field instead. Some transactions may have their details masked in accordance with the FCRA. These will appear with a `credit_category` of `MASKED_TRANSACTION_CATEGORY`. */
   transactions: BaseReportAccountTransactionsList;
   /** Data returned by the financial institution about the account owner or owners. For business accounts, the name reported may be either the name of the individual or the name of the business, depending on the institution. Multiple owners on a single account will be represented in the same `owner` object, not in multiple owner objects within the array. This array can also be empty if no owners are found. */
   owners: BaseReportAccountOwnersList;
@@ -12927,9 +12819,7 @@ export const BaseReportAccount = /*@__PURE__*/ S.suspend(() =>
     account_insights: S.optional(BaseReportAccountInsights),
     attributes: S.optional(BaseReportAttributes),
   }),
-).annotate({
-  identifier: "BaseReportAccount",
-}) as any as S.Schema<BaseReportAccount>;
+).annotate({ identifier: "BaseReportAccount" }) as any as S.Schema<BaseReportAccount>;
 
 /** Data about each of the accounts open on the Item. */
 export type BaseReportItemAccountsList = Array<BaseReportAccount>;
@@ -13031,9 +12921,7 @@ export const BaseReportUserAttributes = /*@__PURE__*/ S.suspend(() =>
     total_outflow_amount_60d: S.optional(S.NullOr(CashflowReportMonthlySummaryStartingBalance)),
     total_outflow_amount_90d: S.optional(S.NullOr(CashflowReportMonthlySummaryStartingBalance)),
   }),
-).annotate({
-  identifier: "BaseReportUserAttributes",
-}) as any as S.Schema<BaseReportUserAttributes>;
+).annotate({ identifier: "BaseReportUserAttributes" }) as any as S.Schema<BaseReportUserAttributes>;
 
 /** An object representing a Base Report */
 export interface BaseReport {
@@ -13079,9 +12967,7 @@ export const BaseReportWarning = /*@__PURE__*/ S.suspend(() =>
     warning_code: BaseReportWarningCode,
     cause: S.NullOr(Cause),
   }),
-).annotate({
-  identifier: "BaseReportWarning",
-}) as any as S.Schema<BaseReportWarning>;
+).annotate({ identifier: "BaseReportWarning" }) as any as S.Schema<BaseReportWarning>;
 
 /** This array contains any information about errors or alerts related to the Base Report that did not block generation of the report. */
 export type CraCheckReportBaseReportGetResponseWarningsList = Array<BaseReportWarning>;
@@ -13126,13 +13012,7 @@ export const GetCraCheckReportCashflowInsightRequest = /*@__PURE__*/ S.suspend((
     third_party_user_token: S.optional(S.String),
     user_token: S.optional(S.String),
     options: S.optional(S.NullOr(CraCheckReportCreateCashflowInsightsOptions)),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/cra/check_report/cashflow_insights/get",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/cra/check_report/cashflow_insights/get", code: 200 })),
 ).annotate({
   identifier: "GetCraCheckReportCashflowInsightRequest",
 }) as any as S.Schema<GetCraCheckReportCashflowInsightRequest>;
@@ -13175,9 +13055,7 @@ export const CheckReportWarning = /*@__PURE__*/ S.suspend(() =>
     warning_code: CheckReportWarningCode,
     cause: S.NullOr(Cause),
   }),
-).annotate({
-  identifier: "CheckReportWarning",
-}) as any as S.Schema<CheckReportWarning>;
+).annotate({ identifier: "CheckReportWarning" }) as any as S.Schema<CheckReportWarning>;
 
 /** If the Cashflow Insights generation was successful but a subset of data could not be retrieved, this array will contain information about the errors causing information to be missing */
 export type CraCheckReportCashflowInsightsGetResponseWarningsList = Array<CheckReportWarning>;
@@ -13215,6 +13093,7 @@ export interface GetCraCheckReportIncomeInsightRequest {
   options?: CraCheckReportCreateIncomeInsightsOptions | null;
   /** The CRA report token (formatted `cra-report-<env>-<uuid>`) identifying a specific consumer report. When provided alongside `consumer_report_permissible_purpose`, pins retrieval to that report and stamps its permissible purpose. If omitted, the most recently generated report for the user is returned. */
   report_id?: string;
+  /** The permissible purpose under which the consumer report is being retrieved. */
   consumer_report_permissible_purpose?: CraCheckReportPermissiblePurpose | (string & {});
 }
 export const GetCraCheckReportIncomeInsightRequest = /*@__PURE__*/ S.suspend(() =>
@@ -13227,13 +13106,7 @@ export const GetCraCheckReportIncomeInsightRequest = /*@__PURE__*/ S.suspend(() 
     options: S.optional(S.NullOr(CraCheckReportCreateIncomeInsightsOptions)),
     report_id: S.optional(S.String),
     consumer_report_permissible_purpose: S.optional(CraCheckReportPermissiblePurpose),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/cra/check_report/income_insights/get",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/cra/check_report/income_insights/get", code: 200 })),
 ).annotate({
   identifier: "GetCraCheckReportIncomeInsightRequest",
 }) as any as S.Schema<GetCraCheckReportIncomeInsightRequest>;
@@ -13291,9 +13164,7 @@ export const CraBankIncomeAccount = /*@__PURE__*/ S.suspend(() =>
     type: CreditBankIncomeAccountType,
     owners: CraBankIncomeAccountOwnersList,
   }),
-).annotate({
-  identifier: "CraBankIncomeAccount",
-}) as any as S.Schema<CraBankIncomeAccount>;
+).annotate({ identifier: "CraBankIncomeAccount" }) as any as S.Schema<CraBankIncomeAccount>;
 
 /** The Item's accounts that have bank income data. */
 export type CraBankIncomeItemAccountsList = Array<CraBankIncomeAccount>;
@@ -13355,9 +13226,7 @@ export const CraPredictionInterval = /*@__PURE__*/ S.suspend(() =>
     upper_bound: S.optional(S.NullOr(S.Number)),
     probability: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "CraPredictionInterval",
-}) as any as S.Schema<CraPredictionInterval>;
+).annotate({ identifier: "CraPredictionInterval" }) as any as S.Schema<CraPredictionInterval>;
 
 /** The prediction interval(s) for the forecasted average monthly income. */
 export type CraBankIncomeSourceForecastedAverageMonthlyIncomePredictionIntervalsList =
@@ -13376,9 +13245,7 @@ export const CraBankIncomeEmployer = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "CraBankIncomeEmployer",
-}) as any as S.Schema<CraBankIncomeEmployer>;
+).annotate({ identifier: "CraBankIncomeEmployer" }) as any as S.Schema<CraBankIncomeEmployer>;
 
 /** The object containing data about the income provider. */
 export interface CraBankIncomeIncomeProvider {
@@ -13440,9 +13307,7 @@ export const CraBankIncomeTransaction = /*@__PURE__*/ S.suspend(() =>
     unofficial_currency_code: S.NullOr(S.String),
     bonus_type: S.optional(S.NullOr(CraBankIncomeBonusType)),
   }),
-).annotate({
-  identifier: "CraBankIncomeTransaction",
-}) as any as S.Schema<CraBankIncomeTransaction>;
+).annotate({ identifier: "CraBankIncomeTransaction" }) as any as S.Schema<CraBankIncomeTransaction>;
 
 export type CraBankIncomeHistoricalSummaryTransactionsList = Array<CraBankIncomeTransaction>;
 export const CraBankIncomeHistoricalSummaryTransactionsList = /*@__PURE__*/ S.Array(
@@ -13534,9 +13399,7 @@ export const CraBankIncomeSource = /*@__PURE__*/ S.suspend(() =>
     income_provider: S.NullOr(CraBankIncomeIncomeProvider),
     historical_summary: S.optional(CraBankIncomeSourceHistoricalSummaryList),
   }),
-).annotate({
-  identifier: "CraBankIncomeSource",
-}) as any as S.Schema<CraBankIncomeSource>;
+).annotate({ identifier: "CraBankIncomeSource" }) as any as S.Schema<CraBankIncomeSource>;
 
 /** This is a V1 (II1) field. For the V2 (II2) equivalent, use the report-level `income_streams` field. The income sources for this Item. Each entry in the array is a single income source. */
 export type CraBankIncomeItemBankIncomeSourcesList = Array<CraBankIncomeSource>;
@@ -13570,9 +13433,7 @@ export const CraBankIncomeItem = /*@__PURE__*/ S.suspend(() =>
     institution_id: S.optional(S.String),
     institution_name: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CraBankIncomeItem",
-}) as any as S.Schema<CraBankIncomeItem>;
+).annotate({ identifier: "CraBankIncomeItem" }) as any as S.Schema<CraBankIncomeItem>;
 
 /** The list of Items in the report along with the associated metadata about the Item. */
 export type CraIncomeInsightsItemsList = Array<CraBankIncomeItem>;
@@ -13592,9 +13453,7 @@ export const CraMonthlyIncomeValues = /*@__PURE__*/ S.suspend(() =>
     gross_income: S.Number,
     net_income: S.Number,
   }),
-).annotate({
-  identifier: "CraMonthlyIncomeValues",
-}) as any as S.Schema<CraMonthlyIncomeValues>;
+).annotate({ identifier: "CraMonthlyIncomeValues" }) as any as S.Schema<CraMonthlyIncomeValues>;
 
 /** Modeled estimate of the annual income. */
 export type CraAnnualIncomeValues = CraMonthlyIncomeValues;
@@ -13610,9 +13469,7 @@ export const CraCurrentModeledIncome = /*@__PURE__*/ S.suspend(() =>
     monthly: CraMonthlyIncomeValues,
     annual: CraMonthlyIncomeValues,
   }),
-).annotate({
-  identifier: "CraCurrentModeledIncome",
-}) as any as S.Schema<CraCurrentModeledIncome>;
+).annotate({ identifier: "CraCurrentModeledIncome" }) as any as S.Schema<CraCurrentModeledIncome>;
 
 /** Forward-looking modeled estimate of income based on recent income transactions and trends in active streams. */
 export type CraProjectedModeledIncome = CraCurrentModeledIncome;
@@ -13632,9 +13489,7 @@ export const CraIncomeMetrics = /*@__PURE__*/ S.suspend(() =>
     iso_currency_code: S.NullOr(S.String),
     unofficial_currency_code: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "CraIncomeMetrics",
-}) as any as S.Schema<CraIncomeMetrics>;
+).annotate({ identifier: "CraIncomeMetrics" }) as any as S.Schema<CraIncomeMetrics>;
 
 /** List of a user's aggregated income metrics for each currency. */
 export type CraIncomeInsightsUserSummaryIncomeMetricsList = Array<CraIncomeMetrics>;
@@ -13667,9 +13522,7 @@ export const CraIncomeCategory = /*@__PURE__*/ S.suspend(() =>
     primary: S.String,
     secondary: S.String,
   }),
-).annotate({
-  identifier: "CraIncomeCategory",
-}) as any as S.Schema<CraIncomeCategory>;
+).annotate({ identifier: "CraIncomeCategory" }) as any as S.Schema<CraIncomeCategory>;
 
 /** Metadata of the income stream's next payment. */
 export interface CraIncomeNextPayment {
@@ -13680,9 +13533,7 @@ export const CraIncomeNextPayment = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     date: S.String,
   }),
-).annotate({
-  identifier: "CraIncomeNextPayment",
-}) as any as S.Schema<CraIncomeNextPayment>;
+).annotate({ identifier: "CraIncomeNextPayment" }) as any as S.Schema<CraIncomeNextPayment>;
 
 /** Modeled insights for a given income stream. */
 export interface CraIncomeStreamInsights {
@@ -13700,9 +13551,7 @@ export const CraIncomeStreamInsights = /*@__PURE__*/ S.suspend(() =>
     status: CraBankIncomeStatus,
     next_payment: S.NullOr(CraIncomeNextPayment),
   }),
-).annotate({
-  identifier: "CraIncomeStreamInsights",
-}) as any as S.Schema<CraIncomeStreamInsights>;
+).annotate({ identifier: "CraIncomeStreamInsights" }) as any as S.Schema<CraIncomeStreamInsights>;
 
 /** Metadata on whether this income transaction is an outlier. */
 export interface CraIncomeTransactionOutlier {
@@ -13749,9 +13598,7 @@ export const CraIncomeTransaction = /*@__PURE__*/ S.suspend(() =>
     unofficial_currency_code: S.NullOr(S.String),
     outlier: CraIncomeTransactionOutlier,
   }),
-).annotate({
-  identifier: "CraIncomeTransaction",
-}) as any as S.Schema<CraIncomeTransaction>;
+).annotate({ identifier: "CraIncomeTransaction" }) as any as S.Schema<CraIncomeTransaction>;
 
 /** The transactions data for the income stream ordered by ascending date. */
 export type CraIncomeStreamTransactionsList = Array<CraIncomeTransaction>;
@@ -13784,9 +13631,7 @@ export const CraIncomeStream = /*@__PURE__*/ S.suspend(() =>
     income_metrics: CraIncomeMetrics,
     transactions: CraIncomeStreamTransactionsList,
   }),
-).annotate({
-  identifier: "CraIncomeStream",
-}) as any as S.Schema<CraIncomeStream>;
+).annotate({ identifier: "CraIncomeStream" }) as any as S.Schema<CraIncomeStream>;
 
 /** The list of income streams for this user. */
 export type CraIncomeInsightsIncomeStreamsList = Array<CraIncomeStream>;
@@ -13898,9 +13743,7 @@ export const CraBankIncomeSummary = /*@__PURE__*/ S.suspend(() =>
     forecasted_annual_income: S.optional(CraBankIncomeSummaryForecastedAnnualIncomeList),
     historical_summary: S.optional(CraBankIncomeSummaryHistoricalSummaryList),
   }),
-).annotate({
-  identifier: "CraBankIncomeSummary",
-}) as any as S.Schema<CraBankIncomeSummary>;
+).annotate({ identifier: "CraBankIncomeSummary" }) as any as S.Schema<CraBankIncomeSummary>;
 
 /** The warning type which will always be `BANK_INCOME_WARNING`. */
 export type CreditBankIncomeWarningType = "BANK_INCOME_WARNING";
@@ -13951,9 +13794,7 @@ export const CraBankIncomeCause = /*@__PURE__*/ S.suspend(() =>
     error_message: S.String,
     display_message: S.String,
   }),
-).annotate({
-  identifier: "CraBankIncomeCause",
-}) as any as S.Schema<CraBankIncomeCause>;
+).annotate({ identifier: "CraBankIncomeCause" }) as any as S.Schema<CraBankIncomeCause>;
 
 /** The warning associated with the data that was unavailable. */
 export interface CraBankIncomeWarning {
@@ -13967,9 +13808,7 @@ export const CraBankIncomeWarning = /*@__PURE__*/ S.suspend(() =>
     warning_code: S.optional(CraBankIncomeWarningCode),
     cause: S.optional(CraBankIncomeCause),
   }),
-).annotate({
-  identifier: "CraBankIncomeWarning",
-}) as any as S.Schema<CraBankIncomeWarning>;
+).annotate({ identifier: "CraBankIncomeWarning" }) as any as S.Schema<CraBankIncomeWarning>;
 
 /** If data from the report was unable to be retrieved, the warnings object will contain information about the error that caused the data to be incomplete. */
 export type CraIncomeInsightsWarningsList = Array<CraBankIncomeWarning>;
@@ -14008,9 +13847,7 @@ export const CraIncomeInsights = /*@__PURE__*/ S.suspend(() =>
     bank_income_summary: S.optional(CraBankIncomeSummary),
     warnings: S.optional(CraIncomeInsightsWarningsList),
   }),
-).annotate({
-  identifier: "CraIncomeInsights",
-}) as any as S.Schema<CraIncomeInsights>;
+).annotate({ identifier: "CraIncomeInsights" }) as any as S.Schema<CraIncomeInsights>;
 
 /** If the Income Insights generation was successful but a subset of data could not be retrieved, this array will contain information about the errors causing information to be missing */
 export type CraCheckReportIncomeInsightsGetResponseWarningsList = Array<CheckReportWarning>;
@@ -14055,13 +13892,7 @@ export const GetCraCheckReportLendScoreRequest = /*@__PURE__*/ S.suspend(() =>
     third_party_user_token: S.optional(S.String),
     user_token: S.optional(S.String),
     options: S.optional(S.NullOr(CraCheckReportCreateLendScoreOptions)),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/cra/check_report/lend_score/get",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/cra/check_report/lend_score/get", code: 200 })),
 ).annotate({
   identifier: "GetCraCheckReportLendScoreRequest",
 }) as any as S.Schema<GetCraCheckReportLendScoreRequest>;
@@ -14103,9 +13934,7 @@ export const CraLendScoreReport = /*@__PURE__*/ S.suspend(() =>
     generated_time: S.String,
     lend_score: S.optional(S.NullOr(LendScore)),
   }),
-).annotate({
-  identifier: "CraLendScoreReport",
-}) as any as S.Schema<CraLendScoreReport>;
+).annotate({ identifier: "CraLendScoreReport" }) as any as S.Schema<CraLendScoreReport>;
 
 /** If the LendScore generation was successful but a subset of data could not be retrieved, this array will contain information about the errors causing information to be missing */
 export type CraCheckReportLendScoreGetResponseWarningsList = Array<CheckReportWarning>;
@@ -14150,13 +13979,7 @@ export const GetCraCheckReportNetworkInsightRequest = /*@__PURE__*/ S.suspend(()
     options: S.optional(S.NullOr(CraCheckReportCreateNetworkInsightsOptions)),
     third_party_user_token: S.optional(S.String),
     user_token: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/cra/check_report/network_insights/get",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/cra/check_report/network_insights/get", code: 200 })),
 ).annotate({
   identifier: "GetCraCheckReportNetworkInsightRequest",
 }) as any as S.Schema<GetCraCheckReportNetworkInsightRequest>;
@@ -14176,9 +13999,7 @@ export const CraNetworkInsightsItem = /*@__PURE__*/ S.suspend(() =>
     institution_name: S.String,
     item_id: S.String,
   }),
-).annotate({
-  identifier: "CraNetworkInsightsItem",
-}) as any as S.Schema<CraNetworkInsightsItem>;
+).annotate({ identifier: "CraNetworkInsightsItem" }) as any as S.Schema<CraNetworkInsightsItem>;
 
 /** The Items the end user connected in Link. */
 export type CraNetworkInsightsReportItemsList = Array<CraNetworkInsightsItem>;
@@ -14203,9 +14024,7 @@ export const CraNetworkInsightsReport = /*@__PURE__*/ S.suspend(() =>
     network_attributes: S.Unknown,
     items: CraNetworkInsightsReportItemsList,
   }),
-).annotate({
-  identifier: "CraNetworkInsightsReport",
-}) as any as S.Schema<CraNetworkInsightsReport>;
+).annotate({ identifier: "CraNetworkInsightsReport" }) as any as S.Schema<CraNetworkInsightsReport>;
 
 /** If the Network Insights generation was successful but a subset of data could not be retrieved, this array will contain information about the errors causing information to be missing */
 export type CraCheckReportNetworkInsightsGetResponseWarningsList = Array<CheckReportWarning>;
@@ -14272,13 +14091,7 @@ export const GetCraCheckReportPartnerInsightRequest = /*@__PURE__*/ S.suspend(()
     user_tier: S.optional(S.NullOr(CraUserTier)),
     partner_insights: S.optional(CraCheckReportCreatePartnerInsightsOptions),
     options: S.optional(S.NullOr(CraCheckReportPartnerInsightsGetOptions)),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/cra/check_report/partner_insights/get",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/cra/check_report/partner_insights/get", code: 200 })),
 ).annotate({
   identifier: "GetCraCheckReportPartnerInsightRequest",
 }) as any as S.Schema<GetCraCheckReportPartnerInsightRequest>;
@@ -14525,9 +14338,7 @@ export const PrismCashScoreMetadata = /*@__PURE__*/ S.suspend(() =>
     l1m_credit_value_cnt: S.NullOr(S.Number),
     l1m_debit_value_cnt: S.NullOr(S.Number),
   }),
-).annotate({
-  identifier: "PrismCashScoreMetadata",
-}) as any as S.Schema<PrismCashScoreMetadata>;
+).annotate({ identifier: "PrismCashScoreMetadata" }) as any as S.Schema<PrismCashScoreMetadata>;
 
 /** The data from the CashScore® product returned by Prism Data. */
 export interface PrismCashScore {
@@ -14608,9 +14419,7 @@ export const PrismFirstDetect = /*@__PURE__*/ S.suspend(() =>
     metadata: S.optional(PrismCashScoreMetadata),
     error_reason: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PrismFirstDetect",
-}) as any as S.Schema<PrismFirstDetect>;
+).annotate({ identifier: "PrismFirstDetect" }) as any as S.Schema<PrismFirstDetect>;
 
 /** The reasons for an individual having risk according to the CashScore® Detect score. */
 export type PrismDetectReasonCodesList = Array<string>;
@@ -14658,9 +14467,7 @@ export const CraPartnerInsightsPrism = /*@__PURE__*/ S.suspend(() =>
     detect: S.optional(S.NullOr(PrismDetect)),
     status: S.String,
   }),
-).annotate({
-  identifier: "CraPartnerInsightsPrism",
-}) as any as S.Schema<CraPartnerInsightsPrism>;
+).annotate({ identifier: "CraPartnerInsightsPrism" }) as any as S.Schema<CraPartnerInsightsPrism>;
 
 /** An object containing metadata about the extracted account. */
 export type CraPartnerInsightsItemAccountMetadata = CraBankIncomeAccountMetadata;
@@ -14727,9 +14534,7 @@ export const CraPartnerInsightsItem = /*@__PURE__*/ S.suspend(() =>
     item_id: S.optional(S.String),
     accounts: S.optional(CraPartnerInsightsItemAccountsList),
   }),
-).annotate({
-  identifier: "CraPartnerInsightsItem",
-}) as any as S.Schema<CraPartnerInsightsItem>;
+).annotate({ identifier: "CraPartnerInsightsItem" }) as any as S.Schema<CraPartnerInsightsItem>;
 
 /** The list of Items used in the report along with the associated metadata about the Item. */
 export type CraPartnerInsightsItemsList = Array<CraPartnerInsightsItem>;
@@ -14759,9 +14564,7 @@ export const CraPartnerInsights = /*@__PURE__*/ S.suspend(() =>
     prism: S.optional(S.NullOr(CraPartnerInsightsPrism)),
     items: S.optional(CraPartnerInsightsItemsList),
   }),
-).annotate({
-  identifier: "CraPartnerInsights",
-}) as any as S.Schema<CraPartnerInsights>;
+).annotate({ identifier: "CraPartnerInsights" }) as any as S.Schema<CraPartnerInsights>;
 
 /** If the Partner Insights generation was successful but a subset of data could not be retrieved, this array will contain information about the errors causing information to be missing */
 export type CraCheckReportPartnerInsightsGetResponseWarningsList = Array<CheckReportWarning>;
@@ -14786,11 +14589,11 @@ export const CraCheckReportPartnerInsightsGetResponse = /*@__PURE__*/ S.suspend(
   identifier: "CraCheckReportPartnerInsightsGetResponse",
 }) as any as S.Schema<CraCheckReportPartnerInsightsGetResponse>;
 
-/** A list of add-ons that can be included in the PDF. `cra_income_insights`: Include Income Insights report in the PDF. `cra_partner_insights`: Include Partner Insights report in the PDF. */
-export type CraPDFAddOns = "cra_income_insights" | "cra_partner_insights";
+/** A list of add-ons that can be included in the PDF. `cra_income_insights`: Include Income Insights report in the PDF. `cra_partner_insights`: Include Partner Insights report in the PDF. `cra_lend_score`: Include LendScore report in the PDF. */
+export type CraPDFAddOns = "cra_income_insights" | "cra_partner_insights" | "cra_lend_score";
 export const CraPDFAddOns = S.String;
 
-/** Use this field to include other reports in the PDF. */
+/** Use this field to include the most recent Income Insights, Partner Insights, or LendScore report in the PDF. */
 export type GetCraCheckReportPdfRequestAddOnsList = Array<CraPDFAddOns | (string & {})>;
 export const GetCraCheckReportPdfRequestAddOnsList = /*@__PURE__*/ S.Array(
   CraPDFAddOns,
@@ -14801,7 +14604,7 @@ export interface GetCraCheckReportPdfRequest {
   secret?: string | Redacted.Redacted<string>;
   user_id?: string;
   third_party_user_token?: string;
-  /** Use this field to include other reports in the PDF. */
+  /** Use this field to include the most recent Income Insights, Partner Insights, or LendScore report in the PDF. */
   add_ons?: GetCraCheckReportPdfRequestAddOnsList;
   user_token?: string;
 }
@@ -14854,13 +14657,7 @@ export const GetCraCheckReportVerificationRequest = /*@__PURE__*/ S.suspend(() =
     reports_requested: GetCraCheckReportVerificationRequestReportsRequestedList,
     employment_refresh_options: S.optional(S.NullOr(CraCheckReportCreateEmploymentRefreshOptions)),
     user_token: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/cra/check_report/verification/get",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/cra/check_report/verification/get", code: 200 })),
 ).annotate({
   identifier: "GetCraCheckReportVerificationRequest",
 }) as any as S.Schema<GetCraCheckReportVerificationRequest>;
@@ -15126,9 +14923,7 @@ export const BaseReportInvestments = /*@__PURE__*/ S.suspend(() =>
     securities: BaseReportInvestmentsSecuritiesList,
     investment_transactions: BaseReportInvestmentsInvestmentTransactionsList,
   }),
-).annotate({
-  identifier: "BaseReportInvestments",
-}) as any as S.Schema<BaseReportInvestments>;
+).annotate({ identifier: "BaseReportInvestments" }) as any as S.Schema<BaseReportInvestments>;
 
 /** VOA Report information about an account. */
 export interface CraVoaReportAccount {
@@ -15169,9 +14964,7 @@ export const CraVoaReportAccount = /*@__PURE__*/ S.suspend(() =>
     ownership_type: S.NullOr(OwnershipType),
     investments: S.optional(S.NullOr(BaseReportInvestments)),
   }),
-).annotate({
-  identifier: "CraVoaReportAccount",
-}) as any as S.Schema<CraVoaReportAccount>;
+).annotate({ identifier: "CraVoaReportAccount" }) as any as S.Schema<CraVoaReportAccount>;
 
 /** Data about each of the accounts open on the Item. */
 export type CraVoaReportItemAccountsList = Array<CraVoaReportAccount>;
@@ -15199,9 +14992,7 @@ export const CraVoaReportItem = /*@__PURE__*/ S.suspend(() =>
     item_id: S.String,
     last_update_time: S.String,
   }),
-).annotate({
-  identifier: "CraVoaReportItem",
-}) as any as S.Schema<CraVoaReportItem>;
+).annotate({ identifier: "CraVoaReportItem" }) as any as S.Schema<CraVoaReportItem>;
 
 /** Data returned by Plaid about each of the Items included in the Base Report. */
 export type CraVoaReportItemsList = Array<CraVoaReportItem>;
@@ -15219,9 +15010,7 @@ export const CraVoaReportAttributes = /*@__PURE__*/ S.suspend(() =>
     total_inflow_amount: S.NullOr(CashflowReportMonthlySummaryStartingBalance),
     total_outflow_amount: S.NullOr(CashflowReportMonthlySummaryStartingBalance),
   }),
-).annotate({
-  identifier: "CraVoaReportAttributes",
-}) as any as S.Schema<CraVoaReportAttributes>;
+).annotate({ identifier: "CraVoaReportAttributes" }) as any as S.Schema<CraVoaReportAttributes>;
 
 /** An object representing a VOA report. */
 export interface CraVoaReport {
@@ -15602,9 +15391,7 @@ export const CraVerificationReport = /*@__PURE__*/ S.suspend(() =>
     employment_refresh: S.optional(S.NullOr(CraEmploymentRefreshReport)),
     income: S.optional(S.NullOr(CraVerificationIncomeReport)),
   }),
-).annotate({
-  identifier: "CraVerificationReport",
-}) as any as S.Schema<CraVerificationReport>;
+).annotate({ identifier: "CraVerificationReport" }) as any as S.Schema<CraVerificationReport>;
 
 /** If the home lending report generation was successful but a subset of data could not be retrieved, this array will contain information about the errors causing information to be missing. */
 export type CraCheckReportVerificationGetResponseWarningsList = Array<CheckReportWarning>;
@@ -15663,13 +15450,7 @@ export const GetCraCheckReportVerificationPdfRequest = /*@__PURE__*/ S.suspend((
     reports_requested: S.optional(GetCraCheckReportVerificationPdfRequestReportsRequestedList),
     hide_gse_details: S.optional(S.Boolean),
     user_token: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/cra/check_report/verification/pdf/get",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/cra/check_report/verification/pdf/get", code: 200 })),
 ).annotate({
   identifier: "GetCraCheckReportVerificationPdfRequest",
 }) as any as S.Schema<GetCraCheckReportVerificationPdfRequest>;
@@ -15714,13 +15495,7 @@ export const GetCraCreditProfileReportRequest = /*@__PURE__*/ S.suspend(() =>
     report_type: CraCreditProfileReportType,
     inquiry_type: CraCreditProfileInquiryType,
     version: CraCreditProfileReportVersion,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/cra/credit_profile/report/get",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/cra/credit_profile/report/get", code: 200 })),
 ).annotate({
   identifier: "GetCraCreditProfileReportRequest",
 }) as any as S.Schema<GetCraCreditProfileReportRequest>;
@@ -15754,24 +15529,20 @@ export const CraCreditProfileLendScore = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<CraCreditProfileLendScore>;
 
 /** The LendScore results for the credit profile report. */
-export type CraCreditProfileReportLendScoresList = Array<CraCreditProfileLendScore>;
+export type CraCreditProfileReportLendScoresList = Array<CraCreditProfileLendScore | null>;
 export const CraCreditProfileReportLendScoresList = /*@__PURE__*/ S.Array(
-  CraCreditProfileLendScore,
+  S.NullOr(CraCreditProfileLendScore),
 ) as any as S.Schema<CraCreditProfileReportLendScoresList>;
 
 /** A map of cash flow attributes, where the key is a string, and the value is a string, float, int, or boolean. The specific list of attributes will depend on the cash flow attributes version used. For a full list of all ~2,000 attributes, contact your account manager. */
-export type CraCreditProfileCashflowAttributesSchema = {
-  [key: string]: unknown | undefined;
-};
+export type CraCreditProfileCashflowAttributesSchema = { [key: string]: unknown | undefined };
 export const CraCreditProfileCashflowAttributesSchema = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
 ) as any as S.Schema<CraCreditProfileCashflowAttributesSchema>;
 
 /** A map of network attributes, where the key is a string, and the value is a float, int, or boolean. For a full list of attributes, contact your account manager. */
-export type CraCreditProfileNetworkInsightsSchema = {
-  [key: string]: unknown | undefined;
-};
+export type CraCreditProfileNetworkInsightsSchema = { [key: string]: unknown | undefined };
 export const CraCreditProfileNetworkInsightsSchema = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -15849,9 +15620,7 @@ export const CraCreditProfileReport = /*@__PURE__*/ S.suspend(() =>
     network_insights_attributes: S.NullOr(CraCreditProfileNetworkInsightsSchema),
     metadata: S.NullOr(CraCreditProfileReportMetadata),
   }),
-).annotate({
-  identifier: "CraCreditProfileReport",
-}) as any as S.Schema<CraCreditProfileReport>;
+).annotate({ identifier: "CraCreditProfileReport" }) as any as S.Schema<CraCreditProfileReport>;
 
 /** If the report generation was successful but a subset of data could not be retrieved, this array will contain information about the errors causing information to be missing */
 export type CraCreditProfileReportGetResponseWarningsList = Array<CheckReportWarning>;
@@ -15877,283 +15646,6 @@ export const CraCreditProfileReportGetResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "CraCreditProfileReportGetResponse",
 }) as any as S.Schema<CraCreditProfileReportGetResponse>;
-
-/** Describes the reason you are generating a Consumer Report for this user. `ACCOUNT_REVIEW_CREDIT`: In connection with a consumer credit transaction for the review or collection of an account pursuant to FCRA Section 604(a)(3)(A). `WRITTEN_INSTRUCTION_OTHER`: In accordance with the written instructions of the consumer pursuant to FCRA Section 604(a)(2), such as when an individual agrees to act as a guarantor or assumes personal liability for a consumer, business, or commercial loan. */
-export type MonitoringConsumerReportPermissiblePurpose =
-  | "ACCOUNT_REVIEW_CREDIT"
-  | "WRITTEN_INSTRUCTION_OTHER";
-export const MonitoringConsumerReportPermissiblePurpose = S.String;
-
-export interface GetCraMonitoringInsightRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
-  user_id?: string;
-  consumer_report_permissible_purpose: MonitoringConsumerReportPermissiblePurpose | (string & {});
-  user_token?: string;
-}
-export const GetCraMonitoringInsightRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    client_id: S.optional(S.String),
-    secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-    user_id: S.optional(S.String),
-    consumer_report_permissible_purpose: MonitoringConsumerReportPermissiblePurpose,
-    user_token: S.optional(S.String),
-  }).pipe(T.Http({ method: "POST", uri: "/cra/monitoring_insights/get", code: 200 })),
-).annotate({
-  identifier: "GetCraMonitoringInsightRequest",
-}) as any as S.Schema<GetCraMonitoringInsightRequest>;
-
-/** Enum for the status of the Item's insights */
-export type MonitoringItemStatusCode = "AVAILABLE" | "FAILED" | "PENDING";
-export const MonitoringItemStatusCode = S.String;
-
-/** An object with details of the Monitoring Insights Item's status. */
-export interface MonitoringInsightsItemStatus {
-  status_code: MonitoringItemStatusCode;
-  /** A reason for why a Monitoring Insights Report is not available. This field will only be populated when the `status_code` is not `AVAILABLE` */
-  reason?: string | null;
-}
-export const MonitoringInsightsItemStatus = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    status_code: MonitoringItemStatusCode,
-    reason: S.optional(S.NullOr(S.String)),
-  }),
-).annotate({
-  identifier: "MonitoringInsightsItemStatus",
-}) as any as S.Schema<MonitoringInsightsItemStatus>;
-
-/** Details about the total monthly income */
-export interface TotalMonthlyIncomeInsights {
-  /** The aggregated income for the 30 days prior to subscription date */
-  baseline_amount?: number | null;
-  /** The aggregated income of the last 30 days */
-  current_amount: number;
-}
-export const TotalMonthlyIncomeInsights = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    baseline_amount: S.optional(S.NullOr(S.Number)),
-    current_amount: S.Number,
-  }),
-).annotate({
-  identifier: "TotalMonthlyIncomeInsights",
-}) as any as S.Schema<TotalMonthlyIncomeInsights>;
-
-/** Details about the number of income sources */
-export interface IncomeSourcesCounts {
-  /** The number of income sources detected at the subscription date */
-  baseline_count?: number | null;
-  /** The number of income sources currently detected */
-  current_count: number;
-}
-export const IncomeSourcesCounts = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    baseline_count: S.optional(S.NullOr(S.Number)),
-    current_count: S.Number,
-  }),
-).annotate({
-  identifier: "IncomeSourcesCounts",
-}) as any as S.Schema<IncomeSourcesCounts>;
-
-/** An object representing the predicted average monthly net income amount. This amount reflects the funds deposited into the account and may not include any withheld income such as taxes or other payroll deductions */
-export interface ForecastedMonthlyIncome {
-  /** The forecasted monthly income at the time of subscription */
-  baseline_amount?: number | null;
-  /** The current forecasted monthly income */
-  current_amount: number;
-}
-export const ForecastedMonthlyIncome = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    baseline_amount: S.optional(S.NullOr(S.Number)),
-    current_amount: S.Number,
-  }),
-).annotate({
-  identifier: "ForecastedMonthlyIncome",
-}) as any as S.Schema<ForecastedMonthlyIncome>;
-
-/** An object representing the historical annual income amount. */
-export interface HistoricalAnnualIncome {
-  /** The historical annual income at the time of subscription */
-  baseline_amount?: number | null;
-  /** The current historical annual income */
-  current_amount: number;
-}
-export const HistoricalAnnualIncome = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    baseline_amount: S.optional(S.NullOr(S.Number)),
-    current_amount: S.Number,
-  }),
-).annotate({
-  identifier: "HistoricalAnnualIncome",
-}) as any as S.Schema<HistoricalAnnualIncome>;
-
-/** An object representing an income source */
-export interface MonitoringIncomeSource {
-  /** A unique identifier for an income source */
-  income_source_id: string;
-  /** The most common name or original description for the underlying income transactions */
-  income_description: string;
-  income_category: CreditBankIncomeCategory;
-  /** The last detected transaction date for this income source */
-  last_transaction_date: string;
-}
-export const MonitoringIncomeSource = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    income_source_id: S.String,
-    income_description: S.String,
-    income_category: CreditBankIncomeCategory,
-    last_transaction_date: S.String,
-  }),
-).annotate({
-  identifier: "MonitoringIncomeSource",
-}) as any as S.Schema<MonitoringIncomeSource>;
-
-/** The income sources for this Item. Each entry in the array is a single income source */
-export type MonitoringIncomeInsightsIncomeSourcesList = Array<MonitoringIncomeSource>;
-export const MonitoringIncomeInsightsIncomeSourcesList = /*@__PURE__*/ S.Array(
-  MonitoringIncomeSource,
-) as any as S.Schema<MonitoringIncomeInsightsIncomeSourcesList>;
-
-/** An object representing the income subcategory of the report */
-export interface MonitoringIncomeInsights {
-  total_monthly_income: TotalMonthlyIncomeInsights;
-  income_sources_counts: IncomeSourcesCounts;
-  forecasted_monthly_income: ForecastedMonthlyIncome;
-  historical_annual_income: HistoricalAnnualIncome;
-  /** The income sources for this Item. Each entry in the array is a single income source */
-  income_sources: MonitoringIncomeInsightsIncomeSourcesList;
-}
-export const MonitoringIncomeInsights = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    total_monthly_income: TotalMonthlyIncomeInsights,
-    income_sources_counts: IncomeSourcesCounts,
-    forecasted_monthly_income: ForecastedMonthlyIncome,
-    historical_annual_income: HistoricalAnnualIncome,
-    income_sources: MonitoringIncomeInsightsIncomeSourcesList,
-  }),
-).annotate({
-  identifier: "MonitoringIncomeInsights",
-}) as any as S.Schema<MonitoringIncomeInsights>;
-
-/** Details regarding the number of loan payments */
-export interface LoanPaymentsCounts {
-  /** The number of loan payments made in the 30 days before the subscription date */
-  baseline_count?: number | null;
-  /** The current number of loan payments made in the last 30 days */
-  current_count: number;
-}
-export const LoanPaymentsCounts = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    baseline_count: S.optional(S.NullOr(S.Number)),
-    current_count: S.Number,
-  }),
-).annotate({
-  identifier: "LoanPaymentsCounts",
-}) as any as S.Schema<LoanPaymentsCounts>;
-
-/** Details regarding the number of unique loan payment merchants */
-export interface LoanPaymentsMerchantCounts {
-  /** The number of unique loan payment merchants detected in the 30 days before the subscription date */
-  baseline_count?: number | null;
-  /** The current number of unique loan payment merchants detected in the last 30 days */
-  current_count: number;
-}
-export const LoanPaymentsMerchantCounts = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    baseline_count: S.optional(S.NullOr(S.Number)),
-    current_count: S.Number,
-  }),
-).annotate({
-  identifier: "LoanPaymentsMerchantCounts",
-}) as any as S.Schema<LoanPaymentsMerchantCounts>;
-
-/** An object representing the loan exposure subcategory of the report */
-export interface MonitoringLoanInsights {
-  loan_payments_counts: LoanPaymentsCounts;
-  /** The number of loan disbursements detected in the last 30 days */
-  loan_disbursements_count: number;
-  loan_payment_merchants_counts: LoanPaymentsMerchantCounts;
-}
-export const MonitoringLoanInsights = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    loan_payments_counts: LoanPaymentsCounts,
-    loan_disbursements_count: S.Number,
-    loan_payment_merchants_counts: LoanPaymentsMerchantCounts,
-  }),
-).annotate({
-  identifier: "MonitoringLoanInsights",
-}) as any as S.Schema<MonitoringLoanInsights>;
-
-/** An object representing the Monitoring Insights for the given Item */
-export interface MonitoringInsights {
-  income: MonitoringIncomeInsights;
-  loans: MonitoringLoanInsights;
-}
-export const MonitoringInsights = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    income: MonitoringIncomeInsights,
-    loans: MonitoringLoanInsights,
-  }),
-).annotate({
-  identifier: "MonitoringInsights",
-}) as any as S.Schema<MonitoringInsights>;
-
-/** Data about each of the accounts open on the Item. */
-export type CraMonitoringInsightsItemAccountsList = Array<BaseReportAccount>;
-export const CraMonitoringInsightsItemAccountsList = /*@__PURE__*/ S.Array(
-  BaseReportAccount,
-) as any as S.Schema<CraMonitoringInsightsItemAccountsList>;
-
-/** An object representing a Monitoring Insights Item */
-export interface CraMonitoringInsightsItem {
-  /** The date and time when the specific insights were generated (per-item), in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format (e.g. "2018-04-12T03:32:11Z"). */
-  date_generated: string;
-  /** The `item_id` of the Item associated with the insights */
-  item_id: string;
-  /** The id of the financial institution associated with the Item. */
-  institution_id: string;
-  /** The full financial institution name associated with the Item. */
-  institution_name: string;
-  status: MonitoringInsightsItemStatus;
-  insights: MonitoringInsights | null;
-  /** Data about each of the accounts open on the Item. */
-  accounts?: CraMonitoringInsightsItemAccountsList;
-}
-export const CraMonitoringInsightsItem = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    date_generated: S.String,
-    item_id: S.String,
-    institution_id: S.String,
-    institution_name: S.String,
-    status: MonitoringInsightsItemStatus,
-    insights: S.NullOr(MonitoringInsights),
-    accounts: S.optional(CraMonitoringInsightsItemAccountsList),
-  }),
-).annotate({
-  identifier: "CraMonitoringInsightsItem",
-}) as any as S.Schema<CraMonitoringInsightsItem>;
-
-/** An array of Monitoring Insights Items associated with the user. */
-export type CraMonitoringInsightsGetResponseItemsList = Array<CraMonitoringInsightsItem>;
-export const CraMonitoringInsightsGetResponseItemsList = /*@__PURE__*/ S.Array(
-  CraMonitoringInsightsItem,
-) as any as S.Schema<CraMonitoringInsightsGetResponseItemsList>;
-
-/** CraMonitoringInsightsGetResponse defines the response schema for `/cra/monitoring_insights/get` */
-export interface CraMonitoringInsightsGetResponse {
-  request_id: string;
-  user_insights_id: string;
-  /** An array of Monitoring Insights Items associated with the user. */
-  items: CraMonitoringInsightsGetResponseItemsList;
-}
-export const CraMonitoringInsightsGetResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    request_id: S.String,
-    user_insights_id: S.String,
-    items: CraMonitoringInsightsGetResponseItemsList,
-  }),
-).annotate({
-  identifier: "CraMonitoringInsightsGetResponse",
-}) as any as S.Schema<CraMonitoringInsightsGetResponse>;
 
 export interface GetCraPartnerInsightRequest {
   client_id?: string;
@@ -16206,9 +15698,7 @@ export const CraQualifyProduct = /*@__PURE__*/ S.suspend(() =>
     product: CraQualifyProductProduct,
     version: S.String,
   }),
-).annotate({
-  identifier: "CraQualifyProduct",
-}) as any as S.Schema<CraQualifyProduct>;
+).annotate({ identifier: "CraQualifyProduct" }) as any as S.Schema<CraQualifyProduct>;
 
 /** The Income Insights product discriminator. */
 export type CraIncomeInsightsProductProduct = "cra_income_insights";
@@ -16225,9 +15715,7 @@ export const CraIncomeInsightsProduct = /*@__PURE__*/ S.suspend(() =>
     product: CraIncomeInsightsProductProduct,
     version: S.String,
   }),
-).annotate({
-  identifier: "CraIncomeInsightsProduct",
-}) as any as S.Schema<CraIncomeInsightsProduct>;
+).annotate({ identifier: "CraIncomeInsightsProduct" }) as any as S.Schema<CraIncomeInsightsProduct>;
 
 /** The Home Lending product discriminator. */
 export type CraHomeLendingProductProduct = "cra_home_lending";
@@ -16244,32 +15732,102 @@ export const CraHomeLendingProduct = /*@__PURE__*/ S.suspend(() =>
     product: CraHomeLendingProductProduct,
     version: S.String,
   }),
+).annotate({ identifier: "CraHomeLendingProduct" }) as any as S.Schema<CraHomeLendingProduct>;
+
+/** The Base Report product discriminator. */
+export type CraBaseReportProductProduct = "cra_base_report";
+export const CraBaseReportProductProduct = S.String;
+
+/** Names the Base Report product at a given version. */
+export interface CraBaseReportProduct {
+  /** The Base Report product discriminator. */
+  product: CraBaseReportProductProduct;
+  version: string;
+}
+export const CraBaseReportProduct = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    product: CraBaseReportProductProduct,
+    version: S.String,
+  }),
+).annotate({ identifier: "CraBaseReportProduct" }) as any as S.Schema<CraBaseReportProduct>;
+
+/** The LendScore product discriminator. */
+export type CraLendScoreProductProduct = "cra_lend_score";
+export const CraLendScoreProductProduct = S.String;
+
+/** Names the LendScore product at a given version. */
+export interface CraLendScoreProduct {
+  /** The LendScore product discriminator. */
+  product: CraLendScoreProductProduct;
+  version: string;
+}
+export const CraLendScoreProduct = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    product: CraLendScoreProductProduct,
+    version: S.String,
+  }),
+).annotate({ identifier: "CraLendScoreProduct" }) as any as S.Schema<CraLendScoreProduct>;
+
+/** The Cashflow Insights product discriminator. */
+export type CraCashflowInsightsProductProduct = "cra_cashflow_insights";
+export const CraCashflowInsightsProductProduct = S.String;
+
+/** Names the Cashflow Insights product at a given version. */
+export interface CraCashflowInsightsProduct {
+  /** The Cashflow Insights product discriminator. */
+  product: CraCashflowInsightsProductProduct;
+  version: string;
+}
+export const CraCashflowInsightsProduct = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    product: CraCashflowInsightsProductProduct,
+    version: S.String,
+  }),
 ).annotate({
-  identifier: "CraHomeLendingProduct",
-}) as any as S.Schema<CraHomeLendingProduct>;
+  identifier: "CraCashflowInsightsProduct",
+}) as any as S.Schema<CraCashflowInsightsProduct>;
+
+/** The Network Insights product discriminator. */
+export type CraNetworkInsightsProductProduct = "cra_network_insights";
+export const CraNetworkInsightsProductProduct = S.String;
+
+/** Names the Network Insights product at a given version. */
+export interface CraNetworkInsightsProduct {
+  /** The Network Insights product discriminator. */
+  product: CraNetworkInsightsProductProduct;
+  version: string;
+}
+export const CraNetworkInsightsProduct = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    product: CraNetworkInsightsProductProduct,
+    version: S.String,
+  }),
+).annotate({
+  identifier: "CraNetworkInsightsProduct",
+}) as any as S.Schema<CraNetworkInsightsProduct>;
 
 /** CraReportGetRequestProduct specifies one product and version requested from `/cra/report/get`, selected by the `product` discriminator. */
 export type CraReportGetRequestProduct =
   | CraQualifyProduct
   | CraIncomeInsightsProduct
-  | CraHomeLendingProduct;
+  | CraHomeLendingProduct
+  | CraBaseReportProduct
+  | CraLendScoreProduct
+  | CraCashflowInsightsProduct
+  | CraNetworkInsightsProduct;
 export const CraReportGetRequestProduct = S.Unknown as any as S.Schema<CraReportGetRequestProduct>;
 
-/** The requested products and their versions, e.g. `[{"product":"cra_qualify","version":"V1"}]`. */
+/** The requested products and their versions, e.g. `[{"product":"cra_base_report","version":"V1"}]`. */
 export type GetCraReportRequestProductsList = Array<CraReportGetRequestProduct>;
 export const GetCraReportRequestProductsList = /*@__PURE__*/ S.Array(
   CraReportGetRequestProduct,
 ) as any as S.Schema<GetCraReportRequestProductsList>;
 
-/** The stage in the lending lifecycle for which the report is being retrieved. */
-export type CraReportDecisionStage = "PREQUALIFICATION" | "DECISIONING" | "SERVICING";
-export const CraReportDecisionStage = S.String;
-
 export interface GetCraReportRequest {
   client_id?: string;
   secret?: string | Redacted.Redacted<string>;
   user_id: string;
-  /** The requested products and their versions, e.g. `[{"product":"cra_qualify","version":"V1"}]`. */
+  /** The requested products and their versions, e.g. `[{"product":"cra_base_report","version":"V1"}]`. */
   products: GetCraReportRequestProductsList;
   scope?: CraReportScope | (string & {});
   decision_stage: CraReportDecisionStage | (string & {});
@@ -16287,36 +15845,30 @@ export const GetCraReportRequest = /*@__PURE__*/ S.suspend(() =>
     consumer_report_permissible_purpose: ConsumerReportPermissiblePurpose,
     report_id: S.optional(S.Unknown),
   }).pipe(T.Http({ method: "POST", uri: "/cra/report/get", code: 200 })),
-).annotate({
-  identifier: "GetCraReportRequest",
-}) as any as S.Schema<GetCraReportRequest>;
+).annotate({ identifier: "GetCraReportRequest" }) as any as S.Schema<GetCraReportRequest>;
 
 /** The Qualify product. */
 export type CraReportGetQualifyResponseProductProduct = "cra_qualify";
 export const CraReportGetQualifyResponseProductProduct = S.String;
 
 /** A map of product report metadata, where the key is a string and the value varies by product. For a full list of metadata fields per product, see the data dictionary. May be `null` if metadata was not available. */
-export type CraReportGetProductMetadata = {
-  [key: string]: unknown | undefined;
-};
+export type CraReportGetProductMetadata = { [key: string]: unknown | undefined };
 export const CraReportGetProductMetadata = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
 ) as any as S.Schema<CraReportGetProductMetadata>;
 
 /** A map of product attributes, where the key is a string and the value can be any JSON value. The specific list of attributes depends on the product and version. For a full list, see the data dictionary. May be `null` if attributes were not available. */
-export type CraReportGetProductAttributes = {
-  [key: string]: unknown | undefined;
-};
+export type CraReportGetProductAttributes = { [key: string]: unknown | undefined };
 export const CraReportGetProductAttributes = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
 ) as any as S.Schema<CraReportGetProductAttributes>;
 
 /** Product-level errors. Non-empty when this product failed to generate; empty on success. */
-export type CraReportGetQualifyResponseProductErrorsList = Array<PlaidError>;
+export type CraReportGetQualifyResponseProductErrorsList = Array<PlaidError | null>;
 export const CraReportGetQualifyResponseProductErrorsList = /*@__PURE__*/ S.Array(
-  PlaidError,
+  S.NullOr(PlaidError),
 ) as any as S.Schema<CraReportGetQualifyResponseProductErrorsList>;
 
 /** Qualify data returned by `/cra/report/get`. */
@@ -16440,9 +15992,9 @@ export const CraReportGetIncomeInsightsAttributes = /*@__PURE__*/ S.suspend(() =
 }) as any as S.Schema<CraReportGetIncomeInsightsAttributes>;
 
 /** Product-level errors. Non-empty when this product failed to generate; empty on success. */
-export type CraReportGetIncomeInsightsResponseProductErrorsList = Array<PlaidError>;
+export type CraReportGetIncomeInsightsResponseProductErrorsList = Array<PlaidError | null>;
 export const CraReportGetIncomeInsightsResponseProductErrorsList = /*@__PURE__*/ S.Array(
-  PlaidError,
+  S.NullOr(PlaidError),
 ) as any as S.Schema<CraReportGetIncomeInsightsResponseProductErrorsList>;
 
 /** Income Insights data returned by `/cra/report/get`. */
@@ -16557,9 +16109,9 @@ export const CraReportGetHomeLendingAttributesIncomeByCategoriesList = /*@__PURE
 
 /** The income providers observed across the user's income streams, ordered by provider name. */
 export type CraReportGetHomeLendingIncomeSourcesIncomeProvidersList =
-  Array<CraBankIncomeIncomeProvider>;
+  Array<CraBankIncomeIncomeProvider | null>;
 export const CraReportGetHomeLendingIncomeSourcesIncomeProvidersList = /*@__PURE__*/ S.Array(
-  CraBankIncomeIncomeProvider,
+  S.NullOr(CraBankIncomeIncomeProvider),
 ) as any as S.Schema<CraReportGetHomeLendingIncomeSourcesIncomeProvidersList>;
 
 /** Summary of the income sources backing the Home Lending report. */
@@ -16606,9 +16158,9 @@ export const CraReportGetHomeLendingAttributes = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<CraReportGetHomeLendingAttributes>;
 
 /** Product-level errors. Non-empty when this product failed to generate; empty on success. */
-export type CraReportGetHomeLendingResponseProductErrorsList = Array<PlaidError>;
+export type CraReportGetHomeLendingResponseProductErrorsList = Array<PlaidError | null>;
 export const CraReportGetHomeLendingResponseProductErrorsList = /*@__PURE__*/ S.Array(
-  PlaidError,
+  S.NullOr(PlaidError),
 ) as any as S.Schema<CraReportGetHomeLendingResponseProductErrorsList>;
 
 /** Home Lending data returned by `/cra/report/get`. */
@@ -16665,9 +16217,7 @@ export const CraReportGetReport = /*@__PURE__*/ S.suspend(() =>
     consumer_report_permissible_purpose: ConsumerReportPermissiblePurpose,
     products: CraReportGetReportProductsList,
   }),
-).annotate({
-  identifier: "CraReportGetReport",
-}) as any as S.Schema<CraReportGetReport>;
+).annotate({ identifier: "CraReportGetReport" }) as any as S.Schema<CraReportGetReport>;
 
 /** User or report-level errors that affected the overall report but do not map to a specific product failure. */
 export type CraReportGetResponseWarningsList = Array<CheckReportWarning>;
@@ -16680,6 +16230,8 @@ export interface CraReportGetResponse {
   report: CraReportGetReport;
   request_id: string;
   user_id: string;
+  /** The unique ID representing the end user that you supplied as `client_user_id` when creating the user via `/user/create`. `null` if the user has no `client_user_id` on record. */
+  client_user_id?: string | null;
   /** User or report-level errors that affected the overall report but do not map to a specific product failure. */
   warnings: CraReportGetResponseWarningsList;
 }
@@ -16688,11 +16240,10 @@ export const CraReportGetResponse = /*@__PURE__*/ S.suspend(() =>
     report: CraReportGetReport,
     request_id: S.String,
     user_id: S.String,
+    client_user_id: S.optional(S.NullOr(S.String)),
     warnings: CraReportGetResponseWarningsList,
   }),
-).annotate({
-  identifier: "CraReportGetResponse",
-}) as any as S.Schema<CraReportGetResponse>;
+).annotate({ identifier: "CraReportGetResponse" }) as any as S.Schema<CraReportGetResponse>;
 
 export interface GetCraServicingSubscriptionRequest {
   client_id?: string;
@@ -16704,13 +16255,7 @@ export const GetCraServicingSubscriptionRequest = /*@__PURE__*/ S.suspend(() =>
     client_id: S.optional(S.String),
     secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
     subscription_id: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/cra/servicing/subscription/get",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/cra/servicing/subscription/get", code: 200 })),
 ).annotate({
   identifier: "GetCraServicingSubscriptionRequest",
 }) as any as S.Schema<GetCraServicingSubscriptionRequest>;
@@ -16741,9 +16286,7 @@ export const CraServicingSubscription = /*@__PURE__*/ S.suspend(() =>
     webhook: S.optional(S.NullOr(S.String)),
     products: CraServicingSubscriptionProductsList,
   }),
-).annotate({
-  identifier: "CraServicingSubscription",
-}) as any as S.Schema<CraServicingSubscription>;
+).annotate({ identifier: "CraServicingSubscription" }) as any as S.Schema<CraServicingSubscription>;
 
 /** CraServicingSubscriptionGetResponse defines the response schema for `/cra/servicing/subscription/get`. */
 export interface CraServicingSubscriptionGetResponse {
@@ -16770,13 +16313,7 @@ export const GetCreditAssetReportFreddieMacRequest = /*@__PURE__*/ S.suspend(() 
     audit_copy_token: S.String,
     client_id: S.optional(S.String),
     secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/credit/asset_report/freddie_mac/get",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/credit/asset_report/freddie_mac/get", code: 200 })),
 ).annotate({
   identifier: "GetCreditAssetReportFreddieMacRequest",
 }) as any as S.Schema<GetCreditAssetReportFreddieMacRequest>;
@@ -16806,9 +16343,7 @@ export const LoanIdentifiers = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     LOAN_IDENTIFIER: LoanIdentifier,
   }),
-).annotate({
-  identifier: "LoanIdentifiers",
-}) as any as S.Schema<LoanIdentifiers>;
+).annotate({ identifier: "LoanIdentifiers" }) as any as S.Schema<LoanIdentifiers>;
 
 /** Information specific to a mortgage loan agreement between one or more borrowers and a mortgage lender. */
 export interface Loan {
@@ -16852,9 +16387,7 @@ export const PartyIndividual = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     NAME: IndividualName,
   }),
-).annotate({
-  identifier: "PartyIndividual",
-}) as any as S.Schema<PartyIndividual>;
+).annotate({ identifier: "PartyIndividual" }) as any as S.Schema<PartyIndividual>;
 
 /** A value from a MISMO defined list that identifies the role that the party plays in the transaction. Parties may be either a person or legal entity. A party may play multiple roles in a transaction. */
 export type PartyRoleType = "Borrower";
@@ -16907,9 +16440,7 @@ export const TaxpayerIdentifier = /*@__PURE__*/ S.suspend(() =>
     TaxpayerIdentifierType: S.NullOr(TaxpayerIdentifierType),
     TaxpayerIdentifierValue: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "TaxpayerIdentifier",
-}) as any as S.Schema<TaxpayerIdentifier>;
+).annotate({ identifier: "TaxpayerIdentifier" }) as any as S.Schema<TaxpayerIdentifier>;
 
 /** The collection of `TAXPAYER_IDENTIFICATION` elements */
 export interface TaxpayerIdentifiers {
@@ -16919,9 +16450,7 @@ export const TaxpayerIdentifiers = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     TAXPAYER_IDENTIFIER: TaxpayerIdentifier,
   }),
-).annotate({
-  identifier: "TaxpayerIdentifiers",
-}) as any as S.Schema<TaxpayerIdentifiers>;
+).annotate({ identifier: "TaxpayerIdentifiers" }) as any as S.Schema<TaxpayerIdentifiers>;
 
 /** A collection of information about a single party to a transaction. Includes direct participants like the borrower and seller as well as indirect participants such as the flood certificate provider. */
 export interface Party {
@@ -16959,9 +16488,7 @@ export const ReportingInformation = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ReportingInformationIdentifier: S.String,
   }),
-).annotate({
-  identifier: "ReportingInformation",
-}) as any as S.Schema<ReportingInformation>;
+).annotate({ identifier: "ReportingInformation" }) as any as S.Schema<ReportingInformation>;
 
 /** Documentation not found in the MISMO model viewer and not provided by Freddie Mac. */
 export type ServiceProductFulfillmentIdentifier = "VOA" | "VOE";
@@ -17120,9 +16647,7 @@ export const AssetHolderName = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     FullName: S.String,
   }),
-).annotate({
-  identifier: "AssetHolderName",
-}) as any as S.Schema<AssetHolderName>;
+).annotate({ identifier: "AssetHolderName" }) as any as S.Schema<AssetHolderName>;
 
 /** Documentation not found in the MISMO model viewer and not provided by Freddie Mac. */
 export interface AssetHolder {
@@ -17300,9 +16825,7 @@ export const AssetTransactionDetail = /*@__PURE__*/ S.suspend(() =>
     AssetTransactionCategoryType: S.NullOr(AssetTransactionCategoryType),
     FinancialInstitutionTransactionIdentifier: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "AssetTransactionDetail",
-}) as any as S.Schema<AssetTransactionDetail>;
+).annotate({ identifier: "AssetTransactionDetail" }) as any as S.Schema<AssetTransactionDetail>;
 
 /** Documentation not found in the MISMO model viewer and not provided by Freddie Mac. */
 export interface AssetTransactionDescription {
@@ -17334,9 +16857,7 @@ export const AssetTransaction = /*@__PURE__*/ S.suspend(() =>
     ASSET_TRANSACTION_DETAIL: AssetTransactionDetail,
     ASSET_TRANSACTION_DESCRIPTON: AssetTransactionASSETTRANSACTIONDESCRIPTONList,
   }),
-).annotate({
-  identifier: "AssetTransaction",
-}) as any as S.Schema<AssetTransaction>;
+).annotate({ identifier: "AssetTransaction" }) as any as S.Schema<AssetTransaction>;
 
 export type AssetTransactionsASSETTRANSACTIONList = Array<AssetTransaction>;
 export const AssetTransactionsASSETTRANSACTIONList = /*@__PURE__*/ S.Array(
@@ -17351,9 +16872,7 @@ export const AssetTransactions = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ASSET_TRANSACTION: AssetTransactionsASSETTRANSACTIONList,
   }),
-).annotate({
-  identifier: "AssetTransactions",
-}) as any as S.Schema<AssetTransactions>;
+).annotate({ identifier: "AssetTransactions" }) as any as S.Schema<AssetTransactions>;
 
 /** Documentation not found in the MISMO model viewer and not provided by Freddie Mac. */
 export interface ValidationSource {
@@ -17367,9 +16886,7 @@ export const ValidationSource = /*@__PURE__*/ S.suspend(() =>
     ValidationSourceName: S.NullOr(S.String),
     ValidationSourceReferenceIdentifier: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "ValidationSource",
-}) as any as S.Schema<ValidationSource>;
+).annotate({ identifier: "ValidationSource" }) as any as S.Schema<ValidationSource>;
 
 /** Documentation not found in the MISMO model viewer and not provided by Freddie Mac. */
 export type ValidationSourcesVALIDATIONSOURCEList = Array<ValidationSource>;
@@ -17386,9 +16903,7 @@ export const ValidationSources = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     VALIDATION_SOURCE: ValidationSourcesVALIDATIONSOURCEList,
   }),
-).annotate({
-  identifier: "ValidationSources",
-}) as any as S.Schema<ValidationSources>;
+).annotate({ identifier: "ValidationSources" }) as any as S.Schema<ValidationSources>;
 
 /** Documentation not found in the MISMO model viewer and not provided by Freddie Mac. */
 export interface Asset {
@@ -17447,9 +16962,7 @@ export const VerificationOfAsset = /*@__PURE__*/ S.suspend(() =>
     SERVICE_PRODUCT_FULFILLMENT: ServiceProductFulfillment,
     VERIFICATION_OF_ASSET_RESPONSE: VerificationOfAssetResponse,
   }),
-).annotate({
-  identifier: "VerificationOfAsset",
-}) as any as S.Schema<VerificationOfAsset>;
+).annotate({ identifier: "VerificationOfAsset" }) as any as S.Schema<VerificationOfAsset>;
 
 /** Documentation not found in the MISMO model viewer and not provided by Freddie Mac. */
 export interface Status {
@@ -17509,9 +17022,7 @@ export const AssetReportFreddie = /*@__PURE__*/ S.suspend(() =>
     PARTIES: Parties,
     SERVICES: Services,
   }),
-).annotate({
-  identifier: "AssetReportFreddie",
-}) as any as S.Schema<AssetReportFreddie>;
+).annotate({ identifier: "AssetReportFreddie" }) as any as S.Schema<AssetReportFreddie>;
 
 /** AssetReportFreddieGetResponse defines the response schema for `/credit/asset_report/freddie_mac/get` */
 export interface AssetReportFreddieGetResponse {
@@ -17540,13 +17051,7 @@ export const GetCreditBankEmploymentRequest = /*@__PURE__*/ S.suspend(() =>
     client_id: S.optional(S.String),
     secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
     user_token: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/beta/credit/v1/bank_employment/get",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/beta/credit/v1/bank_employment/get", code: 200 })),
 ).annotate({
   identifier: "GetCreditBankEmploymentRequest",
 }) as any as S.Schema<GetCreditBankEmploymentRequest>;
@@ -17560,9 +17065,7 @@ export const CreditBankEmployer = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.String,
   }),
-).annotate({
-  identifier: "CreditBankEmployer",
-}) as any as S.Schema<CreditBankEmployer>;
+).annotate({ identifier: "CreditBankEmployer" }) as any as S.Schema<CreditBankEmployer>;
 
 /** Detailed information for the bank employment. */
 export interface CreditBankEmployment {
@@ -17584,9 +17087,7 @@ export const CreditBankEmployment = /*@__PURE__*/ S.suspend(() =>
     latest_deposit_date: S.String,
     earliest_deposit_date: S.String,
   }),
-).annotate({
-  identifier: "CreditBankEmployment",
-}) as any as S.Schema<CreditBankEmployment>;
+).annotate({ identifier: "CreditBankEmployment" }) as any as S.Schema<CreditBankEmployment>;
 
 /** The bank employment information for this Item. Each entry in the array is a different employer found. */
 export type CreditBankEmploymentItemBankEmploymentsList = Array<CreditBankEmployment>;
@@ -17625,9 +17126,7 @@ export const CreditBankIncomeAccount = /*@__PURE__*/ S.suspend(() =>
     type: CreditBankIncomeAccountType,
     owners: CreditBankIncomeAccountOwnersList,
   }),
-).annotate({
-  identifier: "CreditBankIncomeAccount",
-}) as any as S.Schema<CreditBankIncomeAccount>;
+).annotate({ identifier: "CreditBankIncomeAccount" }) as any as S.Schema<CreditBankIncomeAccount>;
 
 /** The Item's accounts that have Bank Employment data. */
 export type CreditBankEmploymentItemBankEmploymentAccountsList = Array<CreditBankIncomeAccount>;
@@ -17659,9 +17158,7 @@ export const CreditBankEmploymentItem = /*@__PURE__*/ S.suspend(() =>
     bank_employments: CreditBankEmploymentItemBankEmploymentsList,
     bank_employment_accounts: CreditBankEmploymentItemBankEmploymentAccountsList,
   }),
-).annotate({
-  identifier: "CreditBankEmploymentItem",
-}) as any as S.Schema<CreditBankEmploymentItem>;
+).annotate({ identifier: "CreditBankEmploymentItem" }) as any as S.Schema<CreditBankEmploymentItem>;
 
 /** The list of Items in the report along with the associated metadata about the Item. */
 export type CreditBankEmploymentReportItemsList = Array<CreditBankEmploymentItem>;
@@ -17702,9 +17199,7 @@ export const CreditBankIncomeCause = /*@__PURE__*/ S.suspend(() =>
     display_message: S.String,
     item_id: S.String,
   }),
-).annotate({
-  identifier: "CreditBankIncomeCause",
-}) as any as S.Schema<CreditBankIncomeCause>;
+).annotate({ identifier: "CreditBankIncomeCause" }) as any as S.Schema<CreditBankIncomeCause>;
 
 /** The warning associated with the data that was unavailable for the Bank Employment Report. */
 export interface CreditBankEmploymentWarning {
@@ -17928,9 +17423,7 @@ export const CreditBankIncomeSource = /*@__PURE__*/ S.suspend(() =>
     transaction_count: S.optional(S.Number),
     historical_summary: S.optional(CreditBankIncomeSourceHistoricalSummaryList),
   }),
-).annotate({
-  identifier: "CreditBankIncomeSource",
-}) as any as S.Schema<CreditBankIncomeSource>;
+).annotate({ identifier: "CreditBankIncomeSource" }) as any as S.Schema<CreditBankIncomeSource>;
 
 /** The income sources for this Item. Each entry in the array is a single income source. */
 export type CreditBankIncomeItemBankIncomeSourcesList = Array<CreditBankIncomeSource>;
@@ -17962,9 +17455,7 @@ export const CreditBankIncomeItem = /*@__PURE__*/ S.suspend(() =>
     institution_name: S.optional(S.String),
     item_id: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CreditBankIncomeItem",
-}) as any as S.Schema<CreditBankIncomeItem>;
+).annotate({ identifier: "CreditBankIncomeItem" }) as any as S.Schema<CreditBankIncomeItem>;
 
 /** The list of Items in the report along with the associated metadata about the Item. */
 export type CreditBankIncomeItemsList = Array<CreditBankIncomeItem>;
@@ -18019,9 +17510,7 @@ export const CreditBankIncomeSummary = /*@__PURE__*/ S.suspend(() =>
     income_transactions_count: S.optional(S.Number),
     historical_summary: S.optional(CreditBankIncomeSummaryHistoricalSummaryList),
   }),
-).annotate({
-  identifier: "CreditBankIncomeSummary",
-}) as any as S.Schema<CreditBankIncomeSummary>;
+).annotate({ identifier: "CreditBankIncomeSummary" }) as any as S.Schema<CreditBankIncomeSummary>;
 
 /** The warning associated with the data that was unavailable for the Bank Income Report. */
 export interface CreditBankIncomeWarning {
@@ -18035,9 +17524,7 @@ export const CreditBankIncomeWarning = /*@__PURE__*/ S.suspend(() =>
     warning_code: S.optional(CreditBankIncomeWarningCode),
     cause: S.optional(CreditBankIncomeCause),
   }),
-).annotate({
-  identifier: "CreditBankIncomeWarning",
-}) as any as S.Schema<CreditBankIncomeWarning>;
+).annotate({ identifier: "CreditBankIncomeWarning" }) as any as S.Schema<CreditBankIncomeWarning>;
 
 /** If data from the report was unable to be retrieved, the warnings will contain information about the error that caused the data to be incomplete. */
 export type CreditBankIncomeWarningsList = Array<CreditBankIncomeWarning>;
@@ -18068,9 +17555,7 @@ export const CreditBankIncome = /*@__PURE__*/ S.suspend(() =>
     bank_income_summary: S.optional(CreditBankIncomeSummary),
     warnings: S.optional(CreditBankIncomeWarningsList),
   }),
-).annotate({
-  identifier: "CreditBankIncome",
-}) as any as S.Schema<CreditBankIncome>;
+).annotate({ identifier: "CreditBankIncome" }) as any as S.Schema<CreditBankIncome>;
 
 export type CreditBankIncomeGetResponseBankIncomeList = Array<CreditBankIncome>;
 export const CreditBankIncomeGetResponseBankIncomeList = /*@__PURE__*/ S.Array(
@@ -18146,13 +17631,7 @@ export const GetCreditBankStatementsUploadRequest = /*@__PURE__*/ S.suspend(() =
     user_token: S.optional(S.String),
     user_id: S.optional(S.String),
     options: S.optional(CreditBankStatementsUploadsGetRequestOptions),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/credit/bank_statements/uploads/get",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/credit/bank_statements/uploads/get", code: 200 })),
 ).annotate({
   identifier: "GetCreditBankStatementsUploadRequest",
 }) as any as S.Schema<GetCreditBankStatementsUploadRequest>;
@@ -18209,9 +17688,7 @@ export const CreditDocumentMetadata = /*@__PURE__*/ S.suspend(() =>
     page_count: S.optional(S.NullOr(S.Number)),
     error_message: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "CreditDocumentMetadata",
-}) as any as S.Schema<CreditDocumentMetadata>;
+).annotate({ identifier: "CreditDocumentMetadata" }) as any as S.Schema<CreditDocumentMetadata>;
 
 /** Address on the uploaded bank statement */
 export interface CreditBankStatementUploadAccountOwnerAddress {
@@ -18355,9 +17832,7 @@ export const PayrollItemStatus = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     processing_status: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "PayrollItemStatus",
-}) as any as S.Schema<PayrollItemStatus>;
+).annotate({ identifier: "PayrollItemStatus" }) as any as S.Schema<PayrollItemStatus>;
 
 /** An object containing information about the bank statement upload Item. */
 export interface CreditBankStatementUploadItem {
@@ -18444,9 +17919,7 @@ export const CreditPlatformIds = /*@__PURE__*/ S.suspend(() =>
     payroll_id: S.NullOr(S.String),
     position_id: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "CreditPlatformIds",
-}) as any as S.Schema<CreditPlatformIds>;
+).annotate({ identifier: "CreditPlatformIds" }) as any as S.Schema<CreditPlatformIds>;
 
 /** The object containing proof of employment data for an individual. */
 export interface CreditEmploymentVerification {
@@ -18499,9 +17972,7 @@ export const CreditEmploymentItem = /*@__PURE__*/ S.suspend(() =>
     employments: CreditEmploymentItemEmploymentsList,
     employment_report_token: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CreditEmploymentItem",
-}) as any as S.Schema<CreditEmploymentItem>;
+).annotate({ identifier: "CreditEmploymentItem" }) as any as S.Schema<CreditEmploymentItem>;
 
 /** Array of employment items. */
 export type CreditEmploymentGetResponseItemsList = Array<CreditEmploymentItem>;
@@ -18535,13 +18006,7 @@ export const GetCreditFreddieMacReportRequest = /*@__PURE__*/ S.suspend(() =>
     audit_copy_token: S.String,
     client_id: S.optional(S.String),
     secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/credit/freddie_mac/reports/get",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/credit/freddie_mac/reports/get", code: 200 })),
 ).annotate({
   identifier: "GetCreditFreddieMacReportRequest",
 }) as any as S.Schema<GetCreditFreddieMacReportRequest>;
@@ -18574,9 +18039,7 @@ export const CreditFreddieMacLoan = /*@__PURE__*/ S.suspend(() =>
     LOAN_IDENTIFIERS: CreditFreddieMacLoanIdentifiers,
     LoanRoleType: S.String,
   }),
-).annotate({
-  identifier: "CreditFreddieMacLoan",
-}) as any as S.Schema<CreditFreddieMacLoan>;
+).annotate({ identifier: "CreditFreddieMacLoan" }) as any as S.Schema<CreditFreddieMacLoan>;
 
 /** A collection of loans that are part of a single deal. */
 export interface CreditFreddieMacLoans {
@@ -18586,9 +18049,7 @@ export const CreditFreddieMacLoans = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     LOAN: CreditFreddieMacLoan,
   }),
-).annotate({
-  identifier: "CreditFreddieMacLoans",
-}) as any as S.Schema<CreditFreddieMacLoans>;
+).annotate({ identifier: "CreditFreddieMacLoans" }) as any as S.Schema<CreditFreddieMacLoans>;
 
 /** Documentation not found in the MISMO model viewer and not provided by Freddie Mac. */
 export interface CreditFreddieMacIndividualName {
@@ -18633,9 +18094,7 @@ export const CreditFreddieMacParty = /*@__PURE__*/ S.suspend(() =>
     ROLES: Roles,
     TAXPAYER_IDENTIFIERS: TaxpayerIdentifiers,
   }),
-).annotate({
-  identifier: "CreditFreddieMacParty",
-}) as any as S.Schema<CreditFreddieMacParty>;
+).annotate({ identifier: "CreditFreddieMacParty" }) as any as S.Schema<CreditFreddieMacParty>;
 
 export type CreditFreddieMacPartiesPARTYList = Array<CreditFreddieMacParty>;
 export const CreditFreddieMacPartiesPARTYList = /*@__PURE__*/ S.Array(
@@ -18650,9 +18109,7 @@ export const CreditFreddieMacParties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     PARTY: CreditFreddieMacPartiesPARTYList,
   }),
-).annotate({
-  identifier: "CreditFreddieMacParties",
-}) as any as S.Schema<CreditFreddieMacParties>;
+).annotate({ identifier: "CreditFreddieMacParties" }) as any as S.Schema<CreditFreddieMacParties>;
 
 /** Information about a report identifier and a report name. */
 export interface CreditFreddieMacReportingInformation {
@@ -18799,9 +18256,7 @@ export const CreditFreddieMacAsset = /*@__PURE__*/ S.suspend(() =>
     ASSET_TRANSACTIONS: CreditFreddieMacAssetTransactions,
     VALIDATION_SOURCES: ValidationSources,
   }),
-).annotate({
-  identifier: "CreditFreddieMacAsset",
-}) as any as S.Schema<CreditFreddieMacAsset>;
+).annotate({ identifier: "CreditFreddieMacAsset" }) as any as S.Schema<CreditFreddieMacAsset>;
 
 /** Documentation not found in the MISMO model viewer and not provided by Freddie Mac. */
 export type CreditFreddieMacAssetsASSETList = Array<CreditFreddieMacAsset>;
@@ -18818,9 +18273,7 @@ export const CreditFreddieMacAssets = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ASSET: CreditFreddieMacAssetsASSETList,
   }),
-).annotate({
-  identifier: "CreditFreddieMacAssets",
-}) as any as S.Schema<CreditFreddieMacAssets>;
+).annotate({ identifier: "CreditFreddieMacAssets" }) as any as S.Schema<CreditFreddieMacAssets>;
 
 /** Documentation not found in the MISMO model viewer and not provided by Freddie Mac. */
 export interface CreditFreddieMacVerificationOfAssetResponse {
@@ -18866,9 +18319,7 @@ export const CreditFreddieMacService = /*@__PURE__*/ S.suspend(() =>
     VERIFICATION_OF_ASSET: CreditFreddieMacServiceVERIFICATIONOFASSETList,
     STATUSES: Statuses,
   }),
-).annotate({
-  identifier: "CreditFreddieMacService",
-}) as any as S.Schema<CreditFreddieMacService>;
+).annotate({ identifier: "CreditFreddieMacService" }) as any as S.Schema<CreditFreddieMacService>;
 
 /** A collection of objects that describe requests and responses for services. */
 export interface CreditFreddieMacServices {
@@ -18878,9 +18329,7 @@ export const CreditFreddieMacServices = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     SERVICE: CreditFreddieMacService,
   }),
-).annotate({
-  identifier: "CreditFreddieMacServices",
-}) as any as S.Schema<CreditFreddieMacServices>;
+).annotate({ identifier: "CreditFreddieMacServices" }) as any as S.Schema<CreditFreddieMacServices>;
 
 /** An object representing an Asset Report with Freddie Mac schema. */
 export interface CreditFreddieMacVerificationOfAssetsDeal {
@@ -18965,9 +18414,7 @@ export const PayrollIncomeRateOfPay = /*@__PURE__*/ S.suspend(() =>
     pay_rate: S.optional(S.NullOr(S.String)),
     pay_amount: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "PayrollIncomeRateOfPay",
-}) as any as S.Schema<PayrollIncomeRateOfPay>;
+).annotate({ identifier: "PayrollIncomeRateOfPay" }) as any as S.Schema<PayrollIncomeRateOfPay>;
 
 /** An object containing account level data. */
 export interface PayrollIncomeAccountData {
@@ -18983,13 +18430,11 @@ export const PayrollIncomeAccountData = /*@__PURE__*/ S.suspend(() =>
     rate_of_pay: PayrollIncomeRateOfPay,
     pay_frequency: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "PayrollIncomeAccountData",
-}) as any as S.Schema<PayrollIncomeAccountData>;
+).annotate({ identifier: "PayrollIncomeAccountData" }) as any as S.Schema<PayrollIncomeAccountData>;
 
-export type PayrollItemAccountsList = Array<PayrollIncomeAccountData>;
+export type PayrollItemAccountsList = Array<PayrollIncomeAccountData | null>;
 export const PayrollItemAccountsList = /*@__PURE__*/ S.Array(
-  PayrollIncomeAccountData,
+  S.NullOr(PayrollIncomeAccountData),
 ) as any as S.Schema<PayrollItemAccountsList>;
 
 /** An object representing the deduction line items for the pay period */
@@ -19040,9 +18485,7 @@ export const PayStubDeductionsTotal = /*@__PURE__*/ S.suspend(() =>
     unofficial_currency_code: S.NullOr(S.String),
     ytd_amount: S.NullOr(S.Number),
   }),
-).annotate({
-  identifier: "PayStubDeductionsTotal",
-}) as any as S.Schema<PayStubDeductionsTotal>;
+).annotate({ identifier: "PayStubDeductionsTotal" }) as any as S.Schema<PayStubDeductionsTotal>;
 
 /** An object with the deduction information found on a pay stub. */
 export interface CreditPayStubDeductions {
@@ -19054,9 +18497,7 @@ export const CreditPayStubDeductions = /*@__PURE__*/ S.suspend(() =>
     breakdown: CreditPayStubDeductionsBreakdownList,
     total: PayStubDeductionsTotal,
   }),
-).annotate({
-  identifier: "CreditPayStubDeductions",
-}) as any as S.Schema<CreditPayStubDeductions>;
+).annotate({ identifier: "CreditPayStubDeductions" }) as any as S.Schema<CreditPayStubDeductions>;
 
 /** An object representing the earnings line items for the pay period. */
 export interface PayStubEarningsBreakdown {
@@ -19087,9 +18528,7 @@ export const PayStubEarningsBreakdown = /*@__PURE__*/ S.suspend(() =>
     unofficial_currency_code: S.NullOr(S.String),
     ytd_amount: S.NullOr(S.Number),
   }),
-).annotate({
-  identifier: "PayStubEarningsBreakdown",
-}) as any as S.Schema<PayStubEarningsBreakdown>;
+).annotate({ identifier: "PayStubEarningsBreakdown" }) as any as S.Schema<PayStubEarningsBreakdown>;
 
 export type CreditPayStubEarningsBreakdownList = Array<PayStubEarningsBreakdown>;
 export const CreditPayStubEarningsBreakdownList = /*@__PURE__*/ S.Array(
@@ -19117,9 +18556,7 @@ export const PayStubEarningsTotal = /*@__PURE__*/ S.suspend(() =>
     unofficial_currency_code: S.NullOr(S.String),
     ytd_amount: S.NullOr(S.Number),
   }),
-).annotate({
-  identifier: "PayStubEarningsTotal",
-}) as any as S.Schema<PayStubEarningsTotal>;
+).annotate({ identifier: "PayStubEarningsTotal" }) as any as S.Schema<PayStubEarningsTotal>;
 
 /** An object representing both a breakdown of earnings on a pay stub and the total earnings. */
 export interface CreditPayStubEarnings {
@@ -19131,9 +18568,7 @@ export const CreditPayStubEarnings = /*@__PURE__*/ S.suspend(() =>
     breakdown: CreditPayStubEarningsBreakdownList,
     total: PayStubEarningsTotal,
   }),
-).annotate({
-  identifier: "CreditPayStubEarnings",
-}) as any as S.Schema<CreditPayStubEarnings>;
+).annotate({ identifier: "CreditPayStubEarnings" }) as any as S.Schema<CreditPayStubEarnings>;
 
 /** Address on the pay stub. */
 export type CreditPayStubAddress = CreditBankStatementUploadAccountOwnerAddress;
@@ -19151,9 +18586,7 @@ export const PayStubTaxpayerID = /*@__PURE__*/ S.suspend(() =>
     id_type: S.NullOr(S.String),
     id_mask: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "PayStubTaxpayerID",
-}) as any as S.Schema<PayStubTaxpayerID>;
+).annotate({ identifier: "PayStubTaxpayerID" }) as any as S.Schema<PayStubTaxpayerID>;
 
 /** Data about the employee. */
 export interface CreditPayStubEmployee {
@@ -19171,9 +18604,7 @@ export const CreditPayStubEmployee = /*@__PURE__*/ S.suspend(() =>
     marital_status: S.NullOr(S.String),
     taxpayer_id: PayStubTaxpayerID,
   }),
-).annotate({
-  identifier: "CreditPayStubEmployee",
-}) as any as S.Schema<CreditPayStubEmployee>;
+).annotate({ identifier: "CreditPayStubEmployee" }) as any as S.Schema<CreditPayStubEmployee>;
 
 /** Information about the employer on the pay stub. */
 export interface CreditPayStubEmployer {
@@ -19186,9 +18617,7 @@ export const CreditPayStubEmployer = /*@__PURE__*/ S.suspend(() =>
     address: CreditBankStatementUploadAccountOwnerAddress,
     name: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "CreditPayStubEmployer",
-}) as any as S.Schema<CreditPayStubEmployer>;
+).annotate({ identifier: "CreditPayStubEmployer" }) as any as S.Schema<CreditPayStubEmployer>;
 
 /** An object representing information about the net pay amount on the pay stub. */
 export interface CreditPayStubNetPay {
@@ -19211,9 +18640,7 @@ export const CreditPayStubNetPay = /*@__PURE__*/ S.suspend(() =>
     unofficial_currency_code: S.NullOr(S.String),
     ytd_amount: S.NullOr(S.Number),
   }),
-).annotate({
-  identifier: "CreditPayStubNetPay",
-}) as any as S.Schema<CreditPayStubNetPay>;
+).annotate({ identifier: "CreditPayStubNetPay" }) as any as S.Schema<CreditPayStubNetPay>;
 
 /** Information about the accounts that the payment was distributed to. */
 export interface PayStubDistributionBreakdown {
@@ -19289,9 +18716,7 @@ export const PayStubPayPeriodDetails = /*@__PURE__*/ S.suspend(() =>
     start_date: S.NullOr(S.String),
     unofficial_currency_code: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "PayStubPayPeriodDetails",
-}) as any as S.Schema<PayStubPayPeriodDetails>;
+).annotate({ identifier: "PayStubPayPeriodDetails" }) as any as S.Schema<PayStubPayPeriodDetails>;
 
 /** An object representing an end user's pay stub. */
 export interface CreditPayStub {
@@ -19370,9 +18795,7 @@ export const W2StateAndLocalWages = /*@__PURE__*/ S.suspend(() =>
     local_income_tax: S.optional(S.NullOr(S.String)),
     locality_name: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "W2StateAndLocalWages",
-}) as any as S.Schema<W2StateAndLocalWages>;
+).annotate({ identifier: "W2StateAndLocalWages" }) as any as S.Schema<W2StateAndLocalWages>;
 
 export type CreditW2StateAndLocalWagesList = Array<W2StateAndLocalWages>;
 export const CreditW2StateAndLocalWagesList = /*@__PURE__*/ S.Array(
@@ -19484,9 +18907,7 @@ export const Credit1099Recipient = /*@__PURE__*/ S.suspend(() =>
     facta_filing_requirement: S.optional(S.NullOr(S.String)),
     second_tin_exists: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "Credit1099Recipient",
-}) as any as S.Schema<Credit1099Recipient>;
+).annotate({ identifier: "Credit1099Recipient" }) as any as S.Schema<Credit1099Recipient>;
 
 /** An object representing a payer used by 1099-MISC tax documents. */
 export interface Credit1099Payer {
@@ -19505,9 +18926,7 @@ export const Credit1099Payer = /*@__PURE__*/ S.suspend(() =>
     tin: S.optional(S.NullOr(S.String)),
     telephone_number: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "Credit1099Payer",
-}) as any as S.Schema<Credit1099Payer>;
+).annotate({ identifier: "Credit1099Payer" }) as any as S.Schema<Credit1099Payer>;
 
 /** An object representing a filer used by 1099-K tax documents. */
 export interface Credit1099Filer {
@@ -19526,9 +18945,7 @@ export const Credit1099Filer = /*@__PURE__*/ S.suspend(() =>
     tin: S.optional(S.NullOr(S.String)),
     type: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "Credit1099Filer",
-}) as any as S.Schema<Credit1099Filer>;
+).annotate({ identifier: "Credit1099Filer" }) as any as S.Schema<Credit1099Filer>;
 
 /** An object representing an end user's 1099 tax form */
 export interface Credit1099 {
@@ -19724,9 +19141,7 @@ export const CreditI20Student = /*@__PURE__*/ S.suspend(() =>
     program_start_date: S.optional(S.NullOr(S.String)),
     program_end_date: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "CreditI20Student",
-}) as any as S.Schema<CreditI20Student>;
+).annotate({ identifier: "CreditI20Student" }) as any as S.Schema<CreditI20Student>;
 
 /** An object representing an end user's Form I-20 US immigration student document. */
 export interface CreditI20 {
@@ -19797,9 +19212,7 @@ export const PayrollIncomeObject = /*@__PURE__*/ S.suspend(() =>
     form1099s: PayrollIncomeObjectForm1099sList,
     i20s: PayrollIncomeObjectI20sList,
   }),
-).annotate({
-  identifier: "PayrollIncomeObject",
-}) as any as S.Schema<PayrollIncomeObject>;
+).annotate({ identifier: "PayrollIncomeObject" }) as any as S.Schema<PayrollIncomeObject>;
 
 export type PayrollItemPayrollIncomeList = Array<PayrollIncomeObject>;
 export const PayrollItemPayrollIncomeList = /*@__PURE__*/ S.Array(
@@ -19866,13 +19279,7 @@ export const GetCreditPayrollIncomeRiskSignalRequest = /*@__PURE__*/ S.suspend((
     secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
     user_token: S.optional(S.String),
     user_id: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/credit/payroll_income/risk_signals/get",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/credit/payroll_income/risk_signals/get", code: 200 })),
 ).annotate({
   identifier: "GetCreditPayrollIncomeRiskSignalRequest",
 }) as any as S.Schema<GetCreditPayrollIncomeRiskSignalRequest>;
@@ -19977,14 +19384,12 @@ export const DocumentRiskSignal = /*@__PURE__*/ S.suspend(() =>
     signal_description: S.NullOr(S.String),
     page_number: S.NullOr(S.Number),
   }),
-).annotate({
-  identifier: "DocumentRiskSignal",
-}) as any as S.Schema<DocumentRiskSignal>;
+).annotate({ identifier: "DocumentRiskSignal" }) as any as S.Schema<DocumentRiskSignal>;
 
 /** Array of attributes that indicate whether or not there is fraud risk with a document */
-export type SingleDocumentRiskSignalRiskSignalsList = Array<DocumentRiskSignal>;
+export type SingleDocumentRiskSignalRiskSignalsList = Array<DocumentRiskSignal | null>;
 export const SingleDocumentRiskSignalRiskSignalsList = /*@__PURE__*/ S.Array(
-  DocumentRiskSignal,
+  S.NullOr(DocumentRiskSignal),
 ) as any as S.Schema<SingleDocumentRiskSignalRiskSignalsList>;
 
 /** A summary across all risk signals associated with a document */
@@ -19996,9 +19401,7 @@ export const DocumentRiskSummary = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     risk_score: S.NullOr(S.Number),
   }),
-).annotate({
-  identifier: "DocumentRiskSummary",
-}) as any as S.Schema<DocumentRiskSummary>;
+).annotate({ identifier: "DocumentRiskSummary" }) as any as S.Schema<DocumentRiskSummary>;
 
 /** Object containing all risk signals and relevant metadata for a single document */
 export interface SingleDocumentRiskSignal {
@@ -20013,9 +19416,7 @@ export const SingleDocumentRiskSignal = /*@__PURE__*/ S.suspend(() =>
     risk_signals: SingleDocumentRiskSignalRiskSignalsList,
     risk_summary: DocumentRiskSummary,
   }),
-).annotate({
-  identifier: "SingleDocumentRiskSignal",
-}) as any as S.Schema<SingleDocumentRiskSignal>;
+).annotate({ identifier: "SingleDocumentRiskSignal" }) as any as S.Schema<SingleDocumentRiskSignal>;
 
 /** Array of document metadata and associated risk signals per document */
 export type DocumentRiskSignalsObjectSingleDocumentRiskSignalsList =
@@ -20031,9 +19432,9 @@ export const MultiDocumentRiskSignalDocumentReferencesList = /*@__PURE__*/ S.Arr
 ) as any as S.Schema<MultiDocumentRiskSignalDocumentReferencesList>;
 
 /** Array of attributes that indicate whether or not there is fraud risk with a set of documents */
-export type MultiDocumentRiskSignalRiskSignalsList = Array<DocumentRiskSignal>;
+export type MultiDocumentRiskSignalRiskSignalsList = Array<DocumentRiskSignal | null>;
 export const MultiDocumentRiskSignalRiskSignalsList = /*@__PURE__*/ S.Array(
-  DocumentRiskSignal,
+  S.NullOr(DocumentRiskSignal),
 ) as any as S.Schema<MultiDocumentRiskSignalRiskSignalsList>;
 
 /** Object containing risk signals and relevant metadata for a set of uploaded documents */
@@ -20048,9 +19449,7 @@ export const MultiDocumentRiskSignal = /*@__PURE__*/ S.suspend(() =>
     document_references: MultiDocumentRiskSignalDocumentReferencesList,
     risk_signals: MultiDocumentRiskSignalRiskSignalsList,
   }),
-).annotate({
-  identifier: "MultiDocumentRiskSignal",
-}) as any as S.Schema<MultiDocumentRiskSignal>;
+).annotate({ identifier: "MultiDocumentRiskSignal" }) as any as S.Schema<MultiDocumentRiskSignal>;
 
 /** Array of risk signals computed from a set of uploaded documents and the associated documents' metadata */
 export type DocumentRiskSignalsObjectMultiDocumentRiskSignalsList = Array<MultiDocumentRiskSignal>;
@@ -20094,9 +19493,7 @@ export const PayrollRiskSignalsItem = /*@__PURE__*/ S.suspend(() =>
     item_id: S.String,
     verification_risk_signals: PayrollRiskSignalsItemVerificationRiskSignalsList,
   }),
-).annotate({
-  identifier: "PayrollRiskSignalsItem",
-}) as any as S.Schema<PayrollRiskSignalsItem>;
+).annotate({ identifier: "PayrollRiskSignalsItem" }) as any as S.Schema<PayrollRiskSignalsItem>;
 
 /** Array of payroll items. */
 export type CreditPayrollIncomeRiskSignalsGetResponseItemsList = Array<PayrollRiskSignalsItem>;
@@ -20142,9 +19539,7 @@ export const GetCreditRelayRequest = /*@__PURE__*/ S.suspend(() =>
     report_type: ReportType,
     include_insights: S.optional(S.Boolean),
   }).pipe(T.Http({ method: "POST", uri: "/credit/relay/get", code: 200 })),
-).annotate({
-  identifier: "GetCreditRelayRequest",
-}) as any as S.Schema<GetCreditRelayRequest>;
+).annotate({ identifier: "GetCreditRelayRequest" }) as any as S.Schema<GetCreditRelayRequest>;
 
 export interface GetCreditRelayPdfRequest {
   client_id?: string;
@@ -20160,9 +19555,7 @@ export const GetCreditRelayPdfRequest = /*@__PURE__*/ S.suspend(() =>
     relay_token: S.String,
     report_type: ReportType,
   }).pipe(T.Http({ method: "POST", uri: "/credit/relay/pdf/get", code: 200 })),
-).annotate({
-  identifier: "GetCreditRelayPdfRequest",
-}) as any as S.Schema<GetCreditRelayPdfRequest>;
+).annotate({ identifier: "GetCreditRelayPdfRequest" }) as any as S.Schema<GetCreditRelayPdfRequest>;
 
 export interface GetCreditRelayPdfResponse {}
 export const GetCreditRelayPdfResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -20182,9 +19575,7 @@ export const GetCreditSessionRequest = /*@__PURE__*/ S.suspend(() =>
     user_token: S.optional(S.String),
     user_id: S.optional(S.String),
   }).pipe(T.Http({ method: "POST", uri: "/credit/sessions/get", code: 200 })),
-).annotate({
-  identifier: "GetCreditSessionRequest",
-}) as any as S.Schema<GetCreditSessionRequest>;
+).annotate({ identifier: "GetCreditSessionRequest" }) as any as S.Schema<GetCreditSessionRequest>;
 
 /** The details of an Item add in Link. */
 export interface CreditSessionItemAddResult {
@@ -20351,9 +19742,7 @@ export const CreditSessionResults = /*@__PURE__*/ S.suspend(() =>
     payroll_income_results: S.optional(CreditSessionResultsPayrollIncomeResultsList),
     document_income_results: S.optional(S.NullOr(CreditSessionDocumentIncomeResult)),
   }),
-).annotate({
-  identifier: "CreditSessionResults",
-}) as any as S.Schema<CreditSessionResults>;
+).annotate({ identifier: "CreditSessionResults" }) as any as S.Schema<CreditSessionResults>;
 
 /** The details of a Link error. */
 export interface CreditSessionError {
@@ -20373,9 +19762,7 @@ export const CreditSessionError = /*@__PURE__*/ S.suspend(() =>
     error_message: S.optional(S.String),
     display_message: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "CreditSessionError",
-}) as any as S.Schema<CreditSessionError>;
+).annotate({ identifier: "CreditSessionError" }) as any as S.Schema<CreditSessionError>;
 
 /** The set of errors that occurred during the Link session. */
 export type CreditSessionErrorsList = Array<CreditSessionError>;
@@ -20434,9 +19821,7 @@ export const GetDashboardUserRequest = /*@__PURE__*/ S.suspend(() =>
     secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
     client_id: S.optional(S.String),
   }).pipe(T.Http({ method: "POST", uri: "/dashboard_user/get", code: 200 })),
-).annotate({
-  identifier: "GetDashboardUserRequest",
-}) as any as S.Schema<GetDashboardUserRequest>;
+).annotate({ identifier: "GetDashboardUserRequest" }) as any as S.Schema<GetDashboardUserRequest>;
 
 /** The current status of the user. */
 export type DashboardUserStatus = "invited" | "active" | "deactivated";
@@ -20458,9 +19843,7 @@ export const DashboardUserGetResponse = /*@__PURE__*/ S.suspend(() =>
     status: DashboardUserStatus,
     request_id: S.String,
   }),
-).annotate({
-  identifier: "DashboardUserGetResponse",
-}) as any as S.Schema<DashboardUserGetResponse>;
+).annotate({ identifier: "DashboardUserGetResponse" }) as any as S.Schema<DashboardUserGetResponse>;
 
 export interface GetFdxConsentRequest {
   /** Unique identifier of the consent grant. */
@@ -20470,9 +19853,7 @@ export const GetFdxConsentRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     consentId: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/fdx/consents/{consentId}", code: 200 })),
-).annotate({
-  identifier: "GetFdxConsentRequest",
-}) as any as S.Schema<GetFdxConsentRequest>;
+).annotate({ identifier: "GetFdxConsentRequest" }) as any as S.Schema<GetFdxConsentRequest>;
 
 /** Current status of a consent grant. One of `ACTIVE`, `REVOKED`, `EXPIRED`. */
 export type FDXConsentGrantStatus = "ACTIVE" | "REVOKED" | "EXPIRED";
@@ -20528,9 +19909,7 @@ export const FDXConsentGrantResource = /*@__PURE__*/ S.suspend(() =>
     resourceId: S.String,
     dataClusters: FDXConsentGrantResourceDataClustersList,
   }),
-).annotate({
-  identifier: "FDXConsentGrantResource",
-}) as any as S.Schema<FDXConsentGrantResource>;
+).annotate({ identifier: "FDXConsentGrantResource" }) as any as S.Schema<FDXConsentGrantResource>;
 
 /** Permissioned resource entries. Omitted when there are no resources. */
 export type FDXConsentGrantResourcesList = Array<FDXConsentGrantResource>;
@@ -20564,9 +19943,7 @@ export const FDXConsentGrant = /*@__PURE__*/ S.suspend(() =>
     parties: FDXConsentGrantPartiesList,
     resources: S.optional(FDXConsentGrantResourcesList),
   }),
-).annotate({
-  identifier: "FDXConsentGrant",
-}) as any as S.Schema<FDXConsentGrant>;
+).annotate({ identifier: "FDXConsentGrant" }) as any as S.Schema<FDXConsentGrant>;
 
 export interface GetFdxConsentsRevocationRequest {
   /** Unique identifier of the consent grant. */
@@ -20575,13 +19952,7 @@ export interface GetFdxConsentsRevocationRequest {
 export const GetFdxConsentsRevocationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     consentId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/fdx/consents/{consentId}/revocation",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/fdx/consents/{consentId}/revocation", code: 200 })),
 ).annotate({
   identifier: "GetFdxConsentsRevocationRequest",
 }) as any as S.Schema<GetFdxConsentsRevocationRequest>;
@@ -20620,9 +19991,7 @@ export const FDXConsentRevocations = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     revocations: FDXConsentRevocationsRevocationsList,
   }),
-).annotate({
-  identifier: "FDXConsentRevocations",
-}) as any as S.Schema<FDXConsentRevocations>;
+).annotate({ identifier: "FDXConsentRevocations" }) as any as S.Schema<FDXConsentRevocations>;
 
 /** A list of `account_ids` to retrieve for the Item. Note: An error will be returned if a provided `account_id` is not associated with the Item. */
 export type IdentityGetRequestOptionsAccountIdsList = Array<string>;
@@ -20656,9 +20025,7 @@ export const GetIdentityRequest = /*@__PURE__*/ S.suspend(() =>
     access_token: S.String.pipe(T.SensitiveValue({})),
     options: S.optional(IdentityGetRequestOptions),
   }).pipe(T.Http({ method: "POST", uri: "/identity/get", code: 200 })),
-).annotate({
-  identifier: "GetIdentityRequest",
-}) as any as S.Schema<GetIdentityRequest>;
+).annotate({ identifier: "GetIdentityRequest" }) as any as S.Schema<GetIdentityRequest>;
 
 /** Indicates an Item's micro-deposit-based verification or database verification status. This field is only populated when using Auth and falling back to micro-deposit or database verification. Possible values are: `pending_automatic_verification`: The Item is pending automatic verification. `pending_manual_verification`: The Item is pending manual micro-deposit verification. Items remain in this state until the user successfully verifies the code. `automatically_verified`: The Item has successfully been automatically verified. `manually_verified`: The Item has successfully been manually verified. `verification_expired`: Plaid was unable to automatically verify the deposit within 7 calendar days and will no longer attempt to validate the Item. Users may retry by submitting their information again through Link. `verification_failed`: The Item failed manual micro-deposit verification because the user exhausted all 3 verification attempts. Users may retry by submitting their information again through Link. `unsent`: The Item is pending micro-deposit verification, but Plaid has not yet sent the micro-deposit. `database_insights_fail`: The Item's numbers have been verified using Plaid's data sources and have signal for being invalid and/or have no signal for being valid. Typically this indicates that the routing number is invalid, the account number does not match the account number format associated with the routing number, or the account has been reported as closed or frozen. Only returned for Auth Items created via Database Auth. `database_insights_pass`: The Item's numbers have been verified using Plaid's data sources: the routing and account number match a routing and account number of an account recognized on the Plaid network, and the account is not known by Plaid to be frozen or closed. Only returned for Auth Items created via Database Auth. `database_insights_pass_with_caution`: The Item's numbers have been verified using Plaid's data sources and have some signal for being valid: the routing and account number were not recognized on the Plaid network, but the routing number is valid and the account number is a potential valid account number for that routing number. Only returned for Auth Items created via Database Auth. `database_matched`: (deprecated) The Item has successfully been verified using Plaid's data sources. Only returned for Auth Items created via Database Match. `null` or empty string: Neither micro-deposit-based verification nor database verification are being used for the Item. */
 export type AccountIdentityVerificationStatus =
@@ -20724,9 +20091,7 @@ export const AccountIdentity = /*@__PURE__*/ S.suspend(() =>
     holder_category: S.optional(S.NullOr(AccountHolderCategory)),
     owners: AccountIdentityOwnersList,
   }),
-).annotate({
-  identifier: "AccountIdentity",
-}) as any as S.Schema<AccountIdentity>;
+).annotate({ identifier: "AccountIdentity" }) as any as S.Schema<AccountIdentity>;
 
 /** The accounts for which Identity data has been requested */
 export type IdentityGetResponseAccountsList = Array<AccountIdentity>;
@@ -20747,9 +20112,7 @@ export const IdentityGetResponse = /*@__PURE__*/ S.suspend(() =>
     item: Item,
     request_id: S.String,
   }),
-).annotate({
-  identifier: "IdentityGetResponse",
-}) as any as S.Schema<IdentityGetResponse>;
+).annotate({ identifier: "IdentityGetResponse" }) as any as S.Schema<IdentityGetResponse>;
 
 /** A list of `account_ids` to retrieve for the Item. Note: An error will be returned if a provided `account_id` is not associated with the Item. */
 export type IdentityDocumentsUploadsGetRequestOptionsAccountIdsList = Array<string>;
@@ -20782,13 +20145,7 @@ export const GetIdentityDocumentsUploadRequest = /*@__PURE__*/ S.suspend(() =>
     secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
     access_token: S.String.pipe(T.SensitiveValue({})),
     options: S.optional(IdentityDocumentsUploadsGetRequestOptions),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/identity/documents/uploads/get",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/identity/documents/uploads/get", code: 200 })),
 ).annotate({
   identifier: "GetIdentityDocumentsUploadRequest",
 }) as any as S.Schema<GetIdentityDocumentsUploadRequest>;
@@ -20909,9 +20266,7 @@ export const IdentityDocumentUpload = /*@__PURE__*/ S.suspend(() =>
     metadata: S.optional(IdentityDocumentUploadMetadata),
     risk_insights: S.optional(IdentityDocumentUploadRiskInsights),
   }),
-).annotate({
-  identifier: "IdentityDocumentUpload",
-}) as any as S.Schema<IdentityDocumentUpload>;
+).annotate({ identifier: "IdentityDocumentUpload" }) as any as S.Schema<IdentityDocumentUpload>;
 
 /** Data about the documents that were uploaded as proof of account ownership. */
 export type AccountIdentityDocumentUploadDocumentsList = Array<IdentityDocumentUpload>;
@@ -21125,9 +20480,7 @@ export const GetInstitutionRequest = /*@__PURE__*/ S.suspend(() =>
     country_codes: GetInstitutionRequestCountryCodesList,
     options: S.optional(InstitutionsGetRequestOptions),
   }).pipe(T.Http({ method: "POST", uri: "/institutions/get", code: 200 })),
-).annotate({
-  identifier: "GetInstitutionRequest",
-}) as any as S.Schema<GetInstitutionRequest>;
+).annotate({ identifier: "GetInstitutionRequest" }) as any as S.Schema<GetInstitutionRequest>;
 
 /** A list of the Plaid products supported by the institution. Note that only institutions that support Instant Auth will return `auth` in the product array; institutions that do not list `auth` may still support other Auth methods such as Instant Match or Automated Micro-deposit Verification. To identify institutions that support those methods, use the `auth_metadata` object. For more details, see [Full Auth coverage](https://plaid.com/docs/auth/coverage/). The `income_verification` product here indicates support for Bank Income. Note: For Signal Transaction Scores and Transfer, listed institutions may be incomplete or incorrect. Instead, use the following: `balance` support also indicates coverage of Signal Transaction Scores; `auth` support also indicates coverage of Transfer. */
 export type InstitutionProductsList = Array<Products>;
@@ -21152,6 +20505,10 @@ export type InstitutionDtcNumbersList = Array<string>;
 export const InstitutionDtcNumbersList = /*@__PURE__*/ S.Array(
   S.String,
 ) as any as S.Schema<InstitutionDtcNumbersList>;
+
+/** Whether Plaid supports creating new Items for the institution. `SUPPORTED`: Plaid supports new connections to the institution. Whether a given connection succeeds can still depend on your integration and account: some institutions require completing [OAuth registration](https://plaid.com/docs/link/oauth/#complete-the-registration-requirements) before they can be used, the institution may not support every product requested in `/link/token/create`, and your Plaid account must be in good standing. `NOT_SUPPORTED`: Plaid does not support new connections to the institution. Existing Items may continue to work. Attempting to create a new Item for the institution returns an `INSTITUTION_NO_LONGER_SUPPORTED` error. Institutions with this value are returned only by `/institutions/get_by_id`. */
+export type InstitutionConnectionAvailability = "SUPPORTED" | "NOT_SUPPORTED";
+export const InstitutionConnectionAvailability = S.String;
 
 /** This field is deprecated in favor of the `breakdown` object, which provides more granular institution health data. `HEALTHY`: the majority of requests are successful `DEGRADED`: only some requests are successful `DOWN`: all requests are failing */
 export type ProductStatusStatus = "HEALTHY" | "DEGRADED" | "DOWN";
@@ -21179,9 +20536,7 @@ export const ProductStatusBreakdown = /*@__PURE__*/ S.suspend(() =>
     error_institution: S.Number,
     refresh_interval: S.optional(ProductStatusBreakdownRefreshInterval),
   }),
-).annotate({
-  identifier: "ProductStatusBreakdown",
-}) as any as S.Schema<ProductStatusBreakdown>;
+).annotate({ identifier: "ProductStatusBreakdown" }) as any as S.Schema<ProductStatusBreakdown>;
 
 /** A representation of the status health of a request type. Auth requests, Balance requests, Identity requests, Investments requests, Liabilities requests, Transactions updates, Investments updates, Liabilities updates, and Item logins each have their own status object. */
 export interface ProductStatus {
@@ -21282,14 +20637,10 @@ export const InstitutionStatus = /*@__PURE__*/ S.suspend(() =>
     investments: S.optional(S.NullOr(ProductStatus)),
     health_incidents: S.optional(S.NullOr(InstitutionStatusHealthIncidentsList)),
   }),
-).annotate({
-  identifier: "InstitutionStatus",
-}) as any as S.Schema<InstitutionStatus>;
+).annotate({ identifier: "InstitutionStatus" }) as any as S.Schema<InstitutionStatus>;
 
 /** A mapping of currency to maximum payment amount (denominated in the smallest unit of currency) supported by the institution. Example: `{"GBP": "10000"}` */
-export type PaymentInitiationMaximumPaymentAmount = {
-  [key: string]: string | undefined;
-};
+export type PaymentInitiationMaximumPaymentAmount = { [key: string]: string | undefined };
 export const PaymentInitiationMaximumPaymentAmount = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -21335,6 +20686,8 @@ export interface PaymentInitiationMetadata {
   standing_order_metadata: PaymentInitiationStandingOrderMetadata | null;
   /** Indicates whether the institution supports payment consents. */
   supports_payment_consents: boolean;
+  /** Indicates whether the institution supports commercial variable recurring payment (cVRP) consents. */
+  supports_commercial_payment_consents: boolean;
 }
 export const PaymentInitiationMetadata = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -21344,6 +20697,7 @@ export const PaymentInitiationMetadata = /*@__PURE__*/ S.suspend(() =>
     supports_refund_details: S.Boolean,
     standing_order_metadata: S.NullOr(PaymentInitiationStandingOrderMetadata),
     supports_payment_consents: S.Boolean,
+    supports_commercial_payment_consents: S.Boolean,
   }),
 ).annotate({
   identifier: "PaymentInitiationMetadata",
@@ -21367,9 +20721,7 @@ export const AuthSupportedMethods = /*@__PURE__*/ S.suspend(() =>
     automated_micro_deposits: S.Boolean,
     instant_micro_deposits: S.Boolean,
   }),
-).annotate({
-  identifier: "AuthSupportedMethods",
-}) as any as S.Schema<AuthSupportedMethods>;
+).annotate({ identifier: "AuthSupportedMethods" }) as any as S.Schema<AuthSupportedMethods>;
 
 /** Metadata that captures information about the Auth features of an institution. */
 export interface AuthMetadata {
@@ -21403,6 +20755,7 @@ export interface Institution {
   dtc_numbers?: InstitutionDtcNumbersList;
   /** Indicates that the institution has an OAuth login flow. This will be `true` if OAuth is supported for any Items associated with the institution, even if the institution also supports non-OAuth connections. */
   oauth: boolean;
+  connection_availability: InstitutionConnectionAvailability;
   status?: InstitutionStatus | null;
   payment_initiation_metadata?: PaymentInitiationMetadata | null;
   auth_metadata?: AuthMetadata | null;
@@ -21419,6 +20772,7 @@ export const Institution = /*@__PURE__*/ S.suspend(() =>
     routing_numbers: InstitutionRoutingNumbersList,
     dtc_numbers: S.optional(InstitutionDtcNumbersList),
     oauth: S.Boolean,
+    connection_availability: InstitutionConnectionAvailability,
     status: S.optional(S.NullOr(InstitutionStatus)),
     payment_initiation_metadata: S.optional(S.NullOr(PaymentInitiationMetadata)),
     auth_metadata: S.optional(S.NullOr(AuthMetadata)),
@@ -21445,9 +20799,7 @@ export const InstitutionsGetResponse = /*@__PURE__*/ S.suspend(() =>
     total: S.Number,
     request_id: S.String,
   }),
-).annotate({
-  identifier: "InstitutionsGetResponse",
-}) as any as S.Schema<InstitutionsGetResponse>;
+).annotate({ identifier: "InstitutionsGetResponse" }) as any as S.Schema<InstitutionsGetResponse>;
 
 /** An array of `account_id`s to retrieve for the Item. An error will be returned if a provided `account_id` is not associated with the Item. */
 export type InvestmentsAuthGetRequestOptionsAccountIdsList = Array<string>;
@@ -21540,9 +20892,7 @@ export const InvestmentAccount = /*@__PURE__*/ S.suspend(() =>
     apy: S.optional(S.NullOr(S.Number)),
     holder_category: S.optional(S.NullOr(AccountHolderCategory)),
   }),
-).annotate({
-  identifier: "InvestmentAccount",
-}) as any as S.Schema<InvestmentAccount>;
+).annotate({ identifier: "InvestmentAccount" }) as any as S.Schema<InvestmentAccount>;
 
 /** The accounts for which data is being retrieved */
 export type InvestmentsAuthGetResponseAccountsList = Array<InvestmentAccount>;
@@ -21767,9 +21117,7 @@ export const InvestmentsAuthOwner = /*@__PURE__*/ S.suspend(() =>
     account_id: S.optional(S.String),
     names: S.optional(InvestmentsAuthOwnerNamesList),
   }),
-).annotate({
-  identifier: "InvestmentsAuthOwner",
-}) as any as S.Schema<InvestmentsAuthOwner>;
+).annotate({ identifier: "InvestmentsAuthOwner" }) as any as S.Schema<InvestmentsAuthOwner>;
 
 /** Information about the account owners for the accounts associated with the Item. */
 export type InvestmentsAuthGetResponseOwnersList = Array<InvestmentsAuthOwner>;
@@ -21839,9 +21187,7 @@ export const NumbersRetirement401k = /*@__PURE__*/ S.suspend(() =>
     plan: S.optional(S.String),
     account: S.optional(S.String),
   }),
-).annotate({
-  identifier: "NumbersRetirement401k",
-}) as any as S.Schema<NumbersRetirement401k>;
+).annotate({ identifier: "NumbersRetirement401k" }) as any as S.Schema<NumbersRetirement401k>;
 
 export type InvestmentsAuthGetNumbersRetirement401kList = Array<NumbersRetirement401k>;
 export const InvestmentsAuthGetNumbersRetirement401kList = /*@__PURE__*/ S.Array(
@@ -21949,9 +21295,7 @@ export const InvestmentTransaction = /*@__PURE__*/ S.suspend(() =>
     iso_currency_code: S.NullOr(S.String),
     unofficial_currency_code: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "InvestmentTransaction",
-}) as any as S.Schema<InvestmentTransaction>;
+).annotate({ identifier: "InvestmentTransaction" }) as any as S.Schema<InvestmentTransaction>;
 
 /** A list of the most recent contribution transactions for the 401k account. Includes all contributions made on the same day. */
 export type InvestmentsAuth401kContributionDetailsLastContributionTransactionsList =
@@ -22162,7 +21506,7 @@ export interface GetInvestmentsTransactionRequest {
   client_id?: string;
   secret?: string | Redacted.Redacted<string>;
   access_token: string | Redacted.Redacted<string>;
-  /** The earliest date for which to fetch transaction history. Dates should be formatted as YYYY-MM-DD. */
+  /** The earliest date for which to fetch transaction history. Dates should be formatted as YYYY-MM-DD. Plaid returns all investment transaction history stored for the Item (up to 2 years prior to the initial linking of the Item). */
   start_date: string;
   /** The most recent date for which to fetch transaction history. Dates should be formatted as YYYY-MM-DD. */
   end_date: string;
@@ -22241,9 +21585,7 @@ export const GetIssueRequest = /*@__PURE__*/ S.suspend(() =>
     secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
     issue_id: S.String,
   }).pipe(T.Http({ method: "POST", uri: "/issues/get", code: 200 })),
-).annotate({
-  identifier: "GetIssueRequest",
-}) as any as S.Schema<GetIssueRequest>;
+).annotate({ identifier: "GetIssueRequest" }) as any as S.Schema<GetIssueRequest>;
 
 /** A list of names of the financial institutions affected. */
 export type IssueInstitutionNamesList = Array<string>;
@@ -22305,9 +21647,7 @@ export const IssuesGetResponse = /*@__PURE__*/ S.suspend(() =>
     issue: S.optional(Issue),
     request_id: S.optional(S.String),
   }),
-).annotate({
-  identifier: "IssuesGetResponse",
-}) as any as S.Schema<IssuesGetResponse>;
+).annotate({ identifier: "IssuesGetResponse" }) as any as S.Schema<IssuesGetResponse>;
 
 export interface GetItemRequest {
   client_id?: string;
@@ -22405,6 +21745,8 @@ export interface ItemWithConsentFields {
   consent_expiration_time: string | null;
   /** Indicates whether an Item requires user interaction to be updated, which can be the case for Items with some forms of two-factor authentication. `background` - Item can be updated in the background `user_present_required` - Item requires user interaction to be updated */
   update_type: ItemWithConsentFieldsUpdateType;
+  /** The `item_id` of the Item that was created alongside this one in a single Link session. Only present for Items created in a hybrid Link flow that produces separate Plaid Inc and Plaid Check items; `null` for every other Item. */
+  paired_item_id?: string | null;
   /** The date and time when the Item was created, in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format. */
   created_at?: string;
   /** A list of use cases that the user has consented to for the Item via [Data Transparency Messaging](https://plaid.com/docs/link/data-transparency-messaging-migration-guide). You can see the full list of use cases or update the list of use cases to request at any time via the Link Customization section of the [Plaid Dashboard](https://dashboard.plaid.com/link/data-transparency-v5). */
@@ -22426,13 +21768,12 @@ export const ItemWithConsentFields = /*@__PURE__*/ S.suspend(() =>
     consented_products: S.optional(ItemWithConsentFieldsConsentedProductsList),
     consent_expiration_time: S.NullOr(S.String),
     update_type: ItemWithConsentFieldsUpdateType,
+    paired_item_id: S.optional(S.NullOr(S.String)),
     created_at: S.optional(S.String),
     consented_use_cases: S.optional(ItemWithConsentFieldsConsentedUseCasesList),
     consented_data_scopes: S.optional(ItemWithConsentFieldsConsentedDataScopesList),
   }),
-).annotate({
-  identifier: "ItemWithConsentFields",
-}) as any as S.Schema<ItemWithConsentFields>;
+).annotate({ identifier: "ItemWithConsentFields" }) as any as S.Schema<ItemWithConsentFields>;
 
 /** Information about the last successful and failed investments update for the Item. */
 export interface ItemStatusInvestments {
@@ -22446,9 +21787,7 @@ export const ItemStatusInvestments = /*@__PURE__*/ S.suspend(() =>
     last_successful_update: S.optional(S.NullOr(S.String)),
     last_failed_update: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "ItemStatusInvestments",
-}) as any as S.Schema<ItemStatusInvestments>;
+).annotate({ identifier: "ItemStatusInvestments" }) as any as S.Schema<ItemStatusInvestments>;
 
 /** Information about the last successful and failed transactions update for the Item. */
 export interface ItemStatusTransactions {
@@ -22462,9 +21801,7 @@ export const ItemStatusTransactions = /*@__PURE__*/ S.suspend(() =>
     last_successful_update: S.optional(S.NullOr(S.String)),
     last_failed_update: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "ItemStatusTransactions",
-}) as any as S.Schema<ItemStatusTransactions>;
+).annotate({ identifier: "ItemStatusTransactions" }) as any as S.Schema<ItemStatusTransactions>;
 
 /** Information about the last webhook fired for the Item. */
 export interface ItemStatusLastWebhook {
@@ -22478,9 +21815,7 @@ export const ItemStatusLastWebhook = /*@__PURE__*/ S.suspend(() =>
     sent_at: S.optional(S.NullOr(S.String)),
     code_sent: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ItemStatusLastWebhook",
-}) as any as S.Schema<ItemStatusLastWebhook>;
+).annotate({ identifier: "ItemStatusLastWebhook" }) as any as S.Schema<ItemStatusLastWebhook>;
 
 /** An object with information about the status of the Item. */
 export interface ItemStatusNullable {
@@ -22494,9 +21829,7 @@ export const ItemStatusNullable = /*@__PURE__*/ S.suspend(() =>
     transactions: S.optional(S.NullOr(ItemStatusTransactions)),
     last_webhook: S.optional(S.NullOr(ItemStatusLastWebhook)),
   }),
-).annotate({
-  identifier: "ItemStatusNullable",
-}) as any as S.Schema<ItemStatusNullable>;
+).annotate({ identifier: "ItemStatusNullable" }) as any as S.Schema<ItemStatusNullable>;
 
 /** ItemGetResponse defines the response schema for `/item/get` and `/item/webhook/update` */
 export interface ItemGetResponse {
@@ -22510,9 +21843,7 @@ export const ItemGetResponse = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(S.NullOr(ItemStatusNullable)),
     request_id: S.String,
   }),
-).annotate({
-  identifier: "ItemGetResponse",
-}) as any as S.Schema<ItemGetResponse>;
+).annotate({ identifier: "ItemGetResponse" }) as any as S.Schema<ItemGetResponse>;
 
 /** A list of accounts to retrieve for the Item. An error will be returned if a provided `account_id` is not associated with the Item */
 export type LiabilitiesGetRequestOptionsAccountIdsList = Array<string>;
@@ -22546,9 +21877,7 @@ export const GetLiabilityRequest = /*@__PURE__*/ S.suspend(() =>
     access_token: S.String.pipe(T.SensitiveValue({})),
     options: S.optional(LiabilitiesGetRequestOptions),
   }).pipe(T.Http({ method: "POST", uri: "/liabilities/get", code: 200 })),
-).annotate({
-  identifier: "GetLiabilityRequest",
-}) as any as S.Schema<GetLiabilityRequest>;
+).annotate({ identifier: "GetLiabilityRequest" }) as any as S.Schema<GetLiabilityRequest>;
 
 /** An array of accounts associated with the Item */
 export type LiabilitiesGetResponseAccountsList = Array<AccountBase>;
@@ -22611,6 +21940,8 @@ export interface CreditCardLiability {
   minimum_payment_amount: number | null;
   /** The due date for the next payment. The due date is `null` if a payment is not expected. Dates are returned in an [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format (YYYY-MM-DD). */
   next_payment_due_date: string | null;
+  /** The credit limit for cash advances on the account. */
+  cash_advance_limit?: number | null;
 }
 export const CreditCardLiability = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -22623,10 +21954,9 @@ export const CreditCardLiability = /*@__PURE__*/ S.suspend(() =>
     last_statement_balance: S.NullOr(S.Number),
     minimum_payment_amount: S.NullOr(S.Number),
     next_payment_due_date: S.NullOr(S.String),
+    cash_advance_limit: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "CreditCardLiability",
-}) as any as S.Schema<CreditCardLiability>;
+).annotate({ identifier: "CreditCardLiability" }) as any as S.Schema<CreditCardLiability>;
 
 /** The credit accounts returned. */
 export type LiabilitiesObjectCreditList = Array<CreditCardLiability>;
@@ -22646,9 +21976,7 @@ export const MortgageInterestRate = /*@__PURE__*/ S.suspend(() =>
     percentage: S.NullOr(S.Number),
     type: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "MortgageInterestRate",
-}) as any as S.Schema<MortgageInterestRate>;
+).annotate({ identifier: "MortgageInterestRate" }) as any as S.Schema<MortgageInterestRate>;
 
 /** Object containing fields describing property address. */
 export interface MortgagePropertyAddress {
@@ -22671,9 +21999,7 @@ export const MortgagePropertyAddress = /*@__PURE__*/ S.suspend(() =>
     region: S.NullOr(S.String),
     street: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "MortgagePropertyAddress",
-}) as any as S.Schema<MortgagePropertyAddress>;
+).annotate({ identifier: "MortgagePropertyAddress" }) as any as S.Schema<MortgagePropertyAddress>;
 
 /** Contains details about a mortgage account. */
 export interface MortgageLiability {
@@ -22739,9 +22065,7 @@ export const MortgageLiability = /*@__PURE__*/ S.suspend(() =>
     ytd_interest_paid: S.NullOr(S.Number),
     ytd_principal_paid: S.NullOr(S.Number),
   }),
-).annotate({
-  identifier: "MortgageLiability",
-}) as any as S.Schema<MortgageLiability>;
+).annotate({ identifier: "MortgageLiability" }) as any as S.Schema<MortgageLiability>;
 
 /** The mortgage accounts returned. */
 export type LiabilitiesObjectMortgageList = Array<MortgageLiability>;
@@ -22790,9 +22114,7 @@ export const StudentLoanStatus = /*@__PURE__*/ S.suspend(() =>
     end_date: S.NullOr(S.String),
     type: S.NullOr(StudentLoanStatusType),
   }),
-).annotate({
-  identifier: "StudentLoanStatus",
-}) as any as S.Schema<StudentLoanStatus>;
+).annotate({ identifier: "StudentLoanStatus" }) as any as S.Schema<StudentLoanStatus>;
 
 /** Information about the student's eligibility in the Public Service Loan Forgiveness program. This is only returned if the institution is FedLoan (`ins_116527`). Since FedLoan no longer services student loans, this field is no longer returned. */
 export interface PSLFStatus {
@@ -22839,9 +22161,7 @@ export const StudentRepaymentPlan = /*@__PURE__*/ S.suspend(() =>
     description: S.NullOr(S.String),
     type: S.NullOr(StudentRepaymentPlanType),
   }),
-).annotate({
-  identifier: "StudentRepaymentPlan",
-}) as any as S.Schema<StudentRepaymentPlan>;
+).annotate({ identifier: "StudentRepaymentPlan" }) as any as S.Schema<StudentRepaymentPlan>;
 
 /** The address of the student loan servicer. This is generally the remittance address to which payments should be sent. */
 export interface ServicerAddressData {
@@ -22864,9 +22184,7 @@ export const ServicerAddressData = /*@__PURE__*/ S.suspend(() =>
     postal_code: S.NullOr(S.String),
     country: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "ServicerAddressData",
-}) as any as S.Schema<ServicerAddressData>;
+).annotate({ identifier: "ServicerAddressData" }) as any as S.Schema<ServicerAddressData>;
 
 /** Contains details about a student loan account */
 export interface StudentLoan {
@@ -22968,9 +22286,7 @@ export const LoanInterestRate = /*@__PURE__*/ S.suspend(() =>
     percentage: S.NullOr(S.Number),
     type: S.NullOr(LoanInterestRateType),
   }),
-).annotate({
-  identifier: "LoanInterestRate",
-}) as any as S.Schema<LoanInterestRate>;
+).annotate({ identifier: "LoanInterestRate" }) as any as S.Schema<LoanInterestRate>;
 
 /** The frequency at which payments are scheduled. */
 export type LoanPaymentFrequency =
@@ -23115,9 +22431,7 @@ export const LineOfCreditLiability = /*@__PURE__*/ S.suspend(() =>
     draw_period_end_date: S.NullOr(S.String),
     aprs: LineOfCreditLiabilityAprsList,
   }),
-).annotate({
-  identifier: "LineOfCreditLiability",
-}) as any as S.Schema<LineOfCreditLiability>;
+).annotate({ identifier: "LineOfCreditLiability" }) as any as S.Schema<LineOfCreditLiability>;
 
 /** The line of credit accounts returned. */
 export type LiabilitiesObjectLineOfCreditList = Array<LineOfCreditLiability>;
@@ -23146,9 +22460,7 @@ export const LiabilitiesObject = /*@__PURE__*/ S.suspend(() =>
     loan: S.optional(S.NullOr(LiabilitiesObjectLoanList)),
     line_of_credit: S.optional(S.NullOr(LiabilitiesObjectLineOfCreditList)),
   }),
-).annotate({
-  identifier: "LiabilitiesObject",
-}) as any as S.Schema<LiabilitiesObject>;
+).annotate({ identifier: "LiabilitiesObject" }) as any as S.Schema<LiabilitiesObject>;
 
 /** LiabilitiesGetResponse defines the response schema for `/liabilities/get` */
 export interface LiabilitiesGetResponse {
@@ -23165,9 +22477,7 @@ export const LiabilitiesGetResponse = /*@__PURE__*/ S.suspend(() =>
     liabilities: LiabilitiesObject,
     request_id: S.String,
   }),
-).annotate({
-  identifier: "LiabilitiesGetResponse",
-}) as any as S.Schema<LiabilitiesGetResponse>;
+).annotate({ identifier: "LiabilitiesGetResponse" }) as any as S.Schema<LiabilitiesGetResponse>;
 
 export interface GetLinkTokenRequest {
   client_id?: string;
@@ -23181,9 +22491,7 @@ export const GetLinkTokenRequest = /*@__PURE__*/ S.suspend(() =>
     secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
     link_token: S.String,
   }).pipe(T.Http({ method: "POST", uri: "/link/token/get", code: 200 })),
-).annotate({
-  identifier: "GetLinkTokenRequest",
-}) as any as S.Schema<GetLinkTokenRequest>;
+).annotate({ identifier: "GetLinkTokenRequest" }) as any as S.Schema<GetLinkTokenRequest>;
 
 /** An institution object. If the Item was created via Same-Day or Instant micro-deposit verification, will be `null`. */
 export interface LinkSessionSuccessMetadataInstitution {
@@ -23276,9 +22584,7 @@ export const LinkSessionSuccess = /*@__PURE__*/ S.suspend(() =>
     public_token: S.String,
     metadata: S.NullOr(LinkSessionSuccessMetadata),
   }),
-).annotate({
-  identifier: "LinkSessionSuccess",
-}) as any as S.Schema<LinkSessionSuccess>;
+).annotate({ identifier: "LinkSessionSuccess" }) as any as S.Schema<LinkSessionSuccess>;
 
 /** An institution object. If the Item was created via Same-Day or Instant micro-deposit verification, will be `null`. */
 export interface LinkSessionExitMetadataInstitution {
@@ -23350,9 +22656,7 @@ export const LinkSessionExitMetadata = /*@__PURE__*/ S.suspend(() =>
     link_session_id: S.optional(S.String),
     request_id: S.optional(S.String),
   }),
-).annotate({
-  identifier: "LinkSessionExitMetadata",
-}) as any as S.Schema<LinkSessionExitMetadata>;
+).annotate({ identifier: "LinkSessionExitMetadata" }) as any as S.Schema<LinkSessionExitMetadata>;
 
 /** An object representing an [onExit](https://plaid.com/docs/link/web/#onexit) callback from Link. This field is returned only for legacy implementations and has been deprecated in favor of [`exit`](https://plaid.com/docs/api/link/#link-token-get-response-link-sessions-exit), for improved naming consistency. If you are receiving this field, contact your account manager to migrate to the newer `exit` field. */
 export interface LinkSessionExitDeprecated {
@@ -23423,9 +22727,7 @@ export const LinkEventMetadata = /*@__PURE__*/ S.suspend(() =>
     routing_number: S.optional(S.String),
     account_number_mask: S.optional(S.String),
   }),
-).annotate({
-  identifier: "LinkEventMetadata",
-}) as any as S.Schema<LinkEventMetadata>;
+).annotate({ identifier: "LinkEventMetadata" }) as any as S.Schema<LinkEventMetadata>;
 
 /** An event that occurred while the user was going through Link */
 export interface LinkEvent {
@@ -23472,9 +22774,7 @@ export const LinkSessionItemAddResult = /*@__PURE__*/ S.suspend(() =>
     accounts: LinkSessionItemAddResultAccountsList,
     institution: S.NullOr(LinkSessionSuccessMetadataInstitution),
   }),
-).annotate({
-  identifier: "LinkSessionItemAddResult",
-}) as any as S.Schema<LinkSessionItemAddResult>;
+).annotate({ identifier: "LinkSessionItemAddResult" }) as any as S.Schema<LinkSessionItemAddResult>;
 
 /** The set of Item adds for the Link session. If you are not receiving this field and are instead receiving the deprecated `on_success` field, contact your account manager to update your integration. */
 export type LinkSessionResultsItemAddResultsList = Array<LinkSessionItemAddResult>;
@@ -23627,9 +22927,7 @@ export const LinkSessionResults = /*@__PURE__*/ S.suspend(() =>
     document_income_results: S.NullOr(CreditSessionDocumentIncomeResult),
     cra_document_upload_results: S.optional(S.NullOr(LinkSessionCraDocumentUploadResult)),
   }),
-).annotate({
-  identifier: "LinkSessionResults",
-}) as any as S.Schema<LinkSessionResults>;
+).annotate({ identifier: "LinkSessionResults" }) as any as S.Schema<LinkSessionResults>;
 
 /** An object containing information about a link session. Session data will be provided for up to six hours after the session has ended. */
 export interface LinkTokenGetSessionsResponse {
@@ -23693,9 +22991,7 @@ export const AccountFiltersResponse = /*@__PURE__*/ S.suspend(() =>
     loan: S.optional(LoanFilter),
     investment: S.optional(InvestmentFilter),
   }),
-).annotate({
-  identifier: "AccountFiltersResponse",
-}) as any as S.Schema<AccountFiltersResponse>;
+).annotate({ identifier: "AccountFiltersResponse" }) as any as S.Schema<AccountFiltersResponse>;
 
 /** An object specifying the arguments originally provided to the `/link/token/create` call. */
 export interface LinkTokenGetMetadataResponse {
@@ -23753,9 +23049,7 @@ export const LinkTokenGetResponse = /*@__PURE__*/ S.suspend(() =>
     user_id: S.optional(S.String),
     request_id: S.String,
   }),
-).annotate({
-  identifier: "LinkTokenGetResponse",
-}) as any as S.Schema<LinkTokenGetResponse>;
+).annotate({ identifier: "LinkTokenGetResponse" }) as any as S.Schema<LinkTokenGetResponse>;
 
 /** An object specifying information about the end user for the network status check. */
 export interface NetworkStatusGetUser {
@@ -23766,9 +23060,7 @@ export const NetworkStatusGetUser = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     phone_number: S.String,
   }),
-).annotate({
-  identifier: "NetworkStatusGetUser",
-}) as any as S.Schema<NetworkStatusGetUser>;
+).annotate({ identifier: "NetworkStatusGetUser" }) as any as S.Schema<NetworkStatusGetUser>;
 
 export interface GetNetworkStatusRequest {
   client_id?: string;
@@ -23784,9 +23076,7 @@ export const GetNetworkStatusRequest = /*@__PURE__*/ S.suspend(() =>
     user: NetworkStatusGetUser,
     template_id: S.optional(S.String),
   }).pipe(T.Http({ method: "POST", uri: "/network/status/get", code: 200 })),
-).annotate({
-  identifier: "GetNetworkStatusRequest",
-}) as any as S.Schema<GetNetworkStatusRequest>;
+).annotate({ identifier: "GetNetworkStatusRequest" }) as any as S.Schema<GetNetworkStatusRequest>;
 
 /** Enum representing the overall network status of the user. */
 export type NetworkStatusGetResponseNetworkStatus = "UNKNOWN" | "RETURNING_USER";
@@ -23817,9 +23107,7 @@ export const NetworkStatusGetResponse = /*@__PURE__*/ S.suspend(() =>
     layer: S.optional(S.NullOr(NetworkStatusGetResponseLayer)),
     request_id: S.String,
   }),
-).annotate({
-  identifier: "NetworkStatusGetResponse",
-}) as any as S.Schema<NetworkStatusGetResponse>;
+).annotate({ identifier: "NetworkStatusGetResponse" }) as any as S.Schema<NetworkStatusGetResponse>;
 
 export interface GetPartnerCustomerRequest {
   client_id?: string;
@@ -23850,9 +23138,7 @@ export const PartnerEndCustomer = /*@__PURE__*/ S.suspend(() =>
     company_name: S.optional(S.String),
     status: S.optional(PartnerEndCustomerStatus),
   }),
-).annotate({
-  identifier: "PartnerEndCustomer",
-}) as any as S.Schema<PartnerEndCustomer>;
+).annotate({ identifier: "PartnerEndCustomer" }) as any as S.Schema<PartnerEndCustomer>;
 
 /** Response schema for `/partner/customer/get`. */
 export interface PartnerCustomerGetResponse {
@@ -23878,13 +23164,7 @@ export const GetPartnerCustomerOauthInstitutionRequest = /*@__PURE__*/ S.suspend
     client_id: S.optional(S.String),
     secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
     end_customer_client_id: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/partner/customer/oauth_institutions/get",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/partner/customer/oauth_institutions/get", code: 200 })),
 ).annotate({
   identifier: "GetPartnerCustomerOauthInstitutionRequest",
 }) as any as S.Schema<GetPartnerCustomerOauthInstitutionRequest>;
@@ -23925,9 +23205,9 @@ export const PartnerEndCustomerOAuthInstitutionEnvironments = /*@__PURE__*/ S.su
 }) as any as S.Schema<PartnerEndCustomerOAuthInstitutionEnvironments>;
 
 /** The errors encountered while registering the end customer's application with the institutions. */
-export type PartnerEndCustomerOAuthInstitutionErrorsList = Array<PlaidError>;
+export type PartnerEndCustomerOAuthInstitutionErrorsList = Array<PlaidError | null>;
 export const PartnerEndCustomerOAuthInstitutionErrorsList = /*@__PURE__*/ S.Array(
-  PlaidError,
+  S.NullOr(PlaidError),
 ) as any as S.Schema<PartnerEndCustomerOAuthInstitutionErrorsList>;
 
 /** The OAuth registration information for an institution. */
@@ -23992,13 +23272,7 @@ export const GetPaymentInitiationConsentRequest = /*@__PURE__*/ S.suspend(() =>
     client_id: S.optional(S.String),
     secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
     consent_id: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/payment_initiation/consent/get",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/payment_initiation/consent/get", code: 200 })),
 ).annotate({
   identifier: "GetPaymentInitiationConsentRequest",
 }) as any as S.Schema<GetPaymentInitiationConsentRequest>;
@@ -24072,13 +23346,7 @@ export const GetPaymentInitiationPaymentRequest = /*@__PURE__*/ S.suspend(() =>
     client_id: S.optional(S.String),
     secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
     payment_id: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/payment_initiation/payment/get",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/payment_initiation/payment/get", code: 200 })),
 ).annotate({
   identifier: "GetPaymentInitiationPaymentRequest",
 }) as any as S.Schema<GetPaymentInitiationPaymentRequest>;
@@ -24128,9 +23396,7 @@ export const PaymentAmountRefunded = /*@__PURE__*/ S.suspend(() =>
     currency: PaymentAmountCurrency,
     value: S.Number,
   }),
-).annotate({
-  identifier: "PaymentAmountRefunded",
-}) as any as S.Schema<PaymentAmountRefunded>;
+).annotate({ identifier: "PaymentAmountRefunded" }) as any as S.Schema<PaymentAmountRefunded>;
 
 export interface GetPaymentInitiationPaymentResponse {
   /** The ID of the payment. Like all Plaid identifiers, the `payment_id` is case sensitive. */
@@ -24205,13 +23471,7 @@ export const GetPaymentInitiationRecipientRequest = /*@__PURE__*/ S.suspend(() =
     client_id: S.optional(S.String),
     secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
     recipient_id: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/payment_initiation/recipient/get",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/payment_initiation/recipient/get", code: 200 })),
 ).annotate({
   identifier: "GetPaymentInitiationRecipientRequest",
 }) as any as S.Schema<GetPaymentInitiationRecipientRequest>;
@@ -24283,9 +23543,7 @@ export const GetProcessorAuthRequest = /*@__PURE__*/ S.suspend(() =>
     secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
     processor_token: S.String,
   }).pipe(T.Http({ method: "POST", uri: "/processor/auth/get", code: 200 })),
-).annotate({
-  identifier: "GetProcessorAuthRequest",
-}) as any as S.Schema<GetProcessorAuthRequest>;
+).annotate({ identifier: "GetProcessorAuthRequest" }) as any as S.Schema<GetProcessorAuthRequest>;
 
 /** Identifying information for transferring money to or from a US account via ACH or wire transfer. */
 export type NumbersACHNullable = NumbersACH;
@@ -24317,9 +23575,7 @@ export const ProcessorNumber = /*@__PURE__*/ S.suspend(() =>
     international: S.optional(S.NullOr(NumbersInternational)),
     bacs: S.optional(S.NullOr(NumbersBACS)),
   }),
-).annotate({
-  identifier: "ProcessorNumber",
-}) as any as S.Schema<ProcessorNumber>;
+).annotate({ identifier: "ProcessorNumber" }) as any as S.Schema<ProcessorNumber>;
 
 /** ProcessorAuthGetResponse defines the response schema for `/processor/auth/get` */
 export interface ProcessorAuthGetResponse {
@@ -24333,9 +23589,7 @@ export const ProcessorAuthGetResponse = /*@__PURE__*/ S.suspend(() =>
     numbers: ProcessorNumber,
     account: AccountBase,
   }),
-).annotate({
-  identifier: "ProcessorAuthGetResponse",
-}) as any as S.Schema<ProcessorAuthGetResponse>;
+).annotate({ identifier: "ProcessorAuthGetResponse" }) as any as S.Schema<ProcessorAuthGetResponse>;
 
 /** Optional parameters to `/processor/balance/get`. */
 export interface ProcessorBalanceGetRequestOptions {
@@ -24419,13 +23673,7 @@ export const GetProcessorInvestmentsAuthRequest = /*@__PURE__*/ S.suspend(() =>
     client_id: S.optional(S.String),
     secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
     processor_token: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/processor/investments/auth/get",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/processor/investments/auth/get", code: 200 })),
 ).annotate({
   identifier: "GetProcessorInvestmentsAuthRequest",
 }) as any as S.Schema<GetProcessorInvestmentsAuthRequest>;
@@ -24498,13 +23746,7 @@ export const GetProcessorInvestmentsHoldingRequest = /*@__PURE__*/ S.suspend(() 
     client_id: S.optional(S.String),
     processor_token: S.String,
     secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/processor/investments/holdings/get",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/processor/investments/holdings/get", code: 200 })),
 ).annotate({
   identifier: "GetProcessorInvestmentsHoldingRequest",
 }) as any as S.Schema<GetProcessorInvestmentsHoldingRequest>;
@@ -24549,7 +23791,7 @@ export interface GetProcessorInvestmentsTransactionRequest {
   options?: InvestmentsTransactionsGetRequestOptions;
   processor_token: string;
   secret?: string | Redacted.Redacted<string>;
-  /** The earliest date for which data should be returned. Dates should be formatted as YYYY-MM-DD. */
+  /** The earliest date for which data should be returned. Dates should be formatted as YYYY-MM-DD. Plaid returns all investment transaction history stored for the Item (up to 2 years prior to the initial linking of the Item). */
   start_date: string;
   /** The latest date for which data should be returned. Dates should be formatted as YYYY-MM-DD. */
   end_date: string;
@@ -24562,13 +23804,7 @@ export const GetProcessorInvestmentsTransactionRequest = /*@__PURE__*/ S.suspend
     secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
     start_date: S.String,
     end_date: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/processor/investments/transactions/get",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/processor/investments/transactions/get", code: 200 })),
 ).annotate({
   identifier: "GetProcessorInvestmentsTransactionRequest",
 }) as any as S.Schema<GetProcessorInvestmentsTransactionRequest>;
@@ -24654,13 +23890,7 @@ export const GetProcessorTokenPermissionsRequest = /*@__PURE__*/ S.suspend(() =>
     client_id: S.optional(S.String),
     secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
     processor_token: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/processor/token/permissions/get",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/processor/token/permissions/get", code: 200 })),
 ).annotate({
   identifier: "GetProcessorTokenPermissionsRequest",
 }) as any as S.Schema<GetProcessorTokenPermissionsRequest>;
@@ -24719,7 +23949,7 @@ export interface GetProcessorTransactionRequest {
   options?: ProcessorTransactionsGetRequestOptions;
   processor_token: string;
   secret?: string | Redacted.Redacted<string>;
-  /** The earliest date for which data should be returned. Dates should be formatted as YYYY-MM-DD. */
+  /** The earliest date for which data should be returned. Dates should be formatted as YYYY-MM-DD. Plaid returns all transaction history stored for the Item (up to 2 years prior to the initial linking of the Item). */
   start_date: string;
   /** The latest date for which data should be returned. Dates should be formatted as YYYY-MM-DD. */
   end_date: string;
@@ -24766,9 +23996,7 @@ export const ClientCustomization = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     custom_entity_id: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ClientCustomization",
-}) as any as S.Schema<ClientCustomization>;
+).annotate({ identifier: "ClientCustomization" }) as any as S.Schema<ClientCustomization>;
 
 /** A representation of a transaction */
 export interface Transaction {
@@ -24827,8 +24055,10 @@ export interface Transaction {
   counterparties?: TransactionCounterpartiesList;
   /** A unique, stable, Plaid-generated ID that maps to the merchant. In the case of a merchant with multiple retail locations, this field will map to the broader merchant, not a specific location or store. */
   merchant_entity_id?: string | null;
-  /** The merchant category code for the transaction, typically a four-digit [ISO 18245](https://www.iso.org/standard/33365.html) string. Not populated for every transaction. */
+  /** The merchant category code for the transaction, typically a four-digit [ISO 18245](https://www.iso.org/standard/33365.html) string. This field is in beta: it is populated primarily for card transactions, coverage varies by institution, and values are subject to change. */
   merchant_category_code?: string | null;
+  /** The balance of the account after this transaction was applied, as reported by the financial institution. Returned on posted transactions only, and not populated for every institution or every transaction. May not reconcile with the balances returned by `/accounts/balance/get`. */
+  running_balance?: number | null;
   client_customization?: ClientCustomization | null;
 }
 export const Transaction = /*@__PURE__*/ S.suspend(() =>
@@ -24864,6 +24094,7 @@ export const Transaction = /*@__PURE__*/ S.suspend(() =>
     counterparties: S.optional(TransactionCounterpartiesList),
     merchant_entity_id: S.optional(S.NullOr(S.String)),
     merchant_category_code: S.optional(S.NullOr(S.String)),
+    running_balance: S.optional(S.NullOr(S.Number)),
     client_customization: S.optional(S.NullOr(ClientCustomization)),
   }),
 ).annotate({ identifier: "Transaction" }) as any as S.Schema<Transaction>;
@@ -24921,13 +24152,7 @@ export const GetProcessorTransactionsRecurringRequest = /*@__PURE__*/ S.suspend(
     processor_token: S.String,
     secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
     options: S.optional(TransactionsRecurringGetRequestOptions),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/processor/transactions/recurring/get",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/processor/transactions/recurring/get", code: 200 })),
 ).annotate({
   identifier: "GetProcessorTransactionsRecurringRequest",
 }) as any as S.Schema<GetProcessorTransactionsRecurringRequest>;
@@ -24969,9 +24194,7 @@ export const TransactionStreamAmount = /*@__PURE__*/ S.suspend(() =>
     iso_currency_code: S.optional(S.NullOr(S.String)),
     unofficial_currency_code: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "TransactionStreamAmount",
-}) as any as S.Schema<TransactionStreamAmount>;
+).annotate({ identifier: "TransactionStreamAmount" }) as any as S.Schema<TransactionStreamAmount>;
 
 /** The current status of the transaction stream. `MATURE`: A `MATURE` recurring stream should have at least 3 transactions and happen on a regular cadence (For Annual recurring stream, we will mark it `MATURE` after 2 instances). `EARLY_DETECTION`: When a recurring transaction first appears in the transaction history and before it fulfills the requirement of a mature stream, the status will be `EARLY_DETECTION`. `TOMBSTONED`: A stream that was previously in the `EARLY_DETECTION` status will move to the `TOMBSTONED` status when no further transactions were found at the next expected date. `UNKNOWN`: A stream is assigned an `UNKNOWN` status when none of the other statuses are applicable. */
 export type TransactionStreamStatus = "UNKNOWN" | "MATURE" | "EARLY_DETECTION" | "TOMBSTONED";
@@ -25032,9 +24255,7 @@ export const TransactionStream = /*@__PURE__*/ S.suspend(() =>
     is_user_modified: S.Boolean,
     last_user_modified_datetime: S.optional(S.String),
   }),
-).annotate({
-  identifier: "TransactionStream",
-}) as any as S.Schema<TransactionStream>;
+).annotate({ identifier: "TransactionStream" }) as any as S.Schema<TransactionStream>;
 
 /** An array of inflow transaction streams. */
 export type ProcessorTransactionsRecurringGetResponseInflowStreamsList = Array<TransactionStream>;
@@ -25125,7 +24346,7 @@ export interface LatestScoredEvent {
   event_id: string;
   /** The timestamp of the event, in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format, e.g. `"2017-09-14T14:42:19.350Z"` */
   timestamp: string;
-  /** The type of event. */
+  /** The external event type, when one is available. */
   event_type?: string;
   trust_index: TrustIndex | null;
   fraud_attributes: FraudAttributes | null;
@@ -25138,9 +24359,7 @@ export const LatestScoredEvent = /*@__PURE__*/ S.suspend(() =>
     trust_index: S.NullOr(TrustIndex),
     fraud_attributes: S.NullOr(FraudAttributes),
   }),
-).annotate({
-  identifier: "LatestScoredEvent",
-}) as any as S.Schema<LatestScoredEvent>;
+).annotate({ identifier: "LatestScoredEvent" }) as any as S.Schema<LatestScoredEvent>;
 
 /** Details about the incident event. */
 export interface ProtectIncidentEventResponse {
@@ -25239,9 +24458,7 @@ export const GetRecipientRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     recipientId: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/fdx/recipient/{recipientId}", code: 200 })),
-).annotate({
-  identifier: "GetRecipientRequest",
-}) as any as S.Schema<GetRecipientRequest>;
+).annotate({ identifier: "GetRecipientRequest" }) as any as S.Schema<GetRecipientRequest>;
 
 export interface GetRecipientResponse {
   /** The recipient's (application's) identifier */
@@ -25260,16 +24477,12 @@ export const GetRecipientResponse = /*@__PURE__*/ S.suspend(() =>
     logo_uri: S.optional(S.NullOr(S.String)),
     third_party_legal_name: S.String,
   }),
-).annotate({
-  identifier: "GetRecipientResponse",
-}) as any as S.Schema<GetRecipientResponse>;
+).annotate({ identifier: "GetRecipientResponse" }) as any as S.Schema<GetRecipientResponse>;
 
 export interface GetRecipientsRequest {}
 export const GetRecipientsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/fdx/recipients", code: 200 })),
-).annotate({
-  identifier: "GetRecipientsRequest",
-}) as any as S.Schema<GetRecipientsRequest>;
+).annotate({ identifier: "GetRecipientsRequest" }) as any as S.Schema<GetRecipientsRequest>;
 
 /** Plaid and FDX-defined recipient metadata fields */
 export interface ExtendedRecipientMetadata {
@@ -25315,9 +24528,7 @@ export const GetRecipientsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     recipients: GetRecipientsResponseRecipientsList,
   }),
-).annotate({
-  identifier: "GetRecipientsResponse",
-}) as any as S.Schema<GetRecipientsResponse>;
+).annotate({ identifier: "GetRecipientsResponse" }) as any as S.Schema<GetRecipientsResponse>;
 
 export interface GetSandboxTransferTestClockRequest {
   client_id?: string;
@@ -25329,13 +24540,7 @@ export const GetSandboxTransferTestClockRequest = /*@__PURE__*/ S.suspend(() =>
     client_id: S.optional(S.String),
     secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
     test_clock_id: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/sandbox/transfer/test_clock/get",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/sandbox/transfer/test_clock/get", code: 200 })),
 ).annotate({
   identifier: "GetSandboxTransferTestClockRequest",
 }) as any as S.Schema<GetSandboxTransferTestClockRequest>;
@@ -25401,7 +24606,7 @@ export interface GetTransactionRequest {
   options?: TransactionsGetRequestOptions;
   access_token: string | Redacted.Redacted<string>;
   secret?: string | Redacted.Redacted<string>;
-  /** The earliest date for which data should be returned. Dates should be formatted as YYYY-MM-DD. */
+  /** The earliest date for which data should be returned. Dates should be formatted as YYYY-MM-DD. Plaid returns all transaction history stored for the Item (up to 2 years prior to the initial linking of the Item). */
   start_date: string;
   /** The latest date for which data should be returned. Dates should be formatted as YYYY-MM-DD. */
   end_date: string;
@@ -25415,9 +24620,7 @@ export const GetTransactionRequest = /*@__PURE__*/ S.suspend(() =>
     start_date: S.String,
     end_date: S.String,
   }).pipe(T.Http({ method: "POST", uri: "/transactions/get", code: 200 })),
-).annotate({
-  identifier: "GetTransactionRequest",
-}) as any as S.Schema<GetTransactionRequest>;
+).annotate({ identifier: "GetTransactionRequest" }) as any as S.Schema<GetTransactionRequest>;
 
 /** An array containing the `accounts` associated with the Item for which transactions are being returned. Each transaction can be mapped to its corresponding account via the `account_id` field. */
 export type TransactionsGetResponseAccountsList = Array<AccountBase>;
@@ -25450,9 +24653,7 @@ export const TransactionsGetResponse = /*@__PURE__*/ S.suspend(() =>
     item: Item,
     request_id: S.String,
   }),
-).annotate({
-  identifier: "TransactionsGetResponse",
-}) as any as S.Schema<TransactionsGetResponse>;
+).annotate({ identifier: "TransactionsGetResponse" }) as any as S.Schema<TransactionsGetResponse>;
 
 /** An optional list of `account_ids` to retrieve for the Item. Retrieves all active accounts on item if no `account_id`s are provided. Note: An error will be returned if a provided `account_id` is not associated with the Item. */
 export type GetTransactionsRecurringRequestAccountIdsList = Array<string>;
@@ -25526,13 +24727,7 @@ export const GetTransactionsUserInsightRequest = /*@__PURE__*/ S.suspend(() =>
     client_id: S.optional(S.String),
     secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
     client_user_id: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/beta/transactions/user_insights/v1/get",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/beta/transactions/user_insights/v1/get", code: 200 })),
 ).annotate({
   identifier: "GetTransactionsUserInsightRequest",
 }) as any as S.Schema<GetTransactionsUserInsightRequest>;
@@ -25561,9 +24756,7 @@ export const UserDataOverview = /*@__PURE__*/ S.suspend(() =>
     total_outflows: S.Number,
     total_inflows: S.Number,
   }),
-).annotate({
-  identifier: "UserDataOverview",
-}) as any as S.Schema<UserDataOverview>;
+).annotate({ identifier: "UserDataOverview" }) as any as S.Schema<UserDataOverview>;
 
 /** A possible account detected to be associated with a transaction user. */
 export interface DetectedAccount {
@@ -25595,9 +24788,7 @@ export const DetectedAccount = /*@__PURE__*/ S.suspend(() =>
     total_outflows: S.Number,
     total_inflows: S.Number,
   }),
-).annotate({
-  identifier: "DetectedAccount",
-}) as any as S.Schema<DetectedAccount>;
+).annotate({ identifier: "DetectedAccount" }) as any as S.Schema<DetectedAccount>;
 
 /** Associated accounts, detected based on the nature of transfers to/from this institution. */
 export type FinancialInstitutionInsightsDetectedAccountsList = Array<DetectedAccount>;
@@ -25664,9 +24855,7 @@ export const MerchantInsights = /*@__PURE__*/ S.suspend(() =>
     total_outflows: S.Number,
     total_inflows: S.Number,
   }),
-).annotate({
-  identifier: "MerchantInsights",
-}) as any as S.Schema<MerchantInsights>;
+).annotate({ identifier: "MerchantInsights" }) as any as S.Schema<MerchantInsights>;
 
 /** Insights about a user's top merchants, ranked by spend. */
 export type CounterpartyInsightsMerchantInsightsList = Array<MerchantInsights>;
@@ -25688,9 +24877,7 @@ export const CounterpartyInsights = /*@__PURE__*/ S.suspend(() =>
     ),
     merchant_insights: S.optional(CounterpartyInsightsMerchantInsightsList),
   }),
-).annotate({
-  identifier: "CounterpartyInsights",
-}) as any as S.Schema<CounterpartyInsights>;
+).annotate({ identifier: "CounterpartyInsights" }) as any as S.Schema<CounterpartyInsights>;
 
 /** The most common counterparties associated with this category sorted by outflow. */
 export type CategoryInsightDetailsTopCounterpartiesList = Array<string>;
@@ -25719,9 +24906,7 @@ export const CategoryInsightDetails = /*@__PURE__*/ S.suspend(() =>
     total_inflows: S.Number,
     top_counterparties: S.optional(CategoryInsightDetailsTopCounterpartiesList),
   }),
-).annotate({
-  identifier: "CategoryInsightDetails",
-}) as any as S.Schema<CategoryInsightDetails>;
+).annotate({ identifier: "CategoryInsightDetails" }) as any as S.Schema<CategoryInsightDetails>;
 
 /** List of insights of top primary personal finance categories ranked by outflow. */
 export type CategoryInsightsPrimaryCategoryInsightsList = Array<CategoryInsightDetails>;
@@ -25747,9 +24932,7 @@ export const CategoryInsights = /*@__PURE__*/ S.suspend(() =>
     primary_category_insights: S.optional(CategoryInsightsPrimaryCategoryInsightsList),
     detailed_category_insights: S.optional(CategoryInsightsDetailedCategoryInsightsList),
   }),
-).annotate({
-  identifier: "CategoryInsights",
-}) as any as S.Schema<CategoryInsights>;
+).annotate({ identifier: "CategoryInsights" }) as any as S.Schema<CategoryInsights>;
 
 /** An array of Plaid transaction IDs belonging to the stream, sorted by posted date. */
 export type RecurringInsightsStreamTransactionIdsList = Array<string>;
@@ -25804,9 +24987,7 @@ export const RecurringInsightsStream = /*@__PURE__*/ S.suspend(() =>
     personal_finance_category_primary: S.optional(S.String),
     personal_finance_category_detailed: S.optional(S.String),
   }),
-).annotate({
-  identifier: "RecurringInsightsStream",
-}) as any as S.Schema<RecurringInsightsStream>;
+).annotate({ identifier: "RecurringInsightsStream" }) as any as S.Schema<RecurringInsightsStream>;
 
 /** An array of inflow transaction streams (e.g., income). */
 export type RecurringTransactionsInflowStreamsList = Array<RecurringInsightsStream>;
@@ -25832,9 +25013,7 @@ export const RecurringTransactions = /*@__PURE__*/ S.suspend(() =>
     inflow_streams: RecurringTransactionsInflowStreamsList,
     outflow_streams: RecurringTransactionsOutflowStreamsList,
   }),
-).annotate({
-  identifier: "RecurringTransactions",
-}) as any as S.Schema<RecurringTransactions>;
+).annotate({ identifier: "RecurringTransactions" }) as any as S.Schema<RecurringTransactions>;
 
 /** TransactionsUserInsightsGetResponse defines the response schema for `/beta/transactions/user_insights/v1/get`. */
 export interface TransactionsUserInsightsGetResponse {
@@ -25870,9 +25049,7 @@ export const GetTransferRequest = /*@__PURE__*/ S.suspend(() =>
     authorization_id: S.optional(S.String),
     originator_client_id: S.optional(S.NullOr(S.String)),
   }).pipe(T.Http({ method: "POST", uri: "/transfer/get", code: 200 })),
-).annotate({
-  identifier: "GetTransferRequest",
-}) as any as S.Schema<GetTransferRequest>;
+).annotate({ identifier: "GetTransferRequest" }) as any as S.Schema<GetTransferRequest>;
 
 /** Defines the response schema for `/transfer/get` */
 export interface TransferGetResponse {
@@ -25884,9 +25061,7 @@ export const TransferGetResponse = /*@__PURE__*/ S.suspend(() =>
     transfer: Transfer,
     request_id: S.String,
   }),
-).annotate({
-  identifier: "TransferGetResponse",
-}) as any as S.Schema<TransferGetResponse>;
+).annotate({ identifier: "TransferGetResponse" }) as any as S.Schema<TransferGetResponse>;
 
 export interface GetTransferCapabilityRequest {
   client_id?: string;
@@ -26034,9 +25209,7 @@ export const GetTransferIntentRequest = /*@__PURE__*/ S.suspend(() =>
     secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
     transfer_intent_id: S.String,
   }).pipe(T.Http({ method: "POST", uri: "/transfer/intent/get", code: 200 })),
-).annotate({
-  identifier: "GetTransferIntentRequest",
-}) as any as S.Schema<GetTransferIntentRequest>;
+).annotate({ identifier: "GetTransferIntentRequest" }) as any as S.Schema<GetTransferIntentRequest>;
 
 /** The reason for a failed transfer intent. Returned only if the transfer intent status is `failed`. Null otherwise. */
 export interface TransferIntentGetFailureReason {
@@ -26117,9 +25290,7 @@ export const TransferIntentGet = /*@__PURE__*/ S.suspend(() =>
     guarantee_decision: S.NullOr(TransferAuthorizationGuaranteeDecision),
     guarantee_decision_rationale: S.NullOr(TransferAuthorizationGuaranteeDecisionRationale),
   }),
-).annotate({
-  identifier: "TransferIntentGet",
-}) as any as S.Schema<TransferIntentGet>;
+).annotate({ identifier: "TransferIntentGet" }) as any as S.Schema<TransferIntentGet>;
 
 /** Defines the response schema for `/transfer/intent/get` */
 export interface TransferIntentGetResponse {
@@ -26150,9 +25321,7 @@ export const GetTransferLedgerRequest = /*@__PURE__*/ S.suspend(() =>
     ledger_id: S.optional(S.NullOr(S.String)),
     originator_client_id: S.optional(S.NullOr(S.String)),
   }).pipe(T.Http({ method: "POST", uri: "/transfer/ledger/get", code: 200 })),
-).annotate({
-  identifier: "GetTransferLedgerRequest",
-}) as any as S.Schema<GetTransferLedgerRequest>;
+).annotate({ identifier: "GetTransferLedgerRequest" }) as any as S.Schema<GetTransferLedgerRequest>;
 
 /** Information about the balance of the ledger held with Plaid. */
 export interface TransferLedgerBalance {
@@ -26166,9 +25335,7 @@ export const TransferLedgerBalance = /*@__PURE__*/ S.suspend(() =>
     available: S.String,
     pending: S.String,
   }),
-).annotate({
-  identifier: "TransferLedgerBalance",
-}) as any as S.Schema<TransferLedgerBalance>;
+).annotate({ identifier: "TransferLedgerBalance" }) as any as S.Schema<TransferLedgerBalance>;
 
 /** Defines the response schema for `/transfer/ledger/get` */
 export interface TransferLedgerGetResponse {
@@ -26361,9 +25528,7 @@ export const DetailedOriginator = /*@__PURE__*/ S.suspend(() =>
     company_name: S.String,
     outstanding_requirements: S.optional(DetailedOriginatorOutstandingRequirementsList),
   }),
-).annotate({
-  identifier: "DetailedOriginator",
-}) as any as S.Schema<DetailedOriginator>;
+).annotate({ identifier: "DetailedOriginator" }) as any as S.Schema<DetailedOriginator>;
 
 /** Defines the response schema for `/transfer/originator/get` */
 export interface TransferOriginatorGetResponse {
@@ -26448,9 +25613,7 @@ export const RecurringTransfer = /*@__PURE__*/ S.suspend(() =>
     user: TransferUserInResponse,
     schedule: TransferRecurringSchedule,
   }),
-).annotate({
-  identifier: "RecurringTransfer",
-}) as any as S.Schema<RecurringTransfer>;
+).annotate({ identifier: "RecurringTransfer" }) as any as S.Schema<RecurringTransfer>;
 
 /** Defines the response schema for `/transfer/recurring/get` */
 export interface TransferRecurringGetResponse {
@@ -26477,9 +25640,7 @@ export const GetTransferRefundRequest = /*@__PURE__*/ S.suspend(() =>
     secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
     refund_id: S.String,
   }).pipe(T.Http({ method: "POST", uri: "/transfer/refund/get", code: 200 })),
-).annotate({
-  identifier: "GetTransferRefundRequest",
-}) as any as S.Schema<GetTransferRefundRequest>;
+).annotate({ identifier: "GetTransferRefundRequest" }) as any as S.Schema<GetTransferRefundRequest>;
 
 /** Defines the response schema for `/transfer/refund/get` */
 export interface TransferRefundGetResponse {
@@ -26507,9 +25668,7 @@ export const GetTransferSweepRequest = /*@__PURE__*/ S.suspend(() =>
     secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
     sweep_id: S.String,
   }).pipe(T.Http({ method: "POST", uri: "/transfer/sweep/get", code: 200 })),
-).annotate({
-  identifier: "GetTransferSweepRequest",
-}) as any as S.Schema<GetTransferSweepRequest>;
+).annotate({ identifier: "GetTransferSweepRequest" }) as any as S.Schema<GetTransferSweepRequest>;
 
 /** The status of a sweep transfer `"pending"` - The sweep is currently pending `"posted"` - The sweep has been posted `"settled"` - The sweep has settled. This is the terminal state of a successful credit sweep. `"returned"` - The sweep has been returned. This is the terminal state of a returned sweep. Returns of a sweep are extremely rare, since sweeps are money movement between your own bank account and your own Ledger. `"funds_available"` - Funds from the sweep have been released from hold and applied to the ledger's available balance. (Only applicable to deposits.) This is the terminal state of a successful deposit sweep. `"failed"` - The sweep has failed. This is the terminal state of a failed sweep. */
 export type SweepStatus =
@@ -26590,9 +25749,7 @@ export const TransferSweepGetResponse = /*@__PURE__*/ S.suspend(() =>
     sweep: TransferSweep,
     request_id: S.String,
   }),
-).annotate({
-  identifier: "TransferSweepGetResponse",
-}) as any as S.Schema<TransferSweepGetResponse>;
+).annotate({ identifier: "TransferSweepGetResponse" }) as any as S.Schema<TransferSweepGetResponse>;
 
 export interface GetUserRequest {
   client_id?: string;
@@ -26628,9 +25785,7 @@ export const UserGetResponse = /*@__PURE__*/ S.suspend(() =>
     updated_at: S.optional(S.String),
     identity: S.optional(S.NullOr(ClientUserIdentity)),
   }),
-).annotate({
-  identifier: "UserGetResponse",
-}) as any as S.Schema<UserGetResponse>;
+).annotate({ identifier: "UserGetResponse" }) as any as S.Schema<UserGetResponse>;
 
 export interface GetUserAccountSessionRequest {
   client_id?: string;
@@ -26658,9 +25813,7 @@ export const UserAccountIdentityName = /*@__PURE__*/ S.suspend(() =>
     first_name: S.optional(S.String),
     last_name: S.optional(S.String),
   }),
-).annotate({
-  identifier: "UserAccountIdentityName",
-}) as any as S.Schema<UserAccountIdentityName>;
+).annotate({ identifier: "UserAccountIdentityName" }) as any as S.Schema<UserAccountIdentityName>;
 
 /** The user's address. */
 export interface UserAccountIdentityAddress {
@@ -26715,9 +25868,7 @@ export const UserAccountIdentity = /*@__PURE__*/ S.suspend(() =>
     ssn: S.optional(S.NullOr(S.String)),
     ssn_last_4: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "UserAccountIdentity",
-}) as any as S.Schema<UserAccountIdentity>;
+).annotate({ identifier: "UserAccountIdentity" }) as any as S.Schema<UserAccountIdentity>;
 
 /** An Item created during a Layer authorization session. */
 export interface UserAccountItem {
@@ -26730,9 +25881,7 @@ export const UserAccountItem = /*@__PURE__*/ S.suspend(() =>
     item_id: S.optional(S.String),
     access_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
   }),
-).annotate({
-  identifier: "UserAccountItem",
-}) as any as S.Schema<UserAccountItem>;
+).annotate({ identifier: "UserAccountItem" }) as any as S.Schema<UserAccountItem>;
 
 export type UserAccountSessionGetResponseItemsList = Array<UserAccountItem>;
 export const UserAccountSessionGetResponseItemsList = /*@__PURE__*/ S.Array(
@@ -26798,6 +25947,10 @@ export const UserAccountIdentityEditHistory = /*@__PURE__*/ S.suspend(() =>
 
 /** UserAccountSessionGetResponse defines the response schema for `/user_account/session/get` */
 export interface UserAccountSessionGetResponse {
+  /** Overall IDV status for the session. Omitted when IDV status retrieval is disabled, no verification exists, or its status is unavailable. Use the IDV endpoints for detailed results. */
+  idv_session_status?: IdentityVerificationStatus;
+  /** The Link session identifier associated with this session. Null for sessions without a valid Link session identifier. */
+  link_session_id: string | null;
   identity: UserAccountIdentity | null;
   items: UserAccountSessionGetResponseItemsList;
   identity_edit_history?: UserAccountIdentityEditHistory | null;
@@ -26805,6 +25958,8 @@ export interface UserAccountSessionGetResponse {
 }
 export const UserAccountSessionGetResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    idv_session_status: S.optional(IdentityVerificationStatus),
+    link_session_id: S.NullOr(S.String),
     identity: S.NullOr(UserAccountIdentity),
     items: UserAccountSessionGetResponseItemsList,
     identity_edit_history: S.optional(S.NullOr(UserAccountIdentityEditHistory)),
@@ -26827,9 +25982,7 @@ export const GetUserItemRequest = /*@__PURE__*/ S.suspend(() =>
     user_token: S.optional(S.String),
     user_id: S.optional(S.String),
   }).pipe(T.Http({ method: "POST", uri: "/user/items/get", code: 200 })),
-).annotate({
-  identifier: "GetUserItemRequest",
-}) as any as S.Schema<GetUserItemRequest>;
+).annotate({ identifier: "GetUserItemRequest" }) as any as S.Schema<GetUserItemRequest>;
 
 export type UserItemsGetResponseItemsList = Array<Item>;
 export const UserItemsGetResponseItemsList = /*@__PURE__*/ S.Array(
@@ -26846,9 +25999,7 @@ export const UserItemsGetResponse = /*@__PURE__*/ S.suspend(() =>
     items: UserItemsGetResponseItemsList,
     request_id: S.String,
   }),
-).annotate({
-  identifier: "UserItemsGetResponse",
-}) as any as S.Schema<UserItemsGetResponse>;
+).annotate({ identifier: "UserItemsGetResponse" }) as any as S.Schema<UserItemsGetResponse>;
 
 export interface GetWalletRequest {
   client_id?: string;
@@ -26862,9 +26013,7 @@ export const GetWalletRequest = /*@__PURE__*/ S.suspend(() =>
     secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
     wallet_id: S.String,
   }).pipe(T.Http({ method: "POST", uri: "/wallet/get", code: 200 })),
-).annotate({
-  identifier: "GetWalletRequest",
-}) as any as S.Schema<GetWalletRequest>;
+).annotate({ identifier: "GetWalletRequest" }) as any as S.Schema<GetWalletRequest>;
 
 export interface GetWalletResponse {
   /** A unique ID identifying the e-wallet */
@@ -26885,9 +26034,7 @@ export const GetWalletResponse = /*@__PURE__*/ S.suspend(() =>
     status: WalletStatus,
     request_id: S.String,
   }),
-).annotate({
-  identifier: "GetWalletResponse",
-}) as any as S.Schema<GetWalletResponse>;
+).annotate({ identifier: "GetWalletResponse" }) as any as S.Schema<GetWalletResponse>;
 
 export interface GetWalletTransactionRequest {
   client_id?: string;
@@ -26926,7 +26073,7 @@ export type WalletPaymentScheme =
   | "SEPA_CREDIT_TRANSFER_INSTANT";
 export const WalletPaymentScheme = S.String;
 
-/** Result of payee verification check for EUR payouts. Payee verification checks whether the payee name provided matches the account holder name at the destination institution. `FULL_MATCH`: The payee name fully matches the account holder. `PARTIAL_MATCH`: The payee name partially matches the account holder. `NO_MATCH`: The payee name does not match the account holder. `ERROR`: An error occurred during payee verification. `CHECK_NOT_POSSIBLE`: Payee verification could not be performed. This field is only populated for applicable EUR payout transactions and will be `null` for other transaction types. */
+/** Result of payee verification check for EUR and GBP payouts. Payee verification checks whether the payee name provided matches the account holder name at the destination institution. `FULL_MATCH`: The payee name fully matches the account holder. `PARTIAL_MATCH`: The payee name partially matches the account holder. `NO_MATCH`: The payee name does not match the account holder. `ERROR`: An error occurred during payee verification. `CHECK_NOT_POSSIBLE`: Payee verification could not be performed. This field is only populated for applicable EUR and GBP payout transactions and will be `null` for other transaction types. */
 export type WalletTransactionPayeeVerificationStatus =
   | "FULL_MATCH"
   | "PARTIAL_MATCH"
@@ -27031,13 +26178,7 @@ export const GetWatchlistScreeningEntityRequest = /*@__PURE__*/ S.suspend(() =>
     entity_watchlist_screening_id: S.String,
     secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
     client_id: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/watchlist_screening/entity/get",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/watchlist_screening/entity/get", code: 200 })),
 ).annotate({
   identifier: "GetWatchlistScreeningEntityRequest",
 }) as any as S.Schema<GetWatchlistScreeningEntityRequest>;
@@ -27076,13 +26217,7 @@ export const GetWatchlistScreeningEntityProgramRequest = /*@__PURE__*/ S.suspend
     entity_watchlist_program_id: S.String,
     secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
     client_id: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/watchlist_screening/entity/program/get",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/watchlist_screening/entity/program/get", code: 200 })),
 ).annotate({
   identifier: "GetWatchlistScreeningEntityProgramRequest",
 }) as any as S.Schema<GetWatchlistScreeningEntityProgramRequest>;
@@ -27157,13 +26292,7 @@ export const GetWatchlistScreeningIndividualRequest = /*@__PURE__*/ S.suspend(()
     watchlist_screening_id: S.String,
     secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
     client_id: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/watchlist_screening/individual/get",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/watchlist_screening/individual/get", code: 200 })),
 ).annotate({
   identifier: "GetWatchlistScreeningIndividualRequest",
 }) as any as S.Schema<GetWatchlistScreeningIndividualRequest>;
@@ -27203,11 +26332,7 @@ export const GetWatchlistScreeningIndividualProgramRequest = /*@__PURE__*/ S.sus
     secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
     client_id: S.optional(S.String),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/watchlist_screening/individual/program/get",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/watchlist_screening/individual/program/get", code: 200 }),
   ),
 ).annotate({
   identifier: "GetWatchlistScreeningIndividualProgramRequest",
@@ -27351,7 +26476,7 @@ export interface AddressDataNullableNoRequiredFields {
   /** The region or state. In API versions 2018-05-22 and earlier, this field is called `state`. Example: `"NC"` */
   region?: string | null;
   /** The full street address Example: `"564 Main Street, APT 15"` */
-  street?: string;
+  street?: string | null;
   /** The postal code. In API versions 2018-05-22 and earlier, this field is called `zip`. */
   postal_code?: string | null;
   /** The ISO 3166-1 alpha-2 country code */
@@ -27361,7 +26486,7 @@ export const AddressDataNullableNoRequiredFields = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     city: S.optional(S.NullOr(S.String)),
     region: S.optional(S.NullOr(S.String)),
-    street: S.optional(S.String),
+    street: S.optional(S.NullOr(S.String)),
     postal_code: S.optional(S.NullOr(S.String)),
     country: S.optional(S.NullOr(S.String)),
   }),
@@ -27386,9 +26511,7 @@ export const IdentityMatchUser = /*@__PURE__*/ S.suspend(() =>
     email_address: S.optional(S.NullOr(S.String)),
     address: S.optional(S.NullOr(AddressDataNullableNoRequiredFields)),
   }),
-).annotate({
-  identifier: "IdentityMatchUser",
-}) as any as S.Schema<IdentityMatchUser>;
+).annotate({ identifier: "IdentityMatchUser" }) as any as S.Schema<IdentityMatchUser>;
 
 /** An array of `account_ids` to perform fuzzy match */
 export type IdentityMatchRequestOptionsAccountIdsList = Array<string>;
@@ -27424,9 +26547,7 @@ export const IdentityMatchRequest = /*@__PURE__*/ S.suspend(() =>
     user: S.optional(IdentityMatchUser),
     options: S.optional(IdentityMatchRequestOptions),
   }).pipe(T.Http({ method: "POST", uri: "/identity/match", code: 200 })),
-).annotate({
-  identifier: "IdentityMatchRequest",
-}) as any as S.Schema<IdentityMatchRequest>;
+).annotate({ identifier: "IdentityMatchRequest" }) as any as S.Schema<IdentityMatchRequest>;
 
 /** Indicates an Item's micro-deposit-based verification or database verification status. This field is only populated when using Auth and falling back to micro-deposit or database verification. Possible values are: `pending_automatic_verification`: The Item is pending automatic verification. `pending_manual_verification`: The Item is pending manual micro-deposit verification. Items remain in this state until the user successfully verifies the code. `automatically_verified`: The Item has successfully been automatically verified. `manually_verified`: The Item has successfully been manually verified. `verification_expired`: Plaid was unable to automatically verify the deposit within 7 calendar days and will no longer attempt to validate the Item. Users may retry by submitting their information again through Link. `verification_failed`: The Item failed manual micro-deposit verification because the user exhausted all 3 verification attempts. Users may retry by submitting their information again through Link. `unsent`: The Item is pending micro-deposit verification, but Plaid has not yet sent the micro-deposit. `database_insights_fail`: The Item's numbers have been verified using Plaid's data sources and have signal for being invalid and/or have no signal for being valid. Typically this indicates that the routing number is invalid, the account number does not match the account number format associated with the routing number, or the account has been reported as closed or frozen. Only returned for Auth Items created via Database Auth. `database_insights_pass`: The Item's numbers have been verified using Plaid's data sources: the routing and account number match a routing and account number of an account recognized on the Plaid network, and the account is not known by Plaid to be frozen or closed. Only returned for Auth Items created via Database Auth. `database_insights_pass_with_caution`: The Item's numbers have been verified using Plaid's data sources and have some signal for being valid: the routing and account number were not recognized on the Plaid network, but the routing number is valid and the account number is a potential valid account number for that routing number. Only returned for Auth Items created via Database Auth. `database_matched`: (deprecated) The Item has successfully been verified using Plaid's data sources. Only returned for Auth Items created via Database Match. `null` or empty string: Neither micro-deposit-based verification nor database verification are being used for the Item. */
 export type AccountIdentityMatchScoreVerificationStatus =
@@ -27451,7 +26572,7 @@ export interface NameMatchScore {
   is_first_name_or_last_name_match: boolean | null;
   /** nickname matched, example Jennifer and Jenn. */
   is_nickname_match: boolean | null;
-  /** Is `true` if the name on either of the names that was matched for the score contained strings indicative of a business name, such as "CORP", "LLC", "INC", or "LTD". A `true` result generally indicates that an account's name is a business name. However, a `false` result does not mean the account name is not a business name, as some businesses do not use these strings in the names used for their financial institution accounts. */
+  /** Is `true` if Plaid determined that one of the names being compared is a business name and scored the pair using its business name matching algorithm. Detection is based on business keywords (such as `LLC`, `INC`, `LTD`, `DBA`, `COMPANY`, or `BUSINESS`) appearing in either name, or on either name matching a known business name. */
   is_business_name_detected: boolean | null;
 }
 export const NameMatchScore = /*@__PURE__*/ S.suspend(() =>
@@ -27472,9 +26593,7 @@ export const PhoneNumberMatchScore = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     score: S.NullOr(S.Number),
   }),
-).annotate({
-  identifier: "PhoneNumberMatchScore",
-}) as any as S.Schema<PhoneNumberMatchScore>;
+).annotate({ identifier: "PhoneNumberMatchScore" }) as any as S.Schema<PhoneNumberMatchScore>;
 
 /** Score found by matching email provided by the API with the email on the account at the financial institution. 100 is a perfect match and 0 is a no match. If the account contains multiple owners, the maximum match score is filled. */
 export interface EmailAddressMatchScore {
@@ -27485,9 +26604,7 @@ export const EmailAddressMatchScore = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     score: S.NullOr(S.Number),
   }),
-).annotate({
-  identifier: "EmailAddressMatchScore",
-}) as any as S.Schema<EmailAddressMatchScore>;
+).annotate({ identifier: "EmailAddressMatchScore" }) as any as S.Schema<EmailAddressMatchScore>;
 
 /** Score found by matching address provided by the API with the address on the account at the financial institution. The score can range from 0 to 100 where 100 is a perfect match and 0 is a no match. If the account contains multiple owners, the maximum match score is filled. */
 export interface AddressMatchScore {
@@ -27501,9 +26618,7 @@ export const AddressMatchScore = /*@__PURE__*/ S.suspend(() =>
     score: S.NullOr(S.Number),
     is_postal_code_match: S.NullOr(S.Boolean),
   }),
-).annotate({
-  identifier: "AddressMatchScore",
-}) as any as S.Schema<AddressMatchScore>;
+).annotate({ identifier: "AddressMatchScore" }) as any as S.Schema<AddressMatchScore>;
 
 /** Identity match scores for an account */
 export interface AccountIdentityMatchScore {
@@ -27576,9 +26691,7 @@ export const IdentityMatchResponse = /*@__PURE__*/ S.suspend(() =>
     item: Item,
     request_id: S.String,
   }),
-).annotate({
-  identifier: "IdentityMatchResponse",
-}) as any as S.Schema<IdentityMatchResponse>;
+).annotate({ identifier: "IdentityMatchResponse" }) as any as S.Schema<IdentityMatchResponse>;
 
 /** Array of product strings. Sent only by a Plaid-internal caller, the Data Partner Dashboard validation tool; external callers never need it. Not required for Permissions Manager callers, who authenticate with `user_auth.user_id`. */
 export type ImportItemRequestProductsList = Array<Products | (string & {})>;
@@ -27611,9 +26724,7 @@ export const ItemImportRequestOptions = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     webhook: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ItemImportRequestOptions",
-}) as any as S.Schema<ItemImportRequestOptions>;
+).annotate({ identifier: "ItemImportRequestOptions" }) as any as S.Schema<ItemImportRequestOptions>;
 
 export interface ImportItemRequest {
   client_id?: string;
@@ -27633,9 +26744,7 @@ export const ImportItemRequest = /*@__PURE__*/ S.suspend(() =>
     user_auth: ItemImportRequestUserAuth,
     options: S.optional(ItemImportRequestOptions),
   }).pipe(T.Http({ method: "POST", uri: "/item/import", code: 200 })),
-).annotate({
-  identifier: "ImportItemRequest",
-}) as any as S.Schema<ImportItemRequest>;
+).annotate({ identifier: "ImportItemRequest" }) as any as S.Schema<ImportItemRequest>;
 
 /** ItemImportResponse defines the response schema for `/item/import` */
 export interface ItemImportResponse {
@@ -27647,9 +26756,7 @@ export const ItemImportResponse = /*@__PURE__*/ S.suspend(() =>
     access_token: S.String.pipe(T.SensitiveValue({})),
     request_id: S.String,
   }),
-).annotate({
-  identifier: "ItemImportResponse",
-}) as any as S.Schema<ItemImportResponse>;
+).annotate({ identifier: "ItemImportResponse" }) as any as S.Schema<ItemImportResponse>;
 
 /** Specify which country or countries to include institutions from, using the ISO-3166-1 alpha-2 country code standard. In API versions 2019-05-29 and earlier, the `country_codes` parameter is an optional parameter within the `options` object and will default to `[US]` if it is not supplied. */
 export type InstitutionsGetByIdRequestCountryCodesList = Array<CountryCode | (string & {})>;
@@ -27787,13 +26894,7 @@ export const LinkOauthCorrelationIdExchangeRequest = /*@__PURE__*/ S.suspend(() 
     client_id: S.optional(S.String),
     secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
     link_correlation_id: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/link/oauth/correlation_id/exchange",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/link/oauth/correlation_id/exchange", code: 200 })),
 ).annotate({
   identifier: "LinkOauthCorrelationIdExchangeRequest",
 }) as any as S.Schema<LinkOauthCorrelationIdExchangeRequest>;
@@ -27890,9 +26991,7 @@ export const BankTransferFailure = /*@__PURE__*/ S.suspend(() =>
     ach_return_code: S.optional(S.NullOr(S.String)),
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "BankTransferFailure",
-}) as any as S.Schema<BankTransferFailure>;
+).annotate({ identifier: "BankTransferFailure" }) as any as S.Schema<BankTransferFailure>;
 
 /** Indicates the direction of the transfer: `outbound` for API-initiated transfers, or `inbound` for payments received by the FBO account. */
 export type BankTransferDirection = "outbound" | "inbound";
@@ -27907,9 +27006,7 @@ export const ReceiverDetails = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     available_balance: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "ReceiverDetails",
-}) as any as S.Schema<ReceiverDetails>;
+).annotate({ identifier: "ReceiverDetails" }) as any as S.Schema<ReceiverDetails>;
 
 /** Represents an event in the Bank Transfers API. */
 export interface BankTransferEvent {
@@ -27947,9 +27044,7 @@ export const BankTransferEvent = /*@__PURE__*/ S.suspend(() =>
     direction: S.NullOr(BankTransferDirection),
     receiver_details: S.NullOr(ReceiverDetails),
   }),
-).annotate({
-  identifier: "BankTransferEvent",
-}) as any as S.Schema<BankTransferEvent>;
+).annotate({ identifier: "BankTransferEvent" }) as any as S.Schema<BankTransferEvent>;
 
 export type BankTransferEventListResponseBankTransferEventsList = Array<BankTransferEvent>;
 export const BankTransferEventListResponseBankTransferEventsList = /*@__PURE__*/ S.Array(
@@ -27982,9 +27077,7 @@ export const ListBetaIssuesV1Request = /*@__PURE__*/ S.suspend(() =>
     secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
     institution_id: S.String,
   }).pipe(T.Http({ method: "POST", uri: "/beta/issues/v1/list", code: 200 })),
-).annotate({
-  identifier: "ListBetaIssuesV1Request",
-}) as any as S.Schema<ListBetaIssuesV1Request>;
+).annotate({ identifier: "ListBetaIssuesV1Request" }) as any as S.Schema<ListBetaIssuesV1Request>;
 
 /** Critical and high-severity issues that are active or were resolved in the past 14 days. An empty list indicates that no matching issues were found. */
 export type BetaIssuesV1ListResponseIssuesList = Array<BetaIssuesV1Issue>;
@@ -28003,29 +27096,27 @@ export const BetaIssuesV1ListResponse = /*@__PURE__*/ S.suspend(() =>
     issues: BetaIssuesV1ListResponseIssuesList,
     request_id: S.String,
   }),
-).annotate({
-  identifier: "BetaIssuesV1ListResponse",
-}) as any as S.Schema<BetaIssuesV1ListResponse>;
+).annotate({ identifier: "BetaIssuesV1ListResponse" }) as any as S.Schema<BetaIssuesV1ListResponse>;
 
-/** Filter by webhook type. Multiple values are OR'd. Combined with other filters using AND. */
+/** Filter by webhook type. Multiple values are OR'd. Combined with other filters using AND. Values are case-sensitive and match the webhook types Plaid sends (`SCREAMING_SNAKE`, for example `ITEM` or `AUTH`). */
 export type ListBetaWebhookEventsRequestWebhookTypesList = Array<string>;
 export const ListBetaWebhookEventsRequestWebhookTypesList = /*@__PURE__*/ S.Array(
   S.String,
 ) as any as S.Schema<ListBetaWebhookEventsRequestWebhookTypesList>;
 
-/** Filter by webhook code. Multiple values are OR'd. Combined with other filters using AND. */
+/** Filter by webhook code. Multiple values are OR'd. Combined with other filters using AND. Values are case-sensitive and match the webhook codes Plaid sends (`SCREAMING_SNAKE`, for example `ERROR`). */
 export type ListBetaWebhookEventsRequestWebhookCodesList = Array<string>;
 export const ListBetaWebhookEventsRequestWebhookCodesList = /*@__PURE__*/ S.Array(
   S.String,
 ) as any as S.Schema<ListBetaWebhookEventsRequestWebhookCodesList>;
 
-/** Filter to specific Items. Multiple values are OR'd. Combined with other filters using AND. */
+/** Filter to specific Items. Multiple values are OR'd. Combined with other filters using AND. Values are case-sensitive and match the Item IDs Plaid sends. */
 export type ListBetaWebhookEventsRequestItemIdsList = Array<string>;
 export const ListBetaWebhookEventsRequestItemIdsList = /*@__PURE__*/ S.Array(
   S.String,
 ) as any as S.Schema<ListBetaWebhookEventsRequestItemIdsList>;
 
-/** Latest delivery state for this webhook. `PENDING`: Plaid has not yet received a successful response and may still retry. `DELIVERED`: the destination returned a 2xx response. `FAILED`: all delivery attempts were exhausted without a 2xx response. */
+/** Latest delivery state for this webhook. `PENDING`: Plaid has not recorded a successful response and may still retry. Treat `PENDING` as unknown rather than undelivered: a delivery may have succeeded without the outcome being recorded. `DELIVERED`: the destination returned a 2xx response. `FAILED`: all delivery attempts were exhausted without a 2xx response. */
 export type WebhookEventDeliveryStatus = "PENDING" | "DELIVERED" | "FAILED";
 export const WebhookEventDeliveryStatus = S.String;
 
@@ -28040,17 +27131,17 @@ export const ListBetaWebhookEventsRequestDeliveryStatusesList = /*@__PURE__*/ S.
 export interface ListBetaWebhookEventsRequest {
   client_id?: string;
   secret?: string | Redacted.Redacted<string>;
-  /** Opaque cursor from a prior `/beta/webhook_events/list` response `next_cursor`. Use this on subsequent requests to continue forward. Mutually exclusive with `start_time`. */
+  /** Opaque cursor from a prior `/beta/webhook_events/list` response `next_cursor`. Use this on subsequent requests to continue forward. If `start_time` is also provided, it is ignored; `cursor` takes precedence. */
   cursor?: string;
-  /** ISO-8601 timestamp. Returns webhook events with `sent_time` greater than or equal to this value. Must fall within the last 7 days (the retention window). Mutually exclusive with `cursor`. Omit to begin from the oldest retained event. */
+  /** ISO-8601 timestamp. Returns webhook events with `sent_time` greater than or equal to this value. When `cursor` is provided, this value is ignored, even if it has changed or falls outside the 7-day retention window. Otherwise, it must not be earlier than the 7-day retention window. Omit both `cursor` and `start_time` to begin from the oldest retained event. */
   start_time?: string | null;
   /** Page size. Default 100, maximum 100. */
   count?: number | null;
-  /** Filter by webhook type. Multiple values are OR'd. Combined with other filters using AND. */
+  /** Filter by webhook type. Multiple values are OR'd. Combined with other filters using AND. Values are case-sensitive and match the webhook types Plaid sends (`SCREAMING_SNAKE`, for example `ITEM` or `AUTH`). */
   webhook_types?: ListBetaWebhookEventsRequestWebhookTypesList;
-  /** Filter by webhook code. Multiple values are OR'd. Combined with other filters using AND. */
+  /** Filter by webhook code. Multiple values are OR'd. Combined with other filters using AND. Values are case-sensitive and match the webhook codes Plaid sends (`SCREAMING_SNAKE`, for example `ERROR`). */
   webhook_codes?: ListBetaWebhookEventsRequestWebhookCodesList;
-  /** Filter to specific Items. Multiple values are OR'd. Combined with other filters using AND. */
+  /** Filter to specific Items. Multiple values are OR'd. Combined with other filters using AND. Values are case-sensitive and match the Item IDs Plaid sends. */
   item_ids?: ListBetaWebhookEventsRequestItemIdsList;
   /** Filter by delivery status. Returns webhook events whose latest delivery state matches any of the supplied values. Combined with other filters using AND. */
   delivery_statuses?: ListBetaWebhookEventsRequestDeliveryStatusesList;
@@ -28078,9 +27169,9 @@ export const WebhookEventPayload = /*@__PURE__*/ S.Record(
   S.Unknown,
 ) as any as S.Schema<WebhookEventPayload>;
 
-/** A webhook event Plaid sent to the calling client. */
+/** A webhook event for your account. */
 export interface WebhookEvent {
-  /** Stable, opaque, per-webhook ID for deduplication and support reference. */
+  /** Stable, opaque ID for this webhook event. The same value is returned if the event appears again on a later poll. Quote it when contacting support. */
   webhook_message_id: string;
   /** The webhook type. */
   webhook_type: string;
@@ -28117,7 +27208,7 @@ export const WebhookEvent = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "WebhookEvent" }) as any as S.Schema<WebhookEvent>;
 
-/** Webhook events sent to the calling client. */
+/** Webhook events for your account. */
 export type BetaWebhookEventsListResponseWebhookEventsList = Array<WebhookEvent>;
 export const BetaWebhookEventsListResponseWebhookEventsList = /*@__PURE__*/ S.Array(
   WebhookEvent,
@@ -28125,7 +27216,7 @@ export const BetaWebhookEventsListResponseWebhookEventsList = /*@__PURE__*/ S.Ar
 
 /** BetaWebhookEventsListResponse defines the response schema for `/beta/webhook_events/list` */
 export interface BetaWebhookEventsListResponse {
-  /** Webhook events sent to the calling client. */
+  /** Webhook events for your account. */
   webhook_events: BetaWebhookEventsListResponseWebhookEventsList;
   /** Indicates whether another page of webhook events is available. */
   has_more: boolean;
@@ -28154,13 +27245,7 @@ export const ListCraServicingSubscriptionRequest = /*@__PURE__*/ S.suspend(() =>
     client_id: S.optional(S.String),
     secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
     user_id: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/cra/servicing/subscription/list",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/cra/servicing/subscription/list", code: 200 })),
 ).annotate({
   identifier: "ListCraServicingSubscriptionRequest",
 }) as any as S.Schema<ListCraServicingSubscriptionRequest>;
@@ -28197,9 +27282,7 @@ export const ListDashboardUserRequest = /*@__PURE__*/ S.suspend(() =>
     client_id: S.optional(S.String),
     cursor: S.optional(S.NullOr(S.String)),
   }).pipe(T.Http({ method: "POST", uri: "/dashboard_user/list", code: 200 })),
-).annotate({
-  identifier: "ListDashboardUserRequest",
-}) as any as S.Schema<ListDashboardUserRequest>;
+).annotate({ identifier: "ListDashboardUserRequest" }) as any as S.Schema<ListDashboardUserRequest>;
 
 /** Account information associated with a team member with access to the Plaid dashboard. */
 export interface DashboardUser {
@@ -28251,9 +27334,7 @@ export const ListFdxConsentsRequest = /*@__PURE__*/ S.suspend(() =>
     customerId: S.String.pipe(T.Query()),
     status: S.optional(FDXConsentGrantStatus.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/fdx/consents", code: 200 })),
-).annotate({
-  identifier: "ListFdxConsentsRequest",
-}) as any as S.Schema<ListFdxConsentsRequest>;
+).annotate({ identifier: "ListFdxConsentsRequest" }) as any as S.Schema<ListFdxConsentsRequest>;
 
 /** Consent grants matching the customerId (and optional status) filter. */
 export type GetConsentsResponseConsentGrantsList = Array<FDXConsentGrant>;
@@ -28270,9 +27351,7 @@ export const GetConsentsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     consent_grants: GetConsentsResponseConsentGrantsList,
   }),
-).annotate({
-  identifier: "GetConsentsResponse",
-}) as any as S.Schema<GetConsentsResponse>;
+).annotate({ identifier: "GetConsentsResponse" }) as any as S.Schema<GetConsentsResponse>;
 
 export interface ListIdentityMatchRequest {
   client_id?: string;
@@ -28295,9 +27374,7 @@ export const ListIdentityMatchRequest = /*@__PURE__*/ S.suspend(() =>
     count: S.optional(S.Number),
     cursor: S.optional(S.String),
   }).pipe(T.Http({ method: "POST", uri: "/identity/match/list", code: 200 })),
-).annotate({
-  identifier: "ListIdentityMatchRequest",
-}) as any as S.Schema<ListIdentityMatchRequest>;
+).annotate({ identifier: "ListIdentityMatchRequest" }) as any as S.Schema<ListIdentityMatchRequest>;
 
 /** Link outcome for the Identity Match attempt. */
 export type IdentityMatchListOutcome = "PASS" | "FAIL" | "UNKNOWN";
@@ -28361,9 +27438,7 @@ export const IdentityMatchListAttempt = /*@__PURE__*/ S.suspend(() =>
     outcome_account_id: S.NullOr(S.String),
     scores: IdentityMatchListAttemptScoresList,
   }),
-).annotate({
-  identifier: "IdentityMatchListAttempt",
-}) as any as S.Schema<IdentityMatchListAttempt>;
+).annotate({ identifier: "IdentityMatchListAttempt" }) as any as S.Schema<IdentityMatchListAttempt>;
 
 /** Page of Link-originated Identity Match attempts ordered by creation time, oldest first. */
 export type IdentityMatchListResponseIdentityMatchAttemptsList = Array<IdentityMatchListAttempt>;
@@ -28460,9 +27535,7 @@ export const IdentityVerification = /*@__PURE__*/ S.suspend(() =>
     redacted_at: S.NullOr(S.String),
     latest_scored_protect_event: S.optional(S.NullOr(IDVProtectEvent)),
   }),
-).annotate({
-  identifier: "IdentityVerification",
-}) as any as S.Schema<IdentityVerification>;
+).annotate({ identifier: "IdentityVerification" }) as any as S.Schema<IdentityVerification>;
 
 /** List of Plaid sessions */
 export type IdentityVerificationListResponseIdentityVerificationsList = Array<IdentityVerification>;
@@ -28503,9 +27576,7 @@ export const ListItemActivityRequest = /*@__PURE__*/ S.suspend(() =>
     cursor: S.optional(S.String),
     count: S.optional(S.Number),
   }).pipe(T.Http({ method: "POST", uri: "/item/activity/list", code: 200 })),
-).annotate({
-  identifier: "ListItemActivityRequest",
-}) as any as S.Schema<ListItemActivityRequest>;
+).annotate({ identifier: "ListItemActivityRequest" }) as any as S.Schema<ListItemActivityRequest>;
 
 /** Types of consent activities */
 export type ActivityType =
@@ -28706,9 +27777,7 @@ export const ItemActivityListResponse = /*@__PURE__*/ S.suspend(() =>
     last_data_access_times: ItemActivityListResponseLastDataAccessTimesList,
     cursor: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ItemActivityListResponse",
-}) as any as S.Schema<ItemActivityListResponse>;
+).annotate({ identifier: "ItemActivityListResponse" }) as any as S.Schema<ItemActivityListResponse>;
 
 export interface ListItemApplicationRequest {
   client_id?: string;
@@ -28753,9 +27822,7 @@ export const ConnectedApplication = /*@__PURE__*/ S.suspend(() =>
     created_at: S.String,
     scopes: S.optional(S.NullOr(ScopesNullable)),
   }),
-).annotate({
-  identifier: "ConnectedApplication",
-}) as any as S.Schema<ConnectedApplication>;
+).annotate({ identifier: "ConnectedApplication" }) as any as S.Schema<ConnectedApplication>;
 
 /** A list of connected applications. */
 export type ItemApplicationListResponseApplicationsList = Array<ConnectedApplication>;
@@ -28786,9 +27853,7 @@ export const DisconnectedApplication = /*@__PURE__*/ S.suspend(() =>
     application_url: S.optional(S.NullOr(S.String)),
     reason_for_access: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "DisconnectedApplication",
-}) as any as S.Schema<DisconnectedApplication>;
+).annotate({ identifier: "DisconnectedApplication" }) as any as S.Schema<DisconnectedApplication>;
 
 /** A list of applications that the user previously connected and has since disconnected. Disconnected applications carry no `scopes` or `created_at`, since the user has revoked their access. */
 export type ItemApplicationListResponseDisconnectedApplicationsList =
@@ -28832,13 +27897,7 @@ export const ListPaymentInitiationPaymentRequest = /*@__PURE__*/ S.suspend(() =>
     count: S.optional(S.NullOr(S.Number)),
     cursor: S.optional(S.NullOr(S.String)),
     consent_id: S.optional(S.NullOr(S.String)),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/payment_initiation/payment/list",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/payment_initiation/payment/list", code: 200 })),
 ).annotate({
   identifier: "ListPaymentInitiationPaymentRequest",
 }) as any as S.Schema<ListPaymentInitiationPaymentRequest>;
@@ -28906,9 +27965,7 @@ export const PaymentInitiationPayment = /*@__PURE__*/ S.suspend(() =>
     end_to_end_id: S.optional(S.NullOr(S.String)),
     error: S.optional(S.NullOr(PlaidError)),
   }),
-).annotate({
-  identifier: "PaymentInitiationPayment",
-}) as any as S.Schema<PaymentInitiationPayment>;
+).annotate({ identifier: "PaymentInitiationPayment" }) as any as S.Schema<PaymentInitiationPayment>;
 
 /** An array of payments that have been created, associated with the given `client_id`. */
 export type PaymentInitiationPaymentListResponsePaymentsList = Array<PaymentInitiationPayment>;
@@ -28948,13 +28005,7 @@ export const ListPaymentInitiationRecipientRequest = /*@__PURE__*/ S.suspend(() 
     secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
     count: S.optional(S.NullOr(S.Number)),
     cursor: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/payment_initiation/recipient/list",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/payment_initiation/recipient/list", code: 200 })),
 ).annotate({
   identifier: "ListPaymentInitiationRecipientRequest",
 }) as any as S.Schema<ListPaymentInitiationRecipientRequest>;
@@ -29027,13 +28078,7 @@ export const ListSandboxTransferTestClockRequest = /*@__PURE__*/ S.suspend(() =>
     end_virtual_time: S.optional(S.NullOr(S.String)),
     count: S.optional(S.NullOr(S.Number)),
     offset: S.optional(S.Number),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/sandbox/transfer/test_clock/list",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/sandbox/transfer/test_clock/list", code: 200 })),
 ).annotate({
   identifier: "ListSandboxTransferTestClockRequest",
 }) as any as S.Schema<ListSandboxTransferTestClockRequest>;
@@ -29068,9 +28113,7 @@ export const ListStatementsRequest = /*@__PURE__*/ S.suspend(() =>
     client_id: S.optional(S.String),
     secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
   }).pipe(T.Http({ method: "POST", uri: "/statements/list", code: 200 })),
-).annotate({
-  identifier: "ListStatementsRequest",
-}) as any as S.Schema<ListStatementsRequest>;
+).annotate({ identifier: "ListStatementsRequest" }) as any as S.Schema<ListStatementsRequest>;
 
 /** A statement's metadata associated with an account */
 export interface StatementsStatement {
@@ -29090,9 +28133,7 @@ export const StatementsStatement = /*@__PURE__*/ S.suspend(() =>
     month: S.Number,
     year: S.Number,
   }),
-).annotate({
-  identifier: "StatementsStatement",
-}) as any as S.Schema<StatementsStatement>;
+).annotate({ identifier: "StatementsStatement" }) as any as S.Schema<StatementsStatement>;
 
 /** The list of statements' metadata associated with this account. */
 export type StatementsAccountStatementsList = Array<StatementsStatement>;
@@ -29127,9 +28168,7 @@ export const StatementsAccount = /*@__PURE__*/ S.suspend(() =>
     account_type: S.String,
     statements: StatementsAccountStatementsList,
   }),
-).annotate({
-  identifier: "StatementsAccount",
-}) as any as S.Schema<StatementsAccount>;
+).annotate({ identifier: "StatementsAccount" }) as any as S.Schema<StatementsAccount>;
 
 export type StatementsListResponseAccountsList = Array<StatementsAccount>;
 export const StatementsListResponseAccountsList = /*@__PURE__*/ S.Array(
@@ -29155,9 +28194,7 @@ export const StatementsListResponse = /*@__PURE__*/ S.suspend(() =>
     item_id: S.String,
     request_id: S.String,
   }),
-).annotate({
-  identifier: "StatementsListResponse",
-}) as any as S.Schema<StatementsListResponse>;
+).annotate({ identifier: "StatementsListResponse" }) as any as S.Schema<StatementsListResponse>;
 
 export interface ListTransactionsRulesRequest {
   client_id?: string;
@@ -29170,13 +28207,7 @@ export const ListTransactionsRulesRequest = /*@__PURE__*/ S.suspend(() =>
     client_id: S.optional(S.String),
     secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
     client_user_id: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/beta/transactions/rules/v1/list",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/beta/transactions/rules/v1/list", code: 200 })),
 ).annotate({
   identifier: "ListTransactionsRulesRequest",
 }) as any as S.Schema<ListTransactionsRulesRequest>;
@@ -29232,9 +28263,7 @@ export const ListTransferRequest = /*@__PURE__*/ S.suspend(() =>
     originator_client_id: S.optional(S.NullOr(S.String)),
     funding_account_id: S.optional(S.NullOr(S.String)),
   }).pipe(T.Http({ method: "POST", uri: "/transfer/list", code: 200 })),
-).annotate({
-  identifier: "ListTransferRequest",
-}) as any as S.Schema<ListTransferRequest>;
+).annotate({ identifier: "ListTransferRequest" }) as any as S.Schema<ListTransferRequest>;
 
 export type TransferListResponseTransfersList = Array<Transfer>;
 export const TransferListResponseTransfersList = /*@__PURE__*/ S.Array(
@@ -29251,15 +28280,13 @@ export const TransferListResponse = /*@__PURE__*/ S.suspend(() =>
     transfers: TransferListResponseTransfersList,
     request_id: S.String,
   }),
-).annotate({
-  identifier: "TransferListResponse",
-}) as any as S.Schema<TransferListResponse>;
+).annotate({ identifier: "TransferListResponse" }) as any as S.Schema<TransferListResponse>;
 
 /** The type of transfer. This will be either `debit` or `credit`. A `debit` indicates a transfer of money into your origination account; a `credit` indicates a transfer of money out of your origination account. */
 export type TransferEventListTransferType = "debit" | "credit";
 export const TransferEventListTransferType = S.String;
 
-/** The type of event that this transfer represents. Event types with prefix `sweep` represent events for Plaid Ledger sweeps. `pending`: A new transfer was created; it is in the pending state. `cancelled`: The transfer was cancelled by the client. `failed`: The transfer failed, no funds were moved. `posted`: The transfer has been successfully submitted to the payment network. `settled`: The transfer has been successfully completed by the payment network. `funds_available`: Funds from the transfer have been released from hold and applied to the ledger's available balance. (Only applicable to ACH debits.) `guaranteed`: The transfer has been fully guaranteed by Plaid. `returned`: A posted transfer was returned. `guarantee_reimbursed`: Plaid reimbursed the client for the loss on a returned guaranteed transfer. The `event_amount` is the reimbursed amount. `client_return_recovered`: The client reported recovering the loss on a returned transfer via `/transfer/return/recover`, and Plaid debited the recovered amount from the client's ledger. The `event_amount` is the recovered amount. `plaid_return_recovered`: Plaid recovered the loss on a returned transfer by successfully reinitiating it. The `event_amount` is the recovered amount. Client should stop their return recovery effort. `swept`: The transfer was swept to / from the sweep account. `swept_settled`: Credits are available to be withdrawn or debits have been deducted from the customer's business checking account. `return_swept`: Due to the transfer being returned, funds were pulled from or pushed back to the sweep account. `sweep.pending`: A new ledger sweep was created; it is in the pending state. `sweep.posted`: The ledger sweep has been successfully submitted to the payment network. `sweep.settled`: The transaction has settled in the funding account. This means that funds withdrawn from Plaid Ledger balance have reached the funding account, or funds to be deposited into the Plaid Ledger Balance have been pulled, and the hold period has begun. `sweep.returned`: A posted ledger sweep was returned. `sweep.failed`: The ledger sweep failed, no funds were moved. `sweep.funds_available`: Funds from the ledger sweep have been released from hold and applied to the ledger's available balance. This is only applicable to debits. `refund.pending`: A new refund was created; it is in the pending state. `refund.cancelled`: The refund was cancelled. `refund.failed`: The refund failed, no funds were moved. `refund.posted`: The refund has been successfully submitted to the payment network. `refund.settled`: The refund transaction has settled in the Plaid linked account. `refund.returned`: A posted refund was returned. `refund.swept`: The refund was swept from the sweep account. `refund.return_swept`: Due to the refund being returned, funds were pushed back to the sweep account. */
+/** The type of event that this transfer represents. Event types with prefix `sweep` represent events for Plaid Ledger sweeps. `pending`: A new transfer was created; it is in the pending state. `cancelled`: The transfer was cancelled by the client. `failed`: The transfer failed, no funds were moved. `posted`: The transfer has been successfully submitted to the payment network. `settled`: The transfer has been successfully completed by the payment network. `funds_available`: Funds from the transfer have been released from hold and applied to the ledger's available balance. (Only applicable to ACH debits.) `guaranteed`: The transfer has been fully guaranteed by Plaid. `returned`: A posted transfer was returned. `adjustment`: An adjustment was made to the transfer due to rare activity, such as a dishonor. Refer to `event_amount` for the amount adjusted: a positive amount means funds are credited to the ledger, and a negative amount means funds are debited from the ledger. `failure_reason.description` describes the reason for the adjustment. `guarantee_reimbursed`: Plaid reimbursed the client for the loss on a returned guaranteed transfer. The `event_amount` is the reimbursed amount. `client_return_recovered`: The client reported recovering the loss on a returned transfer via `/transfer/return/recover`, and Plaid debited the recovered amount from the client's ledger. The `event_amount` is the recovered amount. `plaid_return_recovered`: Plaid recovered the loss on a returned transfer by successfully reinitiating it. The `event_amount` is the recovered amount. Client should stop their return recovery effort. `swept`: The transfer was swept to / from the sweep account. `swept_settled`: Credits are available to be withdrawn or debits have been deducted from the customer's business checking account. `return_swept`: Due to the transfer being returned, funds were pulled from or pushed back to the sweep account. `sweep.pending`: A new ledger sweep was created; it is in the pending state. `sweep.posted`: The ledger sweep has been successfully submitted to the payment network. `sweep.settled`: The transaction has settled in the funding account. This means that funds withdrawn from Plaid Ledger balance have reached the funding account, or funds to be deposited into the Plaid Ledger Balance have been pulled, and the hold period has begun. `sweep.returned`: A posted ledger sweep was returned. `sweep.failed`: The ledger sweep failed, no funds were moved. `sweep.funds_available`: Funds from the ledger sweep have been released from hold and applied to the ledger's available balance. This is only applicable to debits. `refund.pending`: A new refund was created; it is in the pending state. `refund.cancelled`: The refund was cancelled. `refund.failed`: The refund failed, no funds were moved. `refund.posted`: The refund has been successfully submitted to the payment network. `refund.settled`: The refund transaction has settled in the Plaid linked account. `refund.returned`: A posted refund was returned. `refund.swept`: The refund was swept from the sweep account. `refund.return_swept`: Due to the refund being returned, funds were pushed back to the sweep account. */
 export type TransferEventType =
   | "pending"
   | "cancelled"
@@ -29269,6 +28296,7 @@ export type TransferEventType =
   | "funds_available"
   | "guaranteed"
   | "returned"
+  | "adjustment"
   | "guarantee_reimbursed"
   | "client_return_recovered"
   | "plaid_return_recovered"
@@ -29341,9 +28369,7 @@ export const ListTransferEventRequest = /*@__PURE__*/ S.suspend(() =>
     originator_client_id: S.optional(S.NullOr(S.String)),
     funding_account_id: S.optional(S.NullOr(S.String)),
   }).pipe(T.Http({ method: "POST", uri: "/transfer/event/list", code: 200 })),
-).annotate({
-  identifier: "ListTransferEventRequest",
-}) as any as S.Schema<ListTransferEventRequest>;
+).annotate({ identifier: "ListTransferEventRequest" }) as any as S.Schema<ListTransferEventRequest>;
 
 /** The type of transfer. Valid values are `debit` or `credit`. A `debit` indicates a transfer of money into the origination account; a `credit` indicates a transfer of money out of the origination account. This field is omitted for Plaid Ledger Sweep events. */
 export type OmittableTransferType = "debit" | "credit";
@@ -29508,9 +28534,7 @@ export const TransferLedgerEvent = /*@__PURE__*/ S.suspend(() =>
     type: S.String,
     timestamp: S.String,
   }),
-).annotate({
-  identifier: "TransferLedgerEvent",
-}) as any as S.Schema<TransferLedgerEvent>;
+).annotate({ identifier: "TransferLedgerEvent" }) as any as S.Schema<TransferLedgerEvent>;
 
 export type TransferLedgerEventListResponseLedgerEventsList = Array<TransferLedgerEvent>;
 export const TransferLedgerEventListResponseLedgerEventsList = /*@__PURE__*/ S.Array(
@@ -29675,9 +28699,7 @@ export const TransferRepayment = /*@__PURE__*/ S.suspend(() =>
     amount: S.String,
     iso_currency_code: S.String,
   }),
-).annotate({
-  identifier: "TransferRepayment",
-}) as any as S.Schema<TransferRepayment>;
+).annotate({ identifier: "TransferRepayment" }) as any as S.Schema<TransferRepayment>;
 
 export type TransferRepaymentListResponseRepaymentsList = Array<TransferRepayment>;
 export const TransferRepaymentListResponseRepaymentsList = /*@__PURE__*/ S.Array(
@@ -29715,13 +28737,7 @@ export const ListTransferRepaymentReturnRequest = /*@__PURE__*/ S.suspend(() =>
     repayment_id: S.String,
     count: S.optional(S.NullOr(S.Number)),
     offset: S.optional(S.Number),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/transfer/repayment/return/list",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/transfer/repayment/return/list", code: 200 })),
 ).annotate({
   identifier: "ListTransferRepaymentReturnRequest",
 }) as any as S.Schema<ListTransferRepaymentReturnRequest>;
@@ -29744,9 +28760,7 @@ export const TransferRepaymentReturn = /*@__PURE__*/ S.suspend(() =>
     amount: S.String,
     iso_currency_code: S.String,
   }),
-).annotate({
-  identifier: "TransferRepaymentReturn",
-}) as any as S.Schema<TransferRepaymentReturn>;
+).annotate({ identifier: "TransferRepaymentReturn" }) as any as S.Schema<TransferRepaymentReturn>;
 
 export type TransferRepaymentReturnListResponseRepaymentReturnsList =
   Array<TransferRepaymentReturn>;
@@ -29805,9 +28819,7 @@ export const ListTransferSweepRequest = /*@__PURE__*/ S.suspend(() =>
     transfer_id: S.optional(S.NullOr(S.String)),
     trigger: S.optional(S.NullOr(SweepTrigger)),
   }).pipe(T.Http({ method: "POST", uri: "/transfer/sweep/list", code: 200 })),
-).annotate({
-  identifier: "ListTransferSweepRequest",
-}) as any as S.Schema<ListTransferSweepRequest>;
+).annotate({ identifier: "ListTransferSweepRequest" }) as any as S.Schema<ListTransferSweepRequest>;
 
 export type TransferSweepListResponseSweepsList = Array<TransferSweep>;
 export const TransferSweepListResponseSweepsList = /*@__PURE__*/ S.Array(
@@ -29845,9 +28857,7 @@ export const ListWalletRequest = /*@__PURE__*/ S.suspend(() =>
     cursor: S.optional(S.String),
     count: S.optional(S.Number),
   }).pipe(T.Http({ method: "POST", uri: "/wallet/list", code: 200 })),
-).annotate({
-  identifier: "ListWalletRequest",
-}) as any as S.Schema<ListWalletRequest>;
+).annotate({ identifier: "ListWalletRequest" }) as any as S.Schema<ListWalletRequest>;
 
 /** An object representing the e-wallet */
 export interface Wallet {
@@ -29889,9 +28899,7 @@ export const WalletListResponse = /*@__PURE__*/ S.suspend(() =>
     next_cursor: S.optional(S.String),
     request_id: S.String,
   }),
-).annotate({
-  identifier: "WalletListResponse",
-}) as any as S.Schema<WalletListResponse>;
+).annotate({ identifier: "WalletListResponse" }) as any as S.Schema<WalletListResponse>;
 
 /** Additional wallet transaction options */
 export interface WalletTransactionListRequestOptions {
@@ -29997,9 +29005,7 @@ export const WalletTransaction = /*@__PURE__*/ S.suspend(() =>
     error: S.optional(S.NullOr(PlaidError)),
     related_transactions: S.optional(WalletTransactionRelatedTransactionsList),
   }),
-).annotate({
-  identifier: "WalletTransaction",
-}) as any as S.Schema<WalletTransaction>;
+).annotate({ identifier: "WalletTransaction" }) as any as S.Schema<WalletTransaction>;
 
 /** An array of transactions of an e-wallet, associated with the given `wallet_id` */
 export type WalletTransactionListResponseTransactionsList = Array<WalletTransaction>;
@@ -30043,13 +29049,7 @@ export const ListWatchlistScreeningEntityRequest = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(WatchlistScreeningStatus),
     assignee: S.optional(S.String),
     cursor: S.optional(S.NullOr(S.String)),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/watchlist_screening/entity/list",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/watchlist_screening/entity/list", code: 200 })),
 ).annotate({
   identifier: "ListWatchlistScreeningEntityRequest",
 }) as any as S.Schema<ListWatchlistScreeningEntityRequest>;
@@ -30072,9 +29072,7 @@ export const EntityWatchlistScreening = /*@__PURE__*/ S.suspend(() =>
     client_user_id: S.NullOr(S.String),
     audit_trail: WatchlistScreeningAuditTrail,
   }),
-).annotate({
-  identifier: "EntityWatchlistScreening",
-}) as any as S.Schema<EntityWatchlistScreening>;
+).annotate({ identifier: "EntityWatchlistScreening" }) as any as S.Schema<EntityWatchlistScreening>;
 
 /** List of entity watchlist screening */
 export type WatchlistScreeningEntityListResponseEntityWatchlistScreeningsList =
@@ -30113,13 +29111,7 @@ export const ListWatchlistScreeningEntityHistoryRequest = /*@__PURE__*/ S.suspen
     client_id: S.optional(S.String),
     entity_watchlist_screening_id: S.String,
     cursor: S.optional(S.NullOr(S.String)),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/watchlist_screening/entity/history/list",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/watchlist_screening/entity/history/list", code: 200 })),
 ).annotate({
   identifier: "ListWatchlistScreeningEntityHistoryRequest",
 }) as any as S.Schema<ListWatchlistScreeningEntityHistoryRequest>;
@@ -30162,13 +29154,7 @@ export const ListWatchlistScreeningEntityHitRequest = /*@__PURE__*/ S.suspend(()
     client_id: S.optional(S.String),
     entity_watchlist_screening_id: S.String,
     cursor: S.optional(S.NullOr(S.String)),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/watchlist_screening/entity/hit/list",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/watchlist_screening/entity/hit/list", code: 200 })),
 ).annotate({
   identifier: "ListWatchlistScreeningEntityHitRequest",
 }) as any as S.Schema<ListWatchlistScreeningEntityHitRequest>;
@@ -30256,9 +29242,7 @@ export const EntityScreeningHitEmails = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     email_address: S.String,
   }),
-).annotate({
-  identifier: "EntityScreeningHitEmails",
-}) as any as S.Schema<EntityScreeningHitEmails>;
+).annotate({ identifier: "EntityScreeningHitEmails" }) as any as S.Schema<EntityScreeningHitEmails>;
 
 /** Analyzed emails for the associated hit */
 export interface EntityScreeningHitEmailsItems {
@@ -30333,9 +29317,7 @@ export const EntityScreeningHitNames = /*@__PURE__*/ S.suspend(() =>
     is_primary: S.Boolean,
     weak_alias_determination: WeakAliasDetermination,
   }),
-).annotate({
-  identifier: "EntityScreeningHitNames",
-}) as any as S.Schema<EntityScreeningHitNames>;
+).annotate({ identifier: "EntityScreeningHitNames" }) as any as S.Schema<EntityScreeningHitNames>;
 
 /** Analyzed names for the associated hit */
 export interface EntityScreeningHitNamesItems {
@@ -30403,9 +29385,7 @@ export const EntityScreeningHitUrls = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     url: S.String,
   }),
-).annotate({
-  identifier: "EntityScreeningHitUrls",
-}) as any as S.Schema<EntityScreeningHitUrls>;
+).annotate({ identifier: "EntityScreeningHitUrls" }) as any as S.Schema<EntityScreeningHitUrls>;
 
 /** Analyzed URLs for the associated hit */
 export interface EntityScreeningHitUrlsItems {
@@ -30451,9 +29431,7 @@ export const EntityScreeningHitData = /*@__PURE__*/ S.suspend(() =>
     phone_numbers: S.optional(EntityScreeningHitDataPhoneNumbersList),
     urls: S.optional(EntityScreeningHitDataUrlsList),
   }),
-).annotate({
-  identifier: "EntityScreeningHitData",
-}) as any as S.Schema<EntityScreeningHitData>;
+).annotate({ identifier: "EntityScreeningHitData" }) as any as S.Schema<EntityScreeningHitData>;
 
 /** Data from a government watchlist that has been attached to the screening. */
 export interface EntityWatchlistScreeningHit {
@@ -30524,13 +29502,7 @@ export const ListWatchlistScreeningEntityProgramRequest = /*@__PURE__*/ S.suspen
     secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
     client_id: S.optional(S.String),
     cursor: S.optional(S.NullOr(S.String)),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/watchlist_screening/entity/program/list",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/watchlist_screening/entity/program/list", code: 200 })),
 ).annotate({
   identifier: "ListWatchlistScreeningEntityProgramRequest",
 }) as any as S.Schema<ListWatchlistScreeningEntityProgramRequest>;
@@ -30565,9 +29537,7 @@ export const EntityWatchlistProgram = /*@__PURE__*/ S.suspend(() =>
     audit_trail: WatchlistScreeningAuditTrail,
     is_archived: S.Boolean,
   }),
-).annotate({
-  identifier: "EntityWatchlistProgram",
-}) as any as S.Schema<EntityWatchlistProgram>;
+).annotate({ identifier: "EntityWatchlistProgram" }) as any as S.Schema<EntityWatchlistProgram>;
 
 /** List of entity watchlist screening programs */
 export type WatchlistScreeningEntityProgramListResponseEntityWatchlistProgramsList =
@@ -30607,13 +29577,7 @@ export const ListWatchlistScreeningEntityReviewRequest = /*@__PURE__*/ S.suspend
     client_id: S.optional(S.String),
     entity_watchlist_screening_id: S.String,
     cursor: S.optional(S.NullOr(S.String)),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/watchlist_screening/entity/review/list",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/watchlist_screening/entity/review/list", code: 200 })),
 ).annotate({
   identifier: "ListWatchlistScreeningEntityReviewRequest",
 }) as any as S.Schema<ListWatchlistScreeningEntityReviewRequest>;
@@ -30696,13 +29660,7 @@ export const ListWatchlistScreeningIndividualRequest = /*@__PURE__*/ S.suspend((
     status: S.optional(WatchlistScreeningStatus),
     assignee: S.optional(S.String),
     cursor: S.optional(S.NullOr(S.String)),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/watchlist_screening/individual/list",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/watchlist_screening/individual/list", code: 200 })),
 ).annotate({
   identifier: "ListWatchlistScreeningIndividualRequest",
 }) as any as S.Schema<ListWatchlistScreeningIndividualRequest>;
@@ -30767,11 +29725,7 @@ export const ListWatchlistScreeningIndividualHistoryRequest = /*@__PURE__*/ S.su
     watchlist_screening_id: S.String,
     cursor: S.optional(S.NullOr(S.String)),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/watchlist_screening/individual/history/list",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/watchlist_screening/individual/history/list", code: 200 }),
   ),
 ).annotate({
   identifier: "ListWatchlistScreeningIndividualHistoryRequest",
@@ -30814,13 +29768,7 @@ export const ListWatchlistScreeningIndividualHitRequest = /*@__PURE__*/ S.suspen
     client_id: S.optional(S.String),
     watchlist_screening_id: S.String,
     cursor: S.optional(S.NullOr(S.String)),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/watchlist_screening/individual/hit/list",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/watchlist_screening/individual/hit/list", code: 200 })),
 ).annotate({
   identifier: "ListWatchlistScreeningIndividualHitRequest",
 }) as any as S.Schema<ListWatchlistScreeningIndividualHitRequest>;
@@ -30848,9 +29796,7 @@ export const ScreeningHitAnalysis = /*@__PURE__*/ S.suspend(() =>
     names: S.optional(MatchSummaryCode),
     search_terms_version: S.Number,
   }),
-).annotate({
-  identifier: "ScreeningHitAnalysis",
-}) as any as S.Schema<ScreeningHitAnalysis>;
+).annotate({ identifier: "ScreeningHitAnalysis" }) as any as S.Schema<ScreeningHitAnalysis>;
 
 /** A date range with a start and end date */
 export interface DateRange {
@@ -30969,9 +29915,7 @@ export const ScreeningHitNamesItems = /*@__PURE__*/ S.suspend(() =>
     analysis: S.optional(BusinessFieldMatchSummary),
     data: S.optional(IndividualScreeningHitNames),
   }),
-).annotate({
-  identifier: "ScreeningHitNamesItems",
-}) as any as S.Schema<ScreeningHitNamesItems>;
+).annotate({ identifier: "ScreeningHitNamesItems" }) as any as S.Schema<ScreeningHitNamesItems>;
 
 /** Names associated with the watchlist hit */
 export type ScreeningHitDataNamesList = Array<ScreeningHitNamesItems>;
@@ -30997,9 +29941,7 @@ export const ScreeningHitData = /*@__PURE__*/ S.suspend(() =>
     locations: S.optional(ScreeningHitDataLocationsList),
     names: S.optional(ScreeningHitDataNamesList),
   }),
-).annotate({
-  identifier: "ScreeningHitData",
-}) as any as S.Schema<ScreeningHitData>;
+).annotate({ identifier: "ScreeningHitData" }) as any as S.Schema<ScreeningHitData>;
 
 /** Data from a government watchlist or PEP list that has been attached to the screening. */
 export interface WatchlistScreeningHit {
@@ -31030,9 +29972,7 @@ export const WatchlistScreeningHit = /*@__PURE__*/ S.suspend(() =>
     analysis: S.optional(ScreeningHitAnalysis),
     data: S.optional(ScreeningHitData),
   }),
-).annotate({
-  identifier: "WatchlistScreeningHit",
-}) as any as S.Schema<WatchlistScreeningHit>;
+).annotate({ identifier: "WatchlistScreeningHit" }) as any as S.Schema<WatchlistScreeningHit>;
 
 /** List of individual watchlist screening hits */
 export type WatchlistScreeningIndividualHitListResponseWatchlistScreeningHitsList =
@@ -31070,11 +30010,7 @@ export const ListWatchlistScreeningIndividualProgramRequest = /*@__PURE__*/ S.su
     client_id: S.optional(S.String),
     cursor: S.optional(S.NullOr(S.String)),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/watchlist_screening/individual/program/list",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/watchlist_screening/individual/program/list", code: 200 }),
   ),
 ).annotate({
   identifier: "ListWatchlistScreeningIndividualProgramRequest",
@@ -31152,11 +30088,7 @@ export const ListWatchlistScreeningIndividualReviewRequest = /*@__PURE__*/ S.sus
     watchlist_screening_id: S.String,
     cursor: S.optional(S.NullOr(S.String)),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/watchlist_screening/individual/review/list",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/watchlist_screening/individual/review/list", code: 200 }),
   ),
 ).annotate({
   identifier: "ListWatchlistScreeningIndividualReviewRequest",
@@ -31192,9 +30124,7 @@ export const WatchlistScreeningReview = /*@__PURE__*/ S.suspend(() =>
     comment: S.NullOr(S.String),
     audit_trail: WatchlistScreeningAuditTrail,
   }),
-).annotate({
-  identifier: "WatchlistScreeningReview",
-}) as any as S.Schema<WatchlistScreeningReview>;
+).annotate({ identifier: "WatchlistScreeningReview" }) as any as S.Schema<WatchlistScreeningReview>;
 
 /** List of screening reviews */
 export type WatchlistScreeningIndividualReviewListResponseWatchlistScreeningReviewsList =
@@ -31235,9 +30165,7 @@ export const OauthIntrospectRequest = /*@__PURE__*/ S.suspend(() =>
     client_secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
     secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
   }).pipe(T.Http({ method: "POST", uri: "/oauth/introspect", code: 200 })),
-).annotate({
-  identifier: "OauthIntrospectRequest",
-}) as any as S.Schema<OauthIntrospectRequest>;
+).annotate({ identifier: "OauthIntrospectRequest" }) as any as S.Schema<OauthIntrospectRequest>;
 
 /** OAuth token introspect response */
 export interface OAuthIntrospectResponse {
@@ -31275,9 +30203,7 @@ export const OAuthIntrospectResponse = /*@__PURE__*/ S.suspend(() =>
     user_id: S.optional(S.String),
     request_id: S.String,
   }),
-).annotate({
-  identifier: "OAuthIntrospectResponse",
-}) as any as S.Schema<OAuthIntrospectResponse>;
+).annotate({ identifier: "OAuthIntrospectResponse" }) as any as S.Schema<OAuthIntrospectResponse>;
 
 /** The type of OAuth grant being requested: `client_credentials` allows exchanging a client id and client secret for a refresh and access token. `refresh_token` allows refreshing an access token using a refresh token. When using this grant type, only the `refresh_token` field is required (along with the `client_id` and `client_secret`). `urn:ietf:params:oauth:grant-type:token-exchange` allows exchanging a subject token for an OAuth token. When using this grant type, the `audience`, `subject_token` and `subject_token_type` fields are required. These grants are defined in their respective RFCs. `refresh_token` and `client_credentials` are defined in RFC 6749 and `urn:ietf:params:oauth:grant-type:token-exchange` is defined in RFC 8693. */
 export type OAuthGrantType =
@@ -31321,9 +30247,7 @@ export const OauthTokenRequest = /*@__PURE__*/ S.suspend(() =>
     subject_token: S.optional(S.String),
     subject_token_type: S.optional(OAuthSubjectTokenType),
   }).pipe(T.Http({ method: "POST", uri: "/oauth/token", code: 200 })),
-).annotate({
-  identifier: "OauthTokenRequest",
-}) as any as S.Schema<OauthTokenRequest>;
+).annotate({ identifier: "OauthTokenRequest" }) as any as S.Schema<OauthTokenRequest>;
 
 /** OAuth token grant success response */
 export interface OAuthTokenResponse {
@@ -31343,9 +30267,7 @@ export const OAuthTokenResponse = /*@__PURE__*/ S.suspend(() =>
     expires_in: S.Number,
     request_id: S.String,
   }),
-).annotate({
-  identifier: "OAuthTokenResponse",
-}) as any as S.Schema<OAuthTokenResponse>;
+).annotate({ identifier: "OAuthTokenResponse" }) as any as S.Schema<OAuthTokenResponse>;
 
 /** The amount and currency of a payment */
 export interface PaymentAmountToRefund {
@@ -31358,9 +30280,7 @@ export const PaymentAmountToRefund = /*@__PURE__*/ S.suspend(() =>
     currency: PaymentAmountCurrency,
     value: S.Number,
   }),
-).annotate({
-  identifier: "PaymentAmountToRefund",
-}) as any as S.Schema<PaymentAmountToRefund>;
+).annotate({ identifier: "PaymentAmountToRefund" }) as any as S.Schema<PaymentAmountToRefund>;
 
 export interface PaymentInitiationPaymentReverseRequest {
   client_id?: string;
@@ -31385,13 +30305,7 @@ export const PaymentInitiationPaymentReverseRequest = /*@__PURE__*/ S.suspend(()
     amount: S.optional(PaymentAmountToRefund),
     counterparty_date_of_birth: S.optional(S.NullOr(S.String)),
     counterparty_address: S.optional(S.NullOr(PaymentInitiationAddress)),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/payment_initiation/payment/reverse",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/payment_initiation/payment/reverse", code: 200 })),
 ).annotate({
   identifier: "PaymentInitiationPaymentReverseRequest",
 }) as any as S.Schema<PaymentInitiationPaymentReverseRequest>;
@@ -31487,13 +30401,7 @@ export const ProcessorSignalDecisionReportRequest = /*@__PURE__*/ S.suspend(() =
     decision_outcome: S.optional(S.NullOr(SignalDecisionOutcome)),
     payment_method: S.optional(S.NullOr(SignalPaymentMethod)),
     amount_instantly_available: S.optional(S.NullOr(S.Number)),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/processor/signal/decision/report",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/processor/signal/decision/report", code: 200 })),
 ).annotate({
   identifier: "ProcessorSignalDecisionReportRequest",
 }) as any as S.Schema<ProcessorSignalDecisionReportRequest>;
@@ -31531,9 +30439,7 @@ export const SignalPersonName = /*@__PURE__*/ S.suspend(() =>
     family_name: S.optional(S.NullOr(S.String)),
     suffix: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "SignalPersonName",
-}) as any as S.Schema<SignalPersonName>;
+).annotate({ identifier: "SignalPersonName" }) as any as S.Schema<SignalPersonName>;
 
 /** Data about the components comprising an address. */
 export interface SignalAddressData {
@@ -31556,9 +30462,7 @@ export const SignalAddressData = /*@__PURE__*/ S.suspend(() =>
     postal_code: S.optional(S.NullOr(S.String)),
     country: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "SignalAddressData",
-}) as any as S.Schema<SignalAddressData>;
+).annotate({ identifier: "SignalAddressData" }) as any as S.Schema<SignalAddressData>;
 
 /** Details about the end user initiating the transaction (i.e., the account holder). These fields are optional, but strongly recommended to increase the accuracy of results when using Signal Transaction Scores. When using a Balance-only ruleset, if the Signal Addendum has been signed, these fields are ignored; if the Addendum has not been signed, using these fields will result in an error. */
 export interface SignalUser {
@@ -32024,13 +30928,7 @@ export const ProcessorSignalReturnReportRequest = /*@__PURE__*/ S.suspend(() =>
     client_transaction_id: S.String,
     return_code: S.String,
     returned_at: S.optional(S.NullOr(S.String)),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/processor/signal/return/report",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/processor/signal/return/report", code: 200 })),
 ).annotate({
   identifier: "ProcessorSignalReturnReportRequest",
 }) as any as S.Schema<ProcessorSignalReturnReportRequest>;
@@ -32059,41 +30957,35 @@ export const ProtectLinkModelInputs = /*@__PURE__*/ S.suspend(() =>
     link_session_id: S.String,
     require_extracted_data: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "ProtectLinkModelInputs",
-}) as any as S.Schema<ProtectLinkModelInputs>;
+).annotate({ identifier: "ProtectLinkModelInputs" }) as any as S.Schema<ProtectLinkModelInputs>;
 
-/** Inputs for Protect SDK Trust Index models. */
-export interface ProtectSDKModelInputs {
-  /** A unique identifier for the Protect SDK session, used to compute a Trust Index score and fraud attributes. */
-  sdk_session_id: string;
+/** Inputs for device Trust Index models. */
+export interface ProtectDeviceModelInputs {
+  /** A unique identifier for the device session started via the Protect SDK, used to compute a Trust Index score and fraud attributes. */
+  device_session_id: string;
 }
-export const ProtectSDKModelInputs = /*@__PURE__*/ S.suspend(() =>
+export const ProtectDeviceModelInputs = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    sdk_session_id: S.String,
+    device_session_id: S.String,
   }),
-).annotate({
-  identifier: "ProtectSDKModelInputs",
-}) as any as S.Schema<ProtectSDKModelInputs>;
+).annotate({ identifier: "ProtectDeviceModelInputs" }) as any as S.Schema<ProtectDeviceModelInputs>;
 
 /** Inputs required by certain Trust Index models. The `link` field is required for link-session models. Other model families (including cash-advance) are identified by `user` alone and do not use this object. */
 export interface ProtectModelInputs {
   link?: ProtectLinkModelInputs | null;
-  sdk?: ProtectSDKModelInputs | null;
+  device?: ProtectDeviceModelInputs | null;
 }
 export const ProtectModelInputs = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     link: S.optional(S.NullOr(ProtectLinkModelInputs)),
-    sdk: S.optional(S.NullOr(ProtectSDKModelInputs)),
+    device: S.optional(S.NullOr(ProtectDeviceModelInputs)),
   }),
-).annotate({
-  identifier: "ProtectModelInputs",
-}) as any as S.Schema<ProtectModelInputs>;
+).annotate({ identifier: "ProtectModelInputs" }) as any as S.Schema<ProtectModelInputs>;
 
 export interface ProtectComputeRequest {
   client_id?: string;
   secret?: string | Redacted.Redacted<string>;
-  /** The name of the Trust Index model to use for scoring, with a major.minor version suffix. Examples: `ti-link-session-2.0` (link-session fraud), `ti-identity-2.0` (identity fraud), `cash-advance-onboarding-1.0` (first cash advance), and `cash-advance-ongoing-1.0` (subsequent cash advances). The model specified may require certain fields within `model_inputs`; for example, `ti-link-session-2.0` requires the `link` field. Cash-advance models do not use `model_inputs`. */
+  /** The name of the Trust Index model to use for scoring, with a major.minor version suffix. Examples: `ti-link-session-3` (link-session fraud), `ti-identity-3` (identity fraud), `cash-advance-onboarding-<client>-1.0` (first cash advance), and `cash-advance-ongoing-<client>-1.0` (subsequent cash advances). Cash-advance models are client-scoped; use the model name issued for your client. The model specified may require certain fields within `model_inputs`; for example, `ti-link-session-2` requires the `link` field. Cash-advance models do not use `model_inputs`. */
   model: string;
   user: ProtectUser;
   model_inputs?: ProtectModelInputs | null;
@@ -32106,9 +30998,7 @@ export const ProtectComputeRequest = /*@__PURE__*/ S.suspend(() =>
     user: ProtectUser,
     model_inputs: S.optional(S.NullOr(ProtectModelInputs)),
   }).pipe(T.Http({ method: "POST", uri: "/protect/compute", code: 200 })),
-).annotate({
-  identifier: "ProtectComputeRequest",
-}) as any as S.Schema<ProtectComputeRequest>;
+).annotate({ identifier: "ProtectComputeRequest" }) as any as S.Schema<ProtectComputeRequest>;
 
 /** Per-bucket subscores returned alongside the overall Trust Index score. For cash-advance models, each key maps to an amount-bucket subscore (0-100); higher values indicate lower fraud risk. Only buckets that were scored are included in the response. */
 export interface ProtectComputeSubscores {
@@ -32137,9 +31027,7 @@ export const ProtectComputeSubscores = /*@__PURE__*/ S.suspend(() =>
     cash_advance_bucket_300_400: S.optional(S.NullOr(S.Number)),
     cash_advance_bucket_400_500: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "ProtectComputeSubscores",
-}) as any as S.Schema<ProtectComputeSubscores>;
+).annotate({ identifier: "ProtectComputeSubscores" }) as any as S.Schema<ProtectComputeSubscores>;
 
 /** Response object for /protect/compute */
 export interface ProtectComputeResponse {
@@ -32162,9 +31050,7 @@ export const ProtectComputeResponse = /*@__PURE__*/ S.suspend(() =>
     timestamp: S.optional(S.NullOr(S.String)),
     request_id: S.String,
   }),
-).annotate({
-  identifier: "ProtectComputeResponse",
-}) as any as S.Schema<ProtectComputeResponse>;
+).annotate({ identifier: "ProtectComputeResponse" }) as any as S.Schema<ProtectComputeResponse>;
 
 /** An optional object to filter `/asset_report/refresh` results. If provided, cannot be `null`. If not specified, the `options` from the original call to `/asset_report/create` will be used. */
 export interface AssetReportRefreshRequestOptions {
@@ -32286,13 +31172,7 @@ export const RefreshCreditPayrollIncomeRequest = /*@__PURE__*/ S.suspend(() =>
     user_token: S.optional(S.String),
     user_id: S.optional(S.String),
     options: S.optional(CreditPayrollIncomeRefreshRequestOptions),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/credit/payroll_income/refresh",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/credit/payroll_income/refresh", code: 200 })),
 ).annotate({
   identifier: "RefreshCreditPayrollIncomeRequest",
 }) as any as S.Schema<RefreshCreditPayrollIncomeRequest>;
@@ -32359,9 +31239,7 @@ export const RefreshIdentityRequest = /*@__PURE__*/ S.suspend(() =>
     access_token: S.String.pipe(T.SensitiveValue({})),
     secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
   }).pipe(T.Http({ method: "POST", uri: "/identity/refresh", code: 200 })),
-).annotate({
-  identifier: "RefreshIdentityRequest",
-}) as any as S.Schema<RefreshIdentityRequest>;
+).annotate({ identifier: "RefreshIdentityRequest" }) as any as S.Schema<RefreshIdentityRequest>;
 
 /** IdentityRefreshResponse defines the response schema for `/identity/refresh` */
 export interface IdentityRefreshResponse {
@@ -32371,9 +31249,7 @@ export const IdentityRefreshResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     request_id: S.String,
   }),
-).annotate({
-  identifier: "IdentityRefreshResponse",
-}) as any as S.Schema<IdentityRefreshResponse>;
+).annotate({ identifier: "IdentityRefreshResponse" }) as any as S.Schema<IdentityRefreshResponse>;
 
 export interface RefreshInvestmentRequest {
   client_id?: string;
@@ -32386,9 +31262,7 @@ export const RefreshInvestmentRequest = /*@__PURE__*/ S.suspend(() =>
     access_token: S.String.pipe(T.SensitiveValue({})),
     secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
   }).pipe(T.Http({ method: "POST", uri: "/investments/refresh", code: 200 })),
-).annotate({
-  identifier: "RefreshInvestmentRequest",
-}) as any as S.Schema<RefreshInvestmentRequest>;
+).annotate({ identifier: "RefreshInvestmentRequest" }) as any as S.Schema<RefreshInvestmentRequest>;
 
 /** InvestmentsRefreshResponse defines the response schema for `/investments/refresh` */
 export interface InvestmentsRefreshResponse {
@@ -32412,13 +31286,7 @@ export const RefreshProcessorTransactionRequest = /*@__PURE__*/ S.suspend(() =>
     client_id: S.optional(S.String),
     processor_token: S.String,
     secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/processor/transactions/refresh",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/processor/transactions/refresh", code: 200 })),
 ).annotate({
   identifier: "RefreshProcessorTransactionRequest",
 }) as any as S.Schema<RefreshProcessorTransactionRequest>;
@@ -32452,9 +31320,7 @@ export const RefreshStatementRequest = /*@__PURE__*/ S.suspend(() =>
     start_date: S.String,
     end_date: S.String,
   }).pipe(T.Http({ method: "POST", uri: "/statements/refresh", code: 200 })),
-).annotate({
-  identifier: "RefreshStatementRequest",
-}) as any as S.Schema<RefreshStatementRequest>;
+).annotate({ identifier: "RefreshStatementRequest" }) as any as S.Schema<RefreshStatementRequest>;
 
 /** StatementsRefreshResponse defines the response schema for `/statements/refresh` */
 export interface StatementsRefreshResponse {
@@ -32635,9 +31501,7 @@ export const CraLoanOpenedStatus = /*@__PURE__*/ S.suspend(() =>
     status: CraLoanStatus,
     date: S.String,
   }),
-).annotate({
-  identifier: "CraLoanOpenedStatus",
-}) as any as S.Schema<CraLoanOpenedStatus>;
+).annotate({ identifier: "CraLoanOpenedStatus" }) as any as S.Schema<CraLoanOpenedStatus>;
 
 /** Contains loan application data to register. */
 export interface CraLoanRegisterApplication {
@@ -32678,9 +31542,7 @@ export const CraLoanRegister = /*@__PURE__*/ S.suspend(() =>
     loan_amount: S.optional(S.Number),
     application: S.optional(CraLoanRegisterApplication),
   }),
-).annotate({
-  identifier: "CraLoanRegister",
-}) as any as S.Schema<CraLoanRegister>;
+).annotate({ identifier: "CraLoanRegister" }) as any as S.Schema<CraLoanRegister>;
 
 /** A list of loans to register. */
 export type RegisterCraLoanRequestLoansList = Array<CraLoanRegister>;
@@ -32700,9 +31562,7 @@ export const RegisterCraLoanRequest = /*@__PURE__*/ S.suspend(() =>
     secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
     loans: RegisterCraLoanRequestLoansList,
   }).pipe(T.Http({ method: "POST", uri: "/cra/loans/register", code: 200 })),
-).annotate({
-  identifier: "RegisterCraLoanRequest",
-}) as any as S.Schema<RegisterCraLoanRequest>;
+).annotate({ identifier: "RegisterCraLoanRequest" }) as any as S.Schema<RegisterCraLoanRequest>;
 
 /** CraLoansRegisterResponse defines the response schema for `/cra/loans/register`. */
 export interface CraLoansRegisterResponse {
@@ -32712,9 +31572,7 @@ export const CraLoansRegisterResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     request_id: S.String,
   }),
-).annotate({
-  identifier: "CraLoansRegisterResponse",
-}) as any as S.Schema<CraLoansRegisterResponse>;
+).annotate({ identifier: "CraLoansRegisterResponse" }) as any as S.Schema<CraLoansRegisterResponse>;
 
 /** The decision of the loan application. */
 export type CraLoanApplicationDecision = "APPROVED" | "DECLINED" | "OTHER";
@@ -32740,9 +31598,7 @@ export const CraLoanApplication = /*@__PURE__*/ S.suspend(() =>
     application_date: S.optional(S.String),
     decision_date: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CraLoanApplication",
-}) as any as S.Schema<CraLoanApplication>;
+).annotate({ identifier: "CraLoanApplication" }) as any as S.Schema<CraLoanApplication>;
 
 /** A list of loan applications to register. */
 export type RegisterCraLoansApplicationRequestApplicationsList = Array<CraLoanApplication>;
@@ -32761,13 +31617,7 @@ export const RegisterCraLoansApplicationRequest = /*@__PURE__*/ S.suspend(() =>
     client_id: S.optional(S.String),
     secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
     applications: RegisterCraLoansApplicationRequestApplicationsList,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/cra/loans/applications/register",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/cra/loans/applications/register", code: 200 })),
 ).annotate({
   identifier: "RegisterCraLoansApplicationRequest",
 }) as any as S.Schema<RegisterCraLoansApplicationRequest>;
@@ -32795,9 +31645,7 @@ export const RemoveAssetReportRequest = /*@__PURE__*/ S.suspend(() =>
     secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
     asset_report_token: S.String,
   }).pipe(T.Http({ method: "POST", uri: "/asset_report/remove", code: 200 })),
-).annotate({
-  identifier: "RemoveAssetReportRequest",
-}) as any as S.Schema<RemoveAssetReportRequest>;
+).annotate({ identifier: "RemoveAssetReportRequest" }) as any as S.Schema<RemoveAssetReportRequest>;
 
 /** AssetReportRemoveResponse defines the response schema for `/asset_report/remove` */
 export interface AssetReportRemoveResponse {
@@ -32826,9 +31674,7 @@ export const RemoveCreditRelayRequest = /*@__PURE__*/ S.suspend(() =>
     secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
     relay_token: S.String,
   }).pipe(T.Http({ method: "POST", uri: "/credit/relay/remove", code: 200 })),
-).annotate({
-  identifier: "RemoveCreditRelayRequest",
-}) as any as S.Schema<RemoveCreditRelayRequest>;
+).annotate({ identifier: "RemoveCreditRelayRequest" }) as any as S.Schema<RemoveCreditRelayRequest>;
 
 /** CreditRelayRemoveResponse defines the response schema for `/credit/relay/remove` */
 export interface CreditRelayRemoveResponse {
@@ -32871,9 +31717,7 @@ export const RemoveItemRequest = /*@__PURE__*/ S.suspend(() =>
     reason_code: S.optional(S.NullOr(ItemRemoveReasonCode)),
     reason_note: S.optional(S.NullOr(S.String)),
   }).pipe(T.Http({ method: "POST", uri: "/item/remove", code: 200 })),
-).annotate({
-  identifier: "RemoveItemRequest",
-}) as any as S.Schema<RemoveItemRequest>;
+).annotate({ identifier: "RemoveItemRequest" }) as any as S.Schema<RemoveItemRequest>;
 
 /** ItemRemoveResponse defines the response schema for `/item/remove` */
 export interface ItemRemoveResponse {
@@ -32883,9 +31727,7 @@ export const ItemRemoveResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     request_id: S.String,
   }),
-).annotate({
-  identifier: "ItemRemoveResponse",
-}) as any as S.Schema<ItemRemoveResponse>;
+).annotate({ identifier: "ItemRemoveResponse" }) as any as S.Schema<ItemRemoveResponse>;
 
 export interface RemovePartnerCustomerRequest {
   client_id?: string;
@@ -32929,13 +31771,7 @@ export const RemoveTransactionsRuleRequest = /*@__PURE__*/ S.suspend(() =>
     secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
     client_user_id: S.String,
     rule_id: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/beta/transactions/rules/v1/remove",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/beta/transactions/rules/v1/remove", code: 200 })),
 ).annotate({
   identifier: "RemoveTransactionsRuleRequest",
 }) as any as S.Schema<RemoveTransactionsRuleRequest>;
@@ -32965,9 +31801,7 @@ export const RemoveUserRequest = /*@__PURE__*/ S.suspend(() =>
     user_id: S.optional(S.String),
     user_token: S.optional(S.String),
   }).pipe(T.Http({ method: "POST", uri: "/user/remove", code: 200 })),
-).annotate({
-  identifier: "RemoveUserRequest",
-}) as any as S.Schema<RemoveUserRequest>;
+).annotate({ identifier: "RemoveUserRequest" }) as any as S.Schema<RemoveUserRequest>;
 
 /** UserRemoveResponse defines the response schema for `/user/remove` */
 export interface UserRemoveResponse {
@@ -32977,9 +31811,7 @@ export const UserRemoveResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     request_id: S.String,
   }),
-).annotate({
-  identifier: "UserRemoveResponse",
-}) as any as S.Schema<UserRemoveResponse>;
+).annotate({ identifier: "UserRemoveResponse" }) as any as S.Schema<UserRemoveResponse>;
 
 export interface RemoveUserIdentityRequest {
   client_id?: string;
@@ -33030,9 +31862,7 @@ export const RemoveUserItemRequest = /*@__PURE__*/ S.suspend(() =>
     user_id: S.optional(S.String),
     item_ids: RemoveUserItemRequestItemIdsList,
   }).pipe(T.Http({ method: "POST", uri: "/user/items/remove", code: 200 })),
-).annotate({
-  identifier: "RemoveUserItemRequest",
-}) as any as S.Schema<RemoveUserItemRequest>;
+).annotate({ identifier: "RemoveUserItemRequest" }) as any as S.Schema<RemoveUserItemRequest>;
 
 /** UserItemsRemoveResponse defines the response schema for `/user/items/remove` */
 export interface UserItemsRemoveResponse {
@@ -33042,9 +31872,7 @@ export const UserItemsRemoveResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     request_id: S.String,
   }),
-).annotate({
-  identifier: "UserItemsRemoveResponse",
-}) as any as S.Schema<UserItemsRemoveResponse>;
+).annotate({ identifier: "UserItemsRemoveResponse" }) as any as S.Schema<UserItemsRemoveResponse>;
 
 export interface RemoveUserThirdPartyTokenRequest {
   client_id?: string;
@@ -33056,13 +31884,7 @@ export const RemoveUserThirdPartyTokenRequest = /*@__PURE__*/ S.suspend(() =>
     client_id: S.optional(S.String),
     secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
     third_party_user_token: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/user/third_party_token/remove",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/user/third_party_token/remove", code: 200 })),
 ).annotate({
   identifier: "RemoveUserThirdPartyTokenRequest",
 }) as any as S.Schema<RemoveUserThirdPartyTokenRequest>;
@@ -33225,16 +32047,8 @@ export const RevokeFdxConsentRequest = /*@__PURE__*/ S.suspend(() =>
     reason: FDXUpdateReason,
     otherReason: S.optional(S.String),
     updatedTime: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/fdx/consents/{consentId}/revocation",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "RevokeFdxConsentRequest",
-}) as any as S.Schema<RevokeFdxConsentRequest>;
+  }).pipe(T.Http({ method: "PUT", uri: "/fdx/consents/{consentId}/revocation", code: 200 })),
+).annotate({ identifier: "RevokeFdxConsentRequest" }) as any as S.Schema<RevokeFdxConsentRequest>;
 
 export interface RevokeFdxConsentResponse {}
 export const RevokeFdxConsentResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -33254,9 +32068,7 @@ export const RevokeOauthRequest = /*@__PURE__*/ S.suspend(() =>
     client_secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
     secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
   }).pipe(T.Http({ method: "POST", uri: "/oauth/revoke", code: 200 })),
-).annotate({
-  identifier: "RevokeOauthRequest",
-}) as any as S.Schema<RevokeOauthRequest>;
+).annotate({ identifier: "RevokeOauthRequest" }) as any as S.Schema<RevokeOauthRequest>;
 
 /** Successful OAuth token revoke response */
 export interface OAuthRevokeResponse {
@@ -33266,9 +32078,7 @@ export const OAuthRevokeResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     request_id: S.String,
   }),
-).annotate({
-  identifier: "OAuthRevokeResponse",
-}) as any as S.Schema<OAuthRevokeResponse>;
+).annotate({ identifier: "OAuthRevokeResponse" }) as any as S.Schema<OAuthRevokeResponse>;
 
 export interface RevokePaymentInitiationConsentRequest {
   client_id?: string;
@@ -33281,13 +32091,7 @@ export const RevokePaymentInitiationConsentRequest = /*@__PURE__*/ S.suspend(() 
     client_id: S.optional(S.String),
     secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
     consent_id: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/payment_initiation/consent/revoke",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/payment_initiation/consent/revoke", code: 200 })),
 ).annotate({
   identifier: "RevokePaymentInitiationConsentRequest",
 }) as any as S.Schema<RevokePaymentInitiationConsentRequest>;
@@ -33304,13 +32108,14 @@ export const PaymentInitiationConsentRevokeResponse = /*@__PURE__*/ S.suspend(()
   identifier: "PaymentInitiationConsentRevokeResponse",
 }) as any as S.Schema<PaymentInitiationConsentRevokeResponse>;
 
-/** If set, skip report generation and instead fire a `CRA_REPORT_UPDATED` error webhook carrying this code. */
+/** If set, skip report generation and instead fire a `CRA_REPORT_UPDATED` error webhook carrying this code. The accepted values depend on the `scope` of the subscription being simulated, since a simulation can only fire a webhook that scope would send in Production. A `CLIENT_USER` subscription accepts `USER_NOT_FOUND` and `PRODUCT_GENERATION_FAILED`; a `PLAID_NETWORK` subscription accepts `UNMATCH`, `DATA_UNAVAILABLE`, `NO_ELIGIBLE_ITEMS_ON_PROFILE`, and `PRODUCT_GENERATION_ERROR`. Supplying a code that does not match the subscription's scope returns an `INVALID_FIELD` error. */
 export type SandboxCraServicingSimulateErrorWebhookCode =
   | "USER_NOT_FOUND"
   | "PRODUCT_GENERATION_FAILED"
   | "UNMATCH"
   | "DATA_UNAVAILABLE"
-  | "NO_ELIGIBLE_ITEMS_ON_PROFILE";
+  | "NO_ELIGIBLE_ITEMS_ON_PROFILE"
+  | "PRODUCT_GENERATION_ERROR";
 export const SandboxCraServicingSimulateErrorWebhookCode = S.String;
 
 /** Optional parameters controlling the simulated report. */
@@ -33333,6 +32138,8 @@ export interface SandboxCraServicingSimulateRequest {
   secret?: string | Redacted.Redacted<string>;
   /** The Servicing subscription to simulate an update for. Upon calling this endpoint, Plaid will simulate a report creation for all products referenced by this subscription ID. */
   subscription_id: string;
+  /** The user to simulate an update for, in place of a `subscription_id`. */
+  user_id?: string;
   options?: SandboxCraServicingSimulateRequestOptions | null;
 }
 export const SandboxCraServicingSimulateRequest = /*@__PURE__*/ S.suspend(() =>
@@ -33340,14 +32147,9 @@ export const SandboxCraServicingSimulateRequest = /*@__PURE__*/ S.suspend(() =>
     client_id: S.optional(S.String),
     secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
     subscription_id: S.String,
+    user_id: S.optional(S.String),
     options: S.optional(S.NullOr(SandboxCraServicingSimulateRequestOptions)),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/sandbox/cra/servicing/simulate",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/sandbox/cra/servicing/simulate", code: 200 })),
 ).annotate({
   identifier: "SandboxCraServicingSimulateRequest",
 }) as any as S.Schema<SandboxCraServicingSimulateRequest>;
@@ -33469,13 +32271,7 @@ export const SandboxItemApplicationSeedRequest = /*@__PURE__*/ S.suspend(() =>
     secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
     access_token: S.String.pipe(T.SensitiveValue({})),
     application_id: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/sandbox/item/application/seed",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/sandbox/item/application/seed", code: 200 })),
 ).annotate({
   identifier: "SandboxItemApplicationSeedRequest",
 }) as any as S.Schema<SandboxItemApplicationSeedRequest>;
@@ -33522,6 +32318,19 @@ export type SandboxItemFireWebhookRequestWebhookCode =
   | "ERROR";
 export const SandboxItemFireWebhookRequestWebhookCode = S.String;
 
+/** Values to set on the fired webhook's payload. Each field is named after the webhook field it sets. If specified, must not be `null`. */
+export interface SandboxItemFireWebhookRequestOptions {
+  /** The value to send as `new_transactions` in a `TRANSACTIONS` `DEFAULT_UPDATE` webhook. Defaults to 0. Only valid when `webhook_type` is `TRANSACTIONS` and `webhook_code` is `DEFAULT_UPDATE`. */
+  new_transactions?: number;
+}
+export const SandboxItemFireWebhookRequestOptions = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    new_transactions: S.optional(S.Number),
+  }),
+).annotate({
+  identifier: "SandboxItemFireWebhookRequestOptions",
+}) as any as S.Schema<SandboxItemFireWebhookRequestOptions>;
+
 export interface SandboxItemFireWebhookRequest {
   client_id?: string;
   secret?: string | Redacted.Redacted<string>;
@@ -33529,6 +32338,7 @@ export interface SandboxItemFireWebhookRequest {
   webhook_type?: WebhookType | (string & {});
   /** The webhook codes that can be fired by this test endpoint. */
   webhook_code: SandboxItemFireWebhookRequestWebhookCode | (string & {});
+  options?: SandboxItemFireWebhookRequestOptions;
 }
 export const SandboxItemFireWebhookRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -33537,6 +32347,7 @@ export const SandboxItemFireWebhookRequest = /*@__PURE__*/ S.suspend(() =>
     access_token: S.String.pipe(T.SensitiveValue({})),
     webhook_type: S.optional(WebhookType),
     webhook_code: SandboxItemFireWebhookRequestWebhookCode,
+    options: S.optional(SandboxItemFireWebhookRequestOptions),
   }).pipe(T.Http({ method: "POST", uri: "/sandbox/item/fire_webhook", code: 200 })),
 ).annotate({
   identifier: "SandboxItemFireWebhookRequest",
@@ -33609,13 +32420,7 @@ export const SandboxItemSetVerificationStatusRequest = /*@__PURE__*/ S.suspend((
     access_token: S.String.pipe(T.SensitiveValue({})),
     account_id: S.String,
     verification_status: SandboxItemSetVerificationStatusRequestVerificationStatus,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/sandbox/item/set_verification_status",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/sandbox/item/set_verification_status", code: 200 })),
 ).annotate({
   identifier: "SandboxItemSetVerificationStatusRequest",
 }) as any as S.Schema<SandboxItemSetVerificationStatusRequest>;
@@ -33645,21 +32450,13 @@ export const SandboxOauthSelectAccountsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     oauth_state_id: S.String,
     accounts: SandboxOauthSelectAccountsRequestAccountsList,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/sandbox/oauth/select_accounts",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/sandbox/oauth/select_accounts", code: 200 })),
 ).annotate({
   identifier: "SandboxOauthSelectAccountsRequest",
 }) as any as S.Schema<SandboxOauthSelectAccountsRequest>;
 
 /** Defines the response schema for `/sandbox/oauth/select_accounts` */
-export type SandboxOauthSelectAccountsResponse = {
-  [key: string]: unknown | undefined;
-};
+export type SandboxOauthSelectAccountsResponse = { [key: string]: unknown | undefined };
 export const SandboxOauthSelectAccountsResponse = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -33721,13 +32518,7 @@ export const SandboxTransferFireWebhookRequest = /*@__PURE__*/ S.suspend(() =>
     client_id: S.optional(S.String),
     secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
     webhook: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/sandbox/transfer/fire_webhook",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/sandbox/transfer/fire_webhook", code: 200 })),
 ).annotate({
   identifier: "SandboxTransferFireWebhookRequest",
 }) as any as S.Schema<SandboxTransferFireWebhookRequest>;
@@ -33766,13 +32557,7 @@ export const SandboxTransferLedgerDepositSimulateRequest = /*@__PURE__*/ S.suspe
     sweep_id: S.String,
     event_type: TransferLedgerSweepSimulateEventType,
     failure_reason: S.optional(S.NullOr(TransferFailure)),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/sandbox/transfer/ledger/deposit/simulate",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/sandbox/transfer/ledger/deposit/simulate", code: 200 })),
 ).annotate({
   identifier: "SandboxTransferLedgerDepositSimulateRequest",
 }) as any as S.Schema<SandboxTransferLedgerDepositSimulateRequest>;
@@ -33810,11 +32595,7 @@ export const SandboxTransferLedgerSimulateAvailableRequest = /*@__PURE__*/ S.sus
     test_clock_id: S.optional(S.NullOr(S.String)),
     webhook: S.optional(S.String),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/sandbox/transfer/ledger/simulate_available",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/sandbox/transfer/ledger/simulate_available", code: 200 }),
   ),
 ).annotate({
   identifier: "SandboxTransferLedgerSimulateAvailableRequest",
@@ -33846,13 +32627,7 @@ export const SandboxTransferLedgerWithdrawSimulateRequest = /*@__PURE__*/ S.susp
     sweep_id: S.String,
     event_type: TransferLedgerSweepSimulateEventType,
     failure_reason: S.optional(S.NullOr(TransferFailure)),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/sandbox/transfer/ledger/withdraw/simulate",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/sandbox/transfer/ledger/withdraw/simulate", code: 200 })),
 ).annotate({
   identifier: "SandboxTransferLedgerWithdrawSimulateRequest",
 }) as any as S.Schema<SandboxTransferLedgerWithdrawSimulateRequest>;
@@ -33890,13 +32665,7 @@ export const SandboxTransferRefundSimulateRequest = /*@__PURE__*/ S.suspend(() =
     event_type: S.String,
     failure_reason: S.optional(S.NullOr(TransferFailure)),
     webhook: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/sandbox/transfer/refund/simulate",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/sandbox/transfer/refund/simulate", code: 200 })),
 ).annotate({
   identifier: "SandboxTransferRefundSimulateRequest",
 }) as any as S.Schema<SandboxTransferRefundSimulateRequest>;
@@ -33921,13 +32690,7 @@ export const SandboxTransferRepaymentSimulateRequest = /*@__PURE__*/ S.suspend((
   S.Struct({
     client_id: S.optional(S.String),
     secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/sandbox/transfer/repayment/simulate",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/sandbox/transfer/repayment/simulate", code: 200 })),
 ).annotate({
   identifier: "SandboxTransferRepaymentSimulateRequest",
 }) as any as S.Schema<SandboxTransferRepaymentSimulateRequest>;
@@ -33996,13 +32759,7 @@ export const SandboxTransferSweepSimulateRequest = /*@__PURE__*/ S.suspend(() =>
     secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
     test_clock_id: S.optional(S.NullOr(S.String)),
     webhook: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/sandbox/transfer/sweep/simulate",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/sandbox/transfer/sweep/simulate", code: 200 })),
 ).annotate({
   identifier: "SandboxTransferSweepSimulateRequest",
 }) as any as S.Schema<SandboxTransferSweepSimulateRequest>;
@@ -34037,13 +32794,7 @@ export const SandboxTransferTestClockAdvanceRequest = /*@__PURE__*/ S.suspend(()
     secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
     test_clock_id: S.String,
     new_virtual_time: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/sandbox/transfer/test_clock/advance",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/sandbox/transfer/test_clock/advance", code: 200 })),
 ).annotate({
   identifier: "SandboxTransferTestClockAdvanceRequest",
 }) as any as S.Schema<SandboxTransferTestClockAdvanceRequest>;
@@ -34221,9 +32972,7 @@ export const SearchInstitutionRequest = /*@__PURE__*/ S.suspend(() =>
     country_codes: SearchInstitutionRequestCountryCodesList,
     options: S.optional(InstitutionsSearchRequestOptions),
   }).pipe(T.Http({ method: "POST", uri: "/institutions/search", code: 200 })),
-).annotate({
-  identifier: "SearchInstitutionRequest",
-}) as any as S.Schema<SearchInstitutionRequest>;
+).annotate({ identifier: "SearchInstitutionRequest" }) as any as S.Schema<SearchInstitutionRequest>;
 
 /** An array of institutions matching the search criteria */
 export type InstitutionsSearchResponseInstitutionsList = Array<Institution>;
@@ -34264,9 +33013,7 @@ export const SearchIssueRequest = /*@__PURE__*/ S.suspend(() =>
     link_session_id: S.optional(S.String),
     link_session_request_id: S.optional(S.String),
   }).pipe(T.Http({ method: "POST", uri: "/issues/search", code: 200 })),
-).annotate({
-  identifier: "SearchIssueRequest",
-}) as any as S.Schema<SearchIssueRequest>;
+).annotate({ identifier: "SearchIssueRequest" }) as any as S.Schema<SearchIssueRequest>;
 
 /** A list of issues affecting the Item, session, or request passed in, conforming to the Issues data model. An empty list indicates that no matching issues were found. */
 export type IssuesSearchResponseIssuesList = Array<Issue>;
@@ -34285,9 +33032,7 @@ export const IssuesSearchResponse = /*@__PURE__*/ S.suspend(() =>
     issues: S.optional(IssuesSearchResponseIssuesList),
     request_id: S.optional(S.String),
   }),
-).annotate({
-  identifier: "IssuesSearchResponse",
-}) as any as S.Schema<IssuesSearchResponse>;
+).annotate({ identifier: "IssuesSearchResponse" }) as any as S.Schema<IssuesSearchResponse>;
 
 /** Event data for user account session tracking */
 export interface UserAccountSessionEvent {
@@ -34304,9 +33049,7 @@ export const UserAccountSessionEvent = /*@__PURE__*/ S.suspend(() =>
     timestamp: S.String,
     outcome: S.optional(S.String),
   }),
-).annotate({
-  identifier: "UserAccountSessionEvent",
-}) as any as S.Schema<UserAccountSessionEvent>;
+).annotate({ identifier: "UserAccountSessionEvent" }) as any as S.Schema<UserAccountSessionEvent>;
 
 export interface SendUserAccountSessionEventRequest {
   client_id?: string;
@@ -34324,13 +33067,7 @@ export const SendUserAccountSessionEventRequest = /*@__PURE__*/ S.suspend(() =>
     cohort_id: S.optional(S.String),
     link_session_id: S.String,
     event: UserAccountSessionEvent,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/user_account/session/event/send",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/user_account/session/event/send", code: 200 })),
 ).annotate({
   identifier: "SendUserAccountSessionEventRequest",
 }) as any as S.Schema<SendUserAccountSessionEventRequest>;
@@ -34366,13 +33103,7 @@ export const SetProcessorTokenPermissionsRequest = /*@__PURE__*/ S.suspend(() =>
     secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
     processor_token: S.String,
     products: SetProcessorTokenPermissionsRequestProductsList,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/processor/token/permissions/set",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/processor/token/permissions/set", code: 200 })),
 ).annotate({
   identifier: "SetProcessorTokenPermissionsRequest",
 }) as any as S.Schema<SetProcessorTokenPermissionsRequest>;
@@ -34475,9 +33206,7 @@ export const SignalEvaluateRequest = /*@__PURE__*/ S.suspend(() =>
     risk_profile_key: S.optional(S.NullOr(S.String)),
     ruleset_key: S.optional(S.NullOr(S.String)),
   }).pipe(T.Http({ method: "POST", uri: "/signal/evaluate", code: 200 })),
-).annotate({
-  identifier: "SignalEvaluateRequest",
-}) as any as S.Schema<SignalEvaluateRequest>;
+).annotate({ identifier: "SignalEvaluateRequest" }) as any as S.Schema<SignalEvaluateRequest>;
 
 /** RiskProfile is deprecated, use `ruleset` instead. */
 export interface RiskProfile {
@@ -34518,9 +33247,7 @@ export const SignalEvaluateResponse = /*@__PURE__*/ S.suspend(() =>
     ruleset: S.optional(S.NullOr(Ruleset)),
     warnings: SignalEvaluateResponseWarningsList,
   }),
-).annotate({
-  identifier: "SignalEvaluateResponse",
-}) as any as S.Schema<SignalEvaluateResponse>;
+).annotate({ identifier: "SignalEvaluateResponse" }) as any as S.Schema<SignalEvaluateResponse>;
 
 export interface SignalPrepareRequest {
   client_id?: string;
@@ -34533,9 +33260,7 @@ export const SignalPrepareRequest = /*@__PURE__*/ S.suspend(() =>
     secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
     access_token: S.String.pipe(T.SensitiveValue({})),
   }).pipe(T.Http({ method: "POST", uri: "/signal/prepare", code: 200 })),
-).annotate({
-  identifier: "SignalPrepareRequest",
-}) as any as S.Schema<SignalPrepareRequest>;
+).annotate({ identifier: "SignalPrepareRequest" }) as any as S.Schema<SignalPrepareRequest>;
 
 /** SignalPrepareResponse defines the response schema for `/signal/prepare` */
 export interface SignalPrepareResponse {
@@ -34545,9 +33270,7 @@ export const SignalPrepareResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     request_id: S.String,
   }),
-).annotate({
-  identifier: "SignalPrepareResponse",
-}) as any as S.Schema<SignalPrepareResponse>;
+).annotate({ identifier: "SignalPrepareResponse" }) as any as S.Schema<SignalPrepareResponse>;
 
 export interface SignalReturnReportRequest {
   client_id?: string;
@@ -34612,9 +33335,7 @@ export const SignalScheduleRequest = /*@__PURE__*/ S.suspend(() =>
     amount: S.Number,
     default_payment_method: S.optional(SignalScheduleDefaultPaymentMethod),
   }).pipe(T.Http({ method: "POST", uri: "/signal/schedule", code: 200 })),
-).annotate({
-  identifier: "SignalScheduleRequest",
-}) as any as S.Schema<SignalScheduleRequest>;
+).annotate({ identifier: "SignalScheduleRequest" }) as any as S.Schema<SignalScheduleRequest>;
 
 /** The recommendation result for that date. */
 export type RecommendationString = "RECOMMENDED" | "NOT_RECOMMENDED" | "UNKNOWN";
@@ -34667,9 +33388,7 @@ export const SignalScheduleResponse = /*@__PURE__*/ S.suspend(() =>
     warnings: SignalScheduleResponseWarningsList,
     request_id: S.String,
   }),
-).annotate({
-  identifier: "SignalScheduleResponse",
-}) as any as S.Schema<SignalScheduleResponse>;
+).annotate({ identifier: "SignalScheduleResponse" }) as any as S.Schema<SignalScheduleResponse>;
 
 /** The originator's expected transfer frequency. */
 export type OriginatorExpectedTransferFrequency =
@@ -34779,9 +33498,7 @@ export const TransferFundingAccount = /*@__PURE__*/ S.suspend(() =>
     access_token: S.String.pipe(T.SensitiveValue({})),
     account_id: S.String,
   }),
-).annotate({
-  identifier: "TransferFundingAccount",
-}) as any as S.Schema<TransferFundingAccount>;
+).annotate({ identifier: "TransferFundingAccount" }) as any as S.Schema<TransferFundingAccount>;
 
 /** The diligence information for the originator. */
 export interface TransferOriginatorDiligence {
@@ -34884,13 +33601,7 @@ export const SubmitTransferPlatformRequirementRequest = /*@__PURE__*/ S.suspend(
     secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
     originator_client_id: S.String,
     requirement_submissions: SubmitTransferPlatformRequirementRequestRequirementSubmissionsList,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/transfer/platform/requirement/submit",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/transfer/platform/requirement/submit", code: 200 })),
 ).annotate({
   identifier: "SubmitTransferPlatformRequirementRequest",
 }) as any as S.Schema<SubmitTransferPlatformRequirementRequest>;
@@ -34938,62 +33649,6 @@ export const BetaIssuesV1SubscribeResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "BetaIssuesV1SubscribeResponse",
 }) as any as S.Schema<BetaIssuesV1SubscribeResponse>;
 
-/** Income categories to include in Cash Flow Updates. If empty or `null`, this field will default to including all possible categories. */
-export type SubscribeCraMonitoringInsightRequestIncomeCategoriesList = Array<
-  CreditBankIncomeCategory | (string & {})
->;
-export const SubscribeCraMonitoringInsightRequestIncomeCategoriesList = /*@__PURE__*/ S.Array(
-  CreditBankIncomeCategory,
-) as any as S.Schema<SubscribeCraMonitoringInsightRequestIncomeCategoriesList>;
-
-export interface SubscribeCraMonitoringInsightRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
-  user_id?: string;
-  /** The Item ID to subscribe for Cash Flow Updates. */
-  item_id?: string;
-  /** URL to which Plaid will send Cash Flow Updates webhooks, for example when the requested Cash Flow Updates report is ready. */
-  webhook: string;
-  /** Income categories to include in Cash Flow Updates. If empty or `null`, this field will default to including all possible categories. */
-  income_categories?: SubscribeCraMonitoringInsightRequestIncomeCategoriesList | null;
-  user_token?: string;
-}
-export const SubscribeCraMonitoringInsightRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    client_id: S.optional(S.String),
-    secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-    user_id: S.optional(S.String),
-    item_id: S.optional(S.String),
-    webhook: S.String,
-    income_categories: S.optional(
-      S.NullOr(SubscribeCraMonitoringInsightRequestIncomeCategoriesList),
-    ),
-    user_token: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/cra/monitoring_insights/subscribe",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "SubscribeCraMonitoringInsightRequest",
-}) as any as S.Schema<SubscribeCraMonitoringInsightRequest>;
-
-/** CraMonitoringInsightsSubscribeResponse defines the response schema for `/cra/monitoring_insights/subscribe` */
-export interface CraMonitoringInsightsSubscribeResponse {
-  request_id: string;
-  subscription_id: string;
-}
-export const CraMonitoringInsightsSubscribeResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    request_id: S.String,
-    subscription_id: S.String,
-  }),
-).annotate({
-  identifier: "CraMonitoringInsightsSubscribeResponse",
-}) as any as S.Schema<CraMonitoringInsightsSubscribeResponse>;
-
 export interface SubscribeIssueRequest {
   client_id?: string;
   secret?: string | Redacted.Redacted<string>;
@@ -35009,9 +33664,7 @@ export const SubscribeIssueRequest = /*@__PURE__*/ S.suspend(() =>
     issue_id: S.String,
     webhook: S.String,
   }).pipe(T.Http({ method: "POST", uri: "/issues/subscribe", code: 200 })),
-).annotate({
-  identifier: "SubscribeIssueRequest",
-}) as any as S.Schema<SubscribeIssueRequest>;
+).annotate({ identifier: "SubscribeIssueRequest" }) as any as S.Schema<SubscribeIssueRequest>;
 
 /** IssuesSubscribeResponse defines the response schema for `/issues/subscribe`. */
 export interface IssuesSubscribeResponse {
@@ -35021,9 +33674,7 @@ export const IssuesSubscribeResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     request_id: S.String,
   }),
-).annotate({
-  identifier: "IssuesSubscribeResponse",
-}) as any as S.Schema<IssuesSubscribeResponse>;
+).annotate({ identifier: "IssuesSubscribeResponse" }) as any as S.Schema<IssuesSubscribeResponse>;
 
 export interface SyncBankTransferEventRequest {
   client_id?: string;
@@ -35176,9 +33827,7 @@ export const AccountBaseNullable = /*@__PURE__*/ S.suspend(() =>
     apy: S.optional(S.NullOr(S.Number)),
     holder_category: S.optional(S.NullOr(AccountHolderCategory)),
   }),
-).annotate({
-  identifier: "AccountBaseNullable",
-}) as any as S.Schema<AccountBaseNullable>;
+).annotate({ identifier: "AccountBaseNullable" }) as any as S.Schema<AccountBaseNullable>;
 
 /** Transactions that have been added to the Item since `cursor` ordered by ascending last modified time. */
 export type ProcessorTransactionsSyncResponseAddedList = Array<Transaction>;
@@ -35204,9 +33853,7 @@ export const RemovedTransaction = /*@__PURE__*/ S.suspend(() =>
     transaction_id: S.String,
     account_id: S.String,
   }),
-).annotate({
-  identifier: "RemovedTransaction",
-}) as any as S.Schema<RemovedTransaction>;
+).annotate({ identifier: "RemovedTransaction" }) as any as S.Schema<RemovedTransaction>;
 
 /** Transactions that have been removed from the Item since `cursor` ordered by ascending last modified time. */
 export type ProcessorTransactionsSyncResponseRemovedList = Array<RemovedTransaction>;
@@ -35264,9 +33911,7 @@ export const SyncTransactionRequest = /*@__PURE__*/ S.suspend(() =>
     count: S.optional(S.Number),
     options: S.optional(TransactionsSyncRequestOptions),
   }).pipe(T.Http({ method: "POST", uri: "/transactions/sync", code: 200 })),
-).annotate({
-  identifier: "SyncTransactionRequest",
-}) as any as S.Schema<SyncTransactionRequest>;
+).annotate({ identifier: "SyncTransactionRequest" }) as any as S.Schema<SyncTransactionRequest>;
 
 /** An array of accounts at a financial institution associated with the transactions in this response. Only accounts that have associated transactions will be shown. For example, `investment`-type accounts will be omitted. */
 export type TransactionsSyncResponseAccountsList = Array<AccountBase>;
@@ -35320,9 +33965,7 @@ export const TransactionsSyncResponse = /*@__PURE__*/ S.suspend(() =>
     has_more: S.Boolean,
     request_id: S.String,
   }),
-).annotate({
-  identifier: "TransactionsSyncResponse",
-}) as any as S.Schema<TransactionsSyncResponse>;
+).annotate({ identifier: "TransactionsSyncResponse" }) as any as S.Schema<TransactionsSyncResponse>;
 
 /** The reason for terminating products. `FRAUD_FIRST_PARTY`: The end user who owns the connected bank account committed fraud using their real identity `FRAUD_FALSE_IDENTITY`: The connection was created using a false or stolen identity `FRAUD_ABUSE`: The end user is abusing the client's service or platform (for example, automation or excessive retries) through their connected account `FRAUD_OTHER`: Fraud-related, but not covered by the specific fraud categories above; `reason_note` should clarify `FRAUD_TRANSACTION`: Fraud occurred at the transaction level, such as an unauthorized transaction, card testing, chargeback, ACH return, or dispute `CONSUMER_LOAN_PAID_OFF`: The end user paid off their loan and no longer needs the product `CONSUMER_ACCOUNT_CLOSED`: The end user closed their account with the client and no longer needs the product `CONSUMER_CHARGE_OFF`: The end user's account has been charged off `CONSUMER_PAYMENT_METHOD_SWITCHED`: The end user switched to a different payment method and no longer needs the product `USER_OFFBOARDING`: The user is offboarding from the client's service or platform `DUPLICATE_ITEM`: This Item is a duplicate of another active Item for the same user `BILLING_TERMINATION`: The client's billing or subscription relationship with the end user has ended `OTHER`: None of the above; `reason_note` should clarify */
 export type ProductsTerminateReasonCode =
@@ -35827,9 +34470,7 @@ export const TransferEventSyncRequest = /*@__PURE__*/ S.suspend(() =>
     after_id: S.Number,
     count: S.optional(S.NullOr(S.Number)),
   }).pipe(T.Http({ method: "POST", uri: "/transfer/event/sync", code: 200 })),
-).annotate({
-  identifier: "TransferEventSyncRequest",
-}) as any as S.Schema<TransferEventSyncRequest>;
+).annotate({ identifier: "TransferEventSyncRequest" }) as any as S.Schema<TransferEventSyncRequest>;
 
 export type TransferEventSyncResponseTransferEventsList = Array<TransferEvent>;
 export const TransferEventSyncResponseTransferEventsList = /*@__PURE__*/ S.Array(
@@ -36099,9 +34740,7 @@ export const CraLoanUnregister = /*@__PURE__*/ S.suspend(() =>
     loan_id: S.String,
     closed_with_status: CraLoanOpenedStatus,
   }),
-).annotate({
-  identifier: "CraLoanUnregister",
-}) as any as S.Schema<CraLoanUnregister>;
+).annotate({ identifier: "CraLoanUnregister" }) as any as S.Schema<CraLoanUnregister>;
 
 /** A list of loans to unregister. */
 export type UnregisterCraLoanRequestLoansList = Array<CraLoanUnregister>;
@@ -36121,9 +34760,7 @@ export const UnregisterCraLoanRequest = /*@__PURE__*/ S.suspend(() =>
     secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
     loans: UnregisterCraLoanRequestLoansList,
   }).pipe(T.Http({ method: "POST", uri: "/cra/loans/unregister", code: 200 })),
-).annotate({
-  identifier: "UnregisterCraLoanRequest",
-}) as any as S.Schema<UnregisterCraLoanRequest>;
+).annotate({ identifier: "UnregisterCraLoanRequest" }) as any as S.Schema<UnregisterCraLoanRequest>;
 
 /** CraLoanUnregisterResponse defines the response schema for `/cra/loans/unregister`. */
 export interface CraLoanUnregisterResponse {
@@ -36165,39 +34802,6 @@ export const BetaIssuesV1UnsubscribeResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "BetaIssuesV1UnsubscribeResponse",
 }) as any as S.Schema<BetaIssuesV1UnsubscribeResponse>;
 
-export interface UnsubscribeCraMonitoringInsightRequest {
-  client_id?: string;
-  secret?: string | Redacted.Redacted<string>;
-  subscription_id: string;
-}
-export const UnsubscribeCraMonitoringInsightRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    client_id: S.optional(S.String),
-    secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-    subscription_id: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/cra/monitoring_insights/unsubscribe",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "UnsubscribeCraMonitoringInsightRequest",
-}) as any as S.Schema<UnsubscribeCraMonitoringInsightRequest>;
-
-/** CraMonitoringInsightsUnsubscribeResponse defines the response schema for `/cra/monitoring_insights/unsubscribe` */
-export interface CraMonitoringInsightsUnsubscribeResponse {
-  request_id: string;
-}
-export const CraMonitoringInsightsUnsubscribeResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    request_id: S.String,
-  }),
-).annotate({
-  identifier: "CraMonitoringInsightsUnsubscribeResponse",
-}) as any as S.Schema<CraMonitoringInsightsUnsubscribeResponse>;
-
 export type UpdateBetaPartnerCustomerV1RequestRedirectUrisList = Array<string>;
 export const UpdateBetaPartnerCustomerV1RequestRedirectUrisList = /*@__PURE__*/ S.Array(
   S.String,
@@ -36221,13 +34825,7 @@ export const UpdateBetaPartnerCustomerV1Request = /*@__PURE__*/ S.suspend(() =>
     redirect_uris: S.optional(UpdateBetaPartnerCustomerV1RequestRedirectUrisList),
     bank_addendum_acceptance: S.optional(PartnerEndCustomerBankAddendumAcceptance),
     questionnaires: S.optional(PartnerEndCustomerQuestionnaires),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/beta/partner/customer/v1/update",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/beta/partner/customer/v1/update", code: 200 })),
 ).annotate({
   identifier: "UpdateBetaPartnerCustomerV1Request",
 }) as any as S.Schema<UpdateBetaPartnerCustomerV1Request>;
@@ -36277,9 +34875,7 @@ export const CraLoanPaymentHistory = /*@__PURE__*/ S.suspend(() =>
     amount_past_due: S.optional(S.Number),
     balance_remaining: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "CraLoanPaymentHistory",
-}) as any as S.Schema<CraLoanPaymentHistory>;
+).annotate({ identifier: "CraLoanPaymentHistory" }) as any as S.Schema<CraLoanPaymentHistory>;
 
 /** The updates to the payment history for the loan. */
 export type CraLoanUpdatePaymentHistoryList = Array<CraLoanPaymentHistory>;
@@ -36321,9 +34917,7 @@ export const UpdateCraLoanRequest = /*@__PURE__*/ S.suspend(() =>
     secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
     loans: UpdateCraLoanRequestLoansList,
   }).pipe(T.Http({ method: "POST", uri: "/cra/loans/update", code: 200 })),
-).annotate({
-  identifier: "UpdateCraLoanRequest",
-}) as any as S.Schema<UpdateCraLoanRequest>;
+).annotate({ identifier: "UpdateCraLoanRequest" }) as any as S.Schema<UpdateCraLoanRequest>;
 
 /** CraLoansUpdateResponse defines the response schema for `/cra/loans/update`. */
 export interface CraLoansUpdateResponse {
@@ -36333,9 +34927,7 @@ export const CraLoansUpdateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     request_id: S.String,
   }),
-).annotate({
-  identifier: "CraLoansUpdateResponse",
-}) as any as S.Schema<CraLoansUpdateResponse>;
+).annotate({ identifier: "CraLoansUpdateResponse" }) as any as S.Schema<CraLoansUpdateResponse>;
 
 /** The products included in this subscription. If provided, this replaces the subscription's entire product list. */
 export type UpdateCraServicingSubscriptionRequestProductsList = Array<CraSubscriptionProductConfig>;
@@ -36373,13 +34965,7 @@ export const UpdateCraServicingSubscriptionRequest = /*@__PURE__*/ S.suspend(() 
     webhook: S.optional(S.String),
     products: S.optional(UpdateCraServicingSubscriptionRequestProductsList),
     reset_fields: S.optional(S.NullOr(CraServicingSubscriptionUpdateRequestResettableFieldList)),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/cra/servicing/subscription/update",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/cra/servicing/subscription/update", code: 200 })),
 ).annotate({
   identifier: "UpdateCraServicingSubscriptionRequest",
 }) as any as S.Schema<UpdateCraServicingSubscriptionRequest>;
@@ -36413,13 +34999,7 @@ export const UpdateCreditBankIncomeWebhookRequest = /*@__PURE__*/ S.suspend(() =
     user_token: S.String,
     user_id: S.optional(S.String),
     enable_webhooks: S.Boolean,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/credit/bank_income/webhook/update",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/credit/bank_income/webhook/update", code: 200 })),
 ).annotate({
   identifier: "UpdateCreditBankIncomeWebhookRequest",
 }) as any as S.Schema<UpdateCreditBankIncomeWebhookRequest>;
@@ -36462,11 +35042,7 @@ export const UpdateCreditPayrollIncomeParsingConfigRequest = /*@__PURE__*/ S.sus
     item_id: S.optional(S.String),
     parsing_config: UpdateCreditPayrollIncomeParsingConfigRequestParsingConfigList,
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/credit/payroll_income/parsing_config/update",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/credit/payroll_income/parsing_config/update", code: 200 }),
   ),
 ).annotate({
   identifier: "UpdateCreditPayrollIncomeParsingConfigRequest",
@@ -36526,13 +35102,7 @@ export const UpdateItemApplicationScopeRequest = /*@__PURE__*/ S.suspend(() =>
     scopes: Scopes,
     state: S.optional(S.String),
     context: ScopesContext,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/item/application/scopes/update",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/item/application/scopes/update", code: 200 })),
 ).annotate({
   identifier: "UpdateItemApplicationScopeRequest",
 }) as any as S.Schema<UpdateItemApplicationScopeRequest>;
@@ -36563,9 +35133,7 @@ export const UpdateItemWebhookRequest = /*@__PURE__*/ S.suspend(() =>
     access_token: S.String.pipe(T.SensitiveValue({})),
     webhook: S.optional(S.NullOr(S.String)),
   }).pipe(T.Http({ method: "POST", uri: "/item/webhook/update", code: 200 })),
-).annotate({
-  identifier: "UpdateItemWebhookRequest",
-}) as any as S.Schema<UpdateItemWebhookRequest>;
+).annotate({ identifier: "UpdateItemWebhookRequest" }) as any as S.Schema<UpdateItemWebhookRequest>;
 
 /** ItemWebhookUpdateResponse defines the response schema for `/item/webhook/update` */
 export interface ItemWebhookUpdateResponse {
@@ -36594,13 +35162,7 @@ export const UpdateProcessorTokenWebhookRequest = /*@__PURE__*/ S.suspend(() =>
     secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
     processor_token: S.String,
     webhook: S.NullOr(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/processor/token/webhook/update",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/processor/token/webhook/update", code: 200 })),
 ).annotate({
   identifier: "UpdateProcessorTokenWebhookRequest",
 }) as any as S.Schema<UpdateProcessorTokenWebhookRequest>;
@@ -36648,13 +35210,7 @@ export const UpdateSandboxCraCashflowUpdateRequest = /*@__PURE__*/ S.suspend(() 
     user_token: S.optional(S.String),
     webhook_codes: S.optional(S.NullOr(UpdateSandboxCraCashflowUpdateRequestWebhookCodesList)),
     user_id: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/sandbox/cra/cashflow_updates/update",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/sandbox/cra/cashflow_updates/update", code: 200 })),
 ).annotate({
   identifier: "UpdateSandboxCraCashflowUpdateRequest",
 }) as any as S.Schema<UpdateSandboxCraCashflowUpdateRequest>;
@@ -36685,11 +35241,7 @@ export const UpdateTransferOriginatorFundingAccountRequest = /*@__PURE__*/ S.sus
     originator_client_id: S.String,
     funding_account: TransferFundingAccount,
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/transfer/originator/funding_account/update",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/transfer/originator/funding_account/update", code: 200 }),
   ),
 ).annotate({
   identifier: "UpdateTransferOriginatorFundingAccountRequest",
@@ -36724,9 +35276,7 @@ export const UpdateUserRequest = /*@__PURE__*/ S.suspend(() =>
     user_token: S.optional(S.String),
     consumer_report_user_identity: S.optional(S.NullOr(ConsumerReportUserIdentity)),
   }).pipe(T.Http({ method: "POST", uri: "/user/update", code: 200 })),
-).annotate({
-  identifier: "UpdateUserRequest",
-}) as any as S.Schema<UpdateUserRequest>;
+).annotate({ identifier: "UpdateUserRequest" }) as any as S.Schema<UpdateUserRequest>;
 
 /** UserUpdateResponse defines the response schema for `/user/update` */
 export interface UserUpdateResponse {
@@ -36736,9 +35286,7 @@ export const UserUpdateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     request_id: S.String,
   }),
-).annotate({
-  identifier: "UserUpdateResponse",
-}) as any as S.Schema<UserUpdateResponse>;
+).annotate({ identifier: "UserUpdateResponse" }) as any as S.Schema<UserUpdateResponse>;
 
 /** Search terms for editing an entity watchlist screening */
 export interface UpdateEntityScreeningRequestSearchTerms {
@@ -36796,13 +35344,7 @@ export const UpdateWatchlistScreeningEntityRequest = /*@__PURE__*/ S.suspend(() 
     client_id: S.optional(S.String),
     secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
     reset_fields: S.optional(S.NullOr(WatchlistScreeningEntityUpdateRequestResettableFieldList)),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/watchlist_screening/entity/update",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/watchlist_screening/entity/update", code: 200 })),
 ).annotate({
   identifier: "UpdateWatchlistScreeningEntityRequest",
 }) as any as S.Schema<UpdateWatchlistScreeningEntityRequest>;
@@ -36885,13 +35427,7 @@ export const UpdateWatchlistScreeningIndividualRequest = /*@__PURE__*/ S.suspend
     reset_fields: S.optional(
       S.NullOr(WatchlistScreeningIndividualUpdateRequestResettableFieldList),
     ),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/watchlist_screening/individual/update",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/watchlist_screening/individual/update", code: 200 })),
 ).annotate({
   identifier: "UpdateWatchlistScreeningIndividualRequest",
 }) as any as S.Schema<UpdateWatchlistScreeningIndividualRequest>;
@@ -36920,6 +35456,39 @@ export const WatchlistScreeningIndividualUpdateResponse = /*@__PURE__*/ S.suspen
   identifier: "WatchlistScreeningIndividualUpdateResponse",
 }) as any as S.Schema<WatchlistScreeningIndividualUpdateResponse>;
 
+/** The kind of feedback rows the file contains. */
+export type CashAdvanceFeedbackType = "DECISION" | "REPAYMENT";
+export const CashAdvanceFeedbackType = S.String;
+
+export interface UploadProtectCashAdvanceFeedbackRequest {
+  feedback_type: CashAdvanceFeedbackType | (string & {});
+  /** A CSV file of feedback rows. Maximum 20 MB. */
+  file: string;
+}
+export const UploadProtectCashAdvanceFeedbackRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    feedback_type: CashAdvanceFeedbackType,
+    file: S.String,
+  }).pipe(T.Http({ method: "POST", uri: "/protect/cash_advance/feedback/upload", code: 200 })),
+).annotate({
+  identifier: "UploadProtectCashAdvanceFeedbackRequest",
+}) as any as S.Schema<UploadProtectCashAdvanceFeedbackRequest>;
+
+/** Defines the response schema for `/protect/cash_advance/feedback/upload` */
+export interface ProtectCashAdvanceFeedbackUploadResponse {
+  request_id: string;
+  /** A unique identifier for the upload. Retain it: it is the identifier Plaid Support uses to look up this upload. */
+  upload_id: string;
+}
+export const ProtectCashAdvanceFeedbackUploadResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    request_id: S.String,
+    upload_id: S.String,
+  }),
+).annotate({
+  identifier: "ProtectCashAdvanceFeedbackUploadResponse",
+}) as any as S.Schema<ProtectCashAdvanceFeedbackUploadResponse>;
+
 /** Specifies the purpose of the uploaded file. `"DUE_DILIGENCE"` - The transfer due diligence document of the originator. */
 export type TransferDocumentPurpose = "DUE_DILIGENCE";
 export const TransferDocumentPurpose = S.String;
@@ -36936,13 +35505,7 @@ export const UploadTransferDiligenceDocumentRequest = /*@__PURE__*/ S.suspend(()
     originator_client_id: S.String,
     file: S.String,
     purpose: TransferDocumentPurpose,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/transfer/diligence/document/upload",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/transfer/diligence/document/upload", code: 200 })),
 ).annotate({
   identifier: "UploadTransferDiligenceDocumentRequest",
 }) as any as S.Schema<UploadTransferDiligenceDocumentRequest>;
@@ -37007,9 +35570,7 @@ export const AuthVerifyNumbersACH = /*@__PURE__*/ S.suspend(() =>
     account: S.String,
     routing: S.String,
   }),
-).annotate({
-  identifier: "AuthVerifyNumbersACH",
-}) as any as S.Schema<AuthVerifyNumbersACH>;
+).annotate({ identifier: "AuthVerifyNumbersACH" }) as any as S.Schema<AuthVerifyNumbersACH>;
 
 /** An object containing identifying account numbers for verification via Database Auth */
 export interface AuthVerifyRequestNumbers {
@@ -37019,9 +35580,7 @@ export const AuthVerifyRequestNumbers = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ach: AuthVerifyNumbersACH,
   }),
-).annotate({
-  identifier: "AuthVerifyRequestNumbers",
-}) as any as S.Schema<AuthVerifyRequestNumbers>;
+).annotate({ identifier: "AuthVerifyRequestNumbers" }) as any as S.Schema<AuthVerifyRequestNumbers>;
 
 export interface VerifyAuthRequest {
   client_id?: string;
@@ -37037,9 +35596,7 @@ export const VerifyAuthRequest = /*@__PURE__*/ S.suspend(() =>
     legal_name: S.optional(S.NullOr(S.String)),
     numbers: AuthVerifyRequestNumbers,
   }).pipe(T.Http({ method: "POST", uri: "/auth/verify", code: 200 })),
-).annotate({
-  identifier: "VerifyAuthRequest",
-}) as any as S.Schema<VerifyAuthRequest>;
+).annotate({ identifier: "VerifyAuthRequest" }) as any as S.Schema<VerifyAuthRequest>;
 
 /** AuthVerifyResponse defines the response schema for `/auth/verify` */
 export interface AuthVerifyResponse {
@@ -37057,9 +35614,7 @@ export const AuthVerifyResponse = /*@__PURE__*/ S.suspend(() =>
     verification_status: S.String,
     verification_insights: AccountVerificationInsights,
   }),
-).annotate({
-  identifier: "AuthVerifyResponse",
-}) as any as S.Schema<AuthVerifyResponse>;
+).annotate({ identifier: "AuthVerifyResponse" }) as any as S.Schema<AuthVerifyResponse>;
 
 export type AssetReportAuditCopyCreateError = PlaidOpError;
 /** Create Asset Report Audit Copy Plaid can provide an Audit Copy of any Asset Report directly to a participating third party on your behalf. For example, Plaid can supply an Audit Copy directly to the GSEs on your behalf if you participate in Fannie Mae's Day 1 Certainty™ program or utilize Freddie Mac's Loan Product Advisor® (LPA®) Asset and Income Modeler (AIM). An Audit Copy contains the same underlying data as the Asset Report. To grant access to an Audit Copy, use the `/asset_report/audit_copy/create` endpoint to create an `audit_copy_token` and then pass that token to the third party who needs access. Each third party has its own `auditor_id`, for example `fannie_mae`. You'll need to create a separate Audit Copy for each third party to whom you want to grant access to the Report. */
@@ -37266,6 +35821,21 @@ export const createCraCheckReport: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateCraCheckReportRequest,
   output: CraCheckReportCreateResponse,
+  errors: [UnknownPlaidError],
+  protocol: PlaidProtocol,
+  retry: Retry.Retry,
+}));
+
+export type CreateCraReportError = PlaidOpError;
+/** Create a CRA Report for provided user `/cra/report/create` generates a CRA Report for a user from the Items associated with that user. Each requested product is generated asynchronously. Use the returned `report_id` to retrieve the report once its products are ready. */
+export const createCraReport: API.OperationMethod<
+  CreateCraReportRequest,
+  CraReportCreateResponse,
+  CreateCraReportError,
+  PlaidOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateCraReportRequest,
+  output: CraReportCreateResponse,
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
@@ -37527,7 +36097,7 @@ export const createSandboxPublicToken: API.OperationMethod<
 }));
 
 export type CreateSandboxTransactionError = BadRequest | PlaidOpError;
-/** Create sandbox transactions Use the `/sandbox/transactions/create` endpoint to create new transactions for an existing Item. This endpoint can be used to add up to 10 transactions to any Item at a time. This endpoint can only be used with Items that were created in the Sandbox environment using the `user_transactions_dynamic` test user. You can use this to add transactions to test the `/transactions/get` and `/transactions/sync` endpoints. Custom transactions are only applied to the depository account. Support for per-account targeting may be added in the future. */
+/** Create sandbox transactions Use the `/sandbox/transactions/create` endpoint to create new transactions for an existing Item. This endpoint can be used to add up to 10 transactions to any Item at a time. This endpoint can be used with any Item created in the Sandbox environment. Added transactions persist across subsequent calls to `/transactions/get` and `/transactions/sync`. Each transaction is added to the account named by its `account_id`. When `account_id` is omitted, the transaction is added to the Item's checking account, or, for a custom Sandbox user, to the first depository account listed in its `override_accounts`, or its first account if it has no depository account. */
 export const createSandboxTransaction: API.OperationMethod<
   CreateSandboxTransactionRequest,
   SandboxTransactionsCreateResponse,
@@ -37722,7 +36292,7 @@ export const createTransferRecurring: API.OperationMethod<
 }));
 
 export type CreateTransferRefundError = PlaidOpError;
-/** Create a refund Use the `/transfer/refund/create` endpoint to create a refund for a transfer. A transfer can be refunded if the transfer was initiated in the past 180 days. Refunds come out of the available balance of the ledger used for the original debit transfer. If there are not enough funds in the available balance to cover the refund amount, the refund will be rejected. You can create a refund at any time. Plaid does not impose any hold time on refunds. A refund can still be issued even if the Item's `access_token` is no longer valid (e.g. if the user revoked OAuth consent or the Item was deleted via `/item/remove`), as long as the account and routing number pair used to make the original transaction is still valid. A refund cannot be issued if the Item has an [invalidated TAN](https://plaid.com/docs/auth/#tokenized-account-numbers), which can occur at Chase or PNC. */
+/** Create a refund Use the `/transfer/refund/create` endpoint to create a refund for a transfer. A transfer can be refunded if the transfer was initiated in the past 180 days. Refunds come out of the available balance of the ledger used for the original debit transfer. If there are not enough funds in the available balance to cover the refund amount, the refund will be rejected. Plaid does not impose a hold time before a refund can be created; you do not need to wait for the original transfer to settle. A refund can still be issued even if the Item's `access_token` is no longer valid (e.g. if the user revoked OAuth consent or the Item was deleted via `/item/remove`), as long as the account and routing number pair used to make the original transaction is still valid. A refund cannot be issued if the Item has an [invalidated TAN](https://plaid.com/docs/auth/#tokenized-account-numbers), which can occur at Chase or PNC. */
 export const createTransferRefund: API.OperationMethod<
   CreateTransferRefundRequest,
   TransferRefundCreateResponse,
@@ -38307,7 +36877,7 @@ export const getCraCheckReportPartnerInsight: API.OperationMethod<
 }));
 
 export type GetCraCheckReportPdfError = PlaidOpError;
-/** Retrieve a Consumer Report as a PDF `/cra/check_report/pdf/get` retrieves the most recent Consumer Report in PDF format. By default, the most recent Base Report (if it exists) for the user will be returned. To request that the most recent Partner Insights or Income Insights report be included in the PDF as well, use the `add-ons` field. */
+/** Retrieve a Consumer Report as a PDF `/cra/check_report/pdf/get` retrieves the most recent Consumer Report in PDF format. The most recent Base Report for the user is always included. Use the `add_ons` field to also include the most recent Income Insights, Partner Insights or LendScore report in the PDF. */
 export const getCraCheckReportPdf: API.OperationMethod<
   GetCraCheckReportPdfRequest,
   GetCraCheckReportPdfResponse,
@@ -38361,21 +36931,6 @@ export const getCraCreditProfileReport: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetCraCreditProfileReportRequest,
   output: CraCreditProfileReportGetResponse,
-  errors: [UnknownPlaidError],
-  protocol: PlaidProtocol,
-  retry: Retry.Retry,
-}));
-
-export type GetCraMonitoringInsightError = PlaidOpError;
-/** Retrieve a Monitoring Insights Report This endpoint allows you to retrieve a Cash Flow Updates report by passing in the `user_id` referred to in the webhook you received. */
-export const getCraMonitoringInsight: API.OperationMethod<
-  GetCraMonitoringInsightRequest,
-  CraMonitoringInsightsGetResponse,
-  GetCraMonitoringInsightError,
-  PlaidOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: GetCraMonitoringInsightRequest,
-  output: CraMonitoringInsightsGetResponse,
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
@@ -38787,7 +37342,7 @@ export const getItem: API.OperationMethod<
 }));
 
 export type GetLiabilityError = PlaidOpError;
-/** Retrieve Liabilities data The `/liabilities/get` endpoint returns various details about an Item with loan or credit accounts. Liabilities data is available primarily for US financial institutions, with some limited coverage of Canadian institutions. Supported account types are account type `credit` with account subtype `charge card`, `credit card`, or `paypal`; and account type `loan` with account subtype `auto`, `commercial`, `commercial line of credit`, `consumer`, `home equity`, `home equity loan`, `installment`, `line of credit`, `loan`, `mortgage`, or `student`. To limit accounts listed in Link to types and subtypes supported by Liabilities, you can use the `account_filters` parameter when [creating a Link token](https://plaid.com/docs/api/link/#linktokencreate). The types of information returned by Liabilities can include balances and due dates, loan terms, and account details such as original loan amount and guarantor. Data is refreshed approximately once per day; the latest data can be retrieved by calling `/liabilities/get`. */
+/** Retrieve Liabilities data The `/liabilities/get` endpoint returns various details about an Item with loan or credit accounts. Liabilities data is available primarily for US financial institutions, with some limited coverage of Canadian institutions. Currently supported account types are account type `credit` with account subtype `credit card` or `paypal`, and account type `loan` with account subtype `student` or `mortgage`. To limit accounts listed in Link to types and subtypes supported by Liabilities, you can use the `account_filters` parameter when [creating a Link token](https://plaid.com/docs/api/link/#linktokencreate). The types of information returned by Liabilities can include balances and due dates, loan terms, and account details such as original loan amount and guarantor. Data is refreshed approximately once per day; the latest data can be retrieved by calling `/liabilities/get`. */
 export const getLiability: API.OperationMethod<
   GetLiabilityRequest,
   LiabilitiesGetResponse,
@@ -39522,7 +38077,7 @@ export const importItem: API.OperationMethod<
 }));
 
 export type InstitutionsGetByIdError = PlaidOpError;
-/** Get details of an institution Returns a JSON response containing details on a specified financial institution currently supported by Plaid. Versioning note: API versions 2019-05-29 and earlier allow use of the `public_key` parameter instead of the `client_id` and `secret` to authenticate to this endpoint. The `public_key` has been deprecated; all customers are encouraged to use `client_id` and `secret` instead. */
+/** Get details of an institution Returns a JSON response containing details on a specified financial institution. Institutions that Plaid does not support for new connections are still returned by this endpoint, so that an `institution_id` stored on an existing Item can still be looked up. These institutions are not returned by `/institutions/get` or `/institutions/search`, and attempting to create a new Item for one of them returns an `INSTITUTION_NO_LONGER_SUPPORTED` error. Use `connection_availability` to tell the two cases apart. Versioning note: API versions 2019-05-29 and earlier allow use of the `public_key` parameter instead of the `client_id` and `secret` to authenticate to this endpoint. The `public_key` has been deprecated; all customers are encouraged to use `client_id` and `secret` instead. */
 export const institutionsGetById: API.OperationMethod<
   InstitutionsGetByIdRequest,
   InstitutionsGetByIdResponse,
@@ -39612,7 +38167,7 @@ export const listBetaIssuesV1: API.OperationMethod<
 }));
 
 export type ListBetaWebhookEventsError = PlaidOpError;
-/** List webhook events The `/beta/webhook_events/list` endpoint returns webhook events Plaid sent to the calling client within the last 7 days. Results are ordered by `sent_time` ascending and cursor paginated so clients can recover missed webhook deliveries and deduplicate on `webhook_message_id`. Filtering is optional. When multiple filter fields are set (`webhook_types`, `webhook_codes`, `item_ids`, `delivery_statuses`), they are combined with AND across fields and OR within each array (for example, `webhook_types: ["TRANSACTIONS", "ITEM"]` matches either type). Recommended pagination workflow: 1. First call: omit `cursor`, and optionally set `start_time` within the last 7 days (or omit `start_time` to begin at the oldest retained event). 2. Subsequent calls: pass `next_cursor` as `cursor`. Do not send `start_time` with `cursor` — the two fields are mutually exclusive. 3. Persist `next_cursor` even when `has_more` is `false`, then reuse it on the next poll so you only receive events newer than what you have already seen. 4. If a stored cursor is older than the 7-day retention window, the API returns `WEBHOOK_EVENTS_CURSOR_EXPIRED`; restart with a `start_time` within the last 7 days. Events older than the retention window are no longer available. */
+/** List webhook events `/beta/webhook_events/list` returns webhook events for your account from the last 7 days, regardless of delivery outcome. Results are ordered by `sent_time`, oldest first, and paginated with a cursor so you can recover deliveries your endpoint missed. Each event includes a `webhook_message_id` that stays the same if that event shows up again on a later poll, so you can skip events you have already handled. `TRANSACTIONS` webhooks are not returned. Use [`/transactions/sync`](https://plaid.com/docs/api/products/transactions/#transactionssync) to recover transaction updates. Filtering is optional. For `webhook_types`, `webhook_codes`, `item_ids`, and `delivery_statuses`, values within a field match with OR; different fields combine with AND. For example, `webhook_types: ["ITEM", "AUTH"]` matches events of either type. To page through events: - On the first request, omit `cursor`. You can set `start_time` to a time within the last 7 days, or omit `start_time` to start at the oldest retained event. - On later requests, send the previous response's `next_cursor` as `cursor`. If you also send `start_time`, it is ignored; `cursor` takes precedence, even when `start_time` has changed. - Save `next_cursor` even when `has_more` is `false`, and send that cursor on the next poll so you only receive events newer than the ones you have already seen. A request fails with 400 in these cases: - `WEBHOOK_EVENTS_START_TIME_OUT_OF_RANGE` (`INVALID_INPUT`) is returned when `cursor` is omitted and `start_time` is earlier than the 7-day retention window. Retry with a `start_time` within the last 7 days, or omit `start_time`. - `WEBHOOK_EVENTS_CURSOR_EXPIRED` (`INVALID_INPUT`) is returned when the cursor is older than the 7-day retention window and can no longer be resolved. Start again with a `start_time` within the last 7 days. Events older than that window are no longer available. - `INVALID_FIELD` (`INVALID_REQUEST`) is returned when `cursor` is not a properly formatted string, or when the request is otherwise invalid. This endpoint is in beta and may change in backwards-incompatible ways before it is generally available. Send feedback or bug reports to building@plaid.com. */
 export const listBetaWebhookEvents: API.OperationMethod<
   ListBetaWebhookEventsRequest,
   BetaWebhookEventsListResponse,
@@ -40227,7 +38782,7 @@ export const processorSignalReturnReport: API.OperationMethod<
 }));
 
 export type ProtectComputeError = PlaidOpError;
-/** Compute Protect Trust Index scores and subscores Compute a Protect Trust Index score for a user. The model selected determines what is scored and what additional fields the response contains. For example, `ti-link-session-2.0` scores a completed Link session for fraud risk; `cash-advance-onboarding-1.0` scores repayment risk for a first-time cash advance and additionally populates per-amount-bucket subscores. Cash-advance models require that the user have a Plaid Item with Transactions enabled, or an Assets Report, before scoring. The endpoint returns HTTP 400 with `error_type` = `INVALID_REQUEST` and `error_code` = `FAILED_PRECONDITION` when a required precondition is not met: for link-session models, when the Link session has not completed; for cash-advance models, when the user has not successfully linked any Item. */
+/** Compute Protect Trust Index scores and subscores Compute a Protect Trust Index score for a user. The model selected determines what is scored and what additional fields the response contains. For example, `ti-link-session-3-<client>` scores a completed Link session for fraud risk; `cash-advance-onboarding-<client>-1.0` scores repayment risk for a first-time cash advance and `cash-advance-ongoing-<client>-1.0` scores subsequent advances, both additionally populating per-amount-bucket subscores. Cash-advance models require that the user have a Plaid Item with Transactions enabled, or an Assets Report, before scoring. The endpoint returns HTTP 400 with `error_type` = `INVALID_REQUEST` and `error_code` = `FAILED_PRECONDITION` when a required precondition is not met: for link-session models, when the Link session has not completed; for cash-advance models, when the user has not successfully linked any Item. */
 export const protectCompute: API.OperationMethod<
   ProtectComputeRequest,
   ProtectComputeResponse,
@@ -40542,7 +39097,7 @@ export const removeUserIdentity: API.OperationMethod<
 }));
 
 export type RemoveUserItemError = PlaidOpError;
-/** Remove Items from a User Removes specific Items associated with a user. It is equivalent to calling `/item/remove` on each Item individually, but supports use cases (such as Plaid Check) where access tokens are not available. All specified Items must belong to the user or the entire operation fails. Similar to `/item/remove`, this deletes Item product data and terminates billing on the Item's products. Once removed, Items cannot be reconnected without going through Link again. This endpoint is not intended to remove all data for a user, as it will only remove Items and no other data for the user. If the user has any user-based recurring subscription products (Financial Management, Plaid Protect, or CRA Cash Flow Updates) and is deleting their account with your product, also call `/user/products/terminate` to end those subscriptions; per-Item billing is already terminated by this endpoint. For a user initiated data deletion request, see the [Consumer Service Center](https://plaid.com/check/consumer-service-center/) to revoke access to data. */
+/** Remove Items from a User Removes specific Items associated with a user. It is equivalent to calling `/item/remove` on each Item individually, but supports use cases (such as Plaid Check) where access tokens are not available. All specified Items must belong to the user or the entire operation fails. Similar to `/item/remove`, this deletes Item product data and terminates billing on the Item's products. Once removed, Items cannot be reconnected without going through Link again. This endpoint is not intended to remove all data for a user, as it will only remove Items and no other data for the user. If the user has any user-based recurring subscription products (Financial Management, Plaid Protect, or CRA Servicing) and is deleting their account with your product, also call `/user/products/terminate` to end those subscriptions; per-Item billing is already terminated by this endpoint. For a user initiated data deletion request, see the [Consumer Service Center](https://plaid.com/check/consumer-service-center/) to revoke access to data. */
 export const removeUserItem: API.OperationMethod<
   RemoveUserItemRequest,
   UserItemsRemoveResponse,
@@ -40932,7 +39487,7 @@ export const sandboxUserResetLogin: API.OperationMethod<
 }));
 
 export type SearchInstitutionError = PlaidOpError;
-/** Search institutions Returns a JSON response containing details for institutions that match the query parameters, up to a maximum of ten institutions per query. Versioning note: API versions 2019-05-29 and earlier allow use of the `public_key` parameter instead of the `client_id` and `secret` parameters to authenticate to this endpoint. The `public_key` parameter has since been deprecated; all customers are encouraged to use `client_id` and `secret` instead. */
+/** Search institutions Returns a JSON response containing details for institutions that match the query parameters, up to a maximum of ten institutions per query. Institutions that Plaid does not support for new connections are not included in search results, but can still be retrieved by ID with `/institutions/get_by_id`. Versioning note: API versions 2019-05-29 and earlier allow use of the `public_key` parameter instead of the `client_id` and `secret` parameters to authenticate to this endpoint. The `public_key` parameter has since been deprecated; all customers are encouraged to use `client_id` and `secret` instead. */
 export const searchInstitution: API.OperationMethod<
   SearchInstitutionRequest,
   InstitutionsSearchResponse,
@@ -41111,21 +39666,6 @@ export const subscribeBetaIssuesV1: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type SubscribeCraMonitoringInsightError = PlaidOpError;
-/** Subscribe to Monitoring Insights This endpoint allows you to subscribe to insights for a user's linked CRA Item, which are updated between one and four times per day (best-effort). In the current Cash Flow Updates beta experience, only one Item per user may be subscribed for monitoring updates. */
-export const subscribeCraMonitoringInsight: API.OperationMethod<
-  SubscribeCraMonitoringInsightRequest,
-  CraMonitoringInsightsSubscribeResponse,
-  SubscribeCraMonitoringInsightError,
-  PlaidOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: SubscribeCraMonitoringInsightRequest,
-  output: CraMonitoringInsightsSubscribeResponse,
-  errors: [UnknownPlaidError],
-  protocol: PlaidProtocol,
-  retry: Retry.Retry,
-}));
-
 export type SubscribeIssueError = PlaidOpError;
 /** Subscribe to an Issue Allows a user to subscribe to updates on a specific `Issue` using a POST method. Subscribers will receive webhook notifications when the issue status changes, particularly when resolved. */
 export const subscribeIssue: API.OperationMethod<
@@ -41202,7 +39742,7 @@ export const terminateItemProduct: API.OperationMethod<
 }));
 
 export type TerminateUserProductError = PlaidOpError;
-/** Terminate user-based products Terminates user-based recurring subscription bundles or products (Financial Management, Plaid Protect, and CRA Cash Flow Updates) associated with a `user_id`. After you call this endpoint, the user will no longer be billed for these products. For CRA Monitoring, the subscription is canceled but historical data remains available for future report requests. */
+/** Terminate user-based products Terminates user-based recurring subscription bundles or products (Financial Management, Plaid Protect, and CRA Servicing) associated with a `user_id`. After you call this endpoint, the user will no longer be billed for these products. For CRA Servicing, the subscription is canceled but historical data remains available for future report requests. */
 export const terminateUserProduct: API.OperationMethod<
   TerminateUserProductRequest,
   UserProductsTerminateResponse,
@@ -41381,21 +39921,6 @@ export const unsubscribeBetaIssuesV1: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type UnsubscribeCraMonitoringInsightError = PlaidOpError;
-/** Unsubscribe from Monitoring Insights This endpoint allows you to unsubscribe from previously subscribed Monitoring Insights. */
-export const unsubscribeCraMonitoringInsight: API.OperationMethod<
-  UnsubscribeCraMonitoringInsightRequest,
-  CraMonitoringInsightsUnsubscribeResponse,
-  UnsubscribeCraMonitoringInsightError,
-  PlaidOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: UnsubscribeCraMonitoringInsightRequest,
-  output: CraMonitoringInsightsUnsubscribeResponse,
-  errors: [UnknownPlaidError],
-  protocol: PlaidProtocol,
-  retry: Retry.Retry,
-}));
-
 export type UpdateBetaPartnerCustomerV1Error = PlaidOpError;
 /** Updates an existing end customer. The `/beta/partner/customer/v1/update` endpoint updates an existing end customer record. */
 export const updateBetaPartnerCustomerV1: API.OperationMethod<
@@ -41517,7 +40042,7 @@ export const updateProcessorTokenWebhook: API.OperationMethod<
 }));
 
 export type UpdateSandboxCraCashflowUpdateError = PlaidOpError;
-/** Trigger an update for Cash Flow Updates Use the `/sandbox/cra/cashflow_updates/update` endpoint to manually trigger an update for Cash Flow Updates (Monitoring) in the Sandbox environment. */
+/** Trigger an update for Cash Flow Updates Use the `/sandbox/cra/cashflow_updates/update` endpoint to manually trigger an update for the legacy Cash Flow Updates product in the Sandbox environment. To simulate a report generation for a CRA Servicing subscription, use `/sandbox/cra/servicing/simulate`. */
 export const updateSandboxCraCashflowUpdate: API.OperationMethod<
   UpdateSandboxCraCashflowUpdateRequest,
   SandboxCraCashflowUpdatesUpdateResponse,
@@ -41586,6 +40111,21 @@ export const updateWatchlistScreeningIndividual: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateWatchlistScreeningIndividualRequest,
   output: WatchlistScreeningIndividualUpdateResponse,
+  errors: [UnknownPlaidError],
+  protocol: PlaidProtocol,
+  retry: Retry.Retry,
+}));
+
+export type UploadProtectCashAdvanceFeedbackError = PlaidOpError;
+/** Upload a file of cash advance feedback Upload a CSV file of cash advance decision or repayment feedback. Each row is equivalent to one call to `/protect/cash_advance/decision/create` or `/protect/cash_advance/repayment/create`. Send the request as `multipart/form-data` with `client_id` and `secret` in the `PLAID-CLIENT-ID` and `PLAID-SECRET` headers. The file is accepted for asynchronous processing; the response contains a `request_id` and an `upload_id` that identifies the upload. */
+export const uploadProtectCashAdvanceFeedback: API.OperationMethod<
+  UploadProtectCashAdvanceFeedbackRequest,
+  ProtectCashAdvanceFeedbackUploadResponse,
+  UploadProtectCashAdvanceFeedbackError,
+  PlaidOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: UploadProtectCashAdvanceFeedbackRequest,
+  output: ProtectCashAdvanceFeedbackUploadResponse,
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,

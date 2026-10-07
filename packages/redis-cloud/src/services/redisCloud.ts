@@ -145,9 +145,7 @@ export const LocalThroughput = /*@__PURE__*/ S.suspend(() =>
     writeOperationsPerSecond: S.optional(S.Number),
     readOperationsPerSecond: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "LocalThroughput",
-}) as any as S.Schema<LocalThroughput>;
+).annotate({ identifier: "LocalThroughput" }) as any as S.Schema<LocalThroughput>;
 
 /** List of databases in the subscription with local throughput details. Default: 1000 read and write ops/sec for each database */
 export interface CrdbRegionSpec {
@@ -214,13 +212,7 @@ export const AddNewRegionToActiveActiveSubscriptionRequest = /*@__PURE__*/ S.sus
     databases: S.optional(AddNewRegionToActiveActiveSubscriptionRequestDatabasesList),
     respVersion: S.optional(AddNewRegionToActiveActiveSubscriptionRequestRespVersion),
     customerManagedKeyResourceName: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v1/subscriptions/{subscriptionId}/regions",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/v1/subscriptions/{subscriptionId}/regions", code: 200 })),
 ).annotate({
   identifier: "AddNewRegionToActiveActiveSubscriptionRequest",
 }) as any as S.Schema<AddNewRegionToActiveActiveSubscriptionRequest>;
@@ -661,6 +653,7 @@ export type ProcessorResponseError =
   | "FIXED_DATABASE_REDIS_FLEX_IS_NOT_SUPPORTED"
   | "FIXED_DATABASE_STACK_PROTOCOL_IS_NOT_SUPPORTED_FOR_REDIS_FLEX"
   | "FIXED_DATABASE_MEMCACHED_PROTOCOL_IS_NOT_SUPPORTED_FOR_REDIS_FLEX"
+  | "FIXED_DATABASE_MEMCACHED_PROTOCOL_IS_NOT_SUPPORTED_FOR_FREE_PLAN"
   | "FIXED_DATABASE_NUMBER_OF_SHARDS_IS_NOT_SUPPORTED_FOR_THIS_ACCOUNT"
   | "FIXED_DATABASE_NUMBER_OF_SHARDS_REQUIRES_DATABASE_CLUSTERING_ENABLED"
   | "FIXED_DATABASE_NUMBER_OF_SHARDS_INVALID_VALUE"
@@ -803,6 +796,25 @@ export type ProcessorResponseError =
   | "ACTIVE_ACTIVE_EXTERNAL_ACCOUNTS_NOT_SUPPORTED"
   | "ACTIVE_ACTIVE_MULTIPLE_CLOUD_ACCOUNTS_NOT_SUPPORTED"
   | "ACTIVE_ACTIVE_GCP_EXTERNAL_CLOUD_ACCOUNT_NOT_SUPPORTED"
+  | "DB_ENDPOINTS_SERVICE_NOT_FOUND"
+  | "ENDPOINTS_REDIRECTION_NOT_FOUND"
+  | "DATABASE_TRAFFIC_STATE_NOT_FOUND"
+  | "ENDPOINTS_REDIRECTION_SOURCE_HAS_NO_ENDPOINTS"
+  | "ENDPOINTS_REDIRECTION_TARGET_HAS_NO_ENDPOINTS"
+  | "ENDPOINTS_REDIRECTION_ALREADY_EXISTS"
+  | "DATABASE_IN_ACTIVE_ENDPOINTS_REDIRECTION"
+  | "ENDPOINTS_REDIRECTION_NOT_LATEST"
+  | "ENDPOINTS_REDIRECTION_NOT_COMPLETED"
+  | "ENDPOINTS_REDIRECTION_INVALID_ENDPOINT_TYPE"
+  | "ENDPOINTS_REDIRECTION_DATABASES_NOT_COMPATIBLE"
+  | "ENDPOINTS_REDIRECTION_DATABASE_STATE_NOT_SUPPORTED"
+  | "ENDPOINTS_REDIRECTION_CONNECTIVITY_MISMATCH"
+  | "ENDPOINTS_REDIRECTION_REVERT_WINDOW_EXCEEDED"
+  | "ENDPOINTS_REDIRECTION_ACCOUNT_MISMATCH"
+  | "ENDPOINTS_REDIRECTION_DNS_SERVICE_NOT_AVAILABLE"
+  | "DATABASE_TRAFFIC_RESUME_IN_PROGRESS"
+  | "DATABASE_TRAFFIC_NOT_STOPPED"
+  | "DATABASE_TRAFFIC_RESUME_NOT_ELIGIBLE"
   | "DEDICATED_SUBSCRIPTION_PREFERRED_AZ_INVALID_VALUE"
   | "DEDICATED_SUBSCRIPTION_INVALID_INSTANCE_NAME"
   | "DEDICATED_SUBSCRIPTION_INVALID_REPLICATION"
@@ -837,7 +849,12 @@ export type ProcessorResponseError =
   | "COST_REPORT_DATE_RANGE_EXCEEDS_LIMIT"
   | "COST_REPORT_TAG_KEY_EMPTY"
   | "COST_REPORT_TAG_VALUE_EMPTY"
-  | "COST_REPORT_FUTURE_DATES_NOT_ALLOWED";
+  | "COST_REPORT_FUTURE_DATES_NOT_ALLOWED"
+  | "AGENT_MEMORY_IS_DISABLED"
+  | "AGENT_MEMORY_STORE_INVALID_REQUEST"
+  | "AGENT_MEMORY_STORE_NOT_FOUND"
+  | "AGENT_MEMORY_STORE_FORBIDDEN"
+  | "AGENT_MEMORY_STORE_DEPENDENCY_FAILED";
 export const ProcessorResponseError = S.String;
 
 export interface ProcessorResponse {
@@ -855,9 +872,7 @@ export const ProcessorResponse = /*@__PURE__*/ S.suspend(() =>
     error: S.optional(ProcessorResponseError),
     additionalInfo: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ProcessorResponse",
-}) as any as S.Schema<ProcessorResponse>;
+).annotate({ identifier: "ProcessorResponse" }) as any as S.Schema<ProcessorResponse>;
 
 export type TaskStateUpdateLinksItemMap = { [key: string]: string | undefined };
 export const TaskStateUpdateLinksItemMap = /*@__PURE__*/ S.Record(
@@ -889,9 +904,7 @@ export const TaskStateUpdate = /*@__PURE__*/ S.suspend(() =>
     response: S.optional(ProcessorResponse),
     links: S.optional(TaskStateUpdateLinksList),
   }),
-).annotate({
-  identifier: "TaskStateUpdate",
-}) as any as S.Schema<TaskStateUpdate>;
+).annotate({ identifier: "TaskStateUpdate" }) as any as S.Schema<TaskStateUpdate>;
 
 export interface BackupDatabaseRequest {
   /** Subscription ID. */
@@ -916,9 +929,7 @@ export const BackupDatabaseRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "BackupDatabaseRequest",
-}) as any as S.Schema<BackupDatabaseRequest>;
+).annotate({ identifier: "BackupDatabaseRequest" }) as any as S.Schema<BackupDatabaseRequest>;
 
 export interface BackupDatabase1Request {
   /** Subscription ID. */
@@ -940,9 +951,7 @@ export const BackupDatabase1Request = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "BackupDatabase1Request",
-}) as any as S.Schema<BackupDatabase1Request>;
+).annotate({ identifier: "BackupDatabase1Request" }) as any as S.Schema<BackupDatabase1Request>;
 
 /** Type of the principal */
 export type CreateActiveActivePrivateLinkRequestType =
@@ -1266,9 +1275,7 @@ export const CreateCostReportRequest = /*@__PURE__*/ S.suspend(() =>
     regions: S.optional(CreateCostReportRequestRegionsList),
     tags: S.optional(CreateCostReportRequestTagsList),
   }).pipe(T.Http({ method: "POST", uri: "/v1/cost-report", code: 200 })),
-).annotate({
-  identifier: "CreateCostReportRequest",
-}) as any as S.Schema<CreateCostReportRequest>;
+).annotate({ identifier: "CreateCostReportRequest" }) as any as S.Schema<CreateCostReportRequest>;
 
 export interface CreateCostReportResponse {}
 export const CreateCostReportResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1328,9 +1335,7 @@ export const DatabaseSyncSourceSpec = /*@__PURE__*/ S.suspend(() =>
     encryption: S.optional(S.Boolean),
     serverCert: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DatabaseSyncSourceSpec",
-}) as any as S.Schema<DatabaseSyncSourceSpec>;
+).annotate({ identifier: "DatabaseSyncSourceSpec" }) as any as S.Schema<DatabaseSyncSourceSpec>;
 
 /** Optional. This database will be a replica of the specified Redis databases, provided as a list of objects with endpoint and certificate details. */
 export type ReplicaOfSpecSyncSourcesList = Array<DatabaseSyncSourceSpec>;
@@ -1365,9 +1370,7 @@ export const DatabaseThroughputSpec = /*@__PURE__*/ S.suspend(() =>
     by: DatabaseThroughputSpecBy,
     value: S.Number,
   }),
-).annotate({
-  identifier: "DatabaseThroughputSpec",
-}) as any as S.Schema<DatabaseThroughputSpec>;
+).annotate({ identifier: "DatabaseThroughputSpec" }) as any as S.Schema<DatabaseThroughputSpec>;
 
 /** Optional. Expected throughput per region for an Active-Active database. Default: 1000 read and write ops/sec for each region */
 export type CreateDatabaseRequestLocalThroughputMeasurementList = Array<LocalThroughput>;
@@ -1415,9 +1418,7 @@ export const DatabaseCertificateSpec = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     publicCertificatePEMString: S.String,
   }),
-).annotate({
-  identifier: "DatabaseCertificateSpec",
-}) as any as S.Schema<DatabaseCertificateSpec>;
+).annotate({ identifier: "DatabaseCertificateSpec" }) as any as S.Schema<DatabaseCertificateSpec>;
 
 /** Optional. A list of client TLS/SSL certificates. If specified, mTLS authentication will be required to authenticate user connections. */
 export type CreateDatabaseRequestClientTlsCertificatesList = Array<DatabaseCertificateSpec>;
@@ -1449,9 +1450,7 @@ export const DatabaseAlertSpec = /*@__PURE__*/ S.suspend(() =>
     name: DatabaseAlertSpecName,
     value: S.Number,
   }),
-).annotate({
-  identifier: "DatabaseAlertSpec",
-}) as any as S.Schema<DatabaseAlertSpec>;
+).annotate({ identifier: "DatabaseAlertSpec" }) as any as S.Schema<DatabaseAlertSpec>;
 
 /** Optional. Redis database alert details. */
 export type CreateDatabaseRequestAlertsList = Array<DatabaseAlertSpec>;
@@ -1460,9 +1459,7 @@ export const CreateDatabaseRequestAlertsList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<CreateDatabaseRequestAlertsList>;
 
 /** Optional. Redis advanced capability parameters. Use GET /database-modules to get the available capabilities and their parameters. */
-export type DatabaseModuleSpecParametersMap = {
-  [key: string]: unknown | undefined;
-};
+export type DatabaseModuleSpecParametersMap = { [key: string]: unknown | undefined };
 export const DatabaseModuleSpecParametersMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -1480,9 +1477,7 @@ export const DatabaseModuleSpec = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     parameters: S.optional(DatabaseModuleSpecParametersMap),
   }),
-).annotate({
-  identifier: "DatabaseModuleSpec",
-}) as any as S.Schema<DatabaseModuleSpec>;
+).annotate({ identifier: "DatabaseModuleSpec" }) as any as S.Schema<DatabaseModuleSpec>;
 
 /** Optional. Redis advanced capabilities (also known as modules) to be provisioned in the database. Use GET /database-modules to get a list of available advanced capabilities. Don't specify modules for database versions 8 and above. All capabilities are bundled in the database by default. */
 export type CreateDatabaseRequestModulesList = Array<DatabaseModuleSpec>;
@@ -1601,15 +1596,9 @@ export const CreateDatabaseRequest = /*@__PURE__*/ S.suspend(() =>
     shardingType: S.optional(CreateDatabaseRequestShardingType),
     queryPerformanceFactor: S.optional(S.String),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v1/subscriptions/{subscriptionId}/databases",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/v1/subscriptions/{subscriptionId}/databases", code: 200 }),
   ),
-).annotate({
-  identifier: "CreateDatabaseRequest",
-}) as any as S.Schema<CreateDatabaseRequest>;
+).annotate({ identifier: "CreateDatabaseRequest" }) as any as S.Schema<CreateDatabaseRequest>;
 
 export interface CreateDatabaseResponse {}
 export const CreateDatabaseResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1683,9 +1672,7 @@ export const EndpointRedirectionDTO = /*@__PURE__*/ S.suspend(() =>
     targetEndpointType: S.optional(EndpointRedirectionDTOTargetEndpointType),
     errorMessage: S.optional(S.String),
   }),
-).annotate({
-  identifier: "EndpointRedirectionDTO",
-}) as any as S.Schema<EndpointRedirectionDTO>;
+).annotate({ identifier: "EndpointRedirectionDTO" }) as any as S.Schema<EndpointRedirectionDTO>;
 
 /** Details of the individual endpoint redirections performed. */
 export type EndpointsRedirectionResponseEndpointsList = Array<EndpointRedirectionDTO>;
@@ -1893,6 +1880,421 @@ export const CreateFixedDatabaseRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "CreateFixedDatabaseRequest",
 }) as any as S.Schema<CreateFixedDatabaseRequest>;
 
+/** Short-term (working) memory configuration */
+export interface MemoryStoreShortMemoryConfig {
+  /** Time-to-live of short-term memory entries, in seconds (1 second to 1 year). Required */
+  ttlSeconds: number;
+}
+export const MemoryStoreShortMemoryConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ttlSeconds: S.Number,
+  }),
+).annotate({
+  identifier: "MemoryStoreShortMemoryConfig",
+}) as any as S.Schema<MemoryStoreShortMemoryConfig>;
+
+/** How the supplied secret is interpreted. Required */
+export type MemoryStoreModelCredentialsType = "apiKey";
+export const MemoryStoreModelCredentialsType = S.String;
+
+/** Customer-supplied credential for a model provider. Write-only: never returned by any operation */
+export interface MemoryStoreModelCredentials {
+  /** How the supplied secret is interpreted. Required */
+  type: MemoryStoreModelCredentialsType | (string & {});
+  /** The provider API key. Required on create. On update an omitted or blank value keeps the current key, so only the key being rotated needs to be sent */
+  apiKey?: string | Redacted.Redacted<string>;
+}
+export const MemoryStoreModelCredentials = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: MemoryStoreModelCredentialsType,
+    apiKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
+  }),
+).annotate({
+  identifier: "MemoryStoreModelCredentials",
+}) as any as S.Schema<MemoryStoreModelCredentials>;
+
+/** Requested model selection for one purpose (LLM or embedding). On create, llm and longTermMemory.embedding must be supplied together to opt the store into customer-selected models; supplying only one is rejected. Omitting both keeps the platform-owned configuration, and such a store cannot be moved onto customer-selected models later: an update with llm is rejected with /errors/model-config-immutable */
+export interface MemoryStoreModelConfig {
+  /** Model provider. Validated against the providers supported by the Agent Memory service. Immutable after creation */
+  provider?: string;
+  /** Model name as advertised by the provider. Required on create. On update, omit to keep the current model; the LLM model may be changed within the stored provider, the embedding model may not */
+  model?: string;
+  credentials?: MemoryStoreModelCredentials;
+}
+export const MemoryStoreModelConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    provider: S.optional(S.String),
+    model: S.optional(S.String),
+    credentials: S.optional(MemoryStoreModelCredentials),
+  }),
+).annotate({ identifier: "MemoryStoreModelConfig" }) as any as S.Schema<MemoryStoreModelConfig>;
+
+/** Long-term (persistent) memory configuration accepted on creation. When omitted, the store uses the default long-term memory TTL of 1 year */
+export interface MemoryStoreLongTermMemoryCreateConfig {
+  /** Time-to-live of long-term memory entries, in seconds (1 second to 1 year). Required */
+  ttlSeconds: number;
+  embedding?: MemoryStoreModelConfig;
+}
+export const MemoryStoreLongTermMemoryCreateConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ttlSeconds: S.Number,
+    embedding: S.optional(MemoryStoreModelConfig),
+  }),
+).annotate({
+  identifier: "MemoryStoreLongTermMemoryCreateConfig",
+}) as any as S.Schema<MemoryStoreLongTermMemoryCreateConfig>;
+
+/** How long-term memories are extracted from sessions. INSTRUCT uses LLM tool calling to create, update and delete granular memories */
+export type CreateMemoryStoreRequestExtractionStrategy = "INSTRUCT";
+export const CreateMemoryStoreRequestExtractionStrategy = S.String;
+
+/** What triggers a summarization cycle. Defaults to event_count */
+export type MemoryStoreSummarizationConfigTriggerStrategy = "event_count";
+export const MemoryStoreSummarizationConfigTriggerStrategy = S.String;
+
+/** Event-count trigger for session summarization. threshold must be greater than retainCount */
+export interface MemoryStoreSummarizationThresholdConfig {
+  /** Number of active session events that triggers a summarization cycle (0-10000). Must be greater than retainCount. Required */
+  threshold: number;
+  /** Number of most recent events kept unsummarized after each cycle (0-10000); everything older is condensed into the running summary. Must be less than threshold. Required */
+  retainCount: number;
+}
+export const MemoryStoreSummarizationThresholdConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    threshold: S.Number,
+    retainCount: S.Number,
+  }),
+).annotate({
+  identifier: "MemoryStoreSummarizationThresholdConfig",
+}) as any as S.Schema<MemoryStoreSummarizationThresholdConfig>;
+
+/** Session summarization. When enabled, long sessions are periodically condensed into a running summary while the most recent events are retained. When omitted on create, nothing is stored and the store uses the deployment's default summarization settings, which GET returns as the store's summarization */
+export interface MemoryStoreSummarizationConfig {
+  /** Whether summarization is enabled for the store. Required */
+  enabled: boolean;
+  /** What triggers a summarization cycle. Defaults to event_count */
+  triggerStrategy?: MemoryStoreSummarizationConfigTriggerStrategy | (string & {});
+  eventCount?: MemoryStoreSummarizationThresholdConfig;
+}
+export const MemoryStoreSummarizationConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    enabled: S.Boolean,
+    triggerStrategy: S.optional(MemoryStoreSummarizationConfigTriggerStrategy),
+    eventCount: S.optional(MemoryStoreSummarizationThresholdConfig),
+  }),
+).annotate({
+  identifier: "MemoryStoreSummarizationConfig",
+}) as any as S.Schema<MemoryStoreSummarizationConfig>;
+
+/** Advisory, LLM-mediated exclusion of sensitive content from long-term memory */
+export interface MemoryStoreSemanticExclusionConfig {
+  /** Whether semantic exclusion is enabled. Required */
+  enabled: boolean;
+  /** Customer-authored instruction describing what must not be remembered (max 2000 characters). On update, omit to keep the stored prompt */
+  prompt?: string;
+}
+export const MemoryStoreSemanticExclusionConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    enabled: S.Boolean,
+    prompt: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "MemoryStoreSemanticExclusionConfig",
+}) as any as S.Schema<MemoryStoreSemanticExclusionConfig>;
+
+/** What happens to a memory this detector matches. Defaults to redact. When several detectors disagree, drop wins */
+export type MemoryStoreDetectorSelectionAction = "redact" | "drop";
+export const MemoryStoreDetectorSelectionAction = S.String;
+
+/** One selected platform built-in detector */
+export interface MemoryStoreDetectorSelection {
+  /** Built-in detector ID from the Agent Memory detector catalog: credit-card, email, ip-address, phone or us-ssn. Unknown IDs are rejected. Required */
+  id: string;
+  /** Whether this detector is active. A disabled selection is still stored. Required */
+  enabled: boolean;
+  /** What happens to a memory this detector matches. Defaults to redact. When several detectors disagree, drop wins */
+  action?: MemoryStoreDetectorSelectionAction | (string & {});
+}
+export const MemoryStoreDetectorSelection = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    enabled: S.Boolean,
+    action: S.optional(MemoryStoreDetectorSelectionAction),
+  }),
+).annotate({
+  identifier: "MemoryStoreDetectorSelection",
+}) as any as S.Schema<MemoryStoreDetectorSelection>;
+
+/** Selected detectors. On update, omitting this list keeps the stored selections; a non-empty list replaces them wholesale; an explicitly empty list clears them */
+export type MemoryStoreBuiltInDetectorsConfigDetectorsList = Array<MemoryStoreDetectorSelection>;
+export const MemoryStoreBuiltInDetectorsConfigDetectorsList = /*@__PURE__*/ S.Array(
+  MemoryStoreDetectorSelection,
+) as any as S.Schema<MemoryStoreBuiltInDetectorsConfigDetectorsList>;
+
+/** Deterministic detection using platform-owned built-in detectors. Nothing is selected by default */
+export interface MemoryStoreBuiltInDetectorsConfig {
+  /** Toggle for the whole built-in group. False leaves the selections stored but inactive. Required */
+  enabled: boolean;
+  /** Selected detectors. On update, omitting this list keeps the stored selections; a non-empty list replaces them wholesale; an explicitly empty list clears them */
+  detectors?: MemoryStoreBuiltInDetectorsConfigDetectorsList;
+}
+export const MemoryStoreBuiltInDetectorsConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    enabled: S.Boolean,
+    detectors: S.optional(MemoryStoreBuiltInDetectorsConfigDetectorsList),
+  }),
+).annotate({
+  identifier: "MemoryStoreBuiltInDetectorsConfig",
+}) as any as S.Schema<MemoryStoreBuiltInDetectorsConfig>;
+
+/** What happens to a memory this detector matches. Defaults to redact */
+export type MemoryStoreCustomDetectorAction = "redact" | "drop";
+export const MemoryStoreCustomDetectorAction = S.String;
+
+/** Matching technique. Required */
+export type MemoryStoreMatcherSpecKind = "regex";
+export const MemoryStoreMatcherSpecKind = S.String;
+
+/** Regular expression matcher */
+export interface MemoryStoreRegexSpec {
+  /** Pattern in RE2 syntax (1-512 characters). Lookaround and backreferences are not supported. Rejected if it does not compile or can match empty text. Required */
+  pattern: string;
+}
+export const MemoryStoreRegexSpec = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    pattern: S.String,
+  }),
+).annotate({ identifier: "MemoryStoreRegexSpec" }) as any as S.Schema<MemoryStoreRegexSpec>;
+
+/** How a custom detector decides what to match. Exactly the block named by kind must be present */
+export interface MemoryStoreMatcherSpec {
+  /** Matching technique. Required */
+  kind: MemoryStoreMatcherSpecKind | (string & {});
+  regex?: MemoryStoreRegexSpec;
+}
+export const MemoryStoreMatcherSpec = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    kind: MemoryStoreMatcherSpecKind,
+    regex: S.optional(MemoryStoreRegexSpec),
+  }),
+).annotate({ identifier: "MemoryStoreMatcherSpec" }) as any as S.Schema<MemoryStoreMatcherSpec>;
+
+/** One customer-authored detector */
+export interface MemoryStoreCustomDetector {
+  /** Detector name (1-64 characters, starts with a letter, then letters, digits, underscores or dashes). Reported with every match; must be unique in the store and must not collide with a built-in detector ID. Required */
+  name: string;
+  /** Whether this detector is active. A disabled detector is still stored and validated. Required */
+  enabled: boolean;
+  /** What happens to a memory this detector matches. Defaults to redact */
+  action?: MemoryStoreCustomDetectorAction | (string & {});
+  matcher: MemoryStoreMatcherSpec;
+}
+export const MemoryStoreCustomDetector = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    enabled: S.Boolean,
+    action: S.optional(MemoryStoreCustomDetectorAction),
+    matcher: MemoryStoreMatcherSpec,
+  }),
+).annotate({
+  identifier: "MemoryStoreCustomDetector",
+}) as any as S.Schema<MemoryStoreCustomDetector>;
+
+/** Authored detectors (at most 32). On update, omitting this list keeps the stored detectors; a non-empty list replaces them wholesale; an explicitly empty list clears them */
+export type MemoryStoreCustomDetectorsConfigDetectorsList = Array<MemoryStoreCustomDetector>;
+export const MemoryStoreCustomDetectorsConfigDetectorsList = /*@__PURE__*/ S.Array(
+  MemoryStoreCustomDetector,
+) as any as S.Schema<MemoryStoreCustomDetectorsConfigDetectorsList>;
+
+/** Deterministic detection using customer-authored detectors stored on the store. Evaluated together with the built-in detectors as one set */
+export interface MemoryStoreCustomDetectorsConfig {
+  /** Toggle for the whole custom group. False leaves the detectors stored but inactive. Required */
+  enabled: boolean;
+  /** Authored detectors (at most 32). On update, omitting this list keeps the stored detectors; a non-empty list replaces them wholesale; an explicitly empty list clears them */
+  detectors?: MemoryStoreCustomDetectorsConfigDetectorsList;
+}
+export const MemoryStoreCustomDetectorsConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    enabled: S.Boolean,
+    detectors: S.optional(MemoryStoreCustomDetectorsConfigDetectorsList),
+  }),
+).annotate({
+  identifier: "MemoryStoreCustomDetectorsConfig",
+}) as any as S.Schema<MemoryStoreCustomDetectorsConfig>;
+
+/** Store-level policy that keeps sensitive data out of long-term memory. When omitted on create, no policy is stored. On update, the policy is replaced as a whole but nested content that is omitted is preserved, so prefer read-modify-write of the complete policy. Disabling sets enabled=false; a stored policy cannot be removed */
+export interface MemoryStoreLongTermMemoryExclusions {
+  /** Master toggle gating enforcement of all exclusion groups. Required */
+  enabled: boolean;
+  semantic?: MemoryStoreSemanticExclusionConfig;
+  builtInDetectors?: MemoryStoreBuiltInDetectorsConfig;
+  customDetectors?: MemoryStoreCustomDetectorsConfig;
+}
+export const MemoryStoreLongTermMemoryExclusions = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    enabled: S.Boolean,
+    semantic: S.optional(MemoryStoreSemanticExclusionConfig),
+    builtInDetectors: S.optional(MemoryStoreBuiltInDetectorsConfig),
+    customDetectors: S.optional(MemoryStoreCustomDetectorsConfig),
+  }),
+).annotate({
+  identifier: "MemoryStoreLongTermMemoryExclusions",
+}) as any as S.Schema<MemoryStoreLongTermMemoryExclusions>;
+
+/** Field data type. Required */
+export type MemoryStoreCustomFieldType =
+  | "str"
+  | "int"
+  | "float"
+  | "bool"
+  | "list[str]"
+  | "list[float]"
+  | "object";
+export const MemoryStoreCustomFieldType = S.String;
+
+/** A structured field of a custom memory type */
+export interface MemoryStoreCustomField {
+  /** Field name (1-64 characters, starts with a letter, then letters, digits, underscores or dashes). Required */
+  name: string;
+  /** Human-readable description of the field (1-200 characters). Required */
+  description: string;
+  /** Field data type. Required */
+  type: MemoryStoreCustomFieldType | (string & {});
+}
+export const MemoryStoreCustomField = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    description: S.String,
+    type: MemoryStoreCustomFieldType,
+  }),
+).annotate({ identifier: "MemoryStoreCustomField" }) as any as S.Schema<MemoryStoreCustomField>;
+
+/** Structured fields of a record of this type. Optional; a type without fields accepts direct writes without structured attributes */
+export type MemoryStoreCustomMemoryTypeFieldsList = Array<MemoryStoreCustomField>;
+export const MemoryStoreCustomMemoryTypeFieldsList = /*@__PURE__*/ S.Array(
+  MemoryStoreCustomField,
+) as any as S.Schema<MemoryStoreCustomMemoryTypeFieldsList>;
+
+/** How memories of a custom type are extracted from session events */
+export interface MemoryStoreCustomExtractionStrategy {
+  /** Prompt used to extract memories of this type. Required */
+  prompt: string;
+  /** Whether extraction for this type is active. Defaults to true */
+  enabled?: boolean;
+}
+export const MemoryStoreCustomExtractionStrategy = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    prompt: S.String,
+    enabled: S.optional(S.Boolean),
+  }),
+).annotate({
+  identifier: "MemoryStoreCustomExtractionStrategy",
+}) as any as S.Schema<MemoryStoreCustomExtractionStrategy>;
+
+/** A custom category of long-term memory with its structured fields and optional extraction strategy. Name, description and fields are immutable once registered */
+export interface MemoryStoreCustomMemoryType {
+  /** Unique type name within the store (1-64 characters, starts with a letter, then letters, digits, underscores or dashes). Must not collide with the built-in types semantic, episodic, message and session_summary_view. Required */
+  name: string;
+  /** Human-readable description of what this type captures (1-200 characters). Required */
+  description: string;
+  /** Structured fields of a record of this type. Optional; a type without fields accepts direct writes without structured attributes */
+  fields?: MemoryStoreCustomMemoryTypeFieldsList;
+  extractionStrategy?: MemoryStoreCustomExtractionStrategy;
+}
+export const MemoryStoreCustomMemoryType = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    description: S.String,
+    fields: S.optional(MemoryStoreCustomMemoryTypeFieldsList),
+    extractionStrategy: S.optional(MemoryStoreCustomExtractionStrategy),
+  }),
+).annotate({
+  identifier: "MemoryStoreCustomMemoryType",
+}) as any as S.Schema<MemoryStoreCustomMemoryType>;
+
+/** Optional. Custom memory types to register on the store (at most 3 per store). When omitted only the built-in types are available */
+export type CreateMemoryStoreRequestCustomMemoryTypesList = Array<MemoryStoreCustomMemoryType>;
+export const CreateMemoryStoreRequestCustomMemoryTypesList = /*@__PURE__*/ S.Array(
+  MemoryStoreCustomMemoryType,
+) as any as S.Schema<CreateMemoryStoreRequestCustomMemoryTypesList>;
+
+/** How often the long-term memory extraction pipeline runs. Optional on both create and update */
+export interface MemoryStoreExtractionCadenceConfig {
+  /** Interval in seconds between extraction runs while a session is active (60-600). Required */
+  activeIntervalSeconds: number;
+}
+export const MemoryStoreExtractionCadenceConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    activeIntervalSeconds: S.Number,
+  }),
+).annotate({
+  identifier: "MemoryStoreExtractionCadenceConfig",
+}) as any as S.Schema<MemoryStoreExtractionCadenceConfig>;
+
+export interface CreateMemoryStoreRequest {
+  /** Memory store name */
+  name: string;
+  /** ID of the database used by the memory store */
+  databaseId: number;
+  shortMemory?: MemoryStoreShortMemoryConfig;
+  longTermMemory?: MemoryStoreLongTermMemoryCreateConfig;
+  llm?: MemoryStoreModelConfig;
+  /** How long-term memories are extracted from sessions. INSTRUCT uses LLM tool calling to create, update and delete granular memories */
+  extractionStrategy?: CreateMemoryStoreRequestExtractionStrategy | (string & {});
+  summarization?: MemoryStoreSummarizationConfig;
+  longTermMemoryExclusions?: MemoryStoreLongTermMemoryExclusions;
+  /** Optional. Custom memory types to register on the store (at most 3 per store). When omitted only the built-in types are available */
+  customMemoryTypes?: CreateMemoryStoreRequestCustomMemoryTypesList;
+  extractionCadence?: MemoryStoreExtractionCadenceConfig;
+}
+export const CreateMemoryStoreRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    databaseId: S.Number,
+    shortMemory: S.optional(MemoryStoreShortMemoryConfig),
+    longTermMemory: S.optional(MemoryStoreLongTermMemoryCreateConfig),
+    llm: S.optional(MemoryStoreModelConfig),
+    extractionStrategy: S.optional(CreateMemoryStoreRequestExtractionStrategy),
+    summarization: S.optional(MemoryStoreSummarizationConfig),
+    longTermMemoryExclusions: S.optional(MemoryStoreLongTermMemoryExclusions),
+    customMemoryTypes: S.optional(CreateMemoryStoreRequestCustomMemoryTypesList),
+    extractionCadence: S.optional(MemoryStoreExtractionCadenceConfig),
+  }).pipe(T.Http({ method: "POST", uri: "/v1/memory-stores", code: 200 })),
+).annotate({ identifier: "CreateMemoryStoreRequest" }) as any as S.Schema<CreateMemoryStoreRequest>;
+
+export interface CreateMemoryStoreResponse {}
+export const CreateMemoryStoreResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  identifier: "CreateMemoryStoreResponse",
+}) as any as S.Schema<CreateMemoryStoreResponse>;
+
+export interface CreateMemoryStoreApiKeyRequest {
+  /** Memory store ID. */
+  storeId: string;
+  /** Name of the API key. */
+  keyName: string;
+}
+export const CreateMemoryStoreApiKeyRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    storeId: S.String.pipe(T.Label()),
+    keyName: S.String,
+  }).pipe(T.Http({ method: "POST", uri: "/v1/memory-stores/{storeId}/api-keys", code: 200 })),
+).annotate({
+  identifier: "CreateMemoryStoreApiKeyRequest",
+}) as any as S.Schema<CreateMemoryStoreApiKeyRequest>;
+
+/** New memory store API key */
+export interface MemoryStoreApiKeyCreateResponse {
+  /** Generated API key. Returned only once. */
+  apiKey?: string | Redacted.Redacted<string>;
+}
+export const MemoryStoreApiKeyCreateResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    apiKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
+  }),
+).annotate({
+  identifier: "MemoryStoreApiKeyCreateResponse",
+}) as any as S.Schema<MemoryStoreApiKeyCreateResponse>;
+
 /** Type of the principal */
 export type CreatePrivateLinkRequestType =
   | "aws_account"
@@ -1923,15 +2325,9 @@ export const CreatePrivateLinkRequest = /*@__PURE__*/ S.suspend(() =>
     type: CreatePrivateLinkRequestType,
     alias: S.optional(S.String),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v1/subscriptions/{subscriptionId}/private-link",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/v1/subscriptions/{subscriptionId}/private-link", code: 200 }),
   ),
-).annotate({
-  identifier: "CreatePrivateLinkRequest",
-}) as any as S.Schema<CreatePrivateLinkRequest>;
+).annotate({ identifier: "CreatePrivateLinkRequest" }) as any as S.Schema<CreatePrivateLinkRequest>;
 
 /** Type of the principal */
 export type CreatePrivateLinkPrincipalRequestType =
@@ -1984,9 +2380,7 @@ export const CreatePscServiceRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "CreatePscServiceRequest",
-}) as any as S.Schema<CreatePscServiceRequest>;
+).annotate({ identifier: "CreatePscServiceRequest" }) as any as S.Schema<CreatePscServiceRequest>;
 
 export interface CreatePscServiceResponse {}
 export const CreatePscServiceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2044,9 +2438,7 @@ export const CreateRedisRuleRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     redisRule: S.String,
   }).pipe(T.Http({ method: "POST", uri: "/v1/acl/redisRules", code: 200 })),
-).annotate({
-  identifier: "CreateRedisRuleRequest",
-}) as any as S.Schema<CreateRedisRuleRequest>;
+).annotate({ identifier: "CreateRedisRuleRequest" }) as any as S.Schema<CreateRedisRuleRequest>;
 
 export interface CreateRedisRuleResponse {}
 export const CreateRedisRuleResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2074,9 +2466,7 @@ export const AclRoleDatabaseSpec = /*@__PURE__*/ S.suspend(() =>
     databaseId: S.Number,
     regions: S.optional(AclRoleDatabaseSpecRegionsList),
   }),
-).annotate({
-  identifier: "AclRoleDatabaseSpec",
-}) as any as S.Schema<AclRoleDatabaseSpec>;
+).annotate({ identifier: "AclRoleDatabaseSpec" }) as any as S.Schema<AclRoleDatabaseSpec>;
 
 /** A list of databases where the specified rule applies for this role. */
 export type AclRoleRedisRuleSpecDatabasesList = Array<AclRoleDatabaseSpec>;
@@ -2096,9 +2486,7 @@ export const AclRoleRedisRuleSpec = /*@__PURE__*/ S.suspend(() =>
     ruleName: S.String,
     databases: AclRoleRedisRuleSpecDatabasesList,
   }),
-).annotate({
-  identifier: "AclRoleRedisRuleSpec",
-}) as any as S.Schema<AclRoleRedisRuleSpec>;
+).annotate({ identifier: "AclRoleRedisRuleSpec" }) as any as S.Schema<AclRoleRedisRuleSpec>;
 
 /** A list of Redis ACL rules to assign to this database access role. */
 export type CreateRoleRequestRedisRulesList = Array<AclRoleRedisRuleSpec>;
@@ -2117,9 +2505,7 @@ export const CreateRoleRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     redisRules: CreateRoleRequestRedisRulesList,
   }).pipe(T.Http({ method: "POST", uri: "/v1/acl/roles", code: 200 })),
-).annotate({
-  identifier: "CreateRoleRequest",
-}) as any as S.Schema<CreateRoleRequest>;
+).annotate({ identifier: "CreateRoleRequest" }) as any as S.Schema<CreateRoleRequest>;
 
 export interface CreateRoleResponse {}
 export const CreateRoleResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2156,9 +2542,7 @@ export const CustomerManagedKey = /*@__PURE__*/ S.suspend(() =>
     resourceName: S.String,
     region: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CustomerManagedKey",
-}) as any as S.Schema<CustomerManagedKey>;
+).annotate({ identifier: "CustomerManagedKey" }) as any as S.Schema<CustomerManagedKey>;
 
 /** The customer managed keys (CMK) to use for this subscription. If is active-active subscription, must set a key for each region. */
 export type CustomerManagedKeyPropertiesCustomerManagedKeysList = Array<CustomerManagedKey>;
@@ -2250,9 +2634,7 @@ export const SubscriptionRegionSpec = /*@__PURE__*/ S.suspend(() =>
     preferredAvailabilityZones: S.optional(SubscriptionRegionSpecPreferredAvailabilityZonesList),
     networking: S.optional(SubscriptionRegionNetworkingSpec),
   }),
-).annotate({
-  identifier: "SubscriptionRegionSpec",
-}) as any as S.Schema<SubscriptionRegionSpec>;
+).annotate({ identifier: "SubscriptionRegionSpec" }) as any as S.Schema<SubscriptionRegionSpec>;
 
 /** The cloud provider region or list of regions (Active-Active only) and networking details. */
 export type SubscriptionSpecRegionsList = Array<SubscriptionRegionSpec>;
@@ -2296,9 +2678,7 @@ export const SubscriptionSpec = /*@__PURE__*/ S.suspend(() =>
     regions: SubscriptionSpecRegionsList,
     resourceTags: S.optional(SubscriptionSpecResourceTagsList),
   }),
-).annotate({
-  identifier: "SubscriptionSpec",
-}) as any as S.Schema<SubscriptionSpec>;
+).annotate({ identifier: "SubscriptionSpec" }) as any as S.Schema<SubscriptionSpec>;
 
 /** Cloud provider, region, and networking details. */
 export type CreateSubscriptionRequestCloudProvidersList = Array<SubscriptionSpec>;
@@ -2405,9 +2785,7 @@ export const SubscriptionDatabaseSpec = /*@__PURE__*/ S.suspend(() =>
     shardingType: S.optional(SubscriptionDatabaseSpecShardingType),
     queryPerformanceFactor: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SubscriptionDatabaseSpec",
-}) as any as S.Schema<SubscriptionDatabaseSpec>;
+).annotate({ identifier: "SubscriptionDatabaseSpec" }) as any as S.Schema<SubscriptionDatabaseSpec>;
 
 /** One or more database specification(s) to create in this subscription. */
 export type CreateSubscriptionRequestDatabasesList = Array<SubscriptionDatabaseSpec>;
@@ -2521,9 +2899,7 @@ export const CreateTagRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "CreateTagRequest",
-}) as any as S.Schema<CreateTagRequest>;
+).annotate({ identifier: "CreateTagRequest" }) as any as S.Schema<CreateTagRequest>;
 
 export type CloudTagLinksItemMap = { [key: string]: string | undefined };
 export const CloudTagLinksItemMap = /*@__PURE__*/ S.Record(
@@ -2577,9 +2953,7 @@ export const CreateTag1Request = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "CreateTag1Request",
-}) as any as S.Schema<CreateTag1Request>;
+).annotate({ identifier: "CreateTag1Request" }) as any as S.Schema<CreateTag1Request>;
 
 export interface CreateTgwAttachmentRequest {
   /** Subscription ID. */
@@ -2621,9 +2995,7 @@ export const CreateUserRequest = /*@__PURE__*/ S.suspend(() =>
     role: S.String,
     password: S.String.pipe(T.SensitiveValue({})),
   }).pipe(T.Http({ method: "POST", uri: "/v1/acl/users", code: 200 })),
-).annotate({
-  identifier: "CreateUserRequest",
-}) as any as S.Schema<CreateUserRequest>;
+).annotate({ identifier: "CreateUserRequest" }) as any as S.Schema<CreateUserRequest>;
 
 export interface CreateUserResponse {}
 export const CreateUserResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2640,15 +3012,9 @@ export const CreateVpcPeeringRequest = /*@__PURE__*/ S.suspend(() =>
     subscriptionId: S.Number.pipe(T.Label()),
     provider: S.optional(S.String),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v1/subscriptions/{subscriptionId}/peerings",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/v1/subscriptions/{subscriptionId}/peerings", code: 200 }),
   ),
-).annotate({
-  identifier: "CreateVpcPeeringRequest",
-}) as any as S.Schema<CreateVpcPeeringRequest>;
+).annotate({ identifier: "CreateVpcPeeringRequest" }) as any as S.Schema<CreateVpcPeeringRequest>;
 
 export interface CreateVpcPeeringResponse {}
 export const CreateVpcPeeringResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2663,9 +3029,7 @@ export const DeleteAclRoleRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     aclRoleId: S.Number.pipe(T.Label()),
   }).pipe(T.Http({ method: "DELETE", uri: "/v1/acl/roles/{aclRoleId}", code: 200 })),
-).annotate({
-  identifier: "DeleteAclRoleRequest",
-}) as any as S.Schema<DeleteAclRoleRequest>;
+).annotate({ identifier: "DeleteAclRoleRequest" }) as any as S.Schema<DeleteAclRoleRequest>;
 
 export interface DeleteActiveActivePrivateLinkRequest {
   /** Subscription ID. */
@@ -2833,13 +3197,7 @@ export interface DeleteCloudAccountRequest {
 export const DeleteCloudAccountRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     cloudAccountId: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/v1/cloud-accounts/{cloudAccountId}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/v1/cloud-accounts/{cloudAccountId}", code: 200 })),
 ).annotate({
   identifier: "DeleteCloudAccountRequest",
 }) as any as S.Schema<DeleteCloudAccountRequest>;
@@ -3031,6 +3389,46 @@ export const DeleteFixedDatabaseByID1Request = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteFixedDatabaseByID1Request",
 }) as any as S.Schema<DeleteFixedDatabaseByID1Request>;
 
+export interface DeleteMemoryStoreRequest {
+  /** Memory store ID. */
+  storeId: string;
+  /** Whether to flush all data from the database before deleting the memory store */
+  flush?: boolean;
+}
+export const DeleteMemoryStoreRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    storeId: S.String.pipe(T.Label()),
+    flush: S.optional(S.Boolean.pipe(T.Query())),
+  }).pipe(T.Http({ method: "DELETE", uri: "/v1/memory-stores/{storeId}", code: 200 })),
+).annotate({ identifier: "DeleteMemoryStoreRequest" }) as any as S.Schema<DeleteMemoryStoreRequest>;
+
+export interface DeleteMemoryStoreResponse {}
+export const DeleteMemoryStoreResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  identifier: "DeleteMemoryStoreResponse",
+}) as any as S.Schema<DeleteMemoryStoreResponse>;
+
+export interface DeleteMemoryStoreApiKeyRequest {
+  /** Memory store ID. */
+  storeId: string;
+  /** Memory store API key ID. */
+  apiKeyId: string;
+}
+export const DeleteMemoryStoreApiKeyRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    storeId: S.String.pipe(T.Label()),
+    apiKeyId: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({ method: "DELETE", uri: "/v1/memory-stores/{storeId}/api-keys/{apiKeyId}", code: 200 }),
+  ),
+).annotate({
+  identifier: "DeleteMemoryStoreApiKeyRequest",
+}) as any as S.Schema<DeleteMemoryStoreApiKeyRequest>;
+
+export interface DeleteMemoryStoreApiKeyResponse {}
+export const DeleteMemoryStoreApiKeyResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
+  { identifier: "DeleteMemoryStoreApiKeyResponse" },
+) as any as S.Schema<DeleteMemoryStoreApiKeyResponse>;
+
 export interface DeletePrivateLinkRequest {
   /** Subscription ID. */
   subscriptionId: number;
@@ -3039,15 +3437,9 @@ export const DeletePrivateLinkRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     subscriptionId: S.Number.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/v1/subscriptions/{subscriptionId}/private-link",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/v1/subscriptions/{subscriptionId}/private-link", code: 200 }),
   ),
-).annotate({
-  identifier: "DeletePrivateLinkRequest",
-}) as any as S.Schema<DeletePrivateLinkRequest>;
+).annotate({ identifier: "DeletePrivateLinkRequest" }) as any as S.Schema<DeletePrivateLinkRequest>;
 
 export interface DeletePrivateLinkPrincipalsRequest {
   /** Subscription ID. */
@@ -3084,9 +3476,7 @@ export const DeletePscServiceRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "DeletePscServiceRequest",
-}) as any as S.Schema<DeletePscServiceRequest>;
+).annotate({ identifier: "DeletePscServiceRequest" }) as any as S.Schema<DeletePscServiceRequest>;
 
 export interface DeletePscServiceResponse {}
 export const DeletePscServiceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -3131,16 +3521,8 @@ export interface DeleteRedisRuleRequest {
 export const DeleteRedisRuleRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     aclRedisRuleId: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/v1/acl/redisRules/{aclRedisRuleId}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "DeleteRedisRuleRequest",
-}) as any as S.Schema<DeleteRedisRuleRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/v1/acl/redisRules/{aclRedisRuleId}", code: 200 })),
+).annotate({ identifier: "DeleteRedisRuleRequest" }) as any as S.Schema<DeleteRedisRuleRequest>;
 
 export interface DeleteRedisRuleResponse {}
 export const DeleteRedisRuleResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -3181,11 +3563,7 @@ export const DeleteRegionsFromActiveActiveSubscriptionRequest = /*@__PURE__*/ S.
     regions: S.optional(DeleteRegionsFromActiveActiveSubscriptionRequestRegionsList),
     dryRun: S.optional(S.Boolean),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/v1/subscriptions/{subscriptionId}/regions",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/v1/subscriptions/{subscriptionId}/regions", code: 200 }),
   ),
 ).annotate({
   identifier: "DeleteRegionsFromActiveActiveSubscriptionRequest",
@@ -3198,13 +3576,7 @@ export interface DeleteSubscriptionRequest {
 export const DeleteSubscriptionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     subscriptionId: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/v1/subscriptions/{subscriptionId}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/v1/subscriptions/{subscriptionId}", code: 200 })),
 ).annotate({
   identifier: "DeleteSubscriptionRequest",
 }) as any as S.Schema<DeleteSubscriptionRequest>;
@@ -3216,13 +3588,7 @@ export interface DeleteSubscriptionById1Request {
 export const DeleteSubscriptionById1Request = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     subscriptionId: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/v1/fixed/subscriptions/{subscriptionId}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/v1/fixed/subscriptions/{subscriptionId}", code: 200 })),
 ).annotate({
   identifier: "DeleteSubscriptionById1Request",
 }) as any as S.Schema<DeleteSubscriptionById1Request>;
@@ -3247,16 +3613,12 @@ export const DeleteTagRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "DeleteTagRequest",
-}) as any as S.Schema<DeleteTagRequest>;
+).annotate({ identifier: "DeleteTagRequest" }) as any as S.Schema<DeleteTagRequest>;
 
 export type DeleteTagResponse = unknown;
 export const DeleteTagResponse = /*@__PURE__*/ S.suspend(() =>
   S.Unknown.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "DeleteTagResponse",
-}) as any as S.Schema<DeleteTagResponse>;
+).annotate({ identifier: "DeleteTagResponse" }) as any as S.Schema<DeleteTagResponse>;
 
 export interface DeleteTag1Request {
   /** Subscription ID. */
@@ -3278,16 +3640,12 @@ export const DeleteTag1Request = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "DeleteTag1Request",
-}) as any as S.Schema<DeleteTag1Request>;
+).annotate({ identifier: "DeleteTag1Request" }) as any as S.Schema<DeleteTag1Request>;
 
 export type DeleteTag1Response = unknown;
 export const DeleteTag1Response = /*@__PURE__*/ S.suspend(() =>
   S.Unknown.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "DeleteTag1Response",
-}) as any as S.Schema<DeleteTag1Response>;
+).annotate({ identifier: "DeleteTag1Response" }) as any as S.Schema<DeleteTag1Response>;
 
 export interface DeleteTgwAttachmentRequest {
   /** Subscription ID. */
@@ -3323,9 +3681,7 @@ export const DeleteUserRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     userId: S.Number.pipe(T.Label()),
   }).pipe(T.Http({ method: "DELETE", uri: "/v1/users/{userId}", code: 200 })),
-).annotate({
-  identifier: "DeleteUserRequest",
-}) as any as S.Schema<DeleteUserRequest>;
+).annotate({ identifier: "DeleteUserRequest" }) as any as S.Schema<DeleteUserRequest>;
 
 export interface DeleteUserRequest2 {
   /** Access control user ID. */
@@ -3335,9 +3691,7 @@ export const DeleteUserRequest2 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     aclUserId: S.Number.pipe(T.Label()),
   }).pipe(T.Http({ method: "DELETE", uri: "/v1/acl/users/{aclUserId}", code: 200 })),
-).annotate({
-  identifier: "DeleteUserRequest2",
-}) as any as S.Schema<DeleteUserRequest2>;
+).annotate({ identifier: "DeleteUserRequest2" }) as any as S.Schema<DeleteUserRequest2>;
 
 export interface DeleteVpcPeeringRequest {
   /** Subscription ID. */
@@ -3356,9 +3710,7 @@ export const DeleteVpcPeeringRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "DeleteVpcPeeringRequest",
-}) as any as S.Schema<DeleteVpcPeeringRequest>;
+).annotate({ identifier: "DeleteVpcPeeringRequest" }) as any as S.Schema<DeleteVpcPeeringRequest>;
 
 export interface DeleteVpcPeeringResponse {}
 export const DeleteVpcPeeringResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -3461,6 +3813,23 @@ export const DisassociatePrivateLinkConnectionsResponse = /*@__PURE__*/ S.suspen
   identifier: "DisassociatePrivateLinkConnectionsResponse",
 }) as any as S.Schema<DisassociatePrivateLinkConnectionsResponse>;
 
+export interface EmptyMemoryStoreRequest {
+  /** Memory store ID. */
+  storeId: string;
+}
+export const EmptyMemoryStoreRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    storeId: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({ method: "DELETE", uri: "/v1/memory-stores/{storeId}/session-memory", code: 200 }),
+  ),
+).annotate({ identifier: "EmptyMemoryStoreRequest" }) as any as S.Schema<EmptyMemoryStoreRequest>;
+
+export interface EmptyMemoryStoreResponse {}
+export const EmptyMemoryStoreResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  identifier: "EmptyMemoryStoreResponse",
+}) as any as S.Schema<EmptyMemoryStoreResponse>;
+
 export interface FlushCrdbRequest {
   /** Subscription ID. */
   subscriptionId: number;
@@ -3478,9 +3847,22 @@ export const FlushCrdbRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "FlushCrdbRequest",
-}) as any as S.Schema<FlushCrdbRequest>;
+).annotate({ identifier: "FlushCrdbRequest" }) as any as S.Schema<FlushCrdbRequest>;
+
+export interface FlushMemoryStoreRequest {
+  /** Memory store ID. */
+  storeId: string;
+}
+export const FlushMemoryStoreRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    storeId: S.String.pipe(T.Label()),
+  }).pipe(T.Http({ method: "DELETE", uri: "/v1/memory-stores/{storeId}/entries", code: 200 })),
+).annotate({ identifier: "FlushMemoryStoreRequest" }) as any as S.Schema<FlushMemoryStoreRequest>;
+
+export interface FlushMemoryStoreResponse {}
+export const FlushMemoryStoreResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  identifier: "FlushMemoryStoreResponse",
+}) as any as S.Schema<FlushMemoryStoreResponse>;
 
 export interface GetAccountPaymentMethodsRequest {}
 export const GetAccountPaymentMethodsRequest = /*@__PURE__*/ S.suspend(() =>
@@ -3555,18 +3937,14 @@ export const AccountSessionLogEntry = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     action: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AccountSessionLogEntry",
-}) as any as S.Schema<AccountSessionLogEntry>;
+).annotate({ identifier: "AccountSessionLogEntry" }) as any as S.Schema<AccountSessionLogEntry>;
 
 export type AccountSessionLogEntriesEntriesList = Array<AccountSessionLogEntry>;
 export const AccountSessionLogEntriesEntriesList = /*@__PURE__*/ S.Array(
   AccountSessionLogEntry,
 ) as any as S.Schema<AccountSessionLogEntriesEntriesList>;
 
-export type AccountSessionLogEntriesLinksItemMap = {
-  [key: string]: string | undefined;
-};
+export type AccountSessionLogEntriesLinksItemMap = { [key: string]: string | undefined };
 export const AccountSessionLogEntriesLinksItemMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3586,9 +3964,7 @@ export const AccountSessionLogEntries = /*@__PURE__*/ S.suspend(() =>
     entries: S.optional(AccountSessionLogEntriesEntriesList),
     links: S.optional(AccountSessionLogEntriesLinksList),
   }),
-).annotate({
-  identifier: "AccountSessionLogEntries",
-}) as any as S.Schema<AccountSessionLogEntries>;
+).annotate({ identifier: "AccountSessionLogEntries" }) as any as S.Schema<AccountSessionLogEntries>;
 
 export interface GetAccountSystemLogsRequest {
   /** Number of items to skip. */
@@ -3636,18 +4012,14 @@ export const AccountSystemLogEntry = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AccountSystemLogEntry",
-}) as any as S.Schema<AccountSystemLogEntry>;
+).annotate({ identifier: "AccountSystemLogEntry" }) as any as S.Schema<AccountSystemLogEntry>;
 
 export type AccountSystemLogEntriesEntriesList = Array<AccountSystemLogEntry>;
 export const AccountSystemLogEntriesEntriesList = /*@__PURE__*/ S.Array(
   AccountSystemLogEntry,
 ) as any as S.Schema<AccountSystemLogEntriesEntriesList>;
 
-export type AccountSystemLogEntriesLinksItemMap = {
-  [key: string]: string | undefined;
-};
+export type AccountSystemLogEntriesLinksItemMap = { [key: string]: string | undefined };
 export const AccountSystemLogEntriesLinksItemMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3667,9 +4039,7 @@ export const AccountSystemLogEntries = /*@__PURE__*/ S.suspend(() =>
     entries: S.optional(AccountSystemLogEntriesEntriesList),
     links: S.optional(AccountSystemLogEntriesLinksList),
   }),
-).annotate({
-  identifier: "AccountSystemLogEntries",
-}) as any as S.Schema<AccountSystemLogEntries>;
+).annotate({ identifier: "AccountSystemLogEntries" }) as any as S.Schema<AccountSystemLogEntries>;
 
 export interface GetActiveActivePrivateLinkRequest {
   /** Subscription ID. */
@@ -3932,9 +4302,7 @@ export const GetAllFixedSubscriptionsPlansRequest = /*@__PURE__*/ S.suspend(() =
   identifier: "GetAllFixedSubscriptionsPlansRequest",
 }) as any as S.Schema<GetAllFixedSubscriptionsPlansRequest>;
 
-export type FixedSubscriptionsPlansLinksItemMap = {
-  [key: string]: string | undefined;
-};
+export type FixedSubscriptionsPlansLinksItemMap = { [key: string]: string | undefined };
 export const FixedSubscriptionsPlansLinksItemMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3953,20 +4321,14 @@ export const FixedSubscriptionsPlans = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     links: S.optional(FixedSubscriptionsPlansLinksList),
   }),
-).annotate({
-  identifier: "FixedSubscriptionsPlans",
-}) as any as S.Schema<FixedSubscriptionsPlans>;
+).annotate({ identifier: "FixedSubscriptionsPlans" }) as any as S.Schema<FixedSubscriptionsPlans>;
 
 export interface GetAllRedisRulesRequest {}
 export const GetAllRedisRulesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v1/acl/redisRules", code: 200 })),
-).annotate({
-  identifier: "GetAllRedisRulesRequest",
-}) as any as S.Schema<GetAllRedisRulesRequest>;
+).annotate({ identifier: "GetAllRedisRulesRequest" }) as any as S.Schema<GetAllRedisRulesRequest>;
 
-export type AccountACLRedisRulesLinksItemMap = {
-  [key: string]: string | undefined;
-};
+export type AccountACLRedisRulesLinksItemMap = { [key: string]: string | undefined };
 export const AccountACLRedisRulesLinksItemMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3987,9 +4349,7 @@ export const AccountACLRedisRules = /*@__PURE__*/ S.suspend(() =>
     accountId: S.optional(S.Number),
     links: S.optional(AccountACLRedisRulesLinksList),
   }),
-).annotate({
-  identifier: "AccountACLRedisRules",
-}) as any as S.Schema<AccountACLRedisRules>;
+).annotate({ identifier: "AccountACLRedisRules" }) as any as S.Schema<AccountACLRedisRules>;
 
 export interface GetAllSubscriptionsRequest {}
 export const GetAllSubscriptionsRequest = /*@__PURE__*/ S.suspend(() =>
@@ -3998,9 +4358,7 @@ export const GetAllSubscriptionsRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetAllSubscriptionsRequest",
 }) as any as S.Schema<GetAllSubscriptionsRequest>;
 
-export type AccountSubscriptionsLinksItemMap = {
-  [key: string]: string | undefined;
-};
+export type AccountSubscriptionsLinksItemMap = { [key: string]: string | undefined };
 export const AccountSubscriptionsLinksItemMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -4021,9 +4379,7 @@ export const AccountSubscriptions = /*@__PURE__*/ S.suspend(() =>
     accountId: S.optional(S.Number),
     links: S.optional(AccountSubscriptionsLinksList),
   }),
-).annotate({
-  identifier: "AccountSubscriptions",
-}) as any as S.Schema<AccountSubscriptions>;
+).annotate({ identifier: "AccountSubscriptions" }) as any as S.Schema<AccountSubscriptions>;
 
 export interface GetAllSubscriptions1Request {}
 export const GetAllSubscriptions1Request = /*@__PURE__*/ S.suspend(() =>
@@ -4032,9 +4388,7 @@ export const GetAllSubscriptions1Request = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetAllSubscriptions1Request",
 }) as any as S.Schema<GetAllSubscriptions1Request>;
 
-export type FixedSubscriptionsLinksItemMap = {
-  [key: string]: string | undefined;
-};
+export type FixedSubscriptionsLinksItemMap = { [key: string]: string | undefined };
 export const FixedSubscriptionsLinksItemMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -4055,16 +4409,12 @@ export const FixedSubscriptions = /*@__PURE__*/ S.suspend(() =>
     accountId: S.optional(S.Number),
     links: S.optional(FixedSubscriptionsLinksList),
   }),
-).annotate({
-  identifier: "FixedSubscriptions",
-}) as any as S.Schema<FixedSubscriptions>;
+).annotate({ identifier: "FixedSubscriptions" }) as any as S.Schema<FixedSubscriptions>;
 
 export interface GetAllTasksRequest {}
 export const GetAllTasksRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v1/tasks", code: 200 })),
-).annotate({
-  identifier: "GetAllTasksRequest",
-}) as any as S.Schema<GetAllTasksRequest>;
+).annotate({ identifier: "GetAllTasksRequest" }) as any as S.Schema<GetAllTasksRequest>;
 
 export interface GetAllTasksResponse {}
 export const GetAllTasksResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -4074,9 +4424,7 @@ export const GetAllTasksResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).a
 export interface GetAllUsersRequest {}
 export const GetAllUsersRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v1/users", code: 200 })),
-).annotate({
-  identifier: "GetAllUsersRequest",
-}) as any as S.Schema<GetAllUsersRequest>;
+).annotate({ identifier: "GetAllUsersRequest" }) as any as S.Schema<GetAllUsersRequest>;
 
 /** RedisLabs list of users in current account */
 export interface AccountUsers {
@@ -4091,9 +4439,7 @@ export const AccountUsers = /*@__PURE__*/ S.suspend(() =>
 export interface GetAllUsers1Request {}
 export const GetAllUsers1Request = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v1/acl/users", code: 200 })),
-).annotate({
-  identifier: "GetAllUsers1Request",
-}) as any as S.Schema<GetAllUsers1Request>;
+).annotate({ identifier: "GetAllUsers1Request" }) as any as S.Schema<GetAllUsers1Request>;
 
 export type AccountACLUsersLinksItemMap = { [key: string]: string | undefined };
 export const AccountACLUsersLinksItemMap = /*@__PURE__*/ S.Record(
@@ -4116,9 +4462,7 @@ export const AccountACLUsers = /*@__PURE__*/ S.suspend(() =>
     accountId: S.optional(S.Number),
     links: S.optional(AccountACLUsersLinksList),
   }),
-).annotate({
-  identifier: "AccountACLUsers",
-}) as any as S.Schema<AccountACLUsers>;
+).annotate({ identifier: "AccountACLUsers" }) as any as S.Schema<AccountACLUsers>;
 
 export interface GetCidrWhiteListRequest {
   /** Subscription ID. */
@@ -4127,16 +4471,8 @@ export interface GetCidrWhiteListRequest {
 export const GetCidrWhiteListRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     subscriptionId: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/subscriptions/{subscriptionId}/cidr",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetCidrWhiteListRequest",
-}) as any as S.Schema<GetCidrWhiteListRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/v1/subscriptions/{subscriptionId}/cidr", code: 200 })),
+).annotate({ identifier: "GetCidrWhiteListRequest" }) as any as S.Schema<GetCidrWhiteListRequest>;
 
 export interface GetCidrWhiteListResponse {}
 export const GetCidrWhiteListResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -4150,16 +4486,8 @@ export interface GetCloudAccountRequest {
 export const GetCloudAccountRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     cloudAccountId: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/cloud-accounts/{cloudAccountId}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetCloudAccountRequest",
-}) as any as S.Schema<GetCloudAccountRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/v1/cloud-accounts/{cloudAccountId}", code: 200 })),
+).annotate({ identifier: "GetCloudAccountRequest" }) as any as S.Schema<GetCloudAccountRequest>;
 
 export type CloudAccountLinksItemMap = { [key: string]: string | undefined };
 export const CloudAccountLinksItemMap = /*@__PURE__*/ S.Record(
@@ -4204,9 +4532,7 @@ export const CloudAccount = /*@__PURE__*/ S.suspend(() =>
 export interface GetCloudAccountsRequest {}
 export const GetCloudAccountsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v1/cloud-accounts", code: 200 })),
-).annotate({
-  identifier: "GetCloudAccountsRequest",
-}) as any as S.Schema<GetCloudAccountsRequest>;
+).annotate({ identifier: "GetCloudAccountsRequest" }) as any as S.Schema<GetCloudAccountsRequest>;
 
 export type CloudAccountsLinksItemMap = { [key: string]: string | undefined };
 export const CloudAccountsLinksItemMap = /*@__PURE__*/ S.Record(
@@ -4239,9 +4565,7 @@ export const GetCostReportRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     costReportId: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/v1/cost-report/{costReportId}", code: 200 })),
-).annotate({
-  identifier: "GetCostReportRequest",
-}) as any as S.Schema<GetCostReportRequest>;
+).annotate({ identifier: "GetCostReportRequest" }) as any as S.Schema<GetCostReportRequest>;
 
 export interface GetCostReportResponse {}
 export const GetCostReportResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -4251,9 +4575,7 @@ export const GetCostReportResponse = /*@__PURE__*/ S.suspend(() => S.Struct({}))
 export interface GetCurrentAccountRequest {}
 export const GetCurrentAccountRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v1/", code: 200 })),
-).annotate({
-  identifier: "GetCurrentAccountRequest",
-}) as any as S.Schema<GetCurrentAccountRequest>;
+).annotate({ identifier: "GetCurrentAccountRequest" }) as any as S.Schema<GetCurrentAccountRequest>;
 
 export type RootAccountLinksItemMap = { [key: string]: string | undefined };
 export const RootAccountLinksItemMap = /*@__PURE__*/ S.Record(
@@ -4518,13 +4840,7 @@ export const GetDatabaseTraffic1Request = /*@__PURE__*/ S.suspend(() =>
 
 export interface GetDataIntegrationWorkspacesRequest {}
 export const GetDataIntegrationWorkspacesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/data-integration-workspaces",
-      code: 200,
-    }),
-  ),
+  S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v1/data-integration-workspaces", code: 200 })),
 ).annotate({
   identifier: "GetDataIntegrationWorkspacesRequest",
 }) as any as S.Schema<GetDataIntegrationWorkspacesRequest>;
@@ -4553,18 +4869,14 @@ export const DataPersistenceEntry = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DataPersistenceEntry",
-}) as any as S.Schema<DataPersistenceEntry>;
+).annotate({ identifier: "DataPersistenceEntry" }) as any as S.Schema<DataPersistenceEntry>;
 
 export type DataPersistenceOptionsDataPersistenceList = Array<DataPersistenceEntry>;
 export const DataPersistenceOptionsDataPersistenceList = /*@__PURE__*/ S.Array(
   DataPersistenceEntry,
 ) as any as S.Schema<DataPersistenceOptionsDataPersistenceList>;
 
-export type DataPersistenceOptionsLinksItemMap = {
-  [key: string]: string | undefined;
-};
+export type DataPersistenceOptionsLinksItemMap = { [key: string]: string | undefined };
 export const DataPersistenceOptionsLinksItemMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -4584,9 +4896,7 @@ export const DataPersistenceOptions = /*@__PURE__*/ S.suspend(() =>
     dataPersistence: S.optional(DataPersistenceOptionsDataPersistenceList),
     links: S.optional(DataPersistenceOptionsLinksList),
   }),
-).annotate({
-  identifier: "DataPersistenceOptions",
-}) as any as S.Schema<DataPersistenceOptions>;
+).annotate({ identifier: "DataPersistenceOptions" }) as any as S.Schema<DataPersistenceOptions>;
 
 export interface GetEndpointsRedirectionStatusRequest {
   /** Dynamic endpoint redirection ID. */
@@ -4595,13 +4905,7 @@ export interface GetEndpointsRedirectionStatusRequest {
 export const GetEndpointsRedirectionStatusRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     redirectionId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/endpoint-redirections/{redirectionId}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/endpoint-redirections/{redirectionId}", code: 200 })),
 ).annotate({
   identifier: "GetEndpointsRedirectionStatusRequest",
 }) as any as S.Schema<GetEndpointsRedirectionStatusRequest>;
@@ -4662,19 +4966,13 @@ export const GetFixedSubscriptionDatabasesRequest = /*@__PURE__*/ S.suspend(() =
     offset: S.optional(S.Number.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/fixed/subscriptions/{subscriptionId}/databases",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/v1/fixed/subscriptions/{subscriptionId}/databases", code: 200 }),
   ),
 ).annotate({
   identifier: "GetFixedSubscriptionDatabasesRequest",
 }) as any as S.Schema<GetFixedSubscriptionDatabasesRequest>;
 
-export type AccountFixedSubscriptionDatabasesLinksItemMap = {
-  [key: string]: string | undefined;
-};
+export type AccountFixedSubscriptionDatabasesLinksItemMap = { [key: string]: string | undefined };
 export const AccountFixedSubscriptionDatabasesLinksItemMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -4712,9 +5010,7 @@ export const GetFixedSubscriptionsPlanByIdRequest = /*@__PURE__*/ S.suspend(() =
   identifier: "GetFixedSubscriptionsPlanByIdRequest",
 }) as any as S.Schema<GetFixedSubscriptionsPlanByIdRequest>;
 
-export type FixedSubscriptionsPlanLinksItemMap = {
-  [key: string]: string | undefined;
-};
+export type FixedSubscriptionsPlanLinksItemMap = { [key: string]: string | undefined };
 export const FixedSubscriptionsPlanLinksItemMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -4781,9 +5077,7 @@ export const FixedSubscriptionsPlan = /*@__PURE__*/ S.suspend(() =>
     customerSupport: S.optional(S.String),
     links: S.optional(FixedSubscriptionsPlanLinksList),
   }),
-).annotate({
-  identifier: "FixedSubscriptionsPlan",
-}) as any as S.Schema<FixedSubscriptionsPlan>;
+).annotate({ identifier: "FixedSubscriptionsPlan" }) as any as S.Schema<FixedSubscriptionsPlan>;
 
 export interface GetFixedSubscriptionsPlansBySubscriptionIdRequest {
   /** Subscription ID. */
@@ -4793,15 +5087,156 @@ export const GetFixedSubscriptionsPlansBySubscriptionIdRequest = /*@__PURE__*/ S
   S.Struct({
     subscriptionId: S.Number.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/fixed/plans/subscriptions/{subscriptionId}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/v1/fixed/plans/subscriptions/{subscriptionId}", code: 200 }),
   ),
 ).annotate({
   identifier: "GetFixedSubscriptionsPlansBySubscriptionIdRequest",
 }) as any as S.Schema<GetFixedSubscriptionsPlansBySubscriptionIdRequest>;
+
+export interface GetMemoryStoreRequest {
+  /** Memory store ID. */
+  storeId: string;
+}
+export const GetMemoryStoreRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    storeId: S.String.pipe(T.Label()),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/memory-stores/{storeId}", code: 200 })),
+).annotate({ identifier: "GetMemoryStoreRequest" }) as any as S.Schema<GetMemoryStoreRequest>;
+
+export type MemoryStoreResponseDatabaseAccessCidrsList = Array<string>;
+export const MemoryStoreResponseDatabaseAccessCidrsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<MemoryStoreResponseDatabaseAccessCidrsList>;
+
+/** Resolved model in use for one purpose. Present only on stores with an explicit model selection */
+export interface MemoryStoreModelStatus {
+  /** Model provider in use */
+  provider?: string;
+  /** Model in use */
+  model?: string;
+}
+export const MemoryStoreModelStatus = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    provider: S.optional(S.String),
+    model: S.optional(S.String),
+  }),
+).annotate({ identifier: "MemoryStoreModelStatus" }) as any as S.Schema<MemoryStoreModelStatus>;
+
+/** Long-term memory configuration as stored */
+export interface MemoryStoreLongTermMemoryStatus {
+  /** Time-to-live of long-term memory entries, in seconds */
+  ttlSeconds?: number;
+  embedding?: MemoryStoreModelStatus;
+}
+export const MemoryStoreLongTermMemoryStatus = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ttlSeconds: S.optional(S.Number),
+    embedding: S.optional(MemoryStoreModelStatus),
+  }),
+).annotate({
+  identifier: "MemoryStoreLongTermMemoryStatus",
+}) as any as S.Schema<MemoryStoreLongTermMemoryStatus>;
+
+/** Egress IP addresses used by the endpoint */
+export type MemoryStoreEndpointEgressIpsList = Array<string>;
+export const MemoryStoreEndpointEgressIpsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<MemoryStoreEndpointEgressIpsList>;
+
+/** A regional endpoint through which the memory store is served */
+export interface MemoryStoreEndpoint {
+  /** Endpoint URL */
+  url?: string;
+  /** Cloud provider hosting the endpoint */
+  provider?: string;
+  /** Cloud region of the endpoint */
+  region?: string;
+  /** Egress IP addresses used by the endpoint */
+  egressIps?: MemoryStoreEndpointEgressIpsList;
+  /** Whether the endpoint is reachable from the store's database network */
+  isAccessible?: boolean;
+}
+export const MemoryStoreEndpoint = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    url: S.optional(S.String),
+    provider: S.optional(S.String),
+    region: S.optional(S.String),
+    egressIps: S.optional(MemoryStoreEndpointEgressIpsList),
+    isAccessible: S.optional(S.Boolean),
+  }),
+).annotate({ identifier: "MemoryStoreEndpoint" }) as any as S.Schema<MemoryStoreEndpoint>;
+
+export type MemoryStoreResponseEndpointsList = Array<MemoryStoreEndpoint>;
+export const MemoryStoreResponseEndpointsList = /*@__PURE__*/ S.Array(
+  MemoryStoreEndpoint,
+) as any as S.Schema<MemoryStoreResponseEndpointsList>;
+
+/** How long-term memories are extracted from sessions. INSTRUCT uses LLM tool calling to create, update and delete granular memories */
+export type MemoryStoreResponseExtractionStrategy = "INSTRUCT";
+export const MemoryStoreResponseExtractionStrategy = S.String;
+
+export type MemoryStoreResponseCustomMemoryTypesList = Array<MemoryStoreCustomMemoryType>;
+export const MemoryStoreResponseCustomMemoryTypesList = /*@__PURE__*/ S.Array(
+  MemoryStoreCustomMemoryType,
+) as any as S.Schema<MemoryStoreResponseCustomMemoryTypesList>;
+
+/** Lifecycle status of the memory store */
+export type MemoryStoreResponseStatus = "PROVISIONING" | "READY" | "UNAVAILABLE";
+export const MemoryStoreResponseStatus = S.String;
+
+/** Memory store configuration and status */
+export interface MemoryStoreResponse {
+  storeId?: string;
+  name?: string;
+  createdAt?: string;
+  databaseId?: string;
+  databaseName?: string;
+  databaseProvider?: string;
+  databaseRegion?: string;
+  databaseAccessCidrs?: MemoryStoreResponseDatabaseAccessCidrsList;
+  subscriptionId?: string;
+  shortMemory?: MemoryStoreShortMemoryConfig;
+  longTermMemory?: MemoryStoreLongTermMemoryStatus;
+  llm?: MemoryStoreModelStatus;
+  endpoint?: string;
+  endpoints?: MemoryStoreResponseEndpointsList;
+  /** How long-term memories are extracted from sessions. INSTRUCT uses LLM tool calling to create, update and delete granular memories */
+  extractionStrategy?: MemoryStoreResponseExtractionStrategy;
+  summarization?: MemoryStoreSummarizationConfig;
+  longTermMemoryExclusions?: MemoryStoreLongTermMemoryExclusions;
+  customMemoryTypes?: MemoryStoreResponseCustomMemoryTypesList;
+  extractionCadence?: MemoryStoreExtractionCadenceConfig;
+  /** Lifecycle status of the memory store */
+  status?: MemoryStoreResponseStatus;
+  errorMessage?: string;
+  errorMessageTimestamp?: number;
+}
+export const MemoryStoreResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    storeId: S.optional(S.String),
+    name: S.optional(S.String),
+    createdAt: S.optional(S.String),
+    databaseId: S.optional(S.String),
+    databaseName: S.optional(S.String),
+    databaseProvider: S.optional(S.String),
+    databaseRegion: S.optional(S.String),
+    databaseAccessCidrs: S.optional(MemoryStoreResponseDatabaseAccessCidrsList),
+    subscriptionId: S.optional(S.String),
+    shortMemory: S.optional(MemoryStoreShortMemoryConfig),
+    longTermMemory: S.optional(MemoryStoreLongTermMemoryStatus),
+    llm: S.optional(MemoryStoreModelStatus),
+    endpoint: S.optional(S.String),
+    endpoints: S.optional(MemoryStoreResponseEndpointsList),
+    extractionStrategy: S.optional(MemoryStoreResponseExtractionStrategy),
+    summarization: S.optional(MemoryStoreSummarizationConfig),
+    longTermMemoryExclusions: S.optional(MemoryStoreLongTermMemoryExclusions),
+    customMemoryTypes: S.optional(MemoryStoreResponseCustomMemoryTypesList),
+    extractionCadence: S.optional(MemoryStoreExtractionCadenceConfig),
+    status: S.optional(MemoryStoreResponseStatus),
+    errorMessage: S.optional(S.String),
+    errorMessageTimestamp: S.optional(S.Number),
+  }),
+).annotate({ identifier: "MemoryStoreResponse" }) as any as S.Schema<MemoryStoreResponse>;
 
 export interface GetPrivateLinkRequest {
   /** Subscription ID. */
@@ -4811,15 +5246,9 @@ export const GetPrivateLinkRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     subscriptionId: S.Number.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/subscriptions/{subscriptionId}/private-link",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/v1/subscriptions/{subscriptionId}/private-link", code: 200 }),
   ),
-).annotate({
-  identifier: "GetPrivateLinkRequest",
-}) as any as S.Schema<GetPrivateLinkRequest>;
+).annotate({ identifier: "GetPrivateLinkRequest" }) as any as S.Schema<GetPrivateLinkRequest>;
 
 export interface GetPrivateLinkResponse {}
 export const GetPrivateLinkResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -4865,9 +5294,7 @@ export const GetPscServiceRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetPscServiceRequest",
-}) as any as S.Schema<GetPscServiceRequest>;
+).annotate({ identifier: "GetPscServiceRequest" }) as any as S.Schema<GetPscServiceRequest>;
 
 export interface GetPscServiceResponse {}
 export const GetPscServiceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -4969,16 +5396,8 @@ export interface GetRedisVersionsRequest {
 export const GetRedisVersionsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     subscriptionId: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/subscriptions/redis-versions",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetRedisVersionsRequest",
-}) as any as S.Schema<GetRedisVersionsRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/v1/subscriptions/redis-versions", code: 200 })),
+).annotate({ identifier: "GetRedisVersionsRequest" }) as any as S.Schema<GetRedisVersionsRequest>;
 
 export interface RedisVersion {
   version?: string;
@@ -5017,9 +5436,7 @@ export const GetRedisVersions1Request = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     subscriptionId: S.Number.pipe(T.Query()),
   }).pipe(T.Http({ method: "GET", uri: "/v1/fixed/redis-versions", code: 200 })),
-).annotate({
-  identifier: "GetRedisVersions1Request",
-}) as any as S.Schema<GetRedisVersions1Request>;
+).annotate({ identifier: "GetRedisVersions1Request" }) as any as S.Schema<GetRedisVersions1Request>;
 
 export interface GetRegionsFromActiveActiveSubscriptionRequest {
   /** Subscription ID. */
@@ -5028,20 +5445,12 @@ export interface GetRegionsFromActiveActiveSubscriptionRequest {
 export const GetRegionsFromActiveActiveSubscriptionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     subscriptionId: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/subscriptions/{subscriptionId}/regions",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/subscriptions/{subscriptionId}/regions", code: 200 })),
 ).annotate({
   identifier: "GetRegionsFromActiveActiveSubscriptionRequest",
 }) as any as S.Schema<GetRegionsFromActiveActiveSubscriptionRequest>;
 
-export type ActiveActiveSubscriptionRegionsLinksItemMap = {
-  [key: string]: string | undefined;
-};
+export type ActiveActiveSubscriptionRegionsLinksItemMap = { [key: string]: string | undefined };
 export const ActiveActiveSubscriptionRegionsLinksItemMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -5070,9 +5479,7 @@ export const ActiveActiveSubscriptionRegions = /*@__PURE__*/ S.suspend(() =>
 export interface GetRolesRequest {}
 export const GetRolesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v1/acl/roles", code: 200 })),
-).annotate({
-  identifier: "GetRolesRequest",
-}) as any as S.Schema<GetRolesRequest>;
+).annotate({ identifier: "GetRolesRequest" }) as any as S.Schema<GetRolesRequest>;
 
 export type AccountACLRolesLinksItemMap = { [key: string]: string | undefined };
 export const AccountACLRolesLinksItemMap = /*@__PURE__*/ S.Record(
@@ -5095,9 +5502,7 @@ export const AccountACLRoles = /*@__PURE__*/ S.suspend(() =>
     accountId: S.optional(S.Number),
     links: S.optional(AccountACLRolesLinksList),
   }),
-).annotate({
-  identifier: "AccountACLRoles",
-}) as any as S.Schema<AccountACLRoles>;
+).annotate({ identifier: "AccountACLRoles" }) as any as S.Schema<AccountACLRoles>;
 
 export interface GetSlowLogRequest {
   /** Subscription ID. */
@@ -5119,9 +5524,7 @@ export const GetSlowLogRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetSlowLogRequest",
-}) as any as S.Schema<GetSlowLogRequest>;
+).annotate({ identifier: "GetSlowLogRequest" }) as any as S.Schema<GetSlowLogRequest>;
 
 /** Database slowlog entry */
 export interface DatabaseSlowLogEntry {
@@ -5137,18 +5540,14 @@ export const DatabaseSlowLogEntry = /*@__PURE__*/ S.suspend(() =>
     duration: S.optional(S.Number),
     arguments: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DatabaseSlowLogEntry",
-}) as any as S.Schema<DatabaseSlowLogEntry>;
+).annotate({ identifier: "DatabaseSlowLogEntry" }) as any as S.Schema<DatabaseSlowLogEntry>;
 
 export type DatabaseSlowLogEntriesEntriesList = Array<DatabaseSlowLogEntry>;
 export const DatabaseSlowLogEntriesEntriesList = /*@__PURE__*/ S.Array(
   DatabaseSlowLogEntry,
 ) as any as S.Schema<DatabaseSlowLogEntriesEntriesList>;
 
-export type DatabaseSlowLogEntriesLinksItemMap = {
-  [key: string]: string | undefined;
-};
+export type DatabaseSlowLogEntriesLinksItemMap = { [key: string]: string | undefined };
 export const DatabaseSlowLogEntriesLinksItemMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -5168,9 +5567,7 @@ export const DatabaseSlowLogEntries = /*@__PURE__*/ S.suspend(() =>
     entries: S.optional(DatabaseSlowLogEntriesEntriesList),
     links: S.optional(DatabaseSlowLogEntriesLinksList),
   }),
-).annotate({
-  identifier: "DatabaseSlowLogEntries",
-}) as any as S.Schema<DatabaseSlowLogEntries>;
+).annotate({ identifier: "DatabaseSlowLogEntries" }) as any as S.Schema<DatabaseSlowLogEntries>;
 
 export interface GetSlowLog1Request {
   /** Subscription ID. */
@@ -5189,9 +5586,7 @@ export const GetSlowLog1Request = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetSlowLog1Request",
-}) as any as S.Schema<GetSlowLog1Request>;
+).annotate({ identifier: "GetSlowLog1Request" }) as any as S.Schema<GetSlowLog1Request>;
 
 export interface GetSubscriptionRequest {
   /** Subscription ID. */
@@ -5200,16 +5595,8 @@ export interface GetSubscriptionRequest {
 export const GetSubscriptionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     subscriptionId: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/subscriptions/{subscriptionId}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetSubscriptionRequest",
-}) as any as S.Schema<GetSubscriptionRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/v1/subscriptions/{subscriptionId}", code: 200 })),
+).annotate({ identifier: "GetSubscriptionRequest" }) as any as S.Schema<GetSubscriptionRequest>;
 
 export type SubscriptionMemoryStorage = "ram" | "ram-and-flash";
 export const SubscriptionMemoryStorage = S.String;
@@ -5306,20 +5693,12 @@ export interface GetSubscriptionById1Request {
 export const GetSubscriptionById1Request = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     subscriptionId: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/fixed/subscriptions/{subscriptionId}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/fixed/subscriptions/{subscriptionId}", code: 200 })),
 ).annotate({
   identifier: "GetSubscriptionById1Request",
 }) as any as S.Schema<GetSubscriptionById1Request>;
 
-export type FixedSubscriptionLinksItemMap = {
-  [key: string]: string | undefined;
-};
+export type FixedSubscriptionLinksItemMap = { [key: string]: string | undefined };
 export const FixedSubscriptionLinksItemMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -5390,9 +5769,7 @@ export const FixedSubscription = /*@__PURE__*/ S.suspend(() =>
     links: S.optional(FixedSubscriptionLinksList),
     databaseStatus: S.optional(S.String),
   }),
-).annotate({
-  identifier: "FixedSubscription",
-}) as any as S.Schema<FixedSubscription>;
+).annotate({ identifier: "FixedSubscription" }) as any as S.Schema<FixedSubscription>;
 
 export interface GetSubscriptionDatabaseRequest {
   /** Subscription ID. */
@@ -5501,9 +5878,7 @@ export const DynamicEndpoints = /*@__PURE__*/ S.suspend(() =>
     public: S.optional(S.String),
     private: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DynamicEndpoints",
-}) as any as S.Schema<DynamicEndpoints>;
+).annotate({ identifier: "DynamicEndpoints" }) as any as S.Schema<DynamicEndpoints>;
 
 /** Endpoints to use when configuring another database to replicate from this database (Make sure to use this instead of the dynamic endpoints). */
 export interface ReplicaAsSourceEndpoints {
@@ -5517,9 +5892,7 @@ export const ReplicaAsSourceEndpoints = /*@__PURE__*/ S.suspend(() =>
     public: S.optional(S.String),
     private: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ReplicaAsSourceEndpoints",
-}) as any as S.Schema<ReplicaAsSourceEndpoints>;
+).annotate({ identifier: "ReplicaAsSourceEndpoints" }) as any as S.Schema<ReplicaAsSourceEndpoints>;
 
 export type FixedDatabaseLinksItemMap = { [key: string]: string | undefined };
 export const FixedDatabaseLinksItemMap = /*@__PURE__*/ S.Record(
@@ -5629,9 +6002,7 @@ export const DatabaseCertificate = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     publicCertificatePEMString: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DatabaseCertificate",
-}) as any as S.Schema<DatabaseCertificate>;
+).annotate({ identifier: "DatabaseCertificate" }) as any as S.Schema<DatabaseCertificate>;
 
 export interface GetSubscriptionDatabasesRequest {
   /** Subscription ID. */
@@ -5647,19 +6018,13 @@ export const GetSubscriptionDatabasesRequest = /*@__PURE__*/ S.suspend(() =>
     offset: S.optional(S.Number.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/subscriptions/{subscriptionId}/databases",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/v1/subscriptions/{subscriptionId}/databases", code: 200 }),
   ),
 ).annotate({
   identifier: "GetSubscriptionDatabasesRequest",
 }) as any as S.Schema<GetSubscriptionDatabasesRequest>;
 
-export type AccountSubscriptionDatabasesLinksItemMap = {
-  [key: string]: string | undefined;
-};
+export type AccountSubscriptionDatabasesLinksItemMap = { [key: string]: string | undefined };
 export const AccountSubscriptionDatabasesLinksItemMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -5721,9 +6086,7 @@ export const MaintenanceWindow = /*@__PURE__*/ S.suspend(() =>
     startHour: S.optional(S.Number),
     durationInHours: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "MaintenanceWindow",
-}) as any as S.Schema<MaintenanceWindow>;
+).annotate({ identifier: "MaintenanceWindow" }) as any as S.Schema<MaintenanceWindow>;
 
 export type SubscriptionMaintenanceWindowsWindowsList = Array<MaintenanceWindow>;
 export const SubscriptionMaintenanceWindowsWindowsList = /*@__PURE__*/ S.Array(
@@ -5767,13 +6130,7 @@ export interface GetSubscriptionPricingRequest {
 export const GetSubscriptionPricingRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     subscriptionId: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/subscriptions/{subscriptionId}/pricing",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/subscriptions/{subscriptionId}/pricing", code: 200 })),
 ).annotate({
   identifier: "GetSubscriptionPricingRequest",
 }) as any as S.Schema<GetSubscriptionPricingRequest>;
@@ -5799,9 +6156,7 @@ export const SubscriptionPricing = /*@__PURE__*/ S.suspend(() =>
     pricePeriod: S.optional(S.String),
     region: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SubscriptionPricing",
-}) as any as S.Schema<SubscriptionPricing>;
+).annotate({ identifier: "SubscriptionPricing" }) as any as S.Schema<SubscriptionPricing>;
 
 export type SubscriptionPricingsPricingList = Array<SubscriptionPricing>;
 export const SubscriptionPricingsPricingList = /*@__PURE__*/ S.Array(
@@ -5815,9 +6170,7 @@ export const SubscriptionPricings = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     pricing: S.optional(SubscriptionPricingsPricingList),
   }),
-).annotate({
-  identifier: "SubscriptionPricings",
-}) as any as S.Schema<SubscriptionPricings>;
+).annotate({ identifier: "SubscriptionPricings" }) as any as S.Schema<SubscriptionPricings>;
 
 export interface GetSupportedDatabaseModulesRequest {}
 export const GetSupportedDatabaseModulesRequest = /*@__PURE__*/ S.suspend(() =>
@@ -5928,13 +6281,7 @@ export const Regions = /*@__PURE__*/ S.suspend(() =>
 
 export interface GetSupportedSearchScalingFactorsRequest {}
 export const GetSupportedSearchScalingFactorsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/query-performance-factors",
-      code: 200,
-    }),
-  ),
+  S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v1/query-performance-factors", code: 200 })),
 ).annotate({
   identifier: "GetSupportedSearchScalingFactorsRequest",
 }) as any as S.Schema<GetSupportedSearchScalingFactorsRequest>;
@@ -5944,9 +6291,7 @@ export const SearchScalingFactorsDataQueryPerformanceFactorsList = /*@__PURE__*/
   S.String,
 ) as any as S.Schema<SearchScalingFactorsDataQueryPerformanceFactorsList>;
 
-export type SearchScalingFactorsDataLinksItemMap = {
-  [key: string]: string | undefined;
-};
+export type SearchScalingFactorsDataLinksItemMap = { [key: string]: string | undefined };
 export const SearchScalingFactorsDataLinksItemMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -5966,9 +6311,7 @@ export const SearchScalingFactorsData = /*@__PURE__*/ S.suspend(() =>
     queryPerformanceFactors: S.optional(SearchScalingFactorsDataQueryPerformanceFactorsList),
     links: S.optional(SearchScalingFactorsDataLinksList),
   }),
-).annotate({
-  identifier: "SearchScalingFactorsData",
-}) as any as S.Schema<SearchScalingFactorsData>;
+).annotate({ identifier: "SearchScalingFactorsData" }) as any as S.Schema<SearchScalingFactorsData>;
 
 export interface GetTagsRequest {
   /** Subscription ID. */
@@ -6029,9 +6372,7 @@ export const GetTags1Request = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetTags1Request",
-}) as any as S.Schema<GetTags1Request>;
+).annotate({ identifier: "GetTags1Request" }) as any as S.Schema<GetTags1Request>;
 
 export interface GetTaskRequest {
   /** Task ID. */
@@ -6051,11 +6392,7 @@ export const GetTgwsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     subscriptionId: S.Number.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/subscriptions/{subscriptionId}/transitGateways",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/v1/subscriptions/{subscriptionId}/transitGateways", code: 200 }),
   ),
 ).annotate({ identifier: "GetTgwsRequest" }) as any as S.Schema<GetTgwsRequest>;
 
@@ -6101,9 +6438,7 @@ export const AccountUserOptions = /*@__PURE__*/ S.suspend(() =>
     operationalEmails: S.optional(S.Boolean),
     mfaEnabled: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "AccountUserOptions",
-}) as any as S.Schema<AccountUserOptions>;
+).annotate({ identifier: "AccountUserOptions" }) as any as S.Schema<AccountUserOptions>;
 
 /** RedisLabs User information */
 export interface AccountUser {
@@ -6137,9 +6472,7 @@ export const GetUserByIDRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     aclUserId: S.Number.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/v1/acl/users/{aclUserId}", code: 200 })),
-).annotate({
-  identifier: "GetUserByIDRequest",
-}) as any as S.Schema<GetUserByIDRequest>;
+).annotate({ identifier: "GetUserByIDRequest" }) as any as S.Schema<GetUserByIDRequest>;
 
 export type ACLUserLinksItemMap = { [key: string]: string | undefined };
 export const ACLUserLinksItemMap = /*@__PURE__*/ S.Record(
@@ -6177,16 +6510,8 @@ export interface GetVpcPeeringRequest {
 export const GetVpcPeeringRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     subscriptionId: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v1/subscriptions/{subscriptionId}/peerings",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetVpcPeeringRequest",
-}) as any as S.Schema<GetVpcPeeringRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/v1/subscriptions/{subscriptionId}/peerings", code: 200 })),
+).annotate({ identifier: "GetVpcPeeringRequest" }) as any as S.Schema<GetVpcPeeringRequest>;
 
 export interface GetVpcPeeringResponse {}
 export const GetVpcPeeringResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -6232,9 +6557,7 @@ export const ImportDatabaseRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "ImportDatabaseRequest",
-}) as any as S.Schema<ImportDatabaseRequest>;
+).annotate({ identifier: "ImportDatabaseRequest" }) as any as S.Schema<ImportDatabaseRequest>;
 
 /** Type of storage from which to import the database RDB file or Redis data. */
 export type ImportDatabase1RequestSourceType =
@@ -6275,9 +6598,81 @@ export const ImportDatabase1Request = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
+).annotate({ identifier: "ImportDatabase1Request" }) as any as S.Schema<ImportDatabase1Request>;
+
+export interface ListMemoryStoreApiKeysRequest {
+  /** Memory store ID. */
+  storeId: string;
+}
+export const ListMemoryStoreApiKeysRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    storeId: S.String.pipe(T.Label()),
+  }).pipe(T.Http({ method: "GET", uri: "/v1/memory-stores/{storeId}/api-keys", code: 200 })),
 ).annotate({
-  identifier: "ImportDatabase1Request",
-}) as any as S.Schema<ImportDatabase1Request>;
+  identifier: "ListMemoryStoreApiKeysRequest",
+}) as any as S.Schema<ListMemoryStoreApiKeysRequest>;
+
+export interface ListMemoryStoreApiKeysResponse {}
+export const ListMemoryStoreApiKeysResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  identifier: "ListMemoryStoreApiKeysResponse",
+}) as any as S.Schema<ListMemoryStoreApiKeysResponse>;
+
+export interface ListMemoryStoresRequest {}
+export const ListMemoryStoresRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v1/memory-stores", code: 200 })),
+).annotate({ identifier: "ListMemoryStoresRequest" }) as any as S.Schema<ListMemoryStoresRequest>;
+
+/** How long-term memories are extracted from sessions. INSTRUCT uses LLM tool calling to create, update and delete granular memories */
+export type MemoryStoreSummaryExtractionStrategy = "INSTRUCT";
+export const MemoryStoreSummaryExtractionStrategy = S.String;
+
+/** Lifecycle status of the memory store */
+export type MemoryStoreSummaryStatus = "PROVISIONING" | "READY" | "UNAVAILABLE";
+export const MemoryStoreSummaryStatus = S.String;
+
+export interface MemoryStoreSummary {
+  storeId?: string;
+  name?: string;
+  createdAt?: string;
+  databaseId?: string;
+  databaseName?: string;
+  subscriptionId?: string;
+  /** How long-term memories are extracted from sessions. INSTRUCT uses LLM tool calling to create, update and delete granular memories */
+  extractionStrategy?: MemoryStoreSummaryExtractionStrategy;
+  summarization?: MemoryStoreSummarizationConfig;
+  llm?: MemoryStoreModelStatus;
+  /** Lifecycle status of the memory store */
+  status?: MemoryStoreSummaryStatus;
+}
+export const MemoryStoreSummary = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    storeId: S.optional(S.String),
+    name: S.optional(S.String),
+    createdAt: S.optional(S.String),
+    databaseId: S.optional(S.String),
+    databaseName: S.optional(S.String),
+    subscriptionId: S.optional(S.String),
+    extractionStrategy: S.optional(MemoryStoreSummaryExtractionStrategy),
+    summarization: S.optional(MemoryStoreSummarizationConfig),
+    llm: S.optional(MemoryStoreModelStatus),
+    status: S.optional(MemoryStoreSummaryStatus),
+  }),
+).annotate({ identifier: "MemoryStoreSummary" }) as any as S.Schema<MemoryStoreSummary>;
+
+export type MemoryStoreListResponseDataList = Array<MemoryStoreSummary>;
+export const MemoryStoreListResponseDataList = /*@__PURE__*/ S.Array(
+  MemoryStoreSummary,
+) as any as S.Schema<MemoryStoreListResponseDataList>;
+
+/** List of memory stores */
+export interface MemoryStoreListResponse {
+  data?: MemoryStoreListResponseDataList;
+}
+export const MemoryStoreListResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    data: S.optional(MemoryStoreListResponseDataList),
+  }),
+).annotate({ identifier: "MemoryStoreListResponse" }) as any as S.Schema<MemoryStoreListResponse>;
 
 export interface ProxyDataIntegrationWorkspace5Request {
   /** Subscription ID. */
@@ -6480,9 +6875,7 @@ export const ResumeBdbTrafficRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "ResumeBdbTrafficRequest",
-}) as any as S.Schema<ResumeBdbTrafficRequest>;
+).annotate({ identifier: "ResumeBdbTrafficRequest" }) as any as S.Schema<ResumeBdbTrafficRequest>;
 
 export interface ResumeBdbTrafficResponse {}
 export const ResumeBdbTrafficResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -6506,9 +6899,7 @@ export const ResumeBdbTraffic1Request = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "ResumeBdbTraffic1Request",
-}) as any as S.Schema<ResumeBdbTraffic1Request>;
+).annotate({ identifier: "ResumeBdbTraffic1Request" }) as any as S.Schema<ResumeBdbTraffic1Request>;
 
 export interface ResumeBdbTraffic1Response {}
 export const ResumeBdbTraffic1Response = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -6523,11 +6914,7 @@ export const RevertEndpointsRedirectionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     redirectionId: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v1/endpoint-redirections/{redirectionId}/revert",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/v1/endpoint-redirections/{redirectionId}/revert", code: 200 }),
   ),
 ).annotate({
   identifier: "RevertEndpointsRedirectionRequest",
@@ -6694,13 +7081,7 @@ export const UpdateCloudAccountRequest = /*@__PURE__*/ S.suspend(() =>
     consoleUsername: S.String,
     consolePassword: S.String.pipe(T.SensitiveValue({})),
     signInLoginUrl: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/v1/cloud-accounts/{cloudAccountId}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/v1/cloud-accounts/{cloudAccountId}", code: 200 })),
 ).annotate({
   identifier: "UpdateCloudAccountRequest",
 }) as any as S.Schema<UpdateCloudAccountRequest>;
@@ -7048,9 +7429,92 @@ export const UpdateDatabaseRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
+).annotate({ identifier: "UpdateDatabaseRequest" }) as any as S.Schema<UpdateDatabaseRequest>;
+
+/** Long-term memory configuration accepted on update. Only the TTL and the embedding credential can change */
+export interface MemoryStoreLongTermMemoryUpdateConfig {
+  /** New time-to-live of long-term memory entries, in seconds (1 second to 1 year). Omit to leave unchanged */
+  ttlSeconds?: number;
+  embedding?: MemoryStoreModelConfig;
+}
+export const MemoryStoreLongTermMemoryUpdateConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ttlSeconds: S.optional(S.Number),
+    embedding: S.optional(MemoryStoreModelConfig),
+  }),
 ).annotate({
-  identifier: "UpdateDatabaseRequest",
-}) as any as S.Schema<UpdateDatabaseRequest>;
+  identifier: "MemoryStoreLongTermMemoryUpdateConfig",
+}) as any as S.Schema<MemoryStoreLongTermMemoryUpdateConfig>;
+
+/** Optional. New custom memory types to append to the store's registry. A store may define at most 3 custom memory types in total, including those already registered. Existing types cannot be redefined */
+export type UpdateMemoryStoreRequestAddCustomMemoryTypesList = Array<MemoryStoreCustomMemoryType>;
+export const UpdateMemoryStoreRequestAddCustomMemoryTypesList = /*@__PURE__*/ S.Array(
+  MemoryStoreCustomMemoryType,
+) as any as S.Schema<UpdateMemoryStoreRequestAddCustomMemoryTypesList>;
+
+/** Edit of the extraction strategy of an existing custom memory type. Only the prompt and the enabled flag may change; the type's name, description and fields are immutable */
+export interface MemoryStoreTypeStrategyUpdate {
+  /** Name of the existing custom memory type to edit. Required */
+  typeName: string;
+  /** Replacement extraction prompt. Omit to leave unchanged */
+  prompt?: string;
+  /** Replacement enabled flag. Omit to leave unchanged */
+  enabled?: boolean;
+}
+export const MemoryStoreTypeStrategyUpdate = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    typeName: S.String,
+    prompt: S.optional(S.String),
+    enabled: S.optional(S.Boolean),
+  }),
+).annotate({
+  identifier: "MemoryStoreTypeStrategyUpdate",
+}) as any as S.Schema<MemoryStoreTypeStrategyUpdate>;
+
+/** Optional. Extraction strategy edits (prompt and enabled flag) for existing custom memory types */
+export type UpdateMemoryStoreRequestUpdateCustomMemoryTypeStrategiesList =
+  Array<MemoryStoreTypeStrategyUpdate>;
+export const UpdateMemoryStoreRequestUpdateCustomMemoryTypeStrategiesList = /*@__PURE__*/ S.Array(
+  MemoryStoreTypeStrategyUpdate,
+) as any as S.Schema<UpdateMemoryStoreRequestUpdateCustomMemoryTypeStrategiesList>;
+
+export interface UpdateMemoryStoreRequest {
+  /** Memory store ID. */
+  storeId: string;
+  /** Optional. New memory store name (1-64 characters) */
+  name?: string;
+  shortMemory?: MemoryStoreShortMemoryConfig;
+  longTermMemory?: MemoryStoreLongTermMemoryUpdateConfig;
+  llm?: MemoryStoreModelConfig;
+  summarization?: MemoryStoreSummarizationConfig;
+  longTermMemoryExclusions?: MemoryStoreLongTermMemoryExclusions;
+  /** Optional. New custom memory types to append to the store's registry. A store may define at most 3 custom memory types in total, including those already registered. Existing types cannot be redefined */
+  addCustomMemoryTypes?: UpdateMemoryStoreRequestAddCustomMemoryTypesList;
+  /** Optional. Extraction strategy edits (prompt and enabled flag) for existing custom memory types */
+  updateCustomMemoryTypeStrategies?: UpdateMemoryStoreRequestUpdateCustomMemoryTypeStrategiesList;
+  extractionCadence?: MemoryStoreExtractionCadenceConfig;
+}
+export const UpdateMemoryStoreRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    storeId: S.String.pipe(T.Label()),
+    name: S.optional(S.String),
+    shortMemory: S.optional(MemoryStoreShortMemoryConfig),
+    longTermMemory: S.optional(MemoryStoreLongTermMemoryUpdateConfig),
+    llm: S.optional(MemoryStoreModelConfig),
+    summarization: S.optional(MemoryStoreSummarizationConfig),
+    longTermMemoryExclusions: S.optional(MemoryStoreLongTermMemoryExclusions),
+    addCustomMemoryTypes: S.optional(UpdateMemoryStoreRequestAddCustomMemoryTypesList),
+    updateCustomMemoryTypeStrategies: S.optional(
+      UpdateMemoryStoreRequestUpdateCustomMemoryTypeStrategiesList,
+    ),
+    extractionCadence: S.optional(MemoryStoreExtractionCadenceConfig),
+  }).pipe(T.Http({ method: "PATCH", uri: "/v1/memory-stores/{storeId}", code: 200 })),
+).annotate({ identifier: "UpdateMemoryStoreRequest" }) as any as S.Schema<UpdateMemoryStoreRequest>;
+
+export interface UpdateMemoryStoreResponse {}
+export const UpdateMemoryStoreResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  identifier: "UpdateMemoryStoreResponse",
+}) as any as S.Schema<UpdateMemoryStoreResponse>;
 
 /** Action to perform on the endpoint. */
 export type UpdatePscServiceEndpointRequestAction = "accept" | "reject";
@@ -7115,16 +7579,8 @@ export const UpdateRedisRuleRequest = /*@__PURE__*/ S.suspend(() =>
     aclRedisRuleId: S.Number.pipe(T.Label()),
     name: S.String,
     redisRule: S.String,
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/v1/acl/redisRules/{aclRedisRuleId}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "UpdateRedisRuleRequest",
-}) as any as S.Schema<UpdateRedisRuleRequest>;
+  }).pipe(T.Http({ method: "PUT", uri: "/v1/acl/redisRules/{aclRedisRuleId}", code: 200 })),
+).annotate({ identifier: "UpdateRedisRuleRequest" }) as any as S.Schema<UpdateRedisRuleRequest>;
 
 export interface UpdateRedisRuleResponse {}
 export const UpdateRedisRuleResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -7151,9 +7607,7 @@ export const UpdateRoleRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     redisRules: S.optional(UpdateRoleRequestRedisRulesList),
   }).pipe(T.Http({ method: "PUT", uri: "/v1/acl/roles/{aclRoleId}", code: 200 })),
-).annotate({
-  identifier: "UpdateRoleRequest",
-}) as any as S.Schema<UpdateRoleRequest>;
+).annotate({ identifier: "UpdateRoleRequest" }) as any as S.Schema<UpdateRoleRequest>;
 
 export interface UpdateRoleResponse {}
 export const UpdateRoleResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -7167,13 +7621,7 @@ export interface UpdateSubscriptionRequest {
 export const UpdateSubscriptionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     subscriptionId: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/v1/subscriptions/{subscriptionId}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/v1/subscriptions/{subscriptionId}", code: 200 })),
 ).annotate({
   identifier: "UpdateSubscriptionRequest",
 }) as any as S.Schema<UpdateSubscriptionRequest>;
@@ -7200,13 +7648,7 @@ export const UpdateSubscription1Request = /*@__PURE__*/ S.suspend(() =>
     planId: S.optional(S.Number),
     paymentMethod: S.optional(UpdateSubscription1RequestPaymentMethod),
     paymentMethodId: S.optional(S.Number),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/v1/fixed/subscriptions/{subscriptionId}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/v1/fixed/subscriptions/{subscriptionId}", code: 200 })),
 ).annotate({
   identifier: "UpdateSubscription1Request",
 }) as any as S.Schema<UpdateSubscription1Request>;
@@ -7241,13 +7683,7 @@ export const UpdateSubscriptionCidrWhiteListRequest = /*@__PURE__*/ S.suspend(()
     subscriptionId: S.Number.pipe(T.Label()),
     cidrIps: S.optional(UpdateSubscriptionCidrWhiteListRequestCidrIpsList),
     securityGroupIds: S.optional(UpdateSubscriptionCidrWhiteListRequestSecurityGroupIdsList),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/v1/subscriptions/{subscriptionId}/cidr",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/v1/subscriptions/{subscriptionId}/cidr", code: 200 })),
 ).annotate({
   identifier: "UpdateSubscriptionCidrWhiteListRequest",
 }) as any as S.Schema<UpdateSubscriptionCidrWhiteListRequest>;
@@ -7284,9 +7720,7 @@ export const MaintenanceWindowSpec = /*@__PURE__*/ S.suspend(() =>
     durationInHours: S.Number,
     days: MaintenanceWindowSpecDaysList,
   }),
-).annotate({
-  identifier: "MaintenanceWindowSpec",
-}) as any as S.Schema<MaintenanceWindowSpec>;
+).annotate({ identifier: "MaintenanceWindowSpec" }) as any as S.Schema<MaintenanceWindowSpec>;
 
 /** Maintenance window timeframes if mode is set to 'manual'. Up to 7 maintenance windows can be provided. */
 export type UpdateSubscriptionMaintenanceWindowsRequestWindowsList = Array<MaintenanceWindowSpec>;
@@ -7335,11 +7769,7 @@ export const UpdateSubscriptionResourceTagsRequest = /*@__PURE__*/ S.suspend(() 
     subscriptionId: S.Number.pipe(T.Label()),
     resourceTags: UpdateSubscriptionResourceTagsRequestResourceTagsList,
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/v1/subscriptions/{subscriptionId}/resource-tags",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/v1/subscriptions/{subscriptionId}/resource-tags", code: 200 }),
   ),
 ).annotate({
   identifier: "UpdateSubscriptionResourceTagsRequest",
@@ -7375,9 +7805,7 @@ export const UpdateTagRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "UpdateTagRequest",
-}) as any as S.Schema<UpdateTagRequest>;
+).annotate({ identifier: "UpdateTagRequest" }) as any as S.Schema<UpdateTagRequest>;
 
 export interface UpdateTag1Request {
   /** Subscription ID. */
@@ -7402,9 +7830,7 @@ export const UpdateTag1Request = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "UpdateTag1Request",
-}) as any as S.Schema<UpdateTag1Request>;
+).annotate({ identifier: "UpdateTag1Request" }) as any as S.Schema<UpdateTag1Request>;
 
 /** Database tag */
 export interface TagInput {
@@ -7446,9 +7872,7 @@ export const UpdateTagsRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "UpdateTagsRequest",
-}) as any as S.Schema<UpdateTagsRequest>;
+).annotate({ identifier: "UpdateTagsRequest" }) as any as S.Schema<UpdateTagsRequest>;
 
 /** List of database tags. */
 export type UpdateTags1RequestTagsList = Array<TagInput>;
@@ -7476,9 +7900,7 @@ export const UpdateTags1Request = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "UpdateTags1Request",
-}) as any as S.Schema<UpdateTags1Request>;
+).annotate({ identifier: "UpdateTags1Request" }) as any as S.Schema<UpdateTags1Request>;
 
 /** Optional. List of transit gateway attachment CIDRs. */
 export type UpdateTgwAttachmentCidrsRequestCidrsList = Array<Cidr>;
@@ -7541,9 +7963,7 @@ export const UpdateUserRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     role: S.optional(UpdateUserRequestRole),
   }).pipe(T.Http({ method: "PUT", uri: "/v1/users/{userId}", code: 200 })),
-).annotate({
-  identifier: "UpdateUserRequest",
-}) as any as S.Schema<UpdateUserRequest>;
+).annotate({ identifier: "UpdateUserRequest" }) as any as S.Schema<UpdateUserRequest>;
 
 export interface UpdateUser1Request {
   /** Access control user ID. */
@@ -7559,9 +7979,7 @@ export const UpdateUser1Request = /*@__PURE__*/ S.suspend(() =>
     role: S.optional(S.String),
     password: S.optional(S.String.pipe(T.SensitiveValue({}))),
   }).pipe(T.Http({ method: "PUT", uri: "/v1/acl/users/{aclUserId}", code: 200 })),
-).annotate({
-  identifier: "UpdateUser1Request",
-}) as any as S.Schema<UpdateUser1Request>;
+).annotate({ identifier: "UpdateUser1Request" }) as any as S.Schema<UpdateUser1Request>;
 
 /** Optional. List of VPC CIDRs. */
 export type UpdateVpcPeeringRequestVpcCidrsList = Array<string>;
@@ -7592,9 +8010,7 @@ export const UpdateVpcPeeringRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "UpdateVpcPeeringRequest",
-}) as any as S.Schema<UpdateVpcPeeringRequest>;
+).annotate({ identifier: "UpdateVpcPeeringRequest" }) as any as S.Schema<UpdateVpcPeeringRequest>;
 
 export interface UpdateVpcPeeringResponse {}
 export const UpdateVpcPeeringResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -7965,6 +8381,48 @@ export const createFixedDatabase: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateFixedDatabaseRequest,
   output: TaskStateUpdate,
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRedisCloudError],
+  protocol: RedisCloudProtocol,
+  retry: Retry.Retry,
+}));
+
+export type CreateMemoryStoreError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | Conflict
+  | UnprocessableEntity
+  | RedisCloudOpError;
+/** Create memory store Create an Agent Memory store on the database identified by database Id. The request is accepted and processed asynchronously: errors reported by the Agent Memory service are returned in the task status (see GET /tasks/{taskId}), not in this response */
+export const createMemoryStore: API.OperationMethod<
+  CreateMemoryStoreRequest,
+  CreateMemoryStoreResponse,
+  CreateMemoryStoreError,
+  RedisCloudOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateMemoryStoreRequest,
+  output: CreateMemoryStoreResponse,
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRedisCloudError],
+  protocol: RedisCloudProtocol,
+  retry: Retry.Retry,
+}));
+
+export type CreateMemoryStoreApiKeyError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | Conflict
+  | UnprocessableEntity
+  | RedisCloudOpError;
+/** Create memory store API key Create an API key for the Agent Memory store identified by store Id. The generated key value is returned once and cannot be retrieved again */
+export const createMemoryStoreApiKey: API.OperationMethod<
+  CreateMemoryStoreApiKeyRequest,
+  MemoryStoreApiKeyCreateResponse,
+  CreateMemoryStoreApiKeyError,
+  RedisCloudOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateMemoryStoreApiKeyRequest,
+  output: MemoryStoreApiKeyCreateResponse,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
@@ -8458,6 +8916,46 @@ export const deleteFixedDatabaseByID1: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type DeleteMemoryStoreError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | Conflict
+  | RedisCloudOpError;
+/** Delete memory store Delete the Agent Memory store identified by store Id. The request is accepted and processed asynchronously: errors reported by the Agent Memory service are returned in the task status (see GET /tasks/{taskId}), not in this response */
+export const deleteMemoryStore: API.OperationMethod<
+  DeleteMemoryStoreRequest,
+  DeleteMemoryStoreResponse,
+  DeleteMemoryStoreError,
+  RedisCloudOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeleteMemoryStoreRequest,
+  output: DeleteMemoryStoreResponse,
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
+  protocol: RedisCloudProtocol,
+  retry: Retry.Retry,
+}));
+
+export type DeleteMemoryStoreApiKeyError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | Conflict
+  | RedisCloudOpError;
+/** Delete memory store API key Delete the API key identified by API key Id from the Agent Memory store identified by store Id */
+export const deleteMemoryStoreApiKey: API.OperationMethod<
+  DeleteMemoryStoreApiKeyRequest,
+  DeleteMemoryStoreApiKeyResponse,
+  DeleteMemoryStoreApiKeyError,
+  RedisCloudOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeleteMemoryStoreApiKeyRequest,
+  output: DeleteMemoryStoreApiKeyResponse,
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
+  protocol: RedisCloudProtocol,
+  retry: Retry.Retry,
+}));
+
 export type DeletePrivateLinkError =
   | BadRequest
   | Forbidden
@@ -8753,6 +9251,26 @@ export const disassociatePrivateLinkConnections: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type EmptyMemoryStoreError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | Conflict
+  | RedisCloudOpError;
+/** Empty memory store session memory Clear the session (working) memory of the Agent Memory store identified by store Id. The request is accepted and processed asynchronously: errors reported by the Agent Memory service are returned in the task status (see GET /tasks/{taskId}), not in this response */
+export const emptyMemoryStore: API.OperationMethod<
+  EmptyMemoryStoreRequest,
+  EmptyMemoryStoreResponse,
+  EmptyMemoryStoreError,
+  RedisCloudOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: EmptyMemoryStoreRequest,
+  output: EmptyMemoryStoreResponse,
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
+  protocol: RedisCloudProtocol,
+  retry: Retry.Retry,
+}));
+
 export type FlushCrdbError = BadRequest | Forbidden | NotFound | Conflict | RedisCloudOpError;
 /** Flush Pro database Deletes all data from the specified Pro database. */
 export const flushCrdb: API.OperationMethod<
@@ -8763,6 +9281,26 @@ export const flushCrdb: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: FlushCrdbRequest,
   output: TaskStateUpdate,
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
+  protocol: RedisCloudProtocol,
+  retry: Retry.Retry,
+}));
+
+export type FlushMemoryStoreError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | Conflict
+  | RedisCloudOpError;
+/** Flush memory store entries Clear all working memory sessions and long-term memories from the Agent Memory store identified by store Id. The request is accepted and processed asynchronously: errors reported by the Agent Memory service are returned in the task status (see GET /tasks/{taskId}), not in this response */
+export const flushMemoryStore: API.OperationMethod<
+  FlushMemoryStoreRequest,
+  FlushMemoryStoreResponse,
+  FlushMemoryStoreError,
+  RedisCloudOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: FlushMemoryStoreRequest,
+  output: FlushMemoryStoreResponse,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
@@ -9428,6 +9966,21 @@ export const getFixedSubscriptionsPlansBySubscriptionId: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type GetMemoryStoreError = BadRequest | Forbidden | NotFound | RedisCloudOpError;
+/** Get memory store Get the Agent Memory store identified by store Id */
+export const getMemoryStore: API.OperationMethod<
+  GetMemoryStoreRequest,
+  MemoryStoreResponse,
+  GetMemoryStoreError,
+  RedisCloudOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetMemoryStoreRequest,
+  output: MemoryStoreResponse,
+  errors: [BadRequest, Forbidden, NotFound, UnknownRedisCloudError],
+  protocol: RedisCloudProtocol,
+  retry: Retry.Retry,
+}));
+
 export type GetPrivateLinkError = BadRequest | Forbidden | NotFound | RedisCloudOpError;
 /** Get Private Link configuration Gets the Private Link configuration for a subscription. [Asynchronous operation](https://redis.io/docs/latest/operate/rc/api/get-started/process-lifecycle/) - Query [GET /tasks/{taskId}](#tag/Tasks/operation/getTaskById) with the returned taskId. */
 export const getPrivateLink: API.OperationMethod<
@@ -9959,6 +10512,46 @@ export const importDatabase1: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type ListMemoryStoreApiKeysError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | Conflict
+  | RedisCloudOpError;
+/** List memory store API keys List the API keys of the Agent Memory store identified by store Id. Key values are obfuscated */
+export const listMemoryStoreApiKeys: API.OperationMethod<
+  ListMemoryStoreApiKeysRequest,
+  ListMemoryStoreApiKeysResponse,
+  ListMemoryStoreApiKeysError,
+  RedisCloudOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListMemoryStoreApiKeysRequest,
+  output: ListMemoryStoreApiKeysResponse,
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
+  protocol: RedisCloudProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListMemoryStoresError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | Conflict
+  | RedisCloudOpError;
+/** List memory stores List the Agent Memory stores for the account */
+export const listMemoryStores: API.OperationMethod<
+  ListMemoryStoresRequest,
+  MemoryStoreListResponse,
+  ListMemoryStoresError,
+  RedisCloudOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListMemoryStoresRequest,
+  output: MemoryStoreListResponse,
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
+  protocol: RedisCloudProtocol,
+  retry: Retry.Retry,
+}));
+
 export type ProxyDataIntegrationWorkspace5Error =
   | BadRequest
   | Forbidden
@@ -10269,6 +10862,26 @@ export const updateDatabase: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateDatabaseRequest,
   output: TaskStateUpdate,
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
+  protocol: RedisCloudProtocol,
+  retry: Retry.Retry,
+}));
+
+export type UpdateMemoryStoreError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | Conflict
+  | RedisCloudOpError;
+/** Update memory store Update the configuration of the Agent Memory store identified by store Id. The request is accepted and processed asynchronously: errors reported by the Agent Memory service are returned in the task status (see GET /tasks/{taskId}), not in this response */
+export const updateMemoryStore: API.OperationMethod<
+  UpdateMemoryStoreRequest,
+  UpdateMemoryStoreResponse,
+  UpdateMemoryStoreError,
+  RedisCloudOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: UpdateMemoryStoreRequest,
+  output: UpdateMemoryStoreResponse,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,

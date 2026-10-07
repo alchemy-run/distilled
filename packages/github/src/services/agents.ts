@@ -107,9 +107,7 @@ export const CreateOrgVariableRequest = /*@__PURE__*/ S.suspend(() =>
     visibility: CreateOrgVariableRequestVisibility,
     selected_repository_ids: S.optional(CreateOrgVariableRequestSelectedRepositoryIdsList),
   }).pipe(T.Http({ method: "POST", uri: "/orgs/{org}/agents/variables", code: 200 })),
-).annotate({
-  identifier: "CreateOrgVariableRequest",
-}) as any as S.Schema<CreateOrgVariableRequest>;
+).annotate({ identifier: "CreateOrgVariableRequest" }) as any as S.Schema<CreateOrgVariableRequest>;
 
 export type CreateOrgVariableResponse = unknown;
 export const CreateOrgVariableResponse = /*@__PURE__*/ S.suspend(() =>
@@ -150,13 +148,7 @@ export const CreateOrUpdateOrgSecretRequest = /*@__PURE__*/ S.suspend(() =>
     key_id: S.String,
     visibility: CreateOrUpdateOrgSecretRequestVisibility,
     selected_repository_ids: S.optional(CreateOrUpdateOrgSecretRequestSelectedRepositoryIdsList),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/orgs/{org}/agents/secrets/{secret_name}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/orgs/{org}/agents/secrets/{secret_name}", code: 200 })),
 ).annotate({
   identifier: "CreateOrUpdateOrgSecretRequest",
 }) as any as S.Schema<CreateOrUpdateOrgSecretRequest>;
@@ -188,11 +180,7 @@ export const CreateOrUpdateRepoSecretRequest = /*@__PURE__*/ S.suspend(() =>
     encrypted_value: S.String,
     key_id: S.String,
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/repos/{owner}/{repo}/agents/secrets/{secret_name}",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/repos/{owner}/{repo}/agents/secrets/{secret_name}", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateOrUpdateRepoSecretRequest",
@@ -221,13 +209,7 @@ export const CreateRepoVariableRequest = /*@__PURE__*/ S.suspend(() =>
     repo: S.String.pipe(T.Label()),
     name: S.String,
     value: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/repos/{owner}/{repo}/agents/variables",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/repos/{owner}/{repo}/agents/variables", code: 200 })),
 ).annotate({
   identifier: "CreateRepoVariableRequest",
 }) as any as S.Schema<CreateRepoVariableRequest>;
@@ -249,16 +231,8 @@ export const DeleteOrgSecretRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     org: S.String.pipe(T.Label()),
     secret_name: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/orgs/{org}/agents/secrets/{secret_name}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "DeleteOrgSecretRequest",
-}) as any as S.Schema<DeleteOrgSecretRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/orgs/{org}/agents/secrets/{secret_name}", code: 200 })),
+).annotate({ identifier: "DeleteOrgSecretRequest" }) as any as S.Schema<DeleteOrgSecretRequest>;
 
 export interface DeleteOrgSecretResponse {}
 export const DeleteOrgSecretResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -275,16 +249,8 @@ export const DeleteOrgVariableRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     org: S.String.pipe(T.Label()),
     name: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/orgs/{org}/agents/variables/{name}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "DeleteOrgVariableRequest",
-}) as any as S.Schema<DeleteOrgVariableRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/orgs/{org}/agents/variables/{name}", code: 200 })),
+).annotate({ identifier: "DeleteOrgVariableRequest" }) as any as S.Schema<DeleteOrgVariableRequest>;
 
 export interface DeleteOrgVariableResponse {}
 export const DeleteOrgVariableResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -311,9 +277,7 @@ export const DeleteRepoSecretRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "DeleteRepoSecretRequest",
-}) as any as S.Schema<DeleteRepoSecretRequest>;
+).annotate({ identifier: "DeleteRepoSecretRequest" }) as any as S.Schema<DeleteRepoSecretRequest>;
 
 export interface DeleteRepoSecretResponse {}
 export const DeleteRepoSecretResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -334,11 +298,7 @@ export const DeleteRepoVariableRequest = /*@__PURE__*/ S.suspend(() =>
     repo: S.String.pipe(T.Label()),
     name: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/repos/{owner}/{repo}/agents/variables/{name}",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/repos/{owner}/{repo}/agents/variables/{name}", code: 200 }),
   ),
 ).annotate({
   identifier: "DeleteRepoVariableRequest",
@@ -356,16 +316,8 @@ export interface GetOrgPublicKeyRequest {
 export const GetOrgPublicKeyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     org: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/orgs/{org}/agents/secrets/public-key",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetOrgPublicKeyRequest",
-}) as any as S.Schema<GetOrgPublicKeyRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/orgs/{org}/agents/secrets/public-key", code: 200 })),
+).annotate({ identifier: "GetOrgPublicKeyRequest" }) as any as S.Schema<GetOrgPublicKeyRequest>;
 
 /** The public key used for setting Actions Secrets. */
 export interface ActionsPublicKey {
@@ -387,9 +339,7 @@ export const ActionsPublicKey = /*@__PURE__*/ S.suspend(() =>
     title: S.optional(S.String),
     created_at: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ActionsPublicKey",
-}) as any as S.Schema<ActionsPublicKey>;
+).annotate({ identifier: "ActionsPublicKey" }) as any as S.Schema<ActionsPublicKey>;
 
 export interface GetOrgSecretRequest {
   /** The organization name. The name is not case sensitive. */
@@ -401,16 +351,8 @@ export const GetOrgSecretRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     org: S.String.pipe(T.Label()),
     secret_name: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/orgs/{org}/agents/secrets/{secret_name}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetOrgSecretRequest",
-}) as any as S.Schema<GetOrgSecretRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/orgs/{org}/agents/secrets/{secret_name}", code: 200 })),
+).annotate({ identifier: "GetOrgSecretRequest" }) as any as S.Schema<GetOrgSecretRequest>;
 
 /** Visibility of a secret */
 export type OrganizationActionsSecretVisibility = "all" | "private" | "selected";
@@ -448,16 +390,8 @@ export const GetOrgVariableRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     org: S.String.pipe(T.Label()),
     name: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/orgs/{org}/agents/variables/{name}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetOrgVariableRequest",
-}) as any as S.Schema<GetOrgVariableRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/orgs/{org}/agents/variables/{name}", code: 200 })),
+).annotate({ identifier: "GetOrgVariableRequest" }) as any as S.Schema<GetOrgVariableRequest>;
 
 /** Visibility of a variable */
 export type OrganizationActionsVariableVisibility = "all" | "private" | "selected";
@@ -501,15 +435,9 @@ export const GetRepoPublicKeyRequest = /*@__PURE__*/ S.suspend(() =>
     owner: S.String.pipe(T.Label()),
     repo: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/agents/secrets/public-key",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/agents/secrets/public-key", code: 200 }),
   ),
-).annotate({
-  identifier: "GetRepoPublicKeyRequest",
-}) as any as S.Schema<GetRepoPublicKeyRequest>;
+).annotate({ identifier: "GetRepoPublicKeyRequest" }) as any as S.Schema<GetRepoPublicKeyRequest>;
 
 export interface GetRepoSecretRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -525,15 +453,9 @@ export const GetRepoSecretRequest = /*@__PURE__*/ S.suspend(() =>
     repo: S.String.pipe(T.Label()),
     secret_name: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/agents/secrets/{secret_name}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/agents/secrets/{secret_name}", code: 200 }),
   ),
-).annotate({
-  identifier: "GetRepoSecretRequest",
-}) as any as S.Schema<GetRepoSecretRequest>;
+).annotate({ identifier: "GetRepoSecretRequest" }) as any as S.Schema<GetRepoSecretRequest>;
 
 /** Set secrets for GitHub Actions. */
 export interface ActionsSecret {
@@ -564,15 +486,9 @@ export const GetRepoVariableRequest = /*@__PURE__*/ S.suspend(() =>
     repo: S.String.pipe(T.Label()),
     name: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/agents/variables/{name}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/agents/variables/{name}", code: 200 }),
   ),
-).annotate({
-  identifier: "GetRepoVariableRequest",
-}) as any as S.Schema<GetRepoVariableRequest>;
+).annotate({ identifier: "GetRepoVariableRequest" }) as any as S.Schema<GetRepoVariableRequest>;
 
 export interface ActionsVariable {
   /** The name of the variable. */
@@ -591,9 +507,7 @@ export const ActionsVariable = /*@__PURE__*/ S.suspend(() =>
     created_at: S.String,
     updated_at: S.String,
   }),
-).annotate({
-  identifier: "ActionsVariable",
-}) as any as S.Schema<ActionsVariable>;
+).annotate({ identifier: "ActionsVariable" }) as any as S.Schema<ActionsVariable>;
 
 export interface ListOrgSecretsRequest {
   /** The organization name. The name is not case sensitive. */
@@ -609,9 +523,7 @@ export const ListOrgSecretsRequest = /*@__PURE__*/ S.suspend(() =>
     per_page: S.optional(S.Number.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/orgs/{org}/agents/secrets", code: 200 })),
-).annotate({
-  identifier: "ListOrgSecretsRequest",
-}) as any as S.Schema<ListOrgSecretsRequest>;
+).annotate({ identifier: "ListOrgSecretsRequest" }) as any as S.Schema<ListOrgSecretsRequest>;
 
 export type ListOrgSecretsResponseSecretsList = Array<OrganizationActionsSecret>;
 export const ListOrgSecretsResponseSecretsList = /*@__PURE__*/ S.Array(
@@ -627,9 +539,7 @@ export const ListOrgSecretsResponse = /*@__PURE__*/ S.suspend(() =>
     total_count: S.Number,
     secrets: ListOrgSecretsResponseSecretsList,
   }),
-).annotate({
-  identifier: "ListOrgSecretsResponse",
-}) as any as S.Schema<ListOrgSecretsResponse>;
+).annotate({ identifier: "ListOrgSecretsResponse" }) as any as S.Schema<ListOrgSecretsResponse>;
 
 export interface ListOrgVariablesRequest {
   /** The organization name. The name is not case sensitive. */
@@ -645,9 +555,7 @@ export const ListOrgVariablesRequest = /*@__PURE__*/ S.suspend(() =>
     per_page: S.optional(S.Number.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/orgs/{org}/agents/variables", code: 200 })),
-).annotate({
-  identifier: "ListOrgVariablesRequest",
-}) as any as S.Schema<ListOrgVariablesRequest>;
+).annotate({ identifier: "ListOrgVariablesRequest" }) as any as S.Schema<ListOrgVariablesRequest>;
 
 export type ListOrgVariablesResponseVariablesList = Array<OrganizationActionsVariable>;
 export const ListOrgVariablesResponseVariablesList = /*@__PURE__*/ S.Array(
@@ -663,9 +571,7 @@ export const ListOrgVariablesResponse = /*@__PURE__*/ S.suspend(() =>
     total_count: S.Number,
     variables: ListOrgVariablesResponseVariablesList,
   }),
-).annotate({
-  identifier: "ListOrgVariablesResponse",
-}) as any as S.Schema<ListOrgVariablesResponse>;
+).annotate({ identifier: "ListOrgVariablesResponse" }) as any as S.Schema<ListOrgVariablesResponse>;
 
 export interface ListRepoOrganizationSecretsRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -684,11 +590,7 @@ export const ListRepoOrganizationSecretsRequest = /*@__PURE__*/ S.suspend(() =>
     per_page: S.optional(S.Number.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/agents/organization-secrets",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/agents/organization-secrets", code: 200 }),
   ),
 ).annotate({
   identifier: "ListRepoOrganizationSecretsRequest",
@@ -773,16 +675,8 @@ export const ListRepoSecretsRequest = /*@__PURE__*/ S.suspend(() =>
     repo: S.String.pipe(T.Label()),
     per_page: S.optional(S.Number.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/agents/secrets",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ListRepoSecretsRequest",
-}) as any as S.Schema<ListRepoSecretsRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/agents/secrets", code: 200 })),
+).annotate({ identifier: "ListRepoSecretsRequest" }) as any as S.Schema<ListRepoSecretsRequest>;
 
 export type ListRepoSecretsResponseSecretsList = Array<ActionsSecret>;
 export const ListRepoSecretsResponseSecretsList = /*@__PURE__*/ S.Array(
@@ -798,9 +692,7 @@ export const ListRepoSecretsResponse = /*@__PURE__*/ S.suspend(() =>
     total_count: S.Number,
     secrets: ListRepoSecretsResponseSecretsList,
   }),
-).annotate({
-  identifier: "ListRepoSecretsResponse",
-}) as any as S.Schema<ListRepoSecretsResponse>;
+).annotate({ identifier: "ListRepoSecretsResponse" }) as any as S.Schema<ListRepoSecretsResponse>;
 
 export interface ListRepoVariablesRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -818,16 +710,8 @@ export const ListRepoVariablesRequest = /*@__PURE__*/ S.suspend(() =>
     repo: S.String.pipe(T.Label()),
     per_page: S.optional(S.Number.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/repos/{owner}/{repo}/agents/variables",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ListRepoVariablesRequest",
-}) as any as S.Schema<ListRepoVariablesRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/agents/variables", code: 200 })),
+).annotate({ identifier: "ListRepoVariablesRequest" }) as any as S.Schema<ListRepoVariablesRequest>;
 
 export type ListRepoVariablesResponseVariablesList = Array<ActionsVariable>;
 export const ListRepoVariablesResponseVariablesList = /*@__PURE__*/ S.Array(
@@ -987,9 +871,7 @@ export const MinimalRepositoryLicense = /*@__PURE__*/ S.suspend(() =>
     url: S.optional(S.NullOr(S.String)),
     node_id: S.optional(S.String),
   }),
-).annotate({
-  identifier: "MinimalRepositoryLicense",
-}) as any as S.Schema<MinimalRepositoryLicense>;
+).annotate({ identifier: "MinimalRepositoryLicense" }) as any as S.Schema<MinimalRepositoryLicense>;
 
 export type SecurityAndAnalysisAdvancedSecurityStatus = "enabled" | "disabled";
 export const SecurityAndAnalysisAdvancedSecurityStatus = S.String;
@@ -1208,14 +1090,10 @@ export const SecurityAndAnalysis = /*@__PURE__*/ S.suspend(() =>
       SecurityAndAnalysisSecretScanningDelegatedBypassOptions,
     ),
   }),
-).annotate({
-  identifier: "SecurityAndAnalysis",
-}) as any as S.Schema<SecurityAndAnalysis>;
+).annotate({ identifier: "SecurityAndAnalysis" }) as any as S.Schema<SecurityAndAnalysis>;
 
 /** The custom properties that were defined for the repository. The keys are the custom property names, and the values are the corresponding custom property values. */
-export type MinimalRepositoryCustomPropertiesMap = {
-  [key: string]: unknown | undefined;
-};
+export type MinimalRepositoryCustomPropertiesMap = { [key: string]: unknown | undefined };
 export const MinimalRepositoryCustomPropertiesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -1410,9 +1288,7 @@ export const MinimalRepository = /*@__PURE__*/ S.suspend(() =>
     security_and_analysis: S.optional(S.NullOr(SecurityAndAnalysis)),
     custom_properties: S.optional(MinimalRepositoryCustomPropertiesMap),
   }),
-).annotate({
-  identifier: "MinimalRepository",
-}) as any as S.Schema<MinimalRepository>;
+).annotate({ identifier: "MinimalRepository" }) as any as S.Schema<MinimalRepository>;
 
 export type ListSelectedReposForOrgSecretResponseRepositoriesList = Array<MinimalRepository>;
 export const ListSelectedReposForOrgSecretResponseRepositoriesList = /*@__PURE__*/ S.Array(
@@ -1449,11 +1325,7 @@ export const ListSelectedReposForOrgVariableRequest = /*@__PURE__*/ S.suspend(()
     page: S.optional(S.Number.pipe(T.Query())),
     per_page: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/orgs/{org}/agents/variables/{name}/repositories",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/orgs/{org}/agents/variables/{name}/repositories", code: 200 }),
   ),
 ).annotate({
   identifier: "ListSelectedReposForOrgVariableRequest",
@@ -1594,11 +1466,7 @@ export const SetSelectedReposForOrgVariableRequest = /*@__PURE__*/ S.suspend(() 
     name: S.String.pipe(T.Label()),
     selected_repository_ids: SetSelectedReposForOrgVariableRequestSelectedRepositoryIdsList,
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/orgs/{org}/agents/variables/{name}/repositories",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/orgs/{org}/agents/variables/{name}/repositories", code: 200 }),
   ),
 ).annotate({
   identifier: "SetSelectedReposForOrgVariableRequest",
@@ -1640,16 +1508,8 @@ export const UpdateOrgVariableRequest = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(S.String),
     visibility: S.optional(UpdateOrgVariableRequestVisibility),
     selected_repository_ids: S.optional(UpdateOrgVariableRequestSelectedRepositoryIdsList),
-  }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/orgs/{org}/agents/variables/{name}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "UpdateOrgVariableRequest",
-}) as any as S.Schema<UpdateOrgVariableRequest>;
+  }).pipe(T.Http({ method: "PATCH", uri: "/orgs/{org}/agents/variables/{name}", code: 200 })),
+).annotate({ identifier: "UpdateOrgVariableRequest" }) as any as S.Schema<UpdateOrgVariableRequest>;
 
 export interface UpdateOrgVariableResponse {}
 export const UpdateOrgVariableResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1673,11 +1533,7 @@ export const UpdateRepoVariableRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.String.pipe(T.Label()),
     value: S.optional(S.String),
   }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/repos/{owner}/{repo}/agents/variables/{name}",
-      code: 200,
-    }),
+    T.Http({ method: "PATCH", uri: "/repos/{owner}/{repo}/agents/variables/{name}", code: 200 }),
   ),
 ).annotate({
   identifier: "UpdateRepoVariableRequest",

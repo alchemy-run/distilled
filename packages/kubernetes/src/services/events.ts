@@ -42,9 +42,9 @@ export class UnprocessableEntity
 
 /** EventSource contains information for an event. */
 export interface IoK8sApiCoreV1EventSource {
-  /** Component from which the event is generated. */
+  /** component from which the event is generated. */
   component?: string;
-  /** Node name on which the event is generated. */
+  /** host name on which the event is generated. */
   host?: string;
 }
 export const IoK8sApiCoreV1EventSource = /*@__PURE__*/ S.suspend(() =>
@@ -210,19 +210,19 @@ export const IoK8sApimachineryPkgApisMetaV1ObjectMeta = /*@__PURE__*/ S.suspend(
 
 /** ObjectReference contains enough information to let you inspect or modify the referred object. */
 export interface IoK8sApiCoreV1ObjectReference {
-  /** API version of the referent. */
+  /** apiVersion is API version of the referent. */
   apiVersion?: string;
-  /** If referring to a piece of an object instead of an entire object, this string should contain a valid JSON/Go field access statement, such as desiredState.manifest.containers[2]. For example, if the object reference is to a container within a pod, this would take on a value like: "spec.containers{name}" (where "name" refers to the name of the container that triggered the event) or if no container name is specified "spec.containers[2]" (container with index 2 in this pod). This syntax is chosen only to have some well-defined way of referencing a part of an object. */
+  /** fieldPath if referring to a piece of an object instead of an entire object, this string should contain a valid JSON/Go field access statement, such as desiredState.manifest.containers[2]. For example, if the object reference is to a container within a pod, this would take on a value like: "spec.containers{name}" (where "name" refers to the name of the container that triggered the event) or if no container name is specified "spec.containers[2]" (container with index 2 in this pod). This syntax is chosen only to have some well-defined way of referencing a part of an object. */
   fieldPath?: string;
-  /** Kind of the referent. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
+  /** kind of the referent. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
   kind?: string;
-  /** Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names */
+  /** name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names */
   name?: string;
-  /** Namespace of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/ */
+  /** namespace of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/ */
   namespace?: string;
-  /** Specific resourceVersion to which this reference is made, if any. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#concurrency-control-and-consistency */
+  /** resourceVersion is the specific resourceVersion to which this reference is made, if any. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#concurrency-control-and-consistency */
   resourceVersion?: string;
-  /** UID of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#uids */
+  /** uid of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#uids */
   uid?: string;
 }
 export const IoK8sApiCoreV1ObjectReference = /*@__PURE__*/ S.suspend(() =>
@@ -393,9 +393,7 @@ export const IoK8sApiEventsV1Event = /*@__PURE__*/ S.suspend(() =>
     series: S.optional(IoK8sApiEventsV1EventSeries),
     type: S.String,
   }),
-).annotate({
-  identifier: "IoK8sApiEventsV1Event",
-}) as any as S.Schema<IoK8sApiEventsV1Event>;
+).annotate({ identifier: "IoK8sApiEventsV1Event" }) as any as S.Schema<IoK8sApiEventsV1Event>;
 
 /** Preconditions must be fulfilled before an operation (update, delete, etc.) is carried out. */
 export interface IoK8sApimachineryPkgApisMetaV1Preconditions {
@@ -662,9 +660,7 @@ export const DeleteEventsV1NamespacedEventRequest = /*@__PURE__*/ S.suspend(() =
 export interface GetEventsAPIGroupRequest {}
 export const GetEventsAPIGroupRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/apis/events.k8s.io/", code: 200 })),
-).annotate({
-  identifier: "GetEventsAPIGroupRequest",
-}) as any as S.Schema<GetEventsAPIGroupRequest>;
+).annotate({ identifier: "GetEventsAPIGroupRequest" }) as any as S.Schema<GetEventsAPIGroupRequest>;
 
 /** GroupVersion contains the "group/version" and "version" string of a version. It is made a struct to keep extensibility. */
 export interface IoK8sApimachineryPkgApisMetaV1GroupVersionForDiscovery {
@@ -877,13 +873,7 @@ export const ListEventsV1EventForAllNamespacesRequest = /*@__PURE__*/ S.suspend(
     shardSelector: S.optional(S.String.pipe(T.Query())),
     timeoutSeconds: S.optional(S.Number.pipe(T.Query())),
     watch: S.optional(S.Boolean.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/apis/events.k8s.io/v1/events",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/apis/events.k8s.io/v1/events", code: 200 })),
 ).annotate({
   identifier: "ListEventsV1EventForAllNamespacesRequest",
 }) as any as S.Schema<ListEventsV1EventForAllNamespacesRequest>;
@@ -1154,13 +1144,7 @@ export const WatchEventsV1EventListForAllNamespacesRequest = /*@__PURE__*/ S.sus
     shardSelector: S.optional(S.String.pipe(T.Query())),
     timeoutSeconds: S.optional(S.Number.pipe(T.Query())),
     watch: S.optional(S.Boolean.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/apis/events.k8s.io/v1/watch/events",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/apis/events.k8s.io/v1/watch/events", code: 200 })),
 ).annotate({
   identifier: "WatchEventsV1EventListForAllNamespacesRequest",
 }) as any as S.Schema<WatchEventsV1EventListForAllNamespacesRequest>;

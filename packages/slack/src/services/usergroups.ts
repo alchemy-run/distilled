@@ -49,9 +49,7 @@ export const CreateUsergroupRequest = /*@__PURE__*/ S.suspend(() =>
     team_id: S.optional(S.String),
     enable_section: S.optional(S.Boolean),
   }).pipe(T.Http({ method: "POST", uri: "/usergroups.create", code: 200 })),
-).annotate({
-  identifier: "CreateUsergroupRequest",
-}) as any as S.Schema<CreateUsergroupRequest>;
+).annotate({ identifier: "CreateUsergroupRequest" }) as any as S.Schema<CreateUsergroupRequest>;
 
 export interface CreateUsergroupResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -63,9 +61,7 @@ export const CreateUsergroupResponse = /*@__PURE__*/ S.suspend(() =>
     ok: S.Boolean,
     usergroup: S.Unknown,
   }),
-).annotate({
-  identifier: "CreateUsergroupResponse",
-}) as any as S.Schema<CreateUsergroupResponse>;
+).annotate({ identifier: "CreateUsergroupResponse" }) as any as S.Schema<CreateUsergroupResponse>;
 
 export interface DisableUsergroupRequest {
   /** Include the number of users in the User Group. */
@@ -81,9 +77,7 @@ export const DisableUsergroupRequest = /*@__PURE__*/ S.suspend(() =>
     team_id: S.optional(S.String),
     usergroup: S.String,
   }).pipe(T.Http({ method: "POST", uri: "/usergroups.disable", code: 200 })),
-).annotate({
-  identifier: "DisableUsergroupRequest",
-}) as any as S.Schema<DisableUsergroupRequest>;
+).annotate({ identifier: "DisableUsergroupRequest" }) as any as S.Schema<DisableUsergroupRequest>;
 
 export interface DisableUsergroupResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -95,9 +89,7 @@ export const DisableUsergroupResponse = /*@__PURE__*/ S.suspend(() =>
     ok: S.Boolean,
     usergroup: S.Unknown,
   }),
-).annotate({
-  identifier: "DisableUsergroupResponse",
-}) as any as S.Schema<DisableUsergroupResponse>;
+).annotate({ identifier: "DisableUsergroupResponse" }) as any as S.Schema<DisableUsergroupResponse>;
 
 export interface EnableUsergroupRequest {
   /** Include the number of users in the User Group. */
@@ -113,9 +105,7 @@ export const EnableUsergroupRequest = /*@__PURE__*/ S.suspend(() =>
     team_id: S.optional(S.String),
     usergroup: S.String,
   }).pipe(T.Http({ method: "POST", uri: "/usergroups.enable", code: 200 })),
-).annotate({
-  identifier: "EnableUsergroupRequest",
-}) as any as S.Schema<EnableUsergroupRequest>;
+).annotate({ identifier: "EnableUsergroupRequest" }) as any as S.Schema<EnableUsergroupRequest>;
 
 export interface EnableUsergroupResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -127,9 +117,7 @@ export const EnableUsergroupResponse = /*@__PURE__*/ S.suspend(() =>
     ok: S.Boolean,
     usergroup: S.Unknown,
   }),
-).annotate({
-  identifier: "EnableUsergroupResponse",
-}) as any as S.Schema<EnableUsergroupResponse>;
+).annotate({ identifier: "EnableUsergroupResponse" }) as any as S.Schema<EnableUsergroupResponse>;
 
 export interface ListUsergroupsRequest {
   /** Include the number of users in each User Group. */
@@ -148,9 +136,7 @@ export const ListUsergroupsRequest = /*@__PURE__*/ S.suspend(() =>
     include_users: S.optional(S.Boolean.pipe(T.Query())),
     team_id: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/usergroups.list", code: 200 })),
-).annotate({
-  identifier: "ListUsergroupsRequest",
-}) as any as S.Schema<ListUsergroupsRequest>;
+).annotate({ identifier: "ListUsergroupsRequest" }) as any as S.Schema<ListUsergroupsRequest>;
 
 export type ListUsergroupsResponseUsergroupsList = Array<unknown>;
 export const ListUsergroupsResponseUsergroupsList = /*@__PURE__*/ S.Array(
@@ -167,9 +153,7 @@ export const ListUsergroupsResponse = /*@__PURE__*/ S.suspend(() =>
     ok: S.Boolean,
     usergroups: ListUsergroupsResponseUsergroupsList,
   }),
-).annotate({
-  identifier: "ListUsergroupsResponse",
-}) as any as S.Schema<ListUsergroupsResponse>;
+).annotate({ identifier: "ListUsergroupsResponse" }) as any as S.Schema<ListUsergroupsResponse>;
 
 export interface ListUsersRequest {
   /** Include results for disabled User Groups. */
@@ -185,9 +169,7 @@ export const ListUsersRequest = /*@__PURE__*/ S.suspend(() =>
     usergroup: S.String.pipe(T.Query()),
     team_id: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/usergroups.users.list", code: 200 })),
-).annotate({
-  identifier: "ListUsersRequest",
-}) as any as S.Schema<ListUsersRequest>;
+).annotate({ identifier: "ListUsersRequest" }) as any as S.Schema<ListUsersRequest>;
 
 export type ListUsersResponseUsersList = Array<unknown>;
 export const ListUsersResponseUsersList = /*@__PURE__*/ S.Array(
@@ -204,9 +186,7 @@ export const ListUsersResponse = /*@__PURE__*/ S.suspend(() =>
     ok: S.Boolean,
     users: ListUsersResponseUsersList,
   }),
-).annotate({
-  identifier: "ListUsersResponse",
-}) as any as S.Schema<ListUsersResponse>;
+).annotate({ identifier: "ListUsersResponse" }) as any as S.Schema<ListUsersResponse>;
 
 /** A comma separated string of encoded user IDs that represent the entire list of users for the user group. */
 export type UpdateUserRequestUsersList = Array<string>;
@@ -243,9 +223,7 @@ export const UpdateUserRequest = /*@__PURE__*/ S.suspend(() =>
     additional_channels: S.optional(UpdateUserRequestAdditionalChannelsList),
     is_shared: S.optional(S.Boolean),
   }).pipe(T.Http({ method: "POST", uri: "/usergroups.users.update", code: 200 })),
-).annotate({
-  identifier: "UpdateUserRequest",
-}) as any as S.Schema<UpdateUserRequest>;
+).annotate({ identifier: "UpdateUserRequest" }) as any as S.Schema<UpdateUserRequest>;
 
 export interface UpdateUserResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -257,9 +235,7 @@ export const UpdateUserResponse = /*@__PURE__*/ S.suspend(() =>
     ok: S.Boolean,
     usergroup: S.Unknown,
   }),
-).annotate({
-  identifier: "UpdateUserResponse",
-}) as any as S.Schema<UpdateUserResponse>;
+).annotate({ identifier: "UpdateUserResponse" }) as any as S.Schema<UpdateUserResponse>;
 
 /** A comma separated string of encoded channel IDs for which the User Group uses as a default. */
 export type UpdateUsergroupRequestChannelsList = Array<string>;
@@ -305,23 +281,28 @@ export const UpdateUsergroupRequest = /*@__PURE__*/ S.suspend(() =>
     usergroup: S.String,
     enable_section: S.optional(S.Boolean),
   }).pipe(T.Http({ method: "POST", uri: "/usergroups.update", code: 200 })),
-).annotate({
-  identifier: "UpdateUsergroupRequest",
-}) as any as S.Schema<UpdateUsergroupRequest>;
+).annotate({ identifier: "UpdateUsergroupRequest" }) as any as S.Schema<UpdateUsergroupRequest>;
+
+/** List of user IDs who would exceed their channel limit */
+export type UpdateUsergroupResponseChannelLimitUserIdsList = Array<string>;
+export const UpdateUsergroupResponseChannelLimitUserIdsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<UpdateUsergroupResponseChannelLimitUserIdsList>;
 
 export interface UpdateUsergroupResponse {
   /** Always `true` (a failed call raises a typed error instead). */
   ok: boolean;
   usergroup: unknown;
+  /** List of user IDs who would exceed their channel limit */
+  channel_limit_user_ids?: UpdateUsergroupResponseChannelLimitUserIdsList;
 }
 export const UpdateUsergroupResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ok: S.Boolean,
     usergroup: S.Unknown,
+    channel_limit_user_ids: S.optional(UpdateUsergroupResponseChannelLimitUserIdsList),
   }),
-).annotate({
-  identifier: "UpdateUsergroupResponse",
-}) as any as S.Schema<UpdateUsergroupResponse>;
+).annotate({ identifier: "UpdateUsergroupResponse" }) as any as S.Schema<UpdateUsergroupResponse>;
 
 export type CreateUsergroupError = SlackOpError;
 /** Create a User Group. Required scopes — bot: `usergroups:write`; user: `usergroups:write` Rate limit tier: 2 Method-specific errors (the `error` slug on the SlackError): - `bad_handle` — Handle is invalid - `description_too_long` — Given usergroup description is too long - `forbidden_handle` — Handle is invalid - `handle_already_exists` — Handle is already in use on this workspace - `invalid_channel_provided` — An invalid channel ID was provided - `invalid_group_provided` — An invalid group ID was provided - `missing_argument` — A required argument is missing. - `missing_subteam_name` — Subteam name is required - `name_already_exists` — Name is already in use on this workspace - `name_too_long` — Name too long. - `paid_teams_only` — Usergroups can only be used on paid Slack teams - `permission_denied` — The user does not have permission to create a User Group. - `plan_upgrade_required` — This workspace does not have access to User Groups, as that feature is only available on Standard and above plans. - `target_team_not_on_org` — Target team specified is not on the org in context - `target_team_must_be_specified_in_org_context` — No target team was specified but the team in context is an org See https://docs.slack.dev/reference/methods/usergroups.create */
@@ -399,7 +380,7 @@ export const listUsers: API.OperationMethod<
 }));
 
 export type UpdateUserError = SlackOpError;
-/** Update the list of users for a user group. Required scopes — bot: `usergroups:write`; user: `usergroups:write` Rate limit tier: 2 Method-specific errors (the `error` slug on the SlackError): - `invalid_users` — Value passed for `users` was empty or invalid. - `failed_for_some_users` — User(s) are not in the workspace where this usergroup exists - `missing_argument` — A required argument is missing. - `no_users_provided` — Either the `users` field wasn't provided or an empty value was passed. - `permission_denied` — The user does not have permission to update the list of users for a user group. Check workspace settings to confirm whether the calling user has permission. - `plan_upgrade_required` — This workspace does not have access to user groups, as that feature is only available on Standard and above plans. - `subteam_max_users_exceeded` — Exceeds maximum supported number of users per subteam. See https://docs.slack.dev/reference/methods/usergroups.users.update */
+/** Update the list of users for a user group. Required scopes — bot: `usergroups:write`; user: `usergroups:write` Rate limit tier: 2 Method-specific errors (the `error` slug on the SlackError): - `invalid_users` — Value passed for `users` was empty or invalid. - `failed_for_some_users` — User(s) are not in the workspace where this usergroup exists - `missing_argument` — A required argument is missing. - `no_users_provided` — Either the `users` field wasn't provided or an empty value was passed. - `permission_denied` — The user does not have permission to update the list of users for a user group. Check workspace settings to confirm whether the calling user has permission. - `plan_upgrade_required` — This workspace does not have access to user groups, as that feature is only available on Standard and above plans. - `subteam_max_users_exceeded` — Exceeds maximum supported number of users per subteam. - `cannot_modify_role_admin` — The user does not have permission to modify the roles admin role. See https://docs.slack.dev/reference/methods/usergroups.users.update */
 export const updateUser: API.OperationMethod<
   UpdateUserRequest,
   UpdateUserResponse,
@@ -414,7 +395,7 @@ export const updateUser: API.OperationMethod<
 }));
 
 export type UpdateUsergroupError = SlackOpError;
-/** Update an existing User Group. Required scopes — bot: `usergroups:write`; user: `usergroups:write` Rate limit tier: 2 Method-specific errors (the `error` slug on the SlackError): - `missing_argument` — A required argument is missing. - `paid_teams_only` — This workspace does not have access to User Groups, as that feature is only available on Standard and above plans. - `permission_denied` — The user does not have permission to update the User Group. - `too_many_linked_channels` — This request exceeds the number of channels we supporting linking to a single usergroup. See https://docs.slack.dev/reference/methods/usergroups.update */
+/** Update an existing User Group. Required scopes — bot: `usergroups:write`; user: `usergroups:write` Rate limit tier: 2 Method-specific errors (the `error` slug on the SlackError): - `missing_argument` — A required argument is missing. - `paid_teams_only` — This workspace does not have access to User Groups, as that feature is only available on Standard and above plans. - `permission_denied` — The user does not have permission to update the User Group. - `too_many_linked_channels` — This request exceeds the number of channels we supporting linking to a single usergroup. - `user_channel_limit_exceeded` — Adding these channels would cause one or more members to exceed their channel limit. See https://docs.slack.dev/reference/methods/usergroups.update */
 export const updateUsergroup: API.OperationMethod<
   UpdateUsergroupRequest,
   UpdateUsergroupResponse,

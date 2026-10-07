@@ -116,9 +116,7 @@ export const ReviewResolutionStatus = /*@__PURE__*/ S.suspend(() =>
     fixed: S.Number,
     needs_attention: S.Number,
   }),
-).annotate({
-  identifier: "ReviewResolutionStatus",
-}) as any as S.Schema<ReviewResolutionStatus>;
+).annotate({ identifier: "ReviewResolutionStatus" }) as any as S.Schema<ReviewResolutionStatus>;
 
 /** Every enabled perspective the selector chose from, in pass order. */
 export type ReviewPerspectiveSelectionRosterList = Array<string>;
@@ -167,9 +165,7 @@ export const ReviewSelectionChunk = /*@__PURE__*/ S.suspend(() =>
     skipped: ReviewSelectionChunkSkippedList,
     reason: S.String,
   }),
-).annotate({
-  identifier: "ReviewSelectionChunk",
-}) as any as S.Schema<ReviewSelectionChunk>;
+).annotate({ identifier: "ReviewSelectionChunk" }) as any as S.Schema<ReviewSelectionChunk>;
 
 /** Per-chunk picks with reasons, in chunk order. */
 export type ReviewPerspectiveSelectionChunksList = Array<ReviewSelectionChunk>;
@@ -207,9 +203,7 @@ export const ReviewFindingLineRange = /*@__PURE__*/ S.suspend(() =>
     start: S.Number,
     end: S.NullOr(S.Number),
   }),
-).annotate({
-  identifier: "ReviewFindingLineRange",
-}) as any as S.Schema<ReviewFindingLineRange>;
+).annotate({ identifier: "ReviewFindingLineRange" }) as any as S.Schema<ReviewFindingLineRange>;
 
 /** Affected line ranges within the file. */
 export type ReviewFindingLinesList = Array<ReviewFindingLineRange>;
@@ -444,9 +438,7 @@ export const ReviewPerspectiveStats = /*@__PURE__*/ S.suspend(() =>
     report_count: S.Number,
     perspectives: ReviewPerspectiveStatsPerspectivesList,
   }),
-).annotate({
-  identifier: "ReviewPerspectiveStats",
-}) as any as S.Schema<ReviewPerspectiveStats>;
+).annotate({ identifier: "ReviewPerspectiveStats" }) as any as S.Schema<ReviewPerspectiveStats>;
 
 export interface ListReviewHogBlindSpotsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -456,11 +448,7 @@ export const ListReviewHogBlindSpotsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project_id: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/review_hog/blind_spots/",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/projects/{project_id}/review_hog/blind_spots/", code: 200 }),
   ),
 ).annotate({
   identifier: "ListReviewHogBlindSpotsRequest",
@@ -483,9 +471,7 @@ export const ReviewBlindSpotsConfig = /*@__PURE__*/ S.suspend(() =>
     description: S.String,
     body: S.String,
   }),
-).annotate({
-  identifier: "ReviewBlindSpotsConfig",
-}) as any as S.Schema<ReviewBlindSpotsConfig>;
+).annotate({ identifier: "ReviewBlindSpotsConfig" }) as any as S.Schema<ReviewBlindSpotsConfig>;
 
 export type ListReviewHogBlindSpotsResponseBodyList = Array<ReviewBlindSpotsConfig>;
 export const ListReviewHogBlindSpotsResponseBodyList = /*@__PURE__*/ S.Array(
@@ -534,9 +520,7 @@ export const ReviewPerspectiveConfig = /*@__PURE__*/ S.suspend(() =>
     description: S.String,
     body: S.String,
   }),
-).annotate({
-  identifier: "ReviewPerspectiveConfig",
-}) as any as S.Schema<ReviewPerspectiveConfig>;
+).annotate({ identifier: "ReviewPerspectiveConfig" }) as any as S.Schema<ReviewPerspectiveConfig>;
 
 export type ListReviewHogPerspectivesResponseBodyList = Array<ReviewPerspectiveConfig>;
 export const ListReviewHogPerspectivesResponseBodyList = /*@__PURE__*/ S.Array(
@@ -558,11 +542,7 @@ export const ListReviewHogResolutionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project_id: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/review_hog/resolution/",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/projects/{project_id}/review_hog/resolution/", code: 200 }),
   ),
 ).annotate({
   identifier: "ListReviewHogResolutionRequest",
@@ -585,9 +565,7 @@ export const ReviewResolutionConfig = /*@__PURE__*/ S.suspend(() =>
     description: S.String,
     body: S.String,
   }),
-).annotate({
-  identifier: "ReviewResolutionConfig",
-}) as any as S.Schema<ReviewResolutionConfig>;
+).annotate({ identifier: "ReviewResolutionConfig" }) as any as S.Schema<ReviewResolutionConfig>;
 
 export type ListReviewHogResolutionResponseBodyList = Array<ReviewResolutionConfig>;
 export const ListReviewHogResolutionResponseBodyList = /*@__PURE__*/ S.Array(
@@ -618,11 +596,7 @@ export const ListReviewHogReviewsRequest = /*@__PURE__*/ S.suspend(() =>
     limit: S.optional(S.Number.pipe(T.Query())),
     scope: S.optional(ListReviewHogReviewsRequestScope.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/review_hog/reviews/",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/projects/{project_id}/review_hog/reviews/", code: 200 }),
   ),
 ).annotate({
   identifier: "ListReviewHogReviewsRequest",
@@ -711,9 +685,7 @@ export const ReviewRecentReview = /*@__PURE__*/ S.suspend(() =>
     perspective_issue_count: S.NullOr(S.Number),
     blind_spot_issue_count: S.NullOr(S.Number),
   }),
-).annotate({
-  identifier: "ReviewRecentReview",
-}) as any as S.Schema<ReviewRecentReview>;
+).annotate({ identifier: "ReviewRecentReview" }) as any as S.Schema<ReviewRecentReview>;
 
 /** The scoped reviews: in-progress runs first, then completed newest first. */
 export type ReviewRecentReviewsPageResultsList = Array<ReviewRecentReview>;
@@ -732,9 +704,7 @@ export const ReviewRecentReviewsPage = /*@__PURE__*/ S.suspend(() =>
     results: ReviewRecentReviewsPageResultsList,
     has_more: S.Boolean,
   }),
-).annotate({
-  identifier: "ReviewRecentReviewsPage",
-}) as any as S.Schema<ReviewRecentReviewsPage>;
+).annotate({ identifier: "ReviewRecentReviewsPage" }) as any as S.Schema<ReviewRecentReviewsPage>;
 
 export interface ListReviewHogValidatorsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -744,11 +714,7 @@ export const ListReviewHogValidatorsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project_id: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/review_hog/validators/",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/projects/{project_id}/review_hog/validators/", code: 200 }),
   ),
 ).annotate({
   identifier: "ListReviewHogValidatorsRequest",
@@ -771,9 +737,7 @@ export const ReviewValidatorConfig = /*@__PURE__*/ S.suspend(() =>
     description: S.String,
     body: S.String,
   }),
-).annotate({
-  identifier: "ReviewValidatorConfig",
-}) as any as S.Schema<ReviewValidatorConfig>;
+).annotate({ identifier: "ReviewValidatorConfig" }) as any as S.Schema<ReviewValidatorConfig>;
 
 export type ListReviewHogValidatorsResponseBodyList = Array<ReviewValidatorConfig>;
 export const ListReviewHogValidatorsResponseBodyList = /*@__PURE__*/ S.Array(
@@ -787,8 +751,8 @@ export const ListReviewHogValidatorsResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "ListReviewHogValidatorsResponse",
 }) as any as S.Schema<ListReviewHogValidatorsResponse>;
 
-/** * `review` - review * `review_only` - review_only * `resolve_only` - resolve_only */
-export type ReviewTriggerRequestRunModeEnum = "review" | "review_only" | "resolve_only";
+/** * `review` - review * `review_only` - review_only * `resolve_only` - resolve_only * `flash` - flash */
+export type ReviewTriggerRequestRunModeEnum = "review" | "review_only" | "resolve_only" | "flash";
 export const ReviewTriggerRequestRunModeEnum = S.String;
 
 export interface ReviewHogReviewsTriggerCreateRequest {
@@ -796,7 +760,7 @@ export interface ReviewHogReviewsTriggerCreateRequest {
   project_id: string;
   /** GitHub pull request URL to review, e.g. 'https://github.com/PostHog/posthog.com/pull/123'. The repository must be accessible to the project's GitHub App installation. */
   pr_url: string;
-  /** What to run on the pull request. 'review' (default) reviews it and, when the requesting user's resolve_comments setting is on, chains the resolution stage; 'review_only' reviews without resolving regardless of that setting; 'resolve_only' skips the review and only runs the resolution stage on the PR's existing unresolved review threads. * `review` - review * `review_only` - review_only * `resolve_only` - resolve_only */
+  /** What to run on the pull request. 'review' (default) reviews it and, when the requesting user's resolve_comments setting is on, chains the resolution stage; 'review_only' reviews without resolving regardless of that setting; 'resolve_only' skips the review and only runs the resolution stage on the PR's existing unresolved review threads; 'flash' uses a lower-cost model for the review passes and validation, and never resolves comments. * `review` - review * `review_only` - review_only * `resolve_only` - resolve_only * `flash` - flash */
   run_mode?: ReviewTriggerRequestRunModeEnum | (string & {});
 }
 export const ReviewHogReviewsTriggerCreateRequest = /*@__PURE__*/ S.suspend(() =>
@@ -818,7 +782,7 @@ export const ReviewHogReviewsTriggerCreateRequest = /*@__PURE__*/ S.suspend(() =
 export interface ReviewTriggerResponse {
   /** Temporal workflow id for the started review run; empty when no run was started. */
   workflow_id: string;
-  /** Run lifecycle marker: 'started' when the review was queued, 'already_reviewed' when the pull request's current commit already has a published review (no new run starts), 'joined_running_review' when a review was already in flight (no new run starts; a report in a cheaper tier is lifted to human strength for the rest of that review and every later one). */
+  /** Run lifecycle marker: 'started' when the review was queued, 'already_reviewed' when the pull request's current commit already has a published review in the requested mode, 'joined_running_review' when a review was already in flight and the request joined its queue. A requested Full review waits for an active Flash review. */
   status: string;
 }
 export const ReviewTriggerResponse = /*@__PURE__*/ S.suspend(() =>
@@ -826,9 +790,7 @@ export const ReviewTriggerResponse = /*@__PURE__*/ S.suspend(() =>
     workflow_id: S.String,
     status: S.String,
   }),
-).annotate({
-  identifier: "ReviewTriggerResponse",
-}) as any as S.Schema<ReviewTriggerResponse>;
+).annotate({ identifier: "ReviewTriggerResponse" }) as any as S.Schema<ReviewTriggerResponse>;
 
 export interface UpdateReviewHogBlindSpotsPartialRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -1028,7 +990,7 @@ export const listReviewHogValidators: API.OperationMethod<
 }));
 
 export type ReviewHogReviewsTriggerCreateError = BadRequest | Forbidden | Conflict | PosthogOpError;
-/** Start a review of a pull request Start a ReviewHog review of any pull request the project's GitHub App installation can access, and publish it back to the PR. The requesting user is the review's acting user: their enabled perspectives, blind-spot check, validator, urgency threshold, and resolution criteria drive the run, and it appears under their recent reviews. `run_mode` picks the variant: a review (which chains the resolution stage per the user's resolve_comments setting), a review without resolving, or resolution only. Nonexistent, closed, and fork PRs are rejected synchronously; a PR whose current commit already has a published review returns 'already_reviewed' without starting a run (resolve_only skips that check — settling threads on a reviewed head is its whole point), and triggering a PR whose run is currently in flight joins that run. Otherwise non-blocking: returns the Temporal workflow id immediately while the run executes in the worker. */
+/** Start a review of a pull request Start a ReviewHog review of any pull request the project's GitHub App installation can access, and publish it back to the PR. The requesting user is the review's acting user: their enabled perspectives, blind-spot check, validator, urgency threshold, and resolution criteria drive the run, and it appears under their recent reviews. `run_mode` picks the variant: a review (which chains the resolution stage per the user's resolve_comments setting), a review without resolving, resolution only, or a lower-cost Flash review that never resolves comments. Nonexistent, closed, and fork PRs are rejected synchronously; a PR whose current commit already has a published review returns 'already_reviewed' without starting a run (resolve_only skips that check — settling threads on a reviewed head is its whole point), and triggering a PR whose run is currently in flight joins that run. Otherwise non-blocking: returns the Temporal workflow id immediately while the run executes in the worker. */
 export const reviewHogReviewsTriggerCreate: API.OperationMethod<
   ReviewHogReviewsTriggerCreateRequest,
   ReviewTriggerResponse,

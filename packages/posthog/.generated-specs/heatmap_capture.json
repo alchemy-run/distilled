@@ -1,0 +1,270 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.posthog.heatmap_capture#GetHeatmapCapturePageRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.heatmap_capture#HeatmapCapturePages": {
+      "type": "structure",
+      "members": {
+        "pages": {
+          "target": "com.posthog.heatmap_capture#HeatmapCapturePagesPagesList",
+          "traits": {
+            "smithy.api#documentation": "Top pages by recent heatmap volume, most active first.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.heatmap_capture#HeatmapCapturePage": {
+      "type": "structure",
+      "members": {
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A page URL that currently sends heatmap data.",
+            "smithy.api#required": {}
+          }
+        },
+        "count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Heatmap events captured on this page in the last 30 days.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.heatmap_capture#HeatmapCapturePagesPagesList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.heatmap_capture#HeatmapCapturePage"
+      },
+      "traits": {
+        "smithy.api#documentation": "Top pages by recent heatmap volume, most active first."
+      }
+    },
+    "com.posthog.heatmap_capture#GetHeatmapCapturePage": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.heatmap_capture#GetHeatmapCapturePageRequest"
+      },
+      "output": {
+        "target": "com.posthog.heatmap_capture#HeatmapCapturePages"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/heatmap_capture/pages/",
+          "code": 200
+        }
+      }
+    },
+    "com.posthog.heatmap_capture#GetHeatmapCaptureSettingsRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.heatmap_capture#HeatmapCaptureSettings": {
+      "type": "structure",
+      "members": {
+        "capture_mode": {
+          "target": "com.posthog.heatmap_capture#TeamHeatmapConfigCaptureModeEnum",
+          "traits": {
+            "smithy.api#documentation": "Whether to capture heatmap data from every page ('all') or only listed URLs ('url_allowlist').\n\n* `all` - All URLs\n* `url_allowlist` - Only listed URLs",
+            "smithy.api#required": {}
+          }
+        },
+        "url_allowlist": {
+          "target": "com.posthog.heatmap_capture#HeatmapCaptureSettingsUrlAllowlistList",
+          "traits": {
+            "smithy.api#documentation": "Full http(s) URLs that may send heatmap data. Use * to match any characters.",
+            "smithy.api#required": {}
+          }
+        },
+        "enforcement_enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether this installation enforces the URL allow-list for heatmap capture.",
+            "smithy.api#required": {}
+          }
+        },
+        "can_capture_all_urls": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether this organization's plan may capture heatmaps on every page.",
+            "smithy.api#required": {}
+          }
+        },
+        "capture_url_limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "How many URLs this plan may capture, or null when the plan captures all pages.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.heatmap_capture#TeamHeatmapConfigCaptureModeEnum": {
+      "type": "enum",
+      "members": {
+        "ALL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "all"
+          }
+        },
+        "URL_ALLOWLIST": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "url_allowlist"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `all` - All URLs\n* `url_allowlist` - Only listed URLs"
+      }
+    },
+    "com.posthog.heatmap_capture#HeatmapCaptureSettingsUrlAllowlistList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Full http(s) URLs that may send heatmap data. Use * to match any characters."
+      }
+    },
+    "com.posthog.heatmap_capture#GetHeatmapCaptureSettings": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.heatmap_capture#GetHeatmapCaptureSettingsRequest"
+      },
+      "output": {
+        "target": "com.posthog.heatmap_capture#HeatmapCaptureSettings"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/heatmap_capture/settings/",
+          "code": 200
+        }
+      }
+    },
+    "com.posthog.heatmap_capture#UpdateHeatmapCaptureSettingsRequestUrlAllowlistList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Full http(s) URLs that may send heatmap data. Use * to match any characters."
+      }
+    },
+    "com.posthog.heatmap_capture#UpdateHeatmapCaptureSettingsRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "capture_mode": {
+          "target": "com.posthog.heatmap_capture#TeamHeatmapConfigCaptureModeEnum",
+          "traits": {
+            "smithy.api#documentation": "Whether to capture heatmap data from every page ('all') or only listed URLs ('url_allowlist').\n\n* `all` - All URLs\n* `url_allowlist` - Only listed URLs"
+          }
+        },
+        "url_allowlist": {
+          "target": "com.posthog.heatmap_capture#UpdateHeatmapCaptureSettingsRequestUrlAllowlistList",
+          "traits": {
+            "smithy.api#documentation": "Full http(s) URLs that may send heatmap data. Use * to match any characters."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.heatmap_capture#UpdateHeatmapCaptureSettings": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.heatmap_capture#UpdateHeatmapCaptureSettingsRequest"
+      },
+      "output": {
+        "target": "com.posthog.heatmap_capture#HeatmapCaptureSettings"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/api/projects/{project_id}/heatmap_capture/settings/",
+          "code": 200
+        }
+      }
+    },
+    "com.posthog.heatmap_capture#HeatmapCapture": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.posthog.heatmap_capture#GetHeatmapCapturePage"
+        },
+        {
+          "target": "com.posthog.heatmap_capture#GetHeatmapCaptureSettings"
+        },
+        {
+          "target": "com.posthog.heatmap_capture#UpdateHeatmapCaptureSettings"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "PostHog API"
+      }
+    }
+  }
+}

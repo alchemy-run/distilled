@@ -93,6 +93,12 @@
             "smithy.api#documentation": "Application's running instances."
           }
         },
+        "internalUrl": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Application's internal URL."
+          }
+        },
         "lastDeployment": {
           "target": "smithy.api#String",
           "traits": {
@@ -295,6 +301,32 @@
         "smithy.api#documentation": "Lists environments within a project."
       }
     },
+    "com.stackit.sca#EnvironmentStatus": {
+      "type": "enum",
+      "members": {
+        "ENVIRONMENT_STATUS_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ENVIRONMENT_STATUS_UNSPECIFIED"
+          }
+        },
+        "ENVIRONMENT_STATUS_PROGRESSING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ENVIRONMENT_STATUS_PROGRESSING"
+          }
+        },
+        "ENVIRONMENT_STATUS_CREATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ENVIRONMENT_STATUS_CREATED"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": " - ENVIRONMENT_STATUS_UNSPECIFIED: Used as zero value.\n - ENVIRONMENT_STATUS_PROGRESSING: Environment is being created.\n - ENVIRONMENT_STATUS_CREATED: Environment is successfully created."
+      }
+    },
     "com.stackit.sca#CreateEnvironmentRequest": {
       "type": "structure",
       "members": {
@@ -312,6 +344,9 @@
             "smithy.api#documentation": "Human-readable display name.",
             "smithy.api#required": {}
           }
+        },
+        "status": {
+          "target": "com.stackit.sca#EnvironmentStatus"
         }
       },
       "traits": {
@@ -345,6 +380,9 @@
           "traits": {
             "smithy.api#documentation": "Environment identifier, for example: default."
           }
+        },
+        "status": {
+          "target": "com.stackit.sca#EnvironmentStatus"
         }
       },
       "traits": {
@@ -619,6 +657,12 @@
             "smithy.api#documentation": "Allowed destination CIDRs for Ingress traffic."
           }
         },
+        "internalPort": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Internal port number for inter application communication."
+          }
+        },
         "port": {
           "target": "smithy.api#Integer",
           "traits": {
@@ -628,8 +672,7 @@
         "publicIngress": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Whether the application should be accessible from the internet.",
-            "smithy.api#required": {}
+            "smithy.api#documentation": "Whether the application should be accessible from the internet."
           }
         }
       },
@@ -1052,10 +1095,7 @@
           }
         },
         "network": {
-          "target": "com.stackit.sca#Network",
-          "traits": {
-            "smithy.api#required": {}
-          }
+          "target": "com.stackit.sca#Network"
         },
         "registry": {
           "target": "com.stackit.sca#CreateApplicationRequestRegistryList",
@@ -1125,10 +1165,7 @@
           }
         },
         "network": {
-          "target": "com.stackit.sca#Network",
-          "traits": {
-            "smithy.api#required": {}
-          }
+          "target": "com.stackit.sca#Network"
         },
         "registry": {
           "target": "com.stackit.sca#ApplicationRegistryList",
@@ -1194,6 +1231,12 @@
         },
         "instances": {
           "target": "com.stackit.sca#RuntimeStatusInstancesList"
+        },
+        "internalUrl": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Internal URL for the running application."
+          }
         },
         "lastDeployment": {
           "target": "smithy.api#String",
@@ -1630,7 +1673,7 @@
           "code": 200,
           "baseUrl": "https://sca.api.{region}stackit.cloud"
         },
-        "smithy.api#documentation": "GetApplicationEvents retrieves events of an application."
+        "smithy.api#documentation": "Retrieves events of an application."
       }
     },
     "com.stackit.sca#GetApplicationLogsRequest": {
@@ -1748,7 +1791,7 @@
           "code": 200,
           "baseUrl": "https://sca.api.{region}stackit.cloud"
         },
-        "smithy.api#documentation": "GetApplicationLogs retrieves logs of an application."
+        "smithy.api#documentation": "Retrieves logs of an application."
       }
     },
     "com.stackit.sca#GetOverviewRequest": {
@@ -1815,7 +1858,8 @@
           "uri": "/v1alpha/projects/{projectId}/overview",
           "code": 200,
           "baseUrl": "https://sca.api.{region}stackit.cloud"
-        }
+        },
+        "smithy.api#documentation": "Retrieves the overview for an environment."
       }
     },
     "com.stackit.sca#BadRequest": {

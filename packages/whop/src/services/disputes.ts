@@ -62,9 +62,7 @@ export const GetDisputeRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/disputes/{id}", code: 200 })),
-).annotate({
-  identifier: "GetDisputeRequest",
-}) as any as S.Schema<GetDisputeRequest>;
+).annotate({ identifier: "GetDisputeRequest" }) as any as S.Schema<GetDisputeRequest>;
 
 export interface DisputeBuyer {
   /** The customer's email address. Requires the `member:email:read` scope; `null` without it. */
@@ -108,9 +106,7 @@ export const DisputeAttachment = /*@__PURE__*/ S.suspend(() =>
     platform: S.Boolean,
     url: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "DisputeAttachment",
-}) as any as S.Schema<DisputeAttachment>;
+).annotate({ identifier: "DisputeAttachment" }) as any as S.Schema<DisputeAttachment>;
 
 /** The uploaded file's MIME type. Uploads are restricted to the types the processor accepts. */
 export type DisputeEvidenceDocumentContentType =
@@ -145,9 +141,7 @@ export const FileMultipartUrl = /*@__PURE__*/ S.suspend(() =>
     part_number: S.Number,
     url: S.String,
   }),
-).annotate({
-  identifier: "FileMultipartUrl",
-}) as any as S.Schema<FileMultipartUrl>;
+).annotate({ identifier: "FileMultipartUrl" }) as any as S.Schema<FileMultipartUrl>;
 
 export type DisputeEvidenceDocumentMultipartUploadUrlsList = Array<FileMultipartUrl>;
 export const DisputeEvidenceDocumentMultipartUploadUrlsList = /*@__PURE__*/ S.Array(
@@ -211,9 +205,7 @@ export const DisputeEvidenceDocument = /*@__PURE__*/ S.suspend(() =>
     url: S.NullOr(S.String),
     visibility: DisputeEvidenceDocumentVisibility,
   }),
-).annotate({
-  identifier: "DisputeEvidenceDocument",
-}) as any as S.Schema<DisputeEvidenceDocument>;
+).annotate({ identifier: "DisputeEvidenceDocument" }) as any as S.Schema<DisputeEvidenceDocument>;
 
 export type DisputeEvidenceDocumentsList = Array<DisputeEvidenceDocument>;
 export const DisputeEvidenceDocumentsList = /*@__PURE__*/ S.Array(
@@ -269,9 +261,7 @@ export const DisputeEvidence = /*@__PURE__*/ S.suspend(() =>
     service_date: S.NullOr(S.String),
     uncategorized_attachment: S.NullOr(DisputeAttachment),
   }),
-).annotate({
-  identifier: "DisputeEvidence",
-}) as any as S.Schema<DisputeEvidence>;
+).annotate({ identifier: "DisputeEvidence" }) as any as S.Schema<DisputeEvidence>;
 
 /** Why evidence can no longer be edited. `null` while `evidence_editable` is true. */
 export type DisputeEvidenceLockedReason =
@@ -291,9 +281,7 @@ export const DisputeIssuerComment = /*@__PURE__*/ S.suspend(() =>
     received_at: S.NullOr(S.String),
     text: S.String,
   }),
-).annotate({
-  identifier: "DisputeIssuerComment",
-}) as any as S.Schema<DisputeIssuerComment>;
+).annotate({ identifier: "DisputeIssuerComment" }) as any as S.Schema<DisputeIssuerComment>;
 
 export type DisputeIssuerCommentsList = Array<DisputeIssuerComment>;
 export const DisputeIssuerCommentsList = /*@__PURE__*/ S.Array(
@@ -311,9 +299,7 @@ export const PaymentInstrumentCard = /*@__PURE__*/ S.suspend(() =>
     brand: S.String,
     last4: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "PaymentInstrumentCard",
-}) as any as S.Schema<PaymentInstrumentCard>;
+).annotate({ identifier: "PaymentInstrumentCard" }) as any as S.Schema<PaymentInstrumentCard>;
 
 export interface PaymentMethodIconFiles {
   /** Raster fallback at the shape's native size. */
@@ -332,9 +318,7 @@ export const PaymentMethodIconFiles = /*@__PURE__*/ S.suspend(() =>
     png_4x: S.String,
     svg: S.String,
   }),
-).annotate({
-  identifier: "PaymentMethodIconFiles",
-}) as any as S.Schema<PaymentMethodIconFiles>;
+).annotate({ identifier: "PaymentMethodIconFiles" }) as any as S.Schema<PaymentMethodIconFiles>;
 
 export interface PaymentMethodIconVariants {
   /** The colorway for dark surfaces. */
@@ -362,9 +346,7 @@ export const PaymentMethodIcons = /*@__PURE__*/ S.suspend(() =>
     card: PaymentMethodIconVariants,
     square: PaymentMethodIconVariants,
   }),
-).annotate({
-  identifier: "PaymentMethodIcons",
-}) as any as S.Schema<PaymentMethodIcons>;
+).annotate({ identifier: "PaymentMethodIcons" }) as any as S.Schema<PaymentMethodIcons>;
 
 export interface PaymentInstrument {
   /** Card payments only: the card's network and last four. */
@@ -386,9 +368,7 @@ export const PaymentInstrument = /*@__PURE__*/ S.suspend(() =>
     installment_count: S.NullOr(S.Number),
     payment_method_type: S.String,
   }),
-).annotate({
-  identifier: "PaymentInstrument",
-}) as any as S.Schema<PaymentInstrument>;
+).annotate({ identifier: "PaymentInstrument" }) as any as S.Schema<PaymentInstrument>;
 
 export interface DisputePayment {
   /** What the customer was charged, in whole units of the payment's currency. */
@@ -564,14 +544,10 @@ export const GetDisputeSummaryRequest = /*@__PURE__*/ S.suspend(() =>
     created_before: S.optional(S.String.pipe(T.Query())),
     created_after: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/disputes/summary", code: 200 })),
-).annotate({
-  identifier: "GetDisputeSummaryRequest",
-}) as any as S.Schema<GetDisputeSummaryRequest>;
+).annotate({ identifier: "GetDisputeSummaryRequest" }) as any as S.Schema<GetDisputeSummaryRequest>;
 
 /** How many of the matching disputes are in each currency, keyed by three-letter ISO code. Only currencies with at least one dispute are present. */
-export type GetDisputeSummaryResponseGroupsCurrencyMap = {
-  [key: string]: number | undefined;
-};
+export type GetDisputeSummaryResponseGroupsCurrencyMap = { [key: string]: number | undefined };
 export const GetDisputeSummaryResponseGroupsCurrencyMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Number,
@@ -685,9 +661,7 @@ export const ListDisputesRequest = /*@__PURE__*/ S.suspend(() =>
     created_before: S.optional(S.String.pipe(T.Query())),
     created_after: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/disputes", code: 200 })),
-).annotate({
-  identifier: "ListDisputesRequest",
-}) as any as S.Schema<ListDisputesRequest>;
+).annotate({ identifier: "ListDisputesRequest" }) as any as S.Schema<ListDisputesRequest>;
 
 export type ListDisputesResponseDataList = Array<Dispute>;
 export const ListDisputesResponseDataList = /*@__PURE__*/ S.Array(
@@ -720,9 +694,7 @@ export const ListDisputesResponse = /*@__PURE__*/ S.suspend(() =>
     data: ListDisputesResponseDataList,
     page_info: ListDisputesResponsePageInfo,
   }),
-).annotate({
-  identifier: "ListDisputesResponse",
-}) as any as S.Schema<ListDisputesResponse>;
+).annotate({ identifier: "ListDisputesResponse" }) as any as S.Schema<ListDisputesResponse>;
 
 export interface SubmitDisputeRequest {
   /** The dispute ID (`dspt_` tag). */
@@ -735,9 +707,7 @@ export const SubmitDisputeRequest = /*@__PURE__*/ S.suspend(() =>
     id: S.String.pipe(T.Label()),
     idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
   }).pipe(T.Http({ method: "POST", uri: "/disputes/{id}/submit", code: 200 })),
-).annotate({
-  identifier: "SubmitDisputeRequest",
-}) as any as S.Schema<SubmitDisputeRequest>;
+).annotate({ identifier: "SubmitDisputeRequest" }) as any as S.Schema<SubmitDisputeRequest>;
 
 export interface SubmitEvidenceDisputeRequest {
   /** The unique identifier of the dispute to submit to the payment processor for review. */
@@ -746,13 +716,7 @@ export interface SubmitEvidenceDisputeRequest {
 export const SubmitEvidenceDisputeRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/disputes/{id}/submit_evidence",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/disputes/{id}/submit_evidence", code: 200 })),
 ).annotate({
   identifier: "SubmitEvidenceDisputeRequest",
 }) as any as S.Schema<SubmitEvidenceDisputeRequest>;
@@ -791,9 +755,7 @@ export const LegacyDisputeCompany = /*@__PURE__*/ S.suspend(() =>
     id: S.String,
     title: S.String,
   }),
-).annotate({
-  identifier: "LegacyDisputeCompany",
-}) as any as S.Schema<LegacyDisputeCompany>;
+).annotate({ identifier: "LegacyDisputeCompany" }) as any as S.Schema<LegacyDisputeCompany>;
 
 /** The available currencies on the platform */
 export type Currencies =
@@ -1209,9 +1171,7 @@ export const LegacyDisputePaymentUser = /*@__PURE__*/ S.suspend(() =>
     name: S.NullOr(S.String),
     username: S.String,
   }),
-).annotate({
-  identifier: "LegacyDisputePaymentUser",
-}) as any as S.Schema<LegacyDisputePaymentUser>;
+).annotate({ identifier: "LegacyDisputePaymentUser" }) as any as S.Schema<LegacyDisputePaymentUser>;
 
 /** The original payment that was disputed. */
 export interface LegacyDisputePayment {
@@ -1267,9 +1227,7 @@ export const LegacyDisputePayment = /*@__PURE__*/ S.suspend(() =>
     usd_total: S.NullOr(S.Number),
     user: S.NullOr(LegacyDisputePaymentUser),
   }),
-).annotate({
-  identifier: "LegacyDisputePayment",
-}) as any as S.Schema<LegacyDisputePayment>;
+).annotate({ identifier: "LegacyDisputePayment" }) as any as S.Schema<LegacyDisputePayment>;
 
 /** The plan associated with the disputed payment. Null if the dispute is not linked to a specific plan. */
 export interface LegacyDisputePlan {
@@ -1280,9 +1238,7 @@ export const LegacyDisputePlan = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String,
   }),
-).annotate({
-  identifier: "LegacyDisputePlan",
-}) as any as S.Schema<LegacyDisputePlan>;
+).annotate({ identifier: "LegacyDisputePlan" }) as any as S.Schema<LegacyDisputePlan>;
 
 /** The product associated with the disputed payment. Null if the dispute is not linked to a specific product. */
 export interface LegacyDisputeProduct {
@@ -1296,9 +1252,7 @@ export const LegacyDisputeProduct = /*@__PURE__*/ S.suspend(() =>
     id: S.String,
     title: S.String,
   }),
-).annotate({
-  identifier: "LegacyDisputeProduct",
-}) as any as S.Schema<LegacyDisputeProduct>;
+).annotate({ identifier: "LegacyDisputeProduct" }) as any as S.Schema<LegacyDisputeProduct>;
 
 /** The refund policy document uploaded as dispute evidence. Null if no refund policy has been provided. */
 export type LegacyDisputeRefundPolicyAttachment = LegacyDisputeCancellationPolicyAttachment;
@@ -1519,9 +1473,7 @@ export const UpdateDisputeRequest = /*@__PURE__*/ S.suspend(() =>
     id: S.String.pipe(T.Label()),
     evidence: S.optional(UpdateDisputeRequestEvidence),
   }).pipe(T.Http({ method: "PATCH", uri: "/disputes/{id}", code: 200 })),
-).annotate({
-  identifier: "UpdateDisputeRequest",
-}) as any as S.Schema<UpdateDisputeRequest>;
+).annotate({ identifier: "UpdateDisputeRequest" }) as any as S.Schema<UpdateDisputeRequest>;
 
 /** A file upload containing the company's cancellation policy document. */
 export interface UpdateEvidenceDisputeRequestCancellationPolicyAttachment {
@@ -1612,13 +1564,7 @@ export const UpdateEvidenceDisputeRequest = /*@__PURE__*/ S.suspend(() =>
     uncategorized_attachment: S.optional(
       S.NullOr(UpdateEvidenceDisputeRequestCancellationPolicyAttachment),
     ),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/disputes/{id}/update_evidence",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/disputes/{id}/update_evidence", code: 200 })),
 ).annotate({
   identifier: "UpdateEvidenceDisputeRequest",
 }) as any as S.Schema<UpdateEvidenceDisputeRequest>;
@@ -1677,13 +1623,7 @@ export const UploadDisputeEvidenceRequest = /*@__PURE__*/ S.suspend(() =>
     id: S.String.pipe(T.Label()),
     documents: UploadDisputeEvidenceRequestDocumentsList,
     idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/disputes/{id}/upload_evidence",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/disputes/{id}/upload_evidence", code: 200 })),
 ).annotate({
   identifier: "UploadDisputeEvidenceRequest",
 }) as any as S.Schema<UploadDisputeEvidenceRequest>;

@@ -1066,11 +1066,7 @@ export const IoK8sApimachineryPkgApisMetaV1APIGroup = /*@__PURE__*/ S.suspend(()
 export interface GetCoordinationV1alpha2APIResourcesRequest {}
 export const GetCoordinationV1alpha2APIResourcesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/apis/coordination.k8s.io/v1alpha2/",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/apis/coordination.k8s.io/v1alpha2/", code: 200 }),
   ),
 ).annotate({
   identifier: "GetCoordinationV1alpha2APIResourcesRequest",
@@ -1165,13 +1161,7 @@ export const IoK8sApimachineryPkgApisMetaV1APIResourceList = /*@__PURE__*/ S.sus
 
 export interface GetCoordinationV1APIResourcesRequest {}
 export const GetCoordinationV1APIResourcesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/apis/coordination.k8s.io/v1/",
-      code: 200,
-    }),
-  ),
+  S.Struct({}).pipe(T.Http({ method: "GET", uri: "/apis/coordination.k8s.io/v1/", code: 200 })),
 ).annotate({
   identifier: "GetCoordinationV1APIResourcesRequest",
 }) as any as S.Schema<GetCoordinationV1APIResourcesRequest>;
@@ -1179,11 +1169,7 @@ export const GetCoordinationV1APIResourcesRequest = /*@__PURE__*/ S.suspend(() =
 export interface GetCoordinationV1beta1APIResourcesRequest {}
 export const GetCoordinationV1beta1APIResourcesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/apis/coordination.k8s.io/v1beta1/",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/apis/coordination.k8s.io/v1beta1/", code: 200 }),
   ),
 ).annotate({
   identifier: "GetCoordinationV1beta1APIResourcesRequest",
@@ -1499,13 +1485,7 @@ export const ListCoordinationV1LeaseForAllNamespacesRequest = /*@__PURE__*/ S.su
     shardSelector: S.optional(S.String.pipe(T.Query())),
     timeoutSeconds: S.optional(S.Number.pipe(T.Query())),
     watch: S.optional(S.Boolean.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/apis/coordination.k8s.io/v1/leases",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/apis/coordination.k8s.io/v1/leases", code: 200 })),
 ).annotate({
   identifier: "ListCoordinationV1LeaseForAllNamespacesRequest",
 }) as any as S.Schema<ListCoordinationV1LeaseForAllNamespacesRequest>;
@@ -2294,13 +2274,7 @@ export const WatchCoordinationV1LeaseListForAllNamespacesRequest = /*@__PURE__*/
     shardSelector: S.optional(S.String.pipe(T.Query())),
     timeoutSeconds: S.optional(S.Number.pipe(T.Query())),
     watch: S.optional(S.Boolean.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/apis/coordination.k8s.io/v1/watch/leases",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/apis/coordination.k8s.io/v1/watch/leases", code: 200 })),
 ).annotate({
   identifier: "WatchCoordinationV1LeaseListForAllNamespacesRequest",
 }) as any as S.Schema<WatchCoordinationV1LeaseListForAllNamespacesRequest>;

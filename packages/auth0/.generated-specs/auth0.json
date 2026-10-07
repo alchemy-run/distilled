@@ -104,6 +104,12 @@
           "traits": {
             "smithy.api#enumValue": "signup-post-identifier"
           }
+        },
+        "POST_CREDENTIAL_VALIDATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "post-credential-validation"
+          }
         }
       },
       "traits": {
@@ -4281,6 +4287,12 @@
           "traits": {
             "smithy.api#enumValue": "signup-post-identifier"
           }
+        },
+        "POST_CREDENTIAL_VALIDATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "post-credential-validation"
+          }
         }
       },
       "traits": {
@@ -4504,6 +4516,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "signup-post-identifier"
+          }
+        },
+        "POST_CREDENTIAL_VALIDATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "post-credential-validation"
           }
         }
       },
@@ -5733,6 +5751,9 @@
           "traits": {
             "smithy.api#documentation": "Maximum number of unsuccessful attempts."
           }
+        },
+        "form_submission_mode": {
+          "target": "com.auth0.api#BruteForceProtectionFormSubmissionModeEnum"
         }
       },
       "traits": {}
@@ -5791,6 +5812,26 @@
       },
       "traits": {
         "smithy.api#documentation": "Account Lockout: Determines whether or not IP address is used when counting failed attempts.\n          Possible values: <code>count_per_identifier_and_ip</code>, <code>count_per_identifier</code>."
+      }
+    },
+    "com.auth0.api#BruteForceProtectionFormSubmissionModeEnum": {
+      "type": "enum",
+      "members": {
+        "MANUAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "manual"
+          }
+        },
+        "AUTO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "auto"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Controls whether the BFP unblock form is submitted automatically or requires manual interaction. Canonical field; deprecated alias normalized upstream."
       }
     },
     "com.auth0.api#GetBruteForceProtection": {
@@ -5862,6 +5903,9 @@
           "traits": {
             "smithy.api#documentation": "Maximum number of unsuccessful attempts."
           }
+        },
+        "form_submission_mode": {
+          "target": "com.auth0.api#BruteForceProtectionFormSubmissionModeEnum"
         }
       },
       "traits": {
@@ -5897,6 +5941,9 @@
           "traits": {
             "smithy.api#documentation": "Maximum number of unsuccessful attempts."
           }
+        },
+        "form_submission_mode": {
+          "target": "com.auth0.api#BruteForceProtectionFormSubmissionModeEnum"
         }
       },
       "traits": {}
@@ -10723,7 +10770,10 @@
         "target": "smithy.api#String"
       },
       "value": {
-        "target": "smithy.api#String"
+        "target": "smithy.api#String",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {
         "smithy.api#documentation": "Metadata associated with the organization, in the form of an object with string values (max 255 chars). Maximum of 25 metadata properties allowed."
@@ -10997,6 +11047,18 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "ID of this client."
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ISO 8601 timestamp of when this client was created."
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ISO 8601 timestamp of when this client was last updated."
           }
         },
         "tenant": {
@@ -11280,6 +11342,12 @@
         "identity_assertion_authorization_grant": {
           "target": "com.auth0.api#IdentityAssertionAuthorizationGrant"
         },
+        "anonymous_sessions": {
+          "target": "com.auth0.api#AnonymousSessions"
+        },
+        "enforce_anon_session_transfer_network_binding": {
+          "target": "com.auth0.api#ClientAnonymousSessionTransferNetworkBindingEnum"
+        },
         "third_party_security_mode": {
           "target": "com.auth0.api#ClientThirdPartySecurityModeEnum"
         },
@@ -11353,12 +11421,6 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "express_configuration"
-          }
-        },
-        "B2B_INTEGRATION": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "b2b_integration"
           }
         },
         "RMS": {
@@ -11787,6 +11849,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "account-deactivated"
+          }
+        },
+        "PROFILE_CHANGED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "profile-changed"
           }
         }
       },
@@ -13676,6 +13744,18 @@
           "traits": {
             "smithy.api#documentation": "The client ID this client uses while creating invitations through My Organization API."
           }
+        },
+        "enforce_permission_ceiling": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "When true, limits the permissions that organization admins can assign to members to only those held by the admin themselves."
+          }
+        },
+        "enforce_self_assignment_restriction": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "When true, prevents organization admins from assigning permissions to themselves."
+          }
         }
       },
       "traits": {
@@ -13840,6 +13920,47 @@
         "smithy.api#documentation": "Configuration on the use of ID-JAGs for Cross App Access."
       }
     },
+    "com.auth0.api#AnonymousSessions": {
+      "type": "structure",
+      "members": {
+        "active": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "If set to true, this client is allowed to create anonymous sessions.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Anonymous sessions configuration for this client."
+      }
+    },
+    "com.auth0.api#ClientAnonymousSessionTransferNetworkBindingEnum": {
+      "type": "enum",
+      "members": {
+        "IP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ip"
+          }
+        },
+        "ASN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "asn"
+          }
+        },
+        "NONE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "none"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Indicates whether network binding should be enforced when consuming an anonymous session transfer token. If set to 'ip', consumption must happen from the same IP as the issuer. If set to 'asn', consumption must happen from the same ASN as the issuer. If set to 'none', binding is not enforced. Default value is `ip`."
+      }
+    },
     "com.auth0.api#ClientThirdPartySecurityModeEnum": {
       "type": "enum",
       "members": {
@@ -13886,7 +14007,7 @@
         "target": "com.auth0.api#AsyncApprovalNotificationsChannelsEnum"
       },
       "traits": {
-        "smithy.api#documentation": "Array of notification channels for contacting the user when their approval is required. Valid values are `guardian-push`, `email`."
+        "smithy.api#documentation": "Array of notification channels for contacting the user when their approval is required. Valid values are `guardian-push`, `email`, `my-account`."
       }
     },
     "com.auth0.api#AsyncApprovalNotificationsChannelsEnum": {
@@ -13902,6 +14023,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "email"
+          }
+        },
+        "MY_ACCOUNT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "my-account"
           }
         }
       },
@@ -14471,6 +14598,21 @@
         "smithy.api#documentation": "Configuration on the use of ID-JAGs for Cross App Access."
       }
     },
+    "com.auth0.api#CreateAnonymousSessions": {
+      "type": "structure",
+      "members": {
+        "active": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "If set to true, this client is allowed to create anonymous sessions.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Anonymous sessions configuration for this client."
+      }
+    },
     "com.auth0.api#ClientMyOrganizationPostConfiguration": {
       "type": "structure",
       "members": {
@@ -14507,6 +14649,18 @@
           "traits": {
             "smithy.api#documentation": "The client ID this client uses while creating invitations through My Organization API."
           }
+        },
+        "enforce_permission_ceiling": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "When true, limits the permissions that organization admins can assign to members to only those held by the admin themselves."
+          }
+        },
+        "enforce_self_assignment_restriction": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "When true, prevents organization admins from assigning permissions to themselves."
+          }
         }
       },
       "traits": {
@@ -14521,6 +14675,63 @@
       "traits": {
         "smithy.api#documentation": "The allowed connection strategies for the My Organization Configuration."
       }
+    },
+    "com.auth0.api#ClientOidcSupportPost": {
+      "type": "structure",
+      "members": {
+        "is_allowed": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "allow_all_scopes": {
+          "target": "smithy.api#Boolean"
+        },
+        "allowed_scopes": {
+          "target": "com.auth0.api#ClientOidcSupportPostAllowedScopesList"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "OIDC support configuration for a client. Controls whether OIDC flows are allowed and which scopes the client may request."
+      }
+    },
+    "com.auth0.api#ClientOidcSupportAllowedScopesEnum": {
+      "type": "enum",
+      "members": {
+        "PROFILE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "profile"
+          }
+        },
+        "EMAIL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "email"
+          }
+        },
+        "ADDRESS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "address"
+          }
+        },
+        "PHONE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "phone"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.auth0.api#ClientOidcSupportPostAllowedScopesList": {
+      "type": "list",
+      "member": {
+        "target": "com.auth0.api#ClientOidcSupportAllowedScopesEnum"
+      },
+      "traits": {}
     },
     "com.auth0.api#CreateClientRequest": {
       "type": "structure",
@@ -14782,6 +14993,12 @@
         "identity_assertion_authorization_grant": {
           "target": "com.auth0.api#CreateIdentityAssertionAuthorizationGrant"
         },
+        "anonymous_sessions": {
+          "target": "com.auth0.api#CreateAnonymousSessions"
+        },
+        "enforce_anon_session_transfer_network_binding": {
+          "target": "com.auth0.api#ClientAnonymousSessionTransferNetworkBindingEnum"
+        },
         "third_party_security_mode": {
           "target": "com.auth0.api#ClientThirdPartySecurityModeEnum"
         },
@@ -14799,6 +15016,9 @@
         },
         "async_approval_notification_channels": {
           "target": "com.auth0.api#ClientAsyncApprovalNotificationsChannelsAPIPostConfiguration"
+        },
+        "oidc_support": {
+          "target": "com.auth0.api#ClientOidcSupportPost"
         }
       },
       "traits": {
@@ -14812,6 +15032,18 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "ID of this client."
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ISO 8601 timestamp of when this client was created."
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ISO 8601 timestamp of when this client was last updated."
           }
         },
         "tenant": {
@@ -15094,6 +15326,12 @@
         },
         "identity_assertion_authorization_grant": {
           "target": "com.auth0.api#IdentityAssertionAuthorizationGrant"
+        },
+        "anonymous_sessions": {
+          "target": "com.auth0.api#AnonymousSessions"
+        },
+        "enforce_anon_session_transfer_network_binding": {
+          "target": "com.auth0.api#ClientAnonymousSessionTransferNetworkBindingEnum"
         },
         "third_party_security_mode": {
           "target": "com.auth0.api#ClientThirdPartySecurityModeEnum"
@@ -15691,6 +15929,18 @@
             "smithy.api#documentation": "ID of this client."
           }
         },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ISO 8601 timestamp of when this client was created."
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ISO 8601 timestamp of when this client was last updated."
+          }
+        },
         "tenant": {
           "target": "smithy.api#String",
           "traits": {
@@ -15949,6 +16199,12 @@
         },
         "identity_assertion_authorization_grant": {
           "target": "com.auth0.api#IdentityAssertionAuthorizationGrant"
+        },
+        "anonymous_sessions": {
+          "target": "com.auth0.api#AnonymousSessions"
+        },
+        "enforce_anon_session_transfer_network_binding": {
+          "target": "com.auth0.api#ClientAnonymousSessionTransferNetworkBindingEnum"
         },
         "third_party_security_mode": {
           "target": "com.auth0.api#ClientThirdPartySecurityModeEnum"
@@ -16735,6 +16991,18 @@
             "smithy.api#documentation": "ID of this client."
           }
         },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ISO 8601 timestamp of when this client was created."
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ISO 8601 timestamp of when this client was last updated."
+          }
+        },
         "tenant": {
           "target": "smithy.api#String",
           "traits": {
@@ -17016,6 +17284,12 @@
         "identity_assertion_authorization_grant": {
           "target": "com.auth0.api#IdentityAssertionAuthorizationGrant"
         },
+        "anonymous_sessions": {
+          "target": "com.auth0.api#AnonymousSessions"
+        },
+        "enforce_anon_session_transfer_network_binding": {
+          "target": "com.auth0.api#ClientAnonymousSessionTransferNetworkBindingEnum"
+        },
         "third_party_security_mode": {
           "target": "com.auth0.api#ClientThirdPartySecurityModeEnum"
         },
@@ -17266,6 +17540,21 @@
       },
       "traits": {
         "smithy.api#documentation": "Configuration on the use of ID-JAGs for Cross App Access."
+      }
+    },
+    "com.auth0.api#UpdateAnonymousSessions": {
+      "type": "structure",
+      "members": {
+        "active": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "If set to true, this client is allowed to create anonymous sessions.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Anonymous sessions configuration for this client."
       }
     },
     "com.auth0.api#NativeSocialLoginPatch": {
@@ -17562,6 +17851,18 @@
           "traits": {
             "smithy.api#documentation": "The client ID this client uses while creating invitations through My Organization API."
           }
+        },
+        "enforce_permission_ceiling": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "When true, limits the permissions that organization admins can assign to members to only those held by the admin themselves."
+          }
+        },
+        "enforce_self_assignment_restriction": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "When true, prevents organization admins from assigning permissions to themselves."
+          }
         }
       },
       "traits": {
@@ -17583,8 +17884,35 @@
         "target": "com.auth0.api#AsyncApprovalNotificationsChannelsEnum"
       },
       "traits": {
-        "smithy.api#documentation": "Array of notification channels for contacting the user when their approval is required. Valid values are `guardian-push`, `email`."
+        "smithy.api#documentation": "Array of notification channels for contacting the user when their approval is required. Valid values are `guardian-push`, `email`, `my-account`."
       }
+    },
+    "com.auth0.api#ClientOidcSupportPatch": {
+      "type": "structure",
+      "members": {
+        "is_allowed": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "allow_all_scopes": {
+          "target": "smithy.api#Boolean"
+        },
+        "allowed_scopes": {
+          "target": "com.auth0.api#ClientOidcSupportPatchAllowedScopesList"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "OIDC support configuration for a client. Replaces the stored object entirely; send null to unset it."
+      }
+    },
+    "com.auth0.api#ClientOidcSupportPatchAllowedScopesList": {
+      "type": "list",
+      "member": {
+        "target": "com.auth0.api#ClientOidcSupportAllowedScopesEnum"
+      },
+      "traits": {}
     },
     "com.auth0.api#UpdateClientRequest": {
       "type": "structure",
@@ -17771,6 +18099,15 @@
             "com.distilled.openapi#nullable": {}
           }
         },
+        "anonymous_sessions": {
+          "target": "com.auth0.api#UpdateAnonymousSessions",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "enforce_anon_session_transfer_network_binding": {
+          "target": "com.auth0.api#ClientAnonymousSessionTransferNetworkBindingEnum"
+        },
         "form_template": {
           "target": "smithy.api#String",
           "traits": {
@@ -17914,6 +18251,12 @@
         },
         "redirection_policy": {
           "target": "com.auth0.api#ClientRedirectionPolicyEnum"
+        },
+        "oidc_support": {
+          "target": "com.auth0.api#ClientOidcSupportPatch",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
         }
       },
       "traits": {
@@ -17927,6 +18270,18 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "ID of this client."
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ISO 8601 timestamp of when this client was created."
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ISO 8601 timestamp of when this client was last updated."
           }
         },
         "tenant": {
@@ -18209,6 +18564,12 @@
         },
         "identity_assertion_authorization_grant": {
           "target": "com.auth0.api#IdentityAssertionAuthorizationGrant"
+        },
+        "anonymous_sessions": {
+          "target": "com.auth0.api#AnonymousSessions"
+        },
+        "enforce_anon_session_transfer_network_binding": {
+          "target": "com.auth0.api#ClientAnonymousSessionTransferNetworkBindingEnum"
         },
         "third_party_security_mode": {
           "target": "com.auth0.api#ClientThirdPartySecurityModeEnum"
@@ -18726,16 +19087,16 @@
             "smithy.api#enumValue": "notion-mcp"
           }
         },
-        "ASANA_MCP": {
+        "ASANA": {
           "target": "smithy.api#Unit",
           "traits": {
-            "smithy.api#enumValue": "asana-mcp"
+            "smithy.api#enumValue": "asana"
           }
         },
-        "ATLASSIAN_MCP": {
+        "ATLASSIAN": {
           "target": "smithy.api#Unit",
           "traits": {
-            "smithy.api#enumValue": "atlassian-mcp"
+            "smithy.api#enumValue": "atlassian"
           }
         },
         "CLOUDFLARE_MCP": {
@@ -18744,34 +19105,10 @@
             "smithy.api#enumValue": "cloudflare-mcp"
           }
         },
-        "DOCUSIGN_MCP": {
+        "GITLAB": {
           "target": "smithy.api#Unit",
           "traits": {
-            "smithy.api#enumValue": "docusign-mcp"
-          }
-        },
-        "FIGMA_MCP": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "figma-mcp"
-          }
-        },
-        "GITLAB_MCP": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "gitlab-mcp"
-          }
-        },
-        "GUSTO_MCP": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "gusto-mcp"
-          }
-        },
-        "HEROKU_MCP": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "heroku-mcp"
+            "smithy.api#enumValue": "gitlab"
           }
         },
         "HUBSPOT_MCP": {
@@ -18780,22 +19117,10 @@
             "smithy.api#enumValue": "hubspot-mcp"
           }
         },
-        "INTERCOM_MCP": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "intercom-mcp"
-          }
-        },
         "LINEAR_MCP": {
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "linear-mcp"
-          }
-        },
-        "PAGERDUTY_MCP": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "pagerduty-mcp"
           }
         },
         "SENTRY_MCP": {
@@ -18804,28 +19129,10 @@
             "smithy.api#enumValue": "sentry-mcp"
           }
         },
-        "SLACK_MCP": {
+        "SLACK": {
           "target": "smithy.api#Unit",
           "traits": {
-            "smithy.api#enumValue": "slack-mcp"
-          }
-        },
-        "SUPABASE_MCP": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "supabase-mcp"
-          }
-        },
-        "VERCEL_MCP": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "vercel-mcp"
-          }
-        },
-        "XERO_MCP": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "xero-mcp"
+            "smithy.api#enumValue": "slack"
           }
         },
         "AUTH0_ADLDAP": {
@@ -19006,7 +19313,10 @@
         "target": "smithy.api#String"
       },
       "value": {
-        "target": "smithy.api#String"
+        "target": "smithy.api#String",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {
         "smithy.api#documentation": "Metadata associated with the connection in the form of an object with string values (max 255 chars).  Maximum of 10 metadata properties allowed."
@@ -19156,6 +19466,18 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "ID of this client."
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ISO 8601 timestamp of when this client was created."
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ISO 8601 timestamp of when this client was last updated."
           }
         },
         "tenant": {
@@ -19439,6 +19761,12 @@
         "identity_assertion_authorization_grant": {
           "target": "com.auth0.api#IdentityAssertionAuthorizationGrant"
         },
+        "anonymous_sessions": {
+          "target": "com.auth0.api#AnonymousSessions"
+        },
+        "enforce_anon_session_transfer_network_binding": {
+          "target": "com.auth0.api#ClientAnonymousSessionTransferNetworkBindingEnum"
+        },
         "third_party_security_mode": {
           "target": "com.auth0.api#ClientThirdPartySecurityModeEnum"
         },
@@ -19636,6 +19964,9 @@
         "strategy_overrides": {
           "target": "com.auth0.api#ConnectionProfileStrategyOverrides"
         },
+        "provisioning": {
+          "target": "com.auth0.api#ConnectionProfileProvisioning"
+        },
         "cross_app_access_resource_app": {
           "target": "com.auth0.api#ConnectionProfileCrossAppAccessResourceApp"
         }
@@ -19780,6 +20111,9 @@
         },
         "connection_config": {
           "target": "smithy.api#Document"
+        },
+        "provisioning": {
+          "target": "com.auth0.api#ConnectionProfileStrategyOverridesProvisioning"
         }
       },
       "traits": {
@@ -19793,6 +20127,115 @@
       },
       "traits": {
         "smithy.api#documentation": "Enabled features for a connections profile strategy override."
+      }
+    },
+    "com.auth0.api#ConnectionProfileStrategyOverridesProvisioning": {
+      "type": "structure",
+      "members": {
+        "scim": {
+          "target": "com.auth0.api#ConnectionProfileProvisioningScim"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Provisioning settings for a connection profile strategy override."
+      }
+    },
+    "com.auth0.api#ConnectionProfileProvisioningScim": {
+      "type": "structure",
+      "members": {
+        "tokens": {
+          "target": "com.auth0.api#ConnectionProfileProvisioningScimTokens",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "SCIM provisioning settings."
+      }
+    },
+    "com.auth0.api#ConnectionProfileProvisioningScimTokens": {
+      "type": "structure",
+      "members": {
+        "scopes": {
+          "target": "com.auth0.api#ConnectionProfileProvisioningScimTokenScopes",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "default_expiry": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "max_allowed_expiry": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "SCIM token settings for connections created from this profile."
+      }
+    },
+    "com.auth0.api#ConnectionProfileProvisioningScimTokenScopes": {
+      "type": "list",
+      "member": {
+        "target": "com.auth0.api#ConnectionProfileProvisioningScimTokenScopeEnum"
+      },
+      "traits": {
+        "smithy.api#documentation": "The scopes granted to SCIM tokens."
+      }
+    },
+    "com.auth0.api#ConnectionProfileProvisioningScimTokenScopeEnum": {
+      "type": "enum",
+      "members": {
+        "GET_USERS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "get:users"
+          }
+        },
+        "POST_USERS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "post:users"
+          }
+        },
+        "PATCH_USERS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "patch:users"
+          }
+        },
+        "DELETE_USERS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "delete:users"
+          }
+        },
+        "PUT_USERS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "put:users"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A SCIM token scope."
+      }
+    },
+    "com.auth0.api#ConnectionProfileProvisioning": {
+      "type": "structure",
+      "members": {
+        "scim": {
+          "target": "com.auth0.api#ConnectionProfileProvisioningScim"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Provisioning settings for connections created from this profile."
       }
     },
     "com.auth0.api#ConnectionProfileCrossAppAccessResourceApp": {
@@ -19931,6 +20374,9 @@
         "strategy_overrides": {
           "target": "com.auth0.api#ConnectionProfileStrategyOverrides"
         },
+        "provisioning": {
+          "target": "com.auth0.api#ConnectionProfileProvisioning"
+        },
         "cross_app_access_resource_app": {
           "target": "com.auth0.api#ConnectionProfileCrossAppAccessResourceApp"
         }
@@ -19962,6 +20408,9 @@
         },
         "strategy_overrides": {
           "target": "com.auth0.api#ConnectionProfileStrategyOverrides"
+        },
+        "provisioning": {
+          "target": "com.auth0.api#ConnectionProfileProvisioning"
         },
         "cross_app_access_resource_app": {
           "target": "com.auth0.api#ConnectionProfileCrossAppAccessResourceApp"
@@ -20047,6 +20496,9 @@
         },
         "strategy_overrides": {
           "target": "com.auth0.api#ConnectionProfileStrategyOverrides"
+        },
+        "provisioning": {
+          "target": "com.auth0.api#ConnectionProfileProvisioning"
         }
       },
       "traits": {
@@ -20184,6 +20636,9 @@
         "strategy_overrides": {
           "target": "com.auth0.api#ConnectionProfileStrategyOverrides"
         },
+        "provisioning": {
+          "target": "com.auth0.api#ConnectionProfileProvisioning"
+        },
         "cross_app_access_resource_app": {
           "target": "com.auth0.api#ConnectionProfileCrossAppAccessResourceApp"
         }
@@ -20244,6 +20699,9 @@
         "strategy_overrides": {
           "target": "com.auth0.api#ConnectionProfileStrategyOverrides"
         },
+        "provisioning": {
+          "target": "com.auth0.api#ConnectionProfileProvisioning"
+        },
         "cross_app_access_resource_app": {
           "target": "com.auth0.api#ConnectionProfileCrossAppAccessResourceApp"
         }
@@ -20275,6 +20733,9 @@
         },
         "strategy_overrides": {
           "target": "com.auth0.api#ConnectionProfileStrategyOverrides"
+        },
+        "provisioning": {
+          "target": "com.auth0.api#ConnectionProfileProvisioning"
         },
         "cross_app_access_resource_app": {
           "target": "com.auth0.api#ConnectionProfileCrossAppAccessResourceApp"
@@ -20874,16 +21335,16 @@
             "smithy.api#enumValue": "notion-mcp"
           }
         },
-        "ASANA_MCP": {
+        "ASANA": {
           "target": "smithy.api#Unit",
           "traits": {
-            "smithy.api#enumValue": "asana-mcp"
+            "smithy.api#enumValue": "asana"
           }
         },
-        "ATLASSIAN_MCP": {
+        "ATLASSIAN": {
           "target": "smithy.api#Unit",
           "traits": {
-            "smithy.api#enumValue": "atlassian-mcp"
+            "smithy.api#enumValue": "atlassian"
           }
         },
         "CLOUDFLARE_MCP": {
@@ -20892,34 +21353,10 @@
             "smithy.api#enumValue": "cloudflare-mcp"
           }
         },
-        "DOCUSIGN_MCP": {
+        "GITLAB": {
           "target": "smithy.api#Unit",
           "traits": {
-            "smithy.api#enumValue": "docusign-mcp"
-          }
-        },
-        "FIGMA_MCP": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "figma-mcp"
-          }
-        },
-        "GITLAB_MCP": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "gitlab-mcp"
-          }
-        },
-        "GUSTO_MCP": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "gusto-mcp"
-          }
-        },
-        "HEROKU_MCP": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "heroku-mcp"
+            "smithy.api#enumValue": "gitlab"
           }
         },
         "HUBSPOT_MCP": {
@@ -20928,22 +21365,10 @@
             "smithy.api#enumValue": "hubspot-mcp"
           }
         },
-        "INTERCOM_MCP": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "intercom-mcp"
-          }
-        },
         "LINEAR_MCP": {
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "linear-mcp"
-          }
-        },
-        "PAGERDUTY_MCP": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "pagerduty-mcp"
           }
         },
         "SENTRY_MCP": {
@@ -20952,28 +21377,10 @@
             "smithy.api#enumValue": "sentry-mcp"
           }
         },
-        "SLACK_MCP": {
+        "SLACK": {
           "target": "smithy.api#Unit",
           "traits": {
-            "smithy.api#enumValue": "slack-mcp"
-          }
-        },
-        "SUPABASE_MCP": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "supabase-mcp"
-          }
-        },
-        "VERCEL_MCP": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "vercel-mcp"
-          }
-        },
-        "XERO_MCP": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "xero-mcp"
+            "smithy.api#enumValue": "slack"
           }
         }
       },
@@ -21136,6 +21543,12 @@
         "dpop_signing_alg": {
           "target": "com.auth0.api#ConnectionDpopSigningAlgEnum"
         },
+        "enable_pushed_authorization_requests": {
+          "target": "smithy.api#Boolean"
+        },
+        "pushed_authorization_request_endpoint": {
+          "target": "smithy.api#String"
+        },
         "token_endpoint_auth_method": {
           "target": "com.auth0.api#ConnectionTokenEndpointAuthMethodEnum",
           "traits": {
@@ -21168,6 +21581,12 @@
           "traits": {
             "com.distilled.openapi#nullable": {}
           }
+        },
+        "thumbprints": {
+          "target": "com.auth0.api#ConnectionThumbprints"
+        },
+        "thumbprints_sha384": {
+          "target": "com.auth0.api#ConnectionThumbprintsSha384"
         }
       },
       "traits": {
@@ -21532,7 +21951,10 @@
         "target": "smithy.api#String"
       },
       "value": {
-        "target": "smithy.api#String"
+        "target": "smithy.api#String",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {
         "smithy.api#documentation": "Stores encrypted string only configurations for connections"
@@ -22764,6 +23186,18 @@
             "smithy.api#documentation": "URL of the identity provider's logout/end session endpoint. When configured as a static URL, users are redirected here after logging out from Auth0. Must use HTTPS scheme."
           }
         },
+        "pushed_authorization_request_endpoint": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "URL of the identity provider's Pushed Authorization Request (PAR) endpoint, as per https://datatracker.ietf.org/doc/html/rfc9126. Must use HTTPS scheme."
+          }
+        },
+        "require_pushed_authorization_requests": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Boolean parameter indicating whether the identity provider requires Pushed Authorization Requests (PAR), as per https://datatracker.ietf.org/doc/html/rfc9126. Discovered from the identity provider's metadata; not used to decide whether the server performs PAR."
+          }
+        },
         "dpop_signing_alg_values_supported": {
           "target": "com.auth0.api#ConnectionsOIDCMetadataDpopSigningAlgValuesSupportedList",
           "traits": {
@@ -22980,6 +23414,24 @@
       },
       "traits": {
         "smithy.api#documentation": "JSON array containing a list of the JWS signing algorithms (alg values) supported for DPoP proof JWT signing."
+      }
+    },
+    "com.auth0.api#ConnectionThumbprints": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Array of certificate thumbprints (SHA-128 hex hashes) for validating SAML signatures. Used with WS-Federation protocol. Maximum 20 thumbprints. Each thumbprint must be a hexadecimal string."
+      }
+    },
+    "com.auth0.api#ConnectionThumbprintsSha384": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Array of certificate thumbprints (SHA-384 hex hashes) for validating SAML signatures. Used with WS-Federation protocol. Maximum 20 thumbprints. Each thumbprint must be a 96-character hexadecimal string."
       }
     },
     "com.auth0.api#CreateConnectionRequestEnabledClientsList": {
@@ -23877,6 +24329,12 @@
         "dpop_signing_alg": {
           "target": "com.auth0.api#ConnectionDpopSigningAlgEnum"
         },
+        "enable_pushed_authorization_requests": {
+          "target": "smithy.api#Boolean"
+        },
+        "pushed_authorization_request_endpoint": {
+          "target": "smithy.api#String"
+        },
         "token_endpoint_auth_method": {
           "target": "com.auth0.api#ConnectionTokenEndpointAuthMethodEnum",
           "traits": {
@@ -23909,6 +24367,12 @@
           "traits": {
             "com.distilled.openapi#nullable": {}
           }
+        },
+        "thumbprints": {
+          "target": "com.auth0.api#ConnectionThumbprints"
+        },
+        "thumbprints_sha384": {
+          "target": "com.auth0.api#ConnectionThumbprintsSha384"
         }
       },
       "traits": {
@@ -23939,7 +24403,10 @@
         "target": "smithy.api#String"
       },
       "value": {
-        "target": "smithy.api#String"
+        "target": "smithy.api#String",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {
         "smithy.api#documentation": "Stores encrypted string only configurations for connections"
@@ -26993,7 +27460,10 @@
         "target": "smithy.api#String"
       },
       "value": {
-        "target": "smithy.api#String"
+        "target": "smithy.api#String",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {
         "smithy.api#documentation": "Domain metadata associated with the custom domain, in the form of an object with string values (max 255 chars). Maximum of 10 domain metadata properties allowed."
@@ -28190,7 +28660,7 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "Type of credentials to retrieve. Must be `public_key`, `refresh_token` or `rotating_refresh_token`. The property will default to `refresh_token` when paging is requested"
+        "smithy.api#documentation": "Type of credentials to retrieve. Must be `public_key`, `refresh_token` or `rotating_refresh_token`. If none is provided a combined list of `refresh_tokens` and `public_keys` will be returned (and no `rotating_refresh_token`), in this case `page`, `per_page` and `include_totals` will be ignored."
       }
     },
     "com.auth0.api#GetDeviceCredentialsRequest": {
@@ -28249,7 +28719,7 @@
           "target": "com.auth0.api#DeviceCredentialTypeEnum",
           "traits": {
             "smithy.api#httpQuery": "type",
-            "smithy.api#documentation": "Type of credentials to retrieve. Must be `public_key`, `refresh_token` or `rotating_refresh_token`. The property will default to `refresh_token` when paging is requested"
+            "smithy.api#documentation": "Type of credentials to retrieve. Must be `public_key`, `refresh_token` or `rotating_refresh_token`. If none is provided a combined list of `refresh_tokens` and `public_keys` will be returned (and no `rotating_refresh_token`), in this case `page`, `per_page` and `include_totals` will be ignored."
           }
         }
       },
@@ -32701,6 +33171,9 @@
             "smithy.api#required": {}
           }
         },
+        "feature_flag_name": {
+          "target": "smithy.api#String"
+        },
         "authentication_flow": {
           "target": "smithy.api#String",
           "traits": {
@@ -32709,12 +33182,6 @@
         },
         "allocation_strategy": {
           "target": "com.auth0.api#AllocationStrategyEnum",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "assignment_config": {
-          "target": "com.auth0.api#AssignmentConfig",
           "traits": {
             "smithy.api#required": {}
           }
@@ -32731,8 +33198,8 @@
             "smithy.api#required": {}
           }
         },
-        "is_stateful": {
-          "target": "smithy.api#Boolean"
+        "default_config": {
+          "target": "com.auth0.api#DefaultConfigEnum"
         },
         "feature_flag_snapshot": {
           "target": "com.auth0.api#ExperimentListItemFeatureFlagSnapshotMap",
@@ -32757,6 +33224,13 @@
           "target": "com.auth0.api#ExperimentListItemLevelsList",
           "traits": {
             "smithy.api#documentation": "Ramp experiment levels configuration."
+          }
+        },
+        "current_level": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Read-only. The active exposure percentage for the current ramp step. Null when no ramp schedule is active.",
+            "com.distilled.openapi#nullable": {}
           }
         },
         "started_at": {
@@ -32798,29 +33272,25 @@
       },
       "traits": {}
     },
-    "com.auth0.api#AssignmentConfig": {
-      "type": "structure",
-      "members": {
-        "subject": {
-          "target": "com.auth0.api#SubjectEnum",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.auth0.api#SubjectEnum": {
+    "com.auth0.api#DefaultConfigEnum": {
       "type": "enum",
       "members": {
-        "DEVICE": {
+        "TENANT": {
           "target": "smithy.api#Unit",
           "traits": {
-            "smithy.api#enumValue": "device"
+            "smithy.api#enumValue": "tenant"
+          }
+        },
+        "FLAG": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "flag"
           }
         }
       },
-      "traits": {}
+      "traits": {
+        "smithy.api#documentation": "For Auth0-managed flags, where non-overridden config keys resolve from: 'tenant' inherits the tenant's live config, 'flag' uses the flag's frozen defaults. Omitted when unset (defaults to 'tenant' at resolution). Not applicable to customer-defined flags."
+      }
     },
     "com.auth0.api#ExperimentListItemFeatureFlagSnapshotMap": {
       "type": "map",
@@ -32838,7 +33308,13 @@
         "variation_id": {
           "target": "smithy.api#String"
         },
+        "variation_name": {
+          "target": "smithy.api#String"
+        },
         "segment_id": {
+          "target": "smithy.api#String"
+        },
+        "segment_name": {
           "target": "smithy.api#String"
         },
         "weight": {
@@ -32978,21 +33454,15 @@
             "smithy.api#enumValue": "passkey_enrollment"
           }
         },
-        "ORGANIZATION_SELECTION": {
+        "ALL": {
           "target": "smithy.api#Unit",
           "traits": {
-            "smithy.api#enumValue": "organization_selection"
-          }
-        },
-        "EMAIL_VERIFICATION": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "email_verification"
+            "smithy.api#enumValue": "all"
           }
         }
       },
       "traits": {
-        "smithy.api#documentation": "The authentication flow this experiment applies to. Must be one of: authentication, mfa_enrollment, mfa_challenge, password_reset, passkey_enrollment, organization_selection, email_verification."
+        "smithy.api#documentation": "Specifies the target authentication flow for this experiment. Must be one of: authentication, mfa_enrollment, mfa_challenge, password_reset, passkey_enrollment, or all. Note that the all value targets every flow at once, but requires that this is the only active experiment."
       }
     },
     "com.auth0.api#AllocationRequestItem": {
@@ -33054,7 +33524,7 @@
         "target": "smithy.api#Integer"
       },
       "traits": {
-        "smithy.api#documentation": "Ramp experiment levels configuration."
+        "smithy.api#documentation": "Ramp experiment levels configuration. A strictly-increasing sequence of exposure percentages, each an integer in [0, 100]."
       }
     },
     "com.auth0.api#CreateExperimentRequest": {
@@ -33086,22 +33556,16 @@
             "smithy.api#required": {}
           }
         },
-        "is_stateful": {
-          "target": "smithy.api#Boolean",
+        "default_config": {
+          "target": "com.auth0.api#DefaultConfigEnum",
           "traits": {
-            "smithy.api#documentation": "Server-controlled classifier (EA, read-only). For customer-defined flags it is always false and cannot be set to true; for Auth0-managed flags it is derived. Optional: omit it, or send a value matching the server rule."
+            "smithy.api#documentation": "Applies only to Auth0-managed flags. Controls where non-overridden config keys resolve from: 'tenant' inherits the tenant's live config so the experiment overlays only its changes, 'flag' uses the flag's frozen defaults for a complete config. Optional; defaults to 'tenant' when omitted. Rejected for customer-defined flags."
           }
         },
         "allocation_strategy": {
           "target": "com.auth0.api#AllocationStrategyEnum",
           "traits": {
             "smithy.api#documentation": "The traffic allocation strategy for this experiment"
-          }
-        },
-        "assignment_config": {
-          "target": "com.auth0.api#AssignmentConfig",
-          "traits": {
-            "smithy.api#documentation": "Configuration for how users are assigned to variations"
           }
         },
         "allocations": {
@@ -33113,7 +33577,7 @@
         "levels": {
           "target": "com.auth0.api#CreateExperimentRequestLevelsList",
           "traits": {
-            "smithy.api#documentation": "Ramp experiment levels configuration."
+            "smithy.api#documentation": "Ramp experiment levels configuration. A strictly-increasing sequence of exposure percentages, each an integer in [0, 100]."
           }
         }
       },
@@ -33145,6 +33609,9 @@
             "smithy.api#required": {}
           }
         },
+        "feature_flag_name": {
+          "target": "smithy.api#String"
+        },
         "authentication_flow": {
           "target": "smithy.api#String",
           "traits": {
@@ -33153,12 +33620,6 @@
         },
         "allocation_strategy": {
           "target": "com.auth0.api#AllocationStrategyEnum",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "assignment_config": {
-          "target": "com.auth0.api#AssignmentConfig",
           "traits": {
             "smithy.api#required": {}
           }
@@ -33175,8 +33636,8 @@
             "smithy.api#required": {}
           }
         },
-        "is_stateful": {
-          "target": "smithy.api#Boolean"
+        "default_config": {
+          "target": "com.auth0.api#DefaultConfigEnum"
         },
         "feature_flag_snapshot": {
           "target": "com.auth0.api#CreateExperimentResponseContentFeatureFlagSnapshotMap",
@@ -33201,6 +33662,13 @@
           "target": "com.auth0.api#CreateExperimentResponseContentLevelsList",
           "traits": {
             "smithy.api#documentation": "Ramp experiment levels configuration."
+          }
+        },
+        "current_level": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Read-only. The active exposure percentage for the current ramp step. Null when no ramp schedule is active.",
+            "com.distilled.openapi#nullable": {}
           }
         },
         "started_at": {
@@ -33333,6 +33801,9 @@
             "smithy.api#required": {}
           }
         },
+        "feature_flag_name": {
+          "target": "smithy.api#String"
+        },
         "authentication_flow": {
           "target": "smithy.api#String",
           "traits": {
@@ -33341,12 +33812,6 @@
         },
         "allocation_strategy": {
           "target": "com.auth0.api#AllocationStrategyEnum",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "assignment_config": {
-          "target": "com.auth0.api#AssignmentConfig",
           "traits": {
             "smithy.api#required": {}
           }
@@ -33363,8 +33828,8 @@
             "smithy.api#required": {}
           }
         },
-        "is_stateful": {
-          "target": "smithy.api#Boolean"
+        "default_config": {
+          "target": "com.auth0.api#DefaultConfigEnum"
         },
         "feature_flag_snapshot": {
           "target": "com.auth0.api#GetExperimentResponseContentFeatureFlagSnapshotMap",
@@ -33389,6 +33854,13 @@
           "target": "com.auth0.api#GetExperimentResponseContentLevelsList",
           "traits": {
             "smithy.api#documentation": "Ramp experiment levels configuration."
+          }
+        },
+        "current_level": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Read-only. The active exposure percentage for the current ramp step. Null when no ramp schedule is active.",
+            "com.distilled.openapi#nullable": {}
           }
         },
         "started_at": {
@@ -33487,7 +33959,7 @@
         "target": "smithy.api#Integer"
       },
       "traits": {
-        "smithy.api#documentation": "Ramp experiment levels configuration. Can only be modified on draft experiments."
+        "smithy.api#documentation": "Ramp experiment levels configuration. A strictly-increasing sequence of exposure percentages, each an integer in [0, 100]. Can only be modified on draft experiments."
       }
     },
     "com.auth0.api#UpdateExperimentRequest": {
@@ -33517,13 +33989,7 @@
         "authentication_flow": {
           "target": "com.auth0.api#AuthenticationFlowEnum",
           "traits": {
-            "smithy.api#documentation": "The authentication flow this experiment applies to. Can only be modified on draft experiments. Must be one of: authentication, mfa_enrollment, mfa_challenge, password_reset, passkey_enrollment, organization_selection, email_verification."
-          }
-        },
-        "assignment_config": {
-          "target": "com.auth0.api#AssignmentConfig",
-          "traits": {
-            "smithy.api#documentation": "Configuration for how users are assigned to variations"
+            "smithy.api#documentation": "Specifies the target authentication flow for this experiment. This field can only be modified on draft experiments. Must be one of: authentication, mfa_enrollment, mfa_challenge, password_reset, passkey_enrollment, or all. Note that the all value targets every flow at once, but requires that this is the only active experiment."
           }
         },
         "allocations": {
@@ -33532,10 +33998,16 @@
             "smithy.api#documentation": "Replaces all traffic allocations. Cannot be modified while the experiment is active."
           }
         },
+        "default_config": {
+          "target": "com.auth0.api#DefaultConfigEnum",
+          "traits": {
+            "smithy.api#documentation": "Applies only to Auth0-managed flags. Controls where non-overridden config keys resolve from: 'tenant' inherits the tenant's live config, 'flag' uses the flag's frozen defaults. Can only be modified on draft experiments. Rejected for customer-defined flags."
+          }
+        },
         "levels": {
           "target": "com.auth0.api#UpdateExperimentRequestLevelsList",
           "traits": {
-            "smithy.api#documentation": "Ramp experiment levels configuration. Can only be modified on draft experiments."
+            "smithy.api#documentation": "Ramp experiment levels configuration. A strictly-increasing sequence of exposure percentages, each an integer in [0, 100]. Can only be modified on draft experiments."
           }
         }
       },
@@ -33567,6 +34039,9 @@
             "smithy.api#required": {}
           }
         },
+        "feature_flag_name": {
+          "target": "smithy.api#String"
+        },
         "authentication_flow": {
           "target": "smithy.api#String",
           "traits": {
@@ -33575,12 +34050,6 @@
         },
         "allocation_strategy": {
           "target": "com.auth0.api#AllocationStrategyEnum",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "assignment_config": {
-          "target": "com.auth0.api#AssignmentConfig",
           "traits": {
             "smithy.api#required": {}
           }
@@ -33597,8 +34066,8 @@
             "smithy.api#required": {}
           }
         },
-        "is_stateful": {
-          "target": "smithy.api#Boolean"
+        "default_config": {
+          "target": "com.auth0.api#DefaultConfigEnum"
         },
         "feature_flag_snapshot": {
           "target": "com.auth0.api#UpdateExperimentResponseContentFeatureFlagSnapshotMap",
@@ -33623,6 +34092,13 @@
           "target": "com.auth0.api#UpdateExperimentResponseContentLevelsList",
           "traits": {
             "smithy.api#documentation": "Ramp experiment levels configuration."
+          }
+        },
+        "current_level": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Read-only. The active exposure percentage for the current ramp step. Null when no ramp schedule is active.",
+            "com.distilled.openapi#nullable": {}
           }
         },
         "started_at": {
@@ -33701,6 +34177,9 @@
         },
         {
           "target": "com.auth0.api#Conflict"
+        },
+        {
+          "target": "com.auth0.api#UnprocessableEntity"
         }
       ],
       "traits": {
@@ -33751,6 +34230,90 @@
           "code": 200
         },
         "smithy.api#documentation": "Delete an experiment.\n\nPermanently delete an experiment and its allocations by ID. Active experiments cannot be deleted; pause or complete first. Idempotent: returns 204 even if the experiment does not exist."
+      }
+    },
+    "com.auth0.api#AdvanceExperimentRampRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The ID of the experiment to advance."
+          }
+        },
+        "target_level": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The target percentage level from the experiment schedule. Must be the immediate next level.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.auth0.api#AdvanceRampResponseContent": {
+      "type": "structure",
+      "members": {
+        "experiment_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "from_level": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "to_level": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "current_level": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.auth0.api#AdvanceExperimentRamp": {
+      "type": "operation",
+      "input": {
+        "target": "com.auth0.api#AdvanceExperimentRampRequest"
+      },
+      "output": {
+        "target": "com.auth0.api#AdvanceRampResponseContent"
+      },
+      "errors": [
+        {
+          "target": "com.auth0.api#BadRequest"
+        },
+        {
+          "target": "com.auth0.api#Forbidden"
+        },
+        {
+          "target": "com.auth0.api#NotFound"
+        },
+        {
+          "target": "com.auth0.api#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/experimentation/experiments/{id}/advance-ramp",
+          "code": 200
+        },
+        "smithy.api#documentation": "Advance the rollout level of a ramp experiment.\n\nIncrements the current ramp index to the requested target level. Up-only: the target must be the immediate next level in the schedule. Idempotent: calling with the current level returns success without writing anything."
       }
     },
     "com.auth0.api#ExperimentTransitionStatusEnum": {
@@ -33831,6 +34394,9 @@
             "smithy.api#required": {}
           }
         },
+        "feature_flag_name": {
+          "target": "smithy.api#String"
+        },
         "authentication_flow": {
           "target": "smithy.api#String",
           "traits": {
@@ -33839,12 +34405,6 @@
         },
         "allocation_strategy": {
           "target": "com.auth0.api#AllocationStrategyEnum",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "assignment_config": {
-          "target": "com.auth0.api#AssignmentConfig",
           "traits": {
             "smithy.api#required": {}
           }
@@ -33861,8 +34421,8 @@
             "smithy.api#required": {}
           }
         },
-        "is_stateful": {
-          "target": "smithy.api#Boolean"
+        "default_config": {
+          "target": "com.auth0.api#DefaultConfigEnum"
         },
         "feature_flag_snapshot": {
           "target": "com.auth0.api#UpdateExperimentStatusResponseContentFeatureFlagSnapshotMap",
@@ -33887,6 +34447,13 @@
           "target": "com.auth0.api#UpdateExperimentStatusResponseContentLevelsList",
           "traits": {
             "smithy.api#documentation": "Ramp experiment levels configuration."
+          }
+        },
+        "current_level": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Read-only. The active exposure percentage for the current ramp step. Null when no ramp schedule is active.",
+            "com.distilled.openapi#nullable": {}
           }
         },
         "started_at": {
@@ -33962,6 +34529,12 @@
         },
         {
           "target": "com.auth0.api#NotFound"
+        },
+        {
+          "target": "com.auth0.api#Conflict"
+        },
+        {
+          "target": "com.auth0.api#UnprocessableEntity"
         }
       ],
       "traits": {
@@ -34864,24 +35437,11 @@
         "target": "smithy.api#String"
       },
       "value": {
-        "target": "com.auth0.api#VariationOverrideValue"
+        "target": "smithy.api#Document"
       },
       "traits": {
         "smithy.api#documentation": "Configuration overrides for this variation"
       }
-    },
-    "com.auth0.api#VariationOverrideValue": {
-      "type": "structure",
-      "members": {
-        "value": {
-          "target": "smithy.api#Document",
-          "traits": {
-            "smithy.api#documentation": "Override value for this configuration parameter",
-            "smithy.api#required": {}
-          }
-        }
-      },
-      "traits": {}
     },
     "com.auth0.api#ListVariationsResponseContentVariationsList": {
       "type": "list",
@@ -35130,24 +35690,11 @@
         "target": "smithy.api#String"
       },
       "value": {
-        "target": "com.auth0.api#UpdateVariationOverrideValue"
+        "target": "smithy.api#Document"
       },
       "traits": {
         "smithy.api#documentation": "Configuration overrides for this variation; keys must exist in the parent flag parameters. Empty {} is the baseline (control) variation that overrides nothing."
       }
-    },
-    "com.auth0.api#UpdateVariationOverrideValue": {
-      "type": "structure",
-      "members": {
-        "value": {
-          "target": "smithy.api#Document",
-          "traits": {
-            "smithy.api#documentation": "Override value for this configuration parameter",
-            "smithy.api#required": {}
-          }
-        }
-      },
-      "traits": {}
     },
     "com.auth0.api#UpdateVariationRequest": {
       "type": "structure",
@@ -35686,7 +36233,7 @@
         "target": "com.auth0.api#SegmentRule"
       },
       "traits": {
-        "smithy.api#documentation": "An ordered list of rules. A segment matches if any rule matches."
+        "smithy.api#documentation": "An ordered list of rules. A segment matches if any rule matches. Each rule is limited to 4KB and the whole segment to 10KB (serialized)."
       }
     },
     "com.auth0.api#CreateSegmentRequest": {
@@ -35708,7 +36255,7 @@
         "rules": {
           "target": "com.auth0.api#CreateSegmentRequestRulesList",
           "traits": {
-            "smithy.api#documentation": "An ordered list of rules. A segment matches if any rule matches.",
+            "smithy.api#documentation": "An ordered list of rules. A segment matches if any rule matches. Each rule is limited to 4KB and the whole segment to 10KB (serialized).",
             "smithy.api#required": {}
           }
         }
@@ -35786,6 +36333,9 @@
         },
         {
           "target": "com.auth0.api#Conflict"
+        },
+        {
+          "target": "com.auth0.api#UnprocessableEntity"
         }
       ],
       "traits": {
@@ -35896,7 +36446,7 @@
         "target": "com.auth0.api#SegmentRule"
       },
       "traits": {
-        "smithy.api#documentation": "Replaces the entire rules array."
+        "smithy.api#documentation": "Replaces the entire rules array. Each rule is limited to 4KB and the whole segment to 10KB (serialized)."
       }
     },
     "com.auth0.api#UpdateSegmentRequest": {
@@ -35926,7 +36476,7 @@
         "rules": {
           "target": "com.auth0.api#UpdateSegmentRequestRulesList",
           "traits": {
-            "smithy.api#documentation": "Replaces the entire rules array."
+            "smithy.api#documentation": "Replaces the entire rules array. Each rule is limited to 4KB and the whole segment to 10KB (serialized)."
           }
         }
       },
@@ -36006,6 +36556,9 @@
         },
         {
           "target": "com.auth0.api#Conflict"
+        },
+        {
+          "target": "com.auth0.api#UnprocessableEntity"
         }
       ],
       "traits": {
@@ -37269,7 +37822,10 @@
         "target": "smithy.api#String"
       },
       "value": {
-        "target": "com.auth0.api#FlowActionAuth0SendRequestParamsQueryParamsValue"
+        "target": "com.auth0.api#FlowActionAuth0SendRequestParamsQueryParamsValue",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -38821,7 +39377,10 @@
     "com.auth0.api#FlowActionGoogleSheetsAddRowParamsValues": {
       "type": "list",
       "member": {
-        "target": "smithy.api#String"
+        "target": "smithy.api#String",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -38988,7 +39547,10 @@
         "target": "smithy.api#String"
       },
       "value": {
-        "target": "com.auth0.api#FlowActionHttpSendRequestParamsQueryParamsValue"
+        "target": "com.auth0.api#FlowActionHttpSendRequestParamsQueryParamsValue",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -47932,6 +48494,9 @@
             "smithy.api#required": {},
             "smithy.api#sensitive": {}
           }
+        },
+        "server_key": {
+          "target": "smithy.api#String"
         }
       },
       "traits": {}
@@ -51836,6 +52401,115 @@
         "smithy.api#documentation": "Update the DUO Configuration"
       }
     },
+    "com.auth0.api#GetEmailFactorSettingsResponseContent": {
+      "type": "structure",
+      "members": {
+        "otp_length": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The length of the OTP code.",
+            "smithy.api#required": {}
+          }
+        },
+        "otp_expiration_time": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The OTP expiration time in seconds.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.auth0.api#GetEmailFactorSettings": {
+      "type": "operation",
+      "input": {
+        "target": "smithy.api#Unit"
+      },
+      "output": {
+        "target": "com.auth0.api#GetEmailFactorSettingsResponseContent"
+      },
+      "errors": [
+        {
+          "target": "com.auth0.api#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/guardian/factors/email/settings",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get Email Factor Settings\n\nTODO: Link this endpoint to relevant documentation when available."
+      }
+    },
+    "com.auth0.api#SetEmailFactorSettingsRequest": {
+      "type": "structure",
+      "members": {
+        "otp_length": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The length of the OTP code.",
+            "smithy.api#required": {}
+          }
+        },
+        "otp_expiration_time": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The OTP expiration time in seconds.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.auth0.api#SetEmailFactorSettingsResponseContent": {
+      "type": "structure",
+      "members": {
+        "otp_length": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The length of the OTP code.",
+            "smithy.api#required": {}
+          }
+        },
+        "otp_expiration_time": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The OTP expiration time in seconds.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.auth0.api#SetEmailFactorSettings": {
+      "type": "operation",
+      "input": {
+        "target": "com.auth0.api#SetEmailFactorSettingsRequest"
+      },
+      "output": {
+        "target": "com.auth0.api#SetEmailFactorSettingsResponseContent"
+      },
+      "errors": [
+        {
+          "target": "com.auth0.api#BadRequest"
+        },
+        {
+          "target": "com.auth0.api#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/guardian/factors/email/settings",
+          "code": 200
+        },
+        "smithy.api#documentation": "Set the Email Factor Settings\n\nTODO: Link this endpoint to relevant documentation when available."
+      }
+    },
     "com.auth0.api#GetGuardianFactorPhoneMessageTypesResponseContent": {
       "type": "structure",
       "members": {
@@ -52231,6 +52905,115 @@
           "code": 200
         },
         "smithy.api#documentation": "Update phone provider configuration"
+      }
+    },
+    "com.auth0.api#GetPhoneFactorSettingsResponseContent": {
+      "type": "structure",
+      "members": {
+        "otp_length": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The length of the OTP code.",
+            "smithy.api#required": {}
+          }
+        },
+        "otp_expiration_time": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The OTP expiration time in seconds.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.auth0.api#GetPhoneFactorSettings": {
+      "type": "operation",
+      "input": {
+        "target": "smithy.api#Unit"
+      },
+      "output": {
+        "target": "com.auth0.api#GetPhoneFactorSettingsResponseContent"
+      },
+      "errors": [
+        {
+          "target": "com.auth0.api#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/guardian/factors/phone/settings",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get Phone Factor Settings\n\nTODO: Link this endpoint to relevant documentation when available."
+      }
+    },
+    "com.auth0.api#SetPhoneFactorSettingsRequest": {
+      "type": "structure",
+      "members": {
+        "otp_length": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The length of the OTP code.",
+            "smithy.api#required": {}
+          }
+        },
+        "otp_expiration_time": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The OTP expiration time in seconds.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.auth0.api#SetPhoneFactorSettingsResponseContent": {
+      "type": "structure",
+      "members": {
+        "otp_length": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The length of the OTP code.",
+            "smithy.api#required": {}
+          }
+        },
+        "otp_expiration_time": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The OTP expiration time in seconds.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.auth0.api#SetPhoneFactorSettings": {
+      "type": "operation",
+      "input": {
+        "target": "com.auth0.api#SetPhoneFactorSettingsRequest"
+      },
+      "output": {
+        "target": "com.auth0.api#SetPhoneFactorSettingsResponseContent"
+      },
+      "errors": [
+        {
+          "target": "com.auth0.api#BadRequest"
+        },
+        {
+          "target": "com.auth0.api#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/guardian/factors/phone/settings",
+          "code": 200
+        },
+        "smithy.api#documentation": "Set the Phone Factor Settings\n\nTODO: Link this endpoint to relevant documentation when available."
       }
     },
     "com.auth0.api#GetGuardianFactorPhoneTemplatesResponseContent": {
@@ -53733,6 +54516,157 @@
           "code": 200
         },
         "smithy.api#documentation": "Update multi-factor authentication policies\n\nSet [multi-factor authentication (MFA) policies](https://auth0.com/docs/secure/multi-factor-authentication/enable-mfa) for your tenant.\n\nThe following policies are supported:\n\n- `all-applications` policy prompts with MFA for all logins.\n- `confidence-score` policy prompts with MFA only for low confidence logins.\n\n**Note**: The `confidence-score` policy is part of the [Adaptive MFA feature](https://auth0.com/docs/secure/multi-factor-authentication/adaptive-mfa). Adaptive MFA requires an add-on for the Enterprise plan; review [Auth0 Pricing](https://auth0.com/pricing) for more details."
+      }
+    },
+    "com.auth0.api#GetGuardianSettingsResponseContent": {
+      "type": "structure",
+      "members": {
+        "display_remember_me_checkbox": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Determines whether to display the \"Remember Me\" checkbox on the MFA prompt in Universal Login.",
+            "smithy.api#required": {}
+          }
+        },
+        "remember_me_default_value": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Determines the default state of the \"Remember Me\" checkbox on the MFA prompt in Universal Login.",
+            "smithy.api#required": {}
+          }
+        },
+        "mfa_session_inactivity_timeout": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Duration of inactivity after which the user will be prompted for MFA. Represented as seconds. Minimum duration is 1 hour, maximum is 30 days, and cannot exceed the overall timeout.",
+            "smithy.api#required": {}
+          }
+        },
+        "mfa_session_overall_timeout": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Maximum duration after which the user will be prompted for MFA regardless of activity. Represented as seconds. Minimum duration is 1 hour, maximum is 90 days.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.auth0.api#GetGuardianSettings": {
+      "type": "operation",
+      "input": {
+        "target": "smithy.api#Unit"
+      },
+      "output": {
+        "target": "com.auth0.api#GetGuardianSettingsResponseContent"
+      },
+      "errors": [
+        {
+          "target": "com.auth0.api#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/guardian/settings",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get Guardian Settings\n\nTODO: Link this endpoint to relevant documentation when available."
+      }
+    },
+    "com.auth0.api#SetGuardianSettingsRequest": {
+      "type": "structure",
+      "members": {
+        "display_remember_me_checkbox": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Determines whether to display the \"Remember Me\" checkbox on the MFA prompt in Universal Login.",
+            "smithy.api#required": {}
+          }
+        },
+        "remember_me_default_value": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Determines the default state of the \"Remember Me\" checkbox on the MFA prompt in Universal Login.",
+            "smithy.api#required": {}
+          }
+        },
+        "mfa_session_inactivity_timeout": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Duration of inactivity after which the user will be prompted for MFA. Represented as seconds. Minimum duration is 1 hour, maximum is 30 days, and cannot exceed the overall timeout.",
+            "smithy.api#required": {}
+          }
+        },
+        "mfa_session_overall_timeout": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Maximum duration after which the user will be prompted for MFA regardless of activity. Represented as seconds. Minimum duration is 1 hour, maximum is 90 days.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.auth0.api#SetGuardianSettingsResponseContent": {
+      "type": "structure",
+      "members": {
+        "display_remember_me_checkbox": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Determines whether to display the \"Remember Me\" checkbox on the MFA prompt in Universal Login.",
+            "smithy.api#required": {}
+          }
+        },
+        "remember_me_default_value": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Determines the default state of the \"Remember Me\" checkbox on the MFA prompt in Universal Login.",
+            "smithy.api#required": {}
+          }
+        },
+        "mfa_session_inactivity_timeout": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Duration of inactivity after which the user will be prompted for MFA. Represented as seconds. Minimum duration is 1 hour, maximum is 30 days, and cannot exceed the overall timeout.",
+            "smithy.api#required": {}
+          }
+        },
+        "mfa_session_overall_timeout": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Maximum duration after which the user will be prompted for MFA regardless of activity. Represented as seconds. Minimum duration is 1 hour, maximum is 90 days.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.auth0.api#SetGuardianSettings": {
+      "type": "operation",
+      "input": {
+        "target": "com.auth0.api#SetGuardianSettingsRequest"
+      },
+      "output": {
+        "target": "com.auth0.api#SetGuardianSettingsResponseContent"
+      },
+      "errors": [
+        {
+          "target": "com.auth0.api#BadRequest"
+        },
+        {
+          "target": "com.auth0.api#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/guardian/settings",
+          "code": 200
+        },
+        "smithy.api#documentation": "Set the Guardian Settings\n\nUpdate a tenant's guardian settings such as Remember Me"
       }
     },
     "com.auth0.api#HookTriggerIdEnum": {
@@ -60534,6 +61468,9 @@
         },
         "connecting_ipv6_cidrs": {
           "target": "com.auth0.api#NetworkAclMatchConnectingIpv6CidrsList"
+        },
+        "http_message_signature": {
+          "target": "com.auth0.api#NetworkAclHttpMessageSignature"
         }
       },
       "traits": {}
@@ -60619,6 +61556,42 @@
       "type": "list",
       "member": {
         "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.auth0.api#NetworkAclHttpMessageSignature": {
+      "type": "structure",
+      "members": {
+        "keys": {
+          "target": "com.auth0.api#NetworkAclHttpMessageSignatureKeys",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "HTTP Message Signature configuration."
+      }
+    },
+    "com.auth0.api#NetworkAclHttpMessageSignatureKeys": {
+      "type": "list",
+      "member": {
+        "target": "com.auth0.api#NetworkAclHttpMessageSignatureKey"
+      },
+      "traits": {
+        "smithy.api#documentation": "The keys whose signatures satisfy this rule. Each id references a key that was already created via `POST /api/v2/keys/network-acls`."
+      }
+    },
+    "com.auth0.api#NetworkAclHttpMessageSignatureKey": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Auth0-generated identifier for the key, as returned by `POST /api/v2/keys/network-acls`.",
+            "smithy.api#required": {}
+          }
+        }
       },
       "traits": {}
     },
@@ -61082,800 +62055,6 @@
           "code": 200
         },
         "smithy.api#documentation": "Delete Access Control List\n\nDelete existing access control list for your client."
-      }
-    },
-    "com.auth0.api#GetOrganizationTemplatesRequest": {
-      "type": "structure",
-      "members": {
-        "from": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#httpQuery": "from",
-            "smithy.api#documentation": "Optional Id from which to start selection."
-          }
-        },
-        "take": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "smithy.api#httpQuery": "take",
-            "smithy.api#documentation": "Number of results per page. Defaults to 5. Values greater than 10 are capped at 10."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#input": {}
-      }
-    },
-    "com.auth0.api#ListOrganizationTemplatesPaginatedResponseContent": {
-      "type": "structure",
-      "members": {
-        "next": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "A cursor to be used as the \"from\" query parameter for the next page of results."
-          }
-        },
-        "organization_templates": {
-          "target": "com.auth0.api#ListOrganizationTemplatesPaginatedResponseContentOrganizationTemplatesList"
-        }
-      },
-      "traits": {}
-    },
-    "com.auth0.api#OrganizationTemplate": {
-      "type": "structure",
-      "members": {
-        "id": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Organization Template identifier."
-          }
-        },
-        "name": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The name of the organization template."
-          }
-        },
-        "is_default": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "smithy.api#documentation": "Whether this is the default template applied to new organizations."
-          }
-        },
-        "organization_deletion_behavior": {
-          "target": "com.auth0.api#OrganizationDeletionBehaviorEnum"
-        },
-        "connection_deletion_behavior": {
-          "target": "com.auth0.api#ConnectionDeletionBehaviorEnum"
-        },
-        "enforce_permission_ceiling": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "smithy.api#documentation": "Whether to enforce permission ceiling for organizations using this template."
-          }
-        },
-        "enforce_self_assignment_restriction": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "smithy.api#documentation": "Whether to enforce self-assignment restrictions for organizations using this template."
-          }
-        },
-        "connection_profile_id": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The connection profile to apply to new connections."
-          }
-        },
-        "user_attribute_profile_id": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The user attribute profile to apply to organizations."
-          }
-        },
-        "allowed_strategies": {
-          "target": "com.auth0.api#OrganizationTemplateAllowedStrategiesList",
-          "traits": {
-            "smithy.api#documentation": "List of allowed connection strategies for this template."
-          }
-        },
-        "invitation_landing_client_id": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The client ID for the invitation landing page."
-          }
-        },
-        "admin_roles_assignment": {
-          "target": "com.auth0.api#OrganizationTemplateAdminRolesAssignmentList",
-          "traits": {
-            "smithy.api#documentation": "Default admin roles to assign to organization creators."
-          }
-        },
-        "use_for_organization_discovery": {
-          "target": "com.auth0.api#OrganizationTemplateUseForOrganizationDiscovery",
-          "traits": {
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "role_visibility_policy": {
-          "target": "com.auth0.api#OrganizationTemplateRoleVisibilityPolicy",
-          "traits": {
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "created_at": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The ISO 8601 formatted timestamp representing when the template was created."
-          }
-        },
-        "updated_at": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The ISO 8601 formatted timestamp representing when the template was last updated."
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.auth0.api#OrganizationDeletionBehaviorEnum": {
-      "type": "enum",
-      "members": {
-        "ALLOW": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "allow"
-          }
-        },
-        "ALLOW_IF_EMPTY": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "allow_if_empty"
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "Controls whether organizations using this template can be deleted."
-      }
-    },
-    "com.auth0.api#ConnectionDeletionBehaviorEnum": {
-      "type": "enum",
-      "members": {
-        "ALLOW": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "allow"
-          }
-        },
-        "ALLOW_IF_EMPTY": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "allow_if_empty"
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "Controls whether connections created from this template can be deleted."
-      }
-    },
-    "com.auth0.api#OrganizationTemplateAllowedStrategyEnum": {
-      "type": "enum",
-      "members": {
-        "ADFS": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "adfs"
-          }
-        },
-        "GOOGLE_APPS": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "google-apps"
-          }
-        },
-        "OIDC": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "oidc"
-          }
-        },
-        "OKTA": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "okta"
-          }
-        },
-        "PINGFEDERATE": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "pingfederate"
-          }
-        },
-        "SAMLP": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "samlp"
-          }
-        },
-        "WAAD": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "waad"
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "An allowed enterprise connection strategy."
-      }
-    },
-    "com.auth0.api#OrganizationTemplateAllowedStrategiesList": {
-      "type": "list",
-      "member": {
-        "target": "com.auth0.api#OrganizationTemplateAllowedStrategyEnum"
-      },
-      "traits": {
-        "smithy.api#documentation": "List of allowed connection strategies for this template."
-      }
-    },
-    "com.auth0.api#OrganizationTemplateAdminRolesAssignmentList": {
-      "type": "list",
-      "member": {
-        "target": "smithy.api#String"
-      },
-      "traits": {
-        "smithy.api#documentation": "Default admin roles to assign to organization creators."
-      }
-    },
-    "com.auth0.api#OrganizationTemplateUseForOrganizationDiscovery": {
-      "type": "structure",
-      "members": {
-        "default_value": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "smithy.api#documentation": "The default value for organization discovery.",
-            "smithy.api#required": {}
-          }
-        },
-        "allowed_values": {
-          "target": "com.auth0.api#OrganizationTemplateUseForOrganizationDiscoveryAllowedValuesList",
-          "traits": {
-            "smithy.api#documentation": "The allowed values for organization discovery."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "Controls whether connections from this template are used for organization discovery."
-      }
-    },
-    "com.auth0.api#OrganizationTemplateUseForOrganizationDiscoveryAllowedValuesList": {
-      "type": "list",
-      "member": {
-        "target": "smithy.api#Boolean"
-      },
-      "traits": {
-        "smithy.api#documentation": "The allowed values for organization discovery."
-      }
-    },
-    "com.auth0.api#OrganizationTemplateRoleVisibilityPolicy": {
-      "type": "structure",
-      "members": {
-        "default_value": {
-          "target": "com.auth0.api#OrganizationTemplateRoleVisibilityEnum",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "overrides": {
-          "target": "com.auth0.api#OrganizationTemplateRoleVisibilityPolicyOverridesList",
-          "traits": {
-            "smithy.api#documentation": "Role-specific visibility overrides."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "Controls role visibility for organization administrators."
-      }
-    },
-    "com.auth0.api#OrganizationTemplateRoleVisibilityEnum": {
-      "type": "enum",
-      "members": {
-        "WRITE": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "write"
-          }
-        },
-        "READ_ONLY": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "read_only"
-          }
-        },
-        "HIDDEN": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "hidden"
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "The role visibility level."
-      }
-    },
-    "com.auth0.api#OrganizationTemplateRoleVisibilityOverride": {
-      "type": "structure",
-      "members": {
-        "role_id": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The role identifier.",
-            "smithy.api#required": {}
-          }
-        },
-        "access": {
-          "target": "com.auth0.api#OrganizationTemplateRoleVisibilityEnum",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "A role visibility override."
-      }
-    },
-    "com.auth0.api#OrganizationTemplateRoleVisibilityPolicyOverridesList": {
-      "type": "list",
-      "member": {
-        "target": "com.auth0.api#OrganizationTemplateRoleVisibilityOverride"
-      },
-      "traits": {
-        "smithy.api#documentation": "Role-specific visibility overrides."
-      }
-    },
-    "com.auth0.api#ListOrganizationTemplatesPaginatedResponseContentOrganizationTemplatesList": {
-      "type": "list",
-      "member": {
-        "target": "com.auth0.api#OrganizationTemplate"
-      },
-      "traits": {}
-    },
-    "com.auth0.api#GetOrganizationTemplates": {
-      "type": "operation",
-      "input": {
-        "target": "com.auth0.api#GetOrganizationTemplatesRequest"
-      },
-      "output": {
-        "target": "com.auth0.api#ListOrganizationTemplatesPaginatedResponseContent"
-      },
-      "errors": [
-        {
-          "target": "com.auth0.api#BadRequest"
-        },
-        {
-          "target": "com.auth0.api#Forbidden"
-        }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/organization-templates",
-          "code": 200
-        },
-        "smithy.api#documentation": "Get organization templates\n\nRetrieve a list of Organization Templates. This endpoint supports Checkpoint pagination. Results are returned in a stable order, sorted by their identifier (`id`) in ascending order."
-      }
-    },
-    "com.auth0.api#CreateOrganizationTemplateRequestAllowedStrategiesList": {
-      "type": "list",
-      "member": {
-        "target": "com.auth0.api#OrganizationTemplateAllowedStrategyEnum"
-      },
-      "traits": {
-        "smithy.api#documentation": "List of allowed connection strategies for this template."
-      }
-    },
-    "com.auth0.api#CreateOrganizationTemplateRequestAdminRolesAssignmentList": {
-      "type": "list",
-      "member": {
-        "target": "smithy.api#String"
-      },
-      "traits": {
-        "smithy.api#documentation": "Default admin roles to assign to organization creators."
-      }
-    },
-    "com.auth0.api#CreateOrganizationTemplateRequest": {
-      "type": "structure",
-      "members": {
-        "name": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The name of the organization template.",
-            "smithy.api#required": {}
-          }
-        },
-        "is_default": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "smithy.api#documentation": "Whether this is the default template applied to new organizations."
-          }
-        },
-        "organization_deletion_behavior": {
-          "target": "com.auth0.api#OrganizationDeletionBehaviorEnum",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "connection_deletion_behavior": {
-          "target": "com.auth0.api#ConnectionDeletionBehaviorEnum"
-        },
-        "enforce_permission_ceiling": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "smithy.api#documentation": "Whether to enforce permission ceiling for organizations using this template.",
-            "smithy.api#required": {}
-          }
-        },
-        "enforce_self_assignment_restriction": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "smithy.api#documentation": "Whether to enforce self-assignment restrictions for organizations using this template.",
-            "smithy.api#required": {}
-          }
-        },
-        "connection_profile_id": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The connection profile to apply to new connections.",
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "user_attribute_profile_id": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The user attribute profile to apply to organizations.",
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "allowed_strategies": {
-          "target": "com.auth0.api#CreateOrganizationTemplateRequestAllowedStrategiesList",
-          "traits": {
-            "smithy.api#documentation": "List of allowed connection strategies for this template.",
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "invitation_landing_client_id": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The client ID for the invitation landing page.",
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "admin_roles_assignment": {
-          "target": "com.auth0.api#CreateOrganizationTemplateRequestAdminRolesAssignmentList",
-          "traits": {
-            "smithy.api#documentation": "Default admin roles to assign to organization creators.",
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "use_for_organization_discovery": {
-          "target": "com.auth0.api#OrganizationTemplateUseForOrganizationDiscovery",
-          "traits": {
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "role_visibility_policy": {
-          "target": "com.auth0.api#OrganizationTemplateRoleVisibilityPolicy",
-          "traits": {
-            "com.distilled.openapi#nullable": {}
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#input": {}
-      }
-    },
-    "com.auth0.api#CreateOrganizationTemplate": {
-      "type": "operation",
-      "input": {
-        "target": "com.auth0.api#CreateOrganizationTemplateRequest"
-      },
-      "output": {
-        "target": "com.auth0.api#OrganizationTemplate"
-      },
-      "errors": [
-        {
-          "target": "com.auth0.api#BadRequest"
-        },
-        {
-          "target": "com.auth0.api#Forbidden"
-        },
-        {
-          "target": "com.auth0.api#Conflict"
-        }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/organization-templates",
-          "code": 200
-        },
-        "smithy.api#documentation": "Create an organization template\n\nCreate an Organization Template."
-      }
-    },
-    "com.auth0.api#GetOrganizationTemplateRequest": {
-      "type": "structure",
-      "members": {
-        "id": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {},
-            "smithy.api#documentation": "Organization Template identifier."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#input": {}
-      }
-    },
-    "com.auth0.api#GetOrganizationTemplate": {
-      "type": "operation",
-      "input": {
-        "target": "com.auth0.api#GetOrganizationTemplateRequest"
-      },
-      "output": {
-        "target": "com.auth0.api#OrganizationTemplate"
-      },
-      "errors": [
-        {
-          "target": "com.auth0.api#Forbidden"
-        },
-        {
-          "target": "com.auth0.api#NotFound"
-        }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/organization-templates/{id}",
-          "code": 200
-        },
-        "smithy.api#documentation": "Get organization template\n\nRetrieve details about a single Organization Template specified by ID."
-      }
-    },
-    "com.auth0.api#UpdateOrganizationTemplateRequestAllowedStrategiesList": {
-      "type": "list",
-      "member": {
-        "target": "com.auth0.api#OrganizationTemplateAllowedStrategyEnum"
-      },
-      "traits": {
-        "smithy.api#documentation": "List of allowed connection strategies for this template."
-      }
-    },
-    "com.auth0.api#UpdateOrganizationTemplateRequestAdminRolesAssignmentList": {
-      "type": "list",
-      "member": {
-        "target": "smithy.api#String"
-      },
-      "traits": {
-        "smithy.api#documentation": "Default admin roles to assign to organization creators."
-      }
-    },
-    "com.auth0.api#UpdateOrganizationTemplateRequest": {
-      "type": "structure",
-      "members": {
-        "id": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {},
-            "smithy.api#documentation": "Organization Template identifier."
-          }
-        },
-        "name": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The name of the organization template."
-          }
-        },
-        "is_default": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "smithy.api#documentation": "Whether this is the default template applied to new organizations."
-          }
-        },
-        "organization_deletion_behavior": {
-          "target": "com.auth0.api#OrganizationDeletionBehaviorEnum"
-        },
-        "connection_deletion_behavior": {
-          "target": "com.auth0.api#ConnectionDeletionBehaviorEnum"
-        },
-        "enforce_permission_ceiling": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "smithy.api#documentation": "Whether to enforce permission ceiling for organizations using this template."
-          }
-        },
-        "enforce_self_assignment_restriction": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "smithy.api#documentation": "Whether to enforce self-assignment restrictions for organizations using this template."
-          }
-        },
-        "connection_profile_id": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The connection profile to apply to new connections.",
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "user_attribute_profile_id": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The user attribute profile to apply to organizations.",
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "allowed_strategies": {
-          "target": "com.auth0.api#UpdateOrganizationTemplateRequestAllowedStrategiesList",
-          "traits": {
-            "smithy.api#documentation": "List of allowed connection strategies for this template.",
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "invitation_landing_client_id": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The client ID for the invitation landing page.",
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "admin_roles_assignment": {
-          "target": "com.auth0.api#UpdateOrganizationTemplateRequestAdminRolesAssignmentList",
-          "traits": {
-            "smithy.api#documentation": "Default admin roles to assign to organization creators.",
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "use_for_organization_discovery": {
-          "target": "com.auth0.api#OrganizationTemplateUseForOrganizationDiscovery",
-          "traits": {
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "role_visibility_policy": {
-          "target": "com.auth0.api#OrganizationTemplateRoleVisibilityPolicy",
-          "traits": {
-            "com.distilled.openapi#nullable": {}
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#input": {}
-      }
-    },
-    "com.auth0.api#UpdateOrganizationTemplate": {
-      "type": "operation",
-      "input": {
-        "target": "com.auth0.api#UpdateOrganizationTemplateRequest"
-      },
-      "output": {
-        "target": "com.auth0.api#OrganizationTemplate"
-      },
-      "errors": [
-        {
-          "target": "com.auth0.api#BadRequest"
-        },
-        {
-          "target": "com.auth0.api#Forbidden"
-        },
-        {
-          "target": "com.auth0.api#NotFound"
-        }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "/organization-templates/{id}",
-          "code": 200
-        },
-        "smithy.api#documentation": "Modify an organization template\n\nUpdate the details of a specific Organization Template."
-      }
-    },
-    "com.auth0.api#GetOrganizationTemplateOrganizationsRequest": {
-      "type": "structure",
-      "members": {
-        "id": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {},
-            "smithy.api#documentation": "The ID of the organization template."
-          }
-        },
-        "from": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#httpQuery": "from",
-            "smithy.api#documentation": "Optional Id from which to start selection."
-          }
-        },
-        "take": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "smithy.api#httpQuery": "take",
-            "smithy.api#documentation": "Number of results per page. Defaults to 5. Values greater than 10 are capped at 10."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#input": {}
-      }
-    },
-    "com.auth0.api#ListTemplateOrganizationsPaginatedResponseContent": {
-      "type": "structure",
-      "members": {
-        "next": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "A cursor to be used as the \"from\" query parameter for the next page of results."
-          }
-        },
-        "organizations": {
-          "target": "com.auth0.api#ListTemplateOrganizationsPaginatedResponseContentOrganizationsList",
-          "traits": {
-            "smithy.api#documentation": "The list of organizations assigned to this template.",
-            "smithy.api#required": {}
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.auth0.api#OrganizationTemplateAssignedOrganization": {
-      "type": "structure",
-      "members": {
-        "id": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Organization identifier.",
-            "smithy.api#required": {}
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "An organization assigned to the template."
-      }
-    },
-    "com.auth0.api#ListTemplateOrganizationsPaginatedResponseContentOrganizationsList": {
-      "type": "list",
-      "member": {
-        "target": "com.auth0.api#OrganizationTemplateAssignedOrganization"
-      },
-      "traits": {
-        "smithy.api#documentation": "The list of organizations assigned to this template."
-      }
-    },
-    "com.auth0.api#GetOrganizationTemplateOrganizations": {
-      "type": "operation",
-      "input": {
-        "target": "com.auth0.api#GetOrganizationTemplateOrganizationsRequest"
-      },
-      "output": {
-        "target": "com.auth0.api#ListTemplateOrganizationsPaginatedResponseContent"
-      },
-      "errors": [
-        {
-          "target": "com.auth0.api#BadRequest"
-        },
-        {
-          "target": "com.auth0.api#Forbidden"
-        }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/organization-templates/{id}/organizations",
-          "code": 200
-        },
-        "smithy.api#documentation": "Get organizations assigned to a template\n\nRetrieve a list of organizations assigned to an Organization Template. This endpoint supports Checkpoint pagination. Results are returned in a stable order, sorted by their identifier (`id`) in ascending order."
       }
     },
     "com.auth0.api#GetOrganizationsRequest": {
@@ -62349,6 +62528,201 @@
           "code": 200
         },
         "smithy.api#documentation": "Get organization by name\n\nRetrieve details about a single Organization specified by name."
+      }
+    },
+    "com.auth0.api#OrganizationSortFieldEnum": {
+      "type": "enum",
+      "members": {
+        "NAME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "name"
+          }
+        },
+        "DISPLAY_NAME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "display_name"
+          }
+        },
+        "CREATED_AT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Field name to sort results by in ascending order only. Defaults to insertion order (oldest first) if not provided."
+      }
+    },
+    "com.auth0.api#GetSearchRequest": {
+      "type": "structure",
+      "members": {
+        "q": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "q",
+            "smithy.api#documentation": "Filter expression in SCIM or Lucene syntax (depending on parser parameter, default: Lucene). Lucene examples: `name:acme*`, `display_name:*auth*`. SCIM examples: `name eq \"Auth0\"`, `display_name sw \"auth\" and created_at gt \"2024-01-01\"`. SCIM operators: eq, ne, sw, ew, co, pr, gt, ge, lt, le, and, or. <br /><br /><b>Supported Fields</b>:<ul><li><i>id</i> - Organization ID (case-sensitive, exact match)</li><li><i>name</i> - Organization name (supports contains, starts-with, ends-with operators; sortable)</li><li><i>display_name</i> - Organization display name (supports contains, starts-with, ends-with operators; sortable)</li><li><i>created_at</i> - Creation timestamp (supports date range operators; sortable)</li><li><i>metadata.{key}</i> - Filter by organization metadata key-value pairs</li></ul>Maximum 5 filter operations per query. Results are eventually consistent and may not reflect recent updates."
+          }
+        },
+        "parser": {
+          "target": "com.auth0.api#SearchParserEnum",
+          "traits": {
+            "smithy.api#httpQuery": "parser",
+            "smithy.api#documentation": "Query parser to use for the filter expression. Use \"scim\" for SCIM filter syntax or \"lucene\" for Lucene query syntax (default)."
+          }
+        },
+        "take": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "take",
+            "smithy.api#documentation": "Maximum number of results to return per page (1-100). Defaults to 50."
+          }
+        },
+        "from": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "from",
+            "smithy.api#documentation": "Cursor for the next page of results. Use the value from the next field in the previous response."
+          }
+        },
+        "sort": {
+          "target": "com.auth0.api#OrganizationSortFieldEnum",
+          "traits": {
+            "smithy.api#httpQuery": "sort",
+            "smithy.api#documentation": "Field name to sort results by in ascending order only. Defaults to insertion order (oldest first) if not provided."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.auth0.api#SearchOrganizationsResponseContent": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.auth0.api#SearchOrganizationsResponseContentCase0List"
+        },
+        "SearchOrganizationsPaginatedResponseContent": {
+          "target": "com.auth0.api#SearchOrganizationsPaginatedResponseContent"
+        }
+      },
+      "traits": {}
+    },
+    "com.auth0.api#SearchOrganization": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Organization identifier."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of this organization."
+          }
+        },
+        "display_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Friendly name of this organization."
+          }
+        },
+        "branding": {
+          "target": "com.auth0.api#OrganizationBranding"
+        },
+        "metadata": {
+          "target": "com.auth0.api#OrganizationMetadata"
+        },
+        "token_quota": {
+          "target": "com.auth0.api#TokenQuota"
+        },
+        "third_party_client_access": {
+          "target": "com.auth0.api#OrganizationThirdPartyClientAccessEnum"
+        },
+        "is_app_entitlement_active": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether app entitlement is active for this organization."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.auth0.api#SearchOrganizationsResponseContentCase0List": {
+      "type": "list",
+      "member": {
+        "target": "com.auth0.api#SearchOrganization"
+      },
+      "traits": {}
+    },
+    "com.auth0.api#SearchOrganizationsPaginatedResponseContent": {
+      "type": "structure",
+      "members": {
+        "organizations": {
+          "target": "com.auth0.api#SearchOrganizationsPaginatedResponseContentOrganizationsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "next": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Cursor for retrieving the next page of results. Absent when no more results are available."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.auth0.api#SearchOrganizationsPaginatedResponseContentOrganizationsList": {
+      "type": "list",
+      "member": {
+        "target": "com.auth0.api#SearchOrganization"
+      },
+      "traits": {}
+    },
+    "com.auth0.api#GetSearchResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "com.auth0.api#SearchOrganizationsResponseContent",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.auth0.api#GetSearch": {
+      "type": "operation",
+      "input": {
+        "target": "com.auth0.api#GetSearchRequest"
+      },
+      "output": {
+        "target": "com.auth0.api#GetSearchResponse"
+      },
+      "errors": [
+        {
+          "target": "com.auth0.api#BadRequest"
+        },
+        {
+          "target": "com.auth0.api#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/organizations/search",
+          "code": 200
+        },
+        "smithy.api#documentation": "Search organizations\n\nRetrieve details of organizations matching a search criteria. It is possible to:\n\n- Specify a search criteria for organizations\n- Search via `name`\n- Search via `display_name`\n- Substring matching (`contains` and `ends-with`) requires at least 3 characters\n- Use wildcards\n\nThe `q` query parameter can be used to get organizations that match the specified criteria on `name` OR `display_name`.\n\nThis endpoint supports SCIM or Lucene filter syntax with low-latency, cursor-based pagination. Use the `parser` parameter to specify \"scim\" or \"lucene\" syntax (default: \"lucene\").\n\nResults are eventually consistent and may not reflect recent updates immediately.\n\n**Sortable fields:** `name`, `display_name`, `created_at` (ascending only). Defaults to insertion order (oldest first)."
       }
     },
     "com.auth0.api#GetOrganizationRequest": {
@@ -63579,6 +63953,9 @@
         "organization_access_level": {
           "target": "com.auth0.api#OrganizationAccessLevelEnum"
         },
+        "organization_member_access_level": {
+          "target": "com.auth0.api#OrganizationMemberAccessLevelEnum"
+        },
         "is_enabled": {
           "target": "smithy.api#Boolean",
           "traits": {
@@ -63628,6 +64005,38 @@
       },
       "traits": {
         "smithy.api#documentation": "Access level for the organization (e.g., \"none\", \"full\")."
+      }
+    },
+    "com.auth0.api#OrganizationMemberAccessLevelEnum": {
+      "type": "enum",
+      "members": {
+        "NONE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "none"
+          }
+        },
+        "READONLY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "readonly"
+          }
+        },
+        "LIMITED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "limited"
+          }
+        },
+        "FULL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "full"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Access level for the organization member (e.g., \"none\", \"full\")."
       }
     },
     "com.auth0.api#ListOrganizationAllConnectionsResponseContentCase0List": {
@@ -63740,6 +64149,9 @@
         "organization_access_level": {
           "target": "com.auth0.api#OrganizationAccessLevelEnum"
         },
+        "organization_member_access_level": {
+          "target": "com.auth0.api#OrganizationMemberAccessLevelEnum"
+        },
         "is_enabled": {
           "target": "smithy.api#Boolean",
           "traits": {
@@ -63787,6 +64199,9 @@
         },
         "organization_access_level": {
           "target": "com.auth0.api#OrganizationAccessLevelEnum"
+        },
+        "organization_member_access_level": {
+          "target": "com.auth0.api#OrganizationMemberAccessLevelEnum"
         },
         "is_enabled": {
           "target": "smithy.api#Boolean",
@@ -63892,6 +64307,9 @@
         "organization_access_level": {
           "target": "com.auth0.api#OrganizationAccessLevelEnum"
         },
+        "organization_member_access_level": {
+          "target": "com.auth0.api#OrganizationMemberAccessLevelEnum"
+        },
         "is_enabled": {
           "target": "smithy.api#Boolean",
           "traits": {
@@ -63968,6 +64386,38 @@
         "smithy.api#documentation": "Access level for the organization (e.g., \"none\", \"full\")."
       }
     },
+    "com.auth0.api#OrganizationMemberAccessLevelEnumWithNull": {
+      "type": "enum",
+      "members": {
+        "NONE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "none"
+          }
+        },
+        "READONLY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "readonly"
+          }
+        },
+        "LIMITED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "limited"
+          }
+        },
+        "FULL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "full"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Access level for the organization member (e.g., \"none\", \"full\")."
+      }
+    },
     "com.auth0.api#UpdateOrganizationConnectionRequest": {
       "type": "structure",
       "members": {
@@ -64018,6 +64468,12 @@
             "com.distilled.openapi#nullable": {}
           }
         },
+        "organization_member_access_level": {
+          "target": "com.auth0.api#OrganizationMemberAccessLevelEnumWithNull",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
         "is_enabled": {
           "target": "smithy.api#Boolean",
           "traits": {
@@ -64059,6 +64515,9 @@
         },
         "organization_access_level": {
           "target": "com.auth0.api#OrganizationAccessLevelEnum"
+        },
+        "organization_member_access_level": {
+          "target": "com.auth0.api#OrganizationMemberAccessLevelEnum"
         },
         "is_enabled": {
           "target": "smithy.api#Boolean",
@@ -66767,145 +67226,6 @@
         "smithy.api#documentation": "Delete user roles from an Organization member\n\nRemove one or more Organization-specific [roles](https://auth0.com/docs/manage-users/access-control/rbac) from a given user.\n\nUsers can be members of multiple Organizations with unique roles assigned for each membership. This action removes roles from a user in relation to the specified Organization. Roles assigned to the user within a different Organization cannot be managed in the same call."
       }
     },
-    "com.auth0.api#GetOrganizationOrganizationTemplatesRequest": {
-      "type": "structure",
-      "members": {
-        "id": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {},
-            "smithy.api#documentation": "ID of the organization."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#input": {}
-      }
-    },
-    "com.auth0.api#GetOrganizationOrganizationTemplates": {
-      "type": "operation",
-      "input": {
-        "target": "com.auth0.api#GetOrganizationOrganizationTemplatesRequest"
-      },
-      "output": {
-        "target": "com.auth0.api#OrganizationTemplate"
-      },
-      "errors": [
-        {
-          "target": "com.auth0.api#Forbidden"
-        },
-        {
-          "target": "com.auth0.api#NotFound"
-        }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/organizations/{id}/organization-templates",
-          "code": 200
-        },
-        "smithy.api#documentation": "Get organization template for organization\n\nRetrieve the organization template assigned to a specific organization. Returns the template object if one is explicitly assigned, or a 404 if no template is assigned."
-      }
-    },
-    "com.auth0.api#PutOrganizationOrganizationTemplateRequest": {
-      "type": "structure",
-      "members": {
-        "id": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {},
-            "smithy.api#documentation": "The ID of the organization."
-          }
-        },
-        "template_id": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {},
-            "smithy.api#documentation": "The ID of the organization template to assign."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#input": {}
-      }
-    },
-    "com.auth0.api#PutOrganizationOrganizationTemplate": {
-      "type": "operation",
-      "input": {
-        "target": "com.auth0.api#PutOrganizationOrganizationTemplateRequest"
-      },
-      "output": {
-        "target": "smithy.api#Unit"
-      },
-      "errors": [
-        {
-          "target": "com.auth0.api#BadRequest"
-        },
-        {
-          "target": "com.auth0.api#Forbidden"
-        }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PUT",
-          "uri": "/organizations/{id}/organization-templates/{template_id}",
-          "code": 200
-        },
-        "smithy.api#documentation": "Assign an organization template to an organization\n\nAssign an Organization Template to an organization."
-      }
-    },
-    "com.auth0.api#DeleteOrganizationOrganizationTemplateRequest": {
-      "type": "structure",
-      "members": {
-        "id": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {},
-            "smithy.api#documentation": "The ID of the organization."
-          }
-        },
-        "template_id": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {},
-            "smithy.api#documentation": "The ID of the organization template to unassign."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#input": {}
-      }
-    },
-    "com.auth0.api#DeleteOrganizationOrganizationTemplate": {
-      "type": "operation",
-      "input": {
-        "target": "com.auth0.api#DeleteOrganizationOrganizationTemplateRequest"
-      },
-      "output": {
-        "target": "smithy.api#Unit"
-      },
-      "errors": [
-        {
-          "target": "com.auth0.api#BadRequest"
-        },
-        {
-          "target": "com.auth0.api#Forbidden"
-        }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "DELETE",
-          "uri": "/organizations/{id}/organization-templates/{template_id}",
-          "code": 200
-        },
-        "smithy.api#documentation": "Unassign an organization template from an organization\n\nRemove an Organization Template assignment from an organization."
-      }
-    },
     "com.auth0.api#GetOrganizationRoleMembersRequest": {
       "type": "structure",
       "members": {
@@ -67435,7 +67755,8 @@
         "external_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "External identifier for the group, often used for SCIM synchronization. Max length of 256 characters."
+            "smithy.api#documentation": "External identifier for the group, often used for SCIM synchronization. Max length of 256 characters.",
+            "com.distilled.openapi#nullable": {}
           }
         },
         "connection_id": {
@@ -68715,6 +69036,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "consent"
+          }
+        },
+        "CONSENT_TENANT_SCOPES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "consent-tenant-scopes"
           }
         },
         "CUSTOMIZED_CONSENT": {
@@ -71484,6 +71811,12 @@
             "smithy.api#enumValue": "consent"
           }
         },
+        "CONSENT_TENANT_SCOPES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "consent-tenant-scopes"
+          }
+        },
         "CUSTOMIZED_CONSENT": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -72384,6 +72717,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "consent"
+          }
+        },
+        "CONSENT_TENANT_SCOPES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "consent-tenant-scopes"
           }
         },
         "CUSTOMIZED_CONSENT": {
@@ -74467,8 +74806,20 @@
             "smithy.api#documentation": "Whether authorization polices are enforced (true) or unenforced (false)."
           }
         },
+        "token_lifetime_for_anonymous_access_tokens": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Expiration value (in seconds) for anonymous-session access tokens issued for this API."
+          }
+        },
         "token_dialect": {
           "target": "com.auth0.api#ResourceServerTokenDialectResponseEnum"
+        },
+        "access_token": {
+          "target": "com.auth0.api#ResourceServerAccessToken",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
         },
         "token_encryption": {
           "target": "com.auth0.api#ResourceServerTokenEncryption",
@@ -74480,6 +74831,12 @@
           "target": "com.auth0.api#ResourceServerConsentPolicyEnum",
           "traits": {
             "com.distilled.openapi#nullable": {}
+          }
+        },
+        "require_consent_non_repudiation": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "When true, the resource server requires every consent approval to be digitally signed, so the approver cannot later deny a consent they granted. When false, consent decisions do not need a signature. Defaults to false. A configured value is still returned even after the related entitlement is disabled."
           }
         },
         "authorization_details": {
@@ -74571,6 +74928,57 @@
       "traits": {
         "smithy.api#documentation": "Dialect of access tokens that should be issued. `access_token` is a JWT containing standard Auth0 claims; `rfc9068_profile` is a JWT conforming to the IETF JWT Access Token Profile. `access_token_authz` and `rfc9068_profile_authz` additionally include RBAC permissions claims."
       }
+    },
+    "com.auth0.api#ResourceServerAccessToken": {
+      "type": "structure",
+      "members": {
+        "claims_mapping": {
+          "target": "com.auth0.api#ResourceServerAccessTokenClaimsMapping"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Custom configuration for access tokens"
+      }
+    },
+    "com.auth0.api#ResourceServerAccessTokenClaimsMapping": {
+      "type": "structure",
+      "members": {
+        "custom_claims": {
+          "target": "com.auth0.api#ResourceServerAccessTokenCustomClaimsMapping"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Custom configuration for claims in access tokens"
+      }
+    },
+    "com.auth0.api#ResourceServerAccessTokenCustomClaimsMapping": {
+      "type": "list",
+      "member": {
+        "target": "com.auth0.api#ResourceServerAccessTokenCustomClaimsMappingRule"
+      },
+      "traits": {
+        "smithy.api#documentation": "Custom claims to emit in anonymous-session access tokens. Each rule maps a value read from the anonymous-session context (via a restricted dot-path expression) onto a named access-token claim."
+      }
+    },
+    "com.auth0.api#ResourceServerAccessTokenCustomClaimsMappingRule": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The access-token claim name to emit, stored with the casing you provide. Reserved OIDC/JWT claim names are not allowed (compared case-insensitively).",
+            "smithy.api#required": {}
+          }
+        },
+        "expression": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Restricted dot-path expression read from the anonymous-session context (e.g. `anonymous_session.metadata.country`).",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
     },
     "com.auth0.api#ResourceServerTokenEncryption": {
       "type": "structure",
@@ -74752,6 +75160,9 @@
         },
         "client": {
           "target": "com.auth0.api#ResourceServerSubjectTypeAuthorizationClient"
+        },
+        "anonymous_user": {
+          "target": "com.auth0.api#ResourceServerSubjectTypeAuthorizationAnonymousUser"
         }
       },
       "traits": {
@@ -74824,6 +75235,37 @@
       },
       "traits": {
         "smithy.api#documentation": "Defines the client flows policy for the resource server"
+      }
+    },
+    "com.auth0.api#ResourceServerSubjectTypeAuthorizationAnonymousUser": {
+      "type": "structure",
+      "members": {
+        "policy": {
+          "target": "com.auth0.api#ResourceServerSubjectTypeAuthorizationAnonymousUserPolicyEnum"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Access Permissions for anonymous user flows"
+      }
+    },
+    "com.auth0.api#ResourceServerSubjectTypeAuthorizationAnonymousUserPolicyEnum": {
+      "type": "enum",
+      "members": {
+        "DENY_ALL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "deny_all"
+          }
+        },
+        "REQUIRE_CLIENT_GRANT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "require_client_grant"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Defines the anonymous user flows policy for the resource server"
       }
     },
     "com.auth0.api#ResourceServerAuthorizationPolicy": {
@@ -75017,6 +75459,13 @@
             "smithy.api#documentation": "Expiration value (in seconds) for access tokens issued for this API from the token endpoint."
           }
         },
+        "token_lifetime_for_anonymous_access_tokens": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Expiration value (in seconds) for anonymous-session access tokens issued for this API.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
         "token_dialect": {
           "target": "com.auth0.api#ResourceServerTokenDialectSchemaEnum"
         },
@@ -75032,6 +75481,12 @@
             "smithy.api#documentation": "Whether to enforce authorization policies (true) or to ignore them (false)."
           }
         },
+        "access_token": {
+          "target": "com.auth0.api#ResourceServerAccessToken",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
         "token_encryption": {
           "target": "com.auth0.api#ResourceServerTokenEncryption",
           "traits": {
@@ -75042,6 +75497,12 @@
           "target": "com.auth0.api#ResourceServerConsentPolicyEnum",
           "traits": {
             "com.distilled.openapi#nullable": {}
+          }
+        },
+        "require_consent_non_repudiation": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "When true, the resource server requires every consent approval to be digitally signed, so the approver cannot later deny a consent they granted. When false, consent decisions do not need a signature. Defaults to false. A configured value is still returned even after the related entitlement is disabled."
           }
         },
         "authorization_details": {
@@ -75155,8 +75616,20 @@
             "smithy.api#documentation": "Whether authorization polices are enforced (true) or unenforced (false)."
           }
         },
+        "token_lifetime_for_anonymous_access_tokens": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Expiration value (in seconds) for anonymous-session access tokens issued for this API."
+          }
+        },
         "token_dialect": {
           "target": "com.auth0.api#ResourceServerTokenDialectResponseEnum"
+        },
+        "access_token": {
+          "target": "com.auth0.api#ResourceServerAccessToken",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
         },
         "token_encryption": {
           "target": "com.auth0.api#ResourceServerTokenEncryption",
@@ -75168,6 +75641,12 @@
           "target": "com.auth0.api#ResourceServerConsentPolicyEnum",
           "traits": {
             "com.distilled.openapi#nullable": {}
+          }
+        },
+        "require_consent_non_repudiation": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "When true, the resource server requires every consent approval to be digitally signed, so the approver cannot later deny a consent they granted. When false, consent decisions do not need a signature. Defaults to false. A configured value is still returned even after the related entitlement is disabled."
           }
         },
         "authorization_details": {
@@ -75242,6 +75721,302 @@
           "code": 200
         },
         "smithy.api#documentation": "Create a resource server\n\nCreate a new API associated with your tenant. Note that all new APIs must be registered with Auth0. For more information, read <a href=\"https://www.auth0.com/docs/get-started/apis\"> APIs</a>."
+      }
+    },
+    "com.auth0.api#ResourceServerSortFieldEnum": {
+      "type": "enum",
+      "members": {
+        "IDENTIFIER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "identifier"
+          }
+        },
+        "NAME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "name"
+          }
+        },
+        "UPDATED_AT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "updated_at"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Field name to sort results by in ascending order only. Defaults to insertion order (oldest first) if not provided."
+      }
+    },
+    "com.auth0.api#GetResourceServersSearchRequest": {
+      "type": "structure",
+      "members": {
+        "q": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "q",
+            "smithy.api#documentation": "Filter expression in SCIM or Lucene syntax (depending on parser parameter). SCIM examples: `name eq \"My API\"`, `identifier sw \"https://\"`. SCIM operators: eq, ne, sw, ew, co, pr, gt, ge, lt, le, and, or. <br /><br /><b>Supported Fields</b>:<ul><li><i>id</i> - Filter by resource server ID</li><li><i>identifier</i> - Filter by resource server identifier</li><li><i>name</i> - Filter by resource server name</li><li><i>updated_at</i> - Filter by last update date</li></ul>Maximum 5 filter operations per query. Results are eventually consistent and may not reflect recent updates."
+          }
+        },
+        "parser": {
+          "target": "com.auth0.api#SearchParserEnum",
+          "traits": {
+            "smithy.api#httpQuery": "parser",
+            "smithy.api#documentation": "Query parser to use for the filter expression. Use \"scim\" for SCIM filter syntax or \"lucene\" for Lucene query syntax (default)."
+          }
+        },
+        "fields": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "fields",
+            "smithy.api#documentation": "Comma-separated list of fields to include or exclude in the response. Works with the include_fields parameter to control projection mode."
+          }
+        },
+        "include_fields": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "include_fields",
+            "smithy.api#documentation": "Controls field projection mode. Set to true to include only fields specified in the fields parameter. Set to false to exclude fields specified in the fields parameter. Defaults to true if not specified."
+          }
+        },
+        "take": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "take",
+            "smithy.api#documentation": "Maximum number of results to return per page (1-100). Defaults to 50."
+          }
+        },
+        "from": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "from",
+            "smithy.api#documentation": "Cursor for the next page of results. Use the value from the next field in the previous response."
+          }
+        },
+        "sort": {
+          "target": "com.auth0.api#ResourceServerSortFieldEnum",
+          "traits": {
+            "smithy.api#httpQuery": "sort",
+            "smithy.api#documentation": "Field name to sort results by in ascending order only. Defaults to insertion order (oldest first) if not provided."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.auth0.api#SearchResourceServersResponseContent": {
+      "type": "structure",
+      "members": {
+        "resource_servers": {
+          "target": "com.auth0.api#SearchResourceServersResponseContentResourceServersList",
+          "traits": {
+            "smithy.api#documentation": "Array of resource server objects matching the search criteria.",
+            "smithy.api#required": {}
+          }
+        },
+        "next": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Cursor for retrieving the next page of results. Omitted if there are no more results."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.auth0.api#ResourceServerSearchResponse": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the API (resource server)."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Friendly name for this resource server. Can not contain `<` or `>` characters."
+          }
+        },
+        "is_system": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether this is an Auth0 system API (true) or a custom API (false)."
+          }
+        },
+        "identifier": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique identifier for the API used as the audience parameter on authorization calls. Can not be changed once set."
+          }
+        },
+        "scopes": {
+          "target": "com.auth0.api#ResourceServerSearchResponseScopesList",
+          "traits": {
+            "smithy.api#documentation": "List of permissions (scopes) that this API uses."
+          }
+        },
+        "signing_alg": {
+          "target": "com.auth0.api#SigningAlgorithmEnum"
+        },
+        "allow_offline_access": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether refresh tokens can be issued for this API (true) or not (false)."
+          }
+        },
+        "allow_online_access": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether Online Refresh Tokens can be issued for this API (true) or not (false)."
+          }
+        },
+        "allow_online_access_with_ephemeral_sessions": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether Online Refresh Tokens can be issued even when sessions are configured as ephemeral (true) or not (false)."
+          }
+        },
+        "skip_consent_for_verifiable_first_party_clients": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether to skip user consent for applications flagged as first party (true) or not (false)."
+          }
+        },
+        "token_lifetime": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Expiration value (in seconds) for access tokens issued for this API from the token endpoint."
+          }
+        },
+        "token_lifetime_for_web": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Expiration value (in seconds) for access tokens issued for this API via Implicit or Hybrid Flows. Cannot be greater than the `token_lifetime` value."
+          }
+        },
+        "enforce_policies": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether authorization polices are enforced (true) or unenforced (false)."
+          }
+        },
+        "token_lifetime_for_anonymous_access_tokens": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Expiration value (in seconds) for anonymous-session access tokens issued for this API."
+          }
+        },
+        "token_dialect": {
+          "target": "com.auth0.api#ResourceServerTokenDialectResponseEnum"
+        },
+        "access_token": {
+          "target": "com.auth0.api#ResourceServerAccessToken",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "token_encryption": {
+          "target": "com.auth0.api#ResourceServerTokenEncryption",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "consent_policy": {
+          "target": "com.auth0.api#ResourceServerConsentPolicyEnum",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "require_consent_non_repudiation": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "When true, the resource server requires every consent approval to be digitally signed, so the approver cannot later deny a consent they granted. When false, consent decisions do not need a signature. Defaults to false. A configured value is still returned even after the related entitlement is disabled."
+          }
+        },
+        "authorization_details": {
+          "target": "com.auth0.api#ResourceServerSearchResponseAuthorizationDetailsList",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "proof_of_possession": {
+          "target": "com.auth0.api#ResourceServerProofOfPossession",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "subject_type_authorization": {
+          "target": "com.auth0.api#ResourceServerSubjectTypeAuthorization"
+        },
+        "authorization_policy": {
+          "target": "com.auth0.api#ResourceServerAuthorizationPolicy",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "client_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The client ID of the client that this resource server is linked to"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.auth0.api#ResourceServerSearchResponseScopesList": {
+      "type": "list",
+      "member": {
+        "target": "com.auth0.api#ResourceServerScope"
+      },
+      "traits": {
+        "smithy.api#documentation": "List of permissions (scopes) that this API uses."
+      }
+    },
+    "com.auth0.api#ResourceServerSearchResponseAuthorizationDetailsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {}
+    },
+    "com.auth0.api#SearchResourceServersResponseContentResourceServersList": {
+      "type": "list",
+      "member": {
+        "target": "com.auth0.api#ResourceServerSearchResponse"
+      },
+      "traits": {
+        "smithy.api#documentation": "Array of resource server objects matching the search criteria."
+      }
+    },
+    "com.auth0.api#GetResourceServersSearch": {
+      "type": "operation",
+      "input": {
+        "target": "com.auth0.api#GetResourceServersSearchRequest"
+      },
+      "output": {
+        "target": "com.auth0.api#SearchResourceServersResponseContent"
+      },
+      "errors": [
+        {
+          "target": "com.auth0.api#BadRequest"
+        },
+        {
+          "target": "com.auth0.api#Forbidden"
+        },
+        {
+          "target": "com.auth0.api#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/resource-servers/search",
+          "code": 200
+        },
+        "smithy.api#documentation": "Search resource servers\n\nSearch resource servers using SCIM or Lucene filter syntax with low-latency, eventually consistent results. Use the parser parameter to specify \"scim\" or \"lucene\" syntax (default: \"lucene\"). This endpoint provides an alternative to the standard GET /resource-servers endpoint with better performance for complex queries.\nResults may not reflect recent updates immediately.\n\nThe `signing_secret` field is not supported by this endpoint."
       }
     },
     "com.auth0.api#GetResourceServerRequest": {
@@ -75352,8 +76127,20 @@
             "smithy.api#documentation": "Whether authorization polices are enforced (true) or unenforced (false)."
           }
         },
+        "token_lifetime_for_anonymous_access_tokens": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Expiration value (in seconds) for anonymous-session access tokens issued for this API."
+          }
+        },
         "token_dialect": {
           "target": "com.auth0.api#ResourceServerTokenDialectResponseEnum"
+        },
+        "access_token": {
+          "target": "com.auth0.api#ResourceServerAccessToken",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
         },
         "token_encryption": {
           "target": "com.auth0.api#ResourceServerTokenEncryption",
@@ -75365,6 +76152,12 @@
           "target": "com.auth0.api#ResourceServerConsentPolicyEnum",
           "traits": {
             "com.distilled.openapi#nullable": {}
+          }
+        },
+        "require_consent_non_repudiation": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "When true, the resource server requires every consent approval to be digitally signed, so the approver cannot later deny a consent they granted. When false, consent decisions do not need a signature. Defaults to false. A configured value is still returned even after the related entitlement is disabled."
           }
         },
         "authorization_details": {
@@ -75520,6 +76313,13 @@
             "smithy.api#documentation": "Expiration value (in seconds) for access tokens issued for this API from the token endpoint."
           }
         },
+        "token_lifetime_for_anonymous_access_tokens": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Expiration value (in seconds) for anonymous-session access tokens issued for this API.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
         "token_dialect": {
           "target": "com.auth0.api#ResourceServerTokenDialectSchemaEnum"
         },
@@ -75527,6 +76327,12 @@
           "target": "smithy.api#Boolean",
           "traits": {
             "smithy.api#documentation": "Whether authorization policies are enforced (true) or not enforced (false)."
+          }
+        },
+        "access_token": {
+          "target": "com.auth0.api#ResourceServerAccessToken",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
           }
         },
         "token_encryption": {
@@ -75539,6 +76345,12 @@
           "target": "com.auth0.api#ResourceServerConsentPolicyEnum",
           "traits": {
             "com.distilled.openapi#nullable": {}
+          }
+        },
+        "require_consent_non_repudiation": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "When true, the resource server requires every consent approval to be digitally signed, so the approver cannot later deny a consent they granted. When false, consent decisions do not need a signature. Defaults to false. A configured value is still returned even after the related entitlement is disabled."
           }
         },
         "authorization_details": {
@@ -75652,8 +76464,20 @@
             "smithy.api#documentation": "Whether authorization polices are enforced (true) or unenforced (false)."
           }
         },
+        "token_lifetime_for_anonymous_access_tokens": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Expiration value (in seconds) for anonymous-session access tokens issued for this API."
+          }
+        },
         "token_dialect": {
           "target": "com.auth0.api#ResourceServerTokenDialectResponseEnum"
+        },
+        "access_token": {
+          "target": "com.auth0.api#ResourceServerAccessToken",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
         },
         "token_encryption": {
           "target": "com.auth0.api#ResourceServerTokenEncryption",
@@ -75665,6 +76489,12 @@
           "target": "com.auth0.api#ResourceServerConsentPolicyEnum",
           "traits": {
             "com.distilled.openapi#nullable": {}
+          }
+        },
+        "require_consent_non_repudiation": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "When true, the resource server requires every consent approval to be digitally signed, so the approver cannot later deny a consent they granted. When false, consent decisions do not need a signature. Defaults to false. A configured value is still returned even after the related entitlement is disabled."
           }
         },
         "authorization_details": {
@@ -80402,6 +81232,12 @@
             "smithy.api#documentation": "Supported locales for the user interface."
           }
         },
+        "access_token": {
+          "target": "com.auth0.api#ResourceServerAccessToken",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
         "security_headers": {
           "target": "com.auth0.api#TenantSettingsNullableSecurityHeaders",
           "traits": {
@@ -80458,6 +81294,13 @@
           "target": "smithy.api#Boolean",
           "traits": {
             "smithy.api#documentation": "Supports iss parameter in authorization responses",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "dpop_strict_refresh_token_binding": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Enables strict DPoP refresh token binding per RFC 9449: all refresh tokens issued to public clients that present a DPoP proof are bound to the sender's key, and the binding is validated on every subsequent exchange. When disabled, DPoP refresh token binding may still apply for specific audiences for backwards compatibility.",
             "com.distilled.openapi#nullable": {}
           }
         },
@@ -80784,6 +81627,12 @@
           "target": "smithy.api#Boolean",
           "traits": {
             "smithy.api#documentation": "This tenant signed up for the Auth4GenAI trail"
+          }
+        },
+        "local_resource_discovery": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the Local Resource Discovery endpoint is enabled (true) or disabled (false)."
           }
         },
         "enable_dynamic_client_registration": {
@@ -81655,10 +82504,36 @@
           "traits": {
             "smithy.api#documentation": "Whether to bypass prompting logic (false) when performing OIDC Logout"
           }
+        },
+        "anonymous": {
+          "target": "com.auth0.api#TenantSettingsSessionsAnonymous",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
         }
       },
       "traits": {
         "smithy.api#documentation": "Sessions related settings for tenant"
+      }
+    },
+    "com.auth0.api#TenantSettingsSessionsAnonymous": {
+      "type": "structure",
+      "members": {
+        "lifetime_in_minutes": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Anonymous session lifetime, in minutes. Defaults to 43200 (30 days); maximum 525600 (1 year)."
+          }
+        },
+        "activate_cookie": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether anonymous session requests return the `auth0_anon` cookie. Defaults to enabled; set to false to stop issuing the cookie."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Anonymous session settings for tenant."
       }
     },
     "com.auth0.api#TenantOIDCLogoutSettings": {
@@ -82531,6 +83406,12 @@
             "smithy.api#documentation": "Supported locales for the user interface"
           }
         },
+        "access_token": {
+          "target": "com.auth0.api#ResourceServerAccessToken",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
         "security_headers": {
           "target": "com.auth0.api#TenantSettingsNullableSecurityHeaders",
           "traits": {
@@ -82590,6 +83471,13 @@
           "target": "smithy.api#Boolean",
           "traits": {
             "smithy.api#documentation": "Supports iss parameter in authorization responses",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "dpop_strict_refresh_token_binding": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Enables strict DPoP refresh token binding per RFC 9449: all refresh tokens issued to public clients that present a DPoP proof are bound to the sender's key, and the binding is validated on every subsequent exchange. When disabled, DPoP refresh token binding may still apply for specific audiences for backwards compatibility.",
             "com.distilled.openapi#nullable": {}
           }
         },
@@ -82773,6 +83661,12 @@
             "smithy.api#documentation": "Supported locales for the user interface."
           }
         },
+        "access_token": {
+          "target": "com.auth0.api#ResourceServerAccessToken",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
         "security_headers": {
           "target": "com.auth0.api#TenantSettingsNullableSecurityHeaders",
           "traits": {
@@ -82829,6 +83723,13 @@
           "target": "smithy.api#Boolean",
           "traits": {
             "smithy.api#documentation": "Supports iss parameter in authorization responses",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "dpop_strict_refresh_token_binding": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Enables strict DPoP refresh token binding per RFC 9449: all refresh tokens issued to public clients that present a DPoP proof are bound to the sender's key, and the binding is validated on every subsequent exchange. When disabled, DPoP refresh token binding may still apply for specific audiences for backwards compatibility.",
             "com.distilled.openapi#nullable": {}
           }
         },
@@ -84349,7 +85250,7 @@
           "target": "smithy.api#Boolean",
           "traits": {
             "smithy.api#httpQuery": "consider_brute_force_enablement",
-            "smithy.api#documentation": "\n          If true and Brute Force Protection is enabled and configured to block logins, will return a list of blocked IP addresses.\n          If true and Brute Force Protection is disabled, will return an empty list.\n        "
+            "smithy.api#documentation": "\n          If true, returns only blocks that are currently enforced (e.g. subject to protection status, IP allowlist, etc.).\n          If false or omitted, returns all blocks regardless of enforcement state.\n        "
           }
         }
       },
@@ -84483,7 +85384,7 @@
           "target": "smithy.api#Boolean",
           "traits": {
             "smithy.api#httpQuery": "consider_brute_force_enablement",
-            "smithy.api#documentation": "\n          If true and Brute Force Protection is enabled and configured to block logins, will return a list of blocked IP addresses.\n          If true and Brute Force Protection is disabled, will return an empty list.\n        "
+            "smithy.api#documentation": "\n          If true, returns only blocks that are currently enforced (e.g. subject to protection status, IP allowlist, etc.).\n          If false or omitted, returns all blocks regardless of enforcement state.\n        "
           }
         }
       },
@@ -85407,7 +86308,7 @@
           "uri": "/users",
           "code": 200
         },
-        "smithy.api#documentation": "List or Search Users\n\nRetrieve details of users. It is possible to:\n\n- Specify a search criteria for users\n- Sort the users to be returned\n- Select the fields to be returned\n- Specify the number of users to retrieve per page and the page index\n\n\n\nThe `q` query parameter can be used to get users that match the specified criteria [using query string syntax.](https://auth0.com/docs/users/search/v3/query-syntax)\n\n[Learn more about searching for users.](https://auth0.com/docs/users/search/v3)\n\nRead about [best practices](https://auth0.com/docs/users/search/best-practices) when working with the API endpoints for retrieving users.\n\n\n\nAuth0 limits the number of users you can return. If you exceed this threshold, please redefine your search, use the [export job](https://auth0.com/docs/api/management/v2#!/Jobs/post_users_exports), or the [User Import / Export](https://auth0.com/docs/extensions/user-import-export) extension."
+        "smithy.api#documentation": "List or Search Users\n\nThis endpoint retrieves details of users. It's best suited to interactive, best-effort search and lookups where slightly stale results are acceptable. With it, you can:\n\n- Specify search criteria for users\n- Sort the users to be returned\n- Select the fields to be returned\n- Specify the number of users to retrieve per page and the page index\n\nThis endpoint is **not suited for use in critical paths**. It is eventually consistent and runs under a short (~2 second) query time limit, so results can be stale and heavy queries can return a 503.\n\n- Do not use this endpoint for authentication, account linking, or logic inside login-flow Actions. Instead, [look users up directly by ID or email](https://auth0.com/docs/manage-users/user-search/get-users-by-id-or-email#management-api) to get their current state.\n- Do not use this endpoint to keep an external system in sync with user data. Instead, subscribe to [Event Streams](https://auth0.com/docs/customize/events/sync-data-across-systems) to receive every change as it happens.\n- Do not use this endpoint to enumerate or export your entire user base. Instead, run a [bulk user export](https://auth0.com/docs/manage-users/user-migration/bulk-user-exports) to retrieve the full set.\n\nUse the `q` query parameter to match users with [query string syntax](https://auth0.com/docs/manage-users/user-search/user-search-query-syntax). For full instructions and guidance, see [How to List and Search Users](https://auth0.com/docs/manage-users/user-search/list-and-search-users).\n\nFor efficient queries, prefer indexed top-level fields and exact matches. Certain kinds of queries can be slow and may time out, such as filtering on freeform or multi-value fields (like user-defined attributes in `app_metadata` or `user_metadata`) or using leading wildcards."
       }
     },
     "com.auth0.api#CreateUserRequest": {
@@ -92335,6 +93236,9 @@
           "target": "com.auth0.api#DeleteExperiment"
         },
         {
+          "target": "com.auth0.api#AdvanceExperimentRamp"
+        },
+        {
           "target": "com.auth0.api#UpdateExperimentStatus"
         },
         {
@@ -92494,6 +93398,12 @@
           "target": "com.auth0.api#PatchFactorDuoSettings"
         },
         {
+          "target": "com.auth0.api#GetEmailFactorSettings"
+        },
+        {
+          "target": "com.auth0.api#SetEmailFactorSettings"
+        },
+        {
           "target": "com.auth0.api#GetMessageTypes"
         },
         {
@@ -92510,6 +93420,12 @@
         },
         {
           "target": "com.auth0.api#PutPhoneProviders"
+        },
+        {
+          "target": "com.auth0.api#GetPhoneFactorSettings"
+        },
+        {
+          "target": "com.auth0.api#SetPhoneFactorSettings"
         },
         {
           "target": "com.auth0.api#GetFactorPhoneTemplates"
@@ -92579,6 +93495,12 @@
         },
         {
           "target": "com.auth0.api#PutPolicies"
+        },
+        {
+          "target": "com.auth0.api#GetGuardianSettings"
+        },
+        {
+          "target": "com.auth0.api#SetGuardianSettings"
         },
         {
           "target": "com.auth0.api#GetHooks"
@@ -92716,21 +93638,6 @@
           "target": "com.auth0.api#DeleteNetworkAcl"
         },
         {
-          "target": "com.auth0.api#GetOrganizationTemplates"
-        },
-        {
-          "target": "com.auth0.api#CreateOrganizationTemplate"
-        },
-        {
-          "target": "com.auth0.api#GetOrganizationTemplate"
-        },
-        {
-          "target": "com.auth0.api#UpdateOrganizationTemplate"
-        },
-        {
-          "target": "com.auth0.api#GetOrganizationTemplateOrganizations"
-        },
-        {
           "target": "com.auth0.api#GetOrganizations"
         },
         {
@@ -92738,6 +93645,9 @@
         },
         {
           "target": "com.auth0.api#GetNameByName"
+        },
+        {
+          "target": "com.auth0.api#GetSearch"
         },
         {
           "target": "com.auth0.api#GetOrganization"
@@ -92857,15 +93767,6 @@
           "target": "com.auth0.api#DeleteOrganizationMemberRoles"
         },
         {
-          "target": "com.auth0.api#GetOrganizationOrganizationTemplates"
-        },
-        {
-          "target": "com.auth0.api#PutOrganizationOrganizationTemplate"
-        },
-        {
-          "target": "com.auth0.api#DeleteOrganizationOrganizationTemplate"
-        },
-        {
           "target": "com.auth0.api#GetOrganizationRoleMembers"
         },
         {
@@ -92948,6 +93849,9 @@
         },
         {
           "target": "com.auth0.api#CreateResourceServer"
+        },
+        {
+          "target": "com.auth0.api#GetResourceServersSearch"
         },
         {
           "target": "com.auth0.api#GetResourceServer"

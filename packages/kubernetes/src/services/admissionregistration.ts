@@ -3507,11 +3507,7 @@ export const DeleteAdmissionregistrationV1ValidatingWebhookConfigurationRequest 
 export interface GetAdmissionregistrationAPIGroupRequest {}
 export const GetAdmissionregistrationAPIGroupRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/apis/admissionregistration.k8s.io/",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/apis/admissionregistration.k8s.io/", code: 200 }),
   ),
 ).annotate({
   identifier: "GetAdmissionregistrationAPIGroupRequest",
@@ -3597,11 +3593,7 @@ export const IoK8sApimachineryPkgApisMetaV1APIGroup = /*@__PURE__*/ S.suspend(()
 export interface GetAdmissionregistrationV1alpha1APIResourcesRequest {}
 export const GetAdmissionregistrationV1alpha1APIResourcesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/apis/admissionregistration.k8s.io/v1alpha1/",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/apis/admissionregistration.k8s.io/v1alpha1/", code: 200 }),
   ),
 ).annotate({
   identifier: "GetAdmissionregistrationV1alpha1APIResourcesRequest",
@@ -3697,11 +3689,7 @@ export const IoK8sApimachineryPkgApisMetaV1APIResourceList = /*@__PURE__*/ S.sus
 export interface GetAdmissionregistrationV1APIResourcesRequest {}
 export const GetAdmissionregistrationV1APIResourcesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/apis/admissionregistration.k8s.io/v1/",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/apis/admissionregistration.k8s.io/v1/", code: 200 }),
   ),
 ).annotate({
   identifier: "GetAdmissionregistrationV1APIResourcesRequest",
@@ -3710,11 +3698,7 @@ export const GetAdmissionregistrationV1APIResourcesRequest = /*@__PURE__*/ S.sus
 export interface GetAdmissionregistrationV1beta1APIResourcesRequest {}
 export const GetAdmissionregistrationV1beta1APIResourcesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/apis/admissionregistration.k8s.io/v1beta1/",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/apis/admissionregistration.k8s.io/v1beta1/", code: 200 }),
   ),
 ).annotate({
   identifier: "GetAdmissionregistrationV1beta1APIResourcesRequest",

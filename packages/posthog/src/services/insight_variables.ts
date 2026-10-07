@@ -68,11 +68,7 @@ export const CreateInsightVariableRequest = /*@__PURE__*/ S.suspend(() =>
     values_query: S.optional(S.NullOr(S.String)),
     values_query_connection_id: S.optional(S.NullOr(S.String)),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/projects/{project_id}/insight_variables/",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/api/projects/{project_id}/insight_variables/", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateInsightVariableRequest",
@@ -116,9 +112,7 @@ export const InsightVariable = /*@__PURE__*/ S.suspend(() =>
     values_query: S.optional(S.NullOr(S.String)),
     values_query_connection_id: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "InsightVariable",
-}) as any as S.Schema<InsightVariable>;
+).annotate({ identifier: "InsightVariable" }) as any as S.Schema<InsightVariable>;
 
 export interface GetInsightVariableRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -131,11 +125,7 @@ export const GetInsightVariableRequest = /*@__PURE__*/ S.suspend(() =>
     project_id: S.String.pipe(T.Label()),
     id: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/insight_variables/{id}/",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/projects/{project_id}/insight_variables/{id}/", code: 200 }),
   ),
 ).annotate({
   identifier: "GetInsightVariableRequest",
@@ -164,9 +154,7 @@ export const InsightVariablesDestroyRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface InsightVariablesDestroyResponse {}
 export const InsightVariablesDestroyResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "InsightVariablesDestroyResponse",
-  },
+  { identifier: "InsightVariablesDestroyResponse" },
 ) as any as S.Schema<InsightVariablesDestroyResponse>;
 
 export interface ListInsightVariablesRequest {
@@ -180,11 +168,7 @@ export const ListInsightVariablesRequest = /*@__PURE__*/ S.suspend(() =>
     project_id: S.String.pipe(T.Label()),
     page: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/insight_variables/",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/projects/{project_id}/insight_variables/", code: 200 }),
   ),
 ).annotate({
   identifier: "ListInsightVariablesRequest",
@@ -244,11 +228,7 @@ export const UpdateInsightVariableRequest = /*@__PURE__*/ S.suspend(() =>
     values_query: S.optional(S.NullOr(S.String)),
     values_query_connection_id: S.optional(S.NullOr(S.String)),
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/api/projects/{project_id}/insight_variables/{id}/",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/api/projects/{project_id}/insight_variables/{id}/", code: 200 }),
   ),
 ).annotate({
   identifier: "UpdateInsightVariableRequest",

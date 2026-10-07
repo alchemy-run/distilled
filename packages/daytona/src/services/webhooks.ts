@@ -39,9 +39,7 @@ export const WebhookAppPortalAccess = /*@__PURE__*/ S.suspend(() =>
     token: S.String,
     url: S.String,
   }),
-).annotate({
-  identifier: "WebhookAppPortalAccess",
-}) as any as S.Schema<WebhookAppPortalAccess>;
+).annotate({ identifier: "WebhookAppPortalAccess" }) as any as S.Schema<WebhookAppPortalAccess>;
 
 export interface GetWebhookControllerInitializationStatusRequest {
   organizationId: string;

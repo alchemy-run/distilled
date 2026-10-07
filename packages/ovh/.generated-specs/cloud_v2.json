@@ -17596,6 +17596,259 @@
         "smithy.api#documentation": "Delete a Public Cloud block storage volume"
       }
     },
+    "com.ovh.cloud_v2#ListPublicCloudProjectStorageFileNetworkRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.ovh.cloud_v2#PublicCloudStorageFileFileStorageNetwork": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String"
+        },
+        "resourceStatus": {
+          "target": "com.ovh.cloud_v2#CommonResourceStatusEnum"
+        },
+        "targetSpec": {
+          "target": "com.ovh.cloud_v2#PublicCloudStorageFileFileStorageNetworkTargetSpec"
+        },
+        "currentState": {
+          "target": "com.ovh.cloud_v2#PublicCloudStorageFileFileStorageNetworkTargetSpec",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A Public Cloud file storage share network"
+      }
+    },
+    "com.ovh.cloud_v2#PublicCloudStorageFileFileStorageNetworkTargetSpec": {
+      "type": "structure",
+      "members": {
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "location": {
+          "target": "com.ovh.cloud_v2#PublicCloudCommonLocation",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "network": {
+          "target": "com.ovh.cloud_v2#PublicCloudStorageFileFileStorageNetworkTargetSpecNetwork",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "subnet": {
+          "target": "com.ovh.cloud_v2#PublicCloudStorageFileFileStorageNetworkTargetSpecSubnet",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.ovh.cloud_v2#PublicCloudStorageFileFileStorageNetworkTargetSpecNetwork": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.ovh.cloud_v2#PublicCloudStorageFileFileStorageNetworkTargetSpecSubnet": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.ovh.cloud_v2#ListPublicCloudProjectStorageFileNetworkResponseBodyList": {
+      "type": "list",
+      "member": {
+        "target": "com.ovh.cloud_v2#PublicCloudStorageFileFileStorageNetwork"
+      },
+      "traits": {}
+    },
+    "com.ovh.cloud_v2#ListPublicCloudProjectStorageFileNetworkResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "com.ovh.cloud_v2#ListPublicCloudProjectStorageFileNetworkResponseBodyList",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.ovh.cloud_v2#ListPublicCloudProjectStorageFileNetwork": {
+      "type": "operation",
+      "input": {
+        "target": "com.ovh.cloud_v2#ListPublicCloudProjectStorageFileNetworkRequest"
+      },
+      "output": {
+        "target": "com.ovh.cloud_v2#ListPublicCloudProjectStorageFileNetworkResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/publicCloud/project/{projectId}/storage/file/network",
+          "code": 200
+        },
+        "smithy.api#documentation": "List Public Cloud file storage share networks"
+      }
+    },
+    "com.ovh.cloud_v2#CreatePublicCloudProjectStorageFileNetworkRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "targetSpec": {
+          "target": "com.ovh.cloud_v2#PublicCloudStorageFileFileStorageNetworkTargetSpec",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.ovh.cloud_v2#CreatePublicCloudProjectStorageFileNetwork": {
+      "type": "operation",
+      "input": {
+        "target": "com.ovh.cloud_v2#CreatePublicCloudProjectStorageFileNetworkRequest"
+      },
+      "output": {
+        "target": "com.ovh.cloud_v2#PublicCloudStorageFileFileStorageNetwork"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/publicCloud/project/{projectId}/storage/file/network",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create a Public Cloud file storage share network"
+      }
+    },
+    "com.ovh.cloud_v2#GetPublicCloudProjectStorageFileNetworkRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "networkId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.ovh.cloud_v2#GetPublicCloudProjectStorageFileNetwork": {
+      "type": "operation",
+      "input": {
+        "target": "com.ovh.cloud_v2#GetPublicCloudProjectStorageFileNetworkRequest"
+      },
+      "output": {
+        "target": "com.ovh.cloud_v2#PublicCloudStorageFileFileStorageNetwork"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/publicCloud/project/{projectId}/storage/file/network/{networkId}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get a Public Cloud file storage share network"
+      }
+    },
+    "com.ovh.cloud_v2#DeletePublicCloudProjectStorageFileNetworkRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "networkId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.ovh.cloud_v2#DeletePublicCloudProjectStorageFileNetwork": {
+      "type": "operation",
+      "input": {
+        "target": "com.ovh.cloud_v2#DeletePublicCloudProjectStorageFileNetworkRequest"
+      },
+      "output": {
+        "target": "com.ovh.cloud_v2#PublicCloudStorageFileFileStorageNetwork"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/publicCloud/project/{projectId}/storage/file/network/{networkId}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Delete a Public Cloud file storage share network"
+      }
+    },
     "com.ovh.cloud_v2#ListPublicCloudProjectStorageFileShareRequest": {
       "type": "structure",
       "members": {
@@ -17952,10 +18205,10 @@
             "smithy.api#required": {}
           }
         },
-        "networkId": {
-          "target": "smithy.api#String",
+        "shareNetwork": {
+          "target": "com.ovh.cloud_v2#PublicCloudStorageFileFileStorageTargetSpecShareNetwork",
           "traits": {
-            "smithy.api#documentation": "Private network ID to attach the file storage to",
+            "smithy.api#documentation": "Share network to attach the file storage to",
             "smithy.api#required": {}
           }
         },
@@ -17977,13 +18230,6 @@
           "target": "smithy.api#Integer",
           "traits": {
             "smithy.api#documentation": "Size of the file storage in GB",
-            "smithy.api#required": {}
-          }
-        },
-        "subnetId": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Subnet ID within the private network",
             "smithy.api#required": {}
           }
         }
@@ -18021,6 +18267,21 @@
       },
       "traits": {
         "smithy.api#documentation": "Access rules controlling which IPs can access the file storage"
+      }
+    },
+    "com.ovh.cloud_v2#PublicCloudStorageFileFileStorageTargetSpecShareNetwork": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Share network ID",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Share network to attach the file storage to"
       }
     },
     "com.ovh.cloud_v2#ListPublicCloudProjectStorageFileShareResponseBodyList": {
@@ -18427,25 +18688,13 @@
             "com.distilled.openapi#nullable": {}
           }
         },
-        "shareId": {
-          "target": "smithy.api#String",
+        "share": {
+          "target": "com.ovh.cloud_v2#PublicCloudStorageFileFileStorageSnapshotCurrentStateShare",
           "traits": {
-            "smithy.api#documentation": "ID of the parent file storage share"
+            "smithy.api#documentation": "Parent file storage share"
           }
         },
-        "shareProto": {
-          "target": "com.ovh.cloud_v2#PublicCloudStorageFileFileStorageProtocolEnum",
-          "traits": {
-            "smithy.api#documentation": "File sharing protocol of the parent share"
-          }
-        },
-        "shareSize": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "smithy.api#documentation": "Size of the parent share in GB at the time of the snapshot"
-          }
-        },
-        "snapshotSize": {
+        "size": {
           "target": "smithy.api#Integer",
           "traits": {
             "smithy.api#documentation": "Size of the snapshot in GB"
@@ -18454,6 +18703,20 @@
       },
       "traits": {
         "smithy.api#documentation": "Current state of a file storage snapshot as observed from the infrastructure"
+      }
+    },
+    "com.ovh.cloud_v2#PublicCloudStorageFileFileStorageSnapshotCurrentStateShare": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the parent file storage share"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Parent file storage share"
       }
     },
     "com.ovh.cloud_v2#PublicCloudStorageFileFileStorageSnapshotCurrentTasksList": {
@@ -18475,13 +18738,6 @@
             "com.distilled.openapi#nullable": {}
           }
         },
-        "location": {
-          "target": "com.ovh.cloud_v2#PublicCloudCommonLocation",
-          "traits": {
-            "smithy.api#documentation": "Location of the snapshot",
-            "smithy.api#required": {}
-          }
-        },
         "name": {
           "target": "smithy.api#String",
           "traits": {
@@ -18489,7 +18745,22 @@
             "com.distilled.openapi#nullable": {}
           }
         },
-        "shareId": {
+        "share": {
+          "target": "com.ovh.cloud_v2#PublicCloudStorageFileFileStorageSnapshotTargetSpecShare",
+          "traits": {
+            "smithy.api#documentation": "Parent file storage share",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Target specification for a file storage snapshot"
+      }
+    },
+    "com.ovh.cloud_v2#PublicCloudStorageFileFileStorageSnapshotTargetSpecShare": {
+      "type": "structure",
+      "members": {
+        "id": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "ID of the parent file storage share",
@@ -18498,7 +18769,7 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "Target specification for a file storage snapshot"
+        "smithy.api#documentation": "Parent file storage share"
       }
     },
     "com.ovh.cloud_v2#ListPublicCloudProjectStorageFileSnapshotResponseBodyList": {
@@ -21722,6 +21993,18 @@
         },
         {
           "target": "com.ovh.cloud_v2#DeletePublicCloudProjectStorageBlockVolume"
+        },
+        {
+          "target": "com.ovh.cloud_v2#ListPublicCloudProjectStorageFileNetwork"
+        },
+        {
+          "target": "com.ovh.cloud_v2#CreatePublicCloudProjectStorageFileNetwork"
+        },
+        {
+          "target": "com.ovh.cloud_v2#GetPublicCloudProjectStorageFileNetwork"
+        },
+        {
+          "target": "com.ovh.cloud_v2#DeletePublicCloudProjectStorageFileNetwork"
         },
         {
           "target": "com.ovh.cloud_v2#ListPublicCloudProjectStorageFileShare"

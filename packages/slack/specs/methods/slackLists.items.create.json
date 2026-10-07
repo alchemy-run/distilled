@@ -21,7 +21,8 @@
       "token": {
         "desc": "Token with which to authenticate the session.",
         "type": "string",
-        "subtype": "auth"
+        "subtype": "auth",
+        "example": "xxxx-xxxxxxxxx-xxxx"
       },
       "list_id": {
         "desc": "ID of the List to add the item to.",
@@ -96,5 +97,6 @@
     "invalid_vote_value": {
       "desc": "Invalid value provided for a vote column."
     }
-  }
+  },
+  "json_input_supported": true
 }

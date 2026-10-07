@@ -136,7 +136,7 @@ export type MarketplaceSubscriptionV1SubscriptionLifecycleState =
   | "SUBSCRIPTION_CANCELLED"
   | "SUBSCRIPTION_REJECTED"
   | "SUBSCRIPTION_APPROVAL_TIMED_OUT";
-export const MarketplaceSubscriptionV1SubscriptionLifecycleState = /*@__PURE__*/ S.String;
+export const MarketplaceSubscriptionV1SubscriptionLifecycleState = S.String;
 
 export interface MarketplaceSubscriptionV1FileLocalizedVersion {
   /** The file version matching the file name (localized). */
@@ -181,20 +181,20 @@ export const MarketplaceSubscriptionV1Assets = /*@__PURE__*/ S.suspend(() =>
   identifier: "MarketplaceSubscriptionV1Assets",
 }) as any as S.Schema<MarketplaceSubscriptionV1Assets>;
 
-/** The product delivery method/type. For reference: SAAS - Software as a Service, SAI - STACKIT Application Image */
+/** The product delivery method/type. For reference: SAAS - Software as a Service, CLOUD_IMAGE - STACKIT Cloud Image */
 export type MarketplaceSubscriptionV1SubscriptionProductDeliveryMethod =
   | "SAAS"
-  | "KUBERNETES"
-  | "SAI"
+  | "CONTAINER_IMAGE"
+  | "CLOUD_IMAGE"
   | "PROFESSIONAL_SERVICE";
-export const MarketplaceSubscriptionV1SubscriptionProductDeliveryMethod = /*@__PURE__*/ S.String;
+export const MarketplaceSubscriptionV1SubscriptionProductDeliveryMethod = S.String;
 
 /** The lifecycle state of the product. */
 export type MarketplaceSubscriptionV1SubscriptionProductLifecycleState =
   | "PRODUCT_LIVE"
   | "PRODUCT_PENDING_APPROVAL"
   | "PRODUCT_PREVIEW";
-export const MarketplaceSubscriptionV1SubscriptionProductLifecycleState = /*@__PURE__*/ S.String;
+export const MarketplaceSubscriptionV1SubscriptionProductLifecycleState = S.String;
 
 /** The product's price type. */
 export type MarketplaceSubscriptionV1SubscriptionProductPriceType =
@@ -203,11 +203,11 @@ export type MarketplaceSubscriptionV1SubscriptionProductPriceType =
   | "FREE_TRIAL"
   | "BYOL"
   | "PAYG";
-export const MarketplaceSubscriptionV1SubscriptionProductPriceType = /*@__PURE__*/ S.String;
+export const MarketplaceSubscriptionV1SubscriptionProductPriceType = S.String;
 
 export interface MarketplaceSubscriptionV1SubscriptionProduct {
   assets?: MarketplaceSubscriptionV1Assets;
-  /** The product delivery method/type. For reference: SAAS - Software as a Service, SAI - STACKIT Application Image */
+  /** The product delivery method/type. For reference: SAAS - Software as a Service, CLOUD_IMAGE - STACKIT Cloud Image */
   deliveryMethod: MarketplaceSubscriptionV1SubscriptionProductDeliveryMethod;
   /** The lifecycle state of the product. */
   lifecycleState: MarketplaceSubscriptionV1SubscriptionProductLifecycleState;
@@ -499,9 +499,7 @@ export const ResolveCustomerRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://stackit-marketplace.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "ResolveCustomerRequest",
-}) as any as S.Schema<ResolveCustomerRequest>;
+).annotate({ identifier: "ResolveCustomerRequest" }) as any as S.Schema<ResolveCustomerRequest>;
 
 export interface TerminateConsumersSubscriptionRequest {
   projectId: string;

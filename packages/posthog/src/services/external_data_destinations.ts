@@ -49,6 +49,32 @@ export const CreateExternalDataDestinationRequest = /*@__PURE__*/ S.suspend(() =
   identifier: "CreateExternalDataDestinationRequest",
 }) as any as S.Schema<CreateExternalDataDestinationRequest>;
 
+/** One source that writes to a destination. Shape only — never used to deserialize. */
+export interface SyncedSource {
+  /** The source's id. */
+  id: string;
+  /** How the source is labelled in the UI, prefix included. */
+  name: string;
+  /** Which connector this is, e.g. Stripe or Postgres. */
+  source_type: string;
+  /** True when only some of the source's tables reach this destination, through their own override. */
+  via_table_override: boolean;
+}
+export const SyncedSource = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    name: S.String,
+    source_type: S.String,
+    via_table_override: S.Boolean,
+  }),
+).annotate({ identifier: "SyncedSource" }) as any as S.Schema<SyncedSource>;
+
+/** Sources whose tables sync to this destination, so you can see what a change or a deletion would affect. Includes sources that reach it through a single table's override, and — for the PostHog warehouse — sources that write there by default because nothing else was configured. */
+export type ExternalDataDestinationSyncedSourcesList = Array<SyncedSource>;
+export const ExternalDataDestinationSyncedSourcesList = /*@__PURE__*/ S.Array(
+  SyncedSource,
+) as any as S.Schema<ExternalDataDestinationSyncedSourcesList>;
+
 export interface ExternalDataDestination {
   id: string;
   /** Where synced rows are written. The PostHog warehouse is managed for you, so you cannot create one here. * `PostHogWarehouse` - PostHog warehouse * `Redshift` - Redshift * `Snowflake` - Snowflake * `BigQuery` - BigQuery * `Postgres` - Postgres * `Databricks` - Databricks * `AzureBlob` - Azure Blob * `S3` - S3 */
@@ -64,6 +90,8 @@ export interface ExternalDataDestination {
   created_at: string;
   created_by: number | null;
   updated_at: string | null;
+  /** Sources whose tables sync to this destination, so you can see what a change or a deletion would affect. Includes sources that reach it through a single table's override, and — for the PostHog warehouse — sources that write there by default because nothing else was configured. */
+  synced_sources: ExternalDataDestinationSyncedSourcesList;
 }
 export const ExternalDataDestination = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -76,10 +104,9 @@ export const ExternalDataDestination = /*@__PURE__*/ S.suspend(() =>
     created_at: S.String,
     created_by: S.NullOr(S.Number),
     updated_at: S.NullOr(S.String),
+    synced_sources: ExternalDataDestinationSyncedSourcesList,
   }),
-).annotate({
-  identifier: "ExternalDataDestination",
-}) as any as S.Schema<ExternalDataDestination>;
+).annotate({ identifier: "ExternalDataDestination" }) as any as S.Schema<ExternalDataDestination>;
 
 export interface ExternalDataDestinationsDestroyRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */

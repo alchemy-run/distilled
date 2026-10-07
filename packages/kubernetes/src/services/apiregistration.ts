@@ -326,11 +326,7 @@ export const CreateApiregistrationV1APIServiceRequest = /*@__PURE__*/ S.suspend(
     spec: S.optional(IoK8sKubeAggregatorPkgApisApiregistrationV1APIServiceSpec),
     status: S.optional(IoK8sKubeAggregatorPkgApisApiregistrationV1APIServiceStatus),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/apis/apiregistration.k8s.io/v1/apiservices",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/apis/apiregistration.k8s.io/v1/apiservices", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateApiregistrationV1APIServiceRequest",
@@ -607,11 +603,7 @@ export const DeleteApiregistrationV1CollectionAPIServiceRequest = /*@__PURE__*/ 
     kind: S.optional(S.String),
     preconditions: S.optional(IoK8sApimachineryPkgApisMetaV1Preconditions),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/apis/apiregistration.k8s.io/v1/apiservices",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/apis/apiregistration.k8s.io/v1/apiservices", code: 200 }),
   ),
 ).annotate({
   identifier: "DeleteApiregistrationV1CollectionAPIServiceRequest",
@@ -703,13 +695,7 @@ export const IoK8sApimachineryPkgApisMetaV1APIGroup = /*@__PURE__*/ S.suspend(()
 
 export interface GetApiregistrationV1APIResourcesRequest {}
 export const GetApiregistrationV1APIResourcesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/apis/apiregistration.k8s.io/v1/",
-      code: 200,
-    }),
-  ),
+  S.Struct({}).pipe(T.Http({ method: "GET", uri: "/apis/apiregistration.k8s.io/v1/", code: 200 })),
 ).annotate({
   identifier: "GetApiregistrationV1APIResourcesRequest",
 }) as any as S.Schema<GetApiregistrationV1APIResourcesRequest>;
@@ -841,13 +827,7 @@ export const ListApiregistrationV1APIServiceRequest = /*@__PURE__*/ S.suspend(()
     shardSelector: S.optional(S.String.pipe(T.Query())),
     timeoutSeconds: S.optional(S.Number.pipe(T.Query())),
     watch: S.optional(S.Boolean.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/apis/apiregistration.k8s.io/v1/apiservices",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/apis/apiregistration.k8s.io/v1/apiservices", code: 200 })),
 ).annotate({
   identifier: "ListApiregistrationV1APIServiceRequest",
 }) as any as S.Schema<ListApiregistrationV1APIServiceRequest>;
@@ -960,11 +940,7 @@ export const ReadApiregistrationV1APIServiceRequest = /*@__PURE__*/ S.suspend(()
     name: S.String.pipe(T.Label()),
     pretty: S.optional(S.String.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/apis/apiregistration.k8s.io/v1/apiservices/{name}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/apis/apiregistration.k8s.io/v1/apiservices/{name}", code: 200 }),
   ),
 ).annotate({
   identifier: "ReadApiregistrationV1APIServiceRequest",
@@ -1026,11 +1002,7 @@ export const ReplaceApiregistrationV1APIServiceRequest = /*@__PURE__*/ S.suspend
     spec: S.optional(IoK8sKubeAggregatorPkgApisApiregistrationV1APIServiceSpec),
     status: S.optional(IoK8sKubeAggregatorPkgApisApiregistrationV1APIServiceStatus),
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/apis/apiregistration.k8s.io/v1/apiservices/{name}",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/apis/apiregistration.k8s.io/v1/apiservices/{name}", code: 200 }),
   ),
 ).annotate({
   identifier: "ReplaceApiregistrationV1APIServiceRequest",
@@ -1191,11 +1163,7 @@ export const WatchApiregistrationV1APIServiceListRequest = /*@__PURE__*/ S.suspe
     timeoutSeconds: S.optional(S.Number.pipe(T.Query())),
     watch: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/apis/apiregistration.k8s.io/v1/watch/apiservices",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/apis/apiregistration.k8s.io/v1/watch/apiservices", code: 200 }),
   ),
 ).annotate({
   identifier: "WatchApiregistrationV1APIServiceListRequest",

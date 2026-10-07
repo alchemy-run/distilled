@@ -47,7 +47,7 @@ export class NotFound
 
 /** The protective stance action. ACTION_DENY forces a 403 status response code. */
 export type Action = "ACTION_DENY" | "ACTION_PASS" | "ACTION_ALLOW";
-export const Action = /*@__PURE__*/ S.String;
+export const Action = S.String;
 
 export interface Behavior {
   action: Action | (string & {});
@@ -82,7 +82,7 @@ export type Operator =
   | "OPERATOR_VALIDATE_URL_ENCODING"
   | "OPERATOR_VALIDATE_UTF8_ENCODING"
   | "OPERATOR_WITHIN";
-export const Operator = /*@__PURE__*/ S.String;
+export const Operator = S.String;
 
 export interface ConditionOperator {
   type: Operator | (string & {});
@@ -94,9 +94,7 @@ export const ConditionOperator = /*@__PURE__*/ S.suspend(() =>
     type: Operator,
     value: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ConditionOperator",
-}) as any as S.Schema<ConditionOperator>;
+).annotate({ identifier: "ConditionOperator" }) as any as S.Schema<ConditionOperator>;
 
 export type Transformation =
   | "TRANSFORMATION_LENGTH"
@@ -105,7 +103,7 @@ export type Transformation =
   | "TRANSFORMATION_TRIM"
   | "TRANSFORMATION_UPPERCASE"
   | "TRANSFORMATION_UTF8_TO_UNICODE";
-export const Transformation = /*@__PURE__*/ S.String;
+export const Transformation = S.String;
 
 /** [HINT] Ordered processing adjustments applied to clean inputs before match checking. */
 export type ConditionTransformationsList = Array<Transformation | (string & {})>;
@@ -137,7 +135,7 @@ export type Variable =
   | "VARIABLE_RESPONSE_HEADERS_NAMES"
   | "VARIABLE_RESPONSE_PROTOCOL"
   | "VARIABLE_RESPONSE_STATUS";
-export const Variable = /*@__PURE__*/ S.String;
+export const Variable = S.String;
 
 export interface ConditionVariable {
   type: Variable | (string & {});
@@ -149,9 +147,7 @@ export const ConditionVariable = /*@__PURE__*/ S.suspend(() =>
     type: Variable,
     value: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ConditionVariable",
-}) as any as S.Schema<ConditionVariable>;
+).annotate({ identifier: "ConditionVariable" }) as any as S.Schema<ConditionVariable>;
 
 export interface Condition {
   operator: ConditionOperator;
@@ -186,9 +182,7 @@ export const CreateCustomRule = /*@__PURE__*/ S.suspend(() =>
     conditions: CreateCustomRuleConditionsList,
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CreateCustomRule",
-}) as any as S.Schema<CreateCustomRule>;
+).annotate({ identifier: "CreateCustomRule" }) as any as S.Schema<CreateCustomRule>;
 
 /** The collection of custom rule group SecLang parameters forming this execution group. */
 export type CreateCustomRuleGroupRequestRulesList = Array<CreateCustomRule>;
@@ -232,7 +226,7 @@ export type Severity =
   | "SEVERITY_NOTICE"
   | "SEVERITY_INFO"
   | "SEVERITY_DEBUG";
-export const Severity = /*@__PURE__*/ S.String;
+export const Severity = S.String;
 
 export interface GetBehavior {
   action: Action;
@@ -321,7 +315,7 @@ export const GetCustomRuleGroupResponse = /*@__PURE__*/ S.suspend(() =>
 
 /** Set the managed rule set type. */
 export type Type = "TYPE_OWASP_CRS";
-export const Type = /*@__PURE__*/ S.String;
+export const Type = S.String;
 
 export interface CreateManagedRuleSetRequest {
   projectId: string;
@@ -350,7 +344,7 @@ export const CreateManagedRuleSetRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** The current mode of the rule. */
 export type Mode = "MODE_ENABLED" | "MODE_DISABLED" | "MODE_LOG_ONLY";
-export const Mode = /*@__PURE__*/ S.String;
+export const Mode = S.String;
 
 /** Rule represents an individual security or validation rule. */
 export interface MRSRule {
@@ -391,9 +385,7 @@ export const MRSRuleGroup = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "MRSRuleGroup" }) as any as S.Schema<MRSRuleGroup>;
 
 /** Inventory of all available Managed Rule Set groups and their current configuration. The key is the unique Group ID. */
-export type GetManagedRuleSetResponseGroupsMap = {
-  [key: string]: MRSRuleGroup | undefined;
-};
+export type GetManagedRuleSetResponseGroupsMap = { [key: string]: MRSRuleGroup | undefined };
 export const GetManagedRuleSetResponseGroupsMap = /*@__PURE__*/ S.Record(
   S.String,
   MRSRuleGroup,
@@ -476,9 +468,7 @@ export const CreateWAFRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://alb-waf.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "CreateWAFRequest",
-}) as any as S.Schema<CreateWAFRequest>;
+).annotate({ identifier: "CreateWAFRequest" }) as any as S.Schema<CreateWAFRequest>;
 
 /** Labels represent user-defined metadata as key-value pairs. Label count should not exceed 64 per WAF. **Key Formatting Rules:** Length: 1-63 characters. Characters: Must begin and end with [a-zA-Z0-9]. May contain dashes (-), underscores (_), dots (.), and alphanumerics in between. Keys starting with 'stackit-' are system-reserved; users MUST NOT manage them. **Value Formatting Rules:** Length: 0-63 characters (empty string explicitly allowed). Characters (for non-empty values): Must begin and end with [a-zA-Z0-9]. May contain dashes (-), underscores (_), dots (.), and alphanumerics in between. */
 export type GetWAFResponseLabelsMap = { [key: string]: string | undefined };
@@ -623,16 +613,12 @@ export const DeleteWAFRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://alb-waf.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "DeleteWAFRequest",
-}) as any as S.Schema<DeleteWAFRequest>;
+).annotate({ identifier: "DeleteWAFRequest" }) as any as S.Schema<DeleteWAFRequest>;
 
 export type DeleteWAFResponse2 = unknown;
 export const DeleteWAFResponse2 = /*@__PURE__*/ S.suspend(() =>
   S.Unknown.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "DeleteWAFResponse2",
-}) as any as S.Schema<DeleteWAFResponse2>;
+).annotate({ identifier: "DeleteWAFResponse2" }) as any as S.Schema<DeleteWAFResponse2>;
 
 export interface GetCustomRuleGroupRequest {
   projectId: string;
@@ -674,9 +660,7 @@ export const GetManagedRuleSetRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://alb-waf.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "GetManagedRuleSetRequest",
-}) as any as S.Schema<GetManagedRuleSetRequest>;
+).annotate({ identifier: "GetManagedRuleSetRequest" }) as any as S.Schema<GetManagedRuleSetRequest>;
 
 export interface GetQuotaRequest {
   projectId: string;
@@ -694,9 +678,7 @@ export const GetQuotaRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://alb-waf.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "GetQuotaRequest",
-}) as any as S.Schema<GetQuotaRequest>;
+).annotate({ identifier: "GetQuotaRequest" }) as any as S.Schema<GetQuotaRequest>;
 
 /** CRG quotas holds the limit and usage for CRG resources */
 export interface CRGConfigQuota {
@@ -767,9 +749,7 @@ export const GetQuotaResponse = /*@__PURE__*/ S.suspend(() =>
     quotas: Quotas,
     region: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GetQuotaResponse",
-}) as any as S.Schema<GetQuotaResponse>;
+).annotate({ identifier: "GetQuotaResponse" }) as any as S.Schema<GetQuotaResponse>;
 
 export interface GetWAFRequest {
   projectId: string;
@@ -942,9 +922,7 @@ export const ListWAFResponse = /*@__PURE__*/ S.suspend(() =>
     items: S.optional(ListWAFResponseItemsList),
     nextPageId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListWAFResponse",
-}) as any as S.Schema<ListWAFResponse>;
+).annotate({ identifier: "ListWAFResponse" }) as any as S.Schema<ListWAFResponse>;
 
 export interface PatchMRSRule {
   mode?: Mode | (string & {});
@@ -955,9 +933,7 @@ export const PatchMRSRule = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "PatchMRSRule" }) as any as S.Schema<PatchMRSRule>;
 
-export type PatchMRSRuleGroupRulesMap = {
-  [key: string]: PatchMRSRule | undefined;
-};
+export type PatchMRSRuleGroupRulesMap = { [key: string]: PatchMRSRule | undefined };
 export const PatchMRSRuleGroupRulesMap = /*@__PURE__*/ S.Record(
   S.String,
   PatchMRSRule,
@@ -970,14 +946,10 @@ export const PatchMRSRuleGroup = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     rules: PatchMRSRuleGroupRulesMap,
   }),
-).annotate({
-  identifier: "PatchMRSRuleGroup",
-}) as any as S.Schema<PatchMRSRuleGroup>;
+).annotate({ identifier: "PatchMRSRuleGroup" }) as any as S.Schema<PatchMRSRuleGroup>;
 
 /** Map of Managed Rule Set groups to be patched. The key is the Group ID (e.g., 942 for SQL Injection). Only provided rules within the group will be updated; others remain unchanged. */
-export type PatchManagedRuleSetRequestGroupsMap = {
-  [key: string]: PatchMRSRuleGroup | undefined;
-};
+export type PatchManagedRuleSetRequestGroupsMap = { [key: string]: PatchMRSRuleGroup | undefined };
 export const PatchManagedRuleSetRequestGroupsMap = /*@__PURE__*/ S.Record(
   S.String,
   PatchMRSRuleGroup,
@@ -1073,9 +1045,7 @@ export const UpdateWAFRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://alb-waf.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "UpdateWAFRequest",
-}) as any as S.Schema<UpdateWAFRequest>;
+).annotate({ identifier: "UpdateWAFRequest" }) as any as S.Schema<UpdateWAFRequest>;
 
 export type CreateCustomRuleGroupError = BadRequest | Forbidden | StackitOpError;
 /** Create a CRG configuration Creates a structured rule configuration using the abstract CRG. It can be referenced by any number of WAF configurations in the same project. */

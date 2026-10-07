@@ -103,6 +103,28 @@ export const DeleteAccountsProductsRegionalInventoriesRequest = /*@__PURE__*/ S.
   identifier: "DeleteAccountsProductsRegionalInventoriesRequest",
 }) as any as S.Schema<DeleteAccountsProductsRegionalInventoriesRequest>;
 
+/** A message that represents custom attributes. Exactly one of `value` or `group_values` must not be empty. */
+export interface CustomAttribute {
+  /** Subattributes within this attribute group. If `group_values` is not empty, `value` must be empty. */
+  groupValues?: CustomAttributeList;
+  /** The name of the attribute. */
+  name?: string;
+  /** The value of the attribute. If `value` is not empty, `group_values` must be empty. */
+  value?: string;
+}
+export const CustomAttribute = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    groupValues: S.optional(S.suspend(() => CustomAttributeList)),
+    name: S.optional(S.String),
+    value: S.optional(S.String),
+  }),
+).annotate({ identifier: "CustomAttribute" }) as any as S.Schema<CustomAttribute>;
+
+export type CustomAttributeList = Array<CustomAttribute>;
+export const CustomAttributeList = /*@__PURE__*/ S.Array(
+  CustomAttribute,
+) as any as S.Schema<CustomAttributeList>;
+
 /** Represents a time interval, encoded as a Timestamp start (inclusive) and a Timestamp end (exclusive). The start must be less than or equal to the end. When the start equals the end, the interval is empty (matches no time). When both start and end are unspecified, the interval matches any time. */
 export interface Interval {
   /** Optional. Inclusive start of the interval. If specified, a Timestamp matching this interval will have to be the same or after the start. */
@@ -131,74 +153,50 @@ export const Price = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "Price" }) as any as S.Schema<Price>;
 
-/** A message that represents custom attributes. Exactly one of `value` or `group_values` must not be empty. */
-export interface CustomAttribute {
-  /** Subattributes within this attribute group. If `group_values` is not empty, `value` must be empty. */
-  groupValues?: CustomAttributeList;
-  /** The value of the attribute. If `value` is not empty, `group_values` must be empty. */
-  value?: string;
-  /** The name of the attribute. */
-  name?: string;
-}
-export const CustomAttribute = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    groupValues: S.optional(S.suspend(() => CustomAttributeList)),
-    value: S.optional(S.String),
-    name: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "CustomAttribute",
-}) as any as S.Schema<CustomAttribute>;
-
-export type CustomAttributeList = Array<CustomAttribute>;
-export const CustomAttributeList = /*@__PURE__*/ S.Array(
-  CustomAttribute,
-) as any as S.Schema<CustomAttributeList>;
-
 /** Local inventory information for the product. Represents in-store information for a specific product at the store specified by `storeCode`. For a list of all accepted attribute values, see the [local product inventory data specification](https://support.google.com/merchants/answer/3061342). */
 export interface LocalInventory {
-  /** Output only. The unpadded base64url encoded name of the `LocalInventory` resource. Format: `accounts/{account}/products/{product}/localInventories/{store_code}` where the `{product}` segment is the unpadded base64url encoded value of the identifier of the form `content_language~feed_label~offer_id`. Example: `accounts/123/products/ZW5-VVN-c2t1LzEyMw/localInventories/store123` for the decoded product ID `en~US~sku/123` and `store_code` "store123". Can be used directly as input to the API methods that require the local product identifier within the local inventory name to be encoded if it contains special characters, for example [`GetLocalInventory`](https://developers.google.com/merchant/api/reference/rest/inventories_v1beta/accounts.products.localInventories/get). */
-  base64EncodedName?: string;
-  /** Optional. The `TimePeriod` of the sale at this store. */
-  salePriceEffectiveDate?: Interval;
-  /** Optional. Price of the product at this store. */
-  price?: Price;
+  /** Output only. The account that owns the product. This field will be ignored if set by the client. */
+  account?: string;
+  /** Required. Immutable. Store code (the store ID from your Business Profile) of the physical store the product is sold in. See the [Local product inventory data specification](https://support.google.com/merchants/answer/3061342) for more information. */
+  storeCode?: string;
+  /** Quantity of the product available at this store. Must be greater than or equal to zero. */
+  quantity?: string;
+  /** Availability of the product at this store. For accepted attribute values, see the [local product inventory data specification](https://support.google.com/merchants/answer/3061342) */
+  availability?: string;
   /** A list of custom (merchant-provided) attributes. You can also use `CustomAttribute` to submit any attribute of the data specification in its generic form. */
   customAttributes?: CustomAttributeList;
   /** Relative time period from the order date for an order for this product, from this store, to be ready for pickup. Must be submitted with `pickupMethod`. For accepted attribute values, see the [local product inventory data specification](https://support.google.com/merchants/answer/3061342) */
   pickupSla?: string;
+  /** Optional. The `TimePeriod` of the sale at this store. */
+  salePriceEffectiveDate?: Interval;
+  /** Optional. Price of the product at this store. */
+  price?: Price;
+  /** Output only. The unpadded base64url encoded name of the `LocalInventory` resource. Format: `accounts/{account}/products/{product}/localInventories/{store_code}` where the `{product}` segment is the unpadded base64url encoded value of the identifier of the form `content_language~feed_label~offer_id`. Example: `accounts/123/products/ZW5-VVN-c2t1LzEyMw/localInventories/store123` for the decoded product ID `en~US~sku/123` and `store_code` "store123". Can be used directly as input to the API methods that require the local product identifier within the local inventory name to be encoded if it contains special characters, for example [`GetLocalInventory`](https://developers.google.com/merchant/api/reference/rest/inventories_v1beta/accounts.products.localInventories/get). */
+  base64EncodedName?: string;
   /** Location of the product inside the store. Maximum length is 20 bytes. */
   instoreProductLocation?: string;
+  /** Output only. The name of the `LocalInventory` resource. Format: `accounts/{account}/products/{product}/localInventories/{store_code}` The `{product}` segment is a unique identifier for the product. This identifier must be unique within a merchant account and generally follows the structure: `content_language~feed_label~offer_id`. Example: `en~US~sku123` For legacy local products, the structure is: `local~content_language~feed_label~offer_id`. Example: `local~en~US~sku123` The format of the `{product}` segment in the URL is automatically detected by the server, supporting two options: 1. **Encoded Format**: The `{product}` segment is an unpadded base64url encoded string (RFC 4648 Section 5). The decoded string must result in the `content_language~feed_label~offer_id` structure. This encoding MUST be used if any part of the product identifier (like `offer_id`) contains characters such as `/`, `%`, or `~`. * Example: To represent the product ID `en~US~sku/123` for `store_code` "store123", the `{product}` segment must be the base64url encoding of this string, which is `ZW5-VVN-c2t1LzEyMw`. The full resource name for the local inventory would be `accounts/123/products/ZW5-VVN-c2t1LzEyMw/localInventories/store123`. 2. **Plain Format**: The `{product}` segment is the tilde-separated string `content_language~feed_label~offer_id`. This format is suitable only when `content_language`, `feed_label`, and `offer_id` do not contain URL-problematic characters like `/`, `%`, or `~`. We recommend using the **Encoded Format** for all product IDs to ensure correct parsing, especially those containing special characters. The presence of tilde (`~`) characters in the `{product}` segment is used to differentiate between the two formats. */
+  name?: string;
   /** Supported pickup method for this product. Unless the value is `"not supported"`, this field must be submitted together with `pickupSla`. For accepted attribute values, see the [local product inventory data specification](https://support.google.com/merchants/answer/3061342) */
   pickupMethod?: string;
   /** Optional. Sale price of the product at this store. Mandatory if `salePriceEffectiveDate` is defined. */
   salePrice?: Price;
-  /** Output only. The account that owns the product. This field will be ignored if set by the client. */
-  account?: string;
-  /** Availability of the product at this store. For accepted attribute values, see the [local product inventory data specification](https://support.google.com/merchants/answer/3061342) */
-  availability?: string;
-  /** Output only. The name of the `LocalInventory` resource. Format: `accounts/{account}/products/{product}/localInventories/{store_code}` The `{product}` segment is a unique identifier for the product. This identifier must be unique within a merchant account and generally follows the structure: `content_language~feed_label~offer_id`. Example: `en~US~sku123` For legacy local products, the structure is: `local~content_language~feed_label~offer_id`. Example: `local~en~US~sku123` The format of the `{product}` segment in the URL is automatically detected by the server, supporting two options: 1. **Encoded Format**: The `{product}` segment is an unpadded base64url encoded string (RFC 4648 Section 5). The decoded string must result in the `content_language~feed_label~offer_id` structure. This encoding MUST be used if any part of the product identifier (like `offer_id`) contains characters such as `/`, `%`, or `~`. * Example: To represent the product ID `en~US~sku/123` for `store_code` "store123", the `{product}` segment must be the base64url encoding of this string, which is `ZW5-VVN-c2t1LzEyMw`. The full resource name for the local inventory would be `accounts/123/products/ZW5-VVN-c2t1LzEyMw/localInventories/store123`. 2. **Plain Format**: The `{product}` segment is the tilde-separated string `content_language~feed_label~offer_id`. This format is suitable only when `content_language`, `feed_label`, and `offer_id` do not contain URL-problematic characters like `/`, `%`, or `~`. We recommend using the **Encoded Format** for all product IDs to ensure correct parsing, especially those containing special characters. The presence of tilde (`~`) characters in the `{product}` segment is used to differentiate between the two formats. */
-  name?: string;
-  /** Quantity of the product available at this store. Must be greater than or equal to zero. */
-  quantity?: string;
-  /** Required. Immutable. Store code (the store ID from your Business Profile) of the physical store the product is sold in. See the [Local product inventory data specification](https://support.google.com/merchants/answer/3061342) for more information. */
-  storeCode?: string;
 }
 export const LocalInventory = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    base64EncodedName: S.optional(S.String),
-    salePriceEffectiveDate: S.optional(Interval),
-    price: S.optional(Price),
+    account: S.optional(S.String),
+    storeCode: S.optional(S.String),
+    quantity: S.optional(S.String),
+    availability: S.optional(S.String),
     customAttributes: S.optional(CustomAttributeList),
     pickupSla: S.optional(S.String),
+    salePriceEffectiveDate: S.optional(Interval),
+    price: S.optional(Price),
+    base64EncodedName: S.optional(S.String),
     instoreProductLocation: S.optional(S.String),
+    name: S.optional(S.String),
     pickupMethod: S.optional(S.String),
     salePrice: S.optional(Price),
-    account: S.optional(S.String),
-    availability: S.optional(S.String),
-    name: S.optional(S.String),
-    quantity: S.optional(S.String),
-    storeCode: S.optional(S.String),
   }),
 ).annotate({ identifier: "LocalInventory" }) as any as S.Schema<LocalInventory>;
 
@@ -225,40 +223,38 @@ export const InsertAccountsProductsLocalInventoriesRequest = /*@__PURE__*/ S.sus
 
 /** Regional inventory information for the product. Represents specific information like price and availability for a given product in a specific `region`. For a list of all accepted attribute values, see the [regional product inventory data specification](https://support.google.com/merchants/answer/9698880). */
 export interface RegionalInventory {
+  /** A list of custom (merchant-provided) attributes. You can also use `CustomAttribute` to submit any attribute of the data specification in its generic form. */
+  customAttributes?: CustomAttributeList;
   /** Output only. The account that owns the product. This field will be ignored if set by the client. */
   account?: string;
-  /** Availability of the product in this region. For accepted attribute values, see the [regional product inventory data specification](https://support.google.com/merchants/answer/14644124). */
-  availability?: string;
-  /** Output only. The name of the `RegionalInventory` resource. Format: `accounts/{account}/products/{product}/regionalInventories/{region}` The `{product}` segment is a unique identifier for the product. This identifier must be unique within a merchant account and generally follows the structure: `content_language~feed_label~offer_id`. Example: `en~US~sku123` For legacy local products, the structure is: `local~content_language~feed_label~offer_id`. Example: `local~en~US~sku123` The format of the `{product}` segment in the URL is automatically detected by the server, supporting two options: 1. **Encoded Format**: The `{product}` segment is an **unpadded base64url** encoded string (RFC 4648 Section 5). The decoded string must result in the `content_language~feed_label~offer_id` structure. This encoding MUST be used if any part of the product identifier (like `offer_id`) contains characters such as `/`, `%`, or `~`. * Example: To represent the product ID `en~US~sku/123` for `region` "region123", the `{product}` segment must be the unpadded base64url encoding of this string, which is `ZW5-VVN-c2t1LzEyMw`. The full resource name for the regional inventory would be `accounts/123/products/ZW5-VVN-c2t1LzEyMw/regionalInventories/region123`. 2. **Plain Format**: The `{product}` segment is the tilde-separated string `content_language~feed_label~offer_id`. This format is suitable only when `content_language`, `feed_label`, and `offer_id` do not contain URL-problematic characters like `/`, `%`, or `~`. We recommend using the **Encoded Format** for all product IDs to ensure correct parsing, especially those containing special characters. The presence of tilde (`~`) characters in the `{product}` segment is used to differentiate between the two formats. */
-  name?: string;
   /** Optional. Sale price of the product in this region. Mandatory if `salePriceEffectiveDate` is defined. */
   salePrice?: Price;
   /** Optional. Price of the product in this region. */
   price?: Price;
-  /** A list of custom (merchant-provided) attributes. You can also use `CustomAttribute` to submit any attribute of the data specification in its generic form. */
-  customAttributes?: CustomAttributeList;
-  /** Output only. The unpadded base64url encoded name of the `RegionalInventory` resource. Format: `accounts/{account}/products/{product}/regionalInventories/{region}` where the `{product}` segment is the unpadded base64url encoded value of the identifier of the form `content_language~feed_label~offer_id`. Example: `accounts/123/products/ZW5-VVN-c2t1LzEyMw/regionalInventories/region123` for the decoded product ID `en~US~sku/123` and `region` "region123". Can be used directly as input to the API methods that require the product identifier within the regional inventory name to be encoded if it contains special characters, for example [`GetRegionalInventory`](https://developers.google.com/merchant/api/reference/rest/inventories_v1beta/accounts.products.regionalInventories/get). */
-  base64EncodedName?: string;
   /** Required. Immutable. ID of the region for this `RegionalInventory` resource. See the [Regional availability and pricing](https://support.google.com/merchants/answer/9698880) for more details. */
   region?: string;
+  /** Availability of the product in this region. For accepted attribute values, see the [regional product inventory data specification](https://support.google.com/merchants/answer/14644124). */
+  availability?: string;
+  /** Output only. The unpadded base64url encoded name of the `RegionalInventory` resource. Format: `accounts/{account}/products/{product}/regionalInventories/{region}` where the `{product}` segment is the unpadded base64url encoded value of the identifier of the form `content_language~feed_label~offer_id`. Example: `accounts/123/products/ZW5-VVN-c2t1LzEyMw/regionalInventories/region123` for the decoded product ID `en~US~sku/123` and `region` "region123". Can be used directly as input to the API methods that require the product identifier within the regional inventory name to be encoded if it contains special characters, for example [`GetRegionalInventory`](https://developers.google.com/merchant/api/reference/rest/inventories_v1beta/accounts.products.regionalInventories/get). */
+  base64EncodedName?: string;
   /** Optional. The `TimePeriod` of the sale price in this region. */
   salePriceEffectiveDate?: Interval;
+  /** Output only. The name of the `RegionalInventory` resource. Format: `accounts/{account}/products/{product}/regionalInventories/{region}` The `{product}` segment is a unique identifier for the product. This identifier must be unique within a merchant account and generally follows the structure: `content_language~feed_label~offer_id`. Example: `en~US~sku123` For legacy local products, the structure is: `local~content_language~feed_label~offer_id`. Example: `local~en~US~sku123` The format of the `{product}` segment in the URL is automatically detected by the server, supporting two options: 1. **Encoded Format**: The `{product}` segment is an **unpadded base64url** encoded string (RFC 4648 Section 5). The decoded string must result in the `content_language~feed_label~offer_id` structure. This encoding MUST be used if any part of the product identifier (like `offer_id`) contains characters such as `/`, `%`, or `~`. * Example: To represent the product ID `en~US~sku/123` for `region` "region123", the `{product}` segment must be the unpadded base64url encoding of this string, which is `ZW5-VVN-c2t1LzEyMw`. The full resource name for the regional inventory would be `accounts/123/products/ZW5-VVN-c2t1LzEyMw/regionalInventories/region123`. 2. **Plain Format**: The `{product}` segment is the tilde-separated string `content_language~feed_label~offer_id`. This format is suitable only when `content_language`, `feed_label`, and `offer_id` do not contain URL-problematic characters like `/`, `%`, or `~`. We recommend using the **Encoded Format** for all product IDs to ensure correct parsing, especially those containing special characters. The presence of tilde (`~`) characters in the `{product}` segment is used to differentiate between the two formats. */
+  name?: string;
 }
 export const RegionalInventory = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    customAttributes: S.optional(CustomAttributeList),
     account: S.optional(S.String),
-    availability: S.optional(S.String),
-    name: S.optional(S.String),
     salePrice: S.optional(Price),
     price: S.optional(Price),
-    customAttributes: S.optional(CustomAttributeList),
-    base64EncodedName: S.optional(S.String),
     region: S.optional(S.String),
+    availability: S.optional(S.String),
+    base64EncodedName: S.optional(S.String),
     salePriceEffectiveDate: S.optional(Interval),
+    name: S.optional(S.String),
   }),
-).annotate({
-  identifier: "RegionalInventory",
-}) as any as S.Schema<RegionalInventory>;
+).annotate({ identifier: "RegionalInventory" }) as any as S.Schema<RegionalInventory>;
 
 export interface InsertAccountsProductsRegionalInventoriesRequest {
   /** Required. The account and product where this inventory will be inserted. Format: `accounts/{account}/products/{product}` The `{product}` segment is a unique identifier for the product. This identifier must be unique within a merchant account and generally follows the structure: `content_language~feed_label~offer_id`. Example: `en~US~sku123` For legacy local products, the structure is: `local~content_language~feed_label~offer_id`. Example: `local~en~US~sku123` The format of the `{product}` segment in the URL is automatically detected by the server, supporting two options: 1. **Encoded Format**: The `{product}` segment is an **unpadded base64url** encoded string (RFC 4648 Section 5). The decoded string must result in the `content_language~feed_label~offer_id` structure. This encoding MUST be used if any part of the product identifier (like `offer_id`) contains characters such as `/`, `%`, or `~`. * Example: To represent the product ID `en~US~sku/123`, the `{product}` segment must be the unpadded base64url encoding of this string, which is `ZW5-VVN-c2t1LzEyMw`. The full resource name for the product would be `accounts/123/products/ZW5-VVN-c2t1LzEyMw`. 2. **Plain Format**: The `{product}` segment is the tilde-separated string `content_language~feed_label~offer_id`. This format is suitable only when `content_language`, `feed_label`, and `offer_id` do not contain URL-problematic characters like `/`, `%`, or `~`. We recommend using the **Encoded Format** for all product IDs to ensure correct parsing, especially those containing special characters. The presence of tilde (`~`) characters in the `{product}` segment is used to differentiate between the two formats. */
@@ -282,18 +278,18 @@ export const InsertAccountsProductsRegionalInventoriesRequest = /*@__PURE__*/ S.
 }) as any as S.Schema<InsertAccountsProductsRegionalInventoriesRequest>;
 
 export interface ListAccountsProductsLocalInventoriesRequest {
+  /** Required. The `name` of the parent product to list local inventories for. Format: `accounts/{account}/products/{product}` The `{product}` segment is a unique identifier for the product. This identifier must be unique within a merchant account and generally follows the structure: `content_language~feed_label~offer_id`. Example: `en~US~sku123` For legacy local products, the structure is: `local~content_language~feed_label~offer_id`. Example: `local~en~US~sku123` The format of the `{product}` segment in the URL is automatically detected by the server, supporting two options: 1. **Encoded Format**: The `{product}` segment is an unpadded base64url encoded string (RFC 4648 Section 5). The decoded string must result in the `content_language~feed_label~offer_id` structure. This encoding MUST be used if any part of the product identifier (like `offer_id`) contains characters such as `/`, `%`, or `~`. * Example: To represent the product ID `en~US~sku/123`, the `{product}` segment must be the unpadded base64url encoding of this string, which is `ZW5-VVN-c2t1LzEyMw`. The full resource name for the product would be `accounts/123/products/ZW5-VVN-c2t1LzEyMw`. 2. **Plain Format**: The `{product}` segment is the tilde-separated string `content_language~feed_label~offer_id`. This format is suitable only when `content_language`, `feed_label`, and `offer_id` do not contain URL-problematic characters like `/`, `%`, or `~`. We recommend using the **Encoded Format** for all product IDs to ensure correct parsing, especially those containing special characters. The presence of tilde (`~`) characters in the `{product}` segment is used to differentiate between the two formats. */
+  parent: string;
   /** The maximum number of `LocalInventory` resources for the given product to return. The service returns fewer than this value if the number of inventories for the given product is less that than the `pageSize`. The default value is 25000. The maximum value is 25000; If a value higher than the maximum is specified, then the `pageSize` will default to the maximum */
   pageSize?: number;
   /** A page token, received from a previous `ListLocalInventories` call. Provide the page token to retrieve the subsequent page. When paginating, all other parameters provided to `ListLocalInventories` must match the call that provided the page token. The token returned as nextPageToken in the response to the previous request. */
   pageToken?: string;
-  /** Required. The `name` of the parent product to list local inventories for. Format: `accounts/{account}/products/{product}` The `{product}` segment is a unique identifier for the product. This identifier must be unique within a merchant account and generally follows the structure: `content_language~feed_label~offer_id`. Example: `en~US~sku123` For legacy local products, the structure is: `local~content_language~feed_label~offer_id`. Example: `local~en~US~sku123` The format of the `{product}` segment in the URL is automatically detected by the server, supporting two options: 1. **Encoded Format**: The `{product}` segment is an unpadded base64url encoded string (RFC 4648 Section 5). The decoded string must result in the `content_language~feed_label~offer_id` structure. This encoding MUST be used if any part of the product identifier (like `offer_id`) contains characters such as `/`, `%`, or `~`. * Example: To represent the product ID `en~US~sku/123`, the `{product}` segment must be the unpadded base64url encoding of this string, which is `ZW5-VVN-c2t1LzEyMw`. The full resource name for the product would be `accounts/123/products/ZW5-VVN-c2t1LzEyMw`. 2. **Plain Format**: The `{product}` segment is the tilde-separated string `content_language~feed_label~offer_id`. This format is suitable only when `content_language`, `feed_label`, and `offer_id` do not contain URL-problematic characters like `/`, `%`, or `~`. We recommend using the **Encoded Format** for all product IDs to ensure correct parsing, especially those containing special characters. The presence of tilde (`~`) characters in the `{product}` segment is used to differentiate between the two formats. */
-  parent: string;
 }
 export const ListAccountsProductsLocalInventoriesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    parent: S.String.pipe(T.Label()),
     pageSize: S.optional(S.Number.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
-    parent: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -327,18 +323,18 @@ export const ListLocalInventoriesResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListLocalInventoriesResponse>;
 
 export interface ListAccountsProductsRegionalInventoriesRequest {
-  /** Required. The `name` of the parent product to list `RegionalInventory` resources for. Format: `accounts/{account}/products/{product}` The `{product}` segment is a unique identifier for the product. This identifier must be unique within a merchant account and generally follows the structure: `content_language~feed_label~offer_id`. Example: `en~US~sku123` For legacy local products, the structure is: `local~content_language~feed_label~offer_id`. Example: `local~en~US~sku123` The format of the `{product}` segment in the URL is automatically detected by the server, supporting two options: 1. **Encoded Format**: The `{product}` segment is an **unpadded base64url** encoded string (RFC 4648 Section 5). The decoded string must result in the `content_language~feed_label~offer_id` structure. This encoding MUST be used if any part of the product identifier (like `offer_id`) contains characters such as `/`, `%`, or `~`. * Example: To represent the product ID `en~US~sku/123`, the `{product}` segment must be the unpadded base64url encoding of this string, which is `ZW5-VVN-c2t1LzEyMw`. The full resource name for the product would be `accounts/123/products/ZW5-VVN-c2t1LzEyMw`. 2. **Plain Format**: The `{product}` segment is the tilde-separated string `content_language~feed_label~offer_id`. This format is suitable only when `content_language`, `feed_label`, and `offer_id` do not contain URL-problematic characters like `/`, `%`, or `~`. We recommend using the **Encoded Format** for all product IDs to ensure correct parsing, especially those containing special characters. The presence of tilde (`~`) characters in the `{product}` segment is used to differentiate between the two formats. */
-  parent: string;
-  /** A page token, received from a previous `ListRegionalInventories` call. Provide the page token to retrieve the subsequent page. When paginating, all other parameters provided to `ListRegionalInventories` must match the call that provided the page token. The token returned as nextPageToken in the response to the previous request. */
-  pageToken?: string;
   /** The maximum number of `RegionalInventory` resources for the given product to return. The service returns fewer than this value if the number of inventories for the given product is less that than the `pageSize`. The default value is 25000. The maximum value is 100000; If a value higher than the maximum is specified, then the `pageSize` will default to the maximum. */
   pageSize?: number;
+  /** A page token, received from a previous `ListRegionalInventories` call. Provide the page token to retrieve the subsequent page. When paginating, all other parameters provided to `ListRegionalInventories` must match the call that provided the page token. The token returned as nextPageToken in the response to the previous request. */
+  pageToken?: string;
+  /** Required. The `name` of the parent product to list `RegionalInventory` resources for. Format: `accounts/{account}/products/{product}` The `{product}` segment is a unique identifier for the product. This identifier must be unique within a merchant account and generally follows the structure: `content_language~feed_label~offer_id`. Example: `en~US~sku123` For legacy local products, the structure is: `local~content_language~feed_label~offer_id`. Example: `local~en~US~sku123` The format of the `{product}` segment in the URL is automatically detected by the server, supporting two options: 1. **Encoded Format**: The `{product}` segment is an **unpadded base64url** encoded string (RFC 4648 Section 5). The decoded string must result in the `content_language~feed_label~offer_id` structure. This encoding MUST be used if any part of the product identifier (like `offer_id`) contains characters such as `/`, `%`, or `~`. * Example: To represent the product ID `en~US~sku/123`, the `{product}` segment must be the unpadded base64url encoding of this string, which is `ZW5-VVN-c2t1LzEyMw`. The full resource name for the product would be `accounts/123/products/ZW5-VVN-c2t1LzEyMw`. 2. **Plain Format**: The `{product}` segment is the tilde-separated string `content_language~feed_label~offer_id`. This format is suitable only when `content_language`, `feed_label`, and `offer_id` do not contain URL-problematic characters like `/`, `%`, or `~`. We recommend using the **Encoded Format** for all product IDs to ensure correct parsing, especially those containing special characters. The presence of tilde (`~`) characters in the `{product}` segment is used to differentiate between the two formats. */
+  parent: string;
 }
 export const ListAccountsProductsRegionalInventoriesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    parent: S.String.pipe(T.Label()),
-    pageToken: S.optional(S.String.pipe(T.Query())),
     pageSize: S.optional(S.Number.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -357,15 +353,15 @@ export const RegionalInventoryList = /*@__PURE__*/ S.Array(
 
 /** Response message for the `ListRegionalInventories` method. */
 export interface ListRegionalInventoriesResponse {
-  /** The `RegionalInventory` resources for the given product from the specified account. */
-  regionalInventories?: RegionalInventoryList;
   /** A token, which can be sent as `pageToken` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
   nextPageToken?: string;
+  /** The `RegionalInventory` resources for the given product from the specified account. */
+  regionalInventories?: RegionalInventoryList;
 }
 export const ListRegionalInventoriesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    regionalInventories: S.optional(RegionalInventoryList),
     nextPageToken: S.optional(S.String),
+    regionalInventories: S.optional(RegionalInventoryList),
   }),
 ).annotate({
   identifier: "ListRegionalInventoriesResponse",
@@ -465,10 +461,7 @@ export const listAccountsProductsLocalInventories: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListAccountsProductsRegionalInventoriesError = NotFound | Forbidden | GcpOpError;
@@ -485,8 +478,5 @@ export const listAccountsProductsRegionalInventories: API.PaginatedOperationMeth
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;

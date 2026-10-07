@@ -988,7 +988,7 @@
           "uri": "/v1.information-request.comment.created",
           "code": 200
         },
-        "smithy.api#documentation": "Information request comment created\n\nFires when a comment is created on an information request. Fires once per comment.\n\nThe payload contains only identifiers; fetch the comment body from the information request comments endpoint (`GET /v1/audits/{auditId}/information-requests/{requestId}/comments`)."
+        "smithy.api#documentation": "Information request comment created\n\nFires when a comment is created on an information request. Fires once per comment. Fetch the comment body with `GET /v1/audits/{auditId}/information-requests/{requestId}/comments/{commentId}`. The information request may be deleted between this event and your fetch. If the fetch returns a 4xx HTTP error, check the request's `deletionDate` in the information-request list. If set, treat the request and all its comments and evidence as deleted in your system."
       }
     },
     "com.vanta.webhooks#V1InformationRequestCommentUpdatedRequestInformationRequest": {
@@ -1058,7 +1058,7 @@
           "uri": "/v1.information-request.comment.updated",
           "code": 200
         },
-        "smithy.api#documentation": "Information request comment updated\n\nFires when a comment on an information request is updated. Fires once per comment update.\n\nThe payload contains only identifiers; fetch the current comment body from the information request comments endpoint (`GET /v1/audits/{auditId}/information-requests/{requestId}/comments`)."
+        "smithy.api#documentation": "Information request comment updated\n\nFires when a comment on an information request is updated. Fires once per comment update. Fetch the comment body with `GET /v1/audits/{auditId}/information-requests/{requestId}/comments/{commentId}`. The information request may be deleted between this event and your fetch. If the fetch returns a 4xx HTTP error, check the request's `deletionDate` in the information-request list. If set, treat the request and all its comments and evidence as deleted in your system."
       }
     },
     "com.vanta.webhooks#V1InformationRequestCommentDeletedRequestInformationRequest": {
@@ -1128,7 +1128,7 @@
           "uri": "/v1.information-request.comment.deleted",
           "code": 200
         },
-        "smithy.api#documentation": "Information request comment deleted\n\nFires when a comment is deleted from an information request. Fires once per comment deletion.\n\nThe payload contains only identifiers; the deleted comment is still returned by the information request comments endpoint (`GET /v1/audits/{auditId}/information-requests/{requestId}/comments`) as a soft-deleted record with a non-null `deletionDate`."
+        "smithy.api#documentation": "Information request comment deleted\n\nFires once when a comment is deleted from an information request. Remove the comment from your system using the IDs in this event."
       }
     },
     "com.vanta.webhooks#V1InformationRequestEvidenceCreatedRequestInformationRequest": {
@@ -1421,7 +1421,7 @@
           "uri": "/v1.evidence.status-changed",
           "code": 200
         },
-        "smithy.api#documentation": "Evidence status changed\n\nFires when an existing audit evidence item changes status. `oldStatus` and `newStatus` always describe a transition of an item that already exists. See [`v1.evidence.created`](/reference/webhooks/v1-evidence-created) for the event that fires when an item first comes into scope for an audit.\n\n**Ready-to-review signal:** a `newStatus` of `READY_FOR_AUDIT` means the customer has provided evidence for the item and it is ready for the auditor to review.\n\n**When it fires:** once per evidence item, each time its status changes. Status can also change on its own as the customer's compliance posture changes, so an item may move from `READY_FOR_AUDIT` back to `NOT_READY_FOR_AUDIT` without an explicit auditor action.\n\n`oldStatus` and `newStatus` can be equal. A newly detected document re-fires this event with both fields set to the item's current status (for example, `READY_FOR_AUDIT`, `ACCEPTED`, or `FLAGGED`). Treat that as a signal that the item's files may have changed and re-fetch its URLs. Do not discard events where the status is unchanged.\n\n**Status values:**\n- `NOT_READY_FOR_AUDIT` — the item is not yet ready for the auditor; required evidence is missing or does not meet the requirement.\n- `READY_FOR_AUDIT` — the customer has provided the evidence and it is ready for the auditor to review.\n- `ACCEPTED` — the auditor reviewed the item and accepted it.\n- `FLAGGED` — the auditor reviewed the item and flagged an issue for the customer to address; once the customer addresses it the item returns to `READY_FOR_AUDIT`.\n- `NA` — the item is not applicable to this audit.\n\nA typical lifecycle is `NOT_READY_FOR_AUDIT → READY_FOR_AUDIT → ACCEPTED` (or `→ FLAGGED`, which returns to `READY_FOR_AUDIT` once the customer addresses the issue). `INITIALIZED` is an internal status and is never delivered — `oldStatus` and `newStatus` are always one of the values above."
+        "smithy.api#documentation": "Evidence status changed\n\nFires when an existing audit evidence item changes status. `oldStatus` and `newStatus` always describe a transition of an item that already exists. See [`v1.evidence.created`](/api-reference/evidence/evidence-created) for the event that fires when an item first comes into scope for an audit.\n\n**Ready-to-review signal:** a `newStatus` of `READY_FOR_AUDIT` means the customer has provided evidence for the item and it is ready for the auditor to review.\n\n**When it fires:** once per evidence item, each time its status changes. Status can also change on its own as the customer's compliance posture changes, so an item may move from `READY_FOR_AUDIT` back to `NOT_READY_FOR_AUDIT` without an explicit auditor action.\n\n`oldStatus` and `newStatus` can be equal. A newly detected document re-fires this event with both fields set to the item's current status (for example, `READY_FOR_AUDIT`, `ACCEPTED`, or `FLAGGED`). Treat that as a signal that the item's files may have changed and re-fetch its URLs. Do not discard events where the status is unchanged.\n\n**Status values:**\n- `NOT_READY_FOR_AUDIT` — the item is not yet ready for the auditor; required evidence is missing or does not meet the requirement.\n- `READY_FOR_AUDIT` — the customer has provided the evidence and it is ready for the auditor to review.\n- `ACCEPTED` — the auditor reviewed the item and accepted it.\n- `FLAGGED` — the auditor reviewed the item and flagged an issue for the customer to address; once the customer addresses it the item returns to `READY_FOR_AUDIT`.\n- `NA` — the item is not applicable to this audit.\n\nA typical lifecycle is `NOT_READY_FOR_AUDIT → READY_FOR_AUDIT → ACCEPTED` (or `→ FLAGGED`, which returns to `READY_FOR_AUDIT` once the customer addresses the issue). `INITIALIZED` is an internal status and is never delivered — `oldStatus` and `newStatus` are always one of the values above."
       }
     },
     "com.vanta.webhooks#V1EvidenceCommentCreatedRequestEvidence": {
@@ -1685,7 +1685,7 @@
           "uri": "/v1.evidence.created",
           "code": 200
         },
-        "smithy.api#documentation": "Evidence created\n\nFires when an audit evidence item comes into scope for an audit, including when a previously removed item re-enters scope after soft-delete.\n\nEvidence items are derived from the customer's compliance program, so this event means \"a new item is now in scope for this audit\", not \"a customer uploaded a file\". A brand-new item starts in `NOT_READY_FOR_AUDIT` with no files; wait for [`v1.evidence.status-changed`](/reference/webhooks/v1-evidence-status-changed) before requesting URLs. A re-scoped item retains its previous status and files. It may already be in `READY_FOR_AUDIT` or another state, and no follow-up status-change event is guaranteed.\n\n**This event does not replace the initial sync.** Items can come into scope from the moment the audit exists, which is normally before your access to the audit begins, and events from before that point are not delivered or replayed. Always perform a full traversal of `GET /audits/{auditId}/evidence` when you first pick up an audit, then rely on this event for items that come into scope afterwards."
+        "smithy.api#documentation": "Evidence created\n\nFires when an audit evidence item comes into scope for an audit, including when a previously removed item re-enters scope after soft-delete.\n\nEvidence items are derived from the customer's compliance program, so this event means \"a new item is now in scope for this audit\", not \"a customer uploaded a file\". A brand-new item starts in `NOT_READY_FOR_AUDIT` with no files; wait for [`v1.evidence.status-changed`](/api-reference/evidence/evidence-status-changed) before requesting URLs. A re-scoped item retains its previous status and files. It may already be in `READY_FOR_AUDIT` or another state, and no follow-up status-change event is guaranteed.\n\n**This event does not replace the initial sync.** Items can come into scope from the moment the audit exists, which is normally before your access to the audit begins, and events from before that point are not delivered or replayed. Always perform a full traversal of `GET /audits/{auditId}/evidence` when you first pick up an audit, then rely on this event for items that come into scope afterwards."
       }
     },
     "com.vanta.webhooks#V1EvidenceDeletedRequestEvidence": {
@@ -1739,7 +1739,7 @@
           "uri": "/v1.evidence.deleted",
           "code": 200
         },
-        "smithy.api#documentation": "Evidence deleted\n\nFires when an audit evidence item leaves scope for an audit. Fires once per item.\n\nThe item is soft-deleted rather than removed: `GET /audits/{auditId}/evidence` still returns it, with a non-null `deletionDate`. Stop requesting URLs for the item. If the item later returns to scope, Vanta emits a fresh [`v1.evidence.created`](/reference/webhooks/v1-evidence-created) event and clears `deletionDate`."
+        "smithy.api#documentation": "Evidence deleted\n\nFires when an audit evidence item leaves scope for an audit. Fires once per item.\n\nThe item is soft-deleted rather than removed: `GET /audits/{auditId}/evidence` still returns it, with a non-null `deletionDate`. Stop requesting URLs for the item. If the item later returns to scope, Vanta emits a fresh [`v1.evidence.created`](/api-reference/evidence/evidence-created) event and clears `deletionDate`."
       }
     },
     "com.vanta.webhooks#V1ControlCommentCreatedRequestControl": {

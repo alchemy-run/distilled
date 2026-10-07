@@ -35,6 +35,15 @@ export class Forbidden
     [{ status: 403 }],
   ) {}
 
+export class NotFound
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
+      code: S.Number,
+      message: S.String,
+    }).pipe(C.withBadRequestError),
+    [{ status: 404 }],
+  ) {}
+
 /** * `metric` - Metric * `match` - Match */
 export type VisionAlertKindEnum = "metric" | "match";
 export const VisionAlertKindEnum = S.String;
@@ -68,9 +77,7 @@ export const VisionAlertSelection = /*@__PURE__*/ S.suspend(() =>
     min_score: S.optional(S.Number),
     max_score: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "VisionAlertSelection",
-}) as any as S.Schema<VisionAlertSelection>;
+).annotate({ identifier: "VisionAlertSelection" }) as any as S.Schema<VisionAlertSelection>;
 
 /** * `count` - Count matching observations * `avg_score` - Average score */
 export type VisionAlertMetricEnum = "count" | "avg_score";
@@ -109,9 +116,7 @@ export const AlertScheduleRestriction = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     blocked_windows: S.optional(AlertScheduleRestrictionBlockedWindowsList),
   }),
-).annotate({
-  identifier: "AlertScheduleRestriction",
-}) as any as S.Schema<AlertScheduleRestriction>;
+).annotate({ identifier: "AlertScheduleRestriction" }) as any as S.Schema<AlertScheduleRestriction>;
 
 export interface CreateVisionAlertRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -165,16 +170,8 @@ export const CreateVisionAlertRequest = /*@__PURE__*/ S.suspend(() =>
     cooldown_minutes: S.optional(S.Number),
     schedule_restriction: S.optional(S.NullOr(AlertScheduleRestriction)),
     snooze_until: S.optional(S.NullOr(S.String)),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/projects/{project_id}/vision/alerts/",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "CreateVisionAlertRequest",
-}) as any as S.Schema<CreateVisionAlertRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/api/projects/{project_id}/vision/alerts/", code: 200 })),
+).annotate({ identifier: "CreateVisionAlertRequest" }) as any as S.Schema<CreateVisionAlertRequest>;
 
 /** * `not_firing` - Not firing * `firing` - Firing * `pending_resolve` - Pending resolve * `errored` - Errored * `snoozed` - Snoozed * `broken` - Broken */
 export type LogsAlertConfigurationStateEnum =
@@ -284,7 +281,8 @@ export interface VisionAlertConfiguration {
   first_enabled_at: string | null;
   /** When the alert was created. */
   created_at: string;
-  created_by: UserBasic;
+  /** User who created the alert; null once that user is deleted. */
+  created_by: UserBasic | null;
   /** When the alert was last modified. */
   updated_at: string | null;
 }
@@ -313,16 +311,14 @@ export const VisionAlertConfiguration = /*@__PURE__*/ S.suspend(() =>
     consecutive_failures: S.Number,
     first_enabled_at: S.NullOr(S.String),
     created_at: S.String,
-    created_by: UserBasic,
+    created_by: S.NullOr(UserBasic),
     updated_at: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "VisionAlertConfiguration",
-}) as any as S.Schema<VisionAlertConfiguration>;
+).annotate({ identifier: "VisionAlertConfiguration" }) as any as S.Schema<VisionAlertConfiguration>;
 
 /** * `slack` - slack * `webhook` - webhook */
-export type VisionAlertCreateDestinationTypeEnum = "slack" | "webhook";
-export const VisionAlertCreateDestinationTypeEnum = S.String;
+export type VisionAlertDestinationTypeEnum = "slack" | "webhook";
+export const VisionAlertDestinationTypeEnum = S.String;
 
 export interface CreateVisionAlertsDestinationRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -330,7 +326,7 @@ export interface CreateVisionAlertsDestinationRequest {
   /** A UUID string identifying this vision alert configuration. */
   id: string;
   /** Notification destination type. * `slack` - slack * `webhook` - webhook */
-  type: VisionAlertCreateDestinationTypeEnum | (string & {});
+  type: VisionAlertDestinationTypeEnum | (string & {});
   /** Integration ID for the Slack workspace. Required when type=slack. */
   slack_workspace_id?: number;
   /** Slack channel ID. Required when type=slack. */
@@ -344,7 +340,7 @@ export const CreateVisionAlertsDestinationRequest = /*@__PURE__*/ S.suspend(() =
   S.Struct({
     project_id: S.String.pipe(T.Label()),
     id: S.String.pipe(T.Label()),
-    type: VisionAlertCreateDestinationTypeEnum,
+    type: VisionAlertDestinationTypeEnum,
     slack_workspace_id: S.optional(S.Number),
     slack_channel_id: S.optional(S.String),
     slack_channel_name: S.optional(S.String),
@@ -417,9 +413,35 @@ export const ReplayObservationLabel = /*@__PURE__*/ S.suspend(() =>
     is_correct: S.Boolean,
     feedback: S.optional(S.String),
   }),
+).annotate({ identifier: "ReplayObservationLabel" }) as any as S.Schema<ReplayObservationLabel>;
+
+export interface CreateVisionObservationsViewedRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** A UUID string identifying this replay observation. */
+  id: string;
+}
+export const CreateVisionObservationsViewedRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    project_id: S.String.pipe(T.Label()),
+    id: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/api/projects/{project_id}/vision/observations/{id}/viewed/",
+      code: 200,
+    }),
+  ),
 ).annotate({
-  identifier: "ReplayObservationLabel",
-}) as any as S.Schema<ReplayObservationLabel>;
+  identifier: "CreateVisionObservationsViewedRequest",
+}) as any as S.Schema<CreateVisionObservationsViewedRequest>;
+
+export interface CreateVisionObservationsViewedResponse {}
+export const CreateVisionObservationsViewedResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "CreateVisionObservationsViewedResponse",
+}) as any as S.Schema<CreateVisionObservationsViewedResponse>;
 
 /** Organizational tags for this scanner. Distinct from a classifier's categories in scanner_config. Tags cannot contain commas. */
 export type CreateVisionScannerRequestTagsList = Array<string>;
@@ -427,9 +449,13 @@ export const CreateVisionScannerRequestTagsList = /*@__PURE__*/ S.Array(
   S.String,
 ) as any as S.Schema<CreateVisionScannerRequestTagsList>;
 
-/** * `monitor` - Monitor * `classifier` - Classifier * `scorer` - Scorer * `summarizer` - Summarizer */
-export type ScannerTypeEnum = "monitor" | "classifier" | "scorer" | "summarizer";
+/** * `monitor` - Monitor * `classifier` - Classifier * `scorer` - Scorer * `summarizer` - Summarizer * `experiment` - Experiment */
+export type ScannerTypeEnum = "monitor" | "classifier" | "scorer" | "summarizer" | "experiment";
 export const ScannerTypeEnum = S.String;
+
+/** * `ai` - AI draft * `template` - Template * `scratch` - From scratch */
+export type ScannerCreationMethodEnum = "ai" | "template" | "scratch";
+export const ScannerCreationMethodEnum = S.String;
 
 /** * `focused` - Focused * `balanced` - Balanced * `comprehensive` - Comprehensive */
 export type SamplingModeEnum = "focused" | "balanced" | "comprehensive";
@@ -471,8 +497,12 @@ export interface CreateVisionScannerRequest {
   description?: string;
   /** Organizational tags for this scanner. Distinct from a classifier's categories in scanner_config. Tags cannot contain commas. */
   tags?: CreateVisionScannerRequestTagsList;
-  /** What the scanner does: monitor, classifier, scorer, or summarizer. * `monitor` - Monitor * `classifier` - Classifier * `scorer` - Scorer * `summarizer` - Summarizer */
+  /** What the scanner does: monitor, classifier, scorer, or summarizer. * `monitor` - Monitor * `classifier` - Classifier * `scorer` - Scorer * `summarizer` - Summarizer * `experiment` - Experiment */
   scanner_type: ScannerTypeEnum | (string & {});
+  /** The goal an AI draft was built from, in the creator's own words, so the scanner keeps what it was meant to find. Set on create only and ignored on update. */
+  goal?: string | null;
+  /** How the creator built this scanner: from an AI draft, from a template, or from scratch. Reported to product analytics at creation and not stored on the scanner. Independent of any experiment the creator is in, since a person offered the AI flow can still fill the form by hand. Only the app can answer this, so a request from anywhere else reports the calling surface instead of whatever it sends here. Ignored on update. * `ai` - AI draft * `template` - Template * `scratch` - From scratch */
+  creation_method?: ScannerCreationMethodEnum | (string & {}) | null;
   /** Type-specific configuration. All scanner types require `prompt`; monitors add optional `allow_inconclusive`, classifiers add `tags`, scorers add `scale`, summarizers add optional `length`. */
   scanner_config: unknown;
   /** Persisted `RecordingsQuery` shape used to pick candidate sessions. `date_from`/`date_to` are stripped on save — the schedule controls time, not the user. */
@@ -501,6 +531,8 @@ export const CreateVisionScannerRequest = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(S.String),
     tags: S.optional(CreateVisionScannerRequestTagsList),
     scanner_type: ScannerTypeEnum,
+    goal: S.optional(S.NullOr(S.String)),
+    creation_method: S.optional(S.NullOr(ScannerCreationMethodEnum)),
     scanner_config: S.Unknown,
     query: S.optional(S.Unknown),
     sampling_rate: S.optional(S.Number),
@@ -512,103 +544,35 @@ export const CreateVisionScannerRequest = /*@__PURE__*/ S.suspend(() =>
     emits_signals: S.optional(S.Boolean),
     experiment_targeting: S.optional(S.NullOr(ScannerExperimentTargeting)),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/projects/{project_id}/vision/scanners/",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/api/projects/{project_id}/vision/scanners/", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateVisionScannerRequest",
 }) as any as S.Schema<CreateVisionScannerRequest>;
 
 /** Organizational tags for this scanner. Distinct from a classifier's categories in scanner_config. Tags cannot contain commas. */
-export type ReplayScannerTagsList = Array<string>;
-export const ReplayScannerTagsList = /*@__PURE__*/ S.Array(
+export type ReplayScannerOutputTagsList = Array<string>;
+export const ReplayScannerOutputTagsList = /*@__PURE__*/ S.Array(
   S.String,
-) as any as S.Schema<ReplayScannerTagsList>;
-
-/** Up to two short representative quotes from the feedback comments. */
-export type FeedbackThemeExamplesList = Array<string>;
-export const FeedbackThemeExamplesList = /*@__PURE__*/ S.Array(
-  S.String,
-) as any as S.Schema<FeedbackThemeExamplesList>;
-
-export interface FeedbackThemeSession {
-  /** Observation whose feedback comment backs this theme. */
-  observation_id: string;
-  /** Session recording the feedback comment was about. */
-  session_id: string;
-}
-export const FeedbackThemeSession = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    observation_id: S.String,
-    session_id: S.String,
-  }),
-).annotate({
-  identifier: "FeedbackThemeSession",
-}) as any as S.Schema<FeedbackThemeSession>;
-
-/** The rated sessions whose feedback comments back this theme. Empty for summaries generated before session tracking. */
-export type FeedbackThemeSessionsList = Array<FeedbackThemeSession>;
-export const FeedbackThemeSessionsList = /*@__PURE__*/ S.Array(
-  FeedbackThemeSession,
-) as any as S.Schema<FeedbackThemeSessionsList>;
-
-export interface FeedbackTheme {
-  /** Short failure mode in sentence case, for example "Review page mistaken for confirmation". */
-  theme: string;
-  /** How many feedback comments describe this failure mode. */
-  count: number;
-  /** Up to two short representative quotes from the feedback comments. */
-  examples: FeedbackThemeExamplesList;
-  /** The rated sessions whose feedback comments back this theme. Empty for summaries generated before session tracking. */
-  sessions: FeedbackThemeSessionsList;
-}
-export const FeedbackTheme = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    theme: S.String,
-    count: S.Number,
-    examples: FeedbackThemeExamplesList,
-    sessions: FeedbackThemeSessionsList,
-  }),
-).annotate({ identifier: "FeedbackTheme" }) as any as S.Schema<FeedbackTheme>;
-
-/** Recurring failure modes, most frequent first. */
-export type FeedbackThemesThemesList = Array<FeedbackTheme>;
-export const FeedbackThemesThemesList = /*@__PURE__*/ S.Array(
-  FeedbackTheme,
-) as any as S.Schema<FeedbackThemesThemesList>;
-
-export interface FeedbackThemes {
-  /** Recurring failure modes, most frequent first. */
-  themes: FeedbackThemesThemesList;
-  /** Number of thumbs-down feedback comments the summary was generated from. */
-  feedback_count: number;
-  /** When the summary was generated. */
-  generated_at: string;
-}
-export const FeedbackThemes = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    themes: FeedbackThemesThemesList,
-    feedback_count: S.Number,
-    generated_at: S.String,
-  }),
-).annotate({ identifier: "FeedbackThemes" }) as any as S.Schema<FeedbackThemes>;
+) as any as S.Schema<ReplayScannerOutputTagsList>;
 
 /** A Replay Vision scanner: its type, targeting query, and AI configuration. */
-export interface ReplayScanner {
+export interface ReplayScannerOutput {
   id: string;
   /** Human-readable scanner name. Unique within the team. */
   name: string;
   /** Free-form description shown in the scanner management UI. */
   description?: string;
   /** Organizational tags for this scanner. Distinct from a classifier's categories in scanner_config. Tags cannot contain commas. */
-  tags?: ReplayScannerTagsList;
-  /** What the scanner does: monitor, classifier, scorer, or summarizer. * `monitor` - Monitor * `classifier` - Classifier * `scorer` - Scorer * `summarizer` - Summarizer */
+  tags?: ReplayScannerOutputTagsList;
+  /** What the scanner does: monitor, classifier, scorer, or summarizer. * `monitor` - Monitor * `classifier` - Classifier * `scorer` - Scorer * `summarizer` - Summarizer * `experiment` - Experiment */
   scanner_type: ScannerTypeEnum;
+  /** The goal an AI draft was built from, in the creator's own words, so the scanner keeps what it was meant to find. Set on create only and ignored on update. */
+  goal?: string | null;
   /** Type-specific configuration. All scanner types require `prompt`; monitors add optional `allow_inconclusive`, classifiers add `tags`, scorers add `scale`, summarizers add optional `length`. */
   scanner_config: unknown;
+  /** The current prompt condensed by AI into the one question the scanner answers about a session. Falls back to the prompt's first line when no question matches the current prompt. */
+  prompt_question: string;
   /** Persisted `RecordingsQuery` shape used to pick candidate sessions. `date_from`/`date_to` are stripped on save — the schedule controls time, not the user. */
   query?: unknown;
   /** 0..1 random downsample applied after the query matches. Defaults to 1.0 (no downsampling). Use exactly 0 to pause scanning; non-zero rates below 0.0001 (0.01%) are rejected as below the sampling precision. */
@@ -641,29 +605,31 @@ export interface ReplayScanner {
   credits_this_month: number;
   /** Succeeded observations this scanner produced in the current billing period. */
   observations_this_month: number;
-  /** Credits counted against `credit_limit` for the current billing period: settled receipts plus in-flight observations and running prompt tests, priced from their frozen snapshot model. This is what the limit gate measures, so it includes work still in progress. It is not the same as `credits_this_month`, which counts only succeeded observations. */
+  /** Credits counted against `credit_limit` for the current billing period: settled receipts plus in-flight observations, priced from their frozen snapshot model. This is what the limit gate measures, so it includes work still in progress. It is not the same as `credits_this_month`, which counts only succeeded observations. */
   credits_used_against_limit: number;
   /** Whether this scanner has stopped because of its own credit limit. True when `credit_limit` is set and the budget left cannot cover one more observation, which is the same test the scanner's enforcement gates apply. Always false when no limit is set. */
   limit_reached: boolean;
+  /** How much the scheduled sweep is slowed to keep this scanner inside its daily ClickHouse read budget. 1 means it checks for new recordings on the normal schedule; N means it checks once every N schedule intervals. Expensive filters raise it. */
+  sweep_throttle_factor: number;
   /** Watermark for the scanner's last scheduled fire. Mirrors Temporal schedule state for recovery. */
   last_swept_at: string;
   created_at: string;
   /** User who created the scanner. */
   created_by: UserBasic | null;
   updated_at: string;
-  /** AI summary of the team's written thumbs-down feedback into recurring failure modes. Refreshed with prompt recommendations; null until enough feedback accumulates. */
-  feedback_themes: FeedbackThemes | null;
   /** The effective access level the user has for this object */
   user_access_level: string | null;
 }
-export const ReplayScanner = /*@__PURE__*/ S.suspend(() =>
+export const ReplayScannerOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String,
     name: S.String,
     description: S.optional(S.String),
-    tags: S.optional(ReplayScannerTagsList),
+    tags: S.optional(ReplayScannerOutputTagsList),
     scanner_type: ScannerTypeEnum,
+    goal: S.optional(S.NullOr(S.String)),
     scanner_config: S.Unknown,
+    prompt_question: S.String,
     query: S.optional(S.Unknown),
     sampling_rate: S.optional(S.Number),
     sampling_mode: S.optional(SamplingModeEnum),
@@ -682,14 +648,18 @@ export const ReplayScanner = /*@__PURE__*/ S.suspend(() =>
     observations_this_month: S.Number,
     credits_used_against_limit: S.Number,
     limit_reached: S.Boolean,
+    sweep_throttle_factor: S.Number,
     last_swept_at: S.String,
     created_at: S.String,
     created_by: S.NullOr(UserBasic),
     updated_at: S.String,
-    feedback_themes: S.NullOr(FeedbackThemes),
     user_access_level: S.NullOr(S.String),
   }),
-).annotate({ identifier: "ReplayScanner" }) as any as S.Schema<ReplayScanner>;
+).annotate({ identifier: "ReplayScannerOutput" }) as any as S.Schema<ReplayScannerOutput>;
+
+/** * `yes` - Yes * `no` - No * `inconclusive` - Inconclusive */
+export type ObservationVerdictEnum = "yes" | "no" | "inconclusive";
+export const ObservationVerdictEnum = S.String;
 
 export interface CreateVisionScannersAffectedCohortRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -698,6 +668,8 @@ export interface CreateVisionScannersAffectedCohortRequest {
   id: string;
   /** Trailing window of observations to count. Defaults to 30 days. */
   window_days?: number;
+  /** Monitor scanners only: count sessions with this verdict. Defaults to `yes`. Not applicable to other scanner types. * `yes` - Yes * `no` - No * `inconclusive` - Inconclusive */
+  verdict?: ObservationVerdictEnum | (string & {}) | null;
   /** Classifier scanners only, required for them: count sessions carrying this tag (fixed or freeform). Not applicable to other scanner types. */
   tag?: string | null;
   /** Scorer scanners only: count sessions scoring at or above this value. Scorers require `min_score` and/or `max_score`. Not applicable to other scanner types. */
@@ -710,6 +682,7 @@ export const CreateVisionScannersAffectedCohortRequest = /*@__PURE__*/ S.suspend
     project_id: S.String.pipe(T.Label()),
     id: S.String.pipe(T.Label()),
     window_days: S.optional(S.Number),
+    verdict: S.optional(S.NullOr(ObservationVerdictEnum)),
     tag: S.optional(S.NullOr(S.String)),
     min_score: S.optional(S.NullOr(S.Number)),
     max_score: S.optional(S.NullOr(S.Number)),
@@ -742,9 +715,7 @@ export const AffectedCohortResponse = /*@__PURE__*/ S.suspend(() =>
     users_in_cohort: S.Number,
     window_days: S.Number,
   }),
-).annotate({
-  identifier: "AffectedCohortResponse",
-}) as any as S.Schema<AffectedCohortResponse>;
+).annotate({ identifier: "AffectedCohortResponse" }) as any as S.Schema<AffectedCohortResponse>;
 
 export interface CreateVisionScannersBackfillRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -752,8 +723,10 @@ export interface CreateVisionScannersBackfillRequest {
   scanner_id: string;
   /** Inclusive lower bound of the historical window to scan. */
   window_start: string;
-  /** Exclusive upper bound of the window; clamped server-side to now. */
+  /** Exclusive upper bound of the window; clamped server-side to now, and for an experiment scanner to the experiment's end date. */
   window_end: string;
+  /** The most this backfill may cost, in credits (1 credit = $0.01): pass the `total_credits` from the estimate the person agreed to. The create is rejected if the window now costs more. */
+  max_total_credits: number;
 }
 export const CreateVisionScannersBackfillRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -761,6 +734,7 @@ export const CreateVisionScannersBackfillRequest = /*@__PURE__*/ S.suspend(() =>
     scanner_id: S.String.pipe(T.Label()),
     window_start: S.String,
     window_end: S.String,
+    max_total_credits: S.Number,
   }).pipe(
     T.Http({
       method: "POST",
@@ -821,9 +795,7 @@ export const ReplayScannerBackfill = /*@__PURE__*/ S.suspend(() =>
     created_at: S.String,
     finished_at: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "ReplayScannerBackfill",
-}) as any as S.Schema<ReplayScannerBackfill>;
+).annotate({ identifier: "ReplayScannerBackfill" }) as any as S.Schema<ReplayScannerBackfill>;
 
 export interface CreateVisionScannersBackfillsEstimateRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -831,7 +803,7 @@ export interface CreateVisionScannersBackfillsEstimateRequest {
   scanner_id: string;
   /** Inclusive lower bound of the historical window to scan. */
   window_start: string;
-  /** Exclusive upper bound of the window; clamped server-side to now. */
+  /** Exclusive upper bound of the window; clamped server-side to now, and for an experiment scanner to the experiment's end date. */
   window_end: string;
 }
 export const CreateVisionScannersBackfillsEstimateRequest = /*@__PURE__*/ S.suspend(() =>
@@ -862,7 +834,7 @@ export interface BackfillEstimateResponse {
   credits_remaining: number | null;
   /** The window lower bound the estimate covered. */
   window_start: string;
-  /** The window upper bound after clamping to now. */
+  /** The window upper bound after clamping to now and, for an experiment scanner, to the experiment's end date. */
   window_end: string;
 }
 export const BackfillEstimateResponse = /*@__PURE__*/ S.suspend(() =>
@@ -874,9 +846,7 @@ export const BackfillEstimateResponse = /*@__PURE__*/ S.suspend(() =>
     window_start: S.String,
     window_end: S.String,
   }),
-).annotate({
-  identifier: "BackfillEstimateResponse",
-}) as any as S.Schema<BackfillEstimateResponse>;
+).annotate({ identifier: "BackfillEstimateResponse" }) as any as S.Schema<BackfillEstimateResponse>;
 
 export interface CreateVisionScannersDraftRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -892,11 +862,7 @@ export const CreateVisionScannersDraftRequest = /*@__PURE__*/ S.suspend(() =>
     goal: S.String,
     monthly_credit_budget: S.optional(S.Number),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/projects/{project_id}/vision/scanners/draft/",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/api/projects/{project_id}/vision/scanners/draft/", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateVisionScannersDraftRequest",
@@ -908,7 +874,7 @@ export interface DraftScannerResponse {
   name: string;
   /** Drafted one-sentence description. */
   description: string;
-  /** The scanner type the draft picked for the goal. * `monitor` - Monitor * `classifier` - Classifier * `scorer` - Scorer * `summarizer` - Summarizer */
+  /** The scanner type the draft picked for the goal. * `monitor` - Monitor * `classifier` - Classifier * `scorer` - Scorer * `summarizer` - Summarizer * `experiment` - Experiment */
   scanner_type: ScannerTypeEnum;
   /** Type-specific config for the drafted `scanner_type`; always includes `prompt`. */
   scanner_config: unknown;
@@ -924,6 +890,8 @@ export interface DraftScannerResponse {
   model: ScannerModelEnum | null;
   /** Goal-based flow only: the monthly credit cap, set to `monthly_credit_budget` so a mis-estimate stops the scanner at the credits the user agreed to. Null on the legacy flow. */
   credit_limit: number | null;
+  /** Goal-based flow only: the experiment whose participants the draft watches, when the goal named one of the project's launched experiments. Null when it named none. Carried separately from `query`, which never holds an exposure filter. */
+  experiment_targeting: ScannerExperimentTargeting | null;
   /** Goal-based flow only: recordings a month the drafted scanner is projected to watch under the solved dials. Its credit cost lands at or under `monthly_credit_budget`, except when the budget is below what the minimum sampling rate can reach, where this is the floor and exceeds the budget. Null whenever `sampling_mode` is. */
   estimated_monthly_observations: number | null;
 }
@@ -939,11 +907,29 @@ export const DraftScannerResponse = /*@__PURE__*/ S.suspend(() =>
     sampling_rate: S.NullOr(S.Number),
     model: S.NullOr(ScannerModelEnum),
     credit_limit: S.NullOr(S.Number),
+    experiment_targeting: S.NullOr(ScannerExperimentTargeting),
     estimated_monthly_observations: S.NullOr(S.Number),
   }),
-).annotate({
-  identifier: "DraftScannerResponse",
-}) as any as S.Schema<DraftScannerResponse>;
+).annotate({ identifier: "DraftScannerResponse" }) as any as S.Schema<DraftScannerResponse>;
+
+/** The variant keys it watches. Null or omitted means every variant. */
+export type EstimateExperimentScopeVariantsList = Array<string>;
+export const EstimateExperimentScopeVariantsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<EstimateExperimentScopeVariantsList>;
+
+export interface EstimateExperimentScope {
+  /** The experiment an experiment scanner watches. */
+  experiment_id: number;
+  /** The variant keys it watches. Null or omitted means every variant. */
+  variants?: EstimateExperimentScopeVariantsList | null;
+}
+export const EstimateExperimentScope = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    experiment_id: S.Number,
+    variants: S.optional(S.NullOr(EstimateExperimentScopeVariantsList)),
+  }),
+).annotate({ identifier: "EstimateExperimentScope" }) as any as S.Schema<EstimateExperimentScope>;
 
 export interface CreateVisionScannersEstimateRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -960,6 +946,8 @@ export interface CreateVisionScannersEstimateRequest {
   model?: ScannerModelEnum | (string & {});
   /** Proposed experiment targeting, merged into the query as its exposure filter the same way a saved scanner derives it. The estimate then runs as the requesting user. */
   experiment_targeting?: ScannerExperimentTargeting | null;
+  /** For an experiment scanner: the `experiment_id` and `variants` it will keep in its config, merged into the query as its exposure filter so the estimate counts only exposed sessions. Not combined with `experiment_targeting`. */
+  experiment?: EstimateExperimentScope | null;
 }
 export const CreateVisionScannersEstimateRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -970,6 +958,7 @@ export const CreateVisionScannersEstimateRequest = /*@__PURE__*/ S.suspend(() =>
     scanner_id: S.optional(S.NullOr(S.String)),
     model: S.optional(ScannerModelEnum),
     experiment_targeting: S.optional(S.NullOr(ScannerExperimentTargeting)),
+    experiment: S.optional(S.NullOr(EstimateExperimentScope)),
   }).pipe(
     T.Http({
       method: "POST",
@@ -1011,9 +1000,7 @@ export const EstimateResponse = /*@__PURE__*/ S.suspend(() =>
     active_backfill_credits: S.Number,
     sampling_rate: S.Number,
   }),
-).annotate({
-  identifier: "EstimateResponse",
-}) as any as S.Schema<EstimateResponse>;
+).annotate({ identifier: "EstimateResponse" }) as any as S.Schema<EstimateResponse>;
 
 /** Session recording IDs to scan, at most 200 per request. Scans start until the in-flight limit or monthly credit quota is reached; the rest are reported as skipped rather than failing the whole batch. */
 export type CreateVisionScannersInlineScanRequestSessionIdsList = Array<string>;
@@ -1028,7 +1015,7 @@ export interface CreateVisionScannersInlineScanRequest {
   session_ids: CreateVisionScannersInlineScanRequestSessionIdsList;
   /** What to look for in these sessions, in plain language. The same instruction a saved scanner carries. */
   prompt: string;
-  /** What the scan produces. Defaults to monitor, an open-ended observation against the prompt. * `monitor` - Monitor * `classifier` - Classifier * `scorer` - Scorer * `summarizer` - Summarizer */
+  /** What the scan produces. Defaults to monitor, an open-ended observation against the prompt. Use `summarizer` to get PostHog's own AI summary of a recording. An inline scan is keyed by its whole config, so the Summarize button in the replay player shares this scan only when the prompt and `scanner_config` match the ones it sends. * `monitor` - Monitor * `classifier` - Classifier * `scorer` - Scorer * `summarizer` - Summarizer * `experiment` - Experiment */
   scanner_type?: ScannerTypeEnum | (string & {});
   /** Type-specific configuration beyond the prompt: `tags` for a classifier, `scale` for a scorer, optional `length` for a summarizer. Omit it for a monitor. `prompt` belongs in the `prompt` field and is rejected here. */
   scanner_config?: unknown;
@@ -1090,6 +1077,36 @@ export const CreateVisionScannersObservationsLabelRequest = /*@__PURE__*/ S.susp
   identifier: "CreateVisionScannersObservationsLabelRequest",
 }) as any as S.Schema<CreateVisionScannersObservationsLabelRequest>;
 
+export interface CreateVisionScannersObservationsViewedRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  scanner_id: string;
+  /** A UUID string identifying this replay observation. */
+  id: string;
+}
+export const CreateVisionScannersObservationsViewedRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    project_id: S.String.pipe(T.Label()),
+    scanner_id: S.String.pipe(T.Label()),
+    id: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/api/projects/{project_id}/vision/scanners/{scanner_id}/observations/{id}/viewed/",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "CreateVisionScannersObservationsViewedRequest",
+}) as any as S.Schema<CreateVisionScannersObservationsViewedRequest>;
+
+export interface CreateVisionScannersObservationsViewedResponse {}
+export const CreateVisionScannersObservationsViewedResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "CreateVisionScannersObservationsViewedResponse",
+}) as any as S.Schema<CreateVisionScannersObservationsViewedResponse>;
+
 export interface CreateVisionScannersObserveRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
@@ -1123,214 +1140,40 @@ export const ObserveAlreadyScanned = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     observation_id: S.String,
   }),
-).annotate({
-  identifier: "ObserveAlreadyScanned",
-}) as any as S.Schema<ObserveAlreadyScanned>;
+).annotate({ identifier: "ObserveAlreadyScanned" }) as any as S.Schema<ObserveAlreadyScanned>;
 
-export interface CreateVisionScannersPromptSuggestionsDismissRequest {
-  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
-  project_id: string;
-  scanner_id: string;
-  /** A UUID string identifying this replay scanner prompt suggestion. */
-  id: string;
-}
-export const CreateVisionScannersPromptSuggestionsDismissRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    project_id: S.String.pipe(T.Label()),
-    scanner_id: S.String.pipe(T.Label()),
-    id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/projects/{project_id}/vision/scanners/{scanner_id}/prompt_suggestions/{id}/dismiss/",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "CreateVisionScannersPromptSuggestionsDismissRequest",
-}) as any as S.Schema<CreateVisionScannersPromptSuggestionsDismissRequest>;
+/** Free-form labels for grouping the fleet, e.g. `["revenue", "on-call"]`. Normalized to lowercase kebab-case (`On Call` and `on_call` both become `on-call`), deduped, and stored sorted; at most 10 tags, each at most 50 characters once normalized. Pass the full desired set — a write replaces the existing tags rather than merging into them. Filter the config list with the `tags` query parameter. */
+export type SignalScoutConfigOptionsTagsList = Array<string>;
+export const SignalScoutConfigOptionsTagsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<SignalScoutConfigOptionsTagsList>;
 
-/** * `pending` - Pending * `applied` - Applied * `dismissed` - Dismissed * `superseded` - Superseded * `no_change` - No change */
-export type PromptSuggestionStatusEnum =
-  | "pending"
-  | "applied"
-  | "dismissed"
-  | "superseded"
-  | "no_change";
-export const PromptSuggestionStatusEnum = S.String;
+/** Optional JSON Schema (draft 2020-12) describing ONE structured record this scout produces via `scout-record-output` — e.g. a per-report quality judgment (`{"type": "object", "properties": {"verdict": {"enum": ["good", "bad", "unsure"]}, "reason": {"type": "string"}}, "required": ["verdict", "reason"]}`). The root must be `"type": "object"`. Setting a schema turns the structured-output channel on: the run prompt renders the schema and every submitted record is validated against it and recorded in the project as a `$scout_structured_output` event, queryable like any event. The channel also requires emit — a dry-run scout has nowhere to record to. Cardinality is the scout's call (one record per run, one per judged entity, ...). Null = channel off. Setting a schema requires skill-authoring authorization (the `llm_skill:write` scope and skill editor access) since the scout reads it verbatim in its prompt; clearing it needs only the config write. Records validate against the schema in force when the run was dispatched. */
+export type SignalScoutConfigOptionsStructuredOutputSchemaMap = {
+  [key: string]: unknown | undefined;
+};
+export const SignalScoutConfigOptionsStructuredOutputSchemaMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.Unknown,
+) as any as S.Schema<SignalScoutConfigOptionsStructuredOutputSchemaMap>;
 
-export interface PromptEvaluationResult {
-  /** The rated session that was re-run with the suggested prompt. */
-  session_id: string;
-  /** The original rated observation the comparison is against. */
-  observation_id: string;
-  /** The team's rating of the original output (thumbs up = true). */
-  rated_correct: boolean;
-  /** The original output's primary outcome. */
-  before: string | null;
-  /** The suggested prompt's outcome for the same session. Null when the run errored or returned no discrete outcome (e.g. a classifier with no tags). */
-  after: string | null;
-  /** kept (up, unchanged), regressed (up, changed), fixed (down, changed), still_wrong (down, unchanged), error, or preview (scorer/summarizer: raw before/after, no classification). */
-  outcome: string;
-  /** Why this session's re-run failed, when it did. */
-  error: string | null;
-}
-export const PromptEvaluationResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    session_id: S.String,
-    observation_id: S.String,
-    rated_correct: S.Boolean,
-    before: S.NullOr(S.String),
-    after: S.NullOr(S.String),
-    outcome: S.String,
-    error: S.NullOr(S.String),
-  }),
-).annotate({
-  identifier: "PromptEvaluationResult",
-}) as any as S.Schema<PromptEvaluationResult>;
+/** MCP gateway servers (by id) this scout's runs may use, chosen from the connections members shared to the whole team. Selection is per scout: an empty list gives the scout no MCP servers. Applies from the scout's next run. */
+export type SignalScoutConfigOptionsMcpGatewayServerIdsList = Array<string>;
+export const SignalScoutConfigOptionsMcpGatewayServerIdsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<SignalScoutConfigOptionsMcpGatewayServerIdsList>;
 
-/** Per-session outcomes, in completion order. */
-export type PromptSuggestionEvaluationResultsList = Array<PromptEvaluationResult>;
-export const PromptSuggestionEvaluationResultsList = /*@__PURE__*/ S.Array(
-  PromptEvaluationResult,
-) as any as S.Schema<PromptSuggestionEvaluationResultsList>;
+/** GitHub repositories this scout clones into its sandbox, each in `organization/repo` format. Set them for a scout that reads code, so it can search the tree and run the project's own tests instead of reading files one API call at a time. Empty (the default) leaves the sandbox without a checkout. The scout's GitHub access stays read-only either way, so a repository listed here is never writable from a run. At most 10, each reachable through the project's GitHub connection. Applies from the scout's next run. */
+export type SignalScoutConfigOptionsRepositoriesList = Array<string>;
+export const SignalScoutConfigOptionsRepositoriesList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<SignalScoutConfigOptionsRepositoriesList>;
 
-export interface PromptEvaluationSummary {
-  /** Thumbs-up sessions whose output is unchanged. */
-  kept: number;
-  /** Thumbs-up sessions whose output changed. */
-  regressed: number;
-  /** Thumbs-down sessions whose output changed. */
-  fixed: number;
-  /** Thumbs-down sessions whose output is unchanged. */
-  still_wrong: number;
-  /** Sessions whose re-run failed. */
-  errors: number;
-}
-export const PromptEvaluationSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    kept: S.Number,
-    regressed: S.Number,
-    fixed: S.Number,
-    still_wrong: S.Number,
-    errors: S.Number,
-  }),
-).annotate({
-  identifier: "PromptEvaluationSummary",
-}) as any as S.Schema<PromptEvaluationSummary>;
-
-export interface PromptSuggestionEvaluation {
-  /** running, succeeded, or failed. */
-  status: string;
-  /** When the evaluation started. */
-  started_at: string;
-  /** When the evaluation finished, if it has. */
-  finished_at: string | null;
-  /** How many rated sessions are being re-run. */
-  total: number;
-  /** The rated set the evaluation ran against. */
-  labels_fingerprint: string;
-  /** Per-session outcomes, in completion order. */
-  results: PromptSuggestionEvaluationResultsList;
-  /** Outcome counts. Null while the evaluation is running. */
-  summary: PromptEvaluationSummary | null;
-}
-export const PromptSuggestionEvaluation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    status: S.String,
-    started_at: S.String,
-    finished_at: S.NullOr(S.String),
-    total: S.Number,
-    labels_fingerprint: S.String,
-    results: PromptSuggestionEvaluationResultsList,
-    summary: S.NullOr(PromptEvaluationSummary),
-  }),
-).annotate({
-  identifier: "PromptSuggestionEvaluation",
-}) as any as S.Schema<PromptSuggestionEvaluation>;
-
-export interface ReplayScannerPromptSuggestion {
-  id: string;
-  /** pending (current), applied, dismissed, or superseded by a newer suggestion. * `pending` - Pending * `applied` - Applied * `dismissed` - Dismissed * `superseded` - Superseded * `no_change` - No change */
-  status: PromptSuggestionStatusEnum;
-  /** The full rewritten prompt, ready to apply to the scanner. */
-  suggested_prompt: string;
-  /** The scanner prompt this suggestion was generated against, for diffing. */
-  base_prompt: string;
-  /** The scanner config this suggestion was generated against. */
-  base_config: unknown;
-  /** The full proposed scanner config, ready to apply. */
-  suggested_config: unknown;
-  /** Typed per-field diff entries driving the change cards. */
-  changes: unknown;
-  /** What the rewrite changed and why, grounded in the ratings. */
-  rationale: string;
-  /** Thumbs-up ratings the suggestion was based on. */
-  based_on_up: number;
-  /** Thumbs-down ratings the suggestion was based on. */
-  based_on_down: number;
-  /** The scanner version whose prompt this suggestion was generated against. */
-  scanner_version: number;
-  created_at: string;
-  /** User who requested this suggestion; null for automatic refreshes. */
-  created_by: UserBasic | null;
-  applied_at: string | null;
-  /** User who applied this suggestion to the scanner; null unless applied. */
-  applied_by: UserBasic | null;
-  /** Test-before-apply results: the suggested prompt re-run against rated sessions. */
-  evaluation: PromptSuggestionEvaluation | null;
-}
-export const ReplayScannerPromptSuggestion = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    status: PromptSuggestionStatusEnum,
-    suggested_prompt: S.String,
-    base_prompt: S.String,
-    base_config: S.Unknown,
-    suggested_config: S.Unknown,
-    changes: S.Unknown,
-    rationale: S.String,
-    based_on_up: S.Number,
-    based_on_down: S.Number,
-    scanner_version: S.Number,
-    created_at: S.String,
-    created_by: S.NullOr(UserBasic),
-    applied_at: S.NullOr(S.String),
-    applied_by: S.NullOr(UserBasic),
-    evaluation: S.NullOr(PromptSuggestionEvaluation),
-  }),
-).annotate({
-  identifier: "ReplayScannerPromptSuggestion",
-}) as any as S.Schema<ReplayScannerPromptSuggestion>;
-
-export interface CreateVisionScannersPromptSuggestionsEvaluateRequest {
-  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
-  project_id: string;
-  scanner_id: string;
-  /** A UUID string identifying this replay scanner prompt suggestion. */
-  id: string;
-  /** How many rated sessions to re-run, thumbs-down prioritized. Each successful re-run charges credits like a normal observation of the same model. Defaults to 10. The maximum is `evaluation_session_cap`. */
-  session_limit?: number;
-  /** The edited config to test, assembled from the recommendation's approved fields. Omit to test the full suggested config. */
-  config?: unknown;
-}
-export const CreateVisionScannersPromptSuggestionsEvaluateRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    project_id: S.String.pipe(T.Label()),
-    scanner_id: S.String.pipe(T.Label()),
-    id: S.String.pipe(T.Label()),
-    session_limit: S.optional(S.Number),
-    config: S.optional(S.Unknown),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/projects/{project_id}/vision/scanners/{scanner_id}/prompt_suggestions/{id}/evaluate/",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "CreateVisionScannersPromptSuggestionsEvaluateRequest",
-}) as any as S.Schema<CreateVisionScannersPromptSuggestionsEvaluateRequest>;
+/** Extra write access granted to this one scout, as scope strings. The grantable set is `alert:write`, `annotation:write`, `customer_task:write`, `dashboard:write`, `hog_flow_proposal:write`, `insight:write`, `llm_skill:write`, `replay_scanner:write`, `warehouse_table:write`, `warehouse_view:write`. Empty (the default) means the scout reads the project and writes only what every scout may write: notebooks, its findings, and its own memory. Each scope is project-wide and object-level, so a scout holding `dashboard:write` can update or delete any dashboard in the project, not only ones it made. Grant only what this scout maintains. Only the person the scout's runs act as (whoever authored it) or a project admin can set it, and a scoped API key must itself carry each scope it grants. A dry run (`emit=false`) never holds the grant. Applies from the scout's next run. */
+export type SignalScoutConfigOptionsWriteScopesList = Array<string>;
+export const SignalScoutConfigOptionsWriteScopesList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<SignalScoutConfigOptionsWriteScopesList>;
 
 /** Slack members to send output to as direct messages, each in `member_id|@display-name` format (a bare member ID like `U0123ABC456` also works). Each member gets their own DM from the PostHog app; at most 5. Set either this or `channel`, not both. Useful for personal scouts where a DM beats a channel. */
 export type SignalScoutSlackDestinationUsersList = Array<string>;
@@ -1345,7 +1188,7 @@ export interface SignalScoutSlackDestination {
   channel?: string | null;
   /** Slack members to send output to as direct messages, each in `member_id|@display-name` format (a bare member ID like `U0123ABC456` also works). Each member gets their own DM from the PostHog app; at most 5. Set either this or `channel`, not both. Useful for personal scouts where a DM beats a channel. */
   users?: SignalScoutSlackDestinationUsersList | null;
-  /** When true, post a report as a thread: a short lead in the channel and the rest split into replies at the summary's section labels, which can be Markdown headings or bold labels. Keeps a long summary from being clipped at Slack's section limit. Off by default, and it does not change how findings post. */
+  /** When true, post a report as a thread: a short lead in the channel and the rest split into replies at the summary's section labels, which can be Markdown headings or bold labels. Keeps a long summary from being clipped at Slack's section limit. On by default; set it false to post a single message, which can truncate a long summary. It does not change how findings post. */
   thread_reports?: boolean;
 }
 export const SignalScoutSlackDestination = /*@__PURE__*/ S.suspend(() =>
@@ -1390,29 +1233,20 @@ export const SignalScoutOutputDestinations = /*@__PURE__*/ S.suspend(() =>
 export type SignalScoutConfigNetworkAccessEnum = "trusted" | "full";
 export const SignalScoutConfigNetworkAccessEnum = S.String;
 
-/** Free-form labels for grouping the fleet, e.g. `["revenue", "on-call"]`. Normalized to lowercase kebab-case (`On Call` and `on_call` both become `on-call`), deduped, and stored sorted; at most 10 tags, each at most 50 characters once normalized. Pass the full desired set — a write replaces the existing tags rather than merging into them. Filter the config list with the `tags` query parameter. */
-export type SignalScoutConfigOptionsTagsList = Array<string>;
-export const SignalScoutConfigOptionsTagsList = /*@__PURE__*/ S.Array(
-  S.String,
-) as any as S.Schema<SignalScoutConfigOptionsTagsList>;
-
-/** Optional JSON Schema (draft 2020-12) describing ONE structured record this scout produces via `scout-record-output` — e.g. a per-report quality judgment (`{"type": "object", "properties": {"verdict": {"enum": ["good", "bad", "unsure"]}, "reason": {"type": "string"}}, "required": ["verdict", "reason"]}`). The root must be `"type": "object"`. Setting a schema turns the structured-output channel on: the run prompt renders the schema and every submitted record is validated against it and recorded in the project as a `$scout_structured_output` event, queryable like any event. The channel also requires emit — a dry-run scout has nowhere to record to. Cardinality is the scout's call (one record per run, one per judged entity, ...). Null = channel off. Setting a schema requires skill-authoring authorization (the `llm_skill:write` scope and skill editor access) since the scout reads it verbatim in its prompt; clearing it needs only the config write. Records validate against the schema in force when the run was dispatched. */
-export type SignalScoutConfigOptionsStructuredOutputSchemaMap = {
-  [key: string]: unknown | undefined;
-};
-export const SignalScoutConfigOptionsStructuredOutputSchemaMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.Unknown,
-) as any as S.Schema<SignalScoutConfigOptionsStructuredOutputSchemaMap>;
-
-/** MCP gateway servers (by id) this scout's runs may use, chosen from the connections members shared to the whole team. Selection is per scout: an empty list gives the scout no MCP servers. Applies from the scout's next run. */
-export type SignalScoutConfigOptionsMcpGatewayServerIdsList = Array<string>;
-export const SignalScoutConfigOptionsMcpGatewayServerIdsList = /*@__PURE__*/ S.Array(
-  S.String,
-) as any as S.Schema<SignalScoutConfigOptionsMcpGatewayServerIdsList>;
-
 /** Schedule, enablement, and delivery options accepted while creating a scout. */
 export interface SignalScoutConfigOptions {
+  /** Optional model id this scout's runs are pinned to, e.g. `claude-opus-4-5`. Must be one of the platform's agent models; an invalid id is rejected with the available ones listed. Null keeps the default model, chosen by the platform. Early access: the pin can only be set on projects enrolled in the scout model preview, and only takes effect there. Set null to clear it. */
+  model?: string | null;
+  /** Free-form labels for grouping the fleet, e.g. `["revenue", "on-call"]`. Normalized to lowercase kebab-case (`On Call` and `on_call` both become `on-call`), deduped, and stored sorted; at most 10 tags, each at most 50 characters once normalized. Pass the full desired set — a write replaces the existing tags rather than merging into them. Filter the config list with the `tags` query parameter. */
+  tags?: SignalScoutConfigOptionsTagsList;
+  /** Optional JSON Schema (draft 2020-12) describing ONE structured record this scout produces via `scout-record-output` — e.g. a per-report quality judgment (`{"type": "object", "properties": {"verdict": {"enum": ["good", "bad", "unsure"]}, "reason": {"type": "string"}}, "required": ["verdict", "reason"]}`). The root must be `"type": "object"`. Setting a schema turns the structured-output channel on: the run prompt renders the schema and every submitted record is validated against it and recorded in the project as a `$scout_structured_output` event, queryable like any event. The channel also requires emit — a dry-run scout has nowhere to record to. Cardinality is the scout's call (one record per run, one per judged entity, ...). Null = channel off. Setting a schema requires skill-authoring authorization (the `llm_skill:write` scope and skill editor access) since the scout reads it verbatim in its prompt; clearing it needs only the config write. Records validate against the schema in force when the run was dispatched. */
+  structured_output_schema?: SignalScoutConfigOptionsStructuredOutputSchemaMap | null;
+  /** MCP gateway servers (by id) this scout's runs may use, chosen from the connections members shared to the whole team. Selection is per scout: an empty list gives the scout no MCP servers. Applies from the scout's next run. */
+  mcp_gateway_server_ids?: SignalScoutConfigOptionsMcpGatewayServerIdsList;
+  /** GitHub repositories this scout clones into its sandbox, each in `organization/repo` format. Set them for a scout that reads code, so it can search the tree and run the project's own tests instead of reading files one API call at a time. Empty (the default) leaves the sandbox without a checkout. The scout's GitHub access stays read-only either way, so a repository listed here is never writable from a run. At most 10, each reachable through the project's GitHub connection. Applies from the scout's next run. */
+  repositories?: SignalScoutConfigOptionsRepositoriesList;
+  /** Extra write access granted to this one scout, as scope strings. The grantable set is `alert:write`, `annotation:write`, `customer_task:write`, `dashboard:write`, `hog_flow_proposal:write`, `insight:write`, `llm_skill:write`, `replay_scanner:write`, `warehouse_table:write`, `warehouse_view:write`. Empty (the default) means the scout reads the project and writes only what every scout may write: notebooks, its findings, and its own memory. Each scope is project-wide and object-level, so a scout holding `dashboard:write` can update or delete any dashboard in the project, not only ones it made. Grant only what this scout maintains. Only the person the scout's runs act as (whoever authored it) or a project admin can set it, and a scoped API key must itself carry each scope it grants. A dry run (`emit=false`) never holds the grant. Applies from the scout's next run. */
+  write_scopes?: SignalScoutConfigOptionsWriteScopesList;
   /** Whether this scout runs on its schedule. Defaults to true. */
   enabled?: boolean;
   /** Whether the scout writes findings to the inbox. False = dry-run: it runs and logs but emits nothing. Defaults to true. */
@@ -1427,17 +1261,17 @@ export interface SignalScoutConfigOptions {
   auto_pause_exempt?: boolean;
   /** Optional five-field cron expression, e.g. '30 9 * * *' (daily at 09:30), '0 9,17 * * *' (twice daily), or '0 9 * * 1-5' (weekday mornings). Evaluated in the project timezone. Takes precedence over `run_interval_minutes`; occurrences must be at least 30 minutes apart. */
   run_cron_schedule?: string | null;
-  /** Optional model id this scout's runs are pinned to, e.g. `claude-opus-4-5`. Must be one of the platform's agent models; an invalid id is rejected with the available ones listed. Null keeps the default model, chosen by the platform. Early access: the pin can only be set on projects enrolled in the scout model preview, and only takes effect there. Set null to clear it. */
-  model?: string | null;
-  /** Free-form labels for grouping the fleet, e.g. `["revenue", "on-call"]`. Normalized to lowercase kebab-case (`On Call` and `on_call` both become `on-call`), deduped, and stored sorted; at most 10 tags, each at most 50 characters once normalized. Pass the full desired set — a write replaces the existing tags rather than merging into them. Filter the config list with the `tags` query parameter. */
-  tags?: SignalScoutConfigOptionsTagsList;
-  /** Optional JSON Schema (draft 2020-12) describing ONE structured record this scout produces via `scout-record-output` — e.g. a per-report quality judgment (`{"type": "object", "properties": {"verdict": {"enum": ["good", "bad", "unsure"]}, "reason": {"type": "string"}}, "required": ["verdict", "reason"]}`). The root must be `"type": "object"`. Setting a schema turns the structured-output channel on: the run prompt renders the schema and every submitted record is validated against it and recorded in the project as a `$scout_structured_output` event, queryable like any event. The channel also requires emit — a dry-run scout has nowhere to record to. Cardinality is the scout's call (one record per run, one per judged entity, ...). Null = channel off. Setting a schema requires skill-authoring authorization (the `llm_skill:write` scope and skill editor access) since the scout reads it verbatim in its prompt; clearing it needs only the config write. Records validate against the schema in force when the run was dispatched. */
-  structured_output_schema?: SignalScoutConfigOptionsStructuredOutputSchemaMap | null;
-  /** MCP gateway servers (by id) this scout's runs may use, chosen from the connections members shared to the whole team. Selection is per scout: an empty list gives the scout no MCP servers. Applies from the scout's next run. */
-  mcp_gateway_server_ids?: SignalScoutConfigOptionsMcpGatewayServerIdsList;
 }
 export const SignalScoutConfigOptions = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    model: S.optional(S.NullOr(S.String)),
+    tags: S.optional(SignalScoutConfigOptionsTagsList),
+    structured_output_schema: S.optional(
+      S.NullOr(SignalScoutConfigOptionsStructuredOutputSchemaMap),
+    ),
+    mcp_gateway_server_ids: S.optional(SignalScoutConfigOptionsMcpGatewayServerIdsList),
+    repositories: S.optional(SignalScoutConfigOptionsRepositoriesList),
+    write_scopes: S.optional(SignalScoutConfigOptionsWriteScopesList),
     enabled: S.optional(S.Boolean),
     emit: S.optional(S.Boolean),
     run_interval_minutes: S.optional(S.Number),
@@ -1445,38 +1279,36 @@ export const SignalScoutConfigOptions = /*@__PURE__*/ S.suspend(() =>
     network_access: S.optional(SignalScoutConfigNetworkAccessEnum),
     auto_pause_exempt: S.optional(S.Boolean),
     run_cron_schedule: S.optional(S.NullOr(S.String)),
-    model: S.optional(S.NullOr(S.String)),
-    tags: S.optional(SignalScoutConfigOptionsTagsList),
-    structured_output_schema: S.optional(
-      S.NullOr(SignalScoutConfigOptionsStructuredOutputSchemaMap),
-    ),
-    mcp_gateway_server_ids: S.optional(SignalScoutConfigOptionsMcpGatewayServerIdsList),
   }),
-).annotate({
-  identifier: "SignalScoutConfigOptions",
-}) as any as S.Schema<SignalScoutConfigOptions>;
+).annotate({ identifier: "SignalScoutConfigOptions" }) as any as S.Schema<SignalScoutConfigOptions>;
 
 export interface CreateVisionScannersScoutRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   scanner_id: string;
-  /** Unique scout name. Must start with `signals-scout-` and contain only lowercase letters, numbers, and hyphens. */
-  name: string;
+  /** Name shown wherever people identify this scout, written however you want it — spaces, capitalization, and acronyms are kept as typed, and two scouts may share one. It does not change the scout's skill name, which stays its identity, so renaming a scout keeps its schedule, run history, notes, memory, and links. At most 200 characters; blank means the scout has no name of its own and is labelled from its skill name instead. */
+  display_name?: string;
+  /** Optional skill name for the scout — its permanent identifier, containing only lowercase letters, numbers, and hyphens. Omit it and one is generated from `display_name` (`My APM scout` becomes `my-apm-scout`), with a numeric suffix when that name is taken. Pass it to pick the identifier yourself, or to keep a client written before display names working unchanged. The `signals-scout-` prefix is optional. */
+  name?: string;
   /** Short description of the signal or behavior this scout investigates. */
   description: string;
   /** Complete markdown prompt executed on every scout run. Include any project-specific signal names, thresholds, investigation steps, and report criteria here. */
   body: string;
   /** Optional schedule, enablement, dry-run posture, and delivery settings. Defaults to an enabled, emitting scout on the daily interval with no external destination. */
   config?: SignalScoutConfigOptions;
+  /** Make this the experiment scanner's variant analysis scout: its runs record a structured comparison of the variants, which the scanner's variants readout shows. Experiment scanners only. */
+  variant_analysis?: boolean;
 }
 export const CreateVisionScannersScoutRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project_id: S.String.pipe(T.Label()),
     scanner_id: S.String.pipe(T.Label()),
-    name: S.String,
+    display_name: S.optional(S.String),
+    name: S.optional(S.String),
     description: S.String,
     body: S.String,
     config: S.optional(SignalScoutConfigOptions),
+    variant_analysis: S.optional(S.Boolean),
   }).pipe(
     T.Http({
       method: "POST",
@@ -1492,6 +1324,33 @@ export const CreateVisionScannersScoutRequest = /*@__PURE__*/ S.suspend(() =>
 export type ScoutOriginEnum = "canonical" | "custom";
 export const ScoutOriginEnum = S.String;
 
+export type ScoutRoleEnum = "specialist" | "operational";
+export const ScoutRoleEnum = S.String;
+
+/** * `announced` - announced * `retired` - retired */
+export type ScoutDeprecationPhaseEnum = "announced" | "retired";
+export const ScoutDeprecationPhaseEnum = S.String;
+
+/** What PostHog has said about retiring this scout, for the chip and the banner to render. */
+export interface ScoutDeprecation {
+  /** How far the retirement has got: `announced` while the scout still runs, `retired` once its sunset has passed. A retired scout is paused and does not run again. * `announced` - announced * `retired` - retired */
+  phase: ScoutDeprecationPhaseEnum;
+  /** Why PostHog is retiring the scout, written to be shown to a person as-is. */
+  reason: string;
+  /** Skill name of the scout that takes over, or blank when nothing replaces it. */
+  superseded_by: string;
+  /** When the scout stops running. Null means the next fleet reconcile retires it. */
+  sunset_at: string | null;
+}
+export const ScoutDeprecation = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    phase: ScoutDeprecationPhaseEnum,
+    reason: S.String,
+    superseded_by: S.String,
+    sunset_at: S.NullOr(S.String),
+  }),
+).annotate({ identifier: "ScoutDeprecation" }) as any as S.Schema<ScoutDeprecation>;
+
 /** Who answers for this scout, seed-creator first. Ownership is recorded on the scout's skill rather than on this config, so editing the skill or toggling the scout leaves it unchanged. Reports the scout files suggest these people as reviewers. Prefer this over `created_by`-style fields, which only say who last flipped a switch. Empty when nobody owns the scout, when the owners are no longer members with access to the project, or when the caller is a scout sandbox token: owners are member PII, and a scout reads them through the skill API instead. */
 export type SignalScoutConfigOwnersList = Array<UserBasic>;
 export const SignalScoutConfigOwnersList = /*@__PURE__*/ S.Array(
@@ -1506,14 +1365,21 @@ export type SignalScoutConfigStatusEnum =
   | "paused_by_user";
 export const SignalScoutConfigStatusEnum = S.String;
 
-/** * `no_output` - No output * `ignored` - Ignored * `repeated_failures` - Repeated failures */
-export type SignalScoutConfigPauseReasonEnum = "no_output" | "ignored" | "repeated_failures";
+/** * `no_output` - No output * `ignored` - Ignored * `repeated_failures` - Repeated failures * `retired` - Retired * `background_removed` - Background removed */
+export type SignalScoutConfigPauseReasonEnum =
+  | "no_output"
+  | "ignored"
+  | "repeated_failures"
+  | "retired"
+  | "background_removed";
 export const SignalScoutConfigPauseReasonEnum = S.String;
 
+/** * `team` - Team * `background` - Background */
+export type SignalScoutConfigManagedByEnum = "team" | "background";
+export const SignalScoutConfigManagedByEnum = S.String;
+
 /** Optional JSON Schema (draft 2020-12) describing ONE structured record this scout produces via `scout-record-output` — e.g. a per-report quality judgment (`{"type": "object", "properties": {"verdict": {"enum": ["good", "bad", "unsure"]}, "reason": {"type": "string"}}, "required": ["verdict", "reason"]}`). The root must be `"type": "object"`. Setting a schema turns the structured-output channel on: the run prompt renders the schema and every submitted record is validated against it and recorded in the project as a `$scout_structured_output` event, queryable like any event. The channel also requires emit — a dry-run scout has nowhere to record to. Cardinality is the scout's call (one record per run, one per judged entity, ...). Null = channel off. Setting a schema requires skill-authoring authorization (the `llm_skill:write` scope and skill editor access) since the scout reads it verbatim in its prompt; clearing it needs only the config write. Records validate against the schema in force when the run was dispatched. */
-export type SignalScoutConfigStructuredOutputSchemaMap = {
-  [key: string]: unknown | undefined;
-};
+export type SignalScoutConfigStructuredOutputSchemaMap = { [key: string]: unknown | undefined };
 export const SignalScoutConfigStructuredOutputSchemaMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -1525,29 +1391,49 @@ export const SignalScoutConfigMcpGatewayServerIdsList = /*@__PURE__*/ S.Array(
   S.String,
 ) as any as S.Schema<SignalScoutConfigMcpGatewayServerIdsList>;
 
+/** GitHub repositories this scout clones into its sandbox, each in `organization/repo` format. Set them for a scout that reads code, so it can search the tree and run the project's own tests instead of reading files one API call at a time. Empty (the default) leaves the sandbox without a checkout. The scout's GitHub access stays read-only either way, so a repository listed here is never writable from a run. At most 10, each reachable through the project's GitHub connection. Applies from the scout's next run. */
+export type SignalScoutConfigRepositoriesList = Array<string>;
+export const SignalScoutConfigRepositoriesList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<SignalScoutConfigRepositoriesList>;
+
+/** Extra write access granted to this one scout, as scope strings. The grantable set is `alert:write`, `annotation:write`, `customer_task:write`, `dashboard:write`, `hog_flow_proposal:write`, `insight:write`, `llm_skill:write`, `replay_scanner:write`, `warehouse_table:write`, `warehouse_view:write`. Empty (the default) means the scout reads the project and writes only what every scout may write: notebooks, its findings, and its own memory. Each scope is project-wide and object-level, so a scout holding `dashboard:write` can update or delete any dashboard in the project, not only ones it made. Grant only what this scout maintains. Only the person the scout's runs act as (whoever authored it) or a project admin can set it, and a scoped API key must itself carry each scope it grants. A dry run (`emit=false`) never holds the grant. Applies from the scout's next run. */
+export type SignalScoutConfigWriteScopesList = Array<string>;
+export const SignalScoutConfigWriteScopesList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<SignalScoutConfigWriteScopesList>;
+
 /** Free-form labels for grouping the fleet, e.g. `["revenue", "on-call"]`. Normalized to lowercase kebab-case (`On Call` and `on_call` both become `on-call`), deduped, and stored sorted; at most 10 tags, each at most 50 characters once normalized. Pass the full desired set — a write replaces the existing tags rather than merging into them. Filter the config list with the `tags` query parameter. */
 export type SignalScoutConfigTagsList = Array<string>;
 export const SignalScoutConfigTagsList = /*@__PURE__*/ S.Array(
   S.String,
 ) as any as S.Schema<SignalScoutConfigTagsList>;
 
-/** Read shape for a per-(team, skill) scout config. One row per `signals-scout-*` skill on the team. The coordinator auto-creates a row when it discovers a scout skill; this serializer lets agents tune the row. */
+/** Read shape for a per-(team, skill) scout config. One row per scout skill on the team. The coordinator auto-creates a row when it discovers a scout skill; this serializer lets agents tune the row. */
 export interface SignalScoutConfig {
   id: string;
-  /** The `signals-scout-*` skill this config controls. Set at creation, not editable. */
+  /** The skill this config controls as a scout. Set at creation, not editable. */
   skill_name: string;
   /** Human-readable summary of what this scout investigates, sourced from the scout skill's `description` metadata. Use it for a quick steer on the scout's focus without loading the full skill body. Empty if the skill is not currently present on the team or carries no description. */
   description: string;
+  /** Name shown in the UI. Does not change the skill name. Leave blank to use the default name. */
+  display_name?: string;
   /** Where this scout came from: `canonical` for a scout PostHog ships and maintains (seeded from `products/signals/skills/`), or `custom` for one a team hand-authored on this project. Use it to badge built-in vs custom scouts instead of a hardcoded name list. Defaults to `custom` if the skill is not currently present on the team. */
   scout_origin: ScoutOriginEnum;
+  /** What this scout is to the harness: `specialist` for one that watches a product surface, or `operational` for one PostHog ships to watch the self-driving system itself. An operational scout is exempt from the inactivity sweep and from the enabled-scout cap, and is not a scout a project should delete. Always `specialist` for a custom scout. */
+  scout_role: ScoutRoleEnum;
+  /** Set when PostHog is retiring this scout, and null otherwise. Carries the phase, the reason to show, what replaces the scout, and when it stops running. Only a canonical scout the project has not edited is ever marked: a project's own copy keeps running and reads as null. */
+  deprecation: ScoutDeprecation | null;
   /** Who answers for this scout, seed-creator first. Ownership is recorded on the scout's skill rather than on this config, so editing the skill or toggling the scout leaves it unchanged. Reports the scout files suggest these people as reviewers. Prefer this over `created_by`-style fields, which only say who last flipped a switch. Empty when nobody owns the scout, when the owners are no longer members with access to the project, or when the caller is a scout sandbox token: owners are member PII, and a scout reads them through the skill API instead. */
   owners: SignalScoutConfigOwnersList;
   /** Whether this scout runs on its schedule. Disabled scouts are skipped by the coordinator. Derived from `status`: true for `active` and `pending_pause`, false for the paused statuses. */
   enabled: boolean;
   /** Lifecycle status. `active`: runs on its schedule. `pending_pause`: still running, but flagged by the system to pause soon unless something changes (any config edit clears it). `paused_by_system`: paused automatically, see `pause_reason`; set `enabled=true` to resume. `paused_by_user`: switched off by a person and never resumed automatically. * `active` - Active * `pending_pause` - Pending pause * `paused_by_system` - Paused by system * `paused_by_user` - Paused by user */
   status: SignalScoutConfigStatusEnum;
-  /** Why the system paused (or warned) this scout: `no_output` (it emitted nothing over the evaluation window), `ignored` (no person engaged with its reports — no view, rating, note, dismissal, or resolution), or `repeated_failures` (consecutive failed runs). Null unless `status` is `pending_pause` or `paused_by_system`. * `no_output` - No output * `ignored` - Ignored * `repeated_failures` - Repeated failures */
+  /** Why the system paused (or warned) this scout: `no_output` (it emitted nothing over the evaluation window), `ignored` (no person engaged with its reports — no view, rating, note, dismissal, or resolution), `repeated_failures` (consecutive failed runs), `retired` (PostHog retired the scout), or `background_removed` (the background lane stopped managing the scout). Null unless `status` is `pending_pause` or `paused_by_system`. * `no_output` - No output * `ignored` - Ignored * `repeated_failures` - Repeated failures * `retired` - Retired * `background_removed` - Background removed */
   pause_reason: SignalScoutConfigPauseReasonEnum | null;
+  /** Who controls this scout now. `team`: a person set it up or has changed it. `background`: PostHog runs it in the background and no person has edited it yet. Any edit through this API changes `background` to `team`. * `team` - Team * `background` - Background */
+  managed_by: SignalScoutConfigManagedByEnum;
   /** Whether the scout writes findings to the inbox. False = dry-run: it runs and logs but emits nothing. */
   emit: boolean;
   /** Minutes between runs (30–43200). The scout runs once this interval has elapsed since its last run. */
@@ -1564,12 +1450,18 @@ export interface SignalScoutConfig {
   model: string | null;
   /** MCP gateway servers (by id) this scout's runs may use, chosen from the connections members shared to the whole team. Selection is per scout: an empty list gives the scout no MCP servers. Applies from the scout's next run. */
   mcp_gateway_server_ids: SignalScoutConfigMcpGatewayServerIdsList;
+  /** GitHub repositories this scout clones into its sandbox, each in `organization/repo` format. Set them for a scout that reads code, so it can search the tree and run the project's own tests instead of reading files one API call at a time. Empty (the default) leaves the sandbox without a checkout. The scout's GitHub access stays read-only either way, so a repository listed here is never writable from a run. At most 10, each reachable through the project's GitHub connection. Applies from the scout's next run. */
+  repositories?: SignalScoutConfigRepositoriesList;
+  /** Extra write access granted to this one scout, as scope strings. The grantable set is `alert:write`, `annotation:write`, `customer_task:write`, `dashboard:write`, `hog_flow_proposal:write`, `insight:write`, `llm_skill:write`, `replay_scanner:write`, `warehouse_table:write`, `warehouse_view:write`. Empty (the default) means the scout reads the project and writes only what every scout may write: notebooks, its findings, and its own memory. Each scope is project-wide and object-level, so a scout holding `dashboard:write` can update or delete any dashboard in the project, not only ones it made. Grant only what this scout maintains. Only the person the scout's runs act as (whoever authored it) or a project admin can set it, and a scoped API key must itself carry each scope it grants. A dry run (`emit=false`) never holds the grant. Applies from the scout's next run. */
+  write_scopes: SignalScoutConfigWriteScopesList;
   /** When the coordinator last dispatched this scout. Null if it has never run. */
   last_run_at: string | null;
   /** How many of this scout's runs have failed in a row. Back to 0 after a successful run or any config edit. At the failure limit the scout pauses itself (`status` becomes `paused_by_system` with `pause_reason` `repeated_failures`) and retries about once a day; a successful retry resumes it, and so does setting `enabled=true`. */
   consecutive_failure_count: number;
   /** When `status` last changed. For `pending_pause` this is when the warning was issued (an `ignored` warning pauses about a week later unless someone engages with the scout's reports — opening one counts; a `no_output` warning only flags the scout); for the paused statuses it is when the scout was paused. Null if the status never changed. */
   status_changed_at: string | null;
+  /** Who last moved `status`, when a person did it through this API. Null for a system transition such as an automatic pause, for a row whose status never changed, and for a caller that may not read member identities. Pair it with `status` to say who turned a scout off, instead of only when it went off. */
+  status_changed_by: UserBasic | null;
   /** Whether this scout is exempt from the inactivity sweep, meaning both the `ignored` pause and the `no_output` quiet warning. Set it on watchdog scouts whose value is staying quiet. Only ever set explicitly: re-enabling a swept scout instead grants a fresh grace window before the sweep may judge it again. */
   auto_pause_exempt: boolean;
   /** Free-form labels for grouping the fleet, e.g. `["revenue", "on-call"]`. Normalized to lowercase kebab-case (`On Call` and `on_call` both become `on-call`), deduped, and stored sorted; at most 10 tags, each at most 50 characters once normalized. Pass the full desired set — a write replaces the existing tags rather than merging into them. Filter the config list with the `tags` query parameter. */
@@ -1579,17 +1471,23 @@ export interface SignalScoutConfig {
   /** Id of the owning object in `source_product`, e.g. a Replay Vision scanner id. */
   source_id: string | null;
   created_at: string;
+  /** When this config last changed: an edit through this API, or a status change the system made such as an automatic pause. A scheduled run does not bump it — the coordinator stamps `last_run_at` with a direct write — so this reads as when the scout was last tuned rather than when it last ran. */
+  updated_at: string;
 }
 export const SignalScoutConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String,
     skill_name: S.String,
     description: S.String,
+    display_name: S.optional(S.String),
     scout_origin: ScoutOriginEnum,
+    scout_role: ScoutRoleEnum,
+    deprecation: S.NullOr(ScoutDeprecation),
     owners: SignalScoutConfigOwnersList,
     enabled: S.Boolean,
     status: SignalScoutConfigStatusEnum,
     pause_reason: S.NullOr(SignalScoutConfigPauseReasonEnum),
+    managed_by: SignalScoutConfigManagedByEnum,
     emit: S.Boolean,
     run_interval_minutes: S.Number,
     run_cron_schedule: S.NullOr(S.String),
@@ -1598,18 +1496,20 @@ export const SignalScoutConfig = /*@__PURE__*/ S.suspend(() =>
     network_access: SignalScoutConfigNetworkAccessEnum,
     model: S.NullOr(S.String),
     mcp_gateway_server_ids: SignalScoutConfigMcpGatewayServerIdsList,
+    repositories: S.optional(SignalScoutConfigRepositoriesList),
+    write_scopes: SignalScoutConfigWriteScopesList,
     last_run_at: S.NullOr(S.String),
     consecutive_failure_count: S.Number,
     status_changed_at: S.NullOr(S.String),
+    status_changed_by: S.NullOr(UserBasic),
     auto_pause_exempt: S.Boolean,
     tags: S.optional(SignalScoutConfigTagsList),
     source_product: S.NullOr(S.String),
     source_id: S.NullOr(S.String),
     created_at: S.String,
+    updated_at: S.String,
   }),
-).annotate({
-  identifier: "SignalScoutConfig",
-}) as any as S.Schema<SignalScoutConfig>;
+).annotate({ identifier: "SignalScoutConfig" }) as any as S.Schema<SignalScoutConfig>;
 
 /** The scout that now watches this scanner. */
 export interface ScannerScoutCreateResponse {
@@ -1702,9 +1602,7 @@ export const SuggestTagsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     suggestions: SuggestTagsResponseSuggestionsList,
   }),
-).annotate({
-  identifier: "SuggestTagsResponse",
-}) as any as S.Schema<SuggestTagsResponse>;
+).annotate({ identifier: "SuggestTagsResponse" }) as any as S.Schema<SuggestTagsResponse>;
 
 export interface GetEnvironmentVisionQuotaRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -1713,13 +1611,7 @@ export interface GetEnvironmentVisionQuotaRequest {
 export const GetEnvironmentVisionQuotaRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project_id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/vision/quota/",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/projects/{project_id}/vision/quota/", code: 200 })),
 ).annotate({
   identifier: "GetEnvironmentVisionQuotaRequest",
 }) as any as S.Schema<GetEnvironmentVisionQuotaRequest>;
@@ -1731,7 +1623,7 @@ export interface VisionQuota {
   credits_used: number;
   /** Credits posted to the receipt ledger by succeeded observations and finished prompt-test sessions this period, across every project in the organization. Deleting an observation never refunds these. */
   credits_settled: number;
-  /** Credits held by in-flight observations and running prompt tests across every project in the organization. Released without charge when the work fails, settled into `credits_settled` when it succeeds. */
+  /** Credits held by in-flight observations across every project in the organization. Released without charge when the work fails, settled into `credits_settled` when it succeeds. */
   credits_reserved: number;
   /** `credit_limit - credits_used`, floored at 0. Null when uncapped. */
   remaining: number | null;
@@ -1818,9 +1710,7 @@ export const VisionSpendSeries = /*@__PURE__*/ S.suspend(() =>
     period_end: S.String,
     days: VisionSpendSeriesDaysList,
   }),
-).annotate({
-  identifier: "VisionSpendSeries",
-}) as any as S.Schema<VisionSpendSeries>;
+).annotate({ identifier: "VisionSpendSeries" }) as any as S.Schema<VisionSpendSeries>;
 
 export interface GetVisionAlertRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -1833,15 +1723,135 @@ export const GetVisionAlertRequest = /*@__PURE__*/ S.suspend(() =>
     project_id: S.String.pipe(T.Label()),
     id: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/vision/alerts/{id}/",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/projects/{project_id}/vision/alerts/{id}/", code: 200 }),
   ),
+).annotate({ identifier: "GetVisionAlertRequest" }) as any as S.Schema<GetVisionAlertRequest>;
+
+/** HogFunctions backing the created destination, one per event kind. */
+export type VisionAlertDestinationConfigHogFunctionIdsList = Array<string>;
+export const VisionAlertDestinationConfigHogFunctionIdsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<VisionAlertDestinationConfigHogFunctionIdsList>;
+
+export interface VisionAlertDestinationConfig {
+  /** HogFunctions backing the created destination, one per event kind. */
+  hog_function_ids: VisionAlertDestinationConfigHogFunctionIdsList;
+  /** Notification destination type. * `slack` - slack * `webhook` - webhook */
+  type: VisionAlertDestinationTypeEnum;
+  /** Whether every HogFunction in the group is enabled, so the destination notifies on every event kind. */
+  enabled: boolean;
+  /** Integration ID of the Slack workspace, for Slack destinations. */
+  slack_workspace_id?: number;
+  /** Slack channel ID, for Slack destinations. */
+  slack_channel_id?: string;
+  /** Webhook endpoint reduced to scheme and host, because the path, query and userinfo can carry a secret. */
+  webhook_url?: string;
+}
+export const VisionAlertDestinationConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    hog_function_ids: VisionAlertDestinationConfigHogFunctionIdsList,
+    type: VisionAlertDestinationTypeEnum,
+    enabled: S.Boolean,
+    slack_workspace_id: S.optional(S.Number),
+    slack_channel_id: S.optional(S.String),
+    webhook_url: S.optional(S.String),
+  }),
 ).annotate({
-  identifier: "GetVisionAlertRequest",
-}) as any as S.Schema<GetVisionAlertRequest>;
+  identifier: "VisionAlertDestinationConfig",
+}) as any as S.Schema<VisionAlertDestinationConfig>;
+
+/** This alert's notification destinations, one entry per destination, with credential-bearing URL parts removed. */
+export type VisionAlertConfigurationDetailDestinationsList = Array<VisionAlertDestinationConfig>;
+export const VisionAlertConfigurationDetailDestinationsList = /*@__PURE__*/ S.Array(
+  VisionAlertDestinationConfig,
+) as any as S.Schema<VisionAlertConfigurationDetailDestinationsList>;
+
+export interface VisionAlertConfigurationDetail {
+  /** Unique identifier for this alert. */
+  id: string;
+  /** Scanner whose observations this alert watches. Immutable after creation. */
+  scanner_id: string;
+  /** Human-readable name for this alert. Defaults to 'Untitled alert' on create when omitted. */
+  name?: string;
+  /** Whether the alert is active. Disabling a metric alert resets its state to not_firing. */
+  enabled?: boolean;
+  /** 'metric' fires when a metric crosses a threshold over a rolling window; 'match' fires on every observation that matches the selection. Immutable after creation. * `metric` - Metric * `match` - Match */
+  kind: VisionAlertKindEnum;
+  /** Which observations count. Empty matches every observation of the scanner. */
+  selection?: VisionAlertSelection;
+  /** Metric alerts only: what to measure over the window. 'avg_score' requires a scorer scanner. * `count` - Count matching observations * `avg_score` - Average score */
+  metric?: VisionAlertMetricEnum;
+  /** Metric alerts only: whether the alert fires at or above, or at or below, the threshold. * `above` - At or above * `below` - At or below */
+  direction?: VisionAlertDirectionEnum;
+  /** Metric alerts only: the threshold value. Required for metric alerts, must be omitted for match alerts. */
+  threshold?: number | null;
+  /** Metric alerts only: rolling window in days. Allowed values: [1, 3, 7, 14, 30]. */
+  window_days?: number;
+  /** Metric alerts only: evaluation cadence in minutes, at least 15. */
+  check_interval_minutes?: number;
+  /** Current lifecycle state. Always not_firing for match alerts. Server-managed. * `not_firing` - Not firing * `firing` - Firing * `pending_resolve` - Pending resolve * `errored` - Errored * `snoozed` - Snoozed * `broken` - Broken */
+  state: LogsAlertConfigurationStateEnum;
+  /** Metric alerts only: total check periods in the sliding evaluation window (M in N-of-M). */
+  evaluation_periods?: number;
+  /** Metric alerts only: how many periods must breach to fire (N in N-of-M). */
+  datapoints_to_alarm?: number;
+  /** Metric alerts only: minimum minutes between repeated notifications. 0 means no cooldown. */
+  cooldown_minutes?: number;
+  /** Blocked local time windows when the alert must not notify. Times use the project timezone. Null disables quiet hours. */
+  schedule_restriction?: AlertScheduleRestriction | null;
+  /** ISO 8601 timestamp until which the alert is snoozed. Set to null to unsnooze. */
+  snooze_until?: string | null;
+  /** When the next evaluation is scheduled. Server-managed. */
+  next_check_at: string | null;
+  /** When the last notification was sent. Server-managed. */
+  last_notified_at: string | null;
+  /** When the alert was last evaluated. Server-managed. */
+  last_checked_at: string | null;
+  /** Consecutive evaluation failures. Resets on success. Server-managed. */
+  consecutive_failures: number;
+  /** When the alert was first enabled. Null means still a draft. */
+  first_enabled_at: string | null;
+  /** When the alert was created. */
+  created_at: string;
+  /** User who created the alert; null once that user is deleted. */
+  created_by: UserBasic | null;
+  /** When the alert was last modified. */
+  updated_at: string | null;
+  /** This alert's notification destinations, one entry per destination, with credential-bearing URL parts removed. */
+  destinations: VisionAlertConfigurationDetailDestinationsList;
+}
+export const VisionAlertConfigurationDetail = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    scanner_id: S.String,
+    name: S.optional(S.String),
+    enabled: S.optional(S.Boolean),
+    kind: VisionAlertKindEnum,
+    selection: S.optional(VisionAlertSelection),
+    metric: S.optional(VisionAlertMetricEnum),
+    direction: S.optional(VisionAlertDirectionEnum),
+    threshold: S.optional(S.NullOr(S.Number)),
+    window_days: S.optional(S.Number),
+    check_interval_minutes: S.optional(S.Number),
+    state: LogsAlertConfigurationStateEnum,
+    evaluation_periods: S.optional(S.Number),
+    datapoints_to_alarm: S.optional(S.Number),
+    cooldown_minutes: S.optional(S.Number),
+    schedule_restriction: S.optional(S.NullOr(AlertScheduleRestriction)),
+    snooze_until: S.optional(S.NullOr(S.String)),
+    next_check_at: S.NullOr(S.String),
+    last_notified_at: S.NullOr(S.String),
+    last_checked_at: S.NullOr(S.String),
+    consecutive_failures: S.Number,
+    first_enabled_at: S.NullOr(S.String),
+    created_at: S.String,
+    created_by: S.NullOr(UserBasic),
+    updated_at: S.NullOr(S.String),
+    destinations: VisionAlertConfigurationDetailDestinationsList,
+  }),
+).annotate({
+  identifier: "VisionAlertConfigurationDetail",
+}) as any as S.Schema<VisionAlertConfigurationDetail>;
 
 export type GetVisionObservationRequestOrderBy =
   | "-completed_at"
@@ -1873,9 +1883,9 @@ export interface GetVisionObservationRequest {
   id: string;
   /** Only observations dispatched by this backfill. */
   backfill_id?: string;
-  /** Only observations created at or after this time. Accepts ISO 8601 or a relative date like `-7d`; values without an explicit offset are interpreted in the project's timezone. */
+  /** Only observations created at or after this time. Accepts ISO 8601, a relative date like `-7d`, or `now`; values without an explicit offset are interpreted in the project's timezone. */
   date_from?: string;
-  /** Only observations created at or before this time. Accepts ISO 8601 or a relative date like `-1d`; date-only values include the whole day, interpreted in the project's timezone. */
+  /** Only observations created at or before this time. Accepts ISO 8601, a relative date like `-1d`, or `now` for the current time; omit it to query through the current time. Date-only values include the whole day, interpreted in the project's timezone. */
   date_to?: string;
   /** When true, return only observations that have a shared label (thumbs up or down); when false, only unlabeled observations. */
   labeled?: string;
@@ -1895,6 +1905,8 @@ export interface GetVisionObservationRequest {
   tags?: string;
   /** Filter by trigger source (schedule, on_demand, retry, or backfill). Accepts a comma-separated list. */
   triggered_by?: string;
+  /** Experiment scanners only: filter to observations attributed to any of the given variant keys (comma-separated). `__unattributed__` matches observations with no attributed variant. */
+  variant?: string;
   /** Filter monitor observations by verdict. Accepts a comma-separated list (e.g. `yes,inconclusive`). */
   verdict?: string;
 }
@@ -1914,6 +1926,7 @@ export const GetVisionObservationRequest = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(S.String.pipe(T.Query())),
     tags: S.optional(S.String.pipe(T.Query())),
     triggered_by: S.optional(S.String.pipe(T.Query())),
+    variant: S.optional(S.String.pipe(T.Query())),
     verdict: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
@@ -1934,11 +1947,18 @@ export const ScannerOriginEnum = S.String;
 export type ObservationStatusEnum = "pending" | "running" | "succeeded" | "failed" | "ineligible";
 export const ObservationStatusEnum = S.String;
 
+/** Experiment scanners with balanced sampling: the 0..1 rate each watched variant was sampled at by the tick that dispatched this scan. Null otherwise, so even per-variant counts can be read against the rates that produced them. */
+export type ScannerSnapshotVariantSamplingRatesMap = { [key: string]: number | undefined };
+export const ScannerSnapshotVariantSamplingRatesMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.Number,
+) as any as S.Schema<ScannerSnapshotVariantSamplingRatesMap>;
+
 /** Mirrors `temporal.types.ScannerSnapshot` for OpenAPI generation. */
 export interface ScannerSnapshot {
   /** Scanner name at run time. */
   name: string;
-  /** Scanner type (monitor, classifier, scorer, summarizer) at run time. * `monitor` - Monitor * `classifier` - Classifier * `scorer` - Scorer * `summarizer` - Summarizer */
+  /** Scanner type (monitor, classifier, scorer, summarizer, experiment) at run time. * `monitor` - Monitor * `classifier` - Classifier * `scorer` - Scorer * `summarizer` - Summarizer * `experiment` - Experiment */
   scanner_type: ScannerTypeEnum;
   /** The `ReplayScanner.scanner_version` value at the moment the workflow ran. */
   scanner_version: number;
@@ -1950,6 +1970,8 @@ export interface ScannerSnapshot {
   emits_signals: boolean;
   /** Scanner-type-specific configuration at run time (prompt, tags, scale, etc.). */
   scanner_config: unknown;
+  /** Experiment scanners with balanced sampling: the 0..1 rate each watched variant was sampled at by the tick that dispatched this scan. Null otherwise, so even per-variant counts can be read against the rates that produced them. */
+  variant_sampling_rates?: ScannerSnapshotVariantSamplingRatesMap | null;
 }
 export const ScannerSnapshot = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1960,10 +1982,9 @@ export const ScannerSnapshot = /*@__PURE__*/ S.suspend(() =>
     provider: S.String,
     emits_signals: S.Boolean,
     scanner_config: S.Unknown,
+    variant_sampling_rates: S.optional(S.NullOr(ScannerSnapshotVariantSamplingRatesMap)),
   }),
-).annotate({
-  identifier: "ScannerSnapshot",
-}) as any as S.Schema<ScannerSnapshot>;
+).annotate({ identifier: "ScannerSnapshot" }) as any as S.Schema<ScannerSnapshot>;
 
 /** Mirrors `temporal.types.ScannerResult` for OpenAPI generation. */
 export interface ScannerResult {
@@ -1971,17 +1992,62 @@ export interface ScannerResult {
   model_output: unknown;
   /** Number of PostHog Signals emitted from this observation. */
   signals_count: number;
+  /** Experiment scanners only: the variant the exposure data attributes this session's person to. Null on the other types and on rows scanned before variant attribution shipped. */
+  experiment_variant?: string | null;
+  /** Experiment scanners only: the scanned session's duration in seconds. */
+  session_duration_s?: number | null;
 }
 export const ScannerResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     model_output: S.Unknown,
     signals_count: S.Number,
+    experiment_variant: S.optional(S.NullOr(S.String)),
+    session_duration_s: S.optional(S.NullOr(S.Number)),
   }),
 ).annotate({ identifier: "ScannerResult" }) as any as S.Schema<ScannerResult>;
 
 /** * `schedule` - Schedule * `on_demand` - On demand * `retry` - Retry * `backfill` - Backfill */
 export type ObservationTriggerEnum = "schedule" | "on_demand" | "retry" | "backfill";
 export const ObservationTriggerEnum = S.String;
+
+/** * `thumbnail` - Thumbnail * `clip` - Clip * `chapter` - Chapter */
+export type ReplayObservationMediaKindEnum = "thumbnail" | "clip" | "chapter";
+export const ReplayObservationMediaKindEnum = S.String;
+
+/** One thumbnail or clip illustrating an observation. */
+export interface ReplayObservationMedia {
+  /** Id of this media entry. */
+  id: string;
+  /** `thumbnail` for the single frame that illustrates the observation, `chapter` for the frame of one summary chapter, `clip` for a short video. * `thumbnail` - Thumbnail * `clip` - Clip * `chapter` - Chapter */
+  kind: ReplayObservationMediaKindEnum;
+  /** Order among media of the same kind. For a `chapter` frame, the index into `model_output.chapters`. */
+  position: number;
+  /** Export asset holding the bytes; fetch it from the export content endpoint. */
+  asset_id: number;
+  /** One sentence saying what the clip shows. Null for thumbnails. */
+  description: string | null;
+  /** Where this media starts in the analysis video, in milliseconds. */
+  video_start_ms: number;
+  /** Where a clip ends in the analysis video, in milliseconds. Null for thumbnails. */
+  video_end_ms: number | null;
+}
+export const ReplayObservationMedia = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    kind: ReplayObservationMediaKindEnum,
+    position: S.Number,
+    asset_id: S.Number,
+    description: S.NullOr(S.String),
+    video_start_ms: S.Number,
+    video_end_ms: S.NullOr(S.Number),
+  }),
+).annotate({ identifier: "ReplayObservationMedia" }) as any as S.Schema<ReplayObservationMedia>;
+
+/** Thumbnails and clips illustrating this observation, in order. Empty until the media render finishes. */
+export type ReplayObservationMediaList = Array<ReplayObservationMedia>;
+export const ReplayObservationMediaList = /*@__PURE__*/ S.Array(
+  ReplayObservationMedia,
+) as any as S.Schema<ReplayObservationMediaList>;
 
 export interface ReplayObservation {
   id: string;
@@ -1993,7 +2059,7 @@ export interface ReplayObservation {
   session_id: string;
   /** Observation status (pending, running, succeeded, failed, ineligible). * `pending` - Pending * `running` - Running * `succeeded` - Succeeded * `failed` - Failed * `ineligible` - Ineligible */
   status: ObservationStatusEnum;
-  /** Populated on terminal non-success statuses; formatted as `kind:human-readable message`. For `ineligible`, kind is one of no_recording / too_short / too_inactive / too_long / no_events / no_snapshots / too_large. For `failed`, kind is one of provider_transient / provider_rejected / rasterization_failed / validation_failed / infra_transient / internal_error / orphaned. */
+  /** Populated on terminal non-success statuses; formatted as `kind:human-readable message`. For `ineligible`, kind is one of no_recording / too_short / too_inactive / too_long / no_events / no_snapshots / too_large / not_exposed / experiment_unresolved. For `failed`, kind is one of provider_transient / provider_rejected / rasterization_failed / validation_failed / infra_transient / internal_error / orphaned / pii_detected. */
   error_reason: string;
   /** Temporal workflow id for progress queries and debugging. Empty until the workflow starts. */
   workflow_id: string;
@@ -2001,6 +2067,8 @@ export interface ReplayObservation {
   scanner_snapshot: ScannerSnapshot | null;
   /** Result data persisted on success; null until the observation succeeds. */
   scanner_result: ScannerResult | null;
+  /** The scanner's prompt condensed into the one question it answers about a session. Null when the prompt has changed since this observation was scanned, since the question then describes a different prompt; read `scanner_snapshot.scanner_config.prompt` instead. */
+  prompt_question: string | null;
   /** Whether this observation came from the schedule, an on-demand request, a retry of a failed or ineligible observation, or a historical backfill. * `schedule` - Schedule * `on_demand` - On demand * `retry` - Retry * `backfill` - Backfill */
   triggered_by: ObservationTriggerEnum;
   /** User who triggered an on-demand observation; null for scheduled observations. */
@@ -2017,6 +2085,12 @@ export interface ReplayObservation {
   next_observation_id: string | null;
   /** The team's shared label on this observation (correct/incorrect + feedback), or null if unlabeled. */
   label: ReplayObservationLabel | null;
+  /** Whether the calling user has opened this observation. */
+  viewed: boolean;
+  /** Thumbnails and clips illustrating this observation, in order. Empty until the media render finishes. */
+  media: ReplayObservationMediaList;
+  /** One line of plain text saying what the scanner found: its verdict, score, tags or title, then its own words, with markdown flattened and the text truncated. An observation that produced no result carries the reason instead, and one still in flight carries an empty string. Read this in place of `scanner_result` when you scan a list of observations. */
+  summary_line: string;
   started_at?: string | null;
   completed_at?: string | null;
   created_at: string;
@@ -2032,6 +2106,7 @@ export const ReplayObservation = /*@__PURE__*/ S.suspend(() =>
     workflow_id: S.String,
     scanner_snapshot: S.NullOr(ScannerSnapshot),
     scanner_result: S.NullOr(ScannerResult),
+    prompt_question: S.NullOr(S.String),
     triggered_by: ObservationTriggerEnum,
     triggered_by_user: S.NullOr(UserBasic),
     backfill_id: S.NullOr(S.String),
@@ -2040,13 +2115,45 @@ export const ReplayObservation = /*@__PURE__*/ S.suspend(() =>
     previous_observation_id: S.NullOr(S.String),
     next_observation_id: S.NullOr(S.String),
     label: S.NullOr(ReplayObservationLabel),
+    viewed: S.Boolean,
+    media: ReplayObservationMediaList,
+    summary_line: S.String,
     started_at: S.optional(S.NullOr(S.String)),
     completed_at: S.optional(S.NullOr(S.String)),
     created_at: S.String,
   }),
+).annotate({ identifier: "ReplayObservation" }) as any as S.Schema<ReplayObservation>;
+
+export interface GetVisionObservationsThumbnailRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** A UUID string identifying this replay observation. */
+  id: string;
+  /** Index into the summary's `model_output.chapters`. Serves that chapter's frame instead of the observation's thumbnail. */
+  chapter?: number;
+}
+export const GetVisionObservationsThumbnailRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    project_id: S.String.pipe(T.Label()),
+    id: S.String.pipe(T.Label()),
+    chapter: S.optional(S.Number.pipe(T.Query())),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/api/projects/{project_id}/vision/observations/{id}/thumbnail/",
+      code: 200,
+    }),
+  ),
 ).annotate({
-  identifier: "ReplayObservation",
-}) as any as S.Schema<ReplayObservation>;
+  identifier: "GetVisionObservationsThumbnailRequest",
+}) as any as S.Schema<GetVisionObservationsThumbnailRequest>;
+
+export interface GetVisionObservationsThumbnailResponse {}
+export const GetVisionObservationsThumbnailResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "GetVisionObservationsThumbnailResponse",
+}) as any as S.Schema<GetVisionObservationsThumbnailResponse>;
 
 export interface GetVisionScannerRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -2059,15 +2166,9 @@ export const GetVisionScannerRequest = /*@__PURE__*/ S.suspend(() =>
     project_id: S.String.pipe(T.Label()),
     id: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/vision/scanners/{id}/",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/projects/{project_id}/vision/scanners/{id}/", code: 200 }),
   ),
-).annotate({
-  identifier: "GetVisionScannerRequest",
-}) as any as S.Schema<GetVisionScannerRequest>;
+).annotate({ identifier: "GetVisionScannerRequest" }) as any as S.Schema<GetVisionScannerRequest>;
 
 export interface GetVisionScannersBackfillRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -2125,9 +2226,10 @@ export const ScannerCreatorsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     creators: ScannerCreatorsResponseCreatorsList,
   }),
-).annotate({
-  identifier: "ScannerCreatorsResponse",
-}) as any as S.Schema<ScannerCreatorsResponse>;
+).annotate({ identifier: "ScannerCreatorsResponse" }) as any as S.Schema<ScannerCreatorsResponse>;
+
+export type GetVisionScannersImpactRequestVerdict = "yes" | "no" | "inconclusive";
+export const GetVisionScannersImpactRequestVerdict = S.String;
 
 export interface GetVisionScannersImpactRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -2140,6 +2242,8 @@ export interface GetVisionScannersImpactRequest {
   min_score?: number;
   /** Classifier scanners only, required for them: count sessions carrying this tag (fixed or freeform). Not applicable to other scanner types. */
   tag?: string;
+  /** Monitor scanners only: count sessions with this verdict. Defaults to `yes`. Not applicable to other scanner types. * `yes` - Yes * `no` - No * `inconclusive` - Inconclusive */
+  verdict?: GetVisionScannersImpactRequestVerdict | (string & {});
   /** Trailing window of observations to count. Defaults to 30 days. */
   window_days?: number;
 }
@@ -2150,6 +2254,7 @@ export const GetVisionScannersImpactRequest = /*@__PURE__*/ S.suspend(() =>
     max_score: S.optional(S.Number.pipe(T.Query())),
     min_score: S.optional(S.Number.pipe(T.Query())),
     tag: S.optional(S.String.pipe(T.Query())),
+    verdict: S.optional(GetVisionScannersImpactRequestVerdict.pipe(T.Query())),
     window_days: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
     T.Http({
@@ -2164,7 +2269,7 @@ export const GetVisionScannersImpactRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** Who this scanner's findings affected in the window; counted from observations, not estimated. */
 export interface ScannerImpact {
-  /** Distinct sessions with an affected observation in the window. For monitors only verdict-yes observations count; for other scanner types every succeeded observation counts. */
+  /** Distinct sessions with an affected observation in the window. For monitors only observations with the requested verdict count (yes by default); for other scanner types every succeeded observation counts. */
   affected_sessions: number;
   /** Distinct users behind the affected sessions, by distinct ID. May include anonymous device IDs when the recorded sessions were not identified. */
   affected_users: number;
@@ -2213,9 +2318,9 @@ export interface GetVisionScannersObservationRequest {
   id: string;
   /** Only observations dispatched by this backfill. */
   backfill_id?: string;
-  /** Only observations created at or after this time. Accepts ISO 8601 or a relative date like `-7d`; values without an explicit offset are interpreted in the project's timezone. */
+  /** Only observations created at or after this time. Accepts ISO 8601, a relative date like `-7d`, or `now`; values without an explicit offset are interpreted in the project's timezone. */
   date_from?: string;
-  /** Only observations created at or before this time. Accepts ISO 8601 or a relative date like `-1d`; date-only values include the whole day, interpreted in the project's timezone. */
+  /** Only observations created at or before this time. Accepts ISO 8601, a relative date like `-1d`, or `now` for the current time; omit it to query through the current time. Date-only values include the whole day, interpreted in the project's timezone. */
   date_to?: string;
   /** When true, return only observations that have a shared label (thumbs up or down); when false, only unlabeled observations. */
   labeled?: string;
@@ -2235,6 +2340,8 @@ export interface GetVisionScannersObservationRequest {
   tags?: string;
   /** Filter by trigger source (schedule, on_demand, retry, or backfill). Accepts a comma-separated list. */
   triggered_by?: string;
+  /** Experiment scanners only: filter to observations attributed to any of the given variant keys (comma-separated). `__unattributed__` matches observations with no attributed variant. */
+  variant?: string;
   /** Filter monitor observations by verdict. Accepts a comma-separated list (e.g. `yes,inconclusive`). */
   verdict?: string;
 }
@@ -2255,6 +2362,7 @@ export const GetVisionScannersObservationRequest = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(S.String.pipe(T.Query())),
     tags: S.optional(S.String.pipe(T.Query())),
     triggered_by: S.optional(S.String.pipe(T.Query())),
+    variant: S.optional(S.String.pipe(T.Query())),
     verdict: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
@@ -2273,9 +2381,9 @@ export interface GetVisionScannersObservationsStatRequest {
   scanner_id: string;
   /** Only observations dispatched by this backfill. */
   backfill_id?: string;
-  /** Only observations created at or after this time. Accepts ISO 8601 or a relative date like `-7d`; values without an explicit offset are interpreted in the project's timezone. */
+  /** Only observations created at or after this time. Accepts ISO 8601, a relative date like `-7d`, or `now`; values without an explicit offset are interpreted in the project's timezone. */
   date_from?: string;
-  /** Only observations created at or before this time. Accepts ISO 8601 or a relative date like `-1d`; date-only values include the whole day, interpreted in the project's timezone. */
+  /** Only observations created at or before this time. Accepts ISO 8601, a relative date like `-1d`, or `now` for the current time; omit it to query through the current time. Date-only values include the whole day, interpreted in the project's timezone. */
   date_to?: string;
   /** When true, return only observations that have a shared label (thumbs up or down); when false, only unlabeled observations. */
   labeled?: string;
@@ -2295,6 +2403,8 @@ export interface GetVisionScannersObservationsStatRequest {
   tags?: string;
   /** Filter by trigger source (schedule, on_demand, retry, or backfill). Accepts a comma-separated list. */
   triggered_by?: string;
+  /** Experiment scanners only: filter to observations attributed to any of the given variant keys (comma-separated). `__unattributed__` matches observations with no attributed variant. */
+  variant?: string;
   /** Filter monitor observations by verdict. Accepts a comma-separated list (e.g. `yes,inconclusive`). */
   verdict?: string;
 }
@@ -2314,6 +2424,7 @@ export const GetVisionScannersObservationsStatRequest = /*@__PURE__*/ S.suspend(
     status: S.optional(S.String.pipe(T.Query())),
     tags: S.optional(S.String.pipe(T.Query())),
     triggered_by: S.optional(S.String.pipe(T.Query())),
+    variant: S.optional(S.String.pipe(T.Query())),
     verdict: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
@@ -2349,9 +2460,7 @@ export const ObservationStatusCounts = /*@__PURE__*/ S.suspend(() =>
     in_flight: S.Number,
     success_rate: S.NullOr(S.Number),
   }),
-).annotate({
-  identifier: "ObservationStatusCounts",
-}) as any as S.Schema<ObservationStatusCounts>;
+).annotate({ identifier: "ObservationStatusCounts" }) as any as S.Schema<ObservationStatusCounts>;
 
 export interface CoverageStats {
   /** Distinct sessions observed within the last `recent_days` days. */
@@ -2383,9 +2492,7 @@ export const ObservationLabelDayCount = /*@__PURE__*/ S.suspend(() =>
     up: S.Number,
     down: S.Number,
   }),
-).annotate({
-  identifier: "ObservationLabelDayCount",
-}) as any as S.Schema<ObservationLabelDayCount>;
+).annotate({ identifier: "ObservationLabelDayCount" }) as any as S.Schema<ObservationLabelDayCount>;
 
 /** Daily label counts over the last `recent_days` days, bucketed by the day the session was scanned so the series tracks scanner quality over time. Days without labels are omitted. */
 export type ObservationLabelStatsByDayList = Array<ObservationLabelDayCount>;
@@ -2446,9 +2553,7 @@ export const ObservationVersionMarker = /*@__PURE__*/ S.suspend(() =>
     down: S.Number,
     total: S.Number,
   }),
-).annotate({
-  identifier: "ObservationVersionMarker",
-}) as any as S.Schema<ObservationVersionMarker>;
+).annotate({ identifier: "ObservationVersionMarker" }) as any as S.Schema<ObservationVersionMarker>;
 
 /** Each scanner version that produced observations (all-time), with its first day, the config it ran with, and rating counts, for chart markers and the config version history. */
 export type ObservationLabelStatsVersionMarkersList = Array<ObservationVersionMarker>;
@@ -2476,9 +2581,7 @@ export const ObservationLabelStats = /*@__PURE__*/ S.suspend(() =>
     by_rating_day: ObservationLabelStatsByRatingDayList,
     version_markers: ObservationLabelStatsVersionMarkersList,
   }),
-).annotate({
-  identifier: "ObservationLabelStats",
-}) as any as S.Schema<ObservationLabelStats>;
+).annotate({ identifier: "ObservationLabelStats" }) as any as S.Schema<ObservationLabelStats>;
 
 /** All distinct tags (fixed + freeform) emitted by succeeded observations in the filtered set. */
 export type ObservationStatsAvailableTagsList = Array<string>;
@@ -2541,9 +2644,7 @@ export const ClassifierStats = /*@__PURE__*/ S.suspend(() =>
     freeform_ranked: ClassifierStatsFreeformRankedList,
     total_with_tags: S.Number,
   }),
-).annotate({
-  identifier: "ClassifierStats",
-}) as any as S.Schema<ClassifierStats>;
+).annotate({ identifier: "ClassifierStats" }) as any as S.Schema<ClassifierStats>;
 
 export interface ScorerSummary {
   /** Minimum observed score. */
@@ -2596,9 +2697,7 @@ export const ScorerHistogram = /*@__PURE__*/ S.suspend(() =>
     labels: ScorerHistogramLabelsList,
     counts: ScorerHistogramCountsList,
   }),
-).annotate({
-  identifier: "ScorerHistogram",
-}) as any as S.Schema<ScorerHistogram>;
+).annotate({ identifier: "ScorerHistogram" }) as any as S.Schema<ScorerHistogram>;
 
 export interface ScorerStats {
   /** Score quantile summary; null when no observations have been scored. */
@@ -2612,52 +2711,6 @@ export const ScorerStats = /*@__PURE__*/ S.suspend(() =>
     histogram: S.NullOr(ScorerHistogram),
   }),
 ).annotate({ identifier: "ScorerStats" }) as any as S.Schema<ScorerStats>;
-
-export interface FacetCount {
-  /** The facet value as emitted by the summarizer (lowercased). */
-  term: string;
-  /** Number of succeeded observations that emitted this value. */
-  count: number;
-}
-export const FacetCount = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    term: S.String,
-    count: S.Number,
-  }),
-).annotate({ identifier: "FacetCount" }) as any as S.Schema<FacetCount>;
-
-/** Top friction points by emission count. */
-export type SummarizerStatsFrictionRankedList = Array<FacetCount>;
-export const SummarizerStatsFrictionRankedList = /*@__PURE__*/ S.Array(
-  FacetCount,
-) as any as S.Schema<SummarizerStatsFrictionRankedList>;
-
-/** Top keywords by emission count. */
-export type SummarizerStatsKeywordRankedList = Array<FacetCount>;
-export const SummarizerStatsKeywordRankedList = /*@__PURE__*/ S.Array(
-  FacetCount,
-) as any as S.Schema<SummarizerStatsKeywordRankedList>;
-
-export interface SummarizerStats {
-  /** Top friction points by emission count. */
-  friction_ranked: SummarizerStatsFrictionRankedList;
-  /** Top keywords by emission count. */
-  keyword_ranked: SummarizerStatsKeywordRankedList;
-  /** Succeeded observations that emitted at least one friction point or keyword. */
-  total_with_facets: number;
-  /** Succeeded observations that reported at least one friction point. */
-  total_with_friction: number;
-}
-export const SummarizerStats = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    friction_ranked: SummarizerStatsFrictionRankedList,
-    keyword_ranked: SummarizerStatsKeywordRankedList,
-    total_with_facets: S.Number,
-    total_with_friction: S.Number,
-  }),
-).annotate({
-  identifier: "SummarizerStats",
-}) as any as S.Schema<SummarizerStats>;
 
 export interface ObservationStats {
   /** Counts of observations by terminal status. */
@@ -2674,8 +2727,6 @@ export interface ObservationStats {
   classifier: ClassifierStats | null;
   /** Scorer-type aggregates; null when the scanner is not a scorer. */
   scorer: ScorerStats | null;
-  /** Summarizer-type facet aggregates; null when the scanner is not a summarizer. */
-  summarizer: SummarizerStats | null;
 }
 export const ObservationStats = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2686,52 +2737,41 @@ export const ObservationStats = /*@__PURE__*/ S.suspend(() =>
     monitor: S.NullOr(MonitorStats),
     classifier: S.NullOr(ClassifierStats),
     scorer: S.NullOr(ScorerStats),
-    summarizer: S.NullOr(SummarizerStats),
   }),
-).annotate({
-  identifier: "ObservationStats",
-}) as any as S.Schema<ObservationStats>;
+).annotate({ identifier: "ObservationStats" }) as any as S.Schema<ObservationStats>;
 
-export interface GetVisionScannersPromptSuggestionsCurrentRequest {
+export interface GetVisionScannersObservationsThumbnailRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   scanner_id: string;
+  /** A UUID string identifying this replay observation. */
+  id: string;
+  /** Index into the summary's `model_output.chapters`. Serves that chapter's frame instead of the observation's thumbnail. */
+  chapter?: number;
 }
-export const GetVisionScannersPromptSuggestionsCurrentRequest = /*@__PURE__*/ S.suspend(() =>
+export const GetVisionScannersObservationsThumbnailRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project_id: S.String.pipe(T.Label()),
     scanner_id: S.String.pipe(T.Label()),
+    id: S.String.pipe(T.Label()),
+    chapter: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/api/projects/{project_id}/vision/scanners/{scanner_id}/prompt_suggestions/current/",
+      uri: "/api/projects/{project_id}/vision/scanners/{scanner_id}/observations/{id}/thumbnail/",
       code: 200,
     }),
   ),
 ).annotate({
-  identifier: "GetVisionScannersPromptSuggestionsCurrentRequest",
-}) as any as S.Schema<GetVisionScannersPromptSuggestionsCurrentRequest>;
+  identifier: "GetVisionScannersObservationsThumbnailRequest",
+}) as any as S.Schema<GetVisionScannersObservationsThumbnailRequest>;
 
-export interface CurrentPromptSuggestion {
-  /** The newest suggestion for this scanner, or null when none has been generated yet. */
-  suggestion: ReplayScannerPromptSuggestion | null;
-  /** True when the team's ratings changed since the newest suggestion was generated. */
-  stale: boolean;
-  /** Number of rated (thumbs up or down) succeeded observations available to generate from. */
-  rated_count: number;
-  /** Maximum rated sessions one suggestion test re-runs. Each successful re-run charges credits like a normal observation of the same model. */
-  evaluation_session_cap: number;
-}
-export const CurrentPromptSuggestion = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    suggestion: S.NullOr(ReplayScannerPromptSuggestion),
-    stale: S.Boolean,
-    rated_count: S.Number,
-    evaluation_session_cap: S.Number,
-  }),
+export interface GetVisionScannersObservationsThumbnailResponse {}
+export const GetVisionScannersObservationsThumbnailResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
 ).annotate({
-  identifier: "CurrentPromptSuggestion",
-}) as any as S.Schema<CurrentPromptSuggestion>;
+  identifier: "GetVisionScannersObservationsThumbnailResponse",
+}) as any as S.Schema<GetVisionScannersObservationsThumbnailResponse>;
 
 export interface GetVisionScannersScoutReportRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -2835,6 +2875,47 @@ export const GetVisionScannersSelfDrivingStatRequest = /*@__PURE__*/ S.suspend((
   identifier: "GetVisionScannersSelfDrivingStatRequest",
 }) as any as S.Schema<GetVisionScannersSelfDrivingStatRequest>;
 
+export interface SelfDrivingReport {
+  /** Signal report ID, for linking to it in the inbox. */
+  id: string;
+  /** Report title. Null until the report is summarized. */
+  title: string | null;
+  /** The report's inbox status. */
+  status: string;
+}
+export const SelfDrivingReport = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    title: S.NullOr(S.String),
+    status: S.String,
+  }),
+).annotate({ identifier: "SelfDrivingReport" }) as any as S.Schema<SelfDrivingReport>;
+
+/** The newest reports counted in `reports_contributed`, at most 20. */
+export type ScannerSelfDrivingStatsReportsList = Array<SelfDrivingReport>;
+export const ScannerSelfDrivingStatsReportsList = /*@__PURE__*/ S.Array(
+  SelfDrivingReport,
+) as any as S.Schema<ScannerSelfDrivingStatsReportsList>;
+
+export interface SelfDrivingPullRequest {
+  /** URL of the implementation pull request. */
+  url: string;
+  /** Whether the pull request has merged. */
+  merged: boolean;
+}
+export const SelfDrivingPullRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    url: S.String,
+    merged: S.Boolean,
+  }),
+).annotate({ identifier: "SelfDrivingPullRequest" }) as any as S.Schema<SelfDrivingPullRequest>;
+
+/** The newest PRs counted in `prs_opened`, at most 20. */
+export type ScannerSelfDrivingStatsPullRequestsList = Array<SelfDrivingPullRequest>;
+export const ScannerSelfDrivingStatsPullRequestsList = /*@__PURE__*/ S.Array(
+  SelfDrivingPullRequest,
+) as any as S.Schema<ScannerSelfDrivingStatsPullRequestsList>;
+
 /** Response of GET /vision/scanners/:id/self_driving_stats/. */
 export interface ScannerSelfDrivingStats {
   /** Signals this scanner has pushed into the Signals inbox, all time. */
@@ -2845,6 +2926,10 @@ export interface ScannerSelfDrivingStats {
   prs_opened: number;
   /** Of the opened PRs, how many have merged. */
   prs_merged: number;
+  /** The newest reports counted in `reports_contributed`, at most 20. */
+  reports: ScannerSelfDrivingStatsReportsList;
+  /** The newest PRs counted in `prs_opened`, at most 20. */
+  pull_requests: ScannerSelfDrivingStatsPullRequestsList;
 }
 export const ScannerSelfDrivingStats = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2852,10 +2937,10 @@ export const ScannerSelfDrivingStats = /*@__PURE__*/ S.suspend(() =>
     reports_contributed: S.Number,
     prs_opened: S.Number,
     prs_merged: S.Number,
+    reports: ScannerSelfDrivingStatsReportsList,
+    pull_requests: ScannerSelfDrivingStatsPullRequestsList,
   }),
-).annotate({
-  identifier: "ScannerSelfDrivingStats",
-}) as any as S.Schema<ScannerSelfDrivingStats>;
+).annotate({ identifier: "ScannerSelfDrivingStats" }) as any as S.Schema<ScannerSelfDrivingStats>;
 
 export interface GetVisionScannersStatRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -2865,11 +2950,7 @@ export const GetVisionScannersStatRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project_id: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/vision/scanners/stats/",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/projects/{project_id}/vision/scanners/stats/", code: 200 }),
   ),
 ).annotate({
   identifier: "GetVisionScannersStatRequest",
@@ -2887,9 +2968,7 @@ export const ScannerTypeStats = /*@__PURE__*/ S.suspend(() =>
     enabled: S.Number,
     total: S.Number,
   }),
-).annotate({
-  identifier: "ScannerTypeStats",
-}) as any as S.Schema<ScannerTypeStats>;
+).annotate({ identifier: "ScannerTypeStats" }) as any as S.Schema<ScannerTypeStats>;
 
 /** One `ScannerTypeStats` per scanner type — explicit fields give callers a typed shape, not `Record<string, …>`. */
 export interface ScannerStatsByType {
@@ -2897,6 +2976,7 @@ export interface ScannerStatsByType {
   classifier: ScannerTypeStats;
   scorer: ScannerTypeStats;
   summarizer: ScannerTypeStats;
+  experiment: ScannerTypeStats;
 }
 export const ScannerStatsByType = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2904,10 +2984,9 @@ export const ScannerStatsByType = /*@__PURE__*/ S.suspend(() =>
     classifier: ScannerTypeStats,
     scorer: ScannerTypeStats,
     summarizer: ScannerTypeStats,
+    experiment: ScannerTypeStats,
   }),
-).annotate({
-  identifier: "ScannerStatsByType",
-}) as any as S.Schema<ScannerStatsByType>;
+).annotate({ identifier: "ScannerStatsByType" }) as any as S.Schema<ScannerStatsByType>;
 
 /** Team-wide scanner counts independent of any list-filter state. */
 export interface ScannerStatsResponse {
@@ -2915,7 +2994,7 @@ export interface ScannerStatsResponse {
   total: number;
   /** Number of enabled scanners on the team. */
   enabled: number;
-  /** Per-scanner-type breakdown (monitor / classifier / scorer / summarizer). */
+  /** Per-scanner-type breakdown (monitor / classifier / scorer / summarizer / experiment). */
   by_type: ScannerStatsByType;
 }
 export const ScannerStatsResponse = /*@__PURE__*/ S.suspend(() =>
@@ -2924,9 +3003,7 @@ export const ScannerStatsResponse = /*@__PURE__*/ S.suspend(() =>
     enabled: S.Number,
     by_type: ScannerStatsByType,
   }),
-).annotate({
-  identifier: "ScannerStatsResponse",
-}) as any as S.Schema<ScannerStatsResponse>;
+).annotate({ identifier: "ScannerStatsResponse" }) as any as S.Schema<ScannerStatsResponse>;
 
 export interface ListVisionAlertsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -2944,16 +3021,8 @@ export const ListVisionAlertsRequest = /*@__PURE__*/ S.suspend(() =>
     limit: S.optional(S.Number.pipe(T.Query())),
     offset: S.optional(S.Number.pipe(T.Query())),
     scanner_id: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/vision/alerts/",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ListVisionAlertsRequest",
-}) as any as S.Schema<ListVisionAlertsRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/projects/{project_id}/vision/alerts/", code: 200 })),
+).annotate({ identifier: "ListVisionAlertsRequest" }) as any as S.Schema<ListVisionAlertsRequest>;
 
 export type PaginatedVisionAlertConfigurationListResultsList = Array<VisionAlertConfiguration>;
 export const PaginatedVisionAlertConfigurationListResultsList = /*@__PURE__*/ S.Array(
@@ -3049,9 +3118,7 @@ export const VisionAlertEvent = /*@__PURE__*/ S.suspend(() =>
     metric_value: S.NullOr(S.Number),
     error_message: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "VisionAlertEvent",
-}) as any as S.Schema<VisionAlertEvent>;
+).annotate({ identifier: "VisionAlertEvent" }) as any as S.Schema<VisionAlertEvent>;
 
 export type PaginatedVisionAlertEventListResultsList = Array<VisionAlertEvent>;
 export const PaginatedVisionAlertEventListResultsList = /*@__PURE__*/ S.Array(
@@ -3118,11 +3185,7 @@ export const ListVisionObservationsRequest = /*@__PURE__*/ S.suspend(() =>
     order_by: S.optional(ListVisionObservationsRequestOrderBy.pipe(T.Query())),
     session_id: S.String.pipe(T.Query()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/vision/observations/",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/projects/{project_id}/vision/observations/", code: 200 }),
   ),
 ).annotate({
   identifier: "ListVisionObservationsRequest",
@@ -3150,6 +3213,60 @@ export const PaginatedReplayObservationList = /*@__PURE__*/ S.suspend(() =>
   identifier: "PaginatedReplayObservationList",
 }) as any as S.Schema<PaginatedReplayObservationList>;
 
+export interface ListVisionObservationsSignalReportsRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** A UUID string identifying this replay observation. */
+  id: string;
+}
+export const ListVisionObservationsSignalReportsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    project_id: S.String.pipe(T.Label()),
+    id: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/api/projects/{project_id}/vision/observations/{id}/signal_reports/",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "ListVisionObservationsSignalReportsRequest",
+}) as any as S.Schema<ListVisionObservationsSignalReportsRequest>;
+
+/** An inbox report that this observation's emitted signals were grouped into. */
+export interface ObservationSignalReport {
+  /** ID of the inbox report, for linking to its inbox page. */
+  id: string;
+  /** Report title, null while the report is still too new to have been summarized. */
+  title: string | null;
+  /** The report's status in the inbox: potential, candidate, in_progress, pending_input, ready, resolved, failed, or suppressed. */
+  status: string;
+  /** When the report was created. */
+  created_at: string;
+}
+export const ObservationSignalReport = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    title: S.NullOr(S.String),
+    status: S.String,
+    created_at: S.String,
+  }),
+).annotate({ identifier: "ObservationSignalReport" }) as any as S.Schema<ObservationSignalReport>;
+
+export type ListVisionObservationsSignalReportsResponseBodyList = Array<ObservationSignalReport>;
+export const ListVisionObservationsSignalReportsResponseBodyList = /*@__PURE__*/ S.Array(
+  ObservationSignalReport,
+) as any as S.Schema<ListVisionObservationsSignalReportsResponseBodyList>;
+
+export type ListVisionObservationsSignalReportsResponse =
+  ListVisionObservationsSignalReportsResponseBodyList;
+export const ListVisionObservationsSignalReportsResponse = /*@__PURE__*/ S.suspend(() =>
+  ListVisionObservationsSignalReportsResponseBodyList.pipe(T.RawResponseRoot()),
+).annotate({
+  identifier: "ListVisionObservationsSignalReportsResponse",
+}) as any as S.Schema<ListVisionObservationsSignalReportsResponse>;
+
 export type ListVisionScannersRequestOrderBy =
   | "-created_at"
   | "-created_by"
@@ -3176,7 +3293,7 @@ export interface ListVisionScannersRequest {
   created_by?: string;
   /** Filter to scanners that emit Signals. */
   emits_signals?: boolean;
-  /** Filter by enabled state. Accepts a comma-separated list of `enabled`/`disabled`. */
+  /** Filter by enabled state. Accepts `enabled`, `disabled`, a comma-separated list of both, or the boolean form `true`/`false`. Omit to list every scanner. */
   enabled?: string;
   /** Filter to scanners whose targeting watches the given experiment. */
   experiment_id?: string;
@@ -3206,38 +3323,32 @@ export const ListVisionScannersRequest = /*@__PURE__*/ S.suspend(() =>
     scanner_type: S.optional(S.String.pipe(T.Query())),
     search: S.optional(S.String.pipe(T.Query())),
     tags: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/vision/scanners/",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/projects/{project_id}/vision/scanners/", code: 200 })),
 ).annotate({
   identifier: "ListVisionScannersRequest",
 }) as any as S.Schema<ListVisionScannersRequest>;
 
-export type PaginatedReplayScannerListResultsList = Array<ReplayScanner>;
-export const PaginatedReplayScannerListResultsList = /*@__PURE__*/ S.Array(
-  ReplayScanner,
-) as any as S.Schema<PaginatedReplayScannerListResultsList>;
+export type PaginatedReplayScannerListOutputResultsList = Array<ReplayScannerOutput>;
+export const PaginatedReplayScannerListOutputResultsList = /*@__PURE__*/ S.Array(
+  ReplayScannerOutput,
+) as any as S.Schema<PaginatedReplayScannerListOutputResultsList>;
 
-export interface PaginatedReplayScannerList {
+export interface PaginatedReplayScannerListOutput {
   count: number;
   next?: string | null;
   previous?: string | null;
-  results: PaginatedReplayScannerListResultsList;
+  results: PaginatedReplayScannerListOutputResultsList;
 }
-export const PaginatedReplayScannerList = /*@__PURE__*/ S.suspend(() =>
+export const PaginatedReplayScannerListOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     count: S.Number,
     next: S.optional(S.NullOr(S.String)),
     previous: S.optional(S.NullOr(S.String)),
-    results: PaginatedReplayScannerListResultsList,
+    results: PaginatedReplayScannerListOutputResultsList,
   }),
 ).annotate({
-  identifier: "PaginatedReplayScannerList",
-}) as any as S.Schema<PaginatedReplayScannerList>;
+  identifier: "PaginatedReplayScannerListOutput",
+}) as any as S.Schema<PaginatedReplayScannerListOutput>;
 
 export interface ListVisionScannersBackfillsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -3316,9 +3427,9 @@ export interface ListVisionScannersObservationsRequest {
   scanner_id: string;
   /** Only observations dispatched by this backfill. */
   backfill_id?: string;
-  /** Only observations created at or after this time. Accepts ISO 8601 or a relative date like `-7d`; values without an explicit offset are interpreted in the project's timezone. */
+  /** Only observations created at or after this time. Accepts ISO 8601, a relative date like `-7d`, or `now`; values without an explicit offset are interpreted in the project's timezone. */
   date_from?: string;
-  /** Only observations created at or before this time. Accepts ISO 8601 or a relative date like `-1d`; date-only values include the whole day, interpreted in the project's timezone. */
+  /** Only observations created at or before this time. Accepts ISO 8601, a relative date like `-1d`, or `now` for the current time; omit it to query through the current time. Date-only values include the whole day, interpreted in the project's timezone. */
   date_to?: string;
   /** When true, return only observations that have a shared label (thumbs up or down); when false, only unlabeled observations. */
   labeled?: boolean;
@@ -3342,6 +3453,8 @@ export interface ListVisionScannersObservationsRequest {
   tags?: string;
   /** Filter by trigger source (schedule, on_demand, retry, or backfill). Accepts a comma-separated list. */
   triggered_by?: string;
+  /** Experiment scanners only: filter to observations attributed to any of the given variant keys (comma-separated). `__unattributed__` matches observations with no attributed variant. */
+  variant?: string;
   /** Filter monitor observations by verdict. Accepts a comma-separated list (e.g. `yes,inconclusive`). */
   verdict?: string;
 }
@@ -3363,6 +3476,7 @@ export const ListVisionScannersObservationsRequest = /*@__PURE__*/ S.suspend(() 
     status: S.optional(S.String.pipe(T.Query())),
     tags: S.optional(S.String.pipe(T.Query())),
     triggered_by: S.optional(S.String.pipe(T.Query())),
+    variant: S.optional(S.String.pipe(T.Query())),
     verdict: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
@@ -3375,54 +3489,84 @@ export const ListVisionScannersObservationsRequest = /*@__PURE__*/ S.suspend(() 
   identifier: "ListVisionScannersObservationsRequest",
 }) as any as S.Schema<ListVisionScannersObservationsRequest>;
 
-export interface ListVisionScannersPromptSuggestionsRequest {
+export interface ListVisionScannersObservationsSignalReportsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   scanner_id: string;
-  /** Number of results to return per page. */
-  limit?: number;
-  /** The initial index from which to return the results. */
-  offset?: number;
+  /** A UUID string identifying this replay observation. */
+  id: string;
+  /** Only observations dispatched by this backfill. */
+  backfill_id?: string;
+  /** Only observations created at or after this time. Accepts ISO 8601, a relative date like `-7d`, or `now`; values without an explicit offset are interpreted in the project's timezone. */
+  date_from?: string;
+  /** Only observations created at or before this time. Accepts ISO 8601, a relative date like `-1d`, or `now` for the current time; omit it to query through the current time. Date-only values include the whole day, interpreted in the project's timezone. */
+  date_to?: string;
+  /** When true, return only observations that have a shared label (thumbs up or down); when false, only unlabeled observations. */
+  labeled?: boolean;
+  /** Filter scorer observations to those scoring at or below this value. Rows with no numeric score (other scanner types, failed or in-flight runs) are excluded. */
+  max_score?: number;
+  /** Filter scorer observations to those scoring at or above this value. Rows with no numeric score (other scanner types, failed or in-flight runs) are excluded. */
+  min_score?: number;
+  /** Sort observations by created_at, started_at, completed_at, status, recording_subject_email, result_score, result_verdict, result_confidence, or scanner_version. Prefix with `-` for descending. Keys that can be null (started_at, completed_at, recording_subject_email, result_*, scanner_version) sort nulls last regardless of direction. */
+  order_by?: string;
+  /** Filter to observations whose person email contains this value (case-insensitive). */
+  recording_subject?: string;
+  /** Filter to observations of one or more session recordings. Accepts a comma-separated list. */
+  session_id?: string;
+  /** Filter by observation status. Accepts a comma-separated list. */
+  status?: string;
+  /** Filter classifier observations whose fixed or freeform tags include any of the given values (comma-separated). Matches if the tag appears in either `tags` or `tags_freeform`. */
+  tags?: string;
+  /** Filter by trigger source (schedule, on_demand, retry, or backfill). Accepts a comma-separated list. */
+  triggered_by?: string;
+  /** Experiment scanners only: filter to observations attributed to any of the given variant keys (comma-separated). `__unattributed__` matches observations with no attributed variant. */
+  variant?: string;
+  /** Filter monitor observations by verdict. Accepts a comma-separated list (e.g. `yes,inconclusive`). */
+  verdict?: string;
 }
-export const ListVisionScannersPromptSuggestionsRequest = /*@__PURE__*/ S.suspend(() =>
+export const ListVisionScannersObservationsSignalReportsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project_id: S.String.pipe(T.Label()),
     scanner_id: S.String.pipe(T.Label()),
-    limit: S.optional(S.Number.pipe(T.Query())),
-    offset: S.optional(S.Number.pipe(T.Query())),
+    id: S.String.pipe(T.Label()),
+    backfill_id: S.optional(S.String.pipe(T.Query())),
+    date_from: S.optional(S.String.pipe(T.Query())),
+    date_to: S.optional(S.String.pipe(T.Query())),
+    labeled: S.optional(S.Boolean.pipe(T.Query())),
+    max_score: S.optional(S.Number.pipe(T.Query())),
+    min_score: S.optional(S.Number.pipe(T.Query())),
+    order_by: S.optional(S.String.pipe(T.Query())),
+    recording_subject: S.optional(S.String.pipe(T.Query())),
+    session_id: S.optional(S.String.pipe(T.Query())),
+    status: S.optional(S.String.pipe(T.Query())),
+    tags: S.optional(S.String.pipe(T.Query())),
+    triggered_by: S.optional(S.String.pipe(T.Query())),
+    variant: S.optional(S.String.pipe(T.Query())),
+    verdict: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/api/projects/{project_id}/vision/scanners/{scanner_id}/prompt_suggestions/",
+      uri: "/api/projects/{project_id}/vision/scanners/{scanner_id}/observations/{id}/signal_reports/",
       code: 200,
     }),
   ),
 ).annotate({
-  identifier: "ListVisionScannersPromptSuggestionsRequest",
-}) as any as S.Schema<ListVisionScannersPromptSuggestionsRequest>;
+  identifier: "ListVisionScannersObservationsSignalReportsRequest",
+}) as any as S.Schema<ListVisionScannersObservationsSignalReportsRequest>;
 
-export type PaginatedReplayScannerPromptSuggestionListResultsList =
-  Array<ReplayScannerPromptSuggestion>;
-export const PaginatedReplayScannerPromptSuggestionListResultsList = /*@__PURE__*/ S.Array(
-  ReplayScannerPromptSuggestion,
-) as any as S.Schema<PaginatedReplayScannerPromptSuggestionListResultsList>;
+export type ListVisionScannersObservationsSignalReportsResponseBodyList =
+  Array<ObservationSignalReport>;
+export const ListVisionScannersObservationsSignalReportsResponseBodyList = /*@__PURE__*/ S.Array(
+  ObservationSignalReport,
+) as any as S.Schema<ListVisionScannersObservationsSignalReportsResponseBodyList>;
 
-export interface PaginatedReplayScannerPromptSuggestionList {
-  count: number;
-  next?: string | null;
-  previous?: string | null;
-  results: PaginatedReplayScannerPromptSuggestionListResultsList;
-}
-export const PaginatedReplayScannerPromptSuggestionList = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    count: S.Number,
-    next: S.optional(S.NullOr(S.String)),
-    previous: S.optional(S.NullOr(S.String)),
-    results: PaginatedReplayScannerPromptSuggestionListResultsList,
-  }),
+export type ListVisionScannersObservationsSignalReportsResponse =
+  ListVisionScannersObservationsSignalReportsResponseBodyList;
+export const ListVisionScannersObservationsSignalReportsResponse = /*@__PURE__*/ S.suspend(() =>
+  ListVisionScannersObservationsSignalReportsResponseBodyList.pipe(T.RawResponseRoot()),
 ).annotate({
-  identifier: "PaginatedReplayScannerPromptSuggestionList",
-}) as any as S.Schema<PaginatedReplayScannerPromptSuggestionList>;
+  identifier: "ListVisionScannersObservationsSignalReportsResponse",
+}) as any as S.Schema<ListVisionScannersObservationsSignalReportsResponse>;
 
 export interface ListVisionScannersScoutReportsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -3455,6 +3599,236 @@ export const ListVisionScannersScoutReportsResponse = /*@__PURE__*/ S.suspend(()
 ).annotate({
   identifier: "ListVisionScannersScoutReportsResponse",
 }) as any as S.Schema<ListVisionScannersScoutReportsResponse>;
+
+export interface ListVisionScannersVariantsRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  scanner_id: string;
+}
+export const ListVisionScannersVariantsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    project_id: S.String.pipe(T.Label()),
+    scanner_id: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/api/projects/{project_id}/vision/scanners/{scanner_id}/variants/",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "ListVisionScannersVariantsRequest",
+}) as any as S.Schema<ListVisionScannersVariantsRequest>;
+
+export interface VariantsExperiment {
+  /** The experiment's id. */
+  id: number;
+  /** The experiment's name. */
+  name: string;
+  /** draft, running, paused, exposure_frozen, or stopped. */
+  status: string;
+  /** When the experiment launched. */
+  start_date: string | null;
+  /** When the experiment ended; null while it runs. */
+  end_date: string | null;
+  /** The experiment's recommended running time in days, when one was set. */
+  planned_duration_days: number | null;
+  /** The experiment's day number: 1 on its launch day, frozen once it ends. Null before launch. */
+  current_day: number | null;
+}
+export const VariantsExperiment = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.Number,
+    name: S.String,
+    status: S.String,
+    start_date: S.NullOr(S.String),
+    end_date: S.NullOr(S.String),
+    planned_duration_days: S.NullOr(S.Number),
+    current_day: S.NullOr(S.Number),
+  }),
+).annotate({ identifier: "VariantsExperiment" }) as any as S.Schema<VariantsExperiment>;
+
+export interface VariantsWindow {
+  /** Succeeded observations of this scanner, attributed to a variant or not. */
+  total_observations: number;
+  /** When the earliest of those observations completed. */
+  first_observation_at: string | null;
+  /** When the latest of those observations completed. */
+  last_observation_at: string | null;
+}
+export const VariantsWindow = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    total_observations: S.Number,
+    first_observation_at: S.NullOr(S.String),
+    last_observation_at: S.NullOr(S.String),
+  }),
+).annotate({ identifier: "VariantsWindow" }) as any as S.Schema<VariantsWindow>;
+
+/** Observations of this variant the scout cited for the theme. Ids it can't back are dropped. */
+export type VariantAnalysisLineExampleObservationIdsList = Array<string>;
+export const VariantAnalysisLineExampleObservationIdsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<VariantAnalysisLineExampleObservationIdsList>;
+
+export interface VariantAnalysisLine {
+  /** A short label for the theme, shared across variants. */
+  theme: string;
+  /** How the theme shows up for this variant. */
+  statement: string;
+  /** How many of this variant's summaries the analysis read show the theme, as the scout counted them. */
+  count: number;
+  /** Observations of this variant the scout cited for the theme. Ids it can't back are dropped. */
+  example_observation_ids: VariantAnalysisLineExampleObservationIdsList;
+}
+export const VariantAnalysisLine = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    theme: S.String,
+    statement: S.String,
+    count: S.Number,
+    example_observation_ids: VariantAnalysisLineExampleObservationIdsList,
+  }),
+).annotate({ identifier: "VariantAnalysisLine" }) as any as S.Schema<VariantAnalysisLine>;
+
+/** This variant's most notable themes from the variant analysis. Null without a current analysis. */
+export type VariantReadoutDigestList = Array<VariantAnalysisLine>;
+export const VariantReadoutDigestList = /*@__PURE__*/ S.Array(
+  VariantAnalysisLine,
+) as any as S.Schema<VariantReadoutDigestList>;
+
+/** This variant's most recent observations, newest first. */
+export type VariantReadoutLatestObservationsList = Array<ReplayObservation>;
+export const VariantReadoutLatestObservationsList = /*@__PURE__*/ S.Array(
+  ReplayObservation,
+) as any as S.Schema<VariantReadoutLatestObservationsList>;
+
+export interface VariantReadout {
+  /** The variant key. */
+  key: string;
+  /** Succeeded observations attributed to this variant. */
+  observations: number;
+  /** Distinct people (by distinct id) behind those observations. */
+  distinct_people: number;
+  /** Median scanned session length in seconds; null with no observations. */
+  median_session_duration_s: number | null;
+  /** The 0..1 rate this variant was sampled at when its latest observation was dispatched. Read even counts against it: balanced sampling gives a small variant a higher rate. */
+  sampling_rate: number | null;
+  /** Summaries of this variant the analysis read: the denominator of its digest and difference counts. Null without a current analysis. */
+  analysis_observations: number | null;
+  /** This variant's most notable themes from the variant analysis. Null without a current analysis. */
+  digest: VariantReadoutDigestList | null;
+  /** This variant's most recent observations, newest first. */
+  latest_observations: VariantReadoutLatestObservationsList;
+}
+export const VariantReadout = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    key: S.String,
+    observations: S.Number,
+    distinct_people: S.Number,
+    median_session_duration_s: S.NullOr(S.Number),
+    sampling_rate: S.NullOr(S.Number),
+    analysis_observations: S.NullOr(S.Number),
+    digest: S.NullOr(VariantReadoutDigestList),
+    latest_observations: VariantReadoutLatestObservationsList,
+  }),
+).annotate({ identifier: "VariantReadout" }) as any as S.Schema<VariantReadout>;
+
+/** One entry per watched variant, plus any variant still holding observations. */
+export type ExperimentVariantsReadoutVariantsList = Array<VariantReadout>;
+export const ExperimentVariantsReadoutVariantsList = /*@__PURE__*/ S.Array(
+  VariantReadout,
+) as any as S.Schema<ExperimentVariantsReadoutVariantsList>;
+
+/** Summaries the analysis read that show the theme, per variant key, as the scout counted them. */
+export type VariantAnalysisDifferenceCountsMap = { [key: string]: number | undefined };
+export const VariantAnalysisDifferenceCountsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.Number,
+) as any as S.Schema<VariantAnalysisDifferenceCountsMap>;
+
+export interface VariantAnalysisDifference {
+  /** The theme the difference rests on. */
+  theme: string;
+  /** What differs between the variants. */
+  statement: string;
+  /** Summaries the analysis read that show the theme, per variant key, as the scout counted them. */
+  counts: VariantAnalysisDifferenceCountsMap;
+}
+export const VariantAnalysisDifference = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    theme: S.String,
+    statement: S.String,
+    counts: VariantAnalysisDifferenceCountsMap,
+  }),
+).annotate({
+  identifier: "VariantAnalysisDifference",
+}) as any as S.Schema<VariantAnalysisDifference>;
+
+/** What differs between variants, from the variant analysis. Null without a current analysis. */
+export type ExperimentVariantsReadoutDifferencesList = Array<VariantAnalysisDifference>;
+export const ExperimentVariantsReadoutDifferencesList = /*@__PURE__*/ S.Array(
+  VariantAnalysisDifference,
+) as any as S.Schema<ExperimentVariantsReadoutDifferencesList>;
+
+export interface VariantsAnalysisState {
+  /** The variant analysis scout's config id. */
+  scout_config_id: string;
+  /** Whether the scout runs on its schedule. */
+  scout_enabled: boolean;
+  /** When the run behind the newest analysis started; null before its first run. */
+  recorded_at: string | null;
+  /** The scanner version the newest analysis covered. */
+  scanner_version: number | null;
+  /** Whether the newest analysis covers the scanner's current version. When false, digests and differences are null until the scout's next run. */
+  current: boolean;
+}
+export const VariantsAnalysisState = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    scout_config_id: S.String,
+    scout_enabled: S.Boolean,
+    recorded_at: S.NullOr(S.String),
+    scanner_version: S.NullOr(S.Number),
+    current: S.Boolean,
+  }),
+).annotate({ identifier: "VariantsAnalysisState" }) as any as S.Schema<VariantsAnalysisState>;
+
+export interface ExperimentVariantsReadout {
+  /** The watched experiment; null if it was deleted. */
+  experiment: VariantsExperiment | null;
+  /** The span of observations the counts cover. */
+  window: VariantsWindow;
+  /** One entry per watched variant, plus any variant still holding observations. */
+  variants: ExperimentVariantsReadoutVariantsList;
+  /** What differs between variants, from the variant analysis. Null without a current analysis. */
+  differences: ExperimentVariantsReadoutDifferencesList | null;
+  /** Succeeded observations with no attributed variant. */
+  unattributed_count: number;
+  /** The scanner's variant analysis scout and its newest run; null when none is set up. */
+  analysis: VariantsAnalysisState | null;
+}
+export const ExperimentVariantsReadout = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    experiment: S.NullOr(VariantsExperiment),
+    window: VariantsWindow,
+    variants: ExperimentVariantsReadoutVariantsList,
+    differences: S.NullOr(ExperimentVariantsReadoutDifferencesList),
+    unattributed_count: S.Number,
+    analysis: S.NullOr(VariantsAnalysisState),
+  }),
+).annotate({
+  identifier: "ExperimentVariantsReadout",
+}) as any as S.Schema<ExperimentVariantsReadout>;
+
+export type ListVisionScannersVariantsResponseBodyList = Array<ExperimentVariantsReadout>;
+export const ListVisionScannersVariantsResponseBodyList = /*@__PURE__*/ S.Array(
+  ExperimentVariantsReadout,
+) as any as S.Schema<ListVisionScannersVariantsResponseBodyList>;
+
+export type ListVisionScannersVariantsResponse = ListVisionScannersVariantsResponseBodyList;
+export const ListVisionScannersVariantsResponse = /*@__PURE__*/ S.suspend(() =>
+  ListVisionScannersVariantsResponseBodyList.pipe(T.RawResponseRoot()),
+).annotate({
+  identifier: "ListVisionScannersVariantsResponse",
+}) as any as S.Schema<ListVisionScannersVariantsResponse>;
 
 export interface UpdateVisionAlertRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -3512,15 +3886,9 @@ export const UpdateVisionAlertRequest = /*@__PURE__*/ S.suspend(() =>
     schedule_restriction: S.optional(S.NullOr(AlertScheduleRestriction)),
     snooze_until: S.optional(S.NullOr(S.String)),
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/api/projects/{project_id}/vision/alerts/{id}/",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/api/projects/{project_id}/vision/alerts/{id}/", code: 200 }),
   ),
-).annotate({
-  identifier: "UpdateVisionAlertRequest",
-}) as any as S.Schema<UpdateVisionAlertRequest>;
+).annotate({ identifier: "UpdateVisionAlertRequest" }) as any as S.Schema<UpdateVisionAlertRequest>;
 
 export interface UpdateVisionAlertsPartialRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -3578,11 +3946,7 @@ export const UpdateVisionAlertsPartialRequest = /*@__PURE__*/ S.suspend(() =>
     schedule_restriction: S.optional(S.NullOr(AlertScheduleRestriction)),
     snooze_until: S.optional(S.NullOr(S.String)),
   }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/api/projects/{project_id}/vision/alerts/{id}/",
-      code: 200,
-    }),
+    T.Http({ method: "PATCH", uri: "/api/projects/{project_id}/vision/alerts/{id}/", code: 200 }),
   ),
 ).annotate({
   identifier: "UpdateVisionAlertsPartialRequest",
@@ -3605,8 +3969,12 @@ export interface UpdateVisionScannersPartialRequest {
   description?: string;
   /** Organizational tags for this scanner. Distinct from a classifier's categories in scanner_config. Tags cannot contain commas. */
   tags?: UpdateVisionScannersPartialRequestTagsList;
-  /** What the scanner does: monitor, classifier, scorer, or summarizer. * `monitor` - Monitor * `classifier` - Classifier * `scorer` - Scorer * `summarizer` - Summarizer */
+  /** What the scanner does: monitor, classifier, scorer, or summarizer. * `monitor` - Monitor * `classifier` - Classifier * `scorer` - Scorer * `summarizer` - Summarizer * `experiment` - Experiment */
   scanner_type?: ScannerTypeEnum | (string & {});
+  /** The goal an AI draft was built from, in the creator's own words, so the scanner keeps what it was meant to find. Set on create only and ignored on update. */
+  goal?: string | null;
+  /** How the creator built this scanner: from an AI draft, from a template, or from scratch. Reported to product analytics at creation and not stored on the scanner. Independent of any experiment the creator is in, since a person offered the AI flow can still fill the form by hand. Only the app can answer this, so a request from anywhere else reports the calling surface instead of whatever it sends here. Ignored on update. * `ai` - AI draft * `template` - Template * `scratch` - From scratch */
+  creation_method?: ScannerCreationMethodEnum | (string & {}) | null;
   /** Type-specific configuration. All scanner types require `prompt`; monitors add optional `allow_inconclusive`, classifiers add `tags`, scorers add `scale`, summarizers add optional `length`. */
   scanner_config?: unknown;
   /** Persisted `RecordingsQuery` shape used to pick candidate sessions. `date_from`/`date_to` are stripped on save — the schedule controls time, not the user. */
@@ -3636,6 +4004,8 @@ export const UpdateVisionScannersPartialRequest = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(S.String),
     tags: S.optional(UpdateVisionScannersPartialRequestTagsList),
     scanner_type: S.optional(ScannerTypeEnum),
+    goal: S.optional(S.NullOr(S.String)),
+    creation_method: S.optional(S.NullOr(ScannerCreationMethodEnum)),
     scanner_config: S.optional(S.Unknown),
     query: S.optional(S.Unknown),
     sampling_rate: S.optional(S.Number),
@@ -3647,11 +4017,7 @@ export const UpdateVisionScannersPartialRequest = /*@__PURE__*/ S.suspend(() =>
     emits_signals: S.optional(S.Boolean),
     experiment_targeting: S.optional(S.NullOr(ScannerExperimentTargeting)),
   }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/api/projects/{project_id}/vision/scanners/{id}/",
-      code: 200,
-    }),
+    T.Http({ method: "PATCH", uri: "/api/projects/{project_id}/vision/scanners/{id}/", code: 200 }),
   ),
 ).annotate({
   identifier: "UpdateVisionScannersPartialRequest",
@@ -3705,11 +4071,7 @@ export const VisionAlertsDestroyRequest = /*@__PURE__*/ S.suspend(() =>
     project_id: S.String.pipe(T.Label()),
     id: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/projects/{project_id}/vision/alerts/{id}/",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/api/projects/{project_id}/vision/alerts/{id}/", code: 200 }),
   ),
 ).annotate({
   identifier: "VisionAlertsDestroyRequest",
@@ -3834,6 +4196,10 @@ export const VisionObservationsRetryCreateResponse = /*@__PURE__*/ S.suspend(() 
 export interface VisionObservationsSearchRetrieveRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
+  /** Only observations analyzed at or after this time. Accepts ISO 8601, a relative date like `-7d`, or `now`; values without an explicit offset are interpreted in the project's timezone. */
+  date_from?: string;
+  /** Only observations analyzed at or before this time. Accepts ISO 8601, a relative date like `-1d`, or `now` for the current time; omit it to query through the current time. Date-only values include the whole day, interpreted in the project's timezone. */
+  date_to?: string;
   /** Maximum number of results (default 20, at most 50). */
   limit?: number;
   /** Keep only scorer observations with a score at or below this value. */
@@ -3852,6 +4218,8 @@ export interface VisionObservationsSearchRetrieveRequest {
 export const VisionObservationsSearchRetrieveRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project_id: S.String.pipe(T.Label()),
+    date_from: S.optional(S.String.pipe(T.Query())),
+    date_to: S.optional(S.String.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
     max_score: S.optional(S.Number.pipe(T.Query())),
     min_score: S.optional(S.Number.pipe(T.Query())),
@@ -3884,9 +4252,7 @@ export const ObservationSearchResult = /*@__PURE__*/ S.suspend(() =>
     distance: S.Number,
     matched_content: S.String,
   }),
-).annotate({
-  identifier: "ObservationSearchResult",
-}) as any as S.Schema<ObservationSearchResult>;
+).annotate({ identifier: "ObservationSearchResult" }) as any as S.Schema<ObservationSearchResult>;
 
 /** Matching observations, most relevant first. */
 export type ObservationSearchResponseResultsList = Array<ObservationSearchResult>;
@@ -3899,15 +4265,85 @@ export interface ObservationSearchResponse {
   results: ObservationSearchResponseResultsList;
   /** True when more matches may exist beyond `results`, so the response is a top slice rather than everything that matched. */
   truncated: boolean;
+  /** True when a relevance model reordered the top results after the embedding match. False when the results are in embedding distance order, for example because the model did not answer in time. */
+  reranked: boolean;
 }
 export const ObservationSearchResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     results: ObservationSearchResponseResultsList,
     truncated: S.Boolean,
+    reranked: S.Boolean,
   }),
 ).annotate({
   identifier: "ObservationSearchResponse",
 }) as any as S.Schema<ObservationSearchResponse>;
+
+export interface VisionObservationsSearchSuggestionsRetrieveRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** Scope to a single scanner's observations. Defaults to every scanner you can read. */
+  scanner_id?: string;
+}
+export const VisionObservationsSearchSuggestionsRetrieveRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    project_id: S.String.pipe(T.Label()),
+    scanner_id: S.optional(S.String.pipe(T.Query())),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/api/projects/{project_id}/vision/observations/search_suggestions/",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "VisionObservationsSearchSuggestionsRetrieveRequest",
+}) as any as S.Schema<VisionObservationsSearchSuggestionsRetrieveRequest>;
+
+/** Up to 4 example searches naming themes in recent observations. Empty until a scheduled refresh has run for a scanner someone viewed. */
+export type SearchSuggestionsResponseQueriesList = Array<string>;
+export const SearchSuggestionsResponseQueriesList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<SearchSuggestionsResponseQueriesList>;
+
+export interface SearchSuggestionsResponse {
+  /** Up to 4 example searches naming themes in recent observations. Empty until a scheduled refresh has run for a scanner someone viewed. */
+  queries: SearchSuggestionsResponseQueriesList;
+}
+export const SearchSuggestionsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    queries: SearchSuggestionsResponseQueriesList,
+  }),
+).annotate({
+  identifier: "SearchSuggestionsResponse",
+}) as any as S.Schema<SearchSuggestionsResponse>;
+
+export interface VisionObservationsSearchViewedCreateRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** Scope to a single scanner's observations. Defaults to every scanner you can read. */
+  scanner_id?: string;
+}
+export const VisionObservationsSearchViewedCreateRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    project_id: S.String.pipe(T.Label()),
+    scanner_id: S.optional(S.String),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/api/projects/{project_id}/vision/observations/search_viewed/",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "VisionObservationsSearchViewedCreateRequest",
+}) as any as S.Schema<VisionObservationsSearchViewedCreateRequest>;
+
+export interface VisionObservationsSearchViewedCreateResponse {}
+export const VisionObservationsSearchViewedCreateResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "VisionObservationsSearchViewedCreateResponse",
+}) as any as S.Schema<VisionObservationsSearchViewedCreateResponse>;
 
 export interface VisionScannersBackfillsCancelCreateRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -4122,51 +4558,178 @@ export const VisionScannersObservationsRetryCreateResponse = /*@__PURE__*/ S.sus
   identifier: "VisionScannersObservationsRetryCreateResponse",
 }) as any as S.Schema<VisionScannersObservationsRetryCreateResponse>;
 
-export interface VisionScannersPromptSuggestionsApplyCreateRequest {
-  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
-  project_id: string;
-  scanner_id: string;
-  /** A UUID string identifying this replay scanner prompt suggestion. */
-  id: string;
-  /** The edited config to apply, assembled from the recommendation's approved fields. Omit to apply the full suggested config unchanged. */
-  config?: unknown;
-}
-export const VisionScannersPromptSuggestionsApplyCreateRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    project_id: S.String.pipe(T.Label()),
-    scanner_id: S.String.pipe(T.Label()),
-    id: S.String.pipe(T.Label()),
-    config: S.optional(S.Unknown),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/projects/{project_id}/vision/scanners/{scanner_id}/prompt_suggestions/{id}/apply/",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "VisionScannersPromptSuggestionsApplyCreateRequest",
-}) as any as S.Schema<VisionScannersPromptSuggestionsApplyCreateRequest>;
+export type VisionScannersWatchFeedRetrieveRequestScannerType =
+  | "monitor"
+  | "classifier"
+  | "scorer"
+  | "summarizer"
+  | "experiment";
+export const VisionScannersWatchFeedRetrieveRequestScannerType = S.String;
 
-export interface VisionScannersPromptSuggestionsGenerateCreateRequest {
+export interface VisionScannersWatchFeedRetrieveRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
-  scanner_id: string;
+  /** Only observations created at or after this time. Accepts ISO 8601, a relative date like `-7d`, or `now`; values without an explicit offset are interpreted in the project's timezone. The window between `date_from` and `date_to` may span at most 90 days. */
+  date_from?: string;
+  /** Only observations created at or before this time. Same formats as `date_from`; omit it to query through the current time. */
+  date_to?: string;
+  /** Ceiling on feed items to return, at most 50. The feed is bounded, not paginated, and routinely returns far fewer: a window is not padded to this number with clips that carry no finding. */
+  limit?: number;
+  /** Comma-separated scanner UUIDs to restrict the feed to. Defaults to every scanner you can read. */
+  scanner_ids?: string;
+  /** Restrict the feed to observations from scanners of this type. * `monitor` - Monitor * `classifier` - Classifier * `scorer` - Scorer * `summarizer` - Summarizer * `experiment` - Experiment */
+  scanner_type?: VisionScannersWatchFeedRetrieveRequestScannerType | (string & {});
+  /** Case-insensitive text to match against the scan's own words (title, summary, reasoning, and the notability sentence) and the scanner's name. Applied before ranking, so it searches the whole window rather than the items that would have surfaced without it. */
+  search?: string;
+  /** Comma-separated scanner tags to restrict the feed to. A team with many scanners uses these to follow one area without naming every scanner in it. */
+  tags?: string;
 }
-export const VisionScannersPromptSuggestionsGenerateCreateRequest = /*@__PURE__*/ S.suspend(() =>
+export const VisionScannersWatchFeedRetrieveRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project_id: S.String.pipe(T.Label()),
-    scanner_id: S.String.pipe(T.Label()),
+    date_from: S.optional(S.String.pipe(T.Query())),
+    date_to: S.optional(S.String.pipe(T.Query())),
+    limit: S.optional(S.Number.pipe(T.Query())),
+    scanner_ids: S.optional(S.String.pipe(T.Query())),
+    scanner_type: S.optional(VisionScannersWatchFeedRetrieveRequestScannerType.pipe(T.Query())),
+    search: S.optional(S.String.pipe(T.Query())),
+    tags: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
-      method: "POST",
-      uri: "/api/projects/{project_id}/vision/scanners/{scanner_id}/prompt_suggestions/generate/",
+      method: "GET",
+      uri: "/api/projects/{project_id}/vision/scanners/watch_feed/",
       code: 200,
     }),
   ),
 ).annotate({
-  identifier: "VisionScannersPromptSuggestionsGenerateCreateRequest",
-}) as any as S.Schema<VisionScannersPromptSuggestionsGenerateCreateRequest>;
+  identifier: "VisionScannersWatchFeedRetrieveRequest",
+}) as any as S.Schema<VisionScannersWatchFeedRetrieveRequest>;
+
+/** * `signal_emitted` - Signal Emitted * `unusual_verdict` - Unusual Verdict * `notable` - Notable * `verdict_yes` - Verdict Yes * `outlier_score` - Outlier Score * `rare_tag` - Rare Tag * `novel_summary` - Novel Summary * `friction` - Friction * `jev_watchable` - Jev Watchable * `unviewed_recent` - Unviewed Recent * `recent` - Recent */
+export type WatchFeedReasonEnum =
+  | "signal_emitted"
+  | "unusual_verdict"
+  | "notable"
+  | "verdict_yes"
+  | "outlier_score"
+  | "rare_tag"
+  | "novel_summary"
+  | "friction"
+  | "jev_watchable"
+  | "unviewed_recent"
+  | "recent";
+export const WatchFeedReasonEnum = S.String;
+
+/** Issue type of each emitted signal (`bug`, `crash`, `design_flaw`, `ux_friction`), one entry per signal in the order raised, for `signal_emitted`. Absent on signals scanned before this shipped. */
+export type WatchFeedReasonProblemTypesList = Array<string>;
+export const WatchFeedReasonProblemTypesList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<WatchFeedReasonProblemTypesList>;
+
+/** One signal an observation raised, named rather than counted. */
+export interface WatchFeedSignal {
+  /** Issue type: `bug`, `crash`, `design_flaw`, or `ux_friction`. */
+  problem_type: string;
+  /** The finding in a few words, written by the scan. The full description lives on the signal itself. */
+  headline: string;
+}
+export const WatchFeedSignal = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    problem_type: S.String,
+    headline: S.String,
+  }),
+).annotate({ identifier: "WatchFeedSignal" }) as any as S.Schema<WatchFeedSignal>;
+
+/** Each emitted signal in the order raised, for `signal_emitted`. Carries what the card needs to name the findings instead of counting them. Absent on sessions scanned before this shipped, which carry `problem_types` alone. */
+export type WatchFeedReasonSignalsList = Array<WatchFeedSignal>;
+export const WatchFeedReasonSignalsList = /*@__PURE__*/ S.Array(
+  WatchFeedSignal,
+) as any as S.Schema<WatchFeedReasonSignalsList>;
+
+/** Machine-readable reason an observation made the feed; the frontend renders the copy. */
+export interface WatchFeedReason {
+  /** Highest-priority rule the observation satisfied: `signal_emitted` (it pushed a signal), `unusual_verdict` (a monitor answer that is the minority for that scanner this window), `verdict_yes` (a monitor hit, when the window is too thin to know which answer is unusual), `outlier_score` (far from the scanner's window average), `rare_tag` (a tag uncommon for the scanner this window), `novel_summary` (a summary that reads unlike the scanner's other sessions this window), `notable` (the scan itself judged the session worth watching), `friction` (the scan describes errors, retries, or dead ends), `jev_watchable` (the decision model judged the session worth watching; teams on the Jev ranker experiment only), `unviewed_recent` (new to you), `recent` (nothing special, newest available). * `signal_emitted` - Signal Emitted * `unusual_verdict` - Unusual Verdict * `notable` - Notable * `verdict_yes` - Verdict Yes * `outlier_score` - Outlier Score * `rare_tag` - Rare Tag * `novel_summary` - Novel Summary * `friction` - Friction * `jev_watchable` - Jev Watchable * `unviewed_recent` - Unviewed Recent * `recent` - Recent */
+  kind: WatchFeedReasonEnum;
+  /** Signals this observation emitted, for `signal_emitted`. */
+  signals_count?: number | null;
+  /** Issue type of each emitted signal (`bug`, `crash`, `design_flaw`, `ux_friction`), one entry per signal in the order raised, for `signal_emitted`. Absent on signals scanned before this shipped. */
+  problem_types?: WatchFeedReasonProblemTypesList;
+  /** Each emitted signal in the order raised, for `signal_emitted`. Carries what the card needs to name the findings instead of counting them. Absent on sessions scanned before this shipped, which carry `problem_types` alone. */
+  signals?: WatchFeedReasonSignalsList;
+  /** The monitor's answer, for `unusual_verdict`. */
+  verdict?: string | null;
+  /** Share (0-1) of the scanner's window observations with this answer, for `unusual_verdict`. */
+  verdict_share?: number | null;
+  /** The scan's own 0-1 judgment of how much a team would benefit from watching, for `notable`. */
+  notability?: number | null;
+  /** The decision model's 0-1 judgment that the session is worth watching, for `jev_watchable`. */
+  jev_probability?: number | null;
+  /** The scan's own sentence naming why the session is worth watching. Present on the `notable` and `jev_watchable` reason kinds when the scan itself found the session notable, and preferred over copy derived from the reason kind. Absent on observations scanned before notability shipped. */
+  notability_reason?: string | null;
+  /** The observation's score, for `outlier_score`. */
+  score?: number | null;
+  /** The scanner's mean score in the window, for `outlier_score`. */
+  window_mean?: number | null;
+  /** The rare tag that ranked the observation, for `rare_tag`. */
+  tag?: string | null;
+  /** Share (0-1) of the scanner's window observations carrying `tag`, for `rare_tag`. */
+  tag_share?: number | null;
+}
+export const WatchFeedReason = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    kind: WatchFeedReasonEnum,
+    signals_count: S.optional(S.NullOr(S.Number)),
+    problem_types: S.optional(WatchFeedReasonProblemTypesList),
+    signals: S.optional(WatchFeedReasonSignalsList),
+    verdict: S.optional(S.NullOr(S.String)),
+    verdict_share: S.optional(S.NullOr(S.Number)),
+    notability: S.optional(S.NullOr(S.Number)),
+    jev_probability: S.optional(S.NullOr(S.Number)),
+    notability_reason: S.optional(S.NullOr(S.String)),
+    score: S.optional(S.NullOr(S.Number)),
+    window_mean: S.optional(S.NullOr(S.Number)),
+    tag: S.optional(S.NullOr(S.String)),
+    tag_share: S.optional(S.NullOr(S.Number)),
+  }),
+).annotate({ identifier: "WatchFeedReason" }) as any as S.Schema<WatchFeedReason>;
+
+/** One feed entry: the observation plus why it ranked. */
+export interface WatchFeedItem {
+  /** The observation, in the standard shape. */
+  observation: ReplayObservation;
+  /** Why this observation made the feed. */
+  reason: WatchFeedReason;
+}
+export const WatchFeedItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    observation: ReplayObservation,
+    reason: WatchFeedReason,
+  }),
+).annotate({ identifier: "WatchFeedItem" }) as any as S.Schema<WatchFeedItem>;
+
+/** Succeeded observations in the window worth watching, most interesting first, each carrying the reason it ranked. Every observation that carries a finding is returned; observations that carry none (`unviewed_recent`, `recent`) are returned only to pad a near-empty feed to three items, so a quiet window answers with a handful of rows rather than a full page of newest clips. */
+export type WatchFeedResponseResultsList = Array<WatchFeedItem>;
+export const WatchFeedResponseResultsList = /*@__PURE__*/ S.Array(
+  WatchFeedItem,
+) as any as S.Schema<WatchFeedResponseResultsList>;
+
+/** * `weighted-score` - weighted-score * `jev` - jev */
+export type RankerEnum = "weighted-score" | "jev";
+export const RankerEnum = S.String;
+
+/** Response of GET /vision/scanners/watch_feed/. */
+export interface WatchFeedResponse {
+  /** Succeeded observations in the window worth watching, most interesting first, each carrying the reason it ranked. Every observation that carries a finding is returned; observations that carry none (`unviewed_recent`, `recent`) are returned only to pad a near-empty feed to three items, so a quiet window answers with a handful of rows rather than a full page of newest clips. */
+  results: WatchFeedResponseResultsList;
+  /** Which ranker ordered this feed: `jev` ranks on the decision model's cached judgments, `weighted-score` on the deterministic blend. The arm is decided server-side per team, so clients read it from here rather than evaluating the flag themselves. * `weighted-score` - weighted-score * `jev` - jev */
+  ranker: RankerEnum;
+}
+export const WatchFeedResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    results: WatchFeedResponseResultsList,
+    ranker: RankerEnum,
+  }),
+).annotate({ identifier: "WatchFeedResponse" }) as any as S.Schema<WatchFeedResponse>;
 
 export type CreateVisionAlertError = PosthogOpError;
 export const createVisionAlert: API.OperationMethod<
@@ -4212,16 +4775,31 @@ export const createVisionObservationsLabel: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type CreateVisionObservationsViewedError = PosthogOpError;
+/** Record that the calling user opened this observation. Idempotent. */
+export const createVisionObservationsViewed: API.OperationMethod<
+  CreateVisionObservationsViewedRequest,
+  CreateVisionObservationsViewedResponse,
+  CreateVisionObservationsViewedError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateVisionObservationsViewedRequest,
+  output: CreateVisionObservationsViewedResponse,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
 export type CreateVisionScannerError = PosthogOpError;
 /** CRUD for Replay Vision scanners. */
 export const createVisionScanner: API.OperationMethod<
   CreateVisionScannerRequest,
-  ReplayScanner,
+  ReplayScannerOutput,
   CreateVisionScannerError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateVisionScannerRequest,
-  output: ReplayScanner,
+  output: ReplayScannerOutput,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -4303,7 +4881,7 @@ export const createVisionScannersEstimate: API.OperationMethod<
 }));
 
 export type CreateVisionScannersInlineScanError = PosthogOpError;
-/** Scan named sessions against a prompt without saving a scanner first, for one-off questions. The config resolves to a scanner minted on first use, so asking the same question twice reuses the observations it already has, while a different question about the same session gets its own. */
+/** Scan named sessions against a prompt without saving a scanner first, for one-off questions. The config resolves to a scanner minted on first use, so asking the same question twice reuses the observations it already has, while a different question about the same session gets its own. With `scanner_type` set to `summarizer`, this is how you get PostHog's own AI summary for a recording ID. It resolves to the Summarize button's own scanner only when the prompt and `scanner_config` match what the button sends, since the config is what the key fingerprints. */
 export const createVisionScannersInlineScan: API.OperationMethod<
   CreateVisionScannersInlineScanRequest,
   CreateVisionScannersInlineScanResponse,
@@ -4332,6 +4910,21 @@ export const createVisionScannersObservationsLabel: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type CreateVisionScannersObservationsViewedError = PosthogOpError;
+/** Record that the calling user opened this observation. Idempotent. */
+export const createVisionScannersObservationsViewed: API.OperationMethod<
+  CreateVisionScannersObservationsViewedRequest,
+  CreateVisionScannersObservationsViewedResponse,
+  CreateVisionScannersObservationsViewedError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateVisionScannersObservationsViewedRequest,
+  output: CreateVisionScannersObservationsViewedResponse,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
 export type CreateVisionScannersObserveError = PosthogOpError;
 /** Apply this scanner to one specific session, on demand. Returns 202 with the workflow handle. */
 export const createVisionScannersObserve: API.OperationMethod<
@@ -4342,36 +4935,6 @@ export const createVisionScannersObserve: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateVisionScannersObserveRequest,
   output: ObserveAlreadyScanned,
-  errors: [],
-  protocol: PosthogProtocol,
-  retry: Retry.Retry,
-}));
-
-export type CreateVisionScannersPromptSuggestionsDismissError = PosthogOpError;
-/** Dismiss this suggestion without applying it. Only the current pending suggestion can be dismissed. Requires editor access to the scanner. */
-export const createVisionScannersPromptSuggestionsDismiss: API.OperationMethod<
-  CreateVisionScannersPromptSuggestionsDismissRequest,
-  ReplayScannerPromptSuggestion,
-  CreateVisionScannersPromptSuggestionsDismissError,
-  PosthogOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: CreateVisionScannersPromptSuggestionsDismissRequest,
-  output: ReplayScannerPromptSuggestion,
-  errors: [],
-  protocol: PosthogProtocol,
-  retry: Retry.Retry,
-}));
-
-export type CreateVisionScannersPromptSuggestionsEvaluateError = PosthogOpError;
-/** Test this suggestion before applying it: re-run the scanner with the suggested prompt against already-rated sessions in the background and compare each fresh output with the stored one. Results land on the suggestion's `evaluation` field. Poll `current` while status is running. `session_limit` controls how many rated sessions are re-run (thumbs-down prioritized, up to `evaluation_session_cap`). Each successful re-run charges credits like a normal observation of the same model. The request is refused with 402 when the planned credits exceed what is left for the current billing period, either the org's limit or this scanner's own. Monitor and classifier scanners get a kept/fixed/regressed classification, while scorer and summarizer scanners show the raw before and after output. Requires session recording edit access. */
-export const createVisionScannersPromptSuggestionsEvaluate: API.OperationMethod<
-  CreateVisionScannersPromptSuggestionsEvaluateRequest,
-  ReplayScannerPromptSuggestion,
-  CreateVisionScannersPromptSuggestionsEvaluateError,
-  PosthogOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: CreateVisionScannersPromptSuggestionsEvaluateRequest,
-  output: ReplayScannerPromptSuggestion,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -4438,12 +5001,12 @@ export const getEnvironmentVisionQuotaSpendSeries: API.OperationMethod<
 export type GetVisionAlertError = PosthogOpError;
 export const getVisionAlert: API.OperationMethod<
   GetVisionAlertRequest,
-  VisionAlertConfiguration,
+  VisionAlertConfigurationDetail,
   GetVisionAlertError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: GetVisionAlertRequest,
-  output: VisionAlertConfiguration,
+  output: VisionAlertConfigurationDetail,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -4464,16 +5027,31 @@ export const getVisionObservation: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type GetVisionObservationsThumbnailError = NotFound | PosthogOpError;
+/** Redirect to the frame that illustrates this observation, so a caller with only the observation id can show it. */
+export const getVisionObservationsThumbnail: API.OperationMethod<
+  GetVisionObservationsThumbnailRequest,
+  GetVisionObservationsThumbnailResponse,
+  GetVisionObservationsThumbnailError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetVisionObservationsThumbnailRequest,
+  output: GetVisionObservationsThumbnailResponse,
+  errors: [NotFound],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
 export type GetVisionScannerError = PosthogOpError;
 /** CRUD for Replay Vision scanners. */
 export const getVisionScanner: API.OperationMethod<
   GetVisionScannerRequest,
-  ReplayScanner,
+  ReplayScannerOutput,
   GetVisionScannerError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: GetVisionScannerRequest,
-  output: ReplayScanner,
+  output: ReplayScannerOutput,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -4554,17 +5132,17 @@ export const getVisionScannersObservationsStat: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type GetVisionScannersPromptSuggestionsCurrentError = PosthogOpError;
-/** The scanner's newest prompt suggestion plus whether it is stale (the ratings changed since it was generated) and how many rated observations are available. */
-export const getVisionScannersPromptSuggestionsCurrent: API.OperationMethod<
-  GetVisionScannersPromptSuggestionsCurrentRequest,
-  CurrentPromptSuggestion,
-  GetVisionScannersPromptSuggestionsCurrentError,
+export type GetVisionScannersObservationsThumbnailError = NotFound | PosthogOpError;
+/** Redirect to the frame that illustrates this observation, so a caller with only the observation id can show it. */
+export const getVisionScannersObservationsThumbnail: API.OperationMethod<
+  GetVisionScannersObservationsThumbnailRequest,
+  GetVisionScannersObservationsThumbnailResponse,
+  GetVisionScannersObservationsThumbnailError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetVisionScannersPromptSuggestionsCurrentRequest,
-  output: CurrentPromptSuggestion,
-  errors: [],
+  input: GetVisionScannersObservationsThumbnailRequest,
+  output: GetVisionScannersObservationsThumbnailResponse,
+  errors: [NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
 }));
@@ -4658,16 +5236,31 @@ export const listVisionObservations: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type ListVisionObservationsSignalReportsError = PosthogOpError;
+/** The inbox reports this observation's emitted signals were grouped into, newest first. */
+export const listVisionObservationsSignalReports: API.OperationMethod<
+  ListVisionObservationsSignalReportsRequest,
+  ListVisionObservationsSignalReportsResponse,
+  ListVisionObservationsSignalReportsError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListVisionObservationsSignalReportsRequest,
+  output: ListVisionObservationsSignalReportsResponse,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
 export type ListVisionScannersError = PosthogOpError;
 /** CRUD for Replay Vision scanners. */
 export const listVisionScanners: API.OperationMethod<
   ListVisionScannersRequest,
-  PaginatedReplayScannerList,
+  PaginatedReplayScannerListOutput,
   ListVisionScannersError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: ListVisionScannersRequest,
-  output: PaginatedReplayScannerList,
+  output: PaginatedReplayScannerListOutput,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -4703,16 +5296,16 @@ export const listVisionScannersObservations: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type ListVisionScannersPromptSuggestionsError = PosthogOpError;
-/** AI prompt-rewrite suggestions for a scanner, generated from the team's thumbs up/down ratings. */
-export const listVisionScannersPromptSuggestions: API.OperationMethod<
-  ListVisionScannersPromptSuggestionsRequest,
-  PaginatedReplayScannerPromptSuggestionList,
-  ListVisionScannersPromptSuggestionsError,
+export type ListVisionScannersObservationsSignalReportsError = PosthogOpError;
+/** The inbox reports this observation's emitted signals were grouped into, newest first. */
+export const listVisionScannersObservationsSignalReports: API.OperationMethod<
+  ListVisionScannersObservationsSignalReportsRequest,
+  ListVisionScannersObservationsSignalReportsResponse,
+  ListVisionScannersObservationsSignalReportsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListVisionScannersPromptSuggestionsRequest,
-  output: PaginatedReplayScannerPromptSuggestionList,
+  input: ListVisionScannersObservationsSignalReportsRequest,
+  output: ListVisionScannersObservationsSignalReportsResponse,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -4729,6 +5322,21 @@ export const listVisionScannersScoutReports: API.OperationMethod<
   input: ListVisionScannersScoutReportsRequest,
   output: ListVisionScannersScoutReportsResponse,
   errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListVisionScannersVariantsError = BadRequest | PosthogOpError;
+/** Per-variant readout for an experiment scanner: observation counts, distinct people, median session length, sampling rate and latest observations per variant, read live, plus the digests and differences of the scanner's variant analysis scout. */
+export const listVisionScannersVariants: API.OperationMethod<
+  ListVisionScannersVariantsRequest,
+  ListVisionScannersVariantsResponse,
+  ListVisionScannersVariantsError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListVisionScannersVariantsRequest,
+  output: ListVisionScannersVariantsResponse,
+  errors: [BadRequest],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
 }));
@@ -4765,12 +5373,12 @@ export type UpdateVisionScannersPartialError = PosthogOpError;
 /** CRUD for Replay Vision scanners. */
 export const updateVisionScannersPartial: API.OperationMethod<
   UpdateVisionScannersPartialRequest,
-  ReplayScanner,
+  ReplayScannerOutput,
   UpdateVisionScannersPartialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateVisionScannersPartialRequest,
-  output: ReplayScanner,
+  output: ReplayScannerOutput,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -4880,6 +5488,36 @@ export const visionObservationsSearchRetrieve: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type VisionObservationsSearchSuggestionsRetrieveError = PosthogOpError;
+/** Example searches drawn from recent observations, for the Search tab's empty state. Reads what the scheduled refresher stored; `search_viewed` records the view separately so this GET has no side effect. */
+export const visionObservationsSearchSuggestionsRetrieve: API.OperationMethod<
+  VisionObservationsSearchSuggestionsRetrieveRequest,
+  SearchSuggestionsResponse,
+  VisionObservationsSearchSuggestionsRetrieveError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: VisionObservationsSearchSuggestionsRetrieveRequest,
+  output: SearchSuggestionsResponse,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
+export type VisionObservationsSearchViewedCreateError = PosthogOpError;
+/** Record that the Search tab showed suggestions for this scope. The scheduled refresher serves viewed scanners first, so the stamp lives on a CSRF-protected POST rather than the read. */
+export const visionObservationsSearchViewedCreate: API.OperationMethod<
+  VisionObservationsSearchViewedCreateRequest,
+  VisionObservationsSearchViewedCreateResponse,
+  VisionObservationsSearchViewedCreateError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: VisionObservationsSearchViewedCreateRequest,
+  output: VisionObservationsSearchViewedCreateResponse,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+}));
+
 export type VisionScannersBackfillsCancelCreateError = PosthogOpError;
 /** Stop an active backfill; already-dispatched observations finish, nothing new dispatches. */
 export const visionScannersBackfillsCancelCreate: API.OperationMethod<
@@ -4944,12 +5582,12 @@ export type VisionScannersDuplicateCreateError = PosthogOpError;
 /** Copy a scanner into a new disabled scanner named "<name> (copy)". Copies the stored model row rather than the serializer's read representation, so a query that no longer validates survives the copy; duplicating through the create endpoint would silently drop it. Experiment targeting is the exception and follows the read path instead. Unlike create, no digest is provisioned: the copy starts disabled and unreviewed. */
 export const visionScannersDuplicateCreate: API.OperationMethod<
   VisionScannersDuplicateCreateRequest,
-  ReplayScanner,
+  ReplayScannerOutput,
   VisionScannersDuplicateCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: VisionScannersDuplicateCreateRequest,
-  output: ReplayScanner,
+  output: ReplayScannerOutput,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -5000,31 +5638,16 @@ export const visionScannersObservationsRetryCreate: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type VisionScannersPromptSuggestionsApplyCreateError = PosthogOpError;
-/** Apply this suggestion: write a config to the scanner (the prompt plus any type-specific config such as classifier tags or the monitor allow_inconclusive flag), bumping the scanner version, and mark the suggestion applied. Pass `config` to apply an edited subset of the recommendation; omit it to apply the full suggested config. Only the current pending suggestion can be applied. Requires session recording edit access. */
-export const visionScannersPromptSuggestionsApplyCreate: API.OperationMethod<
-  VisionScannersPromptSuggestionsApplyCreateRequest,
-  ReplayScannerPromptSuggestion,
-  VisionScannersPromptSuggestionsApplyCreateError,
+export type VisionScannersWatchFeedRetrieveError = PosthogOpError;
+/** Succeeded observations in the window worth watching, ranked — feeds the What to watch tab. */
+export const visionScannersWatchFeedRetrieve: API.OperationMethod<
+  VisionScannersWatchFeedRetrieveRequest,
+  WatchFeedResponse,
+  VisionScannersWatchFeedRetrieveError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: VisionScannersPromptSuggestionsApplyCreateRequest,
-  output: ReplayScannerPromptSuggestion,
-  errors: [],
-  protocol: PosthogProtocol,
-  retry: Retry.Retry,
-}));
-
-export type VisionScannersPromptSuggestionsGenerateCreateError = PosthogOpError;
-/** Generate a fresh prompt suggestion from the team's current ratings. The previous pending suggestion becomes history (superseded). Requires at least one rated observation and editor access to the scanner. */
-export const visionScannersPromptSuggestionsGenerateCreate: API.OperationMethod<
-  VisionScannersPromptSuggestionsGenerateCreateRequest,
-  ReplayScannerPromptSuggestion,
-  VisionScannersPromptSuggestionsGenerateCreateError,
-  PosthogOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: VisionScannersPromptSuggestionsGenerateCreateRequest,
-  output: ReplayScannerPromptSuggestion,
+  input: VisionScannersWatchFeedRetrieveRequest,
+  output: WatchFeedResponse,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,

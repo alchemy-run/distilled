@@ -32,9 +32,7 @@ export const AddAudiencePeopleRequest = /*@__PURE__*/ S.suspend(() =>
     file_id: S.String,
     idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
   }).pipe(T.Http({ method: "POST", uri: "/audiences/{id}/add_people", code: 200 })),
-).annotate({
-  identifier: "AddAudiencePeopleRequest",
-}) as any as S.Schema<AddAudiencePeopleRequest>;
+).annotate({ identifier: "AddAudiencePeopleRequest" }) as any as S.Schema<AddAudiencePeopleRequest>;
 
 /** `custom` = a customer list (uploaded, or built from saved People filters); `lookalike` = Meta lookalike built from a custom audience. */
 export type AudienceAudienceType = "custom" | "lookalike";
@@ -65,9 +63,7 @@ export const AudienceMatchRate = /*@__PURE__*/ S.suspend(() =>
     status: S.NullOr(AudienceMatchRateStatus),
     upper_bound: S.NullOr(S.Number),
   }),
-).annotate({
-  identifier: "AudienceMatchRate",
-}) as any as S.Schema<AudienceMatchRate>;
+).annotate({ identifier: "AudienceMatchRate" }) as any as S.Schema<AudienceMatchRate>;
 
 export type AudienceMatchRatesList = Array<AudienceMatchRate>;
 export const AudienceMatchRatesList = /*@__PURE__*/ S.Array(
@@ -222,9 +218,7 @@ export const CreateAudienceRequest = /*@__PURE__*/ S.suspend(() =>
     source_audience_id: S.optional(S.String),
     idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
   }).pipe(T.Http({ method: "POST", uri: "/audiences", code: 200 })),
-).annotate({
-  identifier: "CreateAudienceRequest",
-}) as any as S.Schema<CreateAudienceRequest>;
+).annotate({ identifier: "CreateAudienceRequest" }) as any as S.Schema<CreateAudienceRequest>;
 
 export type CreateAudienceResponseBodyCase1DataList = Array<Audience>;
 export const CreateAudienceResponseBodyCase1DataList = /*@__PURE__*/ S.Array(
@@ -248,9 +242,7 @@ export const CreateAudienceResponseBody = S.Unknown as any as S.Schema<CreateAud
 export type CreateAudienceResponse = CreateAudienceResponseBody;
 export const CreateAudienceResponse = /*@__PURE__*/ S.suspend(() =>
   CreateAudienceResponseBody.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "CreateAudienceResponse",
-}) as any as S.Schema<CreateAudienceResponse>;
+).annotate({ identifier: "CreateAudienceResponse" }) as any as S.Schema<CreateAudienceResponse>;
 
 export interface DeleteAudienceRequest {
   /** Audience ID, prefixed `adaud_`. */
@@ -260,9 +252,7 @@ export const DeleteAudienceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "DELETE", uri: "/audiences/{id}", code: 200 })),
-).annotate({
-  identifier: "DeleteAudienceRequest",
-}) as any as S.Schema<DeleteAudienceRequest>;
+).annotate({ identifier: "DeleteAudienceRequest" }) as any as S.Schema<DeleteAudienceRequest>;
 
 export interface DeleteAudienceResponse {
   success: boolean;
@@ -271,9 +261,7 @@ export const DeleteAudienceResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     success: S.Boolean,
   }),
-).annotate({
-  identifier: "DeleteAudienceResponse",
-}) as any as S.Schema<DeleteAudienceResponse>;
+).annotate({ identifier: "DeleteAudienceResponse" }) as any as S.Schema<DeleteAudienceResponse>;
 
 export type ListAudiencesRequestAudienceType = "custom" | "lookalike";
 export const ListAudiencesRequestAudienceType = S.String;
@@ -304,9 +292,7 @@ export const ListAudiencesRequest = /*@__PURE__*/ S.suspend(() =>
     first: S.optional(S.Number.pipe(T.Query())),
     after: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/audiences", code: 200 })),
-).annotate({
-  identifier: "ListAudiencesRequest",
-}) as any as S.Schema<ListAudiencesRequest>;
+).annotate({ identifier: "ListAudiencesRequest" }) as any as S.Schema<ListAudiencesRequest>;
 
 export type ListAudiencesResponseDataList = Array<Audience>;
 export const ListAudiencesResponseDataList = /*@__PURE__*/ S.Array(
@@ -339,9 +325,7 @@ export const ListAudiencesResponse = /*@__PURE__*/ S.suspend(() =>
     data: ListAudiencesResponseDataList,
     page_info: ListAudiencesResponsePageInfo,
   }),
-).annotate({
-  identifier: "ListAudiencesResponse",
-}) as any as S.Schema<ListAudiencesResponse>;
+).annotate({ identifier: "ListAudiencesResponse" }) as any as S.Schema<ListAudiencesResponse>;
 
 export interface UpdateAudienceRequest {
   /** Audience ID, prefixed `adaud_`. */
@@ -357,9 +341,7 @@ export const UpdateAudienceRequest = /*@__PURE__*/ S.suspend(() =>
     filters: S.optional(S.Unknown),
     name: S.optional(S.String),
   }).pipe(T.Http({ method: "PATCH", uri: "/audiences/{id}", code: 200 })),
-).annotate({
-  identifier: "UpdateAudienceRequest",
-}) as any as S.Schema<UpdateAudienceRequest>;
+).annotate({ identifier: "UpdateAudienceRequest" }) as any as S.Schema<UpdateAudienceRequest>;
 
 export type AddAudiencePeopleError = Conflict | WhopOpError;
 /** Add People Adds users from a new CSV file to an existing uploaded custom audience. The file uses the audience's saved column mapping, processing happens in the background, and existing audience members remain unchanged. */

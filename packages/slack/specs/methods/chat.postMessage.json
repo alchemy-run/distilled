@@ -181,6 +181,11 @@
             "type": "null"
           }
         ]
+      },
+      "unfurl_app_links": {
+        "desc": "Pass true to unfurl links from installed apps, or false to prevent app links from unfurling. When omitted, app links follow the `unfurl_links` setting.",
+        "example": "true",
+        "type": "boolean"
       }
     }
   },
@@ -208,6 +213,9 @@
     "type": "object"
   },
   "errors": {
+    "agent_prompt_display_not_allowed": {
+      "desc": "`client_context.agent_prompt_display` may only be set by the Slack client when posting to the user's Slackbot DM."
+    },
     "app_access_restricted": {
       "desc": "The user does not have permission to use this app."
     },
@@ -324,6 +332,11 @@
     },
     "attachment_payload_limit_exceeded": {
       "desc": "Attachment payload size is too long."
+    }
+  },
+  "warnings": {
+    "message_truncated": {
+      "desc": "The `text` field of a message should have no more than 40,000 characters. We [truncate really long messages](/changelog/2018-04-truncating-really-long-messages)."
     }
   }
 }

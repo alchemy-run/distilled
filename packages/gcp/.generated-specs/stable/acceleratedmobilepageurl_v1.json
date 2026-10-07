@@ -11,10 +11,10 @@
     "com.gcp.acceleratedmobilepageurl_v1#AmpUrlError": {
       "type": "structure",
       "members": {
-        "errorCode": {
-          "target": "com.gcp.acceleratedmobilepageurl_v1#AmpUrlErrorErrorCodeEnum",
+        "errorMessage": {
+          "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The error code of an API call."
+            "smithy.api#documentation": "An optional descriptive error message."
           }
         },
         "originalUrl": {
@@ -23,10 +23,10 @@
             "smithy.api#documentation": "The original non-AMP URL."
           }
         },
-        "errorMessage": {
-          "target": "smithy.api#String",
+        "errorCode": {
+          "target": "com.gcp.acceleratedmobilepageurl_v1#AmpUrlErrorErrorCodeEnum",
           "traits": {
-            "smithy.api#documentation": "An optional descriptive error message."
+            "smithy.api#documentation": "The error code of an API call."
           }
         }
       },
@@ -159,16 +159,16 @@
             "smithy.api#documentation": "The original non-AMP URL."
           }
         },
-        "cdnAmpUrl": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The [AMP Cache URL](/amp/cache/overview#amp-cache-url-format) pointing to the cached document in the Google AMP Cache."
-          }
-        },
         "ampUrl": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "The AMP URL pointing to the publisher's web server."
+          }
+        },
+        "cdnAmpUrl": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The [AMP Cache URL](/amp/cache/overview#amp-cache-url-format) pointing to the cached document in the Google AMP Cache."
           }
         }
       },

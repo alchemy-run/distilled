@@ -8,59 +8,13 @@
     "distilled.finalized": true
   },
   "shapes": {
-    "com.gcp.script_v1#GoogleAppsScriptTypeWebAppEntryPoint": {
-      "type": "structure",
-      "members": {
-        "url": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The URL for the web application."
-          }
-        },
-        "entryPointConfig": {
-          "target": "com.gcp.script_v1#GoogleAppsScriptTypeWebAppConfig",
-          "traits": {
-            "smithy.api#documentation": "The entry point's configuration."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "A web application entry point."
-      }
-    },
-    "com.gcp.script_v1#ListVersionsResponse": {
-      "type": "structure",
-      "members": {
-        "nextPageToken": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The token use to fetch the next page of records. if not exist in the response, that means no more versions to list."
-          }
-        },
-        "versions": {
-          "target": "com.gcp.script_v1#VersionList",
-          "traits": {
-            "smithy.api#documentation": "The list of versions."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "Response with the list of the versions for the specified script project."
-      }
-    },
-    "com.gcp.script_v1#VersionList": {
-      "type": "list",
-      "member": {
-        "target": "com.gcp.script_v1#Version"
-      }
-    },
     "com.gcp.script_v1#MetricsValue": {
       "type": "structure",
       "members": {
-        "value": {
+        "startTime": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Indicates the number of executions counted."
+            "smithy.api#documentation": "Required field indicating the start time of the interval."
           }
         },
         "endTime": {
@@ -69,10 +23,10 @@
             "smithy.api#documentation": "Required field indicating the end time of the interval."
           }
         },
-        "startTime": {
+        "value": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Required field indicating the start time of the interval."
+            "smithy.api#documentation": "Indicates the number of executions counted."
           }
         }
       },
@@ -80,183 +34,123 @@
         "smithy.api#documentation": "Metrics value that holds number of executions counted."
       }
     },
-    "com.gcp.script_v1#GoogleAppsScriptTypeFunctionSet": {
+    "com.gcp.script_v1#GoogleAppsScriptTypeWebAppEntryPoint": {
       "type": "structure",
       "members": {
-        "values": {
-          "target": "com.gcp.script_v1#GoogleAppsScriptTypeFunctionList",
+        "entryPointConfig": {
+          "target": "com.gcp.script_v1#GoogleAppsScriptTypeWebAppConfig",
           "traits": {
-            "smithy.api#documentation": "A list of functions composing the set."
+            "smithy.api#documentation": "The entry point's configuration."
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The URL for the web application."
           }
         }
       },
       "traits": {
-        "smithy.api#documentation": "A set of functions. No duplicates are permitted."
+        "smithy.api#documentation": "A web application entry point."
       }
     },
-    "com.gcp.script_v1#GoogleAppsScriptTypeFunctionList": {
+    "com.gcp.script_v1#Metrics": {
+      "type": "structure",
+      "members": {
+        "activeUsers": {
+          "target": "com.gcp.script_v1#MetricsValueList",
+          "traits": {
+            "smithy.api#documentation": "Number of active users."
+          }
+        },
+        "failedExecutions": {
+          "target": "com.gcp.script_v1#MetricsValueList",
+          "traits": {
+            "smithy.api#documentation": "Number of failed executions."
+          }
+        },
+        "totalExecutions": {
+          "target": "com.gcp.script_v1#MetricsValueList",
+          "traits": {
+            "smithy.api#documentation": "Number of total executions."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Resource containing usage stats for a given script, based on the supplied filter and mask present in the request."
+      }
+    },
+    "com.gcp.script_v1#MetricsValueList": {
       "type": "list",
       "member": {
-        "target": "com.gcp.script_v1#GoogleAppsScriptTypeFunction"
+        "target": "com.gcp.script_v1#MetricsValue"
       }
     },
-    "com.gcp.script_v1#ExecutionError": {
+    "com.gcp.script_v1#Deployment": {
       "type": "structure",
       "members": {
-        "scriptStackTraceElements": {
-          "target": "com.gcp.script_v1#ScriptStackTraceElementList",
+        "updateTime": {
+          "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "An array of objects that provide a stack trace through the script to show where the execution failed, with the deepest call first."
+            "smithy.api#documentation": "Last modified date time stamp."
           }
         },
-        "errorType": {
-          "target": "smithy.api#String",
+        "entryPoints": {
+          "target": "com.gcp.script_v1#EntryPointList",
           "traits": {
-            "smithy.api#documentation": "The error type, for example `TypeError` or `ReferenceError`. If the error type is unavailable, this field is not included."
+            "smithy.api#documentation": "The deployment's entry points."
           }
         },
-        "errorMessage": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The error message thrown by Apps Script, usually localized into the user's language."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "An object that provides information about the nature of an error resulting from an attempted execution of a script function using the Apps Script API. If a run call succeeds but the script function (or Apps Script itself) throws an exception, the response body's error field contains a Status object. The `Status` object's `details` field contains an array with a single one of these `ExecutionError` objects."
-      }
-    },
-    "com.gcp.script_v1#ScriptStackTraceElementList": {
-      "type": "list",
-      "member": {
-        "target": "com.gcp.script_v1#ScriptStackTraceElement"
-      }
-    },
-    "com.gcp.script_v1#CreateProjectRequest": {
-      "type": "structure",
-      "members": {
-        "parentId": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The Drive ID of a parent file that the created script project is bound to. This is usually the ID of a Google Doc, Google Sheet, Google Form, or Google Slides file. If not set, a standalone script project is created."
-          }
-        },
-        "title": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The title for the project."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "Request to create a script project."
-      }
-    },
-    "com.gcp.script_v1#UpdateDeploymentRequest": {
-      "type": "structure",
-      "members": {
         "deploymentConfig": {
           "target": "com.gcp.script_v1#DeploymentConfig",
           "traits": {
             "smithy.api#documentation": "The deployment configuration."
           }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "Request with deployment information to update an existing deployment."
-      }
-    },
-    "com.gcp.script_v1#ListScriptProcessesResponse": {
-      "type": "structure",
-      "members": {
-        "processes": {
-          "target": "com.gcp.script_v1#GoogleAppsScriptTypeProcessList",
-          "traits": {
-            "smithy.api#documentation": "List of processes matching request parameters."
-          }
         },
-        "nextPageToken": {
+        "deploymentId": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Token for the next page of results. If empty, there are no more pages remaining."
+            "smithy.api#documentation": "The deployment ID for this deployment."
           }
         }
       },
       "traits": {
-        "smithy.api#documentation": "Response with the list of Process resources."
+        "smithy.api#documentation": "Representation of a single script deployment."
       }
     },
-    "com.gcp.script_v1#GoogleAppsScriptTypeProcessList": {
+    "com.gcp.script_v1#EntryPointList": {
       "type": "list",
       "member": {
-        "target": "com.gcp.script_v1#GoogleAppsScriptTypeProcess"
+        "target": "com.gcp.script_v1#EntryPoint"
       }
     },
-    "com.gcp.script_v1#ExecutionRequest": {
+    "com.gcp.script_v1#ScriptStackTraceElement": {
       "type": "structure",
       "members": {
-        "parameters": {
-          "target": "com.gcp.script_v1#DocumentList",
-          "traits": {
-            "smithy.api#documentation": "The parameters to be passed to the function being executed. The object type for each parameter should match the expected type in Apps Script. Parameters cannot be Apps Script-specific object types (such as a `Document` or a `Calendar`); they can only be primitive types such as `string`, `number`, `array`, `object`, or `boolean`. Optional."
-          }
-        },
         "function": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The name of the function to execute in the given script. The name does not include parentheses or parameters. It can reference a function in an included library such as `Library.libFunction1`."
+            "smithy.api#documentation": "The name of the function that failed."
           }
         },
-        "sessionState": {
-          "target": "smithy.api#String",
+        "lineNumber": {
+          "target": "smithy.api#Integer",
           "traits": {
-            "smithy.api#documentation": "*Deprecated*. For use with Android add-ons only. An ID that represents the user's current session in the Android app for Google Docs or Sheets, included as extra data in the [Intent](https://developer.android.com/guide/components/intents-filters.html) that launches the add-on. When an Android add-on is run with a session state, it gains the privileges of a [bound](https://developers.google.com/apps-script/guides/bound) script—that is, it can access information like the user's current cursor position (in Docs) or selected cell (in Sheets). To retrieve the state, call `Intent.getStringExtra(\"com.google.android.apps.docs.addons.SessionState\")`. Optional."
-          }
-        },
-        "devMode": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "smithy.api#documentation": "If `true` and the user is an owner of the script, the script runs at the most recently saved version rather than the version deployed for use with the Apps Script API. Optional; default is `false`."
+            "smithy.api#documentation": "The line number where the script failed."
           }
         }
       },
       "traits": {
-        "smithy.api#documentation": "A request to run the function in a script. The script is identified by the specified `script_id`. Executing a function on a script returns results based on the implementation of the script."
-      }
-    },
-    "com.gcp.script_v1#DocumentList": {
-      "type": "list",
-      "member": {
-        "target": "smithy.api#Document"
-      }
-    },
-    "com.gcp.script_v1#GoogleAppsScriptTypeExecutionApiEntryPoint": {
-      "type": "structure",
-      "members": {
-        "entryPointConfig": {
-          "target": "com.gcp.script_v1#GoogleAppsScriptTypeExecutionApiConfig",
-          "traits": {
-            "smithy.api#documentation": "The entry point's configuration."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "An API executable entry point."
+        "smithy.api#documentation": "A stack trace through the script that shows where the execution failed."
       }
     },
     "com.gcp.script_v1#GoogleAppsScriptTypeAddOnEntryPoint": {
       "type": "structure",
       "members": {
-        "description": {
+        "title": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The add-on's optional description."
-          }
-        },
-        "reportIssueUrl": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The add-on's optional report issue URL."
+            "smithy.api#documentation": "The add-on's required title."
           }
         },
         "helpUrl": {
@@ -271,16 +165,22 @@
             "smithy.api#documentation": "The add-on's required list of supported container types."
           }
         },
-        "title": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The add-on's required title."
-          }
-        },
         "postInstallTipUrl": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "The add-on's required post install tip URL."
+          }
+        },
+        "reportIssueUrl": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The add-on's optional report issue URL."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The add-on's optional description."
           }
         }
       },
@@ -311,6 +211,795 @@
         }
       }
     },
+    "com.gcp.script_v1#Project": {
+      "type": "structure",
+      "members": {
+        "creator": {
+          "target": "com.gcp.script_v1#GoogleAppsScriptTypeUser",
+          "traits": {
+            "smithy.api#documentation": "User who originally created the script."
+          }
+        },
+        "createTime": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the script was created."
+          }
+        },
+        "scriptId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The script project's Drive ID."
+          }
+        },
+        "lastModifyUser": {
+          "target": "com.gcp.script_v1#GoogleAppsScriptTypeUser",
+          "traits": {
+            "smithy.api#documentation": "User who last modified the script."
+          }
+        },
+        "parentId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The parent's Drive ID that the script will be attached to. This is usually the ID of a Google Document or Google Sheet. This field is optional, and if not set, a stand-alone script will be created."
+          }
+        },
+        "updateTime": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the script was last updated."
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The title for the project."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The script project resource."
+      }
+    },
+    "com.gcp.script_v1#DeploymentConfig": {
+      "type": "structure",
+      "members": {
+        "manifestFileName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The manifest file name for this deployment."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The description for this deployment."
+          }
+        },
+        "scriptId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The script project's Drive ID."
+          }
+        },
+        "versionNumber": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The version number on which this deployment is based."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Metadata the defines how a deployment is configured."
+      }
+    },
+    "com.gcp.script_v1#Empty": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#documentation": "A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); }"
+      }
+    },
+    "com.gcp.script_v1#ListDeploymentsResponse": {
+      "type": "structure",
+      "members": {
+        "nextPageToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The token that can be used in the next call to get the next page of results."
+          }
+        },
+        "deployments": {
+          "target": "com.gcp.script_v1#DeploymentList",
+          "traits": {
+            "smithy.api#documentation": "The list of deployments."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Response with the list of deployments for the specified Apps Script project."
+      }
+    },
+    "com.gcp.script_v1#DeploymentList": {
+      "type": "list",
+      "member": {
+        "target": "com.gcp.script_v1#Deployment"
+      }
+    },
+    "com.gcp.script_v1#ListUserProcessesResponse": {
+      "type": "structure",
+      "members": {
+        "processes": {
+          "target": "com.gcp.script_v1#GoogleAppsScriptTypeProcessList",
+          "traits": {
+            "smithy.api#documentation": "List of processes matching request parameters."
+          }
+        },
+        "nextPageToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Token for the next page of results. If empty, there are no more pages remaining."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Response with the list of Process resources."
+      }
+    },
+    "com.gcp.script_v1#GoogleAppsScriptTypeProcessList": {
+      "type": "list",
+      "member": {
+        "target": "com.gcp.script_v1#GoogleAppsScriptTypeProcess"
+      }
+    },
+    "com.gcp.script_v1#ExecutionRequest": {
+      "type": "structure",
+      "members": {
+        "sessionState": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "*Deprecated*. For use with Android add-ons only. An ID that represents the user's current session in the Android app for Google Docs or Sheets, included as extra data in the [Intent](https://developer.android.com/guide/components/intents-filters.html) that launches the add-on. When an Android add-on is run with a session state, it gains the privileges of a [bound](https://developers.google.com/apps-script/guides/bound) script—that is, it can access information like the user's current cursor position (in Docs) or selected cell (in Sheets). To retrieve the state, call `Intent.getStringExtra(\"com.google.android.apps.docs.addons.SessionState\")`. Optional."
+          }
+        },
+        "function": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the function to execute in the given script. The name does not include parentheses or parameters. It can reference a function in an included library such as `Library.libFunction1`."
+          }
+        },
+        "parameters": {
+          "target": "com.gcp.script_v1#DocumentList",
+          "traits": {
+            "smithy.api#documentation": "The parameters to be passed to the function being executed. The object type for each parameter should match the expected type in Apps Script. Parameters cannot be Apps Script-specific object types (such as a `Document` or a `Calendar`); they can only be primitive types such as `string`, `number`, `array`, `object`, or `boolean`. Optional."
+          }
+        },
+        "devMode": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "If `true` and the user is an owner of the script, the script runs at the most recently saved version rather than the version deployed for use with the Apps Script API. Optional; default is `false`."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A request to run the function in a script. The script is identified by the specified `script_id`. Executing a function on a script returns results based on the implementation of the script."
+      }
+    },
+    "com.gcp.script_v1#DocumentList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Document"
+      }
+    },
+    "com.gcp.script_v1#GoogleAppsScriptTypeFunction": {
+      "type": "structure",
+      "members": {
+        "parameters": {
+          "target": "com.gcp.script_v1#StringList",
+          "traits": {
+            "smithy.api#documentation": "The ordered list of parameter names of the function in the script project."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The function name in the script project."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Represents a function in a script project."
+      }
+    },
+    "com.gcp.script_v1#StringList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.gcp.script_v1#Status": {
+      "type": "structure",
+      "members": {
+        "message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A developer-facing error message, which is in English. Any user-facing error message is localized and sent in the details field, or localized by the client."
+          }
+        },
+        "code": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The status code. For this API, this value either: - 10, indicating a `SCRIPT_TIMEOUT` error, - 3, indicating an `INVALID_ARGUMENT` error, or - 1, indicating a `CANCELLED` execution. "
+          }
+        },
+        "details": {
+          "target": "com.gcp.script_v1#DocumentMapList",
+          "traits": {
+            "smithy.api#documentation": "An array that contains a single ExecutionError object that provides information about the nature of the error."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "If a `run` call succeeds but the script function (or Apps Script itself) throws an exception, the response body's error field contains this `Status` object."
+      }
+    },
+    "com.gcp.script_v1#DocumentMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      }
+    },
+    "com.gcp.script_v1#DocumentMapList": {
+      "type": "list",
+      "member": {
+        "target": "com.gcp.script_v1#DocumentMap"
+      }
+    },
+    "com.gcp.script_v1#GoogleAppsScriptTypeExecutionApiConfig": {
+      "type": "structure",
+      "members": {
+        "access": {
+          "target": "com.gcp.script_v1#GoogleAppsScriptTypeExecutionApiConfigAccessEnum",
+          "traits": {
+            "smithy.api#documentation": "Who has permission to run the API executable."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "API executable entry point configuration."
+      }
+    },
+    "com.gcp.script_v1#GoogleAppsScriptTypeExecutionApiConfigAccessEnum": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_ACCESS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "UNKNOWN_ACCESS"
+          }
+        },
+        "MYSELF": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "MYSELF"
+          }
+        },
+        "DOMAIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "DOMAIN"
+          }
+        },
+        "ANYONE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ANYONE"
+          }
+        },
+        "ANYONE_ANONYMOUS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ANYONE_ANONYMOUS"
+          }
+        }
+      }
+    },
+    "com.gcp.script_v1#ExecutionResponse": {
+      "type": "structure",
+      "members": {
+        "result": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "The return value of the script function. The type matches the object type returned in Apps Script. Functions called using the Apps Script API cannot return Apps Script-specific objects (such as a `Document` or a `Calendar`); they can only return primitive types such as a `string`, `number`, `array`, `object`, or `boolean`."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "An object that provides the return value of a function executed using the Apps Script API. If the script function returns successfully, the response body's response field contains this `ExecutionResponse` object."
+      }
+    },
+    "com.gcp.script_v1#Operation": {
+      "type": "structure",
+      "members": {
+        "error": {
+          "target": "com.gcp.script_v1#Status",
+          "traits": {
+            "smithy.api#documentation": "If a `run` call succeeds but the script function (or Apps Script itself) throws an exception, this field contains a Status object. The `Status` object's `details` field contains an array with a single ExecutionError object that provides information about the nature of the error."
+          }
+        },
+        "response": {
+          "target": "com.gcp.script_v1#DocumentMap",
+          "traits": {
+            "smithy.api#documentation": "If the script function returns successfully, this field contains an ExecutionResponse object with the function's return value."
+          }
+        },
+        "done": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "This field indicates whether the script execution has completed. A completed execution has a populated `response` field containing the ExecutionResponse from function that was executed."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A representation of an execution of an Apps Script function started with run. The execution response does not arrive until the function finishes executing. The maximum execution runtime is listed in the [Apps Script quotas guide](/apps-script/guides/services/quotas#current_limitations). After execution has started, it can have one of four outcomes: - If the script function returns successfully, the response field contains an ExecutionResponse object with the function's return value in the object's `result` field. - If the script function (or Apps Script itself) throws an exception, the error field contains a Status object. The `Status` object's `details` field contains an array with a single ExecutionError object that provides information about the nature of the error. - If the execution has not yet completed, the done field is `false` and the neither the `response` nor `error` fields are present. - If the `run` call itself fails (for example, because of a malformed request or an authorization error), the method returns an HTTP response code in the 4XX range with a different format for the response body. Client libraries automatically convert a 4XX response into an exception class. "
+      }
+    },
+    "com.gcp.script_v1#File": {
+      "type": "structure",
+      "members": {
+        "source": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The file content."
+          }
+        },
+        "type": {
+          "target": "com.gcp.script_v1#FileTypeEnum",
+          "traits": {
+            "smithy.api#documentation": "The type of the file."
+          }
+        },
+        "createTime": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Creation date timestamp."
+          }
+        },
+        "updateTime": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Last modified date timestamp."
+          }
+        },
+        "functionSet": {
+          "target": "com.gcp.script_v1#GoogleAppsScriptTypeFunctionSet",
+          "traits": {
+            "smithy.api#documentation": "The defined set of functions in the script file, if any."
+          }
+        },
+        "lastModifyUser": {
+          "target": "com.gcp.script_v1#GoogleAppsScriptTypeUser",
+          "traits": {
+            "smithy.api#documentation": "The user who modified the file most recently. The details visible in this object are controlled by the profile visibility settings of the last modifying user."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the file. The file extension is not part of the file name, which can be identified from the type field."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "An individual file within a script project. A file is a third-party source code created by one or more developers. It can be a server-side JS code, HTML, or a configuration file. Each script project can contain multiple files."
+      }
+    },
+    "com.gcp.script_v1#FileTypeEnum": {
+      "type": "enum",
+      "members": {
+        "ENUM_TYPE_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ENUM_TYPE_UNSPECIFIED"
+          }
+        },
+        "SERVER_JS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SERVER_JS"
+          }
+        },
+        "HTML": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "HTML"
+          }
+        },
+        "JSON": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "JSON"
+          }
+        }
+      }
+    },
+    "com.gcp.script_v1#ListScriptProcessesResponse": {
+      "type": "structure",
+      "members": {
+        "processes": {
+          "target": "com.gcp.script_v1#GoogleAppsScriptTypeProcessList",
+          "traits": {
+            "smithy.api#documentation": "List of processes matching request parameters."
+          }
+        },
+        "nextPageToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Token for the next page of results. If empty, there are no more pages remaining."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Response with the list of Process resources."
+      }
+    },
+    "com.gcp.script_v1#ListVersionsResponse": {
+      "type": "structure",
+      "members": {
+        "versions": {
+          "target": "com.gcp.script_v1#VersionList",
+          "traits": {
+            "smithy.api#documentation": "The list of versions."
+          }
+        },
+        "nextPageToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The token use to fetch the next page of records. if not exist in the response, that means no more versions to list."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Response with the list of the versions for the specified script project."
+      }
+    },
+    "com.gcp.script_v1#VersionList": {
+      "type": "list",
+      "member": {
+        "target": "com.gcp.script_v1#Version"
+      }
+    },
+    "com.gcp.script_v1#EntryPoint": {
+      "type": "structure",
+      "members": {
+        "webApp": {
+          "target": "com.gcp.script_v1#GoogleAppsScriptTypeWebAppEntryPoint",
+          "traits": {
+            "smithy.api#documentation": "An entry point specification for web apps."
+          }
+        },
+        "entryPointType": {
+          "target": "com.gcp.script_v1#EntryPointEntryPointTypeEnum",
+          "traits": {
+            "smithy.api#documentation": "The type of the entry point."
+          }
+        },
+        "executionApi": {
+          "target": "com.gcp.script_v1#GoogleAppsScriptTypeExecutionApiEntryPoint",
+          "traits": {
+            "smithy.api#documentation": "An entry point specification for Apps Script API execution calls."
+          }
+        },
+        "addOn": {
+          "target": "com.gcp.script_v1#GoogleAppsScriptTypeAddOnEntryPoint",
+          "traits": {
+            "smithy.api#documentation": "Add-on properties."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A configuration that defines how a deployment is accessed externally."
+      }
+    },
+    "com.gcp.script_v1#EntryPointEntryPointTypeEnum": {
+      "type": "enum",
+      "members": {
+        "ENTRY_POINT_TYPE_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ENTRY_POINT_TYPE_UNSPECIFIED"
+          }
+        },
+        "WEB_APP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "WEB_APP"
+          }
+        },
+        "EXECUTION_API": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "EXECUTION_API"
+          }
+        },
+        "ADD_ON": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ADD_ON"
+          }
+        }
+      }
+    },
+    "com.gcp.script_v1#GoogleAppsScriptTypeWebAppConfig": {
+      "type": "structure",
+      "members": {
+        "access": {
+          "target": "com.gcp.script_v1#GoogleAppsScriptTypeWebAppConfigAccessEnum",
+          "traits": {
+            "smithy.api#documentation": "Who has permission to run the web app."
+          }
+        },
+        "executeAs": {
+          "target": "com.gcp.script_v1#GoogleAppsScriptTypeWebAppConfigExecuteAsEnum",
+          "traits": {
+            "smithy.api#documentation": "Who to execute the web app as."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Web app entry point configuration."
+      }
+    },
+    "com.gcp.script_v1#GoogleAppsScriptTypeWebAppConfigAccessEnum": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_ACCESS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "UNKNOWN_ACCESS"
+          }
+        },
+        "MYSELF": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "MYSELF"
+          }
+        },
+        "DOMAIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "DOMAIN"
+          }
+        },
+        "ANYONE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ANYONE"
+          }
+        },
+        "ANYONE_ANONYMOUS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ANYONE_ANONYMOUS"
+          }
+        }
+      }
+    },
+    "com.gcp.script_v1#GoogleAppsScriptTypeWebAppConfigExecuteAsEnum": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN_EXECUTE_AS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "UNKNOWN_EXECUTE_AS"
+          }
+        },
+        "USER_ACCESSING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "USER_ACCESSING"
+          }
+        },
+        "USER_DEPLOYING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "USER_DEPLOYING"
+          }
+        }
+      }
+    },
+    "com.gcp.script_v1#GoogleAppsScriptTypeUser": {
+      "type": "structure",
+      "members": {
+        "email": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The user's identifying email address."
+          }
+        },
+        "photoUrl": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The user's photo."
+          }
+        },
+        "domain": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The user's domain."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The user's display name."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A simple user profile resource."
+      }
+    },
+    "com.gcp.script_v1#Version": {
+      "type": "structure",
+      "members": {
+        "scriptId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The script project's Drive ID."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The description for this version."
+          }
+        },
+        "createTime": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When the version was created."
+          }
+        },
+        "versionNumber": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The incremental ID that is created by Apps Script when a version is created. This is system assigned number and is immutable once created."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A resource representing a script project version. A version is a \"snapshot\" of a script project and is similar to a read-only branched release. When creating deployments, the version to use must be specified."
+      }
+    },
+    "com.gcp.script_v1#CreateProjectRequest": {
+      "type": "structure",
+      "members": {
+        "parentId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The Drive ID of a parent file that the created script project is bound to. This is usually the ID of a Google Doc, Google Sheet, Google Form, or Google Slides file. If not set, a standalone script project is created."
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The title for the project."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Request to create a script project."
+      }
+    },
+    "com.gcp.script_v1#ExecutionError": {
+      "type": "structure",
+      "members": {
+        "scriptStackTraceElements": {
+          "target": "com.gcp.script_v1#ScriptStackTraceElementList",
+          "traits": {
+            "smithy.api#documentation": "An array of objects that provide a stack trace through the script to show where the execution failed, with the deepest call first."
+          }
+        },
+        "errorMessage": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The error message thrown by Apps Script, usually localized into the user's language."
+          }
+        },
+        "errorType": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The error type, for example `TypeError` or `ReferenceError`. If the error type is unavailable, this field is not included."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "An object that provides information about the nature of an error resulting from an attempted execution of a script function using the Apps Script API. If a run call succeeds but the script function (or Apps Script itself) throws an exception, the response body's error field contains a Status object. The `Status` object's `details` field contains an array with a single one of these `ExecutionError` objects."
+      }
+    },
+    "com.gcp.script_v1#ScriptStackTraceElementList": {
+      "type": "list",
+      "member": {
+        "target": "com.gcp.script_v1#ScriptStackTraceElement"
+      }
+    },
+    "com.gcp.script_v1#UpdateDeploymentRequest": {
+      "type": "structure",
+      "members": {
+        "deploymentConfig": {
+          "target": "com.gcp.script_v1#DeploymentConfig",
+          "traits": {
+            "smithy.api#documentation": "The deployment configuration."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Request with deployment information to update an existing deployment."
+      }
+    },
+    "com.gcp.script_v1#GoogleAppsScriptTypeExecutionApiEntryPoint": {
+      "type": "structure",
+      "members": {
+        "entryPointConfig": {
+          "target": "com.gcp.script_v1#GoogleAppsScriptTypeExecutionApiConfig",
+          "traits": {
+            "smithy.api#documentation": "The entry point's configuration."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "An API executable entry point."
+      }
+    },
+    "com.gcp.script_v1#GoogleAppsScriptTypeFunctionSet": {
+      "type": "structure",
+      "members": {
+        "values": {
+          "target": "com.gcp.script_v1#GoogleAppsScriptTypeFunctionList",
+          "traits": {
+            "smithy.api#documentation": "A list of functions composing the set."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A set of functions. No duplicates are permitted."
+      }
+    },
+    "com.gcp.script_v1#GoogleAppsScriptTypeFunctionList": {
+      "type": "list",
+      "member": {
+        "target": "com.gcp.script_v1#GoogleAppsScriptTypeFunction"
+      }
+    },
+    "com.gcp.script_v1#Content": {
+      "type": "structure",
+      "members": {
+        "scriptId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The script project's Drive ID."
+          }
+        },
+        "files": {
+          "target": "com.gcp.script_v1#FileList",
+          "traits": {
+            "smithy.api#documentation": "The list of script project files. One of the files is a script manifest; it must be named \"appsscript\", must have type of JSON, and include the manifest configurations for the project."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The Content resource."
+      }
+    },
+    "com.gcp.script_v1#FileList": {
+      "type": "list",
+      "member": {
+        "target": "com.gcp.script_v1#File"
+      }
+    },
     "com.gcp.script_v1#GoogleAppsScriptTypeProcess": {
       "type": "structure",
       "members": {
@@ -320,28 +1009,10 @@
             "smithy.api#documentation": "Which version of maestro to use to execute the script."
           }
         },
-        "duration": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Duration the execution spent executing."
-          }
-        },
-        "functionName": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Name of the function the started the execution."
-          }
-        },
         "processStatus": {
           "target": "com.gcp.script_v1#GoogleAppsScriptTypeProcessProcessStatusEnum",
           "traits": {
             "smithy.api#documentation": "The executions status."
-          }
-        },
-        "userAccessLevel": {
-          "target": "com.gcp.script_v1#GoogleAppsScriptTypeProcessUserAccessLevelEnum",
-          "traits": {
-            "smithy.api#documentation": "The executing users access level to the script."
           }
         },
         "processType": {
@@ -350,16 +1021,34 @@
             "smithy.api#documentation": "The executions type."
           }
         },
-        "startTime": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Time the execution started."
-          }
-        },
         "projectName": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "Name of the script being executed."
+          }
+        },
+        "functionName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the function the started the execution."
+          }
+        },
+        "userAccessLevel": {
+          "target": "com.gcp.script_v1#GoogleAppsScriptTypeProcessUserAccessLevelEnum",
+          "traits": {
+            "smithy.api#documentation": "The executing users access level to the script."
+          }
+        },
+        "duration": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Duration the execution spent executing."
+          }
+        },
+        "startTime": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Time the execution started."
           }
         }
       },
@@ -455,41 +1144,6 @@
         }
       }
     },
-    "com.gcp.script_v1#GoogleAppsScriptTypeProcessUserAccessLevelEnum": {
-      "type": "enum",
-      "members": {
-        "USER_ACCESS_LEVEL_UNSPECIFIED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "USER_ACCESS_LEVEL_UNSPECIFIED"
-          }
-        },
-        "NONE": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "NONE"
-          }
-        },
-        "READ": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "READ"
-          }
-        },
-        "WRITE": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "WRITE"
-          }
-        },
-        "OWNER": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "OWNER"
-          }
-        }
-      }
-    },
     "com.gcp.script_v1#GoogleAppsScriptTypeProcessProcessTypeEnum": {
       "type": "enum",
       "members": {
@@ -555,838 +1209,7 @@
         }
       }
     },
-    "com.gcp.script_v1#ListUserProcessesResponse": {
-      "type": "structure",
-      "members": {
-        "nextPageToken": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Token for the next page of results. If empty, there are no more pages remaining."
-          }
-        },
-        "processes": {
-          "target": "com.gcp.script_v1#GoogleAppsScriptTypeProcessList",
-          "traits": {
-            "smithy.api#documentation": "List of processes matching request parameters."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "Response with the list of Process resources."
-      }
-    },
-    "com.gcp.script_v1#Metrics": {
-      "type": "structure",
-      "members": {
-        "activeUsers": {
-          "target": "com.gcp.script_v1#MetricsValueList",
-          "traits": {
-            "smithy.api#documentation": "Number of active users."
-          }
-        },
-        "failedExecutions": {
-          "target": "com.gcp.script_v1#MetricsValueList",
-          "traits": {
-            "smithy.api#documentation": "Number of failed executions."
-          }
-        },
-        "totalExecutions": {
-          "target": "com.gcp.script_v1#MetricsValueList",
-          "traits": {
-            "smithy.api#documentation": "Number of total executions."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "Resource containing usage stats for a given script, based on the supplied filter and mask present in the request."
-      }
-    },
-    "com.gcp.script_v1#MetricsValueList": {
-      "type": "list",
-      "member": {
-        "target": "com.gcp.script_v1#MetricsValue"
-      }
-    },
-    "com.gcp.script_v1#Empty": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#documentation": "A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); }"
-      }
-    },
-    "com.gcp.script_v1#Project": {
-      "type": "structure",
-      "members": {
-        "title": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The title for the project."
-          }
-        },
-        "parentId": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The parent's Drive ID that the script will be attached to. This is usually the ID of a Google Document or Google Sheet. This field is optional, and if not set, a stand-alone script will be created."
-          }
-        },
-        "scriptId": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The script project's Drive ID."
-          }
-        },
-        "createTime": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "When the script was created."
-          }
-        },
-        "creator": {
-          "target": "com.gcp.script_v1#GoogleAppsScriptTypeUser",
-          "traits": {
-            "smithy.api#documentation": "User who originally created the script."
-          }
-        },
-        "lastModifyUser": {
-          "target": "com.gcp.script_v1#GoogleAppsScriptTypeUser",
-          "traits": {
-            "smithy.api#documentation": "User who last modified the script."
-          }
-        },
-        "updateTime": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "When the script was last updated."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "The script project resource."
-      }
-    },
-    "com.gcp.script_v1#Operation": {
-      "type": "structure",
-      "members": {
-        "response": {
-          "target": "com.gcp.script_v1#DocumentMap",
-          "traits": {
-            "smithy.api#documentation": "If the script function returns successfully, this field contains an ExecutionResponse object with the function's return value."
-          }
-        },
-        "error": {
-          "target": "com.gcp.script_v1#Status",
-          "traits": {
-            "smithy.api#documentation": "If a `run` call succeeds but the script function (or Apps Script itself) throws an exception, this field contains a Status object. The `Status` object's `details` field contains an array with a single ExecutionError object that provides information about the nature of the error."
-          }
-        },
-        "done": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "smithy.api#documentation": "This field indicates whether the script execution has completed. A completed execution has a populated `response` field containing the ExecutionResponse from function that was executed."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "A representation of an execution of an Apps Script function started with run. The execution response does not arrive until the function finishes executing. The maximum execution runtime is listed in the [Apps Script quotas guide](/apps-script/guides/services/quotas#current_limitations). After execution has started, it can have one of four outcomes: - If the script function returns successfully, the response field contains an ExecutionResponse object with the function's return value in the object's `result` field. - If the script function (or Apps Script itself) throws an exception, the error field contains a Status object. The `Status` object's `details` field contains an array with a single ExecutionError object that provides information about the nature of the error. - If the execution has not yet completed, the done field is `false` and the neither the `response` nor `error` fields are present. - If the `run` call itself fails (for example, because of a malformed request or an authorization error), the method returns an HTTP response code in the 4XX range with a different format for the response body. Client libraries automatically convert a 4XX response into an exception class. "
-      }
-    },
-    "com.gcp.script_v1#DocumentMap": {
-      "type": "map",
-      "key": {
-        "target": "smithy.api#String"
-      },
-      "value": {
-        "target": "smithy.api#Document"
-      }
-    },
-    "com.gcp.script_v1#GoogleAppsScriptTypeUser": {
-      "type": "structure",
-      "members": {
-        "domain": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The user's domain."
-          }
-        },
-        "email": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The user's identifying email address."
-          }
-        },
-        "name": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The user's display name."
-          }
-        },
-        "photoUrl": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The user's photo."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "A simple user profile resource."
-      }
-    },
-    "com.gcp.script_v1#GoogleAppsScriptTypeWebAppConfig": {
-      "type": "structure",
-      "members": {
-        "executeAs": {
-          "target": "com.gcp.script_v1#GoogleAppsScriptTypeWebAppConfigExecuteAsEnum",
-          "traits": {
-            "smithy.api#documentation": "Who to execute the web app as."
-          }
-        },
-        "access": {
-          "target": "com.gcp.script_v1#GoogleAppsScriptTypeWebAppConfigAccessEnum",
-          "traits": {
-            "smithy.api#documentation": "Who has permission to run the web app."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "Web app entry point configuration."
-      }
-    },
-    "com.gcp.script_v1#GoogleAppsScriptTypeWebAppConfigExecuteAsEnum": {
-      "type": "enum",
-      "members": {
-        "UNKNOWN_EXECUTE_AS": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "UNKNOWN_EXECUTE_AS"
-          }
-        },
-        "USER_ACCESSING": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "USER_ACCESSING"
-          }
-        },
-        "USER_DEPLOYING": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "USER_DEPLOYING"
-          }
-        }
-      }
-    },
-    "com.gcp.script_v1#GoogleAppsScriptTypeWebAppConfigAccessEnum": {
-      "type": "enum",
-      "members": {
-        "UNKNOWN_ACCESS": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "UNKNOWN_ACCESS"
-          }
-        },
-        "MYSELF": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "MYSELF"
-          }
-        },
-        "DOMAIN": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "DOMAIN"
-          }
-        },
-        "ANYONE": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "ANYONE"
-          }
-        },
-        "ANYONE_ANONYMOUS": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "ANYONE_ANONYMOUS"
-          }
-        }
-      }
-    },
-    "com.gcp.script_v1#ScriptStackTraceElement": {
-      "type": "structure",
-      "members": {
-        "lineNumber": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "smithy.api#documentation": "The line number where the script failed."
-          }
-        },
-        "function": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The name of the function that failed."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "A stack trace through the script that shows where the execution failed."
-      }
-    },
-    "com.gcp.script_v1#File": {
-      "type": "structure",
-      "members": {
-        "lastModifyUser": {
-          "target": "com.gcp.script_v1#GoogleAppsScriptTypeUser",
-          "traits": {
-            "smithy.api#documentation": "The user who modified the file most recently. The details visible in this object are controlled by the profile visibility settings of the last modifying user."
-          }
-        },
-        "source": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The file content."
-          }
-        },
-        "functionSet": {
-          "target": "com.gcp.script_v1#GoogleAppsScriptTypeFunctionSet",
-          "traits": {
-            "smithy.api#documentation": "The defined set of functions in the script file, if any."
-          }
-        },
-        "updateTime": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Last modified date timestamp."
-          }
-        },
-        "type": {
-          "target": "com.gcp.script_v1#FileTypeEnum",
-          "traits": {
-            "smithy.api#documentation": "The type of the file."
-          }
-        },
-        "createTime": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Creation date timestamp."
-          }
-        },
-        "name": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The name of the file. The file extension is not part of the file name, which can be identified from the type field."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "An individual file within a script project. A file is a third-party source code created by one or more developers. It can be a server-side JS code, HTML, or a configuration file. Each script project can contain multiple files."
-      }
-    },
-    "com.gcp.script_v1#FileTypeEnum": {
-      "type": "enum",
-      "members": {
-        "ENUM_TYPE_UNSPECIFIED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "ENUM_TYPE_UNSPECIFIED"
-          }
-        },
-        "SERVER_JS": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "SERVER_JS"
-          }
-        },
-        "HTML": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "HTML"
-          }
-        },
-        "JSON": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "JSON"
-          }
-        }
-      }
-    },
-    "com.gcp.script_v1#Status": {
-      "type": "structure",
-      "members": {
-        "code": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "smithy.api#documentation": "The status code. For this API, this value either: - 10, indicating a `SCRIPT_TIMEOUT` error, - 3, indicating an `INVALID_ARGUMENT` error, or - 1, indicating a `CANCELLED` execution. "
-          }
-        },
-        "message": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "A developer-facing error message, which is in English. Any user-facing error message is localized and sent in the details field, or localized by the client."
-          }
-        },
-        "details": {
-          "target": "com.gcp.script_v1#DocumentMapList",
-          "traits": {
-            "smithy.api#documentation": "An array that contains a single ExecutionError object that provides information about the nature of the error."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "If a `run` call succeeds but the script function (or Apps Script itself) throws an exception, the response body's error field contains this `Status` object."
-      }
-    },
-    "com.gcp.script_v1#DocumentMapList": {
-      "type": "list",
-      "member": {
-        "target": "com.gcp.script_v1#DocumentMap"
-      }
-    },
-    "com.gcp.script_v1#Deployment": {
-      "type": "structure",
-      "members": {
-        "updateTime": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Last modified date time stamp."
-          }
-        },
-        "entryPoints": {
-          "target": "com.gcp.script_v1#EntryPointList",
-          "traits": {
-            "smithy.api#documentation": "The deployment's entry points."
-          }
-        },
-        "deploymentId": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The deployment ID for this deployment."
-          }
-        },
-        "deploymentConfig": {
-          "target": "com.gcp.script_v1#DeploymentConfig",
-          "traits": {
-            "smithy.api#documentation": "The deployment configuration."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "Representation of a single script deployment."
-      }
-    },
-    "com.gcp.script_v1#EntryPointList": {
-      "type": "list",
-      "member": {
-        "target": "com.gcp.script_v1#EntryPoint"
-      }
-    },
-    "com.gcp.script_v1#ExecutionResponse": {
-      "type": "structure",
-      "members": {
-        "result": {
-          "target": "smithy.api#Document",
-          "traits": {
-            "smithy.api#documentation": "The return value of the script function. The type matches the object type returned in Apps Script. Functions called using the Apps Script API cannot return Apps Script-specific objects (such as a `Document` or a `Calendar`); they can only return primitive types such as a `string`, `number`, `array`, `object`, or `boolean`."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "An object that provides the return value of a function executed using the Apps Script API. If the script function returns successfully, the response body's response field contains this `ExecutionResponse` object."
-      }
-    },
-    "com.gcp.script_v1#GoogleAppsScriptTypeFunction": {
-      "type": "structure",
-      "members": {
-        "name": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The function name in the script project."
-          }
-        },
-        "parameters": {
-          "target": "com.gcp.script_v1#StringList",
-          "traits": {
-            "smithy.api#documentation": "The ordered list of parameter names of the function in the script project."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "Represents a function in a script project."
-      }
-    },
-    "com.gcp.script_v1#StringList": {
-      "type": "list",
-      "member": {
-        "target": "smithy.api#String"
-      }
-    },
-    "com.gcp.script_v1#EntryPoint": {
-      "type": "structure",
-      "members": {
-        "executionApi": {
-          "target": "com.gcp.script_v1#GoogleAppsScriptTypeExecutionApiEntryPoint",
-          "traits": {
-            "smithy.api#documentation": "An entry point specification for Apps Script API execution calls."
-          }
-        },
-        "addOn": {
-          "target": "com.gcp.script_v1#GoogleAppsScriptTypeAddOnEntryPoint",
-          "traits": {
-            "smithy.api#documentation": "Add-on properties."
-          }
-        },
-        "entryPointType": {
-          "target": "com.gcp.script_v1#EntryPointEntryPointTypeEnum",
-          "traits": {
-            "smithy.api#documentation": "The type of the entry point."
-          }
-        },
-        "webApp": {
-          "target": "com.gcp.script_v1#GoogleAppsScriptTypeWebAppEntryPoint",
-          "traits": {
-            "smithy.api#documentation": "An entry point specification for web apps."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "A configuration that defines how a deployment is accessed externally."
-      }
-    },
-    "com.gcp.script_v1#EntryPointEntryPointTypeEnum": {
-      "type": "enum",
-      "members": {
-        "ENTRY_POINT_TYPE_UNSPECIFIED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "ENTRY_POINT_TYPE_UNSPECIFIED"
-          }
-        },
-        "WEB_APP": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "WEB_APP"
-          }
-        },
-        "EXECUTION_API": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "EXECUTION_API"
-          }
-        },
-        "ADD_ON": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "ADD_ON"
-          }
-        }
-      }
-    },
-    "com.gcp.script_v1#DeploymentConfig": {
-      "type": "structure",
-      "members": {
-        "manifestFileName": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The manifest file name for this deployment."
-          }
-        },
-        "versionNumber": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "smithy.api#documentation": "The version number on which this deployment is based."
-          }
-        },
-        "scriptId": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The script project's Drive ID."
-          }
-        },
-        "description": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The description for this deployment."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "Metadata the defines how a deployment is configured."
-      }
-    },
-    "com.gcp.script_v1#GoogleAppsScriptTypeExecutionApiConfig": {
-      "type": "structure",
-      "members": {
-        "access": {
-          "target": "com.gcp.script_v1#GoogleAppsScriptTypeExecutionApiConfigAccessEnum",
-          "traits": {
-            "smithy.api#documentation": "Who has permission to run the API executable."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "API executable entry point configuration."
-      }
-    },
-    "com.gcp.script_v1#GoogleAppsScriptTypeExecutionApiConfigAccessEnum": {
-      "type": "enum",
-      "members": {
-        "UNKNOWN_ACCESS": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "UNKNOWN_ACCESS"
-          }
-        },
-        "MYSELF": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "MYSELF"
-          }
-        },
-        "DOMAIN": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "DOMAIN"
-          }
-        },
-        "ANYONE": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "ANYONE"
-          }
-        },
-        "ANYONE_ANONYMOUS": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "ANYONE_ANONYMOUS"
-          }
-        }
-      }
-    },
-    "com.gcp.script_v1#ListDeploymentsResponse": {
-      "type": "structure",
-      "members": {
-        "nextPageToken": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The token that can be used in the next call to get the next page of results."
-          }
-        },
-        "deployments": {
-          "target": "com.gcp.script_v1#DeploymentList",
-          "traits": {
-            "smithy.api#documentation": "The list of deployments."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "Response with the list of deployments for the specified Apps Script project."
-      }
-    },
-    "com.gcp.script_v1#DeploymentList": {
-      "type": "list",
-      "member": {
-        "target": "com.gcp.script_v1#Deployment"
-      }
-    },
-    "com.gcp.script_v1#Content": {
-      "type": "structure",
-      "members": {
-        "files": {
-          "target": "com.gcp.script_v1#FileList",
-          "traits": {
-            "smithy.api#documentation": "The list of script project files. One of the files is a script manifest; it must be named \"appsscript\", must have type of JSON, and include the manifest configurations for the project."
-          }
-        },
-        "scriptId": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The script project's Drive ID."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "The Content resource."
-      }
-    },
-    "com.gcp.script_v1#FileList": {
-      "type": "list",
-      "member": {
-        "target": "com.gcp.script_v1#File"
-      }
-    },
-    "com.gcp.script_v1#Version": {
-      "type": "structure",
-      "members": {
-        "versionNumber": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "smithy.api#documentation": "The incremental ID that is created by Apps Script when a version is created. This is system assigned number and is immutable once created."
-          }
-        },
-        "createTime": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "When the version was created."
-          }
-        },
-        "description": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The description for this version."
-          }
-        },
-        "scriptId": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The script project's Drive ID."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "A resource representing a script project version. A version is a \"snapshot\" of a script project and is similar to a read-only branched release. When creating deployments, the version to use must be specified."
-      }
-    },
-    "com.gcp.script_v1#ListProcessesUserProcessFilter_typesEnum": {
-      "type": "enum",
-      "members": {
-        "PROCESS_TYPE_UNSPECIFIED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "PROCESS_TYPE_UNSPECIFIED"
-          }
-        },
-        "ADD_ON": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "ADD_ON"
-          }
-        },
-        "EXECUTION_API": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "EXECUTION_API"
-          }
-        },
-        "TIME_DRIVEN": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "TIME_DRIVEN"
-          }
-        },
-        "TRIGGER": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "TRIGGER"
-          }
-        },
-        "WEBAPP": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "WEBAPP"
-          }
-        },
-        "EDITOR": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "EDITOR"
-          }
-        },
-        "SIMPLE_TRIGGER": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "SIMPLE_TRIGGER"
-          }
-        },
-        "MENU": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "MENU"
-          }
-        },
-        "BATCH_TASK": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "BATCH_TASK"
-          }
-        }
-      }
-    },
-    "com.gcp.script_v1#ListProcessesUserProcessFilter_typesEnumList": {
-      "type": "list",
-      "member": {
-        "target": "com.gcp.script_v1#ListProcessesUserProcessFilter_typesEnum"
-      }
-    },
-    "com.gcp.script_v1#ListProcessesUserProcessFilter_statusesEnum": {
-      "type": "enum",
-      "members": {
-        "PROCESS_STATUS_UNSPECIFIED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "PROCESS_STATUS_UNSPECIFIED"
-          }
-        },
-        "RUNNING": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "RUNNING"
-          }
-        },
-        "PAUSED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "PAUSED"
-          }
-        },
-        "COMPLETED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "COMPLETED"
-          }
-        },
-        "CANCELED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "CANCELED"
-          }
-        },
-        "FAILED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "FAILED"
-          }
-        },
-        "TIMED_OUT": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "TIMED_OUT"
-          }
-        },
-        "UNKNOWN": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "UNKNOWN"
-          }
-        },
-        "DELAYED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "DELAYED"
-          }
-        },
-        "EXECUTION_DISABLED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "EXECUTION_DISABLED"
-          }
-        }
-      }
-    },
-    "com.gcp.script_v1#ListProcessesUserProcessFilter_statusesEnumList": {
-      "type": "list",
-      "member": {
-        "target": "com.gcp.script_v1#ListProcessesUserProcessFilter_statusesEnum"
-      }
-    },
-    "com.gcp.script_v1#ListProcessesUserProcessFilter_userAccessLevelsEnum": {
+    "com.gcp.script_v1#GoogleAppsScriptTypeProcessUserAccessLevelEnum": {
       "type": "enum",
       "members": {
         "USER_ACCESS_LEVEL_UNSPECIFIED": {
@@ -1421,90 +1244,14 @@
         }
       }
     },
-    "com.gcp.script_v1#ListProcessesUserProcessFilter_userAccessLevelsEnumList": {
-      "type": "list",
-      "member": {
-        "target": "com.gcp.script_v1#ListProcessesUserProcessFilter_userAccessLevelsEnum"
-      }
-    },
-    "com.gcp.script_v1#ListProcessesRequest": {
+    "com.gcp.script_v1#CreateProjectsRequest": {
       "type": "structure",
       "members": {
-        "userProcessFilter.endTime": {
-          "target": "smithy.api#String",
+        "body": {
+          "target": "com.gcp.script_v1#CreateProjectRequest",
           "traits": {
-            "smithy.api#documentation": "Optional field used to limit returned processes to those that completed on or before the given timestamp.",
-            "smithy.api#httpQuery": "userProcessFilter.endTime"
-          }
-        },
-        "userProcessFilter.types": {
-          "target": "com.gcp.script_v1#ListProcessesUserProcessFilter_typesEnumList",
-          "traits": {
-            "smithy.api#documentation": "Optional field used to limit returned processes to those having one of the specified process types.",
-            "smithy.api#httpQuery": "userProcessFilter.types"
-          }
-        },
-        "userProcessFilter.statuses": {
-          "target": "com.gcp.script_v1#ListProcessesUserProcessFilter_statusesEnumList",
-          "traits": {
-            "smithy.api#documentation": "Optional field used to limit returned processes to those having one of the specified process statuses.",
-            "smithy.api#httpQuery": "userProcessFilter.statuses"
-          }
-        },
-        "userProcessFilter.deploymentId": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Optional field used to limit returned processes to those originating from projects with a specific deployment ID.",
-            "smithy.api#httpQuery": "userProcessFilter.deploymentId"
-          }
-        },
-        "pageToken": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The token for continuing a previous list request on the next page. This should be set to the value of `nextPageToken` from a previous response.",
-            "smithy.api#httpQuery": "pageToken"
-          }
-        },
-        "userProcessFilter.userAccessLevels": {
-          "target": "com.gcp.script_v1#ListProcessesUserProcessFilter_userAccessLevelsEnumList",
-          "traits": {
-            "smithy.api#documentation": "Optional field used to limit returned processes to those having one of the specified user access levels.",
-            "smithy.api#httpQuery": "userProcessFilter.userAccessLevels"
-          }
-        },
-        "userProcessFilter.scriptId": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Optional field used to limit returned processes to those originating from projects with a specific script ID.",
-            "smithy.api#httpQuery": "userProcessFilter.scriptId"
-          }
-        },
-        "userProcessFilter.functionName": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Optional field used to limit returned processes to those originating from a script function with the given function name.",
-            "smithy.api#httpQuery": "userProcessFilter.functionName"
-          }
-        },
-        "pageSize": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "smithy.api#documentation": "The maximum number of returned processes per page of results. Defaults to 50.",
-            "smithy.api#httpQuery": "pageSize"
-          }
-        },
-        "userProcessFilter.projectName": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Optional field used to limit returned processes to those originating from projects with project names containing a specific string.",
-            "smithy.api#httpQuery": "userProcessFilter.projectName"
-          }
-        },
-        "userProcessFilter.startTime": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Optional field used to limit returned processes to those that were started on or after the given timestamp.",
-            "smithy.api#httpQuery": "userProcessFilter.startTime"
+            "smithy.api#httpPayload": {},
+            "smithy.api#documentation": "Request body"
           }
         }
       }
@@ -1533,369 +1280,6 @@
             "status": 403
           }
         ]
-      }
-    },
-    "com.gcp.script_v1#ListProcesses": {
-      "type": "operation",
-      "input": {
-        "target": "com.gcp.script_v1#ListProcessesRequest"
-      },
-      "output": {
-        "target": "com.gcp.script_v1#ListUserProcessesResponse"
-      },
-      "errors": [
-        {
-          "target": "com.gcp.script_v1#NotFound"
-        },
-        {
-          "target": "com.gcp.script_v1#Forbidden"
-        }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "v1/processes"
-        },
-        "smithy.api#documentation": "List information about processes made by or on behalf of a user, such as process type and current status.",
-        "smithy.api#paginated": {
-          "inputToken": "pageToken",
-          "outputToken": "nextPageToken"
-        }
-      }
-    },
-    "com.gcp.script_v1#ListScriptProcessesProcessesScriptProcessFilter_userAccessLevelsEnum": {
-      "type": "enum",
-      "members": {
-        "USER_ACCESS_LEVEL_UNSPECIFIED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "USER_ACCESS_LEVEL_UNSPECIFIED"
-          }
-        },
-        "NONE": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "NONE"
-          }
-        },
-        "READ": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "READ"
-          }
-        },
-        "WRITE": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "WRITE"
-          }
-        },
-        "OWNER": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "OWNER"
-          }
-        }
-      }
-    },
-    "com.gcp.script_v1#ListScriptProcessesProcessesScriptProcessFilter_userAccessLevelsEnumList": {
-      "type": "list",
-      "member": {
-        "target": "com.gcp.script_v1#ListScriptProcessesProcessesScriptProcessFilter_userAccessLevelsEnum"
-      }
-    },
-    "com.gcp.script_v1#ListScriptProcessesProcessesScriptProcessFilter_typesEnum": {
-      "type": "enum",
-      "members": {
-        "PROCESS_TYPE_UNSPECIFIED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "PROCESS_TYPE_UNSPECIFIED"
-          }
-        },
-        "ADD_ON": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "ADD_ON"
-          }
-        },
-        "EXECUTION_API": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "EXECUTION_API"
-          }
-        },
-        "TIME_DRIVEN": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "TIME_DRIVEN"
-          }
-        },
-        "TRIGGER": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "TRIGGER"
-          }
-        },
-        "WEBAPP": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "WEBAPP"
-          }
-        },
-        "EDITOR": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "EDITOR"
-          }
-        },
-        "SIMPLE_TRIGGER": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "SIMPLE_TRIGGER"
-          }
-        },
-        "MENU": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "MENU"
-          }
-        },
-        "BATCH_TASK": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "BATCH_TASK"
-          }
-        }
-      }
-    },
-    "com.gcp.script_v1#ListScriptProcessesProcessesScriptProcessFilter_typesEnumList": {
-      "type": "list",
-      "member": {
-        "target": "com.gcp.script_v1#ListScriptProcessesProcessesScriptProcessFilter_typesEnum"
-      }
-    },
-    "com.gcp.script_v1#ListScriptProcessesProcessesScriptProcessFilter_statusesEnum": {
-      "type": "enum",
-      "members": {
-        "PROCESS_STATUS_UNSPECIFIED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "PROCESS_STATUS_UNSPECIFIED"
-          }
-        },
-        "RUNNING": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "RUNNING"
-          }
-        },
-        "PAUSED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "PAUSED"
-          }
-        },
-        "COMPLETED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "COMPLETED"
-          }
-        },
-        "CANCELED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "CANCELED"
-          }
-        },
-        "FAILED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "FAILED"
-          }
-        },
-        "TIMED_OUT": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "TIMED_OUT"
-          }
-        },
-        "UNKNOWN": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "UNKNOWN"
-          }
-        },
-        "DELAYED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "DELAYED"
-          }
-        },
-        "EXECUTION_DISABLED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "EXECUTION_DISABLED"
-          }
-        }
-      }
-    },
-    "com.gcp.script_v1#ListScriptProcessesProcessesScriptProcessFilter_statusesEnumList": {
-      "type": "list",
-      "member": {
-        "target": "com.gcp.script_v1#ListScriptProcessesProcessesScriptProcessFilter_statusesEnum"
-      }
-    },
-    "com.gcp.script_v1#ListScriptProcessesProcessesRequest": {
-      "type": "structure",
-      "members": {
-        "scriptProcessFilter.functionName": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Optional field used to limit returned processes to those originating from a script function with the given function name.",
-            "smithy.api#httpQuery": "scriptProcessFilter.functionName"
-          }
-        },
-        "scriptProcessFilter.userAccessLevels": {
-          "target": "com.gcp.script_v1#ListScriptProcessesProcessesScriptProcessFilter_userAccessLevelsEnumList",
-          "traits": {
-            "smithy.api#documentation": "Optional field used to limit returned processes to those having one of the specified user access levels.",
-            "smithy.api#httpQuery": "scriptProcessFilter.userAccessLevels"
-          }
-        },
-        "scriptProcessFilter.types": {
-          "target": "com.gcp.script_v1#ListScriptProcessesProcessesScriptProcessFilter_typesEnumList",
-          "traits": {
-            "smithy.api#documentation": "Optional field used to limit returned processes to those having one of the specified process types.",
-            "smithy.api#httpQuery": "scriptProcessFilter.types"
-          }
-        },
-        "pageSize": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "smithy.api#documentation": "The maximum number of returned processes per page of results. Defaults to 50.",
-            "smithy.api#httpQuery": "pageSize"
-          }
-        },
-        "scriptProcessFilter.startTime": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Optional field used to limit returned processes to those that were started on or after the given timestamp.",
-            "smithy.api#httpQuery": "scriptProcessFilter.startTime"
-          }
-        },
-        "scriptProcessFilter.endTime": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Optional field used to limit returned processes to those that completed on or before the given timestamp.",
-            "smithy.api#httpQuery": "scriptProcessFilter.endTime"
-          }
-        },
-        "pageToken": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The token for continuing a previous list request on the next page. This should be set to the value of `nextPageToken` from a previous response.",
-            "smithy.api#httpQuery": "pageToken"
-          }
-        },
-        "scriptProcessFilter.statuses": {
-          "target": "com.gcp.script_v1#ListScriptProcessesProcessesScriptProcessFilter_statusesEnumList",
-          "traits": {
-            "smithy.api#documentation": "Optional field used to limit returned processes to those having one of the specified process statuses.",
-            "smithy.api#httpQuery": "scriptProcessFilter.statuses"
-          }
-        },
-        "scriptProcessFilter.deploymentId": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Optional field used to limit returned processes to those originating from projects with a specific deployment ID.",
-            "smithy.api#httpQuery": "scriptProcessFilter.deploymentId"
-          }
-        },
-        "scriptId": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The script ID of the project whose processes are listed.",
-            "smithy.api#httpQuery": "scriptId"
-          }
-        }
-      }
-    },
-    "com.gcp.script_v1#ListScriptProcessesProcesses": {
-      "type": "operation",
-      "input": {
-        "target": "com.gcp.script_v1#ListScriptProcessesProcessesRequest"
-      },
-      "output": {
-        "target": "com.gcp.script_v1#ListScriptProcessesResponse"
-      },
-      "errors": [
-        {
-          "target": "com.gcp.script_v1#NotFound"
-        },
-        {
-          "target": "com.gcp.script_v1#Forbidden"
-        }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "v1/processes:listScriptProcesses"
-        },
-        "smithy.api#documentation": "List information about a script's executed processes, such as process type and current status.",
-        "smithy.api#paginated": {
-          "inputToken": "pageToken",
-          "outputToken": "nextPageToken"
-        }
-      }
-    },
-    "com.gcp.script_v1#GetProjectsRequest": {
-      "type": "structure",
-      "members": {
-        "scriptId": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The script project's Drive ID.",
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {}
-          }
-        }
-      }
-    },
-    "com.gcp.script_v1#GetProjects": {
-      "type": "operation",
-      "input": {
-        "target": "com.gcp.script_v1#GetProjectsRequest"
-      },
-      "output": {
-        "target": "com.gcp.script_v1#Project"
-      },
-      "errors": [
-        {
-          "target": "com.gcp.script_v1#NotFound"
-        },
-        {
-          "target": "com.gcp.script_v1#Forbidden"
-        }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "v1/projects/{scriptId}"
-        },
-        "smithy.api#documentation": "Gets a script project's metadata."
-      }
-    },
-    "com.gcp.script_v1#CreateProjectsRequest": {
-      "type": "structure",
-      "members": {
-        "body": {
-          "target": "com.gcp.script_v1#CreateProjectRequest",
-          "traits": {
-            "smithy.api#httpPayload": {},
-            "smithy.api#documentation": "Request body"
-          }
-        }
       }
     },
     "com.gcp.script_v1#BadRequest": {
@@ -1952,50 +1336,6 @@
           "uri": "v1/projects"
         },
         "smithy.api#documentation": "Creates a new, empty script project with no script files and a base manifest file."
-      }
-    },
-    "com.gcp.script_v1#GetContentProjectsRequest": {
-      "type": "structure",
-      "members": {
-        "versionNumber": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "smithy.api#documentation": "The version number of the project to retrieve. If not provided, the project's HEAD version is returned.",
-            "smithy.api#httpQuery": "versionNumber"
-          }
-        },
-        "scriptId": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The script project's Drive ID.",
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {}
-          }
-        }
-      }
-    },
-    "com.gcp.script_v1#GetContentProjects": {
-      "type": "operation",
-      "input": {
-        "target": "com.gcp.script_v1#GetContentProjectsRequest"
-      },
-      "output": {
-        "target": "com.gcp.script_v1#Content"
-      },
-      "errors": [
-        {
-          "target": "com.gcp.script_v1#NotFound"
-        },
-        {
-          "target": "com.gcp.script_v1#Forbidden"
-        }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "v1/projects/{scriptId}/content"
-        },
-        "smithy.api#documentation": "Gets the content of the script project, including the code source and metadata for each script file."
       }
     },
     "com.gcp.script_v1#UpdateContentProjectsRequest": {
@@ -2122,17 +1462,90 @@
         "smithy.api#documentation": "Get metrics data for scripts, such as number of executions and active users."
       }
     },
-    "com.gcp.script_v1#UpdateProjectsDeploymentsRequest": {
+    "com.gcp.script_v1#GetContentProjectsRequest": {
       "type": "structure",
       "members": {
-        "deploymentId": {
+        "scriptId": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The deployment ID for this deployment.",
+            "smithy.api#documentation": "The script project's Drive ID.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
         },
+        "versionNumber": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The version number of the project to retrieve. If not provided, the project's HEAD version is returned.",
+            "smithy.api#httpQuery": "versionNumber"
+          }
+        }
+      }
+    },
+    "com.gcp.script_v1#GetContentProjects": {
+      "type": "operation",
+      "input": {
+        "target": "com.gcp.script_v1#GetContentProjectsRequest"
+      },
+      "output": {
+        "target": "com.gcp.script_v1#Content"
+      },
+      "errors": [
+        {
+          "target": "com.gcp.script_v1#NotFound"
+        },
+        {
+          "target": "com.gcp.script_v1#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "v1/projects/{scriptId}/content"
+        },
+        "smithy.api#documentation": "Gets the content of the script project, including the code source and metadata for each script file."
+      }
+    },
+    "com.gcp.script_v1#GetProjectsRequest": {
+      "type": "structure",
+      "members": {
+        "scriptId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The script project's Drive ID.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.gcp.script_v1#GetProjects": {
+      "type": "operation",
+      "input": {
+        "target": "com.gcp.script_v1#GetProjectsRequest"
+      },
+      "output": {
+        "target": "com.gcp.script_v1#Project"
+      },
+      "errors": [
+        {
+          "target": "com.gcp.script_v1#NotFound"
+        },
+        {
+          "target": "com.gcp.script_v1#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "v1/projects/{scriptId}"
+        },
+        "smithy.api#documentation": "Gets a script project's metadata."
+      }
+    },
+    "com.gcp.script_v1#CreateProjectsVersionsRequest": {
+      "type": "structure",
+      "members": {
         "scriptId": {
           "target": "smithy.api#String",
           "traits": {
@@ -2142,7 +1555,7 @@
           }
         },
         "body": {
-          "target": "com.gcp.script_v1#UpdateDeploymentRequest",
+          "target": "com.gcp.script_v1#Version",
           "traits": {
             "smithy.api#httpPayload": {},
             "smithy.api#documentation": "Request body"
@@ -2150,13 +1563,13 @@
         }
       }
     },
-    "com.gcp.script_v1#UpdateProjectsDeployments": {
+    "com.gcp.script_v1#CreateProjectsVersions": {
       "type": "operation",
       "input": {
-        "target": "com.gcp.script_v1#UpdateProjectsDeploymentsRequest"
+        "target": "com.gcp.script_v1#CreateProjectsVersionsRequest"
       },
       "output": {
-        "target": "com.gcp.script_v1#Deployment"
+        "target": "com.gcp.script_v1#Version"
       },
       "errors": [
         {
@@ -2174,10 +1587,110 @@
       ],
       "traits": {
         "smithy.api#http": {
-          "method": "PUT",
-          "uri": "v1/projects/{scriptId}/deployments/{deploymentId}"
+          "method": "POST",
+          "uri": "v1/projects/{scriptId}/versions"
         },
-        "smithy.api#documentation": "Updates a deployment of an Apps Script project."
+        "smithy.api#documentation": "Creates a new immutable version using the current code, with a unique version number."
+      }
+    },
+    "com.gcp.script_v1#ListProjectsVersionsRequest": {
+      "type": "structure",
+      "members": {
+        "scriptId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The script project's Drive ID.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "pageSize": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The maximum number of versions on each returned page. Defaults to 50.",
+            "smithy.api#httpQuery": "pageSize"
+          }
+        },
+        "pageToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The token for continuing a previous list request on the next page. This should be set to the value of `nextPageToken` from a previous response.",
+            "smithy.api#httpQuery": "pageToken"
+          }
+        }
+      }
+    },
+    "com.gcp.script_v1#ListProjectsVersions": {
+      "type": "operation",
+      "input": {
+        "target": "com.gcp.script_v1#ListProjectsVersionsRequest"
+      },
+      "output": {
+        "target": "com.gcp.script_v1#ListVersionsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.gcp.script_v1#NotFound"
+        },
+        {
+          "target": "com.gcp.script_v1#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "v1/projects/{scriptId}/versions"
+        },
+        "smithy.api#documentation": "List the versions of a script project.",
+        "smithy.api#paginated": {
+          "inputToken": "pageToken",
+          "outputToken": "nextPageToken"
+        }
+      }
+    },
+    "com.gcp.script_v1#GetProjectsVersionsRequest": {
+      "type": "structure",
+      "members": {
+        "scriptId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The script project's Drive ID.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "versionNumber": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The version number.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.gcp.script_v1#GetProjectsVersions": {
+      "type": "operation",
+      "input": {
+        "target": "com.gcp.script_v1#GetProjectsVersionsRequest"
+      },
+      "output": {
+        "target": "com.gcp.script_v1#Version"
+      },
+      "errors": [
+        {
+          "target": "com.gcp.script_v1#NotFound"
+        },
+        {
+          "target": "com.gcp.script_v1#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "v1/projects/{scriptId}/versions/{versionNumber}"
+        },
+        "smithy.api#documentation": "Gets a version of a script project."
       }
     },
     "com.gcp.script_v1#GetProjectsDeploymentsRequest": {
@@ -2273,6 +1786,64 @@
           "uri": "v1/projects/{scriptId}/deployments"
         },
         "smithy.api#documentation": "Creates a deployment of an Apps Script project."
+      }
+    },
+    "com.gcp.script_v1#UpdateProjectsDeploymentsRequest": {
+      "type": "structure",
+      "members": {
+        "deploymentId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The deployment ID for this deployment.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "scriptId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The script project's Drive ID.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "body": {
+          "target": "com.gcp.script_v1#UpdateDeploymentRequest",
+          "traits": {
+            "smithy.api#httpPayload": {},
+            "smithy.api#documentation": "Request body"
+          }
+        }
+      }
+    },
+    "com.gcp.script_v1#UpdateProjectsDeployments": {
+      "type": "operation",
+      "input": {
+        "target": "com.gcp.script_v1#UpdateProjectsDeploymentsRequest"
+      },
+      "output": {
+        "target": "com.gcp.script_v1#Deployment"
+      },
+      "errors": [
+        {
+          "target": "com.gcp.script_v1#NotFound"
+        },
+        {
+          "target": "com.gcp.script_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.script_v1#BadRequest"
+        },
+        {
+          "target": "com.gcp.script_v1#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "v1/projects/{scriptId}/deployments/{deploymentId}"
+        },
+        "smithy.api#documentation": "Updates a deployment of an Apps Script project."
       }
     },
     "com.gcp.script_v1#DeleteProjectsDeploymentsRequest": {
@@ -2381,34 +1952,271 @@
         }
       }
     },
-    "com.gcp.script_v1#GetProjectsVersionsRequest": {
-      "type": "structure",
+    "com.gcp.script_v1#ListScriptProcessesProcessesScriptProcessFilter_userAccessLevelsEnum": {
+      "type": "enum",
       "members": {
-        "scriptId": {
-          "target": "smithy.api#String",
+        "USER_ACCESS_LEVEL_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
           "traits": {
-            "smithy.api#documentation": "The script project's Drive ID.",
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {}
+            "smithy.api#enumValue": "USER_ACCESS_LEVEL_UNSPECIFIED"
           }
         },
-        "versionNumber": {
-          "target": "smithy.api#Integer",
+        "NONE": {
+          "target": "smithy.api#Unit",
           "traits": {
-            "smithy.api#documentation": "The version number.",
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {}
+            "smithy.api#enumValue": "NONE"
+          }
+        },
+        "READ": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "READ"
+          }
+        },
+        "WRITE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "WRITE"
+          }
+        },
+        "OWNER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "OWNER"
           }
         }
       }
     },
-    "com.gcp.script_v1#GetProjectsVersions": {
+    "com.gcp.script_v1#ListScriptProcessesProcessesScriptProcessFilter_userAccessLevelsEnumList": {
+      "type": "list",
+      "member": {
+        "target": "com.gcp.script_v1#ListScriptProcessesProcessesScriptProcessFilter_userAccessLevelsEnum"
+      }
+    },
+    "com.gcp.script_v1#ListScriptProcessesProcessesScriptProcessFilter_statusesEnum": {
+      "type": "enum",
+      "members": {
+        "PROCESS_STATUS_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PROCESS_STATUS_UNSPECIFIED"
+          }
+        },
+        "RUNNING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "RUNNING"
+          }
+        },
+        "PAUSED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PAUSED"
+          }
+        },
+        "COMPLETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "COMPLETED"
+          }
+        },
+        "CANCELED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "CANCELED"
+          }
+        },
+        "FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "FAILED"
+          }
+        },
+        "TIMED_OUT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "TIMED_OUT"
+          }
+        },
+        "UNKNOWN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "UNKNOWN"
+          }
+        },
+        "DELAYED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "DELAYED"
+          }
+        },
+        "EXECUTION_DISABLED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "EXECUTION_DISABLED"
+          }
+        }
+      }
+    },
+    "com.gcp.script_v1#ListScriptProcessesProcessesScriptProcessFilter_statusesEnumList": {
+      "type": "list",
+      "member": {
+        "target": "com.gcp.script_v1#ListScriptProcessesProcessesScriptProcessFilter_statusesEnum"
+      }
+    },
+    "com.gcp.script_v1#ListScriptProcessesProcessesScriptProcessFilter_typesEnum": {
+      "type": "enum",
+      "members": {
+        "PROCESS_TYPE_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PROCESS_TYPE_UNSPECIFIED"
+          }
+        },
+        "ADD_ON": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ADD_ON"
+          }
+        },
+        "EXECUTION_API": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "EXECUTION_API"
+          }
+        },
+        "TIME_DRIVEN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "TIME_DRIVEN"
+          }
+        },
+        "TRIGGER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "TRIGGER"
+          }
+        },
+        "WEBAPP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "WEBAPP"
+          }
+        },
+        "EDITOR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "EDITOR"
+          }
+        },
+        "SIMPLE_TRIGGER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SIMPLE_TRIGGER"
+          }
+        },
+        "MENU": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "MENU"
+          }
+        },
+        "BATCH_TASK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "BATCH_TASK"
+          }
+        }
+      }
+    },
+    "com.gcp.script_v1#ListScriptProcessesProcessesScriptProcessFilter_typesEnumList": {
+      "type": "list",
+      "member": {
+        "target": "com.gcp.script_v1#ListScriptProcessesProcessesScriptProcessFilter_typesEnum"
+      }
+    },
+    "com.gcp.script_v1#ListScriptProcessesProcessesRequest": {
+      "type": "structure",
+      "members": {
+        "scriptProcessFilter.deploymentId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional field used to limit returned processes to those originating from projects with a specific deployment ID.",
+            "smithy.api#httpQuery": "scriptProcessFilter.deploymentId"
+          }
+        },
+        "scriptProcessFilter.userAccessLevels": {
+          "target": "com.gcp.script_v1#ListScriptProcessesProcessesScriptProcessFilter_userAccessLevelsEnumList",
+          "traits": {
+            "smithy.api#documentation": "Optional field used to limit returned processes to those having one of the specified user access levels.",
+            "smithy.api#httpQuery": "scriptProcessFilter.userAccessLevels"
+          }
+        },
+        "scriptProcessFilter.functionName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional field used to limit returned processes to those originating from a script function with the given function name.",
+            "smithy.api#httpQuery": "scriptProcessFilter.functionName"
+          }
+        },
+        "scriptProcessFilter.endTime": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional field used to limit returned processes to those that completed on or before the given timestamp.",
+            "smithy.api#httpQuery": "scriptProcessFilter.endTime"
+          }
+        },
+        "pageToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The token for continuing a previous list request on the next page. This should be set to the value of `nextPageToken` from a previous response.",
+            "smithy.api#httpQuery": "pageToken"
+          }
+        },
+        "pageSize": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The maximum number of returned processes per page of results. Defaults to 50.",
+            "smithy.api#httpQuery": "pageSize"
+          }
+        },
+        "scriptProcessFilter.statuses": {
+          "target": "com.gcp.script_v1#ListScriptProcessesProcessesScriptProcessFilter_statusesEnumList",
+          "traits": {
+            "smithy.api#documentation": "Optional field used to limit returned processes to those having one of the specified process statuses.",
+            "smithy.api#httpQuery": "scriptProcessFilter.statuses"
+          }
+        },
+        "scriptProcessFilter.types": {
+          "target": "com.gcp.script_v1#ListScriptProcessesProcessesScriptProcessFilter_typesEnumList",
+          "traits": {
+            "smithy.api#documentation": "Optional field used to limit returned processes to those having one of the specified process types.",
+            "smithy.api#httpQuery": "scriptProcessFilter.types"
+          }
+        },
+        "scriptProcessFilter.startTime": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional field used to limit returned processes to those that were started on or after the given timestamp.",
+            "smithy.api#httpQuery": "scriptProcessFilter.startTime"
+          }
+        },
+        "scriptId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The script ID of the project whose processes are listed.",
+            "smithy.api#httpQuery": "scriptId"
+          }
+        }
+      }
+    },
+    "com.gcp.script_v1#ListScriptProcessesProcesses": {
       "type": "operation",
       "input": {
-        "target": "com.gcp.script_v1#GetProjectsVersionsRequest"
+        "target": "com.gcp.script_v1#ListScriptProcessesProcessesRequest"
       },
       "output": {
-        "target": "com.gcp.script_v1#Version"
+        "target": "com.gcp.script_v1#ListScriptProcessesResponse"
       },
       "errors": [
         {
@@ -2421,27 +2229,269 @@
       "traits": {
         "smithy.api#http": {
           "method": "GET",
-          "uri": "v1/projects/{scriptId}/versions/{versionNumber}"
+          "uri": "v1/processes:listScriptProcesses"
         },
-        "smithy.api#documentation": "Gets a version of a script project."
+        "smithy.api#documentation": "List information about a script's executed processes, such as process type and current status.",
+        "smithy.api#paginated": {
+          "inputToken": "pageToken",
+          "outputToken": "nextPageToken"
+        }
       }
     },
-    "com.gcp.script_v1#ListProjectsVersionsRequest": {
+    "com.gcp.script_v1#ListProcessesUserProcessFilter_statusesEnum": {
+      "type": "enum",
+      "members": {
+        "PROCESS_STATUS_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PROCESS_STATUS_UNSPECIFIED"
+          }
+        },
+        "RUNNING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "RUNNING"
+          }
+        },
+        "PAUSED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PAUSED"
+          }
+        },
+        "COMPLETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "COMPLETED"
+          }
+        },
+        "CANCELED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "CANCELED"
+          }
+        },
+        "FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "FAILED"
+          }
+        },
+        "TIMED_OUT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "TIMED_OUT"
+          }
+        },
+        "UNKNOWN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "UNKNOWN"
+          }
+        },
+        "DELAYED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "DELAYED"
+          }
+        },
+        "EXECUTION_DISABLED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "EXECUTION_DISABLED"
+          }
+        }
+      }
+    },
+    "com.gcp.script_v1#ListProcessesUserProcessFilter_statusesEnumList": {
+      "type": "list",
+      "member": {
+        "target": "com.gcp.script_v1#ListProcessesUserProcessFilter_statusesEnum"
+      }
+    },
+    "com.gcp.script_v1#ListProcessesUserProcessFilter_userAccessLevelsEnum": {
+      "type": "enum",
+      "members": {
+        "USER_ACCESS_LEVEL_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "USER_ACCESS_LEVEL_UNSPECIFIED"
+          }
+        },
+        "NONE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "NONE"
+          }
+        },
+        "READ": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "READ"
+          }
+        },
+        "WRITE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "WRITE"
+          }
+        },
+        "OWNER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "OWNER"
+          }
+        }
+      }
+    },
+    "com.gcp.script_v1#ListProcessesUserProcessFilter_userAccessLevelsEnumList": {
+      "type": "list",
+      "member": {
+        "target": "com.gcp.script_v1#ListProcessesUserProcessFilter_userAccessLevelsEnum"
+      }
+    },
+    "com.gcp.script_v1#ListProcessesUserProcessFilter_typesEnum": {
+      "type": "enum",
+      "members": {
+        "PROCESS_TYPE_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PROCESS_TYPE_UNSPECIFIED"
+          }
+        },
+        "ADD_ON": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ADD_ON"
+          }
+        },
+        "EXECUTION_API": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "EXECUTION_API"
+          }
+        },
+        "TIME_DRIVEN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "TIME_DRIVEN"
+          }
+        },
+        "TRIGGER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "TRIGGER"
+          }
+        },
+        "WEBAPP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "WEBAPP"
+          }
+        },
+        "EDITOR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "EDITOR"
+          }
+        },
+        "SIMPLE_TRIGGER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SIMPLE_TRIGGER"
+          }
+        },
+        "MENU": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "MENU"
+          }
+        },
+        "BATCH_TASK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "BATCH_TASK"
+          }
+        }
+      }
+    },
+    "com.gcp.script_v1#ListProcessesUserProcessFilter_typesEnumList": {
+      "type": "list",
+      "member": {
+        "target": "com.gcp.script_v1#ListProcessesUserProcessFilter_typesEnum"
+      }
+    },
+    "com.gcp.script_v1#ListProcessesRequest": {
       "type": "structure",
       "members": {
-        "scriptId": {
+        "userProcessFilter.functionName": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The script project's Drive ID.",
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {}
+            "smithy.api#documentation": "Optional field used to limit returned processes to those originating from a script function with the given function name.",
+            "smithy.api#httpQuery": "userProcessFilter.functionName"
+          }
+        },
+        "userProcessFilter.statuses": {
+          "target": "com.gcp.script_v1#ListProcessesUserProcessFilter_statusesEnumList",
+          "traits": {
+            "smithy.api#documentation": "Optional field used to limit returned processes to those having one of the specified process statuses.",
+            "smithy.api#httpQuery": "userProcessFilter.statuses"
+          }
+        },
+        "userProcessFilter.projectName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional field used to limit returned processes to those originating from projects with project names containing a specific string.",
+            "smithy.api#httpQuery": "userProcessFilter.projectName"
+          }
+        },
+        "userProcessFilter.endTime": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional field used to limit returned processes to those that completed on or before the given timestamp.",
+            "smithy.api#httpQuery": "userProcessFilter.endTime"
+          }
+        },
+        "userProcessFilter.userAccessLevels": {
+          "target": "com.gcp.script_v1#ListProcessesUserProcessFilter_userAccessLevelsEnumList",
+          "traits": {
+            "smithy.api#documentation": "Optional field used to limit returned processes to those having one of the specified user access levels.",
+            "smithy.api#httpQuery": "userProcessFilter.userAccessLevels"
+          }
+        },
+        "userProcessFilter.startTime": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional field used to limit returned processes to those that were started on or after the given timestamp.",
+            "smithy.api#httpQuery": "userProcessFilter.startTime"
+          }
+        },
+        "userProcessFilter.scriptId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional field used to limit returned processes to those originating from projects with a specific script ID.",
+            "smithy.api#httpQuery": "userProcessFilter.scriptId"
+          }
+        },
+        "userProcessFilter.types": {
+          "target": "com.gcp.script_v1#ListProcessesUserProcessFilter_typesEnumList",
+          "traits": {
+            "smithy.api#documentation": "Optional field used to limit returned processes to those having one of the specified process types.",
+            "smithy.api#httpQuery": "userProcessFilter.types"
           }
         },
         "pageSize": {
           "target": "smithy.api#Integer",
           "traits": {
-            "smithy.api#documentation": "The maximum number of versions on each returned page. Defaults to 50.",
+            "smithy.api#documentation": "The maximum number of returned processes per page of results. Defaults to 50.",
             "smithy.api#httpQuery": "pageSize"
+          }
+        },
+        "userProcessFilter.deploymentId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional field used to limit returned processes to those originating from projects with a specific deployment ID.",
+            "smithy.api#httpQuery": "userProcessFilter.deploymentId"
           }
         },
         "pageToken": {
@@ -2453,13 +2503,13 @@
         }
       }
     },
-    "com.gcp.script_v1#ListProjectsVersions": {
+    "com.gcp.script_v1#ListProcesses": {
       "type": "operation",
       "input": {
-        "target": "com.gcp.script_v1#ListProjectsVersionsRequest"
+        "target": "com.gcp.script_v1#ListProcessesRequest"
       },
       "output": {
-        "target": "com.gcp.script_v1#ListVersionsResponse"
+        "target": "com.gcp.script_v1#ListUserProcessesResponse"
       },
       "errors": [
         {
@@ -2472,63 +2522,13 @@
       "traits": {
         "smithy.api#http": {
           "method": "GET",
-          "uri": "v1/projects/{scriptId}/versions"
+          "uri": "v1/processes"
         },
-        "smithy.api#documentation": "List the versions of a script project.",
+        "smithy.api#documentation": "List information about processes made by or on behalf of a user, such as process type and current status.",
         "smithy.api#paginated": {
           "inputToken": "pageToken",
           "outputToken": "nextPageToken"
         }
-      }
-    },
-    "com.gcp.script_v1#CreateProjectsVersionsRequest": {
-      "type": "structure",
-      "members": {
-        "scriptId": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The script project's Drive ID.",
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {}
-          }
-        },
-        "body": {
-          "target": "com.gcp.script_v1#Version",
-          "traits": {
-            "smithy.api#httpPayload": {},
-            "smithy.api#documentation": "Request body"
-          }
-        }
-      }
-    },
-    "com.gcp.script_v1#CreateProjectsVersions": {
-      "type": "operation",
-      "input": {
-        "target": "com.gcp.script_v1#CreateProjectsVersionsRequest"
-      },
-      "output": {
-        "target": "com.gcp.script_v1#Version"
-      },
-      "errors": [
-        {
-          "target": "com.gcp.script_v1#NotFound"
-        },
-        {
-          "target": "com.gcp.script_v1#Forbidden"
-        },
-        {
-          "target": "com.gcp.script_v1#BadRequest"
-        },
-        {
-          "target": "com.gcp.script_v1#Conflict"
-        }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "v1/projects/{scriptId}/versions"
-        },
-        "smithy.api#documentation": "Creates a new immutable version using the current code, with a unique version number."
       }
     },
     "com.gcp.script_v1#RunScriptsRequest": {

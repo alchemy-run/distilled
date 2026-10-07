@@ -6125,6 +6125,2574 @@
         "smithy.api#documentation": "Create conversion goal\n\nAdd one conversion goal to the project. The server assigns conversion_goal_id and appends the goal to the end of the list, leaving existing goals untouched."
       }
     },
+    "com.posthog.marketing_analytics#MarketingAnalyticsTableQuery": {
+      "type": "structure",
+      "members": {
+        "aggregation_group_type_index": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Groups aggregation - not used in Web Analytics but required for type compatibility",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "compareFilter": {
+          "target": "com.posthog.marketing_analytics#CompareFilter",
+          "traits": {
+            "smithy.api#documentation": "Compare to date range",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "conversionGoal": {
+          "target": "com.posthog.marketing_analytics#MarketingAnalyticsTableQueryConversionGoal",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "dataColorTheme": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Colors used in the insight's visualization - not used in Web Analytics but required for type compatibility",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "dateRange": {
+          "target": "com.posthog.marketing_analytics#DateRange",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "doPathCleaning": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "draftConversionGoal": {
+          "target": "com.posthog.marketing_analytics#MarketingAnalyticsTableQueryDraftConversionGoal",
+          "traits": {
+            "smithy.api#documentation": "Draft conversion goal that can be set in the UI without saving",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "drillDownLevel": {
+          "target": "com.posthog.marketing_analytics#MarketingAnalyticsDrillDownLevel",
+          "traits": {
+            "smithy.api#documentation": "Drill-down hierarchy level: channel, source, or campaign (default)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "filterTestAccounts": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Filter test accounts",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "includeRevenue": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "integrationFilter": {
+          "target": "com.posthog.marketing_analytics#IntegrationFilter",
+          "traits": {
+            "smithy.api#documentation": "Filter by integration type",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "interval": {
+          "target": "com.posthog.marketing_analytics#IntervalType",
+          "traits": {
+            "smithy.api#documentation": "Interval for date range calculation (affects date_to rounding for hour vs day ranges)",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "kind": {
+          "target": "smithy.api#String"
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of rows to return",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "modifiers": {
+          "target": "com.posthog.marketing_analytics#HogQLQueryModifiers",
+          "traits": {
+            "smithy.api#documentation": "Modifiers used when performing the query",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "offset": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of rows to skip before returning rows",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "orderBy": {
+          "target": "com.posthog.marketing_analytics#MarketingAnalyticsTableQueryOrderByList",
+          "traits": {
+            "smithy.api#documentation": "Columns to order by - similar to EventsQuery format",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "properties": {
+          "target": "com.posthog.marketing_analytics#MarketingAnalyticsTableQueryPropertiesList"
+        },
+        "response": {
+          "target": "com.posthog.marketing_analytics#MarketingAnalyticsTableQueryResponse",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "sampling": {
+          "target": "com.posthog.marketing_analytics#WebAnalyticsSampling",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "samplingFactor": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Sampling rate",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "select": {
+          "target": "com.posthog.marketing_analytics#MarketingAnalyticsTableQuerySelectList",
+          "traits": {
+            "smithy.api#documentation": "Return a limited set of data. Will use default columns if empty.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "tags": {
+          "target": "com.posthog.marketing_analytics#QueryLogTags",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "useSessionsTable": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "version": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "version of the node, used for schema migrations",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.marketing_analytics#CompareFilter": {
+      "type": "structure",
+      "members": {
+        "compare": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether to compare the current date range to a previous date range.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "compare_to": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The date range to compare to. The value is a relative date. Examples of relative dates are: `-1y` for 1 year ago, `-14m` for 14 months ago, `-100w` for 100 weeks ago, `-14d` for 14 days ago, `-30h` for 30 hours ago.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.marketing_analytics#ActionConversionGoal": {
+      "type": "structure",
+      "members": {
+        "actionId": {
+          "target": "smithy.api#Integer"
+        },
+        "properties": {
+          "target": "com.posthog.marketing_analytics#ActionConversionGoalPropertiesList",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.marketing_analytics#ActionConversionGoalPropertiesItem": {
+      "type": "union",
+      "members": {
+        "EventPropertyFilter": {
+          "target": "com.posthog.marketing_analytics#EventPropertyFilter"
+        },
+        "PersonPropertyFilter": {
+          "target": "com.posthog.marketing_analytics#PersonPropertyFilter"
+        },
+        "SessionPropertyFilter": {
+          "target": "com.posthog.marketing_analytics#SessionPropertyFilter"
+        },
+        "CohortPropertyFilter": {
+          "target": "com.posthog.marketing_analytics#CohortPropertyFilter"
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.marketing_analytics#ActionConversionGoalPropertiesList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.marketing_analytics#ActionConversionGoalPropertiesItem"
+      },
+      "traits": {}
+    },
+    "com.posthog.marketing_analytics#CustomEventConversionGoal": {
+      "type": "structure",
+      "members": {
+        "customEventName": {
+          "target": "smithy.api#String"
+        },
+        "properties": {
+          "target": "com.posthog.marketing_analytics#CustomEventConversionGoalPropertiesList",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.marketing_analytics#CustomEventConversionGoalPropertiesItem": {
+      "type": "union",
+      "members": {
+        "EventPropertyFilter": {
+          "target": "com.posthog.marketing_analytics#EventPropertyFilter"
+        },
+        "PersonPropertyFilter": {
+          "target": "com.posthog.marketing_analytics#PersonPropertyFilter"
+        },
+        "SessionPropertyFilter": {
+          "target": "com.posthog.marketing_analytics#SessionPropertyFilter"
+        },
+        "CohortPropertyFilter": {
+          "target": "com.posthog.marketing_analytics#CohortPropertyFilter"
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.marketing_analytics#CustomEventConversionGoalPropertiesList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.marketing_analytics#CustomEventConversionGoalPropertiesItem"
+      },
+      "traits": {}
+    },
+    "com.posthog.marketing_analytics#MarketingAnalyticsTableQueryConversionGoal": {
+      "type": "union",
+      "members": {
+        "ActionConversionGoal": {
+          "target": "com.posthog.marketing_analytics#ActionConversionGoal"
+        },
+        "CustomEventConversionGoal": {
+          "target": "com.posthog.marketing_analytics#CustomEventConversionGoal"
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.marketing_analytics#DateRange": {
+      "type": "structure",
+      "members": {
+        "date_from": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Start of the date range. Accepts ISO 8601 timestamps (e.g., 2024-01-15T00:00:00Z) or relative formats: -7d (7 days ago), -2w (2 weeks ago), -1m (1 month ago),\n-1h (1 hour ago), -1mStart (start of last month), -1yStart (start of last year).",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "date_to": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "End of the date range. Same format as date_from. Omit or null for \"now\". A calendar day without a time (2024-01-15) is inclusive: it rounds to the last moment of that day in the project timezone, unless explicitDate is set.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "daysOfWeek": {
+          "target": "com.posthog.marketing_analytics#DateRangeDaysOfWeekList",
+          "traits": {
+            "smithy.api#documentation": "Restrict the query to events occurring on these ISO days of week (1=Monday to 7=Sunday), evaluated in the project timezone. Omit or empty for all days. Only applied by insight queries.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "excludeIncompletePeriods": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Exclude the current, still-collecting period by clipping date_to to the end of the last complete interval (evaluated in the project timezone). No-op when the range contains no complete interval. Only applied by insight queries.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "explicitDate": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the date_from and date_to should be used verbatim. Disables rounding to the start and end of period.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.marketing_analytics#DaysOfWeekEnum": {
+      "type": "intEnum",
+      "members": {
+        "_1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": 1
+          }
+        },
+        "_2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": 2
+          }
+        },
+        "_3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": 3
+          }
+        },
+        "_4": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": 4
+          }
+        },
+        "_5": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": 5
+          }
+        },
+        "_6": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": 6
+          }
+        },
+        "_7": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": 7
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.marketing_analytics#DateRangeDaysOfWeekList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.marketing_analytics#DaysOfWeekEnum"
+      },
+      "traits": {}
+    },
+    "com.posthog.marketing_analytics#MarketingAnalyticsTableQueryDraftConversionGoal": {
+      "type": "union",
+      "members": {
+        "ConversionGoalFilter1": {
+          "target": "com.posthog.marketing_analytics#ConversionGoalFilter1"
+        },
+        "ConversionGoalFilter2": {
+          "target": "com.posthog.marketing_analytics#ConversionGoalFilter2"
+        },
+        "ConversionGoalFilter3": {
+          "target": "com.posthog.marketing_analytics#ConversionGoalFilter3"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Draft conversion goal that can be set in the UI without saving"
+      }
+    },
+    "com.posthog.marketing_analytics#MarketingAnalyticsDrillDownLevel": {
+      "type": "enum",
+      "members": {
+        "CHANNEL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "channel"
+          }
+        },
+        "CHANNEL_SOURCE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "channel_source"
+          }
+        },
+        "SOURCE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "source"
+          }
+        },
+        "CAMPAIGN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "campaign"
+          }
+        },
+        "AD_GROUP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ad_group"
+          }
+        },
+        "AD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ad"
+          }
+        },
+        "MEDIUM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "medium"
+          }
+        },
+        "CONTENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "content"
+          }
+        },
+        "TERM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "term"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.marketing_analytics#IntegrationFilter": {
+      "type": "structure",
+      "members": {
+        "includeNonIntegrated": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Keep rows that no integration reports cost for, such as organic, email or an unmapped source. Defaults to true.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "integrationSourceIds": {
+          "target": "com.posthog.marketing_analytics#IntegrationFilterIntegrationSourceIdsList",
+          "traits": {
+            "smithy.api#documentation": "Selected integration source IDs to filter by (e.g., table IDs or source map IDs)",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.marketing_analytics#IntegrationFilterIntegrationSourceIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.posthog.marketing_analytics#IntervalType": {
+      "type": "enum",
+      "members": {
+        "SECOND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "second"
+          }
+        },
+        "MINUTE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "minute"
+          }
+        },
+        "HOUR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "hour"
+          }
+        },
+        "DAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "day"
+          }
+        },
+        "WEEK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "week"
+          }
+        },
+        "MONTH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "month"
+          }
+        },
+        "QUARTER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "quarter"
+          }
+        },
+        "YEAR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "year"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.marketing_analytics#HogQLQueryModifiers": {
+      "type": "structure",
+      "members": {
+        "bounceRateDurationSeconds": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "bounceRatePageViewMode": {
+          "target": "com.posthog.marketing_analytics#BounceRatePageViewMode",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "convertToProjectTimezone": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "cookielessTrafficIsRegular": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Do not treat a missing user agent as automation on cookieless events. Positive bot signals and custom project rules still apply. Resolved server-side; not intended to be set by clients.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "customBotDefinitions": {
+          "target": "com.posthog.marketing_analytics#HogQLQueryModifiersCustomBotDefinitionsList",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "customChannelTypeRules": {
+          "target": "com.posthog.marketing_analytics#HogQLQueryModifiersCustomChannelTypeRulesList",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "dataWarehouseEventsModifiers": {
+          "target": "com.posthog.marketing_analytics#HogQLQueryModifiersDataWarehouseEventsModifiersList",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "debug": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "forceClickhouseDataSkippingIndexes": {
+          "target": "com.posthog.marketing_analytics#HogQLQueryModifiersForceClickhouseDataSkippingIndexesList",
+          "traits": {
+            "smithy.api#documentation": "If these are provided, the query will fail if these skip indexes are not used",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "formatCsvAllowDoubleQuotes": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "inCohortVia": {
+          "target": "com.posthog.marketing_analytics#InCohortVia",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "inlineCohortCalculation": {
+          "target": "com.posthog.marketing_analytics#InlineCohortCalculation",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "materializationMode": {
+          "target": "com.posthog.marketing_analytics#MaterializationMode",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "materializedColumnsOptimizationMode": {
+          "target": "com.posthog.marketing_analytics#MaterializedColumnsOptimizationMode",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "mergeFederatedAggregateJoins": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Merge sibling aggregating LEFT JOINs over federated Postgres tables into one UNION ALL join, so their scans overlap",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "optimizeJoinedFilters": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "optimizeProjections": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "parserMode": {
+          "target": "com.posthog.marketing_analytics#ParserMode",
+          "traits": {
+            "smithy.api#documentation": "HogQL parser backend; absent → `rust_py_with_cpp_shadow` (rust-py is primary, cpp runs as a sampled shadow). `*_shadow` modes return the primary result and sample-compare against the other parser, reporting divergences without failing the request. The `rust_py_*` modes drive the same hand-rolled Rust parser as `rust_*` but build `posthog.hogql.ast` dataclass instances directly via PyO3, skipping the JSON round-trip.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "personIdPushdown": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Push an `id IN (SELECT person_id FROM <left table> WHERE …)` predicate into the joined persons subquery, so the latest-version lookup only reads persons that the outer query's left-table filters can reach. Applies only to a persons join from the query's own FROM table.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "personsArgMaxVersion": {
+          "target": "com.posthog.marketing_analytics#PersonsArgMaxVersion",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "personsJoinMode": {
+          "target": "com.posthog.marketing_analytics#PersonsJoinMode",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "personsOnEventsMode": {
+          "target": "com.posthog.marketing_analytics#PersonsOnEventsMode",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "propertyGroupsMode": {
+          "target": "com.posthog.marketing_analytics#PropertyGroupsMode",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "pushDownPredicates": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "s3TableUseInvalidColumns": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "sessionIdPushdown": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Push a `session_id_v7 IN (SELECT … FROM events WHERE …)` predicate into the raw_sessions subquery to limit aggregation to sessions that participate in the outer events filter.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "sessionPropertyPreAggregation": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Pre-filter raw_sessions aggregation by `session_id_v7 IN (cheap pre-aggregation that only materializes the columns referenced by the outer-WHERE session predicate)`. Useful when the breakdown/SELECT pulls in many session columns (e.g. `$channel_type`) but the filter only references one (e.g. `$entry_current_url`).",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "sessionTableVersion": {
+          "target": "com.posthog.marketing_analytics#SessionTableVersion",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "sessionsV2JoinMode": {
+          "target": "com.posthog.marketing_analytics#SessionsV2JoinMode",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "timings": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "typeAwareCastSimplification": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Remove provably redundant casts and nullability wrappers (e.g. `toString(String)`, `assumeNotNull(non_nullable)`, dead `ifNull` fallbacks) using inferred expression types",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "useMaterializedViews": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "useNewEventsSchema": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Read events from the native JSON events table (`true`) or the legacy events table (`false`). When unset, the project's stored value applies, then the `CLICKHOUSE_HOGQL_USE_NEW_EVENTS_SCHEMA` instance settings. This is an internal rollout switch. PostHog staff set the project value in Django admin and the project settings API ignores it.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "usePreaggregatedIntermediateResults": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "usePreaggregatedTableTransforms": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Try to automatically convert HogQL queries to use preaggregated tables at the AST level *",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "useWebAnalyticsPreAggregatedTables": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "webAnalyticsFirstPageviewFilters": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Serve filters on the stored session-entry attribution properties (`$channel_type`, `$entry_utm_*`, `$entry_referring_domain`) by recomputing the value from the session's first pageview. Resolved server-side; not intended to be set by clients.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.marketing_analytics#BounceRatePageViewMode": {
+      "type": "enum",
+      "members": {
+        "COUNT_PAGEVIEWS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "count_pageviews"
+          }
+        },
+        "UNIQ_URLS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "uniq_urls"
+          }
+        },
+        "UNIQ_PAGE_SCREEN_AUTOCAPTURES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "uniq_page_screen_autocaptures"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.marketing_analytics#CustomBotRule": {
+      "type": "structure",
+      "members": {
+        "category": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Reported by `$virt_traffic_category`. Defaults to `custom`.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "combiner": {
+          "target": "com.posthog.marketing_analytics#FilterLogicalOperator",
+          "traits": {
+            "smithy.api#documentation": "Whether every condition must match (AND) or any one of them (OR).",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "items": {
+          "target": "com.posthog.marketing_analytics#CustomBotRuleItemsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Reported by `$virt_bot_name` and `$virt_bot_operator` when the rule matches.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.marketing_analytics#FilterLogicalOperator": {
+      "type": "enum",
+      "members": {
+        "AND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "AND"
+          }
+        },
+        "OR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "OR"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.marketing_analytics#CustomBotCondition": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "key": {
+          "target": "com.posthog.marketing_analytics#CustomBotField",
+          "traits": {
+            "smithy.api#documentation": "The event property this condition reads.",
+            "smithy.api#required": {}
+          }
+        },
+        "matcher": {
+          "target": "com.posthog.marketing_analytics#CustomBotMatcher",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "pattern": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Matched against the property named by `key`.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.marketing_analytics#CustomBotField": {
+      "type": "enum",
+      "members": {
+        "RAW_USER_AGENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "$raw_user_agent"
+          }
+        },
+        "IP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "$ip"
+          }
+        },
+        "LIB": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "$lib"
+          }
+        },
+        "HOST": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "$host"
+          }
+        },
+        "PATHNAME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "$pathname"
+          }
+        },
+        "CURRENT_URL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "$current_url"
+          }
+        },
+        "BROWSER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "$browser"
+          }
+        },
+        "OS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "$os"
+          }
+        },
+        "BROWSER_LANGUAGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "$browser_language"
+          }
+        },
+        "SCREEN_WIDTH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "$screen_width"
+          }
+        },
+        "SCREEN_HEIGHT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "$screen_height"
+          }
+        },
+        "GEOIP_COUNTRY_CODE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "$geoip_country_code"
+          }
+        },
+        "REFERRER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "$referrer"
+          }
+        },
+        "REFERRING_DOMAIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "$referring_domain"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.marketing_analytics#CustomBotMatcher": {
+      "type": "enum",
+      "members": {
+        "CONTAINS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "contains"
+          }
+        },
+        "REGEX": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "regex"
+          }
+        },
+        "EXACT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "exact"
+          }
+        },
+        "CIDR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cidr"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.marketing_analytics#CustomBotRuleItemsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.marketing_analytics#CustomBotCondition"
+      },
+      "traits": {}
+    },
+    "com.posthog.marketing_analytics#HogQLQueryModifiersCustomBotDefinitionsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.marketing_analytics#CustomBotRule"
+      },
+      "traits": {}
+    },
+    "com.posthog.marketing_analytics#CustomChannelRule": {
+      "type": "structure",
+      "members": {
+        "channel_type": {
+          "target": "smithy.api#String"
+        },
+        "combiner": {
+          "target": "com.posthog.marketing_analytics#FilterLogicalOperator"
+        },
+        "id": {
+          "target": "smithy.api#String"
+        },
+        "items": {
+          "target": "com.posthog.marketing_analytics#CustomChannelRuleItemsList"
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.marketing_analytics#CustomChannelCondition": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String"
+        },
+        "key": {
+          "target": "com.posthog.marketing_analytics#CustomChannelField"
+        },
+        "op": {
+          "target": "com.posthog.marketing_analytics#CustomChannelOperator"
+        },
+        "value": {
+          "target": "com.posthog.marketing_analytics#CustomChannelConditionValue",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.marketing_analytics#CustomChannelField": {
+      "type": "enum",
+      "members": {
+        "UTM_SOURCE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "utm_source"
+          }
+        },
+        "UTM_MEDIUM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "utm_medium"
+          }
+        },
+        "UTM_CAMPAIGN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "utm_campaign"
+          }
+        },
+        "REFERRING_DOMAIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "referring_domain"
+          }
+        },
+        "URL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "url"
+          }
+        },
+        "PATHNAME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pathname"
+          }
+        },
+        "HOSTNAME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "hostname"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.marketing_analytics#CustomChannelOperator": {
+      "type": "enum",
+      "members": {
+        "EXACT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "exact"
+          }
+        },
+        "IS_NOT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "is_not"
+          }
+        },
+        "IS_SET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "is_set"
+          }
+        },
+        "IS_NOT_SET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "is_not_set"
+          }
+        },
+        "ICONTAINS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "icontains"
+          }
+        },
+        "NOT_ICONTAINS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "not_icontains"
+          }
+        },
+        "REGEX": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "regex"
+          }
+        },
+        "NOT_REGEX": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "not_regex"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.marketing_analytics#CustomChannelConditionValueCase1List": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.posthog.marketing_analytics#CustomChannelConditionValue": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "smithy.api#String"
+        },
+        "Case1": {
+          "target": "com.posthog.marketing_analytics#CustomChannelConditionValueCase1List"
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.marketing_analytics#CustomChannelRuleItemsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.marketing_analytics#CustomChannelCondition"
+      },
+      "traits": {}
+    },
+    "com.posthog.marketing_analytics#HogQLQueryModifiersCustomChannelTypeRulesList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.marketing_analytics#CustomChannelRule"
+      },
+      "traits": {}
+    },
+    "com.posthog.marketing_analytics#DataWarehouseEventsModifier": {
+      "type": "structure",
+      "members": {
+        "distinct_id_field": {
+          "target": "smithy.api#String"
+        },
+        "id_field": {
+          "target": "smithy.api#String"
+        },
+        "table_name": {
+          "target": "smithy.api#String"
+        },
+        "timestamp_field": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.marketing_analytics#HogQLQueryModifiersDataWarehouseEventsModifiersList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.marketing_analytics#DataWarehouseEventsModifier"
+      },
+      "traits": {}
+    },
+    "com.posthog.marketing_analytics#HogQLQueryModifiersForceClickhouseDataSkippingIndexesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.posthog.marketing_analytics#InCohortVia": {
+      "type": "enum",
+      "members": {
+        "AUTO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "auto"
+          }
+        },
+        "LEFTJOIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "leftjoin"
+          }
+        },
+        "SUBQUERY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "subquery"
+          }
+        },
+        "LEFTJOIN_CONJOINED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "leftjoin_conjoined"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.marketing_analytics#InlineCohortCalculation": {
+      "type": "enum",
+      "members": {
+        "OFF": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "off"
+          }
+        },
+        "AUTO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "auto"
+          }
+        },
+        "ALWAYS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "always"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.marketing_analytics#MaterializationMode": {
+      "type": "enum",
+      "members": {
+        "AUTO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "auto"
+          }
+        },
+        "LEGACY_NULL_AS_STRING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "legacy_null_as_string"
+          }
+        },
+        "LEGACY_NULL_AS_NULL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "legacy_null_as_null"
+          }
+        },
+        "DISABLED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "disabled"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.marketing_analytics#MaterializedColumnsOptimizationMode": {
+      "type": "enum",
+      "members": {
+        "DISABLED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "disabled"
+          }
+        },
+        "OPTIMIZED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "optimized"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.marketing_analytics#ParserMode": {
+      "type": "enum",
+      "members": {
+        "CPP_ONLY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cpp_only"
+          }
+        },
+        "CPP_WITH_RUST_SHADOW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cpp_with_rust_shadow"
+          }
+        },
+        "CPP_WITH_RUST_PY_SHADOW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cpp_with_rust_py_shadow"
+          }
+        },
+        "RUST_WITH_CPP_SHADOW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rust_with_cpp_shadow"
+          }
+        },
+        "RUST_ONLY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rust_only"
+          }
+        },
+        "RUST_PY_ONLY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rust_py_only"
+          }
+        },
+        "RUST_PY_WITH_CPP_SHADOW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "rust_py_with_cpp_shadow"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.marketing_analytics#PersonsArgMaxVersion": {
+      "type": "enum",
+      "members": {
+        "AUTO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "auto"
+          }
+        },
+        "V1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "v1"
+          }
+        },
+        "V2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "v2"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.marketing_analytics#PersonsJoinMode": {
+      "type": "enum",
+      "members": {
+        "INNER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "inner"
+          }
+        },
+        "LEFT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "left"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.marketing_analytics#PersonsOnEventsMode": {
+      "type": "enum",
+      "members": {
+        "DISABLED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "disabled"
+          }
+        },
+        "PERSON_ID_NO_OVERRIDE_PROPERTIES_ON_EVENTS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "person_id_no_override_properties_on_events"
+          }
+        },
+        "PERSON_ID_OVERRIDE_PROPERTIES_ON_EVENTS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "person_id_override_properties_on_events"
+          }
+        },
+        "PERSON_ID_OVERRIDE_PROPERTIES_JOINED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "person_id_override_properties_joined"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.marketing_analytics#PropertyGroupsMode": {
+      "type": "enum",
+      "members": {
+        "ENABLED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "enabled"
+          }
+        },
+        "DISABLED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "disabled"
+          }
+        },
+        "OPTIMIZED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "optimized"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.marketing_analytics#SessionTableVersion": {
+      "type": "enum",
+      "members": {
+        "AUTO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "auto"
+          }
+        },
+        "V1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "v1"
+          }
+        },
+        "V2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "v2"
+          }
+        },
+        "V3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "v3"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.marketing_analytics#SessionsV2JoinMode": {
+      "type": "enum",
+      "members": {
+        "STRING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "string"
+          }
+        },
+        "UUID": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "uuid"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.marketing_analytics#MarketingAnalyticsOrderByEnum": {
+      "type": "enum",
+      "members": {
+        "ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ASC"
+          }
+        },
+        "DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "DESC"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.marketing_analytics#MarketingAnalyticsTableQueryOrderByItemItem": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "smithy.api#String"
+        },
+        "MarketingAnalyticsOrderByEnum": {
+          "target": "com.posthog.marketing_analytics#MarketingAnalyticsOrderByEnum"
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.marketing_analytics#MarketingAnalyticsTableQueryOrderByItemList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.marketing_analytics#MarketingAnalyticsTableQueryOrderByItemItem"
+      },
+      "traits": {}
+    },
+    "com.posthog.marketing_analytics#MarketingAnalyticsTableQueryOrderByList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.marketing_analytics#MarketingAnalyticsTableQueryOrderByItemList"
+      },
+      "traits": {}
+    },
+    "com.posthog.marketing_analytics#MarketingAnalyticsTableQueryPropertiesItem": {
+      "type": "union",
+      "members": {
+        "EventPropertyFilter": {
+          "target": "com.posthog.marketing_analytics#EventPropertyFilter"
+        },
+        "PersonPropertyFilter": {
+          "target": "com.posthog.marketing_analytics#PersonPropertyFilter"
+        },
+        "SessionPropertyFilter": {
+          "target": "com.posthog.marketing_analytics#SessionPropertyFilter"
+        },
+        "CohortPropertyFilter": {
+          "target": "com.posthog.marketing_analytics#CohortPropertyFilter"
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.marketing_analytics#MarketingAnalyticsTableQueryPropertiesList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.marketing_analytics#MarketingAnalyticsTableQueryPropertiesItem"
+      },
+      "traits": {}
+    },
+    "com.posthog.marketing_analytics#MarketingAnalyticsTableQueryResponse": {
+      "type": "structure",
+      "members": {
+        "columns": {
+          "target": "com.posthog.marketing_analytics#MarketingAnalyticsTableQueryResponseColumnsList",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "dataComputedAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ISO timestamp of the oldest precompute window backing this result — surfaced as \"data as of X\".",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "error": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "hasMore": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "hogql": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Generated HogQL query.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "modifiers": {
+          "target": "com.posthog.marketing_analytics#HogQLQueryModifiers",
+          "traits": {
+            "smithy.api#documentation": "Modifiers used when performing the query",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "offset": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "precomputeNotReady": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "True when a conversion goal's precompute has not been warmed for this window yet — the UI shows a \"computing\" state rather than empty results. Marketing analytics serves exclusively from precompute.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "query_status": {
+          "target": "com.posthog.marketing_analytics#QueryStatus",
+          "traits": {
+            "smithy.api#documentation": "Query status indicates whether next to the provided data, a query is still running.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "resolved_compare_date_range": {
+          "target": "com.posthog.marketing_analytics#ResolvedDateRangeResponse",
+          "traits": {
+            "smithy.api#documentation": "The resolved previous/comparison period date range, when comparing against another period",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "resolved_date_range": {
+          "target": "com.posthog.marketing_analytics#ResolvedDateRangeResponse",
+          "traits": {
+            "smithy.api#documentation": "The date range used for the query",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "results": {
+          "target": "com.posthog.marketing_analytics#MarketingAnalyticsTableQueryResponseResultsList"
+        },
+        "samplingRate": {
+          "target": "com.posthog.marketing_analytics#SamplingRate",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "timings": {
+          "target": "com.posthog.marketing_analytics#MarketingAnalyticsTableQueryResponseTimingsList",
+          "traits": {
+            "smithy.api#documentation": "Measured timings for different parts of the query generation process",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "types": {
+          "target": "com.posthog.marketing_analytics#MarketingAnalyticsTableQueryResponseTypesList",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "used_data_warehouse_sources": {
+          "target": "com.posthog.marketing_analytics#MarketingAnalyticsTableQueryResponseUsedDataWarehouseSourcesList",
+          "traits": {
+            "smithy.api#documentation": "Connector-synced data warehouse sources referenced by this query, if any.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "warnings": {
+          "target": "com.posthog.marketing_analytics#MarketingAnalyticsTableQueryResponseWarningsList",
+          "traits": {
+            "smithy.api#documentation": "Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response — so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.marketing_analytics#MarketingAnalyticsTableQueryResponseColumnsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {}
+    },
+    "com.posthog.marketing_analytics#QueryStatus": {
+      "type": "structure",
+      "members": {
+        "budget_remaining_bytes": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "bytes_read": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "cache_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Cache key of the run that failed, so clients can ask for its query scan.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "complete": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the query is still running. Will be true if the query is complete, even if it errored. Either result or error will be set.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "dashboard_id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "end_time": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When did the query execution task finish (whether successfully or not).",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "error": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "If the query failed, this will be set to true. More information can be found in the error_message field.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "error_code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Stable machine-readable code for the error (the DRF exception code), when known.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "error_message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "expiration_time": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String"
+        },
+        "insight_id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "labels": {
+          "target": "com.posthog.marketing_analytics#QueryStatusLabelsList",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "pickup_time": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When was the query execution task picked up by a worker.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "query_async": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "ONLY async queries use QueryStatus."
+          }
+        },
+        "query_progress": {
+          "target": "com.posthog.marketing_analytics#ClickhouseQueryProgress",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "query_scan": {
+          "target": "com.posthog.marketing_analytics#QueryScanSummary",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "results": {
+          "target": "smithy.api#Document"
+        },
+        "start_time": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When was query execution task enqueued.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "task_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "team_id": {
+          "target": "smithy.api#Integer"
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.marketing_analytics#QueryStatusLabelsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.posthog.marketing_analytics#ClickhouseQueryProgress": {
+      "type": "structure",
+      "members": {
+        "active_cpu_time": {
+          "target": "smithy.api#Integer"
+        },
+        "bytes_read": {
+          "target": "smithy.api#Integer"
+        },
+        "estimated_rows_total": {
+          "target": "smithy.api#Integer"
+        },
+        "rows_read": {
+          "target": "smithy.api#Integer"
+        },
+        "time_elapsed": {
+          "target": "smithy.api#Integer"
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.marketing_analytics#QueryScanSummary": {
+      "type": "structure",
+      "members": {
+        "analysis": {
+          "target": "com.posthog.marketing_analytics#QueryScanAnalysis",
+          "traits": {
+            "smithy.api#documentation": "The stored analysis, put on the response when it is served. Absent while the analysis runs, and when none was requested.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "analysis_requested": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "True when the run asked for an analysis, or found one stored. While `analysis` is absent, poll `GET /query/scan/{cache_key}` for it.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "duration_ms": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "ClickHouse time for the last fresh run, summed over its ClickHouse queries.",
+            "smithy.api#required": {}
+          }
+        },
+        "killed": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "True when ClickHouse stopped the run instead of finishing it.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "rows_read": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Rows ClickHouse read for the last fresh run, all tables included.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.marketing_analytics#QueryScanAnalysis": {
+      "type": "structure",
+      "members": {
+        "assistant_prompt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The message the Fix with AI button sends to the assistant. Absent when no finding can be fixed in the query.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "findings": {
+          "target": "com.posthog.marketing_analytics#QueryScanAnalysisFindingsList",
+          "traits": {
+            "smithy.api#documentation": "Every finding, fixable or not. Empty when the analysis found none.",
+            "smithy.api#required": {}
+          }
+        },
+        "project_share": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "How much of all the project's events the query read, 0 to 1.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "range_share": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "How much of the project's events in the query's date range the query read, 0 to 1.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.marketing_analytics#QueryScanWarning": {
+      "type": "structure",
+      "members": {
+        "actionable": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the person can change the query so it reads less and still answers the same question. Surfaces show the full advice and \"Fix with AI\" only when a finding is actionable.",
+            "smithy.api#required": {}
+          }
+        },
+        "by_design": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "True when the query reads this much on purpose, so reading less would change the answer. Absent means no.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "cause": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A label for what in the query text kept the read wide, such as `in_or`. Only analytics and the assistant read it, and the labels can change.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "evidence": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The one fact the finding rests on.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "fix": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "What \"Fix with AI\" and the assistant are told to do.",
+            "smithy.api#required": {}
+          }
+        },
+        "fix_location": {
+          "target": "com.posthog.marketing_analytics#QueryScanFixLocation",
+          "traits": {
+            "smithy.api#documentation": "Where the change goes. Absent means the query itself.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "kind": {
+          "target": "com.posthog.marketing_analytics#QueryScanFindingKind",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Shown to the person: what happened and what to do.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.marketing_analytics#QueryScanFixLocation": {
+      "type": "enum",
+      "members": {
+        "QUERY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "query"
+          }
+        },
+        "SUBQUERY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "subquery"
+          }
+        },
+        "VIEW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "view"
+          }
+        },
+        "INSIGHT_DATE_RANGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "insight_date_range"
+          }
+        },
+        "DASHBOARD_DATE_FILTER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "dashboard_date_filter"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.marketing_analytics#QueryScanFindingKind": {
+      "type": "enum",
+      "members": {
+        "NO_EVENT_FILTER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "no_event_filter"
+          }
+        },
+        "NO_START_DATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "no_start_date"
+          }
+        },
+        "PERSONS_JOIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "persons_join"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.marketing_analytics#QueryScanAnalysisFindingsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.marketing_analytics#QueryScanWarning"
+      },
+      "traits": {
+        "smithy.api#documentation": "Every finding, fixable or not. Empty when the analysis found none."
+      }
+    },
+    "com.posthog.marketing_analytics#ResolvedDateRangeResponse": {
+      "type": "structure",
+      "members": {
+        "date_from": {
+          "target": "smithy.api#String"
+        },
+        "date_to": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.marketing_analytics#MarketingAnalyticsItem": {
+      "type": "structure",
+      "members": {
+        "changeFromPreviousPct": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "hasComparison": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "isIncreaseBad": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "key": {
+          "target": "smithy.api#String"
+        },
+        "kind": {
+          "target": "com.posthog.marketing_analytics#WebAnalyticsItemKind"
+        },
+        "previous": {
+          "target": "com.posthog.marketing_analytics#MarketingAnalyticsItemPrevious",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "value": {
+          "target": "com.posthog.marketing_analytics#MarketingAnalyticsItemValue",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.marketing_analytics#WebAnalyticsItemKind": {
+      "type": "enum",
+      "members": {
+        "UNIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unit"
+          }
+        },
+        "DURATION_S": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "duration_s"
+          }
+        },
+        "PERCENTAGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "percentage"
+          }
+        },
+        "CURRENCY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "currency"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.marketing_analytics#MarketingAnalyticsItemPrevious": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "smithy.api#Double"
+        },
+        "Case1": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.marketing_analytics#MarketingAnalyticsItemValue": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "smithy.api#Double"
+        },
+        "Case1": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.marketing_analytics#MarketingAnalyticsTableQueryResponseResultsItemList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.marketing_analytics#MarketingAnalyticsItem"
+      },
+      "traits": {}
+    },
+    "com.posthog.marketing_analytics#MarketingAnalyticsTableQueryResponseResultsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.marketing_analytics#MarketingAnalyticsTableQueryResponseResultsItemList"
+      },
+      "traits": {}
+    },
+    "com.posthog.marketing_analytics#SamplingRate": {
+      "type": "structure",
+      "members": {
+        "denominator": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "numerator": {
+          "target": "smithy.api#Double"
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.marketing_analytics#QueryTiming": {
+      "type": "structure",
+      "members": {
+        "k": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Key. Shortened to 'k' to save on data."
+          }
+        },
+        "t": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Time in seconds. Shortened to 't' to save on data."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.marketing_analytics#MarketingAnalyticsTableQueryResponseTimingsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.marketing_analytics#QueryTiming"
+      },
+      "traits": {}
+    },
+    "com.posthog.marketing_analytics#MarketingAnalyticsTableQueryResponseTypesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {}
+    },
+    "com.posthog.marketing_analytics#DataWarehouseSourceUsage": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ExternalDataSource id",
+            "smithy.api#required": {}
+          }
+        },
+        "source_type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Connector type of the source (e.g. Stripe, Postgres), if known",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "table_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Warehouse table name that was referenced",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.marketing_analytics#MarketingAnalyticsTableQueryResponseUsedDataWarehouseSourcesList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.marketing_analytics#DataWarehouseSourceUsage"
+      },
+      "traits": {}
+    },
+    "com.posthog.marketing_analytics#DataWarehouseSyncWarning": {
+      "type": "structure",
+      "members": {
+        "message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Human-readable warning shown to the user",
+            "smithy.api#required": {}
+          }
+        },
+        "schema_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the ExternalDataSchema responsible for syncing the table",
+            "smithy.api#required": {}
+          }
+        },
+        "source_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the ExternalDataSource, used to link to its management page. Null for self-managed tables.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "source_type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Source type, e.g. \"Stripe\", \"Hubspot\"",
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Sync status that triggered the warning, e.g. \"Failed\", \"Paused\", \"BillingLimitReached\"",
+            "smithy.api#required": {}
+          }
+        },
+        "table_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the warehouse table the warning refers to",
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Tells warning kinds apart in the shared `warnings` list"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.marketing_analytics#AccessControlFilterWarning": {
+      "type": "structure",
+      "members": {
+        "message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Human-readable warning shown to the user",
+            "smithy.api#required": {}
+          }
+        },
+        "resources": {
+          "target": "com.posthog.marketing_analytics#AccessControlFilterWarningResourcesList",
+          "traits": {
+            "smithy.api#documentation": "Resource types the user has access restrictions on, referenced by the query, e.g. [\"insight\", \"dashboard\"]",
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Tells warning kinds apart in the shared `warnings` list"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.marketing_analytics#AccessControlFilterWarningResourcesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Resource types the user has access restrictions on, referenced by the query, e.g. [\"insight\", \"dashboard\"]"
+      }
+    },
+    "com.posthog.marketing_analytics#MarketingAnalyticsTableQueryResponseWarningsItem": {
+      "type": "union",
+      "members": {
+        "DataWarehouseSyncWarning": {
+          "target": "com.posthog.marketing_analytics#DataWarehouseSyncWarning"
+        },
+        "AccessControlFilterWarning": {
+          "target": "com.posthog.marketing_analytics#AccessControlFilterWarning"
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.marketing_analytics#MarketingAnalyticsTableQueryResponseWarningsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.marketing_analytics#MarketingAnalyticsTableQueryResponseWarningsItem"
+      },
+      "traits": {}
+    },
+    "com.posthog.marketing_analytics#WebAnalyticsSampling": {
+      "type": "structure",
+      "members": {
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "forceSamplingRate": {
+          "target": "com.posthog.marketing_analytics#SamplingRate",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.marketing_analytics#MarketingAnalyticsTableQuerySelectList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.posthog.marketing_analytics#QueryLogTags": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the query, preferably unique. For example web_analytics_vitals",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "presetId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Short id of the saved Web analytics filter preset this query was run under, if any.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "productKey": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Product responsible for this query. Use string, there's no need to churn the Schema when we add a new product *",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "scene": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Scene where this query is shown in the UI. Use string, there's no need to churn the Schema when we add a new Scene *",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.marketing_analytics#ListMarketingAnalyticsConversionRecordingsRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "client_query_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A unique query ID for tracing this request in query logs."
+          }
+        },
+        "source": {
+          "target": "com.posthog.marketing_analytics#MarketingAnalyticsTableQuery",
+          "traits": {
+            "smithy.api#documentation": "The table query whose conversion cell was selected.",
+            "smithy.api#required": {}
+          }
+        },
+        "goal_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The selected conversion goal ID.",
+            "smithy.api#required": {}
+          }
+        },
+        "group": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The displayed row grouping value.",
+            "smithy.api#required": {}
+          }
+        },
+        "source_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The displayed row source."
+          }
+        },
+        "campaign_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The displayed campaign ID, omitted for comparison rows.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The last session ID returned by the previous page. Omit for the first page."
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The maximum number of conversion session IDs to return."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.marketing_analytics#ConversionRecordingsResponse": {
+      "type": "structure",
+      "members": {
+        "session_ids": {
+          "target": "com.posthog.marketing_analytics#ConversionRecordingsResponseSessionIdsList",
+          "traits": {
+            "smithy.api#documentation": "Sessions in which the attributed conversions occurred. A session might not have a recording.",
+            "smithy.api#required": {}
+          }
+        },
+        "has_more": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether another page of conversion sessions is available.",
+            "smithy.api#required": {}
+          }
+        },
+        "preparing": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the conversion data is still being prepared.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.marketing_analytics#ConversionRecordingsResponseSessionIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Sessions in which the attributed conversions occurred. A session might not have a recording."
+      }
+    },
+    "com.posthog.marketing_analytics#ListMarketingAnalyticsConversionRecordings": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.marketing_analytics#ListMarketingAnalyticsConversionRecordingsRequest"
+      },
+      "output": {
+        "target": "com.posthog.marketing_analytics#ConversionRecordingsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/marketing_analytics/conversion_recordings/",
+          "code": 200
+        }
+      }
+    },
     "com.posthog.marketing_analytics#GetMarketingAnalyticsDataSourceRequest": {
       "type": "structure",
       "members": {
@@ -6619,14 +9187,14 @@
         "events_matched_paid_last_7d": {
           "target": "smithy.api#Integer",
           "traits": {
-            "smithy.api#documentation": "Of the matched events, how many look paid: a cost-bearing utm_medium (cpc, cpm, cpv, cpa, ppc, retargeting, or anything starting with 'paid') or a gclid/gad_source click id.",
+            "smithy.api#documentation": "Of the matched events, how many show paid evidence for this integration: a cost-bearing utm_medium (cpc, cpm, cpv, cpa, ppc, retargeting, or anything starting with 'paid') or one of this integration's own ad click parameters in the event properties or the current URL (for example gclid for Google Ads or msclkid for Microsoft Ads). Pinterest clicks with pp=1 never count. Campaign names, fbclid, and epik alone do not count.",
             "smithy.api#required": {}
           }
         },
         "events_matched_tagged_medium_last_7d": {
           "target": "smithy.api#Integer",
           "traits": {
-            "smithy.api#documentation": "Of the matched events, how many carry any utm_medium. Zero paid with a non-zero count here means the traffic is tagged and organic; both zero means the team doesn't tag medium, which says nothing.",
+            "smithy.api#documentation": "Matched events carrying any utm_medium in the lookback window. Zero means no matched event carried a medium, including when no events matched. Missing paid signals do not prove organic traffic.",
             "smithy.api#required": {}
           }
         }
@@ -7358,6 +9926,71 @@
           "code": 200
         },
         "smithy.api#documentation": "Get the marketing analytics setup plan\n\nRank everything wrong with a team's marketing analytics setup into concrete suggestions, each carrying the evidence behind it and — where one exists — an `apply` operation to pass straight to apply_setup_ops, plus a `readiness` block saying which capabilities (cost, ROAS, cost per customer, retention by channel) are unlocked and which suggestion is blocking each. Prefer this over `diagnose` when the question is 'what should I fix next': diagnose explains what is wrong, setup_plan says what to do about it in a form you can act on. Read-only."
+      }
+    },
+    "com.posthog.marketing_analytics#GetMarketingAnalyticsSourceValidationRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.marketing_analytics#SourceValidation": {
+      "type": "structure",
+      "members": {
+        "errors_by_source": {
+          "target": "com.posthog.marketing_analytics#SourceValidationErrorsBySourceMap",
+          "traits": {
+            "smithy.api#documentation": "Validation errors keyed by the source or mapped table ID. Valid sources are omitted.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.marketing_analytics#SourceValidationErrorsBySourceValueList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.posthog.marketing_analytics#SourceValidationErrorsBySourceMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.posthog.marketing_analytics#SourceValidationErrorsBySourceValueList"
+      },
+      "traits": {
+        "smithy.api#documentation": "Validation errors keyed by the source or mapped table ID. Valid sources are omitted."
+      }
+    },
+    "com.posthog.marketing_analytics#GetMarketingAnalyticsSourceValidation": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.marketing_analytics#GetMarketingAnalyticsSourceValidationRequest"
+      },
+      "output": {
+        "target": "com.posthog.marketing_analytics#SourceValidation"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/marketing_analytics/source_validation/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Validate marketing sources\n\nCheck connected marketing sources using the same validators as campaign queries. Read-only."
       }
     },
     "com.posthog.marketing_analytics#GetMarketingAnalyticsSuggestConversionGoalRequest": {
@@ -8479,6 +11112,9 @@
           "target": "com.posthog.marketing_analytics#MarketingAnalyticsConversionGoalsCreateCreate"
         },
         {
+          "target": "com.posthog.marketing_analytics#ListMarketingAnalyticsConversionRecordings"
+        },
+        {
           "target": "com.posthog.marketing_analytics#GetMarketingAnalyticsDataSource"
         },
         {
@@ -8489,6 +11125,9 @@
         },
         {
           "target": "com.posthog.marketing_analytics#GetMarketingAnalyticsSetupPlan"
+        },
+        {
+          "target": "com.posthog.marketing_analytics#GetMarketingAnalyticsSourceValidation"
         },
         {
           "target": "com.posthog.marketing_analytics#GetMarketingAnalyticsSuggestConversionGoal"

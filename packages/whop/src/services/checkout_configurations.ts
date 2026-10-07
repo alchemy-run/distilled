@@ -475,13 +475,7 @@ export interface DeleteCheckoutConfigurationRequest {
 export const DeleteCheckoutConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/checkout_configurations/{id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/checkout_configurations/{id}", code: 200 })),
 ).annotate({
   identifier: "DeleteCheckoutConfigurationRequest",
 }) as any as S.Schema<DeleteCheckoutConfigurationRequest>;

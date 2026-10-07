@@ -30,11 +30,7 @@ export const CreateWarehouseExpressionRequest = /*@__PURE__*/ S.suspend(() =>
     expression: S.String,
     connection_id: S.optional(S.NullOr(S.String)),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/projects/{project_id}/warehouse_expressions/",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/api/projects/{project_id}/warehouse_expressions/", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateWarehouseExpressionRequest",
@@ -117,9 +113,7 @@ export const DataWarehouseExpression = /*@__PURE__*/ S.suspend(() =>
     expression: S.String,
     connection_id: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "DataWarehouseExpression",
-}) as any as S.Schema<DataWarehouseExpression>;
+).annotate({ identifier: "DataWarehouseExpression" }) as any as S.Schema<DataWarehouseExpression>;
 
 export interface GetWarehouseExpressionRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -159,11 +153,7 @@ export const ListWarehouseExpressionsRequest = /*@__PURE__*/ S.suspend(() =>
     offset: S.optional(S.Number.pipe(T.Query())),
     search: S.optional(S.String.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/warehouse_expressions/",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/projects/{project_id}/warehouse_expressions/", code: 200 }),
   ),
 ).annotate({
   identifier: "ListWarehouseExpressionsRequest",

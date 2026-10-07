@@ -384,9 +384,7 @@ export const FeatureFlagMultivariateSchema = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<FeatureFlagMultivariateSchema>;
 
 /** Optional payload values keyed by variant key. */
-export type FeatureFlagFiltersSchemaPayloadsMap = {
-  [key: string]: string | undefined;
-};
+export type FeatureFlagFiltersSchemaPayloadsMap = { [key: string]: string | undefined };
 export const FeatureFlagFiltersSchemaPayloadsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -415,9 +413,7 @@ export const FeatureFlagFiltersSchema = /*@__PURE__*/ S.suspend(() =>
     feature_enrollment: S.optional(S.NullOr(S.Boolean)),
     early_exit: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "FeatureFlagFiltersSchema",
-}) as any as S.Schema<FeatureFlagFiltersSchema>;
+).annotate({ identifier: "FeatureFlagFiltersSchema" }) as any as S.Schema<FeatureFlagFiltersSchema>;
 
 /** * `open` - open */
 export type SurveyOpenQuestionSchemaTypeEnum = "open";
@@ -452,9 +448,7 @@ export const SurveyOpenQuestionSchema = /*@__PURE__*/ S.suspend(() =>
     optional: S.optional(S.Boolean),
     buttonText: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SurveyOpenQuestionSchema",
-}) as any as S.Schema<SurveyOpenQuestionSchema>;
+).annotate({ identifier: "SurveyOpenQuestionSchema" }) as any as S.Schema<SurveyOpenQuestionSchema>;
 
 /** * `link` - link */
 export type SurveyLinkQuestionSchemaTypeEnum = "link";
@@ -488,9 +482,7 @@ export const SurveyLinkQuestionSchema = /*@__PURE__*/ S.suspend(() =>
     buttonText: S.optional(S.String),
     link: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SurveyLinkQuestionSchema",
-}) as any as S.Schema<SurveyLinkQuestionSchema>;
+).annotate({ identifier: "SurveyLinkQuestionSchema" }) as any as S.Schema<SurveyLinkQuestionSchema>;
 
 /** * `rating` - rating */
 export type SurveyRatingQuestionSchemaTypeEnum = "rating";
@@ -528,9 +520,7 @@ export const SurveyEndBranching = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     type: S.optional(SurveyEndBranchingTypeEnum),
   }),
-).annotate({
-  identifier: "SurveyEndBranching",
-}) as any as S.Schema<SurveyEndBranching>;
+).annotate({ identifier: "SurveyEndBranching" }) as any as S.Schema<SurveyEndBranching>;
 
 /** * `specific_question` - specific_question */
 export type SurveySpecificQuestionBranchingTypeEnum = "specific_question";
@@ -829,9 +819,7 @@ export const SurveyConditionsSchema = /*@__PURE__*/ S.suspend(() =>
     deviceTypesMatchType: S.optional(SurveyMatchTypeEnum),
     linkedFlagVariant: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SurveyConditionsSchema",
-}) as any as S.Schema<SurveyConditionsSchema>;
+).annotate({ identifier: "SurveyConditionsSchema" }) as any as S.Schema<SurveyConditionsSchema>;
 
 /** * `button` - button * `tab` - tab * `selector` - selector */
 export type WidgetTypeEnum = "button" | "tab" | "selector";
@@ -906,9 +894,7 @@ export const SurveyAppearanceSchema = /*@__PURE__*/ S.suspend(() =>
     disabledButtonOpacity: S.optional(S.String),
     boxPadding: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SurveyAppearanceSchema",
-}) as any as S.Schema<SurveyAppearanceSchema>;
+).annotate({ identifier: "SurveyAppearanceSchema" }) as any as S.Schema<SurveyAppearanceSchema>;
 
 export type CreateSurveyRequestIterationStartDatesList = Array<string | null>;
 export const CreateSurveyRequestIterationStartDatesList = /*@__PURE__*/ S.Array(
@@ -1020,20 +1006,10 @@ export const CreateSurveyRequest = /*@__PURE__*/ S.suspend(() =>
     translations: S.optional(S.Unknown),
     _create_in_folder: S.optional(S.String),
     form_content: S.optional(S.Unknown),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/projects/{project_id}/surveys/",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "CreateSurveyRequest",
-}) as any as S.Schema<CreateSurveyRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/api/projects/{project_id}/surveys/", code: 200 })),
+).annotate({ identifier: "CreateSurveyRequest" }) as any as S.Schema<CreateSurveyRequest>;
 
-export type MinimalFeatureFlagFiltersMap = {
-  [key: string]: unknown | undefined;
-};
+export type MinimalFeatureFlagFiltersMap = { [key: string]: unknown | undefined };
 export const MinimalFeatureFlagFiltersMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -1093,9 +1069,7 @@ export const MinimalFeatureFlag = /*@__PURE__*/ S.suspend(() =>
     bucketing_identifier: S.optional(S.NullOr(MinimalFeatureFlagBucketingIdentifier)),
     evaluation_contexts: S.optional(MinimalFeatureFlagEvaluationContextsList),
   }),
-).annotate({
-  identifier: "MinimalFeatureFlag",
-}) as any as S.Schema<MinimalFeatureFlag>;
+).annotate({ identifier: "MinimalFeatureFlag" }) as any as S.Schema<MinimalFeatureFlag>;
 
 export type UserBasicHedgehogConfigMap = { [key: string]: unknown | undefined };
 export const UserBasicHedgehogConfigMap = /*@__PURE__*/ S.Record(
@@ -1391,16 +1365,8 @@ export const GetSurveyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project_id: S.String.pipe(T.Label()),
     id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/surveys/{id}/",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetSurveyRequest",
-}) as any as S.Schema<GetSurveyRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/projects/{project_id}/surveys/{id}/", code: 200 })),
+).annotate({ identifier: "GetSurveyRequest" }) as any as S.Schema<GetSurveyRequest>;
 
 export type SurveyConditionsMap = { [key: string]: unknown | undefined };
 export const SurveyConditionsMap = /*@__PURE__*/ S.Record(
@@ -1408,9 +1374,7 @@ export const SurveyConditionsMap = /*@__PURE__*/ S.Record(
   S.Unknown,
 ) as any as S.Schema<SurveyConditionsMap>;
 
-export type SurveyFeatureFlagKeysItemMap = {
-  [key: string]: string | null | undefined;
-};
+export type SurveyFeatureFlagKeysItemMap = { [key: string]: string | null | undefined };
 export const SurveyFeatureFlagKeysItemMap = /*@__PURE__*/ S.Record(
   S.String,
   S.NullOr(S.String),
@@ -1530,11 +1494,7 @@ export const GetSurveysActivityRequest = /*@__PURE__*/ S.suspend(() =>
     project_id: S.String.pipe(T.Label()),
     id: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/surveys/{id}/activity/",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/projects/{project_id}/surveys/{id}/activity/", code: 200 }),
   ),
 ).annotate({
   identifier: "GetSurveysActivityRequest",
@@ -1553,11 +1513,7 @@ export const GetSurveysAllActivityRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project_id: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/surveys/activity/",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/projects/{project_id}/surveys/activity/", code: 200 }),
   ),
 ).annotate({
   identifier: "GetSurveysAllActivityRequest",
@@ -1609,30 +1565,20 @@ export const GetSurveysGlobalStatRequest = /*@__PURE__*/ S.suspend(() =>
     project_id: S.String.pipe(T.Label()),
     date_from: S.optional(S.String.pipe(T.Query())),
     date_to: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/surveys/stats/",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/api/projects/{project_id}/surveys/stats/", code: 200 })),
 ).annotate({
   identifier: "GetSurveysGlobalStatRequest",
 }) as any as S.Schema<GetSurveysGlobalStatRequest>;
 
 /** Event counts keyed by event name (survey shown, survey dismissed, survey sent). */
-export type SurveyGlobalStatsResponseStatsMap = {
-  [key: string]: unknown | undefined;
-};
+export type SurveyGlobalStatsResponseStatsMap = { [key: string]: unknown | undefined };
 export const SurveyGlobalStatsResponseStatsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
 ) as any as S.Schema<SurveyGlobalStatsResponseStatsMap>;
 
 /** Calculated response and dismissal rates. */
-export type SurveyGlobalStatsResponseRatesMap = {
-  [key: string]: unknown | undefined;
-};
+export type SurveyGlobalStatsResponseRatesMap = { [key: string]: unknown | undefined };
 export const SurveyGlobalStatsResponseRatesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -1698,29 +1644,19 @@ export const GetSurveysStatRequest = /*@__PURE__*/ S.suspend(() =>
     date_to: S.optional(S.String.pipe(T.Query())),
     include_per_question_stats: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/surveys/{id}/stats/",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/projects/{project_id}/surveys/{id}/stats/", code: 200 }),
   ),
-).annotate({
-  identifier: "GetSurveysStatRequest",
-}) as any as S.Schema<GetSurveysStatRequest>;
+).annotate({ identifier: "GetSurveysStatRequest" }) as any as S.Schema<GetSurveysStatRequest>;
 
 /** Event counts keyed by event name (survey shown, survey dismissed, survey sent). */
-export type SurveyStatsResponseStatsMap = {
-  [key: string]: unknown | undefined;
-};
+export type SurveyStatsResponseStatsMap = { [key: string]: unknown | undefined };
 export const SurveyStatsResponseStatsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
 ) as any as S.Schema<SurveyStatsResponseStatsMap>;
 
 /** Calculated response and dismissal rates. */
-export type SurveyStatsResponseRatesMap = {
-  [key: string]: unknown | undefined;
-};
+export type SurveyStatsResponseRatesMap = { [key: string]: unknown | undefined };
 export const SurveyStatsResponseRatesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -1755,9 +1691,7 @@ export const SurveyStatsResponse = /*@__PURE__*/ S.suspend(() =>
     rates: S.optional(SurveyStatsResponseRatesMap),
     per_question_stats: S.optional(SurveyStatsResponsePerQuestionStatsList),
   }),
-).annotate({
-  identifier: "SurveyStatsResponse",
-}) as any as S.Schema<SurveyStatsResponse>;
+).annotate({ identifier: "SurveyStatsResponse" }) as any as S.Schema<SurveyStatsResponse>;
 
 export type ListSurveysRequestIdsList = Array<string>;
 export const ListSurveysRequestIdsList = /*@__PURE__*/ S.Array(
@@ -1800,16 +1734,8 @@ export const ListSurveysRequest = /*@__PURE__*/ S.suspend(() =>
     search: S.optional(S.String.pipe(T.Query())),
     status: S.optional(ListSurveysRequestStatus.pipe(T.Query())),
     type: S.optional(ListSurveysRequestType.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/surveys/",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ListSurveysRequest",
-}) as any as S.Schema<ListSurveysRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/projects/{project_id}/surveys/", code: 200 })),
+).annotate({ identifier: "ListSurveysRequest" }) as any as S.Schema<ListSurveysRequest>;
 
 export type PaginatedSurveyListResultsList = Array<Survey>;
 export const PaginatedSurveyListResultsList = /*@__PURE__*/ S.Array(
@@ -1829,9 +1755,7 @@ export const PaginatedSurveyList = /*@__PURE__*/ S.suspend(() =>
     previous: S.optional(S.NullOr(S.String)),
     results: S.optional(PaginatedSurveyListResultsList),
   }),
-).annotate({
-  identifier: "PaginatedSurveyList",
-}) as any as S.Schema<PaginatedSurveyList>;
+).annotate({ identifier: "PaginatedSurveyList" }) as any as S.Schema<PaginatedSurveyList>;
 
 export interface ListSurveysResponsesRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -1868,11 +1792,7 @@ export const ListSurveysResponsesRequest = /*@__PURE__*/ S.suspend(() =>
     since: S.optional(S.String.pipe(T.Query())),
     until: S.optional(S.String.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/surveys/{id}/responses/",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/projects/{project_id}/surveys/{id}/responses/", code: 200 }),
   ),
 ).annotate({
   identifier: "ListSurveysResponsesRequest",
@@ -1898,9 +1818,7 @@ export const SurveyResponseAnswer = /*@__PURE__*/ S.suspend(() =>
     question_type: S.String,
     answer: S.Unknown,
   }),
-).annotate({
-  identifier: "SurveyResponseAnswer",
-}) as any as S.Schema<SurveyResponseAnswer>;
+).annotate({ identifier: "SurveyResponseAnswer" }) as any as S.Schema<SurveyResponseAnswer>;
 
 /** One entry per survey question that received a non-empty answer. Question text is already resolved — callers do not need to look up `$survey_response_<id>` keys. */
 export type SurveyResponseRowAnswersList = Array<SurveyResponseAnswer>;
@@ -1937,9 +1855,7 @@ export const SurveyResponseExtra = /*@__PURE__*/ S.suspend(() =>
     current_url: S.optional(S.NullOr(S.String)),
     iteration: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "SurveyResponseExtra",
-}) as any as S.Schema<SurveyResponseExtra>;
+).annotate({ identifier: "SurveyResponseExtra" }) as any as S.Schema<SurveyResponseExtra>;
 
 export interface SurveyResponseRow {
   /** UUID of the underlying `survey sent` event. Use as the response identifier for archive operations. */
@@ -1964,9 +1880,7 @@ export const SurveyResponseRow = /*@__PURE__*/ S.suspend(() =>
     answers: SurveyResponseRowAnswersList,
     extra: SurveyResponseExtra,
   }),
-).annotate({
-  identifier: "SurveyResponseRow",
-}) as any as S.Schema<SurveyResponseRow>;
+).annotate({ identifier: "SurveyResponseRow" }) as any as S.Schema<SurveyResponseRow>;
 
 /** Survey response rows for the requested page. */
 export type SurveyResponsesListResultsList = Array<SurveyResponseRow>;
@@ -1991,9 +1905,7 @@ export const SurveyResponsesList = /*@__PURE__*/ S.suspend(() =>
     limit: S.Number,
     offset: S.Number,
   }),
-).annotate({
-  identifier: "SurveyResponsesList",
-}) as any as S.Schema<SurveyResponsesList>;
+).annotate({ identifier: "SurveyResponsesList" }) as any as S.Schema<SurveyResponsesList>;
 
 export interface StopSurveyRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -2006,15 +1918,9 @@ export const StopSurveyRequest = /*@__PURE__*/ S.suspend(() =>
     project_id: S.String.pipe(T.Label()),
     id: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/projects/{project_id}/surveys/{id}/stop/",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/api/projects/{project_id}/surveys/{id}/stop/", code: 200 }),
   ),
-).annotate({
-  identifier: "StopSurveyRequest",
-}) as any as S.Schema<StopSurveyRequest>;
+).annotate({ identifier: "StopSurveyRequest" }) as any as S.Schema<StopSurveyRequest>;
 
 export interface SurveysDestroyRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -2026,16 +1932,8 @@ export const SurveysDestroyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project_id: S.String.pipe(T.Label()),
     id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/projects/{project_id}/surveys/{id}/",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "SurveysDestroyRequest",
-}) as any as S.Schema<SurveysDestroyRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/api/projects/{project_id}/surveys/{id}/", code: 200 })),
+).annotate({ identifier: "SurveysDestroyRequest" }) as any as S.Schema<SurveysDestroyRequest>;
 
 export interface SurveysDestroyResponse {}
 export const SurveysDestroyResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2328,15 +2226,9 @@ export const SurveysLaunchRequest = /*@__PURE__*/ S.suspend(() =>
     project_id: S.String.pipe(T.Label()),
     id: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/projects/{project_id}/surveys/{id}/launch/",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/api/projects/{project_id}/surveys/{id}/launch/", code: 200 }),
   ),
-).annotate({
-  identifier: "SurveysLaunchRequest",
-}) as any as S.Schema<SurveysLaunchRequest>;
+).annotate({ identifier: "SurveysLaunchRequest" }) as any as S.Schema<SurveysLaunchRequest>;
 
 export interface SurveysQuestionLabelsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -2376,9 +2268,7 @@ export const SurveyQuestionLabel = /*@__PURE__*/ S.suspend(() =>
     survey_id: S.String,
     survey_name: S.String,
   }),
-).annotate({
-  identifier: "SurveyQuestionLabel",
-}) as any as S.Schema<SurveyQuestionLabel>;
+).annotate({ identifier: "SurveyQuestionLabel" }) as any as S.Schema<SurveyQuestionLabel>;
 
 /** One entry per question that has an ID assigned, across all the team's surveys. */
 export type SurveyQuestionLabelsResponseLabelsList = Array<SurveyQuestionLabel>;
@@ -2732,16 +2622,8 @@ export const UpdateSurveyRequest = /*@__PURE__*/ S.suspend(() =>
     translations: S.optional(S.Unknown),
     _create_in_folder: S.optional(S.String),
     form_content: S.optional(S.Unknown),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/api/projects/{project_id}/surveys/{id}/",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "UpdateSurveyRequest",
-}) as any as S.Schema<UpdateSurveyRequest>;
+  }).pipe(T.Http({ method: "PUT", uri: "/api/projects/{project_id}/surveys/{id}/", code: 200 })),
+).annotate({ identifier: "UpdateSurveyRequest" }) as any as S.Schema<UpdateSurveyRequest>;
 
 /** The `array` of questions included in the survey. Each question must conform to one of the defined question types: Basic, Link, Rating, or Multiple Choice. Basic (open-ended question) - `id`: The question ID - `type`: `open` - `question`: The text of the question. - `description`: Optional description of the question. - `descriptionContentType`: Content type of the description (`html` or `text`). - `optional`: Whether the question is optional (`boolean`). - `buttonText`: Text displayed on the submit button. - `branching`: Branching logic for the question. See branching types below for details. Link (a question with a link) - `id`: The question ID - `type`: `link` - `question`: The text of the question. - `description`: Optional description of the question. - `descriptionContentType`: Content type of the description (`html` or `text`). - `optional`: Whether the question is optional (`boolean`). - `buttonText`: Text displayed on the submit button. - `link`: The URL associated with the question. - `branching`: Branching logic for the question. See branching types below for details. Rating (a question with a rating scale) - `id`: The question ID - `type`: `rating` - `question`: The text of the question. - `description`: Optional description of the question. - `descriptionContentType`: Content type of the description (`html` or `text`). - `optional`: Whether the question is optional (`boolean`). - `buttonText`: Text displayed on the submit button. - `display`: Display style of the rating (`number` or `emoji`). - `scale`: The scale of the rating (`number`). - `lowerBoundLabel`: Label for the lower bound of the scale. - `upperBoundLabel`: Label for the upper bound of the scale. - `isNpsQuestion`: Whether the question is an NPS rating. - `branching`: Branching logic for the question. See branching types below for details. Multiple choice - `id`: The question ID - `type`: `single_choice` or `multiple_choice` - `question`: The text of the question. - `description`: Optional description of the question. - `descriptionContentType`: Content type of the description (`html` or `text`). - `optional`: Whether the question is optional (`boolean`). - `buttonText`: Text displayed on the submit button. - `choices`: An array of choices for the question. - `shuffleOptions`: Whether to shuffle the order of the choices (`boolean`). - `hasOpenChoice`: Whether the question allows an open-ended response (`boolean`). - `branching`: Branching logic for the question. See branching types below for details. Branching logic can be one of the following types: Next question: Proceeds to the next question ```json { "type": "next_question" } ``` End: Ends the survey, optionally displaying a confirmation message. ```json { "type": "end" } ``` Response-based: Branches based on the response values. Available for the `rating` and `single_choice` question types. ```json { "type": "response_based", "responseValues": { "responseKey": "value" } } ``` Specific question: Proceeds to a specific question by index. ```json { "type": "specific_question", "index": 2 } ``` Translations: Each question can include inline translations. - `translations`: Object mapping language codes to translated fields. - Language codes: Canonical BCP-47-ish strings (e.g., "es", "es-MX", "zh-CN"). Aliases like "english" or "default" are rejected. The survey's `base_language` (default "en") declares the language of the untranslated text and cannot also appear as a translation key. - Translatable fields: `question`, `description`, `buttonText`, `choices`, `lowerBoundLabel`, `upperBoundLabel`, `link` Example with translations: ```json { "id": "uuid", "type": "rating", "question": "How satisfied are you?", "lowerBoundLabel": "Not satisfied", "upperBoundLabel": "Very satisfied", "translations": { "es": { "question": "¿Qué tan satisfecho estás?", "lowerBoundLabel": "No satisfecho", "upperBoundLabel": "Muy satisfecho" }, "fr": { "question": "Dans quelle mesure êtes-vous satisfait?" } } } ``` */
 export type UpdateSurveysPartialRequestQuestionsList = Array<SurveyQuestionInputSchema>;
@@ -2855,18 +2737,13 @@ export const UpdateSurveysPartialRequest = /*@__PURE__*/ S.suspend(() =>
     translations: S.optional(S.Unknown),
     _create_in_folder: S.optional(S.String),
     form_content: S.optional(S.Unknown),
-  }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/api/projects/{project_id}/surveys/{id}/",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PATCH", uri: "/api/projects/{project_id}/surveys/{id}/", code: 200 })),
 ).annotate({
   identifier: "UpdateSurveysPartialRequest",
 }) as any as S.Schema<UpdateSurveysPartialRequest>;
 
 export type CreateSurveyError = BadRequest | Forbidden | NotFound | PosthogOpError;
+/** Mixin for ViewSets to handle approval-gate exceptions raised from decorated serializers. Intercepts ApprovalRequired (409) and PolicyConflict (400) raised by the @approval_gate decorator on serializer methods and converts them into the same responses the viewset path produces (see decorators._result_to_response), so both paths share one contract. */
 export const createSurvey: API.OperationMethod<
   CreateSurveyRequest,
   SurveySerializerCreateUpdateOnlyOutput,
@@ -2900,6 +2777,7 @@ export const createSurveysSummarizeResponse: API.OperationMethod<
 }));
 
 export type CreateSurveysSummaryHeadlineError = BadRequest | Forbidden | NotFound | PosthogOpError;
+/** Mixin for ViewSets to handle approval-gate exceptions raised from decorated serializers. Intercepts ApprovalRequired (409) and PolicyConflict (400) raised by the @approval_gate decorator on serializer methods and converts them into the same responses the viewset path produces (see decorators._result_to_response), so both paths share one contract. */
 export const createSurveysSummaryHeadline: API.OperationMethod<
   CreateSurveysSummaryHeadlineRequest,
   CreateSurveysSummaryHeadlineResponse,
@@ -2914,6 +2792,7 @@ export const createSurveysSummaryHeadline: API.OperationMethod<
 }));
 
 export type GetSurveyError = Forbidden | NotFound | PosthogOpError;
+/** Mixin for ViewSets to handle approval-gate exceptions raised from decorated serializers. Intercepts ApprovalRequired (409) and PolicyConflict (400) raised by the @approval_gate decorator on serializer methods and converts them into the same responses the viewset path produces (see decorators._result_to_response), so both paths share one contract. */
 export const getSurvey: API.OperationMethod<
   GetSurveyRequest,
   Survey,
@@ -2928,6 +2807,7 @@ export const getSurvey: API.OperationMethod<
 }));
 
 export type GetSurveysActivityError = Forbidden | NotFound | PosthogOpError;
+/** Mixin for ViewSets to handle approval-gate exceptions raised from decorated serializers. Intercepts ApprovalRequired (409) and PolicyConflict (400) raised by the @approval_gate decorator on serializer methods and converts them into the same responses the viewset path produces (see decorators._result_to_response), so both paths share one contract. */
 export const getSurveysActivity: API.OperationMethod<
   GetSurveysActivityRequest,
   GetSurveysActivityResponse,
@@ -2942,6 +2822,7 @@ export const getSurveysActivity: API.OperationMethod<
 }));
 
 export type GetSurveysAllActivityError = Forbidden | NotFound | PosthogOpError;
+/** Mixin for ViewSets to handle approval-gate exceptions raised from decorated serializers. Intercepts ApprovalRequired (409) and PolicyConflict (400) raised by the @approval_gate decorator on serializer methods and converts them into the same responses the viewset path produces (see decorators._result_to_response), so both paths share one contract. */
 export const getSurveysAllActivity: API.OperationMethod<
   GetSurveysAllActivityRequest,
   GetSurveysAllActivityResponse,
@@ -3016,6 +2897,7 @@ export const getSurveysStat: API.OperationMethod<
 }));
 
 export type ListSurveysError = BadRequest | Forbidden | NotFound | PosthogOpError;
+/** Mixin for ViewSets to handle approval-gate exceptions raised from decorated serializers. Intercepts ApprovalRequired (409) and PolicyConflict (400) raised by the @approval_gate decorator on serializer methods and converts them into the same responses the viewset path produces (see decorators._result_to_response), so both paths share one contract. */
 export const listSurveys: API.OperationMethod<
   ListSurveysRequest,
   PaginatedSurveyList,
@@ -3060,6 +2942,7 @@ export const stopSurvey: API.OperationMethod<
 }));
 
 export type SurveysDestroyError = Forbidden | NotFound | PosthogOpError;
+/** Mixin for ViewSets to handle approval-gate exceptions raised from decorated serializers. Intercepts ApprovalRequired (409) and PolicyConflict (400) raised by the @approval_gate decorator on serializer methods and converts them into the same responses the viewset path produces (see decorators._result_to_response), so both paths share one contract. */
 export const surveysDestroy: API.OperationMethod<
   SurveysDestroyRequest,
   SurveysDestroyResponse,
@@ -3093,6 +2976,7 @@ export const surveysDuplicateToProjectsCreate: API.OperationMethod<
 }));
 
 export type SurveysGenerateTranslationsCreateError = PosthogOpError;
+/** Mixin for ViewSets to handle approval-gate exceptions raised from decorated serializers. Intercepts ApprovalRequired (409) and PolicyConflict (400) raised by the @approval_gate decorator on serializer methods and converts them into the same responses the viewset path produces (see decorators._result_to_response), so both paths share one contract. */
 export const surveysGenerateTranslationsCreate: API.OperationMethod<
   SurveysGenerateTranslationsCreateRequest,
   GenerateSurveyTranslationsResponse,
@@ -3171,6 +3055,7 @@ export const surveysResponsesUnarchiveCreate: API.OperationMethod<
 }));
 
 export type UpdateSurveyError = BadRequest | Forbidden | NotFound | PosthogOpError;
+/** Mixin for ViewSets to handle approval-gate exceptions raised from decorated serializers. Intercepts ApprovalRequired (409) and PolicyConflict (400) raised by the @approval_gate decorator on serializer methods and converts them into the same responses the viewset path produces (see decorators._result_to_response), so both paths share one contract. */
 export const updateSurvey: API.OperationMethod<
   UpdateSurveyRequest,
   SurveySerializerCreateUpdateOnlyOutput,
@@ -3185,6 +3070,7 @@ export const updateSurvey: API.OperationMethod<
 }));
 
 export type UpdateSurveysPartialError = BadRequest | Forbidden | NotFound | PosthogOpError;
+/** Mixin for ViewSets to handle approval-gate exceptions raised from decorated serializers. Intercepts ApprovalRequired (409) and PolicyConflict (400) raised by the @approval_gate decorator on serializer methods and converts them into the same responses the viewset path produces (see decorators._result_to_response), so both paths share one contract. */
 export const updateSurveysPartial: API.OperationMethod<
   UpdateSurveysPartialRequest,
   SurveySerializerCreateUpdateOnlyOutput,

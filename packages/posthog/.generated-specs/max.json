@@ -994,7 +994,7 @@
         "agent_runtime": {
           "target": "com.posthog.max#ConversationAgentRuntimeEnum",
           "traits": {
-            "smithy.api#documentation": "Runtime that owns this conversation. 'langgraph' conversations return their messages in the `messages` field; born-'sandbox' conversations return an empty `messages` array and load history from the products/tasks logs endpoint. A converted conversation is 'sandbox' but still returns its legacy thread in `messages`.\n\n* `langgraph` - LangGraph\n* `sandbox` - Sandbox"
+            "smithy.api#documentation": "Runtime that owns this conversation. 'langgraph' conversations return their messages in the `messages` field. 'sandbox' conversations return an empty `messages` array and load history from the products/tasks logs endpoint; a conversation copied into a task carries its legacy thread in that task's import run. Only a conversion that predates the copy still returns its legacy thread in `messages`.\n\n* `langgraph` - LangGraph\n* `sandbox` - Sandbox"
           }
         },
         "is_sandbox": {
@@ -1235,7 +1235,7 @@
         "type": {
           "target": "com.posthog.max#SandboxAttachedContextItemTypeEnum",
           "traits": {
-            "smithy.api#documentation": "Attachment kind. Entity types carry `id` (+ optional `name`); `text` carries `value`.\n\n* `action` - action\n* `dashboard` - dashboard\n* `error_tracking_issue` - error_tracking_issue\n* `evaluation` - evaluation\n* `event` - event\n* `insight` - insight\n* `notebook` - notebook\n* `text` - text",
+            "smithy.api#documentation": "Attachment kind. Entity types carry `id` (+ optional `name`); `text` and `instructions` carry `value`. `instructions` is the caller's own guidance and renders into the trusted context block; every other kind renders into the untrusted block, which tells the agent to read it as data.\n\n* `action` - action\n* `dashboard` - dashboard\n* `error_tracking_issue` - error_tracking_issue\n* `evaluation` - evaluation\n* `event` - event\n* `insight` - insight\n* `instructions` - instructions\n* `notebook` - notebook\n* `text` - text",
             "smithy.api#required": {}
           }
         },
@@ -1254,7 +1254,7 @@
         "value": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Free-text content. Only for `text` attachments."
+            "smithy.api#documentation": "Free-text content. Only for `text` and `instructions` attachments."
           }
         }
       },
@@ -1301,6 +1301,12 @@
             "smithy.api#enumValue": "insight"
           }
         },
+        "INSTRUCTIONS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "instructions"
+          }
+        },
         "NOTEBOOK": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -1315,7 +1321,7 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "* `action` - action\n* `dashboard` - dashboard\n* `error_tracking_issue` - error_tracking_issue\n* `evaluation` - evaluation\n* `event` - event\n* `insight` - insight\n* `notebook` - notebook\n* `text` - text"
+        "smithy.api#documentation": "* `action` - action\n* `dashboard` - dashboard\n* `error_tracking_issue` - error_tracking_issue\n* `evaluation` - evaluation\n* `event` - event\n* `insight` - insight\n* `instructions` - instructions\n* `notebook` - notebook\n* `text` - text"
       }
     },
     "com.posthog.max#CreateConversationsOpenRequestAttachedContextList": {

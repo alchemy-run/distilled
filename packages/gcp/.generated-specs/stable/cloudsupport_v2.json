@@ -8,253 +8,101 @@
     "distilled.finalized": true
   },
   "shapes": {
-    "com.gcp.cloudsupport_v2#ObjectId": {
-      "type": "structure",
-      "members": {
-        "objectName": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "# gdata.* are outside protos with mising documentation"
-          }
-        },
-        "generation": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "# gdata.* are outside protos with mising documentation"
-          }
-        },
-        "bucketName": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "# gdata.* are outside protos with mising documentation"
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "# gdata.* are outside protos with mising documentation"
-      }
-    },
-    "com.gcp.cloudsupport_v2#Blobstore2Info": {
-      "type": "structure",
-      "members": {
-        "uploadFragmentListCreationInfo": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "# gdata.* are outside protos with mising documentation"
-          }
-        },
-        "blobGeneration": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "# gdata.* are outside protos with mising documentation"
-          }
-        },
-        "downloadReadHandle": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "# gdata.* are outside protos with mising documentation"
-          }
-        },
-        "uploadMetadataContainer": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "# gdata.* are outside protos with mising documentation"
-          }
-        },
-        "readToken": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "# gdata.* are outside protos with mising documentation"
-          }
-        },
-        "blobId": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "# gdata.* are outside protos with mising documentation"
-          }
-        },
-        "downloadExternalReadToken": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "# gdata.* are outside protos with mising documentation"
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "# gdata.* are outside protos with mising documentation"
-      }
-    },
-    "com.gcp.cloudsupport_v2#ExpungeSupportEventSubscriptionRequest": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#documentation": "Request message for ExpungeSupportEventSubscription."
-      }
-    },
-    "com.gcp.cloudsupport_v2#Empty": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#documentation": "A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); }"
-      }
-    },
-    "com.gcp.cloudsupport_v2#DiffUploadResponse": {
-      "type": "structure",
-      "members": {
-        "objectVersion": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "# gdata.* are outside protos with mising documentation"
-          }
-        },
-        "originalObject": {
-          "target": "com.gcp.cloudsupport_v2#CompositeMedia",
-          "traits": {
-            "smithy.api#documentation": "# gdata.* are outside protos with mising documentation"
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "# gdata.* are outside protos with mising documentation"
-      }
-    },
-    "com.gcp.cloudsupport_v2#Actor": {
-      "type": "structure",
-      "members": {
-        "displayName": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The name to display for the actor. If not provided, it is inferred from credentials supplied during case creation. When an email is provided, a display name must also be provided. This will be obfuscated if the user is a Google Support agent."
-          }
-        },
-        "username": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Output only. The username of the actor. It may look like an email or other format provided by the identity provider. If not provided, it is inferred from the credentials supplied. When a name is provided, a username must also be provided. If the user is a Google Support agent, this will not be set."
-          }
-        },
-        "email": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The email address of the actor. If not provided, it is inferred from the credentials supplied during case creation. When a name is provided, an email must also be provided. If the user is a Google Support agent, this is obfuscated. This field is deprecated. Use `username` instead."
-          }
-        },
-        "googleSupport": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "smithy.api#documentation": "Output only. Whether the actor is a Google support actor."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "An Actor represents an entity that performed an action. For example, an actor could be a user who posted a comment on a support case, a user who uploaded an attachment, or a service account that created a support case."
-      }
-    },
-    "com.gcp.cloudsupport_v2#ListCommentsResponse": {
-      "type": "structure",
-      "members": {
-        "comments": {
-          "target": "com.gcp.cloudsupport_v2#CommentList",
-          "traits": {
-            "smithy.api#documentation": "List of the comments associated with the case."
-          }
-        },
-        "nextPageToken": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "A token to retrieve the next page of results. Set this in the `page_token` field of subsequent `cases.comments.list` requests. If unspecified, there are no more results to retrieve."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "The response message for the ListComments endpoint."
-      }
-    },
-    "com.gcp.cloudsupport_v2#CommentList": {
-      "type": "list",
-      "member": {
-        "target": "com.gcp.cloudsupport_v2#Comment"
-      }
-    },
-    "com.gcp.cloudsupport_v2#ContentTypeInfo": {
-      "type": "structure",
-      "members": {
-        "fromUrlPath": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "# gdata.* are outside protos with mising documentation"
-          }
-        },
-        "fusionIdDetectionMetadata": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "# gdata.* are outside protos with mising documentation"
-          }
-        },
-        "fromFileName": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "# gdata.* are outside protos with mising documentation"
-          }
-        },
-        "bestGuess": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "# gdata.* are outside protos with mising documentation"
-          }
-        },
-        "fromBytes": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "# gdata.* are outside protos with mising documentation"
-          }
-        },
-        "fromFusionId": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "# gdata.* are outside protos with mising documentation"
-          }
-        },
-        "fromHeader": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "# gdata.* are outside protos with mising documentation"
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "# gdata.* are outside protos with mising documentation"
-      }
-    },
     "com.gcp.cloudsupport_v2#Media": {
       "type": "structure",
       "members": {
-        "filename": {
+        "crc32cHash": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "# gdata.* are outside protos with mising documentation"
+          }
+        },
+        "compositeMedia": {
+          "target": "com.gcp.cloudsupport_v2#CompositeMediaList",
+          "traits": {
+            "smithy.api#documentation": "# gdata.* are outside protos with mising documentation"
+          }
+        },
+        "timestamp": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "# gdata.* are outside protos with mising documentation"
           }
         },
-        "hashVerified": {
+        "diffChecksumsResponse": {
+          "target": "com.gcp.cloudsupport_v2#DiffChecksumsResponse",
+          "traits": {
+            "smithy.api#documentation": "# gdata.* are outside protos with mising documentation"
+          }
+        },
+        "blobRef": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "# gdata.* are outside protos with mising documentation"
+          }
+        },
+        "md5Hash": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "# gdata.* are outside protos with mising documentation"
+          }
+        },
+        "isPotentialRetry": {
           "target": "smithy.api#Boolean",
           "traits": {
             "smithy.api#documentation": "# gdata.* are outside protos with mising documentation"
           }
         },
-        "length": {
+        "sha256Hash": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "# gdata.* are outside protos with mising documentation"
           }
         },
-        "contentType": {
+        "referenceType": {
+          "target": "com.gcp.cloudsupport_v2#MediaReferenceTypeEnum",
+          "traits": {
+            "smithy.api#documentation": "# gdata.* are outside protos with mising documentation"
+          }
+        },
+        "diffUploadRequest": {
+          "target": "com.gcp.cloudsupport_v2#DiffUploadRequest",
+          "traits": {
+            "smithy.api#documentation": "# gdata.* are outside protos with mising documentation"
+          }
+        },
+        "algorithm": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "# gdata.* are outside protos with mising documentation"
           }
         },
-        "sha512Hash": {
+        "contentTypeInfo": {
+          "target": "com.gcp.cloudsupport_v2#ContentTypeInfo",
+          "traits": {
+            "smithy.api#documentation": "# gdata.* are outside protos with mising documentation"
+          }
+        },
+        "diffVersionResponse": {
+          "target": "com.gcp.cloudsupport_v2#DiffVersionResponse",
+          "traits": {
+            "smithy.api#documentation": "# gdata.* are outside protos with mising documentation"
+          }
+        },
+        "cosmoBinaryReference": {
           "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "# gdata.* are outside protos with mising documentation"
+          }
+        },
+        "bigstoreObjectRef": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "# gdata.* are outside protos with mising documentation"
+          }
+        },
+        "diffDownloadResponse": {
+          "target": "com.gcp.cloudsupport_v2#DiffDownloadResponse",
           "traits": {
             "smithy.api#documentation": "# gdata.* are outside protos with mising documentation"
           }
@@ -271,25 +119,31 @@
             "smithy.api#documentation": "# gdata.* are outside protos with mising documentation"
           }
         },
-        "inline": {
+        "token": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "# gdata.* are outside protos with mising documentation"
           }
         },
-        "blobRef": {
+        "diffUploadResponse": {
+          "target": "com.gcp.cloudsupport_v2#DiffUploadResponse",
+          "traits": {
+            "smithy.api#documentation": "# gdata.* are outside protos with mising documentation"
+          }
+        },
+        "sha1Hash": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "# gdata.* are outside protos with mising documentation"
           }
         },
-        "sha256Hash": {
-          "target": "smithy.api#String",
+        "hashVerified": {
+          "target": "smithy.api#Boolean",
           "traits": {
             "smithy.api#documentation": "# gdata.* are outside protos with mising documentation"
           }
         },
-        "hash": {
+        "contentType": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "# gdata.* are outside protos with mising documentation"
@@ -301,14 +155,32 @@
             "smithy.api#documentation": "# gdata.* are outside protos with mising documentation"
           }
         },
-        "diffUploadResponse": {
-          "target": "com.gcp.cloudsupport_v2#DiffUploadResponse",
+        "length": {
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "# gdata.* are outside protos with mising documentation"
           }
         },
-        "diffVersionResponse": {
-          "target": "com.gcp.cloudsupport_v2#DiffVersionResponse",
+        "hash": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "# gdata.* are outside protos with mising documentation"
+          }
+        },
+        "inline": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "# gdata.* are outside protos with mising documentation"
+          }
+        },
+        "sha512Hash": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "# gdata.* are outside protos with mising documentation"
+          }
+        },
+        "filename": {
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "# gdata.* are outside protos with mising documentation"
           }
@@ -319,98 +191,8 @@
             "smithy.api#documentation": "# gdata.* are outside protos with mising documentation"
           }
         },
-        "isPotentialRetry": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "smithy.api#documentation": "# gdata.* are outside protos with mising documentation"
-          }
-        },
         "downloadParameters": {
           "target": "com.gcp.cloudsupport_v2#DownloadParameters",
-          "traits": {
-            "smithy.api#documentation": "# gdata.* are outside protos with mising documentation"
-          }
-        },
-        "referenceType": {
-          "target": "com.gcp.cloudsupport_v2#MediaReferenceTypeEnum",
-          "traits": {
-            "smithy.api#documentation": "# gdata.* are outside protos with mising documentation"
-          }
-        },
-        "contentTypeInfo": {
-          "target": "com.gcp.cloudsupport_v2#ContentTypeInfo",
-          "traits": {
-            "smithy.api#documentation": "# gdata.* are outside protos with mising documentation"
-          }
-        },
-        "algorithm": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "# gdata.* are outside protos with mising documentation"
-          }
-        },
-        "diffDownloadResponse": {
-          "target": "com.gcp.cloudsupport_v2#DiffDownloadResponse",
-          "traits": {
-            "smithy.api#documentation": "# gdata.* are outside protos with mising documentation"
-          }
-        },
-        "diffChecksumsResponse": {
-          "target": "com.gcp.cloudsupport_v2#DiffChecksumsResponse",
-          "traits": {
-            "smithy.api#documentation": "# gdata.* are outside protos with mising documentation"
-          }
-        },
-        "crc32cHash": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "smithy.api#documentation": "# gdata.* are outside protos with mising documentation"
-          }
-        },
-        "md5Hash": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "# gdata.* are outside protos with mising documentation"
-          }
-        },
-        "bigstoreObjectRef": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "# gdata.* are outside protos with mising documentation"
-          }
-        },
-        "sha1Hash": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "# gdata.* are outside protos with mising documentation"
-          }
-        },
-        "cosmoBinaryReference": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "# gdata.* are outside protos with mising documentation"
-          }
-        },
-        "compositeMedia": {
-          "target": "com.gcp.cloudsupport_v2#CompositeMediaList",
-          "traits": {
-            "smithy.api#documentation": "# gdata.* are outside protos with mising documentation"
-          }
-        },
-        "diffUploadRequest": {
-          "target": "com.gcp.cloudsupport_v2#DiffUploadRequest",
-          "traits": {
-            "smithy.api#documentation": "# gdata.* are outside protos with mising documentation"
-          }
-        },
-        "token": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "# gdata.* are outside protos with mising documentation"
-          }
-        },
-        "timestamp": {
-          "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "# gdata.* are outside protos with mising documentation"
           }
@@ -418,6 +200,12 @@
       },
       "traits": {
         "smithy.api#documentation": "# gdata.* are outside protos with mising documentation"
+      }
+    },
+    "com.gcp.cloudsupport_v2#CompositeMediaList": {
+      "type": "list",
+      "member": {
+        "target": "com.gcp.cloudsupport_v2#CompositeMedia"
       }
     },
     "com.gcp.cloudsupport_v2#MediaReferenceTypeEnum": {
@@ -503,112 +291,165 @@
         }
       }
     },
-    "com.gcp.cloudsupport_v2#CompositeMediaList": {
-      "type": "list",
-      "member": {
-        "target": "com.gcp.cloudsupport_v2#CompositeMedia"
-      }
-    },
-    "com.gcp.cloudsupport_v2#Attachment": {
+    "com.gcp.cloudsupport_v2#CaseClassification": {
       "type": "structure",
       "members": {
-        "creator": {
-          "target": "com.gcp.cloudsupport_v2#Actor",
-          "traits": {
-            "smithy.api#documentation": "Output only. The user who uploaded the attachment. Note, the name and email will be obfuscated if the attachment was uploaded by Google support."
-          }
-        },
-        "name": {
+        "displayName": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Output only. Identifier. The resource name of the attachment."
+            "smithy.api#documentation": "A display name for the classification. The display name is not static and can change. To uniquely and consistently identify classifications, use the `CaseClassification.id` field."
           }
         },
-        "filename": {
+        "id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The filename of the attachment (e.g. `\"graph.jpg\"`)."
-          }
-        },
-        "createTime": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Output only. The time at which the attachment was created."
-          }
-        },
-        "mimeType": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Output only. The MIME type of the attachment (e.g. text/plain)."
-          }
-        },
-        "sizeBytes": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Output only. The size of the attachment in bytes."
+            "smithy.api#documentation": "The unique ID for a classification. Must be specified for case creation. To retrieve valid classification IDs for case creation, use `caseClassifications.search`. Classification IDs returned by `caseClassifications.search` are guaranteed to be valid for at least 6 months. If a given classification is deactiveated, it will immediately stop being returned. After 6 months, `case.create` requests using the classification ID will fail."
           }
         }
       },
       "traits": {
-        "smithy.api#documentation": "An Attachment contains metadata about a file that was uploaded to a case - it is NOT a file itself. That being said, the name of an Attachment object can be used to download its accompanying file through the `media.download` endpoint. While attachments can be uploaded in the console at the same time as a comment, they're associated on a \"case\" level, not a \"comment\" level."
+        "smithy.api#documentation": "A Case Classification represents the topic that a case is about. It's very important to use accurate classifications, because they're used to route your cases to specialists who can help you. A classification always has an ID that is its unique identifier. A valid ID is required when creating a case."
       }
     },
-    "com.gcp.cloudsupport_v2#SearchCasesResponse": {
+    "com.gcp.cloudsupport_v2#CompositeMedia": {
       "type": "structure",
       "members": {
-        "cases": {
-          "target": "com.gcp.cloudsupport_v2#CaseList",
+        "blobstore2Info": {
+          "target": "com.gcp.cloudsupport_v2#Blobstore2Info",
           "traits": {
-            "smithy.api#documentation": "The list of cases associated with the parent after any filters have been applied."
+            "smithy.api#documentation": "# gdata.* are outside protos with mising documentation"
           }
         },
-        "nextPageToken": {
+        "sha1Hash": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "A token to retrieve the next page of results. Set this in the `page_token` field of subsequent `cases.search` requests. If unspecified, there are no more results to retrieve."
+            "smithy.api#documentation": "# gdata.* are outside protos with mising documentation"
+          }
+        },
+        "blobRef": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "# gdata.* are outside protos with mising documentation"
+          }
+        },
+        "inline": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "# gdata.* are outside protos with mising documentation"
+          }
+        },
+        "md5Hash": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "# gdata.* are outside protos with mising documentation"
+          }
+        },
+        "referenceType": {
+          "target": "com.gcp.cloudsupport_v2#CompositeMediaReferenceTypeEnum",
+          "traits": {
+            "smithy.api#documentation": "# gdata.* are outside protos with mising documentation"
+          }
+        },
+        "crc32cHash": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "# gdata.* are outside protos with mising documentation"
+          }
+        },
+        "length": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "# gdata.* are outside protos with mising documentation"
+          }
+        },
+        "path": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "# gdata.* are outside protos with mising documentation"
+          }
+        },
+        "objectId": {
+          "target": "com.gcp.cloudsupport_v2#ObjectId",
+          "traits": {
+            "smithy.api#documentation": "# gdata.* are outside protos with mising documentation"
+          }
+        },
+        "cosmoBinaryReference": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "# gdata.* are outside protos with mising documentation"
           }
         }
       },
       "traits": {
-        "smithy.api#documentation": "The response message for the SearchCases endpoint."
+        "smithy.api#documentation": "# gdata.* are outside protos with mising documentation"
       }
     },
-    "com.gcp.cloudsupport_v2#CaseList": {
-      "type": "list",
-      "member": {
-        "target": "com.gcp.cloudsupport_v2#Case"
-      }
-    },
-    "com.gcp.cloudsupport_v2#SearchCaseClassificationsResponse": {
-      "type": "structure",
+    "com.gcp.cloudsupport_v2#CompositeMediaReferenceTypeEnum": {
+      "type": "enum",
       "members": {
-        "caseClassifications": {
-          "target": "com.gcp.cloudsupport_v2#CaseClassificationList",
+        "PATH": {
+          "target": "smithy.api#Unit",
           "traits": {
-            "smithy.api#documentation": "The classifications retrieved."
+            "smithy.api#enumValue": "PATH"
           }
         },
-        "nextPageToken": {
-          "target": "smithy.api#String",
+        "BLOB_REF": {
+          "target": "smithy.api#Unit",
           "traits": {
-            "smithy.api#documentation": "A token to retrieve the next page of results. Set this in the `page_token` field of subsequent `caseClassifications.list` requests. If unspecified, there are no more results to retrieve."
+            "smithy.api#enumValue": "BLOB_REF"
+          }
+        },
+        "INLINE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "INLINE"
+          }
+        },
+        "BIGSTORE_REF": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "BIGSTORE_REF"
+          }
+        },
+        "COSMO_BINARY_REFERENCE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "COSMO_BINARY_REFERENCE"
+          }
+        }
+      }
+    },
+    "com.gcp.cloudsupport_v2#CreateAttachmentRequest": {
+      "type": "structure",
+      "members": {
+        "attachment": {
+          "target": "com.gcp.cloudsupport_v2#Attachment",
+          "traits": {
+            "smithy.api#documentation": "Required. The attachment to be created."
           }
         }
       },
       "traits": {
-        "smithy.api#documentation": "The response message for SearchCaseClassifications endpoint."
+        "smithy.api#documentation": "The request message for the CreateAttachment endpoint."
       }
     },
-    "com.gcp.cloudsupport_v2#CaseClassificationList": {
-      "type": "list",
-      "member": {
-        "target": "com.gcp.cloudsupport_v2#CaseClassification"
-      }
-    },
-    "com.gcp.cloudsupport_v2#DiffDownloadResponse": {
+    "com.gcp.cloudsupport_v2#DiffUploadRequest": {
       "type": "structure",
       "members": {
-        "objectLocation": {
+        "objectVersion": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "# gdata.* are outside protos with mising documentation"
+          }
+        },
+        "objectInfo": {
+          "target": "com.gcp.cloudsupport_v2#CompositeMedia",
+          "traits": {
+            "smithy.api#documentation": "# gdata.* are outside protos with mising documentation"
+          }
+        },
+        "checksumsInfo": {
           "target": "com.gcp.cloudsupport_v2#CompositeMedia",
           "traits": {
             "smithy.api#documentation": "# gdata.* are outside protos with mising documentation"
@@ -619,45 +460,19 @@
         "smithy.api#documentation": "# gdata.* are outside protos with mising documentation"
       }
     },
-    "com.gcp.cloudsupport_v2#EscalateCaseRequest": {
-      "type": "structure",
-      "members": {
-        "escalation": {
-          "target": "com.gcp.cloudsupport_v2#Escalation",
-          "traits": {
-            "smithy.api#documentation": "The escalation information to be sent with the escalation request."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "The request message for the EscalateCase endpoint."
-      }
-    },
     "com.gcp.cloudsupport_v2#SupportEventSubscription": {
       "type": "structure",
       "members": {
+        "createTime": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Output only. The time at which the subscription was created."
+          }
+        },
         "deleteTime": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "Output only. The time at which the subscription was deleted."
-          }
-        },
-        "updateTime": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Output only. The time at which the subscription was last updated."
-          }
-        },
-        "purgeTime": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Output only. The time at which the subscription will be purged."
-          }
-        },
-        "failureReason": {
-          "target": "com.gcp.cloudsupport_v2#SupportEventSubscriptionFailureReasonEnum",
-          "traits": {
-            "smithy.api#documentation": "Output only. Reason why subscription is failing. State of subscription must be FAILING in order for this to have a value."
           }
         },
         "pubSubTopic": {
@@ -666,16 +481,28 @@
             "smithy.api#documentation": "Required. The name of the Pub/Sub topic to publish notifications to. Format: projects/{project}/topics/{topic}"
           }
         },
-        "createTime": {
+        "failureReason": {
+          "target": "com.gcp.cloudsupport_v2#SupportEventSubscriptionFailureReasonEnum",
+          "traits": {
+            "smithy.api#documentation": "Output only. Reason why subscription is failing. State of subscription must be FAILING in order for this to have a value."
+          }
+        },
+        "purgeTime": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Output only. The time at which the subscription was created."
+            "smithy.api#documentation": "Output only. The time at which the subscription will be purged."
           }
         },
         "state": {
           "target": "com.gcp.cloudsupport_v2#SupportEventSubscriptionStateEnum",
           "traits": {
             "smithy.api#documentation": "Output only. The state of the subscription."
+          }
+        },
+        "updateTime": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Output only. The time at which the subscription was last updated."
           }
         },
         "name": {
@@ -747,6 +574,13 @@
         }
       }
     },
+    "com.gcp.cloudsupport_v2#UndeleteSupportEventSubscriptionRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#documentation": "Request message for UndeleteSupportEventSubscription."
+      }
+    },
     "com.gcp.cloudsupport_v2#ListAttachmentsResponse": {
       "type": "structure",
       "members": {
@@ -773,153 +607,36 @@
         "target": "com.gcp.cloudsupport_v2#Attachment"
       }
     },
-    "com.gcp.cloudsupport_v2#CaseClassification": {
+    "com.gcp.cloudsupport_v2#Actor": {
       "type": "structure",
       "members": {
-        "id": {
-          "target": "smithy.api#String",
+        "googleSupport": {
+          "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "The unique ID for a classification. Must be specified for case creation. To retrieve valid classification IDs for case creation, use `caseClassifications.search`. Classification IDs returned by `caseClassifications.search` are guaranteed to be valid for at least 6 months. If a given classification is deactiveated, it will immediately stop being returned. After 6 months, `case.create` requests using the classification ID will fail."
+            "smithy.api#documentation": "Output only. Whether the actor is a Google support actor."
           }
         },
         "displayName": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "A display name for the classification. The display name is not static and can change. To uniquely and consistently identify classifications, use the `CaseClassification.id` field."
+            "smithy.api#documentation": "The name to display for the actor. If not provided, it is inferred from credentials supplied during case creation. When an email is provided, a display name must also be provided. This will be obfuscated if the user is a Google Support agent."
+          }
+        },
+        "email": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The email address of the actor. If not provided, it is inferred from the credentials supplied during case creation. When a name is provided, an email must also be provided. If the user is a Google Support agent, this is obfuscated. This field is deprecated. Use `username` instead."
+          }
+        },
+        "username": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Output only. The username of the actor. It may look like an email or other format provided by the identity provider. If not provided, it is inferred from the credentials supplied. When a name is provided, a username must also be provided. If the user is a Google Support agent, this will not be set."
           }
         }
       },
       "traits": {
-        "smithy.api#documentation": "A Case Classification represents the topic that a case is about. It's very important to use accurate classifications, because they're used to route your cases to specialists who can help you. A classification always has an ID that is its unique identifier. A valid ID is required when creating a case."
-      }
-    },
-    "com.gcp.cloudsupport_v2#DownloadParameters": {
-      "type": "structure",
-      "members": {
-        "allowGzipCompression": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "smithy.api#documentation": "# gdata.* are outside protos with mising documentation"
-          }
-        },
-        "ignoreRange": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "smithy.api#documentation": "# gdata.* are outside protos with mising documentation"
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "# gdata.* are outside protos with mising documentation"
-      }
-    },
-    "com.gcp.cloudsupport_v2#CompositeMedia": {
-      "type": "structure",
-      "members": {
-        "blobRef": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "# gdata.* are outside protos with mising documentation"
-          }
-        },
-        "inline": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "# gdata.* are outside protos with mising documentation"
-          }
-        },
-        "objectId": {
-          "target": "com.gcp.cloudsupport_v2#ObjectId",
-          "traits": {
-            "smithy.api#documentation": "# gdata.* are outside protos with mising documentation"
-          }
-        },
-        "crc32cHash": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "smithy.api#documentation": "# gdata.* are outside protos with mising documentation"
-          }
-        },
-        "cosmoBinaryReference": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "# gdata.* are outside protos with mising documentation"
-          }
-        },
-        "path": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "# gdata.* are outside protos with mising documentation"
-          }
-        },
-        "blobstore2Info": {
-          "target": "com.gcp.cloudsupport_v2#Blobstore2Info",
-          "traits": {
-            "smithy.api#documentation": "# gdata.* are outside protos with mising documentation"
-          }
-        },
-        "sha1Hash": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "# gdata.* are outside protos with mising documentation"
-          }
-        },
-        "referenceType": {
-          "target": "com.gcp.cloudsupport_v2#CompositeMediaReferenceTypeEnum",
-          "traits": {
-            "smithy.api#documentation": "# gdata.* are outside protos with mising documentation"
-          }
-        },
-        "md5Hash": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "# gdata.* are outside protos with mising documentation"
-          }
-        },
-        "length": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "# gdata.* are outside protos with mising documentation"
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "# gdata.* are outside protos with mising documentation"
-      }
-    },
-    "com.gcp.cloudsupport_v2#CompositeMediaReferenceTypeEnum": {
-      "type": "enum",
-      "members": {
-        "PATH": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "PATH"
-          }
-        },
-        "BLOB_REF": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "BLOB_REF"
-          }
-        },
-        "INLINE": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "INLINE"
-          }
-        },
-        "BIGSTORE_REF": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "BIGSTORE_REF"
-          }
-        },
-        "COSMO_BINARY_REFERENCE": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "COSMO_BINARY_REFERENCE"
-          }
-        }
+        "smithy.api#documentation": "An Actor represents an entity that performed an action. For example, an actor could be a user who posted a comment on a support case, a user who uploaded an attachment, or a service account that created a support case."
       }
     },
     "com.gcp.cloudsupport_v2#ListSupportEventSubscriptionsResponse": {
@@ -948,31 +665,456 @@
         "target": "com.gcp.cloudsupport_v2#SupportEventSubscription"
       }
     },
-    "com.gcp.cloudsupport_v2#Case": {
+    "com.gcp.cloudsupport_v2#DiffVersionResponse": {
       "type": "structure",
       "members": {
-        "classification": {
-          "target": "com.gcp.cloudsupport_v2#CaseClassification",
+        "objectVersion": {
+          "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The issue classification applicable to this case."
+            "smithy.api#documentation": "# gdata.* are outside protos with mising documentation"
+          }
+        },
+        "objectSizeBytes": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "# gdata.* are outside protos with mising documentation"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "# gdata.* are outside protos with mising documentation"
+      }
+    },
+    "com.gcp.cloudsupport_v2#SearchCaseClassificationsResponse": {
+      "type": "structure",
+      "members": {
+        "nextPageToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A token to retrieve the next page of results. Set this in the `page_token` field of subsequent `caseClassifications.list` requests. If unspecified, there are no more results to retrieve."
+          }
+        },
+        "caseClassifications": {
+          "target": "com.gcp.cloudsupport_v2#CaseClassificationList",
+          "traits": {
+            "smithy.api#documentation": "The classifications retrieved."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The response message for SearchCaseClassifications endpoint."
+      }
+    },
+    "com.gcp.cloudsupport_v2#CaseClassificationList": {
+      "type": "list",
+      "member": {
+        "target": "com.gcp.cloudsupport_v2#CaseClassification"
+      }
+    },
+    "com.gcp.cloudsupport_v2#ExpungeSupportEventSubscriptionRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#documentation": "Request message for ExpungeSupportEventSubscription."
+      }
+    },
+    "com.gcp.cloudsupport_v2#ListCasesResponse": {
+      "type": "structure",
+      "members": {
+        "nextPageToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A token to retrieve the next page of results. Set this in the `page_token` field of subsequent `cases.list` requests. If unspecified, there are no more results to retrieve."
+          }
+        },
+        "cases": {
+          "target": "com.gcp.cloudsupport_v2#CaseList",
+          "traits": {
+            "smithy.api#documentation": "The list of cases associated with the parent after any filters have been applied."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The response message for the ListCases endpoint."
+      }
+    },
+    "com.gcp.cloudsupport_v2#CaseList": {
+      "type": "list",
+      "member": {
+        "target": "com.gcp.cloudsupport_v2#Case"
+      }
+    },
+    "com.gcp.cloudsupport_v2#DiffDownloadResponse": {
+      "type": "structure",
+      "members": {
+        "objectLocation": {
+          "target": "com.gcp.cloudsupport_v2#CompositeMedia",
+          "traits": {
+            "smithy.api#documentation": "# gdata.* are outside protos with mising documentation"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "# gdata.* are outside protos with mising documentation"
+      }
+    },
+    "com.gcp.cloudsupport_v2#ObjectId": {
+      "type": "structure",
+      "members": {
+        "bucketName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "# gdata.* are outside protos with mising documentation"
+          }
+        },
+        "objectName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "# gdata.* are outside protos with mising documentation"
+          }
+        },
+        "generation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "# gdata.* are outside protos with mising documentation"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "# gdata.* are outside protos with mising documentation"
+      }
+    },
+    "com.gcp.cloudsupport_v2#Attachment": {
+      "type": "structure",
+      "members": {
+        "mimeType": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Output only. The MIME type of the attachment (e.g. text/plain)."
+          }
+        },
+        "sizeBytes": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Output only. The size of the attachment in bytes."
+          }
+        },
+        "filename": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The filename of the attachment (e.g. `\"graph.jpg\"`)."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Output only. Identifier. The resource name of the attachment."
           }
         },
         "creator": {
           "target": "com.gcp.cloudsupport_v2#Actor",
           "traits": {
-            "smithy.api#documentation": "The user who created the case. Note: The name and email will be obfuscated if the case was created by Google Support."
+            "smithy.api#documentation": "Output only. The user who uploaded the attachment. Note, the name and email will be obfuscated if the attachment was uploaded by Google support."
           }
         },
-        "subscriberEmailAddresses": {
-          "target": "com.gcp.cloudsupport_v2#StringList",
+        "createTime": {
+          "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The email addresses to receive updates on this case."
+            "smithy.api#documentation": "Output only. The time at which the attachment was created."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "An Attachment contains metadata about a file that was uploaded to a case - it is NOT a file itself. That being said, the name of an Attachment object can be used to download its accompanying file through the `media.download` endpoint. While attachments can be uploaded in the console at the same time as a comment, they're associated on a \"case\" level, not a \"comment\" level."
+      }
+    },
+    "com.gcp.cloudsupport_v2#SearchCasesResponse": {
+      "type": "structure",
+      "members": {
+        "cases": {
+          "target": "com.gcp.cloudsupport_v2#CaseList",
+          "traits": {
+            "smithy.api#documentation": "The list of cases associated with the parent after any filters have been applied."
           }
         },
-        "escalated": {
+        "nextPageToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A token to retrieve the next page of results. Set this in the `page_token` field of subsequent `cases.search` requests. If unspecified, there are no more results to retrieve."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The response message for the SearchCases endpoint."
+      }
+    },
+    "com.gcp.cloudsupport_v2#Comment": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The full comment body. Maximum of 12800 characters."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Output only. Identifier. The resource name of the comment."
+          }
+        },
+        "plainTextBody": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Output only. DEPRECATED. DO NOT USE. A duplicate of the `body` field. This field is only present for legacy reasons."
+          }
+        },
+        "creator": {
+          "target": "com.gcp.cloudsupport_v2#Actor",
+          "traits": {
+            "smithy.api#documentation": "Output only. The user or Google Support agent who created the comment."
+          }
+        },
+        "createTime": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Output only. The time when the comment was created."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A comment associated with a support case. Case comments are the primary way for Google Support to communicate with a user who has opened a case. When a user responds to Google Support, the user's responses also appear as comments."
+      }
+    },
+    "com.gcp.cloudsupport_v2#EscalateCaseRequest": {
+      "type": "structure",
+      "members": {
+        "escalation": {
+          "target": "com.gcp.cloudsupport_v2#Escalation",
+          "traits": {
+            "smithy.api#documentation": "The escalation information to be sent with the escalation request."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The request message for the EscalateCase endpoint."
+      }
+    },
+    "com.gcp.cloudsupport_v2#ContentTypeInfo": {
+      "type": "structure",
+      "members": {
+        "bestGuess": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "# gdata.* are outside protos with mising documentation"
+          }
+        },
+        "fromFusionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "# gdata.* are outside protos with mising documentation"
+          }
+        },
+        "fromBytes": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "# gdata.* are outside protos with mising documentation"
+          }
+        },
+        "fromFileName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "# gdata.* are outside protos with mising documentation"
+          }
+        },
+        "fromHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "# gdata.* are outside protos with mising documentation"
+          }
+        },
+        "fromUrlPath": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "# gdata.* are outside protos with mising documentation"
+          }
+        },
+        "fusionIdDetectionMetadata": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "# gdata.* are outside protos with mising documentation"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "# gdata.* are outside protos with mising documentation"
+      }
+    },
+    "com.gcp.cloudsupport_v2#DownloadParameters": {
+      "type": "structure",
+      "members": {
+        "ignoreRange": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Whether the case is currently escalated."
+            "smithy.api#documentation": "# gdata.* are outside protos with mising documentation"
+          }
+        },
+        "allowGzipCompression": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "# gdata.* are outside protos with mising documentation"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "# gdata.* are outside protos with mising documentation"
+      }
+    },
+    "com.gcp.cloudsupport_v2#Blobstore2Info": {
+      "type": "structure",
+      "members": {
+        "readToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "# gdata.* are outside protos with mising documentation"
+          }
+        },
+        "uploadFragmentListCreationInfo": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "# gdata.* are outside protos with mising documentation"
+          }
+        },
+        "blobId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "# gdata.* are outside protos with mising documentation"
+          }
+        },
+        "uploadMetadataContainer": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "# gdata.* are outside protos with mising documentation"
+          }
+        },
+        "downloadReadHandle": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "# gdata.* are outside protos with mising documentation"
+          }
+        },
+        "blobGeneration": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "# gdata.* are outside protos with mising documentation"
+          }
+        },
+        "downloadExternalReadToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "# gdata.* are outside protos with mising documentation"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "# gdata.* are outside protos with mising documentation"
+      }
+    },
+    "com.gcp.cloudsupport_v2#Escalation": {
+      "type": "structure",
+      "members": {
+        "reason": {
+          "target": "com.gcp.cloudsupport_v2#EscalationReasonEnum",
+          "traits": {
+            "smithy.api#documentation": "Required. The reason why the Case is being escalated."
+          }
+        },
+        "justification": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Required. A free text description to accompany the `reason` field above. Provides additional context on why the case is being escalated."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "An escalation of a support case."
+      }
+    },
+    "com.gcp.cloudsupport_v2#EscalationReasonEnum": {
+      "type": "enum",
+      "members": {
+        "REASON_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "REASON_UNSPECIFIED"
+          }
+        },
+        "RESOLUTION_TIME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "RESOLUTION_TIME"
+          }
+        },
+        "TECHNICAL_EXPERTISE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "TECHNICAL_EXPERTISE"
+          }
+        },
+        "BUSINESS_IMPACT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "BUSINESS_IMPACT"
+          }
+        }
+      }
+    },
+    "com.gcp.cloudsupport_v2#ListCommentsResponse": {
+      "type": "structure",
+      "members": {
+        "nextPageToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A token to retrieve the next page of results. Set this in the `page_token` field of subsequent `cases.comments.list` requests. If unspecified, there are no more results to retrieve."
+          }
+        },
+        "comments": {
+          "target": "com.gcp.cloudsupport_v2#CommentList",
+          "traits": {
+            "smithy.api#documentation": "List of the comments associated with the case."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The response message for the ListComments endpoint."
+      }
+    },
+    "com.gcp.cloudsupport_v2#CommentList": {
+      "type": "list",
+      "member": {
+        "target": "com.gcp.cloudsupport_v2#Comment"
+      }
+    },
+    "com.gcp.cloudsupport_v2#Empty": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#documentation": "A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); }"
+      }
+    },
+    "com.gcp.cloudsupport_v2#Case": {
+      "type": "structure",
+      "members": {
+        "testCase": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether this case was created for internal API testing and should not be acted on by the support team."
+          }
+        },
+        "updateTime": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Output only. The time this case was last updated."
           }
         },
         "createTime": {
@@ -987,22 +1129,16 @@
             "smithy.api#documentation": "The timezone of the user who created the support case. It should be in a format IANA recognizes: https://www.iana.org/time-zones. There is no additional validation done by the API."
           }
         },
-        "priority": {
-          "target": "com.gcp.cloudsupport_v2#CasePriorityEnum",
-          "traits": {
-            "smithy.api#documentation": "The priority of this case."
-          }
-        },
-        "testCase": {
+        "escalated": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Whether this case was created for internal API testing and should not be acted on by the support team."
+            "smithy.api#documentation": "Whether the case is currently escalated."
           }
         },
-        "languageCode": {
+        "contactEmail": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The language the user has requested to receive support in. This should be a BCP 47 language code (e.g., `\"en\"`, `\"zh-CN\"`, `\"zh-TW\"`, `\"ja\"`, `\"ko\"`). If no language or an unsupported language is specified, this field defaults to English (en). Language selection during case creation may affect your available support options. For a list of supported languages and their support working hours, see: https://cloud.google.com/support/docs/language-working-hours"
+            "smithy.api#documentation": "A user-supplied email address to send case update notifications for. This field must be set when the request is authenticated using a Workforce Identity Federation (BYOID) flow and must not be set otherwise. When unset, the contact email is inferred from the authenticated user's credentials. If you use a service account to create the case and its inferred email address cannot receive emails, you should add appropriate contact emails in the `subscriber_email_addresses` field."
           }
         },
         "name": {
@@ -1011,10 +1147,16 @@
             "smithy.api#documentation": "Identifier. The resource name for the case."
           }
         },
-        "contactEmail": {
-          "target": "smithy.api#String",
+        "priority": {
+          "target": "com.gcp.cloudsupport_v2#CasePriorityEnum",
           "traits": {
-            "smithy.api#documentation": "A user-supplied email address to send case update notifications for. This should only be used in BYOID flows, where we cannot infer the user's email address directly from their EUCs."
+            "smithy.api#documentation": "The priority of this case."
+          }
+        },
+        "subscriberEmailAddresses": {
+          "target": "com.gcp.cloudsupport_v2#StringList",
+          "traits": {
+            "smithy.api#documentation": "The email addresses to receive updates on this case."
           }
         },
         "state": {
@@ -1023,10 +1165,16 @@
             "smithy.api#documentation": "Output only. The current status of the support case."
           }
         },
-        "updateTime": {
+        "creator": {
+          "target": "com.gcp.cloudsupport_v2#Actor",
+          "traits": {
+            "smithy.api#documentation": "The user who created the case. This field is ignored on input. Note: The name and email will be obfuscated if the case was created by Google Support."
+          }
+        },
+        "displayName": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Output only. The time this case was last updated."
+            "smithy.api#documentation": "The short summary of the issue reported in this case."
           }
         },
         "description": {
@@ -1035,21 +1183,21 @@
             "smithy.api#documentation": "A broad description of the issue."
           }
         },
-        "displayName": {
+        "classification": {
+          "target": "com.gcp.cloudsupport_v2#CaseClassification",
+          "traits": {
+            "smithy.api#documentation": "The issue classification applicable to this case."
+          }
+        },
+        "languageCode": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The short summary of the issue reported in this case."
+            "smithy.api#documentation": "The language the user has requested to receive support in. This should be a BCP 47 language code (e.g., `\"en\"`, `\"zh-CN\"`, `\"zh-TW\"`, `\"ja\"`, `\"ko\"`). If no language or an unsupported language is specified, this field defaults to English (en). Language selection during case creation may affect your available support options. For a list of supported languages and their support working hours, see: https://cloud.google.com/support/docs/language-working-hours"
           }
         }
       },
       "traits": {
         "smithy.api#documentation": "A Case is an object that contains the details of a support case. It contains fields for the time it was created, its priority, its classification, and more. Cases can also have comments and attachments that get added over time. A case is parented by a Google Cloud organization or project. Organizations are identified by a number, so the name of a case parented by an organization would look like this: ``` organizations/123/cases/456 ``` Projects have two unique identifiers, an ID and a number, and they look like this: ``` projects/abc/cases/456 ``` ``` projects/123/cases/456 ``` You can use either of them when calling the API. To learn more about project identifiers, see [AIP-2510](https://google.aip.dev/cloud/2510)."
-      }
-    },
-    "com.gcp.cloudsupport_v2#StringList": {
-      "type": "list",
-      "member": {
-        "target": "smithy.api#String"
       }
     },
     "com.gcp.cloudsupport_v2#CasePriorityEnum": {
@@ -1093,6 +1241,12 @@
         }
       }
     },
+    "com.gcp.cloudsupport_v2#StringList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
     "com.gcp.cloudsupport_v2#CaseStateEnum": {
       "type": "enum",
       "members": {
@@ -1134,81 +1288,10 @@
         }
       }
     },
-    "com.gcp.cloudsupport_v2#Comment": {
+    "com.gcp.cloudsupport_v2#DiffUploadResponse": {
       "type": "structure",
       "members": {
-        "createTime": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Output only. The time when the comment was created."
-          }
-        },
-        "plainTextBody": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Output only. DEPRECATED. DO NOT USE. A duplicate of the `body` field. This field is only present for legacy reasons."
-          }
-        },
-        "creator": {
-          "target": "com.gcp.cloudsupport_v2#Actor",
-          "traits": {
-            "smithy.api#documentation": "Output only. The user or Google Support agent who created the comment."
-          }
-        },
-        "name": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Output only. Identifier. The resource name of the comment."
-          }
-        },
-        "body": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The full comment body. Maximum of 12800 characters."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "A comment associated with a support case. Case comments are the primary way for Google Support to communicate with a user who has opened a case. When a user responds to Google Support, the user's responses also appear as comments."
-      }
-    },
-    "com.gcp.cloudsupport_v2#DiffVersionResponse": {
-      "type": "structure",
-      "members": {
-        "objectVersion": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "# gdata.* are outside protos with mising documentation"
-          }
-        },
-        "objectSizeBytes": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "# gdata.* are outside protos with mising documentation"
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "# gdata.* are outside protos with mising documentation"
-      }
-    },
-    "com.gcp.cloudsupport_v2#CloseCaseRequest": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#documentation": "The request message for the CloseCase endpoint."
-      }
-    },
-    "com.gcp.cloudsupport_v2#DiffUploadRequest": {
-      "type": "structure",
-      "members": {
-        "checksumsInfo": {
-          "target": "com.gcp.cloudsupport_v2#CompositeMedia",
-          "traits": {
-            "smithy.api#documentation": "# gdata.* are outside protos with mising documentation"
-          }
-        },
-        "objectInfo": {
+        "originalObject": {
           "target": "com.gcp.cloudsupport_v2#CompositeMedia",
           "traits": {
             "smithy.api#documentation": "# gdata.* are outside protos with mising documentation"
@@ -1223,82 +1306,12 @@
       },
       "traits": {
         "smithy.api#documentation": "# gdata.* are outside protos with mising documentation"
-      }
-    },
-    "com.gcp.cloudsupport_v2#CreateAttachmentRequest": {
-      "type": "structure",
-      "members": {
-        "attachment": {
-          "target": "com.gcp.cloudsupport_v2#Attachment",
-          "traits": {
-            "smithy.api#documentation": "Required. The attachment to be created."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "The request message for the CreateAttachment endpoint."
-      }
-    },
-    "com.gcp.cloudsupport_v2#UndeleteSupportEventSubscriptionRequest": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#documentation": "Request message for UndeleteSupportEventSubscription."
-      }
-    },
-    "com.gcp.cloudsupport_v2#Escalation": {
-      "type": "structure",
-      "members": {
-        "justification": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Required. A free text description to accompany the `reason` field above. Provides additional context on why the case is being escalated."
-          }
-        },
-        "reason": {
-          "target": "com.gcp.cloudsupport_v2#EscalationReasonEnum",
-          "traits": {
-            "smithy.api#documentation": "Required. The reason why the Case is being escalated."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "An escalation of a support case."
-      }
-    },
-    "com.gcp.cloudsupport_v2#EscalationReasonEnum": {
-      "type": "enum",
-      "members": {
-        "REASON_UNSPECIFIED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "REASON_UNSPECIFIED"
-          }
-        },
-        "RESOLUTION_TIME": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "RESOLUTION_TIME"
-          }
-        },
-        "TECHNICAL_EXPERTISE": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "TECHNICAL_EXPERTISE"
-          }
-        },
-        "BUSINESS_IMPACT": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "BUSINESS_IMPACT"
-          }
-        }
       }
     },
     "com.gcp.cloudsupport_v2#DiffChecksumsResponse": {
       "type": "structure",
       "members": {
-        "objectVersion": {
+        "objectSizeBytes": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "# gdata.* are outside protos with mising documentation"
@@ -1310,14 +1323,14 @@
             "smithy.api#documentation": "# gdata.* are outside protos with mising documentation"
           }
         },
-        "objectSizeBytes": {
-          "target": "smithy.api#String",
+        "checksumsLocation": {
+          "target": "com.gcp.cloudsupport_v2#CompositeMedia",
           "traits": {
             "smithy.api#documentation": "# gdata.* are outside protos with mising documentation"
           }
         },
-        "checksumsLocation": {
-          "target": "com.gcp.cloudsupport_v2#CompositeMedia",
+        "objectVersion": {
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "# gdata.* are outside protos with mising documentation"
           }
@@ -1333,24 +1346,11 @@
         "smithy.api#documentation": "# gdata.* are outside protos with mising documentation"
       }
     },
-    "com.gcp.cloudsupport_v2#ListCasesResponse": {
+    "com.gcp.cloudsupport_v2#CloseCaseRequest": {
       "type": "structure",
-      "members": {
-        "cases": {
-          "target": "com.gcp.cloudsupport_v2#CaseList",
-          "traits": {
-            "smithy.api#documentation": "The list of cases associated with the parent after any filters have been applied."
-          }
-        },
-        "nextPageToken": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "A token to retrieve the next page of results. Set this in the `page_token` field of subsequent `cases.list` requests. If unspecified, there are no more results to retrieve."
-          }
-        }
-      },
+      "members": {},
       "traits": {
-        "smithy.api#documentation": "The response message for the ListCases endpoint."
+        "smithy.api#documentation": "The request message for the CloseCase endpoint."
       }
     },
     "com.gcp.cloudsupport_v2#UploadMediaRequest": {
@@ -1492,33 +1492,47 @@
         "smithy.api#documentation": "Download a file attached to a case. When this endpoint is called, no \"response body\" will be returned. Instead, the attachment's blob will be returned. Note: HTTP requests must append \"?alt=media\" to the URL. EXAMPLES: cURL: ```shell name=\"projects/some-project/cases/43594844/attachments/0674M00000WijAnZAJ\" curl \\ --header \"Authorization: Bearer $(gcloud auth print-access-token)\" \\ \"https://cloudsupport.googleapis.com/v2/$name:download?alt=media\" ``` Python: ```python import googleapiclient.discovery api_version = \"v2\" supportApiService = googleapiclient.discovery.build( serviceName=\"cloudsupport\", version=api_version, discoveryServiceUrl=f\"https://cloudsupport.googleapis.com/$discovery/rest?version={api_version}\", ) request = supportApiService.media().download( name=\"projects/some-project/cases/43595344/attachments/0684M00000Pw6pHQAR\" ) request.uri = request.uri.split(\"?\")[0] + \"?alt=media\" print(request.execute()) ```"
       }
     },
-    "com.gcp.cloudsupport_v2#CloseCasesRequest": {
+    "com.gcp.cloudsupport_v2#ListCasesRequest": {
       "type": "structure",
       "members": {
-        "name": {
+        "pageSize": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The maximum number of cases fetched with each request. Defaults to 10.",
+            "smithy.api#httpQuery": "pageSize"
+          }
+        },
+        "pageToken": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Required. The name of the case to close.",
+            "smithy.api#documentation": "A token identifying the page of results to return. If unspecified, the first page is retrieved.",
+            "smithy.api#httpQuery": "pageToken"
+          }
+        },
+        "parent": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Required. The name of a parent to list cases under.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
         },
-        "body": {
-          "target": "com.gcp.cloudsupport_v2#CloseCaseRequest",
+        "filter": {
+          "target": "smithy.api#String",
           "traits": {
-            "smithy.api#httpPayload": {},
-            "smithy.api#documentation": "Request body"
+            "smithy.api#documentation": "An expression used to filter cases. If it's an empty string, then no filtering happens. Otherwise, the endpoint returns the cases that match the filter. Expressions use the following fields separated by `AND` and specified with `=`: - `state`: Can be `OPEN` or `CLOSED`. - `priority`: Can be `P0`, `P1`, `P2`, `P3`, or `P4`. You can specify multiple values for priority using the `OR` operator. For example, `priority=P1 OR priority=P2`. - `creator.email`: The email address of the case creator. EXAMPLES: - `state=CLOSED` - `state=OPEN AND creator.email=\"tester@example.com\"` - `state=OPEN AND (priority=P0 OR priority=P1)`",
+            "smithy.api#httpQuery": "filter"
           }
         }
       }
     },
-    "com.gcp.cloudsupport_v2#CloseCases": {
+    "com.gcp.cloudsupport_v2#ListCases": {
       "type": "operation",
       "input": {
-        "target": "com.gcp.cloudsupport_v2#CloseCasesRequest"
+        "target": "com.gcp.cloudsupport_v2#ListCasesRequest"
       },
       "output": {
-        "target": "com.gcp.cloudsupport_v2#Case"
+        "target": "com.gcp.cloudsupport_v2#ListCasesResponse"
       },
       "errors": [
         {
@@ -1526,20 +1540,18 @@
         },
         {
           "target": "com.gcp.cloudsupport_v2#Forbidden"
-        },
-        {
-          "target": "com.gcp.cloudsupport_v2#BadRequest"
-        },
-        {
-          "target": "com.gcp.cloudsupport_v2#Conflict"
         }
       ],
       "traits": {
         "smithy.api#http": {
-          "method": "POST",
-          "uri": "v2/{+name}:close"
+          "method": "GET",
+          "uri": "v2/{+parent}/cases"
         },
-        "smithy.api#documentation": "Close a case. EXAMPLES: cURL: ```shell case=\"projects/some-project/cases/43595344\" curl \\ --request POST \\ --header \"Authorization: Bearer $(gcloud auth print-access-token)\" \\ \"https://cloudsupport.googleapis.com/v2/$case:close\" ``` Python: ```python import googleapiclient.discovery api_version = \"v2\" supportApiService = googleapiclient.discovery.build( serviceName=\"cloudsupport\", version=api_version, discoveryServiceUrl=f\"https://cloudsupport.googleapis.com/$discovery/rest?version={api_version}\", ) request = supportApiService.cases().close( name=\"projects/some-project/cases/43595344\" ) print(request.execute()) ```"
+        "smithy.api#documentation": "Retrieve all cases under a parent, but not its children. For example, listing cases under an organization only returns the cases that are directly parented by that organization. To retrieve cases under an organization and its projects, use `cases.search`. EXAMPLES: cURL: ```shell parent=\"projects/some-project\" curl \\ --header \"Authorization: Bearer $(gcloud auth print-access-token)\" \\ \"https://cloudsupport.googleapis.com/v2/$parent/cases\" ``` Python: ```python import googleapiclient.discovery api_version = \"v2\" supportApiService = googleapiclient.discovery.build( serviceName=\"cloudsupport\", version=api_version, discoveryServiceUrl=f\"https://cloudsupport.googleapis.com/$discovery/rest?version={api_version}\", ) request = supportApiService.cases().list(parent=\"projects/some-project\") print(request.execute()) ```",
+        "smithy.api#paginated": {
+          "inputToken": "pageToken",
+          "outputToken": "nextPageToken"
+        }
       }
     },
     "com.gcp.cloudsupport_v2#EscalateCasesRequest": {
@@ -1595,14 +1607,6 @@
     "com.gcp.cloudsupport_v2#SearchCasesRequest": {
       "type": "structure",
       "members": {
-        "parent": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The name of the parent resource to search for cases under.",
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {}
-          }
-        },
         "pageToken": {
           "target": "smithy.api#String",
           "traits": {
@@ -1622,6 +1626,14 @@
           "traits": {
             "smithy.api#documentation": "An expression used to filter cases. Expressions use the following fields separated by `AND` and specified with `=`: - `state`: Can be `OPEN` or `CLOSED`. - `priority`: Can be `P0`, `P1`, `P2`, `P3`, or `P4`. You can specify multiple values for priority using the `OR` operator. For example, `priority=P1 OR priority=P2`. - `creator.email`: The email address of the case creator. To search across `displayName`, `description`, and comments, use a global restriction with no keyword or operator. For example, `\"my search\"`. To search only cases updated after a certain date, use `update_time` restricted with that particular date, time, and timezone in ISO datetime format. For example, `update_time>\"2020-01-01T00:00:00-05:00\"`. `update_time` only supports the greater than operator (`>`). If you are using the `v2` version of the API, you must specify the case parent in the `parent` field. If you provide an empty `query`, all cases under the parent resource will be returned. If you are using the `v2beta` version of the API, you must specify the case parent in the `query` field using one of the two fields below, which are only available for `v2beta`. The `parent` field will be ignored. - `organization`: An organization name in the form `organizations/`. - `project`: A project name in the form `projects/`. Examples: For `v2`: - `state=CLOSED` - `state=OPEN AND creator.email=\"tester@example.com\"` - `state=OPEN AND (priority=P0 OR priority=P1)` - `update_time>\"2020-01-01T00:00:00-05:00\"` For `v2beta`: - `organization=\"organizations/123456789\"` - `project=\"projects/my-project-id\"` - `project=\"projects/123456789\"` - `organization=\"organizations/123456789\" AND state=CLOSED` - `project=\"projects/my-project-id\" AND creator.email=\"tester@example.com\"` - `project=\"projects/my-project-id\" AND (priority=P0 OR priority=P1)`",
             "smithy.api#httpQuery": "query"
+          }
+        },
+        "parent": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the parent resource to search for cases under.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
           }
         }
       }
@@ -1652,162 +1664,6 @@
           "inputToken": "pageToken",
           "outputToken": "nextPageToken"
         }
-      }
-    },
-    "com.gcp.cloudsupport_v2#GetCasesRequest": {
-      "type": "structure",
-      "members": {
-        "name": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Required. The full name of a case to be retrieved.",
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {}
-          }
-        }
-      }
-    },
-    "com.gcp.cloudsupport_v2#GetCases": {
-      "type": "operation",
-      "input": {
-        "target": "com.gcp.cloudsupport_v2#GetCasesRequest"
-      },
-      "output": {
-        "target": "com.gcp.cloudsupport_v2#Case"
-      },
-      "errors": [
-        {
-          "target": "com.gcp.cloudsupport_v2#NotFound"
-        },
-        {
-          "target": "com.gcp.cloudsupport_v2#Forbidden"
-        }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "v2/{+name}"
-        },
-        "smithy.api#documentation": "Retrieve a case. EXAMPLES: cURL: ```shell case=\"projects/some-project/cases/16033687\" curl \\ --header \"Authorization: Bearer $(gcloud auth print-access-token)\" \\ \"https://cloudsupport.googleapis.com/v2/$case\" ``` Python: ```python import googleapiclient.discovery api_version = \"v2\" supportApiService = googleapiclient.discovery.build( serviceName=\"cloudsupport\", version=api_version, discoveryServiceUrl=f\"https://cloudsupport.googleapis.com/$discovery/rest?version={api_version}\", ) request = supportApiService.cases().get( name=\"projects/some-project/cases/43595344\", ) print(request.execute()) ```"
-      }
-    },
-    "com.gcp.cloudsupport_v2#ListCasesRequest": {
-      "type": "structure",
-      "members": {
-        "parent": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Required. The name of a parent to list cases under.",
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {}
-          }
-        },
-        "pageSize": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "smithy.api#documentation": "The maximum number of cases fetched with each request. Defaults to 10.",
-            "smithy.api#httpQuery": "pageSize"
-          }
-        },
-        "pageToken": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "A token identifying the page of results to return. If unspecified, the first page is retrieved.",
-            "smithy.api#httpQuery": "pageToken"
-          }
-        },
-        "filter": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "An expression used to filter cases. If it's an empty string, then no filtering happens. Otherwise, the endpoint returns the cases that match the filter. Expressions use the following fields separated by `AND` and specified with `=`: - `state`: Can be `OPEN` or `CLOSED`. - `priority`: Can be `P0`, `P1`, `P2`, `P3`, or `P4`. You can specify multiple values for priority using the `OR` operator. For example, `priority=P1 OR priority=P2`. - `creator.email`: The email address of the case creator. EXAMPLES: - `state=CLOSED` - `state=OPEN AND creator.email=\"tester@example.com\"` - `state=OPEN AND (priority=P0 OR priority=P1)`",
-            "smithy.api#httpQuery": "filter"
-          }
-        }
-      }
-    },
-    "com.gcp.cloudsupport_v2#ListCases": {
-      "type": "operation",
-      "input": {
-        "target": "com.gcp.cloudsupport_v2#ListCasesRequest"
-      },
-      "output": {
-        "target": "com.gcp.cloudsupport_v2#ListCasesResponse"
-      },
-      "errors": [
-        {
-          "target": "com.gcp.cloudsupport_v2#NotFound"
-        },
-        {
-          "target": "com.gcp.cloudsupport_v2#Forbidden"
-        }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "v2/{+parent}/cases"
-        },
-        "smithy.api#documentation": "Retrieve all cases under a parent, but not its children. For example, listing cases under an organization only returns the cases that are directly parented by that organization. To retrieve cases under an organization and its projects, use `cases.search`. EXAMPLES: cURL: ```shell parent=\"projects/some-project\" curl \\ --header \"Authorization: Bearer $(gcloud auth print-access-token)\" \\ \"https://cloudsupport.googleapis.com/v2/$parent/cases\" ``` Python: ```python import googleapiclient.discovery api_version = \"v2\" supportApiService = googleapiclient.discovery.build( serviceName=\"cloudsupport\", version=api_version, discoveryServiceUrl=f\"https://cloudsupport.googleapis.com/$discovery/rest?version={api_version}\", ) request = supportApiService.cases().list(parent=\"projects/some-project\") print(request.execute()) ```",
-        "smithy.api#paginated": {
-          "inputToken": "pageToken",
-          "outputToken": "nextPageToken"
-        }
-      }
-    },
-    "com.gcp.cloudsupport_v2#PatchCasesRequest": {
-      "type": "structure",
-      "members": {
-        "name": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Identifier. The resource name for the case.",
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {}
-          }
-        },
-        "updateMask": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "A list of attributes of the case that should be updated. Supported values are `priority`, `display_name`, and `subscriber_email_addresses`. If no fields are specified, all supported fields are updated. Be careful - if you do not provide a field mask, then you might accidentally clear some fields. For example, if you leave the field mask empty and do not provide a value for `subscriber_email_addresses`, then `subscriber_email_addresses` is updated to empty.",
-            "smithy.api#httpQuery": "updateMask"
-          }
-        },
-        "body": {
-          "target": "com.gcp.cloudsupport_v2#Case",
-          "traits": {
-            "smithy.api#httpPayload": {},
-            "smithy.api#documentation": "Request body"
-          }
-        }
-      }
-    },
-    "com.gcp.cloudsupport_v2#PatchCases": {
-      "type": "operation",
-      "input": {
-        "target": "com.gcp.cloudsupport_v2#PatchCasesRequest"
-      },
-      "output": {
-        "target": "com.gcp.cloudsupport_v2#Case"
-      },
-      "errors": [
-        {
-          "target": "com.gcp.cloudsupport_v2#NotFound"
-        },
-        {
-          "target": "com.gcp.cloudsupport_v2#Forbidden"
-        },
-        {
-          "target": "com.gcp.cloudsupport_v2#BadRequest"
-        },
-        {
-          "target": "com.gcp.cloudsupport_v2#Conflict"
-        }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "PATCH",
-          "uri": "v2/{+name}"
-        },
-        "smithy.api#documentation": "Update a case. Only some fields can be updated. EXAMPLES: cURL: ```shell case=\"projects/some-project/cases/43595344\" curl \\ --request PATCH \\ --header \"Authorization: Bearer $(gcloud auth print-access-token)\" \\ --header \"Content-Type: application/json\" \\ --data '{ \"priority\": \"P1\" }' \\ \"https://cloudsupport.googleapis.com/v2/$case?updateMask=priority\" ``` Python: ```python import googleapiclient.discovery api_version = \"v2\" supportApiService = googleapiclient.discovery.build( serviceName=\"cloudsupport\", version=api_version, discoveryServiceUrl=f\"https://cloudsupport.googleapis.com/$discovery/rest?version={api_version}\", ) request = supportApiService.cases().patch( name=\"projects/some-project/cases/43112854\", body={ \"displayName\": \"This is Now a New Title\", \"priority\": \"P2\", }, ) print(request.execute()) ```"
       }
     },
     "com.gcp.cloudsupport_v2#CreateCasesRequest": {
@@ -1860,14 +1716,300 @@
         "smithy.api#documentation": "Create a new case and associate it with a parent. It must have the following fields set: `display_name`, `description`, `classification`, and `priority`. If you're just testing the API and don't want to route your case to an agent, set `testCase=true`. EXAMPLES: cURL: ```shell parent=\"projects/some-project\" curl \\ --request POST \\ --header \"Authorization: Bearer $(gcloud auth print-access-token)\" \\ --header 'Content-Type: application/json' \\ --data '{ \"display_name\": \"Test case created by me.\", \"description\": \"a random test case, feel free to close\", \"classification\": { \"id\": \"100IK2AKCLHMGRJ9CDGMOCGP8DM6UTB4BT262T31BT1M2T31DHNMENPO6KS36CPJ786L2TBFEHGN6NPI64R3CDHN8880G08I1H3MURR7DHII0GRCDTQM8\" }, \"time_zone\": \"-07:00\", \"subscriber_email_addresses\": [ \"foo@domain.com\", \"bar@domain.com\" ], \"testCase\": true, \"priority\": \"P3\" }' \\ \"https://cloudsupport.googleapis.com/v2/$parent/cases\" ``` Python: ```python import googleapiclient.discovery api_version = \"v2\" supportApiService = googleapiclient.discovery.build( serviceName=\"cloudsupport\", version=api_version, discoveryServiceUrl=f\"https://cloudsupport.googleapis.com/$discovery/rest?version={api_version}\", ) request = supportApiService.cases().create( parent=\"projects/some-project\", body={ \"displayName\": \"A Test Case\", \"description\": \"This is a test case.\", \"testCase\": True, \"priority\": \"P2\", \"classification\": { \"id\": \"100IK2AKCLHMGRJ9CDGMOCGP8DM6UTB4BT262T31BT1M2T31DHNMENPO6KS36CPJ786L2TBFEHGN6NPI64R3CDHN8880G08I1H3MURR7DHII0GRCDTQM8\" }, }, ) print(request.execute()) ```"
       }
     },
-    "com.gcp.cloudsupport_v2#ListCasesAttachmentsRequest": {
+    "com.gcp.cloudsupport_v2#CloseCasesRequest": {
       "type": "structure",
       "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Required. The name of the case to close.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "body": {
+          "target": "com.gcp.cloudsupport_v2#CloseCaseRequest",
+          "traits": {
+            "smithy.api#httpPayload": {},
+            "smithy.api#documentation": "Request body"
+          }
+        }
+      }
+    },
+    "com.gcp.cloudsupport_v2#CloseCases": {
+      "type": "operation",
+      "input": {
+        "target": "com.gcp.cloudsupport_v2#CloseCasesRequest"
+      },
+      "output": {
+        "target": "com.gcp.cloudsupport_v2#Case"
+      },
+      "errors": [
+        {
+          "target": "com.gcp.cloudsupport_v2#NotFound"
+        },
+        {
+          "target": "com.gcp.cloudsupport_v2#Forbidden"
+        },
+        {
+          "target": "com.gcp.cloudsupport_v2#BadRequest"
+        },
+        {
+          "target": "com.gcp.cloudsupport_v2#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "v2/{+name}:close"
+        },
+        "smithy.api#documentation": "Close a case. EXAMPLES: cURL: ```shell case=\"projects/some-project/cases/43595344\" curl \\ --request POST \\ --header \"Authorization: Bearer $(gcloud auth print-access-token)\" \\ \"https://cloudsupport.googleapis.com/v2/$case:close\" ``` Python: ```python import googleapiclient.discovery api_version = \"v2\" supportApiService = googleapiclient.discovery.build( serviceName=\"cloudsupport\", version=api_version, discoveryServiceUrl=f\"https://cloudsupport.googleapis.com/$discovery/rest?version={api_version}\", ) request = supportApiService.cases().close( name=\"projects/some-project/cases/43595344\" ) print(request.execute()) ```"
+      }
+    },
+    "com.gcp.cloudsupport_v2#PatchCasesRequest": {
+      "type": "structure",
+      "members": {
+        "updateMask": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A list of attributes of the case that should be updated. Supported values are `priority`, `display_name`, and `subscriber_email_addresses`. If no fields are specified, all supported fields are updated. Be careful - if you do not provide a field mask, then you might accidentally clear some fields. For example, if you leave the field mask empty and do not provide a value for `subscriber_email_addresses`, then `subscriber_email_addresses` is updated to empty.",
+            "smithy.api#httpQuery": "updateMask"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier. The resource name for the case.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "body": {
+          "target": "com.gcp.cloudsupport_v2#Case",
+          "traits": {
+            "smithy.api#httpPayload": {},
+            "smithy.api#documentation": "Request body"
+          }
+        }
+      }
+    },
+    "com.gcp.cloudsupport_v2#PatchCases": {
+      "type": "operation",
+      "input": {
+        "target": "com.gcp.cloudsupport_v2#PatchCasesRequest"
+      },
+      "output": {
+        "target": "com.gcp.cloudsupport_v2#Case"
+      },
+      "errors": [
+        {
+          "target": "com.gcp.cloudsupport_v2#NotFound"
+        },
+        {
+          "target": "com.gcp.cloudsupport_v2#Forbidden"
+        },
+        {
+          "target": "com.gcp.cloudsupport_v2#BadRequest"
+        },
+        {
+          "target": "com.gcp.cloudsupport_v2#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "v2/{+name}"
+        },
+        "smithy.api#documentation": "Update a case. Only some fields can be updated. EXAMPLES: cURL: ```shell case=\"projects/some-project/cases/43595344\" curl \\ --request PATCH \\ --header \"Authorization: Bearer $(gcloud auth print-access-token)\" \\ --header \"Content-Type: application/json\" \\ --data '{ \"priority\": \"P1\" }' \\ \"https://cloudsupport.googleapis.com/v2/$case?updateMask=priority\" ``` Python: ```python import googleapiclient.discovery api_version = \"v2\" supportApiService = googleapiclient.discovery.build( serviceName=\"cloudsupport\", version=api_version, discoveryServiceUrl=f\"https://cloudsupport.googleapis.com/$discovery/rest?version={api_version}\", ) request = supportApiService.cases().patch( name=\"projects/some-project/cases/43112854\", body={ \"displayName\": \"This is Now a New Title\", \"priority\": \"P2\", }, ) print(request.execute()) ```"
+      }
+    },
+    "com.gcp.cloudsupport_v2#GetCasesRequest": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Required. The full name of a case to be retrieved.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.gcp.cloudsupport_v2#GetCases": {
+      "type": "operation",
+      "input": {
+        "target": "com.gcp.cloudsupport_v2#GetCasesRequest"
+      },
+      "output": {
+        "target": "com.gcp.cloudsupport_v2#Case"
+      },
+      "errors": [
+        {
+          "target": "com.gcp.cloudsupport_v2#NotFound"
+        },
+        {
+          "target": "com.gcp.cloudsupport_v2#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "v2/{+name}"
+        },
+        "smithy.api#documentation": "Retrieve a case. EXAMPLES: cURL: ```shell case=\"projects/some-project/cases/16033687\" curl \\ --header \"Authorization: Bearer $(gcloud auth print-access-token)\" \\ \"https://cloudsupport.googleapis.com/v2/$case\" ``` Python: ```python import googleapiclient.discovery api_version = \"v2\" supportApiService = googleapiclient.discovery.build( serviceName=\"cloudsupport\", version=api_version, discoveryServiceUrl=f\"https://cloudsupport.googleapis.com/$discovery/rest?version={api_version}\", ) request = supportApiService.cases().get( name=\"projects/some-project/cases/43595344\", ) print(request.execute()) ```"
+      }
+    },
+    "com.gcp.cloudsupport_v2#CreateCasesCommentsRequest": {
+      "type": "structure",
+      "members": {
+        "parent": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Required. The name of the case to which the comment should be added.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "body": {
+          "target": "com.gcp.cloudsupport_v2#Comment",
+          "traits": {
+            "smithy.api#httpPayload": {},
+            "smithy.api#documentation": "Request body"
+          }
+        }
+      }
+    },
+    "com.gcp.cloudsupport_v2#CreateCasesComments": {
+      "type": "operation",
+      "input": {
+        "target": "com.gcp.cloudsupport_v2#CreateCasesCommentsRequest"
+      },
+      "output": {
+        "target": "com.gcp.cloudsupport_v2#Comment"
+      },
+      "errors": [
+        {
+          "target": "com.gcp.cloudsupport_v2#NotFound"
+        },
+        {
+          "target": "com.gcp.cloudsupport_v2#Forbidden"
+        },
+        {
+          "target": "com.gcp.cloudsupport_v2#BadRequest"
+        },
+        {
+          "target": "com.gcp.cloudsupport_v2#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "v2/{+parent}/comments"
+        },
+        "smithy.api#documentation": "Add a new comment to a case. The comment must have the following fields set: `body`. EXAMPLES: cURL: ```shell case=\"projects/some-project/cases/43591344\" curl \\ --request POST \\ --header \"Authorization: Bearer $(gcloud auth print-access-token)\" \\ --header 'Content-Type: application/json' \\ --data '{ \"body\": \"This is a test comment.\" }' \\ \"https://cloudsupport.googleapis.com/v2/$case/comments\" ``` Python: ```python import googleapiclient.discovery api_version = \"v2\" supportApiService = googleapiclient.discovery.build( serviceName=\"cloudsupport\", version=api_version, discoveryServiceUrl=f\"https://cloudsupport.googleapis.com/$discovery/rest?version={api_version}\", ) request = ( supportApiService.cases() .comments() .create( parent=\"projects/some-project/cases/43595344\", body={\"body\": \"This is a test comment.\"}, ) ) print(request.execute()) ```"
+      }
+    },
+    "com.gcp.cloudsupport_v2#GetCasesCommentsRequest": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Required. The name of the comment to retrieve.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.gcp.cloudsupport_v2#GetCasesComments": {
+      "type": "operation",
+      "input": {
+        "target": "com.gcp.cloudsupport_v2#GetCasesCommentsRequest"
+      },
+      "output": {
+        "target": "com.gcp.cloudsupport_v2#Comment"
+      },
+      "errors": [
+        {
+          "target": "com.gcp.cloudsupport_v2#NotFound"
+        },
+        {
+          "target": "com.gcp.cloudsupport_v2#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "v2/{+name}"
+        },
+        "smithy.api#documentation": "Retrieve a comment. EXAMPLES: cURL: ```shell comment=\"projects/some-project/cases/43595344/comments/234567890\" curl \\ --header \"Authorization: Bearer $(gcloud auth print-access-token)\" \\ \"https://cloudsupport.googleapis.com/v2/$comment\" ``` Python: ```python import googleapiclient.discovery api_version = \"v2\" supportApiService = googleapiclient.discovery.build( serviceName=\"cloudsupport\", version=api_version, discoveryServiceUrl=f\"https://cloudsupport.googleapis.com/$discovery/rest?version={api_version}\", ) request = supportApiService.cases().comments().get( name=\"projects/some-project/cases/43595344/comments/234567890\", ) print(request.execute()) ```"
+      }
+    },
+    "com.gcp.cloudsupport_v2#ListCasesCommentsRequest": {
+      "type": "structure",
+      "members": {
+        "parent": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Required. The name of the case for which to list comments.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
         "pageSize": {
           "target": "smithy.api#Integer",
           "traits": {
-            "smithy.api#documentation": "The maximum number of attachments fetched with each request. If not provided, the default is 10. The maximum page size that will be returned is 100. The size of each page can be smaller than the requested page size and can include zero. For example, you could request 100 attachments on one page, receive 0, and then on the next page, receive 90.",
+            "smithy.api#documentation": "The maximum number of comments to fetch. Defaults to 10.",
             "smithy.api#httpQuery": "pageSize"
+          }
+        },
+        "pageToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A token identifying the page of results to return. If unspecified, the first page is returned.",
+            "smithy.api#httpQuery": "pageToken"
+          }
+        }
+      }
+    },
+    "com.gcp.cloudsupport_v2#ListCasesComments": {
+      "type": "operation",
+      "input": {
+        "target": "com.gcp.cloudsupport_v2#ListCasesCommentsRequest"
+      },
+      "output": {
+        "target": "com.gcp.cloudsupport_v2#ListCommentsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.gcp.cloudsupport_v2#NotFound"
+        },
+        {
+          "target": "com.gcp.cloudsupport_v2#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "v2/{+parent}/comments"
+        },
+        "smithy.api#documentation": "List all the comments associated with a case. EXAMPLES: cURL: ```shell case=\"projects/some-project/cases/43595344\" curl \\ --header \"Authorization: Bearer $(gcloud auth print-access-token)\" \\ \"https://cloudsupport.googleapis.com/v2/$case/comments\" ``` Python: ```python import googleapiclient.discovery api_version = \"v2\" supportApiService = googleapiclient.discovery.build( serviceName=\"cloudsupport\", version=api_version, discoveryServiceUrl=f\"https://cloudsupport.googleapis.com/$discovery/rest?version={api_version}\", ) request = ( supportApiService.cases() .comments() .list(parent=\"projects/some-project/cases/43595344\") ) print(request.execute()) ```",
+        "smithy.api#paginated": {
+          "inputToken": "pageToken",
+          "outputToken": "nextPageToken"
+        }
+      }
+    },
+    "com.gcp.cloudsupport_v2#ListCasesAttachmentsRequest": {
+      "type": "structure",
+      "members": {
+        "pageToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A token identifying the page of results to return. If unspecified, the first page is retrieved.",
+            "smithy.api#httpQuery": "pageToken"
           }
         },
         "parent": {
@@ -1878,11 +2020,11 @@
             "smithy.api#required": {}
           }
         },
-        "pageToken": {
-          "target": "smithy.api#String",
+        "pageSize": {
+          "target": "smithy.api#Integer",
           "traits": {
-            "smithy.api#documentation": "A token identifying the page of results to return. If unspecified, the first page is retrieved.",
-            "smithy.api#httpQuery": "pageToken"
+            "smithy.api#documentation": "The maximum number of attachments fetched with each request. If not provided, the default is 10. The maximum page size that will be returned is 100. The size of each page can be smaller than the requested page size and can include zero. For example, you could request 100 attachments on one page, receive 0, and then on the next page, receive 90.",
+            "smithy.api#httpQuery": "pageSize"
           }
         }
       }
@@ -1952,111 +2094,19 @@
         "smithy.api#documentation": "Retrieve an attachment associated with a support case. EXAMPLES: cURL: ```shell attachment=\"projects/some-project/cases/23598314/attachments/0684M00000P3h1fQAB\" curl \\ --header \"Authorization: Bearer $(gcloud auth print-access-token)\" \\ \"https://cloudsupport.googleapis.com/v2/$attachment\" ``` Python: ```python import googleapiclient.discovery api_version = \"v2\" supportApiService = googleapiclient.discovery.build( serviceName=\"cloudsupport\", version=api_version, discoveryServiceUrl=f\"https://cloudsupport.googleapis.com/$discovery/rest?version={api_version}\", ) request = ( supportApiService.cases() .attachments() .get(name=\"projects/some-project/cases/43595344/attachments/0684M00000P3h1fQAB\") ) print(request.execute()) ```"
       }
     },
-    "com.gcp.cloudsupport_v2#GetCasesCommentsRequest": {
+    "com.gcp.cloudsupport_v2#UndeleteOrganizationsSupportEventSubscriptionsRequest": {
       "type": "structure",
       "members": {
         "name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Required. The name of the comment to retrieve.",
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {}
-          }
-        }
-      }
-    },
-    "com.gcp.cloudsupport_v2#GetCasesComments": {
-      "type": "operation",
-      "input": {
-        "target": "com.gcp.cloudsupport_v2#GetCasesCommentsRequest"
-      },
-      "output": {
-        "target": "com.gcp.cloudsupport_v2#Comment"
-      },
-      "errors": [
-        {
-          "target": "com.gcp.cloudsupport_v2#NotFound"
-        },
-        {
-          "target": "com.gcp.cloudsupport_v2#Forbidden"
-        }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "v2/{+name}"
-        },
-        "smithy.api#documentation": "Retrieve a comment. EXAMPLES: cURL: ```shell comment=\"projects/some-project/cases/43595344/comments/234567890\" curl \\ --header \"Authorization: Bearer $(gcloud auth print-access-token)\" \\ \"https://cloudsupport.googleapis.com/v2/$comment\" ``` Python: ```python import googleapiclient.discovery api_version = \"v2\" supportApiService = googleapiclient.discovery.build( serviceName=\"cloudsupport\", version=api_version, discoveryServiceUrl=f\"https://cloudsupport.googleapis.com/$discovery/rest?version={api_version}\", ) request = supportApiService.cases().comments().get( name=\"projects/some-project/cases/43595344/comments/234567890\", ) print(request.execute()) ```"
-      }
-    },
-    "com.gcp.cloudsupport_v2#ListCasesCommentsRequest": {
-      "type": "structure",
-      "members": {
-        "pageSize": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "smithy.api#documentation": "The maximum number of comments to fetch. Defaults to 10.",
-            "smithy.api#httpQuery": "pageSize"
-          }
-        },
-        "parent": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Required. The name of the case for which to list comments.",
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {}
-          }
-        },
-        "pageToken": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "A token identifying the page of results to return. If unspecified, the first page is returned.",
-            "smithy.api#httpQuery": "pageToken"
-          }
-        }
-      }
-    },
-    "com.gcp.cloudsupport_v2#ListCasesComments": {
-      "type": "operation",
-      "input": {
-        "target": "com.gcp.cloudsupport_v2#ListCasesCommentsRequest"
-      },
-      "output": {
-        "target": "com.gcp.cloudsupport_v2#ListCommentsResponse"
-      },
-      "errors": [
-        {
-          "target": "com.gcp.cloudsupport_v2#NotFound"
-        },
-        {
-          "target": "com.gcp.cloudsupport_v2#Forbidden"
-        }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "v2/{+parent}/comments"
-        },
-        "smithy.api#documentation": "List all the comments associated with a case. EXAMPLES: cURL: ```shell case=\"projects/some-project/cases/43595344\" curl \\ --header \"Authorization: Bearer $(gcloud auth print-access-token)\" \\ \"https://cloudsupport.googleapis.com/v2/$case/comments\" ``` Python: ```python import googleapiclient.discovery api_version = \"v2\" supportApiService = googleapiclient.discovery.build( serviceName=\"cloudsupport\", version=api_version, discoveryServiceUrl=f\"https://cloudsupport.googleapis.com/$discovery/rest?version={api_version}\", ) request = ( supportApiService.cases() .comments() .list(parent=\"projects/some-project/cases/43595344\") ) print(request.execute()) ```",
-        "smithy.api#paginated": {
-          "inputToken": "pageToken",
-          "outputToken": "nextPageToken"
-        }
-      }
-    },
-    "com.gcp.cloudsupport_v2#CreateCasesCommentsRequest": {
-      "type": "structure",
-      "members": {
-        "parent": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Required. The name of the case to which the comment should be added.",
+            "smithy.api#documentation": "Required. The name of the support event subscription to undelete. Format: organizations/{organization_id}/supportEventSubscriptions/{subscription_id}",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
         },
         "body": {
-          "target": "com.gcp.cloudsupport_v2#Comment",
+          "target": "com.gcp.cloudsupport_v2#UndeleteSupportEventSubscriptionRequest",
           "traits": {
             "smithy.api#httpPayload": {},
             "smithy.api#documentation": "Request body"
@@ -2064,13 +2114,13 @@
         }
       }
     },
-    "com.gcp.cloudsupport_v2#CreateCasesComments": {
+    "com.gcp.cloudsupport_v2#UndeleteOrganizationsSupportEventSubscriptions": {
       "type": "operation",
       "input": {
-        "target": "com.gcp.cloudsupport_v2#CreateCasesCommentsRequest"
+        "target": "com.gcp.cloudsupport_v2#UndeleteOrganizationsSupportEventSubscriptionsRequest"
       },
       "output": {
-        "target": "com.gcp.cloudsupport_v2#Comment"
+        "target": "com.gcp.cloudsupport_v2#SupportEventSubscription"
       },
       "errors": [
         {
@@ -2089,63 +2139,9 @@
       "traits": {
         "smithy.api#http": {
           "method": "POST",
-          "uri": "v2/{+parent}/comments"
+          "uri": "v2/{+name}:undelete"
         },
-        "smithy.api#documentation": "Add a new comment to a case. The comment must have the following fields set: `body`. EXAMPLES: cURL: ```shell case=\"projects/some-project/cases/43591344\" curl \\ --request POST \\ --header \"Authorization: Bearer $(gcloud auth print-access-token)\" \\ --header 'Content-Type: application/json' \\ --data '{ \"body\": \"This is a test comment.\" }' \\ \"https://cloudsupport.googleapis.com/v2/$case/comments\" ``` Python: ```python import googleapiclient.discovery api_version = \"v2\" supportApiService = googleapiclient.discovery.build( serviceName=\"cloudsupport\", version=api_version, discoveryServiceUrl=f\"https://cloudsupport.googleapis.com/$discovery/rest?version={api_version}\", ) request = ( supportApiService.cases() .comments() .create( parent=\"projects/some-project/cases/43595344\", body={\"body\": \"This is a test comment.\"}, ) ) print(request.execute()) ```"
-      }
-    },
-    "com.gcp.cloudsupport_v2#SearchCaseClassificationsRequest": {
-      "type": "structure",
-      "members": {
-        "pageToken": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "A token identifying the page of results to return. If unspecified, the first page is retrieved.",
-            "smithy.api#httpQuery": "pageToken"
-          }
-        },
-        "query": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "An expression used to filter case classifications. If it's an empty string, then no filtering happens. Otherwise, case classifications will be returned that match the filter.",
-            "smithy.api#httpQuery": "query"
-          }
-        },
-        "pageSize": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "smithy.api#documentation": "The maximum number of classifications fetched with each request.",
-            "smithy.api#httpQuery": "pageSize"
-          }
-        }
-      }
-    },
-    "com.gcp.cloudsupport_v2#SearchCaseClassifications": {
-      "type": "operation",
-      "input": {
-        "target": "com.gcp.cloudsupport_v2#SearchCaseClassificationsRequest"
-      },
-      "output": {
-        "target": "com.gcp.cloudsupport_v2#SearchCaseClassificationsResponse"
-      },
-      "errors": [
-        {
-          "target": "com.gcp.cloudsupport_v2#NotFound"
-        },
-        {
-          "target": "com.gcp.cloudsupport_v2#Forbidden"
-        }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "v2/caseClassifications:search"
-        },
-        "smithy.api#documentation": "Retrieve valid classifications to use when creating a support case. Classifications are hierarchical. Each classification is a string containing all levels of the hierarchy separated by `\" > \"`. For example, `\"Technical Issue > Compute > Compute Engine\"`. Classification IDs returned by this endpoint are valid for at least six months. When a classification is deactivated, this endpoint immediately stops returning it. After six months, `case.create` requests using the classification will fail. EXAMPLES: cURL: ```shell curl \\ --header \"Authorization: Bearer $(gcloud auth print-access-token)\" \\ 'https://cloudsupport.googleapis.com/v2/caseClassifications:search?query=display_name:\"*Compute%20Engine*\"' ``` Python: ```python import googleapiclient.discovery supportApiService = googleapiclient.discovery.build( serviceName=\"cloudsupport\", version=\"v2\", discoveryServiceUrl=f\"https://cloudsupport.googleapis.com/$discovery/rest?version=v2\", ) request = supportApiService.caseClassifications().search( query='display_name:\"*Compute Engine*\"' ) print(request.execute()) ```",
-        "smithy.api#paginated": {
-          "inputToken": "pageToken",
-          "outputToken": "nextPageToken"
-        }
+        "smithy.api#documentation": "Undeletes a support event subscription. EXAMPLES: cURL: ```shell support_event_subscription=\"organizations/123456789/supportEventSubscriptions/abcdef123456\" curl \\ --request POST \\ --header \"Authorization: Bearer $(gcloud auth print-access-token)\" \\ \"https://cloudsupport.googleapis.com/v2/$support_event_subscription:undelete\" ``` Python: ```python import googleapiclient.discovery api_version = \"v2\" supportApiService = googleapiclient.discovery.build( serviceName=\"cloudsupport\", version=api_version, discoveryServiceUrl=f\"https://cloudsupport.googleapis.com/$discovery/rest?version={api_version}\", ) request = supportApiService.supportEventSubscriptions().undelete( name=\"organizations/123456789/supportEventSubscriptions/abcdef123456\" ) print(request.execute()) ```"
       }
     },
     "com.gcp.cloudsupport_v2#DeleteOrganizationsSupportEventSubscriptionsRequest": {
@@ -2189,106 +2185,6 @@
           "uri": "v2/{+name}"
         },
         "smithy.api#documentation": "Soft deletes a support event subscription. EXAMPLES: cURL: ```shell support_event_subscription=\"organizations/123456789/supportEventSubscriptions/abcdef123456\" curl \\ --request DELETE \\ --header \"Authorization: Bearer $(gcloud auth print-access-token)\" \\ \"https://cloudsupport.googleapis.com/v2/$support_event_subscription\" ``` Python: ```python import googleapiclient.discovery api_version = \"v2\" supportApiService = googleapiclient.discovery.build( serviceName=\"cloudsupport\", version=api_version, discoveryServiceUrl=f\"https://cloudsupport.googleapis.com/$discovery/rest?version={api_version}\", ) request = supportApiService).supportEventSubscriptions().delete( name=\"organizations/123456789/supportEventSubscriptions/abcdef123456\" ) print(request.execute()) ```"
-      }
-    },
-    "com.gcp.cloudsupport_v2#ExpungeOrganizationsSupportEventSubscriptionsRequest": {
-      "type": "structure",
-      "members": {
-        "name": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Required. The name of the support event subscription to expunge. Format: organizations/{organization_id}/supportEventSubscriptions/{subscription_id}",
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {}
-          }
-        },
-        "body": {
-          "target": "com.gcp.cloudsupport_v2#ExpungeSupportEventSubscriptionRequest",
-          "traits": {
-            "smithy.api#httpPayload": {},
-            "smithy.api#documentation": "Request body"
-          }
-        }
-      }
-    },
-    "com.gcp.cloudsupport_v2#ExpungeOrganizationsSupportEventSubscriptions": {
-      "type": "operation",
-      "input": {
-        "target": "com.gcp.cloudsupport_v2#ExpungeOrganizationsSupportEventSubscriptionsRequest"
-      },
-      "output": {
-        "target": "com.gcp.cloudsupport_v2#Empty"
-      },
-      "errors": [
-        {
-          "target": "com.gcp.cloudsupport_v2#NotFound"
-        },
-        {
-          "target": "com.gcp.cloudsupport_v2#Forbidden"
-        },
-        {
-          "target": "com.gcp.cloudsupport_v2#BadRequest"
-        },
-        {
-          "target": "com.gcp.cloudsupport_v2#Conflict"
-        }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "v2/{+name}:expunge"
-        },
-        "smithy.api#documentation": "Expunges a support event subscription. EXAMPLES: cURL: ```shell support_event_subscription=\"organizations/123456789/supportEventSubscriptions/abcdef123456\" curl \\ --request POST \\ --header \"Authorization: Bearer $(gcloud auth print-access-token)\" \\ \"https://cloudsupport.googleapis.com/v2/$support_event_subscription:expunge\" ``` Python: ```python import googleapiclient.discovery api_version = \"v2\" supportApiService = googleapiclient.discovery.build( serviceName=\"cloudsupport\", version=api_version, discoveryServiceUrl=f\"https://cloudsupport.googleapis.com/$discovery/rest?version={api_version}\", ) request = supportApiService.supportEventSubscriptions().expunge( name=\"organizations/123456789/supportEventSubscriptions/abcdef123456\" ) print(request.execute()) ```"
-      }
-    },
-    "com.gcp.cloudsupport_v2#CreateOrganizationsSupportEventSubscriptionsRequest": {
-      "type": "structure",
-      "members": {
-        "parent": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Required. The parent resource name where the support event subscription will be created. Format: organizations/{organization_id}",
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {}
-          }
-        },
-        "body": {
-          "target": "com.gcp.cloudsupport_v2#SupportEventSubscription",
-          "traits": {
-            "smithy.api#httpPayload": {},
-            "smithy.api#documentation": "Request body"
-          }
-        }
-      }
-    },
-    "com.gcp.cloudsupport_v2#CreateOrganizationsSupportEventSubscriptions": {
-      "type": "operation",
-      "input": {
-        "target": "com.gcp.cloudsupport_v2#CreateOrganizationsSupportEventSubscriptionsRequest"
-      },
-      "output": {
-        "target": "com.gcp.cloudsupport_v2#SupportEventSubscription"
-      },
-      "errors": [
-        {
-          "target": "com.gcp.cloudsupport_v2#NotFound"
-        },
-        {
-          "target": "com.gcp.cloudsupport_v2#Forbidden"
-        },
-        {
-          "target": "com.gcp.cloudsupport_v2#BadRequest"
-        },
-        {
-          "target": "com.gcp.cloudsupport_v2#Conflict"
-        }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "v2/{+parent}/supportEventSubscriptions"
-        },
-        "smithy.api#documentation": "Creates a support event subscription for an organization. EXAMPLES: cURL: ```shell parent=\"organizations/123456789\" curl \\ --request POST \\ --header \"Authorization: Bearer $(gcloud auth print-access-token)\" \\ --header 'Content-Type: application/json' \\ --data '{ \"pub_sub_topic\": \"projects/my-project/topics/my-topic\" }' \\ \"https://cloudsupport.googleapis.com/v2/$parent/supportEventSubscriptions\" ``` Python: ```python import googleapiclient.discovery api_version = \"v2\" supportApiService = googleapiclient.discovery.build( serviceName=\"cloudsupport\", version=api_version, discoveryServiceUrl=f\"https://cloudsupport.googleapis.com/$discovery/rest?version={api_version}\", ) request = supportApiService.supportEventSubscriptions().create( parent=\"organizations/123456789\", body={ \"pub_sub_topic\": \"projects/my-project/topics/my-topic\" }, ) print(request.execute()) ```"
       }
     },
     "com.gcp.cloudsupport_v2#PatchOrganizationsSupportEventSubscriptionsRequest": {
@@ -2348,19 +2244,19 @@
         "smithy.api#documentation": "Updates a support event subscription. EXAMPLES: cURL: ```shell support_event_subscription=\"organizations/123456789/supportEventSubscriptions/abcdef123456\" curl \\ --request PATCH \\ --header \"Authorization: Bearer $(gcloud auth print-access-token)\" \\ --header \"Content-Type: application/json\" \\ --data '{ \"pub_sub_topic\": \"projects/my-project/topics/new-topic\" }' \\ \"https://cloudsupport.googleapis.com/v2/$support_event_subscription?updateMask=pub_sub_topic\" ``` Python: ```python import googleapiclient.discovery api_version = \"v2\" supportApiService = googleapiclient.discovery.build( serviceName=\"cloudsupport\", version=api_version, discoveryServiceUrl=f\"https://cloudsupport.googleapis.com/$discovery/rest?version={api_version}\", ) request = supportApiService.supportEventSubscriptions().patch( name=\"organizations/123456789/supportEventSubscriptions/abcdef123456\", body={ \"pub_sub_topic\": \"projects/my-project/topics/new-topic\" }, ) print(request.execute()) ```"
       }
     },
-    "com.gcp.cloudsupport_v2#UndeleteOrganizationsSupportEventSubscriptionsRequest": {
+    "com.gcp.cloudsupport_v2#CreateOrganizationsSupportEventSubscriptionsRequest": {
       "type": "structure",
       "members": {
-        "name": {
+        "parent": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Required. The name of the support event subscription to undelete. Format: organizations/{organization_id}/supportEventSubscriptions/{subscription_id}",
+            "smithy.api#documentation": "Required. The parent resource name where the support event subscription will be created. Format: organizations/{organization_id}",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
         },
         "body": {
-          "target": "com.gcp.cloudsupport_v2#UndeleteSupportEventSubscriptionRequest",
+          "target": "com.gcp.cloudsupport_v2#SupportEventSubscription",
           "traits": {
             "smithy.api#httpPayload": {},
             "smithy.api#documentation": "Request body"
@@ -2368,10 +2264,10 @@
         }
       }
     },
-    "com.gcp.cloudsupport_v2#UndeleteOrganizationsSupportEventSubscriptions": {
+    "com.gcp.cloudsupport_v2#CreateOrganizationsSupportEventSubscriptions": {
       "type": "operation",
       "input": {
-        "target": "com.gcp.cloudsupport_v2#UndeleteOrganizationsSupportEventSubscriptionsRequest"
+        "target": "com.gcp.cloudsupport_v2#CreateOrganizationsSupportEventSubscriptionsRequest"
       },
       "output": {
         "target": "com.gcp.cloudsupport_v2#SupportEventSubscription"
@@ -2393,9 +2289,59 @@
       "traits": {
         "smithy.api#http": {
           "method": "POST",
-          "uri": "v2/{+name}:undelete"
+          "uri": "v2/{+parent}/supportEventSubscriptions"
         },
-        "smithy.api#documentation": "Undeletes a support event subscription. EXAMPLES: cURL: ```shell support_event_subscription=\"organizations/123456789/supportEventSubscriptions/abcdef123456\" curl \\ --request POST \\ --header \"Authorization: Bearer $(gcloud auth print-access-token)\" \\ \"https://cloudsupport.googleapis.com/v2/$support_event_subscription:undelete\" ``` Python: ```python import googleapiclient.discovery api_version = \"v2\" supportApiService = googleapiclient.discovery.build( serviceName=\"cloudsupport\", version=api_version, discoveryServiceUrl=f\"https://cloudsupport.googleapis.com/$discovery/rest?version={api_version}\", ) request = supportApiService.supportEventSubscriptions().undelete( name=\"organizations/123456789/supportEventSubscriptions/abcdef123456\" ) print(request.execute()) ```"
+        "smithy.api#documentation": "Creates a support event subscription for an organization. EXAMPLES: cURL: ```shell parent=\"organizations/123456789\" curl \\ --request POST \\ --header \"Authorization: Bearer $(gcloud auth print-access-token)\" \\ --header 'Content-Type: application/json' \\ --data '{ \"pub_sub_topic\": \"projects/my-project/topics/my-topic\" }' \\ \"https://cloudsupport.googleapis.com/v2/$parent/supportEventSubscriptions\" ``` Python: ```python import googleapiclient.discovery api_version = \"v2\" supportApiService = googleapiclient.discovery.build( serviceName=\"cloudsupport\", version=api_version, discoveryServiceUrl=f\"https://cloudsupport.googleapis.com/$discovery/rest?version={api_version}\", ) request = supportApiService.supportEventSubscriptions().create( parent=\"organizations/123456789\", body={ \"pub_sub_topic\": \"projects/my-project/topics/my-topic\" }, ) print(request.execute()) ```"
+      }
+    },
+    "com.gcp.cloudsupport_v2#ExpungeOrganizationsSupportEventSubscriptionsRequest": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Required. The name of the support event subscription to expunge. Format: organizations/{organization_id}/supportEventSubscriptions/{subscription_id}",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "body": {
+          "target": "com.gcp.cloudsupport_v2#ExpungeSupportEventSubscriptionRequest",
+          "traits": {
+            "smithy.api#httpPayload": {},
+            "smithy.api#documentation": "Request body"
+          }
+        }
+      }
+    },
+    "com.gcp.cloudsupport_v2#ExpungeOrganizationsSupportEventSubscriptions": {
+      "type": "operation",
+      "input": {
+        "target": "com.gcp.cloudsupport_v2#ExpungeOrganizationsSupportEventSubscriptionsRequest"
+      },
+      "output": {
+        "target": "com.gcp.cloudsupport_v2#Empty"
+      },
+      "errors": [
+        {
+          "target": "com.gcp.cloudsupport_v2#NotFound"
+        },
+        {
+          "target": "com.gcp.cloudsupport_v2#Forbidden"
+        },
+        {
+          "target": "com.gcp.cloudsupport_v2#BadRequest"
+        },
+        {
+          "target": "com.gcp.cloudsupport_v2#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "v2/{+name}:expunge"
+        },
+        "smithy.api#documentation": "Expunges a support event subscription. EXAMPLES: cURL: ```shell support_event_subscription=\"organizations/123456789/supportEventSubscriptions/abcdef123456\" curl \\ --request POST \\ --header \"Authorization: Bearer $(gcloud auth print-access-token)\" \\ \"https://cloudsupport.googleapis.com/v2/$support_event_subscription:expunge\" ``` Python: ```python import googleapiclient.discovery api_version = \"v2\" supportApiService = googleapiclient.discovery.build( serviceName=\"cloudsupport\", version=api_version, discoveryServiceUrl=f\"https://cloudsupport.googleapis.com/$discovery/rest?version={api_version}\", ) request = supportApiService.supportEventSubscriptions().expunge( name=\"organizations/123456789/supportEventSubscriptions/abcdef123456\" ) print(request.execute()) ```"
       }
     },
     "com.gcp.cloudsupport_v2#GetOrganizationsSupportEventSubscriptionsRequest": {
@@ -2438,11 +2384,12 @@
     "com.gcp.cloudsupport_v2#ListOrganizationsSupportEventSubscriptionsRequest": {
       "type": "structure",
       "members": {
-        "pageSize": {
-          "target": "smithy.api#Integer",
+        "parent": {
+          "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Optional. The maximum number of support event subscriptions to return.",
-            "smithy.api#httpQuery": "pageSize"
+            "smithy.api#documentation": "Required. The fully qualified name of the Cloud resource to list support event subscriptions under. Format: organizations/{organization_id}",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
           }
         },
         "showDeleted": {
@@ -2452,19 +2399,18 @@
             "smithy.api#httpQuery": "showDeleted"
           }
         },
-        "parent": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Required. The fully qualified name of the Cloud resource to list support event subscriptions under. Format: organizations/{organization_id}",
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {}
-          }
-        },
         "filter": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "Optional. Filter expression based on AIP-160. Supported fields: - pub_sub_topic - state Examples: - `pub_sub_topic=\"projects/example-project/topics/example-topic\"` - `state=WORKING` - `pub_sub_topic=\"projects/example-project/topics/example-topic\" AND state=WORKING`",
             "smithy.api#httpQuery": "filter"
+          }
+        },
+        "pageSize": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Optional. The maximum number of support event subscriptions to return.",
+            "smithy.api#httpQuery": "pageSize"
           }
         },
         "pageToken": {
@@ -2498,6 +2444,60 @@
           "uri": "v2/{+parent}/supportEventSubscriptions"
         },
         "smithy.api#documentation": "Lists support event subscriptions. EXAMPLES: cURL: ```shell parent=\"organizations/123456789\" curl \\ --header \"Authorization: Bearer $(gcloud auth print-access-token)\" \\ \"https://cloudsupport.googleapis.com/v2/$parent/supportEventSubscriptions\" ``` Python: ```python import googleapiclient.discovery api_version = \"v2\" supportApiService = googleapiclient.discovery.build( serviceName=\"cloudsupport\", version=api_version, discoveryServiceUrl=f\"https://cloudsupport.googleapis.com/$discovery/rest?version={api_version}\", ) request = supportApiService.supportEventSubscriptions().list( parent=\"organizations/123456789\" ) print(request.execute()) ```",
+        "smithy.api#paginated": {
+          "inputToken": "pageToken",
+          "outputToken": "nextPageToken"
+        }
+      }
+    },
+    "com.gcp.cloudsupport_v2#SearchCaseClassificationsRequest": {
+      "type": "structure",
+      "members": {
+        "query": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "An expression used to filter case classifications. If it's an empty string, then no filtering happens. Otherwise, case classifications will be returned that match the filter.",
+            "smithy.api#httpQuery": "query"
+          }
+        },
+        "pageToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A token identifying the page of results to return. If unspecified, the first page is retrieved.",
+            "smithy.api#httpQuery": "pageToken"
+          }
+        },
+        "pageSize": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The maximum number of classifications fetched with each request.",
+            "smithy.api#httpQuery": "pageSize"
+          }
+        }
+      }
+    },
+    "com.gcp.cloudsupport_v2#SearchCaseClassifications": {
+      "type": "operation",
+      "input": {
+        "target": "com.gcp.cloudsupport_v2#SearchCaseClassificationsRequest"
+      },
+      "output": {
+        "target": "com.gcp.cloudsupport_v2#SearchCaseClassificationsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.gcp.cloudsupport_v2#NotFound"
+        },
+        {
+          "target": "com.gcp.cloudsupport_v2#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "v2/caseClassifications:search"
+        },
+        "smithy.api#documentation": "Retrieve valid classifications to use when creating a support case. Classifications are hierarchical. Each classification is a string containing all levels of the hierarchy separated by `\" > \"`. For example, `\"Technical Issue > Compute > Compute Engine\"`. Classification IDs returned by this endpoint are valid for at least six months. When a classification is deactivated, this endpoint immediately stops returning it. After six months, `case.create` requests using the classification will fail. EXAMPLES: cURL: ```shell curl \\ --header \"Authorization: Bearer $(gcloud auth print-access-token)\" \\ 'https://cloudsupport.googleapis.com/v2/caseClassifications:search?query=display_name:\"*Compute%20Engine*\"' ``` Python: ```python import googleapiclient.discovery supportApiService = googleapiclient.discovery.build( serviceName=\"cloudsupport\", version=\"v2\", discoveryServiceUrl=f\"https://cloudsupport.googleapis.com/$discovery/rest?version=v2\", ) request = supportApiService.caseClassifications().search( query='display_name:\"*Compute Engine*\"' ) print(request.execute()) ```",
         "smithy.api#paginated": {
           "inputToken": "pageToken",
           "outputToken": "nextPageToken"

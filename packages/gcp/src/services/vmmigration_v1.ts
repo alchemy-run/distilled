@@ -70,9 +70,7 @@ export const AddGroupMigrationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     migratingVm: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AddGroupMigrationRequest",
-}) as any as S.Schema<AddGroupMigrationRequest>;
+).annotate({ identifier: "AddGroupMigrationRequest" }) as any as S.Schema<AddGroupMigrationRequest>;
 
 export interface AddGroupMigrationProjectsLocationsGroupsRequest {
   /** Required. The full path name of the Group to add to. */
@@ -108,41 +106,41 @@ export const DocumentMapList = /*@__PURE__*/ S.Array(
 
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
 export interface Status {
-  /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
-  message?: string;
   /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
   details?: DocumentMapList;
   /** The status code, which should be an enum value of google.rpc.Code. */
   code?: number;
+  /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
+  message?: string;
 }
 export const Status = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    message: S.optional(S.String),
     details: S.optional(DocumentMapList),
     code: S.optional(S.Number),
+    message: S.optional(S.String),
   }),
 ).annotate({ identifier: "Status" }) as any as S.Schema<Status>;
 
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
+  /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
+  done?: boolean;
+  /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
+  metadata?: DocumentMap;
   /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
   response?: DocumentMap;
   /** The error result of the operation in case of failure or cancellation. */
   error?: Status;
-  /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
-  metadata?: DocumentMap;
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
   name?: string;
-  /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
-  done?: boolean;
 }
 export const Operation = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    done: S.optional(S.Boolean),
+    metadata: S.optional(DocumentMap),
     response: S.optional(DocumentMap),
     error: S.optional(Status),
-    metadata: S.optional(DocumentMap),
     name: S.optional(S.String),
-    done: S.optional(S.Boolean),
   }),
 ).annotate({ identifier: "Operation" }) as any as S.Schema<Operation>;
 
@@ -294,41 +292,41 @@ export interface Group {
   name?: string;
   /** Output only. The update time timestamp. */
   updateTime?: string;
-  /** Output only. The create time timestamp. */
-  createTime?: string;
-  /** User-provided description of the group. */
-  description?: string;
-  /** Display name is a user defined name for this group which can be updated. */
-  displayName?: string;
   /** Immutable. The target type of this group. */
   migrationTargetType?: GroupMigrationTargetTypeEnum | (string & {});
+  /** Display name is a user defined name for this group which can be updated. */
+  displayName?: string;
+  /** User-provided description of the group. */
+  description?: string;
+  /** Output only. The create time timestamp. */
+  createTime?: string;
 }
 export const Group = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.optional(S.String),
     updateTime: S.optional(S.String),
-    createTime: S.optional(S.String),
-    description: S.optional(S.String),
-    displayName: S.optional(S.String),
     migrationTargetType: S.optional(GroupMigrationTargetTypeEnum),
+    displayName: S.optional(S.String),
+    description: S.optional(S.String),
+    createTime: S.optional(S.String),
   }),
 ).annotate({ identifier: "Group" }) as any as S.Schema<Group>;
 
 export interface CreateProjectsLocationsGroupsRequest {
   /** Required. The group identifier. */
   groupId?: string;
-  /** A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
   /** Required. The Group's parent. */
   parent: string;
+  /** A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string;
   /** Request body */
   body?: Group;
 }
 export const CreateProjectsLocationsGroupsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     groupId: S.optional(S.String.pipe(T.Query())),
-    requestId: S.optional(S.String.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
+    requestId: S.optional(S.String.pipe(T.Query())),
     body: S.optional(Group.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -341,34 +339,199 @@ export const CreateProjectsLocationsGroupsRequest = /*@__PURE__*/ S.suspend(() =
   identifier: "CreateProjectsLocationsGroupsRequest",
 }) as any as S.Schema<CreateProjectsLocationsGroupsRequest>;
 
-export type ShieldedInstanceConfigSecureBootEnum = "SECURE_BOOT_UNSPECIFIED" | "TRUE" | "FALSE";
-export const ShieldedInstanceConfigSecureBootEnum = S.String;
+export type StringList = Array<string>;
+export const StringList = /*@__PURE__*/ S.Array(S.String) as any as S.Schema<StringList>;
 
-/** Shielded instance configuration. */
-export interface ShieldedInstanceConfig {
-  /** Optional. Defines whether the instance created by the machine image has Secure Boot enabled. This can be set to true only if the image boot option is EFI. */
-  secureBoot?: ShieldedInstanceConfigSecureBootEnum | (string & {});
-  /** Optional. Defines whether the instance created by the machine image has vTPM enabled. This can be set to true only if the image boot option is EFI. */
-  enableVtpm?: boolean;
-  /** Optional. Defines whether the instance created by the machine image has integrity monitoring enabled. This can be set to true only if the image boot option is EFI, and vTPM is enabled. */
-  enableIntegrityMonitoring?: boolean;
+export type StatusList = Array<Status>;
+export const StatusList = /*@__PURE__*/ S.Array(Status) as any as S.Schema<StatusList>;
+
+export type ImageImportOsAdaptationParametersLicenseTypeEnum =
+  | "COMPUTE_ENGINE_LICENSE_TYPE_DEFAULT"
+  | "COMPUTE_ENGINE_LICENSE_TYPE_PAYG"
+  | "COMPUTE_ENGINE_LICENSE_TYPE_BYOL";
+export const ImageImportOsAdaptationParametersLicenseTypeEnum = S.String;
+
+export type ImageImportOsAdaptationParametersBootConversionEnum =
+  | "BOOT_CONVERSION_UNSPECIFIED"
+  | "NONE"
+  | "BIOS_TO_EFI";
+export const ImageImportOsAdaptationParametersBootConversionEnum = S.String;
+
+/** AdaptationModifier a modifier to be used for configuration of the OS adaptation process. */
+export interface AdaptationModifier {
+  /** Optional. The value of the modifier. The actual value depends on the modifier and can also be empty. */
+  value?: string;
+  /** Optional. The modifier name. */
+  modifier?: string;
 }
-export const ShieldedInstanceConfig = /*@__PURE__*/ S.suspend(() =>
+export const AdaptationModifier = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    secureBoot: S.optional(ShieldedInstanceConfigSecureBootEnum),
-    enableVtpm: S.optional(S.Boolean),
-    enableIntegrityMonitoring: S.optional(S.Boolean),
+    value: S.optional(S.String),
+    modifier: S.optional(S.String),
+  }),
+).annotate({ identifier: "AdaptationModifier" }) as any as S.Schema<AdaptationModifier>;
+
+export type AdaptationModifierList = Array<AdaptationModifier>;
+export const AdaptationModifierList = /*@__PURE__*/ S.Array(
+  AdaptationModifier,
+) as any as S.Schema<AdaptationModifierList>;
+
+/** Parameters affecting the OS adaptation process. */
+export interface ImageImportOsAdaptationParameters {
+  /** Optional. Set to true in order to generalize the imported image. The generalization process enables co-existence of multiple VMs created from the same image. For Windows, generalizing the image removes computer-specific information such as installed drivers and the computer security identifier (SID). */
+  generalize?: boolean;
+  /** Optional. Choose which type of license to apply to the imported image. */
+  licenseType?: ImageImportOsAdaptationParametersLicenseTypeEnum | (string & {});
+  /** Optional. By default the image will keep its existing boot option. Setting this property will trigger an internal process which will convert the image from using the existing boot option to another. The size of the boot disk might be increased to allow the conversion */
+  bootConversion?: ImageImportOsAdaptationParametersBootConversionEnum | (string & {});
+  /** Optional. Modifiers to be used as configuration of the OS adaptation process. */
+  adaptationModifiers?: AdaptationModifierList;
+}
+export const ImageImportOsAdaptationParameters = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    generalize: S.optional(S.Boolean),
+    licenseType: S.optional(ImageImportOsAdaptationParametersLicenseTypeEnum),
+    bootConversion: S.optional(ImageImportOsAdaptationParametersBootConversionEnum),
+    adaptationModifiers: S.optional(AdaptationModifierList),
   }),
 ).annotate({
-  identifier: "ShieldedInstanceConfig",
-}) as any as S.Schema<ShieldedInstanceConfig>;
+  identifier: "ImageImportOsAdaptationParameters",
+}) as any as S.Schema<ImageImportOsAdaptationParameters>;
+
+/** Used when the image import is not using OS adaptation process. */
+export interface DataDiskImageImport {
+  /** Optional. A list of guest OS features to apply to the imported image. These features are flags that are used by Compute Engine to enable certain capabilities for virtual machine instances that are created from the image. This field does not change the OS of the image; it only marks the image with the specified features. The user must ensure that the OS is compatible with the features. For a list of available features, see https://cloud.google.com/compute/docs/images/create-custom#guest-os-features. */
+  guestOsFeatures?: StringList;
+}
+export const DataDiskImageImport = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    guestOsFeatures: S.optional(StringList),
+  }),
+).annotate({ identifier: "DataDiskImageImport" }) as any as S.Schema<DataDiskImageImport>;
+
+/** Encryption message describes the details of the applied encryption. */
+export interface Encryption {
+  /** Required. The name of the encryption key that is stored in Google Cloud KMS. */
+  kmsKey?: string;
+}
+export const Encryption = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    kmsKey: S.optional(S.String),
+  }),
+).annotate({ identifier: "Encryption" }) as any as S.Schema<Encryption>;
+
+export type StringMap = { [key: string]: string | undefined };
+export const StringMap = /*@__PURE__*/ S.Record(S.String, S.String) as any as S.Schema<StringMap>;
+
+/** The target details of the image resource that will be created by the import job. */
+export interface DiskImageTargetDetails {
+  /** Optional. Use to set the parameters relevant for the OS adaptation process. */
+  osAdaptationParameters?: ImageImportOsAdaptationParameters;
+  /** Optional. Use to skip OS adaptation process. */
+  dataDiskImageImport?: DataDiskImageImport;
+  /** Immutable. The encryption to apply to the image. */
+  encryption?: Encryption;
+  /** Required. The name of the image to be created. */
+  imageName?: string;
+  /** Optional. An optional description of the image. */
+  description?: string;
+  /** Optional. The name of the image family to which the new image belongs. */
+  familyName?: string;
+  /** Optional. A map of labels to associate with the image. */
+  labels?: StringMap;
+  /** Required. Reference to the TargetProject resource that represents the target project in which the imported image will be created. */
+  targetProject?: string;
+  /** Optional. Set to true to set the image storageLocations to the single region of the import job. When false, the closest multi-region is selected. */
+  singleRegionStorage?: boolean;
+  /** Optional. Additional licenses to assign to the image. Format: https://www.googleapis.com/compute/v1/projects/PROJECT_ID/global/licenses/LICENSE_NAME Or https://www.googleapis.com/compute/beta/projects/PROJECT_ID/global/licenses/LICENSE_NAME */
+  additionalLicenses?: StringList;
+}
+export const DiskImageTargetDetails = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    osAdaptationParameters: S.optional(ImageImportOsAdaptationParameters),
+    dataDiskImageImport: S.optional(DataDiskImageImport),
+    encryption: S.optional(Encryption),
+    imageName: S.optional(S.String),
+    description: S.optional(S.String),
+    familyName: S.optional(S.String),
+    labels: S.optional(StringMap),
+    targetProject: S.optional(S.String),
+    singleRegionStorage: S.optional(S.Boolean),
+    additionalLicenses: S.optional(StringList),
+  }),
+).annotate({ identifier: "DiskImageTargetDetails" }) as any as S.Schema<DiskImageTargetDetails>;
+
+/** Service account to assign to the instance created by the machine image. */
+export interface ServiceAccount {
+  /** Optional. The list of scopes to be made available for this service account. */
+  scopes?: StringList;
+  /** Required. The email address of the service account. */
+  email?: string;
+}
+export const ServiceAccount = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    scopes: S.optional(StringList),
+    email: S.optional(S.String),
+  }),
+).annotate({ identifier: "ServiceAccount" }) as any as S.Schema<ServiceAccount>;
 
 /** Mentions that the machine image import is not using OS adaptation process. */
 export type SkipOsAdaptation = CancelImageImportJobRequest;
 export const SkipOsAdaptation = CancelImageImportJobRequest;
 
-export type StringList = Array<string>;
-export const StringList = /*@__PURE__*/ S.Array(S.String) as any as S.Schema<StringList>;
+export type ShieldedInstanceConfigSecureBootEnum = "SECURE_BOOT_UNSPECIFIED" | "TRUE" | "FALSE";
+export const ShieldedInstanceConfigSecureBootEnum = S.String;
+
+/** Shielded instance configuration. */
+export interface ShieldedInstanceConfig {
+  /** Optional. Defines whether the instance created by the machine image has vTPM enabled. This can be set to true only if the image boot option is EFI. */
+  enableVtpm?: boolean;
+  /** Optional. Defines whether the instance created by the machine image has integrity monitoring enabled. This can be set to true only if the image boot option is EFI, and vTPM is enabled. */
+  enableIntegrityMonitoring?: boolean;
+  /** Optional. Defines whether the instance created by the machine image has Secure Boot enabled. This can be set to true only if the image boot option is EFI. */
+  secureBoot?: ShieldedInstanceConfigSecureBootEnum | (string & {});
+}
+export const ShieldedInstanceConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    enableVtpm: S.optional(S.Boolean),
+    enableIntegrityMonitoring: S.optional(S.Boolean),
+    secureBoot: S.optional(ShieldedInstanceConfigSecureBootEnum),
+  }),
+).annotate({ identifier: "ShieldedInstanceConfig" }) as any as S.Schema<ShieldedInstanceConfig>;
+
+export type NetworkInterfaceNetworkTierEnum =
+  | "COMPUTE_ENGINE_NETWORK_TIER_UNSPECIFIED"
+  | "NETWORK_TIER_STANDARD"
+  | "NETWORK_TIER_PREMIUM";
+export const NetworkInterfaceNetworkTierEnum = S.String;
+
+/** NetworkInterface represents a NIC of a VM. */
+export interface NetworkInterface {
+  /** Optional. The network to connect the NIC to. */
+  network?: string;
+  /** Optional. The subnetwork to connect the NIC to. */
+  subnetwork?: string;
+  /** Optional. The external IP to define in the NIC. */
+  externalIp?: string;
+  /** Optional. The internal IP to define in the NIC. The formats accepted are: `ephemeral` \ ipv4 address \ a named address resource full path. */
+  internalIp?: string;
+  /** Optional. The networking tier used for optimizing connectivity between instances and systems on the internet. Applies only for external ephemeral IP addresses. If left empty, will default to PREMIUM. */
+  networkTier?: NetworkInterfaceNetworkTierEnum | (string & {});
+}
+export const NetworkInterface = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    network: S.optional(S.String),
+    subnetwork: S.optional(S.String),
+    externalIp: S.optional(S.String),
+    internalIp: S.optional(S.String),
+    networkTier: S.optional(NetworkInterfaceNetworkTierEnum),
+  }),
+).annotate({ identifier: "NetworkInterface" }) as any as S.Schema<NetworkInterface>;
+
+export type NetworkInterfaceList = Array<NetworkInterface>;
+export const NetworkInterfaceList = /*@__PURE__*/ S.Array(
+  NetworkInterface,
+) as any as S.Schema<NetworkInterfaceList>;
 
 /** Parameters overriding decisions based on the source machine image configurations. */
 export interface MachineImageParametersOverrides {
@@ -383,233 +546,57 @@ export const MachineImageParametersOverrides = /*@__PURE__*/ S.suspend(() =>
   identifier: "MachineImageParametersOverrides",
 }) as any as S.Schema<MachineImageParametersOverrides>;
 
-/** Encryption message describes the details of the applied encryption. */
-export interface Encryption {
-  /** Required. The name of the encryption key that is stored in Google Cloud KMS. */
-  kmsKey?: string;
-}
-export const Encryption = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    kmsKey: S.optional(S.String),
-  }),
-).annotate({ identifier: "Encryption" }) as any as S.Schema<Encryption>;
-
-export type NetworkInterfaceNetworkTierEnum =
-  | "COMPUTE_ENGINE_NETWORK_TIER_UNSPECIFIED"
-  | "NETWORK_TIER_STANDARD"
-  | "NETWORK_TIER_PREMIUM";
-export const NetworkInterfaceNetworkTierEnum = S.String;
-
-/** NetworkInterface represents a NIC of a VM. */
-export interface NetworkInterface {
-  /** Optional. The network to connect the NIC to. */
-  network?: string;
-  /** Optional. The internal IP to define in the NIC. The formats accepted are: `ephemeral` \ ipv4 address \ a named address resource full path. */
-  internalIp?: string;
-  /** Optional. The networking tier used for optimizing connectivity between instances and systems on the internet. Applies only for external ephemeral IP addresses. If left empty, will default to PREMIUM. */
-  networkTier?: NetworkInterfaceNetworkTierEnum | (string & {});
-  /** Optional. The subnetwork to connect the NIC to. */
-  subnetwork?: string;
-  /** Optional. The external IP to define in the NIC. */
-  externalIp?: string;
-}
-export const NetworkInterface = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    network: S.optional(S.String),
-    internalIp: S.optional(S.String),
-    networkTier: S.optional(NetworkInterfaceNetworkTierEnum),
-    subnetwork: S.optional(S.String),
-    externalIp: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "NetworkInterface",
-}) as any as S.Schema<NetworkInterface>;
-
-export type NetworkInterfaceList = Array<NetworkInterface>;
-export const NetworkInterfaceList = /*@__PURE__*/ S.Array(
-  NetworkInterface,
-) as any as S.Schema<NetworkInterfaceList>;
-
-/** AdaptationModifier a modifier to be used for configuration of the OS adaptation process. */
-export interface AdaptationModifier {
-  /** Optional. The modifier name. */
-  modifier?: string;
-  /** Optional. The value of the modifier. The actual value depends on the modifier and can also be empty. */
-  value?: string;
-}
-export const AdaptationModifier = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    modifier: S.optional(S.String),
-    value: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "AdaptationModifier",
-}) as any as S.Schema<AdaptationModifier>;
-
-export type AdaptationModifierList = Array<AdaptationModifier>;
-export const AdaptationModifierList = /*@__PURE__*/ S.Array(
-  AdaptationModifier,
-) as any as S.Schema<AdaptationModifierList>;
-
-export type ImageImportOsAdaptationParametersLicenseTypeEnum =
-  | "COMPUTE_ENGINE_LICENSE_TYPE_DEFAULT"
-  | "COMPUTE_ENGINE_LICENSE_TYPE_PAYG"
-  | "COMPUTE_ENGINE_LICENSE_TYPE_BYOL";
-export const ImageImportOsAdaptationParametersLicenseTypeEnum = S.String;
-
-export type ImageImportOsAdaptationParametersBootConversionEnum =
-  | "BOOT_CONVERSION_UNSPECIFIED"
-  | "NONE"
-  | "BIOS_TO_EFI";
-export const ImageImportOsAdaptationParametersBootConversionEnum = S.String;
-
-/** Parameters affecting the OS adaptation process. */
-export interface ImageImportOsAdaptationParameters {
-  /** Optional. Modifiers to be used as configuration of the OS adaptation process. */
-  adaptationModifiers?: AdaptationModifierList;
-  /** Optional. Set to true in order to generalize the imported image. The generalization process enables co-existence of multiple VMs created from the same image. For Windows, generalizing the image removes computer-specific information such as installed drivers and the computer security identifier (SID). */
-  generalize?: boolean;
-  /** Optional. Choose which type of license to apply to the imported image. */
-  licenseType?: ImageImportOsAdaptationParametersLicenseTypeEnum | (string & {});
-  /** Optional. By default the image will keep its existing boot option. Setting this property will trigger an internal process which will convert the image from using the existing boot option to another. The size of the boot disk might be increased to allow the conversion */
-  bootConversion?: ImageImportOsAdaptationParametersBootConversionEnum | (string & {});
-}
-export const ImageImportOsAdaptationParameters = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    adaptationModifiers: S.optional(AdaptationModifierList),
-    generalize: S.optional(S.Boolean),
-    licenseType: S.optional(ImageImportOsAdaptationParametersLicenseTypeEnum),
-    bootConversion: S.optional(ImageImportOsAdaptationParametersBootConversionEnum),
-  }),
-).annotate({
-  identifier: "ImageImportOsAdaptationParameters",
-}) as any as S.Schema<ImageImportOsAdaptationParameters>;
-
-/** Service account to assign to the instance created by the machine image. */
-export interface ServiceAccount {
-  /** Required. The email address of the service account. */
-  email?: string;
-  /** Optional. The list of scopes to be made available for this service account. */
-  scopes?: StringList;
-}
-export const ServiceAccount = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    email: S.optional(S.String),
-    scopes: S.optional(StringList),
-  }),
-).annotate({ identifier: "ServiceAccount" }) as any as S.Schema<ServiceAccount>;
-
-export type StringMap = { [key: string]: string | undefined };
-export const StringMap = /*@__PURE__*/ S.Record(S.String, S.String) as any as S.Schema<StringMap>;
-
 /** The target details of the machine image resource that will be created by the image import job. */
 export interface MachineImageTargetDetails {
-  /** Optional. Shielded instance configuration. */
-  shieldedInstanceConfig?: ShieldedInstanceConfig;
-  /** Required. The name of the machine image to be created. */
-  machineImageName?: string;
-  /** Optional. An optional description of the machine image. */
-  description?: string;
-  /** Optional. Use to skip OS adaptation process. */
-  skipOsAdaptation?: CancelImageImportJobRequest;
   /** Optional. Additional licenses to assign to the instance created by the machine image. Format: https://www.googleapis.com/compute/v1/projects/PROJECT_ID/global/licenses/LICENSE_NAME Or https://www.googleapis.com/compute/beta/projects/PROJECT_ID/global/licenses/LICENSE_NAME */
   additionalLicenses?: StringList;
-  /** Optional. Parameters overriding decisions based on the source machine image configurations. */
-  machineImageParametersOverrides?: MachineImageParametersOverrides;
-  /** Optional. Set to true to set the machine image storageLocations to the single region of the import job. When false, the closest multi-region is selected. */
-  singleRegionStorage?: boolean;
-  /** Required. Reference to the TargetProject resource that represents the target project in which the imported machine image will be created. */
-  targetProject?: string;
-  /** Optional. The tags to apply to the instance created by the machine image. */
-  tags?: StringList;
-  /** Immutable. The encryption to apply to the machine image. If the Image Import resource has an encryption, this field must be set to the same encryption key. */
-  encryption?: Encryption;
-  /** Optional. The network interfaces to create with the instance created by the machine image. Internal and external IP addresses, and network tiers are ignored for machine image import. */
-  networkInterfaces?: NetworkInterfaceList;
-  /** Optional. Use to set the parameters relevant for the OS adaptation process. */
-  osAdaptationParameters?: ImageImportOsAdaptationParameters;
   /** Optional. The service account to assign to the instance created by the machine image. */
   serviceAccount?: ServiceAccount;
   /** Optional. The labels to apply to the instance created by the machine image. */
   labels?: StringMap;
+  /** Optional. Use to set the parameters relevant for the OS adaptation process. */
+  osAdaptationParameters?: ImageImportOsAdaptationParameters;
+  /** Required. The name of the machine image to be created. */
+  machineImageName?: string;
+  /** Optional. Use to skip OS adaptation process. */
+  skipOsAdaptation?: CancelImageImportJobRequest;
+  /** Optional. Shielded instance configuration. */
+  shieldedInstanceConfig?: ShieldedInstanceConfig;
+  /** Immutable. The encryption to apply to the machine image. If the Image Import resource has an encryption, this field must be set to the same encryption key. */
+  encryption?: Encryption;
+  /** Optional. Set to true to set the machine image storageLocations to the single region of the import job. When false, the closest multi-region is selected. */
+  singleRegionStorage?: boolean;
+  /** Optional. The tags to apply to the instance created by the machine image. */
+  tags?: StringList;
+  /** Optional. An optional description of the machine image. */
+  description?: string;
+  /** Required. Reference to the TargetProject resource that represents the target project in which the imported machine image will be created. */
+  targetProject?: string;
+  /** Optional. The network interfaces to create with the instance created by the machine image. Internal and external IP addresses, and network tiers are ignored for machine image import. */
+  networkInterfaces?: NetworkInterfaceList;
+  /** Optional. Parameters overriding decisions based on the source machine image configurations. */
+  machineImageParametersOverrides?: MachineImageParametersOverrides;
 }
 export const MachineImageTargetDetails = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    shieldedInstanceConfig: S.optional(ShieldedInstanceConfig),
-    machineImageName: S.optional(S.String),
-    description: S.optional(S.String),
-    skipOsAdaptation: S.optional(CancelImageImportJobRequest),
     additionalLicenses: S.optional(StringList),
-    machineImageParametersOverrides: S.optional(MachineImageParametersOverrides),
-    singleRegionStorage: S.optional(S.Boolean),
-    targetProject: S.optional(S.String),
-    tags: S.optional(StringList),
-    encryption: S.optional(Encryption),
-    networkInterfaces: S.optional(NetworkInterfaceList),
-    osAdaptationParameters: S.optional(ImageImportOsAdaptationParameters),
     serviceAccount: S.optional(ServiceAccount),
     labels: S.optional(StringMap),
+    osAdaptationParameters: S.optional(ImageImportOsAdaptationParameters),
+    machineImageName: S.optional(S.String),
+    skipOsAdaptation: S.optional(CancelImageImportJobRequest),
+    shieldedInstanceConfig: S.optional(ShieldedInstanceConfig),
+    encryption: S.optional(Encryption),
+    singleRegionStorage: S.optional(S.Boolean),
+    tags: S.optional(StringList),
+    description: S.optional(S.String),
+    targetProject: S.optional(S.String),
+    networkInterfaces: S.optional(NetworkInterfaceList),
+    machineImageParametersOverrides: S.optional(MachineImageParametersOverrides),
   }),
 ).annotate({
   identifier: "MachineImageTargetDetails",
 }) as any as S.Schema<MachineImageTargetDetails>;
-
-/** Used when the image import is not using OS adaptation process. */
-export interface DataDiskImageImport {
-  /** Optional. A list of guest OS features to apply to the imported image. These features are flags that are used by Compute Engine to enable certain capabilities for virtual machine instances that are created from the image. This field does not change the OS of the image; it only marks the image with the specified features. The user must ensure that the OS is compatible with the features. For a list of available features, see https://cloud.google.com/compute/docs/images/create-custom#guest-os-features. */
-  guestOsFeatures?: StringList;
-}
-export const DataDiskImageImport = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    guestOsFeatures: S.optional(StringList),
-  }),
-).annotate({
-  identifier: "DataDiskImageImport",
-}) as any as S.Schema<DataDiskImageImport>;
-
-/** The target details of the image resource that will be created by the import job. */
-export interface DiskImageTargetDetails {
-  /** Optional. Use to set the parameters relevant for the OS adaptation process. */
-  osAdaptationParameters?: ImageImportOsAdaptationParameters;
-  /** Immutable. The encryption to apply to the image. */
-  encryption?: Encryption;
-  /** Required. The name of the image to be created. */
-  imageName?: string;
-  /** Optional. Use to skip OS adaptation process. */
-  dataDiskImageImport?: DataDiskImageImport;
-  /** Optional. A map of labels to associate with the image. */
-  labels?: StringMap;
-  /** Optional. An optional description of the image. */
-  description?: string;
-  /** Optional. Additional licenses to assign to the image. Format: https://www.googleapis.com/compute/v1/projects/PROJECT_ID/global/licenses/LICENSE_NAME Or https://www.googleapis.com/compute/beta/projects/PROJECT_ID/global/licenses/LICENSE_NAME */
-  additionalLicenses?: StringList;
-  /** Optional. The name of the image family to which the new image belongs. */
-  familyName?: string;
-  /** Required. Reference to the TargetProject resource that represents the target project in which the imported image will be created. */
-  targetProject?: string;
-  /** Optional. Set to true to set the image storageLocations to the single region of the import job. When false, the closest multi-region is selected. */
-  singleRegionStorage?: boolean;
-}
-export const DiskImageTargetDetails = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    osAdaptationParameters: S.optional(ImageImportOsAdaptationParameters),
-    encryption: S.optional(Encryption),
-    imageName: S.optional(S.String),
-    dataDiskImageImport: S.optional(DataDiskImageImport),
-    labels: S.optional(StringMap),
-    description: S.optional(S.String),
-    additionalLicenses: S.optional(StringList),
-    familyName: S.optional(S.String),
-    targetProject: S.optional(S.String),
-    singleRegionStorage: S.optional(S.Boolean),
-  }),
-).annotate({
-  identifier: "DiskImageTargetDetails",
-}) as any as S.Schema<DiskImageTargetDetails>;
-
-/** LoadingImageSourceFilesStep contains specific step details. */
-export type LoadingImageSourceFilesStep = CancelImageImportJobRequest;
-export const LoadingImageSourceFilesStep = CancelImageImportJobRequest;
 
 /** CreatingImageStep contains specific step details. */
 export type CreatingImageStep = CancelImageImportJobRequest;
@@ -619,111 +606,44 @@ export const CreatingImageStep = CancelImageImportJobRequest;
 export type AdaptingOSStep = CancelImageImportJobRequest;
 export const AdaptingOSStep = CancelImageImportJobRequest;
 
+/** LoadingImageSourceFilesStep contains specific step details. */
+export type LoadingImageSourceFilesStep = CancelImageImportJobRequest;
+export const LoadingImageSourceFilesStep = CancelImageImportJobRequest;
+
 /** InitializingImageImportStep contains specific step details. */
 export type InitializingImageImportStep = CancelImageImportJobRequest;
 export const InitializingImageImportStep = CancelImageImportJobRequest;
 
 /** ImageImportStep holds information about the image import step progress. */
 export interface ImageImportStep {
-  /** Output only. The time the step has ended. */
-  endTime?: string;
-  /** Loading source files step. */
-  loadingSourceFiles?: CancelImageImportJobRequest;
   /** Creating image step. */
   creatingImage?: CancelImageImportJobRequest;
   /** Adapting OS step. */
   adaptingOs?: CancelImageImportJobRequest;
-  /** Output only. The time the step has started. */
-  startTime?: string;
+  /** Loading source files step. */
+  loadingSourceFiles?: CancelImageImportJobRequest;
+  /** Output only. The time the step has ended. */
+  endTime?: string;
   /** Initializing step. */
   initializing?: CancelImageImportJobRequest;
+  /** Output only. The time the step has started. */
+  startTime?: string;
 }
 export const ImageImportStep = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    endTime: S.optional(S.String),
-    loadingSourceFiles: S.optional(CancelImageImportJobRequest),
     creatingImage: S.optional(CancelImageImportJobRequest),
     adaptingOs: S.optional(CancelImageImportJobRequest),
-    startTime: S.optional(S.String),
+    loadingSourceFiles: S.optional(CancelImageImportJobRequest),
+    endTime: S.optional(S.String),
     initializing: S.optional(CancelImageImportJobRequest),
+    startTime: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ImageImportStep",
-}) as any as S.Schema<ImageImportStep>;
+).annotate({ identifier: "ImageImportStep" }) as any as S.Schema<ImageImportStep>;
 
 export type ImageImportStepList = Array<ImageImportStep>;
 export const ImageImportStepList = /*@__PURE__*/ S.Array(
   ImageImportStep,
 ) as any as S.Schema<ImageImportStepList>;
-
-export type StatusList = Array<Status>;
-export const StatusList = /*@__PURE__*/ S.Array(Status) as any as S.Schema<StatusList>;
-
-/** Describes a URL link. */
-export interface Link {
-  /** The URL of the link. */
-  url?: string;
-  /** Describes what the link offers. */
-  description?: string;
-}
-export const Link = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    url: S.optional(S.String),
-    description: S.optional(S.String),
-  }),
-).annotate({ identifier: "Link" }) as any as S.Schema<Link>;
-
-export type LinkList = Array<Link>;
-export const LinkList = /*@__PURE__*/ S.Array(Link) as any as S.Schema<LinkList>;
-
-/** Provides a localized error message that is safe to return to the user which can be attached to an RPC error. */
-export interface LocalizedMessage {
-  /** The localized error message in the above locale. */
-  message?: string;
-  /** The locale used following the specification defined at https://www.rfc-editor.org/rfc/bcp/bcp47.txt. Examples are: "en-US", "fr-CH", "es-MX" */
-  locale?: string;
-}
-export const LocalizedMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    message: S.optional(S.String),
-    locale: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "LocalizedMessage",
-}) as any as S.Schema<LocalizedMessage>;
-
-export type MigrationWarningCodeEnum = "WARNING_CODE_UNSPECIFIED" | "ADAPTATION_WARNING";
-export const MigrationWarningCodeEnum = S.String;
-
-/** Represents migration resource warning information that can be used with google.rpc.Status message. MigrationWarning is used to present the user with warning information in migration operations. */
-export interface MigrationWarning {
-  /** Output only. URL(s) pointing to additional information on handling the current warning. */
-  helpLinks?: LinkList;
-  /** Output only. The localized warning message. */
-  warningMessage?: LocalizedMessage;
-  /** The time the warning occurred. */
-  warningTime?: string;
-  /** The warning code. */
-  code?: MigrationWarningCodeEnum | (string & {});
-  /** Output only. Suggested action for solving the warning. */
-  actionItem?: LocalizedMessage;
-}
-export const MigrationWarning = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    helpLinks: S.optional(LinkList),
-    warningMessage: S.optional(LocalizedMessage),
-    warningTime: S.optional(S.String),
-    code: S.optional(MigrationWarningCodeEnum),
-    actionItem: S.optional(LocalizedMessage),
-  }),
-).annotate({
-  identifier: "MigrationWarning",
-}) as any as S.Schema<MigrationWarning>;
-
-export type MigrationWarningList = Array<MigrationWarning>;
-export const MigrationWarningList = /*@__PURE__*/ S.Array(
-  MigrationWarning,
-) as any as S.Schema<MigrationWarningList>;
 
 export type ImageImportJobStateEnum =
   | "STATE_UNSPECIFIED"
@@ -735,44 +655,106 @@ export type ImageImportJobStateEnum =
   | "CANCELLED";
 export const ImageImportJobStateEnum = S.String;
 
+/** Provides a localized error message that is safe to return to the user which can be attached to an RPC error. */
+export interface LocalizedMessage {
+  /** The locale used following the specification defined at https://www.rfc-editor.org/rfc/bcp/bcp47.txt. Examples are: "en-US", "fr-CH", "es-MX" */
+  locale?: string;
+  /** The localized error message in the above locale. */
+  message?: string;
+}
+export const LocalizedMessage = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    locale: S.optional(S.String),
+    message: S.optional(S.String),
+  }),
+).annotate({ identifier: "LocalizedMessage" }) as any as S.Schema<LocalizedMessage>;
+
+/** Describes a URL link. */
+export interface Link {
+  /** Describes what the link offers. */
+  description?: string;
+  /** The URL of the link. */
+  url?: string;
+}
+export const Link = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    description: S.optional(S.String),
+    url: S.optional(S.String),
+  }),
+).annotate({ identifier: "Link" }) as any as S.Schema<Link>;
+
+export type LinkList = Array<Link>;
+export const LinkList = /*@__PURE__*/ S.Array(Link) as any as S.Schema<LinkList>;
+
+export type MigrationWarningCodeEnum = "WARNING_CODE_UNSPECIFIED" | "ADAPTATION_WARNING";
+export const MigrationWarningCodeEnum = S.String;
+
+/** Represents migration resource warning information that can be used with google.rpc.Status message. MigrationWarning is used to present the user with warning information in migration operations. */
+export interface MigrationWarning {
+  /** Output only. Suggested action for solving the warning. */
+  actionItem?: LocalizedMessage;
+  /** Output only. URL(s) pointing to additional information on handling the current warning. */
+  helpLinks?: LinkList;
+  /** The warning code. */
+  code?: MigrationWarningCodeEnum | (string & {});
+  /** Output only. The localized warning message. */
+  warningMessage?: LocalizedMessage;
+  /** The time the warning occurred. */
+  warningTime?: string;
+}
+export const MigrationWarning = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    actionItem: S.optional(LocalizedMessage),
+    helpLinks: S.optional(LinkList),
+    code: S.optional(MigrationWarningCodeEnum),
+    warningMessage: S.optional(LocalizedMessage),
+    warningTime: S.optional(S.String),
+  }),
+).annotate({ identifier: "MigrationWarning" }) as any as S.Schema<MigrationWarning>;
+
+export type MigrationWarningList = Array<MigrationWarning>;
+export const MigrationWarningList = /*@__PURE__*/ S.Array(
+  MigrationWarning,
+) as any as S.Schema<MigrationWarningList>;
+
 /** ImageImportJob describes the progress and result of an image import. */
 export interface ImageImportJob {
-  /** Output only. Target details used to import a disk image. */
-  diskImageTargetDetails?: DiskImageTargetDetails;
-  /** Output only. The image import steps list representing its progress. */
-  steps?: ImageImportStepList;
-  /** Output only. Provides details on the error that led to the image import state in case of an error. */
-  errors?: StatusList;
-  /** Output only. The path to the Cloud Storage file from which the image should be imported. */
-  cloudStorageUri?: string;
-  /** Output only. The resource paths of the resources created by the image import job. */
-  createdResources?: StringList;
-  /** Output only. The time the image import was ended. */
-  endTime?: string;
-  /** Output only. Warnings that occurred during the image import. */
-  warnings?: MigrationWarningList;
-  /** Output only. Target details used to import a machine image. */
-  machineImageTargetDetails?: MachineImageTargetDetails;
   /** Output only. The time the image import was created (as an API call, not when it was actually created in the target). */
   createTime?: string;
-  /** Output only. The state of the image import. */
-  state?: ImageImportJobStateEnum | (string & {});
+  /** Output only. The resource paths of the resources created by the image import job. */
+  createdResources?: StringList;
+  /** Output only. Provides details on the error that led to the image import state in case of an error. */
+  errors?: StatusList;
+  /** Output only. Target details used to import a disk image. */
+  diskImageTargetDetails?: DiskImageTargetDetails;
+  /** Output only. Target details used to import a machine image. */
+  machineImageTargetDetails?: MachineImageTargetDetails;
+  /** Output only. The path to the Cloud Storage file from which the image should be imported. */
+  cloudStorageUri?: string;
+  /** Output only. The time the image import was ended. */
+  endTime?: string;
+  /** Output only. The image import steps list representing its progress. */
+  steps?: ImageImportStepList;
   /** Output only. The resource path of the ImageImportJob. */
   name?: string;
+  /** Output only. The state of the image import. */
+  state?: ImageImportJobStateEnum | (string & {});
+  /** Output only. Warnings that occurred during the image import. */
+  warnings?: MigrationWarningList;
 }
 export const ImageImportJob = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    diskImageTargetDetails: S.optional(DiskImageTargetDetails),
-    steps: S.optional(ImageImportStepList),
-    errors: S.optional(StatusList),
-    cloudStorageUri: S.optional(S.String),
-    createdResources: S.optional(StringList),
-    endTime: S.optional(S.String),
-    warnings: S.optional(MigrationWarningList),
-    machineImageTargetDetails: S.optional(MachineImageTargetDetails),
     createTime: S.optional(S.String),
-    state: S.optional(ImageImportJobStateEnum),
+    createdResources: S.optional(StringList),
+    errors: S.optional(StatusList),
+    diskImageTargetDetails: S.optional(DiskImageTargetDetails),
+    machineImageTargetDetails: S.optional(MachineImageTargetDetails),
+    cloudStorageUri: S.optional(S.String),
+    endTime: S.optional(S.String),
+    steps: S.optional(ImageImportStepList),
     name: S.optional(S.String),
+    state: S.optional(ImageImportJobStateEnum),
+    warnings: S.optional(MigrationWarningList),
   }),
 ).annotate({ identifier: "ImageImportJob" }) as any as S.Schema<ImageImportJob>;
 
@@ -783,30 +765,30 @@ export const ImageImportJobList = /*@__PURE__*/ S.Array(
 
 /** ImageImport describes the configuration of the image import to run. */
 export interface ImageImport {
+  /** Output only. The result of the most recent runs for this ImageImport. All jobs for this ImageImport can be listed via ListImageImportJobs. */
+  recentImageImportJobs?: ImageImportJobList;
+  /** Immutable. Target details for importing a disk image, will be used by ImageImportJob. */
+  diskImageTargetDefaults?: DiskImageTargetDetails;
+  /** Output only. The resource path of the ImageImport. */
+  name?: string;
   /** Immutable. Target details for importing a machine image, will be used by ImageImportJob. */
   machineImageTargetDefaults?: MachineImageTargetDetails;
   /** Immutable. The path to the Cloud Storage file from which the image should be imported. */
   cloudStorageUri?: string;
-  /** Output only. The result of the most recent runs for this ImageImport. All jobs for this ImageImport can be listed via ListImageImportJobs. */
-  recentImageImportJobs?: ImageImportJobList;
-  /** Output only. The time the image import was created. */
-  createTime?: string;
-  /** Output only. The resource path of the ImageImport. */
-  name?: string;
   /** Immutable. The encryption details used by the image import process during the image adaptation for Compute Engine. */
   encryption?: Encryption;
-  /** Immutable. Target details for importing a disk image, will be used by ImageImportJob. */
-  diskImageTargetDefaults?: DiskImageTargetDetails;
+  /** Output only. The time the image import was created. */
+  createTime?: string;
 }
 export const ImageImport = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    recentImageImportJobs: S.optional(ImageImportJobList),
+    diskImageTargetDefaults: S.optional(DiskImageTargetDetails),
+    name: S.optional(S.String),
     machineImageTargetDefaults: S.optional(MachineImageTargetDetails),
     cloudStorageUri: S.optional(S.String),
-    recentImageImportJobs: S.optional(ImageImportJobList),
-    createTime: S.optional(S.String),
-    name: S.optional(S.String),
     encryption: S.optional(Encryption),
-    diskImageTargetDefaults: S.optional(DiskImageTargetDetails),
+    createTime: S.optional(S.String),
   }),
 ).annotate({ identifier: "ImageImport" }) as any as S.Schema<ImageImport>;
 
@@ -837,197 +819,187 @@ export const CreateProjectsLocationsImageImportsRequest = /*@__PURE__*/ S.suspen
   identifier: "CreateProjectsLocationsImageImportsRequest",
 }) as any as S.Schema<CreateProjectsLocationsImageImportsRequest>;
 
+/** VmwareSourceDetails message describes a specific source details for the vmware source type. */
+export interface VmwareSourceDetails {
+  /** The thumbprint representing the certificate for the vcenter. */
+  thumbprint?: string;
+  /** The credentials username. */
+  username?: string;
+  /** Input only. The credentials password. This is write only and can not be read in a GET operation. */
+  password?: string;
+  /** The ip address of the vcenter this Source represents. */
+  vcenterIp?: string;
+  /** The hostname of the vcenter. */
+  resolvedVcenterHost?: string;
+}
+export const VmwareSourceDetails = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    thumbprint: S.optional(S.String),
+    username: S.optional(S.String),
+    password: S.optional(S.String),
+    vcenterIp: S.optional(S.String),
+    resolvedVcenterHost: S.optional(S.String),
+  }),
+).annotate({ identifier: "VmwareSourceDetails" }) as any as S.Schema<VmwareSourceDetails>;
+
+/** Message describing AWS Credentials using access key id and secret. */
+export interface AccessKeyCredentials {
+  /** Input only. AWS secret access key. */
+  secretAccessKey?: string;
+  /** AWS access key ID. */
+  accessKeyId?: string;
+  /** Input only. AWS session token. Used only when AWS security token service (STS) is responsible for creating the temporary credentials. */
+  sessionToken?: string;
+}
+export const AccessKeyCredentials = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    secretAccessKey: S.optional(S.String),
+    accessKeyId: S.optional(S.String),
+    sessionToken: S.optional(S.String),
+  }),
+).annotate({ identifier: "AccessKeyCredentials" }) as any as S.Schema<AccessKeyCredentials>;
+
+export type AwsSourceDetailsStateEnum = "STATE_UNSPECIFIED" | "PENDING" | "FAILED" | "ACTIVE";
+export const AwsSourceDetailsStateEnum = S.String;
+
 /** Tag is an AWS tag representation. */
 export interface Tag {
-  /** Required. Key of tag. */
-  key?: string;
   /** Required. Value of tag. */
   value?: string;
+  /** Required. Key of tag. */
+  key?: string;
 }
 export const Tag = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    key: S.optional(S.String),
     value: S.optional(S.String),
+    key: S.optional(S.String),
   }),
 ).annotate({ identifier: "Tag" }) as any as S.Schema<Tag>;
 
 export type TagList = Array<Tag>;
 export const TagList = /*@__PURE__*/ S.Array(Tag) as any as S.Schema<TagList>;
 
-/** Message describing AWS Credentials using access key id and secret. */
-export interface AccessKeyCredentials {
-  /** AWS access key ID. */
-  accessKeyId?: string;
-  /** Input only. AWS secret access key. */
-  secretAccessKey?: string;
-  /** Input only. AWS session token. Used only when AWS security token service (STS) is responsible for creating the temporary credentials. */
-  sessionToken?: string;
-}
-export const AccessKeyCredentials = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    accessKeyId: S.optional(S.String),
-    secretAccessKey: S.optional(S.String),
-    sessionToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "AccessKeyCredentials",
-}) as any as S.Schema<AccessKeyCredentials>;
-
-export type AwsSourceDetailsStateEnum = "STATE_UNSPECIFIED" | "PENDING" | "FAILED" | "ACTIVE";
-export const AwsSourceDetailsStateEnum = S.String;
-
 /** AwsSourceDetails message describes a specific source details for the AWS source type. */
 export interface AwsSourceDetails {
-  /** AWS resource tags to limit the scope of the source inventory. */
-  inventoryTagList?: TagList;
-  /** Immutable. The AWS region that the source VMs will be migrated from. */
-  awsRegion?: string;
-  /** AWS security group names to limit the scope of the source inventory. */
-  inventorySecurityGroupNames?: StringList;
-  /** User specified tags to add to every M2VM generated resource in AWS. These tags will be set in addition to the default tags that are set as part of the migration process. The tags must not begin with the reserved prefix `m2vm`. */
-  migrationResourcesUserTags?: StringMap;
   /** AWS Credentials using access key id and secret. */
   accessKeyCreds?: AccessKeyCredentials;
+  /** User specified tags to add to every M2VM generated resource in AWS. These tags will be set in addition to the default tags that are set as part of the migration process. The tags must not begin with the reserved prefix `m2vm`. */
+  migrationResourcesUserTags?: StringMap;
   /** Output only. State of the source as determined by the health check. */
   state?: AwsSourceDetailsStateEnum | (string & {});
   /** Output only. Provides details on the state of the Source in case of an error. */
   error?: Status;
   /** Output only. The source's public IP. All communication initiated by this source will originate from this IP. */
   publicIp?: string;
+  /** AWS resource tags to limit the scope of the source inventory. */
+  inventoryTagList?: TagList;
+  /** AWS security group names to limit the scope of the source inventory. */
+  inventorySecurityGroupNames?: StringList;
+  /** Immutable. The AWS region that the source VMs will be migrated from. */
+  awsRegion?: string;
 }
 export const AwsSourceDetails = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    inventoryTagList: S.optional(TagList),
-    awsRegion: S.optional(S.String),
-    inventorySecurityGroupNames: S.optional(StringList),
-    migrationResourcesUserTags: S.optional(StringMap),
     accessKeyCreds: S.optional(AccessKeyCredentials),
+    migrationResourcesUserTags: S.optional(StringMap),
     state: S.optional(AwsSourceDetailsStateEnum),
     error: S.optional(Status),
     publicIp: S.optional(S.String),
+    inventoryTagList: S.optional(TagList),
+    inventorySecurityGroupNames: S.optional(StringList),
+    awsRegion: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AwsSourceDetails",
-}) as any as S.Schema<AwsSourceDetails>;
-
-/** VmwareSourceDetails message describes a specific source details for the vmware source type. */
-export interface VmwareSourceDetails {
-  /** The credentials username. */
-  username?: string;
-  /** The hostname of the vcenter. */
-  resolvedVcenterHost?: string;
-  /** Input only. The credentials password. This is write only and can not be read in a GET operation. */
-  password?: string;
-  /** The ip address of the vcenter this Source represents. */
-  vcenterIp?: string;
-  /** The thumbprint representing the certificate for the vcenter. */
-  thumbprint?: string;
-}
-export const VmwareSourceDetails = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    username: S.optional(S.String),
-    resolvedVcenterHost: S.optional(S.String),
-    password: S.optional(S.String),
-    vcenterIp: S.optional(S.String),
-    thumbprint: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "VmwareSourceDetails",
-}) as any as S.Schema<VmwareSourceDetails>;
+).annotate({ identifier: "AwsSourceDetails" }) as any as S.Schema<AwsSourceDetails>;
 
 export type AzureSourceDetailsStateEnum = "STATE_UNSPECIFIED" | "PENDING" | "FAILED" | "ACTIVE";
 export const AzureSourceDetailsStateEnum = S.String;
 
 /** Message describing Azure Credentials using tenant ID, client ID and secret. */
 export interface ClientSecretCredentials {
-  /** Input only. Azure client secret. */
-  clientSecret?: string;
   /** Azure tenant ID. */
   tenantId?: string;
   /** Azure client ID. */
   clientId?: string;
+  /** Input only. Azure client secret. */
+  clientSecret?: string;
 }
 export const ClientSecretCredentials = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    clientSecret: S.optional(S.String),
     tenantId: S.optional(S.String),
     clientId: S.optional(S.String),
+    clientSecret: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ClientSecretCredentials",
-}) as any as S.Schema<ClientSecretCredentials>;
+).annotate({ identifier: "ClientSecretCredentials" }) as any as S.Schema<ClientSecretCredentials>;
 
 /** AzureSourceDetails message describes a specific source details for the Azure source type. */
 export interface AzureSourceDetails {
-  /** Output only. The ID of the Azure resource group that contains all resources related to the migration process of this source. */
-  resourceGroupId?: string;
-  /** Immutable. Azure subscription ID. */
-  subscriptionId?: string;
   /** User specified tags to add to every M2VM generated resource in Azure. These tags will be set in addition to the default tags that are set as part of the migration process. The tags must not begin with the reserved prefix `m4ce` or `m2vm`. */
   migrationResourcesUserTags?: StringMap;
-  /** Output only. Provides details on the state of the Source in case of an error. */
-  error?: Status;
+  /** Output only. The ID of the Azure resource group that contains all resources related to the migration process of this source. */
+  resourceGroupId?: string;
   /** Output only. State of the source as determined by the health check. */
   state?: AzureSourceDetailsStateEnum | (string & {});
-  /** Immutable. The Azure location (region) that the source VMs will be migrated from. */
-  azureLocation?: string;
+  /** Output only. Provides details on the state of the Source in case of an error. */
+  error?: Status;
+  /** Immutable. Azure subscription ID. */
+  subscriptionId?: string;
   /** Azure Credentials using tenant ID, client ID and secret. */
   clientSecretCreds?: ClientSecretCredentials;
+  /** Immutable. The Azure location (region) that the source VMs will be migrated from. */
+  azureLocation?: string;
 }
 export const AzureSourceDetails = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    resourceGroupId: S.optional(S.String),
-    subscriptionId: S.optional(S.String),
     migrationResourcesUserTags: S.optional(StringMap),
-    error: S.optional(Status),
+    resourceGroupId: S.optional(S.String),
     state: S.optional(AzureSourceDetailsStateEnum),
-    azureLocation: S.optional(S.String),
+    error: S.optional(Status),
+    subscriptionId: S.optional(S.String),
     clientSecretCreds: S.optional(ClientSecretCredentials),
+    azureLocation: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AzureSourceDetails",
-}) as any as S.Schema<AzureSourceDetails>;
+).annotate({ identifier: "AzureSourceDetails" }) as any as S.Schema<AzureSourceDetails>;
 
 /** Source message describes a specific vm migration Source resource. It contains the source environment information. */
 export interface Source {
-  /** AWS type source details. */
-  aws?: AwsSourceDetails;
-  /** Output only. The update time timestamp. */
-  updateTime?: string;
   /** Vmware type source details. */
   vmware?: VmwareSourceDetails;
-  /** Output only. The create time timestamp. */
-  createTime?: string;
+  /** AWS type source details. */
+  aws?: AwsSourceDetails;
   /** Azure type source details. */
   azure?: AzureSourceDetails;
+  /** Output only. The create time timestamp. */
+  createTime?: string;
   /** User-provided description of the source. */
   description?: string;
+  /** Output only. The update time timestamp. */
+  updateTime?: string;
+  /** Output only. The Source name. */
+  name?: string;
   /** The labels of the source. */
   labels?: StringMap;
   /** Optional. Immutable. The encryption details of the source data stored by the service. */
   encryption?: Encryption;
-  /** Output only. The Source name. */
-  name?: string;
 }
 export const Source = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    aws: S.optional(AwsSourceDetails),
-    updateTime: S.optional(S.String),
     vmware: S.optional(VmwareSourceDetails),
-    createTime: S.optional(S.String),
+    aws: S.optional(AwsSourceDetails),
     azure: S.optional(AzureSourceDetails),
+    createTime: S.optional(S.String),
     description: S.optional(S.String),
+    updateTime: S.optional(S.String),
+    name: S.optional(S.String),
     labels: S.optional(StringMap),
     encryption: S.optional(Encryption),
-    name: S.optional(S.String),
   }),
 ).annotate({ identifier: "Source" }) as any as S.Schema<Source>;
 
 export interface CreateProjectsLocationsSourcesRequest {
-  /** Required. The Source's parent. */
-  parent: string;
   /** A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
+  /** Required. The Source's parent. */
+  parent: string;
   /** Required. The source identifier. */
   sourceId?: string;
   /** Request body */
@@ -1035,8 +1007,8 @@ export interface CreateProjectsLocationsSourcesRequest {
 }
 export const CreateProjectsLocationsSourcesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    parent: S.String.pipe(T.Label()),
     requestId: S.optional(S.String.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
     sourceId: S.optional(S.String.pipe(T.Query())),
     body: S.optional(Source.pipe(T.HttpBody())),
   }).pipe(
@@ -1050,70 +1022,6 @@ export const CreateProjectsLocationsSourcesRequest = /*@__PURE__*/ S.suspend(() 
   identifier: "CreateProjectsLocationsSourcesRequest",
 }) as any as S.Schema<CreateProjectsLocationsSourcesRequest>;
 
-export type UpgradeStatusStateEnum = "STATE_UNSPECIFIED" | "RUNNING" | "FAILED" | "SUCCEEDED";
-export const UpgradeStatusStateEnum = S.String;
-
-/** UpgradeStatus contains information about upgradeAppliance operation. */
-export interface UpgradeStatus {
-  /** The version from which we upgraded. */
-  previousVersion?: string;
-  /** The version to upgrade to. */
-  version?: string;
-  /** The time the operation was started. */
-  startTime?: string;
-  /** Output only. Provides details on the state of the upgrade operation in case of an error. */
-  error?: Status;
-  /** The state of the upgradeAppliance operation. */
-  state?: UpgradeStatusStateEnum | (string & {});
-}
-export const UpgradeStatus = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    previousVersion: S.optional(S.String),
-    version: S.optional(S.String),
-    startTime: S.optional(S.String),
-    error: S.optional(Status),
-    state: S.optional(UpgradeStatusStateEnum),
-  }),
-).annotate({ identifier: "UpgradeStatus" }) as any as S.Schema<UpgradeStatus>;
-
-/** Describes an appliance version. */
-export interface ApplianceVersion {
-  /** Determine whether it's critical to upgrade the appliance to this version. */
-  critical?: boolean;
-  /** The appliance version. */
-  version?: string;
-  /** Link to a page that contains the version release notes. */
-  releaseNotesUri?: string;
-  /** A link for downloading the version. */
-  uri?: string;
-}
-export const ApplianceVersion = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    critical: S.optional(S.Boolean),
-    version: S.optional(S.String),
-    releaseNotesUri: S.optional(S.String),
-    uri: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ApplianceVersion",
-}) as any as S.Schema<ApplianceVersion>;
-
-/** Holds information about the available versions for upgrade. */
-export interface AvailableUpdates {
-  /** The latest version for in place update. The current appliance can be updated to this version using the API or m4c CLI. */
-  inPlaceUpdate?: ApplianceVersion;
-  /** The newest deployable version of the appliance. The current appliance can't be updated into this version, and the owner must manually deploy this OVA to a new appliance. */
-  newDeployableAppliance?: ApplianceVersion;
-}
-export const AvailableUpdates = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    inPlaceUpdate: S.optional(ApplianceVersion),
-    newDeployableAppliance: S.optional(ApplianceVersion),
-  }),
-).annotate({
-  identifier: "AvailableUpdates",
-}) as any as S.Schema<AvailableUpdates>;
-
 export type DatacenterConnectorStateEnum =
   | "STATE_UNSPECIFIED"
   | "PENDING"
@@ -1122,65 +1030,123 @@ export type DatacenterConnectorStateEnum =
   | "ACTIVE";
 export const DatacenterConnectorStateEnum = S.String;
 
+/** Describes an appliance version. */
+export interface ApplianceVersion {
+  /** A link for downloading the version. */
+  uri?: string;
+  /** The appliance version. */
+  version?: string;
+  /** Determine whether it's critical to upgrade the appliance to this version. */
+  critical?: boolean;
+  /** Link to a page that contains the version release notes. */
+  releaseNotesUri?: string;
+}
+export const ApplianceVersion = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    uri: S.optional(S.String),
+    version: S.optional(S.String),
+    critical: S.optional(S.Boolean),
+    releaseNotesUri: S.optional(S.String),
+  }),
+).annotate({ identifier: "ApplianceVersion" }) as any as S.Schema<ApplianceVersion>;
+
+/** Holds information about the available versions for upgrade. */
+export interface AvailableUpdates {
+  /** The newest deployable version of the appliance. The current appliance can't be updated into this version, and the owner must manually deploy this OVA to a new appliance. */
+  newDeployableAppliance?: ApplianceVersion;
+  /** The latest version for in place update. The current appliance can be updated to this version using the API or m4c CLI. */
+  inPlaceUpdate?: ApplianceVersion;
+}
+export const AvailableUpdates = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    newDeployableAppliance: S.optional(ApplianceVersion),
+    inPlaceUpdate: S.optional(ApplianceVersion),
+  }),
+).annotate({ identifier: "AvailableUpdates" }) as any as S.Schema<AvailableUpdates>;
+
+export type UpgradeStatusStateEnum = "STATE_UNSPECIFIED" | "RUNNING" | "FAILED" | "SUCCEEDED";
+export const UpgradeStatusStateEnum = S.String;
+
+/** UpgradeStatus contains information about upgradeAppliance operation. */
+export interface UpgradeStatus {
+  /** The version to upgrade to. */
+  version?: string;
+  /** The version from which we upgraded. */
+  previousVersion?: string;
+  /** The state of the upgradeAppliance operation. */
+  state?: UpgradeStatusStateEnum | (string & {});
+  /** Output only. Provides details on the state of the upgrade operation in case of an error. */
+  error?: Status;
+  /** The time the operation was started. */
+  startTime?: string;
+}
+export const UpgradeStatus = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    version: S.optional(S.String),
+    previousVersion: S.optional(S.String),
+    state: S.optional(UpgradeStatusStateEnum),
+    error: S.optional(Status),
+    startTime: S.optional(S.String),
+  }),
+).annotate({ identifier: "UpgradeStatus" }) as any as S.Schema<UpgradeStatus>;
+
 /** DatacenterConnector message describes a connector between the Source and Google Cloud, which is installed on a vmware datacenter (an OVA vm installed by the user) to connect the Datacenter to Google Cloud and support vm migration data transfer. */
 export interface DatacenterConnector {
   /** Output only. The communication channel between the datacenter connector and Google Cloud. */
   bucket?: string;
-  /** Output only. Appliance OVA version. This is the OVA which is manually installed by the user and contains the infrastructure for the automatically updatable components on the appliance. */
-  applianceInfrastructureVersion?: string;
-  /** The service account to use in the connector when communicating with the cloud. */
-  serviceAccount?: string;
-  /** Output only. The status of the current / last upgradeAppliance operation. */
-  upgradeStatus?: UpgradeStatus;
-  /** Output only. Appliance last installed update bundle version. This is the version of the automatically updatable components on the appliance. */
-  applianceSoftwareVersion?: string;
   /** Immutable. A unique key for this connector. This key is internal to the OVA connector and is supplied with its creation during the registration process and can not be modified. */
   registrationId?: string;
-  /** Output only. The last time the connector was updated with an API call. */
-  updateTime?: string;
-  /** The version running in the DatacenterConnector. This is supplied by the OVA connector during the registration process and can not be modified. */
-  version?: string;
-  /** Output only. The time the connector was created (as an API call, not when it was actually installed). */
-  createTime?: string;
-  /** Output only. Provides details on the state of the Datacenter Connector in case of an error. */
-  error?: Status;
-  /** Output only. The connector's name. */
-  name?: string;
+  /** Output only. Appliance last installed update bundle version. This is the version of the automatically updatable components on the appliance. */
+  applianceSoftwareVersion?: string;
   /** Output only. The time the state was last set. */
   stateTime?: string;
-  /** Output only. The available versions for updating this appliance. */
-  availableVersions?: AvailableUpdates;
+  /** Output only. The last time the connector was updated with an API call. */
+  updateTime?: string;
   /** Output only. State of the DatacenterConnector, as determined by the health checks. */
   state?: DatacenterConnectorStateEnum | (string & {});
+  /** Output only. Provides details on the state of the Datacenter Connector in case of an error. */
+  error?: Status;
+  /** Output only. The available versions for updating this appliance. */
+  availableVersions?: AvailableUpdates;
+  /** The version running in the DatacenterConnector. This is supplied by the OVA connector during the registration process and can not be modified. */
+  version?: string;
+  /** The service account to use in the connector when communicating with the cloud. */
+  serviceAccount?: string;
+  /** Output only. The connector's name. */
+  name?: string;
+  /** Output only. The time the connector was created (as an API call, not when it was actually installed). */
+  createTime?: string;
+  /** Output only. Appliance OVA version. This is the OVA which is manually installed by the user and contains the infrastructure for the automatically updatable components on the appliance. */
+  applianceInfrastructureVersion?: string;
+  /** Output only. The status of the current / last upgradeAppliance operation. */
+  upgradeStatus?: UpgradeStatus;
 }
 export const DatacenterConnector = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     bucket: S.optional(S.String),
-    applianceInfrastructureVersion: S.optional(S.String),
-    serviceAccount: S.optional(S.String),
-    upgradeStatus: S.optional(UpgradeStatus),
-    applianceSoftwareVersion: S.optional(S.String),
     registrationId: S.optional(S.String),
-    updateTime: S.optional(S.String),
-    version: S.optional(S.String),
-    createTime: S.optional(S.String),
-    error: S.optional(Status),
-    name: S.optional(S.String),
+    applianceSoftwareVersion: S.optional(S.String),
     stateTime: S.optional(S.String),
-    availableVersions: S.optional(AvailableUpdates),
+    updateTime: S.optional(S.String),
     state: S.optional(DatacenterConnectorStateEnum),
+    error: S.optional(Status),
+    availableVersions: S.optional(AvailableUpdates),
+    version: S.optional(S.String),
+    serviceAccount: S.optional(S.String),
+    name: S.optional(S.String),
+    createTime: S.optional(S.String),
+    applianceInfrastructureVersion: S.optional(S.String),
+    upgradeStatus: S.optional(UpgradeStatus),
   }),
-).annotate({
-  identifier: "DatacenterConnector",
-}) as any as S.Schema<DatacenterConnector>;
+).annotate({ identifier: "DatacenterConnector" }) as any as S.Schema<DatacenterConnector>;
 
 export interface CreateProjectsLocationsSourcesDatacenterConnectorsRequest {
   /** Required. The datacenterConnector identifier. */
   datacenterConnectorId?: string;
-  /** Required. The DatacenterConnector's parent. Required. The Source in where the new DatacenterConnector will be created. For example: `projects/my-project/locations/us-central1/sources/my-source` */
-  parent: string;
   /** A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
+  /** Required. The DatacenterConnector's parent. Required. The Source in where the new DatacenterConnector will be created. For example: `projects/my-project/locations/us-central1/sources/my-source` */
+  parent: string;
   /** Request body */
   body?: DatacenterConnector;
 }
@@ -1188,8 +1154,8 @@ export const CreateProjectsLocationsSourcesDatacenterConnectorsRequest = /*@__PU
   () =>
     S.Struct({
       datacenterConnectorId: S.optional(S.String.pipe(T.Query())),
-      parent: S.String.pipe(T.Label()),
       requestId: S.optional(S.String.pipe(T.Query())),
+      parent: S.String.pipe(T.Label()),
       body: S.optional(DatacenterConnector.pipe(T.HttpBody())),
     }).pipe(
       T.Http({
@@ -1202,13 +1168,54 @@ export const CreateProjectsLocationsSourcesDatacenterConnectorsRequest = /*@__PU
   identifier: "CreateProjectsLocationsSourcesDatacenterConnectorsRequest",
 }) as any as S.Schema<CreateProjectsLocationsSourcesDatacenterConnectorsRequest>;
 
-/** ProvisioningTargetDiskStep contains specific step details. */
-export type ProvisioningTargetDiskStep = CancelImageImportJobRequest;
-export const ProvisioningTargetDiskStep = CancelImageImportJobRequest;
+export type DiskMigrationJobStateEnum =
+  | "STATE_UNSPECIFIED"
+  | "READY"
+  | "RUNNING"
+  | "SUCCEEDED"
+  | "CANCELLING"
+  | "CANCELLED"
+  | "FAILED";
+export const DiskMigrationJobStateEnum = S.String;
+
+export type AwsSourceDiskDetailsDiskTypeEnum =
+  | "TYPE_UNSPECIFIED"
+  | "GP2"
+  | "GP3"
+  | "IO1"
+  | "IO2"
+  | "ST1"
+  | "SC1"
+  | "STANDARD";
+export const AwsSourceDiskDetailsDiskTypeEnum = S.String;
+
+/** Represents the source AWS Disk details. */
+export interface AwsSourceDiskDetails {
+  /** Optional. Output only. Disk type. */
+  diskType?: AwsSourceDiskDetailsDiskTypeEnum | (string & {});
+  /** Output only. Size in GiB. */
+  sizeGib?: string;
+  /** Optional. Output only. A map of AWS volume tags. */
+  tags?: StringMap;
+  /** Required. AWS volume ID. */
+  volumeId?: string;
+}
+export const AwsSourceDiskDetails = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    diskType: S.optional(AwsSourceDiskDetailsDiskTypeEnum),
+    sizeGib: S.optional(S.String),
+    tags: S.optional(StringMap),
+    volumeId: S.optional(S.String),
+  }),
+).annotate({ identifier: "AwsSourceDiskDetails" }) as any as S.Schema<AwsSourceDiskDetails>;
 
 /** CreatingSourceDiskSnapshotStep contains specific step details. */
 export type CreatingSourceDiskSnapshotStep = CancelImageImportJobRequest;
 export const CreatingSourceDiskSnapshotStep = CancelImageImportJobRequest;
+
+/** ProvisioningTargetDiskStep contains specific step details. */
+export type ProvisioningTargetDiskStep = CancelImageImportJobRequest;
+export const ProvisioningTargetDiskStep = CancelImageImportJobRequest;
 
 /** CopyingSourceDiskSnapshotStep contains specific step details. */
 export type CopyingSourceDiskSnapshotStep = CancelImageImportJobRequest;
@@ -1216,12 +1223,12 @@ export const CopyingSourceDiskSnapshotStep = CancelImageImportJobRequest;
 
 /** DiskMigrationStep holds information about the disk migration step progress. */
 export interface DiskMigrationStep {
-  /** Creating target disk step. */
-  provisioningTargetDisk?: CancelImageImportJobRequest;
   /** Output only. The time the step has started. */
   startTime?: string;
   /** Creating source disk snapshot step. */
   creatingSourceDiskSnapshot?: CancelImageImportJobRequest;
+  /** Creating target disk step. */
+  provisioningTargetDisk?: CancelImageImportJobRequest;
   /** Copying source disk snapshot step. */
   copyingSourceDiskSnapshot?: CancelImageImportJobRequest;
   /** Output only. The time the step has ended. */
@@ -1229,15 +1236,13 @@ export interface DiskMigrationStep {
 }
 export const DiskMigrationStep = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    provisioningTargetDisk: S.optional(CancelImageImportJobRequest),
     startTime: S.optional(S.String),
     creatingSourceDiskSnapshot: S.optional(CancelImageImportJobRequest),
+    provisioningTargetDisk: S.optional(CancelImageImportJobRequest),
     copyingSourceDiskSnapshot: S.optional(CancelImageImportJobRequest),
     endTime: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DiskMigrationStep",
-}) as any as S.Schema<DiskMigrationStep>;
+).annotate({ identifier: "DiskMigrationStep" }) as any as S.Schema<DiskMigrationStep>;
 
 export type DiskMigrationStepList = Array<DiskMigrationStep>;
 export const DiskMigrationStepList = /*@__PURE__*/ S.Array(
@@ -1255,140 +1260,93 @@ export const ComputeEngineDiskDiskTypeEnum = S.String;
 
 /** Compute Engine disk target details. */
 export interface ComputeEngineDisk {
+  /** Optional. Target Compute Engine Disk ID. This is the resource ID segment of the Compute Engine Disk to create. In the resource name compute/v1/projects/{project}/zones/{zone}/disks/disk1 "disk1" is the resource ID for the disk. */
+  diskId?: string;
   /** Required. The disk type to use. */
   diskType?: ComputeEngineDiskDiskTypeEnum | (string & {});
   /** Required. The Compute Engine zone in which to create the disk. Should be of the form: projects/{target-project}/locations/{zone} */
   zone?: string;
   /** Optional. Replication zones of the regional disk. Should be of the form: projects/{target-project}/locations/{replica-zone} Currently only one replica zone is supported. */
   replicaZones?: StringList;
-  /** Optional. Target Compute Engine Disk ID. This is the resource ID segment of the Compute Engine Disk to create. In the resource name compute/v1/projects/{project}/zones/{zone}/disks/disk1 "disk1" is the resource ID for the disk. */
-  diskId?: string;
 }
 export const ComputeEngineDisk = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    diskId: S.optional(S.String),
     diskType: S.optional(ComputeEngineDiskDiskTypeEnum),
     zone: S.optional(S.String),
     replicaZones: S.optional(StringList),
-    diskId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ComputeEngineDisk",
-}) as any as S.Schema<ComputeEngineDisk>;
+).annotate({ identifier: "ComputeEngineDisk" }) as any as S.Schema<ComputeEngineDisk>;
 
 /** Details of the target disk in Compute Engine. */
 export interface DiskMigrationJobTargetDetails {
-  /** Optional. The encryption to apply to the disk. If the DiskMigrationJob parent Source resource has an encryption, this field must be set to the same encryption key. */
-  encryption?: Encryption;
+  /** Required. The target disk. */
+  targetDisk?: ComputeEngineDisk;
   /** Optional. A map of labels to associate with the disk. */
   labels?: StringMap;
   /** Required. The name of the resource of type TargetProject which represents the Compute Engine project in which to create the disk. Should be of the form: projects/{project}/locations/global/targetProjects/{target-project} */
   targetProject?: string;
-  /** Required. The target disk. */
-  targetDisk?: ComputeEngineDisk;
+  /** Optional. The encryption to apply to the disk. If the DiskMigrationJob parent Source resource has an encryption, this field must be set to the same encryption key. */
+  encryption?: Encryption;
 }
 export const DiskMigrationJobTargetDetails = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    encryption: S.optional(Encryption),
+    targetDisk: S.optional(ComputeEngineDisk),
     labels: S.optional(StringMap),
     targetProject: S.optional(S.String),
-    targetDisk: S.optional(ComputeEngineDisk),
+    encryption: S.optional(Encryption),
   }),
 ).annotate({
   identifier: "DiskMigrationJobTargetDetails",
 }) as any as S.Schema<DiskMigrationJobTargetDetails>;
 
-export type AwsSourceDiskDetailsDiskTypeEnum =
-  | "TYPE_UNSPECIFIED"
-  | "GP2"
-  | "GP3"
-  | "IO1"
-  | "IO2"
-  | "ST1"
-  | "SC1"
-  | "STANDARD";
-export const AwsSourceDiskDetailsDiskTypeEnum = S.String;
-
-/** Represents the source AWS Disk details. */
-export interface AwsSourceDiskDetails {
-  /** Required. AWS volume ID. */
-  volumeId?: string;
-  /** Optional. Output only. Disk type. */
-  diskType?: AwsSourceDiskDetailsDiskTypeEnum | (string & {});
-  /** Output only. Size in GiB. */
-  sizeGib?: string;
-  /** Optional. Output only. A map of AWS volume tags. */
-  tags?: StringMap;
-}
-export const AwsSourceDiskDetails = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    volumeId: S.optional(S.String),
-    diskType: S.optional(AwsSourceDiskDetailsDiskTypeEnum),
-    sizeGib: S.optional(S.String),
-    tags: S.optional(StringMap),
-  }),
-).annotate({
-  identifier: "AwsSourceDiskDetails",
-}) as any as S.Schema<AwsSourceDiskDetails>;
-
-export type DiskMigrationJobStateEnum =
-  | "STATE_UNSPECIFIED"
-  | "READY"
-  | "RUNNING"
-  | "SUCCEEDED"
-  | "CANCELLING"
-  | "CANCELLED"
-  | "FAILED";
-export const DiskMigrationJobStateEnum = S.String;
-
 /** Describes the disk which will be migrated from the source environment. The source disk has to be unattached. */
 export interface DiskMigrationJob {
-  /** Output only. Identifier. The identifier of the DiskMigrationJob. */
-  name?: string;
-  /** Output only. The disk migration steps list representing its progress. */
-  steps?: DiskMigrationStepList;
-  /** Output only. Provides details on the errors that led to the disk migration job's state in case of an error. */
-  errors?: StatusList;
-  /** Output only. The last time the DiskMigrationJob resource was updated. */
-  updateTime?: string;
-  /** Required. Details of the target Disk in Compute Engine. */
-  targetDetails?: DiskMigrationJobTargetDetails;
-  /** Details of the unattached AWS source disk. */
-  awsSourceDiskDetails?: AwsSourceDiskDetails;
-  /** Output only. State of the DiskMigrationJob. */
-  state?: DiskMigrationJobStateEnum | (string & {});
   /** Output only. The time the DiskMigrationJob resource was created. */
   createTime?: string;
+  /** Output only. Identifier. The identifier of the DiskMigrationJob. */
+  name?: string;
+  /** Output only. Provides details on the errors that led to the disk migration job's state in case of an error. */
+  errors?: StatusList;
+  /** Output only. State of the DiskMigrationJob. */
+  state?: DiskMigrationJobStateEnum | (string & {});
+  /** Details of the unattached AWS source disk. */
+  awsSourceDiskDetails?: AwsSourceDiskDetails;
+  /** Output only. The last time the DiskMigrationJob resource was updated. */
+  updateTime?: string;
+  /** Output only. The disk migration steps list representing its progress. */
+  steps?: DiskMigrationStepList;
+  /** Required. Details of the target Disk in Compute Engine. */
+  targetDetails?: DiskMigrationJobTargetDetails;
 }
 export const DiskMigrationJob = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.optional(S.String),
-    steps: S.optional(DiskMigrationStepList),
-    errors: S.optional(StatusList),
-    updateTime: S.optional(S.String),
-    targetDetails: S.optional(DiskMigrationJobTargetDetails),
-    awsSourceDiskDetails: S.optional(AwsSourceDiskDetails),
-    state: S.optional(DiskMigrationJobStateEnum),
     createTime: S.optional(S.String),
+    name: S.optional(S.String),
+    errors: S.optional(StatusList),
+    state: S.optional(DiskMigrationJobStateEnum),
+    awsSourceDiskDetails: S.optional(AwsSourceDiskDetails),
+    updateTime: S.optional(S.String),
+    steps: S.optional(DiskMigrationStepList),
+    targetDetails: S.optional(DiskMigrationJobTargetDetails),
   }),
-).annotate({
-  identifier: "DiskMigrationJob",
-}) as any as S.Schema<DiskMigrationJob>;
+).annotate({ identifier: "DiskMigrationJob" }) as any as S.Schema<DiskMigrationJob>;
 
 export interface CreateProjectsLocationsSourcesDiskMigrationJobsRequest {
   /** Required. The DiskMigrationJob identifier. The maximum length of this value is 63 characters. Valid characters are lower case Latin letters, digits and hyphen. It must start with a Latin letter and must not end with a hyphen. */
   diskMigrationJobId?: string;
-  /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request timed out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
   /** Required. The DiskMigrationJob's parent. */
   parent: string;
+  /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request timed out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string;
   /** Request body */
   body?: DiskMigrationJob;
 }
 export const CreateProjectsLocationsSourcesDiskMigrationJobsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     diskMigrationJobId: S.optional(S.String.pipe(T.Query())),
-    requestId: S.optional(S.String.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
+    requestId: S.optional(S.String.pipe(T.Query())),
     body: S.optional(DiskMigrationJob.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -1401,601 +1359,6 @@ export const CreateProjectsLocationsSourcesDiskMigrationJobsRequest = /*@__PURE_
   identifier: "CreateProjectsLocationsSourcesDiskMigrationJobsRequest",
 }) as any as S.Schema<CreateProjectsLocationsSourcesDiskMigrationJobsRequest>;
 
-/** Details of a created Persistent Disk. */
-export interface PersistentDisk {
-  /** Output only. The URI of the Persistent Disk. */
-  diskUri?: string;
-  /** Output only. The ordinal number of the source VM disk. */
-  sourceDiskNumber?: number;
-}
-export const PersistentDisk = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    diskUri: S.optional(S.String),
-    sourceDiskNumber: S.optional(S.Number),
-  }),
-).annotate({ identifier: "PersistentDisk" }) as any as S.Schema<PersistentDisk>;
-
-export type PersistentDiskList = Array<PersistentDisk>;
-export const PersistentDiskList = /*@__PURE__*/ S.Array(
-  PersistentDisk,
-) as any as S.Schema<PersistentDiskList>;
-
-/** Details for a disks-only migration. */
-export type DisksMigrationDisksTargetDetails = CancelImageImportJobRequest;
-export const DisksMigrationDisksTargetDetails = CancelImageImportJobRequest;
-
-/** Details for the VM created VM as part of disks migration. */
-export interface DisksMigrationVmTargetDetails {
-  /** Output only. The URI of the Compute Engine VM. */
-  vmUri?: string;
-}
-export const DisksMigrationVmTargetDetails = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    vmUri: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "DisksMigrationVmTargetDetails",
-}) as any as S.Schema<DisksMigrationVmTargetDetails>;
-
-/** ComputeEngineDisksTargetDetails is a collection of created Persistent Disks details. */
-export interface ComputeEngineDisksTargetDetails {
-  /** The details of each created Persistent Disk. */
-  disks?: PersistentDiskList;
-  /** Details of the disks-only migration target. */
-  disksTargetDetails?: CancelImageImportJobRequest;
-  /** Details for the VM the migrated data disks are attached to. */
-  vmTargetDetails?: DisksMigrationVmTargetDetails;
-}
-export const ComputeEngineDisksTargetDetails = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    disks: S.optional(PersistentDiskList),
-    disksTargetDetails: S.optional(CancelImageImportJobRequest),
-    vmTargetDetails: S.optional(DisksMigrationVmTargetDetails),
-  }),
-).annotate({
-  identifier: "ComputeEngineDisksTargetDetails",
-}) as any as S.Schema<ComputeEngineDisksTargetDetails>;
-
-export type ComputeEngineTargetDetailsBootOptionEnum =
-  | "COMPUTE_ENGINE_BOOT_OPTION_UNSPECIFIED"
-  | "COMPUTE_ENGINE_BOOT_OPTION_EFI"
-  | "COMPUTE_ENGINE_BOOT_OPTION_BIOS";
-export const ComputeEngineTargetDetailsBootOptionEnum = S.String;
-
-export type ComputeSchedulingOnHostMaintenanceEnum =
-  | "ON_HOST_MAINTENANCE_UNSPECIFIED"
-  | "TERMINATE"
-  | "MIGRATE";
-export const ComputeSchedulingOnHostMaintenanceEnum = S.String;
-
-export type SchedulingNodeAffinityOperatorEnum = "OPERATOR_UNSPECIFIED" | "IN" | "NOT_IN";
-export const SchedulingNodeAffinityOperatorEnum = S.String;
-
-/** Node Affinity: the configuration of desired nodes onto which this Instance could be scheduled. Based on https://cloud.google.com/compute/docs/reference/rest/v1/instances/setScheduling */
-export interface SchedulingNodeAffinity {
-  /** Corresponds to the label values of Node resource. */
-  values?: StringList;
-  /** The label key of Node resource to reference. */
-  key?: string;
-  /** The operator to use for the node resources specified in the `values` parameter. */
-  operator?: SchedulingNodeAffinityOperatorEnum | (string & {});
-}
-export const SchedulingNodeAffinity = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    values: S.optional(StringList),
-    key: S.optional(S.String),
-    operator: S.optional(SchedulingNodeAffinityOperatorEnum),
-  }),
-).annotate({
-  identifier: "SchedulingNodeAffinity",
-}) as any as S.Schema<SchedulingNodeAffinity>;
-
-export type SchedulingNodeAffinityList = Array<SchedulingNodeAffinity>;
-export const SchedulingNodeAffinityList = /*@__PURE__*/ S.Array(
-  SchedulingNodeAffinity,
-) as any as S.Schema<SchedulingNodeAffinityList>;
-
-export type ComputeSchedulingRestartTypeEnum =
-  | "RESTART_TYPE_UNSPECIFIED"
-  | "AUTOMATIC_RESTART"
-  | "NO_AUTOMATIC_RESTART";
-export const ComputeSchedulingRestartTypeEnum = S.String;
-
-/** Scheduling information for VM on maintenance/restart behaviour and node allocation in sole tenant nodes. Options for instance behavior when the host machine undergoes maintenance that may temporarily impact instance performance. */
-export interface ComputeScheduling {
-  /** How the instance should behave when the host machine undergoes maintenance that may temporarily impact instance performance. */
-  onHostMaintenance?: ComputeSchedulingOnHostMaintenanceEnum | (string & {});
-  /** A set of node affinity and anti-affinity configurations for sole tenant nodes. */
-  nodeAffinities?: SchedulingNodeAffinityList;
-  /** The minimum number of virtual CPUs this instance will consume when running on a sole-tenant node. Ignored if no node_affinites are configured. */
-  minNodeCpus?: number;
-  /** Whether the Instance should be automatically restarted whenever it is terminated by Compute Engine (not terminated by user). This configuration is identical to `automaticRestart` field in Compute Engine create instance under scheduling. It was changed to an enum (instead of a boolean) to match the default value in Compute Engine which is automatic restart. */
-  restartType?: ComputeSchedulingRestartTypeEnum | (string & {});
-}
-export const ComputeScheduling = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    onHostMaintenance: S.optional(ComputeSchedulingOnHostMaintenanceEnum),
-    nodeAffinities: S.optional(SchedulingNodeAffinityList),
-    minNodeCpus: S.optional(S.Number),
-    restartType: S.optional(ComputeSchedulingRestartTypeEnum),
-  }),
-).annotate({
-  identifier: "ComputeScheduling",
-}) as any as S.Schema<ComputeScheduling>;
-
-export type ComputeEngineTargetDetailsDiskTypeEnum =
-  | "COMPUTE_ENGINE_DISK_TYPE_UNSPECIFIED"
-  | "COMPUTE_ENGINE_DISK_TYPE_STANDARD"
-  | "COMPUTE_ENGINE_DISK_TYPE_SSD"
-  | "COMPUTE_ENGINE_DISK_TYPE_BALANCED"
-  | "COMPUTE_ENGINE_DISK_TYPE_HYPERDISK_BALANCED"
-  | "COMPUTE_ENGINE_DISK_TYPE_HYPERDISK_BALANCED_HIGH_AVAILABILITY";
-export const ComputeEngineTargetDetailsDiskTypeEnum = S.String;
-
-export type ComputeEngineTargetDetailsLicenseTypeEnum =
-  | "COMPUTE_ENGINE_LICENSE_TYPE_DEFAULT"
-  | "COMPUTE_ENGINE_LICENSE_TYPE_PAYG"
-  | "COMPUTE_ENGINE_LICENSE_TYPE_BYOL";
-export const ComputeEngineTargetDetailsLicenseTypeEnum = S.String;
-
-export type ComputeEngineTargetDetailsBootConversionEnum =
-  | "BOOT_CONVERSION_UNSPECIFIED"
-  | "NONE"
-  | "BIOS_TO_EFI";
-export const ComputeEngineTargetDetailsBootConversionEnum = S.String;
-
-export type AppliedLicenseTypeEnum = "TYPE_UNSPECIFIED" | "NONE" | "PAYG" | "BYOL";
-export const AppliedLicenseTypeEnum = S.String;
-
-/** AppliedLicense holds the license data returned by adaptation module report. */
-export interface AppliedLicense {
-  /** The OS license returned from the adaptation module's report. */
-  osLicense?: string;
-  /** The license type that was used in OS adaptation. */
-  type?: AppliedLicenseTypeEnum | (string & {});
-}
-export const AppliedLicense = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    osLicense: S.optional(S.String),
-    type: S.optional(AppliedLicenseTypeEnum),
-  }),
-).annotate({ identifier: "AppliedLicense" }) as any as S.Schema<AppliedLicense>;
-
-/** ComputeEngineTargetDetails is a collection of details for creating a VM in a target Compute Engine project. */
-export interface ComputeEngineTargetDetails {
-  /** The zone in which to create the VM. */
-  zone?: string;
-  /** The machine type to create the VM with. */
-  machineType?: string;
-  /** The VM Boot Option, as set in the source VM. */
-  bootOption?: ComputeEngineTargetDetailsBootOptionEnum | (string & {});
-  /** Compute instance scheduling information (if empty default is used). */
-  computeScheduling?: ComputeScheduling;
-  /** Optional. The encryption to apply to the VM disks. */
-  encryption?: Encryption;
-  /** A list of network tags to associate with the VM. */
-  networkTags?: StringList;
-  /** The hostname to assign to the VM. */
-  hostname?: string;
-  /** The service account to associate the VM with. */
-  serviceAccount?: string;
-  /** Optional. Additional replica zones of the target regional disks. If this list is not empty a regional disk will be created. The first supported zone would be the one stated in the zone field. The rest are taken from this list. Please refer to the [regional disk creation API](https://cloud.google.com/compute/docs/regions-zones/global-regional-zonal-resources) for further details about regional vs zonal disks. If not specified, a zonal disk will be created in the same zone the VM is created. */
-  diskReplicaZones?: StringList;
-  /** The disk type to use in the VM. */
-  diskType?: ComputeEngineTargetDetailsDiskTypeEnum | (string & {});
-  /** List of NICs connected to this VM. */
-  networkInterfaces?: NetworkInterfaceList;
-  /** A map of labels to associate with the VM. */
-  labels?: StringMap;
-  /** Defines whether the instance has Secure Boot enabled. This can be set to true only if the VM boot option is EFI. */
-  secureBoot?: boolean;
-  /** The machine type series to create the VM with. */
-  machineTypeSeries?: string;
-  /** Optional. Defines whether the instance has vTPM enabled. */
-  enableVtpm?: boolean;
-  /** Additional licenses to assign to the VM. */
-  additionalLicenses?: StringList;
-  /** The metadata key/value pairs to assign to the VM. */
-  metadata?: StringMap;
-  /** The license type to use in OS adaptation. */
-  licenseType?: ComputeEngineTargetDetailsLicenseTypeEnum | (string & {});
-  /** Optional. By default the virtual machine will keep its existing boot option. Setting this property will trigger an internal process which will convert the virtual machine from using the existing boot option to another. */
-  bootConversion?: ComputeEngineTargetDetailsBootConversionEnum | (string & {});
-  /** The Google Cloud target project ID or project name. */
-  project?: string;
-  /** The name of the VM to create. */
-  vmName?: string;
-  /** The OS license returned from the adaptation module report. */
-  appliedLicense?: AppliedLicense;
-  /** Optional. The storage pool used for the VM disks. If specified this will be the storage pool in which the disk is created. This is the full path of the storage pool resource, for example: "projects/my-project/zones/us-central1-a/storagePools/my-storage-pool". The storage pool must be in the same project and zone as the target disks. The storage pool's type must match the disk type. */
-  storagePool?: string;
-  /** Optional. Modifiers to be used as configuration of the OS adaptation process. */
-  adaptationModifiers?: AdaptationModifierList;
-  /** Optional. Defines whether the instance has integrity monitoring enabled. */
-  enableIntegrityMonitoring?: boolean;
-}
-export const ComputeEngineTargetDetails = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    zone: S.optional(S.String),
-    machineType: S.optional(S.String),
-    bootOption: S.optional(ComputeEngineTargetDetailsBootOptionEnum),
-    computeScheduling: S.optional(ComputeScheduling),
-    encryption: S.optional(Encryption),
-    networkTags: S.optional(StringList),
-    hostname: S.optional(S.String),
-    serviceAccount: S.optional(S.String),
-    diskReplicaZones: S.optional(StringList),
-    diskType: S.optional(ComputeEngineTargetDetailsDiskTypeEnum),
-    networkInterfaces: S.optional(NetworkInterfaceList),
-    labels: S.optional(StringMap),
-    secureBoot: S.optional(S.Boolean),
-    machineTypeSeries: S.optional(S.String),
-    enableVtpm: S.optional(S.Boolean),
-    additionalLicenses: S.optional(StringList),
-    metadata: S.optional(StringMap),
-    licenseType: S.optional(ComputeEngineTargetDetailsLicenseTypeEnum),
-    bootConversion: S.optional(ComputeEngineTargetDetailsBootConversionEnum),
-    project: S.optional(S.String),
-    vmName: S.optional(S.String),
-    appliedLicense: S.optional(AppliedLicense),
-    storagePool: S.optional(S.String),
-    adaptationModifiers: S.optional(AdaptationModifierList),
-    enableIntegrityMonitoring: S.optional(S.Boolean),
-  }),
-).annotate({
-  identifier: "ComputeEngineTargetDetails",
-}) as any as S.Schema<ComputeEngineTargetDetails>;
-
-export type CloneJobStateEnum =
-  | "STATE_UNSPECIFIED"
-  | "PENDING"
-  | "ACTIVE"
-  | "FAILED"
-  | "SUCCEEDED"
-  | "CANCELLED"
-  | "CANCELLING"
-  | "ADAPTING_OS";
-export const CloneJobStateEnum = S.String;
-
-/** InstantiatingMigratedVMStep contains specific step details. */
-export type InstantiatingMigratedVMStep = CancelImageImportJobRequest;
-export const InstantiatingMigratedVMStep = CancelImageImportJobRequest;
-
-/** PreparingVMDisksStep contains specific step details. */
-export type PreparingVMDisksStep = CancelImageImportJobRequest;
-export const PreparingVMDisksStep = CancelImageImportJobRequest;
-
-/** CloneStep holds information about the clone step progress. */
-export interface CloneStep {
-  /** The time the step has started. */
-  startTime?: string;
-  /** Instantiating migrated VM step. */
-  instantiatingMigratedVm?: CancelImageImportJobRequest;
-  /** The time the step has ended. */
-  endTime?: string;
-  /** Preparing VM disks step. */
-  preparingVmDisks?: CancelImageImportJobRequest;
-  /** Adapting OS step. */
-  adaptingOs?: CancelImageImportJobRequest;
-}
-export const CloneStep = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    startTime: S.optional(S.String),
-    instantiatingMigratedVm: S.optional(CancelImageImportJobRequest),
-    endTime: S.optional(S.String),
-    preparingVmDisks: S.optional(CancelImageImportJobRequest),
-    adaptingOs: S.optional(CancelImageImportJobRequest),
-  }),
-).annotate({ identifier: "CloneStep" }) as any as S.Schema<CloneStep>;
-
-export type CloneStepList = Array<CloneStep>;
-export const CloneStepList = /*@__PURE__*/ S.Array(CloneStep) as any as S.Schema<CloneStepList>;
-
-/** CloneJob describes the process of creating a clone of a MigratingVM to the requested target based on the latest successful uploaded snapshots. While the migration cycles of a MigratingVm take place, it is possible to verify the uploaded VM can be started in the cloud, by creating a clone. The clone can be created without any downtime, and it is created using the latest snapshots which are already in the cloud. The cloneJob is only responsible for its work, not its products, which means once it is finished, it will never touch the instance it created. It will only delete it in case of the CloneJob being cancelled or upon failure to clone. */
-export interface CloneJob {
-  /** Output only. Details of the target Persistent Disks in Compute Engine. */
-  computeEngineDisksTargetDetails?: ComputeEngineDisksTargetDetails;
-  /** Output only. The time the state was last updated. */
-  stateTime?: string;
-  /** Output only. The time the clone job was ended. */
-  endTime?: string;
-  /** Output only. Details of the target VM in Compute Engine. */
-  computeEngineTargetDetails?: ComputeEngineTargetDetails;
-  /** Output only. State of the clone job. */
-  state?: CloneJobStateEnum | (string & {});
-  /** Output only. The name of the clone. */
-  name?: string;
-  /** Output only. The time the clone job was created (as an API call, not when it was actually created in the target). */
-  createTime?: string;
-  /** Output only. The clone steps list representing its progress. */
-  steps?: CloneStepList;
-  /** Output only. Provides details for the errors that led to the Clone Job's state. */
-  error?: Status;
-}
-export const CloneJob = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    computeEngineDisksTargetDetails: S.optional(ComputeEngineDisksTargetDetails),
-    stateTime: S.optional(S.String),
-    endTime: S.optional(S.String),
-    computeEngineTargetDetails: S.optional(ComputeEngineTargetDetails),
-    state: S.optional(CloneJobStateEnum),
-    name: S.optional(S.String),
-    createTime: S.optional(S.String),
-    steps: S.optional(CloneStepList),
-    error: S.optional(Status),
-  }),
-).annotate({ identifier: "CloneJob" }) as any as S.Schema<CloneJob>;
-
-export type CloneJobList = Array<CloneJob>;
-export const CloneJobList = /*@__PURE__*/ S.Array(CloneJob) as any as S.Schema<CloneJobList>;
-
-export type ComputeEngineTargetDefaultsDiskTypeEnum =
-  | "COMPUTE_ENGINE_DISK_TYPE_UNSPECIFIED"
-  | "COMPUTE_ENGINE_DISK_TYPE_STANDARD"
-  | "COMPUTE_ENGINE_DISK_TYPE_SSD"
-  | "COMPUTE_ENGINE_DISK_TYPE_BALANCED"
-  | "COMPUTE_ENGINE_DISK_TYPE_HYPERDISK_BALANCED"
-  | "COMPUTE_ENGINE_DISK_TYPE_HYPERDISK_BALANCED_HIGH_AVAILABILITY";
-export const ComputeEngineTargetDefaultsDiskTypeEnum = S.String;
-
-export type ComputeEngineTargetDefaultsBootConversionEnum =
-  | "BOOT_CONVERSION_UNSPECIFIED"
-  | "NONE"
-  | "BIOS_TO_EFI";
-export const ComputeEngineTargetDefaultsBootConversionEnum = S.String;
-
-export type ComputeEngineTargetDefaultsBootOptionEnum =
-  | "COMPUTE_ENGINE_BOOT_OPTION_UNSPECIFIED"
-  | "COMPUTE_ENGINE_BOOT_OPTION_EFI"
-  | "COMPUTE_ENGINE_BOOT_OPTION_BIOS";
-export const ComputeEngineTargetDefaultsBootOptionEnum = S.String;
-
-export type ComputeEngineTargetDefaultsLicenseTypeEnum =
-  | "COMPUTE_ENGINE_LICENSE_TYPE_DEFAULT"
-  | "COMPUTE_ENGINE_LICENSE_TYPE_PAYG"
-  | "COMPUTE_ENGINE_LICENSE_TYPE_BYOL";
-export const ComputeEngineTargetDefaultsLicenseTypeEnum = S.String;
-
-export type PersistentDiskDefaultsDiskTypeEnum =
-  | "COMPUTE_ENGINE_DISK_TYPE_UNSPECIFIED"
-  | "COMPUTE_ENGINE_DISK_TYPE_STANDARD"
-  | "COMPUTE_ENGINE_DISK_TYPE_SSD"
-  | "COMPUTE_ENGINE_DISK_TYPE_BALANCED"
-  | "COMPUTE_ENGINE_DISK_TYPE_HYPERDISK_BALANCED"
-  | "COMPUTE_ENGINE_DISK_TYPE_HYPERDISK_BALANCED_HIGH_AVAILABILITY";
-export const PersistentDiskDefaultsDiskTypeEnum = S.String;
-
-/** Details for attachment of the disk to a VM. */
-export interface VmAttachmentDetails {
-  /** Optional. Specifies a unique device name of your choice that is reflected into the /dev/disk/by-id/google-* tree of a Linux operating system running within the instance. If not specified, the server chooses a default device name to apply to this disk, in the form persistent-disk-x, where x is a number assigned by Google Compute Engine. This field is only applicable for persistent disks. */
-  deviceName?: string;
-}
-export const VmAttachmentDetails = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    deviceName: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "VmAttachmentDetails",
-}) as any as S.Schema<VmAttachmentDetails>;
-
-/** Details for creation of a Persistent Disk. */
-export interface PersistentDiskDefaults {
-  /** Optional. The name of the Persistent Disk to create. */
-  diskName?: string;
-  /** Required. The ordinal number of the source VM disk. */
-  sourceDiskNumber?: number;
-  /** A map of labels to associate with the Persistent Disk. */
-  additionalLabels?: StringMap;
-  /** Optional. The encryption to apply to the disk. */
-  encryption?: Encryption;
-  /** The disk type to use. */
-  diskType?: PersistentDiskDefaultsDiskTypeEnum | (string & {});
-  /** Optional. Details for attachment of the disk to a VM. Used when the disk is set to be attached to a target VM. */
-  vmAttachmentDetails?: VmAttachmentDetails;
-}
-export const PersistentDiskDefaults = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    diskName: S.optional(S.String),
-    sourceDiskNumber: S.optional(S.Number),
-    additionalLabels: S.optional(StringMap),
-    encryption: S.optional(Encryption),
-    diskType: S.optional(PersistentDiskDefaultsDiskTypeEnum),
-    vmAttachmentDetails: S.optional(VmAttachmentDetails),
-  }),
-).annotate({
-  identifier: "PersistentDiskDefaults",
-}) as any as S.Schema<PersistentDiskDefaults>;
-
-export type PersistentDiskDefaultsList = Array<PersistentDiskDefaults>;
-export const PersistentDiskDefaultsList = /*@__PURE__*/ S.Array(
-  PersistentDiskDefaults,
-) as any as S.Schema<PersistentDiskDefaultsList>;
-
-/** ComputeEngineTargetDefaults is a collection of details for creating a VM in a target Compute Engine project. */
-export interface ComputeEngineTargetDefaults {
-  /** The name of the VM to create. */
-  vmName?: string;
-  /** Compute instance scheduling information (if empty default is used). */
-  computeScheduling?: ComputeScheduling;
-  /** List of NICs connected to this VM. */
-  networkInterfaces?: NetworkInterfaceList;
-  /** A list of network tags to associate with the VM. */
-  networkTags?: StringList;
-  /** Optional. The service account to associate the VM with. */
-  serviceAccount?: string;
-  /** The disk type to use in the VM. */
-  diskType?: ComputeEngineTargetDefaultsDiskTypeEnum | (string & {});
-  /** A map of labels to associate with the VM. */
-  labels?: StringMap;
-  /** The zone in which to create the VM. */
-  zone?: string;
-  /** The machine type to create the VM with. */
-  machineType?: string;
-  /** Optional. Defines whether the instance has vTPM enabled. This can be set to true only if the VM boot option is EFI. */
-  enableVtpm?: boolean;
-  /** The hostname to assign to the VM. */
-  hostname?: string;
-  /** Additional licenses to assign to the VM. */
-  additionalLicenses?: StringList;
-  /** Optional. Additional replica zones of the target regional disks. If this list is not empty a regional disk will be created. The first supported zone would be the one stated in the zone field. The rest are taken from this list. Please refer to the [regional disk creation API](https://cloud.google.com/compute/docs/regions-zones/global-regional-zonal-resources) for further details about regional vs zonal disks. If not specified, a zonal disk will be created in the same zone the VM is created. */
-  diskReplicaZones?: StringList;
-  /** Defines whether the instance has Secure Boot enabled. This can be set to true only if the VM boot option is EFI. */
-  secureBoot?: boolean;
-  /** Optional. By default the virtual machine will keep its existing boot option. Setting this property will trigger an internal process which will convert the virtual machine from using the existing boot option to another. */
-  bootConversion?: ComputeEngineTargetDefaultsBootConversionEnum | (string & {});
-  /** The metadata key/value pairs to assign to the VM. */
-  metadata?: StringMap;
-  /** Optional. If specified this will be the storage pool in which the disk is created. This is the full path of the storage pool resource, for example: "projects/my-project/zones/us-central1-a/storagePools/my-storage-pool". The storage pool must be in the same project and zone as the target disks. The storage pool's type must match the disk type. */
-  storagePool?: string;
-  /** Output only. The OS license returned from the adaptation module report. */
-  appliedLicense?: AppliedLicense;
-  /** Output only. The VM Boot Option, as set in the source VM. */
-  bootOption?: ComputeEngineTargetDefaultsBootOptionEnum | (string & {});
-  /** Optional. Immutable. The encryption to apply to the VM disks. */
-  encryption?: Encryption;
-  /** The license type to use in OS adaptation. */
-  licenseType?: ComputeEngineTargetDefaultsLicenseTypeEnum | (string & {});
-  /** The machine type series to create the VM with. */
-  machineTypeSeries?: string;
-  /** Optional. Defines whether the instance has integrity monitoring enabled. This can be set to true only if the VM boot option is EFI, and vTPM is enabled. */
-  enableIntegrityMonitoring?: boolean;
-  /** Optional. The details of each disk to create. */
-  disks?: PersistentDiskDefaultsList;
-  /** The full path of the resource of type TargetProject which represents the Compute Engine project in which to create this VM. */
-  targetProject?: string;
-  /** Optional. AdaptationModifiers are the set of modifiers used during OS adaptation. */
-  adaptationModifiers?: AdaptationModifierList;
-}
-export const ComputeEngineTargetDefaults = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    vmName: S.optional(S.String),
-    computeScheduling: S.optional(ComputeScheduling),
-    networkInterfaces: S.optional(NetworkInterfaceList),
-    networkTags: S.optional(StringList),
-    serviceAccount: S.optional(S.String),
-    diskType: S.optional(ComputeEngineTargetDefaultsDiskTypeEnum),
-    labels: S.optional(StringMap),
-    zone: S.optional(S.String),
-    machineType: S.optional(S.String),
-    enableVtpm: S.optional(S.Boolean),
-    hostname: S.optional(S.String),
-    additionalLicenses: S.optional(StringList),
-    diskReplicaZones: S.optional(StringList),
-    secureBoot: S.optional(S.Boolean),
-    bootConversion: S.optional(ComputeEngineTargetDefaultsBootConversionEnum),
-    metadata: S.optional(StringMap),
-    storagePool: S.optional(S.String),
-    appliedLicense: S.optional(AppliedLicense),
-    bootOption: S.optional(ComputeEngineTargetDefaultsBootOptionEnum),
-    encryption: S.optional(Encryption),
-    licenseType: S.optional(ComputeEngineTargetDefaultsLicenseTypeEnum),
-    machineTypeSeries: S.optional(S.String),
-    enableIntegrityMonitoring: S.optional(S.Boolean),
-    disks: S.optional(PersistentDiskDefaultsList),
-    targetProject: S.optional(S.String),
-    adaptationModifiers: S.optional(AdaptationModifierList),
-  }),
-).annotate({
-  identifier: "ComputeEngineTargetDefaults",
-}) as any as S.Schema<ComputeEngineTargetDefaults>;
-
-/** The details of a Vmware VM disk. */
-export interface VmwareDiskDetails {
-  /** Output only. The ordinal number of the disk. */
-  diskNumber?: number;
-  /** Output only. Size in GB. */
-  sizeGb?: string;
-  /** Output only. The disk label. */
-  label?: string;
-}
-export const VmwareDiskDetails = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    diskNumber: S.optional(S.Number),
-    sizeGb: S.optional(S.String),
-    label: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "VmwareDiskDetails",
-}) as any as S.Schema<VmwareDiskDetails>;
-
-export type VmwareDiskDetailsList = Array<VmwareDiskDetails>;
-export const VmwareDiskDetailsList = /*@__PURE__*/ S.Array(
-  VmwareDiskDetails,
-) as any as S.Schema<VmwareDiskDetailsList>;
-
-export type VmCapabilitiesOsCapabilitiesItemEnum =
-  | "OS_CAPABILITY_UNSPECIFIED"
-  | "OS_CAPABILITY_NVME_STORAGE_ACCESS"
-  | "OS_CAPABILITY_GVNIC_NETWORK_INTERFACE"
-  | "OS_CAPABILITY_IDPF_NETWORK_INTERFACE";
-export const VmCapabilitiesOsCapabilitiesItemEnum = S.String;
-
-export type VmCapabilitiesOsCapabilitiesItemEnumList = Array<
-  VmCapabilitiesOsCapabilitiesItemEnum | (string & {})
->;
-export const VmCapabilitiesOsCapabilitiesItemEnumList = /*@__PURE__*/ S.Array(
-  VmCapabilitiesOsCapabilitiesItemEnum,
-) as any as S.Schema<VmCapabilitiesOsCapabilitiesItemEnumList>;
-
-/** Migrating VM source information about the VM capabilities needed for some Compute Engine features. */
-export interface VmCapabilities {
-  /** Output only. Unordered list. List of certain VM OS capabilities needed for some Compute Engine features. */
-  osCapabilities?: VmCapabilitiesOsCapabilitiesItemEnumList;
-  /** Output only. The last time OS capabilities list was updated. */
-  lastOsCapabilitiesUpdateTime?: string;
-}
-export const VmCapabilities = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    osCapabilities: S.optional(VmCapabilitiesOsCapabilitiesItemEnumList),
-    lastOsCapabilitiesUpdateTime: S.optional(S.String),
-  }),
-).annotate({ identifier: "VmCapabilities" }) as any as S.Schema<VmCapabilities>;
-
-export type VmwareSourceVmDetailsArchitectureEnum =
-  | "VM_ARCHITECTURE_UNSPECIFIED"
-  | "VM_ARCHITECTURE_X86_FAMILY"
-  | "VM_ARCHITECTURE_ARM64";
-export const VmwareSourceVmDetailsArchitectureEnum = S.String;
-
-export type VmwareSourceVmDetailsFirmwareEnum = "FIRMWARE_UNSPECIFIED" | "EFI" | "BIOS";
-export const VmwareSourceVmDetailsFirmwareEnum = S.String;
-
-/** Represent the source Vmware VM details. */
-export interface VmwareSourceVmDetails {
-  /** Output only. The total size of the disks being migrated in bytes. */
-  committedStorageBytes?: string;
-  /** Output only. The disks attached to the source VM. */
-  disks?: VmwareDiskDetailsList;
-  /** Output only. Information about VM capabilities needed for some Compute Engine features. */
-  vmCapabilitiesInfo?: VmCapabilities;
-  /** Output only. The VM architecture. */
-  architecture?: VmwareSourceVmDetailsArchitectureEnum | (string & {});
-  /** Output only. The firmware type of the source VM. */
-  firmware?: VmwareSourceVmDetailsFirmwareEnum | (string & {});
-}
-export const VmwareSourceVmDetails = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    committedStorageBytes: S.optional(S.String),
-    disks: S.optional(VmwareDiskDetailsList),
-    vmCapabilitiesInfo: S.optional(VmCapabilities),
-    architecture: S.optional(VmwareSourceVmDetailsArchitectureEnum),
-    firmware: S.optional(VmwareSourceVmDetailsFirmwareEnum),
-  }),
-).annotate({
-  identifier: "VmwareSourceVmDetails",
-}) as any as S.Schema<VmwareSourceVmDetails>;
-
-export type CutoverJobStateEnum =
-  | "STATE_UNSPECIFIED"
-  | "PENDING"
-  | "FAILED"
-  | "SUCCEEDED"
-  | "CANCELLED"
-  | "CANCELLING"
-  | "ACTIVE"
-  | "ADAPTING_OS";
-export const CutoverJobStateEnum = S.String;
-
 export type ReplicationCycleStateEnum =
   | "STATE_UNSPECIFIED"
   | "RUNNING"
@@ -2004,56 +1367,54 @@ export type ReplicationCycleStateEnum =
   | "SUCCEEDED";
 export const ReplicationCycleStateEnum = S.String;
 
-/** InitializingReplicationStep contains specific step details. */
-export type InitializingReplicationStep = CancelImageImportJobRequest;
-export const InitializingReplicationStep = CancelImageImportJobRequest;
+/** ReplicatingStep contains specific step details. */
+export interface ReplicatingStep {
+  /** The source disks replication rate for the last 2 minutes in bytes per second. */
+  lastTwoMinutesAverageBytesPerSecond?: string;
+  /** The source disks replication rate for the last 30 minutes in bytes per second. */
+  lastThirtyMinutesAverageBytesPerSecond?: string;
+  /** Replicated bytes in the step. */
+  replicatedBytes?: string;
+  /** Total bytes to be handled in the step. */
+  totalBytes?: string;
+}
+export const ReplicatingStep = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    lastTwoMinutesAverageBytesPerSecond: S.optional(S.String),
+    lastThirtyMinutesAverageBytesPerSecond: S.optional(S.String),
+    replicatedBytes: S.optional(S.String),
+    totalBytes: S.optional(S.String),
+  }),
+).annotate({ identifier: "ReplicatingStep" }) as any as S.Schema<ReplicatingStep>;
 
 /** PostProcessingStep contains specific step details. */
 export type PostProcessingStep = CancelImageImportJobRequest;
 export const PostProcessingStep = CancelImageImportJobRequest;
 
-/** ReplicatingStep contains specific step details. */
-export interface ReplicatingStep {
-  /** Total bytes to be handled in the step. */
-  totalBytes?: string;
-  /** The source disks replication rate for the last 30 minutes in bytes per second. */
-  lastThirtyMinutesAverageBytesPerSecond?: string;
-  /** The source disks replication rate for the last 2 minutes in bytes per second. */
-  lastTwoMinutesAverageBytesPerSecond?: string;
-  /** Replicated bytes in the step. */
-  replicatedBytes?: string;
-}
-export const ReplicatingStep = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    totalBytes: S.optional(S.String),
-    lastThirtyMinutesAverageBytesPerSecond: S.optional(S.String),
-    lastTwoMinutesAverageBytesPerSecond: S.optional(S.String),
-    replicatedBytes: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ReplicatingStep",
-}) as any as S.Schema<ReplicatingStep>;
+/** InitializingReplicationStep contains specific step details. */
+export type InitializingReplicationStep = CancelImageImportJobRequest;
+export const InitializingReplicationStep = CancelImageImportJobRequest;
 
 /** CycleStep holds information about a step progress. */
 export interface CycleStep {
+  /** Replicating step. */
+  replicating?: ReplicatingStep;
+  /** Post processing step. */
+  postProcessing?: CancelImageImportJobRequest;
+  /** Initializing replication step. */
+  initializingReplication?: CancelImageImportJobRequest;
   /** The time the cycle step has started. */
   startTime?: string;
   /** The time the cycle step has ended. */
   endTime?: string;
-  /** Initializing replication step. */
-  initializingReplication?: CancelImageImportJobRequest;
-  /** Post processing step. */
-  postProcessing?: CancelImageImportJobRequest;
-  /** Replicating step. */
-  replicating?: ReplicatingStep;
 }
 export const CycleStep = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    replicating: S.optional(ReplicatingStep),
+    postProcessing: S.optional(CancelImageImportJobRequest),
+    initializingReplication: S.optional(CancelImageImportJobRequest),
     startTime: S.optional(S.String),
     endTime: S.optional(S.String),
-    initializingReplication: S.optional(CancelImageImportJobRequest),
-    postProcessing: S.optional(CancelImageImportJobRequest),
-    replicating: S.optional(ReplicatingStep),
   }),
 ).annotate({ identifier: "CycleStep" }) as any as S.Schema<CycleStep>;
 
@@ -2062,183 +1423,41 @@ export const CycleStepList = /*@__PURE__*/ S.Array(CycleStep) as any as S.Schema
 
 /** ReplicationCycle contains information about the current replication cycle status. */
 export interface ReplicationCycle {
-  /** State of the ReplicationCycle. */
-  state?: ReplicationCycleStateEnum | (string & {});
-  /** The current progress in percentage of this cycle. Was replaced by 'steps' field, which breaks down the cycle progression more accurately. */
-  progressPercent?: number;
-  /** The cycle's ordinal number. */
-  cycleNumber?: number;
-  /** Output only. Warnings that occurred during the cycle. */
-  warnings?: MigrationWarningList;
-  /** The time the replication cycle has ended. */
-  endTime?: string;
-  /** Output only. Provides details on the state of the cycle in case of an error. */
-  error?: Status;
-  /** The accumulated duration the replication cycle was paused. */
-  totalPauseDuration?: string;
   /** The identifier of the ReplicationCycle. */
   name?: string;
-  /** The cycle's steps list representing its progress. */
-  steps?: CycleStepList;
   /** The time the replication cycle has started. */
   startTime?: string;
+  /** State of the ReplicationCycle. */
+  state?: ReplicationCycleStateEnum | (string & {});
+  /** Output only. Provides details on the state of the cycle in case of an error. */
+  error?: Status;
+  /** The current progress in percentage of this cycle. Was replaced by 'steps' field, which breaks down the cycle progression more accurately. */
+  progressPercent?: number;
+  /** Output only. Warnings that occurred during the cycle. */
+  warnings?: MigrationWarningList;
+  /** The accumulated duration the replication cycle was paused. */
+  totalPauseDuration?: string;
+  /** The cycle's steps list representing its progress. */
+  steps?: CycleStepList;
+  /** The cycle's ordinal number. */
+  cycleNumber?: number;
+  /** The time the replication cycle has ended. */
+  endTime?: string;
 }
 export const ReplicationCycle = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    name: S.optional(S.String),
+    startTime: S.optional(S.String),
     state: S.optional(ReplicationCycleStateEnum),
+    error: S.optional(Status),
     progressPercent: S.optional(S.Number),
-    cycleNumber: S.optional(S.Number),
     warnings: S.optional(MigrationWarningList),
-    endTime: S.optional(S.String),
-    error: S.optional(Status),
     totalPauseDuration: S.optional(S.String),
-    name: S.optional(S.String),
     steps: S.optional(CycleStepList),
-    startTime: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ReplicationCycle",
-}) as any as S.Schema<ReplicationCycle>;
-
-/** ShuttingDownSourceVMStep contains specific step details. */
-export type ShuttingDownSourceVMStep = CancelImageImportJobRequest;
-export const ShuttingDownSourceVMStep = CancelImageImportJobRequest;
-
-/** CutoverStep holds information about the cutover step progress. */
-export interface CutoverStep {
-  /** The time the step has ended. */
-  endTime?: string;
-  /** Final sync step. */
-  finalSync?: ReplicationCycle;
-  /** Preparing VM disks step. */
-  preparingVmDisks?: CancelImageImportJobRequest;
-  /** A replication cycle prior cutover step. */
-  previousReplicationCycle?: ReplicationCycle;
-  /** Shutting down VM step. */
-  shuttingDownSourceVm?: CancelImageImportJobRequest;
-  /** The time the step has started. */
-  startTime?: string;
-  /** Instantiating migrated VM step. */
-  instantiatingMigratedVm?: CancelImageImportJobRequest;
-}
-export const CutoverStep = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
+    cycleNumber: S.optional(S.Number),
     endTime: S.optional(S.String),
-    finalSync: S.optional(ReplicationCycle),
-    preparingVmDisks: S.optional(CancelImageImportJobRequest),
-    previousReplicationCycle: S.optional(ReplicationCycle),
-    shuttingDownSourceVm: S.optional(CancelImageImportJobRequest),
-    startTime: S.optional(S.String),
-    instantiatingMigratedVm: S.optional(CancelImageImportJobRequest),
   }),
-).annotate({ identifier: "CutoverStep" }) as any as S.Schema<CutoverStep>;
-
-export type CutoverStepList = Array<CutoverStep>;
-export const CutoverStepList = /*@__PURE__*/ S.Array(
-  CutoverStep,
-) as any as S.Schema<CutoverStepList>;
-
-/** CutoverJob message describes a cutover of a migrating VM. The CutoverJob is the operation of shutting down the VM, creating a snapshot and cloning the VM using the replicated snapshot. */
-export interface CutoverJob {
-  /** Output only. A message providing possible extra details about the current state. */
-  stateMessage?: string;
-  /** Output only. The time the cutover job was created (as an API call, not when it was actually created in the target). */
-  createTime?: string;
-  /** Output only. Details of the target Persistent Disks in Compute Engine. */
-  computeEngineDisksTargetDetails?: ComputeEngineDisksTargetDetails;
-  /** Output only. The current progress in percentage of the cutover job. */
-  progressPercent?: number;
-  /** Output only. State of the cutover job. */
-  state?: CutoverJobStateEnum | (string & {});
-  /** Output only. The cutover steps list representing its progress. */
-  steps?: CutoverStepList;
-  /** Output only. The name of the cutover job. */
-  name?: string;
-  /** Output only. The time the cutover job had finished. */
-  endTime?: string;
-  /** Output only. Details of the target VM in Compute Engine. */
-  computeEngineTargetDetails?: ComputeEngineTargetDetails;
-  /** Output only. The time the state was last updated. */
-  stateTime?: string;
-  /** Output only. Provides details for the errors that led to the Cutover Job's state. */
-  error?: Status;
-}
-export const CutoverJob = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    stateMessage: S.optional(S.String),
-    createTime: S.optional(S.String),
-    computeEngineDisksTargetDetails: S.optional(ComputeEngineDisksTargetDetails),
-    progressPercent: S.optional(S.Number),
-    state: S.optional(CutoverJobStateEnum),
-    steps: S.optional(CutoverStepList),
-    name: S.optional(S.String),
-    endTime: S.optional(S.String),
-    computeEngineTargetDetails: S.optional(ComputeEngineTargetDetails),
-    stateTime: S.optional(S.String),
-    error: S.optional(Status),
-  }),
-).annotate({ identifier: "CutoverJob" }) as any as S.Schema<CutoverJob>;
-
-export type CutoverJobList = Array<CutoverJob>;
-export const CutoverJobList = /*@__PURE__*/ S.Array(CutoverJob) as any as S.Schema<CutoverJobList>;
-
-/** The details of an Azure VM disk. */
-export interface AzureDiskDetails {
-  /** Output only. Size in GB. */
-  sizeGb?: string;
-  /** Output only. Azure disk ID. */
-  diskId?: string;
-  /** Output only. The ordinal number of the disk. */
-  diskNumber?: number;
-}
-export const AzureDiskDetails = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    sizeGb: S.optional(S.String),
-    diskId: S.optional(S.String),
-    diskNumber: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "AzureDiskDetails",
-}) as any as S.Schema<AzureDiskDetails>;
-
-export type AzureDiskDetailsList = Array<AzureDiskDetails>;
-export const AzureDiskDetailsList = /*@__PURE__*/ S.Array(
-  AzureDiskDetails,
-) as any as S.Schema<AzureDiskDetailsList>;
-
-export type AzureSourceVmDetailsArchitectureEnum =
-  | "VM_ARCHITECTURE_UNSPECIFIED"
-  | "VM_ARCHITECTURE_X86_FAMILY"
-  | "VM_ARCHITECTURE_ARM64";
-export const AzureSourceVmDetailsArchitectureEnum = S.String;
-
-export type AzureSourceVmDetailsFirmwareEnum = "FIRMWARE_UNSPECIFIED" | "EFI" | "BIOS";
-export const AzureSourceVmDetailsFirmwareEnum = S.String;
-
-/** Represent the source Azure VM details. */
-export interface AzureSourceVmDetails {
-  /** Output only. The disks attached to the source VM. */
-  disks?: AzureDiskDetailsList;
-  /** Output only. The VM architecture. */
-  architecture?: AzureSourceVmDetailsArchitectureEnum | (string & {});
-  /** Output only. The firmware type of the source VM. */
-  firmware?: AzureSourceVmDetailsFirmwareEnum | (string & {});
-  /** Output only. The total size of the disks being migrated in bytes. */
-  committedStorageBytes?: string;
-  /** Output only. Information about VM capabilities needed for some Compute Engine features. */
-  vmCapabilitiesInfo?: VmCapabilities;
-}
-export const AzureSourceVmDetails = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    disks: S.optional(AzureDiskDetailsList),
-    architecture: S.optional(AzureSourceVmDetailsArchitectureEnum),
-    firmware: S.optional(AzureSourceVmDetailsFirmwareEnum),
-    committedStorageBytes: S.optional(S.String),
-    vmCapabilitiesInfo: S.optional(VmCapabilities),
-  }),
-).annotate({
-  identifier: "AzureSourceVmDetails",
-}) as any as S.Schema<AzureSourceVmDetails>;
+).annotate({ identifier: "ReplicationCycle" }) as any as S.Schema<ReplicationCycle>;
 
 /** Expiration holds information about the expiration of a MigratingVm. */
 export interface Expiration {
@@ -2256,222 +1475,6 @@ export const Expiration = /*@__PURE__*/ S.suspend(() =>
     extendable: S.optional(S.Boolean),
   }),
 ).annotate({ identifier: "Expiration" }) as any as S.Schema<Expiration>;
-
-/** The details of an AWS instance disk. */
-export interface AwsDiskDetails {
-  /** Output only. The ordinal number of the disk. */
-  diskNumber?: number;
-  /** Output only. Size in GB. */
-  sizeGb?: string;
-  /** Output only. AWS volume ID. */
-  volumeId?: string;
-}
-export const AwsDiskDetails = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    diskNumber: S.optional(S.Number),
-    sizeGb: S.optional(S.String),
-    volumeId: S.optional(S.String),
-  }),
-).annotate({ identifier: "AwsDiskDetails" }) as any as S.Schema<AwsDiskDetails>;
-
-export type AwsDiskDetailsList = Array<AwsDiskDetails>;
-export const AwsDiskDetailsList = /*@__PURE__*/ S.Array(
-  AwsDiskDetails,
-) as any as S.Schema<AwsDiskDetailsList>;
-
-export type AwsSourceVmDetailsArchitectureEnum =
-  | "VM_ARCHITECTURE_UNSPECIFIED"
-  | "VM_ARCHITECTURE_X86_FAMILY"
-  | "VM_ARCHITECTURE_ARM64";
-export const AwsSourceVmDetailsArchitectureEnum = S.String;
-
-export type AwsSourceVmDetailsFirmwareEnum = "FIRMWARE_UNSPECIFIED" | "EFI" | "BIOS";
-export const AwsSourceVmDetailsFirmwareEnum = S.String;
-
-/** Represent the source AWS VM details. */
-export interface AwsSourceVmDetails {
-  /** Output only. Information about VM capabilities needed for some Compute Engine features. */
-  vmCapabilitiesInfo?: VmCapabilities;
-  /** Output only. The disks attached to the source VM. */
-  disks?: AwsDiskDetailsList;
-  /** Output only. The VM architecture. */
-  architecture?: AwsSourceVmDetailsArchitectureEnum | (string & {});
-  /** Output only. The total size of the disks being migrated in bytes. */
-  committedStorageBytes?: string;
-  /** Output only. The firmware type of the source VM. */
-  firmware?: AwsSourceVmDetailsFirmwareEnum | (string & {});
-}
-export const AwsSourceVmDetails = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    vmCapabilitiesInfo: S.optional(VmCapabilities),
-    disks: S.optional(AwsDiskDetailsList),
-    architecture: S.optional(AwsSourceVmDetailsArchitectureEnum),
-    committedStorageBytes: S.optional(S.String),
-    firmware: S.optional(AwsSourceVmDetailsFirmwareEnum),
-  }),
-).annotate({
-  identifier: "AwsSourceVmDetails",
-}) as any as S.Schema<AwsSourceVmDetails>;
-
-/** CutoverForecast holds information about future CutoverJobs of a MigratingVm. */
-export interface CutoverForecast {
-  /** Output only. Estimation of the CutoverJob duration. */
-  estimatedCutoverJobDuration?: string;
-}
-export const CutoverForecast = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    estimatedCutoverJobDuration: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "CutoverForecast",
-}) as any as S.Schema<CutoverForecast>;
-
-/** ReplicationSync contain information about the last replica sync to the cloud. */
-export interface ReplicationSync {
-  /** The most updated snapshot created time in the source that finished replication. */
-  lastSyncTime?: string;
-}
-export const ReplicationSync = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    lastSyncTime: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ReplicationSync",
-}) as any as S.Schema<ReplicationSync>;
-
-/** Contains details about the image source used to create the disk. */
-export interface DiskImageDefaults {
-  /** Required. The Image resource used when creating the disk. */
-  sourceImage?: string;
-}
-export const DiskImageDefaults = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    sourceImage: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "DiskImageDefaults",
-}) as any as S.Schema<DiskImageDefaults>;
-
-export type BootDiskDefaultsDiskTypeEnum =
-  | "COMPUTE_ENGINE_DISK_TYPE_UNSPECIFIED"
-  | "COMPUTE_ENGINE_DISK_TYPE_STANDARD"
-  | "COMPUTE_ENGINE_DISK_TYPE_SSD"
-  | "COMPUTE_ENGINE_DISK_TYPE_BALANCED"
-  | "COMPUTE_ENGINE_DISK_TYPE_HYPERDISK_BALANCED"
-  | "COMPUTE_ENGINE_DISK_TYPE_HYPERDISK_BALANCED_HIGH_AVAILABILITY";
-export const BootDiskDefaultsDiskTypeEnum = S.String;
-
-/** BootDiskDefaults hold information about the boot disk of a VM. */
-export interface BootDiskDefaults {
-  /** Optional. Specifies a unique device name of your choice that is reflected into the /dev/disk/by-id/google-* tree of a Linux operating system running within the instance. If not specified, the server chooses a default device name to apply to this disk, in the form persistent-disk-x, where x is a number assigned by Google Compute Engine. This field is only applicable for persistent disks. */
-  deviceName?: string;
-  /** The image to use when creating the disk. */
-  image?: DiskImageDefaults;
-  /** Optional. The name of the disk. */
-  diskName?: string;
-  /** Optional. The type of disk provisioning to use for the VM. */
-  diskType?: BootDiskDefaultsDiskTypeEnum | (string & {});
-  /** Optional. The encryption to apply to the boot disk. */
-  encryption?: Encryption;
-}
-export const BootDiskDefaults = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    deviceName: S.optional(S.String),
-    image: S.optional(DiskImageDefaults),
-    diskName: S.optional(S.String),
-    diskType: S.optional(BootDiskDefaultsDiskTypeEnum),
-    encryption: S.optional(Encryption),
-  }),
-).annotate({
-  identifier: "BootDiskDefaults",
-}) as any as S.Schema<BootDiskDefaults>;
-
-/** Details for creation of a VM that migrated data disks will be attached to. */
-export interface DisksMigrationVmTargetDefaults {
-  /** Required. The name of the VM to create. */
-  vmName?: string;
-  /** Optional. The hostname to assign to the VM. */
-  hostname?: string;
-  /** Optional. NICs to attach to the VM. */
-  networkInterfaces?: NetworkInterfaceList;
-  /** Optional. Details of the boot disk of the VM. */
-  bootDiskDefaults?: BootDiskDefaults;
-  /** Optional. Defines whether the instance has Secure Boot enabled. This can be set to true only if the VM boot option is EFI. */
-  secureBoot?: boolean;
-  /** Optional. A list of network tags to associate with the VM. */
-  networkTags?: StringList;
-  /** Optional. Defines whether the instance has vTPM enabled. */
-  enableVtpm?: boolean;
-  /** Optional. Compute instance scheduling information (if empty default is used). */
-  computeScheduling?: ComputeScheduling;
-  /** Optional. Defines whether the instance has integrity monitoring enabled. */
-  enableIntegrityMonitoring?: boolean;
-  /** Optional. A map of labels to associate with the VM. */
-  labels?: StringMap;
-  /** Optional. The encryption to apply to the VM. */
-  encryption?: Encryption;
-  /** Optional. The service account to associate the VM with. */
-  serviceAccount?: string;
-  /** Required. The machine type to create the VM with. */
-  machineType?: string;
-  /** Optional. The machine type series to create the VM with. For presentation only. */
-  machineTypeSeries?: string;
-  /** Optional. The metadata key/value pairs to assign to the VM. */
-  metadata?: StringMap;
-  /** Optional. Additional licenses to assign to the VM. */
-  additionalLicenses?: StringList;
-}
-export const DisksMigrationVmTargetDefaults = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    vmName: S.optional(S.String),
-    hostname: S.optional(S.String),
-    networkInterfaces: S.optional(NetworkInterfaceList),
-    bootDiskDefaults: S.optional(BootDiskDefaults),
-    secureBoot: S.optional(S.Boolean),
-    networkTags: S.optional(StringList),
-    enableVtpm: S.optional(S.Boolean),
-    computeScheduling: S.optional(ComputeScheduling),
-    enableIntegrityMonitoring: S.optional(S.Boolean),
-    labels: S.optional(StringMap),
-    encryption: S.optional(Encryption),
-    serviceAccount: S.optional(S.String),
-    machineType: S.optional(S.String),
-    machineTypeSeries: S.optional(S.String),
-    metadata: S.optional(StringMap),
-    additionalLicenses: S.optional(StringList),
-  }),
-).annotate({
-  identifier: "DisksMigrationVmTargetDefaults",
-}) as any as S.Schema<DisksMigrationVmTargetDefaults>;
-
-/** Details for a disk only migration. */
-export type DisksMigrationDisksTargetDefaults = CancelImageImportJobRequest;
-export const DisksMigrationDisksTargetDefaults = CancelImageImportJobRequest;
-
-/** ComputeEngineDisksTargetDefaults is a collection of details for creating Persistent Disks in a target Compute Engine project. */
-export interface ComputeEngineDisksTargetDefaults {
-  /** The full path of the resource of type TargetProject which represents the Compute Engine project in which to create the Persistent Disks. */
-  targetProject?: string;
-  /** Details of the VM migration target. */
-  vmTargetDefaults?: DisksMigrationVmTargetDefaults;
-  /** The zone in which to create the Persistent Disks. */
-  zone?: string;
-  /** The details of each Persistent Disk to create. */
-  disks?: PersistentDiskDefaultsList;
-  /** Details of the disk only migration target. */
-  disksTargetDefaults?: CancelImageImportJobRequest;
-}
-export const ComputeEngineDisksTargetDefaults = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    targetProject: S.optional(S.String),
-    vmTargetDefaults: S.optional(DisksMigrationVmTargetDefaults),
-    zone: S.optional(S.String),
-    disks: S.optional(PersistentDiskDefaultsList),
-    disksTargetDefaults: S.optional(CancelImageImportJobRequest),
-  }),
-).annotate({
-  identifier: "ComputeEngineDisksTargetDefaults",
-}) as any as S.Schema<ComputeEngineDisksTargetDefaults>;
 
 export type MigratingVmStateEnum =
   | "STATE_UNSPECIFIED"
@@ -2504,101 +1507,1026 @@ export const SchedulePolicy = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "SchedulePolicy" }) as any as S.Schema<SchedulePolicy>;
 
+/** InstantiatingMigratedVMStep contains specific step details. */
+export type InstantiatingMigratedVMStep = CancelImageImportJobRequest;
+export const InstantiatingMigratedVMStep = CancelImageImportJobRequest;
+
+/** PreparingVMDisksStep contains specific step details. */
+export type PreparingVMDisksStep = CancelImageImportJobRequest;
+export const PreparingVMDisksStep = CancelImageImportJobRequest;
+
+/** CloneStep holds information about the clone step progress. */
+export interface CloneStep {
+  /** Instantiating migrated VM step. */
+  instantiatingMigratedVm?: CancelImageImportJobRequest;
+  /** The time the step has started. */
+  startTime?: string;
+  /** Adapting OS step. */
+  adaptingOs?: CancelImageImportJobRequest;
+  /** The time the step has ended. */
+  endTime?: string;
+  /** Preparing VM disks step. */
+  preparingVmDisks?: CancelImageImportJobRequest;
+}
+export const CloneStep = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    instantiatingMigratedVm: S.optional(CancelImageImportJobRequest),
+    startTime: S.optional(S.String),
+    adaptingOs: S.optional(CancelImageImportJobRequest),
+    endTime: S.optional(S.String),
+    preparingVmDisks: S.optional(CancelImageImportJobRequest),
+  }),
+).annotate({ identifier: "CloneStep" }) as any as S.Schema<CloneStep>;
+
+export type CloneStepList = Array<CloneStep>;
+export const CloneStepList = /*@__PURE__*/ S.Array(CloneStep) as any as S.Schema<CloneStepList>;
+
+/** Details for the VM created VM as part of disks migration. */
+export interface DisksMigrationVmTargetDetails {
+  /** Output only. The URI of the Compute Engine VM. */
+  vmUri?: string;
+}
+export const DisksMigrationVmTargetDetails = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    vmUri: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "DisksMigrationVmTargetDetails",
+}) as any as S.Schema<DisksMigrationVmTargetDetails>;
+
+/** Details of a created Persistent Disk. */
+export interface PersistentDisk {
+  /** Output only. The URI of the Persistent Disk. */
+  diskUri?: string;
+  /** Output only. The ordinal number of the source VM disk. */
+  sourceDiskNumber?: number;
+}
+export const PersistentDisk = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    diskUri: S.optional(S.String),
+    sourceDiskNumber: S.optional(S.Number),
+  }),
+).annotate({ identifier: "PersistentDisk" }) as any as S.Schema<PersistentDisk>;
+
+export type PersistentDiskList = Array<PersistentDisk>;
+export const PersistentDiskList = /*@__PURE__*/ S.Array(
+  PersistentDisk,
+) as any as S.Schema<PersistentDiskList>;
+
+/** Details for a disks-only migration. */
+export type DisksMigrationDisksTargetDetails = CancelImageImportJobRequest;
+export const DisksMigrationDisksTargetDetails = CancelImageImportJobRequest;
+
+/** ComputeEngineDisksTargetDetails is a collection of created Persistent Disks details. */
+export interface ComputeEngineDisksTargetDetails {
+  /** Details for the VM the migrated data disks are attached to. */
+  vmTargetDetails?: DisksMigrationVmTargetDetails;
+  /** The details of each created Persistent Disk. */
+  disks?: PersistentDiskList;
+  /** Details of the disks-only migration target. */
+  disksTargetDetails?: CancelImageImportJobRequest;
+}
+export const ComputeEngineDisksTargetDetails = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    vmTargetDetails: S.optional(DisksMigrationVmTargetDetails),
+    disks: S.optional(PersistentDiskList),
+    disksTargetDetails: S.optional(CancelImageImportJobRequest),
+  }),
+).annotate({
+  identifier: "ComputeEngineDisksTargetDetails",
+}) as any as S.Schema<ComputeEngineDisksTargetDetails>;
+
+export type CloneJobStateEnum =
+  | "STATE_UNSPECIFIED"
+  | "PENDING"
+  | "ACTIVE"
+  | "FAILED"
+  | "SUCCEEDED"
+  | "CANCELLED"
+  | "CANCELLING"
+  | "ADAPTING_OS";
+export const CloneJobStateEnum = S.String;
+
+export type ComputeEngineTargetDetailsDiskTypeEnum =
+  | "COMPUTE_ENGINE_DISK_TYPE_UNSPECIFIED"
+  | "COMPUTE_ENGINE_DISK_TYPE_STANDARD"
+  | "COMPUTE_ENGINE_DISK_TYPE_SSD"
+  | "COMPUTE_ENGINE_DISK_TYPE_BALANCED"
+  | "COMPUTE_ENGINE_DISK_TYPE_HYPERDISK_BALANCED"
+  | "COMPUTE_ENGINE_DISK_TYPE_HYPERDISK_BALANCED_HIGH_AVAILABILITY";
+export const ComputeEngineTargetDetailsDiskTypeEnum = S.String;
+
+export type ComputeEngineTargetDetailsBootConversionEnum =
+  | "BOOT_CONVERSION_UNSPECIFIED"
+  | "NONE"
+  | "BIOS_TO_EFI";
+export const ComputeEngineTargetDetailsBootConversionEnum = S.String;
+
+export type ComputeEngineTargetDetailsBootOptionEnum =
+  | "COMPUTE_ENGINE_BOOT_OPTION_UNSPECIFIED"
+  | "COMPUTE_ENGINE_BOOT_OPTION_EFI"
+  | "COMPUTE_ENGINE_BOOT_OPTION_BIOS";
+export const ComputeEngineTargetDetailsBootOptionEnum = S.String;
+
+export type ComputeEngineTargetDetailsLicenseTypeEnum =
+  | "COMPUTE_ENGINE_LICENSE_TYPE_DEFAULT"
+  | "COMPUTE_ENGINE_LICENSE_TYPE_PAYG"
+  | "COMPUTE_ENGINE_LICENSE_TYPE_BYOL";
+export const ComputeEngineTargetDetailsLicenseTypeEnum = S.String;
+
+export type SchedulingNodeAffinityOperatorEnum = "OPERATOR_UNSPECIFIED" | "IN" | "NOT_IN";
+export const SchedulingNodeAffinityOperatorEnum = S.String;
+
+/** Node Affinity: the configuration of desired nodes onto which this Instance could be scheduled. Based on https://cloud.google.com/compute/docs/reference/rest/v1/instances/setScheduling */
+export interface SchedulingNodeAffinity {
+  /** The operator to use for the node resources specified in the `values` parameter. */
+  operator?: SchedulingNodeAffinityOperatorEnum | (string & {});
+  /** Corresponds to the label values of Node resource. */
+  values?: StringList;
+  /** The label key of Node resource to reference. */
+  key?: string;
+}
+export const SchedulingNodeAffinity = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    operator: S.optional(SchedulingNodeAffinityOperatorEnum),
+    values: S.optional(StringList),
+    key: S.optional(S.String),
+  }),
+).annotate({ identifier: "SchedulingNodeAffinity" }) as any as S.Schema<SchedulingNodeAffinity>;
+
+export type SchedulingNodeAffinityList = Array<SchedulingNodeAffinity>;
+export const SchedulingNodeAffinityList = /*@__PURE__*/ S.Array(
+  SchedulingNodeAffinity,
+) as any as S.Schema<SchedulingNodeAffinityList>;
+
+export type ComputeSchedulingRestartTypeEnum =
+  | "RESTART_TYPE_UNSPECIFIED"
+  | "AUTOMATIC_RESTART"
+  | "NO_AUTOMATIC_RESTART";
+export const ComputeSchedulingRestartTypeEnum = S.String;
+
+export type ComputeSchedulingOnHostMaintenanceEnum =
+  | "ON_HOST_MAINTENANCE_UNSPECIFIED"
+  | "TERMINATE"
+  | "MIGRATE";
+export const ComputeSchedulingOnHostMaintenanceEnum = S.String;
+
+/** Scheduling information for VM on maintenance/restart behaviour and node allocation in sole tenant nodes. Options for instance behavior when the host machine undergoes maintenance that may temporarily impact instance performance. */
+export interface ComputeScheduling {
+  /** The minimum number of virtual CPUs this instance will consume when running on a sole-tenant node. Ignored if no node_affinites are configured. */
+  minNodeCpus?: number;
+  /** A set of node affinity and anti-affinity configurations for sole tenant nodes. */
+  nodeAffinities?: SchedulingNodeAffinityList;
+  /** Whether the Instance should be automatically restarted whenever it is terminated by Compute Engine (not terminated by user). This configuration is identical to `automaticRestart` field in Compute Engine create instance under scheduling. It was changed to an enum (instead of a boolean) to match the default value in Compute Engine which is automatic restart. */
+  restartType?: ComputeSchedulingRestartTypeEnum | (string & {});
+  /** How the instance should behave when the host machine undergoes maintenance that may temporarily impact instance performance. */
+  onHostMaintenance?: ComputeSchedulingOnHostMaintenanceEnum | (string & {});
+}
+export const ComputeScheduling = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    minNodeCpus: S.optional(S.Number),
+    nodeAffinities: S.optional(SchedulingNodeAffinityList),
+    restartType: S.optional(ComputeSchedulingRestartTypeEnum),
+    onHostMaintenance: S.optional(ComputeSchedulingOnHostMaintenanceEnum),
+  }),
+).annotate({ identifier: "ComputeScheduling" }) as any as S.Schema<ComputeScheduling>;
+
+export type AppliedLicenseTypeEnum = "TYPE_UNSPECIFIED" | "NONE" | "PAYG" | "BYOL";
+export const AppliedLicenseTypeEnum = S.String;
+
+/** AppliedLicense holds the license data returned by adaptation module report. */
+export interface AppliedLicense {
+  /** The license type that was used in OS adaptation. */
+  type?: AppliedLicenseTypeEnum | (string & {});
+  /** The OS license returned from the adaptation module's report. */
+  osLicense?: string;
+}
+export const AppliedLicense = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: S.optional(AppliedLicenseTypeEnum),
+    osLicense: S.optional(S.String),
+  }),
+).annotate({ identifier: "AppliedLicense" }) as any as S.Schema<AppliedLicense>;
+
+/** ComputeEngineTargetDetails is a collection of details for creating a VM in a target Compute Engine project. */
+export interface ComputeEngineTargetDetails {
+  /** List of NICs connected to this VM. */
+  networkInterfaces?: NetworkInterfaceList;
+  /** Additional licenses to assign to the VM. */
+  additionalLicenses?: StringList;
+  /** The disk type to use in the VM. */
+  diskType?: ComputeEngineTargetDetailsDiskTypeEnum | (string & {});
+  /** A list of network tags to associate with the VM. */
+  networkTags?: StringList;
+  /** A map of labels to associate with the VM. */
+  labels?: StringMap;
+  /** Optional. Defines whether the instance has vTPM enabled. */
+  enableVtpm?: boolean;
+  /** The name of the VM to create. */
+  vmName?: string;
+  /** Optional. The encryption to apply to the VM disks. */
+  encryption?: Encryption;
+  /** The Google Cloud target project ID or project name. */
+  project?: string;
+  /** Optional. By default the virtual machine will keep its existing boot option. Setting this property will trigger an internal process which will convert the virtual machine from using the existing boot option to another. */
+  bootConversion?: ComputeEngineTargetDetailsBootConversionEnum | (string & {});
+  /** Optional. The storage pool used for the VM disks. If specified this will be the storage pool in which the disk is created. This is the full path of the storage pool resource, for example: "projects/my-project/zones/us-central1-a/storagePools/my-storage-pool". The storage pool must be in the same project and zone as the target disks. The storage pool's type must match the disk type. */
+  storagePool?: string;
+  /** Optional. Defines whether the instance has integrity monitoring enabled. */
+  enableIntegrityMonitoring?: boolean;
+  /** The service account to associate the VM with. */
+  serviceAccount?: string;
+  /** Optional. Modifiers to be used as configuration of the OS adaptation process. */
+  adaptationModifiers?: AdaptationModifierList;
+  /** The metadata key/value pairs to assign to the VM. */
+  metadata?: StringMap;
+  /** The machine type to create the VM with. */
+  machineType?: string;
+  /** The zone in which to create the VM. */
+  zone?: string;
+  /** Defines whether the instance has Secure Boot enabled. This can be set to true only if the VM boot option is EFI. */
+  secureBoot?: boolean;
+  /** The machine type series to create the VM with. */
+  machineTypeSeries?: string;
+  /** The hostname to assign to the VM. */
+  hostname?: string;
+  /** The VM Boot Option, as set in the source VM. */
+  bootOption?: ComputeEngineTargetDetailsBootOptionEnum | (string & {});
+  /** The license type to use in OS adaptation. */
+  licenseType?: ComputeEngineTargetDetailsLicenseTypeEnum | (string & {});
+  /** Optional. Additional replica zones of the target regional disks. If this list is not empty a regional disk will be created. The first supported zone would be the one stated in the zone field. The rest are taken from this list. Please refer to the [regional disk creation API](https://cloud.google.com/compute/docs/regions-zones/global-regional-zonal-resources) for further details about regional vs zonal disks. If not specified, a zonal disk will be created in the same zone the VM is created. */
+  diskReplicaZones?: StringList;
+  /** Compute instance scheduling information (if empty default is used). */
+  computeScheduling?: ComputeScheduling;
+  /** The OS license returned from the adaptation module report. */
+  appliedLicense?: AppliedLicense;
+}
+export const ComputeEngineTargetDetails = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    networkInterfaces: S.optional(NetworkInterfaceList),
+    additionalLicenses: S.optional(StringList),
+    diskType: S.optional(ComputeEngineTargetDetailsDiskTypeEnum),
+    networkTags: S.optional(StringList),
+    labels: S.optional(StringMap),
+    enableVtpm: S.optional(S.Boolean),
+    vmName: S.optional(S.String),
+    encryption: S.optional(Encryption),
+    project: S.optional(S.String),
+    bootConversion: S.optional(ComputeEngineTargetDetailsBootConversionEnum),
+    storagePool: S.optional(S.String),
+    enableIntegrityMonitoring: S.optional(S.Boolean),
+    serviceAccount: S.optional(S.String),
+    adaptationModifiers: S.optional(AdaptationModifierList),
+    metadata: S.optional(StringMap),
+    machineType: S.optional(S.String),
+    zone: S.optional(S.String),
+    secureBoot: S.optional(S.Boolean),
+    machineTypeSeries: S.optional(S.String),
+    hostname: S.optional(S.String),
+    bootOption: S.optional(ComputeEngineTargetDetailsBootOptionEnum),
+    licenseType: S.optional(ComputeEngineTargetDetailsLicenseTypeEnum),
+    diskReplicaZones: S.optional(StringList),
+    computeScheduling: S.optional(ComputeScheduling),
+    appliedLicense: S.optional(AppliedLicense),
+  }),
+).annotate({
+  identifier: "ComputeEngineTargetDetails",
+}) as any as S.Schema<ComputeEngineTargetDetails>;
+
+/** CloneJob describes the process of creating a clone of a MigratingVM to the requested target based on the latest successful uploaded snapshots. While the migration cycles of a MigratingVm take place, it is possible to verify the uploaded VM can be started in the cloud, by creating a clone. The clone can be created without any downtime, and it is created using the latest snapshots which are already in the cloud. The cloneJob is only responsible for its work, not its products, which means once it is finished, it will never touch the instance it created. It will only delete it in case of the CloneJob being cancelled or upon failure to clone. */
+export interface CloneJob {
+  /** Output only. The time the state was last updated. */
+  stateTime?: string;
+  /** Output only. The time the clone job was ended. */
+  endTime?: string;
+  /** Output only. The clone steps list representing its progress. */
+  steps?: CloneStepList;
+  /** Output only. Details of the target Persistent Disks in Compute Engine. */
+  computeEngineDisksTargetDetails?: ComputeEngineDisksTargetDetails;
+  /** Output only. State of the clone job. */
+  state?: CloneJobStateEnum | (string & {});
+  /** Output only. Provides details for the errors that led to the Clone Job's state. */
+  error?: Status;
+  /** Output only. The time the clone job was created (as an API call, not when it was actually created in the target). */
+  createTime?: string;
+  /** Output only. The name of the clone. */
+  name?: string;
+  /** Output only. Details of the target VM in Compute Engine. */
+  computeEngineTargetDetails?: ComputeEngineTargetDetails;
+}
+export const CloneJob = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    stateTime: S.optional(S.String),
+    endTime: S.optional(S.String),
+    steps: S.optional(CloneStepList),
+    computeEngineDisksTargetDetails: S.optional(ComputeEngineDisksTargetDetails),
+    state: S.optional(CloneJobStateEnum),
+    error: S.optional(Status),
+    createTime: S.optional(S.String),
+    name: S.optional(S.String),
+    computeEngineTargetDetails: S.optional(ComputeEngineTargetDetails),
+  }),
+).annotate({ identifier: "CloneJob" }) as any as S.Schema<CloneJob>;
+
+export type CloneJobList = Array<CloneJob>;
+export const CloneJobList = /*@__PURE__*/ S.Array(CloneJob) as any as S.Schema<CloneJobList>;
+
+/** ReplicationSync contain information about the last replica sync to the cloud. */
+export interface ReplicationSync {
+  /** The most updated snapshot created time in the source that finished replication. */
+  lastSyncTime?: string;
+}
+export const ReplicationSync = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    lastSyncTime: S.optional(S.String),
+  }),
+).annotate({ identifier: "ReplicationSync" }) as any as S.Schema<ReplicationSync>;
+
+export type VmCapabilitiesOsCapabilitiesItemEnum =
+  | "OS_CAPABILITY_UNSPECIFIED"
+  | "OS_CAPABILITY_NVME_STORAGE_ACCESS"
+  | "OS_CAPABILITY_GVNIC_NETWORK_INTERFACE"
+  | "OS_CAPABILITY_IDPF_NETWORK_INTERFACE";
+export const VmCapabilitiesOsCapabilitiesItemEnum = S.String;
+
+export type VmCapabilitiesOsCapabilitiesItemEnumList = Array<
+  VmCapabilitiesOsCapabilitiesItemEnum | (string & {})
+>;
+export const VmCapabilitiesOsCapabilitiesItemEnumList = /*@__PURE__*/ S.Array(
+  VmCapabilitiesOsCapabilitiesItemEnum,
+) as any as S.Schema<VmCapabilitiesOsCapabilitiesItemEnumList>;
+
+/** Migrating VM source information about the VM capabilities needed for some Compute Engine features. */
+export interface VmCapabilities {
+  /** Output only. The last time OS capabilities list was updated. */
+  lastOsCapabilitiesUpdateTime?: string;
+  /** Output only. Unordered list. List of certain VM OS capabilities needed for some Compute Engine features. */
+  osCapabilities?: VmCapabilitiesOsCapabilitiesItemEnumList;
+}
+export const VmCapabilities = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    lastOsCapabilitiesUpdateTime: S.optional(S.String),
+    osCapabilities: S.optional(VmCapabilitiesOsCapabilitiesItemEnumList),
+  }),
+).annotate({ identifier: "VmCapabilities" }) as any as S.Schema<VmCapabilities>;
+
+/** The details of an Azure VM disk. */
+export interface AzureDiskDetails {
+  /** Output only. The ordinal number of the disk. */
+  diskNumber?: number;
+  /** Output only. Azure disk ID. */
+  diskId?: string;
+  /** Output only. Size in GB. */
+  sizeGb?: string;
+}
+export const AzureDiskDetails = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    diskNumber: S.optional(S.Number),
+    diskId: S.optional(S.String),
+    sizeGb: S.optional(S.String),
+  }),
+).annotate({ identifier: "AzureDiskDetails" }) as any as S.Schema<AzureDiskDetails>;
+
+export type AzureDiskDetailsList = Array<AzureDiskDetails>;
+export const AzureDiskDetailsList = /*@__PURE__*/ S.Array(
+  AzureDiskDetails,
+) as any as S.Schema<AzureDiskDetailsList>;
+
+export type AzureSourceVmDetailsFirmwareEnum = "FIRMWARE_UNSPECIFIED" | "EFI" | "BIOS";
+export const AzureSourceVmDetailsFirmwareEnum = S.String;
+
+export type AzureSourceVmDetailsArchitectureEnum =
+  | "VM_ARCHITECTURE_UNSPECIFIED"
+  | "VM_ARCHITECTURE_X86_FAMILY"
+  | "VM_ARCHITECTURE_ARM64";
+export const AzureSourceVmDetailsArchitectureEnum = S.String;
+
+/** Represent the source Azure VM details. */
+export interface AzureSourceVmDetails {
+  /** Output only. Information about VM capabilities needed for some Compute Engine features. */
+  vmCapabilitiesInfo?: VmCapabilities;
+  /** Output only. The disks attached to the source VM. */
+  disks?: AzureDiskDetailsList;
+  /** Output only. The firmware type of the source VM. */
+  firmware?: AzureSourceVmDetailsFirmwareEnum | (string & {});
+  /** Output only. The total size of the disks being migrated in bytes. */
+  committedStorageBytes?: string;
+  /** Output only. The VM architecture. */
+  architecture?: AzureSourceVmDetailsArchitectureEnum | (string & {});
+}
+export const AzureSourceVmDetails = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    vmCapabilitiesInfo: S.optional(VmCapabilities),
+    disks: S.optional(AzureDiskDetailsList),
+    firmware: S.optional(AzureSourceVmDetailsFirmwareEnum),
+    committedStorageBytes: S.optional(S.String),
+    architecture: S.optional(AzureSourceVmDetailsArchitectureEnum),
+  }),
+).annotate({ identifier: "AzureSourceVmDetails" }) as any as S.Schema<AzureSourceVmDetails>;
+
+/** ShuttingDownSourceVMStep contains specific step details. */
+export type ShuttingDownSourceVMStep = CancelImageImportJobRequest;
+export const ShuttingDownSourceVMStep = CancelImageImportJobRequest;
+
+/** CutoverStep holds information about the cutover step progress. */
+export interface CutoverStep {
+  /** The time the step has ended. */
+  endTime?: string;
+  /** The time the step has started. */
+  startTime?: string;
+  /** Shutting down VM step. */
+  shuttingDownSourceVm?: CancelImageImportJobRequest;
+  /** Preparing VM disks step. */
+  preparingVmDisks?: CancelImageImportJobRequest;
+  /** A replication cycle prior cutover step. */
+  previousReplicationCycle?: ReplicationCycle;
+  /** Instantiating migrated VM step. */
+  instantiatingMigratedVm?: CancelImageImportJobRequest;
+  /** Final sync step. */
+  finalSync?: ReplicationCycle;
+}
+export const CutoverStep = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    endTime: S.optional(S.String),
+    startTime: S.optional(S.String),
+    shuttingDownSourceVm: S.optional(CancelImageImportJobRequest),
+    preparingVmDisks: S.optional(CancelImageImportJobRequest),
+    previousReplicationCycle: S.optional(ReplicationCycle),
+    instantiatingMigratedVm: S.optional(CancelImageImportJobRequest),
+    finalSync: S.optional(ReplicationCycle),
+  }),
+).annotate({ identifier: "CutoverStep" }) as any as S.Schema<CutoverStep>;
+
+export type CutoverStepList = Array<CutoverStep>;
+export const CutoverStepList = /*@__PURE__*/ S.Array(
+  CutoverStep,
+) as any as S.Schema<CutoverStepList>;
+
+export type CutoverJobStateEnum =
+  | "STATE_UNSPECIFIED"
+  | "PENDING"
+  | "FAILED"
+  | "SUCCEEDED"
+  | "CANCELLED"
+  | "CANCELLING"
+  | "ACTIVE"
+  | "ADAPTING_OS";
+export const CutoverJobStateEnum = S.String;
+
+/** CutoverJob message describes a cutover of a migrating VM. The CutoverJob is the operation of shutting down the VM, creating a snapshot and cloning the VM using the replicated snapshot. */
+export interface CutoverJob {
+  /** Output only. The time the cutover job had finished. */
+  endTime?: string;
+  /** Output only. The cutover steps list representing its progress. */
+  steps?: CutoverStepList;
+  /** Output only. The time the state was last updated. */
+  stateTime?: string;
+  /** Output only. Details of the target Persistent Disks in Compute Engine. */
+  computeEngineDisksTargetDetails?: ComputeEngineDisksTargetDetails;
+  /** Output only. A message providing possible extra details about the current state. */
+  stateMessage?: string;
+  /** Output only. The time the cutover job was created (as an API call, not when it was actually created in the target). */
+  createTime?: string;
+  /** Output only. The name of the cutover job. */
+  name?: string;
+  /** Output only. The current progress in percentage of the cutover job. */
+  progressPercent?: number;
+  /** Output only. Details of the target VM in Compute Engine. */
+  computeEngineTargetDetails?: ComputeEngineTargetDetails;
+  /** Output only. State of the cutover job. */
+  state?: CutoverJobStateEnum | (string & {});
+  /** Output only. Provides details for the errors that led to the Cutover Job's state. */
+  error?: Status;
+}
+export const CutoverJob = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    endTime: S.optional(S.String),
+    steps: S.optional(CutoverStepList),
+    stateTime: S.optional(S.String),
+    computeEngineDisksTargetDetails: S.optional(ComputeEngineDisksTargetDetails),
+    stateMessage: S.optional(S.String),
+    createTime: S.optional(S.String),
+    name: S.optional(S.String),
+    progressPercent: S.optional(S.Number),
+    computeEngineTargetDetails: S.optional(ComputeEngineTargetDetails),
+    state: S.optional(CutoverJobStateEnum),
+    error: S.optional(Status),
+  }),
+).annotate({ identifier: "CutoverJob" }) as any as S.Schema<CutoverJob>;
+
+export type CutoverJobList = Array<CutoverJob>;
+export const CutoverJobList = /*@__PURE__*/ S.Array(CutoverJob) as any as S.Schema<CutoverJobList>;
+
+export type VmwareSourceVmDetailsFirmwareEnum = "FIRMWARE_UNSPECIFIED" | "EFI" | "BIOS";
+export const VmwareSourceVmDetailsFirmwareEnum = S.String;
+
+/** The details of a Vmware VM disk. */
+export interface VmwareDiskDetails {
+  /** Output only. The disk label. */
+  label?: string;
+  /** Output only. The ordinal number of the disk. */
+  diskNumber?: number;
+  /** Output only. Size in GB. */
+  sizeGb?: string;
+}
+export const VmwareDiskDetails = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    label: S.optional(S.String),
+    diskNumber: S.optional(S.Number),
+    sizeGb: S.optional(S.String),
+  }),
+).annotate({ identifier: "VmwareDiskDetails" }) as any as S.Schema<VmwareDiskDetails>;
+
+export type VmwareDiskDetailsList = Array<VmwareDiskDetails>;
+export const VmwareDiskDetailsList = /*@__PURE__*/ S.Array(
+  VmwareDiskDetails,
+) as any as S.Schema<VmwareDiskDetailsList>;
+
+export type VmwareSourceVmDetailsArchitectureEnum =
+  | "VM_ARCHITECTURE_UNSPECIFIED"
+  | "VM_ARCHITECTURE_X86_FAMILY"
+  | "VM_ARCHITECTURE_ARM64";
+export const VmwareSourceVmDetailsArchitectureEnum = S.String;
+
+/** Represent the source Vmware VM details. */
+export interface VmwareSourceVmDetails {
+  /** Output only. The total size of the disks being migrated in bytes. */
+  committedStorageBytes?: string;
+  /** Output only. The firmware type of the source VM. */
+  firmware?: VmwareSourceVmDetailsFirmwareEnum | (string & {});
+  /** Output only. The disks attached to the source VM. */
+  disks?: VmwareDiskDetailsList;
+  /** Output only. The VM architecture. */
+  architecture?: VmwareSourceVmDetailsArchitectureEnum | (string & {});
+  /** Output only. Information about VM capabilities needed for some Compute Engine features. */
+  vmCapabilitiesInfo?: VmCapabilities;
+}
+export const VmwareSourceVmDetails = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    committedStorageBytes: S.optional(S.String),
+    firmware: S.optional(VmwareSourceVmDetailsFirmwareEnum),
+    disks: S.optional(VmwareDiskDetailsList),
+    architecture: S.optional(VmwareSourceVmDetailsArchitectureEnum),
+    vmCapabilitiesInfo: S.optional(VmCapabilities),
+  }),
+).annotate({ identifier: "VmwareSourceVmDetails" }) as any as S.Schema<VmwareSourceVmDetails>;
+
+/** The details of an AWS instance disk. */
+export interface AwsDiskDetails {
+  /** Output only. Size in GB. */
+  sizeGb?: string;
+  /** Output only. AWS volume ID. */
+  volumeId?: string;
+  /** Output only. The ordinal number of the disk. */
+  diskNumber?: number;
+}
+export const AwsDiskDetails = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    sizeGb: S.optional(S.String),
+    volumeId: S.optional(S.String),
+    diskNumber: S.optional(S.Number),
+  }),
+).annotate({ identifier: "AwsDiskDetails" }) as any as S.Schema<AwsDiskDetails>;
+
+export type AwsDiskDetailsList = Array<AwsDiskDetails>;
+export const AwsDiskDetailsList = /*@__PURE__*/ S.Array(
+  AwsDiskDetails,
+) as any as S.Schema<AwsDiskDetailsList>;
+
+export type AwsSourceVmDetailsArchitectureEnum =
+  | "VM_ARCHITECTURE_UNSPECIFIED"
+  | "VM_ARCHITECTURE_X86_FAMILY"
+  | "VM_ARCHITECTURE_ARM64";
+export const AwsSourceVmDetailsArchitectureEnum = S.String;
+
+export type AwsSourceVmDetailsFirmwareEnum = "FIRMWARE_UNSPECIFIED" | "EFI" | "BIOS";
+export const AwsSourceVmDetailsFirmwareEnum = S.String;
+
+/** Represent the source AWS VM details. */
+export interface AwsSourceVmDetails {
+  /** Output only. The disks attached to the source VM. */
+  disks?: AwsDiskDetailsList;
+  /** Output only. Information about VM capabilities needed for some Compute Engine features. */
+  vmCapabilitiesInfo?: VmCapabilities;
+  /** Output only. The VM architecture. */
+  architecture?: AwsSourceVmDetailsArchitectureEnum | (string & {});
+  /** Output only. The firmware type of the source VM. */
+  firmware?: AwsSourceVmDetailsFirmwareEnum | (string & {});
+  /** Output only. The total size of the disks being migrated in bytes. */
+  committedStorageBytes?: string;
+}
+export const AwsSourceVmDetails = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    disks: S.optional(AwsDiskDetailsList),
+    vmCapabilitiesInfo: S.optional(VmCapabilities),
+    architecture: S.optional(AwsSourceVmDetailsArchitectureEnum),
+    firmware: S.optional(AwsSourceVmDetailsFirmwareEnum),
+    committedStorageBytes: S.optional(S.String),
+  }),
+).annotate({ identifier: "AwsSourceVmDetails" }) as any as S.Schema<AwsSourceVmDetails>;
+
+export type ComputeEngineTargetDefaultsLicenseTypeEnum =
+  | "COMPUTE_ENGINE_LICENSE_TYPE_DEFAULT"
+  | "COMPUTE_ENGINE_LICENSE_TYPE_PAYG"
+  | "COMPUTE_ENGINE_LICENSE_TYPE_BYOL";
+export const ComputeEngineTargetDefaultsLicenseTypeEnum = S.String;
+
+export type ComputeEngineTargetDefaultsBootOptionEnum =
+  | "COMPUTE_ENGINE_BOOT_OPTION_UNSPECIFIED"
+  | "COMPUTE_ENGINE_BOOT_OPTION_EFI"
+  | "COMPUTE_ENGINE_BOOT_OPTION_BIOS";
+export const ComputeEngineTargetDefaultsBootOptionEnum = S.String;
+
+export type PersistentDiskDefaultsDiskTypeEnum =
+  | "COMPUTE_ENGINE_DISK_TYPE_UNSPECIFIED"
+  | "COMPUTE_ENGINE_DISK_TYPE_STANDARD"
+  | "COMPUTE_ENGINE_DISK_TYPE_SSD"
+  | "COMPUTE_ENGINE_DISK_TYPE_BALANCED"
+  | "COMPUTE_ENGINE_DISK_TYPE_HYPERDISK_BALANCED"
+  | "COMPUTE_ENGINE_DISK_TYPE_HYPERDISK_BALANCED_HIGH_AVAILABILITY";
+export const PersistentDiskDefaultsDiskTypeEnum = S.String;
+
+/** Details for attachment of the disk to a VM. */
+export interface VmAttachmentDetails {
+  /** Optional. Specifies a unique device name of your choice that is reflected into the /dev/disk/by-id/google-* tree of a Linux operating system running within the instance. If not specified, the server chooses a default device name to apply to this disk, in the form persistent-disk-x, where x is a number assigned by Google Compute Engine. This field is only applicable for persistent disks. */
+  deviceName?: string;
+}
+export const VmAttachmentDetails = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    deviceName: S.optional(S.String),
+  }),
+).annotate({ identifier: "VmAttachmentDetails" }) as any as S.Schema<VmAttachmentDetails>;
+
+/** Details for creation of a Persistent Disk. */
+export interface PersistentDiskDefaults {
+  /** A map of labels to associate with the Persistent Disk. */
+  additionalLabels?: StringMap;
+  /** The disk type to use. */
+  diskType?: PersistentDiskDefaultsDiskTypeEnum | (string & {});
+  /** Required. The ordinal number of the source VM disk. */
+  sourceDiskNumber?: number;
+  /** Optional. The name of the Persistent Disk to create. */
+  diskName?: string;
+  /** Optional. The encryption to apply to the disk. */
+  encryption?: Encryption;
+  /** Optional. Details for attachment of the disk to a VM. Used when the disk is set to be attached to a target VM. */
+  vmAttachmentDetails?: VmAttachmentDetails;
+}
+export const PersistentDiskDefaults = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    additionalLabels: S.optional(StringMap),
+    diskType: S.optional(PersistentDiskDefaultsDiskTypeEnum),
+    sourceDiskNumber: S.optional(S.Number),
+    diskName: S.optional(S.String),
+    encryption: S.optional(Encryption),
+    vmAttachmentDetails: S.optional(VmAttachmentDetails),
+  }),
+).annotate({ identifier: "PersistentDiskDefaults" }) as any as S.Schema<PersistentDiskDefaults>;
+
+export type PersistentDiskDefaultsList = Array<PersistentDiskDefaults>;
+export const PersistentDiskDefaultsList = /*@__PURE__*/ S.Array(
+  PersistentDiskDefaults,
+) as any as S.Schema<PersistentDiskDefaultsList>;
+
+export type ComputeEngineTargetDefaultsDiskTypeEnum =
+  | "COMPUTE_ENGINE_DISK_TYPE_UNSPECIFIED"
+  | "COMPUTE_ENGINE_DISK_TYPE_STANDARD"
+  | "COMPUTE_ENGINE_DISK_TYPE_SSD"
+  | "COMPUTE_ENGINE_DISK_TYPE_BALANCED"
+  | "COMPUTE_ENGINE_DISK_TYPE_HYPERDISK_BALANCED"
+  | "COMPUTE_ENGINE_DISK_TYPE_HYPERDISK_BALANCED_HIGH_AVAILABILITY";
+export const ComputeEngineTargetDefaultsDiskTypeEnum = S.String;
+
+export type ComputeEngineTargetDefaultsBootConversionEnum =
+  | "BOOT_CONVERSION_UNSPECIFIED"
+  | "NONE"
+  | "BIOS_TO_EFI";
+export const ComputeEngineTargetDefaultsBootConversionEnum = S.String;
+
+/** ComputeEngineTargetDefaults is a collection of details for creating a VM in a target Compute Engine project. */
+export interface ComputeEngineTargetDefaults {
+  /** The license type to use in OS adaptation. */
+  licenseType?: ComputeEngineTargetDefaultsLicenseTypeEnum | (string & {});
+  /** Output only. The VM Boot Option, as set in the source VM. */
+  bootOption?: ComputeEngineTargetDefaultsBootOptionEnum | (string & {});
+  /** The full path of the resource of type TargetProject which represents the Compute Engine project in which to create this VM. */
+  targetProject?: string;
+  /** The machine type series to create the VM with. */
+  machineTypeSeries?: string;
+  /** Optional. The details of each disk to create. */
+  disks?: PersistentDiskDefaultsList;
+  /** Output only. The OS license returned from the adaptation module report. */
+  appliedLicense?: AppliedLicense;
+  /** The machine type to create the VM with. */
+  machineType?: string;
+  /** The disk type to use in the VM. */
+  diskType?: ComputeEngineTargetDefaultsDiskTypeEnum | (string & {});
+  /** Defines whether the instance has Secure Boot enabled. This can be set to true only if the VM boot option is EFI. */
+  secureBoot?: boolean;
+  /** The zone in which to create the VM. */
+  zone?: string;
+  /** Additional licenses to assign to the VM. */
+  additionalLicenses?: StringList;
+  /** Compute instance scheduling information (if empty default is used). */
+  computeScheduling?: ComputeScheduling;
+  /** Optional. Defines whether the instance has vTPM enabled. This can be set to true only if the VM boot option is EFI. */
+  enableVtpm?: boolean;
+  /** List of NICs connected to this VM. */
+  networkInterfaces?: NetworkInterfaceList;
+  /** Optional. AdaptationModifiers are the set of modifiers used during OS adaptation. */
+  adaptationModifiers?: AdaptationModifierList;
+  /** Optional. Immutable. The encryption to apply to the VM disks. */
+  encryption?: Encryption;
+  /** Optional. Defines whether the instance has integrity monitoring enabled. This can be set to true only if the VM boot option is EFI, and vTPM is enabled. */
+  enableIntegrityMonitoring?: boolean;
+  /** Optional. If specified this will be the storage pool in which the disk is created. This is the full path of the storage pool resource, for example: "projects/my-project/zones/us-central1-a/storagePools/my-storage-pool". The storage pool must be in the same project and zone as the target disks. The storage pool's type must match the disk type. */
+  storagePool?: string;
+  /** Optional. Additional replica zones of the target regional disks. If this list is not empty a regional disk will be created. The first supported zone would be the one stated in the zone field. The rest are taken from this list. Please refer to the [regional disk creation API](https://cloud.google.com/compute/docs/regions-zones/global-regional-zonal-resources) for further details about regional vs zonal disks. If not specified, a zonal disk will be created in the same zone the VM is created. */
+  diskReplicaZones?: StringList;
+  /** The hostname to assign to the VM. */
+  hostname?: string;
+  /** Optional. The service account to associate the VM with. */
+  serviceAccount?: string;
+  /** A list of network tags to associate with the VM. */
+  networkTags?: StringList;
+  /** The metadata key/value pairs to assign to the VM. */
+  metadata?: StringMap;
+  /** The name of the VM to create. */
+  vmName?: string;
+  /** Optional. By default the virtual machine will keep its existing boot option. Setting this property will trigger an internal process which will convert the virtual machine from using the existing boot option to another. */
+  bootConversion?: ComputeEngineTargetDefaultsBootConversionEnum | (string & {});
+  /** A map of labels to associate with the VM. */
+  labels?: StringMap;
+}
+export const ComputeEngineTargetDefaults = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    licenseType: S.optional(ComputeEngineTargetDefaultsLicenseTypeEnum),
+    bootOption: S.optional(ComputeEngineTargetDefaultsBootOptionEnum),
+    targetProject: S.optional(S.String),
+    machineTypeSeries: S.optional(S.String),
+    disks: S.optional(PersistentDiskDefaultsList),
+    appliedLicense: S.optional(AppliedLicense),
+    machineType: S.optional(S.String),
+    diskType: S.optional(ComputeEngineTargetDefaultsDiskTypeEnum),
+    secureBoot: S.optional(S.Boolean),
+    zone: S.optional(S.String),
+    additionalLicenses: S.optional(StringList),
+    computeScheduling: S.optional(ComputeScheduling),
+    enableVtpm: S.optional(S.Boolean),
+    networkInterfaces: S.optional(NetworkInterfaceList),
+    adaptationModifiers: S.optional(AdaptationModifierList),
+    encryption: S.optional(Encryption),
+    enableIntegrityMonitoring: S.optional(S.Boolean),
+    storagePool: S.optional(S.String),
+    diskReplicaZones: S.optional(StringList),
+    hostname: S.optional(S.String),
+    serviceAccount: S.optional(S.String),
+    networkTags: S.optional(StringList),
+    metadata: S.optional(StringMap),
+    vmName: S.optional(S.String),
+    bootConversion: S.optional(ComputeEngineTargetDefaultsBootConversionEnum),
+    labels: S.optional(StringMap),
+  }),
+).annotate({
+  identifier: "ComputeEngineTargetDefaults",
+}) as any as S.Schema<ComputeEngineTargetDefaults>;
+
+export type BootDiskDefaultsDiskTypeEnum =
+  | "COMPUTE_ENGINE_DISK_TYPE_UNSPECIFIED"
+  | "COMPUTE_ENGINE_DISK_TYPE_STANDARD"
+  | "COMPUTE_ENGINE_DISK_TYPE_SSD"
+  | "COMPUTE_ENGINE_DISK_TYPE_BALANCED"
+  | "COMPUTE_ENGINE_DISK_TYPE_HYPERDISK_BALANCED"
+  | "COMPUTE_ENGINE_DISK_TYPE_HYPERDISK_BALANCED_HIGH_AVAILABILITY";
+export const BootDiskDefaultsDiskTypeEnum = S.String;
+
+/** Contains details about the image source used to create the disk. */
+export interface DiskImageDefaults {
+  /** Required. The Image resource used when creating the disk. */
+  sourceImage?: string;
+}
+export const DiskImageDefaults = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    sourceImage: S.optional(S.String),
+  }),
+).annotate({ identifier: "DiskImageDefaults" }) as any as S.Schema<DiskImageDefaults>;
+
+/** BootDiskDefaults hold information about the boot disk of a VM. */
+export interface BootDiskDefaults {
+  /** Optional. The encryption to apply to the boot disk. */
+  encryption?: Encryption;
+  /** Optional. The type of disk provisioning to use for the VM. */
+  diskType?: BootDiskDefaultsDiskTypeEnum | (string & {});
+  /** Optional. The name of the disk. */
+  diskName?: string;
+  /** The image to use when creating the disk. */
+  image?: DiskImageDefaults;
+  /** Optional. Specifies a unique device name of your choice that is reflected into the /dev/disk/by-id/google-* tree of a Linux operating system running within the instance. If not specified, the server chooses a default device name to apply to this disk, in the form persistent-disk-x, where x is a number assigned by Google Compute Engine. This field is only applicable for persistent disks. */
+  deviceName?: string;
+}
+export const BootDiskDefaults = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    encryption: S.optional(Encryption),
+    diskType: S.optional(BootDiskDefaultsDiskTypeEnum),
+    diskName: S.optional(S.String),
+    image: S.optional(DiskImageDefaults),
+    deviceName: S.optional(S.String),
+  }),
+).annotate({ identifier: "BootDiskDefaults" }) as any as S.Schema<BootDiskDefaults>;
+
+/** Details for creation of a VM that migrated data disks will be attached to. */
+export interface DisksMigrationVmTargetDefaults {
+  /** Optional. The service account to associate the VM with. */
+  serviceAccount?: string;
+  /** Optional. Defines whether the instance has integrity monitoring enabled. */
+  enableIntegrityMonitoring?: boolean;
+  /** Optional. Compute instance scheduling information (if empty default is used). */
+  computeScheduling?: ComputeScheduling;
+  /** Optional. Defines whether the instance has Secure Boot enabled. This can be set to true only if the VM boot option is EFI. */
+  secureBoot?: boolean;
+  /** Required. The name of the VM to create. */
+  vmName?: string;
+  /** Optional. The metadata key/value pairs to assign to the VM. */
+  metadata?: StringMap;
+  /** Optional. Additional licenses to assign to the VM. */
+  additionalLicenses?: StringList;
+  /** Optional. NICs to attach to the VM. */
+  networkInterfaces?: NetworkInterfaceList;
+  /** Optional. A map of labels to associate with the VM. */
+  labels?: StringMap;
+  /** Required. The machine type to create the VM with. */
+  machineType?: string;
+  /** Optional. Defines whether the instance has vTPM enabled. */
+  enableVtpm?: boolean;
+  /** Optional. A list of network tags to associate with the VM. */
+  networkTags?: StringList;
+  /** Optional. The hostname to assign to the VM. */
+  hostname?: string;
+  /** Optional. The machine type series to create the VM with. For presentation only. */
+  machineTypeSeries?: string;
+  /** Optional. The encryption to apply to the VM. */
+  encryption?: Encryption;
+  /** Optional. Details of the boot disk of the VM. */
+  bootDiskDefaults?: BootDiskDefaults;
+}
+export const DisksMigrationVmTargetDefaults = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    serviceAccount: S.optional(S.String),
+    enableIntegrityMonitoring: S.optional(S.Boolean),
+    computeScheduling: S.optional(ComputeScheduling),
+    secureBoot: S.optional(S.Boolean),
+    vmName: S.optional(S.String),
+    metadata: S.optional(StringMap),
+    additionalLicenses: S.optional(StringList),
+    networkInterfaces: S.optional(NetworkInterfaceList),
+    labels: S.optional(StringMap),
+    machineType: S.optional(S.String),
+    enableVtpm: S.optional(S.Boolean),
+    networkTags: S.optional(StringList),
+    hostname: S.optional(S.String),
+    machineTypeSeries: S.optional(S.String),
+    encryption: S.optional(Encryption),
+    bootDiskDefaults: S.optional(BootDiskDefaults),
+  }),
+).annotate({
+  identifier: "DisksMigrationVmTargetDefaults",
+}) as any as S.Schema<DisksMigrationVmTargetDefaults>;
+
+/** Details for a disk only migration. */
+export type DisksMigrationDisksTargetDefaults = CancelImageImportJobRequest;
+export const DisksMigrationDisksTargetDefaults = CancelImageImportJobRequest;
+
+/** ComputeEngineDisksTargetDefaults is a collection of details for creating Persistent Disks in a target Compute Engine project. */
+export interface ComputeEngineDisksTargetDefaults {
+  /** Details of the VM migration target. */
+  vmTargetDefaults?: DisksMigrationVmTargetDefaults;
+  /** The details of each Persistent Disk to create. */
+  disks?: PersistentDiskDefaultsList;
+  /** The zone in which to create the Persistent Disks. */
+  zone?: string;
+  /** The full path of the resource of type TargetProject which represents the Compute Engine project in which to create the Persistent Disks. */
+  targetProject?: string;
+  /** Details of the disk only migration target. */
+  disksTargetDefaults?: CancelImageImportJobRequest;
+}
+export const ComputeEngineDisksTargetDefaults = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    vmTargetDefaults: S.optional(DisksMigrationVmTargetDefaults),
+    disks: S.optional(PersistentDiskDefaultsList),
+    zone: S.optional(S.String),
+    targetProject: S.optional(S.String),
+    disksTargetDefaults: S.optional(CancelImageImportJobRequest),
+  }),
+).annotate({
+  identifier: "ComputeEngineDisksTargetDefaults",
+}) as any as S.Schema<ComputeEngineDisksTargetDefaults>;
+
+/** CutoverForecast holds information about future CutoverJobs of a MigratingVm. */
+export interface CutoverForecast {
+  /** Output only. Estimation of the CutoverJob duration. */
+  estimatedCutoverJobDuration?: string;
+}
+export const CutoverForecast = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    estimatedCutoverJobDuration: S.optional(S.String),
+  }),
+).annotate({ identifier: "CutoverForecast" }) as any as S.Schema<CutoverForecast>;
+
 /** MigratingVm describes the VM that will be migrated from a Source environment and its replication state. */
 export interface MigratingVm {
-  /** Output only. The recent clone jobs performed on the migrating VM. This field holds the vm's last completed clone job and the vm's running clone job, if one exists. Note: To have this field populated you need to explicitly request it via the "view" parameter of the Get/List request. */
-  recentCloneJobs?: CloneJobList;
-  /** Output only. The group this migrating vm is included in, if any. The group is represented by the full path of the appropriate Group resource. */
-  group?: string;
-  /** The display name attached to the MigratingVm by the user. */
-  displayName?: string;
-  /** The description attached to the migrating VM by the user. */
-  description?: string;
-  /** Details of the target VM in Compute Engine. */
-  computeEngineTargetDefaults?: ComputeEngineTargetDefaults;
-  /** Output only. Details of the VM from a Vmware source. */
-  vmwareSourceVmDetails?: VmwareSourceVmDetails;
-  /** Output only. The identifier of the MigratingVm. */
-  name?: string;
-  /** Output only. The recent cutover jobs performed on the migrating VM. This field holds the vm's last completed cutover job and the vm's running cutover job, if one exists. Note: To have this field populated you need to explicitly request it via the "view" parameter of the Get/List request. */
-  recentCutoverJobs?: CutoverJobList;
-  /** Output only. Details of the VM from an Azure source. */
-  azureSourceVmDetails?: AzureSourceVmDetails;
-  /** The unique ID of the VM in the source. The VM's name in vSphere can be changed, so this is not the VM's name but rather its moRef id. This id is of the form vm-. */
-  sourceVmId?: string;
-  /** Output only. The time the migrating VM was created (this refers to this resource and not to the time it was installed in the source). */
-  createTime?: string;
   /** Output only. Details of the last replication cycle. This will be updated whenever a replication cycle is finished and is not to be confused with last_sync which is only updated on successful replication cycles. */
   lastReplicationCycle?: ReplicationCycle;
-  /** Output only. The last time the migrating VM resource was updated. */
-  updateTime?: string;
   /** Output only. Provides details about the expiration state of the migrating VM. */
   expiration?: Expiration;
-  /** Output only. The last time the migrating VM state was updated. */
-  stateTime?: string;
   /** The labels of the migrating VM. */
   labels?: StringMap;
   /** Output only. Details of the current running replication cycle. */
   currentSyncInfo?: ReplicationCycle;
-  /** Output only. Provides details on the state of the Migrating VM in case of an error in replication. */
-  error?: Status;
-  /** Output only. Details of the VM from an AWS source. */
-  awsSourceVmDetails?: AwsSourceVmDetails;
-  /** Output only. Provides details of future CutoverJobs of a MigratingVm. Set to empty when cutover forecast is unavailable. */
-  cutoverForecast?: CutoverForecast;
-  /** Output only. The most updated snapshot created time in the source that finished replication. */
-  lastSync?: ReplicationSync;
-  /** Details of the target Persistent Disks in Compute Engine. */
-  computeEngineDisksTargetDefaults?: ComputeEngineDisksTargetDefaults;
   /** Output only. State of the MigratingVm. */
   state?: MigratingVmStateEnum | (string & {});
+  /** Output only. Provides details on the state of the Migrating VM in case of an error in replication. */
+  error?: Status;
+  /** The unique ID of the VM in the source. The VM's name in vSphere can be changed, so this is not the VM's name but rather its moRef id. This id is of the form vm-. */
+  sourceVmId?: string;
+  /** Output only. The last time the migrating VM resource was updated. */
+  updateTime?: string;
   /** The replication schedule policy. */
   policy?: SchedulePolicy;
+  /** Output only. The recent clone jobs performed on the migrating VM. This field holds the vm's last completed clone job and the vm's running clone job, if one exists. Note: To have this field populated you need to explicitly request it via the "view" parameter of the Get/List request. */
+  recentCloneJobs?: CloneJobList;
+  /** Output only. The most updated snapshot created time in the source that finished replication. */
+  lastSync?: ReplicationSync;
+  /** Output only. The identifier of the MigratingVm. */
+  name?: string;
+  /** Output only. Details of the VM from an Azure source. */
+  azureSourceVmDetails?: AzureSourceVmDetails;
+  /** Output only. The group this migrating vm is included in, if any. The group is represented by the full path of the appropriate Group resource. */
+  group?: string;
+  /** Output only. The last time the migrating VM state was updated. */
+  stateTime?: string;
+  /** Output only. The recent cutover jobs performed on the migrating VM. This field holds the vm's last completed cutover job and the vm's running cutover job, if one exists. Note: To have this field populated you need to explicitly request it via the "view" parameter of the Get/List request. */
+  recentCutoverJobs?: CutoverJobList;
+  /** Output only. Details of the VM from a Vmware source. */
+  vmwareSourceVmDetails?: VmwareSourceVmDetails;
+  /** Output only. Details of the VM from an AWS source. */
+  awsSourceVmDetails?: AwsSourceVmDetails;
+  /** Details of the target VM in Compute Engine. */
+  computeEngineTargetDefaults?: ComputeEngineTargetDefaults;
+  /** The description attached to the migrating VM by the user. */
+  description?: string;
+  /** Details of the target Persistent Disks in Compute Engine. */
+  computeEngineDisksTargetDefaults?: ComputeEngineDisksTargetDefaults;
+  /** Output only. The time the migrating VM was created (this refers to this resource and not to the time it was installed in the source). */
+  createTime?: string;
+  /** Output only. Provides details of future CutoverJobs of a MigratingVm. Set to empty when cutover forecast is unavailable. */
+  cutoverForecast?: CutoverForecast;
+  /** The display name attached to the MigratingVm by the user. */
+  displayName?: string;
 }
 export const MigratingVm = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    recentCloneJobs: S.optional(CloneJobList),
-    group: S.optional(S.String),
-    displayName: S.optional(S.String),
-    description: S.optional(S.String),
-    computeEngineTargetDefaults: S.optional(ComputeEngineTargetDefaults),
-    vmwareSourceVmDetails: S.optional(VmwareSourceVmDetails),
-    name: S.optional(S.String),
-    recentCutoverJobs: S.optional(CutoverJobList),
-    azureSourceVmDetails: S.optional(AzureSourceVmDetails),
-    sourceVmId: S.optional(S.String),
-    createTime: S.optional(S.String),
     lastReplicationCycle: S.optional(ReplicationCycle),
-    updateTime: S.optional(S.String),
     expiration: S.optional(Expiration),
-    stateTime: S.optional(S.String),
     labels: S.optional(StringMap),
     currentSyncInfo: S.optional(ReplicationCycle),
-    error: S.optional(Status),
-    awsSourceVmDetails: S.optional(AwsSourceVmDetails),
-    cutoverForecast: S.optional(CutoverForecast),
-    lastSync: S.optional(ReplicationSync),
-    computeEngineDisksTargetDefaults: S.optional(ComputeEngineDisksTargetDefaults),
     state: S.optional(MigratingVmStateEnum),
+    error: S.optional(Status),
+    sourceVmId: S.optional(S.String),
+    updateTime: S.optional(S.String),
     policy: S.optional(SchedulePolicy),
+    recentCloneJobs: S.optional(CloneJobList),
+    lastSync: S.optional(ReplicationSync),
+    name: S.optional(S.String),
+    azureSourceVmDetails: S.optional(AzureSourceVmDetails),
+    group: S.optional(S.String),
+    stateTime: S.optional(S.String),
+    recentCutoverJobs: S.optional(CutoverJobList),
+    vmwareSourceVmDetails: S.optional(VmwareSourceVmDetails),
+    awsSourceVmDetails: S.optional(AwsSourceVmDetails),
+    computeEngineTargetDefaults: S.optional(ComputeEngineTargetDefaults),
+    description: S.optional(S.String),
+    computeEngineDisksTargetDefaults: S.optional(ComputeEngineDisksTargetDefaults),
+    createTime: S.optional(S.String),
+    cutoverForecast: S.optional(CutoverForecast),
+    displayName: S.optional(S.String),
   }),
 ).annotate({ identifier: "MigratingVm" }) as any as S.Schema<MigratingVm>;
 
 export interface CreateProjectsLocationsSourcesMigratingVmsRequest {
+  /** Required. The migratingVm identifier. */
+  migratingVmId?: string;
   /** A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
   /** Required. The MigratingVm's parent. */
   parent: string;
-  /** Required. The migratingVm identifier. */
-  migratingVmId?: string;
   /** Request body */
   body?: MigratingVm;
 }
 export const CreateProjectsLocationsSourcesMigratingVmsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    migratingVmId: S.optional(S.String.pipe(T.Query())),
     requestId: S.optional(S.String.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
-    migratingVmId: S.optional(S.String.pipe(T.Query())),
     body: S.optional(MigratingVm.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -2612,21 +2540,21 @@ export const CreateProjectsLocationsSourcesMigratingVmsRequest = /*@__PURE__*/ S
 }) as any as S.Schema<CreateProjectsLocationsSourcesMigratingVmsRequest>;
 
 export interface CreateProjectsLocationsSourcesMigratingVmsCloneJobsRequest {
-  /** A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
   /** Required. The clone job identifier. */
   cloneJobId?: string;
   /** Required. The Clone's parent. */
   parent: string;
+  /** A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string;
   /** Request body */
   body?: CloneJob;
 }
 export const CreateProjectsLocationsSourcesMigratingVmsCloneJobsRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      requestId: S.optional(S.String.pipe(T.Query())),
       cloneJobId: S.optional(S.String.pipe(T.Query())),
       parent: S.String.pipe(T.Label()),
+      requestId: S.optional(S.String.pipe(T.Query())),
       body: S.optional(CloneJob.pipe(T.HttpBody())),
     }).pipe(
       T.Http({
@@ -2640,21 +2568,21 @@ export const CreateProjectsLocationsSourcesMigratingVmsCloneJobsRequest = /*@__P
 }) as any as S.Schema<CreateProjectsLocationsSourcesMigratingVmsCloneJobsRequest>;
 
 export interface CreateProjectsLocationsSourcesMigratingVmsCutoverJobsRequest {
+  /** A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string;
   /** Required. The cutover job identifier. */
   cutoverJobId?: string;
   /** Required. The Cutover's parent. */
   parent: string;
-  /** A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
   /** Request body */
   body?: CutoverJob;
 }
 export const CreateProjectsLocationsSourcesMigratingVmsCutoverJobsRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
+      requestId: S.optional(S.String.pipe(T.Query())),
       cutoverJobId: S.optional(S.String.pipe(T.Query())),
       parent: S.String.pipe(T.Label()),
-      requestId: S.optional(S.String.pipe(T.Query())),
       body: S.optional(CutoverJob.pipe(T.HttpBody())),
     }).pipe(
       T.Http({
@@ -2673,119 +2601,113 @@ export const UtilizationReportStateEnum = S.String;
 export type UtilizationReportTimeFrameEnum = "TIME_FRAME_UNSPECIFIED" | "WEEK" | "MONTH" | "YEAR";
 export const UtilizationReportTimeFrameEnum = S.String;
 
+/** Utilization metrics values for a single VM. */
+export interface VmUtilizationMetrics {
+  /** Max CPU usage, percent. */
+  cpuMaxPercent?: number;
+  /** Average network throughput (combined transmit-rates and receive-rates), in kilobytes per second. */
+  networkThroughputAverageKbps?: string;
+  /** Average CPU usage, percent. */
+  cpuAveragePercent?: number;
+  /** Max disk IO rate, in kilobytes per second. */
+  diskIoRateMaxKbps?: string;
+  /** Average disk IO rate, in kilobytes per second. */
+  diskIoRateAverageKbps?: string;
+  /** Max network throughput (combined transmit-rates and receive-rates), in kilobytes per second. */
+  networkThroughputMaxKbps?: string;
+  /** Average memory usage, percent. */
+  memoryAveragePercent?: number;
+  /** Max memory usage, percent. */
+  memoryMaxPercent?: number;
+}
+export const VmUtilizationMetrics = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    cpuMaxPercent: S.optional(S.Number),
+    networkThroughputAverageKbps: S.optional(S.String),
+    cpuAveragePercent: S.optional(S.Number),
+    diskIoRateMaxKbps: S.optional(S.String),
+    diskIoRateAverageKbps: S.optional(S.String),
+    networkThroughputMaxKbps: S.optional(S.String),
+    memoryAveragePercent: S.optional(S.Number),
+    memoryMaxPercent: S.optional(S.Number),
+  }),
+).annotate({ identifier: "VmUtilizationMetrics" }) as any as S.Schema<VmUtilizationMetrics>;
+
 export type VmwareVmDetailsArchitectureEnum =
   | "VM_ARCHITECTURE_UNSPECIFIED"
   | "VM_ARCHITECTURE_X86_FAMILY"
   | "VM_ARCHITECTURE_ARM64";
 export const VmwareVmDetailsArchitectureEnum = S.String;
 
-export type VmwareVmDetailsPowerStateEnum = "POWER_STATE_UNSPECIFIED" | "ON" | "OFF" | "SUSPENDED";
-export const VmwareVmDetailsPowerStateEnum = S.String;
-
 export type VmwareVmDetailsBootOptionEnum = "BOOT_OPTION_UNSPECIFIED" | "EFI" | "BIOS";
 export const VmwareVmDetailsBootOptionEnum = S.String;
 
+export type VmwareVmDetailsPowerStateEnum = "POWER_STATE_UNSPECIFIED" | "ON" | "OFF" | "SUSPENDED";
+export const VmwareVmDetailsPowerStateEnum = S.String;
+
 /** VmwareVmDetails describes a VM in vCenter. */
 export interface VmwareVmDetails {
-  /** The size of the memory of the VM in MB. */
-  memoryMb?: number;
-  /** The number of cpus in the VM. */
-  cpuCount?: number;
-  /** The total size of the storage allocated to the VM in MB. */
-  committedStorageMb?: string;
-  /** Output only. The CPU architecture. */
-  architecture?: VmwareVmDetailsArchitectureEnum | (string & {});
-  /** The power state of the VM at the moment list was taken. */
-  powerState?: VmwareVmDetailsPowerStateEnum | (string & {});
   /** The VM's OS. See for example https://vdc-repo.vmware.com/vmwb-repository/dcr-public/da47f910-60ac-438b-8b9b-6122f4d14524/16b7274a-bf8b-4b4c-a05e-746f2aa93c8c/doc/vim.vm.GuestOsDescriptor.GuestOsIdentifier.html for types of strings this might hold. */
   guestDescription?: string;
   /** The id of the vCenter's datacenter this VM is contained in. */
   datacenterId?: string;
-  /** The VM's id in the source (note that this is not the MigratingVm's id). This is the moref id of the VM. */
-  vmId?: string;
+  /** Output only. The CPU architecture. */
+  architecture?: VmwareVmDetailsArchitectureEnum | (string & {});
   /** The number of disks the VM has. */
   diskCount?: number;
+  /** The number of cpus in the VM. */
+  cpuCount?: number;
+  /** The VM's id in the source (note that this is not the MigratingVm's id). This is the moref id of the VM. */
+  vmId?: string;
   /** The display name of the VM. Note that this is not necessarily unique. */
   displayName?: string;
-  /** Output only. The VM Boot Option. */
-  bootOption?: VmwareVmDetailsBootOptionEnum | (string & {});
-  /** The descriptive name of the vCenter's datacenter this VM is contained in. */
-  datacenterDescription?: string;
   /** The unique identifier of the VM in vCenter. */
   uuid?: string;
+  /** The descriptive name of the vCenter's datacenter this VM is contained in. */
+  datacenterDescription?: string;
+  /** The total size of the storage allocated to the VM in MB. */
+  committedStorageMb?: string;
+  /** Output only. The VM Boot Option. */
+  bootOption?: VmwareVmDetailsBootOptionEnum | (string & {});
+  /** The power state of the VM at the moment list was taken. */
+  powerState?: VmwareVmDetailsPowerStateEnum | (string & {});
+  /** The size of the memory of the VM in MB. */
+  memoryMb?: number;
 }
 export const VmwareVmDetails = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    memoryMb: S.optional(S.Number),
-    cpuCount: S.optional(S.Number),
-    committedStorageMb: S.optional(S.String),
-    architecture: S.optional(VmwareVmDetailsArchitectureEnum),
-    powerState: S.optional(VmwareVmDetailsPowerStateEnum),
     guestDescription: S.optional(S.String),
     datacenterId: S.optional(S.String),
-    vmId: S.optional(S.String),
+    architecture: S.optional(VmwareVmDetailsArchitectureEnum),
     diskCount: S.optional(S.Number),
+    cpuCount: S.optional(S.Number),
+    vmId: S.optional(S.String),
     displayName: S.optional(S.String),
-    bootOption: S.optional(VmwareVmDetailsBootOptionEnum),
-    datacenterDescription: S.optional(S.String),
     uuid: S.optional(S.String),
+    datacenterDescription: S.optional(S.String),
+    committedStorageMb: S.optional(S.String),
+    bootOption: S.optional(VmwareVmDetailsBootOptionEnum),
+    powerState: S.optional(VmwareVmDetailsPowerStateEnum),
+    memoryMb: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "VmwareVmDetails",
-}) as any as S.Schema<VmwareVmDetails>;
-
-/** Utilization metrics values for a single VM. */
-export interface VmUtilizationMetrics {
-  /** Max disk IO rate, in kilobytes per second. */
-  diskIoRateMaxKbps?: string;
-  /** Average memory usage, percent. */
-  memoryAveragePercent?: number;
-  /** Max network throughput (combined transmit-rates and receive-rates), in kilobytes per second. */
-  networkThroughputMaxKbps?: string;
-  /** Average CPU usage, percent. */
-  cpuAveragePercent?: number;
-  /** Max memory usage, percent. */
-  memoryMaxPercent?: number;
-  /** Max CPU usage, percent. */
-  cpuMaxPercent?: number;
-  /** Average disk IO rate, in kilobytes per second. */
-  diskIoRateAverageKbps?: string;
-  /** Average network throughput (combined transmit-rates and receive-rates), in kilobytes per second. */
-  networkThroughputAverageKbps?: string;
-}
-export const VmUtilizationMetrics = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    diskIoRateMaxKbps: S.optional(S.String),
-    memoryAveragePercent: S.optional(S.Number),
-    networkThroughputMaxKbps: S.optional(S.String),
-    cpuAveragePercent: S.optional(S.Number),
-    memoryMaxPercent: S.optional(S.Number),
-    cpuMaxPercent: S.optional(S.Number),
-    diskIoRateAverageKbps: S.optional(S.String),
-    networkThroughputAverageKbps: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "VmUtilizationMetrics",
-}) as any as S.Schema<VmUtilizationMetrics>;
+).annotate({ identifier: "VmwareVmDetails" }) as any as S.Schema<VmwareVmDetails>;
 
 /** Utilization information of a single VM. */
 export interface VmUtilizationInfo {
-  /** The VM's ID in the source. */
-  vmId?: string;
-  /** The description of the VM in a Source of type Vmware. */
-  vmwareVmDetails?: VmwareVmDetails;
   /** Utilization metrics for this VM. */
   utilization?: VmUtilizationMetrics;
+  /** The description of the VM in a Source of type Vmware. */
+  vmwareVmDetails?: VmwareVmDetails;
+  /** The VM's ID in the source. */
+  vmId?: string;
 }
 export const VmUtilizationInfo = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    vmId: S.optional(S.String),
-    vmwareVmDetails: S.optional(VmwareVmDetails),
     utilization: S.optional(VmUtilizationMetrics),
+    vmwareVmDetails: S.optional(VmwareVmDetails),
+    vmId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "VmUtilizationInfo",
-}) as any as S.Schema<VmUtilizationInfo>;
+).annotate({ identifier: "VmUtilizationInfo" }) as any as S.Schema<VmUtilizationInfo>;
 
 export type VmUtilizationInfoList = Array<VmUtilizationInfo>;
 export const VmUtilizationInfoList = /*@__PURE__*/ S.Array(
@@ -2794,59 +2716,57 @@ export const VmUtilizationInfoList = /*@__PURE__*/ S.Array(
 
 /** Utilization report details the utilization (CPU, memory, etc.) of selected source VMs. */
 export interface UtilizationReport {
-  /** Output only. Current state of the report. */
-  state?: UtilizationReportStateEnum | (string & {});
-  /** Output only. The report unique name. */
-  name?: string;
-  /** Output only. The point in time when the time frame ends. Notice that the time frame is counted backwards. For instance if the "frame_end_time" value is 2021/01/20 and the time frame is WEEK then the report covers the week between 2021/01/20 and 2021/01/14. */
-  frameEndTime?: string;
-  /** Time frame of the report. */
-  timeFrame?: UtilizationReportTimeFrameEnum | (string & {});
-  /** Output only. Total number of VMs included in the report. */
-  vmCount?: number;
-  /** Output only. The time the state was last set. */
-  stateTime?: string;
-  /** Output only. The time the report was created (this refers to the time of the request, not the time the report creation completed). */
-  createTime?: string;
-  /** List of utilization information per VM. When sent as part of the request, the "vm_id" field is used in order to specify which VMs to include in the report. In that case all other fields are ignored. */
-  vms?: VmUtilizationInfoList;
-  /** Output only. Provides details on the state of the report in case of an error. */
-  error?: Status;
   /** The report display name, as assigned by the user. */
   displayName?: string;
+  /** Output only. Current state of the report. */
+  state?: UtilizationReportStateEnum | (string & {});
+  /** Output only. Provides details on the state of the report in case of an error. */
+  error?: Status;
+  /** Output only. The time the report was created (this refers to the time of the request, not the time the report creation completed). */
+  createTime?: string;
+  /** Output only. The point in time when the time frame ends. Notice that the time frame is counted backwards. For instance if the "frame_end_time" value is 2021/01/20 and the time frame is WEEK then the report covers the week between 2021/01/20 and 2021/01/14. */
+  frameEndTime?: string;
+  /** Output only. The time the state was last set. */
+  stateTime?: string;
+  /** Time frame of the report. */
+  timeFrame?: UtilizationReportTimeFrameEnum | (string & {});
+  /** List of utilization information per VM. When sent as part of the request, the "vm_id" field is used in order to specify which VMs to include in the report. In that case all other fields are ignored. */
+  vms?: VmUtilizationInfoList;
+  /** Output only. The report unique name. */
+  name?: string;
+  /** Output only. Total number of VMs included in the report. */
+  vmCount?: number;
 }
 export const UtilizationReport = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    state: S.optional(UtilizationReportStateEnum),
-    name: S.optional(S.String),
-    frameEndTime: S.optional(S.String),
-    timeFrame: S.optional(UtilizationReportTimeFrameEnum),
-    vmCount: S.optional(S.Number),
-    stateTime: S.optional(S.String),
-    createTime: S.optional(S.String),
-    vms: S.optional(VmUtilizationInfoList),
-    error: S.optional(Status),
     displayName: S.optional(S.String),
+    state: S.optional(UtilizationReportStateEnum),
+    error: S.optional(Status),
+    createTime: S.optional(S.String),
+    frameEndTime: S.optional(S.String),
+    stateTime: S.optional(S.String),
+    timeFrame: S.optional(UtilizationReportTimeFrameEnum),
+    vms: S.optional(VmUtilizationInfoList),
+    name: S.optional(S.String),
+    vmCount: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "UtilizationReport",
-}) as any as S.Schema<UtilizationReport>;
+).annotate({ identifier: "UtilizationReport" }) as any as S.Schema<UtilizationReport>;
 
 export interface CreateProjectsLocationsSourcesUtilizationReportsRequest {
-  /** A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
   /** Required. The Utilization Report's parent. */
   parent: string;
   /** Required. The ID to use for the report, which will become the final component of the reports's resource name. This value maximum length is 63 characters, and valid characters are /a-z-/. It must start with an english letter and must not end with a hyphen. */
   utilizationReportId?: string;
+  /** A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string;
   /** Request body */
   body?: UtilizationReport;
 }
 export const CreateProjectsLocationsSourcesUtilizationReportsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    requestId: S.optional(S.String.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
     utilizationReportId: S.optional(S.String.pipe(T.Query())),
+    requestId: S.optional(S.String.pipe(T.Query())),
     body: S.optional(UtilizationReport.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -2861,32 +2781,32 @@ export const CreateProjectsLocationsSourcesUtilizationReportsRequest = /*@__PURE
 
 /** TargetProject message represents a target Compute Engine project for a migration or a clone. */
 export interface TargetProject {
+  /** The target project's description. */
+  description?: string;
+  /** Required. The target project ID (number) or project name. */
+  project?: string;
+  /** Output only. The last time the target project resource was updated. */
+  updateTime?: string;
   /** Output only. The time this target project resource was created (not related to when the Compute Engine project it points to was created). */
   createTime?: string;
   /** Output only. The name of the target project. */
   name?: string;
-  /** Output only. The last time the target project resource was updated. */
-  updateTime?: string;
-  /** Required. The target project ID (number) or project name. */
-  project?: string;
-  /** The target project's description. */
-  description?: string;
 }
 export const TargetProject = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    description: S.optional(S.String),
+    project: S.optional(S.String),
+    updateTime: S.optional(S.String),
     createTime: S.optional(S.String),
     name: S.optional(S.String),
-    updateTime: S.optional(S.String),
-    project: S.optional(S.String),
-    description: S.optional(S.String),
   }),
 ).annotate({ identifier: "TargetProject" }) as any as S.Schema<TargetProject>;
 
 export interface CreateProjectsLocationsTargetProjectsRequest {
-  /** Required. The target_project identifier. */
-  targetProjectId?: string;
   /** A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
+  /** Required. The target_project identifier. */
+  targetProjectId?: string;
   /** Required. The TargetProject's parent. */
   parent: string;
   /** Request body */
@@ -2894,8 +2814,8 @@ export interface CreateProjectsLocationsTargetProjectsRequest {
 }
 export const CreateProjectsLocationsTargetProjectsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    targetProjectId: S.optional(S.String.pipe(T.Query())),
     requestId: S.optional(S.String.pipe(T.Query())),
+    targetProjectId: S.optional(S.String.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
     body: S.optional(TargetProject.pipe(T.HttpBody())),
   }).pipe(
@@ -2910,21 +2830,17 @@ export const CreateProjectsLocationsTargetProjectsRequest = /*@__PURE__*/ S.susp
 }) as any as S.Schema<CreateProjectsLocationsTargetProjectsRequest>;
 
 export interface DeleteProjectsLocationsGroupsRequest {
-  /** Required. The Group name. */
-  name: string;
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
+  /** Required. The Group name. */
+  name: string;
 }
 export const DeleteProjectsLocationsGroupsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.String.pipe(T.Label()),
     requestId: S.optional(S.String.pipe(T.Query())),
+    name: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "v1/{+name}",
-      baseUrl: "https://vmmigration.googleapis.com/",
-    }),
+    T.Http({ method: "DELETE", uri: "v1/{+name}", baseUrl: "https://vmmigration.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "DeleteProjectsLocationsGroupsRequest",
@@ -2941,11 +2857,7 @@ export const DeleteProjectsLocationsImageImportsRequest = /*@__PURE__*/ S.suspen
     name: S.String.pipe(T.Label()),
     requestId: S.optional(S.String.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "v1/{+name}",
-      baseUrl: "https://vmmigration.googleapis.com/",
-    }),
+    T.Http({ method: "DELETE", uri: "v1/{+name}", baseUrl: "https://vmmigration.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "DeleteProjectsLocationsImageImportsRequest",
@@ -2959,48 +2871,40 @@ export const DeleteProjectsLocationsOperationsRequest = /*@__PURE__*/ S.suspend(
   S.Struct({
     name: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "v1/{+name}",
-      baseUrl: "https://vmmigration.googleapis.com/",
-    }),
+    T.Http({ method: "DELETE", uri: "v1/{+name}", baseUrl: "https://vmmigration.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "DeleteProjectsLocationsOperationsRequest",
 }) as any as S.Schema<DeleteProjectsLocationsOperationsRequest>;
 
 export interface DeleteProjectsLocationsSourcesRequest {
-  /** Required. The Source name. */
-  name: string;
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
+  /** Required. The Source name. */
+  name: string;
 }
 export const DeleteProjectsLocationsSourcesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.String.pipe(T.Label()),
     requestId: S.optional(S.String.pipe(T.Query())),
+    name: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "v1/{+name}",
-      baseUrl: "https://vmmigration.googleapis.com/",
-    }),
+    T.Http({ method: "DELETE", uri: "v1/{+name}", baseUrl: "https://vmmigration.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "DeleteProjectsLocationsSourcesRequest",
 }) as any as S.Schema<DeleteProjectsLocationsSourcesRequest>;
 
 export interface DeleteProjectsLocationsSourcesDatacenterConnectorsRequest {
-  /** A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
   /** Required. The DatacenterConnector name. */
   name: string;
+  /** A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string;
 }
 export const DeleteProjectsLocationsSourcesDatacenterConnectorsRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      requestId: S.optional(S.String.pipe(T.Query())),
       name: S.String.pipe(T.Label()),
+      requestId: S.optional(S.String.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "DELETE",
@@ -3020,11 +2924,7 @@ export const DeleteProjectsLocationsSourcesDiskMigrationJobsRequest = /*@__PURE_
   S.Struct({
     name: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "v1/{+name}",
-      baseUrl: "https://vmmigration.googleapis.com/",
-    }),
+    T.Http({ method: "DELETE", uri: "v1/{+name}", baseUrl: "https://vmmigration.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "DeleteProjectsLocationsSourcesDiskMigrationJobsRequest",
@@ -3038,32 +2938,24 @@ export const DeleteProjectsLocationsSourcesMigratingVmsRequest = /*@__PURE__*/ S
   S.Struct({
     name: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "v1/{+name}",
-      baseUrl: "https://vmmigration.googleapis.com/",
-    }),
+    T.Http({ method: "DELETE", uri: "v1/{+name}", baseUrl: "https://vmmigration.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "DeleteProjectsLocationsSourcesMigratingVmsRequest",
 }) as any as S.Schema<DeleteProjectsLocationsSourcesMigratingVmsRequest>;
 
 export interface DeleteProjectsLocationsSourcesUtilizationReportsRequest {
-  /** Required. The Utilization Report name. */
-  name: string;
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
+  /** Required. The Utilization Report name. */
+  name: string;
 }
 export const DeleteProjectsLocationsSourcesUtilizationReportsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.String.pipe(T.Label()),
     requestId: S.optional(S.String.pipe(T.Query())),
+    name: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "v1/{+name}",
-      baseUrl: "https://vmmigration.googleapis.com/",
-    }),
+    T.Http({ method: "DELETE", uri: "v1/{+name}", baseUrl: "https://vmmigration.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "DeleteProjectsLocationsSourcesUtilizationReportsRequest",
@@ -3080,11 +2972,7 @@ export const DeleteProjectsLocationsTargetProjectsRequest = /*@__PURE__*/ S.susp
     requestId: S.optional(S.String.pipe(T.Query())),
     name: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "v1/{+name}",
-      baseUrl: "https://vmmigration.googleapis.com/",
-    }),
+    T.Http({ method: "DELETE", uri: "v1/{+name}", baseUrl: "https://vmmigration.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "DeleteProjectsLocationsTargetProjectsRequest",
@@ -3117,21 +3005,21 @@ export const ExtendMigrationProjectsLocationsSourcesMigratingVmsRequest = /*@__P
 }) as any as S.Schema<ExtendMigrationProjectsLocationsSourcesMigratingVmsRequest>;
 
 export interface FetchInventoryProjectsLocationsSourcesRequest {
+  /** The maximum number of VMs to return. The service may return fewer than this value. For AWS source: If unspecified, at most 500 VMs will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. For VMWare source: If unspecified, all VMs will be returned. There is no limit for maximum value. */
+  pageSize?: number;
   /** Required. The name of the Source. */
   source: string;
   /** A page token, received from a previous `FetchInventory` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `FetchInventory` must match the call that provided the page token. */
   pageToken?: string;
   /** If this flag is set to true, the source will be queried instead of using cached results. Using this flag will make the call slower. */
   forceRefresh?: boolean;
-  /** The maximum number of VMs to return. The service may return fewer than this value. For AWS source: If unspecified, at most 500 VMs will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. For VMWare source: If unspecified, all VMs will be returned. There is no limit for maximum value. */
-  pageSize?: number;
 }
 export const FetchInventoryProjectsLocationsSourcesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    pageSize: S.optional(S.Number.pipe(T.Query())),
     source: S.String.pipe(T.Label()),
     pageToken: S.optional(S.String.pipe(T.Query())),
     forceRefresh: S.optional(S.Boolean.pipe(T.Query())),
-    pageSize: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -3157,9 +3045,150 @@ export const VmwareVmsDetails = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     details: S.optional(VmwareVmDetailsList),
   }),
-).annotate({
-  identifier: "VmwareVmsDetails",
-}) as any as S.Schema<VmwareVmsDetails>;
+).annotate({ identifier: "VmwareVmsDetails" }) as any as S.Schema<VmwareVmsDetails>;
+
+/** A message describing the OS disk. */
+export interface OSDisk {
+  /** The disk's size in GB. */
+  sizeGb?: number;
+  /** The disk's type. */
+  type?: string;
+  /** The disk's full name. */
+  name?: string;
+}
+export const OSDisk = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    sizeGb: S.optional(S.Number),
+    type: S.optional(S.String),
+    name: S.optional(S.String),
+  }),
+).annotate({ identifier: "OSDisk" }) as any as S.Schema<OSDisk>;
+
+/** A message describing a data disk. */
+export interface Disk {
+  /** The disk's Logical Unit Number (LUN). */
+  lun?: number;
+  /** The disk name. */
+  name?: string;
+  /** The disk size in GB. */
+  sizeGb?: number;
+}
+export const Disk = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    lun: S.optional(S.Number),
+    name: S.optional(S.String),
+    sizeGb: S.optional(S.Number),
+  }),
+).annotate({ identifier: "Disk" }) as any as S.Schema<Disk>;
+
+export type DiskList = Array<Disk>;
+export const DiskList = /*@__PURE__*/ S.Array(Disk) as any as S.Schema<DiskList>;
+
+/** A message describing the VM's OS. Including OS, Publisher, Offer and Plan if applicable. */
+export interface OSDescription {
+  /** OS publisher. */
+  publisher?: string;
+  /** OS offer. */
+  offer?: string;
+  /** OS type. */
+  type?: string;
+  /** OS plan. */
+  plan?: string;
+}
+export const OSDescription = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    publisher: S.optional(S.String),
+    offer: S.optional(S.String),
+    type: S.optional(S.String),
+    plan: S.optional(S.String),
+  }),
+).annotate({ identifier: "OSDescription" }) as any as S.Schema<OSDescription>;
+
+export type AzureVmDetailsArchitectureEnum =
+  | "VM_ARCHITECTURE_UNSPECIFIED"
+  | "VM_ARCHITECTURE_X86_FAMILY"
+  | "VM_ARCHITECTURE_ARM64";
+export const AzureVmDetailsArchitectureEnum = S.String;
+
+export type AzureVmDetailsPowerStateEnum =
+  | "POWER_STATE_UNSPECIFIED"
+  | "STARTING"
+  | "RUNNING"
+  | "STOPPING"
+  | "STOPPED"
+  | "DEALLOCATING"
+  | "DEALLOCATED"
+  | "UNKNOWN";
+export const AzureVmDetailsPowerStateEnum = S.String;
+
+export type AzureVmDetailsBootOptionEnum = "BOOT_OPTION_UNSPECIFIED" | "EFI" | "BIOS";
+export const AzureVmDetailsBootOptionEnum = S.String;
+
+/** AzureVmDetails describes a VM in Azure. */
+export interface AzureVmDetails {
+  /** The total size of the storage allocated to the VM in MB. */
+  committedStorageMb?: string;
+  /** VM size as configured in Azure. Determines the VM's hardware spec. */
+  vmSize?: string;
+  /** Description of the OS disk. */
+  osDisk?: OSDisk;
+  /** The number of cpus the VM has. */
+  cpuCount?: number;
+  /** The tags of the VM. */
+  tags?: StringMap;
+  /** Description of the data disks. */
+  disks?: DiskList;
+  /** The VM full path in Azure. */
+  vmId?: string;
+  /** The number of disks the VM has, including OS disk. */
+  diskCount?: number;
+  /** Description of the OS. */
+  osDescription?: OSDescription;
+  /** The CPU architecture. */
+  architecture?: AzureVmDetailsArchitectureEnum;
+  /** The memory size of the VM in MB. */
+  memoryMb?: number;
+  /** The VM's ComputerName. */
+  computerName?: string;
+  /** The power state of the VM at the moment list was taken. */
+  powerState?: AzureVmDetailsPowerStateEnum;
+  /** The VM Boot Option. */
+  bootOption?: AzureVmDetailsBootOptionEnum;
+}
+export const AzureVmDetails = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    committedStorageMb: S.optional(S.String),
+    vmSize: S.optional(S.String),
+    osDisk: S.optional(OSDisk),
+    cpuCount: S.optional(S.Number),
+    tags: S.optional(StringMap),
+    disks: S.optional(DiskList),
+    vmId: S.optional(S.String),
+    diskCount: S.optional(S.Number),
+    osDescription: S.optional(OSDescription),
+    architecture: S.optional(AzureVmDetailsArchitectureEnum),
+    memoryMb: S.optional(S.Number),
+    computerName: S.optional(S.String),
+    powerState: S.optional(AzureVmDetailsPowerStateEnum),
+    bootOption: S.optional(AzureVmDetailsBootOptionEnum),
+  }),
+).annotate({ identifier: "AzureVmDetails" }) as any as S.Schema<AzureVmDetails>;
+
+export type AzureVmDetailsList = Array<AzureVmDetails>;
+export const AzureVmDetailsList = /*@__PURE__*/ S.Array(
+  AzureVmDetails,
+) as any as S.Schema<AzureVmDetailsList>;
+
+/** AzureVmsDetails describes VMs in Azure. */
+export interface AzureVmsDetails {
+  /** The details of the Azure VMs. */
+  details?: AzureVmDetailsList;
+}
+export const AzureVmsDetails = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    details: S.optional(AzureVmDetailsList),
+  }),
+).annotate({ identifier: "AzureVmsDetails" }) as any as S.Schema<AzureVmsDetails>;
 
 /** AwsSecurityGroup describes a security group of an AWS VM. */
 export interface AwsSecurityGroup {
@@ -3173,14 +3202,18 @@ export const AwsSecurityGroup = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     id: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AwsSecurityGroup",
-}) as any as S.Schema<AwsSecurityGroup>;
+).annotate({ identifier: "AwsSecurityGroup" }) as any as S.Schema<AwsSecurityGroup>;
 
 export type AwsSecurityGroupList = Array<AwsSecurityGroup>;
 export const AwsSecurityGroupList = /*@__PURE__*/ S.Array(
   AwsSecurityGroup,
 ) as any as S.Schema<AwsSecurityGroupList>;
+
+export type AwsVmDetailsVirtualizationTypeEnum =
+  | "VM_VIRTUALIZATION_TYPE_UNSPECIFIED"
+  | "HVM"
+  | "PARAVIRTUAL";
+export const AwsVmDetailsVirtualizationTypeEnum = S.String;
 
 export type AwsVmDetailsPowerStateEnum =
   | "POWER_STATE_UNSPECIFIED"
@@ -3190,11 +3223,8 @@ export type AwsVmDetailsPowerStateEnum =
   | "PENDING";
 export const AwsVmDetailsPowerStateEnum = S.String;
 
-export type AwsVmDetailsVirtualizationTypeEnum =
-  | "VM_VIRTUALIZATION_TYPE_UNSPECIFIED"
-  | "HVM"
-  | "PARAVIRTUAL";
-export const AwsVmDetailsVirtualizationTypeEnum = S.String;
+export type AwsVmDetailsBootOptionEnum = "BOOT_OPTION_UNSPECIFIED" | "EFI" | "BIOS";
+export const AwsVmDetailsBootOptionEnum = S.String;
 
 export type AwsVmDetailsArchitectureEnum =
   | "VM_ARCHITECTURE_UNSPECIFIED"
@@ -3204,71 +3234,68 @@ export type AwsVmDetailsArchitectureEnum =
   | "X86_64_MAC";
 export const AwsVmDetailsArchitectureEnum = S.String;
 
-export type AwsVmDetailsBootOptionEnum = "BOOT_OPTION_UNSPECIFIED" | "EFI" | "BIOS";
-export const AwsVmDetailsBootOptionEnum = S.String;
-
 /** AwsVmDetails describes a VM in AWS. */
 export interface AwsVmDetails {
   /** The security groups the VM belongs to. */
   securityGroups?: AwsSecurityGroupList;
-  /** The id of the AWS's source this VM is connected to. */
-  sourceId?: string;
-  /** The number of disks the VM has. */
-  diskCount?: number;
+  /** The virtualization type. */
+  virtualizationType?: AwsVmDetailsVirtualizationTypeEnum;
+  /** The descriptive name of the AWS's source this VM is connected to. */
+  sourceDescription?: string;
+  /** The instance type of the VM. */
+  instanceType?: string;
+  /** The number of CPU cores the VM has. */
+  cpuCount?: number;
+  /** The total size of the storage allocated to the VM in MB. */
+  committedStorageMb?: string;
   /** The AWS zone of the VM. */
   zone?: string;
   /** The display name of the VM. Note that this value is not necessarily unique. */
   displayName?: string;
-  /** The descriptive name of the AWS's source this VM is connected to. */
-  sourceDescription?: string;
-  /** Output only. The power state of the VM at the moment list was taken. */
-  powerState?: AwsVmDetailsPowerStateEnum;
-  /** The VPC ID the VM belongs to. */
-  vpcId?: string;
+  /** The number of disks the VM has. */
+  diskCount?: number;
   /** The tags of the VM. */
   tags?: StringMap;
-  /** The virtualization type. */
-  virtualizationType?: AwsVmDetailsVirtualizationTypeEnum;
+  /** The VPC ID the VM belongs to. */
+  vpcId?: string;
   /** The VM ID in AWS. */
   vmId?: string;
-  /** The number of vCPUs the VM has. It is calculated as the number of CPU cores * threads per CPU the VM has. */
-  vcpuCount?: number;
-  /** The VM's OS. */
-  osDescription?: string;
-  /** The CPU architecture. */
-  architecture?: AwsVmDetailsArchitectureEnum;
-  /** The number of CPU cores the VM has. */
-  cpuCount?: number;
+  /** Output only. The power state of the VM at the moment list was taken. */
+  powerState?: AwsVmDetailsPowerStateEnum;
   /** The memory size of the VM in MB. */
   memoryMb?: number;
   /** The VM Boot Option. */
   bootOption?: AwsVmDetailsBootOptionEnum;
-  /** The instance type of the VM. */
-  instanceType?: string;
-  /** The total size of the storage allocated to the VM in MB. */
-  committedStorageMb?: string;
+  /** The CPU architecture. */
+  architecture?: AwsVmDetailsArchitectureEnum;
+  /** The id of the AWS's source this VM is connected to. */
+  sourceId?: string;
+  /** The VM's OS. */
+  osDescription?: string;
+  /** The number of vCPUs the VM has. It is calculated as the number of CPU cores * threads per CPU the VM has. */
+  vcpuCount?: number;
 }
 export const AwsVmDetails = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     securityGroups: S.optional(AwsSecurityGroupList),
-    sourceId: S.optional(S.String),
-    diskCount: S.optional(S.Number),
+    virtualizationType: S.optional(AwsVmDetailsVirtualizationTypeEnum),
+    sourceDescription: S.optional(S.String),
+    instanceType: S.optional(S.String),
+    cpuCount: S.optional(S.Number),
+    committedStorageMb: S.optional(S.String),
     zone: S.optional(S.String),
     displayName: S.optional(S.String),
-    sourceDescription: S.optional(S.String),
-    powerState: S.optional(AwsVmDetailsPowerStateEnum),
-    vpcId: S.optional(S.String),
+    diskCount: S.optional(S.Number),
     tags: S.optional(StringMap),
-    virtualizationType: S.optional(AwsVmDetailsVirtualizationTypeEnum),
+    vpcId: S.optional(S.String),
     vmId: S.optional(S.String),
-    vcpuCount: S.optional(S.Number),
-    osDescription: S.optional(S.String),
-    architecture: S.optional(AwsVmDetailsArchitectureEnum),
-    cpuCount: S.optional(S.Number),
+    powerState: S.optional(AwsVmDetailsPowerStateEnum),
     memoryMb: S.optional(S.Number),
     bootOption: S.optional(AwsVmDetailsBootOptionEnum),
-    instanceType: S.optional(S.String),
-    committedStorageMb: S.optional(S.String),
+    architecture: S.optional(AwsVmDetailsArchitectureEnum),
+    sourceId: S.optional(S.String),
+    osDescription: S.optional(S.String),
+    vcpuCount: S.optional(S.Number),
   }),
 ).annotate({ identifier: "AwsVmDetails" }) as any as S.Schema<AwsVmDetails>;
 
@@ -3288,175 +3315,28 @@ export const AwsVmsDetails = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "AwsVmsDetails" }) as any as S.Schema<AwsVmsDetails>;
 
-/** A message describing a data disk. */
-export interface Disk {
-  /** The disk name. */
-  name?: string;
-  /** The disk size in GB. */
-  sizeGb?: number;
-  /** The disk's Logical Unit Number (LUN). */
-  lun?: number;
-}
-export const Disk = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.optional(S.String),
-    sizeGb: S.optional(S.Number),
-    lun: S.optional(S.Number),
-  }),
-).annotate({ identifier: "Disk" }) as any as S.Schema<Disk>;
-
-export type DiskList = Array<Disk>;
-export const DiskList = /*@__PURE__*/ S.Array(Disk) as any as S.Schema<DiskList>;
-
-export type AzureVmDetailsPowerStateEnum =
-  | "POWER_STATE_UNSPECIFIED"
-  | "STARTING"
-  | "RUNNING"
-  | "STOPPING"
-  | "STOPPED"
-  | "DEALLOCATING"
-  | "DEALLOCATED"
-  | "UNKNOWN";
-export const AzureVmDetailsPowerStateEnum = S.String;
-
-export type AzureVmDetailsBootOptionEnum = "BOOT_OPTION_UNSPECIFIED" | "EFI" | "BIOS";
-export const AzureVmDetailsBootOptionEnum = S.String;
-
-export type AzureVmDetailsArchitectureEnum =
-  | "VM_ARCHITECTURE_UNSPECIFIED"
-  | "VM_ARCHITECTURE_X86_FAMILY"
-  | "VM_ARCHITECTURE_ARM64";
-export const AzureVmDetailsArchitectureEnum = S.String;
-
-/** A message describing the OS disk. */
-export interface OSDisk {
-  /** The disk's size in GB. */
-  sizeGb?: number;
-  /** The disk's full name. */
-  name?: string;
-  /** The disk's type. */
-  type?: string;
-}
-export const OSDisk = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    sizeGb: S.optional(S.Number),
-    name: S.optional(S.String),
-    type: S.optional(S.String),
-  }),
-).annotate({ identifier: "OSDisk" }) as any as S.Schema<OSDisk>;
-
-/** A message describing the VM's OS. Including OS, Publisher, Offer and Plan if applicable. */
-export interface OSDescription {
-  /** OS plan. */
-  plan?: string;
-  /** OS type. */
-  type?: string;
-  /** OS publisher. */
-  publisher?: string;
-  /** OS offer. */
-  offer?: string;
-}
-export const OSDescription = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    plan: S.optional(S.String),
-    type: S.optional(S.String),
-    publisher: S.optional(S.String),
-    offer: S.optional(S.String),
-  }),
-).annotate({ identifier: "OSDescription" }) as any as S.Schema<OSDescription>;
-
-/** AzureVmDetails describes a VM in Azure. */
-export interface AzureVmDetails {
-  /** Description of the data disks. */
-  disks?: DiskList;
-  /** The total size of the storage allocated to the VM in MB. */
-  committedStorageMb?: string;
-  /** The power state of the VM at the moment list was taken. */
-  powerState?: AzureVmDetailsPowerStateEnum;
-  /** The tags of the VM. */
-  tags?: StringMap;
-  /** The VM Boot Option. */
-  bootOption?: AzureVmDetailsBootOptionEnum;
-  /** The VM full path in Azure. */
-  vmId?: string;
-  /** The VM's ComputerName. */
-  computerName?: string;
-  /** The number of disks the VM has, including OS disk. */
-  diskCount?: number;
-  /** The CPU architecture. */
-  architecture?: AzureVmDetailsArchitectureEnum;
-  /** Description of the OS disk. */
-  osDisk?: OSDisk;
-  /** Description of the OS. */
-  osDescription?: OSDescription;
-  /** VM size as configured in Azure. Determines the VM's hardware spec. */
-  vmSize?: string;
-  /** The memory size of the VM in MB. */
-  memoryMb?: number;
-  /** The number of cpus the VM has. */
-  cpuCount?: number;
-}
-export const AzureVmDetails = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    disks: S.optional(DiskList),
-    committedStorageMb: S.optional(S.String),
-    powerState: S.optional(AzureVmDetailsPowerStateEnum),
-    tags: S.optional(StringMap),
-    bootOption: S.optional(AzureVmDetailsBootOptionEnum),
-    vmId: S.optional(S.String),
-    computerName: S.optional(S.String),
-    diskCount: S.optional(S.Number),
-    architecture: S.optional(AzureVmDetailsArchitectureEnum),
-    osDisk: S.optional(OSDisk),
-    osDescription: S.optional(OSDescription),
-    vmSize: S.optional(S.String),
-    memoryMb: S.optional(S.Number),
-    cpuCount: S.optional(S.Number),
-  }),
-).annotate({ identifier: "AzureVmDetails" }) as any as S.Schema<AzureVmDetails>;
-
-export type AzureVmDetailsList = Array<AzureVmDetails>;
-export const AzureVmDetailsList = /*@__PURE__*/ S.Array(
-  AzureVmDetails,
-) as any as S.Schema<AzureVmDetailsList>;
-
-/** AzureVmsDetails describes VMs in Azure. */
-export interface AzureVmsDetails {
-  /** The details of the Azure VMs. */
-  details?: AzureVmDetailsList;
-}
-export const AzureVmsDetails = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    details: S.optional(AzureVmDetailsList),
-  }),
-).annotate({
-  identifier: "AzureVmsDetails",
-}) as any as S.Schema<AzureVmsDetails>;
-
 /** Response message for fetchInventory. */
 export interface FetchInventoryResponse {
+  /** The description of the VMs in a Source of type Vmware. */
+  vmwareVms?: VmwareVmsDetails;
+  /** The description of the VMs in a Source of type Azure. */
+  azureVms?: AzureVmsDetails;
+  /** The description of the VMs in a Source of type AWS. */
+  awsVms?: AwsVmsDetails;
   /** Output only. A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
   nextPageToken?: string;
   /** Output only. The timestamp when the source was last queried (if the result is from the cache). */
   updateTime?: string;
-  /** The description of the VMs in a Source of type Vmware. */
-  vmwareVms?: VmwareVmsDetails;
-  /** The description of the VMs in a Source of type AWS. */
-  awsVms?: AwsVmsDetails;
-  /** The description of the VMs in a Source of type Azure. */
-  azureVms?: AzureVmsDetails;
 }
 export const FetchInventoryResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    vmwareVms: S.optional(VmwareVmsDetails),
+    azureVms: S.optional(AzureVmsDetails),
+    awsVms: S.optional(AwsVmsDetails),
     nextPageToken: S.optional(S.String),
     updateTime: S.optional(S.String),
-    vmwareVms: S.optional(VmwareVmsDetails),
-    awsVms: S.optional(AwsVmsDetails),
-    azureVms: S.optional(AzureVmsDetails),
   }),
-).annotate({
-  identifier: "FetchInventoryResponse",
-}) as any as S.Schema<FetchInventoryResponse>;
+).annotate({ identifier: "FetchInventoryResponse" }) as any as S.Schema<FetchInventoryResponse>;
 
 export type FetchStorageInventoryProjectsLocationsSourcesTypeEnum =
   | "STORAGE_TYPE_UNSPECIFIED"
@@ -3467,22 +3347,22 @@ export const FetchStorageInventoryProjectsLocationsSourcesTypeEnum = S.String;
 export interface FetchStorageInventoryProjectsLocationsSourcesRequest {
   /** Required. The type of the storage inventory to fetch. */
   type?: FetchStorageInventoryProjectsLocationsSourcesTypeEnum | (string & {});
-  /** Optional. The maximum number of VMs to return. The service may return fewer than this value. */
-  pageSize?: number;
   /** Optional. A page token, received from a previous `FetchStorageInventory` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `FetchStorageInventory` must match the call that provided the page token. */
   pageToken?: string;
-  /** Required. The name of the Source. */
-  source: string;
   /** Optional. If this flag is set to true, the source will be queried instead of using cached results. Using this flag will make the call slower. */
   forceRefresh?: boolean;
+  /** Required. The name of the Source. */
+  source: string;
+  /** Optional. The maximum number of VMs to return. The service may return fewer than this value. */
+  pageSize?: number;
 }
 export const FetchStorageInventoryProjectsLocationsSourcesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     type: S.optional(FetchStorageInventoryProjectsLocationsSourcesTypeEnum.pipe(T.Query())),
-    pageSize: S.optional(S.Number.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
-    source: S.String.pipe(T.Label()),
     forceRefresh: S.optional(S.Boolean.pipe(T.Query())),
+    source: S.String.pipe(T.Label()),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -3503,9 +3383,7 @@ export const SourceStorageResource = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     awsDiskDetails: S.optional(AwsSourceDiskDetails),
   }),
-).annotate({
-  identifier: "SourceStorageResource",
-}) as any as S.Schema<SourceStorageResource>;
+).annotate({ identifier: "SourceStorageResource" }) as any as S.Schema<SourceStorageResource>;
 
 export type SourceStorageResourceList = Array<SourceStorageResource>;
 export const SourceStorageResourceList = /*@__PURE__*/ S.Array(
@@ -3514,17 +3392,17 @@ export const SourceStorageResourceList = /*@__PURE__*/ S.Array(
 
 /** Response message for fetchStorageInventory. */
 export interface FetchStorageInventoryResponse {
-  /** Output only. The timestamp when the source was last queried (if the result is from the cache). */
-  updateTime?: string;
   /** Output only. A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
   nextPageToken?: string;
+  /** Output only. The timestamp when the source was last queried (if the result is from the cache). */
+  updateTime?: string;
   /** The list of storage resources in the source. */
   resources?: SourceStorageResourceList;
 }
 export const FetchStorageInventoryResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    updateTime: S.optional(S.String),
     nextPageToken: S.optional(S.String),
+    updateTime: S.optional(S.String),
     resources: S.optional(SourceStorageResourceList),
   }),
 ).annotate({
@@ -3565,11 +3443,7 @@ export const GetProjectsLocationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "v1/{+name}",
-      baseUrl: "https://vmmigration.googleapis.com/",
-    }),
+    T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://vmmigration.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "GetProjectsLocationsRequest",
@@ -3577,24 +3451,24 @@ export const GetProjectsLocationsRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** A resource that represents a Google Cloud location. */
 export interface Location {
-  /** Service-specific metadata. For example the available capacity at the given location. */
-  metadata?: DocumentMap;
   /** Cross-service attributes for the location. For example {"cloud.googleapis.com/region": "us-east1"} */
   labels?: StringMap;
   /** The canonical id for this location. For example: `"us-east1"`. */
   locationId?: string;
-  /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
-  name?: string;
   /** The friendly name for this location, typically a nearby city name. For example, "Tokyo". */
   displayName?: string;
+  /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
+  name?: string;
+  /** Service-specific metadata. For example the available capacity at the given location. */
+  metadata?: DocumentMap;
 }
 export const Location = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    metadata: S.optional(DocumentMap),
     labels: S.optional(StringMap),
     locationId: S.optional(S.String),
-    name: S.optional(S.String),
     displayName: S.optional(S.String),
+    name: S.optional(S.String),
+    metadata: S.optional(DocumentMap),
   }),
 ).annotate({ identifier: "Location" }) as any as S.Schema<Location>;
 
@@ -3606,11 +3480,7 @@ export const GetProjectsLocationsGroupsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "v1/{+name}",
-      baseUrl: "https://vmmigration.googleapis.com/",
-    }),
+    T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://vmmigration.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "GetProjectsLocationsGroupsRequest",
@@ -3624,11 +3494,7 @@ export const GetProjectsLocationsImageImportsRequest = /*@__PURE__*/ S.suspend((
   S.Struct({
     name: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "v1/{+name}",
-      baseUrl: "https://vmmigration.googleapis.com/",
-    }),
+    T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://vmmigration.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "GetProjectsLocationsImageImportsRequest",
@@ -3642,11 +3508,7 @@ export const GetProjectsLocationsImageImportsImageImportJobsRequest = /*@__PURE_
   S.Struct({
     name: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "v1/{+name}",
-      baseUrl: "https://vmmigration.googleapis.com/",
-    }),
+    T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://vmmigration.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "GetProjectsLocationsImageImportsImageImportJobsRequest",
@@ -3660,11 +3522,7 @@ export const GetProjectsLocationsOperationsRequest = /*@__PURE__*/ S.suspend(() 
   S.Struct({
     name: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "v1/{+name}",
-      baseUrl: "https://vmmigration.googleapis.com/",
-    }),
+    T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://vmmigration.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "GetProjectsLocationsOperationsRequest",
@@ -3678,11 +3536,7 @@ export const GetProjectsLocationsSourcesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "v1/{+name}",
-      baseUrl: "https://vmmigration.googleapis.com/",
-    }),
+    T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://vmmigration.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "GetProjectsLocationsSourcesRequest",
@@ -3696,11 +3550,7 @@ export const GetProjectsLocationsSourcesDatacenterConnectorsRequest = /*@__PURE_
   S.Struct({
     name: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "v1/{+name}",
-      baseUrl: "https://vmmigration.googleapis.com/",
-    }),
+    T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://vmmigration.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "GetProjectsLocationsSourcesDatacenterConnectorsRequest",
@@ -3714,11 +3564,7 @@ export const GetProjectsLocationsSourcesDiskMigrationJobsRequest = /*@__PURE__*/
   S.Struct({
     name: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "v1/{+name}",
-      baseUrl: "https://vmmigration.googleapis.com/",
-    }),
+    T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://vmmigration.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "GetProjectsLocationsSourcesDiskMigrationJobsRequest",
@@ -3731,21 +3577,17 @@ export type GetProjectsLocationsSourcesMigratingVmsViewEnum =
 export const GetProjectsLocationsSourcesMigratingVmsViewEnum = S.String;
 
 export interface GetProjectsLocationsSourcesMigratingVmsRequest {
-  /** Required. The name of the MigratingVm. */
-  name: string;
   /** Optional. The level of details of the migrating VM. */
   view?: GetProjectsLocationsSourcesMigratingVmsViewEnum | (string & {});
+  /** Required. The name of the MigratingVm. */
+  name: string;
 }
 export const GetProjectsLocationsSourcesMigratingVmsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.String.pipe(T.Label()),
     view: S.optional(GetProjectsLocationsSourcesMigratingVmsViewEnum.pipe(T.Query())),
+    name: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "v1/{+name}",
-      baseUrl: "https://vmmigration.googleapis.com/",
-    }),
+    T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://vmmigration.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "GetProjectsLocationsSourcesMigratingVmsRequest",
@@ -3759,11 +3601,7 @@ export const GetProjectsLocationsSourcesMigratingVmsCloneJobsRequest = /*@__PURE
   S.Struct({
     name: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "v1/{+name}",
-      baseUrl: "https://vmmigration.googleapis.com/",
-    }),
+    T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://vmmigration.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "GetProjectsLocationsSourcesMigratingVmsCloneJobsRequest",
@@ -3778,11 +3616,7 @@ export const GetProjectsLocationsSourcesMigratingVmsCutoverJobsRequest = /*@__PU
     S.Struct({
       name: S.String.pipe(T.Label()),
     }).pipe(
-      T.Http({
-        method: "GET",
-        uri: "v1/{+name}",
-        baseUrl: "https://vmmigration.googleapis.com/",
-      }),
+      T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://vmmigration.googleapis.com/" }),
     ),
 ).annotate({
   identifier: "GetProjectsLocationsSourcesMigratingVmsCutoverJobsRequest",
@@ -3797,11 +3631,7 @@ export const GetProjectsLocationsSourcesMigratingVmsReplicationCyclesRequest =
     S.Struct({
       name: S.String.pipe(T.Label()),
     }).pipe(
-      T.Http({
-        method: "GET",
-        uri: "v1/{+name}",
-        baseUrl: "https://vmmigration.googleapis.com/",
-      }),
+      T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://vmmigration.googleapis.com/" }),
     ),
   ).annotate({
     identifier: "GetProjectsLocationsSourcesMigratingVmsReplicationCyclesRequest",
@@ -3824,11 +3654,7 @@ export const GetProjectsLocationsSourcesUtilizationReportsRequest = /*@__PURE__*
     name: S.String.pipe(T.Label()),
     view: S.optional(GetProjectsLocationsSourcesUtilizationReportsViewEnum.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "v1/{+name}",
-      baseUrl: "https://vmmigration.googleapis.com/",
-    }),
+    T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://vmmigration.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "GetProjectsLocationsSourcesUtilizationReportsRequest",
@@ -3842,34 +3668,30 @@ export const GetProjectsLocationsTargetProjectsRequest = /*@__PURE__*/ S.suspend
   S.Struct({
     name: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "v1/{+name}",
-      baseUrl: "https://vmmigration.googleapis.com/",
-    }),
+    T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://vmmigration.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "GetProjectsLocationsTargetProjectsRequest",
 }) as any as S.Schema<GetProjectsLocationsTargetProjectsRequest>;
 
 export interface ListProjectsLocationsRequest {
-  /** The maximum number of results to return. If not set, the service selects a default. */
-  pageSize?: number;
   /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
   filter?: string;
-  /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
-  pageToken?: string;
   /** The resource that owns the locations collection, if applicable. */
   name: string;
+  /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
+  pageToken?: string;
+  /** The maximum number of results to return. If not set, the service selects a default. */
+  pageSize?: number;
   /** Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage. */
   extraLocationTypes?: StringList;
 }
 export const ListProjectsLocationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pageSize: S.optional(S.Number.pipe(T.Query())),
     filter: S.optional(S.String.pipe(T.Query())),
-    pageToken: S.optional(S.String.pipe(T.Query())),
     name: S.String.pipe(T.Label()),
+    pageToken: S.optional(S.String.pipe(T.Query())),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
     extraLocationTypes: S.optional(StringList.pipe(T.Query())),
   }).pipe(
     T.Http({
@@ -3887,39 +3709,37 @@ export const LocationList = /*@__PURE__*/ S.Array(Location) as any as S.Schema<L
 
 /** The response message for Locations.ListLocations. */
 export interface ListLocationsResponse {
-  /** A list of locations that matches the specified filter in the request. */
-  locations?: LocationList;
   /** The standard List next-page token. */
   nextPageToken?: string;
+  /** A list of locations that matches the specified filter in the request. */
+  locations?: LocationList;
 }
 export const ListLocationsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    locations: S.optional(LocationList),
     nextPageToken: S.optional(S.String),
+    locations: S.optional(LocationList),
   }),
-).annotate({
-  identifier: "ListLocationsResponse",
-}) as any as S.Schema<ListLocationsResponse>;
+).annotate({ identifier: "ListLocationsResponse" }) as any as S.Schema<ListLocationsResponse>;
 
 export interface ListProjectsLocationsGroupsRequest {
-  /** Optional. The maximum number of groups to return. The service may return fewer than this value. If unspecified, at most 500 groups will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
-  pageSize?: number;
-  /** Optional. the order by fields for the result. */
-  orderBy?: string;
   /** Optional. The filter request. */
   filter?: string;
-  /** Required. A page token, received from a previous `ListGroups` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListGroups` must match the call that provided the page token. */
-  pageToken?: string;
   /** Required. The parent, which owns this collection of groups. */
   parent: string;
+  /** Required. A page token, received from a previous `ListGroups` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListGroups` must match the call that provided the page token. */
+  pageToken?: string;
+  /** Optional. the order by fields for the result. */
+  orderBy?: string;
+  /** Optional. The maximum number of groups to return. The service may return fewer than this value. If unspecified, at most 500 groups will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
+  pageSize?: number;
 }
 export const ListProjectsLocationsGroupsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pageSize: S.optional(S.Number.pipe(T.Query())),
-    orderBy: S.optional(S.String.pipe(T.Query())),
     filter: S.optional(S.String.pipe(T.Query())),
-    pageToken: S.optional(S.String.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
+    pageToken: S.optional(S.String.pipe(T.Query())),
+    orderBy: S.optional(S.String.pipe(T.Query())),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -3938,39 +3758,37 @@ export const GroupList = /*@__PURE__*/ S.Array(Group) as any as S.Schema<GroupLi
 export interface ListGroupsResponse {
   /** Output only. Locations that could not be reached. */
   unreachable?: StringList;
-  /** Output only. A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
   /** Output only. The list of groups response. */
   groups?: GroupList;
+  /** Output only. A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
+  nextPageToken?: string;
 }
 export const ListGroupsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     unreachable: S.optional(StringList),
-    nextPageToken: S.optional(S.String),
     groups: S.optional(GroupList),
+    nextPageToken: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListGroupsResponse",
-}) as any as S.Schema<ListGroupsResponse>;
+).annotate({ identifier: "ListGroupsResponse" }) as any as S.Schema<ListGroupsResponse>;
 
 export interface ListProjectsLocationsImageImportsRequest {
-  /** Optional. The order by fields for the result (according to AIP-132). Currently ordering is only possible by "name" field. */
-  orderBy?: string;
   /** Optional. A page token, received from a previous `ListImageImports` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListImageImports` must match the call that provided the page token. */
   pageToken?: string;
   /** Optional. The filter request (according to AIP-160). */
   filter?: string;
   /** Required. The parent, which owns this collection of targets. */
   parent: string;
+  /** Optional. The order by fields for the result (according to AIP-132). Currently ordering is only possible by "name" field. */
+  orderBy?: string;
   /** Optional. The maximum number of targets to return. The service may return fewer than this value. If unspecified, at most 500 targets will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
   pageSize?: number;
 }
 export const ListProjectsLocationsImageImportsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    orderBy: S.optional(S.String.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
     filter: S.optional(S.String.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
+    orderBy: S.optional(S.String.pipe(T.Query())),
     pageSize: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
     T.Http({
@@ -3990,42 +3808,40 @@ export const ImageImportList = /*@__PURE__*/ S.Array(
 
 /** Response message for 'ListImageImports' call. */
 export interface ListImageImportsResponse {
-  /** Output only. Locations that could not be reached. */
-  unreachable?: StringList;
   /** Output only. The list of target response. */
   imageImports?: ImageImportList;
   /** Output only. A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
   nextPageToken?: string;
+  /** Output only. Locations that could not be reached. */
+  unreachable?: StringList;
 }
 export const ListImageImportsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    unreachable: S.optional(StringList),
     imageImports: S.optional(ImageImportList),
     nextPageToken: S.optional(S.String),
+    unreachable: S.optional(StringList),
   }),
-).annotate({
-  identifier: "ListImageImportsResponse",
-}) as any as S.Schema<ListImageImportsResponse>;
+).annotate({ identifier: "ListImageImportsResponse" }) as any as S.Schema<ListImageImportsResponse>;
 
 export interface ListProjectsLocationsImageImportsImageImportJobsRequest {
-  /** Optional. A page token, received from a previous `ListImageImportJobs` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListImageImportJobs` must match the call that provided the page token. */
-  pageToken?: string;
-  /** Optional. The maximum number of targets to return. The service may return fewer than this value. If unspecified, at most 500 targets will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
-  pageSize?: number;
   /** Required. The parent, which owns this collection of targets. */
   parent: string;
   /** Optional. The order by fields for the result (according to AIP-132). Currently ordering is only possible by "name" field. */
   orderBy?: string;
+  /** Optional. The maximum number of targets to return. The service may return fewer than this value. If unspecified, at most 500 targets will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
+  pageSize?: number;
   /** Optional. The filter request (according to AIP-160). */
   filter?: string;
+  /** Optional. A page token, received from a previous `ListImageImportJobs` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListImageImportJobs` must match the call that provided the page token. */
+  pageToken?: string;
 }
 export const ListProjectsLocationsImageImportsImageImportJobsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pageToken: S.optional(S.String.pipe(T.Query())),
-    pageSize: S.optional(S.Number.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
     orderBy: S.optional(S.String.pipe(T.Query())),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
     filter: S.optional(S.String.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -4039,41 +3855,41 @@ export const ListProjectsLocationsImageImportsImageImportJobsRequest = /*@__PURE
 
 /** Response message for 'ListImageImportJobs' call. */
 export interface ListImageImportJobsResponse {
-  /** Output only. The list of target response. */
-  imageImportJobs?: ImageImportJobList;
-  /** Output only. A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
   /** Output only. Locations that could not be reached. */
   unreachable?: StringList;
+  /** Output only. A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
+  nextPageToken?: string;
+  /** Output only. The list of target response. */
+  imageImportJobs?: ImageImportJobList;
 }
 export const ListImageImportJobsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    imageImportJobs: S.optional(ImageImportJobList),
-    nextPageToken: S.optional(S.String),
     unreachable: S.optional(StringList),
+    nextPageToken: S.optional(S.String),
+    imageImportJobs: S.optional(ImageImportJobList),
   }),
 ).annotate({
   identifier: "ListImageImportJobsResponse",
 }) as any as S.Schema<ListImageImportJobsResponse>;
 
 export interface ListProjectsLocationsOperationsRequest {
-  /** The standard list page size. */
-  pageSize?: number;
-  /** The standard list page token. */
-  pageToken?: string;
   /** The name of the operation's parent resource. */
   name: string;
   /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
   returnPartialSuccess?: boolean;
+  /** The standard list page token. */
+  pageToken?: string;
+  /** The standard list page size. */
+  pageSize?: number;
   /** The standard list filter. */
   filter?: string;
 }
 export const ListProjectsLocationsOperationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pageSize: S.optional(S.Number.pipe(T.Query())),
-    pageToken: S.optional(S.String.pipe(T.Query())),
     name: S.String.pipe(T.Label()),
     returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
     filter: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
@@ -4091,42 +3907,40 @@ export const OperationList = /*@__PURE__*/ S.Array(Operation) as any as S.Schema
 
 /** The response message for Operations.ListOperations. */
 export interface ListOperationsResponse {
+  /** A list of operations that matches the specified filter in the request. */
+  operations?: OperationList;
   /** The standard List next-page token. */
   nextPageToken?: string;
   /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
   unreachable?: StringList;
-  /** A list of operations that matches the specified filter in the request. */
-  operations?: OperationList;
 }
 export const ListOperationsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    operations: S.optional(OperationList),
     nextPageToken: S.optional(S.String),
     unreachable: S.optional(StringList),
-    operations: S.optional(OperationList),
   }),
-).annotate({
-  identifier: "ListOperationsResponse",
-}) as any as S.Schema<ListOperationsResponse>;
+).annotate({ identifier: "ListOperationsResponse" }) as any as S.Schema<ListOperationsResponse>;
 
 export interface ListProjectsLocationsSourcesRequest {
+  /** Optional. The maximum number of sources to return. The service may return fewer than this value. If unspecified, at most 500 sources will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
+  pageSize?: number;
+  /** Optional. the order by fields for the result. */
+  orderBy?: string;
+  /** Required. The parent, which owns this collection of sources. */
+  parent: string;
   /** Optional. The filter request. */
   filter?: string;
   /** Required. A page token, received from a previous `ListSources` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListSources` must match the call that provided the page token. */
   pageToken?: string;
-  /** Required. The parent, which owns this collection of sources. */
-  parent: string;
-  /** Optional. the order by fields for the result. */
-  orderBy?: string;
-  /** Optional. The maximum number of sources to return. The service may return fewer than this value. If unspecified, at most 500 sources will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
-  pageSize?: number;
 }
 export const ListProjectsLocationsSourcesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    pageSize: S.optional(S.Number.pipe(T.Query())),
+    orderBy: S.optional(S.String.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
     filter: S.optional(S.String.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
-    parent: S.String.pipe(T.Label()),
-    orderBy: S.optional(S.String.pipe(T.Query())),
-    pageSize: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -4143,42 +3957,40 @@ export const SourceList = /*@__PURE__*/ S.Array(Source) as any as S.Schema<Sourc
 
 /** Response message for 'ListSources' request. */
 export interface ListSourcesResponse {
-  /** Output only. Locations that could not be reached. */
-  unreachable?: StringList;
   /** Output only. The list of sources response. */
   sources?: SourceList;
   /** Output only. A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
   nextPageToken?: string;
+  /** Output only. Locations that could not be reached. */
+  unreachable?: StringList;
 }
 export const ListSourcesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    unreachable: S.optional(StringList),
     sources: S.optional(SourceList),
     nextPageToken: S.optional(S.String),
+    unreachable: S.optional(StringList),
   }),
-).annotate({
-  identifier: "ListSourcesResponse",
-}) as any as S.Schema<ListSourcesResponse>;
+).annotate({ identifier: "ListSourcesResponse" }) as any as S.Schema<ListSourcesResponse>;
 
 export interface ListProjectsLocationsSourcesDatacenterConnectorsRequest {
-  /** Optional. The maximum number of connectors to return. The service may return fewer than this value. If unspecified, at most 500 sources will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
-  pageSize?: number;
-  /** Required. A page token, received from a previous `ListDatacenterConnectors` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListDatacenterConnectors` must match the call that provided the page token. */
-  pageToken?: string;
-  /** Optional. the order by fields for the result. */
-  orderBy?: string;
-  /** Required. The parent, which owns this collection of connectors. */
-  parent: string;
   /** Optional. The filter request. */
   filter?: string;
+  /** Required. A page token, received from a previous `ListDatacenterConnectors` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListDatacenterConnectors` must match the call that provided the page token. */
+  pageToken?: string;
+  /** Required. The parent, which owns this collection of connectors. */
+  parent: string;
+  /** Optional. The maximum number of connectors to return. The service may return fewer than this value. If unspecified, at most 500 sources will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
+  pageSize?: number;
+  /** Optional. the order by fields for the result. */
+  orderBy?: string;
 }
 export const ListProjectsLocationsSourcesDatacenterConnectorsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pageSize: S.optional(S.Number.pipe(T.Query())),
-    pageToken: S.optional(S.String.pipe(T.Query())),
-    orderBy: S.optional(S.String.pipe(T.Query())),
-    parent: S.String.pipe(T.Label()),
     filter: S.optional(S.String.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
+    orderBy: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -4197,41 +4009,41 @@ export const DatacenterConnectorList = /*@__PURE__*/ S.Array(
 
 /** Response message for 'ListDatacenterConnectors' request. */
 export interface ListDatacenterConnectorsResponse {
-  /** Output only. A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
   /** Output only. Locations that could not be reached. */
   unreachable?: StringList;
   /** Output only. The list of sources response. */
   datacenterConnectors?: DatacenterConnectorList;
+  /** Output only. A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
+  nextPageToken?: string;
 }
 export const ListDatacenterConnectorsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    nextPageToken: S.optional(S.String),
     unreachable: S.optional(StringList),
     datacenterConnectors: S.optional(DatacenterConnectorList),
+    nextPageToken: S.optional(S.String),
   }),
 ).annotate({
   identifier: "ListDatacenterConnectorsResponse",
 }) as any as S.Schema<ListDatacenterConnectorsResponse>;
 
 export interface ListProjectsLocationsSourcesDiskMigrationJobsRequest {
-  /** Optional. A page token, received from a previous `ListDiskMigrationJobs` call. Provide this to retrieve the subsequent page. When paginating, all parameters provided to `ListDiskMigrationJobs` except `page_size` must match the call that provided the page token. */
-  pageToken?: string;
   /** Optional. The filter request (according to AIP-160). */
   filter?: string;
-  /** Optional. Ordering of the result list. */
-  orderBy?: string;
   /** Optional. The maximum number of disk migration jobs to return. The service may return fewer than this value. If unspecified, at most 500 disk migration jobs will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
   pageSize?: number;
+  /** Optional. Ordering of the result list. */
+  orderBy?: string;
+  /** Optional. A page token, received from a previous `ListDiskMigrationJobs` call. Provide this to retrieve the subsequent page. When paginating, all parameters provided to `ListDiskMigrationJobs` except `page_size` must match the call that provided the page token. */
+  pageToken?: string;
   /** Required. The parent, which owns this collection of DiskMigrationJobs. */
   parent: string;
 }
 export const ListProjectsLocationsSourcesDiskMigrationJobsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pageToken: S.optional(S.String.pipe(T.Query())),
     filter: S.optional(S.String.pipe(T.Query())),
-    orderBy: S.optional(S.String.pipe(T.Query())),
     pageSize: S.optional(S.Number.pipe(T.Query())),
+    orderBy: S.optional(S.String.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
@@ -4251,18 +4063,18 @@ export const DiskMigrationJobList = /*@__PURE__*/ S.Array(
 
 /** Response message for 'ListDiskMigrationJobs' request. */
 export interface ListDiskMigrationJobsResponse {
-  /** Optional. Output only. A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
   /** Output only. Locations that could not be reached. */
   unreachable?: StringList;
   /** Output only. The list of the disk migration jobs. */
   diskMigrationJobs?: DiskMigrationJobList;
+  /** Optional. Output only. A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
+  nextPageToken?: string;
 }
 export const ListDiskMigrationJobsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    nextPageToken: S.optional(S.String),
     unreachable: S.optional(StringList),
     diskMigrationJobs: S.optional(DiskMigrationJobList),
+    nextPageToken: S.optional(S.String),
   }),
 ).annotate({
   identifier: "ListDiskMigrationJobsResponse",
@@ -4275,27 +4087,27 @@ export type ListProjectsLocationsSourcesMigratingVmsViewEnum =
 export const ListProjectsLocationsSourcesMigratingVmsViewEnum = S.String;
 
 export interface ListProjectsLocationsSourcesMigratingVmsRequest {
-  /** Required. The parent, which owns this collection of MigratingVms. */
-  parent: string;
   /** Optional. The filter request. */
   filter?: string;
-  /** Optional. The level of details of each migrating VM. */
-  view?: ListProjectsLocationsSourcesMigratingVmsViewEnum | (string & {});
   /** Required. A page token, received from a previous `ListMigratingVms` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListMigratingVms` must match the call that provided the page token. */
   pageToken?: string;
-  /** Optional. The maximum number of migrating VMs to return. The service may return fewer than this value. If unspecified, at most 500 migrating VMs will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
-  pageSize?: number;
+  /** Required. The parent, which owns this collection of MigratingVms. */
+  parent: string;
   /** Optional. the order by fields for the result. */
   orderBy?: string;
+  /** Optional. The level of details of each migrating VM. */
+  view?: ListProjectsLocationsSourcesMigratingVmsViewEnum | (string & {});
+  /** Optional. The maximum number of migrating VMs to return. The service may return fewer than this value. If unspecified, at most 500 migrating VMs will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
+  pageSize?: number;
 }
 export const ListProjectsLocationsSourcesMigratingVmsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    parent: S.String.pipe(T.Label()),
     filter: S.optional(S.String.pipe(T.Query())),
-    view: S.optional(ListProjectsLocationsSourcesMigratingVmsViewEnum.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
-    pageSize: S.optional(S.Number.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
     orderBy: S.optional(S.String.pipe(T.Query())),
+    view: S.optional(ListProjectsLocationsSourcesMigratingVmsViewEnum.pipe(T.Query())),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -4314,43 +4126,41 @@ export const MigratingVmList = /*@__PURE__*/ S.Array(
 
 /** Response message for 'ListMigratingVms' request. */
 export interface ListMigratingVmsResponse {
+  /** Output only. The list of Migrating VMs response. */
+  migratingVms?: MigratingVmList;
   /** Output only. A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
   nextPageToken?: string;
   /** Output only. Locations that could not be reached. */
   unreachable?: StringList;
-  /** Output only. The list of Migrating VMs response. */
-  migratingVms?: MigratingVmList;
 }
 export const ListMigratingVmsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    migratingVms: S.optional(MigratingVmList),
     nextPageToken: S.optional(S.String),
     unreachable: S.optional(StringList),
-    migratingVms: S.optional(MigratingVmList),
   }),
-).annotate({
-  identifier: "ListMigratingVmsResponse",
-}) as any as S.Schema<ListMigratingVmsResponse>;
+).annotate({ identifier: "ListMigratingVmsResponse" }) as any as S.Schema<ListMigratingVmsResponse>;
 
 export interface ListProjectsLocationsSourcesMigratingVmsCloneJobsRequest {
-  /** Optional. The maximum number of clone jobs to return. The service may return fewer than this value. If unspecified, at most 500 clone jobs will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
-  pageSize?: number;
-  /** Required. The parent, which owns this collection of source VMs. */
-  parent: string;
-  /** Optional. The filter request. */
-  filter?: string;
-  /** Required. A page token, received from a previous `ListCloneJobs` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListCloneJobs` must match the call that provided the page token. */
-  pageToken?: string;
   /** Optional. the order by fields for the result. */
   orderBy?: string;
+  /** Required. A page token, received from a previous `ListCloneJobs` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListCloneJobs` must match the call that provided the page token. */
+  pageToken?: string;
+  /** Optional. The filter request. */
+  filter?: string;
+  /** Required. The parent, which owns this collection of source VMs. */
+  parent: string;
+  /** Optional. The maximum number of clone jobs to return. The service may return fewer than this value. If unspecified, at most 500 clone jobs will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
+  pageSize?: number;
 }
 export const ListProjectsLocationsSourcesMigratingVmsCloneJobsRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      pageSize: S.optional(S.Number.pipe(T.Query())),
-      parent: S.String.pipe(T.Label()),
-      filter: S.optional(S.String.pipe(T.Query())),
-      pageToken: S.optional(S.String.pipe(T.Query())),
       orderBy: S.optional(S.String.pipe(T.Query())),
+      pageToken: S.optional(S.String.pipe(T.Query())),
+      filter: S.optional(S.String.pipe(T.Query())),
+      parent: S.String.pipe(T.Label()),
+      pageSize: S.optional(S.Number.pipe(T.Query())),
     }).pipe(
       T.Http({
         method: "GET",
@@ -4364,43 +4174,41 @@ export const ListProjectsLocationsSourcesMigratingVmsCloneJobsRequest = /*@__PUR
 
 /** Response message for 'ListCloneJobs' request. */
 export interface ListCloneJobsResponse {
-  /** Output only. The list of clone jobs response. */
-  cloneJobs?: CloneJobList;
   /** Output only. A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
   nextPageToken?: string;
   /** Output only. Locations that could not be reached. */
   unreachable?: StringList;
+  /** Output only. The list of clone jobs response. */
+  cloneJobs?: CloneJobList;
 }
 export const ListCloneJobsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    cloneJobs: S.optional(CloneJobList),
     nextPageToken: S.optional(S.String),
     unreachable: S.optional(StringList),
+    cloneJobs: S.optional(CloneJobList),
   }),
-).annotate({
-  identifier: "ListCloneJobsResponse",
-}) as any as S.Schema<ListCloneJobsResponse>;
+).annotate({ identifier: "ListCloneJobsResponse" }) as any as S.Schema<ListCloneJobsResponse>;
 
 export interface ListProjectsLocationsSourcesMigratingVmsCutoverJobsRequest {
-  /** Optional. the order by fields for the result. */
-  orderBy?: string;
-  /** Optional. The filter request. */
-  filter?: string;
-  /** Required. The parent, which owns this collection of migrating VMs. */
-  parent: string;
-  /** Optional. The maximum number of cutover jobs to return. The service may return fewer than this value. If unspecified, at most 500 cutover jobs will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
-  pageSize?: number;
   /** Required. A page token, received from a previous `ListCutoverJobs` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListCutoverJobs` must match the call that provided the page token. */
   pageToken?: string;
+  /** Optional. The filter request. */
+  filter?: string;
+  /** Optional. the order by fields for the result. */
+  orderBy?: string;
+  /** Optional. The maximum number of cutover jobs to return. The service may return fewer than this value. If unspecified, at most 500 cutover jobs will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
+  pageSize?: number;
+  /** Required. The parent, which owns this collection of migrating VMs. */
+  parent: string;
 }
 export const ListProjectsLocationsSourcesMigratingVmsCutoverJobsRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      orderBy: S.optional(S.String.pipe(T.Query())),
-      filter: S.optional(S.String.pipe(T.Query())),
-      parent: S.String.pipe(T.Label()),
-      pageSize: S.optional(S.Number.pipe(T.Query())),
       pageToken: S.optional(S.String.pipe(T.Query())),
+      filter: S.optional(S.String.pipe(T.Query())),
+      orderBy: S.optional(S.String.pipe(T.Query())),
+      pageSize: S.optional(S.Number.pipe(T.Query())),
+      parent: S.String.pipe(T.Label()),
     }).pipe(
       T.Http({
         method: "GET",
@@ -4414,42 +4222,40 @@ export const ListProjectsLocationsSourcesMigratingVmsCutoverJobsRequest = /*@__P
 
 /** Response message for 'ListCutoverJobs' request. */
 export interface ListCutoverJobsResponse {
-  /** Output only. A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
   /** Output only. The list of cutover jobs response. */
   cutoverJobs?: CutoverJobList;
+  /** Output only. A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
+  nextPageToken?: string;
   /** Output only. Locations that could not be reached. */
   unreachable?: StringList;
 }
 export const ListCutoverJobsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    nextPageToken: S.optional(S.String),
     cutoverJobs: S.optional(CutoverJobList),
+    nextPageToken: S.optional(S.String),
     unreachable: S.optional(StringList),
   }),
-).annotate({
-  identifier: "ListCutoverJobsResponse",
-}) as any as S.Schema<ListCutoverJobsResponse>;
+).annotate({ identifier: "ListCutoverJobsResponse" }) as any as S.Schema<ListCutoverJobsResponse>;
 
 export interface ListProjectsLocationsSourcesMigratingVmsReplicationCyclesRequest {
-  /** Optional. The filter request. */
-  filter?: string;
-  /** Optional. The maximum number of replication cycles to return. The service may return fewer than this value. If unspecified, at most 100 migrating VMs will be returned. The maximum value is 100; values above 100 will be coerced to 100. */
-  pageSize?: number;
-  /** Required. A page token, received from a previous `ListReplicationCycles` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListReplicationCycles` must match the call that provided the page token. */
-  pageToken?: string;
   /** Required. The parent, which owns this collection of ReplicationCycles. */
   parent: string;
+  /** Required. A page token, received from a previous `ListReplicationCycles` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListReplicationCycles` must match the call that provided the page token. */
+  pageToken?: string;
+  /** Optional. The maximum number of replication cycles to return. The service may return fewer than this value. If unspecified, at most 100 migrating VMs will be returned. The maximum value is 100; values above 100 will be coerced to 100. */
+  pageSize?: number;
+  /** Optional. The filter request. */
+  filter?: string;
   /** Optional. the order by fields for the result. */
   orderBy?: string;
 }
 export const ListProjectsLocationsSourcesMigratingVmsReplicationCyclesRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      filter: S.optional(S.String.pipe(T.Query())),
-      pageSize: S.optional(S.Number.pipe(T.Query())),
-      pageToken: S.optional(S.String.pipe(T.Query())),
       parent: S.String.pipe(T.Label()),
+      pageToken: S.optional(S.String.pipe(T.Query())),
+      pageSize: S.optional(S.Number.pipe(T.Query())),
+      filter: S.optional(S.String.pipe(T.Query())),
       orderBy: S.optional(S.String.pipe(T.Query())),
     }).pipe(
       T.Http({
@@ -4471,16 +4277,16 @@ export const ReplicationCycleList = /*@__PURE__*/ S.Array(
 export interface ListReplicationCyclesResponse {
   /** Output only. Locations that could not be reached. */
   unreachable?: StringList;
-  /** Output only. A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
   /** Output only. The list of replication cycles response. */
   replicationCycles?: ReplicationCycleList;
+  /** Output only. A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
+  nextPageToken?: string;
 }
 export const ListReplicationCyclesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     unreachable: S.optional(StringList),
-    nextPageToken: S.optional(S.String),
     replicationCycles: S.optional(ReplicationCycleList),
+    nextPageToken: S.optional(S.String),
   }),
 ).annotate({
   identifier: "ListReplicationCyclesResponse",
@@ -4493,27 +4299,27 @@ export type ListProjectsLocationsSourcesUtilizationReportsViewEnum =
 export const ListProjectsLocationsSourcesUtilizationReportsViewEnum = S.String;
 
 export interface ListProjectsLocationsSourcesUtilizationReportsRequest {
-  /** Required. The Utilization Reports parent. */
-  parent: string;
-  /** Optional. The level of details of each report. Defaults to BASIC. */
-  view?: ListProjectsLocationsSourcesUtilizationReportsViewEnum | (string & {});
   /** Optional. The filter request. */
   filter?: string;
-  /** Optional. the order by fields for the result. */
-  orderBy?: string;
   /** Optional. The maximum number of reports to return. The service may return fewer than this value. If unspecified, at most 500 reports will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
   pageSize?: number;
+  /** Required. The Utilization Reports parent. */
+  parent: string;
+  /** Optional. the order by fields for the result. */
+  orderBy?: string;
   /** Required. A page token, received from a previous `ListUtilizationReports` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListUtilizationReports` must match the call that provided the page token. */
   pageToken?: string;
+  /** Optional. The level of details of each report. Defaults to BASIC. */
+  view?: ListProjectsLocationsSourcesUtilizationReportsViewEnum | (string & {});
 }
 export const ListProjectsLocationsSourcesUtilizationReportsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    parent: S.String.pipe(T.Label()),
-    view: S.optional(ListProjectsLocationsSourcesUtilizationReportsViewEnum.pipe(T.Query())),
     filter: S.optional(S.String.pipe(T.Query())),
-    orderBy: S.optional(S.String.pipe(T.Query())),
     pageSize: S.optional(S.Number.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
+    orderBy: S.optional(S.String.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
+    view: S.optional(ListProjectsLocationsSourcesUtilizationReportsViewEnum.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -4532,17 +4338,17 @@ export const UtilizationReportList = /*@__PURE__*/ S.Array(
 
 /** Response message for 'ListUtilizationReports' request. */
 export interface ListUtilizationReportsResponse {
-  /** Output only. A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
   /** Output only. Locations that could not be reached. */
   unreachable?: StringList;
+  /** Output only. A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
+  nextPageToken?: string;
   /** Output only. The list of reports. */
   utilizationReports?: UtilizationReportList;
 }
 export const ListUtilizationReportsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    nextPageToken: S.optional(S.String),
     unreachable: S.optional(StringList),
+    nextPageToken: S.optional(S.String),
     utilizationReports: S.optional(UtilizationReportList),
   }),
 ).annotate({
@@ -4550,23 +4356,23 @@ export const ListUtilizationReportsResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListUtilizationReportsResponse>;
 
 export interface ListProjectsLocationsTargetProjectsRequest {
-  /** Optional. The maximum number of targets to return. The service may return fewer than this value. If unspecified, at most 500 targets will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
-  pageSize?: number;
   /** Required. The parent, which owns this collection of targets. */
   parent: string;
-  /** Optional. The filter request. */
-  filter?: string;
   /** Optional. the order by fields for the result. */
   orderBy?: string;
+  /** Optional. The filter request. */
+  filter?: string;
+  /** Optional. The maximum number of targets to return. The service may return fewer than this value. If unspecified, at most 500 targets will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
+  pageSize?: number;
   /** Required. A page token, received from a previous `ListTargets` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListTargets` must match the call that provided the page token. */
   pageToken?: string;
 }
 export const ListProjectsLocationsTargetProjectsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pageSize: S.optional(S.Number.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
-    filter: S.optional(S.String.pipe(T.Query())),
     orderBy: S.optional(S.String.pipe(T.Query())),
+    filter: S.optional(S.String.pipe(T.Query())),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
@@ -4586,18 +4392,18 @@ export const TargetProjectList = /*@__PURE__*/ S.Array(
 
 /** Response message for 'ListTargetProjects' call. */
 export interface ListTargetProjectsResponse {
-  /** Output only. Locations that could not be reached. */
-  unreachable?: StringList;
-  /** Output only. A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
   /** Output only. The list of target response. */
   targetProjects?: TargetProjectList;
+  /** Output only. A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
+  nextPageToken?: string;
+  /** Output only. Locations that could not be reached. */
+  unreachable?: StringList;
 }
 export const ListTargetProjectsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    unreachable: S.optional(StringList),
-    nextPageToken: S.optional(S.String),
     targetProjects: S.optional(TargetProjectList),
+    nextPageToken: S.optional(S.String),
+    unreachable: S.optional(StringList),
   }),
 ).annotate({
   identifier: "ListTargetProjectsResponse",
@@ -4606,79 +4412,67 @@ export const ListTargetProjectsResponse = /*@__PURE__*/ S.suspend(() =>
 export interface PatchProjectsLocationsGroupsRequest {
   /** A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
-  /** Output only. The Group name. */
-  name: string;
   /** Field mask is used to specify the fields to be overwritten in the Group resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string;
+  /** Output only. The Group name. */
+  name: string;
   /** Request body */
   body?: Group;
 }
 export const PatchProjectsLocationsGroupsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     requestId: S.optional(S.String.pipe(T.Query())),
-    name: S.String.pipe(T.Label()),
     updateMask: S.optional(S.String.pipe(T.Query())),
+    name: S.String.pipe(T.Label()),
     body: S.optional(Group.pipe(T.HttpBody())),
   }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "v1/{+name}",
-      baseUrl: "https://vmmigration.googleapis.com/",
-    }),
+    T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://vmmigration.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "PatchProjectsLocationsGroupsRequest",
 }) as any as S.Schema<PatchProjectsLocationsGroupsRequest>;
 
 export interface PatchProjectsLocationsSourcesRequest {
+  /** Output only. The Source name. */
+  name: string;
   /** A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
   /** Field mask is used to specify the fields to be overwritten in the Source resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string;
-  /** Output only. The Source name. */
-  name: string;
   /** Request body */
   body?: Source;
 }
 export const PatchProjectsLocationsSourcesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    name: S.String.pipe(T.Label()),
     requestId: S.optional(S.String.pipe(T.Query())),
     updateMask: S.optional(S.String.pipe(T.Query())),
-    name: S.String.pipe(T.Label()),
     body: S.optional(Source.pipe(T.HttpBody())),
   }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "v1/{+name}",
-      baseUrl: "https://vmmigration.googleapis.com/",
-    }),
+    T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://vmmigration.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "PatchProjectsLocationsSourcesRequest",
 }) as any as S.Schema<PatchProjectsLocationsSourcesRequest>;
 
 export interface PatchProjectsLocationsSourcesDiskMigrationJobsRequest {
-  /** Output only. Identifier. The identifier of the DiskMigrationJob. */
-  name: string;
-  /** Optional. Field mask is used to specify the fields to be overwritten in the DiskMigrationJob resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask, then a mask equivalent to all fields that are populated (have a non-empty value), will be implied. */
-  updateMask?: string;
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request timed out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
+  /** Optional. Field mask is used to specify the fields to be overwritten in the DiskMigrationJob resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask, then a mask equivalent to all fields that are populated (have a non-empty value), will be implied. */
+  updateMask?: string;
+  /** Output only. Identifier. The identifier of the DiskMigrationJob. */
+  name: string;
   /** Request body */
   body?: DiskMigrationJob;
 }
 export const PatchProjectsLocationsSourcesDiskMigrationJobsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.String.pipe(T.Label()),
-    updateMask: S.optional(S.String.pipe(T.Query())),
     requestId: S.optional(S.String.pipe(T.Query())),
+    updateMask: S.optional(S.String.pipe(T.Query())),
+    name: S.String.pipe(T.Label()),
     body: S.optional(DiskMigrationJob.pipe(T.HttpBody())),
   }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "v1/{+name}",
-      baseUrl: "https://vmmigration.googleapis.com/",
-    }),
+    T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://vmmigration.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "PatchProjectsLocationsSourcesDiskMigrationJobsRequest",
@@ -4687,52 +4481,44 @@ export const PatchProjectsLocationsSourcesDiskMigrationJobsRequest = /*@__PURE__
 export interface PatchProjectsLocationsSourcesMigratingVmsRequest {
   /** A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
-  /** Field mask is used to specify the fields to be overwritten in the MigratingVm resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
-  updateMask?: string;
   /** Output only. The identifier of the MigratingVm. */
   name: string;
+  /** Field mask is used to specify the fields to be overwritten in the MigratingVm resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
+  updateMask?: string;
   /** Request body */
   body?: MigratingVm;
 }
 export const PatchProjectsLocationsSourcesMigratingVmsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     requestId: S.optional(S.String.pipe(T.Query())),
-    updateMask: S.optional(S.String.pipe(T.Query())),
     name: S.String.pipe(T.Label()),
+    updateMask: S.optional(S.String.pipe(T.Query())),
     body: S.optional(MigratingVm.pipe(T.HttpBody())),
   }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "v1/{+name}",
-      baseUrl: "https://vmmigration.googleapis.com/",
-    }),
+    T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://vmmigration.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "PatchProjectsLocationsSourcesMigratingVmsRequest",
 }) as any as S.Schema<PatchProjectsLocationsSourcesMigratingVmsRequest>;
 
 export interface PatchProjectsLocationsTargetProjectsRequest {
+  /** Field mask is used to specify the fields to be overwritten in the TargetProject resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
+  updateMask?: string;
   /** A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
   /** Output only. The name of the target project. */
   name: string;
-  /** Field mask is used to specify the fields to be overwritten in the TargetProject resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
-  updateMask?: string;
   /** Request body */
   body?: TargetProject;
 }
 export const PatchProjectsLocationsTargetProjectsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    updateMask: S.optional(S.String.pipe(T.Query())),
     requestId: S.optional(S.String.pipe(T.Query())),
     name: S.String.pipe(T.Label()),
-    updateMask: S.optional(S.String.pipe(T.Query())),
     body: S.optional(TargetProject.pipe(T.HttpBody())),
   }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "v1/{+name}",
-      baseUrl: "https://vmmigration.googleapis.com/",
-    }),
+    T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://vmmigration.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "PatchProjectsLocationsTargetProjectsRequest",
@@ -4884,9 +4670,7 @@ export const UpgradeApplianceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     requestId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "UpgradeApplianceRequest",
-}) as any as S.Schema<UpgradeApplianceRequest>;
+).annotate({ identifier: "UpgradeApplianceRequest" }) as any as S.Schema<UpgradeApplianceRequest>;
 
 export interface UpgradeApplianceProjectsLocationsSourcesDatacenterConnectorsRequest {
   /** Required. The DatacenterConnector name. */
@@ -5444,10 +5228,7 @@ export const fetchInventoryProjectsLocationsSources: API.PaginatedOperationMetho
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type FetchStorageInventoryProjectsLocationsSourcesError = NotFound | Forbidden | GcpOpError;
@@ -5464,10 +5245,7 @@ export const fetchStorageInventoryProjectsLocationsSources: API.PaginatedOperati
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type FinalizeMigrationProjectsLocationsSourcesMigratingVmsError =
@@ -5729,10 +5507,7 @@ export const listProjectsLocations: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListProjectsLocationsGroupsError = NotFound | Forbidden | GcpOpError;
@@ -5749,10 +5524,7 @@ export const listProjectsLocationsGroups: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListProjectsLocationsImageImportsError = NotFound | Forbidden | GcpOpError;
@@ -5769,10 +5541,7 @@ export const listProjectsLocationsImageImports: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListProjectsLocationsImageImportsImageImportJobsError =
@@ -5792,10 +5561,7 @@ export const listProjectsLocationsImageImportsImageImportJobs: API.PaginatedOper
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListProjectsLocationsOperationsError = NotFound | Forbidden | GcpOpError;
@@ -5812,10 +5578,7 @@ export const listProjectsLocationsOperations: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListProjectsLocationsSourcesError = NotFound | Forbidden | GcpOpError;
@@ -5832,10 +5595,7 @@ export const listProjectsLocationsSources: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListProjectsLocationsSourcesDatacenterConnectorsError =
@@ -5855,10 +5615,7 @@ export const listProjectsLocationsSourcesDatacenterConnectors: API.PaginatedOper
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListProjectsLocationsSourcesDiskMigrationJobsError = NotFound | Forbidden | GcpOpError;
@@ -5875,10 +5632,7 @@ export const listProjectsLocationsSourcesDiskMigrationJobs: API.PaginatedOperati
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListProjectsLocationsSourcesMigratingVmsError = NotFound | Forbidden | GcpOpError;
@@ -5895,10 +5649,7 @@ export const listProjectsLocationsSourcesMigratingVms: API.PaginatedOperationMet
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListProjectsLocationsSourcesMigratingVmsCloneJobsError =
@@ -5918,10 +5669,7 @@ export const listProjectsLocationsSourcesMigratingVmsCloneJobs: API.PaginatedOpe
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListProjectsLocationsSourcesMigratingVmsCutoverJobsError =
@@ -5941,10 +5689,7 @@ export const listProjectsLocationsSourcesMigratingVmsCutoverJobs: API.PaginatedO
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListProjectsLocationsSourcesMigratingVmsReplicationCyclesError =
@@ -5964,10 +5709,7 @@ export const listProjectsLocationsSourcesMigratingVmsReplicationCycles: API.Pagi
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListProjectsLocationsSourcesUtilizationReportsError = NotFound | Forbidden | GcpOpError;
@@ -5984,10 +5726,7 @@ export const listProjectsLocationsSourcesUtilizationReports: API.PaginatedOperat
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListProjectsLocationsTargetProjectsError = NotFound | Forbidden | GcpOpError;
@@ -6004,10 +5743,7 @@ export const listProjectsLocationsTargetProjects: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type PatchProjectsLocationsGroupsError =

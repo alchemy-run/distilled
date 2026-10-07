@@ -29,9 +29,7 @@ export const BulkDeleteRequest = /*@__PURE__*/ S.suspend(() =>
     ids: BulkDeleteRequestIdsList,
     app_id: S.optional(S.String),
   }).pipe(T.Http({ method: "POST", uri: "/apps.datastore.bulkDelete", code: 200 })),
-).annotate({
-  identifier: "BulkDeleteRequest",
-}) as any as S.Schema<BulkDeleteRequest>;
+).annotate({ identifier: "BulkDeleteRequest" }) as any as S.Schema<BulkDeleteRequest>;
 
 /** attribute names and values of the items that failed to be processed */
 export type BulkDeleteResponseFailedItemsList = Array<string>;
@@ -50,9 +48,7 @@ export const BulkDeleteResponse = /*@__PURE__*/ S.suspend(() =>
     ok: S.Boolean,
     failed_items: S.optional(BulkDeleteResponseFailedItemsList),
   }),
-).annotate({
-  identifier: "BulkDeleteResponse",
-}) as any as S.Schema<BulkDeleteResponse>;
+).annotate({ identifier: "BulkDeleteResponse" }) as any as S.Schema<BulkDeleteResponse>;
 
 /** items' ids */
 export type BulkGetRequestIdsList = Array<string>;
@@ -75,9 +71,7 @@ export const BulkGetRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(T.Http({ method: "POST", uri: "/apps.datastore.bulkGet", code: 200 })),
 ).annotate({ identifier: "BulkGetRequest" }) as any as S.Schema<BulkGetRequest>;
 
-export type BulkGetResponseItemsItemMap = {
-  [key: string]: unknown | undefined;
-};
+export type BulkGetResponseItemsItemMap = { [key: string]: unknown | undefined };
 export const BulkGetResponseItemsItemMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -109,9 +103,7 @@ export const BulkGetResponse = /*@__PURE__*/ S.suspend(() =>
     items: S.optional(BulkGetResponseItemsList),
     failed_items: S.optional(BulkGetResponseFailedItemsList),
   }),
-).annotate({
-  identifier: "BulkGetResponse",
-}) as any as S.Schema<BulkGetResponse>;
+).annotate({ identifier: "BulkGetResponse" }) as any as S.Schema<BulkGetResponse>;
 
 export type BulkPutRequestItemsItemMap = { [key: string]: unknown | undefined };
 export const BulkPutRequestItemsItemMap = /*@__PURE__*/ S.Record(
@@ -140,9 +132,7 @@ export const BulkPutRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(T.Http({ method: "POST", uri: "/apps.datastore.bulkPut", code: 200 })),
 ).annotate({ identifier: "BulkPutRequest" }) as any as S.Schema<BulkPutRequest>;
 
-export type BulkPutResponseFailedItemsItemMap = {
-  [key: string]: unknown | undefined;
-};
+export type BulkPutResponseFailedItemsItemMap = { [key: string]: unknown | undefined };
 export const BulkPutResponseFailedItemsItemMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -168,16 +158,12 @@ export const BulkPutResponse = /*@__PURE__*/ S.suspend(() =>
     datastore: S.optional(S.String),
     failed_items: S.optional(BulkPutResponseFailedItemsList),
   }),
-).annotate({
-  identifier: "BulkPutResponse",
-}) as any as S.Schema<BulkPutResponse>;
+).annotate({ identifier: "BulkPutResponse" }) as any as S.Schema<BulkPutResponse>;
 
 export interface ConnectionsOpenRequest {}
 export const ConnectionsOpenRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "POST", uri: "/apps.connections.open", code: 200 })),
-).annotate({
-  identifier: "ConnectionsOpenRequest",
-}) as any as S.Schema<ConnectionsOpenRequest>;
+).annotate({ identifier: "ConnectionsOpenRequest" }) as any as S.Schema<ConnectionsOpenRequest>;
 
 export interface ConnectionsOpenResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -190,9 +176,7 @@ export const ConnectionsOpenResponse = /*@__PURE__*/ S.suspend(() =>
     ok: S.Boolean,
     url: S.String,
   }),
-).annotate({
-  identifier: "ConnectionsOpenResponse",
-}) as any as S.Schema<ConnectionsOpenResponse>;
+).annotate({ identifier: "ConnectionsOpenResponse" }) as any as S.Schema<ConnectionsOpenResponse>;
 
 export interface CreateManifestRequest {
   /** A JSON app manifest encoded as a string. This manifest **must** use a valid [app manifest schema - read our guide to creating one](/app-manifests/configuring-apps-with-app-manifests#fields). */
@@ -205,9 +189,7 @@ export const CreateManifestRequest = /*@__PURE__*/ S.suspend(() =>
     manifest: S.String,
     team_id: S.optional(S.String),
   }).pipe(T.Http({ method: "POST", uri: "/apps.manifest.create", code: 200 })),
-).annotate({
-  identifier: "CreateManifestRequest",
-}) as any as S.Schema<CreateManifestRequest>;
+).annotate({ identifier: "CreateManifestRequest" }) as any as S.Schema<CreateManifestRequest>;
 
 export interface CreateManifestResponseCredentials {
   client_id?: string;
@@ -248,23 +230,17 @@ export const CreateManifestResponse = /*@__PURE__*/ S.suspend(() =>
     team_domain: S.optional(S.String),
     app_token: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CreateManifestResponse",
-}) as any as S.Schema<CreateManifestResponse>;
+).annotate({ identifier: "CreateManifestResponse" }) as any as S.Schema<CreateManifestResponse>;
 
 /** A map of attributes referenced in expression */
-export type DatastoreCountRequestExpressionAttributesMap = {
-  [key: string]: unknown | undefined;
-};
+export type DatastoreCountRequestExpressionAttributesMap = { [key: string]: unknown | undefined };
 export const DatastoreCountRequestExpressionAttributesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
 ) as any as S.Schema<DatastoreCountRequestExpressionAttributesMap>;
 
 /** A map of values referenced in expression */
-export type DatastoreCountRequestExpressionValuesMap = {
-  [key: string]: unknown | undefined;
-};
+export type DatastoreCountRequestExpressionValuesMap = { [key: string]: unknown | undefined };
 export const DatastoreCountRequestExpressionValuesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -290,9 +266,7 @@ export const DatastoreCountRequest = /*@__PURE__*/ S.suspend(() =>
     expression_values: S.optional(DatastoreCountRequestExpressionValuesMap),
     app_id: S.optional(S.String),
   }).pipe(T.Http({ method: "POST", uri: "/apps.datastore.count", code: 200 })),
-).annotate({
-  identifier: "DatastoreCountRequest",
-}) as any as S.Schema<DatastoreCountRequest>;
+).annotate({ identifier: "DatastoreCountRequest" }) as any as S.Schema<DatastoreCountRequest>;
 
 export interface DatastoreCountResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -308,23 +282,17 @@ export const DatastoreCountResponse = /*@__PURE__*/ S.suspend(() =>
     datastore: S.optional(S.String),
     count: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "DatastoreCountResponse",
-}) as any as S.Schema<DatastoreCountResponse>;
+).annotate({ identifier: "DatastoreCountResponse" }) as any as S.Schema<DatastoreCountResponse>;
 
 /** A map of attributes referenced in expression */
-export type DatastoreQueryRequestExpressionAttributesMap = {
-  [key: string]: unknown | undefined;
-};
+export type DatastoreQueryRequestExpressionAttributesMap = { [key: string]: unknown | undefined };
 export const DatastoreQueryRequestExpressionAttributesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
 ) as any as S.Schema<DatastoreQueryRequestExpressionAttributesMap>;
 
 /** A map of values referenced in expression */
-export type DatastoreQueryRequestExpressionValuesMap = {
-  [key: string]: unknown | undefined;
-};
+export type DatastoreQueryRequestExpressionValuesMap = { [key: string]: unknown | undefined };
 export const DatastoreQueryRequestExpressionValuesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -356,13 +324,9 @@ export const DatastoreQueryRequest = /*@__PURE__*/ S.suspend(() =>
     cursor: S.optional(S.String),
     limit: S.optional(S.Number),
   }).pipe(T.Http({ method: "POST", uri: "/apps.datastore.query", code: 200 })),
-).annotate({
-  identifier: "DatastoreQueryRequest",
-}) as any as S.Schema<DatastoreQueryRequest>;
+).annotate({ identifier: "DatastoreQueryRequest" }) as any as S.Schema<DatastoreQueryRequest>;
 
-export type DatastoreQueryResponseItemsItemMap = {
-  [key: string]: unknown | undefined;
-};
+export type DatastoreQueryResponseItemsItemMap = { [key: string]: unknown | undefined };
 export const DatastoreQueryResponseItemsItemMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -404,9 +368,7 @@ export const DatastoreQueryResponse = /*@__PURE__*/ S.suspend(() =>
     items: DatastoreQueryResponseItemsList,
     response_metadata: S.optional(DatastoreQueryResponseResponseMetadata),
   }),
-).annotate({
-  identifier: "DatastoreQueryResponse",
-}) as any as S.Schema<DatastoreQueryResponse>;
+).annotate({ identifier: "DatastoreQueryResponse" }) as any as S.Schema<DatastoreQueryResponse>;
 
 export interface DeleteAuthExternalRequest {
   /** The id of the app whose tokens you want to delete */
@@ -451,9 +413,7 @@ export const DeleteDatastoreRequest = /*@__PURE__*/ S.suspend(() =>
     id: S.String,
     app_id: S.optional(S.String),
   }).pipe(T.Http({ method: "POST", uri: "/apps.datastore.delete", code: 200 })),
-).annotate({
-  identifier: "DeleteDatastoreRequest",
-}) as any as S.Schema<DeleteDatastoreRequest>;
+).annotate({ identifier: "DeleteDatastoreRequest" }) as any as S.Schema<DeleteDatastoreRequest>;
 
 export interface DeleteDatastoreResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -463,9 +423,7 @@ export const DeleteDatastoreResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ok: S.Boolean,
   }),
-).annotate({
-  identifier: "DeleteDatastoreResponse",
-}) as any as S.Schema<DeleteDatastoreResponse>;
+).annotate({ identifier: "DeleteDatastoreResponse" }) as any as S.Schema<DeleteDatastoreResponse>;
 
 export interface DeleteManifestRequest {
   /** The ID of the app you want to delete. */
@@ -475,9 +433,7 @@ export const DeleteManifestRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     app_id: S.String,
   }).pipe(T.Http({ method: "POST", uri: "/apps.manifest.delete", code: 200 })),
-).annotate({
-  identifier: "DeleteManifestRequest",
-}) as any as S.Schema<DeleteManifestRequest>;
+).annotate({ identifier: "DeleteManifestRequest" }) as any as S.Schema<DeleteManifestRequest>;
 
 export interface DeleteManifestResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -487,9 +443,7 @@ export const DeleteManifestResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ok: S.Boolean,
   }),
-).annotate({
-  identifier: "DeleteManifestResponse",
-}) as any as S.Schema<DeleteManifestResponse>;
+).annotate({ identifier: "DeleteManifestResponse" }) as any as S.Schema<DeleteManifestResponse>;
 
 export interface ExportManifestRequest {
   /** The ID of the app whose configuration you want to export as a manifest. */
@@ -499,9 +453,7 @@ export const ExportManifestRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     app_id: S.String,
   }).pipe(T.Http({ method: "POST", uri: "/apps.manifest.export", code: 200 })),
-).annotate({
-  identifier: "ExportManifestRequest",
-}) as any as S.Schema<ExportManifestRequest>;
+).annotate({ identifier: "ExportManifestRequest" }) as any as S.Schema<ExportManifestRequest>;
 
 export interface ExportManifestResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -513,9 +465,7 @@ export const ExportManifestResponse = /*@__PURE__*/ S.suspend(() =>
     ok: S.Boolean,
     manifest: S.Unknown,
   }),
-).annotate({
-  identifier: "ExportManifestResponse",
-}) as any as S.Schema<ExportManifestResponse>;
+).annotate({ identifier: "ExportManifestResponse" }) as any as S.Schema<ExportManifestResponse>;
 
 export interface GetAuthExternalRequest {
   /** The id of the token you want to get the token for */
@@ -528,9 +478,7 @@ export const GetAuthExternalRequest = /*@__PURE__*/ S.suspend(() =>
     external_token_id: S.String,
     force_refresh: S.optional(S.Boolean),
   }).pipe(T.Http({ method: "POST", uri: "/apps.auth.external.get", code: 200 })),
-).annotate({
-  identifier: "GetAuthExternalRequest",
-}) as any as S.Schema<GetAuthExternalRequest>;
+).annotate({ identifier: "GetAuthExternalRequest" }) as any as S.Schema<GetAuthExternalRequest>;
 
 export interface GetAuthExternalResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -544,9 +492,7 @@ export const GetAuthExternalResponse = /*@__PURE__*/ S.suspend(() =>
     external_token: S.String,
     token_response_extras: S.Unknown,
   }),
-).annotate({
-  identifier: "GetAuthExternalResponse",
-}) as any as S.Schema<GetAuthExternalResponse>;
+).annotate({ identifier: "GetAuthExternalResponse" }) as any as S.Schema<GetAuthExternalResponse>;
 
 export interface GetDatastoreRequest {
   /** name of the datastore */
@@ -561,14 +507,10 @@ export const GetDatastoreRequest = /*@__PURE__*/ S.suspend(() =>
     id: S.String,
     app_id: S.optional(S.String),
   }).pipe(T.Http({ method: "POST", uri: "/apps.datastore.get", code: 200 })),
-).annotate({
-  identifier: "GetDatastoreRequest",
-}) as any as S.Schema<GetDatastoreRequest>;
+).annotate({ identifier: "GetDatastoreRequest" }) as any as S.Schema<GetDatastoreRequest>;
 
 /** attribute names and values of the item */
-export type GetDatastoreResponseItemMap = {
-  [key: string]: unknown | undefined;
-};
+export type GetDatastoreResponseItemMap = { [key: string]: unknown | undefined };
 export const GetDatastoreResponseItemMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -588,9 +530,7 @@ export const GetDatastoreResponse = /*@__PURE__*/ S.suspend(() =>
     datastore: S.optional(S.String),
     item: S.optional(GetDatastoreResponseItemMap),
   }),
-).annotate({
-  identifier: "GetDatastoreResponse",
-}) as any as S.Schema<GetDatastoreResponse>;
+).annotate({ identifier: "GetDatastoreResponse" }) as any as S.Schema<GetDatastoreResponse>;
 
 /** The direction you want the data sorted by (always by timestamp) */
 export type ListActivitiesRequestSortDirection = "asc" | "desc";
@@ -647,9 +587,7 @@ export const ListActivitiesRequest = /*@__PURE__*/ S.suspend(() =>
       contentType: "form-urlencoded",
     }),
   ),
-).annotate({
-  identifier: "ListActivitiesRequest",
-}) as any as S.Schema<ListActivitiesRequest>;
+).annotate({ identifier: "ListActivitiesRequest" }) as any as S.Schema<ListActivitiesRequest>;
 
 export type ListActivitiesResponseActivitiesList = Array<unknown>;
 export const ListActivitiesResponseActivitiesList = /*@__PURE__*/ S.Array(
@@ -673,9 +611,7 @@ export const ListActivitiesResponse = /*@__PURE__*/ S.suspend(() =>
     activities: ListActivitiesResponseActivitiesList,
     response_metadata: S.optional(DatastoreQueryResponseResponseMetadata),
   }),
-).annotate({
-  identifier: "ListActivitiesResponse",
-}) as any as S.Schema<ListActivitiesResponse>;
+).annotate({ identifier: "ListActivitiesResponse" }) as any as S.Schema<ListActivitiesResponse>;
 
 export interface ListEventAuthorizationsRequest {
   event_context: string;
@@ -687,13 +623,7 @@ export const ListEventAuthorizationsRequest = /*@__PURE__*/ S.suspend(() =>
     event_context: S.String,
     cursor: S.optional(S.String),
     limit: S.optional(S.Number),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/apps.event.authorizations.list",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/apps.event.authorizations.list", code: 200 })),
 ).annotate({
   identifier: "ListEventAuthorizationsRequest",
 }) as any as S.Schema<ListEventAuthorizationsRequest>;
@@ -769,14 +699,10 @@ export const PutDatastoreRequest = /*@__PURE__*/ S.suspend(() =>
     item: PutDatastoreRequestItemMap,
     app_id: S.optional(S.String),
   }).pipe(T.Http({ method: "POST", uri: "/apps.datastore.put", code: 200 })),
-).annotate({
-  identifier: "PutDatastoreRequest",
-}) as any as S.Schema<PutDatastoreRequest>;
+).annotate({ identifier: "PutDatastoreRequest" }) as any as S.Schema<PutDatastoreRequest>;
 
 /** attribute names and values of the item */
-export type PutDatastoreResponseItemMap = {
-  [key: string]: unknown | undefined;
-};
+export type PutDatastoreResponseItemMap = { [key: string]: unknown | undefined };
 export const PutDatastoreResponseItemMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -796,9 +722,7 @@ export const PutDatastoreResponse = /*@__PURE__*/ S.suspend(() =>
     datastore: S.optional(S.String),
     item: S.optional(PutDatastoreResponseItemMap),
   }),
-).annotate({
-  identifier: "PutDatastoreResponse",
-}) as any as S.Schema<PutDatastoreResponse>;
+).annotate({ identifier: "PutDatastoreResponse" }) as any as S.Schema<PutDatastoreResponse>;
 
 export interface SetIconRequest {
   /** The ID of the app whose icon you want to set. */
@@ -824,9 +748,38 @@ export const SetIconResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ok: S.Boolean,
   }),
+).annotate({ identifier: "SetIconResponse" }) as any as S.Schema<SetIconResponse>;
+
+/** Who can interact with the app. Use everyone to allow all members, or app_owner to restrict access to the app's owner. */
+export type SetManagedPermissionsRequestPermissions = "everyone" | "app_owner";
+export const SetManagedPermissionsRequestPermissions = S.String;
+
+export interface SetManagedPermissionsRequest {
+  /** Encoded ID of the managed app to configure */
+  app_id: string;
+  /** Who can interact with the app. Use everyone to allow all members, or app_owner to restrict access to the app's owner. */
+  permissions: SetManagedPermissionsRequestPermissions | (string & {});
+}
+export const SetManagedPermissionsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    app_id: S.String,
+    permissions: SetManagedPermissionsRequestPermissions,
+  }).pipe(T.Http({ method: "POST", uri: "/apps.managed.permissions.set", code: 200 })),
 ).annotate({
-  identifier: "SetIconResponse",
-}) as any as S.Schema<SetIconResponse>;
+  identifier: "SetManagedPermissionsRequest",
+}) as any as S.Schema<SetManagedPermissionsRequest>;
+
+export interface SetManagedPermissionsResponse {
+  /** Always `true` (a failed call raises a typed error instead). */
+  ok: boolean;
+}
+export const SetManagedPermissionsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ok: S.Boolean,
+  }),
+).annotate({
+  identifier: "SetManagedPermissionsResponse",
+}) as any as S.Schema<SetManagedPermissionsResponse>;
 
 export interface UninstallAppRequest {
   /** Issued when you created your application. */
@@ -839,16 +792,9 @@ export const UninstallAppRequest = /*@__PURE__*/ S.suspend(() =>
     client_id: S.String,
     client_secret: S.String.pipe(T.SensitiveValue({})),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/apps.uninstall",
-      code: 200,
-      contentType: "form-urlencoded",
-    }),
+    T.Http({ method: "POST", uri: "/apps.uninstall", code: 200, contentType: "form-urlencoded" }),
   ),
-).annotate({
-  identifier: "UninstallAppRequest",
-}) as any as S.Schema<UninstallAppRequest>;
+).annotate({ identifier: "UninstallAppRequest" }) as any as S.Schema<UninstallAppRequest>;
 
 export interface UninstallAppResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -860,14 +806,10 @@ export const UninstallAppResponse = /*@__PURE__*/ S.suspend(() =>
     ok: S.Boolean,
     uninstalled: S.Boolean,
   }),
-).annotate({
-  identifier: "UninstallAppResponse",
-}) as any as S.Schema<UninstallAppResponse>;
+).annotate({ identifier: "UninstallAppResponse" }) as any as S.Schema<UninstallAppResponse>;
 
 /** attribute names and values to be updated */
-export type UpdateDatastoreRequestItemMap = {
-  [key: string]: unknown | undefined;
-};
+export type UpdateDatastoreRequestItemMap = { [key: string]: unknown | undefined };
 export const UpdateDatastoreRequestItemMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -886,14 +828,10 @@ export const UpdateDatastoreRequest = /*@__PURE__*/ S.suspend(() =>
     item: UpdateDatastoreRequestItemMap,
     app_id: S.optional(S.String),
   }).pipe(T.Http({ method: "POST", uri: "/apps.datastore.update", code: 200 })),
-).annotate({
-  identifier: "UpdateDatastoreRequest",
-}) as any as S.Schema<UpdateDatastoreRequest>;
+).annotate({ identifier: "UpdateDatastoreRequest" }) as any as S.Schema<UpdateDatastoreRequest>;
 
 /** attribute names and values of the item, including those updated */
-export type UpdateDatastoreResponseItemMap = {
-  [key: string]: unknown | undefined;
-};
+export type UpdateDatastoreResponseItemMap = { [key: string]: unknown | undefined };
 export const UpdateDatastoreResponseItemMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -913,9 +851,7 @@ export const UpdateDatastoreResponse = /*@__PURE__*/ S.suspend(() =>
     datastore: S.optional(S.String),
     item: S.optional(UpdateDatastoreResponseItemMap),
   }),
-).annotate({
-  identifier: "UpdateDatastoreResponse",
-}) as any as S.Schema<UpdateDatastoreResponse>;
+).annotate({ identifier: "UpdateDatastoreResponse" }) as any as S.Schema<UpdateDatastoreResponse>;
 
 export interface UpdateManifestRequest {
   /** A JSON app manifest encoded as a string. This manifest **must** use a valid [app manifest schema - read our guide to creating one](/app-manifests/configuring-apps-with-app-manifests#fields). As this method entirely _replaces_ any previous configuration, manifest must contain both unmodified and modified fields. */
@@ -928,9 +864,7 @@ export const UpdateManifestRequest = /*@__PURE__*/ S.suspend(() =>
     manifest: S.String,
     app_id: S.String,
   }).pipe(T.Http({ method: "POST", uri: "/apps.manifest.update", code: 200 })),
-).annotate({
-  identifier: "UpdateManifestRequest",
-}) as any as S.Schema<UpdateManifestRequest>;
+).annotate({ identifier: "UpdateManifestRequest" }) as any as S.Schema<UpdateManifestRequest>;
 
 export interface UpdateManifestResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -944,9 +878,7 @@ export const UpdateManifestResponse = /*@__PURE__*/ S.suspend(() =>
     app_id: S.String,
     permissions_updated: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "UpdateManifestResponse",
-}) as any as S.Schema<UpdateManifestResponse>;
+).annotate({ identifier: "UpdateManifestResponse" }) as any as S.Schema<UpdateManifestResponse>;
 
 /** The status that should be set for the user. */
 export type UpdateUserConnectionRequestStatus = "connected" | "disconnected";
@@ -962,14 +894,7 @@ export const UpdateUserConnectionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     user_id: S.String,
     status: UpdateUserConnectionRequestStatus,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/apps.user.connection.update",
-      code: 200,
-      contentType: "form-urlencoded",
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/apps.user.connection.update", code: 200 })),
 ).annotate({
   identifier: "UpdateUserConnectionRequest",
 }) as any as S.Schema<UpdateUserConnectionRequest>;
@@ -997,9 +922,7 @@ export const ValidateManifestRequest = /*@__PURE__*/ S.suspend(() =>
     manifest: S.String,
     app_id: S.optional(S.String),
   }).pipe(T.Http({ method: "POST", uri: "/apps.manifest.validate", code: 200 })),
-).annotate({
-  identifier: "ValidateManifestRequest",
-}) as any as S.Schema<ValidateManifestRequest>;
+).annotate({ identifier: "ValidateManifestRequest" }) as any as S.Schema<ValidateManifestRequest>;
 
 export type ValidateManifestResponseErrorsList = Array<string>;
 export const ValidateManifestResponseErrorsList = /*@__PURE__*/ S.Array(
@@ -1040,9 +963,7 @@ export const ValidateManifestResponse = /*@__PURE__*/ S.suspend(() =>
     errors: ValidateManifestResponseErrorsList,
     warnings: S.optional(ValidateManifestResponseWarningsList),
   }),
-).annotate({
-  identifier: "ValidateManifestResponse",
-}) as any as S.Schema<ValidateManifestResponse>;
+).annotate({ identifier: "ValidateManifestResponse" }) as any as S.Schema<ValidateManifestResponse>;
 
 export type BulkDeleteError = SlackOpError;
 /** Delete items from a datastore in bulk Required scopes — bot: `datastore:write` Rate limit tier: 3 Method-specific errors (the `error` slug on the SlackError): - `invalid_arguments` — The request is missing required arguments. - `invalid_datastore` — The provided datastore is invalid. - `invalid_auth` — Not authorized to create datastore items. - `app_not_hosted` — The app developer is not using a Slack-hosted environment. App datastores are exclusively available for Slack-hosted apps. - `datastore_error` — Datastore error - `access_denied` — Not authorized to access the datastore. - `invalid_app_id` — The app_id provided is not valid for team and user. - `free_team_not_allowed` — Datastore put not allowed on a free team. - `team_quota_exceeded` — Total number of requests exceeded team quota. - `datastore_migration_in_progress` — The datastore is currently unavailable due to an in progress Enterprise org migration. - `unknown_method` — This method does not exist - `partial_failure` — some items failed to be deleted - `restricted_plan_level` — Feature is not available on this team See https://docs.slack.dev/reference/methods/apps.datastore.bulkDelete */
@@ -1318,7 +1239,7 @@ export const putDatastore: API.OperationMethod<
 }));
 
 export type SetIconError = SlackOpError;
-/** Sets the app icon Required scopes — user: `app_configurations:write` Rate limit tier: 1 Method-specific errors (the `error` slug on the SlackError): - `error_bad_format` — Icon must be a valid image file. - `icon_not_accessible` — The icon URL is not accessible or returned an error (e.g. 404 Not Found). Please verify the URL is publicly reachable and returns a valid image. - `invalid_app` — App does not exist. - `invalid_app_id` — App ID is not valid. - `invalid_icon_size` — Icon dimensions must be between 512x512px and 2000x2000px. - `invalid_parameters` — Only one of `URL` or `file` can be defined. - `missing_arguments` — One of `URL` or `file` must be provided. - `no_permission` — User does not have required permissions for app. - `unable_to_open_file` — Error with file upload. See https://docs.slack.dev/reference/methods/apps.icon.set */
+/** Sets the app icon Required scopes — user: `app_configurations:write` Rate limit tier: 1 Method-specific errors (the `error` slug on the SlackError): - `app_not_owned_by_manager_app` — The specified app is not managed by the calling manager app. A manager app can only set icons for apps that it originally created via apps.manifest.create. - `error_bad_format` — Icon must be a valid image file. - `internal_error` — Internal error. - `icon_not_accessible` — The icon URL is not accessible or returned an error (e.g. 404 Not Found). Please verify the URL is publicly reachable and returns a valid image. - `invalid_app` — App does not exist. - `invalid_app_id` — App ID is not valid. - `invalid_icon_size` — Icon dimensions must be between 512x512px and 2000x2000px. - `invalid_parameters` — Only one of `URL` or `file` can be defined. - `missing_arguments` — One of `URL` or `file` must be provided. - `no_permission` — User does not have required permissions for app. - `unable_to_open_file` — Error with file upload. See https://docs.slack.dev/reference/methods/apps.icon.set */
 export const setIcon: API.OperationMethod<
   SetIconRequest,
   SetIconResponse,
@@ -1327,6 +1248,21 @@ export const setIcon: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: SetIconRequest,
   output: SetIconResponse,
+  errors: [SlackError, SlackRateLimited],
+  protocol: SlackProtocol,
+  retry: Retry.Retry,
+}));
+
+export type SetManagedPermissionsError = SlackOpError;
+/** Set who can interact with a managed app. Lets the builder who created a managed app on a partner platform configure the app's permissions as themselves, using a user token from the manager app. Permissions can only be set before the app is installed: if the app is already installed, this method makes no change and returns the app's current permissions. Required scopes — configuration: `app_configurations:write` Rate limit tier: 2 Method-specific errors (the `error` slug on the SlackError): - `invalid_auth` — Invalid authorization token. - `access_denied` — The token was not issued to a manager app that is eligible to configure managed apps. - `manager_app_not_eligible` — The manager app the token was issued to is not eligible to configure app permissions. - `feature_not_enabled` — This method is not enabled for the manager app's organization. - `app_not_found` — This app does not exist. - `app_not_managed` — The specified app is not currently managed by any manager app. - `app_not_owned_by_manager_app` — The specified app is not managed by the calling manager app. A manager app can only set permissions for apps that it originally created and currently manages. - `app_owner_not_found` — The app's owner could not be resolved, so app_owner cannot be applied. - `enterprise_only_feature` — App permissions are only available on Enterprise Grid plans. Upgrade the app's org to configure who can interact with it. - `internal_error` — The app's current installations could not be determined, so permissions were not changed. Retry the request. See https://docs.slack.dev/reference/methods/apps.managed.permissions.set */
+export const setManagedPermissions: API.OperationMethod<
+  SetManagedPermissionsRequest,
+  SetManagedPermissionsResponse,
+  SetManagedPermissionsError,
+  SlackOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: SetManagedPermissionsRequest,
+  output: SetManagedPermissionsResponse,
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
@@ -1378,7 +1314,7 @@ export const updateManifest: API.OperationMethod<
 }));
 
 export type UpdateUserConnectionError = SlackOpError;
-/** Updates the connection status between a user and an app. Required scopes — user: `users:write` Rate limit tier: 2 Method-specific errors (the `error` slug on the SlackError): - `app_not_found` — The app was not found. - `invalid_auth` — The token doesn't have access to this endpoint. - `app_not_subscribed` — The app is not subscribed to the required events. - `user_not_found` — Value passed for `user_id` was invalid. See https://docs.slack.dev/reference/methods/apps.user.connection.update */
+/** Updates the connection status between a user and an app. Required scopes — user: `users:write` Rate limit tier: 2 Method-specific errors (the `error` slug on the SlackError): - `app_not_found` — The app was not found. - `invalid_auth` — The token doesn't have access to this endpoint. - `app_not_subscribed` — The app is not subscribed to the required events. - `user_not_found` — Value passed for `user_id` was invalid. - `missing_scope` — The token provided doesn't have the required scopes. - `internal_error` — The connection status could not be written. Retry the call. See https://docs.slack.dev/reference/methods/apps.user.connection.update */
 export const updateUserConnection: API.OperationMethod<
   UpdateUserConnectionRequest,
   UpdateUserConnectionResponse,

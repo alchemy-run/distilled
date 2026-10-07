@@ -36,9 +36,7 @@ export class NotFound
   ) {}
 
 /** Per-column bucket overrides for range variable materialization. Keys are column names, values are bucket keys. */
-export type CreateEndpointRequestBucketOverridesMap = {
-  [key: string]: unknown | undefined;
-};
+export type CreateEndpointRequestBucketOverridesMap = { [key: string]: unknown | undefined };
 export const CreateEndpointRequestBucketOverridesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -101,16 +99,8 @@ export const CreateEndpointRequest = /*@__PURE__*/ S.suspend(() =>
     optional_breakdown_properties: S.optional(
       S.NullOr(CreateEndpointRequestOptionalBreakdownPropertiesList),
     ),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/projects/{project_id}/endpoints/",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "CreateEndpointRequest",
-}) as any as S.Schema<CreateEndpointRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/api/projects/{project_id}/endpoints/", code: 200 })),
+).annotate({ identifier: "CreateEndpointRequest" }) as any as S.Schema<CreateEndpointRequest>;
 
 export type UserBasicHedgehogConfigMap = { [key: string]: unknown | undefined };
 export const UserBasicHedgehogConfigMap = /*@__PURE__*/ S.Record(
@@ -196,14 +186,10 @@ export const EndpointMaterialization = /*@__PURE__*/ S.suspend(() =>
     error: S.optional(S.String),
     saved_query_id: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "EndpointMaterialization",
-}) as any as S.Schema<EndpointMaterialization>;
+).annotate({ identifier: "EndpointMaterialization" }) as any as S.Schema<EndpointMaterialization>;
 
 /** Per-column bucket overrides for range variable materialization. */
-export type EndpointResponseBucketOverridesMap = {
-  [key: string]: unknown | undefined;
-};
+export type EndpointResponseBucketOverridesMap = { [key: string]: unknown | undefined };
 export const EndpointResponseBucketOverridesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -316,9 +302,7 @@ export const EndpointResponse = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(EndpointResponseTagsList),
     optional_breakdown_properties: S.optional(EndpointResponseOptionalBreakdownPropertiesList),
   }),
-).annotate({
-  identifier: "EndpointResponse",
-}) as any as S.Schema<EndpointResponse>;
+).annotate({ identifier: "EndpointResponse" }) as any as S.Schema<EndpointResponse>;
 
 export type CreateEndpointsLastExecutionTimeRequestNamesList = Array<string>;
 export const CreateEndpointsLastExecutionTimeRequestNamesList = /*@__PURE__*/ S.Array(
@@ -365,11 +349,101 @@ export const ClickhouseQueryProgress = /*@__PURE__*/ S.suspend(() =>
     rows_read: S.optional(S.Number),
     time_elapsed: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "ClickhouseQueryProgress",
-}) as any as S.Schema<ClickhouseQueryProgress>;
+).annotate({ identifier: "ClickhouseQueryProgress" }) as any as S.Schema<ClickhouseQueryProgress>;
+
+export type QueryScanFixLocation =
+  | "query"
+  | "subquery"
+  | "view"
+  | "insight_date_range"
+  | "dashboard_date_filter";
+export const QueryScanFixLocation = S.String;
+
+export type QueryScanFindingKind = "no_event_filter" | "no_start_date" | "persons_join";
+export const QueryScanFindingKind = S.String;
+
+export interface QueryScanWarning {
+  /** Whether the person can change the query so it reads less and still answers the same question. Surfaces show the full advice and "Fix with AI" only when a finding is actionable. */
+  actionable: boolean;
+  /** True when the query reads this much on purpose, so reading less would change the answer. Absent means no. */
+  by_design?: boolean | null;
+  /** A label for what in the query text kept the read wide, such as `in_or`. Only analytics and the assistant read it, and the labels can change. */
+  cause?: string | null;
+  /** The one fact the finding rests on. */
+  evidence?: string | null;
+  /** What "Fix with AI" and the assistant are told to do. */
+  fix: string;
+  /** Where the change goes. Absent means the query itself. */
+  fix_location?: QueryScanFixLocation | null;
+  kind: QueryScanFindingKind;
+  /** Shown to the person: what happened and what to do. */
+  message: string;
+}
+export const QueryScanWarning = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    actionable: S.Boolean,
+    by_design: S.optional(S.NullOr(S.Boolean)),
+    cause: S.optional(S.NullOr(S.String)),
+    evidence: S.optional(S.NullOr(S.String)),
+    fix: S.String,
+    fix_location: S.optional(S.NullOr(QueryScanFixLocation)),
+    kind: QueryScanFindingKind,
+    message: S.String,
+  }),
+).annotate({ identifier: "QueryScanWarning" }) as any as S.Schema<QueryScanWarning>;
+
+/** Every finding, fixable or not. Empty when the analysis found none. */
+export type QueryScanAnalysisFindingsList = Array<QueryScanWarning>;
+export const QueryScanAnalysisFindingsList = /*@__PURE__*/ S.Array(
+  QueryScanWarning,
+) as any as S.Schema<QueryScanAnalysisFindingsList>;
+
+export interface QueryScanAnalysis {
+  /** The message the Fix with AI button sends to the assistant. Absent when no finding can be fixed in the query. */
+  assistant_prompt?: string | null;
+  /** Every finding, fixable or not. Empty when the analysis found none. */
+  findings: QueryScanAnalysisFindingsList;
+  /** How much of all the project's events the query read, 0 to 1. */
+  project_share?: number | null;
+  /** How much of the project's events in the query's date range the query read, 0 to 1. */
+  range_share?: number | null;
+}
+export const QueryScanAnalysis = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    assistant_prompt: S.optional(S.NullOr(S.String)),
+    findings: QueryScanAnalysisFindingsList,
+    project_share: S.optional(S.NullOr(S.Number)),
+    range_share: S.optional(S.NullOr(S.Number)),
+  }),
+).annotate({ identifier: "QueryScanAnalysis" }) as any as S.Schema<QueryScanAnalysis>;
+
+export interface QueryScanSummary {
+  /** The stored analysis, put on the response when it is served. Absent while the analysis runs, and when none was requested. */
+  analysis?: QueryScanAnalysis | null;
+  /** True when the run asked for an analysis, or found one stored. While `analysis` is absent, poll `GET /query/scan/{cache_key}` for it. */
+  analysis_requested?: boolean | null;
+  /** ClickHouse time for the last fresh run, summed over its ClickHouse queries. */
+  duration_ms: number;
+  /** True when ClickHouse stopped the run instead of finishing it. */
+  killed?: boolean | null;
+  /** Rows ClickHouse read for the last fresh run, all tables included. */
+  rows_read: number;
+}
+export const QueryScanSummary = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    analysis: S.optional(S.NullOr(QueryScanAnalysis)),
+    analysis_requested: S.optional(S.NullOr(S.Boolean)),
+    duration_ms: S.Number,
+    killed: S.optional(S.NullOr(S.Boolean)),
+    rows_read: S.Number,
+  }),
+).annotate({ identifier: "QueryScanSummary" }) as any as S.Schema<QueryScanSummary>;
 
 export interface QueryStatus {
+  budget_remaining_bytes?: number | null;
+  bytes_read?: number | null;
+  /** Cache key of the run that failed, so clients can ask for its query scan. */
+  cache_key?: string | null;
   /** Whether the query is still running. Will be true if the query is complete, even if it errored. Either result or error will be set. */
   complete?: boolean | null;
   dashboard_id?: number | null;
@@ -389,6 +463,7 @@ export interface QueryStatus {
   /** ONLY async queries use QueryStatus. */
   query_async?: boolean;
   query_progress?: ClickhouseQueryProgress | null;
+  query_scan?: QueryScanSummary | null;
   results?: unknown;
   /** When was query execution task enqueued. */
   start_time?: string | null;
@@ -397,6 +472,9 @@ export interface QueryStatus {
 }
 export const QueryStatus = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    budget_remaining_bytes: S.optional(S.NullOr(S.Number)),
+    bytes_read: S.optional(S.NullOr(S.Number)),
+    cache_key: S.optional(S.NullOr(S.String)),
     complete: S.optional(S.NullOr(S.Boolean)),
     dashboard_id: S.optional(S.NullOr(S.Number)),
     end_time: S.optional(S.NullOr(S.String)),
@@ -410,6 +488,7 @@ export const QueryStatus = /*@__PURE__*/ S.suspend(() =>
     pickup_time: S.optional(S.NullOr(S.String)),
     query_async: S.optional(S.Boolean),
     query_progress: S.optional(S.NullOr(ClickhouseQueryProgress)),
+    query_scan: S.optional(S.NullOr(QueryScanSummary)),
     results: S.optional(S.Unknown),
     start_time: S.optional(S.NullOr(S.String)),
     task_id: S.optional(S.NullOr(S.String)),
@@ -424,9 +503,7 @@ export const QueryStatusResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     query_status: S.optional(QueryStatus),
   }),
-).annotate({
-  identifier: "QueryStatusResponse",
-}) as any as S.Schema<QueryStatusResponse>;
+).annotate({ identifier: "QueryStatusResponse" }) as any as S.Schema<QueryStatusResponse>;
 
 /** Per-column bucket function overrides, e.g. {"timestamp": "hour"} */
 export type CreateEndpointsMaterializationPreviewRequestBucketOverridesMap = {
@@ -442,6 +519,7 @@ export interface CreateEndpointsMaterializationPreviewRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   name: string;
+  /** Endpoint version to preview. Defaults to the current version. */
   version?: number;
   /** Per-column bucket function overrides, e.g. {"timestamp": "hour"} */
   bucket_overrides?: CreateEndpointsMaterializationPreviewRequestBucketOverridesMap | null;
@@ -465,12 +543,86 @@ export const CreateEndpointsMaterializationPreviewRequest = /*@__PURE__*/ S.susp
   identifier: "CreateEndpointsMaterializationPreviewRequest",
 }) as any as S.Schema<CreateEndpointsMaterializationPreviewRequest>;
 
-export interface CreateEndpointsMaterializationPreviewResponse {}
-export const CreateEndpointsMaterializationPreviewResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+/** Query variables that filter on this column. */
+export type MaterializationPreviewRangePairVariablesList = Array<string>;
+export const MaterializationPreviewRangePairVariablesList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<MaterializationPreviewRangePairVariablesList>;
+
+export interface MaterializationPreviewRangePair {
+  /** Column the query buckets on. */
+  column: string;
+  /** Query variables that filter on this column. */
+  variables: MaterializationPreviewRangePairVariablesList;
+  /** Bucket function applied to the column. */
+  bucket_fn: string;
+}
+export const MaterializationPreviewRangePair = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    column: S.String,
+    variables: MaterializationPreviewRangePairVariablesList,
+    bucket_fn: S.String,
+  }),
 ).annotate({
-  identifier: "CreateEndpointsMaterializationPreviewResponse",
-}) as any as S.Schema<CreateEndpointsMaterializationPreviewResponse>;
+  identifier: "MaterializationPreviewRangePair",
+}) as any as S.Schema<MaterializationPreviewRangePair>;
+
+/** Bucketed columns and the variables that filter on them. */
+export type MaterializationPreviewResponseRangePairsList = Array<MaterializationPreviewRangePair>;
+export const MaterializationPreviewResponseRangePairsList = /*@__PURE__*/ S.Array(
+  MaterializationPreviewRangePair,
+) as any as S.Schema<MaterializationPreviewResponseRangePairsList>;
+
+export interface MaterializationPreviewAggregate {
+  /** Aggregate expression in the transformed query. */
+  expression: string;
+  /** Function that combines materialized partials again, or null when there is none. */
+  reaggregate_fn: string | null;
+}
+export const MaterializationPreviewAggregate = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    expression: S.String,
+    reaggregate_fn: S.NullOr(S.String),
+  }),
+).annotate({
+  identifier: "MaterializationPreviewAggregate",
+}) as any as S.Schema<MaterializationPreviewAggregate>;
+
+/** Aggregate expressions and how to re-aggregate them. */
+export type MaterializationPreviewResponseAggregatesList = Array<MaterializationPreviewAggregate>;
+export const MaterializationPreviewResponseAggregatesList = /*@__PURE__*/ S.Array(
+  MaterializationPreviewAggregate,
+) as any as S.Schema<MaterializationPreviewResponseAggregatesList>;
+
+export interface MaterializationPreviewResponse {
+  /** Whether the endpoint query can be materialized. */
+  can_materialize: boolean;
+  /** Why the query cannot be materialized, or null when it can. */
+  reason: string | null;
+  /** Query rewritten for materialization, when one could be produced. */
+  transformed_query: string | null;
+  /** Query that would run against the materialized table. */
+  execution_query: string | null;
+  /** Execution query formatted for display. */
+  display_execution_query: string | null;
+  /** Bucketed columns and the variables that filter on them. */
+  range_pairs: MaterializationPreviewResponseRangePairsList;
+  /** Aggregate expressions and how to re-aggregate them. */
+  aggregates: MaterializationPreviewResponseAggregatesList;
+}
+export const MaterializationPreviewResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    can_materialize: S.Boolean,
+    reason: S.NullOr(S.String),
+    transformed_query: S.NullOr(S.String),
+    execution_query: S.NullOr(S.String),
+    display_execution_query: S.NullOr(S.String),
+    range_pairs: MaterializationPreviewResponseRangePairsList,
+    aggregates: MaterializationPreviewResponseAggregatesList,
+  }),
+).annotate({
+  identifier: "MaterializationPreviewResponse",
+}) as any as S.Schema<MaterializationPreviewResponse>;
 
 export interface CreateEndpointsMaterializationSuggestionRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -613,9 +765,7 @@ export const BreakdownFilter = /*@__PURE__*/ S.suspend(() =>
     breakdown_type: S.optional(S.NullOr(BreakdownType)),
     breakdowns: S.optional(S.NullOr(BreakdownFilterBreakdownsList)),
   }),
-).annotate({
-  identifier: "BreakdownFilter",
-}) as any as S.Schema<BreakdownFilter>;
+).annotate({ identifier: "BreakdownFilter" }) as any as S.Schema<BreakdownFilter>;
 
 export type IntervalType =
   | "second"
@@ -701,9 +851,7 @@ export const EventPropertyFilter = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     value: S.optional(S.NullOr(EventPropertyFilterValue)),
   }),
-).annotate({
-  identifier: "EventPropertyFilter",
-}) as any as S.Schema<EventPropertyFilter>;
+).annotate({ identifier: "EventPropertyFilter" }) as any as S.Schema<EventPropertyFilter>;
 
 export type PersonPropertyFilterValueCase0Item = string | number | boolean;
 export const PersonPropertyFilterValueCase0Item =
@@ -737,9 +885,7 @@ export const PersonPropertyFilter = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     value: S.optional(S.NullOr(PersonPropertyFilterValue)),
   }),
-).annotate({
-  identifier: "PersonPropertyFilter",
-}) as any as S.Schema<PersonPropertyFilter>;
+).annotate({ identifier: "PersonPropertyFilter" }) as any as S.Schema<PersonPropertyFilter>;
 
 export type PersonMetadataPropertyFilterValueCase0Item = string | number | boolean;
 export const PersonMetadataPropertyFilterValueCase0Item =
@@ -813,9 +959,7 @@ export const ElementPropertyFilter = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     value: S.optional(S.NullOr(ElementPropertyFilterValue)),
   }),
-).annotate({
-  identifier: "ElementPropertyFilter",
-}) as any as S.Schema<ElementPropertyFilter>;
+).annotate({ identifier: "ElementPropertyFilter" }) as any as S.Schema<ElementPropertyFilter>;
 
 export type EventMetadataPropertyFilterValueCase0Item = string | number | boolean;
 export const EventMetadataPropertyFilterValueCase0Item =
@@ -885,9 +1029,7 @@ export const SessionPropertyFilter = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     value: S.optional(S.NullOr(SessionPropertyFilterValue)),
   }),
-).annotate({
-  identifier: "SessionPropertyFilter",
-}) as any as S.Schema<SessionPropertyFilter>;
+).annotate({ identifier: "SessionPropertyFilter" }) as any as S.Schema<SessionPropertyFilter>;
 
 export interface CohortPropertyFilter {
   cohort_name?: string | null;
@@ -906,9 +1048,7 @@ export const CohortPropertyFilter = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     value: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "CohortPropertyFilter",
-}) as any as S.Schema<CohortPropertyFilter>;
+).annotate({ identifier: "CohortPropertyFilter" }) as any as S.Schema<CohortPropertyFilter>;
 
 export type DurationType = "duration" | "active_seconds" | "inactive_seconds";
 export const DurationType = S.String;
@@ -948,9 +1088,7 @@ export const RecordingPropertyFilter = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     value: S.optional(S.NullOr(RecordingPropertyFilterValue)),
   }),
-).annotate({
-  identifier: "RecordingPropertyFilter",
-}) as any as S.Schema<RecordingPropertyFilter>;
+).annotate({ identifier: "RecordingPropertyFilter" }) as any as S.Schema<RecordingPropertyFilter>;
 
 export type LogEntryPropertyFilterValueCase0Item = string | number | boolean;
 export const LogEntryPropertyFilterValueCase0Item =
@@ -984,13 +1122,9 @@ export const LogEntryPropertyFilter = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     value: S.optional(S.NullOr(LogEntryPropertyFilterValue)),
   }),
-).annotate({
-  identifier: "LogEntryPropertyFilter",
-}) as any as S.Schema<LogEntryPropertyFilter>;
+).annotate({ identifier: "LogEntryPropertyFilter" }) as any as S.Schema<LogEntryPropertyFilter>;
 
-export type GroupPropertyFilterGroupKeyNamesMap = {
-  [key: string]: string | undefined;
-};
+export type GroupPropertyFilterGroupKeyNamesMap = { [key: string]: string | undefined };
 export const GroupPropertyFilterGroupKeyNamesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1031,9 +1165,7 @@ export const GroupPropertyFilter = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     value: S.optional(S.NullOr(GroupPropertyFilterValue)),
   }),
-).annotate({
-  identifier: "GroupPropertyFilter",
-}) as any as S.Schema<GroupPropertyFilter>;
+).annotate({ identifier: "GroupPropertyFilter" }) as any as S.Schema<GroupPropertyFilter>;
 
 export type FeaturePropertyFilterValueCase0Item = string | number | boolean;
 export const FeaturePropertyFilterValueCase0Item =
@@ -1067,9 +1199,7 @@ export const FeaturePropertyFilter = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     value: S.optional(S.NullOr(FeaturePropertyFilterValue)),
   }),
-).annotate({
-  identifier: "FeaturePropertyFilter",
-}) as any as S.Schema<FeaturePropertyFilter>;
+).annotate({ identifier: "FeaturePropertyFilter" }) as any as S.Schema<FeaturePropertyFilter>;
 
 /** The value can be true, false, or a variant name */
 export type FlagPropertyFilterValue = boolean | string;
@@ -1094,9 +1224,7 @@ export const FlagPropertyFilter = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     value: S.optional(FlagPropertyFilterValue),
   }),
-).annotate({
-  identifier: "FlagPropertyFilter",
-}) as any as S.Schema<FlagPropertyFilter>;
+).annotate({ identifier: "FlagPropertyFilter" }) as any as S.Schema<FlagPropertyFilter>;
 
 export type HogQLPropertyFilterValueCase0Item = string | number | boolean;
 export const HogQLPropertyFilterValueCase0Item =
@@ -1127,9 +1255,7 @@ export const HogQLPropertyFilter = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     value: S.optional(S.NullOr(HogQLPropertyFilterValue)),
   }),
-).annotate({
-  identifier: "HogQLPropertyFilter",
-}) as any as S.Schema<HogQLPropertyFilter>;
+).annotate({ identifier: "HogQLPropertyFilter" }) as any as S.Schema<HogQLPropertyFilter>;
 
 export interface EmptyPropertyFilter {
   type?: string;
@@ -1138,9 +1264,7 @@ export const EmptyPropertyFilter = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     type: S.optional(S.String),
   }),
-).annotate({
-  identifier: "EmptyPropertyFilter",
-}) as any as S.Schema<EmptyPropertyFilter>;
+).annotate({ identifier: "EmptyPropertyFilter" }) as any as S.Schema<EmptyPropertyFilter>;
 
 export type DataWarehousePropertyFilterValueCase0Item = string | number | boolean;
 export const DataWarehousePropertyFilterValueCase0Item =
@@ -1248,9 +1372,7 @@ export const ErrorTrackingIssueFilter = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     value: S.optional(S.NullOr(ErrorTrackingIssueFilterValue)),
   }),
-).annotate({
-  identifier: "ErrorTrackingIssueFilter",
-}) as any as S.Schema<ErrorTrackingIssueFilter>;
+).annotate({ identifier: "ErrorTrackingIssueFilter" }) as any as S.Schema<ErrorTrackingIssueFilter>;
 
 export type LogPropertyFilterType = "log" | "log_attribute" | "log_resource_attribute";
 export const LogPropertyFilterType = S.String;
@@ -1282,9 +1404,7 @@ export const LogPropertyFilter = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(LogPropertyFilterType),
     value: S.optional(S.NullOr(LogPropertyFilterValue)),
   }),
-).annotate({
-  identifier: "LogPropertyFilter",
-}) as any as S.Schema<LogPropertyFilter>;
+).annotate({ identifier: "LogPropertyFilter" }) as any as S.Schema<LogPropertyFilter>;
 
 export type MetricPropertyFilterValueCase0Item = string | number | boolean;
 export const MetricPropertyFilterValueCase0Item =
@@ -1317,9 +1437,7 @@ export const MetricPropertyFilter = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     value: S.optional(S.NullOr(MetricPropertyFilterValue)),
   }),
-).annotate({
-  identifier: "MetricPropertyFilter",
-}) as any as S.Schema<MetricPropertyFilter>;
+).annotate({ identifier: "MetricPropertyFilter" }) as any as S.Schema<MetricPropertyFilter>;
 
 export type SpanPropertyFilterType = "span" | "span_attribute" | "span_resource_attribute";
 export const SpanPropertyFilterType = S.String;
@@ -1351,9 +1469,7 @@ export const SpanPropertyFilter = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(SpanPropertyFilterType),
     value: S.optional(S.NullOr(SpanPropertyFilterValue)),
   }),
-).annotate({
-  identifier: "SpanPropertyFilter",
-}) as any as S.Schema<SpanPropertyFilter>;
+).annotate({ identifier: "SpanPropertyFilter" }) as any as S.Schema<SpanPropertyFilter>;
 
 export type RevenueAnalyticsPropertyFilterValueCase0Item = string | number | boolean;
 export const RevenueAnalyticsPropertyFilterValueCase0Item =
@@ -1530,9 +1646,7 @@ export const BehavioralPropertyFilter = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     value: InlineBehavioralType,
   }),
-).annotate({
-  identifier: "BehavioralPropertyFilter",
-}) as any as S.Schema<BehavioralPropertyFilter>;
+).annotate({ identifier: "BehavioralPropertyFilter" }) as any as S.Schema<BehavioralPropertyFilter>;
 
 export type DashboardFilterPropertiesItem =
   | EventPropertyFilter
@@ -1588,16 +1702,12 @@ export const DashboardFilter = /*@__PURE__*/ S.suspend(() =>
     interval: S.optional(S.NullOr(IntervalType)),
     properties: S.optional(S.NullOr(DashboardFilterPropertiesList)),
   }),
-).annotate({
-  identifier: "DashboardFilter",
-}) as any as S.Schema<DashboardFilter>;
+).annotate({ identifier: "DashboardFilter" }) as any as S.Schema<DashboardFilter>;
 
 export type EndpointRefreshMode = "cache" | "force" | "direct";
 export const EndpointRefreshMode = S.String;
 
-export type CreateEndpointsRunRequestVariablesMap = {
-  [key: string]: unknown | undefined;
-};
+export type CreateEndpointsRunRequestVariablesMap = { [key: string]: unknown | undefined };
 export const CreateEndpointsRunRequestVariablesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -1635,11 +1745,7 @@ export const CreateEndpointsRunRequest = /*@__PURE__*/ S.suspend(() =>
     variables: S.optional(S.NullOr(CreateEndpointsRunRequestVariablesMap)),
     version: S.optional(S.NullOr(S.Number)),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/projects/{project_id}/endpoints/{name}/run/",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/api/projects/{project_id}/endpoints/{name}/run/", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateEndpointsRunRequest",
@@ -1681,9 +1787,7 @@ export const EndpointRunResponse = /*@__PURE__*/ S.suspend(() =>
     hasMore: S.optional(S.Boolean),
     endpoint_version: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "EndpointRunResponse",
-}) as any as S.Schema<EndpointRunResponse>;
+).annotate({ identifier: "EndpointRunResponse" }) as any as S.Schema<EndpointRunResponse>;
 
 export interface EndpointsDestroyRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -1695,15 +1799,9 @@ export const EndpointsDestroyRequest = /*@__PURE__*/ S.suspend(() =>
     project_id: S.String.pipe(T.Label()),
     name: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/projects/{project_id}/endpoints/{name}/",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/api/projects/{project_id}/endpoints/{name}/", code: 200 }),
   ),
-).annotate({
-  identifier: "EndpointsDestroyRequest",
-}) as any as S.Schema<EndpointsDestroyRequest>;
+).annotate({ identifier: "EndpointsDestroyRequest" }) as any as S.Schema<EndpointsDestroyRequest>;
 
 export interface EndpointsDestroyResponse {}
 export const EndpointsDestroyResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1714,26 +1812,21 @@ export interface GetEndpointRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   name: string;
+  /** Endpoint version to act on. Defaults to the current version. */
+  version?: number;
 }
 export const GetEndpointRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project_id: S.String.pipe(T.Label()),
     name: S.String.pipe(T.Label()),
+    version: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/endpoints/{name}/",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/projects/{project_id}/endpoints/{name}/", code: 200 }),
   ),
-).annotate({
-  identifier: "GetEndpointRequest",
-}) as any as S.Schema<GetEndpointRequest>;
+).annotate({ identifier: "GetEndpointRequest" }) as any as S.Schema<GetEndpointRequest>;
 
 /** Per-column bucket overrides for range variable materialization. */
-export type EndpointVersionResponseBucketOverridesMap = {
-  [key: string]: unknown | undefined;
-};
+export type EndpointVersionResponseBucketOverridesMap = { [key: string]: unknown | undefined };
 export const EndpointVersionResponseBucketOverridesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -1852,9 +1945,7 @@ export const EndpointVersionResponse = /*@__PURE__*/ S.suspend(() =>
     version_updated_at: S.optional(S.NullOr(S.String)),
     version_created_by: S.optional(S.NullOr(UserBasic)),
   }),
-).annotate({
-  identifier: "EndpointVersionResponse",
-}) as any as S.Schema<EndpointVersionResponse>;
+).annotate({ identifier: "EndpointVersionResponse" }) as any as S.Schema<EndpointVersionResponse>;
 
 export interface GetEndpointsLogRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -1884,15 +1975,9 @@ export const GetEndpointsLogRequest = /*@__PURE__*/ S.suspend(() =>
     limit: S.optional(S.Number.pipe(T.Query())),
     search: S.optional(S.String.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/endpoints/{name}/logs/",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/projects/{project_id}/endpoints/{name}/logs/", code: 200 }),
   ),
-).annotate({
-  identifier: "GetEndpointsLogRequest",
-}) as any as S.Schema<GetEndpointsLogRequest>;
+).annotate({ identifier: "GetEndpointsLogRequest" }) as any as S.Schema<GetEndpointsLogRequest>;
 
 export interface GetEndpointsLogResponse {}
 export const GetEndpointsLogResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1937,11 +2022,14 @@ export interface GetEndpointsMaterializationStatusRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   name: string;
+  /** Endpoint version to act on. Defaults to the current version. */
+  version?: number;
 }
 export const GetEndpointsMaterializationStatusRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project_id: S.String.pipe(T.Label()),
     name: S.String.pipe(T.Label()),
+    version: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -1957,7 +2045,7 @@ export interface GetEndpointsOpenapiSpecRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   name: string;
-  /** Specific endpoint version to generate the spec for. Defaults to latest. */
+  /** Endpoint version to act on. Defaults to the current version. */
   version?: number;
 }
 export const GetEndpointsOpenapiSpecRequest = /*@__PURE__*/ S.suspend(() =>
@@ -1978,9 +2066,7 @@ export const GetEndpointsOpenapiSpecRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface GetEndpointsOpenapiSpecResponse {}
 export const GetEndpointsOpenapiSpecResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "GetEndpointsOpenapiSpecResponse",
-  },
+  { identifier: "GetEndpointsOpenapiSpecResponse" },
 ) as any as S.Schema<GetEndpointsOpenapiSpecResponse>;
 
 export interface GetEndpointsRunRequest {
@@ -1993,15 +2079,9 @@ export const GetEndpointsRunRequest = /*@__PURE__*/ S.suspend(() =>
     project_id: S.String.pipe(T.Label()),
     name: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/endpoints/{name}/run/",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/projects/{project_id}/endpoints/{name}/run/", code: 200 }),
   ),
-).annotate({
-  identifier: "GetEndpointsRunRequest",
-}) as any as S.Schema<GetEndpointsRunRequest>;
+).annotate({ identifier: "GetEndpointsRunRequest" }) as any as S.Schema<GetEndpointsRunRequest>;
 
 export interface ListEndpointsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -2020,16 +2100,8 @@ export const ListEndpointsRequest = /*@__PURE__*/ S.suspend(() =>
     is_active: S.optional(S.Boolean.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
     offset: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/endpoints/",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ListEndpointsRequest",
-}) as any as S.Schema<ListEndpointsRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/projects/{project_id}/endpoints/", code: 200 })),
+).annotate({ identifier: "ListEndpointsRequest" }) as any as S.Schema<ListEndpointsRequest>;
 
 export type PaginatedEndpointResponseListResultsList = Array<EndpointResponse>;
 export const PaginatedEndpointResponseListResultsList = /*@__PURE__*/ S.Array(
@@ -2106,9 +2178,7 @@ export const PaginatedEndpointVersionResponseList = /*@__PURE__*/ S.suspend(() =
 }) as any as S.Schema<PaginatedEndpointVersionResponseList>;
 
 /** Per-column bucket overrides for range variable materialization. Keys are column names, values are bucket keys. */
-export type UpdateEndpointRequestBucketOverridesMap = {
-  [key: string]: unknown | undefined;
-};
+export type UpdateEndpointRequestBucketOverridesMap = { [key: string]: unknown | undefined };
 export const UpdateEndpointRequestBucketOverridesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -2171,15 +2241,9 @@ export const UpdateEndpointRequest = /*@__PURE__*/ S.suspend(() =>
       S.NullOr(UpdateEndpointRequestOptionalBreakdownPropertiesList),
     ),
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/api/projects/{project_id}/endpoints/{name}/",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/api/projects/{project_id}/endpoints/{name}/", code: 200 }),
   ),
-).annotate({
-  identifier: "UpdateEndpointRequest",
-}) as any as S.Schema<UpdateEndpointRequest>;
+).annotate({ identifier: "UpdateEndpointRequest" }) as any as S.Schema<UpdateEndpointRequest>;
 
 /** Per-column bucket overrides for range variable materialization. Keys are column names, values are bucket keys. */
 export type UpdateEndpointsPartialRequestBucketOverridesMap = {
@@ -2247,11 +2311,7 @@ export const UpdateEndpointsPartialRequest = /*@__PURE__*/ S.suspend(() =>
       S.NullOr(UpdateEndpointsPartialRequestOptionalBreakdownPropertiesList),
     ),
   }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/api/projects/{project_id}/endpoints/{name}/",
-      code: 200,
-    }),
+    T.Http({ method: "PATCH", uri: "/api/projects/{project_id}/endpoints/{name}/", code: 200 }),
   ),
 ).annotate({
   identifier: "UpdateEndpointsPartialRequest",
@@ -2299,12 +2359,12 @@ export type CreateEndpointsMaterializationPreviewError =
 /** Preview the materialization transform for an endpoint. Shows what the query will look like after materialization, including range pair detection and bucket functions. */
 export const createEndpointsMaterializationPreview: API.OperationMethod<
   CreateEndpointsMaterializationPreviewRequest,
-  CreateEndpointsMaterializationPreviewResponse,
+  MaterializationPreviewResponse,
   CreateEndpointsMaterializationPreviewError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateEndpointsMaterializationPreviewRequest,
-  output: CreateEndpointsMaterializationPreviewResponse,
+  output: MaterializationPreviewResponse,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,

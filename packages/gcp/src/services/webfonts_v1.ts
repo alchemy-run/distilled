@@ -35,6 +35,9 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
+export type StringList = Array<string>;
+export const StringList = /*@__PURE__*/ S.Array(S.String) as any as S.Schema<StringList>;
+
 export type ListWebfontsCapabilityEnum = "CAPABILITY_UNSPECIFIED" | "WOFF2" | "VF" | "FAMILY_TAGS";
 export const ListWebfontsCapabilityEnum = S.String;
 
@@ -52,53 +55,44 @@ export type ListWebfontsSortEnum =
   | "TRENDING";
 export const ListWebfontsSortEnum = S.String;
 
-export type StringList = Array<string>;
-export const StringList = /*@__PURE__*/ S.Array(S.String) as any as S.Schema<StringList>;
-
 export interface ListWebfontsRequest {
+  /** Filters by Webfont.category, if category is found in Webfont.categories. If not set, returns all families. */
+  category?: string;
+  /** Filters by Webfont.family, using literal match. If not set, returns all families */
+  family?: StringList;
   /** Controls the font urls in `Webfont.files`, by default, static ttf fonts are sent. */
   capability?: ListWebfontsCapabilityEnumList;
   /** Enables sorting of the list. */
   sort?: ListWebfontsSortEnum | (string & {});
   /** Filters by Webfont.subset, if subset is found in Webfont.subsets. If not set, returns all families. */
   subset?: string;
-  /** Filters by Webfont.category, if category is found in Webfont.categories. If not set, returns all families. */
-  category?: string;
-  /** Filters by Webfont.family, using literal match. If not set, returns all families */
-  family?: StringList;
 }
 export const ListWebfontsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    category: S.optional(S.String.pipe(T.Query())),
+    family: S.optional(StringList.pipe(T.Query())),
     capability: S.optional(ListWebfontsCapabilityEnumList.pipe(T.Query())),
     sort: S.optional(ListWebfontsSortEnum.pipe(T.Query())),
     subset: S.optional(S.String.pipe(T.Query())),
-    category: S.optional(S.String.pipe(T.Query())),
-    family: S.optional(StringList.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "v1/webfonts",
-      baseUrl: "https://webfonts.googleapis.com/",
-    }),
+    T.Http({ method: "GET", uri: "v1/webfonts", baseUrl: "https://webfonts.googleapis.com/" }),
   ),
-).annotate({
-  identifier: "ListWebfontsRequest",
-}) as any as S.Schema<ListWebfontsRequest>;
+).annotate({ identifier: "ListWebfontsRequest" }) as any as S.Schema<ListWebfontsRequest>;
 
 /** Metadata for a variable font axis. */
 export interface Axis {
+  /** tag name. */
+  tag?: string;
   /** maximum value */
   end?: number;
   /** minimum value */
   start?: number;
-  /** tag name. */
-  tag?: string;
 }
 export const Axis = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    tag: S.optional(S.String),
     end: S.optional(S.Number),
     start: S.optional(S.Number),
-    tag: S.optional(S.String),
   }),
 ).annotate({ identifier: "Axis" }) as any as S.Schema<Axis>;
 
@@ -127,45 +121,45 @@ export const StringMap = /*@__PURE__*/ S.Record(S.String, S.String) as any as S.
 
 /** Metadata describing a family of fonts. */
 export interface Webfont {
-  /** The color format(s) available for this family. */
-  colorCapabilities?: StringList;
-  /** The name of the font. */
-  family?: string;
-  /** The scripts supported by the font. */
-  subsets?: StringList;
-  /** Axis for variable fonts. */
-  axes?: AxisList;
-  /** The tags that apply to this family. */
-  tags?: TagList;
-  /** This kind represents a webfont object in the webfonts service. */
-  kind?: string;
-  /** The font files (with all supported scripts) for each one of the available variants, as a key : value map. */
-  files?: StringMap;
-  /** The font version. */
-  version?: string;
-  /** The category of the font. */
-  category?: string;
-  /** The date (format "yyyy-MM-dd") the font was modified for the last time. */
-  lastModified?: string;
-  /** Font URL for menu subset, a subset of the font that is enough to display the font name */
-  menu?: string;
   /** The available variants for the font. */
   variants?: StringList;
+  /** This kind represents a webfont object in the webfonts service. */
+  kind?: string;
+  /** The font version. */
+  version?: string;
+  /** Font URL for menu subset, a subset of the font that is enough to display the font name */
+  menu?: string;
+  /** Axis for variable fonts. */
+  axes?: AxisList;
+  /** The name of the font. */
+  family?: string;
+  /** The tags that apply to this family. */
+  tags?: TagList;
+  /** The category of the font. */
+  category?: string;
+  /** The scripts supported by the font. */
+  subsets?: StringList;
+  /** The color format(s) available for this family. */
+  colorCapabilities?: StringList;
+  /** The font files (with all supported scripts) for each one of the available variants, as a key : value map. */
+  files?: StringMap;
+  /** The date (format "yyyy-MM-dd") the font was modified for the last time. */
+  lastModified?: string;
 }
 export const Webfont = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    colorCapabilities: S.optional(StringList),
-    family: S.optional(S.String),
-    subsets: S.optional(StringList),
-    axes: S.optional(AxisList),
-    tags: S.optional(TagList),
-    kind: S.optional(S.String),
-    files: S.optional(StringMap),
-    version: S.optional(S.String),
-    category: S.optional(S.String),
-    lastModified: S.optional(S.String),
-    menu: S.optional(S.String),
     variants: S.optional(StringList),
+    kind: S.optional(S.String),
+    version: S.optional(S.String),
+    menu: S.optional(S.String),
+    axes: S.optional(AxisList),
+    family: S.optional(S.String),
+    tags: S.optional(TagList),
+    category: S.optional(S.String),
+    subsets: S.optional(StringList),
+    colorCapabilities: S.optional(StringList),
+    files: S.optional(StringMap),
+    lastModified: S.optional(S.String),
   }),
 ).annotate({ identifier: "Webfont" }) as any as S.Schema<Webfont>;
 

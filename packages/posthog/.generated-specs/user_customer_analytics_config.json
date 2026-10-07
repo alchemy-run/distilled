@@ -1,0 +1,355 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.posthog.user_customer_analytics_config#GetUserCustomerAnalyticsConfigRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.user_customer_analytics_config#UserCustomerAnalyticsConfig2": {
+      "type": "structure",
+      "members": {
+        "pinned_properties": {
+          "target": "com.posthog.user_customer_analytics_config#UserCustomerAnalyticsConfigPinnedPropertiesList",
+          "traits": {
+            "smithy.api#documentation": "Account properties pinned in sidebar display order.",
+            "smithy.api#required": {}
+          }
+        },
+        "task_digest": {
+          "target": "com.posthog.user_customer_analytics_config#TaskDigestPreferences",
+          "traits": {
+            "smithy.api#documentation": "Task digest email preferences. Disabled until the user turns the digest on.",
+            "smithy.api#required": {}
+          }
+        },
+        "account_detail_tabs": {
+          "target": "com.posthog.user_customer_analytics_config#AccountDetailTabsConfig",
+          "traits": {
+            "smithy.api#documentation": "Personal order, visibility, and default for account tabs.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.user_customer_analytics_config#PinnedAccountProperty": {
+      "type": "structure",
+      "members": {
+        "kind": {
+          "target": "com.posthog.user_customer_analytics_config#AccountPropertyPinKindEnum",
+          "traits": {
+            "smithy.api#documentation": "Definition type for this pinned account property.\n\n* `custom_property` - Custom property\n* `relationship` - Relationship",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Team-scoped custom property or relationship definition UUID.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.user_customer_analytics_config#AccountPropertyPinKindEnum": {
+      "type": "enum",
+      "members": {
+        "CUSTOM_PROPERTY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "custom_property"
+          }
+        },
+        "RELATIONSHIP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "relationship"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `custom_property` - Custom property\n* `relationship` - Relationship"
+      }
+    },
+    "com.posthog.user_customer_analytics_config#UserCustomerAnalyticsConfigPinnedPropertiesList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.user_customer_analytics_config#PinnedAccountProperty"
+      },
+      "traits": {
+        "smithy.api#documentation": "Account properties pinned in sidebar display order."
+      }
+    },
+    "com.posthog.user_customer_analytics_config#TaskDigestPreferences": {
+      "type": "structure",
+      "members": {
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the task digest email is sent to this user.",
+            "smithy.api#required": {}
+          }
+        },
+        "send_time": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Time of day to send the digest, as HH:MM in the project timezone.",
+            "smithy.api#required": {}
+          }
+        },
+        "cadence": {
+          "target": "com.posthog.user_customer_analytics_config#TaskDigestCadenceEnum",
+          "traits": {
+            "smithy.api#documentation": "How often the digest is sent.\n\n* `weekdays` - Weekdays\n* `every_day` - Every day",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.user_customer_analytics_config#TaskDigestCadenceEnum": {
+      "type": "enum",
+      "members": {
+        "WEEKDAYS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "weekdays"
+          }
+        },
+        "EVERY_DAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "every_day"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "* `weekdays` - Weekdays\n* `every_day` - Every day"
+      }
+    },
+    "com.posthog.user_customer_analytics_config#AccountDetailTabsConfig": {
+      "type": "structure",
+      "members": {
+        "ordered_tab_ids": {
+          "target": "com.posthog.user_customer_analytics_config#AccountDetailTabsConfigOrderedTabIdsList",
+          "traits": {
+            "smithy.api#documentation": "Tab identifiers in the user's preferred order.",
+            "smithy.api#required": {}
+          }
+        },
+        "hidden_tab_ids": {
+          "target": "com.posthog.user_customer_analytics_config#AccountDetailTabsConfigHiddenTabIdsList",
+          "traits": {
+            "smithy.api#documentation": "Tab identifiers hidden from the tab strip.",
+            "smithy.api#required": {}
+          }
+        },
+        "default_tab_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Tab identifier opened by default. Null uses the first available system tab.",
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.user_customer_analytics_config#AccountDetailTabsConfigOrderedTabIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Tab identifiers in the user's preferred order."
+      }
+    },
+    "com.posthog.user_customer_analytics_config#AccountDetailTabsConfigHiddenTabIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Tab identifiers hidden from the tab strip."
+      }
+    },
+    "com.posthog.user_customer_analytics_config#GetUserCustomerAnalyticsConfig": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.user_customer_analytics_config#GetUserCustomerAnalyticsConfigRequest"
+      },
+      "output": {
+        "target": "com.posthog.user_customer_analytics_config#UserCustomerAnalyticsConfig2"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/user_customer_analytics_config/{id}/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get account sidebar configuration\n\nGet the requesting user's account sidebar and task digest configuration for this project. Project defaults are returned until the user saves a personal pinned-property selection."
+      }
+    },
+    "com.posthog.user_customer_analytics_config#UpdateUserCustomerAnalyticsConfigPartialRequestPinnedPropertiesList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.user_customer_analytics_config#PinnedAccountProperty"
+      },
+      "traits": {
+        "smithy.api#documentation": "Complete ordered list of account properties to pin. Omit to keep the current pins; pass an empty list to clear them."
+      }
+    },
+    "com.posthog.user_customer_analytics_config#TaskDigestPreferencesUpdate": {
+      "type": "structure",
+      "members": {
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the task digest email is sent to this user."
+          }
+        },
+        "send_time": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Time of day to send the digest, as HH:MM in the project timezone."
+          }
+        },
+        "cadence": {
+          "target": "com.posthog.user_customer_analytics_config#TaskDigestCadenceEnum",
+          "traits": {
+            "smithy.api#documentation": "How often the digest is sent.\n\n* `weekdays` - Weekdays\n* `every_day` - Every day"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.user_customer_analytics_config#UpdateUserCustomerAnalyticsConfigPartialRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "pinned_properties": {
+          "target": "com.posthog.user_customer_analytics_config#UpdateUserCustomerAnalyticsConfigPartialRequestPinnedPropertiesList",
+          "traits": {
+            "smithy.api#documentation": "Complete ordered list of account properties to pin. Omit to keep the current pins; pass an empty list to clear them."
+          }
+        },
+        "task_digest": {
+          "target": "com.posthog.user_customer_analytics_config#TaskDigestPreferencesUpdate",
+          "traits": {
+            "smithy.api#documentation": "Task digest email preferences to change. Omit the object to keep them all; omit a field inside it to keep that one."
+          }
+        },
+        "account_detail_tabs": {
+          "target": "com.posthog.user_customer_analytics_config#AccountDetailTabsConfig",
+          "traits": {
+            "smithy.api#documentation": "Complete personal account tab configuration. Omit to keep it unchanged."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.user_customer_analytics_config#UpdateUserCustomerAnalyticsConfigPartial": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.user_customer_analytics_config#UpdateUserCustomerAnalyticsConfigPartialRequest"
+      },
+      "output": {
+        "target": "com.posthog.user_customer_analytics_config#UserCustomerAnalyticsConfig2"
+      },
+      "errors": [
+        {
+          "target": "com.posthog.user_customer_analytics_config#BadRequest"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/api/projects/{project_id}/user_customer_analytics_config/{id}/",
+          "code": 200
+        },
+        "smithy.api#documentation": "Update account sidebar configuration\n\nReplace the requesting user's ordered account sidebar properties when pinned_properties is provided, and change the task digest email preferences when task_digest is provided. Anything omitted keeps its current value. At most 50 account custom properties and relationships can be pinned."
+      }
+    },
+    "com.posthog.user_customer_analytics_config#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.posthog.user_customer_analytics_config#UserCustomerAnalyticsConfig": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.posthog.user_customer_analytics_config#GetUserCustomerAnalyticsConfig"
+        },
+        {
+          "target": "com.posthog.user_customer_analytics_config#UpdateUserCustomerAnalyticsConfigPartial"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "PostHog API"
+      }
+    }
+  }
+}

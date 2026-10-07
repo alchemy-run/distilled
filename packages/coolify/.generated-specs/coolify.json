@@ -18,6 +18,577 @@
     "distilled.finalized": true
   },
   "shapes": {
+    "com.coolify.api#ListPreviewDeploymentsByApplicationUuidRequest": {
+      "type": "structure",
+      "members": {
+        "uuid": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "UUID of the application."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.coolify.api#ApplicationPreview": {
+      "type": "structure",
+      "members": {
+        "uuid": {
+          "target": "smithy.api#String"
+        },
+        "pull_request_id": {
+          "target": "smithy.api#Integer"
+        },
+        "pull_request_html_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "git_type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "status": {
+          "target": "smithy.api#String"
+        },
+        "domains": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "docker_compose_domains": {
+          "target": "com.coolify.api#ApplicationPreviewDockerComposeDomainsList",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "domain_port_overrides": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "docker_registry_image_tag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "last_online_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String"
+        },
+        "updated_at": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.coolify.api#ApplicationPreviewDockerComposeDomainsItem": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String"
+        },
+        "domain": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "redirect": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.coolify.api#ApplicationPreviewDockerComposeDomainsList": {
+      "type": "list",
+      "member": {
+        "target": "com.coolify.api#ApplicationPreviewDockerComposeDomainsItem"
+      },
+      "traits": {}
+    },
+    "com.coolify.api#ListPreviewDeploymentsByApplicationUuidResponseBodyList": {
+      "type": "list",
+      "member": {
+        "target": "com.coolify.api#ApplicationPreview"
+      },
+      "traits": {}
+    },
+    "com.coolify.api#ListPreviewDeploymentsByApplicationUuidResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "com.coolify.api#ListPreviewDeploymentsByApplicationUuidResponseBodyList",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.coolify.api#ListPreviewDeploymentsByApplicationUuid": {
+      "type": "operation",
+      "input": {
+        "target": "com.coolify.api#ListPreviewDeploymentsByApplicationUuidRequest"
+      },
+      "output": {
+        "target": "com.coolify.api#ListPreviewDeploymentsByApplicationUuidResponse"
+      },
+      "errors": [
+        {
+          "target": "com.coolify.api#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/applications/{uuid}/previews",
+          "code": 200
+        },
+        "smithy.api#documentation": "List Preview Deployments\n\nList the preview deployments of an application, newest pull request first."
+      }
+    },
+    "com.coolify.api#CreatePreviewDeploymentByApplicationUuidRequestGitType": {
+      "type": "enum",
+      "members": {
+        "GITHUB": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "github"
+          }
+        },
+        "GITLAB": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gitlab"
+          }
+        },
+        "GITEA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gitea"
+          }
+        },
+        "BITBUCKET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bitbucket"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Git provider that hosts the pull request. Sets the ref Coolify fetches (pull/{id}/head or merge-requests/{id}/head)."
+      }
+    },
+    "com.coolify.api#CreatePreviewDeploymentByApplicationUuidRequest": {
+      "type": "structure",
+      "members": {
+        "uuid": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "UUID of the application."
+          }
+        },
+        "pull_request_id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "pull_request_html_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "git_type": {
+          "target": "com.coolify.api#CreatePreviewDeploymentByApplicationUuidRequestGitType",
+          "traits": {
+            "smithy.api#documentation": "Git provider that hosts the pull request. Sets the ref Coolify fetches (pull/{id}/head or merge-requests/{id}/head).",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "commit": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Commit SHA to deploy. Required for Bitbucket.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "docker_tag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Docker image tag. Docker Image applications only.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "force": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Rebuild without cache."
+          }
+        },
+        "instant_deploy": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Queue a deployment. Set to false to only create the preview, for example to set its domains first."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.coolify.api#ApplicationPreviewDeployment": {
+      "type": "structure",
+      "members": {
+        "message": {
+          "target": "smithy.api#String"
+        },
+        "deployment_uuid": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "preview": {
+          "target": "com.coolify.api#ApplicationPreview"
+        }
+      },
+      "traits": {}
+    },
+    "com.coolify.api#CreatePreviewDeploymentByApplicationUuid": {
+      "type": "operation",
+      "input": {
+        "target": "com.coolify.api#CreatePreviewDeploymentByApplicationUuidRequest"
+      },
+      "output": {
+        "target": "com.coolify.api#ApplicationPreviewDeployment"
+      },
+      "errors": [
+        {
+          "target": "com.coolify.api#BadRequest"
+        },
+        {
+          "target": "com.coolify.api#NotFound"
+        },
+        {
+          "target": "com.coolify.api#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/applications/{uuid}/previews",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create Preview Deployment\n\nOpen a preview deployment for a pull request and queue its deployment. When the preview already exists, it is redeployed. Git based applications need git_type unless they use a GitHub or GitLab App source; Bitbucket also needs commit. Docker Image applications need docker_tag for a new preview."
+      }
+    },
+    "com.coolify.api#GetPreviewDeploymentByPullRequestIdRequest": {
+      "type": "structure",
+      "members": {
+        "uuid": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "UUID of the application."
+          }
+        },
+        "pull_request_id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Pull request ID of the preview."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.coolify.api#GetPreviewDeploymentByPullRequestId": {
+      "type": "operation",
+      "input": {
+        "target": "com.coolify.api#GetPreviewDeploymentByPullRequestIdRequest"
+      },
+      "output": {
+        "target": "com.coolify.api#ApplicationPreview"
+      },
+      "errors": [
+        {
+          "target": "com.coolify.api#NotFound"
+        },
+        {
+          "target": "com.coolify.api#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/applications/{uuid}/previews/{pull_request_id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get Preview Deployment\n\nGet a preview deployment by pull request ID."
+      }
+    },
+    "com.coolify.api#UpdatePreviewDomainsByPullRequestIdRequestDockerComposeDomainsItemRedirect": {
+      "type": "enum",
+      "members": {
+        "WWW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "www"
+          }
+        },
+        "NON_WWW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "non-www"
+          }
+        },
+        "BOTH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "both"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.coolify.api#UpdatePreviewDomainsByPullRequestIdRequestDockerComposeDomainsItem": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String"
+        },
+        "domain": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "redirect": {
+          "target": "com.coolify.api#UpdatePreviewDomainsByPullRequestIdRequestDockerComposeDomainsItemRedirect",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.coolify.api#UpdatePreviewDomainsByPullRequestIdRequestDockerComposeDomainsList": {
+      "type": "list",
+      "member": {
+        "target": "com.coolify.api#UpdatePreviewDomainsByPullRequestIdRequestDockerComposeDomainsItem"
+      },
+      "traits": {}
+    },
+    "com.coolify.api#UpdatePreviewDomainsByPullRequestIdRequest": {
+      "type": "structure",
+      "members": {
+        "uuid": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "pull_request_id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "domains": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "docker_compose_domains": {
+          "target": "com.coolify.api#UpdatePreviewDomainsByPullRequestIdRequestDockerComposeDomainsList",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "force_domain_override": {
+          "target": "smithy.api#Boolean"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.coolify.api#UpdatePreviewDomainsByPullRequestId": {
+      "type": "operation",
+      "input": {
+        "target": "com.coolify.api#UpdatePreviewDomainsByPullRequestIdRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "errors": [
+        {
+          "target": "com.coolify.api#Forbidden"
+        },
+        {
+          "target": "com.coolify.api#NotFound"
+        },
+        {
+          "target": "com.coolify.api#Conflict"
+        },
+        {
+          "target": "com.coolify.api#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/applications/{uuid}/previews/{pull_request_id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Update Preview Domains\n\nReplace domains for a preview deployment. Use domains for regular applications or docker_compose_domains for Docker Compose applications. Ports are stored as internal overrides while public domains remain portless."
+      }
+    },
+    "com.coolify.api#DeletePreviewDeploymentByPullRequestIdRequest": {
+      "type": "structure",
+      "members": {
+        "uuid": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "UUID of the application."
+          }
+        },
+        "pull_request_id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Pull request ID of the preview to delete."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.coolify.api#DeletePreviewDeploymentByPullRequestIdResponse": {
+      "type": "structure",
+      "members": {
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.coolify.api#DeletePreviewDeploymentByPullRequestId": {
+      "type": "operation",
+      "input": {
+        "target": "com.coolify.api#DeletePreviewDeploymentByPullRequestIdRequest"
+      },
+      "output": {
+        "target": "com.coolify.api#DeletePreviewDeploymentByPullRequestIdResponse"
+      },
+      "errors": [
+        {
+          "target": "com.coolify.api#BadRequest"
+        },
+        {
+          "target": "com.coolify.api#NotFound"
+        },
+        {
+          "target": "com.coolify.api#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/applications/{uuid}/previews/{pull_request_id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Delete Preview Deployment\n\nDelete a preview deployment for a pull request. Cancels active deployments, stops containers, removes volumes/networks, and deletes the preview record."
+      }
+    },
+    "com.coolify.api#ConfigureApplicationSecretManagerRequest": {
+      "type": "structure",
+      "members": {
+        "uuid": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "integration_token_uuid": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "settings": {
+          "target": "smithy.api#Document"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.coolify.api#ConfigureApplicationSecretManager": {
+      "type": "operation",
+      "input": {
+        "target": "com.coolify.api#ConfigureApplicationSecretManagerRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "errors": [
+        {
+          "target": "com.coolify.api#NotFound"
+        },
+        {
+          "target": "com.coolify.api#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/applications/{uuid}/secret-manager",
+          "code": 200
+        },
+        "smithy.api#documentation": "Configure Application Secret Manager\n\nConfigure the secret manager source used by an application."
+      }
+    },
     "com.coolify.api#ListApplicationsRequest": {
       "type": "structure",
       "members": {
@@ -768,6 +1339,12 @@
           "target": "smithy.api#Boolean"
         },
         "custom_internal_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "custom_container_name_prefix": {
           "target": "smithy.api#String",
           "traits": {
             "com.distilled.openapi#nullable": {}
@@ -1572,7 +2149,14 @@
         "custom_internal_name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Custom internal container name.",
+            "smithy.api#documentation": "Custom internal container name. Turns is_consistent_container_name_enabled on when that field is not sent; sending it as false together with a name returns 422.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "custom_container_name_prefix": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Prefix for generated container names (prefix-20260908T141530). Slugified and unique across the instance.",
             "com.distilled.openapi#nullable": {}
           }
         },
@@ -2401,7 +2985,14 @@
         "custom_internal_name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Custom internal container name.",
+            "smithy.api#documentation": "Custom internal container name. Turns is_consistent_container_name_enabled on when that field is not sent; sending it as false together with a name returns 422.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "custom_container_name_prefix": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Prefix for generated container names (prefix-20260908T141530). Slugified and unique across the instance.",
             "com.distilled.openapi#nullable": {}
           }
         },
@@ -3230,7 +3821,14 @@
         "custom_internal_name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Custom internal container name.",
+            "smithy.api#documentation": "Custom internal container name. Turns is_consistent_container_name_enabled on when that field is not sent; sending it as false together with a name returns 422.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "custom_container_name_prefix": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Prefix for generated container names (prefix-20260908T141530). Slugified and unique across the instance.",
             "com.distilled.openapi#nullable": {}
           }
         },
@@ -3850,7 +4448,14 @@
         "custom_internal_name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Custom internal container name.",
+            "smithy.api#documentation": "Custom internal container name. Turns is_consistent_container_name_enabled on when that field is not sent; sending it as false together with a name returns 422.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "custom_container_name_prefix": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Prefix for generated container names (prefix-20260908T141530). Slugified and unique across the instance.",
             "com.distilled.openapi#nullable": {}
           }
         },
@@ -4432,7 +5037,14 @@
         "custom_internal_name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Custom internal container name.",
+            "smithy.api#documentation": "Custom internal container name. Turns is_consistent_container_name_enabled on when that field is not sent; sending it as false together with a name returns 422.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "custom_container_name_prefix": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Prefix for generated container names (prefix-20260908T141530). Slugified and unique across the instance.",
             "com.distilled.openapi#nullable": {}
           }
         },
@@ -5261,7 +5873,14 @@
         "custom_internal_name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Custom internal container name.",
+            "smithy.api#documentation": "Custom internal container name. Turns is_consistent_container_name_enabled on when that field is not sent; sending it as false together with a name returns 422.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "custom_container_name_prefix": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Prefix for generated container names (prefix-20260908T141530). Slugified and unique across the instance.",
             "com.distilled.openapi#nullable": {}
           }
         },
@@ -5374,7 +5993,7 @@
           "target": "smithy.api#Boolean",
           "traits": {
             "smithy.api#httpQuery": "docker_cleanup",
-            "smithy.api#documentation": "Run docker cleanup."
+            "smithy.api#documentation": "Run docker cleanup when the server disk usage is at or above its cleanup threshold. Skipped when a cleanup ran on the server in the last hour."
           }
         },
         "delete_connected_networks": {
@@ -5425,6 +6044,30 @@
         "smithy.api#documentation": "Delete\n\nDelete application by UUID."
       }
     },
+    "com.coolify.api#GetApplicationLogsByUuidRequestLinesCase1": {
+      "type": "enum",
+      "members": {
+        "ALL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "all"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.coolify.api#GetApplicationLogsByUuidRequestLines": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "smithy.api#Integer"
+        },
+        "Case1": {
+          "target": "com.coolify.api#GetApplicationLogsByUuidRequestLinesCase1"
+        }
+      },
+      "traits": {}
+    },
     "com.coolify.api#GetApplicationLogsByUuidRequest": {
       "type": "structure",
       "members": {
@@ -5437,10 +6080,10 @@
           }
         },
         "lines": {
-          "target": "smithy.api#Integer",
+          "target": "com.coolify.api#GetApplicationLogsByUuidRequestLines",
           "traits": {
             "smithy.api#httpQuery": "lines",
-            "smithy.api#documentation": "Number of lines to show from the end of the logs."
+            "smithy.api#documentation": "Number of lines to show from the end of the logs. Use `all` to return all logs. `-1` remains available as a compatibility alias."
           }
         },
         "show_timestamps": {
@@ -5448,6 +6091,13 @@
           "traits": {
             "smithy.api#httpQuery": "show_timestamps",
             "smithy.api#documentation": "Show timestamps in the logs."
+          }
+        },
+        "service_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "service_name",
+            "smithy.api#documentation": "Return logs only from the container of the Docker Compose service with this name. Returns 404 when no running container matches."
           }
         }
       },
@@ -5488,7 +6138,115 @@
           "uri": "/applications/{uuid}/logs",
           "code": 200
         },
-        "smithy.api#documentation": "Get application logs.\n\nGet application logs by UUID."
+        "smithy.api#documentation": "Get application logs.\n\nGet application logs by UUID. Requires the `read:sensitive` or `root` token ability."
+      }
+    },
+    "com.coolify.api#GetPreviewApplicationLogsByPullRequestIdRequestLinesCase1": {
+      "type": "enum",
+      "members": {
+        "ALL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "all"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.coolify.api#GetPreviewApplicationLogsByPullRequestIdRequestLines": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "smithy.api#Integer"
+        },
+        "Case1": {
+          "target": "com.coolify.api#GetPreviewApplicationLogsByPullRequestIdRequestLinesCase1"
+        }
+      },
+      "traits": {}
+    },
+    "com.coolify.api#GetPreviewApplicationLogsByPullRequestIdRequest": {
+      "type": "structure",
+      "members": {
+        "uuid": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "UUID of the application."
+          }
+        },
+        "pull_request_id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Pull request ID of the preview deployment."
+          }
+        },
+        "lines": {
+          "target": "com.coolify.api#GetPreviewApplicationLogsByPullRequestIdRequestLines",
+          "traits": {
+            "smithy.api#httpQuery": "lines",
+            "smithy.api#documentation": "Number of lines to show from the end of the logs. Use `all` to return all logs. `-1` remains available as a compatibility alias."
+          }
+        },
+        "show_timestamps": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "show_timestamps",
+            "smithy.api#documentation": "Show timestamps in the logs."
+          }
+        },
+        "service_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "service_name",
+            "smithy.api#documentation": "Return logs only from the container of the Docker Compose service with this name. Returns 404 when no running container matches."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.coolify.api#GetPreviewApplicationLogsByPullRequestIdResponse": {
+      "type": "structure",
+      "members": {
+        "logs": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.coolify.api#GetPreviewApplicationLogsByPullRequestId": {
+      "type": "operation",
+      "input": {
+        "target": "com.coolify.api#GetPreviewApplicationLogsByPullRequestIdRequest"
+      },
+      "output": {
+        "target": "com.coolify.api#GetPreviewApplicationLogsByPullRequestIdResponse"
+      },
+      "errors": [
+        {
+          "target": "com.coolify.api#BadRequest"
+        },
+        {
+          "target": "com.coolify.api#NotFound"
+        },
+        {
+          "target": "com.coolify.api#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/applications/{uuid}/previews/{pull_request_id}/logs",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get preview application logs.\n\nGet runtime container logs for a preview deployment by application UUID and pull request ID. Requires the `read:sensitive` or `root` token ability."
       }
     },
     "com.coolify.api#ListEnvsByApplicationUuidRequest": {
@@ -5541,7 +6299,10 @@
           "target": "smithy.api#Boolean"
         },
         "is_shown_once": {
-          "target": "smithy.api#Boolean"
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "If true, the saved value is hidden in the UI and API responses. MCP never returns environment variable values."
+          }
         },
         "key": {
           "target": "smithy.api#String"
@@ -5663,7 +6424,7 @@
         "is_shown_once": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "The flag to indicate if the environment variable's value is shown on the UI."
+            "smithy.api#documentation": "If true, the saved value is hidden in the UI and API responses. MCP never returns environment variable values."
           }
         }
       },
@@ -5753,7 +6514,7 @@
         "is_shown_once": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "The flag to indicate if the environment variable's value is shown on the UI."
+            "smithy.api#documentation": "If true, the saved value is hidden in the UI and API responses. MCP never returns environment variable values."
           }
         }
       },
@@ -5822,7 +6583,7 @@
         "is_shown_once": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "The flag to indicate if the environment variable's value is shown on the UI."
+            "smithy.api#documentation": "If true, the saved value is hidden in the UI and API responses. MCP never returns environment variable values."
           }
         }
       },
@@ -6054,7 +6815,7 @@
           "target": "smithy.api#Boolean",
           "traits": {
             "smithy.api#httpQuery": "docker_cleanup",
-            "smithy.api#documentation": "Perform docker cleanup (prune networks, volumes, etc.)."
+            "smithy.api#documentation": "Run docker cleanup when the server disk usage is at or above its cleanup threshold. Skipped when a cleanup ran on the server in the last hour."
           }
         }
       },
@@ -6404,13 +7165,6 @@
             "smithy.api#required": {}
           }
         },
-        "host_path": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The host path (persistent only, optional).",
-            "com.distilled.openapi#nullable": {}
-          }
-        },
         "content": {
           "target": "smithy.api#String",
           "traits": {
@@ -6427,7 +7181,7 @@
         "fs_path": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Host directory path (required when is_directory is true)."
+            "smithy.api#documentation": "Host path. Required for directory mounts and host file mounts. Optional for file mounts with content (default: inside the resource directory). An absolute path can be anywhere on the host; a relative path is inside the resource directory. A directory or file mount outside the resource directory needs a token with the deploy permission. Coolify never deletes a path outside the resource directory."
           }
         }
       },
@@ -6461,6 +7215,9 @@
       "errors": [
         {
           "target": "com.coolify.api#BadRequest"
+        },
+        {
+          "target": "com.coolify.api#Forbidden"
         },
         {
           "target": "com.coolify.api#NotFound"
@@ -6540,17 +7297,10 @@
             "smithy.api#documentation": "The container mount path (not allowed for read-only storages)."
           }
         },
-        "host_path": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The host path (persistent only, not allowed for read-only storages).",
-            "com.distilled.openapi#nullable": {}
-          }
-        },
         "content": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The file content (file only, not allowed for read-only storages).",
+            "smithy.api#documentation": "The file content (file only, not allowed for read-only storages). Changing the content of a file outside the resource directory needs the deploy permission.",
             "com.distilled.openapi#nullable": {}
           }
         }
@@ -6585,6 +7335,9 @@
       "errors": [
         {
           "target": "com.coolify.api#BadRequest"
+        },
+        {
+          "target": "com.coolify.api#Forbidden"
         },
         {
           "target": "com.coolify.api#NotFound"
@@ -6663,69 +7416,6 @@
           "code": 200
         },
         "smithy.api#documentation": "Delete Storage\n\nDelete a persistent storage or file storage by application UUID."
-      }
-    },
-    "com.coolify.api#DeletePreviewDeploymentByPullRequestIdRequest": {
-      "type": "structure",
-      "members": {
-        "uuid": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {},
-            "smithy.api#documentation": "UUID of the application."
-          }
-        },
-        "pull_request_id": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {},
-            "smithy.api#documentation": "Pull request ID of the preview to delete."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#input": {}
-      }
-    },
-    "com.coolify.api#DeletePreviewDeploymentByPullRequestIdResponse": {
-      "type": "structure",
-      "members": {
-        "message": {
-          "target": "smithy.api#String"
-        }
-      },
-      "traits": {
-        "smithy.api#output": {}
-      }
-    },
-    "com.coolify.api#DeletePreviewDeploymentByPullRequestId": {
-      "type": "operation",
-      "input": {
-        "target": "com.coolify.api#DeletePreviewDeploymentByPullRequestIdRequest"
-      },
-      "output": {
-        "target": "com.coolify.api#DeletePreviewDeploymentByPullRequestIdResponse"
-      },
-      "errors": [
-        {
-          "target": "com.coolify.api#BadRequest"
-        },
-        {
-          "target": "com.coolify.api#NotFound"
-        },
-        {
-          "target": "com.coolify.api#UnprocessableEntity"
-        }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "DELETE",
-          "uri": "/applications/{uuid}/previews/{pull_request_id}",
-          "code": 200
-        },
-        "smithy.api#documentation": "Delete Preview Deployment\n\nDelete a preview deployment for a pull request. Cancels active deployments, stops containers, removes volumes/networks, and deletes the preview record."
       }
     },
     "com.coolify.api#ListTagsByApplicationUuidRequest": {
@@ -7302,6 +7992,224 @@
           "code": 200
         },
         "smithy.api#documentation": "Remove Destination\n\nDetach an additional destination from an application."
+      }
+    },
+    "com.coolify.api#ListAuditEventsRequestSource": {
+      "type": "enum",
+      "members": {
+        "ALL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "all"
+          }
+        },
+        "UI": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ui"
+          }
+        },
+        "API": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "api"
+          }
+        },
+        "MCP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "mcp"
+          }
+        },
+        "WEBHOOK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "webhook"
+          }
+        },
+        "SYSTEM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "system"
+          }
+        },
+        "SCHEDULER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "scheduler"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.coolify.api#ListAuditEventsRequest": {
+      "type": "structure",
+      "members": {
+        "per_page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "per_page",
+            "smithy.api#documentation": "Items per page."
+          }
+        },
+        "page": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "page",
+            "smithy.api#documentation": "Page number."
+          }
+        },
+        "search": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "search",
+            "smithy.api#documentation": "Search text."
+          }
+        },
+        "action": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "action",
+            "smithy.api#documentation": "Filter by action. Use all for every action."
+          }
+        },
+        "source": {
+          "target": "com.coolify.api#ListAuditEventsRequestSource",
+          "traits": {
+            "smithy.api#httpQuery": "source",
+            "smithy.api#documentation": "Filter by source."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.coolify.api#ListAuditEventsResponseDataItem": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#Integer"
+        },
+        "team_id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "event": {
+          "target": "smithy.api#String"
+        },
+        "source": {
+          "target": "smithy.api#String"
+        },
+        "action": {
+          "target": "smithy.api#String"
+        },
+        "level": {
+          "target": "smithy.api#String"
+        },
+        "actor_type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "actor_id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "actor_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "resource_type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "resource_uuid": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "resource_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {}
+    },
+    "com.coolify.api#ListAuditEventsResponseDataList": {
+      "type": "list",
+      "member": {
+        "target": "com.coolify.api#ListAuditEventsResponseDataItem"
+      },
+      "traits": {}
+    },
+    "com.coolify.api#ListAuditEventsResponse": {
+      "type": "structure",
+      "members": {
+        "current_page": {
+          "target": "smithy.api#Integer"
+        },
+        "data": {
+          "target": "com.coolify.api#ListAuditEventsResponseDataList"
+        },
+        "per_page": {
+          "target": "smithy.api#Integer"
+        },
+        "last_page": {
+          "target": "smithy.api#Integer"
+        },
+        "total": {
+          "target": "smithy.api#Integer"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.coolify.api#ListAuditEvents": {
+      "type": "operation",
+      "input": {
+        "target": "com.coolify.api#ListAuditEventsRequest"
+      },
+      "output": {
+        "target": "com.coolify.api#ListAuditEventsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.coolify.api#Forbidden"
+        },
+        {
+          "target": "com.coolify.api#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/audit-events",
+          "code": 200
+        },
+        "smithy.api#documentation": "List\n\nList audit events of the team. Only team admins and owners can view audit events. Actor e-mail, token, metadata, changes, IP address, and user agent are returned only for tokens with the read:sensitive or root permission."
       }
     },
     "com.coolify.api#ListCloudInitScripts": {
@@ -7919,6 +8827,411 @@
         "smithy.api#documentation": "Validate Cloud Provider Token\n\nValidate a cloud provider token against the provider API."
       }
     },
+    "com.coolify.api#UploadDatabaseImportRequest": {
+      "type": "structure",
+      "members": {
+        "uuid": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "UUID of the database."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.coolify.api#UploadDatabaseImport": {
+      "type": "operation",
+      "input": {
+        "target": "com.coolify.api#UploadDatabaseImportRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "errors": [
+        {
+          "target": "com.coolify.api#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/databases/{uuid}/imports/uploads",
+          "code": 200
+        },
+        "smithy.api#documentation": "Upload database import"
+      }
+    },
+    "com.coolify.api#DatabaseImportRequest": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.coolify.api#DatabaseImportRequestCase0"
+        },
+        "Case1": {
+          "target": "com.coolify.api#DatabaseImportRequestCase1"
+        },
+        "Case2": {
+          "target": "com.coolify.api#DatabaseImportRequestCase2"
+        }
+      },
+      "traits": {}
+    },
+    "com.coolify.api#DatabaseImportRequestCase0Source": {
+      "type": "enum",
+      "members": {
+        "UPLOAD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "upload"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.coolify.api#DatabaseImportRequestCase0": {
+      "type": "structure",
+      "members": {
+        "source": {
+          "target": "com.coolify.api#DatabaseImportRequestCase0Source",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "upload_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "dump_all": {
+          "target": "smithy.api#Boolean"
+        },
+        "replace_existing": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Drop matching PostgreSQL objects before restoring a single-database archive."
+          }
+        },
+        "keep_owners": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Restore object owners and privileges from a single-database PostgreSQL archive. By default they are skipped, because the roles of another server usually do not exist."
+          }
+        },
+        "restore_mysql_users": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "MySQL and MariaDB backups containing all databases: also restore the mysql system database (users, passwords, and privileges). By default the system databases are skipped, so the database keeps its own users and passwords."
+          }
+        },
+        "sqlite_database": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "SQLite: the database file to restore into. Must be one of the database files. Defaults to the file named in the backup file name, else the first file."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.coolify.api#DatabaseImportRequestCase1Source": {
+      "type": "enum",
+      "members": {
+        "S3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "s3"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.coolify.api#DatabaseImportRequestCase1": {
+      "type": "structure",
+      "members": {
+        "source": {
+          "target": "com.coolify.api#DatabaseImportRequestCase1Source",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "s3_storage_uuid": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "path": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "dump_all": {
+          "target": "smithy.api#Boolean"
+        },
+        "replace_existing": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Drop matching PostgreSQL objects before restoring a single-database archive."
+          }
+        },
+        "keep_owners": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Restore object owners and privileges from a single-database PostgreSQL archive. By default they are skipped, because the roles of another server usually do not exist."
+          }
+        },
+        "restore_mysql_users": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "MySQL and MariaDB backups containing all databases: also restore the mysql system database (users, passwords, and privileges). By default the system databases are skipped, so the database keeps its own users and passwords."
+          }
+        },
+        "sqlite_database": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "SQLite: the database file to restore into. Must be one of the database files. Defaults to the file named in the backup file name, else the first file."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.coolify.api#DatabaseImportRequestCase2Source": {
+      "type": "enum",
+      "members": {
+        "SERVER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "server"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.coolify.api#DatabaseImportRequestCase2": {
+      "type": "structure",
+      "members": {
+        "source": {
+          "target": "com.coolify.api#DatabaseImportRequestCase2Source",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "path": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "dump_all": {
+          "target": "smithy.api#Boolean"
+        },
+        "replace_existing": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Drop matching PostgreSQL objects before restoring a single-database archive."
+          }
+        },
+        "keep_owners": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Restore object owners and privileges from a single-database PostgreSQL archive. By default they are skipped, because the roles of another server usually do not exist."
+          }
+        },
+        "restore_mysql_users": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "MySQL and MariaDB backups containing all databases: also restore the mysql system database (users, passwords, and privileges). By default the system databases are skipped, so the database keeps its own users and passwords."
+          }
+        },
+        "sqlite_database": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "SQLite: the database file to restore into. Must be one of the database files. Defaults to the file named in the backup file name, else the first file."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.coolify.api#CreateDatabaseImportRequest": {
+      "type": "structure",
+      "members": {
+        "uuid": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "UUID of the database."
+          }
+        },
+        "body": {
+          "target": "com.coolify.api#DatabaseImportRequest",
+          "traits": {
+            "smithy.api#httpPayload": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.coolify.api#CreateDatabaseImport": {
+      "type": "operation",
+      "input": {
+        "target": "com.coolify.api#CreateDatabaseImportRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "errors": [
+        {
+          "target": "com.coolify.api#Conflict"
+        },
+        {
+          "target": "com.coolify.api#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/databases/{uuid}/imports",
+          "code": 200
+        },
+        "smithy.api#documentation": "Import database backup"
+      }
+    },
+    "com.coolify.api#GetDatabaseImportRequest": {
+      "type": "structure",
+      "members": {
+        "uuid": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "UUID of the database."
+          }
+        },
+        "activity_id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Import activity ID."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.coolify.api#DatabaseImportStatus": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#Integer"
+        },
+        "status": {
+          "target": "com.coolify.api#DatabaseImportStatusStatus"
+        },
+        "exit_code": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "output": {
+          "target": "smithy.api#String"
+        },
+        "created_at": {
+          "target": "smithy.api#String"
+        },
+        "updated_at": {
+          "target": "smithy.api#String"
+        },
+        "finished_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.coolify.api#DatabaseImportStatusStatus": {
+      "type": "enum",
+      "members": {
+        "QUEUED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "queued"
+          }
+        },
+        "IN_PROGRESS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "in_progress"
+          }
+        },
+        "FINISHED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "finished"
+          }
+        },
+        "ERROR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "error"
+          }
+        },
+        "KILLED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "killed"
+          }
+        },
+        "CANCELLED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cancelled"
+          }
+        },
+        "CLOSED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "closed"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.coolify.api#GetDatabaseImport": {
+      "type": "operation",
+      "input": {
+        "target": "com.coolify.api#GetDatabaseImportRequest"
+      },
+      "output": {
+        "target": "com.coolify.api#DatabaseImportStatus"
+      },
+      "errors": [
+        {
+          "target": "com.coolify.api#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/databases/{uuid}/imports/{activity_id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get database import status"
+      }
+    },
     "com.coolify.api#ListDatabasesResponse": {
       "type": "structure",
       "members": {
@@ -8106,6 +9419,12 @@
           "target": "smithy.api#Integer",
           "traits": {
             "smithy.api#documentation": "Backup job timeout in seconds (min: 60, max: 36000)"
+          }
+        },
+        "missing_backup_notification_days": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Alert after this many days without an execution; 0 disables alerts"
           }
         }
       },
@@ -8472,6 +9791,12 @@
             "smithy.api#documentation": "MySQL conf"
           }
         },
+        "sqlite_databases": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Comma-separated SQLite database file names"
+          }
+        },
         "health_check_enabled": {
           "target": "smithy.api#Boolean",
           "traits": {
@@ -8564,7 +9889,7 @@
           "target": "smithy.api#Boolean",
           "traits": {
             "smithy.api#httpQuery": "docker_cleanup",
-            "smithy.api#documentation": "Run docker cleanup."
+            "smithy.api#documentation": "Run docker cleanup when the server disk usage is at or above its cleanup threshold. Skipped when a cleanup ran on the server in the last hour."
           }
         },
         "delete_connected_networks": {
@@ -8716,6 +10041,12 @@
           "target": "smithy.api#Integer",
           "traits": {
             "smithy.api#documentation": "Backup job timeout in seconds (min: 60, max: 36000)"
+          }
+        },
+        "missing_backup_notification_days": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Alert after this many days without an execution; 0 disables alerts"
           }
         }
       },
@@ -10302,6 +11633,184 @@
         "smithy.api#documentation": "Create (MongoDB)\n\nCreate a new MongoDB database."
       }
     },
+    "com.coolify.api#CreateDatabaseSqliteRequestTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Tags to assign to the database."
+      }
+    },
+    "com.coolify.api#CreateDatabaseSqliteRequest": {
+      "type": "structure",
+      "members": {
+        "server_uuid": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "UUID of the server",
+            "smithy.api#required": {}
+          }
+        },
+        "project_uuid": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "UUID of the project",
+            "smithy.api#required": {}
+          }
+        },
+        "environment_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the environment. You need to provide at least one of environment_name or environment_uuid.",
+            "smithy.api#required": {}
+          }
+        },
+        "environment_uuid": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "UUID of the environment. You need to provide at least one of environment_name or environment_uuid.",
+            "smithy.api#required": {}
+          }
+        },
+        "destination_uuid": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "UUID of the destination if the server has multiple destinations"
+          }
+        },
+        "sqlite_databases": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Comma-separated SQLite database file names"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the database"
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Description of the database"
+          }
+        },
+        "image": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Docker Image of the database"
+          }
+        },
+        "limits_memory": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Memory limit of the database"
+          }
+        },
+        "limits_memory_swap": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Memory swap limit of the database"
+          }
+        },
+        "limits_memory_swappiness": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Memory swappiness of the database"
+          }
+        },
+        "limits_memory_reservation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Memory reservation of the database"
+          }
+        },
+        "limits_cpus": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "CPU limit of the database"
+          }
+        },
+        "limits_cpuset": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "CPU set of the database"
+          }
+        },
+        "limits_cpu_shares": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "CPU shares of the database"
+          }
+        },
+        "instant_deploy": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Instant deploy the database"
+          }
+        },
+        "tags": {
+          "target": "com.coolify.api#CreateDatabaseSqliteRequestTagsList",
+          "traits": {
+            "smithy.api#documentation": "Tags to assign to the database."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.coolify.api#CreateDatabaseSqlite": {
+      "type": "operation",
+      "input": {
+        "target": "com.coolify.api#CreateDatabaseSqliteRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "errors": [
+        {
+          "target": "com.coolify.api#BadRequest"
+        },
+        {
+          "target": "com.coolify.api#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/databases/sqlite",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create (SQLite)\n\nCreate a new SQLite database."
+      }
+    },
+    "com.coolify.api#GetDatabaseLogsByUuidRequestLinesCase1": {
+      "type": "enum",
+      "members": {
+        "ALL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "all"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.coolify.api#GetDatabaseLogsByUuidRequestLines": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "smithy.api#Integer"
+        },
+        "Case1": {
+          "target": "com.coolify.api#GetDatabaseLogsByUuidRequestLinesCase1"
+        }
+      },
+      "traits": {}
+    },
     "com.coolify.api#GetDatabaseLogsByUuidRequest": {
       "type": "structure",
       "members": {
@@ -10314,10 +11823,10 @@
           }
         },
         "lines": {
-          "target": "smithy.api#Integer",
+          "target": "com.coolify.api#GetDatabaseLogsByUuidRequestLines",
           "traits": {
             "smithy.api#httpQuery": "lines",
-            "smithy.api#documentation": "Number of lines to show from the end of the logs."
+            "smithy.api#documentation": "Number of lines to show from the end of the logs. Use `all` to return all logs. `-1` remains available as a compatibility alias."
           }
         },
         "show_timestamps": {
@@ -10365,7 +11874,7 @@
           "uri": "/databases/{uuid}/logs",
           "code": 200
         },
-        "smithy.api#documentation": "Get database logs.\n\nGet database logs by UUID."
+        "smithy.api#documentation": "Get database logs.\n\nGet database logs by UUID. Requires the `read:sensitive` or `root` token ability."
       }
     },
     "com.coolify.api#DeleteBackupExecutionByUuidRequest": {
@@ -10697,6 +12206,9 @@
         },
         {
           "target": "com.coolify.api#NotFound"
+        },
+        {
+          "target": "com.coolify.api#Conflict"
         }
       ],
       "traits": {
@@ -10723,7 +12235,7 @@
           "target": "smithy.api#Boolean",
           "traits": {
             "smithy.api#httpQuery": "docker_cleanup",
-            "smithy.api#documentation": "Perform docker cleanup (prune networks, volumes, etc.)."
+            "smithy.api#documentation": "Run docker cleanup when the server disk usage is at or above its cleanup threshold. Skipped when a cleanup ran on the server in the last hour."
           }
         }
       },
@@ -10808,6 +12320,9 @@
         },
         {
           "target": "com.coolify.api#NotFound"
+        },
+        {
+          "target": "com.coolify.api#Conflict"
         }
       ],
       "traits": {
@@ -10920,7 +12435,7 @@
         "is_shown_once": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "The flag to indicate if the environment variable's value is shown on the UI."
+            "smithy.api#documentation": "If true, the saved value is hidden in the UI and API responses. MCP never returns environment variable values."
           }
         }
       },
@@ -11007,7 +12522,7 @@
         "is_shown_once": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "The flag to indicate if the environment variable's value is shown on the UI."
+            "smithy.api#documentation": "If true, the saved value is hidden in the UI and API responses. MCP never returns environment variable values."
           }
         }
       },
@@ -11073,7 +12588,7 @@
         "is_shown_once": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "The flag to indicate if the environment variable's value is shown on the UI."
+            "smithy.api#documentation": "If true, the saved value is hidden in the UI and API responses. MCP never returns environment variable values."
           }
         }
       },
@@ -11338,13 +12853,6 @@
             "smithy.api#required": {}
           }
         },
-        "host_path": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The host path (persistent only, optional).",
-            "com.distilled.openapi#nullable": {}
-          }
-        },
         "content": {
           "target": "smithy.api#String",
           "traits": {
@@ -11361,7 +12869,7 @@
         "fs_path": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Host directory path (required when is_directory is true)."
+            "smithy.api#documentation": "Host path. Required for directory mounts and host file mounts. Optional for file mounts with content (default: inside the resource directory). An absolute path can be anywhere on the host; a relative path is inside the resource directory. A directory or file mount outside the resource directory needs a token with the deploy permission. Coolify never deletes a path outside the resource directory."
           }
         }
       },
@@ -11395,6 +12903,9 @@
       "errors": [
         {
           "target": "com.coolify.api#BadRequest"
+        },
+        {
+          "target": "com.coolify.api#Forbidden"
         },
         {
           "target": "com.coolify.api#NotFound"
@@ -11474,17 +12985,10 @@
             "smithy.api#documentation": "The container mount path (not allowed for read-only storages)."
           }
         },
-        "host_path": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The host path (persistent only, not allowed for read-only storages).",
-            "com.distilled.openapi#nullable": {}
-          }
-        },
         "content": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The file content (file only, not allowed for read-only storages).",
+            "smithy.api#documentation": "The file content (file only, not allowed for read-only storages). Changing the content of a file outside the resource directory needs the deploy permission.",
             "com.distilled.openapi#nullable": {}
           }
         }
@@ -11519,6 +13023,9 @@
       "errors": [
         {
           "target": "com.coolify.api#BadRequest"
+        },
+        {
+          "target": "com.coolify.api#Forbidden"
         },
         {
           "target": "com.coolify.api#NotFound"
@@ -11946,6 +13453,12 @@
         },
         "only_this_server": {
           "target": "smithy.api#Boolean"
+        },
+        "parent_deployment_uuid": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
         },
         "rollback": {
           "target": "smithy.api#Boolean"
@@ -14621,6 +16134,131 @@
         "smithy.api#documentation": "Create Hetzner Server\n\nCreate a new server on Hetzner and register it in Coolify."
       }
     },
+    "com.coolify.api#GetInstanceEmailSettings": {
+      "type": "operation",
+      "input": {
+        "target": "smithy.api#Unit"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "errors": [
+        {
+          "target": "com.coolify.api#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/settings/email",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get instance email settings\n\nGet instance-wide SMTP and Resend settings. Requires a root-team token belonging to a root-team admin or owner. Sensitive fields require the `read:sensitive` or `root` token ability."
+      }
+    },
+    "com.coolify.api#UpdateInstanceEmailSettings": {
+      "type": "operation",
+      "input": {
+        "target": "smithy.api#Unit"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "errors": [
+        {
+          "target": "com.coolify.api#Forbidden"
+        },
+        {
+          "target": "com.coolify.api#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/settings/email",
+          "code": 200
+        },
+        "smithy.api#documentation": "Update instance email settings\n\nUpdate instance-wide SMTP and Resend settings. Requires `write:sensitive` and a root-team token belonging to a root-team admin or owner."
+      }
+    },
+    "com.coolify.api#CreateSecretManagerIntegrationTokenRequestProvider": {
+      "type": "enum",
+      "members": {
+        "DOPPLER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "doppler"
+          }
+        },
+        "INFISICAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "infisical"
+          }
+        },
+        "VAULT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "vault"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.coolify.api#CreateSecretManagerIntegrationTokenRequest": {
+      "type": "structure",
+      "members": {
+        "provider": {
+          "target": "com.coolify.api#CreateSecretManagerIntegrationTokenRequestProvider",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "token": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "metadata": {
+          "target": "smithy.api#Document"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.coolify.api#CreateSecretManagerIntegrationToken": {
+      "type": "operation",
+      "input": {
+        "target": "com.coolify.api#CreateSecretManagerIntegrationTokenRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "errors": [
+        {
+          "target": "com.coolify.api#BadRequest"
+        },
+        {
+          "target": "com.coolify.api#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/security/integration-tokens",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create Secret Manager Token\n\nCreate and validate a Doppler, Infisical, or Vault integration token."
+      }
+    },
     "com.coolify.api#GetCurrentTeamEmailNotifications": {
       "type": "operation",
       "input": {
@@ -14640,7 +16278,7 @@
           "uri": "/notifications/email",
           "code": 200
         },
-        "smithy.api#documentation": "Get email notification settings\n\nGet the current team email notification settings. Encrypted secrets are only returned when the token has `read:sensitive` (or `root`) and the user is a team admin/owner."
+        "smithy.api#documentation": "Get email notification settings\n\nGet the current team email notification settings, including `smtp_ehlo_domain`, the hostname sent with SMTP EHLO. Encrypted secrets are only returned when the token has `read:sensitive` (or `root`) and the user is a team admin/owner."
       }
     },
     "com.coolify.api#UpdateCurrentTeamEmailNotifications": {
@@ -14668,7 +16306,7 @@
           "uri": "/notifications/email",
           "code": 200
         },
-        "smithy.api#documentation": "Update email notification settings\n\nUpdate the current team email notification settings."
+        "smithy.api#documentation": "Update email notification settings\n\nUpdate the current team email notification settings. Set `smtp_ehlo_domain` to a valid hostname to control the SMTP EHLO domain, or `null` to use the system default."
       }
     },
     "com.coolify.api#GetCurrentTeamDiscordNotifications": {
@@ -17375,9 +19013,58 @@
         "smithy.api#documentation": "Create\n\nCreate a new private key."
       }
     },
+    "com.coolify.api#GetPrivateKeyByUuidRequest": {
+      "type": "structure",
+      "members": {
+        "uuid": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Private Key UUID"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.coolify.api#GetPrivateKeyByUuid": {
+      "type": "operation",
+      "input": {
+        "target": "com.coolify.api#GetPrivateKeyByUuidRequest"
+      },
+      "output": {
+        "target": "com.coolify.api#PrivateKey"
+      },
+      "errors": [
+        {
+          "target": "com.coolify.api#BadRequest"
+        },
+        {
+          "target": "com.coolify.api#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/security/keys/{uuid}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get\n\nGet key by UUID."
+      }
+    },
     "com.coolify.api#UpdatePrivateKeyRequest": {
       "type": "structure",
       "members": {
+        "uuid": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Private Key UUID"
+          }
+        },
         "name": {
           "target": "smithy.api#String"
         },
@@ -17420,57 +19107,19 @@
           "target": "com.coolify.api#BadRequest"
         },
         {
+          "target": "com.coolify.api#NotFound"
+        },
+        {
           "target": "com.coolify.api#UnprocessableEntity"
         }
       ],
       "traits": {
         "smithy.api#http": {
           "method": "PATCH",
-          "uri": "/security/keys",
-          "code": 200
-        },
-        "smithy.api#documentation": "Update\n\nUpdate a private key."
-      }
-    },
-    "com.coolify.api#GetPrivateKeyByUuidRequest": {
-      "type": "structure",
-      "members": {
-        "uuid": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {},
-            "smithy.api#documentation": "Private Key UUID"
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#input": {}
-      }
-    },
-    "com.coolify.api#GetPrivateKeyByUuid": {
-      "type": "operation",
-      "input": {
-        "target": "com.coolify.api#GetPrivateKeyByUuidRequest"
-      },
-      "output": {
-        "target": "com.coolify.api#PrivateKey"
-      },
-      "errors": [
-        {
-          "target": "com.coolify.api#BadRequest"
-        },
-        {
-          "target": "com.coolify.api#NotFound"
-        }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
           "uri": "/security/keys/{uuid}",
           "code": 200
         },
-        "smithy.api#documentation": "Get\n\nGet key by UUID."
+        "smithy.api#documentation": "Update\n\nUpdate a private key."
       }
     },
     "com.coolify.api#DeletePrivateKeyByUuidRequest": {
@@ -18036,6 +19685,347 @@
         "smithy.api#documentation": "List Docker cleanup executions\n\nList recent Docker cleanup execution logs for a server owned by the authenticated team."
       }
     },
+    "com.coolify.api#ListServerRegistriesRequest": {
+      "type": "structure",
+      "members": {
+        "uuid": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Server UUID"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.coolify.api#ListServerRegistriesResponseRegistriesItemSource": {
+      "type": "enum",
+      "members": {
+        "AUTHS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "auths"
+          }
+        },
+        "CREDHELPERS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "credHelpers"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Where the Docker config stores the credentials."
+      }
+    },
+    "com.coolify.api#ListServerRegistriesResponseRegistriesItemUsedByItem": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String"
+        },
+        "name": {
+          "target": "smithy.api#String"
+        },
+        "link": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.coolify.api#ListServerRegistriesResponseRegistriesItemUsedByList": {
+      "type": "list",
+      "member": {
+        "target": "com.coolify.api#ListServerRegistriesResponseRegistriesItemUsedByItem"
+      },
+      "traits": {}
+    },
+    "com.coolify.api#ListServerRegistriesResponseRegistriesItem": {
+      "type": "structure",
+      "members": {
+        "registry": {
+          "target": "smithy.api#String"
+        },
+        "logged_in": {
+          "target": "smithy.api#Boolean"
+        },
+        "source": {
+          "target": "com.coolify.api#ListServerRegistriesResponseRegistriesItemSource",
+          "traits": {
+            "smithy.api#documentation": "Where the Docker config stores the credentials.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "username": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "used_by": {
+          "target": "com.coolify.api#ListServerRegistriesResponseRegistriesItemUsedByList"
+        }
+      },
+      "traits": {}
+    },
+    "com.coolify.api#ListServerRegistriesResponseRegistriesList": {
+      "type": "list",
+      "member": {
+        "target": "com.coolify.api#ListServerRegistriesResponseRegistriesItem"
+      },
+      "traits": {}
+    },
+    "com.coolify.api#ListServerRegistriesResponse": {
+      "type": "structure",
+      "members": {
+        "registries": {
+          "target": "com.coolify.api#ListServerRegistriesResponseRegistriesList"
+        },
+        "error": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Set when the logins could not be read from the server.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.coolify.api#ListServerRegistries": {
+      "type": "operation",
+      "input": {
+        "target": "com.coolify.api#ListServerRegistriesRequest"
+      },
+      "output": {
+        "target": "com.coolify.api#ListServerRegistriesResponse"
+      },
+      "errors": [
+        {
+          "target": "com.coolify.api#BadRequest"
+        },
+        {
+          "target": "com.coolify.api#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/servers/{uuid}/registries",
+          "code": 200
+        },
+        "smithy.api#documentation": "List server registry logins\n\nList the Docker registries a server is logged in to and the registries its resources pull from or push to. Reads the Docker config of the server over SSH. Credentials are never returned, only registry names and usernames. Requires the `read:sensitive` ability."
+      }
+    },
+    "com.coolify.api#LoginServerRegistryRequest": {
+      "type": "structure",
+      "members": {
+        "uuid": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Server UUID"
+          }
+        },
+        "registry": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Registry host, optionally with a port. Use docker.io for Docker Hub.",
+            "smithy.api#required": {}
+          }
+        },
+        "username": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "password": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Password or access token. Never returned.",
+            "smithy.api#required": {},
+            "smithy.api#sensitive": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.coolify.api#LoginServerRegistryResponse": {
+      "type": "structure",
+      "members": {
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.coolify.api#LoginServerRegistry": {
+      "type": "operation",
+      "input": {
+        "target": "com.coolify.api#LoginServerRegistryRequest"
+      },
+      "output": {
+        "target": "com.coolify.api#LoginServerRegistryResponse"
+      },
+      "errors": [
+        {
+          "target": "com.coolify.api#BadRequest"
+        },
+        {
+          "target": "com.coolify.api#NotFound"
+        },
+        {
+          "target": "com.coolify.api#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/servers/{uuid}/registries",
+          "code": 200
+        },
+        "smithy.api#documentation": "Log in to a registry on a server\n\nRun docker login on the server, writing to the Docker config that deployments use. Logging in again to the same registry replaces the saved login."
+      }
+    },
+    "com.coolify.api#CheckServerRegistryLoginRequest": {
+      "type": "structure",
+      "members": {
+        "uuid": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Server UUID"
+          }
+        },
+        "registry": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Registry host, optionally with a port, for example registry.example.com:5000."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.coolify.api#CheckServerRegistryLoginResponse": {
+      "type": "structure",
+      "members": {
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.coolify.api#CheckServerRegistryLogin": {
+      "type": "operation",
+      "input": {
+        "target": "com.coolify.api#CheckServerRegistryLoginRequest"
+      },
+      "output": {
+        "target": "com.coolify.api#CheckServerRegistryLoginResponse"
+      },
+      "errors": [
+        {
+          "target": "com.coolify.api#BadRequest"
+        },
+        {
+          "target": "com.coolify.api#NotFound"
+        },
+        {
+          "target": "com.coolify.api#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/servers/{uuid}/registries/{registry}/check",
+          "code": 200
+        },
+        "smithy.api#documentation": "Check a registry login on a server\n\nCheck that the saved login of the server for a registry still works. Runs docker login with the saved credentials on the server."
+      }
+    },
+    "com.coolify.api#LogoutServerRegistryRequest": {
+      "type": "structure",
+      "members": {
+        "uuid": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Server UUID"
+          }
+        },
+        "registry": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Registry host, optionally with a port, for example registry.example.com:5000."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.coolify.api#LogoutServerRegistryResponse": {
+      "type": "structure",
+      "members": {
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.coolify.api#LogoutServerRegistry": {
+      "type": "operation",
+      "input": {
+        "target": "com.coolify.api#LogoutServerRegistryRequest"
+      },
+      "output": {
+        "target": "com.coolify.api#LogoutServerRegistryResponse"
+      },
+      "errors": [
+        {
+          "target": "com.coolify.api#BadRequest"
+        },
+        {
+          "target": "com.coolify.api#NotFound"
+        },
+        {
+          "target": "com.coolify.api#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/servers/{uuid}/registries/{registry}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Log out from a registry on a server\n\nRun docker logout on the server for a registry."
+      }
+    },
     "com.coolify.api#GetServerLogDrainsRequest": {
       "type": "structure",
       "members": {
@@ -18578,7 +20568,10 @@
       "type": "structure",
       "members": {
         "is_sentinel_enabled": {
-          "target": "smithy.api#Boolean"
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Sentinel is mandatory on regular managed servers."
+          }
         },
         "is_metrics_enabled": {
           "target": "smithy.api#Boolean"
@@ -18611,6 +20604,30 @@
           "target": "smithy.api#String",
           "traits": {
             "com.distilled.openapi#nullable": {}
+          }
+        },
+        "traffic_topn": {
+          "target": "smithy.api#Integer"
+        },
+        "traffic_sample_threshold": {
+          "target": "smithy.api#Integer"
+        },
+        "traffic_retention_1h_days": {
+          "target": "smithy.api#Integer"
+        },
+        "traffic_retention_1d_days": {
+          "target": "smithy.api#Integer"
+        },
+        "is_geoip_enabled": {
+          "target": "smithy.api#Boolean"
+        },
+        "geoip_refresh_days": {
+          "target": "smithy.api#Integer"
+        },
+        "geoip_maxmind_license_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Only present with read:sensitive."
           }
         }
       },
@@ -18654,9 +20671,6 @@
             "smithy.api#documentation": "Server UUID"
           }
         },
-        "is_sentinel_enabled": {
-          "target": "smithy.api#Boolean"
-        },
         "is_metrics_enabled": {
           "target": "smithy.api#Boolean"
         },
@@ -18676,6 +20690,30 @@
           "target": "smithy.api#Integer"
         },
         "sentinel_custom_url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "traffic_topn": {
+          "target": "smithy.api#Integer"
+        },
+        "traffic_sample_threshold": {
+          "target": "smithy.api#Integer"
+        },
+        "traffic_retention_1h_days": {
+          "target": "smithy.api#Integer"
+        },
+        "traffic_retention_1d_days": {
+          "target": "smithy.api#Integer"
+        },
+        "is_geoip_enabled": {
+          "target": "smithy.api#Boolean"
+        },
+        "geoip_refresh_days": {
+          "target": "smithy.api#Integer"
+        },
+        "geoip_maxmind_license_key": {
           "target": "smithy.api#String",
           "traits": {
             "com.distilled.openapi#nullable": {}
@@ -18712,338 +20750,6 @@
           "code": 200
         },
         "smithy.api#documentation": "Update Sentinel settings\n\nUpdate Sentinel settings for a server owned by the authenticated team. Changing token/metrics timing fields may restart Sentinel."
-      }
-    },
-    "com.coolify.api#MigrateServerBetweenInstancesRequest": {
-      "type": "structure",
-      "members": {
-        "uuid": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {}
-          }
-        },
-        "target_url": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "target_token": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "API token on the target instance (root or write)",
-            "smithy.api#required": {}
-          }
-        },
-        "write_remote": {
-          "target": "smithy.api#Boolean"
-        },
-        "rebind_sentinel": {
-          "target": "smithy.api#Boolean"
-        },
-        "preserve_uuids": {
-          "target": "smithy.api#Boolean"
-        },
-        "adopt_mode": {
-          "target": "smithy.api#Boolean"
-        }
-      },
-      "traits": {
-        "smithy.api#input": {}
-      }
-    },
-    "com.coolify.api#MigrateServerBetweenInstances": {
-      "type": "operation",
-      "input": {
-        "target": "com.coolify.api#MigrateServerBetweenInstancesRequest"
-      },
-      "output": {
-        "target": "smithy.api#Unit"
-      },
-      "errors": [
-        {
-          "target": "com.coolify.api#Forbidden"
-        },
-        {
-          "target": "com.coolify.api#NotFound"
-        },
-        {
-          "target": "com.coolify.api#UnprocessableEntity"
-        }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/servers/{uuid}/migrate",
-          "code": 200
-        },
-        "smithy.api#documentation": "Migrate server to another Coolify instance\n\nOne-shot handoff: export this server, import+claim on the target instance (using the provided token), then disable automations here. Requires read:sensitive and write."
-      }
-    },
-    "com.coolify.api#ExportServerTransferBundleRequest": {
-      "type": "structure",
-      "members": {
-        "uuid": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {}
-          }
-        },
-        "encrypt": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "smithy.api#httpQuery": "encrypt",
-            "smithy.api#documentation": "If true and passphrase is provided, return an encrypted envelope."
-          }
-        },
-        "passphrase": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#httpQuery": "passphrase",
-            "smithy.api#documentation": "Passphrase used when encrypt=true."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#input": {}
-      }
-    },
-    "com.coolify.api#ExportServerTransferBundle": {
-      "type": "operation",
-      "input": {
-        "target": "com.coolify.api#ExportServerTransferBundleRequest"
-      },
-      "output": {
-        "target": "smithy.api#Unit"
-      },
-      "errors": [
-        {
-          "target": "com.coolify.api#Forbidden"
-        },
-        {
-          "target": "com.coolify.api#NotFound"
-        }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/servers/{uuid}/export",
-          "code": 200
-        },
-        "smithy.api#documentation": "Export server transfer bundle\n\nExport a server and all resources hosted on it as a versioned transfer bundle for moving between Coolify instances. Requires read:sensitive."
-      }
-    },
-    "com.coolify.api#ImportServerTransferBundleRequest": {
-      "type": "structure",
-      "members": {
-        "bundle": {
-          "target": "smithy.api#Document",
-          "traits": {
-            "smithy.api#documentation": "Plain or encrypted transfer bundle"
-          }
-        },
-        "passphrase": {
-          "target": "smithy.api#String",
-          "traits": {
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "dry_run": {
-          "target": "smithy.api#Boolean"
-        },
-        "preserve_uuids": {
-          "target": "smithy.api#Boolean"
-        },
-        "adopt_mode": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "smithy.api#documentation": "Import without forcing redeploy; keep statuses for adoption"
-          }
-        },
-        "claim": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "smithy.api#documentation": "Automatically claim the host for this instance after import"
-          }
-        },
-        "write_remote": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "smithy.api#documentation": "When claiming, write ownership file on the host via SSH"
-          }
-        },
-        "rebind_sentinel": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "smithy.api#documentation": "When claiming, rebind Sentinel to this instance"
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#input": {}
-      }
-    },
-    "com.coolify.api#ImportServerTransferBundle": {
-      "type": "operation",
-      "input": {
-        "target": "com.coolify.api#ImportServerTransferBundleRequest"
-      },
-      "output": {
-        "target": "smithy.api#Unit"
-      },
-      "errors": [
-        {
-          "target": "com.coolify.api#UnprocessableEntity"
-        }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/servers/import",
-          "code": 200
-        },
-        "smithy.api#documentation": "Import server transfer bundle\n\nImport a server transfer bundle into this Coolify instance (adopt mode by default)."
-      }
-    },
-    "com.coolify.api#ClaimServerRequest": {
-      "type": "structure",
-      "members": {
-        "uuid": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {}
-          }
-        },
-        "write_remote": {
-          "target": "smithy.api#Boolean"
-        },
-        "rebind_sentinel": {
-          "target": "smithy.api#Boolean"
-        }
-      },
-      "traits": {
-        "smithy.api#input": {}
-      }
-    },
-    "com.coolify.api#ClaimServer": {
-      "type": "operation",
-      "input": {
-        "target": "com.coolify.api#ClaimServerRequest"
-      },
-      "output": {
-        "target": "smithy.api#Unit"
-      },
-      "errors": [
-        {
-          "target": "com.coolify.api#NotFound"
-        }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/servers/{uuid}/claim",
-          "code": 200
-        },
-        "smithy.api#documentation": "Claim imported server\n\nClaim a managed host for this instance: write ownership file and rebind Sentinel."
-      }
-    },
-    "com.coolify.api#CompleteServerTransferRequest": {
-      "type": "structure",
-      "members": {
-        "uuid": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {}
-          }
-        },
-        "export_id": {
-          "target": "smithy.api#String",
-          "traits": {
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "target_instance_url": {
-          "target": "smithy.api#String",
-          "traits": {
-            "com.distilled.openapi#nullable": {}
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#input": {}
-      }
-    },
-    "com.coolify.api#CompleteServerTransfer": {
-      "type": "operation",
-      "input": {
-        "target": "com.coolify.api#CompleteServerTransferRequest"
-      },
-      "output": {
-        "target": "smithy.api#Unit"
-      },
-      "errors": [
-        {
-          "target": "com.coolify.api#NotFound"
-        }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/servers/{uuid}/transfer/complete",
-          "code": 200
-        },
-        "smithy.api#documentation": "Mark server transferred\n\nSource-instance step: disable automations after a successful export/import handoff."
-      }
-    },
-    "com.coolify.api#ExportServerTransferMailboxRequest": {
-      "type": "structure",
-      "members": {
-        "uuid": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {}
-          }
-        },
-        "passphrase": {
-          "target": "smithy.api#String",
-          "traits": {
-            "com.distilled.openapi#nullable": {}
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#input": {}
-      }
-    },
-    "com.coolify.api#ExportServerTransferMailbox": {
-      "type": "operation",
-      "input": {
-        "target": "com.coolify.api#ExportServerTransferMailboxRequest"
-      },
-      "output": {
-        "target": "smithy.api#Unit"
-      },
-      "errors": [
-        {
-          "target": "com.coolify.api#Forbidden"
-        },
-        {
-          "target": "com.coolify.api#NotFound"
-        }
-      ],
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/servers/{uuid}/export/mailbox",
-          "code": 200
-        },
-        "smithy.api#documentation": "Write transfer bundle to server mailbox\n\nWrite an export bundle to /data/coolify/exports on the managed host for air-gapped import."
       }
     },
     "com.coolify.api#Server": {
@@ -19185,6 +20891,9 @@
         "deployment_queue_limit": {
           "target": "smithy.api#Integer"
         },
+        "backup_compression_cpu_percentage": {
+          "target": "smithy.api#Integer"
+        },
         "dynamic_timeout": {
           "target": "smithy.api#Integer"
         },
@@ -19194,8 +20903,14 @@
         "force_server_cleanup": {
           "target": "smithy.api#Boolean"
         },
+        "server_role": {
+          "target": "com.coolify.api#ServerSettingServerRole"
+        },
         "is_build_server": {
-          "target": "smithy.api#Boolean"
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Deprecated: use server_role instead. true when server_role is build."
+          }
         },
         "is_cloudflare_tunnel": {
           "target": "smithy.api#Boolean"
@@ -19217,6 +20932,27 @@
         },
         "is_metrics_enabled": {
           "target": "smithy.api#Boolean"
+        },
+        "is_traffic_analytics_enabled": {
+          "target": "smithy.api#Boolean"
+        },
+        "traffic_topn": {
+          "target": "smithy.api#Integer"
+        },
+        "traffic_sample_threshold": {
+          "target": "smithy.api#Integer"
+        },
+        "traffic_retention_1h_days": {
+          "target": "smithy.api#Integer"
+        },
+        "traffic_retention_1d_days": {
+          "target": "smithy.api#Integer"
+        },
+        "is_geoip_enabled": {
+          "target": "smithy.api#Boolean"
+        },
+        "geoip_refresh_days": {
+          "target": "smithy.api#Integer"
         },
         "is_reachable": {
           "target": "smithy.api#Boolean"
@@ -19301,11 +21037,63 @@
           "traits": {
             "smithy.api#documentation": "SSH connection timeout in seconds."
           }
+        },
+        "docker_version": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Detected Docker Engine version on the server.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "docker_version_checked_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When Docker Engine version was last detected.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "compose_version": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Detected Docker Compose plugin version on the server.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "compose_version_checked_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "When Docker Compose version was last detected.",
+            "com.distilled.openapi#nullable": {}
+          }
         }
       },
       "traits": {
         "smithy.api#documentation": "Server Settings model"
       }
+    },
+    "com.coolify.api#ServerSettingServerRole": {
+      "type": "enum",
+      "members": {
+        "DEPLOYMENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "deployment"
+          }
+        },
+        "BUILD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "build"
+          }
+        },
+        "BOTH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "both"
+          }
+        }
+      },
+      "traits": {}
     },
     "com.coolify.api#ListServersResponseBodyList": {
       "type": "list",
@@ -19349,6 +21137,32 @@
           "code": 200
         },
         "smithy.api#documentation": "List\n\nList all servers."
+      }
+    },
+    "com.coolify.api#CreateServerRequestServerRole": {
+      "type": "enum",
+      "members": {
+        "DEPLOYMENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "deployment"
+          }
+        },
+        "BUILD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "build"
+          }
+        },
+        "BOTH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "both"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Server role."
       }
     },
     "com.coolify.api#CreateServerRequestProxyType": {
@@ -19416,10 +21230,16 @@
             "smithy.api#documentation": "The UUID of the private key."
           }
         },
+        "server_role": {
+          "target": "com.coolify.api#CreateServerRequestServerRole",
+          "traits": {
+            "smithy.api#documentation": "Server role."
+          }
+        },
         "is_build_server": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Is build server."
+            "smithy.api#documentation": "Deprecated: use server_role instead. true sets server_role to build, false sets it to both. Must not conflict with server_role."
           }
         },
         "instant_validate": {
@@ -19522,6 +21342,32 @@
         "smithy.api#documentation": "Get\n\nGet server by UUID."
       }
     },
+    "com.coolify.api#UpdateServerByUuidRequestServerRole": {
+      "type": "enum",
+      "members": {
+        "DEPLOYMENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "deployment"
+          }
+        },
+        "BUILD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "build"
+          }
+        },
+        "BOTH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "both"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Server role."
+      }
+    },
     "com.coolify.api#UpdateServerByUuidRequestProxyType": {
       "type": "enum",
       "members": {
@@ -19595,10 +21441,16 @@
             "smithy.api#documentation": "The UUID of the private key."
           }
         },
+        "server_role": {
+          "target": "com.coolify.api#UpdateServerByUuidRequestServerRole",
+          "traits": {
+            "smithy.api#documentation": "Server role."
+          }
+        },
         "is_build_server": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Is build server."
+            "smithy.api#documentation": "Deprecated: use server_role instead. true sets server_role to build, false changes a build server to both and leaves other roles unchanged. Must not conflict with server_role."
           }
         },
         "instant_validate": {
@@ -19641,6 +21493,12 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "Cron expression for disk usage check frequency."
+          }
+        },
+        "server_disk_usage_notification_interval_hours": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Minimum hours between high disk usage notifications (1-720). Default: 24."
           }
         },
         "connection_timeout": {
@@ -19691,6 +21549,20 @@
             "smithy.api#httpLabel": {},
             "smithy.api#required": {},
             "smithy.api#documentation": "UUID of the server."
+          }
+        },
+        "force": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "force",
+            "smithy.api#documentation": "Also delete all resources on the server."
+          }
+        },
+        "delete_from_provider": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "delete_from_provider",
+            "smithy.api#documentation": "Also delete the server from its cloud provider (Hetzner, Vultr or DigitalOcean). This cannot be undone."
           }
         }
       },
@@ -20175,6 +22047,19 @@
           "traits": {
             "com.distilled.openapi#nullable": {}
           }
+        },
+        "is_force_https_enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "max_restart_count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Maximum Docker restart count before Coolify stops the container. Set to 0 to disable the limit.",
+            "com.distilled.openapi#nullable": {}
+          }
         }
       },
       "traits": {
@@ -20224,6 +22109,30 @@
         "smithy.api#documentation": "Update service application\n\nUpdate fields for a compose service application. Use `url` for comma-separated public URLs (same rules as `urls[].url` on PATCH /services/{uuid})."
       }
     },
+    "com.coolify.api#GetServiceApplicationLogsByServiceAndAppUuidRequestLinesCase1": {
+      "type": "enum",
+      "members": {
+        "ALL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "all"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.coolify.api#GetServiceApplicationLogsByServiceAndAppUuidRequestLines": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "smithy.api#Integer"
+        },
+        "Case1": {
+          "target": "com.coolify.api#GetServiceApplicationLogsByServiceAndAppUuidRequestLinesCase1"
+        }
+      },
+      "traits": {}
+    },
     "com.coolify.api#GetServiceApplicationLogsByServiceAndAppUuidRequest": {
       "type": "structure",
       "members": {
@@ -20244,10 +22153,10 @@
           }
         },
         "lines": {
-          "target": "smithy.api#Integer",
+          "target": "com.coolify.api#GetServiceApplicationLogsByServiceAndAppUuidRequestLines",
           "traits": {
             "smithy.api#httpQuery": "lines",
-            "smithy.api#documentation": "Number of lines to show from the end of the logs."
+            "smithy.api#documentation": "Number of lines to show from the end of the logs. Use `all` to return all logs. `-1` remains available as a compatibility alias."
           }
         }
       },
@@ -20288,8 +22197,32 @@
           "uri": "/services/{uuid}/applications/{app_uuid}/logs",
           "code": 200
         },
-        "smithy.api#documentation": "Get service application logs\n\nGet Docker logs for a single compose service container."
+        "smithy.api#documentation": "Get service application logs\n\nGet Docker logs for a single compose service container. Requires the `read:sensitive` or `root` token ability."
       }
+    },
+    "com.coolify.api#PostServiceApplicationLogsByServiceAndAppUuidRequestLinesCase1": {
+      "type": "enum",
+      "members": {
+        "ALL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "all"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.coolify.api#PostServiceApplicationLogsByServiceAndAppUuidRequestLines": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "smithy.api#Integer"
+        },
+        "Case1": {
+          "target": "com.coolify.api#PostServiceApplicationLogsByServiceAndAppUuidRequestLinesCase1"
+        }
+      },
+      "traits": {}
     },
     "com.coolify.api#PostServiceApplicationLogsByServiceAndAppUuidRequest": {
       "type": "structure",
@@ -20309,9 +22242,10 @@
           }
         },
         "lines": {
-          "target": "smithy.api#Integer",
+          "target": "com.coolify.api#PostServiceApplicationLogsByServiceAndAppUuidRequestLines",
           "traits": {
-            "smithy.api#httpQuery": "lines"
+            "smithy.api#httpQuery": "lines",
+            "smithy.api#documentation": "Number of lines to show from the end of the logs. Use `all` to return all logs. `-1` remains available as a compatibility alias."
           }
         }
       },
@@ -20352,7 +22286,7 @@
           "uri": "/services/{uuid}/applications/{app_uuid}/logs",
           "code": 200
         },
-        "smithy.api#documentation": "Get service application logs\n\nGet Docker logs for a single compose service container."
+        "smithy.api#documentation": "Get service application logs\n\nGet Docker logs for a single compose service container. Requires the `read:sensitive` or `root` token ability."
       }
     },
     "com.coolify.api#PostStartServiceApplicationByServiceAndAppUuidRequest": {
@@ -20539,6 +22473,162 @@
           "code": 200
         },
         "smithy.api#documentation": "Stop service application container\n\nStops a single compose service container."
+      }
+    },
+    "com.coolify.api#UploadServiceDatabaseImportRequest": {
+      "type": "structure",
+      "members": {
+        "uuid": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Service UUID."
+          }
+        },
+        "database_uuid": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Service database UUID."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.coolify.api#UploadServiceDatabaseImport": {
+      "type": "operation",
+      "input": {
+        "target": "com.coolify.api#UploadServiceDatabaseImportRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "errors": [
+        {
+          "target": "com.coolify.api#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/services/{uuid}/databases/{database_uuid}/imports/uploads",
+          "code": 200
+        },
+        "smithy.api#documentation": "Upload service database import"
+      }
+    },
+    "com.coolify.api#CreateServiceDatabaseImportRequest": {
+      "type": "structure",
+      "members": {
+        "uuid": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Service UUID."
+          }
+        },
+        "database_uuid": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Service database UUID."
+          }
+        },
+        "body": {
+          "target": "com.coolify.api#DatabaseImportRequest",
+          "traits": {
+            "smithy.api#httpPayload": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.coolify.api#CreateServiceDatabaseImport": {
+      "type": "operation",
+      "input": {
+        "target": "com.coolify.api#CreateServiceDatabaseImportRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "errors": [
+        {
+          "target": "com.coolify.api#Conflict"
+        },
+        {
+          "target": "com.coolify.api#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/services/{uuid}/databases/{database_uuid}/imports",
+          "code": 200
+        },
+        "smithy.api#documentation": "Import service database backup"
+      }
+    },
+    "com.coolify.api#GetServiceDatabaseImportRequest": {
+      "type": "structure",
+      "members": {
+        "uuid": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Service UUID."
+          }
+        },
+        "database_uuid": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Service database UUID."
+          }
+        },
+        "activity_id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Import activity ID."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.coolify.api#GetServiceDatabaseImport": {
+      "type": "operation",
+      "input": {
+        "target": "com.coolify.api#GetServiceDatabaseImportRequest"
+      },
+      "output": {
+        "target": "com.coolify.api#DatabaseImportStatus"
+      },
+      "errors": [
+        {
+          "target": "com.coolify.api#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/services/{uuid}/databases/{database_uuid}/imports/{activity_id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get service database import status"
       }
     },
     "com.coolify.api#ListServiceDatabasesByServiceUuidRequest": {
@@ -20765,6 +22855,30 @@
         "smithy.api#documentation": "Update service database\n\nUpdate mutable fields for a compose service database."
       }
     },
+    "com.coolify.api#GetServiceDatabaseLogsByServiceAndDatabaseUuidRequestLinesCase1": {
+      "type": "enum",
+      "members": {
+        "ALL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "all"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.coolify.api#GetServiceDatabaseLogsByServiceAndDatabaseUuidRequestLines": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "smithy.api#Integer"
+        },
+        "Case1": {
+          "target": "com.coolify.api#GetServiceDatabaseLogsByServiceAndDatabaseUuidRequestLinesCase1"
+        }
+      },
+      "traits": {}
+    },
     "com.coolify.api#GetServiceDatabaseLogsByServiceAndDatabaseUuidRequest": {
       "type": "structure",
       "members": {
@@ -20783,9 +22897,10 @@
           }
         },
         "lines": {
-          "target": "smithy.api#Integer",
+          "target": "com.coolify.api#GetServiceDatabaseLogsByServiceAndDatabaseUuidRequestLines",
           "traits": {
-            "smithy.api#httpQuery": "lines"
+            "smithy.api#httpQuery": "lines",
+            "smithy.api#documentation": "Number of lines to show from the end of the logs. Use `all` to return all logs. `-1` remains available as a compatibility alias."
           }
         }
       },
@@ -20826,7 +22941,7 @@
           "uri": "/services/{uuid}/databases/{database_uuid}/logs",
           "code": 200
         },
-        "smithy.api#documentation": "Get service database logs\n\nGet Docker logs for a compose database container."
+        "smithy.api#documentation": "Get service database logs\n\nGet Docker logs for a compose database container. Requires the `read:sensitive` or `root` token ability."
       }
     },
     "com.coolify.api#StartServiceDatabaseByServiceAndDatabaseUuidRequest": {
@@ -21586,7 +23701,7 @@
           "target": "smithy.api#Boolean",
           "traits": {
             "smithy.api#httpQuery": "docker_cleanup",
-            "smithy.api#documentation": "Run docker cleanup."
+            "smithy.api#documentation": "Run docker cleanup when the server disk usage is at or above its cleanup threshold. Skipped when a cleanup ran on the server in the last hour."
           }
         },
         "delete_connected_networks": {
@@ -21594,6 +23709,13 @@
           "traits": {
             "smithy.api#httpQuery": "delete_connected_networks",
             "smithy.api#documentation": "Delete connected networks."
+          }
+        },
+        "delete_from_coolify_only": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "delete_from_coolify_only",
+            "smithy.api#documentation": "Remove only Coolify metadata without deleting Docker resources."
           }
         }
       },
@@ -21637,6 +23759,30 @@
         "smithy.api#documentation": "Delete\n\nDelete service by UUID."
       }
     },
+    "com.coolify.api#GetServiceLogsByUuidRequestLinesCase1": {
+      "type": "enum",
+      "members": {
+        "ALL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "all"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.coolify.api#GetServiceLogsByUuidRequestLines": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "smithy.api#Integer"
+        },
+        "Case1": {
+          "target": "com.coolify.api#GetServiceLogsByUuidRequestLinesCase1"
+        }
+      },
+      "traits": {}
+    },
     "com.coolify.api#GetServiceLogsByUuidRequest": {
       "type": "structure",
       "members": {
@@ -21657,10 +23803,10 @@
           }
         },
         "lines": {
-          "target": "smithy.api#Integer",
+          "target": "com.coolify.api#GetServiceLogsByUuidRequestLines",
           "traits": {
             "smithy.api#httpQuery": "lines",
-            "smithy.api#documentation": "Number of lines to show from the end of the logs."
+            "smithy.api#documentation": "Number of lines to show from the end of the logs. Use `all` to return all logs. `-1` remains available as a compatibility alias."
           }
         },
         "show_timestamps": {
@@ -21708,7 +23854,7 @@
           "uri": "/services/{uuid}/logs",
           "code": 200
         },
-        "smithy.api#documentation": "Get service logs.\n\nGet logs for a specific service sub-resource by service UUID. The `sub_service_name` query parameter must match the `name` field of one of the service applications or databases returned by `GET /services/{uuid}`."
+        "smithy.api#documentation": "Get service logs.\n\nGet logs for a specific service sub-resource by service UUID. The `sub_service_name` query parameter must match the `name` field of one of the service applications or databases returned by `GET /services/{uuid}`. Requires the `read:sensitive` or `root` token ability."
       }
     },
     "com.coolify.api#ListEnvsByServiceUuidRequest": {
@@ -21818,7 +23964,7 @@
         "is_shown_once": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "The flag to indicate if the environment variable's value is shown on the UI."
+            "smithy.api#documentation": "If true, the saved value is hidden in the UI and API responses. MCP never returns environment variable values."
           }
         }
       },
@@ -21911,7 +24057,7 @@
         "is_shown_once": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "The flag to indicate if the environment variable's value is shown on the UI."
+            "smithy.api#documentation": "If true, the saved value is hidden in the UI and API responses. MCP never returns environment variable values."
           }
         }
       },
@@ -21983,7 +24129,7 @@
         "is_shown_once": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "The flag to indicate if the environment variable's value is shown on the UI."
+            "smithy.api#documentation": "If true, the saved value is hidden in the UI and API responses. MCP never returns environment variable values."
           }
         }
       },
@@ -22323,7 +24469,7 @@
           "target": "smithy.api#Boolean",
           "traits": {
             "smithy.api#httpQuery": "docker_cleanup",
-            "smithy.api#documentation": "Perform docker cleanup (prune networks, volumes, etc.)."
+            "smithy.api#documentation": "Run docker cleanup when the server disk usage is at or above its cleanup threshold. Skipped when a cleanup ran on the server in the last hour."
           }
         }
       },
@@ -22553,13 +24699,6 @@
             "smithy.api#required": {}
           }
         },
-        "host_path": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The host path (persistent only, optional).",
-            "com.distilled.openapi#nullable": {}
-          }
-        },
         "content": {
           "target": "smithy.api#String",
           "traits": {
@@ -22576,7 +24715,7 @@
         "fs_path": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Host directory path (required when is_directory is true)."
+            "smithy.api#documentation": "Host path. Required for directory mounts and host file mounts. Optional for file mounts with content (default: inside the resource directory). An absolute path can be anywhere on the host; a relative path is inside the resource directory. A directory or file mount outside the resource directory needs a token with the deploy permission. Coolify never deletes a path outside the resource directory."
           }
         }
       },
@@ -22610,6 +24749,9 @@
       "errors": [
         {
           "target": "com.coolify.api#BadRequest"
+        },
+        {
+          "target": "com.coolify.api#Forbidden"
         },
         {
           "target": "com.coolify.api#NotFound"
@@ -22689,17 +24831,10 @@
             "smithy.api#documentation": "The container mount path (not allowed for read-only storages)."
           }
         },
-        "host_path": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The host path (persistent only, not allowed for read-only storages).",
-            "com.distilled.openapi#nullable": {}
-          }
-        },
         "content": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The file content (file only, not allowed for read-only storages).",
+            "smithy.api#documentation": "The file content (file only, not allowed for read-only storages). Changing the content of a file outside the resource directory needs the deploy permission.",
             "com.distilled.openapi#nullable": {}
           }
         }
@@ -22734,6 +24869,9 @@
       "errors": [
         {
           "target": "com.coolify.api#BadRequest"
+        },
+        {
+          "target": "com.coolify.api#Forbidden"
         },
         {
           "target": "com.coolify.api#NotFound"
@@ -23111,7 +25249,10 @@
           "target": "smithy.api#Boolean"
         },
         "is_shown_once": {
-          "target": "smithy.api#Boolean"
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "If true, the saved value is hidden in the UI and API responses. MCP never returns environment variable values."
+          }
         },
         "comment": {
           "target": "smithy.api#String",
@@ -24030,6 +26171,12 @@
             "smithy.api#documentation": "The custom server limit."
           }
         },
+        "is_build_server_fallback_enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether deployments can fall back to the deployment server when no usable dedicated build server is available."
+          }
+        },
         "members": {
           "target": "com.coolify.api#TeamMembersList",
           "traits": {
@@ -24280,6 +26427,49 @@
           "code": 200
         },
         "smithy.api#documentation": "Authenticated Team\n\nGet the team bound to the API token."
+      }
+    },
+    "com.coolify.api#UpdateTokenTeamRequest": {
+      "type": "structure",
+      "members": {
+        "is_build_server_fallback_enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether deployments can fall back to the deployment server when no usable dedicated build server is available.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.coolify.api#UpdateTokenTeam": {
+      "type": "operation",
+      "input": {
+        "target": "com.coolify.api#UpdateTokenTeamRequest"
+      },
+      "output": {
+        "target": "com.coolify.api#Team"
+      },
+      "errors": [
+        {
+          "target": "com.coolify.api#BadRequest"
+        },
+        {
+          "target": "com.coolify.api#Forbidden"
+        },
+        {
+          "target": "com.coolify.api#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/team",
+          "code": 200
+        },
+        "smithy.api#documentation": "Update authenticated team\n\nUpdate settings for the team bound to the API token."
       }
     },
     "com.coolify.api#GetTokenTeamMembersResponseBodyList": {
@@ -25144,32 +27334,6 @@
         "smithy.api#documentation": "Create Vultr Server\n\nCreate a Vultr instance and link it as a Coolify server."
       }
     },
-    "com.coolify.api#BadRequest": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#error": "client",
-        "smithy.api#httpError": 400,
-        "com.distilled.openapi#errorMatchers": [
-          {
-            "status": 400
-          }
-        ]
-      }
-    },
-    "com.coolify.api#Conflict": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#error": "client",
-        "smithy.api#httpError": 409,
-        "com.distilled.openapi#errorMatchers": [
-          {
-            "status": 409
-          }
-        ]
-      }
-    },
     "com.coolify.api#NotFound": {
       "type": "structure",
       "members": {},
@@ -25179,6 +27343,19 @@
         "com.distilled.openapi#errorMatchers": [
           {
             "status": 404
+          }
+        ]
+      }
+    },
+    "com.coolify.api#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
           }
         ]
       }
@@ -25209,10 +27386,41 @@
         ]
       }
     },
+    "com.coolify.api#Conflict": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 409,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 409
+          }
+        ]
+      }
+    },
     "com.coolify.api#Coolify": {
       "type": "service",
       "version": "0.1",
       "operations": [
+        {
+          "target": "com.coolify.api#ListPreviewDeploymentsByApplicationUuid"
+        },
+        {
+          "target": "com.coolify.api#CreatePreviewDeploymentByApplicationUuid"
+        },
+        {
+          "target": "com.coolify.api#GetPreviewDeploymentByPullRequestId"
+        },
+        {
+          "target": "com.coolify.api#UpdatePreviewDomainsByPullRequestId"
+        },
+        {
+          "target": "com.coolify.api#DeletePreviewDeploymentByPullRequestId"
+        },
+        {
+          "target": "com.coolify.api#ConfigureApplicationSecretManager"
+        },
         {
           "target": "com.coolify.api#ListApplications"
         },
@@ -25242,6 +27450,9 @@
         },
         {
           "target": "com.coolify.api#GetApplicationLogsByUuid"
+        },
+        {
+          "target": "com.coolify.api#GetPreviewApplicationLogsByPullRequestId"
         },
         {
           "target": "com.coolify.api#ListEnvsByApplicationUuid"
@@ -25286,9 +27497,6 @@
           "target": "com.coolify.api#DeleteStorageByApplicationUuid"
         },
         {
-          "target": "com.coolify.api#DeletePreviewDeploymentByPullRequestId"
-        },
-        {
           "target": "com.coolify.api#ListTagsByApplicationUuid"
         },
         {
@@ -25314,6 +27522,9 @@
         },
         {
           "target": "com.coolify.api#RemoveApplicationDestination"
+        },
+        {
+          "target": "com.coolify.api#ListAuditEvents"
         },
         {
           "target": "com.coolify.api#ListCloudInitScripts"
@@ -25347,6 +27558,15 @@
         },
         {
           "target": "com.coolify.api#ValidateCloudTokenByUuid"
+        },
+        {
+          "target": "com.coolify.api#UploadDatabaseImport"
+        },
+        {
+          "target": "com.coolify.api#CreateDatabaseImport"
+        },
+        {
+          "target": "com.coolify.api#GetDatabaseImport"
         },
         {
           "target": "com.coolify.api#ListDatabases"
@@ -25395,6 +27615,9 @@
         },
         {
           "target": "com.coolify.api#CreateDatabaseMongodb"
+        },
+        {
+          "target": "com.coolify.api#CreateDatabaseSqlite"
         },
         {
           "target": "com.coolify.api#GetDatabaseLogsByUuid"
@@ -25559,6 +27782,15 @@
           "target": "com.coolify.api#CreateHetznerServer"
         },
         {
+          "target": "com.coolify.api#GetInstanceEmailSettings"
+        },
+        {
+          "target": "com.coolify.api#UpdateInstanceEmailSettings"
+        },
+        {
+          "target": "com.coolify.api#CreateSecretManagerIntegrationToken"
+        },
+        {
           "target": "com.coolify.api#GetCurrentTeamEmailNotifications"
         },
         {
@@ -25706,10 +27938,10 @@
           "target": "com.coolify.api#CreatePrivateKey"
         },
         {
-          "target": "com.coolify.api#UpdatePrivateKey"
+          "target": "com.coolify.api#GetPrivateKeyByUuid"
         },
         {
-          "target": "com.coolify.api#GetPrivateKeyByUuid"
+          "target": "com.coolify.api#UpdatePrivateKey"
         },
         {
           "target": "com.coolify.api#DeletePrivateKeyByUuid"
@@ -25739,6 +27971,18 @@
           "target": "com.coolify.api#ListServerDockerCleanupExecutions"
         },
         {
+          "target": "com.coolify.api#ListServerRegistries"
+        },
+        {
+          "target": "com.coolify.api#LoginServerRegistry"
+        },
+        {
+          "target": "com.coolify.api#CheckServerRegistryLogin"
+        },
+        {
+          "target": "com.coolify.api#LogoutServerRegistry"
+        },
+        {
           "target": "com.coolify.api#GetServerLogDrains"
         },
         {
@@ -25761,24 +28005,6 @@
         },
         {
           "target": "com.coolify.api#UpdateServerSentinel"
-        },
-        {
-          "target": "com.coolify.api#MigrateServerBetweenInstances"
-        },
-        {
-          "target": "com.coolify.api#ExportServerTransferBundle"
-        },
-        {
-          "target": "com.coolify.api#ImportServerTransferBundle"
-        },
-        {
-          "target": "com.coolify.api#ClaimServer"
-        },
-        {
-          "target": "com.coolify.api#CompleteServerTransfer"
-        },
-        {
-          "target": "com.coolify.api#ExportServerTransferMailbox"
         },
         {
           "target": "com.coolify.api#ListServers"
@@ -25827,6 +28053,15 @@
         },
         {
           "target": "com.coolify.api#PostStopServiceApplicationByServiceAndAppUuid"
+        },
+        {
+          "target": "com.coolify.api#UploadServiceDatabaseImport"
+        },
+        {
+          "target": "com.coolify.api#CreateServiceDatabaseImport"
+        },
+        {
+          "target": "com.coolify.api#GetServiceDatabaseImport"
         },
         {
           "target": "com.coolify.api#ListServiceDatabasesByServiceUuid"
@@ -25992,6 +28227,9 @@
         },
         {
           "target": "com.coolify.api#GetTokenTeam"
+        },
+        {
+          "target": "com.coolify.api#UpdateTokenTeam"
         },
         {
           "target": "com.coolify.api#GetTokenTeamMembers"

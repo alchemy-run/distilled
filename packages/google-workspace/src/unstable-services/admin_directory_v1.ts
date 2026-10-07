@@ -67,19 +67,17 @@ export class NotFound
 
 /** Data about an update to the status of a Chrome OS device. */
 export interface ChromeOsDeviceAction {
-  /** Only used when the action is `deprovision`. With the `deprovision` action, this field is required. *Note*: The deprovision reason is audited because it might have implications on licenses for perpetual subscription customers. */
-  deprovisionReason?: string;
   /** Action to be taken on the Chrome OS device. */
   action?: string;
+  /** Only used when the action is `deprovision`. With the `deprovision` action, this field is required. *Note*: The deprovision reason is audited because it might have implications on licenses for perpetual subscription customers. */
+  deprovisionReason?: string;
 }
 export const ChromeOsDeviceAction = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    deprovisionReason: S.optional(S.String),
     action: S.optional(S.String),
+    deprovisionReason: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ChromeOsDeviceAction",
-}) as any as S.Schema<ChromeOsDeviceAction>;
+).annotate({ identifier: "ChromeOsDeviceAction" }) as any as S.Schema<ChromeOsDeviceAction>;
 
 export interface ActionChromeosdevicesRequest {
   /** The unique ID of the device. The `resourceId`s are returned in the response from the [chromeosdevices.list](https://developers.google.com/workspace/admin/directory/v1/reference/chromeosdevices/list) method. */
@@ -118,22 +116,20 @@ export const MobileDeviceAction = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     action: S.optional(S.String),
   }),
-).annotate({
-  identifier: "MobileDeviceAction",
-}) as any as S.Schema<MobileDeviceAction>;
+).annotate({ identifier: "MobileDeviceAction" }) as any as S.Schema<MobileDeviceAction>;
 
 export interface ActionMobiledevicesRequest {
-  /** The unique ID for the customer's Google Workspace account. As an account administrator, you can also use the `my_customer` alias to represent your account's `customerId`. The `customerId` is also returned as part of the [Users resource](https://developers.google.com/workspace/admin/directory/v1/reference/users). */
-  customerId: string;
   /** The unique ID the API service uses to identify the mobile device. */
   resourceId: string;
+  /** The unique ID for the customer's Google Workspace account. As an account administrator, you can also use the `my_customer` alias to represent your account's `customerId`. The `customerId` is also returned as part of the [Users resource](https://developers.google.com/workspace/admin/directory/v1/reference/users). */
+  customerId: string;
   /** Request body */
   body?: MobileDeviceAction;
 }
 export const ActionMobiledevicesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    customerId: S.String.pipe(T.Label()),
     resourceId: S.String.pipe(T.Label()),
+    customerId: S.String.pipe(T.Label()),
     body: S.optional(MobileDeviceAction.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -150,6 +146,9 @@ export interface ActionMobiledevicesResponse {}
 export const ActionMobiledevicesResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "ActionMobiledevicesResponse",
 }) as any as S.Schema<ActionMobiledevicesResponse>;
+
+export type StringList = Array<string>;
+export const StringList = /*@__PURE__*/ S.Array(S.String) as any as S.Schema<StringList>;
 
 export type BatchChangeChromeOsDeviceStatusRequestChangeChromeOsDeviceStatusActionEnum =
   | "CHANGE_CHROME_OS_DEVICE_STATUS_ACTION_UNSPECIFIED"
@@ -172,27 +171,24 @@ export type BatchChangeChromeOsDeviceStatusRequestDeprovisionReasonEnum =
   | "DEPROVISION_REASON_REPAIR_CENTER";
 export const BatchChangeChromeOsDeviceStatusRequestDeprovisionReasonEnum = S.String;
 
-export type StringList = Array<string>;
-export const StringList = /*@__PURE__*/ S.Array(S.String) as any as S.Schema<StringList>;
-
 /** A request for changing the status of a batch of ChromeOS devices. */
 export interface BatchChangeChromeOsDeviceStatusRequest {
+  /** Required. List of the IDs of the ChromeOS devices to change. Maximum 50. */
+  deviceIds?: StringList;
   /** Required. The action to take on the ChromeOS device in order to change its status. */
   changeChromeOsDeviceStatusAction?:
     | BatchChangeChromeOsDeviceStatusRequestChangeChromeOsDeviceStatusActionEnum
     | (string & {});
   /** Optional. The reason behind a device deprovision. Must be provided if 'changeChromeOsDeviceStatusAction' is set to 'CHANGE_CHROME_OS_DEVICE_STATUS_ACTION_DEPROVISION'. Otherwise, omit this field. */
   deprovisionReason?: BatchChangeChromeOsDeviceStatusRequestDeprovisionReasonEnum | (string & {});
-  /** Required. List of the IDs of the ChromeOS devices to change. Maximum 50. */
-  deviceIds?: StringList;
 }
 export const BatchChangeChromeOsDeviceStatusRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    deviceIds: S.optional(StringList),
     changeChromeOsDeviceStatusAction: S.optional(
       BatchChangeChromeOsDeviceStatusRequestChangeChromeOsDeviceStatusActionEnum,
     ),
     deprovisionReason: S.optional(BatchChangeChromeOsDeviceStatusRequestDeprovisionReasonEnum),
-    deviceIds: S.optional(StringList),
   }),
 ).annotate({
   identifier: "BatchChangeChromeOsDeviceStatusRequest",
@@ -242,33 +238,33 @@ export const DocumentMapList = /*@__PURE__*/ S.Array(
 export interface Status {
   /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
   message?: string;
-  /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
-  details?: DocumentMapList;
   /** The status code, which should be an enum value of google.rpc.Code. */
   code?: number;
+  /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
+  details?: DocumentMapList;
 }
 export const Status = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     message: S.optional(S.String),
-    details: S.optional(DocumentMapList),
     code: S.optional(S.Number),
+    details: S.optional(DocumentMapList),
   }),
 ).annotate({ identifier: "Status" }) as any as S.Schema<Status>;
 
 /** The result of a single ChromeOS device for a Change state operation. */
 export interface ChangeChromeOsDeviceStatusResult {
+  /** The unique ID of the ChromeOS device. */
+  deviceId?: string;
   /** The device could change its status successfully. */
   response?: ChangeChromeOsDeviceStatusSucceeded;
   /** The error result of the operation in case of failure. */
   error?: Status;
-  /** The unique ID of the ChromeOS device. */
-  deviceId?: string;
 }
 export const ChangeChromeOsDeviceStatusResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    deviceId: S.optional(S.String),
     response: S.optional(ChangeChromeOsDeviceStatusSucceeded),
     error: S.optional(Status),
-    deviceId: S.optional(S.String),
   }),
 ).annotate({
   identifier: "ChangeChromeOsDeviceStatusResult",
@@ -301,22 +297,20 @@ export const AuxiliaryMessageSeverityEnum = S.String;
 
 /** Auxiliary message about issues with printers or settings. Example: {message_type:AUXILIARY_MESSAGE_WARNING, field_mask:make_and_model, message:"Given printer is invalid or no longer supported."} */
 export interface AuxiliaryMessage {
-  /** Human readable message in English. Example: "Given printer is invalid or no longer supported." */
-  auxiliaryMessage?: string;
   /** Field that this message concerns. */
   fieldMask?: string;
+  /** Human readable message in English. Example: "Given printer is invalid or no longer supported." */
+  auxiliaryMessage?: string;
   /** Message severity */
   severity?: AuxiliaryMessageSeverityEnum | (string & {});
 }
 export const AuxiliaryMessage = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    auxiliaryMessage: S.optional(S.String),
     fieldMask: S.optional(S.String),
+    auxiliaryMessage: S.optional(S.String),
     severity: S.optional(AuxiliaryMessageSeverityEnum),
   }),
-).annotate({
-  identifier: "AuxiliaryMessage",
-}) as any as S.Schema<AuxiliaryMessage>;
+).annotate({ identifier: "AuxiliaryMessage" }) as any as S.Schema<AuxiliaryMessage>;
 
 export type AuxiliaryMessageList = Array<AuxiliaryMessage>;
 export const AuxiliaryMessageList = /*@__PURE__*/ S.Array(
@@ -325,57 +319,55 @@ export const AuxiliaryMessageList = /*@__PURE__*/ S.Array(
 
 /** Printer configuration. */
 export interface Printer {
-  /** Editable. Printer URI. */
-  uri?: string;
-  /** Organization Unit that owns this printer (Only can be set during Printer creation) */
-  orgUnitId?: string;
-  /** Identifier. The resource name of the Printer object, in the format customers/{customer-id}/printers/{printer-id} (During printer creation leave empty) */
-  name?: string;
   /** Id of the printer. (During printer creation leave empty) */
   id?: string;
-  /** Editable. flag to use driverless configuration or not. If it's set to be true, make_and_model can be ignored */
-  useDriverlessConfig?: boolean;
-  /** Editable. Name of printer. */
-  displayName?: string;
-  /** Editable. Description of printer. */
-  description?: string;
+  /** Editable. Printer URI. */
+  uri?: string;
   /** Output only. Auxiliary messages about issues with the printer configuration if any. */
   auxiliaryMessages?: AuxiliaryMessageList;
-  /** Output only. Time when printer was created. */
-  createTime?: string;
+  /** Editable. Description of printer. */
+  description?: string;
+  /** Identifier. The resource name of the Printer object, in the format customers/{customer-id}/printers/{printer-id} (During printer creation leave empty) */
+  name?: string;
   /** Editable. Make and model of printer. e.g. Lexmark MS610de Value must be in format as seen in ListPrinterModels response. */
   makeAndModel?: string;
+  /** Editable. Name of printer. */
+  displayName?: string;
+  /** Organization Unit that owns this printer (Only can be set during Printer creation) */
+  orgUnitId?: string;
+  /** Editable. flag to use driverless configuration or not. If it's set to be true, make_and_model can be ignored */
+  useDriverlessConfig?: boolean;
+  /** Output only. Time when printer was created. */
+  createTime?: string;
 }
 export const Printer = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    uri: S.optional(S.String),
-    orgUnitId: S.optional(S.String),
-    name: S.optional(S.String),
     id: S.optional(S.String),
-    useDriverlessConfig: S.optional(S.Boolean),
-    displayName: S.optional(S.String),
-    description: S.optional(S.String),
+    uri: S.optional(S.String),
     auxiliaryMessages: S.optional(AuxiliaryMessageList),
-    createTime: S.optional(S.String),
+    description: S.optional(S.String),
+    name: S.optional(S.String),
     makeAndModel: S.optional(S.String),
+    displayName: S.optional(S.String),
+    orgUnitId: S.optional(S.String),
+    useDriverlessConfig: S.optional(S.Boolean),
+    createTime: S.optional(S.String),
   }),
 ).annotate({ identifier: "Printer" }) as any as S.Schema<Printer>;
 
 /** Request for adding a new printer. */
 export interface CreatePrinterRequest {
-  /** Required. The name of the customer. Format: customers/{customer_id} */
-  parent?: string;
   /** Required. A printer to create. If you want to place the printer under particular OU then populate printer.org_unit_id filed. Otherwise the printer will be placed under root OU. */
   printer?: Printer;
+  /** Required. The name of the customer. Format: customers/{customer_id} */
+  parent?: string;
 }
 export const CreatePrinterRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    parent: S.optional(S.String),
     printer: S.optional(Printer),
+    parent: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CreatePrinterRequest",
-}) as any as S.Schema<CreatePrinterRequest>;
+).annotate({ identifier: "CreatePrinterRequest" }) as any as S.Schema<CreatePrinterRequest>;
 
 export type CreatePrinterRequestList = Array<CreatePrinterRequest>;
 export const CreatePrinterRequestList = /*@__PURE__*/ S.Array(
@@ -441,21 +433,21 @@ export const FailureInfoErrorCodeEnum = S.String;
 
 /** Info about failures */
 export interface FailureInfo {
-  /** Failed printer. */
-  printer?: Printer;
-  /** Id of a failed printer. */
-  printerId?: string;
   /** Canonical code for why the update failed to apply. */
   errorCode?: FailureInfoErrorCodeEnum;
   /** Failure reason message. */
   errorMessage?: string;
+  /** Id of a failed printer. */
+  printerId?: string;
+  /** Failed printer. */
+  printer?: Printer;
 }
 export const FailureInfo = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    printer: S.optional(Printer),
-    printerId: S.optional(S.String),
     errorCode: S.optional(FailureInfoErrorCodeEnum),
     errorMessage: S.optional(S.String),
+    printerId: S.optional(S.String),
+    printer: S.optional(Printer),
   }),
 ).annotate({ identifier: "FailureInfo" }) as any as S.Schema<FailureInfo>;
 
@@ -482,30 +474,30 @@ export const BatchCreatePrintersResponse = /*@__PURE__*/ S.suspend(() =>
 
 /** Configuration for a print server. */
 export interface PrintServer {
-  /** Identifier. Resource name of the print server. Leave empty when creating. Format: `customers/{customer.id}/printServers/{print_server.id}` */
-  name?: string;
   /** Immutable. ID of the print server. Leave empty when creating. */
   id?: string;
-  /** ID of the organization unit (OU) that owns this print server. This value can only be set when the print server is initially created. If it's not populated, the print server is placed under the root OU. The `org_unit_id` can be retrieved using the [Directory API](https://developers.google.com/workspace/admin/directory/reference/rest/v1/orgunits). */
-  orgUnitId?: string;
-  /** Output only. Time when the print server was created. */
-  createTime?: string;
   /** Editable. Description of the print server (as shown in the Admin console). */
   description?: string;
+  /** Output only. Time when the print server was created. */
+  createTime?: string;
+  /** Identifier. Resource name of the print server. Leave empty when creating. Format: `customers/{customer.id}/printServers/{print_server.id}` */
+  name?: string;
   /** Editable. Display name of the print server (as shown in the Admin console). */
   displayName?: string;
   /** Editable. Print server URI. */
   uri?: string;
+  /** ID of the organization unit (OU) that owns this print server. This value can only be set when the print server is initially created. If it's not populated, the print server is placed under the root OU. The `org_unit_id` can be retrieved using the [Directory API](https://developers.google.com/workspace/admin/directory/reference/rest/v1/orgunits). */
+  orgUnitId?: string;
 }
 export const PrintServer = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.optional(S.String),
     id: S.optional(S.String),
-    orgUnitId: S.optional(S.String),
-    createTime: S.optional(S.String),
     description: S.optional(S.String),
+    createTime: S.optional(S.String),
+    name: S.optional(S.String),
     displayName: S.optional(S.String),
     uri: S.optional(S.String),
+    orgUnitId: S.optional(S.String),
   }),
 ).annotate({ identifier: "PrintServer" }) as any as S.Schema<PrintServer>;
 
@@ -521,9 +513,7 @@ export const CreatePrintServerRequest = /*@__PURE__*/ S.suspend(() =>
     printServer: S.optional(PrintServer),
     parent: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CreatePrintServerRequest",
-}) as any as S.Schema<CreatePrintServerRequest>;
+).annotate({ identifier: "CreatePrintServerRequest" }) as any as S.Schema<CreatePrintServerRequest>;
 
 export type CreatePrintServerRequestList = Array<CreatePrintServerRequest>;
 export const CreatePrintServerRequestList = /*@__PURE__*/ S.Array(
@@ -565,6 +555,11 @@ export const BatchCreatePrintServersCustomersChromePrintServersRequest = /*@__PU
   identifier: "BatchCreatePrintServersCustomersChromePrintServersRequest",
 }) as any as S.Schema<BatchCreatePrintServersCustomersChromePrintServersRequest>;
 
+export type PrintServerList = Array<PrintServer>;
+export const PrintServerList = /*@__PURE__*/ S.Array(
+  PrintServer,
+) as any as S.Schema<PrintServerList>;
+
 export type PrintServerFailureInfoErrorCodeEnum =
   | "OK"
   | "CANCELLED"
@@ -587,46 +582,39 @@ export const PrintServerFailureInfoErrorCodeEnum = S.String;
 
 /** Info about failures */
 export interface PrintServerFailureInfo {
-  /** Failed print server. */
-  printServer?: PrintServer;
   /** ID of a failed print server. */
   printServerId?: string;
   /** Failure reason message. */
   errorMessage?: string;
+  /** Failed print server. */
+  printServer?: PrintServer;
   /** Canonical code for why the update failed to apply. */
   errorCode?: PrintServerFailureInfoErrorCodeEnum;
 }
 export const PrintServerFailureInfo = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    printServer: S.optional(PrintServer),
     printServerId: S.optional(S.String),
     errorMessage: S.optional(S.String),
+    printServer: S.optional(PrintServer),
     errorCode: S.optional(PrintServerFailureInfoErrorCodeEnum),
   }),
-).annotate({
-  identifier: "PrintServerFailureInfo",
-}) as any as S.Schema<PrintServerFailureInfo>;
+).annotate({ identifier: "PrintServerFailureInfo" }) as any as S.Schema<PrintServerFailureInfo>;
 
 export type PrintServerFailureInfoList = Array<PrintServerFailureInfo>;
 export const PrintServerFailureInfoList = /*@__PURE__*/ S.Array(
   PrintServerFailureInfo,
 ) as any as S.Schema<PrintServerFailureInfoList>;
 
-export type PrintServerList = Array<PrintServer>;
-export const PrintServerList = /*@__PURE__*/ S.Array(
-  PrintServer,
-) as any as S.Schema<PrintServerList>;
-
 export interface BatchCreatePrintServersResponse {
-  /** A list of create failures. `PrintServer` IDs are not populated, as print servers were not created. */
-  failures?: PrintServerFailureInfoList;
   /** A list of successfully created print servers with their IDs populated. */
   printServers?: PrintServerList;
+  /** A list of create failures. `PrintServer` IDs are not populated, as print servers were not created. */
+  failures?: PrintServerFailureInfoList;
 }
 export const BatchCreatePrintServersResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    failures: S.optional(PrintServerFailureInfoList),
     printServers: S.optional(PrintServerList),
+    failures: S.optional(PrintServerFailureInfoList),
   }),
 ).annotate({
   identifier: "BatchCreatePrintServersResponse",
@@ -718,35 +706,35 @@ export const BatchDeletePrintServersCustomersChromePrintServersRequest = /*@__PU
 }) as any as S.Schema<BatchDeletePrintServersCustomersChromePrintServersRequest>;
 
 export interface BatchDeletePrintServersResponse {
-  /** A list of update failures. */
-  failedPrintServers?: PrintServerFailureInfoList;
   /** A list of print server IDs that were successfully deleted. */
   printServerIds?: StringList;
+  /** A list of update failures. */
+  failedPrintServers?: PrintServerFailureInfoList;
 }
 export const BatchDeletePrintServersResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    failedPrintServers: S.optional(PrintServerFailureInfoList),
     printServerIds: S.optional(StringList),
+    failedPrintServers: S.optional(PrintServerFailureInfoList),
   }),
 ).annotate({
   identifier: "BatchDeletePrintServersResponse",
 }) as any as S.Schema<BatchDeletePrintServersResponse>;
 
 export interface CountChromeOsDevicesCustomerDevicesChromeosRequest {
-  /** Required. Immutable ID of the Google Workspace account. */
-  customerId: string;
   /** Optional. The full path of the organizational unit (minus the leading `/`) or its unique ID. */
   orgUnitPath?: string;
   /** Optional. Return devices from all child orgunits, as well as the specified org unit. If this is set to true, 'orgUnitPath' must be provided. */
   includeChildOrgunits?: boolean;
+  /** Required. Immutable ID of the Google Workspace account. */
+  customerId: string;
   /** Optional. Search string in the format given at [List query operators](https://developers.google.com/workspace/admin/directory/v1/list-query-operators). */
   filter?: string;
 }
 export const CountChromeOsDevicesCustomerDevicesChromeosRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    customerId: S.String.pipe(T.Label()),
     orgUnitPath: S.optional(S.String.pipe(T.Query())),
     includeChildOrgunits: S.optional(S.Boolean.pipe(T.Query())),
+    customerId: S.String.pipe(T.Label()),
     filter: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
@@ -844,9 +832,20 @@ export const CreateGuestUsersRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://admin.googleapis.com/",
     }),
   ),
-).annotate({
-  identifier: "CreateGuestUsersRequest",
-}) as any as S.Schema<CreateGuestUsersRequest>;
+).annotate({ identifier: "CreateGuestUsersRequest" }) as any as S.Schema<CreateGuestUsersRequest>;
+
+/** JSON template for a set of custom properties (i.e. all fields in a particular schema) */
+export type UserCustomProperties = { [key: string]: unknown | undefined };
+export const UserCustomProperties = /*@__PURE__*/ S.Record(
+  S.String,
+  S.Unknown,
+) as any as S.Schema<UserCustomProperties>;
+
+export type UserCustomPropertiesMap = { [key: string]: UserCustomProperties | undefined };
+export const UserCustomPropertiesMap = /*@__PURE__*/ S.Record(
+  S.String,
+  UserCustomProperties,
+) as any as S.Schema<UserCustomPropertiesMap>;
 
 /** Account info specific to Guest users. */
 export interface GuestAccountInfo {
@@ -857,211 +856,194 @@ export const GuestAccountInfo = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     primaryGuestEmail: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GuestAccountInfo",
-}) as any as S.Schema<GuestAccountInfo>;
-
-/** JSON template for a set of custom properties (i.e. all fields in a particular schema) */
-export type UserCustomProperties = { [key: string]: unknown | undefined };
-export const UserCustomProperties = /*@__PURE__*/ S.Record(
-  S.String,
-  S.Unknown,
-) as any as S.Schema<UserCustomProperties>;
-
-export type UserCustomPropertiesMap = {
-  [key: string]: UserCustomProperties | undefined;
-};
-export const UserCustomPropertiesMap = /*@__PURE__*/ S.Record(
-  S.String,
-  UserCustomProperties,
-) as any as S.Schema<UserCustomPropertiesMap>;
+).annotate({ identifier: "GuestAccountInfo" }) as any as S.Schema<GuestAccountInfo>;
 
 export interface UserName {
   /** The user's display name. Limit: 256 characters. */
   displayName?: string;
   /** The user's full name formed by concatenating the first and last name values. */
   fullName?: string;
-  /** The user's last name. Required when creating a user account. */
-  familyName?: string;
   /** The user's first name. Required when creating a user account. */
   givenName?: string;
+  /** The user's last name. Required when creating a user account. */
+  familyName?: string;
 }
 export const UserName = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     displayName: S.optional(S.String),
     fullName: S.optional(S.String),
-    familyName: S.optional(S.String),
     givenName: S.optional(S.String),
+    familyName: S.optional(S.String),
   }),
 ).annotate({ identifier: "UserName" }) as any as S.Schema<UserName>;
 
 /** The Directory API allows you to create and manage your account's users, user aliases, and user Google profile photos. For more information about common tasks, see the [User Accounts Developer's Guide](https://developers.google.com/workspace/admin/directory/v1/guides/manage-users.html) and the [User Aliases Developer's Guide](https://developers.google.com/workspace/admin/directory/v1/guides/manage-user-aliases.html). */
 export interface User {
-  /** The list of the user's relationships to other users. The maximum allowed data size for this field is 2KB. */
-  relations?: unknown;
-  /** Indicates if user is suspended. */
-  suspended?: boolean;
-  /** The list of the user's addresses. The maximum allowed data size for this field is 10KB. */
-  addresses?: unknown;
-  /** Output only. Indicates if the user is a delegated administrator. Delegated administrators are supported by the API but cannot create or undelete users, or make users administrators. These requests are ignored by the API service. Roles and privileges for administrators are assigned using the [Admin console](https://support.google.com/a/answer/33325). */
-  isDelegatedAdmin?: boolean;
-  /** Output only. User's account archival time. (Read-only) */
-  archivalTime?: string;
-  /** Stores the hash format of the `password` property. The following `hashFunction` values are allowed: * `MD5` - Accepts simple hex-encoded values. * `SHA-1` - Accepts simple hex-encoded values. * `crypt` - Compliant with the [C crypt library](https://en.wikipedia.org/wiki/Crypt_%28C%29). Supports the DES, MD5 (hash prefix `$1$`), SHA-256 (hash prefix `$5$`), and SHA-512 (hash prefix `$6$`) hash algorithms. If rounds are specified as part of the prefix, they must be 10,000 or fewer. */
-  hashFunction?: string;
-  /** User's password */
-  password?: string;
-  /** Output only. Has the reason a user account is suspended either by the administrator or by Google at the time of suspension. The property is returned only if the `suspended` property is `true`. */
-  suspensionReason?: string;
-  /** The list of the user's email addresses. The maximum allowed data size for this field is 10KB. This excludes `publicKeyEncryptionCertificates`. */
-  emails?: unknown;
-  deletionTime?: string;
-  /** The full path of the parent organization associated with the user. If the parent organization is the top-level, it is represented as a forward slash (`/`). */
-  orgUnitPath?: string;
-  /** A list of SSH public keys. */
-  sshPublicKeys?: unknown;
-  /** The list of external IDs for the user, such as an employee or network ID. The maximum allowed data size for this field is 2KB. */
-  externalIds?: unknown;
-  /** The user's gender. The maximum allowed data size for this field is 1KB. */
-  gender?: unknown;
-  /** Output only. The customer ID to [retrieve all account users](https://developers.google.com/workspace/admin/directory/v1/guides/manage-users.html#get_all_users). You can use the alias `my_customer` to represent your account's `customerId`. As a reseller administrator, you can use the resold customer account's `customerId`. To get a `customerId`, use the account's primary domain in the `domain` parameter of a [users.list](https://developers.google.com/workspace/admin/directory/v1/reference/users/list) request. */
-  customerId?: string;
-  /** The user's locations. The maximum allowed data size for this field is 10KB. */
-  locations?: unknown;
-  /** If `true`, the user's IP address is subject to a deprecated IP address [`allowlist`](https://support.google.com/a/answer/60752) configuration. */
-  ipWhitelisted?: boolean;
-  /** The list of the user's Instant Messenger (IM) accounts. A user account can have multiple ims properties. But, only one of these ims properties can be the primary IM contact. The maximum allowed data size for this field is 2KB. */
-  ims?: unknown;
-  /** Immutable. Indicates if the inserted user is a guest. */
-  isGuestUser?: boolean;
-  /** Output only. Indicates a user with super administrator privileges. The `isAdmin` property can only be edited in the [Make a user an administrator](https://developers.google.com/workspace/admin/directory/v1/guides/manage-users.html#make_admin) operation ( [makeAdmin](https://developers.google.com/workspace/admin/directory/v1/reference/users/makeAdmin.html) method). If edited in the user [insert](https://developers.google.com/workspace/admin/directory/v1/reference/users/insert.html) or [update](https://developers.google.com/workspace/admin/directory/v1/reference/users/update.html) methods, the edit is ignored by the API service. */
-  isAdmin?: boolean;
-  /** Immutable. Additional guest-related metadata fields */
-  guestAccountInfo?: GuestAccountInfo;
-  /** The list of the user's keywords. The maximum allowed data size for this field is 1KB. */
-  keywords?: unknown;
-  /** The user's websites. The maximum allowed data size for this field is 2KB. */
-  websites?: unknown;
-  /** Output only. ETag of the resource. */
-  etag?: string;
-  /** The user's primary email address. This property is required in a request to create a user account. The `primaryEmail` must be unique and cannot be an alias of another user. */
-  primaryEmail?: string;
-  /** The list of [POSIX](https://www.opengroup.org/austin/papers/posix_faq.html) account information for the user. */
-  posixAccounts?: unknown;
-  /** Output only. The URL of the user's profile photo. The URL might be temporary or private. */
-  thumbnailPhotoUrl?: string;
-  /** Recovery phone of the user. The phone number must be in the E.164 format, starting with the plus sign (+). Example: *+16506661212*. */
-  recoveryPhone?: string;
-  /** Recovery email of the user. */
-  recoveryEmail?: string;
-  /** Output only. User's account suspension time. (Read-only) */
-  suspensionTime?: string;
-  /** Output only. This property is `true` if the user has completed an initial login and accepted the Terms of Service agreement. */
-  agreedToTerms?: boolean;
-  /** The user's languages. The maximum allowed data size for this field is 1KB. */
-  languages?: unknown;
-  /** Custom fields of the user. The key is a `schema_name` and its values are `'field_name': 'field_value'`. */
-  customSchemas?: UserCustomPropertiesMap;
-  /** Output only. The list of the user's non-editable alias email addresses. These are typically outside the account's primary domain or sub-domain. */
-  nonEditableAliases?: StringList;
-  /** Output only. The type of the API resource. For Users resources, the value is `admin#directory#user`. */
-  kind?: string;
-  /** The list of the user's phone numbers. The maximum allowed data size for this field is 1KB. */
-  phones?: unknown;
   /** Notes for the user. */
   notes?: unknown;
-  /** Holds the given and family names of the user, and the read-only `fullName` value. The maximum number of characters in the `givenName` and in the `familyName` values is 60. In addition, name values support unicode/UTF-8 characters, and can contain spaces, letters (a-z), numbers (0-9), dashes (-), forward slashes (/), and periods (.). For more information about character usage rules, see the [administration help center](https://support.google.com/a/answer/9193374). Maximum allowed data size for this field is 1KB. */
-  name?: UserName;
-  /** Indicates if user is archived. */
-  archived?: boolean;
-  /** The list of organizations the user belongs to. The maximum allowed data size for this field is 10KB. */
-  organizations?: unknown;
-  /** Output only. Is enrolled in 2-step verification (Read-only) */
-  isEnrolledIn2Sv?: boolean;
-  /** Output only. Indicates if the user's Google mailbox is created. This property is only applicable if the user has been assigned a Gmail license. */
-  isMailboxSetup?: boolean;
-  /** Output only. ETag of the user's photo (Read-only) */
-  thumbnailPhotoEtag?: string;
-  /** The unique ID for the user. A user `id` can be used as a user request URI's `userKey`. */
-  id?: string;
-  /** Output only. The list of the user's alias email addresses. */
-  aliases?: StringList;
+  /** Stores the hash format of the `password` property. The following `hashFunction` values are allowed: * `MD5` - Accepts simple hex-encoded values. * `SHA-1` - Accepts simple hex-encoded values. * `crypt` - Compliant with the [C crypt library](https://en.wikipedia.org/wiki/Crypt_%28C%29). Supports the DES, MD5 (hash prefix `$1$`), SHA-256 (hash prefix `$5$`), and SHA-512 (hash prefix `$6$`) hash algorithms. If rounds are specified as part of the prefix, they must be 10,000 or fewer. */
+  hashFunction?: string;
   /** User's last login time. (Read-only) */
   lastLoginTime?: string;
+  /** Output only. ETag of the user's photo (Read-only) */
+  thumbnailPhotoEtag?: string;
+  /** User's password */
+  password?: string;
+  /** Immutable. Indicates if the inserted user is a guest. */
+  isGuestUser?: boolean;
+  /** The user's locations. The maximum allowed data size for this field is 10KB. */
+  locations?: unknown;
+  /** The list of the user's phone numbers. The maximum allowed data size for this field is 1KB. */
+  phones?: unknown;
+  deletionTime?: string;
+  /** Output only. User's account archival time. (Read-only) */
+  archivalTime?: string;
   /** User's G Suite account creation time. (Read-only) */
   creationTime?: string;
   /** Indicates if the user's profile is visible in the Google Workspace global address list when the contact sharing feature is enabled for the domain. For more information about excluding user profiles, see the [administration help center](https://support.google.com/a/answer/1285988). */
   includeInGlobalAddressList?: boolean;
+  /** The unique ID for the user. A user `id` can be used as a user request URI's `userKey`. */
+  id?: string;
+  /** The user's gender. The maximum allowed data size for this field is 1KB. */
+  gender?: unknown;
+  /** Custom fields of the user. The key is a `schema_name` and its values are `'field_name': 'field_value'`. */
+  customSchemas?: UserCustomPropertiesMap;
+  /** Output only. The type of the API resource. For Users resources, the value is `admin#directory#user`. */
+  kind?: string;
+  /** Output only. The list of the user's alias email addresses. */
+  aliases?: StringList;
+  /** A list of SSH public keys. */
+  sshPublicKeys?: unknown;
+  /** The list of external IDs for the user, such as an employee or network ID. The maximum allowed data size for this field is 2KB. */
+  externalIds?: unknown;
+  /** Output only. The URL of the user's profile photo. The URL might be temporary or private. */
+  thumbnailPhotoUrl?: string;
+  /** Recovery email of the user. */
+  recoveryEmail?: string;
+  /** The user's websites. The maximum allowed data size for this field is 2KB. */
+  websites?: unknown;
+  /** The list of [POSIX](https://www.opengroup.org/austin/papers/posix_faq.html) account information for the user. */
+  posixAccounts?: unknown;
+  /** Output only. The customer ID to [retrieve all account users](https://developers.google.com/workspace/admin/directory/v1/guides/manage-users.html#get_all_users). You can use the alias `my_customer` to represent your account's `customerId`. As a reseller administrator, you can use the resold customer account's `customerId`. To get a `customerId`, use the account's primary domain in the `domain` parameter of a [users.list](https://developers.google.com/workspace/admin/directory/v1/reference/users/list) request. */
+  customerId?: string;
+  /** Indicates if user is suspended. */
+  suspended?: boolean;
+  /** The list of the user's Instant Messenger (IM) accounts. A user account can have multiple ims properties. But, only one of these ims properties can be the primary IM contact. The maximum allowed data size for this field is 2KB. */
+  ims?: unknown;
+  /** Output only. Indicates if the user is a delegated administrator. Delegated administrators are supported by the API but cannot create or undelete users, or make users administrators. These requests are ignored by the API service. Roles and privileges for administrators are assigned using the [Admin console](https://support.google.com/a/answer/33325). */
+  isDelegatedAdmin?: boolean;
+  /** Output only. Has the reason a user account is suspended either by the administrator or by Google at the time of suspension. The property is returned only if the `suspended` property is `true`. */
+  suspensionReason?: string;
+  /** The list of the user's addresses. The maximum allowed data size for this field is 10KB. */
+  addresses?: unknown;
+  /** The user's languages. The maximum allowed data size for this field is 1KB. */
+  languages?: unknown;
+  /** Recovery phone of the user. The phone number must be in the E.164 format, starting with the plus sign (+). Example: *+16506661212*. */
+  recoveryPhone?: string;
+  /** Output only. User's account suspension time. (Read-only) */
+  suspensionTime?: string;
+  /** Output only. Is enrolled in 2-step verification (Read-only) */
+  isEnrolledIn2Sv?: boolean;
   /** Output only. Is 2-step verification enforced (Read-only) */
   isEnforcedIn2Sv?: boolean;
+  /** The list of the user's keywords. The maximum allowed data size for this field is 1KB. */
+  keywords?: unknown;
   /** Indicates if the user is forced to change their password at next login. This setting doesn't apply when [the user signs in via a third-party identity provider](https://support.google.com/a/answer/60224). */
   changePasswordAtNextLogin?: boolean;
+  /** Output only. Indicates if the user's Google mailbox is created. This property is only applicable if the user has been assigned a Gmail license. */
+  isMailboxSetup?: boolean;
+  /** Output only. The list of the user's non-editable alias email addresses. These are typically outside the account's primary domain or sub-domain. */
+  nonEditableAliases?: StringList;
+  /** Output only. ETag of the resource. */
+  etag?: string;
+  /** Immutable. Additional guest-related metadata fields */
+  guestAccountInfo?: GuestAccountInfo;
+  /** Indicates if user is archived. */
+  archived?: boolean;
+  /** The list of the user's email addresses. The maximum allowed data size for this field is 10KB. This excludes `publicKeyEncryptionCertificates`. */
+  emails?: unknown;
+  /** The list of the user's relationships to other users. The maximum allowed data size for this field is 2KB. */
+  relations?: unknown;
+  /** Output only. Indicates a user with super administrator privileges. The `isAdmin` property can only be edited in the [Make a user an administrator](https://developers.google.com/workspace/admin/directory/v1/guides/manage-users.html#make_admin) operation ( [makeAdmin](https://developers.google.com/workspace/admin/directory/v1/reference/users/makeAdmin.html) method). If edited in the user [insert](https://developers.google.com/workspace/admin/directory/v1/reference/users/insert.html) or [update](https://developers.google.com/workspace/admin/directory/v1/reference/users/update.html) methods, the edit is ignored by the API service. */
+  isAdmin?: boolean;
+  /** Holds the given and family names of the user, and the read-only `fullName` value. The maximum number of characters in the `givenName` and in the `familyName` values is 60. In addition, name values support unicode/UTF-8 characters, and can contain spaces, letters (a-z), numbers (0-9), dashes (-), forward slashes (/), and periods (.). For more information about character usage rules, see the [administration help center](https://support.google.com/a/answer/9193374). Maximum allowed data size for this field is 1KB. */
+  name?: UserName;
+  /** If `true`, the user's IP address is subject to a deprecated IP address [`allowlist`](https://support.google.com/a/answer/60752) configuration. */
+  ipWhitelisted?: boolean;
+  /** Output only. This property is `true` if the user has completed an initial login and accepted the Terms of Service agreement. */
+  agreedToTerms?: boolean;
+  /** The user's primary email address. This property is required in a request to create a user account. The `primaryEmail` must be unique and cannot be an alias of another user. */
+  primaryEmail?: string;
+  /** The full path of the parent organization associated with the user. If the parent organization is the top-level, it is represented as a forward slash (`/`). */
+  orgUnitPath?: string;
+  /** The list of organizations the user belongs to. The maximum allowed data size for this field is 10KB. */
+  organizations?: unknown;
 }
 export const User = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    relations: S.optional(S.Unknown),
-    suspended: S.optional(S.Boolean),
-    addresses: S.optional(S.Unknown),
-    isDelegatedAdmin: S.optional(S.Boolean),
-    archivalTime: S.optional(S.String),
-    hashFunction: S.optional(S.String),
-    password: S.optional(S.String),
-    suspensionReason: S.optional(S.String),
-    emails: S.optional(S.Unknown),
-    deletionTime: S.optional(S.String),
-    orgUnitPath: S.optional(S.String),
-    sshPublicKeys: S.optional(S.Unknown),
-    externalIds: S.optional(S.Unknown),
-    gender: S.optional(S.Unknown),
-    customerId: S.optional(S.String),
-    locations: S.optional(S.Unknown),
-    ipWhitelisted: S.optional(S.Boolean),
-    ims: S.optional(S.Unknown),
-    isGuestUser: S.optional(S.Boolean),
-    isAdmin: S.optional(S.Boolean),
-    guestAccountInfo: S.optional(GuestAccountInfo),
-    keywords: S.optional(S.Unknown),
-    websites: S.optional(S.Unknown),
-    etag: S.optional(S.String),
-    primaryEmail: S.optional(S.String),
-    posixAccounts: S.optional(S.Unknown),
-    thumbnailPhotoUrl: S.optional(S.String),
-    recoveryPhone: S.optional(S.String),
-    recoveryEmail: S.optional(S.String),
-    suspensionTime: S.optional(S.String),
-    agreedToTerms: S.optional(S.Boolean),
-    languages: S.optional(S.Unknown),
-    customSchemas: S.optional(UserCustomPropertiesMap),
-    nonEditableAliases: S.optional(StringList),
-    kind: S.optional(S.String),
-    phones: S.optional(S.Unknown),
     notes: S.optional(S.Unknown),
-    name: S.optional(UserName),
-    archived: S.optional(S.Boolean),
-    organizations: S.optional(S.Unknown),
-    isEnrolledIn2Sv: S.optional(S.Boolean),
-    isMailboxSetup: S.optional(S.Boolean),
-    thumbnailPhotoEtag: S.optional(S.String),
-    id: S.optional(S.String),
-    aliases: S.optional(StringList),
+    hashFunction: S.optional(S.String),
     lastLoginTime: S.optional(S.String),
+    thumbnailPhotoEtag: S.optional(S.String),
+    password: S.optional(S.String),
+    isGuestUser: S.optional(S.Boolean),
+    locations: S.optional(S.Unknown),
+    phones: S.optional(S.Unknown),
+    deletionTime: S.optional(S.String),
+    archivalTime: S.optional(S.String),
     creationTime: S.optional(S.String),
     includeInGlobalAddressList: S.optional(S.Boolean),
+    id: S.optional(S.String),
+    gender: S.optional(S.Unknown),
+    customSchemas: S.optional(UserCustomPropertiesMap),
+    kind: S.optional(S.String),
+    aliases: S.optional(StringList),
+    sshPublicKeys: S.optional(S.Unknown),
+    externalIds: S.optional(S.Unknown),
+    thumbnailPhotoUrl: S.optional(S.String),
+    recoveryEmail: S.optional(S.String),
+    websites: S.optional(S.Unknown),
+    posixAccounts: S.optional(S.Unknown),
+    customerId: S.optional(S.String),
+    suspended: S.optional(S.Boolean),
+    ims: S.optional(S.Unknown),
+    isDelegatedAdmin: S.optional(S.Boolean),
+    suspensionReason: S.optional(S.String),
+    addresses: S.optional(S.Unknown),
+    languages: S.optional(S.Unknown),
+    recoveryPhone: S.optional(S.String),
+    suspensionTime: S.optional(S.String),
+    isEnrolledIn2Sv: S.optional(S.Boolean),
     isEnforcedIn2Sv: S.optional(S.Boolean),
+    keywords: S.optional(S.Unknown),
     changePasswordAtNextLogin: S.optional(S.Boolean),
+    isMailboxSetup: S.optional(S.Boolean),
+    nonEditableAliases: S.optional(StringList),
+    etag: S.optional(S.String),
+    guestAccountInfo: S.optional(GuestAccountInfo),
+    archived: S.optional(S.Boolean),
+    emails: S.optional(S.Unknown),
+    relations: S.optional(S.Unknown),
+    isAdmin: S.optional(S.Boolean),
+    name: S.optional(UserName),
+    ipWhitelisted: S.optional(S.Boolean),
+    agreedToTerms: S.optional(S.Boolean),
+    primaryEmail: S.optional(S.String),
+    orgUnitPath: S.optional(S.String),
+    organizations: S.optional(S.Unknown),
   }),
 ).annotate({ identifier: "User" }) as any as S.Schema<User>;
 
 export interface DeleteAspsRequest {
-  /** Identifies the user in the API request. The value can be the user's primary email address, alias email address, or unique user ID. */
-  userKey: string;
   /** The unique ID of the ASP to be deleted. */
   codeId: number;
+  /** Identifies the user in the API request. The value can be the user's primary email address, alias email address, or unique user ID. */
+  userKey: string;
 }
 export const DeleteAspsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    userKey: S.String.pipe(T.Label()),
     codeId: S.Number.pipe(T.Label()),
+    userKey: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "DELETE",
@@ -1069,9 +1051,7 @@ export const DeleteAspsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://admin.googleapis.com/",
     }),
   ),
-).annotate({
-  identifier: "DeleteAspsRequest",
-}) as any as S.Schema<DeleteAspsRequest>;
+).annotate({ identifier: "DeleteAspsRequest" }) as any as S.Schema<DeleteAspsRequest>;
 
 export interface DeleteAspsResponse {}
 export const DeleteAspsResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1121,15 +1101,15 @@ export const DeleteCustomersChromePrintServersRequest = /*@__PURE__*/ S.suspend(
 }) as any as S.Schema<DeleteCustomersChromePrintServersRequest>;
 
 export interface DeleteDomainAliasesRequest {
-  /** Immutable ID of the Google Workspace account. */
-  customer: string;
   /** Name of domain alias to be retrieved. */
   domainAliasName: string;
+  /** Immutable ID of the Google Workspace account. */
+  customer: string;
 }
 export const DeleteDomainAliasesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    customer: S.String.pipe(T.Label()),
     domainAliasName: S.String.pipe(T.Label()),
+    customer: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "DELETE",
@@ -1147,15 +1127,15 @@ export const DeleteDomainAliasesResponse = /*@__PURE__*/ S.suspend(() => S.Struc
 }) as any as S.Schema<DeleteDomainAliasesResponse>;
 
 export interface DeleteDomainsRequest {
-  /** Name of domain to be deleted */
-  domainName: string;
   /** Immutable ID of the Google Workspace account. */
   customer: string;
+  /** Name of domain to be deleted */
+  domainName: string;
 }
 export const DeleteDomainsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    domainName: S.String.pipe(T.Label()),
     customer: S.String.pipe(T.Label()),
+    domainName: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "DELETE",
@@ -1163,9 +1143,7 @@ export const DeleteDomainsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://admin.googleapis.com/",
     }),
   ),
-).annotate({
-  identifier: "DeleteDomainsRequest",
-}) as any as S.Schema<DeleteDomainsRequest>;
+).annotate({ identifier: "DeleteDomainsRequest" }) as any as S.Schema<DeleteDomainsRequest>;
 
 export interface DeleteDomainsResponse {}
 export const DeleteDomainsResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1186,9 +1164,7 @@ export const DeleteGroupsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://admin.googleapis.com/",
     }),
   ),
-).annotate({
-  identifier: "DeleteGroupsRequest",
-}) as any as S.Schema<DeleteGroupsRequest>;
+).annotate({ identifier: "DeleteGroupsRequest" }) as any as S.Schema<DeleteGroupsRequest>;
 
 export interface DeleteGroupsResponse {}
 export const DeleteGroupsResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1196,15 +1172,15 @@ export const DeleteGroupsResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).
 }) as any as S.Schema<DeleteGroupsResponse>;
 
 export interface DeleteGroupsAliasesRequest {
-  /** The alias to be removed */
-  alias: string;
   /** Identifies the group in the API request. The value can be the group's email address, group alias, or the unique group ID. */
   groupKey: string;
+  /** The alias to be removed */
+  alias: string;
 }
 export const DeleteGroupsAliasesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    alias: S.String.pipe(T.Label()),
     groupKey: S.String.pipe(T.Label()),
+    alias: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "DELETE",
@@ -1238,9 +1214,7 @@ export const DeleteMembersRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://admin.googleapis.com/",
     }),
   ),
-).annotate({
-  identifier: "DeleteMembersRequest",
-}) as any as S.Schema<DeleteMembersRequest>;
+).annotate({ identifier: "DeleteMembersRequest" }) as any as S.Schema<DeleteMembersRequest>;
 
 export interface DeleteMembersResponse {}
 export const DeleteMembersResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1274,15 +1248,15 @@ export const DeleteMobiledevicesResponse = /*@__PURE__*/ S.suspend(() => S.Struc
 }) as any as S.Schema<DeleteMobiledevicesResponse>;
 
 export interface DeleteOrgunitsRequest {
-  /** The unique ID for the customer's Google Workspace account. As an account administrator, you can also use the `my_customer` alias to represent your account's `customerId`. The `customerId` is also returned as part of the [Users resource](https://developers.google.com/workspace/admin/directory/v1/reference/users). */
-  customerId: string;
   /** The full path of the organizational unit (minus the leading `/`) or its unique ID. */
   orgUnitPath: string;
+  /** The unique ID for the customer's Google Workspace account. As an account administrator, you can also use the `my_customer` alias to represent your account's `customerId`. The `customerId` is also returned as part of the [Users resource](https://developers.google.com/workspace/admin/directory/v1/reference/users). */
+  customerId: string;
 }
 export const DeleteOrgunitsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    customerId: S.String.pipe(T.Label()),
     orgUnitPath: S.String.pipe(T.Label()),
+    customerId: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "DELETE",
@@ -1290,9 +1264,7 @@ export const DeleteOrgunitsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://admin.googleapis.com/",
     }),
   ),
-).annotate({
-  identifier: "DeleteOrgunitsRequest",
-}) as any as S.Schema<DeleteOrgunitsRequest>;
+).annotate({ identifier: "DeleteOrgunitsRequest" }) as any as S.Schema<DeleteOrgunitsRequest>;
 
 export interface DeleteOrgunitsResponse {}
 export const DeleteOrgunitsResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1378,21 +1350,19 @@ export const DeleteResourcesFeaturesRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface DeleteResourcesFeaturesResponse {}
 export const DeleteResourcesFeaturesResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "DeleteResourcesFeaturesResponse",
-  },
+  { identifier: "DeleteResourcesFeaturesResponse" },
 ) as any as S.Schema<DeleteResourcesFeaturesResponse>;
 
 export interface DeleteRoleAssignmentsRequest {
-  /** Immutable ID of the role assignment. */
-  roleAssignmentId: string;
   /** Immutable ID of the Google Workspace account. */
   customer: string;
+  /** Immutable ID of the role assignment. */
+  roleAssignmentId: string;
 }
 export const DeleteRoleAssignmentsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    roleAssignmentId: S.String.pipe(T.Label()),
     customer: S.String.pipe(T.Label()),
+    roleAssignmentId: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "DELETE",
@@ -1426,9 +1396,7 @@ export const DeleteRolesRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://admin.googleapis.com/",
     }),
   ),
-).annotate({
-  identifier: "DeleteRolesRequest",
-}) as any as S.Schema<DeleteRolesRequest>;
+).annotate({ identifier: "DeleteRolesRequest" }) as any as S.Schema<DeleteRolesRequest>;
 
 export interface DeleteRolesResponse {}
 export const DeleteRolesResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1436,15 +1404,15 @@ export const DeleteRolesResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).a
 }) as any as S.Schema<DeleteRolesResponse>;
 
 export interface DeleteSchemasRequest {
-  /** Immutable ID of the Google Workspace account. */
-  customerId: string;
   /** Name or immutable ID of the schema. */
   schemaKey: string;
+  /** Immutable ID of the Google Workspace account. */
+  customerId: string;
 }
 export const DeleteSchemasRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    customerId: S.String.pipe(T.Label()),
     schemaKey: S.String.pipe(T.Label()),
+    customerId: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "DELETE",
@@ -1452,9 +1420,7 @@ export const DeleteSchemasRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://admin.googleapis.com/",
     }),
   ),
-).annotate({
-  identifier: "DeleteSchemasRequest",
-}) as any as S.Schema<DeleteSchemasRequest>;
+).annotate({ identifier: "DeleteSchemasRequest" }) as any as S.Schema<DeleteSchemasRequest>;
 
 export interface DeleteSchemasResponse {}
 export const DeleteSchemasResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1478,9 +1444,7 @@ export const DeleteTokensRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://admin.googleapis.com/",
     }),
   ),
-).annotate({
-  identifier: "DeleteTokensRequest",
-}) as any as S.Schema<DeleteTokensRequest>;
+).annotate({ identifier: "DeleteTokensRequest" }) as any as S.Schema<DeleteTokensRequest>;
 
 export interface DeleteTokensResponse {}
 export const DeleteTokensResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1501,9 +1465,7 @@ export const DeleteUsersRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://admin.googleapis.com/",
     }),
   ),
-).annotate({
-  identifier: "DeleteUsersRequest",
-}) as any as S.Schema<DeleteUsersRequest>;
+).annotate({ identifier: "DeleteUsersRequest" }) as any as S.Schema<DeleteUsersRequest>;
 
 export interface DeleteUsersResponse {}
 export const DeleteUsersResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1511,15 +1473,15 @@ export const DeleteUsersResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).a
 }) as any as S.Schema<DeleteUsersResponse>;
 
 export interface DeleteUsersAliasesRequest {
-  /** Identifies the user in the API request. The value can be the user's primary email address, alias email address, or unique user ID. */
-  userKey: string;
   /** The alias to be removed. */
   alias: string;
+  /** Identifies the user in the API request. The value can be the user's primary email address, alias email address, or unique user ID. */
+  userKey: string;
 }
 export const DeleteUsersAliasesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    userKey: S.String.pipe(T.Label()),
     alias: S.String.pipe(T.Label()),
+    userKey: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "DELETE",
@@ -1550,9 +1512,7 @@ export const DeleteUsersPhotosRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://admin.googleapis.com/",
     }),
   ),
-).annotate({
-  identifier: "DeleteUsersPhotosRequest",
-}) as any as S.Schema<DeleteUsersPhotosRequest>;
+).annotate({ identifier: "DeleteUsersPhotosRequest" }) as any as S.Schema<DeleteUsersPhotosRequest>;
 
 export interface DeleteUsersPhotosResponse {}
 export const DeleteUsersPhotosResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1585,15 +1545,15 @@ export const GenerateVerificationCodesResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GenerateVerificationCodesResponse>;
 
 export interface GetAspsRequest {
-  /** Identifies the user in the API request. The value can be the user's primary email address, alias email address, or unique user ID. */
-  userKey: string;
   /** The unique ID of the ASP. */
   codeId: number;
+  /** Identifies the user in the API request. The value can be the user's primary email address, alias email address, or unique user ID. */
+  userKey: string;
 }
 export const GetAspsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    userKey: S.String.pipe(T.Label()),
     codeId: S.Number.pipe(T.Label()),
+    userKey: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -1605,30 +1565,30 @@ export const GetAspsRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** An application-specific password (ASP) is used with applications that do not accept a verification code when logging into the application on certain devices. The ASP access code is used instead of the login and password you commonly use when accessing an application through a browser. For more information about ASPs and how to create one, see the [help center](https://support.google.com/a/answer/2537800#asp). */
 export interface Asp {
-  /** The unique ID of the ASP. */
-  codeId?: number;
+  /** The name of the application that the user, represented by their `userId`, entered when the ASP was created. */
+  name?: string;
   /** The type of the API resource. This is always `admin#directory#asp`. */
   kind?: string;
+  /** ETag of the ASP. */
+  etag?: string;
+  /** The unique ID of the ASP. */
+  codeId?: number;
   /** The time when the ASP was created. Expressed in [Unix time](https://en.wikipedia.org/wiki/Epoch_time) format. */
   creationTime?: string;
   /** The time when the ASP was last used. Expressed in [Unix time](https://en.wikipedia.org/wiki/Epoch_time) format. */
   lastTimeUsed?: string;
   /** The unique ID of the user who issued the ASP. */
   userKey?: string;
-  /** The name of the application that the user, represented by their `userId`, entered when the ASP was created. */
-  name?: string;
-  /** ETag of the ASP. */
-  etag?: string;
 }
 export const Asp = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    codeId: S.optional(S.Number),
+    name: S.optional(S.String),
     kind: S.optional(S.String),
+    etag: S.optional(S.String),
+    codeId: S.optional(S.Number),
     creationTime: S.optional(S.String),
     lastTimeUsed: S.optional(S.String),
     userKey: S.optional(S.String),
-    name: S.optional(S.String),
-    etag: S.optional(S.String),
   }),
 ).annotate({ identifier: "Asp" }) as any as S.Schema<Asp>;
 
@@ -1636,18 +1596,18 @@ export type GetChromeosdevicesProjectionEnum = "BASIC" | "FULL";
 export const GetChromeosdevicesProjectionEnum = S.String;
 
 export interface GetChromeosdevicesRequest {
-  /** Determines whether the response contains the full list of properties or only a subset. */
-  projection?: GetChromeosdevicesProjectionEnum | (string & {});
-  /** The unique ID for the customer's Google Workspace account. As an account administrator, you can also use the `my_customer` alias to represent your account's `customerId`. The `customerId` is also returned as part of the [Users resource](https://developers.google.com/workspace/admin/directory/v1/reference/users). */
-  customerId: string;
   /** The unique ID of the device. The `deviceId`s are returned in the response from the [chromeosdevices.list](https://developers.google.com/workspace/admin/directory/v1/reference/chromeosdevices/list) method. */
   deviceId: string;
+  /** The unique ID for the customer's Google Workspace account. As an account administrator, you can also use the `my_customer` alias to represent your account's `customerId`. The `customerId` is also returned as part of the [Users resource](https://developers.google.com/workspace/admin/directory/v1/reference/users). */
+  customerId: string;
+  /** Determines whether the response contains the full list of properties or only a subset. */
+  projection?: GetChromeosdevicesProjectionEnum | (string & {});
 }
 export const GetChromeosdevicesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    projection: S.optional(GetChromeosdevicesProjectionEnum.pipe(T.Query())),
-    customerId: S.String.pipe(T.Label()),
     deviceId: S.String.pipe(T.Label()),
+    customerId: S.String.pipe(T.Label()),
+    projection: S.optional(GetChromeosdevicesProjectionEnum.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -1658,296 +1618,6 @@ export const GetChromeosdevicesRequest = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "GetChromeosdevicesRequest",
 }) as any as S.Schema<GetChromeosdevicesRequest>;
-
-export interface ChromeOsDeviceCpuInfoItemLogicalCpusItemCStatesItem {
-  /** Time spent in the state since the last reboot. */
-  sessionDuration?: string;
-  /** Name of the state. */
-  displayName?: string;
-}
-export const ChromeOsDeviceCpuInfoItemLogicalCpusItemCStatesItem = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    sessionDuration: S.optional(S.String),
-    displayName: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ChromeOsDeviceCpuInfoItemLogicalCpusItemCStatesItem",
-}) as any as S.Schema<ChromeOsDeviceCpuInfoItemLogicalCpusItemCStatesItem>;
-
-export type ChromeOsDeviceCpuInfoItemLogicalCpusItemCStatesItemList =
-  Array<ChromeOsDeviceCpuInfoItemLogicalCpusItemCStatesItem>;
-export const ChromeOsDeviceCpuInfoItemLogicalCpusItemCStatesItemList = /*@__PURE__*/ S.Array(
-  ChromeOsDeviceCpuInfoItemLogicalCpusItemCStatesItem,
-) as any as S.Schema<ChromeOsDeviceCpuInfoItemLogicalCpusItemCStatesItemList>;
-
-export interface ChromeOsDeviceCpuInfoItemLogicalCpusItem {
-  /** Maximum frequency the CPU is allowed to run at, by policy. */
-  maxScalingFrequencyKhz?: number;
-  /** Current frequency the CPU is running at. */
-  currentScalingFrequencyKhz?: number;
-  /** C-States indicate the power consumption state of the CPU. For more information look at documentation published by the CPU maker. */
-  cStates?: ChromeOsDeviceCpuInfoItemLogicalCpusItemCStatesItemList;
-  /** Idle time since last boot. */
-  idleDuration?: string;
-}
-export const ChromeOsDeviceCpuInfoItemLogicalCpusItem = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    maxScalingFrequencyKhz: S.optional(S.Number),
-    currentScalingFrequencyKhz: S.optional(S.Number),
-    cStates: S.optional(ChromeOsDeviceCpuInfoItemLogicalCpusItemCStatesItemList),
-    idleDuration: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ChromeOsDeviceCpuInfoItemLogicalCpusItem",
-}) as any as S.Schema<ChromeOsDeviceCpuInfoItemLogicalCpusItem>;
-
-export type ChromeOsDeviceCpuInfoItemLogicalCpusItemList =
-  Array<ChromeOsDeviceCpuInfoItemLogicalCpusItem>;
-export const ChromeOsDeviceCpuInfoItemLogicalCpusItemList = /*@__PURE__*/ S.Array(
-  ChromeOsDeviceCpuInfoItemLogicalCpusItem,
-) as any as S.Schema<ChromeOsDeviceCpuInfoItemLogicalCpusItemList>;
-
-export interface ChromeOsDeviceCpuInfoItem {
-  /** The CPU architecture. */
-  architecture?: string;
-  /** The max CPU clock speed in kHz. */
-  maxClockSpeedKhz?: number;
-  /** Information for the Logical CPUs */
-  logicalCpus?: ChromeOsDeviceCpuInfoItemLogicalCpusItemList;
-  /** The CPU model name. */
-  model?: string;
-}
-export const ChromeOsDeviceCpuInfoItem = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    architecture: S.optional(S.String),
-    maxClockSpeedKhz: S.optional(S.Number),
-    logicalCpus: S.optional(ChromeOsDeviceCpuInfoItemLogicalCpusItemList),
-    model: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ChromeOsDeviceCpuInfoItem",
-}) as any as S.Schema<ChromeOsDeviceCpuInfoItem>;
-
-export type ChromeOsDeviceCpuInfoItemList = Array<ChromeOsDeviceCpuInfoItem>;
-export const ChromeOsDeviceCpuInfoItemList = /*@__PURE__*/ S.Array(
-  ChromeOsDeviceCpuInfoItem,
-) as any as S.Schema<ChromeOsDeviceCpuInfoItemList>;
-
-export type ChromeOsDeviceOsVersionComplianceEnum =
-  | "complianceUnspecified"
-  | "compliant"
-  | "pending"
-  | "notCompliant";
-export const ChromeOsDeviceOsVersionComplianceEnum = S.String;
-
-/** Information about the device's fan. */
-export interface FanInfo {
-  /** Output only. Fan speed in RPM. */
-  speedRpm?: number;
-}
-export const FanInfo = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    speedRpm: S.optional(S.Number),
-  }),
-).annotate({ identifier: "FanInfo" }) as any as S.Schema<FanInfo>;
-
-export type FanInfoList = Array<FanInfo>;
-export const FanInfoList = /*@__PURE__*/ S.Array(FanInfo) as any as S.Schema<FanInfoList>;
-
-export interface ChromeOsDeviceDeviceFilesItem {
-  /** File type */
-  type?: string;
-  /** File download URL */
-  downloadUrl?: string;
-  /** File name */
-  name?: string;
-  /** Date and time the file was created */
-  createTime?: string;
-}
-export const ChromeOsDeviceDeviceFilesItem = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: S.optional(S.String),
-    downloadUrl: S.optional(S.String),
-    name: S.optional(S.String),
-    createTime: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ChromeOsDeviceDeviceFilesItem",
-}) as any as S.Schema<ChromeOsDeviceDeviceFilesItem>;
-
-export type ChromeOsDeviceDeviceFilesItemList = Array<ChromeOsDeviceDeviceFilesItem>;
-export const ChromeOsDeviceDeviceFilesItemList = /*@__PURE__*/ S.Array(
-  ChromeOsDeviceDeviceFilesItem,
-) as any as S.Schema<ChromeOsDeviceDeviceFilesItemList>;
-
-export interface ChromeOsDeviceLastKnownNetworkItem {
-  /** The IP address. */
-  ipAddress?: string;
-  /** The WAN IP address. */
-  wanIpAddress?: string;
-}
-export const ChromeOsDeviceLastKnownNetworkItem = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ipAddress: S.optional(S.String),
-    wanIpAddress: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ChromeOsDeviceLastKnownNetworkItem",
-}) as any as S.Schema<ChromeOsDeviceLastKnownNetworkItem>;
-
-export type ChromeOsDeviceLastKnownNetworkItemList = Array<ChromeOsDeviceLastKnownNetworkItem>;
-export const ChromeOsDeviceLastKnownNetworkItemList = /*@__PURE__*/ S.Array(
-  ChromeOsDeviceLastKnownNetworkItem,
-) as any as S.Schema<ChromeOsDeviceLastKnownNetworkItemList>;
-
-export type OsUpdateStatusStateEnum =
-  | "updateStateUnspecified"
-  | "updateStateNotStarted"
-  | "updateStateDownloadInProgress"
-  | "updateStateNeedReboot";
-export const OsUpdateStatusStateEnum = S.String;
-
-/** Contains information regarding the current OS update status. */
-export interface OsUpdateStatus {
-  /** New required platform version from the pending updated kiosk app. */
-  targetKioskAppVersion?: string;
-  /** Date and time of the last reboot. */
-  rebootTime?: string;
-  /** The update state of an OS update. */
-  state?: OsUpdateStatusStateEnum | (string & {});
-  /** Date and time of the last successful OS update. */
-  updateTime?: string;
-  /** New platform version of the OS image being downloaded and applied. It is only set when update status is UPDATE_STATUS_DOWNLOAD_IN_PROGRESS or UPDATE_STATUS_NEED_REBOOT. Note this could be a dummy "0.0.0.0" for UPDATE_STATUS_NEED_REBOOT for some edge cases, e.g. update engine is restarted without a reboot. */
-  targetOsVersion?: string;
-  /** Date and time of the last update check. */
-  updateCheckTime?: string;
-}
-export const OsUpdateStatus = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    targetKioskAppVersion: S.optional(S.String),
-    rebootTime: S.optional(S.String),
-    state: S.optional(OsUpdateStatusStateEnum),
-    updateTime: S.optional(S.String),
-    targetOsVersion: S.optional(S.String),
-    updateCheckTime: S.optional(S.String),
-  }),
-).annotate({ identifier: "OsUpdateStatus" }) as any as S.Schema<OsUpdateStatus>;
-
-export interface ChromeOsDeviceTpmVersionInfo {
-  /** TPM model number. */
-  tpmModel?: string;
-  /** TPM family. We use the TPM 2.0 style encoding, e.g.: TPM 1.2: "1.2" -> 312e3200 TPM 2.0: "2.0" -> 322e3000 */
-  family?: string;
-  /** TPM specification level. See Library Specification for TPM 2.0 and Main Specification for TPM 1.2. */
-  specLevel?: string;
-  /** Vendor-specific information such as Vendor ID. */
-  vendorSpecific?: string;
-  /** TPM manufacturer code. */
-  manufacturer?: string;
-  /** TPM firmware version. */
-  firmwareVersion?: string;
-}
-export const ChromeOsDeviceTpmVersionInfo = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    tpmModel: S.optional(S.String),
-    family: S.optional(S.String),
-    specLevel: S.optional(S.String),
-    vendorSpecific: S.optional(S.String),
-    manufacturer: S.optional(S.String),
-    firmwareVersion: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ChromeOsDeviceTpmVersionInfo",
-}) as any as S.Schema<ChromeOsDeviceTpmVersionInfo>;
-
-export interface ChromeOsDeviceActiveTimeRangesItem {
-  /** Date of usage */
-  date?: string;
-  /** Duration of usage in milliseconds. */
-  activeTime?: number;
-}
-export const ChromeOsDeviceActiveTimeRangesItem = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    date: S.optional(S.String),
-    activeTime: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "ChromeOsDeviceActiveTimeRangesItem",
-}) as any as S.Schema<ChromeOsDeviceActiveTimeRangesItem>;
-
-export type ChromeOsDeviceActiveTimeRangesItemList = Array<ChromeOsDeviceActiveTimeRangesItem>;
-export const ChromeOsDeviceActiveTimeRangesItemList = /*@__PURE__*/ S.Array(
-  ChromeOsDeviceActiveTimeRangesItem,
-) as any as S.Schema<ChromeOsDeviceActiveTimeRangesItemList>;
-
-export type ChromeOsDeviceDeviceLicenseTypeEnum =
-  | "deviceLicenseTypeUnspecified"
-  | "enterprise"
-  | "enterpriseUpgrade"
-  | "educationUpgrade"
-  | "education"
-  | "kioskUpgrade"
-  | "enterpriseUpgradePerpetual"
-  | "enterpriseUpgradeFixedTerm"
-  | "educationUpgradePerpetual"
-  | "educationUpgradeFixedTerm";
-export const ChromeOsDeviceDeviceLicenseTypeEnum = S.String;
-
-/** Information about the device's backlights. */
-export interface BacklightInfo {
-  /** Output only. Path to this backlight on the system. Useful if the caller needs to correlate with other information. */
-  path?: string;
-  /** Output only. Current brightness of the backlight, between 0 and max_brightness. */
-  brightness?: number;
-  /** Output only. Maximum brightness for the backlight. */
-  maxBrightness?: number;
-}
-export const BacklightInfo = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    path: S.optional(S.String),
-    brightness: S.optional(S.Number),
-    maxBrightness: S.optional(S.Number),
-  }),
-).annotate({ identifier: "BacklightInfo" }) as any as S.Schema<BacklightInfo>;
-
-export type BacklightInfoList = Array<BacklightInfo>;
-export const BacklightInfoList = /*@__PURE__*/ S.Array(
-  BacklightInfo,
-) as any as S.Schema<BacklightInfoList>;
-
-export type ChromeOsDeviceChromeOsTypeEnum =
-  | "chromeOsTypeUnspecified"
-  | "chromeOsFlex"
-  | "chromeOs";
-export const ChromeOsDeviceChromeOsTypeEnum = S.String;
-
-export type ChromeOsDeviceDeprovisionReasonEnum =
-  | "DEPROVISION_REASON_UNSPECIFIED"
-  | "DEPROVISION_REASON_SAME_MODEL_REPLACEMENT"
-  | "DEPROVISION_REASON_UPGRADE"
-  | "DEPROVISION_REASON_DOMAIN_MOVE"
-  | "DEPROVISION_REASON_SERVICE_EXPIRATION"
-  | "DEPROVISION_REASON_OTHER"
-  | "DEPROVISION_REASON_DIFFERENT_MODEL_REPLACEMENT"
-  | "DEPROVISION_REASON_RETIRING_DEVICE"
-  | "DEPROVISION_REASON_UPGRADE_TRANSFER"
-  | "DEPROVISION_REASON_NOT_REQUIRED"
-  | "DEPROVISION_REASON_REPAIR_CENTER";
-export const ChromeOsDeviceDeprovisionReasonEnum = S.String;
-
-/** Represents a data capacity with some amount of current usage in bytes. */
-export interface ByteUsage {
-  /** Output only. The total capacity value, in bytes. */
-  capacityBytes?: string;
-  /** Output only. The current usage value, in bytes. */
-  usedBytes?: string;
-}
-export const ByteUsage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    capacityBytes: S.optional(S.String),
-    usedBytes: S.optional(S.String),
-  }),
-).annotate({ identifier: "ByteUsage" }) as any as S.Schema<ByteUsage>;
 
 export interface ChromeOsDeviceSystemRamFreeReportsItem {
   /** Date and time the report was received. */
@@ -1968,6 +1638,255 @@ export type ChromeOsDeviceSystemRamFreeReportsItemList =
 export const ChromeOsDeviceSystemRamFreeReportsItemList = /*@__PURE__*/ S.Array(
   ChromeOsDeviceSystemRamFreeReportsItem,
 ) as any as S.Schema<ChromeOsDeviceSystemRamFreeReportsItemList>;
+
+export type ChromeOsDeviceDeviceLicenseTypeEnum =
+  | "deviceLicenseTypeUnspecified"
+  | "enterprise"
+  | "enterpriseUpgrade"
+  | "educationUpgrade"
+  | "education"
+  | "kioskUpgrade"
+  | "enterpriseUpgradePerpetual"
+  | "enterpriseUpgradeFixedTerm"
+  | "educationUpgradePerpetual"
+  | "educationUpgradeFixedTerm";
+export const ChromeOsDeviceDeviceLicenseTypeEnum = S.String;
+
+export interface ChromeOsDeviceCpuInfoItemLogicalCpusItemCStatesItem {
+  /** Name of the state. */
+  displayName?: string;
+  /** Time spent in the state since the last reboot. */
+  sessionDuration?: string;
+}
+export const ChromeOsDeviceCpuInfoItemLogicalCpusItemCStatesItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    displayName: S.optional(S.String),
+    sessionDuration: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ChromeOsDeviceCpuInfoItemLogicalCpusItemCStatesItem",
+}) as any as S.Schema<ChromeOsDeviceCpuInfoItemLogicalCpusItemCStatesItem>;
+
+export type ChromeOsDeviceCpuInfoItemLogicalCpusItemCStatesItemList =
+  Array<ChromeOsDeviceCpuInfoItemLogicalCpusItemCStatesItem>;
+export const ChromeOsDeviceCpuInfoItemLogicalCpusItemCStatesItemList = /*@__PURE__*/ S.Array(
+  ChromeOsDeviceCpuInfoItemLogicalCpusItemCStatesItem,
+) as any as S.Schema<ChromeOsDeviceCpuInfoItemLogicalCpusItemCStatesItemList>;
+
+export interface ChromeOsDeviceCpuInfoItemLogicalCpusItem {
+  /** Maximum frequency the CPU is allowed to run at, by policy. */
+  maxScalingFrequencyKhz?: number;
+  /** C-States indicate the power consumption state of the CPU. For more information look at documentation published by the CPU maker. */
+  cStates?: ChromeOsDeviceCpuInfoItemLogicalCpusItemCStatesItemList;
+  /** Idle time since last boot. */
+  idleDuration?: string;
+  /** Current frequency the CPU is running at. */
+  currentScalingFrequencyKhz?: number;
+}
+export const ChromeOsDeviceCpuInfoItemLogicalCpusItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    maxScalingFrequencyKhz: S.optional(S.Number),
+    cStates: S.optional(ChromeOsDeviceCpuInfoItemLogicalCpusItemCStatesItemList),
+    idleDuration: S.optional(S.String),
+    currentScalingFrequencyKhz: S.optional(S.Number),
+  }),
+).annotate({
+  identifier: "ChromeOsDeviceCpuInfoItemLogicalCpusItem",
+}) as any as S.Schema<ChromeOsDeviceCpuInfoItemLogicalCpusItem>;
+
+export type ChromeOsDeviceCpuInfoItemLogicalCpusItemList =
+  Array<ChromeOsDeviceCpuInfoItemLogicalCpusItem>;
+export const ChromeOsDeviceCpuInfoItemLogicalCpusItemList = /*@__PURE__*/ S.Array(
+  ChromeOsDeviceCpuInfoItemLogicalCpusItem,
+) as any as S.Schema<ChromeOsDeviceCpuInfoItemLogicalCpusItemList>;
+
+export interface ChromeOsDeviceCpuInfoItem {
+  /** The max CPU clock speed in kHz. */
+  maxClockSpeedKhz?: number;
+  /** The CPU architecture. */
+  architecture?: string;
+  /** The CPU model name. */
+  model?: string;
+  /** Information for the Logical CPUs */
+  logicalCpus?: ChromeOsDeviceCpuInfoItemLogicalCpusItemList;
+}
+export const ChromeOsDeviceCpuInfoItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    maxClockSpeedKhz: S.optional(S.Number),
+    architecture: S.optional(S.String),
+    model: S.optional(S.String),
+    logicalCpus: S.optional(ChromeOsDeviceCpuInfoItemLogicalCpusItemList),
+  }),
+).annotate({
+  identifier: "ChromeOsDeviceCpuInfoItem",
+}) as any as S.Schema<ChromeOsDeviceCpuInfoItem>;
+
+export type ChromeOsDeviceCpuInfoItemList = Array<ChromeOsDeviceCpuInfoItem>;
+export const ChromeOsDeviceCpuInfoItemList = /*@__PURE__*/ S.Array(
+  ChromeOsDeviceCpuInfoItem,
+) as any as S.Schema<ChromeOsDeviceCpuInfoItemList>;
+
+/** Information about a device's Bluetooth adapter. */
+export interface BluetoothAdapterInfo {
+  /** Output only. The MAC address of the adapter. */
+  address?: string;
+  /** Output only. The number of devices connected to this adapter. */
+  numConnectedDevices?: number;
+}
+export const BluetoothAdapterInfo = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    address: S.optional(S.String),
+    numConnectedDevices: S.optional(S.Number),
+  }),
+).annotate({ identifier: "BluetoothAdapterInfo" }) as any as S.Schema<BluetoothAdapterInfo>;
+
+export type BluetoothAdapterInfoList = Array<BluetoothAdapterInfo>;
+export const BluetoothAdapterInfoList = /*@__PURE__*/ S.Array(
+  BluetoothAdapterInfo,
+) as any as S.Schema<BluetoothAdapterInfoList>;
+
+export type ChromeOsDeviceChromeOsTypeEnum =
+  | "chromeOsTypeUnspecified"
+  | "chromeOsFlex"
+  | "chromeOs";
+export const ChromeOsDeviceChromeOsTypeEnum = S.String;
+
+/** Information about the device's fan. */
+export interface FanInfo {
+  /** Output only. Fan speed in RPM. */
+  speedRpm?: number;
+}
+export const FanInfo = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    speedRpm: S.optional(S.Number),
+  }),
+).annotate({ identifier: "FanInfo" }) as any as S.Schema<FanInfo>;
+
+export type FanInfoList = Array<FanInfo>;
+export const FanInfoList = /*@__PURE__*/ S.Array(FanInfo) as any as S.Schema<FanInfoList>;
+
+export interface ChromeOsDeviceScreenshotFilesItem {
+  /** File download URL */
+  downloadUrl?: string;
+  /** File name */
+  name?: string;
+  /** File type */
+  type?: string;
+  /** Date and time the file was created */
+  createTime?: string;
+}
+export const ChromeOsDeviceScreenshotFilesItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    downloadUrl: S.optional(S.String),
+    name: S.optional(S.String),
+    type: S.optional(S.String),
+    createTime: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ChromeOsDeviceScreenshotFilesItem",
+}) as any as S.Schema<ChromeOsDeviceScreenshotFilesItem>;
+
+export type ChromeOsDeviceScreenshotFilesItemList = Array<ChromeOsDeviceScreenshotFilesItem>;
+export const ChromeOsDeviceScreenshotFilesItemList = /*@__PURE__*/ S.Array(
+  ChromeOsDeviceScreenshotFilesItem,
+) as any as S.Schema<ChromeOsDeviceScreenshotFilesItemList>;
+
+export type ChromeOsDeviceDeviceFilesItem = ChromeOsDeviceScreenshotFilesItem;
+export const ChromeOsDeviceDeviceFilesItem = ChromeOsDeviceScreenshotFilesItem;
+
+export type ChromeOsDeviceDeviceFilesItemList = Array<ChromeOsDeviceScreenshotFilesItem>;
+export const ChromeOsDeviceDeviceFilesItemList = /*@__PURE__*/ S.Array(
+  ChromeOsDeviceScreenshotFilesItem,
+) as any as S.Schema<ChromeOsDeviceDeviceFilesItemList>;
+
+/** Represents a data capacity with some amount of current usage in bytes. */
+export interface ByteUsage {
+  /** Output only. The total capacity value, in bytes. */
+  capacityBytes?: string;
+  /** Output only. The current usage value, in bytes. */
+  usedBytes?: string;
+}
+export const ByteUsage = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    capacityBytes: S.optional(S.String),
+    usedBytes: S.optional(S.String),
+  }),
+).annotate({ identifier: "ByteUsage" }) as any as S.Schema<ByteUsage>;
+
+export interface ChromeOsDeviceRecentUsersItem {
+  /** The type of the user. */
+  type?: string;
+  /** The user's email address. This is only present if the user type is `USER_TYPE_MANAGED`. */
+  email?: string;
+}
+export const ChromeOsDeviceRecentUsersItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: S.optional(S.String),
+    email: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ChromeOsDeviceRecentUsersItem",
+}) as any as S.Schema<ChromeOsDeviceRecentUsersItem>;
+
+export type ChromeOsDeviceRecentUsersItemList = Array<ChromeOsDeviceRecentUsersItem>;
+export const ChromeOsDeviceRecentUsersItemList = /*@__PURE__*/ S.Array(
+  ChromeOsDeviceRecentUsersItem,
+) as any as S.Schema<ChromeOsDeviceRecentUsersItemList>;
+
+/** Information about the device's backlights. */
+export interface BacklightInfo {
+  /** Output only. Maximum brightness for the backlight. */
+  maxBrightness?: number;
+  /** Output only. Current brightness of the backlight, between 0 and max_brightness. */
+  brightness?: number;
+  /** Output only. Path to this backlight on the system. Useful if the caller needs to correlate with other information. */
+  path?: string;
+}
+export const BacklightInfo = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    maxBrightness: S.optional(S.Number),
+    brightness: S.optional(S.Number),
+    path: S.optional(S.String),
+  }),
+).annotate({ identifier: "BacklightInfo" }) as any as S.Schema<BacklightInfo>;
+
+export type BacklightInfoList = Array<BacklightInfo>;
+export const BacklightInfoList = /*@__PURE__*/ S.Array(
+  BacklightInfo,
+) as any as S.Schema<BacklightInfoList>;
+
+export type OsUpdateStatusStateEnum =
+  | "updateStateUnspecified"
+  | "updateStateNotStarted"
+  | "updateStateDownloadInProgress"
+  | "updateStateNeedReboot";
+export const OsUpdateStatusStateEnum = S.String;
+
+/** Contains information regarding the current OS update status. */
+export interface OsUpdateStatus {
+  /** Date and time of the last successful OS update. */
+  updateTime?: string;
+  /** New required platform version from the pending updated kiosk app. */
+  targetKioskAppVersion?: string;
+  /** Date and time of the last update check. */
+  updateCheckTime?: string;
+  /** The update state of an OS update. */
+  state?: OsUpdateStatusStateEnum | (string & {});
+  /** New platform version of the OS image being downloaded and applied. It is only set when update status is UPDATE_STATUS_DOWNLOAD_IN_PROGRESS or UPDATE_STATUS_NEED_REBOOT. Note this could be a dummy "0.0.0.0" for UPDATE_STATUS_NEED_REBOOT for some edge cases, e.g. update engine is restarted without a reboot. */
+  targetOsVersion?: string;
+  /** Date and time of the last reboot. */
+  rebootTime?: string;
+}
+export const OsUpdateStatus = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    updateTime: S.optional(S.String),
+    targetKioskAppVersion: S.optional(S.String),
+    updateCheckTime: S.optional(S.String),
+    state: S.optional(OsUpdateStatusStateEnum),
+    targetOsVersion: S.optional(S.String),
+    rebootTime: S.optional(S.String),
+  }),
+).annotate({ identifier: "OsUpdateStatus" }) as any as S.Schema<OsUpdateStatus>;
 
 export type IntegerList = Array<number>;
 export const IntegerList = /*@__PURE__*/ S.Array(S.Number) as any as S.Schema<IntegerList>;
@@ -1996,16 +1915,16 @@ export const ChromeOsDeviceCpuStatusReportsItemCpuTemperatureInfoItemList = /*@_
 
 export interface ChromeOsDeviceCpuStatusReportsItem {
   cpuUtilizationPercentageInfo?: IntegerList;
-  /** Date and time the report was received. */
-  reportTime?: string;
   /** A list of CPU temperature samples. */
   cpuTemperatureInfo?: ChromeOsDeviceCpuStatusReportsItemCpuTemperatureInfoItemList;
+  /** Date and time the report was received. */
+  reportTime?: string;
 }
 export const ChromeOsDeviceCpuStatusReportsItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     cpuUtilizationPercentageInfo: S.optional(IntegerList),
-    reportTime: S.optional(S.String),
     cpuTemperatureInfo: S.optional(ChromeOsDeviceCpuStatusReportsItemCpuTemperatureInfoItemList),
+    reportTime: S.optional(S.String),
   }),
 ).annotate({
   identifier: "ChromeOsDeviceCpuStatusReportsItem",
@@ -2015,6 +1934,46 @@ export type ChromeOsDeviceCpuStatusReportsItemList = Array<ChromeOsDeviceCpuStat
 export const ChromeOsDeviceCpuStatusReportsItemList = /*@__PURE__*/ S.Array(
   ChromeOsDeviceCpuStatusReportsItem,
 ) as any as S.Schema<ChromeOsDeviceCpuStatusReportsItemList>;
+
+export interface ChromeOsDeviceLastKnownNetworkItem {
+  /** The WAN IP address. */
+  wanIpAddress?: string;
+  /** The IP address. */
+  ipAddress?: string;
+}
+export const ChromeOsDeviceLastKnownNetworkItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    wanIpAddress: S.optional(S.String),
+    ipAddress: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ChromeOsDeviceLastKnownNetworkItem",
+}) as any as S.Schema<ChromeOsDeviceLastKnownNetworkItem>;
+
+export type ChromeOsDeviceLastKnownNetworkItemList = Array<ChromeOsDeviceLastKnownNetworkItem>;
+export const ChromeOsDeviceLastKnownNetworkItemList = /*@__PURE__*/ S.Array(
+  ChromeOsDeviceLastKnownNetworkItem,
+) as any as S.Schema<ChromeOsDeviceLastKnownNetworkItemList>;
+
+export interface ChromeOsDeviceActiveTimeRangesItem {
+  /** Duration of usage in milliseconds. */
+  activeTime?: number;
+  /** Date of usage */
+  date?: string;
+}
+export const ChromeOsDeviceActiveTimeRangesItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    activeTime: S.optional(S.Number),
+    date: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ChromeOsDeviceActiveTimeRangesItem",
+}) as any as S.Schema<ChromeOsDeviceActiveTimeRangesItem>;
+
+export type ChromeOsDeviceActiveTimeRangesItemList = Array<ChromeOsDeviceActiveTimeRangesItem>;
+export const ChromeOsDeviceActiveTimeRangesItemList = /*@__PURE__*/ S.Array(
+  ChromeOsDeviceActiveTimeRangesItem,
+) as any as S.Schema<ChromeOsDeviceActiveTimeRangesItemList>;
 
 export interface ChromeOsDeviceDiskVolumeReportsItemVolumeInfoItem {
   /** Free disk space [in bytes] */
@@ -2057,256 +2016,237 @@ export const ChromeOsDeviceDiskVolumeReportsItemList = /*@__PURE__*/ S.Array(
   ChromeOsDeviceDiskVolumeReportsItem,
 ) as any as S.Schema<ChromeOsDeviceDiskVolumeReportsItemList>;
 
-export interface ChromeOsDeviceScreenshotFilesItem {
-  /** File download URL */
-  downloadUrl?: string;
-  /** File type */
-  type?: string;
-  /** Date and time the file was created */
-  createTime?: string;
-  /** File name */
-  name?: string;
+export interface ChromeOsDeviceTpmVersionInfo {
+  /** TPM specification level. See Library Specification for TPM 2.0 and Main Specification for TPM 1.2. */
+  specLevel?: string;
+  /** TPM family. We use the TPM 2.0 style encoding, e.g.: TPM 1.2: "1.2" -> 312e3200 TPM 2.0: "2.0" -> 322e3000 */
+  family?: string;
+  /** Vendor-specific information such as Vendor ID. */
+  vendorSpecific?: string;
+  /** TPM firmware version. */
+  firmwareVersion?: string;
+  /** TPM model number. */
+  tpmModel?: string;
+  /** TPM manufacturer code. */
+  manufacturer?: string;
 }
-export const ChromeOsDeviceScreenshotFilesItem = /*@__PURE__*/ S.suspend(() =>
+export const ChromeOsDeviceTpmVersionInfo = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    downloadUrl: S.optional(S.String),
-    type: S.optional(S.String),
-    createTime: S.optional(S.String),
-    name: S.optional(S.String),
+    specLevel: S.optional(S.String),
+    family: S.optional(S.String),
+    vendorSpecific: S.optional(S.String),
+    firmwareVersion: S.optional(S.String),
+    tpmModel: S.optional(S.String),
+    manufacturer: S.optional(S.String),
   }),
 ).annotate({
-  identifier: "ChromeOsDeviceScreenshotFilesItem",
-}) as any as S.Schema<ChromeOsDeviceScreenshotFilesItem>;
+  identifier: "ChromeOsDeviceTpmVersionInfo",
+}) as any as S.Schema<ChromeOsDeviceTpmVersionInfo>;
 
-export type ChromeOsDeviceScreenshotFilesItemList = Array<ChromeOsDeviceScreenshotFilesItem>;
-export const ChromeOsDeviceScreenshotFilesItemList = /*@__PURE__*/ S.Array(
-  ChromeOsDeviceScreenshotFilesItem,
-) as any as S.Schema<ChromeOsDeviceScreenshotFilesItemList>;
+export type ChromeOsDeviceDeprovisionReasonEnum =
+  | "DEPROVISION_REASON_UNSPECIFIED"
+  | "DEPROVISION_REASON_SAME_MODEL_REPLACEMENT"
+  | "DEPROVISION_REASON_UPGRADE"
+  | "DEPROVISION_REASON_DOMAIN_MOVE"
+  | "DEPROVISION_REASON_SERVICE_EXPIRATION"
+  | "DEPROVISION_REASON_OTHER"
+  | "DEPROVISION_REASON_DIFFERENT_MODEL_REPLACEMENT"
+  | "DEPROVISION_REASON_RETIRING_DEVICE"
+  | "DEPROVISION_REASON_UPGRADE_TRANSFER"
+  | "DEPROVISION_REASON_NOT_REQUIRED"
+  | "DEPROVISION_REASON_REPAIR_CENTER";
+export const ChromeOsDeviceDeprovisionReasonEnum = S.String;
 
-/** Information about a device's Bluetooth adapter. */
-export interface BluetoothAdapterInfo {
-  /** Output only. The MAC address of the adapter. */
-  address?: string;
-  /** Output only. The number of devices connected to this adapter. */
-  numConnectedDevices?: number;
-}
-export const BluetoothAdapterInfo = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    address: S.optional(S.String),
-    numConnectedDevices: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "BluetoothAdapterInfo",
-}) as any as S.Schema<BluetoothAdapterInfo>;
-
-export type BluetoothAdapterInfoList = Array<BluetoothAdapterInfo>;
-export const BluetoothAdapterInfoList = /*@__PURE__*/ S.Array(
-  BluetoothAdapterInfo,
-) as any as S.Schema<BluetoothAdapterInfoList>;
-
-export interface ChromeOsDeviceRecentUsersItem {
-  /** The user's email address. This is only present if the user type is `USER_TYPE_MANAGED`. */
-  email?: string;
-  /** The type of the user. */
-  type?: string;
-}
-export const ChromeOsDeviceRecentUsersItem = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    email: S.optional(S.String),
-    type: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ChromeOsDeviceRecentUsersItem",
-}) as any as S.Schema<ChromeOsDeviceRecentUsersItem>;
-
-export type ChromeOsDeviceRecentUsersItemList = Array<ChromeOsDeviceRecentUsersItem>;
-export const ChromeOsDeviceRecentUsersItemList = /*@__PURE__*/ S.Array(
-  ChromeOsDeviceRecentUsersItem,
-) as any as S.Schema<ChromeOsDeviceRecentUsersItemList>;
+export type ChromeOsDeviceOsVersionComplianceEnum =
+  | "complianceUnspecified"
+  | "compliant"
+  | "pending"
+  | "notCompliant";
+export const ChromeOsDeviceOsVersionComplianceEnum = S.String;
 
 /** Google Chrome devices run on the [Chrome OS](https://support.google.com/chromeos). For more information about common API tasks, see the [Developer's Guide](https://developers.google.com/workspace/admin/directory/v1/guides/manage-chrome-devices). */
 export interface ChromeOsDevice {
-  /** Information regarding CPU specs in the device. */
-  cpuInfo?: ChromeOsDeviceCpuInfoItemList;
-  /** Output only. Device policy compliance status of the OS version. */
-  osVersionCompliance?: ChromeOsDeviceOsVersionComplianceEnum | (string & {});
-  /** The user of the device as noted by the administrator. Maximum length is 100 characters. Empty values are allowed. */
-  annotatedUser?: string;
-  /** The full parent path with the organizational unit's name associated with the device. Path names are case insensitive. If the parent organizational unit is the top-level organization, it is represented as a forward slash, `/`. This property can be [updated](https://developers.google.com/workspace/admin/directory/v1/guides/manage-chrome-devices#move_chrome_devices_to_ou) using the API. For more information about how to create an organizational structure for your device, see the [administration help center](https://support.google.com/a/answer/182433). */
-  orgUnitPath?: string;
-  /** Output only. Fan information for the device. */
-  fanInfo?: FanInfoList;
-  /** The Chrome device's firmware version. */
-  firmwareVersion?: string;
-  /** Output only. Whether extended support policy is enabled on the device. */
-  extendedSupportEnabled?: boolean;
-  /** Output only. Whether or not the device requires the extended support opt in. */
-  extendedSupportEligible?: boolean;
-  /** Date and time the device was last synchronized with the policy settings in the G Suite administrator control panel (Read-only) */
-  lastSync?: string;
-  /** A list of device files to download (Read-only) */
-  deviceFiles?: ChromeOsDeviceDeviceFilesItemList;
-  /** The address or location of the device as noted by the administrator. Maximum length is `200` characters. Empty values are allowed. */
-  annotatedLocation?: string;
-  /** Output only. Date of the device when extended support policy for automatic updates starts. */
-  extendedSupportStart?: string;
-  /** Notes about this device added by the administrator. This property can be [searched](https://support.google.com/chrome/a/answer/1698333) with the [list](https://developers.google.com/workspace/admin/directory/v1/reference/chromeosdevices/list) method's `query` parameter. Maximum length is 500 characters. Empty values are allowed. */
-  notes?: string;
-  /** The Chrome device's operating system version. */
-  osVersion?: string;
-  /** Contains last known network (Read-only) */
-  lastKnownNetwork?: ChromeOsDeviceLastKnownNetworkItemList;
-  /** (Read-only) MAC address used by the Chromebook’s internal ethernet port, and for onboard network (ethernet) interface. The format is twelve (12) hexadecimal digits without any delimiter (uppercase letters). This is only relevant for some devices. */
-  ethernetMacAddress0?: string;
-  /** The status of the OS updates for the device. */
-  osUpdateStatus?: OsUpdateStatus;
-  /** Trusted Platform Module (TPM) (Read-only) */
-  tpmVersionInfo?: ChromeOsDeviceTpmVersionInfo;
-  /** A list of active time ranges (Read-only). */
-  activeTimeRanges?: ChromeOsDeviceActiveTimeRangesItemList;
   /** The device's model information. If the device does not have this information, this property is not included in the response. */
   model?: string;
-  /** The status of the device. */
-  status?: string;
-  /** Total RAM on the device [in bytes] (Read-only) */
-  systemRamTotal?: string;
+  /** Reports of amounts of available RAM memory (Read-only) */
+  systemRamFreeReports?: ChromeOsDeviceSystemRamFreeReportsItemList;
+  /** The type of resource. For the Chromeosdevices resource, the value is `admin#directory#chromeosdevice`. */
+  kind?: string;
+  /** The full parent path with the organizational unit's name associated with the device. Path names are case insensitive. If the parent organizational unit is the top-level organization, it is represented as a forward slash, `/`. This property can be [updated](https://developers.google.com/workspace/admin/directory/v1/guides/manage-chrome-devices#move_chrome_devices_to_ou) using the API. For more information about how to create an organizational structure for your device, see the [administration help center](https://support.google.com/a/answer/182433). */
+  orgUnitPath?: string;
+  /** The Chrome device serial number entered when the device was enabled. This value is the same as the Admin console's *Serial Number* in the *Chrome OS Devices* tab. */
+  serialNumber?: string;
   /** Output only. Device license type. */
   deviceLicenseType?: ChromeOsDeviceDeviceLicenseTypeEnum | (string & {});
+  /** Information regarding CPU specs in the device. */
+  cpuInfo?: ChromeOsDeviceCpuInfoItemList;
+  /** (Read-only) MAC address used by the Chromebook’s internal ethernet port, and for onboard network (ethernet) interface. The format is twelve (12) hexadecimal digits without any delimiter (uppercase letters). This is only relevant for some devices. */
+  ethernetMacAddress0?: string;
+  /** Total RAM on the device [in bytes] (Read-only) */
+  systemRamTotal?: string;
+  /** The unique ID of the organizational unit. orgUnitPath is the human readable version of orgUnitId. While orgUnitPath may change by renaming an organizational unit within the path, orgUnitId is unchangeable for one organizational unit. This property can be [updated](https://developers.google.com/workspace/admin/directory/v1/guides/manage-chrome-devices#move_chrome_devices_to_ou) using the API. For more information about how to create an organizational structure for your device, see the [administration help center](https://support.google.com/a/answer/182433). */
+  orgUnitId?: string;
+  /** Output only. Information about Bluetooth adapters of the device. */
+  bluetoothAdapterInfo?: BluetoothAdapterInfoList;
+  /** Output only. Chrome OS type of the device. */
+  chromeOsType?: ChromeOsDeviceChromeOsTypeEnum | (string & {});
+  /** Output only. Fan information for the device. */
+  fanInfo?: FanInfoList;
+  /** (Read-only) The date the device was manufactured in yyyy-mm-dd format. */
+  manufactureDate?: string;
+  /** A list of screenshot files to download. Type is always "SCREENSHOT_FILE". (Read-only) */
+  screenshotFiles?: ChromeOsDeviceScreenshotFilesItemList;
+  /** Date and time the device was last synchronized with the policy settings in the G Suite administrator control panel (Read-only) */
+  lastSync?: string;
+  /** (Read-only) Built-in MAC address for the docking station that the device connected to. Factory sets Media access control address (MAC address) assigned for use by a dock. It is reserved specifically for MAC pass through device policy. The format is twelve (12) hexadecimal digits without any delimiter (uppercase letters). This is only relevant for some devices. */
+  dockMacAddress?: string;
+  /** Determines if the device will auto renew its support after the support end date. This is a read-only property. */
+  willAutoRenew?: boolean;
+  /** The address or location of the device as noted by the administrator. Maximum length is `200` characters. Empty values are allowed. */
+  annotatedLocation?: string;
+  /** A list of device files to download (Read-only) */
+  deviceFiles?: ChromeOsDeviceDeviceFilesItemList;
+  /** Final date the device will be supported (Read-only) */
+  supportEndDate?: string;
+  /** Date and time for the first time the device was enrolled. */
+  firstEnrollmentTime?: string;
+  /** Output only. How much disk space the device has available and is currently using. */
+  diskSpaceUsage?: ByteUsage;
+  /** A list of recent device users, in descending order, by last login time. */
+  recentUsers?: ChromeOsDeviceRecentUsersItemList;
+  /** The Chrome device's firmware version. */
+  firmwareVersion?: string;
+  /** Output only. Contains backlight information for the device. */
+  backlightInfo?: BacklightInfoList;
+  /** The device's MAC address on the ethernet network interface. */
+  ethernetMacAddress?: string;
   /** The unique ID of the Chrome device. */
   deviceId?: string;
   /** The asset identifier as noted by an administrator or specified during enrollment. */
   annotatedAssetId?: string;
-  /** Output only. Contains backlight information for the device. */
-  backlightInfo?: BacklightInfoList;
-  /** The unique ID of the organizational unit. orgUnitPath is the human readable version of orgUnitId. While orgUnitPath may change by renaming an organizational unit within the path, orgUnitId is unchangeable for one organizational unit. This property can be [updated](https://developers.google.com/workspace/admin/directory/v1/guides/manage-chrome-devices#move_chrome_devices_to_ou) using the API. For more information about how to create an organizational structure for your device, see the [administration help center](https://support.google.com/a/answer/182433). */
-  orgUnitId?: string;
-  /** The Chrome device serial number entered when the device was enabled. This value is the same as the Admin console's *Serial Number* in the *Chrome OS Devices* tab. */
-  serialNumber?: string;
-  /** The boot mode for the device. The possible values are: * `Verified`: The device is running a valid version of the Chrome OS. * `Dev`: The devices's developer hardware switch is enabled. When booted, the device has a command line shell. For an example of a developer switch, see the [Chromebook developer information](https://www.chromium.org/chromium-os/developer-information-for-chrome-os-devices/samsung-series-5-chromebook#TOC-Developer-switch). */
-  bootMode?: string;
-  /** Output only. Chrome OS type of the device. */
-  chromeOsType?: ChromeOsDeviceChromeOsTypeEnum | (string & {});
-  /** (Read-only) Deprovision reason. */
-  deprovisionReason?: ChromeOsDeviceDeprovisionReasonEnum | (string & {});
-  /** Output only. How much disk space the device has available and is currently using. */
-  diskSpaceUsage?: ByteUsage;
-  /** Reports of amounts of available RAM memory (Read-only) */
-  systemRamFreeReports?: ChromeOsDeviceSystemRamFreeReportsItemList;
-  /** (Read-only) The timestamp after which the device will stop receiving Chrome updates or support. Please use "autoUpdateThrough" instead. */
-  autoUpdateExpiration?: string;
-  /** Reports of CPU utilization and temperature (Read-only) */
-  cpuStatusReports?: ChromeOsDeviceCpuStatusReportsItemList;
-  /** Reports of disk space and other info about mounted/connected volumes. */
-  diskVolumeReports?: ChromeOsDeviceDiskVolumeReportsItemList;
-  /** Date and time for the first time the device was enrolled. */
-  firstEnrollmentTime?: string;
-  /** A list of screenshot files to download. Type is always "SCREENSHOT_FILE". (Read-only) */
-  screenshotFiles?: ChromeOsDeviceScreenshotFilesItemList;
-  /** Date and time the device was last enrolled (Read-only) */
-  lastEnrollmentTime?: string;
-  /** The device's order number. Only devices directly purchased from Google have an order number. */
-  orderNumber?: string;
-  /** The device's MAC address on the ethernet network interface. */
-  ethernetMacAddress?: string;
-  /** The type of resource. For the Chromeosdevices resource, the value is `admin#directory#chromeosdevice`. */
-  kind?: string;
-  /** ETag of the resource. */
-  etag?: string;
-  /** (Read-only) Built-in MAC address for the docking station that the device connected to. Factory sets Media access control address (MAC address) assigned for use by a dock. It is reserved specifically for MAC pass through device policy. The format is twelve (12) hexadecimal digits without any delimiter (uppercase letters). This is only relevant for some devices. */
-  dockMacAddress?: string;
-  /** (Read-only) Date and time for the last deprovision of the device. */
-  lastDeprovisionTimestamp?: string;
-  /** Output only. Information about Bluetooth adapters of the device. */
-  bluetoothAdapterInfo?: BluetoothAdapterInfoList;
-  /** The Mobile Equipment Identifier (MEID) or the International Mobile Equipment Identity (IMEI) for the 3G mobile card in a mobile device. A MEID/IMEI is typically used when adding a device to a wireless carrier's post-pay service plan. If the device does not have this information, this property is not included in the response. For more information on how to export a MEID/IMEI list, see the [Developer's Guide](https://developers.google.com/workspace/admin/directory/v1/guides/manage-chrome-devices.html#export_meid). */
-  meid?: string;
-  /** A list of recent device users, in descending order, by last login time. */
-  recentUsers?: ChromeOsDeviceRecentUsersItemList;
-  /** Final date the device will be supported (Read-only) */
-  supportEndDate?: string;
+  /** Output only. Whether or not the device requires the extended support opt in. */
+  extendedSupportEligible?: boolean;
   /** Output only. The timestamp after which the device will stop receiving Chrome updates or support. */
   autoUpdateThrough?: string;
-  /** The device's wireless MAC address. If the device does not have this information, it is not included in the response. */
-  macAddress?: string;
-  /** Determines if the device will auto renew its support after the support end date. This is a read-only property. */
-  willAutoRenew?: boolean;
+  /** The status of the device. */
+  status?: string;
+  /** The status of the OS updates for the device. */
+  osUpdateStatus?: OsUpdateStatus;
+  /** The Chrome device's operating system version. */
+  osVersion?: string;
+  /** Date and time the device was last enrolled (Read-only) */
+  lastEnrollmentTime?: string;
+  /** ETag of the resource. */
+  etag?: string;
+  /** Reports of CPU utilization and temperature (Read-only) */
+  cpuStatusReports?: ChromeOsDeviceCpuStatusReportsItemList;
   /** The Chrome device's platform version. */
   platformVersion?: string;
-  /** (Read-only) The date the device was manufactured in yyyy-mm-dd format. */
-  manufactureDate?: string;
+  /** The user of the device as noted by the administrator. Maximum length is 100 characters. Empty values are allowed. */
+  annotatedUser?: string;
+  /** Notes about this device added by the administrator. This property can be [searched](https://support.google.com/chrome/a/answer/1698333) with the [list](https://developers.google.com/workspace/admin/directory/v1/reference/chromeosdevices/list) method's `query` parameter. Maximum length is 500 characters. Empty values are allowed. */
+  notes?: string;
+  /** Contains last known network (Read-only) */
+  lastKnownNetwork?: ChromeOsDeviceLastKnownNetworkItemList;
+  /** A list of active time ranges (Read-only). */
+  activeTimeRanges?: ChromeOsDeviceActiveTimeRangesItemList;
+  /** The device's order number. Only devices directly purchased from Google have an order number. */
+  orderNumber?: string;
+  /** (Read-only) Date and time for the last deprovision of the device. */
+  lastDeprovisionTimestamp?: string;
+  /** The Mobile Equipment Identifier (MEID) or the International Mobile Equipment Identity (IMEI) for the 3G mobile card in a mobile device. A MEID/IMEI is typically used when adding a device to a wireless carrier's post-pay service plan. If the device does not have this information, this property is not included in the response. For more information on how to export a MEID/IMEI list, see the [Developer's Guide](https://developers.google.com/workspace/admin/directory/v1/guides/manage-chrome-devices.html#export_meid). */
+  meid?: string;
+  /** The device's wireless MAC address. If the device does not have this information, it is not included in the response. */
+  macAddress?: string;
+  /** Reports of disk space and other info about mounted/connected volumes. */
+  diskVolumeReports?: ChromeOsDeviceDiskVolumeReportsItemList;
+  /** Output only. Whether extended support policy is enabled on the device. */
+  extendedSupportEnabled?: boolean;
+  /** Trusted Platform Module (TPM) (Read-only) */
+  tpmVersionInfo?: ChromeOsDeviceTpmVersionInfo;
+  /** Output only. Date of the device when extended support policy for automatic updates starts. */
+  extendedSupportStart?: string;
+  /** (Read-only) Deprovision reason. */
+  deprovisionReason?: ChromeOsDeviceDeprovisionReasonEnum | (string & {});
+  /** The boot mode for the device. The possible values are: * `Verified`: The device is running a valid version of the Chrome OS. * `Dev`: The devices's developer hardware switch is enabled. When booted, the device has a command line shell. For an example of a developer switch, see the [Chromebook developer information](https://www.chromium.org/chromium-os/developer-information-for-chrome-os-devices/samsung-series-5-chromebook#TOC-Developer-switch). */
+  bootMode?: string;
+  /** Output only. Device policy compliance status of the OS version. */
+  osVersionCompliance?: ChromeOsDeviceOsVersionComplianceEnum | (string & {});
+  /** (Read-only) The timestamp after which the device will stop receiving Chrome updates or support. Please use "autoUpdateThrough" instead. */
+  autoUpdateExpiration?: string;
 }
 export const ChromeOsDevice = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    cpuInfo: S.optional(ChromeOsDeviceCpuInfoItemList),
-    osVersionCompliance: S.optional(ChromeOsDeviceOsVersionComplianceEnum),
-    annotatedUser: S.optional(S.String),
-    orgUnitPath: S.optional(S.String),
-    fanInfo: S.optional(FanInfoList),
-    firmwareVersion: S.optional(S.String),
-    extendedSupportEnabled: S.optional(S.Boolean),
-    extendedSupportEligible: S.optional(S.Boolean),
-    lastSync: S.optional(S.String),
-    deviceFiles: S.optional(ChromeOsDeviceDeviceFilesItemList),
-    annotatedLocation: S.optional(S.String),
-    extendedSupportStart: S.optional(S.String),
-    notes: S.optional(S.String),
-    osVersion: S.optional(S.String),
-    lastKnownNetwork: S.optional(ChromeOsDeviceLastKnownNetworkItemList),
-    ethernetMacAddress0: S.optional(S.String),
-    osUpdateStatus: S.optional(OsUpdateStatus),
-    tpmVersionInfo: S.optional(ChromeOsDeviceTpmVersionInfo),
-    activeTimeRanges: S.optional(ChromeOsDeviceActiveTimeRangesItemList),
     model: S.optional(S.String),
-    status: S.optional(S.String),
-    systemRamTotal: S.optional(S.String),
+    systemRamFreeReports: S.optional(ChromeOsDeviceSystemRamFreeReportsItemList),
+    kind: S.optional(S.String),
+    orgUnitPath: S.optional(S.String),
+    serialNumber: S.optional(S.String),
     deviceLicenseType: S.optional(ChromeOsDeviceDeviceLicenseTypeEnum),
+    cpuInfo: S.optional(ChromeOsDeviceCpuInfoItemList),
+    ethernetMacAddress0: S.optional(S.String),
+    systemRamTotal: S.optional(S.String),
+    orgUnitId: S.optional(S.String),
+    bluetoothAdapterInfo: S.optional(BluetoothAdapterInfoList),
+    chromeOsType: S.optional(ChromeOsDeviceChromeOsTypeEnum),
+    fanInfo: S.optional(FanInfoList),
+    manufactureDate: S.optional(S.String),
+    screenshotFiles: S.optional(ChromeOsDeviceScreenshotFilesItemList),
+    lastSync: S.optional(S.String),
+    dockMacAddress: S.optional(S.String),
+    willAutoRenew: S.optional(S.Boolean),
+    annotatedLocation: S.optional(S.String),
+    deviceFiles: S.optional(ChromeOsDeviceDeviceFilesItemList),
+    supportEndDate: S.optional(S.String),
+    firstEnrollmentTime: S.optional(S.String),
+    diskSpaceUsage: S.optional(ByteUsage),
+    recentUsers: S.optional(ChromeOsDeviceRecentUsersItemList),
+    firmwareVersion: S.optional(S.String),
+    backlightInfo: S.optional(BacklightInfoList),
+    ethernetMacAddress: S.optional(S.String),
     deviceId: S.optional(S.String),
     annotatedAssetId: S.optional(S.String),
-    backlightInfo: S.optional(BacklightInfoList),
-    orgUnitId: S.optional(S.String),
-    serialNumber: S.optional(S.String),
-    bootMode: S.optional(S.String),
-    chromeOsType: S.optional(ChromeOsDeviceChromeOsTypeEnum),
-    deprovisionReason: S.optional(ChromeOsDeviceDeprovisionReasonEnum),
-    diskSpaceUsage: S.optional(ByteUsage),
-    systemRamFreeReports: S.optional(ChromeOsDeviceSystemRamFreeReportsItemList),
-    autoUpdateExpiration: S.optional(S.String),
-    cpuStatusReports: S.optional(ChromeOsDeviceCpuStatusReportsItemList),
-    diskVolumeReports: S.optional(ChromeOsDeviceDiskVolumeReportsItemList),
-    firstEnrollmentTime: S.optional(S.String),
-    screenshotFiles: S.optional(ChromeOsDeviceScreenshotFilesItemList),
-    lastEnrollmentTime: S.optional(S.String),
-    orderNumber: S.optional(S.String),
-    ethernetMacAddress: S.optional(S.String),
-    kind: S.optional(S.String),
-    etag: S.optional(S.String),
-    dockMacAddress: S.optional(S.String),
-    lastDeprovisionTimestamp: S.optional(S.String),
-    bluetoothAdapterInfo: S.optional(BluetoothAdapterInfoList),
-    meid: S.optional(S.String),
-    recentUsers: S.optional(ChromeOsDeviceRecentUsersItemList),
-    supportEndDate: S.optional(S.String),
+    extendedSupportEligible: S.optional(S.Boolean),
     autoUpdateThrough: S.optional(S.String),
-    macAddress: S.optional(S.String),
-    willAutoRenew: S.optional(S.Boolean),
+    status: S.optional(S.String),
+    osUpdateStatus: S.optional(OsUpdateStatus),
+    osVersion: S.optional(S.String),
+    lastEnrollmentTime: S.optional(S.String),
+    etag: S.optional(S.String),
+    cpuStatusReports: S.optional(ChromeOsDeviceCpuStatusReportsItemList),
     platformVersion: S.optional(S.String),
-    manufactureDate: S.optional(S.String),
+    annotatedUser: S.optional(S.String),
+    notes: S.optional(S.String),
+    lastKnownNetwork: S.optional(ChromeOsDeviceLastKnownNetworkItemList),
+    activeTimeRanges: S.optional(ChromeOsDeviceActiveTimeRangesItemList),
+    orderNumber: S.optional(S.String),
+    lastDeprovisionTimestamp: S.optional(S.String),
+    meid: S.optional(S.String),
+    macAddress: S.optional(S.String),
+    diskVolumeReports: S.optional(ChromeOsDeviceDiskVolumeReportsItemList),
+    extendedSupportEnabled: S.optional(S.Boolean),
+    tpmVersionInfo: S.optional(ChromeOsDeviceTpmVersionInfo),
+    extendedSupportStart: S.optional(S.String),
+    deprovisionReason: S.optional(ChromeOsDeviceDeprovisionReasonEnum),
+    bootMode: S.optional(S.String),
+    osVersionCompliance: S.optional(ChromeOsDeviceOsVersionComplianceEnum),
+    autoUpdateExpiration: S.optional(S.String),
   }),
 ).annotate({ identifier: "ChromeOsDevice" }) as any as S.Schema<ChromeOsDevice>;
 
 export interface GetCustomerDevicesChromeosCommandsRequest {
+  /** Immutable. ID of the Google Workspace account. */
+  customerId: string;
   /** Immutable. ID of Chrome OS Device Command. */
   commandId: string;
   /** Immutable. ID of Chrome OS Device. */
   deviceId: string;
-  /** Immutable. ID of the Google Workspace account. */
-  customerId: string;
 }
 export const GetCustomerDevicesChromeosCommandsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    customerId: S.String.pipe(T.Label()),
     commandId: S.String.pipe(T.Label()),
     deviceId: S.String.pipe(T.Label()),
-    customerId: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -2317,6 +2257,45 @@ export const GetCustomerDevicesChromeosCommandsRequest = /*@__PURE__*/ S.suspend
 ).annotate({
   identifier: "GetCustomerDevicesChromeosCommandsRequest",
 }) as any as S.Schema<GetCustomerDevicesChromeosCommandsRequest>;
+
+export type DirectoryChromeosdevicesCommandResultResultEnum =
+  | "COMMAND_RESULT_TYPE_UNSPECIFIED"
+  | "IGNORED"
+  | "FAILURE"
+  | "SUCCESS";
+export const DirectoryChromeosdevicesCommandResultResultEnum = S.String;
+
+/** The result of executing a command. */
+export interface DirectoryChromeosdevicesCommandResult {
+  /** The time at which the command was executed or failed to execute. */
+  executeTime?: string;
+  /** The error message with a short explanation as to why the command failed. Only present if the command failed. */
+  errorMessage?: string;
+  /** The result of the command. */
+  result?: DirectoryChromeosdevicesCommandResultResultEnum;
+  /** The payload for the command result. The following commands respond with a payload: * `DEVICE_START_CRD_SESSION`: Payload is a stringified JSON object in the form: { "url": url }. The provided URL links to the Chrome Remote Desktop session and requires authentication using only the `email` associated with the command's issuance. * `FETCH_CRD_AVAILABILITY_INFO`: Payload is a stringified JSON object in the form: { "deviceIdleTimeInSeconds": number, "userSessionType": string, "remoteSupportAvailability": string, "remoteAccessAvailability": string }. The "remoteSupportAvailability" field is set to "AVAILABLE" if `shared` CRD session to the device is available. The "remoteAccessAvailability" field is set to "AVAILABLE" if `private` CRD session to the device is available. */
+  commandResultPayload?: string;
+}
+export const DirectoryChromeosdevicesCommandResult = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    executeTime: S.optional(S.String),
+    errorMessage: S.optional(S.String),
+    result: S.optional(DirectoryChromeosdevicesCommandResultResultEnum),
+    commandResultPayload: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "DirectoryChromeosdevicesCommandResult",
+}) as any as S.Schema<DirectoryChromeosdevicesCommandResult>;
+
+export type DirectoryChromeosdevicesCommandStateEnum =
+  | "STATE_UNSPECIFIED"
+  | "PENDING"
+  | "EXPIRED"
+  | "CANCELLED"
+  | "SENT_TO_CLIENT"
+  | "ACKED_BY_CLIENT"
+  | "EXECUTED_BY_CLIENT";
+export const DirectoryChromeosdevicesCommandStateEnum = S.String;
 
 export type DirectoryChromeosdevicesCommandTypeEnum =
   | "COMMAND_TYPE_UNSPECIFIED"
@@ -2331,71 +2310,32 @@ export type DirectoryChromeosdevicesCommandTypeEnum =
   | "FETCH_SUPPORT_PACKET";
 export const DirectoryChromeosdevicesCommandTypeEnum = S.String;
 
-export type DirectoryChromeosdevicesCommandStateEnum =
-  | "STATE_UNSPECIFIED"
-  | "PENDING"
-  | "EXPIRED"
-  | "CANCELLED"
-  | "SENT_TO_CLIENT"
-  | "ACKED_BY_CLIENT"
-  | "EXECUTED_BY_CLIENT";
-export const DirectoryChromeosdevicesCommandStateEnum = S.String;
-
-export type DirectoryChromeosdevicesCommandResultResultEnum =
-  | "COMMAND_RESULT_TYPE_UNSPECIFIED"
-  | "IGNORED"
-  | "FAILURE"
-  | "SUCCESS";
-export const DirectoryChromeosdevicesCommandResultResultEnum = S.String;
-
-/** The result of executing a command. */
-export interface DirectoryChromeosdevicesCommandResult {
-  /** The time at which the command was executed or failed to execute. */
-  executeTime?: string;
-  /** The result of the command. */
-  result?: DirectoryChromeosdevicesCommandResultResultEnum;
-  /** The payload for the command result. The following commands respond with a payload: * `DEVICE_START_CRD_SESSION`: Payload is a stringified JSON object in the form: { "url": url }. The provided URL links to the Chrome Remote Desktop session and requires authentication using only the `email` associated with the command's issuance. * `FETCH_CRD_AVAILABILITY_INFO`: Payload is a stringified JSON object in the form: { "deviceIdleTimeInSeconds": number, "userSessionType": string, "remoteSupportAvailability": string, "remoteAccessAvailability": string }. The "remoteSupportAvailability" field is set to "AVAILABLE" if `shared` CRD session to the device is available. The "remoteAccessAvailability" field is set to "AVAILABLE" if `private` CRD session to the device is available. */
-  commandResultPayload?: string;
-  /** The error message with a short explanation as to why the command failed. Only present if the command failed. */
-  errorMessage?: string;
-}
-export const DirectoryChromeosdevicesCommandResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    executeTime: S.optional(S.String),
-    result: S.optional(DirectoryChromeosdevicesCommandResultResultEnum),
-    commandResultPayload: S.optional(S.String),
-    errorMessage: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "DirectoryChromeosdevicesCommandResult",
-}) as any as S.Schema<DirectoryChromeosdevicesCommandResult>;
-
 /** Information regarding a command that was issued to a device. */
 export interface DirectoryChromeosdevicesCommand {
-  /** The payload that the command specified, if any. */
-  payload?: string;
-  /** The type of the command. */
-  type?: DirectoryChromeosdevicesCommandTypeEnum;
-  /** The time at which the command will expire. If the device doesn't execute the command within this time the command will become expired. */
-  commandExpireTime?: string;
-  /** Unique ID of a device command. */
-  commandId?: string;
-  /** The timestamp when the command was issued by the admin. */
-  issueTime?: string;
-  /** Indicates the command state. */
-  state?: DirectoryChromeosdevicesCommandStateEnum;
   /** The result of the command execution. */
   commandResult?: DirectoryChromeosdevicesCommandResult;
+  /** The timestamp when the command was issued by the admin. */
+  issueTime?: string;
+  /** The time at which the command will expire. If the device doesn't execute the command within this time the command will become expired. */
+  commandExpireTime?: string;
+  /** The payload that the command specified, if any. */
+  payload?: string;
+  /** Indicates the command state. */
+  state?: DirectoryChromeosdevicesCommandStateEnum;
+  /** The type of the command. */
+  type?: DirectoryChromeosdevicesCommandTypeEnum;
+  /** Unique ID of a device command. */
+  commandId?: string;
 }
 export const DirectoryChromeosdevicesCommand = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    payload: S.optional(S.String),
-    type: S.optional(DirectoryChromeosdevicesCommandTypeEnum),
-    commandExpireTime: S.optional(S.String),
-    commandId: S.optional(S.String),
-    issueTime: S.optional(S.String),
-    state: S.optional(DirectoryChromeosdevicesCommandStateEnum),
     commandResult: S.optional(DirectoryChromeosdevicesCommandResult),
+    issueTime: S.optional(S.String),
+    commandExpireTime: S.optional(S.String),
+    payload: S.optional(S.String),
+    state: S.optional(DirectoryChromeosdevicesCommandStateEnum),
+    type: S.optional(DirectoryChromeosdevicesCommandTypeEnum),
+    commandId: S.optional(S.String),
   }),
 ).annotate({
   identifier: "DirectoryChromeosdevicesCommand",
@@ -2415,77 +2355,73 @@ export const GetCustomersRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://admin.googleapis.com/",
     }),
   ),
-).annotate({
-  identifier: "GetCustomersRequest",
-}) as any as S.Schema<GetCustomersRequest>;
+).annotate({ identifier: "GetCustomersRequest" }) as any as S.Schema<GetCustomersRequest>;
 
 export interface CustomerPostalAddress {
   /** Name of the locality. An example of a locality value is the city of `San Francisco`. */
   locality?: string;
-  /** The customer contact's name. */
-  contactName?: string;
   /** Name of the region. An example of a region value is `NY` for the state of New York. */
   region?: string;
-  /** This is a required property. For `countryCode` information see the [ISO 3166 country code elements](https://www.iso.org/iso/country_codes.htm). */
-  countryCode?: string;
-  /** Address line 3 of the address. */
-  addressLine3?: string;
   /** The postal code. A postalCode example is a postal zip code such as `10009`. This is in accordance with - http: //portablecontacts.net/draft-spec.html#address_element. */
   postalCode?: string;
-  /** The company or company division name. */
-  organizationName?: string;
-  /** Address line 2 of the address. */
-  addressLine2?: string;
+  /** Address line 3 of the address. */
+  addressLine3?: string;
   /** A customer's physical address. The address can be composed of one to three lines. */
   addressLine1?: string;
+  /** This is a required property. For `countryCode` information see the [ISO 3166 country code elements](https://www.iso.org/iso/country_codes.htm). */
+  countryCode?: string;
+  /** The company or company division name. */
+  organizationName?: string;
+  /** The customer contact's name. */
+  contactName?: string;
+  /** Address line 2 of the address. */
+  addressLine2?: string;
 }
 export const CustomerPostalAddress = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     locality: S.optional(S.String),
-    contactName: S.optional(S.String),
     region: S.optional(S.String),
-    countryCode: S.optional(S.String),
-    addressLine3: S.optional(S.String),
     postalCode: S.optional(S.String),
-    organizationName: S.optional(S.String),
-    addressLine2: S.optional(S.String),
+    addressLine3: S.optional(S.String),
     addressLine1: S.optional(S.String),
+    countryCode: S.optional(S.String),
+    organizationName: S.optional(S.String),
+    contactName: S.optional(S.String),
+    addressLine2: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CustomerPostalAddress",
-}) as any as S.Schema<CustomerPostalAddress>;
+).annotate({ identifier: "CustomerPostalAddress" }) as any as S.Schema<CustomerPostalAddress>;
 
 export interface Customer {
-  /** The customer's creation time (Readonly) */
-  customerCreationTime?: string;
-  /** The customer's secondary contact email address. This email address cannot be on the same domain as the `customerDomain` */
-  alternateEmail?: string;
-  /** The unique ID for the customer's Google Workspace account. (Readonly) */
-  id?: string;
   /** The customer's primary domain name string. Do not include the `www` prefix when creating a new customer. */
   customerDomain?: string;
+  /** ETag of the resource. */
+  etag?: string;
   /** Identifies the resource as a customer. Value: `admin#directory#customer` */
   kind?: string;
   /** The customer's contact phone number in [E.164](https://en.wikipedia.org/wiki/E.164) format. */
   phoneNumber?: string;
-  /** ETag of the resource. */
-  etag?: string;
+  /** The customer's creation time (Readonly) */
+  customerCreationTime?: string;
   /** The customer's postal address information. */
   postalAddress?: CustomerPostalAddress;
+  /** The customer's secondary contact email address. This email address cannot be on the same domain as the `customerDomain` */
+  alternateEmail?: string;
   /** The customer's ISO 639-2 language code. See the [Language Codes](https://developers.google.com/workspace/admin/directory/v1/languages) page for the list of supported codes. Valid language codes outside the supported set will be accepted by the API but may lead to unexpected behavior. The default value is `en`. */
   language?: string;
+  /** The unique ID for the customer's Google Workspace account. (Readonly) */
+  id?: string;
 }
 export const Customer = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    customerCreationTime: S.optional(S.String),
-    alternateEmail: S.optional(S.String),
-    id: S.optional(S.String),
     customerDomain: S.optional(S.String),
+    etag: S.optional(S.String),
     kind: S.optional(S.String),
     phoneNumber: S.optional(S.String),
-    etag: S.optional(S.String),
+    customerCreationTime: S.optional(S.String),
     postalAddress: S.optional(CustomerPostalAddress),
+    alternateEmail: S.optional(S.String),
     language: S.optional(S.String),
+    id: S.optional(S.String),
   }),
 ).annotate({ identifier: "Customer" }) as any as S.Schema<Customer>;
 
@@ -2526,15 +2462,15 @@ export const GetCustomersChromePrintServersRequest = /*@__PURE__*/ S.suspend(() 
 }) as any as S.Schema<GetCustomersChromePrintServersRequest>;
 
 export interface GetDomainAliasesRequest {
-  /** Name of domain alias to be retrieved. */
-  domainAliasName: string;
   /** The unique ID for the customer's Google Workspace account. In case of a multi-domain account, to fetch all groups for a customer, use this field instead of `domain`. You can also use the `my_customer` alias to represent your account's `customerId`. The `customerId` is also returned as part of the [Users](https://developers.google.com/workspace/admin/directory/v1/reference/users) resource. You must provide either the `customer` or the `domain` parameter. */
   customer: string;
+  /** Name of domain alias to be retrieved. */
+  domainAliasName: string;
 }
 export const GetDomainAliasesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    domainAliasName: S.String.pipe(T.Label()),
     customer: S.String.pipe(T.Label()),
+    domainAliasName: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -2542,45 +2478,43 @@ export const GetDomainAliasesRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://admin.googleapis.com/",
     }),
   ),
-).annotate({
-  identifier: "GetDomainAliasesRequest",
-}) as any as S.Schema<GetDomainAliasesRequest>;
+).annotate({ identifier: "GetDomainAliasesRequest" }) as any as S.Schema<GetDomainAliasesRequest>;
 
 export interface DomainAlias {
-  /** Kind of resource this is. */
-  kind?: string;
-  /** The parent domain name that the domain alias is associated with. This can either be a primary or secondary domain name within a customer. */
-  parentDomainName?: string;
-  /** ETag of the resource. */
-  etag?: string;
   /** Indicates the verification state of a domain alias. (Read-only) */
   verified?: boolean;
   /** The creation time of the domain alias. (Read-only). */
   creationTime?: string;
+  /** The parent domain name that the domain alias is associated with. This can either be a primary or secondary domain name within a customer. */
+  parentDomainName?: string;
+  /** Kind of resource this is. */
+  kind?: string;
   /** The domain alias name. */
   domainAliasName?: string;
+  /** ETag of the resource. */
+  etag?: string;
 }
 export const DomainAlias = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    kind: S.optional(S.String),
-    parentDomainName: S.optional(S.String),
-    etag: S.optional(S.String),
     verified: S.optional(S.Boolean),
     creationTime: S.optional(S.String),
+    parentDomainName: S.optional(S.String),
+    kind: S.optional(S.String),
     domainAliasName: S.optional(S.String),
+    etag: S.optional(S.String),
   }),
 ).annotate({ identifier: "DomainAlias" }) as any as S.Schema<DomainAlias>;
 
 export interface GetDomainsRequest {
-  /** Name of domain to be retrieved */
-  domainName: string;
   /** The unique ID for the customer's Google Workspace account. In case of a multi-domain account, to fetch all groups for a customer, use this field instead of `domain`. You can also use the `my_customer` alias to represent your account's `customerId`. The `customerId` is also returned as part of the [Users](https://developers.google.com/workspace/admin/directory/v1/reference/users) resource. You must provide either the `customer` or the `domain` parameter. */
   customer: string;
+  /** Name of domain to be retrieved */
+  domainName: string;
 }
 export const GetDomainsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    domainName: S.String.pipe(T.Label()),
     customer: S.String.pipe(T.Label()),
+    domainName: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -2588,9 +2522,7 @@ export const GetDomainsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://admin.googleapis.com/",
     }),
   ),
-).annotate({
-  identifier: "GetDomainsRequest",
-}) as any as S.Schema<GetDomainsRequest>;
+).annotate({ identifier: "GetDomainsRequest" }) as any as S.Schema<GetDomainsRequest>;
 
 export type DomainAliasList = Array<DomainAlias>;
 export const DomainAliasList = /*@__PURE__*/ S.Array(
@@ -2598,30 +2530,30 @@ export const DomainAliasList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<DomainAliasList>;
 
 export interface Domains {
-  /** ETag of the resource. */
-  etag?: string;
   /** A list of domain alias objects. (Read-only) */
   domainAliases?: DomainAliasList;
-  /** Indicates if the domain is a primary domain (Read-only). */
-  isPrimary?: boolean;
   /** Creation time of the domain. Expressed in [Unix time](https://en.wikipedia.org/wiki/Epoch_time) format. (Read-only). */
   creationTime?: string;
-  /** Indicates the verification state of a domain. (Read-only). */
-  verified?: boolean;
-  /** The domain name of the customer. */
-  domainName?: string;
+  /** Indicates if the domain is a primary domain (Read-only). */
+  isPrimary?: boolean;
   /** Kind of resource this is. */
   kind?: string;
+  /** ETag of the resource. */
+  etag?: string;
+  /** The domain name of the customer. */
+  domainName?: string;
+  /** Indicates the verification state of a domain. (Read-only). */
+  verified?: boolean;
 }
 export const Domains = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    etag: S.optional(S.String),
     domainAliases: S.optional(DomainAliasList),
-    isPrimary: S.optional(S.Boolean),
     creationTime: S.optional(S.String),
-    verified: S.optional(S.Boolean),
-    domainName: S.optional(S.String),
+    isPrimary: S.optional(S.Boolean),
     kind: S.optional(S.String),
+    etag: S.optional(S.String),
+    domainName: S.optional(S.String),
+    verified: S.optional(S.Boolean),
   }),
 ).annotate({ identifier: "Domains" }) as any as S.Schema<Domains>;
 
@@ -2639,21 +2571,19 @@ export const GetGroupsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://admin.googleapis.com/",
     }),
   ),
-).annotate({
-  identifier: "GetGroupsRequest",
-}) as any as S.Schema<GetGroupsRequest>;
+).annotate({ identifier: "GetGroupsRequest" }) as any as S.Schema<GetGroupsRequest>;
 
 /** External identifier used to link and identify this group across external directory systems. */
 export interface ExternalId {
-  /** The system or identity provider managing this ID. */
-  namespace?: string;
   /** The unique identifier string assigned by the external provider. */
   id?: string;
+  /** The system or identity provider managing this ID. */
+  namespace?: string;
 }
 export const ExternalId = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    namespace: S.optional(S.String),
     id: S.optional(S.String),
+    namespace: S.optional(S.String),
   }),
 ).annotate({ identifier: "ExternalId" }) as any as S.Schema<ExternalId>;
 
@@ -2662,42 +2592,42 @@ export const ExternalIdList = /*@__PURE__*/ S.Array(ExternalId) as any as S.Sche
 
 /** Google Groups provide your users the ability to send messages to groups of people using the group's email address. For more information about common tasks, see the [Developer's Guide](https://developers.google.com/workspace/admin/directory/v1/guides/manage-groups). For information about other types of groups, see the [Cloud Identity Groups API documentation](https://cloud.google.com/identity/docs/groups). Note: The user calling the API (or being impersonated by a service account) must have an assigned [role](https://developers.google.com/workspace/admin/directory/v1/guides/manage-roles) that includes Admin API Groups permissions, such as Super Admin or Groups Admin. */
 export interface Group {
-  /** Read-only. Value is `true` if this group was created by an administrator rather than a user. */
-  adminCreated?: boolean;
-  /** Read-only. The list of the group's non-editable alias email addresses that are outside of the account's primary domain or subdomains. These are functioning email addresses used by the group. This is a read-only property returned in the API's response for a group. If edited in a group's POST or PUT request, the edit is ignored. */
-  nonEditableAliases?: StringList;
-  /** The group's email address. If your account has multiple domains, select the appropriate domain for the email address. The `email` must be unique. This property is required when creating a group. Group email addresses are subject to the same character usage rules as usernames, see the [help center](https://support.google.com/a/answer/9193374) for details. */
-  email?: string;
-  /** The number of users that are direct members of the group. If a group is a member (child) of this group (the parent), members of the child group are not counted in the `directMembersCount` property of the parent group. */
-  directMembersCount?: string;
-  /** The type of the API resource. For Groups resources, the value is `admin#directory#group`. */
-  kind?: string;
   /** The group's display name. */
   name?: string;
+  /** The number of users that are direct members of the group. If a group is a member (child) of this group (the parent), members of the child group are not counted in the `directMembersCount` property of the parent group. */
+  directMembersCount?: string;
+  /** The group's email address. If your account has multiple domains, select the appropriate domain for the email address. The `email` must be unique. This property is required when creating a group. Group email addresses are subject to the same character usage rules as usernames, see the [help center](https://support.google.com/a/answer/9193374) for details. */
+  email?: string;
   /** ETag of the resource. */
   etag?: string;
   /** An extended description to help users determine the purpose of a group. For example, you can include information about who should join the group, the types of messages to send to the group, links to FAQs about the group, or related groups. Maximum length is `4,096` characters. */
   description?: string;
+  /** Read-only. The list of the group's non-editable alias email addresses that are outside of the account's primary domain or subdomains. These are functioning email addresses used by the group. This is a read-only property returned in the API's response for a group. If edited in a group's POST or PUT request, the edit is ignored. */
+  nonEditableAliases?: StringList;
+  /** The type of the API resource. For Groups resources, the value is `admin#directory#group`. */
+  kind?: string;
   /** Optional. The list of external IDs for the group, such as an immutable identifier from an external identity provider or directory sync client. Each entry contains a namespace and an ID value. */
   externalIds?: ExternalIdList;
   /** Read-only. The list of a group's alias email addresses. To add, update, or remove a group's aliases, use the `groups.aliases` methods. If edited in a group's POST or PUT request, the edit is ignored. */
   aliases?: StringList;
   /** Read-only. The unique ID of a group. A group `id` can be used as a group request URI's `groupKey`. */
   id?: string;
+  /** Read-only. Value is `true` if this group was created by an administrator rather than a user. */
+  adminCreated?: boolean;
 }
 export const Group = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    adminCreated: S.optional(S.Boolean),
-    nonEditableAliases: S.optional(StringList),
-    email: S.optional(S.String),
-    directMembersCount: S.optional(S.String),
-    kind: S.optional(S.String),
     name: S.optional(S.String),
+    directMembersCount: S.optional(S.String),
+    email: S.optional(S.String),
     etag: S.optional(S.String),
     description: S.optional(S.String),
+    nonEditableAliases: S.optional(StringList),
+    kind: S.optional(S.String),
     externalIds: S.optional(ExternalIdList),
     aliases: S.optional(StringList),
     id: S.optional(S.String),
+    adminCreated: S.optional(S.Boolean),
   }),
 ).annotate({ identifier: "Group" }) as any as S.Schema<Group>;
 
@@ -2718,39 +2648,37 @@ export const GetMembersRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://admin.googleapis.com/",
     }),
   ),
-).annotate({
-  identifier: "GetMembersRequest",
-}) as any as S.Schema<GetMembersRequest>;
+).annotate({ identifier: "GetMembersRequest" }) as any as S.Schema<GetMembersRequest>;
 
 /** A Google Groups member can be a user or another group. This member can be inside or outside of your account's domains. For more information about common group member tasks, see the [Developer's Guide](https://developers.google.com/workspace/admin/directory/v1/guides/manage-group-members). */
 export interface Member {
+  /** ETag of the resource. */
+  etag?: string;
+  /** The type of group member. */
+  type?: string;
+  /** Defines mail delivery preferences of member. This field is only supported by `insert`, `update`, and `get` methods. */
+  delivery_settings?: string;
   /** Status of member (Immutable) */
   status?: string;
+  /** The type of the API resource. For Members resources, the value is `admin#directory#member`. */
+  kind?: string;
+  /** The unique ID of the group member. A member `id` can be used as a member request URI's `memberKey`. */
+  id?: string;
   /** The member's role in a group. The API returns an error for cycles in group memberships. For example, if `group1` is a member of `group2`, `group2` cannot be a member of `group1`. For more information about a member's role, see the [administration help center](https://support.google.com/a/answer/167094). */
   role?: string;
   /** The member's email address. A member can be a user or another group. This property is required when adding a member to a group. The `email` must be unique and cannot be an alias of another group. If the email address is changed, the API automatically reflects the email address changes. */
   email?: string;
-  /** The unique ID of the group member. A member `id` can be used as a member request URI's `memberKey`. */
-  id?: string;
-  /** The type of the API resource. For Members resources, the value is `admin#directory#member`. */
-  kind?: string;
-  /** ETag of the resource. */
-  etag?: string;
-  /** Defines mail delivery preferences of member. This field is only supported by `insert`, `update`, and `get` methods. */
-  delivery_settings?: string;
-  /** The type of group member. */
-  type?: string;
 }
 export const Member = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    etag: S.optional(S.String),
+    type: S.optional(S.String),
+    delivery_settings: S.optional(S.String),
     status: S.optional(S.String),
+    kind: S.optional(S.String),
+    id: S.optional(S.String),
     role: S.optional(S.String),
     email: S.optional(S.String),
-    id: S.optional(S.String),
-    kind: S.optional(S.String),
-    etag: S.optional(S.String),
-    delivery_settings: S.optional(S.String),
-    type: S.optional(S.String),
   }),
 ).annotate({ identifier: "Member" }) as any as S.Schema<Member>;
 
@@ -2777,29 +2705,27 @@ export const GetMobiledevicesRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://admin.googleapis.com/",
     }),
   ),
-).annotate({
-  identifier: "GetMobiledevicesRequest",
-}) as any as S.Schema<GetMobiledevicesRequest>;
+).annotate({ identifier: "GetMobiledevicesRequest" }) as any as S.Schema<GetMobiledevicesRequest>;
 
 export interface MobileDeviceApplicationsItem {
   /** The application's version code. An example is `13`. */
   versionCode?: number;
   /** The application's display name. An example is `Browser`. */
   displayName?: string;
+  /** The application's version name. An example is `3.2-140714`. */
+  versionName?: string;
   /** The list of permissions of this application. These can be either a standard Android permission or one defined by the application, and are found in an application's [Android manifest](https://developer.android.com/guide/topics/manifest/uses-permission-element.html). Examples of a Calendar application's permissions are `READ_CALENDAR`, or `MANAGE_ACCOUNTS`. */
   permission?: StringList;
   /** The application's package name. An example is `com.android.browser`. */
   packageName?: string;
-  /** The application's version name. An example is `3.2-140714`. */
-  versionName?: string;
 }
 export const MobileDeviceApplicationsItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     versionCode: S.optional(S.Number),
     displayName: S.optional(S.String),
+    versionName: S.optional(S.String),
     permission: S.optional(StringList),
     packageName: S.optional(S.String),
-    versionName: S.optional(S.String),
   }),
 ).annotate({
   identifier: "MobileDeviceApplicationsItem",
@@ -2812,142 +2738,142 @@ export const MobileDeviceApplicationsItemList = /*@__PURE__*/ S.Array(
 
 /** Google Workspace Mobile Management includes Android, [Google Sync](https://support.google.com/a/answer/135937), and iOS devices. For more information about common group mobile device API tasks, see the [Developer's Guide](https://developers.google.com/workspace/admin/directory/v1/guides/manage-mobile-devices.html). */
 export interface MobileDevice {
-  /** The device's MAC address on Wi-Fi networks. */
-  wifiMacAddress?: string;
-  /** Mobile Device manufacturer (Read-only) */
-  manufacturer?: string;
-  /** The unique ID the API service uses to identify the mobile device. */
-  resourceId?: string;
-  /** The type of mobile device. */
-  type?: string;
-  /** Mobile Device Security patch level (Read-only) */
-  securityPatchLevel?: string;
-  /** Mobile Device Brand (Read-only) */
-  brand?: string;
-  /** The device's kernel version. */
-  kernelVersion?: string;
-  /** The IMEI/MEID unique identifier for Android hardware. It is not applicable to Google Sync devices. When adding an Android mobile device, this is an optional property. When updating one of these devices, this is a read-only property. */
-  hardwareId?: string;
-  /** Date and time the device was first synchronized with the policy settings in the G Suite administrator control panel (Read-only) */
-  firstSync?: string;
-  /** Work profile supported on device (Read-only) */
-  supportsWorkProfile?: boolean;
-  /** Mobile Device Encryption Status (Read-only) */
-  encryptionStatus?: string;
-  /** Mobile Device release version version (Read-only) */
-  releaseVersion?: string;
-  /** The list of the owner's user names. If your application needs the current list of device owner names, use the [get](https://developers.google.com/workspace/admin/directory/v1/reference/mobiledevices/get.html) method. For more information about retrieving mobile device user information, see the [Developer's Guide](https://developers.google.com/workspace/admin/directory/v1/guides/manage-users#get_user). */
-  name?: StringList;
-  /** Boolean indicating if this account is on owner/primary profile or not. */
-  managedAccountIsOnOwnerProfile?: boolean;
-  /** Mobile Device mobile or network operator (if available) (Read-only) */
-  networkOperator?: string;
-  /** The device's MEID number. */
-  meid?: string;
-  /** Unknown sources enabled or disabled on device (Read-only) */
-  unknownSourcesStatus?: boolean;
-  /** The mobile device's model name, for example Nexus S. This property can be [updated](https://developers.google.com/workspace/admin/directory/v1/reference/mobiledevices/update.html). For more information, see the [Developer's Guide](https://developers.google.com/workspace/admin/directory/v1/guides/manage-mobile=devices#update_mobile_device). */
-  model?: string;
-  /** Mobile Device Hardware (Read-only) */
-  hardware?: string;
-  /** Developer options enabled or disabled on device (Read-only) */
-  developerOptionsStatus?: boolean;
   /** Date and time the device was last synchronized with the policy settings in the G Suite administrator control panel (Read-only) */
   lastSync?: string;
-  /** The serial number for a Google Sync mobile device. For Android and iOS devices, this is a software generated unique identifier. */
-  deviceId?: string;
-  /** The device's status. */
-  status?: string;
-  /** The device's serial number. */
-  serialNumber?: string;
-  /** The device's IMEI number. */
-  imei?: string;
-  /** The default locale used on the device. */
-  defaultLanguage?: string;
-  /** The list of accounts added on device (Read-only) */
-  otherAccountsInfo?: StringList;
-  /** Gives information about the device such as `os` version. This property can be [updated](https://developers.google.com/workspace/admin/directory/v1/reference/mobiledevices/update.html). For more information, see the [Developer's Guide](https://developers.google.com/workspace/admin/directory/v1/guides/manage-mobile-devices#update_mobile_device). */
-  userAgent?: string;
-  /** Adb (USB debugging) enabled or disabled on device (Read-only) */
-  adbStatus?: boolean;
+  /** Mobile Device Hardware (Read-only) */
+  hardware?: string;
   /** DMAgentPermission (Read-only) */
   privilege?: string;
-  /** The device's baseband version. */
-  basebandVersion?: string;
+  /** The unique ID the API service uses to identify the mobile device. */
+  resourceId?: string;
+  /** The device's kernel version. */
+  kernelVersion?: string;
+  /** The device's IMEI number. */
+  imei?: string;
+  /** Adb (USB debugging) enabled or disabled on device (Read-only) */
+  adbStatus?: boolean;
   /** The list of applications installed on an Android mobile device. It is not applicable to Google Sync and iOS devices. The list includes any Android applications that access Google Workspace data. When updating an applications list, it is important to note that updates replace the existing list. If the Android device has two existing applications and the API updates the list with five applications, the is now the updated list of five applications. */
   applications?: MobileDeviceApplicationsItemList;
-  /** The mobile device's operating system, for example IOS 4.3 or Android 2.3.5. This property can be [updated](https://developers.google.com/workspace/admin/directory/v1/reference/mobiledevices/update.html). For more information, see the [Developer's Guide](https://developers.google.com/workspace/admin/directory/v1/guides/manage-mobile-devices#update_mobile_device). */
-  os?: string;
-  /** ETag of the resource. */
-  etag?: string;
-  /** The type of the API resource. For Mobiledevices resources, the value is `admin#directory#mobiledevice`. */
-  kind?: string;
-  /** The compromised device status. */
-  deviceCompromisedStatus?: string;
-  /** The list of the owner's email addresses. If your application needs the current list of user emails, use the [get](https://developers.google.com/workspace/admin/directory/v1/reference/mobiledevices/get.html) method. For additional information, see the [retrieve a user](https://developers.google.com/workspace/admin/directory/v1/guides/manage-users#get_user) method. */
-  email?: StringList;
+  /** Date and time the device was first synchronized with the policy settings in the G Suite administrator control panel (Read-only) */
+  firstSync?: string;
+  /** The serial number for a Google Sync mobile device. For Android and iOS devices, this is a software generated unique identifier. */
+  deviceId?: string;
   /** Mobile Device Bootloader version (Read-only) */
   bootloaderVersion?: string;
-  /** DevicePasswordStatus (Read-only) */
-  devicePasswordStatus?: string;
+  /** The mobile device's model name, for example Nexus S. This property can be [updated](https://developers.google.com/workspace/admin/directory/v1/reference/mobiledevices/update.html). For more information, see the [Developer's Guide](https://developers.google.com/workspace/admin/directory/v1/guides/manage-mobile=devices#update_mobile_device). */
+  model?: string;
+  /** The device's MEID number. */
+  meid?: string;
+  /** The compromised device status. */
+  deviceCompromisedStatus?: string;
+  /** The device's serial number. */
+  serialNumber?: string;
+  /** The device's baseband version. */
+  basebandVersion?: string;
+  /** Mobile Device Security patch level (Read-only) */
+  securityPatchLevel?: string;
+  /** Unknown sources enabled or disabled on device (Read-only) */
+  unknownSourcesStatus?: boolean;
+  /** The IMEI/MEID unique identifier for Android hardware. It is not applicable to Google Sync devices. When adding an Android mobile device, this is an optional property. When updating one of these devices, this is a read-only property. */
+  hardwareId?: string;
+  /** The list of accounts added on device (Read-only) */
+  otherAccountsInfo?: StringList;
+  /** The type of mobile device. */
+  type?: string;
+  /** The mobile device's operating system, for example IOS 4.3 or Android 2.3.5. This property can be [updated](https://developers.google.com/workspace/admin/directory/v1/reference/mobiledevices/update.html). For more information, see the [Developer's Guide](https://developers.google.com/workspace/admin/directory/v1/guides/manage-mobile-devices#update_mobile_device). */
+  os?: string;
+  /** Work profile supported on device (Read-only) */
+  supportsWorkProfile?: boolean;
+  /** The list of the owner's user names. If your application needs the current list of device owner names, use the [get](https://developers.google.com/workspace/admin/directory/v1/reference/mobiledevices/get.html) method. For more information about retrieving mobile device user information, see the [Developer's Guide](https://developers.google.com/workspace/admin/directory/v1/guides/manage-users#get_user). */
+  name?: StringList;
+  /** Gives information about the device such as `os` version. This property can be [updated](https://developers.google.com/workspace/admin/directory/v1/reference/mobiledevices/update.html). For more information, see the [Developer's Guide](https://developers.google.com/workspace/admin/directory/v1/guides/manage-mobile-devices#update_mobile_device). */
+  userAgent?: string;
+  /** Mobile Device Encryption Status (Read-only) */
+  encryptionStatus?: string;
+  /** Boolean indicating if this account is on owner/primary profile or not. */
+  managedAccountIsOnOwnerProfile?: boolean;
+  /** The default locale used on the device. */
+  defaultLanguage?: string;
+  /** Mobile Device release version version (Read-only) */
+  releaseVersion?: string;
+  /** Mobile Device manufacturer (Read-only) */
+  manufacturer?: string;
+  /** The device's status. */
+  status?: string;
+  /** Developer options enabled or disabled on device (Read-only) */
+  developerOptionsStatus?: boolean;
   /** The device's operating system build number. */
   buildNumber?: string;
+  /** The list of the owner's email addresses. If your application needs the current list of user emails, use the [get](https://developers.google.com/workspace/admin/directory/v1/reference/mobiledevices/get.html) method. For additional information, see the [retrieve a user](https://developers.google.com/workspace/admin/directory/v1/guides/manage-users#get_user) method. */
+  email?: StringList;
+  /** Mobile Device Brand (Read-only) */
+  brand?: string;
+  /** DevicePasswordStatus (Read-only) */
+  devicePasswordStatus?: string;
+  /** The type of the API resource. For Mobiledevices resources, the value is `admin#directory#mobiledevice`. */
+  kind?: string;
+  /** ETag of the resource. */
+  etag?: string;
+  /** Mobile Device mobile or network operator (if available) (Read-only) */
+  networkOperator?: string;
+  /** The device's MAC address on Wi-Fi networks. */
+  wifiMacAddress?: string;
 }
 export const MobileDevice = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    wifiMacAddress: S.optional(S.String),
-    manufacturer: S.optional(S.String),
-    resourceId: S.optional(S.String),
-    type: S.optional(S.String),
-    securityPatchLevel: S.optional(S.String),
-    brand: S.optional(S.String),
-    kernelVersion: S.optional(S.String),
-    hardwareId: S.optional(S.String),
-    firstSync: S.optional(S.String),
-    supportsWorkProfile: S.optional(S.Boolean),
-    encryptionStatus: S.optional(S.String),
-    releaseVersion: S.optional(S.String),
-    name: S.optional(StringList),
-    managedAccountIsOnOwnerProfile: S.optional(S.Boolean),
-    networkOperator: S.optional(S.String),
-    meid: S.optional(S.String),
-    unknownSourcesStatus: S.optional(S.Boolean),
-    model: S.optional(S.String),
-    hardware: S.optional(S.String),
-    developerOptionsStatus: S.optional(S.Boolean),
     lastSync: S.optional(S.String),
-    deviceId: S.optional(S.String),
-    status: S.optional(S.String),
-    serialNumber: S.optional(S.String),
-    imei: S.optional(S.String),
-    defaultLanguage: S.optional(S.String),
-    otherAccountsInfo: S.optional(StringList),
-    userAgent: S.optional(S.String),
-    adbStatus: S.optional(S.Boolean),
+    hardware: S.optional(S.String),
     privilege: S.optional(S.String),
-    basebandVersion: S.optional(S.String),
+    resourceId: S.optional(S.String),
+    kernelVersion: S.optional(S.String),
+    imei: S.optional(S.String),
+    adbStatus: S.optional(S.Boolean),
     applications: S.optional(MobileDeviceApplicationsItemList),
-    os: S.optional(S.String),
-    etag: S.optional(S.String),
-    kind: S.optional(S.String),
-    deviceCompromisedStatus: S.optional(S.String),
-    email: S.optional(StringList),
+    firstSync: S.optional(S.String),
+    deviceId: S.optional(S.String),
     bootloaderVersion: S.optional(S.String),
-    devicePasswordStatus: S.optional(S.String),
+    model: S.optional(S.String),
+    meid: S.optional(S.String),
+    deviceCompromisedStatus: S.optional(S.String),
+    serialNumber: S.optional(S.String),
+    basebandVersion: S.optional(S.String),
+    securityPatchLevel: S.optional(S.String),
+    unknownSourcesStatus: S.optional(S.Boolean),
+    hardwareId: S.optional(S.String),
+    otherAccountsInfo: S.optional(StringList),
+    type: S.optional(S.String),
+    os: S.optional(S.String),
+    supportsWorkProfile: S.optional(S.Boolean),
+    name: S.optional(StringList),
+    userAgent: S.optional(S.String),
+    encryptionStatus: S.optional(S.String),
+    managedAccountIsOnOwnerProfile: S.optional(S.Boolean),
+    defaultLanguage: S.optional(S.String),
+    releaseVersion: S.optional(S.String),
+    manufacturer: S.optional(S.String),
+    status: S.optional(S.String),
+    developerOptionsStatus: S.optional(S.Boolean),
     buildNumber: S.optional(S.String),
+    email: S.optional(StringList),
+    brand: S.optional(S.String),
+    devicePasswordStatus: S.optional(S.String),
+    kind: S.optional(S.String),
+    etag: S.optional(S.String),
+    networkOperator: S.optional(S.String),
+    wifiMacAddress: S.optional(S.String),
   }),
 ).annotate({ identifier: "MobileDevice" }) as any as S.Schema<MobileDevice>;
 
 export interface GetOrgunitsRequest {
-  /** The unique ID for the customer's Google Workspace account. As an account administrator, you can also use the `my_customer` alias to represent your account's `customerId`. The `customerId` is also returned as part of the [Users resource](https://developers.google.com/workspace/admin/directory/v1/reference/users). */
-  customerId: string;
   /** The full path of the organizational unit (minus the leading `/`) or its unique ID. */
   orgUnitPath: string;
+  /** The unique ID for the customer's Google Workspace account. As an account administrator, you can also use the `my_customer` alias to represent your account's `customerId`. The `customerId` is also returned as part of the [Users resource](https://developers.google.com/workspace/admin/directory/v1/reference/users). */
+  customerId: string;
 }
 export const GetOrgunitsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    customerId: S.String.pipe(T.Label()),
     orgUnitPath: S.String.pipe(T.Label()),
+    customerId: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -2955,42 +2881,40 @@ export const GetOrgunitsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://admin.googleapis.com/",
     }),
   ),
-).annotate({
-  identifier: "GetOrgunitsRequest",
-}) as any as S.Schema<GetOrgunitsRequest>;
+).annotate({ identifier: "GetOrgunitsRequest" }) as any as S.Schema<GetOrgunitsRequest>;
 
 /** Managing your account's organizational units allows you to configure your users' access to services and custom settings. For more information about common organizational unit tasks, see the [Developer's Guide](https://developers.google.com/workspace/admin/directory/v1/guides/manage-org-units.html). The customer's organizational unit hierarchy is limited to 35 levels of depth. */
 export interface OrgUnit {
-  /** The unique ID of the organizational unit. */
-  orgUnitId?: string;
-  /** The unique ID of the parent organizational unit. Required, unless `parentOrgUnitPath` is set. */
-  parentOrgUnitId?: string;
-  /** The organizational unit's parent path. For example, /corp/sales is the parent path for /corp/sales/sales_support organizational unit. Required, unless `parentOrgUnitId` is set. */
-  parentOrgUnitPath?: string;
-  /** Description of the organizational unit. */
-  description?: string;
-  /** The organizational unit's path name. For example, an organizational unit's name within the /corp/support/sales_support parent path is sales_support. Required. */
-  name?: string;
-  /** ETag of the resource. */
-  etag?: string;
-  /** The full path to the organizational unit. The `orgUnitPath` is a derived property. When listed, it is derived from `parentOrgunitPath` and organizational unit's `name`. For example, for an organizational unit named 'apps' under parent organization '/engineering', the orgUnitPath is '/engineering/apps'. In order to edit an `orgUnitPath`, either update the name of the organization or the `parentOrgunitPath`. A user's organizational unit determines which Google Workspace services the user has access to. If the user is moved to a new organization, the user's access changes. For more information about organization structures, see the [administration help center](https://support.google.com/a/answer/4352075). For more information about moving a user to a different organization, see [Update a user](https://developers.google.com/workspace/admin/directory/v1/guides/manage-users.html#update_user). */
-  orgUnitPath?: string;
   /** This field is deprecated and setting its value has no effect. */
   blockInheritance?: boolean;
+  /** The unique ID of the parent organizational unit. Required, unless `parentOrgUnitPath` is set. */
+  parentOrgUnitId?: string;
+  /** The unique ID of the organizational unit. */
+  orgUnitId?: string;
+  /** The organizational unit's parent path. For example, /corp/sales is the parent path for /corp/sales/sales_support organizational unit. Required, unless `parentOrgUnitId` is set. */
+  parentOrgUnitPath?: string;
   /** The type of the API resource. For Orgunits resources, the value is `admin#directory#orgUnit`. */
   kind?: string;
+  /** The full path to the organizational unit. The `orgUnitPath` is a derived property. When listed, it is derived from `parentOrgunitPath` and organizational unit's `name`. For example, for an organizational unit named 'apps' under parent organization '/engineering', the orgUnitPath is '/engineering/apps'. In order to edit an `orgUnitPath`, either update the name of the organization or the `parentOrgunitPath`. A user's organizational unit determines which Google Workspace services the user has access to. If the user is moved to a new organization, the user's access changes. For more information about organization structures, see the [administration help center](https://support.google.com/a/answer/4352075). For more information about moving a user to a different organization, see [Update a user](https://developers.google.com/workspace/admin/directory/v1/guides/manage-users.html#update_user). */
+  orgUnitPath?: string;
+  /** ETag of the resource. */
+  etag?: string;
+  /** The organizational unit's path name. For example, an organizational unit's name within the /corp/support/sales_support parent path is sales_support. Required. */
+  name?: string;
+  /** Description of the organizational unit. */
+  description?: string;
 }
 export const OrgUnit = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    orgUnitId: S.optional(S.String),
-    parentOrgUnitId: S.optional(S.String),
-    parentOrgUnitPath: S.optional(S.String),
-    description: S.optional(S.String),
-    name: S.optional(S.String),
-    etag: S.optional(S.String),
-    orgUnitPath: S.optional(S.String),
     blockInheritance: S.optional(S.Boolean),
+    parentOrgUnitId: S.optional(S.String),
+    orgUnitId: S.optional(S.String),
+    parentOrgUnitPath: S.optional(S.String),
     kind: S.optional(S.String),
+    orgUnitPath: S.optional(S.String),
+    etag: S.optional(S.String),
+    name: S.optional(S.String),
+    description: S.optional(S.String),
   }),
 ).annotate({ identifier: "OrgUnit" }) as any as S.Schema<OrgUnit>;
 
@@ -3017,80 +2941,76 @@ export const GetResourcesBuildingsRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** Public API: Resources.buildings */
 export interface BuildingAddress {
-  /** Optional. Highest administrative subdivision which is used for postal addresses of a country or region. */
-  administrativeArea?: string;
-  /** Optional. Sublocality of the address. */
-  sublocality?: string;
+  /** Optional. BCP-47 language code of the contents of this address (if known). */
+  languageCode?: string;
   /** Required. CLDR region code of the country/region of the address. */
   regionCode?: string;
+  /** Optional. Generally refers to the city/town portion of the address. Examples: US city, IT comune, UK post town. In regions of the world where localities are not well defined or do not fit into this structure well, leave locality empty and use addressLines. */
+  locality?: string;
   /** Optional. Postal code of the address. */
   postalCode?: string;
   /** Unstructured address lines describing the lower levels of an address. */
   addressLines?: StringList;
-  /** Optional. Generally refers to the city/town portion of the address. Examples: US city, IT comune, UK post town. In regions of the world where localities are not well defined or do not fit into this structure well, leave locality empty and use addressLines. */
-  locality?: string;
-  /** Optional. BCP-47 language code of the contents of this address (if known). */
-  languageCode?: string;
+  /** Optional. Highest administrative subdivision which is used for postal addresses of a country or region. */
+  administrativeArea?: string;
+  /** Optional. Sublocality of the address. */
+  sublocality?: string;
 }
 export const BuildingAddress = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    administrativeArea: S.optional(S.String),
-    sublocality: S.optional(S.String),
+    languageCode: S.optional(S.String),
     regionCode: S.optional(S.String),
+    locality: S.optional(S.String),
     postalCode: S.optional(S.String),
     addressLines: S.optional(StringList),
-    locality: S.optional(S.String),
-    languageCode: S.optional(S.String),
+    administrativeArea: S.optional(S.String),
+    sublocality: S.optional(S.String),
   }),
-).annotate({
-  identifier: "BuildingAddress",
-}) as any as S.Schema<BuildingAddress>;
+).annotate({ identifier: "BuildingAddress" }) as any as S.Schema<BuildingAddress>;
 
 /** Public API: Resources.buildings */
 export interface BuildingCoordinates {
-  /** Longitude in decimal degrees. */
-  longitude?: number;
   /** Latitude in decimal degrees. */
   latitude?: number;
+  /** Longitude in decimal degrees. */
+  longitude?: number;
 }
 export const BuildingCoordinates = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    longitude: S.optional(S.Number),
     latitude: S.optional(S.Number),
+    longitude: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "BuildingCoordinates",
-}) as any as S.Schema<BuildingCoordinates>;
+).annotate({ identifier: "BuildingCoordinates" }) as any as S.Schema<BuildingCoordinates>;
 
 /** Public API: Resources.buildings */
 export interface Building {
+  /** ETag of the resource. */
+  etags?: string;
+  /** A brief description of the building. For example, "Chelsea Market". */
+  description?: string;
+  /** The display names for all floors in this building. The floors are expected to be sorted in ascending order, from lowest floor to highest floor. For example, ["B2", "B1", "L", "1", "2", "2M", "3", "PH"] Must contain at least one entry. */
+  floorNames?: StringList;
   /** The postal address of the building. See [`PostalAddress`](/my-business/reference/rest/v4/PostalAddress) for details. Note that only a single address line and region code are required. */
   address?: BuildingAddress;
   /** The building name as seen by users in Calendar. Must be unique for the customer. For example, "NYC-CHEL". The maximum length is 100 characters. */
   buildingName?: string;
-  /** The geographic coordinates of the center of the building, expressed as latitude and longitude in decimal degrees. */
-  coordinates?: BuildingCoordinates;
-  /** The display names for all floors in this building. The floors are expected to be sorted in ascending order, from lowest floor to highest floor. For example, ["B2", "B1", "L", "1", "2", "2M", "3", "PH"] Must contain at least one entry. */
-  floorNames?: StringList;
-  /** A brief description of the building. For example, "Chelsea Market". */
-  description?: string;
-  /** ETag of the resource. */
-  etags?: string;
-  /** Kind of resource this is. */
-  kind?: string;
   /** Unique identifier for the building. The maximum length is 100 characters. */
   buildingId?: string;
+  /** Kind of resource this is. */
+  kind?: string;
+  /** The geographic coordinates of the center of the building, expressed as latitude and longitude in decimal degrees. */
+  coordinates?: BuildingCoordinates;
 }
 export const Building = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    etags: S.optional(S.String),
+    description: S.optional(S.String),
+    floorNames: S.optional(StringList),
     address: S.optional(BuildingAddress),
     buildingName: S.optional(S.String),
-    coordinates: S.optional(BuildingCoordinates),
-    floorNames: S.optional(StringList),
-    description: S.optional(S.String),
-    etags: S.optional(S.String),
-    kind: S.optional(S.String),
     buildingId: S.optional(S.String),
+    kind: S.optional(S.String),
+    coordinates: S.optional(BuildingCoordinates),
   }),
 ).annotate({ identifier: "Building" }) as any as S.Schema<Building>;
 
@@ -3117,58 +3037,56 @@ export const GetResourcesCalendarsRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** Public API: Resources.calendars */
 export interface CalendarResource {
-  /** The unique ID for the calendar resource. */
-  resourceId?: string;
-  /** Capacity of a resource, number of seats in a room. */
-  capacity?: number;
   /** The read-only email for the calendar resource. Generated as part of creating a new calendar resource. */
   resourceEmail?: string;
-  /** Instances of features for the calendar resource. */
-  featureInstances?: unknown;
-  /** The type of the resource. For calendar resources, the value is `admin#directory#resources#calendars#CalendarResource`. */
-  kind?: string;
-  /** Name of the section within a floor a resource is located in. */
-  floorSection?: string;
-  /** The category of the calendar resource. Either CONFERENCE_ROOM or OTHER. Legacy data is set to CATEGORY_UNKNOWN. */
-  resourceCategory?: string;
-  /** The read-only auto-generated name of the calendar resource which includes metadata about the resource such as building name, floor, capacity, etc. For example, "NYC-2-Training Room 1A (16)". */
-  generatedResourceName?: string;
-  /** Description of the resource, visible to users and admins. */
-  userVisibleDescription?: string;
+  /** Name of the floor a resource is located on. */
+  floorName?: string;
   /** Unique ID for the building a resource is located in. */
   buildingId?: string;
+  /** Name of the section within a floor a resource is located in. */
+  floorSection?: string;
+  /** Instances of features for the calendar resource. */
+  featureInstances?: unknown;
   /** ETag of the resource. */
   etags?: string;
+  /** Description of the resource, visible to users and admins. */
+  userVisibleDescription?: string;
+  /** The category of the calendar resource. Either CONFERENCE_ROOM or OTHER. Legacy data is set to CATEGORY_UNKNOWN. */
+  resourceCategory?: string;
   /** The type of the calendar resource, intended for non-room resources. */
   resourceType?: string;
   /** Description of the resource, visible only to admins. */
   resourceDescription?: string;
+  /** The type of the resource. For calendar resources, the value is `admin#directory#resources#calendars#CalendarResource`. */
+  kind?: string;
+  /** The unique ID for the calendar resource. */
+  resourceId?: string;
+  /** Capacity of a resource, number of seats in a room. */
+  capacity?: number;
+  /** The read-only auto-generated name of the calendar resource which includes metadata about the resource such as building name, floor, capacity, etc. For example, "NYC-2-Training Room 1A (16)". */
+  generatedResourceName?: string;
   /** The name of the calendar resource. For example, "Training Room 1A". */
   resourceName?: string;
-  /** Name of the floor a resource is located on. */
-  floorName?: string;
 }
 export const CalendarResource = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    resourceId: S.optional(S.String),
-    capacity: S.optional(S.Number),
     resourceEmail: S.optional(S.String),
-    featureInstances: S.optional(S.Unknown),
-    kind: S.optional(S.String),
-    floorSection: S.optional(S.String),
-    resourceCategory: S.optional(S.String),
-    generatedResourceName: S.optional(S.String),
-    userVisibleDescription: S.optional(S.String),
+    floorName: S.optional(S.String),
     buildingId: S.optional(S.String),
+    floorSection: S.optional(S.String),
+    featureInstances: S.optional(S.Unknown),
     etags: S.optional(S.String),
+    userVisibleDescription: S.optional(S.String),
+    resourceCategory: S.optional(S.String),
     resourceType: S.optional(S.String),
     resourceDescription: S.optional(S.String),
+    kind: S.optional(S.String),
+    resourceId: S.optional(S.String),
+    capacity: S.optional(S.Number),
+    generatedResourceName: S.optional(S.String),
     resourceName: S.optional(S.String),
-    floorName: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CalendarResource",
-}) as any as S.Schema<CalendarResource>;
+).annotate({ identifier: "CalendarResource" }) as any as S.Schema<CalendarResource>;
 
 export interface GetResourcesFeaturesRequest {
   /** The unique ID for the customer's Google Workspace account. As an account administrator, you can also use the `my_customer` alias to represent your account's customer ID. */
@@ -3193,17 +3111,17 @@ export const GetResourcesFeaturesRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** JSON template for Feature object in Directory API. */
 export interface Feature {
-  /** The name of the feature. */
-  name?: string;
   /** Kind of resource this is. */
   kind?: string;
+  /** The name of the feature. */
+  name?: string;
   /** ETag of the resource. */
   etags?: string;
 }
 export const Feature = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.optional(S.String),
     kind: S.optional(S.String),
+    name: S.optional(S.String),
     etags: S.optional(S.String),
   }),
 ).annotate({ identifier: "Feature" }) as any as S.Schema<Feature>;
@@ -3232,51 +3150,65 @@ export const GetRoleAssignmentsRequest = /*@__PURE__*/ S.suspend(() =>
 export type RoleAssignmentAssigneeTypeEnum = "user" | "group";
 export const RoleAssignmentAssigneeTypeEnum = S.String;
 
+/** Details regarding the expiration of this role assignment. Used to automatically revoke access when the time limit is reached. */
+export interface ExpirationDetails {
+  /** The specific timestamp when the role assignment expires. */
+  expireTime?: string;
+}
+export const ExpirationDetails = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    expireTime: S.optional(S.String),
+  }),
+).annotate({ identifier: "ExpirationDetails" }) as any as S.Schema<ExpirationDetails>;
+
 /** Defines an assignment of a role. */
 export interface RoleAssignment {
-  /** The unique ID of the entity this role is assigned to—either the `user_id` of a user, the `group_id` of a group, or the `uniqueId` of a service account as defined in [Identity and Access Management (IAM)](https://cloud.google.com/iam/docs/reference/rest/v1/projects.serviceAccounts). */
-  assignedTo?: string;
   /** Optional. The condition associated with this role assignment. Note: Feature is available to Enterprise Standard, Enterprise Plus, Google Workspace for Education Plus and Cloud Identity Premium customers. A `RoleAssignment` with the `condition` field set will only take effect when the resource being accessed meets the condition. If `condition` is empty, the role (`role_id`) is applied to the actor (`assigned_to`) at the scope (`scope_type`) unconditionally. Currently, the following conditions are supported: - To make the `RoleAssignment` only applicable to [Security Groups](https://cloud.google.com/identity/docs/groups#group_types): `api.getAttribute('cloudidentity.googleapis.com/groups.labels', []).hasAny(['groups.security']) && resource.type == 'cloudidentity.googleapis.com/Group'` - To make the `RoleAssignment` not applicable to [Security Groups](https://cloud.google.com/identity/docs/groups#group_types): `!api.getAttribute('cloudidentity.googleapis.com/groups.labels', []).hasAny(['groups.security']) && resource.type == 'cloudidentity.googleapis.com/Group'` Currently, the condition strings have to be verbatim and they only work with the following [pre-built administrator roles](https://support.google.com/a/answer/2405986): - Groups Editor - Groups Reader The condition follows [Cloud IAM condition syntax](https://cloud.google.com/iam/docs/conditions-overview). - To make the `RoleAssignment` not applicable to [Locked Groups](https://cloud.google.com/identity/docs/groups#group_types): `!api.getAttribute('cloudidentity.googleapis.com/groups.labels', []).hasAny(['groups.locked']) && resource.type == 'cloudidentity.googleapis.com/Group'` This condition can also be used in conjunction with a Security-related condition. */
   condition?: string;
-  /** Output only. The type of the assignee (`USER` or `GROUP`). */
-  assigneeType?: RoleAssignmentAssigneeTypeEnum | (string & {});
   /** The type of the API resource. This is always `admin#directory#roleAssignment`. */
   kind?: string;
-  /** The ID of the role that is assigned. */
-  roleId?: string;
-  /** If the role is restricted to an organization unit, this contains the ID for the organization unit the exercise of this role is restricted to. */
-  orgUnitId?: string;
-  /** The scope in which this role is assigned. */
-  scopeType?: string;
+  /** The unique ID of the entity this role is assigned to—either the `user_id` of a user, the `group_id` of a group, or the `uniqueId` of a service account as defined in [Identity and Access Management (IAM)](https://cloud.google.com/iam/docs/reference/rest/v1/projects.serviceAccounts). */
+  assignedTo?: string;
   /** ETag of the resource. */
   etag?: string;
+  /** If the role is restricted to an organization unit, this contains the ID for the organization unit the exercise of this role is restricted to. */
+  orgUnitId?: string;
+  /** Output only. The type of the assignee (`USER` or `GROUP`). */
+  assigneeType?: RoleAssignmentAssigneeTypeEnum | (string & {});
+  /** Optional. Details regarding the expiration of this role assignment. */
+  expirationDetails?: ExpirationDetails;
+  /** The ID of the role that is assigned. */
+  roleId?: string;
+  /** The scope in which this role is assigned. */
+  scopeType?: string;
   /** ID of this roleAssignment. */
   roleAssignmentId?: string;
 }
 export const RoleAssignment = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    assignedTo: S.optional(S.String),
     condition: S.optional(S.String),
-    assigneeType: S.optional(RoleAssignmentAssigneeTypeEnum),
     kind: S.optional(S.String),
-    roleId: S.optional(S.String),
-    orgUnitId: S.optional(S.String),
-    scopeType: S.optional(S.String),
+    assignedTo: S.optional(S.String),
     etag: S.optional(S.String),
+    orgUnitId: S.optional(S.String),
+    assigneeType: S.optional(RoleAssignmentAssigneeTypeEnum),
+    expirationDetails: S.optional(ExpirationDetails),
+    roleId: S.optional(S.String),
+    scopeType: S.optional(S.String),
     roleAssignmentId: S.optional(S.String),
   }),
 ).annotate({ identifier: "RoleAssignment" }) as any as S.Schema<RoleAssignment>;
 
 export interface GetRolesRequest {
-  /** The unique ID for the customer's Google Workspace account. In case of a multi-domain account, to fetch all groups for a customer, use this field instead of `domain`. You can also use the `my_customer` alias to represent your account's `customerId`. The `customerId` is also returned as part of the [Users](https://developers.google.com/workspace/admin/directory/v1/reference/users) resource. You must provide either the `customer` or the `domain` parameter. */
-  customer: string;
   /** Immutable ID of the role. */
   roleId: string;
+  /** The unique ID for the customer's Google Workspace account. In case of a multi-domain account, to fetch all groups for a customer, use this field instead of `domain`. You can also use the `my_customer` alias to represent your account's `customerId`. The `customerId` is also returned as part of the [Users](https://developers.google.com/workspace/admin/directory/v1/reference/users) resource. You must provide either the `customer` or the `domain` parameter. */
+  customer: string;
 }
 export const GetRolesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    customer: S.String.pipe(T.Label()),
     roleId: S.String.pipe(T.Label()),
+    customer: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -3284,9 +3216,7 @@ export const GetRolesRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://admin.googleapis.com/",
     }),
   ),
-).annotate({
-  identifier: "GetRolesRequest",
-}) as any as S.Schema<GetRolesRequest>;
+).annotate({ identifier: "GetRolesRequest" }) as any as S.Schema<GetRolesRequest>;
 
 export interface RoleRolePrivilegesItem {
   /** The name of the privilege. */
@@ -3299,9 +3229,7 @@ export const RoleRolePrivilegesItem = /*@__PURE__*/ S.suspend(() =>
     privilegeName: S.optional(S.String),
     serviceId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "RoleRolePrivilegesItem",
-}) as any as S.Schema<RoleRolePrivilegesItem>;
+).annotate({ identifier: "RoleRolePrivilegesItem" }) as any as S.Schema<RoleRolePrivilegesItem>;
 
 export type RoleRolePrivilegesItemList = Array<RoleRolePrivilegesItem>;
 export const RoleRolePrivilegesItemList = /*@__PURE__*/ S.Array(
@@ -3309,46 +3237,46 @@ export const RoleRolePrivilegesItemList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<RoleRolePrivilegesItemList>;
 
 export interface Role {
-  /** Returns `true` if this is a pre-defined system role. */
-  isSystemRole?: boolean;
-  /** The type of the API resource. This is always `admin#directory#role`. */
-  kind?: string;
-  /** Name of the role. */
-  roleName?: string;
-  /** The set of privileges that are granted to this role. */
-  rolePrivileges?: RoleRolePrivilegesItemList;
-  /** A short description of the role. */
-  roleDescription?: string;
-  /** Returns `true` if the role is a super admin role. */
-  isSuperAdminRole?: boolean;
   /** ID of the role. */
   roleId?: string;
+  /** The set of privileges that are granted to this role. */
+  rolePrivileges?: RoleRolePrivilegesItemList;
+  /** Returns `true` if this is a pre-defined system role. */
+  isSystemRole?: boolean;
+  /** Returns `true` if the role is a super admin role. */
+  isSuperAdminRole?: boolean;
+  /** Name of the role. */
+  roleName?: string;
+  /** A short description of the role. */
+  roleDescription?: string;
+  /** The type of the API resource. This is always `admin#directory#role`. */
+  kind?: string;
   /** ETag of the resource. */
   etag?: string;
 }
 export const Role = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    isSystemRole: S.optional(S.Boolean),
-    kind: S.optional(S.String),
-    roleName: S.optional(S.String),
-    rolePrivileges: S.optional(RoleRolePrivilegesItemList),
-    roleDescription: S.optional(S.String),
-    isSuperAdminRole: S.optional(S.Boolean),
     roleId: S.optional(S.String),
+    rolePrivileges: S.optional(RoleRolePrivilegesItemList),
+    isSystemRole: S.optional(S.Boolean),
+    isSuperAdminRole: S.optional(S.Boolean),
+    roleName: S.optional(S.String),
+    roleDescription: S.optional(S.String),
+    kind: S.optional(S.String),
     etag: S.optional(S.String),
   }),
 ).annotate({ identifier: "Role" }) as any as S.Schema<Role>;
 
 export interface GetSchemasRequest {
-  /** The unique ID for the customer's Google Workspace account. In case of a multi-domain account, to fetch all groups for a customer, use this field instead of `domain`. You can also use the `my_customer` alias to represent your account's `customerId`. The `customerId` is also returned as part of the [Users](https://developers.google.com/workspace/admin/directory/v1/reference/users) resource. You must provide either the `customer` or the `domain` parameter. */
-  customerId: string;
   /** Name or immutable ID of the schema. */
   schemaKey: string;
+  /** The unique ID for the customer's Google Workspace account. In case of a multi-domain account, to fetch all groups for a customer, use this field instead of `domain`. You can also use the `my_customer` alias to represent your account's `customerId`. The `customerId` is also returned as part of the [Users](https://developers.google.com/workspace/admin/directory/v1/reference/users) resource. You must provide either the `customer` or the `domain` parameter. */
+  customerId: string;
 }
 export const GetSchemasRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    customerId: S.String.pipe(T.Label()),
     schemaKey: S.String.pipe(T.Label()),
+    customerId: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -3356,20 +3284,18 @@ export const GetSchemasRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://admin.googleapis.com/",
     }),
   ),
-).annotate({
-  identifier: "GetSchemasRequest",
-}) as any as S.Schema<GetSchemasRequest>;
+).annotate({ identifier: "GetSchemasRequest" }) as any as S.Schema<GetSchemasRequest>;
 
 export interface SchemaFieldSpecNumericIndexingSpec {
-  /** Minimum value of this field. This is meant to be indicative rather than enforced. Values outside this range will still be indexed, but search may not be as performant. */
-  minValue?: number;
   /** Maximum value of this field. This is meant to be indicative rather than enforced. Values outside this range will still be indexed, but search may not be as performant. */
   maxValue?: number;
+  /** Minimum value of this field. This is meant to be indicative rather than enforced. Values outside this range will still be indexed, but search may not be as performant. */
+  minValue?: number;
 }
 export const SchemaFieldSpecNumericIndexingSpec = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    minValue: S.optional(S.Number),
     maxValue: S.optional(S.Number),
+    minValue: S.optional(S.Number),
   }),
 ).annotate({
   identifier: "SchemaFieldSpecNumericIndexingSpec",
@@ -3377,43 +3303,41 @@ export const SchemaFieldSpecNumericIndexingSpec = /*@__PURE__*/ S.suspend(() =>
 
 /** You can use schemas to add custom fields to user profiles. You can use these fields to store information such as the projects your users work on, their physical locations, their hire dates, or whatever else fits your business needs. For more information, see [Custom User Fields](https://developers.google.com/workspace/admin/directory/v1/guides/manage-schemas). */
 export interface SchemaFieldSpec {
-  /** Display Name of the field. */
-  displayName?: string;
-  /** The unique identifier of the field (Read-only) */
-  fieldId?: string;
-  /** The ETag of the field. */
-  etag?: string;
-  /** The name of the field. */
-  fieldName?: string;
-  /** Boolean specifying whether the field is indexed or not. Default: `true`. */
-  indexed?: boolean;
   /** A boolean specifying whether this is a multi-valued field or not. Default: `false`. */
   multiValued?: boolean;
-  /** Indexing spec for a numeric field. By default, only exact match queries will be supported for numeric fields. Setting the `numericIndexingSpec` allows range queries to be supported. */
-  numericIndexingSpec?: SchemaFieldSpecNumericIndexingSpec;
-  /** Specifies who can view values of this field. See [Retrieve users as a non-administrator](https://developers.google.com/workspace/admin/directory/v1/guides/manage-users#retrieve_users_non_admin) for more information. Note: It may take up to 24 hours for changes to this field to be reflected. */
-  readAccessType?: string;
-  /** The kind of resource this is. For schema fields this is always `admin#directory#schema#fieldspec`. */
-  kind?: string;
   /** The type of the field. */
   fieldType?: string;
+  /** Specifies who can view values of this field. See [Retrieve users as a non-administrator](https://developers.google.com/workspace/admin/directory/v1/guides/manage-users#retrieve_users_non_admin) for more information. Note: It may take up to 24 hours for changes to this field to be reflected. */
+  readAccessType?: string;
+  /** The name of the field. */
+  fieldName?: string;
+  /** The kind of resource this is. For schema fields this is always `admin#directory#schema#fieldspec`. */
+  kind?: string;
+  /** The ETag of the field. */
+  etag?: string;
+  /** Display Name of the field. */
+  displayName?: string;
+  /** Boolean specifying whether the field is indexed or not. Default: `true`. */
+  indexed?: boolean;
+  /** Indexing spec for a numeric field. By default, only exact match queries will be supported for numeric fields. Setting the `numericIndexingSpec` allows range queries to be supported. */
+  numericIndexingSpec?: SchemaFieldSpecNumericIndexingSpec;
+  /** The unique identifier of the field (Read-only) */
+  fieldId?: string;
 }
 export const SchemaFieldSpec = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    displayName: S.optional(S.String),
-    fieldId: S.optional(S.String),
-    etag: S.optional(S.String),
-    fieldName: S.optional(S.String),
-    indexed: S.optional(S.Boolean),
     multiValued: S.optional(S.Boolean),
-    numericIndexingSpec: S.optional(SchemaFieldSpecNumericIndexingSpec),
-    readAccessType: S.optional(S.String),
-    kind: S.optional(S.String),
     fieldType: S.optional(S.String),
+    readAccessType: S.optional(S.String),
+    fieldName: S.optional(S.String),
+    kind: S.optional(S.String),
+    etag: S.optional(S.String),
+    displayName: S.optional(S.String),
+    indexed: S.optional(S.Boolean),
+    numericIndexingSpec: S.optional(SchemaFieldSpecNumericIndexingSpec),
+    fieldId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SchemaFieldSpec",
-}) as any as S.Schema<SchemaFieldSpec>;
+).annotate({ identifier: "SchemaFieldSpec" }) as any as S.Schema<SchemaFieldSpec>;
 
 export type SchemaFieldSpecList = Array<SchemaFieldSpec>;
 export const SchemaFieldSpecList = /*@__PURE__*/ S.Array(
@@ -3422,27 +3346,27 @@ export const SchemaFieldSpecList = /*@__PURE__*/ S.Array(
 
 /** The type of API resource. For Schema resources, this is always `admin#directory#schema`. */
 export interface Admin_Schema {
-  /** A list of fields in the schema. */
-  fields?: SchemaFieldSpecList;
-  /** The ETag of the resource. */
-  etag?: string;
-  /** The unique identifier of the schema (Read-only) */
-  schemaId?: string;
-  /** Kind of resource this is. */
-  kind?: string;
-  /** Display name for the schema. */
-  displayName?: string;
   /** The schema's name. Each `schema_name` must be unique within a customer. Reusing a name results in a `409: Entity already exists` error. */
   schemaName?: string;
+  /** The ETag of the resource. */
+  etag?: string;
+  /** Display name for the schema. */
+  displayName?: string;
+  /** Kind of resource this is. */
+  kind?: string;
+  /** The unique identifier of the schema (Read-only) */
+  schemaId?: string;
+  /** A list of fields in the schema. */
+  fields?: SchemaFieldSpecList;
 }
 export const Admin_Schema = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    fields: S.optional(SchemaFieldSpecList),
-    etag: S.optional(S.String),
-    schemaId: S.optional(S.String),
-    kind: S.optional(S.String),
-    displayName: S.optional(S.String),
     schemaName: S.optional(S.String),
+    etag: S.optional(S.String),
+    displayName: S.optional(S.String),
+    kind: S.optional(S.String),
+    schemaId: S.optional(S.String),
+    fields: S.optional(SchemaFieldSpecList),
   }),
 ).annotate({ identifier: "Admin_Schema" }) as any as S.Schema<Admin_Schema>;
 
@@ -3463,39 +3387,37 @@ export const GetTokensRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://admin.googleapis.com/",
     }),
   ),
-).annotate({
-  identifier: "GetTokensRequest",
-}) as any as S.Schema<GetTokensRequest>;
+).annotate({ identifier: "GetTokensRequest" }) as any as S.Schema<GetTokensRequest>;
 
 /** JSON template for token resource in Directory API. */
 export interface Token {
   /** The Client ID of the application the token is issued to. */
   clientId?: string;
-  /** Whether the application is registered with Google. The value is `true` if the application has an anonymous Client ID. */
-  anonymous?: boolean;
   /** The type of the API resource. This is always `admin#directory#token`. */
   kind?: string;
-  /** The displayable name of the application the token is issued to. */
-  displayText?: string;
-  /** Whether the token is issued to an installed application. The value is `true` if the application is installed to a desktop or mobile device. */
-  nativeApp?: boolean;
-  /** A list of authorization scopes the application is granted. */
-  scopes?: StringList;
-  /** The unique ID of the user that issued the token. */
-  userKey?: string;
   /** ETag of the resource. */
   etag?: string;
+  /** A list of authorization scopes the application is granted. */
+  scopes?: StringList;
+  /** Whether the application is registered with Google. The value is `true` if the application has an anonymous Client ID. */
+  anonymous?: boolean;
+  /** Whether the token is issued to an installed application. The value is `true` if the application is installed to a desktop or mobile device. */
+  nativeApp?: boolean;
+  /** The displayable name of the application the token is issued to. */
+  displayText?: string;
+  /** The unique ID of the user that issued the token. */
+  userKey?: string;
 }
 export const Token = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     clientId: S.optional(S.String),
-    anonymous: S.optional(S.Boolean),
     kind: S.optional(S.String),
-    displayText: S.optional(S.String),
-    nativeApp: S.optional(S.Boolean),
-    scopes: S.optional(StringList),
-    userKey: S.optional(S.String),
     etag: S.optional(S.String),
+    scopes: S.optional(StringList),
+    anonymous: S.optional(S.Boolean),
+    nativeApp: S.optional(S.Boolean),
+    displayText: S.optional(S.String),
+    userKey: S.optional(S.String),
   }),
 ).annotate({ identifier: "Token" }) as any as S.Schema<Token>;
 
@@ -3506,21 +3428,21 @@ export type GetUsersProjectionEnum = "basic" | "custom" | "full";
 export const GetUsersProjectionEnum = S.String;
 
 export interface GetUsersRequest {
-  /** Whether to fetch the administrator-only or domain-wide public view of the user. For more information, see [Retrieve a user as a non-administrator](https://developers.google.com/workspace/admin/directory/v1/guides/manage-users#retrieve_users_non_admin). */
-  viewType?: GetUsersViewTypeEnum | (string & {});
-  /** Identifies the user in the API request. The value can be the user's primary email address, alias email address, or unique user ID. */
-  userKey: string;
   /** A comma-separated list of schema names. All fields from these schemas are fetched. This should only be set when `projection=custom`. */
   customFieldMask?: string;
+  /** Whether to fetch the administrator-only or domain-wide public view of the user. For more information, see [Retrieve a user as a non-administrator](https://developers.google.com/workspace/admin/directory/v1/guides/manage-users#retrieve_users_non_admin). */
+  viewType?: GetUsersViewTypeEnum | (string & {});
   /** What subset of fields to fetch for this user. */
   projection?: GetUsersProjectionEnum | (string & {});
+  /** Identifies the user in the API request. The value can be the user's primary email address, alias email address, or unique user ID. */
+  userKey: string;
 }
 export const GetUsersRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    viewType: S.optional(GetUsersViewTypeEnum.pipe(T.Query())),
-    userKey: S.String.pipe(T.Label()),
     customFieldMask: S.optional(S.String.pipe(T.Query())),
+    viewType: S.optional(GetUsersViewTypeEnum.pipe(T.Query())),
     projection: S.optional(GetUsersProjectionEnum.pipe(T.Query())),
+    userKey: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -3528,9 +3450,7 @@ export const GetUsersRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://admin.googleapis.com/",
     }),
   ),
-).annotate({
-  identifier: "GetUsersRequest",
-}) as any as S.Schema<GetUsersRequest>;
+).annotate({ identifier: "GetUsersRequest" }) as any as S.Schema<GetUsersRequest>;
 
 export interface GetUsersPhotosRequest {
   /** Identifies the user in the API request. The value can be the user's primary email address, alias email address, or unique user ID. */
@@ -3546,38 +3466,36 @@ export const GetUsersPhotosRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://admin.googleapis.com/",
     }),
   ),
-).annotate({
-  identifier: "GetUsersPhotosRequest",
-}) as any as S.Schema<GetUsersPhotosRequest>;
+).annotate({ identifier: "GetUsersPhotosRequest" }) as any as S.Schema<GetUsersPhotosRequest>;
 
 export interface UserPhoto {
   /** ETag of the resource. */
   etag?: string;
-  /** Height of the photo in pixels. */
-  height?: number;
-  /** The user's primary email address. */
-  primaryEmail?: string;
   /** Width of the photo in pixels. */
   width?: number;
-  /** The ID the API uses to uniquely identify the user. */
-  id?: string;
-  /** The MIME type of the photo. Allowed values are `JPEG`, `PNG`, `GIF`, `BMP`, `TIFF`, and web-safe base64 encoding. */
-  mimeType?: string;
   /** The type of the API resource. For Photo resources, this is `admin#directory#user#photo`. */
   kind?: string;
+  /** The ID the API uses to uniquely identify the user. */
+  id?: string;
+  /** Height of the photo in pixels. */
+  height?: number;
+  /** The MIME type of the photo. Allowed values are `JPEG`, `PNG`, `GIF`, `BMP`, `TIFF`, and web-safe base64 encoding. */
+  mimeType?: string;
   /** The user photo's upload data in [web-safe Base64](https://en.wikipedia.org/wiki/Base64#URL_applications) format in bytes. This means: * The slash (/) character is replaced with the underscore (_) character. * The plus sign (+) character is replaced with the hyphen (-) character. * The equals sign (=) character is replaced with the asterisk (*). * For padding, the period (.) character is used instead of the RFC-4648 baseURL definition which uses the equals sign (=) for padding. This is done to simplify URL-parsing. * Whatever the size of the photo being uploaded, the API downsizes it to 96x96 pixels. */
   photoData?: string;
+  /** The user's primary email address. */
+  primaryEmail?: string;
 }
 export const UserPhoto = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     etag: S.optional(S.String),
-    height: S.optional(S.Number),
-    primaryEmail: S.optional(S.String),
     width: S.optional(S.Number),
-    id: S.optional(S.String),
-    mimeType: S.optional(S.String),
     kind: S.optional(S.String),
+    id: S.optional(S.String),
+    height: S.optional(S.Number),
+    mimeType: S.optional(S.String),
     photoData: S.optional(S.String),
+    primaryEmail: S.optional(S.String),
   }),
 ).annotate({ identifier: "UserPhoto" }) as any as S.Schema<UserPhoto>;
 
@@ -3598,9 +3516,7 @@ export const HasMemberMembersRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://admin.googleapis.com/",
     }),
   ),
-).annotate({
-  identifier: "HasMemberMembersRequest",
-}) as any as S.Schema<HasMemberMembersRequest>;
+).annotate({ identifier: "HasMemberMembersRequest" }) as any as S.Schema<HasMemberMembersRequest>;
 
 /** JSON template for Has Member response in Directory API. */
 export interface MembersHasMember {
@@ -3611,9 +3527,7 @@ export const MembersHasMember = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     isMember: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "MembersHasMember",
-}) as any as S.Schema<MembersHasMember>;
+).annotate({ identifier: "MembersHasMember" }) as any as S.Schema<MembersHasMember>;
 
 export interface InsertDomainAliasesRequest {
   /** Immutable ID of the Google Workspace account. */
@@ -3653,9 +3567,7 @@ export const InsertDomainsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://admin.googleapis.com/",
     }),
   ),
-).annotate({
-  identifier: "InsertDomainsRequest",
-}) as any as S.Schema<InsertDomainsRequest>;
+).annotate({ identifier: "InsertDomainsRequest" }) as any as S.Schema<InsertDomainsRequest>;
 
 export interface InsertGroupsRequest {
   /** Request body */
@@ -3671,25 +3583,23 @@ export const InsertGroupsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://admin.googleapis.com/",
     }),
   ),
-).annotate({
-  identifier: "InsertGroupsRequest",
-}) as any as S.Schema<InsertGroupsRequest>;
+).annotate({ identifier: "InsertGroupsRequest" }) as any as S.Schema<InsertGroupsRequest>;
 
 /** JSON template for Alias object in Directory API. */
 export interface Alias {
-  etag?: string;
-  primaryEmail?: string;
-  id?: string;
   alias?: string;
   kind?: string;
+  primaryEmail?: string;
+  etag?: string;
+  id?: string;
 }
 export const Alias = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    etag: S.optional(S.String),
-    primaryEmail: S.optional(S.String),
-    id: S.optional(S.String),
     alias: S.optional(S.String),
     kind: S.optional(S.String),
+    primaryEmail: S.optional(S.String),
+    etag: S.optional(S.String),
+    id: S.optional(S.String),
   }),
 ).annotate({ identifier: "Alias" }) as any as S.Schema<Alias>;
 
@@ -3731,9 +3641,7 @@ export const InsertMembersRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://admin.googleapis.com/",
     }),
   ),
-).annotate({
-  identifier: "InsertMembersRequest",
-}) as any as S.Schema<InsertMembersRequest>;
+).annotate({ identifier: "InsertMembersRequest" }) as any as S.Schema<InsertMembersRequest>;
 
 export interface InsertOrgunitsRequest {
   /** The unique ID for the customer's Google Workspace account. As an account administrator, you can also use the `my_customer` alias to represent your account's `customerId`. The `customerId` is also returned as part of the [Users resource](https://developers.google.com/workspace/admin/directory/v1/reference/users). */
@@ -3752,9 +3660,7 @@ export const InsertOrgunitsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://admin.googleapis.com/",
     }),
   ),
-).annotate({
-  identifier: "InsertOrgunitsRequest",
-}) as any as S.Schema<InsertOrgunitsRequest>;
+).annotate({ identifier: "InsertOrgunitsRequest" }) as any as S.Schema<InsertOrgunitsRequest>;
 
 export type InsertResourcesBuildingsCoordinatesSourceEnum =
   | "CLIENT_SPECIFIED"
@@ -3866,9 +3772,7 @@ export const InsertRolesRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://admin.googleapis.com/",
     }),
   ),
-).annotate({
-  identifier: "InsertRolesRequest",
-}) as any as S.Schema<InsertRolesRequest>;
+).annotate({ identifier: "InsertRolesRequest" }) as any as S.Schema<InsertRolesRequest>;
 
 export interface InsertSchemasRequest {
   /** Immutable ID of the Google Workspace account. */
@@ -3887,12 +3791,10 @@ export const InsertSchemasRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://admin.googleapis.com/",
     }),
   ),
-).annotate({
-  identifier: "InsertSchemasRequest",
-}) as any as S.Schema<InsertSchemasRequest>;
+).annotate({ identifier: "InsertSchemasRequest" }) as any as S.Schema<InsertSchemasRequest>;
 
 export interface InsertUsersRequest {
-  /** Optional. If set to `true`, the option selected for [handling unmanaged user accounts](https://support.google.com/a/answer/11112794) will apply. Default: `false` */
+  /** Optional. Applies the option selected for [Find and add unmanaged users](https://knowledge.workspace.google.com/admin/users/find-and-add-unmanaged-users) to resolve conflicting accounts when set to `true`. Default: `false` */
   resolveConflictAccount?: boolean;
   /** Request body */
   body?: User;
@@ -3908,9 +3810,7 @@ export const InsertUsersRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://admin.googleapis.com/",
     }),
   ),
-).annotate({
-  identifier: "InsertUsersRequest",
-}) as any as S.Schema<InsertUsersRequest>;
+).annotate({ identifier: "InsertUsersRequest" }) as any as S.Schema<InsertUsersRequest>;
 
 export interface InsertUsersAliasesRequest {
   /** Identifies the user in the API request. The value can be the user's primary email address, alias email address, or unique user ID. */
@@ -3973,32 +3873,32 @@ export const DirectoryChromeosdevicesIssueCommandRequestCommandTypeEnum = S.Stri
 
 /** A request for issuing a command. */
 export interface DirectoryChromeosdevicesIssueCommandRequest {
-  /** The type of command. */
-  commandType?: DirectoryChromeosdevicesIssueCommandRequestCommandTypeEnum | (string & {});
   /** The payload for the command, provide it only if command supports it. The following commands support adding payload: * `SET_VOLUME`: Payload is a stringified JSON object in the form: { "volume": 50 }. The volume has to be an integer in the range [0,100]. * `DEVICE_START_CRD_SESSION`: Payload is optionally a stringified JSON object in the form: { "ackedUserPresence": true, "crdSessionType": string }. `ackedUserPresence` is a boolean. By default, `ackedUserPresence` is set to `false`. To start a Chrome Remote Desktop session for an active device, set `ackedUserPresence` to `true`. `crdSessionType` can only select from values `private` (which grants the remote admin exclusive control of the ChromeOS device) or `shared` (which allows the admin and the local user to share control of the ChromeOS device). If not set, `crdSessionType` defaults to `shared`. The `FETCH_CRD_AVAILABILITY_INFO` command can be used to determine available session types on the device. * `REBOOT`: Payload is a stringified JSON object in the form: { "user_session_delay_seconds": 300 }. The `user_session_delay_seconds` is the amount of seconds to wait before rebooting the device if a user is logged in. It has to be an integer in the range [0,300]. When payload is not present for reboot, 0 delay is the default. Note: This only applies if an actual user is logged in, including a Guest. If the device is in the login screen or in Kiosk mode the value is not respected and the device immediately reboots. * `FETCH_SUPPORT_PACKET`: Payload is optionally a stringified JSON object in the form: {"supportPacketDetails":{ "issueCaseId": optional_support_case_id_string, "issueDescription": optional_issue_description_string, "requestedDataCollectors": []}} The list of available `data_collector_enums` are as following: Chrome System Information (1), Crash IDs (2), Memory Details (3), UI Hierarchy (4), Additional ChromeOS Platform Logs (5), Device Event (6), Intel WiFi NICs Debug Dump (7), Touch Events (8), Lacros (9), Lacros System Information (10), ChromeOS Flex Logs (11), DBus Details (12), ChromeOS Network Routes (13), ChromeOS Shill (Connection Manager) Logs (14), Policies (15), ChromeOS System State and Logs (16), ChromeOS System Logs (17), ChromeOS Chrome User Logs (18), ChromeOS Bluetooth (19), ChromeOS Connected Input Devices (20), ChromeOS Traffic Counters (21), ChromeOS Virtual Keyboard (22), ChromeOS Network Health (23). See more details in [help article](https://support.google.com/chrome/a?p=remote-log). */
   payload?: string;
+  /** The type of command. */
+  commandType?: DirectoryChromeosdevicesIssueCommandRequestCommandTypeEnum | (string & {});
 }
 export const DirectoryChromeosdevicesIssueCommandRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    commandType: S.optional(DirectoryChromeosdevicesIssueCommandRequestCommandTypeEnum),
     payload: S.optional(S.String),
+    commandType: S.optional(DirectoryChromeosdevicesIssueCommandRequestCommandTypeEnum),
   }),
 ).annotate({
   identifier: "DirectoryChromeosdevicesIssueCommandRequest",
 }) as any as S.Schema<DirectoryChromeosdevicesIssueCommandRequest>;
 
 export interface IssueCommandCustomerDevicesChromeosRequest {
-  /** Immutable. ID of the Google Workspace account. */
-  customerId: string;
   /** Immutable. ID of Chrome OS Device. */
   deviceId: string;
+  /** Immutable. ID of the Google Workspace account. */
+  customerId: string;
   /** Request body */
   body?: DirectoryChromeosdevicesIssueCommandRequest;
 }
 export const IssueCommandCustomerDevicesChromeosRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    customerId: S.String.pipe(T.Label()),
     deviceId: S.String.pipe(T.Label()),
+    customerId: S.String.pipe(T.Label()),
     body: S.optional(DirectoryChromeosdevicesIssueCommandRequest.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -4038,34 +3938,29 @@ export const ListAspsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://admin.googleapis.com/",
     }),
   ),
-).annotate({
-  identifier: "ListAspsRequest",
-}) as any as S.Schema<ListAspsRequest>;
+).annotate({ identifier: "ListAspsRequest" }) as any as S.Schema<ListAspsRequest>;
 
 export type AspList = Array<Asp>;
 export const AspList = /*@__PURE__*/ S.Array(Asp) as any as S.Schema<AspList>;
 
 export interface Asps {
-  /** A list of ASP resources. */
-  items?: AspList;
   /** The type of the API resource. This is always `admin#directory#aspList`. */
   kind?: string;
+  /** A list of ASP resources. */
+  items?: AspList;
   /** ETag of the resource. */
   etag?: string;
 }
 export const Asps = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    items: S.optional(AspList),
     kind: S.optional(S.String),
+    items: S.optional(AspList),
     etag: S.optional(S.String),
   }),
 ).annotate({ identifier: "Asps" }) as any as S.Schema<Asps>;
 
 export type ListChromeosdevicesSortOrderEnum = "ASCENDING" | "DESCENDING";
 export const ListChromeosdevicesSortOrderEnum = S.String;
-
-export type ListChromeosdevicesProjectionEnum = "BASIC" | "FULL";
-export const ListChromeosdevicesProjectionEnum = S.String;
 
 export type ListChromeosdevicesOrderByEnum =
   | "annotatedLocation"
@@ -4076,37 +3971,40 @@ export type ListChromeosdevicesOrderByEnum =
   | "status";
 export const ListChromeosdevicesOrderByEnum = S.String;
 
+export type ListChromeosdevicesProjectionEnum = "BASIC" | "FULL";
+export const ListChromeosdevicesProjectionEnum = S.String;
+
 export interface ListChromeosdevicesRequest {
-  /** The unique ID for the customer's Google Workspace account. As an account administrator, you can also use the `my_customer` alias to represent your account's `customerId`. The `customerId` is also returned as part of the [Users resource](https://developers.google.com/workspace/admin/directory/v1/reference/users). */
-  customerId: string;
-  /** Return devices from all child orgunits, as well as the specified org unit. If this is set to true, 'orgUnitPath' must be provided. */
-  includeChildOrgunits?: boolean;
+  /** Search string in the format given at [List query operators](https://developers.google.com/workspace/admin/directory/v1/list-query-operators). */
+  query?: string;
   /** The `pageToken` query parameter is used to request the next page of query results. The follow-on request's `pageToken` query parameter is the `nextPageToken` from your previous response. */
   pageToken?: string;
   /** Whether to return results in ascending or descending order. Must be used with the `orderBy` parameter. */
   sortOrder?: ListChromeosdevicesSortOrderEnum | (string & {});
-  /** Search string in the format given at [List query operators](https://developers.google.com/workspace/admin/directory/v1/list-query-operators). */
-  query?: string;
+  /** Device property to use for sorting results. */
+  orderBy?: ListChromeosdevicesOrderByEnum | (string & {});
   /** Determines whether the response contains the full list of properties or only a subset. */
   projection?: ListChromeosdevicesProjectionEnum | (string & {});
   /** Maximum number of results to return. Value should not exceed 300. */
   maxResults?: number;
-  /** Device property to use for sorting results. */
-  orderBy?: ListChromeosdevicesOrderByEnum | (string & {});
   /** The full path of the organizational unit (minus the leading `/`) or its unique ID. */
   orgUnitPath?: string;
+  /** The unique ID for the customer's Google Workspace account. As an account administrator, you can also use the `my_customer` alias to represent your account's `customerId`. The `customerId` is also returned as part of the [Users resource](https://developers.google.com/workspace/admin/directory/v1/reference/users). */
+  customerId: string;
+  /** Return devices from all child orgunits, as well as the specified org unit. If this is set to true, 'orgUnitPath' must be provided. */
+  includeChildOrgunits?: boolean;
 }
 export const ListChromeosdevicesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    customerId: S.String.pipe(T.Label()),
-    includeChildOrgunits: S.optional(S.Boolean.pipe(T.Query())),
+    query: S.optional(S.String.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
     sortOrder: S.optional(ListChromeosdevicesSortOrderEnum.pipe(T.Query())),
-    query: S.optional(S.String.pipe(T.Query())),
+    orderBy: S.optional(ListChromeosdevicesOrderByEnum.pipe(T.Query())),
     projection: S.optional(ListChromeosdevicesProjectionEnum.pipe(T.Query())),
     maxResults: S.optional(S.Number.pipe(T.Query())),
-    orderBy: S.optional(ListChromeosdevicesOrderByEnum.pipe(T.Query())),
     orgUnitPath: S.optional(S.String.pipe(T.Query())),
+    customerId: S.String.pipe(T.Label()),
+    includeChildOrgunits: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -4126,46 +4024,44 @@ export const ChromeOsDeviceList = /*@__PURE__*/ S.Array(
 export interface ChromeOsDevices {
   /** Token used to access the next page of this result. To access the next page, use this token's value in the `pageToken` query string of this request. */
   nextPageToken?: string;
-  /** ETag of the resource. */
-  etag?: string;
-  /** A list of Chrome OS Device objects. */
-  chromeosdevices?: ChromeOsDeviceList;
   /** Kind of resource this is. */
   kind?: string;
+  /** A list of Chrome OS Device objects. */
+  chromeosdevices?: ChromeOsDeviceList;
+  /** ETag of the resource. */
+  etag?: string;
 }
 export const ChromeOsDevices = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     nextPageToken: S.optional(S.String),
-    etag: S.optional(S.String),
-    chromeosdevices: S.optional(ChromeOsDeviceList),
     kind: S.optional(S.String),
+    chromeosdevices: S.optional(ChromeOsDeviceList),
+    etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ChromeOsDevices",
-}) as any as S.Schema<ChromeOsDevices>;
+).annotate({ identifier: "ChromeOsDevices" }) as any as S.Schema<ChromeOsDevices>;
 
 export interface ListCustomersChromePrintersRequest {
-  /** Organization Unit that we want to list the printers for. When org_unit is not present in the request then all printers of the customer are returned (or filtered). When org_unit is present in the request then only printers available to this OU will be returned (owned or inherited). You may see if printer is owned or inherited for this OU by looking at Printer.org_unit_id. */
-  orgUnitId?: string;
-  /** The order to sort results by. Must be one of display_name, description, make_and_model, or create_time. Default order is ascending, but descending order can be returned by appending "desc" to the order_by field. For instance, "description desc" will return the printers sorted by description in descending order. */
-  orderBy?: string;
-  /** The maximum number of objects to return. The service may return fewer than this value. */
-  pageSize?: number;
-  /** A page token, received from a previous call. */
-  pageToken?: string;
   /** Required. The name of the customer who owns this collection of printers. Format: customers/{customer_id} */
   parent: string;
+  /** The order to sort results by. Must be one of display_name, description, make_and_model, or create_time. Default order is ascending, but descending order can be returned by appending "desc" to the order_by field. For instance, "description desc" will return the printers sorted by description in descending order. */
+  orderBy?: string;
   /** Search query. Search syntax is shared between this api and Admin Console printers pages. */
   filter?: string;
+  /** The maximum number of objects to return. The service may return fewer than this value. */
+  pageSize?: number;
+  /** Organization Unit that we want to list the printers for. When org_unit is not present in the request then all printers of the customer are returned (or filtered). When org_unit is present in the request then only printers available to this OU will be returned (owned or inherited). You may see if printer is owned or inherited for this OU by looking at Printer.org_unit_id. */
+  orgUnitId?: string;
+  /** A page token, received from a previous call. */
+  pageToken?: string;
 }
 export const ListCustomersChromePrintersRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    orgUnitId: S.optional(S.String.pipe(T.Query())),
-    orderBy: S.optional(S.String.pipe(T.Query())),
-    pageSize: S.optional(S.Number.pipe(T.Query())),
-    pageToken: S.optional(S.String.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
+    orderBy: S.optional(S.String.pipe(T.Query())),
     filter: S.optional(S.String.pipe(T.Query())),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
+    orgUnitId: S.optional(S.String.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -4179,42 +4075,40 @@ export const ListCustomersChromePrintersRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** Response for listing printers. */
 export interface ListPrintersResponse {
-  /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
   /** List of printers. If `org_unit_id` was given in the request, then only printers visible for this OU will be returned. If `org_unit_id` was not given in the request, then all printers will be returned. */
   printers?: PrinterList;
+  /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
+  nextPageToken?: string;
 }
 export const ListPrintersResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    nextPageToken: S.optional(S.String),
     printers: S.optional(PrinterList),
+    nextPageToken: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListPrintersResponse",
-}) as any as S.Schema<ListPrintersResponse>;
+).annotate({ identifier: "ListPrintersResponse" }) as any as S.Schema<ListPrintersResponse>;
 
 export interface ListCustomersChromePrintServersRequest {
-  /** A generated token to paginate results (the `next_page_token` from a previous call). */
-  pageToken?: string;
   /** Sort order for results. Supported values are `display_name`, `description`, or `create_time`. Default order is ascending, but descending order can be returned by appending "desc" to the `order_by` field. For instance, `orderBy=='description desc'` returns the print servers sorted by description in descending order. */
   orderBy?: string;
   /** Required. The [unique ID](https://developers.google.com/workspace/admin/directory/reference/rest/v1/customers) of the customer's Google Workspace account. Format: `customers/{id}` */
   parent: string;
+  /** If `org_unit_id` is present in the request, only print servers owned or inherited by the organizational unit (OU) are returned. If the `PrintServer` resource's `org_unit_id` matches the one in the request, the OU owns the server. If `org_unit_id` is not specified in the request, all print servers are returned or filtered against. */
+  orgUnitId?: string;
   /** Search query in [Common Expression Language syntax](https://github.com/google/cel-spec). Supported filters are `display_name`, `description`, and `uri`. Example: `printServer.displayName=='marketing-queue'`. */
   filter?: string;
   /** The maximum number of objects to return (default `100`, max `100`). The service might return fewer than this value. */
   pageSize?: number;
-  /** If `org_unit_id` is present in the request, only print servers owned or inherited by the organizational unit (OU) are returned. If the `PrintServer` resource's `org_unit_id` matches the one in the request, the OU owns the server. If `org_unit_id` is not specified in the request, all print servers are returned or filtered against. */
-  orgUnitId?: string;
+  /** A generated token to paginate results (the `next_page_token` from a previous call). */
+  pageToken?: string;
 }
 export const ListCustomersChromePrintServersRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pageToken: S.optional(S.String.pipe(T.Query())),
     orderBy: S.optional(S.String.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
+    orgUnitId: S.optional(S.String.pipe(T.Query())),
     filter: S.optional(S.String.pipe(T.Query())),
     pageSize: S.optional(S.Number.pipe(T.Query())),
-    orgUnitId: S.optional(S.String.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -4237,9 +4131,7 @@ export const ListPrintServersResponse = /*@__PURE__*/ S.suspend(() =>
     printServers: S.optional(PrintServerList),
     nextPageToken: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListPrintServersResponse",
-}) as any as S.Schema<ListPrintServersResponse>;
+).annotate({ identifier: "ListPrintServersResponse" }) as any as S.Schema<ListPrintServersResponse>;
 
 export interface ListDomainAliasesRequest {
   /** The unique ID for the customer's Google Workspace account. In case of a multi-domain account, to fetch all groups for a customer, use this field instead of `domain`. You can also use the `my_customer` alias to represent your account's `customerId`. The `customerId` is also returned as part of the [Users](https://developers.google.com/workspace/admin/directory/v1/reference/users) resource. You must provide either the `customer` or the `domain` parameter. */
@@ -4258,9 +4150,7 @@ export const ListDomainAliasesRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://admin.googleapis.com/",
     }),
   ),
-).annotate({
-  identifier: "ListDomainAliasesRequest",
-}) as any as S.Schema<ListDomainAliasesRequest>;
+).annotate({ identifier: "ListDomainAliasesRequest" }) as any as S.Schema<ListDomainAliasesRequest>;
 
 export interface DomainAliases {
   /** A list of domain alias objects. */
@@ -4292,62 +4182,60 @@ export const ListDomainsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://admin.googleapis.com/",
     }),
   ),
-).annotate({
-  identifier: "ListDomainsRequest",
-}) as any as S.Schema<ListDomainsRequest>;
+).annotate({ identifier: "ListDomainsRequest" }) as any as S.Schema<ListDomainsRequest>;
 
 export type DomainsList = Array<Domains>;
 export const DomainsList = /*@__PURE__*/ S.Array(Domains) as any as S.Schema<DomainsList>;
 
 export interface Domains2 {
-  /** A list of domain objects. */
-  domains?: DomainsList;
   /** ETag of the resource. */
   etag?: string;
   /** Kind of resource this is. */
   kind?: string;
+  /** A list of domain objects. */
+  domains?: DomainsList;
 }
 export const Domains2 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    domains: S.optional(DomainsList),
     etag: S.optional(S.String),
     kind: S.optional(S.String),
+    domains: S.optional(DomainsList),
   }),
 ).annotate({ identifier: "Domains2" }) as any as S.Schema<Domains2>;
-
-export type ListGroupsSortOrderEnum = "ASCENDING" | "DESCENDING";
-export const ListGroupsSortOrderEnum = S.String;
 
 export type ListGroupsOrderByEnum = "email";
 export const ListGroupsOrderByEnum = S.String;
 
+export type ListGroupsSortOrderEnum = "ASCENDING" | "DESCENDING";
+export const ListGroupsSortOrderEnum = S.String;
+
 export interface ListGroupsRequest {
-  /** Maximum number of results to return. Max allowed value is 200. */
-  maxResults?: number;
   /** Query string search. Contains one or more search clauses, each with a field, operator, and value. For complete documentation, go to [Search for groups](https://developers.google.com/workspace/admin/directory/v1/guides/search-groups). */
   query?: string;
   /** The unique ID for the customer's Google Workspace account. In case of a multi-domain account, to fetch all groups for a customer, use this field instead of `domain`. You can also use the `my_customer` alias to represent your account's `customerId`. The `customerId` is also returned as part of the [Users](https://developers.google.com/workspace/admin/directory/v1/reference/users) resource. You must provide either the `customer` or the `domain` parameter. */
   customer?: string;
+  /** Maximum number of results to return. Max allowed value is 200. */
+  maxResults?: number;
   /** The domain name. Use this field to get groups from only one domain. To return all domains for a customer account, use the `customer` query parameter instead. */
   domain?: string;
+  /** Column to use for sorting results */
+  orderBy?: ListGroupsOrderByEnum | (string & {});
   /** Token to specify next page in the list */
   pageToken?: string;
   /** Whether to return results in ascending or descending order. Only of use when orderBy is also used */
   sortOrder?: ListGroupsSortOrderEnum | (string & {});
-  /** Column to use for sorting results */
-  orderBy?: ListGroupsOrderByEnum | (string & {});
   /** Email or immutable ID of the user if only those groups are to be listed, the given user is a member of. If it's an ID, it should match with the ID of the user object. Cannot be used with the `customer` parameter. */
   userKey?: string;
 }
 export const ListGroupsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    maxResults: S.optional(S.Number.pipe(T.Query())),
     query: S.optional(S.String.pipe(T.Query())),
     customer: S.optional(S.String.pipe(T.Query())),
+    maxResults: S.optional(S.Number.pipe(T.Query())),
     domain: S.optional(S.String.pipe(T.Query())),
+    orderBy: S.optional(ListGroupsOrderByEnum.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
     sortOrder: S.optional(ListGroupsSortOrderEnum.pipe(T.Query())),
-    orderBy: S.optional(ListGroupsOrderByEnum.pipe(T.Query())),
     userKey: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
@@ -4356,28 +4244,26 @@ export const ListGroupsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://admin.googleapis.com/",
     }),
   ),
-).annotate({
-  identifier: "ListGroupsRequest",
-}) as any as S.Schema<ListGroupsRequest>;
+).annotate({ identifier: "ListGroupsRequest" }) as any as S.Schema<ListGroupsRequest>;
 
 export type GroupList = Array<Group>;
 export const GroupList = /*@__PURE__*/ S.Array(Group) as any as S.Schema<GroupList>;
 
 export interface Groups {
+  /** Kind of resource this is. */
+  kind?: string;
   /** Token used to access next page of this result. */
   nextPageToken?: string;
   /** ETag of the resource. */
   etag?: string;
-  /** Kind of resource this is. */
-  kind?: string;
   /** A list of group objects. */
   groups?: GroupList;
 }
 export const Groups = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    kind: S.optional(S.String),
     nextPageToken: S.optional(S.String),
     etag: S.optional(S.String),
-    kind: S.optional(S.String),
     groups: S.optional(GroupList),
   }),
 ).annotate({ identifier: "Groups" }) as any as S.Schema<Groups>;
@@ -4396,9 +4282,7 @@ export const ListGroupsAliasesRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://admin.googleapis.com/",
     }),
   ),
-).annotate({
-  identifier: "ListGroupsAliasesRequest",
-}) as any as S.Schema<ListGroupsAliasesRequest>;
+).annotate({ identifier: "ListGroupsAliasesRequest" }) as any as S.Schema<ListGroupsAliasesRequest>;
 
 export type DocumentList = Array<unknown>;
 export const DocumentList = /*@__PURE__*/ S.Array(S.Unknown) as any as S.Schema<DocumentList>;
@@ -4406,36 +4290,36 @@ export const DocumentList = /*@__PURE__*/ S.Array(S.Unknown) as any as S.Schema<
 /** JSON response template to list aliases in Directory API. */
 export interface Aliases {
   aliases?: DocumentList;
-  etag?: string;
   kind?: string;
+  etag?: string;
 }
 export const Aliases = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     aliases: S.optional(DocumentList),
-    etag: S.optional(S.String),
     kind: S.optional(S.String),
+    etag: S.optional(S.String),
   }),
 ).annotate({ identifier: "Aliases" }) as any as S.Schema<Aliases>;
 
 export interface ListMembersRequest {
-  /** Identifies the group in the API request. The value can be the group's email address, group alias, or the unique group ID. */
-  groupKey: string;
-  /** The `roles` query parameter allows you to retrieve group members by role. Allowed values are `OWNER`, `MANAGER`, and `MEMBER`. */
-  roles?: string;
-  /** Whether to list indirect memberships. Default: false. */
-  includeDerivedMembership?: boolean;
   /** Maximum number of results to return. Max allowed value is 200. */
   maxResults?: number;
+  /** Whether to list indirect memberships. Default: false. */
+  includeDerivedMembership?: boolean;
   /** Token to specify next page in the list. */
   pageToken?: string;
+  /** The `roles` query parameter allows you to retrieve group members by role. Allowed values are `OWNER`, `MANAGER`, and `MEMBER`. */
+  roles?: string;
+  /** Identifies the group in the API request. The value can be the group's email address, group alias, or the unique group ID. */
+  groupKey: string;
 }
 export const ListMembersRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    groupKey: S.String.pipe(T.Label()),
-    roles: S.optional(S.String.pipe(T.Query())),
-    includeDerivedMembership: S.optional(S.Boolean.pipe(T.Query())),
     maxResults: S.optional(S.Number.pipe(T.Query())),
+    includeDerivedMembership: S.optional(S.Boolean.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
+    roles: S.optional(S.String.pipe(T.Query())),
+    groupKey: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -4443,31 +4327,32 @@ export const ListMembersRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://admin.googleapis.com/",
     }),
   ),
-).annotate({
-  identifier: "ListMembersRequest",
-}) as any as S.Schema<ListMembersRequest>;
+).annotate({ identifier: "ListMembersRequest" }) as any as S.Schema<ListMembersRequest>;
 
 export type MemberList = Array<Member>;
 export const MemberList = /*@__PURE__*/ S.Array(Member) as any as S.Schema<MemberList>;
 
 export interface Members {
-  /** A list of member objects. */
-  members?: MemberList;
-  /** ETag of the resource. */
-  etag?: string;
   /** Kind of resource this is. */
   kind?: string;
+  /** A list of member objects. */
+  members?: MemberList;
   /** Token used to access next page of this result. */
   nextPageToken?: string;
+  /** ETag of the resource. */
+  etag?: string;
 }
 export const Members = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    members: S.optional(MemberList),
-    etag: S.optional(S.String),
     kind: S.optional(S.String),
+    members: S.optional(MemberList),
     nextPageToken: S.optional(S.String),
+    etag: S.optional(S.String),
   }),
 ).annotate({ identifier: "Members" }) as any as S.Schema<Members>;
+
+export type ListMobiledevicesProjectionEnum = "BASIC" | "FULL";
+export const ListMobiledevicesProjectionEnum = S.String;
 
 export type ListMobiledevicesOrderByEnum =
   | "deviceId"
@@ -4480,37 +4365,34 @@ export type ListMobiledevicesOrderByEnum =
   | "type";
 export const ListMobiledevicesOrderByEnum = S.String;
 
-export type ListMobiledevicesProjectionEnum = "BASIC" | "FULL";
-export const ListMobiledevicesProjectionEnum = S.String;
-
 export type ListMobiledevicesSortOrderEnum = "ASCENDING" | "DESCENDING";
 export const ListMobiledevicesSortOrderEnum = S.String;
 
 export interface ListMobiledevicesRequest {
-  /** Maximum number of results to return. Max allowed value is 100. */
-  maxResults?: number;
-  /** Device property to use for sorting results. */
-  orderBy?: ListMobiledevicesOrderByEnum | (string & {});
   /** The unique ID for the customer's Google Workspace account. As an account administrator, you can also use the `my_customer` alias to represent your account's `customerId`. The `customerId` is also returned as part of the [Users resource](https://developers.google.com/workspace/admin/directory/v1/reference/users). */
   customerId: string;
-  /** Search string in the format given at https://developers.google.com/workspace/admin/directory/v1/search-operators */
-  query?: string;
   /** Restrict information returned to a set of selected fields. */
   projection?: ListMobiledevicesProjectionEnum | (string & {});
+  /** Device property to use for sorting results. */
+  orderBy?: ListMobiledevicesOrderByEnum | (string & {});
+  /** Maximum number of results to return. Max allowed value is 100. */
+  maxResults?: number;
   /** Token to specify next page in the list */
   pageToken?: string;
   /** Whether to return results in ascending or descending order. Must be used with the `orderBy` parameter. */
   sortOrder?: ListMobiledevicesSortOrderEnum | (string & {});
+  /** Search string in the format given at https://developers.google.com/workspace/admin/directory/v1/search-operators */
+  query?: string;
 }
 export const ListMobiledevicesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    maxResults: S.optional(S.Number.pipe(T.Query())),
-    orderBy: S.optional(ListMobiledevicesOrderByEnum.pipe(T.Query())),
     customerId: S.String.pipe(T.Label()),
-    query: S.optional(S.String.pipe(T.Query())),
     projection: S.optional(ListMobiledevicesProjectionEnum.pipe(T.Query())),
+    orderBy: S.optional(ListMobiledevicesOrderByEnum.pipe(T.Query())),
+    maxResults: S.optional(S.Number.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
     sortOrder: S.optional(ListMobiledevicesSortOrderEnum.pipe(T.Query())),
+    query: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -4518,9 +4400,7 @@ export const ListMobiledevicesRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://admin.googleapis.com/",
     }),
   ),
-).annotate({
-  identifier: "ListMobiledevicesRequest",
-}) as any as S.Schema<ListMobiledevicesRequest>;
+).annotate({ identifier: "ListMobiledevicesRequest" }) as any as S.Schema<ListMobiledevicesRequest>;
 
 export type MobileDeviceList = Array<MobileDevice>;
 export const MobileDeviceList = /*@__PURE__*/ S.Array(
@@ -4528,21 +4408,21 @@ export const MobileDeviceList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<MobileDeviceList>;
 
 export interface MobileDevices {
-  /** Kind of resource this is. */
-  kind?: string;
+  /** ETag of the resource. */
+  etag?: string;
   /** Token used to access next page of this result. */
   nextPageToken?: string;
   /** A list of Mobile Device objects. */
   mobiledevices?: MobileDeviceList;
-  /** ETag of the resource. */
-  etag?: string;
+  /** Kind of resource this is. */
+  kind?: string;
 }
 export const MobileDevices = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    kind: S.optional(S.String),
+    etag: S.optional(S.String),
     nextPageToken: S.optional(S.String),
     mobiledevices: S.optional(MobileDeviceList),
-    etag: S.optional(S.String),
+    kind: S.optional(S.String),
   }),
 ).annotate({ identifier: "MobileDevices" }) as any as S.Schema<MobileDevices>;
 
@@ -4550,18 +4430,18 @@ export type ListOrgunitsTypeEnum = "all" | "children" | "allIncludingParent";
 export const ListOrgunitsTypeEnum = S.String;
 
 export interface ListOrgunitsRequest {
+  /** Whether to return all sub-organizations or just immediate children. */
+  type?: ListOrgunitsTypeEnum | (string & {});
   /** The unique ID for the customer's Google Workspace account. As an account administrator, you can also use the `my_customer` alias to represent your account's `customerId`. The `customerId` is also returned as part of the [Users resource](https://developers.google.com/workspace/admin/directory/v1/reference/users). */
   customerId: string;
   /** The full path to the organizational unit or its unique ID. Returns the children of the specified organizational unit. */
   orgUnitPath?: string;
-  /** Whether to return all sub-organizations or just immediate children. */
-  type?: ListOrgunitsTypeEnum | (string & {});
 }
 export const ListOrgunitsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    type: S.optional(ListOrgunitsTypeEnum.pipe(T.Query())),
     customerId: S.String.pipe(T.Label()),
     orgUnitPath: S.optional(S.String.pipe(T.Query())),
-    type: S.optional(ListOrgunitsTypeEnum.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -4569,44 +4449,42 @@ export const ListOrgunitsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://admin.googleapis.com/",
     }),
   ),
-).annotate({
-  identifier: "ListOrgunitsRequest",
-}) as any as S.Schema<ListOrgunitsRequest>;
+).annotate({ identifier: "ListOrgunitsRequest" }) as any as S.Schema<ListOrgunitsRequest>;
 
 export type OrgUnitList = Array<OrgUnit>;
 export const OrgUnitList = /*@__PURE__*/ S.Array(OrgUnit) as any as S.Schema<OrgUnitList>;
 
 export interface OrgUnits {
-  /** A list of organizational unit objects. */
-  organizationUnits?: OrgUnitList;
   /** The type of the API resource. For Org Unit resources, the type is `admin#directory#orgUnits`. */
   kind?: string;
+  /** A list of organizational unit objects. */
+  organizationUnits?: OrgUnitList;
   /** ETag of the resource. */
   etag?: string;
 }
 export const OrgUnits = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    organizationUnits: S.optional(OrgUnitList),
     kind: S.optional(S.String),
+    organizationUnits: S.optional(OrgUnitList),
     etag: S.optional(S.String),
   }),
 ).annotate({ identifier: "OrgUnits" }) as any as S.Schema<OrgUnits>;
 
 export interface ListPrinterModelsCustomersChromePrintersRequest {
-  /** The maximum number of objects to return. The service may return fewer than this value. */
-  pageSize?: number;
-  /** Required. The name of the customer who owns this collection of printers. Format: customers/{customer_id} */
-  parent: string;
   /** Filer to list only models by a given manufacturer in format: "manufacturer:Brother". Search syntax is shared between this api and Admin Console printers pages. */
   filter?: string;
+  /** Required. The name of the customer who owns this collection of printers. Format: customers/{customer_id} */
+  parent: string;
+  /** The maximum number of objects to return. The service may return fewer than this value. */
+  pageSize?: number;
   /** A page token, received from a previous call. */
   pageToken?: string;
 }
 export const ListPrinterModelsCustomersChromePrintersRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pageSize: S.optional(S.Number.pipe(T.Query())),
-    parent: S.String.pipe(T.Label()),
     filter: S.optional(S.String.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
@@ -4621,17 +4499,17 @@ export const ListPrinterModelsCustomersChromePrintersRequest = /*@__PURE__*/ S.s
 
 /** Printer manufacturer and model */
 export interface PrinterModel {
-  /** Manufacturer. eq. "Brother" */
-  manufacturer?: string;
   /** Display name. eq. "Brother MFC-8840D" */
   displayName?: string;
+  /** Manufacturer. eq. "Brother" */
+  manufacturer?: string;
   /** Make and model as represented in "make_and_model" field in Printer object. eq. "brother mfc-8840d" */
   makeAndModel?: string;
 }
 export const PrinterModel = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    manufacturer: S.optional(S.String),
     displayName: S.optional(S.String),
+    manufacturer: S.optional(S.String),
     makeAndModel: S.optional(S.String),
   }),
 ).annotate({ identifier: "PrinterModel" }) as any as S.Schema<PrinterModel>;
@@ -4643,15 +4521,15 @@ export const PrinterModelList = /*@__PURE__*/ S.Array(
 
 /** Response for listing allowed printer models. */
 export interface ListPrinterModelsResponse {
-  /** Printer models that are currently allowed to be configured for ChromeOs. Some printers may be added or removed over time. */
-  printerModels?: PrinterModelList;
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
   nextPageToken?: string;
+  /** Printer models that are currently allowed to be configured for ChromeOs. Some printers may be added or removed over time. */
+  printerModels?: PrinterModelList;
 }
 export const ListPrinterModelsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    printerModels: S.optional(PrinterModelList),
     nextPageToken: S.optional(S.String),
+    printerModels: S.optional(PrinterModelList),
   }),
 ).annotate({
   identifier: "ListPrinterModelsResponse",
@@ -4671,35 +4549,33 @@ export const ListPrivilegesRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://admin.googleapis.com/",
     }),
   ),
-).annotate({
-  identifier: "ListPrivilegesRequest",
-}) as any as S.Schema<ListPrivilegesRequest>;
+).annotate({ identifier: "ListPrivilegesRequest" }) as any as S.Schema<ListPrivilegesRequest>;
 
 export interface Privilege {
-  /** ETag of the resource. */
-  etag?: string;
-  /** The obfuscated ID of the service this privilege is for. This value is returned with [`Privileges.list()`](https://developers.google.com/workspace/admin/directory/v1/reference/privileges/list). */
-  serviceId?: string;
+  /** The type of the API resource. This is always `admin#directory#privilege`. */
+  kind?: string;
   /** The name of the privilege. */
   privilegeName?: string;
   /** The name of the service this privilege is for. */
   serviceName?: string;
-  /** If the privilege can be restricted to an organization unit. */
-  isOuScopable?: boolean;
-  /** The type of the API resource. This is always `admin#directory#privilege`. */
-  kind?: string;
+  /** ETag of the resource. */
+  etag?: string;
   /** A list of child privileges. Privileges for a service form a tree. Each privilege can have a list of child privileges; this list is empty for a leaf privilege. */
   childPrivileges?: PrivilegeList;
+  /** If the privilege can be restricted to an organization unit. */
+  isOuScopable?: boolean;
+  /** The obfuscated ID of the service this privilege is for. This value is returned with [`Privileges.list()`](https://developers.google.com/workspace/admin/directory/v1/reference/privileges/list). */
+  serviceId?: string;
 }
 export const Privilege = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    etag: S.optional(S.String),
-    serviceId: S.optional(S.String),
+    kind: S.optional(S.String),
     privilegeName: S.optional(S.String),
     serviceName: S.optional(S.String),
-    isOuScopable: S.optional(S.Boolean),
-    kind: S.optional(S.String),
+    etag: S.optional(S.String),
     childPrivileges: S.optional(S.suspend(() => PrivilegeList)),
+    isOuScopable: S.optional(S.Boolean),
+    serviceId: S.optional(S.String),
   }),
 ).annotate({ identifier: "Privilege" }) as any as S.Schema<Privilege>;
 
@@ -4707,34 +4583,34 @@ export type PrivilegeList = Array<Privilege>;
 export const PrivilegeList = /*@__PURE__*/ S.Array(Privilege) as any as S.Schema<PrivilegeList>;
 
 export interface Privileges {
-  /** A list of Privilege resources. */
-  items?: PrivilegeList;
-  /** The type of the API resource. This is always `admin#directory#privileges`. */
-  kind?: string;
   /** ETag of the resource. */
   etag?: string;
+  /** The type of the API resource. This is always `admin#directory#privileges`. */
+  kind?: string;
+  /** A list of Privilege resources. */
+  items?: PrivilegeList;
 }
 export const Privileges = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    items: S.optional(PrivilegeList),
-    kind: S.optional(S.String),
     etag: S.optional(S.String),
+    kind: S.optional(S.String),
+    items: S.optional(PrivilegeList),
   }),
 ).annotate({ identifier: "Privileges" }) as any as S.Schema<Privileges>;
 
 export interface ListResourcesBuildingsRequest {
+  /** Token to specify the next page in the list. */
+  pageToken?: string;
   /** The unique ID for the customer's Google Workspace account. As an account administrator, you can also use the `my_customer` alias to represent your account's customer ID. */
   customer: string;
   /** Maximum number of results to return. */
   maxResults?: number;
-  /** Token to specify the next page in the list. */
-  pageToken?: string;
 }
 export const ListResourcesBuildingsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    pageToken: S.optional(S.String.pipe(T.Query())),
     customer: S.String.pipe(T.Label()),
     maxResults: S.optional(S.Number.pipe(T.Query())),
-    pageToken: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -4770,24 +4646,24 @@ export const Buildings = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "Buildings" }) as any as S.Schema<Buildings>;
 
 export interface ListResourcesCalendarsRequest {
-  /** String query used to filter results. Contains one or more search clauses, each with a field, operator, and value. A field can be any of supported fields and operators can be any of supported operations. Operators include '=' for exact match, '!=' for mismatch and ':' for prefix match or HAS match where applicable. For prefix match, the value should always be followed by a *. Logical operators NOT and AND are supported (in this order of precedence). Supported fields include `generatedResourceName`, `name`, `buildingId`, `floor_name`, `capacity`, `featureInstances.feature.name`, `resourceEmail`, `resourceCategory`. For example `buildingId=US-NYC-9TH AND featureInstances.feature.name:Phone`. */
-  query?: string;
-  /** Token to specify the next page in the list. */
-  pageToken?: string;
   /** The unique ID for the customer's Google Workspace account. As an account administrator, you can also use the `my_customer` alias to represent your account's customer ID. */
   customer: string;
-  /** Field(s) to sort results by in either ascending or descending order. Supported fields include `resourceId`, `resourceName`, `capacity`, `buildingId`, and `floorName`. If no order is specified, defaults to ascending. Should be of the form "field [asc|desc], field [asc|desc], ...". For example `buildingId, capacity desc` would return results sorted first by `buildingId` in ascending order then by `capacity` in descending order. */
-  orderBy?: string;
   /** Maximum number of results to return. */
   maxResults?: number;
+  /** Token to specify the next page in the list. */
+  pageToken?: string;
+  /** String query used to filter results. Contains one or more search clauses, each with a field, operator, and value. A field can be any of supported fields and operators can be any of supported operations. Operators include '=' for exact match, '!=' for mismatch and ':' for prefix match or HAS match where applicable. For prefix match, the value should always be followed by a *. Logical operators NOT and AND are supported (in this order of precedence). Supported fields include `generatedResourceName`, `name`, `buildingId`, `floor_name`, `capacity`, `featureInstances.feature.name`, `resourceEmail`, `resourceCategory`. For example `buildingId=US-NYC-9TH AND featureInstances.feature.name:Phone`. */
+  query?: string;
+  /** Field(s) to sort results by in either ascending or descending order. Supported fields include `resourceId`, `resourceName`, `capacity`, `buildingId`, and `floorName`. If no order is specified, defaults to ascending. Should be of the form "field [asc|desc], field [asc|desc], ...". For example `buildingId, capacity desc` would return results sorted first by `buildingId` in ascending order then by `capacity` in descending order. */
+  orderBy?: string;
 }
 export const ListResourcesCalendarsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    query: S.optional(S.String.pipe(T.Query())),
-    pageToken: S.optional(S.String.pipe(T.Query())),
     customer: S.String.pipe(T.Label()),
-    orderBy: S.optional(S.String.pipe(T.Query())),
     maxResults: S.optional(S.Number.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
+    query: S.optional(S.String.pipe(T.Query())),
+    orderBy: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -4806,25 +4682,23 @@ export const CalendarResourceList = /*@__PURE__*/ S.Array(
 
 /** Public API: Resources.calendars */
 export interface CalendarResources {
-  /** ETag of the resource. */
-  etag?: string;
-  /** The continuation token, used to page through large result sets. Provide this value in a subsequent request to return the next page of results. */
-  nextPageToken?: string;
-  /** Identifies this as a collection of CalendarResources. This is always `admin#directory#resources#calendars#calendarResourcesList`. */
-  kind?: string;
   /** The CalendarResources in this page of results. */
   items: CalendarResourceList;
+  /** The continuation token, used to page through large result sets. Provide this value in a subsequent request to return the next page of results. */
+  nextPageToken?: string;
+  /** ETag of the resource. */
+  etag?: string;
+  /** Identifies this as a collection of CalendarResources. This is always `admin#directory#resources#calendars#calendarResourcesList`. */
+  kind?: string;
 }
 export const CalendarResources = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    etag: S.optional(S.String),
-    nextPageToken: S.optional(S.String),
-    kind: S.optional(S.String),
     items: CalendarResourceList,
+    nextPageToken: S.optional(S.String),
+    etag: S.optional(S.String),
+    kind: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CalendarResources",
-}) as any as S.Schema<CalendarResources>;
+).annotate({ identifier: "CalendarResources" }) as any as S.Schema<CalendarResources>;
 
 export interface ListResourcesFeaturesRequest {
   /** The unique ID for the customer's Google Workspace account. As an account administrator, you can also use the `my_customer` alias to represent your account's customer ID. */
@@ -4855,46 +4729,46 @@ export const FeatureList = /*@__PURE__*/ S.Array(Feature) as any as S.Schema<Fea
 
 /** Public API: Resources.features */
 export interface Features {
-  /** ETag of the resource. */
-  etag?: string;
+  /** Kind of resource this is. */
+  kind?: string;
   /** The Features in this page of results. */
   features?: FeatureList;
   /** The continuation token, used to page through large result sets. Provide this value in a subsequent request to return the next page of results. */
   nextPageToken?: string;
-  /** Kind of resource this is. */
-  kind?: string;
+  /** ETag of the resource. */
+  etag?: string;
 }
 export const Features = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    etag: S.optional(S.String),
+    kind: S.optional(S.String),
     features: S.optional(FeatureList),
     nextPageToken: S.optional(S.String),
-    kind: S.optional(S.String),
+    etag: S.optional(S.String),
   }),
 ).annotate({ identifier: "Features" }) as any as S.Schema<Features>;
 
 export interface ListRoleAssignmentsRequest {
-  /** When set to `true`, fetches indirect role assignments (i.e. role assignment via a group) as well as direct ones. Defaults to `false`. You must specify `user_key` or the indirect role assignments will not be included. */
-  includeIndirectRoleAssignments?: boolean;
-  /** Token to specify the next page in the list. */
-  pageToken?: string;
   /** The unique ID for the customer's Google Workspace account. In case of a multi-domain account, to fetch all groups for a customer, use this field instead of `domain`. You can also use the `my_customer` alias to represent your account's `customerId`. The `customerId` is also returned as part of the [Users](https://developers.google.com/workspace/admin/directory/v1/reference/users) resource. You must provide either the `customer` or the `domain` parameter. */
   customer: string;
+  /** When set to `true`, fetches indirect role assignments (i.e. role assignment via a group) as well as direct ones. Defaults to `false`. You must specify `user_key` or the indirect role assignments will not be included. */
+  includeIndirectRoleAssignments?: boolean;
+  /** Immutable ID of a role. If included in the request, returns only role assignments containing this role ID. */
+  roleId?: string;
+  /** Token to specify the next page in the list. */
+  pageToken?: string;
   /** The primary email address, alias email address, or unique user or group ID. If included in the request, returns role assignments only for this user or group. */
   userKey?: string;
   /** Maximum number of results to return. */
   maxResults?: number;
-  /** Immutable ID of a role. If included in the request, returns only role assignments containing this role ID. */
-  roleId?: string;
 }
 export const ListRoleAssignmentsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    includeIndirectRoleAssignments: S.optional(S.Boolean.pipe(T.Query())),
-    pageToken: S.optional(S.String.pipe(T.Query())),
     customer: S.String.pipe(T.Label()),
+    includeIndirectRoleAssignments: S.optional(S.Boolean.pipe(T.Query())),
+    roleId: S.optional(S.String.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
     userKey: S.optional(S.String.pipe(T.Query())),
     maxResults: S.optional(S.Number.pipe(T.Query())),
-    roleId: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -4912,38 +4786,36 @@ export const RoleAssignmentList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<RoleAssignmentList>;
 
 export interface RoleAssignments {
-  nextPageToken?: string;
-  /** A list of RoleAssignment resources. */
-  items: RoleAssignmentList;
   /** ETag of the resource. */
   etag?: string;
+  /** A list of RoleAssignment resources. */
+  items: RoleAssignmentList;
   /** The type of the API resource. This is always `admin#directory#roleAssignments`. */
   kind?: string;
+  nextPageToken?: string;
 }
 export const RoleAssignments = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    nextPageToken: S.optional(S.String),
-    items: RoleAssignmentList,
     etag: S.optional(S.String),
+    items: RoleAssignmentList,
     kind: S.optional(S.String),
+    nextPageToken: S.optional(S.String),
   }),
-).annotate({
-  identifier: "RoleAssignments",
-}) as any as S.Schema<RoleAssignments>;
+).annotate({ identifier: "RoleAssignments" }) as any as S.Schema<RoleAssignments>;
 
 export interface ListRolesRequest {
-  /** Token to specify the next page in the list. */
-  pageToken?: string;
-  /** Maximum number of results to return. */
-  maxResults?: number;
   /** The unique ID for the customer's Google Workspace account. In case of a multi-domain account, to fetch all groups for a customer, use this field instead of `domain`. You can also use the `my_customer` alias to represent your account's `customerId`. The `customerId` is also returned as part of the [Users](https://developers.google.com/workspace/admin/directory/v1/reference/users) resource. You must provide either the `customer` or the `domain` parameter. */
   customer: string;
+  /** Maximum number of results to return. */
+  maxResults?: number;
+  /** Token to specify the next page in the list. */
+  pageToken?: string;
 }
 export const ListRolesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pageToken: S.optional(S.String.pipe(T.Query())),
-    maxResults: S.optional(S.Number.pipe(T.Query())),
     customer: S.String.pipe(T.Label()),
+    maxResults: S.optional(S.Number.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -4951,28 +4823,26 @@ export const ListRolesRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://admin.googleapis.com/",
     }),
   ),
-).annotate({
-  identifier: "ListRolesRequest",
-}) as any as S.Schema<ListRolesRequest>;
+).annotate({ identifier: "ListRolesRequest" }) as any as S.Schema<ListRolesRequest>;
 
 export type RoleList = Array<Role>;
 export const RoleList = /*@__PURE__*/ S.Array(Role) as any as S.Schema<RoleList>;
 
 export interface Roles {
-  /** A list of Role resources. */
-  items: RoleList;
+  nextPageToken?: string;
   /** The type of the API resource. This is always `admin#directory#roles`. */
   kind?: string;
+  /** A list of Role resources. */
+  items: RoleList;
   /** ETag of the resource. */
   etag?: string;
-  nextPageToken?: string;
 }
 export const Roles = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    items: RoleList,
-    kind: S.optional(S.String),
-    etag: S.optional(S.String),
     nextPageToken: S.optional(S.String),
+    kind: S.optional(S.String),
+    items: RoleList,
+    etag: S.optional(S.String),
   }),
 ).annotate({ identifier: "Roles" }) as any as S.Schema<Roles>;
 
@@ -4990,9 +4860,7 @@ export const ListSchemasRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://admin.googleapis.com/",
     }),
   ),
-).annotate({
-  identifier: "ListSchemasRequest",
-}) as any as S.Schema<ListSchemasRequest>;
+).annotate({ identifier: "ListSchemasRequest" }) as any as S.Schema<ListSchemasRequest>;
 
 export type Admin_SchemaList = Array<Admin_Schema>;
 export const Admin_SchemaList = /*@__PURE__*/ S.Array(
@@ -5030,85 +4898,83 @@ export const ListTokensRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://admin.googleapis.com/",
     }),
   ),
-).annotate({
-  identifier: "ListTokensRequest",
-}) as any as S.Schema<ListTokensRequest>;
+).annotate({ identifier: "ListTokensRequest" }) as any as S.Schema<ListTokensRequest>;
 
 export type TokenList = Array<Token>;
 export const TokenList = /*@__PURE__*/ S.Array(Token) as any as S.Schema<TokenList>;
 
 /** JSON response template for List tokens operation in Directory API. */
 export interface Tokens {
-  /** A list of Token resources. */
-  items?: TokenList;
   /** The type of the API resource. This is always `admin#directory#tokenList`. */
   kind?: string;
+  /** A list of Token resources. */
+  items?: TokenList;
   /** ETag of the resource. */
   etag?: string;
 }
 export const Tokens = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    items: S.optional(TokenList),
     kind: S.optional(S.String),
+    items: S.optional(TokenList),
     etag: S.optional(S.String),
   }),
 ).annotate({ identifier: "Tokens" }) as any as S.Schema<Tokens>;
 
-export type ListUsersEventEnum = "add" | "delete" | "makeAdmin" | "undelete" | "update";
-export const ListUsersEventEnum = S.String;
-
 export type ListUsersSortOrderEnum = "ASCENDING" | "DESCENDING";
 export const ListUsersSortOrderEnum = S.String;
+
+export type ListUsersEventEnum = "add" | "delete" | "makeAdmin" | "undelete" | "update";
+export const ListUsersEventEnum = S.String;
 
 export type ListUsersOrderByEnum = "email" | "familyName" | "givenName";
 export const ListUsersOrderByEnum = S.String;
 
-export type ListUsersProjectionEnum = "basic" | "custom" | "full";
-export const ListUsersProjectionEnum = S.String;
-
 export type ListUsersViewTypeEnum = "admin_view" | "domain_public";
 export const ListUsersViewTypeEnum = S.String;
 
+export type ListUsersProjectionEnum = "basic" | "custom" | "full";
+export const ListUsersProjectionEnum = S.String;
+
 export interface ListUsersRequest {
-  /** Event on which subscription is intended (if subscribing) */
-  event?: ListUsersEventEnum | (string & {});
+  /** Maximum number of results to return. */
+  maxResults?: number;
+  /** Query string for searching user fields. For more information on constructing user queries, see [Search for Users](https://developers.google.com/workspace/admin/directory/v1/guides/search-users). */
+  query?: string;
   /** Token to specify next page in the list. The page token is only valid for three days. */
   pageToken?: string;
   /** Whether to return results in ascending or descending order, ignoring case. */
   sortOrder?: ListUsersSortOrderEnum | (string & {});
-  /** A comma-separated list of schema names. All fields from these schemas are fetched. This should only be set when `projection=custom`. */
-  customFieldMask?: string;
   /** The unique ID for the customer's Google Workspace account. In case of a multi-domain account, to fetch all users for a customer, use this field instead of `domain`. You can also use the `my_customer` alias to represent your account's `customerId`. The `customerId` is also returned as part of the [Users](https://developers.google.com/workspace/admin/directory/v1/reference/users) resource. You must provide either the `customer` or the `domain` parameter. */
   customer?: string;
   /** The domain name. Use this field to get users from only one domain. To return all domains for a customer account, use the `customer` query parameter instead. Either the `customer` or the `domain` parameter must be provided. */
   domain?: string;
-  /** Query string for searching user fields. For more information on constructing user queries, see [Search for Users](https://developers.google.com/workspace/admin/directory/v1/guides/search-users). */
-  query?: string;
-  /** Property to use for sorting results. */
-  orderBy?: ListUsersOrderByEnum | (string & {});
-  /** What subset of fields to fetch for this user. */
-  projection?: ListUsersProjectionEnum | (string & {});
+  /** Event on which subscription is intended (if subscribing) */
+  event?: ListUsersEventEnum | (string & {});
   /** If set to `true`, retrieves the list of deleted users. (Default: `false`) */
   showDeleted?: string;
+  /** A comma-separated list of schema names. All fields from these schemas are fetched. This should only be set when `projection=custom`. */
+  customFieldMask?: string;
+  /** Property to use for sorting results. */
+  orderBy?: ListUsersOrderByEnum | (string & {});
   /** Whether to fetch the administrator-only or domain-wide public view of the user. For more information, see [Retrieve a user as a non-administrator](https://developers.google.com/workspace/admin/directory/v1/guides/manage-users#retrieve_users_non_admin). */
   viewType?: ListUsersViewTypeEnum | (string & {});
-  /** Maximum number of results to return. */
-  maxResults?: number;
+  /** What subset of fields to fetch for this user. */
+  projection?: ListUsersProjectionEnum | (string & {});
 }
 export const ListUsersRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    event: S.optional(ListUsersEventEnum.pipe(T.Query())),
+    maxResults: S.optional(S.Number.pipe(T.Query())),
+    query: S.optional(S.String.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
     sortOrder: S.optional(ListUsersSortOrderEnum.pipe(T.Query())),
-    customFieldMask: S.optional(S.String.pipe(T.Query())),
     customer: S.optional(S.String.pipe(T.Query())),
     domain: S.optional(S.String.pipe(T.Query())),
-    query: S.optional(S.String.pipe(T.Query())),
-    orderBy: S.optional(ListUsersOrderByEnum.pipe(T.Query())),
-    projection: S.optional(ListUsersProjectionEnum.pipe(T.Query())),
+    event: S.optional(ListUsersEventEnum.pipe(T.Query())),
     showDeleted: S.optional(S.String.pipe(T.Query())),
+    customFieldMask: S.optional(S.String.pipe(T.Query())),
+    orderBy: S.optional(ListUsersOrderByEnum.pipe(T.Query())),
     viewType: S.optional(ListUsersViewTypeEnum.pipe(T.Query())),
-    maxResults: S.optional(S.Number.pipe(T.Query())),
+    projection: S.optional(ListUsersProjectionEnum.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -5116,32 +4982,30 @@ export const ListUsersRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://admin.googleapis.com/",
     }),
   ),
-).annotate({
-  identifier: "ListUsersRequest",
-}) as any as S.Schema<ListUsersRequest>;
+).annotate({ identifier: "ListUsersRequest" }) as any as S.Schema<ListUsersRequest>;
 
 export type UserList = Array<User>;
 export const UserList = /*@__PURE__*/ S.Array(User) as any as S.Schema<UserList>;
 
 export interface Users {
-  /** Token used to access next page of this result. The page token is only valid for three days. */
-  nextPageToken?: string;
-  /** A list of user objects. */
-  users?: UserList;
-  /** ETag of the resource. */
-  etag?: string;
   /** Event that triggered this response (only used in case of Push Response) */
   trigger_event?: string;
   /** Kind of resource this is. */
   kind?: string;
+  /** Token used to access next page of this result. The page token is only valid for three days. */
+  nextPageToken?: string;
+  /** ETag of the resource. */
+  etag?: string;
+  /** A list of user objects. */
+  users?: UserList;
 }
 export const Users = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    nextPageToken: S.optional(S.String),
-    users: S.optional(UserList),
-    etag: S.optional(S.String),
     trigger_event: S.optional(S.String),
     kind: S.optional(S.String),
+    nextPageToken: S.optional(S.String),
+    etag: S.optional(S.String),
+    users: S.optional(UserList),
   }),
 ).annotate({ identifier: "Users" }) as any as S.Schema<Users>;
 
@@ -5165,9 +5029,7 @@ export const ListUsersAliasesRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://admin.googleapis.com/",
     }),
   ),
-).annotate({
-  identifier: "ListUsersAliasesRequest",
-}) as any as S.Schema<ListUsersAliasesRequest>;
+).annotate({ identifier: "ListUsersAliasesRequest" }) as any as S.Schema<ListUsersAliasesRequest>;
 
 export interface ListVerificationCodesRequest {
   /** Identifies the user in the API request. The value can be the user's primary email address, alias email address, or unique user ID. */
@@ -5189,25 +5051,23 @@ export const ListVerificationCodesRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** The Directory API allows you to view, generate, and invalidate backup verification codes for a user. */
 export interface VerificationCode {
-  /** The type of the resource. This is always `admin#directory#verificationCode`. */
-  kind?: string;
+  /** The obfuscated unique ID of the user. */
+  userId?: string;
   /** A current verification code for the user. Invalidated or used verification codes are not returned as part of the result. */
   verificationCode?: string;
   /** ETag of the resource. */
   etag?: string;
-  /** The obfuscated unique ID of the user. */
-  userId?: string;
+  /** The type of the resource. This is always `admin#directory#verificationCode`. */
+  kind?: string;
 }
 export const VerificationCode = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    kind: S.optional(S.String),
+    userId: S.optional(S.String),
     verificationCode: S.optional(S.String),
     etag: S.optional(S.String),
-    userId: S.optional(S.String),
+    kind: S.optional(S.String),
   }),
-).annotate({
-  identifier: "VerificationCode",
-}) as any as S.Schema<VerificationCode>;
+).annotate({ identifier: "VerificationCode" }) as any as S.Schema<VerificationCode>;
 
 export type VerificationCodeList = Array<VerificationCode>;
 export const VerificationCodeList = /*@__PURE__*/ S.Array(
@@ -5216,22 +5076,20 @@ export const VerificationCodeList = /*@__PURE__*/ S.Array(
 
 /** JSON response template for list verification codes operation in Directory API. */
 export interface VerificationCodes {
+  /** ETag of the resource. */
+  etag?: string;
   /** The type of the resource. This is always `admin#directory#verificationCodesList`. */
   kind?: string;
   /** A list of verification code resources. */
   items?: VerificationCodeList;
-  /** ETag of the resource. */
-  etag?: string;
 }
 export const VerificationCodes = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    etag: S.optional(S.String),
     kind: S.optional(S.String),
     items: S.optional(VerificationCodeList),
-    etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "VerificationCodes",
-}) as any as S.Schema<VerificationCodes>;
+).annotate({ identifier: "VerificationCodes" }) as any as S.Schema<VerificationCodes>;
 
 export interface UserMakeAdmin {
   /** Indicates the administrator status of the user. */
@@ -5260,9 +5118,7 @@ export const MakeAdminUsersRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://admin.googleapis.com/",
     }),
   ),
-).annotate({
-  identifier: "MakeAdminUsersRequest",
-}) as any as S.Schema<MakeAdminUsersRequest>;
+).annotate({ identifier: "MakeAdminUsersRequest" }) as any as S.Schema<MakeAdminUsersRequest>;
 
 export interface MakeAdminUsersResponse {}
 export const MakeAdminUsersResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -5277,22 +5133,20 @@ export const ChromeOsMoveDevicesToOu = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     deviceIds: S.optional(StringList),
   }),
-).annotate({
-  identifier: "ChromeOsMoveDevicesToOu",
-}) as any as S.Schema<ChromeOsMoveDevicesToOu>;
+).annotate({ identifier: "ChromeOsMoveDevicesToOu" }) as any as S.Schema<ChromeOsMoveDevicesToOu>;
 
 export interface MoveDevicesToOuChromeosdevicesRequest {
-  /** Full path of the target organizational unit or its ID */
-  orgUnitPath: string;
   /** Immutable. ID of the Google Workspace account */
   customerId: string;
+  /** Full path of the target organizational unit or its ID */
+  orgUnitPath: string;
   /** Request body */
   body?: ChromeOsMoveDevicesToOu;
 }
 export const MoveDevicesToOuChromeosdevicesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    orgUnitPath: S.String.pipe(T.Query()),
     customerId: S.String.pipe(T.Label()),
+    orgUnitPath: S.String.pipe(T.Query()),
     body: S.optional(ChromeOsMoveDevicesToOu.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -5318,18 +5172,18 @@ export const PatchChromeosdevicesProjectionEnum = S.String;
 export interface PatchChromeosdevicesRequest {
   /** The unique ID for the customer's Google Workspace account. As an account administrator, you can also use the `my_customer` alias to represent your account's `customerId`. The `customerId` is also returned as part of the [Users resource](https://developers.google.com/workspace/admin/directory/v1/reference/users). */
   customerId: string;
-  /** The unique ID of the device. The `deviceId`s are returned in the response from the [chromeosdevices.list](https://developers.google.com/workspace/admin/v1/reference/chromeosdevices/list) method. */
-  deviceId: string;
   /** Determines whether the response contains the full list of properties or only a subset. */
   projection?: PatchChromeosdevicesProjectionEnum | (string & {});
+  /** The unique ID of the device. The `deviceId`s are returned in the response from the [chromeosdevices.list](https://developers.google.com/workspace/admin/v1/reference/chromeosdevices/list) method. */
+  deviceId: string;
   /** Request body */
   body?: ChromeOsDevice;
 }
 export const PatchChromeosdevicesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     customerId: S.String.pipe(T.Label()),
-    deviceId: S.String.pipe(T.Label()),
     projection: S.optional(PatchChromeosdevicesProjectionEnum.pipe(T.Query())),
+    deviceId: S.String.pipe(T.Label()),
     body: S.optional(ChromeOsDevice.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -5359,25 +5213,23 @@ export const PatchCustomersRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://admin.googleapis.com/",
     }),
   ),
-).annotate({
-  identifier: "PatchCustomersRequest",
-}) as any as S.Schema<PatchCustomersRequest>;
+).annotate({ identifier: "PatchCustomersRequest" }) as any as S.Schema<PatchCustomersRequest>;
 
 export interface PatchCustomersChromePrintersRequest {
   /** The list of fields to be cleared. Note, some of the fields are read only and cannot be updated. Values for not specified fields will be patched. */
   clearMask?: string;
-  /** The list of fields to be updated. Note, some of the fields are read only and cannot be updated. Values for not specified fields will be patched. */
-  updateMask?: string;
   /** Identifier. The resource name of the Printer object, in the format customers/{customer-id}/printers/{printer-id} (During printer creation leave empty) */
   name: string;
+  /** The list of fields to be updated. Note, some of the fields are read only and cannot be updated. Values for not specified fields will be patched. */
+  updateMask?: string;
   /** Request body */
   body?: Printer;
 }
 export const PatchCustomersChromePrintersRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     clearMask: S.optional(S.String.pipe(T.Query())),
-    updateMask: S.optional(S.String.pipe(T.Query())),
     name: S.String.pipe(T.Label()),
+    updateMask: S.optional(S.String.pipe(T.Query())),
     body: S.optional(Printer.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -5391,17 +5243,17 @@ export const PatchCustomersChromePrintersRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<PatchCustomersChromePrintersRequest>;
 
 export interface PatchCustomersChromePrintServersRequest {
-  /** Identifier. Resource name of the print server. Leave empty when creating. Format: `customers/{customer.id}/printServers/{print_server.id}` */
-  name: string;
   /** The list of fields to update. Some fields are read-only and cannot be updated. Values for unspecified fields are patched. */
   updateMask?: string;
+  /** Identifier. Resource name of the print server. Leave empty when creating. Format: `customers/{customer.id}/printServers/{print_server.id}` */
+  name: string;
   /** Request body */
   body?: PrintServer;
 }
 export const PatchCustomersChromePrintServersRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.String.pipe(T.Label()),
     updateMask: S.optional(S.String.pipe(T.Query())),
+    name: S.String.pipe(T.Label()),
     body: S.optional(PrintServer.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -5431,22 +5283,20 @@ export const PatchGroupsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://admin.googleapis.com/",
     }),
   ),
-).annotate({
-  identifier: "PatchGroupsRequest",
-}) as any as S.Schema<PatchGroupsRequest>;
+).annotate({ identifier: "PatchGroupsRequest" }) as any as S.Schema<PatchGroupsRequest>;
 
 export interface PatchMembersRequest {
-  /** Identifies the group member in the API request. A group member can be a user or another group. The value can be the member's (group or user) primary email address, alias, or unique ID. */
-  memberKey: string;
   /** Identifies the group in the API request. The value can be the group's email address, group alias, or the unique group ID. */
   groupKey: string;
+  /** Identifies the group member in the API request. A group member can be a user or another group. The value can be the member's (group or user) primary email address, alias, or unique ID. */
+  memberKey: string;
   /** Request body */
   body?: Member;
 }
 export const PatchMembersRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    memberKey: S.String.pipe(T.Label()),
     groupKey: S.String.pipe(T.Label()),
+    memberKey: S.String.pipe(T.Label()),
     body: S.optional(Member.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -5455,9 +5305,7 @@ export const PatchMembersRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://admin.googleapis.com/",
     }),
   ),
-).annotate({
-  identifier: "PatchMembersRequest",
-}) as any as S.Schema<PatchMembersRequest>;
+).annotate({ identifier: "PatchMembersRequest" }) as any as S.Schema<PatchMembersRequest>;
 
 export interface PatchOrgunitsRequest {
   /** The unique ID for the customer's Google Workspace account. As an account administrator, you can also use the `my_customer` alias to represent your account's `customerId`. The `customerId` is also returned as part of the [Users resource](https://developers.google.com/workspace/admin/directory/v1/reference/users). */
@@ -5479,9 +5327,7 @@ export const PatchOrgunitsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://admin.googleapis.com/",
     }),
   ),
-).annotate({
-  identifier: "PatchOrgunitsRequest",
-}) as any as S.Schema<PatchOrgunitsRequest>;
+).annotate({ identifier: "PatchOrgunitsRequest" }) as any as S.Schema<PatchOrgunitsRequest>;
 
 export type PatchResourcesBuildingsCoordinatesSourceEnum =
   | "CLIENT_SPECIFIED"
@@ -5490,20 +5336,20 @@ export type PatchResourcesBuildingsCoordinatesSourceEnum =
 export const PatchResourcesBuildingsCoordinatesSourceEnum = S.String;
 
 export interface PatchResourcesBuildingsRequest {
-  /** Source from which Building.coordinates are derived. */
-  coordinatesSource?: PatchResourcesBuildingsCoordinatesSourceEnum | (string & {});
   /** The unique ID for the customer's Google Workspace account. As an account administrator, you can also use the `my_customer` alias to represent your account's customer ID. */
   customer: string;
   /** The id of the building to update. */
   buildingId: string;
+  /** Source from which Building.coordinates are derived. */
+  coordinatesSource?: PatchResourcesBuildingsCoordinatesSourceEnum | (string & {});
   /** Request body */
   body?: Building;
 }
 export const PatchResourcesBuildingsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    coordinatesSource: S.optional(PatchResourcesBuildingsCoordinatesSourceEnum.pipe(T.Query())),
     customer: S.String.pipe(T.Label()),
     buildingId: S.String.pipe(T.Label()),
+    coordinatesSource: S.optional(PatchResourcesBuildingsCoordinatesSourceEnum.pipe(T.Query())),
     body: S.optional(Building.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -5584,22 +5430,20 @@ export const PatchRolesRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://admin.googleapis.com/",
     }),
   ),
-).annotate({
-  identifier: "PatchRolesRequest",
-}) as any as S.Schema<PatchRolesRequest>;
+).annotate({ identifier: "PatchRolesRequest" }) as any as S.Schema<PatchRolesRequest>;
 
 export interface PatchSchemasRequest {
-  /** Immutable ID of the Google Workspace account. */
-  customerId: string;
   /** Name or immutable ID of the schema. */
   schemaKey: string;
+  /** Immutable ID of the Google Workspace account. */
+  customerId: string;
   /** Request body */
   body?: Admin_Schema;
 }
 export const PatchSchemasRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    customerId: S.String.pipe(T.Label()),
     schemaKey: S.String.pipe(T.Label()),
+    customerId: S.String.pipe(T.Label()),
     body: S.optional(Admin_Schema.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -5608,9 +5452,7 @@ export const PatchSchemasRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://admin.googleapis.com/",
     }),
   ),
-).annotate({
-  identifier: "PatchSchemasRequest",
-}) as any as S.Schema<PatchSchemasRequest>;
+).annotate({ identifier: "PatchSchemasRequest" }) as any as S.Schema<PatchSchemasRequest>;
 
 export interface PatchUsersRequest {
   /** Identifies the user in the API request. The value can be the user's primary email address, alias email address, or unique user ID. */
@@ -5629,9 +5471,7 @@ export const PatchUsersRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://admin.googleapis.com/",
     }),
   ),
-).annotate({
-  identifier: "PatchUsersRequest",
-}) as any as S.Schema<PatchUsersRequest>;
+).annotate({ identifier: "PatchUsersRequest" }) as any as S.Schema<PatchUsersRequest>;
 
 export interface PatchUsersPhotosRequest {
   /** Identifies the user in the API request. The value can be the user's primary email address, alias email address, or unique user ID. */
@@ -5650,9 +5490,7 @@ export const PatchUsersPhotosRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://admin.googleapis.com/",
     }),
   ),
-).annotate({
-  identifier: "PatchUsersPhotosRequest",
-}) as any as S.Schema<PatchUsersPhotosRequest>;
+).annotate({ identifier: "PatchUsersPhotosRequest" }) as any as S.Schema<PatchUsersPhotosRequest>;
 
 export interface FeatureRename {
   /** New name of the feature. */
@@ -5665,17 +5503,17 @@ export const FeatureRename = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "FeatureRename" }) as any as S.Schema<FeatureRename>;
 
 export interface RenameResourcesFeaturesRequest {
-  /** The unique ID of the feature to rename. */
-  oldName: string;
   /** The unique ID for the customer's Google Workspace account. As an account administrator, you can also use the `my_customer` alias to represent your account's customer ID. */
   customer: string;
+  /** The unique ID of the feature to rename. */
+  oldName: string;
   /** Request body */
   body?: FeatureRename;
 }
 export const RenameResourcesFeaturesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    oldName: S.String.pipe(T.Label()),
     customer: S.String.pipe(T.Label()),
+    oldName: S.String.pipe(T.Label()),
     body: S.optional(FeatureRename.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -5690,9 +5528,7 @@ export const RenameResourcesFeaturesRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface RenameResourcesFeaturesResponse {}
 export const RenameResourcesFeaturesResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "RenameResourcesFeaturesResponse",
-  },
+  { identifier: "RenameResourcesFeaturesResponse" },
 ) as any as S.Schema<RenameResourcesFeaturesResponse>;
 
 export interface SignOutUsersRequest {
@@ -5709,9 +5545,7 @@ export const SignOutUsersRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://admin.googleapis.com/",
     }),
   ),
-).annotate({
-  identifier: "SignOutUsersRequest",
-}) as any as S.Schema<SignOutUsersRequest>;
+).annotate({ identifier: "SignOutUsersRequest" }) as any as S.Schema<SignOutUsersRequest>;
 
 export interface SignOutUsersResponse {}
 export const SignOutUsersResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -5723,39 +5557,39 @@ export const StringMap = /*@__PURE__*/ S.Record(S.String, S.String) as any as S.
 
 /** An notification channel used to watch for resource changes. */
 export interface Channel {
+  /** An arbitrary string delivered to the target address with each notification delivered over this channel. Optional. */
+  token?: string;
   /** A version-specific identifier for the watched resource. */
   resourceUri?: string;
-  /** Identifies this as a notification channel used to watch for changes to a resource, which is `api#channel`. */
-  kind?: string;
+  /** A Boolean value to indicate whether payload is wanted. Optional. */
+  payload?: boolean;
   /** The type of delivery mechanism used for this channel. */
   type?: string;
   /** Date and time of notification channel expiration, expressed as a Unix timestamp, in milliseconds. Optional. */
   expiration?: string;
+  /** Identifies this as a notification channel used to watch for changes to a resource, which is `api#channel`. */
+  kind?: string;
+  /** An opaque ID that identifies the resource being watched on this channel. Stable across different API versions. */
+  resourceId?: string;
   /** A UUID or similar unique string that identifies this channel. */
   id?: string;
   /** The address where notifications are delivered for this channel. */
   address?: string;
   /** Additional parameters controlling delivery channel behavior. Optional. For example, `params.ttl` specifies the time-to-live in seconds for the notification channel, where the default is 2 hours and the maximum TTL is 2 days. */
   params?: StringMap;
-  /** A Boolean value to indicate whether payload is wanted. Optional. */
-  payload?: boolean;
-  /** An opaque ID that identifies the resource being watched on this channel. Stable across different API versions. */
-  resourceId?: string;
-  /** An arbitrary string delivered to the target address with each notification delivered over this channel. Optional. */
-  token?: string;
 }
 export const Channel = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    token: S.optional(S.String),
     resourceUri: S.optional(S.String),
-    kind: S.optional(S.String),
+    payload: S.optional(S.Boolean),
     type: S.optional(S.String),
     expiration: S.optional(S.String),
+    kind: S.optional(S.String),
+    resourceId: S.optional(S.String),
     id: S.optional(S.String),
     address: S.optional(S.String),
     params: S.optional(StringMap),
-    payload: S.optional(S.Boolean),
-    resourceId: S.optional(S.String),
-    token: S.optional(S.String),
   }),
 ).annotate({ identifier: "Channel" }) as any as S.Schema<Channel>;
 
@@ -5773,9 +5607,7 @@ export const StopChannelsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://admin.googleapis.com/",
     }),
   ),
-).annotate({
-  identifier: "StopChannelsRequest",
-}) as any as S.Schema<StopChannelsRequest>;
+).annotate({ identifier: "StopChannelsRequest" }) as any as S.Schema<StopChannelsRequest>;
 
 export interface StopChannelsResponse {}
 export const StopChannelsResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -5834,9 +5666,7 @@ export const UndeleteUsersRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://admin.googleapis.com/",
     }),
   ),
-).annotate({
-  identifier: "UndeleteUsersRequest",
-}) as any as S.Schema<UndeleteUsersRequest>;
+).annotate({ identifier: "UndeleteUsersRequest" }) as any as S.Schema<UndeleteUsersRequest>;
 
 export interface UndeleteUsersResponse {}
 export const UndeleteUsersResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -5847,20 +5677,20 @@ export type UpdateChromeosdevicesProjectionEnum = "BASIC" | "FULL";
 export const UpdateChromeosdevicesProjectionEnum = S.String;
 
 export interface UpdateChromeosdevicesRequest {
-  /** Determines whether the response contains the full list of properties or only a subset. */
-  projection?: UpdateChromeosdevicesProjectionEnum | (string & {});
-  /** The unique ID of the device. The `deviceId`s are returned in the response from the [chromeosdevices.list](https://developers.google.com/workspace/admin/v1/reference/chromeosdevices/list) method. */
-  deviceId: string;
   /** The unique ID for the customer's Google Workspace account. As an account administrator, you can also use the `my_customer` alias to represent your account's `customerId`. The `customerId` is also returned as part of the [Users resource](https://developers.google.com/workspace/admin/directory/v1/reference/users). */
   customerId: string;
+  /** The unique ID of the device. The `deviceId`s are returned in the response from the [chromeosdevices.list](https://developers.google.com/workspace/admin/v1/reference/chromeosdevices/list) method. */
+  deviceId: string;
+  /** Determines whether the response contains the full list of properties or only a subset. */
+  projection?: UpdateChromeosdevicesProjectionEnum | (string & {});
   /** Request body */
   body?: ChromeOsDevice;
 }
 export const UpdateChromeosdevicesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    projection: S.optional(UpdateChromeosdevicesProjectionEnum.pipe(T.Query())),
-    deviceId: S.String.pipe(T.Label()),
     customerId: S.String.pipe(T.Label()),
+    deviceId: S.String.pipe(T.Label()),
+    projection: S.optional(UpdateChromeosdevicesProjectionEnum.pipe(T.Query())),
     body: S.optional(ChromeOsDevice.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -5890,9 +5720,7 @@ export const UpdateCustomersRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://admin.googleapis.com/",
     }),
   ),
-).annotate({
-  identifier: "UpdateCustomersRequest",
-}) as any as S.Schema<UpdateCustomersRequest>;
+).annotate({ identifier: "UpdateCustomersRequest" }) as any as S.Schema<UpdateCustomersRequest>;
 
 export interface UpdateGroupsRequest {
   /** Identifies the group in the API request. The value can be the group's email address, group alias, or the unique group ID. */
@@ -5911,22 +5739,20 @@ export const UpdateGroupsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://admin.googleapis.com/",
     }),
   ),
-).annotate({
-  identifier: "UpdateGroupsRequest",
-}) as any as S.Schema<UpdateGroupsRequest>;
+).annotate({ identifier: "UpdateGroupsRequest" }) as any as S.Schema<UpdateGroupsRequest>;
 
 export interface UpdateMembersRequest {
-  /** Identifies the group member in the API request. A group member can be a user or another group. The value can be the member's (group or user) primary email address, alias, or unique ID. */
-  memberKey: string;
   /** Identifies the group in the API request. The value can be the group's email address, group alias, or the unique group ID. */
   groupKey: string;
+  /** Identifies the group member in the API request. A group member can be a user or another group. The value can be the member's (group or user) primary email address, alias, or unique ID. */
+  memberKey: string;
   /** Request body */
   body?: Member;
 }
 export const UpdateMembersRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    memberKey: S.String.pipe(T.Label()),
     groupKey: S.String.pipe(T.Label()),
+    memberKey: S.String.pipe(T.Label()),
     body: S.optional(Member.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -5935,9 +5761,7 @@ export const UpdateMembersRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://admin.googleapis.com/",
     }),
   ),
-).annotate({
-  identifier: "UpdateMembersRequest",
-}) as any as S.Schema<UpdateMembersRequest>;
+).annotate({ identifier: "UpdateMembersRequest" }) as any as S.Schema<UpdateMembersRequest>;
 
 export interface UpdateOrgunitsRequest {
   /** The full path of the organizational unit (minus the leading `/`) or its unique ID. */
@@ -5959,9 +5783,7 @@ export const UpdateOrgunitsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://admin.googleapis.com/",
     }),
   ),
-).annotate({
-  identifier: "UpdateOrgunitsRequest",
-}) as any as S.Schema<UpdateOrgunitsRequest>;
+).annotate({ identifier: "UpdateOrgunitsRequest" }) as any as S.Schema<UpdateOrgunitsRequest>;
 
 export type UpdateResourcesBuildingsCoordinatesSourceEnum =
   | "CLIENT_SPECIFIED"
@@ -5970,20 +5792,20 @@ export type UpdateResourcesBuildingsCoordinatesSourceEnum =
 export const UpdateResourcesBuildingsCoordinatesSourceEnum = S.String;
 
 export interface UpdateResourcesBuildingsRequest {
-  /** Source from which Building.coordinates are derived. */
-  coordinatesSource?: UpdateResourcesBuildingsCoordinatesSourceEnum | (string & {});
-  /** The unique ID for the customer's Google Workspace account. As an account administrator, you can also use the `my_customer` alias to represent your account's customer ID. */
-  customer: string;
   /** The id of the building to update. */
   buildingId: string;
+  /** The unique ID for the customer's Google Workspace account. As an account administrator, you can also use the `my_customer` alias to represent your account's customer ID. */
+  customer: string;
+  /** Source from which Building.coordinates are derived. */
+  coordinatesSource?: UpdateResourcesBuildingsCoordinatesSourceEnum | (string & {});
   /** Request body */
   body?: Building;
 }
 export const UpdateResourcesBuildingsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    coordinatesSource: S.optional(UpdateResourcesBuildingsCoordinatesSourceEnum.pipe(T.Query())),
-    customer: S.String.pipe(T.Label()),
     buildingId: S.String.pipe(T.Label()),
+    customer: S.String.pipe(T.Label()),
+    coordinatesSource: S.optional(UpdateResourcesBuildingsCoordinatesSourceEnum.pipe(T.Query())),
     body: S.optional(Building.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -5997,17 +5819,17 @@ export const UpdateResourcesBuildingsRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateResourcesBuildingsRequest>;
 
 export interface UpdateResourcesCalendarsRequest {
-  /** The unique ID for the customer's Google Workspace account. As an account administrator, you can also use the `my_customer` alias to represent your account's customer ID. */
-  customer: string;
   /** The unique ID of the calendar resource to update. */
   calendarResourceId: string;
+  /** The unique ID for the customer's Google Workspace account. As an account administrator, you can also use the `my_customer` alias to represent your account's customer ID. */
+  customer: string;
   /** Request body */
   body?: CalendarResource;
 }
 export const UpdateResourcesCalendarsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    customer: S.String.pipe(T.Label()),
     calendarResourceId: S.String.pipe(T.Label()),
+    customer: S.String.pipe(T.Label()),
     body: S.optional(CalendarResource.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -6021,17 +5843,17 @@ export const UpdateResourcesCalendarsRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateResourcesCalendarsRequest>;
 
 export interface UpdateResourcesFeaturesRequest {
-  /** The unique ID for the customer's Google Workspace account. As an account administrator, you can also use the `my_customer` alias to represent your account's customer ID. */
-  customer: string;
   /** The unique ID of the feature to update. */
   featureKey: string;
+  /** The unique ID for the customer's Google Workspace account. As an account administrator, you can also use the `my_customer` alias to represent your account's customer ID. */
+  customer: string;
   /** Request body */
   body?: Feature;
 }
 export const UpdateResourcesFeaturesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    customer: S.String.pipe(T.Label()),
     featureKey: S.String.pipe(T.Label()),
+    customer: S.String.pipe(T.Label()),
     body: S.optional(Feature.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -6064,9 +5886,7 @@ export const UpdateRolesRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://admin.googleapis.com/",
     }),
   ),
-).annotate({
-  identifier: "UpdateRolesRequest",
-}) as any as S.Schema<UpdateRolesRequest>;
+).annotate({ identifier: "UpdateRolesRequest" }) as any as S.Schema<UpdateRolesRequest>;
 
 export interface UpdateSchemasRequest {
   /** Immutable ID of the Google Workspace account. */
@@ -6088,9 +5908,7 @@ export const UpdateSchemasRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://admin.googleapis.com/",
     }),
   ),
-).annotate({
-  identifier: "UpdateSchemasRequest",
-}) as any as S.Schema<UpdateSchemasRequest>;
+).annotate({ identifier: "UpdateSchemasRequest" }) as any as S.Schema<UpdateSchemasRequest>;
 
 export interface UpdateUsersRequest {
   /** Identifies the user in the API request. The value can be the user's primary email address, alias email address, or unique user ID. */
@@ -6109,9 +5927,7 @@ export const UpdateUsersRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://admin.googleapis.com/",
     }),
   ),
-).annotate({
-  identifier: "UpdateUsersRequest",
-}) as any as S.Schema<UpdateUsersRequest>;
+).annotate({ identifier: "UpdateUsersRequest" }) as any as S.Schema<UpdateUsersRequest>;
 
 export interface UpdateUsersPhotosRequest {
   /** Identifies the user in the API request. The value can be the user's primary email address, alias email address, or unique user ID. */
@@ -6130,15 +5946,16 @@ export const UpdateUsersPhotosRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://admin.googleapis.com/",
     }),
   ),
-).annotate({
-  identifier: "UpdateUsersPhotosRequest",
-}) as any as S.Schema<UpdateUsersPhotosRequest>;
+).annotate({ identifier: "UpdateUsersPhotosRequest" }) as any as S.Schema<UpdateUsersPhotosRequest>;
 
-export type WatchUsersEventEnum = "add" | "delete" | "makeAdmin" | "undelete" | "update";
-export const WatchUsersEventEnum = S.String;
+export type WatchUsersProjectionEnum = "basic" | "custom" | "full";
+export const WatchUsersProjectionEnum = S.String;
 
 export type WatchUsersViewTypeEnum = "admin_view" | "domain_public";
 export const WatchUsersViewTypeEnum = S.String;
+
+export type WatchUsersEventEnum = "add" | "delete" | "makeAdmin" | "undelete" | "update";
+export const WatchUsersEventEnum = S.String;
 
 export type WatchUsersSortOrderEnum = "ASCENDING" | "DESCENDING";
 export const WatchUsersSortOrderEnum = S.String;
@@ -6146,51 +5963,48 @@ export const WatchUsersSortOrderEnum = S.String;
 export type WatchUsersOrderByEnum = "email" | "familyName" | "givenName";
 export const WatchUsersOrderByEnum = S.String;
 
-export type WatchUsersProjectionEnum = "basic" | "custom" | "full";
-export const WatchUsersProjectionEnum = S.String;
-
 export interface WatchUsersRequest {
-  /** Events to watch for. */
-  event?: WatchUsersEventEnum | (string & {});
+  /** If set to true, retrieves the list of deleted users. (Default: false) */
+  showDeleted?: string;
+  /** Immutable ID of the Google Workspace account. In case of multi-domain, to fetch all users for a customer, fill this field instead of domain. */
+  customer?: string;
+  /** What subset of fields to fetch for this user. */
+  projection?: WatchUsersProjectionEnum | (string & {});
+  /** Comma-separated list of schema names. All fields from these schemas are fetched. This should only be set when projection=custom. */
+  customFieldMask?: string;
   /** Name of the domain. Fill this field to get users from only this domain. To return all users in a multi-domain fill customer field instead." */
   domain?: string;
-  /** Query string search. Contains one or more search clauses, each with a field, operator, and value. For complete documentation, go to [Search for users](https://developers.google.com/workspace/admin/directory/v1/guides/search-users). */
-  query?: string;
+  /** Maximum number of results to return. */
+  maxResults?: number;
   /** Whether to fetch the administrator-only or domain-wide public view of the user. For more information, see [Retrieve a user as a non-administrator](https://developers.google.com/workspace/admin/directory/v1/guides/manage-users#retrieve_users_non_admin). */
   viewType?: WatchUsersViewTypeEnum | (string & {});
+  /** Query string search. Contains one or more search clauses, each with a field, operator, and value. For complete documentation, go to [Search for users](https://developers.google.com/workspace/admin/directory/v1/guides/search-users). */
+  query?: string;
+  /** Events to watch for. */
+  event?: WatchUsersEventEnum | (string & {});
   /** Token to specify next page in the list */
   pageToken?: string;
   /** Whether to return results in ascending or descending order. */
   sortOrder?: WatchUsersSortOrderEnum | (string & {});
   /** Column to use for sorting results */
   orderBy?: WatchUsersOrderByEnum | (string & {});
-  /** Immutable ID of the Google Workspace account. In case of multi-domain, to fetch all users for a customer, fill this field instead of domain. */
-  customer?: string;
-  /** Comma-separated list of schema names. All fields from these schemas are fetched. This should only be set when projection=custom. */
-  customFieldMask?: string;
-  /** Maximum number of results to return. */
-  maxResults?: number;
-  /** If set to true, retrieves the list of deleted users. (Default: false) */
-  showDeleted?: string;
-  /** What subset of fields to fetch for this user. */
-  projection?: WatchUsersProjectionEnum | (string & {});
   /** Request body */
   body?: Channel;
 }
 export const WatchUsersRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    event: S.optional(WatchUsersEventEnum.pipe(T.Query())),
+    showDeleted: S.optional(S.String.pipe(T.Query())),
+    customer: S.optional(S.String.pipe(T.Query())),
+    projection: S.optional(WatchUsersProjectionEnum.pipe(T.Query())),
+    customFieldMask: S.optional(S.String.pipe(T.Query())),
     domain: S.optional(S.String.pipe(T.Query())),
-    query: S.optional(S.String.pipe(T.Query())),
+    maxResults: S.optional(S.Number.pipe(T.Query())),
     viewType: S.optional(WatchUsersViewTypeEnum.pipe(T.Query())),
+    query: S.optional(S.String.pipe(T.Query())),
+    event: S.optional(WatchUsersEventEnum.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
     sortOrder: S.optional(WatchUsersSortOrderEnum.pipe(T.Query())),
     orderBy: S.optional(WatchUsersOrderByEnum.pipe(T.Query())),
-    customer: S.optional(S.String.pipe(T.Query())),
-    customFieldMask: S.optional(S.String.pipe(T.Query())),
-    maxResults: S.optional(S.Number.pipe(T.Query())),
-    showDeleted: S.optional(S.String.pipe(T.Query())),
-    projection: S.optional(WatchUsersProjectionEnum.pipe(T.Query())),
     body: S.optional(Channel.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -6199,9 +6013,7 @@ export const WatchUsersRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://admin.googleapis.com/",
     }),
   ),
-).annotate({
-  identifier: "WatchUsersRequest",
-}) as any as S.Schema<WatchUsersRequest>;
+).annotate({ identifier: "WatchUsersRequest" }) as any as S.Schema<WatchUsersRequest>;
 
 export type WatchUsersAliasesEventEnum = "add" | "delete";
 export const WatchUsersAliasesEventEnum = S.String;
@@ -6226,9 +6038,7 @@ export const WatchUsersAliasesRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://admin.googleapis.com/",
     }),
   ),
-).annotate({
-  identifier: "WatchUsersAliasesRequest",
-}) as any as S.Schema<WatchUsersAliasesRequest>;
+).annotate({ identifier: "WatchUsersAliasesRequest" }) as any as S.Schema<WatchUsersAliasesRequest>;
 
 export type ActionChromeosdevicesError =
   | NotFound
@@ -7439,7 +7249,7 @@ export type InsertUsersError =
   | BadRequest
   | Conflict
   | GoogleWorkspaceOpError;
-/** Creates a user. Mutate calls immediately following user creation might sometimes fail as the user isn't fully created due to propagation delay in our backends. Check the error details for the "User creation is not complete" message to see if this is the case. Retrying the calls after some time can help in this case. If `resolveConflictAccount` is set to `true`, a `202` response code means that a conflicting unmanaged account exists and was invited to join the organization. A `409` response code means that a conflicting account exists so the user wasn't created based on the [handling unmanaged user accounts](https://support.google.com/a/answer/11112794) option selected. */
+/** Creates a user. Mutate calls immediately following user creation might sometimes fail as the user isn't fully created due to propagation delay in our backends. Check the error details for the "User creation is not complete" message to see if this is the case. Retrying the calls after some time can help in this case. If `resolve_conflict_account` is set to `true`, the option selected for [Find and add unmanaged users](https://knowledge.workspace.google.com/admin/users/find-and-add-unmanaged-users) will apply to resolve conflicting accounts: - A `200` response code indicates the user was created (or replaced an existing unmanaged personal account). - A `202` response code means that a conflicting unmanaged personal account exists and was invited to join the organization. - A `409` response code means that a conflicting account exists so the user wasn't created (e.g. based on the option selected to preserve the account, or if the email conflicts with an unmanaged work account or existing managed user). For details on resolving duplicate account errors, see [Resolve duplicate account errors](https://knowledge.workspace.google.com/p/duplicate-account-errors) and [Transfer unmanaged work accounts](https://knowledge.workspace.google.com/p/unmanaged-work-accounts). */
 export const insertUsers: API.OperationMethod<
   InsertUsersRequest,
   User,
@@ -7542,10 +7352,7 @@ export const listChromeosdevices: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListCustomersChromePrintersError = NotFound | Forbidden | GoogleWorkspaceOpError;
@@ -7562,10 +7369,7 @@ export const listCustomersChromePrinters: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListCustomersChromePrintServersError = NotFound | Forbidden | GoogleWorkspaceOpError;
@@ -7582,10 +7386,7 @@ export const listCustomersChromePrintServers: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListDomainAliasesError = NotFound | Forbidden | GoogleWorkspaceOpError;
@@ -7632,10 +7433,7 @@ export const listGroups: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListGroupsAliasesError = NotFound | Forbidden | GoogleWorkspaceOpError;
@@ -7667,10 +7465,7 @@ export const listMembers: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListMobiledevicesError = NotFound | Forbidden | GoogleWorkspaceOpError;
@@ -7687,10 +7482,7 @@ export const listMobiledevices: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListOrgunitsError = NotFound | Forbidden | GoogleWorkspaceOpError;
@@ -7725,10 +7517,7 @@ export const listPrinterModelsCustomersChromePrinters: API.PaginatedOperationMet
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListPrivilegesError = NotFound | Forbidden | GoogleWorkspaceOpError;
@@ -7760,10 +7549,7 @@ export const listResourcesBuildings: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListResourcesCalendarsError = NotFound | Forbidden | GoogleWorkspaceOpError;
@@ -7780,11 +7566,7 @@ export const listResourcesCalendars: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-    items: "items",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
 export type ListResourcesFeaturesError = NotFound | Forbidden | GoogleWorkspaceOpError;
@@ -7801,10 +7583,7 @@ export const listResourcesFeatures: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListRoleAssignmentsError = NotFound | Forbidden | GoogleWorkspaceOpError;
@@ -7821,11 +7600,7 @@ export const listRoleAssignments: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-    items: "items",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
 export type ListRolesError = NotFound | Forbidden | GoogleWorkspaceOpError;
@@ -7842,11 +7617,7 @@ export const listRoles: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-    items: "items",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
 export type ListSchemasError = NotFound | Forbidden | GoogleWorkspaceOpError;
@@ -7893,10 +7664,7 @@ export const listUsers: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListUsersAliasesError = NotFound | Forbidden | GoogleWorkspaceOpError;

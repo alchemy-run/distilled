@@ -267,11 +267,7 @@ export const CreateAuthenticationV1SelfSubjectReviewRequest = /*@__PURE__*/ S.su
     metadata: S.optional(IoK8sApimachineryPkgApisMetaV1ObjectMeta),
     status: S.optional(IoK8sApiAuthenticationV1SelfSubjectReviewStatus),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/apis/authentication.k8s.io/v1/selfsubjectreviews",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/apis/authentication.k8s.io/v1/selfsubjectreviews", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateAuthenticationV1SelfSubjectReviewRequest",
@@ -381,11 +377,7 @@ export const CreateAuthenticationV1TokenReviewRequest = /*@__PURE__*/ S.suspend(
     spec: IoK8sApiAuthenticationV1TokenReviewSpec,
     status: S.optional(IoK8sApiAuthenticationV1TokenReviewStatus),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/apis/authentication.k8s.io/v1/tokenreviews",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/apis/authentication.k8s.io/v1/tokenreviews", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateAuthenticationV1TokenReviewRequest",
@@ -502,13 +494,7 @@ export const IoK8sApimachineryPkgApisMetaV1APIGroup = /*@__PURE__*/ S.suspend(()
 
 export interface GetAuthenticationV1APIResourcesRequest {}
 export const GetAuthenticationV1APIResourcesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/apis/authentication.k8s.io/v1/",
-      code: 200,
-    }),
-  ),
+  S.Struct({}).pipe(T.Http({ method: "GET", uri: "/apis/authentication.k8s.io/v1/", code: 200 })),
 ).annotate({
   identifier: "GetAuthenticationV1APIResourcesRequest",
 }) as any as S.Schema<GetAuthenticationV1APIResourcesRequest>;

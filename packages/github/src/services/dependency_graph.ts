@@ -152,9 +152,7 @@ export const Manifest = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "Manifest" }) as any as S.Schema<Manifest>;
 
 /** A collection of package manifests, which are a collection of related dependencies declared in a file or representing a logical group of dependencies. */
-export type CreateRepositorySnapshotRequestManifestsMap = {
-  [key: string]: Manifest | undefined;
-};
+export type CreateRepositorySnapshotRequestManifestsMap = { [key: string]: Manifest | undefined };
 export const CreateRepositorySnapshotRequestManifestsMap = /*@__PURE__*/ S.Record(
   S.String,
   Manifest,
@@ -193,11 +191,7 @@ export const CreateRepositorySnapshotRequest = /*@__PURE__*/ S.suspend(() =>
     manifests: S.optional(CreateRepositorySnapshotRequestManifestsMap),
     scanned: S.String,
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/repos/{owner}/{repo}/dependency-graph/snapshots",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/repos/{owner}/{repo}/dependency-graph/snapshots", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateRepositorySnapshotRequest",
@@ -247,9 +241,7 @@ export const DiffRangeRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "DiffRangeRequest",
-}) as any as S.Schema<DiffRangeRequest>;
+).annotate({ identifier: "DiffRangeRequest" }) as any as S.Schema<DiffRangeRequest>;
 
 export type DependencyGraphDiffItemChangeType = "added" | "removed";
 export const DependencyGraphDiffItemChangeType = S.String;
@@ -307,9 +299,7 @@ export const DependencyGraphDiffItem = /*@__PURE__*/ S.suspend(() =>
     vulnerabilities: DependencyGraphDiffItemVulnerabilitiesList,
     scope: DependencyGraphDiffItemScope,
   }),
-).annotate({
-  identifier: "DependencyGraphDiffItem",
-}) as any as S.Schema<DependencyGraphDiffItem>;
+).annotate({ identifier: "DependencyGraphDiffItem" }) as any as S.Schema<DependencyGraphDiffItem>;
 
 /** A diff of the dependencies between two commits. */
 export type DependencyGraphDiff = Array<DependencyGraphDiffItem>;
@@ -320,9 +310,7 @@ export const DependencyGraphDiff = /*@__PURE__*/ S.Array(
 export type DiffRangeResponse = DependencyGraphDiff;
 export const DiffRangeResponse = /*@__PURE__*/ S.suspend(() =>
   DependencyGraphDiff.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "DiffRangeResponse",
-}) as any as S.Schema<DiffRangeResponse>;
+).annotate({ identifier: "DiffRangeResponse" }) as any as S.Schema<DiffRangeResponse>;
 
 export interface FetchSbomReportRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -344,9 +332,7 @@ export const FetchSbomReportRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "FetchSbomReportRequest",
-}) as any as S.Schema<FetchSbomReportRequest>;
+).annotate({ identifier: "FetchSbomReportRequest" }) as any as S.Schema<FetchSbomReportRequest>;
 
 export interface FetchSbomReportResponse {}
 export const FetchSbomReportResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({

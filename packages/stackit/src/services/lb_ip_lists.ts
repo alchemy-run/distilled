@@ -60,19 +60,15 @@ export const DeleteIPListRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/v1alpha/projects/{projectId}/regions/{region}/ip-lists/{name}",
       code: 200,
-      baseUrl: "https://lb-ip-lists.api.{region}stackit.cloud",
+      baseUrl: "https://lb-ip-lists.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "DeleteIPListRequest",
-}) as any as S.Schema<DeleteIPListRequest>;
+).annotate({ identifier: "DeleteIPListRequest" }) as any as S.Schema<DeleteIPListRequest>;
 
 export type DeleteIPListResponse2 = unknown;
 export const DeleteIPListResponse2 = /*@__PURE__*/ S.suspend(() =>
   S.Unknown.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "DeleteIPListResponse2",
-}) as any as S.Schema<DeleteIPListResponse2>;
+).annotate({ identifier: "DeleteIPListResponse2" }) as any as S.Schema<DeleteIPListResponse2>;
 
 export interface GetIPListRequest {
   projectId: string;
@@ -89,12 +85,10 @@ export const GetIPListRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/v1alpha/projects/{projectId}/regions/{region}/ip-lists/{name}",
       code: 200,
-      baseUrl: "https://lb-ip-lists.api.{region}stackit.cloud",
+      baseUrl: "https://lb-ip-lists.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "GetIPListRequest",
-}) as any as S.Schema<GetIPListRequest>;
+).annotate({ identifier: "GetIPListRequest" }) as any as S.Schema<GetIPListRequest>;
 
 /** Labels represent user-defined metadata as key-value pairs. Label count should not exceed 64 per IP list. **Key Formatting Rules:** Length: 1-63 characters. Characters: Must begin and end with [a-zA-Z0-9]. May contain dashes (-), underscores (_), dots (.), and alphanumerics in between. Keys starting with 'stackit-' are system-reserved; users MUST NOT manage them. **Value Formatting Rules:** Length: 0-63 characters (empty string explicitly allowed). Characters (for non-empty values): Must begin and end with [a-zA-Z0-9]. May contain dashes (-), underscores (_), dots (.), and alphanumerics in between. */
 export type GetIPListResponseLabelsMap = { [key: string]: string | undefined };
@@ -144,9 +138,7 @@ export const GetIPListResponse = /*@__PURE__*/ S.suspend(() =>
     numberOfIps: S.optional(S.Number),
     usage: S.optional(IPListUsage),
   }),
-).annotate({
-  identifier: "GetIPListResponse",
-}) as any as S.Schema<GetIPListResponse>;
+).annotate({ identifier: "GetIPListResponse" }) as any as S.Schema<GetIPListResponse>;
 
 export interface GetQuotaRequest {
   projectId: string;
@@ -161,26 +153,21 @@ export const GetQuotaRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/v1alpha/projects/{projectId}/regions/{region}/quotas",
       code: 200,
-      baseUrl: "https://lb-ip-lists.api.{region}stackit.cloud",
+      baseUrl: "https://lb-ip-lists.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "GetQuotaRequest",
-}) as any as S.Schema<GetQuotaRequest>;
+).annotate({ identifier: "GetQuotaRequest" }) as any as S.Schema<GetQuotaRequest>;
 
 /** IPListsQuota holds the limits and current usage for IP list resources. Defaults: limit=3 per project, max_entries_per_list=50000. */
 export interface IPListsQuota {
   /** The maximum number of IP lists allowed in this project. Defaults to 3. Use -1 to indicate unlimited. */
   limit?: number;
-  /** The maximum number of IPv4 CIDR entries allowed in a single IP list. Defaults to 50000. */
-  maxEntriesPerList?: number;
   /** The number of IP lists that currently exist in this project. */
   usage?: number;
 }
 export const IPListsQuota = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     limit: S.optional(S.Number),
-    maxEntriesPerList: S.optional(S.Number),
     usage: S.optional(S.Number),
   }),
 ).annotate({ identifier: "IPListsQuota" }) as any as S.Schema<IPListsQuota>;
@@ -209,9 +196,7 @@ export const GetQuotaResponse = /*@__PURE__*/ S.suspend(() =>
     quotas: S.optional(Quotas),
     region: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GetQuotaResponse",
-}) as any as S.Schema<GetQuotaResponse>;
+).annotate({ identifier: "GetQuotaResponse" }) as any as S.Schema<GetQuotaResponse>;
 
 export interface ListIPListsRequest {
   projectId: string;
@@ -226,12 +211,10 @@ export const ListIPListsRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/v1alpha/projects/{projectId}/regions/{region}/ip-lists",
       code: 200,
-      baseUrl: "https://lb-ip-lists.api.{region}stackit.cloud",
+      baseUrl: "https://lb-ip-lists.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "ListIPListsRequest",
-}) as any as S.Schema<ListIPListsRequest>;
+).annotate({ identifier: "ListIPListsRequest" }) as any as S.Schema<ListIPListsRequest>;
 
 /** Every IP list in the project and region. Never includes the CIDR entries themselves. */
 export type ListIPListsResponseItemsList = Array<GetIPListResponse>;
@@ -248,14 +231,10 @@ export const ListIPListsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     items: S.optional(ListIPListsResponseItemsList),
   }),
-).annotate({
-  identifier: "ListIPListsResponse",
-}) as any as S.Schema<ListIPListsResponse>;
+).annotate({ identifier: "ListIPListsResponse" }) as any as S.Schema<ListIPListsResponse>;
 
 /** Labels represent user-defined metadata as key-value pairs. Label count should not exceed 64 per IP list. **Key Formatting Rules:** Length: 1-63 characters. Characters: Must begin and end with [a-zA-Z0-9]. May contain dashes (-), underscores (_), dots (.), and alphanumerics in between. Keys starting with 'stackit-' are system-reserved; users MUST NOT manage them. **Value Formatting Rules:** Length: 0-63 characters (empty string explicitly allowed). Characters (for non-empty values): Must begin and end with [a-zA-Z0-9]. May contain dashes (-), underscores (_), dots (.), and alphanumerics in between. */
-export type UploadIPListRequestLabelsMap = {
-  [key: string]: string | undefined;
-};
+export type UploadIPListRequestLabelsMap = { [key: string]: string | undefined };
 export const UploadIPListRequestLabelsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -282,12 +261,10 @@ export const UploadIPListRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PUT",
       uri: "/v1alpha/projects/{projectId}/regions/{region}/ip-lists/{name}",
       code: 200,
-      baseUrl: "https://lb-ip-lists.api.{region}stackit.cloud",
+      baseUrl: "https://lb-ip-lists.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "UploadIPListRequest",
-}) as any as S.Schema<UploadIPListRequest>;
+).annotate({ identifier: "UploadIPListRequest" }) as any as S.Schema<UploadIPListRequest>;
 
 export type DeleteIPListError = BadRequest | Forbidden | NotFound | StackitOpError;
 /** Delete an IP List configuration Removes the IP list configuration from the project. If the IP list is referenced by load balancers, clear or replace the reference first. */

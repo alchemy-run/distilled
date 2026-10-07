@@ -173,9 +173,7 @@ export const AccountCapabilities = /*@__PURE__*/ S.suspend(() =>
     standard_payout: AccountCapabilitiesStandardPayout,
     transfer: AccountCapabilitiesTransfer,
   }),
-).annotate({
-  identifier: "AccountCapabilities",
-}) as any as S.Schema<AccountCapabilities>;
+).annotate({ identifier: "AccountCapabilities" }) as any as S.Schema<AccountCapabilities>;
 
 /** The recommendation; new values may be added, so handle unknown actions gracefully */
 export type AccountRecommendedActionAction =
@@ -244,9 +242,7 @@ export const AccountRecommendedAction = /*@__PURE__*/ S.suspend(() =>
     status: AccountRecommendedActionStatus,
     title: S.String,
   }),
-).annotate({
-  identifier: "AccountRecommendedAction",
-}) as any as S.Schema<AccountRecommendedAction>;
+).annotate({ identifier: "AccountRecommendedAction" }) as any as S.Schema<AccountRecommendedAction>;
 
 /** Optional actions that unlock capabilities or grow the referred account. */
 export type GetPartnerBusinessResponseAccountRecommendedActionsList =
@@ -307,9 +303,7 @@ export const AccountRequiredAction = /*@__PURE__*/ S.suspend(() =>
     status: AccountRequiredActionStatus,
     title: S.String,
   }),
-).annotate({
-  identifier: "AccountRequiredAction",
-}) as any as S.Schema<AccountRequiredAction>;
+).annotate({ identifier: "AccountRequiredAction" }) as any as S.Schema<AccountRequiredAction>;
 
 /** Actions the referred account owner must take to unblock capabilities. */
 export type GetPartnerBusinessResponseAccountRequiredActionsList = Array<AccountRequiredAction>;
@@ -701,13 +695,7 @@ export const ListPartnerBusinessEarningsRequest = /*@__PURE__*/ S.suspend(() =>
     direction: S.optional(ListPartnerBusinessEarningsRequestDirection.pipe(T.Query())),
     created_before: S.optional(S.String.pipe(T.Query())),
     created_after: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/partners/businesses/{id}/earnings",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/partners/businesses/{id}/earnings", code: 200 })),
 ).annotate({
   identifier: "ListPartnerBusinessEarningsRequest",
 }) as any as S.Schema<ListPartnerBusinessEarningsRequest>;
@@ -1218,9 +1206,7 @@ export const ListReferredUsersRequest = /*@__PURE__*/ S.suspend(() =>
     last: S.optional(S.Number.pipe(T.Query())),
     before: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/partners/referred_users", code: 200 })),
-).annotate({
-  identifier: "ListReferredUsersRequest",
-}) as any as S.Schema<ListReferredUsersRequest>;
+).annotate({ identifier: "ListReferredUsersRequest" }) as any as S.Schema<ListReferredUsersRequest>;
 
 export interface ListReferredUsersResponseDataItemUserProfilePicture {
   url?: string | null;

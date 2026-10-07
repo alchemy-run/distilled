@@ -70,9 +70,7 @@ export const AddPublicKeyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     key: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AddPublicKeyRequest",
-}) as any as S.Schema<AddPublicKeyRequest>;
+).annotate({ identifier: "AddPublicKeyRequest" }) as any as S.Schema<AddPublicKeyRequest>;
 
 export interface AddPublicKeyUsersEnvironmentsRequest {
   /** Environment this key should be added to, e.g. `users/me/environments/default`. */
@@ -110,16 +108,16 @@ export const DocumentMapList = /*@__PURE__*/ S.Array(
 export interface Status {
   /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
   message?: string;
-  /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
-  details?: DocumentMapList;
   /** The status code, which should be an enum value of google.rpc.Code. */
   code?: number;
+  /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
+  details?: DocumentMapList;
 }
 export const Status = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     message: S.optional(S.String),
-    details: S.optional(DocumentMapList),
     code: S.optional(S.Number),
+    details: S.optional(DocumentMapList),
   }),
 ).annotate({ identifier: "Status" }) as any as S.Schema<Status>;
 
@@ -148,18 +146,18 @@ export const Operation = /*@__PURE__*/ S.suspend(() =>
 
 /** Request message for AuthorizeEnvironment. */
 export interface AuthorizeEnvironmentRequest {
-  /** The time when the credentials expire. If not set, defaults to one hour from when the server received the request. */
-  expireTime?: string;
   /** The OAuth ID token that should be sent to the environment. */
   idToken?: string;
   /** The OAuth access token that should be sent to the environment. */
   accessToken?: string;
+  /** The time when the credentials expire. If not set, defaults to one hour from when the server received the request. */
+  expireTime?: string;
 }
 export const AuthorizeEnvironmentRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    expireTime: S.optional(S.String),
     idToken: S.optional(S.String),
     accessToken: S.optional(S.String),
+    expireTime: S.optional(S.String),
   }),
 ).annotate({
   identifier: "AuthorizeEnvironmentRequest",
@@ -209,9 +207,7 @@ export const CancelOperationsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://cloudshell.googleapis.com/",
     }),
   ),
-).annotate({
-  identifier: "CancelOperationsRequest",
-}) as any as S.Schema<CancelOperationsRequest>;
+).annotate({ identifier: "CancelOperationsRequest" }) as any as S.Schema<CancelOperationsRequest>;
 
 /** A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); } */
 export interface Empty {}
@@ -227,29 +223,23 @@ export const DeleteOperationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "v1/{+name}",
-      baseUrl: "https://cloudshell.googleapis.com/",
-    }),
+    T.Http({ method: "DELETE", uri: "v1/{+name}", baseUrl: "https://cloudshell.googleapis.com/" }),
   ),
-).annotate({
-  identifier: "DeleteOperationsRequest",
-}) as any as S.Schema<DeleteOperationsRequest>;
+).annotate({ identifier: "DeleteOperationsRequest" }) as any as S.Schema<DeleteOperationsRequest>;
 
 export interface GenerateAccessTokenUsersEnvironmentsRequest {
   /** Desired expiration time of the access token. This value must be at most 24 hours in the future. If a value is not specified, the token's expiration time will be set to a default value of 1 hour in the future. */
   expireTime?: string;
-  /** Required. The environment to generate the access token for. */
-  environment: string;
   /** Desired lifetime duration of the access token. This value must be at most 24 hours. If a value is not specified, the token's lifetime will be set to a default value of 1 hour. */
   ttl?: string;
+  /** Required. The environment to generate the access token for. */
+  environment: string;
 }
 export const GenerateAccessTokenUsersEnvironmentsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     expireTime: S.optional(S.String.pipe(T.Query())),
-    environment: S.String.pipe(T.Label()),
     ttl: S.optional(S.String.pipe(T.Query())),
+    environment: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -282,15 +272,9 @@ export const GetOperationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "v1/{+name}",
-      baseUrl: "https://cloudshell.googleapis.com/",
-    }),
+    T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://cloudshell.googleapis.com/" }),
   ),
-).annotate({
-  identifier: "GetOperationsRequest",
-}) as any as S.Schema<GetOperationsRequest>;
+).annotate({ identifier: "GetOperationsRequest" }) as any as S.Schema<GetOperationsRequest>;
 
 export interface GetUsersEnvironmentsRequest {
   /** Required. Name of the requested resource, for example `users/me/environments/default` or `users/someone@example.com/environments/default`. */
@@ -300,11 +284,7 @@ export const GetUsersEnvironmentsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "v1/{+name}",
-      baseUrl: "https://cloudshell.googleapis.com/",
-    }),
+    T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://cloudshell.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "GetUsersEnvironmentsRequest",
@@ -323,46 +303,46 @@ export const EnvironmentStateEnum = S.String;
 
 /** A Cloud Shell environment, which is defined as the combination of a Docker image specifying what is installed on the environment and a home directory containing the user's data that will remain across sessions. Each user has at least an environment with the ID "default". */
 export interface Environment {
-  /** Output only. Public keys associated with the environment. Clients can connect to this environment via SSH only if they possess a private key corresponding to at least one of these public keys. Keys can be added to or removed from the environment using the AddPublicKey and RemovePublicKey methods. */
-  publicKeys?: StringList;
   /** Output only. Host to which clients can connect to initiate HTTPS or WSS connections with the environment. */
   webHost?: string;
-  /** Output only. Host to which clients can connect to initiate SSH sessions with the environment. */
-  sshHost?: string;
-  /** Output only. Current execution state of this environment. */
-  state?: EnvironmentStateEnum;
   /** Output only. Port to which clients can connect to initiate SSH sessions with the environment. */
   sshPort?: number;
   /** Output only. Username that clients should use when initiating SSH sessions with the environment. */
   sshUsername?: string;
+  /** Output only. Public keys associated with the environment. Clients can connect to this environment via SSH only if they possess a private key corresponding to at least one of these public keys. Keys can be added to or removed from the environment using the AddPublicKey and RemovePublicKey methods. */
+  publicKeys?: StringList;
   /** Required. Immutable. Full path to the Docker image used to run this environment, e.g. "gcr.io/dev-con/cloud-devshell:latest". */
   dockerImage?: string;
-  /** Output only. The environment's identifier, unique among the user's environments. */
-  id?: string;
+  /** Output only. Current execution state of this environment. */
+  state?: EnvironmentStateEnum;
+  /** Output only. Host to which clients can connect to initiate SSH sessions with the environment. */
+  sshHost?: string;
   /** Immutable. Full name of this resource, in the format `users/{owner_email}/environments/{environment_id}`. `{owner_email}` is the email address of the user to whom this environment belongs, and `{environment_id}` is the identifier of this environment. For example, `users/someone@example.com/environments/default`. */
   name?: string;
+  /** Output only. The environment's identifier, unique among the user's environments. */
+  id?: string;
 }
 export const Environment = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    publicKeys: S.optional(StringList),
     webHost: S.optional(S.String),
-    sshHost: S.optional(S.String),
-    state: S.optional(EnvironmentStateEnum),
     sshPort: S.optional(S.Number),
     sshUsername: S.optional(S.String),
+    publicKeys: S.optional(StringList),
     dockerImage: S.optional(S.String),
-    id: S.optional(S.String),
+    state: S.optional(EnvironmentStateEnum),
+    sshHost: S.optional(S.String),
     name: S.optional(S.String),
+    id: S.optional(S.String),
   }),
 ).annotate({ identifier: "Environment" }) as any as S.Schema<Environment>;
 
 export interface ListOperationsRequest {
-  /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
-  returnPartialSuccess?: boolean;
-  /** The name of the operation's parent resource. */
-  name: string;
   /** The standard list filter. */
   filter?: string;
+  /** The name of the operation's parent resource. */
+  name: string;
+  /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
+  returnPartialSuccess?: boolean;
   /** The standard list page token. */
   pageToken?: string;
   /** The standard list page size. */
@@ -370,43 +350,35 @@ export interface ListOperationsRequest {
 }
 export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
-    name: S.String.pipe(T.Label()),
     filter: S.optional(S.String.pipe(T.Query())),
+    name: S.String.pipe(T.Label()),
+    returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
     pageSize: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "v1/{+name}",
-      baseUrl: "https://cloudshell.googleapis.com/",
-    }),
+    T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://cloudshell.googleapis.com/" }),
   ),
-).annotate({
-  identifier: "ListOperationsRequest",
-}) as any as S.Schema<ListOperationsRequest>;
+).annotate({ identifier: "ListOperationsRequest" }) as any as S.Schema<ListOperationsRequest>;
 
 export type OperationList = Array<Operation>;
 export const OperationList = /*@__PURE__*/ S.Array(Operation) as any as S.Schema<OperationList>;
 
 /** The response message for Operations.ListOperations. */
 export interface ListOperationsResponse {
-  /** A list of operations that matches the specified filter in the request. */
-  operations?: OperationList;
-  /** The standard List next-page token. */
-  nextPageToken?: string;
   /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
   unreachable?: StringList;
+  /** The standard List next-page token. */
+  nextPageToken?: string;
+  /** A list of operations that matches the specified filter in the request. */
+  operations?: OperationList;
 }
 export const ListOperationsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    operations: S.optional(OperationList),
-    nextPageToken: S.optional(S.String),
     unreachable: S.optional(StringList),
+    nextPageToken: S.optional(S.String),
+    operations: S.optional(OperationList),
   }),
-).annotate({
-  identifier: "ListOperationsResponse",
-}) as any as S.Schema<ListOperationsResponse>;
+).annotate({ identifier: "ListOperationsResponse" }) as any as S.Schema<ListOperationsResponse>;
 
 /** Request message for RemovePublicKey. */
 export interface RemovePublicKeyRequest {
@@ -417,9 +389,7 @@ export const RemovePublicKeyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     key: S.optional(S.String),
   }),
-).annotate({
-  identifier: "RemovePublicKeyRequest",
-}) as any as S.Schema<RemovePublicKeyRequest>;
+).annotate({ identifier: "RemovePublicKeyRequest" }) as any as S.Schema<RemovePublicKeyRequest>;
 
 export interface RemovePublicKeyUsersEnvironmentsRequest {
   /** Environment this key should be removed from, e.g. `users/me/environments/default`. */
@@ -454,9 +424,7 @@ export const StartEnvironmentRequest = /*@__PURE__*/ S.suspend(() =>
     publicKeys: S.optional(StringList),
     accessToken: S.optional(S.String),
   }),
-).annotate({
-  identifier: "StartEnvironmentRequest",
-}) as any as S.Schema<StartEnvironmentRequest>;
+).annotate({ identifier: "StartEnvironmentRequest" }) as any as S.Schema<StartEnvironmentRequest>;
 
 export interface StartUsersEnvironmentsRequest {
   /** Name of the resource that should be started, for example `users/me/environments/default` or `users/someone@example.com/environments/default`. */
@@ -608,10 +576,7 @@ export const listOperations: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type RemovePublicKeyUsersEnvironmentsError =

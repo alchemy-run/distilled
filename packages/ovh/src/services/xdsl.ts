@@ -60,9 +60,7 @@ export const XdslDHCPStaticAddress = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.NullOr(S.String)),
     taskId: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "XdslDHCPStaticAddress",
-}) as any as S.Schema<XdslDHCPStaticAddress>;
+).annotate({ identifier: "XdslDHCPStaticAddress" }) as any as S.Schema<XdslDHCPStaticAddress>;
 
 /** Frequency between notifications. */
 export type XdslMonitoringNotificationsFrequencyEnum = "1h" | "5m" | "6h" | "once";
@@ -101,11 +99,7 @@ export const AddMonitoringNotificationRequest = /*@__PURE__*/ S.suspend(() =>
     smsAccount: S.optional(S.String),
     type: XdslMonitoringNotificationsTypeEnum,
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/xdsl/{serviceName}/monitoringNotifications",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/xdsl/{serviceName}/monitoringNotifications", code: 200 }),
   ),
 ).annotate({
   identifier: "AddMonitoringNotificationRequest",
@@ -184,16 +178,8 @@ export const AddPortMappingRequest = /*@__PURE__*/ S.suspend(() =>
     internalPortEnd: S.optional(S.Number),
     name: S.String,
     protocol: XdslXdslModemConfigProtocolTypeEnum,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/xdsl/{serviceName}/modem/portMappings",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "AddPortMappingRequest",
-}) as any as S.Schema<AddPortMappingRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/xdsl/{serviceName}/modem/portMappings", code: 200 })),
+).annotate({ identifier: "AddPortMappingRequest" }) as any as S.Schema<AddPortMappingRequest>;
 
 /** Port Mappings */
 export interface XdslPortMapping {
@@ -234,9 +220,7 @@ export const XdslPortMapping = /*@__PURE__*/ S.suspend(() =>
     protocol: S.optional(XdslXdslModemConfigProtocolTypeEnum),
     taskId: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "XdslPortMapping",
-}) as any as S.Schema<XdslPortMapping>;
+).annotate({ identifier: "XdslPortMapping" }) as any as S.Schema<XdslPortMapping>;
 
 export interface ApplyTemplateModemRequest {
   /** Service name */
@@ -248,13 +232,7 @@ export const ApplyTemplateModemRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     templateName: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/xdsl/{serviceName}/applyTemplateToModem",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/xdsl/{serviceName}/applyTemplateToModem", code: 200 })),
 ).annotate({
   identifier: "ApplyTemplateModemRequest",
 }) as any as S.Schema<ApplyTemplateModemRequest>;
@@ -292,16 +270,8 @@ export const ArchiveXdslTaskRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     id: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/xdsl/{serviceName}/tasks/{id}/archive",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ArchiveXdslTaskRequest",
-}) as any as S.Schema<ArchiveXdslTaskRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/xdsl/{serviceName}/tasks/{id}/archive", code: 200 })),
+).annotate({ identifier: "ArchiveXdslTaskRequest" }) as any as S.Schema<ArchiveXdslTaskRequest>;
 
 export interface ArchiveXdslTaskResponse {}
 export const ArchiveXdslTaskResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -324,16 +294,8 @@ export const BookMeetingRequest = /*@__PURE__*/ S.suspend(() =>
     endDate: S.String,
     startDate: S.String,
     uiCode: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/xdsl/{serviceName}/orderMeeting",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "BookMeetingRequest",
-}) as any as S.Schema<BookMeetingRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/xdsl/{serviceName}/orderMeeting", code: 200 })),
+).annotate({ identifier: "BookMeetingRequest" }) as any as S.Schema<BookMeetingRequest>;
 
 export interface BookMeetingResponse {}
 export const BookMeetingResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -375,13 +337,7 @@ export interface CancelXdslResiliationRequest {
 export const CancelXdslResiliationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/xdsl/{serviceName}/cancelResiliation",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/xdsl/{serviceName}/cancelResiliation", code: 200 })),
 ).annotate({
   identifier: "CancelXdslResiliationRequest",
 }) as any as S.Schema<CancelXdslResiliationRequest>;
@@ -407,16 +363,8 @@ export const ChangeContactRequest = /*@__PURE__*/ S.suspend(() =>
     contactAdmin: S.optional(S.String),
     contactBilling: S.optional(S.String),
     contactTech: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/xdsl/{serviceName}/changeContact",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ChangeContactRequest",
-}) as any as S.Schema<ChangeContactRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/xdsl/{serviceName}/changeContact", code: 200 })),
+).annotate({ identifier: "ChangeContactRequest" }) as any as S.Schema<ChangeContactRequest>;
 
 export type ChangeContactResponseBodyList = Array<number>;
 export const ChangeContactResponseBodyList = /*@__PURE__*/ S.Array(
@@ -426,9 +374,7 @@ export const ChangeContactResponseBodyList = /*@__PURE__*/ S.Array(
 export type ChangeContactResponse = ChangeContactResponseBodyList;
 export const ChangeContactResponse = /*@__PURE__*/ S.suspend(() =>
   ChangeContactResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ChangeContactResponse",
-}) as any as S.Schema<ChangeContactResponse>;
+).annotate({ identifier: "ChangeContactResponse" }) as any as S.Schema<ChangeContactResponse>;
 
 export interface ChangeEmailPasswordRequest {
   /** Email */
@@ -440,13 +386,7 @@ export const ChangeEmailPasswordRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     email: S.String.pipe(T.Label()),
     password: S.String.pipe(T.SensitiveValue({})),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/xdsl/email/pro/{email}/changePassword",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/xdsl/email/pro/{email}/changePassword", code: 200 })),
 ).annotate({
   identifier: "ChangeEmailPasswordRequest",
 }) as any as S.Schema<ChangeEmailPasswordRequest>;
@@ -473,9 +413,7 @@ export const XdslEmailProTask = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(XdslEmailProTaskStatusEnum),
     todoDate: S.optional(S.String),
   }),
-).annotate({
-  identifier: "XdslEmailProTask",
-}) as any as S.Schema<XdslEmailProTask>;
+).annotate({ identifier: "XdslEmailProTask" }) as any as S.Schema<XdslEmailProTask>;
 
 export interface ChangeLineDSLAMProfileRequest {
   /** Service name */
@@ -552,9 +490,7 @@ export const XdslTemplateModemDHCP = /*@__PURE__*/ S.suspend(() =>
     startAddress: S.optional(S.String),
     subnetMask: S.optional(S.String),
   }),
-).annotate({
-  identifier: "XdslTemplateModemDHCP",
-}) as any as S.Schema<XdslTemplateModemDHCP>;
+).annotate({ identifier: "XdslTemplateModemDHCP" }) as any as S.Schema<XdslTemplateModemDHCP>;
 
 /** List of DHCP for this template */
 export type XdslTemplateModemDHCPList = Array<XdslTemplateModemDHCP>;
@@ -584,9 +520,7 @@ export const XdslTemplateModemLAN = /*@__PURE__*/ S.suspend(() =>
     lanName: S.optional(S.String),
     subnetMask: S.optional(S.String),
   }),
-).annotate({
-  identifier: "XdslTemplateModemLAN",
-}) as any as S.Schema<XdslTemplateModemLAN>;
+).annotate({ identifier: "XdslTemplateModemLAN" }) as any as S.Schema<XdslTemplateModemLAN>;
 
 /** List of LAN for this template */
 export type XdslTemplateModemLANList = Array<XdslTemplateModemLAN>;
@@ -651,9 +585,7 @@ export const XdslTemplateModemWLAN = /*@__PURE__*/ S.suspend(() =>
     securityType: S.optional(XdslTemplateModemSecurityTypeEnum),
     wifiName: S.optional(S.String),
   }),
-).annotate({
-  identifier: "XdslTemplateModemWLAN",
-}) as any as S.Schema<XdslTemplateModemWLAN>;
+).annotate({ identifier: "XdslTemplateModemWLAN" }) as any as S.Schema<XdslTemplateModemWLAN>;
 
 /** List of WLAN for this template */
 export type XdslTemplateModemWLANList = Array<XdslTemplateModemWLAN>;
@@ -778,9 +710,7 @@ export const XdslTemplateModem = /*@__PURE__*/ S.suspend(() =>
     parametersToIgnore: S.optional(S.NullOr(XdslTemplateModemParametersToIgnore)),
     portMapping: S.optional(XdslTemplateModemPortMappingList),
   }),
-).annotate({
-  identifier: "XdslTemplateModem",
-}) as any as S.Schema<XdslTemplateModem>;
+).annotate({ identifier: "XdslTemplateModem" }) as any as S.Schema<XdslTemplateModem>;
 
 export interface CreateXdslAddressMoveExtraIpRangeMoveRequest {
   /** Service name */
@@ -790,11 +720,7 @@ export const CreateXdslAddressMoveExtraIpRangeMoveRequest = /*@__PURE__*/ S.susp
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/xdsl/{serviceName}/addressMove/extraIpRangeMove",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/xdsl/{serviceName}/addressMove/extraIpRangeMove", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateXdslAddressMoveExtraIpRangeMoveRequest",
@@ -807,13 +733,7 @@ export interface CreateXdslDiagnosticRequest {
 export const CreateXdslDiagnosticRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/xdsl/{serviceName}/diagnostic",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/xdsl/{serviceName}/diagnostic", code: 200 })),
 ).annotate({
   identifier: "CreateXdslDiagnosticRequest",
 }) as any as S.Schema<CreateXdslDiagnosticRequest>;
@@ -826,9 +746,7 @@ export const CreateXdslIpsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "POST", uri: "/xdsl/{serviceName}/ips", code: 200 })),
-).annotate({
-  identifier: "CreateXdslIpsRequest",
-}) as any as S.Schema<CreateXdslIpsRequest>;
+).annotate({ identifier: "CreateXdslIpsRequest" }) as any as S.Schema<CreateXdslIpsRequest>;
 
 export interface CreateXdslModemReconfigureVoipRequest {
   /** Service name */
@@ -837,13 +755,7 @@ export interface CreateXdslModemReconfigureVoipRequest {
 export const CreateXdslModemReconfigureVoipRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/xdsl/{serviceName}/modem/reconfigureVoip",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/xdsl/{serviceName}/modem/reconfigureVoip", code: 200 })),
 ).annotate({
   identifier: "CreateXdslModemReconfigureVoipRequest",
 }) as any as S.Schema<CreateXdslModemReconfigureVoipRequest>;
@@ -862,13 +774,7 @@ export interface CreateXdslRequestPPPLoginMailRequest {
 export const CreateXdslRequestPPPLoginMailRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/xdsl/{serviceName}/requestPPPLoginMail",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/xdsl/{serviceName}/requestPPPLoginMail", code: 200 })),
 ).annotate({
   identifier: "CreateXdslRequestPPPLoginMailRequest",
 }) as any as S.Schema<CreateXdslRequestPPPLoginMailRequest>;
@@ -887,13 +793,7 @@ export interface CreateXdslSpareReturnMerchandiseRequest {
 export const CreateXdslSpareReturnMerchandiseRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     spare: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/xdsl/spare/{spare}/returnMerchandise",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/xdsl/spare/{spare}/returnMerchandise", code: 200 })),
 ).annotate({
   identifier: "CreateXdslSpareReturnMerchandiseRequest",
 }) as any as S.Schema<CreateXdslSpareReturnMerchandiseRequest>;
@@ -949,16 +849,8 @@ export const DeleteXdslIpsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     ip: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/xdsl/{serviceName}/ips/{ip}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "DeleteXdslIpsRequest",
-}) as any as S.Schema<DeleteXdslIpsRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/xdsl/{serviceName}/ips/{ip}", code: 200 })),
+).annotate({ identifier: "DeleteXdslIpsRequest" }) as any as S.Schema<DeleteXdslIpsRequest>;
 
 export interface DeleteXdslIpsResponse {}
 export const DeleteXdslIpsResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -975,16 +867,8 @@ export const DeleteXdslRmaRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/xdsl/{serviceName}/rma/{id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "DeleteXdslRmaRequest",
-}) as any as S.Schema<DeleteXdslRmaRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/xdsl/{serviceName}/rma/{id}", code: 200 })),
+).annotate({ identifier: "DeleteXdslRmaRequest" }) as any as S.Schema<DeleteXdslRmaRequest>;
 
 export interface DeleteXdslRmaResponse {}
 export const DeleteXdslRmaResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -999,9 +883,7 @@ export const DeleteXdslSpareRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     spare: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "DELETE", uri: "/xdsl/spare/{spare}", code: 200 })),
-).annotate({
-  identifier: "DeleteXdslSpareRequest",
-}) as any as S.Schema<DeleteXdslSpareRequest>;
+).annotate({ identifier: "DeleteXdslSpareRequest" }) as any as S.Schema<DeleteXdslSpareRequest>;
 
 export interface DeleteXdslSpareResponse {}
 export const DeleteXdslSpareResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1015,13 +897,7 @@ export interface GetAccessModemReplacementRequest {
 export const GetAccessModemReplacementRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/xdsl/{serviceName}/modem/comfortExchange",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/xdsl/{serviceName}/modem/comfortExchange", code: 200 })),
 ).annotate({
   identifier: "GetAccessModemReplacementRequest",
 }) as any as S.Schema<GetAccessModemReplacementRequest>;
@@ -1083,9 +959,7 @@ export const XdslModemExchangeInfo = /*@__PURE__*/ S.suspend(() =>
     price: S.optional(OrderPrice),
     priceWithTax: S.optional(OrderPrice),
   }),
-).annotate({
-  identifier: "XdslModemExchangeInfo",
-}) as any as S.Schema<XdslModemExchangeInfo>;
+).annotate({ identifier: "XdslModemExchangeInfo" }) as any as S.Schema<XdslModemExchangeInfo>;
 
 export interface GetBlocIPStatusRequest {
   /** Service name */
@@ -1094,16 +968,8 @@ export interface GetBlocIPStatusRequest {
 export const GetBlocIPStatusRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/xdsl/{serviceName}/modem/blocIp",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetBlocIPStatusRequest",
-}) as any as S.Schema<GetBlocIPStatusRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/xdsl/{serviceName}/modem/blocIp", code: 200 })),
+).annotate({ identifier: "GetBlocIPStatusRequest" }) as any as S.Schema<GetBlocIPStatusRequest>;
 
 /** Status of the service */
 export type XdslServiceStatusEnum = "disabled" | "enabled";
@@ -1112,9 +978,7 @@ export const XdslServiceStatusEnum = S.String;
 export type GetBlocIPStatusResponse = XdslServiceStatusEnum;
 export const GetBlocIPStatusResponse = /*@__PURE__*/ S.suspend(() =>
   XdslServiceStatusEnum.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "GetBlocIPStatusResponse",
-}) as any as S.Schema<GetBlocIPStatusResponse>;
+).annotate({ identifier: "GetBlocIPStatusResponse" }) as any as S.Schema<GetBlocIPStatusResponse>;
 
 export interface GetContentSharingStatusRequest {
   /** Service name */
@@ -1123,13 +987,7 @@ export interface GetContentSharingStatusRequest {
 export const GetContentSharingStatusRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/xdsl/{serviceName}/modem/contentSharing",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/xdsl/{serviceName}/modem/contentSharing", code: 200 })),
 ).annotate({
   identifier: "GetContentSharingStatusRequest",
 }) as any as S.Schema<GetContentSharingStatusRequest>;
@@ -1211,13 +1069,7 @@ export interface GetFirmwareVersionRequest {
 export const GetFirmwareVersionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/xdsl/{serviceName}/modem/firmware",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/xdsl/{serviceName}/modem/firmware", code: 200 })),
 ).annotate({
   identifier: "GetFirmwareVersionRequest",
 }) as any as S.Schema<GetFirmwareVersionRequest>;
@@ -1237,16 +1089,12 @@ export const GetFTPStatusRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/xdsl/{serviceName}/modem/ftp", code: 200 })),
-).annotate({
-  identifier: "GetFTPStatusRequest",
-}) as any as S.Schema<GetFTPStatusRequest>;
+).annotate({ identifier: "GetFTPStatusRequest" }) as any as S.Schema<GetFTPStatusRequest>;
 
 export type GetFTPStatusResponse = XdslServiceStatusEnum;
 export const GetFTPStatusResponse = /*@__PURE__*/ S.suspend(() =>
   XdslServiceStatusEnum.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "GetFTPStatusResponse",
-}) as any as S.Schema<GetFTPStatusResponse>;
+).annotate({ identifier: "GetFTPStatusResponse" }) as any as S.Schema<GetFTPStatusResponse>;
 
 export interface GetIpsecAlgStatusRequest {
   /** Service name */
@@ -1255,16 +1103,8 @@ export interface GetIpsecAlgStatusRequest {
 export const GetIpsecAlgStatusRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/xdsl/{serviceName}/modem/ipsecAlg",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetIpsecAlgStatusRequest",
-}) as any as S.Schema<GetIpsecAlgStatusRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/xdsl/{serviceName}/modem/ipsecAlg", code: 200 })),
+).annotate({ identifier: "GetIpsecAlgStatusRequest" }) as any as S.Schema<GetIpsecAlgStatusRequest>;
 
 export type GetIpsecAlgStatusResponse = XdslServiceStatusEnum;
 export const GetIpsecAlgStatusResponse = /*@__PURE__*/ S.suspend(() =>
@@ -1280,13 +1120,7 @@ export interface GetModemCallWaitingStatusRequest {
 export const GetModemCallWaitingStatusRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/xdsl/{serviceName}/modem/callWaiting",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/xdsl/{serviceName}/modem/callWaiting", code: 200 })),
 ).annotate({
   identifier: "GetModemCallWaitingStatusRequest",
 }) as any as S.Schema<GetModemCallWaitingStatusRequest>;
@@ -1306,16 +1140,12 @@ export const GetModemTemplateRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/xdsl/templateModem/{name}", code: 200 })),
-).annotate({
-  identifier: "GetModemTemplateRequest",
-}) as any as S.Schema<GetModemTemplateRequest>;
+).annotate({ identifier: "GetModemTemplateRequest" }) as any as S.Schema<GetModemTemplateRequest>;
 
 export interface GetModemTemplatesRequest {}
 export const GetModemTemplatesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/xdsl/templateModem", code: 200 })),
-).annotate({
-  identifier: "GetModemTemplatesRequest",
-}) as any as S.Schema<GetModemTemplatesRequest>;
+).annotate({ identifier: "GetModemTemplatesRequest" }) as any as S.Schema<GetModemTemplatesRequest>;
 
 export type GetModemTemplatesResponseBodyList = Array<string>;
 export const GetModemTemplatesResponseBodyList = /*@__PURE__*/ S.Array(
@@ -1340,11 +1170,7 @@ export const GetMonitoringNotificationRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     id: S.Number.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/xdsl/{serviceName}/monitoringNotifications/{id}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/xdsl/{serviceName}/monitoringNotifications/{id}", code: 200 }),
   ),
 ).annotate({
   identifier: "GetMonitoringNotificationRequest",
@@ -1357,13 +1183,7 @@ export interface GetMonitoringNotificationsRequest {
 export const GetMonitoringNotificationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/xdsl/{serviceName}/monitoringNotifications",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/xdsl/{serviceName}/monitoringNotifications", code: 200 })),
 ).annotate({
   identifier: "GetMonitoringNotificationsRequest",
 }) as any as S.Schema<GetMonitoringNotificationsRequest>;
@@ -1391,15 +1211,9 @@ export const GetPortMappingRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     name: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/xdsl/{serviceName}/modem/portMappings/{name}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/xdsl/{serviceName}/modem/portMappings/{name}", code: 200 }),
   ),
-).annotate({
-  identifier: "GetPortMappingRequest",
-}) as any as S.Schema<GetPortMappingRequest>;
+).annotate({ identifier: "GetPortMappingRequest" }) as any as S.Schema<GetPortMappingRequest>;
 
 export interface GetPortMappingsRequest {
   /** Service name */
@@ -1408,16 +1222,8 @@ export interface GetPortMappingsRequest {
 export const GetPortMappingsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/xdsl/{serviceName}/modem/portMappings",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetPortMappingsRequest",
-}) as any as S.Schema<GetPortMappingsRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/xdsl/{serviceName}/modem/portMappings", code: 200 })),
+).annotate({ identifier: "GetPortMappingsRequest" }) as any as S.Schema<GetPortMappingsRequest>;
 
 export type GetPortMappingsResponseBodyList = Array<string>;
 export const GetPortMappingsResponseBodyList = /*@__PURE__*/ S.Array(
@@ -1427,9 +1233,7 @@ export const GetPortMappingsResponseBodyList = /*@__PURE__*/ S.Array(
 export type GetPortMappingsResponse = GetPortMappingsResponseBodyList;
 export const GetPortMappingsResponse = /*@__PURE__*/ S.suspend(() =>
   GetPortMappingsResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "GetPortMappingsResponse",
-}) as any as S.Schema<GetPortMappingsResponse>;
+).annotate({ identifier: "GetPortMappingsResponse" }) as any as S.Schema<GetPortMappingsResponse>;
 
 export interface GetSipAlgStatusRequest {
   /** Service name */
@@ -1438,23 +1242,13 @@ export interface GetSipAlgStatusRequest {
 export const GetSipAlgStatusRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/xdsl/{serviceName}/modem/sipAlg",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetSipAlgStatusRequest",
-}) as any as S.Schema<GetSipAlgStatusRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/xdsl/{serviceName}/modem/sipAlg", code: 200 })),
+).annotate({ identifier: "GetSipAlgStatusRequest" }) as any as S.Schema<GetSipAlgStatusRequest>;
 
 export type GetSipAlgStatusResponse = XdslServiceStatusEnum;
 export const GetSipAlgStatusResponse = /*@__PURE__*/ S.suspend(() =>
   XdslServiceStatusEnum.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "GetSipAlgStatusResponse",
-}) as any as S.Schema<GetSipAlgStatusResponse>;
+).annotate({ identifier: "GetSipAlgStatusResponse" }) as any as S.Schema<GetSipAlgStatusResponse>;
 
 export interface GetUpnpStatusRequest {
   /** Service name */
@@ -1464,16 +1258,12 @@ export const GetUpnpStatusRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/xdsl/{serviceName}/modem/upnp", code: 200 })),
-).annotate({
-  identifier: "GetUpnpStatusRequest",
-}) as any as S.Schema<GetUpnpStatusRequest>;
+).annotate({ identifier: "GetUpnpStatusRequest" }) as any as S.Schema<GetUpnpStatusRequest>;
 
 export type GetUpnpStatusResponse = XdslServiceStatusEnum;
 export const GetUpnpStatusResponse = /*@__PURE__*/ S.suspend(() =>
   XdslServiceStatusEnum.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "GetUpnpStatusResponse",
-}) as any as S.Schema<GetUpnpStatusResponse>;
+).annotate({ identifier: "GetUpnpStatusResponse" }) as any as S.Schema<GetUpnpStatusResponse>;
 
 export interface GetWifiMeshStatusRequest {
   /** Service name */
@@ -1483,9 +1273,7 @@ export const GetWifiMeshStatusRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/xdsl/{serviceName}/modem/mesh", code: 200 })),
-).annotate({
-  identifier: "GetWifiMeshStatusRequest",
-}) as any as S.Schema<GetWifiMeshStatusRequest>;
+).annotate({ identifier: "GetWifiMeshStatusRequest" }) as any as S.Schema<GetWifiMeshStatusRequest>;
 
 export type GetWifiMeshStatusResponse = XdslServiceStatusEnum;
 export const GetWifiMeshStatusResponse = /*@__PURE__*/ S.suspend(() =>
@@ -1501,13 +1289,7 @@ export interface GetWifiOneSsidStatusRequest {
 export const GetWifiOneSsidStatusRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/xdsl/{serviceName}/modem/onessid",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/xdsl/{serviceName}/modem/onessid", code: 200 })),
 ).annotate({
   identifier: "GetWifiOneSsidStatusRequest",
 }) as any as S.Schema<GetWifiOneSsidStatusRequest>;
@@ -1567,9 +1349,7 @@ export const XdslAddressDetail = /*@__PURE__*/ S.suspend(() =>
     street: S.optional(S.String),
     zipCode: S.optional(S.String),
   }),
-).annotate({
-  identifier: "XdslAddressDetail",
-}) as any as S.Schema<XdslAddressDetail>;
+).annotate({ identifier: "XdslAddressDetail" }) as any as S.Schema<XdslAddressDetail>;
 
 /** Describe the capabilities of the Access */
 export interface XdslAccessCapabilities {
@@ -1589,9 +1369,7 @@ export const XdslAccessCapabilities = /*@__PURE__*/ S.suspend(() =>
     canResetDslamPort: S.optional(S.Boolean),
     hasDslamPort: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "XdslAccessCapabilities",
-}) as any as S.Schema<XdslAccessCapabilities>;
+).annotate({ identifier: "XdslAccessCapabilities" }) as any as S.Schema<XdslAccessCapabilities>;
 
 /** Resource tags. Tags that were internally computed are prefixed with ovh: */
 export type IamResourceMetadataTagsMap = { [key: string]: string | undefined };
@@ -1618,9 +1396,7 @@ export const IamResourceMetadata = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(S.NullOr(IamResourceMetadataTagsMap)),
     urn: S.optional(S.String),
   }),
-).annotate({
-  identifier: "IamResourceMetadata",
-}) as any as S.Schema<IamResourceMetadata>;
+).annotate({ identifier: "IamResourceMetadata" }) as any as S.Schema<IamResourceMetadata>;
 
 /** Status allowed for mail sending */
 export type XdslMailSendingAccessStatusEnum = "blockedForSpam" | "disabled" | "enabled";
@@ -1702,9 +1478,7 @@ export const XdslAccessWithIAM = /*@__PURE__*/ S.suspend(() =>
     role: S.optional(XdslAccessRoleEnum),
     status: S.optional(XdslAccessStatusEnum),
   }),
-).annotate({
-  identifier: "XdslAccessWithIAM",
-}) as any as S.Schema<XdslAccessWithIAM>;
+).annotate({ identifier: "XdslAccessWithIAM" }) as any as S.Schema<XdslAccessWithIAM>;
 
 export interface GetXdslAddressMoveExtraIpRangeRequest {
   /** Service name */
@@ -1714,11 +1488,7 @@ export const GetXdslAddressMoveExtraIpRangeRequest = /*@__PURE__*/ S.suspend(() 
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/xdsl/{serviceName}/addressMove/extraIpRange",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/xdsl/{serviceName}/addressMove/extraIpRange", code: 200 }),
   ),
 ).annotate({
   identifier: "GetXdslAddressMoveExtraIpRangeRequest",
@@ -1739,9 +1509,7 @@ export const XdslExtraIpRangeMove = /*@__PURE__*/ S.suspend(() =>
     ipRange: S.optional(S.String),
     moveTo: S.optional(S.String),
   }),
-).annotate({
-  identifier: "XdslExtraIpRangeMove",
-}) as any as S.Schema<XdslExtraIpRangeMove>;
+).annotate({ identifier: "XdslExtraIpRangeMove" }) as any as S.Schema<XdslExtraIpRangeMove>;
 
 export interface GetXdslAntiSpamRequest {
   /** Service name */
@@ -1753,16 +1521,8 @@ export const GetXdslAntiSpamRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     ip: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/xdsl/{serviceName}/antiSpams/{ip}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetXdslAntiSpamRequest",
-}) as any as S.Schema<GetXdslAntiSpamRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/xdsl/{serviceName}/antiSpams/{ip}", code: 200 })),
+).annotate({ identifier: "GetXdslAntiSpamRequest" }) as any as S.Schema<GetXdslAntiSpamRequest>;
 
 /** AntiSpam status */
 export type XdslAntiSpamAntiSpamStatusEnum = "block" | "done" | "new" | "unblock" | "warn";
@@ -1795,13 +1555,7 @@ export interface GetXdslCanCancelResiliationRequest {
 export const GetXdslCanCancelResiliationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/xdsl/{serviceName}/canCancelResiliation",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/xdsl/{serviceName}/canCancelResiliation", code: 200 })),
 ).annotate({
   identifier: "GetXdslCanCancelResiliationRequest",
 }) as any as S.Schema<GetXdslCanCancelResiliationRequest>;
@@ -1821,9 +1575,7 @@ export const GetXdslDiagnosticRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/xdsl/{serviceName}/diagnostic", code: 200 })),
-).annotate({
-  identifier: "GetXdslDiagnosticRequest",
-}) as any as S.Schema<GetXdslDiagnosticRequest>;
+).annotate({ identifier: "GetXdslDiagnosticRequest" }) as any as S.Schema<GetXdslDiagnosticRequest>;
 
 /** Describe the capabilities of the access diagnostic */
 export interface XdslAccessDiagnosticCapabilities {
@@ -1874,9 +1626,7 @@ export const XdslLineDiagnostic = /*@__PURE__*/ S.suspend(() =>
     proposedProfileId: S.optional(S.NullOr(S.Number)),
     sync: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "XdslLineDiagnostic",
-}) as any as S.Schema<XdslLineDiagnostic>;
+).annotate({ identifier: "XdslLineDiagnostic" }) as any as S.Schema<XdslLineDiagnostic>;
 
 /** Test details by line */
 export type XdslAccessDiagnosticLineDetailsList = Array<XdslLineDiagnostic>;
@@ -1917,9 +1667,7 @@ export const XdslAccessDiagnostic = /*@__PURE__*/ S.suspend(() =>
     ping: S.optional(S.NullOr(S.Boolean)),
     remaining: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "XdslAccessDiagnostic",
-}) as any as S.Schema<XdslAccessDiagnostic>;
+).annotate({ identifier: "XdslAccessDiagnostic" }) as any as S.Schema<XdslAccessDiagnostic>;
 
 export interface GetXdslEmailProRequest {
   /** Email */
@@ -1929,9 +1677,7 @@ export const GetXdslEmailProRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     email: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/xdsl/email/pro/{email}", code: 200 })),
-).annotate({
-  identifier: "GetXdslEmailProRequest",
-}) as any as S.Schema<GetXdslEmailProRequest>;
+).annotate({ identifier: "GetXdslEmailProRequest" }) as any as S.Schema<GetXdslEmailProRequest>;
 
 /** complexType.UnitAndValue_double */
 export interface ComplexTypeUnitAndValueDouble {
@@ -2016,9 +1762,7 @@ export const XdslXdslEmailProWithIAM = /*@__PURE__*/ S.suspend(() =>
     state: S.optional(EmailProObjectStateEnum),
     taskPendingId: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "XdslXdslEmailProWithIAM",
-}) as any as S.Schema<XdslXdslEmailProWithIAM>;
+).annotate({ identifier: "XdslXdslEmailProWithIAM" }) as any as S.Schema<XdslXdslEmailProWithIAM>;
 
 export interface GetXdslFiberEligibilityRequest {
   /** Service name */
@@ -2030,13 +1774,7 @@ export const GetXdslFiberEligibilityRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     id: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/xdsl/{serviceName}/fiberEligibilities/{id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/xdsl/{serviceName}/fiberEligibilities/{id}", code: 200 })),
 ).annotate({
   identifier: "GetXdslFiberEligibilityRequest",
 }) as any as S.Schema<GetXdslFiberEligibilityRequest>;
@@ -2190,9 +1928,7 @@ export const XdslFiberEligibility = /*@__PURE__*/ S.suspend(() =>
     provider: S.optional(S.NullOr(XdslProvider)),
     status: S.optional(XdslFiberEligibilityStatusEnum),
   }),
-).annotate({
-  identifier: "XdslFiberEligibility",
-}) as any as S.Schema<XdslFiberEligibility>;
+).annotate({ identifier: "XdslFiberEligibility" }) as any as S.Schema<XdslFiberEligibility>;
 
 export interface GetXdslIncidentRequest {
   /** Id */
@@ -2202,9 +1938,7 @@ export const GetXdslIncidentRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.Number.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/xdsl/incidents/{id}", code: 200 })),
-).annotate({
-  identifier: "GetXdslIncidentRequest",
-}) as any as S.Schema<GetXdslIncidentRequest>;
+).annotate({ identifier: "GetXdslIncidentRequest" }) as any as S.Schema<GetXdslIncidentRequest>;
 
 /** Department list */
 export type XdslIncidentDepartmentsList = Array<string>;
@@ -2269,9 +2003,7 @@ export const GetXdslIncidentRequest2 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/xdsl/{serviceName}/incident", code: 200 })),
-).annotate({
-  identifier: "GetXdslIncidentRequest2",
-}) as any as S.Schema<GetXdslIncidentRequest2>;
+).annotate({ identifier: "GetXdslIncidentRequest2" }) as any as S.Schema<GetXdslIncidentRequest2>;
 
 export interface GetXdslIpsRequest {
   /** Service name */
@@ -2284,9 +2016,7 @@ export const GetXdslIpsRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     ip: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/xdsl/{serviceName}/ips/{ip}", code: 200 })),
-).annotate({
-  identifier: "GetXdslIpsRequest",
-}) as any as S.Schema<GetXdslIpsRequest>;
+).annotate({ identifier: "GetXdslIpsRequest" }) as any as S.Schema<GetXdslIpsRequest>;
 
 export type XdslIPDnsListList = Array<string>;
 export const XdslIPDnsListList = /*@__PURE__*/ S.Array(
@@ -2331,16 +2061,8 @@ export const GetXdslLineRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     number: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/xdsl/{serviceName}/lines/{number}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetXdslLineRequest",
-}) as any as S.Schema<GetXdslLineRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/xdsl/{serviceName}/lines/{number}", code: 200 })),
+).annotate({ identifier: "GetXdslLineRequest" }) as any as S.Schema<GetXdslLineRequest>;
 
 /** Infos about a Landline at the concentration point */
 export interface XdslLandlineConcentrationPoint {
@@ -2386,9 +2108,7 @@ export const XdslLineSectionLength = /*@__PURE__*/ S.suspend(() =>
     diameter: S.optional(S.Number),
     length: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "XdslLineSectionLength",
-}) as any as S.Schema<XdslLineSectionLength>;
+).annotate({ identifier: "XdslLineSectionLength" }) as any as S.Schema<XdslLineSectionLength>;
 
 /** Detailed information about the sections between the DSLAM and the telephone jack */
 export type XdslLineLineSectionsLengthList = Array<XdslLineSectionLength>;
@@ -2449,11 +2169,7 @@ export const GetXdslLineDslamPortRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     number: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/xdsl/{serviceName}/lines/{number}/dslamPort",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/xdsl/{serviceName}/lines/{number}/dslamPort", code: 200 }),
   ),
 ).annotate({
   identifier: "GetXdslLineDslamPortRequest",
@@ -2471,9 +2187,7 @@ export const XdslDslamLineProfile = /*@__PURE__*/ S.suspend(() =>
     isCurrent: S.optional(S.Boolean),
     name: S.optional(S.String),
   }),
-).annotate({
-  identifier: "XdslDslamLineProfile",
-}) as any as S.Schema<XdslDslamLineProfile>;
+).annotate({ identifier: "XdslDslamLineProfile" }) as any as S.Schema<XdslDslamLineProfile>;
 
 /** Different states of a DSLAM port */
 export type XdslDslamPortStatusEnum = "activated" | "deactivated" | "outofsync";
@@ -2505,9 +2219,7 @@ export const GetXdslModemRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/xdsl/{serviceName}/modem", code: 200 })),
-).annotate({
-  identifier: "GetXdslModemRequest",
-}) as any as S.Schema<GetXdslModemRequest>;
+).annotate({ identifier: "GetXdslModemRequest" }) as any as S.Schema<GetXdslModemRequest>;
 
 /** ACS backend used by the modem */
 export type XdslXdslModemConfigACSBackendEnum = "beta" | "dev" | "stable";
@@ -2557,9 +2269,7 @@ export const XdslModemCapabilities = /*@__PURE__*/ S.suspend(() =>
     canReset: S.optional(S.Boolean),
     canUseWifiRadio: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "XdslModemCapabilities",
-}) as any as S.Schema<XdslModemCapabilities>;
+).annotate({ identifier: "XdslModemCapabilities" }) as any as S.Schema<XdslModemCapabilities>;
 
 /** Level of the Firewall ( BlockAll will block all connections, Normal will block all incoming connections except those in PortMapping and let go all outgoing connections , Disabled will disable all the Firewall and let all incoming or outgoing connections pass through ) */
 export type XdslXdslModemConfigEasyFirewallLevelEnum = "BlockAll" | "Disabled" | "Normal";
@@ -2665,9 +2375,7 @@ export const XdslConnectedDevice = /*@__PURE__*/ S.suspend(() =>
     leaseTimeRemaining: S.optional(S.Number),
     macAddress: S.optional(S.String),
   }),
-).annotate({
-  identifier: "XdslConnectedDevice",
-}) as any as S.Schema<XdslConnectedDevice>;
+).annotate({ identifier: "XdslConnectedDevice" }) as any as S.Schema<XdslConnectedDevice>;
 
 export interface GetXdslModemInfoRequest {
   /** Service name */
@@ -2676,16 +2384,8 @@ export interface GetXdslModemInfoRequest {
 export const GetXdslModemInfoRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/xdsl/{serviceName}/modem/retrieveInfo",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetXdslModemInfoRequest",
-}) as any as S.Schema<GetXdslModemInfoRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/xdsl/{serviceName}/modem/retrieveInfo", code: 200 })),
+).annotate({ identifier: "GetXdslModemInfoRequest" }) as any as S.Schema<GetXdslModemInfoRequest>;
 
 /** Describe device information of a Modem */
 export interface XdslDeviceModemInfo {
@@ -2723,9 +2423,7 @@ export const XdslDeviceModemInfo = /*@__PURE__*/ S.suspend(() =>
     serial: S.optional(S.String),
     softVersion: S.optional(S.String),
   }),
-).annotate({
-  identifier: "XdslDeviceModemInfo",
-}) as any as S.Schema<XdslDeviceModemInfo>;
+).annotate({ identifier: "XdslDeviceModemInfo" }) as any as S.Schema<XdslDeviceModemInfo>;
 
 /** Describe statistics information of a Modem */
 export interface XdslStatsModemInfo {
@@ -2778,9 +2476,7 @@ export const XdslStatsModemInfo = /*@__PURE__*/ S.suspend(() =>
     upstreamMargin: S.optional(S.Number),
     upstreamSync: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "XdslStatsModemInfo",
-}) as any as S.Schema<XdslStatsModemInfo>;
+).annotate({ identifier: "XdslStatsModemInfo" }) as any as S.Schema<XdslStatsModemInfo>;
 
 /** Describe general information of a Modem */
 export interface XdslModemInfo {
@@ -2828,16 +2524,8 @@ export const GetXdslModemLanRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     lanName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/xdsl/{serviceName}/modem/lan/{lanName}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetXdslModemLanRequest",
-}) as any as S.Schema<GetXdslModemLanRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/xdsl/{serviceName}/modem/lan/{lanName}", code: 200 })),
+).annotate({ identifier: "GetXdslModemLanRequest" }) as any as S.Schema<GetXdslModemLanRequest>;
 
 /** LAN Configuration of the Modem */
 export interface XdslLAN {
@@ -2937,16 +2625,8 @@ export const GetXdslModemWifiRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     wifiName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/xdsl/{serviceName}/modem/wifi/{wifiName}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetXdslModemWifiRequest",
-}) as any as S.Schema<GetXdslModemWifiRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/xdsl/{serviceName}/modem/wifi/{wifiName}", code: 200 })),
+).annotate({ identifier: "GetXdslModemWifiRequest" }) as any as S.Schema<GetXdslModemWifiRequest>;
 
 /** Type of WLAN security protection */
 export type XdslXdslModemConfigSecurityTypeEnum =
@@ -3014,11 +2694,7 @@ export const GetXdslModemWifiQrCodeRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     wifiName: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/xdsl/{serviceName}/modem/wifi/{wifiName}/qrCode",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/xdsl/{serviceName}/modem/wifi/{wifiName}/qrCode", code: 200 }),
   ),
 ).annotate({
   identifier: "GetXdslModemWifiQrCodeRequest",
@@ -3042,11 +2718,7 @@ export const GetXdslModemWifiRadioRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     radioName: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/xdsl/{serviceName}/modem/wifiRadio/{radioName}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/xdsl/{serviceName}/modem/wifiRadio/{radioName}", code: 200 }),
   ),
 ).annotate({
   identifier: "GetXdslModemWifiRadioRequest",
@@ -3122,9 +2794,7 @@ export const GetXdslOntRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/xdsl/{serviceName}/ont", code: 200 })),
-).annotate({
-  identifier: "GetXdslOntRequest",
-}) as any as S.Schema<GetXdslOntRequest>;
+).annotate({ identifier: "GetXdslOntRequest" }) as any as S.Schema<GetXdslOntRequest>;
 
 /** Access ONT information */
 export interface XdslOnt {
@@ -3147,13 +2817,7 @@ export interface GetXdslPendingActionRequest {
 export const GetXdslPendingActionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/xdsl/{serviceName}/pendingAction",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/xdsl/{serviceName}/pendingAction", code: 200 })),
 ).annotate({
   identifier: "GetXdslPendingActionRequest",
 }) as any as S.Schema<GetXdslPendingActionRequest>;
@@ -3168,9 +2832,7 @@ export const XdslPendingAction = /*@__PURE__*/ S.suspend(() =>
     action: S.optional(S.String),
     dateTodo: S.optional(S.String),
   }),
-).annotate({
-  identifier: "XdslPendingAction",
-}) as any as S.Schema<XdslPendingAction>;
+).annotate({ identifier: "XdslPendingAction" }) as any as S.Schema<XdslPendingAction>;
 
 export interface GetXdslResiliationFollowupRequest {
   /** Service name */
@@ -3179,13 +2841,7 @@ export interface GetXdslResiliationFollowupRequest {
 export const GetXdslResiliationFollowupRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/xdsl/{serviceName}/resiliationFollowup",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/xdsl/{serviceName}/resiliationFollowup", code: 200 })),
 ).annotate({
   identifier: "GetXdslResiliationFollowupRequest",
 }) as any as S.Schema<GetXdslResiliationFollowupRequest>;
@@ -3222,13 +2878,7 @@ export const GetXdslResiliationTermsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     resiliationDate: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/xdsl/{serviceName}/resiliationTerms",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/xdsl/{serviceName}/resiliationTerms", code: 200 })),
 ).annotate({
   identifier: "GetXdslResiliationTermsRequest",
 }) as any as S.Schema<GetXdslResiliationTermsRequest>;
@@ -3272,9 +2922,7 @@ export const XdslResiliationTerms = /*@__PURE__*/ S.suspend(() =>
     resiliationDate: S.optional(S.String),
     resiliationReasons: S.optional(XdslResiliationTermsResiliationReasonsList),
   }),
-).annotate({
-  identifier: "XdslResiliationTerms",
-}) as any as S.Schema<XdslResiliationTerms>;
+).annotate({ identifier: "XdslResiliationTerms" }) as any as S.Schema<XdslResiliationTerms>;
 
 export interface GetXdslRmaRequest {
   /** Service name */
@@ -3287,9 +2935,7 @@ export const GetXdslRmaRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/xdsl/{serviceName}/rma/{id}", code: 200 })),
-).annotate({
-  identifier: "GetXdslRmaRequest",
-}) as any as S.Schema<GetXdslRmaRequest>;
+).annotate({ identifier: "GetXdslRmaRequest" }) as any as S.Schema<GetXdslRmaRequest>;
 
 /** Return merchandise authorisation offer type */
 export type TelephonyRmaOfferTypeEnum = "deposit" | "loan" | "purchase";
@@ -3595,9 +3241,7 @@ export const TelephonyContact = /*@__PURE__*/ S.suspend(() =>
     phone: S.optional(S.NullOr(S.String)),
     zip: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "TelephonyContact",
-}) as any as S.Schema<TelephonyContact>;
+).annotate({ identifier: "TelephonyContact" }) as any as S.Schema<TelephonyContact>;
 
 /** Return merchandise authorisation step */
 export type TelephonyRmaStatusEnum = "closed" | "open" | "received";
@@ -3639,9 +3283,7 @@ export const TelephonyRmaStep = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(TelephonyRmaStepNameEnum),
     status: S.optional(TelephonyRmaStepStatusEnum),
   }),
-).annotate({
-  identifier: "TelephonyRmaStep",
-}) as any as S.Schema<TelephonyRmaStep>;
+).annotate({ identifier: "TelephonyRmaStep" }) as any as S.Schema<TelephonyRmaStep>;
 
 /** Indicates the current status of the RMA with a list of steps */
 export type TelephonyRmaStepsList = Array<TelephonyRmaStep>;
@@ -3721,13 +3363,7 @@ export interface GetXdslServiceInfosRequest {
 export const GetXdslServiceInfosRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/xdsl/{serviceName}/serviceInfos",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/xdsl/{serviceName}/serviceInfos", code: 200 })),
 ).annotate({
   identifier: "GetXdslServiceInfosRequest",
 }) as any as S.Schema<GetXdslServiceInfosRequest>;
@@ -3759,9 +3395,7 @@ export const ServiceRenewType = /*@__PURE__*/ S.suspend(() =>
     manualPayment: S.optional(S.NullOr(S.Boolean)),
     period: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "ServiceRenewType",
-}) as any as S.Schema<ServiceRenewType>;
+).annotate({ identifier: "ServiceRenewType" }) as any as S.Schema<ServiceRenewType>;
 
 /** Detailed renewal type of a service */
 export type ServiceRenewalTypeEnum =
@@ -3819,9 +3453,7 @@ export const ServicesService = /*@__PURE__*/ S.suspend(() =>
     serviceId: S.optional(S.Number),
     status: S.optional(ServiceStateEnum),
   }),
-).annotate({
-  identifier: "ServicesService",
-}) as any as S.Schema<ServicesService>;
+).annotate({ identifier: "ServicesService" }) as any as S.Schema<ServicesService>;
 
 export interface GetXdslSpareRequest {
   /** Spare */
@@ -3831,9 +3463,7 @@ export const GetXdslSpareRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     spare: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/xdsl/spare/{spare}", code: 200 })),
-).annotate({
-  identifier: "GetXdslSpareRequest",
-}) as any as S.Schema<GetXdslSpareRequest>;
+).annotate({ identifier: "GetXdslSpareRequest" }) as any as S.Schema<GetXdslSpareRequest>;
 
 /** Spare properties */
 export interface SpareXdslXdslSpareWithIAM {
@@ -3861,13 +3491,7 @@ export interface GetXdslSpareServiceInfosRequest {
 export const GetXdslSpareServiceInfosRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     spare: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/xdsl/spare/{spare}/serviceInfos",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/xdsl/spare/{spare}/serviceInfos", code: 200 })),
 ).annotate({
   identifier: "GetXdslSpareServiceInfosRequest",
 }) as any as S.Schema<GetXdslSpareServiceInfosRequest>;
@@ -3883,9 +3507,7 @@ export const GetXdslTaskRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     id: S.Number.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/xdsl/{serviceName}/tasks/{id}", code: 200 })),
-).annotate({
-  identifier: "GetXdslTaskRequest",
-}) as any as S.Schema<GetXdslTaskRequest>;
+).annotate({ identifier: "GetXdslTaskRequest" }) as any as S.Schema<GetXdslTaskRequest>;
 
 export interface GetXdslTotalDeconsolidationTermsRequest {
   /** Service name */
@@ -3895,11 +3517,7 @@ export const GetXdslTotalDeconsolidationTermsRequest = /*@__PURE__*/ S.suspend((
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/xdsl/{serviceName}/totalDeconsolidationTerms",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/xdsl/{serviceName}/totalDeconsolidationTerms", code: 200 }),
   ),
 ).annotate({
   identifier: "GetXdslTotalDeconsolidationTermsRequest",
@@ -3920,9 +3538,7 @@ export const XdslDeconsolidationTerms = /*@__PURE__*/ S.suspend(() =>
     monthlyPrice: S.optional(OrderPrice),
     price: S.optional(OrderPrice),
   }),
-).annotate({
-  identifier: "XdslDeconsolidationTerms",
-}) as any as S.Schema<XdslDeconsolidationTerms>;
+).annotate({ identifier: "XdslDeconsolidationTerms" }) as any as S.Schema<XdslDeconsolidationTerms>;
 
 export interface InstallFrimwareRequest {
   /** Service name */
@@ -3937,16 +3553,8 @@ export const InstallFrimwareRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     firmware: S.String,
     todoDate: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/xdsl/{serviceName}/modem/firmware",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "InstallFrimwareRequest",
-}) as any as S.Schema<InstallFrimwareRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/xdsl/{serviceName}/modem/firmware", code: 200 })),
+).annotate({ identifier: "InstallFrimwareRequest" }) as any as S.Schema<InstallFrimwareRequest>;
 
 /** Resource tag filter */
 export interface IamResourceTagFilterInput {}
@@ -3975,9 +3583,7 @@ export const ListXdslRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     iamTags: S.optional(ListXdslRequestIamTagsMap.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/xdsl", code: 200 })),
-).annotate({
-  identifier: "ListXdslRequest",
-}) as any as S.Schema<ListXdslRequest>;
+).annotate({ identifier: "ListXdslRequest" }) as any as S.Schema<ListXdslRequest>;
 
 export type ListXdslResponseBodyList = Array<string>;
 export const ListXdslResponseBodyList = /*@__PURE__*/ S.Array(
@@ -3987,9 +3593,7 @@ export const ListXdslResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListXdslResponse = ListXdslResponseBodyList;
 export const ListXdslResponse = /*@__PURE__*/ S.suspend(() =>
   ListXdslResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListXdslResponse",
-}) as any as S.Schema<ListXdslResponse>;
+).annotate({ identifier: "ListXdslResponse" }) as any as S.Schema<ListXdslResponse>;
 
 export interface ListXdslAntiSpamEvidencesRequest {
   /** Service name */
@@ -4002,11 +3606,7 @@ export const ListXdslAntiSpamEvidencesRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     ip: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/xdsl/{serviceName}/antiSpams/{ip}/evidences",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/xdsl/{serviceName}/antiSpams/{ip}/evidences", code: 200 }),
   ),
 ).annotate({
   identifier: "ListXdslAntiSpamEvidencesRequest",
@@ -4068,9 +3668,7 @@ export const ListXdslAntiSpamsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/xdsl/{serviceName}/antiSpams", code: 200 })),
-).annotate({
-  identifier: "ListXdslAntiSpamsRequest",
-}) as any as S.Schema<ListXdslAntiSpamsRequest>;
+).annotate({ identifier: "ListXdslAntiSpamsRequest" }) as any as S.Schema<ListXdslAntiSpamsRequest>;
 
 export type ListXdslAntiSpamsResponseBodyList = Array<string>;
 export const ListXdslAntiSpamsResponseBodyList = /*@__PURE__*/ S.Array(
@@ -4105,9 +3703,7 @@ export const ListXdslEmailProRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     iamTags: S.optional(ListXdslEmailProRequestIamTagsMap.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/xdsl/email/pro", code: 200 })),
-).annotate({
-  identifier: "ListXdslEmailProRequest",
-}) as any as S.Schema<ListXdslEmailProRequest>;
+).annotate({ identifier: "ListXdslEmailProRequest" }) as any as S.Schema<ListXdslEmailProRequest>;
 
 export type ListXdslEmailProResponseBodyList = Array<string>;
 export const ListXdslEmailProResponseBodyList = /*@__PURE__*/ S.Array(
@@ -4117,9 +3713,7 @@ export const ListXdslEmailProResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListXdslEmailProResponse = ListXdslEmailProResponseBodyList;
 export const ListXdslEmailProResponse = /*@__PURE__*/ S.suspend(() =>
   ListXdslEmailProResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListXdslEmailProResponse",
-}) as any as S.Schema<ListXdslEmailProResponse>;
+).annotate({ identifier: "ListXdslEmailProResponse" }) as any as S.Schema<ListXdslEmailProResponse>;
 
 export interface ListXdslFiberEligibilitiesRequest {
   /** Service name */
@@ -4131,13 +3725,7 @@ export const ListXdslFiberEligibilitiesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     status: S.optional(XdslFiberEligibilityStatusEnum.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/xdsl/{serviceName}/fiberEligibilities",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/xdsl/{serviceName}/fiberEligibilities", code: 200 })),
 ).annotate({
   identifier: "ListXdslFiberEligibilitiesRequest",
 }) as any as S.Schema<ListXdslFiberEligibilitiesRequest>;
@@ -4165,9 +3753,7 @@ export const ListXdslIncidentsRequest = /*@__PURE__*/ S.suspend(() =>
     creationDate: S.optional(S.String.pipe(T.Query())),
     endDate: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/xdsl/incidents", code: 200 })),
-).annotate({
-  identifier: "ListXdslIncidentsRequest",
-}) as any as S.Schema<ListXdslIncidentsRequest>;
+).annotate({ identifier: "ListXdslIncidentsRequest" }) as any as S.Schema<ListXdslIncidentsRequest>;
 
 export type ListXdslIncidentsResponseBodyList = Array<number>;
 export const ListXdslIncidentsResponseBodyList = /*@__PURE__*/ S.Array(
@@ -4189,9 +3775,7 @@ export const ListXdslIpsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/xdsl/{serviceName}/ips", code: 200 })),
-).annotate({
-  identifier: "ListXdslIpsRequest",
-}) as any as S.Schema<ListXdslIpsRequest>;
+).annotate({ identifier: "ListXdslIpsRequest" }) as any as S.Schema<ListXdslIpsRequest>;
 
 export type ListXdslIpsResponseBodyList = Array<string>;
 export const ListXdslIpsResponseBodyList = /*@__PURE__*/ S.Array(
@@ -4201,9 +3785,7 @@ export const ListXdslIpsResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListXdslIpsResponse = ListXdslIpsResponseBodyList;
 export const ListXdslIpsResponse = /*@__PURE__*/ S.suspend(() =>
   ListXdslIpsResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListXdslIpsResponse",
-}) as any as S.Schema<ListXdslIpsResponse>;
+).annotate({ identifier: "ListXdslIpsResponse" }) as any as S.Schema<ListXdslIpsResponse>;
 
 export interface ListXdslLineDslamPortAvailableProfilesRequest {
   /** Service name */
@@ -4252,11 +3834,7 @@ export const ListXdslLineDslamPortLogsRequest = /*@__PURE__*/ S.suspend(() =>
     number: S.String.pipe(T.Label()),
     limit: S.Number.pipe(T.Query()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/xdsl/{serviceName}/lines/{number}/dslamPort/logs",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/xdsl/{serviceName}/lines/{number}/dslamPort/logs", code: 200 }),
   ),
 ).annotate({
   identifier: "ListXdslLineDslamPortLogsRequest",
@@ -4278,9 +3856,7 @@ export const XdslDslamPortLog = /*@__PURE__*/ S.suspend(() =>
     message: S.optional(S.String),
     numberOfOccurrences: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "XdslDslamPortLog",
-}) as any as S.Schema<XdslDslamPortLog>;
+).annotate({ identifier: "XdslDslamPortLog" }) as any as S.Schema<XdslDslamPortLog>;
 
 export type ListXdslLineDslamPortLogsResponseBodyList = Array<XdslDslamPortLog>;
 export const ListXdslLineDslamPortLogsResponseBodyList = /*@__PURE__*/ S.Array(
@@ -4302,9 +3878,7 @@ export const ListXdslLinesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/xdsl/{serviceName}/lines", code: 200 })),
-).annotate({
-  identifier: "ListXdslLinesRequest",
-}) as any as S.Schema<ListXdslLinesRequest>;
+).annotate({ identifier: "ListXdslLinesRequest" }) as any as S.Schema<ListXdslLinesRequest>;
 
 export type ListXdslLinesResponseBodyList = Array<string>;
 export const ListXdslLinesResponseBodyList = /*@__PURE__*/ S.Array(
@@ -4314,9 +3888,7 @@ export const ListXdslLinesResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListXdslLinesResponse = ListXdslLinesResponseBodyList;
 export const ListXdslLinesResponse = /*@__PURE__*/ S.suspend(() =>
   ListXdslLinesResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListXdslLinesResponse",
-}) as any as S.Schema<ListXdslLinesResponse>;
+).annotate({ identifier: "ListXdslLinesResponse" }) as any as S.Schema<ListXdslLinesResponse>;
 
 /** Periods for statistics. */
 export type XdslStatisticsPeriodEnum = "daily" | "monthly" | "preview" | "weekly" | "yearly";
@@ -4350,11 +3922,7 @@ export const ListXdslLineStatisticsRequest = /*@__PURE__*/ S.suspend(() =>
     period: XdslStatisticsPeriodEnum.pipe(T.Query()),
     type: XdslLineStatisticsTypeEnum.pipe(T.Query()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/xdsl/{serviceName}/lines/{number}/statistics",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/xdsl/{serviceName}/lines/{number}/statistics", code: 200 }),
   ),
 ).annotate({
   identifier: "ListXdslLineStatisticsRequest",
@@ -4370,9 +3938,7 @@ export const XdslTimestampAndValue = /*@__PURE__*/ S.suspend(() =>
     timestamp: S.optional(S.Number),
     value: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "XdslTimestampAndValue",
-}) as any as S.Schema<XdslTimestampAndValue>;
+).annotate({ identifier: "XdslTimestampAndValue" }) as any as S.Schema<XdslTimestampAndValue>;
 
 export type ComplexTypeUnitAndValuesXdslTimestampAndValueValuesList = Array<XdslTimestampAndValue>;
 export const ComplexTypeUnitAndValuesXdslTimestampAndValueValuesList = /*@__PURE__*/ S.Array(
@@ -4401,11 +3967,7 @@ export const ListXdslModemAvailableACSBackendRequest = /*@__PURE__*/ S.suspend((
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/xdsl/{serviceName}/modem/availableACSBackend",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/xdsl/{serviceName}/modem/availableACSBackend", code: 200 }),
   ),
 ).annotate({
   identifier: "ListXdslModemAvailableACSBackendRequest",
@@ -4439,11 +4001,7 @@ export const ListXdslModemAvailableWLANChannelRequest = /*@__PURE__*/ S.suspend(
     serviceName: S.String.pipe(T.Label()),
     frequency: XdslWLANFrequencyEnum.pipe(T.Query()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/xdsl/{serviceName}/modem/availableWLANChannel",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/xdsl/{serviceName}/modem/availableWLANChannel", code: 200 }),
   ),
 ).annotate({
   identifier: "ListXdslModemAvailableWLANChannelRequest",
@@ -4469,13 +4027,7 @@ export interface ListXdslModemConnectedDevicesRequest {
 export const ListXdslModemConnectedDevicesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/xdsl/{serviceName}/modem/connectedDevices",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/xdsl/{serviceName}/modem/connectedDevices", code: 200 })),
 ).annotate({
   identifier: "ListXdslModemConnectedDevicesRequest",
 }) as any as S.Schema<ListXdslModemConnectedDevicesRequest>;
@@ -4499,13 +4051,7 @@ export interface ListXdslModemFirmwareAvailableRequest {
 export const ListXdslModemFirmwareAvailableRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/xdsl/{serviceName}/modem/firmwareAvailable",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/xdsl/{serviceName}/modem/firmwareAvailable", code: 200 })),
 ).annotate({
   identifier: "ListXdslModemFirmwareAvailableRequest",
 }) as any as S.Schema<ListXdslModemFirmwareAvailableRequest>;
@@ -4530,9 +4076,7 @@ export const ListXdslModemLanRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/xdsl/{serviceName}/modem/lan", code: 200 })),
-).annotate({
-  identifier: "ListXdslModemLanRequest",
-}) as any as S.Schema<ListXdslModemLanRequest>;
+).annotate({ identifier: "ListXdslModemLanRequest" }) as any as S.Schema<ListXdslModemLanRequest>;
 
 export type ListXdslModemLanResponseBodyList = Array<string>;
 export const ListXdslModemLanResponseBodyList = /*@__PURE__*/ S.Array(
@@ -4542,9 +4086,7 @@ export const ListXdslModemLanResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListXdslModemLanResponse = ListXdslModemLanResponseBodyList;
 export const ListXdslModemLanResponse = /*@__PURE__*/ S.suspend(() =>
   ListXdslModemLanResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListXdslModemLanResponse",
-}) as any as S.Schema<ListXdslModemLanResponse>;
+).annotate({ identifier: "ListXdslModemLanResponse" }) as any as S.Schema<ListXdslModemLanResponse>;
 
 export interface ListXdslModemLanDhcpRequest {
   /** Service name */
@@ -4557,11 +4099,7 @@ export const ListXdslModemLanDhcpRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     lanName: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/xdsl/{serviceName}/modem/lan/{lanName}/dhcp",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/xdsl/{serviceName}/modem/lan/{lanName}/dhcp", code: 200 }),
   ),
 ).annotate({
   identifier: "ListXdslModemLanDhcpRequest",
@@ -4587,9 +4125,7 @@ export const ListXdslModemWifiRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/xdsl/{serviceName}/modem/wifi", code: 200 })),
-).annotate({
-  identifier: "ListXdslModemWifiRequest",
-}) as any as S.Schema<ListXdslModemWifiRequest>;
+).annotate({ identifier: "ListXdslModemWifiRequest" }) as any as S.Schema<ListXdslModemWifiRequest>;
 
 export type ListXdslModemWifiResponseBodyList = Array<string>;
 export const ListXdslModemWifiResponseBodyList = /*@__PURE__*/ S.Array(
@@ -4610,13 +4146,7 @@ export interface ListXdslModemWifiRadioRequest {
 export const ListXdslModemWifiRadioRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/xdsl/{serviceName}/modem/wifiRadio",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/xdsl/{serviceName}/modem/wifiRadio", code: 200 })),
 ).annotate({
   identifier: "ListXdslModemWifiRadioRequest",
 }) as any as S.Schema<ListXdslModemWifiRadioRequest>;
@@ -4640,13 +4170,7 @@ export interface ListXdslOrderFollowupRequest {
 export const ListXdslOrderFollowupRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/xdsl/{serviceName}/orderFollowup",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/xdsl/{serviceName}/orderFollowup", code: 200 })),
 ).annotate({
   identifier: "ListXdslOrderFollowupRequest",
 }) as any as S.Schema<ListXdslOrderFollowupRequest>;
@@ -4705,9 +4229,7 @@ export const XdslOrderFollowupStep = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(XdslOrderFollowupStepNameEnum),
     status: S.optional(XdslOrderFollowupStepStatusEnum),
   }),
-).annotate({
-  identifier: "XdslOrderFollowupStep",
-}) as any as S.Schema<XdslOrderFollowupStep>;
+).annotate({ identifier: "XdslOrderFollowupStep" }) as any as S.Schema<XdslOrderFollowupStep>;
 
 export type ListXdslOrderFollowupResponseBodyList = Array<XdslOrderFollowupStep>;
 export const ListXdslOrderFollowupResponseBodyList = /*@__PURE__*/ S.Array(
@@ -4728,13 +4250,7 @@ export interface ListXdslRadiusConnectionLogsRequest {
 export const ListXdslRadiusConnectionLogsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/xdsl/{serviceName}/radiusConnectionLogs",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/xdsl/{serviceName}/radiusConnectionLogs", code: 200 })),
 ).annotate({
   identifier: "ListXdslRadiusConnectionLogsRequest",
 }) as any as S.Schema<ListXdslRadiusConnectionLogsRequest>;
@@ -4753,9 +4269,7 @@ export const XdslRadiusConnectionLog = /*@__PURE__*/ S.suspend(() =>
     message: S.optional(S.String),
     state: S.optional(S.String),
   }),
-).annotate({
-  identifier: "XdslRadiusConnectionLog",
-}) as any as S.Schema<XdslRadiusConnectionLog>;
+).annotate({ identifier: "XdslRadiusConnectionLog" }) as any as S.Schema<XdslRadiusConnectionLog>;
 
 export type ListXdslRadiusConnectionLogsResponseBodyList = Array<XdslRadiusConnectionLog>;
 export const ListXdslRadiusConnectionLogsResponseBodyList = /*@__PURE__*/ S.Array(
@@ -4777,9 +4291,7 @@ export const ListXdslRmaRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/xdsl/{serviceName}/rma", code: 200 })),
-).annotate({
-  identifier: "ListXdslRmaRequest",
-}) as any as S.Schema<ListXdslRmaRequest>;
+).annotate({ identifier: "ListXdslRmaRequest" }) as any as S.Schema<ListXdslRmaRequest>;
 
 export type ListXdslRmaResponseBodyList = Array<string>;
 export const ListXdslRmaResponseBodyList = /*@__PURE__*/ S.Array(
@@ -4789,9 +4301,7 @@ export const ListXdslRmaResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListXdslRmaResponse = ListXdslRmaResponseBodyList;
 export const ListXdslRmaResponse = /*@__PURE__*/ S.suspend(() =>
   ListXdslRmaResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListXdslRmaResponse",
-}) as any as S.Schema<ListXdslRmaResponse>;
+).annotate({ identifier: "ListXdslRmaResponse" }) as any as S.Schema<ListXdslRmaResponse>;
 
 export type ListXdslSpareRequestIamTagsValueList = Array<IamResourceTagFilterInput>;
 export const ListXdslSpareRequestIamTagsValueList = /*@__PURE__*/ S.Array(
@@ -4814,9 +4324,7 @@ export const ListXdslSpareRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     iamTags: S.optional(ListXdslSpareRequestIamTagsMap.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/xdsl/spare", code: 200 })),
-).annotate({
-  identifier: "ListXdslSpareRequest",
-}) as any as S.Schema<ListXdslSpareRequest>;
+).annotate({ identifier: "ListXdslSpareRequest" }) as any as S.Schema<ListXdslSpareRequest>;
 
 export type ListXdslSpareResponseBodyList = Array<string>;
 export const ListXdslSpareResponseBodyList = /*@__PURE__*/ S.Array(
@@ -4826,9 +4334,7 @@ export const ListXdslSpareResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListXdslSpareResponse = ListXdslSpareResponseBodyList;
 export const ListXdslSpareResponse = /*@__PURE__*/ S.suspend(() =>
   ListXdslSpareResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListXdslSpareResponse",
-}) as any as S.Schema<ListXdslSpareResponse>;
+).annotate({ identifier: "ListXdslSpareResponse" }) as any as S.Schema<ListXdslSpareResponse>;
 
 export interface ListXdslSpareBrandsRequest {}
 export const ListXdslSpareBrandsRequest = /*@__PURE__*/ S.suspend(() =>
@@ -4856,13 +4362,7 @@ export interface ListXdslSpareCompatibleReplacementRequest {
 export const ListXdslSpareCompatibleReplacementRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     spare: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/xdsl/spare/{spare}/compatibleReplacement",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/xdsl/spare/{spare}/compatibleReplacement", code: 200 })),
 ).annotate({
   identifier: "ListXdslSpareCompatibleReplacementRequest",
 }) as any as S.Schema<ListXdslSpareCompatibleReplacementRequest>;
@@ -4916,9 +4416,7 @@ export const XdslAccessLatency = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(S.NullOr(S.Number)),
     verboseStatus: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "XdslAccessLatency",
-}) as any as S.Schema<XdslAccessLatency>;
+).annotate({ identifier: "XdslAccessLatency" }) as any as S.Schema<XdslAccessLatency>;
 
 export type ComplexTypeUnitAndValuesXdslAccessLatencyValuesList = Array<XdslAccessLatency>;
 export const ComplexTypeUnitAndValuesXdslAccessLatencyValuesList = /*@__PURE__*/ S.Array(
@@ -4953,9 +4451,7 @@ export const ListXdslTasksRequest = /*@__PURE__*/ S.suspend(() =>
     function: S.optional(S.String.pipe(T.Query())),
     status: S.optional(XdslTaskStatusEnum.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/xdsl/{serviceName}/tasks", code: 200 })),
-).annotate({
-  identifier: "ListXdslTasksRequest",
-}) as any as S.Schema<ListXdslTasksRequest>;
+).annotate({ identifier: "ListXdslTasksRequest" }) as any as S.Schema<ListXdslTasksRequest>;
 
 export type ListXdslTasksResponseBodyList = Array<number>;
 export const ListXdslTasksResponseBodyList = /*@__PURE__*/ S.Array(
@@ -4965,9 +4461,7 @@ export const ListXdslTasksResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListXdslTasksResponse = ListXdslTasksResponseBodyList;
 export const ListXdslTasksResponse = /*@__PURE__*/ S.suspend(() =>
   ListXdslTasksResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListXdslTasksResponse",
-}) as any as S.Schema<ListXdslTasksResponse>;
+).annotate({ identifier: "ListXdslTasksResponse" }) as any as S.Schema<ListXdslTasksResponse>;
 
 export interface PutXdslRequest {
   /** Service name */
@@ -5012,9 +4506,7 @@ export const PutXdslEmailProRequest = /*@__PURE__*/ S.suspend(() =>
     initial: S.optional(S.NullOr(S.String)),
     lastName: S.optional(S.NullOr(S.String)),
   }).pipe(T.Http({ method: "PUT", uri: "/xdsl/email/pro/{email}", code: 200 })),
-).annotate({
-  identifier: "PutXdslEmailProRequest",
-}) as any as S.Schema<PutXdslEmailProRequest>;
+).annotate({ identifier: "PutXdslEmailProRequest" }) as any as S.Schema<PutXdslEmailProRequest>;
 
 export interface PutXdslEmailProResponse {}
 export const PutXdslEmailProResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -5044,9 +4536,7 @@ export const PutXdslModemRequest = /*@__PURE__*/ S.suspend(() =>
     managedByOvh: S.optional(S.Boolean),
     mtuSize: S.optional(S.NullOr(XdslXdslModemConfigMTUSizeEnum)),
   }).pipe(T.Http({ method: "PUT", uri: "/xdsl/{serviceName}/modem", code: 200 })),
-).annotate({
-  identifier: "PutXdslModemRequest",
-}) as any as S.Schema<PutXdslModemRequest>;
+).annotate({ identifier: "PutXdslModemRequest" }) as any as S.Schema<PutXdslModemRequest>;
 
 export interface PutXdslModemResponse {}
 export const PutXdslModemResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -5072,16 +4562,8 @@ export const PutXdslModemLanRequest = /*@__PURE__*/ S.suspend(() =>
     IPAddress: S.optional(S.String),
     addressingType: S.optional(XdslXdslModemConfigAddressingTypeEnum),
     subnetMask: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/xdsl/{serviceName}/modem/lan/{lanName}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "PutXdslModemLanRequest",
-}) as any as S.Schema<PutXdslModemLanRequest>;
+  }).pipe(T.Http({ method: "PUT", uri: "/xdsl/{serviceName}/modem/lan/{lanName}", code: 200 })),
+).annotate({ identifier: "PutXdslModemLanRequest" }) as any as S.Schema<PutXdslModemLanRequest>;
 
 export interface PutXdslModemLanResponse {}
 export const PutXdslModemLanResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -5175,16 +4657,8 @@ export const PutXdslModemWifiRequest = /*@__PURE__*/ S.suspend(() =>
     enabled: S.optional(S.Boolean),
     securityKey: S.optional(S.String),
     securityType: S.optional(XdslXdslModemConfigSecurityTypeEnum),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/xdsl/{serviceName}/modem/wifi/{wifiName}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "PutXdslModemWifiRequest",
-}) as any as S.Schema<PutXdslModemWifiRequest>;
+  }).pipe(T.Http({ method: "PUT", uri: "/xdsl/{serviceName}/modem/wifi/{wifiName}", code: 200 })),
+).annotate({ identifier: "PutXdslModemWifiRequest" }) as any as S.Schema<PutXdslModemWifiRequest>;
 
 export interface PutXdslModemWifiResponse {}
 export const PutXdslModemWifiResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -5208,11 +4682,7 @@ export const PutXdslModemWifiRadioRequest = /*@__PURE__*/ S.suspend(() =>
     channel: S.optional(S.Number),
     channelMode: S.optional(XdslXdslModemConfigChannelModeEnum),
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/xdsl/{serviceName}/modem/wifiRadio/{radioName}",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/xdsl/{serviceName}/modem/wifiRadio/{radioName}", code: 200 }),
   ),
 ).annotate({
   identifier: "PutXdslModemWifiRadioRequest",
@@ -5235,9 +4705,7 @@ export const PutXdslRmaRequest = /*@__PURE__*/ S.suspend(() =>
     process: S.optional(TelephonyRmaReplaceTypeEnum),
     shippingContact: S.optional(TelephonyContact),
   }).pipe(T.Http({ method: "PUT", uri: "/xdsl/{serviceName}/rma/{id}", code: 200 })),
-).annotate({
-  identifier: "PutXdslRmaRequest",
-}) as any as S.Schema<PutXdslRmaRequest>;
+).annotate({ identifier: "PutXdslRmaRequest" }) as any as S.Schema<PutXdslRmaRequest>;
 
 export interface PutXdslRmaResponse {}
 export const PutXdslRmaResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -5254,13 +4722,7 @@ export const PutXdslServiceInfosRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     renew: S.optional(S.NullOr(ServiceRenewType)),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/xdsl/{serviceName}/serviceInfos",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/xdsl/{serviceName}/serviceInfos", code: 200 })),
 ).annotate({
   identifier: "PutXdslServiceInfosRequest",
 }) as any as S.Schema<PutXdslServiceInfosRequest>;
@@ -5280,13 +4742,7 @@ export const PutXdslSpareServiceInfosRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     spare: S.String.pipe(T.Label()),
     renew: S.optional(S.NullOr(ServiceRenewType)),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/xdsl/spare/{spare}/serviceInfos",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/xdsl/spare/{spare}/serviceInfos", code: 200 })),
 ).annotate({
   identifier: "PutXdslSpareServiceInfosRequest",
 }) as any as S.Schema<PutXdslSpareServiceInfosRequest>;
@@ -5308,16 +4764,8 @@ export const RebootModemRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     todoDate: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/xdsl/{serviceName}/modem/reboot",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "RebootModemRequest",
-}) as any as S.Schema<RebootModemRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/xdsl/{serviceName}/modem/reboot", code: 200 })),
+).annotate({ identifier: "RebootModemRequest" }) as any as S.Schema<RebootModemRequest>;
 
 export interface RefreshXdslModemConnectedDevicesRequest {
   /** Service name */
@@ -5327,11 +4775,7 @@ export const RefreshXdslModemConnectedDevicesRequest = /*@__PURE__*/ S.suspend((
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/xdsl/{serviceName}/modem/refreshConnectedDevices",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/xdsl/{serviceName}/modem/refreshConnectedDevices", code: 200 }),
   ),
 ).annotate({
   identifier: "RefreshXdslModemConnectedDevicesRequest",
@@ -5403,15 +4847,9 @@ export const RemovePortMappingRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     name: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/xdsl/{serviceName}/modem/portMappings/{name}",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/xdsl/{serviceName}/modem/portMappings/{name}", code: 200 }),
   ),
-).annotate({
-  identifier: "RemovePortMappingRequest",
-}) as any as S.Schema<RemovePortMappingRequest>;
+).annotate({ identifier: "RemovePortMappingRequest" }) as any as S.Schema<RemovePortMappingRequest>;
 
 export interface ReplaceAccessModemRequest {
   /** Service name */
@@ -5423,13 +4861,7 @@ export const ReplaceAccessModemRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     contactShipping: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/xdsl/{serviceName}/modem/comfortExchange",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/xdsl/{serviceName}/modem/comfortExchange", code: 200 })),
 ).annotate({
   identifier: "ReplaceAccessModemRequest",
 }) as any as S.Schema<ReplaceAccessModemRequest>;
@@ -5557,9 +4989,7 @@ export const OrderOrderDetail = /*@__PURE__*/ S.suspend(() =>
     totalPrice: S.optional(OrderPrice),
     unitPrice: S.optional(OrderPrice),
   }),
-).annotate({
-  identifier: "OrderOrderDetail",
-}) as any as S.Schema<OrderOrderDetail>;
+).annotate({ identifier: "OrderOrderDetail" }) as any as S.Schema<OrderOrderDetail>;
 
 /** Details of the order */
 export type OrderOrderDetailsList = Array<OrderOrderDetail>;
@@ -5588,9 +5018,7 @@ export const OrderOrderPrices = /*@__PURE__*/ S.suspend(() =>
     withTax: S.optional(OrderPrice),
     withoutTax: S.optional(OrderPrice),
   }),
-).annotate({
-  identifier: "OrderOrderPrices",
-}) as any as S.Schema<OrderOrderPrices>;
+).annotate({ identifier: "OrderOrderPrices" }) as any as S.Schema<OrderOrderPrices>;
 
 /** An order */
 export interface OrderOrder {
@@ -5649,11 +5077,7 @@ export const RequestTotalDeconsolidationRequest = /*@__PURE__*/ S.suspend(() =>
     noPortability: S.optional(S.Boolean),
     rio: S.optional(S.String),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/xdsl/{serviceName}/requestTotalDeconsolidation",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/xdsl/{serviceName}/requestTotalDeconsolidation", code: 200 }),
   ),
 ).annotate({
   identifier: "RequestTotalDeconsolidationRequest",
@@ -5669,13 +5093,7 @@ export const ResetModemConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     resetOvhConfig: S.optional(S.Boolean),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/xdsl/{serviceName}/modem/reset",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/xdsl/{serviceName}/modem/reset", code: 200 })),
 ).annotate({
   identifier: "ResetModemConfigurationRequest",
 }) as any as S.Schema<ResetModemConfigurationRequest>;
@@ -5709,11 +5127,7 @@ export const ResetXdslModemPortMappingConfigRequest = /*@__PURE__*/ S.suspend(()
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/xdsl/{serviceName}/modem/resetPortMappingConfig",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/xdsl/{serviceName}/modem/resetPortMappingConfig", code: 200 }),
   ),
 ).annotate({
   identifier: "ResetXdslModemPortMappingConfigRequest",
@@ -5744,9 +5158,7 @@ export const ResiliateAccessRequest = /*@__PURE__*/ S.suspend(() =>
     resiliationDate: S.optional(S.String),
     resiliationSurvey: IamResourceTagFilterInput,
   }).pipe(T.Http({ method: "POST", uri: "/xdsl/{serviceName}/resiliate", code: 200 })),
-).annotate({
-  identifier: "ResiliateAccessRequest",
-}) as any as S.Schema<ResiliateAccessRequest>;
+).annotate({ identifier: "ResiliateAccessRequest" }) as any as S.Schema<ResiliateAccessRequest>;
 
 export interface SearchXdslOrderMeetingsRequest {
   /** Service name */
@@ -5755,13 +5167,7 @@ export interface SearchXdslOrderMeetingsRequest {
 export const SearchXdslOrderMeetingsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/xdsl/{serviceName}/searchOrderMeetings",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/xdsl/{serviceName}/searchOrderMeetings", code: 200 })),
 ).annotate({
   identifier: "SearchXdslOrderMeetingsRequest",
 }) as any as S.Schema<SearchXdslOrderMeetingsRequest>;
@@ -5855,22 +5261,14 @@ export interface SendXdslOrderToProviderRequest {
 export const SendXdslOrderToProviderRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/xdsl/{serviceName}/sendOrderToProvider",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/xdsl/{serviceName}/sendOrderToProvider", code: 200 })),
 ).annotate({
   identifier: "SendXdslOrderToProviderRequest",
 }) as any as S.Schema<SendXdslOrderToProviderRequest>;
 
 export interface SendXdslOrderToProviderResponse {}
 export const SendXdslOrderToProviderResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "SendXdslOrderToProviderResponse",
-  },
+  { identifier: "SendXdslOrderToProviderResponse" },
 ) as any as S.Schema<SendXdslOrderToProviderResponse>;
 
 export interface SetWifiMeshStatusRequest {
@@ -5884,9 +5282,7 @@ export const SetWifiMeshStatusRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     wifiMesh: XdslServiceStatusEnum,
   }).pipe(T.Http({ method: "PUT", uri: "/xdsl/{serviceName}/modem/mesh", code: 200 })),
-).annotate({
-  identifier: "SetWifiMeshStatusRequest",
-}) as any as S.Schema<SetWifiMeshStatusRequest>;
+).annotate({ identifier: "SetWifiMeshStatusRequest" }) as any as S.Schema<SetWifiMeshStatusRequest>;
 
 export interface SetWifiOneSsidStatusRequest {
   /** Service name */
@@ -5898,13 +5294,7 @@ export const SetWifiOneSsidStatusRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     wifiOneSsid: XdslServiceStatusEnum,
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/xdsl/{serviceName}/modem/onessid",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/xdsl/{serviceName}/modem/onessid", code: 200 })),
 ).annotate({
   identifier: "SetWifiOneSsidStatusRequest",
 }) as any as S.Schema<SetWifiOneSsidStatusRequest>;
@@ -5919,13 +5309,7 @@ export const UpdateBlocIPStatusRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     status: XdslServiceStatusEnum,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/xdsl/{serviceName}/modem/blocIp",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/xdsl/{serviceName}/modem/blocIp", code: 200 })),
 ).annotate({
   identifier: "UpdateBlocIPStatusRequest",
 }) as any as S.Schema<UpdateBlocIPStatusRequest>;
@@ -5940,13 +5324,7 @@ export const UpdateContentSharingStatusRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     contentSharing: XdslServiceStatusEnum,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/xdsl/{serviceName}/modem/contentSharing",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/xdsl/{serviceName}/modem/contentSharing", code: 200 })),
 ).annotate({
   identifier: "UpdateContentSharingStatusRequest",
 }) as any as S.Schema<UpdateContentSharingStatusRequest>;
@@ -5986,9 +5364,7 @@ export const UpdateDHCPStaticAddressRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface UpdateDHCPStaticAddressResponse {}
 export const UpdateDHCPStaticAddressResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "UpdateDHCPStaticAddressResponse",
-  },
+  { identifier: "UpdateDHCPStaticAddressResponse" },
 ) as any as S.Schema<UpdateDHCPStaticAddressResponse>;
 
 export interface UpdateFTPStatusRequest {
@@ -6002,9 +5378,7 @@ export const UpdateFTPStatusRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     ftp: XdslServiceStatusEnum,
   }).pipe(T.Http({ method: "POST", uri: "/xdsl/{serviceName}/modem/ftp", code: 200 })),
-).annotate({
-  identifier: "UpdateFTPStatusRequest",
-}) as any as S.Schema<UpdateFTPStatusRequest>;
+).annotate({ identifier: "UpdateFTPStatusRequest" }) as any as S.Schema<UpdateFTPStatusRequest>;
 
 export interface UpdateIpRequest {
   /** Service name */
@@ -6017,9 +5391,7 @@ export const UpdateIpRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     enabled: S.Boolean,
   }).pipe(T.Http({ method: "POST", uri: "/xdsl/{serviceName}/ipv6", code: 200 })),
-).annotate({
-  identifier: "UpdateIpRequest",
-}) as any as S.Schema<UpdateIpRequest>;
+).annotate({ identifier: "UpdateIpRequest" }) as any as S.Schema<UpdateIpRequest>;
 
 export interface UpdateIpsecAlgStatusRequest {
   /** Service name */
@@ -6031,13 +5403,7 @@ export const UpdateIpsecAlgStatusRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     ipsecAlg: XdslServiceStatusEnum,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/xdsl/{serviceName}/modem/ipsecAlg",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/xdsl/{serviceName}/modem/ipsecAlg", code: 200 })),
 ).annotate({
   identifier: "UpdateIpsecAlgStatusRequest",
 }) as any as S.Schema<UpdateIpsecAlgStatusRequest>;
@@ -6099,11 +5465,7 @@ export const UpdateLineDiagnosticRequest = /*@__PURE__*/ S.suspend(() =>
     answers: S.optional(IamResourceTagFilterInput),
     faultType: XdslLineDiagnosticFaultTypeEnum,
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/xdsl/{serviceName}/lines/{number}/diagnostic/run",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/xdsl/{serviceName}/lines/{number}/diagnostic/run", code: 200 }),
   ),
 ).annotate({
   identifier: "UpdateLineDiagnosticRequest",
@@ -6642,16 +6004,8 @@ export const UpdateMailSendingRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     status: XdslMailSendingStatusEnum,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/xdsl/{serviceName}/mailSending",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "UpdateMailSendingRequest",
-}) as any as S.Schema<UpdateMailSendingRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/xdsl/{serviceName}/mailSending", code: 200 })),
+).annotate({ identifier: "UpdateMailSendingRequest" }) as any as S.Schema<UpdateMailSendingRequest>;
 
 export interface UpdateModemCallWaitingRequest {
   /** Service name */
@@ -6663,13 +6017,7 @@ export const UpdateModemCallWaitingRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     callWaiting: XdslServiceStatusEnum,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/xdsl/{serviceName}/modem/callWaiting",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/xdsl/{serviceName}/modem/callWaiting", code: 200 })),
 ).annotate({
   identifier: "UpdateModemCallWaitingRequest",
 }) as any as S.Schema<UpdateModemCallWaitingRequest>;
@@ -6723,11 +6071,7 @@ export const UpdateMonitoringNotificationRequest = /*@__PURE__*/ S.suspend(() =>
     frequency: S.optional(XdslMonitoringNotificationsFrequencyEnum),
     phone: S.optional(S.NullOr(S.String)),
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/xdsl/{serviceName}/monitoringNotifications/{id}",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/xdsl/{serviceName}/monitoringNotifications/{id}", code: 200 }),
   ),
 ).annotate({
   identifier: "UpdateMonitoringNotificationRequest",
@@ -6775,15 +6119,9 @@ export const UpdatePortMappingRequest = /*@__PURE__*/ S.suspend(() =>
     internalPortEnd: S.optional(S.NullOr(S.Number)),
     protocol: S.optional(XdslXdslModemConfigProtocolTypeEnum),
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/xdsl/{serviceName}/modem/portMappings/{name}",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/xdsl/{serviceName}/modem/portMappings/{name}", code: 200 }),
   ),
-).annotate({
-  identifier: "UpdatePortMappingRequest",
-}) as any as S.Schema<UpdatePortMappingRequest>;
+).annotate({ identifier: "UpdatePortMappingRequest" }) as any as S.Schema<UpdatePortMappingRequest>;
 
 export interface UpdatePortMappingResponse {}
 export const UpdatePortMappingResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -6804,15 +6142,9 @@ export const UpdateRIORequest = /*@__PURE__*/ S.suspend(() =>
     relaunchWithoutPortability: S.Boolean,
     rio: S.optional(S.String),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/xdsl/{serviceName}/updateInvalidOrMissingRio",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/xdsl/{serviceName}/updateInvalidOrMissingRio", code: 200 }),
   ),
-).annotate({
-  identifier: "UpdateRIORequest",
-}) as any as S.Schema<UpdateRIORequest>;
+).annotate({ identifier: "UpdateRIORequest" }) as any as S.Schema<UpdateRIORequest>;
 
 export interface UpdateRIOResponse {}
 export const UpdateRIOResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -6836,16 +6168,8 @@ export const UpdateRMATypeRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     id: S.String.pipe(T.Label()),
     type: TelephonyRmaChangeTypeEnum,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/xdsl/{serviceName}/rma/{id}/changeType",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "UpdateRMATypeRequest",
-}) as any as S.Schema<UpdateRMATypeRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/xdsl/{serviceName}/rma/{id}/changeType", code: 200 })),
+).annotate({ identifier: "UpdateRMATypeRequest" }) as any as S.Schema<UpdateRMATypeRequest>;
 
 export interface UpdateRMATypeResponse {}
 export const UpdateRMATypeResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -6862,13 +6186,7 @@ export const UpdateSipAlgStatusRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     sipAlg: XdslServiceStatusEnum,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/xdsl/{serviceName}/modem/sipAlg",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/xdsl/{serviceName}/modem/sipAlg", code: 200 })),
 ).annotate({
   identifier: "UpdateSipAlgStatusRequest",
 }) as any as S.Schema<UpdateSipAlgStatusRequest>;
@@ -6883,16 +6201,8 @@ export const UpdateUpnpStatusRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     upnp: XdslServiceStatusEnum,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/xdsl/{serviceName}/modem/upnp",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "UpdateUpnpStatusRequest",
-}) as any as S.Schema<UpdateUpnpStatusRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/xdsl/{serviceName}/modem/upnp", code: 200 })),
+).annotate({ identifier: "UpdateUpnpStatusRequest" }) as any as S.Schema<UpdateUpnpStatusRequest>;
 
 export type AddDHCPStaticAddressError = OvhOpError;
 /** Add a DHCP static lease */

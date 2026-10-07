@@ -17,9 +17,7 @@ export const CompletionContext = /*@__PURE__*/ S.suspend(() =>
     triggerCharacter: S.optional(S.String),
     triggerKind: S.Number,
   }),
-).annotate({
-  identifier: "CompletionContext",
-}) as any as S.Schema<CompletionContext>;
+).annotate({ identifier: "CompletionContext" }) as any as S.Schema<CompletionContext>;
 
 export interface LspPosition {
   character: number;
@@ -47,9 +45,7 @@ export const CompletionsRequest = /*@__PURE__*/ S.suspend(() =>
     position: LspPosition,
     uri: S.String,
   }).pipe(T.Http({ method: "POST", uri: "/lsp/completions", code: 200 })),
-).annotate({
-  identifier: "CompletionsRequest",
-}) as any as S.Schema<CompletionsRequest>;
+).annotate({ identifier: "CompletionsRequest" }) as any as S.Schema<CompletionsRequest>;
 
 export interface CompletionItem {
   detail?: string;
@@ -99,9 +95,7 @@ export const DidCloseRequest = /*@__PURE__*/ S.suspend(() =>
     pathToProject: S.String,
     uri: S.String,
   }).pipe(T.Http({ method: "POST", uri: "/lsp/did-close", code: 200 })),
-).annotate({
-  identifier: "DidCloseRequest",
-}) as any as S.Schema<DidCloseRequest>;
+).annotate({ identifier: "DidCloseRequest" }) as any as S.Schema<DidCloseRequest>;
 
 export interface DidCloseResponse {}
 export const DidCloseResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -140,9 +134,7 @@ export const DocumentSymbolsRequest = /*@__PURE__*/ S.suspend(() =>
     pathToProject: S.String.pipe(T.Query()),
     uri: S.String.pipe(T.Query()),
   }).pipe(T.Http({ method: "GET", uri: "/lsp/document-symbols", code: 200 })),
-).annotate({
-  identifier: "DocumentSymbolsRequest",
-}) as any as S.Schema<DocumentSymbolsRequest>;
+).annotate({ identifier: "DocumentSymbolsRequest" }) as any as S.Schema<DocumentSymbolsRequest>;
 
 export interface LspRange {
   end: LspPosition;
@@ -187,9 +179,7 @@ export const DocumentSymbolsResponseBodyList = /*@__PURE__*/ S.Array(
 export type DocumentSymbolsResponse = DocumentSymbolsResponseBodyList;
 export const DocumentSymbolsResponse = /*@__PURE__*/ S.suspend(() =>
   DocumentSymbolsResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "DocumentSymbolsResponse",
-}) as any as S.Schema<DocumentSymbolsResponse>;
+).annotate({ identifier: "DocumentSymbolsResponse" }) as any as S.Schema<DocumentSymbolsResponse>;
 
 export interface StartRequest {
   languageId: string;
@@ -237,9 +227,7 @@ export const WorkspaceSymbolsRequest = /*@__PURE__*/ S.suspend(() =>
     languageId: S.String.pipe(T.Query()),
     pathToProject: S.String.pipe(T.Query()),
   }).pipe(T.Http({ method: "GET", uri: "/lsp/workspacesymbols", code: 200 })),
-).annotate({
-  identifier: "WorkspaceSymbolsRequest",
-}) as any as S.Schema<WorkspaceSymbolsRequest>;
+).annotate({ identifier: "WorkspaceSymbolsRequest" }) as any as S.Schema<WorkspaceSymbolsRequest>;
 
 export type WorkspaceSymbolsResponseBodyList = Array<LspSymbol>;
 export const WorkspaceSymbolsResponseBodyList = /*@__PURE__*/ S.Array(
@@ -249,9 +237,7 @@ export const WorkspaceSymbolsResponseBodyList = /*@__PURE__*/ S.Array(
 export type WorkspaceSymbolsResponse = WorkspaceSymbolsResponseBodyList;
 export const WorkspaceSymbolsResponse = /*@__PURE__*/ S.suspend(() =>
   WorkspaceSymbolsResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "WorkspaceSymbolsResponse",
-}) as any as S.Schema<WorkspaceSymbolsResponse>;
+).annotate({ identifier: "WorkspaceSymbolsResponse" }) as any as S.Schema<WorkspaceSymbolsResponse>;
 
 export type CompletionsError = DaytonaOpError;
 /** Get code completions Get code completion suggestions from the LSP server */

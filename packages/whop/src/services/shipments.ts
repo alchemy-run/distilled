@@ -62,9 +62,7 @@ export const CreateShipmentRequest = /*@__PURE__*/ S.suspend(() =>
     tracking_number: S.String,
     idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
   }).pipe(T.Http({ method: "POST", uri: "/shipments", code: 200 })),
-).annotate({
-  identifier: "CreateShipmentRequest",
-}) as any as S.Schema<CreateShipmentRequest>;
+).annotate({ identifier: "CreateShipmentRequest" }) as any as S.Schema<CreateShipmentRequest>;
 
 /** Delivery status this carrier scan maps to. */
 export type ShipmentCheckpointStatus =
@@ -97,9 +95,7 @@ export const ShipmentCheckpoint = /*@__PURE__*/ S.suspend(() =>
     status: ShipmentCheckpointStatus,
     timestamp: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "ShipmentCheckpoint",
-}) as any as S.Schema<ShipmentCheckpoint>;
+).annotate({ identifier: "ShipmentCheckpoint" }) as any as S.Schema<ShipmentCheckpoint>;
 
 export type ShipmentCheckpointsList = Array<ShipmentCheckpoint>;
 export const ShipmentCheckpointsList = /*@__PURE__*/ S.Array(
@@ -164,9 +160,7 @@ export const GetShipmentRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/shipments/{id}", code: 200 })),
-).annotate({
-  identifier: "GetShipmentRequest",
-}) as any as S.Schema<GetShipmentRequest>;
+).annotate({ identifier: "GetShipmentRequest" }) as any as S.Schema<GetShipmentRequest>;
 
 export type ListShipmentsRequestStatus =
   | "unknown"
@@ -230,9 +224,7 @@ export const ListShipmentsRequest = /*@__PURE__*/ S.suspend(() =>
     last: S.optional(S.Number.pipe(T.Query())),
     before: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/shipments", code: 200 })),
-).annotate({
-  identifier: "ListShipmentsRequest",
-}) as any as S.Schema<ListShipmentsRequest>;
+).annotate({ identifier: "ListShipmentsRequest" }) as any as S.Schema<ListShipmentsRequest>;
 
 export type ListShipmentsResponseDataList = Array<Shipment>;
 export const ListShipmentsResponseDataList = /*@__PURE__*/ S.Array(
@@ -265,9 +257,7 @@ export const ListShipmentsResponse = /*@__PURE__*/ S.suspend(() =>
     data: ListShipmentsResponseDataList,
     page_info: ListShipmentsResponsePageInfo,
   }),
-).annotate({
-  identifier: "ListShipmentsResponse",
-}) as any as S.Schema<ListShipmentsResponse>;
+).annotate({ identifier: "ListShipmentsResponse" }) as any as S.Schema<ListShipmentsResponse>;
 
 export interface UpdateShipmentRequest {
   /** The shipment id (`ship_`), or the payment id (`pay_`) it fulfills. */
@@ -280,9 +270,7 @@ export const UpdateShipmentRequest = /*@__PURE__*/ S.suspend(() =>
     id: S.String.pipe(T.Label()),
     tracking_number: S.String,
   }).pipe(T.Http({ method: "PATCH", uri: "/shipments/{id}", code: 200 })),
-).annotate({
-  identifier: "UpdateShipmentRequest",
-}) as any as S.Schema<UpdateShipmentRequest>;
+).annotate({ identifier: "UpdateShipmentRequest" }) as any as S.Schema<UpdateShipmentRequest>;
 
 export type CreateShipmentError = BadRequest | Forbidden | Conflict | WhopOpError;
 /** Create Shipment Attaches a carrier tracking number to a payment and begins tracking it. */

@@ -38,9 +38,7 @@ export const GetBalanceRequest = /*@__PURE__*/ S.suspend(() =>
     as_of_time: S.optional(S.String.pipe(T.Query())),
     currency_code: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/v1/reporting/balances", code: 200 })),
-).annotate({
-  identifier: "GetBalanceRequest",
-}) as any as S.Schema<GetBalanceRequest>;
+).annotate({ identifier: "GetBalanceRequest" }) as any as S.Schema<GetBalanceRequest>;
 
 /** The currency and amount for a financial transaction, such as a balance or payment due. */
 export interface Money {
@@ -100,9 +98,7 @@ export const BalancesResponse = /*@__PURE__*/ S.suspend(() =>
     as_of_time: S.optional(S.String),
     last_refresh_time: S.optional(S.String),
   }),
-).annotate({
-  identifier: "BalancesResponse",
-}) as any as S.Schema<BalancesResponse>;
+).annotate({ identifier: "BalancesResponse" }) as any as S.Schema<BalancesResponse>;
 
 export interface SearchGetRequest {
   /** Filters the transactions in the response by a PayPal transaction ID. A valid transaction ID is 17 characters long, except for an <a href="/docs/api/payments/v1/#definition-order">order ID</a>, which is 19 characters long.<blockquote><strong>Note:</strong> A transaction ID is not unique in the reporting system. The response can list two transactions with the same ID. One transaction can be balance affecting while the other is non-balance affecting.</blockquote> */
@@ -151,9 +147,7 @@ export const SearchGetRequest = /*@__PURE__*/ S.suspend(() =>
     page_size: S.optional(S.Number.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/v1/reporting/transactions", code: 200 })),
-).annotate({
-  identifier: "SearchGetRequest",
-}) as any as S.Schema<SearchGetRequest>;
+).annotate({ identifier: "SearchGetRequest" }) as any as S.Schema<SearchGetRequest>;
 
 /** The PayPal reference ID type. */
 export type TransactionInfoPaypalReferenceIdType = "ODR" | "TXN" | "SUB" | "PAP";
@@ -267,9 +261,7 @@ export const TransactionInfo = /*@__PURE__*/ S.suspend(() =>
     instrument_type: S.optional(S.String),
     instrument_sub_type: S.optional(S.String),
   }),
-).annotate({
-  identifier: "TransactionInfo",
-}) as any as S.Schema<TransactionInfo>;
+).annotate({ identifier: "TransactionInfo" }) as any as S.Schema<TransactionInfo>;
 
 /** The phone number, in its canonical international [E.164 numbering plan format](https://www.itu.int/rec/T-REC-E.164/en). */
 export interface Phone {
@@ -403,9 +395,7 @@ export const ItemDetailTaxAmount = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     tax_amount: S.optional(Money),
   }),
-).annotate({
-  identifier: "ItemDetailTaxAmount",
-}) as any as S.Schema<ItemDetailTaxAmount>;
+).annotate({ identifier: "ItemDetailTaxAmount" }) as any as S.Schema<ItemDetailTaxAmount>;
 
 /** An array of tax amounts levied by a government on the purchase of goods or services. */
 export type ItemDetailTaxAmountList = Array<ItemDetailTaxAmount>;
@@ -568,9 +558,7 @@ export const IncentiveDetail = /*@__PURE__*/ S.suspend(() =>
     incentive_amount: S.optional(Money),
     incentive_program_code: S.optional(S.String),
   }),
-).annotate({
-  identifier: "IncentiveDetail",
-}) as any as S.Schema<IncentiveDetail>;
+).annotate({ identifier: "IncentiveDetail" }) as any as S.Schema<IncentiveDetail>;
 
 /** An array of incentive details. */
 export type IncentiveDetailList = Array<IncentiveDetail>;
@@ -615,9 +603,7 @@ export const TransactionDetail = /*@__PURE__*/ S.suspend(() =>
     auction_info: S.optional(AuctionInfo),
     incentive_info: S.optional(IncentiveInfo),
   }),
-).annotate({
-  identifier: "TransactionDetail",
-}) as any as S.Schema<TransactionDetail>;
+).annotate({ identifier: "TransactionDetail" }) as any as S.Schema<TransactionDetail>;
 
 /** An array of transaction detail objects. */
 export type TransactionDetailList = Array<TransactionDetail>;
@@ -652,9 +638,7 @@ export const LinkDescription = /*@__PURE__*/ S.suspend(() =>
     rel: S.String,
     method: S.optional(LinkDescriptionMethod),
   }),
-).annotate({
-  identifier: "LinkDescription",
-}) as any as S.Schema<LinkDescription>;
+).annotate({ identifier: "LinkDescription" }) as any as S.Schema<LinkDescription>;
 
 /** An array of request-related [HATEOAS links](/api/rest/responses/#hateoas-links). */
 export type LinkDescriptionList = Array<LinkDescription>;

@@ -1,0 +1,502 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.posthog.web_analytics_content_autopilot_profiles#ListWebAnalyticsContentAutopilotProfilesRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit",
+            "smithy.api#documentation": "Number of results to return per page."
+          }
+        },
+        "offset": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "offset",
+            "smithy.api#documentation": "The initial index from which to return the results."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.web_analytics_content_autopilot_profiles#PaginatedContentAutopilotSiteProfileList": {
+      "type": "structure",
+      "members": {
+        "count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "next": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "previous": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "results": {
+          "target": "com.posthog.web_analytics_content_autopilot_profiles#PaginatedContentAutopilotSiteProfileListResultsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.web_analytics_content_autopilot_profiles#ContentAutopilotSiteProfile": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name used to identify this site in the workspace."
+          }
+        },
+        "domain": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Authorized site origin for this profile.",
+            "smithy.api#required": {}
+          }
+        },
+        "source_urls": {
+          "target": "com.posthog.web_analytics_content_autopilot_profiles#ContentAutopilotSiteProfileSourceUrlsList",
+          "traits": {
+            "smithy.api#documentation": "Public sitemap and factual source URLs used to build the site profile.",
+            "smithy.api#required": {}
+          }
+        },
+        "content_boundaries": {
+          "target": "com.posthog.web_analytics_content_autopilot_profiles#ContentAutopilotSiteProfileContentBoundariesList",
+          "traits": {
+            "smithy.api#documentation": "Same-origin URL path prefixes allowed for research.",
+            "smithy.api#required": {}
+          }
+        },
+        "brand_rules": {
+          "target": "com.posthog.web_analytics_content_autopilot_profiles#ContentAutopilotSiteProfileBrandRulesList",
+          "traits": {
+            "smithy.api#documentation": "Brand, terminology, and editorial rules applied to every proposal.",
+            "smithy.api#required": {}
+          }
+        },
+        "search_console_enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether to use connected Google Search Console data."
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.posthog.web_analytics_content_autopilot_profiles#ContentAutopilotSiteProfileSourceUrlsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Public sitemap and factual source URLs used to build the site profile."
+      }
+    },
+    "com.posthog.web_analytics_content_autopilot_profiles#ContentAutopilotSiteProfileContentBoundariesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Same-origin URL path prefixes allowed for research."
+      }
+    },
+    "com.posthog.web_analytics_content_autopilot_profiles#ContentAutopilotSiteProfileBrandRulesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Brand, terminology, and editorial rules applied to every proposal."
+      }
+    },
+    "com.posthog.web_analytics_content_autopilot_profiles#PaginatedContentAutopilotSiteProfileListResultsList": {
+      "type": "list",
+      "member": {
+        "target": "com.posthog.web_analytics_content_autopilot_profiles#ContentAutopilotSiteProfile"
+      },
+      "traits": {}
+    },
+    "com.posthog.web_analytics_content_autopilot_profiles#ListWebAnalyticsContentAutopilotProfiles": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.web_analytics_content_autopilot_profiles#ListWebAnalyticsContentAutopilotProfilesRequest"
+      },
+      "output": {
+        "target": "com.posthog.web_analytics_content_autopilot_profiles#PaginatedContentAutopilotSiteProfileList"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/web_analytics_content_autopilot_profiles/",
+          "code": 200
+        }
+      }
+    },
+    "com.posthog.web_analytics_content_autopilot_profiles#CreateWebAnalyticsContentAutopilotProfileRequestSourceUrlsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Public sitemap and factual source URLs used to build the site profile."
+      }
+    },
+    "com.posthog.web_analytics_content_autopilot_profiles#CreateWebAnalyticsContentAutopilotProfileRequestContentBoundariesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Same-origin URL path prefixes allowed for research."
+      }
+    },
+    "com.posthog.web_analytics_content_autopilot_profiles#CreateWebAnalyticsContentAutopilotProfileRequestBrandRulesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Brand, terminology, and editorial rules applied to every proposal."
+      }
+    },
+    "com.posthog.web_analytics_content_autopilot_profiles#CreateWebAnalyticsContentAutopilotProfileRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name used to identify this site in the workspace."
+          }
+        },
+        "domain": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Authorized site origin for this profile.",
+            "smithy.api#required": {}
+          }
+        },
+        "source_urls": {
+          "target": "com.posthog.web_analytics_content_autopilot_profiles#CreateWebAnalyticsContentAutopilotProfileRequestSourceUrlsList",
+          "traits": {
+            "smithy.api#documentation": "Public sitemap and factual source URLs used to build the site profile.",
+            "smithy.api#required": {}
+          }
+        },
+        "content_boundaries": {
+          "target": "com.posthog.web_analytics_content_autopilot_profiles#CreateWebAnalyticsContentAutopilotProfileRequestContentBoundariesList",
+          "traits": {
+            "smithy.api#documentation": "Same-origin URL path prefixes allowed for research.",
+            "smithy.api#required": {}
+          }
+        },
+        "brand_rules": {
+          "target": "com.posthog.web_analytics_content_autopilot_profiles#CreateWebAnalyticsContentAutopilotProfileRequestBrandRulesList",
+          "traits": {
+            "smithy.api#documentation": "Brand, terminology, and editorial rules applied to every proposal.",
+            "smithy.api#required": {}
+          }
+        },
+        "search_console_enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether to use connected Google Search Console data."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.web_analytics_content_autopilot_profiles#CreateWebAnalyticsContentAutopilotProfile": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.web_analytics_content_autopilot_profiles#CreateWebAnalyticsContentAutopilotProfileRequest"
+      },
+      "output": {
+        "target": "com.posthog.web_analytics_content_autopilot_profiles#ContentAutopilotSiteProfile"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/projects/{project_id}/web_analytics_content_autopilot_profiles/",
+          "code": 200
+        }
+      }
+    },
+    "com.posthog.web_analytics_content_autopilot_profiles#GetWebAnalyticsContentAutopilotProfileRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "A UUID string identifying this content autopilot site profile."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.web_analytics_content_autopilot_profiles#GetWebAnalyticsContentAutopilotProfile": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.web_analytics_content_autopilot_profiles#GetWebAnalyticsContentAutopilotProfileRequest"
+      },
+      "output": {
+        "target": "com.posthog.web_analytics_content_autopilot_profiles#ContentAutopilotSiteProfile"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/projects/{project_id}/web_analytics_content_autopilot_profiles/{id}/",
+          "code": 200
+        }
+      }
+    },
+    "com.posthog.web_analytics_content_autopilot_profiles#UpdateWebAnalyticsContentAutopilotProfilesPartialRequestSourceUrlsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Public sitemap and factual source URLs used to build the site profile."
+      }
+    },
+    "com.posthog.web_analytics_content_autopilot_profiles#UpdateWebAnalyticsContentAutopilotProfilesPartialRequestContentBoundariesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Same-origin URL path prefixes allowed for research."
+      }
+    },
+    "com.posthog.web_analytics_content_autopilot_profiles#UpdateWebAnalyticsContentAutopilotProfilesPartialRequestBrandRulesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Brand, terminology, and editorial rules applied to every proposal."
+      }
+    },
+    "com.posthog.web_analytics_content_autopilot_profiles#UpdateWebAnalyticsContentAutopilotProfilesPartialRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "A UUID string identifying this content autopilot site profile."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name used to identify this site in the workspace."
+          }
+        },
+        "domain": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Authorized site origin for this profile."
+          }
+        },
+        "source_urls": {
+          "target": "com.posthog.web_analytics_content_autopilot_profiles#UpdateWebAnalyticsContentAutopilotProfilesPartialRequestSourceUrlsList",
+          "traits": {
+            "smithy.api#documentation": "Public sitemap and factual source URLs used to build the site profile."
+          }
+        },
+        "content_boundaries": {
+          "target": "com.posthog.web_analytics_content_autopilot_profiles#UpdateWebAnalyticsContentAutopilotProfilesPartialRequestContentBoundariesList",
+          "traits": {
+            "smithy.api#documentation": "Same-origin URL path prefixes allowed for research."
+          }
+        },
+        "brand_rules": {
+          "target": "com.posthog.web_analytics_content_autopilot_profiles#UpdateWebAnalyticsContentAutopilotProfilesPartialRequestBrandRulesList",
+          "traits": {
+            "smithy.api#documentation": "Brand, terminology, and editorial rules applied to every proposal."
+          }
+        },
+        "search_console_enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether to use connected Google Search Console data."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.web_analytics_content_autopilot_profiles#UpdateWebAnalyticsContentAutopilotProfilesPartial": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.web_analytics_content_autopilot_profiles#UpdateWebAnalyticsContentAutopilotProfilesPartialRequest"
+      },
+      "output": {
+        "target": "com.posthog.web_analytics_content_autopilot_profiles#ContentAutopilotSiteProfile"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/api/projects/{project_id}/web_analytics_content_autopilot_profiles/{id}/",
+          "code": 200
+        }
+      }
+    },
+    "com.posthog.web_analytics_content_autopilot_profiles#WebAnalyticsContentAutopilotProfilesDestroyRequest": {
+      "type": "structure",
+      "members": {
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "A UUID string identifying this content autopilot site profile."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.posthog.web_analytics_content_autopilot_profiles#WebAnalyticsContentAutopilotProfilesDestroy": {
+      "type": "operation",
+      "input": {
+        "target": "com.posthog.web_analytics_content_autopilot_profiles#WebAnalyticsContentAutopilotProfilesDestroyRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/api/projects/{project_id}/web_analytics_content_autopilot_profiles/{id}/",
+          "code": 200
+        }
+      }
+    },
+    "com.posthog.web_analytics_content_autopilot_profiles#WebAnalyticsContentAutopilotProfiles": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.posthog.web_analytics_content_autopilot_profiles#ListWebAnalyticsContentAutopilotProfiles"
+        },
+        {
+          "target": "com.posthog.web_analytics_content_autopilot_profiles#CreateWebAnalyticsContentAutopilotProfile"
+        },
+        {
+          "target": "com.posthog.web_analytics_content_autopilot_profiles#GetWebAnalyticsContentAutopilotProfile"
+        },
+        {
+          "target": "com.posthog.web_analytics_content_autopilot_profiles#UpdateWebAnalyticsContentAutopilotProfilesPartial"
+        },
+        {
+          "target": "com.posthog.web_analytics_content_autopilot_profiles#WebAnalyticsContentAutopilotProfilesDestroy"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "PostHog API"
+      }
+    }
+  }
+}

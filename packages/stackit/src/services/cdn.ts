@@ -52,9 +52,7 @@ export const HttpBackendCreateGeofencingMap = /*@__PURE__*/ S.Record(
 ) as any as S.Schema<HttpBackendCreateGeofencingMap>;
 
 /** Headers that will be sent with every request to the configured origin. **WARNING**: Do not store sensitive values in the headers. The configuration is stored as plain text. */
-export type HttpBackendCreateOriginRequestHeadersMap = {
-  [key: string]: string | undefined;
-};
+export type HttpBackendCreateOriginRequestHeadersMap = { [key: string]: string | undefined };
 export const HttpBackendCreateOriginRequestHeadersMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -62,7 +60,7 @@ export const HttpBackendCreateOriginRequestHeadersMap = /*@__PURE__*/ S.Record(
 
 /** Defines the type of content origin. For this schema, it must be set to `http`. */
 export type HttpBackendCreateType = "http";
-export const HttpBackendCreateType = /*@__PURE__*/ S.String;
+export const HttpBackendCreateType = S.String;
 
 export interface HttpBackendCreate {
   /** An object mapping multiple alternative origins to country codes. Any request from one of those country codes will route to the alternative origin. Do note that country codes may only be used once. You cannot have a country be assigned to multiple alternative origins. */
@@ -81,9 +79,7 @@ export const HttpBackendCreate = /*@__PURE__*/ S.suspend(() =>
     originUrl: S.String,
     type: HttpBackendCreateType,
   }),
-).annotate({
-  identifier: "HttpBackendCreate",
-}) as any as S.Schema<HttpBackendCreate>;
+).annotate({ identifier: "HttpBackendCreate" }) as any as S.Schema<HttpBackendCreate>;
 
 export interface BucketCredentials {
   accessKeyId: string | Redacted.Redacted<string>;
@@ -94,13 +90,11 @@ export const BucketCredentials = /*@__PURE__*/ S.suspend(() =>
     accessKeyId: S.String.pipe(T.SensitiveValue({})),
     secretAccessKey: S.String.pipe(T.SensitiveValue({})),
   }),
-).annotate({
-  identifier: "BucketCredentials",
-}) as any as S.Schema<BucketCredentials>;
+).annotate({ identifier: "BucketCredentials" }) as any as S.Schema<BucketCredentials>;
 
 /** Defines the type of content origin. For this schema, it must be set to `bucket`. */
 export type BucketBackendCreateType = "bucket";
-export const BucketBackendCreateType = /*@__PURE__*/ S.String;
+export const BucketBackendCreateType = S.String;
 
 export interface BucketBackendCreate {
   /** The fully qualified URL of your cloud storage bucket (for example, `https://s3.eu-central-1.amazonaws.com/my-bucket`). */
@@ -118,9 +112,7 @@ export const BucketBackendCreate = /*@__PURE__*/ S.suspend(() =>
     region: S.String,
     type: BucketBackendCreateType,
   }),
-).annotate({
-  identifier: "BucketBackendCreate",
-}) as any as S.Schema<BucketBackendCreate>;
+).annotate({ identifier: "BucketBackendCreate" }) as any as S.Schema<BucketBackendCreate>;
 
 /** Configuration for the content origin backend. */
 export type CreateDistributionRequestBackend = HttpBackendCreate | BucketBackendCreate;
@@ -166,14 +158,10 @@ export const CacheConfigCreate = /*@__PURE__*/ S.suspend(() =>
     queryStringVaryEnabled: S.optional(S.Boolean),
     queryStringVaryParameters: S.optional(CacheConfigCreateQueryStringVaryParametersList),
   }),
-).annotate({
-  identifier: "CacheConfigCreate",
-}) as any as S.Schema<CacheConfigCreate>;
+).annotate({ identifier: "CacheConfigCreate" }) as any as S.Schema<CacheConfigCreate>;
 
 /** Labels are key-value string pairs that can be attached to a distribution. */
-export type CreateDistributionRequestLabelsMap = {
-  [key: string]: string | undefined;
-};
+export type CreateDistributionRequestLabelsMap = { [key: string]: string | undefined };
 export const CreateDistributionRequestLabelsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -191,13 +179,11 @@ export const LokiLogSinkCredentials = /*@__PURE__*/ S.suspend(() =>
     password: S.String.pipe(T.SensitiveValue({})),
     username: S.String,
   }),
-).annotate({
-  identifier: "LokiLogSinkCredentials",
-}) as any as S.Schema<LokiLogSinkCredentials>;
+).annotate({ identifier: "LokiLogSinkCredentials" }) as any as S.Schema<LokiLogSinkCredentials>;
 
 /** Defines the type of the log sink. For Grafana Loki, this must be set to `loki`. */
 export type LokiLogSinkCreateType = "loki";
-export const LokiLogSinkCreateType = /*@__PURE__*/ S.String;
+export const LokiLogSinkCreateType = S.String;
 
 export interface LokiLogSinkCreate {
   credentials: LokiLogSinkCredentials;
@@ -212,13 +198,11 @@ export const LokiLogSinkCreate = /*@__PURE__*/ S.suspend(() =>
     pushUrl: S.String,
     type: LokiLogSinkCreateType,
   }),
-).annotate({
-  identifier: "LokiLogSinkCreate",
-}) as any as S.Schema<LokiLogSinkCreate>;
+).annotate({ identifier: "LokiLogSinkCreate" }) as any as S.Schema<LokiLogSinkCreate>;
 
 /** Defines bearer token authentication. */
 export type OtlpLogSinkBearerCredentialsType = "bearer";
-export const OtlpLogSinkBearerCredentialsType = /*@__PURE__*/ S.String;
+export const OtlpLogSinkBearerCredentialsType = S.String;
 
 /** Bearer token authentication credentials for OTLP. */
 export interface OtlpLogSinkBearerCredentials {
@@ -238,7 +222,7 @@ export const OtlpLogSinkBearerCredentials = /*@__PURE__*/ S.suspend(() =>
 
 /** Defines basic authentication. */
 export type OtlpLogSinkBasicCredentialsType = "basic";
-export const OtlpLogSinkBasicCredentialsType = /*@__PURE__*/ S.String;
+export const OtlpLogSinkBasicCredentialsType = S.String;
 
 /** Basic authentication credentials for OTLP. */
 export interface OtlpLogSinkBasicCredentials {
@@ -268,7 +252,7 @@ export const OtlpLogSinkCreateCredentials =
 
 /** Defines the type of the log sink. */
 export type OtlpLogSinkCreateType = "otlp";
-export const OtlpLogSinkCreateType = /*@__PURE__*/ S.String;
+export const OtlpLogSinkCreateType = S.String;
 
 export interface OtlpLogSinkCreate {
   /** The authentication credentials required for the CDN to push logs to your OTLP endpoint. */
@@ -284,9 +268,7 @@ export const OtlpLogSinkCreate = /*@__PURE__*/ S.suspend(() =>
     pushUrl: S.String,
     type: OtlpLogSinkCreateType,
   }),
-).annotate({
-  identifier: "OtlpLogSinkCreate",
-}) as any as S.Schema<OtlpLogSinkCreate>;
+).annotate({ identifier: "OtlpLogSinkCreate" }) as any as S.Schema<OtlpLogSinkCreate>;
 
 export type CreateDistributionRequestLogSink = LokiLogSinkCreate | OtlpLogSinkCreate;
 export const CreateDistributionRequestLogSink =
@@ -305,7 +287,7 @@ export const Optimizer = /*@__PURE__*/ S.suspend(() =>
 
 /** Defines how multiple matchers within this rule are combined (ALL, ANY, NONE). Defaults to ANY. */
 export type MatchCondition = "ANY" | "ALL" | "NONE";
-export const MatchCondition = /*@__PURE__*/ S.String;
+export const MatchCondition = S.String;
 
 /** A list of glob patterns to match against the request path. At least one value is required. Examples: "/shop/*" or "*\/img/*" */
 export type MatcherValuesList = Array<string>;
@@ -334,7 +316,7 @@ export const RedirectRuleMatchersList = /*@__PURE__*/ S.Array(
 
 /** The HTTP status code for the redirect. Must be one of 301, 302, 303, 307, or 308. */
 export type RedirectRuleStatusCode = 301 | 302 | 303 | 307 | 308;
-export const RedirectRuleStatusCode = /*@__PURE__*/ S.Number;
+export const RedirectRuleStatusCode = S.Number;
 
 /** A single redirect rule defining a source pattern and a target URL. */
 export interface RedirectRule {
@@ -380,7 +362,7 @@ export const RedirectConfig = /*@__PURE__*/ S.suspend(() =>
 
 /** The following regions exist: - `EU` - Europe - `US` - United States / North America - `AF` - Africa - `SA` - South America - `ASIA` - Asia and Oceania */
 export type Region = "EU" | "US" | "AF" | "SA" | "ASIA";
-export const Region = /*@__PURE__*/ S.String;
+export const Region = S.String;
 
 /** Define in which regions you would like your content to be cached. */
 export type CreateDistributionRequestRegionsList = Array<Region | (string & {})>;
@@ -475,15 +457,15 @@ export const WafConfigLogOnlyRuleIdsList = /*@__PURE__*/ S.Array(
 
 /** - `ENABLED`: The WAF actively inspects and blocks malicious requests. - `DISABLED`: The WAF is completely off. No inspection occurs. - `LOG_ONLY`: The WAF inspects requests and logs matches but never blocks. */
 export type WafMode = "DISABLED" | "ENABLED" | "LOG_ONLY";
-export const WafMode = /*@__PURE__*/ S.String;
+export const WafMode = S.String;
 
 /** The paranoia level defines how aggressively the WAF should action on requests. It ranges from `L1` (least strict, lowest chance of false positives) to `L4` (most strict, highest chance of false positives). A higher paranoia level is more effective at catching attacks but can also block legitimate traffic. */
 export type WafParanoiaLevel = "L1" | "L2" | "L3" | "L4";
-export const WafParanoiaLevel = /*@__PURE__*/ S.String;
+export const WafParanoiaLevel = S.String;
 
 /** Enable or disable the Premium WAF. Do note that enabling the Premium WAF will cause additional fees. Some features are gated behind the Premium WAF, like additional, **premium-only rules** and the ability to create **custom rules** (not yet implemented) */
 export type WafType = "FREE" | "PREMIUM";
-export const WafType = /*@__PURE__*/ S.String;
+export const WafType = S.String;
 
 /** Configuration of the WAF of a distribution A WAF Config always contains a WAF Mode and Type. If a WAF was never enabled, most of the properties are not present. To **enable** the WAF for your Distribution, you must set the `mode` to `ENABLED` or `LOG_ONLY`. This causes the other properties to be populated. ## Rules There are 9 properties used to control which Rules are enabled, disabled or set to Log-Only. These properties can be grouped in 3 groups of 3. Each of these groups varies in specificity: Rules are more specific than Rule Groups, which in turn are more specific than Collections. More specific definitions override more generic definitions. ### Collections - `enabledRuleCollectionIds` - `disabledRuleCollectionIds` - `logOnlyRuleCollectionIds` These are the least specific selectors. As of 2025, only two collections exist: - `@builtin/crs/response`, containing all Rules regarding Responses - `@builtin/crs/request`, containing all Rules regarding Requests More collections may be added in the future ### Rule Groups - `enabledRuleGroupIds` - `disabledRuleGroupIds` - `logOnlyRuleGroupIds` These are more specific than Collections and will override their selector. You can find all available Rule Groups by calling the `ListWafCollections` Operation. ### Rules - `enabledRuleIds` - `disabledRuleIds` - `logOnlyRuleGds` Being the most specific selectors, these will override both Collection and Rule Group selectors. You can find all available Rule Groups by calling the `ListWafCollections` Operation. ### TIP: Review resolved config If you call `GetDistribution` with `?withWafStatus=true`, you get back a resolved WAF Rules Config which contains a `waf` property which you can inspect to see why a Rule is either enabled, disabled or logOnly. */
 export interface WafConfig {
@@ -610,9 +592,7 @@ export const HttpBackendGeofencingMap = /*@__PURE__*/ S.Record(
 ) as any as S.Schema<HttpBackendGeofencingMap>;
 
 /** Headers that will be sent with every request to the configured origin. **WARNING**: Do not store sensitive values in the headers. The configuration is stored as plain text. */
-export type HttpBackendOriginRequestHeadersMap = {
-  [key: string]: string | undefined;
-};
+export type HttpBackendOriginRequestHeadersMap = { [key: string]: string | undefined };
 export const HttpBackendOriginRequestHeadersMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -620,7 +600,7 @@ export const HttpBackendOriginRequestHeadersMap = /*@__PURE__*/ S.Record(
 
 /** Defines the type of content origin. For this schema, it must be set to `http`. */
 export type HttpBackendType = "http";
-export const HttpBackendType = /*@__PURE__*/ S.String;
+export const HttpBackendType = S.String;
 
 export interface HttpBackend {
   /** An object mapping multiple alternative origins to country codes. Any request from one of those country codes will route to the alternative origin. Do note that country codes may only be used once. You cannot have a country be assigned to multiple alternative origins. */
@@ -643,7 +623,7 @@ export const HttpBackend = /*@__PURE__*/ S.suspend(() =>
 
 /** Defines the type of content origin. For this schema, it must be set to `bucket`. */
 export type BucketBackendType = "bucket";
-export const BucketBackendType = /*@__PURE__*/ S.String;
+export const BucketBackendType = S.String;
 
 export interface BucketBackend {
   /** The fully qualified URL of your cloud storage bucket (for example, `https://s3.eu-central-1.amazonaws.com/my-bucket`). */
@@ -714,7 +694,7 @@ export const ConfigLabelsMap = /*@__PURE__*/ S.Record(
 
 /** Defines the type of the log sink. */
 export type LokiLogSinkType = "loki";
-export const LokiLogSinkType = /*@__PURE__*/ S.String;
+export const LokiLogSinkType = S.String;
 
 export interface LokiLogSink {
   /** The fully qualified URL where the CDN should push logs to your Loki instance (for example, `https://loki.example.com/loki/api/v1/push`). */
@@ -731,7 +711,7 @@ export const LokiLogSink = /*@__PURE__*/ S.suspend(() =>
 
 /** Defines the type of the log sink. */
 export type OtlpLogSinkType = "otlp";
-export const OtlpLogSinkType = /*@__PURE__*/ S.String;
+export const OtlpLogSinkType = S.String;
 
 export interface OtlpLogSink {
   /** The fully qualified URL where the CDN should push logs to your OTLP endpoint (for example, `https://otlp.example.com/otlp/v1/logs`). */
@@ -799,7 +779,7 @@ export const Config = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "Config" }) as any as S.Schema<Config>;
 
 export type DomainCertificateType = "managed" | "custom";
-export const DomainCertificateType = /*@__PURE__*/ S.String;
+export const DomainCertificateType = S.String;
 
 /** An enum value that describes a Status Error. */
 export type StatusErrorKey =
@@ -809,7 +789,7 @@ export type StatusErrorKey =
   | "PUBLIC_BETA_QUOTA_REACHED"
   | "LOG_SINK_INSTANCE_UNAVAILABLE"
   | "EXTERNAL_QUOTA_REACHED";
-export const StatusErrorKey = /*@__PURE__*/ S.String;
+export const StatusErrorKey = S.String;
 
 export interface StatusError {
   /** A german translation string corresponding to the error key. Note that we do not guarantee german translations are present. */
@@ -835,11 +815,11 @@ export const DomainErrorsList = /*@__PURE__*/ S.Array(
 
 /** The status of the domain: CREATING indicates that the custom domain is being set up. UPDATING means that requested changes are being applied to the custom domain. ACTIVE means the custom domain is currently configured and active. DELETING means that the domain is in the process of being removed from the distribution. In case the domain has the ERROR state, more information will be available in the errors list. */
 export type DomainStatus = "CREATING" | "ACTIVE" | "UPDATING" | "DELETING" | "ERROR";
-export const DomainStatus = /*@__PURE__*/ S.String;
+export const DomainStatus = S.String;
 
 /** Specifies the type of this Domain. Custom Domain can be further queries using the GetCustomDomain Endpoint */
 export type DomainType = "managed" | "custom";
-export const DomainType = /*@__PURE__*/ S.String;
+export const DomainType = S.String;
 
 /** Definition of a custom or managed domain without any certificates or keys */
 export interface Domain {
@@ -875,7 +855,7 @@ export const DistributionErrorsList = /*@__PURE__*/ S.Array(
 
 /** - `CREATING`: The distribution was just created. All the relevant resources are created in the background. Once fully reconciled, this switches to `ACTIVE`. If there are any issues, the status changes to `ERROR`. You can look at the `errors` array to get more infos. - `ACTIVE`: The usual state. The desired configuration is synced, there are no errors - `UPDATING`: The state when there is a discrepancy between the desired and actual configuration state. This occurs right after an update. Will switch to `ACTIVE` or `ERROR`, depending on if synchronizing succeeds or not. - `DELETING`: The state right after a delete request was received. The distribution will stay in this status until all resources have been successfully removed, or until we encounter an `ERROR` state. **NOTE:** You can keep fetching the distribution while it is deleting. After successful deletion, trying to get a distribution will return a 404 Not Found response - `ERROR`: The error state. Look at the `errors` array for more info. */
 export type DistributionStatus = "CREATING" | "ACTIVE" | "UPDATING" | "DELETING" | "ERROR";
-export const DistributionStatus = /*@__PURE__*/ S.String;
+export const DistributionStatus = S.String;
 
 /** This object only ever shows up in the disabled rules section. If rules are never defined (e.g. no collection, rule group, or the rule itself is ever mentioned), they are implicitly disabled */
 export interface WafStatusRuleBlockReasonNeverDefined {
@@ -973,9 +953,7 @@ export const WafStatusRuleBlock = /*@__PURE__*/ S.suspend(() =>
     id: S.String,
     reason: WafStatusRuleBlockReason,
   }),
-).annotate({
-  identifier: "WafStatusRuleBlock",
-}) as any as S.Schema<WafStatusRuleBlock>;
+).annotate({ identifier: "WafStatusRuleBlock" }) as any as S.Schema<WafStatusRuleBlock>;
 
 export type DistributionWafDisabledRulesList = Array<WafStatusRuleBlock>;
 export const DistributionWafDisabledRulesList = /*@__PURE__*/ S.Array(
@@ -1004,9 +982,7 @@ export const DistributionWaf = /*@__PURE__*/ S.suspend(() =>
     enabledRules: DistributionWafEnabledRulesList,
     logOnlyRules: DistributionWafLogOnlyRulesList,
   }),
-).annotate({
-  identifier: "DistributionWaf",
-}) as any as S.Schema<DistributionWaf>;
+).annotate({ identifier: "DistributionWaf" }) as any as S.Schema<DistributionWaf>;
 
 export interface Distribution {
   config: Config;
@@ -1163,9 +1139,7 @@ export const FindCachePathsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://cdn.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "FindCachePathsRequest",
-}) as any as S.Schema<FindCachePathsRequest>;
+).annotate({ identifier: "FindCachePathsRequest" }) as any as S.Schema<FindCachePathsRequest>;
 
 export interface FindCachePathsResponseEntry {
   /** Defines one path that was previously used as part of a granular purge */
@@ -1191,9 +1165,7 @@ export const FindCachePathsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     response: FindCachePathsResponseResponseList,
   }),
-).annotate({
-  identifier: "FindCachePathsResponse",
-}) as any as S.Schema<FindCachePathsResponse>;
+).annotate({ identifier: "FindCachePathsResponse" }) as any as S.Schema<FindCachePathsResponse>;
 
 export interface GetCacheInfoRequest {
   /** Your STACKIT Project Id */
@@ -1214,12 +1186,10 @@ export const GetCacheInfoRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://cdn.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "GetCacheInfoRequest",
-}) as any as S.Schema<GetCacheInfoRequest>;
+).annotate({ identifier: "GetCacheInfoRequest" }) as any as S.Schema<GetCacheInfoRequest>;
 
 export type GetCacheInfoResponseHistoryEntryType = "full" | "granular";
-export const GetCacheInfoResponseHistoryEntryType = /*@__PURE__*/ S.String;
+export const GetCacheInfoResponseHistoryEntryType = S.String;
 
 export interface GetCacheInfoResponseHistoryEntry {
   occurredAt: string;
@@ -1249,9 +1219,7 @@ export const GetCacheInfoResponse = /*@__PURE__*/ S.suspend(() =>
     history: GetCacheInfoResponseHistoryList,
     lastPurgeTime: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "GetCacheInfoResponse",
-}) as any as S.Schema<GetCacheInfoResponse>;
+).annotate({ identifier: "GetCacheInfoResponse" }) as any as S.Schema<GetCacheInfoResponse>;
 
 export interface GetCustomDomainRequest {
   /** Your STACKIT Project Id */
@@ -1272,9 +1240,7 @@ export const GetCustomDomainRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://cdn.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "GetCustomDomainRequest",
-}) as any as S.Schema<GetCustomDomainRequest>;
+).annotate({ identifier: "GetCustomDomainRequest" }) as any as S.Schema<GetCustomDomainRequest>;
 
 /** This is returned when no custom certificate is used. We provision and manage a Let's Encrypt Certificate for you */
 export interface GetCustomDomainManagedCertificate {
@@ -1321,9 +1287,7 @@ export const GetCustomDomainResponse = /*@__PURE__*/ S.suspend(() =>
     certificate: GetCustomDomainResponseCertificate,
     customDomain: CustomDomain,
   }),
-).annotate({
-  identifier: "GetCustomDomainResponse",
-}) as any as S.Schema<GetCustomDomainResponse>;
+).annotate({ identifier: "GetCustomDomainResponse" }) as any as S.Schema<GetCustomDomainResponse>;
 
 export interface GetDistributionRequest {
   /** Your STACKIT Project Id */
@@ -1345,9 +1309,7 @@ export const GetDistributionRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://cdn.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "GetDistributionRequest",
-}) as any as S.Schema<GetDistributionRequest>;
+).annotate({ identifier: "GetDistributionRequest" }) as any as S.Schema<GetDistributionRequest>;
 
 export interface GetDistributionResponse {
   distribution: Distribution;
@@ -1356,9 +1318,7 @@ export const GetDistributionResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     distribution: Distribution,
   }),
-).annotate({
-  identifier: "GetDistributionResponse",
-}) as any as S.Schema<GetDistributionResponse>;
+).annotate({ identifier: "GetDistributionResponse" }) as any as S.Schema<GetDistributionResponse>;
 
 export type GetLogsRequestSortBy =
   | "timestamp"
@@ -1369,14 +1329,14 @@ export type GetLogsRequestSortBy =
   | "size"
   | "path"
   | "host";
-export const GetLogsRequestSortBy = /*@__PURE__*/ S.String;
+export const GetLogsRequestSortBy = S.String;
 
 export type GetLogsRequestSortOrder = "ascending" | "descending";
-export const GetLogsRequestSortOrder = /*@__PURE__*/ S.String;
+export const GetLogsRequestSortOrder = S.String;
 
 /** The action a WAF rule can take based on a request */
 export type WAFRuleAction = "BLOCKED" | "LOGGED" | "ALLOWED";
-export const WAFRuleAction = /*@__PURE__*/ S.String;
+export const WAFRuleAction = S.String;
 
 export interface GetLogsRequest {
   /** Your STACKIT Project Id */
@@ -1430,9 +1390,7 @@ export const GetLogsRequest = /*@__PURE__*/ S.suspend(() =>
   ),
 ).annotate({ identifier: "GetLogsRequest" }) as any as S.Schema<GetLogsRequest>;
 
-export type WAFViolationRequestHeadersMap = {
-  [key: string]: string | undefined;
-};
+export type WAFViolationRequestHeadersMap = { [key: string]: string | undefined };
 export const WAFViolationRequestHeadersMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1488,9 +1446,7 @@ export const DistributionLogsRecord = /*@__PURE__*/ S.suspend(() =>
     timestamp: S.String,
     wafViolation: S.optional(WAFViolation),
   }),
-).annotate({
-  identifier: "DistributionLogsRecord",
-}) as any as S.Schema<DistributionLogsRecord>;
+).annotate({ identifier: "DistributionLogsRecord" }) as any as S.Schema<DistributionLogsRecord>;
 
 export type GetLogsResponseLogsList = Array<DistributionLogsRecord>;
 export const GetLogsResponseLogsList = /*@__PURE__*/ S.Array(
@@ -1506,9 +1462,7 @@ export const GetLogsResponse = /*@__PURE__*/ S.suspend(() =>
     logs: GetLogsResponseLogsList,
     nextPageIdentifier: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GetLogsResponse",
-}) as any as S.Schema<GetLogsResponse>;
+).annotate({ identifier: "GetLogsResponse" }) as any as S.Schema<GetLogsResponse>;
 
 export interface GetLogsSearchFiltersRequest {
   /** Your STACKIT Project ID. */
@@ -1536,7 +1490,7 @@ export const GetLogsSearchFiltersRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetLogsSearchFiltersRequest>;
 
 export type GetLogsSearchFiltersResponseCacheItem = "HIT" | "MISS";
-export const GetLogsSearchFiltersResponseCacheItem = /*@__PURE__*/ S.String;
+export const GetLogsSearchFiltersResponseCacheItem = S.String;
 
 export type GetLogsSearchFiltersResponseCacheList = Array<GetLogsSearchFiltersResponseCacheItem>;
 export const GetLogsSearchFiltersResponseCacheList = /*@__PURE__*/ S.Array(
@@ -1639,7 +1593,7 @@ export const GetLogsSearchFiltersResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetLogsSearchFiltersResponse>;
 
 export type GetStatisticsRequestInterval = "hourly" | "daily" | "monthly" | "yearly";
-export const GetStatisticsRequestInterval = /*@__PURE__*/ S.String;
+export const GetStatisticsRequestInterval = S.String;
 
 export interface GetStatisticsRequest {
   /** Your STACKIT Project Id */
@@ -1667,9 +1621,7 @@ export const GetStatisticsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://cdn.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "GetStatisticsRequest",
-}) as any as S.Schema<GetStatisticsRequest>;
+).annotate({ identifier: "GetStatisticsRequest" }) as any as S.Schema<GetStatisticsRequest>;
 
 export interface DistributionStatisticsRecordEntry {
   /** Number of cached requests that were served */
@@ -1748,9 +1700,7 @@ export const GetStatisticsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     records: GetStatisticsResponseRecordsList,
   }),
-).annotate({
-  identifier: "GetStatisticsResponse",
-}) as any as S.Schema<GetStatisticsResponse>;
+).annotate({ identifier: "GetStatisticsResponse" }) as any as S.Schema<GetStatisticsResponse>;
 
 export type ListDistributionsRequestSortBy =
   | "id"
@@ -1759,10 +1709,10 @@ export type ListDistributionsRequestSortBy =
   | "originUrl"
   | "status"
   | "originUrlRelated";
-export const ListDistributionsRequestSortBy = /*@__PURE__*/ S.String;
+export const ListDistributionsRequestSortBy = S.String;
 
 export type ListDistributionsRequestSortOrder = "ascending" | "descending";
-export const ListDistributionsRequestSortOrder = /*@__PURE__*/ S.String;
+export const ListDistributionsRequestSortOrder = S.String;
 
 export interface ListDistributionsRequest {
   /** Your STACKIT Project Id */
@@ -1793,9 +1743,7 @@ export const ListDistributionsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://cdn.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "ListDistributionsRequest",
-}) as any as S.Schema<ListDistributionsRequest>;
+).annotate({ identifier: "ListDistributionsRequest" }) as any as S.Schema<ListDistributionsRequest>;
 
 export type ListDistributionsResponseDistributionsList = Array<Distribution>;
 export const ListDistributionsResponseDistributionsList = /*@__PURE__*/ S.Array(
@@ -1889,9 +1837,7 @@ export const WafRuleCollection = /*@__PURE__*/ S.suspend(() =>
     id: S.String,
     name: LocalizedString,
   }),
-).annotate({
-  identifier: "WafRuleCollection",
-}) as any as S.Schema<WafRuleCollection>;
+).annotate({ identifier: "WafRuleCollection" }) as any as S.Schema<WafRuleCollection>;
 
 export type ListWafCollectionsResponseCollectionsList = Array<WafRuleCollection>;
 export const ListWafCollectionsResponseCollectionsList = /*@__PURE__*/ S.Array(
@@ -1924,9 +1870,7 @@ export const HttpBackendPatchGeofencingMap = /*@__PURE__*/ S.Record(
 ) as any as S.Schema<HttpBackendPatchGeofencingMap>;
 
 /** Headers that will be sent with every request to the configured origin. **WARNING**: Do not store sensitive values in the headers. The configuration is stored as plain text. */
-export type HttpBackendPatchOriginRequestHeadersMap = {
-  [key: string]: string | undefined;
-};
+export type HttpBackendPatchOriginRequestHeadersMap = { [key: string]: string | undefined };
 export const HttpBackendPatchOriginRequestHeadersMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1934,7 +1878,7 @@ export const HttpBackendPatchOriginRequestHeadersMap = /*@__PURE__*/ S.Record(
 
 /** Defines the type of content origin. For this schema, it must be set to `http`. */
 export type HttpBackendPatchType = "http";
-export const HttpBackendPatchType = /*@__PURE__*/ S.String;
+export const HttpBackendPatchType = S.String;
 
 /** A partial HTTP Backend */
 export interface HttpBackendPatch {
@@ -1954,13 +1898,11 @@ export const HttpBackendPatch = /*@__PURE__*/ S.suspend(() =>
     originUrl: S.optional(S.String),
     type: HttpBackendPatchType,
   }),
-).annotate({
-  identifier: "HttpBackendPatch",
-}) as any as S.Schema<HttpBackendPatch>;
+).annotate({ identifier: "HttpBackendPatch" }) as any as S.Schema<HttpBackendPatch>;
 
 /** Defines the type of content origin. For this schema, it must be set to `bucket`. */
 export type BucketBackendPatchType = "bucket";
-export const BucketBackendPatchType = /*@__PURE__*/ S.String;
+export const BucketBackendPatchType = S.String;
 
 export interface BucketBackendPatch {
   /** The fully qualified URL of your cloud storage bucket (for example, `https://s3.eu-central-1.amazonaws.com/my-bucket`). */
@@ -1978,9 +1920,7 @@ export const BucketBackendPatch = /*@__PURE__*/ S.suspend(() =>
     region: S.optional(S.String),
     type: BucketBackendPatchType,
   }),
-).annotate({
-  identifier: "BucketBackendPatch",
-}) as any as S.Schema<BucketBackendPatch>;
+).annotate({ identifier: "BucketBackendPatch" }) as any as S.Schema<BucketBackendPatch>;
 
 export type ConfigPatchBackend = HttpBackendPatch | BucketBackendPatch;
 export const ConfigPatchBackend = /*@__PURE__*/ S.Unknown as any as S.Schema<ConfigPatchBackend>;
@@ -2024,20 +1964,18 @@ export const CacheConfigPatch = /*@__PURE__*/ S.suspend(() =>
     queryStringVaryEnabled: S.optional(S.Boolean),
     queryStringVaryParameters: S.optional(CacheConfigPatchQueryStringVaryParametersList),
   }),
-).annotate({
-  identifier: "CacheConfigPatch",
-}) as any as S.Schema<CacheConfigPatch>;
+).annotate({ identifier: "CacheConfigPatch" }) as any as S.Schema<CacheConfigPatch>;
 
 /** Labels are key-value string pairs that can be attached to a distribution. JSON Merge Patch is supported, meaning setting a key to null will remove it. */
-export type ConfigPatchLabelsMap = { [key: string]: string | undefined };
+export type ConfigPatchLabelsMap = { [key: string]: string | null | undefined };
 export const ConfigPatchLabelsMap = /*@__PURE__*/ S.Record(
   S.String,
-  S.String,
+  S.NullOr(S.String),
 ) as any as S.Schema<ConfigPatchLabelsMap>;
 
 /** Defines the type of the log sink. For Grafana Loki, this must be set to `loki`. */
 export type LokiLogSinkPatchType = "loki";
-export const LokiLogSinkPatchType = /*@__PURE__*/ S.String;
+export const LokiLogSinkPatchType = S.String;
 
 export interface LokiLogSinkPatch {
   credentials?: LokiLogSinkCredentials;
@@ -2052,9 +1990,7 @@ export const LokiLogSinkPatch = /*@__PURE__*/ S.suspend(() =>
     pushUrl: S.optional(S.String),
     type: LokiLogSinkPatchType,
   }),
-).annotate({
-  identifier: "LokiLogSinkPatch",
-}) as any as S.Schema<LokiLogSinkPatch>;
+).annotate({ identifier: "LokiLogSinkPatch" }) as any as S.Schema<LokiLogSinkPatch>;
 
 /** The authentication credentials required for the CDN to push logs to your OTLP endpoint. */
 export type OtlpLogSinkPatchCredentials =
@@ -2065,7 +2001,7 @@ export const OtlpLogSinkPatchCredentials =
 
 /** Defines the type of the log sink. */
 export type OtlpLogSinkPatchType = "otlp";
-export const OtlpLogSinkPatchType = /*@__PURE__*/ S.String;
+export const OtlpLogSinkPatchType = S.String;
 
 export interface OtlpLogSinkPatch {
   /** The authentication credentials required for the CDN to push logs to your OTLP endpoint. */
@@ -2081,9 +2017,7 @@ export const OtlpLogSinkPatch = /*@__PURE__*/ S.suspend(() =>
     pushUrl: S.optional(S.String),
     type: OtlpLogSinkPatchType,
   }),
-).annotate({
-  identifier: "OtlpLogSinkPatch",
-}) as any as S.Schema<OtlpLogSinkPatch>;
+).annotate({ identifier: "OtlpLogSinkPatch" }) as any as S.Schema<OtlpLogSinkPatch>;
 
 export type ConfigPatchLogSink = LokiLogSinkPatch | OtlpLogSinkPatch;
 export const ConfigPatchLogSink = /*@__PURE__*/ S.Unknown as any as S.Schema<ConfigPatchLogSink>;
@@ -2298,9 +2232,7 @@ export const PatchDistributionRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://cdn.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "PatchDistributionRequest",
-}) as any as S.Schema<PatchDistributionRequest>;
+).annotate({ identifier: "PatchDistributionRequest" }) as any as S.Schema<PatchDistributionRequest>;
 
 export interface PatchDistributionResponse {
   distribution: Distribution;
@@ -2333,16 +2265,12 @@ export const PurgeCacheRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://cdn.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "PurgeCacheRequest",
-}) as any as S.Schema<PurgeCacheRequest>;
+).annotate({ identifier: "PurgeCacheRequest" }) as any as S.Schema<PurgeCacheRequest>;
 
 export type PurgeCacheResponse2 = unknown;
 export const PurgeCacheResponse2 = /*@__PURE__*/ S.suspend(() =>
   S.Unknown.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "PurgeCacheResponse2",
-}) as any as S.Schema<PurgeCacheResponse2>;
+).annotate({ identifier: "PurgeCacheResponse2" }) as any as S.Schema<PurgeCacheResponse2>;
 
 /** This is returned when no custom certificate is used. We provision and manage a Let's Encrypt Certificate for you */
 export type PutCustomDomainManagedCertificate = GetCustomDomainManagedCertificate;
@@ -2401,9 +2329,7 @@ export const PutCustomDomainRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://cdn.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "PutCustomDomainRequest",
-}) as any as S.Schema<PutCustomDomainRequest>;
+).annotate({ identifier: "PutCustomDomainRequest" }) as any as S.Schema<PutCustomDomainRequest>;
 
 /** Pass a custom certificate to be served by the CDN when calling the custom domain. Will use a managed certificate when omitted */
 export type PutCustomDomainResponseCertificate =
@@ -2422,9 +2348,7 @@ export const PutCustomDomainResponse = /*@__PURE__*/ S.suspend(() =>
     certificate: S.optional(PutCustomDomainResponseCertificate),
     customDomain: CustomDomain,
   }),
-).annotate({
-  identifier: "PutCustomDomainResponse",
-}) as any as S.Schema<PutCustomDomainResponse>;
+).annotate({ identifier: "PutCustomDomainResponse" }) as any as S.Schema<PutCustomDomainResponse>;
 
 export type CreateDistributionError = BadRequest | UnprocessableEntity | StackitOpError;
 /** Create new distribution CreateDistribution will create a new CDN distribution */

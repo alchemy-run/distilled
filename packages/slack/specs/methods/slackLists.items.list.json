@@ -21,7 +21,8 @@
       "token": {
         "desc": "Token with which to authenticate the session.",
         "type": "string",
-        "subtype": "auth"
+        "subtype": "auth",
+        "example": "xxxx-xxxxxxxxx-xxxx"
       },
       "list_id": {
         "desc": "ID of the List.",
@@ -46,6 +47,12 @@
         "type": "boolean",
         "default": false,
         "example": "true"
+      },
+      "include_list": {
+        "desc": "Set to `true` to also return the parent `list` object, including its title, column schema, and total row count. Defaults to `false` to keep the response small.",
+        "type": "boolean",
+        "default": false,
+        "example": "true"
       }
     }
   },
@@ -64,6 +71,10 @@
       },
       "response_metadata": {
         "schema": "response_metadata_new"
+      },
+      "list": {
+        "desc": "The parent list. Only returned when `include_list` is `true`. `list_limits` carries `row_count` and no other key: the number of items matching this request's `archived` value, counting Slack-suggested items that `items` itself does not return, so it can exceed the number of items you can page through. Sharing and access fields (`channels`, `groups`, `ims`, `access`) are omitted; call `files.info` if you need those or the full set of list limits.",
+        "schema": ""
       }
     }
   },
@@ -83,5 +94,6 @@
     "archive_not_supported": {
       "desc": "Archiving is not supported."
     }
-  }
+  },
+  "json_input_supported": true
 }

@@ -82,7 +82,7 @@ export const CreateAuthenticationRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** The current status of the authentication definition. */
 export type AuthenticationStatus = "Creating" | "Updating" | "Deleting" | "Ready" | "Error";
-export const AuthenticationStatus = /*@__PURE__*/ S.String;
+export const AuthenticationStatus = S.String;
 
 /** Describes an authentication definition associated to a STACKIT Git instance. The provider type will be an openidConnect type. */
 export interface Authentication {
@@ -127,7 +127,7 @@ export type Acl = Array<string>;
 export const Acl = /*@__PURE__*/ S.Array(S.String) as any as S.Schema<Acl>;
 
 export type CreateInstanceRequestFlavor = "git-10" | "git-100";
-export const CreateInstanceRequestFlavor = /*@__PURE__*/ S.String;
+export const CreateInstanceRequestFlavor = S.String;
 
 export interface CreateInstanceRequest {
   /** Project identifier. */
@@ -151,9 +151,7 @@ export const CreateInstanceRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://git.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "CreateInstanceRequest",
-}) as any as S.Schema<CreateInstanceRequest>;
+).annotate({ identifier: "CreateInstanceRequest" }) as any as S.Schema<CreateInstanceRequest>;
 
 /** Restricted ACL for instance access. */
 export type InstanceAclList = Array<string>;
@@ -165,7 +163,7 @@ export type FeatureToggleDefaultEmailNotifications =
   | "disabled"
   | "onmention"
   | "andyourown";
-export const FeatureToggleDefaultEmailNotifications = /*@__PURE__*/ S.String;
+export const FeatureToggleDefaultEmailNotifications = S.String;
 
 /** Feature toggles for instance pipelines */
 export interface Pipelines {
@@ -209,7 +207,7 @@ export type InstanceState =
   | "Deleting"
   | "Ready"
   | "Error";
-export const InstanceState = /*@__PURE__*/ S.String;
+export const InstanceState = S.String;
 
 /** Describes a STACKIT Git instance. */
 export interface Instance {
@@ -281,9 +279,7 @@ export const CreateRunnerRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://git.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "CreateRunnerRequest",
-}) as any as S.Schema<CreateRunnerRequest>;
+).annotate({ identifier: "CreateRunnerRequest" }) as any as S.Schema<CreateRunnerRequest>;
 
 export type RunnerLabelsList = Array<string>;
 export const RunnerLabelsList = /*@__PURE__*/ S.Array(
@@ -340,9 +336,7 @@ export const CreateUserRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://git.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "CreateUserRequest",
-}) as any as S.Schema<CreateUserRequest>;
+).annotate({ identifier: "CreateUserRequest" }) as any as S.Schema<CreateUserRequest>;
 
 /** Describes a STACKIT Git instance User. */
 export interface User {
@@ -412,9 +406,7 @@ export const DeleteInstanceRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://git.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "DeleteInstanceRequest",
-}) as any as S.Schema<DeleteInstanceRequest>;
+).annotate({ identifier: "DeleteInstanceRequest" }) as any as S.Schema<DeleteInstanceRequest>;
 
 export interface DeleteInstanceResponse {}
 export const DeleteInstanceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -439,9 +431,7 @@ export const DeleteRunnerRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://git.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "DeleteRunnerRequest",
-}) as any as S.Schema<DeleteRunnerRequest>;
+).annotate({ identifier: "DeleteRunnerRequest" }) as any as S.Schema<DeleteRunnerRequest>;
 
 export interface DeleteRunnerResponse {}
 export const DeleteRunnerResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -469,9 +459,7 @@ export const DeleteUserRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://git.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "DeleteUserRequest",
-}) as any as S.Schema<DeleteUserRequest>;
+).annotate({ identifier: "DeleteUserRequest" }) as any as S.Schema<DeleteUserRequest>;
 
 export interface DeleteUserResponse {}
 export const DeleteUserResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -499,9 +487,7 @@ export const GetAuthenticationRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://git.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "GetAuthenticationRequest",
-}) as any as S.Schema<GetAuthenticationRequest>;
+).annotate({ identifier: "GetAuthenticationRequest" }) as any as S.Schema<GetAuthenticationRequest>;
 
 export interface GetInstanceRequest {
   /** Project identifier. */
@@ -521,9 +507,7 @@ export const GetInstanceRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://git.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "GetInstanceRequest",
-}) as any as S.Schema<GetInstanceRequest>;
+).annotate({ identifier: "GetInstanceRequest" }) as any as S.Schema<GetInstanceRequest>;
 
 export interface GetRunnerRequest {
   /** Project identifier. */
@@ -543,9 +527,7 @@ export const GetRunnerRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://git.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "GetRunnerRequest",
-}) as any as S.Schema<GetRunnerRequest>;
+).annotate({ identifier: "GetRunnerRequest" }) as any as S.Schema<GetRunnerRequest>;
 
 export interface GetUserRequest {
   /** Project identifier. */
@@ -596,9 +578,7 @@ export const GetUsersRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://git.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "GetUsersRequest",
-}) as any as S.Schema<GetUsersRequest>;
+).annotate({ identifier: "GetUsersRequest" }) as any as S.Schema<GetUsersRequest>;
 
 export type ListUsersUsersList = Array<User>;
 export const ListUsersUsersList = /*@__PURE__*/ S.Array(
@@ -659,9 +639,7 @@ export const AuthenticationList = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     authentication: AuthenticationListAuthenticationList,
   }),
-).annotate({
-  identifier: "AuthenticationList",
-}) as any as S.Schema<AuthenticationList>;
+).annotate({ identifier: "AuthenticationList" }) as any as S.Schema<AuthenticationList>;
 
 export interface ListFlavorsRequest {
   /** Project identifier. */
@@ -678,13 +656,11 @@ export const ListFlavorsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://git.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "ListFlavorsRequest",
-}) as any as S.Schema<ListFlavorsRequest>;
+).annotate({ identifier: "ListFlavorsRequest" }) as any as S.Schema<ListFlavorsRequest>;
 
 /** Defines the flavor availability. */
 export type FlavorAvailability = "available" | "unavailable" | "internal" | "deprecated";
-export const FlavorAvailability = /*@__PURE__*/ S.String;
+export const FlavorAvailability = S.String;
 
 /** Describes a STACKIT Git Flavor. */
 export interface Flavor {
@@ -739,9 +715,7 @@ export const ListInstancesRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://git.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "ListInstancesRequest",
-}) as any as S.Schema<ListInstancesRequest>;
+).annotate({ identifier: "ListInstancesRequest" }) as any as S.Schema<ListInstancesRequest>;
 
 export type ListInstancesInstancesList = Array<Instance>;
 export const ListInstancesInstancesList = /*@__PURE__*/ S.Array(
@@ -813,9 +787,7 @@ export const RunnerRuntimeList = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     items: RunnerRuntimeListItemsList,
   }),
-).annotate({
-  identifier: "RunnerRuntimeList",
-}) as any as S.Schema<RunnerRuntimeList>;
+).annotate({ identifier: "RunnerRuntimeList" }) as any as S.Schema<RunnerRuntimeList>;
 
 export interface PatchAuthenticationRequest {
   /** Project identifier. */
@@ -887,9 +859,7 @@ export const PatchInstanceRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://git.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "PatchInstanceRequest",
-}) as any as S.Schema<PatchInstanceRequest>;
+).annotate({ identifier: "PatchInstanceRequest" }) as any as S.Schema<PatchInstanceRequest>;
 
 export interface UpdateUserRequest {
   /** Project identifier. */
@@ -921,9 +891,7 @@ export const UpdateUserRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://git.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "UpdateUserRequest",
-}) as any as S.Schema<UpdateUserRequest>;
+).annotate({ identifier: "UpdateUserRequest" }) as any as S.Schema<UpdateUserRequest>;
 
 export type CreateAuthenticationError = BadRequest | NotFound | Conflict | StackitOpError;
 /** Creates an authentication source Creates an authentication source for the corresponding STACKIT Git instance */

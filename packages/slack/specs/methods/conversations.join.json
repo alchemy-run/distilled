@@ -74,6 +74,9 @@
     },
     "too_many_members": {
       "desc": "The membership in the channel has exceeded our maximum member limit. No more users can join the channel."
+    },
+    "app_cannot_join_channel": {
+      "desc": "This app cannot join this channel."
     }
   }
 }

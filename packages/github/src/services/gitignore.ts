@@ -10,9 +10,7 @@ export type { GithubOpError, GithubOpContext };
 export interface GetAllTemplatesRequest {}
 export const GetAllTemplatesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/gitignore/templates", code: 200 })),
-).annotate({
-  identifier: "GetAllTemplatesRequest",
-}) as any as S.Schema<GetAllTemplatesRequest>;
+).annotate({ identifier: "GetAllTemplatesRequest" }) as any as S.Schema<GetAllTemplatesRequest>;
 
 export type GetAllTemplatesResponseBodyList = Array<string>;
 export const GetAllTemplatesResponseBodyList = /*@__PURE__*/ S.Array(
@@ -22,9 +20,7 @@ export const GetAllTemplatesResponseBodyList = /*@__PURE__*/ S.Array(
 export type GetAllTemplatesResponse = GetAllTemplatesResponseBodyList;
 export const GetAllTemplatesResponse = /*@__PURE__*/ S.suspend(() =>
   GetAllTemplatesResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "GetAllTemplatesResponse",
-}) as any as S.Schema<GetAllTemplatesResponse>;
+).annotate({ identifier: "GetAllTemplatesResponse" }) as any as S.Schema<GetAllTemplatesResponse>;
 
 export interface GetTemplateRequest {
   name: string;
@@ -33,9 +29,7 @@ export const GetTemplateRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/gitignore/templates/{name}", code: 200 })),
-).annotate({
-  identifier: "GetTemplateRequest",
-}) as any as S.Schema<GetTemplateRequest>;
+).annotate({ identifier: "GetTemplateRequest" }) as any as S.Schema<GetTemplateRequest>;
 
 /** Gitignore Template */
 export interface GitignoreTemplate {
@@ -47,9 +41,7 @@ export const GitignoreTemplate = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     source: S.String,
   }),
-).annotate({
-  identifier: "GitignoreTemplate",
-}) as any as S.Schema<GitignoreTemplate>;
+).annotate({ identifier: "GitignoreTemplate" }) as any as S.Schema<GitignoreTemplate>;
 
 export type GetAllTemplatesError = GithubOpError;
 /** Get all gitignore templates List all templates available to pass as an option when [creating a repository](https://docs.github.com/rest/repos/repos#create-a-repository-for-the-authenticated-user). */

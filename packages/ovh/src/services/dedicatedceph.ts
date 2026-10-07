@@ -55,11 +55,7 @@ export const ConfirmDedicatedCephTerminationRequest = /*@__PURE__*/ S.suspend(()
     reason: S.optional(ServiceTerminationReasonEnum),
     token: S.String,
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/dedicated/ceph/{serviceName}/confirmTermination",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/dedicated/ceph/{serviceName}/confirmTermination", code: 200 }),
   ),
 ).annotate({
   identifier: "ConfirmDedicatedCephTerminationRequest",
@@ -88,13 +84,7 @@ export const CreateDedicatedCephAclRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     aclList: CreateDedicatedCephAclRequestAclListList,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/dedicated/ceph/{serviceName}/acl",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/dedicated/ceph/{serviceName}/acl", code: 200 })),
 ).annotate({
   identifier: "CreateDedicatedCephAclRequest",
 }) as any as S.Schema<CreateDedicatedCephAclRequest>;
@@ -123,11 +113,7 @@ export const CreateDedicatedCephChangeContactRequest = /*@__PURE__*/ S.suspend((
     contactBilling: S.optional(S.String),
     contactTech: S.optional(S.String),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/dedicated/ceph/{serviceName}/changeContact",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/dedicated/ceph/{serviceName}/changeContact", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateDedicatedCephChangeContactRequest",
@@ -156,13 +142,7 @@ export const CreateDedicatedCephPoolRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     poolName: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/dedicated/ceph/{serviceName}/pool",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/dedicated/ceph/{serviceName}/pool", code: 200 })),
 ).annotate({
   identifier: "CreateDedicatedCephPoolRequest",
 }) as any as S.Schema<CreateDedicatedCephPoolRequest>;
@@ -184,13 +164,7 @@ export const CreateDedicatedCephPoolErasureRequest = /*@__PURE__*/ S.suspend(() 
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     poolName: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/dedicated/ceph/{serviceName}/poolErasure",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/dedicated/ceph/{serviceName}/poolErasure", code: 200 })),
 ).annotate({
   identifier: "CreateDedicatedCephPoolErasureRequest",
 }) as any as S.Schema<CreateDedicatedCephPoolErasureRequest>;
@@ -247,9 +221,7 @@ export const DedicatedCephRgwAcl = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     networks: DedicatedCephRgwAclNetworksList,
   }),
-).annotate({
-  identifier: "DedicatedCephRgwAcl",
-}) as any as S.Schema<DedicatedCephRgwAcl>;
+).annotate({ identifier: "DedicatedCephRgwAcl" }) as any as S.Schema<DedicatedCephRgwAcl>;
 
 export interface CreateDedicatedCephUserRequest {
   /** Service name */
@@ -261,13 +233,7 @@ export const CreateDedicatedCephUserRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     userName: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/dedicated/ceph/{serviceName}/user",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/dedicated/ceph/{serviceName}/user", code: 200 })),
 ).annotate({
   identifier: "CreateDedicatedCephUserRequest",
 }) as any as S.Schema<CreateDedicatedCephUserRequest>;
@@ -356,11 +322,7 @@ export const DeleteDedicatedCephAclRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     aclId: S.Number.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/dedicated/ceph/{serviceName}/acl/{aclId}",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/dedicated/ceph/{serviceName}/acl/{aclId}", code: 200 }),
   ),
 ).annotate({
   identifier: "DeleteDedicatedCephAclRequest",
@@ -384,11 +346,7 @@ export const DeleteDedicatedCephCephfRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     fsName: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/dedicated/ceph/{serviceName}/cephfs/{fsName}",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/dedicated/ceph/{serviceName}/cephfs/{fsName}", code: 200 }),
   ),
 ).annotate({
   identifier: "DeleteDedicatedCephCephfRequest",
@@ -412,11 +370,7 @@ export const DeleteDedicatedCephPoolRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     poolName: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/dedicated/ceph/{serviceName}/pool/{poolName}",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/dedicated/ceph/{serviceName}/pool/{poolName}", code: 200 }),
   ),
 ).annotate({
   identifier: "DeleteDedicatedCephPoolRequest",
@@ -440,11 +394,7 @@ export const DeleteDedicatedCephUserRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     userName: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/dedicated/ceph/{serviceName}/user/{userName}",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/dedicated/ceph/{serviceName}/user/{userName}", code: 200 }),
   ),
 ).annotate({
   identifier: "DeleteDedicatedCephUserRequest",
@@ -552,9 +502,7 @@ export const GetDedicatedCephRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/dedicated/ceph/{serviceName}", code: 200 })),
-).annotate({
-  identifier: "GetDedicatedCephRequest",
-}) as any as S.Schema<GetDedicatedCephRequest>;
+).annotate({ identifier: "GetDedicatedCephRequest" }) as any as S.Schema<GetDedicatedCephRequest>;
 
 /** List of CEPH monitor IPs */
 export type DedicatedCephClusterGetResponseWithIAMCephMonsList = Array<string>;
@@ -599,9 +547,7 @@ export const IamResourceMetadata = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(S.NullOr(IamResourceMetadataTagsMap)),
     urn: S.optional(S.String),
   }),
-).annotate({
-  identifier: "IamResourceMetadata",
-}) as any as S.Schema<IamResourceMetadata>;
+).annotate({ identifier: "IamResourceMetadata" }) as any as S.Schema<IamResourceMetadata>;
 
 /** State of cluster */
 export type DedicatedCephClusterGetResponseStateEnum = "ACTIVE" | "SUSPENDED";
@@ -672,13 +618,7 @@ export const GetDedicatedCephAclRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     aclId: S.Number.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/dedicated/ceph/{serviceName}/acl/{aclId}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/dedicated/ceph/{serviceName}/acl/{aclId}", code: 200 })),
 ).annotate({
   identifier: "GetDedicatedCephAclRequest",
 }) as any as S.Schema<GetDedicatedCephAclRequest>;
@@ -720,11 +660,7 @@ export const GetDedicatedCephCephfRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     fsName: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/dedicated/ceph/{serviceName}/cephfs/{fsName}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/dedicated/ceph/{serviceName}/cephfs/{fsName}", code: 200 }),
   ),
 ).annotate({
   identifier: "GetDedicatedCephCephfRequest",
@@ -753,13 +689,7 @@ export interface GetDedicatedCephHealthRequest {
 export const GetDedicatedCephHealthRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/dedicated/ceph/{serviceName}/health",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/dedicated/ceph/{serviceName}/health", code: 200 })),
 ).annotate({
   identifier: "GetDedicatedCephHealthRequest",
 }) as any as S.Schema<GetDedicatedCephHealthRequest>;
@@ -803,11 +733,7 @@ export const GetDedicatedCephPoolRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     poolName: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/dedicated/ceph/{serviceName}/pool/{poolName}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/dedicated/ceph/{serviceName}/pool/{poolName}", code: 200 }),
   ),
 ).annotate({
   identifier: "GetDedicatedCephPoolRequest",
@@ -856,11 +782,7 @@ export const GetDedicatedCephRadosGatewayRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     name: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/dedicated/ceph/{serviceName}/radosGateway/{name}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/dedicated/ceph/{serviceName}/radosGateway/{name}", code: 200 }),
   ),
 ).annotate({
   identifier: "GetDedicatedCephRadosGatewayRequest",
@@ -878,9 +800,7 @@ export const DedicatedCephRgwResponse = /*@__PURE__*/ S.suspend(() =>
     enabled: S.optional(S.Boolean),
     name: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DedicatedCephRgwResponse",
-}) as any as S.Schema<DedicatedCephRgwResponse>;
+).annotate({ identifier: "DedicatedCephRgwResponse" }) as any as S.Schema<DedicatedCephRgwResponse>;
 
 export interface GetDedicatedCephServiceInfosRequest {
   /** Service name */
@@ -889,13 +809,7 @@ export interface GetDedicatedCephServiceInfosRequest {
 export const GetDedicatedCephServiceInfosRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/dedicated/ceph/{serviceName}/serviceInfos",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/dedicated/ceph/{serviceName}/serviceInfos", code: 200 })),
 ).annotate({
   identifier: "GetDedicatedCephServiceInfosRequest",
 }) as any as S.Schema<GetDedicatedCephServiceInfosRequest>;
@@ -927,9 +841,7 @@ export const ServiceRenewType = /*@__PURE__*/ S.suspend(() =>
     manualPayment: S.optional(S.NullOr(S.Boolean)),
     period: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "ServiceRenewType",
-}) as any as S.Schema<ServiceRenewType>;
+).annotate({ identifier: "ServiceRenewType" }) as any as S.Schema<ServiceRenewType>;
 
 /** Detailed renewal type of a service */
 export type ServiceRenewalTypeEnum =
@@ -987,9 +899,7 @@ export const ServicesService = /*@__PURE__*/ S.suspend(() =>
     serviceId: S.optional(S.Number),
     status: S.optional(ServiceStateEnum),
   }),
-).annotate({
-  identifier: "ServicesService",
-}) as any as S.Schema<ServicesService>;
+).annotate({ identifier: "ServicesService" }) as any as S.Schema<ServicesService>;
 
 export interface GetDedicatedCephTaskRequest {
   /** Service name */
@@ -1001,13 +911,7 @@ export const GetDedicatedCephTaskRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     taskId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/dedicated/ceph/{serviceName}/task/{taskId}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/dedicated/ceph/{serviceName}/task/{taskId}", code: 200 })),
 ).annotate({
   identifier: "GetDedicatedCephTaskRequest",
 }) as any as S.Schema<GetDedicatedCephTaskRequest>;
@@ -1064,11 +968,7 @@ export const GetDedicatedCephUserRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     userName: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/dedicated/ceph/{serviceName}/user/{userName}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/dedicated/ceph/{serviceName}/user/{userName}", code: 200 }),
   ),
 ).annotate({
   identifier: "GetDedicatedCephUserRequest",
@@ -1129,9 +1029,7 @@ export const ListDedicatedCephRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     iamTags: S.optional(ListDedicatedCephRequestIamTagsMap.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/dedicated/ceph", code: 200 })),
-).annotate({
-  identifier: "ListDedicatedCephRequest",
-}) as any as S.Schema<ListDedicatedCephRequest>;
+).annotate({ identifier: "ListDedicatedCephRequest" }) as any as S.Schema<ListDedicatedCephRequest>;
 
 export type ListDedicatedCephResponseBodyList = Array<string>;
 export const ListDedicatedCephResponseBodyList = /*@__PURE__*/ S.Array(
@@ -1152,13 +1050,7 @@ export interface ListDedicatedCephAclRequest {
 export const ListDedicatedCephAclRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/dedicated/ceph/{serviceName}/acl",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/dedicated/ceph/{serviceName}/acl", code: 200 })),
 ).annotate({
   identifier: "ListDedicatedCephAclRequest",
 }) as any as S.Schema<ListDedicatedCephAclRequest>;
@@ -1182,13 +1074,7 @@ export interface ListDedicatedCephCephfsRequest {
 export const ListDedicatedCephCephfsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/dedicated/ceph/{serviceName}/cephfs",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/dedicated/ceph/{serviceName}/cephfs", code: 200 })),
 ).annotate({
   identifier: "ListDedicatedCephCephfsRequest",
 }) as any as S.Schema<ListDedicatedCephCephfsRequest>;
@@ -1212,13 +1098,7 @@ export interface ListDedicatedCephPoolRequest {
 export const ListDedicatedCephPoolRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/dedicated/ceph/{serviceName}/pool",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/dedicated/ceph/{serviceName}/pool", code: 200 })),
 ).annotate({
   identifier: "ListDedicatedCephPoolRequest",
 }) as any as S.Schema<ListDedicatedCephPoolRequest>;
@@ -1242,13 +1122,7 @@ export interface ListDedicatedCephRadosGatewayRequest {
 export const ListDedicatedCephRadosGatewayRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/dedicated/ceph/{serviceName}/radosGateway",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/dedicated/ceph/{serviceName}/radosGateway", code: 200 })),
 ).annotate({
   identifier: "ListDedicatedCephRadosGatewayRequest",
 }) as any as S.Schema<ListDedicatedCephRadosGatewayRequest>;
@@ -1293,13 +1167,7 @@ export interface ListDedicatedCephTaskRequest {
 export const ListDedicatedCephTaskRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/dedicated/ceph/{serviceName}/task",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/dedicated/ceph/{serviceName}/task", code: 200 })),
 ).annotate({
   identifier: "ListDedicatedCephTaskRequest",
 }) as any as S.Schema<ListDedicatedCephTaskRequest>;
@@ -1339,13 +1207,7 @@ export interface ListDedicatedCephUserRequest {
 export const ListDedicatedCephUserRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/dedicated/ceph/{serviceName}/user",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/dedicated/ceph/{serviceName}/user", code: 200 })),
 ).annotate({
   identifier: "ListDedicatedCephUserRequest",
 }) as any as S.Schema<ListDedicatedCephUserRequest>;
@@ -1373,11 +1235,7 @@ export const ListDedicatedCephUserPoolRequest = /*@__PURE__*/ S.suspend(() =>
     serviceName: S.String.pipe(T.Label()),
     userName: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/dedicated/ceph/{serviceName}/user/{userName}/pool",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/dedicated/ceph/{serviceName}/user/{userName}/pool", code: 200 }),
   ),
 ).annotate({
   identifier: "ListDedicatedCephUserPoolRequest",
@@ -1426,16 +1284,12 @@ export const PutDedicatedCephRequest = /*@__PURE__*/ S.suspend(() =>
     crushTunables: DedicatedCephClusterUpdateCrushTunablesEnum,
     label: S.String,
   }).pipe(T.Http({ method: "PUT", uri: "/dedicated/ceph/{serviceName}", code: 200 })),
-).annotate({
-  identifier: "PutDedicatedCephRequest",
-}) as any as S.Schema<PutDedicatedCephRequest>;
+).annotate({ identifier: "PutDedicatedCephRequest" }) as any as S.Schema<PutDedicatedCephRequest>;
 
 export type PutDedicatedCephResponse = string;
 export const PutDedicatedCephResponse = /*@__PURE__*/ S.suspend(() =>
   S.String.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "PutDedicatedCephResponse",
-}) as any as S.Schema<PutDedicatedCephResponse>;
+).annotate({ identifier: "PutDedicatedCephResponse" }) as any as S.Schema<PutDedicatedCephResponse>;
 
 export interface PutDedicatedCephPoolAllowDeletionRequest {
   /** Service name */
@@ -1505,13 +1359,7 @@ export const PutDedicatedCephServiceInfosRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
     renew: S.optional(S.NullOr(ServiceRenewType)),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/dedicated/ceph/{serviceName}/serviceInfos",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/dedicated/ceph/{serviceName}/serviceInfos", code: 200 })),
 ).annotate({
   identifier: "PutDedicatedCephServiceInfosRequest",
 }) as any as S.Schema<PutDedicatedCephServiceInfosRequest>;
@@ -1552,11 +1400,7 @@ export const PutDedicatedCephUserPoolRequest = /*@__PURE__*/ S.suspend(() =>
     read: S.Boolean,
     write: S.Boolean,
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/dedicated/ceph/{serviceName}/user/{userName}/pool",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/dedicated/ceph/{serviceName}/user/{userName}/pool", code: 200 }),
   ),
 ).annotate({
   identifier: "PutDedicatedCephUserPoolRequest",
@@ -1576,13 +1420,7 @@ export interface TerminateDedicatedCephRequest {
 export const TerminateDedicatedCephRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/dedicated/ceph/{serviceName}/terminate",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/dedicated/ceph/{serviceName}/terminate", code: 200 })),
 ).annotate({
   identifier: "TerminateDedicatedCephRequest",
 }) as any as S.Schema<TerminateDedicatedCephRequest>;

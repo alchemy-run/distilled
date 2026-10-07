@@ -14,8 +14,7 @@
     "required": [
       "token",
       "channel",
-      "ts",
-      "markdown_text"
+      "ts"
     ],
     "properties": {
       "token": {
@@ -170,6 +169,18 @@
     },
     "message_not_owned_by_app": {
       "desc": "The message is not owned by the app."
+    },
+    "markdown_text_required": {
+      "desc": "Missing required field: 'markdown_text'"
+    },
+    "markdown_text_or_chunks_required": {
+      "desc": "One of 'markdown_text' or 'chunks' is required"
+    },
+    "streaming_mode_mismatch": {
+      "desc": "The streaming mode must be the same as the streaming mode used to start the stream. If you started the stream with `markdown_text`, you must append with `markdown_text`. If you started the stream with `chunks`, you must append with `chunks`."
+    },
+    "cannot_provide_both_markdown_text_and_chunks": {
+      "desc": "Cannot provide both `markdown_text` and `chunks` in the same request."
     }
   },
   "warnings": {

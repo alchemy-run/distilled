@@ -56,9 +56,7 @@ export const CreateDmMemberRequest = /*@__PURE__*/ S.suspend(() =>
     channel_id: S.String,
     user_id: S.String,
   }).pipe(T.Http({ method: "POST", uri: "/dm_members", code: 200 })),
-).annotate({
-  identifier: "CreateDmMemberRequest",
-}) as any as S.Schema<CreateDmMemberRequest>;
+).annotate({ identifier: "CreateDmMemberRequest" }) as any as S.Schema<CreateDmMemberRequest>;
 
 /** The notification preferences for a DMs feed member */
 export type DmsFeedMemberNotificationPreferences = "all" | "mentions" | "none";
@@ -102,16 +100,12 @@ export const DeleteDmMemberRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "DELETE", uri: "/dm_members/{id}", code: 200 })),
-).annotate({
-  identifier: "DeleteDmMemberRequest",
-}) as any as S.Schema<DeleteDmMemberRequest>;
+).annotate({ identifier: "DeleteDmMemberRequest" }) as any as S.Schema<DeleteDmMemberRequest>;
 
 export type DeleteDmMemberResponse = boolean;
 export const DeleteDmMemberResponse = /*@__PURE__*/ S.suspend(() =>
   S.Boolean.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "DeleteDmMemberResponse",
-}) as any as S.Schema<DeleteDmMemberResponse>;
+).annotate({ identifier: "DeleteDmMemberResponse" }) as any as S.Schema<DeleteDmMemberResponse>;
 
 export interface GetDmMemberRequest {
   /** The unique identifier of the DM channel member to retrieve. */
@@ -121,9 +115,7 @@ export const GetDmMemberRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/dm_members/{id}", code: 200 })),
-).annotate({
-  identifier: "GetDmMemberRequest",
-}) as any as S.Schema<GetDmMemberRequest>;
+).annotate({ identifier: "GetDmMemberRequest" }) as any as S.Schema<GetDmMemberRequest>;
 
 export interface ListDmMemberRequest {
   after?: string;
@@ -140,9 +132,7 @@ export const ListDmMemberRequest = /*@__PURE__*/ S.suspend(() =>
     last: S.optional(S.Number.pipe(T.Query())),
     channel_id: S.String.pipe(T.Query()),
   }).pipe(T.Http({ method: "GET", uri: "/dm_members", code: 200 })),
-).annotate({
-  identifier: "ListDmMemberRequest",
-}) as any as S.Schema<ListDmMemberRequest>;
+).annotate({ identifier: "ListDmMemberRequest" }) as any as S.Schema<ListDmMemberRequest>;
 
 /** A user's membership record in a messaging channel, including notification preferences and read state. */
 export interface DmMemberListItem {
@@ -165,9 +155,7 @@ export const DmMemberListItem = /*@__PURE__*/ S.suspend(() =>
     status: DmsFeedMemberStatuses,
     user_id: S.String,
   }),
-).annotate({
-  identifier: "DmMemberListItem",
-}) as any as S.Schema<DmMemberListItem>;
+).annotate({ identifier: "DmMemberListItem" }) as any as S.Schema<DmMemberListItem>;
 
 /** A list of nodes. */
 export type ListDmMemberResponseDataList = Array<DmMemberListItem>;
@@ -206,9 +194,7 @@ export const ListDmMemberResponse = /*@__PURE__*/ S.suspend(() =>
     data: ListDmMemberResponseDataList,
     page_info: PageInfo,
   }),
-).annotate({
-  identifier: "ListDmMemberResponse",
-}) as any as S.Schema<ListDmMemberResponse>;
+).annotate({ identifier: "ListDmMemberResponse" }) as any as S.Schema<ListDmMemberResponse>;
 
 export interface UpdateDmMemberRequest {
   /** The unique identifier of the DM channel member to update. */
@@ -224,9 +210,7 @@ export const UpdateDmMemberRequest = /*@__PURE__*/ S.suspend(() =>
     notification_preference: S.optional(S.NullOr(DmsFeedMemberNotificationPreferences)),
     status: S.optional(S.NullOr(DmsFeedMemberStatuses)),
   }).pipe(T.Http({ method: "PATCH", uri: "/dm_members/{id}", code: 200 })),
-).annotate({
-  identifier: "UpdateDmMemberRequest",
-}) as any as S.Schema<UpdateDmMemberRequest>;
+).annotate({ identifier: "UpdateDmMemberRequest" }) as any as S.Schema<UpdateDmMemberRequest>;
 
 export type CreateDmMemberError =
   | BadRequest

@@ -1,0 +1,5730 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "service": "integrations",
+    "version": "v2",
+    "title": "Application Integration API",
+    "baseUrl": "https://integrations.googleapis.com/",
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.gcp.integrations_v2#GoogleCloudIntegrationsV2DuetBooleanParameterArray": {
+      "type": "structure",
+      "members": {
+        "booleanValues": {
+          "target": "com.gcp.integrations_v2#BooleanList",
+          "traits": {
+            "smithy.api#documentation": "Boolean array."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "This message only contains a field of boolean array."
+      }
+    },
+    "com.gcp.integrations_v2#BooleanList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Boolean"
+      }
+    },
+    "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoProtoParameterArray": {
+      "type": "structure",
+      "members": {
+        "protoValues": {
+          "target": "com.gcp.integrations_v2#DocumentMapList"
+        }
+      }
+    },
+    "com.gcp.integrations_v2#DocumentMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      }
+    },
+    "com.gcp.integrations_v2#DocumentMapList": {
+      "type": "list",
+      "member": {
+        "target": "com.gcp.integrations_v2#DocumentMap"
+      }
+    },
+    "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoMappedField": {
+      "type": "structure",
+      "members": {
+        "outputField": {
+          "target": "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoField",
+          "traits": {
+            "smithy.api#documentation": "The output field being mapped to."
+          }
+        },
+        "inputField": {
+          "target": "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoField",
+          "traits": {
+            "smithy.api#documentation": "The input field being mapped from."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Mapped field is a pair of input field and output field."
+      }
+    },
+    "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoIntFunction": {
+      "type": "structure",
+      "members": {
+        "functionName": {
+          "target": "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoIntFunctionFunctionNameEnum"
+        }
+      }
+    },
+    "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoIntFunctionFunctionNameEnum": {
+      "type": "enum",
+      "members": {
+        "UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "UNSPECIFIED"
+          }
+        },
+        "ADD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ADD"
+          }
+        },
+        "SUBTRACT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SUBTRACT"
+          }
+        },
+        "MULTIPLY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "MULTIPLY"
+          }
+        },
+        "DIVIDE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "DIVIDE"
+          }
+        },
+        "EXPONENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "EXPONENT"
+          }
+        },
+        "GREATER_THAN_EQUAL_TO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "GREATER_THAN_EQUAL_TO"
+          }
+        },
+        "GREATER_THAN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "GREATER_THAN"
+          }
+        },
+        "LESS_THAN_EQUAL_TO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "LESS_THAN_EQUAL_TO"
+          }
+        },
+        "LESS_THAN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "LESS_THAN"
+          }
+        },
+        "TO_DOUBLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "TO_DOUBLE"
+          }
+        },
+        "TO_STRING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "TO_STRING"
+          }
+        },
+        "EQUALS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "EQUALS"
+          }
+        },
+        "TO_JSON": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "TO_JSON"
+          }
+        },
+        "MOD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "MOD"
+          }
+        },
+        "EPOCH_TO_HUMAN_READABLE_TIME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "EPOCH_TO_HUMAN_READABLE_TIME"
+          }
+        }
+      }
+    },
+    "com.gcp.integrations_v2#GoogleCloudIntegrationsV2DuetJavascriptRecommendation": {
+      "type": "structure",
+      "members": {
+        "explanation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The explanation of the Javascript code."
+          }
+        },
+        "taskConfig": {
+          "target": "com.gcp.integrations_v2#GoogleCloudIntegrationsV2DuetTaskConfig",
+          "traits": {
+            "smithy.api#documentation": "Optional. The task config of the Javascript task."
+          }
+        },
+        "integrationParameters": {
+          "target": "com.gcp.integrations_v2#GoogleCloudIntegrationsV2DuetIntegrationParameterList",
+          "traits": {
+            "smithy.api#documentation": "Optional. The list of the new integration parameters."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Individual Javascript recommendation containing the task config with the new code, integration parameters and the explanation."
+      }
+    },
+    "com.gcp.integrations_v2#GoogleCloudIntegrationsV2DuetIntegrationParameterList": {
+      "type": "list",
+      "member": {
+        "target": "com.gcp.integrations_v2#GoogleCloudIntegrationsV2DuetIntegrationParameter"
+      }
+    },
+    "com.gcp.integrations_v2#EnterpriseCrmFrontendsEventbusProtoParameterMap": {
+      "type": "structure",
+      "members": {
+        "valueType": {
+          "target": "com.gcp.integrations_v2#EnterpriseCrmFrontendsEventbusProtoParameterMapValueTypeEnum"
+        },
+        "entries": {
+          "target": "com.gcp.integrations_v2#EnterpriseCrmFrontendsEventbusProtoParameterMapEntryList"
+        },
+        "keyType": {
+          "target": "com.gcp.integrations_v2#EnterpriseCrmFrontendsEventbusProtoParameterMapKeyTypeEnum",
+          "traits": {
+            "smithy.api#documentation": "Option to specify key value type for all entries of the map. If provided then field types for all entries must conform to this."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A generic multi-map that holds key value pairs. They keys and values can be of any type, unless specified."
+      }
+    },
+    "com.gcp.integrations_v2#EnterpriseCrmFrontendsEventbusProtoParameterMapValueTypeEnum": {
+      "type": "enum",
+      "members": {
+        "DATA_TYPE_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "DATA_TYPE_UNSPECIFIED"
+          }
+        },
+        "STRING_VALUE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "STRING_VALUE"
+          }
+        },
+        "INT_VALUE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "INT_VALUE"
+          }
+        },
+        "DOUBLE_VALUE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "DOUBLE_VALUE"
+          }
+        },
+        "BOOLEAN_VALUE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "BOOLEAN_VALUE"
+          }
+        },
+        "PROTO_VALUE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PROTO_VALUE"
+          }
+        },
+        "SERIALIZED_OBJECT_VALUE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SERIALIZED_OBJECT_VALUE"
+          }
+        },
+        "STRING_ARRAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "STRING_ARRAY"
+          }
+        },
+        "INT_ARRAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "INT_ARRAY"
+          }
+        },
+        "DOUBLE_ARRAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "DOUBLE_ARRAY"
+          }
+        },
+        "PROTO_ARRAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PROTO_ARRAY"
+          }
+        },
+        "PROTO_ENUM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PROTO_ENUM"
+          }
+        },
+        "BOOLEAN_ARRAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "BOOLEAN_ARRAY"
+          }
+        },
+        "PROTO_ENUM_ARRAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PROTO_ENUM_ARRAY"
+          }
+        },
+        "BYTES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "BYTES"
+          }
+        },
+        "BYTES_ARRAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "BYTES_ARRAY"
+          }
+        },
+        "NON_SERIALIZABLE_OBJECT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "NON_SERIALIZABLE_OBJECT"
+          }
+        },
+        "JSON_VALUE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "JSON_VALUE"
+          }
+        }
+      }
+    },
+    "com.gcp.integrations_v2#EnterpriseCrmFrontendsEventbusProtoParameterMapEntryList": {
+      "type": "list",
+      "member": {
+        "target": "com.gcp.integrations_v2#EnterpriseCrmFrontendsEventbusProtoParameterMapEntry"
+      }
+    },
+    "com.gcp.integrations_v2#EnterpriseCrmFrontendsEventbusProtoParameterMapKeyTypeEnum": {
+      "type": "enum",
+      "members": {
+        "DATA_TYPE_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "DATA_TYPE_UNSPECIFIED"
+          }
+        },
+        "STRING_VALUE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "STRING_VALUE"
+          }
+        },
+        "INT_VALUE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "INT_VALUE"
+          }
+        },
+        "DOUBLE_VALUE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "DOUBLE_VALUE"
+          }
+        },
+        "BOOLEAN_VALUE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "BOOLEAN_VALUE"
+          }
+        },
+        "PROTO_VALUE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PROTO_VALUE"
+          }
+        },
+        "SERIALIZED_OBJECT_VALUE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SERIALIZED_OBJECT_VALUE"
+          }
+        },
+        "STRING_ARRAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "STRING_ARRAY"
+          }
+        },
+        "INT_ARRAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "INT_ARRAY"
+          }
+        },
+        "DOUBLE_ARRAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "DOUBLE_ARRAY"
+          }
+        },
+        "PROTO_ARRAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PROTO_ARRAY"
+          }
+        },
+        "PROTO_ENUM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PROTO_ENUM"
+          }
+        },
+        "BOOLEAN_ARRAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "BOOLEAN_ARRAY"
+          }
+        },
+        "PROTO_ENUM_ARRAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PROTO_ENUM_ARRAY"
+          }
+        },
+        "BYTES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "BYTES"
+          }
+        },
+        "BYTES_ARRAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "BYTES_ARRAY"
+          }
+        },
+        "NON_SERIALIZABLE_OBJECT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "NON_SERIALIZABLE_OBJECT"
+          }
+        },
+        "JSON_VALUE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "JSON_VALUE"
+          }
+        }
+      }
+    },
+    "com.gcp.integrations_v2#GoogleCloudIntegrationsV2DuetGenerateIntegrationDocumentResponse": {
+      "type": "structure",
+      "members": {
+        "document": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The description of the integration returned by Duet AI."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Response message containing generated integration documentation text."
+      }
+    },
+    "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoTransformExpression": {
+      "type": "structure",
+      "members": {
+        "initialValue": {
+          "target": "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoBaseValue",
+          "traits": {
+            "smithy.api#documentation": "Initial value upon which to perform transformations."
+          }
+        },
+        "transformationFunctions": {
+          "target": "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoFunctionList",
+          "traits": {
+            "smithy.api#documentation": "Transformations to be applied sequentially."
+          }
+        }
+      }
+    },
+    "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoFunctionList": {
+      "type": "list",
+      "member": {
+        "target": "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoFunction"
+      }
+    },
+    "com.gcp.integrations_v2#GoogleCloudIntegrationsV2DuetGenerateJavascriptRequest": {
+      "type": "structure",
+      "members": {
+        "prompt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional. User prompt."
+          }
+        },
+        "javascriptRequest": {
+          "target": "com.gcp.integrations_v2#GoogleCloudIntegrationsV2DuetJavascriptRequest",
+          "traits": {
+            "smithy.api#documentation": "Required. The javascript request payload."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Request message for generating data mapping Javascript."
+      }
+    },
+    "com.gcp.integrations_v2#GoogleCloudIntegrationsV2DuetIntegrationDocumentRequest": {
+      "type": "structure",
+      "members": {
+        "integrationVersion": {
+          "target": "com.gcp.integrations_v2#GoogleCloudIntegrationsV2DuetIntegrationVersion",
+          "traits": {
+            "smithy.api#documentation": "Required. The current integrtion on the canvas."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The request for generating description of an integration."
+      }
+    },
+    "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoBaseValue": {
+      "type": "structure",
+      "members": {
+        "literalValue": {
+          "target": "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoParameterValueType",
+          "traits": {
+            "smithy.api#documentation": "Start with a literal value."
+          }
+        },
+        "baseFunction": {
+          "target": "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoFunction",
+          "traits": {
+            "smithy.api#documentation": "Start with a function that does not build on existing values. Eg. CurrentTime, Min, Max, Exists, etc."
+          }
+        },
+        "referenceValue": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Start with a reference value to dereference."
+          }
+        }
+      }
+    },
+    "com.gcp.integrations_v2#EnterpriseCrmFrontendsEventbusProtoDoubleParameterArray": {
+      "type": "structure",
+      "members": {
+        "doubleValues": {
+          "target": "com.gcp.integrations_v2#DoubleList"
+        }
+      }
+    },
+    "com.gcp.integrations_v2#DoubleList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Double"
+      }
+    },
+    "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoSuspensionExpiration": {
+      "type": "structure",
+      "members": {
+        "remindAfterMs": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Milliseconds after which the previous suspension action reminder, if any, is sent using the selected notification option, for a suspension which is still PENDING_UNSPECIFIED."
+          }
+        },
+        "expireAfterMs": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Milliseconds after which the suspension expires, if no action taken."
+          }
+        },
+        "liftWhenExpired": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the suspension will be REJECTED or LIFTED upon expiration. REJECTED is the default behavior."
+          }
+        }
+      }
+    },
+    "com.gcp.integrations_v2#GoogleCloudIntegrationsV2DuetGenerateIntegrationResponse": {
+      "type": "structure",
+      "members": {
+        "skeletonIntegrations": {
+          "target": "com.gcp.integrations_v2#GoogleCloudIntegrationsV2DuetIntegrationSkeletonList",
+          "traits": {
+            "smithy.api#documentation": "The list of integration skeletons returned."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Response for generating an integration."
+      }
+    },
+    "com.gcp.integrations_v2#GoogleCloudIntegrationsV2DuetIntegrationSkeletonList": {
+      "type": "list",
+      "member": {
+        "target": "com.gcp.integrations_v2#GoogleCloudIntegrationsV2DuetIntegrationSkeleton"
+      }
+    },
+    "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoDoubleParameterArray": {
+      "type": "structure",
+      "members": {
+        "doubleValues": {
+          "target": "com.gcp.integrations_v2#DoubleList"
+        }
+      }
+    },
+    "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoSuspensionAuthPermissionsGaiaIdentity": {
+      "type": "structure",
+      "members": {
+        "emailAddress": {
+          "target": "smithy.api#String"
+        },
+        "gaiaId": {
+          "target": "smithy.api#String"
+        }
+      }
+    },
+    "com.gcp.integrations_v2#GoogleCloudIntegrationsV2DuetIntegrationBranch": {
+      "type": "structure",
+      "members": {
+        "branchCondition": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The condition for the branch."
+          }
+        },
+        "explanation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Explanation of why this integration branch was generated."
+          }
+        },
+        "taskConfigs": {
+          "target": "com.gcp.integrations_v2#GoogleCloudIntegrationsV2DuetTaskConfigList",
+          "traits": {
+            "smithy.api#documentation": "The newly generated tasks which can be branched into the current integration."
+          }
+        },
+        "integrationParameters": {
+          "target": "com.gcp.integrations_v2#GoogleCloudIntegrationsV2DuetIntegrationParameterList",
+          "traits": {
+            "smithy.api#documentation": "The newly generated workflow parameters."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "An integration branch skeleton containing basic fields which can be used to create an integration branch on the UI."
+      }
+    },
+    "com.gcp.integrations_v2#GoogleCloudIntegrationsV2DuetTaskConfigList": {
+      "type": "list",
+      "member": {
+        "target": "com.gcp.integrations_v2#GoogleCloudIntegrationsV2DuetTaskConfig"
+      }
+    },
+    "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoSuspensionResolutionInfo": {
+      "type": "structure",
+      "members": {
+        "suspensionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Primary key for the SuspensionResolutionInfoTable."
+          }
+        },
+        "externalTraffic": {
+          "target": "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoExternalTraffic",
+          "traits": {
+            "smithy.api#documentation": "The origin of the suspension for periodic notifications."
+          }
+        },
+        "status": {
+          "target": "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoSuspensionResolutionInfoStatusEnum"
+        },
+        "taskNumber": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Required. Task number of the associated SuspensionTask."
+          }
+        },
+        "createdTimestamp": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Auto-generated."
+          }
+        },
+        "lastModifiedTimestamp": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Auto-generated."
+          }
+        },
+        "suspensionConfig": {
+          "target": "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoSuspensionConfig"
+        },
+        "cloudKmsConfig": {
+          "target": "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoCloudKmsConfig",
+          "traits": {
+            "smithy.api#documentation": "KMS info, used by cmek/gmek integration"
+          }
+        },
+        "workflowName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Required. The name of the originating workflow."
+          }
+        },
+        "audit": {
+          "target": "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoSuspensionResolutionInfoAudit"
+        },
+        "eventExecutionInfoId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Required. ID of the associated execution."
+          }
+        },
+        "wrappedDek": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Wrapped dek"
+          }
+        },
+        "product": {
+          "target": "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoSuspensionResolutionInfoProductEnum",
+          "traits": {
+            "smithy.api#documentation": "Which Google product the suspension belongs to. If not set, the suspension belongs to Integration Platform by default."
+          }
+        },
+        "encryptedSuspensionResolutionInfo": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Encrypted SuspensionResolutionInfo"
+          }
+        },
+        "clientId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The event data user sends as request."
+          }
+        }
+      }
+    },
+    "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoSuspensionResolutionInfoStatusEnum": {
+      "type": "enum",
+      "members": {
+        "PENDING_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PENDING_UNSPECIFIED"
+          }
+        },
+        "REJECTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "REJECTED"
+          }
+        },
+        "LIFTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "LIFTED"
+          }
+        },
+        "CANCELED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "CANCELED"
+          }
+        }
+      }
+    },
+    "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoSuspensionResolutionInfoProductEnum": {
+      "type": "enum",
+      "members": {
+        "UNSPECIFIED_PRODUCT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "UNSPECIFIED_PRODUCT"
+          }
+        },
+        "IP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "IP"
+          }
+        },
+        "APIGEE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "APIGEE"
+          }
+        },
+        "SECURITY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SECURITY"
+          }
+        }
+      }
+    },
+    "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoIntParameterArray": {
+      "type": "structure",
+      "members": {
+        "intValues": {
+          "target": "com.gcp.integrations_v2#StringList"
+        }
+      }
+    },
+    "com.gcp.integrations_v2#StringList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.gcp.integrations_v2#GoogleCloudIntegrationsV2DuetTriggerConfig": {
+      "type": "structure",
+      "members": {
+        "triggerType": {
+          "target": "com.gcp.integrations_v2#GoogleCloudIntegrationsV2DuetTriggerConfigTriggerTypeEnum",
+          "traits": {
+            "smithy.api#documentation": "Optional. Type of trigger"
+          }
+        },
+        "properties": {
+          "target": "com.gcp.integrations_v2#StringMap",
+          "traits": {
+            "smithy.api#documentation": "Optional. Configurable properties of the trigger, not to be confused with integration parameters. E.g. \"name\" is a property for API triggers and \"subscription\" is a property for Pub/sub triggers."
+          }
+        },
+        "trigger": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional. Name of the trigger. Example: \"API Trigger\", \"Cloud Pub Sub Trigger\" When set will be sent out to monitoring dashabord for tracking purpose."
+          }
+        },
+        "inputVariables": {
+          "target": "com.gcp.integrations_v2#GoogleCloudIntegrationsV2DuetTriggerConfigVariables",
+          "traits": {
+            "smithy.api#documentation": "Optional. List of input variables for the api trigger."
+          }
+        },
+        "triggerId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional. The backend trigger ID."
+          }
+        },
+        "errorCatcherId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional. Optional Error catcher id of the error catch flow which will be executed when execution error happens in the task"
+          }
+        },
+        "outputVariables": {
+          "target": "com.gcp.integrations_v2#GoogleCloudIntegrationsV2DuetTriggerConfigVariables",
+          "traits": {
+            "smithy.api#documentation": "Optional. List of output variables for the api trigger."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional. User-provided description intended to give additional business context about the task."
+          }
+        },
+        "cloudSchedulerConfig": {
+          "target": "com.gcp.integrations_v2#GoogleCloudIntegrationsV2DuetCloudSchedulerConfig",
+          "traits": {
+            "smithy.api#documentation": "Optional. Cloud Scheduler Trigger related metadata"
+          }
+        },
+        "label": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional. The user created label for a particular trigger."
+          }
+        },
+        "startTasks": {
+          "target": "com.gcp.integrations_v2#GoogleCloudIntegrationsV2DuetNextTaskList",
+          "traits": {
+            "smithy.api#documentation": "Optional. Set of tasks numbers from where the integration execution is started by this trigger. If this is empty, then integration is executed with default start tasks. In the list of start tasks, none of two tasks can have direct ancestor-descendant relationships (i.e. in a same integration execution graph)."
+          }
+        },
+        "triggerNumber": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Required. A number to uniquely identify each trigger config within the integration on UI."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Configuration detail of a trigger."
+      }
+    },
+    "com.gcp.integrations_v2#GoogleCloudIntegrationsV2DuetTriggerConfigTriggerTypeEnum": {
+      "type": "enum",
+      "members": {
+        "TRIGGER_TYPE_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "TRIGGER_TYPE_UNSPECIFIED"
+          }
+        },
+        "CRON": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "CRON"
+          }
+        },
+        "API": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "API"
+          }
+        },
+        "SFDC_CHANNEL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SFDC_CHANNEL"
+          }
+        },
+        "CLOUD_PUBSUB_EXTERNAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "CLOUD_PUBSUB_EXTERNAL"
+          }
+        },
+        "SFDC_CDC_CHANNEL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SFDC_CDC_CHANNEL"
+          }
+        },
+        "CLOUD_SCHEDULER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "CLOUD_SCHEDULER"
+          }
+        },
+        "INTEGRATION_CONNECTOR_TRIGGER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "INTEGRATION_CONNECTOR_TRIGGER"
+          }
+        },
+        "PRIVATE_TRIGGER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PRIVATE_TRIGGER"
+          }
+        }
+      }
+    },
+    "com.gcp.integrations_v2#StringMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.gcp.integrations_v2#GoogleCloudIntegrationsV2DuetNextTaskList": {
+      "type": "list",
+      "member": {
+        "target": "com.gcp.integrations_v2#GoogleCloudIntegrationsV2DuetNextTask"
+      }
+    },
+    "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoBooleanParameterArray": {
+      "type": "structure",
+      "members": {
+        "booleanValues": {
+          "target": "com.gcp.integrations_v2#BooleanList"
+        }
+      }
+    },
+    "com.gcp.integrations_v2#GoogleCloudIntegrationsV2DuetIntegrationParameter": {
+      "type": "structure",
+      "members": {
+        "defaultValue": {
+          "target": "com.gcp.integrations_v2#GoogleCloudIntegrationsV2DuetValueType",
+          "traits": {
+            "smithy.api#documentation": "Default values for the defined keys. Each value can either be string, int, double or any proto message or a serialized object."
+          }
+        },
+        "displayName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name (without prefix) to be displayed in the UI for this parameter. E.g. if the key is \"foo.bar.myName\", then the name would be \"myName\"."
+          }
+        },
+        "inputOutputType": {
+          "target": "com.gcp.integrations_v2#GoogleCloudIntegrationsV2DuetIntegrationParameterInputOutputTypeEnum",
+          "traits": {
+            "smithy.api#documentation": "Specifies the input/output type for the parameter."
+          }
+        },
+        "key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Key is used to retrieve the corresponding parameter value. This should be unique for a given fired event. These parameters must be predefined in the integration definition."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional. Description of the parameter."
+          }
+        },
+        "isTransient": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether this parameter is a transient parameter."
+          }
+        },
+        "jsonSchema": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "This schema will be used to validate runtime JSON-typed values of this parameter."
+          }
+        },
+        "dataType": {
+          "target": "com.gcp.integrations_v2#GoogleCloudIntegrationsV2DuetIntegrationParameterDataTypeEnum",
+          "traits": {
+            "smithy.api#documentation": "Type of the parameter."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Integration Parameter is defined in the integration config and are used to provide information about data types of the expected parameters and provide any default values if needed. They can also be used to add custom attributes. These are static in nature and should not be used for dynamic event definition."
+      }
+    },
+    "com.gcp.integrations_v2#GoogleCloudIntegrationsV2DuetIntegrationParameterInputOutputTypeEnum": {
+      "type": "enum",
+      "members": {
+        "IN_OUT_TYPE_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "IN_OUT_TYPE_UNSPECIFIED"
+          }
+        },
+        "IN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "IN"
+          }
+        },
+        "OUT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "OUT"
+          }
+        },
+        "IN_OUT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "IN_OUT"
+          }
+        }
+      }
+    },
+    "com.gcp.integrations_v2#GoogleCloudIntegrationsV2DuetIntegrationParameterDataTypeEnum": {
+      "type": "enum",
+      "members": {
+        "INTEGRATION_PARAMETER_DATA_TYPE_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "INTEGRATION_PARAMETER_DATA_TYPE_UNSPECIFIED"
+          }
+        },
+        "STRING_VALUE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "STRING_VALUE"
+          }
+        },
+        "INT_VALUE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "INT_VALUE"
+          }
+        },
+        "DOUBLE_VALUE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "DOUBLE_VALUE"
+          }
+        },
+        "BOOLEAN_VALUE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "BOOLEAN_VALUE"
+          }
+        },
+        "STRING_ARRAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "STRING_ARRAY"
+          }
+        },
+        "INT_ARRAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "INT_ARRAY"
+          }
+        },
+        "DOUBLE_ARRAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "DOUBLE_ARRAY"
+          }
+        },
+        "BOOLEAN_ARRAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "BOOLEAN_ARRAY"
+          }
+        },
+        "JSON_VALUE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "JSON_VALUE"
+          }
+        },
+        "PROTO_VALUE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PROTO_VALUE"
+          }
+        },
+        "PROTO_ARRAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PROTO_ARRAY"
+          }
+        }
+      }
+    },
+    "com.gcp.integrations_v2#GoogleCloudIntegrationsV2DuetJavascriptRequest": {
+      "type": "structure",
+      "members": {
+        "copilotEnabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Optional. If this request is for copilot."
+          }
+        },
+        "useCurrentScript": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Optional. Whether to use the current javascript task config (JS code) to generate the Javascript code."
+          }
+        },
+        "integrationVersion": {
+          "target": "com.gcp.integrations_v2#GoogleCloudIntegrationsV2DuetIntegrationVersion",
+          "traits": {
+            "smithy.api#documentation": "Required. The integration version which contains all the integration parameters, all triggers and tasks including the Javascript task."
+          }
+        },
+        "taskId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Required. The task id of the Javascript task."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Request message for Javascript Task using Gemini."
+      }
+    },
+    "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoAddress": {
+      "type": "structure",
+      "members": {
+        "email": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Required."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String"
+        },
+        "tokens": {
+          "target": "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoTokenList"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Email address along with optional name and tokens. These tokens will be substituted for the variables in the form of [{var_name}], where var_name could be any string of no more than 32 bytes."
+      }
+    },
+    "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoTokenList": {
+      "type": "list",
+      "member": {
+        "target": "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoToken"
+      }
+    },
+    "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoStringArrayFunction": {
+      "type": "structure",
+      "members": {
+        "functionName": {
+          "target": "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoStringArrayFunctionFunctionNameEnum"
+        }
+      }
+    },
+    "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoStringArrayFunctionFunctionNameEnum": {
+      "type": "enum",
+      "members": {
+        "UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "UNSPECIFIED"
+          }
+        },
+        "GET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "GET"
+          }
+        },
+        "APPEND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "APPEND"
+          }
+        },
+        "SIZE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SIZE"
+          }
+        },
+        "TO_SET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "TO_SET"
+          }
+        },
+        "APPEND_ALL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "APPEND_ALL"
+          }
+        },
+        "TO_JSON": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "TO_JSON"
+          }
+        },
+        "SET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SET"
+          }
+        },
+        "REMOVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "REMOVE"
+          }
+        },
+        "REMOVE_AT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "REMOVE_AT"
+          }
+        },
+        "CONTAINS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "CONTAINS"
+          }
+        },
+        "FOR_EACH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "FOR_EACH"
+          }
+        },
+        "FILTER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "FILTER"
+          }
+        }
+      }
+    },
+    "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoFunctionType": {
+      "type": "structure",
+      "members": {
+        "doubleFunction": {
+          "target": "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoDoubleFunction"
+        },
+        "booleanFunction": {
+          "target": "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoBooleanFunction"
+        },
+        "protoFunction": {
+          "target": "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoProtoFunction"
+        },
+        "baseFunction": {
+          "target": "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoBaseFunction",
+          "traits": {
+            "smithy.api#documentation": "LINT.IfChange"
+          }
+        },
+        "jsonFunction": {
+          "target": "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoJsonFunction"
+        },
+        "intFunction": {
+          "target": "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoIntFunction"
+        },
+        "stringFunction": {
+          "target": "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoStringFunction"
+        },
+        "intArrayFunction": {
+          "target": "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoIntArrayFunction"
+        },
+        "booleanArrayFunction": {
+          "target": "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoBooleanArrayFunction"
+        },
+        "protoArrayFunction": {
+          "target": "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoProtoArrayFunction"
+        },
+        "stringArrayFunction": {
+          "target": "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoStringArrayFunction"
+        },
+        "doubleArrayFunction": {
+          "target": "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoDoubleArrayFunction"
+        }
+      }
+    },
+    "com.gcp.integrations_v2#GoogleCloudIntegrationsV2DuetReplaceTaskRequest": {
+      "type": "structure",
+      "members": {
+        "taskTypes": {
+          "target": "com.gcp.integrations_v2#GoogleCloudIntegrationsV2DuetReplaceTaskRequestTaskTypesItemEnumList",
+          "traits": {
+            "smithy.api#documentation": "The list of task types."
+          }
+        },
+        "taskConfig": {
+          "target": "com.gcp.integrations_v2#GoogleCloudIntegrationsV2DuetTaskConfig",
+          "traits": {
+            "smithy.api#documentation": "Required. The current task selected on the UI."
+          }
+        },
+        "copilotEnabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Optional. If this request is for copilot."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Message for Replace Task Scenario."
+      }
+    },
+    "com.gcp.integrations_v2#GoogleCloudIntegrationsV2DuetReplaceTaskRequestTaskTypesItemEnum": {
+      "type": "enum",
+      "members": {
+        "TASK_TYPE_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "TASK_TYPE_UNSPECIFIED"
+          }
+        },
+        "CONNECTOR_TASK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "CONNECTOR_TASK"
+          }
+        },
+        "REST_TASK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "REST_TASK"
+          }
+        }
+      }
+    },
+    "com.gcp.integrations_v2#GoogleCloudIntegrationsV2DuetReplaceTaskRequestTaskTypesItemEnumList": {
+      "type": "list",
+      "member": {
+        "target": "com.gcp.integrations_v2#GoogleCloudIntegrationsV2DuetReplaceTaskRequestTaskTypesItemEnum"
+      }
+    },
+    "com.gcp.integrations_v2#GoogleCloudIntegrationsV2DuetTaskResponseStatus": {
+      "type": "structure",
+      "members": {
+        "taskType": {
+          "target": "com.gcp.integrations_v2#GoogleCloudIntegrationsV2DuetTaskResponseStatusTaskTypeEnum",
+          "traits": {
+            "smithy.api#documentation": "The task type."
+          }
+        },
+        "httpCode": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The http code of the task response."
+          }
+        },
+        "errorMessage": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The error message of the task response in case of failure."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Message for task response status."
+      }
+    },
+    "com.gcp.integrations_v2#GoogleCloudIntegrationsV2DuetTaskResponseStatusTaskTypeEnum": {
+      "type": "enum",
+      "members": {
+        "TASK_TYPE_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "TASK_TYPE_UNSPECIFIED"
+          }
+        },
+        "CONNECTOR_TASK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "CONNECTOR_TASK"
+          }
+        },
+        "REST_TASK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "REST_TASK"
+          }
+        }
+      }
+    },
+    "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoProtoFunction": {
+      "type": "structure",
+      "members": {
+        "functionName": {
+          "target": "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoProtoFunctionFunctionNameEnum"
+        }
+      }
+    },
+    "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoProtoFunctionFunctionNameEnum": {
+      "type": "enum",
+      "members": {
+        "UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "UNSPECIFIED"
+          }
+        },
+        "GET_STRING_SUBFIELD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "GET_STRING_SUBFIELD"
+          }
+        },
+        "GET_INT_SUBFIELD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "GET_INT_SUBFIELD"
+          }
+        },
+        "GET_DOUBLE_SUBFIELD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "GET_DOUBLE_SUBFIELD"
+          }
+        },
+        "GET_BOOLEAN_SUBFIELD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "GET_BOOLEAN_SUBFIELD"
+          }
+        },
+        "GET_STRING_ARRAY_SUBFIELD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "GET_STRING_ARRAY_SUBFIELD"
+          }
+        },
+        "GET_INT_ARRAY_SUBFIELD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "GET_INT_ARRAY_SUBFIELD"
+          }
+        },
+        "GET_DOUBLE_ARRAY_SUBFIELD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "GET_DOUBLE_ARRAY_SUBFIELD"
+          }
+        },
+        "GET_BOOLEAN_ARRAY_SUBFIELD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "GET_BOOLEAN_ARRAY_SUBFIELD"
+          }
+        },
+        "GET_PROTO_ARRAY_SUBFIELD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "GET_PROTO_ARRAY_SUBFIELD"
+          }
+        },
+        "GET_PROTO_SUBFIELD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "GET_PROTO_SUBFIELD"
+          }
+        },
+        "TO_JSON": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "TO_JSON"
+          }
+        },
+        "GET_BYTES_SUBFIELD_AS_UTF_8_STRING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "GET_BYTES_SUBFIELD_AS_UTF_8_STRING"
+          }
+        },
+        "GET_BYTES_SUBFIELD_AS_PROTO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "GET_BYTES_SUBFIELD_AS_PROTO"
+          }
+        },
+        "EQUALS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "EQUALS"
+          }
+        }
+      }
+    },
+    "com.gcp.integrations_v2#GoogleCloudIntegrationsV2TaskExecutionTaskExecutionMetadata": {
+      "type": "structure",
+      "members": {
+        "task": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The task name associated with this execution."
+          }
+        },
+        "taskLabel": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The task label associated with this execution."
+          }
+        },
+        "ancestorTaskNumbers": {
+          "target": "com.gcp.integrations_v2#StringList",
+          "traits": {
+            "smithy.api#documentation": "Optional. Ancestor task number for the task (it will only be non-empty if the task is under 'private integration')."
+          }
+        },
+        "taskNumber": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The task number associated with this execution."
+          }
+        },
+        "executionAttempt": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The execution attempt number this execution belongs to."
+          }
+        },
+        "ancestorIterationNumbers": {
+          "target": "com.gcp.integrations_v2#StringList",
+          "traits": {
+            "smithy.api#documentation": "Optional. Ancestor iteration number for the task (it will only be non-empty if the task is under 'private integration')."
+          }
+        },
+        "taskAttempt": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The task attempt number this execution belongs to."
+          }
+        },
+        "privateIntegrationName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional. The direct integration which the execution belongs to."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Metadata of the task execution."
+      }
+    },
+    "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoConnectorsGenericConnectorTaskConfig": {
+      "type": "structure",
+      "members": {
+        "operation": {
+          "target": "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoConnectorsGenericConnectorTaskConfigOperationEnum",
+          "traits": {
+            "smithy.api#documentation": "Operation to perform using the configured connection."
+          }
+        },
+        "connection": {
+          "target": "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoConnectorsConnection",
+          "traits": {
+            "smithy.api#documentation": "User-selected connection."
+          }
+        }
+      }
+    },
+    "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoConnectorsGenericConnectorTaskConfigOperationEnum": {
+      "type": "enum",
+      "members": {
+        "OPERATION_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "OPERATION_UNSPECIFIED"
+          }
+        },
+        "EXECUTE_ACTION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "EXECUTE_ACTION"
+          }
+        },
+        "LIST_ENTITIES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "LIST_ENTITIES"
+          }
+        },
+        "GET_ENTITY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "GET_ENTITY"
+          }
+        },
+        "CREATE_ENTITY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "CREATE_ENTITY"
+          }
+        },
+        "UPDATE_ENTITY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "UPDATE_ENTITY"
+          }
+        },
+        "DELETE_ENTITY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "DELETE_ENTITY"
+          }
+        },
+        "EXECUTE_QUERY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "EXECUTE_QUERY"
+          }
+        }
+      }
+    },
+    "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoNotification": {
+      "type": "structure",
+      "members": {
+        "escalatorQueue": {
+          "target": "smithy.api#String"
+        },
+        "buganizerNotification": {
+          "target": "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoBuganizerNotification"
+        },
+        "pubsubTopic": {
+          "target": "smithy.api#String"
+        },
+        "request": {
+          "target": "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoCustomSuspensionRequest",
+          "traits": {
+            "smithy.api#documentation": "If the out-of-the-box email/pubsub notifications are not suitable and custom logic is required, fire a workflow containing all info needed to notify users to resume execution."
+          }
+        },
+        "emailAddress": {
+          "target": "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoAddress"
+        }
+      }
+    },
+    "com.gcp.integrations_v2#EnterpriseCrmFrontendsEventbusProtoBooleanParameterArray": {
+      "type": "structure",
+      "members": {
+        "booleanValues": {
+          "target": "com.gcp.integrations_v2#BooleanList"
+        }
+      }
+    },
+    "com.gcp.integrations_v2#GoogleCloudIntegrationsV2DuetGenerateJavascriptResponse": {
+      "type": "structure",
+      "members": {
+        "recommendations": {
+          "target": "com.gcp.integrations_v2#GoogleCloudIntegrationsV2DuetJavascriptRecommendationList",
+          "traits": {
+            "smithy.api#documentation": "List of the Javascript recommendations."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Response message containing generated Javascript code recommendations."
+      }
+    },
+    "com.gcp.integrations_v2#GoogleCloudIntegrationsV2DuetJavascriptRecommendationList": {
+      "type": "list",
+      "member": {
+        "target": "com.gcp.integrations_v2#GoogleCloudIntegrationsV2DuetJavascriptRecommendation"
+      }
+    },
+    "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoField": {
+      "type": "structure",
+      "members": {
+        "transformExpression": {
+          "target": "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoTransformExpression",
+          "traits": {
+            "smithy.api#documentation": "This is the transform expression to fetch the input field value. for e.g. $param1$.CONCAT('test'). Keep points - 1. Only input field can have a transform expression. 2. If a transform expression is provided, reference_key will be ignored. 3. If no value is returned after evaluation of transform expression, default_value can be mapped if provided. 4. The field_type should be the type of the final object returned after the transform expression is evaluated. Scrubs the transform expression before logging as value provided by user so may or may not contain PII or SPII data."
+          }
+        },
+        "cardinality": {
+          "target": "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoFieldCardinalityEnum",
+          "traits": {
+            "smithy.api#documentation": "By default, if the cardinality is unspecified the field is considered required while mapping."
+          }
+        },
+        "fieldType": {
+          "target": "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoFieldFieldTypeEnum",
+          "traits": {
+            "smithy.api#documentation": "Specifies the data type of the field."
+          }
+        },
+        "defaultValue": {
+          "target": "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoParameterValueType",
+          "traits": {
+            "smithy.api#documentation": "This holds the default values for the fields. This value is supplied by user so may or may not contain PII or SPII data."
+          }
+        },
+        "protoDefPath": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional. The fully qualified proto name (e.g. enterprise.crm.storage.Account). Required for output field of type PROTO_VALUE or PROTO_ARRAY. For e.g., if input field_type is BYTES and output field_type is PROTO_VALUE, then fully qualified proto type url should be provided to parse the input bytes. If field_type is *_ARRAY, then all the converted protos are of the same type."
+          }
+        },
+        "referenceKey": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "This holds the reference key of the workflow or task parameter. 1. Any workflow parameter, for e.g. $workflowParam1$. 2. Any task input or output parameter, for e.g. $task1_param1$. 3. Any workflow or task parameters with subfield references, for e.g., $task1_param1.employee.id$"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Information about the value and type of the field."
+      }
+    },
+    "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoFieldCardinalityEnum": {
+      "type": "enum",
+      "members": {
+        "UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "UNSPECIFIED"
+          }
+        },
+        "OPTIONAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "OPTIONAL"
+          }
+        }
+      }
+    },
+    "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoFieldFieldTypeEnum": {
+      "type": "enum",
+      "members": {
+        "DATA_TYPE_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "DATA_TYPE_UNSPECIFIED"
+          }
+        },
+        "STRING_VALUE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "STRING_VALUE"
+          }
+        },
+        "INT_VALUE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "INT_VALUE"
+          }
+        },
+        "DOUBLE_VALUE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "DOUBLE_VALUE"
+          }
+        },
+        "BOOLEAN_VALUE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "BOOLEAN_VALUE"
+          }
+        },
+        "PROTO_VALUE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PROTO_VALUE"
+          }
+        },
+        "SERIALIZED_OBJECT_VALUE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SERIALIZED_OBJECT_VALUE"
+          }
+        },
+        "STRING_ARRAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "STRING_ARRAY"
+          }
+        },
+        "INT_ARRAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "INT_ARRAY"
+          }
+        },
+        "DOUBLE_ARRAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "DOUBLE_ARRAY"
+          }
+        },
+        "PROTO_ARRAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PROTO_ARRAY"
+          }
+        },
+        "PROTO_ENUM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PROTO_ENUM"
+          }
+        },
+        "BOOLEAN_ARRAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "BOOLEAN_ARRAY"
+          }
+        },
+        "PROTO_ENUM_ARRAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PROTO_ENUM_ARRAY"
+          }
+        },
+        "BYTES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "BYTES"
+          }
+        },
+        "BYTES_ARRAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "BYTES_ARRAY"
+          }
+        },
+        "NON_SERIALIZABLE_OBJECT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "NON_SERIALIZABLE_OBJECT"
+          }
+        },
+        "JSON_VALUE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "JSON_VALUE"
+          }
+        }
+      }
+    },
+    "com.gcp.integrations_v2#GoogleCloudIntegrationsV2DuetStringParameterArray": {
+      "type": "structure",
+      "members": {
+        "stringValues": {
+          "target": "com.gcp.integrations_v2#StringList",
+          "traits": {
+            "smithy.api#documentation": "String array."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "This message only contains a field of string array."
+      }
+    },
+    "com.gcp.integrations_v2#EnterpriseCrmFrontendsEventbusProtoProtoParameterArray": {
+      "type": "structure",
+      "members": {
+        "protoValues": {
+          "target": "com.gcp.integrations_v2#DocumentMapList"
+        }
+      }
+    },
+    "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoBaseFunction": {
+      "type": "structure",
+      "members": {
+        "functionName": {
+          "target": "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoBaseFunctionFunctionNameEnum"
+        }
+      }
+    },
+    "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoBaseFunctionFunctionNameEnum": {
+      "type": "enum",
+      "members": {
+        "UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "UNSPECIFIED"
+          }
+        },
+        "NOW_IN_MILLIS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "NOW_IN_MILLIS"
+          }
+        },
+        "INT_LIST": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "INT_LIST"
+          }
+        },
+        "ENVIRONMENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ENVIRONMENT"
+          }
+        },
+        "GET_EXECUTION_ID": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "GET_EXECUTION_ID"
+          }
+        },
+        "GET_INTEGRATION_NAME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "GET_INTEGRATION_NAME"
+          }
+        },
+        "GET_REGION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "GET_REGION"
+          }
+        },
+        "GET_UUID": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "GET_UUID"
+          }
+        },
+        "GET_PROJECT_ID": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "GET_PROJECT_ID"
+          }
+        }
+      }
+    },
+    "com.gcp.integrations_v2#EnterpriseCrmFrontendsEventbusProtoStringParameterArray": {
+      "type": "structure",
+      "members": {
+        "stringValues": {
+          "target": "com.gcp.integrations_v2#StringList"
+        }
+      }
+    },
+    "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoExecutionTraceInfo": {
+      "type": "structure",
+      "members": {
+        "parentEventExecutionInfoId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Parent event execution info id that triggers the current execution through SubWorkflowExecutorTask."
+          }
+        },
+        "traceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Used to aggregate ExecutionTraceInfo."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Message that helps aggregate all sub-executions triggered by one execution and keeps track of child-parent relationships."
+      }
+    },
+    "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoProtoArrayFunction": {
+      "type": "structure",
+      "members": {
+        "functionName": {
+          "target": "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoProtoArrayFunctionFunctionNameEnum"
+        }
+      }
+    },
+    "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoProtoArrayFunctionFunctionNameEnum": {
+      "type": "enum",
+      "members": {
+        "UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "UNSPECIFIED"
+          }
+        },
+        "GET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "GET"
+          }
+        },
+        "APPEND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "APPEND"
+          }
+        },
+        "SIZE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SIZE"
+          }
+        },
+        "TO_SET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "TO_SET"
+          }
+        },
+        "APPEND_ALL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "APPEND_ALL"
+          }
+        },
+        "TO_JSON": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "TO_JSON"
+          }
+        },
+        "SET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SET"
+          }
+        },
+        "REMOVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "REMOVE"
+          }
+        },
+        "REMOVE_AT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "REMOVE_AT"
+          }
+        },
+        "CONTAINS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "CONTAINS"
+          }
+        },
+        "FOR_EACH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "FOR_EACH"
+          }
+        },
+        "FILTER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "FILTER"
+          }
+        }
+      }
+    },
+    "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoFunction": {
+      "type": "structure",
+      "members": {
+        "parameters": {
+          "target": "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoTransformExpressionList",
+          "traits": {
+            "smithy.api#documentation": "List of parameters required for the transformation."
+          }
+        },
+        "functionType": {
+          "target": "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoFunctionType",
+          "traits": {
+            "smithy.api#documentation": "The name of the function to perform."
+          }
+        }
+      }
+    },
+    "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoTransformExpressionList": {
+      "type": "list",
+      "member": {
+        "target": "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoTransformExpression"
+      }
+    },
+    "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoBuganizerNotification": {
+      "type": "structure",
+      "members": {
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Title of the issue to be created. Required."
+          }
+        },
+        "templateId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the buganizer template to use. Optional."
+          }
+        },
+        "componentId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the buganizer component within which to create a new issue. Required."
+          }
+        },
+        "assigneeEmailAddress": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Whom to assign the new bug. Optional."
+          }
+        }
+      }
+    },
+    "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoSerializedObjectParameter": {
+      "type": "structure",
+      "members": {
+        "objectValue": {
+          "target": "smithy.api#String"
+        }
+      }
+    },
+    "com.gcp.integrations_v2#GoogleCloudIntegrationsV2DuetDoubleParameterArray": {
+      "type": "structure",
+      "members": {
+        "doubleValues": {
+          "target": "com.gcp.integrations_v2#DoubleList",
+          "traits": {
+            "smithy.api#documentation": "Double number array."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "This message only contains a field of double number array."
+      }
+    },
+    "com.gcp.integrations_v2#GoogleCloudIntegrationsV2DuetNextTask": {
+      "type": "structure",
+      "members": {
+        "displayName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "User-provided label that is attached to this edge in the UI."
+          }
+        },
+        "taskConfigId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the next task."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "User-provided description intended to give additional business context about the task."
+          }
+        },
+        "taskId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Task number of the next task."
+          }
+        },
+        "condition": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Standard filter expression for this task to become an eligible next task."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The task that is next in line to be executed, if the condition specified evaluated to true."
+      }
+    },
+    "com.gcp.integrations_v2#EnterpriseCrmFrontendsEventbusProtoParameterMapEntry": {
+      "type": "structure",
+      "members": {
+        "key": {
+          "target": "com.gcp.integrations_v2#EnterpriseCrmFrontendsEventbusProtoParameterMapField"
+        },
+        "value": {
+          "target": "com.gcp.integrations_v2#EnterpriseCrmFrontendsEventbusProtoParameterMapField"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Entry is a pair of key and value."
+      }
+    },
+    "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoDoubleArrayFunction": {
+      "type": "structure",
+      "members": {
+        "functionName": {
+          "target": "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoDoubleArrayFunctionFunctionNameEnum"
+        }
+      }
+    },
+    "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoDoubleArrayFunctionFunctionNameEnum": {
+      "type": "enum",
+      "members": {
+        "UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "UNSPECIFIED"
+          }
+        },
+        "GET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "GET"
+          }
+        },
+        "APPEND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "APPEND"
+          }
+        },
+        "SIZE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SIZE"
+          }
+        },
+        "SUM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SUM"
+          }
+        },
+        "AVG": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "AVG"
+          }
+        },
+        "MAX": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "MAX"
+          }
+        },
+        "MIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "MIN"
+          }
+        },
+        "TO_SET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "TO_SET"
+          }
+        },
+        "APPEND_ALL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "APPEND_ALL"
+          }
+        },
+        "TO_JSON": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "TO_JSON"
+          }
+        },
+        "SET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SET"
+          }
+        },
+        "REMOVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "REMOVE"
+          }
+        },
+        "REMOVE_AT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "REMOVE_AT"
+          }
+        },
+        "CONTAINS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "CONTAINS"
+          }
+        },
+        "FOR_EACH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "FOR_EACH"
+          }
+        },
+        "FILTER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "FILTER"
+          }
+        }
+      }
+    },
+    "com.gcp.integrations_v2#GoogleCloudIntegrationsV2DuetCloudSchedulerConfig": {
+      "type": "structure",
+      "members": {
+        "serviceAccountEmail": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Required. Service account used by Cloud Scheduler to trigger the integration at scheduled time"
+          }
+        },
+        "errorMessage": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional. When the job was deleted from Pantheon UI, error_message will be populated when Get/List integrations"
+          }
+        },
+        "cronTab": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Required. The cron tab of cloud scheduler trigger."
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Required. The location where associated cloud scheduler job will be created"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Cloud Scheduler Trigger configuration"
+      }
+    },
+    "com.gcp.integrations_v2#GoogleCloudIntegrationsV2ListExecutionsResponse": {
+      "type": "structure",
+      "members": {
+        "nextPageToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The token for retrieving the next page of results."
+          }
+        },
+        "executions": {
+          "target": "com.gcp.integrations_v2#GoogleCloudIntegrationsV2ExecutionList",
+          "traits": {
+            "smithy.api#documentation": "Required. The list of executions."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Response for listing the Integration executions."
+      }
+    },
+    "com.gcp.integrations_v2#GoogleCloudIntegrationsV2ExecutionList": {
+      "type": "list",
+      "member": {
+        "target": "com.gcp.integrations_v2#GoogleCloudIntegrationsV2Execution"
+      }
+    },
+    "com.gcp.integrations_v2#GoogleCloudIntegrationsV2DuetGenerateIntegrationBranchRequest": {
+      "type": "structure",
+      "members": {
+        "integrationBranchRequest": {
+          "target": "com.gcp.integrations_v2#GoogleCloudIntegrationsV2DuetIntegrationBranchRequest",
+          "traits": {
+            "smithy.api#documentation": "Required. The integration branch request payload."
+          }
+        },
+        "prompt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Required. User prompt."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Request message for generating an integration branch containing tasks."
+      }
+    },
+    "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoConnectorsConnection": {
+      "type": "structure",
+      "members": {
+        "connectionName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Connection name Format: projects/{project}/locations/{location}/connections/{connection}"
+          }
+        },
+        "connectorVersion": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Connector version Format: projects/{project}/locations/{location}/providers/{provider}/connectors/{connector}/versions/{version}"
+          }
+        },
+        "serviceName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Service name Format: projects/{project}/locations/{location}/namespaces/{namespace}/services/{service}"
+          }
+        },
+        "host": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the Hostname of the Service Directory service with TLS if used."
+          }
+        }
+      }
+    },
+    "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoParameterEntry": {
+      "type": "structure",
+      "members": {
+        "key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Key is used to retrieve the corresponding parameter value. This should be unique for a given fired event. These parameters must be predefined in the integration definition."
+          }
+        },
+        "value": {
+          "target": "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoParameterValueType",
+          "traits": {
+            "smithy.api#documentation": "Values for the defined keys. Each value can either be string, int, double or any proto message."
+          }
+        },
+        "masked": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "True if this parameter should be masked in the logs"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Key-value pair of EventBus parameters."
+      }
+    },
+    "com.gcp.integrations_v2#GoogleCloudIntegrationsV2DuetTaskConfig": {
+      "type": "structure",
+      "members": {
+        "errorCatcherId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional. Optional Error catcher id of the error catch flow which will be executed when execution error happens in the task"
+          }
+        },
+        "parameters": {
+          "target": "com.gcp.integrations_v2#GoogleCloudIntegrationsV2DuetEventParameterMap",
+          "traits": {
+            "smithy.api#documentation": "Optional. The customized parameters the user can pass to this task."
+          }
+        },
+        "nextTasks": {
+          "target": "com.gcp.integrations_v2#GoogleCloudIntegrationsV2DuetNextTaskList",
+          "traits": {
+            "smithy.api#documentation": "Optional. The set of tasks that are next in line to be executed as per the execution graph defined for the parent event, specified by `event_config_id`. Each of these next tasks are executed only if the condition associated with them evaluates to true."
+          }
+        },
+        "externalTaskType": {
+          "target": "com.gcp.integrations_v2#GoogleCloudIntegrationsV2DuetTaskConfigExternalTaskTypeEnum",
+          "traits": {
+            "smithy.api#documentation": "Optional. External task type of the task"
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional. User-provided description intended to give additional business context about the task."
+          }
+        },
+        "taskId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Required. The identifier of this task within its parent event config, specified by the client. This should be unique among all the tasks belong to the same event config. We use this field as the identifier to find next tasks (via field `next_tasks.task_id`)."
+          }
+        },
+        "displayName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional. User-provided label that is attached to this TaskConfig in the UI."
+          }
+        },
+        "task": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional. The name for the task."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The task configuration details. This is not the implementation of Task. There might be multiple TaskConfigs for the same Task."
+      }
+    },
+    "com.gcp.integrations_v2#GoogleCloudIntegrationsV2DuetEventParameterMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.gcp.integrations_v2#GoogleCloudIntegrationsV2DuetEventParameter"
+      }
+    },
+    "com.gcp.integrations_v2#GoogleCloudIntegrationsV2DuetTaskConfigExternalTaskTypeEnum": {
+      "type": "enum",
+      "members": {
+        "EXTERNAL_TASK_TYPE_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "EXTERNAL_TASK_TYPE_UNSPECIFIED"
+          }
+        },
+        "NORMAL_TASK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "NORMAL_TASK"
+          }
+        },
+        "ERROR_TASK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ERROR_TASK"
+          }
+        }
+      }
+    },
+    "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoCloudKmsConfig": {
+      "type": "structure",
+      "members": {
+        "keyRingName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A key ring organizes keys in a specific Google Cloud location and allows you to manage access control on groups of keys. A key ring's name does not need to be unique across a Google Cloud project, but must be unique within a given location."
+          }
+        },
+        "keyName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A Cloud KMS key is a named object containing one or more key versions, along with metadata for the key. A key exists on exactly one key ring tied to a specific location."
+          }
+        },
+        "serviceAccount": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional. The service account used for authentication of this KMS key. If this is not provided, the service account in Client.clientSource will be used."
+          }
+        },
+        "locationName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Location name of the key ring, e.g. \"us-west1\"."
+          }
+        },
+        "gcpProjectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional. The id of GCP project where the KMS key is stored. If not provided, assume the key is stored in the same GCP project defined in Client (tag 14)."
+          }
+        },
+        "keyVersionName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional. Each version of a key contains key material used for encryption or signing. A key's version is represented by an integer, starting at 1. To decrypt data or verify a signature, you must use the same key version that was used to encrypt or sign the data."
+          }
+        }
+      }
+    },
+    "com.gcp.integrations_v2#GoogleCloudIntegrationsV2DuetIntegrationSkeleton": {
+      "type": "structure",
+      "members": {
+        "explanation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Explanation of why this integration was generated."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the integration."
+          }
+        },
+        "tag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Indicate the strategy/methodology used to generate the integration."
+          }
+        },
+        "integrationVersion": {
+          "target": "com.gcp.integrations_v2#GoogleCloudIntegrationsV2DuetIntegrationVersion",
+          "traits": {
+            "smithy.api#documentation": "The integration version containing basic triggers and tasks."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "An integration skeleton containing basic fields which can be used to create an integration on the UI."
+      }
+    },
+    "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoIntArrayFunction": {
+      "type": "structure",
+      "members": {
+        "functionName": {
+          "target": "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoIntArrayFunctionFunctionNameEnum"
+        }
+      }
+    },
+    "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoIntArrayFunctionFunctionNameEnum": {
+      "type": "enum",
+      "members": {
+        "UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "UNSPECIFIED"
+          }
+        },
+        "GET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "GET"
+          }
+        },
+        "APPEND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "APPEND"
+          }
+        },
+        "SIZE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SIZE"
+          }
+        },
+        "SUM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SUM"
+          }
+        },
+        "AVG": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "AVG"
+          }
+        },
+        "MAX": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "MAX"
+          }
+        },
+        "MIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "MIN"
+          }
+        },
+        "TO_SET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "TO_SET"
+          }
+        },
+        "APPEND_ALL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "APPEND_ALL"
+          }
+        },
+        "TO_JSON": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "TO_JSON"
+          }
+        },
+        "SET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SET"
+          }
+        },
+        "REMOVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "REMOVE"
+          }
+        },
+        "REMOVE_AT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "REMOVE_AT"
+          }
+        },
+        "CONTAINS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "CONTAINS"
+          }
+        },
+        "FOR_EACH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "FOR_EACH"
+          }
+        },
+        "FILTER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "FILTER"
+          }
+        }
+      }
+    },
+    "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoStringParameterArray": {
+      "type": "structure",
+      "members": {
+        "stringValues": {
+          "target": "com.gcp.integrations_v2#StringList"
+        }
+      }
+    },
+    "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoEventParameters": {
+      "type": "structure",
+      "members": {
+        "parameters": {
+          "target": "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoParameterEntryList",
+          "traits": {
+            "smithy.api#documentation": "Parameters are a part of Event and can be used to communicate between different tasks that are part of the same integration execution."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "LINT.IfChange This message is used for processing and persisting (when applicable) key value pair parameters for each event in the event bus. Please see"
+      }
+    },
+    "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoParameterEntryList": {
+      "type": "list",
+      "member": {
+        "target": "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoParameterEntry"
+      }
+    },
+    "com.gcp.integrations_v2#GoogleCloudIntegrationsV2DuetValueType": {
+      "type": "structure",
+      "members": {
+        "intArray": {
+          "target": "com.gcp.integrations_v2#GoogleCloudIntegrationsV2DuetIntParameterArray",
+          "traits": {
+            "smithy.api#documentation": "Integer Array."
+          }
+        },
+        "stringArray": {
+          "target": "com.gcp.integrations_v2#GoogleCloudIntegrationsV2DuetStringParameterArray",
+          "traits": {
+            "smithy.api#documentation": "String Array."
+          }
+        },
+        "doubleValue": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Double Number."
+          }
+        },
+        "doubleArray": {
+          "target": "com.gcp.integrations_v2#GoogleCloudIntegrationsV2DuetDoubleParameterArray",
+          "traits": {
+            "smithy.api#documentation": "Double Number Array."
+          }
+        },
+        "booleanValue": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Boolean."
+          }
+        },
+        "stringValue": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "String."
+          }
+        },
+        "booleanArray": {
+          "target": "com.gcp.integrations_v2#GoogleCloudIntegrationsV2DuetBooleanParameterArray",
+          "traits": {
+            "smithy.api#documentation": "Boolean Array."
+          }
+        },
+        "intValue": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Integer."
+          }
+        },
+        "jsonValue": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Json."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The type of the parameter."
+      }
+    },
+    "com.gcp.integrations_v2#GoogleCloudIntegrationsV2DuetIntegrationConfigParameter": {
+      "type": "structure",
+      "members": {
+        "value": {
+          "target": "com.gcp.integrations_v2#GoogleCloudIntegrationsV2DuetValueType",
+          "traits": {
+            "smithy.api#documentation": "Values for the defined keys. Each value can either be string, int, double or any proto message or a serialized object."
+          }
+        },
+        "parameter": {
+          "target": "com.gcp.integrations_v2#GoogleCloudIntegrationsV2DuetIntegrationParameter",
+          "traits": {
+            "smithy.api#documentation": "Optional. Integration Parameter to provide the default value, data type and attributes required for the Integration config variables."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Integration Config Parameter is defined in the integration config and are used to provide external configuration for integration. It provide information about data types of the expected parameters and provide any default values or value. They can also be used to add custom attributes."
+      }
+    },
+    "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoStringFunction": {
+      "type": "structure",
+      "members": {
+        "functionName": {
+          "target": "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoStringFunctionFunctionNameEnum"
+        }
+      }
+    },
+    "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoStringFunctionFunctionNameEnum": {
+      "type": "enum",
+      "members": {
+        "UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "UNSPECIFIED"
+          }
+        },
+        "CONCAT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "CONCAT"
+          }
+        },
+        "TO_UPPERCASE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "TO_UPPERCASE"
+          }
+        },
+        "TO_LOWERCASE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "TO_LOWERCASE"
+          }
+        },
+        "CONTAINS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "CONTAINS"
+          }
+        },
+        "SPLIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SPLIT"
+          }
+        },
+        "LENGTH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "LENGTH"
+          }
+        },
+        "EQUALS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "EQUALS"
+          }
+        },
+        "TO_INT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "TO_INT"
+          }
+        },
+        "TO_DOUBLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "TO_DOUBLE"
+          }
+        },
+        "TO_BOOLEAN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "TO_BOOLEAN"
+          }
+        },
+        "TO_BASE_64": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "TO_BASE_64"
+          }
+        },
+        "TO_JSON": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "TO_JSON"
+          }
+        },
+        "EQUALS_IGNORE_CASE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "EQUALS_IGNORE_CASE"
+          }
+        },
+        "REPLACE_ALL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "REPLACE_ALL"
+          }
+        },
+        "SUBSTRING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SUBSTRING"
+          }
+        },
+        "RESOLVE_TEMPLATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "RESOLVE_TEMPLATE"
+          }
+        },
+        "DECODE_BASE64_STRING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "DECODE_BASE64_STRING"
+          }
+        }
+      }
+    },
+    "com.gcp.integrations_v2#GoogleCloudIntegrationsV2DuetGenerateIntegrationBranchResponse": {
+      "type": "structure",
+      "members": {
+        "integrationBranch": {
+          "target": "com.gcp.integrations_v2#GoogleCloudIntegrationsV2DuetIntegrationBranch",
+          "traits": {
+            "smithy.api#documentation": "The integration branch returned by Duet"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Response message containing the generated integration branch data."
+      }
+    },
+    "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoParameterMap": {
+      "type": "structure",
+      "members": {
+        "keyType": {
+          "target": "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoParameterMapKeyTypeEnum",
+          "traits": {
+            "smithy.api#documentation": "Option to specify key value type for all entries of the map. If provided then field types for all entries must conform to this."
+          }
+        },
+        "entries": {
+          "target": "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoParameterMapEntryList"
+        },
+        "valueType": {
+          "target": "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoParameterMapValueTypeEnum"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A generic multi-map that holds key value pairs. They keys and values can be of any type, unless specified."
+      }
+    },
+    "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoParameterMapKeyTypeEnum": {
+      "type": "enum",
+      "members": {
+        "DATA_TYPE_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "DATA_TYPE_UNSPECIFIED"
+          }
+        },
+        "STRING_VALUE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "STRING_VALUE"
+          }
+        },
+        "INT_VALUE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "INT_VALUE"
+          }
+        },
+        "DOUBLE_VALUE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "DOUBLE_VALUE"
+          }
+        },
+        "BOOLEAN_VALUE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "BOOLEAN_VALUE"
+          }
+        },
+        "PROTO_VALUE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PROTO_VALUE"
+          }
+        },
+        "SERIALIZED_OBJECT_VALUE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SERIALIZED_OBJECT_VALUE"
+          }
+        },
+        "STRING_ARRAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "STRING_ARRAY"
+          }
+        },
+        "INT_ARRAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "INT_ARRAY"
+          }
+        },
+        "DOUBLE_ARRAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "DOUBLE_ARRAY"
+          }
+        },
+        "PROTO_ARRAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PROTO_ARRAY"
+          }
+        },
+        "PROTO_ENUM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PROTO_ENUM"
+          }
+        },
+        "BOOLEAN_ARRAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "BOOLEAN_ARRAY"
+          }
+        },
+        "PROTO_ENUM_ARRAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PROTO_ENUM_ARRAY"
+          }
+        },
+        "BYTES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "BYTES"
+          }
+        },
+        "BYTES_ARRAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "BYTES_ARRAY"
+          }
+        },
+        "NON_SERIALIZABLE_OBJECT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "NON_SERIALIZABLE_OBJECT"
+          }
+        },
+        "JSON_VALUE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "JSON_VALUE"
+          }
+        }
+      }
+    },
+    "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoParameterMapEntryList": {
+      "type": "list",
+      "member": {
+        "target": "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoParameterMapEntry"
+      }
+    },
+    "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoParameterMapValueTypeEnum": {
+      "type": "enum",
+      "members": {
+        "DATA_TYPE_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "DATA_TYPE_UNSPECIFIED"
+          }
+        },
+        "STRING_VALUE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "STRING_VALUE"
+          }
+        },
+        "INT_VALUE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "INT_VALUE"
+          }
+        },
+        "DOUBLE_VALUE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "DOUBLE_VALUE"
+          }
+        },
+        "BOOLEAN_VALUE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "BOOLEAN_VALUE"
+          }
+        },
+        "PROTO_VALUE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PROTO_VALUE"
+          }
+        },
+        "SERIALIZED_OBJECT_VALUE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SERIALIZED_OBJECT_VALUE"
+          }
+        },
+        "STRING_ARRAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "STRING_ARRAY"
+          }
+        },
+        "INT_ARRAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "INT_ARRAY"
+          }
+        },
+        "DOUBLE_ARRAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "DOUBLE_ARRAY"
+          }
+        },
+        "PROTO_ARRAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PROTO_ARRAY"
+          }
+        },
+        "PROTO_ENUM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PROTO_ENUM"
+          }
+        },
+        "BOOLEAN_ARRAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "BOOLEAN_ARRAY"
+          }
+        },
+        "PROTO_ENUM_ARRAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PROTO_ENUM_ARRAY"
+          }
+        },
+        "BYTES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "BYTES"
+          }
+        },
+        "BYTES_ARRAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "BYTES_ARRAY"
+          }
+        },
+        "NON_SERIALIZABLE_OBJECT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "NON_SERIALIZABLE_OBJECT"
+          }
+        },
+        "JSON_VALUE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "JSON_VALUE"
+          }
+        }
+      }
+    },
+    "com.gcp.integrations_v2#GoogleCloudIntegrationsV2DuetTroubleshootExecutionResponse": {
+      "type": "structure",
+      "members": {
+        "displayMessage": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Display message to be shown to the user. Example - If integration execution succeeded, this field value can be \"Integration execution succeeded. No troubleshooting needed.\"."
+          }
+        },
+        "executionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The execution id of the integration execution to be troubleshooted."
+          }
+        },
+        "errorMessage": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Error message of the integration execution, if the execution failed."
+          }
+        },
+        "detailedExplanation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Detailed explanation of the root cause of the integration execution failure."
+          }
+        },
+        "rootCause": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Root cause of the integration execution failure."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Response for troubleshooting an integration execution."
+      }
+    },
+    "com.gcp.integrations_v2#EnterpriseCrmFrontendsEventbusProtoSerializedObjectParameter": {
+      "type": "structure",
+      "members": {
+        "objectValue": {
+          "target": "smithy.api#String"
+        }
+      }
+    },
+    "com.gcp.integrations_v2#GoogleCloudIntegrationsV2AttemptStats": {
+      "type": "structure",
+      "members": {
+        "startTime": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The start time of the execution for the current attempt. This could be in the future if it's been scheduled."
+          }
+        },
+        "endTime": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The end time of the execution for the current attempt."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Status for the execution attempt."
+      }
+    },
+    "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoBooleanArrayFunction": {
+      "type": "structure",
+      "members": {
+        "functionName": {
+          "target": "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoBooleanArrayFunctionFunctionNameEnum"
+        }
+      }
+    },
+    "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoBooleanArrayFunctionFunctionNameEnum": {
+      "type": "enum",
+      "members": {
+        "UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "UNSPECIFIED"
+          }
+        },
+        "GET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "GET"
+          }
+        },
+        "APPEND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "APPEND"
+          }
+        },
+        "SIZE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SIZE"
+          }
+        },
+        "TO_SET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "TO_SET"
+          }
+        },
+        "APPEND_ALL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "APPEND_ALL"
+          }
+        },
+        "TO_JSON": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "TO_JSON"
+          }
+        },
+        "SET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SET"
+          }
+        },
+        "REMOVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "REMOVE"
+          }
+        },
+        "REMOVE_AT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "REMOVE_AT"
+          }
+        },
+        "CONTAINS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "CONTAINS"
+          }
+        },
+        "FOR_EACH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "FOR_EACH"
+          }
+        },
+        "FILTER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "FILTER"
+          }
+        }
+      }
+    },
+    "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoCustomSuspensionRequest": {
+      "type": "structure",
+      "members": {
+        "postToQueueWithTriggerIdRequest": {
+          "target": "com.gcp.integrations_v2#GoogleInternalCloudCrmEventbusV3PostToQueueWithTriggerIdRequest",
+          "traits": {
+            "smithy.api#documentation": "Request to fire an event containing the SuspensionInfo message."
+          }
+        },
+        "suspensionInfoEventParameterKey": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "In the fired event, set the SuspensionInfo message as the value for this key."
+          }
+        }
+      }
+    },
+    "com.gcp.integrations_v2#EnterpriseCrmFrontendsEventbusProtoParameterValueType": {
+      "type": "structure",
+      "members": {
+        "protoArray": {
+          "target": "com.gcp.integrations_v2#EnterpriseCrmFrontendsEventbusProtoProtoParameterArray"
+        },
+        "jsonValue": {
+          "target": "smithy.api#String"
+        },
+        "protoValue": {
+          "target": "com.gcp.integrations_v2#DocumentMap"
+        },
+        "intArray": {
+          "target": "com.gcp.integrations_v2#EnterpriseCrmFrontendsEventbusProtoIntParameterArray"
+        },
+        "booleanValue": {
+          "target": "smithy.api#Boolean"
+        },
+        "intValue": {
+          "target": "smithy.api#String"
+        },
+        "doubleValue": {
+          "target": "smithy.api#Double"
+        },
+        "stringArray": {
+          "target": "com.gcp.integrations_v2#EnterpriseCrmFrontendsEventbusProtoStringParameterArray"
+        },
+        "serializedObjectValue": {
+          "target": "com.gcp.integrations_v2#EnterpriseCrmFrontendsEventbusProtoSerializedObjectParameter"
+        },
+        "booleanArray": {
+          "target": "com.gcp.integrations_v2#EnterpriseCrmFrontendsEventbusProtoBooleanParameterArray"
+        },
+        "doubleArray": {
+          "target": "com.gcp.integrations_v2#EnterpriseCrmFrontendsEventbusProtoDoubleParameterArray"
+        },
+        "stringValue": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "To support various types of parameter values. Next available id: 14"
+      }
+    },
+    "com.gcp.integrations_v2#GoogleApiHttpBody": {
+      "type": "structure",
+      "members": {
+        "extensions": {
+          "target": "com.gcp.integrations_v2#DocumentMapList",
+          "traits": {
+            "smithy.api#documentation": "Application specific response metadata. Must be set in the first response for streaming APIs."
+          }
+        },
+        "contentType": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The HTTP Content-Type header value specifying the content type of the body."
+          }
+        },
+        "data": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The HTTP request/response body as raw binary."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Message that represents an arbitrary HTTP body. It should only be used for payload formats that can't be represented as JSON, such as raw binary or an HTML page. This message can be used both in streaming and non-streaming API methods in the request as well as the response. It can be used as a top-level request field, which is convenient if one wants to extract parameters from either the URL or HTTP template into the request fields and also want access to the raw HTTP body. Example: message GetResourceRequest { // A unique request id. string request_id = 1; // The raw HTTP body is bound to this field. google.api.HttpBody http_body = 2; } service ResourceService { rpc GetResource(GetResourceRequest) returns (google.api.HttpBody); rpc UpdateResource(google.api.HttpBody) returns (google.protobuf.Empty); } Example with streaming methods: service CaldavService { rpc GetCalendar(stream google.api.HttpBody) returns (stream google.api.HttpBody); rpc UpdateCalendar(stream google.api.HttpBody) returns (stream google.api.HttpBody); } Use of this type only changes how the request and response bodies are handled, all other features will continue to work unchanged."
+      }
+    },
+    "com.gcp.integrations_v2#GoogleCloudIntegrationsV2DuetRecommendTasksResponse": {
+      "type": "structure",
+      "members": {
+        "taskResponseStatuses": {
+          "target": "com.gcp.integrations_v2#GoogleCloudIntegrationsV2DuetTaskResponseStatusList",
+          "traits": {
+            "smithy.api#documentation": "The list of task response status based on the task_types in the request."
+          }
+        },
+        "taskConfigs": {
+          "target": "com.gcp.integrations_v2#GoogleCloudIntegrationsV2DuetTaskConfigList",
+          "traits": {
+            "smithy.api#documentation": "The list of recommended tasks."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Response message containing recommended tasks for replacement."
+      }
+    },
+    "com.gcp.integrations_v2#GoogleCloudIntegrationsV2DuetTaskResponseStatusList": {
+      "type": "list",
+      "member": {
+        "target": "com.gcp.integrations_v2#GoogleCloudIntegrationsV2DuetTaskResponseStatus"
+      }
+    },
+    "com.gcp.integrations_v2#GoogleCloudIntegrationsV2DuetGenerateIntegrationRequest": {
+      "type": "structure",
+      "members": {
+        "prompt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Required. The natural language prompt based on which the integration will be generated."
+          }
+        },
+        "copilotEnabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Optional. Indicates if copilot is enabled. Copilot features may alter the generated integration structure."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Request for generating an integration."
+      }
+    },
+    "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoSuspensionResolutionInfoAudit": {
+      "type": "structure",
+      "members": {
+        "resolvedBy": {
+          "target": "smithy.api#String"
+        },
+        "timestamp": {
+          "target": "smithy.api#String"
+        },
+        "resolvedByCpi": {
+          "target": "smithy.api#String"
+        }
+      }
+    },
+    "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoLoopMetadata": {
+      "type": "structure",
+      "members": {
+        "currentIterationDetail": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Needs to be set by the loop impl class before each iteration. The abstract loop class will append the request and response to it. Eg. The foreach Loop will clean up and set it as the current iteration element at the start of each loop. The post request and response will be appended to the value once they are available."
+          }
+        },
+        "currentIterationCount": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Starting from 1, not 0."
+          }
+        },
+        "errorMsg": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Add the error message when loops fail."
+          }
+        },
+        "failureLocation": {
+          "target": "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoLoopMetadataFailureLocationEnum",
+          "traits": {
+            "smithy.api#documentation": "Indicates where in the loop logic did it error out."
+          }
+        }
+      }
+    },
+    "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoLoopMetadataFailureLocationEnum": {
+      "type": "enum",
+      "members": {
+        "UNKNOWN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "UNKNOWN"
+          }
+        },
+        "SUBWORKFLOW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SUBWORKFLOW"
+          }
+        },
+        "PARAM_OVERRIDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PARAM_OVERRIDING"
+          }
+        },
+        "PARAM_AGGREGATING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PARAM_AGGREGATING"
+          }
+        },
+        "SETTING_ITERATION_ELEMENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SETTING_ITERATION_ELEMENT"
+          }
+        },
+        "GETTING_LIST_TO_ITERATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "GETTING_LIST_TO_ITERATE"
+          }
+        },
+        "CONDITION_EVALUATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "CONDITION_EVALUATION"
+          }
+        },
+        "BUILDING_REQUEST": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "BUILDING_REQUEST"
+          }
+        }
+      }
+    },
+    "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoSuspensionAuthPermissions": {
+      "type": "structure",
+      "members": {
+        "mdbGroup": {
+          "target": "smithy.api#String"
+        },
+        "googleGroup": {
+          "target": "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoSuspensionAuthPermissionsGaiaIdentity"
+        },
+        "loasRole": {
+          "target": "smithy.api#String"
+        },
+        "gaiaIdentity": {
+          "target": "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoSuspensionAuthPermissionsGaiaIdentity",
+          "traits": {
+            "smithy.api#documentation": "Represents a Gaia identity for a person or service account."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "LINT.IfChange"
+      }
+    },
+    "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoScatterResponse": {
+      "type": "structure",
+      "members": {
+        "scatterElement": {
+          "target": "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoParameterValueType",
+          "traits": {
+            "smithy.api#documentation": "The element that was scattered for this execution."
+          }
+        },
+        "isSuccessful": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "If execution is sync, this is true if the execution passed and false if it failed. If the execution is async, this is true if the WF was fired off successfully, and false if it failed to execute. The success or failure of the subworkflows executed are not captured."
+          }
+        },
+        "errorMsg": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The error message of the failure if applicable."
+          }
+        },
+        "responseParams": {
+          "target": "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoParameterEntryList",
+          "traits": {
+            "smithy.api#documentation": "A list of all the response parameters in the aggregtorMap stored with the remapped key."
+          }
+        },
+        "executionIds": {
+          "target": "com.gcp.integrations_v2#StringList",
+          "traits": {
+            "smithy.api#documentation": "The execution ids of each Subworkflow fired by this scatter."
+          }
+        }
+      }
+    },
+    "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoParameterMapEntry": {
+      "type": "structure",
+      "members": {
+        "key": {
+          "target": "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoParameterMapField"
+        },
+        "value": {
+          "target": "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoParameterMapField"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Entry is a pair of key and value."
+      }
+    },
+    "com.gcp.integrations_v2#GoogleCloudIntegrationsV2TaskExecutionDetails": {
+      "type": "structure",
+      "members": {
+        "taskAttemptStats": {
+          "target": "com.gcp.integrations_v2#GoogleCloudIntegrationsV2AttemptStatsList",
+          "traits": {
+            "smithy.api#documentation": "List for the current task execution attempts."
+          }
+        },
+        "taskExecutionState": {
+          "target": "com.gcp.integrations_v2#GoogleCloudIntegrationsV2TaskExecutionDetailsTaskExecutionStateEnum",
+          "traits": {
+            "smithy.api#documentation": "Output only. The execution state of this task."
+          }
+        },
+        "taskNumber": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Pointer to the task config it used for execution."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Details of the task execution."
+      }
+    },
+    "com.gcp.integrations_v2#GoogleCloudIntegrationsV2AttemptStatsList": {
+      "type": "list",
+      "member": {
+        "target": "com.gcp.integrations_v2#GoogleCloudIntegrationsV2AttemptStats"
+      }
+    },
+    "com.gcp.integrations_v2#GoogleCloudIntegrationsV2TaskExecutionDetailsTaskExecutionStateEnum": {
+      "type": "enum",
+      "members": {
+        "STATE_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "STATE_UNSPECIFIED"
+          }
+        },
+        "IN_PROCESS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "IN_PROCESS"
+          }
+        },
+        "SUCCEED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SUCCEED"
+          }
+        },
+        "FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "FAILED"
+          }
+        },
+        "FATAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "FATAL"
+          }
+        },
+        "RETRY_ON_HOLD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "RETRY_ON_HOLD"
+          }
+        },
+        "CANCELLED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "CANCELLED"
+          }
+        },
+        "SUSPENDED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SUSPENDED"
+          }
+        }
+      }
+    },
+    "com.gcp.integrations_v2#GoogleCloudIntegrationsV2DuetErrorCatcherConfig": {
+      "type": "structure",
+      "members": {
+        "errorCatcherId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Required. An error catcher id is string representation for the error catcher config. Within a workflow, error_catcher_id uniquely identifies an error catcher config among all error catcher configs for the workflow"
+          }
+        },
+        "errorCatcherNumber": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Required. A number to uniquely identify each error catcher config within the workflow on UI."
+          }
+        },
+        "label": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional. The user created label for a particular error catcher. Optional."
+          }
+        },
+        "startErrorTasks": {
+          "target": "com.gcp.integrations_v2#GoogleCloudIntegrationsV2DuetNextTaskList",
+          "traits": {
+            "smithy.api#documentation": "Required. The set of start tasks that are to be executed for the error catch flow"
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional. User-provided description intended to give more business context about the error catcher config."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Configuration detail of a error catch task"
+      }
+    },
+    "com.gcp.integrations_v2#GoogleCloudIntegrationsV2ExecutionReplayInfo": {
+      "type": "structure",
+      "members": {
+        "replayReason": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "reason for replay"
+          }
+        },
+        "replayedExecutionIds": {
+          "target": "com.gcp.integrations_v2#StringList",
+          "traits": {
+            "smithy.api#documentation": "If this execution has been replayed, then this field contains the execution ids of the replayed executions."
+          }
+        },
+        "replayMode": {
+          "target": "com.gcp.integrations_v2#GoogleCloudIntegrationsV2ExecutionReplayInfoReplayModeEnum",
+          "traits": {
+            "smithy.api#documentation": "Replay mode for the execution"
+          }
+        },
+        "originalExecutionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "If this execution is a replay of another execution, then this field contains the original execution id."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Contains the details of the execution info: this includes the replay reason and replay tree connecting executions in a parent-child relationship"
+      }
+    },
+    "com.gcp.integrations_v2#GoogleCloudIntegrationsV2ExecutionReplayInfoReplayModeEnum": {
+      "type": "enum",
+      "members": {
+        "REPLAY_MODE_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "REPLAY_MODE_UNSPECIFIED"
+          }
+        },
+        "REPLAY_MODE_FROM_BEGINNING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "REPLAY_MODE_FROM_BEGINNING"
+          }
+        },
+        "REPLAY_MODE_POINT_OF_FAILURE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "REPLAY_MODE_POINT_OF_FAILURE"
+          }
+        }
+      }
+    },
+    "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoParameterMapField": {
+      "type": "structure",
+      "members": {
+        "referenceKey": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Referencing one of the WF variables."
+          }
+        },
+        "literalValue": {
+          "target": "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoParameterValueType",
+          "traits": {
+            "smithy.api#documentation": "Passing a literal value."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Field represents either the key or value in an entry."
+      }
+    },
+    "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoFieldMappingConfig": {
+      "type": "structure",
+      "members": {
+        "mappedFields": {
+          "target": "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoMappedFieldList"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Field Mapping Config to map multiple output fields values from input fields values."
+      }
+    },
+    "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoMappedFieldList": {
+      "type": "list",
+      "member": {
+        "target": "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoMappedField"
+      }
+    },
+    "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoBooleanFunction": {
+      "type": "structure",
+      "members": {
+        "functionName": {
+          "target": "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoBooleanFunctionFunctionNameEnum"
+        }
+      }
+    },
+    "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoBooleanFunctionFunctionNameEnum": {
+      "type": "enum",
+      "members": {
+        "UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "UNSPECIFIED"
+          }
+        },
+        "TO_JSON": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "TO_JSON"
+          }
+        },
+        "NOT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "NOT"
+          }
+        },
+        "AND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "AND"
+          }
+        },
+        "NAND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "NAND"
+          }
+        },
+        "OR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "OR"
+          }
+        },
+        "XOR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "XOR"
+          }
+        },
+        "NOR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "NOR"
+          }
+        },
+        "XNOR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "XNOR"
+          }
+        },
+        "TO_STRING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "TO_STRING"
+          }
+        },
+        "EQUALS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "EQUALS"
+          }
+        }
+      }
+    },
+    "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoJsonFunction": {
+      "type": "structure",
+      "members": {
+        "functionName": {
+          "target": "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoJsonFunctionFunctionNameEnum"
+        }
+      }
+    },
+    "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoJsonFunctionFunctionNameEnum": {
+      "type": "enum",
+      "members": {
+        "UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "UNSPECIFIED"
+          }
+        },
+        "GET_PROPERTY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "GET_PROPERTY"
+          }
+        },
+        "GET_ELEMENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "GET_ELEMENT"
+          }
+        },
+        "APPEND_ELEMENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "APPEND_ELEMENT"
+          }
+        },
+        "SIZE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SIZE"
+          }
+        },
+        "SET_PROPERTY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SET_PROPERTY"
+          }
+        },
+        "FLATTEN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "FLATTEN"
+          }
+        },
+        "FLATTEN_ONCE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "FLATTEN_ONCE"
+          }
+        },
+        "MERGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "MERGE"
+          }
+        },
+        "TO_STRING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "TO_STRING"
+          }
+        },
+        "TO_INT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "TO_INT"
+          }
+        },
+        "TO_DOUBLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "TO_DOUBLE"
+          }
+        },
+        "TO_BOOLEAN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "TO_BOOLEAN"
+          }
+        },
+        "TO_PROTO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "TO_PROTO"
+          }
+        },
+        "TO_STRING_ARRAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "TO_STRING_ARRAY"
+          }
+        },
+        "TO_INT_ARRAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "TO_INT_ARRAY"
+          }
+        },
+        "TO_DOUBLE_ARRAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "TO_DOUBLE_ARRAY"
+          }
+        },
+        "TO_PROTO_ARRAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "TO_PROTO_ARRAY"
+          }
+        },
+        "TO_BOOLEAN_ARRAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "TO_BOOLEAN_ARRAY"
+          }
+        },
+        "REMOVE_PROPERTY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "REMOVE_PROPERTY"
+          }
+        },
+        "RESOLVE_TEMPLATE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "RESOLVE_TEMPLATE"
+          }
+        },
+        "EQUALS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "EQUALS"
+          }
+        },
+        "FOR_EACH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "FOR_EACH"
+          }
+        },
+        "FILTER_ELEMENTS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "FILTER_ELEMENTS"
+          }
+        }
+      }
+    },
+    "com.gcp.integrations_v2#EnterpriseCrmFrontendsEventbusProtoParameterMapField": {
+      "type": "structure",
+      "members": {
+        "referenceKey": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Referencing one of the WF variables."
+          }
+        },
+        "literalValue": {
+          "target": "com.gcp.integrations_v2#EnterpriseCrmFrontendsEventbusProtoParameterValueType",
+          "traits": {
+            "smithy.api#documentation": "Passing a literal value."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Field represents either the key or value in an entry."
+      }
+    },
+    "com.gcp.integrations_v2#EnterpriseCrmFrontendsEventbusProtoIntParameterArray": {
+      "type": "structure",
+      "members": {
+        "intValues": {
+          "target": "com.gcp.integrations_v2#StringList"
+        }
+      }
+    },
+    "com.gcp.integrations_v2#GoogleCloudIntegrationsV2DuetIntegrationBranchRequest": {
+      "type": "structure",
+      "members": {
+        "taskConfigs": {
+          "target": "com.gcp.integrations_v2#GoogleCloudIntegrationsV2DuetTaskConfigList",
+          "traits": {
+            "smithy.api#documentation": "Required. A list of all the tasks of the current integration."
+          }
+        },
+        "branchCondition": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional. The condition for the particular branch which the user selected."
+          }
+        },
+        "integrationParameters": {
+          "target": "com.gcp.integrations_v2#GoogleCloudIntegrationsV2DuetIntegrationParameterList",
+          "traits": {
+            "smithy.api#documentation": "Optional. A list of all the workflow parameters of the current integration."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The request for generating an integration branch."
+      }
+    },
+    "com.gcp.integrations_v2#GoogleInternalCloudCrmEventbusV3PostToQueueWithTriggerIdRequest": {
+      "type": "structure",
+      "members": {
+        "requestId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional. This is used to de-dup incoming request: if the duplicate request was detected, the response from the previous execution is returned. Must have no more than 36 characters and contain only alphanumeric characters and hyphens."
+          }
+        },
+        "triggerId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Matched against all {@link TriggerConfig}s across all workflows. i.e. TriggerConfig.trigger_id.equals(trigger_id) Required."
+          }
+        },
+        "clientId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional. If the client id is provided, then the combination of trigger id and client id is matched across all the workflows. If the client id is not provided, then workflows with matching trigger id are executed for each client id in the {@link TriggerConfig}. For Api Trigger, the client id is required and will be validated against the allowed clients."
+          }
+        },
+        "testMode": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Optional. Sets test mode in {@link enterprise/crm/eventbus/event_message.proto}."
+          }
+        },
+        "resourceName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "This field is only required when using Admin Access. The resource name of target, or the parent resource name. For example: \"projects/*/locations/*/integrations/*\""
+          }
+        },
+        "ignoreErrorIfNoActiveWorkflow": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Optional. Flag to determine whether clients would suppress a warning when no ACTIVE workflows are not found. If this flag is set to be true, an error will not be thrown if the requested trigger_id or client_id is not found in any ACTIVE workflow. Otherwise, the error is always thrown. The flag is set to be false by default."
+          }
+        },
+        "parameters": {
+          "target": "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoEventParameters",
+          "traits": {
+            "smithy.api#documentation": "Passed in as parameters to each workflow execution. Optional."
+          }
+        },
+        "userGeneratedExecutionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "This is a unique id provided by the method caller. If provided this will be used as the execution_id when a new execution info is created. This is a string representation of a UUID. Must have no more than 36 characters and contain only alphanumeric characters and hyphens."
+          }
+        },
+        "workflowName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional. If provided, the workflow_name is used to filter all the matched workflows having same trigger_id+client_id. A combination of trigger_id, client_id and workflow_name identifies a unique workflow."
+          }
+        },
+        "scheduledTime": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional. Time in milliseconds since epoch when the given event would be scheduled."
+          }
+        },
+        "priority": {
+          "target": "com.gcp.integrations_v2#GoogleInternalCloudCrmEventbusV3PostToQueueWithTriggerIdRequestPriorityEnum",
+          "traits": {
+            "smithy.api#documentation": "The request priority this request should be processed at. For internal users:"
+          }
+        },
+        "quotaRetryCount": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Optional. This is a field to see the quota retry count for integration execution"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "LINT.IfChange Use this request to post all workflows associated with a given trigger id. Next available id: 13"
+      }
+    },
+    "com.gcp.integrations_v2#GoogleInternalCloudCrmEventbusV3PostToQueueWithTriggerIdRequestPriorityEnum": {
+      "type": "enum",
+      "members": {
+        "UNSPCIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "UNSPCIFIED"
+          }
+        },
+        "SHEDDABLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SHEDDABLE"
+          }
+        },
+        "SHEDDABLE_PLUS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SHEDDABLE_PLUS"
+          }
+        },
+        "CRITICAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "CRITICAL"
+          }
+        },
+        "CRITICAL_PLUS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "CRITICAL_PLUS"
+          }
+        }
+      }
+    },
+    "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoSuspensionConfig": {
+      "type": "structure",
+      "members": {
+        "customMessage": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional information to provide recipients of the suspension in addition to the resolution URL, typically containing relevant parameter values from the originating workflow."
+          }
+        },
+        "notifications": {
+          "target": "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoNotificationList"
+        },
+        "suspensionExpiration": {
+          "target": "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoSuspensionExpiration",
+          "traits": {
+            "smithy.api#documentation": "Indicates the next steps when no external actions happen on the suspension."
+          }
+        },
+        "whoMayResolve": {
+          "target": "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoSuspensionAuthPermissionsList",
+          "traits": {
+            "smithy.api#documentation": "Identities able to resolve this suspension."
+          }
+        }
+      }
+    },
+    "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoNotificationList": {
+      "type": "list",
+      "member": {
+        "target": "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoNotification"
+      }
+    },
+    "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoSuspensionAuthPermissionsList": {
+      "type": "list",
+      "member": {
+        "target": "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoSuspensionAuthPermissions"
+      }
+    },
+    "com.gcp.integrations_v2#GoogleCloudIntegrationsV2DuetRecommendTasksRequest": {
+      "type": "structure",
+      "members": {
+        "prompt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional. User prompt."
+          }
+        },
+        "replaceTaskRequest": {
+          "target": "com.gcp.integrations_v2#GoogleCloudIntegrationsV2DuetReplaceTaskRequest",
+          "traits": {
+            "smithy.api#documentation": "Required. The current task to replace and options."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Request message for recommending tasks to replace a selected task."
+      }
+    },
+    "com.gcp.integrations_v2#EnterpriseCrmEventbusAuthconfigAuthConfigTaskParam": {
+      "type": "structure",
+      "members": {
+        "allowedCredentialTypes": {
+          "target": "com.gcp.integrations_v2#EnterpriseCrmEventbusAuthconfigAuthConfigTaskParamAllowedCredentialTypesItemEnumList",
+          "traits": {
+            "smithy.api#documentation": "Defines the credential types to be supported as Task may restrict specific types to use, e.g. Cloud SQL Task will use username/password type only."
+          }
+        },
+        "allowedServiceAccountInContext": {
+          "target": "smithy.api#Boolean"
+        },
+        "scope": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A space-delimited list of requested scope permissions."
+          }
+        },
+        "authConfigId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "UUID of the AuthConfig."
+          }
+        },
+        "useServiceAccountInContext": {
+          "target": "smithy.api#Boolean"
+        }
+      }
+    },
+    "com.gcp.integrations_v2#EnterpriseCrmEventbusAuthconfigAuthConfigTaskParamAllowedCredentialTypesItemEnum": {
+      "type": "enum",
+      "members": {
+        "CREDENTIAL_TYPE_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "CREDENTIAL_TYPE_UNSPECIFIED"
+          }
+        },
+        "USERNAME_AND_PASSWORD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "USERNAME_AND_PASSWORD"
+          }
+        },
+        "API_KEY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "API_KEY"
+          }
+        },
+        "OAUTH2_AUTHORIZATION_CODE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "OAUTH2_AUTHORIZATION_CODE"
+          }
+        },
+        "OAUTH2_IMPLICIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "OAUTH2_IMPLICIT"
+          }
+        },
+        "OAUTH2_CLIENT_CREDENTIALS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "OAUTH2_CLIENT_CREDENTIALS"
+          }
+        },
+        "OAUTH2_RESOURCE_OWNER_CREDENTIALS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "OAUTH2_RESOURCE_OWNER_CREDENTIALS"
+          }
+        },
+        "JWT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "JWT"
+          }
+        },
+        "AUTH_TOKEN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "AUTH_TOKEN"
+          }
+        },
+        "SERVICE_ACCOUNT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SERVICE_ACCOUNT"
+          }
+        },
+        "CLIENT_CERTIFICATE_ONLY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "CLIENT_CERTIFICATE_ONLY"
+          }
+        },
+        "OIDC_TOKEN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "OIDC_TOKEN"
+          }
+        }
+      }
+    },
+    "com.gcp.integrations_v2#EnterpriseCrmEventbusAuthconfigAuthConfigTaskParamAllowedCredentialTypesItemEnumList": {
+      "type": "list",
+      "member": {
+        "target": "com.gcp.integrations_v2#EnterpriseCrmEventbusAuthconfigAuthConfigTaskParamAllowedCredentialTypesItemEnum"
+      }
+    },
+    "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoExternalTraffic": {
+      "type": "structure",
+      "members": {
+        "gcpProjectNumber": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "User’s GCP project number the traffic is referring to."
+          }
+        },
+        "source": {
+          "target": "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoExternalTrafficSourceEnum"
+        },
+        "gcpProjectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "User’s GCP project id the traffic is referring to."
+          }
+        },
+        "enableInternalIp": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Indicates the client enables internal IP feature, this is applicable for internal clients only."
+          }
+        },
+        "retryRequestForQuota": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Enqueue the execution request due to quota issue"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Location for the user's request."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Represents external traffic type and id."
+      }
+    },
+    "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoExternalTrafficSourceEnum": {
+      "type": "enum",
+      "members": {
+        "SOURCE_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SOURCE_UNSPECIFIED"
+          }
+        },
+        "APIGEE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "APIGEE"
+          }
+        },
+        "SECURITY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SECURITY"
+          }
+        }
+      }
+    },
+    "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoParameterValueType": {
+      "type": "structure",
+      "members": {
+        "doubleArray": {
+          "target": "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoDoubleParameterArray"
+        },
+        "doubleValue": {
+          "target": "smithy.api#Double"
+        },
+        "stringArray": {
+          "target": "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoStringParameterArray"
+        },
+        "booleanValue": {
+          "target": "smithy.api#Boolean"
+        },
+        "intArray": {
+          "target": "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoIntParameterArray"
+        },
+        "stringValue": {
+          "target": "smithy.api#String"
+        },
+        "intValue": {
+          "target": "smithy.api#String"
+        },
+        "booleanArray": {
+          "target": "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoBooleanParameterArray"
+        },
+        "protoArray": {
+          "target": "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoProtoParameterArray"
+        },
+        "serializedObjectValue": {
+          "target": "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoSerializedObjectParameter"
+        },
+        "protoValue": {
+          "target": "com.gcp.integrations_v2#DocumentMap"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "LINT.IfChange To support various types of parameter values. Next available id: 14"
+      }
+    },
+    "com.gcp.integrations_v2#GoogleCloudIntegrationsV2DuetEventParameter": {
+      "type": "structure",
+      "members": {
+        "key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Key is used to retrieve the corresponding parameter value. This should be unique for a given fired event. These parameters must be predefined in the integration definition."
+          }
+        },
+        "value": {
+          "target": "com.gcp.integrations_v2#GoogleCloudIntegrationsV2DuetValueType",
+          "traits": {
+            "smithy.api#documentation": "Values for the defined keys. Each value can either be string, int, double or any proto message."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "This message is used for processing and persisting (when applicable) key value pair parameters for each event in the event bus."
+      }
+    },
+    "com.gcp.integrations_v2#GoogleCloudIntegrationsV2DuetIntegrationVersion": {
+      "type": "structure",
+      "members": {
+        "snapshotNumber": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional. An increasing sequence that is set when a new snapshot is created. The last created snapshot can be identified by [workflow_name, org_id latest(snapshot_number)]. However, last created snapshot need not be same as the HEAD. So users should always use \"HEAD\" tag to identify the head."
+          }
+        },
+        "taskConfigs": {
+          "target": "com.gcp.integrations_v2#GoogleCloudIntegrationsV2DuetTaskConfigList",
+          "traits": {
+            "smithy.api#documentation": "Optional. Task configuration for the integration. It's optional, but the integration doesn't do anything without task_configs."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional. Auto-generated primary key."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional. The integration description."
+          }
+        },
+        "userLabel": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional. A user-defined label that annotates an integration version. Typically, this is only set when the integration version is created."
+          }
+        },
+        "integrationConfigParameters": {
+          "target": "com.gcp.integrations_v2#GoogleCloudIntegrationsV2DuetIntegrationConfigParameterList",
+          "traits": {
+            "smithy.api#documentation": "Optional. Config Parameters that are expected to be passed to the integration when an integration is published. This consists of all the parameters that are expected to provide configuration in the integration execution. This gives the user the ability to provide default values, value, add information like connection url, project based configuration value and also provide data types of each parameter."
+          }
+        },
+        "triggerConfigs": {
+          "target": "com.gcp.integrations_v2#GoogleCloudIntegrationsV2DuetTriggerConfigList",
+          "traits": {
+            "smithy.api#documentation": "Optional. Trigger configurations."
+          }
+        },
+        "errorCatcherConfigs": {
+          "target": "com.gcp.integrations_v2#GoogleCloudIntegrationsV2DuetErrorCatcherConfigList",
+          "traits": {
+            "smithy.api#documentation": "Optional. Error Catch Task configuration for the integration. It's optional."
+          }
+        },
+        "integrationParameters": {
+          "target": "com.gcp.integrations_v2#GoogleCloudIntegrationsV2DuetIntegrationParameterList",
+          "traits": {
+            "smithy.api#documentation": "Optional. Parameters that are expected to be passed to the integration when an event is triggered. This consists of all the parameters that are expected in the integration execution. This gives the user the ability to provide default values, add information like PII and also provide data types of each parameter."
+          }
+        },
+        "state": {
+          "target": "com.gcp.integrations_v2#GoogleCloudIntegrationsV2DuetIntegrationVersionStateEnum",
+          "traits": {
+            "smithy.api#documentation": "Output only. User should not set it as an input."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The integration version definition."
+      }
+    },
+    "com.gcp.integrations_v2#GoogleCloudIntegrationsV2DuetIntegrationConfigParameterList": {
+      "type": "list",
+      "member": {
+        "target": "com.gcp.integrations_v2#GoogleCloudIntegrationsV2DuetIntegrationConfigParameter"
+      }
+    },
+    "com.gcp.integrations_v2#GoogleCloudIntegrationsV2DuetTriggerConfigList": {
+      "type": "list",
+      "member": {
+        "target": "com.gcp.integrations_v2#GoogleCloudIntegrationsV2DuetTriggerConfig"
+      }
+    },
+    "com.gcp.integrations_v2#GoogleCloudIntegrationsV2DuetErrorCatcherConfigList": {
+      "type": "list",
+      "member": {
+        "target": "com.gcp.integrations_v2#GoogleCloudIntegrationsV2DuetErrorCatcherConfig"
+      }
+    },
+    "com.gcp.integrations_v2#GoogleCloudIntegrationsV2DuetIntegrationVersionStateEnum": {
+      "type": "enum",
+      "members": {
+        "INTEGRATION_STATE_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "INTEGRATION_STATE_UNSPECIFIED"
+          }
+        },
+        "DRAFT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "DRAFT"
+          }
+        },
+        "ACTIVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ACTIVE"
+          }
+        },
+        "ARCHIVED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ARCHIVED"
+          }
+        },
+        "SNAPSHOT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SNAPSHOT"
+          }
+        }
+      }
+    },
+    "com.gcp.integrations_v2#GoogleCloudIntegrationsV2TaskExecution": {
+      "type": "structure",
+      "members": {
+        "taskExecutionDetails": {
+          "target": "com.gcp.integrations_v2#GoogleCloudIntegrationsV2TaskExecutionDetailsList",
+          "traits": {
+            "smithy.api#documentation": "Details of the task execution."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier. Task execution resource name."
+          }
+        },
+        "variables": {
+          "target": "com.gcp.integrations_v2#DocumentMap",
+          "traits": {
+            "smithy.api#documentation": "Optional. Variables used during the execution."
+          }
+        },
+        "taskExecutionMetadata": {
+          "target": "com.gcp.integrations_v2#GoogleCloudIntegrationsV2TaskExecutionTaskExecutionMetadata",
+          "traits": {
+            "smithy.api#documentation": "Optional. Metadata of the task execution."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Execution of a single task within an integration"
+      }
+    },
+    "com.gcp.integrations_v2#GoogleCloudIntegrationsV2TaskExecutionDetailsList": {
+      "type": "list",
+      "member": {
+        "target": "com.gcp.integrations_v2#GoogleCloudIntegrationsV2TaskExecutionDetails"
+      }
+    },
+    "com.gcp.integrations_v2#GoogleCloudIntegrationsV2DuetTriggerConfigVariables": {
+      "type": "structure",
+      "members": {
+        "names": {
+          "target": "com.gcp.integrations_v2#StringList",
+          "traits": {
+            "smithy.api#documentation": "Optional. List of variable names."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Variables names mapped to api trigger."
+      }
+    },
+    "com.gcp.integrations_v2#GoogleCloudIntegrationsV2Execution": {
+      "type": "structure",
+      "members": {
+        "triggerId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the trigger invoked at the start of the execution."
+          }
+        },
+        "executionAttemptStats": {
+          "target": "com.gcp.integrations_v2#GoogleCloudIntegrationsV2AttemptStatsList",
+          "traits": {
+            "smithy.api#documentation": "Start and end time of each execution attempt."
+          }
+        },
+        "updateTime": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Output only. Time the execution is recently updated."
+          }
+        },
+        "cloudLoggingDetails": {
+          "target": "com.gcp.integrations_v2#GoogleCloudIntegrationsV2CloudLoggingDetails",
+          "traits": {
+            "smithy.api#documentation": "Cloud Logging details for the integration version"
+          }
+        },
+        "requestVariables": {
+          "target": "com.gcp.integrations_v2#DocumentMap",
+          "traits": {
+            "smithy.api#documentation": "Optional. Variables provided in the request."
+          }
+        },
+        "createTime": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Output only. Time the execution is created."
+          }
+        },
+        "taskExecutions": {
+          "target": "com.gcp.integrations_v2#GoogleCloudIntegrationsV2TaskExecutionList",
+          "traits": {
+            "smithy.api#documentation": "Optional. List of task executions."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier. Execution resource name."
+          }
+        },
+        "containTaskVariables": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Indicates if the task execution contains variables."
+          }
+        },
+        "state": {
+          "target": "com.gcp.integrations_v2#GoogleCloudIntegrationsV2ExecutionStateEnum",
+          "traits": {
+            "smithy.api#documentation": "Output only. Status of the execution."
+          }
+        },
+        "integrationVersionNumber": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Indicates which snapshot of integration is used for this execution."
+          }
+        },
+        "replayInfo": {
+          "target": "com.gcp.integrations_v2#GoogleCloudIntegrationsV2ExecutionReplayInfo",
+          "traits": {
+            "smithy.api#documentation": "Output only. Replay info for the execution"
+          }
+        },
+        "responseVariables": {
+          "target": "com.gcp.integrations_v2#DocumentMap",
+          "traits": {
+            "smithy.api#documentation": "Optional. Variables returned as part of the response."
+          }
+        },
+        "integrationVersionUserLabel": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional. User-defined label that annotates the executed integration version."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The Execution contains detailed information of an individual integration execution."
+      }
+    },
+    "com.gcp.integrations_v2#GoogleCloudIntegrationsV2TaskExecutionList": {
+      "type": "list",
+      "member": {
+        "target": "com.gcp.integrations_v2#GoogleCloudIntegrationsV2TaskExecution"
+      }
+    },
+    "com.gcp.integrations_v2#GoogleCloudIntegrationsV2ExecutionStateEnum": {
+      "type": "enum",
+      "members": {
+        "STATE_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "STATE_UNSPECIFIED"
+          }
+        },
+        "ON_HOLD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ON_HOLD"
+          }
+        },
+        "IN_PROCESS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "IN_PROCESS"
+          }
+        },
+        "SUCCEEDED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SUCCEEDED"
+          }
+        },
+        "FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "FAILED"
+          }
+        },
+        "CANCELLED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "CANCELLED"
+          }
+        },
+        "RETRY_ON_HOLD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "RETRY_ON_HOLD"
+          }
+        },
+        "SUSPENDED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SUSPENDED"
+          }
+        }
+      }
+    },
+    "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoToken": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String"
+        },
+        "value": {
+          "target": "smithy.api#String"
+        }
+      }
+    },
+    "com.gcp.integrations_v2#GoogleCloudIntegrationsV2DuetIntParameterArray": {
+      "type": "structure",
+      "members": {
+        "intValues": {
+          "target": "com.gcp.integrations_v2#StringList",
+          "traits": {
+            "smithy.api#documentation": "Integer array."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "This message only contains a field of integer array."
+      }
+    },
+    "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoDoubleFunction": {
+      "type": "structure",
+      "members": {
+        "functionName": {
+          "target": "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoDoubleFunctionFunctionNameEnum"
+        }
+      }
+    },
+    "com.gcp.integrations_v2#EnterpriseCrmEventbusProtoDoubleFunctionFunctionNameEnum": {
+      "type": "enum",
+      "members": {
+        "UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "UNSPECIFIED"
+          }
+        },
+        "TO_JSON": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "TO_JSON"
+          }
+        },
+        "TO_STRING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "TO_STRING"
+          }
+        },
+        "ADD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ADD"
+          }
+        },
+        "SUBTRACT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SUBTRACT"
+          }
+        },
+        "MULTIPLY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "MULTIPLY"
+          }
+        },
+        "DIVIDE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "DIVIDE"
+          }
+        },
+        "EXPONENT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "EXPONENT"
+          }
+        },
+        "ROUND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ROUND"
+          }
+        },
+        "FLOOR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "FLOOR"
+          }
+        },
+        "CEIL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "CEIL"
+          }
+        },
+        "GREATER_THAN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "GREATER_THAN"
+          }
+        },
+        "LESS_THAN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "LESS_THAN"
+          }
+        },
+        "EQUALS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "EQUALS"
+          }
+        },
+        "GREATER_THAN_EQUALS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "GREATER_THAN_EQUALS"
+          }
+        },
+        "LESS_THAN_EQUALS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "LESS_THAN_EQUALS"
+          }
+        },
+        "MOD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "MOD"
+          }
+        }
+      }
+    },
+    "com.gcp.integrations_v2#GoogleCloudIntegrationsV2CloudLoggingDetails": {
+      "type": "structure",
+      "members": {
+        "cloudLoggingSeverity": {
+          "target": "com.gcp.integrations_v2#GoogleCloudIntegrationsV2CloudLoggingDetailsCloudLoggingSeverityEnum",
+          "traits": {
+            "smithy.api#documentation": "Optional. Severity selected by the customer for the logs to be sent to Cloud Logging, for the integration version getting executed."
+          }
+        },
+        "enableCloudLogging": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Optional. Status of whether Cloud Logging is enabled or not for the integration version getting executed."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Cloud Logging details for execution info"
+      }
+    },
+    "com.gcp.integrations_v2#GoogleCloudIntegrationsV2CloudLoggingDetailsCloudLoggingSeverityEnum": {
+      "type": "enum",
+      "members": {
+        "CLOUD_LOGGING_SEVERITY_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "CLOUD_LOGGING_SEVERITY_UNSPECIFIED"
+          }
+        },
+        "INFO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "INFO"
+          }
+        },
+        "ERROR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ERROR"
+          }
+        },
+        "WARNING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "WARNING"
+          }
+        }
+      }
+    },
+    "com.gcp.integrations_v2#GoogleCloudIntegrationsV2DuetGenerateIntegrationDocumentRequest": {
+      "type": "structure",
+      "members": {
+        "integrationDocumentRequest": {
+          "target": "com.gcp.integrations_v2#GoogleCloudIntegrationsV2DuetIntegrationDocumentRequest",
+          "traits": {
+            "smithy.api#documentation": "Required. The integration document request payload."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Request message for generating documentation for an integration version."
+      }
+    },
+    "com.gcp.integrations_v2#GenerateIntegrationProjectsLocationsRequest": {
+      "type": "structure",
+      "members": {
+        "parent": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Required. The location in which the integration will be generated. Format: `projects/{project}/locations/{location}`",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "body": {
+          "target": "com.gcp.integrations_v2#GoogleCloudIntegrationsV2DuetGenerateIntegrationRequest",
+          "traits": {
+            "smithy.api#httpPayload": {},
+            "smithy.api#documentation": "Request body"
+          }
+        }
+      }
+    },
+    "com.gcp.integrations_v2#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.gcp.protocols#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.gcp.integrations_v2#Forbidden": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "com.gcp.protocols#errorMatchers": [
+          {
+            "status": 403
+          }
+        ]
+      }
+    },
+    "com.gcp.integrations_v2#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.gcp.protocols#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.gcp.integrations_v2#Conflict": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 409,
+        "com.gcp.protocols#errorMatchers": [
+          {
+            "status": 409
+          }
+        ]
+      }
+    },
+    "com.gcp.integrations_v2#GenerateIntegrationProjectsLocations": {
+      "type": "operation",
+      "input": {
+        "target": "com.gcp.integrations_v2#GenerateIntegrationProjectsLocationsRequest"
+      },
+      "output": {
+        "target": "com.gcp.integrations_v2#GoogleCloudIntegrationsV2DuetGenerateIntegrationResponse"
+      },
+      "errors": [
+        {
+          "target": "com.gcp.integrations_v2#NotFound"
+        },
+        {
+          "target": "com.gcp.integrations_v2#Forbidden"
+        },
+        {
+          "target": "com.gcp.integrations_v2#BadRequest"
+        },
+        {
+          "target": "com.gcp.integrations_v2#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "v2/{+parent}:generateIntegration"
+        },
+        "smithy.api#documentation": "Generates an integration skeleton based on a natural language prompt."
+      }
+    },
+    "com.gcp.integrations_v2#GenerateIntegrationBranchProjectsLocationsIntegrationsRequest": {
+      "type": "structure",
+      "members": {
+        "parent": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Required. Format: `projects/{project}/locations/{location}/integrations/{integration}`",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "body": {
+          "target": "com.gcp.integrations_v2#GoogleCloudIntegrationsV2DuetGenerateIntegrationBranchRequest",
+          "traits": {
+            "smithy.api#httpPayload": {},
+            "smithy.api#documentation": "Request body"
+          }
+        }
+      }
+    },
+    "com.gcp.integrations_v2#GenerateIntegrationBranchProjectsLocationsIntegrations": {
+      "type": "operation",
+      "input": {
+        "target": "com.gcp.integrations_v2#GenerateIntegrationBranchProjectsLocationsIntegrationsRequest"
+      },
+      "output": {
+        "target": "com.gcp.integrations_v2#GoogleCloudIntegrationsV2DuetGenerateIntegrationBranchResponse"
+      },
+      "errors": [
+        {
+          "target": "com.gcp.integrations_v2#NotFound"
+        },
+        {
+          "target": "com.gcp.integrations_v2#Forbidden"
+        },
+        {
+          "target": "com.gcp.integrations_v2#BadRequest"
+        },
+        {
+          "target": "com.gcp.integrations_v2#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "v2/{+parent}:generateIntegrationBranch"
+        },
+        "smithy.api#documentation": "Generates an integration branch."
+      }
+    },
+    "com.gcp.integrations_v2#GenerateJavascriptProjectsLocationsIntegrationsRequest": {
+      "type": "structure",
+      "members": {
+        "parent": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Required. Format: `projects/{project}/locations/{location}/integrations/{integration}`",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "body": {
+          "target": "com.gcp.integrations_v2#GoogleCloudIntegrationsV2DuetGenerateJavascriptRequest",
+          "traits": {
+            "smithy.api#httpPayload": {},
+            "smithy.api#documentation": "Request body"
+          }
+        }
+      }
+    },
+    "com.gcp.integrations_v2#GenerateJavascriptProjectsLocationsIntegrations": {
+      "type": "operation",
+      "input": {
+        "target": "com.gcp.integrations_v2#GenerateJavascriptProjectsLocationsIntegrationsRequest"
+      },
+      "output": {
+        "target": "com.gcp.integrations_v2#GoogleCloudIntegrationsV2DuetGenerateJavascriptResponse"
+      },
+      "errors": [
+        {
+          "target": "com.gcp.integrations_v2#NotFound"
+        },
+        {
+          "target": "com.gcp.integrations_v2#Forbidden"
+        },
+        {
+          "target": "com.gcp.integrations_v2#BadRequest"
+        },
+        {
+          "target": "com.gcp.integrations_v2#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "v2/{+parent}:generateJavascript"
+        },
+        "smithy.api#documentation": "Generates Javascript code for data mapping."
+      }
+    },
+    "com.gcp.integrations_v2#ExecuteProjectsLocationsIntegrationsRequest": {
+      "type": "structure",
+      "members": {
+        "parent": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Required. The integration resource name.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "triggerId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Required. The API trigger id associated with the integration. An integration can have multiple trigger_id. This field is required to disambiguate which trigger should be invoked.",
+            "smithy.api#httpQuery": "triggerId"
+          }
+        },
+        "requestId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional. This is used to de-dup incoming request: if the duplicate request was detected, the response from the previous execution is returned.",
+            "smithy.api#httpQuery": "requestId"
+          }
+        }
+      }
+    },
+    "com.gcp.integrations_v2#ExecuteProjectsLocationsIntegrations": {
+      "type": "operation",
+      "input": {
+        "target": "com.gcp.integrations_v2#ExecuteProjectsLocationsIntegrationsRequest"
+      },
+      "output": {
+        "target": "com.gcp.integrations_v2#GoogleApiHttpBody"
+      },
+      "errors": [
+        {
+          "target": "com.gcp.integrations_v2#NotFound"
+        },
+        {
+          "target": "com.gcp.integrations_v2#Forbidden"
+        },
+        {
+          "target": "com.gcp.integrations_v2#BadRequest"
+        },
+        {
+          "target": "com.gcp.integrations_v2#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "v2/{+parent}:execute"
+        },
+        "smithy.api#documentation": "Executes integrations synchronously. The response is not returned until the requested execution is either fulfilled or experienced an error. Only one integration can be executed. Request format URL: https://integrations.googleapis.com/v2/projects/$PROJECT/locations/$LOCATION/integrations/$INTEGRATION_NAME:execute Request payload: (the entire payload is optional unless input variables need to be set.) {\"variable1\": \"hello world\", \"variable2\": 1, \"variable3\": {\"my_json_key\": \"my json string value\" }"
+      }
+    },
+    "com.gcp.integrations_v2#RecommendTasksProjectsLocationsIntegrationsRequest": {
+      "type": "structure",
+      "members": {
+        "parent": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Required. Format: `projects/{project}/locations/{location}/integrations/{integration}`",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "body": {
+          "target": "com.gcp.integrations_v2#GoogleCloudIntegrationsV2DuetRecommendTasksRequest",
+          "traits": {
+            "smithy.api#httpPayload": {},
+            "smithy.api#documentation": "Request body"
+          }
+        }
+      }
+    },
+    "com.gcp.integrations_v2#RecommendTasksProjectsLocationsIntegrations": {
+      "type": "operation",
+      "input": {
+        "target": "com.gcp.integrations_v2#RecommendTasksProjectsLocationsIntegrationsRequest"
+      },
+      "output": {
+        "target": "com.gcp.integrations_v2#GoogleCloudIntegrationsV2DuetRecommendTasksResponse"
+      },
+      "errors": [
+        {
+          "target": "com.gcp.integrations_v2#NotFound"
+        },
+        {
+          "target": "com.gcp.integrations_v2#Forbidden"
+        },
+        {
+          "target": "com.gcp.integrations_v2#BadRequest"
+        },
+        {
+          "target": "com.gcp.integrations_v2#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "v2/{+parent}:recommendTasks"
+        },
+        "smithy.api#documentation": "Recommends tasks to replace a selected task."
+      }
+    },
+    "com.gcp.integrations_v2#GenerateIntegrationDocumentProjectsLocationsIntegrationsRequest": {
+      "type": "structure",
+      "members": {
+        "parent": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Required. Format: `projects/{project}/locations/{location}/integrations/{integration}`",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "body": {
+          "target": "com.gcp.integrations_v2#GoogleCloudIntegrationsV2DuetGenerateIntegrationDocumentRequest",
+          "traits": {
+            "smithy.api#httpPayload": {},
+            "smithy.api#documentation": "Request body"
+          }
+        }
+      }
+    },
+    "com.gcp.integrations_v2#GenerateIntegrationDocumentProjectsLocationsIntegrations": {
+      "type": "operation",
+      "input": {
+        "target": "com.gcp.integrations_v2#GenerateIntegrationDocumentProjectsLocationsIntegrationsRequest"
+      },
+      "output": {
+        "target": "com.gcp.integrations_v2#GoogleCloudIntegrationsV2DuetGenerateIntegrationDocumentResponse"
+      },
+      "errors": [
+        {
+          "target": "com.gcp.integrations_v2#NotFound"
+        },
+        {
+          "target": "com.gcp.integrations_v2#Forbidden"
+        },
+        {
+          "target": "com.gcp.integrations_v2#BadRequest"
+        },
+        {
+          "target": "com.gcp.integrations_v2#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "v2/{+parent}:generateIntegrationDocument"
+        },
+        "smithy.api#documentation": "Generates documentation for an integration version."
+      }
+    },
+    "com.gcp.integrations_v2#ScheduleProjectsLocationsIntegrationsRequest": {
+      "type": "structure",
+      "members": {
+        "scheduleTime": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional. The time that the integration should be executed. If the time is less or equal to the current time, the integration is executed immediately.",
+            "smithy.api#httpQuery": "scheduleTime"
+          }
+        },
+        "triggerId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Required. The API trigger id associated with the integration. An integration can have multiple trigger_id. This field is required to disambiguate which trigger should be invoked",
+            "smithy.api#httpQuery": "triggerId"
+          }
+        },
+        "parent": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Required. The integration resource name.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "requestId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional. This is used to de-dup incoming request: if the duplicate request was detected, the response from the previous execution is returned.",
+            "smithy.api#httpQuery": "requestId"
+          }
+        }
+      }
+    },
+    "com.gcp.integrations_v2#ScheduleProjectsLocationsIntegrations": {
+      "type": "operation",
+      "input": {
+        "target": "com.gcp.integrations_v2#ScheduleProjectsLocationsIntegrationsRequest"
+      },
+      "output": {
+        "target": "com.gcp.integrations_v2#GoogleApiHttpBody"
+      },
+      "errors": [
+        {
+          "target": "com.gcp.integrations_v2#NotFound"
+        },
+        {
+          "target": "com.gcp.integrations_v2#Forbidden"
+        },
+        {
+          "target": "com.gcp.integrations_v2#BadRequest"
+        },
+        {
+          "target": "com.gcp.integrations_v2#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "v2/{+parent}:schedule"
+        },
+        "smithy.api#documentation": "Schedules an integration for execution."
+      }
+    },
+    "com.gcp.integrations_v2#ListProjectsLocationsIntegrationsExecutionsRequest": {
+      "type": "structure",
+      "members": {
+        "filter": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional. Standard filter field, we support filtering on following fields: integration_name: the name of the integration. create_time: the execution created time. update_time: the execution last update time. state: the state of the executions. execution_id: the id of the execution. trigger_id: the id of the trigger. All fields support for EQUALS, in additional: create_time and update_time support for LESS_THAN, GREATER_THAN Also supports operators like AND, OR, NOT For example: trigger_id=\\\"id1\\\" AND integration_name=\\\"testIntegration\\\"",
+            "smithy.api#httpQuery": "filter"
+          }
+        },
+        "readMask": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional. View mask for the response data. If set, only the field specified will be returned as part of the result. If not set, all fields in execution info will be filled and returned.",
+            "smithy.api#httpQuery": "readMask"
+          }
+        },
+        "parent": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Required. parent resource name of integration execution.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "pageToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Optional. The token returned in the previous response.",
+            "smithy.api#httpQuery": "pageToken"
+          }
+        },
+        "pageSize": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Optional. The size of entries in the response.",
+            "smithy.api#httpQuery": "pageSize"
+          }
+        }
+      }
+    },
+    "com.gcp.integrations_v2#ListProjectsLocationsIntegrationsExecutions": {
+      "type": "operation",
+      "input": {
+        "target": "com.gcp.integrations_v2#ListProjectsLocationsIntegrationsExecutionsRequest"
+      },
+      "output": {
+        "target": "com.gcp.integrations_v2#GoogleCloudIntegrationsV2ListExecutionsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.gcp.integrations_v2#NotFound"
+        },
+        {
+          "target": "com.gcp.integrations_v2#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "v2/{+parent}/executions"
+        },
+        "smithy.api#documentation": "Lists the results of all the integration executions. The response includes the same information as the [execution log](https://cloud.google.com/application-integration/docs/viewing-logs) in the Integration UI.",
+        "smithy.api#paginated": {
+          "inputToken": "pageToken",
+          "outputToken": "nextPageToken"
+        }
+      }
+    },
+    "com.gcp.integrations_v2#TroubleshootProjectsLocationsIntegrationsExecutionsRequest": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Required. Execution resource name. Format: `projects/{project}/locations/{location}/integrations/{integration}/executions/{execution_id}`",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.gcp.integrations_v2#TroubleshootProjectsLocationsIntegrationsExecutions": {
+      "type": "operation",
+      "input": {
+        "target": "com.gcp.integrations_v2#TroubleshootProjectsLocationsIntegrationsExecutionsRequest"
+      },
+      "output": {
+        "target": "com.gcp.integrations_v2#GoogleCloudIntegrationsV2DuetTroubleshootExecutionResponse"
+      },
+      "errors": [
+        {
+          "target": "com.gcp.integrations_v2#NotFound"
+        },
+        {
+          "target": "com.gcp.integrations_v2#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "v2/{+name}:troubleshoot"
+        },
+        "smithy.api#documentation": "View detailed explanation of why an integration execution failed, using LLM"
+      }
+    },
+    "com.gcp.integrations_v2#GetProjectsLocationsIntegrationsExecutionsTaskExecutionsRequest": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Required. The TaskExecution to retrieve. Format: projects/{project}/locations/{location}/integrations/{integration}/executions/{execution}/taskExecutions/{task_execution}",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.gcp.integrations_v2#GetProjectsLocationsIntegrationsExecutionsTaskExecutions": {
+      "type": "operation",
+      "input": {
+        "target": "com.gcp.integrations_v2#GetProjectsLocationsIntegrationsExecutionsTaskExecutionsRequest"
+      },
+      "output": {
+        "target": "com.gcp.integrations_v2#GoogleCloudIntegrationsV2TaskExecution"
+      },
+      "errors": [
+        {
+          "target": "com.gcp.integrations_v2#NotFound"
+        },
+        {
+          "target": "com.gcp.integrations_v2#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "v2/{+name}"
+        },
+        "smithy.api#documentation": "Get a TaskExecution in the specified project."
+      }
+    }
+  }
+}

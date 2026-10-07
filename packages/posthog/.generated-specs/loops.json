@@ -607,7 +607,7 @@
         "smithy.api#documentation": "List loops\n\nList loops visible to the caller: personal loops they own, plus every team loop. The response also carries `max_loops_per_team` and `total_loop_count` so a client can show remaining capacity and disable creation at the cap without hardcoding the limit."
       }
     },
-    "com.posthog.loops#VisibilityEnum": {
+    "com.posthog.loops#LoopWriteVisibilityEnum": {
       "type": "enum",
       "members": {
         "PERSONAL": {
@@ -859,7 +859,7 @@
         "events": {
           "target": "com.posthog.loops#LoopNotificationChannelEventsList",
           "traits": {
-            "smithy.api#documentation": "Event kinds this channel notifies on. One or more of: run_completed, run_failed, pr_created, needs_attention."
+            "smithy.api#documentation": "Event kinds this channel notifies on. One or more of: run_completed, run_failed, pr_created, pr_merged, pr_closed, needs_attention."
           }
         },
         "params": {
@@ -892,6 +892,18 @@
             "smithy.api#enumValue": "pr_created"
           }
         },
+        "PR_MERGED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pr_merged"
+          }
+        },
+        "PR_CLOSED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pr_closed"
+          }
+        },
         "NEEDS_ATTENTION": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -900,7 +912,7 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "* `run_completed` - run_completed\n* `run_failed` - run_failed\n* `pr_created` - pr_created\n* `needs_attention` - needs_attention"
+        "smithy.api#documentation": "* `run_completed` - run_completed\n* `run_failed` - run_failed\n* `pr_created` - pr_created\n* `pr_merged` - pr_merged\n* `pr_closed` - pr_closed\n* `needs_attention` - needs_attention"
       }
     },
     "com.posthog.loops#LoopNotificationChannelEventsList": {
@@ -909,7 +921,7 @@
         "target": "com.posthog.loops#EventsEnum"
       },
       "traits": {
-        "smithy.api#documentation": "Event kinds this channel notifies on. One or more of: run_completed, run_failed, pr_created, needs_attention."
+        "smithy.api#documentation": "Event kinds this channel notifies on. One or more of: run_completed, run_failed, pr_created, pr_merged, pr_closed, needs_attention."
       }
     },
     "com.posthog.loops#LoopNotificationChannelParamsMap": {
@@ -1072,7 +1084,7 @@
           }
         },
         "visibility": {
-          "target": "com.posthog.loops#VisibilityEnum",
+          "target": "com.posthog.loops#LoopWriteVisibilityEnum",
           "traits": {
             "smithy.api#documentation": "`personal` (owner-only) or `team` (visible and fireable by any team member).\n\n* `personal` - personal\n* `team` - team"
           }
@@ -1282,7 +1294,7 @@
           }
         },
         "visibility": {
-          "target": "com.posthog.loops#VisibilityEnum",
+          "target": "com.posthog.loops#LoopWriteVisibilityEnum",
           "traits": {
             "smithy.api#documentation": "`personal` (owner-only) or `team` (visible and fireable by any team member).\n\n* `personal` - personal\n* `team` - team"
           }
@@ -1674,6 +1686,48 @@
         "smithy.api#documentation": "Run a loop manually\n\nManual fire from the UI. Owner-only for personal loops; any team member for team loops."
       }
     },
+    "com.posthog.loops#GetLoopsRunRequestStatus": {
+      "type": "enum",
+      "members": {
+        "NOT_STARTED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "not_started"
+          }
+        },
+        "QUEUED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "queued"
+          }
+        },
+        "IN_PROGRESS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "in_progress"
+          }
+        },
+        "COMPLETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "completed"
+          }
+        },
+        "FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "failed"
+          }
+        },
+        "CANCELLED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cancelled"
+          }
+        }
+      },
+      "traits": {}
+    },
     "com.posthog.loops#GetLoopsRunRequest": {
       "type": "structure",
       "members": {
@@ -1704,6 +1758,13 @@
           "traits": {
             "smithy.api#httpQuery": "limit",
             "smithy.api#documentation": "Max results per page (default 50, max 100)."
+          }
+        },
+        "status": {
+          "target": "com.posthog.loops#GetLoopsRunRequestStatus",
+          "traits": {
+            "smithy.api#httpQuery": "status",
+            "smithy.api#documentation": "Only return runs with this status. Use failed to read errors even when canvas state is unavailable.\n\n* `not_started` - Not Started\n* `queued` - Queued\n* `in_progress` - In Progress\n* `completed` - Completed\n* `failed` - Failed\n* `cancelled` - Cancelled"
           }
         }
       },

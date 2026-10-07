@@ -145,9 +145,7 @@ export const ProjectSecretAPIKey = /*@__PURE__*/ S.suspend(() =>
     last_rolled_at: S.optional(S.NullOr(S.String)),
     scopes: S.optional(ProjectSecretAPIKeyScopesList),
   }),
-).annotate({
-  identifier: "ProjectSecretAPIKey",
-}) as any as S.Schema<ProjectSecretAPIKey>;
+).annotate({ identifier: "ProjectSecretAPIKey" }) as any as S.Schema<ProjectSecretAPIKey>;
 
 export interface CreateProjectSecretApiKeysRollRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */

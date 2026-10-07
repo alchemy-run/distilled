@@ -166,9 +166,7 @@ export const AmountBreakdown = /*@__PURE__*/ S.suspend(() =>
     shipping_discount: S.optional(AuthorizationsReauthorizeRequestAmount),
     discount: S.optional(AuthorizationsReauthorizeRequestAmount),
   }),
-).annotate({
-  identifier: "AmountBreakdown",
-}) as any as S.Schema<AmountBreakdown>;
+).annotate({ identifier: "AmountBreakdown" }) as any as S.Schema<AmountBreakdown>;
 
 export interface AuthorizationsReauthorizeResponseAmount {
   currency_code: string;
@@ -203,9 +201,7 @@ export const NetworkTransaction = /*@__PURE__*/ S.suspend(() =>
     network: S.optional(S.Unknown),
     acquirer_reference_number: S.optional(S.String),
   }),
-).annotate({
-  identifier: "NetworkTransaction",
-}) as any as S.Schema<NetworkTransaction>;
+).annotate({ identifier: "NetworkTransaction" }) as any as S.Schema<NetworkTransaction>;
 
 /** Indicates whether the transaction is eligible for seller protection. For information, see [PayPal Seller Protection for Merchants](https://www.paypal.com/us/webapps/mpp/security/seller-protection). */
 export type AuthorizationsReauthorizeResponseSellerProtectionStatus =
@@ -1520,13 +1516,7 @@ export const FindEligibleMethodsRequest = /*@__PURE__*/ S.suspend(() =>
     customer: S.optional(FindEligibleMethodsRequestCustomer),
     purchase_units: S.optional(FindEligibleMethodsRequestPurchaseUnitsList),
     preferences: S.optional(FindEligibleMethodsRequestPreferences),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v2/payments/find-eligible-methods",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/v2/payments/find-eligible-methods", code: 200 })),
 ).annotate({
   identifier: "FindEligibleMethodsRequest",
 }) as any as S.Schema<FindEligibleMethodsRequest>;
@@ -1621,9 +1611,7 @@ export const VenmoPaymentTokenInfo = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     user_name: S.optional(S.String),
   }),
-).annotate({
-  identifier: "VenmoPaymentTokenInfo",
-}) as any as S.Schema<VenmoPaymentTokenInfo>;
+).annotate({ identifier: "VenmoPaymentTokenInfo" }) as any as S.Schema<VenmoPaymentTokenInfo>;
 
 /** The vaulted payment method details. */
 export interface FindEligibleMethodsResponsePaymentTokensItemPaymentSource {
@@ -1727,9 +1715,7 @@ export const LinkDescriptionSchema = /*@__PURE__*/ S.suspend(() =>
     media: S.optional(AuthorizationsReauthorizeResponseLinksItemSchemaMedia),
     pathStart: S.optional(S.String),
   }),
-).annotate({
-  identifier: "LinkDescriptionSchema",
-}) as any as S.Schema<LinkDescriptionSchema>;
+).annotate({ identifier: "LinkDescriptionSchema" }) as any as S.Schema<LinkDescriptionSchema>;
 
 /** An array of sub-schemas. The data must validate against all sub-schemas. */
 export type LinkDescriptionTargetSchemaAllOfList = Array<unknown>;
@@ -1840,9 +1826,7 @@ export const LinkDescription = /*@__PURE__*/ S.suspend(() =>
     schema: S.optional(LinkDescriptionSchema),
     targetSchema: S.optional(LinkDescriptionTargetSchema),
   }),
-).annotate({
-  identifier: "LinkDescription",
-}) as any as S.Schema<LinkDescription>;
+).annotate({ identifier: "LinkDescription" }) as any as S.Schema<LinkDescription>;
 
 /** An array of related [HATEOAS links](/api/rest/responses/#hateoas). */
 export type FindEligibleMethodsResponsePaymentTokensItemLinksList = Array<LinkDescription>;
@@ -1901,15 +1885,9 @@ export const GetAuthorizationRequest = /*@__PURE__*/ S.suspend(() =>
     authorization_id: S.String.pipe(T.Label()),
     payPalAuthAssertion: S.optional(S.String.pipe(T.Header("PayPal-Auth-Assertion"))),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v2/payments/authorizations/{authorization_id}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/v2/payments/authorizations/{authorization_id}", code: 200 }),
   ),
-).annotate({
-  identifier: "GetAuthorizationRequest",
-}) as any as S.Schema<GetAuthorizationRequest>;
+).annotate({ identifier: "GetAuthorizationRequest" }) as any as S.Schema<GetAuthorizationRequest>;
 
 /** The status for the authorized payment. */
 export type GetAuthorizationResponseStatus =
@@ -2239,9 +2217,7 @@ export const GetAuthorizationResponse = /*@__PURE__*/ S.suspend(() =>
     supplementary_data: S.optional(AuthorizationsReauthorizeResponseSupplementaryData),
     payee: S.optional(AuthorizationsReauthorizeResponsePayee),
   }),
-).annotate({
-  identifier: "GetAuthorizationResponse",
-}) as any as S.Schema<GetAuthorizationResponse>;
+).annotate({ identifier: "GetAuthorizationResponse" }) as any as S.Schema<GetAuthorizationResponse>;
 
 export interface GetCaptureRequest {
   /** The PayPal-generated ID for the captured payment for which to show details. */
@@ -2250,16 +2226,8 @@ export interface GetCaptureRequest {
 export const GetCaptureRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     capture_id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v2/payments/captures/{capture_id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetCaptureRequest",
-}) as any as S.Schema<GetCaptureRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/v2/payments/captures/{capture_id}", code: 200 })),
+).annotate({ identifier: "GetCaptureRequest" }) as any as S.Schema<GetCaptureRequest>;
 
 /** The status of the captured payment. */
 export type GetCaptureResponseStatus =
@@ -2926,9 +2894,7 @@ export const GetCaptureResponse = /*@__PURE__*/ S.suspend(() =>
     supplementary_data: S.optional(AuthorizationsReauthorizeResponseSupplementaryData),
     payee: S.optional(AuthorizationsReauthorizeResponsePayee),
   }),
-).annotate({
-  identifier: "GetCaptureResponse",
-}) as any as S.Schema<GetCaptureResponse>;
+).annotate({ identifier: "GetCaptureResponse" }) as any as S.Schema<GetCaptureResponse>;
 
 export interface GetRefundRequest {
   /** The PayPal-generated ID for the refund for which to show details. */
@@ -2940,16 +2906,8 @@ export const GetRefundRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     refund_id: S.String.pipe(T.Label()),
     payPalAuthAssertion: S.optional(S.String.pipe(T.Header("PayPal-Auth-Assertion"))),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/v2/payments/refunds/{refund_id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetRefundRequest",
-}) as any as S.Schema<GetRefundRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/v2/payments/refunds/{refund_id}", code: 200 })),
+).annotate({ identifier: "GetRefundRequest" }) as any as S.Schema<GetRefundRequest>;
 
 /** The status of the refund. */
 export type GetRefundResponseStatus = "CANCELLED" | "FAILED" | "PENDING" | "COMPLETED";
@@ -3345,9 +3303,7 @@ export const GetRefundResponse = /*@__PURE__*/ S.suspend(() =>
     create_time: S.optional(S.Unknown),
     update_time: S.optional(S.Unknown),
   }),
-).annotate({
-  identifier: "GetRefundResponse",
-}) as any as S.Schema<GetRefundResponse>;
+).annotate({ identifier: "GetRefundResponse" }) as any as S.Schema<GetRefundResponse>;
 
 export type RefundCaptureRequestAmount = AuthorizationsReauthorizeRequestAmount;
 export const RefundCaptureRequestAmount = AuthorizationsReauthorizeRequestAmount;
@@ -3415,16 +3371,8 @@ export const RefundCaptureRequest = /*@__PURE__*/ S.suspend(() =>
     invoice_id: S.optional(S.String),
     note_to_payer: S.optional(S.String),
     payment_instruction: S.optional(RefundCaptureRequestPaymentInstruction),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/v2/payments/captures/{capture_id}/refund",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "RefundCaptureRequest",
-}) as any as S.Schema<RefundCaptureRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/v2/payments/captures/{capture_id}/refund", code: 200 })),
+).annotate({ identifier: "RefundCaptureRequest" }) as any as S.Schema<RefundCaptureRequest>;
 
 /** The status of the refund. */
 export type RefundCaptureResponseStatus = "CANCELLED" | "FAILED" | "PENDING" | "COMPLETED";
@@ -3812,9 +3760,7 @@ export const RefundCaptureResponse = /*@__PURE__*/ S.suspend(() =>
     create_time: S.optional(S.Unknown),
     update_time: S.optional(S.Unknown),
   }),
-).annotate({
-  identifier: "RefundCaptureResponse",
-}) as any as S.Schema<RefundCaptureResponse>;
+).annotate({ identifier: "RefundCaptureResponse" }) as any as S.Schema<RefundCaptureResponse>;
 
 export interface VoidAuthorizationRequest {
   /** The PayPal-generated ID for the authorized payment to void. */
@@ -3839,9 +3785,7 @@ export const VoidAuthorizationRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "VoidAuthorizationRequest",
-}) as any as S.Schema<VoidAuthorizationRequest>;
+).annotate({ identifier: "VoidAuthorizationRequest" }) as any as S.Schema<VoidAuthorizationRequest>;
 
 /** The status for the authorized payment. */
 export type VoidAuthorizationResponseStatus =

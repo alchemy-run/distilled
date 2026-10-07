@@ -1687,7 +1687,7 @@
       "type": "structure",
       "members": {
         "type": {
-          "target": "smithy.api#String",
+          "target": "com.stackit.iaas#DestinationCIDRv4Type",
           "traits": {
             "smithy.api#required": {}
           }
@@ -1704,11 +1704,23 @@
         "smithy.api#documentation": "IPv4 Classless Inter-Domain Routing (CIDR) Object."
       }
     },
+    "com.stackit.iaas#DestinationCIDRv4Type": {
+      "type": "enum",
+      "members": {
+        "CIDRV4": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cidrv4"
+          }
+        }
+      },
+      "traits": {}
+    },
     "com.stackit.iaas#DestinationCIDRv6": {
       "type": "structure",
       "members": {
         "type": {
-          "target": "smithy.api#String",
+          "target": "com.stackit.iaas#DestinationCIDRv6Type",
           "traits": {
             "smithy.api#required": {}
           }
@@ -1724,6 +1736,18 @@
       "traits": {
         "smithy.api#documentation": "IPv6 Classless Inter-Domain Routing (CIDR) Object."
       }
+    },
+    "com.stackit.iaas#DestinationCIDRv6Type": {
+      "type": "enum",
+      "members": {
+        "CIDRV6": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cidrv6"
+          }
+        }
+      },
+      "traits": {}
     },
     "com.stackit.iaas#RouteDestination": {
       "type": "union",
@@ -1741,7 +1765,7 @@
       "type": "structure",
       "members": {
         "type": {
-          "target": "smithy.api#String",
+          "target": "com.stackit.iaas#NexthopIPv4Type",
           "traits": {
             "smithy.api#required": {}
           }
@@ -1758,11 +1782,23 @@
         "smithy.api#documentation": "Object that represents an IPv4 address."
       }
     },
+    "com.stackit.iaas#NexthopIPv4Type": {
+      "type": "enum",
+      "members": {
+        "IPV4": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ipv4"
+          }
+        }
+      },
+      "traits": {}
+    },
     "com.stackit.iaas#NexthopIPv6": {
       "type": "structure",
       "members": {
         "type": {
-          "target": "smithy.api#String",
+          "target": "com.stackit.iaas#NexthopIPv6Type",
           "traits": {
             "smithy.api#required": {}
           }
@@ -1779,11 +1815,23 @@
         "smithy.api#documentation": "Object that represents an IPv6 address."
       }
     },
+    "com.stackit.iaas#NexthopIPv6Type": {
+      "type": "enum",
+      "members": {
+        "IPV6": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ipv6"
+          }
+        }
+      },
+      "traits": {}
+    },
     "com.stackit.iaas#NexthopInternet": {
       "type": "structure",
       "members": {
         "type": {
-          "target": "smithy.api#String",
+          "target": "com.stackit.iaas#NexthopInternetType",
           "traits": {
             "smithy.api#required": {}
           }
@@ -1793,11 +1841,23 @@
         "smithy.api#documentation": "Object that represents a route to the internet."
       }
     },
+    "com.stackit.iaas#NexthopInternetType": {
+      "type": "enum",
+      "members": {
+        "INTERNET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "internet"
+          }
+        }
+      },
+      "traits": {}
+    },
     "com.stackit.iaas#NexthopBlackhole": {
       "type": "structure",
       "members": {
         "type": {
-          "target": "smithy.api#String",
+          "target": "com.stackit.iaas#NexthopBlackholeType",
           "traits": {
             "smithy.api#required": {}
           }
@@ -1806,6 +1866,18 @@
       "traits": {
         "smithy.api#documentation": "Object that represents a blackhole route."
       }
+    },
+    "com.stackit.iaas#NexthopBlackholeType": {
+      "type": "enum",
+      "members": {
+        "BLACKHOLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "blackhole"
+          }
+        }
+      },
+      "traits": {}
     },
     "com.stackit.iaas#RouteNexthop": {
       "type": "union",
@@ -3184,6 +3256,12 @@
         "internetAccess": {
           "target": "smithy.api#Boolean"
         },
+        "projectType": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Possible values: `Schwarz`, `Public`, `SNA`, `VPC`."
+          }
+        },
         "status": {
           "target": "smithy.api#String",
           "traits": {
@@ -3191,6 +3269,9 @@
           }
         },
         "updatedAt": {
+          "target": "smithy.api#String"
+        },
+        "vpcId": {
           "target": "smithy.api#String"
         }
       },
@@ -5234,6 +5315,9 @@
         "createdAt": {
           "target": "smithy.api#String"
         },
+        "description": {
+          "target": "smithy.api#String"
+        },
         "dhcp": {
           "target": "smithy.api#Boolean"
         },
@@ -5738,6 +5822,9 @@
             "smithy.api#documentation": "The STACKIT Region of the resources."
           }
         },
+        "description": {
+          "target": "smithy.api#String"
+        },
         "dhcp": {
           "target": "smithy.api#Boolean"
         },
@@ -5926,6 +6013,9 @@
             "smithy.api#required": {},
             "smithy.api#documentation": "The identifier (ID) of a STACKIT Network."
           }
+        },
+        "description": {
+          "target": "smithy.api#String"
         },
         "dhcp": {
           "target": "smithy.api#Boolean"
@@ -11979,6 +12069,9 @@
           "traits": {
             "smithy.api#required": {}
           }
+        },
+        "force": {
+          "target": "smithy.api#Boolean"
         },
         "name": {
           "target": "smithy.api#String",

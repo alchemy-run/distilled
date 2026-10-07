@@ -65,9 +65,7 @@ export const CreateAccountLinkRequest = /*@__PURE__*/ S.suspend(() =>
     return_url: S.String,
     use_case: AccountLinkUseCases,
   }).pipe(T.Http({ method: "POST", uri: "/account_links", code: 200 })),
-).annotate({
-  identifier: "CreateAccountLinkRequest",
-}) as any as S.Schema<CreateAccountLinkRequest>;
+).annotate({ identifier: "CreateAccountLinkRequest" }) as any as S.Schema<CreateAccountLinkRequest>;
 
 /** A temporary, time-limited URL that grants a user access to an external account management page. */
 export interface AccountLink {

@@ -62,21 +62,21 @@ export class NotFound
   ) {}
 
 export interface ListAccountsAggregateProductStatusesRequest {
-  /** Optional. A filter expression that filters the aggregate product statuses. Filtering is only supported by the `reporting_context` and `country` field. For example: `reporting_context = "SHOPPING_ADS" AND country = "US"`. */
-  filter?: string;
-  /** Optional. The maximum number of aggregate product statuses to return. The service may return fewer than this value. If unspecified, at most 25 aggregate product statuses are returned. The maximum value is 250; values above 250 are coerced to 250. */
-  pageSize?: number;
   /** Optional. A page token, received from a previous `ListAggregateProductStatuses` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListAggregateProductStatuses` must match the call that provided the page token. */
   pageToken?: string;
+  /** Optional. The maximum number of aggregate product statuses to return. The service may return fewer than this value. If unspecified, at most 25 aggregate product statuses are returned. The maximum value is 250; values above 250 are coerced to 250. */
+  pageSize?: number;
   /** Required. The account to list aggregate product statuses for. Format: `accounts/{account}` Can only be sub-accounts and standalone accounts. */
   parent: string;
+  /** Optional. A filter expression that filters the aggregate product statuses. Filtering is only supported by the `reporting_context` and `country` field. For example: `reporting_context = "SHOPPING_ADS" AND country = "US"`. */
+  filter?: string;
 }
 export const ListAccountsAggregateProductStatusesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    filter: S.optional(S.String.pipe(T.Query())),
-    pageSize: S.optional(S.Number.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
+    filter: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -87,6 +87,56 @@ export const ListAccountsAggregateProductStatusesRequest = /*@__PURE__*/ S.suspe
 ).annotate({
   identifier: "ListAccountsAggregateProductStatusesRequest",
 }) as any as S.Schema<ListAccountsAggregateProductStatusesRequest>;
+
+export type ItemLevelIssueSeverityEnum =
+  | "SEVERITY_UNSPECIFIED"
+  | "NOT_IMPACTED"
+  | "DEMOTED"
+  | "DISAPPROVED";
+export const ItemLevelIssueSeverityEnum = S.String;
+
+export type ItemLevelIssueResolutionEnum =
+  | "RESOLUTION_UNSPECIFIED"
+  | "MERCHANT_ACTION"
+  | "PENDING_PROCESSING";
+export const ItemLevelIssueResolutionEnum = S.String;
+
+/** The ItemLevelIssue of the product status. */
+export interface ItemLevelIssue {
+  /** How this issue affects serving of the offer. */
+  severity?: ItemLevelIssueSeverityEnum;
+  /** A detailed issue description in English. */
+  detail?: string;
+  /** The attribute's name, if the issue is caused by a single attribute. */
+  attribute?: string;
+  /** The URL of a web page to help with resolving this issue. */
+  documentationUri?: string;
+  /** A short issue description in English. */
+  description?: string;
+  /** Whether the issue can be resolved by the merchant. */
+  resolution?: ItemLevelIssueResolutionEnum;
+  /** The number of products affected by this issue. */
+  productCount?: string;
+  /** The error code of the issue. */
+  code?: string;
+}
+export const ItemLevelIssue = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    severity: S.optional(ItemLevelIssueSeverityEnum),
+    detail: S.optional(S.String),
+    attribute: S.optional(S.String),
+    documentationUri: S.optional(S.String),
+    description: S.optional(S.String),
+    resolution: S.optional(ItemLevelIssueResolutionEnum),
+    productCount: S.optional(S.String),
+    code: S.optional(S.String),
+  }),
+).annotate({ identifier: "ItemLevelIssue" }) as any as S.Schema<ItemLevelIssue>;
+
+export type ItemLevelIssueList = Array<ItemLevelIssue>;
+export const ItemLevelIssueList = /*@__PURE__*/ S.Array(
+  ItemLevelIssue,
+) as any as S.Schema<ItemLevelIssueList>;
 
 export type AggregateProductStatusReportingContextEnum =
   | "REPORTING_CONTEXT_ENUM_UNSPECIFIED"
@@ -108,103 +158,52 @@ export type AggregateProductStatusReportingContextEnum =
   | "LOCAL_CLOUD_RETAIL"
   | "PRODUCT_REVIEWS"
   | "MERCHANT_REVIEWS"
-  | "YOUTUBE_CHECKOUT";
+  | "YOUTUBE_CHECKOUT"
+  | "RENTAL_ADS";
 export const AggregateProductStatusReportingContextEnum = S.String;
 
 /** Products statistics. */
 export interface Stats {
+  /** The number of products that are disapproved. */
+  disapprovedCount?: string;
   /** The number of products that are pending. */
   pendingCount?: string;
   /** The number of products that are active. */
   activeCount?: string;
   /** The number of products that are expiring. */
   expiringCount?: string;
-  /** The number of products that are disapproved. */
-  disapprovedCount?: string;
 }
 export const Stats = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    disapprovedCount: S.optional(S.String),
     pendingCount: S.optional(S.String),
     activeCount: S.optional(S.String),
     expiringCount: S.optional(S.String),
-    disapprovedCount: S.optional(S.String),
   }),
 ).annotate({ identifier: "Stats" }) as any as S.Schema<Stats>;
 
-export type ItemLevelIssueResolutionEnum =
-  | "RESOLUTION_UNSPECIFIED"
-  | "MERCHANT_ACTION"
-  | "PENDING_PROCESSING";
-export const ItemLevelIssueResolutionEnum = S.String;
-
-export type ItemLevelIssueSeverityEnum =
-  | "SEVERITY_UNSPECIFIED"
-  | "NOT_IMPACTED"
-  | "DEMOTED"
-  | "DISAPPROVED";
-export const ItemLevelIssueSeverityEnum = S.String;
-
-/** The ItemLevelIssue of the product status. */
-export interface ItemLevelIssue {
-  /** Whether the issue can be resolved by the merchant. */
-  resolution?: ItemLevelIssueResolutionEnum;
-  /** A detailed issue description in English. */
-  detail?: string;
-  /** The attribute's name, if the issue is caused by a single attribute. */
-  attribute?: string;
-  /** The error code of the issue. */
-  code?: string;
-  /** A short issue description in English. */
-  description?: string;
-  /** How this issue affects serving of the offer. */
-  severity?: ItemLevelIssueSeverityEnum;
-  /** The URL of a web page to help with resolving this issue. */
-  documentationUri?: string;
-  /** The number of products affected by this issue. */
-  productCount?: string;
-}
-export const ItemLevelIssue = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    resolution: S.optional(ItemLevelIssueResolutionEnum),
-    detail: S.optional(S.String),
-    attribute: S.optional(S.String),
-    code: S.optional(S.String),
-    description: S.optional(S.String),
-    severity: S.optional(ItemLevelIssueSeverityEnum),
-    documentationUri: S.optional(S.String),
-    productCount: S.optional(S.String),
-  }),
-).annotate({ identifier: "ItemLevelIssue" }) as any as S.Schema<ItemLevelIssue>;
-
-export type ItemLevelIssueList = Array<ItemLevelIssue>;
-export const ItemLevelIssueList = /*@__PURE__*/ S.Array(
-  ItemLevelIssue,
-) as any as S.Schema<ItemLevelIssueList>;
-
 /** Aggregate product statuses for a given reporting context and country. */
 export interface AggregateProductStatus {
-  /** The reporting context of the aggregate product statuses. */
-  reportingContext?: AggregateProductStatusReportingContextEnum;
-  /** Products statistics for the given reporting context and country. */
-  stats?: Stats;
-  /** The product issues that affect the given reporting context and country. */
-  itemLevelIssues?: ItemLevelIssueList;
   /** Identifier. The name of the `AggregateProductStatuses` resource. Format: `accounts/{account}/aggregateProductStatuses/{aggregateProductStatuses}` */
   name?: string;
+  /** The product issues that affect the given reporting context and country. */
+  itemLevelIssues?: ItemLevelIssueList;
+  /** The reporting context of the aggregate product statuses. */
+  reportingContext?: AggregateProductStatusReportingContextEnum;
   /** The country of the aggregate product statuses. Represented as a [CLDR territory code](https://github.com/unicode-org/cldr/blob/latest/common/main/en.xml). */
   country?: string;
+  /** Products statistics for the given reporting context and country. */
+  stats?: Stats;
 }
 export const AggregateProductStatus = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    reportingContext: S.optional(AggregateProductStatusReportingContextEnum),
-    stats: S.optional(Stats),
-    itemLevelIssues: S.optional(ItemLevelIssueList),
     name: S.optional(S.String),
+    itemLevelIssues: S.optional(ItemLevelIssueList),
+    reportingContext: S.optional(AggregateProductStatusReportingContextEnum),
     country: S.optional(S.String),
+    stats: S.optional(Stats),
   }),
-).annotate({
-  identifier: "AggregateProductStatus",
-}) as any as S.Schema<AggregateProductStatus>;
+).annotate({ identifier: "AggregateProductStatus" }) as any as S.Schema<AggregateProductStatus>;
 
 export type AggregateProductStatusList = Array<AggregateProductStatus>;
 export const AggregateProductStatusList = /*@__PURE__*/ S.Array(
@@ -213,19 +212,24 @@ export const AggregateProductStatusList = /*@__PURE__*/ S.Array(
 
 /** Response message for the `ListAggregateProductStatuses` method. */
 export interface ListAggregateProductStatusesResponse {
-  /** The `AggregateProductStatuses` resources for the given account. */
-  aggregateProductStatuses?: AggregateProductStatusList;
   /** A token, which can be sent as `pageToken` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
   nextPageToken?: string;
+  /** The `AggregateProductStatuses` resources for the given account. */
+  aggregateProductStatuses?: AggregateProductStatusList;
 }
 export const ListAggregateProductStatusesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    aggregateProductStatuses: S.optional(AggregateProductStatusList),
     nextPageToken: S.optional(S.String),
+    aggregateProductStatuses: S.optional(AggregateProductStatusList),
   }),
 ).annotate({
   identifier: "ListAggregateProductStatusesResponse",
 }) as any as S.Schema<ListAggregateProductStatusesResponse>;
+
+export type RenderIssuesRequestPayloadContentOptionEnum =
+  | "CONTENT_OPTION_UNSPECIFIED"
+  | "PRE_RENDERED_HTML";
+export const RenderIssuesRequestPayloadContentOptionEnum = S.String;
 
 export type RenderIssuesRequestPayloadUserInputActionOptionEnum =
   | "USER_INPUT_ACTION_RENDERING_OPTION_UNSPECIFIED"
@@ -233,42 +237,37 @@ export type RenderIssuesRequestPayloadUserInputActionOptionEnum =
   | "BUILT_IN_USER_INPUT_ACTIONS";
 export const RenderIssuesRequestPayloadUserInputActionOptionEnum = S.String;
 
-export type RenderIssuesRequestPayloadContentOptionEnum =
-  | "CONTENT_OPTION_UNSPECIFIED"
-  | "PRE_RENDERED_HTML";
-export const RenderIssuesRequestPayloadContentOptionEnum = S.String;
-
 /** The payload for configuring how the content should be rendered. */
 export interface RenderIssuesRequestPayload {
-  /** Optional. How actions with user input form should be handled. If not provided, actions will be returned as links that points the business to Merchant Center where they can request the action. */
-  userInputActionOption?: RenderIssuesRequestPayloadUserInputActionOptionEnum | (string & {});
   /** Optional. How the detailed content should be returned. Default option is to return the content as a pre-rendered HTML text. */
   contentOption?: RenderIssuesRequestPayloadContentOptionEnum | (string & {});
+  /** Optional. How actions with user input form should be handled. If not provided, actions will be returned as links that points the business to Merchant Center where they can request the action. */
+  userInputActionOption?: RenderIssuesRequestPayloadUserInputActionOptionEnum | (string & {});
 }
 export const RenderIssuesRequestPayload = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    userInputActionOption: S.optional(RenderIssuesRequestPayloadUserInputActionOptionEnum),
     contentOption: S.optional(RenderIssuesRequestPayloadContentOptionEnum),
+    userInputActionOption: S.optional(RenderIssuesRequestPayloadUserInputActionOptionEnum),
   }),
 ).annotate({
   identifier: "RenderIssuesRequestPayload",
 }) as any as S.Schema<RenderIssuesRequestPayload>;
 
 export interface RenderaccountissuesIssueresolutionRequest {
+  /** Optional. The [IETF BCP-47](https://tools.ietf.org/html/bcp47) language code used to localize issue resolution content. If not set, the result will be in default language `en-US`. */
+  languageCode?: string;
   /** Optional. The [IANA](https://www.iana.org/time-zones) timezone used to localize times in an issue resolution content. For example 'America/Los_Angeles'. If not set, results will use as a default UTC. */
   timeZone?: string;
   /** Required. The account to fetch issues for. Format: `accounts/{account}` */
   name: string;
-  /** Optional. The [IETF BCP-47](https://tools.ietf.org/html/bcp47) language code used to localize issue resolution content. If not set, the result will be in default language `en-US`. */
-  languageCode?: string;
   /** Request body */
   body?: RenderIssuesRequestPayload;
 }
 export const RenderaccountissuesIssueresolutionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    languageCode: S.optional(S.String.pipe(T.Query())),
     timeZone: S.optional(S.String.pipe(T.Query())),
     name: S.String.pipe(T.Label()),
-    languageCode: S.optional(S.String.pipe(T.Query())),
     body: S.optional(RenderIssuesRequestPayload.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -281,105 +280,8 @@ export const RenderaccountissuesIssueresolutionRequest = /*@__PURE__*/ S.suspend
   identifier: "RenderaccountissuesIssueresolutionRequest",
 }) as any as S.Schema<RenderaccountissuesIssueresolutionRequest>;
 
-export type ImpactSeverityEnum = "SEVERITY_UNSPECIFIED" | "ERROR" | "WARNING" | "INFO";
-export const ImpactSeverityEnum = S.String;
-
-/** Region with code and localized name. */
-export interface Region {
-  /** The [CLDR territory code] (http://www.unicode.org/repos/cldr/tags/latest/common/main/en.xml) */
-  code?: string;
-  /** The localized name of the region. For region with code='001' the value is 'All countries' or the equivalent in other languages. */
-  name?: string;
-}
-export const Region = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    code: S.optional(S.String),
-    name: S.optional(S.String),
-  }),
-).annotate({ identifier: "Region" }) as any as S.Schema<Region>;
-
-export type RegionList = Array<Region>;
-export const RegionList = /*@__PURE__*/ S.Array(Region) as any as S.Schema<RegionList>;
-
-export type StringList = Array<string>;
-export const StringList = /*@__PURE__*/ S.Array(S.String) as any as S.Schema<StringList>;
-
-/** A detailed impact breakdown for a group of regions where the impact of the issue on different shopping destinations is the same. */
-export interface Breakdown {
-  /** Lists of regions. Should be rendered as a title for this group of details. The full list should be shown to the business. If the list is too long, it is recommended to make it expandable. */
-  regions?: RegionList;
-  /** Human readable, localized description of issue's effect on different targets. Should be rendered as a list. For example: * "Products not showing in ads" * "Products not showing organically" */
-  details?: StringList;
-}
-export const Breakdown = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    regions: S.optional(RegionList),
-    details: S.optional(StringList),
-  }),
-).annotate({ identifier: "Breakdown" }) as any as S.Schema<Breakdown>;
-
-export type BreakdownList = Array<Breakdown>;
-export const BreakdownList = /*@__PURE__*/ S.Array(Breakdown) as any as S.Schema<BreakdownList>;
-
-/** Overall impact of the issue. */
-export interface Impact {
-  /** Optional. Message summarizing the overall impact of the issue. If present, it should be rendered to the business. For example: "Disapproves 90k offers in 25 countries" */
-  message?: string;
-  /** The severity of the issue. */
-  severity?: ImpactSeverityEnum;
-  /** Detailed impact breakdown. Explains the types of restriction the issue has in different shopping destinations and territory. If present, it should be rendered to the business. Can be shown as a mouse over dropdown or a dialog. Each breakdown item represents a group of regions with the same impact details. */
-  breakdowns?: BreakdownList;
-}
-export const Impact = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    message: S.optional(S.String),
-    severity: S.optional(ImpactSeverityEnum),
-    breakdowns: S.optional(BreakdownList),
-  }),
-).annotate({ identifier: "Impact" }) as any as S.Schema<Impact>;
-
-/** A single reason why the action is not available. */
-export interface Reason {
-  /** Optional. An action that needs to be performed to solve the problem represented by this reason. This action will always be available. Should be rendered as a link or button next to the summarizing message. For example, the review may be available only once the business configure all required attributes. In such a situation this action can be a link to the form, where they can fill the missing attribute to unblock the main action. */
-  action?: Action;
-  /** Messages summarizing the reason, why the action is not available. For example: "Review requested on Jan 03. Review requests can take a few days to complete." */
-  message?: string;
-  /** Detailed explanation of the reason. Should be displayed as a hint if present. */
-  detail?: string;
-}
-export const Reason = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    action: S.optional(S.suspend(() => Action)),
-    message: S.optional(S.String),
-    detail: S.optional(S.String),
-  }),
-).annotate({ identifier: "Reason" }) as any as S.Schema<Reason>;
-
-export type ReasonList = Array<Reason>;
-export const ReasonList = /*@__PURE__*/ S.Array(Reason) as any as S.Schema<ReasonList>;
-
-export type ExternalActionTypeEnum =
-  | "EXTERNAL_ACTION_TYPE_UNSPECIFIED"
-  | "REVIEW_PRODUCT_ISSUE_IN_MERCHANT_CENTER"
-  | "REVIEW_ACCOUNT_ISSUE_IN_MERCHANT_CENTER"
-  | "LEGAL_APPEAL_IN_HELP_CENTER"
-  | "VERIFY_IDENTITY_IN_MERCHANT_CENTER"
-  | "VERIFY_BUSINESS_VIDEO_IN_MERCHANT_CENTER";
-export const ExternalActionTypeEnum = S.String;
-
-/** Action that is implemented and performed outside of the third-party application. It should redirect the business to the provided URL of an external system where they can perform the action. For example to request a review in the Merchant Center. */
-export interface ExternalAction {
-  /** The type of external action. */
-  type?: ExternalActionTypeEnum;
-  /** URL to external system, for example Merchant Center, where the business can perform the action. */
-  uri?: string;
-}
-export const ExternalAction = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: S.optional(ExternalActionTypeEnum),
-    uri: S.optional(S.String),
-  }),
-).annotate({ identifier: "ExternalAction" }) as any as S.Schema<ExternalAction>;
+export type CalloutStyleHintEnum = "CALLOUT_STYLE_HINT_UNSPECIFIED" | "ERROR" | "WARNING" | "INFO";
+export const CalloutStyleHintEnum = S.String;
 
 export type TextWithTooltipTooltipIconStyleEnum =
   | "TOOLTIP_ICON_STYLE_UNSPECIFIED"
@@ -402,51 +304,38 @@ export const TextWithTooltip = /*@__PURE__*/ S.suspend(() =>
     simpleValue: S.optional(S.String),
     simpleTooltipValue: S.optional(S.String),
   }),
-).annotate({
-  identifier: "TextWithTooltip",
-}) as any as S.Schema<TextWithTooltip>;
-
-export type CalloutStyleHintEnum = "CALLOUT_STYLE_HINT_UNSPECIFIED" | "ERROR" | "WARNING" | "INFO";
-export const CalloutStyleHintEnum = S.String;
+).annotate({ identifier: "TextWithTooltip" }) as any as S.Schema<TextWithTooltip>;
 
 /** An important message that should be highlighted. Usually displayed as a banner. */
 export interface Callout {
-  /** A full message that needs to be shown to the business. */
-  fullMessage?: TextWithTooltip;
   /** Can be used to render messages with different severity in different styles. Snippets off all types contain important information that should be displayed to the business. */
   styleHint?: CalloutStyleHintEnum;
+  /** A full message that needs to be shown to the business. */
+  fullMessage?: TextWithTooltip;
 }
 export const Callout = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    fullMessage: S.optional(TextWithTooltip),
     styleHint: S.optional(CalloutStyleHintEnum),
+    fullMessage: S.optional(TextWithTooltip),
   }),
 ).annotate({ identifier: "Callout" }) as any as S.Schema<Callout>;
 
-/** Checkbox input allows the business to provide a boolean value. Corresponds to the [html input type=checkbox](https://www.w3.org/TR/2012/WD-html-markup-20121025/input.checkbox.html#input.checkbox). If the business checks the box, the input value for the field is `true`, otherwise it is `false`. This type of input is often used as a confirmation that the business completed required steps before they are allowed to start the action. In such a case, the input field is marked as required and the button to trigger the action should stay disabled until the business checks the box. */
-export interface CheckboxInput {}
-export const CheckboxInput = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-  identifier: "CheckboxInput",
-}) as any as S.Schema<CheckboxInput>;
-
 /** A choice that the business can select. */
 export interface ChoiceInputOption {
-  /** Not for display but need to be sent back for the selected choice option. */
-  id?: string;
   /** Short description of the choice option. There may be more information to be shown as a tooltip. */
   label?: TextWithTooltip;
+  /** Not for display but need to be sent back for the selected choice option. */
+  id?: string;
   /** Input that should be displayed when this option is selected. The additional input will not contain a `ChoiceInput`. */
   additionalInput?: InputField;
 }
 export const ChoiceInputOption = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    id: S.optional(S.String),
     label: S.optional(TextWithTooltip),
+    id: S.optional(S.String),
     additionalInput: S.optional(S.suspend(() => InputField)),
   }),
-).annotate({
-  identifier: "ChoiceInputOption",
-}) as any as S.Schema<ChoiceInputOption>;
+).annotate({ identifier: "ChoiceInputOption" }) as any as S.Schema<ChoiceInputOption>;
 
 export type ChoiceInputOptionList = Array<ChoiceInputOption>;
 export const ChoiceInputOptionList = /*@__PURE__*/ S.Array(
@@ -464,6 +353,12 @@ export const ChoiceInput = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "ChoiceInput" }) as any as S.Schema<ChoiceInput>;
 
+/** Checkbox input allows the business to provide a boolean value. Corresponds to the [html input type=checkbox](https://www.w3.org/TR/2012/WD-html-markup-20121025/input.checkbox.html#input.checkbox). If the business checks the box, the input value for the field is `true`, otherwise it is `false`. This type of input is often used as a confirmation that the business completed required steps before they are allowed to start the action. In such a case, the input field is marked as required and the button to trigger the action should stay disabled until the business checks the box. */
+export interface CheckboxInput {}
+export const CheckboxInput = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  identifier: "CheckboxInput",
+}) as any as S.Schema<CheckboxInput>;
+
 export type TextInputTypeEnum =
   | "TEXT_INPUT_TYPE_UNSPECIFIED"
   | "GENERIC_SHORT_TEXT"
@@ -472,10 +367,10 @@ export const TextInputTypeEnum = S.String;
 
 /** Text input allows the business to provide a text value. */
 export interface TextInput {
-  /** Text to be used as the [aria-label](https://www.w3.org/TR/WCAG20-TECHS/ARIA14.html) for the input. */
-  ariaLabel?: string;
   /** Additional info regarding the field to be displayed to the business. For example, warning to not include personal identifiable information. There may be more information to be shown in a tooltip. */
   additionalInfo?: TextWithTooltip;
+  /** Text to be used as the [aria-label](https://www.w3.org/TR/WCAG20-TECHS/ARIA14.html) for the input. */
+  ariaLabel?: string;
   /** Information about the required format. If present, it should be shown close to the input field to help the business to provide a correct value. For example: "VAT numbers should be in a format similar to SK9999999999" */
   formatInfo?: string;
   /** Type of the text input */
@@ -483,8 +378,8 @@ export interface TextInput {
 }
 export const TextInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    ariaLabel: S.optional(S.String),
     additionalInfo: S.optional(TextWithTooltip),
+    ariaLabel: S.optional(S.String),
     formatInfo: S.optional(S.String),
     type: S.optional(TextInputTypeEnum),
   }),
@@ -492,10 +387,10 @@ export const TextInput = /*@__PURE__*/ S.suspend(() =>
 
 /** Input field that needs to be available to the business. If the field is marked as required, then a value needs to be provided for a successful processing of the request. */
 export interface InputField {
-  /** Input field to provide a boolean value. Corresponds to the [html input type=checkbox](https://www.w3.org/TR/2012/WD-html-markup-20121025/input.checkbox.html#input.checkbox). */
-  checkboxInput?: CheckboxInput;
   /** Input field to select one of the offered choices. Corresponds to the [html input type=radio](https://www.w3.org/TR/2012/WD-html-markup-20121025/input.radio.html#input.radio). */
   choiceInput?: ChoiceInput;
+  /** Input field to provide a boolean value. Corresponds to the [html input type=checkbox](https://www.w3.org/TR/2012/WD-html-markup-20121025/input.checkbox.html#input.checkbox). */
+  checkboxInput?: CheckboxInput;
   /** Input field to provide text information. Corresponds to the [html input type=text](https://www.w3.org/TR/2012/WD-html-markup-20121025/input.text.html#input.text) or [html textarea](https://www.w3.org/TR/2012/WD-html-markup-20121025/textarea.html#textarea). */
   textInput?: TextInput;
   /** Input field label. There may be more information to be shown in a tooltip. */
@@ -507,8 +402,8 @@ export interface InputField {
 }
 export const InputField = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    checkboxInput: S.optional(CheckboxInput),
     choiceInput: S.optional(ChoiceInput),
+    checkboxInput: S.optional(CheckboxInput),
     textInput: S.optional(TextInput),
     label: S.optional(TextWithTooltip),
     required: S.optional(S.Boolean),
@@ -521,14 +416,14 @@ export const InputFieldList = /*@__PURE__*/ S.Array(InputField) as any as S.Sche
 
 /** Flow that can be selected for an action. When a business selects a flow, application should open a dialog with more information and input form. */
 export interface ActionFlow {
-  /** Not for display but need to be sent back for the selected action flow. */
-  id?: string;
-  /** Title of the request dialog. For example: "Before you request a review" */
-  dialogTitle?: string;
-  /** Text value describing the intent for the action flow. It can be used as an input label if business needs to pick one of multiple flows. For example: "I disagree with the issue" */
-  label?: string;
   /** Important message to be highlighted in the request dialog. For example: "You can only request a review for disagreeing with this issue once. If it's not approved, you'll need to fix the issue and wait a few days before you can request another review." */
   dialogCallout?: Callout;
+  /** Text value describing the intent for the action flow. It can be used as an input label if business needs to pick one of multiple flows. For example: "I disagree with the issue" */
+  label?: string;
+  /** Title of the request dialog. For example: "Before you request a review" */
+  dialogTitle?: string;
+  /** Not for display but need to be sent back for the selected action flow. */
+  id?: string;
   /** Label for the button to trigger the action from the action dialog. For example: "Request review" */
   dialogButtonLabel?: string;
   /** A list of input fields. */
@@ -538,10 +433,10 @@ export interface ActionFlow {
 }
 export const ActionFlow = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    id: S.optional(S.String),
-    dialogTitle: S.optional(S.String),
-    label: S.optional(S.String),
     dialogCallout: S.optional(Callout),
+    label: S.optional(S.String),
+    dialogTitle: S.optional(S.String),
+    id: S.optional(S.String),
     dialogButtonLabel: S.optional(S.String),
     inputs: S.optional(InputFieldList),
     dialogMessage: S.optional(TextWithTooltip),
@@ -563,25 +458,67 @@ export const BuiltInUserInputAction = /*@__PURE__*/ S.suspend(() =>
     actionContext: S.optional(S.String),
     flows: S.optional(ActionFlowList),
   }),
-).annotate({
-  identifier: "BuiltInUserInputAction",
-}) as any as S.Schema<BuiltInUserInputAction>;
+).annotate({ identifier: "BuiltInUserInputAction" }) as any as S.Schema<BuiltInUserInputAction>;
+
+/** A single reason why the action is not available. */
+export interface Reason {
+  /** Messages summarizing the reason, why the action is not available. For example: "Review requested on Jan 03. Review requests can take a few days to complete." */
+  message?: string;
+  /** Detailed explanation of the reason. Should be displayed as a hint if present. */
+  detail?: string;
+  /** Optional. An action that needs to be performed to solve the problem represented by this reason. This action will always be available. Should be rendered as a link or button next to the summarizing message. For example, the review may be available only once the business configure all required attributes. In such a situation this action can be a link to the form, where they can fill the missing attribute to unblock the main action. */
+  action?: Action;
+}
+export const Reason = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    message: S.optional(S.String),
+    detail: S.optional(S.String),
+    action: S.optional(S.suspend(() => Action)),
+  }),
+).annotate({ identifier: "Reason" }) as any as S.Schema<Reason>;
+
+export type ReasonList = Array<Reason>;
+export const ReasonList = /*@__PURE__*/ S.Array(Reason) as any as S.Schema<ReasonList>;
+
+export type ExternalActionTypeEnum =
+  | "EXTERNAL_ACTION_TYPE_UNSPECIFIED"
+  | "REVIEW_PRODUCT_ISSUE_IN_MERCHANT_CENTER"
+  | "REVIEW_ACCOUNT_ISSUE_IN_MERCHANT_CENTER"
+  | "LEGAL_APPEAL_IN_HELP_CENTER"
+  | "VERIFY_IDENTITY_IN_MERCHANT_CENTER"
+  | "VERIFY_BUSINESS_VIDEO_IN_MERCHANT_CENTER";
+export const ExternalActionTypeEnum = S.String;
+
+/** Action that is implemented and performed outside of the third-party application. It should redirect the business to the provided URL of an external system where they can perform the action. For example to request a review in the Merchant Center. */
+export interface ExternalAction {
+  /** URL to external system, for example Merchant Center, where the business can perform the action. */
+  uri?: string;
+  /** The type of external action. */
+  type?: ExternalActionTypeEnum;
+}
+export const ExternalAction = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    uri: S.optional(S.String),
+    type: S.optional(ExternalActionTypeEnum),
+  }),
+).annotate({ identifier: "ExternalAction" }) as any as S.Schema<ExternalAction>;
+
+export type StringList = Array<string>;
+export const StringList = /*@__PURE__*/ S.Array(S.String) as any as S.Schema<StringList>;
 
 /** Long text from external source. */
 export interface AdditionalContent {
-  /** Long text organized into paragraphs. */
-  paragraphs?: StringList;
   /** Title of the additional content; */
   title?: string;
+  /** Long text organized into paragraphs. */
+  paragraphs?: StringList;
 }
 export const AdditionalContent = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    paragraphs: S.optional(StringList),
     title: S.optional(S.String),
+    paragraphs: S.optional(StringList),
   }),
-).annotate({
-  identifier: "AdditionalContent",
-}) as any as S.Schema<AdditionalContent>;
+).annotate({ identifier: "AdditionalContent" }) as any as S.Schema<AdditionalContent>;
 
 export type BuiltInSimpleActionTypeEnum =
   | "BUILT_IN_SIMPLE_ACTION_TYPE_UNSPECIFIED"
@@ -598,45 +535,43 @@ export const BuiltInSimpleActionTypeEnum = S.String;
 
 /** Action that is implemented and performed in (your) third-party application. Represents various functionality that is expected to be available to business and will help them with resolving the issue. The application should point the business to the place, where they can access the corresponding functionality. If the functionality is not supported, it is recommended to explain the situation to the business and provide them with instructions how to solve the issue. */
 export interface BuiltInSimpleAction {
+  /** The attribute that needs to be updated. Present when the type is `EDIT_ITEM_ATTRIBUTE`. This field contains a code for attribute, represented in snake_case. You can find a list of product's attributes, with their codes [here](https://support.google.com/merchants/answer/7052112). */
+  attributeCode?: string;
   /** Long text from an external source that should be available to the business. Present when the type is `SHOW_ADDITIONAL_CONTENT`. */
   additionalContent?: AdditionalContent;
   /** The type of action that represents a functionality that is expected to be available in third-party application. */
   type?: BuiltInSimpleActionTypeEnum;
-  /** The attribute that needs to be updated. Present when the type is `EDIT_ITEM_ATTRIBUTE`. This field contains a code for attribute, represented in snake_case. You can find a list of product's attributes, with their codes [here](https://support.google.com/merchants/answer/7052112). */
-  attributeCode?: string;
 }
 export const BuiltInSimpleAction = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    attributeCode: S.optional(S.String),
     additionalContent: S.optional(AdditionalContent),
     type: S.optional(BuiltInSimpleActionTypeEnum),
-    attributeCode: S.optional(S.String),
   }),
-).annotate({
-  identifier: "BuiltInSimpleAction",
-}) as any as S.Schema<BuiltInSimpleAction>;
+).annotate({ identifier: "BuiltInSimpleAction" }) as any as S.Schema<BuiltInSimpleAction>;
 
 /** An actionable step that can be executed to solve the issue. */
 export interface Action {
+  /** Action implemented and performed in (your) third-party application. The application needs to show an additional content and input form to the business as specified for given action. They can trigger the action only when they provided all required inputs. */
+  builtinUserInputAction?: BuiltInUserInputAction;
+  /** Controlling whether the button is active or disabled. The value is 'false' when the action was already requested or is not available. If the action is not available then a reason will be present. If (your) third-party application shows a disabled button for action that is not available, then it should also show reasons. */
+  isAvailable?: boolean;
   /** Label of the action button. */
   buttonLabel?: string;
   /** List of reasons why the action is not available. The list of reasons is empty if the action is available. If there is only one reason, it can be displayed next to the disabled button. If there are more reasons, all of them should be displayed, for example in a pop-up dialog. */
   reasons?: ReasonList;
   /** Action that is implemented and performed outside of (your) third-party application. The application needs to redirect the business to the external location where they can perform the action. */
   externalAction?: ExternalAction;
-  /** Controlling whether the button is active or disabled. The value is 'false' when the action was already requested or is not available. If the action is not available then a reason will be present. If (your) third-party application shows a disabled button for action that is not available, then it should also show reasons. */
-  isAvailable?: boolean;
-  /** Action implemented and performed in (your) third-party application. The application needs to show an additional content and input form to the business as specified for given action. They can trigger the action only when they provided all required inputs. */
-  builtinUserInputAction?: BuiltInUserInputAction;
   /** Action implemented and performed in (your) third-party application. The application should point the business to the place, where they can access the corresponding functionality or provide instructions, if the specific functionality is not available. */
   builtinSimpleAction?: BuiltInSimpleAction;
 }
 export const Action = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    builtinUserInputAction: S.optional(BuiltInUserInputAction),
+    isAvailable: S.optional(S.Boolean),
     buttonLabel: S.optional(S.String),
     reasons: S.optional(ReasonList),
     externalAction: S.optional(ExternalAction),
-    isAvailable: S.optional(S.Boolean),
-    builtinUserInputAction: S.optional(BuiltInUserInputAction),
     builtinSimpleAction: S.optional(BuiltInSimpleAction),
   }),
 ).annotate({ identifier: "Action" }) as any as S.Schema<Action>;
@@ -644,26 +579,80 @@ export const Action = /*@__PURE__*/ S.suspend(() =>
 export type ActionList = Array<Action>;
 export const ActionList = /*@__PURE__*/ S.Array(Action) as any as S.Schema<ActionList>;
 
+/** Region with code and localized name. */
+export interface Region {
+  /** The [CLDR territory code] (http://www.unicode.org/repos/cldr/tags/latest/common/main/en.xml) */
+  code?: string;
+  /** The localized name of the region. For region with code='001' the value is 'All countries' or the equivalent in other languages. */
+  name?: string;
+}
+export const Region = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    code: S.optional(S.String),
+    name: S.optional(S.String),
+  }),
+).annotate({ identifier: "Region" }) as any as S.Schema<Region>;
+
+export type RegionList = Array<Region>;
+export const RegionList = /*@__PURE__*/ S.Array(Region) as any as S.Schema<RegionList>;
+
+/** A detailed impact breakdown for a group of regions where the impact of the issue on different shopping destinations is the same. */
+export interface Breakdown {
+  /** Lists of regions. Should be rendered as a title for this group of details. The full list should be shown to the business. If the list is too long, it is recommended to make it expandable. */
+  regions?: RegionList;
+  /** Human readable, localized description of issue's effect on different targets. Should be rendered as a list. For example: * "Products not showing in ads" * "Products not showing organically" */
+  details?: StringList;
+}
+export const Breakdown = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    regions: S.optional(RegionList),
+    details: S.optional(StringList),
+  }),
+).annotate({ identifier: "Breakdown" }) as any as S.Schema<Breakdown>;
+
+export type BreakdownList = Array<Breakdown>;
+export const BreakdownList = /*@__PURE__*/ S.Array(Breakdown) as any as S.Schema<BreakdownList>;
+
+export type ImpactSeverityEnum = "SEVERITY_UNSPECIFIED" | "ERROR" | "WARNING" | "INFO";
+export const ImpactSeverityEnum = S.String;
+
+/** Overall impact of the issue. */
+export interface Impact {
+  /** Detailed impact breakdown. Explains the types of restriction the issue has in different shopping destinations and territory. If present, it should be rendered to the business. Can be shown as a mouse over dropdown or a dialog. Each breakdown item represents a group of regions with the same impact details. */
+  breakdowns?: BreakdownList;
+  /** Optional. Message summarizing the overall impact of the issue. If present, it should be rendered to the business. For example: "Disapproves 90k offers in 25 countries" */
+  message?: string;
+  /** The severity of the issue. */
+  severity?: ImpactSeverityEnum;
+}
+export const Impact = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    breakdowns: S.optional(BreakdownList),
+    message: S.optional(S.String),
+    severity: S.optional(ImpactSeverityEnum),
+  }),
+).annotate({ identifier: "Impact" }) as any as S.Schema<Impact>;
+
 /** An issue affecting specific business or their product. */
 export interface RenderedIssue {
-  /** Title of the issue. */
-  title?: string;
   /** Pre-rendered HTML that contains a link to the external location where the ODS can be requested and instructions for how to request it. HTML elements contain CSS classes that can be used to customize the style of this snippet. Always sanitize the HTML before embedding it directly to your application. The sanitizer needs to allow basic HTML tags, such as: `div`, `span`, `p`, `a`, `ul`, `li`, `table`, `tr`, `td`. For example, you can use [DOMPurify](https://www.npmjs.com/package/dompurify). CSS classes: * `ods-section`* - wrapper around the out-of-court dispute resolution section * `ods-description`* - intro text for the out-of-court dispute resolution. It may contain multiple segments and a link. * `ods-param`* - wrapper around the header-value pair for parameters that the business may need to provide during the ODS process. * `ods-routing-id`* - ods param for the Routing ID. * `ods-reference-id`* - ods param for the Routing ID. * `ods-param-header`* - header for the ODS parameter * `ods-param-value`* - value of the ODS parameter. This value should be rendered in a way that it is easy for the user to identify and copy. * `segment` - section of the text, `span` inside paragraph * `segment-attribute` - section of the text that represents a product attribute, for example 'image\_link' * `segment-literal` - section of the text that contains a special value, for example '0-1000 kg' * `segment-bold` - section of the text that should be rendered as bold * `segment-italic` - section of the text that should be rendered as italic * `tooltip` - used on paragraphs that should be rendered with a tooltip. A section of the text in such a paragraph will have a class `tooltip-text` and is intended to be shown in a mouse over dialog. If the style is not used, the `tooltip-text` section would be shown on a new line, after the main part of the text. * `tooltip-text` - marks a section of the text within a `tooltip`, that is intended to be shown in a mouse over dialog. * `tooltip-icon` - marks a section of the text within a `tooltip`, that can be replaced with a tooltip icon, for example '?' or 'i'. By default, this section contains a `br` tag, that is separating the main text and the tooltip text when the style is not used. * `tooltip-style-question` - the tooltip shows helpful information, can use the '?' as an icon. * `tooltip-style-info` - the tooltip adds additional information fitting to the context, can use the 'i' as an icon. */
   prerenderedOutOfCourtDisputeSettlement?: string;
-  /** Details of the issue as a pre-rendered HTML. HTML elements contain CSS classes that can be used to customize the style of the content. Always sanitize the HTML before embedding it directly to your application. The sanitizer needs to allow basic HTML tags, such as: `div`, `span`, `p`, `a`, `ul`, `li`, `table`, `tr`, `td`. For example, you can use [DOMPurify](https://www.npmjs.com/package/dompurify). CSS classes: * `issue-detail` - top level container for the detail of the issue * `callout-banners` - section of the `issue-detail` with callout banners * `callout-banner` - single callout banner, inside `callout-banners` * `callout-banner-info` - callout with important information (default) * `callout-banner-warning` - callout with a warning * `callout-banner-error` - callout informing about an error (most severe) * `issue-content` - section of the `issue-detail`, contains multiple `content-element` * `content-element` - content element such as a list, link or paragraph, inside `issue-content` * `root-causes` - unordered list with items describing root causes of the issue, inside `issue-content` * `root-causes-intro` - intro text before the `root-causes` list, inside `issue-content` * `segment` - section of the text, `span` inside paragraph * `segment-attribute` - section of the text that represents a product attribute, for example 'image\_link' * `segment-literal` - section of the text that contains a special value, for example '0-1000 kg' * `segment-bold` - section of the text that should be rendered as bold * `segment-italic` - section of the text that should be rendered as italic * `tooltip` - used on paragraphs that should be rendered with a tooltip. A section of the text in such a paragraph will have a class `tooltip-text` and is intended to be shown in a mouse over dialog. If the style is not used, the `tooltip-text` section would be shown on a new line, after the main part of the text. * `tooltip-text` - marks a section of the text within a `tooltip`, that is intended to be shown in a mouse over dialog. * `tooltip-icon` - marks a section of the text within a `tooltip`, that can be replaced with a tooltip icon, for example '?' or 'i'. By default, this section contains a `br` tag, that is separating the main text and the tooltip text when the style is not used. * `tooltip-style-question` - the tooltip shows helpful information, can use the '?' as an icon. * `tooltip-style-info` - the tooltip adds additional information fitting to the context, can use the 'i' as an icon. * `content-moderation` - marks the paragraph that explains how the issue was identified. * `asset-value` - marks the paragraph that contains the asset information. * `asset-label` - marks the section of the text that contains the label of the asset. * `asset-link` - marks the section of the text that contains a link to the asset. * `asset-provided-value` - marks the section of the text that contains the value of the asset. * `new-element` - Present for new elements added to the pre-rendered content in the future. To make sure that a new content element does not break your style, you can hide everything with this class. */
-  prerenderedContent?: string;
-  /** Clarifies the severity of the issue. The summarizing message, if present, should be shown right under the title for each issue. It helps business to quickly understand the impact of the issue. The detailed breakdown helps the business to fully understand the impact of the issue. It can be rendered as dialog that opens when the business mouse over the summarized impact statement. Issues with different severity can be styled differently. They may use a different color or icon to signal the difference between `ERROR`, `WARNING` and `INFO`. */
-  impact?: Impact;
   /** A list of actionable steps that can be executed to solve the issue. An example is requesting a re-review or providing arguments when business disagrees with the issue. Actions that are supported in (your) third-party application can be rendered as buttons and should be available to the business when they expand the issue. */
   actions?: ActionList;
+  /** Clarifies the severity of the issue. The summarizing message, if present, should be shown right under the title for each issue. It helps business to quickly understand the impact of the issue. The detailed breakdown helps the business to fully understand the impact of the issue. It can be rendered as dialog that opens when the business mouse over the summarized impact statement. Issues with different severity can be styled differently. They may use a different color or icon to signal the difference between `ERROR`, `WARNING` and `INFO`. */
+  impact?: Impact;
+  /** Details of the issue as a pre-rendered HTML. HTML elements contain CSS classes that can be used to customize the style of the content. Always sanitize the HTML before embedding it directly to your application. The sanitizer needs to allow basic HTML tags, such as: `div`, `span`, `p`, `a`, `ul`, `li`, `table`, `tr`, `td`. For example, you can use [DOMPurify](https://www.npmjs.com/package/dompurify). CSS classes: * `issue-detail` - top level container for the detail of the issue * `callout-banners` - section of the `issue-detail` with callout banners * `callout-banner` - single callout banner, inside `callout-banners` * `callout-banner-info` - callout with important information (default) * `callout-banner-warning` - callout with a warning * `callout-banner-error` - callout informing about an error (most severe) * `issue-content` - section of the `issue-detail`, contains multiple `content-element` * `content-element` - content element such as a list, link or paragraph, inside `issue-content` * `root-causes` - unordered list with items describing root causes of the issue, inside `issue-content` * `root-causes-intro` - intro text before the `root-causes` list, inside `issue-content` * `segment` - section of the text, `span` inside paragraph * `segment-attribute` - section of the text that represents a product attribute, for example 'image\_link' * `segment-literal` - section of the text that contains a special value, for example '0-1000 kg' * `segment-bold` - section of the text that should be rendered as bold * `segment-italic` - section of the text that should be rendered as italic * `tooltip` - used on paragraphs that should be rendered with a tooltip. A section of the text in such a paragraph will have a class `tooltip-text` and is intended to be shown in a mouse over dialog. If the style is not used, the `tooltip-text` section would be shown on a new line, after the main part of the text. * `tooltip-text` - marks a section of the text within a `tooltip`, that is intended to be shown in a mouse over dialog. * `tooltip-icon` - marks a section of the text within a `tooltip`, that can be replaced with a tooltip icon, for example '?' or 'i'. By default, this section contains a `br` tag, that is separating the main text and the tooltip text when the style is not used. * `tooltip-style-question` - the tooltip shows helpful information, can use the '?' as an icon. * `tooltip-style-info` - the tooltip adds additional information fitting to the context, can use the 'i' as an icon. * `content-moderation` - marks the paragraph that explains how the issue was identified. * `asset-value` - marks the paragraph that contains the asset information. * `asset-label` - marks the section of the text that contains the label of the asset. * `asset-link` - marks the section of the text that contains a link to the asset. * `asset-provided-value` - marks the section of the text that contains the value of the asset. * `new-element` - Present for new elements added to the pre-rendered content in the future. To make sure that a new content element does not break your style, you can hide everything with this class. */
+  prerenderedContent?: string;
+  /** Title of the issue. */
+  title?: string;
 }
 export const RenderedIssue = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    title: S.optional(S.String),
     prerenderedOutOfCourtDisputeSettlement: S.optional(S.String),
-    prerenderedContent: S.optional(S.String),
-    impact: S.optional(Impact),
     actions: S.optional(ActionList),
+    impact: S.optional(Impact),
+    prerenderedContent: S.optional(S.String),
+    title: S.optional(S.String),
   }),
 ).annotate({ identifier: "RenderedIssue" }) as any as S.Schema<RenderedIssue>;
 
@@ -686,10 +675,10 @@ export const RenderAccountIssuesResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<RenderAccountIssuesResponse>;
 
 export interface RenderproductissuesIssueresolutionRequest {
-  /** Optional. The [IETF BCP-47](https://tools.ietf.org/html/bcp47) language code used to localize an issue resolution content. If not set, the result will be in default language `en-US`. */
-  languageCode?: string;
   /** Optional. The [IANA](https://www.iana.org/time-zones) timezone used to localize times in an issue resolution content. For example 'America/Los_Angeles'. If not set, results will use as a default UTC. */
   timeZone?: string;
+  /** Optional. The [IETF BCP-47](https://tools.ietf.org/html/bcp47) language code used to localize an issue resolution content. If not set, the result will be in default language `en-US`. */
+  languageCode?: string;
   /** Required. The name of the product. Format: `accounts/{account}/products/{product}` The `{product}` segment is a unique identifier for the product. This identifier must be unique within a merchant account and generally follows the structure: `content_language~feed_label~offer_id`. Example: `en~US~sku123` For legacy local products, the structure is: `local~content_language~feed_label~offer_id`. Example: `local~en~US~sku123` The format of the `{product}` segment in the URL is automatically detected by the server, supporting two options: 1. **Encoded Format**: The `{product}` segment is an unpadded base64url encoded string (RFC 4648 Section 5). The decoded string must result in the `content_language~feed_label~offer_id` structure. This encoding MUST be used if any part of the product identifier (like `offer_id`) contains characters such as `/`, `%`, or `~`. * Example: To represent the product ID `en~US~sku/123`, the `{product}` segment must be the base64url encoding of this string, which is `ZW5-VVN-c2t1LzEyMw`. The full resource name for the product would be `accounts/123/products/ZW5-VVN-c2t1LzEyMw`. 2. **Plain Format**: The `{product}` segment is the tilde-separated string `content_language~feed_label~offer_id`. This format is suitable only when `content_language`, `feed_label`, and `offer_id` do not contain URL-problematic characters like `/`, `%`, or `~`. We recommend using the **Encoded Format** for all product IDs to ensure correct parsing, especially those containing special characters. The presence of tilde (`~`) characters in the `{product}` segment is used to differentiate between the two formats. */
   name: string;
   /** Request body */
@@ -697,8 +686,8 @@ export interface RenderproductissuesIssueresolutionRequest {
 }
 export const RenderproductissuesIssueresolutionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    languageCode: S.optional(S.String.pipe(T.Query())),
     timeZone: S.optional(S.String.pipe(T.Query())),
+    languageCode: S.optional(S.String.pipe(T.Query())),
     name: S.String.pipe(T.Label()),
     body: S.optional(RenderIssuesRequestPayload.pipe(T.HttpBody())),
   }).pipe(
@@ -734,9 +723,7 @@ export const CheckboxInputValue = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     value: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "CheckboxInputValue",
-}) as any as S.Schema<CheckboxInputValue>;
+).annotate({ identifier: "CheckboxInputValue" }) as any as S.Schema<CheckboxInputValue>;
 
 /** Value for choice input field. */
 export interface ChoiceInputValue {
@@ -747,9 +734,7 @@ export const ChoiceInputValue = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     choiceInputOptionId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ChoiceInputValue",
-}) as any as S.Schema<ChoiceInputValue>;
+).annotate({ identifier: "ChoiceInputValue" }) as any as S.Schema<ChoiceInputValue>;
 
 /** Value for text input field. */
 export interface TextInputValue {
@@ -764,20 +749,20 @@ export const TextInputValue = /*@__PURE__*/ S.suspend(() =>
 
 /** Input provided by the business for input field. */
 export interface InputValue {
+  /** Required. Id of the corresponding input field. */
+  inputFieldId?: string;
   /** Value for checkbox input field. */
   checkboxInputValue?: CheckboxInputValue;
   /** Value for choice input field. */
   choiceInputValue?: ChoiceInputValue;
-  /** Required. Id of the corresponding input field. */
-  inputFieldId?: string;
   /** Value for text input field. */
   textInputValue?: TextInputValue;
 }
 export const InputValue = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    inputFieldId: S.optional(S.String),
     checkboxInputValue: S.optional(CheckboxInputValue),
     choiceInputValue: S.optional(ChoiceInputValue),
-    inputFieldId: S.optional(S.String),
     textInputValue: S.optional(TextInputValue),
   }),
 ).annotate({ identifier: "InputValue" }) as any as S.Schema<InputValue>;
@@ -787,15 +772,15 @@ export const InputValueList = /*@__PURE__*/ S.Array(InputValue) as any as S.Sche
 
 /** Input provided by the business. */
 export interface ActionInput {
-  /** Required. Values for input fields. */
-  inputValues?: InputValueList;
   /** Required. Id of the selected action flow. */
   actionFlowId?: string;
+  /** Required. Values for input fields. */
+  inputValues?: InputValueList;
 }
 export const ActionInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    inputValues: S.optional(InputValueList),
     actionFlowId: S.optional(S.String),
+    inputValues: S.optional(InputValueList),
   }),
 ).annotate({ identifier: "ActionInput" }) as any as S.Schema<ActionInput>;
 
@@ -811,9 +796,7 @@ export const TriggerActionPayload = /*@__PURE__*/ S.suspend(() =>
     actionInput: S.optional(ActionInput),
     actionContext: S.optional(S.String),
   }),
-).annotate({
-  identifier: "TriggerActionPayload",
-}) as any as S.Schema<TriggerActionPayload>;
+).annotate({ identifier: "TriggerActionPayload" }) as any as S.Schema<TriggerActionPayload>;
 
 export interface TriggeractionIssueresolutionRequest {
   /** Optional. Language code [IETF BCP 47 syntax](https://tools.ietf.org/html/bcp47) used to localize the response. If not set, the result will be in default language `en-US`. */
@@ -848,9 +831,7 @@ export const TriggerActionResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     message: S.optional(S.String),
   }),
-).annotate({
-  identifier: "TriggerActionResponse",
-}) as any as S.Schema<TriggerActionResponse>;
+).annotate({ identifier: "TriggerActionResponse" }) as any as S.Schema<TriggerActionResponse>;
 
 export type ListAccountsAggregateProductStatusesError = NotFound | Forbidden | GcpOpError;
 /** Lists the `AggregateProductStatuses` resources for your merchant account. The response might contain fewer items than specified by `pageSize`. If `pageToken` was returned in previous request, it can be used to obtain additional results. This method can only be accessed by standalone accounts and sub-accounts of an advanced account. To retrieve product statuses for sub-accounts, you must first call the accounts.listSubaccounts method to obtain a list of sub-accounts, and then call `accounts.aggregateProductStatuses.list` for each sub-account individually. */
@@ -866,10 +847,7 @@ export const listAccountsAggregateProductStatuses: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type RenderaccountissuesIssueresolutionError =

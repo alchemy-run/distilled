@@ -94,9 +94,6 @@ export const Empty = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "Empty",
 }) as any as S.Schema<Empty>;
 
-export type StringMap = { [key: string]: string | undefined };
-export const StringMap = /*@__PURE__*/ S.Record(S.String, S.String) as any as S.Schema<StringMap>;
-
 /** Contains information required to contact CA service. */
 export interface CertificateAuthorityServiceConfig {
   /** Required. A CA pool resource used to issue a certificate. The CA pool string has a relative resource path following the form "projects/{project}/locations/{location}/caPools/{ca_pool}". */
@@ -123,6 +120,9 @@ export const CertificateAuthorityConfig = /*@__PURE__*/ S.suspend(() =>
   identifier: "CertificateAuthorityConfig",
 }) as any as S.Schema<CertificateAuthorityConfig>;
 
+export type StringMap = { [key: string]: string | undefined };
+export const StringMap = /*@__PURE__*/ S.Record(S.String, S.String) as any as S.Schema<StringMap>;
+
 export type CertificateIssuanceConfigKeyAlgorithmEnum =
   | "KEY_ALGORITHM_UNSPECIFIED"
   | "RSA_2048"
@@ -131,38 +131,38 @@ export const CertificateIssuanceConfigKeyAlgorithmEnum = S.String;
 
 /** CertificateIssuanceConfig specifies how to issue and manage a certificate. */
 export interface CertificateIssuanceConfig {
-  /** Optional. Input only. Immutable. Tag keys/values directly bound to this resource. For example: "123/environment": "production", "123/costCenter": "marketing" */
-  tags?: StringMap;
-  /** Optional. One or more paragraphs of text description of a CertificateIssuanceConfig. */
-  description?: string;
-  /** Output only. The creation timestamp of a CertificateIssuanceConfig. */
-  createTime?: string;
-  /** Identifier. A user-defined name of the certificate issuance config. CertificateIssuanceConfig names must be unique globally and match pattern `projects/*\/locations/*\/certificateIssuanceConfigs/*`. */
-  name?: string;
-  /** Required. Specifies the percentage of elapsed time of the certificate lifetime to wait before renewing the certificate. Must be a number between 1-99, inclusive. */
-  rotationWindowPercentage?: number;
-  /** Required. Workload certificate lifetime requested. */
-  lifetime?: string;
-  /** Output only. The last update timestamp of a CertificateIssuanceConfig. */
-  updateTime?: string;
   /** Required. The CA that issues the workload certificate. It includes the CA address, type, authentication to CA service, etc. */
   certificateAuthorityConfig?: CertificateAuthorityConfig;
+  /** Required. Specifies the percentage of elapsed time of the certificate lifetime to wait before renewing the certificate. Must be a number between 1-99, inclusive. */
+  rotationWindowPercentage?: number;
+  /** Output only. The last update timestamp of a CertificateIssuanceConfig. */
+  updateTime?: string;
+  /** Required. Workload certificate lifetime requested. */
+  lifetime?: string;
+  /** Optional. One or more paragraphs of text description of a CertificateIssuanceConfig. */
+  description?: string;
+  /** Identifier. A user-defined name of the certificate issuance config. CertificateIssuanceConfig names must be unique globally and match pattern `projects/*\/locations/*\/certificateIssuanceConfigs/*`. */
+  name?: string;
   /** Optional. Set of labels associated with a CertificateIssuanceConfig. */
   labels?: StringMap;
+  /** Output only. The creation timestamp of a CertificateIssuanceConfig. */
+  createTime?: string;
+  /** Optional. Input only. Immutable. Tag keys/values directly bound to this resource. For example: "123/environment": "production", "123/costCenter": "marketing" */
+  tags?: StringMap;
   /** Required. The key algorithm to use when generating the private key. */
   keyAlgorithm?: CertificateIssuanceConfigKeyAlgorithmEnum | (string & {});
 }
 export const CertificateIssuanceConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    tags: S.optional(StringMap),
-    description: S.optional(S.String),
-    createTime: S.optional(S.String),
-    name: S.optional(S.String),
-    rotationWindowPercentage: S.optional(S.Number),
-    lifetime: S.optional(S.String),
-    updateTime: S.optional(S.String),
     certificateAuthorityConfig: S.optional(CertificateAuthorityConfig),
+    rotationWindowPercentage: S.optional(S.Number),
+    updateTime: S.optional(S.String),
+    lifetime: S.optional(S.String),
+    description: S.optional(S.String),
+    name: S.optional(S.String),
     labels: S.optional(StringMap),
+    createTime: S.optional(S.String),
+    tags: S.optional(StringMap),
     keyAlgorithm: S.optional(CertificateIssuanceConfigKeyAlgorithmEnum),
   }),
 ).annotate({
@@ -170,18 +170,18 @@ export const CertificateIssuanceConfig = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<CertificateIssuanceConfig>;
 
 export interface CreateProjectsLocationsCertificateIssuanceConfigsRequest {
-  /** Required. The parent resource of the certificate issuance config. Must be in the format `projects/*\/locations/*`. */
-  parent: string;
   /** Required. A user-provided name of the certificate config. */
   certificateIssuanceConfigId?: string;
+  /** Required. The parent resource of the certificate issuance config. Must be in the format `projects/*\/locations/*`. */
+  parent: string;
   /** Request body */
   body?: CertificateIssuanceConfig;
 }
 export const CreateProjectsLocationsCertificateIssuanceConfigsRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      parent: S.String.pipe(T.Label()),
       certificateIssuanceConfigId: S.optional(S.String.pipe(T.Query())),
+      parent: S.String.pipe(T.Label()),
       body: S.optional(CertificateIssuanceConfig.pipe(T.HttpBody())),
     }).pipe(
       T.Http({
@@ -226,22 +226,22 @@ export const Status = /*@__PURE__*/ S.suspend(() =>
 export interface Operation {
   /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
   metadata?: DocumentMap;
-  /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
-  done?: boolean;
+  /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
+  name?: string;
   /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
   response?: DocumentMap;
   /** The error result of the operation in case of failure or cancellation. */
   error?: Status;
-  /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
-  name?: string;
+  /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
+  done?: boolean;
 }
 export const Operation = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     metadata: S.optional(DocumentMap),
-    done: S.optional(S.Boolean),
+    name: S.optional(S.String),
     response: S.optional(DocumentMap),
     error: S.optional(Status),
-    name: S.optional(S.String),
+    done: S.optional(S.Boolean),
   }),
 ).annotate({ identifier: "Operation" }) as any as S.Schema<Operation>;
 
@@ -250,15 +250,15 @@ export const IntegerList = /*@__PURE__*/ S.Array(S.Number) as any as S.Schema<In
 
 /** Defines IP configuration where this Certificate Map is serving. */
 export interface IpConfig {
-  /** Output only. An external IP address. */
-  ipAddress?: string;
   /** Output only. Ports. */
   ports?: IntegerList;
+  /** Output only. An external IP address. */
+  ipAddress?: string;
 }
 export const IpConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    ipAddress: S.optional(S.String),
     ports: S.optional(IntegerList),
+    ipAddress: S.optional(S.String),
   }),
 ).annotate({ identifier: "IpConfig" }) as any as S.Schema<IpConfig>;
 
@@ -269,16 +269,16 @@ export const IpConfigList = /*@__PURE__*/ S.Array(IpConfig) as any as S.Schema<I
 export interface GclbTarget {
   /** Output only. This field returns the resource name in the following format: `//compute.googleapis.com/projects/*\/global/targetSslProxies/*`. */
   targetSslProxy?: string;
-  /** Output only. IP configurations for this Target Proxy where the Certificate Map is serving. */
-  ipConfigs?: IpConfigList;
   /** Output only. This field returns the resource name in the following format: `//compute.googleapis.com/projects/*\/global/targetHttpsProxies/*`. */
   targetHttpsProxy?: string;
+  /** Output only. IP configurations for this Target Proxy where the Certificate Map is serving. */
+  ipConfigs?: IpConfigList;
 }
 export const GclbTarget = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     targetSslProxy: S.optional(S.String),
-    ipConfigs: S.optional(IpConfigList),
     targetHttpsProxy: S.optional(S.String),
+    ipConfigs: S.optional(IpConfigList),
   }),
 ).annotate({ identifier: "GclbTarget" }) as any as S.Schema<GclbTarget>;
 
@@ -287,30 +287,30 @@ export const GclbTargetList = /*@__PURE__*/ S.Array(GclbTarget) as any as S.Sche
 
 /** Defines a collection of certificate configurations. */
 export interface CertificateMap {
-  /** Optional. Set of labels associated with a Certificate Map. */
-  labels?: StringMap;
   /** Output only. The update timestamp of a Certificate Map. */
   updateTime?: string;
+  /** Optional. Set of labels associated with a Certificate Map. */
+  labels?: StringMap;
   /** Optional. Input only. Immutable. Tag keys/values directly bound to this resource. For example: "123/environment": "production", "123/costCenter": "marketing" */
   tags?: StringMap;
-  /** Output only. The creation timestamp of a Certificate Map. */
-  createTime?: string;
-  /** Identifier. A user-defined name of the Certificate Map. Certificate Map names must be unique globally and match pattern `projects/*\/locations/*\/certificateMaps/*`. */
-  name?: string;
   /** Optional. One or more paragraphs of text description of a certificate map. */
   description?: string;
+  /** Output only. The creation timestamp of a Certificate Map. */
+  createTime?: string;
   /** Output only. A list of GCLB targets that use this Certificate Map. A Target Proxy is only present on this list if it's attached to a Forwarding Rule. */
   gclbTargets?: GclbTargetList;
+  /** Identifier. A user-defined name of the Certificate Map. Certificate Map names must be unique globally and match pattern `projects/*\/locations/*\/certificateMaps/*`. */
+  name?: string;
 }
 export const CertificateMap = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    labels: S.optional(StringMap),
     updateTime: S.optional(S.String),
+    labels: S.optional(StringMap),
     tags: S.optional(StringMap),
-    createTime: S.optional(S.String),
-    name: S.optional(S.String),
     description: S.optional(S.String),
+    createTime: S.optional(S.String),
     gclbTargets: S.optional(GclbTargetList),
+    name: S.optional(S.String),
   }),
 ).annotate({ identifier: "CertificateMap" }) as any as S.Schema<CertificateMap>;
 
@@ -338,65 +338,63 @@ export const CreateProjectsLocationsCertificateMapsRequest = /*@__PURE__*/ S.sus
   identifier: "CreateProjectsLocationsCertificateMapsRequest",
 }) as any as S.Schema<CreateProjectsLocationsCertificateMapsRequest>;
 
+export type CertificateMapEntryStateEnum = "SERVING_STATE_UNSPECIFIED" | "ACTIVE" | "PENDING";
+export const CertificateMapEntryStateEnum = S.String;
+
 export type StringList = Array<string>;
 export const StringList = /*@__PURE__*/ S.Array(S.String) as any as S.Schema<StringList>;
 
 export type CertificateMapEntryMatcherEnum = "MATCHER_UNSPECIFIED" | "PRIMARY";
 export const CertificateMapEntryMatcherEnum = S.String;
 
-export type CertificateMapEntryStateEnum = "SERVING_STATE_UNSPECIFIED" | "ACTIVE" | "PENDING";
-export const CertificateMapEntryStateEnum = S.String;
-
 /** Defines a certificate map entry. */
 export interface CertificateMapEntry {
-  /** Optional. A set of Certificates defines for the given `hostname`. There can be defined up to four certificates in each Certificate Map Entry. Each certificate must match pattern `projects/*\/locations/*\/certificates/*`. */
-  certificates?: StringList;
+  /** Output only. A serving state of this Certificate Map Entry. */
+  state?: CertificateMapEntryStateEnum | (string & {});
   /** Identifier. A user-defined name of the Certificate Map Entry. Certificate Map Entry names must be unique globally and match pattern `projects/*\/locations/*\/certificateMaps/*\/certificateMapEntries/*`. */
   name?: string;
+  /** Output only. The creation timestamp of a Certificate Map Entry. */
+  createTime?: string;
+  /** Optional. One or more paragraphs of text description of a certificate map entry. */
+  description?: string;
+  /** Optional. A set of Certificates defines for the given `hostname`. There can be defined up to four certificates in each Certificate Map Entry. Each certificate must match pattern `projects/*\/locations/*\/certificates/*`. */
+  certificates?: StringList;
+  /** A predefined matcher for particular cases, other than SNI selection. */
+  matcher?: CertificateMapEntryMatcherEnum | (string & {});
   /** A Hostname (FQDN, e.g. `example.com`) or a wildcard hostname expression (`*.example.com`) for a set of hostnames with common suffix. Used as Server Name Indication (SNI) for selecting a proper certificate. */
   hostname?: string;
   /** Output only. The update timestamp of a Certificate Map Entry. */
   updateTime?: string;
   /** Optional. Set of labels associated with a Certificate Map Entry. */
   labels?: StringMap;
-  /** Output only. The creation timestamp of a Certificate Map Entry. */
-  createTime?: string;
-  /** A predefined matcher for particular cases, other than SNI selection. */
-  matcher?: CertificateMapEntryMatcherEnum | (string & {});
-  /** Output only. A serving state of this Certificate Map Entry. */
-  state?: CertificateMapEntryStateEnum | (string & {});
-  /** Optional. One or more paragraphs of text description of a certificate map entry. */
-  description?: string;
 }
 export const CertificateMapEntry = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    certificates: S.optional(StringList),
+    state: S.optional(CertificateMapEntryStateEnum),
     name: S.optional(S.String),
+    createTime: S.optional(S.String),
+    description: S.optional(S.String),
+    certificates: S.optional(StringList),
+    matcher: S.optional(CertificateMapEntryMatcherEnum),
     hostname: S.optional(S.String),
     updateTime: S.optional(S.String),
     labels: S.optional(StringMap),
-    createTime: S.optional(S.String),
-    matcher: S.optional(CertificateMapEntryMatcherEnum),
-    state: S.optional(CertificateMapEntryStateEnum),
-    description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CertificateMapEntry",
-}) as any as S.Schema<CertificateMapEntry>;
+).annotate({ identifier: "CertificateMapEntry" }) as any as S.Schema<CertificateMapEntry>;
 
 export interface CreateProjectsLocationsCertificateMapsCertificateMapEntriesRequest {
-  /** Required. The parent resource of the certificate map entry. Must be in the format `projects/*\/locations/*\/certificateMaps/*`. */
-  parent: string;
   /** Required. A user-provided name of the certificate map entry. */
   certificateMapEntryId?: string;
+  /** Required. The parent resource of the certificate map entry. Must be in the format `projects/*\/locations/*\/certificateMaps/*`. */
+  parent: string;
   /** Request body */
   body?: CertificateMapEntry;
 }
 export const CreateProjectsLocationsCertificateMapsCertificateMapEntriesRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      parent: S.String.pipe(T.Label()),
       certificateMapEntryId: S.optional(S.String.pipe(T.Query())),
+      parent: S.String.pipe(T.Label()),
       body: S.optional(CertificateMapEntry.pipe(T.HttpBody())),
     }).pipe(
       T.Http({
@@ -408,20 +406,6 @@ export const CreateProjectsLocationsCertificateMapsCertificateMapEntriesRequest 
   ).annotate({
     identifier: "CreateProjectsLocationsCertificateMapsCertificateMapEntriesRequest",
   }) as any as S.Schema<CreateProjectsLocationsCertificateMapsCertificateMapEntriesRequest>;
-
-/** Defines a resource that uses the certificate. */
-export interface UsedBy {
-  /** Output only. Full name of the resource https://google.aip.dev/122#full-resource-names, e.g. `//certificatemanager.googleapis.com/projects/*\/locations/*\/certificateMaps/*\/certificateMapEntries/*` or `//compute.googleapis.com/projects/*\/locations/*\/targetHttpsProxies/*`. */
-  name?: string;
-}
-export const UsedBy = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.optional(S.String),
-  }),
-).annotate({ identifier: "UsedBy" }) as any as S.Schema<UsedBy>;
-
-export type UsedByList = Array<UsedBy>;
-export const UsedByList = /*@__PURE__*/ S.Array(UsedBy) as any as S.Schema<UsedByList>;
 
 /** Certificate data for a SelfManaged Certificate. SelfManaged Certificates are uploaded by the user. Updating such certificates before they expire remains the user's responsibility. */
 export interface SelfManagedCertificate {
@@ -435,12 +419,129 @@ export const SelfManagedCertificate = /*@__PURE__*/ S.suspend(() =>
     pemCertificate: S.optional(S.String),
     pemPrivateKey: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SelfManagedCertificate",
-}) as any as S.Schema<SelfManagedCertificate>;
+).annotate({ identifier: "SelfManagedCertificate" }) as any as S.Schema<SelfManagedCertificate>;
 
 export type CertificateScopeEnum = "DEFAULT" | "EDGE_CACHE" | "ALL_REGIONS" | "CLIENT_AUTH";
 export const CertificateScopeEnum = S.String;
+
+export type ManagedCertificateStateEnum =
+  | "STATE_UNSPECIFIED"
+  | "PROVISIONING"
+  | "FAILED"
+  | "ACTIVE";
+export const ManagedCertificateStateEnum = S.String;
+
+/** IPs troubleshooting information. */
+export interface IPs {
+  /** Output only. The list of IP addresses, where the certificate is attached, but port 443 is not open. */
+  servingOnAltPorts?: StringList;
+  /** Output only. The list of IP addresses, where the certificate is attached and port 443 is open. */
+  serving?: StringList;
+  /** Output only. The list of IP addresses resolved from the domain's A/AAAA records. Can contain both ipv4 and ipv6 addresses. */
+  resolved?: StringList;
+}
+export const IPs = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    servingOnAltPorts: S.optional(StringList),
+    serving: S.optional(StringList),
+    resolved: S.optional(StringList),
+  }),
+).annotate({ identifier: "IPs" }) as any as S.Schema<IPs>;
+
+/** CNAME troubleshooting information. */
+export interface CNAME {
+  /** Output only. The name of the CNAME record for the domain, equals to `dns_resource_record.name` in the corresponding `DnsAuthorization`. */
+  name?: string;
+  /** Output only. The expected value of the CNAME record for the domain, equals to `dns_resource_record.data` in the corresponding `DnsAuthorization`. */
+  expectedData?: string;
+  /** Output only. The resolved CNAME chain. Empty list if the CNAME record for `CNAME.name` is not found. Otherwise the first item is the value of the CNAME record for `CNAME.name`. If the CNAME chain is longer, the second item is the value of the CNAME record for the first item, and so on. */
+  resolvedData?: StringList;
+}
+export const CNAME = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    expectedData: S.optional(S.String),
+    resolvedData: S.optional(StringList),
+  }),
+).annotate({ identifier: "CNAME" }) as any as S.Schema<CNAME>;
+
+export type TroubleshootingIssuesItemEnum =
+  | "ISSUE_UNSPECIFIED"
+  | "CNAME_MISMATCH"
+  | "RESOLVED_TO_NOT_SERVING"
+  | "RESOLVED_TO_SERVING_ON_ALT_PORTS"
+  | "NO_RESOLVED_IPS"
+  | "CERTIFICATE_NOT_ATTACHED";
+export const TroubleshootingIssuesItemEnum = S.String;
+
+export type TroubleshootingIssuesItemEnumList = Array<
+  TroubleshootingIssuesItemEnum | (string & {})
+>;
+export const TroubleshootingIssuesItemEnumList = /*@__PURE__*/ S.Array(
+  TroubleshootingIssuesItemEnum,
+) as any as S.Schema<TroubleshootingIssuesItemEnumList>;
+
+/** Troubleshooting information for the authorization attempt. */
+export interface Troubleshooting {
+  /** Output only. IPs troubleshooting information. */
+  ips?: IPs;
+  /** Output only. CNAME troubleshooting information. */
+  cname?: CNAME;
+  /** Output only. The list of issues discovered during the authorization attempt. */
+  issues?: TroubleshootingIssuesItemEnumList;
+}
+export const Troubleshooting = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ips: S.optional(IPs),
+    cname: S.optional(CNAME),
+    issues: S.optional(TroubleshootingIssuesItemEnumList),
+  }),
+).annotate({ identifier: "Troubleshooting" }) as any as S.Schema<Troubleshooting>;
+
+export type AuthorizationAttemptInfoFailureReasonEnum =
+  | "FAILURE_REASON_UNSPECIFIED"
+  | "CONFIG"
+  | "CAA"
+  | "RATE_LIMITED";
+export const AuthorizationAttemptInfoFailureReasonEnum = S.String;
+
+export type AuthorizationAttemptInfoStateEnum =
+  | "STATE_UNSPECIFIED"
+  | "AUTHORIZING"
+  | "AUTHORIZED"
+  | "FAILED";
+export const AuthorizationAttemptInfoStateEnum = S.String;
+
+/** State of the latest attempt to authorize a domain for certificate issuance. */
+export interface AuthorizationAttemptInfo {
+  /** Output only. Troubleshooting information for the authorization attempt. This field is only populated if the authorization attempt failed. */
+  troubleshooting?: Troubleshooting;
+  /** Output only. Reason for failure of the authorization attempt for the domain. */
+  failureReason?: AuthorizationAttemptInfoFailureReasonEnum | (string & {});
+  /** Output only. State of the domain for managed certificate issuance. */
+  state?: AuthorizationAttemptInfoStateEnum | (string & {});
+  /** Output only. Domain name of the authorization attempt. */
+  domain?: string;
+  /** Output only. The timestamp, when the authorization attempt was made. */
+  attemptTime?: string;
+  /** Output only. Human readable explanation for reaching the state. Provided to help address the configuration issues. Not guaranteed to be stable. For programmatic access use FailureReason enum. */
+  details?: string;
+}
+export const AuthorizationAttemptInfo = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    troubleshooting: S.optional(Troubleshooting),
+    failureReason: S.optional(AuthorizationAttemptInfoFailureReasonEnum),
+    state: S.optional(AuthorizationAttemptInfoStateEnum),
+    domain: S.optional(S.String),
+    attemptTime: S.optional(S.String),
+    details: S.optional(S.String),
+  }),
+).annotate({ identifier: "AuthorizationAttemptInfo" }) as any as S.Schema<AuthorizationAttemptInfo>;
+
+export type AuthorizationAttemptInfoList = Array<AuthorizationAttemptInfo>;
+export const AuthorizationAttemptInfoList = /*@__PURE__*/ S.Array(
+  AuthorizationAttemptInfo,
+) as any as S.Schema<AuthorizationAttemptInfoList>;
 
 export type ProvisioningIssueReasonEnum =
   | "REASON_UNSPECIFIED"
@@ -460,9 +561,33 @@ export const ProvisioningIssue = /*@__PURE__*/ S.suspend(() =>
     reason: S.optional(ProvisioningIssueReasonEnum),
     details: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ProvisioningIssue",
-}) as any as S.Schema<ProvisioningIssue>;
+).annotate({ identifier: "ProvisioningIssue" }) as any as S.Schema<ProvisioningIssue>;
+
+/** Configuration and state of a Managed Certificate. Certificate Manager provisions and renews Managed Certificates automatically, for as long as it's authorized to do so. */
+export interface ManagedCertificate {
+  /** Optional. Immutable. Authorizations that will be used for performing domain authorization. */
+  dnsAuthorizations?: StringList;
+  /** Output only. State of the managed certificate resource. */
+  state?: ManagedCertificateStateEnum | (string & {});
+  /** Output only. Detailed state of the latest authorization attempt for each domain specified for managed certificate resource. */
+  authorizationAttemptInfo?: AuthorizationAttemptInfoList;
+  /** Output only. Information about issues with provisioning a Managed Certificate. */
+  provisioningIssue?: ProvisioningIssue;
+  /** Optional. Immutable. The resource name for a CertificateIssuanceConfig used to configure private PKI certificates in the format `projects/*\/locations/*\/certificateIssuanceConfigs/*`. If this field is not set, the certificates will instead be publicly signed as documented at https://cloud.google.com/load-balancing/docs/ssl-certificates/google-managed-certs#caa. */
+  issuanceConfig?: string;
+  /** Optional. Immutable. The domains for which a managed SSL certificate will be generated. Wildcard domains are only supported with DNS challenge resolution. */
+  domains?: StringList;
+}
+export const ManagedCertificate = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    dnsAuthorizations: S.optional(StringList),
+    state: S.optional(ManagedCertificateStateEnum),
+    authorizationAttemptInfo: S.optional(AuthorizationAttemptInfoList),
+    provisioningIssue: S.optional(ProvisioningIssue),
+    issuanceConfig: S.optional(S.String),
+    domains: S.optional(StringList),
+  }),
+).annotate({ identifier: "ManagedCertificate" }) as any as S.Schema<ManagedCertificate>;
 
 export type ManagedIdentityCertificateStateEnum =
   | "STATE_UNSPECIFIED"
@@ -490,219 +615,82 @@ export const ManagedIdentityCertificate = /*@__PURE__*/ S.suspend(() =>
   identifier: "ManagedIdentityCertificate",
 }) as any as S.Schema<ManagedIdentityCertificate>;
 
-export type AuthorizationAttemptInfoFailureReasonEnum =
-  | "FAILURE_REASON_UNSPECIFIED"
-  | "CONFIG"
-  | "CAA"
-  | "RATE_LIMITED";
-export const AuthorizationAttemptInfoFailureReasonEnum = S.String;
-
-export type AuthorizationAttemptInfoStateEnum =
-  | "STATE_UNSPECIFIED"
-  | "AUTHORIZING"
-  | "AUTHORIZED"
-  | "FAILED";
-export const AuthorizationAttemptInfoStateEnum = S.String;
-
-export type TroubleshootingIssuesItemEnum =
-  | "ISSUE_UNSPECIFIED"
-  | "CNAME_MISMATCH"
-  | "RESOLVED_TO_NOT_SERVING"
-  | "RESOLVED_TO_SERVING_ON_ALT_PORTS"
-  | "NO_RESOLVED_IPS"
-  | "CERTIFICATE_NOT_ATTACHED";
-export const TroubleshootingIssuesItemEnum = S.String;
-
-export type TroubleshootingIssuesItemEnumList = Array<
-  TroubleshootingIssuesItemEnum | (string & {})
->;
-export const TroubleshootingIssuesItemEnumList = /*@__PURE__*/ S.Array(
-  TroubleshootingIssuesItemEnum,
-) as any as S.Schema<TroubleshootingIssuesItemEnumList>;
-
-/** CNAME troubleshooting information. */
-export interface CNAME {
-  /** Output only. The expected value of the CNAME record for the domain, equals to `dns_resource_record.data` in the corresponding `DnsAuthorization`. */
-  expectedData?: string;
-  /** Output only. The resolved CNAME chain. Empty list if the CNAME record for `CNAME.name` is not found. Otherwise the first item is the value of the CNAME record for `CNAME.name`. If the CNAME chain is longer, the second item is the value of the CNAME record for the first item, and so on. */
-  resolvedData?: StringList;
-  /** Output only. The name of the CNAME record for the domain, equals to `dns_resource_record.name` in the corresponding `DnsAuthorization`. */
+/** Defines a resource that uses the certificate. */
+export interface UsedBy {
+  /** Output only. Full name of the resource https://google.aip.dev/122#full-resource-names, e.g. `//certificatemanager.googleapis.com/projects/*\/locations/*\/certificateMaps/*\/certificateMapEntries/*` or `//compute.googleapis.com/projects/*\/locations/*\/targetHttpsProxies/*`. */
   name?: string;
 }
-export const CNAME = /*@__PURE__*/ S.suspend(() =>
+export const UsedBy = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    expectedData: S.optional(S.String),
-    resolvedData: S.optional(StringList),
     name: S.optional(S.String),
   }),
-).annotate({ identifier: "CNAME" }) as any as S.Schema<CNAME>;
+).annotate({ identifier: "UsedBy" }) as any as S.Schema<UsedBy>;
 
-/** IPs troubleshooting information. */
-export interface IPs {
-  /** Output only. The list of IP addresses resolved from the domain's A/AAAA records. Can contain both ipv4 and ipv6 addresses. */
-  resolved?: StringList;
-  /** Output only. The list of IP addresses, where the certificate is attached and port 443 is open. */
-  serving?: StringList;
-  /** Output only. The list of IP addresses, where the certificate is attached, but port 443 is not open. */
-  servingOnAltPorts?: StringList;
-}
-export const IPs = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    resolved: S.optional(StringList),
-    serving: S.optional(StringList),
-    servingOnAltPorts: S.optional(StringList),
-  }),
-).annotate({ identifier: "IPs" }) as any as S.Schema<IPs>;
-
-/** Troubleshooting information for the authorization attempt. */
-export interface Troubleshooting {
-  /** Output only. The list of issues discovered during the authorization attempt. */
-  issues?: TroubleshootingIssuesItemEnumList;
-  /** Output only. CNAME troubleshooting information. */
-  cname?: CNAME;
-  /** Output only. IPs troubleshooting information. */
-  ips?: IPs;
-}
-export const Troubleshooting = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    issues: S.optional(TroubleshootingIssuesItemEnumList),
-    cname: S.optional(CNAME),
-    ips: S.optional(IPs),
-  }),
-).annotate({
-  identifier: "Troubleshooting",
-}) as any as S.Schema<Troubleshooting>;
-
-/** State of the latest attempt to authorize a domain for certificate issuance. */
-export interface AuthorizationAttemptInfo {
-  /** Output only. Human readable explanation for reaching the state. Provided to help address the configuration issues. Not guaranteed to be stable. For programmatic access use FailureReason enum. */
-  details?: string;
-  /** Output only. Reason for failure of the authorization attempt for the domain. */
-  failureReason?: AuthorizationAttemptInfoFailureReasonEnum | (string & {});
-  /** Output only. State of the domain for managed certificate issuance. */
-  state?: AuthorizationAttemptInfoStateEnum | (string & {});
-  /** Output only. The timestamp, when the authorization attempt was made. */
-  attemptTime?: string;
-  /** Output only. Troubleshooting information for the authorization attempt. This field is only populated if the authorization attempt failed. */
-  troubleshooting?: Troubleshooting;
-  /** Output only. Domain name of the authorization attempt. */
-  domain?: string;
-}
-export const AuthorizationAttemptInfo = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    details: S.optional(S.String),
-    failureReason: S.optional(AuthorizationAttemptInfoFailureReasonEnum),
-    state: S.optional(AuthorizationAttemptInfoStateEnum),
-    attemptTime: S.optional(S.String),
-    troubleshooting: S.optional(Troubleshooting),
-    domain: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "AuthorizationAttemptInfo",
-}) as any as S.Schema<AuthorizationAttemptInfo>;
-
-export type AuthorizationAttemptInfoList = Array<AuthorizationAttemptInfo>;
-export const AuthorizationAttemptInfoList = /*@__PURE__*/ S.Array(
-  AuthorizationAttemptInfo,
-) as any as S.Schema<AuthorizationAttemptInfoList>;
-
-export type ManagedCertificateStateEnum =
-  | "STATE_UNSPECIFIED"
-  | "PROVISIONING"
-  | "FAILED"
-  | "ACTIVE";
-export const ManagedCertificateStateEnum = S.String;
-
-/** Configuration and state of a Managed Certificate. Certificate Manager provisions and renews Managed Certificates automatically, for as long as it's authorized to do so. */
-export interface ManagedCertificate {
-  /** Optional. Immutable. The domains for which a managed SSL certificate will be generated. Wildcard domains are only supported with DNS challenge resolution. */
-  domains?: StringList;
-  /** Output only. Detailed state of the latest authorization attempt for each domain specified for managed certificate resource. */
-  authorizationAttemptInfo?: AuthorizationAttemptInfoList;
-  /** Output only. Information about issues with provisioning a Managed Certificate. */
-  provisioningIssue?: ProvisioningIssue;
-  /** Output only. State of the managed certificate resource. */
-  state?: ManagedCertificateStateEnum | (string & {});
-  /** Optional. Immutable. Authorizations that will be used for performing domain authorization. */
-  dnsAuthorizations?: StringList;
-  /** Optional. Immutable. The resource name for a CertificateIssuanceConfig used to configure private PKI certificates in the format `projects/*\/locations/*\/certificateIssuanceConfigs/*`. If this field is not set, the certificates will instead be publicly signed as documented at https://cloud.google.com/load-balancing/docs/ssl-certificates/google-managed-certs#caa. */
-  issuanceConfig?: string;
-}
-export const ManagedCertificate = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    domains: S.optional(StringList),
-    authorizationAttemptInfo: S.optional(AuthorizationAttemptInfoList),
-    provisioningIssue: S.optional(ProvisioningIssue),
-    state: S.optional(ManagedCertificateStateEnum),
-    dnsAuthorizations: S.optional(StringList),
-    issuanceConfig: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ManagedCertificate",
-}) as any as S.Schema<ManagedCertificate>;
+export type UsedByList = Array<UsedBy>;
+export const UsedByList = /*@__PURE__*/ S.Array(UsedBy) as any as S.Schema<UsedByList>;
 
 /** Defines TLS certificate. */
 export interface Certificate {
   /** Output only. The expiry timestamp of a Certificate. */
   expireTime?: string;
-  /** Output only. The list of resources that use this Certificate. */
-  usedBy?: UsedByList;
-  /** Optional. Input only. Immutable. Tag keys/values directly bound to this resource. For example: "123/environment": "production", "123/costCenter": "marketing" */
-  tags?: StringMap;
-  /** Optional. One or more paragraphs of text description of a certificate. */
-  description?: string;
-  /** Output only. The creation timestamp of a Certificate. */
-  createTime?: string;
   /** Output only. The PEM-encoded certificate chain. */
   pemCertificate?: string;
-  /** Identifier. A user-defined name of the certificate. Certificate names must be unique globally and match pattern `projects/*\/locations/*\/certificates/*`. */
-  name?: string;
-  /** Output only. The list of Subject Alternative Names of dnsName type defined in the certificate (see RFC 5280 4.2.1.6). Managed certificates that haven't been provisioned yet have this field populated with a value of the managed.domains field. */
-  sanDnsnames?: StringList;
   /** Optional. Set of labels associated with a Certificate. */
   labels?: StringMap;
+  /** Output only. The last update timestamp of a Certificate. */
+  updateTime?: string;
+  /** Output only. The list of Subject Alternative Names of dnsName type defined in the certificate (see RFC 5280 4.2.1.6). Managed certificates that haven't been provisioned yet have this field populated with a value of the managed.domains field. */
+  sanDnsnames?: StringList;
+  /** Optional. One or more paragraphs of text description of a certificate. */
+  description?: string;
   /** If set, defines data of a self-managed certificate. */
   selfManaged?: SelfManagedCertificate;
   /** Optional. Immutable. The scope of the certificate. */
   scope?: CertificateScopeEnum | (string & {});
-  /** If set, contains configuration and state of a managed identity certificate. */
-  managedIdentity?: ManagedIdentityCertificate;
-  /** Output only. The last update timestamp of a Certificate. */
-  updateTime?: string;
+  /** Optional. Input only. Immutable. Tag keys/values directly bound to this resource. For example: "123/environment": "production", "123/costCenter": "marketing" */
+  tags?: StringMap;
   /** If set, contains configuration and state of a managed certificate. */
   managed?: ManagedCertificate;
+  /** If set, contains configuration and state of a managed identity certificate. */
+  managedIdentity?: ManagedIdentityCertificate;
+  /** Output only. The creation timestamp of a Certificate. */
+  createTime?: string;
+  /** Output only. The list of resources that use this Certificate. */
+  usedBy?: UsedByList;
+  /** Identifier. A user-defined name of the certificate. Certificate names must be unique globally and match pattern `projects/*\/locations/*\/certificates/*`. */
+  name?: string;
 }
 export const Certificate = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     expireTime: S.optional(S.String),
-    usedBy: S.optional(UsedByList),
-    tags: S.optional(StringMap),
-    description: S.optional(S.String),
-    createTime: S.optional(S.String),
     pemCertificate: S.optional(S.String),
-    name: S.optional(S.String),
-    sanDnsnames: S.optional(StringList),
     labels: S.optional(StringMap),
+    updateTime: S.optional(S.String),
+    sanDnsnames: S.optional(StringList),
+    description: S.optional(S.String),
     selfManaged: S.optional(SelfManagedCertificate),
     scope: S.optional(CertificateScopeEnum),
-    managedIdentity: S.optional(ManagedIdentityCertificate),
-    updateTime: S.optional(S.String),
+    tags: S.optional(StringMap),
     managed: S.optional(ManagedCertificate),
+    managedIdentity: S.optional(ManagedIdentityCertificate),
+    createTime: S.optional(S.String),
+    usedBy: S.optional(UsedByList),
+    name: S.optional(S.String),
   }),
 ).annotate({ identifier: "Certificate" }) as any as S.Schema<Certificate>;
 
 export interface CreateProjectsLocationsCertificatesRequest {
-  /** Required. The parent resource of the certificate. Must be in the format `projects/*\/locations/*`. */
-  parent: string;
   /** Required. A user-provided name of the certificate. */
   certificateId?: string;
+  /** Required. The parent resource of the certificate. Must be in the format `projects/*\/locations/*`. */
+  parent: string;
   /** Request body */
   body?: Certificate;
 }
 export const CreateProjectsLocationsCertificatesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    parent: S.String.pipe(T.Label()),
     certificateId: S.optional(S.String.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
     body: S.optional(Certificate.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -714,9 +702,6 @@ export const CreateProjectsLocationsCertificatesRequest = /*@__PURE__*/ S.suspen
 ).annotate({
   identifier: "CreateProjectsLocationsCertificatesRequest",
 }) as any as S.Schema<CreateProjectsLocationsCertificatesRequest>;
-
-export type DnsAuthorizationTypeEnum = "TYPE_UNSPECIFIED" | "FIXED_RECORD" | "PER_PROJECT_RECORD";
-export const DnsAuthorizationTypeEnum = S.String;
 
 /** The structure describing the DNS Resource Record that needs to be added to DNS configuration for the authorization to be usable by certificate. */
 export interface DnsResourceRecord {
@@ -733,59 +718,58 @@ export const DnsResourceRecord = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DnsResourceRecord",
-}) as any as S.Schema<DnsResourceRecord>;
+).annotate({ identifier: "DnsResourceRecord" }) as any as S.Schema<DnsResourceRecord>;
+
+export type DnsAuthorizationTypeEnum = "TYPE_UNSPECIFIED" | "FIXED_RECORD" | "PER_PROJECT_RECORD";
+export const DnsAuthorizationTypeEnum = S.String;
 
 /** A DnsAuthorization resource describes a way to perform domain authorization for certificate issuance. */
 export interface DnsAuthorization {
+  /** Output only. DNS Resource Record that needs to be added to DNS configuration. */
+  dnsResourceRecord?: DnsResourceRecord;
+  /** Optional. One or more paragraphs of text description of a DnsAuthorization. */
+  description?: string;
   /** Output only. The last update timestamp of a DnsAuthorization. */
   updateTime?: string;
+  /** Optional. Input only. Immutable. Tag keys/values directly bound to this resource. For example: "123/environment": "production", "123/costCenter": "marketing" */
+  tags?: StringMap;
+  /** Identifier. A user-defined name of the dns authorization. DnsAuthorization names must be unique globally and match pattern `projects/*\/locations/*\/dnsAuthorizations/*`. */
+  name?: string;
+  /** Optional. Set of labels associated with a DnsAuthorization. */
+  labels?: StringMap;
   /** Required. Immutable. A domain that is being authorized. A DnsAuthorization resource covers a single domain and its wildcard, e.g. authorization for `example.com` can be used to issue certificates for `example.com` and `*.example.com`. */
   domain?: string;
   /** Optional. Immutable. Type of DnsAuthorization. If unset during resource creation the following default will be used: - in location `global`: FIXED_RECORD, - in other locations: PER_PROJECT_RECORD. */
   type?: DnsAuthorizationTypeEnum | (string & {});
-  /** Optional. One or more paragraphs of text description of a DnsAuthorization. */
-  description?: string;
-  /** Output only. DNS Resource Record that needs to be added to DNS configuration. */
-  dnsResourceRecord?: DnsResourceRecord;
-  /** Identifier. A user-defined name of the dns authorization. DnsAuthorization names must be unique globally and match pattern `projects/*\/locations/*\/dnsAuthorizations/*`. */
-  name?: string;
-  /** Optional. Input only. Immutable. Tag keys/values directly bound to this resource. For example: "123/environment": "production", "123/costCenter": "marketing" */
-  tags?: StringMap;
-  /** Optional. Set of labels associated with a DnsAuthorization. */
-  labels?: StringMap;
   /** Output only. The creation timestamp of a DnsAuthorization. */
   createTime?: string;
 }
 export const DnsAuthorization = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    dnsResourceRecord: S.optional(DnsResourceRecord),
+    description: S.optional(S.String),
     updateTime: S.optional(S.String),
+    tags: S.optional(StringMap),
+    name: S.optional(S.String),
+    labels: S.optional(StringMap),
     domain: S.optional(S.String),
     type: S.optional(DnsAuthorizationTypeEnum),
-    description: S.optional(S.String),
-    dnsResourceRecord: S.optional(DnsResourceRecord),
-    name: S.optional(S.String),
-    tags: S.optional(StringMap),
-    labels: S.optional(StringMap),
     createTime: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DnsAuthorization",
-}) as any as S.Schema<DnsAuthorization>;
+).annotate({ identifier: "DnsAuthorization" }) as any as S.Schema<DnsAuthorization>;
 
 export interface CreateProjectsLocationsDnsAuthorizationsRequest {
-  /** Required. A user-provided name of the dns authorization. */
-  dnsAuthorizationId?: string;
   /** Required. The parent resource of the dns authorization. Must be in the format `projects/*\/locations/*`. */
   parent: string;
+  /** Required. A user-provided name of the dns authorization. */
+  dnsAuthorizationId?: string;
   /** Request body */
   body?: DnsAuthorization;
 }
 export const CreateProjectsLocationsDnsAuthorizationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    dnsAuthorizationId: S.optional(S.String.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
+    dnsAuthorizationId: S.optional(S.String.pipe(T.Query())),
     body: S.optional(DnsAuthorization.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -797,22 +781,6 @@ export const CreateProjectsLocationsDnsAuthorizationsRequest = /*@__PURE__*/ S.s
 ).annotate({
   identifier: "CreateProjectsLocationsDnsAuthorizationsRequest",
 }) as any as S.Schema<CreateProjectsLocationsDnsAuthorizationsRequest>;
-
-/** Defines a trust anchor. */
-export interface TrustAnchor {
-  /** PEM root certificate of the PKI used for validation. Each certificate provided in PEM format may occupy up to 5kB. */
-  pemCertificate?: string;
-}
-export const TrustAnchor = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    pemCertificate: S.optional(S.String),
-  }),
-).annotate({ identifier: "TrustAnchor" }) as any as S.Schema<TrustAnchor>;
-
-export type TrustAnchorList = Array<TrustAnchor>;
-export const TrustAnchorList = /*@__PURE__*/ S.Array(
-  TrustAnchor,
-) as any as S.Schema<TrustAnchorList>;
 
 /** Defines an intermediate CA. */
 export interface IntermediateCA {
@@ -830,22 +798,44 @@ export const IntermediateCAList = /*@__PURE__*/ S.Array(
   IntermediateCA,
 ) as any as S.Schema<IntermediateCAList>;
 
+/** Defines a trust anchor. */
+export interface TrustAnchor {
+  /** PEM root certificate of the PKI used for validation. Each certificate provided in PEM format may occupy up to 5kB. */
+  pemCertificate?: string;
+}
+export const TrustAnchor = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    pemCertificate: S.optional(S.String),
+  }),
+).annotate({ identifier: "TrustAnchor" }) as any as S.Schema<TrustAnchor>;
+
+export type TrustAnchorList = Array<TrustAnchor>;
+export const TrustAnchorList = /*@__PURE__*/ S.Array(
+  TrustAnchor,
+) as any as S.Schema<TrustAnchorList>;
+
 /** Defines a trust store. */
 export interface TrustStore {
-  /** Optional. List of Trust Anchors to be used while performing validation against a given TrustStore. */
-  trustAnchors?: TrustAnchorList;
   /** Optional. Set of intermediate CA certificates used for the path building phase of chain validation. The field is currently not supported if TrustConfig is used for the workload certificate feature. */
   intermediateCas?: IntermediateCAList;
+  /** Optional. List of Trust Anchors to be used while performing validation against a given TrustStore. */
+  trustAnchors?: TrustAnchorList;
 }
 export const TrustStore = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    trustAnchors: S.optional(TrustAnchorList),
     intermediateCas: S.optional(IntermediateCAList),
+    trustAnchors: S.optional(TrustAnchorList),
   }),
 ).annotate({ identifier: "TrustStore" }) as any as S.Schema<TrustStore>;
 
 export type TrustStoreList = Array<TrustStore>;
 export const TrustStoreList = /*@__PURE__*/ S.Array(TrustStore) as any as S.Schema<TrustStoreList>;
+
+export type TrustStoreMap = { [key: string]: TrustStore | undefined };
+export const TrustStoreMap = /*@__PURE__*/ S.Record(
+  S.String,
+  TrustStore,
+) as any as S.Schema<TrustStoreMap>;
 
 /** Defines an allowlisted certificate. */
 export interface AllowlistedCertificate {
@@ -856,56 +846,48 @@ export const AllowlistedCertificate = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     pemCertificate: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AllowlistedCertificate",
-}) as any as S.Schema<AllowlistedCertificate>;
+).annotate({ identifier: "AllowlistedCertificate" }) as any as S.Schema<AllowlistedCertificate>;
 
 export type AllowlistedCertificateList = Array<AllowlistedCertificate>;
 export const AllowlistedCertificateList = /*@__PURE__*/ S.Array(
   AllowlistedCertificate,
 ) as any as S.Schema<AllowlistedCertificateList>;
 
-export type TrustStoreMap = { [key: string]: TrustStore | undefined };
-export const TrustStoreMap = /*@__PURE__*/ S.Record(
-  S.String,
-  TrustStore,
-) as any as S.Schema<TrustStoreMap>;
-
 /** Defines a trust config. */
 export interface TrustConfig {
-  /** Identifier. A user-defined name of the trust config. TrustConfig names must be unique globally and match pattern `projects/*\/locations/*\/trustConfigs/*`. */
-  name?: string;
-  /** This checksum is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. */
-  etag?: string;
   /** Optional. Set of trust stores to perform validation against. This field is supported when TrustConfig is configured with Load Balancers, currently not supported for SPIFFE certificate validation. Only one TrustStore specified is currently allowed. */
   trustStores?: TrustStoreList;
-  /** Optional. Input only. Immutable. Tag keys/values directly bound to this resource. For example: "123/environment": "production", "123/costCenter": "marketing" */
-  tags?: StringMap;
-  /** Optional. A certificate matching an allowlisted certificate is always considered valid as long as the certificate is parseable, proof of private key possession is established, and constraints on the certificate's SAN field are met. */
-  allowlistedCertificates?: AllowlistedCertificateList;
-  /** Optional. One or more paragraphs of text description of a TrustConfig. */
-  description?: string;
-  /** Optional. Set of labels associated with a TrustConfig. */
-  labels?: StringMap;
   /** Output only. The last update timestamp of a TrustConfig. */
   updateTime?: string;
-  /** Output only. The creation timestamp of a TrustConfig. */
-  createTime?: string;
   /** Optional. Defines a mapping from a trust domain to a TrustStore. This is used for SPIFFE certificate validation. */
   spiffeTrustStores?: TrustStoreMap;
+  /** Optional. Input only. Immutable. Tag keys/values directly bound to this resource. For example: "123/environment": "production", "123/costCenter": "marketing" */
+  tags?: StringMap;
+  /** Optional. Set of labels associated with a TrustConfig. */
+  labels?: StringMap;
+  /** Output only. The creation timestamp of a TrustConfig. */
+  createTime?: string;
+  /** Identifier. A user-defined name of the trust config. TrustConfig names must be unique globally and match pattern `projects/*\/locations/*\/trustConfigs/*`. */
+  name?: string;
+  /** Optional. One or more paragraphs of text description of a TrustConfig. */
+  description?: string;
+  /** Optional. A certificate matching an allowlisted certificate is always considered valid as long as the certificate is parseable, proof of private key possession is established, and constraints on the certificate's SAN field are met. */
+  allowlistedCertificates?: AllowlistedCertificateList;
+  /** This checksum is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. */
+  etag?: string;
 }
 export const TrustConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.optional(S.String),
-    etag: S.optional(S.String),
     trustStores: S.optional(TrustStoreList),
-    tags: S.optional(StringMap),
-    allowlistedCertificates: S.optional(AllowlistedCertificateList),
-    description: S.optional(S.String),
-    labels: S.optional(StringMap),
     updateTime: S.optional(S.String),
-    createTime: S.optional(S.String),
     spiffeTrustStores: S.optional(TrustStoreMap),
+    tags: S.optional(StringMap),
+    labels: S.optional(StringMap),
+    createTime: S.optional(S.String),
+    name: S.optional(S.String),
+    description: S.optional(S.String),
+    allowlistedCertificates: S.optional(AllowlistedCertificateList),
+    etag: S.optional(S.String),
   }),
 ).annotate({ identifier: "TrustConfig" }) as any as S.Schema<TrustConfig>;
 
@@ -1044,15 +1026,15 @@ export const DeleteProjectsLocationsOperationsRequest = /*@__PURE__*/ S.suspend(
 }) as any as S.Schema<DeleteProjectsLocationsOperationsRequest>;
 
 export interface DeleteProjectsLocationsTrustConfigsRequest {
-  /** Optional. The current etag of the TrustConfig. If an etag is provided and does not match the current etag of the resource, deletion will be blocked and an ABORTED error will be returned. */
-  etag?: string;
   /** Required. A name of the TrustConfig to delete. Must be in the format `projects/*\/locations/*\/trustConfigs/*`. */
   name: string;
+  /** Optional. The current etag of the TrustConfig. If an etag is provided and does not match the current etag of the resource, deletion will be blocked and an ABORTED error will be returned. */
+  etag?: string;
 }
 export const DeleteProjectsLocationsTrustConfigsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    etag: S.optional(S.String.pipe(T.Query())),
     name: S.String.pipe(T.Label()),
+    etag: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "DELETE",
@@ -1084,24 +1066,24 @@ export const GetProjectsLocationsRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** A resource that represents a Google Cloud location. */
 export interface Location {
-  /** Cross-service attributes for the location. For example {"cloud.googleapis.com/region": "us-east1"} */
-  labels?: StringMap;
-  /** The friendly name for this location, typically a nearby city name. For example, "Tokyo". */
-  displayName?: string;
-  /** The canonical id for this location. For example: `"us-east1"`. */
-  locationId?: string;
   /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
   name?: string;
+  /** The canonical id for this location. For example: `"us-east1"`. */
+  locationId?: string;
+  /** The friendly name for this location, typically a nearby city name. For example, "Tokyo". */
+  displayName?: string;
   /** Service-specific metadata. For example the available capacity at the given location. */
   metadata?: DocumentMap;
+  /** Cross-service attributes for the location. For example {"cloud.googleapis.com/region": "us-east1"} */
+  labels?: StringMap;
 }
 export const Location = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    labels: S.optional(StringMap),
-    displayName: S.optional(S.String),
-    locationId: S.optional(S.String),
     name: S.optional(S.String),
+    locationId: S.optional(S.String),
+    displayName: S.optional(S.String),
     metadata: S.optional(DocumentMap),
+    labels: S.optional(StringMap),
   }),
 ).annotate({ identifier: "Location" }) as any as S.Schema<Location>;
 
@@ -1233,24 +1215,24 @@ export const GetProjectsLocationsTrustConfigsRequest = /*@__PURE__*/ S.suspend((
 }) as any as S.Schema<GetProjectsLocationsTrustConfigsRequest>;
 
 export interface ListProjectsLocationsRequest {
-  /** The maximum number of results to return. If not set, the service selects a default. */
-  pageSize?: number;
-  /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
-  pageToken?: string;
-  /** Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage. */
-  extraLocationTypes?: StringList;
-  /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
-  filter?: string;
   /** The resource that owns the locations collection, if applicable. */
   name: string;
+  /** Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage. */
+  extraLocationTypes?: StringList;
+  /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
+  pageToken?: string;
+  /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
+  filter?: string;
+  /** The maximum number of results to return. If not set, the service selects a default. */
+  pageSize?: number;
 }
 export const ListProjectsLocationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pageSize: S.optional(S.Number.pipe(T.Query())),
-    pageToken: S.optional(S.String.pipe(T.Query())),
-    extraLocationTypes: S.optional(StringList.pipe(T.Query())),
-    filter: S.optional(S.String.pipe(T.Query())),
     name: S.String.pipe(T.Label()),
+    extraLocationTypes: S.optional(StringList.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
+    filter: S.optional(S.String.pipe(T.Query())),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -1267,39 +1249,37 @@ export const LocationList = /*@__PURE__*/ S.Array(Location) as any as S.Schema<L
 
 /** The response message for Locations.ListLocations. */
 export interface ListLocationsResponse {
-  /** The standard List next-page token. */
-  nextPageToken?: string;
   /** A list of locations that matches the specified filter in the request. */
   locations?: LocationList;
+  /** The standard List next-page token. */
+  nextPageToken?: string;
 }
 export const ListLocationsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    nextPageToken: S.optional(S.String),
     locations: S.optional(LocationList),
+    nextPageToken: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListLocationsResponse",
-}) as any as S.Schema<ListLocationsResponse>;
+).annotate({ identifier: "ListLocationsResponse" }) as any as S.Schema<ListLocationsResponse>;
 
 export interface ListProjectsLocationsCertificateIssuanceConfigsRequest {
-  /** Optional. Filter expression to restrict the Certificates Configs returned. */
-  filter?: string;
-  /** Optional. A list of Certificate Config field names used to specify the order of the returned results. The default sorting order is ascending. To specify descending order for a field, add a suffix `" desc"`. */
-  orderBy?: string;
   /** Optional. The value returned by the last `ListCertificateIssuanceConfigsResponse`. Indicates that this is a continuation of a prior `ListCertificateIssuanceConfigs` call, and that the system should return the next page of data. */
   pageToken?: string;
-  /** Optional. Maximum number of certificate configs to return per call. */
-  pageSize?: number;
   /** Required. The project and location from which the certificate should be listed, specified in the format `projects/*\/locations/*`. */
   parent: string;
+  /** Optional. A list of Certificate Config field names used to specify the order of the returned results. The default sorting order is ascending. To specify descending order for a field, add a suffix `" desc"`. */
+  orderBy?: string;
+  /** Optional. Maximum number of certificate configs to return per call. */
+  pageSize?: number;
+  /** Optional. Filter expression to restrict the Certificates Configs returned. */
+  filter?: string;
 }
 export const ListProjectsLocationsCertificateIssuanceConfigsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    filter: S.optional(S.String.pipe(T.Query())),
-    orderBy: S.optional(S.String.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
-    pageSize: S.optional(S.Number.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
+    orderBy: S.optional(S.String.pipe(T.Query())),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
+    filter: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -1318,30 +1298,30 @@ export const CertificateIssuanceConfigList = /*@__PURE__*/ S.Array(
 
 /** Response for the `ListCertificateIssuanceConfigs` method. */
 export interface ListCertificateIssuanceConfigsResponse {
-  /** Locations that could not be reached. */
-  unreachable?: StringList;
   /** A list of certificate configs for the parent resource. */
   certificateIssuanceConfigs?: CertificateIssuanceConfigList;
   /** If there might be more results than those appearing in this response, then `next_page_token` is included. To get the next set of results, call this method again using the value of `next_page_token` as `page_token`. */
   nextPageToken?: string;
+  /** Locations that could not be reached. */
+  unreachable?: StringList;
 }
 export const ListCertificateIssuanceConfigsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    unreachable: S.optional(StringList),
     certificateIssuanceConfigs: S.optional(CertificateIssuanceConfigList),
     nextPageToken: S.optional(S.String),
+    unreachable: S.optional(StringList),
   }),
 ).annotate({
   identifier: "ListCertificateIssuanceConfigsResponse",
 }) as any as S.Schema<ListCertificateIssuanceConfigsResponse>;
 
 export interface ListProjectsLocationsCertificateMapsRequest {
+  /** Optional. Maximum number of certificate maps to return per call. */
+  pageSize?: number;
   /** Optional. Filter expression to restrict the Certificates Maps returned. */
   filter?: string;
   /** Optional. A list of Certificate Map field names used to specify the order of the returned results. The default sorting order is ascending. To specify descending order for a field, add a suffix `" desc"`. */
   orderBy?: string;
-  /** Optional. Maximum number of certificate maps to return per call. */
-  pageSize?: number;
   /** Required. The project and location from which the certificate maps should be listed, specified in the format `projects/*\/locations/*`. */
   parent: string;
   /** Optional. The value returned by the last `ListCertificateMapsResponse`. Indicates that this is a continuation of a prior `ListCertificateMaps` call, and that the system should return the next page of data. */
@@ -1349,9 +1329,9 @@ export interface ListProjectsLocationsCertificateMapsRequest {
 }
 export const ListProjectsLocationsCertificateMapsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    pageSize: S.optional(S.Number.pipe(T.Query())),
     filter: S.optional(S.String.pipe(T.Query())),
     orderBy: S.optional(S.String.pipe(T.Query())),
-    pageSize: S.optional(S.Number.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
     pageToken: S.optional(S.String.pipe(T.Query())),
   }).pipe(
@@ -1372,17 +1352,17 @@ export const CertificateMapList = /*@__PURE__*/ S.Array(
 
 /** Response for the `ListCertificateMaps` method. */
 export interface ListCertificateMapsResponse {
-  /** A list of certificate maps for the parent resource. */
-  certificateMaps?: CertificateMapList;
   /** Locations that could not be reached. */
   unreachable?: StringList;
+  /** A list of certificate maps for the parent resource. */
+  certificateMaps?: CertificateMapList;
   /** If there might be more results than those appearing in this response, then `next_page_token` is included. To get the next set of results, call this method again using the value of `next_page_token` as `page_token`. */
   nextPageToken?: string;
 }
 export const ListCertificateMapsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    certificateMaps: S.optional(CertificateMapList),
     unreachable: S.optional(StringList),
+    certificateMaps: S.optional(CertificateMapList),
     nextPageToken: S.optional(S.String),
   }),
 ).annotate({
@@ -1390,25 +1370,25 @@ export const ListCertificateMapsResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListCertificateMapsResponse>;
 
 export interface ListProjectsLocationsCertificateMapsCertificateMapEntriesRequest {
-  /** Optional. A list of Certificate Map Entry field names used to specify the order of the returned results. The default sorting order is ascending. To specify descending order for a field, add a suffix `" desc"`. */
-  orderBy?: string;
-  /** Required. The project, location and certificate map from which the certificate map entries should be listed, specified in the format `projects/*\/locations/*\/certificateMaps/*`. */
-  parent: string;
   /** Optional. The value returned by the last `ListCertificateMapEntriesResponse`. Indicates that this is a continuation of a prior `ListCertificateMapEntries` call, and that the system should return the next page of data. */
   pageToken?: string;
   /** Optional. Filter expression to restrict the returned Certificate Map Entries. */
   filter?: string;
+  /** Optional. A list of Certificate Map Entry field names used to specify the order of the returned results. The default sorting order is ascending. To specify descending order for a field, add a suffix `" desc"`. */
+  orderBy?: string;
   /** Optional. Maximum number of certificate map entries to return. The service may return fewer than this value. If unspecified, at most 50 certificate map entries will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
   pageSize?: number;
+  /** Required. The project, location and certificate map from which the certificate map entries should be listed, specified in the format `projects/*\/locations/*\/certificateMaps/*`. */
+  parent: string;
 }
 export const ListProjectsLocationsCertificateMapsCertificateMapEntriesRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      orderBy: S.optional(S.String.pipe(T.Query())),
-      parent: S.String.pipe(T.Label()),
       pageToken: S.optional(S.String.pipe(T.Query())),
       filter: S.optional(S.String.pipe(T.Query())),
+      orderBy: S.optional(S.String.pipe(T.Query())),
       pageSize: S.optional(S.Number.pipe(T.Query())),
+      parent: S.String.pipe(T.Label()),
     }).pipe(
       T.Http({
         method: "GET",
@@ -1427,41 +1407,41 @@ export const CertificateMapEntryList = /*@__PURE__*/ S.Array(
 
 /** Response for the `ListCertificateMapEntries` method. */
 export interface ListCertificateMapEntriesResponse {
-  /** A list of certificate map entries for the parent resource. */
-  certificateMapEntries?: CertificateMapEntryList;
   /** Locations that could not be reached. */
   unreachable?: StringList;
   /** If there might be more results than those appearing in this response, then `next_page_token` is included. To get the next set of results, call this method again using the value of `next_page_token` as `page_token`. */
   nextPageToken?: string;
+  /** A list of certificate map entries for the parent resource. */
+  certificateMapEntries?: CertificateMapEntryList;
 }
 export const ListCertificateMapEntriesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    certificateMapEntries: S.optional(CertificateMapEntryList),
     unreachable: S.optional(StringList),
     nextPageToken: S.optional(S.String),
+    certificateMapEntries: S.optional(CertificateMapEntryList),
   }),
 ).annotate({
   identifier: "ListCertificateMapEntriesResponse",
 }) as any as S.Schema<ListCertificateMapEntriesResponse>;
 
 export interface ListProjectsLocationsCertificatesRequest {
-  /** Required. The project and location from which the certificate should be listed, specified in the format `projects/*\/locations/*`. */
-  parent: string;
-  /** Optional. Maximum number of certificates to return per call. */
-  pageSize?: number;
-  /** Optional. A list of Certificate field names used to specify the order of the returned results. The default sorting order is ascending. To specify descending order for a field, add a suffix `" desc"`. */
-  orderBy?: string;
   /** Optional. The value returned by the last `ListCertificatesResponse`. Indicates that this is a continuation of a prior `ListCertificates` call, and that the system should return the next page of data. */
   pageToken?: string;
+  /** Required. The project and location from which the certificate should be listed, specified in the format `projects/*\/locations/*`. */
+  parent: string;
+  /** Optional. A list of Certificate field names used to specify the order of the returned results. The default sorting order is ascending. To specify descending order for a field, add a suffix `" desc"`. */
+  orderBy?: string;
+  /** Optional. Maximum number of certificates to return per call. */
+  pageSize?: number;
   /** Optional. Filter expression to restrict the Certificates returned. */
   filter?: string;
 }
 export const ListProjectsLocationsCertificatesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    parent: S.String.pipe(T.Label()),
-    pageSize: S.optional(S.Number.pipe(T.Query())),
-    orderBy: S.optional(S.String.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
+    orderBy: S.optional(S.String.pipe(T.Query())),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
     filter: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
@@ -1481,42 +1461,40 @@ export const CertificateList = /*@__PURE__*/ S.Array(
 
 /** Response for the `ListCertificates` method. */
 export interface ListCertificatesResponse {
-  /** A list of locations that could not be reached. */
-  unreachable?: StringList;
   /** If there might be more results than those appearing in this response, then `next_page_token` is included. To get the next set of results, call this method again using the value of `next_page_token` as `page_token`. */
   nextPageToken?: string;
   /** A list of certificates for the parent resource. */
   certificates?: CertificateList;
+  /** A list of locations that could not be reached. */
+  unreachable?: StringList;
 }
 export const ListCertificatesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    unreachable: S.optional(StringList),
     nextPageToken: S.optional(S.String),
     certificates: S.optional(CertificateList),
+    unreachable: S.optional(StringList),
   }),
-).annotate({
-  identifier: "ListCertificatesResponse",
-}) as any as S.Schema<ListCertificatesResponse>;
+).annotate({ identifier: "ListCertificatesResponse" }) as any as S.Schema<ListCertificatesResponse>;
 
 export interface ListProjectsLocationsDnsAuthorizationsRequest {
-  /** Required. The project and location from which the dns authorizations should be listed, specified in the format `projects/*\/locations/*`. */
-  parent: string;
-  /** Optional. A list of Dns Authorization field names used to specify the order of the returned results. The default sorting order is ascending. To specify descending order for a field, add a suffix `" desc"`. */
-  orderBy?: string;
-  /** Optional. Maximum number of dns authorizations to return per call. */
-  pageSize?: number;
   /** Optional. Filter expression to restrict the Dns Authorizations returned. */
   filter?: string;
+  /** Optional. Maximum number of dns authorizations to return per call. */
+  pageSize?: number;
   /** Optional. The value returned by the last `ListDnsAuthorizationsResponse`. Indicates that this is a continuation of a prior `ListDnsAuthorizations` call, and that the system should return the next page of data. */
   pageToken?: string;
+  /** Optional. A list of Dns Authorization field names used to specify the order of the returned results. The default sorting order is ascending. To specify descending order for a field, add a suffix `" desc"`. */
+  orderBy?: string;
+  /** Required. The project and location from which the dns authorizations should be listed, specified in the format `projects/*\/locations/*`. */
+  parent: string;
 }
 export const ListProjectsLocationsDnsAuthorizationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    parent: S.String.pipe(T.Label()),
-    orderBy: S.optional(S.String.pipe(T.Query())),
-    pageSize: S.optional(S.Number.pipe(T.Query())),
     filter: S.optional(S.String.pipe(T.Query())),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
+    orderBy: S.optional(S.String.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -1553,24 +1531,24 @@ export const ListDnsAuthorizationsResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListDnsAuthorizationsResponse>;
 
 export interface ListProjectsLocationsOperationsRequest {
-  /** The standard list page size. */
-  pageSize?: number;
   /** The standard list filter. */
   filter?: string;
-  /** The name of the operation's parent resource. */
-  name: string;
-  /** The standard list page token. */
-  pageToken?: string;
+  /** The standard list page size. */
+  pageSize?: number;
   /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
   returnPartialSuccess?: boolean;
+  /** The standard list page token. */
+  pageToken?: string;
+  /** The name of the operation's parent resource. */
+  name: string;
 }
 export const ListProjectsLocationsOperationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pageSize: S.optional(S.Number.pipe(T.Query())),
     filter: S.optional(S.String.pipe(T.Query())),
-    name: S.String.pipe(T.Label()),
-    pageToken: S.optional(S.String.pipe(T.Query())),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
     returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
+    name: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -1587,42 +1565,40 @@ export const OperationList = /*@__PURE__*/ S.Array(Operation) as any as S.Schema
 
 /** The response message for Operations.ListOperations. */
 export interface ListOperationsResponse {
-  /** A list of operations that matches the specified filter in the request. */
-  operations?: OperationList;
   /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
   unreachable?: StringList;
   /** The standard List next-page token. */
   nextPageToken?: string;
+  /** A list of operations that matches the specified filter in the request. */
+  operations?: OperationList;
 }
 export const ListOperationsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    operations: S.optional(OperationList),
     unreachable: S.optional(StringList),
     nextPageToken: S.optional(S.String),
+    operations: S.optional(OperationList),
   }),
-).annotate({
-  identifier: "ListOperationsResponse",
-}) as any as S.Schema<ListOperationsResponse>;
+).annotate({ identifier: "ListOperationsResponse" }) as any as S.Schema<ListOperationsResponse>;
 
 export interface ListProjectsLocationsTrustConfigsRequest {
-  /** Optional. Filter expression to restrict the TrustConfigs returned. */
-  filter?: string;
-  /** Optional. Maximum number of TrustConfigs to return per call. */
-  pageSize?: number;
   /** Required. The project and location from which the TrustConfigs should be listed, specified in the format `projects/*\/locations/*`. */
   parent: string;
   /** Optional. The value returned by the last `ListTrustConfigsResponse`. Indicates that this is a continuation of a prior `ListTrustConfigs` call, and that the system should return the next page of data. */
   pageToken?: string;
+  /** Optional. Maximum number of TrustConfigs to return per call. */
+  pageSize?: number;
   /** Optional. A list of TrustConfig field names used to specify the order of the returned results. The default sorting order is ascending. To specify descending order for a field, add a suffix `" desc"`. */
   orderBy?: string;
+  /** Optional. Filter expression to restrict the TrustConfigs returned. */
+  filter?: string;
 }
 export const ListProjectsLocationsTrustConfigsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    filter: S.optional(S.String.pipe(T.Query())),
-    pageSize: S.optional(S.Number.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
     pageToken: S.optional(S.String.pipe(T.Query())),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
     orderBy: S.optional(S.String.pipe(T.Query())),
+    filter: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -1641,35 +1617,33 @@ export const TrustConfigList = /*@__PURE__*/ S.Array(
 
 /** Response for the `ListTrustConfigs` method. */
 export interface ListTrustConfigsResponse {
-  /** A list of TrustConfigs for the parent resource. */
-  trustConfigs?: TrustConfigList;
-  /** If there might be more results than those appearing in this response, then `next_page_token` is included. To get the next set of results, call this method again using the value of `next_page_token` as `page_token`. */
-  nextPageToken?: string;
   /** Locations that could not be reached. */
   unreachable?: StringList;
+  /** If there might be more results than those appearing in this response, then `next_page_token` is included. To get the next set of results, call this method again using the value of `next_page_token` as `page_token`. */
+  nextPageToken?: string;
+  /** A list of TrustConfigs for the parent resource. */
+  trustConfigs?: TrustConfigList;
 }
 export const ListTrustConfigsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    trustConfigs: S.optional(TrustConfigList),
-    nextPageToken: S.optional(S.String),
     unreachable: S.optional(StringList),
+    nextPageToken: S.optional(S.String),
+    trustConfigs: S.optional(TrustConfigList),
   }),
-).annotate({
-  identifier: "ListTrustConfigsResponse",
-}) as any as S.Schema<ListTrustConfigsResponse>;
+).annotate({ identifier: "ListTrustConfigsResponse" }) as any as S.Schema<ListTrustConfigsResponse>;
 
 export interface PatchProjectsLocationsCertificateIssuanceConfigsRequest {
-  /** Required. The update mask applies to the resource. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask. */
-  updateMask?: string;
   /** Identifier. A user-defined name of the certificate issuance config. CertificateIssuanceConfig names must be unique globally and match pattern `projects/*\/locations/*\/certificateIssuanceConfigs/*`. */
   name: string;
+  /** Required. The update mask applies to the resource. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask. */
+  updateMask?: string;
   /** Request body */
   body?: CertificateIssuanceConfig;
 }
 export const PatchProjectsLocationsCertificateIssuanceConfigsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    updateMask: S.optional(S.String.pipe(T.Query())),
     name: S.String.pipe(T.Label()),
+    updateMask: S.optional(S.String.pipe(T.Query())),
     body: S.optional(CertificateIssuanceConfig.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -1683,17 +1657,17 @@ export const PatchProjectsLocationsCertificateIssuanceConfigsRequest = /*@__PURE
 }) as any as S.Schema<PatchProjectsLocationsCertificateIssuanceConfigsRequest>;
 
 export interface PatchProjectsLocationsCertificateMapsRequest {
-  /** Required. The update mask applies to the resource. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask. */
-  updateMask?: string;
   /** Identifier. A user-defined name of the Certificate Map. Certificate Map names must be unique globally and match pattern `projects/*\/locations/*\/certificateMaps/*`. */
   name: string;
+  /** Required. The update mask applies to the resource. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask. */
+  updateMask?: string;
   /** Request body */
   body?: CertificateMap;
 }
 export const PatchProjectsLocationsCertificateMapsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    updateMask: S.optional(S.String.pipe(T.Query())),
     name: S.String.pipe(T.Label()),
+    updateMask: S.optional(S.String.pipe(T.Query())),
     body: S.optional(CertificateMap.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -1707,18 +1681,18 @@ export const PatchProjectsLocationsCertificateMapsRequest = /*@__PURE__*/ S.susp
 }) as any as S.Schema<PatchProjectsLocationsCertificateMapsRequest>;
 
 export interface PatchProjectsLocationsCertificateMapsCertificateMapEntriesRequest {
-  /** Required. The update mask applies to the resource. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask. */
-  updateMask?: string;
   /** Identifier. A user-defined name of the Certificate Map Entry. Certificate Map Entry names must be unique globally and match pattern `projects/*\/locations/*\/certificateMaps/*\/certificateMapEntries/*`. */
   name: string;
+  /** Required. The update mask applies to the resource. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask. */
+  updateMask?: string;
   /** Request body */
   body?: CertificateMapEntry;
 }
 export const PatchProjectsLocationsCertificateMapsCertificateMapEntriesRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
-      updateMask: S.optional(S.String.pipe(T.Query())),
       name: S.String.pipe(T.Label()),
+      updateMask: S.optional(S.String.pipe(T.Query())),
       body: S.optional(CertificateMapEntry.pipe(T.HttpBody())),
     }).pipe(
       T.Http({
@@ -1732,17 +1706,17 @@ export const PatchProjectsLocationsCertificateMapsCertificateMapEntriesRequest =
   }) as any as S.Schema<PatchProjectsLocationsCertificateMapsCertificateMapEntriesRequest>;
 
 export interface PatchProjectsLocationsCertificatesRequest {
-  /** Required. The update mask applies to the resource. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask. */
-  updateMask?: string;
   /** Identifier. A user-defined name of the certificate. Certificate names must be unique globally and match pattern `projects/*\/locations/*\/certificates/*`. */
   name: string;
+  /** Required. The update mask applies to the resource. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask. */
+  updateMask?: string;
   /** Request body */
   body?: Certificate;
 }
 export const PatchProjectsLocationsCertificatesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    updateMask: S.optional(S.String.pipe(T.Query())),
     name: S.String.pipe(T.Label()),
+    updateMask: S.optional(S.String.pipe(T.Query())),
     body: S.optional(Certificate.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -2220,10 +2194,7 @@ export const listProjectsLocations: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListProjectsLocationsCertificateIssuanceConfigsError =
@@ -2243,10 +2214,7 @@ export const listProjectsLocationsCertificateIssuanceConfigs: API.PaginatedOpera
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListProjectsLocationsCertificateMapsError = NotFound | Forbidden | GcpOpError;
@@ -2263,10 +2231,7 @@ export const listProjectsLocationsCertificateMaps: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListProjectsLocationsCertificateMapsCertificateMapEntriesError =
@@ -2286,10 +2251,7 @@ export const listProjectsLocationsCertificateMapsCertificateMapEntries: API.Pagi
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListProjectsLocationsCertificatesError = NotFound | Forbidden | GcpOpError;
@@ -2306,10 +2268,7 @@ export const listProjectsLocationsCertificates: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListProjectsLocationsDnsAuthorizationsError = NotFound | Forbidden | GcpOpError;
@@ -2326,10 +2285,7 @@ export const listProjectsLocationsDnsAuthorizations: API.PaginatedOperationMetho
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListProjectsLocationsOperationsError = NotFound | Forbidden | GcpOpError;
@@ -2346,10 +2302,7 @@ export const listProjectsLocationsOperations: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListProjectsLocationsTrustConfigsError = NotFound | Forbidden | GcpOpError;
@@ -2366,10 +2319,7 @@ export const listProjectsLocationsTrustConfigs: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type PatchProjectsLocationsCertificateIssuanceConfigsError =

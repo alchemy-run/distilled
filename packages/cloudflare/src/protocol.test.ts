@@ -27,6 +27,14 @@ import {
 import type { CloudflareOpContext } from "./protocol.ts";
 import * as Retry from "./retry.ts";
 import {
+  consume,
+  getStream,
+  K2AppendOutcomeUnknown,
+  K2StreamNotFound,
+  K2Unavailable,
+  produce,
+} from "./services/k2.ts";
+import {
   createNamespace,
   getNamespace,
   getNamespaceMetadata,
@@ -35,6 +43,7 @@ import {
   listNamespaces,
   NamespaceNotFound,
 } from "./services/kv.ts";
+import { sendStreamRecords } from "./services/pipelines.ts";
 import { createAssetUpload } from "./services/workers.ts";
 import { getZone, InvalidZoneIdentifier } from "./services/zones.ts";
 
@@ -484,5 +493,107 @@ describe("response validation", () => {
     ).toBe("plain");
     const error = await failWith(strict(getNamespace(ns)), { body: "not json" });
     expect(error).toBeInstanceOf(CloudflareParseError);
+  });
+});
+
+describe("per-operation host (K2 data plane)", () => {
+  const stream = "0123456789abcdef0123456789abcdef";
+
+  test("a host-marked operation goes to its own origin, filled from the label", async () => {
+    const { requests, promise } = run(
+      consume({ streamId: stream, subscriptionId: "sub", workerId: "w1", maxRecords: 10 }),
+      { body: envelope({ batch_id: null, leased_until_ms: null, records: [] }) },
+    );
+    expect(await promise).toEqual({ batchId: null, leasedUntilMs: null, records: [] });
+    expect(requests[0]!.url).toBe(
+      `https://${stream}.k2.cloudflarestorage.com/subscriptions/sub/consume`,
+    );
+    // The host label is consumed — the body carries only the body members.
+    expect(JSON.parse(await requests[0]!.text())).toEqual({ worker_id: "w1", max_records: 10 });
+    expect(requests[0]!.headers.get("authorization")).toBe("Bearer cf-token");
+  });
+
+  test("a custom apiBaseUrl does not move a host-marked operation", async () => {
+    const { requests, promise } = run(
+      produce({ streamId: stream, records: [{ content: "aGk=" }] }),
+      { body: JSON.stringify({ success: true }) },
+      fromApiToken({ apiToken: Redacted.make("t"), apiBaseUrl: "https://cf.test/v4" }),
+    );
+    await promise;
+    expect(requests[0]!.url).toBe(`https://${stream}.k2.cloudflarestorage.com/produce`);
+  });
+
+  test("operations without a host keep the API base URL", async () => {
+    const { requests, promise } = run(getStream({ accountId: "acc", streamId: stream }), {
+      body: envelope({ id: stream }),
+    });
+    await promise;
+    expect(requests[0]!.url).toBe(
+      `https://api.cloudflare.com/client/v4/accounts/acc/k2/streams/${stream}`,
+    );
+  });
+});
+
+describe("single `error` envelopes (K2 produce)", () => {
+  const stream = "0123456789abcdef0123456789abcdef";
+  const produceError = (status: number, code: number, retryable: boolean) => ({
+    status,
+    body: JSON.stringify({ success: false, error: { code, message: `code ${code}`, retryable } }),
+  });
+
+  test("the code inside `error` selects the typed class", async () => {
+    const error = await failWith(
+      produce({ streamId: stream, records: [{ content: "aGk=" }] }),
+      produceError(404, 10200, false),
+    );
+    expect(error).toBeInstanceOf(K2StreamNotFound);
+    expect((error as K2StreamNotFound).message).toBe("code 10200");
+  });
+
+  test("an append with an unknown outcome (503 / 10212) is never retried", async () => {
+    let calls = 0;
+    const http = Layer.succeed(
+      HttpClient.HttpClient,
+      HttpClient.make((request) =>
+        Effect.sync(() => {
+          calls++;
+          return HttpClientResponse.fromWeb(
+            request,
+            new Response(produceError(503, 10212, false).body, { status: 503 }),
+          );
+        }),
+      ),
+    );
+    const error = await Effect.runPromise(
+      Effect.flip(produce({ streamId: stream, records: [{ content: "aGk=" }] })).pipe(
+        Effect.provide(Layer.mergeAll(http, token)),
+      ),
+    );
+    expect(error).toBeInstanceOf(K2AppendOutcomeUnknown);
+    expect(calls).toBe(1);
+  });
+
+  test("a batch K2 did not store (503 / 10211) is retryable", async () => {
+    const error = await failWith(
+      produce({ streamId: stream, records: [{ content: "aGk=" }] }),
+      produceError(503, 10211, true),
+    );
+    expect(error).toBeInstanceOf(K2Unavailable);
+    expect(Category.isTransientError(error)).toBe(true);
+  });
+});
+
+describe("verbatim payloads (Pipelines ingest)", () => {
+  test("event keys are sent exactly as given, never renamed by the key dictionary", async () => {
+    const records = [{ createdAt: 1, accountId: "a", nested: { tableName: "t" } }];
+    const { requests, promise } = run(
+      sendStreamRecords({ streamId: "0123456789abcdef0123456789abcdef", records }),
+      { body: JSON.stringify({ success: true, result: { committed: 1 } }) },
+    );
+    expect(await promise).toEqual({ committed: 1 });
+    expect(requests[0]!.url).toBe(
+      "https://0123456789abcdef0123456789abcdef.ingest.cloudflare.com/",
+    );
+    expect(JSON.parse(await requests[0]!.text())).toEqual(records);
   });
 });

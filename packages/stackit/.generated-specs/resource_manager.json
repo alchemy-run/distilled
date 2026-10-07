@@ -108,7 +108,7 @@
         "target": "smithy.api#String"
       },
       "traits": {
-        "smithy.api#documentation": "Key-value string pairs attached to an existing resource container. Certain labels may be enforced via organizational policies.\n\n* **Key:** Must match the regex `[A-ZÄÜÖa-zäüöß0-9_-]{1,64}`\n* **Value:** Must match the regex `^$|[A-ZÄÜÖa-zäüöß0-9_-]{1,64}`\n\n> Note: Additional naming restrictions may apply depending on your specific organization.*"
+        "smithy.api#documentation": "Key-value string pairs attached to an existing resource container. Certain labels may be enforced via organizational policies.\n\n* **Key:** Must be between 1 and 63 characters long (excluding an optional domain prefix). Must start and end with an alphanumeric character `[a-zA-Z0-9]` and can contain alphanumerics, dashes (-), underscores (_), and dots (.). May include an optional domain prefix up to 250 characters (a lowercase DNS subdomain containing `[a-z0-9]`, `-`, and `.`) followed by a slash (/). Total maximum key length is 314 characters.\n* **Value:** Must be 63 characters or less. May be empty (\"\"). If non-empty, must start and end with an alphanumeric character `[a-zA-Z0-9]` and can contain alphanumerics, dashes (-), underscores (_), and dots (.).\n\n> Note: Additional naming restrictions may apply depending on your specific organization.*"
       }
     },
     "com.stackit.resource_manager#Parent": {
@@ -565,10 +565,13 @@
         "target": "smithy.api#String"
       },
       "value": {
-        "target": "smithy.api#String"
+        "target": "smithy.api#String",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {
-        "smithy.api#documentation": "Key-value string pairs attached to an existing resource container. Certain labels may be enforced via organizational policies.\n\nSetting an individual label's value to `null` removes/deletes that label from the resource.\n\n* **Key:** Must match the regex `[A-ZÄÜÖa-zäüöß0-9_-]{1,64}`\n* **Value:** Must match the regex `^$|[A-ZÄÜÖa-zäüöß0-9_-]{1,64}`, or be `null` to delete the label\n\n> Note: Additional naming restrictions may apply depending on your specific organization.*"
+        "smithy.api#documentation": "Key-value string pairs attached to an existing resource container. Certain labels may be enforced via organizational policies.\n\nSetting an individual label's value to `null` removes/deletes that label from the resource.\n\n* **Key:** Must be between 1 and 63 characters long (excluding an optional domain prefix). Must start and end with an alphanumeric character `[a-zA-Z0-9]` and can contain alphanumerics, dashes (-), underscores (_), and dots (.). May include an optional domain prefix up to 250 characters (a lowercase DNS subdomain containing `[a-z0-9]`, `-`, and `.`) followed by a slash (/). Total maximum key length is 314 characters.\n* **Value:** Must be 63 characters or less. May be empty (\"\"). If non-empty, must start and end with an alphanumeric character `[a-zA-Z0-9]` and can contain alphanumerics, dashes (-), underscores (_), and dots (.).\n\n> Note: Additional naming restrictions may apply depending on your specific organization.*"
       }
     },
     "com.stackit.resource_manager#PartialUpdateFolderRequest": {
@@ -1294,7 +1297,7 @@
         "target": "smithy.api#String"
       },
       "traits": {
-        "smithy.api#documentation": "Key-value string pairs attached to a resource container during creation. Certain labels may be enforced via organizational policies.\n\n* **Key:** Must match the regex `[A-ZÄÜÖa-zäüöß0-9_-]{1,64}`\n* **Value:** Must match the regex `^$|[A-ZÄÜÖa-zäüöß0-9_-]{1,64}`\n* Either a `\"scope\": \"PUBLIC\"` label or a valid `networkArea` label must be provided for project creation.\n* To create a project within a STACKIT Network Area, you must set the label `\"networkArea\": \"<networkAreaID>\"`. \n\n> **Important:** The `networkArea` label is immutable and **cannot be changed** after project creation."
+        "smithy.api#documentation": "Key-value string pairs attached to a resource container during creation. Certain labels may be enforced via organizational policies.\n\n* **Key:** Must be between 1 and 63 characters long (excluding an optional domain prefix). Must start and end with an alphanumeric character `[a-zA-Z0-9]` and can contain alphanumerics, dashes (-), underscores (_), and dots (.). May include an optional domain prefix up to 250 characters (a lowercase DNS subdomain containing `[a-z0-9]`, `-`, and `.`) followed by a slash (/). Total maximum key length is 314 characters.\n* **Value:** Must be 63 characters or less. May be empty (\"\"). If non-empty, must start and end with an alphanumeric character `[a-zA-Z0-9]` and can contain alphanumerics, dashes (-), underscores (_), and dots (.).\n* Either a `\"scope\": \"PUBLIC\"` label or a valid `networkArea` label must be provided for project creation.\n* To create a project within a STACKIT Network Area, you must set the label `\"networkArea\": \"<networkAreaID>\"`. \n\n> **Important:** The `networkArea` label is immutable and **cannot be changed** after project creation."
       }
     },
     "com.stackit.resource_manager#CreateProjectRequestMembersList": {

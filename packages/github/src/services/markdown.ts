@@ -35,9 +35,7 @@ export const RenderResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annota
 export interface RenderRawRequest {}
 export const RenderRawRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "POST", uri: "/markdown/raw", code: 200 })),
-).annotate({
-  identifier: "RenderRawRequest",
-}) as any as S.Schema<RenderRawRequest>;
+).annotate({ identifier: "RenderRawRequest" }) as any as S.Schema<RenderRawRequest>;
 
 export interface RenderRawResponse {}
 export const RenderRawResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({

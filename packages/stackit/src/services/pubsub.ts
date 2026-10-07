@@ -55,11 +55,14 @@ export class UnprocessableEntity
   ) {}
 
 export type CreateSubscriptionRequestRegionId = "eu01";
-export const CreateSubscriptionRequestRegionId = /*@__PURE__*/ S.String;
+export const CreateSubscriptionRequestRegionId = S.String;
 
 /** Labels are key-value pairs used to group and organize subsets of resources. **Key constraints:** - May contain an optional domain prefix separated by a slash (`/`). - The domain prefix must be less than or equal to 250 characters and a valid DNS subdomain containing only lowercase alphanumerics (`[a-z0-9]`) and dashes (`-`), separated by dots (`.`). - The name part (excluding the domain prefix) must be between 1 and 63 characters long. - The name part must begin and end with an alphanumeric character (`[a-z0-9A-Z]`). - The name part may contain dashes (`-`), underscores (`_`), dots (`.`), and alphanumerics in between. - Keys starting with the prefix `stackit-` or having a domain prefix of `stackit.cloud` (including its subdomains, e.g., `*.stackit.cloud/`) are reserved for system use. **Value constraints:** - Must be less than or equal to 63 characters long (can be empty). - Must begin and end with an alphanumeric character (`[a-z0-9A-Z]`) if not empty. - May contain dashes (`-`), underscores (`_`), dots (`.`), and alphanumerics in between. **Count constraint:** - A maximum of 64 labels can be applied per resource. Restricted labels are excluded from this count. */
-export type Labels = { [key: string]: string | undefined };
-export const Labels = /*@__PURE__*/ S.Record(S.String, S.String) as any as S.Schema<Labels>;
+export type Labels = { [key: string]: string | null | undefined };
+export const Labels = /*@__PURE__*/ S.Record(
+  S.String,
+  S.NullOr(S.String),
+) as any as S.Schema<Labels>;
 
 /** Configuration settings for the subscription. */
 export interface SubscriptionSettings {
@@ -70,9 +73,7 @@ export const SubscriptionSettings = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ackDeadline: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SubscriptionSettings",
-}) as any as S.Schema<SubscriptionSettings>;
+).annotate({ identifier: "SubscriptionSettings" }) as any as S.Schema<SubscriptionSettings>;
 
 export interface CreateSubscriptionRequest {
   /** The STACKIT portal project UUID the resource is located in. */
@@ -111,7 +112,7 @@ export const CreateSubscriptionRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** The current state of the resource. */
 export type SubscriptionResponseState = "reconciling" | "active" | "deleting";
-export const SubscriptionResponseState = /*@__PURE__*/ S.String;
+export const SubscriptionResponseState = S.String;
 
 export interface SubscriptionResponse {
   /** The point in time the resource was created. */
@@ -140,12 +141,10 @@ export const SubscriptionResponse = /*@__PURE__*/ S.suspend(() =>
     state: SubscriptionResponseState,
     topicId: S.String,
   }),
-).annotate({
-  identifier: "SubscriptionResponse",
-}) as any as S.Schema<SubscriptionResponse>;
+).annotate({ identifier: "SubscriptionResponse" }) as any as S.Schema<SubscriptionResponse>;
 
 export type CreateTopicRequestRegionId = "eu01";
-export const CreateTopicRequestRegionId = /*@__PURE__*/ S.String;
+export const CreateTopicRequestRegionId = S.String;
 
 /** Whitelist of IPs in CIDR notation that can access the topic and its underlying subscriptions. */
 export type TopicSettingsAclList = Array<string>;
@@ -201,13 +200,11 @@ export const CreateTopicRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://pubsub.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "CreateTopicRequest",
-}) as any as S.Schema<CreateTopicRequest>;
+).annotate({ identifier: "CreateTopicRequest" }) as any as S.Schema<CreateTopicRequest>;
 
 /** The current state of the resource. */
 export type TopicResponseState = "reconciling" | "active" | "deleting";
-export const TopicResponseState = /*@__PURE__*/ S.String;
+export const TopicResponseState = S.String;
 
 export interface TopicResponse {
   /** The point in time the resource was created. */
@@ -239,7 +236,7 @@ export const TopicResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "TopicResponse" }) as any as S.Schema<TopicResponse>;
 
 export type DeleteSubscriptionRequestRegionId = "eu01";
-export const DeleteSubscriptionRequestRegionId = /*@__PURE__*/ S.String;
+export const DeleteSubscriptionRequestRegionId = S.String;
 
 export interface DeleteSubscriptionRequest {
   /** The STACKIT portal project UUID the resource is located in. */
@@ -278,7 +275,7 @@ export const DeleteSubscriptionResponse = /*@__PURE__*/ S.suspend(() => S.Struct
 }) as any as S.Schema<DeleteSubscriptionResponse>;
 
 export type DeleteTopicRequestRegionId = "eu01";
-export const DeleteTopicRequestRegionId = /*@__PURE__*/ S.String;
+export const DeleteTopicRequestRegionId = S.String;
 
 export interface DeleteTopicRequest {
   /** The STACKIT portal project UUID the resource is located in. */
@@ -304,9 +301,7 @@ export const DeleteTopicRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://pubsub.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "DeleteTopicRequest",
-}) as any as S.Schema<DeleteTopicRequest>;
+).annotate({ identifier: "DeleteTopicRequest" }) as any as S.Schema<DeleteTopicRequest>;
 
 export interface DeleteTopicResponse {}
 export const DeleteTopicResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -314,7 +309,7 @@ export const DeleteTopicResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).a
 }) as any as S.Schema<DeleteTopicResponse>;
 
 export type GetSubscriptionRequestRegionId = "eu01";
-export const GetSubscriptionRequestRegionId = /*@__PURE__*/ S.String;
+export const GetSubscriptionRequestRegionId = S.String;
 
 export interface GetSubscriptionRequest {
   /** The STACKIT portal project UUID the resource is located in. */
@@ -340,12 +335,10 @@ export const GetSubscriptionRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://pubsub.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "GetSubscriptionRequest",
-}) as any as S.Schema<GetSubscriptionRequest>;
+).annotate({ identifier: "GetSubscriptionRequest" }) as any as S.Schema<GetSubscriptionRequest>;
 
 export type GetTopicRequestRegionId = "eu01";
-export const GetTopicRequestRegionId = /*@__PURE__*/ S.String;
+export const GetTopicRequestRegionId = S.String;
 
 export interface GetTopicRequest {
   /** The STACKIT portal project UUID the resource is located in. */
@@ -368,12 +361,10 @@ export const GetTopicRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://pubsub.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "GetTopicRequest",
-}) as any as S.Schema<GetTopicRequest>;
+).annotate({ identifier: "GetTopicRequest" }) as any as S.Schema<GetTopicRequest>;
 
 export type GrantSubscriptionSubscriberAccessRequestRegionId = "eu01";
-export const GrantSubscriptionSubscriberAccessRequestRegionId = /*@__PURE__*/ S.String;
+export const GrantSubscriptionSubscriberAccessRequestRegionId = S.String;
 
 export interface GrantSubscriptionSubscriberAccessRequest {
   /** The STACKIT portal project UUID the resource is located in. */
@@ -414,7 +405,7 @@ export const GrantSubscriptionSubscriberAccessResponse = /*@__PURE__*/ S.suspend
 }) as any as S.Schema<GrantSubscriptionSubscriberAccessResponse>;
 
 export type GrantTopicPublisherAccessRequestRegionId = "eu01";
-export const GrantTopicPublisherAccessRequestRegionId = /*@__PURE__*/ S.String;
+export const GrantTopicPublisherAccessRequestRegionId = S.String;
 
 export interface GrantTopicPublisherAccessRequest {
   /** The STACKIT portal project UUID the resource is located in. */
@@ -452,7 +443,7 @@ export const GrantTopicPublisherAccessResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GrantTopicPublisherAccessResponse>;
 
 export type ListSubscriptionsRequestRegionId = "eu01";
-export const ListSubscriptionsRequestRegionId = /*@__PURE__*/ S.String;
+export const ListSubscriptionsRequestRegionId = S.String;
 
 export interface ListSubscriptionsRequest {
   /** The STACKIT portal project UUID the resource is located in. */
@@ -484,9 +475,7 @@ export const ListSubscriptionsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://pubsub.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "ListSubscriptionsRequest",
-}) as any as S.Schema<ListSubscriptionsRequest>;
+).annotate({ identifier: "ListSubscriptionsRequest" }) as any as S.Schema<ListSubscriptionsRequest>;
 
 export type ListSubscriptionsResponseSubscriptionsList = Array<SubscriptionResponse>;
 export const ListSubscriptionsResponseSubscriptionsList = /*@__PURE__*/ S.Array(
@@ -508,7 +497,7 @@ export const ListSubscriptionsResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListSubscriptionsResponse>;
 
 export type ListSubscriptionSubscribersRequestRegionId = "eu01";
-export const ListSubscriptionSubscribersRequestRegionId = /*@__PURE__*/ S.String;
+export const ListSubscriptionSubscribersRequestRegionId = S.String;
 
 export interface ListSubscriptionSubscribersRequest {
   /** The STACKIT portal project UUID the resource is located in. */
@@ -555,7 +544,7 @@ export const ListEmailAddressesResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListEmailAddressesResponse>;
 
 export type ListTopicPublishersRequestRegionId = "eu01";
-export const ListTopicPublishersRequestRegionId = /*@__PURE__*/ S.String;
+export const ListTopicPublishersRequestRegionId = S.String;
 
 export interface ListTopicPublishersRequest {
   /** The STACKIT portal project UUID the resource is located in. */
@@ -583,7 +572,7 @@ export const ListTopicPublishersRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListTopicPublishersRequest>;
 
 export type ListTopicsRequestRegionId = "eu01";
-export const ListTopicsRequestRegionId = /*@__PURE__*/ S.String;
+export const ListTopicsRequestRegionId = S.String;
 
 export interface ListTopicsRequest {
   /** The STACKIT portal project UUID the resource is located in. */
@@ -612,9 +601,7 @@ export const ListTopicsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://pubsub.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "ListTopicsRequest",
-}) as any as S.Schema<ListTopicsRequest>;
+).annotate({ identifier: "ListTopicsRequest" }) as any as S.Schema<ListTopicsRequest>;
 
 export type ListTopicsResponseTopicsList = Array<TopicResponse>;
 export const ListTopicsResponseTopicsList = /*@__PURE__*/ S.Array(
@@ -631,12 +618,10 @@ export const ListTopicsResponse = /*@__PURE__*/ S.suspend(() =>
     nextPageToken: S.optional(S.String),
     topics: ListTopicsResponseTopicsList,
   }),
-).annotate({
-  identifier: "ListTopicsResponse",
-}) as any as S.Schema<ListTopicsResponse>;
+).annotate({ identifier: "ListTopicsResponse" }) as any as S.Schema<ListTopicsResponse>;
 
 export type RevokeSubscriptionSubscriberAccessRequestRegionId = "eu01";
-export const RevokeSubscriptionSubscriberAccessRequestRegionId = /*@__PURE__*/ S.String;
+export const RevokeSubscriptionSubscriberAccessRequestRegionId = S.String;
 
 export interface RevokeSubscriptionSubscriberAccessRequest {
   /** The STACKIT portal project UUID the resource is located in. */
@@ -674,7 +659,7 @@ export const RevokeSubscriptionSubscriberAccessResponse = /*@__PURE__*/ S.suspen
 }) as any as S.Schema<RevokeSubscriptionSubscriberAccessResponse>;
 
 export type RevokeTopicPublisherAccessRequestRegionId = "eu01";
-export const RevokeTopicPublisherAccessRequestRegionId = /*@__PURE__*/ S.String;
+export const RevokeTopicPublisherAccessRequestRegionId = S.String;
 
 export interface RevokeTopicPublisherAccessRequest {
   /** The STACKIT portal project UUID the resource is located in. */
@@ -709,7 +694,7 @@ export const RevokeTopicPublisherAccessResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<RevokeTopicPublisherAccessResponse>;
 
 export type UpdatePublisherAccessRequestRegionId = "eu01";
-export const UpdatePublisherAccessRequestRegionId = /*@__PURE__*/ S.String;
+export const UpdatePublisherAccessRequestRegionId = S.String;
 
 /** A list of valid subscriber email addresses. */
 export type UpdatePublisherAccessRequestEmailAddressesList = Array<string>;
@@ -751,7 +736,7 @@ export const UpdatePublisherAccessResponse = /*@__PURE__*/ S.suspend(() => S.Str
 }) as any as S.Schema<UpdatePublisherAccessResponse>;
 
 export type UpdateSubscriptionRequestRegionId = "eu01";
-export const UpdateSubscriptionRequestRegionId = /*@__PURE__*/ S.String;
+export const UpdateSubscriptionRequestRegionId = S.String;
 
 export interface UpdateSubscriptionRequest {
   /** The STACKIT portal project UUID the resource is located in. */
@@ -797,7 +782,7 @@ export const UpdateSubscriptionResponse = /*@__PURE__*/ S.suspend(() => S.Struct
 }) as any as S.Schema<UpdateSubscriptionResponse>;
 
 export type UpdateSubscriptionSubscriberAccessRequestRegionId = "eu01";
-export const UpdateSubscriptionSubscriberAccessRequestRegionId = /*@__PURE__*/ S.String;
+export const UpdateSubscriptionSubscriberAccessRequestRegionId = S.String;
 
 /** A list of valid subscriber email addresses. */
 export type UpdateSubscriptionSubscriberAccessRequestEmailAddressesList = Array<string>;
@@ -844,7 +829,7 @@ export const UpdateSubscriptionSubscriberAccessResponse = /*@__PURE__*/ S.suspen
 }) as any as S.Schema<UpdateSubscriptionSubscriberAccessResponse>;
 
 export type UpdateTopicRequestRegionId = "eu01";
-export const UpdateTopicRequestRegionId = /*@__PURE__*/ S.String;
+export const UpdateTopicRequestRegionId = S.String;
 
 export interface UpdateTopicRequest {
   /** The STACKIT portal project UUID the resource is located in. */
@@ -877,9 +862,7 @@ export const UpdateTopicRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://pubsub.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "UpdateTopicRequest",
-}) as any as S.Schema<UpdateTopicRequest>;
+).annotate({ identifier: "UpdateTopicRequest" }) as any as S.Schema<UpdateTopicRequest>;
 
 export interface UpdateTopicResponse {}
 export const UpdateTopicResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({

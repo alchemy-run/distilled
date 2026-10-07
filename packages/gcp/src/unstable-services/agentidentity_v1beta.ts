@@ -70,53 +70,32 @@ export const StringList = /*@__PURE__*/ S.Array(S.String) as any as S.Schema<Str
 export type AuthProviderStateEnum = "STATE_UNSPECIFIED" | "ENABLED" | "DISABLED";
 export const AuthProviderStateEnum = S.String;
 
-/** Configuration for 2-legged OAuth (2LO) authentication. */
-export interface TwoLeggedOAuth {
-  /** Optional. The token endpoint of the OAuth client. */
-  tokenUrl?: string;
-  /** Optional. Input only. The client secret of the OAuth client. */
-  clientSecret?: string;
-  /** Optional. The client ID of the OAuth client. */
-  clientId?: string;
-}
-export const TwoLeggedOAuth = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    tokenUrl: S.optional(S.String),
-    clientSecret: S.optional(S.String),
-    clientId: S.optional(S.String),
-  }),
-).annotate({ identifier: "TwoLeggedOAuth" }) as any as S.Schema<TwoLeggedOAuth>;
+export type DocumentMap = { [key: string]: unknown | undefined };
+export const DocumentMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.Unknown,
+) as any as S.Schema<DocumentMap>;
 
-/** Configuration for 3-legged OAuth (3LO) authentication. */
-export interface ThreeLeggedOAuth {
-  /** Output only. The redirect URL this auth provider uses for the OAuth exchange. This is deterministic based on the name of the auth provider. */
-  redirectUrl?: string;
-  /** Optional. The default continue URI for the 3LO flow, used when no continue URI is provided in the RetrieveCredentials request. */
-  defaultContinueUri?: string;
-  /** Optional. The token endpoint for requesting tokens on behalf of an end user. For example, "https://auth.atlassian.com/oauth/token". */
-  tokenUrl?: string;
-  /** Optional. Enables Proof Key for Code Exchange (PKCE) for the OAuth flow to prevent authorization code interception attacks. */
-  enablePkce?: boolean;
-  /** Optional. Input only. The client secret of the OAuth client. */
-  clientSecret?: string;
-  /** Optional. The client ID of the OAuth client. */
-  clientId?: string;
-  /** Optional. The authorization endpoint to send users to for consenting to delegate to the agent. For example, "https://auth.atlassian.com/authorize". */
-  authorizationUrl?: string;
+export type DocumentMapList = Array<DocumentMap>;
+export const DocumentMapList = /*@__PURE__*/ S.Array(
+  DocumentMap,
+) as any as S.Schema<DocumentMapList>;
+
+/** Configuration parameters for the Connector Reference auth provider. */
+export interface ConnectorReferenceAuthProvider {
+  /** Required. The name of the referenced connector. */
+  connector?: string;
+  /** Optional. Rich Authorization Requests (RFC 9396) detailing targeted OAuth resources/scopes, formatted as a JSON array of JSON objects. */
+  authorizationDetails?: DocumentMapList;
 }
-export const ThreeLeggedOAuth = /*@__PURE__*/ S.suspend(() =>
+export const ConnectorReferenceAuthProvider = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    redirectUrl: S.optional(S.String),
-    defaultContinueUri: S.optional(S.String),
-    tokenUrl: S.optional(S.String),
-    enablePkce: S.optional(S.Boolean),
-    clientSecret: S.optional(S.String),
-    clientId: S.optional(S.String),
-    authorizationUrl: S.optional(S.String),
+    connector: S.optional(S.String),
+    authorizationDetails: S.optional(DocumentMapList),
   }),
 ).annotate({
-  identifier: "ThreeLeggedOAuth",
-}) as any as S.Schema<ThreeLeggedOAuth>;
+  identifier: "ConnectorReferenceAuthProvider",
+}) as any as S.Schema<ConnectorReferenceAuthProvider>;
 
 /** Configuration for API key authentication. */
 export interface ApiKeyParams {
@@ -129,6 +108,23 @@ export const ApiKeyParams = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "ApiKeyParams" }) as any as S.Schema<ApiKeyParams>;
 
+/** Configuration for 2-legged OAuth (2LO) authentication. */
+export interface TwoLeggedOAuth {
+  /** Optional. The client ID of the OAuth client. */
+  clientId?: string;
+  /** Optional. Input only. The client secret of the OAuth client. */
+  clientSecret?: string;
+  /** Optional. The token endpoint of the OAuth client. */
+  tokenUrl?: string;
+}
+export const TwoLeggedOAuth = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    clientId: S.optional(S.String),
+    clientSecret: S.optional(S.String),
+    tokenUrl: S.optional(S.String),
+  }),
+).annotate({ identifier: "TwoLeggedOAuth" }) as any as S.Schema<TwoLeggedOAuth>;
+
 /** Configuration for Gemini Enterprise authentication. */
 export interface GeminiEnterpriseAuthProviderParams {}
 export const GeminiEnterpriseAuthProviderParams = /*@__PURE__*/ S.suspend(() =>
@@ -137,87 +133,226 @@ export const GeminiEnterpriseAuthProviderParams = /*@__PURE__*/ S.suspend(() =>
   identifier: "GeminiEnterpriseAuthProviderParams",
 }) as any as S.Schema<GeminiEnterpriseAuthProviderParams>;
 
+/** Configuration for Workforce Identity Federation usage as the issuer. */
+export type WorkforceIdentityFederation = GeminiEnterpriseAuthProviderParams;
+export const WorkforceIdentityFederation = GeminiEnterpriseAuthProviderParams;
+
+/** Configuration for a custom or third-party authorization server issuer. */
+export interface CustomIssuer {
+  /** Required. The token endpoint of the target OAuth authorization server to retrieve resource tokens. */
+  tokenUrl?: string;
+  /** Optional. The issuer identifier of the target Authorization Server. */
+  issuer?: string;
+}
+export const CustomIssuer = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    tokenUrl: S.optional(S.String),
+    issuer: S.optional(S.String),
+  }),
+).annotate({ identifier: "CustomIssuer" }) as any as S.Schema<CustomIssuer>;
+
+/** Configuration for client ID and client assertion JWT authentication. */
+export interface ClientAssertionJwtAuth {
+  /** Required. The client identifier. */
+  clientId?: string;
+}
+export const ClientAssertionJwtAuth = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    clientId: S.optional(S.String),
+  }),
+).annotate({ identifier: "ClientAssertionJwtAuth" }) as any as S.Schema<ClientAssertionJwtAuth>;
+
+/** Configuration for client ID and client secret authentication. */
+export interface ClientSecretAuth {
+  /** Required. Input only. The client secret. */
+  clientSecret?: string;
+  /** Required. The client identifier. */
+  clientId?: string;
+}
+export const ClientSecretAuth = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    clientSecret: S.optional(S.String),
+    clientId: S.optional(S.String),
+  }),
+).annotate({ identifier: "ClientSecretAuth" }) as any as S.Schema<ClientSecretAuth>;
+
+/** Configuration for Google Account usage as the issuer. */
+export type GoogleAccount = GeminiEnterpriseAuthProviderParams;
+export const GoogleAccount = GeminiEnterpriseAuthProviderParams;
+
+/** Marker message indicating the input is already an ID-JAG, so no fetching is required. */
+export type DirectIdJagInput = GeminiEnterpriseAuthProviderParams;
+export const DirectIdJagInput = GeminiEnterpriseAuthProviderParams;
+
+/** Marker message to indicate the managed Agent Identity Pool is used. */
+export type AgentIdentityPool = GeminiEnterpriseAuthProviderParams;
+export const AgentIdentityPool = GeminiEnterpriseAuthProviderParams;
+
+/** Defines how to process an input ID token to obtain an ID-JAG. */
+export interface IdTokenProcessingConfig {
+  /** The resource name of the ID-JAG auth provider. Format: "projects/{project}/locations/{location}/authProviders/{auth_provider}" */
+  idJagAuthProvider?: string;
+  /** Indicates the managed Agent Identity pool should be used to fetch the ID-JAG. */
+  agentIdentityPool?: GeminiEnterpriseAuthProviderParams;
+  /** Optional. Optional additional claims to include when fetching an ID-JAG. */
+  idJagAdditionalClaims?: DocumentMap;
+}
+export const IdTokenProcessingConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    idJagAuthProvider: S.optional(S.String),
+    agentIdentityPool: S.optional(GeminiEnterpriseAuthProviderParams),
+    idJagAdditionalClaims: S.optional(DocumentMap),
+  }),
+).annotate({ identifier: "IdTokenProcessingConfig" }) as any as S.Schema<IdTokenProcessingConfig>;
+
+/** Configuration parameters for the Cross-App Access auth provider. */
+export interface CrossAppAccessAuthProvider {
+  /** Configuration when using Workforce Identity Federation as the issuer. */
+  workforceIdentityFederation?: GeminiEnterpriseAuthProviderParams;
+  /** Configuration when using a custom or third-party authorization server as the issuer. */
+  customIssuer?: CustomIssuer;
+  /** Optional. Additional parameters to be passed to the token endpoint. */
+  additionalParameters?: StringMap;
+  /** Option 2: Authenticate using a standard `client_id` and a Client Assertion JWT. */
+  clientAssertionJwtAuth?: ClientAssertionJwtAuth;
+  /** Option 1: Authenticate using a standard `client_id` and `client_secret`. */
+  clientSecretAuth?: ClientSecretAuth;
+  /** Configuration when using Google Accounts as the issuer. */
+  googleAccount?: GeminiEnterpriseAuthProviderParams;
+  /** Configuration for when the input is already an ID-JAG. */
+  idJagInput?: GeminiEnterpriseAuthProviderParams;
+  /** Configuration for when the input is an ID token. */
+  idTokenInput?: IdTokenProcessingConfig;
+}
+export const CrossAppAccessAuthProvider = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    workforceIdentityFederation: S.optional(GeminiEnterpriseAuthProviderParams),
+    customIssuer: S.optional(CustomIssuer),
+    additionalParameters: S.optional(StringMap),
+    clientAssertionJwtAuth: S.optional(ClientAssertionJwtAuth),
+    clientSecretAuth: S.optional(ClientSecretAuth),
+    googleAccount: S.optional(GeminiEnterpriseAuthProviderParams),
+    idJagInput: S.optional(GeminiEnterpriseAuthProviderParams),
+    idTokenInput: S.optional(IdTokenProcessingConfig),
+  }),
+).annotate({
+  identifier: "CrossAppAccessAuthProvider",
+}) as any as S.Schema<CrossAppAccessAuthProvider>;
+
+/** Configuration for 3-legged OAuth (3LO) authentication. */
+export interface ThreeLeggedOAuth {
+  /** Optional. Input only. The client secret of the OAuth client. */
+  clientSecret?: string;
+  /** Optional. The client ID of the OAuth client. */
+  clientId?: string;
+  /** Optional. The default continue URI for the 3LO flow, used when no continue URI is provided in the RetrieveCredentials request. */
+  defaultContinueUri?: string;
+  /** Optional. Enables Proof Key for Code Exchange (PKCE) for the OAuth flow to prevent authorization code interception attacks. */
+  enablePkce?: boolean;
+  /** Output only. The redirect URL this auth provider uses for the OAuth exchange. This is deterministic based on the name of the auth provider. */
+  redirectUrl?: string;
+  /** Optional. The token endpoint for requesting tokens on behalf of an end user. For example, "https://auth.atlassian.com/oauth/token". */
+  tokenUrl?: string;
+  /** Optional. The authorization endpoint to send users to for consenting to delegate to the agent. For example, "https://auth.atlassian.com/authorize". */
+  authorizationUrl?: string;
+}
+export const ThreeLeggedOAuth = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    clientSecret: S.optional(S.String),
+    clientId: S.optional(S.String),
+    defaultContinueUri: S.optional(S.String),
+    enablePkce: S.optional(S.Boolean),
+    redirectUrl: S.optional(S.String),
+    tokenUrl: S.optional(S.String),
+    authorizationUrl: S.optional(S.String),
+  }),
+).annotate({ identifier: "ThreeLeggedOAuth" }) as any as S.Schema<ThreeLeggedOAuth>;
+
 /** Required. Parameters specific to the auth provider type. */
 export interface AuthProviderTypeParams {
-  /** Parameters for 2-legged OAuth (2LO) authentication. */
-  twoLeggedOauth?: TwoLeggedOAuth;
-  /** Parameters for 3-legged OAuth (3LO) authentication. */
-  threeLeggedOauth?: ThreeLeggedOAuth;
+  /** Parameters for Connector Reference authentication. */
+  connectorReferenceAuthProvider?: ConnectorReferenceAuthProvider;
   /** Parameters for API key authentication. */
   apiKey?: ApiKeyParams;
+  /** Parameters for 2-legged OAuth (2LO) authentication. */
+  twoLeggedOauth?: TwoLeggedOAuth;
   /** Parameters for Gemini Enterprise authentication. */
   geAuthProvider?: GeminiEnterpriseAuthProviderParams;
+  /** Parameters for Cross-App Access authentication. */
+  xaaAuthProvider?: CrossAppAccessAuthProvider;
+  /** Parameters for 3-legged OAuth (3LO) authentication. */
+  threeLeggedOauth?: ThreeLeggedOAuth;
 }
 export const AuthProviderTypeParams = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    twoLeggedOauth: S.optional(TwoLeggedOAuth),
-    threeLeggedOauth: S.optional(ThreeLeggedOAuth),
+    connectorReferenceAuthProvider: S.optional(ConnectorReferenceAuthProvider),
     apiKey: S.optional(ApiKeyParams),
+    twoLeggedOauth: S.optional(TwoLeggedOAuth),
     geAuthProvider: S.optional(GeminiEnterpriseAuthProviderParams),
+    xaaAuthProvider: S.optional(CrossAppAccessAuthProvider),
+    threeLeggedOauth: S.optional(ThreeLeggedOAuth),
   }),
-).annotate({
-  identifier: "AuthProviderTypeParams",
-}) as any as S.Schema<AuthProviderTypeParams>;
+).annotate({ identifier: "AuthProviderTypeParams" }) as any as S.Schema<AuthProviderTypeParams>;
 
 /** Represents an auth provider. */
 export interface AuthProvider {
-  /** Optional. Description of the resource. Must be less than 256 characters. */
-  description?: string;
-  /** Output only. The creation timestamp. */
-  createTime?: string;
   /** Optional. Labels as key-value pairs. */
   labels?: StringMap;
-  /** Optional. List of scopes that are blocked from being requested for this auth provider. If a scope appears in this list, it will not be requested, even if it also appears in `allowed_scopes`. `blocked_scopes` takes precedence over `allowed_scopes`. The number of blocked scopes is limited to 200. */
-  blockedScopes?: StringList;
+  /** Output only. The creation timestamp. */
+  createTime?: string;
+  /** Optional. Description of the resource. Must be less than 256 characters. */
+  description?: string;
   /** Optional. List of scopes that are allowed to be requested for this auth provider. If this list is non-empty, only scopes within this list may be requested. If this list is empty, all scopes may be requested. Scopes appearing in `blocked_scopes` are disallowed even if they appear in `allowed_scopes`. The number of allowed scopes is limited to 200. */
   allowedScopes?: StringList;
-  /** Output only. The state of the auth provider. */
-  state?: AuthProviderStateEnum | (string & {});
-  /** Optional. Input only. Identifiers for the agents that will use this auth provider, starting with `principal://`. For example: `principal://agents.global.org-${ORG_ID}.system.id.goog/resources/aiplatform/projects/{PROJECT_ID}/locations/{LOCATIONS}/reasoningEngines/{ID}` */
-  workloadIds?: StringList;
-  /** Identifier. The full resource name of the auth provider. Format: projects/{project}/locations/{location}/authProviders/{auth_provider} */
-  name?: string;
-  /** Output only. The update timestamp. */
-  updateTime?: string;
-  /** Required. Parameters specific to the auth provider type. */
-  authProviderTypeParams?: AuthProviderTypeParams;
   /** Output only. Set to `true` if the auth provider is deleted. */
   deleted?: boolean;
+  /** Identifier. The full resource name of the auth provider. Format: projects/{project}/locations/{location}/authProviders/{auth_provider} */
+  name?: string;
   /** Output only. The time when the auth provider will expire. */
   expireTime?: string;
+  /** Optional. Input only. Identifiers for the agents that will use this auth provider, starting with `principal://`. For example: `principal://agents.global.org-${ORG_ID}.system.id.goog/resources/aiplatform/projects/{PROJECT_ID}/locations/{LOCATIONS}/reasoningEngines/{ID}` */
+  workloadIds?: StringList;
+  /** Optional. List of scopes that are blocked from being requested for this auth provider. If a scope appears in this list, it will not be requested, even if it also appears in `allowed_scopes`. `blocked_scopes` takes precedence over `allowed_scopes`. The number of blocked scopes is limited to 200. */
+  blockedScopes?: StringList;
+  /** Output only. The state of the auth provider. */
+  state?: AuthProviderStateEnum | (string & {});
+  /** Required. Parameters specific to the auth provider type. */
+  authProviderTypeParams?: AuthProviderTypeParams;
+  /** Output only. The update timestamp. */
+  updateTime?: string;
 }
 export const AuthProvider = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    description: S.optional(S.String),
-    createTime: S.optional(S.String),
     labels: S.optional(StringMap),
-    blockedScopes: S.optional(StringList),
+    createTime: S.optional(S.String),
+    description: S.optional(S.String),
     allowedScopes: S.optional(StringList),
-    state: S.optional(AuthProviderStateEnum),
-    workloadIds: S.optional(StringList),
-    name: S.optional(S.String),
-    updateTime: S.optional(S.String),
-    authProviderTypeParams: S.optional(AuthProviderTypeParams),
     deleted: S.optional(S.Boolean),
+    name: S.optional(S.String),
     expireTime: S.optional(S.String),
+    workloadIds: S.optional(StringList),
+    blockedScopes: S.optional(StringList),
+    state: S.optional(AuthProviderStateEnum),
+    authProviderTypeParams: S.optional(AuthProviderTypeParams),
+    updateTime: S.optional(S.String),
   }),
 ).annotate({ identifier: "AuthProvider" }) as any as S.Schema<AuthProvider>;
 
 export interface CreateProjectsLocationsAuthProvidersRequest {
-  /** Required. The parent resource where the auth provider is created. Format: projects/{project}/locations/{location} */
-  parent: string;
   /** Required. The ID to use for the auth provider, which will become the final segment of the auth provider's resource name. This value should be 1-63 characters, and valid characters are /a-z-/. The first character must be a lowercase letter, and the last character must be a lowercase letter or a number. */
   authProviderId?: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
+  /** Required. The parent resource where the auth provider is created. Format: projects/{project}/locations/{location} */
+  parent: string;
   /** Request body */
   body?: AuthProvider;
 }
 export const CreateProjectsLocationsAuthProvidersRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    parent: S.String.pipe(T.Label()),
     authProviderId: S.optional(S.String.pipe(T.Query())),
     requestId: S.optional(S.String.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
     body: S.optional(AuthProvider.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -231,15 +366,15 @@ export const CreateProjectsLocationsAuthProvidersRequest = /*@__PURE__*/ S.suspe
 }) as any as S.Schema<CreateProjectsLocationsAuthProvidersRequest>;
 
 export interface DeleteProjectsLocationsAuthProvidersRequest {
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
   /** Required. The resource name of the auth provider. */
   name: string;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string;
 }
 export const DeleteProjectsLocationsAuthProvidersRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    requestId: S.optional(S.String.pipe(T.Query())),
     name: S.String.pipe(T.Label()),
+    requestId: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "DELETE",
@@ -258,16 +393,16 @@ export const Empty = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
 }) as any as S.Schema<Empty>;
 
 export interface DeleteProjectsLocationsAuthProvidersAuthorizationsRequest {
-  /** Required. The resource name of the authorization to delete. Format: projects/{project}/locations/{location}/authProviders/{auth_provider}/authorizations/{authorization} */
-  name: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
+  /** Required. The resource name of the authorization to delete. Format: projects/{project}/locations/{location}/authProviders/{auth_provider}/authorizations/{authorization} */
+  name: string;
 }
 export const DeleteProjectsLocationsAuthProvidersAuthorizationsRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
-      name: S.String.pipe(T.Label()),
       requestId: S.optional(S.String.pipe(T.Query())),
+      name: S.String.pipe(T.Label()),
     }).pipe(
       T.Http({
         method: "DELETE",
@@ -363,36 +498,36 @@ export const GetIamPolicyProjectsLocationsAuthProvidersRequest = /*@__PURE__*/ S
 export interface Expr {
   /** Optional. Title for the expression, i.e. a short string describing its purpose. This can be used e.g. in UIs which allow to enter the expression. */
   title?: string;
-  /** Optional. Description of the expression. This is a longer text which describes the expression, e.g. when hovered over it in a UI. */
-  description?: string;
-  /** Optional. String indicating the location of the expression for error reporting, e.g. a file name and a position in the file. */
-  location?: string;
   /** Textual representation of an expression in Common Expression Language syntax. */
   expression?: string;
+  /** Optional. String indicating the location of the expression for error reporting, e.g. a file name and a position in the file. */
+  location?: string;
+  /** Optional. Description of the expression. This is a longer text which describes the expression, e.g. when hovered over it in a UI. */
+  description?: string;
 }
 export const Expr = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     title: S.optional(S.String),
-    description: S.optional(S.String),
-    location: S.optional(S.String),
     expression: S.optional(S.String),
+    location: S.optional(S.String),
+    description: S.optional(S.String),
   }),
 ).annotate({ identifier: "Expr" }) as any as S.Schema<Expr>;
 
 /** Associates `members`, or principals, with a `role`. */
 export interface Binding {
+  /** Specifies the principals requesting access for a Google Cloud resource. `members` can have the following values: * `allUsers`: A special identifier that represents anyone who is on the internet; with or without a Google account. * `allAuthenticatedUsers`: A special identifier that represents anyone who is authenticated with a Google account or a service account. Does not include identities that come from external identity providers (IdPs) through identity federation. * `user:{emailid}`: An email address that represents a specific Google account. For example, `alice@example.com` . * `serviceAccount:{emailid}`: An email address that represents a Google service account. For example, `my-other-app@appspot.gserviceaccount.com`. * `serviceAccount:{projectid}.svc.id.goog[{namespace}/{kubernetes-sa}]`: An identifier for a [Kubernetes service account](https://cloud.google.com/kubernetes-engine/docs/how-to/kubernetes-service-accounts). For example, `my-project.svc.id.goog[my-namespace/my-kubernetes-sa]`. * `group:{emailid}`: An email address that represents a Google group. For example, `admins@example.com`. * `domain:{domain}`: The G Suite domain (primary) that represents all the users of that domain. For example, `google.com` or `example.com`. * `principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workforce identity pool. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/group/{group_id}`: All workforce identities in a group. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All workforce identities with a specific attribute value. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/*`: All identities in a workforce identity pool. * `principal://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workload identity pool. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/group/{group_id}`: A workload identity pool group. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All identities in a workload identity pool with a certain attribute. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/*`: All identities in a workload identity pool. * `deleted:user:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a user that has been recently deleted. For example, `alice@example.com?uid=123456789012345678901`. If the user is recovered, this value reverts to `user:{emailid}` and the recovered user retains the role in the binding. * `deleted:serviceAccount:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a service account that has been recently deleted. For example, `my-other-app@appspot.gserviceaccount.com?uid=123456789012345678901`. If the service account is undeleted, this value reverts to `serviceAccount:{emailid}` and the undeleted service account retains the role in the binding. * `deleted:group:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a Google group that has been recently deleted. For example, `admins@example.com?uid=123456789012345678901`. If the group is recovered, this value reverts to `group:{emailid}` and the recovered group retains the role in the binding. * `deleted:principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: Deleted single identity in a workforce identity pool. For example, `deleted:principal://iam.googleapis.com/locations/global/workforcePools/my-pool-id/subject/my-subject-attribute-value`. */
+  members?: StringList;
   /** Role that is assigned to the list of `members`, or principals. For example, `roles/viewer`, `roles/editor`, or `roles/owner`. For an overview of the IAM roles and permissions, see the [IAM documentation](https://cloud.google.com/iam/docs/roles-overview). For a list of the available pre-defined roles, see [here](https://cloud.google.com/iam/docs/understanding-roles). */
   role?: string;
   /** The condition that is associated with this binding. If the condition evaluates to `true`, then this binding applies to the current request. If the condition evaluates to `false`, then this binding does not apply to the current request. However, a different role binding might grant the same role to one or more of the principals in this binding. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
   condition?: Expr;
-  /** Specifies the principals requesting access for a Google Cloud resource. `members` can have the following values: * `allUsers`: A special identifier that represents anyone who is on the internet; with or without a Google account. * `allAuthenticatedUsers`: A special identifier that represents anyone who is authenticated with a Google account or a service account. Does not include identities that come from external identity providers (IdPs) through identity federation. * `user:{emailid}`: An email address that represents a specific Google account. For example, `alice@example.com` . * `serviceAccount:{emailid}`: An email address that represents a Google service account. For example, `my-other-app@appspot.gserviceaccount.com`. * `serviceAccount:{projectid}.svc.id.goog[{namespace}/{kubernetes-sa}]`: An identifier for a [Kubernetes service account](https://cloud.google.com/kubernetes-engine/docs/how-to/kubernetes-service-accounts). For example, `my-project.svc.id.goog[my-namespace/my-kubernetes-sa]`. * `group:{emailid}`: An email address that represents a Google group. For example, `admins@example.com`. * `domain:{domain}`: The G Suite domain (primary) that represents all the users of that domain. For example, `google.com` or `example.com`. * `principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workforce identity pool. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/group/{group_id}`: All workforce identities in a group. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All workforce identities with a specific attribute value. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/*`: All identities in a workforce identity pool. * `principal://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workload identity pool. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/group/{group_id}`: A workload identity pool group. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All identities in a workload identity pool with a certain attribute. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/*`: All identities in a workload identity pool. * `deleted:user:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a user that has been recently deleted. For example, `alice@example.com?uid=123456789012345678901`. If the user is recovered, this value reverts to `user:{emailid}` and the recovered user retains the role in the binding. * `deleted:serviceAccount:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a service account that has been recently deleted. For example, `my-other-app@appspot.gserviceaccount.com?uid=123456789012345678901`. If the service account is undeleted, this value reverts to `serviceAccount:{emailid}` and the undeleted service account retains the role in the binding. * `deleted:group:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a Google group that has been recently deleted. For example, `admins@example.com?uid=123456789012345678901`. If the group is recovered, this value reverts to `group:{emailid}` and the recovered group retains the role in the binding. * `deleted:principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: Deleted single identity in a workforce identity pool. For example, `deleted:principal://iam.googleapis.com/locations/global/workforcePools/my-pool-id/subject/my-subject-attribute-value`. */
-  members?: StringList;
 }
 export const Binding = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    members: S.optional(StringList),
     role: S.optional(S.String),
     condition: S.optional(Expr),
-    members: S.optional(StringList),
   }),
 ).annotate({ identifier: "Binding" }) as any as S.Schema<Binding>;
 
@@ -446,23 +581,45 @@ export const AuditConfigList = /*@__PURE__*/ S.Array(
 
 /** An Identity and Access Management (IAM) policy, which specifies access controls for Google Cloud resources. A `Policy` is a collection of `bindings`. A `binding` binds one or more `members`, or principals, to a single `role`. Principals can be user accounts, service accounts, Google groups, and domains (such as G Suite). A `role` is a named list of permissions; each `role` can be an IAM predefined role or a user-created custom role. For some types of Google Cloud resources, a `binding` can also specify a `condition`, which is a logical expression that allows access to a resource only if the expression evaluates to `true`. A condition can add constraints based on attributes of the request, the resource, or both. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). **JSON example:** ``` { "bindings": [ { "role": "roles/resourcemanager.organizationAdmin", "members": [ "user:mike@example.com", "group:admins@example.com", "domain:google.com", "serviceAccount:my-project-id@appspot.gserviceaccount.com" ] }, { "role": "roles/resourcemanager.organizationViewer", "members": [ "user:eve@example.com" ], "condition": { "title": "expirable access", "description": "Does not grant access after Sep 2020", "expression": "request.time < timestamp('2020-10-01T00:00:00.000Z')", } } ], "etag": "BwWWja0YfJA=", "version": 3 } ``` **YAML example:** ``` bindings: - members: - user:mike@example.com - group:admins@example.com - domain:google.com - serviceAccount:my-project-id@appspot.gserviceaccount.com role: roles/resourcemanager.organizationAdmin - members: - user:eve@example.com role: roles/resourcemanager.organizationViewer condition: title: expirable access description: Does not grant access after Sep 2020 expression: request.time < timestamp('2020-10-01T00:00:00.000Z') etag: BwWWja0YfJA= version: 3 ``` For a description of IAM and its features, see the [IAM documentation](https://cloud.google.com/iam/docs/). */
 export interface Policy {
-  /** Specifies the format of the policy. Valid values are `0`, `1`, and `3`. Requests that specify an invalid value are rejected. Any operation that affects conditional role bindings must specify version `3`. This requirement applies to the following operations: * Getting a policy that includes a conditional role binding * Adding a conditional role binding to a policy * Changing a conditional role binding in a policy * Removing any role binding, with or without a condition, from a policy that includes conditions **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. If a policy does not include any conditions, operations on that policy may specify any valid version or leave the field unset. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  version?: number;
   /** Associates a list of `members`, or principals, with a `role`. Optionally, may specify a `condition` that determines how and when the `bindings` are applied. Each of the `bindings` must contain at least one principal. The `bindings` in a `Policy` can refer to up to 1,500 principals; up to 250 of these principals can be Google groups. Each occurrence of a principal counts towards these limits. For example, if the `bindings` grant 50 different roles to `user:alice@example.com`, and not to any other principal, then you can add another 1,450 principals to the `bindings` in the `Policy`. */
   bindings?: BindingList;
-  /** `etag` is used for optimistic concurrency control as a way to help prevent simultaneous updates of a policy from overwriting each other. It is strongly suggested that systems make use of the `etag` in the read-modify-write cycle to perform policy updates in order to avoid race conditions: An `etag` is returned in the response to `getIamPolicy`, and systems are expected to put that etag in the request to `setIamPolicy` to ensure that their change will be applied to the same version of the policy. **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. */
-  etag?: string;
   /** Specifies cloud audit logging configuration for this policy. */
   auditConfigs?: AuditConfigList;
+  /** `etag` is used for optimistic concurrency control as a way to help prevent simultaneous updates of a policy from overwriting each other. It is strongly suggested that systems make use of the `etag` in the read-modify-write cycle to perform policy updates in order to avoid race conditions: An `etag` is returned in the response to `getIamPolicy`, and systems are expected to put that etag in the request to `setIamPolicy` to ensure that their change will be applied to the same version of the policy. **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. */
+  etag?: string;
+  /** Specifies the format of the policy. Valid values are `0`, `1`, and `3`. Requests that specify an invalid value are rejected. Any operation that affects conditional role bindings must specify version `3`. This requirement applies to the following operations: * Getting a policy that includes a conditional role binding * Adding a conditional role binding to a policy * Changing a conditional role binding in a policy * Removing any role binding, with or without a condition, from a policy that includes conditions **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. If a policy does not include any conditions, operations on that policy may specify any valid version or leave the field unset. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
+  version?: number;
 }
 export const Policy = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    version: S.optional(S.Number),
     bindings: S.optional(BindingList),
-    etag: S.optional(S.String),
     auditConfigs: S.optional(AuditConfigList),
+    etag: S.optional(S.String),
+    version: S.optional(S.Number),
   }),
 ).annotate({ identifier: "Policy" }) as any as S.Schema<Policy>;
+
+export interface GetIamPolicyProjectsLocationsAuthProvidersAuthorizationsRequest {
+  /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
+  "options.requestedPolicyVersion"?: number;
+  /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+  resource: string;
+}
+export const GetIamPolicyProjectsLocationsAuthProvidersAuthorizationsRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      "options.requestedPolicyVersion": S.optional(S.Number.pipe(T.Query())),
+      resource: S.String.pipe(T.Label()),
+    }).pipe(
+      T.Http({
+        method: "GET",
+        uri: "v1beta/{+resource}:getIamPolicy",
+        baseUrl: "https://agentidentity.googleapis.com/",
+      }),
+    ),
+  ).annotate({
+    identifier: "GetIamPolicyProjectsLocationsAuthProvidersAuthorizationsRequest",
+  }) as any as S.Schema<GetIamPolicyProjectsLocationsAuthProvidersAuthorizationsRequest>;
 
 export interface GetProjectsLocationsRequest {
   /** Resource name for the location. */
@@ -482,31 +639,25 @@ export const GetProjectsLocationsRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetProjectsLocationsRequest",
 }) as any as S.Schema<GetProjectsLocationsRequest>;
 
-export type DocumentMap = { [key: string]: unknown | undefined };
-export const DocumentMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.Unknown,
-) as any as S.Schema<DocumentMap>;
-
 /** A resource that represents a Google Cloud location. */
 export interface Location {
-  /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
-  name?: string;
-  /** Cross-service attributes for the location. For example {"cloud.googleapis.com/region": "us-east1"} */
-  labels?: StringMap;
-  /** Service-specific metadata. For example the available capacity at the given location. */
-  metadata?: DocumentMap;
   /** The canonical id for this location. For example: `"us-east1"`. */
   locationId?: string;
+  /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
+  name?: string;
+  /** Service-specific metadata. For example the available capacity at the given location. */
+  metadata?: DocumentMap;
+  /** Cross-service attributes for the location. For example {"cloud.googleapis.com/region": "us-east1"} */
+  labels?: StringMap;
   /** The friendly name for this location, typically a nearby city name. For example, "Tokyo". */
   displayName?: string;
 }
 export const Location = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.optional(S.String),
-    labels: S.optional(StringMap),
-    metadata: S.optional(DocumentMap),
     locationId: S.optional(S.String),
+    name: S.optional(S.String),
+    metadata: S.optional(DocumentMap),
+    labels: S.optional(StringMap),
     displayName: S.optional(S.String),
   }),
 ).annotate({ identifier: "Location" }) as any as S.Schema<Location>;
@@ -534,47 +685,49 @@ export type AccessSummaryAuthProviderTypeEnum =
   | "AUTH_PROVIDER_TYPE_THREE_LEGGED_OAUTH"
   | "AUTH_PROVIDER_TYPE_TWO_LEGGED_OAUTH"
   | "AUTH_PROVIDER_TYPE_API_KEY"
-  | "AUTH_PROVIDER_TYPE_GEMINI_ENTERPRISE";
+  | "AUTH_PROVIDER_TYPE_GEMINI_ENTERPRISE"
+  | "AUTH_PROVIDER_TYPE_CROSS_APP_ACCESS"
+  | "AUTH_PROVIDER_TYPE_CONNECTOR_REFERENCE";
 export const AccessSummaryAuthProviderTypeEnum = S.String;
 
 /** Represents an access summary. */
 export interface AccessSummary {
-  /** Output only. The identity bound to the workload that this user interacted with to produce this access summary. Typically an agentic SPIFFE ID. */
-  workloadId?: string;
-  /** Output only. The user ID provided by the workload application for this user. Not verified by Google. */
-  userId?: string;
-  /** Optional. Labels as key-value pairs. */
-  labels?: StringMap;
-  /** Output only. The most recent time this user interacted with this workload, rounded to the previous hour. */
-  lastAccessTime?: string;
-  /** Output only. All scopes that have been used by this user with this workload. The number of scopes is limited to 200. */
-  scopes?: StringList;
   /** Output only. The time when this access summary is permanently deleted. */
   purgeTime?: string;
+  /** Output only. The identity bound to the workload that this user interacted with to produce this access summary. Typically an agentic SPIFFE ID. */
+  workloadId?: string;
+  /** Optional. Labels as key-value pairs. */
+  labels?: StringMap;
+  /** Output only. The auth provider type used to create this access summary. */
+  authProviderType?: AccessSummaryAuthProviderTypeEnum;
+  /** Output only. All scopes that have been used by this user with this workload. The number of scopes is limited to 200. */
+  scopes?: StringList;
   /** Output only. Identifier. The resource name of the access summary. */
   name?: string;
   /** Output only. The URL of the authentication server that was accessed. */
   tokenUrl?: string;
   /** Output only. The auth provider that this access summary is associated with. */
   authProvider?: string;
+  /** Output only. The user ID provided by the workload application for this user. Not verified by Google. */
+  userId?: string;
   /** Output only. The first time this user interacted with this workload, rounded to the previous hour. */
   firstAccessTime?: string;
-  /** Output only. The auth provider type used to create this access summary. */
-  authProviderType?: AccessSummaryAuthProviderTypeEnum;
+  /** Output only. The most recent time this user interacted with this workload, rounded to the previous hour. */
+  lastAccessTime?: string;
 }
 export const AccessSummary = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    workloadId: S.optional(S.String),
-    userId: S.optional(S.String),
-    labels: S.optional(StringMap),
-    lastAccessTime: S.optional(S.String),
-    scopes: S.optional(StringList),
     purgeTime: S.optional(S.String),
+    workloadId: S.optional(S.String),
+    labels: S.optional(StringMap),
+    authProviderType: S.optional(AccessSummaryAuthProviderTypeEnum),
+    scopes: S.optional(StringList),
     name: S.optional(S.String),
     tokenUrl: S.optional(S.String),
     authProvider: S.optional(S.String),
+    userId: S.optional(S.String),
     firstAccessTime: S.optional(S.String),
-    authProviderType: S.optional(AccessSummaryAuthProviderTypeEnum),
+    lastAccessTime: S.optional(S.String),
   }),
 ).annotate({ identifier: "AccessSummary" }) as any as S.Schema<AccessSummary>;
 
@@ -619,31 +772,33 @@ export const AuthorizationStateEnum = S.String;
 
 /** Represents an authorization. */
 export interface Authorization {
+  /** Output only. The update timestamp. */
+  updateTime?: string;
+  /** Output only. The scopes actually granted by the end user during the consent flow. */
+  scopes?: StringList;
+  /** Output only. The client user ID provided by the client application for their end user. Not verified by Google. */
+  clientUserId?: string;
   /** Output only. The state of the authorization. */
   state?: AuthorizationStateEnum;
   /** Identifier. The resource name of the authorization. */
   name?: string;
   /** Output only. The creation timestamp. */
   createTime?: string;
-  /** Output only. The update timestamp. */
-  updateTime?: string;
-  /** Output only. The client user ID provided by the client application for their end user. Not verified by Google. */
-  clientUserId?: string;
-  /** Output only. The scopes actually granted by the end user during the consent flow. */
-  scopes?: StringList;
 }
 export const Authorization = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    updateTime: S.optional(S.String),
+    scopes: S.optional(StringList),
+    clientUserId: S.optional(S.String),
     state: S.optional(AuthorizationStateEnum),
     name: S.optional(S.String),
     createTime: S.optional(S.String),
-    updateTime: S.optional(S.String),
-    clientUserId: S.optional(S.String),
-    scopes: S.optional(StringList),
   }),
 ).annotate({ identifier: "Authorization" }) as any as S.Schema<Authorization>;
 
 export interface ListProjectsLocationsRequest {
+  /** The resource that owns the locations collection, if applicable. */
+  name: string;
   /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
   pageToken?: string;
   /** Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage. */
@@ -652,16 +807,14 @@ export interface ListProjectsLocationsRequest {
   pageSize?: number;
   /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
   filter?: string;
-  /** The resource that owns the locations collection, if applicable. */
-  name: string;
 }
 export const ListProjectsLocationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    name: S.String.pipe(T.Label()),
     pageToken: S.optional(S.String.pipe(T.Query())),
     extraLocationTypes: S.optional(StringList.pipe(T.Query())),
     pageSize: S.optional(S.Number.pipe(T.Query())),
     filter: S.optional(S.String.pipe(T.Query())),
-    name: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -678,39 +831,37 @@ export const LocationList = /*@__PURE__*/ S.Array(Location) as any as S.Schema<L
 
 /** The response message for Locations.ListLocations. */
 export interface ListLocationsResponse {
-  /** The standard List next-page token. */
-  nextPageToken?: string;
   /** A list of locations that matches the specified filter in the request. */
   locations?: LocationList;
+  /** The standard List next-page token. */
+  nextPageToken?: string;
 }
 export const ListLocationsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    nextPageToken: S.optional(S.String),
     locations: S.optional(LocationList),
+    nextPageToken: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListLocationsResponse",
-}) as any as S.Schema<ListLocationsResponse>;
+).annotate({ identifier: "ListLocationsResponse" }) as any as S.Schema<ListLocationsResponse>;
 
 export interface ListProjectsLocationsAccessSummariesRequest {
-  /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. The maximum page size is 1000. */
-  pageSize?: number;
+  /** Optional. This field is currently ignored. Defaults to ordering by (auth_provider_id, user_id) in ascending order. */
+  orderBy?: string;
   /** Required. The parent resource where the search is performed. Format: projects/{project}/locations/{location} */
   parent: string;
+  /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. The maximum page size is 1000. */
+  pageSize?: number;
   /** Optional. Filter string to restrict the results. Currently supports filtering by `workload_id` or `auth_provider_name`. If no filter is provided, returns all access summaries for the requested project and location. Format: `workload_id=""` or `auth_provider_name=""` */
   filter?: string;
   /** Optional. A token identifying a page of results the server should return. */
   pageToken?: string;
-  /** Optional. This field is currently ignored. Defaults to ordering by (auth_provider_id, user_id) in ascending order. */
-  orderBy?: string;
 }
 export const ListProjectsLocationsAccessSummariesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pageSize: S.optional(S.Number.pipe(T.Query())),
+    orderBy: S.optional(S.String.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
     filter: S.optional(S.String.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
-    orderBy: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -729,17 +880,17 @@ export const AccessSummaryList = /*@__PURE__*/ S.Array(
 
 /** Response message for `ListAccessSummaries`. */
 export interface ListAccessSummariesResponse {
-  /** A token identifying a page of results the server should return. */
-  nextPageToken?: string;
   /** Unordered list. Locations that could not be reached. */
   unreachable?: StringList;
+  /** A token identifying a page of results the server should return. */
+  nextPageToken?: string;
   /** The list of access summaries. */
   accessSummaries?: AccessSummaryList;
 }
 export const ListAccessSummariesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    nextPageToken: S.optional(S.String),
     unreachable: S.optional(StringList),
+    nextPageToken: S.optional(S.String),
     accessSummaries: S.optional(AccessSummaryList),
   }),
 ).annotate({
@@ -747,27 +898,27 @@ export const ListAccessSummariesResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListAccessSummariesResponse>;
 
 export interface ListProjectsLocationsAuthProvidersRequest {
-  /** Optional. Deleted auth providers will be kept with a soft-delete for 30 days before being purged. If this field is set to `true`, deleted auth providers will also be returned. */
-  showDeleted?: boolean;
-  /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. The maximum page size is 1000. */
-  pageSize?: number;
-  /** Required. The parent resource where the search is performed. Format: projects/{project}/locations/{location} */
-  parent: string;
   /** Optional. Filter results. This field is currently ignored. */
   filter?: string;
-  /** Optional. A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, the first page is returned. */
-  pageToken?: string;
+  /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. The maximum page size is 1000. */
+  pageSize?: number;
   /** Optional. Currently ignored. Defaults to ordering by auth_provider_id in ascending order. */
   orderBy?: string;
+  /** Optional. A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, the first page is returned. */
+  pageToken?: string;
+  /** Required. The parent resource where the search is performed. Format: projects/{project}/locations/{location} */
+  parent: string;
+  /** Optional. Deleted auth providers will be kept with a soft-delete for 30 days before being purged. If this field is set to `true`, deleted auth providers will also be returned. */
+  showDeleted?: boolean;
 }
 export const ListProjectsLocationsAuthProvidersRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    showDeleted: S.optional(S.Boolean.pipe(T.Query())),
-    pageSize: S.optional(S.Number.pipe(T.Query())),
-    parent: S.String.pipe(T.Label()),
     filter: S.optional(S.String.pipe(T.Query())),
-    pageToken: S.optional(S.String.pipe(T.Query())),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
     orderBy: S.optional(S.String.pipe(T.Query())),
+    pageToken: S.optional(S.String.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
+    showDeleted: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -786,42 +937,42 @@ export const AuthProviderList = /*@__PURE__*/ S.Array(
 
 /** Response message for `ListAuthProviders`. */
 export interface ListAuthProvidersResponse {
+  /** Unordered list. Locations that could not be reached. */
+  unreachable?: StringList;
   /** The list of auth providers. */
   authProviders?: AuthProviderList;
   /** A token identifying a page of results the server should return. */
   nextPageToken?: string;
-  /** Unordered list. Locations that could not be reached. */
-  unreachable?: StringList;
 }
 export const ListAuthProvidersResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    unreachable: S.optional(StringList),
     authProviders: S.optional(AuthProviderList),
     nextPageToken: S.optional(S.String),
-    unreachable: S.optional(StringList),
   }),
 ).annotate({
   identifier: "ListAuthProvidersResponse",
 }) as any as S.Schema<ListAuthProvidersResponse>;
 
 export interface ListProjectsLocationsAuthProvidersAuthorizationsRequest {
+  /** Optional. This field is currently ignored. Defaults to ordering by authorization_id in ascending order. */
+  orderBy?: string;
+  /** Optional. Filter string to restrict the results. Currently supports filtering by `client_user_id` only. Format: `client_user_id=""` */
+  filter?: string;
   /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. The maximum page size is 1000. */
   pageSize?: number;
   /** Required. The parent resource where the search is performed. Format: projects/{project}/locations/{location}/authProviders/{auth_provider} */
   parent: string;
-  /** Optional. Filter string to restrict the results. Currently supports filtering by `client_user_id` only. Format: `client_user_id=""` */
-  filter?: string;
   /** Optional. A page token, received from a previous `ListAuthorizations` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListAuthorizations` must match the call that provided the page token. */
   pageToken?: string;
-  /** Optional. This field is currently ignored. Defaults to ordering by authorization_id in ascending order. */
-  orderBy?: string;
 }
 export const ListProjectsLocationsAuthProvidersAuthorizationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    orderBy: S.optional(S.String.pipe(T.Query())),
+    filter: S.optional(S.String.pipe(T.Query())),
     pageSize: S.optional(S.Number.pipe(T.Query())),
     parent: S.String.pipe(T.Label()),
-    filter: S.optional(S.String.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
-    orderBy: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -858,20 +1009,20 @@ export const ListAuthorizationsResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListAuthorizationsResponse>;
 
 export interface PatchProjectsLocationsAuthProvidersRequest {
-  /** Identifier. The full resource name of the auth provider. Format: projects/{project}/locations/{location}/authProviders/{auth_provider} */
-  name: string;
-  /** Optional. Field mask is used to specify the fields to be overwritten in the auth provider resource by the update. The fields specified in the `update_mask` are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields present in the request will be overwritten. */
-  updateMask?: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string;
+  /** Optional. Field mask is used to specify the fields to be overwritten in the auth provider resource by the update. The fields specified in the `update_mask` are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields present in the request will be overwritten. */
+  updateMask?: string;
+  /** Identifier. The full resource name of the auth provider. Format: projects/{project}/locations/{location}/authProviders/{auth_provider} */
+  name: string;
   /** Request body */
   body?: AuthProvider;
 }
 export const PatchProjectsLocationsAuthProvidersRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.String.pipe(T.Label()),
-    updateMask: S.optional(S.String.pipe(T.Query())),
     requestId: S.optional(S.String.pipe(T.Query())),
+    updateMask: S.optional(S.String.pipe(T.Query())),
+    name: S.String.pipe(T.Label()),
     body: S.optional(AuthProvider.pipe(T.HttpBody())),
   }).pipe(
     T.Http({
@@ -885,21 +1036,21 @@ export const PatchProjectsLocationsAuthProvidersRequest = /*@__PURE__*/ S.suspen
 }) as any as S.Schema<PatchProjectsLocationsAuthProvidersRequest>;
 
 export interface QueryProjectsLocationsAuthProvidersRequest {
-  /** Required. The parent resource where the search is performed. Format: projects/{project}/locations/{location} */
-  parent: string;
   /** Required. The workload identifier to filter by. */
   workloadId?: string;
   /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. The maximum page size is 1000. */
   pageSize?: number;
   /** Optional. A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, the first page is returned. A page token, received from a previous QueryAuthProviders call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to QueryAuthProviders must match the call that provided the page token. */
   pageToken?: string;
+  /** Required. The parent resource where the search is performed. Format: projects/{project}/locations/{location} */
+  parent: string;
 }
 export const QueryProjectsLocationsAuthProvidersRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    parent: S.String.pipe(T.Label()),
     workloadId: S.optional(S.String.pipe(T.Query())),
     pageSize: S.optional(S.Number.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
+    parent: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
@@ -913,33 +1064,33 @@ export const QueryProjectsLocationsAuthProvidersRequest = /*@__PURE__*/ S.suspen
 
 /** Response message for `QueryAuthProviders`. */
 export interface QueryAuthProvidersResponse {
-  /** The unique list of auth provider resource names used by the workload. */
-  authProviderNames?: StringList;
   /** A token identifying a page of results the server should return. If this field is omitted, there are no subsequent pages. */
   nextPageToken?: string;
+  /** The unique list of auth provider resource names used by the workload. */
+  authProviderNames?: StringList;
 }
 export const QueryAuthProvidersResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    authProviderNames: S.optional(StringList),
     nextPageToken: S.optional(S.String),
+    authProviderNames: S.optional(StringList),
   }),
 ).annotate({
   identifier: "QueryAuthProvidersResponse",
 }) as any as S.Schema<QueryAuthProvidersResponse>;
 
 export interface QueryWorkloadsProjectsLocationsAuthProvidersRequest {
-  /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. The maximum page size is 1000. */
-  pageSize?: number;
   /** Optional. A token, which can be sent as `page_token` to retrieve the next page. When paginating, all other parameters provided to `QueryWorkloads` must match the call that provided the page token. If this field is omitted, the first page is returned. */
   pageToken?: string;
   /** Required. The name of the auth provider to query. Format: projects/{project}/locations/{location}/authProviders/{auth_provider} */
   name: string;
+  /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. The maximum page size is 1000. */
+  pageSize?: number;
 }
 export const QueryWorkloadsProjectsLocationsAuthProvidersRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pageSize: S.optional(S.Number.pipe(T.Query())),
     pageToken: S.optional(S.String.pipe(T.Query())),
     name: S.String.pipe(T.Label()),
+    pageSize: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -953,19 +1104,65 @@ export const QueryWorkloadsProjectsLocationsAuthProvidersRequest = /*@__PURE__*/
 
 /** Response message for `QueryWorkloads`. */
 export interface QueryWorkloadsResponse {
-  /** The unique list of identifiers for the agents that used this auth provider, starting with `principal://`. */
-  workloadIds?: StringList;
   /** A token to retrieve the next page of results. */
   nextPageToken?: string;
+  /** The unique list of identifiers for the agents that used this auth provider, starting with `principal://`. */
+  workloadIds?: StringList;
 }
 export const QueryWorkloadsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    workloadIds: S.optional(StringList),
     nextPageToken: S.optional(S.String),
+    workloadIds: S.optional(StringList),
+  }),
+).annotate({ identifier: "QueryWorkloadsResponse" }) as any as S.Schema<QueryWorkloadsResponse>;
+
+/** Request message for `ResolveAuthorization`. */
+export interface ResolveAuthorizationRequest {
+  /** Required. The user ID of the client for whom the authorization is resolved. */
+  clientUserId?: string;
+}
+export const ResolveAuthorizationRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    clientUserId: S.optional(S.String),
   }),
 ).annotate({
-  identifier: "QueryWorkloadsResponse",
-}) as any as S.Schema<QueryWorkloadsResponse>;
+  identifier: "ResolveAuthorizationRequest",
+}) as any as S.Schema<ResolveAuthorizationRequest>;
+
+export interface ResolveAuthorizationProjectsLocationsAuthProvidersRequest {
+  /** Required. The name of the auth provider to resolve authorization for. Format: projects/{project}/locations/{location}/authProviders/{auth_provider} */
+  name: string;
+  /** Request body */
+  body?: ResolveAuthorizationRequest;
+}
+export const ResolveAuthorizationProjectsLocationsAuthProvidersRequest = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      name: S.String.pipe(T.Label()),
+      body: S.optional(ResolveAuthorizationRequest.pipe(T.HttpBody())),
+    }).pipe(
+      T.Http({
+        method: "POST",
+        uri: "v1beta/{+name}:resolveAuthorization",
+        baseUrl: "https://agentidentity.googleapis.com/",
+      }),
+    ),
+).annotate({
+  identifier: "ResolveAuthorizationProjectsLocationsAuthProvidersRequest",
+}) as any as S.Schema<ResolveAuthorizationProjectsLocationsAuthProvidersRequest>;
+
+/** Response message for `ResolveAuthorization`. */
+export interface ResolveAuthorizationResponse {
+  /** The resource name of the resolved authorization. Format: projects/{project}/locations/{location}/authProviders/{auth_provider}/authorizations/{authorization} */
+  authorization?: string;
+}
+export const ResolveAuthorizationResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    authorization: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ResolveAuthorizationResponse",
+}) as any as S.Schema<ResolveAuthorizationResponse>;
 
 /** Request message for `RevokeAuthorization`. */
 export interface RevokeAuthorizationRequest {
@@ -1020,9 +1217,7 @@ export const SetIamPolicyRequest = /*@__PURE__*/ S.suspend(() =>
     policy: S.optional(Policy),
     updateMask: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SetIamPolicyRequest",
-}) as any as S.Schema<SetIamPolicyRequest>;
+).annotate({ identifier: "SetIamPolicyRequest" }) as any as S.Schema<SetIamPolicyRequest>;
 
 export interface SetIamPolicyProjectsLocationsAuthProvidersRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
@@ -1044,6 +1239,28 @@ export const SetIamPolicyProjectsLocationsAuthProvidersRequest = /*@__PURE__*/ S
 ).annotate({
   identifier: "SetIamPolicyProjectsLocationsAuthProvidersRequest",
 }) as any as S.Schema<SetIamPolicyProjectsLocationsAuthProvidersRequest>;
+
+export interface SetIamPolicyProjectsLocationsAuthProvidersAuthorizationsRequest {
+  /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+  resource: string;
+  /** Request body */
+  body?: SetIamPolicyRequest;
+}
+export const SetIamPolicyProjectsLocationsAuthProvidersAuthorizationsRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      resource: S.String.pipe(T.Label()),
+      body: S.optional(SetIamPolicyRequest.pipe(T.HttpBody())),
+    }).pipe(
+      T.Http({
+        method: "POST",
+        uri: "v1beta/{+resource}:setIamPolicy",
+        baseUrl: "https://agentidentity.googleapis.com/",
+      }),
+    ),
+  ).annotate({
+    identifier: "SetIamPolicyProjectsLocationsAuthProvidersAuthorizationsRequest",
+  }) as any as S.Schema<SetIamPolicyProjectsLocationsAuthProvidersAuthorizationsRequest>;
 
 /** Request message for `TestIamPermissions` method. */
 export interface TestIamPermissionsRequest {
@@ -1091,6 +1308,28 @@ export const TestIamPermissionsResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "TestIamPermissionsResponse",
 }) as any as S.Schema<TestIamPermissionsResponse>;
+
+export interface TestIamPermissionsProjectsLocationsAuthProvidersAuthorizationsRequest {
+  /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+  resource: string;
+  /** Request body */
+  body?: TestIamPermissionsRequest;
+}
+export const TestIamPermissionsProjectsLocationsAuthProvidersAuthorizationsRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      resource: S.String.pipe(T.Label()),
+      body: S.optional(TestIamPermissionsRequest.pipe(T.HttpBody())),
+    }).pipe(
+      T.Http({
+        method: "POST",
+        uri: "v1beta/{+resource}:testIamPermissions",
+        baseUrl: "https://agentidentity.googleapis.com/",
+      }),
+    ),
+  ).annotate({
+    identifier: "TestIamPermissionsProjectsLocationsAuthProvidersAuthorizationsRequest",
+  }) as any as S.Schema<TestIamPermissionsProjectsLocationsAuthProvidersAuthorizationsRequest>;
 
 /** Request message for `UndeleteAuthProvider`. */
 export type UndeleteAuthProviderRequest = DisableAuthProviderRequest;
@@ -1232,6 +1471,24 @@ export const getIamPolicyProjectsLocationsAuthProviders: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type GetIamPolicyProjectsLocationsAuthProvidersAuthorizationsError =
+  | NotFound
+  | Forbidden
+  | GcpOpError;
+/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
+export const getIamPolicyProjectsLocationsAuthProvidersAuthorizations: API.OperationMethod<
+  GetIamPolicyProjectsLocationsAuthProvidersAuthorizationsRequest,
+  Policy,
+  GetIamPolicyProjectsLocationsAuthProvidersAuthorizationsError,
+  GcpOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetIamPolicyProjectsLocationsAuthProvidersAuthorizationsRequest,
+  output: Policy,
+  errors: [NotFound, Forbidden, UnknownGCPError],
+  protocol: GcpProtocol,
+  retry: Retry.Retry,
+}));
+
 export type GetProjectsLocationsError = NotFound | Forbidden | GcpOpError;
 /** Gets information about a location. */
 export const getProjectsLocations: API.OperationMethod<
@@ -1309,10 +1566,7 @@ export const listProjectsLocations: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListProjectsLocationsAccessSummariesError = NotFound | Forbidden | GcpOpError;
@@ -1329,10 +1583,7 @@ export const listProjectsLocationsAccessSummaries: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListProjectsLocationsAuthProvidersError = NotFound | Forbidden | GcpOpError;
@@ -1349,10 +1600,7 @@ export const listProjectsLocationsAuthProviders: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type ListProjectsLocationsAuthProvidersAuthorizationsError =
@@ -1372,10 +1620,7 @@ export const listProjectsLocationsAuthProvidersAuthorizations: API.PaginatedOper
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type PatchProjectsLocationsAuthProvidersError =
@@ -1412,10 +1657,7 @@ export const queryProjectsLocationsAuthProviders: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
 export type QueryWorkloadsProjectsLocationsAuthProvidersError = NotFound | Forbidden | GcpOpError;
@@ -1432,11 +1674,28 @@ export const queryWorkloadsProjectsLocationsAuthProviders: API.PaginatedOperatio
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  } as const,
+  pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
+
+export type ResolveAuthorizationProjectsLocationsAuthProvidersError =
+  | NotFound
+  | Forbidden
+  | BadRequest
+  | Conflict
+  | GcpOpError;
+/** Resolves an authorization for a user on an auth provider, creating one if it does not exist or returning an existing one. */
+export const resolveAuthorizationProjectsLocationsAuthProviders: API.OperationMethod<
+  ResolveAuthorizationProjectsLocationsAuthProvidersRequest,
+  ResolveAuthorizationResponse,
+  ResolveAuthorizationProjectsLocationsAuthProvidersError,
+  GcpOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ResolveAuthorizationProjectsLocationsAuthProvidersRequest,
+  output: ResolveAuthorizationResponse,
+  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  protocol: GcpProtocol,
+  retry: Retry.Retry,
+}));
 
 export type RevokeAuthorizationProjectsLocationsAuthProvidersError =
   | NotFound
@@ -1478,6 +1737,26 @@ export const setIamPolicyProjectsLocationsAuthProviders: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type SetIamPolicyProjectsLocationsAuthProvidersAuthorizationsError =
+  | NotFound
+  | Forbidden
+  | BadRequest
+  | Conflict
+  | GcpOpError;
+/** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
+export const setIamPolicyProjectsLocationsAuthProvidersAuthorizations: API.OperationMethod<
+  SetIamPolicyProjectsLocationsAuthProvidersAuthorizationsRequest,
+  Policy,
+  SetIamPolicyProjectsLocationsAuthProvidersAuthorizationsError,
+  GcpOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: SetIamPolicyProjectsLocationsAuthProvidersAuthorizationsRequest,
+  output: Policy,
+  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  protocol: GcpProtocol,
+  retry: Retry.Retry,
+}));
+
 export type TestIamPermissionsProjectsLocationsAuthProvidersError =
   | NotFound
   | Forbidden
@@ -1492,6 +1771,26 @@ export const testIamPermissionsProjectsLocationsAuthProviders: API.OperationMeth
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: TestIamPermissionsProjectsLocationsAuthProvidersRequest,
+  output: TestIamPermissionsResponse,
+  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  protocol: GcpProtocol,
+  retry: Retry.Retry,
+}));
+
+export type TestIamPermissionsProjectsLocationsAuthProvidersAuthorizationsError =
+  | NotFound
+  | Forbidden
+  | BadRequest
+  | Conflict
+  | GcpOpError;
+/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
+export const testIamPermissionsProjectsLocationsAuthProvidersAuthorizations: API.OperationMethod<
+  TestIamPermissionsProjectsLocationsAuthProvidersAuthorizationsRequest,
+  TestIamPermissionsResponse,
+  TestIamPermissionsProjectsLocationsAuthProvidersAuthorizationsError,
+  GcpOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: TestIamPermissionsProjectsLocationsAuthProvidersAuthorizationsRequest,
   output: TestIamPermissionsResponse,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,

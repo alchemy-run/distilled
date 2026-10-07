@@ -27,4 +27,4 @@ export * as Services from "./services/index.ts";
 // same-named shared ones from ./errors.ts — the ops actually raise the
 // service-local classes.
 export * from "./services/gusto.ts";
-export { Conflict, NotFound, UnprocessableEntity } from "./services/gusto.ts";
+export { Conflict, Forbidden, NotFound, UnprocessableEntity } from "./services/gusto.ts";

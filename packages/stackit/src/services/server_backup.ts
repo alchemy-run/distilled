@@ -70,9 +70,7 @@ export const CreateBackupRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://server-backup.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "CreateBackupRequest",
-}) as any as S.Schema<CreateBackupRequest>;
+).annotate({ identifier: "CreateBackupRequest" }) as any as S.Schema<CreateBackupRequest>;
 
 export interface BackupJob {
   id: string;
@@ -101,9 +99,7 @@ export const BackupProperties = /*@__PURE__*/ S.suspend(() =>
     retentionPeriod: S.Number,
     volumeIds: S.optional(BackupPropertiesVolumeIdsList),
   }),
-).annotate({
-  identifier: "BackupProperties",
-}) as any as S.Schema<BackupProperties>;
+).annotate({ identifier: "BackupProperties" }) as any as S.Schema<BackupProperties>;
 
 export interface CreateBackupScheduleRequest {
   /** project id */
@@ -185,9 +181,7 @@ export const DeleteBackupRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://server-backup.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "DeleteBackupRequest",
-}) as any as S.Schema<DeleteBackupRequest>;
+).annotate({ identifier: "DeleteBackupRequest" }) as any as S.Schema<DeleteBackupRequest>;
 
 export interface DeleteBackupResponse {}
 export const DeleteBackupResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -352,9 +346,7 @@ export const GetBackupRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://server-backup.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "GetBackupRequest",
-}) as any as S.Schema<GetBackupRequest>;
+).annotate({ identifier: "GetBackupRequest" }) as any as S.Schema<GetBackupRequest>;
 
 export type BackupStatus =
   | "in-progress"
@@ -365,7 +357,7 @@ export type BackupStatus =
   | "error-creating"
   | "error-deleting"
   | "unrecognized";
-export const BackupStatus = /*@__PURE__*/ S.String;
+export const BackupStatus = S.String;
 
 export type BackupVolumeBackupsItemStatus =
   | "available"
@@ -377,7 +369,7 @@ export type BackupVolumeBackupsItemStatus =
   | "restoring"
   | "error-creating"
   | "unrecognized";
-export const BackupVolumeBackupsItemStatus = /*@__PURE__*/ S.String;
+export const BackupVolumeBackupsItemStatus = S.String;
 
 export interface BackupVolumeBackupsItem {
   id?: string;
@@ -396,9 +388,7 @@ export const BackupVolumeBackupsItem = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(BackupVolumeBackupsItemStatus),
     volumeId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "BackupVolumeBackupsItem",
-}) as any as S.Schema<BackupVolumeBackupsItem>;
+).annotate({ identifier: "BackupVolumeBackupsItem" }) as any as S.Schema<BackupVolumeBackupsItem>;
 
 export type BackupVolumeBackupsList = Array<BackupVolumeBackupsItem>;
 export const BackupVolumeBackupsList = /*@__PURE__*/ S.Array(
@@ -452,9 +442,7 @@ export const GetBackupScheduleRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://server-backup.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "GetBackupScheduleRequest",
-}) as any as S.Schema<GetBackupScheduleRequest>;
+).annotate({ identifier: "GetBackupScheduleRequest" }) as any as S.Schema<GetBackupScheduleRequest>;
 
 export interface GetServiceResourceRequest {
   /** project id */
@@ -488,9 +476,7 @@ export const GetBackupServiceResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     enabled: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "GetBackupServiceResponse",
-}) as any as S.Schema<GetBackupServiceResponse>;
+).annotate({ identifier: "GetBackupServiceResponse" }) as any as S.Schema<GetBackupServiceResponse>;
 
 export interface ListBackupPoliciesRequest {
   /** project id */
@@ -583,9 +569,7 @@ export const ListBackupsRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://server-backup.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "ListBackupsRequest",
-}) as any as S.Schema<ListBackupsRequest>;
+).annotate({ identifier: "ListBackupsRequest" }) as any as S.Schema<ListBackupsRequest>;
 
 export type GetBackupsListResponseItemsList = Array<Backup>;
 export const GetBackupsListResponseItemsList = /*@__PURE__*/ S.Array(
@@ -599,9 +583,7 @@ export const GetBackupsListResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     items: S.optional(GetBackupsListResponseItemsList),
   }),
-).annotate({
-  identifier: "GetBackupsListResponse",
-}) as any as S.Schema<GetBackupsListResponse>;
+).annotate({ identifier: "GetBackupsListResponse" }) as any as S.Schema<GetBackupsListResponse>;
 
 export interface ListBackupSchedulesRequest {
   /** project id */
@@ -677,9 +659,7 @@ export const RestoreBackupRequest = /*@__PURE__*/ S.suspend(() =>
       baseUrl: "https://server-backup.api.stackit.cloud",
     }),
   ),
-).annotate({
-  identifier: "RestoreBackupRequest",
-}) as any as S.Schema<RestoreBackupRequest>;
+).annotate({ identifier: "RestoreBackupRequest" }) as any as S.Schema<RestoreBackupRequest>;
 
 export interface RestoreBackupResponse {}
 export const RestoreBackupResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({

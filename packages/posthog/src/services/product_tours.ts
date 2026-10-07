@@ -67,20 +67,10 @@ export const CreateProductTourRequest = /*@__PURE__*/ S.suspend(() =>
     end_date: S.optional(S.NullOr(S.String)),
     archived: S.optional(S.Boolean),
     creation_context: S.optional(ProductTourSerializerCreateUpdateOnlyCreationContextEnum),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/api/projects/{project_id}/product_tours/",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "CreateProductTourRequest",
-}) as any as S.Schema<CreateProductTourRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/api/projects/{project_id}/product_tours/", code: 200 })),
+).annotate({ identifier: "CreateProductTourRequest" }) as any as S.Schema<CreateProductTourRequest>;
 
-export type MinimalFeatureFlagFiltersMap = {
-  [key: string]: unknown | undefined;
-};
+export type MinimalFeatureFlagFiltersMap = { [key: string]: unknown | undefined };
 export const MinimalFeatureFlagFiltersMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -143,9 +133,7 @@ export const MinimalFeatureFlag = /*@__PURE__*/ S.suspend(() =>
     bucketing_identifier: S.optional(S.NullOr(MinimalFeatureFlagBucketingIdentifier)),
     evaluation_contexts: S.optional(MinimalFeatureFlagEvaluationContextsList),
   }),
-).annotate({
-  identifier: "MinimalFeatureFlag",
-}) as any as S.Schema<MinimalFeatureFlag>;
+).annotate({ identifier: "MinimalFeatureFlag" }) as any as S.Schema<MinimalFeatureFlag>;
 
 export type UserBasicHedgehogConfigMap = { [key: string]: unknown | undefined };
 export const UserBasicHedgehogConfigMap = /*@__PURE__*/ S.Record(
@@ -242,20 +230,12 @@ export const GetProductTourRequest = /*@__PURE__*/ S.suspend(() =>
     project_id: S.String.pipe(T.Label()),
     id: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/product_tours/{id}/",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/api/projects/{project_id}/product_tours/{id}/", code: 200 }),
   ),
-).annotate({
-  identifier: "GetProductTourRequest",
-}) as any as S.Schema<GetProductTourRequest>;
+).annotate({ identifier: "GetProductTourRequest" }) as any as S.Schema<GetProductTourRequest>;
 
 /** Return the targeting flag filters, excluding the base exclusion properties. */
-export type ProductTourTargetingFlagFiltersMap = {
-  [key: string]: unknown | undefined;
-};
+export type ProductTourTargetingFlagFiltersMap = { [key: string]: unknown | undefined };
 export const ProductTourTargetingFlagFiltersMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -338,9 +318,7 @@ export const DraftStatusResponse = /*@__PURE__*/ S.suspend(() =>
     updated_at: S.optional(S.String),
     has_draft: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "DraftStatusResponse",
-}) as any as S.Schema<DraftStatusResponse>;
+).annotate({ identifier: "DraftStatusResponse" }) as any as S.Schema<DraftStatusResponse>;
 
 export interface ListProductToursRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -358,16 +336,8 @@ export const ListProductToursRequest = /*@__PURE__*/ S.suspend(() =>
     limit: S.optional(S.Number.pipe(T.Query())),
     offset: S.optional(S.Number.pipe(T.Query())),
     search: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/api/projects/{project_id}/product_tours/",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ListProductToursRequest",
-}) as any as S.Schema<ListProductToursRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/api/projects/{project_id}/product_tours/", code: 200 })),
+).annotate({ identifier: "ListProductToursRequest" }) as any as S.Schema<ListProductToursRequest>;
 
 export type PaginatedProductTourListResultsList = Array<ProductTour>;
 export const PaginatedProductTourListResultsList = /*@__PURE__*/ S.Array(
@@ -387,9 +357,7 @@ export const PaginatedProductTourList = /*@__PURE__*/ S.suspend(() =>
     previous: S.optional(S.NullOr(S.String)),
     results: S.optional(PaginatedProductTourListResultsList),
   }),
-).annotate({
-  identifier: "PaginatedProductTourList",
-}) as any as S.Schema<PaginatedProductTourList>;
+).annotate({ identifier: "PaginatedProductTourList" }) as any as S.Schema<PaginatedProductTourList>;
 
 export interface ProductToursDestroyRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -402,11 +370,7 @@ export const ProductToursDestroyRequest = /*@__PURE__*/ S.suspend(() =>
     project_id: S.String.pipe(T.Label()),
     id: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/api/projects/{project_id}/product_tours/{id}/",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/api/projects/{project_id}/product_tours/{id}/", code: 200 }),
   ),
 ).annotate({
   identifier: "ProductToursDestroyRequest",
@@ -438,9 +402,7 @@ export const ProductToursDiscardDraftDestroyRequest = /*@__PURE__*/ S.suspend(()
   identifier: "ProductToursDiscardDraftDestroyRequest",
 }) as any as S.Schema<ProductToursDiscardDraftDestroyRequest>;
 
-export type ProductToursGenerateCreateRequestStepsItemMap = {
-  [key: string]: unknown | undefined;
-};
+export type ProductToursGenerateCreateRequestStepsItemMap = { [key: string]: unknown | undefined };
 export const ProductToursGenerateCreateRequestStepsItemMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -490,9 +452,7 @@ export const GenerateStepResponse = /*@__PURE__*/ S.suspend(() =>
     title: S.optional(S.String),
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GenerateStepResponse",
-}) as any as S.Schema<GenerateStepResponse>;
+).annotate({ identifier: "GenerateStepResponse" }) as any as S.Schema<GenerateStepResponse>;
 
 export type GenerateResponseStepsList = Array<GenerateStepResponse>;
 export const GenerateResponseStepsList = /*@__PURE__*/ S.Array(
@@ -506,9 +466,7 @@ export const GenerateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     steps: S.optional(GenerateResponseStepsList),
   }),
-).annotate({
-  identifier: "GenerateResponse",
-}) as any as S.Schema<GenerateResponse>;
+).annotate({ identifier: "GenerateResponse" }) as any as S.Schema<GenerateResponse>;
 
 export interface ProductToursPublishDraftCreateRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -577,15 +535,9 @@ export const UpdateProductTourRequest = /*@__PURE__*/ S.suspend(() =>
     end_date: S.optional(S.NullOr(S.String)),
     archived: S.optional(S.Boolean),
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/api/projects/{project_id}/product_tours/{id}/",
-      code: 200,
-    }),
+    T.Http({ method: "PUT", uri: "/api/projects/{project_id}/product_tours/{id}/", code: 200 }),
   ),
-).annotate({
-  identifier: "UpdateProductTourRequest",
-}) as any as S.Schema<UpdateProductTourRequest>;
+).annotate({ identifier: "UpdateProductTourRequest" }) as any as S.Schema<UpdateProductTourRequest>;
 
 export interface UpdateProductToursDraftPartialRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -661,11 +613,7 @@ export const UpdateProductToursPartialRequest = /*@__PURE__*/ S.suspend(() =>
     archived: S.optional(S.Boolean),
     creation_context: S.optional(ProductTourSerializerCreateUpdateOnlyCreationContextEnum),
   }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/api/projects/{project_id}/product_tours/{id}/",
-      code: 200,
-    }),
+    T.Http({ method: "PATCH", uri: "/api/projects/{project_id}/product_tours/{id}/", code: 200 }),
   ),
 ).annotate({
   identifier: "UpdateProductToursPartialRequest",

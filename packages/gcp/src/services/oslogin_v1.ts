@@ -72,31 +72,26 @@ export class UserCredentialMismatch
       domain: S.optional(S.String),
       details: S.optional(S.Array(S.Unknown)),
     }).pipe(C.withAuthError),
-    [
-      {
-        status: 403,
-        message: { includes: "credentials must match the user specified" },
-      },
-    ],
+    [{ status: 403, message: { includes: "credentials must match the user specified" } }],
   ) {}
 
 /** The SSH public key information associated with a Google account. */
 export interface SshPublicKey {
-  /** An expiration time in microseconds since epoch. */
-  expirationTimeUsec?: string;
-  /** Required. Public key text in SSH format, defined by [RFC4253](https://www.ietf.org/rfc/rfc4253.txt) section 6.6. */
-  key?: string;
-  /** Output only. The SHA-256 fingerprint of the SSH public key. */
-  fingerprint?: string;
   /** Output only. The canonical resource name. */
   name?: string;
+  /** Required. Public key text in SSH format, defined by [RFC4253](https://www.ietf.org/rfc/rfc4253.txt) section 6.6. */
+  key?: string;
+  /** An expiration time in microseconds since epoch. */
+  expirationTimeUsec?: string;
+  /** Output only. The SHA-256 fingerprint of the SSH public key. */
+  fingerprint?: string;
 }
 export const SshPublicKey = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    expirationTimeUsec: S.optional(S.String),
-    key: S.optional(S.String),
-    fingerprint: S.optional(S.String),
     name: S.optional(S.String),
+    key: S.optional(S.String),
+    expirationTimeUsec: S.optional(S.String),
+    fingerprint: S.optional(S.String),
   }),
 ).annotate({ identifier: "SshPublicKey" }) as any as S.Schema<SshPublicKey>;
 
@@ -129,11 +124,7 @@ export const DeleteUsersProjectsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "v1/{+name}",
-      baseUrl: "https://oslogin.googleapis.com/",
-    }),
+    T.Http({ method: "DELETE", uri: "v1/{+name}", baseUrl: "https://oslogin.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "DeleteUsersProjectsRequest",
@@ -153,29 +144,25 @@ export const DeleteUsersSshPublicKeysRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "v1/{+name}",
-      baseUrl: "https://oslogin.googleapis.com/",
-    }),
+    T.Http({ method: "DELETE", uri: "v1/{+name}", baseUrl: "https://oslogin.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "DeleteUsersSshPublicKeysRequest",
 }) as any as S.Schema<DeleteUsersSshPublicKeysRequest>;
 
 export interface GetLoginProfileUsersRequest {
-  /** Required. The project ID of the Google Cloud Platform project. */
-  projectId?: string;
   /** Required. The unique ID for the user in format `users/{user}`. */
   name: string;
   /** Optional. A system ID for filtering the results of the request. */
   systemId?: string;
+  /** Required. The project ID of the Google Cloud Platform project. */
+  projectId?: string;
 }
 export const GetLoginProfileUsersRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    projectId: S.optional(S.String.pipe(T.Query())),
     name: S.String.pipe(T.Label()),
     systemId: S.optional(S.String.pipe(T.Query())),
+    projectId: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -187,12 +174,6 @@ export const GetLoginProfileUsersRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetLoginProfileUsersRequest",
 }) as any as S.Schema<GetLoginProfileUsersRequest>;
 
-export type SshPublicKeyMap = { [key: string]: SshPublicKey | undefined };
-export const SshPublicKeyMap = /*@__PURE__*/ S.Record(
-  S.String,
-  SshPublicKey,
-) as any as S.Schema<SshPublicKeyMap>;
-
 export type PosixAccountOperatingSystemTypeEnum =
   | "OPERATING_SYSTEM_TYPE_UNSPECIFIED"
   | "LINUX"
@@ -201,42 +182,42 @@ export const PosixAccountOperatingSystemTypeEnum = S.String;
 
 /** The POSIX account information associated with a Google account. */
 export interface PosixAccount {
-  /** The path to the logic shell for this account. */
-  shell?: string;
-  /** The operating system type where this account applies. */
-  operatingSystemType?: PosixAccountOperatingSystemTypeEnum;
-  /** Only one POSIX account can be marked as primary. */
-  primary?: boolean;
-  /** The user ID. */
-  uid?: string;
-  /** The GECOS (user information) entry for this account. */
-  gecos?: string;
-  /** System identifier for which account the username or uid applies to. By default, the empty value is used. */
-  systemId?: string;
   /** The path to the home directory for this account. */
   homeDirectory?: string;
   /** Output only. The canonical resource name. */
   name?: string;
-  /** The username of the POSIX account. */
-  username?: string;
-  /** Output only. A POSIX account identifier. */
-  accountId?: string;
+  /** Only one POSIX account can be marked as primary. */
+  primary?: boolean;
+  /** The GECOS (user information) entry for this account. */
+  gecos?: string;
+  /** The user ID. */
+  uid?: string;
   /** The default group ID. */
   gid?: string;
+  /** The username of the POSIX account. */
+  username?: string;
+  /** The path to the logic shell for this account. */
+  shell?: string;
+  /** The operating system type where this account applies. */
+  operatingSystemType?: PosixAccountOperatingSystemTypeEnum;
+  /** Output only. A POSIX account identifier. */
+  accountId?: string;
+  /** System identifier for which account the username or uid applies to. By default, the empty value is used. */
+  systemId?: string;
 }
 export const PosixAccount = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    shell: S.optional(S.String),
-    operatingSystemType: S.optional(PosixAccountOperatingSystemTypeEnum),
-    primary: S.optional(S.Boolean),
-    uid: S.optional(S.String),
-    gecos: S.optional(S.String),
-    systemId: S.optional(S.String),
     homeDirectory: S.optional(S.String),
     name: S.optional(S.String),
-    username: S.optional(S.String),
-    accountId: S.optional(S.String),
+    primary: S.optional(S.Boolean),
+    gecos: S.optional(S.String),
+    uid: S.optional(S.String),
     gid: S.optional(S.String),
+    username: S.optional(S.String),
+    shell: S.optional(S.String),
+    operatingSystemType: S.optional(PosixAccountOperatingSystemTypeEnum),
+    accountId: S.optional(S.String),
+    systemId: S.optional(S.String),
   }),
 ).annotate({ identifier: "PosixAccount" }) as any as S.Schema<PosixAccount>;
 
@@ -245,20 +226,26 @@ export const PosixAccountList = /*@__PURE__*/ S.Array(
   PosixAccount,
 ) as any as S.Schema<PosixAccountList>;
 
+export type SshPublicKeyMap = { [key: string]: SshPublicKey | undefined };
+export const SshPublicKeyMap = /*@__PURE__*/ S.Record(
+  S.String,
+  SshPublicKey,
+) as any as S.Schema<SshPublicKeyMap>;
+
 /** The user profile information used for logging in to a virtual machine on Google Compute Engine. */
 export interface LoginProfile {
-  /** Required. A unique user ID. */
-  name?: string;
-  /** A map from SSH public key fingerprint to the associated key object. */
-  sshPublicKeys?: SshPublicKeyMap;
   /** The list of POSIX accounts associated with the user. */
   posixAccounts?: PosixAccountList;
+  /** A map from SSH public key fingerprint to the associated key object. */
+  sshPublicKeys?: SshPublicKeyMap;
+  /** Required. A unique user ID. */
+  name?: string;
 }
 export const LoginProfile = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    name: S.optional(S.String),
-    sshPublicKeys: S.optional(SshPublicKeyMap),
     posixAccounts: S.optional(PosixAccountList),
+    sshPublicKeys: S.optional(SshPublicKeyMap),
+    name: S.optional(S.String),
   }),
 ).annotate({ identifier: "LoginProfile" }) as any as S.Schema<LoginProfile>;
 
@@ -269,13 +256,7 @@ export interface GetUsersSshPublicKeysRequest {
 export const GetUsersSshPublicKeysRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "v1/{+name}",
-      baseUrl: "https://oslogin.googleapis.com/",
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://oslogin.googleapis.com/" })),
 ).annotate({
   identifier: "GetUsersSshPublicKeysRequest",
 }) as any as S.Schema<GetUsersSshPublicKeysRequest>;
@@ -312,15 +293,15 @@ export const ImportSshPublicKeyUsersRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** A response message for importing an SSH public key. */
 export interface ImportSshPublicKeyResponse {
-  /** Detailed information about import results. */
-  details?: string;
   /** The login profile information for the user. */
   loginProfile?: LoginProfile;
+  /** Detailed information about import results. */
+  details?: string;
 }
 export const ImportSshPublicKeyResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    details: S.optional(S.String),
     loginProfile: S.optional(LoginProfile),
+    details: S.optional(S.String),
   }),
 ).annotate({
   identifier: "ImportSshPublicKeyResponse",
@@ -340,11 +321,7 @@ export const PatchUsersSshPublicKeysRequest = /*@__PURE__*/ S.suspend(() =>
     updateMask: S.optional(S.String.pipe(T.Query())),
     body: S.optional(SshPublicKey.pipe(T.HttpBody())),
   }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "v1/{+name}",
-      baseUrl: "https://oslogin.googleapis.com/",
-    }),
+    T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://oslogin.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "PatchUsersSshPublicKeysRequest",
@@ -374,11 +351,7 @@ export const ProvisionPosixAccountUsersProjectsRequest = /*@__PURE__*/ S.suspend
     name: S.String.pipe(T.Label()),
     body: S.optional(ProvisionPosixAccountRequest.pipe(T.HttpBody())),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "v1/{+name}",
-      baseUrl: "https://oslogin.googleapis.com/",
-    }),
+    T.Http({ method: "POST", uri: "v1/{+name}", baseUrl: "https://oslogin.googleapis.com/" }),
   ),
 ).annotate({
   identifier: "ProvisionPosixAccountUsersProjectsRequest",
@@ -386,28 +359,26 @@ export const ProvisionPosixAccountUsersProjectsRequest = /*@__PURE__*/ S.suspend
 
 /** A request message for signing an SSH public key. */
 export interface SignSshPublicKeyRequest {
-  /** Optional. The service account for the instance. If the instance in question does not have a service account, this field should be left empty. If the wrong service account is provided, this operation will return a signed certificate that will not be accepted by the VM. */
-  serviceAccount?: string;
-  /** Required. The SSH public key to sign. */
-  sshPublicKey?: string;
   /** The App Engine instance to sign the SSH public key for. Expected format: apps/{app}/services/{service}/versions/{version}/instances/{instance} */
   appEngineInstance?: string;
-  /** Optional. The Cloud Run resource to sign the SSH public key for. Expected formats: - `projects/{project}/locations/{location}/services/{service}` - `projects/{project}/locations/{location}/workerPools/{worker_pool}` - `projects/{project}/locations/{location}/jobs/{job}` - `projects/{project}/locations/{location}/instances/{instance}` */
-  cloudRunResource?: string;
+  /** Required. The SSH public key to sign. */
+  sshPublicKey?: string;
   /** The Compute instance to sign the SSH public key for. Expected format: projects/{project}/zones/{zone}/instances/{numeric_instance_id} */
   computeInstance?: string;
+  /** Optional. The service account for the instance. If the instance in question does not have a service account, this field should be left empty. If the wrong service account is provided, this operation will return a signed certificate that will not be accepted by the VM. */
+  serviceAccount?: string;
+  /** Optional. The Cloud Run resource to sign the SSH public key for. Expected formats: - `projects/{project}/locations/{location}/services/{service}` - `projects/{project}/locations/{location}/workerPools/{worker_pool}` - `projects/{project}/locations/{location}/jobs/{job}` - `projects/{project}/locations/{location}/instances/{instance}` */
+  cloudRunResource?: string;
 }
 export const SignSshPublicKeyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    serviceAccount: S.optional(S.String),
-    sshPublicKey: S.optional(S.String),
     appEngineInstance: S.optional(S.String),
-    cloudRunResource: S.optional(S.String),
+    sshPublicKey: S.optional(S.String),
     computeInstance: S.optional(S.String),
+    serviceAccount: S.optional(S.String),
+    cloudRunResource: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SignSshPublicKeyRequest",
-}) as any as S.Schema<SignSshPublicKeyRequest>;
+).annotate({ identifier: "SignSshPublicKeyRequest" }) as any as S.Schema<SignSshPublicKeyRequest>;
 
 export interface SignSshPublicKeyProjectsLocationsRequest {
   /** Required. The parent for the signing request. Format: projects/{project}/locations/{location} */
@@ -439,9 +410,7 @@ export const SignSshPublicKeyResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     signedSshPublicKey: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SignSshPublicKeyResponse",
-}) as any as S.Schema<SignSshPublicKeyResponse>;
+).annotate({ identifier: "SignSshPublicKeyResponse" }) as any as S.Schema<SignSshPublicKeyResponse>;
 
 export type CreateUsersSshPublicKeysError =
   | NotFound

@@ -187,13 +187,15 @@
         "icon_url": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "URL to an image to use as the icon for the file share message. Requires the [`chat:write.customize`](/reference/scopes/chat.write.customize) scope."
+            "smithy.api#documentation": "URL to an image to use as the icon for the file share message. Requires the [`chat:write.customize`](/reference/scopes/chat.write.customize) scope.",
+            "com.distilled.openapi#nullable": {}
           }
         },
         "icon_emoji": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Emoji to use as the icon for the file share message. Overrides `icon_url`. Requires the [`chat:write.customize`](/reference/scopes/chat.write.customize) scope."
+            "smithy.api#documentation": "Emoji to use as the icon for the file share message. Overrides `icon_url`. Requires the [`chat:write.customize`](/reference/scopes/chat.write.customize) scope.",
+            "com.distilled.openapi#nullable": {}
           }
         }
       },
@@ -277,7 +279,7 @@
           "uri": "/files.completeUploadExternal",
           "code": 200
         },
-        "smithy.api#documentation": "Finishes an upload started with files.getUploadURLExternal\n\nRequired scopes — bot: `files:write`; user: `files:write`\n\nRate limit tier: 4\n\nMethod-specific errors (the `error` slug on the SlackError):\n  - `access_denied` — User is not the owner of the file.\n  - `channel_not_found` — Value passed for `channel_id` was invalid.\n  - `file_not_found` — Could not find the file from the upload ticket.\n  - `file_update_failed` — Failure occurred when attempting to update the file.\n  - `invalid_blocks` — Provided blocks are in the incorrect format.\n  - `invalid_channel` — Channel could not be found or channel specified is invalid.\n  - `not_in_channel` — User/bot membership is required for the specified channel.\n  - `posting_to_channel_denied` — User is not authorized to post to channel.\n  - `channels_limit_exceeded` — Exceeded the channel limit. A maximum of 100 channels is allowed per request.\n  - `file_type_not_allowed` — The file type is not permitted based on the team's allowed_file_upload_types preference.\n  - `file_uploads_except_images_disabled` — Only image file uploads are permitted for this team.\n\nSee https://docs.slack.dev/reference/methods/files.completeUploadExternal"
+        "smithy.api#documentation": "Finishes an upload started with files.getUploadURLExternal\n\nRequired scopes — bot: `files:write`; user: `files:write`\n\nRate limit tier: 4\n\nMethod-specific errors (the `error` slug on the SlackError):\n  - `access_denied` — User is not the owner of the file.\n  - `channel_not_found` — Value passed for `channel_id` was invalid.\n  - `file_not_found` — Could not find the file from the upload ticket.\n  - `file_update_failed` — Failure occurred when attempting to update the file.\n  - `invalid_blocks` — Provided blocks are in the incorrect format.\n  - `invalid_channel` — Channel could not be found or channel specified is invalid.\n  - `not_in_channel` — User/bot membership is required for the specified channel.\n  - `posting_to_channel_denied` — User is not authorized to post to channel.\n  - `channels_limit_exceeded` — Exceeded the channel limit. A maximum of 100 channels is allowed per request.\n  - `file_type_not_allowed` — The file type is not permitted based on the team's allowed_file_upload_types preference.\n  - `file_uploads_except_images_disabled` — Only image file uploads are permitted for this team.\n  - `user_is_external_guest` — External guests cannot upload or share files.\n\nSee https://docs.slack.dev/reference/methods/files.completeUploadExternal"
       }
     },
     "com.slack.files#DeleteFileRequest": {
@@ -402,7 +404,7 @@
           "uri": "/files.getUploadURLExternal",
           "code": 200
         },
-        "smithy.api#documentation": "Gets a URL for an edge external file upload\n\nRequired scopes — bot: `files:write`; user: `files:write`\n\nRate limit tier: 4\n\nMethod-specific errors (the `error` slug on the SlackError):\n  - `alt_txt_too_large` — Description for the image is longer than the limit of 1000 character\n  - `file_upload_size_restricted` — The size of provided file is too large, as the team has restricted uploads of large files.\n  - `file_uploads_disabled` — Team has disabled all file uploads.\n  - `missing_argument` — A required argument was not provided. Typically only occurs when the `length` provided is 0.\n  - `snippet_too_large` — The provided `length` is too large to create a snippet, which are limited to 1MB.\n  - `storage_limit_reached` — File storage limit has been reached. This occurs when free teams have uploaded 5GB of files.\n  - `unknown_snippet_type` — The provided `snippet_type` is not a supported type.\n  - `unknown_subtype` — The provided `subtype` is not a supported type.\n  - `file_type_not_allowed` — The file type is not allowed.\n  - `file_uploads_except_images_disabled` — File uploads except images are disabled.\n\nSee https://docs.slack.dev/reference/methods/files.getUploadURLExternal",
+        "smithy.api#documentation": "Gets a URL for an edge external file upload\n\nRequired scopes — bot: `files:write`; user: `files:write`\n\nRate limit tier: 4\n\nMethod-specific errors (the `error` slug on the SlackError):\n  - `alt_txt_too_large` — Description for the image is longer than the limit of 1000 character\n  - `file_upload_size_restricted` — The size of provided file is too large, as the team has restricted uploads of large files.\n  - `file_uploads_disabled` — Team has disabled all file uploads.\n  - `missing_argument` — A required argument was not provided. Typically only occurs when the `length` provided is 0.\n  - `snippet_too_large` — The provided `length` is too large to create a snippet, which are limited to 1MB.\n  - `storage_limit_reached` — File storage limit has been reached. This occurs when free teams have uploaded 5GB of files.\n  - `unknown_snippet_type` — The provided `snippet_type` is not a supported type.\n  - `unknown_subtype` — The provided `subtype` is not a supported type.\n  - `file_type_not_allowed` — The file type is not allowed.\n  - `file_uploads_except_images_disabled` — File uploads except images are disabled.\n  - `user_is_external_guest` — External guests cannot upload or share files.\n\nSee https://docs.slack.dev/reference/methods/files.getUploadURLExternal",
         "com.distilled.openapi#contentType": "form-urlencoded"
       }
     },
